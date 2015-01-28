@@ -18,6 +18,19 @@
 //#define DEBUG_BATTLE_MODE
 #endif
 
+#define SPAWN_TILE @"SPAWN_TILE"
+#define NOT_SPAWN_TILE @"NOT_SPAWN_TILE"
+#define HOLE @"HOLE"
+#define PASSABLE_HOLE @"PASSABLE_HOLE"
+#define TILE_TYPE @"TILE_TYPE"
+#define INITIAL_SKILL @"INITIAL_SKILL"
+
+#define ORB_COLOR @"ORB_COLOR"
+#define ORB_POWERUP @"ORB_POWERUP"
+#define ORB_SPECIAL @"ORB_SPECIAL"
+#define ORB_LOCKED @"ORB_LOCKED"
+#define ORB_EMPTY @"ORB_EMPTY"
+
 @interface BattleOrbLayout : NSObject {
   int _numColumns;
   int _numRows;
@@ -44,6 +57,7 @@
 - (instancetype) initWithGridSize:(CGSize)gridSize numColors:(int)numColors;
 
 // Can be overwritten to provide harder combos and what not
+- (OrbColor) generateRandomOrbColor;
 - (void) generateRandomOrbData:(BattleOrb*)orb atColumn:(int)column row:(int)row;
 
 // Used to restore state
@@ -128,5 +142,7 @@
 // This will detect if any specials like cake are at the bottom so that they can be
 // deleted. This will probably be followed by another set of calls to fillHoles and topUpOrbs.
 - (NSSet *)detectBottomFeeders;
+
+- (BattleOrb *) findOrbWithColorPreference:(OrbColor)orbColor;
 
 @end

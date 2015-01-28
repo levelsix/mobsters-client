@@ -38,7 +38,8 @@
 #define RED_TINT_TAG 6789
 #define LOOT_TAG @"Loot"
 
-#define ORB_LAYER_DIST_FROM_SIDE ([Globals isiPhone6] ? 19.5 : 16)
+#define ORB_LAYER_BASE_DIST_FROM_SIDE ([Globals isiPhone6] ? 19.5 : 16)
+#define ORB_LAYER_DIST_FROM_SIDE (self.orbLayer.contentSize.height > (self.contentSize.height-2*ORB_LAYER_BASE_DIST_FROM_SIDE) ? (self.contentSize.height-self.orbLayer.contentSize.height)/2 : ORB_LAYER_BASE_DIST_FROM_SIDE)
 #define CENTER_OF_BATTLE ccp((self.contentSize.width-self.orbLayer.contentSize.width-ORB_LAYER_DIST_FROM_SIDE)/2, self.contentSize.height/2-40)
 #define PLAYER_X_DISTANCE_FROM_CENTER (CENTER_OF_BATTLE.x*0.4+4)
 #define MY_PLAYER_LOCATION ccpAdd(CENTER_OF_BATTLE, ccp(-PLAYER_X_DISTANCE_FROM_CENTER, -PLAYER_X_DISTANCE_FROM_CENTER*SLOPE_OF_ROAD))

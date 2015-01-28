@@ -22,7 +22,13 @@
 @implementation OrbBgdLayer
 
 - (int) tileSize {
-  return [Globals isiPhone6] ? IPHONE_6_TILE_SIZE : [Globals isiPhone6Plus] ? IPHONE_6_PLUS_TILE_SIZE : IPHONE_5_TILE_SIZE;
+  int initialSize = [Globals isiPhone6] ? IPHONE_6_TILE_SIZE : [Globals isiPhone6Plus] ? IPHONE_6_PLUS_TILE_SIZE : IPHONE_5_TILE_SIZE;
+  
+  if (_layout.numColumns == 9 || _layout.numRows == 9) {
+    initialSize = initialSize - 2 - [Globals isiPhone6Plus];
+  }
+  
+  return initialSize;
 }
 
 - (id) initWithGridSize:(CGSize)gridSize layout:(BattleOrbLayout *)layout {

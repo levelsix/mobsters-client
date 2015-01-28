@@ -191,9 +191,13 @@
     [[NSRunLoop currentRunLoop] addTimer:[NSTimer timerWithTimeInterval:SCROLL_DISPLAY_TIME target:self selector:@selector(scrollRewardsForward:) userInfo:nil repeats:NO] forMode:NSDefaultRunLoopMode];
   }
   
-  UIImage *gradientImage = [Globals imageNamed:(!isLocked ? [@"gradient" stringByAppendingString:[Globals imageNameForElement:elem suffix:@"dailylab.png"]] : @"gradientlockeddailylab.png")];
-  [self.rightGradient setImage:gradientImage];
-  self.rightGradient.originX = self.dropScrollView.originX + self.dropScrollView.width - 17;
+  if (elem != ElementNoElement) {
+    UIImage *gradientImage = [Globals imageNamed:(!isLocked ? [@"gradient" stringByAppendingString:[Globals imageNameForElement:elem suffix:@"dailylab.png"]] : @"gradientlockeddailylab.png")];
+    [self.rightGradient setImage:gradientImage];
+    self.rightGradient.originX = self.dropScrollView.originX + self.dropScrollView.width - 17;
+  } else {
+    self.rightGradient.image = nil;
+  }
   
   if (self.characterIcon) {
     [Globals imageNamedWithiPhone6Prefix:charImgName withView:self.characterIcon greyscale:isLocked indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];

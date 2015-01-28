@@ -1019,7 +1019,7 @@ static const CGSize FIXED_SIZE = {568, 384};
   }
   
   GameState *gs = [GameState sharedGameState];
-  PvpBattleLayer *bl = [[PvpBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO gridSize:CGSizeMake(8, 8)];
+  PvpBattleLayer *bl = [[PvpBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO gridSize:CGSizeMake(9, 9)];
   bl.delegate = self;
   bl.itemUsagesForQueue = itemsDict;
   
@@ -1035,7 +1035,7 @@ static const CGSize FIXED_SIZE = {568, 384};
   }
   
   GameState *gs = [GameState sharedGameState];
-  PvpBattleLayer *bl = [[PvpBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO gridSize:CGSizeMake(8, 8) pvpHistoryForRevenge:history];
+  PvpBattleLayer *bl = [[PvpBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO gridSize:CGSizeMake(9, 9) pvpHistoryForRevenge:history];
   bl.delegate = self;
   
   [self crossFadeIntoBattleLayer:bl];
@@ -1048,7 +1048,7 @@ static const CGSize FIXED_SIZE = {568, 384};
   }
   
   GameState *gs = [GameState sharedGameState];
-  PvpBattleLayer *bl = [[PvpBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO gridSize:CGSizeMake(8, 8)];
+  PvpBattleLayer *bl = [[PvpBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO gridSize:CGSizeMake(9, 9)];
   bl.delegate = self;
   [bl setClanAvenging:ca];
   

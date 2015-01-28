@@ -361,16 +361,16 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     return;
   }
   
+  gl.appStoreLink = proto.appStoreUrl;
+  gl.reviewPageURL = proto.reviewPageUrl;
+  gl.reviewPageConfirmationMessage = proto.reviewPageConfirmationMessage;
+  
   if (proto.updateStatus == StartupResponseProto_UpdateStatusMajorUpdate) {
     [GenericPopupController displayNotificationViewWithText:@"We've added a slew of new features! Update now to check them out." title:@"Update Now" okayButton:@"Update" target:gl selector:@selector(openAppStoreLink)];
     return;
   } else if (proto.updateStatus == StartupResponseProto_UpdateStatusMinorUpdate) {
     [GenericPopupController displayConfirmationWithDescription:@"An update is available. Head over to the App Store to download it now!" title:@"Update Available" okayButton:@"Update" cancelButton:@"Later" target:gl selector:@selector(openAppStoreLink)];
   }
-  
-  gl.appStoreLink = proto.appStoreUrl;
-  gl.reviewPageURL = proto.reviewPageUrl;
-  gl.reviewPageConfirmationMessage = proto.reviewPageConfirmationMessage;
   
   [gl updateConstants:proto.startupConstants];
   [gs updateStaticData:proto.staticDataStuffProto];

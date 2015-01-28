@@ -13,6 +13,6 @@
 
 @interface OrbFallAction : CCActionEase
 
-+ (id) actionWithOrbPath:(BattleOrbPath *)orbPath orb:(OrbSprite *)orbLayer swipeLayer:(OrbSwipeLayer *)swipeLayer;
++ (id) actionWithOrbPath:(BattleOrbPath *)orbPath orb:(OrbSprite *)orbLayer swipeLayer:(OrbSwipeLayer *)swipeLayer isBottomFeeder:(BOOL)isBottomFeeder;
 
 @end

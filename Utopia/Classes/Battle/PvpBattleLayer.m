@@ -509,6 +509,12 @@
     bs.healthLabel.string = [NSString stringWithFormat:@"%@/%@", [Globals commafyNumber:bp.curHealth], [Globals commafyNumber:bp.maxHealth]];
     
     [mut addObject:bs];
+    
+    if (idx == 0) {
+      // Do this so the enemies calibrating message will pop up over someones head
+      self.myPlayer = bs;
+      self.myPlayerObject = bp;
+    }
   }
   self.myTeamSprites = mut;
 }
@@ -637,7 +643,7 @@
       [self myTeamBeginWalking];
       [self.bgdLayer scrollToNewScene];
     } else {
-      [self.myPlayer stopWalking];
+      [self myTeamStopWalking];
       [GenericPopupController displayNotificationViewWithText:@"The enemies seem to have been scared off. Tap okay to return outside." title:@"Something Went Wrong" okayButton:@"Okay" target:self selector:@selector(exitFinal)];
     }
   } else {
@@ -666,6 +672,10 @@
       [super reachedNextScene];
     }
   }
+}
+
+- (BattleSprite *) myPlayer {
+  return [super myPlayer];
 }
 
 #pragma mark - Resource Items Filler

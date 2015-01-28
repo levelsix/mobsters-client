@@ -13,7 +13,7 @@
 @implementation ClanRaidBattleLayer
 
 - (id) initWithEvent:(PersistentClanEventClanInfoProto *)event myUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft {
-  if ((self = [super initWithMyUserMonsters:monsters puzzleIsOnLeft:puzzleIsOnLeft gridSize:CGSizeMake(8, 8)])) {
+  if ((self = [super initWithMyUserMonsters:monsters puzzleIsOnLeft:puzzleIsOnLeft gridSize:CGSizeMake(9, 9)])) {
     self.clanEventDetails = event;
     ClanRaidStageProto *stage = [self.clanEventDetails currentStage];
     

@@ -10,7 +10,7 @@
 
 @implementation BattleTile
 
--(id) initWithColumn:(NSInteger)column row:(NSInteger)row typeTop:(TileType)typeTop typeBottom:(TileType)typeBottom isHole:(BOOL)isHole canPassThrough:(BOOL)canPassThrough canSpawnOrbs:(BOOL)canSpawnOrbs
+-(id) initWithColumn:(NSInteger)column row:(NSInteger)row typeTop:(TileType)typeTop typeBottom:(TileType)typeBottom isHole:(BOOL)isHole canPassThrough:(BOOL)canPassThrough canSpawnOrbs:(BOOL)canSpawnOrbs shouldSpawnInitialSkill:(BOOL)shouldSpawnInitialSkill
 {
   self = [super init];
   if (! self)
@@ -25,6 +25,8 @@
   _canPassThrough = canPassThrough;
   
   _canSpawnOrbs = canSpawnOrbs;
+  
+  _shouldSpawnInitialSkill = shouldSpawnInitialSkill;
   
   return self;
 }

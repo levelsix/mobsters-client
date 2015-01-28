@@ -169,19 +169,14 @@
   [self preseedRandomization];
   
   BattleOrbLayout* layout = self.battleLayer.orbLayer.layout;
-  BattleOrb* orb = nil;
   
   for (NSInteger n = 0; n < _initialCakes; n++)
   {
-    NSInteger column, row;
-    NSInteger counter = 0;
+    BattleOrb* orb;
+    
     do {
-      column = rand() % layout.numColumns;
-      row = layout.numRows - 1;
-      orb = [layout orbAtColumn:column row:row];
-      counter++;
-    }
-    while ((orb.specialOrbType != SpecialOrbTypeNone || orb.powerupType != PowerupTypeNone) && counter < 1000);
+      orb = [layout findOrbWithColorPreference:OrbColorNone];
+    } while (orb.row < layout.numColumns/2);
     
     // Update data
     orb.specialOrbType = SpecialOrbTypeCake;
@@ -189,7 +184,7 @@
     
     // Update tile
     OrbBgdLayer* bgdLayer = self.battleLayer.orbLayer.bgdLayer;
-    BattleTile* tile = [layout tileAtColumn:column row:row];
+    BattleTile* tile = [layout tileAtColumn:orb.column row:orb.row];
     [bgdLayer updateTile:tile keepLit:YES withTarget:((n==_initialCakes-1)?self:nil) andCallback:@selector(skillTriggerFinished)]; // returning from the skill
     
     // Update orb
@@ -279,7 +274,7 @@
       {
         orb.specialOrbType = SpecialOrbTypeNone;
         do {
-          orb.orbColor = arc4random_uniform(layout.numColors) + OrbColorFire;
+          orb.orbColor = [layout generateRandomOrbColor];
         } while ([layout hasChainAtColumn:column row:row]);
         
         OrbSprite* orbSprite = [self.battleLayer.orbLayer.swipeLayer spriteForOrb:orb];
