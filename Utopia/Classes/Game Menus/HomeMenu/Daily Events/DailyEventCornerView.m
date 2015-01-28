@@ -42,8 +42,18 @@
   
   _eventType = PersistentEventProto_EventTypeEvolution;
   
+  NSString *str = nil;
+  if(!_nextEvent) {
+    _nextEvent = [gs NextEventWithType:PersistentEventProto_EventTypeEnhance];
+  }
   PersistentEventProto *pe = [gs currentPersistentEventWithType:PersistentEventProto_EventTypeEvolution];
-  [self updateForPersistentEvent:pe greyscaleString:nil];
+  if(_nextEvent && !pe) {
+    int nextTime = [_nextEvent.startTime timeIntervalSinceNow];
+    pe = _nextEvent;
+    str = [@" Opens in: " stringByAppendingString:[[Globals convertTimeToShortString:nextTime] uppercaseString]];
+  }
+
+  [self updateForPersistentEvent:pe greyscaleString:str];
 }
 
 - (void) updateForEnhance {
@@ -52,12 +62,20 @@
   _eventType = PersistentEventProto_EventTypeEnhance;
   
   NSString *str = nil;
+  if(!_nextEvent) {
+    _nextEvent = [gs NextEventWithType:PersistentEventProto_EventTypeEnhance];
+  }
+  PersistentEventProto *pe = [gs currentPersistentEventWithType:PersistentEventProto_EventTypeEnhance];
+  
   if (![Globals shouldShowFatKidDungeon]) {
     UserStruct *us = gs.myLaboratory;
     str = [NSString stringWithFormat:@" Requires LVL%d %@", FAT_KID_DUNGEON_LEVEL, [us.staticStruct.structInfo.name substringToIndex:3]];
+  } else if( _nextEvent && !pe) {
+    pe = _nextEvent;
+    int nextTime = [_nextEvent.startTime timeIntervalSinceNow];
+    str = [@" Opens in: " stringByAppendingString:[[Globals convertTimeToShortString:nextTime] uppercaseString]];
   }
   
-  PersistentEventProto *pe = [gs currentPersistentEventWithType:PersistentEventProto_EventTypeEnhance];
   [self updateForPersistentEvent:pe greyscaleString:str];
 }
 
@@ -172,7 +190,7 @@
     
     _persistentEventId = pe.eventId;
     
-    [self updateLabels];
+    [self updateLabelsWithEvent:pe];
     
     self.hidden = NO;
   } else {
@@ -181,9 +199,14 @@
   }
 }
 
-- (void) updateLabels {
+- (void) updateLabelsWithEvent:(PersistentEventProto*)event {
   GameState *gs = [GameState sharedGameState];
-  PersistentEventProto *pe = [gs currentPersistentEventWithType:_eventType];
+  PersistentEventProto *pe;
+  if (event) {
+    pe = event;
+  } else {
+    pe = [gs currentPersistentEventWithType:_eventType];
+  }
   
   if (_persistentEventId != pe.eventId) {
     if (_eventType == PersistentEventProto_EventTypeEnhance) {
@@ -203,6 +226,10 @@
       self.timeLabel.text = [@" Reenter: " stringByAppendingString:[[Globals convertTimeToShortString:cdTimeLeft] uppercaseString]];
     }
   }
+}
+
+- (void) updateLabels {
+  [self updateLabelsWithEvent:nil];
 }
 
 - (IBAction)buttonClicked:(id)sender {

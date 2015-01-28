@@ -7,6 +7,7 @@
 //
 
 #import "PopupSubViewController.h"
+#import "DailyEventScheduleViewController.h"
 
 @interface DailyEventView : UIView
 
@@ -16,6 +17,8 @@
 
 @interface DailyEventViewController : PopupSubViewController {
   PersistentEventProto_EventType _eventType;
+  
+  PersistentEventProto *_nextEvent;
   
   BOOL _buttonClicked;
   
@@ -29,6 +32,7 @@
 @property (nonatomic, retain) IBOutlet UIImageView *characterIcon;
 @property (nonatomic, retain) IBOutlet UIImageView *eventTagIcon;
 
+@property (nonatomic, retain) IBOutlet THLabel *dateLabel;
 @property (nonatomic, retain) IBOutlet THLabel *nameLabel;
 @property (nonatomic, retain) IBOutlet THLabel *timeLabel;
 @property (nonatomic, retain) IBOutlet UILabel *endsInLabel;
@@ -41,6 +45,10 @@
 @property (nonatomic, retain) IBOutlet UIView *cooldownView;
 
 @property (nonatomic, assign) int persistentEventId;
+
+@property (nonatomic, retain) IBOutlet UIView *secondaryButtonView;
+@property (nonatomic, retain) IBOutlet UIView *defaultButtonView;
+@property (nonatomic, retain) IBOutlet THLabel *timeLabelB;
 
 - (void) updateForEvo;
 - (void) updateForEnhance;

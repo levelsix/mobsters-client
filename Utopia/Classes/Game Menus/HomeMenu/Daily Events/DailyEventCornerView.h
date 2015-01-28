@@ -25,6 +25,8 @@ static NSString* const TimeBotColor[] = {@"", @"ee2b2e", @"64c817", @"0aadf5", @
 @interface DailyEventCornerView : UIView {
   PersistentEventProto_EventType _eventType;
   
+  PersistentEventProto *_nextEvent;
+  
   float _initCharCenterX;
   float _initTimeLabelX;
 }

@@ -43,6 +43,14 @@
   self.timeLabel.strokeSize = 1.f;
   self.timeLabel.shadowBlur = 0.5f;
   
+  self.timeLabelB.gradientStartColor = [UIColor whiteColor];
+  self.timeLabelB.strokeSize = 1.f;
+  self.timeLabelB.shadowBlur = 0.5f;
+  
+  self.dateLabel.gradientStartColor = [UIColor whiteColor];
+  self.dateLabel.strokeSize = 1.f;
+  self.dateLabel.shadowBlur = 0.5f;
+  
   self.cooldownView.frame = self.enterView.frame;
 }
 
@@ -52,6 +60,9 @@
   _eventType = PersistentEventProto_EventTypeEvolution;
   
   PersistentEventProto *pe = [gs currentPersistentEventWithType:PersistentEventProto_EventTypeEvolution];
+  if(!pe) {
+    pe = [gs NextEventWithType:PersistentEventProto_EventTypeEvolution];
+  }
   [self updateForPersistentEvent:pe];
 }
 
@@ -61,6 +72,9 @@
   _eventType = PersistentEventProto_EventTypeEnhance;
   
   PersistentEventProto *pe = [gs currentPersistentEventWithType:PersistentEventProto_EventTypeEnhance];
+  if(!pe) {
+    pe = [gs NextEventWithType:PersistentEventProto_EventTypeEnhance];
+  }
   [self updateForPersistentEvent:pe];
 }
 
@@ -119,10 +133,20 @@
       self.timeLabel.strokeColor = [UIColor colorWithHexString:NameStrokeColor[idx]];
       self.timeLabel.shadowColor = [UIColor colorWithHexString:NameStrokeColor[idx]];
       
+      self.timeLabelB.gradientEndColor = [UIColor colorWithHexString:BottomGradientColor[idx]];
+      self.timeLabelB.strokeColor = [UIColor colorWithHexString:NameStrokeColor[idx]];
+      self.timeLabelB.shadowColor = [UIColor colorWithHexString:NameStrokeColor[idx]];
+      
+      self.dateLabel.gradientEndColor = [UIColor colorWithHexString:BottomGradientColor[idx]];
+      self.dateLabel.strokeColor = [UIColor colorWithHexString:NameStrokeColor[idx]];
+      self.dateLabel.shadowColor = [UIColor colorWithHexString:NameStrokeColor[idx]];
+      
       self.descriptionLabel.shadowColor = [UIColor colorWithHexString:NameStrokeColor[idx]];
       
       self.endsInLabel.shadowColor = [UIColor colorWithHexString:NameStrokeColor[idx]];
     }
+    
+    self.dateLabel.text = [[Globals stringOfCurDate] uppercaseString];
     
     self.nameLabel.text = [task.name stringByAppendingString:@" Event"];
     self.title = self.nameLabel.text;
@@ -137,7 +161,10 @@
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   PersistentEventProto *pe = [gs currentPersistentEventWithType:_eventType];
-  
+  if(!pe) {
+    pe = _nextEvent ? _nextEvent : [gs NextEventWithType:PersistentEventProto_EventTypeEnhance];
+    _nextEvent = pe;
+  }
   if (_persistentEventId != pe.eventId) {
     if (_eventType == PersistentEventProto_EventTypeEnhance) {
       [self updateForEnhance];
@@ -149,13 +176,24 @@
     
     MSDate *cdTime = pe.cooldownEndTime;
     int cdTimeLeft = [cdTime timeIntervalSinceNow];
-    if (cdTimeLeft <= 0) {
+    if (!pe.isRunning) {
+      self.defaultButtonView.hidden = YES;
+      self.secondaryButtonView.hidden = NO;
+      
+      int nextTime = [_nextEvent.startTime timeIntervalSinceNow];
+      
+      self.timeLabelB.text = [[Globals convertTimeToShortString:nextTime] uppercaseString];
+    } else if (cdTimeLeft <= 0) {
+      self.defaultButtonView.hidden = NO;
+      self.secondaryButtonView.hidden = YES;
       self.enterView.hidden = NO;
       self.cooldownView.hidden = YES;
       
       self.endsInLabel.text = @"Ends In:";
       self.timeLabel.text = [[Globals convertTimeToShortString:timeLeft] uppercaseString];
     } else {
+      self.defaultButtonView.hidden = NO;
+      self.secondaryButtonView.hidden = YES;
       self.endsInLabel.text = @"Reenter In:";
       self.timeLabel.text = [[Globals convertTimeToShortString:cdTimeLeft] uppercaseString];
       int speedupCost = [gl calculateGemSpeedupCostForTimeLeft:cdTimeLeft allowFreeSpeedup:YES];
@@ -234,6 +272,12 @@
   GameViewController *gvc = [GameViewController baseController];
   [gvc enterDungeon:ftp.taskId isEvent:YES eventId:_persistentEventId useGems:useGems];
   _buttonClicked = YES;
+}
+
+- (IBAction)scheduleClicked:(id)sender {
+  DailyEventScheduleViewController *svc = [[DailyEventScheduleViewController alloc] init];
+  [self.parentViewController pushViewController:svc animated:YES];
+  [svc initWithEventType:_eventType];
 }
 
 @end
