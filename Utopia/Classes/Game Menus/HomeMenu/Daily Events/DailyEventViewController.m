@@ -61,7 +61,7 @@
   
   PersistentEventProto *pe = [gs currentPersistentEventWithType:PersistentEventProto_EventTypeEvolution];
   if(!pe) {
-    pe = [gs NextEventWithType:PersistentEventProto_EventTypeEvolution];
+    pe = [gs nextEventWithType:PersistentEventProto_EventTypeEvolution];
   }
   [self updateForPersistentEvent:pe];
 }
@@ -73,7 +73,7 @@
   
   PersistentEventProto *pe = [gs currentPersistentEventWithType:PersistentEventProto_EventTypeEnhance];
   if(!pe) {
-    pe = [gs NextEventWithType:PersistentEventProto_EventTypeEnhance];
+    pe = [gs nextEventWithType:PersistentEventProto_EventTypeEnhance];
   }
   [self updateForPersistentEvent:pe];
 }
@@ -162,7 +162,7 @@
   Globals *gl = [Globals sharedGlobals];
   PersistentEventProto *pe = [gs currentPersistentEventWithType:_eventType];
   if(!pe) {
-    pe = _nextEvent ? _nextEvent : [gs NextEventWithType:PersistentEventProto_EventTypeEnhance];
+    pe = _nextEvent ? _nextEvent : [gs nextEventWithType:PersistentEventProto_EventTypeEnhance];
     _nextEvent = pe;
   }
   if (_persistentEventId != pe.eventId) {
