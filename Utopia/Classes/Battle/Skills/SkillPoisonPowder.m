@@ -98,7 +98,6 @@
   [self addPoisonAnimations];
   
   // Finish trigger execution
-  [self resetOrbCounter];
   [self performAfterDelay:0.3 block:^{
     [self.battleLayer.orbLayer.bgdLayer turnTheLightsOn];
     [self.battleLayer.orbLayer allowInput];

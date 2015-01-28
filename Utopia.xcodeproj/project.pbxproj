@@ -566,6 +566,9 @@
 		6BB26BC61A78190C0014342B /* SkillPoisonPowder.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB26BC51A78190C0014342B /* SkillPoisonPowder.m */; };
 		6BB26BC71A78190C0014342B /* SkillPoisonPowder.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB26BC51A78190C0014342B /* SkillPoisonPowder.m */; };
 		6BB26BC81A78190C0014342B /* SkillPoisonPowder.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB26BC51A78190C0014342B /* SkillPoisonPowder.m */; };
+		6BCBD8671A797AEE002C584F /* counterstrikelogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BCBD8661A797AEE002C584F /* counterstrikelogo@2x.png */; };
+		6BCBD8681A797AEE002C584F /* counterstrikelogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BCBD8661A797AEE002C584F /* counterstrikelogo@2x.png */; };
+		6BCBD8691A797AEE002C584F /* counterstrikelogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BCBD8661A797AEE002C584F /* counterstrikelogo@2x.png */; };
 		9B0E6E191A73370E00118210 /* badjujuicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B0E6E181A73370E00118210 /* badjujuicon@2x.png */; };
 		9B0E6E1D1A73371A00118210 /* badjujulogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B0E6E1B1A73371A00118210 /* badjujulogo@2x.png */; };
 		9B0E6E1E1A73371A00118210 /* powermovelogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B0E6E1C1A73371A00118210 /* powermovelogo@2x.png */; };
@@ -7160,6 +7163,7 @@
 		686F8D3F1B86BD06C7EE6627 /* Pods.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.appstore.xcconfig; path = "Pods/Target Support Files/Pods/Pods.appstore.xcconfig"; sourceTree = "<group>"; };
 		6BB26BC41A7818FB0014342B /* SkillPoisonPowder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillPoisonPowder.h; sourceTree = "<group>"; };
 		6BB26BC51A78190C0014342B /* SkillPoisonPowder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillPoisonPowder.m; sourceTree = "<group>"; };
+		6BCBD8661A797AEE002C584F /* counterstrikelogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "counterstrikelogo@2x.png"; sourceTree = "<group>"; };
 		7531CD67E149A97B795B119A /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		9B0E6E181A73370E00118210 /* badjujuicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "badjujuicon@2x.png"; sourceTree = "<group>"; };
 		9B0E6E1B1A73371A00118210 /* badjujulogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "badjujulogo@2x.png"; sourceTree = "<group>"; };
@@ -16961,6 +16965,7 @@
 		DA88EB4319B935C5005EE827 /* Skill Intro */ = {
 			isa = PBXGroup;
 			children = (
+				6BCBD8661A797AEE002C584F /* counterstrikelogo@2x.png */,
 				9B0E6E1B1A73371A00118210 /* badjujulogo@2x.png */,
 				9B0E6E1C1A73371A00118210 /* powermovelogo@2x.png */,
 				DAAD3E0519C8D7F400557698 /* bomblogo@2x.png */,
@@ -18735,6 +18740,7 @@
 				CF0CF689196F452900ECD301 /* gachalegendtag@2x.png in Resources */,
 				CF0CF68A196F452900ECD301 /* Scientist3Turn13@2x.png in Resources */,
 				CF0CF68B196F452900ECD301 /* AttackEventViewSmall.xib in Resources */,
+				6BCBD8681A797AEE002C584F /* counterstrikelogo@2x.png in Resources */,
 				CF0CF68C196F452900ECD301 /* healthbar@2x.png in Resources */,
 				CF0CF68D196F452900ECD301 /* rockettail.plist in Resources */,
 				CF0CF68E196F452900ECD301 /* orbblowup.plist in Resources */,
@@ -19987,6 +19993,7 @@
 				CFFC50D519C2D4BA00BDAA62 /* homemapleft@2x.jpg in Resources */,
 				CF20F0A1180FB6FF005551B5 /* donebtn@2x.png in Resources */,
 				CFCD0E631953C93E00EDC233 /* gachalegendpiece@2x.png in Resources */,
+				6BCBD8671A797AEE002C584F /* counterstrikelogo@2x.png in Resources */,
 				9BB949371A6E1197006EE920 /* watergrbackground@2x.png in Resources */,
 				CFFBDF8B18ACA3D90090CA9A /* Scientist3Blink11@2x.png in Resources */,
 				CFF2A52219709C4800269084 /* OilDrillT1@2x.plist in Resources */,
@@ -22508,6 +22515,7 @@
 				CF4822FC19F7217F00041486 /* minitimebar@2x.png in Resources */,
 				CF4822FD19F7217F00041486 /* CustomNavBarButtons.xib in Resources */,
 				CF4822FE19F7217F00041486 /* Scientist5Turn13@2x.png in Resources */,
+				6BCBD8691A797AEE002C584F /* counterstrikelogo@2x.png in Resources */,
 				CF48230119F7217F00041486 /* waterenhancebg@2x.png in Resources */,
 				CFA9F7C21A0D8F6300EBE77D /* speedupitemicon@2x.png in Resources */,
 				9B2389CA1A310BAC00FA3743 /* nextmatchmask@2x.png in Resources */,
