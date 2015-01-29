@@ -26,6 +26,8 @@
 #import "SkillFlameStrike.h"
 #import "SkillConfusion.h"
 #import "SkillPoisonPowder.h"
+#import "SkillSkewer.h"
+#import "SkillHammerTime.h"
 
 @implementation SkillController
 
@@ -51,6 +53,8 @@
     case SkillTypeFlameStrike: return [[SkillFlameStrike alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypeConfusion: return [[SkillConfusion alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypePoisonPowder: return [[SkillPoisonPowder alloc] initWithProto:proto andMobsterColor:color];
+    case SkillTypeSkewer: return [[SkillSkewer alloc] initWithProto:proto andMobsterColor:color];
+    case SkillTypeHammerTime: return [[SkillHammerTime alloc] initWithProto:proto andMobsterColor:color];
     default: CustomAssert(NO, @"Trying to create a skill with the factory for undefined skill."); return nil;
   }
 }

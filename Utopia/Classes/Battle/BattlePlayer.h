@@ -50,6 +50,7 @@
 @property (nonatomic, assign) int defensiveSkillId;
 
 @property (nonatomic, assign) BOOL isConfused;
+@property (nonatomic, assign) BOOL isStunned;
 
 @property (nonatomic, retain) DialogueProto *dialogue;
 
