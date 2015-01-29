@@ -26,6 +26,10 @@
   [super setValue:value forProperty:property];
   if ( [property isEqualToString:@"LOW_DAMAGE"] )
     _lowDamage = value;
+  else if ( [property isEqualToString:@"HIGH_DAMAGE"] )
+    _highDamage = value;
+  else if ( [property isEqualToString:@"CHANCE"] )
+    _chance = value;
 }
 
 #pragma mark - Overrides
@@ -59,18 +63,20 @@
 - (void) dealSkewer
 {
   // Perform attack animation
-//  if (self.belongsToPlayer)
-//    [self.playerSprite performFarAttackAnimationWithStrength:0.f shouldEvade:NO enemy:self.enemySprite target:self selector:@selector(dealSkewer1)];
-//  else
-//    [self.enemySprite performNearAttackAnimationWithEnemy:self.playerSprite shouldReturn:YES shouldEvade:NO shouldFlinch:YES target:self selector:@selector(dealSkewer1)];
+  if (self.belongsToPlayer)
+    [self.playerSprite performFarAttackAnimationWithStrength:0.f shouldEvade:NO enemy:self.enemySprite
+                                                      target:self selector:@selector(dealSkewer1) animCompletion:nil];
+  else
+    [self.enemySprite performNearAttackAnimationWithEnemy:self.playerSprite shouldReturn:YES shouldEvade:NO shouldFlinch:YES
+                                                   target:self selector:@selector(dealSkewer1) animCompletion:nil];
 }
 
 - (int) pickDamage
 {
   if (((double)arc4random()/0x100000000) < _chance){
-    return _lowDamage;
+    return _highDamage;
   }
-  return _highDamage;
+  return _lowDamage;
 }
 
 - (void) dealSkewer1
@@ -85,11 +91,6 @@
 
 - (void) dealSkewer2
 {
-  // Turn on the lights for the board and finish skill execution
-  //  [self performAfterDelay:1.3 block:^{
-  //    [self.battleLayer.orbLayer allowInput];
-  //    [self.battleLayer.orbLayer.bgdLayer turnTheLightsOn];
-  //  }];
   [self resetOrbCounter];
   [self skillTriggerFinished];
 }

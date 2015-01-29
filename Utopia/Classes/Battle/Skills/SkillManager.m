@@ -221,6 +221,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   if (_enemySkillController)
     result = [_enemySkillController modifyDamage:result forPlayer:player];
   
+  for (SkillController* persisSkill in _persistentSkillControllers) {
+    result = [persisSkill modifyDamage:result forPlayer:player];
+  }
+  
   return result;
 }
 

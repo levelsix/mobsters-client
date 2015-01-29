@@ -1,6 +1,7 @@
 //
 //  SkillPoisonPowder.m
 //  Utopia
+//  Description: Once activated, opponent takes [X] damage each turn
 //
 //  Created by Rob Giusti on 1/27/15.
 //  Copyright (c) 2015 LVL6. All rights reserved.
@@ -122,6 +123,7 @@
 - (void) removePoison
 {
   _isPoisoned = false;
+  [self resetOrbCounter];
   [self endPoisonAnimations];
 }
 

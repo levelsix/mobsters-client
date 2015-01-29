@@ -28,6 +28,7 @@
 #import "SkillPoisonPowder.h"
 #import "SkillSkewer.h"
 #import "SkillHammerTime.h"
+#import "SkillBloodRage.h"
 
 @implementation SkillController
 
@@ -55,6 +56,7 @@
     case SkillTypePoisonPowder: return [[SkillPoisonPowder alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypeSkewer: return [[SkillSkewer alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypeHammerTime: return [[SkillHammerTime alloc] initWithProto:proto andMobsterColor:color];
+    case SkillTypeBloodRage: return [[SkillBloodRage alloc] initWithProto:proto andMobsterColor:color];
     default: CustomAssert(NO, @"Trying to create a skill with the factory for undefined skill."); return nil;
   }
 }
