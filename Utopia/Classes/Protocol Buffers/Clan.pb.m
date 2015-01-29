@@ -1135,6 +1135,8 @@ static FullClanProtoWithClanSize* defaultFullClanProtoWithClanSizeInstance = nil
 @property UserClanStatus clanStatus;
 @property Float32 raidContribution;
 @property int32_t battlesWon;
+@property int32_t numClanHelpsSolicited;
+@property int32_t numClanHelpsGiven;
 @end
 
 @implementation MinimumUserProtoForClans
@@ -1167,12 +1169,28 @@ static FullClanProtoWithClanSize* defaultFullClanProtoWithClanSizeInstance = nil
   hasBattlesWon_ = !!value_;
 }
 @synthesize battlesWon;
+- (BOOL) hasNumClanHelpsSolicited {
+  return !!hasNumClanHelpsSolicited_;
+}
+- (void) setHasNumClanHelpsSolicited:(BOOL) value_ {
+  hasNumClanHelpsSolicited_ = !!value_;
+}
+@synthesize numClanHelpsSolicited;
+- (BOOL) hasNumClanHelpsGiven {
+  return !!hasNumClanHelpsGiven_;
+}
+- (void) setHasNumClanHelpsGiven:(BOOL) value_ {
+  hasNumClanHelpsGiven_ = !!value_;
+}
+@synthesize numClanHelpsGiven;
 - (id) init {
   if ((self = [super init])) {
     self.minUserProtoWithLevel = [MinimumUserProtoWithLevel defaultInstance];
     self.clanStatus = UserClanStatusLeader;
     self.raidContribution = 0;
     self.battlesWon = 0;
+    self.numClanHelpsSolicited = 0;
+    self.numClanHelpsGiven = 0;
   }
   return self;
 }
@@ -1204,6 +1222,12 @@ static MinimumUserProtoForClans* defaultMinimumUserProtoForClansInstance = nil;
   if (self.hasBattlesWon) {
     [output writeInt32:4 value:self.battlesWon];
   }
+  if (self.hasNumClanHelpsSolicited) {
+    [output writeInt32:5 value:self.numClanHelpsSolicited];
+  }
+  if (self.hasNumClanHelpsGiven) {
+    [output writeInt32:6 value:self.numClanHelpsGiven];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -1224,6 +1248,12 @@ static MinimumUserProtoForClans* defaultMinimumUserProtoForClansInstance = nil;
   }
   if (self.hasBattlesWon) {
     size_ += computeInt32Size(4, self.battlesWon);
+  }
+  if (self.hasNumClanHelpsSolicited) {
+    size_ += computeInt32Size(5, self.numClanHelpsSolicited);
+  }
+  if (self.hasNumClanHelpsGiven) {
+    size_ += computeInt32Size(6, self.numClanHelpsGiven);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -1275,6 +1305,12 @@ static MinimumUserProtoForClans* defaultMinimumUserProtoForClansInstance = nil;
   if (self.hasBattlesWon) {
     [output appendFormat:@"%@%@: %@\n", indent, @"battlesWon", [NSNumber numberWithInteger:self.battlesWon]];
   }
+  if (self.hasNumClanHelpsSolicited) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"numClanHelpsSolicited", [NSNumber numberWithInteger:self.numClanHelpsSolicited]];
+  }
+  if (self.hasNumClanHelpsGiven) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"numClanHelpsGiven", [NSNumber numberWithInteger:self.numClanHelpsGiven]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -1294,6 +1330,10 @@ static MinimumUserProtoForClans* defaultMinimumUserProtoForClansInstance = nil;
       (!self.hasRaidContribution || self.raidContribution == otherMessage.raidContribution) &&
       self.hasBattlesWon == otherMessage.hasBattlesWon &&
       (!self.hasBattlesWon || self.battlesWon == otherMessage.battlesWon) &&
+      self.hasNumClanHelpsSolicited == otherMessage.hasNumClanHelpsSolicited &&
+      (!self.hasNumClanHelpsSolicited || self.numClanHelpsSolicited == otherMessage.numClanHelpsSolicited) &&
+      self.hasNumClanHelpsGiven == otherMessage.hasNumClanHelpsGiven &&
+      (!self.hasNumClanHelpsGiven || self.numClanHelpsGiven == otherMessage.numClanHelpsGiven) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -1309,6 +1349,12 @@ static MinimumUserProtoForClans* defaultMinimumUserProtoForClansInstance = nil;
   }
   if (self.hasBattlesWon) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.battlesWon] hash];
+  }
+  if (self.hasNumClanHelpsSolicited) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.numClanHelpsSolicited] hash];
+  }
+  if (self.hasNumClanHelpsGiven) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.numClanHelpsGiven] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -1365,6 +1411,12 @@ static MinimumUserProtoForClans* defaultMinimumUserProtoForClansInstance = nil;
   if (other.hasBattlesWon) {
     [self setBattlesWon:other.battlesWon];
   }
+  if (other.hasNumClanHelpsSolicited) {
+    [self setNumClanHelpsSolicited:other.numClanHelpsSolicited];
+  }
+  if (other.hasNumClanHelpsGiven) {
+    [self setNumClanHelpsGiven:other.numClanHelpsGiven];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -1410,6 +1462,14 @@ static MinimumUserProtoForClans* defaultMinimumUserProtoForClansInstance = nil;
       }
       case 32: {
         [self setBattlesWon:[input readInt32]];
+        break;
+      }
+      case 40: {
+        [self setNumClanHelpsSolicited:[input readInt32]];
+        break;
+      }
+      case 48: {
+        [self setNumClanHelpsGiven:[input readInt32]];
         break;
       }
     }
@@ -1491,6 +1551,38 @@ static MinimumUserProtoForClans* defaultMinimumUserProtoForClansInstance = nil;
 - (MinimumUserProtoForClans_Builder*) clearBattlesWon {
   result.hasBattlesWon = NO;
   result.battlesWon = 0;
+  return self;
+}
+- (BOOL) hasNumClanHelpsSolicited {
+  return result.hasNumClanHelpsSolicited;
+}
+- (int32_t) numClanHelpsSolicited {
+  return result.numClanHelpsSolicited;
+}
+- (MinimumUserProtoForClans_Builder*) setNumClanHelpsSolicited:(int32_t) value {
+  result.hasNumClanHelpsSolicited = YES;
+  result.numClanHelpsSolicited = value;
+  return self;
+}
+- (MinimumUserProtoForClans_Builder*) clearNumClanHelpsSolicited {
+  result.hasNumClanHelpsSolicited = NO;
+  result.numClanHelpsSolicited = 0;
+  return self;
+}
+- (BOOL) hasNumClanHelpsGiven {
+  return result.hasNumClanHelpsGiven;
+}
+- (int32_t) numClanHelpsGiven {
+  return result.numClanHelpsGiven;
+}
+- (MinimumUserProtoForClans_Builder*) setNumClanHelpsGiven:(int32_t) value {
+  result.hasNumClanHelpsGiven = YES;
+  result.numClanHelpsGiven = value;
+  return self;
+}
+- (MinimumUserProtoForClans_Builder*) clearNumClanHelpsGiven {
+  result.hasNumClanHelpsGiven = NO;
+  result.numClanHelpsGiven = 0;
   return self;
 }
 @end
@@ -7336,7 +7428,9 @@ static ClanHelpNoticeProto* defaultClanHelpNoticeProtoInstance = nil;
 @property (strong) NSString* inviteUuid;
 @property (strong) NSString* userUuid;
 @property (strong) NSString* inviterUuid;
+@property (strong) MinimumUserProto* inviter;
 @property (strong) NSString* clanUuid;
+@property (strong) MinimumClanProto* inviterClan;
 @property int64_t timeOfInvite;
 @end
 
@@ -7363,6 +7457,13 @@ static ClanHelpNoticeProto* defaultClanHelpNoticeProtoInstance = nil;
   hasInviterUuid_ = !!value_;
 }
 @synthesize inviterUuid;
+- (BOOL) hasInviter {
+  return !!hasInviter_;
+}
+- (void) setHasInviter:(BOOL) value_ {
+  hasInviter_ = !!value_;
+}
+@synthesize inviter;
 - (BOOL) hasClanUuid {
   return !!hasClanUuid_;
 }
@@ -7370,6 +7471,13 @@ static ClanHelpNoticeProto* defaultClanHelpNoticeProtoInstance = nil;
   hasClanUuid_ = !!value_;
 }
 @synthesize clanUuid;
+- (BOOL) hasInviterClan {
+  return !!hasInviterClan_;
+}
+- (void) setHasInviterClan:(BOOL) value_ {
+  hasInviterClan_ = !!value_;
+}
+@synthesize inviterClan;
 - (BOOL) hasTimeOfInvite {
   return !!hasTimeOfInvite_;
 }
@@ -7382,7 +7490,9 @@ static ClanHelpNoticeProto* defaultClanHelpNoticeProtoInstance = nil;
     self.inviteUuid = @"";
     self.userUuid = @"";
     self.inviterUuid = @"";
+    self.inviter = [MinimumUserProto defaultInstance];
     self.clanUuid = @"";
+    self.inviterClan = [MinimumClanProto defaultInstance];
     self.timeOfInvite = 0L;
   }
   return self;
@@ -7418,6 +7528,12 @@ static ClanInviteProto* defaultClanInviteProtoInstance = nil;
   if (self.hasTimeOfInvite) {
     [output writeInt64:5 value:self.timeOfInvite];
   }
+  if (self.hasInviter) {
+    [output writeMessage:6 value:self.inviter];
+  }
+  if (self.hasInviterClan) {
+    [output writeMessage:7 value:self.inviterClan];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -7441,6 +7557,12 @@ static ClanInviteProto* defaultClanInviteProtoInstance = nil;
   }
   if (self.hasTimeOfInvite) {
     size_ += computeInt64Size(5, self.timeOfInvite);
+  }
+  if (self.hasInviter) {
+    size_ += computeMessageSize(6, self.inviter);
+  }
+  if (self.hasInviterClan) {
+    size_ += computeMessageSize(7, self.inviterClan);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -7492,6 +7614,18 @@ static ClanInviteProto* defaultClanInviteProtoInstance = nil;
   if (self.hasTimeOfInvite) {
     [output appendFormat:@"%@%@: %@\n", indent, @"timeOfInvite", [NSNumber numberWithLongLong:self.timeOfInvite]];
   }
+  if (self.hasInviter) {
+    [output appendFormat:@"%@%@ {\n", indent, @"inviter"];
+    [self.inviter writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  if (self.hasInviterClan) {
+    [output appendFormat:@"%@%@ {\n", indent, @"inviterClan"];
+    [self.inviterClan writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -7513,6 +7647,10 @@ static ClanInviteProto* defaultClanInviteProtoInstance = nil;
       (!self.hasClanUuid || [self.clanUuid isEqual:otherMessage.clanUuid]) &&
       self.hasTimeOfInvite == otherMessage.hasTimeOfInvite &&
       (!self.hasTimeOfInvite || self.timeOfInvite == otherMessage.timeOfInvite) &&
+      self.hasInviter == otherMessage.hasInviter &&
+      (!self.hasInviter || [self.inviter isEqual:otherMessage.inviter]) &&
+      self.hasInviterClan == otherMessage.hasInviterClan &&
+      (!self.hasInviterClan || [self.inviterClan isEqual:otherMessage.inviterClan]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -7531,6 +7669,12 @@ static ClanInviteProto* defaultClanInviteProtoInstance = nil;
   }
   if (self.hasTimeOfInvite) {
     hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.timeOfInvite] hash];
+  }
+  if (self.hasInviter) {
+    hashCode = hashCode * 31 + [self.inviter hash];
+  }
+  if (self.hasInviterClan) {
+    hashCode = hashCode * 31 + [self.inviterClan hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -7584,8 +7728,14 @@ static ClanInviteProto* defaultClanInviteProtoInstance = nil;
   if (other.hasInviterUuid) {
     [self setInviterUuid:other.inviterUuid];
   }
+  if (other.hasInviter) {
+    [self mergeInviter:other.inviter];
+  }
   if (other.hasClanUuid) {
     [self setClanUuid:other.clanUuid];
+  }
+  if (other.hasInviterClan) {
+    [self mergeInviterClan:other.inviterClan];
   }
   if (other.hasTimeOfInvite) {
     [self setTimeOfInvite:other.timeOfInvite];
@@ -7629,6 +7779,24 @@ static ClanInviteProto* defaultClanInviteProtoInstance = nil;
       }
       case 40: {
         [self setTimeOfInvite:[input readInt64]];
+        break;
+      }
+      case 50: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasInviter) {
+          [subBuilder mergeFrom:self.inviter];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setInviter:[subBuilder buildPartial]];
+        break;
+      }
+      case 58: {
+        MinimumClanProto_Builder* subBuilder = [MinimumClanProto builder];
+        if (self.hasInviterClan) {
+          [subBuilder mergeFrom:self.inviterClan];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setInviterClan:[subBuilder buildPartial]];
         break;
       }
     }
@@ -7682,6 +7850,36 @@ static ClanInviteProto* defaultClanInviteProtoInstance = nil;
   result.inviterUuid = @"";
   return self;
 }
+- (BOOL) hasInviter {
+  return result.hasInviter;
+}
+- (MinimumUserProto*) inviter {
+  return result.inviter;
+}
+- (ClanInviteProto_Builder*) setInviter:(MinimumUserProto*) value {
+  result.hasInviter = YES;
+  result.inviter = value;
+  return self;
+}
+- (ClanInviteProto_Builder*) setInviter_Builder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setInviter:[builderForValue build]];
+}
+- (ClanInviteProto_Builder*) mergeInviter:(MinimumUserProto*) value {
+  if (result.hasInviter &&
+      result.inviter != [MinimumUserProto defaultInstance]) {
+    result.inviter =
+      [[[MinimumUserProto builderWithPrototype:result.inviter] mergeFrom:value] buildPartial];
+  } else {
+    result.inviter = value;
+  }
+  result.hasInviter = YES;
+  return self;
+}
+- (ClanInviteProto_Builder*) clearInviter {
+  result.hasInviter = NO;
+  result.inviter = [MinimumUserProto defaultInstance];
+  return self;
+}
 - (BOOL) hasClanUuid {
   return result.hasClanUuid;
 }
@@ -7696,6 +7894,36 @@ static ClanInviteProto* defaultClanInviteProtoInstance = nil;
 - (ClanInviteProto_Builder*) clearClanUuid {
   result.hasClanUuid = NO;
   result.clanUuid = @"";
+  return self;
+}
+- (BOOL) hasInviterClan {
+  return result.hasInviterClan;
+}
+- (MinimumClanProto*) inviterClan {
+  return result.inviterClan;
+}
+- (ClanInviteProto_Builder*) setInviterClan:(MinimumClanProto*) value {
+  result.hasInviterClan = YES;
+  result.inviterClan = value;
+  return self;
+}
+- (ClanInviteProto_Builder*) setInviterClan_Builder:(MinimumClanProto_Builder*) builderForValue {
+  return [self setInviterClan:[builderForValue build]];
+}
+- (ClanInviteProto_Builder*) mergeInviterClan:(MinimumClanProto*) value {
+  if (result.hasInviterClan &&
+      result.inviterClan != [MinimumClanProto defaultInstance]) {
+    result.inviterClan =
+      [[[MinimumClanProto builderWithPrototype:result.inviterClan] mergeFrom:value] buildPartial];
+  } else {
+    result.inviterClan = value;
+  }
+  result.hasInviterClan = YES;
+  return self;
+}
+- (ClanInviteProto_Builder*) clearInviterClan {
+  result.hasInviterClan = NO;
+  result.inviterClan = [MinimumClanProto defaultInstance];
   return self;
 }
 - (BOOL) hasTimeOfInvite {

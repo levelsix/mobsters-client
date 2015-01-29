@@ -416,10 +416,14 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 @private
   BOOL hasRaidContribution_:1;
   BOOL hasBattlesWon_:1;
+  BOOL hasNumClanHelpsSolicited_:1;
+  BOOL hasNumClanHelpsGiven_:1;
   BOOL hasMinUserProtoWithLevel_:1;
   BOOL hasClanStatus_:1;
   Float32 raidContribution;
   int32_t battlesWon;
+  int32_t numClanHelpsSolicited;
+  int32_t numClanHelpsGiven;
   MinimumUserProtoWithLevel* minUserProtoWithLevel;
   UserClanStatus clanStatus;
 }
@@ -427,10 +431,14 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (BOOL) hasClanStatus;
 - (BOOL) hasRaidContribution;
 - (BOOL) hasBattlesWon;
+- (BOOL) hasNumClanHelpsSolicited;
+- (BOOL) hasNumClanHelpsGiven;
 @property (readonly, strong) MinimumUserProtoWithLevel* minUserProtoWithLevel;
 @property (readonly) UserClanStatus clanStatus;
 @property (readonly) Float32 raidContribution;
 @property (readonly) int32_t battlesWon;
+@property (readonly) int32_t numClanHelpsSolicited;
+@property (readonly) int32_t numClanHelpsGiven;
 
 + (MinimumUserProtoForClans*) defaultInstance;
 - (MinimumUserProtoForClans*) defaultInstance;
@@ -488,6 +496,16 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (int32_t) battlesWon;
 - (MinimumUserProtoForClans_Builder*) setBattlesWon:(int32_t) value;
 - (MinimumUserProtoForClans_Builder*) clearBattlesWon;
+
+- (BOOL) hasNumClanHelpsSolicited;
+- (int32_t) numClanHelpsSolicited;
+- (MinimumUserProtoForClans_Builder*) setNumClanHelpsSolicited:(int32_t) value;
+- (MinimumUserProtoForClans_Builder*) clearNumClanHelpsSolicited;
+
+- (BOOL) hasNumClanHelpsGiven;
+- (int32_t) numClanHelpsGiven;
+- (MinimumUserProtoForClans_Builder*) setNumClanHelpsGiven:(int32_t) value;
+- (MinimumUserProtoForClans_Builder*) clearNumClanHelpsGiven;
 @end
 
 @interface ClanRaidProto : PBGeneratedMessage {
@@ -1741,21 +1759,29 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
   BOOL hasUserUuid_:1;
   BOOL hasInviterUuid_:1;
   BOOL hasClanUuid_:1;
+  BOOL hasInviter_:1;
+  BOOL hasInviterClan_:1;
   int64_t timeOfInvite;
   NSString* inviteUuid;
   NSString* userUuid;
   NSString* inviterUuid;
   NSString* clanUuid;
+  MinimumUserProto* inviter;
+  MinimumClanProto* inviterClan;
 }
 - (BOOL) hasInviteUuid;
 - (BOOL) hasUserUuid;
 - (BOOL) hasInviterUuid;
+- (BOOL) hasInviter;
 - (BOOL) hasClanUuid;
+- (BOOL) hasInviterClan;
 - (BOOL) hasTimeOfInvite;
 @property (readonly, strong) NSString* inviteUuid;
 @property (readonly, strong) NSString* userUuid;
 @property (readonly, strong) NSString* inviterUuid;
+@property (readonly, strong) MinimumUserProto* inviter;
 @property (readonly, strong) NSString* clanUuid;
+@property (readonly, strong) MinimumClanProto* inviterClan;
 @property (readonly) int64_t timeOfInvite;
 
 + (ClanInviteProto*) defaultInstance;
@@ -1808,10 +1834,24 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (ClanInviteProto_Builder*) setInviterUuid:(NSString*) value;
 - (ClanInviteProto_Builder*) clearInviterUuid;
 
+- (BOOL) hasInviter;
+- (MinimumUserProto*) inviter;
+- (ClanInviteProto_Builder*) setInviter:(MinimumUserProto*) value;
+- (ClanInviteProto_Builder*) setInviter_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (ClanInviteProto_Builder*) mergeInviter:(MinimumUserProto*) value;
+- (ClanInviteProto_Builder*) clearInviter;
+
 - (BOOL) hasClanUuid;
 - (NSString*) clanUuid;
 - (ClanInviteProto_Builder*) setClanUuid:(NSString*) value;
 - (ClanInviteProto_Builder*) clearClanUuid;
+
+- (BOOL) hasInviterClan;
+- (MinimumClanProto*) inviterClan;
+- (ClanInviteProto_Builder*) setInviterClan:(MinimumClanProto*) value;
+- (ClanInviteProto_Builder*) setInviterClan_Builder:(MinimumClanProto_Builder*) builderForValue;
+- (ClanInviteProto_Builder*) mergeInviterClan:(MinimumClanProto*) value;
+- (ClanInviteProto_Builder*) clearInviterClan;
 
 - (BOOL) hasTimeOfInvite;
 - (int64_t) timeOfInvite;

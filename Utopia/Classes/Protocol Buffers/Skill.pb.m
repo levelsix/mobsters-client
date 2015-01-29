@@ -44,6 +44,9 @@ BOOL SkillTypeIsValidValue(SkillType value) {
     case SkillTypeBlindingLight:
     case SkillTypePoisonPowder:
     case SkillTypeSkewer:
+    case SkillTypeKnockout:
+    case SkillTypeShallowGrave:
+    case SkillTypeHammerTime:
       return YES;
     default:
       return NO;
