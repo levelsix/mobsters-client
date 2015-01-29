@@ -6856,5 +6856,772 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 }
 @end
 
+@interface UserMonsterSnapshotProto ()
+@property (strong) NSString* snapshotUuid;
+@property int64_t timeOfCreation;
+@property UserMonsterSnapshotProto_SnapshotType type;
+@property (strong) NSString* relevantTableUuid;
+@property (strong) NSString* monsterForUserUuid;
+@property (strong) NSString* userUuid;
+@property int32_t monsterId;
+@property int32_t currentExp;
+@property int32_t currentLvl;
+@property int32_t currentHp;
+@property int32_t teamSlotNum;
+@property int32_t offensiveSkillId;
+@property int32_t defensiveSkillId;
+@end
+
+@implementation UserMonsterSnapshotProto
+
+- (BOOL) hasSnapshotUuid {
+  return !!hasSnapshotUuid_;
+}
+- (void) setHasSnapshotUuid:(BOOL) value_ {
+  hasSnapshotUuid_ = !!value_;
+}
+@synthesize snapshotUuid;
+- (BOOL) hasTimeOfCreation {
+  return !!hasTimeOfCreation_;
+}
+- (void) setHasTimeOfCreation:(BOOL) value_ {
+  hasTimeOfCreation_ = !!value_;
+}
+@synthesize timeOfCreation;
+- (BOOL) hasType {
+  return !!hasType_;
+}
+- (void) setHasType:(BOOL) value_ {
+  hasType_ = !!value_;
+}
+@synthesize type;
+- (BOOL) hasRelevantTableUuid {
+  return !!hasRelevantTableUuid_;
+}
+- (void) setHasRelevantTableUuid:(BOOL) value_ {
+  hasRelevantTableUuid_ = !!value_;
+}
+@synthesize relevantTableUuid;
+- (BOOL) hasMonsterForUserUuid {
+  return !!hasMonsterForUserUuid_;
+}
+- (void) setHasMonsterForUserUuid:(BOOL) value_ {
+  hasMonsterForUserUuid_ = !!value_;
+}
+@synthesize monsterForUserUuid;
+- (BOOL) hasUserUuid {
+  return !!hasUserUuid_;
+}
+- (void) setHasUserUuid:(BOOL) value_ {
+  hasUserUuid_ = !!value_;
+}
+@synthesize userUuid;
+- (BOOL) hasMonsterId {
+  return !!hasMonsterId_;
+}
+- (void) setHasMonsterId:(BOOL) value_ {
+  hasMonsterId_ = !!value_;
+}
+@synthesize monsterId;
+- (BOOL) hasCurrentExp {
+  return !!hasCurrentExp_;
+}
+- (void) setHasCurrentExp:(BOOL) value_ {
+  hasCurrentExp_ = !!value_;
+}
+@synthesize currentExp;
+- (BOOL) hasCurrentLvl {
+  return !!hasCurrentLvl_;
+}
+- (void) setHasCurrentLvl:(BOOL) value_ {
+  hasCurrentLvl_ = !!value_;
+}
+@synthesize currentLvl;
+- (BOOL) hasCurrentHp {
+  return !!hasCurrentHp_;
+}
+- (void) setHasCurrentHp:(BOOL) value_ {
+  hasCurrentHp_ = !!value_;
+}
+@synthesize currentHp;
+- (BOOL) hasTeamSlotNum {
+  return !!hasTeamSlotNum_;
+}
+- (void) setHasTeamSlotNum:(BOOL) value_ {
+  hasTeamSlotNum_ = !!value_;
+}
+@synthesize teamSlotNum;
+- (BOOL) hasOffensiveSkillId {
+  return !!hasOffensiveSkillId_;
+}
+- (void) setHasOffensiveSkillId:(BOOL) value_ {
+  hasOffensiveSkillId_ = !!value_;
+}
+@synthesize offensiveSkillId;
+- (BOOL) hasDefensiveSkillId {
+  return !!hasDefensiveSkillId_;
+}
+- (void) setHasDefensiveSkillId:(BOOL) value_ {
+  hasDefensiveSkillId_ = !!value_;
+}
+@synthesize defensiveSkillId;
+- (id) init {
+  if ((self = [super init])) {
+    self.snapshotUuid = @"";
+    self.timeOfCreation = 0L;
+    self.type = UserMonsterSnapshotProto_SnapshotTypeNoDonateType;
+    self.relevantTableUuid = @"";
+    self.monsterForUserUuid = @"";
+    self.userUuid = @"";
+    self.monsterId = 0;
+    self.currentExp = 0;
+    self.currentLvl = 0;
+    self.currentHp = 0;
+    self.teamSlotNum = 0;
+    self.offensiveSkillId = 0;
+    self.defensiveSkillId = 0;
+  }
+  return self;
+}
+static UserMonsterSnapshotProto* defaultUserMonsterSnapshotProtoInstance = nil;
++ (void) initialize {
+  if (self == [UserMonsterSnapshotProto class]) {
+    defaultUserMonsterSnapshotProtoInstance = [[UserMonsterSnapshotProto alloc] init];
+  }
+}
++ (UserMonsterSnapshotProto*) defaultInstance {
+  return defaultUserMonsterSnapshotProtoInstance;
+}
+- (UserMonsterSnapshotProto*) defaultInstance {
+  return defaultUserMonsterSnapshotProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSnapshotUuid) {
+    [output writeString:1 value:self.snapshotUuid];
+  }
+  if (self.hasTimeOfCreation) {
+    [output writeInt64:2 value:self.timeOfCreation];
+  }
+  if (self.hasType) {
+    [output writeEnum:3 value:self.type];
+  }
+  if (self.hasRelevantTableUuid) {
+    [output writeString:4 value:self.relevantTableUuid];
+  }
+  if (self.hasMonsterForUserUuid) {
+    [output writeString:5 value:self.monsterForUserUuid];
+  }
+  if (self.hasUserUuid) {
+    [output writeString:6 value:self.userUuid];
+  }
+  if (self.hasMonsterId) {
+    [output writeInt32:7 value:self.monsterId];
+  }
+  if (self.hasCurrentExp) {
+    [output writeInt32:8 value:self.currentExp];
+  }
+  if (self.hasCurrentLvl) {
+    [output writeInt32:9 value:self.currentLvl];
+  }
+  if (self.hasCurrentHp) {
+    [output writeInt32:10 value:self.currentHp];
+  }
+  if (self.hasTeamSlotNum) {
+    [output writeInt32:11 value:self.teamSlotNum];
+  }
+  if (self.hasOffensiveSkillId) {
+    [output writeInt32:12 value:self.offensiveSkillId];
+  }
+  if (self.hasDefensiveSkillId) {
+    [output writeInt32:13 value:self.defensiveSkillId];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasSnapshotUuid) {
+    size_ += computeStringSize(1, self.snapshotUuid);
+  }
+  if (self.hasTimeOfCreation) {
+    size_ += computeInt64Size(2, self.timeOfCreation);
+  }
+  if (self.hasType) {
+    size_ += computeEnumSize(3, self.type);
+  }
+  if (self.hasRelevantTableUuid) {
+    size_ += computeStringSize(4, self.relevantTableUuid);
+  }
+  if (self.hasMonsterForUserUuid) {
+    size_ += computeStringSize(5, self.monsterForUserUuid);
+  }
+  if (self.hasUserUuid) {
+    size_ += computeStringSize(6, self.userUuid);
+  }
+  if (self.hasMonsterId) {
+    size_ += computeInt32Size(7, self.monsterId);
+  }
+  if (self.hasCurrentExp) {
+    size_ += computeInt32Size(8, self.currentExp);
+  }
+  if (self.hasCurrentLvl) {
+    size_ += computeInt32Size(9, self.currentLvl);
+  }
+  if (self.hasCurrentHp) {
+    size_ += computeInt32Size(10, self.currentHp);
+  }
+  if (self.hasTeamSlotNum) {
+    size_ += computeInt32Size(11, self.teamSlotNum);
+  }
+  if (self.hasOffensiveSkillId) {
+    size_ += computeInt32Size(12, self.offensiveSkillId);
+  }
+  if (self.hasDefensiveSkillId) {
+    size_ += computeInt32Size(13, self.defensiveSkillId);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (UserMonsterSnapshotProto*) parseFromData:(NSData*) data {
+  return (UserMonsterSnapshotProto*)[[[UserMonsterSnapshotProto builder] mergeFromData:data] build];
+}
++ (UserMonsterSnapshotProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UserMonsterSnapshotProto*)[[[UserMonsterSnapshotProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (UserMonsterSnapshotProto*) parseFromInputStream:(NSInputStream*) input {
+  return (UserMonsterSnapshotProto*)[[[UserMonsterSnapshotProto builder] mergeFromInputStream:input] build];
+}
++ (UserMonsterSnapshotProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UserMonsterSnapshotProto*)[[[UserMonsterSnapshotProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (UserMonsterSnapshotProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (UserMonsterSnapshotProto*)[[[UserMonsterSnapshotProto builder] mergeFromCodedInputStream:input] build];
+}
++ (UserMonsterSnapshotProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UserMonsterSnapshotProto*)[[[UserMonsterSnapshotProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (UserMonsterSnapshotProto_Builder*) builder {
+  return [[UserMonsterSnapshotProto_Builder alloc] init];
+}
++ (UserMonsterSnapshotProto_Builder*) builderWithPrototype:(UserMonsterSnapshotProto*) prototype {
+  return [[UserMonsterSnapshotProto builder] mergeFrom:prototype];
+}
+- (UserMonsterSnapshotProto_Builder*) builder {
+  return [UserMonsterSnapshotProto builder];
+}
+- (UserMonsterSnapshotProto_Builder*) toBuilder {
+  return [UserMonsterSnapshotProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasSnapshotUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"snapshotUuid", self.snapshotUuid];
+  }
+  if (self.hasTimeOfCreation) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"timeOfCreation", [NSNumber numberWithLongLong:self.timeOfCreation]];
+  }
+  if (self.hasType) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"type", [NSNumber numberWithInteger:self.type]];
+  }
+  if (self.hasRelevantTableUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"relevantTableUuid", self.relevantTableUuid];
+  }
+  if (self.hasMonsterForUserUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"monsterForUserUuid", self.monsterForUserUuid];
+  }
+  if (self.hasUserUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userUuid", self.userUuid];
+  }
+  if (self.hasMonsterId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"monsterId", [NSNumber numberWithInteger:self.monsterId]];
+  }
+  if (self.hasCurrentExp) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"currentExp", [NSNumber numberWithInteger:self.currentExp]];
+  }
+  if (self.hasCurrentLvl) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"currentLvl", [NSNumber numberWithInteger:self.currentLvl]];
+  }
+  if (self.hasCurrentHp) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"currentHp", [NSNumber numberWithInteger:self.currentHp]];
+  }
+  if (self.hasTeamSlotNum) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"teamSlotNum", [NSNumber numberWithInteger:self.teamSlotNum]];
+  }
+  if (self.hasOffensiveSkillId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"offensiveSkillId", [NSNumber numberWithInteger:self.offensiveSkillId]];
+  }
+  if (self.hasDefensiveSkillId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"defensiveSkillId", [NSNumber numberWithInteger:self.defensiveSkillId]];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[UserMonsterSnapshotProto class]]) {
+    return NO;
+  }
+  UserMonsterSnapshotProto *otherMessage = other;
+  return
+      self.hasSnapshotUuid == otherMessage.hasSnapshotUuid &&
+      (!self.hasSnapshotUuid || [self.snapshotUuid isEqual:otherMessage.snapshotUuid]) &&
+      self.hasTimeOfCreation == otherMessage.hasTimeOfCreation &&
+      (!self.hasTimeOfCreation || self.timeOfCreation == otherMessage.timeOfCreation) &&
+      self.hasType == otherMessage.hasType &&
+      (!self.hasType || self.type == otherMessage.type) &&
+      self.hasRelevantTableUuid == otherMessage.hasRelevantTableUuid &&
+      (!self.hasRelevantTableUuid || [self.relevantTableUuid isEqual:otherMessage.relevantTableUuid]) &&
+      self.hasMonsterForUserUuid == otherMessage.hasMonsterForUserUuid &&
+      (!self.hasMonsterForUserUuid || [self.monsterForUserUuid isEqual:otherMessage.monsterForUserUuid]) &&
+      self.hasUserUuid == otherMessage.hasUserUuid &&
+      (!self.hasUserUuid || [self.userUuid isEqual:otherMessage.userUuid]) &&
+      self.hasMonsterId == otherMessage.hasMonsterId &&
+      (!self.hasMonsterId || self.monsterId == otherMessage.monsterId) &&
+      self.hasCurrentExp == otherMessage.hasCurrentExp &&
+      (!self.hasCurrentExp || self.currentExp == otherMessage.currentExp) &&
+      self.hasCurrentLvl == otherMessage.hasCurrentLvl &&
+      (!self.hasCurrentLvl || self.currentLvl == otherMessage.currentLvl) &&
+      self.hasCurrentHp == otherMessage.hasCurrentHp &&
+      (!self.hasCurrentHp || self.currentHp == otherMessage.currentHp) &&
+      self.hasTeamSlotNum == otherMessage.hasTeamSlotNum &&
+      (!self.hasTeamSlotNum || self.teamSlotNum == otherMessage.teamSlotNum) &&
+      self.hasOffensiveSkillId == otherMessage.hasOffensiveSkillId &&
+      (!self.hasOffensiveSkillId || self.offensiveSkillId == otherMessage.offensiveSkillId) &&
+      self.hasDefensiveSkillId == otherMessage.hasDefensiveSkillId &&
+      (!self.hasDefensiveSkillId || self.defensiveSkillId == otherMessage.defensiveSkillId) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasSnapshotUuid) {
+    hashCode = hashCode * 31 + [self.snapshotUuid hash];
+  }
+  if (self.hasTimeOfCreation) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.timeOfCreation] hash];
+  }
+  if (self.hasType) {
+    hashCode = hashCode * 31 + self.type;
+  }
+  if (self.hasRelevantTableUuid) {
+    hashCode = hashCode * 31 + [self.relevantTableUuid hash];
+  }
+  if (self.hasMonsterForUserUuid) {
+    hashCode = hashCode * 31 + [self.monsterForUserUuid hash];
+  }
+  if (self.hasUserUuid) {
+    hashCode = hashCode * 31 + [self.userUuid hash];
+  }
+  if (self.hasMonsterId) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.monsterId] hash];
+  }
+  if (self.hasCurrentExp) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.currentExp] hash];
+  }
+  if (self.hasCurrentLvl) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.currentLvl] hash];
+  }
+  if (self.hasCurrentHp) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.currentHp] hash];
+  }
+  if (self.hasTeamSlotNum) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.teamSlotNum] hash];
+  }
+  if (self.hasOffensiveSkillId) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.offensiveSkillId] hash];
+  }
+  if (self.hasDefensiveSkillId) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.defensiveSkillId] hash];
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+BOOL UserMonsterSnapshotProto_SnapshotTypeIsValidValue(UserMonsterSnapshotProto_SnapshotType value) {
+  switch (value) {
+    case UserMonsterSnapshotProto_SnapshotTypeNoDonateType:
+    case UserMonsterSnapshotProto_SnapshotTypeTeamDonate:
+    case UserMonsterSnapshotProto_SnapshotTypeEnhanceDonate:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface UserMonsterSnapshotProto_Builder()
+@property (strong) UserMonsterSnapshotProto* result;
+@end
+
+@implementation UserMonsterSnapshotProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[UserMonsterSnapshotProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (UserMonsterSnapshotProto_Builder*) clear {
+  self.result = [[UserMonsterSnapshotProto alloc] init];
+  return self;
+}
+- (UserMonsterSnapshotProto_Builder*) clone {
+  return [UserMonsterSnapshotProto builderWithPrototype:result];
+}
+- (UserMonsterSnapshotProto*) defaultInstance {
+  return [UserMonsterSnapshotProto defaultInstance];
+}
+- (UserMonsterSnapshotProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (UserMonsterSnapshotProto*) buildPartial {
+  UserMonsterSnapshotProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (UserMonsterSnapshotProto_Builder*) mergeFrom:(UserMonsterSnapshotProto*) other {
+  if (other == [UserMonsterSnapshotProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSnapshotUuid) {
+    [self setSnapshotUuid:other.snapshotUuid];
+  }
+  if (other.hasTimeOfCreation) {
+    [self setTimeOfCreation:other.timeOfCreation];
+  }
+  if (other.hasType) {
+    [self setType:other.type];
+  }
+  if (other.hasRelevantTableUuid) {
+    [self setRelevantTableUuid:other.relevantTableUuid];
+  }
+  if (other.hasMonsterForUserUuid) {
+    [self setMonsterForUserUuid:other.monsterForUserUuid];
+  }
+  if (other.hasUserUuid) {
+    [self setUserUuid:other.userUuid];
+  }
+  if (other.hasMonsterId) {
+    [self setMonsterId:other.monsterId];
+  }
+  if (other.hasCurrentExp) {
+    [self setCurrentExp:other.currentExp];
+  }
+  if (other.hasCurrentLvl) {
+    [self setCurrentLvl:other.currentLvl];
+  }
+  if (other.hasCurrentHp) {
+    [self setCurrentHp:other.currentHp];
+  }
+  if (other.hasTeamSlotNum) {
+    [self setTeamSlotNum:other.teamSlotNum];
+  }
+  if (other.hasOffensiveSkillId) {
+    [self setOffensiveSkillId:other.offensiveSkillId];
+  }
+  if (other.hasDefensiveSkillId) {
+    [self setDefensiveSkillId:other.defensiveSkillId];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (UserMonsterSnapshotProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (UserMonsterSnapshotProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        [self setSnapshotUuid:[input readString]];
+        break;
+      }
+      case 16: {
+        [self setTimeOfCreation:[input readInt64]];
+        break;
+      }
+      case 24: {
+        UserMonsterSnapshotProto_SnapshotType value = (UserMonsterSnapshotProto_SnapshotType)[input readEnum];
+        if (UserMonsterSnapshotProto_SnapshotTypeIsValidValue(value)) {
+          [self setType:value];
+        } else {
+          [unknownFields mergeVarintField:3 value:value];
+        }
+        break;
+      }
+      case 34: {
+        [self setRelevantTableUuid:[input readString]];
+        break;
+      }
+      case 42: {
+        [self setMonsterForUserUuid:[input readString]];
+        break;
+      }
+      case 50: {
+        [self setUserUuid:[input readString]];
+        break;
+      }
+      case 56: {
+        [self setMonsterId:[input readInt32]];
+        break;
+      }
+      case 64: {
+        [self setCurrentExp:[input readInt32]];
+        break;
+      }
+      case 72: {
+        [self setCurrentLvl:[input readInt32]];
+        break;
+      }
+      case 80: {
+        [self setCurrentHp:[input readInt32]];
+        break;
+      }
+      case 88: {
+        [self setTeamSlotNum:[input readInt32]];
+        break;
+      }
+      case 96: {
+        [self setOffensiveSkillId:[input readInt32]];
+        break;
+      }
+      case 104: {
+        [self setDefensiveSkillId:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSnapshotUuid {
+  return result.hasSnapshotUuid;
+}
+- (NSString*) snapshotUuid {
+  return result.snapshotUuid;
+}
+- (UserMonsterSnapshotProto_Builder*) setSnapshotUuid:(NSString*) value {
+  result.hasSnapshotUuid = YES;
+  result.snapshotUuid = value;
+  return self;
+}
+- (UserMonsterSnapshotProto_Builder*) clearSnapshotUuid {
+  result.hasSnapshotUuid = NO;
+  result.snapshotUuid = @"";
+  return self;
+}
+- (BOOL) hasTimeOfCreation {
+  return result.hasTimeOfCreation;
+}
+- (int64_t) timeOfCreation {
+  return result.timeOfCreation;
+}
+- (UserMonsterSnapshotProto_Builder*) setTimeOfCreation:(int64_t) value {
+  result.hasTimeOfCreation = YES;
+  result.timeOfCreation = value;
+  return self;
+}
+- (UserMonsterSnapshotProto_Builder*) clearTimeOfCreation {
+  result.hasTimeOfCreation = NO;
+  result.timeOfCreation = 0L;
+  return self;
+}
+- (BOOL) hasType {
+  return result.hasType;
+}
+- (UserMonsterSnapshotProto_SnapshotType) type {
+  return result.type;
+}
+- (UserMonsterSnapshotProto_Builder*) setType:(UserMonsterSnapshotProto_SnapshotType) value {
+  result.hasType = YES;
+  result.type = value;
+  return self;
+}
+- (UserMonsterSnapshotProto_Builder*) clearTypeList {
+  result.hasType = NO;
+  result.type = UserMonsterSnapshotProto_SnapshotTypeNoDonateType;
+  return self;
+}
+- (BOOL) hasRelevantTableUuid {
+  return result.hasRelevantTableUuid;
+}
+- (NSString*) relevantTableUuid {
+  return result.relevantTableUuid;
+}
+- (UserMonsterSnapshotProto_Builder*) setRelevantTableUuid:(NSString*) value {
+  result.hasRelevantTableUuid = YES;
+  result.relevantTableUuid = value;
+  return self;
+}
+- (UserMonsterSnapshotProto_Builder*) clearRelevantTableUuid {
+  result.hasRelevantTableUuid = NO;
+  result.relevantTableUuid = @"";
+  return self;
+}
+- (BOOL) hasMonsterForUserUuid {
+  return result.hasMonsterForUserUuid;
+}
+- (NSString*) monsterForUserUuid {
+  return result.monsterForUserUuid;
+}
+- (UserMonsterSnapshotProto_Builder*) setMonsterForUserUuid:(NSString*) value {
+  result.hasMonsterForUserUuid = YES;
+  result.monsterForUserUuid = value;
+  return self;
+}
+- (UserMonsterSnapshotProto_Builder*) clearMonsterForUserUuid {
+  result.hasMonsterForUserUuid = NO;
+  result.monsterForUserUuid = @"";
+  return self;
+}
+- (BOOL) hasUserUuid {
+  return result.hasUserUuid;
+}
+- (NSString*) userUuid {
+  return result.userUuid;
+}
+- (UserMonsterSnapshotProto_Builder*) setUserUuid:(NSString*) value {
+  result.hasUserUuid = YES;
+  result.userUuid = value;
+  return self;
+}
+- (UserMonsterSnapshotProto_Builder*) clearUserUuid {
+  result.hasUserUuid = NO;
+  result.userUuid = @"";
+  return self;
+}
+- (BOOL) hasMonsterId {
+  return result.hasMonsterId;
+}
+- (int32_t) monsterId {
+  return result.monsterId;
+}
+- (UserMonsterSnapshotProto_Builder*) setMonsterId:(int32_t) value {
+  result.hasMonsterId = YES;
+  result.monsterId = value;
+  return self;
+}
+- (UserMonsterSnapshotProto_Builder*) clearMonsterId {
+  result.hasMonsterId = NO;
+  result.monsterId = 0;
+  return self;
+}
+- (BOOL) hasCurrentExp {
+  return result.hasCurrentExp;
+}
+- (int32_t) currentExp {
+  return result.currentExp;
+}
+- (UserMonsterSnapshotProto_Builder*) setCurrentExp:(int32_t) value {
+  result.hasCurrentExp = YES;
+  result.currentExp = value;
+  return self;
+}
+- (UserMonsterSnapshotProto_Builder*) clearCurrentExp {
+  result.hasCurrentExp = NO;
+  result.currentExp = 0;
+  return self;
+}
+- (BOOL) hasCurrentLvl {
+  return result.hasCurrentLvl;
+}
+- (int32_t) currentLvl {
+  return result.currentLvl;
+}
+- (UserMonsterSnapshotProto_Builder*) setCurrentLvl:(int32_t) value {
+  result.hasCurrentLvl = YES;
+  result.currentLvl = value;
+  return self;
+}
+- (UserMonsterSnapshotProto_Builder*) clearCurrentLvl {
+  result.hasCurrentLvl = NO;
+  result.currentLvl = 0;
+  return self;
+}
+- (BOOL) hasCurrentHp {
+  return result.hasCurrentHp;
+}
+- (int32_t) currentHp {
+  return result.currentHp;
+}
+- (UserMonsterSnapshotProto_Builder*) setCurrentHp:(int32_t) value {
+  result.hasCurrentHp = YES;
+  result.currentHp = value;
+  return self;
+}
+- (UserMonsterSnapshotProto_Builder*) clearCurrentHp {
+  result.hasCurrentHp = NO;
+  result.currentHp = 0;
+  return self;
+}
+- (BOOL) hasTeamSlotNum {
+  return result.hasTeamSlotNum;
+}
+- (int32_t) teamSlotNum {
+  return result.teamSlotNum;
+}
+- (UserMonsterSnapshotProto_Builder*) setTeamSlotNum:(int32_t) value {
+  result.hasTeamSlotNum = YES;
+  result.teamSlotNum = value;
+  return self;
+}
+- (UserMonsterSnapshotProto_Builder*) clearTeamSlotNum {
+  result.hasTeamSlotNum = NO;
+  result.teamSlotNum = 0;
+  return self;
+}
+- (BOOL) hasOffensiveSkillId {
+  return result.hasOffensiveSkillId;
+}
+- (int32_t) offensiveSkillId {
+  return result.offensiveSkillId;
+}
+- (UserMonsterSnapshotProto_Builder*) setOffensiveSkillId:(int32_t) value {
+  result.hasOffensiveSkillId = YES;
+  result.offensiveSkillId = value;
+  return self;
+}
+- (UserMonsterSnapshotProto_Builder*) clearOffensiveSkillId {
+  result.hasOffensiveSkillId = NO;
+  result.offensiveSkillId = 0;
+  return self;
+}
+- (BOOL) hasDefensiveSkillId {
+  return result.hasDefensiveSkillId;
+}
+- (int32_t) defensiveSkillId {
+  return result.defensiveSkillId;
+}
+- (UserMonsterSnapshotProto_Builder*) setDefensiveSkillId:(int32_t) value {
+  result.hasDefensiveSkillId = YES;
+  result.defensiveSkillId = value;
+  return self;
+}
+- (UserMonsterSnapshotProto_Builder*) clearDefensiveSkillId {
+  result.hasDefensiveSkillId = NO;
+  result.defensiveSkillId = 0;
+  return self;
+}
+@end
+
 
 // @@protoc_insertion_point(global_scope)

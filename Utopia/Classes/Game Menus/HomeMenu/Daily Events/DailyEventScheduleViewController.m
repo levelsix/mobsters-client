@@ -33,7 +33,7 @@
 #define GREY @"434343"
 
 #define DAY_VIEW_ORIGIN -1
-#define DAY_VIEW_SPACING 1
+#define DAY_VIEW_SPACING 2
 
 #define SECONDS_IN_A_DAY 86400
 
@@ -43,6 +43,24 @@
 #import "GameState.h"
 
 @implementation EventScheduleDayView
+
+- (void) initMissingEventWithType:(PersistentEventProto_EventType)eventType {
+  self.detailA.hidden = NO;
+  self.detailB.hidden = YES;
+  self.detailC.hidden = YES;
+  self.detailD.hidden = YES;
+  
+  self.detailA.text = @"NO EVENT";
+  
+  [self setTextColorToHex:GREY];
+  
+  if(eventType == PersistentEventProto_EventTypeEnhance) {
+    [Globals imageNamed:FIRE_KID withView:self.characterImage maskedColor:[UIColor colorWithHexString:GREY] indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:NO];
+  } else if (eventType == PersistentEventProto_EventTypeEvolution) {
+    [Globals imageNamed:FIRE_SCIENTIST withView:self.characterImage maskedColor:[UIColor colorWithHexString:GREY] indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:NO];
+  }
+  
+}
 
 - (void) initWithEventList:(NSArray *)eventList {
   //timers are hidden unless there are multiple events in the day
@@ -163,7 +181,7 @@
         MSDate *eventStart = curEvent.startTime;
         NSCalendar* calendar = [[NSCalendar alloc] initWithCalendarIdentifier: NSGregorianCalendar];
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"hha"];
+        [dateFormatter setDateFormat:@"ha"];
         NSString *formattedDateString = [dateFormatter stringFromDate:eventStart.relativeNSDate];
         
         NSDateComponents *tempComp = [[NSDateComponents alloc] init];
@@ -272,7 +290,7 @@
   }
   
   for(int i = (int)DayOfWeekSunday; i <= (int)DayOfWeekSaturday; i++) {
-    [self createDayViewWithEventList:[dictByDays objectForKey:@(i)]];
+    [self createDayViewWithEventList:[dictByDays objectForKey:@(i)] AndDayNumber:i];
   }
   NSString *description = @"";
   NSString *Title = @"";
@@ -295,19 +313,17 @@
   self.typeTitleLabel.attributedText = titleString;
 }
 
-- (void) createDayViewWithEventList:(NSArray*)eventList {
-  PersistentEventProto *event = eventList[0];
-  
-  int dayNumber = event.dayOfWeek - 2;//-2 for enum off set. so we start at 0s
-  if( event.dayOfWeek == DayOfWeekSunday) {
-    dayNumber = DayOfWeekSaturday - 1; //sunday needs to appear after saturday, not before monday
-  }
+- (void) createDayViewWithEventList:(NSArray*)eventList AndDayNumber:(int)dayNumber {
+    int offSetDayNumber = dayNumber - 2;//-2 for enum off set. so we start at 0s
+    if( dayNumber == DayOfWeekSunday) {
+      offSetDayNumber = DayOfWeekSaturday - 1; //sunday needs to appear after saturday, not before monday
+    }
   
   EventScheduleDayView *dayView = (EventScheduleDayView*) [[NSBundle mainBundle] loadNibNamed:@"EventScheduleDayView" owner:self options:nil][0];
   [self.weekView addSubview:dayView];
-  CGFloat newX = DAY_VIEW_ORIGIN + (dayView.width * (dayNumber)) + (DAY_VIEW_SPACING * (dayNumber));
+  CGFloat newX = DAY_VIEW_ORIGIN + (dayView.width * (offSetDayNumber)) + (DAY_VIEW_SPACING * (offSetDayNumber));
   [dayView setOrigin:CGPointMake(newX, 0.f)];
-  [dayView initWithEventList: eventList];
+  [dayView initWithEventList:eventList];
 }
 
 @end

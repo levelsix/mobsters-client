@@ -22,6 +22,8 @@
 @class ClanIconProto_Builder;
 @class ClanInviteProto;
 @class ClanInviteProto_Builder;
+@class ClanMemberTeamDonation;
+@class ClanMemberTeamDonation_Builder;
 @class ClanRaidProto;
 @class ClanRaidProto_Builder;
 @class ClanRaidStageMonsterProto;
@@ -140,6 +142,8 @@
 @class UserMonsterEvolutionProto_Builder;
 @class UserMonsterHealingProto;
 @class UserMonsterHealingProto_Builder;
+@class UserMonsterSnapshotProto;
+@class UserMonsterSnapshotProto_Builder;
 @class UserObstacleProto;
 @class UserObstacleProto_Builder;
 @class UserPvpLeagueProto;
@@ -416,10 +420,14 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 @private
   BOOL hasRaidContribution_:1;
   BOOL hasBattlesWon_:1;
+  BOOL hasNumClanHelpsSolicited_:1;
+  BOOL hasNumClanHelpsGiven_:1;
   BOOL hasMinUserProtoWithLevel_:1;
   BOOL hasClanStatus_:1;
   Float32 raidContribution;
   int32_t battlesWon;
+  int32_t numClanHelpsSolicited;
+  int32_t numClanHelpsGiven;
   MinimumUserProtoWithLevel* minUserProtoWithLevel;
   UserClanStatus clanStatus;
 }
@@ -427,10 +435,14 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (BOOL) hasClanStatus;
 - (BOOL) hasRaidContribution;
 - (BOOL) hasBattlesWon;
+- (BOOL) hasNumClanHelpsSolicited;
+- (BOOL) hasNumClanHelpsGiven;
 @property (readonly, strong) MinimumUserProtoWithLevel* minUserProtoWithLevel;
 @property (readonly) UserClanStatus clanStatus;
 @property (readonly) Float32 raidContribution;
 @property (readonly) int32_t battlesWon;
+@property (readonly) int32_t numClanHelpsSolicited;
+@property (readonly) int32_t numClanHelpsGiven;
 
 + (MinimumUserProtoForClans*) defaultInstance;
 - (MinimumUserProtoForClans*) defaultInstance;
@@ -488,6 +500,16 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (int32_t) battlesWon;
 - (MinimumUserProtoForClans_Builder*) setBattlesWon:(int32_t) value;
 - (MinimumUserProtoForClans_Builder*) clearBattlesWon;
+
+- (BOOL) hasNumClanHelpsSolicited;
+- (int32_t) numClanHelpsSolicited;
+- (MinimumUserProtoForClans_Builder*) setNumClanHelpsSolicited:(int32_t) value;
+- (MinimumUserProtoForClans_Builder*) clearNumClanHelpsSolicited;
+
+- (BOOL) hasNumClanHelpsGiven;
+- (int32_t) numClanHelpsGiven;
+- (MinimumUserProtoForClans_Builder*) setNumClanHelpsGiven:(int32_t) value;
+- (MinimumUserProtoForClans_Builder*) clearNumClanHelpsGiven;
 @end
 
 @interface ClanRaidProto : PBGeneratedMessage {
@@ -1741,21 +1763,29 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
   BOOL hasUserUuid_:1;
   BOOL hasInviterUuid_:1;
   BOOL hasClanUuid_:1;
+  BOOL hasInviter_:1;
+  BOOL hasInviterClan_:1;
   int64_t timeOfInvite;
   NSString* inviteUuid;
   NSString* userUuid;
   NSString* inviterUuid;
   NSString* clanUuid;
+  MinimumUserProto* inviter;
+  MinimumClanProto* inviterClan;
 }
 - (BOOL) hasInviteUuid;
 - (BOOL) hasUserUuid;
 - (BOOL) hasInviterUuid;
+- (BOOL) hasInviter;
 - (BOOL) hasClanUuid;
+- (BOOL) hasInviterClan;
 - (BOOL) hasTimeOfInvite;
 @property (readonly, strong) NSString* inviteUuid;
 @property (readonly, strong) NSString* userUuid;
 @property (readonly, strong) NSString* inviterUuid;
+@property (readonly, strong) MinimumUserProto* inviter;
 @property (readonly, strong) NSString* clanUuid;
+@property (readonly, strong) MinimumClanProto* inviterClan;
 @property (readonly) int64_t timeOfInvite;
 
 + (ClanInviteProto*) defaultInstance;
@@ -1808,10 +1838,24 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (ClanInviteProto_Builder*) setInviterUuid:(NSString*) value;
 - (ClanInviteProto_Builder*) clearInviterUuid;
 
+- (BOOL) hasInviter;
+- (MinimumUserProto*) inviter;
+- (ClanInviteProto_Builder*) setInviter:(MinimumUserProto*) value;
+- (ClanInviteProto_Builder*) setInviter_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (ClanInviteProto_Builder*) mergeInviter:(MinimumUserProto*) value;
+- (ClanInviteProto_Builder*) clearInviter;
+
 - (BOOL) hasClanUuid;
 - (NSString*) clanUuid;
 - (ClanInviteProto_Builder*) setClanUuid:(NSString*) value;
 - (ClanInviteProto_Builder*) clearClanUuid;
+
+- (BOOL) hasInviterClan;
+- (MinimumClanProto*) inviterClan;
+- (ClanInviteProto_Builder*) setInviterClan:(MinimumClanProto*) value;
+- (ClanInviteProto_Builder*) setInviterClan_Builder:(MinimumClanProto_Builder*) builderForValue;
+- (ClanInviteProto_Builder*) mergeInviterClan:(MinimumClanProto*) value;
+- (ClanInviteProto_Builder*) clearInviterClan;
 
 - (BOOL) hasTimeOfInvite;
 - (int64_t) timeOfInvite;
@@ -1884,6 +1928,118 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (ClanDataProto_Builder *)addClanAvengings:(PvpClanAvengeProto*)value;
 - (ClanDataProto_Builder *)addAllClanAvengings:(NSArray *)array;
 - (ClanDataProto_Builder *)clearClanAvengings;
+@end
+
+@interface ClanMemberTeamDonation : PBGeneratedMessage {
+@private
+  BOOL hasIsComplete_:1;
+  BOOL hasTimeOfSolicitation_:1;
+  BOOL hasPowerAvailability_:1;
+  BOOL hasDonationUuid_:1;
+  BOOL hasUserUuid_:1;
+  BOOL hasClanUuid_:1;
+  BOOL hasMsg_:1;
+  BOOL isComplete_:1;
+  int64_t timeOfSolicitation;
+  int32_t powerAvailability;
+  NSString* donationUuid;
+  NSString* userUuid;
+  NSString* clanUuid;
+  NSString* msg;
+  NSMutableArray * mutableDonationsList;
+}
+- (BOOL) hasDonationUuid;
+- (BOOL) hasUserUuid;
+- (BOOL) hasClanUuid;
+- (BOOL) hasPowerAvailability;
+- (BOOL) hasIsComplete;
+- (BOOL) hasMsg;
+- (BOOL) hasTimeOfSolicitation;
+@property (readonly, strong) NSString* donationUuid;
+@property (readonly, strong) NSString* userUuid;
+@property (readonly, strong) NSString* clanUuid;
+@property (readonly) int32_t powerAvailability;
+- (BOOL) isComplete;
+@property (readonly, strong) NSString* msg;
+@property (readonly) int64_t timeOfSolicitation;
+@property (readonly, strong) NSArray * donationsList;
+- (UserMonsterSnapshotProto*)donationsAtIndex:(NSUInteger)index;
+
++ (ClanMemberTeamDonation*) defaultInstance;
+- (ClanMemberTeamDonation*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (ClanMemberTeamDonation_Builder*) builder;
++ (ClanMemberTeamDonation_Builder*) builder;
++ (ClanMemberTeamDonation_Builder*) builderWithPrototype:(ClanMemberTeamDonation*) prototype;
+- (ClanMemberTeamDonation_Builder*) toBuilder;
+
++ (ClanMemberTeamDonation*) parseFromData:(NSData*) data;
++ (ClanMemberTeamDonation*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ClanMemberTeamDonation*) parseFromInputStream:(NSInputStream*) input;
++ (ClanMemberTeamDonation*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ClanMemberTeamDonation*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (ClanMemberTeamDonation*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface ClanMemberTeamDonation_Builder : PBGeneratedMessageBuilder {
+@private
+  ClanMemberTeamDonation* result;
+}
+
+- (ClanMemberTeamDonation*) defaultInstance;
+
+- (ClanMemberTeamDonation_Builder*) clear;
+- (ClanMemberTeamDonation_Builder*) clone;
+
+- (ClanMemberTeamDonation*) build;
+- (ClanMemberTeamDonation*) buildPartial;
+
+- (ClanMemberTeamDonation_Builder*) mergeFrom:(ClanMemberTeamDonation*) other;
+- (ClanMemberTeamDonation_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (ClanMemberTeamDonation_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasDonationUuid;
+- (NSString*) donationUuid;
+- (ClanMemberTeamDonation_Builder*) setDonationUuid:(NSString*) value;
+- (ClanMemberTeamDonation_Builder*) clearDonationUuid;
+
+- (BOOL) hasUserUuid;
+- (NSString*) userUuid;
+- (ClanMemberTeamDonation_Builder*) setUserUuid:(NSString*) value;
+- (ClanMemberTeamDonation_Builder*) clearUserUuid;
+
+- (BOOL) hasClanUuid;
+- (NSString*) clanUuid;
+- (ClanMemberTeamDonation_Builder*) setClanUuid:(NSString*) value;
+- (ClanMemberTeamDonation_Builder*) clearClanUuid;
+
+- (BOOL) hasPowerAvailability;
+- (int32_t) powerAvailability;
+- (ClanMemberTeamDonation_Builder*) setPowerAvailability:(int32_t) value;
+- (ClanMemberTeamDonation_Builder*) clearPowerAvailability;
+
+- (BOOL) hasIsComplete;
+- (BOOL) isComplete;
+- (ClanMemberTeamDonation_Builder*) setIsComplete:(BOOL) value;
+- (ClanMemberTeamDonation_Builder*) clearIsComplete;
+
+- (BOOL) hasMsg;
+- (NSString*) msg;
+- (ClanMemberTeamDonation_Builder*) setMsg:(NSString*) value;
+- (ClanMemberTeamDonation_Builder*) clearMsg;
+
+- (BOOL) hasTimeOfSolicitation;
+- (int64_t) timeOfSolicitation;
+- (ClanMemberTeamDonation_Builder*) setTimeOfSolicitation:(int64_t) value;
+- (ClanMemberTeamDonation_Builder*) clearTimeOfSolicitation;
+
+- (NSMutableArray *)donationsList;
+- (UserMonsterSnapshotProto*)donationsAtIndex:(NSUInteger)index;
+- (ClanMemberTeamDonation_Builder *)addDonations:(UserMonsterSnapshotProto*)value;
+- (ClanMemberTeamDonation_Builder *)addAllDonations:(NSArray *)array;
+- (ClanMemberTeamDonation_Builder *)clearDonations;
 @end
 
 

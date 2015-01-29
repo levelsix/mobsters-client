@@ -69,6 +69,8 @@
 @class UserMonsterEvolutionProto_Builder;
 @class UserMonsterHealingProto;
 @class UserMonsterHealingProto_Builder;
+@class UserMonsterSnapshotProto;
+@class UserMonsterSnapshotProto_Builder;
 @class UserObstacleProto;
 @class UserObstacleProto_Builder;
 #ifndef __has_feature

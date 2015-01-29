@@ -19,6 +19,7 @@
 @property (nonatomic, retain) IBOutlet UILabel *detailD;
 @property (nonatomic, retain) IBOutlet UIImageView *characterImage;
 
+- (void) initMissingEventWithType:(PersistentEventProto_EventType)eventType;
 - (void) initWithEventList:(NSArray*)eventList;
 
 @end
