@@ -77,6 +77,9 @@ enum SkillType {
 	BLINDING_LIGHT = 20;
 	POISON_POWDER = 21;
 	SKEWER = 22;
+	KNOCKOUT = 23;
+	SHALLOW_GRAVE = 24;
+	HAMMER_TIME = 25;
 }
 
 enum SkillActivationType {

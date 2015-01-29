@@ -156,6 +156,9 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCEndClanAvengingEvent:
     case EventProtocolRequestCAvengeClanMateEvent:
     case EventProtocolRequestCUpdateClientTaskStateEvent:
+    case EventProtocolRequestCSolicitTeamDonationEvent:
+    case EventProtocolRequestCFulfillTeamDonationSolicitationEvent:
+    case EventProtocolRequestCVoidTeamDonationSolicitationEvent:
     case EventProtocolRequestCLogoutEvent:
     case EventProtocolRequestCDevEvent:
       return YES;
@@ -257,6 +260,9 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSEndClanAvengingEvent:
     case EventProtocolResponseSAvengeClanMateEvent:
     case EventProtocolResponseSUpdateClientTaskStateEvent:
+    case EventProtocolResponseSSolicitTeamDonationEvent:
+    case EventProtocolResponseSFulfillTeamDonationSolicitationEvent:
+    case EventProtocolResponseSVoidTeamDonationSolicitationEvent:
     case EventProtocolResponseSUpdateClientUserEvent:
     case EventProtocolResponseSReferralCodeUsedEvent:
     case EventProtocolResponseSPurgeStaticDataEvent:
