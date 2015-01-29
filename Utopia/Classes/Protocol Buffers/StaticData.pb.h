@@ -47,6 +47,8 @@
 @class ClanIconProto_Builder;
 @class ClanInviteProto;
 @class ClanInviteProto_Builder;
+@class ClanMemberTeamDonation;
+@class ClanMemberTeamDonation_Builder;
 @class ClanRaidProto;
 @class ClanRaidProto_Builder;
 @class ClanRaidStageMonsterProto;
@@ -215,6 +217,8 @@
 @class UserMonsterEvolutionProto_Builder;
 @class UserMonsterHealingProto;
 @class UserMonsterHealingProto_Builder;
+@class UserMonsterSnapshotProto;
+@class UserMonsterSnapshotProto_Builder;
 @class UserObstacleProto;
 @class UserObstacleProto_Builder;
 @class UserPersistentEventProto;

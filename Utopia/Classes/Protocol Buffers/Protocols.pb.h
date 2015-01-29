@@ -140,6 +140,8 @@
 @class ClanIconProto_Builder;
 @class ClanInviteProto;
 @class ClanInviteProto_Builder;
+@class ClanMemberTeamDonation;
+@class ClanMemberTeamDonation_Builder;
 @class ClanRaidProto;
 @class ClanRaidProto_Builder;
 @class ClanRaidStageMonsterProto;
@@ -232,6 +234,10 @@
 @class FinishNormStructWaittimeWithDiamondsResponseProto_Builder;
 @class ForceLogoutResponseProto;
 @class ForceLogoutResponseProto_Builder;
+@class FulfillTeamDonationSolicitationRequestProto;
+@class FulfillTeamDonationSolicitationRequestProto_Builder;
+@class FulfillTeamDonationSolicitationResponseProto;
+@class FulfillTeamDonationSolicitationResponseProto_Builder;
 @class FullCityProto;
 @class FullCityProto_Builder;
 @class FullClanProto;
@@ -538,6 +544,10 @@
 @class SolicitClanHelpRequestProto_Builder;
 @class SolicitClanHelpResponseProto;
 @class SolicitClanHelpResponseProto_Builder;
+@class SolicitTeamDonationRequestProto;
+@class SolicitTeamDonationRequestProto_Builder;
+@class SolicitTeamDonationResponseProto;
+@class SolicitTeamDonationResponseProto_Builder;
 @class SpawnMiniJobRequestProto;
 @class SpawnMiniJobRequestProto_Builder;
 @class SpawnMiniJobResponseProto;
@@ -680,6 +690,8 @@
 @class UserMonsterEvolutionProto_Builder;
 @class UserMonsterHealingProto;
 @class UserMonsterHealingProto_Builder;
+@class UserMonsterSnapshotProto;
+@class UserMonsterSnapshotProto_Builder;
 @class UserObstacleProto;
 @class UserObstacleProto_Builder;
 @class UserPersistentEventProto;
@@ -690,6 +702,10 @@
 @class UserQuestJobProto_Builder;
 @class UserTaskCompletedProto;
 @class UserTaskCompletedProto_Builder;
+@class VoidTeamDonationSolicitationRequestProto;
+@class VoidTeamDonationSolicitationRequestProto_Builder;
+@class VoidTeamDonationSolicitationResponseProto;
+@class VoidTeamDonationSolicitationResponseProto_Builder;
 #ifndef __has_feature
   #define __has_feature(x) 0 // Compatibility with non-clang compilers.
 #endif // __has_feature
@@ -795,6 +811,9 @@ typedef NS_ENUM(SInt32, EventProtocolRequest) {
   EventProtocolRequestCEndClanAvengingEvent = 91,
   EventProtocolRequestCAvengeClanMateEvent = 92,
   EventProtocolRequestCUpdateClientTaskStateEvent = 93,
+  EventProtocolRequestCSolicitTeamDonationEvent = 94,
+  EventProtocolRequestCFulfillTeamDonationSolicitationEvent = 95,
+  EventProtocolRequestCVoidTeamDonationSolicitationEvent = 96,
   EventProtocolRequestCLogoutEvent = 101,
   EventProtocolRequestCDevEvent = 200,
 };
@@ -894,6 +913,9 @@ typedef NS_ENUM(SInt32, EventProtocolResponse) {
   EventProtocolResponseSEndClanAvengingEvent = 91,
   EventProtocolResponseSAvengeClanMateEvent = 92,
   EventProtocolResponseSUpdateClientTaskStateEvent = 93,
+  EventProtocolResponseSSolicitTeamDonationEvent = 94,
+  EventProtocolResponseSFulfillTeamDonationSolicitationEvent = 95,
+  EventProtocolResponseSVoidTeamDonationSolicitationEvent = 96,
   EventProtocolResponseSUpdateClientUserEvent = 101,
   EventProtocolResponseSReferralCodeUsedEvent = 102,
   EventProtocolResponseSPurgeStaticDataEvent = 103,

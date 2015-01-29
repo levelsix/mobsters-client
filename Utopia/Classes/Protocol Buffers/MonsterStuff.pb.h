@@ -31,6 +31,8 @@
 @class UserMonsterEvolutionProto_Builder;
 @class UserMonsterHealingProto;
 @class UserMonsterHealingProto_Builder;
+@class UserMonsterSnapshotProto;
+@class UserMonsterSnapshotProto_Builder;
 #ifndef __has_feature
   #define __has_feature(x) 0 // Compatibility with non-clang compilers.
 #endif // __has_feature
@@ -57,6 +59,14 @@ typedef NS_ENUM(SInt32, MonsterBattleDialogueProto_DialogueType) {
 };
 
 BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialogueProto_DialogueType value);
+
+typedef NS_ENUM(SInt32, UserMonsterSnapshotProto_SnapshotType) {
+  UserMonsterSnapshotProto_SnapshotTypeNoDonateType = 1,
+  UserMonsterSnapshotProto_SnapshotTypeTeamDonate = 2,
+  UserMonsterSnapshotProto_SnapshotTypeEnhanceDonate = 3,
+};
+
+BOOL UserMonsterSnapshotProto_SnapshotTypeIsValidValue(UserMonsterSnapshotProto_SnapshotType value);
 
 
 @interface MonsterStuffRoot : NSObject {
@@ -1503,6 +1513,163 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (Float32) probabilityUttered;
 - (MonsterBattleDialogueProto_Builder*) setProbabilityUttered:(Float32) value;
 - (MonsterBattleDialogueProto_Builder*) clearProbabilityUttered;
+@end
+
+@interface UserMonsterSnapshotProto : PBGeneratedMessage {
+@private
+  BOOL hasTimeOfCreation_:1;
+  BOOL hasMonsterId_:1;
+  BOOL hasCurrentExp_:1;
+  BOOL hasCurrentLvl_:1;
+  BOOL hasCurrentHp_:1;
+  BOOL hasTeamSlotNum_:1;
+  BOOL hasOffensiveSkillId_:1;
+  BOOL hasDefensiveSkillId_:1;
+  BOOL hasSnapshotUuid_:1;
+  BOOL hasRelevantTableUuid_:1;
+  BOOL hasMonsterForUserUuid_:1;
+  BOOL hasUserUuid_:1;
+  BOOL hasType_:1;
+  int64_t timeOfCreation;
+  int32_t monsterId;
+  int32_t currentExp;
+  int32_t currentLvl;
+  int32_t currentHp;
+  int32_t teamSlotNum;
+  int32_t offensiveSkillId;
+  int32_t defensiveSkillId;
+  NSString* snapshotUuid;
+  NSString* relevantTableUuid;
+  NSString* monsterForUserUuid;
+  NSString* userUuid;
+  UserMonsterSnapshotProto_SnapshotType type;
+}
+- (BOOL) hasSnapshotUuid;
+- (BOOL) hasTimeOfCreation;
+- (BOOL) hasType;
+- (BOOL) hasRelevantTableUuid;
+- (BOOL) hasMonsterForUserUuid;
+- (BOOL) hasUserUuid;
+- (BOOL) hasMonsterId;
+- (BOOL) hasCurrentExp;
+- (BOOL) hasCurrentLvl;
+- (BOOL) hasCurrentHp;
+- (BOOL) hasTeamSlotNum;
+- (BOOL) hasOffensiveSkillId;
+- (BOOL) hasDefensiveSkillId;
+@property (readonly, strong) NSString* snapshotUuid;
+@property (readonly) int64_t timeOfCreation;
+@property (readonly) UserMonsterSnapshotProto_SnapshotType type;
+@property (readonly, strong) NSString* relevantTableUuid;
+@property (readonly, strong) NSString* monsterForUserUuid;
+@property (readonly, strong) NSString* userUuid;
+@property (readonly) int32_t monsterId;
+@property (readonly) int32_t currentExp;
+@property (readonly) int32_t currentLvl;
+@property (readonly) int32_t currentHp;
+@property (readonly) int32_t teamSlotNum;
+@property (readonly) int32_t offensiveSkillId;
+@property (readonly) int32_t defensiveSkillId;
+
++ (UserMonsterSnapshotProto*) defaultInstance;
+- (UserMonsterSnapshotProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (UserMonsterSnapshotProto_Builder*) builder;
++ (UserMonsterSnapshotProto_Builder*) builder;
++ (UserMonsterSnapshotProto_Builder*) builderWithPrototype:(UserMonsterSnapshotProto*) prototype;
+- (UserMonsterSnapshotProto_Builder*) toBuilder;
+
++ (UserMonsterSnapshotProto*) parseFromData:(NSData*) data;
++ (UserMonsterSnapshotProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UserMonsterSnapshotProto*) parseFromInputStream:(NSInputStream*) input;
++ (UserMonsterSnapshotProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UserMonsterSnapshotProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (UserMonsterSnapshotProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface UserMonsterSnapshotProto_Builder : PBGeneratedMessageBuilder {
+@private
+  UserMonsterSnapshotProto* result;
+}
+
+- (UserMonsterSnapshotProto*) defaultInstance;
+
+- (UserMonsterSnapshotProto_Builder*) clear;
+- (UserMonsterSnapshotProto_Builder*) clone;
+
+- (UserMonsterSnapshotProto*) build;
+- (UserMonsterSnapshotProto*) buildPartial;
+
+- (UserMonsterSnapshotProto_Builder*) mergeFrom:(UserMonsterSnapshotProto*) other;
+- (UserMonsterSnapshotProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (UserMonsterSnapshotProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSnapshotUuid;
+- (NSString*) snapshotUuid;
+- (UserMonsterSnapshotProto_Builder*) setSnapshotUuid:(NSString*) value;
+- (UserMonsterSnapshotProto_Builder*) clearSnapshotUuid;
+
+- (BOOL) hasTimeOfCreation;
+- (int64_t) timeOfCreation;
+- (UserMonsterSnapshotProto_Builder*) setTimeOfCreation:(int64_t) value;
+- (UserMonsterSnapshotProto_Builder*) clearTimeOfCreation;
+
+- (BOOL) hasType;
+- (UserMonsterSnapshotProto_SnapshotType) type;
+- (UserMonsterSnapshotProto_Builder*) setType:(UserMonsterSnapshotProto_SnapshotType) value;
+- (UserMonsterSnapshotProto_Builder*) clearTypeList;
+
+- (BOOL) hasRelevantTableUuid;
+- (NSString*) relevantTableUuid;
+- (UserMonsterSnapshotProto_Builder*) setRelevantTableUuid:(NSString*) value;
+- (UserMonsterSnapshotProto_Builder*) clearRelevantTableUuid;
+
+- (BOOL) hasMonsterForUserUuid;
+- (NSString*) monsterForUserUuid;
+- (UserMonsterSnapshotProto_Builder*) setMonsterForUserUuid:(NSString*) value;
+- (UserMonsterSnapshotProto_Builder*) clearMonsterForUserUuid;
+
+- (BOOL) hasUserUuid;
+- (NSString*) userUuid;
+- (UserMonsterSnapshotProto_Builder*) setUserUuid:(NSString*) value;
+- (UserMonsterSnapshotProto_Builder*) clearUserUuid;
+
+- (BOOL) hasMonsterId;
+- (int32_t) monsterId;
+- (UserMonsterSnapshotProto_Builder*) setMonsterId:(int32_t) value;
+- (UserMonsterSnapshotProto_Builder*) clearMonsterId;
+
+- (BOOL) hasCurrentExp;
+- (int32_t) currentExp;
+- (UserMonsterSnapshotProto_Builder*) setCurrentExp:(int32_t) value;
+- (UserMonsterSnapshotProto_Builder*) clearCurrentExp;
+
+- (BOOL) hasCurrentLvl;
+- (int32_t) currentLvl;
+- (UserMonsterSnapshotProto_Builder*) setCurrentLvl:(int32_t) value;
+- (UserMonsterSnapshotProto_Builder*) clearCurrentLvl;
+
+- (BOOL) hasCurrentHp;
+- (int32_t) currentHp;
+- (UserMonsterSnapshotProto_Builder*) setCurrentHp:(int32_t) value;
+- (UserMonsterSnapshotProto_Builder*) clearCurrentHp;
+
+- (BOOL) hasTeamSlotNum;
+- (int32_t) teamSlotNum;
+- (UserMonsterSnapshotProto_Builder*) setTeamSlotNum:(int32_t) value;
+- (UserMonsterSnapshotProto_Builder*) clearTeamSlotNum;
+
+- (BOOL) hasOffensiveSkillId;
+- (int32_t) offensiveSkillId;
+- (UserMonsterSnapshotProto_Builder*) setOffensiveSkillId:(int32_t) value;
+- (UserMonsterSnapshotProto_Builder*) clearOffensiveSkillId;
+
+- (BOOL) hasDefensiveSkillId;
+- (int32_t) defensiveSkillId;
+- (UserMonsterSnapshotProto_Builder*) setDefensiveSkillId:(int32_t) value;
+- (UserMonsterSnapshotProto_Builder*) clearDefensiveSkillId;
 @end
 
 
