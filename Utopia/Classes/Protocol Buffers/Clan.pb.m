@@ -8289,7 +8289,7 @@ static ClanDataProto* defaultClanDataProtoInstance = nil;
 @property (strong) NSString* userUuid;
 @property (strong) NSString* clanUuid;
 @property int32_t powerAvailability;
-@property BOOL isFulfilled;
+@property BOOL isComplete;
 @property (strong) NSString* msg;
 @property int64_t timeOfSolicitation;
 @property (strong) NSMutableArray * mutableDonationsList;
@@ -8325,17 +8325,17 @@ static ClanDataProto* defaultClanDataProtoInstance = nil;
   hasPowerAvailability_ = !!value_;
 }
 @synthesize powerAvailability;
-- (BOOL) hasIsFulfilled {
-  return !!hasIsFulfilled_;
+- (BOOL) hasIsComplete {
+  return !!hasIsComplete_;
 }
-- (void) setHasIsFulfilled:(BOOL) value_ {
-  hasIsFulfilled_ = !!value_;
+- (void) setHasIsComplete:(BOOL) value_ {
+  hasIsComplete_ = !!value_;
 }
-- (BOOL) isFulfilled {
-  return !!isFulfilled_;
+- (BOOL) isComplete {
+  return !!isComplete_;
 }
-- (void) setIsFulfilled:(BOOL) value_ {
-  isFulfilled_ = !!value_;
+- (void) setIsComplete:(BOOL) value_ {
+  isComplete_ = !!value_;
 }
 - (BOOL) hasMsg {
   return !!hasMsg_;
@@ -8359,7 +8359,7 @@ static ClanDataProto* defaultClanDataProtoInstance = nil;
     self.userUuid = @"";
     self.clanUuid = @"";
     self.powerAvailability = 0;
-    self.isFulfilled = NO;
+    self.isComplete = NO;
     self.msg = @"";
     self.timeOfSolicitation = 0L;
   }
@@ -8399,8 +8399,8 @@ static ClanMemberTeamDonation* defaultClanMemberTeamDonationInstance = nil;
   if (self.hasPowerAvailability) {
     [output writeInt32:4 value:self.powerAvailability];
   }
-  if (self.hasIsFulfilled) {
-    [output writeBool:5 value:self.isFulfilled];
+  if (self.hasIsComplete) {
+    [output writeBool:5 value:self.isComplete];
   }
   if (self.hasMsg) {
     [output writeString:6 value:self.msg];
@@ -8432,8 +8432,8 @@ static ClanMemberTeamDonation* defaultClanMemberTeamDonationInstance = nil;
   if (self.hasPowerAvailability) {
     size_ += computeInt32Size(4, self.powerAvailability);
   }
-  if (self.hasIsFulfilled) {
-    size_ += computeBoolSize(5, self.isFulfilled);
+  if (self.hasIsComplete) {
+    size_ += computeBoolSize(5, self.isComplete);
   }
   if (self.hasMsg) {
     size_ += computeStringSize(6, self.msg);
@@ -8491,8 +8491,8 @@ static ClanMemberTeamDonation* defaultClanMemberTeamDonationInstance = nil;
   if (self.hasPowerAvailability) {
     [output appendFormat:@"%@%@: %@\n", indent, @"powerAvailability", [NSNumber numberWithInteger:self.powerAvailability]];
   }
-  if (self.hasIsFulfilled) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"isFulfilled", [NSNumber numberWithBool:self.isFulfilled]];
+  if (self.hasIsComplete) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"isComplete", [NSNumber numberWithBool:self.isComplete]];
   }
   if (self.hasMsg) {
     [output appendFormat:@"%@%@: %@\n", indent, @"msg", self.msg];
@@ -8525,8 +8525,8 @@ static ClanMemberTeamDonation* defaultClanMemberTeamDonationInstance = nil;
       (!self.hasClanUuid || [self.clanUuid isEqual:otherMessage.clanUuid]) &&
       self.hasPowerAvailability == otherMessage.hasPowerAvailability &&
       (!self.hasPowerAvailability || self.powerAvailability == otherMessage.powerAvailability) &&
-      self.hasIsFulfilled == otherMessage.hasIsFulfilled &&
-      (!self.hasIsFulfilled || self.isFulfilled == otherMessage.isFulfilled) &&
+      self.hasIsComplete == otherMessage.hasIsComplete &&
+      (!self.hasIsComplete || self.isComplete == otherMessage.isComplete) &&
       self.hasMsg == otherMessage.hasMsg &&
       (!self.hasMsg || [self.msg isEqual:otherMessage.msg]) &&
       self.hasTimeOfSolicitation == otherMessage.hasTimeOfSolicitation &&
@@ -8548,8 +8548,8 @@ static ClanMemberTeamDonation* defaultClanMemberTeamDonationInstance = nil;
   if (self.hasPowerAvailability) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.powerAvailability] hash];
   }
-  if (self.hasIsFulfilled) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.isFulfilled] hash];
+  if (self.hasIsComplete) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.isComplete] hash];
   }
   if (self.hasMsg) {
     hashCode = hashCode * 31 + [self.msg hash];
@@ -8615,8 +8615,8 @@ static ClanMemberTeamDonation* defaultClanMemberTeamDonationInstance = nil;
   if (other.hasPowerAvailability) {
     [self setPowerAvailability:other.powerAvailability];
   }
-  if (other.hasIsFulfilled) {
-    [self setIsFulfilled:other.isFulfilled];
+  if (other.hasIsComplete) {
+    [self setIsComplete:other.isComplete];
   }
   if (other.hasMsg) {
     [self setMsg:other.msg];
@@ -8669,7 +8669,7 @@ static ClanMemberTeamDonation* defaultClanMemberTeamDonationInstance = nil;
         break;
       }
       case 40: {
-        [self setIsFulfilled:[input readBool]];
+        [self setIsComplete:[input readBool]];
         break;
       }
       case 50: {
@@ -8753,20 +8753,20 @@ static ClanMemberTeamDonation* defaultClanMemberTeamDonationInstance = nil;
   result.powerAvailability = 0;
   return self;
 }
-- (BOOL) hasIsFulfilled {
-  return result.hasIsFulfilled;
+- (BOOL) hasIsComplete {
+  return result.hasIsComplete;
 }
-- (BOOL) isFulfilled {
-  return result.isFulfilled;
+- (BOOL) isComplete {
+  return result.isComplete;
 }
-- (ClanMemberTeamDonation_Builder*) setIsFulfilled:(BOOL) value {
-  result.hasIsFulfilled = YES;
-  result.isFulfilled = value;
+- (ClanMemberTeamDonation_Builder*) setIsComplete:(BOOL) value {
+  result.hasIsComplete = YES;
+  result.isComplete = value;
   return self;
 }
-- (ClanMemberTeamDonation_Builder*) clearIsFulfilled {
-  result.hasIsFulfilled = NO;
-  result.isFulfilled = NO;
+- (ClanMemberTeamDonation_Builder*) clearIsComplete {
+  result.hasIsComplete = NO;
+  result.isComplete = NO;
   return self;
 }
 - (BOOL) hasMsg {

@@ -18,6 +18,7 @@ typedef enum {
   ClanInfoSortOrderTeam,
   ClanInfoSortOrderRaid,
   ClanInfoSortOrderBattleWins,
+  ClanInfoSortOrderHelpsGiven,
 } ClanInfoSortOrder;
 
 @interface ClanInfoViewController : PopupSubViewController <UITableViewDataSource, UITableViewDelegate, ClanInfoSettingsDelegate> {

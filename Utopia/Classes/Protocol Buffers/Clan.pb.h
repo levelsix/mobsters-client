@@ -1932,14 +1932,14 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 
 @interface ClanMemberTeamDonation : PBGeneratedMessage {
 @private
-  BOOL hasIsFulfilled_:1;
+  BOOL hasIsComplete_:1;
   BOOL hasTimeOfSolicitation_:1;
   BOOL hasPowerAvailability_:1;
   BOOL hasDonationUuid_:1;
   BOOL hasUserUuid_:1;
   BOOL hasClanUuid_:1;
   BOOL hasMsg_:1;
-  BOOL isFulfilled_:1;
+  BOOL isComplete_:1;
   int64_t timeOfSolicitation;
   int32_t powerAvailability;
   NSString* donationUuid;
@@ -1952,14 +1952,14 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (BOOL) hasUserUuid;
 - (BOOL) hasClanUuid;
 - (BOOL) hasPowerAvailability;
-- (BOOL) hasIsFulfilled;
+- (BOOL) hasIsComplete;
 - (BOOL) hasMsg;
 - (BOOL) hasTimeOfSolicitation;
 @property (readonly, strong) NSString* donationUuid;
 @property (readonly, strong) NSString* userUuid;
 @property (readonly, strong) NSString* clanUuid;
 @property (readonly) int32_t powerAvailability;
-- (BOOL) isFulfilled;
+- (BOOL) isComplete;
 @property (readonly, strong) NSString* msg;
 @property (readonly) int64_t timeOfSolicitation;
 @property (readonly, strong) NSArray * donationsList;
@@ -2020,10 +2020,10 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (ClanMemberTeamDonation_Builder*) setPowerAvailability:(int32_t) value;
 - (ClanMemberTeamDonation_Builder*) clearPowerAvailability;
 
-- (BOOL) hasIsFulfilled;
-- (BOOL) isFulfilled;
-- (ClanMemberTeamDonation_Builder*) setIsFulfilled:(BOOL) value;
-- (ClanMemberTeamDonation_Builder*) clearIsFulfilled;
+- (BOOL) hasIsComplete;
+- (BOOL) isComplete;
+- (ClanMemberTeamDonation_Builder*) setIsComplete:(BOOL) value;
+- (ClanMemberTeamDonation_Builder*) clearIsComplete;
 
 - (BOOL) hasMsg;
 - (NSString*) msg;

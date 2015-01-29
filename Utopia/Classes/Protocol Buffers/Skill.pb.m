@@ -47,7 +47,6 @@ BOOL SkillTypeIsValidValue(SkillType value) {
     case SkillTypeKnockout:
     case SkillTypeShallowGrave:
     case SkillTypeHammerTime:
-    case SkillTypeBloodRage:
       return YES;
     default:
       return NO;

@@ -29,6 +29,7 @@
   self.nameLabel.text = mupl.minUserProto.name;
   self.raidContributionLabel.text = [NSString stringWithFormat:@"%d%%", (int)roundf(mup.raidContribution*100.f)];
   self.battleWinsLabel.text = [NSString stringWithFormat:@"%@ Win%@", [Globals commafyNumber:mup.battlesWon], mup.battlesWon == 1 ? @"" : @"s"];
+  self.totalHelpsLabel.text = [NSString stringWithFormat:@"%d",mup.numClanHelpsGiven];
   
   self.typeLabel.text = [Globals stringForClanStatus:mup.clanStatus];
   self.typeLabel.highlighted = (mup.clanStatus == UserClanStatusRequesting);

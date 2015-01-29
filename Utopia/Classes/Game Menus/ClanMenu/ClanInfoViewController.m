@@ -167,6 +167,19 @@
         return baseComp(m1, m2);
       }
     };
+  } else if (_sortOrder == ClanInfoSortOrderHelpsGiven) {
+    comp = ^NSComparisonResult(MinimumUserProtoForClans *m1, MinimumUserProtoForClans *m2) {
+      NSComparisonResult reqResult = reqComp(m1, m2);
+      if (reqResult != NSOrderedSame) return reqResult;
+      
+      int status1 = m1.numClanHelpsGiven;
+      int status2 = m2.numClanHelpsGiven;
+      if (status1 != status2) {
+        return [@(status1) compare:@(status2)];
+      } else {
+        return baseComp(m1, m2);
+      }
+    };
   }
   
   if (comp) {
