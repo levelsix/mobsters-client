@@ -614,6 +614,7 @@
   if (_displayedWaveNumber && _reachedNextScene) {
     float delay = 1.0;
     float delay2 = 0.0;
+    
     if (_shouldDisplayNewSchedule) {
       
       [self prepareScheduleView];
@@ -693,6 +694,18 @@
   [skillManager triggerSkills:SkillTriggerPointStartOfPlayerTurn withCompletion:^(BOOL triggered, id params) {
     
     SkillLogEnd(triggered, @"  Beginning of player turn ENDED");
+    
+    if (self.myPlayerObject.isStunned)
+    {
+      
+      [self performAfterDelay:0.5 block:^{
+        //[self.hudView.battleScheduleView bounceLastView];
+        _enemyShouldAttack = YES;
+        [self checkEnemyHealthAndStartNewTurn];
+      }];
+      return;
+    }
+    
     [self.orbLayer.bgdLayer turnTheLightsOn];
     [self.orbLayer allowInput];
     [skillManager enableSkillButton:YES];
@@ -736,6 +749,13 @@
             _enemyDamageDealt = [self.enemyPlayerObject randomDamage];
             _enemyDamageDealt = _enemyDamageDealt*[self damageMultiplierIsEnemyAttacker:YES];
             _enemyDamageDealt = (int)[skillManager modifyDamage:_enemyDamageDealt forPlayer:NO];
+            
+            // If the enemy's stunned, short the attack function
+            if (self.enemyPlayerObject.isStunned)
+            {
+              [self endEnemyTurn];
+              return;
+            }
             
             // If the enemy's confused, he will deal damage to himself. Instead of the usual flow, show
             // the popup above his head, followed by flinch animation and showing the damage label

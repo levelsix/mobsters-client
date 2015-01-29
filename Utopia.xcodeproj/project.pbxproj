@@ -1019,12 +1019,16 @@
 		63C57EB41A66282700ED406E /* gradientwaterdailylab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63C57E921A66282700ED406E /* gradientwaterdailylab@2x.png */; };
 		63C57EB51A66282700ED406E /* gradientwaterdailylab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63C57E921A66282700ED406E /* gradientwaterdailylab@2x.png */; };
 		63C57EB61A66282700ED406E /* gradientwaterdailylab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63C57E921A66282700ED406E /* gradientwaterdailylab@2x.png */; };
+		6BA24DF31A7A9ECF00BEF920 /* SkillBloodRage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA24DF21A7A9ECF00BEF920 /* SkillBloodRage.m */; };
 		6BB26BC61A78190C0014342B /* SkillPoisonPowder.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB26BC51A78190C0014342B /* SkillPoisonPowder.m */; };
 		6BB26BC71A78190C0014342B /* SkillPoisonPowder.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB26BC51A78190C0014342B /* SkillPoisonPowder.m */; };
 		6BB26BC81A78190C0014342B /* SkillPoisonPowder.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB26BC51A78190C0014342B /* SkillPoisonPowder.m */; };
 		6BCBD8671A797AEE002C584F /* counterstrikelogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BCBD8661A797AEE002C584F /* counterstrikelogo@2x.png */; };
 		6BCBD8681A797AEE002C584F /* counterstrikelogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BCBD8661A797AEE002C584F /* counterstrikelogo@2x.png */; };
 		6BCBD8691A797AEE002C584F /* counterstrikelogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BCBD8661A797AEE002C584F /* counterstrikelogo@2x.png */; };
+		6BCBD8751A797E63002C584F /* SkillHammerTime.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCBD8741A797E63002C584F /* SkillHammerTime.m */; };
+		6BCBD8761A797E63002C584F /* SkillHammerTime.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCBD8741A797E63002C584F /* SkillHammerTime.m */; };
+		6BCBD8771A797E63002C584F /* SkillHammerTime.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCBD8741A797E63002C584F /* SkillHammerTime.m */; };
 		9B0E6E191A73370E00118210 /* badjujuicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B0E6E181A73370E00118210 /* badjujuicon@2x.png */; };
 		9B0E6E1D1A73371A00118210 /* badjujulogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B0E6E1B1A73371A00118210 /* badjujulogo@2x.png */; };
 		9B0E6E1E1A73371A00118210 /* powermovelogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B0E6E1C1A73371A00118210 /* powermovelogo@2x.png */; };
@@ -7692,9 +7696,13 @@
 		63C57E911A66282700ED406E /* gradientwaterdailylab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gradientwaterdailylab.png; sourceTree = "<group>"; };
 		63C57E921A66282700ED406E /* gradientwaterdailylab@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gradientwaterdailylab@2x.png"; sourceTree = "<group>"; };
 		686F8D3F1B86BD06C7EE6627 /* Pods.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.appstore.xcconfig; path = "Pods/Target Support Files/Pods/Pods.appstore.xcconfig"; sourceTree = "<group>"; };
+		6BA24DF01A7A9EC100BEF920 /* SkillBloodRage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillBloodRage.h; sourceTree = "<group>"; };
+		6BA24DF21A7A9ECF00BEF920 /* SkillBloodRage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillBloodRage.m; sourceTree = "<group>"; };
 		6BB26BC41A7818FB0014342B /* SkillPoisonPowder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillPoisonPowder.h; sourceTree = "<group>"; };
 		6BB26BC51A78190C0014342B /* SkillPoisonPowder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillPoisonPowder.m; sourceTree = "<group>"; };
 		6BCBD8661A797AEE002C584F /* counterstrikelogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "counterstrikelogo@2x.png"; sourceTree = "<group>"; };
+		6BCBD8721A797E51002C584F /* SkillHammerTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillHammerTime.h; sourceTree = "<group>"; };
+		6BCBD8741A797E63002C584F /* SkillHammerTime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillHammerTime.m; sourceTree = "<group>"; };
 		7531CD67E149A97B795B119A /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		9B0E6E181A73370E00118210 /* badjujuicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "badjujuicon@2x.png"; sourceTree = "<group>"; };
 		9B0E6E1B1A73371A00118210 /* badjujulogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "badjujulogo@2x.png"; sourceTree = "<group>"; };
@@ -17541,6 +17549,10 @@
 				9B9BA7FC1A73367B001B7D04 /* SkillConfusion.m */,
 				6BB26BC41A7818FB0014342B /* SkillPoisonPowder.h */,
 				6BB26BC51A78190C0014342B /* SkillPoisonPowder.m */,
+				6BCBD8721A797E51002C584F /* SkillHammerTime.h */,
+				6BCBD8741A797E63002C584F /* SkillHammerTime.m */,
+				6BA24DF01A7A9EC100BEF920 /* SkillBloodRage.h */,
+				6BA24DF21A7A9ECF00BEF920 /* SkillBloodRage.m */,
 			);
 			name = Specific;
 			sourceTree = "<group>";
@@ -24219,6 +24231,7 @@
 				CF0CED52196F452900ECD301 /* MSWindow.m in Sources */,
 				9BDA8BEC1A43837D00C7AC27 /* NewGachaViews.m in Sources */,
 				CF0CED53196F452900ECD301 /* AttackMapViewController.m in Sources */,
+				6BCBD8761A797E63002C584F /* SkillHammerTime.m in Sources */,
 				CF0CED54196F452900ECD301 /* TutorialOrbLayer.m in Sources */,
 				CF0CED56196F452900ECD301 /* EventQuest.pb.m in Sources */,
 				CF0CED57196F452900ECD301 /* EvolveChooserViews.m in Sources */,
@@ -24445,6 +24458,7 @@
 				CFF5DC05194FCA160019EB2B /* ProfileViews.m in Sources */,
 				CF6574BE1909CAF200ABF1F4 /* MonsterStuff.pb.m in Sources */,
 				CF7064C31845E4C7005B30A1 /* OneLineNotificationViewController.m in Sources */,
+				6BCBD8751A797E63002C584F /* SkillHammerTime.m in Sources */,
 				CF126D341538ACCA00E0C1AD /* Downloader.m in Sources */,
 				CF4DB8E81807DA1F00062258 /* HomeMap.m in Sources */,
 				29A2FCF11A647EEB00FF93B6 /* OrbFallAction.m in Sources */,
@@ -24687,6 +24701,7 @@
 				DA88EB3E19B93542005EE827 /* SkillPopupOverlay.m in Sources */,
 				CFE11F8F1A141C040094F797 /* amqp_tcp_socket.c in Sources */,
 				CFBF032117C596890082A9BF /* ClanCreateViewController.m in Sources */,
+				6BA24DF31A7A9ECF00BEF920 /* SkillBloodRage.m in Sources */,
 				CF4DB8ED1807DA1F00062258 /* MissionMap.m in Sources */,
 				CFA7294A1A0B0E8F00FF6031 /* DailyEventCornerView.m in Sources */,
 				CFF6470F195E356700C43641 /* EvolveDetailsViewController.m in Sources */,
@@ -24852,6 +24867,7 @@
 				CF4818F719F7217F00041486 /* MSWindow.m in Sources */,
 				9BDA8BED1A43837D00C7AC27 /* NewGachaViews.m in Sources */,
 				CF4818F819F7217F00041486 /* AttackMapViewController.m in Sources */,
+				6BCBD8771A797E63002C584F /* SkillHammerTime.m in Sources */,
 				CF4818F919F7217F00041486 /* TutorialOrbLayer.m in Sources */,
 				CF4818FA19F7217F00041486 /* EventQuest.pb.m in Sources */,
 				CF4818FB19F7217F00041486 /* EvolveChooserViews.m in Sources */,
