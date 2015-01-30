@@ -19,9 +19,30 @@
 
 @implementation TeamSlotView
 
+- (void) awakeFromNib {
+  _initSize = self.size;
+}
+
+- (CGSize) minimizedSize {
+  return CGSizeMake(CGRectGetMaxX(self.leftView.frame), self.height);
+}
+
+- (CGSize) maximizedSize {
+  return _initSize;
+}
+
 - (void) setTag:(NSInteger)tag {
   [super setTag:tag];
-  self.slotNumLabel.text = [NSString stringWithFormat:@"%d", (int)tag];
+  
+  if (tag) {
+    self.slotNumLabel.text = [NSString stringWithFormat:@"%d", (int)tag];
+  } else {
+    // Squad Slot
+    NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:@"SQUAD\nSLOT"];
+    [str addAttribute:NSFontAttributeName value:[UIFont fontWithName:self.slotNumLabel.font.fontName size:10.f] range:NSMakeRange(0, 6)];
+    [str addAttribute:NSFontAttributeName value:[UIFont fontWithName:self.slotNumLabel.font.fontName size:12.f] range:NSMakeRange(6, 4)];
+    self.slotNumLabel.attributedText = str;
+  }
   self.botLabel.text = [NSString stringWithFormat:@"Tap %@ to Add", MONSTER_NAME];
 }
 
@@ -58,7 +79,7 @@
   Globals *gl = [Globals sharedGlobals];
   if (!um) {
     self.botLabel.hidden = NO;
-    self.healthBarView.hidden = YES;
+    self.toonDetailsView.hidden = YES;
     
     self.topLabel.text = [NSString stringWithFormat:@"Slot %d Open", (int)self.tag];
     self.topLabel.highlighted = YES;
@@ -74,13 +95,13 @@
     
     if (![um isAvailable]) {
       self.botLabel.hidden = NO;
-      self.healthBarView.hidden = YES;
+      self.toonDetailsView.hidden = YES;
     } else {
       self.healthBar.percentage = um.curHealth/(float)[gl calculateMaxHealthForMonster:um];
       self.healthLabel.text = [NSString stringWithFormat:@"%@/%@", [Globals commafyNumber:um.curHealth], [Globals commafyNumber:[gl calculateMaxHealthForMonster:um]]];
       
       self.botLabel.hidden = YES;
-      self.healthBarView.hidden = NO;
+      self.toonDetailsView.hidden = NO;
     }
   }
 }
@@ -90,8 +111,21 @@
   [self updateRightViewForUserMonster:um];
 }
 
+- (void) updateForClanUserMonster:(UserMonster *)um {
+  [self updateLeftViewForUserMonster:um];
+  [self updateRightViewForUserMonster:um];
+  
+  if (!um) {
+    self.rightView.hidden = YES;
+  }
+}
+
 - (IBAction)minusClicked:(id)sender {
   [self.delegate teamSlotMinusClicked:self];
+}
+
+- (IBAction)monsterClicked:(id)sender {
+  [self.delegate teamSlotMonsterClicked:self];
 }
 
 - (IBAction)rightSideClicked:(id)sender {
@@ -105,6 +139,8 @@
 - (void) viewDidLoad {
   [super viewDidLoad];
   
+  _showsClanDonateToonView = YES;
+  
   self.cardCell = [[NSBundle mainBundle] loadNibNamed:@"TeamCardCell" owner:self options:nil][0];
   self.cardCell.cardContainer.monsterCardView.infoButton.hidden = NO;
   
@@ -115,7 +151,7 @@
   self.listView.cellClassName = @"TeamCardCell";
   
   NSMutableArray *realSlotViews = [NSMutableArray array];
-  for (UIView *fake in self.teamSlotViews) {
+  for (UIView *fake in [self.teamSlotViews arrayByAddingObject:self.clanRequestSlotView]) {
     TeamSlotView *slot = [[NSBundle mainBundle] loadNibNamed:@"TeamSlotView" owner:self options:nil][0];
     slot.frame = fake.frame;
     slot.delegate = self;
@@ -126,7 +162,16 @@
     
     [realSlotViews addObject:slot];
   }
-  self.teamSlotViews = realSlotViews;
+  self.clanRequestSlotView = [realSlotViews lastObject];
+  self.teamSlotViews = [realSlotViews subarrayWithRange:NSMakeRange(0, self.teamSlotViews.count)];
+  
+  // It is already positioned in the xib, we just need to add it to the correct superview
+  if (_showsClanDonateToonView) {
+    [[[self.teamSlotViews firstObject] superview] addSubview:self.clanRequestView];
+    [self.clanRequestSlotView.superview sendSubviewToBack:self.clanRequestSlotView];
+    [self.clanRequestSlotView updateForClanUserMonster:nil];
+    [self.clanRequestSlotView.minusButton removeFromSuperview];
+  }
   
   self.titleImageName = @"manageteammenuheader.png";
   
@@ -139,7 +184,7 @@
   self.listView.collectionView.contentOffset = ccp(0,0);
   
   [self reloadListViewAnimated:NO];
-  [self updateTeamSlotViews];
+  [self updateTeamSlotViews:NO animated:NO];
   
   [self reloadTitleView];
 }
@@ -178,24 +223,61 @@
   self.title = str;
 }
 
+// Update all slots
 - (void) updateTeamSlotViews {
-  NSUInteger nextSlot = self.teamSlotViews.count+1;
+  [self updateTeamSlotViews:NO animated:YES];
+}
+
+// Update only slotNum but min and max the other views
+// Returns YES if the opened one was already open
+- (BOOL) updateTeamSlotViews:(BOOL)onlyUpdateOpenOne animated:(BOOL)animated {
+  int nextSlot = (int)self.teamSlotViews.count+1;
   BOOL foundAvailSlot = NO;
   for (TeamSlotView *slot in self.teamSlotViews) {
     UserMonster *um = [self monsterForSlot:slot.tag];
-    [slot updateForUserMonster:um];
     
-    if (!um && nextSlot > slot.tag) {
-      nextSlot = slot.tag;
+    if (!um && (!foundAvailSlot || nextSlot > slot.tag || _clickedSlot == slot.tag)) {
+      nextSlot = (int)slot.tag;
       foundAvailSlot = YES;
     } else if (!foundAvailSlot && ![um isAvailable] && nextSlot > slot.tag) {
-      nextSlot = slot.tag;
+      nextSlot = (int)slot.tag;
     }
   }
   
+  int openedSlot = _openedSlot ?: nextSlot < self.teamSlotViews.count+1 ? nextSlot : (int)self.teamSlotViews.count;
+  
   for (TeamSlotView *slot in self.teamSlotViews) {
-    slot.tapToAddLabel.hidden = slot.tag != nextSlot;
+    // Should update all if the clan donate isn't being shown since we need everything to fade seemlessly
+    if (!onlyUpdateOpenOne || !_showsClanDonateToonView || slot.tag == openedSlot) {
+      UserMonster *um = [self monsterForSlot:slot.tag];
+      [slot updateForUserMonster:um];
+      
+      slot.tapToAddLabel.hidden = slot.tag != nextSlot;
+    }
   }
+  
+  TeamSlotView *slot = self.teamSlotViews[openedSlot-1];
+  BOOL wasOpen = CGSizeEqualToSize(slot.size, [slot maximizedSize]);
+  
+  if (_showsClanDonateToonView) {
+    [UIView animateWithDuration:animated*0.3f animations:^{
+      float curOrigin = [[self.teamSlotViews firstObject] originX];
+      for (TeamSlotView *slot in self.teamSlotViews) {
+        if (slot.tag == openedSlot) {
+          slot.size = [slot maximizedSize];
+        } else {
+          slot.size = [slot minimizedSize];
+        }
+        
+        slot.originX = curOrigin;
+        curOrigin += slot.width;
+      }
+    }];
+    
+    
+  }
+  
+  return wasOpen;
 }
 
 - (UserMonster *) monsterForSlot:(NSInteger)slot {
@@ -291,11 +373,15 @@
   BOOL lowEnoughCost = [gl currentBattleReadyTeamHasCostFor:um];
   
   if ([um isAvailable] && um.curHealth > 0 && lowEnoughCost) {
-    BOOL success = [[OutgoingEventController sharedOutgoingEventController] addMonsterToTeam:um.userMonsterUuid];
+    BOOL success = [[OutgoingEventController sharedOutgoingEventController] addMonsterToTeam:um.userMonsterUuid preferableSlot:_clickedSlot];
+    _openedSlot = [gs allBattleAvailableAliveMonstersOnTeam].count >= gl.maxTeamSize ? um.teamSlot : 0;
+    _clickedSlot = 0;
     
     if (success) {
-      [self updateTeamSlotViews];
-      [self animateUserMonsterIntoSlot:um];
+      BOOL shouldFade = [self updateTeamSlotViews:YES animated:YES];
+      [self animateUserMonsterIntoSlot:um shouldFade:shouldFade || !_showsClanDonateToonView completion:^{
+        [self updateTeamSlotViews];
+      }];
       [self reloadListViewAnimated:YES];
       
       [self reloadTitleView];
@@ -309,7 +395,7 @@
   }
 }
 
-- (void) animateUserMonsterIntoSlot:(UserMonster *)um {
+- (void) animateUserMonsterIntoSlot:(UserMonster *)um shouldFade:(BOOL)shouldFade completion:(dispatch_block_t)completion {
   int monsterIndex = (int)[self.listView.listObjects indexOfObject:um];
   MonsterListCell *cardCell = (MonsterListCell *)[self.listView.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:monsterIndex inSection:0]];
   
@@ -323,15 +409,17 @@
     [self.view addSubview:self.teamCell];
     [self.view insertSubview:self.cardCell aboveSubview:self.listView];
     
-    [Globals animateStartView:cardCell toEndView:slotView.notEmptyView fakeStartView:self.cardCell fakeEndView:self.teamCell];
+    [Globals animateStartView:cardCell toEndView:slotView.notEmptyView fakeStartView:self.cardCell fakeEndView:self.teamCell completion:completion];
   } else {
     animView = slotView;
   }
   
-  CATransition *animation = [CATransition animation];
-  animation.type = kCATransitionFade;
-  animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-  [animView.layer addAnimation:animation forKey:@"fade"];
+  if (shouldFade) {
+    CATransition *animation = [CATransition animation];
+    animation.type = kCATransitionFade;
+    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    [animView.layer addAnimation:animation forKey:@"fade"];
+  }
 }
 
 - (void) listView:(ListCollectionView *)listView infoClickedAtIndexPath:(NSIndexPath *)indexPath {
@@ -457,16 +545,28 @@
   }
 }
 
+- (void) teamSlotMonsterClicked:(TeamSlotView *)sender {
+  UserMonster *um = [self monsterForSlot:sender.tag];
+  if (!um) {
+    _clickedSlot = (int)sender.tag;
+  }
+  _openedSlot = (int)sender.tag;
+  [self updateTeamSlotViews];
+}
+
 - (void) teamSlotMinusClicked:(TeamSlotView *)sender {
   UserMonster *um = [self monsterForSlot:sender.tag];
   if (um.teamSlot) {
     int slotNum = um.teamSlot;
     BOOL success = [[OutgoingEventController sharedOutgoingEventController] removeMonsterFromTeam:um.userMonsterUuid];
+    _openedSlot = 0;
     
     if (success) {
       [self reloadListViewAnimated:YES];
-      [self animateUserMonsterOutOfSlot:um slotNum:slotNum];
-      [self updateTeamSlotViews];
+      [self animateUserMonsterOutOfSlot:um slotNum:slotNum shouldFade:YES completion:^{
+        [self updateTeamSlotViews];
+      }];
+      [self updateTeamSlotViews:YES animated:YES];
       
       [self reloadTitleView];
       
@@ -475,7 +575,7 @@
   }
 }
 
-- (void) animateUserMonsterOutOfSlot:(UserMonster *)um slotNum:(int)slotNum {
+- (void) animateUserMonsterOutOfSlot:(UserMonster *)um slotNum:(int)slotNum shouldFade:(BOOL)shouldFade completion:(dispatch_block_t)completion {
   int monsterIndex = (int)[self.listView.listObjects indexOfObject:um];
   NSIndexPath *ip = [NSIndexPath indexPathForRow:monsterIndex inSection:0];
   MonsterListCell *cardCell = (MonsterListCell *)[self.listView.collectionView cellForItemAtIndexPath:ip];
@@ -490,15 +590,17 @@
     [self.view addSubview:self.teamCell];
     [self.view insertSubview:self.cardCell aboveSubview:self.listView];
     
-    [Globals animateStartView:slotView.notEmptyView toEndView:cardCell fakeStartView:self.teamCell fakeEndView:self.cardCell];
+    [Globals animateStartView:slotView.notEmptyView toEndView:cardCell fakeStartView:self.teamCell fakeEndView:self.cardCell completion:completion];
   } else {
     animView = slotView;
   }
   
-  CATransition *animation = [CATransition animation];
-  animation.type = kCATransitionFade;
-  animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-  [animView.layer addAnimation:animation forKey:@"fade"];
+  if (shouldFade) {
+    CATransition *animation = [CATransition animation];
+    animation.type = kCATransitionFade;
+    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    [animView.layer addAnimation:animation forKey:@"fade"];
+  }
 }
 
 #pragma mark - Speedup Items Filler

@@ -2505,7 +2505,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 #pragma clang diagnostic pop
 
-+ (void) animateStartView:(UIView *)startView toEndView:(UIView *)endView fakeStartView:(UIView *)fakeStart fakeEndView:(UIView *)fakeEnd {
++ (void) animateStartView:(UIView *)startView toEndView:(UIView *)endView fakeStartView:(UIView *)fakeStart fakeEndView:(UIView *)fakeEnd completion:(dispatch_block_t)completion {
   fakeStart.center = [fakeStart.superview convertPoint:startView.center fromView:startView.superview];
   fakeEnd.center = fakeStart.center;
   fakeStart.alpha = 1.f;
@@ -2530,9 +2530,17 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       [fakeEnd removeFromSuperview];
     }
     
+    if (completion) {
+      completion();
+    }
+    
     startView.hidden = NO;
     endView.hidden = NO;
   }];
+}
+
++ (void) animateStartView:(UIView *)startView toEndView:(UIView *)endView fakeStartView:(UIView *)fakeStart fakeEndView:(UIView *)fakeEnd {
+  [self animateStartView:startView toEndView:endView fakeStartView:fakeStart fakeEndView:fakeEnd completion:nil];
 }
 
 + (NSString *) getRandomTipFromFile:(NSString *)file {

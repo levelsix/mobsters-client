@@ -340,6 +340,7 @@
 + (void) animateCCArrow:(CCNode *)arrow atAngle:(float)angle;
 
 + (void) animateStartView:(UIView *)startView toEndView:(UIView *)endView fakeStartView:(UIView *)fakeStart fakeEndView:(UIView *)fakeEnd;
++ (void) animateStartView:(UIView *)startView toEndView:(UIView *)endView fakeStartView:(UIView *)fakeStart fakeEndView:(UIView *)fakeEnd completion:(dispatch_block_t)completion;
 
 - (BOOL) validateUserName:(NSString *)name;
 

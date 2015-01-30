@@ -109,7 +109,7 @@
 - (void) endClanAvengings:(NSArray *)clanAvengings;
 
 - (BOOL) removeMonsterFromTeam:(NSString *)userMonsterUuid;
-- (BOOL) addMonsterToTeam:(NSString *)userMonsterUuid;
+- (BOOL) addMonsterToTeam:(NSString *)userMonsterUuid preferableSlot:(int)preferableSlot;
 - (void) increaseInventorySlots:(UserStruct *)us withGems:(BOOL)gems delegate:(id)delegate;
 - (void) combineMonsters:(NSArray *)userMonsterUuids;
 - (BOOL) combineMonsterWithSpeedup:(NSString *)userMonsterUuid;

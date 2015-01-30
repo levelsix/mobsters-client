@@ -2016,7 +2016,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   return NO;
 }
 
-- (BOOL) addMonsterToTeam:(NSString *)userMonsterUuid {
+- (BOOL) addMonsterToTeam:(NSString *)userMonsterUuid preferableSlot:(int)preferableSlot {
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
   UserMonster *um = [gs myMonsterWithUserMonsterUuid:userMonsterUuid];
@@ -2038,7 +2038,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   } else if (wholeTeam.count < gl.maxTeamSize) {
     // Find lowest available slot number
     int potSlot = 1;
-    while (!teamSlot && potSlot <= gl.maxTeamSize) {
+    while (potSlot <= gl.maxTeamSize) {
       BOOL found = NO;
       for (UserMonster *um in wholeTeam) {
         if (um.teamSlot == potSlot) {
@@ -2046,11 +2046,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
         }
       }
       
-      if (!found) {
+      if (!found && (!teamSlot || potSlot == preferableSlot)) {
         teamSlot = potSlot;
-      } else {
-        potSlot++;
       }
+      potSlot++;
     }
   } else if (overwritable.count) {
     UserMonster *old = overwritable[0];

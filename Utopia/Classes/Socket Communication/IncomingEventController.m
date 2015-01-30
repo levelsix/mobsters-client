@@ -733,6 +733,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   if (proto.status == LoadPlayerCityResponseProto_LoadPlayerCityStatusSuccess) {
     if ([proto.cityOwner.userUuid isEqualToString:gs.userUuid]) {
+      [gs.myStructs removeAllObjects];
       [gs addToMyStructs:proto.ownerNormStructsList];
       
       [gs.myObstacles removeAllObjects];

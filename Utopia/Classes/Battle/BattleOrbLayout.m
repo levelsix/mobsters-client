@@ -1609,7 +1609,7 @@
 
 #pragma mark - For Skills
 
-static const NSInteger maxSearchIterations = 256;
+static const NSInteger maxSearchIterations = 800;
 
 - (BattleOrb *) findOrbWithColorPreference:(OrbColor)orbColor {
   BattleOrbLayout *layout = self;
