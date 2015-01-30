@@ -69,7 +69,8 @@
   {
     if (execute)
     {
-      if (((double)arc4random()/0x100000000) < _chance){
+      float rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
+      if (rand < _chance){
         [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
         [self.battleLayer.orbLayer disallowInput];
         [self showSkillPopupOverlay:YES withCompletion:^(){

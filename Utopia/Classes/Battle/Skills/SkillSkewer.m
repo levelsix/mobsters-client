@@ -73,7 +73,8 @@
 
 - (int) pickDamage
 {
-  if (((double)arc4random()/0x100000000) < _chance){
+  float rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
+  if (rand < _chance){
     return _highDamage;
   }
   return _lowDamage;
