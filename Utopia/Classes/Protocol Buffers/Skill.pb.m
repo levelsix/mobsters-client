@@ -48,13 +48,22 @@ BOOL SkillTypeIsValidValue(SkillType value) {
     case SkillTypeShallowGrave:
     case SkillTypeHammerTime:
     case SkillTypeBloodRage:
+<<<<<<< HEAD
     case SkillTypeTakeAim:
+<<<<<<< HEAD
     case SkillTypeHellFire:
     case SkillTypeEnergize:
     case SkillTypeRightHook:
+<<<<<<< HEAD
     case SkillTypeCurse:
     case SkillTypeInsurance:
     case SkillTypeFlameBreak:
+=======
+=======
+=======
+>>>>>>> donate msg vc done
+>>>>>>> donate msg vc done
+>>>>>>> donate msg vc done
       return YES;
     default:
       return NO;

@@ -629,6 +629,12 @@
 		29AA13BB1A35916E004A9F22 /* battlesendmessage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29AA13AF1A35916E004A9F22 /* battlesendmessage@2x.png */; };
 		29AA13BC1A35916E004A9F22 /* battlesendmessage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29AA13AF1A35916E004A9F22 /* battlesendmessage@2x.png */; };
 		29AA13BD1A35916E004A9F22 /* battlesendmessage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29AA13AF1A35916E004A9F22 /* battlesendmessage@2x.png */; };
+		29AAE5E41A7B0FDB00E4F022 /* DonateMsgViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29AAE5E21A7B0FDB00E4F022 /* DonateMsgViewController.m */; };
+		29AAE5E51A7B0FDB00E4F022 /* DonateMsgViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29AAE5E21A7B0FDB00E4F022 /* DonateMsgViewController.m */; };
+		29AAE5E61A7B0FDB00E4F022 /* DonateMsgViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29AAE5E21A7B0FDB00E4F022 /* DonateMsgViewController.m */; };
+		29AAE5E71A7B0FDB00E4F022 /* DonateMsgViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29AAE5E31A7B0FDB00E4F022 /* DonateMsgViewController.xib */; };
+		29AAE5E81A7B0FDB00E4F022 /* DonateMsgViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29AAE5E31A7B0FDB00E4F022 /* DonateMsgViewController.xib */; };
+		29AAE5E91A7B0FDB00E4F022 /* DonateMsgViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29AAE5E31A7B0FDB00E4F022 /* DonateMsgViewController.xib */; };
 		29ABD6C81A732EF2003A65F4 /* tutorialrocks@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29ABD6C61A732EF2003A65F4 /* tutorialrocks@2x.png */; };
 		29ABD6C91A732EF2003A65F4 /* tutorialrocks@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29ABD6C61A732EF2003A65F4 /* tutorialrocks@2x.png */; };
 		29ABD6CA1A732EF2003A65F4 /* tutorialrocks@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29ABD6C61A732EF2003A65F4 /* tutorialrocks@2x.png */; };
@@ -7678,6 +7684,9 @@
 		29AA139E1A33214A004A9F22 /* ChatMonsterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatMonsterView.xib; sourceTree = "<group>"; };
 		29AA13AD1A35916E004A9F22 /* battleinputmessage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "battleinputmessage@2x.png"; sourceTree = "<group>"; };
 		29AA13AF1A35916E004A9F22 /* battlesendmessage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "battlesendmessage@2x.png"; sourceTree = "<group>"; };
+		29AAE5E11A7B0FDB00E4F022 /* DonateMsgViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DonateMsgViewController.h; sourceTree = "<group>"; };
+		29AAE5E21A7B0FDB00E4F022 /* DonateMsgViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DonateMsgViewController.m; sourceTree = "<group>"; };
+		29AAE5E31A7B0FDB00E4F022 /* DonateMsgViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DonateMsgViewController.xib; sourceTree = "<group>"; };
 		29ABD6C61A732EF2003A65F4 /* tutorialrocks@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tutorialrocks@2x.png"; sourceTree = "<group>"; };
 		29ABD6C71A732EF2003A65F4 /* tutorialtrees@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tutorialtrees@2x.png"; sourceTree = "<group>"; };
 		29AD76561A39316100430F0E /* 1slot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "1slot@2x.png"; sourceTree = "<group>"; };
@@ -12822,6 +12831,16 @@
 			path = "PVP Won:Lost Message";
 			sourceTree = "<group>";
 		};
+		29AAE5E01A7B0F7300E4F022 /* DonateMsgMenu */ = {
+			isa = PBXGroup;
+			children = (
+				29AAE5E11A7B0FDB00E4F022 /* DonateMsgViewController.h */,
+				29AAE5E21A7B0FDB00E4F022 /* DonateMsgViewController.m */,
+				29AAE5E31A7B0FDB00E4F022 /* DonateMsgViewController.xib */,
+			);
+			path = DonateMsgMenu;
+			sourceTree = "<group>";
+		};
 		29AE75521A6F36E000264070 /* Poses */ = {
 			isa = PBXGroup;
 			children = (
@@ -13682,6 +13701,7 @@
 		CF1265491538ACC400E0C1AD /* Game Menus */ = {
 			isa = PBXGroup;
 			children = (
+				29AAE5E01A7B0F7300E4F022 /* DonateMsgMenu */,
 				29804FEE1A258A4400806253 /* SecretGiftMenu */,
 				29804F351A241A4D00806253 /* ClanRewardsMenu */,
 				CFA9F7731A0D8CCB00EBE77D /* ItemSelectMenu */,
@@ -19801,6 +19821,7 @@
 				CF0CF647196F452900ECD301 /* buildingbg@2x.png in Resources */,
 				CF0CF648196F452900ECD301 /* ClanBrowseViewController.xib in Resources */,
 				CF0CF649196F452900ECD301 /* Scientist4Turn10@2x.png in Resources */,
+				29AAE5E81A7B0FDB00E4F022 /* DonateMsgViewController.xib in Resources */,
 				CF0CF64A196F452900ECD301 /* Scientist5Blink10@2x.png in Resources */,
 				29AE758E1A6F36E000264070 /* MilitaryChicken1T1P5TutBig@2x.png in Resources */,
 				CF0CF64C196F452900ECD301 /* ClanCreateViewController.xib in Resources */,
@@ -20324,6 +20345,7 @@
 				9BDA8B3A1A3945DB00C7AC27 /* evasionlogo@2x.png in Resources */,
 				CF06B5D7193699FC008BF892 /* buildtime@2x.png in Resources */,
 				CFC04DC2188FE8D400F2DB59 /* wonlostspinner@2x.png in Resources */,
+				29AAE5E71A7B0FDB00E4F022 /* DonateMsgViewController.xib in Resources */,
 				CFF9DD8819B861F200CA9A8E /* up@2x.png in Resources */,
 				CF864D5E193D492D00DE0D7A /* AttackEventView.xib in Resources */,
 				CFEE89C918EC00C100047CA4 /* buildingcap@2x.png in Resources */,
@@ -23983,6 +24005,7 @@
 				CF48232819F7217F00041486 /* notinaclanbutton@2x.png in Resources */,
 				CF48232919F7217F00041486 /* earthmediumsquare@2x.png in Resources */,
 				CF48232B19F7217F00041486 /* bigsquarebottom@2x.png in Resources */,
+				29AAE5E91A7B0FDB00E4F022 /* DonateMsgViewController.xib in Resources */,
 				29AE758C1A6F36E000264070 /* MilitaryChicken1T1P4TutBig@2x.png in Resources */,
 				CF48232E19F7217F00041486 /* findamatchtext@2x.png in Resources */,
 				CF48232F19F7217F00041486 /* lightenhancebg@2x.png in Resources */,
@@ -24749,6 +24772,7 @@
 				CF0CED82196F452900ECD301 /* TutorialController.m in Sources */,
 				CF60466319BF9E59003D91F8 /* StageCompleteNode.m in Sources */,
 				CF0CED83196F452900ECD301 /* SellViewController.m in Sources */,
+				29AAE5E51A7B0FDB00E4F022 /* DonateMsgViewController.m in Sources */,
 				CF0CED85196F452900ECD301 /* AMQPChannel.m in Sources */,
 				CF0CED86196F452900ECD301 /* GachaChooserViewController.m in Sources */,
 				CF0CED87196F452900ECD301 /* FacebookSpammer.m in Sources */,
@@ -24911,6 +24935,7 @@
 				CF126D181538ACCA00E0C1AD /* AppDelegate.mm in Sources */,
 				CF7CFE2019A55A68009338A2 /* BattleChain.m in Sources */,
 				CFE11F891A141C040094F797 /* amqp_socket.c in Sources */,
+				29AAE5E41A7B0FDB00E4F022 /* DonateMsgViewController.m in Sources */,
 				CF7372A918CB7CE900EE2CBC /* TutorialAttackMapViewController.m in Sources */,
 				CFFCF55519AFAEC9007E316D /* BattleHudView.m in Sources */,
 				CFC371311884C2BC000348D8 /* HospitalQueueSimulator.m in Sources */,
@@ -25409,6 +25434,7 @@
 				CF48192C19F7217F00041486 /* TutorialController.m in Sources */,
 				CF48192D19F7217F00041486 /* StageCompleteNode.m in Sources */,
 				CF48192E19F7217F00041486 /* SellViewController.m in Sources */,
+				29AAE5E61A7B0FDB00E4F022 /* DonateMsgViewController.m in Sources */,
 				CF48192F19F7217F00041486 /* AMQPChannel.m in Sources */,
 				CF48193019F7217F00041486 /* GachaChooserViewController.m in Sources */,
 				CF48193119F7217F00041486 /* FacebookSpammer.m in Sources */,

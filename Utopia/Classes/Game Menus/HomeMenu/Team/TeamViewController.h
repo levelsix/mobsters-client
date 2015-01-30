@@ -11,6 +11,8 @@
 #import "NibUtils.h"
 #import "ListCollectionView.h"
 
+#import "DonateMsgViewController.h"
+
 #import "SpeedupItemsFiller.h"
 
 @protocol TeamSlotDelegate <NSObject>
@@ -47,7 +49,7 @@
 
 @end
 
-@interface TeamViewController : PopupSubViewController <ListCollectionDelegate, TeamSlotDelegate, SpeedupItemsFillerDelegate, UIScrollViewDelegate> {
+@interface TeamViewController : PopupSubViewController <ListCollectionDelegate, TeamSlotDelegate, SpeedupItemsFillerDelegate, UIScrollViewDelegate, DonateMsgDelegate> {
   UserMonster *_combineMonster;
   UIImageView* _combineMonsterImageView;
   

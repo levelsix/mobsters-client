@@ -17,6 +17,8 @@
 
 #import "OutgoingEventController.h"
 
+#define LAST_TEAM_DONATE_MSG_KEY @"LastTeamDonateMsgKey2"
+
 @implementation TeamSlotView
 
 - (void) awakeFromNib {
@@ -647,6 +649,37 @@
   self.speedupItemsFiller = nil;
   _combineMonster = nil;
   _combineMonsterImageView = nil;
+}
+
+#pragma mark - Clan Donate
+
+- (IBAction)requestClicked:(id)sender {
+  NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+  NSString *msg = [ud stringForKey:LAST_TEAM_DONATE_MSG_KEY];
+  
+  if (!msg.length) {
+    msg = [NSString stringWithFormat:@"Requests a %@", MONSTER_NAME];
+  }
+  
+  DonateMsgViewController *dmvc = [[DonateMsgViewController alloc] initWithInitialMessage:msg];
+  dmvc.delegate = self;
+  GameViewController *gvc = [GameViewController baseController];
+  dmvc.view.frame = gvc.view.bounds;
+  [gvc addChildViewController:dmvc];
+  [gvc.view addSubview:dmvc.view];
+}
+
+- (void) sendClickedWithMessage:(NSString *)message {
+  message = message.length ? message : [NSString stringWithFormat:@"Requests a %@", MONSTER_NAME];
+  
+  NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+  [ud setObject:message forKey:LAST_TEAM_DONATE_MSG_KEY];
+  
+  
+}
+
+- (void) cancelClicked {
+  
 }
 
 @end

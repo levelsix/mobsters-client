@@ -598,7 +598,10 @@ message SolicitTeamDonationRequestProto {
 	optional int32 powerLimit = 3;
 	optional int64 clientTime = 4;
    
+<<<<<<< HEAD
 	//within some time after soliciting clan, exists a fee to resolicit 
+=======
+>>>>>>> donate msg vc done
 	//(positive number, server will convert it to negative)
 	optional int32 gemsSpent = 5; 
 }
@@ -607,13 +610,20 @@ message SolicitTeamDonationResponseProto {
 	optional MinimumUserProto sender = 1;
 	optional SolicitTeamDonationStatus status = 2;
 	
+<<<<<<< HEAD
 	optional ClanMemberTeamDonationProto solicitation = 3;
+=======
+	optional ClanMemberTeamDonation solicitation = 3;
+>>>>>>> donate msg vc done
 	
 	enum SolicitTeamDonationStatus {
 		SUCCESS = 1;
 		FAIL_OTHER = 2;
+<<<<<<< HEAD
 		FAIL_INSUFFICIENT_GEMS = 3;
 		FAIL_FULFILLED_REQUEST_EXISTS = 4;
+=======
+>>>>>>> donate msg vc done
 	}
 }
 
@@ -630,8 +640,16 @@ message FulfillTeamDonationSolicitationRequestProto {
 
 message FulfillTeamDonationSolicitationResponseProto {
 	optional MinimumUserProto sender = 1;
+<<<<<<< HEAD
 	optional FulfillTeamDonationSolicitationStatus status = 2;
+=======
+	optional FulfillTeamDonationSolictationStatus status = 2;
+<<<<<<< HEAD
+>>>>>>> donate msg vc done
 	optional ClanMemberTeamDonationProto solicitation = 3;
+=======
+	optional ClanMemberTeamDonation solicitation = 3;
+>>>>>>> donate msg vc done
    
 	enum FulfillTeamDonationSolicitationStatus {
 		SUCCESS = 1;

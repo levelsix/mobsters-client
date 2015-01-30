@@ -54,8 +54,13 @@
 @class ClanIconProto_Builder;
 @class ClanInviteProto;
 @class ClanInviteProto_Builder;
+<<<<<<< HEAD
 @class ClanMemberTeamDonationProto;
 @class ClanMemberTeamDonationProto_Builder;
+=======
+@class ClanMemberTeamDonation;
+@class ClanMemberTeamDonation_Builder;
+>>>>>>> donate msg vc done
 @class ClanRaidProto;
 @class ClanRaidProto_Builder;
 @class ClanRaidStageMonsterProto;
@@ -454,8 +459,11 @@ BOOL AvengeClanMateResponseProto_AvengeClanMateStatusIsValidValue(AvengeClanMate
 typedef NS_ENUM(SInt32, SolicitTeamDonationResponseProto_SolicitTeamDonationStatus) {
   SolicitTeamDonationResponseProto_SolicitTeamDonationStatusSuccess = 1,
   SolicitTeamDonationResponseProto_SolicitTeamDonationStatusFailOther = 2,
+<<<<<<< HEAD
   SolicitTeamDonationResponseProto_SolicitTeamDonationStatusFailInsufficientGems = 3,
   SolicitTeamDonationResponseProto_SolicitTeamDonationStatusFailFulfilledRequestExists = 4,
+=======
+>>>>>>> donate msg vc done
 };
 
 BOOL SolicitTeamDonationResponseProto_SolicitTeamDonationStatusIsValidValue(SolicitTeamDonationResponseProto_SolicitTeamDonationStatus value);
@@ -3992,7 +4000,11 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
   BOOL hasSolicitation_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
+<<<<<<< HEAD
   ClanMemberTeamDonationProto* solicitation;
+=======
+  ClanMemberTeamDonation* solicitation;
+>>>>>>> donate msg vc done
   SolicitTeamDonationResponseProto_SolicitTeamDonationStatus status;
 }
 - (BOOL) hasSender;
@@ -4000,7 +4012,11 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasSolicitation;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) SolicitTeamDonationResponseProto_SolicitTeamDonationStatus status;
+<<<<<<< HEAD
 @property (readonly, strong) ClanMemberTeamDonationProto* solicitation;
+=======
+@property (readonly, strong) ClanMemberTeamDonation* solicitation;
+>>>>>>> donate msg vc done
 
 + (SolicitTeamDonationResponseProto*) defaultInstance;
 - (SolicitTeamDonationResponseProto*) defaultInstance;
@@ -4050,10 +4066,17 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (SolicitTeamDonationResponseProto_Builder*) clearStatusList;
 
 - (BOOL) hasSolicitation;
+<<<<<<< HEAD
 - (ClanMemberTeamDonationProto*) solicitation;
 - (SolicitTeamDonationResponseProto_Builder*) setSolicitation:(ClanMemberTeamDonationProto*) value;
 - (SolicitTeamDonationResponseProto_Builder*) setSolicitation_Builder:(ClanMemberTeamDonationProto_Builder*) builderForValue;
 - (SolicitTeamDonationResponseProto_Builder*) mergeSolicitation:(ClanMemberTeamDonationProto*) value;
+=======
+- (ClanMemberTeamDonation*) solicitation;
+- (SolicitTeamDonationResponseProto_Builder*) setSolicitation:(ClanMemberTeamDonation*) value;
+- (SolicitTeamDonationResponseProto_Builder*) setSolicitation_Builder:(ClanMemberTeamDonation_Builder*) builderForValue;
+- (SolicitTeamDonationResponseProto_Builder*) mergeSolicitation:(ClanMemberTeamDonation*) value;
+>>>>>>> donate msg vc done
 - (SolicitTeamDonationResponseProto_Builder*) clearSolicitation;
 @end
 
@@ -4145,15 +4168,31 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
   BOOL hasSolicitation_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
+<<<<<<< HEAD
   ClanMemberTeamDonationProto* solicitation;
+<<<<<<< HEAD
   FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatus status;
+=======
+=======
+  ClanMemberTeamDonation* solicitation;
+>>>>>>> donate msg vc done
+  FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolictationStatus status;
+>>>>>>> donate msg vc done
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 - (BOOL) hasSolicitation;
 @property (readonly, strong) MinimumUserProto* sender;
+<<<<<<< HEAD
 @property (readonly) FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatus status;
+=======
+@property (readonly) FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolictationStatus status;
+<<<<<<< HEAD
+>>>>>>> donate msg vc done
 @property (readonly, strong) ClanMemberTeamDonationProto* solicitation;
+=======
+@property (readonly, strong) ClanMemberTeamDonation* solicitation;
+>>>>>>> donate msg vc done
 
 + (FulfillTeamDonationSolicitationResponseProto*) defaultInstance;
 - (FulfillTeamDonationSolicitationResponseProto*) defaultInstance;
@@ -4203,10 +4242,17 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (FulfillTeamDonationSolicitationResponseProto_Builder*) clearStatusList;
 
 - (BOOL) hasSolicitation;
+<<<<<<< HEAD
 - (ClanMemberTeamDonationProto*) solicitation;
 - (FulfillTeamDonationSolicitationResponseProto_Builder*) setSolicitation:(ClanMemberTeamDonationProto*) value;
 - (FulfillTeamDonationSolicitationResponseProto_Builder*) setSolicitation_Builder:(ClanMemberTeamDonationProto_Builder*) builderForValue;
 - (FulfillTeamDonationSolicitationResponseProto_Builder*) mergeSolicitation:(ClanMemberTeamDonationProto*) value;
+=======
+- (ClanMemberTeamDonation*) solicitation;
+- (FulfillTeamDonationSolicitationResponseProto_Builder*) setSolicitation:(ClanMemberTeamDonation*) value;
+- (FulfillTeamDonationSolicitationResponseProto_Builder*) setSolicitation_Builder:(ClanMemberTeamDonation_Builder*) builderForValue;
+- (FulfillTeamDonationSolicitationResponseProto_Builder*) mergeSolicitation:(ClanMemberTeamDonation*) value;
+>>>>>>> donate msg vc done
 - (FulfillTeamDonationSolicitationResponseProto_Builder*) clearSolicitation;
 @end
 

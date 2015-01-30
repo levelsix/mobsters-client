@@ -125,6 +125,9 @@
                                             <state key="normal" image="orangemenuoption.png">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
+                                            <connections>
+                                                <action selector="requestClicked:" destination="-1" eventType="touchUpInside" id="8Xg-le-Bnk"/>
+                                            </connections>
                                         </button>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Toon" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="cww-Jp-TQE" customClass="NiceFontLabel12B">
                                             <rect key="frame" x="7" y="13" width="67" height="23"/>

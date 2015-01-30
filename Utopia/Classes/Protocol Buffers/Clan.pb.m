@@ -8346,5 +8346,756 @@ static ClanDataProto* defaultClanDataProtoInstance = nil;
 }
 @end
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+@interface ClanMemberTeamDonationProto ()
+=======
+@interface ClanMemberTeamDonation ()
+>>>>>>> donate msg vc done
+@property (strong) NSString* donationUuid;
+@property (strong) MinimumUserProto* solicitor;
+@property (strong) NSString* clanUuid;
+@property int32_t powerAvailability;
+@property BOOL isFulfilled;
+@property (strong) NSString* msg;
+@property int64_t timeOfSolicitation;
+@property (strong) NSMutableArray * mutableDonationsList;
+@end
+
+<<<<<<< HEAD
+@implementation ClanMemberTeamDonationProto
+=======
+@implementation ClanMemberTeamDonation
+>>>>>>> donate msg vc done
+
+- (BOOL) hasDonationUuid {
+  return !!hasDonationUuid_;
+}
+- (void) setHasDonationUuid:(BOOL) value_ {
+  hasDonationUuid_ = !!value_;
+}
+@synthesize donationUuid;
+- (BOOL) hasSolicitor {
+  return !!hasSolicitor_;
+}
+- (void) setHasSolicitor:(BOOL) value_ {
+  hasSolicitor_ = !!value_;
+}
+@synthesize solicitor;
+- (BOOL) hasClanUuid {
+  return !!hasClanUuid_;
+}
+- (void) setHasClanUuid:(BOOL) value_ {
+  hasClanUuid_ = !!value_;
+}
+@synthesize clanUuid;
+- (BOOL) hasPowerAvailability {
+  return !!hasPowerAvailability_;
+}
+- (void) setHasPowerAvailability:(BOOL) value_ {
+  hasPowerAvailability_ = !!value_;
+}
+@synthesize powerAvailability;
+- (BOOL) hasIsFulfilled {
+  return !!hasIsFulfilled_;
+}
+- (void) setHasIsFulfilled:(BOOL) value_ {
+  hasIsFulfilled_ = !!value_;
+}
+- (BOOL) isFulfilled {
+  return !!isFulfilled_;
+}
+- (void) setIsFulfilled:(BOOL) value_ {
+  isFulfilled_ = !!value_;
+}
+- (BOOL) hasMsg {
+  return !!hasMsg_;
+}
+- (void) setHasMsg:(BOOL) value_ {
+  hasMsg_ = !!value_;
+}
+@synthesize msg;
+- (BOOL) hasTimeOfSolicitation {
+  return !!hasTimeOfSolicitation_;
+}
+- (void) setHasTimeOfSolicitation:(BOOL) value_ {
+  hasTimeOfSolicitation_ = !!value_;
+}
+@synthesize timeOfSolicitation;
+@synthesize mutableDonationsList;
+@dynamic donationsList;
+- (id) init {
+  if ((self = [super init])) {
+    self.donationUuid = @"";
+    self.solicitor = [MinimumUserProto defaultInstance];
+    self.clanUuid = @"";
+    self.powerAvailability = 0;
+    self.isFulfilled = NO;
+    self.msg = @"";
+    self.timeOfSolicitation = 0L;
+  }
+  return self;
+}
+<<<<<<< HEAD
+static ClanMemberTeamDonationProto* defaultClanMemberTeamDonationProtoInstance = nil;
++ (void) initialize {
+  if (self == [ClanMemberTeamDonationProto class]) {
+    defaultClanMemberTeamDonationProtoInstance = [[ClanMemberTeamDonationProto alloc] init];
+  }
+}
++ (ClanMemberTeamDonationProto*) defaultInstance {
+  return defaultClanMemberTeamDonationProtoInstance;
+}
+- (ClanMemberTeamDonationProto*) defaultInstance {
+  return defaultClanMemberTeamDonationProtoInstance;
+=======
+static ClanMemberTeamDonation* defaultClanMemberTeamDonationInstance = nil;
++ (void) initialize {
+  if (self == [ClanMemberTeamDonation class]) {
+    defaultClanMemberTeamDonationInstance = [[ClanMemberTeamDonation alloc] init];
+  }
+}
++ (ClanMemberTeamDonation*) defaultInstance {
+  return defaultClanMemberTeamDonationInstance;
+}
+- (ClanMemberTeamDonation*) defaultInstance {
+  return defaultClanMemberTeamDonationInstance;
+>>>>>>> donate msg vc done
+}
+- (NSArray *)donationsList {
+  return mutableDonationsList;
+}
+- (UserMonsterSnapshotProto*)donationsAtIndex:(NSUInteger)index {
+  return [mutableDonationsList objectAtIndex:index];
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasDonationUuid) {
+    [output writeString:1 value:self.donationUuid];
+  }
+  if (self.hasSolicitor) {
+    [output writeMessage:2 value:self.solicitor];
+  }
+  if (self.hasClanUuid) {
+    [output writeString:3 value:self.clanUuid];
+  }
+  if (self.hasPowerAvailability) {
+    [output writeInt32:4 value:self.powerAvailability];
+  }
+  if (self.hasIsFulfilled) {
+    [output writeBool:5 value:self.isFulfilled];
+  }
+  if (self.hasMsg) {
+    [output writeString:6 value:self.msg];
+  }
+  if (self.hasTimeOfSolicitation) {
+    [output writeInt64:7 value:self.timeOfSolicitation];
+  }
+  [self.donationsList enumerateObjectsUsingBlock:^(UserMonsterSnapshotProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:8 value:element];
+  }];
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasDonationUuid) {
+    size_ += computeStringSize(1, self.donationUuid);
+  }
+  if (self.hasSolicitor) {
+    size_ += computeMessageSize(2, self.solicitor);
+  }
+  if (self.hasClanUuid) {
+    size_ += computeStringSize(3, self.clanUuid);
+  }
+  if (self.hasPowerAvailability) {
+    size_ += computeInt32Size(4, self.powerAvailability);
+  }
+  if (self.hasIsFulfilled) {
+    size_ += computeBoolSize(5, self.isFulfilled);
+  }
+  if (self.hasMsg) {
+    size_ += computeStringSize(6, self.msg);
+  }
+  if (self.hasTimeOfSolicitation) {
+    size_ += computeInt64Size(7, self.timeOfSolicitation);
+  }
+  [self.donationsList enumerateObjectsUsingBlock:^(UserMonsterSnapshotProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(8, element);
+  }];
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
+<<<<<<< HEAD
++ (ClanMemberTeamDonationProto*) parseFromData:(NSData*) data {
+  return (ClanMemberTeamDonationProto*)[[[ClanMemberTeamDonationProto builder] mergeFromData:data] build];
+}
++ (ClanMemberTeamDonationProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ClanMemberTeamDonationProto*)[[[ClanMemberTeamDonationProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (ClanMemberTeamDonationProto*) parseFromInputStream:(NSInputStream*) input {
+  return (ClanMemberTeamDonationProto*)[[[ClanMemberTeamDonationProto builder] mergeFromInputStream:input] build];
+}
++ (ClanMemberTeamDonationProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ClanMemberTeamDonationProto*)[[[ClanMemberTeamDonationProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ClanMemberTeamDonationProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (ClanMemberTeamDonationProto*)[[[ClanMemberTeamDonationProto builder] mergeFromCodedInputStream:input] build];
+}
++ (ClanMemberTeamDonationProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ClanMemberTeamDonationProto*)[[[ClanMemberTeamDonationProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ClanMemberTeamDonationProto_Builder*) builder {
+  return [[ClanMemberTeamDonationProto_Builder alloc] init];
+}
++ (ClanMemberTeamDonationProto_Builder*) builderWithPrototype:(ClanMemberTeamDonationProto*) prototype {
+  return [[ClanMemberTeamDonationProto builder] mergeFrom:prototype];
+}
+- (ClanMemberTeamDonationProto_Builder*) builder {
+  return [ClanMemberTeamDonationProto builder];
+}
+- (ClanMemberTeamDonationProto_Builder*) toBuilder {
+  return [ClanMemberTeamDonationProto builderWithPrototype:self];
+=======
++ (ClanMemberTeamDonation*) parseFromData:(NSData*) data {
+  return (ClanMemberTeamDonation*)[[[ClanMemberTeamDonation builder] mergeFromData:data] build];
+}
++ (ClanMemberTeamDonation*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ClanMemberTeamDonation*)[[[ClanMemberTeamDonation builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (ClanMemberTeamDonation*) parseFromInputStream:(NSInputStream*) input {
+  return (ClanMemberTeamDonation*)[[[ClanMemberTeamDonation builder] mergeFromInputStream:input] build];
+}
++ (ClanMemberTeamDonation*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ClanMemberTeamDonation*)[[[ClanMemberTeamDonation builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ClanMemberTeamDonation*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (ClanMemberTeamDonation*)[[[ClanMemberTeamDonation builder] mergeFromCodedInputStream:input] build];
+}
++ (ClanMemberTeamDonation*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ClanMemberTeamDonation*)[[[ClanMemberTeamDonation builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ClanMemberTeamDonation_Builder*) builder {
+  return [[ClanMemberTeamDonation_Builder alloc] init];
+}
++ (ClanMemberTeamDonation_Builder*) builderWithPrototype:(ClanMemberTeamDonation*) prototype {
+  return [[ClanMemberTeamDonation builder] mergeFrom:prototype];
+}
+- (ClanMemberTeamDonation_Builder*) builder {
+  return [ClanMemberTeamDonation builder];
+}
+- (ClanMemberTeamDonation_Builder*) toBuilder {
+  return [ClanMemberTeamDonation builderWithPrototype:self];
+>>>>>>> donate msg vc done
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasDonationUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"donationUuid", self.donationUuid];
+  }
+  if (self.hasSolicitor) {
+    [output appendFormat:@"%@%@ {\n", indent, @"solicitor"];
+    [self.solicitor writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  if (self.hasClanUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"clanUuid", self.clanUuid];
+  }
+  if (self.hasPowerAvailability) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"powerAvailability", [NSNumber numberWithInteger:self.powerAvailability]];
+  }
+  if (self.hasIsFulfilled) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"isFulfilled", [NSNumber numberWithBool:self.isFulfilled]];
+  }
+  if (self.hasMsg) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"msg", self.msg];
+  }
+  if (self.hasTimeOfSolicitation) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"timeOfSolicitation", [NSNumber numberWithLongLong:self.timeOfSolicitation]];
+  }
+  [self.donationsList enumerateObjectsUsingBlock:^(UserMonsterSnapshotProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"donations"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+<<<<<<< HEAD
+  if (![other isKindOfClass:[ClanMemberTeamDonationProto class]]) {
+    return NO;
+  }
+  ClanMemberTeamDonationProto *otherMessage = other;
+=======
+  if (![other isKindOfClass:[ClanMemberTeamDonation class]]) {
+    return NO;
+  }
+  ClanMemberTeamDonation *otherMessage = other;
+>>>>>>> donate msg vc done
+  return
+      self.hasDonationUuid == otherMessage.hasDonationUuid &&
+      (!self.hasDonationUuid || [self.donationUuid isEqual:otherMessage.donationUuid]) &&
+      self.hasSolicitor == otherMessage.hasSolicitor &&
+      (!self.hasSolicitor || [self.solicitor isEqual:otherMessage.solicitor]) &&
+      self.hasClanUuid == otherMessage.hasClanUuid &&
+      (!self.hasClanUuid || [self.clanUuid isEqual:otherMessage.clanUuid]) &&
+      self.hasPowerAvailability == otherMessage.hasPowerAvailability &&
+      (!self.hasPowerAvailability || self.powerAvailability == otherMessage.powerAvailability) &&
+      self.hasIsFulfilled == otherMessage.hasIsFulfilled &&
+      (!self.hasIsFulfilled || self.isFulfilled == otherMessage.isFulfilled) &&
+      self.hasMsg == otherMessage.hasMsg &&
+      (!self.hasMsg || [self.msg isEqual:otherMessage.msg]) &&
+      self.hasTimeOfSolicitation == otherMessage.hasTimeOfSolicitation &&
+      (!self.hasTimeOfSolicitation || self.timeOfSolicitation == otherMessage.timeOfSolicitation) &&
+      [self.donationsList isEqualToArray:otherMessage.donationsList] &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasDonationUuid) {
+    hashCode = hashCode * 31 + [self.donationUuid hash];
+  }
+  if (self.hasSolicitor) {
+    hashCode = hashCode * 31 + [self.solicitor hash];
+  }
+  if (self.hasClanUuid) {
+    hashCode = hashCode * 31 + [self.clanUuid hash];
+  }
+  if (self.hasPowerAvailability) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.powerAvailability] hash];
+  }
+  if (self.hasIsFulfilled) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.isFulfilled] hash];
+  }
+  if (self.hasMsg) {
+    hashCode = hashCode * 31 + [self.msg hash];
+  }
+  if (self.hasTimeOfSolicitation) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.timeOfSolicitation] hash];
+  }
+  [self.donationsList enumerateObjectsUsingBlock:^(UserMonsterSnapshotProto *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+<<<<<<< HEAD
+@interface ClanMemberTeamDonationProto_Builder()
+@property (strong) ClanMemberTeamDonationProto* result;
+@end
+
+@implementation ClanMemberTeamDonationProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[ClanMemberTeamDonationProto alloc] init];
+=======
+@interface ClanMemberTeamDonation_Builder()
+@property (strong) ClanMemberTeamDonation* result;
+@end
+
+@implementation ClanMemberTeamDonation_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[ClanMemberTeamDonation alloc] init];
+>>>>>>> donate msg vc done
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+<<<<<<< HEAD
+- (ClanMemberTeamDonationProto_Builder*) clear {
+  self.result = [[ClanMemberTeamDonationProto alloc] init];
+  return self;
+}
+- (ClanMemberTeamDonationProto_Builder*) clone {
+  return [ClanMemberTeamDonationProto builderWithPrototype:result];
+}
+- (ClanMemberTeamDonationProto*) defaultInstance {
+  return [ClanMemberTeamDonationProto defaultInstance];
+}
+- (ClanMemberTeamDonationProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (ClanMemberTeamDonationProto*) buildPartial {
+  ClanMemberTeamDonationProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (ClanMemberTeamDonationProto_Builder*) mergeFrom:(ClanMemberTeamDonationProto*) other {
+  if (other == [ClanMemberTeamDonationProto defaultInstance]) {
+=======
+- (ClanMemberTeamDonation_Builder*) clear {
+  self.result = [[ClanMemberTeamDonation alloc] init];
+  return self;
+}
+- (ClanMemberTeamDonation_Builder*) clone {
+  return [ClanMemberTeamDonation builderWithPrototype:result];
+}
+- (ClanMemberTeamDonation*) defaultInstance {
+  return [ClanMemberTeamDonation defaultInstance];
+}
+- (ClanMemberTeamDonation*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (ClanMemberTeamDonation*) buildPartial {
+  ClanMemberTeamDonation* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (ClanMemberTeamDonation_Builder*) mergeFrom:(ClanMemberTeamDonation*) other {
+  if (other == [ClanMemberTeamDonation defaultInstance]) {
+>>>>>>> donate msg vc done
+    return self;
+  }
+  if (other.hasDonationUuid) {
+    [self setDonationUuid:other.donationUuid];
+  }
+  if (other.hasSolicitor) {
+    [self mergeSolicitor:other.solicitor];
+  }
+  if (other.hasClanUuid) {
+    [self setClanUuid:other.clanUuid];
+  }
+  if (other.hasPowerAvailability) {
+    [self setPowerAvailability:other.powerAvailability];
+  }
+  if (other.hasIsFulfilled) {
+    [self setIsFulfilled:other.isFulfilled];
+  }
+  if (other.hasMsg) {
+    [self setMsg:other.msg];
+  }
+  if (other.hasTimeOfSolicitation) {
+    [self setTimeOfSolicitation:other.timeOfSolicitation];
+  }
+  if (other.mutableDonationsList.count > 0) {
+    if (result.mutableDonationsList == nil) {
+      result.mutableDonationsList = [[NSMutableArray alloc] initWithArray:other.mutableDonationsList];
+    } else {
+      [result.mutableDonationsList addObjectsFromArray:other.mutableDonationsList];
+    }
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+<<<<<<< HEAD
+- (ClanMemberTeamDonationProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (ClanMemberTeamDonationProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+=======
+- (ClanMemberTeamDonation_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (ClanMemberTeamDonation_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+>>>>>>> donate msg vc done
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        [self setDonationUuid:[input readString]];
+        break;
+      }
+      case 18: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSolicitor) {
+          [subBuilder mergeFrom:self.solicitor];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSolicitor:[subBuilder buildPartial]];
+        break;
+      }
+      case 26: {
+        [self setClanUuid:[input readString]];
+        break;
+      }
+      case 32: {
+        [self setPowerAvailability:[input readInt32]];
+        break;
+      }
+      case 40: {
+        [self setIsFulfilled:[input readBool]];
+        break;
+      }
+      case 50: {
+        [self setMsg:[input readString]];
+        break;
+      }
+      case 56: {
+        [self setTimeOfSolicitation:[input readInt64]];
+        break;
+      }
+      case 66: {
+        UserMonsterSnapshotProto_Builder* subBuilder = [UserMonsterSnapshotProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addDonations:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasDonationUuid {
+  return result.hasDonationUuid;
+}
+- (NSString*) donationUuid {
+  return result.donationUuid;
+}
+<<<<<<< HEAD
+- (ClanMemberTeamDonationProto_Builder*) setDonationUuid:(NSString*) value {
+=======
+- (ClanMemberTeamDonation_Builder*) setDonationUuid:(NSString*) value {
+>>>>>>> donate msg vc done
+  result.hasDonationUuid = YES;
+  result.donationUuid = value;
+  return self;
+}
+<<<<<<< HEAD
+- (ClanMemberTeamDonationProto_Builder*) clearDonationUuid {
+=======
+- (ClanMemberTeamDonation_Builder*) clearDonationUuid {
+>>>>>>> donate msg vc done
+  result.hasDonationUuid = NO;
+  result.donationUuid = @"";
+  return self;
+}
+- (BOOL) hasSolicitor {
+  return result.hasSolicitor;
+}
+- (MinimumUserProto*) solicitor {
+  return result.solicitor;
+}
+<<<<<<< HEAD
+- (ClanMemberTeamDonationProto_Builder*) setSolicitor:(MinimumUserProto*) value {
+  result.hasSolicitor = YES;
+  result.solicitor = value;
+  return self;
+}
+- (ClanMemberTeamDonationProto_Builder*) setSolicitor_Builder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSolicitor:[builderForValue build]];
+}
+- (ClanMemberTeamDonationProto_Builder*) mergeSolicitor:(MinimumUserProto*) value {
+  if (result.hasSolicitor &&
+      result.solicitor != [MinimumUserProto defaultInstance]) {
+    result.solicitor =
+      [[[MinimumUserProto builderWithPrototype:result.solicitor] mergeFrom:value] buildPartial];
+  } else {
+    result.solicitor = value;
+  }
+  result.hasSolicitor = YES;
+  return self;
+}
+- (ClanMemberTeamDonationProto_Builder*) clearSolicitor {
+  result.hasSolicitor = NO;
+  result.solicitor = [MinimumUserProto defaultInstance];
+=======
+<<<<<<< HEAD
+- (ClanMemberTeamDonationProto_Builder*) setUserUuid:(NSString*) value {
+=======
+- (ClanMemberTeamDonation_Builder*) setUserUuid:(NSString*) value {
+>>>>>>> donate msg vc done
+  result.hasUserUuid = YES;
+  result.userUuid = value;
+  return self;
+}
+<<<<<<< HEAD
+- (ClanMemberTeamDonationProto_Builder*) clearUserUuid {
+=======
+- (ClanMemberTeamDonation_Builder*) clearUserUuid {
+>>>>>>> donate msg vc done
+  result.hasUserUuid = NO;
+  result.userUuid = @"";
+>>>>>>> donate msg vc done
+  return self;
+}
+- (BOOL) hasClanUuid {
+  return result.hasClanUuid;
+}
+- (NSString*) clanUuid {
+  return result.clanUuid;
+}
+<<<<<<< HEAD
+- (ClanMemberTeamDonationProto_Builder*) setClanUuid:(NSString*) value {
+=======
+- (ClanMemberTeamDonation_Builder*) setClanUuid:(NSString*) value {
+>>>>>>> donate msg vc done
+  result.hasClanUuid = YES;
+  result.clanUuid = value;
+  return self;
+}
+<<<<<<< HEAD
+- (ClanMemberTeamDonationProto_Builder*) clearClanUuid {
+=======
+- (ClanMemberTeamDonation_Builder*) clearClanUuid {
+>>>>>>> donate msg vc done
+  result.hasClanUuid = NO;
+  result.clanUuid = @"";
+  return self;
+}
+- (BOOL) hasPowerAvailability {
+  return result.hasPowerAvailability;
+}
+- (int32_t) powerAvailability {
+  return result.powerAvailability;
+}
+<<<<<<< HEAD
+- (ClanMemberTeamDonationProto_Builder*) setPowerAvailability:(int32_t) value {
+=======
+- (ClanMemberTeamDonation_Builder*) setPowerAvailability:(int32_t) value {
+>>>>>>> donate msg vc done
+  result.hasPowerAvailability = YES;
+  result.powerAvailability = value;
+  return self;
+}
+<<<<<<< HEAD
+- (ClanMemberTeamDonationProto_Builder*) clearPowerAvailability {
+=======
+- (ClanMemberTeamDonation_Builder*) clearPowerAvailability {
+>>>>>>> donate msg vc done
+  result.hasPowerAvailability = NO;
+  result.powerAvailability = 0;
+  return self;
+}
+- (BOOL) hasIsFulfilled {
+  return result.hasIsFulfilled;
+}
+- (BOOL) isFulfilled {
+  return result.isFulfilled;
+}
+<<<<<<< HEAD
+- (ClanMemberTeamDonationProto_Builder*) setIsFulfilled:(BOOL) value {
+=======
+- (ClanMemberTeamDonation_Builder*) setIsFulfilled:(BOOL) value {
+>>>>>>> donate msg vc done
+  result.hasIsFulfilled = YES;
+  result.isFulfilled = value;
+  return self;
+}
+<<<<<<< HEAD
+- (ClanMemberTeamDonationProto_Builder*) clearIsFulfilled {
+=======
+- (ClanMemberTeamDonation_Builder*) clearIsFulfilled {
+>>>>>>> donate msg vc done
+  result.hasIsFulfilled = NO;
+  result.isFulfilled = NO;
+  return self;
+}
+- (BOOL) hasMsg {
+  return result.hasMsg;
+}
+- (NSString*) msg {
+  return result.msg;
+}
+<<<<<<< HEAD
+- (ClanMemberTeamDonationProto_Builder*) setMsg:(NSString*) value {
+=======
+- (ClanMemberTeamDonation_Builder*) setMsg:(NSString*) value {
+>>>>>>> donate msg vc done
+  result.hasMsg = YES;
+  result.msg = value;
+  return self;
+}
+<<<<<<< HEAD
+- (ClanMemberTeamDonationProto_Builder*) clearMsg {
+=======
+- (ClanMemberTeamDonation_Builder*) clearMsg {
+>>>>>>> donate msg vc done
+  result.hasMsg = NO;
+  result.msg = @"";
+  return self;
+}
+- (BOOL) hasTimeOfSolicitation {
+  return result.hasTimeOfSolicitation;
+}
+- (int64_t) timeOfSolicitation {
+  return result.timeOfSolicitation;
+}
+<<<<<<< HEAD
+- (ClanMemberTeamDonationProto_Builder*) setTimeOfSolicitation:(int64_t) value {
+=======
+- (ClanMemberTeamDonation_Builder*) setTimeOfSolicitation:(int64_t) value {
+>>>>>>> donate msg vc done
+  result.hasTimeOfSolicitation = YES;
+  result.timeOfSolicitation = value;
+  return self;
+}
+<<<<<<< HEAD
+- (ClanMemberTeamDonationProto_Builder*) clearTimeOfSolicitation {
+=======
+- (ClanMemberTeamDonation_Builder*) clearTimeOfSolicitation {
+>>>>>>> donate msg vc done
+  result.hasTimeOfSolicitation = NO;
+  result.timeOfSolicitation = 0L;
+  return self;
+}
+- (NSMutableArray *)donationsList {
+  return result.mutableDonationsList;
+}
+- (UserMonsterSnapshotProto*)donationsAtIndex:(NSUInteger)index {
+  return [result donationsAtIndex:index];
+}
+<<<<<<< HEAD
+- (ClanMemberTeamDonationProto_Builder *)addDonations:(UserMonsterSnapshotProto*)value {
+=======
+- (ClanMemberTeamDonation_Builder *)addDonations:(UserMonsterSnapshotProto*)value {
+>>>>>>> donate msg vc done
+  if (result.mutableDonationsList == nil) {
+    result.mutableDonationsList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableDonationsList addObject:value];
+  return self;
+}
+<<<<<<< HEAD
+- (ClanMemberTeamDonationProto_Builder *)addAllDonations:(NSArray *)array {
+=======
+- (ClanMemberTeamDonation_Builder *)addAllDonations:(NSArray *)array {
+>>>>>>> donate msg vc done
+  if (result.mutableDonationsList == nil) {
+    result.mutableDonationsList = [NSMutableArray array];
+  }
+  [result.mutableDonationsList addObjectsFromArray:array];
+  return self;
+}
+<<<<<<< HEAD
+- (ClanMemberTeamDonationProto_Builder *)clearDonations {
+=======
+- (ClanMemberTeamDonation_Builder *)clearDonations {
+>>>>>>> donate msg vc done
+  result.mutableDonationsList = nil;
+  return self;
+}
+@end
+
+>>>>>>> donate msg vc done
 
 // @@protoc_insertion_point(global_scope)

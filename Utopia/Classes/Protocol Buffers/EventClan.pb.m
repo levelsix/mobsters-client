@@ -17252,7 +17252,11 @@ static SolicitTeamDonationRequestProto* defaultSolicitTeamDonationRequestProtoIn
 @interface SolicitTeamDonationResponseProto ()
 @property (strong) MinimumUserProto* sender;
 @property SolicitTeamDonationResponseProto_SolicitTeamDonationStatus status;
+<<<<<<< HEAD
 @property (strong) ClanMemberTeamDonationProto* solicitation;
+=======
+@property (strong) ClanMemberTeamDonation* solicitation;
+>>>>>>> donate msg vc done
 @end
 
 @implementation SolicitTeamDonationResponseProto
@@ -17282,7 +17286,11 @@ static SolicitTeamDonationRequestProto* defaultSolicitTeamDonationRequestProtoIn
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.status = SolicitTeamDonationResponseProto_SolicitTeamDonationStatusSuccess;
+<<<<<<< HEAD
     self.solicitation = [ClanMemberTeamDonationProto defaultInstance];
+=======
+    self.solicitation = [ClanMemberTeamDonation defaultInstance];
+>>>>>>> donate msg vc done
   }
   return self;
 }
@@ -17418,8 +17426,11 @@ BOOL SolicitTeamDonationResponseProto_SolicitTeamDonationStatusIsValidValue(Soli
   switch (value) {
     case SolicitTeamDonationResponseProto_SolicitTeamDonationStatusSuccess:
     case SolicitTeamDonationResponseProto_SolicitTeamDonationStatusFailOther:
+<<<<<<< HEAD
     case SolicitTeamDonationResponseProto_SolicitTeamDonationStatusFailInsufficientGems:
     case SolicitTeamDonationResponseProto_SolicitTeamDonationStatusFailFulfilledRequestExists:
+=======
+>>>>>>> donate msg vc done
       return YES;
     default:
       return NO;
@@ -17512,7 +17523,11 @@ BOOL SolicitTeamDonationResponseProto_SolicitTeamDonationStatusIsValidValue(Soli
         break;
       }
       case 26: {
+<<<<<<< HEAD
         ClanMemberTeamDonationProto_Builder* subBuilder = [ClanMemberTeamDonationProto builder];
+=======
+        ClanMemberTeamDonation_Builder* subBuilder = [ClanMemberTeamDonation builder];
+>>>>>>> donate msg vc done
         if (self.hasSolicitation) {
           [subBuilder mergeFrom:self.solicitation];
         }
@@ -17572,14 +17587,22 @@ BOOL SolicitTeamDonationResponseProto_SolicitTeamDonationStatusIsValidValue(Soli
 - (BOOL) hasSolicitation {
   return result.hasSolicitation;
 }
+<<<<<<< HEAD
 - (ClanMemberTeamDonationProto*) solicitation {
   return result.solicitation;
 }
 - (SolicitTeamDonationResponseProto_Builder*) setSolicitation:(ClanMemberTeamDonationProto*) value {
+=======
+- (ClanMemberTeamDonation*) solicitation {
+  return result.solicitation;
+}
+- (SolicitTeamDonationResponseProto_Builder*) setSolicitation:(ClanMemberTeamDonation*) value {
+>>>>>>> donate msg vc done
   result.hasSolicitation = YES;
   result.solicitation = value;
   return self;
 }
+<<<<<<< HEAD
 - (SolicitTeamDonationResponseProto_Builder*) setSolicitation_Builder:(ClanMemberTeamDonationProto_Builder*) builderForValue {
   return [self setSolicitation:[builderForValue build]];
 }
@@ -17588,6 +17611,16 @@ BOOL SolicitTeamDonationResponseProto_SolicitTeamDonationStatusIsValidValue(Soli
       result.solicitation != [ClanMemberTeamDonationProto defaultInstance]) {
     result.solicitation =
       [[[ClanMemberTeamDonationProto builderWithPrototype:result.solicitation] mergeFrom:value] buildPartial];
+=======
+- (SolicitTeamDonationResponseProto_Builder*) setSolicitation_Builder:(ClanMemberTeamDonation_Builder*) builderForValue {
+  return [self setSolicitation:[builderForValue build]];
+}
+- (SolicitTeamDonationResponseProto_Builder*) mergeSolicitation:(ClanMemberTeamDonation*) value {
+  if (result.hasSolicitation &&
+      result.solicitation != [ClanMemberTeamDonation defaultInstance]) {
+    result.solicitation =
+      [[[ClanMemberTeamDonation builderWithPrototype:result.solicitation] mergeFrom:value] buildPartial];
+>>>>>>> donate msg vc done
   } else {
     result.solicitation = value;
   }
@@ -17596,7 +17629,11 @@ BOOL SolicitTeamDonationResponseProto_SolicitTeamDonationStatusIsValidValue(Soli
 }
 - (SolicitTeamDonationResponseProto_Builder*) clearSolicitation {
   result.hasSolicitation = NO;
+<<<<<<< HEAD
   result.solicitation = [ClanMemberTeamDonationProto defaultInstance];
+=======
+  result.solicitation = [ClanMemberTeamDonation defaultInstance];
+>>>>>>> donate msg vc done
   return self;
 }
 @end
@@ -18007,8 +18044,16 @@ static FulfillTeamDonationSolicitationRequestProto* defaultFulfillTeamDonationSo
 
 @interface FulfillTeamDonationSolicitationResponseProto ()
 @property (strong) MinimumUserProto* sender;
+<<<<<<< HEAD
 @property FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatus status;
+=======
+@property FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolictationStatus status;
+<<<<<<< HEAD
+>>>>>>> donate msg vc done
 @property (strong) ClanMemberTeamDonationProto* solicitation;
+=======
+@property (strong) ClanMemberTeamDonation* solicitation;
+>>>>>>> donate msg vc done
 @end
 
 @implementation FulfillTeamDonationSolicitationResponseProto
@@ -18037,8 +18082,16 @@ static FulfillTeamDonationSolicitationRequestProto* defaultFulfillTeamDonationSo
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
+<<<<<<< HEAD
     self.status = FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatusSuccess;
+=======
+    self.status = FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolictationStatusSuccess;
+<<<<<<< HEAD
+>>>>>>> donate msg vc done
     self.solicitation = [ClanMemberTeamDonationProto defaultInstance];
+=======
+    self.solicitation = [ClanMemberTeamDonation defaultInstance];
+>>>>>>> donate msg vc done
   }
   return self;
 }
@@ -18268,7 +18321,11 @@ BOOL FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitatio
         break;
       }
       case 26: {
+<<<<<<< HEAD
         ClanMemberTeamDonationProto_Builder* subBuilder = [ClanMemberTeamDonationProto builder];
+=======
+        ClanMemberTeamDonation_Builder* subBuilder = [ClanMemberTeamDonation builder];
+>>>>>>> donate msg vc done
         if (self.hasSolicitation) {
           [subBuilder mergeFrom:self.solicitation];
         }
@@ -18328,14 +18385,22 @@ BOOL FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitatio
 - (BOOL) hasSolicitation {
   return result.hasSolicitation;
 }
+<<<<<<< HEAD
 - (ClanMemberTeamDonationProto*) solicitation {
   return result.solicitation;
 }
 - (FulfillTeamDonationSolicitationResponseProto_Builder*) setSolicitation:(ClanMemberTeamDonationProto*) value {
+=======
+- (ClanMemberTeamDonation*) solicitation {
+  return result.solicitation;
+}
+- (FulfillTeamDonationSolicitationResponseProto_Builder*) setSolicitation:(ClanMemberTeamDonation*) value {
+>>>>>>> donate msg vc done
   result.hasSolicitation = YES;
   result.solicitation = value;
   return self;
 }
+<<<<<<< HEAD
 - (FulfillTeamDonationSolicitationResponseProto_Builder*) setSolicitation_Builder:(ClanMemberTeamDonationProto_Builder*) builderForValue {
   return [self setSolicitation:[builderForValue build]];
 }
@@ -18344,6 +18409,16 @@ BOOL FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitatio
       result.solicitation != [ClanMemberTeamDonationProto defaultInstance]) {
     result.solicitation =
       [[[ClanMemberTeamDonationProto builderWithPrototype:result.solicitation] mergeFrom:value] buildPartial];
+=======
+- (FulfillTeamDonationSolicitationResponseProto_Builder*) setSolicitation_Builder:(ClanMemberTeamDonation_Builder*) builderForValue {
+  return [self setSolicitation:[builderForValue build]];
+}
+- (FulfillTeamDonationSolicitationResponseProto_Builder*) mergeSolicitation:(ClanMemberTeamDonation*) value {
+  if (result.hasSolicitation &&
+      result.solicitation != [ClanMemberTeamDonation defaultInstance]) {
+    result.solicitation =
+      [[[ClanMemberTeamDonation builderWithPrototype:result.solicitation] mergeFrom:value] buildPartial];
+>>>>>>> donate msg vc done
   } else {
     result.solicitation = value;
   }
@@ -18352,7 +18427,11 @@ BOOL FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitatio
 }
 - (FulfillTeamDonationSolicitationResponseProto_Builder*) clearSolicitation {
   result.hasSolicitation = NO;
+<<<<<<< HEAD
   result.solicitation = [ClanMemberTeamDonationProto defaultInstance];
+=======
+  result.solicitation = [ClanMemberTeamDonation defaultInstance];
+>>>>>>> donate msg vc done
   return self;
 }
 @end

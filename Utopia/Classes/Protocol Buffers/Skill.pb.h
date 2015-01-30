@@ -47,13 +47,22 @@ typedef NS_ENUM(SInt32, SkillType) {
   SkillTypeShallowGrave = 24,
   SkillTypeHammerTime = 25,
   SkillTypeBloodRage = 26,
+<<<<<<< HEAD
   SkillTypeTakeAim = 27,
+<<<<<<< HEAD
   SkillTypeHellFire = 28,
   SkillTypeEnergize = 29,
   SkillTypeRightHook = 30,
+<<<<<<< HEAD
   SkillTypeCurse = 31,
   SkillTypeInsurance = 32,
   SkillTypeFlameBreak = 33,
+=======
+=======
+=======
+>>>>>>> donate msg vc done
+>>>>>>> donate msg vc done
+>>>>>>> donate msg vc done
 };
 
 BOOL SkillTypeIsValidValue(SkillType value);

@@ -255,7 +255,11 @@ message ClanDataProto {
 
 //------------------------------------------------------------------------------------------
 
+<<<<<<< HEAD
 message ClanMemberTeamDonationProto {
+=======
+message ClanMemberTeamDonation {
+>>>>>>> donate msg vc done
 	optional string donationUuid = 1;
 	optional MinimumUserProto solicitor = 2;
 	optional string clanUuid = 3;

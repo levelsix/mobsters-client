@@ -33,8 +33,13 @@
 @class ClanIconProto_Builder;
 @class ClanInviteProto;
 @class ClanInviteProto_Builder;
+<<<<<<< HEAD
 @class ClanMemberTeamDonationProto;
 @class ClanMemberTeamDonationProto_Builder;
+=======
+@class ClanMemberTeamDonation;
+@class ClanMemberTeamDonation_Builder;
+>>>>>>> donate msg vc done
 @class ClanRaidProto;
 @class ClanRaidProto_Builder;
 @class ClanRaidStageMonsterProto;

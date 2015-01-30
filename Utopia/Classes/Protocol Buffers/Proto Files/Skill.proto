@@ -81,13 +81,22 @@ enum SkillType {
 	SHALLOW_GRAVE = 24;
 	HAMMER_TIME = 25;
 	BLOOD_RAGE = 26;
+<<<<<<< HEAD
 	TAKE_AIM = 27;
+<<<<<<< HEAD
 	HELL_FIRE = 28;
 	ENERGIZE = 29;
 	RIGHT_HOOK = 30;
+<<<<<<< HEAD
 	CURSE = 31;
 	INSURANCE = 32;
 	FLAME_BREAK = 33;
+=======
+=======
+=======
+>>>>>>> donate msg vc done
+>>>>>>> donate msg vc done
+>>>>>>> donate msg vc done
 }
 
 enum SkillActivationType {

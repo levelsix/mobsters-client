@@ -632,8 +632,6 @@ static int numLeagues = 6;
      lineCount++;
    }];
   
-  //    NSLog(@"%d", lineCount);
-  
   return (lineCount <= maxNumLines);
 }
 
