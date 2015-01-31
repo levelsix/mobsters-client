@@ -382,11 +382,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   }
 }
 
-- (void) pruneRepeatedSkills:(SkillController *)withSkillType
+- (void) pruneRepeatedSkills:(SkillController *)sameAsSkill
 {
-  
+  SkillController *skill;
   for (int i = ((int)_persistentSkillControllers.count)-1; i >= 0; i--) {
-    if ([(SkillController*)_persistentSkillControllers[i] class] == [withSkillType class]) {
+    skill = (SkillController*)_persistentSkillControllers[i];
+    if ([skill class] == [sameAsSkill class]
+        && skill.belongsToPlayer == sameAsSkill.belongsToPlayer) {
       [_persistentSkillControllers removeObjectAtIndex:(NSUInteger)i];
     }
   }

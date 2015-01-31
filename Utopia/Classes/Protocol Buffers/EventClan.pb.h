@@ -54,8 +54,8 @@
 @class ClanIconProto_Builder;
 @class ClanInviteProto;
 @class ClanInviteProto_Builder;
-@class ClanMemberTeamDonation;
-@class ClanMemberTeamDonation_Builder;
+@class ClanMemberTeamDonationProto;
+@class ClanMemberTeamDonationProto_Builder;
 @class ClanRaidProto;
 @class ClanRaidProto_Builder;
 @class ClanRaidStageMonsterProto;
@@ -454,6 +454,8 @@ BOOL AvengeClanMateResponseProto_AvengeClanMateStatusIsValidValue(AvengeClanMate
 typedef NS_ENUM(SInt32, SolicitTeamDonationResponseProto_SolicitTeamDonationStatus) {
   SolicitTeamDonationResponseProto_SolicitTeamDonationStatusSuccess = 1,
   SolicitTeamDonationResponseProto_SolicitTeamDonationStatusFailOther = 2,
+  SolicitTeamDonationResponseProto_SolicitTeamDonationStatusFailInsufficientGems = 3,
+  SolicitTeamDonationResponseProto_SolicitTeamDonationStatusFailFulfilledRequestExists = 4,
 };
 
 BOOL SolicitTeamDonationResponseProto_SolicitTeamDonationStatusIsValidValue(SolicitTeamDonationResponseProto_SolicitTeamDonationStatus value);
@@ -3899,10 +3901,12 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 @private
   BOOL hasClientTime_:1;
   BOOL hasPowerLimit_:1;
+  BOOL hasGemsSpent_:1;
   BOOL hasMsg_:1;
   BOOL hasSender_:1;
   int64_t clientTime;
   int32_t powerLimit;
+  int32_t gemsSpent;
   NSString* msg;
   MinimumUserProto* sender;
 }
@@ -3910,10 +3914,12 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasMsg;
 - (BOOL) hasPowerLimit;
 - (BOOL) hasClientTime;
+- (BOOL) hasGemsSpent;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly, strong) NSString* msg;
 @property (readonly) int32_t powerLimit;
 @property (readonly) int64_t clientTime;
+@property (readonly) int32_t gemsSpent;
 
 + (SolicitTeamDonationRequestProto*) defaultInstance;
 - (SolicitTeamDonationRequestProto*) defaultInstance;
@@ -3971,6 +3977,11 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (int64_t) clientTime;
 - (SolicitTeamDonationRequestProto_Builder*) setClientTime:(int64_t) value;
 - (SolicitTeamDonationRequestProto_Builder*) clearClientTime;
+
+- (BOOL) hasGemsSpent;
+- (int32_t) gemsSpent;
+- (SolicitTeamDonationRequestProto_Builder*) setGemsSpent:(int32_t) value;
+- (SolicitTeamDonationRequestProto_Builder*) clearGemsSpent;
 @end
 
 @interface SolicitTeamDonationResponseProto : PBGeneratedMessage {
@@ -3979,7 +3990,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
   BOOL hasSolicitation_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  ClanMemberTeamDonation* solicitation;
+  ClanMemberTeamDonationProto* solicitation;
   SolicitTeamDonationResponseProto_SolicitTeamDonationStatus status;
 }
 - (BOOL) hasSender;
@@ -3987,7 +3998,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasSolicitation;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) SolicitTeamDonationResponseProto_SolicitTeamDonationStatus status;
-@property (readonly, strong) ClanMemberTeamDonation* solicitation;
+@property (readonly, strong) ClanMemberTeamDonationProto* solicitation;
 
 + (SolicitTeamDonationResponseProto*) defaultInstance;
 - (SolicitTeamDonationResponseProto*) defaultInstance;
@@ -4037,10 +4048,10 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (SolicitTeamDonationResponseProto_Builder*) clearStatusList;
 
 - (BOOL) hasSolicitation;
-- (ClanMemberTeamDonation*) solicitation;
-- (SolicitTeamDonationResponseProto_Builder*) setSolicitation:(ClanMemberTeamDonation*) value;
-- (SolicitTeamDonationResponseProto_Builder*) setSolicitation_Builder:(ClanMemberTeamDonation_Builder*) builderForValue;
-- (SolicitTeamDonationResponseProto_Builder*) mergeSolicitation:(ClanMemberTeamDonation*) value;
+- (ClanMemberTeamDonationProto*) solicitation;
+- (SolicitTeamDonationResponseProto_Builder*) setSolicitation:(ClanMemberTeamDonationProto*) value;
+- (SolicitTeamDonationResponseProto_Builder*) setSolicitation_Builder:(ClanMemberTeamDonationProto_Builder*) builderForValue;
+- (SolicitTeamDonationResponseProto_Builder*) mergeSolicitation:(ClanMemberTeamDonationProto*) value;
 - (SolicitTeamDonationResponseProto_Builder*) clearSolicitation;
 @end
 
@@ -4121,7 +4132,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
   BOOL hasSolicitation_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  ClanMemberTeamDonation* solicitation;
+  ClanMemberTeamDonationProto* solicitation;
   FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolictationStatus status;
 }
 - (BOOL) hasSender;
@@ -4129,7 +4140,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasSolicitation;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolictationStatus status;
-@property (readonly, strong) ClanMemberTeamDonation* solicitation;
+@property (readonly, strong) ClanMemberTeamDonationProto* solicitation;
 
 + (FulfillTeamDonationSolicitationResponseProto*) defaultInstance;
 - (FulfillTeamDonationSolicitationResponseProto*) defaultInstance;
@@ -4179,10 +4190,10 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (FulfillTeamDonationSolicitationResponseProto_Builder*) clearStatusList;
 
 - (BOOL) hasSolicitation;
-- (ClanMemberTeamDonation*) solicitation;
-- (FulfillTeamDonationSolicitationResponseProto_Builder*) setSolicitation:(ClanMemberTeamDonation*) value;
-- (FulfillTeamDonationSolicitationResponseProto_Builder*) setSolicitation_Builder:(ClanMemberTeamDonation_Builder*) builderForValue;
-- (FulfillTeamDonationSolicitationResponseProto_Builder*) mergeSolicitation:(ClanMemberTeamDonation*) value;
+- (ClanMemberTeamDonationProto*) solicitation;
+- (FulfillTeamDonationSolicitationResponseProto_Builder*) setSolicitation:(ClanMemberTeamDonationProto*) value;
+- (FulfillTeamDonationSolicitationResponseProto_Builder*) setSolicitation_Builder:(ClanMemberTeamDonationProto_Builder*) builderForValue;
+- (FulfillTeamDonationSolicitationResponseProto_Builder*) mergeSolicitation:(ClanMemberTeamDonationProto*) value;
 - (FulfillTeamDonationSolicitationResponseProto_Builder*) clearSolicitation;
 @end
 
