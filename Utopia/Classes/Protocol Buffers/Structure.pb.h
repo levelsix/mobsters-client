@@ -1652,14 +1652,18 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 @interface ClanHouseProto : PBGeneratedMessage {
 @private
   BOOL hasMaxHelpersPerSolicitation_:1;
+  BOOL hasTeamDonationPowerLimit_:1;
   BOOL hasStructInfo_:1;
   int32_t maxHelpersPerSolicitation;
+  int32_t teamDonationPowerLimit;
   StructureInfoProto* structInfo;
 }
 - (BOOL) hasStructInfo;
 - (BOOL) hasMaxHelpersPerSolicitation;
+- (BOOL) hasTeamDonationPowerLimit;
 @property (readonly, strong) StructureInfoProto* structInfo;
 @property (readonly) int32_t maxHelpersPerSolicitation;
+@property (readonly) int32_t teamDonationPowerLimit;
 
 + (ClanHouseProto*) defaultInstance;
 - (ClanHouseProto*) defaultInstance;
@@ -1707,6 +1711,11 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (int32_t) maxHelpersPerSolicitation;
 - (ClanHouseProto_Builder*) setMaxHelpersPerSolicitation:(int32_t) value;
 - (ClanHouseProto_Builder*) clearMaxHelpersPerSolicitation;
+
+- (BOOL) hasTeamDonationPowerLimit;
+- (int32_t) teamDonationPowerLimit;
+- (ClanHouseProto_Builder*) setTeamDonationPowerLimit:(int32_t) value;
+- (ClanHouseProto_Builder*) clearTeamDonationPowerLimit;
 @end
 
 

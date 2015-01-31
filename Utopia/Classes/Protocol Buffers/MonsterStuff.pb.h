@@ -1619,7 +1619,6 @@ BOOL UserMonsterSnapshotProto_SnapshotTypeIsValidValue(UserMonsterSnapshotProto_
 - (BOOL) hasType;
 - (UserMonsterSnapshotProto_SnapshotType) type;
 - (UserMonsterSnapshotProto_Builder*) setType:(UserMonsterSnapshotProto_SnapshotType) value;
-- (UserMonsterSnapshotProto_Builder*) clearTypeList;
 - (UserMonsterSnapshotProto_Builder*) clearType;
 
 - (BOOL) hasRelevantTableUuid;

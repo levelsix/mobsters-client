@@ -7418,6 +7418,7 @@ static TeamCenterProto* defaultTeamCenterProtoInstance = nil;
 @interface ClanHouseProto ()
 @property (strong) StructureInfoProto* structInfo;
 @property int32_t maxHelpersPerSolicitation;
+@property int32_t teamDonationPowerLimit;
 @end
 
 @implementation ClanHouseProto
@@ -7436,10 +7437,18 @@ static TeamCenterProto* defaultTeamCenterProtoInstance = nil;
   hasMaxHelpersPerSolicitation_ = !!value_;
 }
 @synthesize maxHelpersPerSolicitation;
+- (BOOL) hasTeamDonationPowerLimit {
+  return !!hasTeamDonationPowerLimit_;
+}
+- (void) setHasTeamDonationPowerLimit:(BOOL) value_ {
+  hasTeamDonationPowerLimit_ = !!value_;
+}
+@synthesize teamDonationPowerLimit;
 - (id) init {
   if ((self = [super init])) {
     self.structInfo = [StructureInfoProto defaultInstance];
     self.maxHelpersPerSolicitation = 0;
+    self.teamDonationPowerLimit = 0;
   }
   return self;
 }
@@ -7465,6 +7474,9 @@ static ClanHouseProto* defaultClanHouseProtoInstance = nil;
   if (self.hasMaxHelpersPerSolicitation) {
     [output writeInt32:2 value:self.maxHelpersPerSolicitation];
   }
+  if (self.hasTeamDonationPowerLimit) {
+    [output writeInt32:3 value:self.teamDonationPowerLimit];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -7479,6 +7491,9 @@ static ClanHouseProto* defaultClanHouseProtoInstance = nil;
   }
   if (self.hasMaxHelpersPerSolicitation) {
     size_ += computeInt32Size(2, self.maxHelpersPerSolicitation);
+  }
+  if (self.hasTeamDonationPowerLimit) {
+    size_ += computeInt32Size(3, self.teamDonationPowerLimit);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -7524,6 +7539,9 @@ static ClanHouseProto* defaultClanHouseProtoInstance = nil;
   if (self.hasMaxHelpersPerSolicitation) {
     [output appendFormat:@"%@%@: %@\n", indent, @"maxHelpersPerSolicitation", [NSNumber numberWithInteger:self.maxHelpersPerSolicitation]];
   }
+  if (self.hasTeamDonationPowerLimit) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"teamDonationPowerLimit", [NSNumber numberWithInteger:self.teamDonationPowerLimit]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -7539,6 +7557,8 @@ static ClanHouseProto* defaultClanHouseProtoInstance = nil;
       (!self.hasStructInfo || [self.structInfo isEqual:otherMessage.structInfo]) &&
       self.hasMaxHelpersPerSolicitation == otherMessage.hasMaxHelpersPerSolicitation &&
       (!self.hasMaxHelpersPerSolicitation || self.maxHelpersPerSolicitation == otherMessage.maxHelpersPerSolicitation) &&
+      self.hasTeamDonationPowerLimit == otherMessage.hasTeamDonationPowerLimit &&
+      (!self.hasTeamDonationPowerLimit || self.teamDonationPowerLimit == otherMessage.teamDonationPowerLimit) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -7548,6 +7568,9 @@ static ClanHouseProto* defaultClanHouseProtoInstance = nil;
   }
   if (self.hasMaxHelpersPerSolicitation) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.maxHelpersPerSolicitation] hash];
+  }
+  if (self.hasTeamDonationPowerLimit) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.teamDonationPowerLimit] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -7598,6 +7621,9 @@ static ClanHouseProto* defaultClanHouseProtoInstance = nil;
   if (other.hasMaxHelpersPerSolicitation) {
     [self setMaxHelpersPerSolicitation:other.maxHelpersPerSolicitation];
   }
+  if (other.hasTeamDonationPowerLimit) {
+    [self setTeamDonationPowerLimit:other.teamDonationPowerLimit];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -7630,6 +7656,10 @@ static ClanHouseProto* defaultClanHouseProtoInstance = nil;
       }
       case 16: {
         [self setMaxHelpersPerSolicitation:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setTeamDonationPowerLimit:[input readInt32]];
         break;
       }
     }
@@ -7679,6 +7709,22 @@ static ClanHouseProto* defaultClanHouseProtoInstance = nil;
 - (ClanHouseProto_Builder*) clearMaxHelpersPerSolicitation {
   result.hasMaxHelpersPerSolicitation = NO;
   result.maxHelpersPerSolicitation = 0;
+  return self;
+}
+- (BOOL) hasTeamDonationPowerLimit {
+  return result.hasTeamDonationPowerLimit;
+}
+- (int32_t) teamDonationPowerLimit {
+  return result.teamDonationPowerLimit;
+}
+- (ClanHouseProto_Builder*) setTeamDonationPowerLimit:(int32_t) value {
+  result.hasTeamDonationPowerLimit = YES;
+  result.teamDonationPowerLimit = value;
+  return self;
+}
+- (ClanHouseProto_Builder*) clearTeamDonationPowerLimit {
+  result.hasTeamDonationPowerLimit = NO;
+  result.teamDonationPowerLimit = 0;
   return self;
 }
 @end

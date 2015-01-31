@@ -2880,6 +2880,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property (strong) NSMutableArray * mutableRccpList;
 @property BOOL displayRarity;
 @property int32_t taskIdOfFirstSkill;
+@property int32_t minsToResolicitTeamDonation;
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -3140,6 +3141,13 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasTaskIdOfFirstSkill_ = !!value_;
 }
 @synthesize taskIdOfFirstSkill;
+- (BOOL) hasMinsToResolicitTeamDonation {
+  return !!hasMinsToResolicitTeamDonation_;
+}
+- (void) setHasMinsToResolicitTeamDonation:(BOOL) value_ {
+  hasMinsToResolicitTeamDonation_ = !!value_;
+}
+@synthesize minsToResolicitTeamDonation;
 - (id) init {
   if ((self = [super init])) {
     self.maxLevelForUser = 0;
@@ -3175,6 +3183,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.pvpConstant = [StartupResponseProto_StartupConstants_PvpConstants defaultInstance];
     self.displayRarity = NO;
     self.taskIdOfFirstSkill = 0;
+    self.minsToResolicitTeamDonation = 0;
   }
   return self;
 }
@@ -3338,6 +3347,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasTaskIdOfFirstSkill) {
     [output writeInt32:38 value:self.taskIdOfFirstSkill];
   }
+  if (self.hasMinsToResolicitTeamDonation) {
+    [output writeInt32:39 value:self.minsToResolicitTeamDonation];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -3460,6 +3472,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }
   if (self.hasTaskIdOfFirstSkill) {
     size_ += computeInt32Size(38, self.taskIdOfFirstSkill);
+  }
+  if (self.hasMinsToResolicitTeamDonation) {
+    size_ += computeInt32Size(39, self.minsToResolicitTeamDonation);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -3652,6 +3667,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasTaskIdOfFirstSkill) {
     [output appendFormat:@"%@%@: %@\n", indent, @"taskIdOfFirstSkill", [NSNumber numberWithInteger:self.taskIdOfFirstSkill]];
   }
+  if (self.hasMinsToResolicitTeamDonation) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"minsToResolicitTeamDonation", [NSNumber numberWithInteger:self.minsToResolicitTeamDonation]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -3734,6 +3752,8 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
       (!self.hasDisplayRarity || self.displayRarity == otherMessage.displayRarity) &&
       self.hasTaskIdOfFirstSkill == otherMessage.hasTaskIdOfFirstSkill &&
       (!self.hasTaskIdOfFirstSkill || self.taskIdOfFirstSkill == otherMessage.taskIdOfFirstSkill) &&
+      self.hasMinsToResolicitTeamDonation == otherMessage.hasMinsToResolicitTeamDonation &&
+      (!self.hasMinsToResolicitTeamDonation || self.minsToResolicitTeamDonation == otherMessage.minsToResolicitTeamDonation) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -3851,6 +3871,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }
   if (self.hasTaskIdOfFirstSkill) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.taskIdOfFirstSkill] hash];
+  }
+  if (self.hasMinsToResolicitTeamDonation) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.minsToResolicitTeamDonation] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -7959,6 +7982,9 @@ static StartupResponseProto_StartupConstants_ResourceConversionConstantProto* de
   if (other.hasTaskIdOfFirstSkill) {
     [self setTaskIdOfFirstSkill:other.taskIdOfFirstSkill];
   }
+  if (other.hasMinsToResolicitTeamDonation) {
+    [self setMinsToResolicitTeamDonation:other.minsToResolicitTeamDonation];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -8185,6 +8211,10 @@ static StartupResponseProto_StartupConstants_ResourceConversionConstantProto* de
       }
       case 304: {
         [self setTaskIdOfFirstSkill:[input readInt32]];
+        break;
+      }
+      case 312: {
+        [self setMinsToResolicitTeamDonation:[input readInt32]];
         break;
       }
     }
@@ -8962,6 +8992,22 @@ static StartupResponseProto_StartupConstants_ResourceConversionConstantProto* de
 - (StartupResponseProto_StartupConstants_Builder*) clearTaskIdOfFirstSkill {
   result.hasTaskIdOfFirstSkill = NO;
   result.taskIdOfFirstSkill = 0;
+  return self;
+}
+- (BOOL) hasMinsToResolicitTeamDonation {
+  return result.hasMinsToResolicitTeamDonation;
+}
+- (int32_t) minsToResolicitTeamDonation {
+  return result.minsToResolicitTeamDonation;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setMinsToResolicitTeamDonation:(int32_t) value {
+  result.hasMinsToResolicitTeamDonation = YES;
+  result.minsToResolicitTeamDonation = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearMinsToResolicitTeamDonation {
+  result.hasMinsToResolicitTeamDonation = NO;
+  result.minsToResolicitTeamDonation = 0;
   return self;
 }
 @end

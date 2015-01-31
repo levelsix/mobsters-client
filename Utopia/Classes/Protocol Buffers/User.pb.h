@@ -536,9 +536,10 @@
   BOOL hasLastLogoutTime_:1;
   BOOL hasCreateTime_:1;
   BOOL hasLastObstacleSpawnedTime_:1;
-  BOOL hasLastSecretGiftCollectTime_:1;
+  BOOL hasLastTeamDonationSolicitation_:1;
   BOOL hasLastMiniJobSpawnedTime_:1;
   BOOL hasLastFreeBoosterPackTime_:1;
+  BOOL hasLastSecretGiftCollectTime_:1;
   BOOL hasLevel_:1;
   BOOL hasGems_:1;
   BOOL hasCash_:1;
@@ -555,10 +556,10 @@
   BOOL hasNumObstaclesRemoved_:1;
   BOOL hasAvatarMonsterId_:1;
   BOOL hasNumClanHelps_:1;
-  BOOL hasGameCenterId_:1;
   BOOL hasPvpDefendingMessage_:1;
   BOOL hasUdidForHistory_:1;
   BOOL hasDeviceToken_:1;
+  BOOL hasGameCenterId_:1;
   BOOL hasFacebookId_:1;
   BOOL hasReferralCode_:1;
   BOOL hasName_:1;
@@ -576,9 +577,10 @@
   int64_t lastLogoutTime;
   int64_t createTime;
   int64_t lastObstacleSpawnedTime;
-  int64_t lastSecretGiftCollectTime;
+  int64_t lastTeamDonationSolicitation;
   int64_t lastMiniJobSpawnedTime;
   int64_t lastFreeBoosterPackTime;
+  int64_t lastSecretGiftCollectTime;
   int32_t level;
   int32_t gems;
   int32_t cash;
@@ -595,10 +597,10 @@
   int32_t numObstaclesRemoved;
   int32_t avatarMonsterId;
   int32_t numClanHelps;
-  NSString* gameCenterId;
   NSString* pvpDefendingMessage;
   NSString* udidForHistory;
   NSString* deviceToken;
+  NSString* gameCenterId;
   NSString* facebookId;
   NSString* referralCode;
   NSString* name;
@@ -638,6 +640,7 @@
 - (BOOL) hasNumClanHelps;
 - (BOOL) hasLastSecretGiftCollectTime;
 - (BOOL) hasPvpDefendingMessage;
+- (BOOL) hasLastTeamDonationSolicitation;
 - (BOOL) hasUdidForHistory;
 - (BOOL) hasDeviceToken;
 - (BOOL) hasNumBadges;
@@ -678,6 +681,7 @@
 @property (readonly) int32_t numClanHelps;
 @property (readonly) int64_t lastSecretGiftCollectTime;
 @property (readonly, strong) NSString* pvpDefendingMessage;
+@property (readonly) int64_t lastTeamDonationSolicitation;
 @property (readonly, strong) NSString* udidForHistory;
 @property (readonly, strong) NSString* deviceToken;
 @property (readonly) int32_t numBadges;
@@ -877,6 +881,11 @@
 - (NSString*) pvpDefendingMessage;
 - (FullUserProto_Builder*) setPvpDefendingMessage:(NSString*) value;
 - (FullUserProto_Builder*) clearPvpDefendingMessage;
+
+- (BOOL) hasLastTeamDonationSolicitation;
+- (int64_t) lastTeamDonationSolicitation;
+- (FullUserProto_Builder*) setLastTeamDonationSolicitation:(int64_t) value;
+- (FullUserProto_Builder*) clearLastTeamDonationSolicitation;
 
 - (BOOL) hasUdidForHistory;
 - (NSString*) udidForHistory;

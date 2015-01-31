@@ -17564,7 +17564,7 @@ BOOL SolicitTeamDonationResponseProto_SolicitTeamDonationStatusIsValidValue(Soli
   result.status = value;
   return self;
 }
-- (SolicitTeamDonationResponseProto_Builder*) clearStatusList {
+- (SolicitTeamDonationResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = SolicitTeamDonationResponseProto_SolicitTeamDonationStatusSuccess;
   return self;
@@ -18250,7 +18250,7 @@ BOOL FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolictation
   result.status = value;
   return self;
 }
-- (FulfillTeamDonationSolicitationResponseProto_Builder*) clearStatusList {
+- (FulfillTeamDonationSolicitationResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolictationStatusSuccess;
   return self;
@@ -18830,7 +18830,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
   result.status = value;
   return self;
 }
-- (VoidTeamDonationSolicitationResponseProto_Builder*) clearStatusList {
+- (VoidTeamDonationSolicitationResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatusSuccess;
   return self;

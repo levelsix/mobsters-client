@@ -7456,7 +7456,6 @@ BOOL UserMonsterSnapshotProto_SnapshotTypeIsValidValue(UserMonsterSnapshotProto_
   result.type = value;
   return self;
 }
-- (UserMonsterSnapshotProto_Builder*) clearTypeList {
 - (UserMonsterSnapshotProto_Builder*) clearType {
   result.hasType = NO;
   result.type = UserMonsterSnapshotProto_SnapshotTypeNoDonateType;

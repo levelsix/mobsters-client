@@ -1692,7 +1692,7 @@
   }
 }
 
-- (void) spawnRibbonForOrb:(BattleOrb *)orb target:(CGPoint)endPosition skill:(BOOL)skill {
+- (void) spawnRibbonForOrb:(BattleOrb *)orb target:(CGPoint)endPosition baseDuration:(CGFloat)dur skill:(BOOL)skill {
   
   BOOL cake = (orb.specialOrbType == SpecialOrbTypeCake);
   
@@ -1726,7 +1726,7 @@
     bez.controlPoint_1 = ccpAdd(initPoint, CGPointApplyAffineTransform(basePt1, t));
     bez.controlPoint_2 = ccpAdd(initPoint, CGPointApplyAffineTransform(basePt2, t));
     
-    CCActionBezierTo *move = [CCActionBezierTo actionWithDuration:(cake?1.5f:(0.15f+xScale/800.f)) bezier:bez];
+    CCActionBezierTo *move = [CCActionBezierTo actionWithDuration:(cake?1.5f:(dur+xScale/800.f)) bezier:bez];
     CCNode *dg;
     float stayDelay = 0.7f;
     if (skill)
@@ -1981,25 +1981,25 @@
       }
       
       CGPoint endPoint = [self.orbLayer convertToNodeSpace:[self.bgdContainer convertToWorldSpace:ccpAdd(self.myPlayer.position, ccp(0, self.myPlayer.contentSize.height/2))]];
-      [self spawnRibbonForOrb:orb target:endPoint skill:NO];
+      [self spawnRibbonForOrb:orb target:endPoint baseDuration:0.15f skill:NO];
       
       // Skill ribbons
       if ([skillManager shouldSpawnRibbonForPlayerSkill:orb.orbColor])
       {
         endPoint = [skillManager playerSkillIndicatorPosition];
-        [self spawnRibbonForOrb:orb target:endPoint skill:YES];
+        [self spawnRibbonForOrb:orb target:endPoint baseDuration:0.4f skill:YES];
       }
       if ([skillManager shouldSpawnRibbonForEnemySkill:orb.orbColor])
       {
         endPoint = [skillManager enemySkillIndicatorPosition];
-        [self spawnRibbonForOrb:orb target:endPoint skill:YES];
+        [self spawnRibbonForOrb:orb target:endPoint baseDuration:0.4f skill:YES];
       }
 
     }
     else if (orb.specialOrbType == SpecialOrbTypeCake)
     {
       CGPoint endPoint = [self.orbLayer convertToNodeSpace:[self.bgdContainer convertToWorldSpace:ccpAdd(self.currentEnemy.position, ccp(0, self.currentEnemy.contentSize.height/2))]];
-      [self spawnRibbonForOrb:orb target:endPoint skill:NO];
+      [self spawnRibbonForOrb:orb target:endPoint baseDuration:0.4f skill:NO];
     }
   }
   
