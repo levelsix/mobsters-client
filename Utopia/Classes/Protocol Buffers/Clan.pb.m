@@ -8348,6 +8348,7 @@ static ClanDataProto* defaultClanDataProtoInstance = nil;
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 =======
 >>>>>>> fixed various bugs and began on solicit clan donation
@@ -8357,8 +8358,9 @@ static ClanDataProto* defaultClanDataProtoInstance = nil;
 @interface ClanMemberTeamDonation ()
 >>>>>>> donate msg vc done
 =======
+=======
+>>>>>>> reproto
 @interface ClanMemberTeamDonationProto ()
->>>>>>> fixed various bugs and began on solicit clan donation
 @property (strong) NSString* donationUuid;
 @property (strong) MinimumUserProto* solicitor;
 @property (strong) NSString* clanUuid;
@@ -8369,15 +8371,7 @@ static ClanDataProto* defaultClanDataProtoInstance = nil;
 @property (strong) NSMutableArray * mutableDonationsList;
 @end
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 @implementation ClanMemberTeamDonationProto
-=======
-@implementation ClanMemberTeamDonation
->>>>>>> donate msg vc done
-=======
-@implementation ClanMemberTeamDonationProto
->>>>>>> fixed various bugs and began on solicit clan donation
 
 - (BOOL) hasDonationUuid {
   return !!hasDonationUuid_;
@@ -8447,8 +8441,6 @@ static ClanDataProto* defaultClanDataProtoInstance = nil;
   }
   return self;
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
 static ClanMemberTeamDonationProto* defaultClanMemberTeamDonationProtoInstance = nil;
 + (void) initialize {
   if (self == [ClanMemberTeamDonationProto class]) {
@@ -8460,27 +8452,6 @@ static ClanMemberTeamDonationProto* defaultClanMemberTeamDonationProtoInstance =
 }
 - (ClanMemberTeamDonationProto*) defaultInstance {
   return defaultClanMemberTeamDonationProtoInstance;
-=======
-static ClanMemberTeamDonation* defaultClanMemberTeamDonationInstance = nil;
-=======
-static ClanMemberTeamDonationProto* defaultClanMemberTeamDonationProtoInstance = nil;
->>>>>>> fixed various bugs and began on solicit clan donation
-+ (void) initialize {
-  if (self == [ClanMemberTeamDonationProto class]) {
-    defaultClanMemberTeamDonationProtoInstance = [[ClanMemberTeamDonationProto alloc] init];
-  }
-}
-+ (ClanMemberTeamDonationProto*) defaultInstance {
-  return defaultClanMemberTeamDonationProtoInstance;
-}
-<<<<<<< HEAD
-- (ClanMemberTeamDonation*) defaultInstance {
-  return defaultClanMemberTeamDonationInstance;
->>>>>>> donate msg vc done
-=======
-- (ClanMemberTeamDonationProto*) defaultInstance {
-  return defaultClanMemberTeamDonationProtoInstance;
->>>>>>> fixed various bugs and began on solicit clan donation
 }
 - (NSArray *)donationsList {
   return mutableDonationsList;
@@ -8553,8 +8524,6 @@ static ClanMemberTeamDonationProto* defaultClanMemberTeamDonationProtoInstance =
   memoizedSerializedSize = size_;
   return size_;
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
 + (ClanMemberTeamDonationProto*) parseFromData:(NSData*) data {
   return (ClanMemberTeamDonationProto*)[[[ClanMemberTeamDonationProto builder] mergeFromData:data] build];
 }
@@ -8584,46 +8553,6 @@ static ClanMemberTeamDonationProto* defaultClanMemberTeamDonationProtoInstance =
 }
 - (ClanMemberTeamDonationProto_Builder*) toBuilder {
   return [ClanMemberTeamDonationProto builderWithPrototype:self];
-=======
-+ (ClanMemberTeamDonation*) parseFromData:(NSData*) data {
-  return (ClanMemberTeamDonation*)[[[ClanMemberTeamDonation builder] mergeFromData:data] build];
-=======
-+ (ClanMemberTeamDonationProto*) parseFromData:(NSData*) data {
-  return (ClanMemberTeamDonationProto*)[[[ClanMemberTeamDonationProto builder] mergeFromData:data] build];
->>>>>>> fixed various bugs and began on solicit clan donation
-}
-+ (ClanMemberTeamDonationProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (ClanMemberTeamDonationProto*)[[[ClanMemberTeamDonationProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
-}
-+ (ClanMemberTeamDonationProto*) parseFromInputStream:(NSInputStream*) input {
-  return (ClanMemberTeamDonationProto*)[[[ClanMemberTeamDonationProto builder] mergeFromInputStream:input] build];
-}
-+ (ClanMemberTeamDonationProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (ClanMemberTeamDonationProto*)[[[ClanMemberTeamDonationProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (ClanMemberTeamDonationProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (ClanMemberTeamDonationProto*)[[[ClanMemberTeamDonationProto builder] mergeFromCodedInputStream:input] build];
-}
-+ (ClanMemberTeamDonationProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (ClanMemberTeamDonationProto*)[[[ClanMemberTeamDonationProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (ClanMemberTeamDonationProto_Builder*) builder {
-  return [[ClanMemberTeamDonationProto_Builder alloc] init];
-}
-+ (ClanMemberTeamDonationProto_Builder*) builderWithPrototype:(ClanMemberTeamDonationProto*) prototype {
-  return [[ClanMemberTeamDonationProto builder] mergeFrom:prototype];
-}
-- (ClanMemberTeamDonationProto_Builder*) builder {
-  return [ClanMemberTeamDonationProto builder];
-}
-<<<<<<< HEAD
-- (ClanMemberTeamDonation_Builder*) toBuilder {
-  return [ClanMemberTeamDonation builderWithPrototype:self];
->>>>>>> donate msg vc done
-=======
-- (ClanMemberTeamDonationProto_Builder*) toBuilder {
-  return [ClanMemberTeamDonationProto builderWithPrototype:self];
->>>>>>> fixed various bugs and began on solicit clan donation
 }
 - (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
   if (self.hasDonationUuid) {
@@ -8662,24 +8591,10 @@ static ClanMemberTeamDonationProto* defaultClanMemberTeamDonationProtoInstance =
   if (other == self) {
     return YES;
   }
-<<<<<<< HEAD
-<<<<<<< HEAD
   if (![other isKindOfClass:[ClanMemberTeamDonationProto class]]) {
     return NO;
   }
   ClanMemberTeamDonationProto *otherMessage = other;
-=======
-  if (![other isKindOfClass:[ClanMemberTeamDonation class]]) {
-    return NO;
-  }
-  ClanMemberTeamDonation *otherMessage = other;
->>>>>>> donate msg vc done
-=======
-  if (![other isKindOfClass:[ClanMemberTeamDonationProto class]]) {
-    return NO;
-  }
-  ClanMemberTeamDonationProto *otherMessage = other;
->>>>>>> fixed various bugs and began on solicit clan donation
   return
       self.hasDonationUuid == otherMessage.hasDonationUuid &&
       (!self.hasDonationUuid || [self.donationUuid isEqual:otherMessage.donationUuid]) &&
@@ -8729,8 +8644,6 @@ static ClanMemberTeamDonationProto* defaultClanMemberTeamDonationProtoInstance =
 }
 @end
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 @interface ClanMemberTeamDonationProto_Builder()
 @property (strong) ClanMemberTeamDonationProto* result;
 @end
@@ -8740,33 +8653,12 @@ static ClanMemberTeamDonationProto* defaultClanMemberTeamDonationProtoInstance =
 - (id) init {
   if ((self = [super init])) {
     self.result = [[ClanMemberTeamDonationProto alloc] init];
-=======
-@interface ClanMemberTeamDonation_Builder()
-@property (strong) ClanMemberTeamDonation* result;
-=======
-@interface ClanMemberTeamDonationProto_Builder()
-@property (strong) ClanMemberTeamDonationProto* result;
->>>>>>> fixed various bugs and began on solicit clan donation
-@end
-
-@implementation ClanMemberTeamDonationProto_Builder
-@synthesize result;
-- (id) init {
-  if ((self = [super init])) {
-<<<<<<< HEAD
-    self.result = [[ClanMemberTeamDonation alloc] init];
->>>>>>> donate msg vc done
-=======
-    self.result = [[ClanMemberTeamDonationProto alloc] init];
->>>>>>> fixed various bugs and began on solicit clan donation
   }
   return self;
 }
 - (PBGeneratedMessage*) internalGetResult {
   return result;
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
 - (ClanMemberTeamDonationProto_Builder*) clear {
   self.result = [[ClanMemberTeamDonationProto alloc] init];
   return self;
@@ -8788,38 +8680,6 @@ static ClanMemberTeamDonationProto* defaultClanMemberTeamDonationProtoInstance =
 }
 - (ClanMemberTeamDonationProto_Builder*) mergeFrom:(ClanMemberTeamDonationProto*) other {
   if (other == [ClanMemberTeamDonationProto defaultInstance]) {
-=======
-- (ClanMemberTeamDonation_Builder*) clear {
-  self.result = [[ClanMemberTeamDonation alloc] init];
-=======
-- (ClanMemberTeamDonationProto_Builder*) clear {
-  self.result = [[ClanMemberTeamDonationProto alloc] init];
->>>>>>> fixed various bugs and began on solicit clan donation
-  return self;
-}
-- (ClanMemberTeamDonationProto_Builder*) clone {
-  return [ClanMemberTeamDonationProto builderWithPrototype:result];
-}
-- (ClanMemberTeamDonationProto*) defaultInstance {
-  return [ClanMemberTeamDonationProto defaultInstance];
-}
-- (ClanMemberTeamDonationProto*) build {
-  [self checkInitialized];
-  return [self buildPartial];
-}
-- (ClanMemberTeamDonationProto*) buildPartial {
-  ClanMemberTeamDonationProto* returnMe = result;
-  self.result = nil;
-  return returnMe;
-}
-<<<<<<< HEAD
-- (ClanMemberTeamDonation_Builder*) mergeFrom:(ClanMemberTeamDonation*) other {
-  if (other == [ClanMemberTeamDonation defaultInstance]) {
->>>>>>> donate msg vc done
-=======
-- (ClanMemberTeamDonationProto_Builder*) mergeFrom:(ClanMemberTeamDonationProto*) other {
-  if (other == [ClanMemberTeamDonationProto defaultInstance]) {
->>>>>>> fixed various bugs and began on solicit clan donation
     return self;
   }
   if (other.hasDonationUuid) {
@@ -8853,24 +8713,10 @@ static ClanMemberTeamDonationProto* defaultClanMemberTeamDonationProtoInstance =
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
 - (ClanMemberTeamDonationProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
   return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
 }
 - (ClanMemberTeamDonationProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-=======
-- (ClanMemberTeamDonation_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
-  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
-}
-- (ClanMemberTeamDonation_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
->>>>>>> donate msg vc done
-=======
-- (ClanMemberTeamDonationProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
-  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
-}
-- (ClanMemberTeamDonationProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
->>>>>>> fixed various bugs and began on solicit clan donation
   PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
   while (YES) {
     SInt32 tag = [input readTag];
@@ -8933,28 +8779,12 @@ static ClanMemberTeamDonationProto* defaultClanMemberTeamDonationProtoInstance =
 - (NSString*) donationUuid {
   return result.donationUuid;
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
 - (ClanMemberTeamDonationProto_Builder*) setDonationUuid:(NSString*) value {
-=======
-- (ClanMemberTeamDonation_Builder*) setDonationUuid:(NSString*) value {
->>>>>>> donate msg vc done
-=======
-- (ClanMemberTeamDonationProto_Builder*) setDonationUuid:(NSString*) value {
->>>>>>> fixed various bugs and began on solicit clan donation
   result.hasDonationUuid = YES;
   result.donationUuid = value;
   return self;
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
 - (ClanMemberTeamDonationProto_Builder*) clearDonationUuid {
-=======
-- (ClanMemberTeamDonation_Builder*) clearDonationUuid {
->>>>>>> donate msg vc done
-=======
-- (ClanMemberTeamDonationProto_Builder*) clearDonationUuid {
->>>>>>> fixed various bugs and began on solicit clan donation
   result.hasDonationUuid = NO;
   result.donationUuid = @"";
   return self;
@@ -8985,32 +8815,21 @@ static ClanMemberTeamDonationProto* defaultClanMemberTeamDonationProtoInstance =
   result.hasSolicitor = YES;
   return self;
 }
+<<<<<<< HEAD
 - (ClanMemberTeamDonationProto_Builder*) clearSolicitor {
   result.hasSolicitor = NO;
   result.solicitor = [MinimumUserProto defaultInstance];
 =======
 <<<<<<< HEAD
 <<<<<<< HEAD
-- (ClanMemberTeamDonationProto_Builder*) setUserUuid:(NSString*) value {
 =======
-- (ClanMemberTeamDonation_Builder*) setUserUuid:(NSString*) value {
->>>>>>> donate msg vc done
-=======
+>>>>>>> reproto
 - (ClanMemberTeamDonationProto_Builder*) setUserUuid:(NSString*) value {
->>>>>>> fixed various bugs and began on solicit clan donation
   result.hasUserUuid = YES;
   result.userUuid = value;
   return self;
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
 - (ClanMemberTeamDonationProto_Builder*) clearUserUuid {
-=======
-- (ClanMemberTeamDonation_Builder*) clearUserUuid {
->>>>>>> donate msg vc done
-=======
-- (ClanMemberTeamDonationProto_Builder*) clearUserUuid {
->>>>>>> fixed various bugs and began on solicit clan donation
   result.hasUserUuid = NO;
   result.userUuid = @"";
 >>>>>>> donate msg vc done
@@ -9022,28 +8841,12 @@ static ClanMemberTeamDonationProto* defaultClanMemberTeamDonationProtoInstance =
 - (NSString*) clanUuid {
   return result.clanUuid;
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
 - (ClanMemberTeamDonationProto_Builder*) setClanUuid:(NSString*) value {
-=======
-- (ClanMemberTeamDonation_Builder*) setClanUuid:(NSString*) value {
->>>>>>> donate msg vc done
-=======
-- (ClanMemberTeamDonationProto_Builder*) setClanUuid:(NSString*) value {
->>>>>>> fixed various bugs and began on solicit clan donation
   result.hasClanUuid = YES;
   result.clanUuid = value;
   return self;
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
 - (ClanMemberTeamDonationProto_Builder*) clearClanUuid {
-=======
-- (ClanMemberTeamDonation_Builder*) clearClanUuid {
->>>>>>> donate msg vc done
-=======
-- (ClanMemberTeamDonationProto_Builder*) clearClanUuid {
->>>>>>> fixed various bugs and began on solicit clan donation
   result.hasClanUuid = NO;
   result.clanUuid = @"";
   return self;
@@ -9054,28 +8857,12 @@ static ClanMemberTeamDonationProto* defaultClanMemberTeamDonationProtoInstance =
 - (int32_t) powerAvailability {
   return result.powerAvailability;
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
 - (ClanMemberTeamDonationProto_Builder*) setPowerAvailability:(int32_t) value {
-=======
-- (ClanMemberTeamDonation_Builder*) setPowerAvailability:(int32_t) value {
->>>>>>> donate msg vc done
-=======
-- (ClanMemberTeamDonationProto_Builder*) setPowerAvailability:(int32_t) value {
->>>>>>> fixed various bugs and began on solicit clan donation
   result.hasPowerAvailability = YES;
   result.powerAvailability = value;
   return self;
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
 - (ClanMemberTeamDonationProto_Builder*) clearPowerAvailability {
-=======
-- (ClanMemberTeamDonation_Builder*) clearPowerAvailability {
->>>>>>> donate msg vc done
-=======
-- (ClanMemberTeamDonationProto_Builder*) clearPowerAvailability {
->>>>>>> fixed various bugs and began on solicit clan donation
   result.hasPowerAvailability = NO;
   result.powerAvailability = 0;
   return self;
@@ -9086,28 +8873,12 @@ static ClanMemberTeamDonationProto* defaultClanMemberTeamDonationProtoInstance =
 - (BOOL) isFulfilled {
   return result.isFulfilled;
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
 - (ClanMemberTeamDonationProto_Builder*) setIsFulfilled:(BOOL) value {
-=======
-- (ClanMemberTeamDonation_Builder*) setIsFulfilled:(BOOL) value {
->>>>>>> donate msg vc done
-=======
-- (ClanMemberTeamDonationProto_Builder*) setIsFulfilled:(BOOL) value {
->>>>>>> fixed various bugs and began on solicit clan donation
   result.hasIsFulfilled = YES;
   result.isFulfilled = value;
   return self;
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
 - (ClanMemberTeamDonationProto_Builder*) clearIsFulfilled {
-=======
-- (ClanMemberTeamDonation_Builder*) clearIsFulfilled {
->>>>>>> donate msg vc done
-=======
-- (ClanMemberTeamDonationProto_Builder*) clearIsFulfilled {
->>>>>>> fixed various bugs and began on solicit clan donation
   result.hasIsFulfilled = NO;
   result.isFulfilled = NO;
   return self;
@@ -9118,28 +8889,12 @@ static ClanMemberTeamDonationProto* defaultClanMemberTeamDonationProtoInstance =
 - (NSString*) msg {
   return result.msg;
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
 - (ClanMemberTeamDonationProto_Builder*) setMsg:(NSString*) value {
-=======
-- (ClanMemberTeamDonation_Builder*) setMsg:(NSString*) value {
->>>>>>> donate msg vc done
-=======
-- (ClanMemberTeamDonationProto_Builder*) setMsg:(NSString*) value {
->>>>>>> fixed various bugs and began on solicit clan donation
   result.hasMsg = YES;
   result.msg = value;
   return self;
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
 - (ClanMemberTeamDonationProto_Builder*) clearMsg {
-=======
-- (ClanMemberTeamDonation_Builder*) clearMsg {
->>>>>>> donate msg vc done
-=======
-- (ClanMemberTeamDonationProto_Builder*) clearMsg {
->>>>>>> fixed various bugs and began on solicit clan donation
   result.hasMsg = NO;
   result.msg = @"";
   return self;
@@ -9150,28 +8905,12 @@ static ClanMemberTeamDonationProto* defaultClanMemberTeamDonationProtoInstance =
 - (int64_t) timeOfSolicitation {
   return result.timeOfSolicitation;
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
 - (ClanMemberTeamDonationProto_Builder*) setTimeOfSolicitation:(int64_t) value {
-=======
-- (ClanMemberTeamDonation_Builder*) setTimeOfSolicitation:(int64_t) value {
->>>>>>> donate msg vc done
-=======
-- (ClanMemberTeamDonationProto_Builder*) setTimeOfSolicitation:(int64_t) value {
->>>>>>> fixed various bugs and began on solicit clan donation
   result.hasTimeOfSolicitation = YES;
   result.timeOfSolicitation = value;
   return self;
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
 - (ClanMemberTeamDonationProto_Builder*) clearTimeOfSolicitation {
-=======
-- (ClanMemberTeamDonation_Builder*) clearTimeOfSolicitation {
->>>>>>> donate msg vc done
-=======
-- (ClanMemberTeamDonationProto_Builder*) clearTimeOfSolicitation {
->>>>>>> fixed various bugs and began on solicit clan donation
   result.hasTimeOfSolicitation = NO;
   result.timeOfSolicitation = 0L;
   return self;
@@ -9182,45 +8921,21 @@ static ClanMemberTeamDonationProto* defaultClanMemberTeamDonationProtoInstance =
 - (UserMonsterSnapshotProto*)donationsAtIndex:(NSUInteger)index {
   return [result donationsAtIndex:index];
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
 - (ClanMemberTeamDonationProto_Builder *)addDonations:(UserMonsterSnapshotProto*)value {
-=======
-- (ClanMemberTeamDonation_Builder *)addDonations:(UserMonsterSnapshotProto*)value {
->>>>>>> donate msg vc done
-=======
-- (ClanMemberTeamDonationProto_Builder *)addDonations:(UserMonsterSnapshotProto*)value {
->>>>>>> fixed various bugs and began on solicit clan donation
   if (result.mutableDonationsList == nil) {
     result.mutableDonationsList = [[NSMutableArray alloc]init];
   }
   [result.mutableDonationsList addObject:value];
   return self;
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
 - (ClanMemberTeamDonationProto_Builder *)addAllDonations:(NSArray *)array {
-=======
-- (ClanMemberTeamDonation_Builder *)addAllDonations:(NSArray *)array {
->>>>>>> donate msg vc done
-=======
-- (ClanMemberTeamDonationProto_Builder *)addAllDonations:(NSArray *)array {
->>>>>>> fixed various bugs and began on solicit clan donation
   if (result.mutableDonationsList == nil) {
     result.mutableDonationsList = [NSMutableArray array];
   }
   [result.mutableDonationsList addObjectsFromArray:array];
   return self;
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
 - (ClanMemberTeamDonationProto_Builder *)clearDonations {
-=======
-- (ClanMemberTeamDonation_Builder *)clearDonations {
->>>>>>> donate msg vc done
-=======
-- (ClanMemberTeamDonationProto_Builder *)clearDonations {
->>>>>>> fixed various bugs and began on solicit clan donation
   result.mutableDonationsList = nil;
   return self;
 }

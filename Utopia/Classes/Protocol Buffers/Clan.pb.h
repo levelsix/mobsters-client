@@ -22,18 +22,8 @@
 @class ClanIconProto_Builder;
 @class ClanInviteProto;
 @class ClanInviteProto_Builder;
-<<<<<<< HEAD
-<<<<<<< HEAD
 @class ClanMemberTeamDonationProto;
 @class ClanMemberTeamDonationProto_Builder;
-=======
-@class ClanMemberTeamDonation;
-@class ClanMemberTeamDonation_Builder;
->>>>>>> donate msg vc done
-=======
-@class ClanMemberTeamDonationProto;
-@class ClanMemberTeamDonationProto_Builder;
->>>>>>> fixed various bugs and began on solicit clan donation
 @class ClanRaidProto;
 @class ClanRaidProto_Builder;
 @class ClanRaidStageMonsterProto;
@@ -1951,17 +1941,14 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 =======
 >>>>>>> fixed various bugs and began on solicit clan donation
 <<<<<<< HEAD
-@interface ClanMemberTeamDonationProto : PBGeneratedMessage {
 =======
-@interface ClanMemberTeamDonation : PBGeneratedMessage {
->>>>>>> donate msg vc done
-=======
+>>>>>>> reproto
 @interface ClanMemberTeamDonationProto : PBGeneratedMessage {
->>>>>>> fixed various bugs and began on solicit clan donation
 @private
   BOOL hasIsFulfilled_:1;
   BOOL hasTimeOfSolicitation_:1;
@@ -1996,6 +1983,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 @property (readonly, strong) NSArray * donationsList;
 - (UserMonsterSnapshotProto*)donationsAtIndex:(NSUInteger)index;
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 + (ClanMemberTeamDonationProto*) defaultInstance;
@@ -2079,9 +2067,10 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 + (ClanMemberTeamDonation*) defaultInstance;
 - (ClanMemberTeamDonation*) defaultInstance;
 =======
+=======
+>>>>>>> reproto
 + (ClanMemberTeamDonationProto*) defaultInstance;
 - (ClanMemberTeamDonationProto*) defaultInstance;
->>>>>>> fixed various bugs and began on solicit clan donation
 
 - (BOOL) isInitialized;
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
@@ -2152,16 +2141,9 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 
 - (NSMutableArray *)donationsList;
 - (UserMonsterSnapshotProto*)donationsAtIndex:(NSUInteger)index;
-<<<<<<< HEAD
-- (ClanMemberTeamDonation_Builder *)addDonations:(UserMonsterSnapshotProto*)value;
-- (ClanMemberTeamDonation_Builder *)addAllDonations:(NSArray *)array;
-- (ClanMemberTeamDonation_Builder *)clearDonations;
->>>>>>> donate msg vc done
-=======
 - (ClanMemberTeamDonationProto_Builder *)addDonations:(UserMonsterSnapshotProto*)value;
 - (ClanMemberTeamDonationProto_Builder *)addAllDonations:(NSArray *)array;
 - (ClanMemberTeamDonationProto_Builder *)clearDonations;
->>>>>>> fixed various bugs and began on solicit clan donation
 @end
 
 >>>>>>> donate msg vc done

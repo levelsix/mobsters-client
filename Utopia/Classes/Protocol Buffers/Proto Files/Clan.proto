@@ -255,15 +255,7 @@ message ClanDataProto {
 
 //------------------------------------------------------------------------------------------
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 message ClanMemberTeamDonationProto {
-=======
-message ClanMemberTeamDonation {
->>>>>>> donate msg vc done
-=======
-message ClanMemberTeamDonationProto {
->>>>>>> fixed various bugs and began on solicit clan donation
 	optional string donationUuid = 1;
 	optional MinimumUserProto solicitor = 2;
 	optional string clanUuid = 3;

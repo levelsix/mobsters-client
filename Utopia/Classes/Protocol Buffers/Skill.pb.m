@@ -50,6 +50,7 @@ BOOL SkillTypeIsValidValue(SkillType value) {
     case SkillTypeBloodRage:
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     case SkillTypeTakeAim:
 <<<<<<< HEAD
     case SkillTypeHellFire:
@@ -74,7 +75,14 @@ BOOL SkillTypeIsValidValue(SkillType value) {
     case SkillTypeHellFire:
 >>>>>>> fixed various bugs and began on solicit clan donation
 >>>>>>> fixed various bugs and began on solicit clan donation
+<<<<<<< HEAD
 >>>>>>> fixed various bugs and began on solicit clan donation
+=======
+=======
+    case SkillTypeTakeAim:
+    case SkillTypeHellFire:
+>>>>>>> reproto
+>>>>>>> reproto
       return YES;
     default:
       return NO;

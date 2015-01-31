@@ -49,6 +49,7 @@ typedef NS_ENUM(SInt32, SkillType) {
   SkillTypeBloodRage = 26,
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   SkillTypeTakeAim = 27,
 <<<<<<< HEAD
   SkillTypeHellFire = 28,
@@ -73,7 +74,14 @@ typedef NS_ENUM(SInt32, SkillType) {
   SkillTypeHellFire = 28,
 >>>>>>> fixed various bugs and began on solicit clan donation
 >>>>>>> fixed various bugs and began on solicit clan donation
+<<<<<<< HEAD
 >>>>>>> fixed various bugs and began on solicit clan donation
+=======
+=======
+  SkillTypeTakeAim = 27,
+  SkillTypeHellFire = 28,
+>>>>>>> reproto
+>>>>>>> reproto
 };
 
 BOOL SkillTypeIsValidValue(SkillType value);
