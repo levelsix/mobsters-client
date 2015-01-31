@@ -251,7 +251,7 @@
 - (BOOL) hasQuality;
 - (Quality) quality;
 - (MiniJobProto_Builder*) setQuality:(Quality) value;
-- (MiniJobProto_Builder*) clearQualityList;
+- (MiniJobProto_Builder*) clearQuality;
 
 - (BOOL) hasMaxNumMonstersAllowed;
 - (int32_t) maxNumMonstersAllowed;

@@ -40,7 +40,9 @@ typedef enum {
 // Cheat codes (indices are taken from SkillType enum)
 static NSString* const cheatCodesForSkills[] = {
   @"", @"reset", @"cake", @"goo", @"atk", @"bombs", @"shield", @"poison", @"rage", @"momentum", @"toughskin",
-  @"critevade", @"shuffle", @"headshot", @"mud", @"lifesteal", @"counterstrike", @"flamestrike", @"confusion", @"staticfield", @"blindinglight", @"poisonpowder", @"skewer", @"knockout", @"shallowgrave", @"hammertime", @"bloodrage", @"takeaim"};
+  @"critevade", @"shuffle", @"headshot", @"mud", @"lifesteal", @"counterstrike", @"flamestrike", @"confusion",
+  @"staticfield", @"blindinglight", @"poisonpowder", @"skewer", @"knockout", @"shallowgrave", @"hammertime",
+  @"bloodrage", @"takeaim", @"hellfire"};
 
 static NSString* const kSkillIconImageNameSuffix = @"icon.png";
 static NSString* const kSkillLogoImageNameSuffix = @"logo.png";

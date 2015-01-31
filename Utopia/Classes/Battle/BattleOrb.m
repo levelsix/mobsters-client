@@ -20,6 +20,7 @@
   cp.bombCounter = self.bombCounter;
   cp.bombDamage = self.bombDamage;
   cp.headshotCounter = self.headshotCounter;
+  cp.bulletCounter = self.bulletCounter;
   cp.cloudCounter = self.cloudCounter;
   cp.damageMultiplier = self.damageMultiplier;
   return cp;
@@ -42,7 +43,8 @@
   
   if (self.specialOrbType == SpecialOrbTypeCake ||
       self.specialOrbType == SpecialOrbTypeCloud ||
-      self.specialOrbType == SpecialOrbTypeGrave) {
+      self.specialOrbType == SpecialOrbTypeGrave ||
+      self.specialOrbType == SpecialOrbTypeBullet) {
     self.orbColor = OrbColorNone;
   }
 }
@@ -53,6 +55,7 @@
 #define BOMB_COUNTER      @"BombCounter"
 #define BOMB_DAMAGE       @"BombDamage"
 #define HEADSHOT_COUNTER  @"HeadshotCounter"
+#define BULLET_COUNTER    @"BulletCounter"
 #define CLOUD_COUNTER     @"CloudCounter"
 #define LOCKED_KEY        @"LockedKey"
 #define DAMAGE_MULTIPLIER @"DamageMultiplier"
@@ -66,6 +69,7 @@
   [info setObject:@(_bombCounter) forKey:BOMB_COUNTER];
   [info setObject:@(_bombDamage) forKey:BOMB_DAMAGE];
   [info setObject:@(_headshotCounter) forKey:HEADSHOT_COUNTER];
+  [info setObject:@(_bulletCounter) forKey:BULLET_COUNTER];
   [info setObject:@(_cloudCounter) forKey:CLOUD_COUNTER];
   [info setObject:@(_isLocked) forKey:LOCKED_KEY];
   [info setObject:@(_damageMultiplier) forKey:DAMAGE_MULTIPLIER];
@@ -80,6 +84,7 @@
   NSNumber* bombCounter = [dic objectForKey:BOMB_COUNTER];
   NSNumber* bombDamage = [dic objectForKey:BOMB_DAMAGE];
   NSNumber* headshotCounter = [dic objectForKey:HEADSHOT_COUNTER];
+  NSNumber* bulletCounter = [dic objectForKey:BULLET_COUNTER];
   NSNumber* cloudCounter = [dic objectForKey:CLOUD_COUNTER];
   NSNumber* isLocked = [dic objectForKey:LOCKED_KEY];
   NSNumber* damageMultiplier = [dic objectForKey:DAMAGE_MULTIPLIER];
@@ -96,6 +101,8 @@
     _bombDamage = [bombDamage integerValue];
   if (headshotCounter)
     _headshotCounter = [headshotCounter integerValue];
+  if (bulletCounter)
+    _bulletCounter = [bulletCounter integerValue];
   if (cloudCounter)
     _cloudCounter = [cloudCounter integerValue];
   if (isLocked)

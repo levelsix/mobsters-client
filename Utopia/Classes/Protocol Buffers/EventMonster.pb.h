@@ -429,7 +429,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasStatus;
 - (EvolveMonsterResponseProto_EvolveMonsterStatus) status;
 - (EvolveMonsterResponseProto_Builder*) setStatus:(EvolveMonsterResponseProto_EvolveMonsterStatus) value;
-- (EvolveMonsterResponseProto_Builder*) clearStatusList;
+- (EvolveMonsterResponseProto_Builder*) clearStatus;
 @end
 
 @interface EvolutionFinishedRequestProto : PBGeneratedMessage {
@@ -560,7 +560,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasStatus;
 - (EvolutionFinishedResponseProto_EvolutionFinishedStatus) status;
 - (EvolutionFinishedResponseProto_Builder*) setStatus:(EvolutionFinishedResponseProto_EvolutionFinishedStatus) value;
-- (EvolutionFinishedResponseProto_Builder*) clearStatusList;
+- (EvolutionFinishedResponseProto_Builder*) clearStatus;
 @end
 
 @interface SubmitMonsterEnhancementRequestProto : PBGeneratedMessage {
@@ -716,7 +716,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasStatus;
 - (SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatus) status;
 - (SubmitMonsterEnhancementResponseProto_Builder*) setStatus:(SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatus) value;
-- (SubmitMonsterEnhancementResponseProto_Builder*) clearStatusList;
+- (SubmitMonsterEnhancementResponseProto_Builder*) clearStatus;
 @end
 
 @interface EnhancementWaitTimeCompleteRequestProto : PBGeneratedMessage {
@@ -874,7 +874,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasStatus;
 - (EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatus) status;
 - (EnhancementWaitTimeCompleteResponseProto_Builder*) setStatus:(EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatus) value;
-- (EnhancementWaitTimeCompleteResponseProto_Builder*) clearStatusList;
+- (EnhancementWaitTimeCompleteResponseProto_Builder*) clearStatus;
 @end
 
 @interface CollectMonsterEnhancementRequestProto : PBGeneratedMessage {
@@ -1005,7 +1005,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasStatus;
 - (CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatus) status;
 - (CollectMonsterEnhancementResponseProto_Builder*) setStatus:(CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatus) value;
-- (CollectMonsterEnhancementResponseProto_Builder*) clearStatusList;
+- (CollectMonsterEnhancementResponseProto_Builder*) clearStatus;
 @end
 
 @interface EnhanceMonsterRequestProto : PBGeneratedMessage {
@@ -1156,7 +1156,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasStatus;
 - (EnhanceMonsterResponseProto_EnhanceMonsterStatus) status;
 - (EnhanceMonsterResponseProto_Builder*) setStatus:(EnhanceMonsterResponseProto_EnhanceMonsterStatus) value;
-- (EnhanceMonsterResponseProto_Builder*) clearStatusList;
+- (EnhanceMonsterResponseProto_Builder*) clearStatus;
 @end
 
 @interface UpdateMonsterHealthRequestProto : PBGeneratedMessage {
@@ -1339,7 +1339,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasStatus;
 - (UpdateMonsterHealthResponseProto_UpdateMonsterHealthStatus) status;
 - (UpdateMonsterHealthResponseProto_Builder*) setStatus:(UpdateMonsterHealthResponseProto_UpdateMonsterHealthStatus) value;
-- (UpdateMonsterHealthResponseProto_Builder*) clearStatusList;
+- (UpdateMonsterHealthResponseProto_Builder*) clearStatus;
 @end
 
 @interface HealMonsterRequestProto : PBGeneratedMessage {
@@ -1522,7 +1522,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasStatus;
 - (HealMonsterResponseProto_HealMonsterStatus) status;
 - (HealMonsterResponseProto_Builder*) setStatus:(HealMonsterResponseProto_HealMonsterStatus) value;
-- (HealMonsterResponseProto_Builder*) clearStatusList;
+- (HealMonsterResponseProto_Builder*) clearStatus;
 @end
 
 @interface AddMonsterToBattleTeamRequestProto : PBGeneratedMessage {
@@ -1651,7 +1651,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasStatus;
 - (AddMonsterToBattleTeamResponseProto_AddMonsterToBattleTeamStatus) status;
 - (AddMonsterToBattleTeamResponseProto_Builder*) setStatus:(AddMonsterToBattleTeamResponseProto_AddMonsterToBattleTeamStatus) value;
-- (AddMonsterToBattleTeamResponseProto_Builder*) clearStatusList;
+- (AddMonsterToBattleTeamResponseProto_Builder*) clearStatus;
 @end
 
 @interface RemoveMonsterFromBattleTeamRequestProto : PBGeneratedMessage {
@@ -1771,7 +1771,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasStatus;
 - (RemoveMonsterFromBattleTeamResponseProto_RemoveMonsterFromBattleTeamStatus) status;
 - (RemoveMonsterFromBattleTeamResponseProto_Builder*) setStatus:(RemoveMonsterFromBattleTeamResponseProto_RemoveMonsterFromBattleTeamStatus) value;
-- (RemoveMonsterFromBattleTeamResponseProto_Builder*) clearStatusList;
+- (RemoveMonsterFromBattleTeamResponseProto_Builder*) clearStatus;
 @end
 
 @interface IncreaseMonsterInventorySlotRequestProto : PBGeneratedMessage {
@@ -1838,7 +1838,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasIncreaseSlotType;
 - (IncreaseMonsterInventorySlotRequestProto_IncreaseSlotType) increaseSlotType;
 - (IncreaseMonsterInventorySlotRequestProto_Builder*) setIncreaseSlotType:(IncreaseMonsterInventorySlotRequestProto_IncreaseSlotType) value;
-- (IncreaseMonsterInventorySlotRequestProto_Builder*) clearIncreaseSlotTypeList;
+- (IncreaseMonsterInventorySlotRequestProto_Builder*) clearIncreaseSlotType;
 
 - (BOOL) hasUserStructUuid;
 - (NSString*) userStructUuid;
@@ -1909,7 +1909,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasStatus;
 - (IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatus) status;
 - (IncreaseMonsterInventorySlotResponseProto_Builder*) setStatus:(IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatus) value;
-- (IncreaseMonsterInventorySlotResponseProto_Builder*) clearStatusList;
+- (IncreaseMonsterInventorySlotResponseProto_Builder*) clearStatus;
 @end
 
 @interface InviteFbFriendsForSlotsRequestProto : PBGeneratedMessage {
@@ -2099,7 +2099,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasStatus;
 - (InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatus) status;
 - (InviteFbFriendsForSlotsResponseProto_Builder*) setStatus:(InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatus) value;
-- (InviteFbFriendsForSlotsResponseProto_Builder*) clearStatusList;
+- (InviteFbFriendsForSlotsResponseProto_Builder*) clearStatus;
 
 - (NSMutableArray *)invitesNewList;
 - (UserFacebookInviteForSlotProto*)invitesNewAtIndex:(NSUInteger)index;
@@ -2237,7 +2237,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasStatus;
 - (AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatus) status;
 - (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) setStatus:(AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatus) value;
-- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) clearStatusList;
+- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) clearStatus;
 
 - (NSMutableArray *)acceptedInvitesList;
 - (UserFacebookInviteForSlotProto*)acceptedInvitesAtIndex:(NSUInteger)index;
@@ -2372,7 +2372,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasStatus;
 - (CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatus) status;
 - (CombineUserMonsterPiecesResponseProto_Builder*) setStatus:(CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatus) value;
-- (CombineUserMonsterPiecesResponseProto_Builder*) clearStatusList;
+- (CombineUserMonsterPiecesResponseProto_Builder*) clearStatus;
 @end
 
 @interface SellUserMonsterRequestProto : PBGeneratedMessage {
@@ -2492,7 +2492,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasStatus;
 - (SellUserMonsterResponseProto_SellUserMonsterStatus) status;
 - (SellUserMonsterResponseProto_Builder*) setStatus:(SellUserMonsterResponseProto_SellUserMonsterStatus) value;
-- (SellUserMonsterResponseProto_Builder*) clearStatusList;
+- (SellUserMonsterResponseProto_Builder*) clearStatus;
 @end
 
 @interface RestrictUserMonsterRequestProto : PBGeneratedMessage {
@@ -2612,7 +2612,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasStatus;
 - (RestrictUserMonsterResponseProto_RestrictUserMonsterStatus) status;
 - (RestrictUserMonsterResponseProto_Builder*) setStatus:(RestrictUserMonsterResponseProto_RestrictUserMonsterStatus) value;
-- (RestrictUserMonsterResponseProto_Builder*) clearStatusList;
+- (RestrictUserMonsterResponseProto_Builder*) clearStatus;
 @end
 
 @interface UnrestrictUserMonsterRequestProto : PBGeneratedMessage {
@@ -2732,7 +2732,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasStatus;
 - (UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatus) status;
 - (UnrestrictUserMonsterResponseProto_Builder*) setStatus:(UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatus) value;
-- (UnrestrictUserMonsterResponseProto_Builder*) clearStatusList;
+- (UnrestrictUserMonsterResponseProto_Builder*) clearStatus;
 @end
 
 

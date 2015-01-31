@@ -1694,11 +1694,10 @@
 
 - (void) spawnRibbonForOrb:(BattleOrb *)orb target:(CGPoint)endPosition skill:(BOOL)skill {
   
-  BOOL cake  = (orb.specialOrbType == SpecialOrbTypeCake);
-  BOOL grave = (orb.specialOrbType == SpecialOrbTypeGrave);
+  BOOL cake = (orb.specialOrbType == SpecialOrbTypeCake);
   
   // Create random bezier
-  if (orb.orbColor != OrbColorNone || cake || grave) {
+  if (orb.orbColor != OrbColorNone || cake) {
     ccBezierConfig bez;
     bez.endPosition = endPosition;
     CGPoint initPoint = [self.orbLayer convertToNodeSpace:[self.orbLayer.swipeLayer convertToWorldSpace:[self.orbLayer.swipeLayer pointForColumn:orb.column row:orb.row]]];
@@ -1713,7 +1712,7 @@
     float xScale = ccpDistance(initPoint, bez.endPosition);
     float yScale = (50+xScale/5)*(chooseRight?-1:1);
     float angle = ccpToAngle(ccpSub(bez.endPosition, initPoint));
-    if (cake || grave)
+    if (cake)
     {
       xScale = 1.0;
       yScale = 1.0;
@@ -1727,15 +1726,13 @@
     bez.controlPoint_1 = ccpAdd(initPoint, CGPointApplyAffineTransform(basePt1, t));
     bez.controlPoint_2 = ccpAdd(initPoint, CGPointApplyAffineTransform(basePt2, t));
     
-    CCActionBezierTo *move = [CCActionBezierTo actionWithDuration:((cake || grave) ? 1.5f : (0.15f + xScale / 800.f)) bezier:bez];
+    CCActionBezierTo *move = [CCActionBezierTo actionWithDuration:(cake?1.5f:(0.15f+xScale/800.f)) bezier:bez];
     CCNode *dg;
     float stayDelay = 0.7f;
     if (skill)
     {
-      /*
       // Tail for an orb flying to skill indicator
-      dg = [[SparklingTail alloc] initWithColor:orb.orbColor];
-       */
+//    dg = [[SparklingTail alloc] initWithColor:orb.orbColor];
       
       CCSprite *orbSprite = [self.orbLayer.swipeLayer spriteForOrb:orb].orbSprite;
       dg = [CCSprite spriteWithTexture:orbSprite.texture rect:orbSprite.textureRect];
@@ -1745,10 +1742,9 @@
     }
     else
     {
+      // Cake or sparkle
       if (cake)
         dg = [[DestroyedOrb alloc] initWithCake];
-      else if (grave)
-        dg = [[DestroyedOrb alloc] initWithGrave];
       else
         dg = [[DestroyedOrb alloc] initWithColor:[self.orbLayer.swipeLayer colorForSparkle:orb.orbColor]];
     }
@@ -2000,7 +1996,7 @@
       }
 
     }
-    else if (orb.specialOrbType == SpecialOrbTypeCake || orb.specialOrbType == SpecialOrbTypeGrave)
+    else if (orb.specialOrbType == SpecialOrbTypeCake)
     {
       CGPoint endPoint = [self.orbLayer convertToNodeSpace:[self.bgdContainer convertToWorldSpace:ccpAdd(self.currentEnemy.position, ccp(0, self.currentEnemy.contentSize.height/2))]];
       [self spawnRibbonForOrb:orb target:endPoint skill:NO];

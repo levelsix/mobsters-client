@@ -233,12 +233,20 @@ static const NSInteger kGraveOrbsMaxSearchIterations = 256;
     NSInteger counter = 0;
     do {
       column = rand() % layout.numColumns;
-      row = layout.numRows - 1;
+      row = (layout.numRows - 1) - rand() % 2; // Top two rows
       orb = [layout orbAtColumn:column row:row];
       ++counter;
     }
-    while ((orb.specialOrbType != SpecialOrbTypeNone || orb.powerupType != PowerupTypeNone) &&
+    while ((orb.specialOrbType != SpecialOrbTypeNone || orb.powerupType != PowerupTypeNone || orb.isLocked) &&
            counter < kGraveOrbsMaxSearchIterations);
+    
+    // Nothing found (just in case), continue and perform selector if the last grave orb
+    if (!orb)
+    {
+      if (n == _graveSpawnCount - 1)
+        [self skillTriggerFinished];
+      continue;
+    }
     
     // Update data
     orb.specialOrbType = SpecialOrbTypeGrave;
@@ -275,8 +283,13 @@ static const NSInteger kGraveOrbsMaxSearchIterations = 256;
       BattleOrb* orb = [layout orbAtColumn:column row:row];
       if (orb.specialOrbType == SpecialOrbTypeGrave)
       {
-        [layout generateRandomOrbData:orb atColumn:(int)column row:(int)row];
-        [[layer spriteForOrb:orb] reloadSprite:YES];
+        orb.specialOrbType = SpecialOrbTypeNone;
+        do {
+          orb.orbColor = [layout generateRandomOrbColor];
+        } while ([layout hasChainAtColumn:column row:row]);
+        
+        OrbSprite* orbSprite = [layer spriteForOrb:orb];
+        [orbSprite reloadSprite:YES];
       }
     }
   }

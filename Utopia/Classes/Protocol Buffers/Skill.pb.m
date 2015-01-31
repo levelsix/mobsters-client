@@ -49,6 +49,7 @@ BOOL SkillTypeIsValidValue(SkillType value) {
     case SkillTypeHammerTime:
     case SkillTypeBloodRage:
     case SkillTypeTakeAim:
+    case SkillTypeHellFire:
       return YES;
     default:
       return NO;
@@ -593,7 +594,7 @@ static SkillProto* defaultSkillProtoInstance = nil;
   result.type = value;
   return self;
 }
-- (SkillProto_Builder*) clearTypeList {
+- (SkillProto_Builder*) clearType {
   result.hasType = NO;
   result.type = SkillTypeNoSkill;
   return self;
@@ -609,7 +610,7 @@ static SkillProto* defaultSkillProtoInstance = nil;
   result.activationType = value;
   return self;
 }
-- (SkillProto_Builder*) clearActivationTypeList {
+- (SkillProto_Builder*) clearActivationType {
   result.hasActivationType = NO;
   result.activationType = SkillActivationTypeUserActivated;
   return self;

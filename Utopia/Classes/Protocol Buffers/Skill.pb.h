@@ -48,6 +48,7 @@ typedef NS_ENUM(SInt32, SkillType) {
   SkillTypeHammerTime = 25,
   SkillTypeBloodRage = 26,
   SkillTypeTakeAim = 27,
+  SkillTypeHellFire = 28,
 };
 
 BOOL SkillTypeIsValidValue(SkillType value);
@@ -163,12 +164,12 @@ BOOL SkillActivationTypeIsValidValue(SkillActivationType value);
 - (BOOL) hasType;
 - (SkillType) type;
 - (SkillProto_Builder*) setType:(SkillType) value;
-- (SkillProto_Builder*) clearTypeList;
+- (SkillProto_Builder*) clearType;
 
 - (BOOL) hasActivationType;
 - (SkillActivationType) activationType;
 - (SkillProto_Builder*) setActivationType:(SkillActivationType) value;
-- (SkillProto_Builder*) clearActivationTypeList;
+- (SkillProto_Builder*) clearActivationType;
 
 - (BOOL) hasPredecId;
 - (int32_t) predecId;

@@ -726,11 +726,15 @@
 }
 
 - (BOOL) orbCanBeRemoved:(BattleOrb *)orb {
-  return (orb.specialOrbType != SpecialOrbTypeCake && orb.specialOrbType != SpecialOrbTypeGrave);
+  return (orb.specialOrbType != SpecialOrbTypeCake &&
+          orb.specialOrbType != SpecialOrbTypeGrave &&
+          orb.specialOrbType != SpecialOrbTypeBullet);
 }
 
 - (BOOL) orbIsBottomFeeder:(BattleOrb *)orb {
-  return (orb.specialOrbType == SpecialOrbTypeCake || orb.specialOrbType == SpecialOrbTypeGrave);
+  return (orb.specialOrbType == SpecialOrbTypeCake ||
+          orb.specialOrbType == SpecialOrbTypeGrave ||
+          orb.specialOrbType == SpecialOrbTypeBullet);
 }
 
 #pragma mark - Powerup Matches

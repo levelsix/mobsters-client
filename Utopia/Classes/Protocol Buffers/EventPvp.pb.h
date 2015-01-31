@@ -276,7 +276,7 @@ BOOL SetDefendingMsgResponseProto_SetDefendingMsgStatusIsValidValue(SetDefending
 - (BOOL) hasStatus;
 - (QueueUpResponseProto_QueueUpStatus) status;
 - (QueueUpResponseProto_Builder*) setStatus:(QueueUpResponseProto_QueueUpStatus) value;
-- (QueueUpResponseProto_Builder*) clearStatusList;
+- (QueueUpResponseProto_Builder*) clearStatus;
 @end
 
 @interface BeginPvpBattleRequestProto : PBGeneratedMessage {
@@ -434,7 +434,7 @@ BOOL SetDefendingMsgResponseProto_SetDefendingMsgStatusIsValidValue(SetDefending
 - (BOOL) hasStatus;
 - (BeginPvpBattleResponseProto_BeginPvpBattleStatus) status;
 - (BeginPvpBattleResponseProto_Builder*) setStatus:(BeginPvpBattleResponseProto_BeginPvpBattleStatus) value;
-- (BeginPvpBattleResponseProto_Builder*) clearStatusList;
+- (BeginPvpBattleResponseProto_Builder*) clearStatus;
 @end
 
 @interface EndPvpBattleRequestProto : PBGeneratedMessage {
@@ -660,7 +660,7 @@ BOOL SetDefendingMsgResponseProto_SetDefendingMsgStatusIsValidValue(SetDefending
 - (BOOL) hasStatus;
 - (EndPvpBattleResponseProto_EndPvpBattleStatus) status;
 - (EndPvpBattleResponseProto_Builder*) setStatus:(EndPvpBattleResponseProto_EndPvpBattleStatus) value;
-- (EndPvpBattleResponseProto_Builder*) clearStatusList;
+- (EndPvpBattleResponseProto_Builder*) clearStatus;
 
 - (NSMutableArray *)updatedOrNewList;
 - (FullUserMonsterProto*)updatedOrNewAtIndex:(NSUInteger)index;
@@ -807,7 +807,7 @@ BOOL SetDefendingMsgResponseProto_SetDefendingMsgStatusIsValidValue(SetDefending
 - (BOOL) hasStatus;
 - (SetDefendingMsgResponseProto_SetDefendingMsgStatus) status;
 - (SetDefendingMsgResponseProto_Builder*) setStatus:(SetDefendingMsgResponseProto_SetDefendingMsgStatus) value;
-- (SetDefendingMsgResponseProto_Builder*) clearStatusList;
+- (SetDefendingMsgResponseProto_Builder*) clearStatus;
 @end
 
 

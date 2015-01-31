@@ -732,7 +732,7 @@ BOOL AchievementProto_AchievementTypeIsValidValue(AchievementProto_AchievementTy
   result.achievementType = value;
   return self;
 }
-- (AchievementProto_Builder*) clearAchievementTypeList {
+- (AchievementProto_Builder*) clearAchievementType {
   result.hasAchievementType = NO;
   result.achievementType = AchievementProto_AchievementTypeNoAchievement;
   return self;
@@ -748,7 +748,7 @@ BOOL AchievementProto_AchievementTypeIsValidValue(AchievementProto_AchievementTy
   result.resourceType = value;
   return self;
 }
-- (AchievementProto_Builder*) clearResourceTypeList {
+- (AchievementProto_Builder*) clearResourceType {
   result.hasResourceType = NO;
   result.resourceType = ResourceTypeNoResource;
   return self;
@@ -764,7 +764,7 @@ BOOL AchievementProto_AchievementTypeIsValidValue(AchievementProto_AchievementTy
   result.element = value;
   return self;
 }
-- (AchievementProto_Builder*) clearElementList {
+- (AchievementProto_Builder*) clearElement {
   result.hasElement = NO;
   result.element = ElementNoElement;
   return self;
@@ -780,7 +780,7 @@ BOOL AchievementProto_AchievementTypeIsValidValue(AchievementProto_AchievementTy
   result.quality = value;
   return self;
 }
-- (AchievementProto_Builder*) clearQualityList {
+- (AchievementProto_Builder*) clearQuality {
   result.hasQuality = NO;
   result.quality = QualityNoQuality;
   return self;

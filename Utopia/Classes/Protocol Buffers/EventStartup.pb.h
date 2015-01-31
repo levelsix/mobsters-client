@@ -1625,7 +1625,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasHelpType;
 - (GameActionType) helpType;
 - (StartupResponseProto_StartupConstants_ClanHelpConstants_Builder*) setHelpType:(GameActionType) value;
-- (StartupResponseProto_StartupConstants_ClanHelpConstants_Builder*) clearHelpTypeList;
+- (StartupResponseProto_StartupConstants_ClanHelpConstants_Builder*) clearHelpType;
 
 - (BOOL) hasAmountRemovedPerHelp;
 - (int32_t) amountRemovedPerHelp;
@@ -1853,7 +1853,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasResourceType;
 - (ResourceType) resourceType;
 - (StartupResponseProto_StartupConstants_ResourceConversionConstantProto_Builder*) setResourceType:(ResourceType) value;
-- (StartupResponseProto_StartupConstants_ResourceConversionConstantProto_Builder*) clearResourceTypeList;
+- (StartupResponseProto_StartupConstants_ResourceConversionConstantProto_Builder*) clearResourceType;
 
 - (BOOL) hasResourceAmt;
 - (int32_t) resourceAmt;
@@ -2314,12 +2314,12 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasStartupStatus;
 - (StartupResponseProto_StartupStatus) startupStatus;
 - (StartupResponseProto_Builder*) setStartupStatus:(StartupResponseProto_StartupStatus) value;
-- (StartupResponseProto_Builder*) clearStartupStatusList;
+- (StartupResponseProto_Builder*) clearStartupStatus;
 
 - (BOOL) hasUpdateStatus;
 - (StartupResponseProto_UpdateStatus) updateStatus;
 - (StartupResponseProto_Builder*) setUpdateStatus:(StartupResponseProto_UpdateStatus) value;
-- (StartupResponseProto_Builder*) clearUpdateStatusList;
+- (StartupResponseProto_Builder*) clearUpdateStatus;
 
 - (BOOL) hasStartupConstants;
 - (StartupResponseProto_StartupConstants*) startupConstants;

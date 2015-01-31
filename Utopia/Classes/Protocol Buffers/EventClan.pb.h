@@ -656,7 +656,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasStatus;
 - (CreateClanResponseProto_CreateClanStatus) status;
 - (CreateClanResponseProto_Builder*) setStatus:(CreateClanResponseProto_CreateClanStatus) value;
-- (CreateClanResponseProto_Builder*) clearStatusList;
+- (CreateClanResponseProto_Builder*) clearStatus;
 
 - (BOOL) hasClanInfo;
 - (MinimumClanProto*) clanInfo;
@@ -774,7 +774,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasStatus;
 - (LeaveClanResponseProto_LeaveClanStatus) status;
 - (LeaveClanResponseProto_Builder*) setStatus:(LeaveClanResponseProto_LeaveClanStatus) value;
-- (LeaveClanResponseProto_Builder*) clearStatusList;
+- (LeaveClanResponseProto_Builder*) clearStatus;
 @end
 
 @interface RequestJoinClanRequestProto : PBGeneratedMessage {
@@ -934,7 +934,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasStatus;
 - (RequestJoinClanResponseProto_RequestJoinClanStatus) status;
 - (RequestJoinClanResponseProto_Builder*) setStatus:(RequestJoinClanResponseProto_RequestJoinClanStatus) value;
-- (RequestJoinClanResponseProto_Builder*) clearStatusList;
+- (RequestJoinClanResponseProto_Builder*) clearStatus;
 
 - (BOOL) hasClanUuid;
 - (NSString*) clanUuid;
@@ -1109,7 +1109,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasStatus;
 - (RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatus) status;
 - (RetractRequestJoinClanResponseProto_Builder*) setStatus:(RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatus) value;
-- (RetractRequestJoinClanResponseProto_Builder*) clearStatusList;
+- (RetractRequestJoinClanResponseProto_Builder*) clearStatus;
 
 - (BOOL) hasClanUuid;
 - (NSString*) clanUuid;
@@ -1259,7 +1259,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasStatus;
 - (ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatus) status;
 - (ApproveOrRejectRequestToJoinClanResponseProto_Builder*) setStatus:(ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatus) value;
-- (ApproveOrRejectRequestToJoinClanResponseProto_Builder*) clearStatusList;
+- (ApproveOrRejectRequestToJoinClanResponseProto_Builder*) clearStatus;
 
 - (BOOL) hasRequester;
 - (MinimumUserProto*) requester;
@@ -1371,7 +1371,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasGrabType;
 - (RetrieveClanInfoRequestProto_ClanInfoGrabType) grabType;
 - (RetrieveClanInfoRequestProto_Builder*) setGrabType:(RetrieveClanInfoRequestProto_ClanInfoGrabType) value;
-- (RetrieveClanInfoRequestProto_Builder*) clearGrabTypeList;
+- (RetrieveClanInfoRequestProto_Builder*) clearGrabType;
 
 - (BOOL) hasBeforeThisClanId;
 - (int32_t) beforeThisClanId;
@@ -1482,7 +1482,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasStatus;
 - (RetrieveClanInfoResponseProto_RetrieveClanInfoStatus) status;
 - (RetrieveClanInfoResponseProto_Builder*) setStatus:(RetrieveClanInfoResponseProto_RetrieveClanInfoStatus) value;
-- (RetrieveClanInfoResponseProto_Builder*) clearStatusList;
+- (RetrieveClanInfoResponseProto_Builder*) clearStatus;
 
 - (BOOL) hasIsForSearch;
 - (BOOL) isForSearch;
@@ -1645,7 +1645,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasStatus;
 - (TransferClanOwnershipResponseProto_TransferClanOwnershipStatus) status;
 - (TransferClanOwnershipResponseProto_Builder*) setStatus:(TransferClanOwnershipResponseProto_TransferClanOwnershipStatus) value;
-- (TransferClanOwnershipResponseProto_Builder*) clearStatusList;
+- (TransferClanOwnershipResponseProto_Builder*) clearStatus;
 
 - (BOOL) hasMinClan;
 - (MinimumClanProto*) minClan;
@@ -1797,7 +1797,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasStatus;
 - (BootPlayerFromClanResponseProto_BootPlayerFromClanStatus) status;
 - (BootPlayerFromClanResponseProto_Builder*) setStatus:(BootPlayerFromClanResponseProto_BootPlayerFromClanStatus) value;
-- (BootPlayerFromClanResponseProto_Builder*) clearStatusList;
+- (BootPlayerFromClanResponseProto_Builder*) clearStatus;
 @end
 
 @interface ChangeClanSettingsRequestProto : PBGeneratedMessage {
@@ -1970,7 +1970,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasStatus;
 - (ChangeClanSettingsResponseProto_ChangeClanSettingsStatus) status;
 - (ChangeClanSettingsResponseProto_Builder*) setStatus:(ChangeClanSettingsResponseProto_ChangeClanSettingsStatus) value;
-- (ChangeClanSettingsResponseProto_Builder*) clearStatusList;
+- (ChangeClanSettingsResponseProto_Builder*) clearStatus;
 
 - (BOOL) hasMinClan;
 - (MinimumClanProto*) minClan;
@@ -2164,7 +2164,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasStatus;
 - (BeginClanRaidResponseProto_BeginClanRaidStatus) status;
 - (BeginClanRaidResponseProto_Builder*) setStatus:(BeginClanRaidResponseProto_BeginClanRaidStatus) value;
-- (BeginClanRaidResponseProto_Builder*) clearStatusList;
+- (BeginClanRaidResponseProto_Builder*) clearStatus;
 
 - (BOOL) hasUserDetails;
 - (PersistentClanEventUserInfoProto*) userDetails;
@@ -2382,7 +2382,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasStatus;
 - (AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatus) status;
 - (AttackClanRaidMonsterResponseProto_Builder*) setStatus:(AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatus) value;
-- (AttackClanRaidMonsterResponseProto_Builder*) clearStatusList;
+- (AttackClanRaidMonsterResponseProto_Builder*) clearStatus;
 @end
 
 @interface AwardClanRaidStageRewardResponseProto : PBGeneratedMessage {
@@ -2569,7 +2569,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasStatus;
 - (RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatus) status;
 - (RecordClanRaidStatsResponseProto_Builder*) setStatus:(RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatus) value;
-- (RecordClanRaidStatsResponseProto_Builder*) clearStatusList;
+- (RecordClanRaidStatsResponseProto_Builder*) clearStatus;
 @end
 
 @interface PromoteDemoteClanMemberRequestProto : PBGeneratedMessage {
@@ -2638,7 +2638,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasUserClanStatus;
 - (UserClanStatus) userClanStatus;
 - (PromoteDemoteClanMemberRequestProto_Builder*) setUserClanStatus:(UserClanStatus) value;
-- (PromoteDemoteClanMemberRequestProto_Builder*) clearUserClanStatusList;
+- (PromoteDemoteClanMemberRequestProto_Builder*) clearUserClanStatus;
 @end
 
 @interface PromoteDemoteClanMemberResponseProto : PBGeneratedMessage {
@@ -2717,17 +2717,17 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasUserClanStatus;
 - (UserClanStatus) userClanStatus;
 - (PromoteDemoteClanMemberResponseProto_Builder*) setUserClanStatus:(UserClanStatus) value;
-- (PromoteDemoteClanMemberResponseProto_Builder*) clearUserClanStatusList;
+- (PromoteDemoteClanMemberResponseProto_Builder*) clearUserClanStatus;
 
 - (BOOL) hasPrevUserClanStatus;
 - (UserClanStatus) prevUserClanStatus;
 - (PromoteDemoteClanMemberResponseProto_Builder*) setPrevUserClanStatus:(UserClanStatus) value;
-- (PromoteDemoteClanMemberResponseProto_Builder*) clearPrevUserClanStatusList;
+- (PromoteDemoteClanMemberResponseProto_Builder*) clearPrevUserClanStatus;
 
 - (BOOL) hasStatus;
 - (PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatus) status;
 - (PromoteDemoteClanMemberResponseProto_Builder*) setStatus:(PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatus) value;
-- (PromoteDemoteClanMemberResponseProto_Builder*) clearStatusList;
+- (PromoteDemoteClanMemberResponseProto_Builder*) clearStatus;
 @end
 
 @interface SolicitClanHelpRequestProto : PBGeneratedMessage {
@@ -2874,7 +2874,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasStatus;
 - (SolicitClanHelpResponseProto_SolicitClanHelpStatus) status;
 - (SolicitClanHelpResponseProto_Builder*) setStatus:(SolicitClanHelpResponseProto_SolicitClanHelpStatus) value;
-- (SolicitClanHelpResponseProto_Builder*) clearStatusList;
+- (SolicitClanHelpResponseProto_Builder*) clearStatus;
 @end
 
 @interface GiveClanHelpRequestProto : PBGeneratedMessage {
@@ -3003,7 +3003,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasStatus;
 - (GiveClanHelpResponseProto_GiveClanHelpStatus) status;
 - (GiveClanHelpResponseProto_Builder*) setStatus:(GiveClanHelpResponseProto_GiveClanHelpStatus) value;
-- (GiveClanHelpResponseProto_Builder*) clearStatusList;
+- (GiveClanHelpResponseProto_Builder*) clearStatus;
 @end
 
 @interface EndClanHelpRequestProto : PBGeneratedMessage {
@@ -3132,7 +3132,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasStatus;
 - (EndClanHelpResponseProto_EndClanHelpStatus) status;
 - (EndClanHelpResponseProto_Builder*) setStatus:(EndClanHelpResponseProto_EndClanHelpStatus) value;
-- (EndClanHelpResponseProto_Builder*) clearStatusList;
+- (EndClanHelpResponseProto_Builder*) clearStatus;
 @end
 
 @interface InviteToClanRequestProto : PBGeneratedMessage {
@@ -3265,7 +3265,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasStatus;
 - (InviteToClanResponseProto_InviteToClanStatus) status;
 - (InviteToClanResponseProto_Builder*) setStatus:(InviteToClanResponseProto_InviteToClanStatus) value;
-- (InviteToClanResponseProto_Builder*) clearStatusList;
+- (InviteToClanResponseProto_Builder*) clearStatus;
 
 - (BOOL) hasInvite;
 - (ClanInviteProto*) invite;
@@ -3416,7 +3416,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasStatus;
 - (AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatus) status;
 - (AcceptOrRejectClanInviteResponseProto_Builder*) setStatus:(AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatus) value;
-- (AcceptOrRejectClanInviteResponseProto_Builder*) clearStatusList;
+- (AcceptOrRejectClanInviteResponseProto_Builder*) clearStatus;
 
 - (BOOL) hasFullClan;
 - (FullClanProtoWithClanSize*) fullClan;
@@ -3623,7 +3623,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasStatus;
 - (BeginClanAvengingResponseProto_BeginClanAvengingStatus) status;
 - (BeginClanAvengingResponseProto_Builder*) setStatus:(BeginClanAvengingResponseProto_BeginClanAvengingStatus) value;
-- (BeginClanAvengingResponseProto_Builder*) clearStatusList;
+- (BeginClanAvengingResponseProto_Builder*) clearStatus;
 @end
 
 @interface EndClanAvengingRequestProto : PBGeneratedMessage {
@@ -3752,7 +3752,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasStatus;
 - (EndClanAvengingResponseProto_EndClanAvengingStatus) status;
 - (EndClanAvengingResponseProto_Builder*) setStatus:(EndClanAvengingResponseProto_EndClanAvengingStatus) value;
-- (EndClanAvengingResponseProto_Builder*) clearStatusList;
+- (EndClanAvengingResponseProto_Builder*) clearStatus;
 @end
 
 @interface AvengeClanMateRequestProto : PBGeneratedMessage {
@@ -3894,7 +3894,427 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasStatus;
 - (AvengeClanMateResponseProto_AvengeClanMateStatus) status;
 - (AvengeClanMateResponseProto_Builder*) setStatus:(AvengeClanMateResponseProto_AvengeClanMateStatus) value;
-- (AvengeClanMateResponseProto_Builder*) clearStatusList;
+- (AvengeClanMateResponseProto_Builder*) clearStatus;
+@end
+
+@interface SolicitTeamDonationRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasClientTime_:1;
+  BOOL hasPowerLimit_:1;
+  BOOL hasGemsSpent_:1;
+  BOOL hasMsg_:1;
+  BOOL hasSender_:1;
+  int64_t clientTime;
+  int32_t powerLimit;
+  int32_t gemsSpent;
+  NSString* msg;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+- (BOOL) hasMsg;
+- (BOOL) hasPowerLimit;
+- (BOOL) hasClientTime;
+- (BOOL) hasGemsSpent;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) NSString* msg;
+@property (readonly) int32_t powerLimit;
+@property (readonly) int64_t clientTime;
+@property (readonly) int32_t gemsSpent;
+
++ (SolicitTeamDonationRequestProto*) defaultInstance;
+- (SolicitTeamDonationRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (SolicitTeamDonationRequestProto_Builder*) builder;
++ (SolicitTeamDonationRequestProto_Builder*) builder;
++ (SolicitTeamDonationRequestProto_Builder*) builderWithPrototype:(SolicitTeamDonationRequestProto*) prototype;
+- (SolicitTeamDonationRequestProto_Builder*) toBuilder;
+
++ (SolicitTeamDonationRequestProto*) parseFromData:(NSData*) data;
++ (SolicitTeamDonationRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (SolicitTeamDonationRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (SolicitTeamDonationRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (SolicitTeamDonationRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (SolicitTeamDonationRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface SolicitTeamDonationRequestProto_Builder : PBGeneratedMessageBuilder {
+@private
+  SolicitTeamDonationRequestProto* result;
+}
+
+- (SolicitTeamDonationRequestProto*) defaultInstance;
+
+- (SolicitTeamDonationRequestProto_Builder*) clear;
+- (SolicitTeamDonationRequestProto_Builder*) clone;
+
+- (SolicitTeamDonationRequestProto*) build;
+- (SolicitTeamDonationRequestProto*) buildPartial;
+
+- (SolicitTeamDonationRequestProto_Builder*) mergeFrom:(SolicitTeamDonationRequestProto*) other;
+- (SolicitTeamDonationRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (SolicitTeamDonationRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (SolicitTeamDonationRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (SolicitTeamDonationRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (SolicitTeamDonationRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (SolicitTeamDonationRequestProto_Builder*) clearSender;
+
+- (BOOL) hasMsg;
+- (NSString*) msg;
+- (SolicitTeamDonationRequestProto_Builder*) setMsg:(NSString*) value;
+- (SolicitTeamDonationRequestProto_Builder*) clearMsg;
+
+- (BOOL) hasPowerLimit;
+- (int32_t) powerLimit;
+- (SolicitTeamDonationRequestProto_Builder*) setPowerLimit:(int32_t) value;
+- (SolicitTeamDonationRequestProto_Builder*) clearPowerLimit;
+
+- (BOOL) hasClientTime;
+- (int64_t) clientTime;
+- (SolicitTeamDonationRequestProto_Builder*) setClientTime:(int64_t) value;
+- (SolicitTeamDonationRequestProto_Builder*) clearClientTime;
+
+- (BOOL) hasGemsSpent;
+- (int32_t) gemsSpent;
+- (SolicitTeamDonationRequestProto_Builder*) setGemsSpent:(int32_t) value;
+- (SolicitTeamDonationRequestProto_Builder*) clearGemsSpent;
+@end
+
+@interface SolicitTeamDonationResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasSolicitation_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  ClanMemberTeamDonationProto* solicitation;
+  SolicitTeamDonationResponseProto_SolicitTeamDonationStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+- (BOOL) hasSolicitation;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly) SolicitTeamDonationResponseProto_SolicitTeamDonationStatus status;
+@property (readonly, strong) ClanMemberTeamDonationProto* solicitation;
+
++ (SolicitTeamDonationResponseProto*) defaultInstance;
+- (SolicitTeamDonationResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (SolicitTeamDonationResponseProto_Builder*) builder;
++ (SolicitTeamDonationResponseProto_Builder*) builder;
++ (SolicitTeamDonationResponseProto_Builder*) builderWithPrototype:(SolicitTeamDonationResponseProto*) prototype;
+- (SolicitTeamDonationResponseProto_Builder*) toBuilder;
+
++ (SolicitTeamDonationResponseProto*) parseFromData:(NSData*) data;
++ (SolicitTeamDonationResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (SolicitTeamDonationResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (SolicitTeamDonationResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (SolicitTeamDonationResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (SolicitTeamDonationResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface SolicitTeamDonationResponseProto_Builder : PBGeneratedMessageBuilder {
+@private
+  SolicitTeamDonationResponseProto* result;
+}
+
+- (SolicitTeamDonationResponseProto*) defaultInstance;
+
+- (SolicitTeamDonationResponseProto_Builder*) clear;
+- (SolicitTeamDonationResponseProto_Builder*) clone;
+
+- (SolicitTeamDonationResponseProto*) build;
+- (SolicitTeamDonationResponseProto*) buildPartial;
+
+- (SolicitTeamDonationResponseProto_Builder*) mergeFrom:(SolicitTeamDonationResponseProto*) other;
+- (SolicitTeamDonationResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (SolicitTeamDonationResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (SolicitTeamDonationResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (SolicitTeamDonationResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (SolicitTeamDonationResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (SolicitTeamDonationResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (SolicitTeamDonationResponseProto_SolicitTeamDonationStatus) status;
+- (SolicitTeamDonationResponseProto_Builder*) setStatus:(SolicitTeamDonationResponseProto_SolicitTeamDonationStatus) value;
+- (SolicitTeamDonationResponseProto_Builder*) clearStatus;
+
+- (BOOL) hasSolicitation;
+- (ClanMemberTeamDonationProto*) solicitation;
+- (SolicitTeamDonationResponseProto_Builder*) setSolicitation:(ClanMemberTeamDonationProto*) value;
+- (SolicitTeamDonationResponseProto_Builder*) setSolicitation_Builder:(ClanMemberTeamDonationProto_Builder*) builderForValue;
+- (SolicitTeamDonationResponseProto_Builder*) mergeSolicitation:(ClanMemberTeamDonationProto*) value;
+- (SolicitTeamDonationResponseProto_Builder*) clearSolicitation;
+@end
+
+@interface FulfillTeamDonationSolicitationRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasClientTime_:1;
+  BOOL hasSender_:1;
+  BOOL hasFump_:1;
+  int64_t clientTime;
+  MinimumUserProto* sender;
+  FullUserMonsterProto* fump;
+}
+- (BOOL) hasSender;
+- (BOOL) hasFump;
+- (BOOL) hasClientTime;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) FullUserMonsterProto* fump;
+@property (readonly) int64_t clientTime;
+
++ (FulfillTeamDonationSolicitationRequestProto*) defaultInstance;
+- (FulfillTeamDonationSolicitationRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (FulfillTeamDonationSolicitationRequestProto_Builder*) builder;
++ (FulfillTeamDonationSolicitationRequestProto_Builder*) builder;
++ (FulfillTeamDonationSolicitationRequestProto_Builder*) builderWithPrototype:(FulfillTeamDonationSolicitationRequestProto*) prototype;
+- (FulfillTeamDonationSolicitationRequestProto_Builder*) toBuilder;
+
++ (FulfillTeamDonationSolicitationRequestProto*) parseFromData:(NSData*) data;
++ (FulfillTeamDonationSolicitationRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (FulfillTeamDonationSolicitationRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (FulfillTeamDonationSolicitationRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (FulfillTeamDonationSolicitationRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (FulfillTeamDonationSolicitationRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface FulfillTeamDonationSolicitationRequestProto_Builder : PBGeneratedMessageBuilder {
+@private
+  FulfillTeamDonationSolicitationRequestProto* result;
+}
+
+- (FulfillTeamDonationSolicitationRequestProto*) defaultInstance;
+
+- (FulfillTeamDonationSolicitationRequestProto_Builder*) clear;
+- (FulfillTeamDonationSolicitationRequestProto_Builder*) clone;
+
+- (FulfillTeamDonationSolicitationRequestProto*) build;
+- (FulfillTeamDonationSolicitationRequestProto*) buildPartial;
+
+- (FulfillTeamDonationSolicitationRequestProto_Builder*) mergeFrom:(FulfillTeamDonationSolicitationRequestProto*) other;
+- (FulfillTeamDonationSolicitationRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (FulfillTeamDonationSolicitationRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (FulfillTeamDonationSolicitationRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (FulfillTeamDonationSolicitationRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (FulfillTeamDonationSolicitationRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (FulfillTeamDonationSolicitationRequestProto_Builder*) clearSender;
+
+- (BOOL) hasFump;
+- (FullUserMonsterProto*) fump;
+- (FulfillTeamDonationSolicitationRequestProto_Builder*) setFump:(FullUserMonsterProto*) value;
+- (FulfillTeamDonationSolicitationRequestProto_Builder*) setFump_Builder:(FullUserMonsterProto_Builder*) builderForValue;
+- (FulfillTeamDonationSolicitationRequestProto_Builder*) mergeFump:(FullUserMonsterProto*) value;
+- (FulfillTeamDonationSolicitationRequestProto_Builder*) clearFump;
+
+- (BOOL) hasClientTime;
+- (int64_t) clientTime;
+- (FulfillTeamDonationSolicitationRequestProto_Builder*) setClientTime:(int64_t) value;
+- (FulfillTeamDonationSolicitationRequestProto_Builder*) clearClientTime;
+@end
+
+@interface FulfillTeamDonationSolicitationResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasSolicitation_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  ClanMemberTeamDonationProto* solicitation;
+  FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolictationStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+- (BOOL) hasSolicitation;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly) FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolictationStatus status;
+@property (readonly, strong) ClanMemberTeamDonationProto* solicitation;
+
++ (FulfillTeamDonationSolicitationResponseProto*) defaultInstance;
+- (FulfillTeamDonationSolicitationResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (FulfillTeamDonationSolicitationResponseProto_Builder*) builder;
++ (FulfillTeamDonationSolicitationResponseProto_Builder*) builder;
++ (FulfillTeamDonationSolicitationResponseProto_Builder*) builderWithPrototype:(FulfillTeamDonationSolicitationResponseProto*) prototype;
+- (FulfillTeamDonationSolicitationResponseProto_Builder*) toBuilder;
+
++ (FulfillTeamDonationSolicitationResponseProto*) parseFromData:(NSData*) data;
++ (FulfillTeamDonationSolicitationResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (FulfillTeamDonationSolicitationResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (FulfillTeamDonationSolicitationResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (FulfillTeamDonationSolicitationResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (FulfillTeamDonationSolicitationResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface FulfillTeamDonationSolicitationResponseProto_Builder : PBGeneratedMessageBuilder {
+@private
+  FulfillTeamDonationSolicitationResponseProto* result;
+}
+
+- (FulfillTeamDonationSolicitationResponseProto*) defaultInstance;
+
+- (FulfillTeamDonationSolicitationResponseProto_Builder*) clear;
+- (FulfillTeamDonationSolicitationResponseProto_Builder*) clone;
+
+- (FulfillTeamDonationSolicitationResponseProto*) build;
+- (FulfillTeamDonationSolicitationResponseProto*) buildPartial;
+
+- (FulfillTeamDonationSolicitationResponseProto_Builder*) mergeFrom:(FulfillTeamDonationSolicitationResponseProto*) other;
+- (FulfillTeamDonationSolicitationResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (FulfillTeamDonationSolicitationResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (FulfillTeamDonationSolicitationResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (FulfillTeamDonationSolicitationResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (FulfillTeamDonationSolicitationResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (FulfillTeamDonationSolicitationResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolictationStatus) status;
+- (FulfillTeamDonationSolicitationResponseProto_Builder*) setStatus:(FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolictationStatus) value;
+- (FulfillTeamDonationSolicitationResponseProto_Builder*) clearStatus;
+
+- (BOOL) hasSolicitation;
+- (ClanMemberTeamDonationProto*) solicitation;
+- (FulfillTeamDonationSolicitationResponseProto_Builder*) setSolicitation:(ClanMemberTeamDonationProto*) value;
+- (FulfillTeamDonationSolicitationResponseProto_Builder*) setSolicitation_Builder:(ClanMemberTeamDonationProto_Builder*) builderForValue;
+- (FulfillTeamDonationSolicitationResponseProto_Builder*) mergeSolicitation:(ClanMemberTeamDonationProto*) value;
+- (FulfillTeamDonationSolicitationResponseProto_Builder*) clearSolicitation;
+@end
+
+@interface VoidTeamDonationSolicitationRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasClanTeamDonateUuid_:1;
+  BOOL hasSender_:1;
+  NSString* clanTeamDonateUuid;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+- (BOOL) hasClanTeamDonateUuid;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) NSString* clanTeamDonateUuid;
+
++ (VoidTeamDonationSolicitationRequestProto*) defaultInstance;
+- (VoidTeamDonationSolicitationRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (VoidTeamDonationSolicitationRequestProto_Builder*) builder;
++ (VoidTeamDonationSolicitationRequestProto_Builder*) builder;
++ (VoidTeamDonationSolicitationRequestProto_Builder*) builderWithPrototype:(VoidTeamDonationSolicitationRequestProto*) prototype;
+- (VoidTeamDonationSolicitationRequestProto_Builder*) toBuilder;
+
++ (VoidTeamDonationSolicitationRequestProto*) parseFromData:(NSData*) data;
++ (VoidTeamDonationSolicitationRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (VoidTeamDonationSolicitationRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (VoidTeamDonationSolicitationRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (VoidTeamDonationSolicitationRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (VoidTeamDonationSolicitationRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface VoidTeamDonationSolicitationRequestProto_Builder : PBGeneratedMessageBuilder {
+@private
+  VoidTeamDonationSolicitationRequestProto* result;
+}
+
+- (VoidTeamDonationSolicitationRequestProto*) defaultInstance;
+
+- (VoidTeamDonationSolicitationRequestProto_Builder*) clear;
+- (VoidTeamDonationSolicitationRequestProto_Builder*) clone;
+
+- (VoidTeamDonationSolicitationRequestProto*) build;
+- (VoidTeamDonationSolicitationRequestProto*) buildPartial;
+
+- (VoidTeamDonationSolicitationRequestProto_Builder*) mergeFrom:(VoidTeamDonationSolicitationRequestProto*) other;
+- (VoidTeamDonationSolicitationRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (VoidTeamDonationSolicitationRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (VoidTeamDonationSolicitationRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (VoidTeamDonationSolicitationRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (VoidTeamDonationSolicitationRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (VoidTeamDonationSolicitationRequestProto_Builder*) clearSender;
+
+- (BOOL) hasClanTeamDonateUuid;
+- (NSString*) clanTeamDonateUuid;
+- (VoidTeamDonationSolicitationRequestProto_Builder*) setClanTeamDonateUuid:(NSString*) value;
+- (VoidTeamDonationSolicitationRequestProto_Builder*) clearClanTeamDonateUuid;
+@end
+
+@interface VoidTeamDonationSolicitationResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly) VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatus status;
+
++ (VoidTeamDonationSolicitationResponseProto*) defaultInstance;
+- (VoidTeamDonationSolicitationResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (VoidTeamDonationSolicitationResponseProto_Builder*) builder;
++ (VoidTeamDonationSolicitationResponseProto_Builder*) builder;
++ (VoidTeamDonationSolicitationResponseProto_Builder*) builderWithPrototype:(VoidTeamDonationSolicitationResponseProto*) prototype;
+- (VoidTeamDonationSolicitationResponseProto_Builder*) toBuilder;
+
++ (VoidTeamDonationSolicitationResponseProto*) parseFromData:(NSData*) data;
++ (VoidTeamDonationSolicitationResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (VoidTeamDonationSolicitationResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (VoidTeamDonationSolicitationResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (VoidTeamDonationSolicitationResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (VoidTeamDonationSolicitationResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface VoidTeamDonationSolicitationResponseProto_Builder : PBGeneratedMessageBuilder {
+@private
+  VoidTeamDonationSolicitationResponseProto* result;
+}
+
+- (VoidTeamDonationSolicitationResponseProto*) defaultInstance;
+
+- (VoidTeamDonationSolicitationResponseProto_Builder*) clear;
+- (VoidTeamDonationSolicitationResponseProto_Builder*) clone;
+
+- (VoidTeamDonationSolicitationResponseProto*) build;
+- (VoidTeamDonationSolicitationResponseProto*) buildPartial;
+
+- (VoidTeamDonationSolicitationResponseProto_Builder*) mergeFrom:(VoidTeamDonationSolicitationResponseProto*) other;
+- (VoidTeamDonationSolicitationResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (VoidTeamDonationSolicitationResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (VoidTeamDonationSolicitationResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (VoidTeamDonationSolicitationResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (VoidTeamDonationSolicitationResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (VoidTeamDonationSolicitationResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatus) status;
+- (VoidTeamDonationSolicitationResponseProto_Builder*) setStatus:(VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatus) value;
+- (VoidTeamDonationSolicitationResponseProto_Builder*) clearStatus;
 @end
 
 @interface SolicitTeamDonationRequestProto : PBGeneratedMessage {

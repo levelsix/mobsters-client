@@ -908,7 +908,7 @@ static SendGroupChatRequestProto* defaultSendGroupChatRequestProtoInstance = nil
   result.scope = value;
   return self;
 }
-- (SendGroupChatRequestProto_Builder*) clearScopeList {
+- (SendGroupChatRequestProto_Builder*) clearScope {
   result.hasScope = NO;
   result.scope = GroupChatScopeClan;
   return self;
@@ -1224,7 +1224,7 @@ BOOL SendGroupChatResponseProto_SendGroupChatStatusIsValidValue(SendGroupChatRes
   result.status = value;
   return self;
 }
-- (SendGroupChatResponseProto_Builder*) clearStatusList {
+- (SendGroupChatResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = SendGroupChatResponseProto_SendGroupChatStatusSuccess;
   return self;
@@ -1578,7 +1578,7 @@ static ReceivedGroupChatResponseProto* defaultReceivedGroupChatResponseProtoInst
   result.scope = value;
   return self;
 }
-- (ReceivedGroupChatResponseProto_Builder*) clearScopeList {
+- (ReceivedGroupChatResponseProto_Builder*) clearScope {
   result.hasScope = NO;
   result.scope = GroupChatScopeClan;
   return self;
@@ -2231,7 +2231,7 @@ BOOL PrivateChatPostResponseProto_PrivateChatPostStatusIsValidValue(PrivateChatP
   result.status = value;
   return self;
 }
-- (PrivateChatPostResponseProto_Builder*) clearStatusList {
+- (PrivateChatPostResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = PrivateChatPostResponseProto_PrivateChatPostStatusSuccess;
   return self;
@@ -2995,7 +2995,7 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
   result.status = value;
   return self;
 }
-- (RetrievePrivateChatPostsResponseProto_Builder*) clearStatusList {
+- (RetrievePrivateChatPostsResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusSuccess;
   return self;

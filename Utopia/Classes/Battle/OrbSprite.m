@@ -45,12 +45,14 @@
   // Handle specials
   _bombCounter = nil;
   _headshotCounter = nil;
+  _bulletCounter = nil;
   _damageMultiplier = nil;
   switch (_orb.specialOrbType)
   {
     case SpecialOrbTypeNone: if (_orb.damageMultiplier > 1) [self loadDamageMultiplierElements]; break;
     case SpecialOrbTypeBomb: [self loadBombElements]; break;
     case SpecialOrbTypeHeadshot: if (_orb.headshotCounter > 0) [self loadHeadshotElements]; break;
+    case SpecialOrbTypeBullet: if (_orb.bulletCounter > 0) [self loadBulletElements]; break;
     default: break;
   }
   
@@ -199,6 +201,51 @@
   [_orbSprite addChild:pfx];
 }
 
+- (void) loadBulletElements
+{
+  // Counter background
+  CCSprite* counterBg = [CCSprite spriteWithImageNamed:@"headshotcounter.png"];
+  counterBg.position = CGPointMake(6.f / 33.f, 6.5f / 34.f);
+  counterBg.positionType = CCPositionTypeNormalized;
+  [_orbSprite addChild:counterBg];
+  
+  // Counter label
+  _bulletCounter = [CCLabelTTF labelWithString:@"0" fontName:@"Gotham-Ultra" fontSize:8.f];
+  _bulletCounter.position = CGPointMake(6.f / 33.f, 5.5f / 34.f);
+  _bulletCounter.positionType = CCPositionTypeNormalized;
+  _bulletCounter.color = [CCColor colorWithUIColor:[UIColor colorWithHexString:@"414141"]];
+  _bulletCounter.horizontalAlignment = CCTextAlignmentCenter;
+  [_orbSprite addChild:_bulletCounter];
+  
+  [self updateBulletCounter:NO];
+}
+
+- (void) updateBulletCounter:(BOOL)animated
+{
+  if (_bulletCounter)
+  {
+    if (animated)
+      [_orbSprite runAction:[CCActionSequence actions:
+                             [CCActionEaseOut actionWithAction:[CCActionScaleTo actionWithDuration:.2f scale:.8f]],
+                             [CCActionCallBlock actionWithBlock:^{ _bulletCounter.string = [NSString stringWithFormat:@"%d", (int)_orb.bulletCounter]; }],
+                             [CCActionEaseIn actionWithAction:[CCActionScaleTo actionWithDuration:.2f scale:1.f]],
+                             nil]];
+    else
+      _bulletCounter.string = [NSString stringWithFormat:@"%d", (int)_orb.bulletCounter];
+    
+    if (_orb.bulletCounter <= 2 && _orb.bulletCounter > 0)
+    {
+      [_bulletCounter stopActionByTag:1620];
+      CCAction* action = [CCActionRepeatForever actionWithAction:[CCActionSequence actions:
+                                                                  [RecursiveTintTo actionWithDuration:.4f * _orb.bulletCounter color:[CCColor redColor]],
+                                                                  [RecursiveTintTo actionWithDuration:.4f * _orb.bulletCounter color:[CCColor clearColor]],
+                                                                  nil]];
+      [action setTag:1620];
+      [_bulletCounter runAction:action];
+    }
+  }
+}
+
 #pragma mark - Helpers
 
 + (NSString *) orbSpriteImageNameWithOrb:(BattleOrb *)orb withSuffix:(NSString *)suffix {
@@ -214,7 +261,11 @@
       break;
       
     case SpecialOrbTypeGrave:
-      return [resPrefix stringByAppendingString:@"graveorb.png"];
+      return [NSString stringWithFormat:@"%@graveorb%@.png", resPrefix, suffix];
+      break;
+      
+    case SpecialOrbTypeBullet:
+      return [NSString stringWithFormat:@"%@bulletorb%@.png", resPrefix, suffix];
       break;
       
     case SpecialOrbTypeCloud:

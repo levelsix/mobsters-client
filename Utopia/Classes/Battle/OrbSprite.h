@@ -18,6 +18,7 @@ static const float orbUpdateAnimDuration = 0.3f;
   // Specials
   CCLabelTTF* _bombCounter;
   CCLabelTTF* _headshotCounter;
+  CCLabelTTF* _bulletCounter;
   
   CCSprite* _lockedSprite;
 
@@ -38,6 +39,7 @@ static const float orbUpdateAnimDuration = 0.3f;
 // Specials
 - (void) updateBombCounter:(BOOL)animated;
 - (void) updateHeadshotCounter:(BOOL)animated;
+- (void) updateBulletCounter:(BOOL)animated;
 
 - (void) removeLockElements;
 

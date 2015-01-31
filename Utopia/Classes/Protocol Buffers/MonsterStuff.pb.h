@@ -260,7 +260,7 @@ BOOL UserMonsterSnapshotProto_SnapshotTypeIsValidValue(UserMonsterSnapshotProto_
 - (BOOL) hasQuality;
 - (Quality) quality;
 - (MonsterProto_Builder*) setQuality:(Quality) value;
-- (MonsterProto_Builder*) clearQualityList;
+- (MonsterProto_Builder*) clearQuality;
 
 - (BOOL) hasEvolutionLevel;
 - (int32_t) evolutionLevel;
@@ -275,7 +275,7 @@ BOOL UserMonsterSnapshotProto_SnapshotTypeIsValidValue(UserMonsterSnapshotProto_
 - (BOOL) hasMonsterElement;
 - (Element) monsterElement;
 - (MonsterProto_Builder*) setMonsterElement:(Element) value;
-- (MonsterProto_Builder*) clearMonsterElementList;
+- (MonsterProto_Builder*) clearMonsterElement;
 
 - (BOOL) hasImagePrefix;
 - (NSString*) imagePrefix;
@@ -351,7 +351,7 @@ BOOL UserMonsterSnapshotProto_SnapshotTypeIsValidValue(UserMonsterSnapshotProto_
 - (BOOL) hasAttackAnimationType;
 - (MonsterProto_AnimationType) attackAnimationType;
 - (MonsterProto_Builder*) setAttackAnimationType:(MonsterProto_AnimationType) value;
-- (MonsterProto_Builder*) clearAttackAnimationTypeList;
+- (MonsterProto_Builder*) clearAttackAnimationType;
 
 - (BOOL) hasVerticalPixelOffset;
 - (int32_t) verticalPixelOffset;
@@ -1502,7 +1502,7 @@ BOOL UserMonsterSnapshotProto_SnapshotTypeIsValidValue(UserMonsterSnapshotProto_
 - (BOOL) hasDialogueType;
 - (MonsterBattleDialogueProto_DialogueType) dialogueType;
 - (MonsterBattleDialogueProto_Builder*) setDialogueType:(MonsterBattleDialogueProto_DialogueType) value;
-- (MonsterBattleDialogueProto_Builder*) clearDialogueTypeList;
+- (MonsterBattleDialogueProto_Builder*) clearDialogueType;
 
 - (BOOL) hasDialogue;
 - (NSString*) dialogue;
@@ -1620,6 +1620,7 @@ BOOL UserMonsterSnapshotProto_SnapshotTypeIsValidValue(UserMonsterSnapshotProto_
 - (UserMonsterSnapshotProto_SnapshotType) type;
 - (UserMonsterSnapshotProto_Builder*) setType:(UserMonsterSnapshotProto_SnapshotType) value;
 - (UserMonsterSnapshotProto_Builder*) clearTypeList;
+- (UserMonsterSnapshotProto_Builder*) clearType;
 
 - (BOOL) hasRelevantTableUuid;
 - (NSString*) relevantTableUuid;

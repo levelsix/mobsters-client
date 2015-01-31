@@ -839,7 +839,7 @@ static FullUserClanProto* defaultFullUserClanProtoInstance = nil;
   result.status = value;
   return self;
 }
-- (FullUserClanProto_Builder*) clearStatusList {
+- (FullUserClanProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = UserClanStatusLeader;
   return self;
@@ -1516,7 +1516,7 @@ static MinimumUserProtoForClans* defaultMinimumUserProtoForClansInstance = nil;
   result.clanStatus = value;
   return self;
 }
-- (MinimumUserProtoForClans_Builder*) clearClanStatusList {
+- (MinimumUserProtoForClans_Builder*) clearClanStatus {
   result.hasClanStatus = NO;
   result.clanStatus = UserClanStatusLeader;
   return self;
@@ -3873,7 +3873,7 @@ static PersistentClanEventProto* defaultPersistentClanEventProtoInstance = nil;
   result.dayOfWeek = value;
   return self;
 }
-- (PersistentClanEventProto_Builder*) clearDayOfWeekList {
+- (PersistentClanEventProto_Builder*) clearDayOfWeek {
   result.hasDayOfWeek = NO;
   result.dayOfWeek = DayOfWeekMonday;
   return self;
@@ -5328,7 +5328,7 @@ static PersistentClanEventUserRewardProto* defaultPersistentClanEventUserRewardP
   result.resourceType = value;
   return self;
 }
-- (PersistentClanEventUserRewardProto_Builder*) clearResourceTypeList {
+- (PersistentClanEventUserRewardProto_Builder*) clearResourceType {
   result.hasResourceType = NO;
   result.resourceType = ResourceTypeCash;
   return self;
@@ -7032,7 +7032,7 @@ static ClanHelpProto* defaultClanHelpProtoInstance = nil;
   result.helpType = value;
   return self;
 }
-- (ClanHelpProto_Builder*) clearHelpTypeList {
+- (ClanHelpProto_Builder*) clearHelpType {
   result.hasHelpType = NO;
   result.helpType = GameActionTypeNoHelp;
   return self;
@@ -7385,7 +7385,7 @@ static ClanHelpNoticeProto* defaultClanHelpNoticeProtoInstance = nil;
   result.helpType = value;
   return self;
 }
-- (ClanHelpNoticeProto_Builder*) clearHelpTypeList {
+- (ClanHelpNoticeProto_Builder*) clearHelpType {
   result.hasHelpType = NO;
   result.helpType = GameActionTypeNoHelp;
   return self;
