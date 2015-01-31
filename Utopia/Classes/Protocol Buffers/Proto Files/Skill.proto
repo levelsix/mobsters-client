@@ -82,6 +82,7 @@ enum SkillType {
 	HAMMER_TIME = 25;
 	BLOOD_RAGE = 26;
 <<<<<<< HEAD
+<<<<<<< HEAD
 	TAKE_AIM = 27;
 <<<<<<< HEAD
 	HELL_FIRE = 28;
@@ -95,8 +96,18 @@ enum SkillType {
 =======
 =======
 >>>>>>> donate msg vc done
+<<<<<<< HEAD
 >>>>>>> donate msg vc done
+<<<<<<< HEAD
 >>>>>>> donate msg vc done
+=======
+=======
+=======
+	TAKE_AIM = 27;
+	HELL_FIRE = 28;
+>>>>>>> fixed various bugs and began on solicit clan donation
+>>>>>>> fixed various bugs and began on solicit clan donation
+>>>>>>> fixed various bugs and began on solicit clan donation
 }
 
 enum SkillActivationType {

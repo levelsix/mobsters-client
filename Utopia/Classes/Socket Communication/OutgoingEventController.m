@@ -804,7 +804,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   if (![gs.pvpDefendingMessage isEqualToString:defendingMessage]) {
     defendingMessage = [defendingMessage stringByTrimmingCharactersInSet:
-                               [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                        [NSCharacterSet whitespaceAndNewlineCharacterSet]];
     
     [[SocketCommunication sharedSocketCommunication] sendSetDefendingMsgMessage:defendingMessage];
     
@@ -890,23 +890,34 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
             quantity = 0;
           }
         } else if ((r = [code rangeOfString:GET_ITEM_CODE]).length > 0) {
-          r.length++;
-          code = [code stringByReplacingCharactersInRange:r withString:@""];
-          staticDataId = code.intValue;
-          req = DevRequestGetItem;
-          
-          r = [code rangeOfString:[NSString stringWithFormat:@"%d", staticDataId]];
           if (code.length > r.length+1) {
             r.length++;
             code = [code stringByReplacingCharactersInRange:r withString:@""];
-            quantity = code.intValue;
+            staticDataId = code.intValue;
+            
+            r = [code rangeOfString:[NSString stringWithFormat:@"%d", staticDataId]];
+            if (code.length > r.length+1) {
+              r.length++;
+              code = [code stringByReplacingCharactersInRange:r withString:@""];
+              quantity = code.intValue;
+            }
+            
+            ItemProto *mp = [gs itemForId:staticDataId];
+            if (mp) {
+              msg = [NSString stringWithFormat:@"Awarded %d %@.", quantity, mp.name];
+              req = DevRequestGetItem;
+            }
           }
           
-          ItemProto *mp = [gs itemForId:staticDataId];
-          if (mp) {
-            msg = [NSString stringWithFormat:@"Awarded %d %@.", quantity, mp.name];
-          } else {
-            quantity = 0;
+          if (!req) {
+            NSMutableString *str = [NSMutableString stringWithFormat:@"Format: %@%@ <id> <quantity>\n", CODE_PREFIX, GET_ITEM_CODE];
+            NSArray *items = [gs.staticItems.allValues sortedArrayUsingComparator:^NSComparisonResult(ItemProto *obj1, ItemProto *obj2) {
+              return [@(obj1.itemId) compare:@(obj2.itemId)];
+            }];
+            for (ItemProto *ip in items) {
+              [str appendFormat:@"\n%d - %@", ip.itemId, ip.name];
+            }
+            msg = str;
           }
         } else if ((r = [code rangeOfString:SKILL_CODE]).length > 0) {    // Skill stuff
           code = [code stringByReplacingCharactersInRange:r withString:@""];
@@ -943,15 +954,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
                   skillId = integer;
                   skillName = skillProto.name;
                   found = YES;
-                }                
-                /*
-                if (integer < gs.staticSkills.count)
-                {
-                  skillId = integer;
-                  SkillProto* skillProto = [gs.staticSkills objectForKey:[NSNumber numberWithInteger:skillId]];
-                  skillName = skillProto.name;
-                  found = YES;
                 }
+                /*
+                 if (integer < gs.staticSkills.count)
+                 {
+                 skillId = integer;
+                 SkillProto* skillProto = [gs.staticSkills objectForKey:[NSNumber numberWithInteger:skillId]];
+                 skillName = skillProto.name;
+                 found = YES;
+                 }
                  */
               }
             }
@@ -1309,7 +1320,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   NSMutableArray *arr = [NSMutableArray array];
   
-//  for (UserMonsterHealingItem *hi in hq.healingItems) {
+  //  for (UserMonsterHealingItem *hi in hq.healingItems) {
   if (hq.healingItems.count) {
     UserMonsterHealingItem *hi = hq.healingItems[0];
     
@@ -1423,6 +1434,31 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   UserCurrentMonsterTeamProto *team = [[[[UserCurrentMonsterTeamProto builder] addAllCurrentTeam:ums] setUserUuid:gs.userUuid] build];
   PersistentClanEventClanInfoProto *info = gs.curClanRaidInfo;
   [[SocketCommunication sharedSocketCommunication] sendAttackClanRaidMonsterMessage:info clientTime:[self getCurrentMilliseconds] damageDealt:dmg curTeam:team monsterHealths:mut attacker:attackerProto];
+}
+
+#pragma mark - Clan Team Donate
+
+- (void) solicitClanTeamDonation:(NSString *)message useGems:(BOOL)useGems {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  
+  NSTimeInterval cdTime = [gs.lastTeamDonateSolicitationTime dateByAddingTimeInterval:gl.minsToResolicitTeamDonation*60].timeIntervalSinceNow;
+  if (!gs.clan) {
+    [Globals popupMessage:@"Trying to solicit team donation without clan."];
+  } else if (!useGems && cdTime > 0) {
+    [Globals popupMessage:@"Trying to solicit team donation before time."];
+  } else {
+    int maxPower = 5;
+    int gemsSpent = 0;
+    
+    if (useGems && cdTime > 0) {
+      gemsSpent = [gl calculateGemSpeedupCostForTimeLeft:cdTime allowFreeSpeedup:NO];
+    }
+    
+    [[SocketCommunication sharedSocketCommunication] sendSolicitTeamDonationMessage:message powerLimit:maxPower clientTime:[self getCurrentMilliseconds] gemsSpent:gemsSpent];
+    
+    gs.lastTeamDonateSolicitationTime = [MSDate date];
+  }
 }
 
 #pragma mark - Speedups
@@ -2199,7 +2235,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   Globals *gl = [Globals sharedGlobals];
   UserMonster *um = [gs myMonsterWithUserMonsterUuid:userMonsterUuid];
   int timeLeft = um.timeLeftForCombining;
-  int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:NO];
+  int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
   
   if (gs.gems < goldCost) {
     [Globals popupMessage:@"Trying to speedup combine monster without enough gems"];

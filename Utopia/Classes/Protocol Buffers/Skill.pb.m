@@ -49,6 +49,7 @@ BOOL SkillTypeIsValidValue(SkillType value) {
     case SkillTypeHammerTime:
     case SkillTypeBloodRage:
 <<<<<<< HEAD
+<<<<<<< HEAD
     case SkillTypeTakeAim:
 <<<<<<< HEAD
     case SkillTypeHellFire:
@@ -62,8 +63,18 @@ BOOL SkillTypeIsValidValue(SkillType value) {
 =======
 =======
 >>>>>>> donate msg vc done
+<<<<<<< HEAD
 >>>>>>> donate msg vc done
+<<<<<<< HEAD
 >>>>>>> donate msg vc done
+=======
+=======
+=======
+    case SkillTypeTakeAim:
+    case SkillTypeHellFire:
+>>>>>>> fixed various bugs and began on solicit clan donation
+>>>>>>> fixed various bugs and began on solicit clan donation
+>>>>>>> fixed various bugs and began on solicit clan donation
       return YES;
     default:
       return NO;

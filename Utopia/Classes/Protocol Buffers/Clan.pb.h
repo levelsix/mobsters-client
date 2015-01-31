@@ -23,12 +23,17 @@
 @class ClanInviteProto;
 @class ClanInviteProto_Builder;
 <<<<<<< HEAD
+<<<<<<< HEAD
 @class ClanMemberTeamDonationProto;
 @class ClanMemberTeamDonationProto_Builder;
 =======
 @class ClanMemberTeamDonation;
 @class ClanMemberTeamDonation_Builder;
 >>>>>>> donate msg vc done
+=======
+@class ClanMemberTeamDonationProto;
+@class ClanMemberTeamDonationProto_Builder;
+>>>>>>> fixed various bugs and began on solicit clan donation
 @class ClanRaidProto;
 @class ClanRaidProto_Builder;
 @class ClanRaidStageMonsterProto;
@@ -1945,12 +1950,18 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 @end
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> fixed various bugs and began on solicit clan donation
 <<<<<<< HEAD
 @interface ClanMemberTeamDonationProto : PBGeneratedMessage {
 =======
 @interface ClanMemberTeamDonation : PBGeneratedMessage {
 >>>>>>> donate msg vc done
+=======
+@interface ClanMemberTeamDonationProto : PBGeneratedMessage {
+>>>>>>> fixed various bugs and began on solicit clan donation
 @private
   BOOL hasIsFulfilled_:1;
   BOOL hasTimeOfSolicitation_:1;
@@ -1985,6 +1996,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 @property (readonly, strong) NSArray * donationsList;
 - (UserMonsterSnapshotProto*)donationsAtIndex:(NSUInteger)index;
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 + (ClanMemberTeamDonationProto*) defaultInstance;
 - (ClanMemberTeamDonationProto*) defaultInstance;
@@ -2066,80 +2078,90 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 =======
 + (ClanMemberTeamDonation*) defaultInstance;
 - (ClanMemberTeamDonation*) defaultInstance;
+=======
++ (ClanMemberTeamDonationProto*) defaultInstance;
+- (ClanMemberTeamDonationProto*) defaultInstance;
+>>>>>>> fixed various bugs and began on solicit clan donation
 
 - (BOOL) isInitialized;
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (ClanMemberTeamDonation_Builder*) builder;
-+ (ClanMemberTeamDonation_Builder*) builder;
-+ (ClanMemberTeamDonation_Builder*) builderWithPrototype:(ClanMemberTeamDonation*) prototype;
-- (ClanMemberTeamDonation_Builder*) toBuilder;
+- (ClanMemberTeamDonationProto_Builder*) builder;
++ (ClanMemberTeamDonationProto_Builder*) builder;
++ (ClanMemberTeamDonationProto_Builder*) builderWithPrototype:(ClanMemberTeamDonationProto*) prototype;
+- (ClanMemberTeamDonationProto_Builder*) toBuilder;
 
-+ (ClanMemberTeamDonation*) parseFromData:(NSData*) data;
-+ (ClanMemberTeamDonation*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (ClanMemberTeamDonation*) parseFromInputStream:(NSInputStream*) input;
-+ (ClanMemberTeamDonation*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (ClanMemberTeamDonation*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (ClanMemberTeamDonation*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ClanMemberTeamDonationProto*) parseFromData:(NSData*) data;
++ (ClanMemberTeamDonationProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ClanMemberTeamDonationProto*) parseFromInputStream:(NSInputStream*) input;
++ (ClanMemberTeamDonationProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ClanMemberTeamDonationProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (ClanMemberTeamDonationProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface ClanMemberTeamDonation_Builder : PBGeneratedMessageBuilder {
+@interface ClanMemberTeamDonationProto_Builder : PBGeneratedMessageBuilder {
 @private
-  ClanMemberTeamDonation* result;
+  ClanMemberTeamDonationProto* result;
 }
 
-- (ClanMemberTeamDonation*) defaultInstance;
+- (ClanMemberTeamDonationProto*) defaultInstance;
 
-- (ClanMemberTeamDonation_Builder*) clear;
-- (ClanMemberTeamDonation_Builder*) clone;
+- (ClanMemberTeamDonationProto_Builder*) clear;
+- (ClanMemberTeamDonationProto_Builder*) clone;
 
-- (ClanMemberTeamDonation*) build;
-- (ClanMemberTeamDonation*) buildPartial;
+- (ClanMemberTeamDonationProto*) build;
+- (ClanMemberTeamDonationProto*) buildPartial;
 
-- (ClanMemberTeamDonation_Builder*) mergeFrom:(ClanMemberTeamDonation*) other;
-- (ClanMemberTeamDonation_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (ClanMemberTeamDonation_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+- (ClanMemberTeamDonationProto_Builder*) mergeFrom:(ClanMemberTeamDonationProto*) other;
+- (ClanMemberTeamDonationProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (ClanMemberTeamDonationProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
 - (BOOL) hasDonationUuid;
 - (NSString*) donationUuid;
-- (ClanMemberTeamDonation_Builder*) setDonationUuid:(NSString*) value;
-- (ClanMemberTeamDonation_Builder*) clearDonationUuid;
+- (ClanMemberTeamDonationProto_Builder*) setDonationUuid:(NSString*) value;
+- (ClanMemberTeamDonationProto_Builder*) clearDonationUuid;
 
 - (BOOL) hasUserUuid;
 - (NSString*) userUuid;
-- (ClanMemberTeamDonation_Builder*) setUserUuid:(NSString*) value;
-- (ClanMemberTeamDonation_Builder*) clearUserUuid;
+- (ClanMemberTeamDonationProto_Builder*) setUserUuid:(NSString*) value;
+- (ClanMemberTeamDonationProto_Builder*) clearUserUuid;
 
 - (BOOL) hasClanUuid;
 - (NSString*) clanUuid;
-- (ClanMemberTeamDonation_Builder*) setClanUuid:(NSString*) value;
-- (ClanMemberTeamDonation_Builder*) clearClanUuid;
+- (ClanMemberTeamDonationProto_Builder*) setClanUuid:(NSString*) value;
+- (ClanMemberTeamDonationProto_Builder*) clearClanUuid;
 
 - (BOOL) hasPowerAvailability;
 - (int32_t) powerAvailability;
-- (ClanMemberTeamDonation_Builder*) setPowerAvailability:(int32_t) value;
-- (ClanMemberTeamDonation_Builder*) clearPowerAvailability;
+- (ClanMemberTeamDonationProto_Builder*) setPowerAvailability:(int32_t) value;
+- (ClanMemberTeamDonationProto_Builder*) clearPowerAvailability;
 
 - (BOOL) hasIsFulfilled;
 - (BOOL) isFulfilled;
-- (ClanMemberTeamDonation_Builder*) setIsFulfilled:(BOOL) value;
-- (ClanMemberTeamDonation_Builder*) clearIsFulfilled;
+- (ClanMemberTeamDonationProto_Builder*) setIsFulfilled:(BOOL) value;
+- (ClanMemberTeamDonationProto_Builder*) clearIsFulfilled;
 
 - (BOOL) hasMsg;
 - (NSString*) msg;
-- (ClanMemberTeamDonation_Builder*) setMsg:(NSString*) value;
-- (ClanMemberTeamDonation_Builder*) clearMsg;
+- (ClanMemberTeamDonationProto_Builder*) setMsg:(NSString*) value;
+- (ClanMemberTeamDonationProto_Builder*) clearMsg;
 
 - (BOOL) hasTimeOfSolicitation;
 - (int64_t) timeOfSolicitation;
-- (ClanMemberTeamDonation_Builder*) setTimeOfSolicitation:(int64_t) value;
-- (ClanMemberTeamDonation_Builder*) clearTimeOfSolicitation;
+- (ClanMemberTeamDonationProto_Builder*) setTimeOfSolicitation:(int64_t) value;
+- (ClanMemberTeamDonationProto_Builder*) clearTimeOfSolicitation;
 
 - (NSMutableArray *)donationsList;
 - (UserMonsterSnapshotProto*)donationsAtIndex:(NSUInteger)index;
+<<<<<<< HEAD
 - (ClanMemberTeamDonation_Builder *)addDonations:(UserMonsterSnapshotProto*)value;
 - (ClanMemberTeamDonation_Builder *)addAllDonations:(NSArray *)array;
 - (ClanMemberTeamDonation_Builder *)clearDonations;
 >>>>>>> donate msg vc done
+=======
+- (ClanMemberTeamDonationProto_Builder *)addDonations:(UserMonsterSnapshotProto*)value;
+- (ClanMemberTeamDonationProto_Builder *)addAllDonations:(NSArray *)array;
+- (ClanMemberTeamDonationProto_Builder *)clearDonations;
+>>>>>>> fixed various bugs and began on solicit clan donation
 @end
 
 >>>>>>> donate msg vc done

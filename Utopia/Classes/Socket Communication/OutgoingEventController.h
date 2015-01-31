@@ -79,6 +79,8 @@
 - (void) setClanRaidTeam:(NSArray *)userMonsterUuids delegate:(id)delegate;
 - (void) dealDamageToClanRaidMonster:(int)dmg attacker:(BattlePlayer *)userMonsterId curTeam:(NSArray *)curTeam;
 
+- (void) solicitClanTeamDonation:(NSString *)message useGems:(BOOL)useGems;
+
 - (void) purchaseBoosterPack:(int)boosterPackId isFree:(BOOL)free delegate:(id)delegate;
 - (void) tradeItemForFreeBoosterPack:(int)boosterPackId delegate:(id)delegate;
 

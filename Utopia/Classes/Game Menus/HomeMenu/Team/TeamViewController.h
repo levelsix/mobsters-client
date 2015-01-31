@@ -56,6 +56,8 @@
   int _clickedSlot;
   int _openedSlot;
   BOOL _showsClanDonateToonView;
+  
+  BOOL _useGemsForDonate;
 }
 
 @property (nonatomic, retain) IBOutlet ListCollectionView *listView;
@@ -69,6 +71,8 @@
 @property (nonatomic, retain) IBOutlet UIView *requestButtonView;
 @property (nonatomic, retain) IBOutlet UIView *speedupButtonView;
 @property (nonatomic, retain) IBOutlet TeamSlotView *clanRequestSlotView;
+@property (nonatomic, retain) IBOutlet UILabel *donateTimeLabel;
+@property (nonatomic, retain) IBOutlet UILabel *donateCostLabel;
 
 @property (nonatomic, strong) IBOutletCollection(UIView) NSArray *teamSlotViews;
 

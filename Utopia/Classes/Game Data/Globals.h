@@ -156,6 +156,8 @@
 
 @property (nonatomic, assign) int taskIdOfFirstSkill;
 
+@property (nonatomic, assign) int minsToResolicitTeamDonation;
+
 // Monster Constants
 @property (nonatomic, assign) int maxTeamSize;
 @property (nonatomic, assign) int baseInventorySize;

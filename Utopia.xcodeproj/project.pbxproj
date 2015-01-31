@@ -635,6 +635,12 @@
 		29AAE5E71A7B0FDB00E4F022 /* DonateMsgViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29AAE5E31A7B0FDB00E4F022 /* DonateMsgViewController.xib */; };
 		29AAE5E81A7B0FDB00E4F022 /* DonateMsgViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29AAE5E31A7B0FDB00E4F022 /* DonateMsgViewController.xib */; };
 		29AAE5E91A7B0FDB00E4F022 /* DonateMsgViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29AAE5E31A7B0FDB00E4F022 /* DonateMsgViewController.xib */; };
+		29AAE5EC1A7C382400E4F022 /* ClanTeamDonation.m in Sources */ = {isa = PBXBuildFile; fileRef = 29AAE5EB1A7C382400E4F022 /* ClanTeamDonation.m */; };
+		29AAE5ED1A7C382400E4F022 /* ClanTeamDonation.m in Sources */ = {isa = PBXBuildFile; fileRef = 29AAE5EB1A7C382400E4F022 /* ClanTeamDonation.m */; };
+		29AAE5EE1A7C382400E4F022 /* ClanTeamDonation.m in Sources */ = {isa = PBXBuildFile; fileRef = 29AAE5EB1A7C382400E4F022 /* ClanTeamDonation.m */; };
+		29AAE5F11A7C389800E4F022 /* ClanTeamDonateUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 29AAE5F01A7C389800E4F022 /* ClanTeamDonateUtil.m */; };
+		29AAE5F21A7C389800E4F022 /* ClanTeamDonateUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 29AAE5F01A7C389800E4F022 /* ClanTeamDonateUtil.m */; };
+		29AAE5F31A7C389800E4F022 /* ClanTeamDonateUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 29AAE5F01A7C389800E4F022 /* ClanTeamDonateUtil.m */; };
 		29ABD6C81A732EF2003A65F4 /* tutorialrocks@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29ABD6C61A732EF2003A65F4 /* tutorialrocks@2x.png */; };
 		29ABD6C91A732EF2003A65F4 /* tutorialrocks@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29ABD6C61A732EF2003A65F4 /* tutorialrocks@2x.png */; };
 		29ABD6CA1A732EF2003A65F4 /* tutorialrocks@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29ABD6C61A732EF2003A65F4 /* tutorialrocks@2x.png */; };
@@ -7687,6 +7693,10 @@
 		29AAE5E11A7B0FDB00E4F022 /* DonateMsgViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DonateMsgViewController.h; sourceTree = "<group>"; };
 		29AAE5E21A7B0FDB00E4F022 /* DonateMsgViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DonateMsgViewController.m; sourceTree = "<group>"; };
 		29AAE5E31A7B0FDB00E4F022 /* DonateMsgViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DonateMsgViewController.xib; sourceTree = "<group>"; };
+		29AAE5EA1A7C382400E4F022 /* ClanTeamDonation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClanTeamDonation.h; sourceTree = "<group>"; };
+		29AAE5EB1A7C382400E4F022 /* ClanTeamDonation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClanTeamDonation.m; sourceTree = "<group>"; };
+		29AAE5EF1A7C389800E4F022 /* ClanTeamDonateUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClanTeamDonateUtil.h; sourceTree = "<group>"; };
+		29AAE5F01A7C389800E4F022 /* ClanTeamDonateUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClanTeamDonateUtil.m; sourceTree = "<group>"; };
 		29ABD6C61A732EF2003A65F4 /* tutorialrocks@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tutorialrocks@2x.png"; sourceTree = "<group>"; };
 		29ABD6C71A732EF2003A65F4 /* tutorialtrees@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tutorialtrees@2x.png"; sourceTree = "<group>"; };
 		29AD76561A39316100430F0E /* 1slot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "1slot@2x.png"; sourceTree = "<group>"; };
@@ -15458,6 +15468,10 @@
 				CF812F0719E73E1900D91157 /* ClanHelp.m */,
 				CF812F0B19E747AB00D91157 /* ClanHelpUtil.h */,
 				CF812F0C19E747AB00D91157 /* ClanHelpUtil.m */,
+				29AAE5EA1A7C382400E4F022 /* ClanTeamDonation.h */,
+				29AAE5EB1A7C382400E4F022 /* ClanTeamDonation.m */,
+				29AAE5EF1A7C389800E4F022 /* ClanTeamDonateUtil.h */,
+				29AAE5F01A7C389800E4F022 /* ClanTeamDonateUtil.m */,
 			);
 			name = ClanHelp;
 			sourceTree = "<group>";
@@ -24658,6 +24672,7 @@
 				9B8CA6121A3798C00060BE8F /* SkillCritAndEvade.m in Sources */,
 				CF0CED2A196F452900ECD301 /* AnimatedSprite.m in Sources */,
 				DA0FC58719B65F2A00393BF4 /* SkillJelly.m in Sources */,
+				29AAE5F21A7C389800E4F022 /* ClanTeamDonateUtil.m in Sources */,
 				CF0CED2B196F452900ECD301 /* ChatViewController.m in Sources */,
 				CF0CED2C196F452900ECD301 /* PullRefreshTableViewController.m in Sources */,
 				3E1A0C051A645B4B00DF00AD /* Board.pb.m in Sources */,
@@ -24908,6 +24923,7 @@
 				CF0CEDEF196F452900ECD301 /* TournamentStuff.pb.m in Sources */,
 				CFF412AF19BFE761002672D4 /* Item.pb.m in Sources */,
 				CF0CEDF0196F452900ECD301 /* TopBarQuestProgressView.m in Sources */,
+				29AAE5ED1A7C382400E4F022 /* ClanTeamDonation.m in Sources */,
 				CFFCF56F19B01C58007E316D /* TangoDelegate.m in Sources */,
 				CFE11F961A141C040094F797 /* amqp_url.c in Sources */,
 				CFE11F781A141C040094F797 /* amqp_framing.c in Sources */,
@@ -24965,6 +24981,7 @@
 				CFF9DD5819B7F78F00CA9A8E /* EnhanceQueueViewController+Animations.m in Sources */,
 				6BA24E091A7AEA6E00BEF920 /* SkillTakeAim.m in Sources */,
 				DA07DFD019AD63AE009860CE /* GachaViews.m in Sources */,
+				29AAE5F11A7C389800E4F022 /* ClanTeamDonateUtil.m in Sources */,
 				CF6574BD1909CAF200ABF1F4 /* InAppPurchase.pb.m in Sources */,
 				6B0783F91A828468005CDFCF /* SkillCurse.m in Sources */,
 				CFF6464A195A578800C43641 /* ListCollectionView.m in Sources */,
@@ -25077,6 +25094,7 @@
 				CF29E9171961006500B40DA4 /* FundsViewController.m in Sources */,
 				CF689C1B15C3B89400F2E50E /* SBJSON.m in Sources */,
 				CF8BA22018CDA9DD003277D1 /* TutorialTouchView.m in Sources */,
+				29AAE5EC1A7C382400E4F022 /* ClanTeamDonation.m in Sources */,
 				CF29E91D19612CA000B40DA4 /* FundsViews.m in Sources */,
 				9BDA8BDF1A43837D00C7AC27 /* NewGachaFocusScrollView.m in Sources */,
 				CF00865C19CBAC02002F6149 /* NSString+Sizing.m in Sources */,
@@ -25320,6 +25338,7 @@
 				9B8CA6131A3798C00060BE8F /* SkillCritAndEvade.m in Sources */,
 				CF4818CF19F7217F00041486 /* AnimatedSprite.m in Sources */,
 				CF4818D019F7217F00041486 /* SkillJelly.m in Sources */,
+				29AAE5F31A7C389800E4F022 /* ClanTeamDonateUtil.m in Sources */,
 				CF4818D119F7217F00041486 /* ChatViewController.m in Sources */,
 				CF4818D219F7217F00041486 /* PullRefreshTableViewController.m in Sources */,
 				3E1A0C061A645B4B00DF00AD /* Board.pb.m in Sources */,
@@ -25570,6 +25589,7 @@
 				CF4819A219F7217F00041486 /* TournamentStuff.pb.m in Sources */,
 				CF4819A319F7217F00041486 /* Item.pb.m in Sources */,
 				CF4819A419F7217F00041486 /* TopBarQuestProgressView.m in Sources */,
+				29AAE5EE1A7C382400E4F022 /* ClanTeamDonation.m in Sources */,
 				CF4819A519F7217F00041486 /* TangoDelegate.m in Sources */,
 				CFE11F971A141C040094F797 /* amqp_url.c in Sources */,
 				CFE11F791A141C040094F797 /* amqp_framing.c in Sources */,

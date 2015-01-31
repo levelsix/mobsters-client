@@ -606,6 +606,7 @@
 #define SCHEDULE_KEY @"BattleScheduleKey"
 #define SCHEDULE_INDEX_KEY @"BattleScheduleIndexKey"
 #define MY_USER_MONSTER_ID_KEY @"MyUserIdMonsterKey"
+#define VALID_USER_MONSTER_IDS_KEY @"ValidUserMonsterIdsKey"
 
 #define SKILL_MANAGER_KEY @"BattleSkillManager"
 
@@ -665,6 +666,12 @@
   if (self.myPlayerObject.userMonsterUuid) {
     [dict setObject:self.myPlayerObject.userMonsterUuid forKey:MY_USER_MONSTER_ID_KEY];
   }
+  
+  NSMutableArray *userMonsterUuids = [NSMutableArray array];
+  for (BattlePlayer *bp in self.myTeam) {
+    [userMonsterUuids addObject:bp.userMonsterUuid];
+  }
+  [dict setObject:userMonsterUuids forKey:VALID_USER_MONSTER_IDS_KEY];
   
   if (self.battleSchedule.schedule) {
     [dict setObject:self.battleSchedule.schedule forKey:SCHEDULE_KEY];
@@ -730,6 +737,18 @@
   _shouldDisplayNewSchedule = YES;
   
   _resumedUserMonsterUuid = [stateDict objectForKey:MY_USER_MONSTER_ID_KEY];
+  
+  // Need to do this in case a monster came out of healing while user was in the middle of a dungeon
+  NSArray *validMonsterIds = [stateDict objectForKey:VALID_USER_MONSTER_IDS_KEY];
+  if (validMonsterIds.count) {
+    NSMutableArray *newTeam = [NSMutableArray array];
+    for (BattlePlayer *um in self.myTeam) {
+      if ([validMonsterIds containsObject:um.userMonsterUuid]) {
+        [newTeam addObject:um];
+      }
+    }
+    self.myTeam = newTeam;
+  }
   
   [skillManager deserialize:[stateDict objectForKey:SKILL_MANAGER_KEY]];
 }

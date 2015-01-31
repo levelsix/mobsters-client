@@ -16,6 +16,8 @@
   BOOL _bubbleColorChanged;
   UIColor *_initLabelColor;
   UIColor *_initLabelHighlightedColor;
+  
+  float _initialMsgLabelWidth;
 }
 
 @property (nonatomic, retain) IBOutlet UILabel *nameLabel;

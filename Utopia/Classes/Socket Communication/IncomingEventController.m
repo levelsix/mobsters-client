@@ -327,7 +327,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSUpdateClientTaskStateEvent:
       responseClass = [UpdateClientTaskStateResponseProto class];
       break;
-      
+    case EventProtocolResponseSSolicitTeamDonationEvent:
+      responseClass = [SolicitTeamDonationResponseProto class];
+      break;
+    case EventProtocolResponseSFulfillTeamDonationSolicitationEvent:
+      responseClass = [FulfillTeamDonationSolicitationResponseProto class];
+      break;
+    case EventProtocolResponseSVoidTeamDonationSolicitationEvent:
+      responseClass = [VoidTeamDonationSolicitationResponseProto class];
     default:
       responseClass = nil;
       break;
@@ -422,7 +429,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       gs.userEvolution = nil;
     }
     
-    gs.completedTasks = [NSMutableSet setWithArray:proto.completedTaskIdsList.toNSArray];
     [gs addToCompleteTasks:proto.completedTasksList];
     
     [gs.myMiniJobs removeAllObjects];
@@ -1431,6 +1437,56 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
+#pragma mark - Clan Team Donation
+
+- (void) handleSolicitTeamDonationResponseProto:(FullEvent *)fe {
+  SolicitTeamDonationResponseProto *proto = (SolicitTeamDonationResponseProto *)fe.event;
+  int tag = fe.tag;
+  LNLog(@"Solicit team donation response received with status %d.", (int)proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == SolicitClanHelpResponseProto_SolicitClanHelpStatusSuccess) {
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to solicit team donation."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleFulfillTeamDonationSolicitationResponseProto:(FullEvent *)fe {
+  FulfillTeamDonationSolicitationResponseProto *proto = (FulfillTeamDonationSolicitationResponseProto *)fe.event;
+  int tag = fe.tag;
+  LNLog(@"Fulfill team donation response received with status %d.", (int)proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolictationStatusSuccess) {
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to fulfill team donation."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleVoidTeamDonationSolicitationResponseProto:(FullEvent *)fe {
+  VoidTeamDonationSolicitationResponseProto *proto = (VoidTeamDonationSolicitationResponseProto *)fe.event;
+  int tag = fe.tag;
+  LNLog(@"Void team donation response received with status %d.", (int)proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatusSuccess) {
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to void team donation."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
 #pragma mark - Speedups/Items
 
 - (void) handleTradeItemForSpeedUpsResponseProto:(FullEvent *)fe {
@@ -1667,8 +1723,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs addToMyMonsters:proto.updatedOrNewList];
     
     if (proto.userWon) {
-      [gs.completedTasks addObject:@(proto.taskId)];
-      [gs.completedTaskData setObject:proto.utcp forKey:@(proto.taskId)];
+      [gs addToCompleteTasks:@[proto.utcp]];
     }
     
     if (proto.hasUserItem) {

@@ -26,6 +26,8 @@ static float buttonInitialWidth = 159.f;
   
   _initLabelColor = self.msgLabel.textColor;
   _initLabelHighlightedColor = self.msgLabel.highlightedTextColor;
+  
+  _initialMsgLabelWidth = self.msgLabel.width;
 }
 
 - (void) updateForMessage:(NSString *)message sender:(MinimumUserProto *)sender date:(MSDate *)date showsClanTag:(BOOL)showsClanTag {
@@ -61,8 +63,9 @@ static float buttonInitialWidth = 159.f;
   r.size.width = buttonSize.width+7.f;
   self.nameLabel.frame = r;
   
-  CGSize size = [message getSizeWithFont:self.msgLabel.font constrainedToSize:CGSizeMake(self.msgLabel.frame.size.width, 999)];
+  CGSize size = [message getSizeWithFont:self.msgLabel.font constrainedToSize:CGSizeMake(_initialMsgLabelWidth, 999)];
   CGRect frame = self.msgLabel.frame;
+  frame.size.width = size.width;
   frame.size.height = size.height+3.f;
   self.msgLabel.frame = frame;
   
@@ -98,7 +101,6 @@ static float buttonInitialWidth = 159.f;
     self.msgLabel.transform = CGAffineTransformMakeScale(-1, 1);
     self.timeLabel.transform = CGAffineTransformMakeScale(-1, 1);
     self.nameLabel.textAlignment = NSTextAlignmentRight;
-    self.msgLabel.textAlignment = NSTextAlignmentRight;
     self.timeLabel.textAlignment = NSTextAlignmentLeft;
     shouldHighlight = YES;
     
@@ -113,7 +115,6 @@ static float buttonInitialWidth = 159.f;
     self.msgLabel.transform = CGAffineTransformIdentity;
     self.timeLabel.transform = CGAffineTransformIdentity;
     self.nameLabel.textAlignment = NSTextAlignmentLeft;
-    self.msgLabel.textAlignment = NSTextAlignmentLeft;
     self.timeLabel.textAlignment = NSTextAlignmentRight;
     shouldHighlight = NO;
     

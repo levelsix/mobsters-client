@@ -207,6 +207,9 @@
 }
 
 - (void) updateLabels {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  
   for (MonsterListCell *listCell in self.listView.collectionView.visibleCells) {
     UserMonster *um = self.userMonsters[[self.listView.collectionView indexPathForCell:listCell].row];
     [listCell updateCombineTimeForUserMonster:um];
@@ -214,6 +217,28 @@
   
   if (!_combineMonster.isCombining) {
     [self.itemSelectViewController closeClicked:nil];
+  }
+  
+  ClanMemberTeamDonationProto *myTeamDonation = [gs.clanTeamDonateUtil myTeamDonation];
+  if (myTeamDonation.isFulfilled) {
+    self.speedupButtonView.hidden = NO;
+    self.requestButtonView.hidden = NO;
+  } else {
+    int timeLeft = [gs.lastTeamDonateSolicitationTime dateByAddingTimeInterval:gl.minsToResolicitTeamDonation*60].timeIntervalSinceNow;
+    if (timeLeft > 0) {
+      self.donateTimeLabel.text = [[Globals convertTimeToShortString:timeLeft] uppercaseString];
+      
+      int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:NO];
+      
+      self.donateCostLabel.text = [Globals commafyNumber:gemCost];
+      [Globals adjustViewForCentering:self.donateCostLabel.superview withLabel:self.donateCostLabel];
+      
+      self.speedupButtonView.hidden = NO;
+      self.requestButtonView.hidden = YES;
+    } else {
+      self.speedupButtonView.hidden = YES;
+      self.requestButtonView.hidden = NO;
+    }
   }
 }
 
@@ -530,6 +555,7 @@
     BOOL success = [[OutgoingEventController sharedOutgoingEventController] combineMonsterWithSpeedup:um.userMonsterUuid];
     if (success) {
       [self reloadListViewAnimated:YES];
+      [self updateLabels];
       
       [QuestUtil checkAllDonateQuests];
       
@@ -653,13 +679,15 @@
 
 #pragma mark - Clan Donate
 
-- (IBAction)requestClicked:(id)sender {
+- (IBAction)requestClicked:(UIView *)sender {
   NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
   NSString *msg = [ud stringForKey:LAST_TEAM_DONATE_MSG_KEY];
   
   if (!msg.length) {
     msg = [NSString stringWithFormat:@"Requests a %@", MONSTER_NAME];
   }
+  
+  _useGemsForDonate = (BOOL)[sender tag];
   
   DonateMsgViewController *dmvc = [[DonateMsgViewController alloc] initWithInitialMessage:msg];
   dmvc.delegate = self;
@@ -675,7 +703,7 @@
   NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
   [ud setObject:message forKey:LAST_TEAM_DONATE_MSG_KEY];
   
-  
+  [[OutgoingEventController sharedOutgoingEventController] solicitClanTeamDonation:message useGems:_useGemsForDonate];
 }
 
 - (void) cancelClicked {

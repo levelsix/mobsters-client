@@ -1179,7 +1179,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (void) unlockAllTasks {
   for (FullTaskProto *task in self.staticTasks.allValues) {
-    [self.completedTasks addObject:@(task.taskId)];
+    UserTaskCompletedProto *c = [[[[UserTaskCompletedProto builder]
+                                   setTaskId:task.taskId]
+                                  setUserId:self.userUuid]
+                                 build];
+    [self.completedTaskData setObject:c forKey:@(task.taskId)];
   }
 }
 
@@ -1771,7 +1775,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (void) avengeWaitTimeComplete {
   Globals *gl = [Globals sharedGlobals];
-
+  
   NSMutableArray *expired = [NSMutableArray array];
   for (PvpClanAvenging *ca in self.clanAvengings.copy) {
     if ([ca.defender.userUuid isEqualToString:self.userUuid]) {
@@ -1791,7 +1795,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     
     [[NSNotificationCenter defaultCenter] postNotificationName:CLAN_AVENGINGS_CHANGED_NOTIFICATION object:nil];
   }
-
+  
 }
 
 - (void) stopAvengeTimer {
