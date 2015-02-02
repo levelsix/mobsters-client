@@ -123,6 +123,7 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UILabel *titleLabel;
 
 @property (nonatomic, retain) NSArray *privateChatList;
+@property (nonatomic, retain) NSMutableArray *displayedChatList;
 @property (nonatomic, retain) NSMutableArray *baseChats;
 
 @property (nonatomic, retain) NSMutableArray *unrespondedChatMessages;

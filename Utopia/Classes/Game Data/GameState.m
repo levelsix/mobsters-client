@@ -659,9 +659,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
 }
 
-- (NSArray *) pvpAttackHistory {
+- (NSArray *) pvpAttackHistoryWithArray {
   NSMutableArray *arr = [[NSMutableArray alloc] init];
-  NSArray *battleArray = [NSArray arrayWithArray:self.battleHistory];
   for(PvpHistoryProto *php in self.battleHistory) {
     if (php.userIsAttacker) {
       [arr addObject:php];

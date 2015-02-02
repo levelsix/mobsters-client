@@ -377,9 +377,26 @@
 }
 
 - (void) updateDisplayedPrivateChatList {
+  [self.displayedChatList removeAllObjects];
   
   //create a filter hear and replace references to privatechat list with displayedPrivateChat lists
-  
+  if (_chatMode == PrivateChatModeAllMessages){
+    self.displayedChatList = [NSMutableArray arrayWithArray:self.privateChatList];
+    
+  } else if (_chatMode == PrivateChatModeAttackLog) {
+    for(PvpHistoryProto *php in self.privateChatList) {
+      if (php.userIsAttacker) {
+        [self.displayedChatList addObject:php];
+      }
+    }
+    
+  } else if (_chatMode == PrivateChatModeDeffenceLog) {
+    for(PvpHistoryProto *php in self.privateChatList) {
+      if (!php.userIsAttacker) {
+        [self.displayedChatList addObject:php];
+      }
+    }
+  }
   
   
   [self.listTable reloadData];
@@ -615,7 +632,7 @@
     }
     return num;
   }
-  return self.privateChatList.count;
+  return self.displayedChatList.count;
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -638,7 +655,7 @@
     }
   }
   
-  [cell updateForPrivateChat:self.privateChatList[indexPath.row]];
+  [cell updateForPrivateChat:self.displayedChatList[indexPath.row]];
   
   return cell;
 }
@@ -655,7 +672,7 @@
   if (tableView == self.listTable) {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     
-    id<ChatObject> post = self.privateChatList[indexPath.row];
+    id<ChatObject> post = self.displayedChatList[indexPath.row];
     [self openConversationWithUserUuid:post.otherUser.userUuid name:post.otherUser.name animated:YES];
     [post markAsRead];
     
