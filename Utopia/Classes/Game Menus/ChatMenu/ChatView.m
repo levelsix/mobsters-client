@@ -360,6 +360,8 @@
   [self.backView.superview bringSubviewToFront:self.backView];
   
   self.unrespondedChatMessages = [NSMutableArray array];
+  
+  _chatMode = PrivateChatModeAllMessages;
 }
 
 - (void) updateForPrivateChatList:(NSArray *)privateChats {
@@ -370,6 +372,17 @@
   
   GameState *gs = [GameState sharedGameState];
   [self.monsterView updateForMonsterId:gs.avatarMonsterId];
+  
+  [self updateDisplayedPrivateChatList];
+}
+
+- (void) updateDisplayedPrivateChatList {
+  
+  //create a filter hear and replace references to privatechat list with displayedPrivateChat lists
+  
+  
+  
+  [self.listTable reloadData];
 }
 
 - (void) loadListViewAnimated:(BOOL)animated {
@@ -560,6 +573,34 @@
   return !_isLoading;
 }
 
+#pragma mark - Chat mode buttons
+
+- (IBAction)allMessagesButtonClicked:(id)sender {
+  GameState *gs = [GameState sharedGameState];
+  
+  _chatMode = PrivateChatModeAllMessages;
+  [self updateDisplayedPrivateChatList];
+  
+  [[NSNotificationCenter defaultCenter] postNotificationName:PRIVATE_CHAT_VIEWED_NOTIFICATION object:nil];
+}
+- (IBAction)deffensiveLogButtonClicked:(id)sender {
+  GameState *gs = [GameState sharedGameState];
+  
+  _chatMode = PrivateChatModeDeffenceLog;
+  [self updateDisplayedPrivateChatList];
+  
+  [[NSNotificationCenter defaultCenter] postNotificationName:PRIVATE_CHAT_VIEWED_NOTIFICATION object:nil];
+}
+- (IBAction)offensiveLogbuttonClicked:(id)sender {
+  GameState *gs = [GameState sharedGameState];
+  
+  _chatMode = PrivateChatModeAttackLog;
+  [self updateDisplayedPrivateChatList];
+  
+  [[NSNotificationCenter defaultCenter] postNotificationName:PRIVATE_CHAT_VIEWED_NOTIFICATION object:nil];
+}
+
+
 #pragma mark - TableView delegate
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -582,11 +623,19 @@
     return [super tableView:tableView cellForRowAtIndexPath:indexPath];
   }
   
-  PrivateChatListCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PrivateChatListCell"];
-  
-  if (!cell) {
-    [[NSBundle mainBundle] loadNibNamed:@"PrivateChatListCell" owner:self options:nil];
-    cell = self.listCell;
+  PrivateChatListCell *cell;
+  if(_chatMode == PrivateChatModeAllMessages) {
+    cell = [tableView dequeueReusableCellWithIdentifier:@"PrivateChatListCell"];
+    if (!cell) {
+      [[NSBundle mainBundle] loadNibNamed:@"PrivateChatListCell" owner:self options:nil];
+      cell = self.listCell;
+    }
+  } else if (_chatMode == PrivateChatModeAttackLog || _chatMode == PrivateChatModeDeffenceLog) {
+    cell = [tableView dequeueReusableCellWithIdentifier:@"PrivateChatAttackLogCell"];
+    if (!cell) {
+      [[NSBundle mainBundle] loadNibNamed:@"PrivateChatAttackLogCell" owner:self options:nil];
+      cell = self.battleListCell;
+    }
   }
   
   [cell updateForPrivateChat:self.privateChatList[indexPath.row]];

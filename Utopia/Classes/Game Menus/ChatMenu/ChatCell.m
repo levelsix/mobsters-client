@@ -187,6 +187,20 @@ static float buttonInitialWidth = 159.f;
 
 @end
 
+@implementation PrivateChatAttackLogCell : PrivateChatListCell
+
+- (void) updateForPrivateChat:(id<ChatObject>)privateChat {
+  [super updateForPrivateChat:privateChat];
+  
+  PvpHistoryProto *php = (PvpHistoryProto*)privateChat;
+  self.msgLabel.text = [NSString stringWithFormat:@"Your %@ %@",php.userIsAttacker ? @"Offense" : @"Defence", php.userWon ? @"Won" : @"Lost" ];
+  
+  self.oilLabel.text = [NSString stringWithFormat:@"%d", php.attackerOilChange];
+  self.cashLabel.text = [NSString stringWithFormat:@"%d", php.attackerCashChange];
+}
+
+@end
+
 @implementation ChatClanHelpView
 
 - (void) updateForClanHelp:(id<ClanHelp>)help {

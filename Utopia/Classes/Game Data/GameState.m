@@ -659,6 +659,27 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
 }
 
+- (NSArray *) pvpAttackHistory {
+  NSMutableArray *arr = [[NSMutableArray alloc] init];
+  NSArray *battleArray = [NSArray arrayWithArray:self.battleHistory];
+  for(PvpHistoryProto *php in self.battleHistory) {
+    if (php.userIsAttacker) {
+      [arr addObject:php];
+    }
+  }
+  return arr;
+}
+
+- (NSArray *) pvpDefenceHistory {
+  NSMutableArray *arr = [[NSMutableArray alloc] init];
+  for(PvpHistoryProto *php in self.battleHistory) {
+    if (!php.userIsAttacker) {
+      [arr addObject:php];
+    }
+  }
+  return arr;
+}
+
 - (NSArray *) allPrivateChats {
   NSMutableArray *arr = [self.privateChats mutableCopy];
   
