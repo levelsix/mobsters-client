@@ -63,6 +63,23 @@
 
 @end
 
+@interface PrivateChatAttackLogCell : PrivateChatListCell
+
+@property (nonatomic, retain) IBOutlet UIImageView *chatDivider;
+
+@property (nonatomic, retain) IBOutlet UILabel *oilLabel;
+@property (nonatomic, retain) IBOutlet UILabel *cashLabel;
+
+@property (nonatomic, retain) IBOutlet UILabel *avengedLabel;
+@property (nonatomic, retain) IBOutlet UIImageView *avengedCheck;
+
+@property (nonatomic, retain) IBOutlet UILabel *revengedLabel;
+@property (nonatomic, retain) IBOutlet UIImageView *revengeCheck;
+
+- (void) updateForPrivateChat:(id<ChatObject>)privateChat;
+
+@end
+
 @interface ChatClanHelpView : UIView
 
 @property (nonatomic, assign) IBOutlet UILabel *numHelpsLabel;

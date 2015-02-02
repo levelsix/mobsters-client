@@ -345,7 +345,7 @@
   _muteName = nil;
 }
 
-- (IBAction)findClanClicked:(id)sender {
+- (IBAction) findClanClicked:(id)sender {
   GameViewController *gvc = [GameViewController baseController];
   [gvc openClanView];
 }

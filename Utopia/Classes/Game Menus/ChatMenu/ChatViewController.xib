@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
@@ -746,6 +746,7 @@
                 <outlet property="popoverView" destination="pfc-Vl-jbC" id="NfP-NO-ssR"/>
                 <outlet property="textField" destination="pPK-fe-0ti" id="wC7-CV-exo"/>
             </connections>
+            <point key="canvasLocation" x="250.5" y="-158.5"/>
         </view>
         <view contentMode="scaleToFill" id="EYy-Nb-xNZ" customClass="PrivateChatView">
             <rect key="frame" x="0.0" y="0.0" width="906" height="251"/>
@@ -755,8 +756,56 @@
                     <rect key="frame" x="0.0" y="0.0" width="453" height="251"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
                     <subviews>
+                        <view contentMode="scaleToFill" id="O3C-8a-jFE">
+                            <rect key="frame" x="0.0" y="0.0" width="453" height="25"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="a2I-4c-rsp" customClass="NiceFontButton9">
+                                    <rect key="frame" x="70" y="2" width="99" height="21"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                    <state key="normal" title="ALL MESSAGES">
+                                        <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="allMessagesButtonClicked:" destination="EYy-Nb-xNZ" eventType="touchUpInside" id="hre-2M-QUD"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="V7I-ZQ-HVP" customClass="NiceFontButton9">
+                                    <rect key="frame" x="177" y="2" width="99" height="21"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                    <state key="normal" title="DEFFENSIVE LOG">
+                                        <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="deffensiveLogButtonClicked:" destination="EYy-Nb-xNZ" eventType="touchUpInside" id="VQh-PE-XuZ"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="JdZ-dN-w3T" customClass="NiceFontButton9">
+                                    <rect key="frame" x="284" y="2" width="99" height="21"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                    <state key="normal" title="OFFENSIVE LOG">
+                                        <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="offensiveLogbuttonClicked:" destination="EYy-Nb-xNZ" eventType="touchUpInside" id="SGy-Sd-mfk"/>
+                                    </connections>
+                                </button>
+                                <view contentMode="scaleToFill" id="8SO-M4-UJk">
+                                    <rect key="frame" x="0.0" y="24" width="453" height="1"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="backgroundColor" red="0.80061848958333337" green="0.80061848958333337" blue="0.80061848958333337" alpha="1" colorSpace="calibratedRGB"/>
+                                </view>
+                            </subviews>
+                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        </view>
                         <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="none" rowHeight="50" sectionHeaderHeight="14" sectionFooterHeight="22" id="91u-54-NEq" customClass="CancellableTableView">
-                            <rect key="frame" x="0.0" y="0.0" width="453" height="186"/>
+                            <rect key="frame" x="0.0" y="25" width="453" height="226"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <color key="separatorColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
@@ -967,7 +1016,7 @@
                 <outlet property="textField" destination="W04-by-RXu" id="SqK-OB-6Yp"/>
                 <outlet property="titleLabel" destination="003-5V-mHH" id="7YF-8M-hgJ"/>
             </connections>
-            <point key="canvasLocation" x="-11" y="364.5"/>
+            <point key="canvasLocation" x="-328" y="196.5"/>
         </view>
         <view contentMode="scaleToFill" id="pfc-Vl-jbC" customClass="ChatPopoverView">
             <rect key="frame" x="0.0" y="0.0" width="226" height="51"/>
@@ -1059,6 +1108,7 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="-197" y="436.5"/>
         </view>
     </objects>
     <resources>

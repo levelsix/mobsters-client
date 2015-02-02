@@ -11,6 +11,12 @@
 #import "ChatCell.h"
 #import "ClanHelp.h"
 
+typedef enum {
+  PrivateChatModeAllMessages = 1,
+  PrivateChatModeAttackLog,
+  PrivateChatModeDeffenceLog,
+}PrivateChatViewMode;
+
 @protocol ChatPopoverDelegate <NSObject>
 
 - (void) profileClicked;
@@ -99,12 +105,14 @@
 
 @interface PrivateChatView : ChatView {
   BOOL _isLoading;
+  PrivateChatViewMode _chatMode;
 }
 
 @property (nonatomic, retain) NSString *curUserUuid;
 
 @property (nonatomic, retain) IBOutlet UITableView *listTable;
 @property (nonatomic, retain) IBOutlet PrivateChatListCell *listCell;
+@property (nonatomic, retain) IBOutlet PrivateChatAttackLogCell *battleListCell;
 
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *spinner;
 @property (nonatomic, retain) IBOutlet UILabel *emptyListLabel;
