@@ -9,7 +9,11 @@
             <connections>
                 <outlet property="clanRequestSlotView" destination="Z0G-kT-cu3" id="UJS-FC-K8d"/>
                 <outlet property="clanRequestView" destination="Piv-Fm-95w" id="Owx-wW-aji"/>
+                <outlet property="donateCostLabel" destination="1rn-O3-piX" id="xf2-Gv-qka"/>
+                <outlet property="donateTimeLabel" destination="KxE-X3-aXo" id="Osx-es-447"/>
                 <outlet property="listView" destination="aH6-pJ-Lge" id="tZD-t9-feU"/>
+                <outlet property="requestButtonView" destination="xDq-g7-gmQ" id="dQB-W8-Ezm"/>
+                <outlet property="speedupButtonView" destination="P67-wJ-hbe" id="rkY-CJ-o0A"/>
                 <outlet property="unavailableLabel" destination="PMN-jt-NmU" id="ULM-dM-hQe"/>
                 <outlet property="view" destination="qkx-7N-swe" id="15W-iU-8Zw"/>
                 <outletCollection property="teamSlotViews" destination="GkW-ol-yeO" id="E4z-Wz-Rge"/>

@@ -9,11 +9,17 @@
 #import <Foundation/Foundation.h>
 
 #import "Protocols.pb.h"
+#import "ChatObject.h"
+
+@interface ClanMemberTeamDonationProto (ChatObject) <ChatObject>
+
+@end
 
 @interface ClanTeamDonateUtil : NSObject
 
 @property (nonatomic, retain) NSMutableArray *teamDonations;
 
+- (void) addClanTeamDonations:(NSArray *)teamDonations;
 - (ClanMemberTeamDonationProto *) myTeamDonation;
 
 @end

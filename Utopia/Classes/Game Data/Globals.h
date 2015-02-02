@@ -54,6 +54,8 @@
 #define CLAN_HELPS_CHANGED_NOTIFICATION @"ClanHelpsChangedNotification"
 #define CLAN_HELP_NOTIFICATION_KEY @"ClanHelpNotificationKey"
 #define CLAN_AVENGINGS_CHANGED_NOTIFICATION @"ClanAvengingsChangedNotification"
+#define CLAN_TEAM_DONATIONS_CHANGED_NOTIFICATION @"ClanTeamDonationsChangedNotification"
+#define MY_CLAN_TEAM_DONATION_CHANGED_NOTIFICATION @"MyClanTeamDonationChangedNotification"
 
 #define SPEEDUP_USED_NOTIFICATION @"SpeedupUsedNotification"
 #define SPEEDUP_NOTIFICATION_KEY @"SpeedupNotificationKey"

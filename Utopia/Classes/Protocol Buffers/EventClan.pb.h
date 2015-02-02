@@ -4148,6 +4148,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
   ClanMemberTeamDonationProto* solicitation;
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatus status;
 =======
 =======
@@ -4160,11 +4161,15 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 >>>>>>> reproto
   FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolictationStatus status;
 >>>>>>> donate msg vc done
+=======
+  FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatus status;
+>>>>>>> working on chat protocol
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 - (BOOL) hasSolicitation;
 @property (readonly, strong) MinimumUserProto* sender;
+<<<<<<< HEAD
 <<<<<<< HEAD
 @property (readonly) FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatus status;
 =======
@@ -4183,6 +4188,9 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 =======
 =======
 >>>>>>> reproto
+=======
+@property (readonly) FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatus status;
+>>>>>>> working on chat protocol
 @property (readonly, strong) ClanMemberTeamDonationProto* solicitation;
 
 + (FulfillTeamDonationSolicitationResponseProto*) defaultInstance;
@@ -4230,7 +4238,15 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasStatus;
 - (FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatus) status;
 - (FulfillTeamDonationSolicitationResponseProto_Builder*) setStatus:(FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatus) value;
+<<<<<<< HEAD
 - (FulfillTeamDonationSolicitationResponseProto_Builder*) clearStatusList;
+=======
+<<<<<<< HEAD
+- (FulfillTeamDonationSolicitationResponseProto_Builder*) clearStatus;
+=======
+- (FulfillTeamDonationSolicitationResponseProto_Builder*) clearStatusList;
+>>>>>>> working on chat protocol
+>>>>>>> working on chat protocol
 
 - (BOOL) hasSolicitation;
 - (ClanMemberTeamDonationProto*) solicitation;

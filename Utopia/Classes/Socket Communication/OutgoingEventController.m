@@ -1455,9 +1455,27 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       gemsSpent = [gl calculateGemSpeedupCostForTimeLeft:cdTime allowFreeSpeedup:NO];
     }
     
-    [[SocketCommunication sharedSocketCommunication] sendSolicitTeamDonationMessage:message powerLimit:maxPower clientTime:[self getCurrentMilliseconds] gemsSpent:gemsSpent];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendSolicitTeamDonationMessage:message powerLimit:maxPower clientTime:[self getCurrentMilliseconds] gemsSpent:gemsSpent];
     
     gs.lastTeamDonateSolicitationTime = [MSDate date];
+    [gs addUnrespondedUpdate:[GemsUpdate updateWithTag:tag change:-gemsSpent]];
+  }
+}
+
+- (void) fulfillClanTeamDonation:(UserMonster *)um solicitation:(ClanMemberTeamDonationProto *)solicitation {
+  Globals *gl = [Globals sharedGlobals];
+  GameState *gs = [GameState sharedGameState];
+  
+  if ([solicitation.userUuid isEqualToString:gs.userUuid]) {
+    [Globals popupMessage:@"Trying to fulfill your own solicitation."];
+  } else if (solicitation.isFulfilled) {
+    [Globals popupMessage:@"Trying to fulfill a complete solicitation."];
+  } else if (um.teamCost > solicitation.powerAvailability) {
+    [Globals popupMessage:@"Trying to use a monster with too high of power."];
+  } else if (um.curHealth < [gl calculateMaxHealthForMonster:um]) {
+    [Globals popupMessage:@"Trying to fullfill without max health mosnter."];
+  } else {
+    [[SocketCommunication sharedSocketCommunication] sendFulfillTeamDonationSolicitationMessage:[um convertToProto] solicitation:solicitation clientTime:[self getCurrentMilliseconds]];
   }
 }
 

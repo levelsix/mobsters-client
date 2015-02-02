@@ -86,6 +86,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.maxObstacles = constants.maxObstacles;
   self.minutesPerObstacle = constants.minutesPerObstacle;
   self.maxMinutesForFreeSpeedUp = constants.maxMinutesForFreeSpeedUp;
+  self.minsToResolicitTeamDonation = constants.minsToResolicitTeamDonation;
   
   self.beginAvengingTimeLimitMins = constants.pvpConstant.beginAvengingTimeLimitMins;
   self.requestClanToAvengeTimeLimitMins = constants.pvpConstant.requestClanToAvengeTimeLimitMins;

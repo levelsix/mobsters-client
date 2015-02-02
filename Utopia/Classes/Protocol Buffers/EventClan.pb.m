@@ -18008,6 +18008,7 @@ static FulfillTeamDonationSolicitationRequestProto* defaultFulfillTeamDonationSo
 @interface FulfillTeamDonationSolicitationResponseProto ()
 @property (strong) MinimumUserProto* sender;
 <<<<<<< HEAD
+<<<<<<< HEAD
 @property FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatus status;
 =======
 @property FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolictationStatus status;
@@ -18025,6 +18026,9 @@ static FulfillTeamDonationSolicitationRequestProto* defaultFulfillTeamDonationSo
 =======
 =======
 >>>>>>> reproto
+=======
+@property FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatus status;
+>>>>>>> working on chat protocol
 @property (strong) ClanMemberTeamDonationProto* solicitation;
 @end
 
@@ -18055,6 +18059,7 @@ static FulfillTeamDonationSolicitationRequestProto* defaultFulfillTeamDonationSo
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
 <<<<<<< HEAD
+<<<<<<< HEAD
     self.status = FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatusSuccess;
 =======
     self.status = FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolictationStatusSuccess;
@@ -18072,6 +18077,9 @@ static FulfillTeamDonationSolicitationRequestProto* defaultFulfillTeamDonationSo
 =======
 =======
 >>>>>>> reproto
+=======
+    self.status = FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatusSuccess;
+>>>>>>> working on chat protocol
     self.solicitation = [ClanMemberTeamDonationProto defaultInstance];
   }
   return self;

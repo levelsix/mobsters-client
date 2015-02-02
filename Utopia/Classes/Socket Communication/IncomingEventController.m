@@ -1446,6 +1446,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == SolicitClanHelpResponseProto_SolicitClanHelpStatusSuccess) {
+    [gs.clanTeamDonateUtil addClanTeamDonations:@[proto.solicitation]];
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
@@ -1461,7 +1462,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Fulfill team donation response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolictationStatusSuccess) {
+  if (proto.status == FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatusSuccess) {
+    [gs.clanTeamDonateUtil addClanTeamDonations:@[proto.solicitation]];
+    
+    UserMonsterSnapshotProto *snap = [proto.solicitation.donationsList firstObject];
+    UserMonster *um = [gs myMonsterWithUserMonsterUuid:snap.monsterForUserUuid];
+    um.curHealth = 0;
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {

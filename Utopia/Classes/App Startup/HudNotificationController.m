@@ -65,6 +65,11 @@
 
 - (void) pauseNotifications {
   _isPaused = YES;
+  
+  for (id<TopBarNotification> notif in _currentNotifications) {
+    [notif endAbruptly];
+  }
+  [_currentNotifications removeAllObjects];
 }
 
 - (void) resumeNotifications {

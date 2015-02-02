@@ -631,6 +631,7 @@ message FulfillTeamDonationSolicitationRequestProto {
 message FulfillTeamDonationSolicitationResponseProto {
 	optional MinimumUserProto sender = 1;
 <<<<<<< HEAD
+<<<<<<< HEAD
 	optional FulfillTeamDonationSolicitationStatus status = 2;
 =======
 	optional FulfillTeamDonationSolictationStatus status = 2;
@@ -648,6 +649,9 @@ message FulfillTeamDonationSolicitationResponseProto {
 =======
 =======
 >>>>>>> reproto
+=======
+	optional FulfillTeamDonationSolicitationStatus status = 2;
+>>>>>>> working on chat protocol
 	optional ClanMemberTeamDonationProto solicitation = 3;
    
 	enum FulfillTeamDonationSolicitationStatus {

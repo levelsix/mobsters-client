@@ -1548,8 +1548,9 @@ static NSString *udid = nil;
 }
 
 - (int) sendSolicitTeamDonationMessage:(NSString *)msg powerLimit:(int)powerLimit clientTime:(uint64_t)clientTime gemsSpent:(int)gemsSpent {
-  SolicitTeamDonationRequestProto *req = [[[[[[SolicitTeamDonationRequestProto builder]
+  SolicitTeamDonationRequestProto *req = [[[[[[[SolicitTeamDonationRequestProto builder]
                                               setSender:_sender]
+                                              setMsg:msg]
                                              setPowerLimit:powerLimit]
                                             setClientTime:clientTime]
                                            setGemsSpent:gemsSpent]
@@ -1558,10 +1559,11 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCSolicitTeamDonationEvent];
 }
 
-- (int) sendFulfillTeamDonationSolicitationMessage:(FullUserMonsterProto *)fump clientTime:(uint64_t)clientTime {
-  FulfillTeamDonationSolicitationRequestProto *req = [[[[[FulfillTeamDonationSolicitationRequestProto builder]
+- (int) sendFulfillTeamDonationSolicitationMessage:(FullUserMonsterProto *)fump solicitation:(ClanMemberTeamDonationProto *)solicitation clientTime:(uint64_t)clientTime {
+  FulfillTeamDonationSolicitationRequestProto *req = [[[[[[FulfillTeamDonationSolicitationRequestProto builder]
                                                          setSender:_sender]
                                                         setClientTime:clientTime]
+                                                        setSolicitation:solicitation]
                                                        setFump:fump]
                                                       build];
   

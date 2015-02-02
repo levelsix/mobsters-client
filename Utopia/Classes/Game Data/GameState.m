@@ -110,6 +110,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.lastFreeGachaSpin = user.hasLastFreeBoosterPackTime ? [MSDate dateWithTimeIntervalSince1970:user.lastFreeBoosterPackTime/1000.0] : nil;
   self.lastSecretGiftCollectTime = user.hasLastSecretGiftCollectTime ? [MSDate dateWithTimeIntervalSince1970:user.lastSecretGiftCollectTime/1000.0] : nil;
   self.pvpDefendingMessage = user.pvpDefendingMessage;
+  self.lastTeamDonateSolicitationTime = user.hasLastTeamDonationSolicitation ? [MSDate dateWithTimeIntervalSince1970:user.lastTeamDonationSolicitation/1000.] : nil;
   
   self.lastLogoutTime = [MSDate dateWithTimeIntervalSince1970:user.lastLogoutTime/1000.0];
   self.lastLoginTimeNum = user.lastLoginTime;
@@ -184,6 +185,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   fup.avatarMonsterId = self.avatarMonsterId;
   fup.lastSecretGiftCollectTime = self.lastSecretGiftCollectTime.timeIntervalSince1970*1000.;
   fup.pvpDefendingMessage = self.pvpDefendingMessage;
+  fup.lastTeamDonationSolicitation = self.lastTeamDonateSolicitationTime.timeIntervalSince1970*1000.;
   
   return [fup build];
 }
