@@ -24,9 +24,9 @@ static const int kScreenShakeAnimOffsetRange = 15.f;  // Pixels
 
 static const CGFloat kPFXFadeInAnimDuration = 1.f;    // Seconds
 static const CGFloat kLightPulseAnimDuration = 1.f;   // Seconds
-static const CGFloat kCloseButtonFadeInAnimDelay = 1.f;     // Seconds
-static const CGFloat kCloseButtonFadeInAnimDuration = .5f;  // Seconds
-static const CGFloat kCloseButtonTargetOpacity = .5f;
+static const CGFloat kCloseButtonFadeInAnimDelay = .1f;     // Seconds
+static const CGFloat kCloseButtonFadeInAnimDuration = .4f;  // Seconds
+static const CGFloat kCloseButtonTargetOpacity = .6f;
 
 #define REVEAL_KEYFRAME_ANIMATION(__anim__, __key__) \
   CAKeyframeAnimation *__anim__ = [CAKeyframeAnimation animationWithKeyPath:__key__]; { \

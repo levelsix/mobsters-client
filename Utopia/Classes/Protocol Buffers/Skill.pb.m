@@ -50,6 +50,7 @@ BOOL SkillTypeIsValidValue(SkillType value) {
     case SkillTypeBloodRage:
     case SkillTypeTakeAim:
     case SkillTypeHellFire:
+    case SkillTypeEnergize:
       return YES;
     default:
       return NO;

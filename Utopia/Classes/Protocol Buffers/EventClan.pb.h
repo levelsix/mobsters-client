@@ -460,12 +460,14 @@ typedef NS_ENUM(SInt32, SolicitTeamDonationResponseProto_SolicitTeamDonationStat
 
 BOOL SolicitTeamDonationResponseProto_SolicitTeamDonationStatusIsValidValue(SolicitTeamDonationResponseProto_SolicitTeamDonationStatus value);
 
-typedef NS_ENUM(SInt32, FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolictationStatus) {
-  FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolictationStatusSuccess = 1,
-  FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolictationStatusFailOther = 2,
+typedef NS_ENUM(SInt32, FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatus) {
+  FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatusSuccess = 1,
+  FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatusFailOther = 2,
+  FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatusFailNonexistentSolicitation = 3,
+  FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatusFailAlreadyFulfilled = 4,
 };
 
-BOOL FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolictationStatusIsValidValue(FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolictationStatus value);
+BOOL FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatusIsValidValue(FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatus value);
 
 typedef NS_ENUM(SInt32, VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatus) {
   VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatusSuccess = 1,
@@ -4060,16 +4062,20 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
   BOOL hasClientTime_:1;
   BOOL hasSender_:1;
   BOOL hasFump_:1;
+  BOOL hasSolicitation_:1;
   int64_t clientTime;
   MinimumUserProto* sender;
   FullUserMonsterProto* fump;
+  ClanMemberTeamDonationProto* solicitation;
 }
 - (BOOL) hasSender;
 - (BOOL) hasFump;
 - (BOOL) hasClientTime;
+- (BOOL) hasSolicitation;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly, strong) FullUserMonsterProto* fump;
 @property (readonly) int64_t clientTime;
+@property (readonly, strong) ClanMemberTeamDonationProto* solicitation;
 
 + (FulfillTeamDonationSolicitationRequestProto*) defaultInstance;
 - (FulfillTeamDonationSolicitationRequestProto*) defaultInstance;
@@ -4124,6 +4130,13 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (int64_t) clientTime;
 - (FulfillTeamDonationSolicitationRequestProto_Builder*) setClientTime:(int64_t) value;
 - (FulfillTeamDonationSolicitationRequestProto_Builder*) clearClientTime;
+
+- (BOOL) hasSolicitation;
+- (ClanMemberTeamDonationProto*) solicitation;
+- (FulfillTeamDonationSolicitationRequestProto_Builder*) setSolicitation:(ClanMemberTeamDonationProto*) value;
+- (FulfillTeamDonationSolicitationRequestProto_Builder*) setSolicitation_Builder:(ClanMemberTeamDonationProto_Builder*) builderForValue;
+- (FulfillTeamDonationSolicitationRequestProto_Builder*) mergeSolicitation:(ClanMemberTeamDonationProto*) value;
+- (FulfillTeamDonationSolicitationRequestProto_Builder*) clearSolicitation;
 @end
 
 @interface FulfillTeamDonationSolicitationResponseProto : PBGeneratedMessage {
@@ -4133,13 +4146,13 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
   ClanMemberTeamDonationProto* solicitation;
-  FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolictationStatus status;
+  FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 - (BOOL) hasSolicitation;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolictationStatus status;
+@property (readonly) FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatus status;
 @property (readonly, strong) ClanMemberTeamDonationProto* solicitation;
 
 + (FulfillTeamDonationSolicitationResponseProto*) defaultInstance;
@@ -4185,8 +4198,8 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (FulfillTeamDonationSolicitationResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolictationStatus) status;
-- (FulfillTeamDonationSolicitationResponseProto_Builder*) setStatus:(FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolictationStatus) value;
+- (FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatus) status;
+- (FulfillTeamDonationSolicitationResponseProto_Builder*) setStatus:(FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatus) value;
 - (FulfillTeamDonationSolicitationResponseProto_Builder*) clearStatus;
 
 - (BOOL) hasSolicitation;

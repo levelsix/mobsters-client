@@ -8286,7 +8286,7 @@ static ClanDataProto* defaultClanDataProtoInstance = nil;
 
 @interface ClanMemberTeamDonationProto ()
 @property (strong) NSString* donationUuid;
-@property (strong) NSString* userUuid;
+@property (strong) MinimumUserProto* solicitor;
 @property (strong) NSString* clanUuid;
 @property int32_t powerAvailability;
 @property BOOL isFulfilled;
@@ -8304,13 +8304,13 @@ static ClanDataProto* defaultClanDataProtoInstance = nil;
   hasDonationUuid_ = !!value_;
 }
 @synthesize donationUuid;
-- (BOOL) hasUserUuid {
-  return !!hasUserUuid_;
+- (BOOL) hasSolicitor {
+  return !!hasSolicitor_;
 }
-- (void) setHasUserUuid:(BOOL) value_ {
-  hasUserUuid_ = !!value_;
+- (void) setHasSolicitor:(BOOL) value_ {
+  hasSolicitor_ = !!value_;
 }
-@synthesize userUuid;
+@synthesize solicitor;
 - (BOOL) hasClanUuid {
   return !!hasClanUuid_;
 }
@@ -8356,7 +8356,7 @@ static ClanDataProto* defaultClanDataProtoInstance = nil;
 - (id) init {
   if ((self = [super init])) {
     self.donationUuid = @"";
-    self.userUuid = @"";
+    self.solicitor = [MinimumUserProto defaultInstance];
     self.clanUuid = @"";
     self.powerAvailability = 0;
     self.isFulfilled = NO;
@@ -8390,8 +8390,8 @@ static ClanMemberTeamDonationProto* defaultClanMemberTeamDonationProtoInstance =
   if (self.hasDonationUuid) {
     [output writeString:1 value:self.donationUuid];
   }
-  if (self.hasUserUuid) {
-    [output writeString:2 value:self.userUuid];
+  if (self.hasSolicitor) {
+    [output writeMessage:2 value:self.solicitor];
   }
   if (self.hasClanUuid) {
     [output writeString:3 value:self.clanUuid];
@@ -8423,8 +8423,8 @@ static ClanMemberTeamDonationProto* defaultClanMemberTeamDonationProtoInstance =
   if (self.hasDonationUuid) {
     size_ += computeStringSize(1, self.donationUuid);
   }
-  if (self.hasUserUuid) {
-    size_ += computeStringSize(2, self.userUuid);
+  if (self.hasSolicitor) {
+    size_ += computeMessageSize(2, self.solicitor);
   }
   if (self.hasClanUuid) {
     size_ += computeStringSize(3, self.clanUuid);
@@ -8482,8 +8482,11 @@ static ClanMemberTeamDonationProto* defaultClanMemberTeamDonationProtoInstance =
   if (self.hasDonationUuid) {
     [output appendFormat:@"%@%@: %@\n", indent, @"donationUuid", self.donationUuid];
   }
-  if (self.hasUserUuid) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"userUuid", self.userUuid];
+  if (self.hasSolicitor) {
+    [output appendFormat:@"%@%@ {\n", indent, @"solicitor"];
+    [self.solicitor writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasClanUuid) {
     [output appendFormat:@"%@%@: %@\n", indent, @"clanUuid", self.clanUuid];
@@ -8519,8 +8522,8 @@ static ClanMemberTeamDonationProto* defaultClanMemberTeamDonationProtoInstance =
   return
       self.hasDonationUuid == otherMessage.hasDonationUuid &&
       (!self.hasDonationUuid || [self.donationUuid isEqual:otherMessage.donationUuid]) &&
-      self.hasUserUuid == otherMessage.hasUserUuid &&
-      (!self.hasUserUuid || [self.userUuid isEqual:otherMessage.userUuid]) &&
+      self.hasSolicitor == otherMessage.hasSolicitor &&
+      (!self.hasSolicitor || [self.solicitor isEqual:otherMessage.solicitor]) &&
       self.hasClanUuid == otherMessage.hasClanUuid &&
       (!self.hasClanUuid || [self.clanUuid isEqual:otherMessage.clanUuid]) &&
       self.hasPowerAvailability == otherMessage.hasPowerAvailability &&
@@ -8539,8 +8542,8 @@ static ClanMemberTeamDonationProto* defaultClanMemberTeamDonationProtoInstance =
   if (self.hasDonationUuid) {
     hashCode = hashCode * 31 + [self.donationUuid hash];
   }
-  if (self.hasUserUuid) {
-    hashCode = hashCode * 31 + [self.userUuid hash];
+  if (self.hasSolicitor) {
+    hashCode = hashCode * 31 + [self.solicitor hash];
   }
   if (self.hasClanUuid) {
     hashCode = hashCode * 31 + [self.clanUuid hash];
@@ -8606,8 +8609,8 @@ static ClanMemberTeamDonationProto* defaultClanMemberTeamDonationProtoInstance =
   if (other.hasDonationUuid) {
     [self setDonationUuid:other.donationUuid];
   }
-  if (other.hasUserUuid) {
-    [self setUserUuid:other.userUuid];
+  if (other.hasSolicitor) {
+    [self mergeSolicitor:other.solicitor];
   }
   if (other.hasClanUuid) {
     [self setClanUuid:other.clanUuid];
@@ -8657,7 +8660,12 @@ static ClanMemberTeamDonationProto* defaultClanMemberTeamDonationProtoInstance =
         break;
       }
       case 18: {
-        [self setUserUuid:[input readString]];
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSolicitor) {
+          [subBuilder mergeFrom:self.solicitor];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSolicitor:[subBuilder buildPartial]];
         break;
       }
       case 26: {
@@ -8705,20 +8713,34 @@ static ClanMemberTeamDonationProto* defaultClanMemberTeamDonationProtoInstance =
   result.donationUuid = @"";
   return self;
 }
-- (BOOL) hasUserUuid {
-  return result.hasUserUuid;
+- (BOOL) hasSolicitor {
+  return result.hasSolicitor;
 }
-- (NSString*) userUuid {
-  return result.userUuid;
+- (MinimumUserProto*) solicitor {
+  return result.solicitor;
 }
-- (ClanMemberTeamDonationProto_Builder*) setUserUuid:(NSString*) value {
-  result.hasUserUuid = YES;
-  result.userUuid = value;
+- (ClanMemberTeamDonationProto_Builder*) setSolicitor:(MinimumUserProto*) value {
+  result.hasSolicitor = YES;
+  result.solicitor = value;
   return self;
 }
-- (ClanMemberTeamDonationProto_Builder*) clearUserUuid {
-  result.hasUserUuid = NO;
-  result.userUuid = @"";
+- (ClanMemberTeamDonationProto_Builder*) setSolicitor_Builder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSolicitor:[builderForValue build]];
+}
+- (ClanMemberTeamDonationProto_Builder*) mergeSolicitor:(MinimumUserProto*) value {
+  if (result.hasSolicitor &&
+      result.solicitor != [MinimumUserProto defaultInstance]) {
+    result.solicitor =
+      [[[MinimumUserProto builderWithPrototype:result.solicitor] mergeFrom:value] buildPartial];
+  } else {
+    result.solicitor = value;
+  }
+  result.hasSolicitor = YES;
+  return self;
+}
+- (ClanMemberTeamDonationProto_Builder*) clearSolicitor {
+  result.hasSolicitor = NO;
+  result.solicitor = [MinimumUserProto defaultInstance];
   return self;
 }
 - (BOOL) hasClanUuid {

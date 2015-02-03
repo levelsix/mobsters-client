@@ -36,6 +36,7 @@
 #import "SkillKnockout.h"
 #import "SkillShallowGrave.h"
 #import "SkillHellFire.h"
+#import "SkillEnergize.h"
 
 @implementation SkillController
 
@@ -70,6 +71,7 @@
     case SkillTypeKnockout: return [[SkillKnockout alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypeShallowGrave: return [[SkillShallowGrave alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypeHellFire: return [[SkillHellFire alloc] initWithProto:proto andMobsterColor:color];
+    case SkillTypeEnergize: return [[SkillEnergize alloc] initWithProto:proto andMobsterColor:color];
     default: CustomAssert(NO, @"Trying to create a skill with the factory for undefined skill."); return nil;
   }
 }

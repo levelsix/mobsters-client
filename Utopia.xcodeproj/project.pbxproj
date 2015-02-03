@@ -1182,6 +1182,18 @@
 		9B41AF3B1A7C4CA100529879 /* hellfireminilogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B41AF3A1A7C4CA100529879 /* hellfireminilogo@2x.png */; };
 		9B41AF3C1A7C4CA100529879 /* hellfireminilogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B41AF3A1A7C4CA100529879 /* hellfireminilogo@2x.png */; };
 		9B41AF3D1A7C4CA100529879 /* hellfireminilogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B41AF3A1A7C4CA100529879 /* hellfireminilogo@2x.png */; };
+		9B41AF441A8058FC00529879 /* SkillEnergize.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B41AF431A8058FC00529879 /* SkillEnergize.m */; };
+		9B41AF451A8058FC00529879 /* SkillEnergize.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B41AF431A8058FC00529879 /* SkillEnergize.m */; };
+		9B41AF461A8058FC00529879 /* SkillEnergize.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B41AF431A8058FC00529879 /* SkillEnergize.m */; };
+		9B41AF491A8071ED00529879 /* energizelogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B41AF481A8071ED00529879 /* energizelogo@2x.png */; };
+		9B41AF4A1A8071ED00529879 /* energizelogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B41AF481A8071ED00529879 /* energizelogo@2x.png */; };
+		9B41AF4B1A8071ED00529879 /* energizelogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B41AF481A8071ED00529879 /* energizelogo@2x.png */; };
+		9B41AF4D1A80724B00529879 /* energizeicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B41AF4C1A80724B00529879 /* energizeicon@2x.png */; };
+		9B41AF4E1A80724B00529879 /* energizeicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B41AF4C1A80724B00529879 /* energizeicon@2x.png */; };
+		9B41AF4F1A80724B00529879 /* energizeicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B41AF4C1A80724B00529879 /* energizeicon@2x.png */; };
+		9B41AF521A8072AE00529879 /* energizeminilogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B41AF511A8072AE00529879 /* energizeminilogo@2x.png */; };
+		9B41AF531A8072AE00529879 /* energizeminilogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B41AF511A8072AE00529879 /* energizeminilogo@2x.png */; };
+		9B41AF541A8072AE00529879 /* energizeminilogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B41AF511A8072AE00529879 /* energizeminilogo@2x.png */; };
 		9B8CA6111A3798C00060BE8F /* SkillCritAndEvade.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B8CA6101A3798C00060BE8F /* SkillCritAndEvade.m */; };
 		9B8CA6121A3798C00060BE8F /* SkillCritAndEvade.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B8CA6101A3798C00060BE8F /* SkillCritAndEvade.m */; };
 		9B8CA6131A3798C00060BE8F /* SkillCritAndEvade.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B8CA6101A3798C00060BE8F /* SkillCritAndEvade.m */; };
@@ -7850,6 +7862,11 @@
 		9B41AF321A7C4C3000529879 /* hellfirelogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hellfirelogo@2x.png"; sourceTree = "<group>"; };
 		9B41AF361A7C4C5D00529879 /* hellfireicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hellfireicon@2x.png"; sourceTree = "<group>"; };
 		9B41AF3A1A7C4CA100529879 /* hellfireminilogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hellfireminilogo@2x.png"; sourceTree = "<group>"; };
+		9B41AF421A8058FC00529879 /* SkillEnergize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillEnergize.h; sourceTree = "<group>"; };
+		9B41AF431A8058FC00529879 /* SkillEnergize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillEnergize.m; sourceTree = "<group>"; };
+		9B41AF481A8071ED00529879 /* energizelogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "energizelogo@2x.png"; sourceTree = "<group>"; };
+		9B41AF4C1A80724B00529879 /* energizeicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "energizeicon@2x.png"; sourceTree = "<group>"; };
+		9B41AF511A8072AE00529879 /* energizeminilogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "energizeminilogo@2x.png"; sourceTree = "<group>"; };
 		9B8CA60F1A3798C00060BE8F /* SkillCritAndEvade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillCritAndEvade.h; sourceTree = "<group>"; };
 		9B8CA6101A3798C00060BE8F /* SkillCritAndEvade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillCritAndEvade.m; sourceTree = "<group>"; };
 		9B8CA6171A379CB50060BE8F /* drunkenbrawlicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "drunkenbrawlicon@2x.png"; sourceTree = "<group>"; };
@@ -12861,6 +12878,7 @@
 				4C16FF0019CE03AE00F9FC1E /* cheapshoticon@2x.png */,
 				9B8CA6241A37CA830060BE8F /* criticalstrikeicon@2x.png */,
 				9B8CA6171A379CB50060BE8F /* drunkenbrawlicon@2x.png */,
+				9B41AF4C1A80724B00529879 /* energizeicon@2x.png */,
 				9BDA8B321A3945B800C7AC27 /* evasionicon@2x.png */,
 				4C16FF0219CE03AE00F9FC1E /* forcefieldicon@2x.png */,
 				4C16FF0419CE03AE00F9FC1E /* goosplashicon@2x.png */,
@@ -13042,6 +13060,14 @@
 				9B41AF2E1A7C336900529879 /* bulletorb@2x.png */,
 			);
 			path = "Hell Fire";
+			sourceTree = "<group>";
+		};
+		9B41AF501A8072AE00529879 /* Energize */ = {
+			isa = PBXGroup;
+			children = (
+				9B41AF511A8072AE00529879 /* energizeminilogo@2x.png */,
+			);
+			path = Energize;
 			sourceTree = "<group>";
 		};
 		9B8CA61F1A379D400060BE8F /* Evade And Crit */ = {
@@ -17637,6 +17663,7 @@
 				9B41AE9A1A787BA800529879 /* Knockout */,
 				9B41AE9F1A787BE400529879 /* Shallow Grave */,
 				9B41AF091A7C23CA00529879 /* Hell Fire */,
+				9B41AF501A8072AE00529879 /* Energize */,
 			);
 			path = "Skills Images";
 			sourceTree = "<group>";
@@ -17745,6 +17772,8 @@
 				9B41AE861A78573300529879 /* SkillShallowGrave.m */,
 				9B41AEB31A7C114D00529879 /* SkillHellFire.h */,
 				9B41AEB41A7C114D00529879 /* SkillHellFire.m */,
+				9B41AF421A8058FC00529879 /* SkillEnergize.h */,
+				9B41AF431A8058FC00529879 /* SkillEnergize.m */,
 			);
 			name = Specific;
 			sourceTree = "<group>";
@@ -17814,6 +17843,7 @@
 				DA6EBF4419C273EE0020B628 /* cheapshotlogo@2x.png */,
 				9B8CA6281A37CAA60060BE8F /* criticalstrikelogo@2x.png */,
 				9B8CA61B1A379CCB0060BE8F /* drunkenbrawllogo@2x.png */,
+				9B41AF481A8071ED00529879 /* energizelogo@2x.png */,
 				9BDA8B391A3945DB00C7AC27 /* evasionlogo@2x.png */,
 				DA6EBF4619C273EE0020B628 /* goosplashlogo@2x.png */,
 				9BDA8BA01A3B8E3A00C7AC27 /* headshotlogo@2x.png */,
@@ -18069,6 +18099,7 @@
 				9BDA8B791A3B8DC200C7AC27 /* 6rockheadshot@2x.png in Resources */,
 				CF0CEE7E196F452900ECD301 /* Scientist4Turn04@2x.png in Resources */,
 				CF0CEE80196F452900ECD301 /* sellbubble9@2x.png in Resources */,
+				9B41AF4E1A80724B00529879 /* energizeicon@2x.png in Resources */,
 				CF0CEE82196F452900ECD301 /* nightsmallsquare@2x.png in Resources */,
 				29DF6C561A7300D600D4D19B /* CircleMonsterView.xib in Resources */,
 				CF0CEE86196F452900ECD301 /* TutorialFacebookViewController.xib in Resources */,
@@ -18420,6 +18451,7 @@
 				CF0CF06D196F452900ECD301 /* clansizebg@2x.png in Resources */,
 				CF0CF06E196F452900ECD301 /* greysmallbutton@2x.png in Resources */,
 				CF0CF06F196F452900ECD301 /* chatactiveside@2x.png in Resources */,
+				9B41AF531A8072AE00529879 /* energizeminilogo@2x.png in Resources */,
 				CFA9F7A31A0D8F6300EBE77D /* itemsheaderbg@2x.png in Resources */,
 				CF0CF071196F452900ECD301 /* FatBoy4Move11@2x.png in Resources */,
 				CF0CF073196F452900ECD301 /* menubutton@2x.png in Resources */,
@@ -19589,6 +19621,7 @@
 				CF0CF601196F452900ECD301 /* largebubbleover@2x.png in Resources */,
 				CF0CF602196F452900ECD301 /* Scientist1Blink03@2x.png in Resources */,
 				CF0CF605196F452900ECD301 /* letterheader@2x.png in Resources */,
+				9B41AF4A1A8071ED00529879 /* energizelogo@2x.png in Resources */,
 				CF0CF606196F452900ECD301 /* navshelf@2x.png in Resources */,
 				9BDA8B3F1A3945F600C7AC27 /* evasionminilogo@2x.png in Resources */,
 				CF0CF607196F452900ECD301 /* FatBoy2Move09@2x.png in Resources */,
@@ -20195,6 +20228,7 @@
 				CFFBDF2C18ACA3D90090CA9A /* Scientist1Blink02@2x.png in Resources */,
 				CFFBDF9C18ACA3D90090CA9A /* Scientist3Turn02@2x.png in Resources */,
 				CF134C5818A998DF00D7D700 /* nextgradient@2x.png in Resources */,
+				9B41AF4D1A80724B00529879 /* energizeicon@2x.png in Resources */,
 				CF2A4B1A1901B8F500B2D7D7 /* upgradepopupbottom@2x.png in Resources */,
 				CFF646EE195D252800C43641 /* TeamCardCell.xib in Resources */,
 				CFC97155182C419B00FF1D83 /* combobg.png in Resources */,
@@ -21658,6 +21692,7 @@
 				CFFCF57E19B163BA007E316D /* settingsconnect@2x.png in Resources */,
 				CF0CE150196D705700ECD301 /* menuclosex@2x.png in Resources */,
 				9BDA8BF91A5B432900C7AC27 /* basicgrabinactivetab@2x.png in Resources */,
+				9B41AF521A8072AE00529879 /* energizeminilogo@2x.png in Resources */,
 				299AA30F1A7856AA00A2D806 /* 6earthorb-9@2x.png in Resources */,
 				CFEE024A17BDC76000F3BB19 /* close1@2x.png in Resources */,
 				CF6A650B19D252D00002E05D /* 6rockgrenade@2x.png in Resources */,
@@ -21782,6 +21817,7 @@
 				CF812EE219E676E200D91157 /* ClanHelpViewController.xib in Resources */,
 				CF68909B191C514000FF1F71 /* pier_3@2x.png in Resources */,
 				CFE02AF21820A79B0016C1E2 /* finishbuild@2x.png in Resources */,
+				9B41AF491A8071ED00529879 /* energizelogo@2x.png in Resources */,
 				CFF5DC7B19514FA50019EB2B /* hireallfriendsinactive@2x.png in Resources */,
 				CF29EA431964F38E00B40DA4 /* lightbluemenuoption@2x.png in Resources */,
 				CF68905C1912E7B500FF1F71 /* timerclock@2x.png in Resources */,
@@ -22820,6 +22856,7 @@
 				29AA13BD1A35916E004A9F22 /* battlesendmessage@2x.png in Resources */,
 				CF481DC719F7217F00041486 /* healredbubble5@2x.png in Resources */,
 				9BDA8C371A5DF58500C7AC27 /* spinbutton@2x.png in Resources */,
+				9B41AF4B1A8071ED00529879 /* energizelogo@2x.png in Resources */,
 				CF481DC819F7217F00041486 /* Scientist5Breath08@2x.png in Resources */,
 				CF481DCE19F7217F00041486 /* earthpointsfont@2x.png in Resources */,
 				9B41AEAE1A79817500529879 /* 6graveorb@2x.png in Resources */,
@@ -23359,6 +23396,7 @@
 				CF4820D019F7217F00041486 /* sfx_piece_fall_03.mp3 in Resources */,
 				CF4820D219F7217F00041486 /* 1starmachineactive@2x.png in Resources */,
 				CF4820D619F7217F00041486 /* FatBoy2Move01@2x.png in Resources */,
+				9B41AF541A8072AE00529879 /* energizeminilogo@2x.png in Resources */,
 				CF4820D819F7217F00041486 /* questgobutton@2x.png in Resources */,
 				CF4820D919F7217F00041486 /* Scientist5Turn15@2x.png in Resources */,
 				CF4820DA19F7217F00041486 /* oilupgradebutton@2x.png in Resources */,
@@ -24235,6 +24273,7 @@
 				2985E6381A3313340041ABF4 /* ChatBattleHistoryView.xib in Resources */,
 				CF48254619F7217F00041486 /* 6earthorb@2x.png in Resources */,
 				CF48254719F7217F00041486 /* goldrankbg@2x.png in Resources */,
+				9B41AF4F1A80724B00529879 /* energizeicon@2x.png in Resources */,
 				CF48254919F7217F00041486 /* ChatCell.xib in Resources */,
 				CF48254A19F7217F00041486 /* 6nightsideways@2x.png in Resources */,
 				CF48254B19F7217F00041486 /* clanscreateinactive@2x.png in Resources */,
@@ -24636,6 +24675,7 @@
 				9B41AE821A7824AA00529879 /* SkillKnockout.m in Sources */,
 				CF0CEDC8196F452900ECD301 /* ClanRaidListViewController.m in Sources */,
 				CF0CEDC9196F452900ECD301 /* ClanBrowseViewController.m in Sources */,
+				9B41AF451A8058FC00529879 /* SkillEnergize.m in Sources */,
 				CF0CEDCA196F452900ECD301 /* BoosterPackStuff.pb.m in Sources */,
 				CF0CEDCB196F452900ECD301 /* PopupSubViewController.m in Sources */,
 				CF0CEDCC196F452900ECD301 /* Battle.pb.m in Sources */,
@@ -24960,6 +25000,7 @@
 				CFC45BF819428B1C00BBA4A6 /* GachaponViews.m in Sources */,
 				CFBEB1C61A118DD900149937 /* ResourceItemsFiller.m in Sources */,
 				CF3B01CE174AEE2B00A3A4F2 /* ODIN.m in Sources */,
+				9B41AF441A8058FC00529879 /* SkillEnergize.m in Sources */,
 				CFE0DAEE177AE26E00A3CEF7 /* GameState.m in Sources */,
 				CF32EAF91960A9DD00A4AEE3 /* BuildingViewController.m in Sources */,
 				CFBF02D617C2F68D0082A9BF /* MenuNavigationController.m in Sources */,
@@ -25284,6 +25325,7 @@
 				9B41AE831A7824AA00529879 /* SkillKnockout.m in Sources */,
 				CF48197619F7217F00041486 /* ClanRaidListViewController.m in Sources */,
 				CF48197719F7217F00041486 /* ClanBrowseViewController.m in Sources */,
+				9B41AF461A8058FC00529879 /* SkillEnergize.m in Sources */,
 				CF48197819F7217F00041486 /* BoosterPackStuff.pb.m in Sources */,
 				CF48197919F7217F00041486 /* PopupSubViewController.m in Sources */,
 				CF48197A19F7217F00041486 /* Battle.pb.m in Sources */,
