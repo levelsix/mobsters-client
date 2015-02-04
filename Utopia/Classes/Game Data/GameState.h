@@ -293,5 +293,6 @@
 - (MSDate *) nextSecretGiftOpenDate;
 
 - (BOOL) hasBeatFirstBoss;
+- (BOOL) hasUpgradedBuilding;
 
 @end

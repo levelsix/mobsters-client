@@ -404,7 +404,7 @@
 @implementation UpgradeViewController
 
 - (id) initWithUserStruct:(UserStruct *)us {
-  if ((self = [super init])) {
+  if ((self = [self init])) {
     self.userStruct = us;
   }
   return self;

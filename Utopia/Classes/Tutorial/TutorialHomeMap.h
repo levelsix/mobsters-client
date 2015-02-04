@@ -28,6 +28,7 @@
 
 - (void) teamCenterClicked;
 - (void) enterTeamCenterClicked;
+- (void) upgradeClicked;
 
 @end
 
@@ -35,6 +36,7 @@
   CGPoint _lastBoatPosition;
   
   BOOL _enteringHospital;
+  BOOL _enteringTownHall;
 }
 
 @property (nonatomic, retain) StartupResponseProto_TutorialConstants *constants;
@@ -82,5 +84,6 @@
 - (void) friendFaceForward;
 - (void) guideFaceForward;
 - (void) moveToTeamCenter;
+- (UserStruct *) moveToTownHall;
 
 @end

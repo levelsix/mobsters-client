@@ -49,6 +49,7 @@
 #import "TangoDelegate.h"
 #import "StageCompleteNode.h"
 #import "PvpRankUpNode.h"
+#import "TutorialBuildingUpgradeController.h"
 #import <Kamcord/Kamcord.h>
 
 #define DEFAULT_PNG_IMAGE_VIEW_TAG 103
@@ -1125,6 +1126,12 @@ static const CGSize FIXED_SIZE = {568, 384};
       [self checkQuests];
       [self.notificationController resumeNotifications];
     }];
+  }
+  
+  if ([gs isTaskCompleted:[Globals sharedGlobals].taskIdOfFirstSkill] && ![gs hasUpgradedBuilding])
+  {
+    self.miniTutController = [[TutorialBuildingUpgradeController alloc] initWithMyTeam:nil gameViewController:self];
+    [self.miniTutController begin];
   }
   
   [self playMapMusic];
