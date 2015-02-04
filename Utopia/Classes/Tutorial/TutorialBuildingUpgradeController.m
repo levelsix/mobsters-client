@@ -31,7 +31,6 @@
     DialogueProto_SpeechSegmentProto_Builder *ss = [DialogueProto_SpeechSegmentProto builder];
     ss.speaker = mp.displayName;
     ss.speakerImage = [mp.imagePrefix stringByAppendingString:@"Tut"];
-    ss.isLeftSide = !isLootGuy;
     ss.speakerText = speakerText;
     [dp addSpeechSegment:ss.build];
   }
