@@ -40,6 +40,7 @@
 + (id) userMonsterWithProto:(FullUserMonsterProto *)proto;
 + (id) userMonsterWithMinProto:(MinimumUserMonsterProto *)proto;
 + (id) userMonsterWithTaskStageMonsterProto:(TaskStageMonsterProto *)proto;
++ (id) userMonsterWithMonsterSnapshotProto:(UserMonsterSnapshotProto *)proto;
 - (BOOL) isHealing;
 - (BOOL) isEnhancing;
 - (BOOL) isEvolving;

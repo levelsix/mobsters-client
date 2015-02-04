@@ -527,9 +527,7 @@
 }
 
 - (IBAction)settingsClicked:(id)sender {
-  while (sender && ![sender isKindOfClass:[ClanMemberCell class]]) {
-    sender = [sender superview];
-  }
+  sender = [sender getAncestorInViewHierarchyOfType:[ClanMemberCell class]];
   
   if (sender) {
     ClanMemberCell *cell = (ClanMemberCell *)sender;
@@ -540,9 +538,7 @@
 }
 
 - (IBAction)profileClicked:(id)sender {
-  while (sender && ![sender isKindOfClass:[ClanMemberCell class]]) {
-    sender = [sender superview];
-  }
+  sender = [sender getAncestorInViewHierarchyOfType:[ClanMemberCell class]];
   
   if (sender) {
     ClanMemberCell *cell = (ClanMemberCell *)sender;

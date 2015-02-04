@@ -62,10 +62,13 @@
                                     <rect key="frame" x="0.0" y="0.0" width="1" height="56"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
-                                <view contentMode="scaleToFill" id="Z0G-kT-cu3" customClass="TeamSlotView">
+                                <view clipsSubviews="YES" contentMode="scaleToFill" id="Z0G-kT-cu3" customClass="TeamSlotView">
                                     <rect key="frame" x="7" y="0.0" width="140" height="56"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                    <connections>
+                                        <outlet property="delegate" destination="-1" id="8ae-dc-bOs"/>
+                                    </connections>
                                 </view>
                                 <view contentMode="scaleToFill" id="P67-wJ-hbe" userLabel="Cooldown View">
                                     <rect key="frame" x="69" y="8" width="80" height="40"/>
@@ -168,20 +171,29 @@
                             <rect key="frame" x="3" y="0.0" width="424" height="60"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
-                        <view tag="1" contentMode="scaleToFill" id="GkW-ol-yeO">
+                        <view clipsSubviews="YES" tag="1" contentMode="scaleToFill" id="GkW-ol-yeO" customClass="TeamSlotView">
                             <rect key="frame" x="5" y="2" width="140" height="56"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            <connections>
+                                <outlet property="delegate" destination="-1" id="Frd-xX-C77"/>
+                            </connections>
                         </view>
-                        <view tag="2" contentMode="scaleToFill" id="Ikt-QA-sJc">
+                        <view clipsSubviews="YES" tag="2" contentMode="scaleToFill" id="Ikt-QA-sJc" customClass="TeamSlotView">
                             <rect key="frame" x="145" y="2" width="140" height="56"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            <connections>
+                                <outlet property="delegate" destination="-1" id="Yp3-8H-WBw"/>
+                            </connections>
                         </view>
-                        <view tag="3" contentMode="scaleToFill" id="F9B-c4-INt">
+                        <view clipsSubviews="YES" tag="3" contentMode="scaleToFill" id="F9B-c4-INt" customClass="TeamSlotView">
                             <rect key="frame" x="285" y="2" width="140" height="56"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            <connections>
+                                <outlet property="delegate" destination="-1" id="CcL-bB-ehp"/>
+                            </connections>
                         </view>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>

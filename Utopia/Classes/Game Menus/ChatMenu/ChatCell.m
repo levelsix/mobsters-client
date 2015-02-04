@@ -11,6 +11,7 @@
 #import "Globals.h"
 #import "UnreadNotifications.h"
 #import "ClanHelp.h"
+#import "GameViewController.h"
 
 @implementation ChatCell
 
@@ -64,15 +65,11 @@ static float buttonInitialWidth = 159.f;
   self.nameLabel.frame = r;
   
   CGSize size = [message getSizeWithFont:self.msgLabel.font constrainedToSize:CGSizeMake(_initialMsgLabelWidth, 999)];
-  CGRect frame = self.msgLabel.frame;
-  frame.size.width = size.width;
-  frame.size.height = size.height+3.f;
-  self.msgLabel.frame = frame;
   
-  size.width = MAX(size.width+66.f, buttonSize.width+self.timeLabel.frame.size.width+50.f);
-  frame = self.mainView.frame;
-  frame.size.width = size.width;
-  self.mainView.frame = frame;
+  // Do width after we use the current chat subview
+  self.msgLabel.height = size.height+3.f;
+  
+  self.mainView.width = MAX(size.width+66.f, buttonSize.width+self.timeLabel.frame.size.width+50.f);
   
   // Chat subview stuff
   for (UIView *sub in self.chatSubviews.allValues) {
@@ -93,6 +90,8 @@ static float buttonInitialWidth = 159.f;
     
     self.currentChatSubview = view;
   }
+  
+  self.msgLabel.width = self.mainView.width-66.f;
 
   BOOL shouldHighlight;
   if ([sender.userUuid isEqualToString:gs.userUuid]) {
@@ -418,6 +417,48 @@ static float buttonInitialWidth = 159.f;
   Globals *gl = [Globals sharedGlobals];
   int mins = gl.beginAvengingTimeLimitMins;
   self.timeLabel.text = [[Globals convertTimeToShortString:ca.avengeRequestTime.timeIntervalSinceNow+mins*60] uppercaseString];
+}
+
+@end
+
+@implementation ChatTeamDonateView
+
+- (void) awakeFromNib {
+  self.filledView.frame = self.emptyView.frame;
+  [self.emptyView.superview addSubview:self.filledView];
+}
+
+- (void) updateForTeamDonation:(ClanMemberTeamDonationProto *)donation {
+  if (!donation.isFulfilled) {
+    self.powerLimitLabel.text = [NSString stringWithFormat:@"%d", donation.powerAvailability];
+    
+    self.emptyView.hidden = NO;
+    self.filledView.hidden = YES;
+  } else {
+    UserMonster *um = donation.donatedMonster;
+    MonsterProto *mp = um.staticMonster;
+    
+    [self.monsterView updateForMonsterId:um.monsterId];
+    
+    NSString *p1 = [NSString stringWithFormat:@"%@ ", mp.monsterName];
+    NSString *p2 = [NSString stringWithFormat:@"L%d", um.level];
+    NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:[p1 stringByAppendingString:p2]];
+    [attr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:48/255.f green:124/255.f blue:238/255.f alpha:1.f] range:NSMakeRange(p1.length, p2.length)];
+    self.monsterLabel.attributedText = attr;
+    
+    self.emptyView.hidden = YES;
+    self.filledView.hidden = NO;
+  }
+  
+  GameState *gs = [GameState sharedGameState];
+  if ([donation.solicitor.userUuid isEqualToString:gs.userUuid]) {
+    self.donateButton.superview.hidden = YES;
+  } else {
+    [self.donateButton removeTarget:nil action:NULL forControlEvents:UIControlEventTouchUpInside];
+    [self.donateButton addTarget:donation action:@selector(donateClicked:) forControlEvents:UIControlEventTouchUpInside];
+    
+    self.donateButton.superview.hidden = NO;
+  }
 }
 
 @end

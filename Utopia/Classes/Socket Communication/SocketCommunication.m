@@ -1570,10 +1570,10 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCFulfillTeamDonationSolicitationEvent];
 }
 
-- (int) sendVoidTeamDonationSolicitationMessage:(NSString *)clanTeamDonateUuid {
+- (int) sendVoidTeamDonationSolicitationMessage:(NSArray *)solicitations {
   VoidTeamDonationSolicitationRequestProto *req = [[[[VoidTeamDonationSolicitationRequestProto builder]
                                                      setSender:_sender]
-                                                    setClanTeamDonateUuid:clanTeamDonateUuid]
+                                                    addAllSolicitations:solicitations]
                                                    build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCVoidTeamDonationSolicitationEvent];

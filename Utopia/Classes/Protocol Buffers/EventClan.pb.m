@@ -18668,6 +18668,7 @@ static VoidTeamDonationSolicitationRequestProto* defaultVoidTeamDonationSolicita
     result.mutableSolicitationsList = [[NSMutableArray alloc]init];
   }
   [result.mutableSolicitationsList addObject:value];
+<<<<<<< HEAD
   return self;
 }
 - (VoidTeamDonationSolicitationRequestProto_Builder *)addAllSolicitations:(NSArray *)array {
@@ -18677,6 +18678,17 @@ static VoidTeamDonationSolicitationRequestProto* defaultVoidTeamDonationSolicita
   [result.mutableSolicitationsList addObjectsFromArray:array];
   return self;
 }
+=======
+  return self;
+}
+- (VoidTeamDonationSolicitationRequestProto_Builder *)addAllSolicitations:(NSArray *)array {
+  if (result.mutableSolicitationsList == nil) {
+    result.mutableSolicitationsList = [NSMutableArray array];
+  }
+  [result.mutableSolicitationsList addObjectsFromArray:array];
+  return self;
+}
+>>>>>>> created monster select popover
 - (VoidTeamDonationSolicitationRequestProto_Builder *)clearSolicitations {
   result.mutableSolicitationsList = nil;
   return self;

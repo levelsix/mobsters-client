@@ -12,6 +12,11 @@
 #import "NibUtils.h"
 #import "ChatObject.h"
 
+#import "TeamViewController.h"
+
+#import "MonsterSelectViewController.h"
+#import "TeamDonateMonstersFiller.h"
+
 @interface ChatCell : UITableViewCell {
   BOOL _bubbleColorChanged;
   UIColor *_initLabelColor;
@@ -130,5 +135,24 @@
 
 - (void) updateForClanAvenging:(PvpClanAvenging *)ca;
 - (void) updateTimeForClanAvenging:(PvpClanAvenging *)ca;
+
+@end
+
+@interface ChatTeamDonateView : UIView
+
+@property (nonatomic, assign) IBOutlet UILabel *powerLimitLabel;
+@property (nonatomic, assign) IBOutlet UIButton *donateButton;
+
+@property (nonatomic, assign) IBOutlet MiniMonsterView *monsterView;
+@property (nonatomic, assign) IBOutlet UILabel *monsterLabel;
+@property (nonatomic, assign) IBOutlet UILabel *donatorNameLabel;
+
+@property (nonatomic, assign) IBOutlet UIView *filledView;
+@property (nonatomic, assign) IBOutlet UIView *emptyView;
+
+@property (nonatomic, assign) IBOutlet UIActivityIndicatorView *donateSpinner;
+@property (nonatomic, assign) IBOutlet UILabel *donateLabel;
+
+- (void) updateForTeamDonation:(ClanMemberTeamDonationProto *)donation;
 
 @end

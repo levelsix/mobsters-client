@@ -22,7 +22,7 @@
 @implementation UserMonster
 
 - (id) initWithMonsterProto:(FullUserMonsterProto *)proto {
-  if ((self = [super init])){
+  if ((self = [super init])) {
     self.userUuid = proto.userUuid;
     self.monsterId = proto.monsterId;
     self.userMonsterUuid = proto.userMonsterUuid;
@@ -73,6 +73,25 @@
 
 + (id) userMonsterWithTaskStageMonsterProto:(TaskStageMonsterProto *)proto {
   return [[self alloc] initWithTaskStageMonsterProto:proto];
+}
+
+- (id) initWithMonsterSnapshotProto:(UserMonsterSnapshotProto *)proto {
+  if ((self = [super init])){
+    self.userUuid = proto.userUuid;
+    self.monsterId = proto.monsterId;
+    self.userMonsterUuid = proto.monsterForUserUuid;
+    self.level = proto.currentLvl;
+    self.experience = proto.currentExp;
+    self.curHealth = proto.currentHp;
+    self.teamSlot = proto.teamSlotNum;
+    self.offensiveSkillId = proto.offensiveSkillId;
+    self.defensiveSkillId = proto.defensiveSkillId;
+  }
+  return self;
+}
+
++ (id) userMonsterWithMonsterSnapshotProto:(UserMonsterSnapshotProto *)proto {
+  return [[self alloc] initWithMonsterSnapshotProto:proto];
 }
 
 - (BOOL) isHealing {

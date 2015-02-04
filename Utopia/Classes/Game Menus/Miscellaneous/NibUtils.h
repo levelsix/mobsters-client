@@ -16,6 +16,7 @@
 #import "NSObject+PerformBlockAfterDelay.h"
 #import "ColoredLogs.h"
 #import "NSString+Sizing.h"
+#import "UIView+Superview.h"
 
 typedef enum {
   kButton1 = 1,
@@ -589,6 +590,8 @@ typedef enum {
 @end
 
 @interface EmbeddedNibView : UIView
+
+- (void) loadNib;
 
 @end
 

@@ -234,9 +234,7 @@
 }
 
 - (void) cardClicked:(id)sender {
-  while (sender && ![sender isKindOfClass:[ListCollectionViewCell class]]) {
-    sender = [sender superview];
-  }
+  sender = [sender getAncestorInViewHierarchyOfType:[ListCollectionViewCell class]];
   
   if (sender) {
     if ([self.delegate respondsToSelector:@selector(listView:cardClickedAtIndexPath:)]) {
@@ -246,9 +244,7 @@
 }
 
 - (void) infoClicked:(id)sender {
-  while (sender && ![sender isKindOfClass:[ListCollectionViewCell class]]) {
-    sender = [sender superview];
-  }
+  sender = [sender getAncestorInViewHierarchyOfType:[ListCollectionViewCell class]];
   
   if (sender) {
     if ([self.delegate respondsToSelector:@selector(listView:infoClickedAtIndexPath:)]) {
@@ -258,9 +254,7 @@
 }
 
 - (void) minusClicked:(id)sender {
-  while (sender && ![sender isKindOfClass:[ListCollectionViewCell class]]) {
-    sender = [sender superview];
-  }
+  sender = [sender getAncestorInViewHierarchyOfType:[ListCollectionViewCell class]];
   
   if (sender) {
     if ([self.delegate respondsToSelector:@selector(listView:minusClickedAtIndexPath:)]) {
@@ -270,9 +264,7 @@
 }
 
 - (void) speedupClicked:(id)sender {
-  while (sender && ![sender isKindOfClass:[ListCollectionViewCell class]]) {
-    sender = [sender superview];
-  }
+  sender = [sender getAncestorInViewHierarchyOfType:[ListCollectionViewCell class]];
   
   if (sender) {
     if ([self.delegate respondsToSelector:@selector(listView:speedupClickedAtIndexPath:)]) {

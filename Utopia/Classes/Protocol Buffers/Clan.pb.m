@@ -8794,6 +8794,7 @@ static ClanMemberTeamDonationProto* defaultClanMemberTeamDonationProtoInstance =
 }
 - (MinimumUserProto*) solicitor {
   return result.solicitor;
+<<<<<<< HEAD
 }
 <<<<<<< HEAD
 - (ClanMemberTeamDonationProto_Builder*) setSolicitor:(MinimumUserProto*) value {
@@ -8833,6 +8834,31 @@ static ClanMemberTeamDonationProto* defaultClanMemberTeamDonationProtoInstance =
   result.hasUserUuid = NO;
   result.userUuid = @"";
 >>>>>>> donate msg vc done
+=======
+}
+- (ClanMemberTeamDonationProto_Builder*) setSolicitor:(MinimumUserProto*) value {
+  result.hasSolicitor = YES;
+  result.solicitor = value;
+  return self;
+}
+- (ClanMemberTeamDonationProto_Builder*) setSolicitor_Builder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSolicitor:[builderForValue build]];
+}
+- (ClanMemberTeamDonationProto_Builder*) mergeSolicitor:(MinimumUserProto*) value {
+  if (result.hasSolicitor &&
+      result.solicitor != [MinimumUserProto defaultInstance]) {
+    result.solicitor =
+      [[[MinimumUserProto builderWithPrototype:result.solicitor] mergeFrom:value] buildPartial];
+  } else {
+    result.solicitor = value;
+  }
+  result.hasSolicitor = YES;
+  return self;
+}
+- (ClanMemberTeamDonationProto_Builder*) clearSolicitor {
+  result.hasSolicitor = NO;
+  result.solicitor = [MinimumUserProto defaultInstance];
+>>>>>>> created monster select popover
   return self;
 }
 - (BOOL) hasClanUuid {

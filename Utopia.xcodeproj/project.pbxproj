@@ -24,6 +24,12 @@
 		295FA2B41A1B44A7006B79F3 /* ResourceItemsFiller.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBEB1C51A118DD900149937 /* ResourceItemsFiller.m */; };
 		295FA2B51A1B44A7006B79F3 /* ResourceItemsFiller.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBEB1C51A118DD900149937 /* ResourceItemsFiller.m */; };
 		295FA2BD1A1BEC7D006B79F3 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 295FA2BC1A1BEC7D006B79F3 /* Entitlements.plist */; };
+		296548651A8163F80080B195 /* donatetoonslot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 296548641A8163F80080B195 /* donatetoonslot@2x.png */; };
+		296548661A8163F80080B195 /* donatetoonslot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 296548641A8163F80080B195 /* donatetoonslot@2x.png */; };
+		296548671A8163F80080B195 /* donatetoonslot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 296548641A8163F80080B195 /* donatetoonslot@2x.png */; };
+		2965486B1A8193A00080B195 /* UIView+Superview.m in Sources */ = {isa = PBXBuildFile; fileRef = 2965486A1A8193A00080B195 /* UIView+Superview.m */; };
+		2965486C1A8193A00080B195 /* UIView+Superview.m in Sources */ = {isa = PBXBuildFile; fileRef = 2965486A1A8193A00080B195 /* UIView+Superview.m */; };
+		2965486D1A8193A00080B195 /* UIView+Superview.m in Sources */ = {isa = PBXBuildFile; fileRef = 2965486A1A8193A00080B195 /* UIView+Superview.m */; };
 		29804F2A1A1DA91200806253 /* speedupicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29804F261A1DA91200806253 /* speedupicon@2x.png */; };
 		29804F2B1A1DA91200806253 /* speedupicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29804F261A1DA91200806253 /* speedupicon@2x.png */; };
 		29804F2C1A1DA91200806253 /* speedupicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29804F261A1DA91200806253 /* speedupicon@2x.png */; };
@@ -239,6 +245,26 @@
 		2985E6361A3313340041ABF4 /* ChatBattleHistoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2985E6351A3313340041ABF4 /* ChatBattleHistoryView.xib */; };
 		2985E6371A3313340041ABF4 /* ChatBattleHistoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2985E6351A3313340041ABF4 /* ChatBattleHistoryView.xib */; };
 		2985E6381A3313340041ABF4 /* ChatBattleHistoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2985E6351A3313340041ABF4 /* ChatBattleHistoryView.xib */; };
+		2991FBF21A800693009BB1D8 /* ChatTeamDonateView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2991FBF11A800693009BB1D8 /* ChatTeamDonateView.xib */; };
+		2991FBF31A800693009BB1D8 /* ChatTeamDonateView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2991FBF11A800693009BB1D8 /* ChatTeamDonateView.xib */; };
+		2991FBF41A800693009BB1D8 /* ChatTeamDonateView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2991FBF11A800693009BB1D8 /* ChatTeamDonateView.xib */; };
+		2991FBF91A800AFE009BB1D8 /* PopoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2991FBF81A800AFD009BB1D8 /* PopoverViewController.m */; };
+		2991FBFA1A800AFE009BB1D8 /* PopoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2991FBF81A800AFD009BB1D8 /* PopoverViewController.m */; };
+		2991FBFB1A800AFE009BB1D8 /* PopoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2991FBF81A800AFD009BB1D8 /* PopoverViewController.m */; };
+		2991FC001A800D7F009BB1D8 /* MonsterSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2991FBFE1A800D7F009BB1D8 /* MonsterSelectViewController.m */; };
+		2991FC011A800D7F009BB1D8 /* MonsterSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2991FBFE1A800D7F009BB1D8 /* MonsterSelectViewController.m */; };
+		2991FC021A800D7F009BB1D8 /* MonsterSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2991FBFE1A800D7F009BB1D8 /* MonsterSelectViewController.m */; };
+		2991FC031A800D7F009BB1D8 /* MonsterSelectViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2991FBFF1A800D7F009BB1D8 /* MonsterSelectViewController.xib */; };
+		2991FC041A800D7F009BB1D8 /* MonsterSelectViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2991FBFF1A800D7F009BB1D8 /* MonsterSelectViewController.xib */; };
+		2991FC051A800D7F009BB1D8 /* MonsterSelectViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2991FBFF1A800D7F009BB1D8 /* MonsterSelectViewController.xib */; };
+		2991FC081A8012F8009BB1D8 /* TeamDonateMonsterSelectCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2991FC071A8012F8009BB1D8 /* TeamDonateMonsterSelectCell.xib */; };
+		2991FC091A8012F8009BB1D8 /* TeamDonateMonsterSelectCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2991FC071A8012F8009BB1D8 /* TeamDonateMonsterSelectCell.xib */; };
+		2991FC0A1A8012F8009BB1D8 /* TeamDonateMonsterSelectCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2991FC071A8012F8009BB1D8 /* TeamDonateMonsterSelectCell.xib */; };
+		2991FC0F1A806287009BB1D8 /* TeamDonateMonstersFiller.m in Sources */ = {isa = PBXBuildFile; fileRef = 2991FC0E1A806287009BB1D8 /* TeamDonateMonstersFiller.m */; };
+		2991FC101A806287009BB1D8 /* TeamDonateMonstersFiller.m in Sources */ = {isa = PBXBuildFile; fileRef = 2991FC0E1A806287009BB1D8 /* TeamDonateMonstersFiller.m */; };
+		2991FC111A806287009BB1D8 /* TeamDonateMonstersFiller.m in Sources */ = {isa = PBXBuildFile; fileRef = 2991FC0E1A806287009BB1D8 /* TeamDonateMonstersFiller.m */; };
+		2991FC121A808DC7009BB1D8 /* SkillBloodRage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA24DF21A7A9ECF00BEF920 /* SkillBloodRage.m */; };
+		2991FC131A808DC8009BB1D8 /* SkillBloodRage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA24DF21A7A9ECF00BEF920 /* SkillBloodRage.m */; };
 		299AA3001A7856AA00A2D806 /* 6allcocktail-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 299AA2AE1A7856A900A2D806 /* 6allcocktail-9@2x.png */; };
 		299AA3011A7856AA00A2D806 /* 6allcocktail-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 299AA2AE1A7856A900A2D806 /* 6allcocktail-9@2x.png */; };
 		299AA3021A7856AA00A2D806 /* 6allcocktail-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 299AA2AE1A7856A900A2D806 /* 6allcocktail-9@2x.png */; };
@@ -7433,6 +7459,9 @@
 		292771411A72DBB400E3AB65 /* fightonbubblearrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fightonbubblearrow@2x.png"; sourceTree = "<group>"; };
 		294E23631A1B19EF00148D7E /* ToonSquad-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ToonSquad-Info.plist"; sourceTree = "<group>"; };
 		295FA2BC1A1BEC7D006B79F3 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = SOURCE_ROOT; };
+		296548641A8163F80080B195 /* donatetoonslot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "donatetoonslot@2x.png"; sourceTree = "<group>"; };
+		296548691A8193A00080B195 /* UIView+Superview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Superview.h"; sourceTree = "<group>"; };
+		2965486A1A8193A00080B195 /* UIView+Superview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Superview.m"; sourceTree = "<group>"; };
 		29804F251A1DA91200806253 /* speedupicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = speedupicon.png; path = Items/speedupicon.png; sourceTree = "<group>"; };
 		29804F261A1DA91200806253 /* speedupicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "speedupicon@2x.png"; sourceTree = "<group>"; };
 		29804F2D1A1EE9DF00806253 /* itemstimerbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = itemstimerbg.png; path = Items/itemstimerbg.png; sourceTree = "<group>"; };
@@ -7554,6 +7583,15 @@
 		2985E5F31A330DB00041ABF4 /* pinkchattail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pinkchattail.png; path = "Chat requests/pinkchattail.png"; sourceTree = "<group>"; };
 		2985E5F41A330DB00041ABF4 /* pinkchattail@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pinkchattail@2x.png"; sourceTree = "<group>"; };
 		2985E6351A3313340041ABF4 /* ChatBattleHistoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatBattleHistoryView.xib; sourceTree = "<group>"; };
+		2991FBF11A800693009BB1D8 /* ChatTeamDonateView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatTeamDonateView.xib; sourceTree = "<group>"; };
+		2991FBF71A800AFD009BB1D8 /* PopoverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopoverViewController.h; sourceTree = "<group>"; };
+		2991FBF81A800AFD009BB1D8 /* PopoverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopoverViewController.m; sourceTree = "<group>"; };
+		2991FBFD1A800D7F009BB1D8 /* MonsterSelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MonsterSelectViewController.h; sourceTree = "<group>"; };
+		2991FBFE1A800D7F009BB1D8 /* MonsterSelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MonsterSelectViewController.m; sourceTree = "<group>"; };
+		2991FBFF1A800D7F009BB1D8 /* MonsterSelectViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MonsterSelectViewController.xib; sourceTree = "<group>"; };
+		2991FC071A8012F8009BB1D8 /* TeamDonateMonsterSelectCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TeamDonateMonsterSelectCell.xib; sourceTree = "<group>"; };
+		2991FC0D1A806287009BB1D8 /* TeamDonateMonstersFiller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TeamDonateMonstersFiller.h; sourceTree = "<group>"; };
+		2991FC0E1A806287009BB1D8 /* TeamDonateMonstersFiller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TeamDonateMonstersFiller.m; sourceTree = "<group>"; };
 		299AA2AE1A7856A900A2D806 /* 6allcocktail-9@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "6allcocktail-9@2x.png"; sourceTree = "<group>"; };
 		299AA2AF1A7856A900A2D806 /* 6cloud1-9@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "6cloud1-9@2x.png"; sourceTree = "<group>"; };
 		299AA2B01A7856A900A2D806 /* 6cloud2-9@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "6cloud2-9@2x.png"; sourceTree = "<group>"; };
@@ -8199,7 +8237,7 @@
 		CF0CDE8319E5050E006A5ECB /* timerstopbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "timerstopbg@2x.png"; sourceTree = "<group>"; };
 		CF0CDE8419E5050E006A5ECB /* toplongbar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "toplongbar@2x.png"; sourceTree = "<group>"; };
 		CF0CDEA619E50675006A5ECB /* TimerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimerViewController.h; sourceTree = "<group>"; };
-		CF0CDEA719E50675006A5ECB /* TimerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimerViewController.m; sourceTree = "<group>"; };
+		CF0CDEA719E50675006A5ECB /* TimerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = TimerViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		CF0CDEAD19E50B94006A5ECB /* TimerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TimerCell.xib; sourceTree = "<group>"; };
 		CF0CDEB019E5103C006A5ECB /* TimerAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimerAction.h; sourceTree = "<group>"; };
 		CF0CDEB119E5103C006A5ECB /* TimerAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = TimerAction.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -9309,7 +9347,7 @@
 		CF70650718470051005B30A1 /* xpmiddle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = xpmiddle.png; path = "New Top bar/xpmiddle.png"; sourceTree = "<group>"; };
 		CF70650818470051005B30A1 /* xpmiddle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "xpmiddle@2x.png"; sourceTree = "<group>"; };
 		CF7372A718CB7CE900EE2CBC /* TutorialAttackMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialAttackMapViewController.h; sourceTree = "<group>"; };
-		CF7372A818CB7CE900EE2CBC /* TutorialAttackMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialAttackMapViewController.m; sourceTree = "<group>"; };
+		CF7372A818CB7CE900EE2CBC /* TutorialAttackMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = TutorialAttackMapViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		CF74610D19661B22002D6AE6 /* makeitrain.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = makeitrain.plist; sourceTree = "<group>"; };
 		CF74610E19661B22002D6AE6 /* makeitrain.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = makeitrain.pvr.ccz; sourceTree = "<group>"; };
 		CF74611119662F03002D6AE6 /* fightarrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = fightarrow.png; path = Tutorial/fightarrow.png; sourceTree = "<group>"; };
@@ -9388,7 +9426,7 @@
 		CF7F27D7165EC8CA00D967DC /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		CF7FEF0F1540C3D000716E37 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		CF812EDD19E676E200D91157 /* ClanHelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClanHelpViewController.h; sourceTree = "<group>"; };
-		CF812EDE19E676E200D91157 /* ClanHelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClanHelpViewController.m; sourceTree = "<group>"; };
+		CF812EDE19E676E200D91157 /* ClanHelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ClanHelpViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		CF812EDF19E676E200D91157 /* ClanHelpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ClanHelpViewController.xib; sourceTree = "<group>"; };
 		CF812EE419E67A3C00D91157 /* ClanHelpCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ClanHelpCell.xib; sourceTree = "<group>"; };
 		CF812EE819E67D4E00D91157 /* clanhelpbarbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = clanhelpbarbg.png; path = "Clan Help/clanhelpbarbg.png"; sourceTree = "<group>"; };
@@ -9749,7 +9787,7 @@
 		CFA8FF2C19F899B200F9908C /* woopsalertsign@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "woopsalertsign@2x.png"; sourceTree = "<group>"; };
 		CFA8FF5D19F9B31B00F9908C /* UpgradePrereqView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UpgradePrereqView.xib; sourceTree = "<group>"; };
 		CFA9F7771A0D8D8900EBE77D /* ItemSelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemSelectViewController.h; sourceTree = "<group>"; };
-		CFA9F7781A0D8D8900EBE77D /* ItemSelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemSelectViewController.m; sourceTree = "<group>"; };
+		CFA9F7781A0D8D8900EBE77D /* ItemSelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ItemSelectViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		CFA9F7791A0D8D8900EBE77D /* ItemSelectViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ItemSelectViewController.xib; sourceTree = "<group>"; };
 		CFA9F7811A0D8F6300EBE77D /* greenitemsbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = greenitemsbutton.png; path = Items/greenitemsbutton.png; sourceTree = "<group>"; };
 		CFA9F7821A0D8F6300EBE77D /* greenitemsbutton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greenitemsbutton@2x.png"; sourceTree = "<group>"; };
@@ -10690,7 +10728,7 @@
 		CFF6463E195A3EE400C43641 /* EnhanceChooserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EnhanceChooserViewController.m; sourceTree = "<group>"; };
 		CFF6463F195A3EE400C43641 /* EnhanceChooserViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EnhanceChooserViewController.xib; sourceTree = "<group>"; };
 		CFF64648195A578700C43641 /* ListCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListCollectionView.h; sourceTree = "<group>"; };
-		CFF64649195A578700C43641 /* ListCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListCollectionView.m; sourceTree = "<group>"; };
+		CFF64649195A578700C43641 /* ListCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ListCollectionView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		CFF6464B195A684200C43641 /* EnhanceCardCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EnhanceCardCell.xib; sourceTree = "<group>"; };
 		CFF6464D195A69A300C43641 /* EnhanceQueueViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EnhanceQueueViewController.h; sourceTree = "<group>"; };
 		CFF6464E195A69A300C43641 /* EnhanceQueueViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = EnhanceQueueViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -12675,6 +12713,54 @@
 			path = "Chat requests";
 			sourceTree = "<group>";
 		};
+		2991FBF61A800ABF009BB1D8 /* PopoverMenu */ = {
+			isa = PBXGroup;
+			children = (
+				2991FBF71A800AFD009BB1D8 /* PopoverViewController.h */,
+				2991FBF81A800AFD009BB1D8 /* PopoverViewController.m */,
+			);
+			path = PopoverMenu;
+			sourceTree = "<group>";
+		};
+		2991FBFC1A800D50009BB1D8 /* MonsterSelectMenu */ = {
+			isa = PBXGroup;
+			children = (
+				2991FC0B1A8014AE009BB1D8 /* Delegates */,
+				2991FC0C1A8014B4009BB1D8 /* View Controller */,
+			);
+			path = MonsterSelectMenu;
+			sourceTree = "<group>";
+		};
+		2991FC061A800D85009BB1D8 /* Popovers */ = {
+			isa = PBXGroup;
+			children = (
+				2991FBF61A800ABF009BB1D8 /* PopoverMenu */,
+				2991FBFC1A800D50009BB1D8 /* MonsterSelectMenu */,
+				CFA9F7731A0D8CCB00EBE77D /* ItemSelectMenu */,
+			);
+			name = Popovers;
+			sourceTree = "<group>";
+		};
+		2991FC0B1A8014AE009BB1D8 /* Delegates */ = {
+			isa = PBXGroup;
+			children = (
+				2991FC0D1A806287009BB1D8 /* TeamDonateMonstersFiller.h */,
+				2991FC0E1A806287009BB1D8 /* TeamDonateMonstersFiller.m */,
+				2991FC071A8012F8009BB1D8 /* TeamDonateMonsterSelectCell.xib */,
+			);
+			name = Delegates;
+			sourceTree = "<group>";
+		};
+		2991FC0C1A8014B4009BB1D8 /* View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				2991FBFD1A800D7F009BB1D8 /* MonsterSelectViewController.h */,
+				2991FBFE1A800D7F009BB1D8 /* MonsterSelectViewController.m */,
+				2991FBFF1A800D7F009BB1D8 /* MonsterSelectViewController.xib */,
+			);
+			name = "View Controller";
+			sourceTree = "<group>";
+		};
 		299AA2AD1A7856A900A2D806 /* 9 Orbs */ = {
 			isa = PBXGroup;
 			children = (
@@ -12904,6 +12990,7 @@
 		29E00D5D1A79B52D00F34D51 /* Donate Enhancement */ = {
 			isa = PBXGroup;
 			children = (
+				296548641A8163F80080B195 /* donatetoonslot@2x.png */,
 				29E00D5E1A79B52D00F34D51 /* donateenhancebottombar.png */,
 				29E00D5F1A79B52D00F34D51 /* donateenhancebottombar@2x.png */,
 				29E00D601A79B52D00F34D51 /* fulldonatearro.png */,
@@ -12937,6 +13024,7 @@
 				2985E6351A3313340041ABF4 /* ChatBattleHistoryView.xib */,
 				29AA139E1A33214A004A9F22 /* ChatMonsterView.xib */,
 				29FFD9621A37E5100063C17C /* ChatClanAvengeView.xib */,
+				2991FBF11A800693009BB1D8 /* ChatTeamDonateView.xib */,
 			);
 			name = ChatCell;
 			sourceTree = "<group>";
@@ -13706,10 +13794,10 @@
 		CF1265491538ACC400E0C1AD /* Game Menus */ = {
 			isa = PBXGroup;
 			children = (
+				2991FC061A800D85009BB1D8 /* Popovers */,
 				29AAE5E01A7B0F7300E4F022 /* DonateMsgMenu */,
 				29804FEE1A258A4400806253 /* SecretGiftMenu */,
 				29804F351A241A4D00806253 /* ClanRewardsMenu */,
-				CFA9F7731A0D8CCB00EBE77D /* ItemSelectMenu */,
 				CF29EA531964F4FF00B40DA4 /* SettingsMenu */,
 				CF32EAEE195FF96300A4AEE3 /* ShopMenu */,
 				CF20F044180E142B005551B5 /* AttackMenuController */,
@@ -13772,6 +13860,8 @@
 				CF00865A19CBAC02002F6149 /* NSString+Sizing.h */,
 				CF00865B19CBAC02002F6149 /* NSString+Sizing.m */,
 				631BF3B41A6DF0480091253B /* CircleMonsterView.xib */,
+				296548691A8193A00080B195 /* UIView+Superview.h */,
+				2965486A1A8193A00080B195 /* UIView+Superview.m */,
 			);
 			path = Miscellaneous;
 			sourceTree = "<group>";
@@ -18785,6 +18875,7 @@
 				CF0CF165196F452900ECD301 /* evolveequals@2x.png in Resources */,
 				CF0CF166196F452900ECD301 /* Scientist3Blink10@2x.png in Resources */,
 				CFFC50DA19C2D4BA00BDAA62 /* homemapright@2x.jpg in Resources */,
+				2991FC041A800D7F009BB1D8 /* MonsterSelectViewController.xib in Resources */,
 				29804FA91A241F4A00806253 /* squadreward2@2x.png in Resources */,
 				299AA3E51A7856AA00A2D806 /* watergrenade-9@2x.png in Resources */,
 				CF0CF16A196F452900ECD301 /* sfx_building_complete.mp3 in Resources */,
@@ -19168,6 +19259,7 @@
 				29AE75E21A6F36E000264070 /* TribalGuy0T1RunNF@2x.pvr.ccz in Resources */,
 				CF0CF348196F452900ECD301 /* mediumdivider@2x.png in Resources */,
 				CF5BD67119C925EE006C4B4C /* congratulationsrankup@2x.png in Resources */,
+				296548661A8163F80080B195 /* donatetoonslot@2x.png in Resources */,
 				9B9BA80D1A7336AE001B7D04 /* powermoveicon@2x.png in Resources */,
 				CF65ECCA19A2B1CC00ABBC77 /* chatmiddle@2x.png in Resources */,
 				CF0CF34A196F452900ECD301 /* sfx_chat_slide_out.mp3 in Resources */,
@@ -19421,6 +19513,7 @@
 				CF812F3219E7723300D91157 /* timergethelp@2x.png in Resources */,
 				638C87711A7340F80094C396 /* viewschedulepressed@2x.png in Resources */,
 				CF0CF45C196F452900ECD301 /* QuestLogViewController.xib in Resources */,
+				2991FBF31A800693009BB1D8 /* ChatTeamDonateView.xib in Resources */,
 				CF023CC119959B7E0082FE61 /* BattleHudView.xib in Resources */,
 				CF0CF45E196F452900ECD301 /* evolutionlabmenuheader@2x.png in Resources */,
 				CF0CF460196F452900ECD301 /* activecityglow@2x.png in Resources */,
@@ -19899,6 +19992,7 @@
 				CF0CF690196F452900ECD301 /* Scientist4Blink04@2x.png in Resources */,
 				CF0CF691196F452900ECD301 /* orbblowup@2x.plist in Resources */,
 				CFF2A6511974997A00269084 /* pvpchampionribbon@2x.png in Resources */,
+				2991FC091A8012F8009BB1D8 /* TeamDonateMonsterSelectCell.xib in Resources */,
 				CF0CF693196F452900ECD301 /* pop.plist in Resources */,
 				299AA3CD1A7856AA00A2D806 /* nightsideways-9@2x.png in Resources */,
 				299AA4C21A7872C300A2D806 /* cloud2@2x.png in Resources */,
@@ -20470,6 +20564,7 @@
 				CFF3912A1829DFD50010A3BE /* Akko-Bold.ttf in Resources */,
 				CFFBDF9418ACA3D90090CA9A /* Scientist3Breath07@2x.png in Resources */,
 				CFFBDF3D18ACA3D90090CA9A /* Scientist1Breath06@2x.png in Resources */,
+				2991FC031A800D7F009BB1D8 /* MonsterSelectViewController.xib in Resources */,
 				2980506C1A265EE800806253 /* 2gbhud@2x.png in Resources */,
 				CFE7CD441819FC3300930847 /* diamondbarbg@2x.png in Resources */,
 				CFFBDF3918ACA3D90090CA9A /* Scientist1Breath02@2x.png in Resources */,
@@ -20542,6 +20637,7 @@
 				CFBB37A318F49D3200FD6C8C /* oilicon@2x.png in Resources */,
 				CFA728F91A0B037900FF6031 /* lighteventbg@2x.png in Resources */,
 				CFE7CD341819FC3300930847 /* cashbar@2x.png in Resources */,
+				296548651A8163F80080B195 /* donatetoonslot@2x.png in Resources */,
 				CF134A7E18A5E4B500D7D700 /* FatBoy4Move08@2x.png in Resources */,
 				29804F6F1A241F4A00806253 /* completedsquadrewards@2x.png in Resources */,
 				CFF412AA19BFC5E0002672D4 /* StageCompleteNode.ccbi in Resources */,
@@ -21199,6 +21295,7 @@
 				299AA3A51A7856AA00A2D806 /* fireupdown-9@2x.png in Resources */,
 				CF6890601912F49000FF1F71 /* MiniJobsListCell.xib in Resources */,
 				CF864E19193E8F3000DE0D7A /* createclanbox2@2x.png in Resources */,
+				2991FC081A8012F8009BB1D8 /* TeamDonateMonsterSelectCell.xib in Resources */,
 				CF2A4AF41901B8F500B2D7D7 /* fullachievementstar@2x.png in Resources */,
 				CF9520371939690800A98290 /* firedailylab@2x.png in Resources */,
 				9B238A061A363EE800FA3743 /* waterskilldescription@2x.png in Resources */,
@@ -21690,6 +21787,7 @@
 				29AE75C31A6F36E000264070 /* MilitaryChicken1T1RunNF@2x.pvr.ccz in Resources */,
 				299AA3841A7856AA00A2D806 /* earthgrenade-9@2x.png in Resources */,
 				CF812F2919E7723300D91157 /* minijobsgethelp@2x.png in Resources */,
+				2991FBF21A800693009BB1D8 /* ChatTeamDonateView.xib in Resources */,
 				CFF3901F18273C470010A3BE /* Gotham-Book.otf in Resources */,
 				CF06B609193699FC008BF892 /* greywhite1@2x.png in Resources */,
 				CFC97178182C74E500FF1D83 /* earthpointsfont.fnt in Resources */,
@@ -22475,6 +22573,7 @@
 				CF481A7819F7217F00041486 /* Scientist3Blink08@2x.png in Resources */,
 				9B41AF291A7C333A00529879 /* 6bulletorb-9@2x.png in Resources */,
 				CF481A7919F7217F00041486 /* firepointsfont@2x.png in Resources */,
+				2991FC051A800D7F009BB1D8 /* MonsterSelectViewController.xib in Resources */,
 				CF481A7B19F7217F00041486 /* levelicon@2x.png in Resources */,
 				CF481A7F19F7217F00041486 /* bronzeribbon@2x.png in Resources */,
 				CF481A8019F7217F00041486 /* FatBoy2Move05@2x.png in Resources */,
@@ -22501,6 +22600,7 @@
 				CF481A9E19F7217F00041486 /* EvolveScientistView.xib in Resources */,
 				CF481A9F19F7217F00041486 /* 6earthsideways@2x.png in Resources */,
 				CF481AA219F7217F00041486 /* LeagueListViewCell.xib in Resources */,
+				2991FBF41A800693009BB1D8 /* ChatTeamDonateView.xib in Resources */,
 				CF481AA819F7217F00041486 /* gacharevealbg@2x.png in Resources */,
 				CF481AA919F7217F00041486 /* Scientist1Turn08@2x.png in Resources */,
 				29AE75D71A6F36E000264070 /* TribalGirl1T1RunNF@2x.pvr.ccz in Resources */,
@@ -23457,6 +23557,7 @@
 				29804FBC1A241F4A00806253 /* squadrewardcircle@2x.png in Resources */,
 				CF48203419F7217F00041486 /* QuestListViewController.xib in Resources */,
 				CF48203919F7217F00041486 /* Scientist2Turn08@2x.png in Resources */,
+				296548671A8163F80080B195 /* donatetoonslot@2x.png in Resources */,
 				CF48203A19F7217F00041486 /* silverprofribbon@2x.png in Resources */,
 				299AA3E91A7856AA00A2D806 /* waterheadshot-9@2x.png in Resources */,
 				29AE75E31A6F36E000264070 /* TribalGuy0T1RunNF@2x.pvr.ccz in Resources */,
@@ -24408,6 +24509,7 @@
 				CF48250319F7217F00041486 /* helped@2x.png in Resources */,
 				CF48250519F7217F00041486 /* blacksquareoverlay@2x.png in Resources */,
 				CF48250619F7217F00041486 /* Scientist5Turn06@2x.png in Resources */,
+				2991FC0A1A8012F8009BB1D8 /* TeamDonateMonsterSelectCell.xib in Resources */,
 				CFA728FB1A0B037900FF6031 /* lighteventbg@2x.png in Resources */,
 				CF48250819F7217F00041486 /* Gotham-Bold.otf in Resources */,
 				CF48250B19F7217F00041486 /* MonsterPopUpViewController.xib in Resources */,
@@ -24650,6 +24752,7 @@
 				CF0CED1C196F452900ECD301 /* EventStaticData.pb.m in Sources */,
 				9BDA8B5E1A3A894B00C7AC27 /* SkillHeadshot.m in Sources */,
 				CF0CED1D196F452900ECD301 /* CoinBar.m in Sources */,
+				2991FBFA1A800AFE009BB1D8 /* PopoverViewController.m in Sources */,
 				CF0CED1E196F452900ECD301 /* NibUtils.m in Sources */,
 				3EEADB781A7005C70096A652 /* SkillCounterStrike.m in Sources */,
 				CF0CED1F196F452900ECD301 /* TimingFunctionTableView.m in Sources */,
@@ -24669,6 +24772,7 @@
 				CF0CED2B196F452900ECD301 /* ChatViewController.m in Sources */,
 				CF0CED2C196F452900ECD301 /* PullRefreshTableViewController.m in Sources */,
 				3E1A0C051A645B4B00DF00AD /* Board.pb.m in Sources */,
+				2991FC101A806287009BB1D8 /* TeamDonateMonstersFiller.m in Sources */,
 				CF0CED2D196F452900ECD301 /* RequestsFacebookTableController.m in Sources */,
 				CF0CED2E196F452900ECD301 /* GameCenterDelegate.m in Sources */,
 				CF0CED2F196F452900ECD301 /* TutorialQuestLogViewController.m in Sources */,
@@ -24738,6 +24842,7 @@
 				CF0CED64196F452900ECD301 /* FundsViewController.m in Sources */,
 				CF0CED65196F452900ECD301 /* SBJSON.m in Sources */,
 				CF0CED66196F452900ECD301 /* TutorialTouchView.m in Sources */,
+				2991FC011A800D7F009BB1D8 /* MonsterSelectViewController.m in Sources */,
 				CF0CED67196F452900ECD301 /* FundsViews.m in Sources */,
 				CF0CED68196F452900ECD301 /* TutorialShopViewController.m in Sources */,
 				DA173A5119CA4A1F005236C0 /* SkillShield.m in Sources */,
@@ -24819,6 +24924,7 @@
 				CF9F41A219A6FF2C002EBF03 /* OrbSwipeLayer+PowerupAnimations.m in Sources */,
 				DA07606119B129EC00E43E5A /* SkillManager.m in Sources */,
 				CF0CEDA2196F452900ECD301 /* TutorialBuildingViewController.m in Sources */,
+				2965486C1A8193A00080B195 /* UIView+Superview.m in Sources */,
 				CF0CEDA5196F452900ECD301 /* GachaponViewController.m in Sources */,
 				CF0CEDA8196F452900ECD301 /* QuestDetailsViewController.m in Sources */,
 				CF0CEDAA196F452900ECD301 /* EventMiniJob.pb.m in Sources */,
@@ -24852,6 +24958,7 @@
 				DA58F52219AE8B9D00D025BC /* UIView+Coordinates.m in Sources */,
 				CF0CEDC5196F452900ECD301 /* BuildingViewController.m in Sources */,
 				CF48259B19F729D000041486 /* PPEmitterView.m in Sources */,
+				2991FC131A808DC8009BB1D8 /* SkillBloodRage.m in Sources */,
 				CF0CEDC6196F452900ECD301 /* MenuNavigationController.m in Sources */,
 				CF0CEDC7196F452900ECD301 /* PersistentEventProto+Time.m in Sources */,
 				9B41AE821A7824AA00529879 /* SkillKnockout.m in Sources */,
@@ -24983,6 +25090,7 @@
 				9B9BA8011A73367B001B7D04 /* SkillConfusion.m in Sources */,
 				DA07605E19B129EC00E43E5A /* SkillController.m in Sources */,
 				CF0CE07F196D21CC00ECD301 /* TutorialTeamViewController.m in Sources */,
+				2991FBF91A800AFE009BB1D8 /* PopoverViewController.m in Sources */,
 				DA58F52119AE8B9D00D025BC /* UIView+Coordinates.m in Sources */,
 				CFF5ACCE1941508500571298 /* FocusScrollView.m in Sources */,
 				CF4DB8EB1807DA1F00062258 /* MapSprite.m in Sources */,
@@ -25002,6 +25110,7 @@
 				CF376713183305DD00D0A77E /* TimingFunctionTableView.m in Sources */,
 				CF126D691538ACCA00E0C1AD /* IAPHelper.m in Sources */,
 				DA0FC58619B65F2A00393BF4 /* SkillJelly.m in Sources */,
+				2991FC0F1A806287009BB1D8 /* TeamDonateMonstersFiller.m in Sources */,
 				CF4DB8E71807DA1F00062258 /* HomeBuildingMenus.m in Sources */,
 				CFA9F7CC1A0DA0F900EBE77D /* ItemUtil.m in Sources */,
 				CFCD0E6E1953EFE500EDC233 /* PopupNavViewController.m in Sources */,
@@ -25022,6 +25131,7 @@
 				CF126E221538ACCA00E0C1AD /* SBGradientOverlayLayer.m in Sources */,
 				29AF1C6F1A443A2A00E8E457 /* BattleOrbPath.m in Sources */,
 				CF126E231538ACCA00E0C1AD /* SBTickerView.m in Sources */,
+				2965486B1A8193A00080B195 /* UIView+Superview.m in Sources */,
 				CFB97D7E19C14173003ABA66 /* EventItem.pb.m in Sources */,
 				DA173A5A19CBACCD005236C0 /* SkillPoison.m in Sources */,
 				CF68907619145DC300FF1F71 /* MiniJobConfig.pb.m in Sources */,
@@ -25071,6 +25181,7 @@
 				CFEB284715951ADC00B622FC /* FullEvent.m in Sources */,
 				CF68907719145DC300FF1F71 /* SharedEnumConfig.pb.m in Sources */,
 				CFF64704195E14D500C43641 /* EvolveChooserViewController.m in Sources */,
+				2991FC001A800D7F009BB1D8 /* MonsterSelectViewController.m in Sources */,
 				CF689C1915C3B89400F2E50E /* NSObject+SBJSON.m in Sources */,
 				CF0CDEA919E50675006A5ECB /* TimerViewController.m in Sources */,
 				DA173A5019CA4A1F005236C0 /* SkillShield.m in Sources */,
@@ -25314,6 +25425,7 @@
 				CF4818C319F7217F00041486 /* EventStaticData.pb.m in Sources */,
 				9BDA8B5F1A3A894B00C7AC27 /* SkillHeadshot.m in Sources */,
 				CF4818C419F7217F00041486 /* CoinBar.m in Sources */,
+				2991FBFB1A800AFE009BB1D8 /* PopoverViewController.m in Sources */,
 				CF4818C519F7217F00041486 /* NibUtils.m in Sources */,
 				3EEADB791A7005C70096A652 /* SkillCounterStrike.m in Sources */,
 				CF4818C619F7217F00041486 /* TimingFunctionTableView.m in Sources */,
@@ -25333,6 +25445,7 @@
 				CF4818D119F7217F00041486 /* ChatViewController.m in Sources */,
 				CF4818D219F7217F00041486 /* PullRefreshTableViewController.m in Sources */,
 				3E1A0C061A645B4B00DF00AD /* Board.pb.m in Sources */,
+				2991FC111A806287009BB1D8 /* TeamDonateMonstersFiller.m in Sources */,
 				CF4818D319F7217F00041486 /* RequestsFacebookTableController.m in Sources */,
 				CF4818D419F7217F00041486 /* GameCenterDelegate.m in Sources */,
 				CF4818D519F7217F00041486 /* TutorialQuestLogViewController.m in Sources */,
@@ -25402,6 +25515,7 @@
 				CF48190919F7217F00041486 /* FundsViewController.m in Sources */,
 				CF48190A19F7217F00041486 /* SBJSON.m in Sources */,
 				CF48190B19F7217F00041486 /* TutorialTouchView.m in Sources */,
+				2991FC021A800D7F009BB1D8 /* MonsterSelectViewController.m in Sources */,
 				CF48190C19F7217F00041486 /* FundsViews.m in Sources */,
 				CF48190D19F7217F00041486 /* TutorialShopViewController.m in Sources */,
 				CF48190E19F7217F00041486 /* SkillShield.m in Sources */,
@@ -25483,6 +25597,7 @@
 				CF48194E19F7217F00041486 /* OrbSwipeLayer+PowerupAnimations.m in Sources */,
 				CF48194F19F7217F00041486 /* SkillManager.m in Sources */,
 				CF48195019F7217F00041486 /* TutorialBuildingViewController.m in Sources */,
+				2965486D1A8193A00080B195 /* UIView+Superview.m in Sources */,
 				CF48195319F7217F00041486 /* GachaponViewController.m in Sources */,
 				CF48195519F7217F00041486 /* QuestDetailsViewController.m in Sources */,
 				CF48195719F7217F00041486 /* EventMiniJob.pb.m in Sources */,
@@ -25516,6 +25631,7 @@
 				CF48197219F7217F00041486 /* UIView+Coordinates.m in Sources */,
 				CF48197319F7217F00041486 /* BuildingViewController.m in Sources */,
 				CF48259C19F729D000041486 /* PPEmitterView.m in Sources */,
+				2991FC121A808DC7009BB1D8 /* SkillBloodRage.m in Sources */,
 				CF48197419F7217F00041486 /* MenuNavigationController.m in Sources */,
 				CF48197519F7217F00041486 /* PersistentEventProto+Time.m in Sources */,
 				9B41AE831A7824AA00529879 /* SkillKnockout.m in Sources */,

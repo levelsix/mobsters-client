@@ -48,9 +48,11 @@
   [center addObserver:self selector:@selector(reloadTables:) name:RECEIVED_CLAN_HELP_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(reloadTables:) name:CLAN_AVENGINGS_CHANGED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(reloadTables:) name:NEW_BATTLE_HISTORY_NOTIFICATION object:nil];
+  [center addObserver:self selector:@selector(reloadTables:) name:CLAN_TEAM_DONATIONS_CHANGED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(updateClanBadge) name:CLAN_CHAT_RECEIVED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(updateClanBadge) name:CLAN_HELPS_CHANGED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(updateClanBadge) name:CLAN_AVENGINGS_CHANGED_NOTIFICATION object:nil];
+  [center addObserver:self selector:@selector(updateClanBadge) name:CLAN_TEAM_DONATIONS_CHANGED_NOTIFICATION object:nil];
   
   //[center addObserver:self selector:@selector(reloadTables:) name:FB_INVITE_RESPONDED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(reloadTables:) name:NEW_FB_INVITE_NOTIFICATION object:nil];
@@ -108,6 +110,8 @@
   [super viewWillDisappear:animated];
   
   [[CCDirector sharedDirector] resume];
+  
+  [self.monsterSelectViewController closeClicked:nil];
 }
 
 - (void) viewDidDisappear:(BOOL)animated {
@@ -190,6 +194,8 @@
   [self.privateChatView updateForPrivateChatList:gs.allPrivateChats];
   
   [self updateBadges];
+  
+  [self checkMonsterSelect];
 }
 
 - (void) openToViewWithBadge {
@@ -248,6 +254,7 @@
   self.clanChatView.hidden = YES;
   self.privateChatView.hidden = YES;
   [self.popoverView close];
+  [self.monsterSelectViewController closeClicked:nil];
   
   // Make sure list view is shown
   [self.privateChatView loadListViewAnimated:NO];
@@ -262,6 +269,7 @@
   self.clanChatView.hidden = NO;
   self.privateChatView.hidden = YES;
   [self.popoverView close];
+  [self.monsterSelectViewController closeClicked:nil];
   
   // Make sure list view is shown
   [self.privateChatView loadListViewAnimated:NO];
@@ -278,6 +286,7 @@
   self.clanChatView.hidden = YES;
   self.privateChatView.hidden = NO;
   [self.popoverView close];
+  [self.monsterSelectViewController closeClicked:nil];
   
   // Make sure list view is shown
   [self.privateChatView loadListViewAnimated:NO];
@@ -413,6 +422,83 @@
 
 - (void) editingStopped {
   _isEditing = NO;
+}
+
+#pragma mark - Clan Team Donate Delegate
+
+- (void) displayMonsterSelect:(ClanMemberTeamDonationProto *)donation sender:(id)sender {
+  MonsterSelectViewController *svc = [[MonsterSelectViewController alloc] init];
+  if (svc) {
+    self.monsterSelectViewController = svc;
+    
+    TeamDonateMonstersFiller *td = [[TeamDonateMonstersFiller alloc] initWithDonation:donation];
+    svc.delegate = td;
+    td.delegate = self;
+    self.teamDonateMonstersFiller = td;
+    
+    GameViewController *gvc = [GameViewController baseController];
+    svc.view.frame = gvc.view.bounds;
+    [gvc addChildViewController:svc];
+    [gvc.view addSubview:svc.view];
+    
+    // Make sure whole chat is in the view
+    UITableViewCell *cell = [sender getAncestorInViewHierarchyOfType:[UITableViewCell class]];
+    [self.clanChatView.chatTable scrollToRowAtIndexPath:[self.clanChatView.chatTable indexPathForCell:cell] atScrollPosition:UITableViewScrollPositionNone animated:NO];
+    
+    if (sender == nil)
+    {
+      [svc showCenteredOnScreen];
+    }
+    else
+    {
+      if ([sender isKindOfClass:[UIButton class]])
+      {
+        UIButton* invokingButton = (UIButton*)sender;
+        [svc showAnchoredToInvokingView:invokingButton
+                          withDirection:ViewAnchoringPreferRightPlacement
+                      inkovingViewImage:[invokingButton imageForState:invokingButton.state]];
+      }
+    }
+    
+    self.clanChatView.allowAutoScroll = NO;
+  }
+}
+
+- (void) checkMonsterSelect {
+  if (self.teamDonateMonstersFiller) {
+    // Grab the latest team donation in case it has been fulfilled..
+    GameState *gs = [GameState sharedGameState];
+    NSString *donationUuid = self.teamDonateMonstersFiller.donation.donationUuid;
+    
+    ClanMemberTeamDonationProto *newDonation = nil;
+    for (ClanMemberTeamDonationProto *donation in gs.clanTeamDonateUtil.teamDonations) {
+      if ([donation.donationUuid isEqualToString:donationUuid]) {
+        newDonation = donation;
+      }
+    }
+    
+    if (!newDonation || newDonation.isFulfilled) {
+      [self.monsterSelectViewController closeClicked:nil];
+    } else {
+      self.teamDonateMonstersFiller.donation = newDonation;
+    }
+  }
+}
+
+- (void) monsterChosen {
+  NSLog(@"Abcd");
+//  self.donateSpinner.hidden = NO;
+//  [self.donateSpinner startAnimating];
+//  
+//  self.donateLabel.hidden = YES;
+//  
+//  self.donateButton.userInteractionEnabled = NO;
+}
+
+- (void) monsterSelectClosed {
+  self.clanChatView.allowAutoScroll = YES;
+  self.monsterSelectViewController = nil;
+  self.teamDonateMonstersFiller = nil;
 }
 
 @end

@@ -1466,7 +1466,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
   
-  if ([solicitation.userUuid isEqualToString:gs.userUuid]) {
+  if ([solicitation.solicitor.userUuid isEqualToString:gs.userUuid]) {
     [Globals popupMessage:@"Trying to fulfill your own solicitation."];
   } else if (solicitation.isFulfilled) {
     [Globals popupMessage:@"Trying to fulfill a complete solicitation."];

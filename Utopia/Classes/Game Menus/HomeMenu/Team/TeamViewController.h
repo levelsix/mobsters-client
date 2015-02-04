@@ -23,7 +23,7 @@
 
 @end
 
-@interface TeamSlotView : UIView {
+@interface TeamSlotView : EmbeddedNibView {
   CGSize _initSize;
 }
 
@@ -45,7 +45,7 @@
 @property (nonatomic, retain) IBOutlet UIView *leftView;
 @property (nonatomic, retain) IBOutlet UIView *rightView;
 
-@property (nonatomic, assign) id<TeamSlotDelegate> delegate;
+@property (nonatomic, assign) IBOutlet id<TeamSlotDelegate> delegate;
 
 @end
 

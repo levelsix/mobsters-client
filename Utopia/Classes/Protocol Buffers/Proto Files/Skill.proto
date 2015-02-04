@@ -88,6 +88,7 @@ enum SkillType {
 <<<<<<< HEAD
 	HELL_FIRE = 28;
 	ENERGIZE = 29;
+<<<<<<< HEAD
 	RIGHT_HOOK = 30;
 <<<<<<< HEAD
 	CURSE = 31;
@@ -115,7 +116,12 @@ enum SkillType {
 	TAKE_AIM = 27;
 	HELL_FIRE = 28;
 >>>>>>> reproto
+<<<<<<< HEAD
 >>>>>>> reproto
+=======
+=======
+>>>>>>> created monster select popover
+>>>>>>> created monster select popover
 }
 
 enum SkillActivationType {

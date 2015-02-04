@@ -79,6 +79,8 @@
   
   [[NSBundle mainBundle] loadNibNamed:[self cellClassName] owner:self options:nil];
   _testCell = self.chatCell;
+  
+  self.allowAutoScroll = YES;
 }
 
 - (void) updateForChats:(NSArray *)chats animated:(BOOL)animated {
@@ -120,7 +122,7 @@
     shouldScrollToBottom = YES;
   }
   
-  if (shouldScrollToBottom && self.chats.count) {
+  if (self.allowAutoScroll && shouldScrollToBottom && self.chats.count) {
     [self.chatTable scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:self.chats.count-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:animated];
   }
   

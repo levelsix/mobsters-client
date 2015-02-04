@@ -2109,10 +2109,12 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (ClanMemberTeamDonationProto_Builder*) setDonationUuid:(NSString*) value;
 - (ClanMemberTeamDonationProto_Builder*) clearDonationUuid;
 
-- (BOOL) hasUserUuid;
-- (NSString*) userUuid;
-- (ClanMemberTeamDonationProto_Builder*) setUserUuid:(NSString*) value;
-- (ClanMemberTeamDonationProto_Builder*) clearUserUuid;
+- (BOOL) hasSolicitor;
+- (MinimumUserProto*) solicitor;
+- (ClanMemberTeamDonationProto_Builder*) setSolicitor:(MinimumUserProto*) value;
+- (ClanMemberTeamDonationProto_Builder*) setSolicitor_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (ClanMemberTeamDonationProto_Builder*) mergeSolicitor:(MinimumUserProto*) value;
+- (ClanMemberTeamDonationProto_Builder*) clearSolicitor;
 
 - (BOOL) hasClanUuid;
 - (NSString*) clanUuid;

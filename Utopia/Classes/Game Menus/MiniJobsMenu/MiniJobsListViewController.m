@@ -276,9 +276,7 @@
 }
 
 - (IBAction) collectClicked:(UIView *)sender {
-  while (sender && ![sender isKindOfClass:[MiniJobsListCell class]]) {
-    sender = [sender superview];
-  }
+  sender = [sender getAncestorInViewHierarchyOfType:[MiniJobsListCell class]];
   
   MiniJobsListCell *cell = (MiniJobsListCell *)sender;
   [self miniJobsListCollectClicked:cell];
@@ -286,18 +284,14 @@
 
 - (IBAction) finishClicked:(UIView *)sender {
   UIView* invokingView = sender;
-  while (sender && ![sender isKindOfClass:[MiniJobsListCell class]]) {
-    sender = [sender superview];
-  }
+  sender = [sender getAncestorInViewHierarchyOfType:[MiniJobsListCell class]];
   
   MiniJobsListCell *cell = (MiniJobsListCell *)sender;
   [self miniJobsListFinishClicked:cell invokingView:invokingView popupDirection:ViewAnchoringPreferLeftPlacement];
 }
 
 - (IBAction) getHelpClicked:(UIView *)sender {
-  while (sender && ![sender isKindOfClass:[MiniJobsListCell class]]) {
-    sender = [sender superview];
-  }
+  sender = [sender getAncestorInViewHierarchyOfType:[MiniJobsListCell class]];
   
   MiniJobsListCell *cell = (MiniJobsListCell *)sender;
   [self miniJobsListHelpClicked:cell];

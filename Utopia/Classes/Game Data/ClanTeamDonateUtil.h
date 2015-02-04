@@ -10,8 +10,13 @@
 
 #import "Protocols.pb.h"
 #import "ChatObject.h"
+#import "UserData.h"
 
 @interface ClanMemberTeamDonationProto (ChatObject) <ChatObject>
+
+- (UserMonster *) donatedMonster;
+
+- (IBAction) donateClicked:(id)sender;
 
 @end
 

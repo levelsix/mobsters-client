@@ -701,6 +701,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     }
   }
   
+  if (self.clanTeamDonateUtil) {
+    for (ClanMemberTeamDonationProto *donation in self.clanTeamDonateUtil.teamDonations) {
+      [arr addObject:donation];
+    }
+  }
+  
   for (PvpClanAvenging *ca in self.clanAvengings) {
     if (ca.isValid) {
       [arr addObject:ca];
@@ -752,6 +758,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.clanHelpUtil = nil;
   if (clanData) {
     self.clanHelpUtil = [[ClanHelpUtil alloc] initWithUserUuid:self.userUuid clanUuid:self.clan.clanUuid clanHelpProtos:clanData.clanHelpingsList];
+  }
+  
+  self.clanTeamDonateUtil = nil;
+  if (clanData) {
+    self.clanTeamDonateUtil = [[ClanTeamDonateUtil alloc] init];
+    [self.clanTeamDonateUtil addClanTeamDonations:clanData.clanDonationSolicitationsList];
   }
   
   [self.clanAvengings removeAllObjects];

@@ -23,6 +23,9 @@
 
 - (void) awakeFromNib {
   _initSize = self.size;
+  
+  // Rewrite the slot label
+  self.tag = self.tag;
 }
 
 - (CGSize) minimizedSize {
@@ -141,38 +144,26 @@
 - (void) viewDidLoad {
   [super viewDidLoad];
   
-  _showsClanDonateToonView = YES;
+  GameState *gs = [GameState sharedGameState];
+  _showsClanDonateToonView = gs.clan != nil;
   
   self.cardCell = [[NSBundle mainBundle] loadNibNamed:@"TeamCardCell" owner:self options:nil][0];
   self.cardCell.cardContainer.monsterCardView.infoButton.hidden = NO;
   
-  self.teamCell = [[NSBundle mainBundle] loadNibNamed:@"TeamSlotView" owner:self options:nil][0];
+  self.teamCell = [[TeamSlotView alloc] init];
+  [self.teamCell loadNib];
   [self.teamCell.rightView removeFromSuperview];
   self.teamCell.frame = CGRectMake(0, 0, self.teamCell.leftView.frame.size.width, self.teamCell.leftView.frame.size.height);
   
   self.listView.cellClassName = @"TeamCardCell";
   
-  NSMutableArray *realSlotViews = [NSMutableArray array];
-  for (UIView *fake in [self.teamSlotViews arrayByAddingObject:self.clanRequestSlotView]) {
-    TeamSlotView *slot = [[NSBundle mainBundle] loadNibNamed:@"TeamSlotView" owner:self options:nil][0];
-    slot.frame = fake.frame;
-    slot.delegate = self;
-    slot.tag = fake.tag;
-    
-    [fake.superview addSubview:slot];
-    [fake removeFromSuperview];
-    
-    [realSlotViews addObject:slot];
-  }
-  self.clanRequestSlotView = [realSlotViews lastObject];
-  self.teamSlotViews = [realSlotViews subarrayWithRange:NSMakeRange(0, self.teamSlotViews.count)];
-  
   // It is already positioned in the xib, we just need to add it to the correct superview
   if (_showsClanDonateToonView) {
     [[[self.teamSlotViews firstObject] superview] addSubview:self.clanRequestView];
     [self.clanRequestSlotView.superview sendSubviewToBack:self.clanRequestSlotView];
-    [self.clanRequestSlotView updateForClanUserMonster:nil];
     [self.clanRequestSlotView.minusButton removeFromSuperview];
+  } else {
+    [self.clanRequestView removeFromSuperview];
   }
   
   self.titleImageName = @"manageteammenuheader.png";
@@ -221,6 +212,8 @@
   
   ClanMemberTeamDonationProto *myTeamDonation = [gs.clanTeamDonateUtil myTeamDonation];
   if (myTeamDonation.isFulfilled) {
+    [self.clanRequestSlotView updateForClanUserMonster:myTeamDonation.donatedMonster];
+    
     self.speedupButtonView.hidden = NO;
     self.requestButtonView.hidden = NO;
   } else {

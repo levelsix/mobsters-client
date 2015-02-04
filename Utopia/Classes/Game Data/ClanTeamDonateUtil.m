@@ -11,13 +11,21 @@
 #import "GameState.h"
 #import "Globals.h"
 
+#import "UnreadNotifications.h"
+
+#import "ChatCell.h"
+#import "GameViewController.h"
+
 @implementation ClanMemberTeamDonationProto (ChatObject)
 
+- (UserMonster *) donatedMonster {
+  return self.donationsList.count ? [UserMonster userMonsterWithMonsterSnapshotProto:self.donationsList.firstObject] : nil;
+}
 
 #pragma mark - ChatObject protocol
 
 - (MinimumUserProto *) sender {
-  return self.userUuid;
+  return self.solicitor;
 }
 
 - (MSDate *) date {
@@ -32,25 +40,36 @@
   return [UIColor colorWithHexString:@"ffe400"];
 }
 
+- (PrivateChatPostProto *) clanChatPrivateChat {
+  // This is an easy way to do read msgs for all clan chats (use an id that is shared amongst everything)
+  MinimumUserProto *mup = [[[MinimumUserProto builder] setUserUuid:CLAN_CHAT_PRIVATE_CHAT_USER_ID] build];
+  MinimumUserProtoWithLevel *mupl = [[[MinimumUserProtoWithLevel builder] setMinUserProto:mup] build];
+  PrivateChatPostProto *pcpp = [[[[PrivateChatPostProto builder]
+                                  setRecipient:mupl]
+                                 setTimeOfPost:self.timeOfSolicitation]
+                                build];
+  return pcpp;
+}
+
 - (BOOL) isRead {
-  GameState *gs = [GameState sharedGameState];
-  return ![self canHelpForUserUuid:gs.userUuid];
+  return [[self clanChatPrivateChat] isRead];
 }
 
 - (void) markAsRead {
   // Do nothing
+  return [[self clanChatPrivateChat] markAsRead];
 }
 
 - (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag {
   
-  NSString *nibName = @"ChatClanHelpView";
-  ChatClanHelpView *v = [chatCell dequeueChatSubview:nibName];
+  NSString *nibName = @"ChatTeamDonateView";
+  ChatTeamDonateView *v = [chatCell dequeueChatSubview:nibName];
   
   if (!v) {
     v = [[NSBundle mainBundle] loadNibNamed:nibName owner:self options:nil][0];
   }
   
-  [v updateForClanHelp:self];
+  [v updateForTeamDonation:self];
   
   [chatCell updateForMessage:self.message sender:self.sender date:self.date showsClanTag:showsClanTag allowHighlight:YES chatSubview:v identifier:nibName];
 }
@@ -61,17 +80,22 @@
   
   [self updateInChatCell:chatCell showsClanTag:YES];
   
-  NSString *msg = [self message];
-  CGSize size = [msg getSizeWithFont:font constrainedToSize:CGSizeMake(frame.size.width, 999) lineBreakMode:NSLineBreakByWordWrapping];
+  NSString *message = [self message];
+  CGSize size = [message getSizeWithFont:font constrainedToSize:CGSizeMake(frame.size.width, 999) lineBreakMode:NSLineBreakByWordWrapping];
   float height = size.height+frame.origin.y+14.f;
   height = MAX(height, CGRectGetMaxY(chatCell.currentChatSubview.frame)+14.f);
   
   return height;
 }
 
-- (IBAction)helpClicked:(id)sender {
-  GameState *gs = [GameState sharedGameState];
-  [gs.clanHelpUtil giveClanHelps:@[self]];
+- (IBAction) donateClicked:(id)sender {
+  // Kinda hacky.. Get the chat view controller since there can only be one and tell it to display monster select for self
+  GameViewController *gvc = [GameViewController baseController];
+  ChatViewController *cvc = gvc.chatViewController;
+  
+  if (cvc) {
+    [cvc displayMonsterSelect:self sender:sender];
+  }
 }
 
 @end
@@ -88,7 +112,7 @@
     // Remove from current list
     ClanMemberTeamDonationProto *old;
     for (ClanMemberTeamDonationProto *t in self.teamDonations) {
-      if ([t.userUuid isEqualToString:td.userUuid]) {
+      if ([t.solicitor.userUuid isEqualToString:td.solicitor.userUuid]) {
         old = t;
       }
     }
@@ -96,7 +120,7 @@
     
     [self.teamDonations addObject:td];
     
-    if ([td.userUuid isEqualToString:gs.userUuid]) {
+    if ([td.solicitor.userUuid isEqualToString:gs.userUuid]) {
       [[NSNotificationCenter defaultCenter] postNotificationName:MY_CLAN_TEAM_DONATION_CHANGED_NOTIFICATION object:nil];
     }
   }
@@ -107,7 +131,7 @@
 - (ClanMemberTeamDonationProto *) myTeamDonation {
   GameState *gs = [GameState sharedGameState];
   for (ClanMemberTeamDonationProto *td in self.teamDonations) {
-    if ([td.userUuid isEqualToString:gs.userUuid]) {
+    if ([td.solicitor.userUuid isEqualToString:gs.userUuid]) {
       return td;
     }
   }

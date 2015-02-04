@@ -4376,7 +4376,15 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasStatus;
 - (VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatus) status;
 - (VoidTeamDonationSolicitationResponseProto_Builder*) setStatus:(VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatus) value;
+<<<<<<< HEAD
 - (VoidTeamDonationSolicitationResponseProto_Builder*) clearStatusList;
+=======
+<<<<<<< HEAD
+- (VoidTeamDonationSolicitationResponseProto_Builder*) clearStatus;
+=======
+- (VoidTeamDonationSolicitationResponseProto_Builder*) clearStatusList;
+>>>>>>> created monster select popover
+>>>>>>> created monster select popover
 
 - (NSMutableArray *)clanTeamDonateUuidList;
 - (NSString*)clanTeamDonateUuidAtIndex:(NSUInteger)index;

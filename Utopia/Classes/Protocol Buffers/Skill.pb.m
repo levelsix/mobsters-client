@@ -55,6 +55,7 @@ BOOL SkillTypeIsValidValue(SkillType value) {
 <<<<<<< HEAD
     case SkillTypeHellFire:
     case SkillTypeEnergize:
+<<<<<<< HEAD
     case SkillTypeRightHook:
 <<<<<<< HEAD
     case SkillTypeCurse:
@@ -82,7 +83,12 @@ BOOL SkillTypeIsValidValue(SkillType value) {
     case SkillTypeTakeAim:
     case SkillTypeHellFire:
 >>>>>>> reproto
+<<<<<<< HEAD
 >>>>>>> reproto
+=======
+=======
+>>>>>>> created monster select popover
+>>>>>>> created monster select popover
       return YES;
     default:
       return NO;
