@@ -155,14 +155,14 @@
     for (NSInteger row = 0; row < layout.numRows; ++row)
     {
       BattleOrb* orb = [layout orbAtColumn:column row:row];
-      if (orb.specialOrbType == SpecialOrbTypeHeadshot && orb.headshotCounter > 0)
+      if (orb.specialOrbType == SpecialOrbTypeHeadshot && orb.turnCounter > 0)
       {
         // Update counter
-        --orb.headshotCounter;
+        --orb.turnCounter;
         
         // Update sprite
         OrbSprite* sprite = [layer spriteForOrb:orb];
-        if (orb.headshotCounter <= 0) // Use up the headshot orb
+        if (orb.turnCounter <= 0) // Use up the headshot orb
         {
           // Clone the orb sprite to be used in the visual effect
           CCSprite* clonedSprite = [CCSprite spriteWithTexture:sprite.orbSprite.texture rect:sprite.orbSprite.textureRect];
@@ -180,7 +180,7 @@
           --_orbsSpawned;
         }
         else
-          [sprite updateHeadshotCounter:YES];
+          [sprite updateTurnCounter:YES];
       }
     }
   }
@@ -303,9 +303,9 @@
     orb.specialOrbType = SpecialOrbTypeHeadshot;
     orb.orbColor = self.orbColor;
     if (self.belongsToPlayer) // Offensive skill
-      orb.headshotCounter = 0;
+      orb.turnCounter = 0;
     else // Defensive skill
-      orb.headshotCounter = _orbsSpawnCounter;
+      orb.turnCounter = _orbsSpawnCounter;
     
     // Update tile
     OrbBgdLayer* bgdLayer = self.battleLayer.orbLayer.bgdLayer;

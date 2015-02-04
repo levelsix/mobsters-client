@@ -37,6 +37,7 @@
 #import "SkillShallowGrave.h"
 #import "SkillHellFire.h"
 #import "SkillEnergize.h"
+#import "SkillRightHook.h"
 
 @implementation SkillController
 
@@ -72,6 +73,7 @@
     case SkillTypeShallowGrave: return [[SkillShallowGrave alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypeHellFire: return [[SkillHellFire alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypeEnergize: return [[SkillEnergize alloc] initWithProto:proto andMobsterColor:color];
+    case SkillTypeRightHook: return [[SkillRightHook alloc] initWithProto:proto andMobsterColor:color];
     default: CustomAssert(NO, @"Trying to create a skill with the factory for undefined skill."); return nil;
   }
 }
@@ -227,6 +229,10 @@
 
 - (void) showSkillPopupOverlayInternal
 {
+  /*
+   * 2/4/15 - BN - Disabling skills displaying logos
+   *
+   
   // Create overlay
   UIView *parentView = self.battleLayer.hudView;
   _popupOverlay = [[[NSBundle mainBundle] loadNibNamed:@"SkillPopupOverlay" owner:self options:nil] objectAtIndex:0];
@@ -244,6 +250,9 @@
       self.battleLayer.hudView.bottomView.hidden = YES;
     }];
   }
+   */
+  
+  _callbackBlockForPopup();
 }
 
 - (void) hideSkillPopupOverlayInternal

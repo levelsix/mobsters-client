@@ -7948,6 +7948,7 @@ static ClanInviteProto* defaultClanInviteProtoInstance = nil;
 @property (strong) NSMutableArray * mutableClanChatsList;
 @property (strong) NSMutableArray * mutableClanHelpingsList;
 @property (strong) NSMutableArray * mutableClanAvengingsList;
+@property (strong) NSMutableArray * mutableClanDonationSolicitationsList;
 @end
 
 @implementation ClanDataProto
@@ -7958,6 +7959,8 @@ static ClanInviteProto* defaultClanInviteProtoInstance = nil;
 @dynamic clanHelpingsList;
 @synthesize mutableClanAvengingsList;
 @dynamic clanAvengingsList;
+@synthesize mutableClanDonationSolicitationsList;
+@dynamic clanDonationSolicitationsList;
 - (id) init {
   if ((self = [super init])) {
   }
@@ -7993,6 +7996,12 @@ static ClanDataProto* defaultClanDataProtoInstance = nil;
 - (PvpClanAvengeProto*)clanAvengingsAtIndex:(NSUInteger)index {
   return [mutableClanAvengingsList objectAtIndex:index];
 }
+- (NSArray *)clanDonationSolicitationsList {
+  return mutableClanDonationSolicitationsList;
+}
+- (ClanMemberTeamDonationProto*)clanDonationSolicitationsAtIndex:(NSUInteger)index {
+  return [mutableClanDonationSolicitationsList objectAtIndex:index];
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -8005,6 +8014,9 @@ static ClanDataProto* defaultClanDataProtoInstance = nil;
   }];
   [self.clanAvengingsList enumerateObjectsUsingBlock:^(PvpClanAvengeProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:3 value:element];
+  }];
+  [self.clanDonationSolicitationsList enumerateObjectsUsingBlock:^(ClanMemberTeamDonationProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:4 value:element];
   }];
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -8023,6 +8035,9 @@ static ClanDataProto* defaultClanDataProtoInstance = nil;
   }];
   [self.clanAvengingsList enumerateObjectsUsingBlock:^(PvpClanAvengeProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(3, element);
+  }];
+  [self.clanDonationSolicitationsList enumerateObjectsUsingBlock:^(ClanMemberTeamDonationProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(4, element);
   }];
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -8077,6 +8092,12 @@ static ClanDataProto* defaultClanDataProtoInstance = nil;
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }];
+  [self.clanDonationSolicitationsList enumerateObjectsUsingBlock:^(ClanMemberTeamDonationProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"clanDonationSolicitations"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -8091,6 +8112,7 @@ static ClanDataProto* defaultClanDataProtoInstance = nil;
       [self.clanChatsList isEqualToArray:otherMessage.clanChatsList] &&
       [self.clanHelpingsList isEqualToArray:otherMessage.clanHelpingsList] &&
       [self.clanAvengingsList isEqualToArray:otherMessage.clanAvengingsList] &&
+      [self.clanDonationSolicitationsList isEqualToArray:otherMessage.clanDonationSolicitationsList] &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -8102,6 +8124,9 @@ static ClanDataProto* defaultClanDataProtoInstance = nil;
     hashCode = hashCode * 31 + [element hash];
   }];
   [self.clanAvengingsList enumerateObjectsUsingBlock:^(PvpClanAvengeProto *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  [self.clanDonationSolicitationsList enumerateObjectsUsingBlock:^(ClanMemberTeamDonationProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
   hashCode = hashCode * 31 + [self.unknownFields hash];
@@ -8168,6 +8193,13 @@ static ClanDataProto* defaultClanDataProtoInstance = nil;
       [result.mutableClanAvengingsList addObjectsFromArray:other.mutableClanAvengingsList];
     }
   }
+  if (other.mutableClanDonationSolicitationsList.count > 0) {
+    if (result.mutableClanDonationSolicitationsList == nil) {
+      result.mutableClanDonationSolicitationsList = [[NSMutableArray alloc] initWithArray:other.mutableClanDonationSolicitationsList];
+    } else {
+      [result.mutableClanDonationSolicitationsList addObjectsFromArray:other.mutableClanDonationSolicitationsList];
+    }
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -8205,6 +8237,12 @@ static ClanDataProto* defaultClanDataProtoInstance = nil;
         PvpClanAvengeProto_Builder* subBuilder = [PvpClanAvengeProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addClanAvengings:[subBuilder buildPartial]];
+        break;
+      }
+      case 34: {
+        ClanMemberTeamDonationProto_Builder* subBuilder = [ClanMemberTeamDonationProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addClanDonationSolicitations:[subBuilder buildPartial]];
         break;
       }
     }
@@ -8280,6 +8318,30 @@ static ClanDataProto* defaultClanDataProtoInstance = nil;
 }
 - (ClanDataProto_Builder *)clearClanAvengings {
   result.mutableClanAvengingsList = nil;
+  return self;
+}
+- (NSMutableArray *)clanDonationSolicitationsList {
+  return result.mutableClanDonationSolicitationsList;
+}
+- (ClanMemberTeamDonationProto*)clanDonationSolicitationsAtIndex:(NSUInteger)index {
+  return [result clanDonationSolicitationsAtIndex:index];
+}
+- (ClanDataProto_Builder *)addClanDonationSolicitations:(ClanMemberTeamDonationProto*)value {
+  if (result.mutableClanDonationSolicitationsList == nil) {
+    result.mutableClanDonationSolicitationsList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableClanDonationSolicitationsList addObject:value];
+  return self;
+}
+- (ClanDataProto_Builder *)addAllClanDonationSolicitations:(NSArray *)array {
+  if (result.mutableClanDonationSolicitationsList == nil) {
+    result.mutableClanDonationSolicitationsList = [NSMutableArray array];
+  }
+  [result.mutableClanDonationSolicitationsList addObjectsFromArray:array];
+  return self;
+}
+- (ClanDataProto_Builder *)clearClanDonationSolicitations {
+  result.mutableClanDonationSolicitationsList = nil;
   return self;
 }
 @end

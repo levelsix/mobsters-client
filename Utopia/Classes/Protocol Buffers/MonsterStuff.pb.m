@@ -14,6 +14,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
     [SharedEnumConfigRoot registerAllExtensions:registry];
+    [UserRoot registerAllExtensions:registry];
     extensionRegistry = registry;
   }
 }
@@ -6862,7 +6863,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 @property UserMonsterSnapshotProto_SnapshotType type;
 @property (strong) NSString* relevantTableUuid;
 @property (strong) NSString* monsterForUserUuid;
-@property (strong) NSString* userUuid;
+@property (strong) MinimumUserProto* user;
 @property int32_t monsterId;
 @property int32_t currentExp;
 @property int32_t currentLvl;
@@ -6909,13 +6910,13 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
   hasMonsterForUserUuid_ = !!value_;
 }
 @synthesize monsterForUserUuid;
-- (BOOL) hasUserUuid {
-  return !!hasUserUuid_;
+- (BOOL) hasUser {
+  return !!hasUser_;
 }
-- (void) setHasUserUuid:(BOOL) value_ {
-  hasUserUuid_ = !!value_;
+- (void) setHasUser:(BOOL) value_ {
+  hasUser_ = !!value_;
 }
-@synthesize userUuid;
+@synthesize user;
 - (BOOL) hasMonsterId {
   return !!hasMonsterId_;
 }
@@ -6972,7 +6973,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
     self.type = UserMonsterSnapshotProto_SnapshotTypeNoDonateType;
     self.relevantTableUuid = @"";
     self.monsterForUserUuid = @"";
-    self.userUuid = @"";
+    self.user = [MinimumUserProto defaultInstance];
     self.monsterId = 0;
     self.currentExp = 0;
     self.currentLvl = 0;
@@ -7014,8 +7015,8 @@ static UserMonsterSnapshotProto* defaultUserMonsterSnapshotProtoInstance = nil;
   if (self.hasMonsterForUserUuid) {
     [output writeString:5 value:self.monsterForUserUuid];
   }
-  if (self.hasUserUuid) {
-    [output writeString:6 value:self.userUuid];
+  if (self.hasUser) {
+    [output writeMessage:6 value:self.user];
   }
   if (self.hasMonsterId) {
     [output writeInt32:7 value:self.monsterId];
@@ -7062,8 +7063,8 @@ static UserMonsterSnapshotProto* defaultUserMonsterSnapshotProtoInstance = nil;
   if (self.hasMonsterForUserUuid) {
     size_ += computeStringSize(5, self.monsterForUserUuid);
   }
-  if (self.hasUserUuid) {
-    size_ += computeStringSize(6, self.userUuid);
+  if (self.hasUser) {
+    size_ += computeMessageSize(6, self.user);
   }
   if (self.hasMonsterId) {
     size_ += computeInt32Size(7, self.monsterId);
@@ -7136,8 +7137,11 @@ static UserMonsterSnapshotProto* defaultUserMonsterSnapshotProtoInstance = nil;
   if (self.hasMonsterForUserUuid) {
     [output appendFormat:@"%@%@: %@\n", indent, @"monsterForUserUuid", self.monsterForUserUuid];
   }
-  if (self.hasUserUuid) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"userUuid", self.userUuid];
+  if (self.hasUser) {
+    [output appendFormat:@"%@%@ {\n", indent, @"user"];
+    [self.user writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasMonsterId) {
     [output appendFormat:@"%@%@: %@\n", indent, @"monsterId", [NSNumber numberWithInteger:self.monsterId]];
@@ -7181,8 +7185,8 @@ static UserMonsterSnapshotProto* defaultUserMonsterSnapshotProtoInstance = nil;
       (!self.hasRelevantTableUuid || [self.relevantTableUuid isEqual:otherMessage.relevantTableUuid]) &&
       self.hasMonsterForUserUuid == otherMessage.hasMonsterForUserUuid &&
       (!self.hasMonsterForUserUuid || [self.monsterForUserUuid isEqual:otherMessage.monsterForUserUuid]) &&
-      self.hasUserUuid == otherMessage.hasUserUuid &&
-      (!self.hasUserUuid || [self.userUuid isEqual:otherMessage.userUuid]) &&
+      self.hasUser == otherMessage.hasUser &&
+      (!self.hasUser || [self.user isEqual:otherMessage.user]) &&
       self.hasMonsterId == otherMessage.hasMonsterId &&
       (!self.hasMonsterId || self.monsterId == otherMessage.monsterId) &&
       self.hasCurrentExp == otherMessage.hasCurrentExp &&
@@ -7216,8 +7220,8 @@ static UserMonsterSnapshotProto* defaultUserMonsterSnapshotProtoInstance = nil;
   if (self.hasMonsterForUserUuid) {
     hashCode = hashCode * 31 + [self.monsterForUserUuid hash];
   }
-  if (self.hasUserUuid) {
-    hashCode = hashCode * 31 + [self.userUuid hash];
+  if (self.hasUser) {
+    hashCode = hashCode * 31 + [self.user hash];
   }
   if (self.hasMonsterId) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.monsterId] hash];
@@ -7308,8 +7312,8 @@ BOOL UserMonsterSnapshotProto_SnapshotTypeIsValidValue(UserMonsterSnapshotProto_
   if (other.hasMonsterForUserUuid) {
     [self setMonsterForUserUuid:other.monsterForUserUuid];
   }
-  if (other.hasUserUuid) {
-    [self setUserUuid:other.userUuid];
+  if (other.hasUser) {
+    [self mergeUser:other.user];
   }
   if (other.hasMonsterId) {
     [self setMonsterId:other.monsterId];
@@ -7379,7 +7383,12 @@ BOOL UserMonsterSnapshotProto_SnapshotTypeIsValidValue(UserMonsterSnapshotProto_
         break;
       }
       case 50: {
-        [self setUserUuid:[input readString]];
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasUser) {
+          [subBuilder mergeFrom:self.user];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setUser:[subBuilder buildPartial]];
         break;
       }
       case 56: {
@@ -7493,20 +7502,34 @@ BOOL UserMonsterSnapshotProto_SnapshotTypeIsValidValue(UserMonsterSnapshotProto_
   result.monsterForUserUuid = @"";
   return self;
 }
-- (BOOL) hasUserUuid {
-  return result.hasUserUuid;
+- (BOOL) hasUser {
+  return result.hasUser;
 }
-- (NSString*) userUuid {
-  return result.userUuid;
+- (MinimumUserProto*) user {
+  return result.user;
 }
-- (UserMonsterSnapshotProto_Builder*) setUserUuid:(NSString*) value {
-  result.hasUserUuid = YES;
-  result.userUuid = value;
+- (UserMonsterSnapshotProto_Builder*) setUser:(MinimumUserProto*) value {
+  result.hasUser = YES;
+  result.user = value;
   return self;
 }
-- (UserMonsterSnapshotProto_Builder*) clearUserUuid {
-  result.hasUserUuid = NO;
-  result.userUuid = @"";
+- (UserMonsterSnapshotProto_Builder*) setUser_Builder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setUser:[builderForValue build]];
+}
+- (UserMonsterSnapshotProto_Builder*) mergeUser:(MinimumUserProto*) value {
+  if (result.hasUser &&
+      result.user != [MinimumUserProto defaultInstance]) {
+    result.user =
+      [[[MinimumUserProto builderWithPrototype:result.user] mergeFrom:value] buildPartial];
+  } else {
+    result.user = value;
+  }
+  result.hasUser = YES;
+  return self;
+}
+- (UserMonsterSnapshotProto_Builder*) clearUser {
+  result.hasUser = NO;
+  result.user = [MinimumUserProto defaultInstance];
   return self;
 }
 - (BOOL) hasMonsterId {

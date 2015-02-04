@@ -4212,15 +4212,14 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 
 @interface VoidTeamDonationSolicitationRequestProto : PBGeneratedMessage {
 @private
-  BOOL hasClanTeamDonateUuid_:1;
   BOOL hasSender_:1;
-  NSString* clanTeamDonateUuid;
   MinimumUserProto* sender;
+  NSMutableArray * mutableSolicitationsList;
 }
 - (BOOL) hasSender;
-- (BOOL) hasClanTeamDonateUuid;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly, strong) NSString* clanTeamDonateUuid;
+@property (readonly, strong) NSArray * solicitationsList;
+- (ClanMemberTeamDonationProto*)solicitationsAtIndex:(NSUInteger)index;
 
 + (VoidTeamDonationSolicitationRequestProto*) defaultInstance;
 - (VoidTeamDonationSolicitationRequestProto*) defaultInstance;
@@ -4264,10 +4263,11 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (VoidTeamDonationSolicitationRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (VoidTeamDonationSolicitationRequestProto_Builder*) clearSender;
 
-- (BOOL) hasClanTeamDonateUuid;
-- (NSString*) clanTeamDonateUuid;
-- (VoidTeamDonationSolicitationRequestProto_Builder*) setClanTeamDonateUuid:(NSString*) value;
-- (VoidTeamDonationSolicitationRequestProto_Builder*) clearClanTeamDonateUuid;
+- (NSMutableArray *)solicitationsList;
+- (ClanMemberTeamDonationProto*)solicitationsAtIndex:(NSUInteger)index;
+- (VoidTeamDonationSolicitationRequestProto_Builder *)addSolicitations:(ClanMemberTeamDonationProto*)value;
+- (VoidTeamDonationSolicitationRequestProto_Builder *)addAllSolicitations:(NSArray *)array;
+- (VoidTeamDonationSolicitationRequestProto_Builder *)clearSolicitations;
 @end
 
 @interface VoidTeamDonationSolicitationResponseProto : PBGeneratedMessage {
@@ -4276,11 +4276,14 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
   VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatus status;
+  NSMutableArray * mutableClanTeamDonateUuidList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatus status;
+@property (readonly, strong) NSArray * clanTeamDonateUuidList;
+- (NSString*)clanTeamDonateUuidAtIndex:(NSUInteger)index;
 
 + (VoidTeamDonationSolicitationResponseProto*) defaultInstance;
 - (VoidTeamDonationSolicitationResponseProto*) defaultInstance;
@@ -4328,6 +4331,12 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatus) status;
 - (VoidTeamDonationSolicitationResponseProto_Builder*) setStatus:(VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatus) value;
 - (VoidTeamDonationSolicitationResponseProto_Builder*) clearStatus;
+
+- (NSMutableArray *)clanTeamDonateUuidList;
+- (NSString*)clanTeamDonateUuidAtIndex:(NSUInteger)index;
+- (VoidTeamDonationSolicitationResponseProto_Builder *)addClanTeamDonateUuid:(NSString*)value;
+- (VoidTeamDonationSolicitationResponseProto_Builder *)addAllClanTeamDonateUuid:(NSArray *)array;
+- (VoidTeamDonationSolicitationResponseProto_Builder *)clearClanTeamDonateUuid;
 @end
 
 

@@ -1868,13 +1868,16 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
   NSMutableArray * mutableClanChatsList;
   NSMutableArray * mutableClanHelpingsList;
   NSMutableArray * mutableClanAvengingsList;
+  NSMutableArray * mutableClanDonationSolicitationsList;
 }
 @property (readonly, strong) NSArray * clanChatsList;
 @property (readonly, strong) NSArray * clanHelpingsList;
 @property (readonly, strong) NSArray * clanAvengingsList;
+@property (readonly, strong) NSArray * clanDonationSolicitationsList;
 - (GroupChatMessageProto*)clanChatsAtIndex:(NSUInteger)index;
 - (ClanHelpProto*)clanHelpingsAtIndex:(NSUInteger)index;
 - (PvpClanAvengeProto*)clanAvengingsAtIndex:(NSUInteger)index;
+- (ClanMemberTeamDonationProto*)clanDonationSolicitationsAtIndex:(NSUInteger)index;
 
 + (ClanDataProto*) defaultInstance;
 - (ClanDataProto*) defaultInstance;
@@ -1928,6 +1931,12 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (ClanDataProto_Builder *)addClanAvengings:(PvpClanAvengeProto*)value;
 - (ClanDataProto_Builder *)addAllClanAvengings:(NSArray *)array;
 - (ClanDataProto_Builder *)clearClanAvengings;
+
+- (NSMutableArray *)clanDonationSolicitationsList;
+- (ClanMemberTeamDonationProto*)clanDonationSolicitationsAtIndex:(NSUInteger)index;
+- (ClanDataProto_Builder *)addClanDonationSolicitations:(ClanMemberTeamDonationProto*)value;
+- (ClanDataProto_Builder *)addAllClanDonationSolicitations:(NSArray *)array;
+- (ClanDataProto_Builder *)clearClanDonationSolicitations;
 @end
 
 @interface ClanMemberTeamDonationProto : PBGeneratedMessage {

@@ -43,16 +43,16 @@
   }
   
   // Handle specials
-  _bombCounter = nil;
-  _headshotCounter = nil;
-  _bulletCounter = nil;
+  _turnCounter = nil;
   _damageMultiplier = nil;
   switch (_orb.specialOrbType)
   {
     case SpecialOrbTypeNone: if (_orb.damageMultiplier > 1) [self loadDamageMultiplierElements]; break;
-    case SpecialOrbTypeBomb: [self loadBombElements]; break;
-    case SpecialOrbTypeHeadshot: if (_orb.headshotCounter > 0) [self loadHeadshotElements]; break;
-    case SpecialOrbTypeBullet: if (_orb.bulletCounter > 0) [self loadBulletElements]; break;
+    case SpecialOrbTypeBomb: if (_orb.turnCounter > 0) [self loadBombElements]; break;
+    case SpecialOrbTypeHeadshot:
+    case SpecialOrbTypeBullet:
+    case SpecialOrbTypeGlove:
+      if (_orb.turnCounter > 0) [self loadHeadshotElements]; break;
     default: break;
   }
   
@@ -73,50 +73,22 @@
   [_orbSprite addChild:fire];
   
   // Counter
-  _bombCounter = [CCLabelTTF labelWithString:@"0" fontName:@"Gotham-Ultra" fontSize:10];
-  _bombCounter.color = [CCColor blackColor];
-  _bombCounter.position = CGPointMake(9/33.f, 9.5/34.f);
-  _bombCounter.positionType = CCPositionTypeNormalized;
-  _bombCounter.color = [CCColor colorWithUIColor:[UIColor colorWithHexString:@"414141"]];
-  _bombCounter.horizontalAlignment = CCTextAlignmentCenter;
-  [_orbSprite addChild:_bombCounter];
+  _turnCounter = [CCLabelTTF labelWithString:@"0" fontName:@"Gotham-Ultra" fontSize:10];
+  _turnCounter.color = [CCColor blackColor];
+  _turnCounter.position = CGPointMake(9/33.f, 9.5/34.f);
+  _turnCounter.positionType = CCPositionTypeNormalized;
+  _turnCounter.color = [CCColor colorWithUIColor:[UIColor colorWithHexString:@"414141"]];
+  _turnCounter.horizontalAlignment = CCTextAlignmentCenter;
+  [_orbSprite addChild:_turnCounter];
   
   // Counter bgd
   NSString *resPrefix = [Globals isiPhone6] || [Globals isiPhone6Plus] ? @"6" : @"";
   CCSprite *bgd = [CCSprite spriteWithImageNamed:[NSString stringWithFormat:@"%@bomblabel.png", resPrefix]];
-  [_bombCounter addChild:bgd z:-1];
+  [_turnCounter addChild:bgd z:-1];
   bgd.position = ccp(0.5, 0.58);
   bgd.positionType = CCPositionTypeNormalized;
   
-  [self updateBombCounter:NO];
-}
-
-- (void) updateBombCounter:(BOOL)animated
-{
-  if (_bombCounter)
-  {
-    if (animated)
-      [_orbSprite runAction:[CCActionSequence actions:
-                           [CCActionEaseOut actionWithAction:[CCActionScaleTo actionWithDuration:0.2 scale:0.8]],
-                           [CCActionCallBlock actionWithBlock:^{
-                             _bombCounter.string = [NSString stringWithFormat:@"%d", (int)_orb.bombCounter];
-                           }],
-                           [CCActionEaseIn actionWithAction:[CCActionScaleTo actionWithDuration:0.2 scale:1.0]],
-                           nil]];
-    else
-      _bombCounter.string = [NSString stringWithFormat:@"%d", (int)_orb.bombCounter];
-    
-    if (_orb.bombCounter <= 2 && _orb.bombCounter > 0)
-    {
-      [_bombCounter stopActionByTag:1812];
-      CCActionRepeatForever* action = [CCActionRepeatForever actionWithAction:[CCActionSequence actions:
-                             [CCActionTintTo actionWithDuration:0.4*_orb.bombCounter color:[CCColor redColor]],
-                             [CCActionTintTo actionWithDuration:0.4*_orb.bombCounter color:[CCColor clearColor]],
-                             nil]];
-      action.tag = 1812;
-      [_bombCounter runAction:action];
-    }
-  }
+  [self updateTurnCounter:NO];
 }
 
 - (void) loadHeadshotElements
@@ -128,38 +100,40 @@
   [_orbSprite addChild:counterBg];
   
   // Counter label
-  _headshotCounter = [CCLabelTTF labelWithString:@"0" fontName:@"Gotham-Ultra" fontSize:8.f];
-  _headshotCounter.position = CGPointMake(6.f / 33.f, 5.5f / 34.f);
-  _headshotCounter.positionType = CCPositionTypeNormalized;
-  _headshotCounter.color = [CCColor colorWithUIColor:[UIColor colorWithHexString:@"414141"]];
-  _headshotCounter.horizontalAlignment = CCTextAlignmentCenter;
-  [_orbSprite addChild:_headshotCounter];
+  _turnCounter = [CCLabelTTF labelWithString:@"0" fontName:@"Gotham-Ultra" fontSize:8.f];
+  _turnCounter.position = CGPointMake(6.f / 33.f, 5.5f / 34.f);
+  _turnCounter.positionType = CCPositionTypeNormalized;
+  _turnCounter.color = [CCColor colorWithUIColor:[UIColor colorWithHexString:@"414141"]];
+  _turnCounter.horizontalAlignment = CCTextAlignmentCenter;
+  [_orbSprite addChild:_turnCounter];
   
-  [self updateHeadshotCounter:NO];
+  [self updateTurnCounter:NO];
 }
 
-- (void) updateHeadshotCounter:(BOOL)animated
+- (void) updateTurnCounter:(BOOL)animated
 {
-  if (_headshotCounter)
+  if (_turnCounter)
   {
     if (animated)
       [_orbSprite runAction:[CCActionSequence actions:
-                             [CCActionEaseOut actionWithAction:[CCActionScaleTo actionWithDuration:.2f scale:.8f]],
-                             [CCActionCallBlock actionWithBlock:^{ _headshotCounter.string = [NSString stringWithFormat:@"%d", (int)_orb.headshotCounter]; }],
-                             [CCActionEaseIn actionWithAction:[CCActionScaleTo actionWithDuration:.2f scale:1.f]],
-                             nil]];
+                           [CCActionEaseOut actionWithAction:[CCActionScaleTo actionWithDuration:0.2 scale:0.8]],
+                           [CCActionCallBlock actionWithBlock:^{
+                             _turnCounter.string = [NSString stringWithFormat:@"%d", (int)_orb.turnCounter];
+                           }],
+                           [CCActionEaseIn actionWithAction:[CCActionScaleTo actionWithDuration:0.2 scale:1.0]],
+                           nil]];
     else
-      _headshotCounter.string = [NSString stringWithFormat:@"%d", (int)_orb.headshotCounter];
+      _turnCounter.string = [NSString stringWithFormat:@"%d", (int)_orb.turnCounter];
     
-    if (_orb.headshotCounter <= 2 && _orb.headshotCounter > 0)
+    if (_orb.turnCounter <= 2 && _orb.turnCounter > 0)
     {
-      [_headshotCounter stopActionByTag:1620];
-      CCAction* action = [CCActionRepeatForever actionWithAction:[CCActionSequence actions:
-                                                                  [RecursiveTintTo actionWithDuration:.4f * _orb.headshotCounter color:[CCColor redColor]],
-                                                                  [RecursiveTintTo actionWithDuration:.4f * _orb.headshotCounter color:[CCColor clearColor]],
-                                                                  nil]];
-      [action setTag:1620];
-      [_headshotCounter runAction:action];
+      [_turnCounter stopActionByTag:1812];
+      CCActionRepeatForever* action = [CCActionRepeatForever actionWithAction:[CCActionSequence actions:
+                             [CCActionTintTo actionWithDuration:0.4*_orb.turnCounter color:[CCColor redColor]],
+                             [CCActionTintTo actionWithDuration:0.4*_orb.turnCounter color:[CCColor clearColor]],
+                             nil]];
+      action.tag = 1812;
+      [_turnCounter runAction:action];
     }
   }
 }
@@ -201,51 +175,6 @@
   [_orbSprite addChild:pfx];
 }
 
-- (void) loadBulletElements
-{
-  // Counter background
-  CCSprite* counterBg = [CCSprite spriteWithImageNamed:@"headshotcounter.png"];
-  counterBg.position = CGPointMake(6.f / 33.f, 6.5f / 34.f);
-  counterBg.positionType = CCPositionTypeNormalized;
-  [_orbSprite addChild:counterBg];
-  
-  // Counter label
-  _bulletCounter = [CCLabelTTF labelWithString:@"0" fontName:@"Gotham-Ultra" fontSize:8.f];
-  _bulletCounter.position = CGPointMake(6.f / 33.f, 5.5f / 34.f);
-  _bulletCounter.positionType = CCPositionTypeNormalized;
-  _bulletCounter.color = [CCColor colorWithUIColor:[UIColor colorWithHexString:@"414141"]];
-  _bulletCounter.horizontalAlignment = CCTextAlignmentCenter;
-  [_orbSprite addChild:_bulletCounter];
-  
-  [self updateBulletCounter:NO];
-}
-
-- (void) updateBulletCounter:(BOOL)animated
-{
-  if (_bulletCounter)
-  {
-    if (animated)
-      [_orbSprite runAction:[CCActionSequence actions:
-                             [CCActionEaseOut actionWithAction:[CCActionScaleTo actionWithDuration:.2f scale:.8f]],
-                             [CCActionCallBlock actionWithBlock:^{ _bulletCounter.string = [NSString stringWithFormat:@"%d", (int)_orb.bulletCounter]; }],
-                             [CCActionEaseIn actionWithAction:[CCActionScaleTo actionWithDuration:.2f scale:1.f]],
-                             nil]];
-    else
-      _bulletCounter.string = [NSString stringWithFormat:@"%d", (int)_orb.bulletCounter];
-    
-    if (_orb.bulletCounter <= 2 && _orb.bulletCounter > 0)
-    {
-      [_bulletCounter stopActionByTag:1620];
-      CCAction* action = [CCActionRepeatForever actionWithAction:[CCActionSequence actions:
-                                                                  [RecursiveTintTo actionWithDuration:.4f * _orb.bulletCounter color:[CCColor redColor]],
-                                                                  [RecursiveTintTo actionWithDuration:.4f * _orb.bulletCounter color:[CCColor clearColor]],
-                                                                  nil]];
-      [action setTag:1620];
-      [_bulletCounter runAction:action];
-    }
-  }
-}
-
 #pragma mark - Helpers
 
 + (NSString *) orbSpriteImageNameWithOrb:(BattleOrb *)orb withSuffix:(NSString *)suffix {
@@ -273,9 +202,10 @@
       break;
     
     case SpecialOrbTypeBomb:
-      if (orbColor == OrbColorRock || orbColor == OrbColorNone)
+      if (orbColor == OrbColorNone)
         return nil;
-      return [NSString stringWithFormat:@"%@%@%@.png", resPrefix, [Globals imageNameForElement:(Element)orbColor suffix:@"bomb"], suffix ];
+      if (orb.powerupType == PowerupTypeNone)
+        return [NSString stringWithFormat:@"%@%@%@.png", resPrefix, [Globals imageNameForElement:(Element)orbColor suffix:@"bomb"], suffix ];
       break;
       
     case SpecialOrbTypeHeadshot:
@@ -285,6 +215,14 @@
         return [NSString stringWithFormat:@"%@%@%@.png", resPrefix, [Globals imageNameForElement:(Element)orbColor suffix:@"headshot"], suffix ];
       break;
       
+    case SpecialOrbTypeGlove:
+      if (orbColor == OrbColorNone)
+        return nil;
+      if (orb.powerupType == PowerupTypeNone)
+        return [NSString stringWithFormat:@"%@%@%@.png", resPrefix, [Globals imageNameForElement:(Element)orbColor suffix:@"glove"], suffix ];
+      break;
+      
+      //TODO: This suffix needs to change! Currently reusing poison orbs for this ability
     case SpecialOrbTypeLifeSteal:
       if (orbColor == OrbColorNone)
         return nil;

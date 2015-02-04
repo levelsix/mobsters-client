@@ -153,7 +153,7 @@
     if (orb.orbColor != OrbColorRock) {
       orb.orbColor = self.orbColor;
       orb.specialOrbType = SpecialOrbTypeBomb;
-      orb.bombCounter = _bombCounter;
+      orb.turnCounter = _bombCounter;
       orb.bombDamage = _bombDamage;
     }
     
@@ -208,11 +208,11 @@
       if (orb.specialOrbType == SpecialOrbTypeBomb)
       {
         // Update counter
-        orb.bombCounter--;
+        orb.turnCounter--;
         
         // Update sprite
         OrbSprite* sprite = [layer spriteForOrb:orb];
-        if (orb.bombCounter <= 0) // Blow up the bomb
+        if (orb.turnCounter <= 0) // Blow up the bomb
         {
           // Change sprite type
           orb.specialOrbType = SpecialOrbTypeNone;
@@ -234,7 +234,7 @@
           [SoundEngine puzzleBoardExplosion];
         }
         else
-          [sprite updateBombCounter:YES];
+          [sprite updateTurnCounter:YES];
       }
     }
   

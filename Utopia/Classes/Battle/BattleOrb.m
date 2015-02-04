@@ -17,10 +17,8 @@
   cp.orbColor = self.orbColor;
   cp.specialOrbType = self.specialOrbType;
   cp.powerupType = self.powerupType;
-  cp.bombCounter = self.bombCounter;
+  cp.turnCounter = self.turnCounter;
   cp.bombDamage = self.bombDamage;
-  cp.headshotCounter = self.headshotCounter;
-  cp.bulletCounter = self.bulletCounter;
   cp.cloudCounter = self.cloudCounter;
   cp.damageMultiplier = self.damageMultiplier;
   return cp;
@@ -52,10 +50,8 @@
 #define POWERUP_KEY       @"PowerupKey"
 #define GEM_COLOR_KEY     @"GemColorKey"
 #define SPECIAL_TYPE_KEY  @"SpecialTypeKey"
-#define BOMB_COUNTER      @"BombCounter"
+#define TURN_COUNTER      @"TurnCounter"
 #define BOMB_DAMAGE       @"BombDamage"
-#define HEADSHOT_COUNTER  @"HeadshotCounter"
-#define BULLET_COUNTER    @"BulletCounter"
 #define CLOUD_COUNTER     @"CloudCounter"
 #define LOCKED_KEY        @"LockedKey"
 #define DAMAGE_MULTIPLIER @"DamageMultiplier"
@@ -66,10 +62,8 @@
   [info setObject:@(_powerupType) forKey:POWERUP_KEY];
   [info setObject:@(_orbColor) forKey:GEM_COLOR_KEY];
   [info setObject:@(_specialOrbType) forKey:SPECIAL_TYPE_KEY];
-  [info setObject:@(_bombCounter) forKey:BOMB_COUNTER];
+  [info setObject:@(_turnCounter) forKey:TURN_COUNTER];
   [info setObject:@(_bombDamage) forKey:BOMB_DAMAGE];
-  [info setObject:@(_headshotCounter) forKey:HEADSHOT_COUNTER];
-  [info setObject:@(_bulletCounter) forKey:BULLET_COUNTER];
   [info setObject:@(_cloudCounter) forKey:CLOUD_COUNTER];
   [info setObject:@(_isLocked) forKey:LOCKED_KEY];
   [info setObject:@(_damageMultiplier) forKey:DAMAGE_MULTIPLIER];
@@ -81,10 +75,8 @@
   NSNumber* powerupType = [dic objectForKey:POWERUP_KEY];
   NSNumber* orbColor = [dic objectForKey:GEM_COLOR_KEY];
   NSNumber* specialOrbType = [dic objectForKey:SPECIAL_TYPE_KEY];
-  NSNumber* bombCounter = [dic objectForKey:BOMB_COUNTER];
+  NSNumber* turnCounter = [dic objectForKey:TURN_COUNTER];
   NSNumber* bombDamage = [dic objectForKey:BOMB_DAMAGE];
-  NSNumber* headshotCounter = [dic objectForKey:HEADSHOT_COUNTER];
-  NSNumber* bulletCounter = [dic objectForKey:BULLET_COUNTER];
   NSNumber* cloudCounter = [dic objectForKey:CLOUD_COUNTER];
   NSNumber* isLocked = [dic objectForKey:LOCKED_KEY];
   NSNumber* damageMultiplier = [dic objectForKey:DAMAGE_MULTIPLIER];
@@ -95,14 +87,10 @@
     _orbColor = (OrbColor)[orbColor integerValue];
   if (specialOrbType)
     _specialOrbType = (SpecialOrbType)[specialOrbType integerValue];
-  if (bombCounter)
-    _bombCounter = [bombCounter integerValue];
+  if (turnCounter)
+    _turnCounter = [turnCounter integerValue];
   if (bombDamage)
     _bombDamage = [bombDamage integerValue];
-  if (headshotCounter)
-    _headshotCounter = [headshotCounter integerValue];
-  if (bulletCounter)
-    _bulletCounter = [bulletCounter integerValue];
   if (cloudCounter)
     _cloudCounter = [cloudCounter integerValue];
   if (isLocked)

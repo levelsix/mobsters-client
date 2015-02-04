@@ -1,17 +1,15 @@
 //
-//  SkillHellFire.m
+//  SkillRightHook.m
 //  Utopia
 //
-//  Created by Behrouz Namakshenas on 1/30/15.
+//  Created by Behrouz Namakshenas on 2/3/15.
 //  Copyright (c) 2014 LVL6. All rights reserved.
 //
 
-#import "SkillHellFire.h"
+#import "SkillRightHook.h"
 #import "NewBattleLayer.h"
 
-static const NSInteger kBulletOrbsMaxSearchIterations = 256;
-
-@implementation SkillHellFire
+@implementation SkillRightHook
 
 #pragma mark - Initialization
 
@@ -21,10 +19,13 @@ static const NSInteger kBulletOrbsMaxSearchIterations = 256;
   
   _numOrbsToSpawn = 0;
   _orbsSpawnCounter = 0;
-  _fixedDamageReceived = 0.f;
+  _fixedDamageDone = 0.f;
+  _targetChanceToHitSelf = 0.f;
+  _skillActive = NO;
+  _confusionTurns = 0;
   _logoShown = NO;
   
-  _orbsSpawned = [self specialsOnBoardCount:SpecialOrbTypeBullet];
+  _orbsSpawned = [self specialsOnBoardCount:SpecialOrbTypeGlove];
 }
 
 - (void) setValue:(float)value forProperty:(NSString*)property
@@ -35,45 +36,101 @@ static const NSInteger kBulletOrbsMaxSearchIterations = 256;
     _numOrbsToSpawn = value;
   if ([property isEqualToString:@"ORBS_SPAWN_COUNTER"])
     _orbsSpawnCounter = value;
-  if ([property isEqualToString:@"FIXED_DAMAGE_RECEIVED"])
-    _fixedDamageReceived = value;
+  if ([property isEqualToString:@"FIXED_DAMAGE_DONE"])
+    _fixedDamageDone = value;
+  if ([property isEqualToString:@"TARGET_CHANCE_TO_HIT_SELF"])
+    _targetChanceToHitSelf = value;
 }
 
 #pragma mark - Overrides
+
+- (NSInteger) modifyDamage:(NSInteger)damage forPlayer:(BOOL)player
+{
+  if (player && !self.belongsToPlayer)
+  {
+    if (_skillActive)
+    {
+      // Chance of player hitting self
+      float rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
+      if (rand < _targetChanceToHitSelf)
+      {
+        [self showLogo];
+        
+        // Tell NewBattleLayer that enemy will be confused on his next turn
+        self.player.isConfused = YES;
+      }
+    }
+  }
+  
+  return damage;
+}
 
 - (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
 {
   if ([super skillCalledWithTrigger:trigger execute:execute])
     return YES;
   
-  // Initial bullet orb spawn
-  if (trigger == SkillTriggerPointEnemyAppeared && !_logoShown)
+  if ((trigger == SkillTriggerPointEnemyAppeared      && !_logoShown) ||
+      (trigger == SkillTriggerPointStartOfPlayerTurn  && !_logoShown) ||
+      (trigger == SkillTriggerPointStartOfEnemyTurn   && !_logoShown))
   {
     if (execute)
     {
       _logoShown = YES;
-      // Jumping, showing overlay and spawning initial set
-      [self showSkillPopupOverlay:YES withCompletion:^{
-        if (_orbsSpawned == 0)
-        {
-          [self performAfterDelay:.5f block:^{
-            [self spawnBulletOrbs:_numOrbsToSpawn withTarget:self andSelector:@selector(skillTriggerFinished)];
-          }];
-        }
-        else
+      [self showSkillPopupOverlay:YES withCompletion:^(){
+        [self performAfterDelay:.5f block:^{
           [self skillTriggerFinished];
+        }];
       }];
+      
+      // Will restore visuals if coming back to a battle after leaving midway
+      if (!self.belongsToPlayer && _skillActive)
+      {
+        // Display confused symbol on player's turn indicator(s)
+        [self.battleLayer.hudView.battleScheduleView updateConfusionState:YES
+                                                          onUpcomingTurns:(int)_confusionTurns
+                                                               forMonster:self.player.monsterId];
+      }
     }
     return YES;
   }
   
   if (trigger == SkillTriggerPointEndOfPlayerMove && !self.belongsToPlayer)
   {
+    if (!_skillActive && _orbsSpawned == 0)
+    {
+      if (execute)
+      {
+        if ([self skillIsReady])
+        {
+          // Spawn glove orbs when skill is activated
+          [self showSkillPopupOverlay:YES withCompletion:^(){
+            [self performAfterDelay:.5f block:^{
+              [self spawnGloveOrbs:_numOrbsToSpawn withTarget:self andSelector:@selector(skillTriggerFinished)];
+            }];
+          }];
+        }
+        else
+          [self skillTriggerFinished];
+      }
+      return YES;
+    }
+  }
+  
+  if (trigger == SkillTriggerPointEndOfPlayerMove && !self.belongsToPlayer)
+  {
     if (execute)
     {
-      // Update counters on bullet orbs
-      if (_orbsSpawned > 0 && [self updateBulletOrbs])
+      // Update counters on glove orbs
+      if (_orbsSpawned > 0 && [self updateGloveOrbs])
       {
+        _skillActive = YES;
+        
+        // Display confused symbol on player's turn indicator(s)
+        [self.battleLayer.hudView.battleScheduleView updateConfusionState:YES
+                                                          onUpcomingTurns:(int)_confusionTurns
+                                                               forMonster:self.player.monsterId];
+        
         // If any orbs have reached zero turns left, perform out of turn attack
         [self makeSkillOwnerJumpWithTarget:self selector:@selector(beginOutOfTurnAttack)];
       }
@@ -82,13 +139,49 @@ static const NSInteger kBulletOrbsMaxSearchIterations = 256;
     }
     return YES;
   }
-
+  
+  if (trigger == SkillTriggerPointPlayerDealsDamage && !self.belongsToPlayer)
+  {
+    if (_skillActive)
+    {
+      if (execute)
+      {
+        if (--_confusionTurns == 0)
+        {
+          _skillActive = NO;
+          [self resetOrbCounter];
+          
+          // Tell NewBattleLayer that player is no longer confused,
+          // remove confused symbol from player's turn indicator(s)
+          self.player.isConfused = NO;
+          [self.battleLayer.hudView.battleScheduleView updateConfusionState:NO
+                                               onAllUpcomingTurnsForMonster:self.player.monsterId];
+        }
+        
+        [self skillTriggerFinished];
+      }
+      return YES;
+    }
+  }
+  
   if (trigger == SkillTriggerPointEnemyDefeated && !self.belongsToPlayer)
   {
     if (execute)
     {
-      // Remove all bullet orbs added by this enemy
-      [self removeAllBulletOrbs];
+      if (_skillActive)
+      {
+        _skillActive = NO;
+        [self resetOrbCounter];
+        
+        // Tell NewBattleLayer that player is no longer confused,
+        // remove confused symbol from player's turn indicator(s)
+        self.player.isConfused = NO;
+        [self.battleLayer.hudView.battleScheduleView updateConfusionState:NO
+                                             onAllUpcomingTurnsForMonster:self.player.monsterId];
+      }
+      
+      // Remove all glove orbs added by this enemy
+      [self removeAllGloveOrbs];
       [self performAfterDelay:.3f block:^{
         [self skillTriggerFinished];
       }];
@@ -101,7 +194,7 @@ static const NSInteger kBulletOrbsMaxSearchIterations = 256;
 
 #pragma mark - Skill logic
 
-- (BOOL) updateBulletOrbs
+- (BOOL) updateGloveOrbs
 {
   BattleOrbLayout* layout = self.battleLayer.orbLayer.layout;
   OrbSwipeLayer* layer = self.battleLayer.orbLayer.swipeLayer;
@@ -115,14 +208,14 @@ static const NSInteger kBulletOrbsMaxSearchIterations = 256;
     for (NSInteger row = 0; row < layout.numRows; ++row)
     {
       BattleOrb* orb = [layout orbAtColumn:column row:row];
-      if (orb.specialOrbType == SpecialOrbTypeBullet && orb.turnCounter > 0)
+      if (orb.specialOrbType == SpecialOrbTypeGlove && orb.turnCounter > 0)
       {
         // Update counter
         --orb.turnCounter;
         
         // Update sprite
         OrbSprite* sprite = [layer spriteForOrb:orb];
-        if (orb.turnCounter <= 0) // Use up the bullet orb
+        if (orb.turnCounter <= 0) // Use up the glove orb
         {
           // Clone the orb sprite to be used in the visual effect
           CCSprite* clonedSprite = [CCSprite spriteWithTexture:sprite.orbSprite.texture rect:sprite.orbSprite.textureRect];
@@ -132,9 +225,6 @@ static const NSInteger kBulletOrbsMaxSearchIterations = 256;
           
           // Change sprite type
           orb.specialOrbType = SpecialOrbTypeNone;
-          do {
-            orb.orbColor = [layout generateRandomOrbColor];
-          } while ([layout hasChainAtColumn:column row:row]);
           
           // Reload sprite
           [sprite reloadSprite:YES];
@@ -165,6 +255,14 @@ static const NSInteger kBulletOrbsMaxSearchIterations = 256;
                              nil]];
   }
   
+  if (!_skillActive)
+  {
+    // However many glove orbs are left on the board when their
+    // timer reaches zero is what dictates for how many turns the
+    // player will be confused (with a chance of hitting self)
+    _confusionTurns = usedUpOrbCount;
+  }
+  
   return (usedUpOrbCount > 0);
 }
 
@@ -175,6 +273,7 @@ static const NSInteger kBulletOrbsMaxSearchIterations = 256;
   
   [self showLogo];
   
+  // Perform attack animation
   [self.enemySprite performNearAttackAnimationWithEnemy:self.playerSprite
                                            shouldReturn:YES
                                             shouldEvade:NO
@@ -186,13 +285,13 @@ static const NSInteger kBulletOrbsMaxSearchIterations = 256;
 
 - (void) dealDamage
 {
-  [self.battleLayer dealDamage:_fixedDamageReceived
-               enemyIsAttacker:YES
+  [self.battleLayer dealDamage:_fixedDamageDone
+               enemyIsAttacker:!self.belongsToPlayer
                   usingAbility:YES
                     withTarget:self
                   withSelector:@selector(endOutOfTurnAttack)];
-  
-  [self.battleLayer setEnemyDamageDealt:(int)_fixedDamageReceived];
+
+  [self.battleLayer setEnemyDamageDealt:(int)_fixedDamageDone];
   [self.battleLayer sendServerUpdatedValuesVerifyDamageDealt:NO];
 }
 
@@ -200,16 +299,22 @@ static const NSInteger kBulletOrbsMaxSearchIterations = 256;
 {
   [self.battleLayer.orbLayer.bgdLayer turnTheLightsOn];
   [self.battleLayer.orbLayer allowInput];
-
+  
   [self skillTriggerFinished];
 }
 
 - (void) showLogo
 {
+  /*
+   * 2/4/15 - BN - Disabling skills displaying logos
+   *
+   
+  const CGFloat yOffset = self.belongsToPlayer ? 40.f : -20.f;
+  
   // Display logo
   CCSprite* logoSprite = [CCSprite spriteWithImageNamed:[self.skillImageNamePrefix stringByAppendingString:kSkillMiniLogoImageNameSuffix]];
   logoSprite.position = CGPointMake((self.enemySprite.position.x + self.playerSprite.position.x) * .5f + self.playerSprite.contentSize.width * .5f - 10.f,
-                                    (self.playerSprite.position.y + self.enemySprite.position.y) * .5f + self.playerSprite.contentSize.height * .5f);
+                                    (self.playerSprite.position.y + self.enemySprite.position.y) * .5f + self.playerSprite.contentSize.height * .5f + yOffset);
   logoSprite.scale = 0.f;
   [self.playerSprite.parent addChild:logoSprite z:50];
   
@@ -221,29 +326,19 @@ static const NSInteger kBulletOrbsMaxSearchIterations = 256;
                          [CCActionEaseIn actionWithAction:[CCActionScaleTo actionWithDuration:.3f scale:0.f]],
                          [CCActionRemove action],
                          nil]];
+   */
 }
 
-- (void) spawnBulletOrbs:(NSInteger)count withTarget:(id)target andSelector:(SEL)selector
+- (void) spawnGloveOrbs:(NSInteger)count withTarget:(id)target andSelector:(SEL)selector
 {
   [self preseedRandomization];
   
-  BattleOrbLayout* layout = self.battleLayer.orbLayer.layout;
-  BattleOrb* orb = nil;
-  
   for (NSInteger n = 0; n < count; ++n)
   {
-    NSInteger column, row;
-    NSInteger counter = 0;
-    do {
-      column = rand() % layout.numColumns;
-      row = (layout.numRows - 1) - rand() % 2; // Top two rows
-      orb = [layout orbAtColumn:column row:row];
-      ++counter;
-    }
-    while ((orb.specialOrbType != SpecialOrbTypeNone || orb.powerupType != PowerupTypeNone || orb.isLocked) &&
-           counter < kBulletOrbsMaxSearchIterations);
+    BattleOrbLayout* layout = self.battleLayer.orbLayer.layout;
+    BattleOrb* orb = [layout findOrbWithColorPreference:self.orbColor];
     
-    // Nothing found (just in case), continue and perform selector if the last bullet orb
+    // Nothing found (just in case), continue and perform selector if the last glove orb
     if (!orb)
     {
       if (n == count - 1)
@@ -253,8 +348,8 @@ static const NSInteger kBulletOrbsMaxSearchIterations = 256;
     }
     
     // Update data
-    orb.specialOrbType = SpecialOrbTypeBullet;
-    orb.orbColor = OrbColorNone;
+    orb.specialOrbType = SpecialOrbTypeGlove;
+    orb.orbColor = self.orbColor;
     orb.turnCounter = _orbsSpawnCounter;
     
     // Update tile
@@ -272,7 +367,7 @@ static const NSInteger kBulletOrbsMaxSearchIterations = 256;
   }
 }
 
-- (void) removeAllBulletOrbs
+- (void) removeAllGloveOrbs
 {
   BattleOrbLayout* layout = self.battleLayer.orbLayer.layout;
   OrbSwipeLayer* layer = self.battleLayer.orbLayer.swipeLayer;
@@ -282,18 +377,39 @@ static const NSInteger kBulletOrbsMaxSearchIterations = 256;
     for (NSInteger row = 0; row < layout.numRows; ++row)
     {
       BattleOrb* orb = [layout orbAtColumn:column row:row];
-      if (orb.specialOrbType == SpecialOrbTypeBullet)
+      if (orb.specialOrbType == SpecialOrbTypeGlove)
       {
         orb.specialOrbType = SpecialOrbTypeNone;
-        do {
-          orb.orbColor = [layout generateRandomOrbColor];
-        } while ([layout hasChainAtColumn:column row:row]);
         
         OrbSprite* orbSprite = [layer spriteForOrb:orb];
         [orbSprite reloadSprite:YES];
       }
     }
   }
+}
+
+#pragma mark - Serialization
+
+- (NSDictionary*) serialize
+{
+  NSMutableDictionary* result = [NSMutableDictionary dictionaryWithDictionary:[super serialize]];
+  [result setObject:@(_skillActive) forKey:@"skillActive"];
+  [result setObject:@(_confusionTurns) forKey:@"confusionTurns"];
+  
+  return result;
+}
+
+- (BOOL) deserialize:(NSDictionary*)dict
+{
+  if (![super deserialize:dict])
+    return NO;
+  
+  NSNumber* skillActive = [dict objectForKey:@"skillActive"];
+  if (skillActive) _skillActive = [skillActive boolValue];
+  NSNumber* confusionTurns = [dict objectForKey:@"confusionTurns"];
+  if (confusionTurns) _confusionTurns = [confusionTurns integerValue];
+  
+  return YES;
 }
 
 @end

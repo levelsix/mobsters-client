@@ -23,6 +23,8 @@
     self.numSlots = 3;
   }
   
+  _upcomingConfusedTurns = [NSMutableDictionary dictionary];
+  
   UIImage *dark = [Globals maskImage:self.bgdView.image withColor:[UIColor colorWithWhite:0.f alpha:1.f]];
   UIImageView *img = [[UIImageView alloc] initWithImage:dark];
   [self.bgdView.superview addSubview:img];
@@ -175,6 +177,9 @@
     [mmv addSubview:label];
   }
   
+  const int remainingConfusedTurns = [_upcomingConfusedTurns objectForKey:@(monsterId)] ? [[_upcomingConfusedTurns objectForKey:@(monsterId)] intValue] : 0;
+  if (remainingConfusedTurns != 0) [self updateConfusionState:YES onView:mmv forMonster:monsterId];
+  
   // Button to activate mobster window
   if (self.delegate)
   {
@@ -191,37 +196,61 @@
 
 - (void) updateConfusionState:(BOOL)confused onUpcomingTurnForMonster:(int)monsterId
 {
+  [self updateConfusionState:confused onUpcomingTurns:1 forMonster:monsterId];
+}
+
+- (void) updateConfusionState:(BOOL)confused onAllUpcomingTurnsForMonster:(int)monsterId
+{
+  [self updateConfusionState:confused onUpcomingTurns:-1 forMonster:monsterId];
+}
+
+- (void) updateConfusionState:(BOOL)confused onUpcomingTurns:(int)numTurns forMonster:(int)monsterId
+{
+  [_upcomingConfusedTurns setObject:confused ? @(numTurns) : @0 forKey:@(monsterId)];
+  
+  int turnCounter = 0;
+  if (numTurns == 0) return;
+  
   for (MiniMonsterView* mv in self.monsterViews)
   {
     if (mv.monsterId == monsterId)
     {
-      if (confused && [mv viewWithTag:7910] == nil)
-      {
-        // Add confused symbol to turn indicator
-        UIImageView* confusedSymbol = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"confusionspiral.png"]];
-        [confusedSymbol setFrame:CGRectMake(0.f, 0.f, 19.f, 19.f)];
-        [confusedSymbol setTag:7910];
-        [mv addSubview:confusedSymbol];
-
-        // Add spinning animation
-        CABasicAnimation* spinAnimation;
-        spinAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
-        spinAnimation.toValue = [NSNumber numberWithFloat: M_PI * 2.f];
-        spinAnimation.duration = 1.f;
-        spinAnimation.cumulative = YES;
-        spinAnimation.repeatCount = HUGE_VALF; // The stupid (and only) way to infinitely loop a CABasicAnimation
-        [confusedSymbol.layer addAnimation:spinAnimation forKey:@"ConfusedSymbolSpinAnimation"];
-      }
-      if (!confused && [mv viewWithTag:7910] != nil)
-      {
-        // Stop spinning animation and remove symbol
-        UIImageView* confusedSymbol = (UIImageView*)[mv viewWithTag:7910];
-        [confusedSymbol.layer removeAllAnimations];
-        [confusedSymbol removeFromSuperview];
-      }
+      [self updateConfusionState:confused onView:mv forMonster:monsterId];
       
-      break;
+      if (++turnCounter == numTurns)
+        break;
     }
+  }
+}
+
+- (void) updateConfusionState:(BOOL)confused onView:(MiniMonsterView*)mv forMonster:(int)monsterId
+{
+  if (confused && [mv viewWithTag:7910] == nil)
+  {
+    // Add confused symbol to turn indicator
+    UIImageView* confusedSymbol = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"confusionspiral.png"]];
+    [confusedSymbol setFrame:CGRectMake(0.f, 0.f, 19.f, 19.f)];
+    [confusedSymbol setTag:7910];
+    [mv addSubview:confusedSymbol];
+    
+    // Add spinning animation
+    CABasicAnimation* spinAnimation;
+    spinAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
+    spinAnimation.toValue = [NSNumber numberWithFloat: M_PI * 2.f];
+    spinAnimation.duration = 1.f;
+    spinAnimation.cumulative = YES;
+    spinAnimation.repeatCount = HUGE_VALF; // The stupid (and only) way to infinitely loop a CABasicAnimation
+    [confusedSymbol.layer addAnimation:spinAnimation forKey:@"ConfusedSymbolSpinAnimation"];
+    
+    const int remainingConfusedTurns = [[_upcomingConfusedTurns objectForKey:@(monsterId)] intValue];
+    if (remainingConfusedTurns > 0) [_upcomingConfusedTurns setObject:@(remainingConfusedTurns - 1) forKey:@(monsterId)];
+  }
+  if (!confused && [mv viewWithTag:7910] != nil)
+  {
+    // Stop spinning animation and remove symbol
+    UIImageView* confusedSymbol = (UIImageView*)[mv viewWithTag:7910];
+    [confusedSymbol.layer removeAllAnimations];
+    [confusedSymbol removeFromSuperview];
   }
 }
 
