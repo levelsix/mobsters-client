@@ -38,6 +38,8 @@
 #import "SkillHellFire.h"
 #import "SkillEnergize.h"
 #import "SkillRightHook.h"
+#import "SkillInsurance.h"
+#import "SkillCurse.h"
 
 @implementation SkillController
 
@@ -74,6 +76,8 @@
     case SkillTypeHellFire: return [[SkillHellFire alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypeEnergize: return [[SkillEnergize alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypeRightHook: return [[SkillRightHook alloc] initWithProto:proto andMobsterColor:color];
+    case SkillTypeCurse: return [[SkillCurse alloc] initWithProto:proto andMobsterColor:color];
+    case SkillTypeInsurance: return [[SkillInsurance alloc] initWithProto:proto andMobsterColor:color];
     default: CustomAssert(NO, @"Trying to create a skill with the factory for undefined skill."); return nil;
   }
 }

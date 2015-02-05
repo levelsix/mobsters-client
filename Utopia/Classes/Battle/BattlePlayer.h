@@ -52,6 +52,7 @@
 
 @property (nonatomic, assign) BOOL isConfused;
 @property (nonatomic, assign) BOOL isStunned;
+@property (nonatomic, assign) BOOL isCursed;
 
 @property (nonatomic, retain) DialogueProto *dialogue;
 

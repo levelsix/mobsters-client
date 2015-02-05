@@ -29,8 +29,11 @@
 
 - (void) orbDestroyed:(OrbColor)color special:(SpecialOrbType)type
 {
-  if (color == self.orbColor && _orbCounter > 0)
-    _orbCounter--;
+  //If owner is cursed, don't tick down counter
+  if ((self.belongsToPlayer && !self.player.isCursed)
+      || (!self.belongsToPlayer && !self.enemy.isCursed))
+    if ( color == self.orbColor && _orbCounter > 0)
+      _orbCounter--;
 }
 
 - (void) resetOrbCounter
