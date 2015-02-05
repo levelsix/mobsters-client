@@ -377,6 +377,15 @@
   GameState *gs = [GameState sharedGameState];
   [self.monsterView updateForMonsterId:gs.avatarMonsterId];
   
+  int unread = 0;
+  for (PvpHistoryProto *pvp in [gs pvpDefenseHistory]) {
+    if (pvp.isUnread) {
+      unread ++;
+    }
+  }
+  self.unreadDefenseLog.hidden = unread <= 0;
+  self.unreadDefenseLog.text = [NSString stringWithFormat:@"(%d)",unread];
+  
   [self updateDisplayedPrivateChatList];
 }
 
@@ -551,6 +560,16 @@
   }
   
   [super updateForChats:arr animated:animated];
+  
+  NSInteger pathIndex = [self.chats indexOfObject:_clickedCell];
+  if( pathIndex == NSNotFound) {
+    NSIndexPath *path = [NSIndexPath indexPathForRow:self.chats.count-1 inSection:0];
+    [self.chatTable scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
+  } else {
+    NSIndexPath *path = [NSIndexPath indexPathForRow:pathIndex inSection:0];
+    [self.chatTable scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
+  }
+  
 }
 
 - (IBAction)sendChatClicked:(id)sender {
@@ -643,7 +662,6 @@
   [[NSNotificationCenter defaultCenter] postNotificationName:PRIVATE_CHAT_VIEWED_NOTIFICATION object:nil];
 }
 
-
 #pragma mark - TableView delegate
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -695,17 +713,16 @@
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+  
   if (tableView == self.listTable) {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     
     id<ChatObject> post = self.displayedChatList[indexPath.row];
+    _clickedCell = post;
     [self openConversationWithUserUuid:post.otherUser.userUuid name:post.otherUser.name animated:YES];
     [post markAsRead];
     
     [self.delegate viewedPrivateChat];
-    
-    ChatCell *cell = (ChatCell *)[tableView cellForRowAtIndexPath:indexPath];
-    [self.chatTable scrollToRowAtIndexPath:[self.chatTable indexPathForCell:cell] atScrollPosition:UITableViewScrollPositionNone animated:NO];
     
   } else if (tableView == self.chatTable) {
     [super tableView:tableView didSelectRowAtIndexPath:indexPath];
