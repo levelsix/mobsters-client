@@ -645,13 +645,12 @@ message FulfillTeamDonationSolicitationResponseProto {
 
 message VoidTeamDonationSolicitationRequestProto {
 	optional MinimumUserProto sender = 1;
-	repeated ClanMemberTeamDonationProto solicitations = 2;
+	optional string clanTeamDonateUuid = 2;
 }
 
 message VoidTeamDonationSolicitationResponseProto {
 	optional MinimumUserProto sender = 1;
 	optional VoidTeamDonationSolicitationStatus status = 2;
-	repeated string clanTeamDonateUuid = 3;
    
 	enum VoidTeamDonationSolicitationStatus {
 		SUCCESS = 1;

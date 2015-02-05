@@ -18359,7 +18359,7 @@ BOOL FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitatio
 
 @interface VoidTeamDonationSolicitationRequestProto ()
 @property (strong) MinimumUserProto* sender;
-@property (strong) NSMutableArray * mutableSolicitationsList;
+@property (strong) NSString* clanTeamDonateUuid;
 @end
 
 @implementation VoidTeamDonationSolicitationRequestProto
@@ -18371,11 +18371,17 @@ BOOL FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitatio
   hasSender_ = !!value_;
 }
 @synthesize sender;
-@synthesize mutableSolicitationsList;
-@dynamic solicitationsList;
+- (BOOL) hasClanTeamDonateUuid {
+  return !!hasClanTeamDonateUuid_;
+}
+- (void) setHasClanTeamDonateUuid:(BOOL) value_ {
+  hasClanTeamDonateUuid_ = !!value_;
+}
+@synthesize clanTeamDonateUuid;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
+    self.clanTeamDonateUuid = @"";
   }
   return self;
 }
@@ -18391,12 +18397,6 @@ static VoidTeamDonationSolicitationRequestProto* defaultVoidTeamDonationSolicita
 - (VoidTeamDonationSolicitationRequestProto*) defaultInstance {
   return defaultVoidTeamDonationSolicitationRequestProtoInstance;
 }
-- (NSArray *)solicitationsList {
-  return mutableSolicitationsList;
-}
-- (ClanMemberTeamDonationProto*)solicitationsAtIndex:(NSUInteger)index {
-  return [mutableSolicitationsList objectAtIndex:index];
-}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -18404,9 +18404,9 @@ static VoidTeamDonationSolicitationRequestProto* defaultVoidTeamDonationSolicita
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  [self.solicitationsList enumerateObjectsUsingBlock:^(ClanMemberTeamDonationProto *element, NSUInteger idx, BOOL *stop) {
-    [output writeMessage:2 value:element];
-  }];
+  if (self.hasClanTeamDonateUuid) {
+    [output writeString:2 value:self.clanTeamDonateUuid];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -18419,9 +18419,9 @@ static VoidTeamDonationSolicitationRequestProto* defaultVoidTeamDonationSolicita
   if (self.hasSender) {
     size_ += computeMessageSize(1, self.sender);
   }
-  [self.solicitationsList enumerateObjectsUsingBlock:^(ClanMemberTeamDonationProto *element, NSUInteger idx, BOOL *stop) {
-    size_ += computeMessageSize(2, element);
-  }];
+  if (self.hasClanTeamDonateUuid) {
+    size_ += computeStringSize(2, self.clanTeamDonateUuid);
+  }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
   return size_;
@@ -18463,12 +18463,9 @@ static VoidTeamDonationSolicitationRequestProto* defaultVoidTeamDonationSolicita
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
-  [self.solicitationsList enumerateObjectsUsingBlock:^(ClanMemberTeamDonationProto *element, NSUInteger idx, BOOL *stop) {
-    [output appendFormat:@"%@%@ {\n", indent, @"solicitations"];
-    [element writeDescriptionTo:output
-                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
-    [output appendFormat:@"%@}\n", indent];
-  }];
+  if (self.hasClanTeamDonateUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"clanTeamDonateUuid", self.clanTeamDonateUuid];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -18482,7 +18479,8 @@ static VoidTeamDonationSolicitationRequestProto* defaultVoidTeamDonationSolicita
   return
       self.hasSender == otherMessage.hasSender &&
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
-      [self.solicitationsList isEqualToArray:otherMessage.solicitationsList] &&
+      self.hasClanTeamDonateUuid == otherMessage.hasClanTeamDonateUuid &&
+      (!self.hasClanTeamDonateUuid || [self.clanTeamDonateUuid isEqual:otherMessage.clanTeamDonateUuid]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -18490,9 +18488,9 @@ static VoidTeamDonationSolicitationRequestProto* defaultVoidTeamDonationSolicita
   if (self.hasSender) {
     hashCode = hashCode * 31 + [self.sender hash];
   }
-  [self.solicitationsList enumerateObjectsUsingBlock:^(ClanMemberTeamDonationProto *element, NSUInteger idx, BOOL *stop) {
-    hashCode = hashCode * 31 + [element hash];
-  }];
+  if (self.hasClanTeamDonateUuid) {
+    hashCode = hashCode * 31 + [self.clanTeamDonateUuid hash];
+  }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
@@ -18539,12 +18537,8 @@ static VoidTeamDonationSolicitationRequestProto* defaultVoidTeamDonationSolicita
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.mutableSolicitationsList.count > 0) {
-    if (result.mutableSolicitationsList == nil) {
-      result.mutableSolicitationsList = [[NSMutableArray alloc] initWithArray:other.mutableSolicitationsList];
-    } else {
-      [result.mutableSolicitationsList addObjectsFromArray:other.mutableSolicitationsList];
-    }
+  if (other.hasClanTeamDonateUuid) {
+    [self setClanTeamDonateUuid:other.clanTeamDonateUuid];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -18577,9 +18571,7 @@ static VoidTeamDonationSolicitationRequestProto* defaultVoidTeamDonationSolicita
         break;
       }
       case 18: {
-        ClanMemberTeamDonationProto_Builder* subBuilder = [ClanMemberTeamDonationProto builder];
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self addSolicitations:[subBuilder buildPartial]];
+        [self setClanTeamDonateUuid:[input readString]];
         break;
       }
     }
@@ -18615,28 +18607,20 @@ static VoidTeamDonationSolicitationRequestProto* defaultVoidTeamDonationSolicita
   result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
-- (NSMutableArray *)solicitationsList {
-  return result.mutableSolicitationsList;
+- (BOOL) hasClanTeamDonateUuid {
+  return result.hasClanTeamDonateUuid;
 }
-- (ClanMemberTeamDonationProto*)solicitationsAtIndex:(NSUInteger)index {
-  return [result solicitationsAtIndex:index];
+- (NSString*) clanTeamDonateUuid {
+  return result.clanTeamDonateUuid;
 }
-- (VoidTeamDonationSolicitationRequestProto_Builder *)addSolicitations:(ClanMemberTeamDonationProto*)value {
-  if (result.mutableSolicitationsList == nil) {
-    result.mutableSolicitationsList = [[NSMutableArray alloc]init];
-  }
-  [result.mutableSolicitationsList addObject:value];
+- (VoidTeamDonationSolicitationRequestProto_Builder*) setClanTeamDonateUuid:(NSString*) value {
+  result.hasClanTeamDonateUuid = YES;
+  result.clanTeamDonateUuid = value;
   return self;
 }
-- (VoidTeamDonationSolicitationRequestProto_Builder *)addAllSolicitations:(NSArray *)array {
-  if (result.mutableSolicitationsList == nil) {
-    result.mutableSolicitationsList = [NSMutableArray array];
-  }
-  [result.mutableSolicitationsList addObjectsFromArray:array];
-  return self;
-}
-- (VoidTeamDonationSolicitationRequestProto_Builder *)clearSolicitations {
-  result.mutableSolicitationsList = nil;
+- (VoidTeamDonationSolicitationRequestProto_Builder*) clearClanTeamDonateUuid {
+  result.hasClanTeamDonateUuid = NO;
+  result.clanTeamDonateUuid = @"";
   return self;
 }
 @end
@@ -18644,7 +18628,6 @@ static VoidTeamDonationSolicitationRequestProto* defaultVoidTeamDonationSolicita
 @interface VoidTeamDonationSolicitationResponseProto ()
 @property (strong) MinimumUserProto* sender;
 @property VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatus status;
-@property (strong) NSMutableArray * mutableClanTeamDonateUuidList;
 @end
 
 @implementation VoidTeamDonationSolicitationResponseProto
@@ -18663,8 +18646,6 @@ static VoidTeamDonationSolicitationRequestProto* defaultVoidTeamDonationSolicita
   hasStatus_ = !!value_;
 }
 @synthesize status;
-@synthesize mutableClanTeamDonateUuidList;
-@dynamic clanTeamDonateUuidList;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
@@ -18684,12 +18665,6 @@ static VoidTeamDonationSolicitationResponseProto* defaultVoidTeamDonationSolicit
 - (VoidTeamDonationSolicitationResponseProto*) defaultInstance {
   return defaultVoidTeamDonationSolicitationResponseProtoInstance;
 }
-- (NSArray *)clanTeamDonateUuidList {
-  return mutableClanTeamDonateUuidList;
-}
-- (NSString*)clanTeamDonateUuidAtIndex:(NSUInteger)index {
-  return [mutableClanTeamDonateUuidList objectAtIndex:index];
-}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -18700,9 +18675,6 @@ static VoidTeamDonationSolicitationResponseProto* defaultVoidTeamDonationSolicit
   if (self.hasStatus) {
     [output writeEnum:2 value:self.status];
   }
-  [self.clanTeamDonateUuidList enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
-    [output writeString:3 value:element];
-  }];
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -18717,15 +18689,6 @@ static VoidTeamDonationSolicitationResponseProto* defaultVoidTeamDonationSolicit
   }
   if (self.hasStatus) {
     size_ += computeEnumSize(2, self.status);
-  }
-  {
-    __block SInt32 dataSize = 0;
-    const NSUInteger count = self.clanTeamDonateUuidList.count;
-    [self.clanTeamDonateUuidList enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
-      dataSize += computeStringSizeNoTag(element);
-    }];
-    size_ += dataSize;
-    size_ += (SInt32)(1 * count);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -18771,9 +18734,6 @@ static VoidTeamDonationSolicitationResponseProto* defaultVoidTeamDonationSolicit
   if (self.hasStatus) {
     [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
-  [self.clanTeamDonateUuidList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"clanTeamDonateUuid", obj];
-  }];
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -18789,7 +18749,6 @@ static VoidTeamDonationSolicitationResponseProto* defaultVoidTeamDonationSolicit
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
       self.hasStatus == otherMessage.hasStatus &&
       (!self.hasStatus || self.status == otherMessage.status) &&
-      [self.clanTeamDonateUuidList isEqualToArray:otherMessage.clanTeamDonateUuidList] &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -18800,9 +18759,6 @@ static VoidTeamDonationSolicitationResponseProto* defaultVoidTeamDonationSolicit
   if (self.hasStatus) {
     hashCode = hashCode * 31 + self.status;
   }
-  [self.clanTeamDonateUuidList enumerateObjectsUsingBlock:^(id element, NSUInteger idx, BOOL *stop) {
-    hashCode = hashCode * 31 + [element hash];
-  }];
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
@@ -18861,13 +18817,6 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
   if (other.hasStatus) {
     [self setStatus:other.status];
   }
-  if (other.mutableClanTeamDonateUuidList.count > 0) {
-    if (result.mutableClanTeamDonateUuidList == nil) {
-      result.mutableClanTeamDonateUuidList = [[NSMutableArray alloc] initWithArray:other.mutableClanTeamDonateUuidList];
-    } else {
-      [result.mutableClanTeamDonateUuidList addObjectsFromArray:other.mutableClanTeamDonateUuidList];
-    }
-  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -18905,10 +18854,6 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
         } else {
           [unknownFields mergeVarintField:2 value:value];
         }
-        break;
-      }
-      case 26: {
-        [self addClanTeamDonateUuid:[input readString]];
         break;
       }
     }
@@ -18958,30 +18903,6 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (VoidTeamDonationSolicitationResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatusSuccess;
-  return self;
-}
-- (NSMutableArray *)clanTeamDonateUuidList {
-  return result.mutableClanTeamDonateUuidList;
-}
-- (NSString*)clanTeamDonateUuidAtIndex:(NSUInteger)index {
-  return [result clanTeamDonateUuidAtIndex:index];
-}
-- (VoidTeamDonationSolicitationResponseProto_Builder *)addClanTeamDonateUuid:(NSString*)value {
-  if (result.mutableClanTeamDonateUuidList == nil) {
-    result.mutableClanTeamDonateUuidList = [[NSMutableArray alloc]init];
-  }
-  [result.mutableClanTeamDonateUuidList addObject:value];
-  return self;
-}
-- (VoidTeamDonationSolicitationResponseProto_Builder *)addAllClanTeamDonateUuid:(NSArray *)array {
-  if (result.mutableClanTeamDonateUuidList == nil) {
-    result.mutableClanTeamDonateUuidList = [NSMutableArray array];
-  }
-  [result.mutableClanTeamDonateUuidList addObjectsFromArray:array];
-  return self;
-}
-- (VoidTeamDonationSolicitationResponseProto_Builder *)clearClanTeamDonateUuid {
-  result.mutableClanTeamDonateUuidList = nil;
   return self;
 }
 @end
