@@ -11,7 +11,7 @@
             <rect key="frame" x="0.0" y="0.0" width="175" height="45"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="A8221497-0B84-4F92-BEA4-113876A4E173" id="j48-Ob-rOC">
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="A5D2A96F-EB08-4251-B47D-ECDC47DB748F" id="j48-Ob-rOC">
                     <rect key="frame" x="113" y="10" width="56" height="31"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                 </imageView>
@@ -100,7 +100,7 @@
         </view>
     </objects>
     <resources>
-        <image name="A8221497-0B84-4F92-BEA4-113876A4E173" width="56" height="31">
+        <image name="A5D2A96F-EB08-4251-B47D-ECDC47DB748F" width="56" height="31">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGOzxYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
 GxwgISksLzU4VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA

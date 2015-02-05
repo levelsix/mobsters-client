@@ -19,7 +19,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" id="OH5-WD-A7o">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="50"/>
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="49"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="1 minute ago" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="tug-u5-039" customClass="NiceFontLabel15">
@@ -31,7 +31,7 @@
                                 <size key="shadowOffset" width="0.0" height="1"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Hi" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="XOe-uh-tPm" customClass="NiceFontLabel17">
-                                <rect key="frame" x="56" y="25" width="272" height="18"/>
+                                <rect key="frame" x="56" y="24" width="272" height="18"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                 <color key="textColor" red="0.61176472902297974" green="0.61176472902297974" blue="0.61176472902297974" alpha="1" colorSpace="deviceRGB"/>
@@ -47,7 +47,7 @@
                                 <size key="shadowOffset" width="0.0" height="1"/>
                             </label>
                             <view contentMode="scaleToFill" id="0kA-kT-WMY" customClass="CircleMonsterView">
-                                <rect key="frame" x="16" y="10" width="30" height="30"/>
+                                <rect key="frame" x="16" y="9" width="30" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="nightavatar.png" id="aJd-zL-tAx">
@@ -66,15 +66,15 @@
                                 </connections>
                             </view>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="newchatdot.png" id="kLg-zU-5Bw">
-                                <rect key="frame" x="3" y="19" width="9" height="14"/>
+                                <rect key="frame" x="3" y="18" width="9" height="14"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.5" contentMode="scaleToFill" image="greywhite3.png" id="PpE-4H-RkZ">
-                                <rect key="frame" x="0.0" y="48" width="450" height="2"/>
+                                <rect key="frame" x="0.0" y="48" width="450" height="1"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                             </imageView>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="greyopenarrow.png" id="Pad-aq-EdZ">
-                                <rect key="frame" x="418" y="14" width="30" height="23"/>
+                                <rect key="frame" x="418" y="13" width="30" height="23"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             </imageView>
                         </subviews>
@@ -93,7 +93,7 @@
             </connections>
         </tableViewCell>
         <view contentMode="scaleToFill" id="5E5-X0-20z" userLabel="Background View">
-            <rect key="frame" x="0.0" y="0.0" width="325" height="54"/>
+            <rect key="frame" x="0.0" y="0.0" width="325" height="50"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
             <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="deviceRGB"/>
             <nil key="simulatedStatusBarMetrics"/>

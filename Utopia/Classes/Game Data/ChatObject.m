@@ -222,19 +222,7 @@
 }
 
 - (NSString *) message {
-  if ([self userIsAttacker]) {
-    if (self.attackerWon) {
-      return @"I won =)";
-    } else {
-      return @"I lost =(";
-    }
-  } else {
-    if (self.attackerWon) {
-      return @"Defeated you in battle";
-    } else {
-      return @"Lost to you in battle";
-    }
-  }
+  return [NSString stringWithFormat:@"Your %@ %@",self.userIsAttacker ? @"Offense" : @"Defense", self.userWon ? @"Won" : @"Lost" ];
 }
 
 - (MSDate *) date {
@@ -257,12 +245,12 @@
     v = [[NSBundle mainBundle] loadNibNamed:nibName owner:self options:nil][0];
   }
   
-  [chatCell updateForMessage:self.message sender:self.sender date:self.date showsClanTag:showsClanTag allowHighlight:YES chatSubview:v identifier:nibName];
-  //[chatCell updateBubbleImagesWithPrefix:!self.userWon ? @"pink" : @"green"];
-  
+  [chatCell updateForMessage:self.message sender:self.sender date:self.date showsClanTag:showsClanTag allowHighlight:NO chatSubview:v identifier:nibName];
+  [chatCell updateBubbleImagesWithPrefix:!self.userWon ? @"red" : @"green"];
   [v updateForPvpHistoryProto:self];
   
   chatCell.msgLabel.textColor = !self.userWon ? [UIColor colorWithHexString:@"BA0010"] : [UIColor colorWithHexString:@"3E7D16"];
+  chatCell.timeLabel.textColor = !self.userWon ? [UIColor colorWithHexString:@"BA0010"] : [UIColor colorWithHexString:@"3E7D16"];
   chatCell.msgLabel.highlightedTextColor = chatCell.msgLabel.textColor;
 }
 

@@ -13,6 +13,22 @@
 #import "ClanHelp.h"
 #import "GameViewController.h"
 
+#define GREY_CHECK @"greycheck.png"
+#define GREEN_CHECK @"greencheck.png"
+
+#define RED_BG_COLOR @"FFDCD9"
+#define GREEN_BG_COLOR @"E6F5C7"
+
+#define RED_DIVIDE @"messagereddivider.png"
+#define GREEN_DIVIDE @"messagegreendivider.png"
+
+#define RED_CHAT_DIVIDER @"redchatdivider.png"
+#define GREEN_CHAT_DIVIDER @"greenchatdivider.png"
+
+#define GREEN @"3E7D16"
+#define RED @"BA0010"
+#define GREY @"434343"
+
 @implementation ChatCell
 
 static float buttonInitialWidth = 159.f;
@@ -193,10 +209,50 @@ static float buttonInitialWidth = 159.f;
   [super updateForPrivateChat:privateChat];
   
   PvpHistoryProto *php = (PvpHistoryProto*)privateChat;
-  self.msgLabel.text = [NSString stringWithFormat:@"Your %@ %@",php.userIsAttacker ? @"Offense" : @"Defence", php.userWon ? @"Won" : @"Lost" ];
+  self.msgLabel.text = [NSString stringWithFormat:@"Your %@ %@",php.userIsAttacker ? @"Offense" : @"Defense", php.userWon ? @"Won" : @"Lost" ];
+  self.msgLabel.textColor = php.userWon ? [UIColor colorWithHexString:GREEN] : [UIColor colorWithHexString:RED];
+  self.timeLabel.textColor = php.userWon ? [UIColor colorWithHexString:GREEN] : [UIColor colorWithHexString:RED];
+  int oilChange = php.userIsAttacker ? php.attackerOilChange : php.defenderOilChange;
+  int cashChange = php.userIsAttacker ? php.attackerCashChange : php.defenderCashChange;
+  if (oilChange == 0 && cashChange == 0) {
+    self.oilLabel.superview.hidden = YES;
+    self.cashLabel.superview.hidden = YES;
+  } else {
+    self.oilLabel.superview.hidden = NO;
+    self.cashLabel.superview.hidden = NO;
+  }
   
-  self.oilLabel.text = [NSString stringWithFormat:@"%d", php.attackerOilChange];
-  self.cashLabel.text = [NSString stringWithFormat:@"%d", php.attackerCashChange];
+  self.oilLabel.text = [NSString stringWithFormat:@"%d", oilChange];
+  self.cashLabel.text = [NSString stringWithFormat:@"%d", cashChange];
+  
+  self.revengeCheck.hidden = !php.exactedRevenge;
+  self.avengedCheck.hidden = !php.clanAvenged;
+  
+  Globals *gl = [Globals sharedGlobals];
+  int mins = gl.requestClanToAvengeTimeLimitMins;
+  float secs = php.battleEndTime/1000.+mins*60;
+  secs = [MSDate dateWithTimeIntervalSince1970:secs].timeIntervalSinceNow;
+  
+  if (secs <= 0) {
+    self.avengedLabel.textColor = [UIColor colorWithHexString:GREY];
+    self.avengedCheck.image = [Globals imageNamed:GREY_CHECK];
+  } else {
+    self.avengedLabel.textColor = [UIColor colorWithHexString:GREEN];
+    self.avengedCheck.image = [Globals imageNamed:GREY_CHECK];
+  }
+  
+  if(php.userWon) {
+    UIColor *BGColor = [UIColor colorWithHexString:GREEN_BG_COLOR];
+    self.selectedSubViewBackGround.backgroundColor = BGColor;
+    self.avengedCheck.superview.backgroundColor = [BGColor colorWithAlphaComponent:0.6f];
+    self.chatDivider.image = [Globals imageNamed:GREEN_DIVIDE];
+  } else {
+    UIColor *BGColor = [UIColor colorWithHexString:RED_BG_COLOR];
+    self.selectedSubViewBackGround.backgroundColor = BGColor;
+    self.avengedCheck.superview.backgroundColor = [BGColor colorWithAlphaComponent:0.6f];
+    self.chatDivider.image = [Globals imageNamed:RED_DIVIDE];
+  }
+  
 }
 
 @end
@@ -276,6 +332,7 @@ static float buttonInitialWidth = 159.f;
 - (void) updateForPvpHistoryProto:(PvpHistoryProto *)pvp {
   self.topDivider.highlighted = !pvp.userWon;
   self.botDivider.highlighted = !pvp.userWon;
+  self.dividerLine.image = pvp.userWon ? [Globals imageNamed:GREEN_CHAT_DIVIDER] : [Globals imageNamed:RED_CHAT_DIVIDER];
   
 //  NSArray *monsters;
 //  
@@ -304,8 +361,30 @@ static float buttonInitialWidth = 159.f;
 //    [cmv updateForMinMonster:um];
 //  }
   
+  //setup if the button or the check mark is showing and what colors the text and checkmarks are
+  
   self.avengeButton.superview.hidden = [pvp userIsAttacker] || pvp.clanAvenged;
+  self.avengeCheck.superview.hidden = !self.avengeButton.superview.hidden;
+  self.avengeCheck.hidden = !pvp.clanAvenged;
+  
   self.revengeButton.superview.hidden = [pvp userIsAttacker] || pvp.exactedRevenge;
+  self.revengeCheck.superview.hidden = !self.revengeButton.superview.hidden;
+  self.revengeCheck.hidden = !pvp.exactedRevenge;
+  
+  if( [pvp userIsAttacker]) {
+    self.revengeCheck.image = [Globals imageNamed:GREY_CHECK];
+    self.avengeCheck.image = [Globals imageNamed:GREY_CHECK];
+    //textColors
+    UIColor *grey = [UIColor colorWithHexString:GREY];
+    self.revengedLabel.textColor = grey;
+    self.avengedLabel.textColor = grey;
+  } else {
+    self.revengeCheck.image = [Globals imageNamed:GREEN_CHECK];
+    self.avengeCheck.image = [Globals imageNamed:GREEN_CHECK];
+    //textcolors
+    self.revengedLabel.textColor = [UIColor colorWithHexString:RED];
+    self.avengedLabel.textColor = [UIColor colorWithHexString:GREEN];
+  }
   
   if (!self.avengeButton.superview.hidden && self.revengeButton.superview.hidden) {
     self.avengeButton.superview.frame = self.revengeButton.superview.frame;
@@ -398,6 +477,8 @@ static float buttonInitialWidth = 159.f;
     self.avengeTimeLabel.text = [[Globals convertTimeToShortString:secs] uppercaseString];
   } else {
     self.avengeTimeLabel.superview.hidden = YES;
+    self.avengeCheck.superview.hidden = NO;
+    self.avengedLabel.textColor = [UIColor colorWithHexString:GREY];
   }
 }
 

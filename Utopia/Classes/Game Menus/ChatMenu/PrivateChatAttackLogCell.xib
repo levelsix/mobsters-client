@@ -11,7 +11,7 @@
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PrivateChatListCell" id="ZWf-cN-b6P" customClass="PrivateChatAttackLogCell">
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PrivateChatAttackLogCell" id="ZWf-cN-b6P" customClass="PrivateChatAttackLogCell">
             <rect key="frame" x="0.0" y="0.0" width="450" height="50"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ZWf-cN-b6P" id="NvJ-Kn-Cvd">
@@ -19,11 +19,11 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" id="Rqp-Ih-Lgh">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="50"/>
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="49"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="1 minute ago" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="Vzd-1Q-Ey9" customClass="NiceFontLabel15">
-                                <rect key="frame" x="312" y="3" width="100" height="21"/>
+                                <rect key="frame" x="310" y="7" width="100" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                 <color key="textColor" white="0.73389028280000002" alpha="1" colorSpace="calibratedWhite"/>
@@ -31,7 +31,7 @@
                                 <size key="shadowOffset" width="0.0" height="1"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Hi" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="N0e-zA-e6L" customClass="NiceFontLabel17">
-                                <rect key="frame" x="56" y="25" width="272" height="18"/>
+                                <rect key="frame" x="56" y="24" width="272" height="18"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                 <color key="textColor" red="0.61176472900000001" green="0.61176472900000001" blue="0.61176472900000001" alpha="1" colorSpace="deviceRGB"/>
@@ -69,101 +69,124 @@
                                 <rect key="frame" x="3" y="19" width="9" height="14"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.5" contentMode="scaleToFill" image="greywhite3.png" id="LhA-fs-ODv">
-                                <rect key="frame" x="0.0" y="48" width="450" height="2"/>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.5" contentMode="scaleToFill" image="messagegreendivider.png" id="LhA-fs-ODv">
+                                <rect key="frame" x="0.0" y="48" width="450" height="1"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                             </imageView>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="greyopenarrow.png" id="ac9-uD-xaX">
                                 <rect key="frame" x="418" y="14" width="30" height="23"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="moneystack.png" id="vbJ-Kd-Xgi">
-                                <rect key="frame" x="124" y="8" width="31" height="20"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                            </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1,234" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="BWR-4S-7Qm">
-                                <rect key="frame" x="118" y="25" width="42" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                <color key="textColor" red="0.30980392156862746" green="0.57647058823529407" blue="0.16862745098039217" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="oilicon.png" id="KcM-gV-9Uu">
-                                <rect key="frame" x="169" y="8" width="25" height="20"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                            </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1,234" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="8hk-tK-44P">
-                                <rect key="frame" x="160" y="25" width="42" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                <color key="textColor" red="0.8784313725490196" green="0.40392156862745099" blue="0.14117647058823529" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="REVENGED" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="pYO-89-hG9">
-                                <rect key="frame" x="350" y="25" width="60" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                <color key="textColor" red="0.90196078431372551" green="0.1803921568627451" blue="0.14509803921568629" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="revengecheckbox.png" id="n37-Y4-fmE">
-                                <rect key="frame" x="340" y="30" width="10" height="11"/>
+                                <rect key="frame" x="337" y="30" width="10" height="11"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="greencheck.png" id="BlC-q9-1ph">
-                                <rect key="frame" x="340" y="27" width="17" height="15"/>
+                                <rect key="frame" x="335" y="27" width="17" height="15"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AVENGED" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="yeB-3X-PIN">
-                                <rect key="frame" x="270" y="25" width="62" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                <color key="textColor" red="0.22352941176470589" green="0.52156862745098043" blue="0.078431372549019607" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="revengecheckbox.png" id="ikn-SR-xKa">
-                                <rect key="frame" x="269" y="30" width="10" height="12"/>
+                                <rect key="frame" x="267" y="30" width="10" height="12"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="greencheck.png" id="I8d-5h-fCE">
-                                <rect key="frame" x="266" y="27" width="17" height="15"/>
+                                <rect key="frame" x="265" y="27" width="17" height="15"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
+                            <view contentMode="scaleToFill" id="sJI-HR-BxN" userLabel="CashView">
+                                <rect key="frame" x="151" y="1" width="59" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="moneystack.png" id="vbJ-Kd-Xgi">
+                                        <rect key="frame" x="14" y="10" width="31" height="14"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1,234" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="BWR-4S-7Qm" customClass="NiceFontLabel10">
+                                        <rect key="frame" x="8" y="23" width="42" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                        <color key="textColor" red="0.30980392156862746" green="0.57647058823529407" blue="0.16862745098039217" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="deviceRGB"/>
+                            </view>
+                            <view contentMode="scaleToFill" id="nwg-cO-uH7" userLabel="OilView">
+                                <rect key="frame" x="193" y="1" width="59" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="oilicon.png" id="KcM-gV-9Uu">
+                                        <rect key="frame" x="17" y="10" width="25" height="14"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1,234" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="8hk-tK-44P" customClass="NiceFontLabel10">
+                                        <rect key="frame" x="8" y="23" width="42" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                        <color key="textColor" red="0.8784313725490196" green="0.40392156862745099" blue="0.14117647058823529" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="deviceRGB"/>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="REVENGED" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="pYO-89-hG9" customClass="NiceFontLabel12">
+                                <rect key="frame" x="349" y="24" width="60" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                                <color key="textColor" red="0.90196078431372551" green="0.1803921568627451" blue="0.14509803921568629" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AVENGED" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="yeB-3X-PIN" customClass="NiceFontLabel12">
+                                <rect key="frame" x="267" y="24" width="62" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                                <color key="textColor" red="0.22352941176470589" green="0.52156862745098043" blue="0.078431372549019607" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.90196078431372551" green="0.96078431372549022" blue="0.7803921568627451" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                 </subviews>
             </tableViewCellContentView>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
             <connections>
                 <outlet property="avengedCheck" destination="I8d-5h-fCE" id="2ZM-fR-PQd"/>
                 <outlet property="avengedLabel" destination="yeB-3X-PIN" id="GsL-fV-wNI"/>
                 <outlet property="cashLabel" destination="BWR-4S-7Qm" id="bY9-Bu-hku"/>
+                <outlet property="chatDivider" destination="LhA-fs-ODv" id="kRs-jF-gBQ"/>
                 <outlet property="monsterView" destination="UmL-Z3-u7s" id="0Yi-kE-gWR"/>
                 <outlet property="msgLabel" destination="N0e-zA-e6L" id="NNN-dB-ceE"/>
                 <outlet property="nameLabel" destination="OrL-No-U96" id="Pso-cJ-D0d"/>
                 <outlet property="oilLabel" destination="8hk-tK-44P" id="zHt-TP-OQ0"/>
                 <outlet property="revengeCheck" destination="BlC-q9-1ph" id="ueJ-1i-eux"/>
                 <outlet property="revengedLabel" destination="pYO-89-hG9" id="2Gq-h2-3fk"/>
-                <outlet property="selectedBackgroundView" destination="qLY-Py-622" id="Li7-AB-svO"/>
+                <outlet property="selectedBackgroundView" destination="qLY-Py-622" id="XHv-BV-O5U"/>
+                <outlet property="selectedSubViewBackGround" destination="2Qa-FJ-HDE" id="GdV-J1-4yR"/>
                 <outlet property="timeLabel" destination="Vzd-1Q-Ey9" id="TQG-Zo-VdX"/>
                 <outlet property="unreadIcon" destination="pUe-Lc-o4v" id="XnL-4F-r85"/>
             </connections>
             <point key="canvasLocation" x="296" y="250"/>
         </tableViewCell>
         <view contentMode="scaleToFill" id="qLY-Py-622" userLabel="Background View">
-            <rect key="frame" x="0.0" y="0.0" width="325" height="54"/>
+            <rect key="frame" x="0.0" y="0.0" width="325" height="50"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
-            <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="deviceRGB"/>
+            <subviews>
+                <view contentMode="scaleToFill" id="2Qa-FJ-HDE">
+                    <rect key="frame" x="0.0" y="1" width="325" height="48"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <color key="backgroundColor" red="0.74010587993421051" green="0.74668482730263153" blue="0.74010587993421051" alpha="1" colorSpace="calibratedRGB"/>
+                </view>
+            </subviews>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="233.5" y="352"/>
+            <point key="canvasLocation" x="248.5" y="404"/>
         </view>
     </objects>
     <resources>
         <image name="greencheck.png" width="17" height="15"/>
         <image name="greyopenarrow.png" width="10" height="16"/>
-        <image name="greywhite3.png" width="2" height="2"/>
+        <image name="messagegreendivider.png" width="1" height="1"/>
         <image name="moneystack.png" width="31" height="30"/>
         <image name="newchatdot.png" width="6" height="6"/>
         <image name="nightavatar.png" width="30" height="30"/>
