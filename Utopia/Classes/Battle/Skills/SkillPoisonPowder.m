@@ -19,7 +19,7 @@
 {
   [super setDefaultValues];
   _damage = 10;
-  _percent = .1;
+  _percent = 0;
   _isPoisoned = false;
   _wasPoisoned = false;
 }

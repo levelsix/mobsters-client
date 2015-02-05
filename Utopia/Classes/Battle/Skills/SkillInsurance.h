@@ -11,8 +11,9 @@
 @interface SkillInsurance : SkillControllerActive
 {
   float _damageTakenMultiplier;
+  int _duration;
   
-  BOOL _skillActive;
+  int _turnsLeft;
 }
 
 @end
