@@ -55,6 +55,7 @@ typedef NS_ENUM(SInt32, SkillType) {
   SkillTypeHellFire = 28,
   SkillTypeEnergize = 29,
 <<<<<<< HEAD
+<<<<<<< HEAD
   SkillTypeRightHook = 30,
 <<<<<<< HEAD
   SkillTypeCurse = 31,
@@ -87,7 +88,13 @@ typedef NS_ENUM(SInt32, SkillType) {
 =======
 =======
 >>>>>>> created monster select popover
+<<<<<<< HEAD
 >>>>>>> created monster select popover
+=======
+=======
+  SkillTypeRightHook = 30,
+>>>>>>> done with clan monster in pvp/pve
+>>>>>>> done with clan monster in pvp/pve
 };
 
 BOOL SkillTypeIsValidValue(SkillType value);

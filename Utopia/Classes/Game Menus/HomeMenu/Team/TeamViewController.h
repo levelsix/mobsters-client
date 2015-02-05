@@ -30,7 +30,7 @@
 @property (nonatomic, retain) IBOutlet MiniMonsterView *monsterView;
 @property (nonatomic, retain) IBOutlet UILabel *topLabel;
 @property (nonatomic, retain) IBOutlet UILabel *botLabel;
-@property (nonatomic, retain) IBOutlet UIView *toonDetailsView;
+@property (nonatomic, retain) IBOutlet UIButton *toonDetailsView;
 @property (nonatomic, retain) IBOutlet SplitImageProgressBar *healthBar;
 @property (nonatomic, retain) IBOutlet UILabel *healthLabel;
 @property (nonatomic, retain) IBOutlet UILabel *slotNumLabel;
@@ -77,6 +77,8 @@
 @property (nonatomic, strong) IBOutletCollection(UIView) NSArray *teamSlotViews;
 
 @property (nonatomic, retain) NSArray *userMonsters;
+
+@property (nonatomic, retain) DonateMsgViewController *donateMsgViewController;
 
 @property (nonatomic, retain) ItemSelectViewController *itemSelectViewController;
 @property (nonatomic, retain) SpeedupItemsFiller *speedupItemsFiller;

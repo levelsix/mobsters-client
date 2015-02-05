@@ -159,6 +159,7 @@
   [center addObserver:self selector:@selector(reloadChatViewAnimated) name:NEW_FB_INVITE_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(reloadChatViewAnimated) name:FB_INVITE_RESPONDED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(reloadChatViewAnimated) name:CLAN_AVENGINGS_CHANGED_NOTIFICATION object:nil];
+  [center addObserver:self selector:@selector(reloadChatViewAnimated) name:CLAN_TEAM_DONATIONS_CHANGED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(reloadChatViewAnimated) name:NEW_BATTLE_HISTORY_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(updateClanChatBadge) name:CLAN_CHAT_VIEWED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(privateChatViewed) name:PRIVATE_CHAT_VIEWED_NOTIFICATION object:nil];
@@ -697,7 +698,7 @@
 - (IBAction)profileClicked:(id)sender {
   GameState *gs = [GameState sharedGameState];
   GameViewController *gvc = (GameViewController *)self.parentViewController;
-  ProfileViewController *pvc = [[ProfileViewController alloc] initWithFullUserProto:[gs convertToFullUserProto] andCurrentTeam:[gs allMonstersOnMyTeam]];
+  ProfileViewController *pvc = [[ProfileViewController alloc] initWithFullUserProto:[gs convertToFullUserProto] andCurrentTeam:[gs allMonstersOnMyTeamWithClanSlot:NO]];
   [gvc addChildViewController:pvc];
   pvc.view.frame = gvc.view.bounds;
   [gvc.view addSubview:pvc.view];

@@ -347,6 +347,14 @@
     maxStat1 = max.maxHelpersPerSolicitation;
     
     statName1 = @"Help Limit:";
+    
+    requiresTwoBars = YES;
+    
+    curStat2 = cur.teamDonationPowerLimit;
+    newStat2 = next.teamDonationPowerLimit;
+    maxStat2 = max.teamDonationPowerLimit;
+    
+    statName2 = @"Donate Pwr:";
   } else if (structType == StructureInfoProto_StructTypeEvo) {
     EvoChamberProto *cur = (EvoChamberProto *)curSS;
     EvoChamberProto *next = (EvoChamberProto *)nextSS;

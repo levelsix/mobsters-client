@@ -59,7 +59,7 @@
         if (_orbsSpawned == 0)
         {
           [self performAfterDelay:.5f block:^{
-            [self spawnHeadshotOrbs:_numOrbsToSpawn withTarget:self andSelector:@selector(skillTriggerFinished)];
+            [self spawnHeadshotOrbs:_numOrbsToSpawn isInitialSkill:!self.belongsToPlayer withTarget:self andSelector:@selector(skillTriggerFinished)];
           }];
         }
         else
@@ -78,7 +78,7 @@
       {
         // Spawn some more orbs if all have been matched and removed
         [self performAfterDelay:.5f block:^{
-          [self spawnHeadshotOrbs:_numOrbsToSpawn withTarget:self andSelector:@selector(skillTriggerFinished)];
+          [self spawnHeadshotOrbs:_numOrbsToSpawn isInitialSkill:NO withTarget:self andSelector:@selector(skillTriggerFinished)];
         }];
       }
       else
@@ -253,7 +253,7 @@
   if (self.belongsToPlayer && self.enemy.curHealth != 0.f)
   {
     [self performAfterDelay:.5f block:^{
-      [self spawnHeadshotOrbs:_numOrbsToSpawn withTarget:self andSelector:@selector(skillTriggerFinished)];
+      [self spawnHeadshotOrbs:_numOrbsToSpawn isInitialSkill:NO withTarget:self andSelector:@selector(skillTriggerFinished)];
     }];
   }
   else
@@ -281,14 +281,14 @@
                          nil]];
 }
 
-- (void) spawnHeadshotOrbs:(NSInteger)count withTarget:(id)target andSelector:(SEL)selector
+- (void) spawnHeadshotOrbs:(NSInteger)count isInitialSkill:(BOOL)isInitialSkill withTarget:(id)target andSelector:(SEL)selector
 {
   [self preseedRandomization];
   
   for (NSInteger n = 0; n < count; ++n)
   {
     BattleOrbLayout* layout = self.battleLayer.orbLayer.layout;
-    BattleOrb* orb = [layout findOrbWithColorPreference:self.orbColor];
+    BattleOrb* orb = [layout findOrbWithColorPreference:self.orbColor isInitialSkill:isInitialSkill];
     
     // Nothing found (just in case), continue and perform selector if the last headshot orb
     if (!orb)

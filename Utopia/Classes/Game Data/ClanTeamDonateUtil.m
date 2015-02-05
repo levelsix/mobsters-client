@@ -22,6 +22,15 @@
   return self.donationsList.count ? [UserMonster userMonsterWithMonsterSnapshotProto:self.donationsList.firstObject] : nil;
 }
 
+- (MSDate *) fulfilledDate
+{
+  UserMonsterSnapshotProto *snap = [self.donationsList firstObject];
+  if (snap) {
+    return [MSDate dateWithTimeIntervalSince1970:snap.timeOfCreation/1000.];
+  }
+  return nil;
+}
+
 #pragma mark - ChatObject protocol
 
 - (MinimumUserProto *) sender {
@@ -52,7 +61,8 @@
 }
 
 - (BOOL) isRead {
-  return [[self clanChatPrivateChat] isRead];
+  GameState *gs = [GameState sharedGameState];
+  return self.isFulfilled || [self.solicitor.userUuid isEqualToString:gs.userUuid] || [[self clanChatPrivateChat] isRead];
 }
 
 - (void) markAsRead {
@@ -107,6 +117,8 @@
     self.teamDonations = [NSMutableArray array];
   }
   
+  BOOL scheduleDelayedNotification = NO;
+  
   GameState *gs = [GameState sharedGameState];
   for (ClanMemberTeamDonationProto *td in teamDonations) {
     // Remove from current list
@@ -118,6 +130,10 @@
     }
     [self.teamDonations removeObject:old];
     
+    if (old && !old.isFulfilled && td.isFulfilled) {
+      scheduleDelayedNotification = YES;
+    }
+    
     [self.teamDonations addObject:td];
     
     if ([td.solicitor.userUuid isEqualToString:gs.userUuid]) {
@@ -125,6 +141,14 @@
     }
   }
   
+  [[NSNotificationCenter defaultCenter] postNotificationName:CLAN_TEAM_DONATIONS_CHANGED_NOTIFICATION object:nil];
+  
+  if (scheduleDelayedNotification) {
+    [self performSelector:@selector(postNotification) withObject:nil afterDelay:6.f];
+  }
+}
+
+- (void) postNotification {
   [[NSNotificationCenter defaultCenter] postNotificationName:CLAN_TEAM_DONATIONS_CHANGED_NOTIFICATION object:nil];
 }
 

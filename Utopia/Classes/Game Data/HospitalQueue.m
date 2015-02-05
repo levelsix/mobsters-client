@@ -171,6 +171,8 @@
   Globals *gl = [Globals sharedGlobals];
   if (self.queueEndTime.timeIntervalSinceNow > gl.maxMinutesForFreeSpeedUp*60) {
     self.hasShownFreeHealingQueueSpeedup = NO;
+  } else {
+    self.hasShownFreeHealingQueueSpeedup = YES;
   }
   
   [QuestUtil checkAllDonateQuests];

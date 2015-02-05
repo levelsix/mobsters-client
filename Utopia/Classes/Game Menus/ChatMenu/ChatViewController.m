@@ -81,6 +81,8 @@
   self.privateChatView.topLiveHelpView = self.topLiveHelpView;
   [self.globalChatView.superview addSubview:self.privateChatView];
   
+  // So that it doesn't mark it as viewed
+  self.clanChatView.hidden = YES;
   [self updateClanBadge];
   
   [self.view addSubview:self.popoverView];
@@ -486,13 +488,26 @@
 }
 
 - (void) monsterChosen {
-  NSLog(@"Abcd");
-//  self.donateSpinner.hidden = NO;
-//  [self.donateSpinner startAnimating];
-//  
-//  self.donateLabel.hidden = YES;
-//  
-//  self.donateButton.userInteractionEnabled = NO;
+  ClanMemberTeamDonationProto *donation = self.teamDonateMonstersFiller.donation;
+  
+  // Find the donation in chat views list
+  NSInteger idx = [self.clanChatView.chats indexOfObject:donation];
+  if (idx != NSNotFound) {
+    ChatCell *cell = (ChatCell *)[self.clanChatView.chatTable cellForRowAtIndexPath:[NSIndexPath indexPathForRow:idx inSection:0]];
+    
+    if (cell) {
+      if ([cell.currentChatSubview isKindOfClass:[ChatTeamDonateView class]]) {
+        ChatTeamDonateView *donateView = (ChatTeamDonateView *)cell.currentChatSubview;
+        
+        donateView.donateSpinner.hidden = NO;
+        [donateView.donateSpinner startAnimating];
+        
+        donateView.donateLabel.hidden = YES;
+        
+        donateView.donateButton.userInteractionEnabled = NO;
+      }
+    }
+  }
 }
 
 - (void) monsterSelectClosed {

@@ -37,6 +37,8 @@
 @property (nonatomic, assign) int offensiveSkillId;
 @property (nonatomic, assign) int defensiveSkillId;
 
+@property (nonatomic, assign) BOOL isClanMonster;
+
 + (id) userMonsterWithProto:(FullUserMonsterProto *)proto;
 + (id) userMonsterWithMinProto:(MinimumUserMonsterProto *)proto;
 + (id) userMonsterWithTaskStageMonsterProto:(TaskStageMonsterProto *)proto;
@@ -268,7 +270,7 @@ typedef enum {
 + (NSArray *) createRewardsForDungeon:(BeginDungeonResponseProto *)proto tillStage:(int)stageNum droplessStageNums:(NSArray *)droplessStageNums;
 + (NSArray *) createRewardsForQuest:(FullQuestProto *)quest;
 + (NSArray *) createRewardsForMiniJob:(MiniJobProto *)miniJob;
-+ (NSArray *) createRewardsForPvpProto:(PvpProto *)pvp droplessStageNums:(NSArray *)droplessStageNums;
++ (NSArray *) createRewardsForPvpProto:(PvpProto *)pvp droplessStageNums:(NSArray *)droplessStageNums isWin:(BOOL)isWin;
 
 - (id) initWithMonsterId:(int)monsterId isPuzzlePiece:(BOOL)isPuzzlePiece;
 - (id) initWithItemId:(int)itemId quantity:(int)quantity;

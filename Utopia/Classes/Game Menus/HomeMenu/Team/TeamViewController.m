@@ -52,6 +52,8 @@
 }
 
 - (void) updateLeftViewForUserMonster:(UserMonster *)um {
+  Globals *gl = [Globals sharedGlobals];
+  
   if (!um) {
     self.notEmptyView.alpha = 0.f;
     self.emptyView.hidden = NO;
@@ -59,6 +61,9 @@
     self.notEmptyView.alpha = 1.f;
     self.monsterView.alpha = [um isAvailable] ? 1.f : 0.6f;
     self.emptyView.hidden = ![um isAvailable];
+    
+    self.healthBar.percentage = um.curHealth/(float)[gl calculateMaxHealthForMonster:um];
+    self.healthLabel.text = [NSString stringWithFormat:@"%@/%@", [Globals commafyNumber:um.curHealth], [Globals commafyNumber:[gl calculateMaxHealthForMonster:um]]];
     
     [self.monsterView updateForMonsterId:um.monsterId greyscale:um.curHealth <= 0];
     self.unavailableBorder.hidden = [um isAvailable];
@@ -81,7 +86,6 @@
 
 - (void) updateRightViewForUserMonster:(UserMonster *)um {
   GameState *gs = [GameState sharedGameState];
-  Globals *gl = [Globals sharedGlobals];
   if (!um) {
     self.botLabel.hidden = NO;
     self.toonDetailsView.hidden = YES;
@@ -97,17 +101,6 @@
     [attr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:48/255.f green:124/255.f blue:238/255.f alpha:1.f] range:NSMakeRange(p1.length, p2.length)];
     self.topLabel.highlighted = NO;
     self.topLabel.attributedText = attr;
-    
-    if (![um isAvailable]) {
-      self.botLabel.hidden = NO;
-      self.toonDetailsView.hidden = YES;
-    } else {
-      self.healthBar.percentage = um.curHealth/(float)[gl calculateMaxHealthForMonster:um];
-      self.healthLabel.text = [NSString stringWithFormat:@"%@/%@", [Globals commafyNumber:um.curHealth], [Globals commafyNumber:[gl calculateMaxHealthForMonster:um]]];
-      
-      self.botLabel.hidden = YES;
-      self.toonDetailsView.hidden = NO;
-    }
   }
 }
 
@@ -116,12 +109,18 @@
   [self updateRightViewForUserMonster:um];
 }
 
-- (void) updateForClanUserMonster:(UserMonster *)um {
+- (void) updateForClanUserMonster:(UserMonster *)um username:(NSString *)name {
   [self updateLeftViewForUserMonster:um];
   [self updateRightViewForUserMonster:um];
   
   if (!um) {
     self.rightView.hidden = YES;
+  } else {
+    self.tapToAddLabel.text = [NSString stringWithFormat:@"From: %@", name];
+    [self.toonDetailsView setTitle:nil forState:UIControlStateNormal];
+    
+    self.tapToAddLabel.hidden = NO;
+    self.rightView.hidden = NO;
   }
 }
 
@@ -161,7 +160,6 @@
   if (_showsClanDonateToonView) {
     [[[self.teamSlotViews firstObject] superview] addSubview:self.clanRequestView];
     [self.clanRequestSlotView.superview sendSubviewToBack:self.clanRequestSlotView];
-    [self.clanRequestSlotView.minusButton removeFromSuperview];
   } else {
     [self.clanRequestView removeFromSuperview];
   }
@@ -180,10 +178,14 @@
   [self updateTeamSlotViews:NO animated:NO];
   
   [self reloadTitleView];
+  
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTeamSlotViews) name:MY_CLAN_TEAM_DONATION_CHANGED_NOTIFICATION object:nil];
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
   [super viewWillDisappear:animated];
+  
+  [self.donateMsgViewController close];
   
   [[NSNotificationCenter defaultCenter] removeObserver:self];
   
@@ -212,10 +214,8 @@
   
   ClanMemberTeamDonationProto *myTeamDonation = [gs.clanTeamDonateUtil myTeamDonation];
   if (myTeamDonation.isFulfilled) {
-    [self.clanRequestSlotView updateForClanUserMonster:myTeamDonation.donatedMonster];
-    
-    self.speedupButtonView.hidden = NO;
-    self.requestButtonView.hidden = NO;
+    self.speedupButtonView.hidden = YES;
+    self.requestButtonView.hidden = YES;
   } else {
     int timeLeft = [gs.lastTeamDonateSolicitationTime dateByAddingTimeInterval:gl.minsToResolicitTeamDonation*60].timeIntervalSinceNow;
     if (timeLeft > 0) {
@@ -239,7 +239,7 @@
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
-  NSString *str = [NSString stringWithFormat:@"TEAM (%d/%d POWER)", [gl calculateTeamCostForTeam:gs.allBattleAvailableAliveMonstersOnTeam], gs.maxTeamCost];
+  NSString *str = [NSString stringWithFormat:@"TEAM (%d/%d POWER)", [gl calculateTeamCostForTeam:[gs allBattleAvailableAliveMonstersOnTeamWithClanSlot:NO]], gs.maxTeamCost];
   self.title = str;
 }
 
@@ -259,7 +259,7 @@
     if (!um && (!foundAvailSlot || nextSlot > slot.tag || _clickedSlot == slot.tag)) {
       nextSlot = (int)slot.tag;
       foundAvailSlot = YES;
-    } else if (!foundAvailSlot && ![um isAvailable] && nextSlot > slot.tag) {
+    } else if (!foundAvailSlot && (![um isAvailable] || um.curHealth <= 0) && nextSlot > slot.tag) {
       nextSlot = (int)slot.tag;
     }
   }
@@ -273,6 +273,7 @@
       [slot updateForUserMonster:um];
       
       slot.tapToAddLabel.hidden = slot.tag != nextSlot;
+      slot.toonDetailsView.hidden = !slot.tapToAddLabel.hidden;
     }
   }
   
@@ -294,7 +295,17 @@
       }
     }];
     
+    GameState *gs = [GameState sharedGameState];
+    ClanMemberTeamDonationProto *donation = [gs.clanTeamDonateUtil myTeamDonation];
+    UserMonsterSnapshotProto *snap = [donation.donationsList firstObject];
+    [self.clanRequestSlotView updateForClanUserMonster:donation.donatedMonster username:snap.user.name];
     
+    if (animated) {
+      CATransition *animation = [CATransition animation];
+      animation.type = kCATransitionFade;
+      animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+      [self.clanRequestView.layer addAnimation:animation forKey:@"fade"];
+    }
   }
   
   return wasOpen;
@@ -315,8 +326,8 @@
   return gs.maxInventorySlots;
 }
 
-- (void) openInfoForUserMonster:(UserMonster *)um {
-  MonsterPopUpViewController *mpvc = [[MonsterPopUpViewController alloc] initWithMonsterProto:um allowSell:YES];
+- (void) openInfoForUserMonster:(UserMonster *)um allowSell:(BOOL)allowSell {
+  MonsterPopUpViewController *mpvc = [[MonsterPopUpViewController alloc] initWithMonsterProto:um allowSell:allowSell];
   UIViewController *parent = [GameViewController baseController];
   mpvc.view.frame = parent.view.bounds;
   [parent.view addSubview:mpvc.view];
@@ -394,7 +405,7 @@
   
   if ([um isAvailable] && um.curHealth > 0 && lowEnoughCost) {
     BOOL success = [[OutgoingEventController sharedOutgoingEventController] addMonsterToTeam:um.userMonsterUuid preferableSlot:_clickedSlot];
-    _openedSlot = [gs allBattleAvailableAliveMonstersOnTeam].count >= gl.maxTeamSize ? um.teamSlot : 0;
+    _openedSlot = [gs allBattleAvailableAliveMonstersOnTeamWithClanSlot:NO].count >= gl.maxTeamSize ? um.teamSlot : 0;
     _clickedSlot = 0;
     
     if (success) {
@@ -444,7 +455,7 @@
 
 - (void) listView:(ListCollectionView *)listView infoClickedAtIndexPath:(NSIndexPath *)indexPath {
   UserMonster *um = self.userMonsters[indexPath.row];
-  [self openInfoForUserMonster:um];
+  [self openInfoForUserMonster:um allowSell:YES];
 }
 
 - (void) listView:(ListCollectionView *)listView speedupClickedAtIndexPath:(NSIndexPath *)indexPath {
@@ -560,40 +571,74 @@
 #pragma mark - Team slot delegate
 
 - (void) teamSlotRightSideClicked:(TeamSlotView *)sender {
-  UserMonster *um = [self monsterForSlot:sender.tag];
-  if (um) {
-    [self openInfoForUserMonster:um];
+  int tag = (int)sender.tag;
+  if (tag) {
+    UserMonster *um = [self monsterForSlot:tag];
+    if (um) {
+      [self openInfoForUserMonster:um allowSell:YES];
+    }
+  } else {
+    GameState *gs = [GameState sharedGameState];
+    ClanMemberTeamDonationProto *donation = [gs.clanTeamDonateUtil myTeamDonation];
+    UserMonster *um = donation.donatedMonster;
+    if (um) {
+      [self openInfoForUserMonster:um allowSell:NO];
+    }
   }
 }
 
 - (void) teamSlotMonsterClicked:(TeamSlotView *)sender {
-  UserMonster *um = [self monsterForSlot:sender.tag];
-  if (!um) {
-    _clickedSlot = (int)sender.tag;
+  int tag = (int)sender.tag;
+  if (tag) {
+    UserMonster *um = [self monsterForSlot:sender.tag];
+    if (!um) {
+      _clickedSlot = (int)sender.tag;
+      _openedSlot = (int)sender.tag;
+      [self updateTeamSlotViews];
+    } else if (_showsClanDonateToonView && _openedSlot != tag) {
+      _openedSlot = (int)sender.tag;
+      [self updateTeamSlotViews];
+    } else {
+      [self teamSlotRightSideClicked:sender];
+    }
+  } else {
+    [self teamSlotRightSideClicked:sender];
   }
-  _openedSlot = (int)sender.tag;
-  [self updateTeamSlotViews];
 }
 
 - (void) teamSlotMinusClicked:(TeamSlotView *)sender {
-  UserMonster *um = [self monsterForSlot:sender.tag];
-  if (um.teamSlot) {
-    int slotNum = um.teamSlot;
-    BOOL success = [[OutgoingEventController sharedOutgoingEventController] removeMonsterFromTeam:um.userMonsterUuid];
-    _openedSlot = 0;
-    
-    if (success) {
-      [self reloadListViewAnimated:YES];
-      [self animateUserMonsterOutOfSlot:um slotNum:slotNum shouldFade:YES completion:^{
-        [self updateTeamSlotViews];
-      }];
-      [self updateTeamSlotViews:YES animated:YES];
+  if (sender.tag) {
+    UserMonster *um = [self monsterForSlot:sender.tag];
+    if (um.teamSlot) {
+      int slotNum = um.teamSlot;
+      BOOL success = [[OutgoingEventController sharedOutgoingEventController] removeMonsterFromTeam:um.userMonsterUuid];
+      _openedSlot = 0;
       
-      [self reloadTitleView];
-      
-      [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
+      if (success) {
+        [self reloadListViewAnimated:YES];
+        [self animateUserMonsterOutOfSlot:um slotNum:slotNum shouldFade:YES completion:^{
+          [self updateTeamSlotViews];
+        }];
+        [self updateTeamSlotViews:YES animated:YES];
+        
+        [self reloadTitleView];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
+      }
     }
+  } else {
+    // Clan monster
+    NSString *desc = [NSString stringWithFormat:@"Would you like to remove your clan donated %@?", MONSTER_NAME];
+    [GenericPopupController displayConfirmationWithDescription:desc title:[NSString stringWithFormat:@"Remove %@?", MONSTER_NAME] okayButton:@"Remove" cancelButton:@"Cancel" target:self selector:@selector(removeDonatedMonster)];
   }
+}
+
+- (void) removeDonatedMonster {
+  GameState *gs = [GameState sharedGameState];
+  ClanMemberTeamDonationProto *donation = [gs.clanTeamDonateUtil myTeamDonation];
+  [[OutgoingEventController sharedOutgoingEventController] invalidateSolicitation:donation];
+  
+  [self updateTeamSlotViews];
 }
 
 - (void) animateUserMonsterOutOfSlot:(UserMonster *)um slotNum:(int)slotNum shouldFade:(BOOL)shouldFade completion:(dispatch_block_t)completion {
@@ -684,9 +729,11 @@
   
   DonateMsgViewController *dmvc = [[DonateMsgViewController alloc] initWithInitialMessage:msg];
   dmvc.delegate = self;
+  self.donateMsgViewController = dmvc;
   GameViewController *gvc = [GameViewController baseController];
   dmvc.view.frame = gvc.view.bounds;
   [gvc addChildViewController:dmvc];
+  
   [gvc.view addSubview:dmvc.view];
 }
 
@@ -697,6 +744,8 @@
   [ud setObject:message forKey:LAST_TEAM_DONATE_MSG_KEY];
   
   [[OutgoingEventController sharedOutgoingEventController] solicitClanTeamDonation:message useGems:_useGemsForDonate];
+  
+  [self updateTeamSlotViews];
 }
 
 - (void) cancelClicked {

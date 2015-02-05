@@ -89,6 +89,7 @@ enum SkillType {
 	HELL_FIRE = 28;
 	ENERGIZE = 29;
 <<<<<<< HEAD
+<<<<<<< HEAD
 	RIGHT_HOOK = 30;
 <<<<<<< HEAD
 	CURSE = 31;
@@ -121,7 +122,13 @@ enum SkillType {
 =======
 =======
 >>>>>>> created monster select popover
+<<<<<<< HEAD
 >>>>>>> created monster select popover
+=======
+=======
+	RIGHT_HOOK = 30;
+>>>>>>> done with clan monster in pvp/pve
+>>>>>>> done with clan monster in pvp/pve
 }
 
 enum SkillActivationType {

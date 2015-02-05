@@ -31,7 +31,7 @@
                                     </state>
                                 </button>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Donate" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="3M1-dG-9Yy" customClass="NiceFontLabel12B">
-                                    <rect key="frame" x="5" y="4" width="58" height="21"/>
+                                    <rect key="frame" x="5" y="3" width="58" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                     <color key="textColor" red="0.090196078430000007" green="0.47058823529999999" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
@@ -39,6 +39,10 @@
                                     <color key="shadowColor" red="0.96470588239999999" green="1" blue="0.51372549020000002" alpha="0.80000000000000004" colorSpace="custom" customColorSpace="sRGB"/>
                                     <size key="shadowOffset" width="0.0" height="1"/>
                                 </label>
+                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="white" id="9Xp-yr-zul">
+                                    <rect key="frame" x="24" y="4" width="20" height="20"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </activityIndicatorView>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
@@ -83,10 +87,12 @@
             <connections>
                 <outlet property="donateButton" destination="pMf-2r-dck" id="YLE-HV-ORH"/>
                 <outlet property="donateLabel" destination="3M1-dG-9Yy" id="qzf-TJ-tiq"/>
+                <outlet property="donateSpinner" destination="9Xp-yr-zul" id="TLI-dk-1by"/>
                 <outlet property="donatorNameLabel" destination="Csb-7N-xcI" id="YCA-HL-iAg"/>
                 <outlet property="emptyView" destination="k8Y-oF-7dG" id="Xqj-OQ-0Af"/>
                 <outlet property="filledView" destination="xIY-Ar-Rvw" id="FWr-L1-xzS"/>
                 <outlet property="monsterLabel" destination="gyz-yQ-3TZ" id="wdY-h8-zIu"/>
+                <outlet property="monsterView" destination="mrn-ke-foQ" id="7jA-jL-k1x"/>
                 <outlet property="powerLimitLabel" destination="MFd-bC-9wc" id="Sr9-Yz-9aH"/>
             </connections>
             <point key="canvasLocation" x="448.5" y="777.5"/>
@@ -144,12 +150,12 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <fontDescription key="fontDescription" type="system" pointSize="11"/>
                     <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                    <color key="highlightedColor" red="0.36862745879999997" green="0.66666668650000005" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
+                    <nil key="highlightedColor"/>
                     <color key="shadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <size key="shadowOffset" width="0.0" height="1"/>
                 </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="From: Bob" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="Csb-7N-xcI" customClass="NiceFontLabel9">
-                    <rect key="frame" x="50" y="25" width="97" height="19"/>
+                    <rect key="frame" x="50" y="27" width="97" height="19"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                     <nil key="highlightedColor"/>

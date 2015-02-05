@@ -29,6 +29,13 @@
   self.msgTextView.text = _initMsg;
   
   self.headerView.layer.cornerRadius = self.mainView.layer.cornerRadius;
+}
+
+- (void) viewWillAppear:(BOOL)animated {
+  [super viewWillAppear:animated];
+  
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
   
   self.bgdView.alpha = 0.f;
   self.mainView.originY = -self.mainView.height;
@@ -38,13 +45,6 @@
   }];
 }
 
-- (void) viewWillAppear:(BOOL)animated {
-  [super viewWillAppear:animated];
-  
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
-}
-
 - (void) viewWillDisappear:(BOOL)animated {
   [super viewWillDisappear:animated];
   
@@ -52,9 +52,11 @@
 }
 
 - (IBAction)sendClicked:(id)sender {
-  NSString *text = self.msgTextView.text;
-  [self.delegate sendClickedWithMessage:text];
-  [self close];
+  if (!_isClosing) {
+    NSString *text = self.msgTextView.text;
+    [self.delegate sendClickedWithMessage:text];
+    [self close];
+  }
 }
 
 - (IBAction)cancelClicked:(id)sender {

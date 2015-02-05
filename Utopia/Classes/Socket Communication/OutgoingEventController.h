@@ -81,6 +81,7 @@
 
 - (void) solicitClanTeamDonation:(NSString *)message useGems:(BOOL)useGems;
 - (void) fulfillClanTeamDonation:(UserMonster *)um solicitation:(ClanMemberTeamDonationProto *)solicitation;
+- (void) invalidateSolicitation:(ClanMemberTeamDonationProto *)solicitation;
 
 - (void) purchaseBoosterPack:(int)boosterPackId isFree:(BOOL)free delegate:(id)delegate;
 - (void) tradeItemForFreeBoosterPack:(int)boosterPackId delegate:(id)delegate;

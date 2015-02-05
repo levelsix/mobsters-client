@@ -703,7 +703,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   
   if (self.clanTeamDonateUtil) {
     for (ClanMemberTeamDonationProto *donation in self.clanTeamDonateUtil.teamDonations) {
-      [arr addObject:donation];
+      // Allow it to be valid for 5 seconds
+      MSDate *date = donation.fulfilledDate;
+      if (!donation.isFulfilled || (date && date.timeIntervalSinceNow > -5)) {
+        [arr addObject:donation];
+      }
     }
   }
   
@@ -868,13 +872,24 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return nil;
 }
 
-- (NSArray *) allMonstersOnMyTeam {
+- (NSArray *) allMonstersOnMyTeamWithClanSlot:(BOOL)withClanSlot {
   NSMutableArray *m = [NSMutableArray array];
   for (UserMonster *um in self.myMonsters) {
     if (um.teamSlot != 0) {
       [m addObject:um];
     }
   }
+  
+  if (withClanSlot) {
+    UserMonster *um = self.clanTeamDonateUtil.myTeamDonation.donatedMonster;
+    if (um) {
+      Globals *gl = [Globals sharedGlobals];
+      um.teamSlot = gl.maxTeamSize+1;
+      um.isClanMonster = YES;
+      [m addObject:um];
+    }
+  }
+  
   [m sortUsingComparator:^NSComparisonResult(UserMonster *obj1, UserMonster *obj2) {
     return [@(obj1.teamSlot) compare:@(obj2.teamSlot)];
   }];
@@ -882,8 +897,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return m;
 }
 
-- (NSArray *) allBattleAvailableMonstersOnTeam {
-  NSArray *arr = [self allMonstersOnMyTeam];
+- (NSArray *) allBattleAvailableMonstersOnTeamWithClanSlot:(BOOL)withClanSlot {
+  NSArray *arr = [self allMonstersOnMyTeamWithClanSlot:withClanSlot];
   NSMutableArray *m = [NSMutableArray array];
   for (UserMonster *um in arr) {
     if (um.isAvailable) {
@@ -893,8 +908,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return m;
 }
 
-- (NSArray *) allBattleAvailableAliveMonstersOnTeam {
-  NSArray *arr = [self allBattleAvailableMonstersOnTeam];
+- (NSArray *) allBattleAvailableAliveMonstersOnTeamWithClanSlot:(BOOL)withClanSlot {
+  NSArray *arr = [self allBattleAvailableMonstersOnTeamWithClanSlot:withClanSlot];
   NSMutableArray *m = [NSMutableArray array];
   for (UserMonster *um in arr) {
     if (um.curHealth > 0) {

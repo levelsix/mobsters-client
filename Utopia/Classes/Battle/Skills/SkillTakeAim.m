@@ -108,7 +108,7 @@
   for (NSInteger n = 0; n < count && _orbsSpawned < _maxOrbs; ++n)
   {
     BattleOrbLayout* layout = self.battleLayer.orbLayer.layout;
-    BattleOrb* orb = [layout findOrbWithColorPreference:self.orbColor];
+    BattleOrb* orb = [layout findOrbWithColorPreference:self.orbColor isInitialSkill:NO];
     
     // Nothing found (just in case), continue and perform selector if the last special orb
     if (!orb)

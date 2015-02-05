@@ -335,6 +335,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       break;
     case EventProtocolResponseSVoidTeamDonationSolicitationEvent:
       responseClass = [VoidTeamDonationSolicitationResponseProto class];
+      break;
     default:
       responseClass = nil;
       break;
@@ -1468,6 +1469,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     UserMonsterSnapshotProto *snap = [proto.solicitation.donationsList firstObject];
     UserMonster *um = [gs myMonsterWithUserMonsterUuid:snap.monsterForUserUuid];
     um.curHealth = 0;
+    
+    // So that hospital bubbles reload
+    [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {

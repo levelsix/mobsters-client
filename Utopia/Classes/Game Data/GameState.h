@@ -219,9 +219,9 @@
 
 - (UserMonster *) myMonsterWithUserMonsterUuid:(NSString *)userMonsterUuid;
 - (UserMonster *) myMonsterWithSlotNumber:(NSInteger)slotNum;
-- (NSArray *) allMonstersOnMyTeam;
-- (NSArray *) allBattleAvailableMonstersOnTeam;
-- (NSArray *) allBattleAvailableAliveMonstersOnTeam;
+- (NSArray *) allMonstersOnMyTeamWithClanSlot:(BOOL)withClanSlot;
+- (NSArray *) allBattleAvailableMonstersOnTeamWithClanSlot:(BOOL)withClanSlot;
+- (NSArray *) allBattleAvailableAliveMonstersOnTeamWithClanSlot:(BOOL)withClanSlot;
 - (UserStruct *) myStructWithUuid:(NSString *)structUuid;
 - (UserStruct *) myTownHall;
 - (UserStruct *) myLaboratory;

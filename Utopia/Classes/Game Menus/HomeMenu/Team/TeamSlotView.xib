@@ -20,6 +20,7 @@
                 <outlet property="tapToAddLabel" destination="eVs-42-kRu" id="jfN-Z6-XsL"/>
                 <outlet property="toonDetailsView" destination="uvG-a9-5Sz" id="xPo-6M-SCN"/>
                 <outlet property="topLabel" destination="r8a-FQ-5Jn" id="O9N-vC-znc"/>
+                <outlet property="unavailableBorder" destination="BVm-kp-dCi" id="WxG-Hk-c6O"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -31,17 +32,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="58" height="56"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="WnO-zM-gje">
-                            <rect key="frame" x="0.0" y="0.0" width="59" height="56"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <state key="normal">
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="monsterClicked:" destination="-1" eventType="touchUpInside" id="sTc-sZ-nwS"/>
-                            </connections>
-                        </button>
-                        <view userInteractionEnabled="NO" contentMode="scaleToFill" id="gTi-BL-UT8" userLabel="Empty View">
+                        <view contentMode="scaleToFill" id="gTi-BL-UT8" userLabel="Empty View">
                             <rect key="frame" x="6" y="4" width="48" height="48"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
@@ -59,6 +50,16 @@
                                     <color key="shadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <size key="shadowOffset" width="0.0" height="1"/>
                                 </label>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="my7-8o-XgE" customClass="MaskedButton">
+                                    <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal">
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="monsterClicked:" destination="-1" eventType="touchUpInside" id="EFC-rx-TqW"/>
+                                    </connections>
+                                </button>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
@@ -139,16 +140,16 @@
                                                     <color key="shadowColor" white="0.0" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
                                                     <size key="shadowOffset" width="0.0" height="1"/>
                                                 </label>
-                                                <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" image="teamsemiemptyslot.png" id="BGh-cm-PAZ">
-                                                    <rect key="frame" x="-18" y="-18" width="48" height="48"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                </imageView>
                                             </subviews>
                                             <connections>
                                                 <outlet property="bg" destination="rOU-LI-coL" id="U6r-hG-orq"/>
                                                 <outlet property="evoLevel" destination="RvJ-Wd-lli" id="Feu-SN-87n"/>
                                             </connections>
                                         </view>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="teamsemiemptyslot.png" id="BVm-kp-dCi">
+                                            <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </imageView>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <connections>
@@ -157,6 +158,17 @@
                                         <outlet property="monsterIcon" destination="tRm-Cd-rqh" id="XLE-d2-goG"/>
                                     </connections>
                                 </view>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="WnO-zM-gje" customClass="MaskedButton">
+                                    <rect key="frame" x="6" y="4" width="48" height="48"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal">
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="monsterClicked:" destination="-1" eventType="touchUpInside" id="sTc-sZ-nwS"/>
+                                        <outlet property="baseImage" destination="7hd-GK-bDK" id="RlO-RX-sTD"/>
+                                    </connections>
+                                </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" lineBreakMode="middleTruncation" id="5Gf-uA-BT1" userLabel="Minus Button" customClass="GeneralButton">
                                     <rect key="frame" x="2" y="2" width="24" height="24"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>

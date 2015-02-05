@@ -1611,7 +1611,7 @@
 
 static const NSInteger maxSearchIterations = 800;
 
-- (BattleOrb *) findOrbWithColorPreference:(OrbColor)orbColor {
+- (BattleOrb *) findOrbWithColorPreference:(OrbColor)orbColor isInitialSkill:(BOOL)isInitialSkill {
   BattleOrbLayout *layout = self;
   BattleOrb *orb = nil;
   NSInteger column, row;
@@ -1622,7 +1622,7 @@ static const NSInteger maxSearchIterations = 800;
   for (int i = 0; i < _numColumns; i++) {
     for (int j = 0; j < _numRows; j++) {
       BattleTile *tile = [layout tileAtColumn:i row:j];
-      if (tile.shouldSpawnInitialSkill) {
+      if (tile.shouldSpawnInitialSkill || !isInitialSkill) {
         BattleOrb *orb = [layout orbAtColumn:i row:j];
         if (!([layout willHaveChainAtColumn:i row:j color:orbColor] ||
              orb.specialOrbType != SpecialOrbTypeNone ||

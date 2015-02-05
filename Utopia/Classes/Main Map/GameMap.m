@@ -107,7 +107,7 @@
   GameState *gs = [GameState sharedGameState];
   
   NSMutableArray *newArr = [NSMutableArray array];
-  for (UserMonster *um in gs.allMonstersOnMyTeam) {
+  for (UserMonster *um in [gs allMonstersOnMyTeamWithClanSlot:YES]) {
     if (!um.isAvailable) {
       continue;
     }
@@ -569,6 +569,7 @@
 
 - (void) onEnter {
   [super onEnter];
+  
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupTeamSprites) name:MY_TEAM_CHANGED_NOTIFICATION object:nil];
   [self setupTeamSprites];
   

@@ -77,15 +77,14 @@
 
 - (id) initWithMonsterSnapshotProto:(UserMonsterSnapshotProto *)proto {
   if ((self = [super init])){
-    self.userUuid = proto.userUuid;
+    self.userMonsterUuid  = proto.monsterForUserUuid;
     self.monsterId = proto.monsterId;
-    self.userMonsterUuid = proto.monsterForUserUuid;
     self.level = proto.currentLvl;
     self.experience = proto.currentExp;
     self.curHealth = proto.currentHp;
-    self.teamSlot = proto.teamSlotNum;
     self.offensiveSkillId = proto.offensiveSkillId;
     self.defensiveSkillId = proto.defensiveSkillId;
+    self.isComplete = YES;
   }
   return self;
 }
@@ -1133,13 +1132,17 @@
   return rewards;
 }
 
-+ (NSArray *) createRewardsForPvpProto:(PvpProto *)pvp droplessStageNums:(NSArray *)droplessStageNums {
++ (NSArray *) createRewardsForPvpProto:(PvpProto *)pvp droplessStageNums:(NSArray *)droplessStageNums isWin:(BOOL)isWin {
   NSMutableArray *rewards = [NSMutableArray array];
   
   GameState *gs = [GameState sharedGameState];
   PvpLeagueProto *league = [gs leagueForId:gs.pvpLeague.leagueId];
   Reward *lr = [[Reward alloc] initWithPvpLeague:league];
   [rewards addObject:lr];
+  
+  if (!isWin) {
+    return rewards;
+  }
   
   for (int i = 0; i < pvp.defenderMonstersList.count; i++) {
     if (![droplessStageNums containsObject:@(i)]) {

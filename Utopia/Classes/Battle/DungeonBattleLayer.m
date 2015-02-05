@@ -53,7 +53,7 @@
 
 - (void) youWon {
   [super youWon];
-  [self.endView updateForRewards:[Reward createRewardsForDungeon:self.dungeonInfo droplessStageNums:self.droplessStageNums] isWin:YES];
+  [self.endView updateForRewards:[Reward createRewardsForDungeon:self.dungeonInfo droplessStageNums:self.droplessStageNums] isWin:YES allowsContinue:[self shouldShowContinueButton]];
   [[OutgoingEventController sharedOutgoingEventController] endDungeon:self.dungeonInfo userWon:YES droplessStageNums:self.droplessStageNums delegate:self];
   [self makeGoCarrotCalls];
   
@@ -62,7 +62,7 @@
 
 - (void) youLost {
   [super youLost];
-  [self.endView updateForRewards:[Reward createRewardsForDungeon:self.dungeonInfo tillStage:_curStage-1 droplessStageNums:self.droplessStageNums] isWin:NO];
+  [self.endView updateForRewards:[Reward createRewardsForDungeon:self.dungeonInfo tillStage:_curStage-1 droplessStageNums:self.droplessStageNums] isWin:NO allowsContinue:[self shouldShowContinueButton]];
   
   [self saveCurrentStateWithForceFlush:YES];
 }
@@ -491,11 +491,16 @@
 }
 
 - (void) createScheduleWithSwap:(BOOL)swap {
+  if(_curStage >= 0) {
+    TaskStageProto *stage = [self.dungeonInfo.tspList objectAtIndex:_curStage];
+    [self createScheduleWithSwap:swap playerHitsFirst:stage.attackerAlwaysHitsFirst];
+  }
+}
+
+
+- (void) createScheduleWithSwap:(BOOL)swap playerHitsFirst:(BOOL)playerFirst {
   if (!_isResumingState || !self.battleSchedule.schedule) {
-    if(_curStage >= 0) {
-      TaskStageProto *stage = [self.dungeonInfo.tspList objectAtIndex:_curStage];
-      [super createScheduleWithSwap:swap playerHitsFirst:stage.attackerAlwaysHitsFirst];
-    }
+    [super createScheduleWithSwap:swap playerHitsFirst:playerFirst];
   }
 }
 
@@ -606,7 +611,8 @@
 #define SCHEDULE_KEY @"BattleScheduleKey"
 #define SCHEDULE_INDEX_KEY @"BattleScheduleIndexKey"
 #define MY_USER_MONSTER_ID_KEY @"MyUserIdMonsterKey"
-#define VALID_USER_MONSTER_IDS_KEY @"ValidUserMonsterIdsKey"
+#define MY_TEAM_KEY @"MyTeamKey"
+#define ENEMY_TEAM_KEY @"EnemyTeamKey"
 
 #define SKILL_MANAGER_KEY @"BattleSkillManager"
 
@@ -633,8 +639,8 @@
 }
 
 - (void) attemptToResumeState:(NSDictionary *)dict {
-//  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-//  NSDictionary *dict = [defaults objectForKey:DUNGEON_DEFAULT_KEY];
+  //  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+  //  NSDictionary *dict = [defaults objectForKey:DUNGEON_DEFAULT_KEY];
   
   if (dict) {
     NSString *userTaskUuid = [dict objectForKey:USER_TASK_KEY];
@@ -667,11 +673,17 @@
     [dict setObject:self.myPlayerObject.userMonsterUuid forKey:MY_USER_MONSTER_ID_KEY];
   }
   
-  NSMutableArray *userMonsterUuids = [NSMutableArray array];
+  NSMutableArray *myTeam = [NSMutableArray array];
   for (BattlePlayer *bp in self.myTeam) {
-    [userMonsterUuids addObject:bp.userMonsterUuid];
+    [myTeam addObject:bp.serialize];
   }
-  [dict setObject:userMonsterUuids forKey:VALID_USER_MONSTER_IDS_KEY];
+  [dict setObject:myTeam forKey:MY_TEAM_KEY];
+  
+  NSMutableArray *enemyTeam = [NSMutableArray array];
+  for (BattlePlayer *bp in self.enemyTeam) {
+    [enemyTeam addObject:bp.serialize];
+  }
+  [dict setObject:enemyTeam forKey:ENEMY_TEAM_KEY];
   
   if (self.battleSchedule.schedule) {
     [dict setObject:self.battleSchedule.schedule forKey:SCHEDULE_KEY];
@@ -739,15 +751,26 @@
   _resumedUserMonsterUuid = [stateDict objectForKey:MY_USER_MONSTER_ID_KEY];
   
   // Need to do this in case a monster came out of healing while user was in the middle of a dungeon
-  NSArray *validMonsterIds = [stateDict objectForKey:VALID_USER_MONSTER_IDS_KEY];
-  if (validMonsterIds.count) {
+  NSArray *savedMyTeam = [stateDict objectForKey:MY_TEAM_KEY];
+  if (savedMyTeam.count) {
     NSMutableArray *newTeam = [NSMutableArray array];
-    for (BattlePlayer *um in self.myTeam) {
-      if ([validMonsterIds containsObject:um.userMonsterUuid]) {
-        [newTeam addObject:um];
-      }
+    for (NSDictionary *dict in savedMyTeam) {
+      BattlePlayer *bp = [[BattlePlayer alloc] init];
+      [bp deserialize:dict];
+      [newTeam addObject:bp];
     }
     self.myTeam = newTeam;
+  }
+  
+  NSArray *savedEnemyTeam = [stateDict objectForKey:ENEMY_TEAM_KEY];
+  if (savedEnemyTeam.count) {
+    NSMutableArray *newTeam = [NSMutableArray array];
+    for (NSDictionary *dict in savedEnemyTeam) {
+      BattlePlayer *bp = [[BattlePlayer alloc] init];
+      [bp deserialize:dict];
+      [newTeam addObject:bp];
+    }
+    self.enemyTeam = newTeam;
   }
   
   [skillManager deserialize:[stateDict objectForKey:SKILL_MANAGER_KEY]];

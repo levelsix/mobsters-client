@@ -50,6 +50,8 @@
 @property (nonatomic, assign) int offensiveSkillId;
 @property (nonatomic, assign) int defensiveSkillId;
 
+@property (nonatomic, assign) BOOL isClanMonster;
+
 @property (nonatomic, assign) BOOL isConfused;
 @property (nonatomic, assign) BOOL isStunned;
 @property (nonatomic, assign) BOOL isCursed;
@@ -65,5 +67,8 @@
 - (int) randomDamage;
 
 - (UserMonster*) getIncompleteUserMonster;
+
+- (NSDictionary *)serialize;
+- (void) deserialize:(NSDictionary *)dict;
 
 @end

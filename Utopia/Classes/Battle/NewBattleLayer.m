@@ -1270,7 +1270,9 @@
 
 - (void) sendServerUpdatedValuesVerifyDamageDealt:(BOOL)verify {
   if (_enemyDamageDealt || !verify) {
-    [[OutgoingEventController sharedOutgoingEventController] updateMonsterHealth:self.myPlayerObject.userMonsterUuid curHealth:self.myPlayerObject.curHealth];
+    if (!self.myPlayerObject.isClanMonster) {
+      [[OutgoingEventController sharedOutgoingEventController] updateMonsterHealth:self.myPlayerObject.userMonsterUuid curHealth:self.myPlayerObject.curHealth];
+    }
   }
 }
 
@@ -1278,13 +1280,13 @@
   [sprite runAction:[CCActionSequence actions:
                      [RecursiveFadeTo actionWithDuration:0.3f opacity:0],
                      [CCActionDelay actionWithDuration:0.7f],
-                     [CCActionCallFunc actionWithTarget:sprite selector:@selector(removeFromParent)],
+                     [CCActionRemove action],
                      [CCActionCallBlock actionWithBlock:^{if (block) block();}], nil]];
   
   CCParticleSystem *q = [CCParticleSystem particleWithFile:@"characterdie.plist"];
   q.autoRemoveOnFinish = YES;
   q.position = ccpAdd(sprite.position, ccp(0, sprite.contentSize.height/2-5));
-  [self.bgdContainer addChild:q z:2];
+  [self.bgdContainer addChild:q z:sprite.zOrder];
   
   [SoundEngine puzzleMonsterDefeated];
 }
@@ -1684,7 +1686,7 @@
   CCSprite *phrase = nil;
   NSString *phraseFile = nil;
   BOOL isMakeItRain = NO;
-  int currentScore = _myDamageDealt/(float)[self.myPlayerObject totalAttackPower]*100.f;
+  int currentScore = _myDamageDealt*[self damageMultiplierIsEnemyAttacker:NO]/(float)[self.myPlayerObject totalAttackPower]*100.f;
   if (currentScore > MAKEITRAIN_SCORE) {
     isMakeItRain = YES;
   } else if (currentScore > HAMMERTIME_SCORE) {
@@ -2212,7 +2214,8 @@
 
 #pragma mark - Hud views
 
-#define DEPLOY_CENTER_X (self.contentSize.width-self.orbLayer.contentSize.width-ORB_LAYER_DIST_FROM_SIDE)/2
+#define BOTTOM_CENTER_X (self.contentSize.width-self.orbLayer.contentSize.width-ORB_LAYER_DIST_FROM_SIDE)/2
+#define DEPLOY_CENTER_X roundf(MAX(BOTTOM_CENTER_X, self.hudView.deployView.width/2+5.f))
 
 - (void) loadHudView {
   GameViewController *gvc = [GameViewController baseController];
@@ -2228,10 +2231,10 @@
   self.hudView.bottomView.originY = self.hudView.bottomView.superview.height-self.hudView.bottomView.height-bottomDist;
   self.hudView.swapView.originY = self.hudView.swapView.superview.height-self.hudView.swapView.height-bottomDist;
   
-  self.hudView.bottomView.centerX = DEPLOY_CENTER_X;
+  self.hudView.bottomView.centerX = BOTTOM_CENTER_X;
   
   UIImage *img = [Globals imageNamed:@"6movesqueuebgwide.png"];
-  if (DEPLOY_CENTER_X*2 > img.size.width+bottomDist*2) {
+  if (BOTTOM_CENTER_X*2 > img.size.width+bottomDist*2) {
     self.hudView.battleScheduleView.bgdView.image = img;
     self.hudView.battleScheduleView.width = img.size.width;
   }
@@ -2242,6 +2245,13 @@
     self.hudView.battleScheduleView.originY = bottomDist-self.hudView.battleScheduleView.containerView.originY;
     
     self.hudView.elementButton.originY = self.hudView.battleScheduleView.originY+self.hudView.battleScheduleView.height-12;
+  }
+  
+  GameState *gs = [GameState sharedGameState];
+  if (gs.clan) {
+    [self.hudView.deployView showClanSlot];
+  } else {
+    [self.hudView.deployView hideClanSlot];
   }
 }
 
@@ -2292,6 +2302,14 @@
   BOOL isSwap = self.myPlayer != nil;
   if (bp && ![bp.userMonsterUuid isEqualToString:self.myPlayerObject.userMonsterUuid]) {
     self.myPlayerObject = bp;
+    
+    if (bp.isClanMonster) {
+      GameState *gs = [GameState sharedGameState];
+      ClanMemberTeamDonationProto *donation = [gs.clanTeamDonateUtil myTeamDonation];
+      if ([donation.donatedMonster.userMonsterUuid isEqualToString:self.myPlayerObject.userMonsterUuid]) {
+        [[OutgoingEventController sharedOutgoingEventController] invalidateSolicitation:donation];
+      }
+    }
     
     [self createScheduleWithSwap:isSwap];
     

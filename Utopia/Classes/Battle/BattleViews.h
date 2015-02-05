@@ -32,6 +32,7 @@
 
 @interface BattleEndView : CCNode <UIScrollViewDelegate, UITextFieldDelegate> {
   CGPoint _initTextFieldPos;
+  BOOL _isWin;
 }
 
 @property (nonatomic, retain) CCNode *bgdNode;
@@ -63,7 +64,7 @@
 
 @property (nonatomic, retain) BattleRewardNode *pvpLeagueNode;
 
-- (void) updateForRewards:(NSArray *)rewards isWin:(BOOL)isWin;
+- (void) updateForRewards:(NSArray *)rewards isWin:(BOOL)isWin allowsContinue:(BOOL)allowsContinue;
 - (void) updatePvpReward:(PvpLeagueProto *)league leagueChange:(BOOL)leagueChange change:(int)change;
 - (void) showTextFieldWithTarget:(id)target selector:(SEL)selector;
 - (void) replaceTextFieldWithMessageSentLabel;

@@ -44,7 +44,9 @@
   [self addChild:self.bgdNode z:-1];
 }
 
-- (void) updateForRewards:(NSArray *)rewards isWin:(BOOL)isWin {
+- (void) updateForRewards:(NSArray *)rewards isWin:(BOOL)isWin allowsContinue:(BOOL)allowsContinue {
+  _isWin = isWin;
+  
   if (!isWin) {
     self.topLabelHeader.spriteFrame = [CCSpriteFrame frameWithImageNamed:@"youlostyou.png"];
     self.botLabelHeader.spriteFrame = [CCSpriteFrame frameWithImageNamed:@"youlostlost.png"];
@@ -72,7 +74,7 @@
   if (!rewards.count) {
     self.ribbonLabel.string = isWin ? @"GOOD JOB!" : @"BETTER LUCK NEXT TIME!";
   } else {
-    self.ribbonLabel.string = isWin ? @"YOU FOUND" : @"YOU WILL MISS OUT ON";
+    self.ribbonLabel.string = isWin ? @"YOU FOUND" : allowsContinue ? @"YOU WILL MISS OUT ON" : @"BETTER LUCK NEXT TIME!";
     
     // Add a clipping node for rewards and enforce it with a scroll view
     [self.rewardsScrollView removeFromSuperview];
@@ -578,8 +580,11 @@
     labelName = league.leagueName;
   } else {
     labelName = [Globals commafyNumber:change];
-    if (change >= 0)
+    if (change > 0) {
       labelName = [@"+" stringByAppendingString:labelName];
+    } else if (change == 0) {
+      labelName = @"Same";
+    }
   }
   
   if (league && league.hasImgPrefix) {
@@ -596,7 +601,9 @@
   
   _label = [CCLabelTTF labelWithString:labelName fontName:@"Gotham-Ultra" fontSize:11.f dimensions:CGSizeMake(self.contentSize.width, 15)];
   _label.horizontalAlignment = CCTextAlignmentCenter;
-  _label.color = [CCColor colorWithUIColor:(change >= 0 ? [Globals greenColor] : [Globals redColor])];
+  if (change != 0) {
+    _label.color = [CCColor colorWithUIColor:(change > 0 ? [Globals greenColor] : [Globals redColor])];
+  }
   [self addChild:_label];
   _label.position = ccp(self.contentSize.width/2, labelPosition-1);
 }

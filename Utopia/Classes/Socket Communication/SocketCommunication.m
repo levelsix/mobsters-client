@@ -1576,7 +1576,7 @@ static NSString *udid = nil;
                                                     addAllSolicitations:solicitations]
                                                    build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCVoidTeamDonationSolicitationEvent];
+  return [self sendData:req withMessageType:EventProtocolRequestCVoidTeamDonationSolicitationEvent queueUp:YES];
 }
 
 #pragma mark - Batch/Flush events

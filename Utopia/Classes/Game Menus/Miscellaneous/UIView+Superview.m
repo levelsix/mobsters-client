@@ -10,9 +10,9 @@
 
 @implementation UIView (Superview)
 
-- (id) getAncestorInViewHierarchyOfType:(Class)class {
+- (id) getAncestorInViewHierarchyOfType:(Class)clazz {
   UIView *sender = self;
-  while (sender && ![sender isKindOfClass:class]) {
+  while (sender && ![sender isKindOfClass:clazz]) {
     sender = [sender superview];
   }
   return sender;

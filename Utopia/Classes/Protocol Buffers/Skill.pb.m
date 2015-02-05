@@ -56,6 +56,7 @@ BOOL SkillTypeIsValidValue(SkillType value) {
     case SkillTypeHellFire:
     case SkillTypeEnergize:
 <<<<<<< HEAD
+<<<<<<< HEAD
     case SkillTypeRightHook:
 <<<<<<< HEAD
     case SkillTypeCurse:
@@ -88,7 +89,13 @@ BOOL SkillTypeIsValidValue(SkillType value) {
 =======
 =======
 >>>>>>> created monster select popover
+<<<<<<< HEAD
 >>>>>>> created monster select popover
+=======
+=======
+    case SkillTypeRightHook:
+>>>>>>> done with clan monster in pvp/pve
+>>>>>>> done with clan monster in pvp/pve
       return YES;
     default:
       return NO;

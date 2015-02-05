@@ -263,32 +263,32 @@ static float buttonInitialWidth = 159.f;
   self.topDivider.highlighted = !pvp.userWon;
   self.botDivider.highlighted = !pvp.userWon;
   
-  NSArray *monsters;
-  
-  if ([pvp userIsAttacker]) {
-    NSMutableArray *arr = [NSMutableArray array];
-    GameState *gs = [GameState sharedGameState];
-    for (UserMonster *um in gs.allMonstersOnMyTeam) {
-      MinimumUserMonsterProto *mup = [[[[MinimumUserMonsterProto builder]
-                                       setMonsterId:um.monsterId]
-                                      setMonsterLvl:um.level]
-                                      build];
-      PvpMonsterProto *mon = [[[PvpMonsterProto builder] setDefenderMonster:mup] build];
-      
-      [arr addObject:mon];
-    }
-    monsters = arr;
-  } else {
-    monsters = pvp.attackersMonstersList;
-  }
-  
-  for (int i = 0; i < self.monsterViews.count; i++) {
-    PvpMonsterProto *pm = i < monsters.count ? monsters[i] : nil;
-    MinimumUserMonsterProto *um = pm.defenderMonster;
-    ChatMonsterView *cmv = self.monsterViews[i];
-    
-    [cmv updateForMinMonster:um];
-  }
+//  NSArray *monsters;
+//  
+//  if ([pvp userIsAttacker]) {
+//    NSMutableArray *arr = [NSMutableArray array];
+//    GameState *gs = [GameState sharedGameState];
+//    for (UserMonster *um in [gs allMonstersOnMyTeamWithClanSlot:NO]) {
+//      MinimumUserMonsterProto *mup = [[[[MinimumUserMonsterProto builder]
+//                                       setMonsterId:um.monsterId]
+//                                      setMonsterLvl:um.level]
+//                                      build];
+//      PvpMonsterProto *mon = [[[PvpMonsterProto builder] setDefenderMonster:mup] build];
+//      
+//      [arr addObject:mon];
+//    }
+//    monsters = arr;
+//  } else {
+//    monsters = pvp.attackersMonstersList;
+//  }
+//  
+//  for (int i = 0; i < self.monsterViews.count; i++) {
+//    PvpMonsterProto *pm = i < monsters.count ? monsters[i] : nil;
+//    MinimumUserMonsterProto *um = pm.defenderMonster;
+//    ChatMonsterView *cmv = self.monsterViews[i];
+//    
+//    [cmv updateForMinMonster:um];
+//  }
   
   self.avengeButton.superview.hidden = [pvp userIsAttacker] || pvp.clanAvenged;
   self.revengeButton.superview.hidden = [pvp userIsAttacker] || pvp.exactedRevenge;
@@ -459,6 +459,11 @@ static float buttonInitialWidth = 159.f;
     
     self.donateButton.superview.hidden = NO;
   }
+  
+  
+  self.donateSpinner.hidden = YES;
+  self.donateLabel.hidden = NO;
+  self.donateButton.userInteractionEnabled = YES;
 }
 
 @end

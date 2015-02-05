@@ -69,7 +69,7 @@
   GameState *gs = [GameState sharedGameState];
   PersistentClanEventUserInfoProto *userInfo = gs.myClanRaidInfo;
   NSArray *forcedMonsters = userInfo.userMonsters.currentTeamList;
-  NSArray *currentTeam = gs.allMonstersOnMyTeam;
+  NSArray *currentTeam = [gs allMonstersOnMyTeamWithClanSlot:NO];
   
   // First check to see if current team is basically same as forced
   if (forcedMonsters.count == currentTeam.count) {

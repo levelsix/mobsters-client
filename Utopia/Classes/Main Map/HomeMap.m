@@ -117,8 +117,6 @@
     
     bottomLeftCorner = ccp(map.position.x-map.contentSize.width/2, map.position.y-map.contentSize.height/2);
     topRightCorner = ccp(map.position.x+map.contentSize.width/2, map.position.y+map.contentSize.height/2);
-    
-    [self refresh];
   }
   return self;
 }
@@ -593,7 +591,7 @@
 
 - (void) reloadTeamCenter {
   GameState *gs = [GameState sharedGameState];
-  int numOnTeam = (int)gs.allBattleAvailableAliveMonstersOnTeam.count;
+  int numOnTeam = (int)[gs allBattleAvailableAliveMonstersOnTeamWithClanSlot:NO].count;
   for (TeamCenterBuilding *b in [self childrenOfClassType:[TeamCenterBuilding class]]) {
     [b setBubbleType:BuildingBubbleTypeManage withNum:numOnTeam];
     [b setNumEquipped:numOnTeam];
@@ -2307,6 +2305,9 @@
 }
 
 - (void) onEnter {
+  // Can't call refresh in init because it causes tutorial to try and spawn new obstacles
+  [self refresh];
+  
   [super onEnter];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadStorages) name:GAMESTATE_UPDATE_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadRetrievableIcons) name:GAMESTATE_UPDATE_NOTIFICATION object:nil];
@@ -2330,7 +2331,7 @@
   
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(beginTimers) name:RECEIVED_CLAN_HELP_NOTIFICATION object:nil];
   
-  // Mini job just redeemed
+  // Mini job just redeemed, clan donate redeemed
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadHospitals) name:MY_TEAM_CHANGED_NOTIFICATION object:nil];
 }
 

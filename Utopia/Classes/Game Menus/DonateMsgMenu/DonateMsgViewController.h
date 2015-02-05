@@ -32,4 +32,6 @@
 
 - (id) initWithInitialMessage:(NSString *)msg;
 
+- (void) close;
+
 @end

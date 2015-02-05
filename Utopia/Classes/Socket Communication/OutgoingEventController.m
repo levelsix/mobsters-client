@@ -1448,7 +1448,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   } else if (!useGems && cdTime > 0) {
     [Globals popupMessage:@"Trying to solicit team donation before time."];
   } else {
-    int maxPower = 5;
+    ClanHouseProto *chp = (ClanHouseProto *)gs.myClanHouse.staticStructForCurrentConstructionLevel;
+    int maxPower = chp.teamDonationPowerLimit;
     int gemsSpent = 0;
     
     if (useGems && cdTime > 0) {
@@ -1476,6 +1477,17 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [Globals popupMessage:@"Trying to fullfill without max health mosnter."];
   } else {
     [[SocketCommunication sharedSocketCommunication] sendFulfillTeamDonationSolicitationMessage:[um convertToProto] solicitation:solicitation clientTime:[self getCurrentMilliseconds]];
+  }
+}
+
+- (void) invalidateSolicitation:(ClanMemberTeamDonationProto *)solicitation {
+  [[SocketCommunication sharedSocketCommunication] sendVoidTeamDonationSolicitationMessage:@[solicitation]];
+  
+  GameState *gs = [GameState sharedGameState];
+  [gs.clanTeamDonateUtil.teamDonations removeObject:solicitation];
+  
+  if ([solicitation.solicitor.userUuid isEqualToString:gs.userUuid]) {
+    [[NSNotificationCenter defaultCenter] postNotificationName:MY_CLAN_TEAM_DONATION_CHANGED_NOTIFICATION object:nil];
   }
 }
 
@@ -1845,12 +1857,17 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   } else {
     GameState *gs = [GameState sharedGameState];
     UserMonster *userMonster = [gs myMonsterWithUserMonsterUuid:userMonsterUuid];
-    userMonster.curHealth = curHealth;
-    UserMonsterCurrentHealthProto *m = [[[[UserMonsterCurrentHealthProto builder]
-                                          setCurrentHealth:userMonster.curHealth]
-                                         setUserMonsterUuid:userMonster.userMonsterUuid]
-                                        build];
-    [[SocketCommunication sharedSocketCommunication] sendUpdateMonsterHealthMessage:[self getCurrentMilliseconds] monsterHealths:@[m] isForTask:NO userTaskUuid:nil taskStageId:0 droplessTsfuUuid:nil];
+    
+    if (!userMonster) {
+      [Globals popupMessage:@"Trying to update invalid monster."];
+    } else {
+      userMonster.curHealth = curHealth;
+      UserMonsterCurrentHealthProto *m = [[[[UserMonsterCurrentHealthProto builder]
+                                            setCurrentHealth:userMonster.curHealth]
+                                           setUserMonsterUuid:userMonster.userMonsterUuid]
+                                          build];
+      [[SocketCommunication sharedSocketCommunication] sendUpdateMonsterHealthMessage:[self getCurrentMilliseconds] monsterHealths:@[m] isForTask:NO userTaskUuid:nil taskStageId:0 droplessTsfuUuid:nil];
+    }
   }
 }
 
@@ -2074,8 +2091,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
   UserMonster *um = [gs myMonsterWithUserMonsterUuid:userMonsterUuid];
-  NSArray *wholeTeam = [gs allMonstersOnMyTeam];
-  NSArray *battleReadyTeam = [gs allBattleAvailableAliveMonstersOnTeam];
+  NSArray *wholeTeam = [gs allMonstersOnMyTeamWithClanSlot:NO];
+  NSArray *battleReadyTeam = [gs allBattleAvailableAliveMonstersOnTeamWithClanSlot:NO];
   
   NSMutableArray *overwritable = [wholeTeam mutableCopy];
   [overwritable removeObjectsInArray:battleReadyTeam];
@@ -2127,7 +2144,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
         del.teamSlot = 0;
       }
       firstCheck = NO;
-    } while (overwritable.count && [gl calculateTeamCostForTeam:[gs allMonstersOnMyTeam]] > gs.maxTeamCost);
+    } while (overwritable.count && [gl calculateTeamCostForTeam:[gs allMonstersOnMyTeamWithClanSlot:NO]] > gs.maxTeamCost);
     
     [[SocketCommunication sharedSocketCommunication] sendAddMonsterToTeam:userMonsterUuid teamSlot:teamSlot];
     

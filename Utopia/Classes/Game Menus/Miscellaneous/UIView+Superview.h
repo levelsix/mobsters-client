@@ -10,6 +10,6 @@
 
 @interface UIView (Superview)
 
-- (id) getAncestorInViewHierarchyOfType:(Class)class;
+- (id) getAncestorInViewHierarchyOfType:(Class)clazz;
 
 @end

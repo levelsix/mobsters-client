@@ -40,10 +40,12 @@
 
 @property (nonatomic, retain) UIButton *closeButton;
 
-@property (nonatomic, retain) IBOutlet NSMutableArray *seenUserUuids;
+@property (nonatomic, retain) NSMutableArray *seenUserUuids;
 
-@property (nonatomic, retain) IBOutlet NSArray *myTeamSprites;
-@property (nonatomic, retain) IBOutlet NSArray *enemyTeamSprites;
+@property (nonatomic, retain) NSArray *myTeamSprites;
+@property (nonatomic, retain) NSArray *enemyTeamSprites;
+
+@property (nonatomic, retain) CCNode *statueNode;
 
 @property (nonatomic, retain) NSDictionary *itemUsagesForQueue;
 
