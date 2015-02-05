@@ -9,6 +9,8 @@
 
 @class ClanHouseProto;
 @class ClanHouseProto_Builder;
+@class ClanMemberTeamDonationProto;
+@class ClanMemberTeamDonationProto_Builder;
 @class CoordinateProto;
 @class CoordinateProto_Builder;
 @class EvoChamberProto;

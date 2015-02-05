@@ -85,6 +85,9 @@ enum SkillType {
 	HELL_FIRE = 28;
 	ENERGIZE = 29;
 	RIGHT_HOOK = 30;
+	CURSE = 31;
+	INSURANCE = 32;
+	FLAME_BREAK = 33;
 }
 
 enum SkillActivationType {

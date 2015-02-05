@@ -8,6 +8,8 @@
 #import "User.pb.h"
 // @@protoc_insertion_point(imports)
 
+@class ClanMemberTeamDonationProto;
+@class ClanMemberTeamDonationProto_Builder;
 @class DevRequestProto;
 @class DevRequestProto_Builder;
 @class DevResponseProto;
