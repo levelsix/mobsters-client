@@ -1940,6 +1940,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 @end
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 @interface ClanMemberTeamDonationProto : PBGeneratedMessage {
 @private
@@ -2168,5 +2169,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 @end
 
 >>>>>>> rebase master
+=======
+>>>>>>> fix poor rebase
 
 // @@protoc_insertion_point(global_scope)

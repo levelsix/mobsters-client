@@ -8347,6 +8347,7 @@ static ClanDataProto* defaultClanDataProtoInstance = nil;
 @end
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 @interface ClanMemberTeamDonationProto ()
 @property (strong) NSString* donationUuid;
@@ -9457,5 +9458,7 @@ static ClanMemberTeamDonationProto* defaultClanMemberTeamDonationProtoInstance =
 @end
 
 >>>>>>> rebase master
+=======
+>>>>>>> fix poor rebase
 
 // @@protoc_insertion_point(global_scope)

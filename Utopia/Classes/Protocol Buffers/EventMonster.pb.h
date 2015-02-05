@@ -2890,5 +2890,134 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
 - (RetrieveUserMonsterTeamResponseProto_Builder *)clearUserMonsterTeam;
 @end
 
+@interface RetrieveUserMonsterTeamRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  MinimumUserProto* sender;
+  NSMutableArray * mutableUserUuidsList;
+}
+- (BOOL) hasSender;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) NSArray * userUuidsList;
+- (NSString*)userUuidsAtIndex:(NSUInteger)index;
+
++ (RetrieveUserMonsterTeamRequestProto*) defaultInstance;
+- (RetrieveUserMonsterTeamRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (RetrieveUserMonsterTeamRequestProto_Builder*) builder;
++ (RetrieveUserMonsterTeamRequestProto_Builder*) builder;
++ (RetrieveUserMonsterTeamRequestProto_Builder*) builderWithPrototype:(RetrieveUserMonsterTeamRequestProto*) prototype;
+- (RetrieveUserMonsterTeamRequestProto_Builder*) toBuilder;
+
++ (RetrieveUserMonsterTeamRequestProto*) parseFromData:(NSData*) data;
++ (RetrieveUserMonsterTeamRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveUserMonsterTeamRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (RetrieveUserMonsterTeamRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveUserMonsterTeamRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RetrieveUserMonsterTeamRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface RetrieveUserMonsterTeamRequestProto_Builder : PBGeneratedMessageBuilder {
+@private
+  RetrieveUserMonsterTeamRequestProto* result;
+}
+
+- (RetrieveUserMonsterTeamRequestProto*) defaultInstance;
+
+- (RetrieveUserMonsterTeamRequestProto_Builder*) clear;
+- (RetrieveUserMonsterTeamRequestProto_Builder*) clone;
+
+- (RetrieveUserMonsterTeamRequestProto*) build;
+- (RetrieveUserMonsterTeamRequestProto*) buildPartial;
+
+- (RetrieveUserMonsterTeamRequestProto_Builder*) mergeFrom:(RetrieveUserMonsterTeamRequestProto*) other;
+- (RetrieveUserMonsterTeamRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RetrieveUserMonsterTeamRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (RetrieveUserMonsterTeamRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (RetrieveUserMonsterTeamRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (RetrieveUserMonsterTeamRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (RetrieveUserMonsterTeamRequestProto_Builder*) clearSender;
+
+- (NSMutableArray *)userUuidsList;
+- (NSString*)userUuidsAtIndex:(NSUInteger)index;
+- (RetrieveUserMonsterTeamRequestProto_Builder *)addUserUuids:(NSString*)value;
+- (RetrieveUserMonsterTeamRequestProto_Builder *)addAllUserUuids:(NSArray *)array;
+- (RetrieveUserMonsterTeamRequestProto_Builder *)clearUserUuids;
+@end
+
+@interface RetrieveUserMonsterTeamResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatus status;
+  NSMutableArray * mutableUserMonsterTeamList;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly) RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatus status;
+@property (readonly, strong) NSArray * userMonsterTeamList;
+- (PvpProto*)userMonsterTeamAtIndex:(NSUInteger)index;
+
++ (RetrieveUserMonsterTeamResponseProto*) defaultInstance;
+- (RetrieveUserMonsterTeamResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (RetrieveUserMonsterTeamResponseProto_Builder*) builder;
++ (RetrieveUserMonsterTeamResponseProto_Builder*) builder;
++ (RetrieveUserMonsterTeamResponseProto_Builder*) builderWithPrototype:(RetrieveUserMonsterTeamResponseProto*) prototype;
+- (RetrieveUserMonsterTeamResponseProto_Builder*) toBuilder;
+
++ (RetrieveUserMonsterTeamResponseProto*) parseFromData:(NSData*) data;
++ (RetrieveUserMonsterTeamResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveUserMonsterTeamResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (RetrieveUserMonsterTeamResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveUserMonsterTeamResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RetrieveUserMonsterTeamResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface RetrieveUserMonsterTeamResponseProto_Builder : PBGeneratedMessageBuilder {
+@private
+  RetrieveUserMonsterTeamResponseProto* result;
+}
+
+- (RetrieveUserMonsterTeamResponseProto*) defaultInstance;
+
+- (RetrieveUserMonsterTeamResponseProto_Builder*) clear;
+- (RetrieveUserMonsterTeamResponseProto_Builder*) clone;
+
+- (RetrieveUserMonsterTeamResponseProto*) build;
+- (RetrieveUserMonsterTeamResponseProto*) buildPartial;
+
+- (RetrieveUserMonsterTeamResponseProto_Builder*) mergeFrom:(RetrieveUserMonsterTeamResponseProto*) other;
+- (RetrieveUserMonsterTeamResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RetrieveUserMonsterTeamResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (RetrieveUserMonsterTeamResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (RetrieveUserMonsterTeamResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (RetrieveUserMonsterTeamResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (RetrieveUserMonsterTeamResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatus) status;
+- (RetrieveUserMonsterTeamResponseProto_Builder*) setStatus:(RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatus) value;
+- (RetrieveUserMonsterTeamResponseProto_Builder*) clearStatus;
+
+- (NSMutableArray *)userMonsterTeamList;
+- (PvpProto*)userMonsterTeamAtIndex:(NSUInteger)index;
+- (RetrieveUserMonsterTeamResponseProto_Builder *)addUserMonsterTeam:(PvpProto*)value;
+- (RetrieveUserMonsterTeamResponseProto_Builder *)addAllUserMonsterTeam:(NSArray *)array;
+- (RetrieveUserMonsterTeamResponseProto_Builder *)clearUserMonsterTeam;
+@end
+
 
 // @@protoc_insertion_point(global_scope)

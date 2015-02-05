@@ -12438,7 +12438,11 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
   result.status = value;
   return self;
 }
+<<<<<<< HEAD
+- (RetrieveUserMonsterTeamResponseProto_Builder*) clearStatus {
+=======
 - (RetrieveUserMonsterTeamResponseProto_Builder*) clearStatusList {
+>>>>>>> fix poor rebase
   result.hasStatus = NO;
   result.status = RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusSuccess;
   return self;
