@@ -683,9 +683,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   NSMutableArray *arr = [self.privateChats mutableCopy];
   
   // Overwrite battle history first since fb requests will never be considered "read"
-  for (PvpHistoryProto *php in self.battleHistory) {
-    [self overwriteChatObjectInArray:arr chatObject:php];
-  }
+//  for (PvpHistoryProto *php in self.battleHistory) {
+//    [self overwriteChatObjectInArray:arr chatObject:php];
+//  }
   
   for (RequestFromFriend *req in self.fbUnacceptedRequestsFromFriends) {
     [self overwriteChatObjectInArray:arr chatObject:req];

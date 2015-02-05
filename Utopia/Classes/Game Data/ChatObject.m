@@ -234,8 +234,19 @@
 }
 
 - (BOOL) isRead {
-  return [[self privateChat] isRead];
+  return !self.isUnread;
 }
+
+- (void) markAsRead {
+  NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+  int64_t lastReadTime = [[ud objectForKey:PVP_HISTORY_DEFAULTS_KEY] longLongValue];
+  int64_t thisTime = self.battleEndTime;
+  
+  if (lastReadTime < thisTime) {
+    [ud setObject:[NSNumber numberWithLongLong:thisTime] forKey:PVP_HISTORY_DEFAULTS_KEY];
+  }
+}
+
 
 - (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag {
   NSString *nibName = @"ChatBattleHistoryView";
@@ -282,10 +293,6 @@
   bldr.timeOfPost = [[self date] timeIntervalSince1970]*1000.;
   PrivateChatPostProto *pcpp = [bldr build];
   return pcpp;
-}
-
-- (void) markAsRead {
-  [[self privateChat] markAsRead];
 }
 
 - (IBAction)revengeClicked:(id)sender {

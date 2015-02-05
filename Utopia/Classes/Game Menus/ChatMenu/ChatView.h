@@ -106,6 +106,7 @@ typedef enum {
 @interface PrivateChatView : ChatView {
   BOOL _isLoading;
   PrivateChatViewMode _chatMode;
+  id<ChatObject> _clickedCell;
 }
 
 @property (nonatomic, retain) NSString *curUserUuid;
@@ -129,8 +130,9 @@ typedef enum {
 @property (nonatomic, retain) NSMutableArray *unrespondedChatMessages;
 
 @property (nonatomic, retain) IBOutlet UIButton *allMessagesTabButton;
-@property (weak, nonatomic) IBOutlet UIButton *defensiveLogTabButton;
-@property (weak, nonatomic) IBOutlet UIButton *offensiveLogTabButton;
+@property (nonatomic, retain) IBOutlet UIButton *defensiveLogTabButton;
+@property (nonatomic, retain) IBOutlet UIButton *offensiveLogTabButton;
+@property (nonatomic, retain) IBOutlet UILabel *unreadDefenseLog;
 
 - (void) addPrivateChat:(PrivateChatPostProto *)pcpp;
 - (void) updateForPrivateChatList:(NSArray *)privateChats;
