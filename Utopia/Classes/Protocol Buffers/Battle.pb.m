@@ -39,7 +39,12 @@ BOOL BattleResultIsValidValue(BattleResult value) {
 @property int32_t prospectiveOilWinnings;
 @property (strong) UserPvpLeagueProto* pvpLeagueStats;
 @property (strong) NSString* defenderMsg;
+<<<<<<< HEAD
 @property (strong) ClanMemberTeamDonationProto* defenderExtraMonster;
+=======
+@property (strong) PvpMonsterProto* defenderExtraMonster;
+@property (strong) NSString* solicitationUuid;
+>>>>>>> revenge/avenge now has clan monster
 @end
 
 @implementation PvpProto
@@ -88,6 +93,16 @@ BOOL BattleResultIsValidValue(BattleResult value) {
   hasDefenderExtraMonster_ = !!value_;
 }
 @synthesize defenderExtraMonster;
+<<<<<<< HEAD
+=======
+- (BOOL) hasSolicitationUuid {
+  return !!hasSolicitationUuid_;
+}
+- (void) setHasSolicitationUuid:(BOOL) value_ {
+  hasSolicitationUuid_ = !!value_;
+}
+@synthesize solicitationUuid;
+>>>>>>> revenge/avenge now has clan monster
 - (id) init {
   if ((self = [super init])) {
     self.defender = [MinimumUserProtoWithLevel defaultInstance];
@@ -95,7 +110,12 @@ BOOL BattleResultIsValidValue(BattleResult value) {
     self.prospectiveOilWinnings = 0;
     self.pvpLeagueStats = [UserPvpLeagueProto defaultInstance];
     self.defenderMsg = @"";
+<<<<<<< HEAD
     self.defenderExtraMonster = [ClanMemberTeamDonationProto defaultInstance];
+=======
+    self.defenderExtraMonster = [PvpMonsterProto defaultInstance];
+    self.solicitationUuid = @"";
+>>>>>>> revenge/avenge now has clan monster
   }
   return self;
 }
@@ -142,6 +162,12 @@ static PvpProto* defaultPvpProtoInstance = nil;
   if (self.hasDefenderExtraMonster) {
     [output writeMessage:8 value:self.defenderExtraMonster];
   }
+<<<<<<< HEAD
+=======
+  if (self.hasSolicitationUuid) {
+    [output writeString:9 value:self.solicitationUuid];
+  }
+>>>>>>> revenge/avenge now has clan monster
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -172,6 +198,12 @@ static PvpProto* defaultPvpProtoInstance = nil;
   if (self.hasDefenderExtraMonster) {
     size_ += computeMessageSize(8, self.defenderExtraMonster);
   }
+<<<<<<< HEAD
+=======
+  if (self.hasSolicitationUuid) {
+    size_ += computeStringSize(9, self.solicitationUuid);
+  }
+>>>>>>> revenge/avenge now has clan monster
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
   return size_;
@@ -240,6 +272,12 @@ static PvpProto* defaultPvpProtoInstance = nil;
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
+<<<<<<< HEAD
+=======
+  if (self.hasSolicitationUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"solicitationUuid", self.solicitationUuid];
+  }
+>>>>>>> revenge/avenge now has clan monster
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -264,6 +302,11 @@ static PvpProto* defaultPvpProtoInstance = nil;
       (!self.hasDefenderMsg || [self.defenderMsg isEqual:otherMessage.defenderMsg]) &&
       self.hasDefenderExtraMonster == otherMessage.hasDefenderExtraMonster &&
       (!self.hasDefenderExtraMonster || [self.defenderExtraMonster isEqual:otherMessage.defenderExtraMonster]) &&
+<<<<<<< HEAD
+=======
+      self.hasSolicitationUuid == otherMessage.hasSolicitationUuid &&
+      (!self.hasSolicitationUuid || [self.solicitationUuid isEqual:otherMessage.solicitationUuid]) &&
+>>>>>>> revenge/avenge now has clan monster
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -289,6 +332,12 @@ static PvpProto* defaultPvpProtoInstance = nil;
   if (self.hasDefenderExtraMonster) {
     hashCode = hashCode * 31 + [self.defenderExtraMonster hash];
   }
+<<<<<<< HEAD
+=======
+  if (self.hasSolicitationUuid) {
+    hashCode = hashCode * 31 + [self.solicitationUuid hash];
+  }
+>>>>>>> revenge/avenge now has clan monster
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
@@ -357,6 +406,12 @@ static PvpProto* defaultPvpProtoInstance = nil;
   if (other.hasDefenderExtraMonster) {
     [self mergeDefenderExtraMonster:other.defenderExtraMonster];
   }
+<<<<<<< HEAD
+=======
+  if (other.hasSolicitationUuid) {
+    [self setSolicitationUuid:other.solicitationUuid];
+  }
+>>>>>>> revenge/avenge now has clan monster
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -415,7 +470,11 @@ static PvpProto* defaultPvpProtoInstance = nil;
         break;
       }
       case 66: {
+<<<<<<< HEAD
         ClanMemberTeamDonationProto_Builder* subBuilder = [ClanMemberTeamDonationProto builder];
+=======
+        PvpMonsterProto_Builder* subBuilder = [PvpMonsterProto builder];
+>>>>>>> revenge/avenge now has clan monster
         if (self.hasDefenderExtraMonster) {
           [subBuilder mergeFrom:self.defenderExtraMonster];
         }
@@ -423,6 +482,13 @@ static PvpProto* defaultPvpProtoInstance = nil;
         [self setDefenderExtraMonster:[subBuilder buildPartial]];
         break;
       }
+<<<<<<< HEAD
+=======
+      case 74: {
+        [self setSolicitationUuid:[input readString]];
+        break;
+      }
+>>>>>>> revenge/avenge now has clan monster
     }
   }
 }
@@ -561,14 +627,22 @@ static PvpProto* defaultPvpProtoInstance = nil;
 - (BOOL) hasDefenderExtraMonster {
   return result.hasDefenderExtraMonster;
 }
+<<<<<<< HEAD
 - (ClanMemberTeamDonationProto*) defenderExtraMonster {
   return result.defenderExtraMonster;
 }
 - (PvpProto_Builder*) setDefenderExtraMonster:(ClanMemberTeamDonationProto*) value {
+=======
+- (PvpMonsterProto*) defenderExtraMonster {
+  return result.defenderExtraMonster;
+}
+- (PvpProto_Builder*) setDefenderExtraMonster:(PvpMonsterProto*) value {
+>>>>>>> revenge/avenge now has clan monster
   result.hasDefenderExtraMonster = YES;
   result.defenderExtraMonster = value;
   return self;
 }
+<<<<<<< HEAD
 - (PvpProto_Builder*) setDefenderExtraMonster_Builder:(ClanMemberTeamDonationProto_Builder*) builderForValue {
   return [self setDefenderExtraMonster:[builderForValue build]];
 }
@@ -577,6 +651,16 @@ static PvpProto* defaultPvpProtoInstance = nil;
       result.defenderExtraMonster != [ClanMemberTeamDonationProto defaultInstance]) {
     result.defenderExtraMonster =
       [[[ClanMemberTeamDonationProto builderWithPrototype:result.defenderExtraMonster] mergeFrom:value] buildPartial];
+=======
+- (PvpProto_Builder*) setDefenderExtraMonster_Builder:(PvpMonsterProto_Builder*) builderForValue {
+  return [self setDefenderExtraMonster:[builderForValue build]];
+}
+- (PvpProto_Builder*) mergeDefenderExtraMonster:(PvpMonsterProto*) value {
+  if (result.hasDefenderExtraMonster &&
+      result.defenderExtraMonster != [PvpMonsterProto defaultInstance]) {
+    result.defenderExtraMonster =
+      [[[PvpMonsterProto builderWithPrototype:result.defenderExtraMonster] mergeFrom:value] buildPartial];
+>>>>>>> revenge/avenge now has clan monster
   } else {
     result.defenderExtraMonster = value;
   }
@@ -585,7 +669,27 @@ static PvpProto* defaultPvpProtoInstance = nil;
 }
 - (PvpProto_Builder*) clearDefenderExtraMonster {
   result.hasDefenderExtraMonster = NO;
+<<<<<<< HEAD
   result.defenderExtraMonster = [ClanMemberTeamDonationProto defaultInstance];
+=======
+  result.defenderExtraMonster = [PvpMonsterProto defaultInstance];
+  return self;
+}
+- (BOOL) hasSolicitationUuid {
+  return result.hasSolicitationUuid;
+}
+- (NSString*) solicitationUuid {
+  return result.solicitationUuid;
+}
+- (PvpProto_Builder*) setSolicitationUuid:(NSString*) value {
+  result.hasSolicitationUuid = YES;
+  result.solicitationUuid = value;
+  return self;
+}
+- (PvpProto_Builder*) clearSolicitationUuid {
+  result.hasSolicitationUuid = NO;
+  result.solicitationUuid = @"";
+>>>>>>> revenge/avenge now has clan monster
   return self;
 }
 @end

@@ -630,28 +630,7 @@ message FulfillTeamDonationSolicitationRequestProto {
 
 message FulfillTeamDonationSolicitationResponseProto {
 	optional MinimumUserProto sender = 1;
-<<<<<<< HEAD
-<<<<<<< HEAD
 	optional FulfillTeamDonationSolicitationStatus status = 2;
-=======
-	optional FulfillTeamDonationSolictationStatus status = 2;
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> donate msg vc done
-=======
-<<<<<<< HEAD
->>>>>>> fixed various bugs and began on solicit clan donation
-	optional ClanMemberTeamDonationProto solicitation = 3;
-=======
-	optional ClanMemberTeamDonation solicitation = 3;
->>>>>>> donate msg vc done
-=======
-=======
->>>>>>> reproto
-=======
-	optional FulfillTeamDonationSolicitationStatus status = 2;
->>>>>>> working on chat protocol
 	optional ClanMemberTeamDonationProto solicitation = 3;
    
 	enum FulfillTeamDonationSolicitationStatus {

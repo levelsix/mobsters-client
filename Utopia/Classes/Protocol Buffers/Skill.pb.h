@@ -47,16 +47,11 @@ typedef NS_ENUM(SInt32, SkillType) {
   SkillTypeShallowGrave = 24,
   SkillTypeHammerTime = 25,
   SkillTypeBloodRage = 26,
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
   SkillTypeTakeAim = 27,
-<<<<<<< HEAD
   SkillTypeHellFire = 28,
   SkillTypeEnergize = 29,
-<<<<<<< HEAD
-<<<<<<< HEAD
   SkillTypeRightHook = 30,
+<<<<<<< HEAD
 <<<<<<< HEAD
   SkillTypeCurse = 31,
   SkillTypeInsurance = 32,
@@ -95,6 +90,11 @@ typedef NS_ENUM(SInt32, SkillType) {
   SkillTypeRightHook = 30,
 >>>>>>> done with clan monster in pvp/pve
 >>>>>>> done with clan monster in pvp/pve
+=======
+  SkillTypeCurse = 31,
+  SkillTypeInsurance = 32,
+  SkillTypeFlameBreak = 33,
+>>>>>>> revenge/avenge now has clan monster
 };
 
 BOOL SkillTypeIsValidValue(SkillType value);

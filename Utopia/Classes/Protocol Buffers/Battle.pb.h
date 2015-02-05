@@ -98,15 +98,21 @@ BOOL BattleResultIsValidValue(BattleResult value);
   BOOL hasProspectiveCashWinnings_:1;
   BOOL hasProspectiveOilWinnings_:1;
   BOOL hasDefenderMsg_:1;
+  BOOL hasSolicitationUuid_:1;
   BOOL hasDefender_:1;
   BOOL hasPvpLeagueStats_:1;
   BOOL hasDefenderExtraMonster_:1;
   int32_t prospectiveCashWinnings;
   int32_t prospectiveOilWinnings;
   NSString* defenderMsg;
+  NSString* solicitationUuid;
   MinimumUserProtoWithLevel* defender;
   UserPvpLeagueProto* pvpLeagueStats;
+<<<<<<< HEAD
   ClanMemberTeamDonationProto* defenderExtraMonster;
+=======
+  PvpMonsterProto* defenderExtraMonster;
+>>>>>>> revenge/avenge now has clan monster
   NSMutableArray * mutableDefenderMonstersList;
 }
 - (BOOL) hasDefender;
@@ -115,13 +121,22 @@ BOOL BattleResultIsValidValue(BattleResult value);
 - (BOOL) hasPvpLeagueStats;
 - (BOOL) hasDefenderMsg;
 - (BOOL) hasDefenderExtraMonster;
+<<<<<<< HEAD
+=======
+- (BOOL) hasSolicitationUuid;
+>>>>>>> revenge/avenge now has clan monster
 @property (readonly, strong) MinimumUserProtoWithLevel* defender;
 @property (readonly, strong) NSArray * defenderMonstersList;
 @property (readonly) int32_t prospectiveCashWinnings;
 @property (readonly) int32_t prospectiveOilWinnings;
 @property (readonly, strong) UserPvpLeagueProto* pvpLeagueStats;
 @property (readonly, strong) NSString* defenderMsg;
+<<<<<<< HEAD
 @property (readonly, strong) ClanMemberTeamDonationProto* defenderExtraMonster;
+=======
+@property (readonly, strong) PvpMonsterProto* defenderExtraMonster;
+@property (readonly, strong) NSString* solicitationUuid;
+>>>>>>> revenge/avenge now has clan monster
 - (PvpMonsterProto*)defenderMonstersAtIndex:(NSUInteger)index;
 
 + (PvpProto*) defaultInstance;
@@ -195,11 +210,24 @@ BOOL BattleResultIsValidValue(BattleResult value);
 - (PvpProto_Builder*) clearDefenderMsg;
 
 - (BOOL) hasDefenderExtraMonster;
+<<<<<<< HEAD
 - (ClanMemberTeamDonationProto*) defenderExtraMonster;
 - (PvpProto_Builder*) setDefenderExtraMonster:(ClanMemberTeamDonationProto*) value;
 - (PvpProto_Builder*) setDefenderExtraMonster_Builder:(ClanMemberTeamDonationProto_Builder*) builderForValue;
 - (PvpProto_Builder*) mergeDefenderExtraMonster:(ClanMemberTeamDonationProto*) value;
 - (PvpProto_Builder*) clearDefenderExtraMonster;
+=======
+- (PvpMonsterProto*) defenderExtraMonster;
+- (PvpProto_Builder*) setDefenderExtraMonster:(PvpMonsterProto*) value;
+- (PvpProto_Builder*) setDefenderExtraMonster_Builder:(PvpMonsterProto_Builder*) builderForValue;
+- (PvpProto_Builder*) mergeDefenderExtraMonster:(PvpMonsterProto*) value;
+- (PvpProto_Builder*) clearDefenderExtraMonster;
+
+- (BOOL) hasSolicitationUuid;
+- (NSString*) solicitationUuid;
+- (PvpProto_Builder*) setSolicitationUuid:(NSString*) value;
+- (PvpProto_Builder*) clearSolicitationUuid;
+>>>>>>> revenge/avenge now has clan monster
 @end
 
 @interface PvpMonsterProto : PBGeneratedMessage {

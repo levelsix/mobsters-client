@@ -315,7 +315,7 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
 - (BOOL) hasType;
 - (CityElementProto_CityElemType) type;
 - (CityElementProto_Builder*) setType:(CityElementProto_CityElemType) value;
-- (CityElementProto_Builder*) clearType;
+- (CityElementProto_Builder*) clearTypeList;
 
 - (BOOL) hasCoords;
 - (CoordinateProto*) coords;
@@ -342,7 +342,7 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
 - (BOOL) hasOrientation;
 - (StructOrientation) orientation;
 - (CityElementProto_Builder*) setOrientation:(StructOrientation) value;
-- (CityElementProto_Builder*) clearOrientation;
+- (CityElementProto_Builder*) clearOrientationList;
 
 - (BOOL) hasSpriteCoords;
 - (CoordinateProto*) spriteCoords;

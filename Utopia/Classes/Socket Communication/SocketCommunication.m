@@ -1579,6 +1579,15 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCVoidTeamDonationSolicitationEvent queueUp:YES];
 }
 
+- (int) sendRetrieveUserMonsterTeamMessage:(NSArray *)userUuids {
+  RetrieveUserMonsterTeamRequestProto *req = [[[[RetrieveUserMonsterTeamRequestProto builder]
+                                                setSender:_sender]
+                                               addAllUserUuids:userUuids]
+                                              build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCRetrieveUserMonsterTeamEvent];
+}
+
 #pragma mark - Batch/Flush events
 
 - (int) retrieveCurrencyFromStruct:(NSString *)userStructUuid time:(uint64_t)time amountCollected:(int)amountCollected {

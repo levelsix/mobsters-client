@@ -37,6 +37,10 @@ message PvpProto {
 	optional UserPvpLeagueProto pvpLeagueStats = 6; //defender info
 	
 	optional string defenderMsg = 7; 
+	
+	//the monster donated by defender's clan
+	optional PvpMonsterProto defenderExtraMonster = 8;
+	optional string solicitationUuid = 9;
 }
 
 message PvpMonsterProto {

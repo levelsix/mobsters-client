@@ -8349,6 +8349,7 @@ static ClanDataProto* defaultClanDataProtoInstance = nil;
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 =======
 >>>>>>> fixed various bugs and began on solicit clan donation
@@ -8968,5 +8969,7 @@ static ClanMemberTeamDonationProto* defaultClanMemberTeamDonationProtoInstance =
 @end
 
 >>>>>>> donate msg vc done
+=======
+>>>>>>> revenge/avenge now has clan monster
 
 // @@protoc_insertion_point(global_scope)

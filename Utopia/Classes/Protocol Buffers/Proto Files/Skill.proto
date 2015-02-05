@@ -81,16 +81,11 @@ enum SkillType {
 	SHALLOW_GRAVE = 24;
 	HAMMER_TIME = 25;
 	BLOOD_RAGE = 26;
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 	TAKE_AIM = 27;
-<<<<<<< HEAD
 	HELL_FIRE = 28;
 	ENERGIZE = 29;
-<<<<<<< HEAD
-<<<<<<< HEAD
 	RIGHT_HOOK = 30;
+<<<<<<< HEAD
 <<<<<<< HEAD
 	CURSE = 31;
 	INSURANCE = 32;
@@ -129,6 +124,11 @@ enum SkillType {
 	RIGHT_HOOK = 30;
 >>>>>>> done with clan monster in pvp/pve
 >>>>>>> done with clan monster in pvp/pve
+=======
+	CURSE = 31;
+	INSURANCE = 32;
+	FLAME_BREAK = 33;
+>>>>>>> revenge/avenge now has clan monster
 }
 
 enum SkillActivationType {

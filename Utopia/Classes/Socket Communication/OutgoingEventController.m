@@ -2070,6 +2070,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
+- (void) retrieveUserTeam:(NSString *)userUuid delegate:(id)delegate {
+  int tag = [[SocketCommunication sharedSocketCommunication] sendRetrieveUserMonsterTeamMessage:@[userUuid]];
+  [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
+}
+
 #pragma mark - Team
 
 - (BOOL) removeMonsterFromTeam:(NSString *)userMonsterUuid {

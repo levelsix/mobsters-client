@@ -193,7 +193,7 @@ BOOL ItemTypeIsValidValue(ItemType value);
 - (BOOL) hasItemType;
 - (ItemType) itemType;
 - (ItemProto_Builder*) setItemType:(ItemType) value;
-- (ItemProto_Builder*) clearItemType;
+- (ItemProto_Builder*) clearItemTypeList;
 
 - (BOOL) hasStaticDataId;
 - (int32_t) staticDataId;
@@ -302,7 +302,7 @@ BOOL ItemTypeIsValidValue(ItemType value);
 - (BOOL) hasActionType;
 - (GameActionType) actionType;
 - (UserItemUsageProto_Builder*) setActionType:(GameActionType) value;
-- (UserItemUsageProto_Builder*) clearActionType;
+- (UserItemUsageProto_Builder*) clearActionTypeList;
 @end
 
 @interface UserItemSecretGiftProto : PBGeneratedMessage {

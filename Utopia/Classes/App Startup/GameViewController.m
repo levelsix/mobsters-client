@@ -1039,6 +1039,8 @@ static const CGSize FIXED_SIZE = {568, 384};
   PvpBattleLayer *bl = [[PvpBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeamWithClanSlot:YES] puzzleIsOnLeft:NO gridSize:CGSizeMake(9, 9) pvpHistoryForRevenge:history];
   bl.delegate = self;
   
+  [[OutgoingEventController sharedOutgoingEventController] retrieveUserTeam:history.attacker.userUuid delegate:bl];
+  
   [self crossFadeIntoBattleLayer:bl];
 }
 
@@ -1053,7 +1055,8 @@ static const CGSize FIXED_SIZE = {568, 384};
   bl.delegate = self;
   [bl setClanAvenging:ca];
   
-  [[OutgoingEventController sharedOutgoingEventController] queueUpForClanAvenge:ca delegate:bl];
+  [[OutgoingEventController sharedOutgoingEventController] queueUpForClanAvenge:ca delegate:nil];
+  [[OutgoingEventController sharedOutgoingEventController] retrieveUserTeam:ca.attacker.minUserProto.userUuid delegate:bl];
   
   [self crossFadeIntoBattleLayer:bl];
 }

@@ -214,6 +214,8 @@
 - (int) sendFulfillTeamDonationSolicitationMessage:(FullUserMonsterProto *)fump solicitation:(ClanMemberTeamDonationProto *)solicitation clientTime:(uint64_t)clientTime;
 - (int) sendVoidTeamDonationSolicitationMessage:(NSArray *)solicitations;
 
+- (int) sendRetrieveUserMonsterTeamMessage:(NSArray *)userUuids;
+
 - (void) flush;
 
 @end

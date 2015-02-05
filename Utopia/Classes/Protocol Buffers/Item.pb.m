@@ -750,7 +750,7 @@ static ItemProto* defaultItemProtoInstance = nil;
   result.itemType = value;
   return self;
 }
-- (ItemProto_Builder*) clearItemType {
+- (ItemProto_Builder*) clearItemTypeList {
   result.hasItemType = NO;
   result.itemType = ItemTypeBoosterPack;
   return self;
@@ -1233,7 +1233,7 @@ static UserItemUsageProto* defaultUserItemUsageProtoInstance = nil;
   result.actionType = value;
   return self;
 }
-- (UserItemUsageProto_Builder*) clearActionType {
+- (UserItemUsageProto_Builder*) clearActionTypeList {
   result.hasActionType = NO;
   result.actionType = GameActionTypeNoHelp;
   return self;

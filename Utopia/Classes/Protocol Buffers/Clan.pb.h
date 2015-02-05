@@ -1942,6 +1942,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 =======
 >>>>>>> fixed various bugs and began on solicit clan donation
@@ -2149,5 +2150,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 @end
 
 >>>>>>> donate msg vc done
+=======
+>>>>>>> revenge/avenge now has clan monster
 
 // @@protoc_insertion_point(global_scope)

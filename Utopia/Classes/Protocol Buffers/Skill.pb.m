@@ -48,16 +48,11 @@ BOOL SkillTypeIsValidValue(SkillType value) {
     case SkillTypeShallowGrave:
     case SkillTypeHammerTime:
     case SkillTypeBloodRage:
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
     case SkillTypeTakeAim:
-<<<<<<< HEAD
     case SkillTypeHellFire:
     case SkillTypeEnergize:
-<<<<<<< HEAD
-<<<<<<< HEAD
     case SkillTypeRightHook:
+<<<<<<< HEAD
 <<<<<<< HEAD
     case SkillTypeCurse:
     case SkillTypeInsurance:
@@ -96,6 +91,11 @@ BOOL SkillTypeIsValidValue(SkillType value) {
     case SkillTypeRightHook:
 >>>>>>> done with clan monster in pvp/pve
 >>>>>>> done with clan monster in pvp/pve
+=======
+    case SkillTypeCurse:
+    case SkillTypeInsurance:
+    case SkillTypeFlameBreak:
+>>>>>>> revenge/avenge now has clan monster
       return YES;
     default:
       return NO;

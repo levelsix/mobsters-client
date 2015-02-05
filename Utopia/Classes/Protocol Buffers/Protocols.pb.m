@@ -159,6 +159,7 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCSolicitTeamDonationEvent:
     case EventProtocolRequestCFulfillTeamDonationSolicitationEvent:
     case EventProtocolRequestCVoidTeamDonationSolicitationEvent:
+    case EventProtocolRequestCRetrieveUserMonsterTeamEvent:
     case EventProtocolRequestCLogoutEvent:
     case EventProtocolRequestCDevEvent:
       return YES;
@@ -263,6 +264,7 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSSolicitTeamDonationEvent:
     case EventProtocolResponseSFulfillTeamDonationSolicitationEvent:
     case EventProtocolResponseSVoidTeamDonationSolicitationEvent:
+    case EventProtocolResponseSRetrieveUserMonsterTeamEvent:
     case EventProtocolResponseSUpdateClientUserEvent:
     case EventProtocolResponseSReferralCodeUsedEvent:
     case EventProtocolResponseSPurgeStaticDataEvent:

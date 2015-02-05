@@ -13,6 +13,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
   if (self == [EventMonsterRoot class]) {
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
+    [BattleRoot registerAllExtensions:registry];
     [MonsterStuffRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
     extensionRegistry = registry;
@@ -684,7 +685,7 @@ BOOL EvolveMonsterResponseProto_EvolveMonsterStatusIsValidValue(EvolveMonsterRes
   result.status = value;
   return self;
 }
-- (EvolveMonsterResponseProto_Builder*) clearStatus {
+- (EvolveMonsterResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = EvolveMonsterResponseProto_EvolveMonsterStatusSuccess;
   return self;
@@ -1303,7 +1304,7 @@ BOOL EvolutionFinishedResponseProto_EvolutionFinishedStatusIsValidValue(Evolutio
   result.status = value;
   return self;
 }
-- (EvolutionFinishedResponseProto_Builder*) clearStatus {
+- (EvolutionFinishedResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = EvolutionFinishedResponseProto_EvolutionFinishedStatusSuccess;
   return self;
@@ -2087,7 +2088,7 @@ BOOL SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusIsValid
   result.status = value;
   return self;
 }
-- (SubmitMonsterEnhancementResponseProto_Builder*) clearStatus {
+- (SubmitMonsterEnhancementResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusSuccess;
   return self;
@@ -2866,7 +2867,7 @@ BOOL EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatusI
   result.status = value;
   return self;
 }
-- (EnhancementWaitTimeCompleteResponseProto_Builder*) clearStatus {
+- (EnhancementWaitTimeCompleteResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatusSuccess;
   return self;
@@ -3502,7 +3503,7 @@ BOOL CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatusIsVal
   result.status = value;
   return self;
 }
-- (CollectMonsterEnhancementResponseProto_Builder*) clearStatus {
+- (CollectMonsterEnhancementResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatusSuccess;
   return self;
@@ -4236,7 +4237,7 @@ BOOL EnhanceMonsterResponseProto_EnhanceMonsterStatusIsValidValue(EnhanceMonster
   result.status = value;
   return self;
 }
-- (EnhanceMonsterResponseProto_Builder*) clearStatus {
+- (EnhanceMonsterResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = EnhanceMonsterResponseProto_EnhanceMonsterStatusSuccess;
   return self;
@@ -5135,7 +5136,7 @@ BOOL UpdateMonsterHealthResponseProto_UpdateMonsterHealthStatusIsValidValue(Upda
   result.status = value;
   return self;
 }
-- (UpdateMonsterHealthResponseProto_Builder*) clearStatus {
+- (UpdateMonsterHealthResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = UpdateMonsterHealthResponseProto_UpdateMonsterHealthStatusSuccess;
   return self;
@@ -6080,7 +6081,7 @@ BOOL HealMonsterResponseProto_HealMonsterStatusIsValidValue(HealMonsterResponseP
   result.status = value;
   return self;
 }
-- (HealMonsterResponseProto_Builder*) clearStatus {
+- (HealMonsterResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = HealMonsterResponseProto_HealMonsterStatusSuccess;
   return self;
@@ -6676,7 +6677,7 @@ BOOL AddMonsterToBattleTeamResponseProto_AddMonsterToBattleTeamStatusIsValidValu
   result.status = value;
   return self;
 }
-- (AddMonsterToBattleTeamResponseProto_Builder*) clearStatus {
+- (AddMonsterToBattleTeamResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = AddMonsterToBattleTeamResponseProto_AddMonsterToBattleTeamStatusSuccess;
   return self;
@@ -7226,7 +7227,7 @@ BOOL RemoveMonsterFromBattleTeamResponseProto_RemoveMonsterFromBattleTeamStatusI
   result.status = value;
   return self;
 }
-- (RemoveMonsterFromBattleTeamResponseProto_Builder*) clearStatus {
+- (RemoveMonsterFromBattleTeamResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = RemoveMonsterFromBattleTeamResponseProto_RemoveMonsterFromBattleTeamStatusSuccess;
   return self;
@@ -7577,7 +7578,7 @@ BOOL IncreaseMonsterInventorySlotRequestProto_IncreaseSlotTypeIsValidValue(Incre
   result.increaseSlotType = value;
   return self;
 }
-- (IncreaseMonsterInventorySlotRequestProto_Builder*) clearIncreaseSlotType {
+- (IncreaseMonsterInventorySlotRequestProto_Builder*) clearIncreaseSlotTypeList {
   result.hasIncreaseSlotType = NO;
   result.increaseSlotType = IncreaseMonsterInventorySlotRequestProto_IncreaseSlotTypePurchase;
   return self;
@@ -7903,7 +7904,7 @@ BOOL IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatu
   result.status = value;
   return self;
 }
-- (IncreaseMonsterInventorySlotResponseProto_Builder*) clearStatus {
+- (IncreaseMonsterInventorySlotResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusSuccess;
   return self;
@@ -8799,7 +8800,7 @@ BOOL InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatusIsValidVa
   result.status = value;
   return self;
 }
-- (InviteFbFriendsForSlotsResponseProto_Builder*) clearStatus {
+- (InviteFbFriendsForSlotsResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatusSuccess;
   return self;
@@ -9493,7 +9494,7 @@ BOOL AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlot
   result.status = value;
   return self;
 }
-- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) clearStatus {
+- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatusSuccess;
   return self;
@@ -10132,7 +10133,7 @@ BOOL CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatusIsValid
   result.status = value;
   return self;
 }
-- (CombineUserMonsterPiecesResponseProto_Builder*) clearStatus {
+- (CombineUserMonsterPiecesResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatusSuccess;
   return self;
@@ -10698,7 +10699,7 @@ BOOL SellUserMonsterResponseProto_SellUserMonsterStatusIsValidValue(SellUserMons
   result.status = value;
   return self;
 }
-- (SellUserMonsterResponseProto_Builder*) clearStatus {
+- (SellUserMonsterResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = SellUserMonsterResponseProto_SellUserMonsterStatusSuccess;
   return self;
@@ -11265,7 +11266,7 @@ BOOL RestrictUserMonsterResponseProto_RestrictUserMonsterStatusIsValidValue(Rest
   result.status = value;
   return self;
 }
-- (RestrictUserMonsterResponseProto_Builder*) clearStatus {
+- (RestrictUserMonsterResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = RestrictUserMonsterResponseProto_RestrictUserMonsterStatusSuccess;
   return self;
@@ -11832,9 +11833,638 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
   result.status = value;
   return self;
 }
-- (UnrestrictUserMonsterResponseProto_Builder*) clearStatus {
+- (UnrestrictUserMonsterResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusSuccess;
+  return self;
+}
+@end
+
+@interface RetrieveUserMonsterTeamRequestProto ()
+@property (strong) MinimumUserProto* sender;
+@property (strong) NSMutableArray * mutableUserUuidsList;
+@end
+
+@implementation RetrieveUserMonsterTeamRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value_ {
+  hasSender_ = !!value_;
+}
+@synthesize sender;
+@synthesize mutableUserUuidsList;
+@dynamic userUuidsList;
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+  }
+  return self;
+}
+static RetrieveUserMonsterTeamRequestProto* defaultRetrieveUserMonsterTeamRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [RetrieveUserMonsterTeamRequestProto class]) {
+    defaultRetrieveUserMonsterTeamRequestProtoInstance = [[RetrieveUserMonsterTeamRequestProto alloc] init];
+  }
+}
++ (RetrieveUserMonsterTeamRequestProto*) defaultInstance {
+  return defaultRetrieveUserMonsterTeamRequestProtoInstance;
+}
+- (RetrieveUserMonsterTeamRequestProto*) defaultInstance {
+  return defaultRetrieveUserMonsterTeamRequestProtoInstance;
+}
+- (NSArray *)userUuidsList {
+  return mutableUserUuidsList;
+}
+- (NSString*)userUuidsAtIndex:(NSUInteger)index {
+  return [mutableUserUuidsList objectAtIndex:index];
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  [self.userUuidsList enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+    [output writeString:2 value:element];
+  }];
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasSender) {
+    size_ += computeMessageSize(1, self.sender);
+  }
+  {
+    __block SInt32 dataSize = 0;
+    const NSUInteger count = self.userUuidsList.count;
+    [self.userUuidsList enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+      dataSize += computeStringSizeNoTag(element);
+    }];
+    size_ += dataSize;
+    size_ += (SInt32)(1 * count);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (RetrieveUserMonsterTeamRequestProto*) parseFromData:(NSData*) data {
+  return (RetrieveUserMonsterTeamRequestProto*)[[[RetrieveUserMonsterTeamRequestProto builder] mergeFromData:data] build];
+}
++ (RetrieveUserMonsterTeamRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveUserMonsterTeamRequestProto*)[[[RetrieveUserMonsterTeamRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveUserMonsterTeamRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (RetrieveUserMonsterTeamRequestProto*)[[[RetrieveUserMonsterTeamRequestProto builder] mergeFromInputStream:input] build];
+}
++ (RetrieveUserMonsterTeamRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveUserMonsterTeamRequestProto*)[[[RetrieveUserMonsterTeamRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveUserMonsterTeamRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (RetrieveUserMonsterTeamRequestProto*)[[[RetrieveUserMonsterTeamRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (RetrieveUserMonsterTeamRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveUserMonsterTeamRequestProto*)[[[RetrieveUserMonsterTeamRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveUserMonsterTeamRequestProto_Builder*) builder {
+  return [[RetrieveUserMonsterTeamRequestProto_Builder alloc] init];
+}
++ (RetrieveUserMonsterTeamRequestProto_Builder*) builderWithPrototype:(RetrieveUserMonsterTeamRequestProto*) prototype {
+  return [[RetrieveUserMonsterTeamRequestProto builder] mergeFrom:prototype];
+}
+- (RetrieveUserMonsterTeamRequestProto_Builder*) builder {
+  return [RetrieveUserMonsterTeamRequestProto builder];
+}
+- (RetrieveUserMonsterTeamRequestProto_Builder*) toBuilder {
+  return [RetrieveUserMonsterTeamRequestProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasSender) {
+    [output appendFormat:@"%@%@ {\n", indent, @"sender"];
+    [self.sender writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  [self.userUuidsList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userUuids", obj];
+  }];
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[RetrieveUserMonsterTeamRequestProto class]]) {
+    return NO;
+  }
+  RetrieveUserMonsterTeamRequestProto *otherMessage = other;
+  return
+      self.hasSender == otherMessage.hasSender &&
+      (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
+      [self.userUuidsList isEqualToArray:otherMessage.userUuidsList] &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasSender) {
+    hashCode = hashCode * 31 + [self.sender hash];
+  }
+  [self.userUuidsList enumerateObjectsUsingBlock:^(id element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+@interface RetrieveUserMonsterTeamRequestProto_Builder()
+@property (strong) RetrieveUserMonsterTeamRequestProto* result;
+@end
+
+@implementation RetrieveUserMonsterTeamRequestProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[RetrieveUserMonsterTeamRequestProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (RetrieveUserMonsterTeamRequestProto_Builder*) clear {
+  self.result = [[RetrieveUserMonsterTeamRequestProto alloc] init];
+  return self;
+}
+- (RetrieveUserMonsterTeamRequestProto_Builder*) clone {
+  return [RetrieveUserMonsterTeamRequestProto builderWithPrototype:result];
+}
+- (RetrieveUserMonsterTeamRequestProto*) defaultInstance {
+  return [RetrieveUserMonsterTeamRequestProto defaultInstance];
+}
+- (RetrieveUserMonsterTeamRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (RetrieveUserMonsterTeamRequestProto*) buildPartial {
+  RetrieveUserMonsterTeamRequestProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (RetrieveUserMonsterTeamRequestProto_Builder*) mergeFrom:(RetrieveUserMonsterTeamRequestProto*) other {
+  if (other == [RetrieveUserMonsterTeamRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.mutableUserUuidsList.count > 0) {
+    if (result.mutableUserUuidsList == nil) {
+      result.mutableUserUuidsList = [[NSMutableArray alloc] initWithArray:other.mutableUserUuidsList];
+    } else {
+      [result.mutableUserUuidsList addObjectsFromArray:other.mutableUserUuidsList];
+    }
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (RetrieveUserMonsterTeamRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (RetrieveUserMonsterTeamRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        [self addUserUuids:[input readString]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (RetrieveUserMonsterTeamRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (RetrieveUserMonsterTeamRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (RetrieveUserMonsterTeamRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (RetrieveUserMonsterTeamRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (NSMutableArray *)userUuidsList {
+  return result.mutableUserUuidsList;
+}
+- (NSString*)userUuidsAtIndex:(NSUInteger)index {
+  return [result userUuidsAtIndex:index];
+}
+- (RetrieveUserMonsterTeamRequestProto_Builder *)addUserUuids:(NSString*)value {
+  if (result.mutableUserUuidsList == nil) {
+    result.mutableUserUuidsList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableUserUuidsList addObject:value];
+  return self;
+}
+- (RetrieveUserMonsterTeamRequestProto_Builder *)addAllUserUuids:(NSArray *)array {
+  if (result.mutableUserUuidsList == nil) {
+    result.mutableUserUuidsList = [NSMutableArray array];
+  }
+  [result.mutableUserUuidsList addObjectsFromArray:array];
+  return self;
+}
+- (RetrieveUserMonsterTeamRequestProto_Builder *)clearUserUuids {
+  result.mutableUserUuidsList = nil;
+  return self;
+}
+@end
+
+@interface RetrieveUserMonsterTeamResponseProto ()
+@property (strong) MinimumUserProto* sender;
+@property RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatus status;
+@property (strong) NSMutableArray * mutableUserMonsterTeamList;
+@end
+
+@implementation RetrieveUserMonsterTeamResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value_ {
+  hasSender_ = !!value_;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value_ {
+  hasStatus_ = !!value_;
+}
+@synthesize status;
+@synthesize mutableUserMonsterTeamList;
+@dynamic userMonsterTeamList;
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusSuccess;
+  }
+  return self;
+}
+static RetrieveUserMonsterTeamResponseProto* defaultRetrieveUserMonsterTeamResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [RetrieveUserMonsterTeamResponseProto class]) {
+    defaultRetrieveUserMonsterTeamResponseProtoInstance = [[RetrieveUserMonsterTeamResponseProto alloc] init];
+  }
+}
++ (RetrieveUserMonsterTeamResponseProto*) defaultInstance {
+  return defaultRetrieveUserMonsterTeamResponseProtoInstance;
+}
+- (RetrieveUserMonsterTeamResponseProto*) defaultInstance {
+  return defaultRetrieveUserMonsterTeamResponseProtoInstance;
+}
+- (NSArray *)userMonsterTeamList {
+  return mutableUserMonsterTeamList;
+}
+- (PvpProto*)userMonsterTeamAtIndex:(NSUInteger)index {
+  return [mutableUserMonsterTeamList objectAtIndex:index];
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  [self.userMonsterTeamList enumerateObjectsUsingBlock:^(PvpProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:3 value:element];
+  }];
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasSender) {
+    size_ += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size_ += computeEnumSize(2, self.status);
+  }
+  [self.userMonsterTeamList enumerateObjectsUsingBlock:^(PvpProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(3, element);
+  }];
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (RetrieveUserMonsterTeamResponseProto*) parseFromData:(NSData*) data {
+  return (RetrieveUserMonsterTeamResponseProto*)[[[RetrieveUserMonsterTeamResponseProto builder] mergeFromData:data] build];
+}
++ (RetrieveUserMonsterTeamResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveUserMonsterTeamResponseProto*)[[[RetrieveUserMonsterTeamResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveUserMonsterTeamResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (RetrieveUserMonsterTeamResponseProto*)[[[RetrieveUserMonsterTeamResponseProto builder] mergeFromInputStream:input] build];
+}
++ (RetrieveUserMonsterTeamResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveUserMonsterTeamResponseProto*)[[[RetrieveUserMonsterTeamResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveUserMonsterTeamResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (RetrieveUserMonsterTeamResponseProto*)[[[RetrieveUserMonsterTeamResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (RetrieveUserMonsterTeamResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveUserMonsterTeamResponseProto*)[[[RetrieveUserMonsterTeamResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveUserMonsterTeamResponseProto_Builder*) builder {
+  return [[RetrieveUserMonsterTeamResponseProto_Builder alloc] init];
+}
++ (RetrieveUserMonsterTeamResponseProto_Builder*) builderWithPrototype:(RetrieveUserMonsterTeamResponseProto*) prototype {
+  return [[RetrieveUserMonsterTeamResponseProto builder] mergeFrom:prototype];
+}
+- (RetrieveUserMonsterTeamResponseProto_Builder*) builder {
+  return [RetrieveUserMonsterTeamResponseProto builder];
+}
+- (RetrieveUserMonsterTeamResponseProto_Builder*) toBuilder {
+  return [RetrieveUserMonsterTeamResponseProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasSender) {
+    [output appendFormat:@"%@%@ {\n", indent, @"sender"];
+    [self.sender writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  if (self.hasStatus) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
+  }
+  [self.userMonsterTeamList enumerateObjectsUsingBlock:^(PvpProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"userMonsterTeam"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[RetrieveUserMonsterTeamResponseProto class]]) {
+    return NO;
+  }
+  RetrieveUserMonsterTeamResponseProto *otherMessage = other;
+  return
+      self.hasSender == otherMessage.hasSender &&
+      (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
+      self.hasStatus == otherMessage.hasStatus &&
+      (!self.hasStatus || self.status == otherMessage.status) &&
+      [self.userMonsterTeamList isEqualToArray:otherMessage.userMonsterTeamList] &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasSender) {
+    hashCode = hashCode * 31 + [self.sender hash];
+  }
+  if (self.hasStatus) {
+    hashCode = hashCode * 31 + self.status;
+  }
+  [self.userMonsterTeamList enumerateObjectsUsingBlock:^(PvpProto *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidValue(RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatus value) {
+  switch (value) {
+    case RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusSuccess:
+    case RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusFailOther:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface RetrieveUserMonsterTeamResponseProto_Builder()
+@property (strong) RetrieveUserMonsterTeamResponseProto* result;
+@end
+
+@implementation RetrieveUserMonsterTeamResponseProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[RetrieveUserMonsterTeamResponseProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (RetrieveUserMonsterTeamResponseProto_Builder*) clear {
+  self.result = [[RetrieveUserMonsterTeamResponseProto alloc] init];
+  return self;
+}
+- (RetrieveUserMonsterTeamResponseProto_Builder*) clone {
+  return [RetrieveUserMonsterTeamResponseProto builderWithPrototype:result];
+}
+- (RetrieveUserMonsterTeamResponseProto*) defaultInstance {
+  return [RetrieveUserMonsterTeamResponseProto defaultInstance];
+}
+- (RetrieveUserMonsterTeamResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (RetrieveUserMonsterTeamResponseProto*) buildPartial {
+  RetrieveUserMonsterTeamResponseProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (RetrieveUserMonsterTeamResponseProto_Builder*) mergeFrom:(RetrieveUserMonsterTeamResponseProto*) other {
+  if (other == [RetrieveUserMonsterTeamResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  if (other.mutableUserMonsterTeamList.count > 0) {
+    if (result.mutableUserMonsterTeamList == nil) {
+      result.mutableUserMonsterTeamList = [[NSMutableArray alloc] initWithArray:other.mutableUserMonsterTeamList];
+    } else {
+      [result.mutableUserMonsterTeamList addObjectsFromArray:other.mutableUserMonsterTeamList];
+    }
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (RetrieveUserMonsterTeamResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (RetrieveUserMonsterTeamResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatus value = (RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatus)[input readEnum];
+        if (RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+      case 26: {
+        PvpProto_Builder* subBuilder = [PvpProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addUserMonsterTeam:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (RetrieveUserMonsterTeamResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (RetrieveUserMonsterTeamResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (RetrieveUserMonsterTeamResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (RetrieveUserMonsterTeamResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatus) status {
+  return result.status;
+}
+- (RetrieveUserMonsterTeamResponseProto_Builder*) setStatus:(RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (RetrieveUserMonsterTeamResponseProto_Builder*) clearStatusList {
+  result.hasStatus = NO;
+  result.status = RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusSuccess;
+  return self;
+}
+- (NSMutableArray *)userMonsterTeamList {
+  return result.mutableUserMonsterTeamList;
+}
+- (PvpProto*)userMonsterTeamAtIndex:(NSUInteger)index {
+  return [result userMonsterTeamAtIndex:index];
+}
+- (RetrieveUserMonsterTeamResponseProto_Builder *)addUserMonsterTeam:(PvpProto*)value {
+  if (result.mutableUserMonsterTeamList == nil) {
+    result.mutableUserMonsterTeamList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableUserMonsterTeamList addObject:value];
+  return self;
+}
+- (RetrieveUserMonsterTeamResponseProto_Builder *)addAllUserMonsterTeam:(NSArray *)array {
+  if (result.mutableUserMonsterTeamList == nil) {
+    result.mutableUserMonsterTeamList = [NSMutableArray array];
+  }
+  [result.mutableUserMonsterTeamList addObjectsFromArray:array];
+  return self;
+}
+- (RetrieveUserMonsterTeamResponseProto_Builder *)clearUserMonsterTeam {
+  result.mutableUserMonsterTeamList = nil;
   return self;
 }
 @end

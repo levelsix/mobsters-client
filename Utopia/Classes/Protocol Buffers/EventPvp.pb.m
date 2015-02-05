@@ -739,7 +739,7 @@ BOOL QueueUpResponseProto_QueueUpStatusIsValidValue(QueueUpResponseProto_QueueUp
   result.status = value;
   return self;
 }
-- (QueueUpResponseProto_Builder*) clearStatus {
+- (QueueUpResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = QueueUpResponseProto_QueueUpStatusSuccess;
   return self;
@@ -1501,7 +1501,7 @@ BOOL BeginPvpBattleResponseProto_BeginPvpBattleStatusIsValidValue(BeginPvpBattle
   result.status = value;
   return self;
 }
-- (BeginPvpBattleResponseProto_Builder*) clearStatus {
+- (BeginPvpBattleResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = BeginPvpBattleResponseProto_BeginPvpBattleStatusSuccess;
   return self;
@@ -2710,7 +2710,7 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
   result.status = value;
   return self;
 }
-- (EndPvpBattleResponseProto_Builder*) clearStatus {
+- (EndPvpBattleResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = EndPvpBattleResponseProto_EndPvpBattleStatusSuccess;
   return self;
@@ -3374,7 +3374,7 @@ BOOL SetDefendingMsgResponseProto_SetDefendingMsgStatusIsValidValue(SetDefending
   result.status = value;
   return self;
 }
-- (SetDefendingMsgResponseProto_Builder*) clearStatus {
+- (SetDefendingMsgResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = SetDefendingMsgResponseProto_SetDefendingMsgStatusSuccess;
   return self;

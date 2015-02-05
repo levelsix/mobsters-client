@@ -30,28 +30,6 @@
 
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize pvpHistoryForRevenge:(PvpHistoryProto *)hist {
   if ((self = [self initWithMyUserMonsters:monsters puzzleIsOnLeft:puzzleIsOnLeft gridSize:gridSize])) {
-    PvpProto_Builder *pvp = [PvpProto builder];
-    
-    MinimumUserProto *mup = [[[[[[MinimumUserProto builder] setName:hist.attacker.name]
-                                setUserUuid:hist.attacker.userUuid]
-                               setClan:hist.attacker.clan]
-                              setAvatarMonsterId:hist.attacker.avatarMonsterId]
-                             build];
-    
-    pvp.defender = [[[[MinimumUserProtoWithLevel builder]
-                      setLevel:hist.attacker.level]
-                     setMinUserProto:mup]
-                    build];
-    
-    pvp.prospectiveCashWinnings = hist.prospectiveCashWinnings;
-    pvp.prospectiveOilWinnings = hist.prospectiveOilWinnings;
-    pvp.pvpLeagueStats = hist.attackerAfter;
-    [pvp addAllDefenderMonsters:hist.attackersMonstersList];
-    pvp.defenderMsg = hist.attacker.pvpDefendingMessage;
-    
-    self.defendersList = @[pvp.build];
-    _curQueueNum = -1;
-    
     _isRevenge = YES;
     _prevBattleStartTime = hist.battleEndTime;
   }
@@ -65,7 +43,8 @@
 - (CCSprite *) getCurrentEnemyLoot {
   GameState *gs = [GameState sharedGameState];
   PvpProto *pvp = self.defendersList[_curQueueNum];
-  PvpMonsterProto *pm = pvp.defenderMonstersList[_curStage];
+  NSArray *monsterList = pvp.hasDefenderExtraMonster ? [pvp.defenderMonstersList arrayByAddingObject:pvp.defenderExtraMonster] : pvp.defenderMonstersList;
+  PvpMonsterProto *pm = monsterList[_curStage];
   
   CCSprite *ed = nil;
   if (pm.hasMonsterIdDropped && pm.monsterIdDropped > 0) {
@@ -464,12 +443,12 @@
   }
 }
 
-- (void) handleAvengeClanMateResponseProto:(FullEvent *)fe {
-  AvengeClanMateResponseProto *proto = (AvengeClanMateResponseProto *)fe.event;
+- (void) handleRetrieveUserMonsterTeamResponseProto:(FullEvent *)fe {
+  RetrieveUserMonsterTeamResponseProto *proto = (RetrieveUserMonsterTeamResponseProto *)fe.event;
   
-  if (proto.status == AvengeClanMateResponseProto_AvengeClanMateStatusSuccess) {
+  if (proto.status == RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusSuccess) {
     _curQueueNum = -1;
-    self.defendersList = @[proto.victim];
+    self.defendersList = proto.userMonsterTeamList;
   } else {
     [GenericPopupController displayNotificationViewWithText:@"Sorry, we were unable to load this enemy." title:@"Enemy Not Found" okayButton:@"Okay" target:self selector:@selector(exitFinal)];
   }
@@ -582,6 +561,17 @@
       }
     }
     
+    if (enemy.hasDefenderExtraMonster) {
+      UserMonster *um = [UserMonster userMonsterWithMinProto:enemy.defenderExtraMonster.defenderMonster];
+      BattlePlayer *bp = [BattlePlayer playerWithMonster:um];
+      bp.isClanMonster = YES;
+      [enemyTeam addObject:bp];
+      
+      if (bp.spritePrefix) {
+        [set addObject:bp.spritePrefix];
+      }
+    }
+    
     for (BattlePlayer *bp in self.myTeam) {
       if (bp.spritePrefix) {
         [set addObject:bp.spritePrefix];
@@ -654,7 +644,7 @@
             [CCActionCallFunc actionWithTarget:self selector:@selector(displayQueueNode)], nil]];
         }
       } else {
-        finalPos = ccpAdd(finalPos, ccpMult(POINT_OFFSET_PER_SCENE, 0.1));
+        finalPos = ccpAdd(finalPos, ccpMult(POINT_OFFSET_PER_SCENE, 0.15));
         
         if (self.enemyTeam.count == 1) {
           // So that when it blows up it displays the enemy sprite from under

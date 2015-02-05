@@ -336,6 +336,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSVoidTeamDonationSolicitationEvent:
       responseClass = [VoidTeamDonationSolicitationResponseProto class];
       break;
+    case EventProtocolResponseSRetrieveUserMonsterTeamEvent:
+      responseClass = [RetrieveUserMonsterTeamResponseProto class];
+      break;
     default:
       responseClass = nil;
       break;
@@ -1819,6 +1822,23 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to end pvp battle."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleRetrieveUserMonsterTeamResponseProto:(FullEvent *)fe {
+  RetrieveUserMonsterTeamResponseProto *proto = (RetrieveUserMonsterTeamResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Retrieve user monster team response received with status %d.", (int)proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusSuccess) {
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to retrieve user monster team."];
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }

@@ -4146,51 +4146,13 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
   ClanMemberTeamDonationProto* solicitation;
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
   FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatus status;
-=======
-=======
-  ClanMemberTeamDonation* solicitation;
->>>>>>> donate msg vc done
-=======
-  ClanMemberTeamDonationProto* solicitation;
->>>>>>> fixed various bugs and began on solicit clan donation
-=======
->>>>>>> reproto
-  FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolictationStatus status;
->>>>>>> donate msg vc done
-=======
-  FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatus status;
->>>>>>> working on chat protocol
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 - (BOOL) hasSolicitation;
 @property (readonly, strong) MinimumUserProto* sender;
-<<<<<<< HEAD
-<<<<<<< HEAD
 @property (readonly) FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatus status;
-=======
-@property (readonly) FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolictationStatus status;
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> donate msg vc done
-=======
-<<<<<<< HEAD
->>>>>>> fixed various bugs and began on solicit clan donation
-@property (readonly, strong) ClanMemberTeamDonationProto* solicitation;
-=======
-@property (readonly, strong) ClanMemberTeamDonation* solicitation;
->>>>>>> donate msg vc done
-=======
-=======
->>>>>>> reproto
-=======
-@property (readonly) FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatus status;
->>>>>>> working on chat protocol
 @property (readonly, strong) ClanMemberTeamDonationProto* solicitation;
 
 + (FulfillTeamDonationSolicitationResponseProto*) defaultInstance;
@@ -4239,6 +4201,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatus) status;
 - (FulfillTeamDonationSolicitationResponseProto_Builder*) setStatus:(FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatus) value;
 <<<<<<< HEAD
+<<<<<<< HEAD
 - (FulfillTeamDonationSolicitationResponseProto_Builder*) clearStatusList;
 =======
 <<<<<<< HEAD
@@ -4247,6 +4210,9 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (FulfillTeamDonationSolicitationResponseProto_Builder*) clearStatusList;
 >>>>>>> working on chat protocol
 >>>>>>> working on chat protocol
+=======
+- (FulfillTeamDonationSolicitationResponseProto_Builder*) clearStatusList;
+>>>>>>> revenge/avenge now has clan monster
 
 - (BOOL) hasSolicitation;
 - (ClanMemberTeamDonationProto*) solicitation;
@@ -4377,6 +4343,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatus) status;
 - (VoidTeamDonationSolicitationResponseProto_Builder*) setStatus:(VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatus) value;
 <<<<<<< HEAD
+<<<<<<< HEAD
 - (VoidTeamDonationSolicitationResponseProto_Builder*) clearStatusList;
 =======
 <<<<<<< HEAD
@@ -4385,6 +4352,9 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (VoidTeamDonationSolicitationResponseProto_Builder*) clearStatusList;
 >>>>>>> created monster select popover
 >>>>>>> created monster select popover
+=======
+- (VoidTeamDonationSolicitationResponseProto_Builder*) clearStatusList;
+>>>>>>> revenge/avenge now has clan monster
 
 - (NSMutableArray *)clanTeamDonateUuidList;
 - (NSString*)clanTeamDonateUuidAtIndex:(NSUInteger)index;

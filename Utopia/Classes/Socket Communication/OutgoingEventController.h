@@ -101,12 +101,13 @@
 - (void) progressDungeon:(NSArray *)curHealths dungeonInfo:(BeginDungeonResponseProto *)dungeonInfo newStageNum:(int)newStageNum dropless:(BOOL)dropless;
 - (void) endDungeon:(BeginDungeonResponseProto *)dungeonInfo userWon:(BOOL)userWon droplessStageNums:(NSArray *)droplessStageNums delegate:(id)delegate;
 - (void) reviveInDungeon:(NSString *)userTaskUuid taskId:(int)taskId myTeam:(NSArray *)team;
+- (void) updateClientState:(NSData *)data shouldFlush:(BOOL)shouldFlush;
 
 - (void) queueUpEvent:(NSArray *)seenUserUuids withDelegate:(id)delegate;
 - (BOOL) viewNextPvpGuy:(BOOL)useGems;
 - (void) beginPvpBattle:(PvpProto *)proto isRevenge:(BOOL)isRevenge previousBattleTime:(uint64_t)previousBattleTime;
 - (void) endPvpBattleMessage:(PvpProto *)proto userAttacked:(BOOL)userAttacked userWon:(BOOL)userWon droplessStageNums:(NSArray *)droplessStageNums delegate:(id)delegate;
-- (void) updateClientState:(NSData *)data shouldFlush:(BOOL)shouldFlush;
+- (void) retrieveUserTeam:(NSString *)userUuid delegate:(id)delegate;
 
 - (void) beginClanAvenge:(PvpHistoryProto *)pvp;
 - (void) queueUpForClanAvenge:(PvpClanAvenging *)ca delegate:(id)delegate;
