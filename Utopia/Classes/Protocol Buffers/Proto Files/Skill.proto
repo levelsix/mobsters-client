@@ -84,13 +84,19 @@ enum SkillType {
 	TAKE_AIM = 27;
 	HELL_FIRE = 28;
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> fix poor rebase
 	ENERGIZE = 29;
 	RIGHT_HOOK = 30;
 	CURSE = 31;
 	INSURANCE = 32;
 	FLAME_BREAK = 33;
+<<<<<<< HEAD
 =======
 >>>>>>> rebase master
+=======
+>>>>>>> fix poor rebase
 }
 
 enum SkillActivationType {

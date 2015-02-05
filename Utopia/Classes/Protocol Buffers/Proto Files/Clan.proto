@@ -254,6 +254,7 @@ message ClanDataProto {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 //------------------------------------------------------------------------------------------
 
@@ -283,3 +284,5 @@ message ClanMemberTeamDonationProto {
 	repeated UserMonsterSnapshotProto donations = 8;
 }
 >>>>>>> rebase master
+=======
+>>>>>>> fix poor rebase

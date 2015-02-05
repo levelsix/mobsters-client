@@ -1117,7 +1117,7 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
   result.monsterElement = value;
   return self;
 }
-- (FullQuestProto_Builder*) clearMonsterElement {
+- (FullQuestProto_Builder*) clearMonsterElementList {
   result.hasMonsterElement = NO;
   result.monsterElement = ElementNoElement;
   return self;
@@ -1631,7 +1631,7 @@ BOOL QuestJobProto_QuestJobTypeIsValidValue(QuestJobProto_QuestJobType value) {
   result.questJobType = value;
   return self;
 }
-- (QuestJobProto_Builder*) clearQuestJobType {
+- (QuestJobProto_Builder*) clearQuestJobTypeList {
   result.hasQuestJobType = NO;
   result.questJobType = QuestJobProto_QuestJobTypeKillSpecificMonster;
   return self;

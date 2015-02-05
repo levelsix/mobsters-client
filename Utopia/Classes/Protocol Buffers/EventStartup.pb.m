@@ -6752,7 +6752,7 @@ static StartupResponseProto_StartupConstants_ClanHelpConstants* defaultStartupRe
   result.helpType = value;
   return self;
 }
-- (StartupResponseProto_StartupConstants_ClanHelpConstants_Builder*) clearHelpType {
+- (StartupResponseProto_StartupConstants_ClanHelpConstants_Builder*) clearHelpTypeList {
   result.hasHelpType = NO;
   result.helpType = GameActionTypeNoHelp;
   return self;
@@ -7771,7 +7771,7 @@ static StartupResponseProto_StartupConstants_ResourceConversionConstantProto* de
   result.resourceType = value;
   return self;
 }
-- (StartupResponseProto_StartupConstants_ResourceConversionConstantProto_Builder*) clearResourceType {
+- (StartupResponseProto_StartupConstants_ResourceConversionConstantProto_Builder*) clearResourceTypeList {
   result.hasResourceType = NO;
   result.resourceType = ResourceTypeNoResource;
   return self;
@@ -10638,7 +10638,7 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
   result.startupStatus = value;
   return self;
 }
-- (StartupResponseProto_Builder*) clearStartupStatus {
+- (StartupResponseProto_Builder*) clearStartupStatusList {
   result.hasStartupStatus = NO;
   result.startupStatus = StartupResponseProto_StartupStatusUserInDb;
   return self;
@@ -10654,7 +10654,7 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
   result.updateStatus = value;
   return self;
 }
-- (StartupResponseProto_Builder*) clearUpdateStatus {
+- (StartupResponseProto_Builder*) clearUpdateStatusList {
   result.hasUpdateStatus = NO;
   result.updateStatus = StartupResponseProto_UpdateStatusNoUpdate;
   return self;

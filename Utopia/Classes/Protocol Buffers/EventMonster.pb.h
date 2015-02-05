@@ -455,7 +455,7 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
 - (BOOL) hasStatus;
 - (EvolveMonsterResponseProto_EvolveMonsterStatus) status;
 - (EvolveMonsterResponseProto_Builder*) setStatus:(EvolveMonsterResponseProto_EvolveMonsterStatus) value;
-- (EvolveMonsterResponseProto_Builder*) clearStatus;
+- (EvolveMonsterResponseProto_Builder*) clearStatusList;
 @end
 
 @interface EvolutionFinishedRequestProto : PBGeneratedMessage {
@@ -586,7 +586,7 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
 - (BOOL) hasStatus;
 - (EvolutionFinishedResponseProto_EvolutionFinishedStatus) status;
 - (EvolutionFinishedResponseProto_Builder*) setStatus:(EvolutionFinishedResponseProto_EvolutionFinishedStatus) value;
-- (EvolutionFinishedResponseProto_Builder*) clearStatus;
+- (EvolutionFinishedResponseProto_Builder*) clearStatusList;
 @end
 
 @interface SubmitMonsterEnhancementRequestProto : PBGeneratedMessage {
@@ -742,7 +742,7 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
 - (BOOL) hasStatus;
 - (SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatus) status;
 - (SubmitMonsterEnhancementResponseProto_Builder*) setStatus:(SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatus) value;
-- (SubmitMonsterEnhancementResponseProto_Builder*) clearStatus;
+- (SubmitMonsterEnhancementResponseProto_Builder*) clearStatusList;
 @end
 
 @interface EnhancementWaitTimeCompleteRequestProto : PBGeneratedMessage {
@@ -900,7 +900,7 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
 - (BOOL) hasStatus;
 - (EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatus) status;
 - (EnhancementWaitTimeCompleteResponseProto_Builder*) setStatus:(EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatus) value;
-- (EnhancementWaitTimeCompleteResponseProto_Builder*) clearStatus;
+- (EnhancementWaitTimeCompleteResponseProto_Builder*) clearStatusList;
 @end
 
 @interface CollectMonsterEnhancementRequestProto : PBGeneratedMessage {
@@ -1031,7 +1031,7 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
 - (BOOL) hasStatus;
 - (CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatus) status;
 - (CollectMonsterEnhancementResponseProto_Builder*) setStatus:(CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatus) value;
-- (CollectMonsterEnhancementResponseProto_Builder*) clearStatus;
+- (CollectMonsterEnhancementResponseProto_Builder*) clearStatusList;
 @end
 
 @interface EnhanceMonsterRequestProto : PBGeneratedMessage {
@@ -1182,7 +1182,7 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
 - (BOOL) hasStatus;
 - (EnhanceMonsterResponseProto_EnhanceMonsterStatus) status;
 - (EnhanceMonsterResponseProto_Builder*) setStatus:(EnhanceMonsterResponseProto_EnhanceMonsterStatus) value;
-- (EnhanceMonsterResponseProto_Builder*) clearStatus;
+- (EnhanceMonsterResponseProto_Builder*) clearStatusList;
 @end
 
 @interface UpdateMonsterHealthRequestProto : PBGeneratedMessage {
@@ -1365,7 +1365,7 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
 - (BOOL) hasStatus;
 - (UpdateMonsterHealthResponseProto_UpdateMonsterHealthStatus) status;
 - (UpdateMonsterHealthResponseProto_Builder*) setStatus:(UpdateMonsterHealthResponseProto_UpdateMonsterHealthStatus) value;
-- (UpdateMonsterHealthResponseProto_Builder*) clearStatus;
+- (UpdateMonsterHealthResponseProto_Builder*) clearStatusList;
 @end
 
 @interface HealMonsterRequestProto : PBGeneratedMessage {
@@ -1548,7 +1548,7 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
 - (BOOL) hasStatus;
 - (HealMonsterResponseProto_HealMonsterStatus) status;
 - (HealMonsterResponseProto_Builder*) setStatus:(HealMonsterResponseProto_HealMonsterStatus) value;
-- (HealMonsterResponseProto_Builder*) clearStatus;
+- (HealMonsterResponseProto_Builder*) clearStatusList;
 @end
 
 @interface AddMonsterToBattleTeamRequestProto : PBGeneratedMessage {
@@ -1677,7 +1677,7 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
 - (BOOL) hasStatus;
 - (AddMonsterToBattleTeamResponseProto_AddMonsterToBattleTeamStatus) status;
 - (AddMonsterToBattleTeamResponseProto_Builder*) setStatus:(AddMonsterToBattleTeamResponseProto_AddMonsterToBattleTeamStatus) value;
-- (AddMonsterToBattleTeamResponseProto_Builder*) clearStatus;
+- (AddMonsterToBattleTeamResponseProto_Builder*) clearStatusList;
 @end
 
 @interface RemoveMonsterFromBattleTeamRequestProto : PBGeneratedMessage {
@@ -1797,7 +1797,7 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
 - (BOOL) hasStatus;
 - (RemoveMonsterFromBattleTeamResponseProto_RemoveMonsterFromBattleTeamStatus) status;
 - (RemoveMonsterFromBattleTeamResponseProto_Builder*) setStatus:(RemoveMonsterFromBattleTeamResponseProto_RemoveMonsterFromBattleTeamStatus) value;
-- (RemoveMonsterFromBattleTeamResponseProto_Builder*) clearStatus;
+- (RemoveMonsterFromBattleTeamResponseProto_Builder*) clearStatusList;
 @end
 
 @interface IncreaseMonsterInventorySlotRequestProto : PBGeneratedMessage {
@@ -1864,7 +1864,7 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
 - (BOOL) hasIncreaseSlotType;
 - (IncreaseMonsterInventorySlotRequestProto_IncreaseSlotType) increaseSlotType;
 - (IncreaseMonsterInventorySlotRequestProto_Builder*) setIncreaseSlotType:(IncreaseMonsterInventorySlotRequestProto_IncreaseSlotType) value;
-- (IncreaseMonsterInventorySlotRequestProto_Builder*) clearIncreaseSlotType;
+- (IncreaseMonsterInventorySlotRequestProto_Builder*) clearIncreaseSlotTypeList;
 
 - (BOOL) hasUserStructUuid;
 - (NSString*) userStructUuid;
@@ -1935,7 +1935,7 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
 - (BOOL) hasStatus;
 - (IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatus) status;
 - (IncreaseMonsterInventorySlotResponseProto_Builder*) setStatus:(IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatus) value;
-- (IncreaseMonsterInventorySlotResponseProto_Builder*) clearStatus;
+- (IncreaseMonsterInventorySlotResponseProto_Builder*) clearStatusList;
 @end
 
 @interface InviteFbFriendsForSlotsRequestProto : PBGeneratedMessage {
@@ -2125,7 +2125,7 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
 - (BOOL) hasStatus;
 - (InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatus) status;
 - (InviteFbFriendsForSlotsResponseProto_Builder*) setStatus:(InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatus) value;
-- (InviteFbFriendsForSlotsResponseProto_Builder*) clearStatus;
+- (InviteFbFriendsForSlotsResponseProto_Builder*) clearStatusList;
 
 - (NSMutableArray *)invitesNewList;
 - (UserFacebookInviteForSlotProto*)invitesNewAtIndex:(NSUInteger)index;
@@ -2263,7 +2263,7 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
 - (BOOL) hasStatus;
 - (AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatus) status;
 - (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) setStatus:(AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatus) value;
-- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) clearStatus;
+- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) clearStatusList;
 
 - (NSMutableArray *)acceptedInvitesList;
 - (UserFacebookInviteForSlotProto*)acceptedInvitesAtIndex:(NSUInteger)index;
@@ -2398,7 +2398,7 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
 - (BOOL) hasStatus;
 - (CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatus) status;
 - (CombineUserMonsterPiecesResponseProto_Builder*) setStatus:(CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatus) value;
-- (CombineUserMonsterPiecesResponseProto_Builder*) clearStatus;
+- (CombineUserMonsterPiecesResponseProto_Builder*) clearStatusList;
 @end
 
 @interface SellUserMonsterRequestProto : PBGeneratedMessage {
@@ -2518,7 +2518,7 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
 - (BOOL) hasStatus;
 - (SellUserMonsterResponseProto_SellUserMonsterStatus) status;
 - (SellUserMonsterResponseProto_Builder*) setStatus:(SellUserMonsterResponseProto_SellUserMonsterStatus) value;
-- (SellUserMonsterResponseProto_Builder*) clearStatus;
+- (SellUserMonsterResponseProto_Builder*) clearStatusList;
 @end
 
 @interface RestrictUserMonsterRequestProto : PBGeneratedMessage {
@@ -2638,7 +2638,7 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
 - (BOOL) hasStatus;
 - (RestrictUserMonsterResponseProto_RestrictUserMonsterStatus) status;
 - (RestrictUserMonsterResponseProto_Builder*) setStatus:(RestrictUserMonsterResponseProto_RestrictUserMonsterStatus) value;
-- (RestrictUserMonsterResponseProto_Builder*) clearStatus;
+- (RestrictUserMonsterResponseProto_Builder*) clearStatusList;
 @end
 
 @interface UnrestrictUserMonsterRequestProto : PBGeneratedMessage {
@@ -2758,7 +2758,136 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
 - (BOOL) hasStatus;
 - (UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatus) status;
 - (UnrestrictUserMonsterResponseProto_Builder*) setStatus:(UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatus) value;
-- (UnrestrictUserMonsterResponseProto_Builder*) clearStatus;
+- (UnrestrictUserMonsterResponseProto_Builder*) clearStatusList;
+@end
+
+@interface RetrieveUserMonsterTeamRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  MinimumUserProto* sender;
+  NSMutableArray * mutableUserUuidsList;
+}
+- (BOOL) hasSender;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) NSArray * userUuidsList;
+- (NSString*)userUuidsAtIndex:(NSUInteger)index;
+
++ (RetrieveUserMonsterTeamRequestProto*) defaultInstance;
+- (RetrieveUserMonsterTeamRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (RetrieveUserMonsterTeamRequestProto_Builder*) builder;
++ (RetrieveUserMonsterTeamRequestProto_Builder*) builder;
++ (RetrieveUserMonsterTeamRequestProto_Builder*) builderWithPrototype:(RetrieveUserMonsterTeamRequestProto*) prototype;
+- (RetrieveUserMonsterTeamRequestProto_Builder*) toBuilder;
+
++ (RetrieveUserMonsterTeamRequestProto*) parseFromData:(NSData*) data;
++ (RetrieveUserMonsterTeamRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveUserMonsterTeamRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (RetrieveUserMonsterTeamRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveUserMonsterTeamRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RetrieveUserMonsterTeamRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface RetrieveUserMonsterTeamRequestProto_Builder : PBGeneratedMessageBuilder {
+@private
+  RetrieveUserMonsterTeamRequestProto* result;
+}
+
+- (RetrieveUserMonsterTeamRequestProto*) defaultInstance;
+
+- (RetrieveUserMonsterTeamRequestProto_Builder*) clear;
+- (RetrieveUserMonsterTeamRequestProto_Builder*) clone;
+
+- (RetrieveUserMonsterTeamRequestProto*) build;
+- (RetrieveUserMonsterTeamRequestProto*) buildPartial;
+
+- (RetrieveUserMonsterTeamRequestProto_Builder*) mergeFrom:(RetrieveUserMonsterTeamRequestProto*) other;
+- (RetrieveUserMonsterTeamRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RetrieveUserMonsterTeamRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (RetrieveUserMonsterTeamRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (RetrieveUserMonsterTeamRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (RetrieveUserMonsterTeamRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (RetrieveUserMonsterTeamRequestProto_Builder*) clearSender;
+
+- (NSMutableArray *)userUuidsList;
+- (NSString*)userUuidsAtIndex:(NSUInteger)index;
+- (RetrieveUserMonsterTeamRequestProto_Builder *)addUserUuids:(NSString*)value;
+- (RetrieveUserMonsterTeamRequestProto_Builder *)addAllUserUuids:(NSArray *)array;
+- (RetrieveUserMonsterTeamRequestProto_Builder *)clearUserUuids;
+@end
+
+@interface RetrieveUserMonsterTeamResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatus status;
+  NSMutableArray * mutableUserMonsterTeamList;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly) RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatus status;
+@property (readonly, strong) NSArray * userMonsterTeamList;
+- (PvpProto*)userMonsterTeamAtIndex:(NSUInteger)index;
+
++ (RetrieveUserMonsterTeamResponseProto*) defaultInstance;
+- (RetrieveUserMonsterTeamResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (RetrieveUserMonsterTeamResponseProto_Builder*) builder;
++ (RetrieveUserMonsterTeamResponseProto_Builder*) builder;
++ (RetrieveUserMonsterTeamResponseProto_Builder*) builderWithPrototype:(RetrieveUserMonsterTeamResponseProto*) prototype;
+- (RetrieveUserMonsterTeamResponseProto_Builder*) toBuilder;
+
++ (RetrieveUserMonsterTeamResponseProto*) parseFromData:(NSData*) data;
++ (RetrieveUserMonsterTeamResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveUserMonsterTeamResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (RetrieveUserMonsterTeamResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveUserMonsterTeamResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RetrieveUserMonsterTeamResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface RetrieveUserMonsterTeamResponseProto_Builder : PBGeneratedMessageBuilder {
+@private
+  RetrieveUserMonsterTeamResponseProto* result;
+}
+
+- (RetrieveUserMonsterTeamResponseProto*) defaultInstance;
+
+- (RetrieveUserMonsterTeamResponseProto_Builder*) clear;
+- (RetrieveUserMonsterTeamResponseProto_Builder*) clone;
+
+- (RetrieveUserMonsterTeamResponseProto*) build;
+- (RetrieveUserMonsterTeamResponseProto*) buildPartial;
+
+- (RetrieveUserMonsterTeamResponseProto_Builder*) mergeFrom:(RetrieveUserMonsterTeamResponseProto*) other;
+- (RetrieveUserMonsterTeamResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RetrieveUserMonsterTeamResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (RetrieveUserMonsterTeamResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (RetrieveUserMonsterTeamResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (RetrieveUserMonsterTeamResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (RetrieveUserMonsterTeamResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatus) status;
+- (RetrieveUserMonsterTeamResponseProto_Builder*) setStatus:(RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatus) value;
+- (RetrieveUserMonsterTeamResponseProto_Builder*) clearStatusList;
+
+- (NSMutableArray *)userMonsterTeamList;
+- (PvpProto*)userMonsterTeamAtIndex:(NSUInteger)index;
+- (RetrieveUserMonsterTeamResponseProto_Builder *)addUserMonsterTeam:(PvpProto*)value;
+- (RetrieveUserMonsterTeamResponseProto_Builder *)addAllUserMonsterTeam:(NSArray *)array;
+- (RetrieveUserMonsterTeamResponseProto_Builder *)clearUserMonsterTeam;
 @end
 
 @interface RetrieveUserMonsterTeamRequestProto : PBGeneratedMessage {

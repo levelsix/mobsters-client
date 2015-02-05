@@ -839,7 +839,7 @@ static FullUserClanProto* defaultFullUserClanProtoInstance = nil;
   result.status = value;
   return self;
 }
-- (FullUserClanProto_Builder*) clearStatus {
+- (FullUserClanProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = UserClanStatusLeader;
   return self;
@@ -1516,7 +1516,7 @@ static MinimumUserProtoForClans* defaultMinimumUserProtoForClansInstance = nil;
   result.clanStatus = value;
   return self;
 }
-- (MinimumUserProtoForClans_Builder*) clearClanStatus {
+- (MinimumUserProtoForClans_Builder*) clearClanStatusList {
   result.hasClanStatus = NO;
   result.clanStatus = UserClanStatusLeader;
   return self;
@@ -3873,7 +3873,7 @@ static PersistentClanEventProto* defaultPersistentClanEventProtoInstance = nil;
   result.dayOfWeek = value;
   return self;
 }
-- (PersistentClanEventProto_Builder*) clearDayOfWeek {
+- (PersistentClanEventProto_Builder*) clearDayOfWeekList {
   result.hasDayOfWeek = NO;
   result.dayOfWeek = DayOfWeekMonday;
   return self;
@@ -5328,7 +5328,7 @@ static PersistentClanEventUserRewardProto* defaultPersistentClanEventUserRewardP
   result.resourceType = value;
   return self;
 }
-- (PersistentClanEventUserRewardProto_Builder*) clearResourceType {
+- (PersistentClanEventUserRewardProto_Builder*) clearResourceTypeList {
   result.hasResourceType = NO;
   result.resourceType = ResourceTypeCash;
   return self;
@@ -7032,7 +7032,7 @@ static ClanHelpProto* defaultClanHelpProtoInstance = nil;
   result.helpType = value;
   return self;
 }
-- (ClanHelpProto_Builder*) clearHelpType {
+- (ClanHelpProto_Builder*) clearHelpTypeList {
   result.hasHelpType = NO;
   result.helpType = GameActionTypeNoHelp;
   return self;
@@ -7385,7 +7385,7 @@ static ClanHelpNoticeProto* defaultClanHelpNoticeProtoInstance = nil;
   result.helpType = value;
   return self;
 }
-- (ClanHelpNoticeProto_Builder*) clearHelpType {
+- (ClanHelpNoticeProto_Builder*) clearHelpTypeList {
   result.hasHelpType = NO;
   result.helpType = GameActionTypeNoHelp;
   return self;
@@ -8346,6 +8346,7 @@ static ClanDataProto* defaultClanDataProtoInstance = nil;
 }
 @end
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 @interface ClanMemberTeamDonationProto ()
@@ -9457,5 +9458,7 @@ static ClanMemberTeamDonationProto* defaultClanMemberTeamDonationProtoInstance =
 @end
 
 >>>>>>> rebase master
+=======
+>>>>>>> fix poor rebase
 
 // @@protoc_insertion_point(global_scope)
