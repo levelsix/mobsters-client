@@ -3,26 +3,43 @@
 #import "ProtocolBuffers.h"
 
 #import "SharedEnumConfig.pb.h"
+#import "User.pb.h"
 // @@protoc_insertion_point(imports)
 
 @class FullUserMonsterProto;
 @class FullUserMonsterProto_Builder;
+@class FullUserProto;
+@class FullUserProto_Builder;
+@class MinimumClanProto;
+@class MinimumClanProto_Builder;
 @class MinimumUserMonsterProto;
 @class MinimumUserMonsterProto_Builder;
 @class MinimumUserMonsterSellProto;
 @class MinimumUserMonsterSellProto_Builder;
+@class MinimumUserProto;
+@class MinimumUserProtoWithFacebookId;
+@class MinimumUserProtoWithFacebookId_Builder;
+@class MinimumUserProtoWithLevel;
+@class MinimumUserProtoWithLevel_Builder;
+@class MinimumUserProtoWithMaxResources;
+@class MinimumUserProtoWithMaxResources_Builder;
+@class MinimumUserProto_Builder;
 @class MonsterBattleDialogueProto;
 @class MonsterBattleDialogueProto_Builder;
 @class MonsterLevelInfoProto;
 @class MonsterLevelInfoProto_Builder;
 @class MonsterProto;
 @class MonsterProto_Builder;
+@class StaticUserLevelInfoProto;
+@class StaticUserLevelInfoProto_Builder;
 @class UserCurrentMonsterTeamProto;
 @class UserCurrentMonsterTeamProto_Builder;
 @class UserEnhancementItemProto;
 @class UserEnhancementItemProto_Builder;
 @class UserEnhancementProto;
 @class UserEnhancementProto_Builder;
+@class UserFacebookInviteForSlotProto;
+@class UserFacebookInviteForSlotProto_Builder;
 @class UserMonsterCurrentExpProto;
 @class UserMonsterCurrentExpProto_Builder;
 @class UserMonsterCurrentHealthProto;
@@ -33,6 +50,8 @@
 @class UserMonsterHealingProto_Builder;
 @class UserMonsterSnapshotProto;
 @class UserMonsterSnapshotProto_Builder;
+@class UserPvpLeagueProto;
+@class UserPvpLeagueProto_Builder;
 #ifndef __has_feature
   #define __has_feature(x) 0 // Compatibility with non-clang compilers.
 #endif // __has_feature
@@ -260,7 +279,7 @@ BOOL UserMonsterSnapshotProto_SnapshotTypeIsValidValue(UserMonsterSnapshotProto_
 - (BOOL) hasQuality;
 - (Quality) quality;
 - (MonsterProto_Builder*) setQuality:(Quality) value;
-- (MonsterProto_Builder*) clearQualityList;
+- (MonsterProto_Builder*) clearQuality;
 
 - (BOOL) hasEvolutionLevel;
 - (int32_t) evolutionLevel;
@@ -275,7 +294,7 @@ BOOL UserMonsterSnapshotProto_SnapshotTypeIsValidValue(UserMonsterSnapshotProto_
 - (BOOL) hasMonsterElement;
 - (Element) monsterElement;
 - (MonsterProto_Builder*) setMonsterElement:(Element) value;
-- (MonsterProto_Builder*) clearMonsterElementList;
+- (MonsterProto_Builder*) clearMonsterElement;
 
 - (BOOL) hasImagePrefix;
 - (NSString*) imagePrefix;
@@ -351,7 +370,7 @@ BOOL UserMonsterSnapshotProto_SnapshotTypeIsValidValue(UserMonsterSnapshotProto_
 - (BOOL) hasAttackAnimationType;
 - (MonsterProto_AnimationType) attackAnimationType;
 - (MonsterProto_Builder*) setAttackAnimationType:(MonsterProto_AnimationType) value;
-- (MonsterProto_Builder*) clearAttackAnimationTypeList;
+- (MonsterProto_Builder*) clearAttackAnimationType;
 
 - (BOOL) hasVerticalPixelOffset;
 - (int32_t) verticalPixelOffset;
@@ -1502,7 +1521,7 @@ BOOL UserMonsterSnapshotProto_SnapshotTypeIsValidValue(UserMonsterSnapshotProto_
 - (BOOL) hasDialogueType;
 - (MonsterBattleDialogueProto_DialogueType) dialogueType;
 - (MonsterBattleDialogueProto_Builder*) setDialogueType:(MonsterBattleDialogueProto_DialogueType) value;
-- (MonsterBattleDialogueProto_Builder*) clearDialogueTypeList;
+- (MonsterBattleDialogueProto_Builder*) clearDialogueType;
 
 - (BOOL) hasDialogue;
 - (NSString*) dialogue;
@@ -1528,7 +1547,7 @@ BOOL UserMonsterSnapshotProto_SnapshotTypeIsValidValue(UserMonsterSnapshotProto_
   BOOL hasSnapshotUuid_:1;
   BOOL hasRelevantTableUuid_:1;
   BOOL hasMonsterForUserUuid_:1;
-  BOOL hasUserUuid_:1;
+  BOOL hasUser_:1;
   BOOL hasType_:1;
   int64_t timeOfCreation;
   int32_t monsterId;
@@ -1541,7 +1560,7 @@ BOOL UserMonsterSnapshotProto_SnapshotTypeIsValidValue(UserMonsterSnapshotProto_
   NSString* snapshotUuid;
   NSString* relevantTableUuid;
   NSString* monsterForUserUuid;
-  NSString* userUuid;
+  MinimumUserProto* user;
   UserMonsterSnapshotProto_SnapshotType type;
 }
 - (BOOL) hasSnapshotUuid;
@@ -1549,7 +1568,7 @@ BOOL UserMonsterSnapshotProto_SnapshotTypeIsValidValue(UserMonsterSnapshotProto_
 - (BOOL) hasType;
 - (BOOL) hasRelevantTableUuid;
 - (BOOL) hasMonsterForUserUuid;
-- (BOOL) hasUserUuid;
+- (BOOL) hasUser;
 - (BOOL) hasMonsterId;
 - (BOOL) hasCurrentExp;
 - (BOOL) hasCurrentLvl;
@@ -1562,7 +1581,7 @@ BOOL UserMonsterSnapshotProto_SnapshotTypeIsValidValue(UserMonsterSnapshotProto_
 @property (readonly) UserMonsterSnapshotProto_SnapshotType type;
 @property (readonly, strong) NSString* relevantTableUuid;
 @property (readonly, strong) NSString* monsterForUserUuid;
-@property (readonly, strong) NSString* userUuid;
+@property (readonly, strong) MinimumUserProto* user;
 @property (readonly) int32_t monsterId;
 @property (readonly) int32_t currentExp;
 @property (readonly) int32_t currentLvl;
@@ -1619,7 +1638,7 @@ BOOL UserMonsterSnapshotProto_SnapshotTypeIsValidValue(UserMonsterSnapshotProto_
 - (BOOL) hasType;
 - (UserMonsterSnapshotProto_SnapshotType) type;
 - (UserMonsterSnapshotProto_Builder*) setType:(UserMonsterSnapshotProto_SnapshotType) value;
-- (UserMonsterSnapshotProto_Builder*) clearTypeList;
+- (UserMonsterSnapshotProto_Builder*) clearType;
 
 - (BOOL) hasRelevantTableUuid;
 - (NSString*) relevantTableUuid;
@@ -1631,10 +1650,12 @@ BOOL UserMonsterSnapshotProto_SnapshotTypeIsValidValue(UserMonsterSnapshotProto_
 - (UserMonsterSnapshotProto_Builder*) setMonsterForUserUuid:(NSString*) value;
 - (UserMonsterSnapshotProto_Builder*) clearMonsterForUserUuid;
 
-- (BOOL) hasUserUuid;
-- (NSString*) userUuid;
-- (UserMonsterSnapshotProto_Builder*) setUserUuid:(NSString*) value;
-- (UserMonsterSnapshotProto_Builder*) clearUserUuid;
+- (BOOL) hasUser;
+- (MinimumUserProto*) user;
+- (UserMonsterSnapshotProto_Builder*) setUser:(MinimumUserProto*) value;
+- (UserMonsterSnapshotProto_Builder*) setUser_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (UserMonsterSnapshotProto_Builder*) mergeUser:(MinimumUserProto*) value;
+- (UserMonsterSnapshotProto_Builder*) clearUser;
 
 - (BOOL) hasMonsterId;
 - (int32_t) monsterId;

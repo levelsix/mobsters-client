@@ -16,12 +16,10 @@ static const float orbUpdateAnimDuration = 0.3f;
   BattleOrb*  _orb;
   
   // Specials
-  CCLabelTTF* _bombCounter;
-  CCLabelTTF* _headshotCounter;
+  CCLabelTTF* _turnCounter;
+  CCLabelTTF* _damageMultiplier;
   
   CCSprite* _lockedSprite;
-
-  CCLabelTTF* _damageMultiplier;
   
   NSString *_suffix;
 }
@@ -36,8 +34,7 @@ static const float orbUpdateAnimDuration = 0.3f;
 - (void) reloadSprite:(BOOL)animated;
 
 // Specials
-- (void) updateBombCounter:(BOOL)animated;
-- (void) updateHeadshotCounter:(BOOL)animated;
+- (void) updateTurnCounter:(BOOL)animated;
 
 - (void) removeLockElements;
 

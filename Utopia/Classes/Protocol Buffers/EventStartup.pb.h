@@ -833,7 +833,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   BOOL hasLevelToShowRateUsPopup_:1;
   BOOL hasFbConnectRewardDiamonds_:1;
   BOOL hasNumBeginnerSalesAllowed_:1;
-  BOOL hasTaskIdOfFirstSkill_:1;
+  BOOL hasMinsToResolicitTeamDonation_:1;
   BOOL hasPvpRequiredMinLvl_:1;
   BOOL hasMaxLengthOfChatString_:1;
   BOOL hasMaxNameLength_:1;
@@ -843,6 +843,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   BOOL hasMinutesPerObstacle_:1;
   BOOL hasMaxMinutesForFreeSpeedUp_:1;
   BOOL hasMaxLevelForUser_:1;
+  BOOL hasTaskIdOfFirstSkill_:1;
   BOOL hasFaqFileName_:1;
   BOOL hasTouramentConstants_:1;
   BOOL hasAdminChatUserProto_:1;
@@ -866,7 +867,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   int32_t levelToShowRateUsPopup;
   int32_t fbConnectRewardDiamonds;
   int32_t numBeginnerSalesAllowed;
-  int32_t taskIdOfFirstSkill;
+  int32_t minsToResolicitTeamDonation;
   int32_t pvpRequiredMinLvl;
   int32_t maxLengthOfChatString;
   int32_t maxNameLength;
@@ -876,6 +877,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   int32_t minutesPerObstacle;
   int32_t maxMinutesForFreeSpeedUp;
   int32_t maxLevelForUser;
+  int32_t taskIdOfFirstSkill;
   NSString* faqFileName;
   StartupResponseProto_StartupConstants_TournamentConstants* touramentConstants;
   MinimumUserProto* adminChatUserProto;
@@ -925,6 +927,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasPvpConstant;
 - (BOOL) hasDisplayRarity;
 - (BOOL) hasTaskIdOfFirstSkill;
+- (BOOL) hasMinsToResolicitTeamDonation;
 @property (readonly, strong) NSArray * inAppPurchasePackagesList;
 @property (readonly) int32_t maxLevelForUser;
 @property (readonly) int32_t maxNumOfSingleStruct;
@@ -963,6 +966,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @property (readonly, strong) NSArray * rccpList;
 - (BOOL) displayRarity;
 @property (readonly) int32_t taskIdOfFirstSkill;
+@property (readonly) int32_t minsToResolicitTeamDonation;
 - (InAppPurchasePackageProto*)inAppPurchasePackagesAtIndex:(NSUInteger)index;
 - (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*)animatedSpriteOffsetsAtIndex:(NSUInteger)index;
 - (StartupResponseProto_StartupConstants_ClanHelpConstants*)clanHelpConstantsAtIndex:(NSUInteger)index;
@@ -1625,7 +1629,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasHelpType;
 - (GameActionType) helpType;
 - (StartupResponseProto_StartupConstants_ClanHelpConstants_Builder*) setHelpType:(GameActionType) value;
-- (StartupResponseProto_StartupConstants_ClanHelpConstants_Builder*) clearHelpTypeList;
+- (StartupResponseProto_StartupConstants_ClanHelpConstants_Builder*) clearHelpType;
 
 - (BOOL) hasAmountRemovedPerHelp;
 - (int32_t) amountRemovedPerHelp;
@@ -1853,7 +1857,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasResourceType;
 - (ResourceType) resourceType;
 - (StartupResponseProto_StartupConstants_ResourceConversionConstantProto_Builder*) setResourceType:(ResourceType) value;
-- (StartupResponseProto_StartupConstants_ResourceConversionConstantProto_Builder*) clearResourceTypeList;
+- (StartupResponseProto_StartupConstants_ResourceConversionConstantProto_Builder*) clearResourceType;
 
 - (BOOL) hasResourceAmt;
 - (int32_t) resourceAmt;
@@ -2095,6 +2099,11 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (int32_t) taskIdOfFirstSkill;
 - (StartupResponseProto_StartupConstants_Builder*) setTaskIdOfFirstSkill:(int32_t) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearTaskIdOfFirstSkill;
+
+- (BOOL) hasMinsToResolicitTeamDonation;
+- (int32_t) minsToResolicitTeamDonation;
+- (StartupResponseProto_StartupConstants_Builder*) setMinsToResolicitTeamDonation:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearMinsToResolicitTeamDonation;
 @end
 
 @interface StartupResponseProto_TutorialConstants : PBGeneratedMessage {
@@ -2314,12 +2323,12 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasStartupStatus;
 - (StartupResponseProto_StartupStatus) startupStatus;
 - (StartupResponseProto_Builder*) setStartupStatus:(StartupResponseProto_StartupStatus) value;
-- (StartupResponseProto_Builder*) clearStartupStatusList;
+- (StartupResponseProto_Builder*) clearStartupStatus;
 
 - (BOOL) hasUpdateStatus;
 - (StartupResponseProto_UpdateStatus) updateStatus;
 - (StartupResponseProto_Builder*) setUpdateStatus:(StartupResponseProto_UpdateStatus) value;
-- (StartupResponseProto_Builder*) clearUpdateStatusList;
+- (StartupResponseProto_Builder*) clearUpdateStatus;
 
 - (BOOL) hasStartupConstants;
 - (StartupResponseProto_StartupConstants*) startupConstants;

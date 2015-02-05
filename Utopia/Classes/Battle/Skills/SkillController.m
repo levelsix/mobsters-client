@@ -8,6 +8,7 @@
 #import "NewBattleLayer.h"
 #import "GameViewController.h"
 #import "GameState.h"
+#import "SkillManager.h"
 #import "SkillQuickAttack.h"
 #import "SkillJelly.h"
 #import "SkillCakeDrop.h"
@@ -30,6 +31,13 @@
 #import "SkillHammerTime.h"
 #import "SkillBloodRage.h"
 #import "SkillTakeAim.h"
+#import "SkillStaticField.h"
+#import "SkillBlindingLight.h"
+#import "SkillKnockout.h"
+#import "SkillShallowGrave.h"
+#import "SkillHellFire.h"
+#import "SkillEnergize.h"
+#import "SkillRightHook.h"
 
 @implementation SkillController
 
@@ -59,6 +67,13 @@
     case SkillTypeHammerTime: return [[SkillHammerTime alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypeBloodRage: return [[SkillBloodRage alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypeTakeAim: return [[SkillTakeAim alloc] initWithProto:proto andMobsterColor:color];
+    case SkillTypeStaticField: return [[SkillStaticField alloc] initWithProto:proto andMobsterColor:color];
+    case SkillTypeBlindingLight: return [[SkillBlindingLight alloc] initWithProto:proto andMobsterColor:color];
+    case SkillTypeKnockout: return [[SkillKnockout alloc] initWithProto:proto andMobsterColor:color];
+    case SkillTypeShallowGrave: return [[SkillShallowGrave alloc] initWithProto:proto andMobsterColor:color];
+    case SkillTypeHellFire: return [[SkillHellFire alloc] initWithProto:proto andMobsterColor:color];
+    case SkillTypeEnergize: return [[SkillEnergize alloc] initWithProto:proto andMobsterColor:color];
+    case SkillTypeRightHook: return [[SkillRightHook alloc] initWithProto:proto andMobsterColor:color];
     default: CustomAssert(NO, @"Trying to create a skill with the factory for undefined skill."); return nil;
   }
 }
@@ -146,6 +161,13 @@
 
 - (void) skillTriggerFinished
 {
+  [self skillTriggerFinished:NO];
+}
+
+- (void) skillTriggerFinished:(BOOL)skillActivated
+{
+  _skillActivated = skillActivated;
+  
   if (_currentTrigger == SkillTriggerPointEnemyAppeared)
     _executedInitialAction = YES;
   
@@ -156,7 +178,15 @@
     _popupOverlay = nil;
   }
   else
+  {
     _callbackBlock(YES, _callbackParams);
+  
+    if (_skillActivated && [self isKindOfClass:[SkillControllerActive class]])
+    {
+      [skillManager triggerSkills:self.belongsToPlayer ? SkillTriggerPointPlayerSkillActivated : SkillTriggerPointEnemySkillActivated
+                   withCompletion:^(BOOL triggered, id params) {}];
+    }
+  }
 }
 
 - (void) setDefaultValues
@@ -199,6 +229,10 @@
 
 - (void) showSkillPopupOverlayInternal
 {
+  /*
+   * 2/4/15 - BN - Disabling skills displaying logos
+   *
+   
   // Create overlay
   UIView *parentView = self.battleLayer.hudView;
   _popupOverlay = [[[NSBundle mainBundle] loadNibNamed:@"SkillPopupOverlay" owner:self options:nil] objectAtIndex:0];
@@ -216,6 +250,9 @@
       self.battleLayer.hudView.bottomView.hidden = YES;
     }];
   }
+   */
+  
+  _callbackBlockForPopup();
 }
 
 - (void) hideSkillPopupOverlayInternal
@@ -233,6 +270,12 @@
     }
     
     _callbackBlock(YES, _callbackParams);
+    
+    if (_skillActivated && [self isKindOfClass:[SkillControllerActive class]])
+    {
+      [skillManager triggerSkills:self.belongsToPlayer ? SkillTriggerPointPlayerSkillActivated : SkillTriggerPointEnemySkillActivated
+                   withCompletion:^(BOOL triggered, id params) {}];
+    }
   };
   
   // Hide overlay

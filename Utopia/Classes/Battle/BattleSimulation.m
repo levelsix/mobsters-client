@@ -123,7 +123,7 @@
   
   totalDamage = totalDamage*[self damageMultiplierForAttacker:self.currentMyPlayer defender:self.currentEnemy];
   
-  self.currentEnemy.curHealth = MAX(0, self.currentEnemy.curHealth-totalDamage);
+  self.currentEnemy.curHealth = MAX(self.currentEnemy.minHealth, MIN(self.currentEnemy.maxHealth, self.currentEnemy.curHealth-totalDamage));
   
   return totalDamage;
 }
@@ -134,7 +134,7 @@
   int randDamage = [self.currentEnemy randomDamage];
   randDamage = randDamage*[self damageMultiplierForAttacker:self.currentEnemy defender:self.currentMyPlayer];
   
-  self.currentMyPlayer.curHealth = MAX(0, self.currentMyPlayer.curHealth-randDamage);
+  self.currentMyPlayer.curHealth = MAX(self.currentEnemy.minHealth, MIN(self.currentEnemy.maxHealth, self.currentEnemy.curHealth-randDamage));
   
   return randDamage;
 }

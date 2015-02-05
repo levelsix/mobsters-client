@@ -26,8 +26,9 @@
     GameState *gs = [GameState sharedGameState];
     Globals *gl = [Globals sharedGlobals];
     MonsterProto *mp = [gs monsterWithId:monster.monsterId];
+    self.minHealth = 0;
     self.maxHealth = [gl calculateMaxHealthForMonster:monster];
-    self.curHealth = MIN(self.maxHealth, monster.curHealth);
+    self.curHealth = MAX(self.minHealth, MIN(self.maxHealth, monster.curHealth));
     self.element = mp.monsterElement;
     self.level = monster.level;
     self.evoLevel = mp.evolutionLevel;
@@ -73,8 +74,9 @@
   if ((self = [super init])) {
     GameState *gs = [GameState sharedGameState];
     MonsterProto *mp = [gs monsterWithId:monster.monsterId];
+    self.minHealth = 0;
     self.maxHealth = monster.monsterHp;
-    self.curHealth = MIN(self.maxHealth, curHealth);
+    self.curHealth = MAX(self.minHealth, MIN(self.maxHealth, curHealth));
     self.element = mp.monsterElement;
     self.rarity = mp.quality;
     self.minDamage = monster.minDmg;

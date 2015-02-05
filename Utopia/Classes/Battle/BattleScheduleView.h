@@ -13,6 +13,12 @@
 @end
 
 @interface BattleScheduleView : UIView
+{
+  // Used to track if any upcoming turns for a monster (that
+  // do not have associated views created for them yet) need
+  // to display the confusion symbol. Keys are monster IDs.
+  NSMutableDictionary* _upcomingConfusedTurns;
+}
 
 @property (nonatomic, assign) IBOutlet UIImageView *bgdView;
 @property (nonatomic, assign) UIImageView *overlayView;
@@ -31,7 +37,11 @@
 
 - (void) setOrdering:(NSArray *)ordering showEnemyBands:(NSArray *)showEnemyBands playerTurns:(NSArray*)playerTurns;
 - (void) addMonster:(int)monsterId showEnemyBand:(BOOL)showEnemyBand player:(BOOL)player;
-- (void) updateConfusionState:(BOOL)confused onUpcomingTurnForMonster:(int)monsterId;
+
 - (void) bounceLastView;
+
+- (void) updateConfusionState:(BOOL)confused onUpcomingTurnForMonster:(int)monsterId;
+- (void) updateConfusionState:(BOOL)confused onAllUpcomingTurnsForMonster:(int)monsterId;
+- (void) updateConfusionState:(BOOL)confused onUpcomingTurns:(int)numTurns forMonster:(int)monsterId;
 
 @end

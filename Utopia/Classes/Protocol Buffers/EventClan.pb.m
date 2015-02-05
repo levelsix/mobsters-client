@@ -892,7 +892,7 @@ BOOL CreateClanResponseProto_CreateClanStatusIsValidValue(CreateClanResponseProt
   result.status = value;
   return self;
 }
-- (CreateClanResponseProto_Builder*) clearStatusList {
+- (CreateClanResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = CreateClanResponseProto_CreateClanStatusSuccess;
   return self;
@@ -1428,7 +1428,7 @@ BOOL LeaveClanResponseProto_LeaveClanStatusIsValidValue(LeaveClanResponseProto_L
   result.status = value;
   return self;
 }
-- (LeaveClanResponseProto_Builder*) clearStatusList {
+- (LeaveClanResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = LeaveClanResponseProto_LeaveClanStatusSuccess;
   return self;
@@ -2316,7 +2316,7 @@ BOOL RequestJoinClanResponseProto_RequestJoinClanStatusIsValidValue(RequestJoinC
   result.status = value;
   return self;
 }
-- (RequestJoinClanResponseProto_Builder*) clearStatusList {
+- (RequestJoinClanResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = RequestJoinClanResponseProto_RequestJoinClanStatusSuccessRequest;
   return self;
@@ -3104,7 +3104,7 @@ BOOL RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatusIsValidValu
   result.status = value;
   return self;
 }
-- (RetractRequestJoinClanResponseProto_Builder*) clearStatusList {
+- (RetractRequestJoinClanResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatusSuccess;
   return self;
@@ -3874,7 +3874,7 @@ BOOL ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinC
   result.status = value;
   return self;
 }
-- (ApproveOrRejectRequestToJoinClanResponseProto_Builder*) clearStatusList {
+- (ApproveOrRejectRequestToJoinClanResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusSuccess;
   return self;
@@ -4420,7 +4420,7 @@ BOOL RetrieveClanInfoRequestProto_ClanInfoGrabTypeIsValidValue(RetrieveClanInfoR
   result.grabType = value;
   return self;
 }
-- (RetrieveClanInfoRequestProto_Builder*) clearGrabTypeList {
+- (RetrieveClanInfoRequestProto_Builder*) clearGrabType {
   result.hasGrabType = NO;
   result.grabType = RetrieveClanInfoRequestProto_ClanInfoGrabTypeAll;
   return self;
@@ -5056,7 +5056,7 @@ BOOL RetrieveClanInfoResponseProto_RetrieveClanInfoStatusIsValidValue(RetrieveCl
   result.status = value;
   return self;
 }
-- (RetrieveClanInfoResponseProto_Builder*) clearStatusList {
+- (RetrieveClanInfoResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = RetrieveClanInfoResponseProto_RetrieveClanInfoStatusSuccess;
   return self;
@@ -5826,7 +5826,7 @@ BOOL TransferClanOwnershipResponseProto_TransferClanOwnershipStatusIsValidValue(
   result.status = value;
   return self;
 }
-- (TransferClanOwnershipResponseProto_Builder*) clearStatusList {
+- (TransferClanOwnershipResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = TransferClanOwnershipResponseProto_TransferClanOwnershipStatusSuccess;
   return self;
@@ -6536,7 +6536,7 @@ BOOL BootPlayerFromClanResponseProto_BootPlayerFromClanStatusIsValidValue(BootPl
   result.status = value;
   return self;
 }
-- (BootPlayerFromClanResponseProto_Builder*) clearStatusList {
+- (BootPlayerFromClanResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = BootPlayerFromClanResponseProto_BootPlayerFromClanStatusSuccess;
   return self;
@@ -7414,7 +7414,7 @@ BOOL ChangeClanSettingsResponseProto_ChangeClanSettingsStatusIsValidValue(Change
   result.status = value;
   return self;
 }
-- (ChangeClanSettingsResponseProto_Builder*) clearStatusList {
+- (ChangeClanSettingsResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = ChangeClanSettingsResponseProto_ChangeClanSettingsStatusSuccess;
   return self;
@@ -8390,7 +8390,7 @@ BOOL BeginClanRaidResponseProto_BeginClanRaidStatusIsValidValue(BeginClanRaidRes
   result.status = value;
   return self;
 }
-- (BeginClanRaidResponseProto_Builder*) clearStatusList {
+- (BeginClanRaidResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = BeginClanRaidResponseProto_BeginClanRaidStatusSuccess;
   return self;
@@ -9530,7 +9530,7 @@ BOOL AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatusIsValidValue(
   result.status = value;
   return self;
 }
-- (AttackClanRaidMonsterResponseProto_Builder*) clearStatusList {
+- (AttackClanRaidMonsterResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatusSuccess;
   return self;
@@ -10389,7 +10389,7 @@ BOOL RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatusIsValidValue(Reco
   result.status = value;
   return self;
 }
-- (RecordClanRaidStatsResponseProto_Builder*) clearStatusList {
+- (RecordClanRaidStatsResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatusSuccess;
   return self;
@@ -10708,7 +10708,7 @@ static PromoteDemoteClanMemberRequestProto* defaultPromoteDemoteClanMemberReques
   result.userClanStatus = value;
   return self;
 }
-- (PromoteDemoteClanMemberRequestProto_Builder*) clearUserClanStatusList {
+- (PromoteDemoteClanMemberRequestProto_Builder*) clearUserClanStatus {
   result.hasUserClanStatus = NO;
   result.userClanStatus = UserClanStatusMember;
   return self;
@@ -11130,7 +11130,7 @@ BOOL PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatusIsValidVa
   result.userClanStatus = value;
   return self;
 }
-- (PromoteDemoteClanMemberResponseProto_Builder*) clearUserClanStatusList {
+- (PromoteDemoteClanMemberResponseProto_Builder*) clearUserClanStatus {
   result.hasUserClanStatus = NO;
   result.userClanStatus = UserClanStatusMember;
   return self;
@@ -11146,7 +11146,7 @@ BOOL PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatusIsValidVa
   result.prevUserClanStatus = value;
   return self;
 }
-- (PromoteDemoteClanMemberResponseProto_Builder*) clearPrevUserClanStatusList {
+- (PromoteDemoteClanMemberResponseProto_Builder*) clearPrevUserClanStatus {
   result.hasPrevUserClanStatus = NO;
   result.prevUserClanStatus = UserClanStatusMember;
   return self;
@@ -11162,7 +11162,7 @@ BOOL PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatusIsValidVa
   result.status = value;
   return self;
 }
-- (PromoteDemoteClanMemberResponseProto_Builder*) clearStatusList {
+- (PromoteDemoteClanMemberResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatusSuccess;
   return self;
@@ -11883,7 +11883,7 @@ BOOL SolicitClanHelpResponseProto_SolicitClanHelpStatusIsValidValue(SolicitClanH
   result.status = value;
   return self;
 }
-- (SolicitClanHelpResponseProto_Builder*) clearStatusList {
+- (SolicitClanHelpResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = SolicitClanHelpResponseProto_SolicitClanHelpStatusSuccess;
   return self;
@@ -12512,7 +12512,7 @@ BOOL GiveClanHelpResponseProto_GiveClanHelpStatusIsValidValue(GiveClanHelpRespon
   result.status = value;
   return self;
 }
-- (GiveClanHelpResponseProto_Builder*) clearStatusList {
+- (GiveClanHelpResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = GiveClanHelpResponseProto_GiveClanHelpStatusSuccess;
   return self;
@@ -13142,7 +13142,7 @@ BOOL EndClanHelpResponseProto_EndClanHelpStatusIsValidValue(EndClanHelpResponseP
   result.status = value;
   return self;
 }
-- (EndClanHelpResponseProto_Builder*) clearStatusList {
+- (EndClanHelpResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = EndClanHelpResponseProto_EndClanHelpStatusSuccess;
   return self;
@@ -13777,7 +13777,7 @@ BOOL InviteToClanResponseProto_InviteToClanStatusIsValidValue(InviteToClanRespon
   result.status = value;
   return self;
 }
-- (InviteToClanResponseProto_Builder*) clearStatusList {
+- (InviteToClanResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = InviteToClanResponseProto_InviteToClanStatusSuccess;
   return self;
@@ -14526,7 +14526,7 @@ BOOL AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatusIsValid
   result.status = value;
   return self;
 }
-- (AcceptOrRejectClanInviteResponseProto_Builder*) clearStatusList {
+- (AcceptOrRejectClanInviteResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatusSuccess;
   return self;
@@ -15520,7 +15520,7 @@ BOOL BeginClanAvengingResponseProto_BeginClanAvengingStatusIsValidValue(BeginCla
   result.status = value;
   return self;
 }
-- (BeginClanAvengingResponseProto_Builder*) clearStatusList {
+- (BeginClanAvengingResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = BeginClanAvengingResponseProto_BeginClanAvengingStatusSuccess;
   return self;
@@ -16150,7 +16150,7 @@ BOOL EndClanAvengingResponseProto_EndClanAvengingStatusIsValidValue(EndClanAveng
   result.status = value;
   return self;
 }
-- (EndClanAvengingResponseProto_Builder*) clearStatusList {
+- (EndClanAvengingResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = EndClanAvengingResponseProto_EndClanAvengingStatusSuccess;
   return self;
@@ -16836,7 +16836,7 @@ BOOL AvengeClanMateResponseProto_AvengeClanMateStatusIsValidValue(AvengeClanMate
   result.status = value;
   return self;
 }
-- (AvengeClanMateResponseProto_Builder*) clearStatusList {
+- (AvengeClanMateResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = AvengeClanMateResponseProto_AvengeClanMateStatusSuccess;
   return self;
@@ -17564,7 +17564,7 @@ BOOL SolicitTeamDonationResponseProto_SolicitTeamDonationStatusIsValidValue(Soli
   result.status = value;
   return self;
 }
-- (SolicitTeamDonationResponseProto_Builder*) clearStatusList {
+- (SolicitTeamDonationResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = SolicitTeamDonationResponseProto_SolicitTeamDonationStatusSuccess;
   return self;
@@ -17605,6 +17605,7 @@ BOOL SolicitTeamDonationResponseProto_SolicitTeamDonationStatusIsValidValue(Soli
 @property (strong) MinimumUserProto* sender;
 @property (strong) FullUserMonsterProto* fump;
 @property int64_t clientTime;
+@property (strong) ClanMemberTeamDonationProto* solicitation;
 @end
 
 @implementation FulfillTeamDonationSolicitationRequestProto
@@ -17630,11 +17631,19 @@ BOOL SolicitTeamDonationResponseProto_SolicitTeamDonationStatusIsValidValue(Soli
   hasClientTime_ = !!value_;
 }
 @synthesize clientTime;
+- (BOOL) hasSolicitation {
+  return !!hasSolicitation_;
+}
+- (void) setHasSolicitation:(BOOL) value_ {
+  hasSolicitation_ = !!value_;
+}
+@synthesize solicitation;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.fump = [FullUserMonsterProto defaultInstance];
     self.clientTime = 0L;
+    self.solicitation = [ClanMemberTeamDonationProto defaultInstance];
   }
   return self;
 }
@@ -17663,6 +17672,9 @@ static FulfillTeamDonationSolicitationRequestProto* defaultFulfillTeamDonationSo
   if (self.hasClientTime) {
     [output writeInt64:3 value:self.clientTime];
   }
+  if (self.hasSolicitation) {
+    [output writeMessage:4 value:self.solicitation];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -17680,6 +17692,9 @@ static FulfillTeamDonationSolicitationRequestProto* defaultFulfillTeamDonationSo
   }
   if (self.hasClientTime) {
     size_ += computeInt64Size(3, self.clientTime);
+  }
+  if (self.hasSolicitation) {
+    size_ += computeMessageSize(4, self.solicitation);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -17731,6 +17746,12 @@ static FulfillTeamDonationSolicitationRequestProto* defaultFulfillTeamDonationSo
   if (self.hasClientTime) {
     [output appendFormat:@"%@%@: %@\n", indent, @"clientTime", [NSNumber numberWithLongLong:self.clientTime]];
   }
+  if (self.hasSolicitation) {
+    [output appendFormat:@"%@%@ {\n", indent, @"solicitation"];
+    [self.solicitation writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -17748,6 +17769,8 @@ static FulfillTeamDonationSolicitationRequestProto* defaultFulfillTeamDonationSo
       (!self.hasFump || [self.fump isEqual:otherMessage.fump]) &&
       self.hasClientTime == otherMessage.hasClientTime &&
       (!self.hasClientTime || self.clientTime == otherMessage.clientTime) &&
+      self.hasSolicitation == otherMessage.hasSolicitation &&
+      (!self.hasSolicitation || [self.solicitation isEqual:otherMessage.solicitation]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -17760,6 +17783,9 @@ static FulfillTeamDonationSolicitationRequestProto* defaultFulfillTeamDonationSo
   }
   if (self.hasClientTime) {
     hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.clientTime] hash];
+  }
+  if (self.hasSolicitation) {
+    hashCode = hashCode * 31 + [self.solicitation hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -17813,6 +17839,9 @@ static FulfillTeamDonationSolicitationRequestProto* defaultFulfillTeamDonationSo
   if (other.hasClientTime) {
     [self setClientTime:other.clientTime];
   }
+  if (other.hasSolicitation) {
+    [self mergeSolicitation:other.solicitation];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -17854,6 +17883,15 @@ static FulfillTeamDonationSolicitationRequestProto* defaultFulfillTeamDonationSo
       }
       case 24: {
         [self setClientTime:[input readInt64]];
+        break;
+      }
+      case 34: {
+        ClanMemberTeamDonationProto_Builder* subBuilder = [ClanMemberTeamDonationProto builder];
+        if (self.hasSolicitation) {
+          [subBuilder mergeFrom:self.solicitation];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSolicitation:[subBuilder buildPartial]];
         break;
       }
     }
@@ -17935,11 +17973,41 @@ static FulfillTeamDonationSolicitationRequestProto* defaultFulfillTeamDonationSo
   result.clientTime = 0L;
   return self;
 }
+- (BOOL) hasSolicitation {
+  return result.hasSolicitation;
+}
+- (ClanMemberTeamDonationProto*) solicitation {
+  return result.solicitation;
+}
+- (FulfillTeamDonationSolicitationRequestProto_Builder*) setSolicitation:(ClanMemberTeamDonationProto*) value {
+  result.hasSolicitation = YES;
+  result.solicitation = value;
+  return self;
+}
+- (FulfillTeamDonationSolicitationRequestProto_Builder*) setSolicitation_Builder:(ClanMemberTeamDonationProto_Builder*) builderForValue {
+  return [self setSolicitation:[builderForValue build]];
+}
+- (FulfillTeamDonationSolicitationRequestProto_Builder*) mergeSolicitation:(ClanMemberTeamDonationProto*) value {
+  if (result.hasSolicitation &&
+      result.solicitation != [ClanMemberTeamDonationProto defaultInstance]) {
+    result.solicitation =
+      [[[ClanMemberTeamDonationProto builderWithPrototype:result.solicitation] mergeFrom:value] buildPartial];
+  } else {
+    result.solicitation = value;
+  }
+  result.hasSolicitation = YES;
+  return self;
+}
+- (FulfillTeamDonationSolicitationRequestProto_Builder*) clearSolicitation {
+  result.hasSolicitation = NO;
+  result.solicitation = [ClanMemberTeamDonationProto defaultInstance];
+  return self;
+}
 @end
 
 @interface FulfillTeamDonationSolicitationResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolictationStatus status;
+@property FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatus status;
 @property (strong) ClanMemberTeamDonationProto* solicitation;
 @end
 
@@ -17969,7 +18037,7 @@ static FulfillTeamDonationSolicitationRequestProto* defaultFulfillTeamDonationSo
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolictationStatusSuccess;
+    self.status = FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatusSuccess;
     self.solicitation = [ClanMemberTeamDonationProto defaultInstance];
   }
   return self;
@@ -18102,10 +18170,12 @@ static FulfillTeamDonationSolicitationResponseProto* defaultFulfillTeamDonationS
 }
 @end
 
-BOOL FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolictationStatusIsValidValue(FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolictationStatus value) {
+BOOL FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatusIsValidValue(FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatus value) {
   switch (value) {
-    case FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolictationStatusSuccess:
-    case FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolictationStatusFailOther:
+    case FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatusSuccess:
+    case FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatusFailOther:
+    case FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatusFailNonexistentSolicitation:
+    case FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatusFailAlreadyFulfilled:
       return YES;
     default:
       return NO;
@@ -18189,8 +18259,8 @@ BOOL FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolictation
         break;
       }
       case 16: {
-        FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolictationStatus value = (FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolictationStatus)[input readEnum];
-        if (FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolictationStatusIsValidValue(value)) {
+        FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatus value = (FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatus)[input readEnum];
+        if (FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -18242,17 +18312,17 @@ BOOL FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolictation
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolictationStatus) status {
+- (FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatus) status {
   return result.status;
 }
-- (FulfillTeamDonationSolicitationResponseProto_Builder*) setStatus:(FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolictationStatus) value {
+- (FulfillTeamDonationSolicitationResponseProto_Builder*) setStatus:(FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
-- (FulfillTeamDonationSolicitationResponseProto_Builder*) clearStatusList {
+- (FulfillTeamDonationSolicitationResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
-  result.status = FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolictationStatusSuccess;
+  result.status = FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatusSuccess;
   return self;
 }
 - (BOOL) hasSolicitation {
@@ -18289,7 +18359,7 @@ BOOL FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolictation
 
 @interface VoidTeamDonationSolicitationRequestProto ()
 @property (strong) MinimumUserProto* sender;
-@property (strong) NSString* clanTeamDonateUuid;
+@property (strong) NSMutableArray * mutableSolicitationsList;
 @end
 
 @implementation VoidTeamDonationSolicitationRequestProto
@@ -18301,17 +18371,11 @@ BOOL FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolictation
   hasSender_ = !!value_;
 }
 @synthesize sender;
-- (BOOL) hasClanTeamDonateUuid {
-  return !!hasClanTeamDonateUuid_;
-}
-- (void) setHasClanTeamDonateUuid:(BOOL) value_ {
-  hasClanTeamDonateUuid_ = !!value_;
-}
-@synthesize clanTeamDonateUuid;
+@synthesize mutableSolicitationsList;
+@dynamic solicitationsList;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.clanTeamDonateUuid = @"";
   }
   return self;
 }
@@ -18327,6 +18391,12 @@ static VoidTeamDonationSolicitationRequestProto* defaultVoidTeamDonationSolicita
 - (VoidTeamDonationSolicitationRequestProto*) defaultInstance {
   return defaultVoidTeamDonationSolicitationRequestProtoInstance;
 }
+- (NSArray *)solicitationsList {
+  return mutableSolicitationsList;
+}
+- (ClanMemberTeamDonationProto*)solicitationsAtIndex:(NSUInteger)index {
+  return [mutableSolicitationsList objectAtIndex:index];
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -18334,9 +18404,9 @@ static VoidTeamDonationSolicitationRequestProto* defaultVoidTeamDonationSolicita
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  if (self.hasClanTeamDonateUuid) {
-    [output writeString:2 value:self.clanTeamDonateUuid];
-  }
+  [self.solicitationsList enumerateObjectsUsingBlock:^(ClanMemberTeamDonationProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:2 value:element];
+  }];
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -18349,9 +18419,9 @@ static VoidTeamDonationSolicitationRequestProto* defaultVoidTeamDonationSolicita
   if (self.hasSender) {
     size_ += computeMessageSize(1, self.sender);
   }
-  if (self.hasClanTeamDonateUuid) {
-    size_ += computeStringSize(2, self.clanTeamDonateUuid);
-  }
+  [self.solicitationsList enumerateObjectsUsingBlock:^(ClanMemberTeamDonationProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(2, element);
+  }];
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
   return size_;
@@ -18393,9 +18463,12 @@ static VoidTeamDonationSolicitationRequestProto* defaultVoidTeamDonationSolicita
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
-  if (self.hasClanTeamDonateUuid) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"clanTeamDonateUuid", self.clanTeamDonateUuid];
-  }
+  [self.solicitationsList enumerateObjectsUsingBlock:^(ClanMemberTeamDonationProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"solicitations"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -18409,8 +18482,7 @@ static VoidTeamDonationSolicitationRequestProto* defaultVoidTeamDonationSolicita
   return
       self.hasSender == otherMessage.hasSender &&
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
-      self.hasClanTeamDonateUuid == otherMessage.hasClanTeamDonateUuid &&
-      (!self.hasClanTeamDonateUuid || [self.clanTeamDonateUuid isEqual:otherMessage.clanTeamDonateUuid]) &&
+      [self.solicitationsList isEqualToArray:otherMessage.solicitationsList] &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -18418,9 +18490,9 @@ static VoidTeamDonationSolicitationRequestProto* defaultVoidTeamDonationSolicita
   if (self.hasSender) {
     hashCode = hashCode * 31 + [self.sender hash];
   }
-  if (self.hasClanTeamDonateUuid) {
-    hashCode = hashCode * 31 + [self.clanTeamDonateUuid hash];
-  }
+  [self.solicitationsList enumerateObjectsUsingBlock:^(ClanMemberTeamDonationProto *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
@@ -18467,8 +18539,12 @@ static VoidTeamDonationSolicitationRequestProto* defaultVoidTeamDonationSolicita
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.hasClanTeamDonateUuid) {
-    [self setClanTeamDonateUuid:other.clanTeamDonateUuid];
+  if (other.mutableSolicitationsList.count > 0) {
+    if (result.mutableSolicitationsList == nil) {
+      result.mutableSolicitationsList = [[NSMutableArray alloc] initWithArray:other.mutableSolicitationsList];
+    } else {
+      [result.mutableSolicitationsList addObjectsFromArray:other.mutableSolicitationsList];
+    }
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -18501,7 +18577,9 @@ static VoidTeamDonationSolicitationRequestProto* defaultVoidTeamDonationSolicita
         break;
       }
       case 18: {
-        [self setClanTeamDonateUuid:[input readString]];
+        ClanMemberTeamDonationProto_Builder* subBuilder = [ClanMemberTeamDonationProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addSolicitations:[subBuilder buildPartial]];
         break;
       }
     }
@@ -18537,20 +18615,28 @@ static VoidTeamDonationSolicitationRequestProto* defaultVoidTeamDonationSolicita
   result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
-- (BOOL) hasClanTeamDonateUuid {
-  return result.hasClanTeamDonateUuid;
+- (NSMutableArray *)solicitationsList {
+  return result.mutableSolicitationsList;
 }
-- (NSString*) clanTeamDonateUuid {
-  return result.clanTeamDonateUuid;
+- (ClanMemberTeamDonationProto*)solicitationsAtIndex:(NSUInteger)index {
+  return [result solicitationsAtIndex:index];
 }
-- (VoidTeamDonationSolicitationRequestProto_Builder*) setClanTeamDonateUuid:(NSString*) value {
-  result.hasClanTeamDonateUuid = YES;
-  result.clanTeamDonateUuid = value;
+- (VoidTeamDonationSolicitationRequestProto_Builder *)addSolicitations:(ClanMemberTeamDonationProto*)value {
+  if (result.mutableSolicitationsList == nil) {
+    result.mutableSolicitationsList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableSolicitationsList addObject:value];
   return self;
 }
-- (VoidTeamDonationSolicitationRequestProto_Builder*) clearClanTeamDonateUuid {
-  result.hasClanTeamDonateUuid = NO;
-  result.clanTeamDonateUuid = @"";
+- (VoidTeamDonationSolicitationRequestProto_Builder *)addAllSolicitations:(NSArray *)array {
+  if (result.mutableSolicitationsList == nil) {
+    result.mutableSolicitationsList = [NSMutableArray array];
+  }
+  [result.mutableSolicitationsList addObjectsFromArray:array];
+  return self;
+}
+- (VoidTeamDonationSolicitationRequestProto_Builder *)clearSolicitations {
+  result.mutableSolicitationsList = nil;
   return self;
 }
 @end
@@ -18558,6 +18644,7 @@ static VoidTeamDonationSolicitationRequestProto* defaultVoidTeamDonationSolicita
 @interface VoidTeamDonationSolicitationResponseProto ()
 @property (strong) MinimumUserProto* sender;
 @property VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatus status;
+@property (strong) NSMutableArray * mutableClanTeamDonateUuidList;
 @end
 
 @implementation VoidTeamDonationSolicitationResponseProto
@@ -18576,6 +18663,8 @@ static VoidTeamDonationSolicitationRequestProto* defaultVoidTeamDonationSolicita
   hasStatus_ = !!value_;
 }
 @synthesize status;
+@synthesize mutableClanTeamDonateUuidList;
+@dynamic clanTeamDonateUuidList;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
@@ -18595,6 +18684,12 @@ static VoidTeamDonationSolicitationResponseProto* defaultVoidTeamDonationSolicit
 - (VoidTeamDonationSolicitationResponseProto*) defaultInstance {
   return defaultVoidTeamDonationSolicitationResponseProtoInstance;
 }
+- (NSArray *)clanTeamDonateUuidList {
+  return mutableClanTeamDonateUuidList;
+}
+- (NSString*)clanTeamDonateUuidAtIndex:(NSUInteger)index {
+  return [mutableClanTeamDonateUuidList objectAtIndex:index];
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -18605,6 +18700,9 @@ static VoidTeamDonationSolicitationResponseProto* defaultVoidTeamDonationSolicit
   if (self.hasStatus) {
     [output writeEnum:2 value:self.status];
   }
+  [self.clanTeamDonateUuidList enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+    [output writeString:3 value:element];
+  }];
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -18619,6 +18717,15 @@ static VoidTeamDonationSolicitationResponseProto* defaultVoidTeamDonationSolicit
   }
   if (self.hasStatus) {
     size_ += computeEnumSize(2, self.status);
+  }
+  {
+    __block SInt32 dataSize = 0;
+    const NSUInteger count = self.clanTeamDonateUuidList.count;
+    [self.clanTeamDonateUuidList enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+      dataSize += computeStringSizeNoTag(element);
+    }];
+    size_ += dataSize;
+    size_ += (SInt32)(1 * count);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -18664,6 +18771,9 @@ static VoidTeamDonationSolicitationResponseProto* defaultVoidTeamDonationSolicit
   if (self.hasStatus) {
     [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
+  [self.clanTeamDonateUuidList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"clanTeamDonateUuid", obj];
+  }];
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -18679,6 +18789,7 @@ static VoidTeamDonationSolicitationResponseProto* defaultVoidTeamDonationSolicit
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
       self.hasStatus == otherMessage.hasStatus &&
       (!self.hasStatus || self.status == otherMessage.status) &&
+      [self.clanTeamDonateUuidList isEqualToArray:otherMessage.clanTeamDonateUuidList] &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -18689,6 +18800,9 @@ static VoidTeamDonationSolicitationResponseProto* defaultVoidTeamDonationSolicit
   if (self.hasStatus) {
     hashCode = hashCode * 31 + self.status;
   }
+  [self.clanTeamDonateUuidList enumerateObjectsUsingBlock:^(id element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
@@ -18747,6 +18861,13 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
   if (other.hasStatus) {
     [self setStatus:other.status];
   }
+  if (other.mutableClanTeamDonateUuidList.count > 0) {
+    if (result.mutableClanTeamDonateUuidList == nil) {
+      result.mutableClanTeamDonateUuidList = [[NSMutableArray alloc] initWithArray:other.mutableClanTeamDonateUuidList];
+    } else {
+      [result.mutableClanTeamDonateUuidList addObjectsFromArray:other.mutableClanTeamDonateUuidList];
+    }
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -18784,6 +18905,10 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
         } else {
           [unknownFields mergeVarintField:2 value:value];
         }
+        break;
+      }
+      case 26: {
+        [self addClanTeamDonateUuid:[input readString]];
         break;
       }
     }
@@ -18830,9 +18955,33 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
   result.status = value;
   return self;
 }
-- (VoidTeamDonationSolicitationResponseProto_Builder*) clearStatusList {
+- (VoidTeamDonationSolicitationResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatusSuccess;
+  return self;
+}
+- (NSMutableArray *)clanTeamDonateUuidList {
+  return result.mutableClanTeamDonateUuidList;
+}
+- (NSString*)clanTeamDonateUuidAtIndex:(NSUInteger)index {
+  return [result clanTeamDonateUuidAtIndex:index];
+}
+- (VoidTeamDonationSolicitationResponseProto_Builder *)addClanTeamDonateUuid:(NSString*)value {
+  if (result.mutableClanTeamDonateUuidList == nil) {
+    result.mutableClanTeamDonateUuidList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableClanTeamDonateUuidList addObject:value];
+  return self;
+}
+- (VoidTeamDonationSolicitationResponseProto_Builder *)addAllClanTeamDonateUuid:(NSArray *)array {
+  if (result.mutableClanTeamDonateUuidList == nil) {
+    result.mutableClanTeamDonateUuidList = [NSMutableArray array];
+  }
+  [result.mutableClanTeamDonateUuidList addObjectsFromArray:array];
+  return self;
+}
+- (VoidTeamDonationSolicitationResponseProto_Builder *)clearClanTeamDonateUuid {
+  result.mutableClanTeamDonateUuidList = nil;
   return self;
 }
 @end

@@ -98,7 +98,7 @@
 //    [self.battleLayer.orbLayer.bgdLayer turnTheLightsOn];
 //  }];
   [self resetOrbCounter];
-  [self skillTriggerFinished];
+  [self skillTriggerFinished:YES];
 }
 
 @end

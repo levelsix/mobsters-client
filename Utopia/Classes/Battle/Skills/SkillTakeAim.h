@@ -16,7 +16,7 @@
   float _critChancePerOrb;
   float _critDamageMultiplier;
   
-  int _orbsSpawned;
+  NSInteger _orbsSpawned;
 }
 
 @end

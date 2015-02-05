@@ -564,7 +564,7 @@ BOOL EnableAPNSResponseProto_EnableAPNSStatusIsValidValue(EnableAPNSResponseProt
   result.status = value;
   return self;
 }
-- (EnableAPNSResponseProto_Builder*) clearStatusList {
+- (EnableAPNSResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = EnableAPNSResponseProto_EnableAPNSStatusSuccess;
   return self;

@@ -26,7 +26,10 @@ typedef enum {
   SpecialOrbTypeHeadshot = 4,
   SpecialOrbTypeCloud = 5,
   SpecialOrbTypeLifeSteal = 6,
-  SpecialOrbTypeTakeAim = 7
+  SpecialOrbTypeTakeAim = 7,
+  SpecialOrbTypeGrave = 8,
+  SpecialOrbTypeBullet = 9,
+  SpecialOrbTypeGlove = 10
 } SpecialOrbType;
 
 typedef enum {
@@ -57,9 +60,8 @@ typedef enum {
 @property (assign, nonatomic) BOOL isLocked;
 
 // Special orb variables
-@property (assign, nonatomic) NSInteger bombCounter;
+@property (assign, nonatomic) NSInteger turnCounter;
 @property (assign, nonatomic) NSInteger bombDamage;
-@property (assign, nonatomic) NSInteger headshotCounter;
 @property (assign, nonatomic) NSInteger damageMultiplier;
 
 @property (assign, nonatomic) NSInteger cloudCounter;

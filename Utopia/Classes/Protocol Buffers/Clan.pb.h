@@ -348,7 +348,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (BOOL) hasStatus;
 - (UserClanStatus) status;
 - (FullUserClanProto_Builder*) setStatus:(UserClanStatus) value;
-- (FullUserClanProto_Builder*) clearStatusList;
+- (FullUserClanProto_Builder*) clearStatus;
 
 - (BOOL) hasRequestTime;
 - (int64_t) requestTime;
@@ -489,7 +489,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (BOOL) hasClanStatus;
 - (UserClanStatus) clanStatus;
 - (MinimumUserProtoForClans_Builder*) setClanStatus:(UserClanStatus) value;
-- (MinimumUserProtoForClans_Builder*) clearClanStatusList;
+- (MinimumUserProtoForClans_Builder*) clearClanStatus;
 
 - (BOOL) hasRaidContribution;
 - (Float32) raidContribution;
@@ -991,7 +991,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (BOOL) hasDayOfWeek;
 - (DayOfWeek) dayOfWeek;
 - (PersistentClanEventProto_Builder*) setDayOfWeek:(DayOfWeek) value;
-- (PersistentClanEventProto_Builder*) clearDayOfWeekList;
+- (PersistentClanEventProto_Builder*) clearDayOfWeek;
 
 - (BOOL) hasStartHour;
 - (int32_t) startHour;
@@ -1302,7 +1302,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (BOOL) hasResourceType;
 - (ResourceType) resourceType;
 - (PersistentClanEventUserRewardProto_Builder*) setResourceType:(ResourceType) value;
-- (PersistentClanEventUserRewardProto_Builder*) clearResourceTypeList;
+- (PersistentClanEventUserRewardProto_Builder*) clearResourceType;
 
 - (BOOL) hasStaticDataId;
 - (int32_t) staticDataId;
@@ -1660,7 +1660,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (BOOL) hasHelpType;
 - (GameActionType) helpType;
 - (ClanHelpProto_Builder*) setHelpType:(GameActionType) value;
-- (ClanHelpProto_Builder*) clearHelpTypeList;
+- (ClanHelpProto_Builder*) clearHelpType;
 
 - (BOOL) hasTimeRequested;
 - (int64_t) timeRequested;
@@ -1743,7 +1743,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (BOOL) hasHelpType;
 - (GameActionType) helpType;
 - (ClanHelpNoticeProto_Builder*) setHelpType:(GameActionType) value;
-- (ClanHelpNoticeProto_Builder*) clearHelpTypeList;
+- (ClanHelpNoticeProto_Builder*) clearHelpType;
 
 - (BOOL) hasUserDataUuid;
 - (NSString*) userDataUuid;
@@ -1868,13 +1868,16 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
   NSMutableArray * mutableClanChatsList;
   NSMutableArray * mutableClanHelpingsList;
   NSMutableArray * mutableClanAvengingsList;
+  NSMutableArray * mutableClanDonationSolicitationsList;
 }
 @property (readonly, strong) NSArray * clanChatsList;
 @property (readonly, strong) NSArray * clanHelpingsList;
 @property (readonly, strong) NSArray * clanAvengingsList;
+@property (readonly, strong) NSArray * clanDonationSolicitationsList;
 - (GroupChatMessageProto*)clanChatsAtIndex:(NSUInteger)index;
 - (ClanHelpProto*)clanHelpingsAtIndex:(NSUInteger)index;
 - (PvpClanAvengeProto*)clanAvengingsAtIndex:(NSUInteger)index;
+- (ClanMemberTeamDonationProto*)clanDonationSolicitationsAtIndex:(NSUInteger)index;
 
 + (ClanDataProto*) defaultInstance;
 - (ClanDataProto*) defaultInstance;
@@ -1928,6 +1931,12 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (ClanDataProto_Builder *)addClanAvengings:(PvpClanAvengeProto*)value;
 - (ClanDataProto_Builder *)addAllClanAvengings:(NSArray *)array;
 - (ClanDataProto_Builder *)clearClanAvengings;
+
+- (NSMutableArray *)clanDonationSolicitationsList;
+- (ClanMemberTeamDonationProto*)clanDonationSolicitationsAtIndex:(NSUInteger)index;
+- (ClanDataProto_Builder *)addClanDonationSolicitations:(ClanMemberTeamDonationProto*)value;
+- (ClanDataProto_Builder *)addAllClanDonationSolicitations:(NSArray *)array;
+- (ClanDataProto_Builder *)clearClanDonationSolicitations;
 @end
 
 @interface ClanMemberTeamDonationProto : PBGeneratedMessage {
@@ -1936,27 +1945,27 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
   BOOL hasTimeOfSolicitation_:1;
   BOOL hasPowerAvailability_:1;
   BOOL hasDonationUuid_:1;
-  BOOL hasUserUuid_:1;
   BOOL hasClanUuid_:1;
   BOOL hasMsg_:1;
+  BOOL hasSolicitor_:1;
   BOOL isFulfilled_:1;
   int64_t timeOfSolicitation;
   int32_t powerAvailability;
   NSString* donationUuid;
-  NSString* userUuid;
   NSString* clanUuid;
   NSString* msg;
+  MinimumUserProto* solicitor;
   NSMutableArray * mutableDonationsList;
 }
 - (BOOL) hasDonationUuid;
-- (BOOL) hasUserUuid;
+- (BOOL) hasSolicitor;
 - (BOOL) hasClanUuid;
 - (BOOL) hasPowerAvailability;
 - (BOOL) hasIsFulfilled;
 - (BOOL) hasMsg;
 - (BOOL) hasTimeOfSolicitation;
 @property (readonly, strong) NSString* donationUuid;
-@property (readonly, strong) NSString* userUuid;
+@property (readonly, strong) MinimumUserProto* solicitor;
 @property (readonly, strong) NSString* clanUuid;
 @property (readonly) int32_t powerAvailability;
 - (BOOL) isFulfilled;
@@ -2005,10 +2014,12 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (ClanMemberTeamDonationProto_Builder*) setDonationUuid:(NSString*) value;
 - (ClanMemberTeamDonationProto_Builder*) clearDonationUuid;
 
-- (BOOL) hasUserUuid;
-- (NSString*) userUuid;
-- (ClanMemberTeamDonationProto_Builder*) setUserUuid:(NSString*) value;
-- (ClanMemberTeamDonationProto_Builder*) clearUserUuid;
+- (BOOL) hasSolicitor;
+- (MinimumUserProto*) solicitor;
+- (ClanMemberTeamDonationProto_Builder*) setSolicitor:(MinimumUserProto*) value;
+- (ClanMemberTeamDonationProto_Builder*) setSolicitor_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (ClanMemberTeamDonationProto_Builder*) mergeSolicitor:(MinimumUserProto*) value;
+- (ClanMemberTeamDonationProto_Builder*) clearSolicitor;
 
 - (BOOL) hasClanUuid;
 - (NSString*) clanUuid;

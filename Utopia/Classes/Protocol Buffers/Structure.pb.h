@@ -233,12 +233,12 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (BOOL) hasStructType;
 - (StructureInfoProto_StructType) structType;
 - (StructureInfoProto_Builder*) setStructType:(StructureInfoProto_StructType) value;
-- (StructureInfoProto_Builder*) clearStructTypeList;
+- (StructureInfoProto_Builder*) clearStructType;
 
 - (BOOL) hasBuildResourceType;
 - (ResourceType) buildResourceType;
 - (StructureInfoProto_Builder*) setBuildResourceType:(ResourceType) value;
-- (StructureInfoProto_Builder*) clearBuildResourceTypeList;
+- (StructureInfoProto_Builder*) clearBuildResourceType;
 
 - (BOOL) hasBuildCost;
 - (int32_t) buildCost;
@@ -386,7 +386,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (BOOL) hasResourceType;
 - (ResourceType) resourceType;
 - (ResourceGeneratorProto_Builder*) setResourceType:(ResourceType) value;
-- (ResourceGeneratorProto_Builder*) clearResourceTypeList;
+- (ResourceGeneratorProto_Builder*) clearResourceType;
 
 - (BOOL) hasProductionRate;
 - (Float32) productionRate;
@@ -460,7 +460,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (BOOL) hasResourceType;
 - (ResourceType) resourceType;
 - (ResourceStorageProto_Builder*) setResourceType:(ResourceType) value;
-- (ResourceStorageProto_Builder*) clearResourceTypeList;
+- (ResourceStorageProto_Builder*) clearResourceType;
 
 - (BOOL) hasCapacity;
 - (int32_t) capacity;
@@ -1063,7 +1063,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (BOOL) hasOrientation;
 - (StructOrientation) orientation;
 - (FullUserStructureProto_Builder*) setOrientation:(StructOrientation) value;
-- (FullUserStructureProto_Builder*) clearOrientationList;
+- (FullUserStructureProto_Builder*) clearOrientation;
 
 - (BOOL) hasFbInviteStructLvl;
 - (int32_t) fbInviteStructLvl;
@@ -1297,7 +1297,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (BOOL) hasRemovalCostType;
 - (ResourceType) removalCostType;
 - (ObstacleProto_Builder*) setRemovalCostType:(ResourceType) value;
-- (ObstacleProto_Builder*) clearRemovalCostTypeList;
+- (ObstacleProto_Builder*) clearRemovalCostType;
 
 - (BOOL) hasCost;
 - (int32_t) cost;
@@ -1421,7 +1421,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (BOOL) hasOrientation;
 - (StructOrientation) orientation;
 - (MinimumObstacleProto_Builder*) setOrientation:(StructOrientation) value;
-- (MinimumObstacleProto_Builder*) clearOrientationList;
+- (MinimumObstacleProto_Builder*) clearOrientation;
 @end
 
 @interface UserObstacleProto : PBGeneratedMessage {
@@ -1512,7 +1512,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (BOOL) hasOrientation;
 - (StructOrientation) orientation;
 - (UserObstacleProto_Builder*) setOrientation:(StructOrientation) value;
-- (UserObstacleProto_Builder*) clearOrientationList;
+- (UserObstacleProto_Builder*) clearOrientation;
 
 - (BOOL) hasRemovalStartTime;
 - (int64_t) removalStartTime;
@@ -1581,7 +1581,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (BOOL) hasQualityUnlocked;
 - (Quality) qualityUnlocked;
 - (EvoChamberProto_Builder*) setQualityUnlocked:(Quality) value;
-- (EvoChamberProto_Builder*) clearQualityUnlockedList;
+- (EvoChamberProto_Builder*) clearQualityUnlocked;
 
 - (BOOL) hasEvoTierUnlocked;
 - (int32_t) evoTierUnlocked;
@@ -1652,14 +1652,18 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 @interface ClanHouseProto : PBGeneratedMessage {
 @private
   BOOL hasMaxHelpersPerSolicitation_:1;
+  BOOL hasTeamDonationPowerLimit_:1;
   BOOL hasStructInfo_:1;
   int32_t maxHelpersPerSolicitation;
+  int32_t teamDonationPowerLimit;
   StructureInfoProto* structInfo;
 }
 - (BOOL) hasStructInfo;
 - (BOOL) hasMaxHelpersPerSolicitation;
+- (BOOL) hasTeamDonationPowerLimit;
 @property (readonly, strong) StructureInfoProto* structInfo;
 @property (readonly) int32_t maxHelpersPerSolicitation;
+@property (readonly) int32_t teamDonationPowerLimit;
 
 + (ClanHouseProto*) defaultInstance;
 - (ClanHouseProto*) defaultInstance;
@@ -1707,6 +1711,11 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (int32_t) maxHelpersPerSolicitation;
 - (ClanHouseProto_Builder*) setMaxHelpersPerSolicitation:(int32_t) value;
 - (ClanHouseProto_Builder*) clearMaxHelpersPerSolicitation;
+
+- (BOOL) hasTeamDonationPowerLimit;
+- (int32_t) teamDonationPowerLimit;
+- (ClanHouseProto_Builder*) setTeamDonationPowerLimit:(int32_t) value;
+- (ClanHouseProto_Builder*) clearTeamDonationPowerLimit;
 @end
 
 

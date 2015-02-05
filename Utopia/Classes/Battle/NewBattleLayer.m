@@ -763,7 +763,7 @@
             {
               CCSprite* confusedPopup = [CCSprite spriteWithImageNamed:@"confusionbubble.png"];
               [confusedPopup setAnchorPoint:CGPointMake(.5f, 0.f)];
-              [confusedPopup setPosition:CGPointMake(self.currentEnemy.contentSize.width * .5f + 6.f, self.currentEnemy.contentSize.height + 13.f)];
+              [confusedPopup setPosition:CGPointMake(self.currentEnemy.contentSize.width * .5f, self.currentEnemy.contentSize.height + 13.f)];
               [confusedPopup setScale:0.f];
               [self.currentEnemy addChild:confusedPopup];
               
@@ -840,13 +840,35 @@
       [self spawnPlaneWithTarget:nil selector:nil];
     }
     
-    float strength = MIN(1, currentScore/(float)STRENGTH_FOR_MAX_SHOTS);
-    [self.myPlayer performFarAttackAnimationWithStrength:strength
-                                             shouldEvade:[skillManager playerWillEvade:NO]
-                                                   enemy:self.currentEnemy
-                                                  target:self
-                                                selector:@selector(dealMyDamage)
-                                          animCompletion:nil];
+    // If the player's confused, he will deal damage to himself. Instead of the usual flow, show
+    // the popup above his head, followed by flinch animation and showing the damage label
+    if (self.myPlayerObject.isConfused)
+    {
+      CCSprite* confusedPopup = [CCSprite spriteWithImageNamed:@"confusionbubble.png"];
+      [confusedPopup setAnchorPoint:CGPointMake(.5f, 0.f)];
+      [confusedPopup setPosition:CGPointMake(self.myPlayer.contentSize.width * .5f, self.myPlayer.contentSize.height + 13.f)];
+      [confusedPopup setScale:0.f];
+      [self.myPlayer addChild:confusedPopup];
+      
+      [confusedPopup runAction:[CCActionSequence actions:
+                                [CCActionEaseIn actionWithAction:[CCActionScaleTo actionWithDuration:.2f scale:1.f]],
+                                [CCActionDelay actionWithDuration:.5f],
+                                [CCActionCallFunc actionWithTarget:self selector:@selector(playerDealsDamageToSelf)],
+                                [CCActionDelay actionWithDuration:1.5f],
+                                [CCActionEaseIn actionWithAction:[CCActionScaleTo actionWithDuration:.2f scale:0.f]],
+                                [CCActionRemove action],
+                                nil]];
+    }
+    else
+    {
+      float strength = MIN(1, currentScore/(float)STRENGTH_FOR_MAX_SHOTS);
+      [self.myPlayer performFarAttackAnimationWithStrength:strength
+                                               shouldEvade:[skillManager playerWillEvade:NO]
+                                                     enemy:self.currentEnemy
+                                                    target:self
+                                                  selector:@selector(dealMyDamage)
+                                            animCompletion:nil];
+    }
   } else {
     [self beginNextTurn];
   }
@@ -928,79 +950,40 @@
   }
 }
 
+- (void) playerDealsDamageToSelf {
+  SkillLogStart(@"TRIGGER STARTED: deal damage by player");
+  [skillManager triggerSkills:SkillTriggerPointPlayerDealsDamage withCompletion:^(BOOL triggered, id params) {
+    
+    SkillLogEnd(triggered, @"  Deal damage by player trigger ENDED");
+    
+    _enemyShouldAttack = YES;
+    _totalDamageTaken += _myDamageDealt;
+    
+    [self dealDamageToSelf:_myDamageDealt enemyIsAttacker:NO withTarget:self andSelector:@selector(checkEnemyHealthAndStartNewTurn)];
+    
+    float perc = ((float)self.myPlayerObject.curHealth)/self.myPlayerObject.maxHealth;
+    if (!_bloodSplatter || _bloodSplatter.numberOfRunningActions == 0) {
+      if (perc < PULSE_CONT_THRESH) {
+        [self pulseBloodContinuously];
+        [self pulseHealthLabel:NO];
+      } else if (perc < PULSE_ONCE_THRESH) {
+        [self pulseBloodOnce];
+      }
+    } else if (perc > PULSE_ONCE_THRESH) {
+      [self stopPulsing];
+    }
+  }];
+  
+  [self.myPlayer performFarFlinchAnimationWithDelay:0.f];
+}
+
 - (void) enemyDealsDamageToSelf {
   SkillLogStart(@"TRIGGER STARTED: deal damage by enemy");
   [skillManager triggerSkills:SkillTriggerPointEnemyDealsDamage withCompletion:^(BOOL triggered, id params) {
     
     SkillLogEnd(triggered, @"  Deal damage by enemy trigger ENDED");
     
-    _enemyShouldAttack = YES;
-    
-    /*
-     * Enemy deals damage to self
-     */
-    
-    int curHealth = self.enemyPlayerObject.curHealth;
-    int newHealth = MIN(self.enemyPlayerObject.maxHealth, MAX(0, curHealth-_enemyDamageDealt));
-    float newPercent = ((float)newHealth)/self.enemyPlayerObject.maxHealth*100;
-    float percChange = ABS(self.currentEnemy.healthBar.percentage-newPercent);
-    float duration = percChange/HEALTH_BAR_SPEED;
-    
-    [SoundEngine puzzleDamageTickStart];
-    [self.currentEnemy.healthBar runAction:[CCActionSequence actions:
-                          [CCActionEaseIn actionWithAction:[CCActionProgressTo actionWithDuration:duration percent:newPercent]],
-                          [CCActionCallBlock actionWithBlock:
-                           ^{
-                             [self.currentEnemy.healthLabel stopActionByTag:1015];
-                             [self updateHealthBars];
-                             [SoundEngine puzzleDamageTickStop];
-                             
-                             if (newHealth <= 0) {
-                               [self blowupBattleSprite:self.currentEnemy withBlock:^{
-                                 [self checkEnemyHealthAndStartNewTurn];
-                               }];
-                               
-                               // Drop loot
-                               _lootSprite = [self getCurrentEnemyLoot];
-                               
-                               if (_lootSprite)
-                                 [self dropLoot:_lootSprite];
-                             } else {
-                               [self checkEnemyHealthAndStartNewTurn];
-                             }
-                           }],
-                          nil]];
-    
-    CCActionRepeat *f = [CCActionRepeatForever actionWithAction:
-                         [CCActionSequence actions:
-                          [CCActionCallBlock actionWithBlock:
-                           ^{
-                             self.currentEnemy.healthLabel.string = [NSString stringWithFormat:@"%@/%@",
-                                                                     [Globals commafyNumber:(int)(self.currentEnemy.healthBar.percentage/100.f*self.enemyPlayerObject.maxHealth)],
-                                                                     [Globals commafyNumber:self.enemyPlayerObject.maxHealth]];
-                           }],
-                          [CCActionDelay actionWithDuration:0.03],
-                          nil]];
-    f.tag = 1015;
-    [self.currentEnemy.healthLabel runAction:f];
-    
-    NSString *str = [NSString stringWithFormat:@"-%@", [Globals commafyNumber:_enemyDamageDealt]];
-    CCLabelBMFont *damageLabel = [CCLabelBMFont labelWithString:str fntFile:@"hpfont.fnt"];
-    [self.bgdContainer addChild:damageLabel z:self.currentEnemy.zOrder];
-    damageLabel.position = ccpAdd(self.currentEnemy.position, ccp(0, self.currentEnemy.contentSize.height-15));
-    damageLabel.scale = 0.01;
-    [damageLabel runAction:[CCActionSequence actions:
-                            [CCActionSpawn actions:
-                             [CCActionEaseElasticOut actionWithAction:[CCActionScaleTo actionWithDuration:1.2f scale:1]],
-                             [CCActionFadeOut actionWithDuration:1.5f],
-                             [CCActionMoveBy actionWithDuration:1.5f position:ccp(0,25)],nil],
-                            [CCActionCallFunc actionWithTarget:damageLabel selector:@selector(removeFromParent)], nil]];
-    
-    self.enemyPlayerObject.curHealth = newHealth;
-    
-    /*
-     *
-     */
+    [self dealDamageToSelf:_enemyDamageDealt enemyIsAttacker:YES withTarget:self andSelector:@selector(endEnemyTurn)];
     
     float perc = ((float)self.enemyPlayerObject.curHealth)/self.enemyPlayerObject.maxHealth;
     if (perc < PULSE_CONT_THRESH) {
@@ -1012,6 +995,74 @@
     
     [self.currentEnemy performNearFlinchAnimationWithStrength:0 delay:0.f];
   }];
+}
+
+- (void) dealDamageToSelf:(int)damageDone enemyIsAttacker:(BOOL)enemyIsAttacker withTarget:(id)target andSelector:(SEL)selector
+{
+  BattlePlayer *bp = enemyIsAttacker ? self.enemyPlayerObject : self.myPlayerObject;
+  BattleSprite *bs = enemyIsAttacker ? self.currentEnemy : self.myPlayer;
+  CCLabelTTF *healthLabel = enemyIsAttacker ? self.currentEnemy.healthLabel : self.myPlayer.healthLabel;
+  CCProgressNode *healthBar = enemyIsAttacker ? self.currentEnemy.healthBar : self.myPlayer.healthBar;
+  
+  int curHealth = bp.curHealth;
+  int newHealth = MIN(bp.maxHealth, MAX(bp.minHealth, curHealth - damageDone));
+  float newPercent = (float)newHealth / bp.maxHealth * 100.f;
+  float percChange = ABS(healthBar.percentage - newPercent);
+  float duration = percChange / HEALTH_BAR_SPEED;
+  
+  [SoundEngine puzzleDamageTickStart];
+  [healthBar runAction:[CCActionSequence actions:
+                        [CCActionEaseIn actionWithAction:[CCActionProgressTo actionWithDuration:duration percent:newPercent]],
+                        [CCActionCallBlock actionWithBlock:
+                         ^{
+                           [healthLabel stopActionByTag:1015];
+                           [self updateHealthBars];
+                           [SoundEngine puzzleDamageTickStop];
+                           
+                           if (newHealth <= 0) {
+                             [self blowupBattleSprite:bs withBlock:^{
+                               [target performSelector:selector];
+                             }];
+                             
+                             if (enemyIsAttacker) {
+                               // Drop loot
+                               _lootSprite = [self getCurrentEnemyLoot];
+                               
+                               if (_lootSprite)
+                                 [self dropLoot:_lootSprite];
+                             }
+                           } else {
+                             [target performSelector:selector];
+                           }
+                         }],
+                        nil]];
+  
+  CCActionRepeat *f = [CCActionRepeatForever actionWithAction:
+                       [CCActionSequence actions:
+                        [CCActionCallBlock actionWithBlock:
+                         ^{
+                           healthLabel.string = [NSString stringWithFormat:@"%@/%@",
+                                                 [Globals commafyNumber:(int)(healthBar.percentage / 100.f * bp.maxHealth)],
+                                                 [Globals commafyNumber:bp.maxHealth]];
+                         }],
+                        [CCActionDelay actionWithDuration:.03f],
+                        nil]];
+  f.tag = 1015;
+  [healthLabel runAction:f];
+  
+  NSString *str = [NSString stringWithFormat:@"-%@", [Globals commafyNumber:damageDone]];
+  CCLabelBMFont *damageLabel = [CCLabelBMFont labelWithString:str fntFile:@"hpfont.fnt"];
+  [self.bgdContainer addChild:damageLabel z:bs.zOrder];
+  damageLabel.position = ccpAdd(bs.position, ccp(0, bs.contentSize.height - 15));
+  damageLabel.scale = .01f;
+  [damageLabel runAction:[CCActionSequence actions:
+                          [CCActionSpawn actions:
+                           [CCActionEaseElasticOut actionWithAction:[CCActionScaleTo actionWithDuration:1.2f scale:1.f]],
+                           [CCActionFadeOut actionWithDuration:1.5f],
+                           [CCActionMoveBy actionWithDuration:1.5f position:ccp(0, 25)],nil],
+                          [CCActionCallFunc actionWithTarget:damageLabel selector:@selector(removeFromParent)], nil]];
+  
+  bp.curHealth = newHealth;
 }
 
 - (void) dealDamage:(int)damageDone enemyIsAttacker:(BOOL)enemyIsAttacker usingAbility:(BOOL)usingAbility withTarget:(id)target withSelector:(SEL)selector {
@@ -1030,7 +1081,7 @@
   }
   
   int curHealth = def.curHealth;
-  int newHealth = MIN(def.maxHealth, MAX(0, curHealth-damageDone));
+  int newHealth = MIN(def.maxHealth, MAX(def.minHealth, curHealth-damageDone));
   float newPercent = ((float)newHealth)/def.maxHealth*100;
   float percChange = ABS(healthBar.percentage-newPercent);
   float duration = percChange/HEALTH_BAR_SPEED;
@@ -1114,7 +1165,7 @@
   }
   
   int curHealth = bp.curHealth;
-  int newHealth = MIN(bp.maxHealth, MAX(0, curHealth + heal));
+  int newHealth = MIN(bp.maxHealth, MAX(bp.minHealth, curHealth + heal));
   float newPercent = ((float)newHealth) / bp.maxHealth * 100.f;
   float percChange = ABS(healthBar.percentage - newPercent);
   float duration = percChange / HEALTH_BAR_SPEED;
@@ -1157,6 +1208,31 @@
                         [CCActionCallFunc actionWithTarget:healLabel selector:@selector(removeFromParent)], nil]];
   
   bp.curHealth = newHealth;
+}
+
+- (void) instantSetHealthForEnemey:(BOOL)enemy to:(int)health withTarget:(id)target andSelector:(SEL)selector
+{
+  BattlePlayer* bp = enemy ? self.enemyPlayerObject : self.myPlayerObject;
+  BattleSprite* bs = enemy ? self.currentEnemy : self.myPlayer;
+  
+  bp.curHealth = MIN(bp.maxHealth, MAX(bp.minHealth, health));
+  [self updateHealthBars];
+  
+  if (health <= 0) {
+    [self blowupBattleSprite:bs withBlock:^{
+      [target performSelector:selector];
+    }];
+    
+    if (enemy) {
+      // Drop loot
+      _lootSprite = [self getCurrentEnemyLoot];
+      
+      if (_lootSprite)
+        [self dropLoot:_lootSprite];
+    }
+  } else {
+    [target performSelector:selector];
+  }
 }
 
 - (void) displayEffectivenessForAttackerElement:(Element)atkElement defenderElement:(Element)defElement position:(CGPoint)position {
@@ -1667,7 +1743,7 @@
   }
 }
 
-- (void) spawnRibbonForOrb:(BattleOrb *)orb target:(CGPoint)endPosition skill:(BOOL)skill {
+- (void) spawnRibbonForOrb:(BattleOrb *)orb target:(CGPoint)endPosition baseDuration:(CGFloat)dur skill:(BOOL)skill {
   
   BOOL cake = (orb.specialOrbType == SpecialOrbTypeCake);
   
@@ -1701,7 +1777,7 @@
     bez.controlPoint_1 = ccpAdd(initPoint, CGPointApplyAffineTransform(basePt1, t));
     bez.controlPoint_2 = ccpAdd(initPoint, CGPointApplyAffineTransform(basePt2, t));
     
-    CCActionBezierTo *move = [CCActionBezierTo actionWithDuration:(cake?1.5f:(0.15f+xScale/800.f)) bezier:bez];
+    CCActionBezierTo *move = [CCActionBezierTo actionWithDuration:(cake?1.5f:(dur+xScale/800.f)) bezier:bez];
     CCNode *dg;
     float stayDelay = 0.7f;
     if (skill)
@@ -1956,25 +2032,25 @@
       }
       
       CGPoint endPoint = [self.orbLayer convertToNodeSpace:[self.bgdContainer convertToWorldSpace:ccpAdd(self.myPlayer.position, ccp(0, self.myPlayer.contentSize.height/2))]];
-      [self spawnRibbonForOrb:orb target:endPoint skill:NO];
+      [self spawnRibbonForOrb:orb target:endPoint baseDuration:0.15f skill:NO];
       
       // Skill ribbons
       if ([skillManager shouldSpawnRibbonForPlayerSkill:orb.orbColor])
       {
         endPoint = [skillManager playerSkillIndicatorPosition];
-        [self spawnRibbonForOrb:orb target:endPoint skill:YES];
+        [self spawnRibbonForOrb:orb target:endPoint baseDuration:0.4f skill:YES];
       }
       if ([skillManager shouldSpawnRibbonForEnemySkill:orb.orbColor])
       {
         endPoint = [skillManager enemySkillIndicatorPosition];
-        [self spawnRibbonForOrb:orb target:endPoint skill:YES];
+        [self spawnRibbonForOrb:orb target:endPoint baseDuration:0.4f skill:YES];
       }
 
     }
     else if (orb.specialOrbType == SpecialOrbTypeCake)
     {
       CGPoint endPoint = [self.orbLayer convertToNodeSpace:[self.bgdContainer convertToWorldSpace:ccpAdd(self.currentEnemy.position, ccp(0, self.currentEnemy.contentSize.height/2))]];
-      [self spawnRibbonForOrb:orb target:endPoint skill:NO];
+      [self spawnRibbonForOrb:orb target:endPoint baseDuration:0.4f skill:NO];
     }
   }
   

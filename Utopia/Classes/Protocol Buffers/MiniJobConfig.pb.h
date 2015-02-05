@@ -15,6 +15,8 @@
 @class EvoChamberProto_Builder;
 @class FullUserMonsterProto;
 @class FullUserMonsterProto_Builder;
+@class FullUserProto;
+@class FullUserProto_Builder;
 @class FullUserStructureProto;
 @class FullUserStructureProto_Builder;
 @class HospitalProto;
@@ -25,12 +27,22 @@
 @class MiniJobCenterProto_Builder;
 @class MiniJobProto;
 @class MiniJobProto_Builder;
+@class MinimumClanProto;
+@class MinimumClanProto_Builder;
 @class MinimumObstacleProto;
 @class MinimumObstacleProto_Builder;
 @class MinimumUserMonsterProto;
 @class MinimumUserMonsterProto_Builder;
 @class MinimumUserMonsterSellProto;
 @class MinimumUserMonsterSellProto_Builder;
+@class MinimumUserProto;
+@class MinimumUserProtoWithFacebookId;
+@class MinimumUserProtoWithFacebookId_Builder;
+@class MinimumUserProtoWithLevel;
+@class MinimumUserProtoWithLevel_Builder;
+@class MinimumUserProtoWithMaxResources;
+@class MinimumUserProtoWithMaxResources_Builder;
+@class MinimumUserProto_Builder;
 @class MonsterBattleDialogueProto;
 @class MonsterBattleDialogueProto_Builder;
 @class MonsterLevelInfoProto;
@@ -45,6 +57,8 @@
 @class ResourceGeneratorProto_Builder;
 @class ResourceStorageProto;
 @class ResourceStorageProto_Builder;
+@class StaticUserLevelInfoProto;
+@class StaticUserLevelInfoProto_Builder;
 @class StructureInfoProto;
 @class StructureInfoProto_Builder;
 @class TeamCenterProto;
@@ -59,6 +73,8 @@
 @class UserEnhancementItemProto_Builder;
 @class UserEnhancementProto;
 @class UserEnhancementProto_Builder;
+@class UserFacebookInviteForSlotProto;
+@class UserFacebookInviteForSlotProto_Builder;
 @class UserMiniJobProto;
 @class UserMiniJobProto_Builder;
 @class UserMonsterCurrentExpProto;
@@ -73,6 +89,8 @@
 @class UserMonsterSnapshotProto_Builder;
 @class UserObstacleProto;
 @class UserObstacleProto_Builder;
+@class UserPvpLeagueProto;
+@class UserPvpLeagueProto_Builder;
 #ifndef __has_feature
   #define __has_feature(x) 0 // Compatibility with non-clang compilers.
 #endif // __has_feature
@@ -251,7 +269,7 @@
 - (BOOL) hasQuality;
 - (Quality) quality;
 - (MiniJobProto_Builder*) setQuality:(Quality) value;
-- (MiniJobProto_Builder*) clearQualityList;
+- (MiniJobProto_Builder*) clearQuality;
 
 - (BOOL) hasMaxNumMonstersAllowed;
 - (int32_t) maxNumMonstersAllowed;
