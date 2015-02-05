@@ -10,10 +10,15 @@
 
 @interface SkillRightHook : SkillControllerActive
 {
-  // Properties
+  // Properties (defensive)
   NSInteger _numOrbsToSpawn;
   NSInteger _orbsSpawnCounter;
+  float _fixedDamageReceived;
+  
+  // Properties (offensive)
   float _fixedDamageDone;
+  
+  // Properties (general)
   float _targetChanceToHitSelf;
   
   // Temp

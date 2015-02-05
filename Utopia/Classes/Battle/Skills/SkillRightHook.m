@@ -20,6 +20,7 @@
   _numOrbsToSpawn = 0;
   _orbsSpawnCounter = 0;
   _fixedDamageDone = 0.f;
+  _fixedDamageReceived = 0.f;
   _targetChanceToHitSelf = 0.f;
   _skillActive = NO;
   _confusionTurns = 0;
@@ -38,6 +39,8 @@
     _orbsSpawnCounter = value;
   if ([property isEqualToString:@"FIXED_DAMAGE_DONE"])
     _fixedDamageDone = value;
+  if ([property isEqualToString:@"FIXED_DAMAGE_RECEIVED"])
+    _fixedDamageReceived = value;
   if ([property isEqualToString:@"TARGET_CHANCE_TO_HIT_SELF"])
     _targetChanceToHitSelf = value;
 }
@@ -84,16 +87,95 @@
       }];
       
       // Will restore visuals if coming back to a battle after leaving midway
-      if (!self.belongsToPlayer && _skillActive)
+      if (_skillActive)
       {
-        // Display confused symbol on player's turn indicator(s)
-        [self.battleLayer.hudView.battleScheduleView updateConfusionState:YES
-                                                          onUpcomingTurns:(int)_confusionTurns
-                                                               forMonster:self.player.monsterId];
+        if (!self.belongsToPlayer)
+        {
+          // Display confused symbol on player's turn indicator(s)
+          [self.battleLayer.hudView.battleScheduleView updateConfusionState:YES
+                                                            onUpcomingTurns:(int)_confusionTurns
+                                                                 forMonster:self.player.monsterId];
+        }
+        else
+        {
+          // Display confused symbol on enemy's next turn indicator
+          [self.battleLayer.hudView.battleScheduleView updateConfusionState:YES
+                                                   onUpcomingTurnForMonster:self.enemy.monsterId];
+        }
       }
     }
     return YES;
   }
+  
+  /**********************
+   * Offensive Triggers *
+   **********************/
+  
+  if (trigger == SkillTriggerPointEndOfPlayerMove && self.belongsToPlayer)
+  {
+    if (!_skillActive && [self skillIsReady])
+    {
+      if (execute)
+      {
+        _skillActive = YES;
+        
+        [self makeSkillOwnerJumpWithTarget:self selector:@selector(beginOutOfTurnAttack)];
+        
+        // Display confused symbol on enemy's next turn indicator
+        [self.battleLayer.hudView.battleScheduleView updateConfusionState:YES
+                                                 onUpcomingTurnForMonster:self.enemy.monsterId];
+      }
+      return YES;
+    }
+  }
+  
+  if (trigger == SkillTriggerPointStartOfEnemyTurn && self.belongsToPlayer)
+  {
+    if (_skillActive)
+    {
+      if (execute)
+      {
+        // Chance of enemy hitting self
+        float rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
+        if (rand < _targetChanceToHitSelf)
+        {
+          [self showLogo];
+          
+          // Tell NewBattleLayer that enemy will be confused on his next turn
+          self.enemy.isConfused = YES;
+        }
+        
+        [self skillTriggerFinished];
+      }
+      return YES;
+    }
+  }
+  
+  if ((trigger == SkillTriggerPointEnemyDealsDamage && self.belongsToPlayer) ||
+      (trigger == SkillTriggerPointEnemyDefeated && self.belongsToPlayer))
+  {
+    if (_skillActive)
+    {
+      if (execute)
+      {
+        _skillActive = NO;
+        [self resetOrbCounter];
+        
+        // Tell NewBattleLayer that enemy is no longer confused,
+        // remove confused symbol from enemy's next turn indicator
+        self.enemy.isConfused = NO;
+        [self.battleLayer.hudView.battleScheduleView updateConfusionState:NO
+                                                 onUpcomingTurnForMonster:self.enemy.monsterId];
+        
+        [self skillTriggerFinished];
+      }
+      return YES;
+    }
+  }
+  
+  /**********************
+   * Defensive Triggers *
+   **********************/
   
   if (trigger == SkillTriggerPointEndOfPlayerMove && !self.belongsToPlayer)
   {
@@ -274,25 +356,36 @@
   [self showLogo];
   
   // Perform attack animation
-  [self.enemySprite performNearAttackAnimationWithEnemy:self.playerSprite
-                                           shouldReturn:YES
-                                            shouldEvade:NO
-                                           shouldFlinch:YES
-                                                 target:self
-                                               selector:@selector(dealDamage)
-                                         animCompletion:nil];
+  if (self.belongsToPlayer)
+    [self.playerSprite performFarAttackAnimationWithStrength:0.f
+                                                 shouldEvade:NO
+                                                       enemy:self.enemySprite
+                                                      target:self
+                                                    selector:@selector(dealDamage)
+                                              animCompletion:nil];
+  else
+    [self.enemySprite performNearAttackAnimationWithEnemy:self.playerSprite
+                                             shouldReturn:YES
+                                              shouldEvade:NO
+                                             shouldFlinch:YES
+                                                   target:self
+                                                 selector:@selector(dealDamage)
+                                           animCompletion:nil];
 }
 
 - (void) dealDamage
 {
-  [self.battleLayer dealDamage:_fixedDamageDone
+  [self.battleLayer dealDamage:self.belongsToPlayer ? _fixedDamageDone : _fixedDamageReceived
                enemyIsAttacker:!self.belongsToPlayer
                   usingAbility:YES
                     withTarget:self
                   withSelector:@selector(endOutOfTurnAttack)];
-
-  [self.battleLayer setEnemyDamageDealt:(int)_fixedDamageDone];
-  [self.battleLayer sendServerUpdatedValuesVerifyDamageDealt:NO];
+  
+  if (!self.belongsToPlayer)
+  {
+    [self.battleLayer setEnemyDamageDealt:(int)_fixedDamageReceived];
+    [self.battleLayer sendServerUpdatedValuesVerifyDamageDealt:NO];
+  }
 }
 
 - (void) endOutOfTurnAttack

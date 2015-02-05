@@ -763,7 +763,7 @@
             {
               CCSprite* confusedPopup = [CCSprite spriteWithImageNamed:@"confusionbubble.png"];
               [confusedPopup setAnchorPoint:CGPointMake(.5f, 0.f)];
-              [confusedPopup setPosition:CGPointMake(self.currentEnemy.contentSize.width * .5f + 6.f, self.currentEnemy.contentSize.height + 13.f)];
+              [confusedPopup setPosition:CGPointMake(self.currentEnemy.contentSize.width * .5f, self.currentEnemy.contentSize.height + 13.f)];
               [confusedPopup setScale:0.f];
               [self.currentEnemy addChild:confusedPopup];
               
