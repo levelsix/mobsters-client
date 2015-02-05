@@ -659,7 +659,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
 }
 
-- (NSArray *) pvpAttackHistoryWithArray {
+- (NSArray *) pvpAttackHistory {
   NSMutableArray *arr = [[NSMutableArray alloc] init];
   for(PvpHistoryProto *php in self.battleHistory) {
     if (php.userIsAttacker) {
@@ -669,7 +669,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return arr;
 }
 
-- (NSArray *) pvpDefenceHistory {
+- (NSArray *) pvpDefenseHistory {
   NSMutableArray *arr = [[NSMutableArray alloc] init];
   for(PvpHistoryProto *php in self.battleHistory) {
     if (!php.userIsAttacker) {

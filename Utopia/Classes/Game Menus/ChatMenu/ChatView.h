@@ -14,7 +14,7 @@
 typedef enum {
   PrivateChatModeAllMessages = 1,
   PrivateChatModeAttackLog,
-  PrivateChatModeDeffenceLog,
+  PrivateChatModeDefenseLog,
 }PrivateChatViewMode;
 
 @protocol ChatPopoverDelegate <NSObject>
@@ -127,6 +127,10 @@ typedef enum {
 @property (nonatomic, retain) NSMutableArray *baseChats;
 
 @property (nonatomic, retain) NSMutableArray *unrespondedChatMessages;
+
+@property (nonatomic, retain) IBOutlet UIButton *allMessagesTabButton;
+@property (weak, nonatomic) IBOutlet UIButton *defensiveLogTabButton;
+@property (weak, nonatomic) IBOutlet UIButton *offensiveLogTabButton;
 
 - (void) addPrivateChat:(PrivateChatPostProto *)pcpp;
 - (void) updateForPrivateChatList:(NSArray *)privateChats;

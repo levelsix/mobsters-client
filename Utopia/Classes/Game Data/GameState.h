@@ -199,7 +199,7 @@
 - (void) addToCompleteTasks:(NSArray *)tasks;
 
 - (NSArray *) pvpAttackHistory;
-- (NSArray *) pvpDefenceHistory;
+- (NSArray *) pvpDefenseHistory;
 - (NSArray *) allPrivateChats;
 - (NSArray *) allUnreadPrivateChats;
 - (NSArray *) allClanChatObjects;
