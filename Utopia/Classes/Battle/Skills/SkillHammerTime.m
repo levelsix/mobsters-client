@@ -20,7 +20,7 @@
   [super setDefaultValues];
   _chance = .25;
   _stunTurns = 1;
-  _turnsLeft = 0;
+  _stunTurnsLeft = 0;
 }
 
 - (void) setValue:(float)value forProperty:(NSString *)property
@@ -36,7 +36,7 @@
 
 - (BOOL) shouldPersist
 {
-  return _turnsLeft > 0;
+  return _stunTurnsLeft > 0;
 }
 
 - (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
@@ -44,37 +44,60 @@
   if ([super skillCalledWithTrigger:trigger execute:execute])
     return YES;
   
-  //If the character dies before the stun runs up, make sure the stun doesn't persist
-  if (_turnsLeft>0 && ((self.belongsToPlayer && trigger == SkillTriggerPointEnemyInitialized)
-           || (!self.belongsToPlayer && trigger == SkillTriggerPointPlayerInitialized)))
+  if ([self isActive])
   {
-    [self endStun];
-  }
-  
-  //At the end of the turn, diminish stun stacks
-  if ((self.belongsToPlayer && trigger == SkillTriggerPointEndOfEnemyTurn) ||
-      (!self.belongsToPlayer && trigger == SkillTriggerPointEndOfPlayerTurn))
-  {
-    if (_turnsLeft>0)
+    //If the character dies before the stun runs up, make sure the stun doesn't persist
+    if (_stunTurnsLeft>0 && ((self.belongsToPlayer && trigger == SkillTriggerPointEnemyInitialized)
+             || (!self.belongsToPlayer && trigger == SkillTriggerPointPlayerInitialized)))
     {
-      _turnsLeft--;
-      if (_turnsLeft == 0)
-        [self endStun];
+      [self endStun];
+    }
+    
+    //At the end of the turn, diminish stun stacks
+    if ((self.belongsToPlayer && trigger == SkillTriggerPointEndOfEnemyTurn) ||
+        (!self.belongsToPlayer && trigger == SkillTriggerPointEndOfPlayerTurn))
+    {
+      if (_stunTurnsLeft>0)
+      {
+        _stunTurnsLeft--;
+        if (_stunTurnsLeft == 0)
+          [self endStun];
+      }
+    }
+    
+    //Note: You can refresh a stun!
+    if ((self.belongsToPlayer && trigger == SkillTriggerPointEndOfPlayerTurn) ||
+             (!self.belongsToPlayer && trigger == SkillTriggerPointEndOfEnemyTurn))
+    {
+      if (execute)
+      {
+        [self tickDuration];
+        float rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
+        if (rand < _chance){
+          [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
+          [self.battleLayer.orbLayer disallowInput];
+          [self showSkillPopupOverlay:YES withCompletion:^(){
+            [self stunOpponent];
+          }];
+          return YES;
+        }
+      }
     }
   }
   
-  //Note: You can refresh a stun!
-  if ((self.belongsToPlayer && trigger == SkillTriggerPointEndOfPlayerTurn) ||
-           (!self.belongsToPlayer && trigger == SkillTriggerPointEndOfEnemyTurn))
+  if ((self.activationType == SkillActivationTypeUserActivated && trigger == SkillTriggerPointManualActivation) ||
+      (self.activationType == SkillActivationTypeAutoActivated && trigger == SkillTriggerPointEndOfPlayerMove))
   {
-    if (execute)
+    if ([self skillIsReady])
     {
-      float rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
-      if (rand < _chance){
+      if (execute)
+      {
         [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
         [self.battleLayer.orbLayer disallowInput];
         [self showSkillPopupOverlay:YES withCompletion:^(){
-          [self stunOpponent];
+          [self resetDuration];
+          [self resetOrbCounter];
+          [self skillTriggerFinished];
         }];
       }
       return YES;
@@ -90,7 +113,7 @@
   
   opponent.isStunned = YES;
   
-  _turnsLeft = _stunTurns;
+  _stunTurnsLeft = _stunTurns;
   [self addStunAnimations];
   
   // Finish trigger execution
@@ -121,7 +144,7 @@
   
   opponent.isStunned = NO;
   
-  _turnsLeft = 0;
+  _stunTurnsLeft = 0;
   [self endStunAnimations];
 }
 
@@ -140,7 +163,7 @@
 - (NSDictionary*) serialize
 {
   NSMutableDictionary* result = [NSMutableDictionary dictionaryWithDictionary:[super serialize]];
-  [result setObject:@(_turnsLeft) forKey:@"turnsLeft"];
+  [result setObject:@(_stunTurnsLeft) forKey:@"stunTurnsLeft"];
   return result;
 }
 
@@ -149,9 +172,9 @@
   if (! [super deserialize:dict])
     return NO;
   
-  NSNumber* turnsLeft = [dict objectForKey:@"turnsLeft"];
-  if (turnsLeft)
-    _turnsLeft = [turnsLeft intValue];
+  NSNumber* stunTurnsLeft = [dict objectForKey:@"stunTurnsLeft"];
+  if (stunTurnsLeft)
+    _stunTurnsLeft = [stunTurnsLeft intValue];
   
   return YES;
 }

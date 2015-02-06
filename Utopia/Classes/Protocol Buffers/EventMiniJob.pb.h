@@ -13,6 +13,8 @@
 @class BeginMiniJobResponseProto_Builder;
 @class ClanHouseProto;
 @class ClanHouseProto_Builder;
+@class ClanMemberTeamDonationProto;
+@class ClanMemberTeamDonationProto_Builder;
 @class CompleteMiniJobRequestProto;
 @class CompleteMiniJobRequestProto_Builder;
 @class CompleteMiniJobResponseProto;

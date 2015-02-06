@@ -19,7 +19,7 @@
 {
   [super setDefaultValues];
   _damage = 10;
-  _percent = .1;
+  _percent = 0;
   _isPoisoned = false;
   _wasPoisoned = false;
 }
@@ -58,6 +58,7 @@
       [self dealPoisonDamage];
       return YES;
     }
+    //Reset on new target
     else if ((self.belongsToPlayer && trigger == SkillTriggerPointEnemyInitialized)
              || (!self.belongsToPlayer && trigger == SkillTriggerPointPlayerInitialized))
     {
@@ -137,7 +138,7 @@
   [opponent.sprite runAction:[CCActionTintTo actionWithDuration:0.3 color:[CCColor whiteColor]]];
 }
 
-//Shamelessly copied dealPoisonDamage/2/3 from SkillPoison.m
+
 - (void) dealPoisonDamage
 {
   BattleSprite *poisonedSprite = self.belongsToPlayer ? self.enemySprite : self.playerSprite;
@@ -180,8 +181,10 @@
 
 - (void) dealPoisonDamage2
 {
-    // Deal damage
-  [self.battleLayer dealDamage:(int)_damage enemyIsAttacker:!self.belongsToPlayer usingAbility:YES withTarget:self withSelector:@selector(dealPoisonDamage3)];
+  int damage = MAX(_damage, _percent * (self.belongsToPlayer ? self.enemy.maxHealth : self.player.maxHealth));
+  
+  // Deal damage
+  [self.battleLayer dealDamage:(int)damage enemyIsAttacker:!self.belongsToPlayer usingAbility:YES withTarget:self withSelector:@selector(dealPoisonDamage3)];
 }
 
 - (void) dealPoisonDamage3

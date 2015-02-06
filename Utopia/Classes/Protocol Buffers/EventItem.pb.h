@@ -14,6 +14,8 @@
 @class BoosterItemProto_Builder;
 @class BoosterPackProto;
 @class BoosterPackProto_Builder;
+@class ClanMemberTeamDonationProto;
+@class ClanMemberTeamDonationProto_Builder;
 @class FullUserMonsterProto;
 @class FullUserMonsterProto_Builder;
 @class FullUserProto;

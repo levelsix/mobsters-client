@@ -21,6 +21,7 @@
 #import "HospitalQueueSimulator.h"
 #import "PersistentEventProto+Time.h"
 #import "AchievementUtil.h"
+#import "StaticStructure.h"
 
 #define TagLog(...) //LNLog(__VA_ARGS__)
 
@@ -1909,6 +1910,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
   
   return [self isTaskCompleted:_firstBossTaskId];
+}
+
+- (BOOL) hasUpgradedBuilding {
+  for (UserStruct *str in self.myStructs)
+  {
+    if (str.staticStruct.structInfo.level > 1)
+      return YES;
+  }
+  return NO;
 }
 
 @end

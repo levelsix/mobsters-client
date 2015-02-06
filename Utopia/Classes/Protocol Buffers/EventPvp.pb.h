@@ -11,6 +11,8 @@
 @class BeginPvpBattleRequestProto_Builder;
 @class BeginPvpBattleResponseProto;
 @class BeginPvpBattleResponseProto_Builder;
+@class ClanMemberTeamDonationProto;
+@class ClanMemberTeamDonationProto_Builder;
 @class EndPvpBattleRequestProto;
 @class EndPvpBattleRequestProto_Builder;
 @class EndPvpBattleResponseProto;

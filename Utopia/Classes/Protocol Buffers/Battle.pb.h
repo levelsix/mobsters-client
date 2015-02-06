@@ -6,6 +6,8 @@
 #import "User.pb.h"
 // @@protoc_insertion_point(imports)
 
+@class ClanMemberTeamDonationProto;
+@class ClanMemberTeamDonationProto_Builder;
 @class FullUserMonsterProto;
 @class FullUserMonsterProto_Builder;
 @class FullUserProto;
@@ -98,11 +100,13 @@ BOOL BattleResultIsValidValue(BattleResult value);
   BOOL hasDefenderMsg_:1;
   BOOL hasDefender_:1;
   BOOL hasPvpLeagueStats_:1;
+  BOOL hasDefenderExtraMonster_:1;
   int32_t prospectiveCashWinnings;
   int32_t prospectiveOilWinnings;
   NSString* defenderMsg;
   MinimumUserProtoWithLevel* defender;
   UserPvpLeagueProto* pvpLeagueStats;
+  ClanMemberTeamDonationProto* defenderExtraMonster;
   NSMutableArray * mutableDefenderMonstersList;
 }
 - (BOOL) hasDefender;
@@ -110,12 +114,14 @@ BOOL BattleResultIsValidValue(BattleResult value);
 - (BOOL) hasProspectiveOilWinnings;
 - (BOOL) hasPvpLeagueStats;
 - (BOOL) hasDefenderMsg;
+- (BOOL) hasDefenderExtraMonster;
 @property (readonly, strong) MinimumUserProtoWithLevel* defender;
 @property (readonly, strong) NSArray * defenderMonstersList;
 @property (readonly) int32_t prospectiveCashWinnings;
 @property (readonly) int32_t prospectiveOilWinnings;
 @property (readonly, strong) UserPvpLeagueProto* pvpLeagueStats;
 @property (readonly, strong) NSString* defenderMsg;
+@property (readonly, strong) ClanMemberTeamDonationProto* defenderExtraMonster;
 - (PvpMonsterProto*)defenderMonstersAtIndex:(NSUInteger)index;
 
 + (PvpProto*) defaultInstance;
@@ -187,6 +193,13 @@ BOOL BattleResultIsValidValue(BattleResult value);
 - (NSString*) defenderMsg;
 - (PvpProto_Builder*) setDefenderMsg:(NSString*) value;
 - (PvpProto_Builder*) clearDefenderMsg;
+
+- (BOOL) hasDefenderExtraMonster;
+- (ClanMemberTeamDonationProto*) defenderExtraMonster;
+- (PvpProto_Builder*) setDefenderExtraMonster:(ClanMemberTeamDonationProto*) value;
+- (PvpProto_Builder*) setDefenderExtraMonster_Builder:(ClanMemberTeamDonationProto_Builder*) builderForValue;
+- (PvpProto_Builder*) mergeDefenderExtraMonster:(ClanMemberTeamDonationProto*) value;
+- (PvpProto_Builder*) clearDefenderExtraMonster;
 @end
 
 @interface PvpMonsterProto : PBGeneratedMessage {

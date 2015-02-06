@@ -14,6 +14,8 @@
 @class AddMonsterToBattleTeamRequestProto_Builder;
 @class AddMonsterToBattleTeamResponseProto;
 @class AddMonsterToBattleTeamResponseProto_Builder;
+@class ClanMemberTeamDonationProto;
+@class ClanMemberTeamDonationProto_Builder;
 @class CollectMonsterEnhancementRequestProto;
 @class CollectMonsterEnhancementRequestProto_Builder;
 @class CollectMonsterEnhancementResponseProto;

@@ -88,6 +88,15 @@
   return nil;
 }
 
+- (TownHallBuilding *) townHallBuilding {
+  for (CCNode *n in self.children) {
+    if ([n isKindOfClass:[TownHallBuilding class]]) {
+      return (TownHallBuilding *)n;
+    }
+  }
+  return nil;
+}
+
 - (ResourceGeneratorBuilding *) oilDrill {
   for (CCNode *n in self.children) {
     if ([n isKindOfClass:[ResourceGeneratorBuilding class]]) {
@@ -471,6 +480,17 @@
   self.clickableUserStructUuid = tcb.userStruct.userStructUuid;
 }
 
+- (UserStruct *) moveToTownHall {
+  TownHallBuilding *thb = [self townHallBuilding];
+  [thb displayArrow];
+  [self moveToSprite:thb animated:YES withOffset:ccp(80, 0)];
+  
+  self.clickableUserStructUuid = thb.userStruct.userStructUuid;
+  _enteringTownHall = YES;
+  
+  return thb.userStruct;
+}
+
 - (void) panToMark {
   [self moveToSprite:self.markZSprite animated:YES withOffset:ccp(0,0) scale:1.6f];
   [self.markZSprite restoreStandingFrame:MapDirectionFront];
@@ -491,7 +511,10 @@
 }
 
 - (void) littleUpgradeClicked:(id)sender {
-  // Do nothing
+  if (_enteringTownHall)
+  {
+    [self.delegate upgradeClicked];
+  }
 }
 
 - (void) cancelMoveClicked:(id)sender {

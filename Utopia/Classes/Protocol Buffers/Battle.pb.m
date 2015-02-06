@@ -39,6 +39,7 @@ BOOL BattleResultIsValidValue(BattleResult value) {
 @property int32_t prospectiveOilWinnings;
 @property (strong) UserPvpLeagueProto* pvpLeagueStats;
 @property (strong) NSString* defenderMsg;
+@property (strong) ClanMemberTeamDonationProto* defenderExtraMonster;
 @end
 
 @implementation PvpProto
@@ -80,6 +81,13 @@ BOOL BattleResultIsValidValue(BattleResult value) {
   hasDefenderMsg_ = !!value_;
 }
 @synthesize defenderMsg;
+- (BOOL) hasDefenderExtraMonster {
+  return !!hasDefenderExtraMonster_;
+}
+- (void) setHasDefenderExtraMonster:(BOOL) value_ {
+  hasDefenderExtraMonster_ = !!value_;
+}
+@synthesize defenderExtraMonster;
 - (id) init {
   if ((self = [super init])) {
     self.defender = [MinimumUserProtoWithLevel defaultInstance];
@@ -87,6 +95,7 @@ BOOL BattleResultIsValidValue(BattleResult value) {
     self.prospectiveOilWinnings = 0;
     self.pvpLeagueStats = [UserPvpLeagueProto defaultInstance];
     self.defenderMsg = @"";
+    self.defenderExtraMonster = [ClanMemberTeamDonationProto defaultInstance];
   }
   return self;
 }
@@ -130,6 +139,9 @@ static PvpProto* defaultPvpProtoInstance = nil;
   if (self.hasDefenderMsg) {
     [output writeString:7 value:self.defenderMsg];
   }
+  if (self.hasDefenderExtraMonster) {
+    [output writeMessage:8 value:self.defenderExtraMonster];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -156,6 +168,9 @@ static PvpProto* defaultPvpProtoInstance = nil;
   }
   if (self.hasDefenderMsg) {
     size_ += computeStringSize(7, self.defenderMsg);
+  }
+  if (self.hasDefenderExtraMonster) {
+    size_ += computeMessageSize(8, self.defenderExtraMonster);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -219,6 +234,12 @@ static PvpProto* defaultPvpProtoInstance = nil;
   if (self.hasDefenderMsg) {
     [output appendFormat:@"%@%@: %@\n", indent, @"defenderMsg", self.defenderMsg];
   }
+  if (self.hasDefenderExtraMonster) {
+    [output appendFormat:@"%@%@ {\n", indent, @"defenderExtraMonster"];
+    [self.defenderExtraMonster writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -241,6 +262,8 @@ static PvpProto* defaultPvpProtoInstance = nil;
       (!self.hasPvpLeagueStats || [self.pvpLeagueStats isEqual:otherMessage.pvpLeagueStats]) &&
       self.hasDefenderMsg == otherMessage.hasDefenderMsg &&
       (!self.hasDefenderMsg || [self.defenderMsg isEqual:otherMessage.defenderMsg]) &&
+      self.hasDefenderExtraMonster == otherMessage.hasDefenderExtraMonster &&
+      (!self.hasDefenderExtraMonster || [self.defenderExtraMonster isEqual:otherMessage.defenderExtraMonster]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -262,6 +285,9 @@ static PvpProto* defaultPvpProtoInstance = nil;
   }
   if (self.hasDefenderMsg) {
     hashCode = hashCode * 31 + [self.defenderMsg hash];
+  }
+  if (self.hasDefenderExtraMonster) {
+    hashCode = hashCode * 31 + [self.defenderExtraMonster hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -328,6 +354,9 @@ static PvpProto* defaultPvpProtoInstance = nil;
   if (other.hasDefenderMsg) {
     [self setDefenderMsg:other.defenderMsg];
   }
+  if (other.hasDefenderExtraMonster) {
+    [self mergeDefenderExtraMonster:other.defenderExtraMonster];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -383,6 +412,15 @@ static PvpProto* defaultPvpProtoInstance = nil;
       }
       case 58: {
         [self setDefenderMsg:[input readString]];
+        break;
+      }
+      case 66: {
+        ClanMemberTeamDonationProto_Builder* subBuilder = [ClanMemberTeamDonationProto builder];
+        if (self.hasDefenderExtraMonster) {
+          [subBuilder mergeFrom:self.defenderExtraMonster];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setDefenderExtraMonster:[subBuilder buildPartial]];
         break;
       }
     }
@@ -518,6 +556,36 @@ static PvpProto* defaultPvpProtoInstance = nil;
 - (PvpProto_Builder*) clearDefenderMsg {
   result.hasDefenderMsg = NO;
   result.defenderMsg = @"";
+  return self;
+}
+- (BOOL) hasDefenderExtraMonster {
+  return result.hasDefenderExtraMonster;
+}
+- (ClanMemberTeamDonationProto*) defenderExtraMonster {
+  return result.defenderExtraMonster;
+}
+- (PvpProto_Builder*) setDefenderExtraMonster:(ClanMemberTeamDonationProto*) value {
+  result.hasDefenderExtraMonster = YES;
+  result.defenderExtraMonster = value;
+  return self;
+}
+- (PvpProto_Builder*) setDefenderExtraMonster_Builder:(ClanMemberTeamDonationProto_Builder*) builderForValue {
+  return [self setDefenderExtraMonster:[builderForValue build]];
+}
+- (PvpProto_Builder*) mergeDefenderExtraMonster:(ClanMemberTeamDonationProto*) value {
+  if (result.hasDefenderExtraMonster &&
+      result.defenderExtraMonster != [ClanMemberTeamDonationProto defaultInstance]) {
+    result.defenderExtraMonster =
+      [[[ClanMemberTeamDonationProto builderWithPrototype:result.defenderExtraMonster] mergeFrom:value] buildPartial];
+  } else {
+    result.defenderExtraMonster = value;
+  }
+  result.hasDefenderExtraMonster = YES;
+  return self;
+}
+- (PvpProto_Builder*) clearDefenderExtraMonster {
+  result.hasDefenderExtraMonster = NO;
+  result.defenderExtraMonster = [ClanMemberTeamDonationProto defaultInstance];
   return self;
 }
 @end

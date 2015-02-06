@@ -19,6 +19,9 @@
   _orbRequirement = proto.orbCost;
   _orbCounter = _orbRequirement;
   
+  _duration = 2; //TODO: Fix this to use the proto's value
+  _turnsLeft = 0;
+  
   return self;
 }
 
@@ -29,13 +32,38 @@
 
 - (void) orbDestroyed:(OrbColor)color special:(SpecialOrbType)type
 {
-  if (color == self.orbColor && _orbCounter > 0)
-    _orbCounter--;
+  //If owner is cursed, don't tick down counter
+  if ((self.belongsToPlayer && !self.player.isCursed)
+      || (!self.belongsToPlayer && !self.enemy.isCursed))
+    if ( color == self.orbColor && _orbCounter > 0)
+      _orbCounter--;
 }
 
 - (void) resetOrbCounter
 {
   _orbCounter = _orbRequirement;
+}
+
+- (BOOL) isActive
+{
+  return _turnsLeft != 0;
+}
+
+- (void) resetDuration
+{
+  _turnsLeft = _duration;
+}
+
+- (void) tickDuration
+{
+  _turnsLeft--;
+  if (_turnsLeft == 0)
+    [self onDurationEnd];
+}
+
+- (void) onDurationEnd
+{
+  //Overriden in children
 }
 
 - (BOOL) shouldSpawnRibbon
@@ -49,6 +77,7 @@
 {
   NSMutableDictionary* result = [NSMutableDictionary dictionaryWithDictionary:[super serialize]];
   [result setObject:@(_orbCounter) forKey:@"orbCounter"];
+  [result setObject:@(_turnsLeft) forKey:@"turnsLeft"];
   return result;
 }
 
@@ -60,6 +89,9 @@
   NSNumber* orbCounter = [dict objectForKey:@"orbCounter"];
   if (orbCounter)
     _orbCounter = [orbCounter integerValue];
+  NSNumber* turnsLeft = [dict objectForKey:@"turnsLeft"];
+  if (turnsLeft)
+    _turnsLeft = [turnsLeft integerValue];
   
   return YES;
 }
