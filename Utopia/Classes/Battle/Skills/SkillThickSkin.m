@@ -36,20 +36,25 @@
 
 -(NSInteger)modifyDamage:(NSInteger)damage forPlayer:(BOOL)player
 {
-  if (player != self.belongsToPlayer)
-    SkillLogStart(@"Thick Skin -- %@ skill invoked from %@ with damage %ld",
-                  self.belongsToPlayer ? @"PLAYER" : @"ENEMY",
-                  player ? @"PLAYER" : @"ENEMY",
-                  (long)damage);
-  
-  _damageAbsorbed = 0;
-  
-  if ((player && !self.belongsToPlayer && [Globals elementForNotVeryEffective:self.enemy.element] != self.player.element) ||
-      (!player && self.belongsToPlayer && [Globals elementForNotVeryEffective:self.player.element] != self.enemy.element))
+  if ([self isActive])
   {
-    _damageAbsorbed = damage * _bonusResistance;
-    damage = MAX(damage - _damageAbsorbed, 0);
-    SkillLogStart(@"Thick Skin -- Skill reduced damage to %ld", (long)damage);
+    if (player != self.belongsToPlayer)
+      SkillLogStart(@"Thick Skin -- %@ skill invoked from %@ with damage %ld",
+                    self.belongsToPlayer ? @"PLAYER" : @"ENEMY",
+                    player ? @"PLAYER" : @"ENEMY",
+                    (long)damage);
+    
+    _damageAbsorbed = 0;
+    
+    if ((player && !self.belongsToPlayer && [Globals elementForNotVeryEffective:self.enemy.element] != self.player.element) ||
+        (!player && self.belongsToPlayer && [Globals elementForNotVeryEffective:self.player.element] != self.enemy.element))
+    {
+      _damageAbsorbed = damage * _bonusResistance;
+      damage = MAX(damage - _damageAbsorbed, 0);
+      SkillLogStart(@"Thick Skin -- Skill reduced damage to %ld", (long)damage);
+    }
+    
+    [self tickDuration];
   }
   
   return damage;
@@ -61,19 +66,19 @@
     return YES;
   
   // Do nothing, only show the splash at the beginning. Flag is for the case when you defeated the previous one, don't show the logo then.
-  if (trigger == SkillTriggerPointEnemyAppeared && ! _logoShown)
-  {
-    if (execute)
-    {
-      _logoShown = YES;
-      [self showSkillPopupOverlay:YES withCompletion:^(){
-        [self performAfterDelay:.5f block:^{
-          [self skillTriggerFinished];
-        }];
-      }];
-    }
-    return YES;
-  }
+//  if (trigger == SkillTriggerPointEnemyAppeared && ! _logoShown)
+//  {
+//    if (execute)
+//    {
+//      _logoShown = YES;
+//      [self showSkillPopupOverlay:YES withCompletion:^(){
+//        [self performAfterDelay:.5f block:^{
+//          [self skillTriggerFinished];
+//        }];
+//      }];
+//    }
+//    return YES;
+//  }
   
   if ((trigger == SkillTriggerPointEnemyDealsDamage && self.belongsToPlayer) ||
       (trigger == SkillTriggerPointPlayerDealsDamage && !self.belongsToPlayer))

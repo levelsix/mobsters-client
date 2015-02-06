@@ -19,7 +19,8 @@
   _orbRequirement = proto.orbCost;
   _orbCounter = _orbRequirement;
   
-  _duration = 2; //TODO: Fix this to use the proto's value
+  if (proto.skillEffectDuration)
+    _duration = proto.skillEffectDuration;
   _turnsLeft = 0;
   
   return self;

@@ -19,5 +19,6 @@
 - (BOOL) isActive;
 - (void) resetDuration;
 - (void) tickDuration;
+- (void) onDurationEnd;
 
 @end

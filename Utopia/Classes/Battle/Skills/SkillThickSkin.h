@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 LVL6. All rights reserved.
 //
 
-#import "SkillControllerPassive.h"
+#import "SkillControllerActive.h"
 
-@interface SkillThickSkin : SkillControllerPassive
+@interface SkillThickSkin : SkillControllerActive
 {
   // Properties
   float _bonusResistance;
