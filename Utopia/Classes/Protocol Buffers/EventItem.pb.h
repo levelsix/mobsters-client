@@ -281,7 +281,7 @@ BOOL RedeemSecretGiftResponseProto_RedeemSecretGiftStatusIsValidValue(RedeemSecr
 - (BOOL) hasStatus;
 - (TradeItemForBoosterResponseProto_TradeItemForBoosterStatus) status;
 - (TradeItemForBoosterResponseProto_Builder*) setStatus:(TradeItemForBoosterResponseProto_TradeItemForBoosterStatus) value;
-- (TradeItemForBoosterResponseProto_Builder*) clearStatusList;
+- (TradeItemForBoosterResponseProto_Builder*) clearStatus;
 
 - (NSMutableArray *)updatedOrNewList;
 - (FullUserMonsterProto*)updatedOrNewAtIndex:(NSUInteger)index;
@@ -426,7 +426,7 @@ BOOL RedeemSecretGiftResponseProto_RedeemSecretGiftStatusIsValidValue(RedeemSecr
 - (BOOL) hasStatus;
 - (TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatus) status;
 - (TradeItemForSpeedUpsResponseProto_Builder*) setStatus:(TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatus) value;
-- (TradeItemForSpeedUpsResponseProto_Builder*) clearStatusList;
+- (TradeItemForSpeedUpsResponseProto_Builder*) clearStatus;
 
 - (NSMutableArray *)itemsUsedList;
 - (UserItemUsageProto*)itemsUsedAtIndex:(NSUInteger)index;
@@ -552,7 +552,7 @@ BOOL RedeemSecretGiftResponseProto_RedeemSecretGiftStatusIsValidValue(RedeemSecr
 - (BOOL) hasStatus;
 - (RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatus) status;
 - (RemoveUserItemUsedResponseProto_Builder*) setStatus:(RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatus) value;
-- (RemoveUserItemUsedResponseProto_Builder*) clearStatusList;
+- (RemoveUserItemUsedResponseProto_Builder*) clearStatus;
 @end
 
 @interface TradeItemForResourcesRequestProto : PBGeneratedMessage {
@@ -691,7 +691,7 @@ BOOL RedeemSecretGiftResponseProto_RedeemSecretGiftStatusIsValidValue(RedeemSecr
 - (BOOL) hasStatus;
 - (TradeItemForResourcesResponseProto_TradeItemForResourcesStatus) status;
 - (TradeItemForResourcesResponseProto_Builder*) setStatus:(TradeItemForResourcesResponseProto_TradeItemForResourcesStatus) value;
-- (TradeItemForResourcesResponseProto_Builder*) clearStatusList;
+- (TradeItemForResourcesResponseProto_Builder*) clearStatus;
 @end
 
 @interface RedeemSecretGiftRequestProto : PBGeneratedMessage {
@@ -829,7 +829,7 @@ BOOL RedeemSecretGiftResponseProto_RedeemSecretGiftStatusIsValidValue(RedeemSecr
 - (BOOL) hasStatus;
 - (RedeemSecretGiftResponseProto_RedeemSecretGiftStatus) status;
 - (RedeemSecretGiftResponseProto_Builder*) setStatus:(RedeemSecretGiftResponseProto_RedeemSecretGiftStatus) value;
-- (RedeemSecretGiftResponseProto_Builder*) clearStatusList;
+- (RedeemSecretGiftResponseProto_Builder*) clearStatus;
 @end
 
 

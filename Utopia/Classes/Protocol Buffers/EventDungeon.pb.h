@@ -315,7 +315,7 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (BOOL) hasElem;
 - (Element) elem;
 - (BeginDungeonRequestProto_Builder*) setElem:(Element) value;
-- (BeginDungeonRequestProto_Builder*) clearElemList;
+- (BeginDungeonRequestProto_Builder*) clearElem;
 
 - (BOOL) hasForceEnemyElem;
 - (BOOL) forceEnemyElem;
@@ -412,7 +412,7 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (BOOL) hasStatus;
 - (BeginDungeonResponseProto_BeginDungeonStatus) status;
 - (BeginDungeonResponseProto_Builder*) setStatus:(BeginDungeonResponseProto_BeginDungeonStatus) value;
-- (BeginDungeonResponseProto_Builder*) clearStatusList;
+- (BeginDungeonResponseProto_Builder*) clearStatus;
 @end
 
 @interface EndDungeonRequestProto : PBGeneratedMessage {
@@ -600,7 +600,7 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (BOOL) hasStatus;
 - (EndDungeonResponseProto_EndDungeonStatus) status;
 - (EndDungeonResponseProto_Builder*) setStatus:(EndDungeonResponseProto_EndDungeonStatus) value;
-- (EndDungeonResponseProto_Builder*) clearStatusList;
+- (EndDungeonResponseProto_Builder*) clearStatus;
 
 - (NSMutableArray *)updatedOrNewList;
 - (FullUserMonsterProto*)updatedOrNewAtIndex:(NSUInteger)index;
@@ -782,7 +782,7 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (BOOL) hasStatus;
 - (ReviveInDungeonResponseProto_ReviveInDungeonStatus) status;
 - (ReviveInDungeonResponseProto_Builder*) setStatus:(ReviveInDungeonResponseProto_ReviveInDungeonStatus) value;
-- (ReviveInDungeonResponseProto_Builder*) clearStatusList;
+- (ReviveInDungeonResponseProto_Builder*) clearStatus;
 @end
 
 

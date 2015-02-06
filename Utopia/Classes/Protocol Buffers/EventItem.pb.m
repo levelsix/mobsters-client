@@ -690,7 +690,7 @@ BOOL TradeItemForBoosterResponseProto_TradeItemForBoosterStatusIsValidValue(Trad
   result.status = value;
   return self;
 }
-- (TradeItemForBoosterResponseProto_Builder*) clearStatusList {
+- (TradeItemForBoosterResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = TradeItemForBoosterResponseProto_TradeItemForBoosterStatusSuccess;
   return self;
@@ -1410,7 +1410,7 @@ BOOL TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatusIsValidValue(Tr
   result.status = value;
   return self;
 }
-- (TradeItemForSpeedUpsResponseProto_Builder*) clearStatusList {
+- (TradeItemForSpeedUpsResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatusSuccess;
   return self;
@@ -2001,7 +2001,7 @@ BOOL RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatusIsValidValue(Remove
   result.status = value;
   return self;
 }
-- (RemoveUserItemUsedResponseProto_Builder*) clearStatusList {
+- (RemoveUserItemUsedResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatusSuccess;
   return self;
@@ -2685,7 +2685,7 @@ BOOL TradeItemForResourcesResponseProto_TradeItemForResourcesStatusIsValidValue(
   result.status = value;
   return self;
 }
-- (TradeItemForResourcesResponseProto_Builder*) clearStatusList {
+- (TradeItemForResourcesResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = TradeItemForResourcesResponseProto_TradeItemForResourcesStatusSuccess;
   return self;
@@ -3361,7 +3361,7 @@ BOOL RedeemSecretGiftResponseProto_RedeemSecretGiftStatusIsValidValue(RedeemSecr
   result.status = value;
   return self;
 }
-- (RedeemSecretGiftResponseProto_Builder*) clearStatusList {
+- (RedeemSecretGiftResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = RedeemSecretGiftResponseProto_RedeemSecretGiftStatusSuccess;
   return self;

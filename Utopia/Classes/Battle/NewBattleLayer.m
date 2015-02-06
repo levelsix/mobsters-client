@@ -697,12 +697,7 @@
     
     if (self.myPlayerObject.isStunned)
     {
-      
-      [self performAfterDelay:0.5 block:^{
-        //[self.hudView.battleScheduleView bounceLastView];
-        _enemyShouldAttack = YES;
-        [self checkEnemyHealthAndStartNewTurn];
-      }];
+      [self endMyTurnAfterDelay:.5f];
       return;
     }
     
@@ -715,6 +710,14 @@
     [self performAfterDelay:0.5 block:^{
       [self.hudView.battleScheduleView bounceLastView];
     }];
+  }];
+}
+
+- (void) endMyTurnAfterDelay:(NSTimeInterval)delay
+{
+  [self performAfterDelay:delay block:^{
+    _enemyShouldAttack = YES;
+    [self checkEnemyHealthAndStartNewTurn];
   }];
 }
 
@@ -1349,14 +1352,6 @@
 - (void) checkMyHealth {
   [self sendServerUpdatedValuesVerifyDamageDealt:YES];
   if (self.myPlayerObject.curHealth <= 0) {
-    _movesLeft = 0;
-    [self stopPulsing];
-    
-    self.myPlayer = nil;
-    
-    self.myPlayerObject = nil;
-    [self updateHealthBars];
-    
     [self currentMyPlayerDied];
   } else {
     [self beginNextTurn];
@@ -1378,9 +1373,22 @@
     SkillLogStart(@"TRIGGER STARTED: mob defeated");
     [skillManager triggerSkills:SkillTriggerPointPlayerMobDefeated withCompletion:^(BOOL triggered, id params) {
       SkillLogEnd(triggered, @"  Mob defeated trigger ENDED");
+      
+      _movesLeft = 0;
+      [self stopPulsing];
+      self.myPlayer = nil;
+      self.myPlayerObject = nil;
+      [self updateHealthBars];
+      
       [self displayDeployViewAndIsCancellable:NO];
     }];
   } else {
+    _movesLeft = 0;
+    [self stopPulsing];
+    self.myPlayer = nil;
+    self.myPlayerObject = nil;
+    [self updateHealthBars];
+    
     [self youLost];
   }
 }

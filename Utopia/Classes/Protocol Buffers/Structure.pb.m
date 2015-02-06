@@ -912,7 +912,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
   result.structType = value;
   return self;
 }
-- (StructureInfoProto_Builder*) clearStructTypeList {
+- (StructureInfoProto_Builder*) clearStructType {
   result.hasStructType = NO;
   result.structType = StructureInfoProto_StructTypeNoStruct;
   return self;
@@ -928,7 +928,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
   result.buildResourceType = value;
   return self;
 }
-- (StructureInfoProto_Builder*) clearBuildResourceTypeList {
+- (StructureInfoProto_Builder*) clearBuildResourceType {
   result.hasBuildResourceType = NO;
   result.buildResourceType = ResourceTypeNoResource;
   return self;
@@ -1517,7 +1517,7 @@ static ResourceGeneratorProto* defaultResourceGeneratorProtoInstance = nil;
   result.resourceType = value;
   return self;
 }
-- (ResourceGeneratorProto_Builder*) clearResourceTypeList {
+- (ResourceGeneratorProto_Builder*) clearResourceType {
   result.hasResourceType = NO;
   result.resourceType = ResourceTypeNoResource;
   return self;
@@ -1852,7 +1852,7 @@ static ResourceStorageProto* defaultResourceStorageProtoInstance = nil;
   result.resourceType = value;
   return self;
 }
-- (ResourceStorageProto_Builder*) clearResourceTypeList {
+- (ResourceStorageProto_Builder*) clearResourceType {
   result.hasResourceType = NO;
   result.resourceType = ResourceTypeNoResource;
   return self;
@@ -4712,7 +4712,7 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
   result.orientation = value;
   return self;
 }
-- (FullUserStructureProto_Builder*) clearOrientationList {
+- (FullUserStructureProto_Builder*) clearOrientation {
   result.hasOrientation = NO;
   result.orientation = StructOrientationNoOrientation;
   return self;
@@ -5869,7 +5869,7 @@ static ObstacleProto* defaultObstacleProtoInstance = nil;
   result.removalCostType = value;
   return self;
 }
-- (ObstacleProto_Builder*) clearRemovalCostTypeList {
+- (ObstacleProto_Builder*) clearRemovalCostType {
   result.hasRemovalCostType = NO;
   result.removalCostType = ResourceTypeNoResource;
   return self;
@@ -6364,7 +6364,7 @@ static MinimumObstacleProto* defaultMinimumObstacleProtoInstance = nil;
   result.orientation = value;
   return self;
 }
-- (MinimumObstacleProto_Builder*) clearOrientationList {
+- (MinimumObstacleProto_Builder*) clearOrientation {
   result.hasOrientation = NO;
   result.orientation = StructOrientationNoOrientation;
   return self;
@@ -6805,7 +6805,7 @@ static UserObstacleProto* defaultUserObstacleProtoInstance = nil;
   result.orientation = value;
   return self;
 }
-- (UserObstacleProto_Builder*) clearOrientationList {
+- (UserObstacleProto_Builder*) clearOrientation {
   result.hasOrientation = NO;
   result.orientation = StructOrientationNoOrientation;
   return self;
@@ -7124,7 +7124,7 @@ static EvoChamberProto* defaultEvoChamberProtoInstance = nil;
   result.qualityUnlocked = value;
   return self;
 }
-- (EvoChamberProto_Builder*) clearQualityUnlockedList {
+- (EvoChamberProto_Builder*) clearQualityUnlocked {
   result.hasQualityUnlocked = NO;
   result.qualityUnlocked = QualityCommon;
   return self;

@@ -261,7 +261,7 @@ BOOL LoadCityResponseProto_LoadCityStatusIsValidValue(LoadCityResponseProto_Load
 - (BOOL) hasStatus;
 - (LoadPlayerCityResponseProto_LoadPlayerCityStatus) status;
 - (LoadPlayerCityResponseProto_Builder*) setStatus:(LoadPlayerCityResponseProto_LoadPlayerCityStatus) value;
-- (LoadPlayerCityResponseProto_Builder*) clearStatusList;
+- (LoadPlayerCityResponseProto_Builder*) clearStatus;
 
 - (NSMutableArray *)ownerNormStructsList;
 - (FullUserStructureProto*)ownerNormStructsAtIndex:(NSUInteger)index;
@@ -421,7 +421,7 @@ BOOL LoadCityResponseProto_LoadCityStatusIsValidValue(LoadCityResponseProto_Load
 - (BOOL) hasStatus;
 - (PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatus) status;
 - (PurchaseCityExpansionResponseProto_Builder*) setStatus:(PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatus) value;
-- (PurchaseCityExpansionResponseProto_Builder*) clearStatusList;
+- (PurchaseCityExpansionResponseProto_Builder*) clearStatus;
 
 - (BOOL) hasUcedp;
 - (UserCityExpansionDataProto*) ucedp;
@@ -555,7 +555,7 @@ BOOL LoadCityResponseProto_LoadCityStatusIsValidValue(LoadCityResponseProto_Load
 - (BOOL) hasStatus;
 - (LoadCityResponseProto_LoadCityStatus) status;
 - (LoadCityResponseProto_Builder*) setStatus:(LoadCityResponseProto_LoadCityStatus) value;
-- (LoadCityResponseProto_Builder*) clearStatusList;
+- (LoadCityResponseProto_Builder*) clearStatus;
 
 - (NSMutableArray *)cityElementsList;
 - (CityElementProto*)cityElementsAtIndex:(NSUInteger)index;

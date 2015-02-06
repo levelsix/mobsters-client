@@ -2034,7 +2034,7 @@ static BoosterDisplayItemProto* defaultBoosterDisplayItemProtoInstance = nil;
   result.quality = value;
   return self;
 }
-- (BoosterDisplayItemProto_Builder*) clearQualityList {
+- (BoosterDisplayItemProto_Builder*) clearQuality {
   result.hasQuality = NO;
   result.quality = QualityNoQuality;
   return self;

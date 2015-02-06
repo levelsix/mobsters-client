@@ -785,7 +785,7 @@ BOOL RetrieveTournamentRankingsResponseProto_RetrieveTournamentStatusIsValidValu
   result.status = value;
   return self;
 }
-- (RetrieveTournamentRankingsResponseProto_Builder*) clearStatusList {
+- (RetrieveTournamentRankingsResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = RetrieveTournamentRankingsResponseProto_RetrieveTournamentStatusSuccess;
   return self;

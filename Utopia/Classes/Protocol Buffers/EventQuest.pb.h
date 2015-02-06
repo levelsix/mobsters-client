@@ -284,7 +284,7 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
 - (BOOL) hasStatus;
 - (QuestAcceptResponseProto_QuestAcceptStatus) status;
 - (QuestAcceptResponseProto_Builder*) setStatus:(QuestAcceptResponseProto_QuestAcceptStatus) value;
-- (QuestAcceptResponseProto_Builder*) clearStatusList;
+- (QuestAcceptResponseProto_Builder*) clearStatus;
 @end
 
 @interface QuestProgressRequestProto : PBGeneratedMessage {
@@ -431,7 +431,7 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
 - (BOOL) hasStatus;
 - (QuestProgressResponseProto_QuestProgressStatus) status;
 - (QuestProgressResponseProto_Builder*) setStatus:(QuestProgressResponseProto_QuestProgressStatus) value;
-- (QuestProgressResponseProto_Builder*) clearStatusList;
+- (QuestProgressResponseProto_Builder*) clearStatus;
 @end
 
 @interface QuestRedeemRequestProto : PBGeneratedMessage {
@@ -568,7 +568,7 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
 - (BOOL) hasStatus;
 - (QuestRedeemResponseProto_QuestRedeemStatus) status;
 - (QuestRedeemResponseProto_Builder*) setStatus:(QuestRedeemResponseProto_QuestRedeemStatus) value;
-- (QuestRedeemResponseProto_Builder*) clearStatusList;
+- (QuestRedeemResponseProto_Builder*) clearStatus;
 
 - (BOOL) hasFump;
 - (FullUserMonsterProto*) fump;

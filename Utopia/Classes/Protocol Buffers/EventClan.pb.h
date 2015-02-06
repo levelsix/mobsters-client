@@ -658,7 +658,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasStatus;
 - (CreateClanResponseProto_CreateClanStatus) status;
 - (CreateClanResponseProto_Builder*) setStatus:(CreateClanResponseProto_CreateClanStatus) value;
-- (CreateClanResponseProto_Builder*) clearStatusList;
+- (CreateClanResponseProto_Builder*) clearStatus;
 
 - (BOOL) hasClanInfo;
 - (MinimumClanProto*) clanInfo;
@@ -776,7 +776,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasStatus;
 - (LeaveClanResponseProto_LeaveClanStatus) status;
 - (LeaveClanResponseProto_Builder*) setStatus:(LeaveClanResponseProto_LeaveClanStatus) value;
-- (LeaveClanResponseProto_Builder*) clearStatusList;
+- (LeaveClanResponseProto_Builder*) clearStatus;
 @end
 
 @interface RequestJoinClanRequestProto : PBGeneratedMessage {
@@ -936,7 +936,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasStatus;
 - (RequestJoinClanResponseProto_RequestJoinClanStatus) status;
 - (RequestJoinClanResponseProto_Builder*) setStatus:(RequestJoinClanResponseProto_RequestJoinClanStatus) value;
-- (RequestJoinClanResponseProto_Builder*) clearStatusList;
+- (RequestJoinClanResponseProto_Builder*) clearStatus;
 
 - (BOOL) hasClanUuid;
 - (NSString*) clanUuid;
@@ -1111,7 +1111,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasStatus;
 - (RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatus) status;
 - (RetractRequestJoinClanResponseProto_Builder*) setStatus:(RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatus) value;
-- (RetractRequestJoinClanResponseProto_Builder*) clearStatusList;
+- (RetractRequestJoinClanResponseProto_Builder*) clearStatus;
 
 - (BOOL) hasClanUuid;
 - (NSString*) clanUuid;
@@ -1261,7 +1261,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasStatus;
 - (ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatus) status;
 - (ApproveOrRejectRequestToJoinClanResponseProto_Builder*) setStatus:(ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatus) value;
-- (ApproveOrRejectRequestToJoinClanResponseProto_Builder*) clearStatusList;
+- (ApproveOrRejectRequestToJoinClanResponseProto_Builder*) clearStatus;
 
 - (BOOL) hasRequester;
 - (MinimumUserProto*) requester;
@@ -1373,7 +1373,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasGrabType;
 - (RetrieveClanInfoRequestProto_ClanInfoGrabType) grabType;
 - (RetrieveClanInfoRequestProto_Builder*) setGrabType:(RetrieveClanInfoRequestProto_ClanInfoGrabType) value;
-- (RetrieveClanInfoRequestProto_Builder*) clearGrabTypeList;
+- (RetrieveClanInfoRequestProto_Builder*) clearGrabType;
 
 - (BOOL) hasBeforeThisClanId;
 - (int32_t) beforeThisClanId;
@@ -1484,7 +1484,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasStatus;
 - (RetrieveClanInfoResponseProto_RetrieveClanInfoStatus) status;
 - (RetrieveClanInfoResponseProto_Builder*) setStatus:(RetrieveClanInfoResponseProto_RetrieveClanInfoStatus) value;
-- (RetrieveClanInfoResponseProto_Builder*) clearStatusList;
+- (RetrieveClanInfoResponseProto_Builder*) clearStatus;
 
 - (BOOL) hasIsForSearch;
 - (BOOL) isForSearch;
@@ -1647,7 +1647,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasStatus;
 - (TransferClanOwnershipResponseProto_TransferClanOwnershipStatus) status;
 - (TransferClanOwnershipResponseProto_Builder*) setStatus:(TransferClanOwnershipResponseProto_TransferClanOwnershipStatus) value;
-- (TransferClanOwnershipResponseProto_Builder*) clearStatusList;
+- (TransferClanOwnershipResponseProto_Builder*) clearStatus;
 
 - (BOOL) hasMinClan;
 - (MinimumClanProto*) minClan;
@@ -1799,7 +1799,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasStatus;
 - (BootPlayerFromClanResponseProto_BootPlayerFromClanStatus) status;
 - (BootPlayerFromClanResponseProto_Builder*) setStatus:(BootPlayerFromClanResponseProto_BootPlayerFromClanStatus) value;
-- (BootPlayerFromClanResponseProto_Builder*) clearStatusList;
+- (BootPlayerFromClanResponseProto_Builder*) clearStatus;
 @end
 
 @interface ChangeClanSettingsRequestProto : PBGeneratedMessage {
@@ -1972,7 +1972,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasStatus;
 - (ChangeClanSettingsResponseProto_ChangeClanSettingsStatus) status;
 - (ChangeClanSettingsResponseProto_Builder*) setStatus:(ChangeClanSettingsResponseProto_ChangeClanSettingsStatus) value;
-- (ChangeClanSettingsResponseProto_Builder*) clearStatusList;
+- (ChangeClanSettingsResponseProto_Builder*) clearStatus;
 
 - (BOOL) hasMinClan;
 - (MinimumClanProto*) minClan;
@@ -2166,7 +2166,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasStatus;
 - (BeginClanRaidResponseProto_BeginClanRaidStatus) status;
 - (BeginClanRaidResponseProto_Builder*) setStatus:(BeginClanRaidResponseProto_BeginClanRaidStatus) value;
-- (BeginClanRaidResponseProto_Builder*) clearStatusList;
+- (BeginClanRaidResponseProto_Builder*) clearStatus;
 
 - (BOOL) hasUserDetails;
 - (PersistentClanEventUserInfoProto*) userDetails;
@@ -2384,7 +2384,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasStatus;
 - (AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatus) status;
 - (AttackClanRaidMonsterResponseProto_Builder*) setStatus:(AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatus) value;
-- (AttackClanRaidMonsterResponseProto_Builder*) clearStatusList;
+- (AttackClanRaidMonsterResponseProto_Builder*) clearStatus;
 @end
 
 @interface AwardClanRaidStageRewardResponseProto : PBGeneratedMessage {
@@ -2571,7 +2571,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasStatus;
 - (RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatus) status;
 - (RecordClanRaidStatsResponseProto_Builder*) setStatus:(RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatus) value;
-- (RecordClanRaidStatsResponseProto_Builder*) clearStatusList;
+- (RecordClanRaidStatsResponseProto_Builder*) clearStatus;
 @end
 
 @interface PromoteDemoteClanMemberRequestProto : PBGeneratedMessage {
@@ -2640,7 +2640,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasUserClanStatus;
 - (UserClanStatus) userClanStatus;
 - (PromoteDemoteClanMemberRequestProto_Builder*) setUserClanStatus:(UserClanStatus) value;
-- (PromoteDemoteClanMemberRequestProto_Builder*) clearUserClanStatusList;
+- (PromoteDemoteClanMemberRequestProto_Builder*) clearUserClanStatus;
 @end
 
 @interface PromoteDemoteClanMemberResponseProto : PBGeneratedMessage {
@@ -2719,17 +2719,17 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasUserClanStatus;
 - (UserClanStatus) userClanStatus;
 - (PromoteDemoteClanMemberResponseProto_Builder*) setUserClanStatus:(UserClanStatus) value;
-- (PromoteDemoteClanMemberResponseProto_Builder*) clearUserClanStatusList;
+- (PromoteDemoteClanMemberResponseProto_Builder*) clearUserClanStatus;
 
 - (BOOL) hasPrevUserClanStatus;
 - (UserClanStatus) prevUserClanStatus;
 - (PromoteDemoteClanMemberResponseProto_Builder*) setPrevUserClanStatus:(UserClanStatus) value;
-- (PromoteDemoteClanMemberResponseProto_Builder*) clearPrevUserClanStatusList;
+- (PromoteDemoteClanMemberResponseProto_Builder*) clearPrevUserClanStatus;
 
 - (BOOL) hasStatus;
 - (PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatus) status;
 - (PromoteDemoteClanMemberResponseProto_Builder*) setStatus:(PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatus) value;
-- (PromoteDemoteClanMemberResponseProto_Builder*) clearStatusList;
+- (PromoteDemoteClanMemberResponseProto_Builder*) clearStatus;
 @end
 
 @interface SolicitClanHelpRequestProto : PBGeneratedMessage {
@@ -2876,7 +2876,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasStatus;
 - (SolicitClanHelpResponseProto_SolicitClanHelpStatus) status;
 - (SolicitClanHelpResponseProto_Builder*) setStatus:(SolicitClanHelpResponseProto_SolicitClanHelpStatus) value;
-- (SolicitClanHelpResponseProto_Builder*) clearStatusList;
+- (SolicitClanHelpResponseProto_Builder*) clearStatus;
 @end
 
 @interface GiveClanHelpRequestProto : PBGeneratedMessage {
@@ -3005,7 +3005,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasStatus;
 - (GiveClanHelpResponseProto_GiveClanHelpStatus) status;
 - (GiveClanHelpResponseProto_Builder*) setStatus:(GiveClanHelpResponseProto_GiveClanHelpStatus) value;
-- (GiveClanHelpResponseProto_Builder*) clearStatusList;
+- (GiveClanHelpResponseProto_Builder*) clearStatus;
 @end
 
 @interface EndClanHelpRequestProto : PBGeneratedMessage {
@@ -3134,7 +3134,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasStatus;
 - (EndClanHelpResponseProto_EndClanHelpStatus) status;
 - (EndClanHelpResponseProto_Builder*) setStatus:(EndClanHelpResponseProto_EndClanHelpStatus) value;
-- (EndClanHelpResponseProto_Builder*) clearStatusList;
+- (EndClanHelpResponseProto_Builder*) clearStatus;
 @end
 
 @interface InviteToClanRequestProto : PBGeneratedMessage {
@@ -3267,7 +3267,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasStatus;
 - (InviteToClanResponseProto_InviteToClanStatus) status;
 - (InviteToClanResponseProto_Builder*) setStatus:(InviteToClanResponseProto_InviteToClanStatus) value;
-- (InviteToClanResponseProto_Builder*) clearStatusList;
+- (InviteToClanResponseProto_Builder*) clearStatus;
 
 - (BOOL) hasInvite;
 - (ClanInviteProto*) invite;
@@ -3418,7 +3418,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasStatus;
 - (AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatus) status;
 - (AcceptOrRejectClanInviteResponseProto_Builder*) setStatus:(AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatus) value;
-- (AcceptOrRejectClanInviteResponseProto_Builder*) clearStatusList;
+- (AcceptOrRejectClanInviteResponseProto_Builder*) clearStatus;
 
 - (BOOL) hasFullClan;
 - (FullClanProtoWithClanSize*) fullClan;
@@ -3625,7 +3625,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasStatus;
 - (BeginClanAvengingResponseProto_BeginClanAvengingStatus) status;
 - (BeginClanAvengingResponseProto_Builder*) setStatus:(BeginClanAvengingResponseProto_BeginClanAvengingStatus) value;
-- (BeginClanAvengingResponseProto_Builder*) clearStatusList;
+- (BeginClanAvengingResponseProto_Builder*) clearStatus;
 @end
 
 @interface EndClanAvengingRequestProto : PBGeneratedMessage {
@@ -3754,7 +3754,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasStatus;
 - (EndClanAvengingResponseProto_EndClanAvengingStatus) status;
 - (EndClanAvengingResponseProto_Builder*) setStatus:(EndClanAvengingResponseProto_EndClanAvengingStatus) value;
-- (EndClanAvengingResponseProto_Builder*) clearStatusList;
+- (EndClanAvengingResponseProto_Builder*) clearStatus;
 @end
 
 @interface AvengeClanMateRequestProto : PBGeneratedMessage {
@@ -3896,7 +3896,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasStatus;
 - (AvengeClanMateResponseProto_AvengeClanMateStatus) status;
 - (AvengeClanMateResponseProto_Builder*) setStatus:(AvengeClanMateResponseProto_AvengeClanMateStatus) value;
-- (AvengeClanMateResponseProto_Builder*) clearStatusList;
+- (AvengeClanMateResponseProto_Builder*) clearStatus;
 @end
 
 @interface SolicitTeamDonationRequestProto : PBGeneratedMessage {
@@ -4047,7 +4047,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasStatus;
 - (SolicitTeamDonationResponseProto_SolicitTeamDonationStatus) status;
 - (SolicitTeamDonationResponseProto_Builder*) setStatus:(SolicitTeamDonationResponseProto_SolicitTeamDonationStatus) value;
-- (SolicitTeamDonationResponseProto_Builder*) clearStatusList;
+- (SolicitTeamDonationResponseProto_Builder*) clearStatus;
 
 - (BOOL) hasSolicitation;
 - (ClanMemberTeamDonationProto*) solicitation;
@@ -4200,7 +4200,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasStatus;
 - (FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatus) status;
 - (FulfillTeamDonationSolicitationResponseProto_Builder*) setStatus:(FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatus) value;
-- (FulfillTeamDonationSolicitationResponseProto_Builder*) clearStatusList;
+- (FulfillTeamDonationSolicitationResponseProto_Builder*) clearStatus;
 
 - (BOOL) hasSolicitation;
 - (ClanMemberTeamDonationProto*) solicitation;
@@ -4330,7 +4330,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasStatus;
 - (VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatus) status;
 - (VoidTeamDonationSolicitationResponseProto_Builder*) setStatus:(VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatus) value;
-- (VoidTeamDonationSolicitationResponseProto_Builder*) clearStatusList;
+- (VoidTeamDonationSolicitationResponseProto_Builder*) clearStatus;
 
 - (NSMutableArray *)clanTeamDonateUuidList;
 - (NSString*)clanTeamDonateUuidAtIndex:(NSUInteger)index;

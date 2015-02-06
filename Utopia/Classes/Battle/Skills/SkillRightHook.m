@@ -25,8 +25,6 @@
   _skillActive = NO;
   _confusionTurns = 0;
   _logoShown = NO;
-  
-  _orbsSpawned = [self specialsOnBoardCount:SpecialOrbTypeGlove];
 }
 
 - (void) setValue:(float)value forProperty:(NSString*)property
@@ -46,6 +44,12 @@
 }
 
 #pragma mark - Overrides
+
+- (void) restoreVisualsIfNeeded
+{
+  if (!self.belongsToPlayer)
+    _orbsSpawned = [self specialsOnBoardCount:SpecialOrbTypeGlove];
+}
 
 - (NSInteger) modifyDamage:(NSInteger)damage forPlayer:(BOOL)player
 {
@@ -152,7 +156,8 @@
   }
   
   if ((trigger == SkillTriggerPointEnemyDealsDamage && self.belongsToPlayer) ||
-      (trigger == SkillTriggerPointEnemyDefeated && self.belongsToPlayer))
+      (trigger == SkillTriggerPointEnemyDefeated && self.belongsToPlayer) ||
+      (trigger == SkillTriggerPointPlayerMobDefeated && self.belongsToPlayer))
   {
     if (_skillActive)
     {

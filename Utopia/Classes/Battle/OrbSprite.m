@@ -52,6 +52,7 @@
     case SpecialOrbTypeHeadshot:
     case SpecialOrbTypeBullet:
     case SpecialOrbTypeGlove:
+    case SpecialOrbTypeSword:
       if (_orb.turnCounter > 0) [self loadHeadshotElements]; break;
     default: break;
   }
@@ -195,6 +196,10 @@
       
     case SpecialOrbTypeBullet:
       return [NSString stringWithFormat:@"%@bulletorb%@.png", resPrefix, suffix];
+      break;
+      
+    case SpecialOrbTypeSword:
+      return [NSString stringWithFormat:@"%@swordorb%@.png", resPrefix, suffix];
       break;
       
     case SpecialOrbTypeCloud:

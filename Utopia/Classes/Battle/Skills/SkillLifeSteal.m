@@ -23,8 +23,6 @@
   _numOrbsToSpawn = 0;
   _lifeStealAmount = 0.f;
   _logoShown = NO;
-  
-  _orbsSpawned = [self specialsOnBoardCount:SpecialOrbTypeLifeSteal];
 }
 
 - (void) setValue:(float)value forProperty:(NSString*)property
@@ -38,6 +36,12 @@
 }
 
 #pragma mark - Overrides
+
+- (void) restoreVisualsIfNeeded
+{
+  if (!self.belongsToPlayer)
+    _orbsSpawned = [self specialsOnBoardCount:SpecialOrbTypeLifeSteal];
+}
 
 - (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
 {
