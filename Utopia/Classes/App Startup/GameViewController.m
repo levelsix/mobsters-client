@@ -528,7 +528,8 @@ static const CGSize FIXED_SIZE = {568, 384};
     
     //check if the player has any unread private messages
     GameState *gs = [GameState sharedGameState];
-    NSArray *unreadChats = [NSMutableArray arrayWithArray:[gs allUnreadPrivateChats]];
+    NSMutableArray *unreadChats = [NSMutableArray arrayWithArray:[gs allUnreadPrivateChats]];
+    [unreadChats addObjectsFromArray:[gs allUnreadDefenseHistory]];
     if(unreadChats.count > 0) {
       [Globals addPrivateMessageNotification:unreadChats];
     }

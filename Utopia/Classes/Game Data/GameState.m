@@ -679,6 +679,17 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return arr;
 }
 
+- (NSArray *) allUnreadDefenseHistory {
+  NSArray *defenceChats = [self pvpDefenseHistory];
+  NSMutableArray *unread = [[NSMutableArray alloc] init];
+  for (PvpHistoryProto *php in defenceChats) {
+    if (php.isUnread) {
+      [unread addObject:php];
+    }
+  }
+  return unread;
+}
+
 - (NSArray *) allPrivateChats {
   NSMutableArray *arr = [self.privateChats mutableCopy];
   

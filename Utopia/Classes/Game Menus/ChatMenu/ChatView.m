@@ -364,7 +364,7 @@
   [self.backView.superview bringSubviewToFront:self.backView];
   
   self.unrespondedChatMessages = [NSMutableArray array];
-  
+  _originalDefenceTabPosition = self.defensiveLogTabButton.center;
   _chatMode = PrivateChatModeAllMessages;
 }
 
@@ -385,6 +385,10 @@
   }
   self.unreadDefenseLog.hidden = unread <= 0;
   self.unreadDefenseLog.text = [NSString stringWithFormat:@"(%d)",unread];
+  self.defensiveLogTabButton.center = _originalDefenceTabPosition;
+  if(!self.unreadDefenseLog.hidden) {
+    self.defensiveLogTabButton.center = CGPointMake(self.defensiveLogTabButton.center.x - 7, self.defensiveLogTabButton.center.y);
+  }
   
   [self updateDisplayedPrivateChatList];
 }

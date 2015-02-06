@@ -21,7 +21,15 @@
 #define MAX_AVATAR_COUNT 5
 #define AVATAR_VERTICAL_OFFSET 2.f
 
+#define RED @"FF5A00"
+#define GREEN @"A5F200"
+
 @implementation PrivateMessageNotificationView
+
+- (void) updateWithString:(NSString *)title description:(NSString *)description color:(UIColor *)color {
+  [self updateWithString:title description:description];
+  self.botLabel.textColor = color;
+}
 
 - (void) updateWithString:(NSString *)title description:(NSString *)description {
   [self.topLabel setText:title];
@@ -74,12 +82,23 @@
     
     if(messages.count == 1) {
       
-      ChatMessage *cm = [messages objectAtIndex:0];
-      _messageFromSingleUser = cm;
-      [self.notificationView updateWithString:cm.sender.name description:cm.message];
-      
-      //pass anything through owner because there are no outlets
-      [self addAvatarWithMonsterId:cm.sender.avatarMonsterId];
+      id<ChatObject> chat = [messages firstObject];
+      if ([chat isKindOfClass:[PvpHistoryProto class] ] ) {
+        PvpHistoryProto *php = [messages firstObject];
+        
+        NSString *result = [NSString stringWithFormat:@"%@ you in battle", php.userWon ? @"Lost to" : @"Defeated"];
+        UIColor *textColor = php.userWon ? [UIColor colorWithHexString:GREEN] : [UIColor colorWithHexString:RED];
+        [self.notificationView updateWithString:php.otherUser.name description:result color:textColor];
+        [self addAvatarWithMonsterId:php.otherUser.avatarMonsterId];
+        
+      } else {
+        ChatMessage *cm = [messages firstObject];
+        _messageFromSingleUser = cm;
+        [self.notificationView updateWithString:cm.sender.name description:cm.message color:[UIColor colorWithHexString:@"FFFFFF"]];
+        
+        //pass anything through owner because there are no outlets
+        [self addAvatarWithMonsterId:cm.sender.avatarMonsterId];
+      }
       
     } else if(messages.count > 1){
       
@@ -169,7 +188,11 @@
 - (IBAction)notificationClicked:(id)sender {
   GameViewController *gvc = [GameViewController baseController];
   if(_messageFromSingleUser) {
-    [gvc openPrivateChatWithUserUuid:_messageFromSingleUser.sender.userUuid name:_messageFromSingleUser.sender.name];
+    if ( [_messageFromSingleUser isKindOfClass:[PvpHistoryProto class]] ) {
+      [gvc openPrivateChatWithUserUuid:_messageFromSingleUser.otherUser.userUuid name:_messageFromSingleUser.otherUser.name];
+    } else {
+      [gvc openPrivateChatWithUserUuid:_messageFromSingleUser.sender.userUuid name:_messageFromSingleUser.sender.name];
+    }
   } else {
     [gvc openChatWithScope:ChatScopePrivate];
   }

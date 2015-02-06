@@ -779,15 +779,12 @@
                                         <action selector="allMessagesButtonClicked:" destination="EYy-Nb-xNZ" eventType="touchUpInside" id="hre-2M-QUD"/>
                                     </connections>
                                 </button>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="|" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="qNv-8h-Asd">
-                                    <rect key="frame" x="157" y="5" width="20" height="21"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <color key="textColor" red="0.90196078431372551" green="0.90196078431372551" blue="0.90196078431372551" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popuplinevertical.png" id="3EM-fN-a4h">
+                                    <rect key="frame" x="169" y="7" width="1" height="14"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="V7I-ZQ-HVP" customClass="NiceFontButton2">
-                                    <rect key="frame" x="177" y="4" width="99" height="21"/>
+                                    <rect key="frame" x="177" y="5" width="99" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                     <state key="normal" title="DEFENSIVE LOG">
@@ -801,20 +798,17 @@
                                         <action selector="deffensiveLogButtonClicked:" destination="EYy-Nb-xNZ" eventType="touchUpInside" id="VQh-PE-XuZ"/>
                                     </connections>
                                 </button>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(11)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="K4q-Pu-fo8" customClass="NiceFontLabel2">
-                                    <rect key="frame" x="266" y="4" width="18" height="20"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(5)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="K4q-Pu-fo8" customClass="NiceFontLabel2">
+                                    <rect key="frame" x="263" y="4" width="18" height="20"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                     <color key="textColor" red="0.81578947368421051" green="0.065789473684210523" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="|" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Z8Z-0Q-6XR">
-                                    <rect key="frame" x="275" y="4" width="20" height="21"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <color key="textColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popuplinevertical.png" id="J5K-U9-PCk">
+                                    <rect key="frame" x="285" y="7" width="1" height="14"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="JdZ-dN-w3T" customClass="NiceFontButton2">
                                     <rect key="frame" x="290" y="4" width="99" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1177,6 +1171,7 @@
         <image name="nightavatar.png" width="30" height="30"/>
         <image name="popupheadercap.png" width="5" height="39"/>
         <image name="popupheadermiddle.png" width="1" height="39"/>
+        <image name="popuplinevertical.png" width="1" height="1"/>
         <image name="redsmallbutton.png" width="68" height="30"/>
         <image name="sendchat.png" width="57" height="29"/>
         <image name="whitebackbutton.png" width="14" height="21"/>

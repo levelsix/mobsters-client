@@ -238,7 +238,7 @@ static float buttonInitialWidth = 159.f;
     self.avengedCheck.image = [Globals imageNamed:GREY_CHECK];
   } else {
     self.avengedLabel.textColor = [UIColor colorWithHexString:GREEN];
-    self.avengedCheck.image = [Globals imageNamed:GREY_CHECK];
+    self.avengedCheck.image = [Globals imageNamed:GREEN_CHECK];
   }
   
   if(php.userWon) {
@@ -364,7 +364,7 @@ static float buttonInitialWidth = 159.f;
   //setup if the button or the check mark is showing and what colors the text and checkmarks are
   
   self.avengeButton.superview.hidden = [pvp userIsAttacker] || pvp.clanAvenged;
-  self.avengeCheck.superview.hidden = !self.avengeButton.superview.hidden;
+//  self.avengeCheck.superview.hidden = !self.avengeButton.superview.hidden;
   self.avengeCheck.hidden = !pvp.clanAvenged;
   
   self.revengeButton.superview.hidden = [pvp userIsAttacker] || pvp.exactedRevenge;
