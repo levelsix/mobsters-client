@@ -16,12 +16,18 @@
   CCSprite    *_skillIcon;
   CCDrawNode  *_stencilNode;
   CCSprite    *_skillLabel;
+  CCSprite    *_skillCounterBg;
+  CCSprite    *_skillOrbIcon;
+  CCLabelTTF  *_skillCounterLabel;
+  CCSprite    *_skillActiveIcon;
   CCButton    *_skillButton;
   CCParticleSystem* _chargedEffect;
   
   BOOL        _enemy;
   
   BOOL        _skillButtonEnabled;
+  
+  BOOL        _skillActive;
   
   CCSprite*   _orbCounter;
   
