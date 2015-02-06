@@ -169,12 +169,12 @@ BOOL SkillActivationTypeIsValidValue(SkillActivationType value);
 - (BOOL) hasType;
 - (SkillType) type;
 - (SkillProto_Builder*) setType:(SkillType) value;
-- (SkillProto_Builder*) clearType;
+- (SkillProto_Builder*) clearTypeList;
 
 - (BOOL) hasActivationType;
 - (SkillActivationType) activationType;
 - (SkillProto_Builder*) setActivationType:(SkillActivationType) value;
-- (SkillProto_Builder*) clearActivationType;
+- (SkillProto_Builder*) clearActivationTypeList;
 
 - (BOOL) hasPredecId;
 - (int32_t) predecId;

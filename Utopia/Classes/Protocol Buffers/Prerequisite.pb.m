@@ -390,7 +390,7 @@ static PrereqProto* defaultPrereqProtoInstance = nil;
   result.gameType = value;
   return self;
 }
-- (PrereqProto_Builder*) clearGameType {
+- (PrereqProto_Builder*) clearGameTypeList {
   result.hasGameType = NO;
   result.gameType = GameTypeNoType;
   return self;
@@ -422,7 +422,7 @@ static PrereqProto* defaultPrereqProtoInstance = nil;
   result.prereqGameType = value;
   return self;
 }
-- (PrereqProto_Builder*) clearPrereqGameType {
+- (PrereqProto_Builder*) clearPrereqGameTypeList {
   result.hasPrereqGameType = NO;
   result.prereqGameType = GameTypeNoType;
   return self;

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
@@ -301,17 +301,6 @@
                                     <rect key="frame" x="0.0" y="0.0" width="453" height="251"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="none" rowHeight="66" sectionHeaderHeight="14" sectionFooterHeight="22" id="vgn-HL-6qP" customClass="CancellableTableView">
-                                            <rect key="frame" x="0.0" y="0.0" width="453" height="205"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                            <color key="separatorColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
-                                            <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                            <connections>
-                                                <outlet property="dataSource" destination="Han-uB-4S1" id="heE-Pg-ysX"/>
-                                                <outlet property="delegate" destination="Han-uB-4S1" id="Fg5-8I-IwO"/>
-                                            </connections>
-                                        </tableView>
                                         <view contentMode="scaleToFill" id="fck-TC-Vtx" userLabel="Bottom View">
                                             <rect key="frame" x="0.0" y="205" width="453" height="43"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -421,6 +410,17 @@
                                             </subviews>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                         </view>
+                                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="none" rowHeight="66" sectionHeaderHeight="14" sectionFooterHeight="22" id="vgn-HL-6qP" customClass="CancellableTableView">
+                                            <rect key="frame" x="0.0" y="0.0" width="453" height="205"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            <color key="separatorColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                                            <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                            <connections>
+                                                <outlet property="dataSource" destination="Han-uB-4S1" id="heE-Pg-ysX"/>
+                                                <outlet property="delegate" destination="Han-uB-4S1" id="Fg5-8I-IwO"/>
+                                            </connections>
+                                        </tableView>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <connections>
@@ -746,6 +746,7 @@
                 <outlet property="popoverView" destination="pfc-Vl-jbC" id="NfP-NO-ssR"/>
                 <outlet property="textField" destination="pPK-fe-0ti" id="wC7-CV-exo"/>
             </connections>
+            <point key="canvasLocation" x="250.5" y="-158.5"/>
         </view>
         <view contentMode="scaleToFill" id="EYy-Nb-xNZ" customClass="PrivateChatView">
             <rect key="frame" x="0.0" y="0.0" width="906" height="251"/>
@@ -755,17 +756,77 @@
                     <rect key="frame" x="0.0" y="0.0" width="453" height="251"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
                     <subviews>
-                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="none" rowHeight="50" sectionHeaderHeight="14" sectionFooterHeight="22" id="91u-54-NEq" customClass="CancellableTableView">
-                            <rect key="frame" x="0.0" y="0.0" width="453" height="186"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            <color key="separatorColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
-                            <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                            <connections>
-                                <outlet property="dataSource" destination="EYy-Nb-xNZ" id="pJ2-aa-Fbv"/>
-                                <outlet property="delegate" destination="EYy-Nb-xNZ" id="IwN-Fc-04W"/>
-                            </connections>
-                        </tableView>
+                        <view contentMode="scaleToFill" id="O3C-8a-jFE">
+                            <rect key="frame" x="0.0" y="0.0" width="453" height="32"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="logobg.png" id="VCB-3e-VbB">
+                                    <rect key="frame" x="0.0" y="0.0" width="453" height="32"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="a2I-4c-rsp" customClass="NiceFontButton9">
+                                    <rect key="frame" x="64" y="4" width="99" height="21"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                    <state key="normal" title="ALL MESSAGES">
+                                        <color key="titleColor" red="0.039215686274509803" green="0.61960784313725492" blue="0.84313725490196079" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <state key="highlighted">
+                                        <color key="titleColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="allMessagesButtonClicked:" destination="EYy-Nb-xNZ" eventType="touchUpInside" id="hre-2M-QUD"/>
+                                    </connections>
+                                </button>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popuplinevertical.png" id="3EM-fN-a4h">
+                                    <rect key="frame" x="169" y="7" width="1" height="14"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="V7I-ZQ-HVP" customClass="NiceFontButton2">
+                                    <rect key="frame" x="177" y="5" width="99" height="21"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                    <state key="normal" title="DEFENSIVE LOG">
+                                        <color key="titleColor" red="0.63529411764705879" green="0.63529411764705879" blue="0.63529411764705879" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <state key="highlighted">
+                                        <color key="titleColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="deffensiveLogButtonClicked:" destination="EYy-Nb-xNZ" eventType="touchUpInside" id="VQh-PE-XuZ"/>
+                                    </connections>
+                                </button>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(5)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="K4q-Pu-fo8" customClass="NiceFontLabel2">
+                                    <rect key="frame" x="263" y="4" width="18" height="20"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                    <color key="textColor" red="0.81578947368421051" green="0.065789473684210523" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popuplinevertical.png" id="J5K-U9-PCk">
+                                    <rect key="frame" x="285" y="7" width="1" height="14"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="JdZ-dN-w3T" customClass="NiceFontButton2">
+                                    <rect key="frame" x="290" y="4" width="99" height="21"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                    <state key="normal" title="OFFENSIVE LOG">
+                                        <color key="titleColor" red="0.63529411764705879" green="0.63529411764705879" blue="0.63529411764705879" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <state key="highlighted">
+                                        <color key="titleColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="offensiveLogbuttonClicked:" destination="EYy-Nb-xNZ" eventType="touchUpInside" id="SGy-Sd-mfk"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        </view>
                         <view hidden="YES" contentMode="scaleToFill" id="07P-m8-SNq">
                             <rect key="frame" x="0.0" y="185" width="453" height="66"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -816,6 +877,17 @@
                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
+                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="none" rowHeight="50" sectionHeaderHeight="14" sectionFooterHeight="22" id="91u-54-NEq" customClass="CancellableTableView">
+                            <rect key="frame" x="0.0" y="30" width="453" height="221"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <color key="separatorColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                            <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            <connections>
+                                <outlet property="dataSource" destination="EYy-Nb-xNZ" id="pJ2-aa-Fbv"/>
+                                <outlet property="delegate" destination="EYy-Nb-xNZ" id="IwN-Fc-04W"/>
+                            </connections>
+                        </tableView>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
@@ -955,19 +1027,23 @@
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
+                <outlet property="allMessagesTabButton" destination="a2I-4c-rsp" id="Zcb-Ra-HkE"/>
                 <outlet property="backView" destination="QvB-dK-o7n" id="DDo-HD-fWm"/>
                 <outlet property="bottomView" destination="4ei-bl-984" id="OXK-la-Yv3"/>
                 <outlet property="chatTable" destination="OCl-dV-Ywl" id="62y-E8-oPO"/>
+                <outlet property="defensiveLogTabButton" destination="V7I-ZQ-HVP" id="0Do-Dd-lS4"/>
                 <outlet property="delegate" destination="-1" id="1RT-nK-bbr"/>
                 <outlet property="emptyListLabel" destination="TP2-Wx-Cu3" id="ifT-2U-XpL"/>
                 <outlet property="listTable" destination="91u-54-NEq" id="nTs-hY-bsJ"/>
                 <outlet property="monsterView" destination="71V-gC-Y3m" id="xwc-PP-nFZ"/>
+                <outlet property="offensiveLogTabButton" destination="JdZ-dN-w3T" id="0P3-8n-w5w"/>
                 <outlet property="popoverView" destination="pfc-Vl-jbC" id="V8Y-Cz-nWt"/>
                 <outlet property="spinner" destination="82d-Ah-JQd" id="Zfr-RB-I8Q"/>
                 <outlet property="textField" destination="W04-by-RXu" id="SqK-OB-6Yp"/>
                 <outlet property="titleLabel" destination="003-5V-mHH" id="7YF-8M-hgJ"/>
+                <outlet property="unreadDefenseLog" destination="K4q-Pu-fo8" id="dwR-sg-t0Q"/>
             </connections>
-            <point key="canvasLocation" x="-11" y="364.5"/>
+            <point key="canvasLocation" x="-328" y="196.5"/>
         </view>
         <view contentMode="scaleToFill" id="pfc-Vl-jbC" customClass="ChatPopoverView">
             <rect key="frame" x="0.0" y="0.0" width="226" height="51"/>
@@ -1059,6 +1135,7 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="-197" y="436.5"/>
         </view>
     </objects>
     <resources>
@@ -1090,9 +1167,11 @@
         <image name="greenmenuoption.png" width="80" height="40"/>
         <image name="greensmallbutton.png" width="68" height="30"/>
         <image name="livehelpgirl.png" width="43" height="51"/>
+        <image name="logobg.png" width="1" height="32"/>
         <image name="nightavatar.png" width="30" height="30"/>
         <image name="popupheadercap.png" width="5" height="39"/>
         <image name="popupheadermiddle.png" width="1" height="39"/>
+        <image name="popuplinevertical.png" width="1" height="1"/>
         <image name="redsmallbutton.png" width="68" height="30"/>
         <image name="sendchat.png" width="57" height="29"/>
         <image name="whitebackbutton.png" width="14" height="21"/>

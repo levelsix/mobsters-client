@@ -541,7 +541,7 @@ static PurchaseNormStructureRequestProto* defaultPurchaseNormStructureRequestPro
   result.resourceType = value;
   return self;
 }
-- (PurchaseNormStructureRequestProto_Builder*) clearResourceType {
+- (PurchaseNormStructureRequestProto_Builder*) clearResourceTypeList {
   result.hasResourceType = NO;
   result.resourceType = ResourceTypeCash;
   return self;
@@ -856,7 +856,7 @@ BOOL PurchaseNormStructureResponseProto_PurchaseNormStructureStatusIsValidValue(
   result.status = value;
   return self;
 }
-- (PurchaseNormStructureResponseProto_Builder*) clearStatus {
+- (PurchaseNormStructureResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = PurchaseNormStructureResponseProto_PurchaseNormStructureStatusSuccess;
   return self;
@@ -1272,7 +1272,7 @@ BOOL MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructTypeIsValidValu
   result.type = value;
   return self;
 }
-- (MoveOrRotateNormStructureRequestProto_Builder*) clearType {
+- (MoveOrRotateNormStructureRequestProto_Builder*) clearTypeList {
   result.hasType = NO;
   result.type = MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructTypeMove;
   return self;
@@ -1318,7 +1318,7 @@ BOOL MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructTypeIsValidValu
   result.orientationNew = value;
   return self;
 }
-- (MoveOrRotateNormStructureRequestProto_Builder*) clearOrientationNew {
+- (MoveOrRotateNormStructureRequestProto_Builder*) clearOrientationNewList {
   result.hasOrientationNew = NO;
   result.orientationNew = StructOrientationPosition1;
   return self;
@@ -1600,7 +1600,7 @@ BOOL MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatusIsVal
   result.status = value;
   return self;
 }
-- (MoveOrRotateNormStructureResponseProto_Builder*) clearStatus {
+- (MoveOrRotateNormStructureResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatusSuccess;
   return self;
@@ -2057,7 +2057,7 @@ static UpgradeNormStructureRequestProto* defaultUpgradeNormStructureRequestProto
   result.resourceType = value;
   return self;
 }
-- (UpgradeNormStructureRequestProto_Builder*) clearResourceType {
+- (UpgradeNormStructureRequestProto_Builder*) clearResourceTypeList {
   result.hasResourceType = NO;
   result.resourceType = ResourceTypeCash;
   return self;
@@ -2345,7 +2345,7 @@ BOOL UpgradeNormStructureResponseProto_UpgradeNormStructureStatusIsValidValue(Up
   result.status = value;
   return self;
 }
-- (UpgradeNormStructureResponseProto_Builder*) clearStatus {
+- (UpgradeNormStructureResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = UpgradeNormStructureResponseProto_UpgradeNormStructureStatusSuccess;
   return self;
@@ -2988,7 +2988,7 @@ BOOL FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeS
   result.status = value;
   return self;
 }
-- (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) clearStatus {
+- (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusSuccess;
   return self;
@@ -3640,7 +3640,7 @@ BOOL NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusIsValidValu
   result.status = value;
   return self;
 }
-- (NormStructWaitCompleteResponseProto_Builder*) clearStatus {
+- (NormStructWaitCompleteResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusSuccess;
   return self;
@@ -4522,7 +4522,7 @@ BOOL RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStru
   result.status = value;
   return self;
 }
-- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) clearStatus {
+- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusSuccess;
   return self;
@@ -5302,7 +5302,7 @@ BOOL ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusIsValidValue(
   result.status = value;
   return self;
 }
-- (ExpansionWaitCompleteResponseProto_Builder*) clearStatus {
+- (ExpansionWaitCompleteResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusSuccess;
   return self;
@@ -6006,7 +6006,7 @@ BOOL SpawnObstacleResponseProto_SpawnObstacleStatusIsValidValue(SpawnObstacleRes
   result.status = value;
   return self;
 }
-- (SpawnObstacleResponseProto_Builder*) clearStatus {
+- (SpawnObstacleResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = SpawnObstacleResponseProto_SpawnObstacleStatusSuccess;
   return self;
@@ -6447,7 +6447,7 @@ static BeginObstacleRemovalRequestProto* defaultBeginObstacleRemovalRequestProto
   result.resourceType = value;
   return self;
 }
-- (BeginObstacleRemovalRequestProto_Builder*) clearResourceType {
+- (BeginObstacleRemovalRequestProto_Builder*) clearResourceTypeList {
   result.hasResourceType = NO;
   result.resourceType = ResourceTypeCash;
   return self;
@@ -6747,7 +6747,7 @@ BOOL BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatusIsValidValue(Be
   result.status = value;
   return self;
 }
-- (BeginObstacleRemovalResponseProto_Builder*) clearStatus {
+- (BeginObstacleRemovalResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatusSuccess;
   return self;
@@ -7492,7 +7492,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
   result.status = value;
   return self;
 }
-- (ObstacleRemovalCompleteResponseProto_Builder*) clearStatus {
+- (ObstacleRemovalCompleteResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusSuccess;
   return self;

@@ -875,7 +875,7 @@ static MiniJobProto* defaultMiniJobProtoInstance = nil;
   result.quality = value;
   return self;
 }
-- (MiniJobProto_Builder*) clearQuality {
+- (MiniJobProto_Builder*) clearQualityList {
   result.hasQuality = NO;
   result.quality = QualityNoQuality;
   return self;

@@ -350,7 +350,7 @@ static DevRequestProto* defaultDevRequestProtoInstance = nil;
   result.devRequest = value;
   return self;
 }
-- (DevRequestProto_Builder*) clearDevRequest {
+- (DevRequestProto_Builder*) clearDevRequestList {
   result.hasDevRequest = NO;
   result.devRequest = DevRequestResetAccount;
   return self;
@@ -740,7 +740,7 @@ BOOL DevResponseProto_DevStatusIsValidValue(DevResponseProto_DevStatus value) {
   result.status = value;
   return self;
 }
-- (DevResponseProto_Builder*) clearStatus {
+- (DevResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = DevResponseProto_DevStatusSuccess;
   return self;

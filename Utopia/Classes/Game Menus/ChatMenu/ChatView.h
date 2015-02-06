@@ -11,6 +11,12 @@
 #import "ChatCell.h"
 #import "ClanHelp.h"
 
+typedef enum {
+  PrivateChatModeAllMessages = 1,
+  PrivateChatModeAttackLog,
+  PrivateChatModeDefenseLog,
+}PrivateChatViewMode;
+
 @protocol ChatPopoverDelegate <NSObject>
 
 - (void) profileClicked;
@@ -99,12 +105,16 @@
 
 @interface PrivateChatView : ChatView {
   BOOL _isLoading;
+  PrivateChatViewMode _chatMode;
+  id<ChatObject> _clickedCell;
+  CGPoint _originalDefenceTabPosition;
 }
 
 @property (nonatomic, retain) NSString *curUserUuid;
 
 @property (nonatomic, retain) IBOutlet UITableView *listTable;
 @property (nonatomic, retain) IBOutlet PrivateChatListCell *listCell;
+@property (nonatomic, retain) IBOutlet PrivateChatAttackLogCell *battleListCell;
 
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *spinner;
 @property (nonatomic, retain) IBOutlet UILabel *emptyListLabel;
@@ -115,9 +125,15 @@
 @property (nonatomic, retain) IBOutlet UILabel *titleLabel;
 
 @property (nonatomic, retain) NSArray *privateChatList;
+@property (nonatomic, retain) NSMutableArray *displayedChatList;
 @property (nonatomic, retain) NSMutableArray *baseChats;
 
 @property (nonatomic, retain) NSMutableArray *unrespondedChatMessages;
+
+@property (nonatomic, retain) IBOutlet UIButton *allMessagesTabButton;
+@property (nonatomic, retain) IBOutlet UIButton *defensiveLogTabButton;
+@property (nonatomic, retain) IBOutlet UIButton *offensiveLogTabButton;
+@property (nonatomic, retain) IBOutlet UILabel *unreadDefenseLog;
 
 - (void) addPrivateChat:(PrivateChatPostProto *)pcpp;
 - (void) updateForPrivateChatList:(NSArray *)privateChats;

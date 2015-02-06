@@ -198,6 +198,9 @@
 - (void) addToEventCooldownTimes:(NSArray *)arr;
 - (void) addToCompleteTasks:(NSArray *)tasks;
 
+- (NSArray *) pvpAttackHistory;
+- (NSArray *) pvpDefenseHistory;
+- (NSArray *) allUnreadDefenseHistory;
 - (NSArray *) allPrivateChats;
 - (NSArray *) allUnreadPrivateChats;
 - (NSArray *) allClanChatObjects;

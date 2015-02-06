@@ -659,13 +659,44 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
 }
 
+- (NSArray *) pvpAttackHistory {
+  NSMutableArray *arr = [[NSMutableArray alloc] init];
+  for(PvpHistoryProto *php in self.battleHistory) {
+    if (php.userIsAttacker) {
+      [arr addObject:php];
+    }
+  }
+  return arr;
+}
+
+- (NSArray *) pvpDefenseHistory {
+  NSMutableArray *arr = [[NSMutableArray alloc] init];
+  for(PvpHistoryProto *php in self.battleHistory) {
+    if (!php.userIsAttacker) {
+      [arr addObject:php];
+    }
+  }
+  return arr;
+}
+
+- (NSArray *) allUnreadDefenseHistory {
+  NSArray *defenceChats = [self pvpDefenseHistory];
+  NSMutableArray *unread = [[NSMutableArray alloc] init];
+  for (PvpHistoryProto *php in defenceChats) {
+    if (php.isUnread) {
+      [unread addObject:php];
+    }
+  }
+  return unread;
+}
+
 - (NSArray *) allPrivateChats {
   NSMutableArray *arr = [self.privateChats mutableCopy];
   
   // Overwrite battle history first since fb requests will never be considered "read"
-  for (PvpHistoryProto *php in self.battleHistory) {
-    [self overwriteChatObjectInArray:arr chatObject:php];
-  }
+//  for (PvpHistoryProto *php in self.battleHistory) {
+//    [self overwriteChatObjectInArray:arr chatObject:php];
+//  }
   
   for (RequestFromFriend *req in self.fbUnacceptedRequestsFromFriends) {
     [self overwriteChatObjectInArray:arr chatObject:req];

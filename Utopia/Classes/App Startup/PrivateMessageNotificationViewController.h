@@ -20,6 +20,7 @@
 
 - (void) animateIn:(dispatch_block_t)completion;
 - (void) animateOut:(dispatch_block_t)completion;
+- (void) updateWithString:(NSString *)title description:(NSString *)description color:(UIColor *)color;
 - (void) updateWithString:(NSString *)title description:(NSString *)description;
 
 @end
