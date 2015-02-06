@@ -892,7 +892,7 @@ BOOL CreateClanResponseProto_CreateClanStatusIsValidValue(CreateClanResponseProt
   result.status = value;
   return self;
 }
-- (CreateClanResponseProto_Builder*) clearStatus {
+- (CreateClanResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = CreateClanResponseProto_CreateClanStatusSuccess;
   return self;
@@ -1428,7 +1428,7 @@ BOOL LeaveClanResponseProto_LeaveClanStatusIsValidValue(LeaveClanResponseProto_L
   result.status = value;
   return self;
 }
-- (LeaveClanResponseProto_Builder*) clearStatus {
+- (LeaveClanResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = LeaveClanResponseProto_LeaveClanStatusSuccess;
   return self;
@@ -2316,7 +2316,7 @@ BOOL RequestJoinClanResponseProto_RequestJoinClanStatusIsValidValue(RequestJoinC
   result.status = value;
   return self;
 }
-- (RequestJoinClanResponseProto_Builder*) clearStatus {
+- (RequestJoinClanResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = RequestJoinClanResponseProto_RequestJoinClanStatusSuccessRequest;
   return self;
@@ -3104,7 +3104,7 @@ BOOL RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatusIsValidValu
   result.status = value;
   return self;
 }
-- (RetractRequestJoinClanResponseProto_Builder*) clearStatus {
+- (RetractRequestJoinClanResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatusSuccess;
   return self;
@@ -3874,7 +3874,7 @@ BOOL ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinC
   result.status = value;
   return self;
 }
-- (ApproveOrRejectRequestToJoinClanResponseProto_Builder*) clearStatus {
+- (ApproveOrRejectRequestToJoinClanResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusSuccess;
   return self;
@@ -4420,7 +4420,7 @@ BOOL RetrieveClanInfoRequestProto_ClanInfoGrabTypeIsValidValue(RetrieveClanInfoR
   result.grabType = value;
   return self;
 }
-- (RetrieveClanInfoRequestProto_Builder*) clearGrabType {
+- (RetrieveClanInfoRequestProto_Builder*) clearGrabTypeList {
   result.hasGrabType = NO;
   result.grabType = RetrieveClanInfoRequestProto_ClanInfoGrabTypeAll;
   return self;
@@ -5056,7 +5056,7 @@ BOOL RetrieveClanInfoResponseProto_RetrieveClanInfoStatusIsValidValue(RetrieveCl
   result.status = value;
   return self;
 }
-- (RetrieveClanInfoResponseProto_Builder*) clearStatus {
+- (RetrieveClanInfoResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = RetrieveClanInfoResponseProto_RetrieveClanInfoStatusSuccess;
   return self;
@@ -5826,7 +5826,7 @@ BOOL TransferClanOwnershipResponseProto_TransferClanOwnershipStatusIsValidValue(
   result.status = value;
   return self;
 }
-- (TransferClanOwnershipResponseProto_Builder*) clearStatus {
+- (TransferClanOwnershipResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = TransferClanOwnershipResponseProto_TransferClanOwnershipStatusSuccess;
   return self;
@@ -6536,7 +6536,7 @@ BOOL BootPlayerFromClanResponseProto_BootPlayerFromClanStatusIsValidValue(BootPl
   result.status = value;
   return self;
 }
-- (BootPlayerFromClanResponseProto_Builder*) clearStatus {
+- (BootPlayerFromClanResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = BootPlayerFromClanResponseProto_BootPlayerFromClanStatusSuccess;
   return self;
@@ -7414,7 +7414,7 @@ BOOL ChangeClanSettingsResponseProto_ChangeClanSettingsStatusIsValidValue(Change
   result.status = value;
   return self;
 }
-- (ChangeClanSettingsResponseProto_Builder*) clearStatus {
+- (ChangeClanSettingsResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = ChangeClanSettingsResponseProto_ChangeClanSettingsStatusSuccess;
   return self;
@@ -8390,7 +8390,7 @@ BOOL BeginClanRaidResponseProto_BeginClanRaidStatusIsValidValue(BeginClanRaidRes
   result.status = value;
   return self;
 }
-- (BeginClanRaidResponseProto_Builder*) clearStatus {
+- (BeginClanRaidResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = BeginClanRaidResponseProto_BeginClanRaidStatusSuccess;
   return self;
@@ -9530,7 +9530,7 @@ BOOL AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatusIsValidValue(
   result.status = value;
   return self;
 }
-- (AttackClanRaidMonsterResponseProto_Builder*) clearStatus {
+- (AttackClanRaidMonsterResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatusSuccess;
   return self;
@@ -10389,7 +10389,7 @@ BOOL RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatusIsValidValue(Reco
   result.status = value;
   return self;
 }
-- (RecordClanRaidStatsResponseProto_Builder*) clearStatus {
+- (RecordClanRaidStatsResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatusSuccess;
   return self;
@@ -10708,7 +10708,7 @@ static PromoteDemoteClanMemberRequestProto* defaultPromoteDemoteClanMemberReques
   result.userClanStatus = value;
   return self;
 }
-- (PromoteDemoteClanMemberRequestProto_Builder*) clearUserClanStatus {
+- (PromoteDemoteClanMemberRequestProto_Builder*) clearUserClanStatusList {
   result.hasUserClanStatus = NO;
   result.userClanStatus = UserClanStatusMember;
   return self;
@@ -11130,7 +11130,7 @@ BOOL PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatusIsValidVa
   result.userClanStatus = value;
   return self;
 }
-- (PromoteDemoteClanMemberResponseProto_Builder*) clearUserClanStatus {
+- (PromoteDemoteClanMemberResponseProto_Builder*) clearUserClanStatusList {
   result.hasUserClanStatus = NO;
   result.userClanStatus = UserClanStatusMember;
   return self;
@@ -11146,7 +11146,7 @@ BOOL PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatusIsValidVa
   result.prevUserClanStatus = value;
   return self;
 }
-- (PromoteDemoteClanMemberResponseProto_Builder*) clearPrevUserClanStatus {
+- (PromoteDemoteClanMemberResponseProto_Builder*) clearPrevUserClanStatusList {
   result.hasPrevUserClanStatus = NO;
   result.prevUserClanStatus = UserClanStatusMember;
   return self;
@@ -11162,7 +11162,7 @@ BOOL PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatusIsValidVa
   result.status = value;
   return self;
 }
-- (PromoteDemoteClanMemberResponseProto_Builder*) clearStatus {
+- (PromoteDemoteClanMemberResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatusSuccess;
   return self;
@@ -11883,7 +11883,7 @@ BOOL SolicitClanHelpResponseProto_SolicitClanHelpStatusIsValidValue(SolicitClanH
   result.status = value;
   return self;
 }
-- (SolicitClanHelpResponseProto_Builder*) clearStatus {
+- (SolicitClanHelpResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = SolicitClanHelpResponseProto_SolicitClanHelpStatusSuccess;
   return self;
@@ -12512,7 +12512,7 @@ BOOL GiveClanHelpResponseProto_GiveClanHelpStatusIsValidValue(GiveClanHelpRespon
   result.status = value;
   return self;
 }
-- (GiveClanHelpResponseProto_Builder*) clearStatus {
+- (GiveClanHelpResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = GiveClanHelpResponseProto_GiveClanHelpStatusSuccess;
   return self;
@@ -13142,7 +13142,7 @@ BOOL EndClanHelpResponseProto_EndClanHelpStatusIsValidValue(EndClanHelpResponseP
   result.status = value;
   return self;
 }
-- (EndClanHelpResponseProto_Builder*) clearStatus {
+- (EndClanHelpResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = EndClanHelpResponseProto_EndClanHelpStatusSuccess;
   return self;
@@ -13777,7 +13777,7 @@ BOOL InviteToClanResponseProto_InviteToClanStatusIsValidValue(InviteToClanRespon
   result.status = value;
   return self;
 }
-- (InviteToClanResponseProto_Builder*) clearStatus {
+- (InviteToClanResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = InviteToClanResponseProto_InviteToClanStatusSuccess;
   return self;
@@ -14526,7 +14526,7 @@ BOOL AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatusIsValid
   result.status = value;
   return self;
 }
-- (AcceptOrRejectClanInviteResponseProto_Builder*) clearStatus {
+- (AcceptOrRejectClanInviteResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatusSuccess;
   return self;
@@ -15520,7 +15520,7 @@ BOOL BeginClanAvengingResponseProto_BeginClanAvengingStatusIsValidValue(BeginCla
   result.status = value;
   return self;
 }
-- (BeginClanAvengingResponseProto_Builder*) clearStatus {
+- (BeginClanAvengingResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = BeginClanAvengingResponseProto_BeginClanAvengingStatusSuccess;
   return self;
@@ -16150,7 +16150,7 @@ BOOL EndClanAvengingResponseProto_EndClanAvengingStatusIsValidValue(EndClanAveng
   result.status = value;
   return self;
 }
-- (EndClanAvengingResponseProto_Builder*) clearStatus {
+- (EndClanAvengingResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = EndClanAvengingResponseProto_EndClanAvengingStatusSuccess;
   return self;
@@ -16836,7 +16836,7 @@ BOOL AvengeClanMateResponseProto_AvengeClanMateStatusIsValidValue(AvengeClanMate
   result.status = value;
   return self;
 }
-- (AvengeClanMateResponseProto_Builder*) clearStatus {
+- (AvengeClanMateResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = AvengeClanMateResponseProto_AvengeClanMateStatusSuccess;
   return self;
@@ -17564,7 +17564,7 @@ BOOL SolicitTeamDonationResponseProto_SolicitTeamDonationStatusIsValidValue(Soli
   result.status = value;
   return self;
 }
-- (SolicitTeamDonationResponseProto_Builder*) clearStatus {
+- (SolicitTeamDonationResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = SolicitTeamDonationResponseProto_SolicitTeamDonationStatusSuccess;
   return self;
@@ -18320,7 +18320,7 @@ BOOL FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitatio
   result.status = value;
   return self;
 }
-- (FulfillTeamDonationSolicitationResponseProto_Builder*) clearStatus {
+- (FulfillTeamDonationSolicitationResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatusSuccess;
   return self;
@@ -18955,7 +18955,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
   result.status = value;
   return self;
 }
-- (VoidTeamDonationSolicitationResponseProto_Builder*) clearStatus {
+- (VoidTeamDonationSolicitationResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatusSuccess;
   return self;
