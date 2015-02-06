@@ -3831,17 +3831,13 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 @interface AvengeClanMateResponseProto : PBGeneratedMessage {
 @private
   BOOL hasSender_:1;
-  BOOL hasVictim_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  PvpProto* victim;
   AvengeClanMateResponseProto_AvengeClanMateStatus status;
 }
 - (BOOL) hasSender;
-- (BOOL) hasVictim;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly, strong) PvpProto* victim;
 @property (readonly) AvengeClanMateResponseProto_AvengeClanMateStatus status;
 
 + (AvengeClanMateResponseProto*) defaultInstance;
@@ -3885,13 +3881,6 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (AvengeClanMateResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (AvengeClanMateResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (AvengeClanMateResponseProto_Builder*) clearSender;
-
-- (BOOL) hasVictim;
-- (PvpProto*) victim;
-- (AvengeClanMateResponseProto_Builder*) setVictim:(PvpProto*) value;
-- (AvengeClanMateResponseProto_Builder*) setVictim_Builder:(PvpProto_Builder*) builderForValue;
-- (AvengeClanMateResponseProto_Builder*) mergeVictim:(PvpProto*) value;
-- (AvengeClanMateResponseProto_Builder*) clearVictim;
 
 - (BOOL) hasStatus;
 - (AvengeClanMateResponseProto_AvengeClanMateStatus) status;

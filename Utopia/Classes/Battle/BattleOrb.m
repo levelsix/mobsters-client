@@ -47,14 +47,6 @@
   }
 }
 
-- (void) setPowerupType:(PowerupType)powerupType {
-  _powerupType = powerupType;
-  
-  if (powerupType == PowerupTypeAllOfOneColor) {
-    self.orbColor = OrbColorNone;
-  }
-}
-
 #define POWERUP_KEY       @"PowerupKey"
 #define GEM_COLOR_KEY     @"GemColorKey"
 #define SPECIAL_TYPE_KEY  @"SpecialTypeKey"

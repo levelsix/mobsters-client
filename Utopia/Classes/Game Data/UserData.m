@@ -79,8 +79,8 @@
   if ((self = [super init])){
     self.userMonsterUuid  = proto.monsterForUserUuid;
     self.monsterId = proto.monsterId;
-    self.level = proto.currentLvl;
     self.experience = proto.currentExp;
+    self.level = proto.currentLvl;
     self.curHealth = proto.currentHp;
     self.offensiveSkillId = proto.offensiveSkillId;
     self.defensiveSkillId = proto.defensiveSkillId;
@@ -1152,6 +1152,12 @@
         [rewards addObject:r];
       }
     }
+  }
+  
+  // Donated monster
+  if (pvp.monsterIdDropped && ![droplessStageNums containsObject:@(pvp.defenderMonstersList.count)]) {
+    Reward *r = [[Reward alloc] initWithMonsterId:pvp.monsterIdDropped isPuzzlePiece:YES];
+    [rewards addObject:r];
   }
   
   if (pvp.prospectiveCashWinnings) {

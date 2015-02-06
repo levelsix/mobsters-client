@@ -835,10 +835,10 @@
   int currentScore = (float)(_myDamageDealt + scoreModifier)/(float)[self.myPlayerObject totalAttackPower]*100.f;
   
   if (currentScore > 0) {
-    if (currentScore > MAKEITRAIN_SCORE) {
+//    if (currentScore > MAKEITRAIN_SCORE) {
       [self.myPlayer restoreStandingFrame];
       [self spawnPlaneWithTarget:nil selector:nil];
-    }
+//    }
     
     // If the player's confused, he will deal damage to himself. Instead of the usual flow, show
     // the popup above his head, followed by flinch animation and showing the damage label
@@ -1667,19 +1667,23 @@
 }
 
 - (void) shakeScreenWithIntensity:(float)intensity {
-  // Shake everything with zOrder 0
-  CCActionMoveBy *move = [CCActionMoveBy actionWithDuration:0.02f position:ccp(3*intensity, 0)];
-  CCActionSequence *seq = [CCActionSequence actions:move, move.reverse, move.reverse, move, nil];
-  CCActionRepeat *repeat = [CCActionRepeat actionWithAction:seq times:5+(intensity*3)];
+  CCNode *n = self.bgdContainer;
+  CGPoint curPos = n.position;
   
-  // Dont shake curEnemy because it messes with it coming back after flinch
-  NSArray *arr = [NSArray arrayWithObjects:self.bgdContainer, nil];
-  for (CCNode *n in arr) {
-    CGPoint curPos = n.position;
-    [n runAction:[CCActionSequence actions:repeat.copy, [CCActionCallBlock actionWithBlock:^{
-      n.position = curPos;
-    }], nil]];
+  NSMutableArray *moves = [NSMutableArray array];
+  for (int i = 0; i < 5+intensity*14; i++) {
+    CGPoint pt = ccp(drand48()*intensity*10, drand48()*intensity*10);
+    CCActionMoveTo *move = [CCActionMoveTo actionWithDuration:0.02f position:ccpAdd(pt, curPos)];
+    [moves addObject:move];
   }
+  CCActionMoveTo *move = [CCActionMoveTo actionWithDuration:0.02f position: curPos];
+  [moves addObject:move];
+  
+  CCActionSequence *seq = [CCActionSequence actionWithArray:moves];
+  
+  [n runAction:[CCActionSequence actions:seq, [CCActionCallBlock actionWithBlock:^{
+    n.position = curPos;
+  }], nil]];
 }
 
 - (void) showHighScoreWordWithTarget:(id)target selector:(SEL)selector {

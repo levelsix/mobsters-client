@@ -377,6 +377,11 @@
       shouldCreate = YES;
     } else if ([prop.name isEqualToString:ORB_POWERUP]) {
       powerup = prop.value;
+      
+      if (powerup == PowerupTypeAllOfOneColor) {
+        color = OrbColorNone;
+      }
+      
       shouldCreate = YES;
     } else if ([prop.name isEqualToString:ORB_SPECIAL]) {
       special = prop.value;

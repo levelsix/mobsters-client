@@ -132,6 +132,12 @@
     
     if (old && !old.isFulfilled && td.isFulfilled) {
       scheduleDelayedNotification = YES;
+      
+      if ([td.solicitor.userUuid isEqualToString:gs.userUuid]) {
+        UserMonsterSnapshotProto *snap = [td.donationsList firstObject];
+        MonsterProto *mp = [gs monsterWithId:snap.monsterId];
+        [Globals addOrangeAlertNotification:[NSString stringWithFormat:@"%@ just donated you a Level %d %@!", snap.user.name, snap.currentLvl, mp.displayName]];
+      }
     }
     
     [self.teamDonations addObject:td];

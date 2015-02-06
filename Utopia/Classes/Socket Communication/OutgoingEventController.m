@@ -2059,6 +2059,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
         [monsterDropIds addObject:@(mon.monsterIdDropped)];
       }
     }
+    
+    // Donated monster
+    if (proto.monsterIdDropped && ![droplessStageNums containsObject:@(proto.defenderMonstersList.count)]) {
+      [monsterDropIds addObject:@(proto.monsterIdDropped)];
+    }
   }
   
   int tag = [[SocketCommunication sharedSocketCommunication] sendEndPvpBattleMessage:proto.defender.minUserProto.userUuid userAttacked:userAttacked userWon:userWon oilChange:oilGained cashChange:cashGained clientTime:[self getCurrentMilliseconds] monsterDropIds:monsterDropIds];

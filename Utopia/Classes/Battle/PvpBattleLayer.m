@@ -43,7 +43,13 @@
 - (CCSprite *) getCurrentEnemyLoot {
   GameState *gs = [GameState sharedGameState];
   PvpProto *pvp = self.defendersList[_curQueueNum];
-  NSArray *monsterList = pvp.hasDefenderExtraMonster ? [pvp.defenderMonstersList arrayByAddingObject:pvp.defenderExtraMonster] : pvp.defenderMonstersList;
+  NSArray *monsterList = pvp.defenderMonstersList;
+  
+  if (pvp.hasCmtd) {
+    PvpMonsterProto *pmp = [[[PvpMonsterProto builder] setMonsterIdDropped:pvp.monsterIdDropped] build];
+    monsterList = [monsterList arrayByAddingObject:pmp];
+  }
+  
   PvpMonsterProto *pm = monsterList[_curStage];
   
   CCSprite *ed = nil;
@@ -430,6 +436,17 @@
   [Analytics foundMatch:@"attack"];
 }
 
+- (BOOL) spawnNextEnemy {
+  BOOL success = [super spawnNextEnemy];
+  
+  PvpProto *pvp = self.defendersList[_curQueueNum];
+  if (pvp.hasCmtd && _curStage == pvp.defenderMonstersList.count) {
+    [[OutgoingEventController sharedOutgoingEventController] invalidateSolicitation:pvp.cmtd];
+  }
+  
+  return success;
+}
+
 #pragma mark - Waiting for server
 
 - (void) handleQueueUpResponseProto:(FullEvent *)fe {
@@ -561,14 +578,16 @@
       }
     }
     
-    if (enemy.hasDefenderExtraMonster) {
-      UserMonster *um = [UserMonster userMonsterWithMinProto:enemy.defenderExtraMonster.defenderMonster];
-      BattlePlayer *bp = [BattlePlayer playerWithMonster:um];
-      bp.isClanMonster = YES;
-      [enemyTeam addObject:bp];
-      
-      if (bp.spritePrefix) {
-        [set addObject:bp.spritePrefix];
+    if (enemy.hasCmtd) {
+      UserMonster *um = enemy.cmtd.donatedMonster;
+      if (um) {
+        BattlePlayer *bp = [BattlePlayer playerWithMonster:um];
+        bp.isClanMonster = YES;
+        [enemyTeam addObject:bp];
+        
+        if (bp.spritePrefix) {
+          [set addObject:bp.spritePrefix];
+        }
       }
     }
     
@@ -685,10 +704,10 @@
   
   statue.position = ccp(0, self.bgdContainer.contentSize.height-position.y+20);
   [statue runAction:[CCActionSequence actions:
-                     [CCActionEaseSineIn actionWithAction:[CCActionMoveTo actionWithDuration:0.4f position:ccp(0,0)]],
+                     [CCActionEaseSineIn actionWithAction:[CCActionMoveTo actionWithDuration:0.3f position:ccp(0,0)]],
                      [CCActionCallBlock actionWithBlock:
                       ^{
-                        [self shakeScreenWithIntensity:1.f];
+                        [self shakeScreenWithIntensity:2.f];
                       }],
                      [CCActionDelay actionWithDuration:0.2f],
                      [CCActionCallFunc actionWithTarget:self selector:selector], nil]];

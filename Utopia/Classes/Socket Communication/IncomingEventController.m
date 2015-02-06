@@ -1478,7 +1478,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
-    [Globals popupMessage:@"Server failed to fulfill team donation."];
+    if (proto.status == FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatusFailAlreadyFulfilled) {
+      [Globals addAlertNotification:@"Sorry, this team donation request has already been fulfilled."];
+    } else {
+      [Globals popupMessage:@"Server failed to fulfill team donation."];
+    }
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }

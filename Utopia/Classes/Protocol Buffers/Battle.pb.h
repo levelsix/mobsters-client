@@ -97,22 +97,26 @@ BOOL BattleResultIsValidValue(BattleResult value);
 @private
   BOOL hasProspectiveCashWinnings_:1;
   BOOL hasProspectiveOilWinnings_:1;
+  BOOL hasMonsterIdDropped_:1;
   BOOL hasDefenderMsg_:1;
-  BOOL hasSolicitationUuid_:1;
   BOOL hasDefender_:1;
   BOOL hasPvpLeagueStats_:1;
-  BOOL hasDefenderExtraMonster_:1;
+  BOOL hasCmtd_:1;
   int32_t prospectiveCashWinnings;
   int32_t prospectiveOilWinnings;
+  int32_t monsterIdDropped;
   NSString* defenderMsg;
-  NSString* solicitationUuid;
   MinimumUserProtoWithLevel* defender;
   UserPvpLeagueProto* pvpLeagueStats;
+<<<<<<< HEAD
 <<<<<<< HEAD
   ClanMemberTeamDonationProto* defenderExtraMonster;
 =======
   PvpMonsterProto* defenderExtraMonster;
 >>>>>>> revenge/avenge now has clan monster
+=======
+  ClanMemberTeamDonationProto* cmtd;
+>>>>>>> fixed bug with rainbow orb
   NSMutableArray * mutableDefenderMonstersList;
 }
 - (BOOL) hasDefender;
@@ -120,11 +124,16 @@ BOOL BattleResultIsValidValue(BattleResult value);
 - (BOOL) hasProspectiveOilWinnings;
 - (BOOL) hasPvpLeagueStats;
 - (BOOL) hasDefenderMsg;
+<<<<<<< HEAD
 - (BOOL) hasDefenderExtraMonster;
 <<<<<<< HEAD
 =======
 - (BOOL) hasSolicitationUuid;
 >>>>>>> revenge/avenge now has clan monster
+=======
+- (BOOL) hasCmtd;
+- (BOOL) hasMonsterIdDropped;
+>>>>>>> fixed bug with rainbow orb
 @property (readonly, strong) MinimumUserProtoWithLevel* defender;
 @property (readonly, strong) NSArray * defenderMonstersList;
 @property (readonly) int32_t prospectiveCashWinnings;
@@ -132,11 +141,16 @@ BOOL BattleResultIsValidValue(BattleResult value);
 @property (readonly, strong) UserPvpLeagueProto* pvpLeagueStats;
 @property (readonly, strong) NSString* defenderMsg;
 <<<<<<< HEAD
+<<<<<<< HEAD
 @property (readonly, strong) ClanMemberTeamDonationProto* defenderExtraMonster;
 =======
 @property (readonly, strong) PvpMonsterProto* defenderExtraMonster;
 @property (readonly, strong) NSString* solicitationUuid;
 >>>>>>> revenge/avenge now has clan monster
+=======
+@property (readonly, strong) ClanMemberTeamDonationProto* cmtd;
+@property (readonly) int32_t monsterIdDropped;
+>>>>>>> fixed bug with rainbow orb
 - (PvpMonsterProto*)defenderMonstersAtIndex:(NSUInteger)index;
 
 + (PvpProto*) defaultInstance;
@@ -209,6 +223,7 @@ BOOL BattleResultIsValidValue(BattleResult value);
 - (PvpProto_Builder*) setDefenderMsg:(NSString*) value;
 - (PvpProto_Builder*) clearDefenderMsg;
 
+<<<<<<< HEAD
 - (BOOL) hasDefenderExtraMonster;
 <<<<<<< HEAD
 - (ClanMemberTeamDonationProto*) defenderExtraMonster;
@@ -228,6 +243,19 @@ BOOL BattleResultIsValidValue(BattleResult value);
 - (PvpProto_Builder*) setSolicitationUuid:(NSString*) value;
 - (PvpProto_Builder*) clearSolicitationUuid;
 >>>>>>> revenge/avenge now has clan monster
+=======
+- (BOOL) hasCmtd;
+- (ClanMemberTeamDonationProto*) cmtd;
+- (PvpProto_Builder*) setCmtd:(ClanMemberTeamDonationProto*) value;
+- (PvpProto_Builder*) setCmtd_Builder:(ClanMemberTeamDonationProto_Builder*) builderForValue;
+- (PvpProto_Builder*) mergeCmtd:(ClanMemberTeamDonationProto*) value;
+- (PvpProto_Builder*) clearCmtd;
+
+- (BOOL) hasMonsterIdDropped;
+- (int32_t) monsterIdDropped;
+- (PvpProto_Builder*) setMonsterIdDropped:(int32_t) value;
+- (PvpProto_Builder*) clearMonsterIdDropped;
+>>>>>>> fixed bug with rainbow orb
 @end
 
 @interface PvpMonsterProto : PBGeneratedMessage {

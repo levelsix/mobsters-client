@@ -429,6 +429,10 @@
 #pragma mark - Clan Team Donate Delegate
 
 - (void) displayMonsterSelect:(ClanMemberTeamDonationProto *)donation sender:(id)sender {
+  if (self.clanChatView.isHidden) {
+    return;
+  }
+  
   MonsterSelectViewController *svc = [[MonsterSelectViewController alloc] init];
   if (svc) {
     self.monsterSelectViewController = svc;
