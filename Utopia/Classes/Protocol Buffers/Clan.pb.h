@@ -348,7 +348,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (BOOL) hasStatus;
 - (UserClanStatus) status;
 - (FullUserClanProto_Builder*) setStatus:(UserClanStatus) value;
-- (FullUserClanProto_Builder*) clearStatusList;
+- (FullUserClanProto_Builder*) clearStatus;
 
 - (BOOL) hasRequestTime;
 - (int64_t) requestTime;
@@ -489,7 +489,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (BOOL) hasClanStatus;
 - (UserClanStatus) clanStatus;
 - (MinimumUserProtoForClans_Builder*) setClanStatus:(UserClanStatus) value;
-- (MinimumUserProtoForClans_Builder*) clearClanStatusList;
+- (MinimumUserProtoForClans_Builder*) clearClanStatus;
 
 - (BOOL) hasRaidContribution;
 - (Float32) raidContribution;
@@ -991,7 +991,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (BOOL) hasDayOfWeek;
 - (DayOfWeek) dayOfWeek;
 - (PersistentClanEventProto_Builder*) setDayOfWeek:(DayOfWeek) value;
-- (PersistentClanEventProto_Builder*) clearDayOfWeekList;
+- (PersistentClanEventProto_Builder*) clearDayOfWeek;
 
 - (BOOL) hasStartHour;
 - (int32_t) startHour;
@@ -1302,7 +1302,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (BOOL) hasResourceType;
 - (ResourceType) resourceType;
 - (PersistentClanEventUserRewardProto_Builder*) setResourceType:(ResourceType) value;
-- (PersistentClanEventUserRewardProto_Builder*) clearResourceTypeList;
+- (PersistentClanEventUserRewardProto_Builder*) clearResourceType;
 
 - (BOOL) hasStaticDataId;
 - (int32_t) staticDataId;
@@ -1660,7 +1660,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (BOOL) hasHelpType;
 - (GameActionType) helpType;
 - (ClanHelpProto_Builder*) setHelpType:(GameActionType) value;
-- (ClanHelpProto_Builder*) clearHelpTypeList;
+- (ClanHelpProto_Builder*) clearHelpType;
 
 - (BOOL) hasTimeRequested;
 - (int64_t) timeRequested;
@@ -1743,7 +1743,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (BOOL) hasHelpType;
 - (GameActionType) helpType;
 - (ClanHelpNoticeProto_Builder*) setHelpType:(GameActionType) value;
-- (ClanHelpNoticeProto_Builder*) clearHelpTypeList;
+- (ClanHelpNoticeProto_Builder*) clearHelpType;
 
 - (BOOL) hasUserDataUuid;
 - (NSString*) userDataUuid;

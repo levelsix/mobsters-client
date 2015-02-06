@@ -345,7 +345,7 @@ BOOL QuestJobProto_QuestJobTypeIsValidValue(QuestJobProto_QuestJobType value);
 - (BOOL) hasMonsterElement;
 - (Element) monsterElement;
 - (FullQuestProto_Builder*) setMonsterElement:(Element) value;
-- (FullQuestProto_Builder*) clearMonsterElementList;
+- (FullQuestProto_Builder*) clearMonsterElement;
 
 - (NSMutableArray *)jobsList;
 - (QuestJobProto*)jobsAtIndex:(NSUInteger)index;
@@ -442,7 +442,7 @@ BOOL QuestJobProto_QuestJobTypeIsValidValue(QuestJobProto_QuestJobType value);
 - (BOOL) hasQuestJobType;
 - (QuestJobProto_QuestJobType) questJobType;
 - (QuestJobProto_Builder*) setQuestJobType:(QuestJobProto_QuestJobType) value;
-- (QuestJobProto_Builder*) clearQuestJobTypeList;
+- (QuestJobProto_Builder*) clearQuestJobType;
 
 - (BOOL) hasDescription;
 - (NSString*) description;

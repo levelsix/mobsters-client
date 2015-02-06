@@ -325,7 +325,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (BOOL) hasResourceType;
 - (ResourceType) resourceType;
 - (PurchaseNormStructureRequestProto_Builder*) setResourceType:(ResourceType) value;
-- (PurchaseNormStructureRequestProto_Builder*) clearResourceTypeList;
+- (PurchaseNormStructureRequestProto_Builder*) clearResourceType;
 @end
 
 @interface PurchaseNormStructureResponseProto : PBGeneratedMessage {
@@ -389,7 +389,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (BOOL) hasStatus;
 - (PurchaseNormStructureResponseProto_PurchaseNormStructureStatus) status;
 - (PurchaseNormStructureResponseProto_Builder*) setStatus:(PurchaseNormStructureResponseProto_PurchaseNormStructureStatus) value;
-- (PurchaseNormStructureResponseProto_Builder*) clearStatusList;
+- (PurchaseNormStructureResponseProto_Builder*) clearStatus;
 
 - (BOOL) hasUserStructUuid;
 - (NSString*) userStructUuid;
@@ -471,7 +471,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (BOOL) hasType;
 - (MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructType) type;
 - (MoveOrRotateNormStructureRequestProto_Builder*) setType:(MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructType) value;
-- (MoveOrRotateNormStructureRequestProto_Builder*) clearTypeList;
+- (MoveOrRotateNormStructureRequestProto_Builder*) clearType;
 
 - (BOOL) hasCurStructCoordinates;
 - (CoordinateProto*) curStructCoordinates;
@@ -483,7 +483,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (BOOL) hasOrientationNew;
 - (StructOrientation) orientationNew;
 - (MoveOrRotateNormStructureRequestProto_Builder*) setOrientationNew:(StructOrientation) value;
-- (MoveOrRotateNormStructureRequestProto_Builder*) clearOrientationNewList;
+- (MoveOrRotateNormStructureRequestProto_Builder*) clearOrientationNew;
 @end
 
 @interface MoveOrRotateNormStructureResponseProto : PBGeneratedMessage {
@@ -543,7 +543,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (BOOL) hasStatus;
 - (MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatus) status;
 - (MoveOrRotateNormStructureResponseProto_Builder*) setStatus:(MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatus) value;
-- (MoveOrRotateNormStructureResponseProto_Builder*) clearStatusList;
+- (MoveOrRotateNormStructureResponseProto_Builder*) clearStatus;
 @end
 
 @interface UpgradeNormStructureRequestProto : PBGeneratedMessage {
@@ -639,7 +639,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (BOOL) hasResourceType;
 - (ResourceType) resourceType;
 - (UpgradeNormStructureRequestProto_Builder*) setResourceType:(ResourceType) value;
-- (UpgradeNormStructureRequestProto_Builder*) clearResourceTypeList;
+- (UpgradeNormStructureRequestProto_Builder*) clearResourceType;
 @end
 
 @interface UpgradeNormStructureResponseProto : PBGeneratedMessage {
@@ -699,7 +699,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (BOOL) hasStatus;
 - (UpgradeNormStructureResponseProto_UpgradeNormStructureStatus) status;
 - (UpgradeNormStructureResponseProto_Builder*) setStatus:(UpgradeNormStructureResponseProto_UpgradeNormStructureStatus) value;
-- (UpgradeNormStructureResponseProto_Builder*) clearStatusList;
+- (UpgradeNormStructureResponseProto_Builder*) clearStatus;
 @end
 
 @interface FinishNormStructWaittimeWithDiamondsRequestProto : PBGeneratedMessage {
@@ -837,7 +837,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (BOOL) hasStatus;
 - (FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatus) status;
 - (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) setStatus:(FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatus) value;
-- (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) clearStatusList;
+- (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) clearStatus;
 @end
 
 @interface NormStructWaitCompleteRequestProto : PBGeneratedMessage {
@@ -969,7 +969,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (BOOL) hasStatus;
 - (NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatus) status;
 - (NormStructWaitCompleteResponseProto_Builder*) setStatus:(NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatus) value;
-- (NormStructWaitCompleteResponseProto_Builder*) clearStatusList;
+- (NormStructWaitCompleteResponseProto_Builder*) clearStatus;
 
 - (NSMutableArray *)userStructList;
 - (FullUserStructureProto*)userStructAtIndex:(NSUInteger)index;
@@ -1162,7 +1162,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (BOOL) hasStatus;
 - (RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus) status;
 - (RetrieveCurrencyFromNormStructureResponseProto_Builder*) setStatus:(RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus) value;
-- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) clearStatusList;
+- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) clearStatus;
 @end
 
 @interface ExpansionWaitCompleteRequestProto : PBGeneratedMessage {
@@ -1322,7 +1322,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (BOOL) hasStatus;
 - (ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatus) status;
 - (ExpansionWaitCompleteResponseProto_Builder*) setStatus:(ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatus) value;
-- (ExpansionWaitCompleteResponseProto_Builder*) clearStatusList;
+- (ExpansionWaitCompleteResponseProto_Builder*) clearStatus;
 
 - (BOOL) hasUcedp;
 - (UserCityExpansionDataProto*) ucedp;
@@ -1467,7 +1467,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (BOOL) hasStatus;
 - (SpawnObstacleResponseProto_SpawnObstacleStatus) status;
 - (SpawnObstacleResponseProto_Builder*) setStatus:(SpawnObstacleResponseProto_SpawnObstacleStatus) value;
-- (SpawnObstacleResponseProto_Builder*) clearStatusList;
+- (SpawnObstacleResponseProto_Builder*) clearStatus;
 @end
 
 @interface BeginObstacleRemovalRequestProto : PBGeneratedMessage {
@@ -1558,7 +1558,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (BOOL) hasResourceType;
 - (ResourceType) resourceType;
 - (BeginObstacleRemovalRequestProto_Builder*) setResourceType:(ResourceType) value;
-- (BeginObstacleRemovalRequestProto_Builder*) clearResourceTypeList;
+- (BeginObstacleRemovalRequestProto_Builder*) clearResourceType;
 
 - (BOOL) hasUserObstacleUuid;
 - (NSString*) userObstacleUuid;
@@ -1623,7 +1623,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (BOOL) hasStatus;
 - (BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatus) status;
 - (BeginObstacleRemovalResponseProto_Builder*) setStatus:(BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatus) value;
-- (BeginObstacleRemovalResponseProto_Builder*) clearStatusList;
+- (BeginObstacleRemovalResponseProto_Builder*) clearStatus;
 @end
 
 @interface ObstacleRemovalCompleteRequestProto : PBGeneratedMessage {
@@ -1779,7 +1779,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (BOOL) hasStatus;
 - (ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatus) status;
 - (ObstacleRemovalCompleteResponseProto_Builder*) setStatus:(ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatus) value;
-- (ObstacleRemovalCompleteResponseProto_Builder*) clearStatusList;
+- (ObstacleRemovalCompleteResponseProto_Builder*) clearStatus;
 @end
 
 

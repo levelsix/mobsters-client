@@ -285,7 +285,7 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 - (BOOL) hasScope;
 - (GroupChatScope) scope;
 - (SendGroupChatRequestProto_Builder*) setScope:(GroupChatScope) value;
-- (SendGroupChatRequestProto_Builder*) clearScopeList;
+- (SendGroupChatRequestProto_Builder*) clearScope;
 
 - (BOOL) hasChatMessage;
 - (NSString*) chatMessage;
@@ -355,7 +355,7 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 - (BOOL) hasStatus;
 - (SendGroupChatResponseProto_SendGroupChatStatus) status;
 - (SendGroupChatResponseProto_Builder*) setStatus:(SendGroupChatResponseProto_SendGroupChatStatus) value;
-- (SendGroupChatResponseProto_Builder*) clearStatusList;
+- (SendGroupChatResponseProto_Builder*) clearStatus;
 @end
 
 @interface ReceivedGroupChatResponseProto : PBGeneratedMessage {
@@ -428,7 +428,7 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 - (BOOL) hasScope;
 - (GroupChatScope) scope;
 - (ReceivedGroupChatResponseProto_Builder*) setScope:(GroupChatScope) value;
-- (ReceivedGroupChatResponseProto_Builder*) clearScopeList;
+- (ReceivedGroupChatResponseProto_Builder*) clearScope;
 
 - (BOOL) hasIsAdmin;
 - (BOOL) isAdmin;
@@ -566,7 +566,7 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 - (BOOL) hasStatus;
 - (PrivateChatPostResponseProto_PrivateChatPostStatus) status;
 - (PrivateChatPostResponseProto_Builder*) setStatus:(PrivateChatPostResponseProto_PrivateChatPostStatus) value;
-- (PrivateChatPostResponseProto_Builder*) clearStatusList;
+- (PrivateChatPostResponseProto_Builder*) clearStatus;
 
 - (BOOL) hasPost;
 - (PrivateChatPostProto*) post;
@@ -724,7 +724,7 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 - (BOOL) hasStatus;
 - (RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatus) status;
 - (RetrievePrivateChatPostsResponseProto_Builder*) setStatus:(RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatus) value;
-- (RetrievePrivateChatPostsResponseProto_Builder*) clearStatusList;
+- (RetrievePrivateChatPostsResponseProto_Builder*) clearStatus;
 
 - (BOOL) hasOtherUserUuid;
 - (NSString*) otherUserUuid;
