@@ -109,7 +109,8 @@
   }
   
   if ((trigger == SkillTriggerPointEnemyDealsDamage && self.belongsToPlayer) ||
-      (trigger == SkillTriggerPointEnemyDefeated && self.belongsToPlayer))
+      (trigger == SkillTriggerPointEnemyDefeated && self.belongsToPlayer) ||
+      (trigger == SkillTriggerPointPlayerMobDefeated && self.belongsToPlayer))
   {
     if (_skillActive)
     {

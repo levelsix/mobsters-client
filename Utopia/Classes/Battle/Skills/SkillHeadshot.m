@@ -23,8 +23,6 @@
   _fixedDamageReceived = 0.f;
   _fixedDamageDone = 0.f;
   _logoShown = NO;
-  
-  _orbsSpawned = [self specialsOnBoardCount:SpecialOrbTypeHeadshot];
 }
 
 - (void) setValue:(float)value forProperty:(NSString*)property
@@ -42,6 +40,11 @@
 }
 
 #pragma mark - Overrides
+
+- (void) restoreVisualsIfNeeded
+{
+  _orbsSpawned = [self specialsOnBoardCount:SpecialOrbTypeHeadshot];
+}
 
 - (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
 {

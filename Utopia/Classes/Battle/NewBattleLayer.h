@@ -177,6 +177,7 @@
 - (BattlePlayer *) firstMyPlayer;
 - (void) beginNextTurn;
 - (void) beginMyTurn;
+- (void) endMyTurnAfterDelay:(NSTimeInterval)delay;
 - (void) myTurnEnded;
 - (void) beginEnemyTurn:(float)delay;
 - (void) checkIfAnyMovesLeft;

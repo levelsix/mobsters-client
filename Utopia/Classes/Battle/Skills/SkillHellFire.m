@@ -23,8 +23,6 @@ static const NSInteger kBulletOrbsMaxSearchIterations = 256;
   _orbsSpawnCounter = 0;
   _fixedDamageReceived = 0.f;
   _logoShown = NO;
-  
-  _orbsSpawned = [self specialsOnBoardCount:SpecialOrbTypeBullet];
 }
 
 - (void) setValue:(float)value forProperty:(NSString*)property
@@ -40,6 +38,12 @@ static const NSInteger kBulletOrbsMaxSearchIterations = 256;
 }
 
 #pragma mark - Overrides
+
+- (void) restoreVisualsIfNeeded
+{
+  if (!self.belongsToPlayer)
+    _orbsSpawned = [self specialsOnBoardCount:SpecialOrbTypeBullet];
+}
 
 - (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
 {

@@ -1307,6 +1307,21 @@
 		9B41AF771A82DA7E00529879 /* menuultimategrab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B41AF761A82DA7E00529879 /* menuultimategrab@2x.png */; };
 		9B41AF781A82DA7E00529879 /* menuultimategrab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B41AF761A82DA7E00529879 /* menuultimategrab@2x.png */; };
 		9B41AF791A82DA7E00529879 /* menuultimategrab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B41AF761A82DA7E00529879 /* menuultimategrab@2x.png */; };
+		9B41AF801A830BB300529879 /* SkillFlameBreak.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B41AF7F1A830BB300529879 /* SkillFlameBreak.m */; };
+		9B41AF811A830BB300529879 /* SkillFlameBreak.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B41AF7F1A830BB300529879 /* SkillFlameBreak.m */; };
+		9B41AF821A830BB300529879 /* SkillFlameBreak.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B41AF7F1A830BB300529879 /* SkillFlameBreak.m */; };
+		9B41AF871A841D7500529879 /* 6swordorb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B41AF861A841D7500529879 /* 6swordorb@2x.png */; };
+		9B41AF881A841D7500529879 /* 6swordorb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B41AF861A841D7500529879 /* 6swordorb@2x.png */; };
+		9B41AF891A841D7500529879 /* 6swordorb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B41AF861A841D7500529879 /* 6swordorb@2x.png */; };
+		9B41AF8C1A841D9300529879 /* 6swordorb-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B41AF8B1A841D9300529879 /* 6swordorb-9@2x.png */; };
+		9B41AF8D1A841D9300529879 /* 6swordorb-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B41AF8B1A841D9300529879 /* 6swordorb-9@2x.png */; };
+		9B41AF8E1A841D9300529879 /* 6swordorb-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B41AF8B1A841D9300529879 /* 6swordorb-9@2x.png */; };
+		9B41AF901A841DA500529879 /* swordorb-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B41AF8F1A841DA500529879 /* swordorb-9@2x.png */; };
+		9B41AF911A841DA500529879 /* swordorb-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B41AF8F1A841DA500529879 /* swordorb-9@2x.png */; };
+		9B41AF921A841DA500529879 /* swordorb-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B41AF8F1A841DA500529879 /* swordorb-9@2x.png */; };
+		9B41AF951A841DDA00529879 /* swordorb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B41AF941A841DDA00529879 /* swordorb@2x.png */; };
+		9B41AF961A841DDA00529879 /* swordorb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B41AF941A841DDA00529879 /* swordorb@2x.png */; };
+		9B41AF971A841DDA00529879 /* swordorb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B41AF941A841DDA00529879 /* swordorb@2x.png */; };
 		9B8CA6111A3798C00060BE8F /* SkillCritAndEvade.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B8CA6101A3798C00060BE8F /* SkillCritAndEvade.m */; };
 		9B8CA6121A3798C00060BE8F /* SkillCritAndEvade.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B8CA6101A3798C00060BE8F /* SkillCritAndEvade.m */; };
 		9B8CA6131A3798C00060BE8F /* SkillCritAndEvade.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B8CA6101A3798C00060BE8F /* SkillCritAndEvade.m */; };
@@ -8016,6 +8031,12 @@
 		9B41AF6E1A81B46C00529879 /* 6fireglove-9@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "6fireglove-9@2x.png"; sourceTree = "<group>"; };
 		9B41AF721A82DA5100529879 /* ultimategrablogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ultimategrablogo@2x.png"; sourceTree = "<group>"; };
 		9B41AF761A82DA7E00529879 /* menuultimategrab@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menuultimategrab@2x.png"; sourceTree = "<group>"; };
+		9B41AF7E1A830BB300529879 /* SkillFlameBreak.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillFlameBreak.h; sourceTree = "<group>"; };
+		9B41AF7F1A830BB300529879 /* SkillFlameBreak.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillFlameBreak.m; sourceTree = "<group>"; };
+		9B41AF861A841D7500529879 /* 6swordorb@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "6swordorb@2x.png"; sourceTree = "<group>"; };
+		9B41AF8B1A841D9300529879 /* 6swordorb-9@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "6swordorb-9@2x.png"; sourceTree = "<group>"; };
+		9B41AF8F1A841DA500529879 /* swordorb-9@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "swordorb-9@2x.png"; sourceTree = "<group>"; };
+		9B41AF941A841DDA00529879 /* swordorb@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "swordorb@2x.png"; sourceTree = "<group>"; };
 		9B8CA60F1A3798C00060BE8F /* SkillCritAndEvade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillCritAndEvade.h; sourceTree = "<group>"; };
 		9B8CA6101A3798C00060BE8F /* SkillCritAndEvade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillCritAndEvade.m; sourceTree = "<group>"; };
 		9B8CA6171A379CB50060BE8F /* drunkenbrawlicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "drunkenbrawlicon@2x.png"; sourceTree = "<group>"; };
@@ -12804,6 +12825,7 @@
 				299AA3F61A786BB000A2D806 /* 6cakeorb-9@2x.png */,
 				9B41AEBD1A7C191300529879 /* 6graveorb-9@2x.png */,
 				9B41AF261A7C333A00529879 /* 6bulletorb-9@2x.png */,
+				9B41AF8B1A841D9300529879 /* 6swordorb-9@2x.png */,
 				299AA3F71A786BB000A2D806 /* 6earthbomb-9@2x.png */,
 				299AA3F81A786BB000A2D806 /* 6firebomb-9@2x.png */,
 				299AA3F91A786BB000A2D806 /* 6lightbomb-9@2x.png */,
@@ -12813,6 +12835,7 @@
 				299AA3FD1A786BB000A2D806 /* cakeorb-9@2x.png */,
 				9B41AEB91A7C190100529879 /* graveorb-9@2x.png */,
 				9B41AF2A1A7C334C00529879 /* bulletorb-9@2x.png */,
+				9B41AF8F1A841DA500529879 /* swordorb-9@2x.png */,
 				299AA3FE1A786BB000A2D806 /* earthbomb-9@2x.png */,
 				299AA3FF1A786BB000A2D806 /* firebomb-9@2x.png */,
 				299AA4001A786BB000A2D806 /* lightbomb-9@2x.png */,
@@ -13319,6 +13342,14 @@
 				9B41AF621A81B3CF00529879 /* fireglove@2x.png */,
 			);
 			path = "Right Hook";
+			sourceTree = "<group>";
+		};
+		9B41AF931A841DDA00529879 /* Flame Break */ = {
+			isa = PBXGroup;
+			children = (
+				9B41AF941A841DDA00529879 /* swordorb@2x.png */,
+			);
+			path = "Flame Break";
 			sourceTree = "<group>";
 		};
 		9B8CA61F1A379D400060BE8F /* Evade And Crit */ = {
@@ -15370,6 +15401,7 @@
 				9BDA8BC51A40DFC900C7AC27 /* 6boardmud@2x.png */,
 				CF6A651419D2537B0002E05D /* 6cakeorb@2x.png */,
 				9B41AEAB1A79817500529879 /* 6graveorb@2x.png */,
+				9B41AF861A841D7500529879 /* 6swordorb@2x.png */,
 				9B41AF221A7C331100529879 /* 6bulletorb@2x.png */,
 				CF6A64FD19D252CF0002E05D /* 6earthgrenade@2x.png */,
 				CF6A64FE19D252CF0002E05D /* 6firegrenade@2x.png */,
@@ -17927,6 +17959,7 @@
 				9B41AF091A7C23CA00529879 /* Hell Fire */,
 				9B41AF501A8072AE00529879 /* Energize */,
 				9B41AF611A81B3CF00529879 /* Right Hook */,
+				9B41AF931A841DDA00529879 /* Flame Break */,
 			);
 			path = "Skills Images";
 			sourceTree = "<group>";
@@ -18043,6 +18076,8 @@
 				6B0783F81A828468005CDFCF /* SkillCurse.m */,
 				6B0784011A828C10005CDFCF /* SkillInsurance.h */,
 				6B0784021A828C1C005CDFCF /* SkillInsurance.m */,
+				9B41AF7E1A830BB300529879 /* SkillFlameBreak.h */,
+				9B41AF7F1A830BB300529879 /* SkillFlameBreak.m */,
 			);
 			name = Specific;
 			sourceTree = "<group>";
@@ -18540,6 +18575,7 @@
 				CFF2A6591974997A00269084 /* pvpgoldribbon@2x.png in Resources */,
 				CF0CEF65196F452900ECD301 /* buildingminijobs@2x.png in Resources */,
 				CF0CEF66196F452900ECD301 /* timerbgmiddlemobster@2x.png in Resources */,
+				9B41AF911A841DA500529879 /* swordorb-9@2x.png in Resources */,
 				CF0CEF67196F452900ECD301 /* splashguyswide@2x.png in Resources */,
 				CF0CEF68196F452900ECD301 /* spinnerbg@2x.png in Resources */,
 				CF0CEF69196F452900ECD301 /* Scientist3Turn00@2x.png in Resources */,
@@ -18570,6 +18606,7 @@
 				CF0CEF8A196F452900ECD301 /* engagearrow@2x.png in Resources */,
 				CF0CEF8B196F452900ECD301 /* FatBoy3Move09@2x.png in Resources */,
 				CF0CEF8D196F452900ECD301 /* oilicon@2x.png in Resources */,
+				9B41AF881A841D7500529879 /* 6swordorb@2x.png in Resources */,
 				CF0CEF8E196F452900ECD301 /* cashbar@2x.png in Resources */,
 				CF0CEF8F196F452900ECD301 /* FatBoy4Move08@2x.png in Resources */,
 				CFFC50FA19C4C57700BDAA62 /* notendcapgreen@2x.png in Resources */,
@@ -19458,6 +19495,7 @@
 				CF0CF3E4196F452900ECD301 /* inactivedividerline@2x.png in Resources */,
 				CF0CF3E5196F452900ECD301 /* buildingmanage@2x.png in Resources */,
 				CF0CF3E7196F452900ECD301 /* selectmobstersminitaskbg@2x.png in Resources */,
+				9B41AF8D1A841D9300529879 /* 6swordorb-9@2x.png in Resources */,
 				CF0CF3E8196F452900ECD301 /* FatBoy4Move06@2x.png in Resources */,
 				9BB9490E1A6E1197006EE920 /* earthgrglow2glowblend@2x.png in Resources */,
 				CF0CF3E9196F452900ECD301 /* searchclansbar@2x.png in Resources */,
@@ -20243,6 +20281,7 @@
 				CF0CF786196F452900ECD301 /* HealViewController.xib in Resources */,
 				29E00D731A79B52D00F34D51 /* fulldonatearro.png in Resources */,
 				CF0CF787196F452900ECD301 /* Scientist1Turn01@2x.png in Resources */,
+				9B41AF961A841DDA00529879 /* swordorb@2x.png in Resources */,
 				CF0CF789196F452900ECD301 /* Gotham-UltraItalic.otf in Resources */,
 				2965488F1A81C4170080B195 /* nightstatue@2x.png in Resources */,
 				9BB948B51A69F8AD006EE920 /* grglow2@2x.png in Resources */,
@@ -20638,6 +20677,7 @@
 				296548721A81C4070080B195 /* deployedge@2x.png in Resources */,
 				CFB250221853136B00BE0C05 /* clock@2x.png in Resources */,
 				CFFBDF7418ACA3D90090CA9A /* Scientist2Turn05@2x.png in Resources */,
+				9B41AF8C1A841D9300529879 /* 6swordorb-9@2x.png in Resources */,
 				CF3737B119E3767600CB16E3 /* obtimeryellowcap@2x.png in Resources */,
 				CFC8B61518E53FC100CFD652 /* menuteamhealthbarbg@2x.png in Resources */,
 				CF134A7518A5E4B500D7D700 /* FatBoy3Move12@2x.png in Resources */,
@@ -21162,6 +21202,7 @@
 				CFF7876318E28FE200413E78 /* upgradecheckbg@2x.png in Resources */,
 				CF32EAD8195FF81900A4AEE3 /* gooniegrab@2x.png in Resources */,
 				2985E5C61A30044E0041ABF4 /* bubbleright.png in Resources */,
+				9B41AF951A841DDA00529879 /* swordorb@2x.png in Resources */,
 				CFC4D2B218D7E131004681FD /* sfx_firework_03.mp3 in Resources */,
 				9B0E6E3B1A73373100118210 /* poisonminilogo@2x.png in Resources */,
 				CFC4D29A18D7BD04004681FD /* sfx_points_fly_from_match_02.mp3 in Resources */,
@@ -22371,6 +22412,7 @@
 				29AD76591A39316100430F0E /* 1slot@2x.png in Resources */,
 				CF134A6218A5E4B500D7D700 /* FatBoy2Move06@2x.png in Resources */,
 				CFCD0EE31953F07400EDC233 /* firemediumsquare@2x.png in Resources */,
+				9B41AF901A841DA500529879 /* swordorb-9@2x.png in Resources */,
 				CF9F995E19E48734006B0119 /* joinbubble1@2x.png in Resources */,
 				CFF5DBB5194D18F20019EB2B /* youlostitembg@2x.png in Resources */,
 				CFE0E6DC17E7B886002ECA84 /* lootcollect@2x.png in Resources */,
@@ -22446,6 +22488,7 @@
 				CFEE898918EA42A100047CA4 /* Gotham-Bold.otf in Resources */,
 				9B41AF631A81B3CF00529879 /* fireglove@2x.png in Resources */,
 				DA88EB3619B7E224005EE827 /* skillactive.plist in Resources */,
+				9B41AF871A841D7500529879 /* 6swordorb@2x.png in Resources */,
 				CFCE56E518137C9000494F8C /* MonsterPopUpViewController.xib in Resources */,
 				CFA9F7C61A0D8F6300EBE77D /* yellowitemsbutton@2x.png in Resources */,
 				29AE75DE1A6F36E000264070 /* TribalGuy0T1RunNF@2x.plist in Resources */,
@@ -22853,6 +22896,7 @@
 				CF481BE719F7217F00041486 /* clanhelpbarbg@2x.png in Resources */,
 				CF481BE819F7217F00041486 /* sfx_damage_click_lp.mp3 in Resources */,
 				9B0E6E2B1A73373100118210 /* badjujuminilogo@2x.png in Resources */,
+				9B41AF891A841D7500529879 /* 6swordorb@2x.png in Resources */,
 				CF481BE919F7217F00041486 /* battledonegrey@2x.png in Resources */,
 				CF481BEB19F7217F00041486 /* sfx_piece_swap.mp3 in Resources */,
 				CF481BEC19F7217F00041486 /* sfx_menu_click.mp3 in Resources */,
@@ -23680,6 +23724,7 @@
 				9BB948551A67448F006EE920 /* ticker_big@2x.png in Resources */,
 				CF48209519F7217F00041486 /* hand@2x.png in Resources */,
 				CF48209819F7217F00041486 /* EvolveDetailsMonsterView.xib in Resources */,
+				9B41AF971A841DDA00529879 /* swordorb@2x.png in Resources */,
 				CFA728B91A0B037900FF6031 /* nighteventbigbg@2x.png in Resources */,
 				CF48209919F7217F00041486 /* newtext@2x.png in Resources */,
 				299AA3D71A7856AA00A2D806 /* rockheadshot-9@2x.png in Resources */,
@@ -23862,6 +23907,7 @@
 				9B41AF391A7C4C5D00529879 /* hellfireicon@2x.png in Resources */,
 				2985E59E1A2F24C80041ABF4 /* HealQueueView.xib in Resources */,
 				CF4821A619F7217F00041486 /* Scientist1Turn06@2x.png in Resources */,
+				9B41AF921A841DA500529879 /* swordorb-9@2x.png in Resources */,
 				CF4821A719F7217F00041486 /* Scientist5Breath09@2x.png in Resources */,
 				CF4821A819F7217F00041486 /* achievementsiconinactive@2x.png in Resources */,
 				CF4821A919F7217F00041486 /* smallbubbleover@2x.png in Resources */,
@@ -24486,6 +24532,7 @@
 				299AA42D1A786BB000A2D806 /* waterbomb-9@2x.png in Resources */,
 				CF4824A319F7217F00041486 /* FatBoy2Move06@2x.png in Resources */,
 				CFA729551A0B2A3500FF6031 /* DailyEventViewController.xib in Resources */,
+				9B41AF8E1A841D9300529879 /* 6swordorb-9@2x.png in Resources */,
 				299AA33E1A7856AA00A2D806 /* 6lightsideways-9@2x.png in Resources */,
 				29AE75F71A6F414700264070 /* TribalGirl1T1AttackNF@2x.pvr.ccz in Resources */,
 				CF4824A719F7217F00041486 /* firemediumsquare@2x.png in Resources */,
@@ -24945,6 +24992,7 @@
 				CF0CED85196F452900ECD301 /* AMQPChannel.m in Sources */,
 				CF0CED86196F452900ECD301 /* GachaChooserViewController.m in Sources */,
 				CF0CED87196F452900ECD301 /* FacebookSpammer.m in Sources */,
+				9B41AF811A830BB300529879 /* SkillFlameBreak.m in Sources */,
 				CF0CED88196F452900ECD301 /* MapBotView.m in Sources */,
 				CF42519819ABDB7400964547 /* TutorialBattleLayout.m in Sources */,
 				DA5E3FFB19D0CB3F001F28CE /* SkillRoidRage.m in Sources */,
@@ -25283,6 +25331,7 @@
 				CF4F783119BE4932001B7B7C /* HudNotificationController.m in Sources */,
 				DA07605A19B129EC00E43E5A /* SkillBattleIndicatorView.m in Sources */,
 				CF6574F3190F2AE500ABF1F4 /* AchievementUtil.m in Sources */,
+				9B41AF801A830BB300529879 /* SkillFlameBreak.m in Sources */,
 				CFF2C95C193FE75B00F28D9E /* ChatBottomView.m in Sources */,
 				CF4825B219F7549300041486 /* Prerequisite.pb.m in Sources */,
 				CF29EA571964F64E00B40DA4 /* SettingsViewController.m in Sources */,
@@ -25618,6 +25667,7 @@
 				CF48192F19F7217F00041486 /* AMQPChannel.m in Sources */,
 				CF48193019F7217F00041486 /* GachaChooserViewController.m in Sources */,
 				CF48193119F7217F00041486 /* FacebookSpammer.m in Sources */,
+				9B41AF821A830BB300529879 /* SkillFlameBreak.m in Sources */,
 				CF48193219F7217F00041486 /* MapBotView.m in Sources */,
 				CF48193319F7217F00041486 /* TutorialBattleLayout.m in Sources */,
 				CF48193419F7217F00041486 /* SkillRoidRage.m in Sources */,

@@ -110,6 +110,25 @@
     }
   }
   
+  if (trigger == SkillTriggerPointPlayerMobDefeated && self.belongsToPlayer)
+  {
+    if (_skillActive)
+    {
+      if (execute)
+      {
+        _skillActive = NO;
+        [self resetOrbCounter];
+        SkillLogStart(@"Flame Strike -- Skill deactivated");
+        
+        // Reset damage multiplier on fire orbs
+        [self setDamageMultiplierOnFireOrbs:1];
+        
+        [self skillTriggerFinished];
+      }
+      return YES;
+    }
+  }
+  
   return NO;
 }
 
