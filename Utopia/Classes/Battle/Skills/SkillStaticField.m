@@ -37,29 +37,23 @@
   if ([super skillCalledWithTrigger:trigger execute:execute])
     return YES;
   
-  if (trigger == SkillTriggerPointEnemyAppeared && !_logoShown)
+  if ([self isActive])
   {
-    if (execute)
+    if ((trigger == SkillTriggerPointEnemySkillActivated && self.belongsToPlayer)
+        || (trigger == SkillTriggerPointPlayerSkillActivated && !self.belongsToPlayer))
     {
-      _logoShown = YES;
-      [self showSkillPopupOverlay:YES withCompletion:^(){
-        [self performAfterDelay:.5f block:^{
-          [self skillTriggerFinished];
-        }];
-      }];
+      if (execute)
+      {
+        SkillLogStart(@"Static Field -- Skill activated");
+        
+        [self makeSkillOwnerJumpWithTarget:self selector:@selector(beginCounterAttack)];
+      }
+      else
+      {
+        [self tickDuration];
+      }
+      return YES;
     }
-    return YES;
-  }
-  
-  if (trigger == SkillTriggerPointEnemySkillActivated && self.belongsToPlayer)
-  {
-    if (execute)
-    {
-      SkillLogStart(@"Static Field -- Skill activated");
-      
-      [self makeSkillOwnerJumpWithTarget:self selector:@selector(beginCounterAttack)];
-    }
-    return YES;
   }
   
   return NO;
@@ -97,7 +91,7 @@
 {
   [self.battleLayer.orbLayer.bgdLayer turnTheLightsOn];
   [self.battleLayer.orbLayer allowInput];
-  
+  [self tickDuration];
   [self skillTriggerFinished];
 }
 

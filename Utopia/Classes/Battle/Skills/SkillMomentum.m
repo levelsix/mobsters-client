@@ -48,6 +48,11 @@
   [self updateOwnerSprite];
 }
 
+- (void) onDurationReset
+{
+  [self increaseMultiplier];
+}
+
 - (void) onDurationEnd
 {
   _currentMultiplier = 1.0;
@@ -72,26 +77,6 @@
 //    }
 //    return YES;
 //  }
-  
-  if ((self.activationType == SkillActivationTypeUserActivated && trigger == SkillTriggerPointManualActivation) ||
-      (self.activationType == SkillActivationTypeAutoActivated && trigger == SkillTriggerPointEndOfPlayerMove))
-  {
-    if ([self skillIsReady])
-    {
-      if (execute)
-      {
-        [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
-        [self.battleLayer.orbLayer disallowInput];
-        [self showSkillPopupOverlay:YES withCompletion:^(){
-          [self resetDuration];
-          [self resetOrbCounter];
-          [self increaseMultiplier];
-          [self skillTriggerFinished];
-        }];
-      }
-      return YES;
-    }
-  }
   
   if ((trigger == SkillTriggerPointStartOfPlayerTurn && self.belongsToPlayer) ||
       (trigger == SkillTriggerPointStartOfEnemyTurn && ! self.belongsToPlayer) )

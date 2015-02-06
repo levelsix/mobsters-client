@@ -117,21 +117,6 @@
   if ([super skillCalledWithTrigger:trigger execute:execute])
     return YES;
   
-  // Do nothing, only show the splash at the beginning. Flag is for the case when you defeated the previous one, don't show the logo then.
-//  if (trigger == SkillTriggerPointEnemyAppeared && ! _logoShown)
-//  {
-//    if (execute)
-//    {
-//      _logoShown = YES;
-//      [self showSkillPopupOverlay:YES withCompletion:^(){
-//        [self performAfterDelay:.5f block:^{
-//          [self skillTriggerFinished];
-//        }];
-//      }];
-//    }
-//    return YES;
-//  }
-  
   if ([self isActive])
   {
     if ((self.belongsToPlayer && trigger == SkillTriggerPointStartOfPlayerTurn)
@@ -189,25 +174,6 @@
     }
   }
   
-  if ((self.activationType == SkillActivationTypeUserActivated && trigger == SkillTriggerPointManualActivation) ||
-      (self.activationType == SkillActivationTypeAutoActivated && trigger == SkillTriggerPointEndOfPlayerMove))
-  {
-    if ([self skillIsReady])
-    {
-      if (execute)
-      {
-        [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
-        [self.battleLayer.orbLayer disallowInput];
-        [self showSkillPopupOverlay:YES withCompletion:^(){
-          [self resetDuration];
-          [self resetOrbCounter];
-          [self skillTriggerFinished];
-        }];
-      }
-      return YES;
-    }
-  }
-  
   return NO;
 }
 
@@ -245,8 +211,6 @@
   
   // Finish trigger execution
   [self performAfterDelay:.3f block:^{
-    [self.battleLayer.orbLayer.bgdLayer turnTheLightsOn];
-    [self.battleLayer.orbLayer allowInput];
     [self skillTriggerFinished];
   }];
 }
@@ -283,8 +247,6 @@
   
   // Finish trigger execution
   [self performAfterDelay:.3f block:^{
-    [self.battleLayer.orbLayer.bgdLayer turnTheLightsOn];
-    [self.battleLayer.orbLayer allowInput];
     [self skillTriggerFinished];
   }];
 }

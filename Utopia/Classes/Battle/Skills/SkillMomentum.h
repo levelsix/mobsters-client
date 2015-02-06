@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 LVL6. All rights reserved.
 //
 
-#import "SkillControllerActive.h"
+#import "SkillControllerActiveBuff.h"
 
-@interface SkillMomentum : SkillControllerActive
+@interface SkillMomentum : SkillControllerActiveBuff
 {
   // Properties
   float _damageMultiplier;

@@ -21,7 +21,6 @@
   
   _bonusResistance = 0.f;
   _damageAbsorbed = 0;
-  _logoShown = NO;
 }
 
 -(void)setValue:(float)value forProperty:(NSString *)property
@@ -58,52 +57,6 @@
   }
   
   return damage;
-}
-
--(BOOL)skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
-{
-  if ([super skillCalledWithTrigger:trigger execute:execute])
-    return YES;
-  
-  // Do nothing, only show the splash at the beginning. Flag is for the case when you defeated the previous one, don't show the logo then.
-//  if (trigger == SkillTriggerPointEnemyAppeared && ! _logoShown)
-//  {
-//    if (execute)
-//    {
-//      _logoShown = YES;
-//      [self showSkillPopupOverlay:YES withCompletion:^(){
-//        [self performAfterDelay:.5f block:^{
-//          [self skillTriggerFinished];
-//        }];
-//      }];
-//    }
-//    return YES;
-//  }
-  
-  if ((trigger == SkillTriggerPointEnemyDealsDamage && self.belongsToPlayer) ||
-      (trigger == SkillTriggerPointPlayerDealsDamage && !self.belongsToPlayer))
-  {
-    if (execute)
-    {
-      if (_damageAbsorbed > 0)
-      {
-        [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
-        [self.battleLayer.orbLayer disallowInput];
-        
-        if (self.belongsToPlayer)
-          [skillManager setPlayerUsedAbility:YES];
-        else
-          [skillManager setEnemyUsedAbility:YES];
-        
-        [self showDamageAbsorbed];
-      }
-      else
-        [self skillTriggerFinished];
-    }
-    return YES;
-  }
-  
-  return NO;
 }
 
 #pragma mark - Skill logic

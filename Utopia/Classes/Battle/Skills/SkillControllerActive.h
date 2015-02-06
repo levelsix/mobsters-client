@@ -12,13 +12,6 @@
 @property (readonly) NSInteger orbCounter;
 @property (readonly) NSInteger orbRequirement;
 
-@property (readonly) NSInteger duration;
-@property (readonly) NSInteger turnsLeft;
-
 - (void) resetOrbCounter;
-- (BOOL) isActive;
-- (void) resetDuration;
-- (void) tickDuration;
-- (void) onDurationEnd;
 
 @end

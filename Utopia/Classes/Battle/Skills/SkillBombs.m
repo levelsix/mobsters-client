@@ -21,33 +21,24 @@
   [super setDefaultValues];
   
   // Properties
-  _minBombs = 0;
+  _bombsPerActivation = 0;
   _maxBombs = 0;
-  _initialBombs = 0;
   _bombCounter = 0;
   _bombDamage = 0;
-  _bombTurnCounter = 0;
-  _bombSpawnChance = 0.f;
 }
 
 - (void) setValue:(float)value forProperty:(NSString*)property
 {
   [super setValue:value forProperty:property];
   
-  if ( [property isEqualToString:@"MIN_BOMBS"] )
-    _minBombs = value;
+  if ( [property isEqualToString:@"BOMBS_PER_ACTIVATION"] )
+    _bombsPerActivation = value;
   else if ( [property isEqualToString:@"MAX_BOMBS"] )
     _maxBombs = value;
-  else if ( [property isEqualToString:@"INITIAL_BOMBS"] )
-    _initialBombs = value;
   else if ( [property isEqualToString:@"BOMB_COUNTER"] )
     _bombCounter = value;
   else if ( [property isEqualToString:@"BOMB_DAMAGE"] )
     _bombDamage = value;
-  else if ( [property isEqualToString:@"BOMB_TURN_COUNTER"] )
-    _bombTurnCounter = value;
-  else if ( [property isEqualToString:@"BOMB_SPAWN_CHANCE"] )
-    _bombSpawnChance = value;
 }
 
 - (id) initWithProto:(SkillProto*)proto andMobsterColor:(OrbColor)color
@@ -68,60 +59,32 @@
   if ([super skillCalledWithTrigger:trigger execute:execute])
     return YES;
   
-  // Initial bomb spawn
-  if (trigger == SkillTriggerPointEnemyAppeared)
+  // Additional bomb spawn on skill trigger
+  if ((self.activationType == SkillActivationTypeUserActivated && trigger == SkillTriggerPointManualActivation) ||
+       (self.activationType == SkillActivationTypeAutoActivated && trigger == SkillTriggerPointEndOfPlayerMove))
   {
-    if (execute)
+    if ([self skillIsReady])
     {
-      // Jumping, showing overlay and spawning initial set
-      [self showSkillPopupOverlay:YES withCompletion:^{
-        [self performAfterDelay:0.5 block:^{
-          SkillLogStart(@"Bombs -- Skill spawned initial %ld bombs", (long)_initialBombs);
-          [self spawnBombs:_initialBombs isInitialSkill:YES withTarget:self andSelector:@selector(skillTriggerFinished)];
-        }];
-      }];
-    }
-    return YES;
-  }
-  
-  // Additional bomb spawn on enemy's turn
-  if (trigger == SkillTriggerPointStartOfEnemyTurn)
-  {
-    if (execute)
-    {
-      ++_turnCounter;
-      
-      NSInteger bombsOnBoard = [self specialsOnBoardCount:SpecialOrbTypeBomb];
-      NSInteger countToSpawn = 0;
-      
-      if (bombsOnBoard < _maxBombs)
+      if (execute)
       {
-        if (_turnCounter > _bombTurnCounter)
+        [self resetOrbCounter];
+        NSInteger bombsOnBoard = [self specialsOnBoardCount:SpecialOrbTypeBomb];
+        NSInteger countToSpawn = MIN(_bombsPerActivation, _maxBombs - bombsOnBoard);
+        
+        if (countToSpawn > 0)
         {
-          NSInteger possibleSpawnCount = _maxBombs - MAX(_minBombs, bombsOnBoard);
-          for (int i = 0; i < possibleSpawnCount; ++i)
-            if ((float)arc4random_uniform((u_int32_t)RAND_MAX) / (float)RAND_MAX < _bombSpawnChance)
-              ++countToSpawn;
-          if (countToSpawn > 0)
-            _turnCounter = 0;
+          // Spawn new bombs on board
+          [self makeSkillOwnerJumpWithTarget:nil selector:nil];
+          [self performAfterDelay:0.5 block:^{
+            SkillLogStart(@"Bombs -- Skill spawned additional %ld bombs", (long)countToSpawn);
+            [self spawnBombs:countToSpawn isInitialSkill:NO withTarget:self andSelector:@selector(skillTriggerFinished)];
+          }];
         }
-        if (bombsOnBoard < _minBombs)
-          countToSpawn += _minBombs - bombsOnBoard;
+        else
+          return NO;
       }
-
-      if (countToSpawn > 0)
-      {
-        // Spawn new bombs on board
-        [self makeSkillOwnerJumpWithTarget:nil selector:nil];
-        [self performAfterDelay:0.5 block:^{
-          SkillLogStart(@"Bombs -- Skill spawned additional %ld bombs", (long)countToSpawn);
-          [self spawnBombs:countToSpawn isInitialSkill:NO withTarget:self andSelector:@selector(skillTriggerFinished)];
-        }];
-      }
-      else
-        return NO;
+      return YES;
     }
-    return YES;
   }
   
   return NO;

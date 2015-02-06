@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 LVL6. All rights reserved.
 //
 
-#import "SkillControllerActive.h"
+#import "SkillControllerActiveBuff.h"
 
-@interface SkillCritAndEvade : SkillControllerActive
+@interface SkillCritAndEvade : SkillControllerActiveBuff
 {
   // Properties
   float _critChance;

@@ -6,18 +6,15 @@
 //  Copyright (c) 2014 LVL6. All rights reserved.
 //
 
-#import "SkillControllerPassive.h"
+#import "SkillControllerActive.h"
 
-@interface SkillBombs : SkillControllerPassive
+@interface SkillBombs : SkillControllerActive
 {
   // Properties
-  NSInteger _minBombs;
+  NSInteger _bombsPerActivation;
   NSInteger _maxBombs;
-  NSInteger _initialBombs;
   NSInteger _bombCounter;
   NSInteger _bombDamage;
-  NSInteger _bombTurnCounter;
-  float     _bombSpawnChance;
   
   // Counters
   NSInteger _turnCounter;

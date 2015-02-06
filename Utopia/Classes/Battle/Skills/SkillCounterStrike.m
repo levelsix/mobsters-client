@@ -16,7 +16,7 @@
   [super setDefaultValues];
   
   _damage = 0;
-  _chance = 0;
+  _chance = 1;
 }
 
 - (void) setValue:(float)value forProperty:(NSString*)property
