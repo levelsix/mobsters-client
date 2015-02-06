@@ -6,16 +6,18 @@
 //  Copyright (c) 2015 LVL6. All rights reserved.
 //
 
-#import "SkillControllerPassive.h"
+#import "SkillControllerActive.h"
 
-@interface SkillHammerTime : SkillControllerPassive
+@interface SkillHammerTime : SkillControllerActive
 {
   // Properties
   float _chance;
   int _stunTurns;
+  int _duration;
   
   // Counters
-  int _turnsLeft;
+  int _stunTurnsLeft;
+  int _skillTurnsLeft;
 }
 
 @end
