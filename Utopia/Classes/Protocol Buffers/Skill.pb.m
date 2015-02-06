@@ -52,50 +52,9 @@ BOOL SkillTypeIsValidValue(SkillType value) {
     case SkillTypeHellFire:
     case SkillTypeEnergize:
     case SkillTypeRightHook:
-<<<<<<< HEAD
-<<<<<<< HEAD
     case SkillTypeCurse:
     case SkillTypeInsurance:
     case SkillTypeFlameBreak:
-=======
-=======
-=======
->>>>>>> donate msg vc done
-<<<<<<< HEAD
->>>>>>> donate msg vc done
-<<<<<<< HEAD
->>>>>>> donate msg vc done
-=======
-=======
-=======
-    case SkillTypeTakeAim:
-    case SkillTypeHellFire:
->>>>>>> fixed various bugs and began on solicit clan donation
->>>>>>> fixed various bugs and began on solicit clan donation
-<<<<<<< HEAD
->>>>>>> fixed various bugs and began on solicit clan donation
-=======
-=======
-    case SkillTypeTakeAim:
-    case SkillTypeHellFire:
->>>>>>> reproto
-<<<<<<< HEAD
->>>>>>> reproto
-=======
-=======
->>>>>>> created monster select popover
-<<<<<<< HEAD
->>>>>>> created monster select popover
-=======
-=======
-    case SkillTypeRightHook:
->>>>>>> done with clan monster in pvp/pve
->>>>>>> done with clan monster in pvp/pve
-=======
-    case SkillTypeCurse:
-    case SkillTypeInsurance:
-    case SkillTypeFlameBreak:
->>>>>>> revenge/avenge now has clan monster
       return YES;
     default:
       return NO;

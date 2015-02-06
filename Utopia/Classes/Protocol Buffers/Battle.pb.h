@@ -108,15 +108,7 @@ BOOL BattleResultIsValidValue(BattleResult value);
   NSString* defenderMsg;
   MinimumUserProtoWithLevel* defender;
   UserPvpLeagueProto* pvpLeagueStats;
-<<<<<<< HEAD
-<<<<<<< HEAD
-  ClanMemberTeamDonationProto* defenderExtraMonster;
-=======
-  PvpMonsterProto* defenderExtraMonster;
->>>>>>> revenge/avenge now has clan monster
-=======
   ClanMemberTeamDonationProto* cmtd;
->>>>>>> fixed bug with rainbow orb
   NSMutableArray * mutableDefenderMonstersList;
 }
 - (BOOL) hasDefender;
@@ -124,33 +116,16 @@ BOOL BattleResultIsValidValue(BattleResult value);
 - (BOOL) hasProspectiveOilWinnings;
 - (BOOL) hasPvpLeagueStats;
 - (BOOL) hasDefenderMsg;
-<<<<<<< HEAD
-- (BOOL) hasDefenderExtraMonster;
-<<<<<<< HEAD
-=======
-- (BOOL) hasSolicitationUuid;
->>>>>>> revenge/avenge now has clan monster
-=======
 - (BOOL) hasCmtd;
 - (BOOL) hasMonsterIdDropped;
->>>>>>> fixed bug with rainbow orb
 @property (readonly, strong) MinimumUserProtoWithLevel* defender;
 @property (readonly, strong) NSArray * defenderMonstersList;
 @property (readonly) int32_t prospectiveCashWinnings;
 @property (readonly) int32_t prospectiveOilWinnings;
 @property (readonly, strong) UserPvpLeagueProto* pvpLeagueStats;
 @property (readonly, strong) NSString* defenderMsg;
-<<<<<<< HEAD
-<<<<<<< HEAD
-@property (readonly, strong) ClanMemberTeamDonationProto* defenderExtraMonster;
-=======
-@property (readonly, strong) PvpMonsterProto* defenderExtraMonster;
-@property (readonly, strong) NSString* solicitationUuid;
->>>>>>> revenge/avenge now has clan monster
-=======
 @property (readonly, strong) ClanMemberTeamDonationProto* cmtd;
 @property (readonly) int32_t monsterIdDropped;
->>>>>>> fixed bug with rainbow orb
 - (PvpMonsterProto*)defenderMonstersAtIndex:(NSUInteger)index;
 
 + (PvpProto*) defaultInstance;
@@ -223,27 +198,6 @@ BOOL BattleResultIsValidValue(BattleResult value);
 - (PvpProto_Builder*) setDefenderMsg:(NSString*) value;
 - (PvpProto_Builder*) clearDefenderMsg;
 
-<<<<<<< HEAD
-- (BOOL) hasDefenderExtraMonster;
-<<<<<<< HEAD
-- (ClanMemberTeamDonationProto*) defenderExtraMonster;
-- (PvpProto_Builder*) setDefenderExtraMonster:(ClanMemberTeamDonationProto*) value;
-- (PvpProto_Builder*) setDefenderExtraMonster_Builder:(ClanMemberTeamDonationProto_Builder*) builderForValue;
-- (PvpProto_Builder*) mergeDefenderExtraMonster:(ClanMemberTeamDonationProto*) value;
-- (PvpProto_Builder*) clearDefenderExtraMonster;
-=======
-- (PvpMonsterProto*) defenderExtraMonster;
-- (PvpProto_Builder*) setDefenderExtraMonster:(PvpMonsterProto*) value;
-- (PvpProto_Builder*) setDefenderExtraMonster_Builder:(PvpMonsterProto_Builder*) builderForValue;
-- (PvpProto_Builder*) mergeDefenderExtraMonster:(PvpMonsterProto*) value;
-- (PvpProto_Builder*) clearDefenderExtraMonster;
-
-- (BOOL) hasSolicitationUuid;
-- (NSString*) solicitationUuid;
-- (PvpProto_Builder*) setSolicitationUuid:(NSString*) value;
-- (PvpProto_Builder*) clearSolicitationUuid;
->>>>>>> revenge/avenge now has clan monster
-=======
 - (BOOL) hasCmtd;
 - (ClanMemberTeamDonationProto*) cmtd;
 - (PvpProto_Builder*) setCmtd:(ClanMemberTeamDonationProto*) value;
@@ -255,7 +209,6 @@ BOOL BattleResultIsValidValue(BattleResult value);
 - (int32_t) monsterIdDropped;
 - (PvpProto_Builder*) setMonsterIdDropped:(int32_t) value;
 - (PvpProto_Builder*) clearMonsterIdDropped;
->>>>>>> fixed bug with rainbow orb
 @end
 
 @interface PvpMonsterProto : PBGeneratedMessage {

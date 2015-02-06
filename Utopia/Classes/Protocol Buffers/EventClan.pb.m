@@ -16495,6 +16495,7 @@ static AvengeClanMateRequestProto* defaultAvengeClanMateRequestProtoInstance = n
 
 @interface AvengeClanMateResponseProto ()
 @property (strong) MinimumUserProto* sender;
+@property (strong) PvpProto* victim;
 @property AvengeClanMateResponseProto_AvengeClanMateStatus status;
 @end
 
@@ -16507,6 +16508,13 @@ static AvengeClanMateRequestProto* defaultAvengeClanMateRequestProtoInstance = n
   hasSender_ = !!value_;
 }
 @synthesize sender;
+- (BOOL) hasVictim {
+  return !!hasVictim_;
+}
+- (void) setHasVictim:(BOOL) value_ {
+  hasVictim_ = !!value_;
+}
+@synthesize victim;
 - (BOOL) hasStatus {
   return !!hasStatus_;
 }
@@ -16517,6 +16525,7 @@ static AvengeClanMateRequestProto* defaultAvengeClanMateRequestProtoInstance = n
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
+    self.victim = [PvpProto defaultInstance];
     self.status = AvengeClanMateResponseProto_AvengeClanMateStatusSuccess;
   }
   return self;
@@ -16540,6 +16549,9 @@ static AvengeClanMateResponseProto* defaultAvengeClanMateResponseProtoInstance =
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
+  if (self.hasVictim) {
+    [output writeMessage:2 value:self.victim];
+  }
   if (self.hasStatus) {
     [output writeEnum:3 value:self.status];
   }
@@ -16554,6 +16566,9 @@ static AvengeClanMateResponseProto* defaultAvengeClanMateResponseProtoInstance =
   size_ = 0;
   if (self.hasSender) {
     size_ += computeMessageSize(1, self.sender);
+  }
+  if (self.hasVictim) {
+    size_ += computeMessageSize(2, self.victim);
   }
   if (self.hasStatus) {
     size_ += computeEnumSize(3, self.status);
@@ -16599,6 +16614,12 @@ static AvengeClanMateResponseProto* defaultAvengeClanMateResponseProtoInstance =
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
+  if (self.hasVictim) {
+    [output appendFormat:@"%@%@ {\n", indent, @"victim"];
+    [self.victim writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
   if (self.hasStatus) {
     [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
@@ -16615,6 +16636,8 @@ static AvengeClanMateResponseProto* defaultAvengeClanMateResponseProtoInstance =
   return
       self.hasSender == otherMessage.hasSender &&
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
+      self.hasVictim == otherMessage.hasVictim &&
+      (!self.hasVictim || [self.victim isEqual:otherMessage.victim]) &&
       self.hasStatus == otherMessage.hasStatus &&
       (!self.hasStatus || self.status == otherMessage.status) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
@@ -16623,6 +16646,9 @@ static AvengeClanMateResponseProto* defaultAvengeClanMateResponseProtoInstance =
   __block NSUInteger hashCode = 7;
   if (self.hasSender) {
     hashCode = hashCode * 31 + [self.sender hash];
+  }
+  if (self.hasVictim) {
+    hashCode = hashCode * 31 + [self.victim hash];
   }
   if (self.hasStatus) {
     hashCode = hashCode * 31 + self.status;
@@ -16682,6 +16708,9 @@ BOOL AvengeClanMateResponseProto_AvengeClanMateStatusIsValidValue(AvengeClanMate
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
+  if (other.hasVictim) {
+    [self mergeVictim:other.victim];
+  }
   if (other.hasStatus) {
     [self setStatus:other.status];
   }
@@ -16713,6 +16742,15 @@ BOOL AvengeClanMateResponseProto_AvengeClanMateStatusIsValidValue(AvengeClanMate
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        PvpProto_Builder* subBuilder = [PvpProto builder];
+        if (self.hasVictim) {
+          [subBuilder mergeFrom:self.victim];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setVictim:[subBuilder buildPartial]];
         break;
       }
       case 24: {
@@ -16755,6 +16793,36 @@ BOOL AvengeClanMateResponseProto_AvengeClanMateStatusIsValidValue(AvengeClanMate
 - (AvengeClanMateResponseProto_Builder*) clearSender {
   result.hasSender = NO;
   result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasVictim {
+  return result.hasVictim;
+}
+- (PvpProto*) victim {
+  return result.victim;
+}
+- (AvengeClanMateResponseProto_Builder*) setVictim:(PvpProto*) value {
+  result.hasVictim = YES;
+  result.victim = value;
+  return self;
+}
+- (AvengeClanMateResponseProto_Builder*) setVictim_Builder:(PvpProto_Builder*) builderForValue {
+  return [self setVictim:[builderForValue build]];
+}
+- (AvengeClanMateResponseProto_Builder*) mergeVictim:(PvpProto*) value {
+  if (result.hasVictim &&
+      result.victim != [PvpProto defaultInstance]) {
+    result.victim =
+      [[[PvpProto builderWithPrototype:result.victim] mergeFrom:value] buildPartial];
+  } else {
+    result.victim = value;
+  }
+  result.hasVictim = YES;
+  return self;
+}
+- (AvengeClanMateResponseProto_Builder*) clearVictim {
+  result.hasVictim = NO;
+  result.victim = [PvpProto defaultInstance];
   return self;
 }
 - (BOOL) hasStatus {

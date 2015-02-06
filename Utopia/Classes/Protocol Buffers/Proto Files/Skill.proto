@@ -85,50 +85,9 @@ enum SkillType {
 	HELL_FIRE = 28;
 	ENERGIZE = 29;
 	RIGHT_HOOK = 30;
-<<<<<<< HEAD
-<<<<<<< HEAD
 	CURSE = 31;
 	INSURANCE = 32;
 	FLAME_BREAK = 33;
-=======
-=======
-=======
->>>>>>> donate msg vc done
-<<<<<<< HEAD
->>>>>>> donate msg vc done
-<<<<<<< HEAD
->>>>>>> donate msg vc done
-=======
-=======
-=======
-	TAKE_AIM = 27;
-	HELL_FIRE = 28;
->>>>>>> fixed various bugs and began on solicit clan donation
->>>>>>> fixed various bugs and began on solicit clan donation
-<<<<<<< HEAD
->>>>>>> fixed various bugs and began on solicit clan donation
-=======
-=======
-	TAKE_AIM = 27;
-	HELL_FIRE = 28;
->>>>>>> reproto
-<<<<<<< HEAD
->>>>>>> reproto
-=======
-=======
->>>>>>> created monster select popover
-<<<<<<< HEAD
->>>>>>> created monster select popover
-=======
-=======
-	RIGHT_HOOK = 30;
->>>>>>> done with clan monster in pvp/pve
->>>>>>> done with clan monster in pvp/pve
-=======
-	CURSE = 31;
-	INSURANCE = 32;
-	FLAME_BREAK = 33;
->>>>>>> revenge/avenge now has clan monster
 }
 
 enum SkillActivationType {

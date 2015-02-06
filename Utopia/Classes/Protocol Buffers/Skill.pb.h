@@ -51,50 +51,9 @@ typedef NS_ENUM(SInt32, SkillType) {
   SkillTypeHellFire = 28,
   SkillTypeEnergize = 29,
   SkillTypeRightHook = 30,
-<<<<<<< HEAD
-<<<<<<< HEAD
   SkillTypeCurse = 31,
   SkillTypeInsurance = 32,
   SkillTypeFlameBreak = 33,
-=======
-=======
-=======
->>>>>>> donate msg vc done
-<<<<<<< HEAD
->>>>>>> donate msg vc done
-<<<<<<< HEAD
->>>>>>> donate msg vc done
-=======
-=======
-=======
-  SkillTypeTakeAim = 27,
-  SkillTypeHellFire = 28,
->>>>>>> fixed various bugs and began on solicit clan donation
->>>>>>> fixed various bugs and began on solicit clan donation
-<<<<<<< HEAD
->>>>>>> fixed various bugs and began on solicit clan donation
-=======
-=======
-  SkillTypeTakeAim = 27,
-  SkillTypeHellFire = 28,
->>>>>>> reproto
-<<<<<<< HEAD
->>>>>>> reproto
-=======
-=======
->>>>>>> created monster select popover
-<<<<<<< HEAD
->>>>>>> created monster select popover
-=======
-=======
-  SkillTypeRightHook = 30,
->>>>>>> done with clan monster in pvp/pve
->>>>>>> done with clan monster in pvp/pve
-=======
-  SkillTypeCurse = 31,
-  SkillTypeInsurance = 32,
-  SkillTypeFlameBreak = 33,
->>>>>>> revenge/avenge now has clan monster
 };
 
 BOOL SkillTypeIsValidValue(SkillType value);

@@ -3831,13 +3831,17 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 @interface AvengeClanMateResponseProto : PBGeneratedMessage {
 @private
   BOOL hasSender_:1;
+  BOOL hasVictim_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
+  PvpProto* victim;
   AvengeClanMateResponseProto_AvengeClanMateStatus status;
 }
 - (BOOL) hasSender;
+- (BOOL) hasVictim;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) PvpProto* victim;
 @property (readonly) AvengeClanMateResponseProto_AvengeClanMateStatus status;
 
 + (AvengeClanMateResponseProto*) defaultInstance;
@@ -3881,6 +3885,13 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (AvengeClanMateResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (AvengeClanMateResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (AvengeClanMateResponseProto_Builder*) clearSender;
+
+- (BOOL) hasVictim;
+- (PvpProto*) victim;
+- (AvengeClanMateResponseProto_Builder*) setVictim:(PvpProto*) value;
+- (AvengeClanMateResponseProto_Builder*) setVictim_Builder:(PvpProto_Builder*) builderForValue;
+- (AvengeClanMateResponseProto_Builder*) mergeVictim:(PvpProto*) value;
+- (AvengeClanMateResponseProto_Builder*) clearVictim;
 
 - (BOOL) hasStatus;
 - (AvengeClanMateResponseProto_AvengeClanMateStatus) status;
@@ -4189,19 +4200,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasStatus;
 - (FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatus) status;
 - (FulfillTeamDonationSolicitationResponseProto_Builder*) setStatus:(FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatus) value;
-<<<<<<< HEAD
-<<<<<<< HEAD
 - (FulfillTeamDonationSolicitationResponseProto_Builder*) clearStatusList;
-=======
-<<<<<<< HEAD
-- (FulfillTeamDonationSolicitationResponseProto_Builder*) clearStatus;
-=======
-- (FulfillTeamDonationSolicitationResponseProto_Builder*) clearStatusList;
->>>>>>> working on chat protocol
->>>>>>> working on chat protocol
-=======
-- (FulfillTeamDonationSolicitationResponseProto_Builder*) clearStatusList;
->>>>>>> revenge/avenge now has clan monster
 
 - (BOOL) hasSolicitation;
 - (ClanMemberTeamDonationProto*) solicitation;
@@ -4331,19 +4330,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasStatus;
 - (VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatus) status;
 - (VoidTeamDonationSolicitationResponseProto_Builder*) setStatus:(VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatus) value;
-<<<<<<< HEAD
-<<<<<<< HEAD
 - (VoidTeamDonationSolicitationResponseProto_Builder*) clearStatusList;
-=======
-<<<<<<< HEAD
-- (VoidTeamDonationSolicitationResponseProto_Builder*) clearStatus;
-=======
-- (VoidTeamDonationSolicitationResponseProto_Builder*) clearStatusList;
->>>>>>> created monster select popover
->>>>>>> created monster select popover
-=======
-- (VoidTeamDonationSolicitationResponseProto_Builder*) clearStatusList;
->>>>>>> revenge/avenge now has clan monster
 
 - (NSMutableArray *)clanTeamDonateUuidList;
 - (NSString*)clanTeamDonateUuidAtIndex:(NSUInteger)index;
