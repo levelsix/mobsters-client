@@ -611,58 +611,45 @@
 
 #pragma mark - Chat mode buttons
 
-- (IBAction)allMessagesButtonClicked:(id)sender {
-  
-  _chatMode = PrivateChatModeAllMessages;
-  [self updateDisplayedPrivateChatList];
-  
-  self.allMessagesTabButton.titleLabel.font = [UIFont fontWithName:@"Gotham-Bold"
-                                                              size:self.allMessagesTabButton.titleLabel.font.pointSize];
-  self.defensiveLogTabButton.titleLabel.font = [UIFont fontWithName:@"Gotham-Medium"
-                                                              size:self.allMessagesTabButton.titleLabel.font.pointSize];
-  self.offensiveLogTabButton.titleLabel.font = [UIFont fontWithName:@"Gotham-Medium"
-                                                              size:self.allMessagesTabButton.titleLabel.font.pointSize];
-  
-  [self.allMessagesTabButton setTitleColor:[UIColor colorWithHexString:ACTIVE_PRIVATE_CHAT_TAB_COLOR] forState:UIControlStateNormal];
-  [self.defensiveLogTabButton setTitleColor:[UIColor colorWithHexString:INACTIVE_PRIVATE_CHAT_TAB_COLOR] forState:UIControlStateNormal];
-  [self.offensiveLogTabButton setTitleColor:[UIColor colorWithHexString:INACTIVE_PRIVATE_CHAT_TAB_COLOR] forState:UIControlStateNormal];
-  
-  [[NSNotificationCenter defaultCenter] postNotificationName:PRIVATE_CHAT_VIEWED_NOTIFICATION object:nil];
-}
-- (IBAction)deffensiveLogButtonClicked:(id)sender {
-  
-  _chatMode = PrivateChatModeDefenseLog;
-  [self updateDisplayedPrivateChatList];
-  
+- (IBAction)privateSubTabClicked:(id)sender {
   self.allMessagesTabButton.titleLabel.font = [UIFont fontWithName:@"Gotham-Medium"
                                                               size:self.allMessagesTabButton.titleLabel.font.pointSize];
-  self.defensiveLogTabButton.titleLabel.font = [UIFont fontWithName:@"Gotham-Bold"
+  self.defensiveLogTabButton.titleLabel.font = [UIFont fontWithName:@"Gotham-Medium"
                                                                size:self.allMessagesTabButton.titleLabel.font.pointSize];
   self.offensiveLogTabButton.titleLabel.font = [UIFont fontWithName:@"Gotham-Medium"
                                                                size:self.allMessagesTabButton.titleLabel.font.pointSize];
   
   [self.allMessagesTabButton setTitleColor:[UIColor colorWithHexString:INACTIVE_PRIVATE_CHAT_TAB_COLOR] forState:UIControlStateNormal];
-  [self.defensiveLogTabButton setTitleColor:[UIColor colorWithHexString:ACTIVE_PRIVATE_CHAT_TAB_COLOR] forState:UIControlStateNormal];
+  [self.defensiveLogTabButton setTitleColor:[UIColor colorWithHexString:INACTIVE_PRIVATE_CHAT_TAB_COLOR] forState:UIControlStateNormal];
   [self.offensiveLogTabButton setTitleColor:[UIColor colorWithHexString:INACTIVE_PRIVATE_CHAT_TAB_COLOR] forState:UIControlStateNormal];
   
-  [[NSNotificationCenter defaultCenter] postNotificationName:PRIVATE_CHAT_VIEWED_NOTIFICATION object:nil];
-}
-- (IBAction)offensiveLogbuttonClicked:(id)sender {
+  UIButton *senderButton = (UIButton*)sender;
   
-  _chatMode = PrivateChatModeAttackLog;
+  switch (senderButton.tag) {
+    case 1:
+      _chatMode = PrivateChatModeAllMessages;
+      self.allMessagesTabButton.titleLabel.font = [UIFont fontWithName:@"Gotham-Bold"
+                                                                  size:self.allMessagesTabButton.titleLabel.font.pointSize];
+      [self.allMessagesTabButton setTitleColor:[UIColor colorWithHexString:ACTIVE_PRIVATE_CHAT_TAB_COLOR] forState:UIControlStateNormal];
+      break;
+    case 2:
+      _chatMode = PrivateChatModeDefenseLog;
+      self.defensiveLogTabButton.titleLabel.font = [UIFont fontWithName:@"Gotham-Bold"
+                                                                  size:self.defensiveLogTabButton.titleLabel.font.pointSize];
+      [self.defensiveLogTabButton setTitleColor:[UIColor colorWithHexString:ACTIVE_PRIVATE_CHAT_TAB_COLOR] forState:UIControlStateNormal];
+      break;
+    case 3:
+      _chatMode = PrivateChatModeAttackLog;
+      self.offensiveLogTabButton.titleLabel.font = [UIFont fontWithName:@"Gotham-Bold"
+                                                                  size:self.offensiveLogTabButton.titleLabel.font.pointSize];
+      [self.offensiveLogTabButton setTitleColor:[UIColor colorWithHexString:ACTIVE_PRIVATE_CHAT_TAB_COLOR] forState:UIControlStateNormal];
+      break;
+      
+    default:
+      break;
+  }
+  
   [self updateDisplayedPrivateChatList];
-  
-  self.allMessagesTabButton.titleLabel.font = [UIFont fontWithName:@"Gotham-Medium"
-                                                              size:self.allMessagesTabButton.titleLabel.font.pointSize];
-  self.defensiveLogTabButton.titleLabel.font = [UIFont fontWithName:@"Gotham-Medium"
-                                                               size:self.allMessagesTabButton.titleLabel.font.pointSize];
-  self.offensiveLogTabButton.titleLabel.font = [UIFont fontWithName:@"Gotham-Bold"
-                                                               size:self.allMessagesTabButton.titleLabel.font.pointSize];
-  
-  [self.allMessagesTabButton setTitleColor:[UIColor colorWithHexString:INACTIVE_PRIVATE_CHAT_TAB_COLOR] forState:UIControlStateNormal];
-  [self.defensiveLogTabButton setTitleColor:[UIColor colorWithHexString:INACTIVE_PRIVATE_CHAT_TAB_COLOR] forState:UIControlStateNormal];
-  [self.offensiveLogTabButton setTitleColor:[UIColor colorWithHexString:ACTIVE_PRIVATE_CHAT_TAB_COLOR] forState:UIControlStateNormal];
-  
   [[NSNotificationCenter defaultCenter] postNotificationName:PRIVATE_CHAT_VIEWED_NOTIFICATION object:nil];
 }
 

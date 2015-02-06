@@ -85,7 +85,7 @@
       id<ChatObject> chat = [messages firstObject];
       if ([chat isKindOfClass:[PvpHistoryProto class] ] ) {
         PvpHistoryProto *php = [messages firstObject];
-        
+        _messageFromSingleUser = (ChatMessage*)chat;
         NSString *result = [NSString stringWithFormat:@"%@ you in battle", php.userWon ? @"Lost to" : @"Defeated"];
         UIColor *textColor = php.userWon ? [UIColor colorWithHexString:GREEN] : [UIColor colorWithHexString:RED];
         [self.notificationView updateWithString:php.otherUser.name description:result color:textColor];
@@ -190,6 +190,7 @@
   if(_messageFromSingleUser) {
     if ( [_messageFromSingleUser isKindOfClass:[PvpHistoryProto class]] ) {
       [gvc openPrivateChatWithUserUuid:_messageFromSingleUser.otherUser.userUuid name:_messageFromSingleUser.otherUser.name];
+      [_messageFromSingleUser markAsRead];
     } else {
       [gvc openPrivateChatWithUserUuid:_messageFromSingleUser.sender.userUuid name:_messageFromSingleUser.sender.name];
     }
