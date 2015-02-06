@@ -107,6 +107,7 @@ typedef enum {
   BOOL _isLoading;
   PrivateChatViewMode _chatMode;
   id<ChatObject> _clickedCell;
+  CGPoint _originalDefenceTabPosition;
 }
 
 @property (nonatomic, retain) NSString *curUserUuid;

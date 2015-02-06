@@ -64,7 +64,7 @@
 - (BOOL) userIsAttacker;
 - (BOOL) userWon;
 - (IBAction)revengeClicked:(id)sender;
-- (IBAction) avengeClicked:(id)sender;
+- (IBAction)avengeClicked:(id)sender;
 
 @end
 

@@ -15,6 +15,29 @@
                     <rect key="frame" x="0.0" y="3" width="345" height="1"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                 </imageView>
+                <view contentMode="scaleToFill" id="1ZF-4p-E5W" userLabel="Avenge Check View">
+                    <rect key="frame" x="201" y="12" width="68" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                    <subviews>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AVENGED" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="eH6-2i-71P" customClass="NiceFontLabel12">
+                            <rect key="frame" x="12" y="5" width="58" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                            <color key="textColor" red="0.090196078431372548" green="0.47058823529411764" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
+                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="revengecheckbox.png" id="Zum-uc-fzU">
+                            <rect key="frame" x="1" y="11" width="10" height="11"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="greencheck.png" id="OiR-MG-GJE">
+                            <rect key="frame" x="-2" y="9" width="17" height="15"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
                 <view contentMode="scaleToFill" id="KY5-ql-Xdt" userLabel="Avenge View">
                     <rect key="frame" x="201" y="12" width="68" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
@@ -49,29 +72,6 @@
                             <color key="shadowColor" red="0.96470588239999999" green="1" blue="0.51372549020000002" alpha="0.80000000000000004" colorSpace="deviceRGB"/>
                             <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
-                    </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                </view>
-                <view contentMode="scaleToFill" id="1ZF-4p-E5W" userLabel="Avenge Check View">
-                    <rect key="frame" x="201" y="12" width="68" height="30"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                    <subviews>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AVENGED" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="eH6-2i-71P" customClass="NiceFontLabel12">
-                            <rect key="frame" x="12" y="5" width="58" height="21"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="8"/>
-                            <color key="textColor" red="0.090196078431372548" green="0.47058823529411764" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
-                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <size key="shadowOffset" width="0.0" height="1"/>
-                        </label>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="revengecheckbox.png" id="Zum-uc-fzU">
-                            <rect key="frame" x="1" y="11" width="10" height="11"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="greencheck.png" id="OiR-MG-GJE">
-                            <rect key="frame" x="-2" y="9" width="17" height="15"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>

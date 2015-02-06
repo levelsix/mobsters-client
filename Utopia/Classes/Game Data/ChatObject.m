@@ -302,7 +302,7 @@
   }
 }
 
-- (IBAction) avengeClicked:(UIButton *)sender {
+- (IBAction) avengeClicked:(UIButton *)sender{
   // Check gamestate if there are any avengings by me
   GameState *gs = [GameState sharedGameState];
   
@@ -321,6 +321,16 @@
       clanAvenged_ = YES;
       
       [sender.superview setHidden:YES];
+      ChatBattleHistoryView *historyView = (ChatBattleHistoryView*)sender.superview.superview;
+      historyView.avengedLabel.superview.hidden = NO;
+      historyView.avengeCheck.hidden = NO;
+      
+      historyView.avengeCheck.transform = CGAffineTransformScale(CGAffineTransformIdentity, 10, 10);
+      historyView.avengeCheck.alpha = 0;
+      [UIView animateWithDuration:.3f animations:^{
+        historyView.avengeCheck.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1, 1);
+        historyView.avengeCheck.alpha = 1;
+      }];
     } else {
       [Globals addAlertNotification:@"You already have a valid clan avenge request. Try again later."];
     }
