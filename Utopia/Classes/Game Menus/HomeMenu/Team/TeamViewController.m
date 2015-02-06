@@ -273,7 +273,7 @@
       [slot updateForUserMonster:um];
       
       slot.tapToAddLabel.hidden = slot.tag != nextSlot;
-      slot.toonDetailsView.hidden = !slot.tapToAddLabel.hidden;
+      slot.toonDetailsView.hidden = !slot.tapToAddLabel.hidden || !um;
     }
   }
   
