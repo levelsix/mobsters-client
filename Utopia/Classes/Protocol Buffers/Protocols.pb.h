@@ -502,6 +502,10 @@
 @class RetrieveTournamentRankingsRequestProto_Builder;
 @class RetrieveTournamentRankingsResponseProto;
 @class RetrieveTournamentRankingsResponseProto_Builder;
+@class RetrieveUserMonsterTeamRequestProto;
+@class RetrieveUserMonsterTeamRequestProto_Builder;
+@class RetrieveUserMonsterTeamResponseProto;
+@class RetrieveUserMonsterTeamResponseProto_Builder;
 @class RetrieveUsersForUserIdsRequestProto;
 @class RetrieveUsersForUserIdsRequestProto_Builder;
 @class RetrieveUsersForUserIdsResponseProto;
@@ -814,6 +818,7 @@ typedef NS_ENUM(SInt32, EventProtocolRequest) {
   EventProtocolRequestCSolicitTeamDonationEvent = 94,
   EventProtocolRequestCFulfillTeamDonationSolicitationEvent = 95,
   EventProtocolRequestCVoidTeamDonationSolicitationEvent = 96,
+  EventProtocolRequestCRetrieveUserMonsterTeamEvent = 97,
   EventProtocolRequestCLogoutEvent = 101,
   EventProtocolRequestCDevEvent = 200,
 };
@@ -916,6 +921,7 @@ typedef NS_ENUM(SInt32, EventProtocolResponse) {
   EventProtocolResponseSSolicitTeamDonationEvent = 94,
   EventProtocolResponseSFulfillTeamDonationSolicitationEvent = 95,
   EventProtocolResponseSVoidTeamDonationSolicitationEvent = 96,
+  EventProtocolResponseSRetrieveUserMonsterTeamEvent = 97,
   EventProtocolResponseSUpdateClientUserEvent = 101,
   EventProtocolResponseSReferralCodeUsedEvent = 102,
   EventProtocolResponseSPurgeStaticDataEvent = 103,

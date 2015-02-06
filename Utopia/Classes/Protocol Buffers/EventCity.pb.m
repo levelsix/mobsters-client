@@ -749,7 +749,7 @@ BOOL LoadPlayerCityResponseProto_LoadPlayerCityStatusIsValidValue(LoadPlayerCity
   result.status = value;
   return self;
 }
-- (LoadPlayerCityResponseProto_Builder*) clearStatus {
+- (LoadPlayerCityResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = LoadPlayerCityResponseProto_LoadPlayerCityStatusSuccess;
   return self;
@@ -1504,7 +1504,7 @@ BOOL PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatusIsValidValue(
   result.status = value;
   return self;
 }
-- (PurchaseCityExpansionResponseProto_Builder*) clearStatus {
+- (PurchaseCityExpansionResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatusSuccess;
   return self;
@@ -2153,7 +2153,7 @@ BOOL LoadCityResponseProto_LoadCityStatusIsValidValue(LoadCityResponseProto_Load
   result.status = value;
   return self;
 }
-- (LoadCityResponseProto_Builder*) clearStatus {
+- (LoadCityResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = LoadCityResponseProto_LoadCityStatusSuccess;
   return self;

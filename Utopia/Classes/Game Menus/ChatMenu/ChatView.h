@@ -62,6 +62,8 @@
 
 @property (nonatomic, assign) CGRect originalBottomViewRect;
 
+@property (nonatomic, assign) BOOL allowAutoScroll;
+
 - (void) updateForChats:(NSArray *)chats animated:(BOOL)animated;
 
 - (IBAction)sendChatClicked:(id)sender;

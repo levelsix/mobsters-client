@@ -210,6 +210,12 @@
 - (int) sendEndClanAvengingMessage:(NSArray *)avengeUuids;
 - (int) sendAvengeClanMateMessage:(PvpClanAvengeProto *)ca clientTime:(uint64_t)clientTime;
 
+- (int) sendSolicitTeamDonationMessage:(NSString *)msg powerLimit:(int)powerLimit clientTime:(uint64_t)clientTime gemsSpent:(int)gemsSpent;
+- (int) sendFulfillTeamDonationSolicitationMessage:(FullUserMonsterProto *)fump solicitation:(ClanMemberTeamDonationProto *)solicitation clientTime:(uint64_t)clientTime;
+- (int) sendVoidTeamDonationSolicitationMessage:(NSArray *)solicitations;
+
+- (int) sendRetrieveUserMonsterTeamMessage:(NSArray *)userUuids;
+
 - (void) flush;
 
 @end

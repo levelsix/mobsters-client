@@ -39,7 +39,6 @@
     [gs.myMiniJobs removeAllObjects];
     [gs.monsterHealingQueues removeAllObjects];
     [gs.myStructs removeAllObjects];
-    [gs.completedTasks removeAllObjects];
     [gs.completedTaskData removeAllObjects];
     
     _structs = [NSMutableDictionary dictionary];

@@ -835,10 +835,10 @@
   int currentScore = (float)(_myDamageDealt + scoreModifier)/(float)[self.myPlayerObject totalAttackPower]*100.f;
   
   if (currentScore > 0) {
-    if (currentScore > MAKEITRAIN_SCORE) {
+//    if (currentScore > MAKEITRAIN_SCORE) {
       [self.myPlayer restoreStandingFrame];
       [self spawnPlaneWithTarget:nil selector:nil];
-    }
+//    }
     
     // If the player's confused, he will deal damage to himself. Instead of the usual flow, show
     // the popup above his head, followed by flinch animation and showing the damage label
@@ -1270,7 +1270,9 @@
 
 - (void) sendServerUpdatedValuesVerifyDamageDealt:(BOOL)verify {
   if (_enemyDamageDealt || !verify) {
-    [[OutgoingEventController sharedOutgoingEventController] updateMonsterHealth:self.myPlayerObject.userMonsterUuid curHealth:self.myPlayerObject.curHealth];
+    if (!self.myPlayerObject.isClanMonster) {
+      [[OutgoingEventController sharedOutgoingEventController] updateMonsterHealth:self.myPlayerObject.userMonsterUuid curHealth:self.myPlayerObject.curHealth];
+    }
   }
 }
 
@@ -1278,13 +1280,13 @@
   [sprite runAction:[CCActionSequence actions:
                      [RecursiveFadeTo actionWithDuration:0.3f opacity:0],
                      [CCActionDelay actionWithDuration:0.7f],
-                     [CCActionCallFunc actionWithTarget:sprite selector:@selector(removeFromParent)],
+                     [CCActionRemove action],
                      [CCActionCallBlock actionWithBlock:^{if (block) block();}], nil]];
   
   CCParticleSystem *q = [CCParticleSystem particleWithFile:@"characterdie.plist"];
   q.autoRemoveOnFinish = YES;
   q.position = ccpAdd(sprite.position, ccp(0, sprite.contentSize.height/2-5));
-  [self.bgdContainer addChild:q z:2];
+  [self.bgdContainer addChild:q z:sprite.zOrder];
   
   [SoundEngine puzzleMonsterDefeated];
 }
@@ -1665,26 +1667,30 @@
 }
 
 - (void) shakeScreenWithIntensity:(float)intensity {
-  // Shake everything with zOrder 0
-  CCActionMoveBy *move = [CCActionMoveBy actionWithDuration:0.02f position:ccp(3*intensity, 0)];
-  CCActionSequence *seq = [CCActionSequence actions:move, move.reverse, move.reverse, move, nil];
-  CCActionRepeat *repeat = [CCActionRepeat actionWithAction:seq times:5+(intensity*3)];
+  CCNode *n = self.bgdContainer;
+  CGPoint curPos = n.position;
   
-  // Dont shake curEnemy because it messes with it coming back after flinch
-  NSArray *arr = [NSArray arrayWithObjects:self.bgdContainer, nil];
-  for (CCNode *n in arr) {
-    CGPoint curPos = n.position;
-    [n runAction:[CCActionSequence actions:repeat.copy, [CCActionCallBlock actionWithBlock:^{
-      n.position = curPos;
-    }], nil]];
+  NSMutableArray *moves = [NSMutableArray array];
+  for (int i = 0; i < 5+intensity*14; i++) {
+    CGPoint pt = ccp(drand48()*intensity*10, drand48()*intensity*10);
+    CCActionMoveTo *move = [CCActionMoveTo actionWithDuration:0.02f position:ccpAdd(pt, curPos)];
+    [moves addObject:move];
   }
+  CCActionMoveTo *move = [CCActionMoveTo actionWithDuration:0.02f position: curPos];
+  [moves addObject:move];
+  
+  CCActionSequence *seq = [CCActionSequence actionWithArray:moves];
+  
+  [n runAction:[CCActionSequence actions:seq, [CCActionCallBlock actionWithBlock:^{
+    n.position = curPos;
+  }], nil]];
 }
 
 - (void) showHighScoreWordWithTarget:(id)target selector:(SEL)selector {
   CCSprite *phrase = nil;
   NSString *phraseFile = nil;
   BOOL isMakeItRain = NO;
-  int currentScore = _myDamageDealt/(float)[self.myPlayerObject totalAttackPower]*100.f;
+  int currentScore = _myDamageDealt*[self damageMultiplierIsEnemyAttacker:NO]/(float)[self.myPlayerObject totalAttackPower]*100.f;
   if (currentScore > MAKEITRAIN_SCORE) {
     isMakeItRain = YES;
   } else if (currentScore > HAMMERTIME_SCORE) {
@@ -2212,7 +2218,8 @@
 
 #pragma mark - Hud views
 
-#define DEPLOY_CENTER_X (self.contentSize.width-self.orbLayer.contentSize.width-ORB_LAYER_DIST_FROM_SIDE)/2
+#define BOTTOM_CENTER_X (self.contentSize.width-self.orbLayer.contentSize.width-ORB_LAYER_DIST_FROM_SIDE)/2
+#define DEPLOY_CENTER_X roundf(MAX(BOTTOM_CENTER_X, self.hudView.deployView.width/2+5.f))
 
 - (void) loadHudView {
   GameViewController *gvc = [GameViewController baseController];
@@ -2228,10 +2235,10 @@
   self.hudView.bottomView.originY = self.hudView.bottomView.superview.height-self.hudView.bottomView.height-bottomDist;
   self.hudView.swapView.originY = self.hudView.swapView.superview.height-self.hudView.swapView.height-bottomDist;
   
-  self.hudView.bottomView.centerX = DEPLOY_CENTER_X;
+  self.hudView.bottomView.centerX = BOTTOM_CENTER_X;
   
   UIImage *img = [Globals imageNamed:@"6movesqueuebgwide.png"];
-  if (DEPLOY_CENTER_X*2 > img.size.width+bottomDist*2) {
+  if (BOTTOM_CENTER_X*2 > img.size.width+bottomDist*2) {
     self.hudView.battleScheduleView.bgdView.image = img;
     self.hudView.battleScheduleView.width = img.size.width;
   }
@@ -2242,6 +2249,13 @@
     self.hudView.battleScheduleView.originY = bottomDist-self.hudView.battleScheduleView.containerView.originY;
     
     self.hudView.elementButton.originY = self.hudView.battleScheduleView.originY+self.hudView.battleScheduleView.height-12;
+  }
+  
+  GameState *gs = [GameState sharedGameState];
+  if (gs.clan) {
+    [self.hudView.deployView showClanSlot];
+  } else {
+    [self.hudView.deployView hideClanSlot];
   }
 }
 
@@ -2292,6 +2306,14 @@
   BOOL isSwap = self.myPlayer != nil;
   if (bp && ![bp.userMonsterUuid isEqualToString:self.myPlayerObject.userMonsterUuid]) {
     self.myPlayerObject = bp;
+    
+    if (bp.isClanMonster) {
+      GameState *gs = [GameState sharedGameState];
+      ClanMemberTeamDonationProto *donation = [gs.clanTeamDonateUtil myTeamDonation];
+      if ([donation.donatedMonster.userMonsterUuid isEqualToString:self.myPlayerObject.userMonsterUuid]) {
+        [[OutgoingEventController sharedOutgoingEventController] invalidateSolicitation:donation];
+      }
+    }
     
     [self createScheduleWithSwap:isSwap];
     

@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ChatViewController">
@@ -57,15 +56,15 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <view contentMode="scaleToFill" id="QvB-dK-o7n" userLabel="Private Chat Back View">
-                                    <rect key="frame" x="5" y="0.0" width="443" height="39"/>
+                                    <rect key="frame" x="5" y="-3" width="443" height="42"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popupheadermiddle.png" id="gcF-y7-ufs">
-                                            <rect key="frame" x="0.0" y="0.0" width="445" height="39"/>
+                                            <rect key="frame" x="0.0" y="3" width="445" height="39"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         </imageView>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Meepert" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="003-5V-mHH" customClass="NiceFontLabel12B">
-                                            <rect key="frame" x="116" y="3" width="211" height="31"/>
+                                            <rect key="frame" x="116" y="5" width="211" height="31"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -74,7 +73,7 @@
                                             <size key="shadowOffset" width="0.0" height="1"/>
                                         </label>
                                         <view contentMode="scaleToFill" id="7ab-XC-fQ5" userLabel="Back View">
-                                            <rect key="frame" x="3" y="5" width="61" height="30"/>
+                                            <rect key="frame" x="3" y="7" width="61" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Chats" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="PRa-Qj-6kd" customClass="NiceFontLabel8B">
@@ -105,7 +104,7 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                     </subviews>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </view>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popupheadercap.png" id="8Vj-gO-48L">
                                     <rect key="frame" x="0.0" y="0.0" width="5" height="39"/>
@@ -488,7 +487,7 @@
             <nil key="simulatedStatusBarMetrics"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
-            <point key="canvasLocation" x="-334" y="-158"/>
+            <point key="canvasLocation" x="-92" y="-33"/>
         </view>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="eIq-PW-faH" customClass="ClanChatView">
@@ -968,7 +967,7 @@
                 <outlet property="textField" destination="W04-by-RXu" id="SqK-OB-6Yp"/>
                 <outlet property="titleLabel" destination="003-5V-mHH" id="7YF-8M-hgJ"/>
             </connections>
-            <point key="canvasLocation" x="-356" y="210.5"/>
+            <point key="canvasLocation" x="-11" y="364.5"/>
         </view>
         <view contentMode="scaleToFill" id="pfc-Vl-jbC" customClass="ChatPopoverView">
             <rect key="frame" x="0.0" y="0.0" width="226" height="51"/>

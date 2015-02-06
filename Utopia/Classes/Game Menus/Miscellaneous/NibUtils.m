@@ -1808,15 +1808,19 @@ void undoDelayOnScrollViewHierarchy(UIView *v) {
 
 - (id) initWithCoder:(NSCoder *)aDecoder {
   if ((self = [super initWithCoder:aDecoder])) {
-    UIView *oldContainer = [[NSBundle mainBundle] loadNibNamed:NSStringFromClass([self class]) owner:self options:nil][0];
-    
-    for (UIView *v in oldContainer.subviews) {
-      [self addSubview:v];
-    }
-    
-    self.backgroundColor = [UIColor clearColor];
+    [self loadNib];
   }
   return self;
+}
+
+- (void) loadNib {
+  UIView *oldContainer = [[NSBundle mainBundle] loadNibNamed:NSStringFromClass([self class]) owner:self options:nil][0];
+  
+  for (UIView *v in oldContainer.subviews) {
+    [self addSubview:v];
+  }
+  
+  self.backgroundColor = [UIColor clearColor];
 }
 
 @end

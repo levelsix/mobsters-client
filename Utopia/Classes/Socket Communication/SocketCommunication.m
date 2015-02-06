@@ -1149,13 +1149,13 @@ static NSString *udid = nil;
 
 - (int) sendEndPvpBattleMessage:(NSString *)defenderUuid userAttacked:(BOOL)userAttacked userWon:(BOOL)userWon oilChange:(int)oilChange cashChange:(int)cashChange clientTime:(uint64_t)clientTime monsterDropIds:(NSArray *)monsterDropIds {
   EndPvpBattleRequestProto *req = [[[[[[[[[[EndPvpBattleRequestProto builder]
-                                          setSender:[self senderWithMaxResources]]
-                                         setDefenderUuid:defenderUuid]
-                                        setUserAttacked:userAttacked]
-                                       setUserWon:userWon]
-                                      setOilChange:oilChange]
-                                     setCashChange:cashChange]
-                                    setClientTime:clientTime]
+                                           setSender:[self senderWithMaxResources]]
+                                          setDefenderUuid:defenderUuid]
+                                         setUserAttacked:userAttacked]
+                                        setUserWon:userWon]
+                                       setOilChange:oilChange]
+                                      setCashChange:cashChange]
+                                     setClientTime:clientTime]
                                     addAllMonsterDropIds:monsterDropIds]
                                    build];
   
@@ -1520,9 +1520,9 @@ static NSString *udid = nil;
 
 - (int) sendBeginClanAvengingMessage:(NSArray *)pvpHistories clientTime:(uint64_t)clientTime {
   BeginClanAvengingRequestProto *req = [[[[[BeginClanAvengingRequestProto builder]
-                                          setSender:_sender]
-                                         addAllRecentNbattles:pvpHistories]
-                                        setClientTime:clientTime]
+                                           setSender:_sender]
+                                          addAllRecentNbattles:pvpHistories]
+                                         setClientTime:clientTime]
                                         build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCBeginClanAvengingEvent];
@@ -1530,9 +1530,9 @@ static NSString *udid = nil;
 
 - (int) sendAvengeClanMateMessage:(PvpClanAvengeProto *)ca clientTime:(uint64_t)clientTime {
   AvengeClanMateRequestProto *req = [[[[[AvengeClanMateRequestProto builder]
-                                       setSender:_sender]
-                                      setClanAvenge:ca]
-                                     setClientTime:clientTime]
+                                        setSender:_sender]
+                                       setClanAvenge:ca]
+                                      setClientTime:clientTime]
                                      build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCAvengeClanMateEvent];
@@ -1545,6 +1545,47 @@ static NSString *udid = nil;
                                       build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCEndClanAvengingEvent];
+}
+
+- (int) sendSolicitTeamDonationMessage:(NSString *)msg powerLimit:(int)powerLimit clientTime:(uint64_t)clientTime gemsSpent:(int)gemsSpent {
+  SolicitTeamDonationRequestProto *req = [[[[[[[SolicitTeamDonationRequestProto builder]
+                                              setSender:_sender]
+                                              setMsg:msg]
+                                             setPowerLimit:powerLimit]
+                                            setClientTime:clientTime]
+                                           setGemsSpent:gemsSpent]
+                                          build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCSolicitTeamDonationEvent];
+}
+
+- (int) sendFulfillTeamDonationSolicitationMessage:(FullUserMonsterProto *)fump solicitation:(ClanMemberTeamDonationProto *)solicitation clientTime:(uint64_t)clientTime {
+  FulfillTeamDonationSolicitationRequestProto *req = [[[[[[FulfillTeamDonationSolicitationRequestProto builder]
+                                                         setSender:_sender]
+                                                        setClientTime:clientTime]
+                                                        setSolicitation:solicitation]
+                                                       setFump:fump]
+                                                      build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCFulfillTeamDonationSolicitationEvent];
+}
+
+- (int) sendVoidTeamDonationSolicitationMessage:(NSArray *)solicitations {
+  VoidTeamDonationSolicitationRequestProto *req = [[[[VoidTeamDonationSolicitationRequestProto builder]
+                                                     setSender:_sender]
+                                                    addAllSolicitations:solicitations]
+                                                   build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCVoidTeamDonationSolicitationEvent queueUp:YES];
+}
+
+- (int) sendRetrieveUserMonsterTeamMessage:(NSArray *)userUuids {
+  RetrieveUserMonsterTeamRequestProto *req = [[[[RetrieveUserMonsterTeamRequestProto builder]
+                                                setSender:_sender]
+                                               addAllUserUuids:userUuids]
+                                              build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCRetrieveUserMonsterTeamEvent];
 }
 
 #pragma mark - Batch/Flush events

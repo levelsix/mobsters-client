@@ -110,6 +110,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.lastFreeGachaSpin = user.hasLastFreeBoosterPackTime ? [MSDate dateWithTimeIntervalSince1970:user.lastFreeBoosterPackTime/1000.0] : nil;
   self.lastSecretGiftCollectTime = user.hasLastSecretGiftCollectTime ? [MSDate dateWithTimeIntervalSince1970:user.lastSecretGiftCollectTime/1000.0] : nil;
   self.pvpDefendingMessage = user.pvpDefendingMessage;
+  self.lastTeamDonateSolicitationTime = user.hasLastTeamDonationSolicitation ? [MSDate dateWithTimeIntervalSince1970:user.lastTeamDonationSolicitation/1000.] : nil;
   
   self.lastLogoutTime = [MSDate dateWithTimeIntervalSince1970:user.lastLogoutTime/1000.0];
   self.lastLoginTimeNum = user.lastLoginTime;
@@ -184,6 +185,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   fup.avatarMonsterId = self.avatarMonsterId;
   fup.lastSecretGiftCollectTime = self.lastSecretGiftCollectTime.timeIntervalSince1970*1000.;
   fup.pvpDefendingMessage = self.pvpDefendingMessage;
+  fup.lastTeamDonationSolicitation = self.lastTeamDonateSolicitationTime.timeIntervalSince1970*1000.;
   
   return [fup build];
 }
@@ -699,6 +701,16 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     }
   }
   
+  if (self.clanTeamDonateUtil) {
+    for (ClanMemberTeamDonationProto *donation in self.clanTeamDonateUtil.teamDonations) {
+      // Allow it to be valid for 5 seconds
+      MSDate *date = donation.fulfilledDate;
+      if (!donation.isFulfilled || (date && date.timeIntervalSinceNow > -5)) {
+        [arr addObject:donation];
+      }
+    }
+  }
+  
   for (PvpClanAvenging *ca in self.clanAvengings) {
     if (ca.isValid) {
       [arr addObject:ca];
@@ -750,6 +762,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.clanHelpUtil = nil;
   if (clanData) {
     self.clanHelpUtil = [[ClanHelpUtil alloc] initWithUserUuid:self.userUuid clanUuid:self.clan.clanUuid clanHelpProtos:clanData.clanHelpingsList];
+  }
+  
+  self.clanTeamDonateUtil = nil;
+  if (clanData) {
+    self.clanTeamDonateUtil = [[ClanTeamDonateUtil alloc] init];
+    [self.clanTeamDonateUtil addClanTeamDonations:clanData.clanDonationSolicitationsList];
   }
   
   [self.clanAvengings removeAllObjects];
@@ -854,13 +872,24 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return nil;
 }
 
-- (NSArray *) allMonstersOnMyTeam {
+- (NSArray *) allMonstersOnMyTeamWithClanSlot:(BOOL)withClanSlot {
   NSMutableArray *m = [NSMutableArray array];
   for (UserMonster *um in self.myMonsters) {
     if (um.teamSlot != 0) {
       [m addObject:um];
     }
   }
+  
+  if (withClanSlot) {
+    UserMonster *um = self.clanTeamDonateUtil.myTeamDonation.donatedMonster;
+    if (um) {
+      Globals *gl = [Globals sharedGlobals];
+      um.teamSlot = gl.maxTeamSize+1;
+      um.isClanMonster = YES;
+      [m addObject:um];
+    }
+  }
+  
   [m sortUsingComparator:^NSComparisonResult(UserMonster *obj1, UserMonster *obj2) {
     return [@(obj1.teamSlot) compare:@(obj2.teamSlot)];
   }];
@@ -868,8 +897,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return m;
 }
 
-- (NSArray *) allBattleAvailableMonstersOnTeam {
-  NSArray *arr = [self allMonstersOnMyTeam];
+- (NSArray *) allBattleAvailableMonstersOnTeamWithClanSlot:(BOOL)withClanSlot {
+  NSArray *arr = [self allMonstersOnMyTeamWithClanSlot:withClanSlot];
   NSMutableArray *m = [NSMutableArray array];
   for (UserMonster *um in arr) {
     if (um.isAvailable) {
@@ -879,8 +908,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return m;
 }
 
-- (NSArray *) allBattleAvailableAliveMonstersOnTeam {
-  NSArray *arr = [self allBattleAvailableMonstersOnTeam];
+- (NSArray *) allBattleAvailableAliveMonstersOnTeamWithClanSlot:(BOOL)withClanSlot {
+  NSArray *arr = [self allBattleAvailableMonstersOnTeamWithClanSlot:withClanSlot];
   NSMutableArray *m = [NSMutableArray array];
   for (UserMonster *um in arr) {
     if (um.curHealth > 0) {
@@ -1179,7 +1208,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (void) unlockAllTasks {
   for (FullTaskProto *task in self.staticTasks.allValues) {
-    [self.completedTasks addObject:@(task.taskId)];
+    UserTaskCompletedProto *c = [[[[UserTaskCompletedProto builder]
+                                   setTaskId:task.taskId]
+                                  setUserId:self.userUuid]
+                                 build];
+    [self.completedTaskData setObject:c forKey:@(task.taskId)];
   }
 }
 
@@ -1771,7 +1804,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (void) avengeWaitTimeComplete {
   Globals *gl = [Globals sharedGlobals];
-
+  
   NSMutableArray *expired = [NSMutableArray array];
   for (PvpClanAvenging *ca in self.clanAvengings.copy) {
     if ([ca.defender.userUuid isEqualToString:self.userUuid]) {
@@ -1791,7 +1824,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     
     [[NSNotificationCenter defaultCenter] postNotificationName:CLAN_AVENGINGS_CHANGED_NOTIFICATION object:nil];
   }
-
+  
 }
 
 - (void) stopAvengeTimer {

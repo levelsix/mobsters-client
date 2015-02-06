@@ -281,7 +281,7 @@ BOOL UserMonsterSnapshotProto_SnapshotTypeIsValidValue(UserMonsterSnapshotProto_
 - (BOOL) hasQuality;
 - (Quality) quality;
 - (MonsterProto_Builder*) setQuality:(Quality) value;
-- (MonsterProto_Builder*) clearQuality;
+- (MonsterProto_Builder*) clearQualityList;
 
 - (BOOL) hasEvolutionLevel;
 - (int32_t) evolutionLevel;
@@ -296,7 +296,7 @@ BOOL UserMonsterSnapshotProto_SnapshotTypeIsValidValue(UserMonsterSnapshotProto_
 - (BOOL) hasMonsterElement;
 - (Element) monsterElement;
 - (MonsterProto_Builder*) setMonsterElement:(Element) value;
-- (MonsterProto_Builder*) clearMonsterElement;
+- (MonsterProto_Builder*) clearMonsterElementList;
 
 - (BOOL) hasImagePrefix;
 - (NSString*) imagePrefix;
@@ -372,7 +372,7 @@ BOOL UserMonsterSnapshotProto_SnapshotTypeIsValidValue(UserMonsterSnapshotProto_
 - (BOOL) hasAttackAnimationType;
 - (MonsterProto_AnimationType) attackAnimationType;
 - (MonsterProto_Builder*) setAttackAnimationType:(MonsterProto_AnimationType) value;
-- (MonsterProto_Builder*) clearAttackAnimationType;
+- (MonsterProto_Builder*) clearAttackAnimationTypeList;
 
 - (BOOL) hasVerticalPixelOffset;
 - (int32_t) verticalPixelOffset;
@@ -1523,7 +1523,7 @@ BOOL UserMonsterSnapshotProto_SnapshotTypeIsValidValue(UserMonsterSnapshotProto_
 - (BOOL) hasDialogueType;
 - (MonsterBattleDialogueProto_DialogueType) dialogueType;
 - (MonsterBattleDialogueProto_Builder*) setDialogueType:(MonsterBattleDialogueProto_DialogueType) value;
-- (MonsterBattleDialogueProto_Builder*) clearDialogueType;
+- (MonsterBattleDialogueProto_Builder*) clearDialogueTypeList;
 
 - (BOOL) hasDialogue;
 - (NSString*) dialogue;
@@ -1640,7 +1640,7 @@ BOOL UserMonsterSnapshotProto_SnapshotTypeIsValidValue(UserMonsterSnapshotProto_
 - (BOOL) hasType;
 - (UserMonsterSnapshotProto_SnapshotType) type;
 - (UserMonsterSnapshotProto_Builder*) setType:(UserMonsterSnapshotProto_SnapshotType) value;
-- (UserMonsterSnapshotProto_Builder*) clearType;
+- (UserMonsterSnapshotProto_Builder*) clearTypeList;
 
 - (BOOL) hasRelevantTableUuid;
 - (NSString*) relevantTableUuid;

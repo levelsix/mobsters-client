@@ -77,7 +77,7 @@
       [self showSkillPopupOverlay:YES withCompletion:^{
         [self performAfterDelay:0.5 block:^{
           SkillLogStart(@"Bombs -- Skill spawned initial %ld bombs", (long)_initialBombs);
-          [self spawnBombs:_initialBombs withTarget:self andSelector:@selector(skillTriggerFinished)];
+          [self spawnBombs:_initialBombs isInitialSkill:YES withTarget:self andSelector:@selector(skillTriggerFinished)];
         }];
       }];
     }
@@ -115,7 +115,7 @@
         [self makeSkillOwnerJumpWithTarget:nil selector:nil];
         [self performAfterDelay:0.5 block:^{
           SkillLogStart(@"Bombs -- Skill spawned additional %ld bombs", (long)countToSpawn);
-          [self spawnBombs:countToSpawn withTarget:self andSelector:@selector(skillTriggerFinished)];
+          [self spawnBombs:countToSpawn isInitialSkill:NO withTarget:self andSelector:@selector(skillTriggerFinished)];
         }];
       }
       else
@@ -130,14 +130,14 @@
 #pragma mark - Skill logic
 
 // Adding bombs
-- (void) spawnBombs:(NSInteger)count withTarget:(id)target andSelector:(SEL)selector
+- (void) spawnBombs:(NSInteger)count isInitialSkill:(BOOL)isInitialSkill withTarget:(id)target andSelector:(SEL)selector
 {
   [self preseedRandomization];
   
   for (NSInteger n = 0; n < count; n++)
   {
     BattleOrbLayout* layout = self.battleLayer.orbLayer.layout;
-    BattleOrb* orb = [layout findOrbWithColorPreference:self.orbColor];
+    BattleOrb* orb = [layout findOrbWithColorPreference:self.orbColor isInitialSkill:isInitialSkill];
     
     // Nothing found (just in case), continue and perform selector if the last bomb
     if (!orb)

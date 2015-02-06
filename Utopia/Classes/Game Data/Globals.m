@@ -86,6 +86,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.maxObstacles = constants.maxObstacles;
   self.minutesPerObstacle = constants.minutesPerObstacle;
   self.maxMinutesForFreeSpeedUp = constants.maxMinutesForFreeSpeedUp;
+  self.minsToResolicitTeamDonation = constants.minsToResolicitTeamDonation;
   
   self.beginAvengingTimeLimitMins = constants.pvpConstant.beginAvengingTimeLimitMins;
   self.requestClanToAvengeTimeLimitMins = constants.pvpConstant.requestClanToAvengeTimeLimitMins;
@@ -1963,7 +1964,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 - (BOOL) currentBattleReadyTeamHasCostFor:(UserMonster *)um {
   GameState *gs = [GameState sharedGameState];
-  int teamCost = [self calculateTeamCostForTeam:gs.allBattleAvailableAliveMonstersOnTeam];
+  int teamCost = [self calculateTeamCostForTeam:[gs allBattleAvailableAliveMonstersOnTeamWithClanSlot:NO]];
   int maxCost = gs.maxTeamCost;
   
   return [um teamCost] <= maxCost-teamCost;
@@ -2445,16 +2446,17 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 + (BOOL) checkEnteringDungeonWithTarget:(id)target noTeamSelector:(SEL)noTeamSelector inventoryFullSelector:(SEL)inventoryFullSelector {
-#ifdef DEBUG
-  return YES;
-#else
+//#ifdef DEBUG
+//  return YES;
+//#else
   // Check that team is valid
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
-  NSArray *team = [gs allBattleAvailableMonstersOnTeam];
+  NSArray *myTeam = [gs allBattleAvailableMonstersOnTeamWithClanSlot:NO];
+  NSArray *fullTeam = [gs allBattleAvailableMonstersOnTeamWithClanSlot:YES];
   BOOL hasValidTeam = NO;
   BOOL hasDeadMonster = NO;
-  for (UserMonster *um in team) {
+  for (UserMonster *um in fullTeam) {
     if (um.curHealth > 0) {
       hasValidTeam = YES;
     } else {
@@ -2462,7 +2464,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     }
   }
   
-  BOOL hasFullTeam = team.count >= gl.maxTeamSize && !hasDeadMonster;
+  BOOL hasFullTeam = myTeam.count >= gl.maxTeamSize && !hasDeadMonster;
   BOOL hasAvailMobsters = NO;
   for (UserMonster *um in gs.myMonsters) {
     if ([um isAvailable] && !um.teamSlot && um.curHealth > 0 && [gl currentBattleReadyTeamHasCostFor:um]) {
@@ -2472,7 +2474,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   
   if (!hasValidTeam) {
     NSString *description = @"";
-    if (team.count == 0) {
+    if (fullTeam.count == 0) {
       description = [NSString stringWithFormat:@"You have no %@s on your team. Manage your team now.", MONSTER_NAME];
     } else {
       description = [NSString stringWithFormat:@"Uh oh, you have no healthy %@s on your team. Manage your team now.", MONSTER_NAME];
@@ -2501,11 +2503,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
   
   return YES;
-#endif
+//#endif
 }
 #pragma clang diagnostic pop
 
-+ (void) animateStartView:(UIView *)startView toEndView:(UIView *)endView fakeStartView:(UIView *)fakeStart fakeEndView:(UIView *)fakeEnd {
++ (void) animateStartView:(UIView *)startView toEndView:(UIView *)endView fakeStartView:(UIView *)fakeStart fakeEndView:(UIView *)fakeEnd completion:(dispatch_block_t)completion {
   fakeStart.center = [fakeStart.superview convertPoint:startView.center fromView:startView.superview];
   fakeEnd.center = fakeStart.center;
   fakeStart.alpha = 1.f;
@@ -2530,9 +2532,17 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       [fakeEnd removeFromSuperview];
     }
     
+    if (completion) {
+      completion();
+    }
+    
     startView.hidden = NO;
     endView.hidden = NO;
   }];
+}
+
++ (void) animateStartView:(UIView *)startView toEndView:(UIView *)endView fakeStartView:(UIView *)fakeStart fakeEndView:(UIView *)fakeEnd {
+  [self animateStartView:startView toEndView:endView fakeStartView:fakeStart fakeEndView:fakeEnd completion:nil];
 }
 
 + (NSString *) getRandomTipFromFile:(NSString *)file {

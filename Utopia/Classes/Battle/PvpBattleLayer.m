@@ -30,28 +30,6 @@
 
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize pvpHistoryForRevenge:(PvpHistoryProto *)hist {
   if ((self = [self initWithMyUserMonsters:monsters puzzleIsOnLeft:puzzleIsOnLeft gridSize:gridSize])) {
-    PvpProto_Builder *pvp = [PvpProto builder];
-    
-    MinimumUserProto *mup = [[[[[[MinimumUserProto builder] setName:hist.attacker.name]
-                                setUserUuid:hist.attacker.userUuid]
-                               setClan:hist.attacker.clan]
-                              setAvatarMonsterId:hist.attacker.avatarMonsterId]
-                             build];
-    
-    pvp.defender = [[[[MinimumUserProtoWithLevel builder]
-                      setLevel:hist.attacker.level]
-                     setMinUserProto:mup]
-                    build];
-    
-    pvp.prospectiveCashWinnings = hist.prospectiveCashWinnings;
-    pvp.prospectiveOilWinnings = hist.prospectiveOilWinnings;
-    pvp.pvpLeagueStats = hist.attackerAfter;
-    [pvp addAllDefenderMonsters:hist.attackersMonstersList];
-    pvp.defenderMsg = hist.attacker.pvpDefendingMessage;
-    
-    self.defendersList = @[pvp.build];
-    _curQueueNum = -1;
-    
     _isRevenge = YES;
     _prevBattleStartTime = hist.battleEndTime;
   }
@@ -65,7 +43,14 @@
 - (CCSprite *) getCurrentEnemyLoot {
   GameState *gs = [GameState sharedGameState];
   PvpProto *pvp = self.defendersList[_curQueueNum];
-  PvpMonsterProto *pm = pvp.defenderMonstersList[_curStage];
+  NSArray *monsterList = pvp.defenderMonstersList;
+  
+  if (pvp.hasCmtd) {
+    PvpMonsterProto *pmp = [[[PvpMonsterProto builder] setMonsterIdDropped:pvp.monsterIdDropped] build];
+    monsterList = [monsterList arrayByAddingObject:pmp];
+  }
+  
+  PvpMonsterProto *pm = monsterList[_curStage];
   
   CCSprite *ed = nil;
   if (pm.hasMonsterIdDropped && pm.monsterIdDropped > 0) {
@@ -114,7 +99,7 @@
   [super youWon];
   
   PvpProto *pvp = self.defendersList[_curQueueNum];
-  [self.endView updateForRewards:[Reward createRewardsForPvpProto:pvp droplessStageNums:self.droplessStageNums] isWin:YES];
+  [self.endView updateForRewards:[Reward createRewardsForPvpProto:pvp droplessStageNums:self.droplessStageNums isWin:YES] isWin:YES allowsContinue:[self shouldShowContinueButton]];
   [[OutgoingEventController sharedOutgoingEventController] endPvpBattleMessage:pvp userAttacked:_userAttacked userWon:YES droplessStageNums:self.droplessStageNums delegate:self];
   
   // Send a private chat if avenge
@@ -128,7 +113,7 @@
   [super youLost];
   
   PvpProto *pvp = self.defendersList[_curQueueNum];
-  [self.endView updateForRewards:[Reward createRewardsForPvpProto:pvp droplessStageNums:self.droplessStageNums] isWin:NO];
+  [self.endView updateForRewards:[Reward createRewardsForPvpProto:pvp droplessStageNums:self.droplessStageNums isWin:NO] isWin:NO allowsContinue:[self shouldShowContinueButton]];
   [[OutgoingEventController sharedOutgoingEventController] endPvpBattleMessage:pvp userAttacked:_userAttacked userWon:NO droplessStageNums:self.droplessStageNums delegate:self];
   
   // Send a private chat if avenge
@@ -193,9 +178,9 @@
   
   if (response.hasStatsBefore && response.hasStatsAfter) {
     PvpLeagueProto *newLeague = [[GameState sharedGameState] leagueForId:response.statsAfter.leagueId];
-  
+    
     NSLog(@"Before rank: %i, After rank: %i", response.statsBefore.rank, response.statsAfter.rank);
-  
+    
     if (response.statsBefore.leagueId == response.statsAfter.leagueId)
     {
       [self.endView updatePvpReward:newLeague leagueChange:NO change:(response.statsBefore.rank - response.statsAfter.rank)];
@@ -351,6 +336,8 @@
   
   [self removeQueueNode];
   
+  [self destroyEnemyStatueWithExplosion:YES];
+  
   for (BattleSprite *bs in self.enemyTeamSprites) {
     CGPoint startPos = bs.position;
     CGPoint offsetPerScene = POINT_OFFSET_PER_SCENE;
@@ -392,30 +379,39 @@
     [CCActionDelay actionWithDuration:0.7f],
     [CCActionCallFunc actionWithTarget:self selector:@selector(displayOrbLayer)], nil]];
   
-  self.currentEnemy = self.enemyTeamSprites[0];
-  self.enemyPlayerObject = self.enemyTeam[0];
-  for (BattleSprite *bs in self.enemyTeamSprites) {
-    if (bs == self.currentEnemy) {
-      continue;
+  // Explode if the clan statue is first enemy because then enemy can appear from behind the explosion
+  [self destroyEnemyStatueWithExplosion:self.enemyTeamSprites.count == 0];
+  
+  if (self.enemyTeamSprites.count) {
+    self.currentEnemy = [self.enemyTeamSprites firstObject];
+    self.enemyPlayerObject = [self.enemyTeam firstObject];
+    for (BattleSprite *bs in self.enemyTeamSprites) {
+      if (bs == self.currentEnemy) {
+        continue;
+      }
+      CGPoint startPos = bs.position;
+      CGPoint offsetPerScene = POINT_OFFSET_PER_SCENE;
+      float startX = self.contentSize.width+self.myPlayer.contentSize.width;
+      float xDelta = startPos.x-startX;
+      CGPoint endPos = ccp(startX, startPos.y-xDelta*offsetPerScene.y/offsetPerScene.x);
+      
+      bs.isFacingNear = NO;
+      [bs beginWalking];
+      [bs runAction:
+       [CCActionSequence actions:
+        [CCActionMoveTo actionWithDuration:ccpDistance(startPos, endPos)/MY_WALKING_SPEED position:endPos],
+        [CCActionCallFunc actionWithTarget:bs selector:@selector(removeFromParent)], nil]];
     }
-    CGPoint startPos = bs.position;
-    CGPoint offsetPerScene = POINT_OFFSET_PER_SCENE;
-    float startX = self.contentSize.width+self.myPlayer.contentSize.width;
-    float xDelta = startPos.x-startX;
-    CGPoint endPos = ccp(startX, startPos.y-xDelta*offsetPerScene.y/offsetPerScene.x);
-    
-    bs.isFacingNear = NO;
-    [bs beginWalking];
-    [bs runAction:
-     [CCActionSequence actions:
-      [CCActionMoveTo actionWithDuration:ccpDistance(startPos, endPos)/MY_WALKING_SPEED position:endPos],
-      [CCActionCallFunc actionWithTarget:bs selector:@selector(removeFromParent)], nil]];
+    self.enemyTeamSprites = nil;
+  } else {
+    [self spawnNextEnemy];
+    [self.currentEnemy stopAllActions];
+    self.currentEnemy.position = self.statueNode.position;
+    self.currentEnemy.zOrder = self.statueNode.zOrder;
   }
-  self.enemyTeamSprites = nil;
   
-  
-  self.myPlayerObject = self.myTeam[0];
-  BattleSprite *myPlayer = self.myTeamSprites[0];
+  self.myPlayerObject = [self.myTeam firstObject];
+  BattleSprite *myPlayer = [self.myTeamSprites firstObject];
   self.myTeamSprites = [self.myTeamSprites subarrayWithRange:NSMakeRange(1, self.myTeamSprites.count-1)];
   for (BattleSprite *bs in self.myTeamSprites) {
     self.myPlayer = bs;
@@ -440,6 +436,17 @@
   [Analytics foundMatch:@"attack"];
 }
 
+- (BOOL) spawnNextEnemy {
+  BOOL success = [super spawnNextEnemy];
+  
+  PvpProto *pvp = self.defendersList[_curQueueNum];
+  if (pvp.hasCmtd && _curStage == pvp.defenderMonstersList.count) {
+    [[OutgoingEventController sharedOutgoingEventController] invalidateSolicitation:pvp.cmtd];
+  }
+  
+  return success;
+}
+
 #pragma mark - Waiting for server
 
 - (void) handleQueueUpResponseProto:(FullEvent *)fe {
@@ -453,12 +460,12 @@
   }
 }
 
-- (void) handleAvengeClanMateResponseProto:(FullEvent *)fe {
-  AvengeClanMateResponseProto *proto = (AvengeClanMateResponseProto *)fe.event;
+- (void) handleRetrieveUserMonsterTeamResponseProto:(FullEvent *)fe {
+  RetrieveUserMonsterTeamResponseProto *proto = (RetrieveUserMonsterTeamResponseProto *)fe.event;
   
-  if (proto.status == AvengeClanMateResponseProto_AvengeClanMateStatusSuccess) {
+  if (proto.status == RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusSuccess) {
     _curQueueNum = -1;
-    self.defendersList = @[proto.victim];
+    self.defendersList = proto.userMonsterTeamList;
   } else {
     [GenericPopupController displayNotificationViewWithText:@"Sorry, we were unable to load this enemy." title:@"Enemy Not Found" okayButton:@"Okay" target:self selector:@selector(exitFinal)];
   }
@@ -495,11 +502,15 @@
     
     CGPoint finalPos = MY_PLAYER_LOCATION;
     
-    if (idx == 1) {
+    // Clan monster should always be in 4th slot unless it is the first monster
+    if ((bp.isClanMonster && idx > 0) || idx == 3) {
+      finalPos = ccpAdd(finalPos, ccpMult(POINT_OFFSET_PER_SCENE, -0.1));
+    } else if (idx == 1) {
       finalPos = ccpAdd(finalPos, ccp(-46, -3));
     } else if (idx == 2) {
       finalPos = ccpAdd(finalPos, ccp(7, -35));
     }
+    
     
     bs.position = finalPos;
     [self makePlayer:bs walkInFromEntranceWithSelector:@selector(checkRunningIn)];
@@ -567,6 +578,19 @@
       }
     }
     
+    if (enemy.hasCmtd) {
+      UserMonster *um = enemy.cmtd.donatedMonster;
+      if (um) {
+        BattlePlayer *bp = [BattlePlayer playerWithMonster:um];
+        bp.isClanMonster = YES;
+        [enemyTeam addObject:bp];
+        
+        if (bp.spritePrefix) {
+          [set addObject:bp.spritePrefix];
+        }
+      }
+    }
+    
     for (BattlePlayer *bp in self.myTeam) {
       if (bp.spritePrefix) {
         [set addObject:bp.spritePrefix];
@@ -592,47 +616,112 @@
   
   if (success) {
     NSMutableArray *mut = [NSMutableArray array];
+    float longestDuration = TIME_TO_SCROLL_PER_SCENE;
     for (BattlePlayer *bp in self.enemyTeam) {
+      
       NSInteger idx = [self.enemyTeam indexOfObject:bp];
-      BattleSprite *bs = [[BattleSprite alloc] initWithPrefix:bp.spritePrefix nameString:bp.attrName rarity:bp.rarity animationType:bp.animationType isMySprite:NO verticalOffset:bp.verticalOffset];
-      bs.healthBar.color = [self.orbLayer.swipeLayer colorForSparkle:(OrbColor)bp.element];
-      [self.bgdContainer addChild:bs z:-idx];
-      bs.isFacingNear = YES;
       
       CGPoint finalPos = ccpAdd(ENEMY_PLAYER_LOCATION, ccp(-9, -11));
       
-      if (idx == 1) {
-        finalPos = ccpAdd(finalPos, ccp(46, 3));
-      } else if (idx == 2) {
-        finalPos = ccpAdd(finalPos, ccp(-7, 35));
-      }
-      
-      if (_puzzleIsOnLeft) finalPos = ccpAdd(finalPos, ccp(PUZZLE_ON_LEFT_BGD_OFFSET, 0));
-      CGPoint offsetPerScene = POINT_OFFSET_PER_SCENE;
-      CGPoint newPos = ccpAdd(finalPos, ccp(2*Y_MOVEMENT_FOR_NEW_SCENE*offsetPerScene.x/offsetPerScene.y, 2*Y_MOVEMENT_FOR_NEW_SCENE));
-      
-      bs.position = newPos;
-      [bs beginWalking];
-      CCActionSequence *seq = [CCActionSequence actions:
-                               [CCActionDelay actionWithDuration:0.12*idx],
-                               [CCActionMoveTo actionWithDuration:TIME_TO_SCROLL_PER_SCENE position:finalPos],
-                               [CCActionCallFunc actionWithTarget:bs selector:@selector(stopWalking)], nil];
-      [bs runAction:seq];
-      
-      bs.healthBar.percentage = ((float)bp.curHealth)/bp.maxHealth*100;
-      bs.healthLabel.string = [NSString stringWithFormat:@"%@/%@", [Globals commafyNumber:bp.curHealth], [Globals commafyNumber:bp.maxHealth]];
-      
-      [mut addObject:bs];
-      
-      if (idx == self.enemyTeam.count-1) {
-        // Spawn the queue node
+      if (!bp.isClanMonster) {
+        if (idx == 1) {
+          finalPos = ccpAdd(finalPos, ccp(46, 3));
+        } else if (idx == 2) {
+          finalPos = ccpAdd(finalPos, ccp(-7, 35));
+        }
+        
+        if (_puzzleIsOnLeft) finalPos = ccpAdd(finalPos, ccp(PUZZLE_ON_LEFT_BGD_OFFSET, 0));
+        
+        BattleSprite *bs = [[BattleSprite alloc] initWithPrefix:bp.spritePrefix nameString:bp.attrName rarity:bp.rarity animationType:bp.animationType isMySprite:NO verticalOffset:bp.verticalOffset];
+        bs.healthBar.color = [self.orbLayer.swipeLayer colorForSparkle:(OrbColor)bp.element];
+        [self.bgdContainer addChild:bs z:-idx];
+        bs.isFacingNear = YES;
+        
+        CGPoint offsetPerScene = POINT_OFFSET_PER_SCENE;
+        CGPoint newPos = ccpAdd(finalPos, ccp(2*Y_MOVEMENT_FOR_NEW_SCENE*offsetPerScene.x/offsetPerScene.y, 2*Y_MOVEMENT_FOR_NEW_SCENE));
+        
+        bs.position = newPos;
+        [bs beginWalking];
+        CCActionSequence *seq = [CCActionSequence actions:
+                                 [CCActionDelay actionWithDuration:0.12*idx],
+                                 [CCActionMoveTo actionWithDuration:TIME_TO_SCROLL_PER_SCENE position:finalPos],
+                                 [CCActionCallFunc actionWithTarget:bs selector:@selector(stopWalking)], nil];
+        [bs runAction:seq];
+        
+        longestDuration = seq.duration;
+        
+        bs.healthBar.percentage = ((float)bp.curHealth)/bp.maxHealth*100;
+        bs.healthLabel.string = [NSString stringWithFormat:@"%@/%@", [Globals commafyNumber:bp.curHealth], [Globals commafyNumber:bp.maxHealth]];
+        
+        [mut addObject:bs];
+        
+        if (idx == self.enemyTeam.count-1) {
+          // Spawn the queue node
+          [self runAction:
+           [CCActionSequence actions:
+            [CCActionDelay actionWithDuration:seq.duration-0.3f],
+            [CCActionCallFunc actionWithTarget:self selector:@selector(displayQueueNode)], nil]];
+        }
+      } else {
+        finalPos = ccpAdd(finalPos, ccpMult(POINT_OFFSET_PER_SCENE, 0.15));
+        
+        if (self.enemyTeam.count == 1) {
+          // So that when it blows up it displays the enemy sprite from under
+          finalPos = ENEMY_PLAYER_LOCATION;
+        }
+        
         [self runAction:
          [CCActionSequence actions:
-          [CCActionDelay actionWithDuration:seq.duration-0.3f],
-          [CCActionCallFunc actionWithTarget:self selector:@selector(displayQueueNode)], nil]];
+          [CCActionDelay actionWithDuration:longestDuration],
+          [CCActionCallBlock actionWithBlock:
+           ^{
+             [self spawnEnemyStatueWithElement:bp.element position:finalPos completionSelector:@selector(displayQueueNode)];
+           }], nil]];
       }
     }
     self.enemyTeamSprites = mut;
+  }
+}
+
+- (void) spawnEnemyStatueWithElement:(Element)element position:(CGPoint)position completionSelector:(SEL)selector {
+  CCSprite *statue = [CCSprite spriteWithImageNamed:[Globals imageNameForElement:element suffix:@"statue.png"]];
+  statue.anchorPoint = ccp(0.6, 0.25);
+  
+  CCSprite *shadow = [CCSprite spriteWithImageNamed:@"statueshadow.png"];
+  shadow.position = ccp(5, 5);
+  
+  CCNode *node = [CCNode node];
+  [node addChild:shadow];
+  [node addChild:statue];
+  self.statueNode = node;
+  
+  // Do this so that blowing up the sprite doesn't do anything bad
+  node.contentSize = CGSizeMake(0, statue.contentSize.height*0.5);
+  
+  [self.bgdContainer addChild:node];
+  node.position = position;
+  node.zOrder = -4;
+  
+  statue.position = ccp(0, self.bgdContainer.contentSize.height-position.y+20);
+  [statue runAction:[CCActionSequence actions:
+                     [CCActionEaseSineIn actionWithAction:[CCActionMoveTo actionWithDuration:0.3f position:ccp(0,0)]],
+                     [CCActionCallBlock actionWithBlock:
+                      ^{
+                        [self shakeScreenWithIntensity:2.f];
+                      }],
+                     [CCActionDelay actionWithDuration:0.2f],
+                     [CCActionCallFunc actionWithTarget:self selector:selector], nil]];
+  
+  [shadow runAction:[CCActionFadeIn actionWithDuration:0.3f]];
+}
+
+- (void) destroyEnemyStatueWithExplosion:(BOOL)explosion {
+  if (explosion) {
+    [self blowupBattleSprite:(BattleSprite *)self.statueNode withBlock:nil];
+  } else {
+    [self.statueNode runAction:[CCActionSequence actions:
+                                [RecursiveFadeTo actionWithDuration:0.3f opacity:0],
+                                [CCActionRemove action], nil]];
   }
 }
 

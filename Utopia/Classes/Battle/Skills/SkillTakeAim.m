@@ -44,7 +44,7 @@
 
 - (NSInteger) modifyDamage:(NSInteger)damage forPlayer:(BOOL)player
 {
-  _orbsSpawned = [self specialsOnBoardCount:SpecialOrbTypeTakeAim];
+  _orbsSpawned = (int)[self specialsOnBoardCount:SpecialOrbTypeTakeAim];
   if (!player && _orbsSpawned)
   {
     float rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
@@ -104,11 +104,11 @@
 {
   [self preseedRandomization];
   
-  _orbsSpawned = [self specialsOnBoardCount:SpecialOrbTypeTakeAim];
+  _orbsSpawned = (int)[self specialsOnBoardCount:SpecialOrbTypeTakeAim];
   for (NSInteger n = 0; n < count && _orbsSpawned < _maxOrbs; ++n)
   {
     BattleOrbLayout* layout = self.battleLayer.orbLayer.layout;
-    BattleOrb* orb = [layout findOrbWithColorPreference:self.orbColor];
+    BattleOrb* orb = [layout findOrbWithColorPreference:self.orbColor isInitialSkill:NO];
     
     // Nothing found (just in case), continue and perform selector if the last special orb
     if (!orb)

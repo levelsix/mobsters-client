@@ -377,6 +377,11 @@
       shouldCreate = YES;
     } else if ([prop.name isEqualToString:ORB_POWERUP]) {
       powerup = prop.value;
+      
+      if (powerup == PowerupTypeAllOfOneColor) {
+        color = OrbColorNone;
+      }
+      
       shouldCreate = YES;
     } else if ([prop.name isEqualToString:ORB_SPECIAL]) {
       special = prop.value;
@@ -1609,9 +1614,9 @@
 
 #pragma mark - For Skills
 
-static const NSInteger maxSearchIterations = 256;
+static const NSInteger maxSearchIterations = 800;
 
-- (BattleOrb *) findOrbWithColorPreference:(OrbColor)orbColor {
+- (BattleOrb *) findOrbWithColorPreference:(OrbColor)orbColor isInitialSkill:(BOOL)isInitialSkill {
   BattleOrbLayout *layout = self;
   BattleOrb *orb = nil;
   NSInteger column, row;
@@ -1622,7 +1627,7 @@ static const NSInteger maxSearchIterations = 256;
   for (int i = 0; i < _numColumns; i++) {
     for (int j = 0; j < _numRows; j++) {
       BattleTile *tile = [layout tileAtColumn:i row:j];
-      if (tile.shouldSpawnInitialSkill) {
+      if (tile.shouldSpawnInitialSkill || !isInitialSkill) {
         BattleOrb *orb = [layout orbAtColumn:i row:j];
         if (!([layout willHaveChainAtColumn:i row:j color:orbColor] ||
              orb.specialOrbType != SpecialOrbTypeNone ||

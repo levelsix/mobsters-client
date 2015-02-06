@@ -24,7 +24,7 @@
 @property (nonatomic, retain) IBOutlet UIView *emptyView;
 
 @property (nonatomic, retain) IBOutlet MiniMonsterView *monsterView;
-@property (nonatomic, retain) IBOutlet ProgressBar *healthbar;
+@property (nonatomic, retain) IBOutlet SplitImageProgressBar *healthbar;
 @property (nonatomic, retain) IBOutlet UILabel *healthLabel;
 
 @end
@@ -34,6 +34,9 @@
 @property (nonatomic, retain) IBOutletCollection(BattleDeployCardView) NSArray *cardViews;
 
 - (void) updateWithBattlePlayers:(NSArray *)players;
+
+- (void) showClanSlot;
+- (void) hideClanSlot;
 
 @end
 
@@ -65,7 +68,7 @@
 @interface BattleHudView : TouchableSubviewsView <BattleSkillCounterPopupCallbackDelegate>
 
 @property (nonatomic, retain) IBOutlet UIView *swapView;
-@property (nonatomic, retain) IBOutlet UILabel *swapLabel;
+@property (nonatomic, retain) IBOutlet THLabel *swapLabel;
 @property (nonatomic, retain) IBOutlet BattleDeployView *deployView;
 @property (nonatomic, retain) IBOutlet UIView *forfeitButtonView;
 @property (nonatomic, retain) IBOutlet UIView *bottomView;

@@ -22,7 +22,7 @@
 @implementation UserMonster
 
 - (id) initWithMonsterProto:(FullUserMonsterProto *)proto {
-  if ((self = [super init])){
+  if ((self = [super init])) {
     self.userUuid = proto.userUuid;
     self.monsterId = proto.monsterId;
     self.userMonsterUuid = proto.userMonsterUuid;
@@ -73,6 +73,24 @@
 
 + (id) userMonsterWithTaskStageMonsterProto:(TaskStageMonsterProto *)proto {
   return [[self alloc] initWithTaskStageMonsterProto:proto];
+}
+
+- (id) initWithMonsterSnapshotProto:(UserMonsterSnapshotProto *)proto {
+  if ((self = [super init])){
+    self.userMonsterUuid  = proto.monsterForUserUuid;
+    self.monsterId = proto.monsterId;
+    self.experience = proto.currentExp;
+    self.level = proto.currentLvl;
+    self.curHealth = proto.currentHp;
+    self.offensiveSkillId = proto.offensiveSkillId;
+    self.defensiveSkillId = proto.defensiveSkillId;
+    self.isComplete = YES;
+  }
+  return self;
+}
+
++ (id) userMonsterWithMonsterSnapshotProto:(UserMonsterSnapshotProto *)proto {
+  return [[self alloc] initWithMonsterSnapshotProto:proto];
 }
 
 - (BOOL) isHealing {
@@ -1114,13 +1132,17 @@
   return rewards;
 }
 
-+ (NSArray *) createRewardsForPvpProto:(PvpProto *)pvp droplessStageNums:(NSArray *)droplessStageNums {
++ (NSArray *) createRewardsForPvpProto:(PvpProto *)pvp droplessStageNums:(NSArray *)droplessStageNums isWin:(BOOL)isWin {
   NSMutableArray *rewards = [NSMutableArray array];
   
   GameState *gs = [GameState sharedGameState];
   PvpLeagueProto *league = [gs leagueForId:gs.pvpLeague.leagueId];
   Reward *lr = [[Reward alloc] initWithPvpLeague:league];
   [rewards addObject:lr];
+  
+  if (!isWin) {
+    return rewards;
+  }
   
   for (int i = 0; i < pvp.defenderMonstersList.count; i++) {
     if (![droplessStageNums containsObject:@(i)]) {
@@ -1130,6 +1152,12 @@
         [rewards addObject:r];
       }
     }
+  }
+  
+  // Donated monster
+  if (pvp.monsterIdDropped && ![droplessStageNums containsObject:@(pvp.defenderMonstersList.count)]) {
+    Reward *r = [[Reward alloc] initWithMonsterId:pvp.monsterIdDropped isPuzzlePiece:YES];
+    [rewards addObject:r];
   }
   
   if (pvp.prospectiveCashWinnings) {

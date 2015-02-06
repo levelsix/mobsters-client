@@ -23,6 +23,8 @@
   paragraphStyle.lineBreakMode = mode;
   CGRect r = [self boundingRectWithSize:size options:(NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading)
                              attributes:@{NSFontAttributeName : font, NSParagraphStyleAttributeName : paragraphStyle} context:NULL];
+  r.size.width = ceilf(r.size.width);
+  r.size.height = ceilf(r.size.height);
   return r.size;
 }
 

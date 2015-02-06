@@ -35,9 +35,7 @@
 }
 
 - (IBAction)cityClicked:(id)sender {
-  while (sender && ![sender isKindOfClass:[AttackMapIconView class]]) {
-    sender = [sender superview];
-  }
+  sender = [sender getAncestorInViewHierarchyOfType:[AttackMapIconView class]];
   AttackMapIconView *icon = (AttackMapIconView *)sender;
   
   if (icon.tag == self.clickableCityId) {

@@ -105,6 +105,8 @@
     
   } else if ([swap.orbA isMovable] && [swap.orbB isMovable]) {
     [self.swipeLayer animateInvalidSwap:swap completion:^{
+      // Recalculate the possible swaps in case of incomplete swap detection..
+      [self.layout detectPossibleSwaps];
       [self allowInput];
     }];
   } else {

@@ -514,7 +514,7 @@ static const CGSize FIXED_SIZE = {568, 384};
     if (self.resumeUserTask) {
       GameState *gs = [GameState sharedGameState];
       FullTaskProto *task = [gs taskWithId:self.resumeUserTask.taskId];
-      DungeonBattleLayer *bl = [[DungeonBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO gridSize:CGSizeMake(task.boardWidth, task.boardHeight) bgdPrefix:task.groundImgPrefix layoutProto:[gs boardWithId:task.boardId]];
+      DungeonBattleLayer *bl = [[DungeonBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeamWithClanSlot:YES] puzzleIsOnLeft:NO gridSize:CGSizeMake(task.boardWidth, task.boardHeight) bgdPrefix:task.groundImgPrefix layoutProto:[gs boardWithId:task.boardId]];
       bl.dungeonType = task.description;
       [bl resumeFromUserTask:self.resumeUserTask stages:self.resumeTaskStages];
       bl.delegate = self;
@@ -882,7 +882,7 @@ static const CGSize FIXED_SIZE = {568, 384};
   if (![self miniTutorialControllerForTaskId:taskId]) {
     GameState *gs = [GameState sharedGameState];
     FullTaskProto *task = [gs taskWithId:taskId];
-    DungeonBattleLayer *bl = [[DungeonBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO gridSize:CGSizeMake(task.boardWidth, task.boardHeight) bgdPrefix:task.groundImgPrefix layoutProto:[gs boardWithId:task.boardId]];
+    DungeonBattleLayer *bl = [[DungeonBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeamWithClanSlot:YES] puzzleIsOnLeft:NO gridSize:CGSizeMake(task.boardWidth, task.boardHeight) bgdPrefix:task.groundImgPrefix layoutProto:[gs boardWithId:task.boardId]];
     bl.dungeonType = task.description;
     bl.delegate = self;
     [self performSelector:@selector(crossFadeIntoBattleLayer:) withObject:bl afterDelay:delay];
@@ -920,7 +920,7 @@ static const CGSize FIXED_SIZE = {568, 384};
   [Globals checkAndLoadFiles:arr completion:^(BOOL success) {
     if (success) {
       
-      DungeonBattleLayer *bl = [[DungeonBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO gridSize:CGSizeMake(task.boardWidth, task.boardHeight) bgdPrefix:task.groundImgPrefix layoutProto:[gs boardWithId:task.boardId]];
+      DungeonBattleLayer *bl = [[DungeonBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeamWithClanSlot:YES] puzzleIsOnLeft:NO gridSize:CGSizeMake(task.boardWidth, task.boardHeight) bgdPrefix:task.groundImgPrefix layoutProto:[gs boardWithId:task.boardId]];
       bl.dungeonType = task.description;
       bl.delegate = self;
       
@@ -1020,7 +1020,7 @@ static const CGSize FIXED_SIZE = {568, 384};
   }
   
   GameState *gs = [GameState sharedGameState];
-  PvpBattleLayer *bl = [[PvpBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO gridSize:CGSizeMake(9, 9)];
+  PvpBattleLayer *bl = [[PvpBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeamWithClanSlot:YES] puzzleIsOnLeft:NO gridSize:CGSizeMake(9, 9)];
   bl.delegate = self;
   bl.itemUsagesForQueue = itemsDict;
   
@@ -1036,8 +1036,10 @@ static const CGSize FIXED_SIZE = {568, 384};
   }
   
   GameState *gs = [GameState sharedGameState];
-  PvpBattleLayer *bl = [[PvpBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO gridSize:CGSizeMake(9, 9) pvpHistoryForRevenge:history];
+  PvpBattleLayer *bl = [[PvpBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeamWithClanSlot:YES] puzzleIsOnLeft:NO gridSize:CGSizeMake(9, 9) pvpHistoryForRevenge:history];
   bl.delegate = self;
+  
+  [[OutgoingEventController sharedOutgoingEventController] retrieveUserTeam:history.attacker.userUuid delegate:bl];
   
   [self crossFadeIntoBattleLayer:bl];
 }
@@ -1049,11 +1051,12 @@ static const CGSize FIXED_SIZE = {568, 384};
   }
   
   GameState *gs = [GameState sharedGameState];
-  PvpBattleLayer *bl = [[PvpBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO gridSize:CGSizeMake(9, 9)];
+  PvpBattleLayer *bl = [[PvpBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeamWithClanSlot:YES] puzzleIsOnLeft:NO gridSize:CGSizeMake(9, 9)];
   bl.delegate = self;
   [bl setClanAvenging:ca];
   
-  [[OutgoingEventController sharedOutgoingEventController] queueUpForClanAvenge:ca delegate:bl];
+  [[OutgoingEventController sharedOutgoingEventController] queueUpForClanAvenge:ca delegate:nil];
+  [[OutgoingEventController sharedOutgoingEventController] retrieveUserTeam:ca.attacker.minUserProto.userUuid delegate:bl];
   
   [self crossFadeIntoBattleLayer:bl];
 }
@@ -1085,7 +1088,7 @@ static const CGSize FIXED_SIZE = {568, 384};
   Globals *gl = [Globals sharedGlobals];
   if (![gs hasBeatFirstBoss])
   {
-    for (UserMonster *um in gs.allMonstersOnMyTeam) {
+    for (UserMonster *um in [gs allMonstersOnMyTeamWithClanSlot:NO]) {
       if (um.curHealth < [gl calculateMaxHealthForMonster:um])
       {
         [(HomeMap *)self.currentMap pointArrowOnHospital];

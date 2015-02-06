@@ -14,6 +14,7 @@
 #import "ClanHelpUtil.h"
 #import "ChatObject.h"
 #import "ItemUtil.h"
+#import "ClanTeamDonateUtil.h"
 
 @interface GameState : NSObject {
   NSTimer *_enhanceTimer;
@@ -51,6 +52,7 @@
 @property (nonatomic, retain) MSDate *lastFreeGachaSpin;
 @property (nonatomic, retain) MSDate *lastSecretGiftCollectTime;
 @property (nonatomic, retain) NSString *pvpDefendingMessage;
+@property (nonatomic, retain) MSDate *lastTeamDonateSolicitationTime;
 
 @property (nonatomic, assign) BOOL hasBeatenFirstBoss;
 @property (nonatomic, assign) int firstBossTaskId;
@@ -85,7 +87,6 @@
 @property (nonatomic, retain) NSMutableArray *curClanRaidUserInfos;
 @property (nonatomic, retain) NSMutableDictionary *staticRaids;
 
-@property (nonatomic, retain) NSMutableSet *completedTasks;
 @property (nonatomic, retain) NSMutableDictionary *completedTaskData;
 
 @property (nonatomic, retain) NSArray *boosterPacks;
@@ -127,6 +128,7 @@
 @property (nonatomic, assign) UserClanStatus myClanStatus;
 @property (nonatomic, retain) ClanHelpUtil *clanHelpUtil;
 @property (nonatomic, retain) NSMutableArray *clanAvengings;
+@property (nonatomic, retain) ClanTeamDonateUtil *clanTeamDonateUtil;
 
 @property (nonatomic, retain) NSMutableArray *userExpansions;
 @property (nonatomic, retain) NSMutableDictionary *expansionCosts;
@@ -217,9 +219,9 @@
 
 - (UserMonster *) myMonsterWithUserMonsterUuid:(NSString *)userMonsterUuid;
 - (UserMonster *) myMonsterWithSlotNumber:(NSInteger)slotNum;
-- (NSArray *) allMonstersOnMyTeam;
-- (NSArray *) allBattleAvailableMonstersOnTeam;
-- (NSArray *) allBattleAvailableAliveMonstersOnTeam;
+- (NSArray *) allMonstersOnMyTeamWithClanSlot:(BOOL)withClanSlot;
+- (NSArray *) allBattleAvailableMonstersOnTeamWithClanSlot:(BOOL)withClanSlot;
+- (NSArray *) allBattleAvailableAliveMonstersOnTeamWithClanSlot:(BOOL)withClanSlot;
 - (UserStruct *) myStructWithUuid:(NSString *)structUuid;
 - (UserStruct *) myTownHall;
 - (UserStruct *) myLaboratory;

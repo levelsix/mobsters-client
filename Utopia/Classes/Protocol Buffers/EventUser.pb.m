@@ -864,7 +864,7 @@ BOOL UserCreateResponseProto_UserCreateStatusIsValidValue(UserCreateResponseProt
   result.status = value;
   return self;
 }
-- (UserCreateResponseProto_Builder*) clearStatus {
+- (UserCreateResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = UserCreateResponseProto_UserCreateStatusSuccess;
   return self;
@@ -1414,7 +1414,7 @@ BOOL LevelUpResponseProto_LevelUpStatusIsValidValue(LevelUpResponseProto_LevelUp
   result.status = value;
   return self;
 }
-- (LevelUpResponseProto_Builder*) clearStatus {
+- (LevelUpResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = LevelUpResponseProto_LevelUpStatusSuccess;
   return self;
@@ -3319,7 +3319,7 @@ BOOL SetFacebookIdResponseProto_SetFacebookIdStatusIsValidValue(SetFacebookIdRes
   result.status = value;
   return self;
 }
-- (SetFacebookIdResponseProto_Builder*) clearStatus {
+- (SetFacebookIdResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = SetFacebookIdResponseProto_SetFacebookIdStatusSuccess;
   return self;
@@ -4132,7 +4132,7 @@ BOOL UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatusIsValidValue(Update
   result.status = value;
   return self;
 }
-- (UpdateUserCurrencyResponseProto_Builder*) clearStatus {
+- (UpdateUserCurrencyResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatusSuccess;
   return self;
@@ -4728,7 +4728,7 @@ BOOL SetGameCenterIdResponseProto_SetGameCenterIdStatusIsValidValue(SetGameCente
   result.status = value;
   return self;
 }
-- (SetGameCenterIdResponseProto_Builder*) clearStatus {
+- (SetGameCenterIdResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = SetGameCenterIdResponseProto_SetGameCenterIdStatusSuccess;
   return self;
@@ -5278,7 +5278,7 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
   result.status = value;
   return self;
 }
-- (SetAvatarMonsterResponseProto_Builder*) clearStatus {
+- (SetAvatarMonsterResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = SetAvatarMonsterResponseProto_SetAvatarMonsterStatusSuccess;
   return self;
@@ -5874,7 +5874,7 @@ BOOL UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatusIsValidValue(
   result.status = value;
   return self;
 }
-- (UpdateClientTaskStateResponseProto_Builder*) clearStatus {
+- (UpdateClientTaskStateResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatusSuccess;
   return self;

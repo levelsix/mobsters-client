@@ -120,9 +120,7 @@
 }
 
 - (IBAction) collectClicked:(UIView *)sender {
-  while (sender && ![sender isKindOfClass:[AchievementsCell class]]) {
-    sender = [sender superview];
-  }
+  sender = [sender getAncestorInViewHierarchyOfType:[AchievementsCell class]];
   
   if (sender && !_redeemingAchievementId) {
     AchievementsCell *cell = (AchievementsCell *)sender;

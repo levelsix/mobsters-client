@@ -292,7 +292,7 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 - (BOOL) hasStatus;
 - (InAppPurchaseResponseProto_InAppPurchaseStatus) status;
 - (InAppPurchaseResponseProto_Builder*) setStatus:(InAppPurchaseResponseProto_InAppPurchaseStatus) value;
-- (InAppPurchaseResponseProto_Builder*) clearStatus;
+- (InAppPurchaseResponseProto_Builder*) clearStatusList;
 
 - (BOOL) hasDiamondsGained;
 - (int32_t) diamondsGained;
@@ -381,7 +381,7 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 - (BOOL) hasFreeDiamondsType;
 - (EarnFreeDiamondsType) freeDiamondsType;
 - (EarnFreeDiamondsRequestProto_Builder*) setFreeDiamondsType:(EarnFreeDiamondsType) value;
-- (EarnFreeDiamondsRequestProto_Builder*) clearFreeDiamondsType;
+- (EarnFreeDiamondsRequestProto_Builder*) clearFreeDiamondsTypeList;
 
 - (BOOL) hasClientTime;
 - (int64_t) clientTime;
@@ -450,12 +450,12 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 - (BOOL) hasStatus;
 - (EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatus) status;
 - (EarnFreeDiamondsResponseProto_Builder*) setStatus:(EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatus) value;
-- (EarnFreeDiamondsResponseProto_Builder*) clearStatus;
+- (EarnFreeDiamondsResponseProto_Builder*) clearStatusList;
 
 - (BOOL) hasFreeDiamondsType;
 - (EarnFreeDiamondsType) freeDiamondsType;
 - (EarnFreeDiamondsResponseProto_Builder*) setFreeDiamondsType:(EarnFreeDiamondsType) value;
-- (EarnFreeDiamondsResponseProto_Builder*) clearFreeDiamondsType;
+- (EarnFreeDiamondsResponseProto_Builder*) clearFreeDiamondsTypeList;
 @end
 
 @interface ExchangeGemsForResourcesRequestProto : PBGeneratedMessage {
@@ -537,7 +537,7 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 - (BOOL) hasResourceType;
 - (ResourceType) resourceType;
 - (ExchangeGemsForResourcesRequestProto_Builder*) setResourceType:(ResourceType) value;
-- (ExchangeGemsForResourcesRequestProto_Builder*) clearResourceType;
+- (ExchangeGemsForResourcesRequestProto_Builder*) clearResourceTypeList;
 
 - (BOOL) hasClientTime;
 - (int64_t) clientTime;
@@ -602,7 +602,7 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 - (BOOL) hasStatus;
 - (ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatus) status;
 - (ExchangeGemsForResourcesResponseProto_Builder*) setStatus:(ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatus) value;
-- (ExchangeGemsForResourcesResponseProto_Builder*) clearStatus;
+- (ExchangeGemsForResourcesResponseProto_Builder*) clearStatusList;
 @end
 
 

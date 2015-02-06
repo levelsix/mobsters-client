@@ -86,7 +86,7 @@
     [self.cashButton setImage:grey forState:UIControlStateNormal];
     
     self.oilIcon.image = [Globals greyScaleImageWithBaseImage:self.oilIcon.image];
-    self.cashIcon.image = [Globals greyScaleImageWithBaseImage:self.oilIcon.image];
+    self.cashIcon.image = [Globals greyScaleImageWithBaseImage:self.cashIcon.image];
     
     self.upgradeCashLabel.textColor = [UIColor colorWithWhite:0.5f alpha:1.f];
     self.upgradeCashLabel.shadowColor = [UIColor colorWithWhite:1.f alpha:0.25];
@@ -347,6 +347,14 @@
     maxStat1 = max.maxHelpersPerSolicitation;
     
     statName1 = @"Help Limit:";
+    
+    requiresTwoBars = YES;
+    
+    curStat2 = cur.teamDonationPowerLimit;
+    newStat2 = next.teamDonationPowerLimit;
+    maxStat2 = max.teamDonationPowerLimit;
+    
+    statName2 = @"Donate Pwr:";
   } else if (structType == StructureInfoProto_StructTypeEvo) {
     EvoChamberProto *cur = (EvoChamberProto *)curSS;
     EvoChamberProto *next = (EvoChamberProto *)nextSS;

@@ -11,6 +11,7 @@
 #import "Globals.h"
 #import "UnreadNotifications.h"
 #import "ClanHelp.h"
+#import "GameViewController.h"
 
 @implementation ChatCell
 
@@ -26,6 +27,8 @@ static float buttonInitialWidth = 159.f;
   
   _initLabelColor = self.msgLabel.textColor;
   _initLabelHighlightedColor = self.msgLabel.highlightedTextColor;
+  
+  _initialMsgLabelWidth = self.msgLabel.width;
 }
 
 - (void) updateForMessage:(NSString *)message sender:(MinimumUserProto *)sender date:(MSDate *)date showsClanTag:(BOOL)showsClanTag {
@@ -61,15 +64,12 @@ static float buttonInitialWidth = 159.f;
   r.size.width = buttonSize.width+7.f;
   self.nameLabel.frame = r;
   
-  CGSize size = [message getSizeWithFont:self.msgLabel.font constrainedToSize:CGSizeMake(self.msgLabel.frame.size.width, 999)];
-  CGRect frame = self.msgLabel.frame;
-  frame.size.height = size.height+3.f;
-  self.msgLabel.frame = frame;
+  CGSize size = [message getSizeWithFont:self.msgLabel.font constrainedToSize:CGSizeMake(_initialMsgLabelWidth, 999)];
   
-  size.width = MAX(size.width+66.f, buttonSize.width+self.timeLabel.frame.size.width+50.f);
-  frame = self.mainView.frame;
-  frame.size.width = size.width;
-  self.mainView.frame = frame;
+  // Do width after we use the current chat subview
+  self.msgLabel.height = size.height+3.f;
+  
+  self.mainView.width = MAX(size.width+66.f, buttonSize.width+self.timeLabel.frame.size.width+50.f);
   
   // Chat subview stuff
   for (UIView *sub in self.chatSubviews.allValues) {
@@ -90,6 +90,8 @@ static float buttonInitialWidth = 159.f;
     
     self.currentChatSubview = view;
   }
+  
+  self.msgLabel.width = self.mainView.width-66.f;
 
   BOOL shouldHighlight;
   if ([sender.userUuid isEqualToString:gs.userUuid]) {
@@ -98,7 +100,6 @@ static float buttonInitialWidth = 159.f;
     self.msgLabel.transform = CGAffineTransformMakeScale(-1, 1);
     self.timeLabel.transform = CGAffineTransformMakeScale(-1, 1);
     self.nameLabel.textAlignment = NSTextAlignmentRight;
-    self.msgLabel.textAlignment = NSTextAlignmentRight;
     self.timeLabel.textAlignment = NSTextAlignmentLeft;
     shouldHighlight = YES;
     
@@ -113,7 +114,6 @@ static float buttonInitialWidth = 159.f;
     self.msgLabel.transform = CGAffineTransformIdentity;
     self.timeLabel.transform = CGAffineTransformIdentity;
     self.nameLabel.textAlignment = NSTextAlignmentLeft;
-    self.msgLabel.textAlignment = NSTextAlignmentLeft;
     self.timeLabel.textAlignment = NSTextAlignmentRight;
     shouldHighlight = NO;
     
@@ -263,32 +263,32 @@ static float buttonInitialWidth = 159.f;
   self.topDivider.highlighted = !pvp.userWon;
   self.botDivider.highlighted = !pvp.userWon;
   
-  NSArray *monsters;
-  
-  if ([pvp userIsAttacker]) {
-    NSMutableArray *arr = [NSMutableArray array];
-    GameState *gs = [GameState sharedGameState];
-    for (UserMonster *um in gs.allMonstersOnMyTeam) {
-      MinimumUserMonsterProto *mup = [[[[MinimumUserMonsterProto builder]
-                                       setMonsterId:um.monsterId]
-                                      setMonsterLvl:um.level]
-                                      build];
-      PvpMonsterProto *mon = [[[PvpMonsterProto builder] setDefenderMonster:mup] build];
-      
-      [arr addObject:mon];
-    }
-    monsters = arr;
-  } else {
-    monsters = pvp.attackersMonstersList;
-  }
-  
-  for (int i = 0; i < self.monsterViews.count; i++) {
-    PvpMonsterProto *pm = i < monsters.count ? monsters[i] : nil;
-    MinimumUserMonsterProto *um = pm.defenderMonster;
-    ChatMonsterView *cmv = self.monsterViews[i];
-    
-    [cmv updateForMinMonster:um];
-  }
+//  NSArray *monsters;
+//  
+//  if ([pvp userIsAttacker]) {
+//    NSMutableArray *arr = [NSMutableArray array];
+//    GameState *gs = [GameState sharedGameState];
+//    for (UserMonster *um in [gs allMonstersOnMyTeamWithClanSlot:NO]) {
+//      MinimumUserMonsterProto *mup = [[[[MinimumUserMonsterProto builder]
+//                                       setMonsterId:um.monsterId]
+//                                      setMonsterLvl:um.level]
+//                                      build];
+//      PvpMonsterProto *mon = [[[PvpMonsterProto builder] setDefenderMonster:mup] build];
+//      
+//      [arr addObject:mon];
+//    }
+//    monsters = arr;
+//  } else {
+//    monsters = pvp.attackersMonstersList;
+//  }
+//  
+//  for (int i = 0; i < self.monsterViews.count; i++) {
+//    PvpMonsterProto *pm = i < monsters.count ? monsters[i] : nil;
+//    MinimumUserMonsterProto *um = pm.defenderMonster;
+//    ChatMonsterView *cmv = self.monsterViews[i];
+//    
+//    [cmv updateForMinMonster:um];
+//  }
   
   self.avengeButton.superview.hidden = [pvp userIsAttacker] || pvp.clanAvenged;
   self.revengeButton.superview.hidden = [pvp userIsAttacker] || pvp.exactedRevenge;
@@ -417,6 +417,53 @@ static float buttonInitialWidth = 159.f;
   Globals *gl = [Globals sharedGlobals];
   int mins = gl.beginAvengingTimeLimitMins;
   self.timeLabel.text = [[Globals convertTimeToShortString:ca.avengeRequestTime.timeIntervalSinceNow+mins*60] uppercaseString];
+}
+
+@end
+
+@implementation ChatTeamDonateView
+
+- (void) awakeFromNib {
+  self.filledView.frame = self.emptyView.frame;
+  [self.emptyView.superview addSubview:self.filledView];
+}
+
+- (void) updateForTeamDonation:(ClanMemberTeamDonationProto *)donation {
+  if (!donation.isFulfilled) {
+    self.powerLimitLabel.text = [NSString stringWithFormat:@"%d", donation.powerAvailability];
+    
+    self.emptyView.hidden = NO;
+    self.filledView.hidden = YES;
+  } else {
+    UserMonster *um = donation.donatedMonster;
+    MonsterProto *mp = um.staticMonster;
+    
+    [self.monsterView updateForMonsterId:um.monsterId];
+    
+    NSString *p1 = [NSString stringWithFormat:@"%@ ", mp.monsterName];
+    NSString *p2 = [NSString stringWithFormat:@"L%d", um.level];
+    NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:[p1 stringByAppendingString:p2]];
+    [attr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:48/255.f green:124/255.f blue:238/255.f alpha:1.f] range:NSMakeRange(p1.length, p2.length)];
+    self.monsterLabel.attributedText = attr;
+    
+    self.emptyView.hidden = YES;
+    self.filledView.hidden = NO;
+  }
+  
+  GameState *gs = [GameState sharedGameState];
+  if ([donation.solicitor.userUuid isEqualToString:gs.userUuid]) {
+    self.donateButton.superview.hidden = YES;
+  } else {
+    [self.donateButton removeTarget:nil action:NULL forControlEvents:UIControlEventTouchUpInside];
+    [self.donateButton addTarget:donation action:@selector(donateClicked:) forControlEvents:UIControlEventTouchUpInside];
+    
+    self.donateButton.superview.hidden = NO;
+  }
+  
+  
+  self.donateSpinner.hidden = YES;
+  self.donateLabel.hidden = NO;
+  self.donateButton.userInteractionEnabled = YES;
 }
 
 @end

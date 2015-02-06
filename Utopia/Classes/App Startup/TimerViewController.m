@@ -359,9 +359,7 @@
 }
 
 - (IBAction)speedupClicked:(UIView *)sender {
-  while (sender && ![sender isKindOfClass:[TimerCell class]]) {
-    sender = [sender superview];
-  }
+  sender = [sender getAncestorInViewHierarchyOfType:[TimerCell class]];
   
   if (sender && [ItemSelectViewController canCreateNewVc]) {
     NSInteger idx = [self.timerCells indexOfObject:sender];
@@ -373,9 +371,7 @@
 }
 
 - (IBAction)helpClicked:(UIView *)sender {
-  while (sender && ![sender isKindOfClass:[TimerCell class]]) {
-    sender = [sender superview];
-  }
+  sender = [sender getAncestorInViewHierarchyOfType:[TimerCell class]];
   
   if (sender) {
     NSInteger idx = [self.timerCells indexOfObject:sender];

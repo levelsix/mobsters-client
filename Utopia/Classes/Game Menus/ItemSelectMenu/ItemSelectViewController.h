@@ -13,6 +13,8 @@
 
 #import "TimerAction.h"
 
+#import "PopoverViewController.h"
+
 @interface ItemSelectCell : UITableViewCell {
   UIColor *_origIconLabelColor;
 }
@@ -55,26 +57,7 @@
 
 @end
 
-typedef enum
-{
-  ViewAnchoringDirectionNone = 0,
-  ViewAnchoringPreferLeftPlacement,   // View will be anchored to the LEFT of the invoking view, if possible
-  ViewAnchoringPreferRightPlacement,  // RIGHT
-  ViewAnchoringPreferTopPlacement,    // TOP
-  ViewAnchoringPreferBottomPlacement, // BOTTOM
-} ViewAnchoringDirection;
-
-@interface ItemSelectViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
-{
-  BOOL _centeredOnScreen;
-}
-
-@property (nonatomic, retain) IBOutlet UIView *bgdView;
-@property (nonatomic, retain) IBOutlet UIView *mainView;
-@property (nonatomic, retain) IBOutlet UIView *headerView;
-
-@property (nonatomic, retain) IBOutlet UILabel *titleLabel;
-@property (nonatomic, retain) IBOutlet UIView *triangle;
+@interface ItemSelectViewController : PopoverViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, retain) IBOutlet UITableView *itemsTable;
 
@@ -90,14 +73,7 @@ typedef enum
 
 @property (strong, nonatomic) NSTimer *updateTimer;
 
-+ (BOOL) canCreateNewVc;
-
-- (void) showCenteredOnScreen;
-- (void) showAnchoredToInvokingView:(UIView*)invokingView withDirection:(ViewAnchoringDirection)direction inkovingViewImage:(UIImage*)invokingViewImage;
-
 - (void) reloadDataAnimated:(BOOL)animated;
 - (void) reloadData;
-
-- (IBAction)closeClicked:(id)sender;
 
 @end

@@ -97,16 +97,18 @@ BOOL BattleResultIsValidValue(BattleResult value);
 @private
   BOOL hasProspectiveCashWinnings_:1;
   BOOL hasProspectiveOilWinnings_:1;
+  BOOL hasMonsterIdDropped_:1;
   BOOL hasDefenderMsg_:1;
   BOOL hasDefender_:1;
   BOOL hasPvpLeagueStats_:1;
-  BOOL hasDefenderExtraMonster_:1;
+  BOOL hasCmtd_:1;
   int32_t prospectiveCashWinnings;
   int32_t prospectiveOilWinnings;
+  int32_t monsterIdDropped;
   NSString* defenderMsg;
   MinimumUserProtoWithLevel* defender;
   UserPvpLeagueProto* pvpLeagueStats;
-  ClanMemberTeamDonationProto* defenderExtraMonster;
+  ClanMemberTeamDonationProto* cmtd;
   NSMutableArray * mutableDefenderMonstersList;
 }
 - (BOOL) hasDefender;
@@ -114,14 +116,16 @@ BOOL BattleResultIsValidValue(BattleResult value);
 - (BOOL) hasProspectiveOilWinnings;
 - (BOOL) hasPvpLeagueStats;
 - (BOOL) hasDefenderMsg;
-- (BOOL) hasDefenderExtraMonster;
+- (BOOL) hasCmtd;
+- (BOOL) hasMonsterIdDropped;
 @property (readonly, strong) MinimumUserProtoWithLevel* defender;
 @property (readonly, strong) NSArray * defenderMonstersList;
 @property (readonly) int32_t prospectiveCashWinnings;
 @property (readonly) int32_t prospectiveOilWinnings;
 @property (readonly, strong) UserPvpLeagueProto* pvpLeagueStats;
 @property (readonly, strong) NSString* defenderMsg;
-@property (readonly, strong) ClanMemberTeamDonationProto* defenderExtraMonster;
+@property (readonly, strong) ClanMemberTeamDonationProto* cmtd;
+@property (readonly) int32_t monsterIdDropped;
 - (PvpMonsterProto*)defenderMonstersAtIndex:(NSUInteger)index;
 
 + (PvpProto*) defaultInstance;
@@ -194,12 +198,17 @@ BOOL BattleResultIsValidValue(BattleResult value);
 - (PvpProto_Builder*) setDefenderMsg:(NSString*) value;
 - (PvpProto_Builder*) clearDefenderMsg;
 
-- (BOOL) hasDefenderExtraMonster;
-- (ClanMemberTeamDonationProto*) defenderExtraMonster;
-- (PvpProto_Builder*) setDefenderExtraMonster:(ClanMemberTeamDonationProto*) value;
-- (PvpProto_Builder*) setDefenderExtraMonster_Builder:(ClanMemberTeamDonationProto_Builder*) builderForValue;
-- (PvpProto_Builder*) mergeDefenderExtraMonster:(ClanMemberTeamDonationProto*) value;
-- (PvpProto_Builder*) clearDefenderExtraMonster;
+- (BOOL) hasCmtd;
+- (ClanMemberTeamDonationProto*) cmtd;
+- (PvpProto_Builder*) setCmtd:(ClanMemberTeamDonationProto*) value;
+- (PvpProto_Builder*) setCmtd_Builder:(ClanMemberTeamDonationProto_Builder*) builderForValue;
+- (PvpProto_Builder*) mergeCmtd:(ClanMemberTeamDonationProto*) value;
+- (PvpProto_Builder*) clearCmtd;
+
+- (BOOL) hasMonsterIdDropped;
+- (int32_t) monsterIdDropped;
+- (PvpProto_Builder*) setMonsterIdDropped:(int32_t) value;
+- (PvpProto_Builder*) clearMonsterIdDropped;
 @end
 
 @interface PvpMonsterProto : PBGeneratedMessage {

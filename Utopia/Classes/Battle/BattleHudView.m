@@ -76,6 +76,16 @@
   }
 }
 
+- (void) showClanSlot {
+  UIView *last = [self.cardViews lastObject];
+  self.width = CGRectGetMaxX(last.frame)+7.f;
+}
+
+- (void) hideClanSlot {
+  UIView *last = [self.cardViews objectAtIndex:self.cardViews.count-2];
+  self.width = CGRectGetMaxX(last.frame)+7.f;
+}
+
 @end
 
 @implementation BattleSkillCounterPopupView
@@ -179,7 +189,12 @@
   self.waveNumLabel.gradientEndColor = [UIColor colorWithWhite:233/255.f alpha:1.f];
   self.waveNumLabel.alpha = 0.f;
   
-  self.swapLabel.text = [NSString stringWithFormat:@"Select a %@ to Deploy:", MONSTER_NAME];
+  self.swapLabel.text = [NSString stringWithFormat:@"SELECT A %@ TO DEPLOY", MONSTER_NAME.uppercaseString];
+  self.swapLabel.shadowBlur = 1.f;
+  self.swapLabel.gradientStartColor = [UIColor whiteColor];
+  self.swapLabel.gradientEndColor = [UIColor colorWithWhite:233/255.f alpha:1.f];
+  
+  [self addSubview:self.deployView];
 }
 
 - (void) removeButtons {

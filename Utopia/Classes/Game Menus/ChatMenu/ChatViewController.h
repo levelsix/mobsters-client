@@ -11,6 +11,9 @@
 #import "NibUtils.h"
 #import "ChatBottomView.h"
 
+#import "MonsterSelectViewController.h"
+#import "TeamDonateMonstersFiller.h"
+
 @interface ChatMainView : PopupShadowView
 
 @property (nonatomic, retain) IBOutletCollection(UIView) NSArray *allowedViews;
@@ -24,7 +27,7 @@
 
 @end
 
-@interface ChatViewController : UIViewController <TabBarDelegate, UITextFieldDelegate, ChatViewDelegate> {
+@interface ChatViewController : UIViewController <TabBarDelegate, UITextFieldDelegate, TeamDonateMonstersFillerDelegate> {
   BOOL _passedThreshold;
   
   NSString *_muteUserUuid;
@@ -52,6 +55,11 @@
 
 @property (nonatomic, assign) id<ChatViewControllerDelegate> delegate;
 
+@property (nonatomic, retain) MonsterSelectViewController *monsterSelectViewController;
+@property (nonatomic, retain) TeamDonateMonstersFiller *teamDonateMonstersFiller;
+
 - (void) openWithConversationForUserUuid:(NSString *)userUuid name:(NSString *)name;
+
+- (void) displayMonsterSelect:(ClanMemberTeamDonationProto *)donation sender:(id)sender;
 
 @end

@@ -143,6 +143,6 @@
 // deleted. This will probably be followed by another set of calls to fillHoles and topUpOrbs.
 - (NSSet *)detectBottomFeeders;
 
-- (BattleOrb *) findOrbWithColorPreference:(OrbColor)orbColor;
+- (BattleOrb *) findOrbWithColorPreference:(OrbColor)orbColor isInitialSkill:(BOOL)isInitialSkill;
 
 @end

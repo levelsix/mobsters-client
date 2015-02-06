@@ -150,9 +150,7 @@
 #pragma mark - IBActions
 
 - (IBAction) helpClicked:(id)sender {
-  while (sender && ![sender isKindOfClass:[ClanHelpCell class]]) {
-    sender = [sender superview];
-  }
+  sender = [sender getAncestorInViewHierarchyOfType:[ClanHelpCell class]];
   
   if (sender) {
     ClanHelpCell *cell = (ClanHelpCell *)sender;
@@ -172,9 +170,7 @@
 }
 
 - (IBAction) profileClicked:(id)sender {
-  while (sender && ![sender isKindOfClass:[ClanHelpCell class]]) {
-    sender = [sender superview];
-  }
+  sender = [sender getAncestorInViewHierarchyOfType:[ClanHelpCell class]];
   
   if (sender) {
     ClanHelpCell *cell = (ClanHelpCell *)sender;

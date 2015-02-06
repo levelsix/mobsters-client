@@ -86,6 +86,7 @@
                 <outlet property="healthBar" destination="PVh-Rg-gaG" id="qpa-wE-gji"/>
                 <outlet property="healthLabel" destination="j1s-2O-gbA" id="7kU-Wt-YdZ"/>
             </connections>
+            <point key="canvasLocation" x="235" y="462"/>
         </collectionViewCell>
     </objects>
     <resources>

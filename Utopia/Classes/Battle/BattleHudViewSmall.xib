@@ -143,334 +143,6 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
-                <view contentMode="scaleToFill" id="zMQ-pc-wO7" customClass="BattleDeployView">
-                    <rect key="frame" x="8" y="152" width="157" height="93"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <subviews>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="deploybg.png" id="Dlv-9d-ABF">
-                            <rect key="frame" x="0.0" y="0.0" width="157" height="93"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Select a Mobster to Deploy:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="MBM-Xk-jdF" customClass="NiceFontLabel8">
-                            <rect key="frame" x="9" y="1" width="139" height="21"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <nil key="highlightedColor"/>
-                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
-                            <size key="shadowOffset" width="0.0" height="1"/>
-                        </label>
-                        <view clipsSubviews="YES" tag="1" contentMode="scaleToFill" id="5Aj-Qu-dRy" customClass="BattleDeployCardView">
-                            <rect key="frame" x="2" y="19" width="55" height="69"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <subviews>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="dottedsmallsquare.png" id="nUG-qR-apn">
-                                    <rect key="frame" x="6" y="6" width="42" height="42"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </imageView>
-                                <view contentMode="scaleToFill" id="2Uk-Tv-UM4">
-                                    <rect key="frame" x="0.0" y="0.0" width="55" height="69"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <subviews>
-                                        <view clipsSubviews="YES" contentMode="scaleToFill" id="Gdf-RS-O6f" customClass="MiniMonsterView">
-                                            <rect key="frame" x="6" y="6" width="42" height="42"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <subviews>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Z7a-66-Mow">
-                                                    <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                </imageView>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="usk-RI-7n5">
-                                                    <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                </imageView>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="scL-Fa-LZq" customClass="DeployCardButton">
-                                                    <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                                    <state key="normal">
-                                                        <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                    <state key="highlighted">
-                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                    <connections>
-                                                        <action selector="deployCardClicked:" destination="-1" eventType="touchUpInside" id="Ywd-nA-SJa"/>
-                                                        <outlet property="baseImage" destination="Z7a-66-Mow" id="vQq-6e-Ivw"/>
-                                                    </connections>
-                                                </button>
-                                                <view contentMode="scaleToFill" id="rvx-MT-gOx" customClass="EvoBadge">
-                                                    <rect key="frame" x="4" y="26" width="12" height="12"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <subviews>
-                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="evobadge2.png" id="nQr-8H-Th3">
-                                                            <rect key="frame" x="0.0" y="0.0" width="12" height="12"/>
-                                                            <autoresizingMask key="autoresizingMask"/>
-                                                        </imageView>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ycE-dg-S4A" customClass="NiceFontLabel8B">
-                                                            <rect key="frame" x="0.0" y="-2" width="12" height="12"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="7"/>
-                                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                            <nil key="highlightedColor"/>
-                                                            <color key="shadowColor" white="0.0" alpha="0.59999999999999998" colorSpace="calibratedWhite"/>
-                                                            <size key="shadowOffset" width="0.0" height="1"/>
-                                                        </label>
-                                                    </subviews>
-                                                    <connections>
-                                                        <outlet property="bg" destination="nQr-8H-Th3" id="Q5W-kF-6rc"/>
-                                                        <outlet property="evoLevel" destination="ycE-dg-S4A" id="HQb-iP-ID0"/>
-                                                    </connections>
-                                                </view>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                            <connections>
-                                                <outlet property="bgdIcon" destination="Z7a-66-Mow" id="AWc-mX-AUg"/>
-                                                <outlet property="evoBadge" destination="rvx-MT-gOx" id="E4B-BT-dWZ"/>
-                                                <outlet property="monsterIcon" destination="usk-RI-7n5" id="PF8-gj-859"/>
-                                            </connections>
-                                        </view>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="minitimebg.png" id="Tg6-Iy-NYX">
-                                            <rect key="frame" x="5" y="54" width="44" height="11"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </imageView>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="minitimebar.png" id="cE8-1z-duv" customClass="ProgressBar">
-                                            <rect key="frame" x="7" y="56" width="40" height="7"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </imageView>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="133/150" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="Vt5-10-tkf" customClass="NiceFontLabel18">
-                                            <rect key="frame" x="1" y="44" width="52" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="9"/>
-                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <nil key="highlightedColor"/>
-                                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
-                                            <size key="shadowOffset" width="0.0" height="1"/>
-                                        </label>
-                                    </subviews>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </view>
-                            </subviews>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            <connections>
-                                <outlet property="emptyView" destination="nUG-qR-apn" id="8PO-3y-tc2"/>
-                                <outlet property="healthLabel" destination="Vt5-10-tkf" id="yNS-Gf-G4B"/>
-                                <outlet property="healthbar" destination="cE8-1z-duv" id="RJQ-ui-fjH"/>
-                                <outlet property="mainView" destination="2Uk-Tv-UM4" id="kVb-gd-ZmI"/>
-                                <outlet property="monsterView" destination="Gdf-RS-O6f" id="acN-W9-3TP"/>
-                            </connections>
-                        </view>
-                        <view clipsSubviews="YES" tag="2" contentMode="scaleToFill" id="tv5-ko-5aW" customClass="BattleDeployCardView">
-                            <rect key="frame" x="51" y="19" width="55" height="69"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <subviews>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="dottedsmallsquare.png" id="AP9-Pv-kRr">
-                                    <rect key="frame" x="6" y="6" width="42" height="42"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </imageView>
-                                <view contentMode="scaleToFill" id="el3-5q-D1c">
-                                    <rect key="frame" x="0.0" y="0.0" width="55" height="69"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <subviews>
-                                        <view clipsSubviews="YES" contentMode="scaleToFill" id="eBo-xP-73b" customClass="MiniMonsterView">
-                                            <rect key="frame" x="6" y="6" width="42" height="42"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <subviews>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="doF-Dd-DtI">
-                                                    <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                </imageView>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="H6g-uG-C0J">
-                                                    <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                </imageView>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="7b2-yH-hjx" customClass="DeployCardButton">
-                                                    <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                                    <state key="normal">
-                                                        <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                    <state key="highlighted">
-                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                    <connections>
-                                                        <action selector="deployCardClicked:" destination="-1" eventType="touchUpInside" id="U8i-j1-V2Z"/>
-                                                        <outlet property="baseImage" destination="doF-Dd-DtI" id="jyh-pZ-IHQ"/>
-                                                    </connections>
-                                                </button>
-                                                <view contentMode="scaleToFill" id="kAI-o1-BPt" customClass="EvoBadge">
-                                                    <rect key="frame" x="4" y="26" width="12" height="12"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <subviews>
-                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="evobadge2.png" id="xg0-L4-XJc">
-                                                            <rect key="frame" x="0.0" y="0.0" width="12" height="12"/>
-                                                            <autoresizingMask key="autoresizingMask"/>
-                                                        </imageView>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="DsU-I0-M0g" customClass="NiceFontLabel8B">
-                                                            <rect key="frame" x="0.0" y="-2" width="12" height="12"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="7"/>
-                                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                            <nil key="highlightedColor"/>
-                                                            <color key="shadowColor" white="0.0" alpha="0.59999999999999998" colorSpace="calibratedWhite"/>
-                                                            <size key="shadowOffset" width="0.0" height="1"/>
-                                                        </label>
-                                                    </subviews>
-                                                    <connections>
-                                                        <outlet property="bg" destination="xg0-L4-XJc" id="XfU-dC-p5p"/>
-                                                        <outlet property="evoLevel" destination="DsU-I0-M0g" id="z47-1V-mOY"/>
-                                                    </connections>
-                                                </view>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                            <connections>
-                                                <outlet property="bgdIcon" destination="doF-Dd-DtI" id="LN2-k1-Cmk"/>
-                                                <outlet property="evoBadge" destination="kAI-o1-BPt" id="kOF-jD-NqR"/>
-                                                <outlet property="monsterIcon" destination="H6g-uG-C0J" id="4Ea-xy-j8E"/>
-                                            </connections>
-                                        </view>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="minitimebg.png" id="Wd4-Lb-SHS">
-                                            <rect key="frame" x="5" y="54" width="44" height="11"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </imageView>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="minitimebar.png" id="zJo-hd-Pnx" customClass="ProgressBar">
-                                            <rect key="frame" x="7" y="56" width="40" height="7"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </imageView>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="133/150" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="Jy6-32-s0E" customClass="NiceFontLabel18">
-                                            <rect key="frame" x="1" y="44" width="52" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="9"/>
-                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <nil key="highlightedColor"/>
-                                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
-                                            <size key="shadowOffset" width="0.0" height="1"/>
-                                        </label>
-                                    </subviews>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </view>
-                            </subviews>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            <connections>
-                                <outlet property="emptyView" destination="AP9-Pv-kRr" id="6gC-R1-hJp"/>
-                                <outlet property="healthLabel" destination="Jy6-32-s0E" id="1uB-hA-pIc"/>
-                                <outlet property="healthbar" destination="zJo-hd-Pnx" id="yVR-gG-7eR"/>
-                                <outlet property="mainView" destination="el3-5q-D1c" id="AHA-rr-7YA"/>
-                                <outlet property="monsterView" destination="eBo-xP-73b" id="dEp-yd-BxN"/>
-                            </connections>
-                        </view>
-                        <view clipsSubviews="YES" tag="3" contentMode="scaleToFill" id="ys4-HV-hPN" customClass="BattleDeployCardView">
-                            <rect key="frame" x="99" y="19" width="55" height="69"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <subviews>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="dottedsmallsquare.png" id="m24-E9-huY">
-                                    <rect key="frame" x="6" y="6" width="42" height="42"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </imageView>
-                                <view contentMode="scaleToFill" id="VMl-2J-CGW">
-                                    <rect key="frame" x="0.0" y="0.0" width="55" height="69"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <subviews>
-                                        <view clipsSubviews="YES" contentMode="scaleToFill" id="BUL-2h-gPn" customClass="MiniMonsterView">
-                                            <rect key="frame" x="6" y="6" width="42" height="42"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <subviews>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="vpr-4s-xKZ">
-                                                    <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                </imageView>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="Ovq-nk-tBu">
-                                                    <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                </imageView>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="CVv-ET-9SV" customClass="DeployCardButton">
-                                                    <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                                    <state key="normal">
-                                                        <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                    <state key="highlighted">
-                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                    <connections>
-                                                        <action selector="deployCardClicked:" destination="-1" eventType="touchUpInside" id="bga-vZ-0rq"/>
-                                                        <outlet property="baseImage" destination="vpr-4s-xKZ" id="rFC-DT-9DS"/>
-                                                    </connections>
-                                                </button>
-                                                <view contentMode="scaleToFill" id="FxK-Po-m7I" customClass="EvoBadge">
-                                                    <rect key="frame" x="4" y="26" width="12" height="12"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <subviews>
-                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="evobadge2.png" id="IuG-bI-OmS">
-                                                            <rect key="frame" x="0.0" y="0.0" width="12" height="12"/>
-                                                            <autoresizingMask key="autoresizingMask"/>
-                                                        </imageView>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Map-bg-XpI" customClass="NiceFontLabel8B">
-                                                            <rect key="frame" x="0.0" y="-2" width="12" height="12"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="7"/>
-                                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                            <nil key="highlightedColor"/>
-                                                            <color key="shadowColor" white="0.0" alpha="0.59999999999999998" colorSpace="calibratedWhite"/>
-                                                            <size key="shadowOffset" width="0.0" height="1"/>
-                                                        </label>
-                                                    </subviews>
-                                                    <connections>
-                                                        <outlet property="bg" destination="IuG-bI-OmS" id="gpD-02-w2m"/>
-                                                        <outlet property="evoLevel" destination="Map-bg-XpI" id="7M6-DK-q97"/>
-                                                    </connections>
-                                                </view>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                            <connections>
-                                                <outlet property="bgdIcon" destination="vpr-4s-xKZ" id="Myd-2i-OWj"/>
-                                                <outlet property="evoBadge" destination="FxK-Po-m7I" id="gzz-Uj-ZeJ"/>
-                                                <outlet property="monsterIcon" destination="Ovq-nk-tBu" id="pvM-L3-ipK"/>
-                                            </connections>
-                                        </view>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="minitimebg.png" id="g4d-t2-1hF">
-                                            <rect key="frame" x="5" y="54" width="44" height="11"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </imageView>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="minitimebar.png" id="58F-tC-7Jx" customClass="ProgressBar">
-                                            <rect key="frame" x="7" y="56" width="40" height="7"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </imageView>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="133/150" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="yZd-LP-5CJ" customClass="NiceFontLabel18">
-                                            <rect key="frame" x="1" y="44" width="52" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="9"/>
-                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <nil key="highlightedColor"/>
-                                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
-                                            <size key="shadowOffset" width="0.0" height="1"/>
-                                        </label>
-                                    </subviews>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </view>
-                            </subviews>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            <connections>
-                                <outlet property="emptyView" destination="m24-E9-huY" id="2K6-Lq-PRL"/>
-                                <outlet property="healthLabel" destination="yZd-LP-5CJ" id="ART-kx-m0V"/>
-                                <outlet property="healthbar" destination="58F-tC-7Jx" id="U8n-Yw-ZVE"/>
-                                <outlet property="mainView" destination="VMl-2J-CGW" id="vgS-n9-3f5"/>
-                                <outlet property="monsterView" destination="BUL-2h-gPn" id="AFA-Df-8Lq"/>
-                            </connections>
-                        </view>
-                    </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <connections>
-                        <outletCollection property="cardViews" destination="5Aj-Qu-dRy" id="h5L-z8-diq"/>
-                        <outletCollection property="cardViews" destination="tv5-ko-5aW" id="Hdr-f1-jMO"/>
-                        <outletCollection property="cardViews" destination="ys4-HV-hPN" id="Ryz-G4-OxO"/>
-                    </connections>
-                </view>
                 <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="iiz-CX-JJj">
                     <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -581,34 +253,550 @@
             <connections>
                 <outlet property="battleScheduleView" destination="gM6-4S-27Q" id="DfE-9e-kZr"/>
                 <outlet property="bottomView" destination="MRM-zP-qe8" id="JSe-K0-5fT"/>
-                <outlet property="deployView" destination="zMQ-pc-wO7" id="icc-jI-hdV"/>
+                <outlet property="deployView" destination="YaB-78-ktZ" id="mIA-Py-Pda"/>
                 <outlet property="elementButton" destination="2kS-qV-7b6" id="vuG-6I-cQe"/>
                 <outlet property="elementView" destination="Qgz-Lk-NDV" id="zGJ-Fr-1eZ"/>
                 <outlet property="forfeitButtonView" destination="Sb3-AQ-Vv6" id="KnX-Jx-Ekp"/>
                 <outlet property="skillPopupCloseButton" destination="iiz-CX-JJj" id="fWe-9w-v4G"/>
                 <outlet property="skillPopupView" destination="I1U-bx-Yrm" id="NvE-0l-DNe"/>
-                <outlet property="swapLabel" destination="MBM-Xk-jdF" id="Mi6-XP-mOk"/>
+                <outlet property="swapLabel" destination="lFh-3Z-5Um" id="sjd-w7-Vub"/>
                 <outlet property="swapView" destination="9tG-Yt-5ot" id="eOe-Vp-k2h"/>
                 <outlet property="waveNumLabel" destination="lh2-01-Mam" id="mlZ-Up-Ax5"/>
             </connections>
         </view>
+        <view contentMode="scaleToFill" id="YaB-78-ktZ" customClass="BattleDeployView">
+            <rect key="frame" x="0.0" y="0.0" width="235" height="93"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <view clipsSubviews="YES" contentMode="scaleToFill" id="elj-mJ-Q1H">
+                    <rect key="frame" x="0.0" y="31" width="235" height="62"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                    <subviews>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="deployedge.png" id="tYj-Ad-7Rd">
+                            <rect key="frame" x="0.0" y="0.0" width="18" height="62"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        </imageView>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="deploymiddle.png" id="Utb-c4-20x">
+                            <rect key="frame" x="18" y="0.0" width="199" height="62"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        </imageView>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="deployedge.png" id="kSV-Gw-dYP" customClass="FlipImageView">
+                            <rect key="frame" x="217" y="0.0" width="18" height="62"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                        </imageView>
+                        <view clipsSubviews="YES" tag="1" contentMode="scaleToFill" id="KlN-p7-Cd4" customClass="BattleDeployCardView">
+                            <rect key="frame" x="7" y="7" width="48" height="48"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="deployemptyslot.png" id="Nzl-KI-HMY">
+                                    <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                                <view contentMode="scaleToFill" id="VGN-9v-weq" customClass="MiniMonsterView">
+                                    <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="earthmediumsquare.png" id="SPc-Fc-eyr">
+                                            <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </imageView>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="yYT-r2-d8t">
+                                            <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </imageView>
+                                        <view userInteractionEnabled="NO" contentMode="scaleToFill" id="YGp-eg-If4" userLabel="Health View">
+                                            <rect key="frame" x="2" y="28" width="44" height="16"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <subviews>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="hospitaltimeleftbg.png" id="kSf-0r-8jR">
+                                                    <rect key="frame" x="3" y="6" width="37" height="8"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </imageView>
+                                                <view contentMode="scaleToFill" id="EJD-Ld-j51" customClass="SplitImageProgressBar">
+                                                    <rect key="frame" x="3" y="6" width="37" height="8"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <subviews>
+                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="teamhealthbarcap.png" id="saB-SM-GEK">
+                                                            <rect key="frame" x="0.0" y="0.0" width="3" height="8"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                        </imageView>
+                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="teamhealthbarmiddle.png" id="f7d-0d-78K">
+                                                            <rect key="frame" x="3" y="0.0" width="38" height="8"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                        </imageView>
+                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="teamhealthbarcap.png" id="eoY-xW-czQ" customClass="FlipImageView">
+                                                            <rect key="frame" x="41" y="0.0" width="3" height="8"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                        </imageView>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <connections>
+                                                        <outlet property="leftCap" destination="saB-SM-GEK" id="EJh-Sg-uCz"/>
+                                                        <outlet property="middleBar" destination="f7d-0d-78K" id="EOG-Kp-Qrk"/>
+                                                        <outlet property="rightCap" destination="eoY-xW-czQ" id="8Tn-Be-Ukw"/>
+                                                    </connections>
+                                                </view>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="12m 22s" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Y5g-yV-UAG" customClass="NiceFontLabel10S">
+                                                    <rect key="frame" x="1" y="-5" width="42" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <view contentMode="scaleToFill" id="haQ-j5-6zh" customClass="EvoBadge">
+                                            <rect key="frame" x="29" y="18" width="12" height="12"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <subviews>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="evobadge2.png" id="51q-7T-A9f">
+                                                    <rect key="frame" x="0.0" y="0.0" width="12" height="12"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Py0-wK-0ff" customClass="NiceFontLabel8B">
+                                                    <rect key="frame" x="0.0" y="-2" width="12" height="12"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="7"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                    <color key="shadowColor" white="0.0" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
+                                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                                </label>
+                                            </subviews>
+                                            <connections>
+                                                <outlet property="bg" destination="51q-7T-A9f" id="0S5-Gr-fhY"/>
+                                                <outlet property="evoLevel" destination="Py0-wK-0ff" id="MYG-uN-lhU"/>
+                                            </connections>
+                                        </view>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="hwg-rA-HBn" customClass="MaskedButton">
+                                            <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal">
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="deployCardClicked:" destination="-1" eventType="touchUpInside" id="agF-kq-Bx2"/>
+                                                <outlet property="baseImage" destination="SPc-Fc-eyr" id="u4N-eY-gce"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <connections>
+                                        <outlet property="bgdIcon" destination="SPc-Fc-eyr" id="qhp-te-6ot"/>
+                                        <outlet property="evoBadge" destination="haQ-j5-6zh" id="l7Z-Oh-YMg"/>
+                                        <outlet property="monsterIcon" destination="yYT-r2-d8t" id="uem-Fh-enx"/>
+                                    </connections>
+                                </view>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <outlet property="emptyView" destination="Nzl-KI-HMY" id="eIT-xO-Qs9"/>
+                                <outlet property="healthLabel" destination="Y5g-yV-UAG" id="cd6-ct-Py9"/>
+                                <outlet property="healthbar" destination="EJD-Ld-j51" id="t2A-Sn-cJb"/>
+                                <outlet property="mainView" destination="VGN-9v-weq" id="Zmx-MQ-Cph"/>
+                                <outlet property="monsterView" destination="VGN-9v-weq" id="9yG-gA-JNI"/>
+                            </connections>
+                        </view>
+                        <view clipsSubviews="YES" tag="2" contentMode="scaleToFill" id="z4f-Fy-x7M" customClass="BattleDeployCardView">
+                            <rect key="frame" x="62" y="7" width="48" height="48"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="deployemptyslot.png" id="I1e-nS-o92">
+                                    <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                                <view contentMode="scaleToFill" id="GKy-XP-vzp" customClass="MiniMonsterView">
+                                    <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="earthmediumsquare.png" id="0Rm-A8-dZh">
+                                            <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </imageView>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="WjA-uq-A0l">
+                                            <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </imageView>
+                                        <view userInteractionEnabled="NO" contentMode="scaleToFill" id="I7j-GN-Cnx" userLabel="Health View">
+                                            <rect key="frame" x="2" y="28" width="44" height="16"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <subviews>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="hospitaltimeleftbg.png" id="mQC-QI-CER">
+                                                    <rect key="frame" x="3" y="6" width="37" height="8"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </imageView>
+                                                <view contentMode="scaleToFill" id="quv-Pw-KuY" customClass="SplitImageProgressBar">
+                                                    <rect key="frame" x="3" y="6" width="37" height="8"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <subviews>
+                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="teamhealthbarcap.png" id="IS4-xa-fHx">
+                                                            <rect key="frame" x="0.0" y="0.0" width="3" height="8"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                        </imageView>
+                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="teamhealthbarmiddle.png" id="qb6-IC-TYN">
+                                                            <rect key="frame" x="3" y="0.0" width="38" height="8"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                        </imageView>
+                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="teamhealthbarcap.png" id="RJU-zI-jKa" customClass="FlipImageView">
+                                                            <rect key="frame" x="41" y="0.0" width="3" height="8"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                        </imageView>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <connections>
+                                                        <outlet property="leftCap" destination="IS4-xa-fHx" id="MCC-0f-Zk8"/>
+                                                        <outlet property="middleBar" destination="qb6-IC-TYN" id="InU-AD-8zp"/>
+                                                        <outlet property="rightCap" destination="RJU-zI-jKa" id="3oq-vF-bVO"/>
+                                                    </connections>
+                                                </view>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="12m 22s" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0GI-3V-2hw" customClass="NiceFontLabel10S">
+                                                    <rect key="frame" x="1" y="-5" width="42" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <view contentMode="scaleToFill" id="iuv-Wo-DhC" customClass="EvoBadge">
+                                            <rect key="frame" x="29" y="18" width="12" height="12"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <subviews>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="evobadge2.png" id="Xhv-0N-Oww">
+                                                    <rect key="frame" x="0.0" y="0.0" width="12" height="12"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="lKE-yH-dgN" customClass="NiceFontLabel8B">
+                                                    <rect key="frame" x="0.0" y="-2" width="12" height="12"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="7"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                    <color key="shadowColor" white="0.0" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
+                                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                                </label>
+                                            </subviews>
+                                            <connections>
+                                                <outlet property="bg" destination="Xhv-0N-Oww" id="DyA-2V-0Xg"/>
+                                                <outlet property="evoLevel" destination="lKE-yH-dgN" id="cn1-63-sc4"/>
+                                            </connections>
+                                        </view>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="R2P-aH-zdL" customClass="MaskedButton">
+                                            <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal">
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="deployCardClicked:" destination="-1" eventType="touchUpInside" id="XFC-Zm-bCS"/>
+                                                <outlet property="baseImage" destination="SPc-Fc-eyr" id="dcc-N0-izS"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <connections>
+                                        <outlet property="bgdIcon" destination="0Rm-A8-dZh" id="xyk-Sw-jnW"/>
+                                        <outlet property="evoBadge" destination="iuv-Wo-DhC" id="tkj-Ug-LJV"/>
+                                        <outlet property="monsterIcon" destination="WjA-uq-A0l" id="9I4-Zh-m4M"/>
+                                    </connections>
+                                </view>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <outlet property="emptyView" destination="I1e-nS-o92" id="rQo-8o-6Xq"/>
+                                <outlet property="healthLabel" destination="0GI-3V-2hw" id="dcc-nR-0rI"/>
+                                <outlet property="healthbar" destination="quv-Pw-KuY" id="AAm-xl-T7P"/>
+                                <outlet property="mainView" destination="GKy-XP-vzp" id="UpM-Qq-0Vg"/>
+                                <outlet property="monsterView" destination="GKy-XP-vzp" id="dkf-D9-eeh"/>
+                            </connections>
+                        </view>
+                        <view clipsSubviews="YES" tag="3" contentMode="scaleToFill" id="Vu6-HH-my2" customClass="BattleDeployCardView">
+                            <rect key="frame" x="117" y="7" width="48" height="48"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="deployemptyslot.png" id="lZ9-ua-SMs">
+                                    <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                                <view contentMode="scaleToFill" id="vMC-NO-nsH" customClass="MiniMonsterView">
+                                    <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="earthmediumsquare.png" id="wEt-wp-bdS">
+                                            <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </imageView>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="qKY-lR-hPA">
+                                            <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </imageView>
+                                        <view userInteractionEnabled="NO" contentMode="scaleToFill" id="Des-r0-rar" userLabel="Health View">
+                                            <rect key="frame" x="2" y="28" width="44" height="16"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <subviews>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="hospitaltimeleftbg.png" id="vPi-g3-u1f">
+                                                    <rect key="frame" x="3" y="6" width="37" height="8"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </imageView>
+                                                <view contentMode="scaleToFill" id="IdV-aV-dFu" customClass="SplitImageProgressBar">
+                                                    <rect key="frame" x="3" y="6" width="37" height="8"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <subviews>
+                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="teamhealthbarcap.png" id="2lA-vE-bEY">
+                                                            <rect key="frame" x="0.0" y="0.0" width="3" height="8"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                        </imageView>
+                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="teamhealthbarmiddle.png" id="hyQ-tO-e2Q">
+                                                            <rect key="frame" x="3" y="0.0" width="38" height="8"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                        </imageView>
+                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="teamhealthbarcap.png" id="IVY-OK-mMP" customClass="FlipImageView">
+                                                            <rect key="frame" x="41" y="0.0" width="3" height="8"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                        </imageView>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <connections>
+                                                        <outlet property="leftCap" destination="2lA-vE-bEY" id="GEg-FQ-rJg"/>
+                                                        <outlet property="middleBar" destination="hyQ-tO-e2Q" id="Tci-HG-NpT"/>
+                                                        <outlet property="rightCap" destination="IVY-OK-mMP" id="GfF-hh-6ip"/>
+                                                    </connections>
+                                                </view>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="12m 22s" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="KE9-Ab-mva" customClass="NiceFontLabel10S">
+                                                    <rect key="frame" x="1" y="-5" width="42" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <view contentMode="scaleToFill" id="Ytd-l7-1vG" customClass="EvoBadge">
+                                            <rect key="frame" x="29" y="18" width="12" height="12"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <subviews>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="evobadge2.png" id="Xrg-hv-mP2">
+                                                    <rect key="frame" x="0.0" y="0.0" width="12" height="12"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ME9-Uf-92y" customClass="NiceFontLabel8B">
+                                                    <rect key="frame" x="0.0" y="-2" width="12" height="12"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="7"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                    <color key="shadowColor" white="0.0" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
+                                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                                </label>
+                                            </subviews>
+                                            <connections>
+                                                <outlet property="bg" destination="Xrg-hv-mP2" id="Wxb-Ku-7OL"/>
+                                                <outlet property="evoLevel" destination="ME9-Uf-92y" id="x00-To-Kyd"/>
+                                            </connections>
+                                        </view>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="KVz-6z-G1f" customClass="MaskedButton">
+                                            <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal">
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="deployCardClicked:" destination="-1" eventType="touchUpInside" id="deL-BB-sey"/>
+                                                <outlet property="baseImage" destination="SPc-Fc-eyr" id="5Zq-Hd-cnl"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <connections>
+                                        <outlet property="bgdIcon" destination="wEt-wp-bdS" id="I4e-Db-okz"/>
+                                        <outlet property="evoBadge" destination="Ytd-l7-1vG" id="jfD-al-dkP"/>
+                                        <outlet property="monsterIcon" destination="qKY-lR-hPA" id="XeR-YV-gYz"/>
+                                    </connections>
+                                </view>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <outlet property="emptyView" destination="lZ9-ua-SMs" id="GSV-tZ-nUI"/>
+                                <outlet property="healthLabel" destination="KE9-Ab-mva" id="BP8-i2-wXA"/>
+                                <outlet property="healthbar" destination="IdV-aV-dFu" id="5iU-h4-9jQ"/>
+                                <outlet property="mainView" destination="vMC-NO-nsH" id="97f-AM-vTM"/>
+                                <outlet property="monsterView" destination="vMC-NO-nsH" id="Ipa-wL-8Qt"/>
+                            </connections>
+                        </view>
+                        <view clipsSubviews="YES" tag="4" contentMode="scaleToFill" id="rhF-8A-Aze" customClass="BattleDeployCardView">
+                            <rect key="frame" x="180" y="7" width="48" height="48"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="deployemptyslot.png" id="4XW-1S-nLv">
+                                    <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                                <view contentMode="scaleToFill" id="eb2-hW-BYD" customClass="MiniMonsterView">
+                                    <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="earthmediumsquare.png" id="vQQ-PL-K3b">
+                                            <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </imageView>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="Tfo-ez-UAh">
+                                            <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </imageView>
+                                        <view userInteractionEnabled="NO" contentMode="scaleToFill" id="xVL-sr-udA" userLabel="Health View">
+                                            <rect key="frame" x="2" y="28" width="44" height="16"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <subviews>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="hospitaltimeleftbg.png" id="yz6-1j-aig">
+                                                    <rect key="frame" x="3" y="6" width="37" height="8"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </imageView>
+                                                <view contentMode="scaleToFill" id="ZF1-e9-o9x" customClass="SplitImageProgressBar">
+                                                    <rect key="frame" x="3" y="6" width="37" height="8"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <subviews>
+                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="teamhealthbarcap.png" id="frm-jF-NlG">
+                                                            <rect key="frame" x="0.0" y="0.0" width="3" height="8"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                        </imageView>
+                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="teamhealthbarmiddle.png" id="Odg-u7-dew">
+                                                            <rect key="frame" x="3" y="0.0" width="38" height="8"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                        </imageView>
+                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="teamhealthbarcap.png" id="xIA-Hq-DSv" customClass="FlipImageView">
+                                                            <rect key="frame" x="41" y="0.0" width="3" height="8"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                        </imageView>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <connections>
+                                                        <outlet property="leftCap" destination="frm-jF-NlG" id="BgP-HY-cem"/>
+                                                        <outlet property="middleBar" destination="Odg-u7-dew" id="luv-Ud-ti2"/>
+                                                        <outlet property="rightCap" destination="xIA-Hq-DSv" id="DHm-xI-caT"/>
+                                                    </connections>
+                                                </view>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="12m 22s" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="n6p-mD-EPp" customClass="NiceFontLabel10S">
+                                                    <rect key="frame" x="1" y="-5" width="42" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <view contentMode="scaleToFill" id="WO2-vI-hFI" customClass="EvoBadge">
+                                            <rect key="frame" x="29" y="18" width="12" height="12"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <subviews>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="evobadge2.png" id="pRV-ed-6ja">
+                                                    <rect key="frame" x="0.0" y="0.0" width="12" height="12"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="cQw-kO-LsE" customClass="NiceFontLabel8B">
+                                                    <rect key="frame" x="0.0" y="-2" width="12" height="12"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="7"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                    <color key="shadowColor" white="0.0" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
+                                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                                </label>
+                                            </subviews>
+                                            <connections>
+                                                <outlet property="bg" destination="pRV-ed-6ja" id="yjG-4S-xXm"/>
+                                                <outlet property="evoLevel" destination="cQw-kO-LsE" id="ss6-RM-Xpp"/>
+                                            </connections>
+                                        </view>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="aQc-0R-5l2" customClass="MaskedButton">
+                                            <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal">
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="deployCardClicked:" destination="-1" eventType="touchUpInside" id="Oxg-vf-TYN"/>
+                                                <outlet property="baseImage" destination="SPc-Fc-eyr" id="wdH-yK-w7H"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <connections>
+                                        <outlet property="bgdIcon" destination="vQQ-PL-K3b" id="gmD-L3-kYq"/>
+                                        <outlet property="evoBadge" destination="WO2-vI-hFI" id="eui-3l-fF1"/>
+                                        <outlet property="monsterIcon" destination="Tfo-ez-UAh" id="b1a-By-twb"/>
+                                    </connections>
+                                </view>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <outlet property="emptyView" destination="4XW-1S-nLv" id="suX-lV-TOs"/>
+                                <outlet property="healthLabel" destination="n6p-mD-EPp" id="k7l-Sh-Na7"/>
+                                <outlet property="healthbar" destination="ZF1-e9-o9x" id="r97-oK-XDQ"/>
+                                <outlet property="mainView" destination="eb2-hW-BYD" id="gBO-vX-Fei"/>
+                                <outlet property="monsterView" destination="eb2-hW-BYD" id="ss5-J9-AuA"/>
+                            </connections>
+                        </view>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="deploysep.png" id="6lM-sA-ZSS">
+                            <rect key="frame" x="172" y="7" width="1" height="48"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Select a Mobster to Deploy:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="lFh-3Z-5Um" customClass="NiceFontLabel18S">
+                    <rect key="frame" x="30" y="7" width="175" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                    <size key="shadowOffset" width="0.0" height="1"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outletCollection property="cardViews" destination="KlN-p7-Cd4" id="2Pg-7A-Cv2"/>
+                <outletCollection property="cardViews" destination="z4f-Fy-x7M" id="D5E-uD-ldu"/>
+                <outletCollection property="cardViews" destination="Vu6-HH-my2" id="Xw8-W7-DGH"/>
+                <outletCollection property="cardViews" destination="rhF-8A-Aze" id="SBI-Um-o6g"/>
+            </connections>
+            <point key="canvasLocation" x="653.5" y="809.5"/>
+        </view>
     </objects>
     <resources>
         <image name="currentborder.png" width="43" height="43"/>
-        <image name="deploybg.png" width="157" height="93"/>
-        <image name="dottedsmallsquare.png" width="42" height="42"/>
+        <image name="deployedge.png" width="18" height="62"/>
+        <image name="deployemptyslot.png" width="48" height="48"/>
+        <image name="deploymiddle.png" width="1" height="62"/>
+        <image name="deploysep.png" width="1" height="1"/>
+        <image name="earthmediumsquare.png" width="48" height="48"/>
         <image name="earthskilldescription.png" width="219" height="129"/>
         <image name="elementreeicon.png" width="19" height="19"/>
         <image name="elementtree2.png" width="227" height="109"/>
         <image name="evobadge2.png" width="12" height="12"/>
         <image name="fireorb.png" width="27" height="34"/>
-        <image name="minitimebar.png" width="40" height="7"/>
-        <image name="minitimebg.png" width="44" height="11"/>
+        <image name="hospitaltimeleftbg.png" width="37" height="8"/>
         <image name="movesqueuebg.png" width="142" height="62"/>
         <image name="runawaybg.png" width="43" height="21"/>
         <image name="runawaybgwidepressed.png" width="75" height="21"/>
         <image name="skilldescriptionline.png" width="186" height="1"/>
         <image name="swapbutton.png" width="50" height="46"/>
+        <image name="teamhealthbarcap.png" width="3" height="8"/>
+        <image name="teamhealthbarmiddle.png" width="1" height="8"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

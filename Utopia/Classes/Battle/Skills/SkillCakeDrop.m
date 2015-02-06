@@ -175,7 +175,7 @@
     BattleOrb* orb;
     
     do {
-      orb = [layout findOrbWithColorPreference:OrbColorNone];
+      orb = [layout findOrbWithColorPreference:OrbColorNone isInitialSkill:YES];
     } while (orb.row < layout.numColumns/2);
     
     // Update data

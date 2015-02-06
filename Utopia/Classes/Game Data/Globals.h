@@ -54,6 +54,8 @@
 #define CLAN_HELPS_CHANGED_NOTIFICATION @"ClanHelpsChangedNotification"
 #define CLAN_HELP_NOTIFICATION_KEY @"ClanHelpNotificationKey"
 #define CLAN_AVENGINGS_CHANGED_NOTIFICATION @"ClanAvengingsChangedNotification"
+#define CLAN_TEAM_DONATIONS_CHANGED_NOTIFICATION @"ClanTeamDonationsChangedNotification"
+#define MY_CLAN_TEAM_DONATION_CHANGED_NOTIFICATION @"MyClanTeamDonationChangedNotification"
 
 #define SPEEDUP_USED_NOTIFICATION @"SpeedupUsedNotification"
 #define SPEEDUP_NOTIFICATION_KEY @"SpeedupNotificationKey"
@@ -155,6 +157,8 @@
 @property (nonatomic, assign) BOOL displayRarity;
 
 @property (nonatomic, assign) int taskIdOfFirstSkill;
+
+@property (nonatomic, assign) int minsToResolicitTeamDonation;
 
 // Monster Constants
 @property (nonatomic, assign) int maxTeamSize;
@@ -340,6 +344,7 @@
 + (void) animateCCArrow:(CCNode *)arrow atAngle:(float)angle;
 
 + (void) animateStartView:(UIView *)startView toEndView:(UIView *)endView fakeStartView:(UIView *)fakeStart fakeEndView:(UIView *)fakeEnd;
++ (void) animateStartView:(UIView *)startView toEndView:(UIView *)endView fakeStartView:(UIView *)fakeStart fakeEndView:(UIView *)fakeEnd completion:(dispatch_block_t)completion;
 
 - (BOOL) validateUserName:(NSString *)name;
 
