@@ -50,20 +50,11 @@ BOOL SkillTypeIsValidValue(SkillType value) {
     case SkillTypeBloodRage:
     case SkillTypeTakeAim:
     case SkillTypeHellFire:
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> fix poor rebase
     case SkillTypeEnergize:
     case SkillTypeRightHook:
     case SkillTypeCurse:
     case SkillTypeInsurance:
     case SkillTypeFlameBreak:
-<<<<<<< HEAD
-=======
->>>>>>> rebase master
-=======
->>>>>>> fix poor rebase
       return YES;
     default:
       return NO;
