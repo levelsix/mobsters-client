@@ -34,20 +34,44 @@
   if ([super skillCalledWithTrigger:trigger execute:execute])
     return YES;
   
-  if ((trigger == SkillTriggerPointEndOfEnemyTurn && self.belongsToPlayer)
-      || (trigger == SkillTriggerPointEndOfPlayerTurn && !self.belongsToPlayer)){
-    if (execute){
-      float rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
-      if (rand < _chance){
+  
+  if ([self isActive])
+  {
+    if ((trigger == SkillTriggerPointEndOfEnemyTurn && self.belongsToPlayer)
+        || (trigger == SkillTriggerPointEndOfPlayerTurn && !self.belongsToPlayer)){
+      if (execute){
+        [self tickDuration];
+        float rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
+        if (rand < _chance){
+          [self showSkillPopupOverlay:YES withCompletion:^(){
+            [self beginCounterStrike];
+          }];
+        }
+        else{
+          return NO;
+        }
+      }
+      return YES;
+    }
+  }
+  
+  if ((self.activationType == SkillActivationTypeUserActivated && trigger == SkillTriggerPointManualActivation) ||
+      (self.activationType == SkillActivationTypeAutoActivated && trigger == SkillTriggerPointEndOfPlayerMove))
+  {
+    if ([self skillIsReady])
+    {
+      if (execute)
+      {
+        [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
+        [self.battleLayer.orbLayer disallowInput];
         [self showSkillPopupOverlay:YES withCompletion:^(){
-          [self beginCounterStrike];
+          [self resetDuration];
+          [self resetOrbCounter];
+          [self skillTriggerFinished];
         }];
       }
-      else{
-        return NO;
-      }
+      return YES;
     }
-    return YES;
   }
   
   return NO;

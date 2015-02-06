@@ -6,9 +6,9 @@
 //  Copyright (c) 2015 LVL6. All rights reserved.
 //
 
-#import "SkillControllerPassive.h"
+#import "SkillControllerActive.h"
 
-@interface SkillCounterStrike : SkillControllerPassive
+@interface SkillCounterStrike : SkillControllerActive
 {
   //Properties
   float _chance;
