@@ -63,6 +63,23 @@
 
 @end
 
+@interface PrivateChatAttackLogCell : PrivateChatListCell
+@property (nonatomic, retain) IBOutlet UIImageView *chatDivider;
+
+@property (nonatomic, retain) IBOutlet UILabel *oilLabel;
+@property (nonatomic, retain) IBOutlet UILabel *cashLabel;
+
+@property (nonatomic, retain) IBOutlet UILabel *avengedLabel;
+@property (nonatomic, retain) IBOutlet UIImageView *avengedCheck;
+
+@property (nonatomic, retain) IBOutlet UILabel *revengedLabel;
+@property (nonatomic, retain) IBOutlet UIImageView *revengeCheck;
+
+@property (nonatomic, retain) IBOutlet UIView *selectedSubViewBackGround;
+- (void) updateForPrivateChat:(id<ChatObject>)privateChat;
+
+@end
+
 @interface ChatClanHelpView : UIView
 
 @property (nonatomic, assign) IBOutlet UILabel *numHelpsLabel;
@@ -98,6 +115,7 @@
 @interface ChatBattleHistoryView : UIView {
   CGRect _initAvengeFrame;
 }
+@property (nonatomic, retain) IBOutlet UIImageView *dividerLine;
 
 @property (nonatomic, retain) IBOutlet UIImageView *topDivider;
 @property (nonatomic, retain) IBOutlet UIImageView *botDivider;
@@ -115,6 +133,12 @@
 @property (nonatomic, retain) IBOutlet UILabel *rankLabel;
 @property (nonatomic, retain) IBOutlet UILabel *noChangeLabel;
 @property (nonatomic, retain) IBOutlet UIImageView *rankIcon;
+
+@property (nonatomic, retain) IBOutlet UIImageView *avengeCheck;
+@property (nonatomic, retain) IBOutlet UILabel *avengedLabel;
+@property (nonatomic, retain) IBOutlet UIImageView *revengeCheck;
+@property (nonatomic, retain) IBOutlet UILabel *revengedLabel;
+
 
 @property (nonatomic, retain) IBOutletCollection(ChatMonsterView) NSArray *monsterViews;
 

@@ -10,6 +10,10 @@
 #import "OutgoingEventController.h"
 #import "GameState.h"
 #import "UnreadNotifications.h"
+#import "ChatObject.h"
+
+#define ACTIVE_PRIVATE_CHAT_TAB_COLOR @"0A9ED7"
+#define INACTIVE_PRIVATE_CHAT_TAB_COLOR @"A2A2A2"
 
 @implementation ChatPopoverView
 
@@ -360,6 +364,8 @@
   [self.backView.superview bringSubviewToFront:self.backView];
   
   self.unrespondedChatMessages = [NSMutableArray array];
+  _originalDefenceTabPosition = self.defensiveLogTabButton.center;
+  _chatMode = PrivateChatModeAllMessages;
 }
 
 - (void) updateForPrivateChatList:(NSArray *)privateChats {
@@ -370,6 +376,39 @@
   
   GameState *gs = [GameState sharedGameState];
   [self.monsterView updateForMonsterId:gs.avatarMonsterId];
+  
+  int unread = 0;
+  for (PvpHistoryProto *pvp in [gs pvpDefenseHistory]) {
+    if (pvp.isUnread) {
+      unread ++;
+    }
+  }
+  self.unreadDefenseLog.hidden = unread <= 0;
+  self.unreadDefenseLog.text = [NSString stringWithFormat:@"(%d)",unread];
+  self.defensiveLogTabButton.center = _originalDefenceTabPosition;
+  if(!self.unreadDefenseLog.hidden) {
+    self.defensiveLogTabButton.center = CGPointMake(self.defensiveLogTabButton.center.x - 7, self.defensiveLogTabButton.center.y);
+  }
+  
+  [self updateDisplayedPrivateChatList];
+}
+
+- (void) updateDisplayedPrivateChatList {
+  [self.displayedChatList removeAllObjects];
+  GameState *gs = [GameState sharedGameState];
+  //create a filter hear and replace references to privatechat list with displayedPrivateChat lists
+  if (_chatMode == PrivateChatModeAllMessages){
+    self.displayedChatList = [NSMutableArray arrayWithArray:self.privateChatList];
+    
+  } else if (_chatMode == PrivateChatModeAttackLog) {
+    self.displayedChatList = [NSMutableArray arrayWithArray:[gs pvpAttackHistory]];
+    
+  } else if (_chatMode == PrivateChatModeDefenseLog) {
+    self.displayedChatList = [NSMutableArray arrayWithArray:[gs pvpDefenseHistory]];
+  }
+  
+  
+  [self.listTable reloadData];
 }
 
 - (void) loadListViewAnimated:(BOOL)animated {
@@ -525,6 +564,16 @@
   }
   
   [super updateForChats:arr animated:animated];
+  
+  NSInteger pathIndex = [self.chats indexOfObject:_clickedCell];
+  if( pathIndex == NSNotFound) {
+    NSIndexPath *path = [NSIndexPath indexPathForRow:self.chats.count-1 inSection:0];
+    [self.chatTable scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
+  } else {
+    NSIndexPath *path = [NSIndexPath indexPathForRow:pathIndex inSection:0];
+    [self.chatTable scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
+  }
+  
 }
 
 - (IBAction)sendChatClicked:(id)sender {
@@ -560,6 +609,50 @@
   return !_isLoading;
 }
 
+#pragma mark - Chat mode buttons
+
+- (IBAction)privateSubTabClicked:(id)sender {
+  self.allMessagesTabButton.titleLabel.font = [UIFont fontWithName:@"Gotham-Medium"
+                                                              size:self.allMessagesTabButton.titleLabel.font.pointSize];
+  self.defensiveLogTabButton.titleLabel.font = [UIFont fontWithName:@"Gotham-Medium"
+                                                               size:self.allMessagesTabButton.titleLabel.font.pointSize];
+  self.offensiveLogTabButton.titleLabel.font = [UIFont fontWithName:@"Gotham-Medium"
+                                                               size:self.allMessagesTabButton.titleLabel.font.pointSize];
+  
+  [self.allMessagesTabButton setTitleColor:[UIColor colorWithHexString:INACTIVE_PRIVATE_CHAT_TAB_COLOR] forState:UIControlStateNormal];
+  [self.defensiveLogTabButton setTitleColor:[UIColor colorWithHexString:INACTIVE_PRIVATE_CHAT_TAB_COLOR] forState:UIControlStateNormal];
+  [self.offensiveLogTabButton setTitleColor:[UIColor colorWithHexString:INACTIVE_PRIVATE_CHAT_TAB_COLOR] forState:UIControlStateNormal];
+  
+  UIButton *senderButton = (UIButton*)sender;
+  
+  switch (senderButton.tag) {
+    case 1:
+      _chatMode = PrivateChatModeAllMessages;
+      self.allMessagesTabButton.titleLabel.font = [UIFont fontWithName:@"Gotham-Bold"
+                                                                  size:self.allMessagesTabButton.titleLabel.font.pointSize];
+      [self.allMessagesTabButton setTitleColor:[UIColor colorWithHexString:ACTIVE_PRIVATE_CHAT_TAB_COLOR] forState:UIControlStateNormal];
+      break;
+    case 2:
+      _chatMode = PrivateChatModeDefenseLog;
+      self.defensiveLogTabButton.titleLabel.font = [UIFont fontWithName:@"Gotham-Bold"
+                                                                  size:self.defensiveLogTabButton.titleLabel.font.pointSize];
+      [self.defensiveLogTabButton setTitleColor:[UIColor colorWithHexString:ACTIVE_PRIVATE_CHAT_TAB_COLOR] forState:UIControlStateNormal];
+      break;
+    case 3:
+      _chatMode = PrivateChatModeAttackLog;
+      self.offensiveLogTabButton.titleLabel.font = [UIFont fontWithName:@"Gotham-Bold"
+                                                                  size:self.offensiveLogTabButton.titleLabel.font.pointSize];
+      [self.offensiveLogTabButton setTitleColor:[UIColor colorWithHexString:ACTIVE_PRIVATE_CHAT_TAB_COLOR] forState:UIControlStateNormal];
+      break;
+      
+    default:
+      break;
+  }
+  
+  [self updateDisplayedPrivateChatList];
+  [[NSNotificationCenter defaultCenter] postNotificationName:PRIVATE_CHAT_VIEWED_NOTIFICATION object:nil];
+}
+
 #pragma mark - TableView delegate
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -574,7 +667,7 @@
     }
     return num;
   }
-  return self.privateChatList.count;
+  return self.displayedChatList.count;
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -582,14 +675,22 @@
     return [super tableView:tableView cellForRowAtIndexPath:indexPath];
   }
   
-  PrivateChatListCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PrivateChatListCell"];
-  
-  if (!cell) {
-    [[NSBundle mainBundle] loadNibNamed:@"PrivateChatListCell" owner:self options:nil];
-    cell = self.listCell;
+  PrivateChatListCell *cell;
+  if(_chatMode == PrivateChatModeAllMessages) {
+    cell = [tableView dequeueReusableCellWithIdentifier:@"PrivateChatListCell"];
+    if (!cell) {
+      [[NSBundle mainBundle] loadNibNamed:@"PrivateChatListCell" owner:self options:nil];
+      cell = self.listCell;
+    }
+  } else if (_chatMode == PrivateChatModeAttackLog || _chatMode == PrivateChatModeDefenseLog) {
+    cell = [tableView dequeueReusableCellWithIdentifier:@"PrivateChatAttackLogCell"];
+    if (!cell) {
+      [[NSBundle mainBundle] loadNibNamed:@"PrivateChatAttackLogCell" owner:self options:nil];
+      cell = self.battleListCell;
+    }
   }
   
-  [cell updateForPrivateChat:self.privateChatList[indexPath.row]];
+  [cell updateForPrivateChat:self.displayedChatList[indexPath.row]];
   
   return cell;
 }
@@ -603,14 +704,17 @@
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+  
   if (tableView == self.listTable) {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     
-    id<ChatObject> post = self.privateChatList[indexPath.row];
+    id<ChatObject> post = self.displayedChatList[indexPath.row];
+    _clickedCell = post;
     [self openConversationWithUserUuid:post.otherUser.userUuid name:post.otherUser.name animated:YES];
     [post markAsRead];
     
     [self.delegate viewedPrivateChat];
+    
   } else if (tableView == self.chatTable) {
     [super tableView:tableView didSelectRowAtIndexPath:indexPath];
   }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -12,9 +12,32 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="greywhite1.png" highlightedImage="bluewhite.png" id="xtV-bY-KxB">
-                    <rect key="frame" x="0.0" y="3" width="345" height="2"/>
+                    <rect key="frame" x="0.0" y="3" width="345" height="1"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                 </imageView>
+                <view contentMode="scaleToFill" id="1ZF-4p-E5W" userLabel="Avenge Check View">
+                    <rect key="frame" x="201" y="12" width="68" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                    <subviews>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AVENGED" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="eH6-2i-71P" customClass="NiceFontLabel12">
+                            <rect key="frame" x="12" y="5" width="58" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                            <color key="textColor" red="0.090196078431372548" green="0.47058823529411764" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
+                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="revengecheckbox.png" id="Zum-uc-fzU">
+                            <rect key="frame" x="1" y="11" width="10" height="11"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="greencheck.png" id="OiR-MG-GJE">
+                            <rect key="frame" x="-2" y="9" width="17" height="15"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
                 <view contentMode="scaleToFill" id="KY5-ql-Xdt" userLabel="Avenge View">
                     <rect key="frame" x="201" y="12" width="68" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
@@ -80,12 +103,35 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
+                <view contentMode="scaleToFill" id="Omn-li-uZj" userLabel="Revenge Check View">
+                    <rect key="frame" x="277" y="12" width="68" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                    <subviews>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="REVENGED" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="3tH-ef-GFN" customClass="NiceFontLabel12">
+                            <rect key="frame" x="12" y="5" width="58" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                            <color key="textColor" red="0.51372549020000002" green="0.01176470588" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
+                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="revengecheckbox.png" id="1Hz-HB-bLQ">
+                            <rect key="frame" x="-1" y="11" width="10" height="11"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="greencheck.png" id="RTk-PG-rtI">
+                            <rect key="frame" x="-4" y="9" width="17" height="15"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
                 <view contentMode="scaleToFill" id="Uke-dC-Udi" userLabel="Cash View">
-                    <rect key="frame" x="0.0" y="15" width="66" height="23"/>
+                    <rect key="frame" x="0.0" y="15" width="66" height="24"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="$500" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="d7a-et-bAz" customClass="NiceFontLabel14">
-                            <rect key="frame" x="23" y="0.0" width="54" height="23"/>
+                            <rect key="frame" x="23" y="1" width="54" height="23"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
                             <color key="textColor" red="0.14901960780000001" green="0.14901960780000001" blue="0.14901960780000001" alpha="1" colorSpace="deviceRGB"/>
@@ -123,7 +169,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="-3" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="V49-3s-coW" customClass="NiceFontLabel14">
-                            <rect key="frame" x="25" y="2" width="41" height="19"/>
+                            <rect key="frame" x="25" y="1" width="41" height="23"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
                             <color key="textColor" red="0.14901960780000001" green="0.14901960780000001" blue="0.14901960780000001" alpha="1" colorSpace="deviceRGB"/>
@@ -135,7 +181,7 @@
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="No Change" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="bM6-G6-LnO" customClass="NiceFontLabel14">
-                            <rect key="frame" x="25" y="2" width="53" height="19"/>
+                            <rect key="frame" x="25" y="1" width="53" height="23"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
                             <color key="textColor" red="0.14901960784313725" green="0.14901960784313725" blue="0.14901960784313725" alpha="1" colorSpace="deviceRGB"/>
@@ -151,9 +197,12 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="avengeButton" destination="bR9-Ag-bqj" id="t2Q-of-oeF"/>
+                <outlet property="avengeCheck" destination="OiR-MG-GJE" id="GoM-kt-DXH"/>
                 <outlet property="avengeTimeLabel" destination="NlH-VD-Gt1" id="NFq-Mm-JNh"/>
+                <outlet property="avengedLabel" destination="eH6-2i-71P" id="wtK-kM-xsS"/>
                 <outlet property="cashLabel" destination="d7a-et-bAz" id="Pr7-SQ-Rtc"/>
                 <outlet property="cashView" destination="Uke-dC-Udi" id="dYz-MQ-ZxV"/>
+                <outlet property="dividerLine" destination="xtV-bY-KxB" id="K0R-ln-41s"/>
                 <outlet property="noChangeLabel" destination="bM6-G6-LnO" id="ido-68-ppX"/>
                 <outlet property="oilLabel" destination="Tin-vG-Od4" id="rfw-wT-CJq"/>
                 <outlet property="oilView" destination="C62-ET-lqh" id="bml-RJ-NL4"/>
@@ -161,6 +210,8 @@
                 <outlet property="rankLabel" destination="V49-3s-coW" id="2n1-0v-ZsZ"/>
                 <outlet property="rankView" destination="V9j-QE-URj" id="c51-Pg-hy2"/>
                 <outlet property="revengeButton" destination="FHk-NR-2qx" id="GNK-vH-RVg"/>
+                <outlet property="revengeCheck" destination="RTk-PG-rtI" id="b9Q-qT-r49"/>
+                <outlet property="revengedLabel" destination="3tH-ef-GFN" id="CDh-1N-996"/>
             </connections>
             <point key="canvasLocation" x="780.5" y="224.5"/>
         </view>
@@ -168,11 +219,13 @@
     <resources>
         <image name="bluewhite.png" width="1" height="2"/>
         <image name="bronzeicon.png" width="37" height="42"/>
+        <image name="greencheck.png" width="17" height="15"/>
         <image name="greensmallbutton.png" width="68" height="30"/>
         <image name="greywhite1.png" width="2" height="2"/>
         <image name="moneystack.png" width="31" height="30"/>
         <image name="oilicon.png" width="25" height="30"/>
         <image name="redsmallbutton.png" width="68" height="30"/>
+        <image name="revengecheckbox.png" width="10" height="11"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

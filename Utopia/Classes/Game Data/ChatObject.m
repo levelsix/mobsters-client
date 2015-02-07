@@ -222,19 +222,7 @@
 }
 
 - (NSString *) message {
-  if ([self userIsAttacker]) {
-    if (self.attackerWon) {
-      return @"I won =)";
-    } else {
-      return @"I lost =(";
-    }
-  } else {
-    if (self.attackerWon) {
-      return @"Defeated you in battle";
-    } else {
-      return @"Lost to you in battle";
-    }
-  }
+  return [NSString stringWithFormat:@"Your %@ %@",self.userIsAttacker ? @"Offense" : @"Defense", self.userWon ? @"Won" : @"Lost" ];
 }
 
 - (MSDate *) date {
@@ -246,8 +234,19 @@
 }
 
 - (BOOL) isRead {
-  return [[self privateChat] isRead];
+  return !self.isUnread;
 }
+
+- (void) markAsRead {
+  NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+  int64_t lastReadTime = [[ud objectForKey:PVP_HISTORY_DEFAULTS_KEY] longLongValue];
+  int64_t thisTime = self.battleEndTime;
+  
+  if (lastReadTime < thisTime) {
+    [ud setObject:[NSNumber numberWithLongLong:thisTime] forKey:PVP_HISTORY_DEFAULTS_KEY];
+  }
+}
+
 
 - (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag {
   NSString *nibName = @"ChatBattleHistoryView";
@@ -257,12 +256,12 @@
     v = [[NSBundle mainBundle] loadNibNamed:nibName owner:self options:nil][0];
   }
   
-  [chatCell updateForMessage:self.message sender:self.sender date:self.date showsClanTag:showsClanTag allowHighlight:YES chatSubview:v identifier:nibName];
-  //[chatCell updateBubbleImagesWithPrefix:!self.userWon ? @"pink" : @"green"];
-  
+  [chatCell updateForMessage:self.message sender:self.sender date:self.date showsClanTag:showsClanTag allowHighlight:NO chatSubview:v identifier:nibName];
+  [chatCell updateBubbleImagesWithPrefix:!self.userWon ? @"red" : @"green"];
   [v updateForPvpHistoryProto:self];
   
   chatCell.msgLabel.textColor = !self.userWon ? [UIColor colorWithHexString:@"BA0010"] : [UIColor colorWithHexString:@"3E7D16"];
+  chatCell.timeLabel.textColor = !self.userWon ? [UIColor colorWithHexString:@"BA0010"] : [UIColor colorWithHexString:@"3E7D16"];
   chatCell.msgLabel.highlightedTextColor = chatCell.msgLabel.textColor;
 }
 
@@ -296,10 +295,6 @@
   return pcpp;
 }
 
-- (void) markAsRead {
-  [[self privateChat] markAsRead];
-}
-
 - (IBAction)revengeClicked:(id)sender {
   if ([Globals checkEnteringDungeon]) {
     GameViewController *gvc = [GameViewController baseController];
@@ -307,7 +302,7 @@
   }
 }
 
-- (IBAction) avengeClicked:(UIButton *)sender {
+- (IBAction) avengeClicked:(UIButton *)sender{
   // Check gamestate if there are any avengings by me
   GameState *gs = [GameState sharedGameState];
   
@@ -326,6 +321,16 @@
       clanAvenged_ = YES;
       
       [sender.superview setHidden:YES];
+      ChatBattleHistoryView *historyView = (ChatBattleHistoryView*)sender.superview.superview;
+      historyView.avengedLabel.superview.hidden = NO;
+      historyView.avengeCheck.hidden = NO;
+      
+      historyView.avengeCheck.transform = CGAffineTransformScale(CGAffineTransformIdentity, 10, 10);
+      historyView.avengeCheck.alpha = 0;
+      [UIView animateWithDuration:.3f animations:^{
+        historyView.avengeCheck.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1, 1);
+        historyView.avengeCheck.alpha = 1;
+      }];
     } else {
       [Globals addAlertNotification:@"You already have a valid clan avenge request. Try again later."];
     }
