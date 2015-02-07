@@ -117,10 +117,13 @@
   DialogueViewController *_forcedSkillDialogueViewController;
   
   BOOL _dungeonPlayerHitsFirst;
+  
+  BOOL _movesLeftHidden;
 }
 
-@property (nonatomic, retain) CCSprite *movesBgd;
-@property (nonatomic, retain) CCLabelTTF *movesLeftLabel;
+@property (nonatomic, retain) CCNode* movesLeftContainer;
+@property (nonatomic, retain) CCSprite* movesLeftLabel;
+@property (nonatomic, retain) CCSprite* movesLeftCounter;
 @property (nonatomic, retain) CCLabelTTF *lootLabel;
 @property (nonatomic, retain) CCSprite *lootBgd;
 @property (nonatomic, retain) CCSprite *comboBgd;
@@ -185,6 +188,9 @@
 - (void) createNextMyPlayerSprite;
 - (float) makeMyPlayerWalkOutWithBlock:(void (^)(void))completion;
 - (void) makePlayer:(BattleSprite *)player walkInFromEntranceWithSelector:(SEL)selector;
+
+- (void) setMovesLeft:(int)movesLeft animated:(BOOL)animated;
+- (void) mobsterInfoDisplayed:(BOOL)displayed onSprite:(BattleSprite*)sprite;
 
 - (void) createScheduleWithSwap:(BOOL)swap;
 - (void) createScheduleWithSwap:(BOOL)swap playerHitsFirst:(BOOL)playerFirst;

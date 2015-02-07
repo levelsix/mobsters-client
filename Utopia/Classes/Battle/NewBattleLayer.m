@@ -302,6 +302,7 @@
 }
 
 - (void) setupUI {
+  /*
   OrbMainLayer *puzzleBg = self.orbLayer;
   
   _movesBgd = [CCSprite spriteWithImageNamed:@"movesbg.png"];
@@ -342,6 +343,10 @@
     movesLabel.position = ccp(45, 3);
     _movesLeftLabel.position = ccp(45, 24);
   }
+   */
+  
+  self.movesLeftContainer = nil;
+  _movesLeftHidden = YES;
   
   _lootBgd = [CCSprite spriteWithImageNamed:@"collectioncapsule.png"];
   [self addChild:_lootBgd];
@@ -366,10 +371,95 @@
   _comboBotLabel.position = ccp(_comboBgd.contentSize.width-5, 14);
   [_comboBgd addChild:_comboBotLabel z:1];
   
-  _movesLeft = NUM_MOVES_PER_TURN;
   _curStage = -1;
   
+  [self setMovesLeft:NUM_MOVES_PER_TURN animated:NO];
+  
   [self updateHealthBars];
+}
+
+- (void) setMovesLeft:(int)movesLeft animated:(BOOL)animated
+{
+  if (self.myPlayer)
+  {
+    if (!self.movesLeftContainer)
+    {
+      self.movesLeftContainer = [CCNode node];
+        [self.movesLeftContainer setAnchorPoint:ccp(.5f, 0.f)];
+        [self.movesLeftContainer setPosition:ccp(self.myPlayer.contentSize.width * .5f - 15.f, self.myPlayer.contentSize.height + 13.f)];
+        [self.myPlayer addChild:self.movesLeftContainer];
+      self.movesLeftLabel = [CCSprite spriteWithImageNamed:@"movelabelmoves.png"];
+        [self.movesLeftLabel setAnchorPoint:ccp(0.f, 0.f)];
+        [self.movesLeftLabel setOpacity:0.f];
+        [self.movesLeftContainer addChild:self.movesLeftLabel];
+      self.movesLeftCounter = [CCSprite spriteWithImageNamed:@"3moveslabel.png"];
+        [self.movesLeftCounter setAnchorPoint:ccp(1.f, 0.f)];
+        [self.movesLeftCounter setOpacity:0.f];
+        [self.movesLeftContainer addChild:self.movesLeftCounter];
+    }
+    
+    if (movesLeft == 0 && !_movesLeftHidden)
+      [self hideMovesLeft:YES withCompletion:^{ _movesLeftHidden = YES; }];
+    if (movesLeft > 0 && _movesLeftHidden)
+      [self hideMovesLeft:NO withCompletion:^{ _movesLeftHidden = NO; }];
+    
+    if (movesLeft > 0) // Note: Max turns we have an asset for is 10
+    {
+      NSString* img = (movesLeft == 1) ? @"movelabelmove.png" : @"movelabelmoves.png";
+      [self.movesLeftLabel setSpriteFrame:[CCSpriteFrame frameWithImageNamed:img]];
+      
+      if (animated)
+      {
+        [self.movesLeftCounter runAction:[CCActionSequence actions:
+                                          [CCActionSpawn actions:
+                                           [CCActionMoveBy actionWithDuration:.4f position:ccp(0.f, -15.f)],
+                                           [CCActionFadeOut actionWithDuration:.4f], nil],
+                                          [CCActionRemove action], nil]];
+        
+        NSString* img = [NSString stringWithFormat:@"%dmoveslabel.png", movesLeft];
+        self.movesLeftCounter = [CCSprite spriteWithImageNamed:img];
+          [self.movesLeftCounter setAnchorPoint:ccp(1.f, 0.f)];
+          [self.movesLeftCounter setPosition:ccp(0.f, 15.f)];
+          [self.movesLeftContainer addChild:self.movesLeftCounter];
+        [self.movesLeftCounter runAction:[CCActionSequence actions:
+                                          [CCActionSpawn actions:
+                                           [CCActionMoveBy actionWithDuration:.4f position:ccp(0.f, -15.f)],
+                                           [CCActionFadeIn actionWithDuration:.4f], nil], nil]];
+      }
+      else
+      {
+        NSString* img = [NSString stringWithFormat:@"%dmoveslabel.png", movesLeft];
+        [self.movesLeftCounter setSpriteFrame:[CCSpriteFrame frameWithImageNamed:img]];
+      }
+    }
+  }
+  
+  _movesLeft = movesLeft;
+}
+
+- (void) hideMovesLeft:(BOOL)hide withCompletion:(void(^)())completion
+{
+  if (self.movesLeftContainer)
+  {
+    for (CCNode* child in self.movesLeftContainer.children)
+    {
+      if ((hide && child.opacity == 1.f) || (!hide && child.opacity == 0.f))
+      {
+        [child stopAllActions];
+        [child runAction:[CCActionSequence actions:
+                          hide ? [CCActionFadeOut actionWithDuration:.3f] : [CCActionFadeIn actionWithDuration:.3f],
+                          [CCActionCallBlock actionWithBlock:completion], nil]];
+      }
+    }
+  }
+}
+
+- (void) mobsterInfoDisplayed:(BOOL)displayed onSprite:(BattleSprite*)sprite
+{
+  if (sprite == self.myPlayer && !_movesLeftHidden)
+  {
+    [self hideMovesLeft:displayed withCompletion:^{}];
+  }
 }
 
 - (CGPoint) myPlayerLocation {
@@ -378,6 +468,7 @@
 
 - (void) createNextMyPlayerSprite {
   BattleSprite *mp = [[BattleSprite alloc] initWithPrefix:self.myPlayerObject.spritePrefix nameString:self.myPlayerObject.attrName rarity:self.myPlayerObject.rarity animationType:self.myPlayerObject.animationType isMySprite:YES verticalOffset:self.myPlayerObject.verticalOffset];
+  mp.battleLayer = self;
   mp.healthBar.color = [self.orbLayer.swipeLayer colorForSparkle:(OrbColor)self.myPlayerObject.element];
   [self.bgdContainer addChild:mp z:1];
   mp.position = [self myPlayerLocation];
@@ -533,6 +624,7 @@
 
 - (void) createNextEnemySprite {
   BattleSprite *bs = [[BattleSprite alloc] initWithPrefix:self.enemyPlayerObject.spritePrefix nameString:self.enemyPlayerObject.attrName rarity:self.enemyPlayerObject.rarity animationType:self.enemyPlayerObject.animationType isMySprite:NO verticalOffset:self.enemyPlayerObject.verticalOffset];
+  bs.battleLayer = self;
   bs.healthBar.color = [self.orbLayer.swipeLayer colorForSparkle:(OrbColor)self.enemyPlayerObject.element];
   [bs showRarityTag];
   [self.bgdContainer addChild:bs];
@@ -562,7 +654,6 @@
     self.myPlayer.healthBar.parent.visible = NO;
   }
   
-  _movesLeftLabel.string = [NSString stringWithFormat:@"%d ", _movesLeft];
   _comboLabel.string = [NSString stringWithFormat:@"%dx", _comboCount];
 }
 
@@ -675,9 +766,10 @@
 - (void) beginMyTurn {
   _comboCount = 0;
   _orbCount = 0;
-  _movesLeft = NUM_MOVES_PER_TURN;
   _soundComboCount = 0;
   _enemyShouldAttack = NO;
+  
+  [self setMovesLeft:NUM_MOVES_PER_TURN animated:NO];
   
   _myDamageDealt = 0;
   _myDamageForThisTurn = 0;
@@ -766,7 +858,7 @@
             {
               CCSprite* confusedPopup = [CCSprite spriteWithImageNamed:@"confusionbubble.png"];
               [confusedPopup setAnchorPoint:CGPointMake(.5f, 0.f)];
-              [confusedPopup setPosition:CGPointMake(self.currentEnemy.contentSize.width * .5f, self.currentEnemy.contentSize.height + 13.f)];
+              [confusedPopup setPosition:CGPointMake(self.currentEnemy.contentSize.width * .5f, self.currentEnemy.contentSize.height + 28.f)];
               [confusedPopup setScale:0.f];
               [self.currentEnemy addChild:confusedPopup];
               
@@ -817,8 +909,6 @@
   [self.orbLayer disallowInput];
   [self.orbLayer.bgdLayer turnTheLightsOff];
   [self.hudView removeButtons];
-  
-  self.movesLeftLabel.string = [NSString stringWithFormat:@"%d", _movesLeft];
 }
 
 - (void) showHighScoreWord {
@@ -849,7 +939,7 @@
     {
       CCSprite* confusedPopup = [CCSprite spriteWithImageNamed:@"confusionbubble.png"];
       [confusedPopup setAnchorPoint:CGPointMake(.5f, 0.f)];
-      [confusedPopup setPosition:CGPointMake(self.myPlayer.contentSize.width * .5f, self.myPlayer.contentSize.height + 13.f)];
+      [confusedPopup setPosition:CGPointMake(self.myPlayer.contentSize.width * .5f, self.myPlayer.contentSize.height + 28.f)];
       [confusedPopup setScale:0.f];
       [self.myPlayer addChild:confusedPopup];
       
@@ -1374,19 +1464,21 @@
     [skillManager triggerSkills:SkillTriggerPointPlayerMobDefeated withCompletion:^(BOOL triggered, id params) {
       SkillLogEnd(triggered, @"  Mob defeated trigger ENDED");
       
-      _movesLeft = 0;
+      [self setMovesLeft:0 animated:NO];
       [self stopPulsing];
       self.myPlayer = nil;
       self.myPlayerObject = nil;
+      self.movesLeftContainer = nil;
       [self updateHealthBars];
       
       [self displayDeployViewAndIsCancellable:NO];
     }];
   } else {
-    _movesLeft = 0;
+    [self setMovesLeft:0 animated:NO];
     [self stopPulsing];
     self.myPlayer = nil;
     self.myPlayerObject = nil;
+    self.movesLeftContainer = nil;
     [self updateHealthBars];
     
     [self youLost];
@@ -1938,7 +2030,7 @@
 #pragma mark - Delegate Methods
 
 - (void) moveBegan {
-  _movesLeft--;
+  [self setMovesLeft:_movesLeft - 1 animated:YES];
   [self updateHealthBars];
   [self.hudView removeSwapButtonAnimated:YES];
   [skillManager enableSkillButton:NO];

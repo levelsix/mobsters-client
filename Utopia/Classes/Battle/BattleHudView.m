@@ -144,12 +144,21 @@
     [self.orbIcon setHidden:YES];
     [self.orbCounterLabel setHidden:YES];
     
-    [self.orbDescriptionLabel setText:orbDesc];
-    [self.orbDescriptionLabel sizeToFit];
-    [self.orbDescriptionLabel setHidden:NO];
-    
-    // Align orb description horizontally in container
-    [self.orbDescriptionLabel setOriginX:(self.width - self.orbDescriptionLabel.width) * .5f];
+    if (orbDesc != nil)
+    {
+      [self.orbDescriptionLabel setText:orbDesc];
+      [self.orbDescriptionLabel sizeToFit];
+      [self.orbDescriptionLabel setHidden:NO];
+      
+      // Align orb description horizontally in container
+      [self.orbDescriptionLabel setOriginX:(self.width - self.orbDescriptionLabel.width) * .5f];
+    }
+    else
+    {
+      [self.orbDescriptionLabel setHidden:YES];
+      [self.descLabel setHeight:CGRectGetMaxY(self.orbDescriptionLabel.frame) - self.descLabel.originY];
+      [self.descLabel setNumberOfLines:self.descLabel.numberOfLines + 1];
+    }
   }
   
   [self setOrigin:ccp(pos.x - self.bounds.size.width * .5f, MAX(pos.y - self.bounds.size.height, 5.f))];

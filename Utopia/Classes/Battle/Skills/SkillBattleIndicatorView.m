@@ -41,13 +41,16 @@
   _skillController = skillController;
   _enemy = enemy;
   _skillButtonEnabled = NO;
+  _skillActive = NO;
   
   GameState* gs = [GameState sharedGameState];
   _skillProto = [gs.staticSkills objectForKey:[NSNumber numberWithInteger:skillController.skillId]];
   
   [self setSkillIcon:[_skillProto.imgNamePrefix stringByAppendingString:kSkillIconImageNameSuffix]];
   
-  [self setSkillLabel];
+//[self setSkillLabel];
+  
+  [self setSkillCounter];
   
   return self;
 }
@@ -111,13 +114,67 @@
   [self addChild:_skillLabel];
 }
 
+- (void) setSkillCounter
+{
+  const Element element = (Element)_skillController.orbColor;
+  
+  NSString* bgName = [NSString stringWithFormat:@"%@.png", [Globals imageNameForElement:element suffix:@"counterbg"]];
+  _skillCounterBg = [CCSprite spriteWithImageNamed:bgName];
+  [_skillCounterBg setPosition:ccp(0, 5)];
+  [self addChild:_skillCounterBg];
+
+  NSString* orbImg = [NSString stringWithFormat:@"mini%@.png", [Globals imageNameForElement:element suffix:@""]];
+  _skillOrbIcon = [CCSprite spriteWithImageNamed:orbImg];
+  [_skillOrbIcon setPosition:ccp(13, _skillCounterBg.contentSize.height * .5f)];
+  [_skillCounterBg addChild:_skillOrbIcon];
+  
+  _skillCounterLabel = [CCLabelTTF labelWithString:@"" fontName:@"Gotham-Ultra" fontSize:8.f];
+  [_skillCounterLabel setHorizontalAlignment:CCTextAlignmentLeft];
+  [_skillCounterLabel setColor:[CCColor whiteColor]];
+  [_skillCounterLabel setPosition:ccp(27, _skillCounterBg.contentSize.height * .5f)];
+  [_skillCounterLabel setShadowBlurRadius:1.f];
+  [_skillCounterLabel setShadowOffset:ccp(0.f, -1.f)];
+  switch (element)
+  {
+    case ElementFire:   [_skillCounterLabel setShadowColor:[CCColor colorWithUIColor:[UIColor colorWithHexString:@"891000"]]]; break;
+    case ElementEarth:  [_skillCounterLabel setShadowColor:[CCColor colorWithUIColor:[UIColor colorWithHexString:@"385700"]]]; break;
+    case ElementWater:  [_skillCounterLabel setShadowColor:[CCColor colorWithUIColor:[UIColor colorWithHexString:@"004473"]]]; break;
+    case ElementLight:  [_skillCounterLabel setShadowColor:[CCColor colorWithUIColor:[UIColor colorWithHexString:@"bc5000"]]]; break;
+    case ElementDark:   [_skillCounterLabel setShadowColor:[CCColor colorWithUIColor:[UIColor colorWithHexString:@"150044"]]]; break;
+    default: break;
+  }
+  [_skillCounterBg addChild:_skillCounterLabel];
+  
+  _skillActiveIcon = [CCSprite spriteWithImageNamed:@"maptaskdonecheck.png"];
+  [_skillActiveIcon setPosition:ccp(34, _skillCounterBg.contentSize.height * .5f)];
+  [_skillActiveIcon setScale:.7f * .1f];
+  [_skillActiveIcon setOpacity:0.f];
+  [_skillCounterBg addChild:_skillActiveIcon];
+  
+  if ([_skillController isKindOfClass:[SkillControllerActive class]])
+  {
+    SkillControllerActive* activeController = (SkillControllerActive*)_skillController;
+    [_skillCounterLabel setString:[NSString stringWithFormat:@"%d/%d",
+                                   (int)(activeController.orbRequirement - activeController.orbCounter),
+                                   (int)(activeController.orbRequirement)]];
+    [_skillCounterLabel setFontSize:9.f];
+    [_skillCounterLabel setPosition:ccpAdd(_skillCounterLabel.position, ccp(5.f, 0.f))];
+  }
+  else
+  {
+    [_skillCounterLabel setString:@"PASSIVE"];
+    [_skillOrbIcon setVisible:NO];
+  }
+}
+
 - (void) setSkillButton
 {
   _skillButton = [CCButton buttonWithTitle:@"" spriteFrame:_skillIcon.spriteFrame];
   [_skillButton setBackgroundSpriteFrame:nil forState:CCControlStateNormal];
   [_skillButton setBackgroundSpriteFrame:nil forState:CCControlStateDisabled];
-  _skillButton.position = _skillIcon.position;
-  _skillButton.contentSize = _skillIcon.contentSize;
+  [_skillButton setPosition:ccpAdd(_skillIcon.position, ccp(0.f, -10.f))];
+  [_skillButton setContentSize:_skillIcon.contentSize];
+  [_skillButton setHitAreaExpansion:10.f];
   [_skillButton setTarget:self selector:@selector(skillButtonTapped)];
   [self addChild:_skillButton];
 }
@@ -139,10 +196,14 @@
 - (void) update
 {
   // Active skills
-  if (_skillController.activationType != SkillActivationTypePassive)
+  if ([_skillController isKindOfClass:[SkillControllerActive class]])
   {
     SkillControllerActive* activeSkill = (SkillControllerActive*)_skillController;
     [self setPercentage:1.0 - (float)activeSkill.orbCounter/(float)activeSkill.orbRequirement];
+    
+    [_skillCounterLabel setString:[NSString stringWithFormat:@"%d/%d",
+                                   (int)(activeSkill.orbRequirement - activeSkill.orbCounter),
+                                   (int)(activeSkill.orbRequirement)]];
   }
   
   // Manually enabled skills
@@ -186,11 +247,33 @@
       }
       
       [_chargedEffect resetSystem];
+      
+      if (!_skillActive)
+      {
+        [_skillCounterLabel runAction:[CCActionSpawn actions:
+                                       [CCActionScaleTo actionWithDuration:.5f scale:.1f],
+                                       [CCActionFadeOut actionWithDuration:.5f], nil]];
+        [_skillActiveIcon runAction:[CCActionSpawn actions:
+                                     [CCActionScaleTo actionWithDuration:.5f scale:.7f],
+                                     [CCActionFadeIn actionWithDuration:.5f], nil]];
+        _skillActive = YES;
+      }
     }
     else
     {
       if (_chargedEffect)
         [_chargedEffect stopSystem];
+      
+      if (_skillActive)
+      {
+        [_skillCounterLabel runAction:[CCActionSpawn actions:
+                                       [CCActionScaleTo actionWithDuration:.5f scale:1.f],
+                                       [CCActionFadeIn actionWithDuration:.5f], nil]];
+        [_skillActiveIcon runAction:[CCActionSpawn actions:
+                                     [CCActionScaleTo actionWithDuration:.5f scale:.7f * .1f],
+                                     [CCActionFadeOut actionWithDuration:.5f], nil]];
+        _skillActive = NO;
+      }
     }
   }
 }

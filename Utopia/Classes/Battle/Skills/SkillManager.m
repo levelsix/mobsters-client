@@ -406,7 +406,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
     _skillIndicatorEnemy = [[SkillBattleIndicatorView alloc] initWithSkillController:_enemySkillController enemy:YES];
     if (_skillIndicatorEnemy)
     {
-      _skillIndicatorEnemy.position = CGPointMake(_skillIndicatorEnemy.contentSize.width/2, 150 + (UI_DEVICE_IS_IPHONE_4 ? -74 : 0));
+      _skillIndicatorEnemy.position = CGPointMake(_skillIndicatorEnemy.contentSize.width/2 - 10,
+                                                  UI_DEVICE_IS_IPHONE_4 ? 85 : [_battleLayer.orbLayer convertToNodeSpace:[_battleLayer convertToWorldSpace:_battleLayer.currentEnemy.position]].y + 5);
       [_skillIndicatorEnemy update];
       [_battleLayer.orbLayer addChild:_skillIndicatorEnemy z:-10];
       [_skillIndicatorEnemy appear:existedBefore];
@@ -424,7 +425,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
     _skillIndicatorPlayer = [[SkillBattleIndicatorView alloc] initWithSkillController:_playerSkillController enemy:NO];
     if (_skillIndicatorPlayer)
     {
-      _skillIndicatorPlayer.position = CGPointMake(-_skillIndicatorPlayer.contentSize.width/2, 38);
+      _skillIndicatorPlayer.position = CGPointMake(-_skillIndicatorPlayer.contentSize.width/2 - 10,
+                                                   UI_DEVICE_IS_IPHONE_4 ? 40 : [_battleLayer.orbLayer convertToNodeSpace:[_battleLayer convertToWorldSpace:_battleLayer.myPlayer.position]].y + 5);
       [_skillIndicatorPlayer update];
       [_battleLayer.orbLayer addChild:_skillIndicatorPlayer z:-10];
     }
@@ -574,6 +576,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   NSString *bgName = [NSString stringWithFormat:@"%@.png", [Globals imageNameForElement:(Element)controller.orbColor suffix:@"skilldescription"]];
   NSString *orbImage = nil, *orbCount = nil, *orbDesc = nil;
   
+  /*
   if ([controller isKindOfClass:[SkillControllerActive class]])
   {
     SkillControllerActive* activeController = (SkillControllerActive*)controller;
@@ -582,6 +585,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   }
   else
     orbDesc = @"PASSIVE";
+   */
   
   [_battleLayer.hudView.skillPopupView displayWithSkillName:proto.name
                                                 description:proto.desc
