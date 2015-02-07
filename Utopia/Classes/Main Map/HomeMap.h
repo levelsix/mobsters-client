@@ -37,8 +37,9 @@
   
   BOOL _waitingForResponse;
   
-  Building *_constrBuilding;
+  //Building *_constrBuilding;
   HomeBuilding *_purchBuilding;
+  Building *_speedupBuilding;
   
   NSMutableArray *_timers;
   
@@ -99,6 +100,8 @@
 - (IBAction)enterClicked:(id)sender;
 - (IBAction)finishNowClicked:(id)sender;
 - (IBAction)getHelpClicked:(id)sender;
+
+- (void) finishNow:(id)building sender:(id)sender;
 
 - (void) constructionComplete:(NSTimer *)timer;
 - (void) waitForIncomeComplete:(NSTimer *)timer;

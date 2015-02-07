@@ -238,6 +238,8 @@
 - (UserQuest *) myQuestWithId:(int)questId;
 - (NSArray *) allCurrentQuests;
 
+- (int) numberOfBuilders;
+
 - (void) updateStaticData:(StaticDataProto *)proto;
 - (void) addToStaticStructs:(NSArray *)arr;
 - (void) addToStaticMonsters:(NSArray *)arr;

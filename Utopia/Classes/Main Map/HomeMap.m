@@ -256,10 +256,14 @@
   return [gs myStructs];
 }
 
+- (int) numberOfBuilders {
+  GameState *gs = [GameState sharedGameState];
+  return gs.numberOfBuilders;
+}
+
 - (void) refresh {
   if (_loading) return;
   self.selected = nil;
-  _constrBuilding = nil;
   _loading = YES;
   
   [self invalidateAllTimers];
@@ -282,7 +286,7 @@
     
     if (!s.isComplete) {
       homeBuilding.isConstructing = YES;
-      _constrBuilding = homeBuilding;
+      [homeBuilding displayProgressBar];
     }
   }
   
@@ -300,7 +304,6 @@
   }
   
   [self reloadAllBubbles];
-  [_constrBuilding displayProgressBar];
   
   [self doReorder];
   _loading = NO;
@@ -368,10 +371,10 @@
   NSMutableArray *sprites = [NSMutableArray array];
   for (UserObstacle *uo in obstacles) {
     ObstacleSprite *os = [[ObstacleSprite alloc] initWithObstacle:uo map:self];
-    [self addChild:os];
+    [self addChild:os z:0 name:STRUCT_TAG(uo.userObstacleUuid)];
     
     if (uo.endTime) {
-      _constrBuilding = os;
+      [os displayProgressBar];
     }
     
     [sprites addObject:os];
@@ -874,7 +877,7 @@
   [self addChild:_purchBuilding];
   [_purchBuilding placeBlock:YES];
   
-  _canMove = YES; 
+  _canMove = YES;
   _purchasing = YES;
   _purchStructId = structId;
   self.selected = _purchBuilding;
@@ -993,7 +996,7 @@
           break;
       }
     } else {
-      int timeLeft = [self timeLeftForConstructionBuilding];
+      int timeLeft = [self timeLeftForConstructionBuildingOrObstacle:self.selected];
       int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
       BOOL canGetHelp = [gs canAskForClanHelp] && [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeUpgradeStruct userDataUuid:us.userStructUuid] < 0;
       
@@ -1024,7 +1027,7 @@
     if (!ue.removalTime) {
       [buttonViews addObject:[MapBotViewButton removeButtonWithResourceType:op.removalCostType removeCost:op.cost]];
     } else {
-      int timeLeft = [self timeLeftForConstructionBuilding];
+      int timeLeft = [self timeLeftForConstructionBuildingOrObstacle:self.selected];
       [buttonViews addObject:[MapBotViewButton speedupButtonWithGemCost:[gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:NO]]];
     }
   }
@@ -1297,11 +1300,11 @@
     }
   }
   
-    if (finalDate) {
-      NSTimer *newTimer = [NSTimer timerWithTimeInterval:finalDate.timeIntervalSinceNow target:self selector:@selector(dailyEventTimerFired:) userInfo:@"DailyEvent" repeats:NO];
-      [_timers addObject:newTimer];
-      [[NSRunLoop mainRunLoop] addTimer:newTimer forMode:NSRunLoopCommonModes];
-    }
+  if (finalDate) {
+    NSTimer *newTimer = [NSTimer timerWithTimeInterval:finalDate.timeIntervalSinceNow target:self selector:@selector(dailyEventTimerFired:) userInfo:@"DailyEvent" repeats:NO];
+    [_timers addObject:newTimer];
+    [[NSRunLoop mainRunLoop] addTimer:newTimer forMode:NSRunLoopCommonModes];
+  }
 }
 
 - (void) updateTimersForBuilding:(MapSprite *)ms {
@@ -1337,6 +1340,8 @@
         NSTimer *newTimer = [NSTimer timerWithTimeInterval:timeLeft-gl.maxMinutesForFreeSpeedUp*60 target:self selector:@selector(buildingSpeedupBecameFree:) userInfo:mb repeats:NO];
         [_timers addObject:newTimer];
         [[NSRunLoop mainRunLoop] addTimer:newTimer forMode:NSRunLoopCommonModes];
+      } else {
+        mb.userStruct.hasShownFreeSpeedup = YES;
       }
     } else {
       if ([mb isKindOfClass:[ResourceGeneratorBuilding class]]) {
@@ -1389,7 +1394,6 @@
       [mb cancelMove];
       [self reselectCurrentSelection];
     }
-    _constrBuilding = nil;
     
     // Make sure we don't actually have the upgrade view open
     if (self.speedupItemsFiller) {
@@ -1459,7 +1463,6 @@
   if (os == self.selected) {
     self.selected = nil;
   }
-  _constrBuilding = nil;
   
   // Make sure we don't actually have the upgrade view open
   if (self.speedupItemsFiller) {
@@ -1544,18 +1547,28 @@
 }
 
 - (IBAction)getHelpClicked:(id)sender {
-  // Just need to solicit for constr building
-  GameState *gs = [GameState sharedGameState];
-  UserStruct *us = ((HomeBuilding *)_constrBuilding).userStruct;
+  // Might come from timer action or from bottom view
+  HomeBuilding *hb = nil;
+  if ([sender isKindOfClass:[UserStruct class]]) {
+    hb = (HomeBuilding *)[self getChildByName:STRUCT_TAG([sender userStructUuid]) recursively:NO];
+  } else {
+    hb = (HomeBuilding *)self.selected;
+  }
   
-  if (us) {
-    if (us.userStructUuid == nil) {
-      [Globals addAlertNotification:@"Hold on, we are still processing your building purchase."];
-    } else if ([gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeUpgradeStruct userDataUuid:us.userStructUuid] < 0) {
-      [[OutgoingEventController sharedOutgoingEventController] solicitBuildingHelp:us];
-      
-      if (_constrBuilding == self.selected) {
-        [self reselectCurrentSelection];
+  if (hb) {
+    // Just need to solicit for constr building
+    GameState *gs = [GameState sharedGameState];
+    UserStruct *us = hb.userStruct;
+    
+    if (us) {
+      if (us.userStructUuid == nil) {
+        [Globals addAlertNotification:@"Hold on, we are still processing your building purchase."];
+      } else if ([gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeUpgradeStruct userDataUuid:us.userStructUuid] < 0) {
+        [[OutgoingEventController sharedOutgoingEventController] solicitBuildingHelp:us];
+        
+        if (hb == self.selected) {
+          [self reselectCurrentSelection];
+        }
       }
     }
   }
@@ -1572,6 +1585,58 @@
 
 #pragma mark - Purchase
 
+- (NSArray *) constructingBuildingsAndObstacles {
+  NSMutableArray *arr = [NSMutableArray array];
+  
+  for (CCNode *n in self.children) {
+    if ([n isKindOfClass:[HomeBuilding class]]) {
+      HomeBuilding *hb = (HomeBuilding *)n;
+      if (!hb.userStruct.isComplete) {
+        [arr addObject:n];
+      }
+    } else if ([n isKindOfClass:[ObstacleSprite class]]) {
+      ObstacleSprite *os = (ObstacleSprite *)n;
+      if (os.obstacle.removalTime) {
+        [arr addObject:n];
+      }
+    }
+  }
+  
+  return arr;
+}
+
+- (BOOL) hasAvailableBuilder {
+  int numBuilders = [self numberOfBuilders];
+  return [self constructingBuildingsAndObstacles].count < numBuilders;
+}
+
+- (Building *) earliestConstructingBuildingOrObstacle {
+  NSArray *arr = [self constructingBuildingsAndObstacles];
+  Building *winner = nil;
+  int time = 0;
+  
+  for (Building *b in arr) {
+    int newTime = [self timeLeftForConstructionBuildingOrObstacle:b];
+    if (!winner || newTime < time) {
+      winner = b;
+      time = newTime;
+    }
+  }
+  
+  return winner;
+}
+
+- (int) timeLeftForConstructionBuildingOrObstacle:(id)building {
+  if ([building isKindOfClass:[HomeBuilding class]]) {
+    UserStruct *cus = ((HomeBuilding *)building).userStruct;
+    return cus.timeLeftForBuildComplete;
+  } else if ([building isKindOfClass:[ObstacleSprite class]]) {
+    UserObstacle *ub = ((ObstacleSprite *)building).obstacle;
+    return ub.endTime.timeIntervalSinceNow;
+  }
+  return 0;
+}
+
 - (IBAction)moveCheckClicked:(id)sender {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
@@ -1579,9 +1644,10 @@
   StructureInfoProto *fsp = [gs structWithId:_purchStructId].structInfo;
   
   if (homeBuilding.isSetDown && _purchasing) {
-    if (_constrBuilding) {
-      int timeLeft = [self timeLeftForConstructionBuilding];
-      BOOL allowFreeSpeedup = [_constrBuilding isKindOfClass:[HomeBuilding class]];
+    if (![self hasAvailableBuilder]) {
+      Building *building = [self earliestConstructingBuildingOrObstacle];
+      int timeLeft = [self timeLeftForConstructionBuildingOrObstacle:building];
+      BOOL allowFreeSpeedup = [building isKindOfClass:[HomeBuilding class]];
       int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:allowFreeSpeedup];
       
       _buttonSender = sender;
@@ -1651,7 +1717,6 @@
     UserStruct *us = [self sendPurchaseStructWithItemDict:itemIdsToQuantity allowGems:allowGems];
     if (us) {
       homeBuilding.userStruct = us;
-      _constrBuilding = homeBuilding;
       [self updateTimersForBuilding:homeBuilding justBuilt:YES];
       homeBuilding.isConstructing = YES;
       homeBuilding.isPurchasing = NO;
@@ -1732,17 +1797,6 @@
   }
 }
 
-- (int) timeLeftForConstructionBuilding {
-  if ([_constrBuilding isKindOfClass:[HomeBuilding class]]) {
-    UserStruct *cus = ((HomeBuilding *)_constrBuilding).userStruct;
-    return cus.timeLeftForBuildComplete;
-  } else if ([_constrBuilding isKindOfClass:[ObstacleSprite class]]) {
-    UserObstacle *ub = ((ObstacleSprite *)_constrBuilding).obstacle;
-    return ub.endTime.timeIntervalSinceNow;
-  }
-  return 0;
-}
-
 - (void) bigUpgradeClicked:(id)sender {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
@@ -1768,13 +1822,13 @@
         [Globals addAlertNotification:@"You have a currently active mini job. Complete it before upgrading."];
         return;
       }
-//    } else if (nextFsp.structType == StructureInfoProto_StructTypeHospital) {
-//      HospitalQueue *hq = [gs hospitalQueueForUserHospitalStructUuid:us.userStructUuid];
-//      int count = (int)hq.healingItems.count;
-//      if (count) {
-//        [Globals addAlertNotification:[NSString stringWithFormat:@"You are currently healing %d %@%@ at this %@. Complete it before upgrading.", count, count == 1 ? @"" : @"s", MONSTER_NAME, nextFsp.name]];
-//        return;
-//      }
+      //    } else if (nextFsp.structType == StructureInfoProto_StructTypeHospital) {
+      //      HospitalQueue *hq = [gs hospitalQueueForUserHospitalStructUuid:us.userStructUuid];
+      //      int count = (int)hq.healingItems.count;
+      //      if (count) {
+      //        [Globals addAlertNotification:[NSString stringWithFormat:@"You are currently healing %d %@%@ at this %@. Complete it before upgrading.", count, count == 1 ? @"" : @"s", MONSTER_NAME, nextFsp.name]];
+      //        return;
+      //      }
     } else if (nextFsp.structType == StructureInfoProto_StructTypeLab) {
       if (gs.userEnhancement) {
         [Globals addAlertNotification:[NSString stringWithFormat:@"You are currently enhancing a %@. Complete it before upgrading.", MONSTER_NAME]];
@@ -1800,9 +1854,10 @@
   }
   
   int curAmount = resType == ResourceTypeOil ? gs.oil : gs.cash;
-  if (_constrBuilding) {
-    int timeLeft = [self timeLeftForConstructionBuilding];
-    BOOL allowFreeSpeedup = [_constrBuilding isKindOfClass:[HomeBuilding class]];
+  if (![self hasAvailableBuilder]) {
+    Building *building = [self earliestConstructingBuildingOrObstacle];
+    int timeLeft = [self timeLeftForConstructionBuildingOrObstacle:building];
+    BOOL allowFreeSpeedup = [building isKindOfClass:[HomeBuilding class]];
     int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:allowFreeSpeedup];
     
     _buttonSender = sender;
@@ -1897,9 +1952,8 @@
       [[OutgoingEventController sharedOutgoingEventController] upgradeNormStruct:us allowGems:allowGems delegate:self];
       _waitingForResponse = YES;
     }
-  
+    
     if (!us.isComplete) {
-      _constrBuilding = hb;
       [self updateTimersForBuilding:hb justBuilt:YES];
       hb.isConstructing = YES;
       [hb displayProgressBar];
@@ -1916,7 +1970,6 @@
     [[OutgoingEventController sharedOutgoingEventController] beginObstacleRemoval:uo spendGems:allowGems];
     
     if (uo.endTime) {
-      _constrBuilding = os;
       [self updateTimersForBuilding:os justBuilt:NO];
       [os displayProgressBar];
       
@@ -1930,52 +1983,70 @@
 #pragma mark - Speedup
 
 - (IBAction)finishNowClicked:(id)sender {
+  [self finishNow:nil sender:sender];
+}
+
+- (void) finishNow:(id)building sender:(id)sender {
   if (_isSpeedingUp) return;
   
-  Globals *gl = [Globals sharedGlobals];
-  int timeLeft = [self timeLeftForConstructionBuilding];
-  BOOL allowFreeSpeedup = [_constrBuilding isKindOfClass:[HomeBuilding class]] ? YES : NO;
-  int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:allowFreeSpeedup];
- 
-  if (goldCost) {
-    if (!self.currentViewController) {
-      ItemSelectViewController *svc = [[ItemSelectViewController alloc] init];
-      if (svc) {
-        SpeedupItemsFiller *sif = [[SpeedupItemsFiller alloc] init];
-        sif.delegate = self;
-        svc.delegate = sif;
-        self.speedupItemsFiller = sif;
-        self.currentViewController = svc;
-        
-        GameViewController *gvc = [GameViewController baseController];
-        svc.view.frame = gvc.view.bounds;
-        [gvc addChildViewController:svc];
-        [gvc.view addSubview:svc.view];
-        
-        if (sender == nil)
-        {
-          [svc showCenteredOnScreen];
-        }
-        else
-        {
-          if ([sender isKindOfClass:[TimerCell class]]) // Invoked from TimerAction
+  // Might come from timer action or from bottom view
+  Building *hb = nil;
+  if ([building isKindOfClass:[UserStruct class]]) {
+    hb = (Building *)[self getChildByName:STRUCT_TAG([building userStructUuid]) recursively:NO];
+  } else if ([building isKindOfClass:[UserObstacle class]]) {
+    hb = (Building *)[self getChildByName:STRUCT_TAG([building userObstacleUuid]) recursively:NO];
+  } else {
+    hb = (Building *)self.selected;
+  }
+  
+  if (hb) {
+    _speedupBuilding = hb;
+    
+    Globals *gl = [Globals sharedGlobals];
+    int timeLeft = [self timeLeftForConstructionBuildingOrObstacle:hb];
+    BOOL allowFreeSpeedup = [hb isKindOfClass:[HomeBuilding class]];
+    int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:allowFreeSpeedup];
+    
+    if (goldCost) {
+      if (!self.currentViewController) {
+        ItemSelectViewController *svc = [[ItemSelectViewController alloc] init];
+        if (svc) {
+          SpeedupItemsFiller *sif = [[SpeedupItemsFiller alloc] init];
+          sif.delegate = self;
+          svc.delegate = sif;
+          self.speedupItemsFiller = sif;
+          self.currentViewController = svc;
+          
+          GameViewController *gvc = [GameViewController baseController];
+          svc.view.frame = gvc.view.bounds;
+          [gvc addChildViewController:svc];
+          [gvc.view addSubview:svc.view];
+          
+          if (sender == nil)
           {
-            UIButton* invokingButton = ((TimerCell*)sender).speedupButton;
-            const CGPoint invokingViewAbsolutePosition = [Globals convertPointToWindowCoordinates:invokingButton.frame.origin fromViewCoordinates:invokingButton.superview];
-            [svc showAnchoredToInvokingView:invokingButton
-                              withDirection:invokingViewAbsolutePosition.y < [Globals screenSize].height * .25f ? ViewAnchoringPreferBottomPlacement : ViewAnchoringPreferLeftPlacement
-                          inkovingViewImage:[invokingButton backgroundImageForState:invokingButton.state]];
+            [svc showCenteredOnScreen];
           }
-          else if ([sender isKindOfClass:[MapBotViewButton class]]) // Speeding up building upgrade or obstacle removal
+          else
           {
-            UIButton* invokingButton = ((MapBotViewButton*)sender).bgdButton;
-            [svc showAnchoredToInvokingView:invokingButton withDirection:ViewAnchoringPreferTopPlacement inkovingViewImage:invokingButton.currentImage];
+            if ([sender isKindOfClass:[TimerCell class]]) // Invoked from TimerAction
+            {
+              UIButton* invokingButton = ((TimerCell*)sender).speedupButton;
+              const CGPoint invokingViewAbsolutePosition = [Globals convertPointToWindowCoordinates:invokingButton.frame.origin fromViewCoordinates:invokingButton.superview];
+              [svc showAnchoredToInvokingView:invokingButton
+                                withDirection:invokingViewAbsolutePosition.y < [Globals screenSize].height * .25f ? ViewAnchoringPreferBottomPlacement : ViewAnchoringPreferLeftPlacement
+                            inkovingViewImage:[invokingButton backgroundImageForState:invokingButton.state]];
+            }
+            else if ([sender isKindOfClass:[MapBotViewButton class]]) // Speeding up building upgrade or obstacle removal
+            {
+              UIButton* invokingButton = ((MapBotViewButton*)sender).bgdButton;
+              [svc showAnchoredToInvokingView:invokingButton withDirection:ViewAnchoringPreferTopPlacement inkovingViewImage:invokingButton.currentImage];
+            }
           }
         }
       }
+    } else {
+      [self speedUpBuildingQueueUp:NO];
     }
-  } else {
-    [self speedUpBuildingQueueUp:NO];
   }
 }
 
@@ -1994,24 +2065,24 @@
 
 - (BOOL) speedUpBuildingQueueUp:(BOOL)queueUp {
   if (_isSpeedingUp) return NO;
-  if (!_constrBuilding) return NO;
+  if (!_speedupBuilding) return NO;
   
   // Close the speedup popup
-  if (_constrBuilding == self.selected) {
+  if (_speedupBuilding == self.selected) {
     [self closeCurrentViewController];
   }
   
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
   
-  int timeLeft = [self timeLeftForConstructionBuilding];
-  BOOL allowFreeSpeedup = [_constrBuilding isKindOfClass:[HomeBuilding class]];
+  int timeLeft = [self timeLeftForConstructionBuildingOrObstacle:_speedupBuilding];
+  BOOL allowFreeSpeedup = [_speedupBuilding isKindOfClass:[HomeBuilding class]];
   int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:allowFreeSpeedup];
   if (gs.gems < gemCost) {
     [GenericPopupController displayNotEnoughGemsView];
   } else {
-    if ([_constrBuilding isKindOfClass:[HomeBuilding class]]) {
-      HomeBuilding *mb = (HomeBuilding *)_constrBuilding;
+    if ([_speedupBuilding isKindOfClass:[HomeBuilding class]]) {
+      HomeBuilding *mb = (HomeBuilding *)_speedupBuilding;
       UserStruct *us = mb.userStruct;
       [self sendSpeedupBuilding:mb.userStruct queueUp:queueUp];
       if (us.isComplete) {
@@ -2031,8 +2102,8 @@
           
           [self reloadAllBubbles];
           
-          if (_constrBuilding == mb) {
-            _constrBuilding = nil;
+          if (_speedupBuilding == mb) {
+            _speedupBuilding = nil;
           }
           [self updateTimersForBuilding:mb justBuilt:NO];
           
@@ -2055,8 +2126,8 @@
         
         return YES;
       }
-    } else if ([_constrBuilding isKindOfClass:[ObstacleSprite class]]) {
-      ObstacleSprite *os = (ObstacleSprite *)_constrBuilding;
+    } else if ([_speedupBuilding isKindOfClass:[ObstacleSprite class]]) {
+      ObstacleSprite *os = (ObstacleSprite *)_speedupBuilding;
       UserObstacle *ob = os.obstacle;
       
       BOOL success = [[OutgoingEventController sharedOutgoingEventController] obstacleRemovalComplete:ob speedup:YES];
@@ -2075,8 +2146,8 @@
             self.selected = nil;
           }
           
-          if (_constrBuilding == os) {
-            _constrBuilding = nil;
+          if (_speedupBuilding == os) {
+            _speedupBuilding = nil;
           }
           [self updateTimersForBuilding:os justBuilt:NO];
           
@@ -2103,7 +2174,13 @@
 }
 
 - (void) speedupBuildingAndUpgradeOrPurchase {
-  if ([self speedUpBuildingQueueUp:YES]) {
+  // In case user waits till building is complete before hitting the popup button
+  BOOL availBuilder = [self hasAvailableBuilder];
+  if (!availBuilder) {
+    _speedupBuilding = [self earliestConstructingBuildingOrObstacle];
+  }
+  
+  if (availBuilder || [self speedUpBuildingQueueUp:YES]) {
     if (_purchasing) {
       [self moveCheckClicked:_buttonSender];
     } else {
@@ -2131,8 +2208,8 @@
 
 - (int) numGemsForTotalSpeedup {
   Globals *gl = [Globals sharedGlobals];
-  int timeLeft = [self timeLeftForConstructionBuilding];
-  BOOL allowFreeSpeedup = [_constrBuilding isKindOfClass:[HomeBuilding class]];
+  int timeLeft = [self timeLeftForConstructionBuildingOrObstacle:_speedupBuilding];
+  BOOL allowFreeSpeedup = [_speedupBuilding isKindOfClass:[HomeBuilding class]];
   int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:allowFreeSpeedup];
   return gemCost;
 }
@@ -2147,15 +2224,15 @@
     ItemProto *ip = [gs itemForId:ui.itemId];
     
     if (ip.itemType == ItemTypeSpeedUp) {
-      if ([_constrBuilding isKindOfClass:[HomeBuilding class]]) {
-        HomeBuilding *hb = (HomeBuilding *)_constrBuilding;
+      if ([_speedupBuilding isKindOfClass:[HomeBuilding class]]) {
+        HomeBuilding *hb = (HomeBuilding *)_speedupBuilding;
         [[OutgoingEventController sharedOutgoingEventController] tradeItemForSpeedup:ui.itemId userStruct:hb.userStruct];
         
         [viewController reloadDataAnimated:YES];
         [self beginTimers];
         [self updateMapBotView:self.bottomOptionView];
-      } else if ([_constrBuilding isKindOfClass:[ObstacleSprite class]]) {
-        ObstacleSprite *hb = (ObstacleSprite *)_constrBuilding;
+      } else if ([_speedupBuilding isKindOfClass:[ObstacleSprite class]]) {
+        ObstacleSprite *hb = (ObstacleSprite *)_speedupBuilding;
         [[OutgoingEventController sharedOutgoingEventController] tradeItemForSpeedup:ui.itemId userObstacle:hb.obstacle];
         
         [viewController reloadDataAnimated:YES];
@@ -2164,7 +2241,7 @@
       }
     }
     
-    int timeLeft = [self timeLeftForConstructionBuilding];
+    int timeLeft = [self timeLeftForConstructionBuildingOrObstacle:_speedupBuilding];
     if (timeLeft > 0) {
       [viewController reloadDataAnimated:YES];
     }
@@ -2172,15 +2249,15 @@
 }
 
 - (int) timeLeftForSpeedup {
-  return [self timeLeftForConstructionBuilding];
+  return [self timeLeftForConstructionBuildingOrObstacle:_speedupBuilding];
 }
 
 - (int) totalSecondsRequired {
-  if ([_constrBuilding isKindOfClass:[HomeBuilding class]]) {
-    HomeBuilding *hb = (HomeBuilding *)_constrBuilding;
+  if ([_speedupBuilding isKindOfClass:[HomeBuilding class]]) {
+    HomeBuilding *hb = (HomeBuilding *)_speedupBuilding;
     return hb.userStruct.staticStruct.structInfo.minutesToBuild*60;
-  } else if ([_constrBuilding isKindOfClass:[ObstacleSprite class]]) {
-    ObstacleSprite *os = (ObstacleSprite *)_constrBuilding;
+  } else if ([_speedupBuilding isKindOfClass:[ObstacleSprite class]]) {
+    ObstacleSprite *os = (ObstacleSprite *)_speedupBuilding;
     return os.obstacle.staticObstacle.secondsToRemove;
   }
   return 0;

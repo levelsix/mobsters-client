@@ -3,6 +3,7 @@
 #import "ProtocolBuffers.h"
 
 #import "BoosterPackStuff.pb.h"
+#import "Item.pb.h"
 #import "MonsterStuff.pb.h"
 #import "User.pb.h"
 // @@protoc_insertion_point(imports)
@@ -19,6 +20,8 @@
 @class FullUserMonsterProto_Builder;
 @class FullUserProto;
 @class FullUserProto_Builder;
+@class ItemProto;
+@class ItemProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
 @class MinimumUserMonsterProto;
@@ -57,6 +60,12 @@
 @class UserEnhancementProto_Builder;
 @class UserFacebookInviteForSlotProto;
 @class UserFacebookInviteForSlotProto_Builder;
+@class UserItemProto;
+@class UserItemProto_Builder;
+@class UserItemSecretGiftProto;
+@class UserItemSecretGiftProto_Builder;
+@class UserItemUsageProto;
+@class UserItemUsageProto_Builder;
 @class UserMonsterCurrentExpProto;
 @class UserMonsterCurrentExpProto_Builder;
 @class UserMonsterCurrentHealthProto;
@@ -183,6 +192,7 @@ BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(Purc
   BoosterItemProto* prize;
   PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatus status;
   NSMutableArray * mutableUpdatedOrNewList;
+  NSMutableArray * mutableUpdatedUserItemsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
@@ -191,7 +201,9 @@ BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(Purc
 @property (readonly) PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatus status;
 @property (readonly, strong) NSArray * updatedOrNewList;
 @property (readonly, strong) BoosterItemProto* prize;
+@property (readonly, strong) NSArray * updatedUserItemsList;
 - (FullUserMonsterProto*)updatedOrNewAtIndex:(NSUInteger)index;
+- (UserItemProto*)updatedUserItemsAtIndex:(NSUInteger)index;
 
 + (PurchaseBoosterPackResponseProto*) defaultInstance;
 - (PurchaseBoosterPackResponseProto*) defaultInstance;
@@ -252,6 +264,12 @@ BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(Purc
 - (PurchaseBoosterPackResponseProto_Builder*) setPrize_Builder:(BoosterItemProto_Builder*) builderForValue;
 - (PurchaseBoosterPackResponseProto_Builder*) mergePrize:(BoosterItemProto*) value;
 - (PurchaseBoosterPackResponseProto_Builder*) clearPrize;
+
+- (NSMutableArray *)updatedUserItemsList;
+- (UserItemProto*)updatedUserItemsAtIndex:(NSUInteger)index;
+- (PurchaseBoosterPackResponseProto_Builder *)addUpdatedUserItems:(UserItemProto*)value;
+- (PurchaseBoosterPackResponseProto_Builder *)addAllUpdatedUserItems:(NSArray *)array;
+- (PurchaseBoosterPackResponseProto_Builder *)clearUpdatedUserItems;
 @end
 
 @interface ReceivedRareBoosterPurchaseResponseProto : PBGeneratedMessage {

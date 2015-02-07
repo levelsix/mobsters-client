@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Protocols.pb.h"
+#import "NibUtils.h"
 
 @interface GachaponPrizeView : UIView
 
@@ -60,6 +61,13 @@
 @property (nonatomic, retain) IBOutlet UIImageView *shadowIcon;
 @property (nonatomic, retain) IBOutlet UIImageView *diamondIcon;
 @property (nonatomic, retain) IBOutlet UILabel *label;
+
+@property (nonatomic, retain) IBOutlet UIImageView *itemIcon;
+@property (nonatomic, retain) IBOutlet THLabel *iconLabel;
+@property (nonatomic, strong) IBOutlet UILabel *itemQuantityLabel;
+
+@property (nonatomic, retain) IBOutlet UIView *mainView;
+@property (nonatomic, retain) IBOutlet UIView *itemView;
 
 - (void) updateForGachaDisplayItem:(BoosterDisplayItemProto *)item;
 - (void) shakeIconNumTimes:(int)numTimes durationPerShake:(float)duration delay:(float)delay completion:(void (^)(void))comp;

@@ -12,6 +12,13 @@
 
 @implementation SpeedupItemsFiller
 
+- (id) init {
+  if ((self = [super init])) {
+    self.usedItems = [NSMutableSet set];
+  }
+  return self;
+}
+
 - (NSArray *) reloadItemsArray {
   GameState *gs = [GameState sharedGameState];
   NSMutableArray *userItems = [[gs.itemUtil getItemsForType:ItemTypeSpeedUp staticDataId:0] mutableCopy];
@@ -21,7 +28,7 @@
       UserItem *ui = [[UserItem alloc] init];
       ui.itemId = ip.itemId;
       
-      if (![userItems containsObject:ui]) {
+      if (![userItems containsObject:ui] && (ip.alwaysDisplayToUser || [self.usedItems containsObject:@(ui.itemId)])) {
         [userItems addObject:ui];
       }
     }
@@ -34,8 +41,8 @@
   
   [userItems sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
     if ([obj1 isKindOfClass:[UserItem class]] && [obj2 isKindOfClass:[UserItem class]]) {
-      BOOL anyOwned1 = [obj1 numOwned] > 0;
-      BOOL anyOwned2 = [obj2 numOwned] > 0;
+      BOOL anyOwned1 = [obj1 numOwned] > 0 || [self.usedItems containsObject:@([obj1 itemId])];
+      BOOL anyOwned2 = [obj2 numOwned] > 0 || [self.usedItems containsObject:@([obj2 itemId])];
       
       if (anyOwned1 != anyOwned2) {
         return [@(anyOwned2) compare:@(anyOwned1)];
@@ -79,6 +86,9 @@
 
 - (void) itemSelected:(id<ItemObject>)io viewController:(id)viewController {
     if (![io isKindOfClass:[UserItem class]] || [io numOwned] > 0) {
+      if ([io isKindOfClass:[UserItem class]]) {
+        [self.usedItems addObject:@([(UserItem *)io itemId])];
+      }
       [self.delegate speedupItemUsed:io viewController:viewController];
     } else {
       UserItem *ui = (UserItem *)io;

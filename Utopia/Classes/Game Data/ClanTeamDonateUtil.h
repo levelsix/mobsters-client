@@ -26,6 +26,8 @@
 @property (nonatomic, retain) NSMutableArray *teamDonations;
 
 - (void) addClanTeamDonations:(NSArray *)teamDonations;
+- (void) removeClanTeamDonationWithUuids:(NSArray *)donationUuids;
+
 - (ClanMemberTeamDonationProto *) myTeamDonation;
 
 @end

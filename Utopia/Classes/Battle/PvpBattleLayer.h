@@ -21,6 +21,7 @@
   BOOL _waitingForDownload;
   BOOL _spawnedNewTeam;
   
+  int _numTimesAttemptedQueueUp;
   int _numMyPlayersRanIn;
   
   BOOL _userAttacked;

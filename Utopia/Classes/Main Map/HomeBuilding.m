@@ -652,6 +652,9 @@
         [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:spritesheetName];
         NSString *file = [NSString stringWithFormat:@"%@AttackN00.png", mp.imagePrefix];
         if ([[CCSpriteFrameCache sharedSpriteFrameCache] containsFrame:file]) {
+          // Re-remove monster sprite just in case
+          [self.monsterSprite removeFromParent];
+          
           self.monsterSprite = [CCSprite spriteWithImageNamed:file];
           self.monsterSprite.anchorPoint = ccp(0.5, 0);
           self.monsterSprite.scale = 0.8;

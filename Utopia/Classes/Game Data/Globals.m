@@ -617,7 +617,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     default:
       break;
   }
-  return [NSString stringWithFormat:@"%@ %@ %ld", weekDay, monthString, day];
+  return [NSString stringWithFormat:@"%@ %@ %d", weekDay, monthString, (int)day];
 }
 
 + (NSString *) imageNameForElement:(Element)element suffix:(NSString *)str {

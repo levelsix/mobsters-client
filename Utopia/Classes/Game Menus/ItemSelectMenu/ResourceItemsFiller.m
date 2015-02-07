@@ -27,7 +27,11 @@
 
 - (int) currentAmount {
   Globals *gl = [Globals sharedGlobals];
-  return MIN(_requiredAmount, [gl calculateTotalResourcesForResourceType:_resourceType itemIdsToQuantity:self.usedItems]);
+  if (_accumulate) {
+    return MIN(_requiredAmount, [gl calculateTotalResourcesForResourceType:_resourceType itemIdsToQuantity:self.usedItems]);
+  } else {
+    return MIN(_requiredAmount, [gl calculateTotalResourcesForResourceType:_resourceType itemIdsToQuantity:nil]);
+  }
 }
 
 - (NSArray *) reloadItemsArray {
@@ -45,10 +49,17 @@
       NSInteger idx = [realItems indexOfObject:ui];
       if (idx != NSNotFound) {
         UserItem *realItem = [realItems objectAtIndex:idx];
-        ui.quantity = realItem.quantity-numUsed;
+        
+        if (_accumulate) {
+          ui.quantity = realItem.quantity-numUsed;
+        } else {
+          ui.quantity = realItem.quantity;
+        }
       }
       
-      [userItems addObject:ui];
+      if (ip.alwaysDisplayToUser || ui.quantity > 0 || numUsed) {
+        [userItems addObject:ui];
+      }
     }
   }
   
@@ -62,8 +73,10 @@
   
   [userItems sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
     if ([obj1 isKindOfClass:[UserItem class]] && [obj2 isKindOfClass:[UserItem class]]) {
-      BOOL anyOwned1 = [obj1 numOwned] > 0;
-      BOOL anyOwned2 = [obj2 numOwned] > 0;
+      // Put items that were used at the top of the list too so that it doesn't look weird flying down
+      // And to prevent misclicking if you're using them fast
+      BOOL anyOwned1 = [obj1 numOwned] > 0 || self.usedItems[@([obj1 itemId])];
+      BOOL anyOwned2 = [obj2 numOwned] > 0 || self.usedItems[@([obj2 itemId])];
       
       if (anyOwned1 != anyOwned2) {
         return [@(anyOwned2) compare:@(anyOwned1)];
@@ -115,12 +128,12 @@
   if ([io isKindOfClass:[UserItem class]]) {
     UserItem *ui = (UserItem *)io;
     int numUsed = [self.usedItems[@(ui.itemId)] intValue];
-    if ([io numOwned]-numUsed > 0) {
+    if ([io numOwned] > 0) {
+      self.usedItems[@(ui.itemId)] = @(numUsed+1);
+      
       if (!_accumulate) {
         [self.delegate resourceItemUsed:io viewController:viewController];
       } else {
-        self.usedItems[@(ui.itemId)] = @(numUsed+1);
-        
         if ([self currentAmount] >= _requiredAmount) {
           [self.delegate resourceItemsUsed:self.usedItems];
           [viewController closeClicked:nil];
@@ -133,10 +146,10 @@
     }
   } else {
     // Gem object - delegate should recalculate how many gems should be sent..
+    self.usedItems[@0] = @1;
     if (!_accumulate) {
       [self.delegate resourceItemUsed:io viewController:viewController];
     } else {
-      self.usedItems[@0] = @1;
       [self.delegate resourceItemsUsed:self.usedItems];
       [viewController closeClicked:nil];
     }

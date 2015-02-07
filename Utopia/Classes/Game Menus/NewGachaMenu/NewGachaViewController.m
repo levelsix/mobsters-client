@@ -18,6 +18,7 @@
 #import "GPUImage.h"
 #import "HomeViewController.h"
 #import "GameViewController.h"
+#import "SecretGiftViewController.h"
 
 @implementation NewGachaViewController
 
@@ -347,6 +348,9 @@
         arrIndex = j;
         break;
       }
+    } else if (disp.itemId && disp.itemId == bip.itemId && disp.itemQuantity == bip.itemQuantity) {
+      arrIndex = j;
+      break;
     } else if (!disp.isMonster && bip.gemReward) {
       if (bip.gemReward == disp.gemReward) {
         arrIndex = j;
@@ -438,7 +442,7 @@
       _cachedDailySpin = NO;
     
     [self updateFreeGachasCounter];
-  } else {
+  }else {
     _isSpinning = NO;
   }
   
@@ -508,7 +512,11 @@
 
 - (void) easyTableViewDidEndScrollingAnimation:(EasyTableView *)easyTableView {
   if (_isSpinning) {
-    [self displayWhiteFlash];
+    if (self.prize.monsterId) {
+      [self displayWhiteFlash];
+    } else if (self.prize.itemId) {
+      [self displayItemPrizeView];
+    }
     /*
     if (self.prize.monsterId) {
       [self displayWhiteFlash];
@@ -567,6 +575,19 @@
   if (self.prize.monsterId) {
     [self.prizeView initializeWithMonsterId:self.prize.monsterId numPuzzlePieces:(int)_numPuzzlePieces];
   }
+}
+
+- (void) displayItemPrizeView {
+  SecretGiftViewController *svc = [[SecretGiftViewController alloc] initWithBoosterItem:self.prize];
+  svc.view.frame = self.navigationController.view.bounds;
+  [self.navigationController.view addSubview:svc.view];
+  [self.navigationController addChildViewController:svc];
+  
+  // Call this so that since nav controller blocks calls?
+  [svc viewWillAppear:YES];
+  
+  self.gachaTable.userInteractionEnabled = YES;
+  _isSpinning = NO;
 }
 
 - (void) easyTableView:(EasyTableView *)easyTableView scrolledToOffset:(CGPoint)contentOffset

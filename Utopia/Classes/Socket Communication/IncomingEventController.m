@@ -1495,6 +1495,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatusSuccess) {
+    [gs.clanTeamDonateUtil removeClanTeamDonationWithUuids:proto.clanTeamDonateUuidList];
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
@@ -1685,7 +1686,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusSuccess) {
-    [gs addToMyMonsters:proto.updatedOrNewList];
+    if (proto.updatedOrNewList.count) {
+      [gs addToMyMonsters:proto.updatedOrNewList];
+    }
+    
+    if (proto.updatedUserItemsList) {
+      [gs.itemUtil addToMyItems:proto.updatedUserItemsList];
+    }
 
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
@@ -1702,7 +1709,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == TradeItemForBoosterResponseProto_TradeItemForBoosterStatusSuccess) {
-    [gs addToMyMonsters:proto.updatedOrNewList];
+    if (proto.updatedOrNewList.count) {
+      [gs addToMyMonsters:proto.updatedOrNewList];
+    }
+    
+    if (proto.updatedUserItemsList) {
+      [gs.itemUtil addToMyItems:proto.updatedUserItemsList];
+    }
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
@@ -1818,7 +1831,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
         [gs addToMyMonsters:proto.updatedOrNewList];
       }
       
-      [gs.battleHistory addObject:proto.battleThatJustEnded];
+      if (proto.hasBattleThatJustEnded) {
+        [gs.battleHistory addObject:proto.battleThatJustEnded];
+      }
       
       [[NSNotificationCenter defaultCenter] postNotificationName:NEW_BATTLE_HISTORY_NOTIFICATION object:nil];
     }

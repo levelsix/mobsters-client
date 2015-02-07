@@ -22,6 +22,8 @@
 
 @interface SpeedupItemsFiller : NSObject <ItemSelectDelegate, GemsItemDelegate>
 
+@property (nonatomic, retain) NSMutableSet *usedItems;
+
 @property (nonatomic, assign) id<SpeedupItemsFillerDelegate> delegate;
 
 @end

@@ -1129,6 +1129,11 @@
     [rewards addObject:r];
   }
   
+  if (miniJob.secondItemIdReward && miniJob.secondItemRewardQuantity) {
+    Reward *r = [[Reward alloc] initWithItemId:miniJob.secondItemIdReward quantity:miniJob.secondItemRewardQuantity];
+    [rewards addObject:r];
+  }
+  
   return rewards;
 }
 

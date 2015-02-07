@@ -82,11 +82,13 @@
 #pragma mark - Close Button
 
 - (void) createCloseButton {
-  self.closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-  [self.closeButton setImage:[Globals imageNamed:@"closebattle.png"] forState:UIControlStateNormal];
-  [Globals displayUIView:self.closeButton];
-  self.closeButton.frame = CGRectMake(4, 4, 30, 30);
-  [self.closeButton addTarget:self action:@selector(forfeitClicked:) forControlEvents:UIControlEventTouchUpInside];
+  if (!_isExiting) {
+    self.closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.closeButton setImage:[Globals imageNamed:@"closebattle.png"] forState:UIControlStateNormal];
+    [Globals displayUIView:self.closeButton];
+    self.closeButton.frame = CGRectMake(4, 4, 30, 30);
+    [self.closeButton addTarget:self action:@selector(forfeitClicked:) forControlEvents:UIControlEventTouchUpInside];
+  }
 }
 
 - (void) removeCloseButton {
@@ -440,7 +442,7 @@
   BOOL success = [super spawnNextEnemy];
   
   PvpProto *pvp = self.defendersList[_curQueueNum];
-  if (pvp.hasCmtd && _curStage == pvp.defenderMonstersList.count) {
+  if (success && pvp.hasCmtd && _curStage == pvp.defenderMonstersList.count) {
     [[OutgoingEventController sharedOutgoingEventController] invalidateSolicitation:pvp.cmtd];
   }
   
@@ -455,9 +457,22 @@
   if (proto.status == QueueUpResponseProto_QueueUpStatusSuccess && proto.defenderInfoListList.count > 0) {
     _curQueueNum = -1;
     self.defendersList = proto.defenderInfoListList;
-  } else {
-    [GenericPopupController displayNotificationViewWithText:@"Sorry, we were unable to find any enemies for you at the moment. Try again later." title:@"No Enemies Found!" okayButton:@"Okay" target:self selector:@selector(exitFinal)];
+  } else if (!_isExiting) {
+    _numTimesAttemptedQueueUp++;
+    
+    if (_numTimesAttemptedQueueUp < 10) {
+      // Try firing another queue up in 2 seconds
+      [self scheduleOnce:@selector(fireQueueUp) delay:2.f];
+      
+      _numTimesNotResponded = 0;
+    } else {
+      _numTimesNotResponded = 100;
+    }
   }
+}
+
+- (void) fireQueueUp {
+  [[OutgoingEventController sharedOutgoingEventController] queueUpEvent:self.seenUserUuids withDelegate:self];
 }
 
 - (void) handleRetrieveUserMonsterTeamResponseProto:(FullEvent *)fe {
@@ -560,7 +575,8 @@
         [self.seenUserUuids addObject:pvp.defender.minUserProto.userUuid];
       }
     }
-    [[OutgoingEventController sharedOutgoingEventController] queueUpEvent:self.seenUserUuids withDelegate:self];
+    [self fireQueueUp];
+    _numTimesAttemptedQueueUp = 0;
     self.defendersList = nil;
     
     _isRevenge = NO;
@@ -709,7 +725,7 @@
                      [CCActionEaseSineIn actionWithAction:[CCActionMoveTo actionWithDuration:0.3f position:ccp(0,0)]],
                      [CCActionCallBlock actionWithBlock:
                       ^{
-                        [self shakeScreenWithIntensity:2.f];
+                        [self shakeScreenWithIntensity:1.f];
                       }],
                      [CCActionDelay actionWithDuration:0.2f],
                      [CCActionCallFunc actionWithTarget:self selector:selector], nil]];
@@ -735,7 +751,7 @@
       [self.bgdLayer scrollToNewScene];
     } else {
       [self myTeamStopWalking];
-      [GenericPopupController displayNotificationViewWithText:@"The enemies seem to have been scared off. Tap okay to return outside." title:@"Something Went Wrong" okayButton:@"Okay" target:self selector:@selector(exitFinal)];
+      [GenericPopupController displayNotificationViewWithText:@"Sorry, we were unable to find any enemies for you at the moment. Try again later." title:@"No Enemies Found!" okayButton:@"Okay" target:self selector:@selector(exitFinal)];
     }
   } else {
     if (!_hasChosenEnemy) {

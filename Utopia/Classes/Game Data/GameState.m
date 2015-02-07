@@ -1082,6 +1082,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return arr;
 }
 
+- (int) numberOfBuilders {
+  return 2;
+}
+
 - (void) updateStaticData:(StaticDataProto *)proto {
   // Add these before updating user or else UI will update incorrectly
   [self addToStaticLevelInfos:proto.slipList];

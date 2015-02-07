@@ -185,9 +185,15 @@
 - (void) awakeFromNib {
   self.icon.layer.anchorPoint = ccp(0.5, 0.75);
   self.icon.center = ccpAdd(self.icon.center, ccp(0, self.icon.frame.size.height*(self.icon.layer.anchorPoint.y-0.5)));
+  
+  self.itemView.frame = self.mainView.frame;
+  [self.mainView.superview addSubview:self.itemView];
 }
 
 - (void) updateForGachaDisplayItem:(BoosterDisplayItemProto *)item {
+  self.mainView.hidden = NO;
+  self.itemView.hidden = YES;
+  
   NSString *iconName = nil;
   if (item.isMonster) {
     //NSString *bgdImage = [@"gacha" stringByAppendingString:[Globals imageNameForRarity:item.quality suffix:@"bg.png"]];
@@ -205,6 +211,18 @@
     
     self.diamondIcon.hidden = YES;
     self.icon.hidden = NO;
+  } else if (item.itemId) {
+    
+    UserItem *ui = [[UserItem alloc] init];
+    ui.itemId = item.itemId;
+    
+    [Globals imageNamed:ui.iconImageName withView:self.itemIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+    
+    self.iconLabel.text = ui.iconText;
+    self.itemQuantityLabel.text = [NSString stringWithFormat:@"%dx", item.itemQuantity];
+    
+    self.itemView.hidden = NO;
+    self.mainView.hidden = YES;
   } else {
     //NSString *bgdImage = @"gachagemsbg.png";
     //[Globals imageNamed:bgdImage withView:self.bgdView greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];

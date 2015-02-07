@@ -62,6 +62,8 @@
     _mapMovementDivisor = 300.f;
     
     self.cityId = -1;
+    
+    self.myTeamSprites = [NSMutableArray array];
   }
   return self;
 }
@@ -116,6 +118,9 @@
   as.constrainedToBoundary = NO;
   [as stopWalking];
   [self addChild:as];
+  
+  // So that they don't get removed by refresh
+  [self.myTeamSprites addObject:as];
   return as;
 }
 
@@ -465,7 +470,8 @@
 }
 
 - (void) speedupPurchasedBuilding {
-  self.clickableUserStructUuid = ((HomeBuilding *)_constrBuilding).userStruct.userStructUuid;
+#warning fix
+  self.clickableUserStructUuid = ((HomeBuilding *)self.selected).userStruct.userStructUuid;
 }
 
 - (void) moveToOilDrill {
@@ -544,7 +550,7 @@
     }
     return sprites;
   } else {
-    return nil;
+    return [super reloadObstacles];
   }
 }
 
@@ -598,9 +604,9 @@
 
 - (void) purchaseBuildingWithItemDict:(NSDictionary *)itemIdsToQuantity allowGems:(BOOL)allowGems {
   [super purchaseBuildingWithItemDict:itemIdsToQuantity allowGems:allowGems];
-  [self moveToSprite:_constrBuilding animated:YES];
+  [self moveToSprite:self.selected animated:YES];
   
-  HomeBuilding *hb = (HomeBuilding *)_constrBuilding;
+  HomeBuilding *hb = (HomeBuilding *)self.selected;
   int cashCost = 0, oilCost = 0;
   StructureInfoProto *fsp = hb.userStruct.staticStruct.structInfo;
   

@@ -18,6 +18,7 @@
 #import "GPUImage.h"
 #import "HomeViewController.h"
 #import "GameViewController.h"
+#import "SecretGiftViewController.h"
 
 @implementation GachaponViewController
 
@@ -390,7 +391,10 @@
 - (void) easyTableViewDidEndScrollingAnimation:(EasyTableView *)easyTableView {
   if (_isSpinning) {
     if (self.prize.monsterId) {
-      [self displayWhiteFlash];
+      //[self displayWhiteFlash];
+      [self displayItemPrizeView];
+    } else if (self.prize.itemId) {
+      [self displayItemPrizeView];
     } else {
       [self displayWhiteFlash];
       self.gachaTable.userInteractionEnabled = YES;
@@ -438,6 +442,12 @@
   } else {
     [self.prizeView animateWithGems:self.prize.gemReward];
   }
+}
+
+- (void) displayItemPrizeView {
+  SecretGiftViewController *svc = [[SecretGiftViewController alloc] initWithBoosterItem:self.prize];
+  [self.navigationController.view addSubview:svc.view];
+  [self.navigationController addChildViewController:svc];
 }
 
 #pragma mark - Focus Scroll View

@@ -272,6 +272,8 @@
   BOOL hasNumPieces_:1;
   BOOL hasGemReward_:1;
   BOOL hasCashReward_:1;
+  BOOL hasItemId_:1;
+  BOOL hasItemQuantity_:1;
   BOOL isComplete_:1;
   BOOL isSpecial_:1;
   Float32 chanceToAppear;
@@ -281,6 +283,8 @@
   int32_t numPieces;
   int32_t gemReward;
   int32_t cashReward;
+  int32_t itemId;
+  int32_t itemQuantity;
 }
 - (BOOL) hasBoosterItemId;
 - (BOOL) hasBoosterPackId;
@@ -291,6 +295,8 @@
 - (BOOL) hasGemReward;
 - (BOOL) hasCashReward;
 - (BOOL) hasChanceToAppear;
+- (BOOL) hasItemId;
+- (BOOL) hasItemQuantity;
 @property (readonly) int32_t boosterItemId;
 @property (readonly) int32_t boosterPackId;
 @property (readonly) int32_t monsterId;
@@ -300,6 +306,8 @@
 @property (readonly) int32_t gemReward;
 @property (readonly) int32_t cashReward;
 @property (readonly) Float32 chanceToAppear;
+@property (readonly) int32_t itemId;
+@property (readonly) int32_t itemQuantity;
 
 + (BoosterItemProto*) defaultInstance;
 - (BoosterItemProto*) defaultInstance;
@@ -380,6 +388,16 @@
 - (Float32) chanceToAppear;
 - (BoosterItemProto_Builder*) setChanceToAppear:(Float32) value;
 - (BoosterItemProto_Builder*) clearChanceToAppear;
+
+- (BOOL) hasItemId;
+- (int32_t) itemId;
+- (BoosterItemProto_Builder*) setItemId:(int32_t) value;
+- (BoosterItemProto_Builder*) clearItemId;
+
+- (BOOL) hasItemQuantity;
+- (int32_t) itemQuantity;
+- (BoosterItemProto_Builder*) setItemQuantity:(int32_t) value;
+- (BoosterItemProto_Builder*) clearItemQuantity;
 @end
 
 @interface BoosterDisplayItemProto : PBGeneratedMessage {
@@ -389,12 +407,16 @@
   BOOL hasBoosterPackId_:1;
   BOOL hasGemReward_:1;
   BOOL hasQuantity_:1;
+  BOOL hasItemId_:1;
+  BOOL hasItemQuantity_:1;
   BOOL hasQuality_:1;
   BOOL isMonster_:1;
   BOOL isComplete_:1;
   int32_t boosterPackId;
   int32_t gemReward;
   int32_t quantity;
+  int32_t itemId;
+  int32_t itemQuantity;
   Quality quality;
 }
 - (BOOL) hasBoosterPackId;
@@ -403,12 +425,16 @@
 - (BOOL) hasQuality;
 - (BOOL) hasGemReward;
 - (BOOL) hasQuantity;
+- (BOOL) hasItemId;
+- (BOOL) hasItemQuantity;
 @property (readonly) int32_t boosterPackId;
 - (BOOL) isMonster;
 - (BOOL) isComplete;
 @property (readonly) Quality quality;
 @property (readonly) int32_t gemReward;
 @property (readonly) int32_t quantity;
+@property (readonly) int32_t itemId;
+@property (readonly) int32_t itemQuantity;
 
 + (BoosterDisplayItemProto*) defaultInstance;
 - (BoosterDisplayItemProto*) defaultInstance;
@@ -474,6 +500,16 @@
 - (int32_t) quantity;
 - (BoosterDisplayItemProto_Builder*) setQuantity:(int32_t) value;
 - (BoosterDisplayItemProto_Builder*) clearQuantity;
+
+- (BOOL) hasItemId;
+- (int32_t) itemId;
+- (BoosterDisplayItemProto_Builder*) setItemId:(int32_t) value;
+- (BoosterDisplayItemProto_Builder*) clearItemId;
+
+- (BOOL) hasItemQuantity;
+- (int32_t) itemQuantity;
+- (BoosterDisplayItemProto_Builder*) setItemQuantity:(int32_t) value;
+- (BoosterDisplayItemProto_Builder*) clearItemQuantity;
 @end
 
 

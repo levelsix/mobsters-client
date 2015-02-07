@@ -42,7 +42,7 @@
 }
 
 - (NSString *) message {
-  return self.msg;
+  return [NSString stringWithFormat:@"Team Donate: %@", self.msg];
 }
 
 - (UIColor *) bottomViewTextColor {
@@ -136,7 +136,7 @@
       if ([td.solicitor.userUuid isEqualToString:gs.userUuid]) {
         UserMonsterSnapshotProto *snap = [td.donationsList firstObject];
         MonsterProto *mp = [gs monsterWithId:snap.monsterId];
-        [Globals addOrangeAlertNotification:[NSString stringWithFormat:@"%@ just donated you a Level %d %@!", snap.user.name, snap.currentLvl, mp.displayName]];
+        [Globals addGreenAlertNotification:[NSString stringWithFormat:@"%@ just donated a Level %d %@ to your team!", snap.user.name, snap.currentLvl, mp.displayName]];
       }
     }
     
@@ -151,6 +151,19 @@
   
   if (scheduleDelayedNotification) {
     [self performSelector:@selector(postNotification) withObject:nil afterDelay:6.f];
+  }
+}
+
+- (void) removeClanTeamDonationWithUuids:(NSArray *)donationUuids {
+  GameState *gs = [GameState sharedGameState];
+  for (ClanMemberTeamDonationProto *d in self.teamDonations.copy) {
+    if ([donationUuids containsObject:d.donationUuid]) {
+      [self.teamDonations removeObject:d];
+      
+      if ([d.solicitor.userUuid isEqualToString:gs.userUuid]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:MY_CLAN_TEAM_DONATION_CHANGED_NOTIFICATION object:nil];
+      }
+    }
   }
 }
 

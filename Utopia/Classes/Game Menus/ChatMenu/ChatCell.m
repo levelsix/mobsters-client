@@ -530,6 +530,8 @@ static float buttonInitialWidth = 159.f;
     self.emptyView.hidden = NO;
     self.filledView.hidden = YES;
   } else {
+    UserMonsterSnapshotProto *snap = [donation.donationsList firstObject];
+    
     UserMonster *um = donation.donatedMonster;
     MonsterProto *mp = um.staticMonster;
     
@@ -540,6 +542,8 @@ static float buttonInitialWidth = 159.f;
     NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:[p1 stringByAppendingString:p2]];
     [attr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:48/255.f green:124/255.f blue:238/255.f alpha:1.f] range:NSMakeRange(p1.length, p2.length)];
     self.monsterLabel.attributedText = attr;
+    
+    self.donatorNameLabel.text = [NSString stringWithFormat:@"From: %@", snap.user.name];
     
     self.emptyView.hidden = YES;
     self.filledView.hidden = NO;

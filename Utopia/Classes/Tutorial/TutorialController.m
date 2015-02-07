@@ -203,8 +203,8 @@
   
 #ifdef DEBUG
   [self initHomeMap];
-  //[self beginGuideGreetingPhase];
-  [self beginEnterBattlePhase];
+  [self beginGuideGreetingPhase];
+  //[self beginEnterBattlePhase];
   //[self beginPostBattleConfrontation];
   //[self initTopBar];
   //[self beginFacebookLoginPhase];
@@ -1051,17 +1051,7 @@ static int timesCloseClicked = 0;
 #pragma mark - DialogueViewController delegate
 
 - (void) dialogueViewController:(DialogueViewController *)dvc willDisplaySpeechAtIndex:(int)index {
-  if (self.currentStep == TutorialStepSecondBattleKillEnemy && index == 3) {
-    self.touchView.userInteractionEnabled = YES;
-    [self.touchView addResponder:dvc];
-    [dvc fadeOutBottomGradient];
-  }  else if ((self.currentStep == TutorialStepBeginBuildingOne ||
-               self.currentStep == TutorialStepBeginBuildingTwo ||
-               self.currentStep == TutorialStepBeginBuildingThree) &&
-              index == dvc.dialogue.speechSegmentList.count-1) {
-    dvc.view.userInteractionEnabled = NO;
-    [dvc fadeOutBottomGradient];
-  } else if (self.currentStep == TutorialStepBeginBuildingThree && index == 1) {
+  if (self.currentStep == TutorialStepBeginBuildingThree && index == 1) {
     [self.homeMap moveToOilDrill];
   } else if (self.currentStep == TutorialStepFacebookLogin && index == 1) {
     [self.homeMap panToMark];

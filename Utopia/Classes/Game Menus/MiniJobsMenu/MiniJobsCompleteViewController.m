@@ -10,7 +10,7 @@
 #import "GameState.h"
 #import "Globals.h"
 
-#define SPACING_PER_NODE 38.f
+#define SPACING_PER_NODE 46.f
 
 @implementation MiniJobsCompleteMonsterView
 

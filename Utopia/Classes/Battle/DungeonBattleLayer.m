@@ -373,8 +373,8 @@
 
 - (void) moveToNextEnemy {
   BOOL playerFirst = NO;
-  if(_curStage >= 0) {
-    TaskStageProto *stage = [self.dungeonInfo.tspList objectAtIndex:_curStage];
+  if(_curStage+1 < self.dungeonInfo.tspList.count) {
+    TaskStageProto *stage = [self.dungeonInfo.tspList objectAtIndex:_curStage+1];
     playerFirst = stage.attackerAlwaysHitsFirst;
   }
   [super moveToNextEnemyWithPlayerFirst:playerFirst];

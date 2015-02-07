@@ -22,6 +22,13 @@
   return self;
 }
 
+- (id) initWithBoosterItem:(BoosterItemProto *)bi {
+  if ((self = [super init])) {
+    self.boosterItem = bi;
+  }
+  return self;
+}
+
 - (void) viewDidLoad {
   [super viewDidLoad];
   
@@ -39,6 +46,10 @@
   
   self.iconLabel.strokeSize = 1.5f;
   self.iconLabel.strokeColor = [UIColor colorWithHexString:@"ebebeb"];
+  
+  [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
+  
+  [self reload];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -47,23 +58,38 @@
   [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
   
   [self reload];
-}
-
-- (void) reload {
-  if (self.secretGift) {
-    // Create a UserItem so we can use ItemObject protocol
-    UserItem *ui = [[UserItem alloc] init];
-    ui.itemId = self.secretGift.itemId;
-    
-    self.itemNameLabel.text = [NSString stringWithFormat:@"1 x %@", [[ui name] uppercaseString]];
-    self.iconLabel.text = [ui iconText];
-    
-    [Globals imageNamed:[ui iconImageName] withView:self.itemIcon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+  
+  if (self.boosterItem) {
+    [self.homeTitleView.titleImageView removeFromSuperview];
+    self.homeTitleView.titleLabel.text = @"ITEM OPENED!";
+    self.homeTitleView.titleLabel.font = [UIFont fontWithName:self.homeTitleView.titleLabel.font.fontName size:16.f];
+    self.homeTitleView.titleLabel.centerY -= 16.f;
   }
 }
 
+- (void) reload {
+  UserItem *ui = [[UserItem alloc] init];
+  
+  if (self.secretGift) {
+    // Create a UserItem so we can use ItemObject protocol
+    ui.itemId = self.secretGift.itemId;
+    ui.quantity = 1;
+  } else {
+    ui.itemId = self.boosterItem.itemId;
+    ui.quantity = self.boosterItem.itemQuantity;
+  }
+  
+  self.itemNameLabel.text = [NSString stringWithFormat:@"%d x %@", ui.quantity, [[ui name] uppercaseString]];
+  self.iconLabel.text = [ui iconText];
+  self.itemQuantityLabel.text = [NSString stringWithFormat:@"%dx", ui.quantity];
+  
+  [Globals imageNamed:[ui iconImageName] withView:self.itemIcon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+}
+
 - (IBAction)collectClicked:(id)sender {
-  [[OutgoingEventController sharedOutgoingEventController] redeemSecretGift:self.secretGift];
+  if (self.secretGift) {
+    [[OutgoingEventController sharedOutgoingEventController] redeemSecretGift:self.secretGift];
+  }
   
   [self close];
 }

@@ -132,7 +132,7 @@
   GameViewController *gvc = [GameViewController baseController];
   HomeMap *hm = (HomeMap *)gvc.currentMap;
   if ([hm isKindOfClass:[HomeMap class]]) {
-    [hm finishNowClicked:sender];
+    [hm finishNow:self.userStruct sender:sender];
   }
   return nil;
 }
@@ -141,7 +141,7 @@
   GameViewController *gvc = [GameViewController baseController];
   HomeMap *hm = (HomeMap *)gvc.currentMap;
   if ([hm isKindOfClass:[HomeMap class]]) {
-    [hm getHelpClicked:nil];
+    [hm getHelpClicked:self.userStruct];
   }
 }
 
@@ -174,7 +174,7 @@
   GameViewController *gvc = [GameViewController baseController];
   HomeMap *hm = (HomeMap *)gvc.currentMap;
   if ([hm isKindOfClass:[HomeMap class]]) {
-    [hm finishNowClicked:sender];
+    [hm finishNow:self.userObstacle sender:sender];
   }
   return nil;
 }

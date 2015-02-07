@@ -117,18 +117,22 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     return us;
   }
   
+  int numConstructing = 0;
   // Check that no other building is being built
   for (UserStruct *u in gs.myStructs) {
     if (!u.isComplete) {
-      [Globals popupMessage:@"You can only construct one building at a time!"];
-      return nil;
+      numConstructing++;
     }
   }
   for (UserObstacle *u in gs.myObstacles) {
     if (u.endTime) {
-      [Globals popupMessage:@"You are removing an obstacle at the moment!"];
-      return nil;
+      numConstructing++;
     }
+  }
+  
+  if (numConstructing >= gs.numberOfBuilders) {
+    [Globals popupMessage:@"No builder available."];
+    return nil;
   }
   
   int cost = fsp.buildCost;
@@ -178,12 +182,22 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     return;
   }
   
-  // Check that no other building is being upgraded
-  for (UserStruct *us in gs.myStructs) {
-    if (!us.isComplete) {
-      [Globals popupMessage:@"You can only construct one building at a time!"];
-      return;
+  int numConstructing = 0;
+  // Check that no other building is being built
+  for (UserStruct *u in gs.myStructs) {
+    if (!u.isComplete) {
+      numConstructing++;
     }
+  }
+  for (UserObstacle *u in gs.myObstacles) {
+    if (u.endTime) {
+      numConstructing++;
+    }
+  }
+  
+  if (numConstructing >= gs.numberOfBuilders) {
+    [Globals popupMessage:@"No builder available."];
+    return;
   }
   
   if (userStruct.userStructUuid == nil) {
@@ -382,17 +396,22 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   Globals *gl = [Globals sharedGlobals];
   ObstacleProto *op = obstacle.staticObstacle;
   
+  int numConstructing = 0;
+  // Check that no other building is being built
   for (UserStruct *u in gs.myStructs) {
     if (!u.isComplete) {
-      [Globals popupMessage:@"You can only construct one building at a time!"];
-      return;
+      numConstructing++;
     }
   }
   for (UserObstacle *u in gs.myObstacles) {
     if (u.endTime) {
-      [Globals popupMessage:@"You are removing an obstacle at the moment!"];
-      return;
+      numConstructing++;
     }
+  }
+  
+  if (numConstructing >= gs.numberOfBuilders) {
+    [Globals popupMessage:@"No builder available."];
+    return;
   }
   
   if (!obstacle.userObstacleUuid) {
@@ -1460,6 +1479,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     
     gs.lastTeamDonateSolicitationTime = [MSDate date];
     [gs addUnrespondedUpdate:[GemsUpdate updateWithTag:tag change:-gemsSpent]];
+    
+    NSString *str = [NSString stringWithFormat:@"Team Donate Requested: %@", message];
+    [Globals addOrangeAlertNotification:str];
   }
 }
 
@@ -1474,7 +1496,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   } else if (um.teamCost > solicitation.powerAvailability) {
     [Globals popupMessage:@"Trying to use a monster with too high of power."];
   } else if (um.curHealth < [gl calculateMaxHealthForMonster:um]) {
-    [Globals popupMessage:@"Trying to fullfill without max health mosnter."];
+    [Globals popupMessage:@"Trying to fullfill without max health monster."];
   } else {
     [[SocketCommunication sharedSocketCommunication] sendFulfillTeamDonationSolicitationMessage:[um convertToProto] solicitation:solicitation clientTime:[self getCurrentMilliseconds]];
   }
@@ -1484,11 +1506,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [[SocketCommunication sharedSocketCommunication] sendVoidTeamDonationSolicitationMessage:@[solicitation]];
   
   GameState *gs = [GameState sharedGameState];
-  [gs.clanTeamDonateUtil.teamDonations removeObject:solicitation];
-  
-  if ([solicitation.solicitor.userUuid isEqualToString:gs.userUuid]) {
-    [[NSNotificationCenter defaultCenter] postNotificationName:MY_CLAN_TEAM_DONATION_CHANGED_NOTIFICATION object:nil];
-  }
+  [gs.clanTeamDonateUtil removeClanTeamDonationWithUuids:@[solicitation.donationUuid]];
 }
 
 #pragma mark - Speedups
@@ -3084,6 +3102,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     
     int itemId = userMiniJob.miniJob.itemIdReward;
     int quantity = userMiniJob.miniJob.itemRewardQuantity;
+    if (itemId && quantity) {
+      [gs.itemUtil incrementItemId:itemId quantity:quantity];
+    }
+    
+    itemId = userMiniJob.miniJob.secondItemIdReward;
+    quantity = userMiniJob.miniJob.secondItemRewardQuantity;
     if (itemId && quantity) {
       [gs.itemUtil incrementItemId:itemId quantity:quantity];
     }

@@ -518,7 +518,8 @@
     color = [Globals creamColor];
   } else if (reward.type == RewardTypePvpLeague) {
     imgName = [reward.league.imgPrefix stringByAppendingString:@"icon.png"];
-    labelName = @"Loading...";
+    labelName = @"Loading";
+    color = [UIColor whiteColor];
   }
   
   if (loss) {
@@ -536,12 +537,12 @@
         _inside.scale = self.contentSize.height/_inside.contentSize.height;
       }
     }];
-    [self addChild:_inside];
+    [self addChild:_inside];  
     _inside.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
     
     float labelPosition = loss ? -10.f : -13.f;
     if (labelName) {
-      _label = [CCLabelTTF labelWithString:labelName fontName:@"Gotham-Ultra" fontSize:11.f dimensions:CGSizeMake(self.contentSize.width, 15)];
+      _label = [CCLabelTTF labelWithString:labelName fontName:@"Gotham-Ultra" fontSize:11.f dimensions:CGSizeMake(self.contentSize.width+5, 15)];
       _label.horizontalAlignment = CCTextAlignmentCenter;
       _label.color = [CCColor colorWithUIColor:color];
       [self addChild:_label];
@@ -572,7 +573,6 @@
 }
 
 - (void) updatePvpLeagueReward:(PvpLeagueProto *)league leagueChange:(BOOL)leagueChange change:(int)change  {
-  
   float labelPosition = change < 0 ? -10.f : -13.f;
   NSString *labelName;
   
@@ -657,6 +657,8 @@
   self.defendingMsgLabel.verticalAlignment = CCVerticalTextAlignmentCenter;
   [self.bubbleNode addChild:self.defendingMsgLabel];
   self.defendingMsgLabel.position = ccp(self.bubbleNode.contentSize.width/2, self.bubbleNode.contentSize.height/2+4.f);
+  
+  [self.gradientNode removeFromParent];
 }
 
 - (void) updateForPvpProto:(PvpProto *)pvp {
