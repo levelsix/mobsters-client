@@ -186,7 +186,8 @@
     if (success) {
       [self runawaySuccess];
     } else {
-      _movesLeft = 0;
+      [self setMovesLeft:0 animated:NO];
+      
       _myDamageDealt = 0;
       _numAttemptedRunaways++;
       [self saveCurrentStateWithForceFlush:YES];
@@ -551,14 +552,13 @@
       [super beginMyTurn];
     }
     
-    _movesLeft = moves;
     _myDamageDealt = damage;
+    
+    [self setMovesLeft:moves animated:NO];
     
     if (_movesLeft < NUM_MOVES_PER_TURN) {
       [self.hudView removeSwapButtonAnimated:NO];
     }
-    
-    self.movesLeftLabel.string = [NSString stringWithFormat:@"%d ", _movesLeft];
   } else {
     [super beginMyTurn];
     [self saveCurrentStateWithForceFlush:YES];
@@ -711,8 +711,7 @@
 }
 
 - (void) deserializeAndResumeState:(NSDictionary *)stateDict {
-  _movesLeft = (int)[[stateDict objectForKey:MOVES_LEFT_KEY] integerValue];
-  self.movesLeftLabel.string = [NSString stringWithFormat:@"%d ", _movesLeft];  // M: quick fix for bug with wrong moves count when restored
+  [self setMovesLeft:(int)[[stateDict objectForKey:MOVES_LEFT_KEY] integerValue] animated:NO];
   
   _myDamageDealt = (int)[[stateDict objectForKey:DAMAGE_STORED_KEY] integerValue];
   _damageWasDealt = [[stateDict objectForKey:DAMAGE_DEALT_KEY] boolValue];

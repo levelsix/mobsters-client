@@ -230,6 +230,7 @@
   GameState *gs = [GameState sharedGameState];
   MonsterProto *mp = [gs monsterWithId:cma.monsterId];
   BattleSprite *clanBs = [[BattleSprite alloc] initWithPrefix:mp.imagePrefix nameString:[[NSAttributedString alloc] initWithString:mp.displayName] rarity:mp.quality animationType:mp.attackAnimationType isMySprite:NO verticalOffset:mp.verticalPixelOffset];
+  clanBs.battleLayer = self;
   clanBs.isFacingNear = NO;
   clanBs.healthBgd.visible = NO;
   clanBs.cameFromTop = comeFromTop;
