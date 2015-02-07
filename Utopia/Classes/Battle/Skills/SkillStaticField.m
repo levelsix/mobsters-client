@@ -39,6 +39,11 @@
   
   if ([self isActive])
   {
+    if (trigger == SkillTriggerPointStartOfPlayerTurn)
+    {
+      [self tickDuration];
+    }
+    
     if ((trigger == SkillTriggerPointEnemySkillActivated && self.belongsToPlayer)
         || (trigger == SkillTriggerPointPlayerSkillActivated && !self.belongsToPlayer))
     {
@@ -48,12 +53,9 @@
         
         [self makeSkillOwnerJumpWithTarget:self selector:@selector(beginCounterAttack)];
       }
-      else
-      {
-        [self tickDuration];
-      }
       return YES;
     }
+    
   }
   
   return NO;
@@ -91,7 +93,6 @@
 {
   [self.battleLayer.orbLayer.bgdLayer turnTheLightsOn];
   [self.battleLayer.orbLayer allowInput];
-  [self tickDuration];
   [self skillTriggerFinished];
 }
 
