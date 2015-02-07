@@ -234,17 +234,11 @@
 }
 
 - (BOOL) isRead {
-  return !self.isUnread;
+  return [[self privateChat] isRead];
 }
 
 - (void) markAsRead {
-  NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-  int64_t lastReadTime = [[ud objectForKey:PVP_HISTORY_DEFAULTS_KEY] longLongValue];
-  int64_t thisTime = self.battleEndTime;
-  
-  if (lastReadTime < thisTime) {
-    [ud setObject:[NSNumber numberWithLongLong:thisTime] forKey:PVP_HISTORY_DEFAULTS_KEY];
-  }
+  [[self privateChat] markAsRead];
 }
 
 
@@ -321,7 +315,7 @@
       clanAvenged_ = YES;
       
       [sender.superview setHidden:YES];
-      ChatBattleHistoryView *historyView = (ChatBattleHistoryView*)sender.superview.superview;
+      ChatBattleHistoryView *historyView = [sender getAncestorInViewHierarchyOfType:[ChatBattleHistoryView class]];
       historyView.avengedLabel.superview.hidden = NO;
       historyView.avengeCheck.hidden = NO;
       
