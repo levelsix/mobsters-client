@@ -75,9 +75,11 @@
         {
           // Spawn new bombs on board
           [self makeSkillOwnerJumpWithTarget:nil selector:nil];
-          [self performAfterDelay:0.5 block:^{
-            SkillLogStart(@"Bombs -- Skill spawned additional %ld bombs", (long)countToSpawn);
-            [self spawnBombs:countToSpawn isInitialSkill:NO withTarget:self andSelector:@selector(skillTriggerFinished)];
+          [self showSkillPopupOverlay:YES withCompletion:^(){
+            [self performAfterDelay:0.5 block:^{
+              SkillLogStart(@"Bombs -- Skill spawned additional %ld bombs", (long)countToSpawn);
+              [self spawnBombs:countToSpawn isInitialSkill:NO withTarget:self andSelector:@selector(skillTriggerFinished)];
+            }];
           }];
         }
         else

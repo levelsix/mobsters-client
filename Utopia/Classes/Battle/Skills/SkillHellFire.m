@@ -50,41 +50,35 @@ static const NSInteger kBulletOrbsMaxSearchIterations = 256;
   if ([super skillCalledWithTrigger:trigger execute:execute])
     return YES;
   
-  // Initial bullet orb spawn
-  if (trigger == SkillTriggerPointEnemyAppeared && !_logoShown)
-  {
-    if (execute)
-    {
-      _logoShown = YES;
-      // Jumping, showing overlay and spawning initial set
-      [self showSkillPopupOverlay:YES withCompletion:^{
-        if (_orbsSpawned == 0)
-        {
-          [self performAfterDelay:.5f block:^{
-            [self spawnBulletOrbs:_numOrbsToSpawn withTarget:self andSelector:@selector(skillTriggerFinished)];
-          }];
-        }
-        else
-          [self skillTriggerFinished];
-      }];
-    }
-    return YES;
-  }
+  BOOL didAttack = NO;
+  BOOL didSpawn = NO;
   
   if (trigger == SkillTriggerPointEndOfPlayerMove && !self.belongsToPlayer)
   {
     if (execute)
     {
+      _orbsSpawned = [self specialsOnBoardCount:SpecialOrbTypeBullet];
       // Update counters on bullet orbs
       if (_orbsSpawned > 0 && [self updateBulletOrbs])
       {
         // If any orbs have reached zero turns left, perform out of turn attack
         [self makeSkillOwnerJumpWithTarget:self selector:@selector(beginOutOfTurnAttack)];
+        return YES;
       }
-      else
-        [self skillTriggerFinished];
     }
-    return YES;
+  }
+  
+  // Initial bullet orb spawn
+  if ((self.activationType == SkillActivationTypeUserActivated && trigger == SkillTriggerPointManualActivation) ||
+      (self.activationType == SkillActivationTypeAutoActivated && trigger == SkillTriggerPointEndOfPlayerMove))  {
+    if ([self skillIsReady])
+    {
+      if (execute)
+      {
+        [self spawnOrbs];
+      }
+      return YES;
+    }
   }
 
   if (trigger == SkillTriggerPointEnemyDefeated && !self.belongsToPlayer)
@@ -100,7 +94,7 @@ static const NSInteger kBulletOrbsMaxSearchIterations = 256;
     return YES;
   }
   
-  return NO;
+  return didAttack || didSpawn;
 }
 
 #pragma mark - Skill logic
@@ -205,7 +199,10 @@ static const NSInteger kBulletOrbsMaxSearchIterations = 256;
   [self.battleLayer.orbLayer.bgdLayer turnTheLightsOn];
   [self.battleLayer.orbLayer allowInput];
 
-  [self skillTriggerFinished];
+  if ([self skillIsReady])
+    [self spawnOrbs];
+  else
+    [self skillTriggerFinished];
 }
 
 - (void) showLogo
@@ -225,6 +222,18 @@ static const NSInteger kBulletOrbsMaxSearchIterations = 256;
                          [CCActionEaseIn actionWithAction:[CCActionScaleTo actionWithDuration:.3f scale:0.f]],
                          [CCActionRemove action],
                          nil]];
+}
+
+- (void) spawnOrbs
+{
+  [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
+  [self.battleLayer.orbLayer disallowInput];
+  // Jumping, showing overlay and spawning set
+  [self showSkillPopupOverlay:YES withCompletion:^{
+    [self performAfterDelay:.5f block:^{
+      [self spawnBulletOrbs:_numOrbsToSpawn withTarget:self andSelector:@selector(finishSpawn)];
+    }];
+  }];
 }
 
 - (void) spawnBulletOrbs:(NSInteger)count withTarget:(id)target andSelector:(SEL)selector
@@ -274,6 +283,16 @@ static const NSInteger kBulletOrbsMaxSearchIterations = 256;
     
     ++_orbsSpawned;
   }
+}
+
+- (void) finishSpawn
+{
+  [self resetOrbCounter];
+  
+  [self.battleLayer.orbLayer.bgdLayer turnTheLightsOn];
+  [self.battleLayer.orbLayer allowInput];
+  
+  [self skillTriggerFinished];
 }
 
 - (void) removeAllBulletOrbs
