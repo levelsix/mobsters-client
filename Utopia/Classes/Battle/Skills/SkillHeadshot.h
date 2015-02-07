@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 LVL6. All rights reserved.
 //
 
-#import "SkillControllerPassive.h"
+#import "SkillControllerActive.h"
 
-@interface SkillHeadshot : SkillControllerPassive
+@interface SkillHeadshot : SkillControllerActive
 {
   // Properties (general)
   NSInteger _numOrbsToSpawn;

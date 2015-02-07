@@ -6,14 +6,11 @@
 //  Copyright (c) 2015 LVL6. All rights reserved.
 //
 
-#import "SkillControllerActive.h"
+#import "SkillControllerActiveBuff.h"
 
-@interface SkillInsurance : SkillControllerActive
+@interface SkillInsurance : SkillControllerActiveBuff
 {
   float _damageTakenMultiplier;
-  int _duration;
-  
-  int _turnsLeft;
 }
 
 @end

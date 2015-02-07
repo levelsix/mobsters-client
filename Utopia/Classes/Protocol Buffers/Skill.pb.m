@@ -81,6 +81,7 @@ BOOL SkillActivationTypeIsValidValue(SkillActivationType value) {
 @property (strong) NSMutableArray * mutablePropertiesList;
 @property (strong) NSString* desc;
 @property (strong) NSString* imgNamePrefix;
+@property int32_t skillEffectDuration;
 @end
 
 @implementation SkillProto
@@ -150,6 +151,13 @@ BOOL SkillActivationTypeIsValidValue(SkillActivationType value) {
   hasImgNamePrefix_ = !!value_;
 }
 @synthesize imgNamePrefix;
+- (BOOL) hasSkillEffectDuration {
+  return !!hasSkillEffectDuration_;
+}
+- (void) setHasSkillEffectDuration:(BOOL) value_ {
+  hasSkillEffectDuration_ = !!value_;
+}
+@synthesize skillEffectDuration;
 - (id) init {
   if ((self = [super init])) {
     self.skillId = 0;
@@ -161,6 +169,7 @@ BOOL SkillActivationTypeIsValidValue(SkillActivationType value) {
     self.sucId = 0;
     self.desc = @"";
     self.imgNamePrefix = @"";
+    self.skillEffectDuration = 0;
   }
   return self;
 }
@@ -216,6 +225,9 @@ static SkillProto* defaultSkillProtoInstance = nil;
   if (self.hasImgNamePrefix) {
     [output writeString:12 value:self.imgNamePrefix];
   }
+  if (self.hasSkillEffectDuration) {
+    [output writeInt32:13 value:self.skillEffectDuration];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -254,6 +266,9 @@ static SkillProto* defaultSkillProtoInstance = nil;
   }
   if (self.hasImgNamePrefix) {
     size_ += computeStringSize(12, self.imgNamePrefix);
+  }
+  if (self.hasSkillEffectDuration) {
+    size_ += computeInt32Size(13, self.skillEffectDuration);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -323,6 +338,9 @@ static SkillProto* defaultSkillProtoInstance = nil;
   if (self.hasImgNamePrefix) {
     [output appendFormat:@"%@%@: %@\n", indent, @"imgNamePrefix", self.imgNamePrefix];
   }
+  if (self.hasSkillEffectDuration) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"skillEffectDuration", [NSNumber numberWithInteger:self.skillEffectDuration]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -353,6 +371,8 @@ static SkillProto* defaultSkillProtoInstance = nil;
       (!self.hasDesc || [self.desc isEqual:otherMessage.desc]) &&
       self.hasImgNamePrefix == otherMessage.hasImgNamePrefix &&
       (!self.hasImgNamePrefix || [self.imgNamePrefix isEqual:otherMessage.imgNamePrefix]) &&
+      self.hasSkillEffectDuration == otherMessage.hasSkillEffectDuration &&
+      (!self.hasSkillEffectDuration || self.skillEffectDuration == otherMessage.skillEffectDuration) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -386,6 +406,9 @@ static SkillProto* defaultSkillProtoInstance = nil;
   }
   if (self.hasImgNamePrefix) {
     hashCode = hashCode * 31 + [self.imgNamePrefix hash];
+  }
+  if (self.hasSkillEffectDuration) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.skillEffectDuration] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -464,6 +487,9 @@ static SkillProto* defaultSkillProtoInstance = nil;
   if (other.hasImgNamePrefix) {
     [self setImgNamePrefix:other.imgNamePrefix];
   }
+  if (other.hasSkillEffectDuration) {
+    [self setSkillEffectDuration:other.skillEffectDuration];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -537,6 +563,10 @@ static SkillProto* defaultSkillProtoInstance = nil;
         [self setImgNamePrefix:[input readString]];
         break;
       }
+      case 104: {
+        [self setSkillEffectDuration:[input readInt32]];
+        break;
+      }
     }
   }
 }
@@ -599,7 +629,7 @@ static SkillProto* defaultSkillProtoInstance = nil;
   result.type = value;
   return self;
 }
-- (SkillProto_Builder*) clearType {
+- (SkillProto_Builder*) clearTypeList {
   result.hasType = NO;
   result.type = SkillTypeNoSkill;
   return self;
@@ -615,7 +645,7 @@ static SkillProto* defaultSkillProtoInstance = nil;
   result.activationType = value;
   return self;
 }
-- (SkillProto_Builder*) clearActivationType {
+- (SkillProto_Builder*) clearActivationTypeList {
   result.hasActivationType = NO;
   result.activationType = SkillActivationTypeUserActivated;
   return self;
@@ -706,6 +736,22 @@ static SkillProto* defaultSkillProtoInstance = nil;
 - (SkillProto_Builder*) clearImgNamePrefix {
   result.hasImgNamePrefix = NO;
   result.imgNamePrefix = @"";
+  return self;
+}
+- (BOOL) hasSkillEffectDuration {
+  return result.hasSkillEffectDuration;
+}
+- (int32_t) skillEffectDuration {
+  return result.skillEffectDuration;
+}
+- (SkillProto_Builder*) setSkillEffectDuration:(int32_t) value {
+  result.hasSkillEffectDuration = YES;
+  result.skillEffectDuration = value;
+  return self;
+}
+- (SkillProto_Builder*) clearSkillEffectDuration {
+  result.hasSkillEffectDuration = NO;
+  result.skillEffectDuration = 0;
   return self;
 }
 @end

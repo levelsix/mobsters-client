@@ -6,13 +6,11 @@
 //  Copyright (c) 2015 LVL6. All rights reserved.
 //
 
-#import "SkillControllerActive.h"
+#import "SkillControllerActiveBuff.h"
 
-@interface SkillCurse : SkillControllerActive
+@interface SkillCurse : SkillControllerActiveBuff
 {
-  int _curseTurns;
   
-  int _curseTurnsLeft;
 }
 
 @end

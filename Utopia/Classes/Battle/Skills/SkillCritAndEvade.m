@@ -53,55 +53,59 @@
 
 -(NSInteger)modifyDamage:(NSInteger)damage forPlayer:(BOOL)player
 {
-  SkillLogStart(@"Crit and Evade -- %@ skill invoked from %@ with damage %ld",
-                self.belongsToPlayer ? @"PLAYER" : @"ENEMY",
-                player ? @"PLAYER" : @"ENEMY",
-                (long)damage);
   
-  if (player == self.belongsToPlayer) // The character attacking has the skill
+  if ([self isActive])
   {
-    _criticalHit = NO;
-    _missed = NO;
+    SkillLogStart(@"Crit and Evade -- %@ skill invoked from %@ with damage %ld",
+                  self.belongsToPlayer ? @"PLAYER" : @"ENEMY",
+                  player ? @"PLAYER" : @"ENEMY",
+                  (long)damage);
     
-    // Chance of missing
-    float rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
-    if (rand < _missChance)
+    if (player == self.belongsToPlayer) // The character attacking has the skill
     {
-      damage = 0;
-      _missed = YES;
-      SkillLogStart(@"Crit and Evade -- Skill caused a miss");
-    }
-    else
-    {
-      // Chance of critical hit
-      rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
-      if (rand < _critChance)
+      _criticalHit = NO;
+      _missed = NO;
+      
+      // Chance of missing
+      float rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
+      if (rand < _missChance)
       {
-        damage *= _critMultiplier;
-        _criticalHit = YES;
-        
-        /*
-        [self addEnrageAnimationForCriticalHit];
-        [self performAfterDelay:2.f block:^{
-          [self removeEnrageAnimation];
-        }];
-         */
-        
-        SkillLogStart(@"Crit and Evade -- Skill caused a critical hit, increasing damage to %ld", (long)damage);
+        damage = 0;
+        _missed = YES;
+        SkillLogStart(@"Crit and Evade -- Skill caused a miss");
+      }
+      else
+      {
+        // Chance of critical hit
+        rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
+        if (rand < _critChance)
+        {
+          damage *= _critMultiplier;
+          _criticalHit = YES;
+          
+          /*
+          [self addEnrageAnimationForCriticalHit];
+          [self performAfterDelay:2.f block:^{
+            [self removeEnrageAnimation];
+          }];
+           */
+          
+          SkillLogStart(@"Crit and Evade -- Skill caused a critical hit, increasing damage to %ld", (long)damage);
+        }
       }
     }
-  }
-  else // The character defending has the skill
-  {
-    _evaded = NO;
-    
-    // Chance of evading
-    float rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
-    if (rand < _evadeChance)
+    else // The character defending has the skill
     {
-      damage = 0;
-      _evaded = YES;
-      SkillLogStart(@"Crit and Evade -- Skill caused an evade");
+      _evaded = NO;
+      
+      // Chance of evading
+      float rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
+      if (rand < _evadeChance)
+      {
+        damage = 0;
+        _evaded = YES;
+        SkillLogStart(@"Crit and Evade -- Skill caused an evade");
+      }
     }
   }
   
@@ -113,67 +117,61 @@
   if ([super skillCalledWithTrigger:trigger execute:execute])
     return YES;
   
-  // Do nothing, only show the splash at the beginning. Flag is for the case when you defeated the previous one, don't show the logo then.
-  if (trigger == SkillTriggerPointEnemyAppeared && ! _logoShown)
+  if ([self isActive])
   {
-    if (execute)
+    if ((self.belongsToPlayer && trigger == SkillTriggerPointStartOfPlayerTurn)
+        || (!self.belongsToPlayer && trigger == SkillTriggerPointEndOfEnemyTurn))
     {
-      _logoShown = YES;
-      [self showSkillPopupOverlay:YES withCompletion:^(){
-        [self performAfterDelay:.5f block:^{
-          [self skillTriggerFinished];
-        }];
-      }];
+      [self tickDuration];
     }
-    return YES;
-  }
-  
-  if ((trigger == SkillTriggerPointPlayerDealsDamage && self.belongsToPlayer) ||
-      (trigger == SkillTriggerPointEnemyDealsDamage && !self.belongsToPlayer))
-  {
-    if (execute)
+    
+    if ((trigger == SkillTriggerPointPlayerDealsDamage && self.belongsToPlayer) ||
+        (trigger == SkillTriggerPointEnemyDealsDamage && !self.belongsToPlayer))
     {
-      if (_missed || _criticalHit)
+      if (execute)
       {
-        [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
-        [self.battleLayer.orbLayer disallowInput];
+        if (_missed || _criticalHit)
+        {
+          [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
+          [self.battleLayer.orbLayer disallowInput];
 
-        if (self.belongsToPlayer)
-          [skillManager setPlayerUsedAbility:YES];
+          if (self.belongsToPlayer)
+            [skillManager setPlayerUsedAbility:YES];
+          else
+            [skillManager setEnemyUsedAbility:YES];
+          
+          if (_missed)
+            [self showDodged];
+          else
+            [self showCriticalHit];
+        }
         else
-          [skillManager setEnemyUsedAbility:YES];
-        
-        if (_missed)
-          [self showDodged];
-        else
-          [self showCriticalHit];
+          [self skillTriggerFinished];
       }
-      else
-        [self skillTriggerFinished];
+      return YES;
     }
-    return YES;
-  }
-  if ((trigger == SkillTriggerPointEnemyDealsDamage && self.belongsToPlayer) ||
-      (trigger == SkillTriggerPointPlayerDealsDamage && !self.belongsToPlayer))
-  {
-    if (execute)
+    if ((trigger == SkillTriggerPointEnemyDealsDamage && self.belongsToPlayer) ||
+        (trigger == SkillTriggerPointPlayerDealsDamage && !self.belongsToPlayer))
     {
-      if (_evaded)
+      if (execute)
       {
-        [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
-        [self.battleLayer.orbLayer disallowInput];
-        
-        if (self.belongsToPlayer)
-          [skillManager setPlayerUsedAbility:YES];
+        if (_evaded)
+        {
+          [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
+          [self.battleLayer.orbLayer disallowInput];
+          
+          if (self.belongsToPlayer)
+            [skillManager setPlayerUsedAbility:YES];
+          else
+            [skillManager setEnemyUsedAbility:YES];
+          
+          [self showDodged];
+        }
         else
-          [skillManager setEnemyUsedAbility:YES];
-        
-        [self showDodged];
+          [self skillTriggerFinished];
       }
-      else
-        [self skillTriggerFinished];
+      return YES;
     }
-    return YES;
   }
   
   return NO;
@@ -213,8 +211,6 @@
   
   // Finish trigger execution
   [self performAfterDelay:.3f block:^{
-    [self.battleLayer.orbLayer.bgdLayer turnTheLightsOn];
-    [self.battleLayer.orbLayer allowInput];
     [self skillTriggerFinished];
   }];
 }
@@ -251,8 +247,6 @@
   
   // Finish trigger execution
   [self performAfterDelay:.3f block:^{
-    [self.battleLayer.orbLayer.bgdLayer turnTheLightsOn];
-    [self.battleLayer.orbLayer allowInput];
     [self skillTriggerFinished];
   }];
 }

@@ -6,9 +6,9 @@
 //  Copyright (c) 2015 LVL6. All rights reserved.
 //
 
-#import "SkillControllerActive.h"
+#import "SkillControllerActiveBuff.h"
 
-@interface SkillHammerTime : SkillControllerActive
+@interface SkillHammerTime : SkillControllerActiveBuff
 {
   // Properties
   float _chance;

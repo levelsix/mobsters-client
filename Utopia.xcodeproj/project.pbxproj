@@ -1102,6 +1102,9 @@
 		6B0784031A828C1C005CDFCF /* SkillInsurance.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0784021A828C1C005CDFCF /* SkillInsurance.m */; };
 		6B0784041A828C1C005CDFCF /* SkillInsurance.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0784021A828C1C005CDFCF /* SkillInsurance.m */; };
 		6B0784051A828C1C005CDFCF /* SkillInsurance.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0784021A828C1C005CDFCF /* SkillInsurance.m */; };
+		6B07840E1A8545BB005CDFCF /* SkillControllerActiveBuff.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B07840D1A8545BB005CDFCF /* SkillControllerActiveBuff.m */; };
+		6B07840F1A8545BB005CDFCF /* SkillControllerActiveBuff.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B07840D1A8545BB005CDFCF /* SkillControllerActiveBuff.m */; };
+		6B0784101A8545BB005CDFCF /* SkillControllerActiveBuff.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B07840D1A8545BB005CDFCF /* SkillControllerActiveBuff.m */; };
 		6BA24DF31A7A9ECF00BEF920 /* SkillBloodRage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA24DF21A7A9ECF00BEF920 /* SkillBloodRage.m */; };
 		6BA24E091A7AEA6E00BEF920 /* SkillTakeAim.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA24E081A7AEA6E00BEF920 /* SkillTakeAim.m */; };
 		6BA24E0A1A7AEA6E00BEF920 /* SkillTakeAim.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA24E081A7AEA6E00BEF920 /* SkillTakeAim.m */; };
@@ -7946,6 +7949,8 @@
 		6B0783F81A828468005CDFCF /* SkillCurse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillCurse.m; sourceTree = "<group>"; };
 		6B0784011A828C10005CDFCF /* SkillInsurance.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SkillInsurance.h; sourceTree = "<group>"; };
 		6B0784021A828C1C005CDFCF /* SkillInsurance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillInsurance.m; sourceTree = "<group>"; };
+		6B07840A1A854532005CDFCF /* SkillControllerActiveBuff.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillControllerActiveBuff.h; sourceTree = "<group>"; };
+		6B07840D1A8545BB005CDFCF /* SkillControllerActiveBuff.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillControllerActiveBuff.m; sourceTree = "<group>"; };
 		6BA24DF01A7A9EC100BEF920 /* SkillBloodRage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillBloodRage.h; sourceTree = "<group>"; };
 		6BA24DF21A7A9ECF00BEF920 /* SkillBloodRage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillBloodRage.m; sourceTree = "<group>"; };
 		6BA24E061A7AEA6100BEF920 /* SkillTakeAim.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SkillTakeAim.h; sourceTree = "<group>"; };
@@ -18007,6 +18012,8 @@
 				DA0FC55B19B1861500393BF4 /* SkillControllerActive.m */,
 				DA0FC58019B65B0200393BF4 /* SkillControllerPassive.h */,
 				DA0FC58119B65B0200393BF4 /* SkillControllerPassive.m */,
+				6B07840A1A854532005CDFCF /* SkillControllerActiveBuff.h */,
+				6B07840D1A8545BB005CDFCF /* SkillControllerActiveBuff.m */,
 			);
 			name = Core;
 			sourceTree = "<group>";
@@ -24944,6 +24951,7 @@
 				CF0CED63196F452900ECD301 /* EventUser.pb.m in Sources */,
 				CF0CED64196F452900ECD301 /* FundsViewController.m in Sources */,
 				CF0CED65196F452900ECD301 /* SBJSON.m in Sources */,
+				6B07840F1A8545BB005CDFCF /* SkillControllerActiveBuff.m in Sources */,
 				CF0CED66196F452900ECD301 /* TutorialTouchView.m in Sources */,
 				2991FC011A800D7F009BB1D8 /* MonsterSelectViewController.m in Sources */,
 				CF0CED67196F452900ECD301 /* FundsViews.m in Sources */,
@@ -25284,6 +25292,7 @@
 				CFF6470A195E1DEE00C43641 /* EvolveChooserViews.m in Sources */,
 				CFEB284715951ADC00B622FC /* FullEvent.m in Sources */,
 				CF68907719145DC300FF1F71 /* SharedEnumConfig.pb.m in Sources */,
+				6B07840E1A8545BB005CDFCF /* SkillControllerActiveBuff.m in Sources */,
 				CFF64704195E14D500C43641 /* EvolveChooserViewController.m in Sources */,
 				2991FC001A800D7F009BB1D8 /* MonsterSelectViewController.m in Sources */,
 				CF689C1915C3B89400F2E50E /* NSObject+SBJSON.m in Sources */,
@@ -25619,6 +25628,7 @@
 				CF48190819F7217F00041486 /* EventUser.pb.m in Sources */,
 				CF48190919F7217F00041486 /* FundsViewController.m in Sources */,
 				CF48190A19F7217F00041486 /* SBJSON.m in Sources */,
+				6B0784101A8545BB005CDFCF /* SkillControllerActiveBuff.m in Sources */,
 				CF48190B19F7217F00041486 /* TutorialTouchView.m in Sources */,
 				2991FC021A800D7F009BB1D8 /* MonsterSelectViewController.m in Sources */,
 				CF48190C19F7217F00041486 /* FundsViews.m in Sources */,

@@ -19,9 +19,6 @@
   _orbRequirement = proto.orbCost;
   _orbCounter = _orbRequirement;
   
-  _duration = 2; //TODO: Fix this to use the proto's value
-  _turnsLeft = 0;
-  
   return self;
 }
 
@@ -44,28 +41,6 @@
   _orbCounter = _orbRequirement;
 }
 
-- (BOOL) isActive
-{
-  return _turnsLeft != 0;
-}
-
-- (void) resetDuration
-{
-  _turnsLeft = _duration;
-}
-
-- (void) tickDuration
-{
-  _turnsLeft--;
-  if (_turnsLeft == 0)
-    [self onDurationEnd];
-}
-
-- (void) onDurationEnd
-{
-  //Overriden in children
-}
-
 - (BOOL) shouldSpawnRibbon
 {
   return YES;
@@ -77,7 +52,6 @@
 {
   NSMutableDictionary* result = [NSMutableDictionary dictionaryWithDictionary:[super serialize]];
   [result setObject:@(_orbCounter) forKey:@"orbCounter"];
-  [result setObject:@(_turnsLeft) forKey:@"turnsLeft"];
   return result;
 }
 
@@ -89,9 +63,6 @@
   NSNumber* orbCounter = [dict objectForKey:@"orbCounter"];
   if (orbCounter)
     _orbCounter = [orbCounter integerValue];
-  NSNumber* turnsLeft = [dict objectForKey:@"turnsLeft"];
-  if (turnsLeft)
-    _turnsLeft = [turnsLeft integerValue];
   
   return YES;
 }

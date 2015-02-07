@@ -14,29 +14,11 @@
 
 @implementation SkillCurse
 
-#pragma mark - Initialization
-
-- (void) setDefaultValues
-{
-  [super setDefaultValues];
-  
-  _curseTurns = 3;
-  _curseTurnsLeft = 0;
-}
-
-- (void) setValue:(float)value forProperty:(NSString *)property
-{
-  [super setValue:value forProperty:property];
-  
-  if ([property isEqualToString:@"CURSE_TURNS"])
-    _curseTurns = value;
-}
-
 #pragma mark - Overrides
 
 - (BOOL) shouldPersist
 {
-  return _curseTurnsLeft > 0;
+  return [self isActive];
 }
 
 - (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
@@ -44,7 +26,7 @@
   if ([super skillCalledWithTrigger:trigger execute:execute])
     return YES;
   
-  if (_curseTurnsLeft)
+  if ([self isActive])
   {
     //Reset on new target
     if ((self.belongsToPlayer && trigger == SkillTriggerPointEnemyInitialized)
@@ -54,42 +36,19 @@
     }
     else if (trigger == SkillTriggerPointEndOfPlayerMove)
     {
-      _curseTurnsLeft--;
-      if (_curseTurnsLeft == 0)
-        [self removeCurse];
+      [self tickDuration];
     }
   }
-  
-  if ((self.activationType == SkillActivationTypeUserActivated && trigger == SkillTriggerPointManualActivation) ||
-      (self.activationType == SkillActivationTypeAutoActivated && trigger == SkillTriggerPointEndOfPlayerMove))
-  {
-    if ([self skillIsReady])
-    {
-      if (execute)
-      {
-        [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
-        [self.battleLayer.orbLayer disallowInput];
-        [self showSkillPopupOverlay:YES withCompletion:^(){
-          [self startCurse];
-        }];
-      }
-      return YES;
-    }
-  }
-  
   
   return NO;
 }
 
 #pragma mark - Skill Logic
 
-- (void) startCurse
+- (void) onDurationStart
 {
-  [self resetOrbCounter];
-  
   BattlePlayer* opponent = self.belongsToPlayer ? self.enemy : self.player;
   opponent.isCursed = YES;
-  _curseTurnsLeft = _curseTurns;
   
   [self addCurseAnimations];
   
@@ -100,12 +59,16 @@
   }];
 }
 
+- (void) onDurationEnd
+{
+  [self removeCurse];
+}
+
 - (void) removeCurse
 {
   BattlePlayer* opponent = self.belongsToPlayer ? self.enemy : self.player;
   opponent.isCursed = NO;
   
-  _curseTurnsLeft = 0;
   [self endCurseAnimations];
 }
 
@@ -135,24 +98,4 @@
   [opponent.sprite runAction:[CCActionTintTo actionWithDuration:0.3 color:[CCColor whiteColor]]];
 }
 
-#pragma mark - Serialization
-
-- (NSDictionary*) serialize
-{
-  NSMutableDictionary* result = [NSMutableDictionary dictionaryWithDictionary:[super serialize]];
-  [result setObject:@(_curseTurnsLeft) forKey:@"curseTurnsLeft"];
-  
-  return result;
-}
-
-- (BOOL) deserialize:(NSDictionary*)dict
-{
-  if (![super deserialize:dict])
-    return NO;
-  
-  NSNumber* curseTurnsLeft = [dict objectForKey:@"curseTurnsLeft"];
-  if (curseTurnsLeft) _curseTurnsLeft = [curseTurnsLeft intValue];
-  
-  return YES;
-}
 @end

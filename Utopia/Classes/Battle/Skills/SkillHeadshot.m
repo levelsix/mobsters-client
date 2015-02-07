@@ -51,61 +51,52 @@
   if ([super skillCalledWithTrigger:trigger execute:execute])
     return YES;
   
-  // Initial headshot orb spawn
-  if (trigger == SkillTriggerPointEnemyAppeared && !_logoShown)
+  //If skill is charged, generate orbs
+  if (_orbsSpawned == 0)
   {
-    if (execute)
+    if ((self.activationType == SkillActivationTypeUserActivated && trigger == SkillTriggerPointManualActivation) ||
+        (self.activationType == SkillActivationTypeAutoActivated && trigger == SkillTriggerPointEndOfPlayerMove))
     {
-      _logoShown = YES;
-      // Jumping, showing overlay and spawning initial set
-      [self showSkillPopupOverlay:YES withCompletion:^{
-        if (_orbsSpawned == 0)
+      if ([self skillIsReady])
+      {
+        if (execute)
         {
-          [self performAfterDelay:.5f block:^{
-            [self spawnHeadshotOrbs:_numOrbsToSpawn isInitialSkill:!self.belongsToPlayer withTarget:self andSelector:@selector(skillTriggerFinished)];
+          // Jumping, showing overlay and spawning
+          [self showSkillPopupOverlay:YES withCompletion:^{
+            [self performAfterDelay:.5f block:^{
+              [self spawnHeadshotOrbs:_numOrbsToSpawn isInitialSkill:NO withTarget:self andSelector:@selector(skillTriggerFinished)];
+            }];
           }];
         }
-        else
-          [self skillTriggerFinished];
-      }];
-    }
-    return YES;
-  }
-  
-  // New enemy appeared
-  if (trigger == SkillTriggerPointEnemyAppeared && self.belongsToPlayer)
-  {
-    if (execute)
-    {
-      if (_orbsSpawned == 0)
-      {
-        // Spawn some more orbs if all have been matched and removed
-        [self performAfterDelay:.5f block:^{
-          [self spawnHeadshotOrbs:_numOrbsToSpawn isInitialSkill:NO withTarget:self andSelector:@selector(skillTriggerFinished)];
-        }];
+        return YES;
       }
-      else
-        [self skillTriggerFinished];
     }
-    return YES;
   }
   
+  // Update counters on headshot orbs
   if (trigger == SkillTriggerPointEndOfPlayerMove && !self.belongsToPlayer)
   {
     if (execute)
     {
-      // Update counters on headshot orbs
+      _orbsSpawned = [self specialsOnBoardCount:SpecialOrbTypeHeadshot];
       if (_orbsSpawned > 0 && [self updateHeadshotOrbs])
       {
         // If any orbs have reached zero turns left, perform headshot
         [self makeSkillOwnerJumpWithTarget:self selector:@selector(beginHeadshot)];
       }
       else
+      {
+        if (_orbsSpawned == 0)
+        {
+          [self resetOrbCounter];
+        }
         [self skillTriggerFinished];
+      }
     }
     return YES;
   }
   
+  // Player matched and removed all headshot orbs; time for a quick attack
   if (trigger == SkillTriggerPointEndOfPlayerMove && self.belongsToPlayer)
   {
     if (execute)
@@ -115,22 +106,21 @@
         _orbsSpawned = [self specialsOnBoardCount:SpecialOrbTypeHeadshot];
         if (_orbsSpawned == 0)
         {
-          // Player matched and removed all headshot orbs; time for a quick attack
           [self makeSkillOwnerJumpWithTarget:self selector:@selector(beginHeadshot)];
         }
         else
           [self skillTriggerFinished];
+        return YES;
       }
     }
-    return YES;
   }
   
+  // Remove all headshot orbs added when the user dies
   if ((trigger == SkillTriggerPointEnemyDefeated && !self.belongsToPlayer) ||
       (trigger == SkillTriggerPointPlayerMobDefeated && self.belongsToPlayer))
   {
     if (execute)
     {
-      // Remove all headshot orbs added by this enemy
       [self removeAllHeadshotOrbs];
       [self performAfterDelay:.3f block:^{
         [self skillTriggerFinished];
@@ -212,6 +202,8 @@
 {
   [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
   [self.battleLayer.orbLayer disallowInput];
+  
+  [self resetOrbCounter];
   
   [self showLogo];
   
