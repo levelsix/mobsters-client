@@ -248,7 +248,11 @@
     
     if (_myTeamSprites.count > 0) {
       MyTeamSprite *ms = [_myTeamSprites objectAtIndex:0];
-      [ms moveToward:loc speedMultiplier:3.f completionTarget:ms selector:@selector(walk)];
+      
+      // Need to check for tutorial since we add non team sprites to the array
+      if ([ms isKindOfClass:[MyTeamSprite class]]) {
+        [ms moveToward:loc speedMultiplier:3.f completionTarget:ms selector:@selector(walk)];
+      }
     }
   }
 }

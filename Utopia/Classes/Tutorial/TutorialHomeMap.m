@@ -622,6 +622,7 @@
 }
 
 - (IBAction)finishNowClicked:(id)sender {
+  _speedupBuilding = (Building *)[self getChildByName:STRUCT_TAG(self.clickableUserStructUuid) recursively:NO];
   [self speedUpBuildingQueueUp:NO];
 }
 
