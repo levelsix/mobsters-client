@@ -59,7 +59,7 @@
 
 - (void) resetDuration
 {
-  int tempOldTurns = _turnsLeft;
+  NSInteger tempOldTurns = _turnsLeft;
   _turnsLeft = _duration;
   
   if (tempOldTurns == 0)
