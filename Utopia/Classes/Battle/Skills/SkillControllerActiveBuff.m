@@ -90,6 +90,15 @@
   return NO;
 }
 
+- (void) endDurationNow
+{
+  if (_turnsLeft != 0)
+  {
+    _turnsLeft = 0;
+    [self onDurationEnd];
+  }
+}
+
 #pragma mark - Serialization
 
 - (NSDictionary*) serialize

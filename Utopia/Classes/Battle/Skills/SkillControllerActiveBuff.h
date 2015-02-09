@@ -16,6 +16,7 @@
 - (BOOL) onDurationStart;
 - (BOOL) onDurationReset;
 - (BOOL) onDurationEnd;
+- (void) endDurationNow;
 
 @property (readonly) NSInteger duration;
 @property (readonly) NSInteger turnsLeft;
