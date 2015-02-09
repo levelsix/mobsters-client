@@ -11,11 +11,11 @@
 @interface SkillControllerActiveBuff : SkillControllerActive
 
 - (BOOL) isActive;
-- (void) resetDuration;
+- (BOOL) resetDuration;
 - (void) tickDuration;
-- (void) onDurationStart;
-- (void) onDurationReset;
-- (void) onDurationEnd;
+- (BOOL) onDurationStart;
+- (BOOL) onDurationReset;
+- (BOOL) onDurationEnd;
 
 @property (readonly) NSInteger duration;
 @property (readonly) NSInteger turnsLeft;

@@ -47,14 +47,16 @@
 
 #pragma mark - Skill Logic
 
-- (void) onDurationStart
+- (BOOL) onDurationStart
 {
   [self addInsuranceAnimations];
+  return NO;
 }
 
-- (void) onDurationEnd
+- (BOOL) onDurationEnd
 {
   [self endInsuranceAnimations];
+  return NO;
 }
 
 #pragma mark - Animations

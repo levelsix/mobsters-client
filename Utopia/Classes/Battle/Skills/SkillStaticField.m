@@ -51,6 +51,11 @@
       {
         SkillLogStart(@"Static Field -- Skill activated");
         
+        [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
+        [self.battleLayer.orbLayer disallowInput];
+        
+        [self showLogo];
+        
         [self makeSkillOwnerJumpWithTarget:self selector:@selector(beginCounterAttack)];
       }
       return YES;
@@ -65,11 +70,6 @@
 
 - (void) beginCounterAttack
 {
-  [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
-  [self.battleLayer.orbLayer disallowInput];
-
-  [self showLogo];
-  
   // Perform attack animation
   [self.playerSprite performFarAttackAnimationWithStrength:0.f
                                                shouldEvade:NO

@@ -67,18 +67,20 @@
     {
       if (execute)
       {
-        [self resetOrbCounter];
         NSInteger bombsOnBoard = [self specialsOnBoardCount:SpecialOrbTypeBomb];
         NSInteger countToSpawn = MIN(_bombsPerActivation, _maxBombs - bombsOnBoard);
         
         if (countToSpawn > 0)
         {
           // Spawn new bombs on board
+          [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
+          [self.battleLayer.orbLayer disallowInput];
           [self makeSkillOwnerJumpWithTarget:nil selector:nil];
+          
           [self showSkillPopupOverlay:YES withCompletion:^(){
             [self performAfterDelay:0.5 block:^{
               SkillLogStart(@"Bombs -- Skill spawned additional %ld bombs", (long)countToSpawn);
-              [self spawnBombs:countToSpawn isInitialSkill:NO withTarget:self andSelector:@selector(skillTriggerFinished)];
+              [self spawnBombs:countToSpawn isInitialSkill:NO withTarget:self andSelector:@selector(finishSpawn)];
             }];
           }];
         }
@@ -133,6 +135,16 @@
       [orbSprite reloadSprite:YES];
     }];
   }
+}
+
+- (void) finishSpawn
+{
+  [self resetOrbCounter];
+  
+  [self.battleLayer.orbLayer.bgdLayer turnTheLightsOn];
+  [self.battleLayer.orbLayer allowInput];
+  
+  [self skillTriggerFinished];
 }
 
 #pragma mark - Serialization

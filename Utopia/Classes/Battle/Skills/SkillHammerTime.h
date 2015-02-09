@@ -18,6 +18,7 @@
   // Counters
   int _stunTurnsLeft;
   int _skillTurnsLeft;
+  BOOL _showLogo;
 }
 
 @end

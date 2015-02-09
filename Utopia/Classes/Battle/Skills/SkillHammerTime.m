@@ -21,6 +21,7 @@
   _chance = .25;
   _stunTurns = 1;
   _stunTurnsLeft = 0;
+  _showLogo = NO;
 }
 
 - (void) setValue:(float)value forProperty:(NSString *)property
@@ -44,6 +45,18 @@
   if ([super skillCalledWithTrigger:trigger execute:execute])
     return YES;
   
+  //At the end of the turn, diminish stun stacks
+  if ((self.belongsToPlayer && trigger == SkillTriggerPointEndOfEnemyTurn) ||
+      (!self.belongsToPlayer && trigger == SkillTriggerPointEndOfPlayerTurn))
+  {
+    if (_stunTurnsLeft>0)
+    {
+      _stunTurnsLeft--;
+      if (_stunTurnsLeft == 0)
+        [self endStun];
+    }
+  }
+  
   if ([self isActive])
   {
     //If the character dies before the stun runs up, make sure the stun doesn't persist
@@ -53,35 +66,20 @@
       [self endStun];
     }
     
-    //At the end of the turn, diminish stun stacks
-    if ((self.belongsToPlayer && trigger == SkillTriggerPointEndOfEnemyTurn) ||
-        (!self.belongsToPlayer && trigger == SkillTriggerPointEndOfPlayerTurn))
-    {
-      if (_stunTurnsLeft>0)
-      {
-        _stunTurnsLeft--;
-        if (_stunTurnsLeft == 0)
-          [self endStun];
-      }
-    }
-    
     //Note: You can refresh a stun!
-    if ((self.belongsToPlayer && trigger == SkillTriggerPointEndOfPlayerTurn) ||
-             (!self.belongsToPlayer && trigger == SkillTriggerPointEndOfEnemyTurn))
+    if ((self.belongsToPlayer && trigger == SkillTriggerPointPlayerDealsDamage) ||
+             (!self.belongsToPlayer && trigger == SkillTriggerPointEnemyDealsDamage))
     {
       if (execute)
       {
         [self tickDuration];
         float rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
         if (rand < _chance){
-          [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
-          [self.battleLayer.orbLayer disallowInput];
-          [self showSkillPopupOverlay:YES withCompletion:^(){
-            [self stunOpponent];
-          }];
-          return YES;
+          [self stunOpponent];
+          [self showLogo];
         }
       }
+      return YES;
     }
   }
   
@@ -98,11 +96,11 @@
   [self addStunAnimations];
   
   // Finish trigger execution
-  [self performAfterDelay:0.3 block:^{
-    [self.battleLayer.orbLayer.bgdLayer turnTheLightsOn];
-    [self.battleLayer.orbLayer allowInput];
-    [self skillTriggerFinished];
-  }];
+//  [self performAfterDelay:0.3 block:^{
+//    [self.battleLayer.orbLayer.bgdLayer turnTheLightsOn];
+//    [self.battleLayer.orbLayer allowInput];
+//    [self skillTriggerFinished];
+//  }];
 }
 
 - (void) addStunAnimations
@@ -137,6 +135,42 @@
                        [CCActionEaseBounceOut actionWithAction:[CCActionScaleTo actionWithDuration:0.5 scale:1.0]]]];
   [opponent.sprite stopActionByTag:1914];
   [opponent.sprite runAction:[CCActionTintTo actionWithDuration:0.3 color:[CCColor whiteColor]]];
+}
+
+- (void) showLogo
+{
+  const CGFloat yOffset = self.belongsToPlayer ? 40.f : -20.f;
+  
+//  // Display logo
+//  CCSprite* logoSprite = [CCSprite spriteWithImageNamed:[self.skillImageNamePrefix stringByAppendingString:kSkillMiniLogoImageNameSuffix]];
+//  logoSprite.position = CGPointMake((self.enemySprite.position.x + self.playerSprite.position.x) * .5f + self.playerSprite.contentSize.width * .5f - 10.f,
+//                                    (self.playerSprite.position.y + self.enemySprite.position.y) * .5f + self.playerSprite.contentSize.height * .5f + yOffset);
+//  logoSprite.scale = 0.f;
+//  [self.playerSprite.parent addChild:logoSprite z:50];
+//  
+//  // Display missed/evaded label
+//  CCLabelTTF* floatingLabel = [CCLabelTTF labelWithString:@"STUNNED" fontName:@"GothamNarrow-Ultra" fontSize:12];
+//  floatingLabel.position = ccp(logoSprite.spriteFrame.rect.size.width * .5f, -13.f);
+//  floatingLabel.fontColor = [CCColor colorWithRed:255.f / 225.f green:44.f / 225.f blue:44.f / 225.f];
+//  floatingLabel.outlineColor = [CCColor whiteColor];
+//  floatingLabel.shadowOffset = ccp(0.f, -1.f);
+//  floatingLabel.shadowColor = [CCColor colorWithWhite:0.f alpha:.75f];
+//  floatingLabel.shadowBlurRadius = 2.f;
+//  [logoSprite addChild:floatingLabel];
+//  
+//  // Animate both
+//  [logoSprite runAction:[CCActionSequence actions:
+//                         [CCActionDelay actionWithDuration:.3f],
+//                         [CCActionEaseBounceOut actionWithAction:[CCActionScaleTo actionWithDuration:.5f scale:1.f]],
+//                         [CCActionDelay actionWithDuration:.5f],
+//                         [CCActionEaseIn actionWithAction:[CCActionScaleTo actionWithDuration:.3f scale:0.f]],
+//                         [CCActionRemove action],
+//                         nil]];
+  
+  // Finish trigger execution
+  [self performAfterDelay:.3f block:^{
+    [self skillTriggerFinished];
+  }];
 }
 
 #pragma mark - Serialization

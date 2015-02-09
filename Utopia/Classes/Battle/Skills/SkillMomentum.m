@@ -38,7 +38,9 @@
 {
   // If attacker is the skill owner
   if (player == self.belongsToPlayer)
+  {
     return damage * _currentMultiplier;
+  }
   
   return damage;
 }
@@ -48,16 +50,24 @@
   [self updateOwnerSprite];
 }
 
-- (void) onDurationReset
+- (BOOL) onDurationReset
 {
   [self increaseMultiplier];
+  return YES;
 }
 
-- (void) onDurationEnd
+- (BOOL) onDurationStart
+{
+  [self increaseMultiplier];
+  return YES;
+}
+
+- (BOOL) onDurationEnd
 {
   _currentMultiplier = 1.0;
   _currentSizeMultiplier = 1.0;
   [self resetSpriteSize];
+  return NO;
 }
 
 - (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
