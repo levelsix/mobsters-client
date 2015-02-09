@@ -350,13 +350,14 @@
   
   _lootBgd = [CCSprite spriteWithImageNamed:@"collectioncapsule.png"];
   [self addChild:_lootBgd];
-  _lootBgd.position = ccp(-self.lootBgd.contentSize.width/2, 80);
+  _lootBgd.opacity = 0.f;
   
   _lootLabel = [CCLabelTTF labelWithString:@"0" fontName:@"Ziggurat-HTF-Black" fontSize:10];
   [_lootBgd addChild:_lootLabel];
   _lootLabel.color = [CCColor blackColor];
   _lootLabel.rotation = -20.f;
   _lootLabel.position = ccp(_lootBgd.contentSize.width-13, _lootBgd.contentSize.height/2-1);
+  _lootLabel.opacity = 0.f;
   
   _comboBgd = [CCSprite spriteWithImageNamed:@"combobg.png"];
   _comboBgd.anchorPoint = ccp(1, 0.5);
@@ -2286,8 +2287,12 @@
 #pragma mark - No Input Layer Methods
 
 - (void) displayOrbLayer {
-  [self.orbLayer runAction:[CCActionEaseOut actionWithAction:[CCActionMoveTo actionWithDuration:0.4f position:ccp(self.contentSize.width-self.orbLayer.contentSize.width/2-ORB_LAYER_DIST_FROM_SIDE, self.orbLayer.position.y)] rate:3]];
-  [self.lootBgd runAction:[CCActionEaseOut actionWithAction:[CCActionMoveTo actionWithDuration:0.2f position:ccp(_lootBgd.contentSize.width/2 + 10, _lootBgd.position.y)] rate:3]];
+  const CGPoint orbLayerPosition = ccp(self.contentSize.width-self.orbLayer.contentSize.width/2-ORB_LAYER_DIST_FROM_SIDE, self.orbLayer.position.y);
+  [self.orbLayer runAction:[CCActionEaseOut actionWithAction:[CCActionMoveTo actionWithDuration:0.4f position:orbLayerPosition] rate:3]];
+
+  self.lootBgd.position = ccp(orbLayerPosition.x-self.orbLayer.contentSize.width/2-self.lootBgd.contentSize.width/2 - 20, 37);
+  [self.lootBgd runAction:[CCActionFadeIn actionWithDuration:.5f]];
+  [self.lootLabel runAction:[CCActionFadeIn actionWithDuration:.5f]];
   
   [SoundEngine puzzleOrbsSlideIn];
 }
@@ -2299,19 +2304,19 @@
   
   CGPoint pos = ccp(self.contentSize.width+self.orbLayer.contentSize.width,
                     self.orbLayer.position.y);
-  CGPoint lootPos = ccp(-self.lootBgd.contentSize.width/2, self.lootBgd.position.y);
   
   if (animated) {
     [self.orbLayer runAction:
      [CCActionSequence actions:
       [CCActionMoveTo actionWithDuration:0.3f position:pos],
       [CCActionCallBlock actionWithBlock:block], nil]];
-    [self.lootBgd runAction:
-     [CCActionSequence actions:
-      [CCActionMoveTo actionWithDuration:0.3f position:lootPos], nil]];
+
+    [self.lootBgd runAction:[CCActionFadeOut actionWithDuration:.5f]];
+    [self.lootLabel runAction:[CCActionFadeOut actionWithDuration:.5f]];
   } else {
     self.orbLayer.position = pos;
-    self.lootBgd.position = lootPos;
+    self.lootBgd.opacity = 0.f;
+    self.lootLabel.opacity = 0.f;
     block();
   }
 }
