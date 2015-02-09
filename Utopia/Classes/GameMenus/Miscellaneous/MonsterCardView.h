@@ -72,6 +72,7 @@
 @property (nonatomic, retain) IBOutlet EvoBadge *evoBadge;
 
 @property (nonatomic, assign) int monsterId;
+@property (nonatomic, assign) BOOL belongsToPlayer; // Set and used only by BattleScheduleView
 
 - (void) updateForMonsterId:(int)monsterId;
 - (void) updateForMonsterId:(int)monsterId greyscale:(BOOL)greyscale;

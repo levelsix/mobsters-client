@@ -58,7 +58,8 @@
         
         // Display confused symbol on enemy's next turn indicator
         [self.battleLayer.hudView.battleScheduleView updateConfusionState:YES
-                                                 onUpcomingTurnForMonster:self.battleLayer.enemyPlayerObject.monsterId];
+                                                 onUpcomingTurnForMonster:self.enemy.monsterId
+                                                                forPlayer:NO];
       }
     }
     return YES;
@@ -76,7 +77,8 @@
         
         // Display confused symbol on enemy's next turn indicator
         [self.battleLayer.hudView.battleScheduleView updateConfusionState:YES
-                                                 onUpcomingTurnForMonster:self.battleLayer.enemyPlayerObject.monsterId];
+                                                 onUpcomingTurnForMonster:self.enemy.monsterId
+                                                                forPlayer:NO];
         
         [self skillTriggerFinished];
       }
@@ -125,7 +127,8 @@
         // remove confused symbol from enemy's next turn indicator
         self.battleLayer.enemyPlayerObject.isConfused = NO;
         [self.battleLayer.hudView.battleScheduleView updateConfusionState:NO
-                                                 onUpcomingTurnForMonster:self.battleLayer.enemyPlayerObject.monsterId];
+                                                 onUpcomingTurnForMonster:self.enemy.monsterId
+                                                                forPlayer:NO];
         
         [self skillTriggerFinished];
       }

@@ -17,7 +17,8 @@
   // Used to track if any upcoming turns for a monster (that
   // do not have associated views created for them yet) need
   // to display the confusion symbol. Keys are monster IDs.
-  NSMutableDictionary* _upcomingConfusedTurns;
+  NSMutableDictionary* _upcomingPlayerConfusedTurns;
+  NSMutableDictionary* _upcomingEnemyConfusedTurns;
 }
 
 @property (nonatomic, assign) IBOutlet UIImageView *bgdView;
@@ -40,8 +41,8 @@
 
 - (void) bounceLastView;
 
-- (void) updateConfusionState:(BOOL)confused onUpcomingTurnForMonster:(int)monsterId;
-- (void) updateConfusionState:(BOOL)confused onAllUpcomingTurnsForMonster:(int)monsterId;
-- (void) updateConfusionState:(BOOL)confused onUpcomingTurns:(int)numTurns forMonster:(int)monsterId;
+- (void) updateConfusionState:(BOOL)confused onUpcomingTurnForMonster:(int)monsterId forPlayer:(BOOL)player;
+- (void) updateConfusionState:(BOOL)confused onAllUpcomingTurnsForMonster:(int)monsterId forPlayer:(BOOL)player;
+- (void) updateConfusionState:(BOOL)confused onUpcomingTurns:(int)numTurns forMonster:(int)monsterId forPlayer:(BOOL)player;
 
 @end
