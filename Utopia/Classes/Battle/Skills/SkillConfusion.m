@@ -19,7 +19,6 @@
   [super setDefaultValues];
 
   _chanceToHitSelf = 0.f;
-  _skillActive = NO;
   _logoShown = NO;
 }
 
@@ -32,6 +31,29 @@
 }
 
 #pragma mark - Overrides
+
+- (NSInteger) modifyDamage:(NSInteger)damage forPlayer:(BOOL)player
+{
+  if (player && !self.belongsToPlayer)
+  {
+    if ([self isActive])
+    {
+      // Chance of player hitting self
+      float rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
+      if (rand < _chanceToHitSelf)
+      {
+        SkillLogStart(@"Confusion -- Skill caused player to hit himself");
+        
+        [self showLogo];
+        
+        // Tell NewBattleLayer that player will be confused on his next turn
+        self.player.isConfused = YES;
+      }
+    }
+  }
+  
+  return damage;
+}
 
 - (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
 {
@@ -52,41 +74,22 @@
       }];
       
       // Will restore visuals if coming back to a battle after leaving midway
-      if (self.belongsToPlayer && _skillActive)
+      if ([self isActive])
       {
         SkillLogStart(@"Confusion -- Skill activated");
         
-        // Display confused symbol on enemy's next turn indicator
+        // Display confused symbol on opponent's next turn indicator
         [self.battleLayer.hudView.battleScheduleView updateConfusionState:YES
-                                                 onUpcomingTurnForMonster:self.battleLayer.enemyPlayerObject.monsterId];
+                                                 onUpcomingTurnForMonster:self.belongsToPlayer ? self.enemy.monsterId : self.player.monsterId
+                                                                forPlayer:!self.belongsToPlayer];
       }
     }
     return YES;
   }
   
-  if (trigger == SkillTriggerPointEndOfPlayerMove && self.belongsToPlayer)
+  if ([self isActive])
   {
-    if (!_skillActive && [self skillIsReady])
-    {
-      if (execute)
-      {
-        SkillLogStart(@"Confusion -- Skill activated");
-        
-        _skillActive = YES;
-        
-        // Display confused symbol on enemy's next turn indicator
-        [self.battleLayer.hudView.battleScheduleView updateConfusionState:YES
-                                                 onUpcomingTurnForMonster:self.battleLayer.enemyPlayerObject.monsterId];
-        
-        [self skillTriggerFinished];
-      }
-      return YES;
-    }
-  }
-  
-  if (trigger == SkillTriggerPointStartOfEnemyTurn && self.belongsToPlayer)
-  {
-    if (_skillActive)
+    if (trigger == SkillTriggerPointStartOfEnemyTurn && self.belongsToPlayer)
     {
       if (execute)
       {
@@ -95,38 +98,34 @@
         if (rand < _chanceToHitSelf)
         {
           SkillLogStart(@"Confusion -- Skill caused enemy to hit himself");
-          
+
           [self showLogo];
           
           // Tell NewBattleLayer that enemy will be confused on his next turn
-          self.battleLayer.enemyPlayerObject.isConfused = YES;
+          self.enemy.isConfused = YES;
         }
         
         [self skillTriggerFinished];
       }
       return YES;
     }
-  }
-  
-  if ((trigger == SkillTriggerPointEnemyDealsDamage && self.belongsToPlayer) ||
-      (trigger == SkillTriggerPointEnemyDefeated && self.belongsToPlayer) ||
-      (trigger == SkillTriggerPointPlayerMobDefeated && self.belongsToPlayer))
-  {
-    if (_skillActive)
+    
+    if ((trigger == SkillTriggerPointEndOfEnemyTurn && self.belongsToPlayer) ||
+        (trigger == SkillTriggerPointEndOfPlayerTurn && !self.belongsToPlayer))
     {
       if (execute)
       {
-        SkillLogStart(@"Confusion -- Skill deactivated");
-        
-        _skillActive = NO;
-        [self resetOrbCounter];
-        
-        // Tell NewBattleLayer that enemy is no longer confused,
-        // remove confused symbol from enemy's next turn indicator
-        self.battleLayer.enemyPlayerObject.isConfused = NO;
-        [self.battleLayer.hudView.battleScheduleView updateConfusionState:NO
-                                                 onUpcomingTurnForMonster:self.battleLayer.enemyPlayerObject.monsterId];
-        
+        [self tickDuration];
+        [self skillTriggerFinished];
+      }
+      return YES;
+    }
+    
+    if (trigger == SkillTriggerPointEnemyDefeated || trigger == SkillTriggerPointPlayerMobDefeated)
+    {
+      if (execute)
+      {
+        [self endDurationNow];
         [self skillTriggerFinished];
       }
       return YES;
@@ -137,6 +136,32 @@
 }
 
 #pragma mark - Skill logic
+
+- (BOOL) onDurationStart
+{
+  SkillLogStart(@"Confusion -- Skill activated");
+  
+  // Display confused symbol on opponent's next turn indicator
+  [self.battleLayer.hudView.battleScheduleView updateConfusionState:YES
+                                           onUpcomingTurnForMonster:self.belongsToPlayer ? self.enemy.monsterId : self.player.monsterId
+                                                          forPlayer:!self.belongsToPlayer];
+
+  return NO;
+}
+
+- (BOOL) onDurationEnd
+{
+  SkillLogStart(@"Confusion -- Skill deactivated");
+  
+  // Tell NewBattleLayer that opponent is no longer confused
+  // and remove confused symbol from his next turn indicator
+  (self.belongsToPlayer ? self.enemy : self.player).isConfused = NO;
+  [self.battleLayer.hudView.battleScheduleView updateConfusionState:NO
+                                           onUpcomingTurnForMonster:self.belongsToPlayer ? self.enemy.monsterId : self.player.monsterId
+                                                          forPlayer:!self.belongsToPlayer];
+  
+  return NO;
+}
 
 - (void) showLogo
 {
@@ -155,27 +180,6 @@
                          [CCActionEaseIn actionWithAction:[CCActionScaleTo actionWithDuration:.3f scale:0.f]],
                          [CCActionRemove action],
                          nil]];
-}
-
-#pragma mark - Serialization
-
-- (NSDictionary*) serialize
-{
-  NSMutableDictionary* result = [NSMutableDictionary dictionaryWithDictionary:[super serialize]];
-  [result setObject:@(_skillActive) forKey:@"skillActive"];
- 
-  return result;
-}
-
-- (BOOL) deserialize:(NSDictionary*)dict
-{
-  if (![super deserialize:dict])
-    return NO;
-  
-  NSNumber* skillActive = [dict objectForKey:@"skillActive"];
-  if (skillActive) _skillActive = [skillActive boolValue];
- 
-  return YES;
 }
 
 @end

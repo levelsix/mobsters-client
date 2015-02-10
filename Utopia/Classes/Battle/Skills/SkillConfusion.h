@@ -6,15 +6,14 @@
 //  Copyright (c) 2014 LVL6. All rights reserved.
 //
 
-#import "SkillControllerActive.h"
+#import "SkillControllerActiveBuff.h"
 
-@interface SkillConfusion : SkillControllerActive
+@interface SkillConfusion : SkillControllerActiveBuff
 {
   // Properties
   float _chanceToHitSelf;
   
   // Temp
-  BOOL _skillActive;
   BOOL _logoShown;
 }
 

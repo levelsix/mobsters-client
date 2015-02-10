@@ -350,13 +350,14 @@
   
   _lootBgd = [CCSprite spriteWithImageNamed:@"collectioncapsule.png"];
   [self addChild:_lootBgd];
-  _lootBgd.position = ccp(-self.lootBgd.contentSize.width/2, 80);
+  _lootBgd.opacity = 0.f;
   
   _lootLabel = [CCLabelTTF labelWithString:@"0" fontName:@"Ziggurat-HTF-Black" fontSize:10];
   [_lootBgd addChild:_lootLabel];
   _lootLabel.color = [CCColor blackColor];
   _lootLabel.rotation = -20.f;
   _lootLabel.position = ccp(_lootBgd.contentSize.width-13, _lootBgd.contentSize.height/2-1);
+  _lootLabel.opacity = 0.f;
   
   _comboBgd = [CCSprite spriteWithImageNamed:@"combobg.png"];
   _comboBgd.anchorPoint = ccp(1, 0.5);
@@ -384,16 +385,19 @@
   {
     if (!self.movesLeftContainer)
     {
-      self.movesLeftContainer = [CCNode node];
+      self.movesLeftContainer = [CCSprite spriteWithImageNamed:@"movescounterbg.png"];
         [self.movesLeftContainer setAnchorPoint:ccp(.5f, 0.f)];
-        [self.movesLeftContainer setPosition:ccp(self.myPlayer.contentSize.width * .5f - 15.f, self.myPlayer.contentSize.height + 13.f)];
+        [self.movesLeftContainer setPosition:ccp(self.myPlayer.contentSize.width * .5f, self.myPlayer.contentSize.height + 15.f)];
+        [self.movesLeftContainer setOpacity:0.f];
         [self.myPlayer addChild:self.movesLeftContainer];
       self.movesLeftLabel = [CCSprite spriteWithImageNamed:@"movelabelmoves.png"];
-        [self.movesLeftLabel setAnchorPoint:ccp(0.f, 0.f)];
+        [self.movesLeftLabel setAnchorPoint:ccp(0.f, .5f)];
+        [self.movesLeftLabel setPosition:ccp(self.movesLeftContainer.contentSize.width * .5f - 15.f, self.movesLeftContainer.contentSize.height * .5f - 1.f)];
         [self.movesLeftLabel setOpacity:0.f];
         [self.movesLeftContainer addChild:self.movesLeftLabel];
       self.movesLeftCounter = [CCSprite spriteWithImageNamed:@"3moveslabel.png"];
-        [self.movesLeftCounter setAnchorPoint:ccp(1.f, 0.f)];
+        [self.movesLeftCounter setAnchorPoint:ccp(1.f, .5f)];
+        [self.movesLeftCounter setPosition:ccp(self.movesLeftContainer.contentSize.width * .5f - 15.f, self.movesLeftContainer.contentSize.height * .5f - 1.f)];
         [self.movesLeftCounter setOpacity:0.f];
         [self.movesLeftContainer addChild:self.movesLeftCounter];
     }
@@ -412,19 +416,19 @@
       {
         [self.movesLeftCounter runAction:[CCActionSequence actions:
                                           [CCActionSpawn actions:
-                                           [CCActionMoveBy actionWithDuration:.4f position:ccp(0.f, -15.f)],
-                                           [CCActionFadeOut actionWithDuration:.4f], nil],
+                                           [CCActionMoveBy actionWithDuration:.3f position:ccp(0.f, -15.f)],
+                                           [CCActionFadeOut actionWithDuration:.3f], nil],
                                           [CCActionRemove action], nil]];
         
         NSString* img = [NSString stringWithFormat:@"%dmoveslabel.png", movesLeft];
         self.movesLeftCounter = [CCSprite spriteWithImageNamed:img];
-          [self.movesLeftCounter setAnchorPoint:ccp(1.f, 0.f)];
-          [self.movesLeftCounter setPosition:ccp(0.f, 15.f)];
+          [self.movesLeftCounter setAnchorPoint:ccp(1.f, .5f)];
+          [self.movesLeftCounter setPosition:ccp(self.movesLeftContainer.contentSize.width * .5f - 15.f, self.movesLeftContainer.contentSize.height * .5f - 1.f + 15.f)];
           [self.movesLeftContainer addChild:self.movesLeftCounter];
         [self.movesLeftCounter runAction:[CCActionSequence actions:
                                           [CCActionSpawn actions:
-                                           [CCActionMoveBy actionWithDuration:.4f position:ccp(0.f, -15.f)],
-                                           [CCActionFadeIn actionWithDuration:.4f], nil], nil]];
+                                           [CCActionMoveBy actionWithDuration:.3f position:ccp(0.f, -15.f)],
+                                           [CCActionFadeIn actionWithDuration:.3f], nil], nil]];
       }
       else
       {
@@ -442,15 +446,19 @@
   if (self.movesLeftContainer)
   {
     for (CCNode* child in self.movesLeftContainer.children)
-    {
-      if ((hide && child.opacity == 1.f) || (!hide && child.opacity == 0.f))
-      {
-        [child stopAllActions];
-        [child runAction:[CCActionSequence actions:
-                          hide ? [CCActionFadeOut actionWithDuration:.3f] : [CCActionFadeIn actionWithDuration:.3f],
-                          [CCActionCallBlock actionWithBlock:completion], nil]];
-      }
-    }
+      [self hideMovesLeft:hide node:child withCompletion:^{}];
+    [self hideMovesLeft:hide node:self.movesLeftContainer withCompletion:completion];
+  }
+}
+
+- (void) hideMovesLeft:(BOOL)hide node:(CCNode*)node withCompletion:(void(^)())completion
+{
+  if ((hide && node.opacity == 1.f) || (!hide && node.opacity == 0.f))
+  {
+    [node stopAllActions];
+    [node runAction:[CCActionSequence actions:
+                     hide ? [CCActionFadeOut actionWithDuration:.3f] : [CCActionFadeIn actionWithDuration:.3f],
+                     [CCActionCallBlock actionWithBlock:completion], nil]];
   }
 }
 
@@ -858,7 +866,7 @@
             {
               CCSprite* confusedPopup = [CCSprite spriteWithImageNamed:@"confusionbubble.png"];
               [confusedPopup setAnchorPoint:CGPointMake(.5f, 0.f)];
-              [confusedPopup setPosition:CGPointMake(self.currentEnemy.contentSize.width * .5f, self.currentEnemy.contentSize.height + 28.f)];
+              [confusedPopup setPosition:CGPointMake(self.currentEnemy.contentSize.width * .5f, self.currentEnemy.contentSize.height + 13.f)];
               [confusedPopup setScale:0.f];
               [self.currentEnemy addChild:confusedPopup];
               
@@ -939,7 +947,7 @@
     {
       CCSprite* confusedPopup = [CCSprite spriteWithImageNamed:@"confusionbubble.png"];
       [confusedPopup setAnchorPoint:CGPointMake(.5f, 0.f)];
-      [confusedPopup setPosition:CGPointMake(self.myPlayer.contentSize.width * .5f, self.myPlayer.contentSize.height + 28.f)];
+      [confusedPopup setPosition:CGPointMake(self.myPlayer.contentSize.width * .5f, self.myPlayer.contentSize.height + 13.f)];
       [confusedPopup setScale:0.f];
       [self.myPlayer addChild:confusedPopup];
       
@@ -2286,8 +2294,12 @@
 #pragma mark - No Input Layer Methods
 
 - (void) displayOrbLayer {
-  [self.orbLayer runAction:[CCActionEaseOut actionWithAction:[CCActionMoveTo actionWithDuration:0.4f position:ccp(self.contentSize.width-self.orbLayer.contentSize.width/2-ORB_LAYER_DIST_FROM_SIDE, self.orbLayer.position.y)] rate:3]];
-  [self.lootBgd runAction:[CCActionEaseOut actionWithAction:[CCActionMoveTo actionWithDuration:0.2f position:ccp(_lootBgd.contentSize.width/2 + 10, _lootBgd.position.y)] rate:3]];
+  const CGPoint orbLayerPosition = ccp(self.contentSize.width-self.orbLayer.contentSize.width/2-ORB_LAYER_DIST_FROM_SIDE, self.orbLayer.position.y);
+  [self.orbLayer runAction:[CCActionEaseOut actionWithAction:[CCActionMoveTo actionWithDuration:0.4f position:orbLayerPosition] rate:3]];
+
+  self.lootBgd.position = ccp(orbLayerPosition.x-self.orbLayer.contentSize.width/2-self.lootBgd.contentSize.width/2 - 20,
+                              self.lootBgd.contentSize.height/2+ORB_LAYER_DIST_FROM_SIDE);
+  [self displayLootCounter:YES];
   
   [SoundEngine puzzleOrbsSlideIn];
 }
@@ -2299,20 +2311,29 @@
   
   CGPoint pos = ccp(self.contentSize.width+self.orbLayer.contentSize.width,
                     self.orbLayer.position.y);
-  CGPoint lootPos = ccp(-self.lootBgd.contentSize.width/2, self.lootBgd.position.y);
   
   if (animated) {
     [self.orbLayer runAction:
      [CCActionSequence actions:
       [CCActionMoveTo actionWithDuration:0.3f position:pos],
       [CCActionCallBlock actionWithBlock:block], nil]];
-    [self.lootBgd runAction:
-     [CCActionSequence actions:
-      [CCActionMoveTo actionWithDuration:0.3f position:lootPos], nil]];
+
+    [self displayLootCounter:NO];
   } else {
     self.orbLayer.position = pos;
-    self.lootBgd.position = lootPos;
+    self.lootBgd.opacity = 0.f;
+    self.lootLabel.opacity = 0.f;
     block();
+  }
+}
+
+- (void) displayLootCounter:(BOOL)show {
+  if (show) {
+    [self.lootBgd runAction:[CCActionFadeIn actionWithDuration:.5f]];
+    [self.lootLabel runAction:[CCActionFadeIn actionWithDuration:.5f]];
+  } else {
+    [self.lootBgd runAction:[CCActionFadeOut actionWithDuration:.5f]];
+    [self.lootLabel runAction:[CCActionFadeOut actionWithDuration:.5f]];
   }
 }
 
@@ -2370,6 +2391,8 @@
   [self.orbLayer.bgdLayer turnTheLightsOff];
   [self.orbLayer disallowInput];
   
+  [self displayLootCounter:NO];
+  
   [self.hudView.deployView updateWithBattlePlayers:self.myTeam];
   
   [self.hudView displayDeployViewToCenterX:DEPLOY_CENTER_X cancelTarget:cancel ? self : nil selector:@selector(cancelDeploy:)];
@@ -2403,6 +2426,7 @@
 
 - (void) deployBattleSprite:(BattlePlayer *)bp {
   [self.hudView removeDeployView];
+  [self displayLootCounter:YES];
   BOOL isSwap = self.myPlayer != nil;
   if (bp && ![bp.userMonsterUuid isEqualToString:self.myPlayerObject.userMonsterUuid]) {
     self.myPlayerObject = bp;

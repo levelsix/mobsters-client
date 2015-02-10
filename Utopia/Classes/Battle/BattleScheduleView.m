@@ -23,7 +23,8 @@
     self.numSlots = 3;
   }
   
-  _upcomingConfusedTurns = [NSMutableDictionary dictionary];
+  _upcomingPlayerConfusedTurns = [NSMutableDictionary dictionary];
+  _upcomingEnemyConfusedTurns = [NSMutableDictionary dictionary];
   
   UIImage *dark = [Globals maskImage:self.bgdView.image withColor:[UIColor colorWithWhite:0.f alpha:1.f]];
   UIImageView *img = [[UIImageView alloc] initWithImage:dark];
@@ -157,6 +158,7 @@
   MiniMonsterView *mmv = [[NSBundle mainBundle] loadNibNamed:@"MiniMonsterView" owner:self options:nil][0];
   [mmv updateForMonsterId:monsterId];
   mmv.evoBadge.hidden = YES;
+  mmv.belongsToPlayer = player;
   
   if (showEnemyBand) {
     UIImageView *iv = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"enemystripes.png"]];
@@ -177,8 +179,10 @@
     [mmv addSubview:label];
   }
   
-  const int remainingConfusedTurns = [_upcomingConfusedTurns objectForKey:@(monsterId)] ? [[_upcomingConfusedTurns objectForKey:@(monsterId)] intValue] : 0;
-  if (remainingConfusedTurns != 0) [self updateConfusionState:YES onView:mmv forMonster:monsterId];
+  // Yeah... This is not pretty right now. I'll update it when we generalize ailments
+  NSDictionary* upcomingConfusedTurns = player ? _upcomingPlayerConfusedTurns : _upcomingEnemyConfusedTurns;
+  const int remainingConfusedTurns = [upcomingConfusedTurns objectForKey:@(monsterId)] ? [[upcomingConfusedTurns objectForKey:@(monsterId)] intValue] : 0;
+  if (remainingConfusedTurns != 0) [self updateConfusionState:YES onView:mmv forMonster:monsterId forPlayer:player];
   
   // Button to activate mobster window
   if (self.delegate)
@@ -194,28 +198,28 @@
   return mmv;
 }
 
-- (void) updateConfusionState:(BOOL)confused onUpcomingTurnForMonster:(int)monsterId
+- (void) updateConfusionState:(BOOL)confused onUpcomingTurnForMonster:(int)monsterId forPlayer:(BOOL)player
 {
-  [self updateConfusionState:confused onUpcomingTurns:1 forMonster:monsterId];
+  [self updateConfusionState:confused onUpcomingTurns:1 forMonster:monsterId forPlayer:player];
 }
 
-- (void) updateConfusionState:(BOOL)confused onAllUpcomingTurnsForMonster:(int)monsterId
+- (void) updateConfusionState:(BOOL)confused onAllUpcomingTurnsForMonster:(int)monsterId forPlayer:(BOOL)player
 {
-  [self updateConfusionState:confused onUpcomingTurns:-1 forMonster:monsterId];
+  [self updateConfusionState:confused onUpcomingTurns:-1 forMonster:monsterId forPlayer:player];
 }
 
-- (void) updateConfusionState:(BOOL)confused onUpcomingTurns:(int)numTurns forMonster:(int)monsterId
+- (void) updateConfusionState:(BOOL)confused onUpcomingTurns:(int)numTurns forMonster:(int)monsterId forPlayer:(BOOL)player
 {
-  [_upcomingConfusedTurns setObject:confused ? @(numTurns) : @0 forKey:@(monsterId)];
+  [(player ? _upcomingPlayerConfusedTurns : _upcomingEnemyConfusedTurns) setObject:confused ? @(numTurns) : @0 forKey:@(monsterId)];
   
   int turnCounter = 0;
   if (numTurns == 0) return;
   
   for (MiniMonsterView* mv in self.monsterViews)
   {
-    if (mv.monsterId == monsterId)
+    if (mv.monsterId == monsterId && mv.belongsToPlayer == player)
     {
-      [self updateConfusionState:confused onView:mv forMonster:monsterId];
+      [self updateConfusionState:confused onView:mv forMonster:monsterId forPlayer:player];
       
       if (++turnCounter == numTurns)
         break;
@@ -223,7 +227,7 @@
   }
 }
 
-- (void) updateConfusionState:(BOOL)confused onView:(MiniMonsterView*)mv forMonster:(int)monsterId
+- (void) updateConfusionState:(BOOL)confused onView:(MiniMonsterView*)mv forMonster:(int)monsterId forPlayer:(BOOL)player
 {
   if (confused && [mv viewWithTag:7910] == nil)
   {
@@ -242,8 +246,8 @@
     spinAnimation.repeatCount = HUGE_VALF; // The stupid (and only) way to infinitely loop a CABasicAnimation
     [confusedSymbol.layer addAnimation:spinAnimation forKey:@"ConfusedSymbolSpinAnimation"];
     
-    const int remainingConfusedTurns = [[_upcomingConfusedTurns objectForKey:@(monsterId)] intValue];
-    if (remainingConfusedTurns > 0) [_upcomingConfusedTurns setObject:@(remainingConfusedTurns - 1) forKey:@(monsterId)];
+    const int remainingConfusedTurns = [[(player ? _upcomingPlayerConfusedTurns : _upcomingEnemyConfusedTurns) objectForKey:@(monsterId)] intValue];
+    if (remainingConfusedTurns > 0) [(player ? _upcomingPlayerConfusedTurns : _upcomingEnemyConfusedTurns) setObject:@(remainingConfusedTurns - 1) forKey:@(monsterId)];
   }
   if (!confused && [mv viewWithTag:7910] != nil)
   {

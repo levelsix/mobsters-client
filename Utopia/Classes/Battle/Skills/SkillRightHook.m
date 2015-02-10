@@ -98,13 +98,15 @@
           // Display confused symbol on player's turn indicator(s)
           [self.battleLayer.hudView.battleScheduleView updateConfusionState:YES
                                                             onUpcomingTurns:(int)_confusionTurns
-                                                                 forMonster:self.player.monsterId];
+                                                                 forMonster:self.player.monsterId
+                                                                  forPlayer:YES];
         }
         else
         {
           // Display confused symbol on enemy's next turn indicator
           [self.battleLayer.hudView.battleScheduleView updateConfusionState:YES
-                                                   onUpcomingTurnForMonster:self.enemy.monsterId];
+                                                   onUpcomingTurnForMonster:self.enemy.monsterId
+                                                                  forPlayer:NO];
         }
       }
     }
@@ -127,7 +129,8 @@
         
         // Display confused symbol on enemy's next turn indicator
         [self.battleLayer.hudView.battleScheduleView updateConfusionState:YES
-                                                 onUpcomingTurnForMonster:self.enemy.monsterId];
+                                                 onUpcomingTurnForMonster:self.enemy.monsterId
+                                                                forPlayer:NO];
       }
       return YES;
     }
@@ -170,7 +173,8 @@
         // remove confused symbol from enemy's next turn indicator
         self.enemy.isConfused = NO;
         [self.battleLayer.hudView.battleScheduleView updateConfusionState:NO
-                                                 onUpcomingTurnForMonster:self.enemy.monsterId];
+                                                 onUpcomingTurnForMonster:self.enemy.monsterId
+                                                                forPlayer:NO];
         
         [self skillTriggerFinished];
       }
@@ -216,7 +220,8 @@
         // Display confused symbol on player's turn indicator(s)
         [self.battleLayer.hudView.battleScheduleView updateConfusionState:YES
                                                           onUpcomingTurns:(int)_confusionTurns
-                                                               forMonster:self.player.monsterId];
+                                                               forMonster:self.player.monsterId
+                                                                forPlayer:YES];
         
         // If any orbs have reached zero turns left, perform out of turn attack
         [self makeSkillOwnerJumpWithTarget:self selector:@selector(beginOutOfTurnAttack)];
@@ -242,7 +247,8 @@
           // remove confused symbol from player's turn indicator(s)
           self.player.isConfused = NO;
           [self.battleLayer.hudView.battleScheduleView updateConfusionState:NO
-                                               onAllUpcomingTurnsForMonster:self.player.monsterId];
+                                               onAllUpcomingTurnsForMonster:self.player.monsterId
+                                                                  forPlayer:YES];
         }
         
         [self skillTriggerFinished];
@@ -251,7 +257,8 @@
     }
   }
   
-  if (trigger == SkillTriggerPointEnemyDefeated && !self.belongsToPlayer)
+  if ((trigger == SkillTriggerPointEnemyDefeated && !self.belongsToPlayer) ||
+      (trigger == SkillTriggerPointPlayerMobDefeated && !self.belongsToPlayer))
   {
     if (execute)
     {
@@ -264,7 +271,8 @@
         // remove confused symbol from player's turn indicator(s)
         self.player.isConfused = NO;
         [self.battleLayer.hudView.battleScheduleView updateConfusionState:NO
-                                             onAllUpcomingTurnsForMonster:self.player.monsterId];
+                                             onAllUpcomingTurnsForMonster:self.player.monsterId
+                                                                forPlayer:YES];
       }
       
       // Remove all glove orbs added by this enemy
