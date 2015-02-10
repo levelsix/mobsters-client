@@ -2,7 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ChatViewController">
@@ -764,7 +764,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="453" height="32"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="a2I-4c-rsp" customClass="NiceFontButton9">
+                                <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="a2I-4c-rsp" customClass="NiceFontButton9">
                                     <rect key="frame" x="64" y="4" width="99" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
@@ -776,14 +776,14 @@
                                         <color key="titleColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </state>
                                     <connections>
-                                        <action selector="allMessagesButtonClicked:" destination="EYy-Nb-xNZ" eventType="touchUpInside" id="hre-2M-QUD"/>
+                                        <action selector="privateSubTabClicked:" destination="EYy-Nb-xNZ" eventType="touchUpInside" id="qaY-ge-Q43"/>
                                     </connections>
                                 </button>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popuplinevertical.png" id="3EM-fN-a4h">
                                     <rect key="frame" x="169" y="7" width="1" height="14"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="V7I-ZQ-HVP" customClass="NiceFontButton2">
+                                <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="V7I-ZQ-HVP" customClass="NiceFontButton2">
                                     <rect key="frame" x="177" y="5" width="99" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
@@ -795,7 +795,7 @@
                                         <color key="titleColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </state>
                                     <connections>
-                                        <action selector="deffensiveLogButtonClicked:" destination="EYy-Nb-xNZ" eventType="touchUpInside" id="VQh-PE-XuZ"/>
+                                        <action selector="privateSubTabClicked:" destination="EYy-Nb-xNZ" eventType="touchUpInside" id="Duk-CI-Yze"/>
                                     </connections>
                                 </button>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(5)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="K4q-Pu-fo8" customClass="NiceFontLabel2">
@@ -809,7 +809,7 @@
                                     <rect key="frame" x="285" y="7" width="1" height="14"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="JdZ-dN-w3T" customClass="NiceFontButton2">
+                                <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="JdZ-dN-w3T" customClass="NiceFontButton2">
                                     <rect key="frame" x="290" y="4" width="99" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
@@ -821,7 +821,7 @@
                                         <color key="titleColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </state>
                                     <connections>
-                                        <action selector="offensiveLogbuttonClicked:" destination="EYy-Nb-xNZ" eventType="touchUpInside" id="SGy-Sd-mfk"/>
+                                        <action selector="privateSubTabClicked:" destination="EYy-Nb-xNZ" eventType="touchUpInside" id="RY7-by-3At"/>
                                     </connections>
                                 </button>
                             </subviews>
@@ -1043,7 +1043,7 @@
                 <outlet property="titleLabel" destination="003-5V-mHH" id="7YF-8M-hgJ"/>
                 <outlet property="unreadDefenseLog" destination="K4q-Pu-fo8" id="dwR-sg-t0Q"/>
             </connections>
-            <point key="canvasLocation" x="-328" y="196.5"/>
+            <point key="canvasLocation" x="-261" y="301.5"/>
         </view>
         <view contentMode="scaleToFill" id="pfc-Vl-jbC" customClass="ChatPopoverView">
             <rect key="frame" x="0.0" y="0.0" width="226" height="51"/>
