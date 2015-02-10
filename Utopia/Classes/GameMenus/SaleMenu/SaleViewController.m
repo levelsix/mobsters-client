@@ -50,11 +50,6 @@
 static NSString *nibName = @"SaleViewCell";
 
 - (id) initWithSale:(BoosterPackProto *)sale product:(SKProduct *)product {
-#warning put back
-//  if (!sale || !product) {
-//    return nil;
-//  }
-  
   if ((self = [super init])) {
     self.sale = sale;
     self.product = product;
