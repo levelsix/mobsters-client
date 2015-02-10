@@ -137,7 +137,7 @@ static const NSInteger kSwordOrbsMaxSearchIterations = 256;
       {
         [self showSkillPopupOverlay:YES withCompletion:^{
           [self performAfterDelay:.5f block:^{
-            [self spawnSwordOrbs:_numOrbsToSpawn withTarget:self andSelector:@selector(skillTriggerFinished)];
+            [self spawnSwordOrbs:_numOrbsToSpawn withTarget:self andSelector:@selector(skillTriggerFinishedActivated)];
           }];
         }];
       }

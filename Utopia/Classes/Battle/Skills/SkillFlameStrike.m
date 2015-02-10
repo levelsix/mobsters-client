@@ -85,7 +85,7 @@
         // Set damage multiplier on fire orbs
         [self setDamageMultiplierOnFireOrbs:floorf(_damageMultiplier)];
         
-        [self skillTriggerFinished];
+        [self skillTriggerFinished:YES];
       }
       return YES;
     }

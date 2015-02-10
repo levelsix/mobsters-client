@@ -42,7 +42,7 @@
         [self showSkillPopupOverlay:YES withCompletion:^(){
           [self resetOrbCounter];
           if (![self resetDuration])
-            [self skillTriggerFinished];
+            [self skillTriggerFinished:YES];
         }];
       }
       return YES;

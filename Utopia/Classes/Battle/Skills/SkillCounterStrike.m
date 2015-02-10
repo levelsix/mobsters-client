@@ -55,25 +55,6 @@
     }
   }
   
-  if ((self.activationType == SkillActivationTypeUserActivated && trigger == SkillTriggerPointManualActivation) ||
-      (self.activationType == SkillActivationTypeAutoActivated && trigger == SkillTriggerPointEndOfPlayerMove))
-  {
-    if ([self skillIsReady])
-    {
-      if (execute)
-      {
-        [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
-        [self.battleLayer.orbLayer disallowInput];
-        [self showSkillPopupOverlay:YES withCompletion:^(){
-          [self resetDuration];
-          [self resetOrbCounter];
-          [self skillTriggerFinished];
-        }];
-      }
-      return YES;
-    }
-  }
-  
   return NO;
 }
 

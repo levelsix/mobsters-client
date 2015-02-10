@@ -103,7 +103,7 @@
   [self performAfterDelay:0.3 block:^{
     [self.battleLayer.orbLayer.bgdLayer turnTheLightsOn];
     [self.battleLayer.orbLayer allowInput];
-    [self skillTriggerFinished];
+    [self skillTriggerFinished:YES];
   }];
 }
 

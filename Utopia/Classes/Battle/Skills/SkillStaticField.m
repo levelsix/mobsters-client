@@ -71,22 +71,37 @@
 - (void) beginCounterAttack
 {
   // Perform attack animation
-  [self.playerSprite performFarAttackAnimationWithStrength:0.f
-                                               shouldEvade:NO
-                                                     enemy:self.enemySprite
-                                                    target:self
-                                                  selector:@selector(dealDamageToEnemy)
-                                            animCompletion:nil];
+  if (self.belongsToPlayer)
+    [self.playerSprite performFarAttackAnimationWithStrength:0.f
+                                                 shouldEvade:NO
+                                                       enemy:self.enemySprite
+                                                      target:self
+                                                    selector:@selector(dealDamage)
+                                              animCompletion:nil];
+  else
+    [self.enemySprite performNearAttackAnimationWithEnemy:self.playerSprite
+                                             shouldReturn:YES
+                                              shouldEvade:NO
+                                             shouldFlinch:YES
+                                                   target:self
+                                                 selector:@selector(dealDamage)
+                                           animCompletion:nil];
 }
 
-- (void) dealDamageToEnemy
+- (void) dealDamage
 {
   const int damage = floorf((float)self.battleLayer.enemyPlayerObject.curHealth * _targetHPPercToDealAsDamage);
   [self.battleLayer dealDamage:damage
-               enemyIsAttacker:NO
+               enemyIsAttacker:!self.belongsToPlayer
                   usingAbility:YES
                     withTarget:self
                   withSelector:@selector(endCounterAttack)];
+  
+  if (!self.belongsToPlayer)
+  {
+    [self.battleLayer setEnemyDamageDealt:(int)damage];
+    [self.battleLayer sendServerUpdatedValuesVerifyDamageDealt:NO];
+  }
 }
 
 - (void) endCounterAttack

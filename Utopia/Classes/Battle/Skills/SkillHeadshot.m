@@ -64,7 +64,7 @@
           // Jumping, showing overlay and spawning
           [self showSkillPopupOverlay:YES withCompletion:^{
             [self performAfterDelay:.5f block:^{
-              [self spawnHeadshotOrbs:_numOrbsToSpawn isInitialSkill:NO withTarget:self andSelector:@selector(skillTriggerFinished)];
+              [self spawnHeadshotOrbs:_numOrbsToSpawn isInitialSkill:NO withTarget:self andSelector:@selector(skillTriggerFinishedActivated)];
             }];
           }];
         }
@@ -245,14 +245,14 @@
   [self.battleLayer.orbLayer.bgdLayer turnTheLightsOn];
   [self.battleLayer.orbLayer allowInput];
   
-  if (self.belongsToPlayer && self.enemy.curHealth != 0.f)
-  {
-    [self performAfterDelay:.5f block:^{
-      [self spawnHeadshotOrbs:_numOrbsToSpawn isInitialSkill:NO withTarget:self andSelector:@selector(skillTriggerFinished)];
-    }];
-  }
-  else
-    [self skillTriggerFinished];
+//  if (self.belongsToPlayer && self.enemy.curHealth != 0.f)
+//  {
+//    [self performAfterDelay:.5f block:^{
+//      [self spawnHeadshotOrbs:_numOrbsToSpawn isInitialSkill:NO withTarget:self andSelector:@selector(skillTriggerFinishedActivated)];
+//    }];
+//  }
+//  else
+  [self skillTriggerFinished];
 }
 
 - (void) showLogo

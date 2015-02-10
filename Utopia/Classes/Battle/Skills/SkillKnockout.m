@@ -108,7 +108,7 @@
   [self.battleLayer.orbLayer allowInput];
   
   [self resetOrbCounter];
-  [self skillTriggerFinished];
+  [self skillTriggerFinished:YES];
 }
 
 - (void) instantlyKillEnemy

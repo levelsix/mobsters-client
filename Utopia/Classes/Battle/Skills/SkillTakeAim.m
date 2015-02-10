@@ -73,7 +73,7 @@
         [self.battleLayer.orbLayer disallowInput];
         [self showSkillPopupOverlay:YES withCompletion:^(){
           [self resetOrbCounter];
-          [self spawnTakeAimOrbs:_numOrbsToSpawn withTarget:self andSelector:@selector(skillTriggerFinished)];
+          [self spawnTakeAimOrbs:_numOrbsToSpawn withTarget:self andSelector:@selector(skillTriggerFinishedActivated)];
         }];
       }
       return YES;
