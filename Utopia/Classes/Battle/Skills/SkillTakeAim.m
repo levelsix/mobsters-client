@@ -189,11 +189,11 @@
 //                         nil]];
   
   // Finish trigger execution
-  [self performAfterDelay:.3f block:^{
-    [self.battleLayer.orbLayer.bgdLayer turnTheLightsOn];
-    [self.battleLayer.orbLayer allowInput];
-    [self skillTriggerFinished];
-  }];
+//  [self performAfterDelay:.3f block:^{
+//    [self.battleLayer.orbLayer.bgdLayer turnTheLightsOn];
+//    [self.battleLayer.orbLayer allowInput];
+//    [self skillTriggerFinished];
+//  }];
 }
 
 @end
