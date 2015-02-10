@@ -475,7 +475,7 @@
     [CCActionCallBlock actionWithBlock:
      ^{
        BattleDeployCardView *card = self.hudView.deployView.cardViews[1];
-       [Globals createUIArrowForView:card atAngle:M_PI_2];
+       [Globals createUIArrowForView:card.superview atAngle:M_PI_2];
      }], nil]];
 }
 

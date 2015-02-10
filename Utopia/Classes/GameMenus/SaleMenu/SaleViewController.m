@@ -132,6 +132,7 @@ static NSString *nibName = @"SaleViewCell";
 
 - (void) handleInAppPurchaseResponseProto:(FullEvent *)fe {
   [self.loadingView stop];
+  [self closeClicked:nil];
 }
 
 - (IBAction)closeClicked:(id)sender {

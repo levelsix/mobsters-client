@@ -120,13 +120,6 @@
   [center addObserver:self selector:@selector(updateSecretGiftView) name:ITEMS_CHANGED_NOTIFICATION object:nil];
   [self updateSecretGiftView];
   
-  [center addObserver:self selector:@selector(updateBuildersLabel) name:STRUCT_PURCHASED_NOTIFICATION object:nil];
-  [center addObserver:self selector:@selector(updateBuildersLabel) name:STRUCT_COMPLETE_NOTIFICATION object:nil];
-  [center addObserver:self selector:@selector(updateBuildersLabel) name:ITEMS_CHANGED_NOTIFICATION object:nil];
-  [center addObserver:self selector:@selector(updateBuildersLabel) name:OBSTACLE_REMOVAL_BEGAN_NOTIFICATION object:nil];
-  [center addObserver:self selector:@selector(updateBuildersLabel) name:OBSTACLE_COMPLETE_NOTIFICATION object:nil];
-  [self updateBuildersLabel];
-  
   [center addObserver:self selector:@selector(updateShopBadge) name:STRUCT_PURCHASED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(updateShopBadge) name:STRUCT_COMPLETE_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(updateShopBadge) name:ITEMS_CHANGED_NOTIFICATION object:nil];
@@ -153,7 +146,17 @@
     
     // Put this here so it only happens once
     [self adjustTopBarForPhoneSize];
+    
+    // Have to do this for some reason because at this point the timer view is not being sent view delegate calls
+    [self.timerViewController reloadData];
   }
+  
+  [center addObserver:self selector:@selector(updateBuildersLabel) name:STRUCT_PURCHASED_NOTIFICATION object:nil];
+  [center addObserver:self selector:@selector(updateBuildersLabel) name:STRUCT_COMPLETE_NOTIFICATION object:nil];
+  [center addObserver:self selector:@selector(updateBuildersLabel) name:ITEMS_CHANGED_NOTIFICATION object:nil];
+  [center addObserver:self selector:@selector(updateBuildersLabel) name:OBSTACLE_REMOVAL_BEGAN_NOTIFICATION object:nil];
+  [center addObserver:self selector:@selector(updateBuildersLabel) name:OBSTACLE_COMPLETE_NOTIFICATION object:nil];
+  [self updateBuildersLabel];
   
   [self.updateTimer invalidate];
   self.updateTimer = [NSTimer timerWithTimeInterval:1.f target:self selector:@selector(updateLabels) userInfo:nil repeats:YES];
@@ -571,6 +574,31 @@
   self.buildersLabel.text = [NSString stringWithFormat:@"%d/%d", numAvail, totalBuilders];
   
   self.addBuilderButton.hidden = gs.numBeginnerSalesPurchased > 0;
+  
+  [self updateSaleView];
+}
+
+- (void) updateSaleView {
+  GameState *gs = [GameState sharedGameState];
+  
+  BOOL showSaleView = gs.numBeginnerSalesPurchased == 0;
+  
+  if (showSaleView) {
+    self.saleView.hidden = NO;
+    
+    self.saleView.centerX = self.shopView.centerX;
+    self.saleView.originY = self.shopView.originY-self.saleView.height;
+    
+    self.freeGemsView.originY = self.saleView.originY-self.freeGemsView.height;
+    
+    self.timersView.height = self.freeGemsView.originY-self.timersView.originY;
+  } else {
+    self.freeGemsView.originY = self.shopView.originY-self.freeGemsView.height;
+    
+    self.timersView.height = self.freeGemsView.originY-self.timersView.originY;
+    
+    self.saleView.hidden = YES;
+  }
 }
 
 #pragma mark - Bottom view methods
