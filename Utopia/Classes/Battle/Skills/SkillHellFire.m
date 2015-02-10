@@ -292,7 +292,7 @@ static const NSInteger kBulletOrbsMaxSearchIterations = 256;
   [self.battleLayer.orbLayer.bgdLayer turnTheLightsOn];
   [self.battleLayer.orbLayer allowInput];
   
-  [self skillTriggerFinished];
+  [self skillTriggerFinished:YES];
 }
 
 - (void) removeAllBulletOrbs

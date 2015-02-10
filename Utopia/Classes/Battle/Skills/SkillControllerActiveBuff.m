@@ -40,9 +40,9 @@
         [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
         [self.battleLayer.orbLayer disallowInput];
         [self showSkillPopupOverlay:YES withCompletion:^(){
-          [self resetDuration];
           [self resetOrbCounter];
-          [self skillTriggerFinished];
+          if (![self resetDuration])
+            [self skillTriggerFinished:YES];
         }];
       }
       return YES;
@@ -57,15 +57,15 @@
   return _turnsLeft != 0;
 }
 
-- (void) resetDuration
+- (BOOL) resetDuration
 {
   NSInteger tempOldTurns = _turnsLeft;
   _turnsLeft = _duration;
   
   if (tempOldTurns == 0)
-    [self onDurationStart];
+    return [self onDurationStart];
   else
-    [self onDurationReset];
+    return [self onDurationReset];
 }
 
 - (void) tickDuration
@@ -75,19 +75,28 @@
     [self onDurationEnd];
 }
 
-- (void) onDurationStart
+- (BOOL) onDurationStart
 {
-  //Overriden in children
+  return NO;
 }
 
-- (void) onDurationReset
+- (BOOL) onDurationReset
 {
-  //Overriden in children
+  return NO;
 }
 
-- (void) onDurationEnd
+- (BOOL) onDurationEnd
 {
-  //Overriden in children
+  return NO;
+}
+
+- (void) endDurationNow
+{
+  if (_turnsLeft != 0)
+  {
+    _turnsLeft = 0;
+    [self onDurationEnd];
+  }
 }
 
 #pragma mark - Serialization

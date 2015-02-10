@@ -95,6 +95,7 @@ static NSString* const kSkillMiniLogoImageNameSuffix = @"minilogo.png";
 // To be overriden by specific skills
 - (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute;
 - (void) skillTriggerFinished;
+- (void) skillTriggerFinishedActivated;
 - (void) skillTriggerFinished:(BOOL)skillActivated;
 - (void) setDefaultValues;
 - (void) setValue:(float)value forProperty:(NSString*)property;

@@ -45,7 +45,7 @@
 
 #pragma mark - Skill Logic
 
-- (void) onDurationStart
+- (BOOL) onDurationStart
 {
   BattlePlayer* opponent = self.belongsToPlayer ? self.enemy : self.player;
   opponent.isCursed = YES;
@@ -55,13 +55,16 @@
   [self performAfterDelay:0.3 block:^{
     [self.battleLayer.orbLayer.bgdLayer turnTheLightsOn];
     [self.battleLayer.orbLayer allowInput];
-    [self skillTriggerFinished];
+    [self skillTriggerFinished:YES];
   }];
+  
+  return YES;
 }
 
-- (void) onDurationEnd
+- (BOOL) onDurationEnd
 {
   [self removeCurse];
+  return NO;
 }
 
 - (void) removeCurse

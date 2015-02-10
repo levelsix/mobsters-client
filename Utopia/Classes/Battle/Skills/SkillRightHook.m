@@ -193,7 +193,7 @@
           // Spawn glove orbs when skill is activated
           [self showSkillPopupOverlay:YES withCompletion:^(){
             [self performAfterDelay:.5f block:^{
-              [self spawnGloveOrbs:_numOrbsToSpawn withTarget:self andSelector:@selector(skillTriggerFinished)];
+              [self spawnGloveOrbs:_numOrbsToSpawn withTarget:self andSelector:@selector(skillTriggerFinishedActivated)];
             }];
           }];
         }
@@ -398,7 +398,7 @@
   [self.battleLayer.orbLayer.bgdLayer turnTheLightsOn];
   [self.battleLayer.orbLayer allowInput];
   
-  [self skillTriggerFinished];
+  [self skillTriggerFinished:YES];
 }
 
 - (void) showLogo

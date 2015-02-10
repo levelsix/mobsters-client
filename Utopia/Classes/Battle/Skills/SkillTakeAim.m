@@ -73,7 +73,7 @@
         [self.battleLayer.orbLayer disallowInput];
         [self showSkillPopupOverlay:YES withCompletion:^(){
           [self resetOrbCounter];
-          [self spawnTakeAimOrbs:_numOrbsToSpawn withTarget:self andSelector:@selector(skillTriggerFinished)];
+          [self spawnTakeAimOrbs:_numOrbsToSpawn withTarget:self andSelector:@selector(skillTriggerFinishedActivated)];
         }];
       }
       return YES;
@@ -160,40 +160,40 @@
 
 -(void)showCriticalHit
 {
-  const CGFloat yOffset = self.belongsToPlayer ? 40.f : -20.f;
-  
-  // Display logo
-  CCSprite* logoSprite = [CCSprite spriteWithImageNamed:[self.skillImageNamePrefix stringByAppendingString:kSkillMiniLogoImageNameSuffix]];
-  logoSprite.position = CGPointMake((self.enemySprite.position.x + self.playerSprite.position.x) * .5f + self.playerSprite.contentSize.width * .5f - 10.f,
-                                    (self.playerSprite.position.y + self.enemySprite.position.y) * .5f + self.playerSprite.contentSize.height * .5f + yOffset);
-  logoSprite.scale = 0.f;
-  [self.playerSprite.parent addChild:logoSprite z:50];
-  
-  // Display damage modifier label
-  CCLabelTTF* floatingLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%.1gX DAMAGE", _critDamageMultiplier] fontName:@"GothamNarrow-Ultra" fontSize:12];
-  floatingLabel.position = ccp(logoSprite.spriteFrame.rect.size.width * .5f, -13.f);
-  floatingLabel.fontColor = [CCColor colorWithRed:255.f / 225.f green:44.f / 225.f blue:44.f / 225.f];
-  floatingLabel.outlineColor = [CCColor whiteColor];
-  floatingLabel.shadowOffset = ccp(0.f, -1.f);
-  floatingLabel.shadowColor = [CCColor colorWithWhite:0.f alpha:0.75f];
-  floatingLabel.shadowBlurRadius = 2.f;
-  [logoSprite addChild:floatingLabel];
-  
-  // Animate both
-  [logoSprite runAction:[CCActionSequence actions:
-                         [CCActionDelay actionWithDuration:.3f],
-                         [CCActionEaseBounceOut actionWithAction:[CCActionScaleTo actionWithDuration:.5f scale:1.f]],
-                         [CCActionDelay actionWithDuration:.5f],
-                         [CCActionEaseIn actionWithAction:[CCActionScaleTo actionWithDuration:.3f scale:0.f]],
-                         [CCActionRemove action],
-                         nil]];
+//  const CGFloat yOffset = self.belongsToPlayer ? 40.f : -20.f;
+//  
+//  // Display logo
+//  CCSprite* logoSprite = [CCSprite spriteWithImageNamed:[self.skillImageNamePrefix stringByAppendingString:kSkillMiniLogoImageNameSuffix]];
+//  logoSprite.position = CGPointMake((self.enemySprite.position.x + self.playerSprite.position.x) * .5f + self.playerSprite.contentSize.width * .5f - 10.f,
+//                                    (self.playerSprite.position.y + self.enemySprite.position.y) * .5f + self.playerSprite.contentSize.height * .5f + yOffset);
+//  logoSprite.scale = 0.f;
+//  [self.playerSprite.parent addChild:logoSprite z:50];
+//  
+//  // Display damage modifier label
+//  CCLabelTTF* floatingLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%.1gX DAMAGE", _critDamageMultiplier] fontName:@"GothamNarrow-Ultra" fontSize:12];
+//  floatingLabel.position = ccp(logoSprite.spriteFrame.rect.size.width * .5f, -13.f);
+//  floatingLabel.fontColor = [CCColor colorWithRed:255.f / 225.f green:44.f / 225.f blue:44.f / 225.f];
+//  floatingLabel.outlineColor = [CCColor whiteColor];
+//  floatingLabel.shadowOffset = ccp(0.f, -1.f);
+//  floatingLabel.shadowColor = [CCColor colorWithWhite:0.f alpha:0.75f];
+//  floatingLabel.shadowBlurRadius = 2.f;
+//  [logoSprite addChild:floatingLabel];
+//  
+//  // Animate both
+//  [logoSprite runAction:[CCActionSequence actions:
+//                         [CCActionDelay actionWithDuration:.3f],
+//                         [CCActionEaseBounceOut actionWithAction:[CCActionScaleTo actionWithDuration:.5f scale:1.f]],
+//                         [CCActionDelay actionWithDuration:.5f],
+//                         [CCActionEaseIn actionWithAction:[CCActionScaleTo actionWithDuration:.3f scale:0.f]],
+//                         [CCActionRemove action],
+//                         nil]];
   
   // Finish trigger execution
-  [self performAfterDelay:.3f block:^{
-    [self.battleLayer.orbLayer.bgdLayer turnTheLightsOn];
-    [self.battleLayer.orbLayer allowInput];
-    [self skillTriggerFinished];
-  }];
+//  [self performAfterDelay:.3f block:^{
+//    [self.battleLayer.orbLayer.bgdLayer turnTheLightsOn];
+//    [self.battleLayer.orbLayer allowInput];
+//    [self skillTriggerFinished];
+//  }];
 }
 
 @end

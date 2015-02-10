@@ -170,6 +170,11 @@
   [self skillTriggerFinished:NO];
 }
 
+- (void) skillTriggerFinishedActivated
+{
+  [self skillTriggerFinished:YES];
+}
+
 - (void) skillTriggerFinished:(BOOL)skillActivated
 {
   _skillActivated = skillActivated;
@@ -185,12 +190,15 @@
   }
   else
   {
-    _callbackBlock(YES, _callbackParams);
-  
+
     if (_skillActivated && [self isKindOfClass:[SkillControllerActive class]])
     {
       [skillManager triggerSkills:self.belongsToPlayer ? SkillTriggerPointPlayerSkillActivated : SkillTriggerPointEnemySkillActivated
-                   withCompletion:^(BOOL triggered, id params) {}];
+                   withCompletion:_callbackBlock];
+    }
+    else
+    {
+      _callbackBlock(YES, _callbackParams);
     }
   }
 }
@@ -275,12 +283,15 @@
       }];
     }
     
-    _callbackBlock(YES, _callbackParams);
     
     if (_skillActivated && [self isKindOfClass:[SkillControllerActive class]])
     {
       [skillManager triggerSkills:self.belongsToPlayer ? SkillTriggerPointPlayerSkillActivated : SkillTriggerPointEnemySkillActivated
-                   withCompletion:^(BOOL triggered, id params) {}];
+                   withCompletion:_callbackBlock];
+    }
+    else
+    {
+      _callbackBlock(YES, _callbackParams);
     }
   };
   

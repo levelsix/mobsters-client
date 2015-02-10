@@ -20,7 +20,6 @@
   
   _fixedDamageDone = 0;
   _missChance = 0.f;
-  _skillActive = NO;
   _logoShown = NO;
   _missed = NO;
 }
@@ -39,12 +38,11 @@
 
 - (NSInteger) modifyDamage:(NSInteger)damage forPlayer:(BOOL)player
 {
-  if (!player && self.belongsToPlayer)
+  if (player != self.belongsToPlayer)
   {
-    if (_skillActive)
+    _missed = NO;
+    if ([self isActive])
     {
-      _missed = NO;
-      
       // Chance of missing
       float rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
       if (rand < _missChance)
@@ -53,6 +51,8 @@
         _missed = YES;
         SkillLogStart(@"Blinding Light -- Skill caused a miss");
       }
+      
+      [self tickDuration];
     }
   }
   
@@ -79,56 +79,32 @@
     return YES;
   }
   
-  if (trigger == SkillTriggerPointEndOfPlayerMove && self.belongsToPlayer)
+  if ((trigger == SkillTriggerPointEnemyDealsDamage && self.belongsToPlayer)
+      || (trigger == SkillTriggerPointPlayerDealsDamage && !self.belongsToPlayer))
   {
-    if (!_skillActive && [self skillIsReady])
+    if (execute)
     {
-      if (execute)
-      {
-        SkillLogStart(@"Blinding Light -- Skill activated");
-        
-        _skillActive = YES;
-        
-        // Perform out of turn attack and deal fixed damage
-        [self makeSkillOwnerJumpWithTarget:self selector:@selector(beginOutOfTurnAttack)];
-      }
-      return YES;
+      if (_missed)
+        [self showLogo:YES];
+      
+      [self performAfterDelay:.3f block:^{
+        [self skillTriggerFinished];
+      }];
     }
+    return YES;
   }
   
-  if (trigger == SkillTriggerPointEnemyDealsDamage && self.belongsToPlayer)
+  if ((trigger == SkillTriggerPointEnemyDefeated && self.belongsToPlayer)
+      || (trigger == SkillTriggerPointPlayerInitialized && !self.belongsToPlayer))
   {
-    if (_skillActive)
-    {
-      if (execute)
-      {
-        if (_missed)
-          [self showLogo:YES];
-        
-        [self performAfterDelay:.3f block:^{
-          SkillLogStart(@"Blinding Light -- Skill deactivated");
-          
-          _skillActive = NO;
-          [self resetOrbCounter];
-          
-          [self skillTriggerFinished];
-        }];
-      }
-      return YES;
-    }
-  }
-  
-  if (trigger == SkillTriggerPointEnemyDefeated && self.belongsToPlayer)
-  {
-    if (_skillActive)
+    if ([self isActive])
     {
       if (execute)
       {
         SkillLogStart(@"Blinding Light -- Skill deactivated");
         
-        _skillActive = NO;
         [self resetOrbCounter];
-        
+        [self endDurationNow];
         [self skillTriggerFinished];
       }
       return YES;
@@ -136,6 +112,18 @@
   }
   
   return NO;
+}
+
+- (BOOL) onDurationStart
+{
+  [self makeSkillOwnerJumpWithTarget:self selector:@selector(beginOutOfTurnAttack)];
+  return YES;
+}
+
+- (BOOL) onDurationReset
+{
+  [self makeSkillOwnerJumpWithTarget:self selector:@selector(beginOutOfTurnAttack)];
+  return YES;
 }
 
 #pragma mark - Skill logic
@@ -148,21 +136,36 @@
   [self showLogo:NO];
   
   // Perform attack animation
-  [self.playerSprite performFarAttackAnimationWithStrength:0.f
-                                               shouldEvade:NO
-                                                     enemy:self.enemySprite
-                                                    target:self
-                                                  selector:@selector(dealDamageToEnemy)
-                                            animCompletion:nil];
+  if (self.belongsToPlayer)
+    [self.playerSprite performFarAttackAnimationWithStrength:0.f
+                                                 shouldEvade:NO
+                                                       enemy:self.enemySprite
+                                                      target:self
+                                                    selector:@selector(dealDamage)
+                                              animCompletion:nil];
+  else
+    [self.enemySprite performNearAttackAnimationWithEnemy:self.playerSprite
+                                             shouldReturn:YES
+                                              shouldEvade:NO
+                                             shouldFlinch:YES
+                                                   target:self
+                                                 selector:@selector(dealDamage)
+                                           animCompletion:nil];
 }
 
-- (void) dealDamageToEnemy
+- (void) dealDamage
 {
   [self.battleLayer dealDamage:_fixedDamageDone
-               enemyIsAttacker:NO
+               enemyIsAttacker:!self.belongsToPlayer
                   usingAbility:YES
                     withTarget:self
                   withSelector:@selector(endOutOfTurnAttack)];
+  
+  if (!self.belongsToPlayer)
+  {
+    [self.battleLayer setEnemyDamageDealt:(int)_fixedDamageDone];
+    [self.battleLayer sendServerUpdatedValuesVerifyDamageDealt:NO];
+  }
 }
 
 - (void) endOutOfTurnAttack
@@ -203,27 +206,6 @@
                          [CCActionEaseIn actionWithAction:[CCActionScaleTo actionWithDuration:.3f scale:0.f]],
                          [CCActionRemove action],
                          nil]];
-}
-
-#pragma mark - Serialization
-
-- (NSDictionary*) serialize
-{
-  NSMutableDictionary* result = [NSMutableDictionary dictionaryWithDictionary:[super serialize]];
-  [result setObject:@(_skillActive) forKey:@"skillActive"];
-  
-  return result;
-}
-
-- (BOOL) deserialize:(NSDictionary*)dict
-{
-  if (![super deserialize:dict])
-    return NO;
-  
-  NSNumber* skillActive = [dict objectForKey:@"skillActive"];
-  if (skillActive) _skillActive = [skillActive boolValue];
-  
-  return YES;
 }
 
 @end

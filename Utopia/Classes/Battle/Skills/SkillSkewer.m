@@ -93,7 +93,7 @@
 - (void) dealSkewer2
 {
   [self resetOrbCounter];
-  [self skillTriggerFinished];
+  [self skillTriggerFinished:YES];
 }
 
 @end
