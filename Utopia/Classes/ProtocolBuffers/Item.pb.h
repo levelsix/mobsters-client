@@ -30,6 +30,7 @@ typedef NS_ENUM(SInt32, ItemType) {
   ItemTypeItemOil = 2,
   ItemTypeItemCash = 3,
   ItemTypeSpeedUp = 4,
+  ItemTypeBuilder = 5,
 };
 
 BOOL ItemTypeIsValidValue(ItemType value);

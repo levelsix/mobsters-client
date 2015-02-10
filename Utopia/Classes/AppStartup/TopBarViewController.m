@@ -25,6 +25,8 @@
 #import "OutgoingEventController.h"
 #import "ClanRewardsViewController.h"
 #import "SecretGiftViewController.h"
+#import "SaleViewController.h"
+#import "IAPHelper.h"
 
 @implementation TopBarMonsterView
 
@@ -117,6 +119,13 @@
   
   [center addObserver:self selector:@selector(updateSecretGiftView) name:ITEMS_CHANGED_NOTIFICATION object:nil];
   [self updateSecretGiftView];
+  
+  [center addObserver:self selector:@selector(updateBuildersLabel) name:STRUCT_PURCHASED_NOTIFICATION object:nil];
+  [center addObserver:self selector:@selector(updateBuildersLabel) name:STRUCT_COMPLETE_NOTIFICATION object:nil];
+  [center addObserver:self selector:@selector(updateBuildersLabel) name:ITEMS_CHANGED_NOTIFICATION object:nil];
+  [center addObserver:self selector:@selector(updateBuildersLabel) name:OBSTACLE_REMOVAL_BEGAN_NOTIFICATION object:nil];
+  [center addObserver:self selector:@selector(updateBuildersLabel) name:OBSTACLE_COMPLETE_NOTIFICATION object:nil];
+  [self updateBuildersLabel];
   
   [center addObserver:self selector:@selector(updateShopBadge) name:STRUCT_PURCHASED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(updateShopBadge) name:STRUCT_COMPLETE_NOTIFICATION object:nil];
@@ -540,6 +549,30 @@
   }
 }
 
+- (void) updateBuildersLabel {
+  GameState *gs = [GameState sharedGameState];
+  
+  int numConstructing = 0;
+  
+  for (UserStruct *u in gs.myStructs) {
+    if (!u.isComplete) {
+      numConstructing++;
+    }
+  }
+  for (UserObstacle *u in gs.myObstacles) {
+    if (u.endTime) {
+      numConstructing++;
+    }
+  }
+  
+  int totalBuilders = [gs numberOfBuilders];
+  int numAvail = MAX(0, totalBuilders-numConstructing);
+  
+  self.buildersLabel.text = [NSString stringWithFormat:@"%d/%d", numAvail, totalBuilders];
+  
+  self.addBuilderButton.hidden = gs.numBeginnerSalesPurchased > 0;
+}
+
 #pragma mark - Bottom view methods
 
 - (void) replaceChatViewWithView:(MapBotView *)view {
@@ -752,6 +785,26 @@
       sgvc.view.frame = gvc.view.bounds;
       [gvc.view addSubview:sgvc.view];
     }
+  }
+}
+
+- (IBAction)builderPlusClicked:(id)sender {
+  [self saleClicked:nil];
+}
+
+- (IBAction)saleClicked:(id)sender {
+  Globals *gl = [Globals sharedGlobals];
+  GameState *gs = [GameState sharedGameState];
+  
+  if (gs.numBeginnerSalesPurchased == 0) {
+    InAppPurchasePackageProto *pkg = [gl starterPackIapPackage];
+    SKProduct *prod = [[IAPHelper sharedIAPHelper] productForIdentifier:pkg.iapPackageId];
+    
+    GameViewController *gvc = (GameViewController *)self.parentViewController;
+    SaleViewController *sgvc = [[SaleViewController alloc] initWithSale:gs.starterPack product:prod];
+    [gvc addChildViewController:sgvc];
+    sgvc.view.frame = gvc.view.bounds;
+    [gvc.view addSubview:sgvc.view];
   }
 }
 

@@ -17,5 +17,6 @@
 - (void) buyProductIdentifier:(SKProduct *)product withDelegate:(id)delegate;
 - (NSString *) priceForProduct:(SKProduct *)product;
 - (NSString *) base64forData:(NSData *)theData;
+- (SKProduct *) productForIdentifier:(NSString *)productId;
 
 @end

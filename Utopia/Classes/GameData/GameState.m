@@ -1083,7 +1083,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (int) numberOfBuilders {
-  return 2;
+  NSArray *arr = [self.itemUtil getItemsForType:ItemTypeBuilder staticDataId:0];
+  int quantity = 0;
+  
+  for (UserItem *ui in arr) {
+    ItemProto *ip = ui.staticItem;
+    quantity += ui.quantity*ip.amount;
+  }
+  
+  return 1+quantity;
 }
 
 - (void) updateStaticData:(StaticDataProto *)proto {
@@ -1104,6 +1112,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [self addToAvailableQuests:proto.availableQuestsList];
   
   [self addStaticBoosterPacks:proto.boosterPacksList];
+  
+  self.starterPack = nil;
+  if (proto.hasStarterPack) {
+    self.starterPack = proto.starterPack;
+  }
   
   [self.staticStructs removeAllObjects];
   [self addToStaticStructs:proto.allGeneratorsList];

@@ -35,6 +35,7 @@ BOOL EarnFreeDiamondsTypeIsValidValue(EarnFreeDiamondsType value) {
 @property (strong) NSString* iapPackageId;
 @property int32_t currencyAmount;
 @property (strong) NSString* imageName;
+@property InAppPurchasePackageProto_InAppPurchasePackageType iapPackageType;
 @end
 
 @implementation InAppPurchasePackageProto
@@ -60,11 +61,19 @@ BOOL EarnFreeDiamondsTypeIsValidValue(EarnFreeDiamondsType value) {
   hasImageName_ = !!value_;
 }
 @synthesize imageName;
+- (BOOL) hasIapPackageType {
+  return !!hasIapPackageType_;
+}
+- (void) setHasIapPackageType:(BOOL) value_ {
+  hasIapPackageType_ = !!value_;
+}
+@synthesize iapPackageType;
 - (id) init {
   if ((self = [super init])) {
     self.iapPackageId = @"";
     self.currencyAmount = 0;
     self.imageName = @"";
+    self.iapPackageType = InAppPurchasePackageProto_InAppPurchasePackageTypeNoInAppPurchasePackageType;
   }
   return self;
 }
@@ -93,6 +102,9 @@ static InAppPurchasePackageProto* defaultInAppPurchasePackageProtoInstance = nil
   if (self.hasImageName) {
     [output writeString:3 value:self.imageName];
   }
+  if (self.hasIapPackageType) {
+    [output writeEnum:4 value:self.iapPackageType];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -110,6 +122,9 @@ static InAppPurchasePackageProto* defaultInAppPurchasePackageProtoInstance = nil
   }
   if (self.hasImageName) {
     size_ += computeStringSize(3, self.imageName);
+  }
+  if (self.hasIapPackageType) {
+    size_ += computeEnumSize(4, self.iapPackageType);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -155,6 +170,9 @@ static InAppPurchasePackageProto* defaultInAppPurchasePackageProtoInstance = nil
   if (self.hasImageName) {
     [output appendFormat:@"%@%@: %@\n", indent, @"imageName", self.imageName];
   }
+  if (self.hasIapPackageType) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"iapPackageType", [NSNumber numberWithInteger:self.iapPackageType]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -172,6 +190,8 @@ static InAppPurchasePackageProto* defaultInAppPurchasePackageProtoInstance = nil
       (!self.hasCurrencyAmount || self.currencyAmount == otherMessage.currencyAmount) &&
       self.hasImageName == otherMessage.hasImageName &&
       (!self.hasImageName || [self.imageName isEqual:otherMessage.imageName]) &&
+      self.hasIapPackageType == otherMessage.hasIapPackageType &&
+      (!self.hasIapPackageType || self.iapPackageType == otherMessage.iapPackageType) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -185,11 +205,25 @@ static InAppPurchasePackageProto* defaultInAppPurchasePackageProtoInstance = nil
   if (self.hasImageName) {
     hashCode = hashCode * 31 + [self.imageName hash];
   }
+  if (self.hasIapPackageType) {
+    hashCode = hashCode * 31 + self.iapPackageType;
+  }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
 @end
 
+BOOL InAppPurchasePackageProto_InAppPurchasePackageTypeIsValidValue(InAppPurchasePackageProto_InAppPurchasePackageType value) {
+  switch (value) {
+    case InAppPurchasePackageProto_InAppPurchasePackageTypeNoInAppPurchasePackageType:
+    case InAppPurchasePackageProto_InAppPurchasePackageTypeGems:
+    case InAppPurchasePackageProto_InAppPurchasePackageTypeStarterPack:
+    case InAppPurchasePackageProto_InAppPurchasePackageTypeMoneyTree:
+      return YES;
+    default:
+      return NO;
+  }
+}
 @interface InAppPurchasePackageProto_Builder()
 @property (strong) InAppPurchasePackageProto* result;
 @end
@@ -237,6 +271,9 @@ static InAppPurchasePackageProto* defaultInAppPurchasePackageProtoInstance = nil
   if (other.hasImageName) {
     [self setImageName:other.imageName];
   }
+  if (other.hasIapPackageType) {
+    [self setIapPackageType:other.iapPackageType];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -268,6 +305,15 @@ static InAppPurchasePackageProto* defaultInAppPurchasePackageProtoInstance = nil
       }
       case 26: {
         [self setImageName:[input readString]];
+        break;
+      }
+      case 32: {
+        InAppPurchasePackageProto_InAppPurchasePackageType value = (InAppPurchasePackageProto_InAppPurchasePackageType)[input readEnum];
+        if (InAppPurchasePackageProto_InAppPurchasePackageTypeIsValidValue(value)) {
+          [self setIapPackageType:value];
+        } else {
+          [unknownFields mergeVarintField:4 value:value];
+        }
         break;
       }
     }
@@ -319,6 +365,22 @@ static InAppPurchasePackageProto* defaultInAppPurchasePackageProtoInstance = nil
 - (InAppPurchasePackageProto_Builder*) clearImageName {
   result.hasImageName = NO;
   result.imageName = @"";
+  return self;
+}
+- (BOOL) hasIapPackageType {
+  return result.hasIapPackageType;
+}
+- (InAppPurchasePackageProto_InAppPurchasePackageType) iapPackageType {
+  return result.iapPackageType;
+}
+- (InAppPurchasePackageProto_Builder*) setIapPackageType:(InAppPurchasePackageProto_InAppPurchasePackageType) value {
+  result.hasIapPackageType = YES;
+  result.iapPackageType = value;
+  return self;
+}
+- (InAppPurchasePackageProto_Builder*) clearIapPackageTypeList {
+  result.hasIapPackageType = NO;
+  result.iapPackageType = InAppPurchasePackageProto_InAppPurchasePackageTypeNoInAppPurchasePackageType;
   return self;
 }
 @end

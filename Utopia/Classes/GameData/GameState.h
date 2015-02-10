@@ -90,6 +90,7 @@
 @property (nonatomic, retain) NSMutableDictionary *completedTaskData;
 
 @property (nonatomic, retain) NSArray *boosterPacks;
+@property (nonatomic, retain) BoosterPackProto *starterPack;
 
 @property (nonatomic, retain) NSMutableArray *myMonsters;
 @property (nonatomic, retain) NSMutableArray *myStructs;

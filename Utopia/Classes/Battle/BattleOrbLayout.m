@@ -1195,30 +1195,33 @@
   NSMutableSet *adjacentChains = [NSMutableSet set];
   
   for (BattleChain *chain in chains) {
-    for (BattleOrb *orb in chain.orbs) {
-      if (orb.changeType == OrbChangeTypeDestroyed) {
-        // Check orbs around for clouds
-        BattleOrb *left = orb.column > 0 ? [self orbAtColumn:orb.column-1 row:orb.row] : nil;
-        BattleOrb *top = orb.row < _numRows-1 ? [self orbAtColumn:orb.column row:orb.row+1] : nil;
-        BattleOrb *right = orb.column < _numColumns-1 ? [self orbAtColumn:orb.column+1 row:orb.row] : nil;
-        BattleOrb *below = orb.row > 0 ? [self orbAtColumn:orb.column row:orb.row-1] : nil;
-        
-        BattleChain *chain = [[BattleChain alloc] init];
-        chain.chainType = ChainTypeAdjacent;
-        chain.prerequisiteOrb = orb;
-        
-        if (left.specialOrbType == SpecialOrbTypeCloud) {
-          [chain addOrb:left];
-        } if (right.specialOrbType == SpecialOrbTypeCloud) {
-          [chain addOrb:right];
-        } if (top.specialOrbType == SpecialOrbTypeCloud) {
-          [chain addOrb:top];
-        } if (below.specialOrbType == SpecialOrbTypeCloud) {
-          [chain addOrb:below];
-        }
-        
-        if (chain.orbs.count > 0) {
-          [adjacentChains addObject:chain];
+    if (chain.chainType == ChainTypeMatch ||
+        (chain.chainType == ChainTypePowerupNormal && chain.powerupInitiatorOrb.powerupType == PowerupTypeAllOfOneColor)) {
+      for (BattleOrb *orb in chain.orbs) {
+        if (orb.changeType == OrbChangeTypeDestroyed) {
+          // Check orbs around for clouds
+          BattleOrb *left = orb.column > 0 ? [self orbAtColumn:orb.column-1 row:orb.row] : nil;
+          BattleOrb *top = orb.row < _numRows-1 ? [self orbAtColumn:orb.column row:orb.row+1] : nil;
+          BattleOrb *right = orb.column < _numColumns-1 ? [self orbAtColumn:orb.column+1 row:orb.row] : nil;
+          BattleOrb *below = orb.row > 0 ? [self orbAtColumn:orb.column row:orb.row-1] : nil;
+          
+          BattleChain *chain = [[BattleChain alloc] init];
+          chain.chainType = ChainTypeAdjacent;
+          chain.prerequisiteOrb = orb;
+          
+          if (left.specialOrbType == SpecialOrbTypeCloud) {
+            [chain addOrb:left];
+          } if (right.specialOrbType == SpecialOrbTypeCloud) {
+            [chain addOrb:right];
+          } if (top.specialOrbType == SpecialOrbTypeCloud) {
+            [chain addOrb:top];
+          } if (below.specialOrbType == SpecialOrbTypeCloud) {
+            [chain addOrb:below];
+          }
+          
+          if (chain.orbs.count > 0) {
+            [adjacentChains addObject:chain];
+          }
         }
       }
     }
