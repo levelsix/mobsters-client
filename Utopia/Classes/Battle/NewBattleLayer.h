@@ -121,7 +121,7 @@
   BOOL _movesLeftHidden;
 }
 
-@property (nonatomic, retain) CCNode* movesLeftContainer;
+@property (nonatomic, retain) CCSprite* movesLeftContainer;
 @property (nonatomic, retain) CCSprite* movesLeftLabel;
 @property (nonatomic, retain) CCSprite* movesLeftCounter;
 @property (nonatomic, retain) CCLabelTTF *lootLabel;
