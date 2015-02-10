@@ -548,6 +548,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   int tag = fe.tag;
   
   GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
   
   LNLog(@"In App Purchase response received with status %d.", (int)proto.status);
   
@@ -582,6 +583,19 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     // Post notification so all UI with that bar can update
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:IAP_SUCCESS_NOTIFICATION object:nil]];
     [gs removeNonFullUserUpdatesForTag:tag];
+    
+    if (proto.updatedOrNewList) {
+      [gs addToMyMonsters:proto.updatedOrNewList];
+    }
+    
+    if (proto.updatedUserItemsList) {
+      [gs.itemUtil addToMyItems:proto.updatedUserItemsList];
+    }
+    
+    InAppPurchasePackageProto *pkg = [gl starterPackIapPackage];
+    if ([proto.packageName isEqualToString:pkg.iapPackageId]) {
+      gs.numBeginnerSalesPurchased++;
+    }
     
     SKPaymentTransaction *lastTransaction = iap.lastTransaction;
     SKProduct *prod = [iap.products objectForKey:lastTransaction.payment.productIdentifier];

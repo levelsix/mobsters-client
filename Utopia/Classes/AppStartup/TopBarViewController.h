@@ -65,6 +65,9 @@
 
 @property (nonatomic, assign) IBOutlet UILabel *timerHeaderLabel;
 
+@property (nonatomic, assign) IBOutlet UILabel *buildersLabel;
+@property (nonatomic, assign) IBOutlet UIButton *addBuilderButton;
+
 @property (nonatomic, retain) IBOutlet UIView *freeGemsView;
 @property (nonatomic, retain) IBOutlet UIView *freeGemsSpinner;
 

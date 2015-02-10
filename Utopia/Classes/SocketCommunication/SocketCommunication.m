@@ -640,7 +640,7 @@ static NSString *udid = nil;
     setCurStructCoordinates:[[[[CoordinateProto builder] setX:x] setY:y] build]]
    build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCMoveOrRotateNormStructureEvent];
+  return [self sendData:req withMessageType:EventProtocolRequestCMoveOrRotateNormStructureEvent queueUp:YES];
 }
 
 - (int) sendUpgradeNormStructureMessage:(NSString *)userStructUuid time:(uint64_t)curTime resourceType:(ResourceType)type resourceChange:(int)resourceChange gemCost:(int)gemCost {

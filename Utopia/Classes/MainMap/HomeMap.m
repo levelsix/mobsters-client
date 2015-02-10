@@ -278,6 +278,7 @@
     StructureInfoProto *fsp = s.staticStruct.structInfo;
     if (!fsp)
       continue;
+    
     HomeBuilding *homeBuilding = [HomeBuilding buildingWithUserStruct:s map:self];
     [self addChild:homeBuilding z:0 name:STRUCT_TAG(s.userStructUuid)];
     
@@ -304,6 +305,21 @@
   }
   
   [self reloadAllBubbles];
+  
+  // Search through the structs and see if any are at 0,0
+  for (HomeBuilding *hb in [self childrenOfClassType:[HomeBuilding class]]) {
+    if (CGPointEqualToPoint(hb.location.origin, CGPointZero)) {
+      UserStruct *us = hb.userStruct;
+      StructureInfoProto *fsp = us.staticStruct.structInfo;
+      CGPoint coords = [self openSpaceNearCenterWithSize:CGSizeMake(fsp.width, fsp.height)];
+      
+      [hb liftBlock];
+      hb.location = CGRectMake(coords.x, coords.y, fsp.width, fsp.height);
+      [hb placeBlock:NO];
+      
+      [[OutgoingEventController sharedOutgoingEventController] moveNormStruct:us atX:coords.x atY:coords.y];
+    }
+  }
   
   [self doReorder];
   _loading = NO;

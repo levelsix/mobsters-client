@@ -62,6 +62,24 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   [[IAPHelper sharedIAPHelper] requestProducts];
 }
 
+- (InAppPurchasePackageProto *) starterPackIapPackage {
+  for (InAppPurchasePackageProto *pkg in self.iapPackages) {
+    if (pkg.iapPackageType == InAppPurchasePackageProto_InAppPurchasePackageTypeStarterPack) {
+      return pkg;
+    }
+  }
+  return nil;
+}
+
+- (InAppPurchasePackageProto *) moneyTreeIapPackage {
+  for (InAppPurchasePackageProto *pkg in self.iapPackages) {
+    if (pkg.iapPackageType == InAppPurchasePackageProto_InAppPurchasePackageTypeMoneyTree) {
+      return pkg;
+    }
+  }
+  return nil;
+}
+
 - (void) updateConstants:(StartupResponseProto_StartupConstants *)constants {
   self.iapPackages = constants.inAppPurchasePackagesList;
   [self updateInAppPurchases];

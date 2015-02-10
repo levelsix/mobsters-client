@@ -144,7 +144,8 @@
   [super viewDidLoad];
   
   GameState *gs = [GameState sharedGameState];
-  _showsClanDonateToonView = gs.clan != nil;
+  ClanHouseProto *chp = (ClanHouseProto *)[gs.myClanHouse staticStruct];
+  _showsClanDonateToonView = gs.clan != nil && chp.teamDonationPowerLimit > 0;
   
   self.cardCell = [[NSBundle mainBundle] loadNibNamed:@"TeamCardCell" owner:self options:nil][0];
   self.cardCell.cardContainer.monsterCardView.infoButton.hidden = NO;

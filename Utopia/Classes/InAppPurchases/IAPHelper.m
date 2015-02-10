@@ -56,6 +56,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
   //  }
 }
 
+- (SKProduct *) productForIdentifier:(NSString *)productId {
+  return self.products[productId];
+}
+
 - (void)request:(SKRequest *)request didFailWithError:(NSError *)error {
   NSLog(@"Error requesting: %@", error);
 }
@@ -116,6 +120,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
   
   self.lastTransaction = transaction;
   [[OutgoingEventController sharedOutgoingEventController] inAppPurchase:encodedReceipt goldAmt:goldAmt silverAmt:0 product:prod delegate:_purchaseDelegate];
+  _purchaseDelegate = nil;
   [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
   
 #ifdef TOONSQUAD
@@ -134,10 +139,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
     // Transaction was cancelled
     [Analytics iapFailedWithSKProduct:prod error:@"Cancelled"];
   }
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-  [_purchaseDelegate performSelector:NSSelectorFromString(@"handleInAppPurchaseResponseProto:") withObject:nil];
-#pragma clang diagnostic pop
+  [self failResponse];
   
   [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
 }
@@ -161,18 +163,28 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
 }
 
 - (void)buyProductIdentifier:(SKProduct *)product withDelegate:(id)delegate {
+  _purchaseDelegate = delegate;
+  
   if (!product) {
     [Globals popupMessage:@"An error has occurred processing this transaction.."];
+    [self failResponse];
   } else if (![SKPaymentQueue canMakePayments]) {
     [Globals addAlertNotification:@"Sorry, you are not authorized to make payments at this time."];
+    [self failResponse];
   } else {
     LNLog(@"Buying %@...", product.debugDescription);
     
     SKPayment *payment = [SKPayment paymentWithProduct:product];
     [[SKPaymentQueue defaultQueue] addPayment:payment];
-    
-    _purchaseDelegate = delegate;
   }
+}
+
+- (void) failResponse {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+  [_purchaseDelegate performSelector:NSSelectorFromString(@"handleInAppPurchaseResponseProto:") withObject:nil];
+#pragma clang diagnostic pop
+  _purchaseDelegate = nil;
 }
 
 @end

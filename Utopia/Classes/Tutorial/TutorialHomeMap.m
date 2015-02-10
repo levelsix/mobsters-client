@@ -470,7 +470,6 @@
 }
 
 - (void) speedupPurchasedBuilding {
-#warning fix
   self.clickableUserStructUuid = ((HomeBuilding *)self.selected).userStruct.userStructUuid;
 }
 

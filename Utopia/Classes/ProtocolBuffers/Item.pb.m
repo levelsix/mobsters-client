@@ -27,6 +27,7 @@ BOOL ItemTypeIsValidValue(ItemType value) {
     case ItemTypeItemOil:
     case ItemTypeItemCash:
     case ItemTypeSpeedUp:
+    case ItemTypeBuilder:
       return YES;
     default:
       return NO;

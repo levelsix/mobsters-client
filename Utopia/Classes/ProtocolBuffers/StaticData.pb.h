@@ -251,8 +251,9 @@
 @interface StaticDataProto : PBGeneratedMessage {
 @private
   BOOL hasSender_:1;
+  BOOL hasStarterPack_:1;
   MinimumUserProto* sender;
-  NSMutableArray * mutableExpansionCostsList;
+  BoosterPackProto* starterPack;
   NSMutableArray * mutableAllCitiesList;
   NSMutableArray * mutableAllTasksList;
   NSMutableArray * mutableAllTaskMapElementsList;
@@ -262,6 +263,7 @@
   NSMutableArray * mutableUnredeemedQuestsList;
   NSMutableArray * mutableAvailableQuestsList;
   NSMutableArray * mutableBoosterPacksList;
+  NSMutableArray * mutableExpansionCostsList;
   NSMutableArray * mutableAllGeneratorsList;
   NSMutableArray * mutableAllStoragesList;
   NSMutableArray * mutableAllHospitalsList;
@@ -287,6 +289,7 @@
   NSMutableArray * mutableResearchList;
 }
 - (BOOL) hasSender;
+- (BOOL) hasStarterPack;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly, strong) NSArray * expansionCostsList;
 @property (readonly, strong) NSArray * allCitiesList;
@@ -298,6 +301,7 @@
 @property (readonly, strong) NSArray * unredeemedQuestsList;
 @property (readonly, strong) NSArray * availableQuestsList;
 @property (readonly, strong) NSArray * boosterPacksList;
+@property (readonly, strong) BoosterPackProto* starterPack;
 @property (readonly, strong) NSArray * allGeneratorsList;
 @property (readonly, strong) NSArray * allStoragesList;
 @property (readonly, strong) NSArray * allHospitalsList;
@@ -456,6 +460,13 @@
 - (StaticDataProto_Builder *)addBoosterPacks:(BoosterPackProto*)value;
 - (StaticDataProto_Builder *)addAllBoosterPacks:(NSArray *)array;
 - (StaticDataProto_Builder *)clearBoosterPacks;
+
+- (BOOL) hasStarterPack;
+- (BoosterPackProto*) starterPack;
+- (StaticDataProto_Builder*) setStarterPack:(BoosterPackProto*) value;
+- (StaticDataProto_Builder*) setStarterPack_Builder:(BoosterPackProto_Builder*) builderForValue;
+- (StaticDataProto_Builder*) mergeStarterPack:(BoosterPackProto*) value;
+- (StaticDataProto_Builder*) clearStarterPack;
 
 - (NSMutableArray *)allGeneratorsList;
 - (ResourceGeneratorProto*)allGeneratorsAtIndex:(NSUInteger)index;

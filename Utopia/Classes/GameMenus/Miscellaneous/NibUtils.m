@@ -268,6 +268,15 @@
 
 @end
 
+@implementation NiceFontLabel10T
+
+- (void) awakeFromNib {
+  [Globals adjustFontSizeForUILabel:self];
+  self.font = [UIFont fontWithName:@"GothamBlack" size:self.font.pointSize];
+}
+
+@end
+
 @implementation NiceFontLabel11
 
 - (void) awakeFromNib {

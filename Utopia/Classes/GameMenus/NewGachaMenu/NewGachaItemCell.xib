@@ -15,8 +15,8 @@
             <rect key="frame" x="0.0" y="0.0" width="56" height="56"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="prizebg.png" id="aVe-Va-8LJ">
-                    <rect key="frame" x="3" y="3" width="50" height="50"/>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="gachabottomslot.png" id="aVe-Va-8LJ">
+                    <rect key="frame" x="2" y="3" width="51" height="51"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
                 <view contentMode="scaleToFill" id="jVB-fW-eze" userLabel="Main View">
@@ -113,9 +113,9 @@
     </objects>
     <resources>
         <image name="diamond.png" width="29" height="27"/>
+        <image name="gachabottomslot.png" width="51" height="51"/>
         <image name="gachaepicball.png" width="30" height="30"/>
         <image name="giftitembg.png" width="41" height="41"/>
-        <image name="prizebg.png" width="50" height="50"/>
         <image name="speedupitemicon.png" width="22" height="26"/>
         <image name="squadrewardsprogress.png" width="25" height="24"/>
     </resources>
