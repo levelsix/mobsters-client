@@ -8,15 +8,15 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="rWR-pE-kjn" customClass="ChatBattleHistoryView">
-            <rect key="frame" x="0.0" y="0.0" width="345" height="43"/>
+            <rect key="frame" x="0.0" y="0.0" width="347" height="43"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="greywhite1.png" highlightedImage="bluewhite.png" id="xtV-bY-KxB">
-                    <rect key="frame" x="0.0" y="3" width="345" height="1"/>
+                    <rect key="frame" x="0.0" y="3" width="347" height="1"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                 </imageView>
                 <view contentMode="scaleToFill" id="1ZF-4p-E5W" userLabel="Avenge Check View">
-                    <rect key="frame" x="201" y="12" width="68" height="30"/>
+                    <rect key="frame" x="203" y="12" width="68" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                     <subviews>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AVENGED" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="eH6-2i-71P" customClass="NiceFontLabel12">
@@ -39,7 +39,7 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
                 <view contentMode="scaleToFill" id="KY5-ql-Xdt" userLabel="Avenge View">
-                    <rect key="frame" x="201" y="12" width="68" height="30"/>
+                    <rect key="frame" x="203" y="12" width="68" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="bR9-Ag-bqj" customClass="GeneralButton">
@@ -76,7 +76,7 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
                 <view contentMode="scaleToFill" id="4to-t3-EJa" userLabel="Revenge View">
-                    <rect key="frame" x="277" y="12" width="68" height="30"/>
+                    <rect key="frame" x="279" y="12" width="68" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="FHk-NR-2qx" customClass="GeneralButton">
@@ -104,7 +104,7 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
                 <view contentMode="scaleToFill" id="Omn-li-uZj" userLabel="Revenge Check View">
-                    <rect key="frame" x="277" y="12" width="68" height="30"/>
+                    <rect key="frame" x="279" y="12" width="68" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                     <subviews>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="REVENGED" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="3tH-ef-GFN" customClass="NiceFontLabel12">

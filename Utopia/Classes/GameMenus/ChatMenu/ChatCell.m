@@ -27,7 +27,8 @@
 
 #define GREEN @"3E7D16"
 #define RED @"BA0010"
-#define GREY @"434343"
+#define GREY @"929292"
+#define DARK_GREY @"434343"
 
 @implementation ChatCell
 
@@ -233,12 +234,26 @@ static float buttonInitialWidth = 159.f;
   float secs = php.battleEndTime/1000.+mins*60;
   secs = [MSDate dateWithTimeIntervalSince1970:secs].timeIntervalSinceNow;
   
-  if (secs <= 0) {
-    self.avengedLabel.textColor = [UIColor colorWithHexString:GREY];
-    self.avengedCheck.image = [Globals imageNamed:GREY_CHECK];
+  if(php.userIsAttacker) {
+    self.revengedLabel.textColor = [UIColor colorWithHexString:DARK_GREY];
+    self.revengeCheck.image = [Globals imageNamed:GREY_CHECK];
+    if (secs <= 0) {
+      self.avengedLabel.textColor = [UIColor colorWithHexString:GREY];
+      self.avengedCheck.image = [Globals imageNamed:GREY_CHECK];
+    } else {
+      self.avengedLabel.textColor = [UIColor colorWithHexString:DARK_GREY];
+      self.avengedCheck.image = [Globals imageNamed:GREY_CHECK];
+    }
   } else {
-    self.avengedLabel.textColor = [UIColor colorWithHexString:GREEN];
-    self.avengedCheck.image = [Globals imageNamed:GREEN_CHECK];
+    self.revengedLabel.textColor = [UIColor colorWithHexString:RED];
+    self.revengeCheck.image = [Globals imageNamed:GREEN_CHECK];
+    if (secs <= 0) {
+      self.avengedLabel.textColor = [UIColor colorWithHexString:GREY];
+      self.avengedCheck.image = [Globals imageNamed:GREEN_CHECK];
+    } else {
+      self.avengedLabel.textColor = [UIColor colorWithHexString:GREEN];
+      self.avengedCheck.image = [Globals imageNamed:GREEN_CHECK];
+    }
   }
   
   if(php.userWon) {
@@ -371,19 +386,31 @@ static float buttonInitialWidth = 159.f;
   self.revengeCheck.superview.hidden = !self.revengeButton.superview.hidden;
   self.revengeCheck.hidden = !pvp.exactedRevenge;
   
-  if( [pvp userIsAttacker]) {
+  Globals *gl = [Globals sharedGlobals];
+  int mins = gl.requestClanToAvengeTimeLimitMins;
+  float secs = pvp.battleEndTime/1000.+mins*60;
+  secs = [MSDate dateWithTimeIntervalSince1970:secs].timeIntervalSinceNow;
+  
+  if(pvp.userIsAttacker) {
+    self.revengedLabel.textColor = [UIColor colorWithHexString:DARK_GREY];
     self.revengeCheck.image = [Globals imageNamed:GREY_CHECK];
-    self.avengeCheck.image = [Globals imageNamed:GREY_CHECK];
-    //textColors
-    UIColor *grey = [UIColor colorWithHexString:GREY];
-    self.revengedLabel.textColor = grey;
-    self.avengedLabel.textColor = grey;
+    if (secs <= 0) {
+      self.avengedLabel.textColor = [UIColor colorWithHexString:GREY];
+      self.avengeCheck.image = [Globals imageNamed:GREY_CHECK];
+    } else {
+      self.avengedLabel.textColor = [UIColor colorWithHexString:DARK_GREY];
+      self.avengeCheck.image = [Globals imageNamed:GREY_CHECK];
+    }
   } else {
-    self.revengeCheck.image = [Globals imageNamed:GREEN_CHECK];
-    self.avengeCheck.image = [Globals imageNamed:GREEN_CHECK];
-    //textcolors
     self.revengedLabel.textColor = [UIColor colorWithHexString:RED];
-    self.avengedLabel.textColor = [UIColor colorWithHexString:GREEN];
+    self.revengeCheck.image = [Globals imageNamed:GREEN_CHECK];
+    if (secs <= 0) {
+      self.avengedLabel.textColor = [UIColor colorWithHexString:GREY];
+      self.avengeCheck.image = [Globals imageNamed:GREEN_CHECK];
+    } else {
+      self.avengedLabel.textColor = [UIColor colorWithHexString:GREEN];
+      self.avengeCheck.image = [Globals imageNamed:GREEN_CHECK];
+    }
   }
   
   if (!self.avengeButton.superview.hidden && self.revengeButton.superview.hidden) {
@@ -475,6 +502,11 @@ static float buttonInitialWidth = 159.f;
   
   if (secs > 0) {
     self.avengeTimeLabel.text = [[Globals convertTimeToShortString:secs] uppercaseString];
+    if([pvp userIsAttacker]) {
+      self.avengedLabel.textColor = [UIColor colorWithHexString:DARK_GREY];
+    } else {
+      self.avengedLabel.textColor = [UIColor colorWithHexString:GREY];
+    }
   } else {
     self.avengeTimeLabel.superview.hidden = YES;
     self.avengeCheck.superview.hidden = NO;
