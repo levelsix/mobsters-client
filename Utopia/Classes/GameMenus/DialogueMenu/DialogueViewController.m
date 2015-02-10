@@ -146,9 +146,7 @@
       [self removeFromParentViewController];
     }];
     
-    [UIView animateWithDuration:0.4f animations:^{
-      self.bottomGradient.alpha = 0.f;
-    }];
+    [self fadeOutBottomGradient];
   }
 }
 
@@ -235,8 +233,6 @@
   [UIView animateWithDuration:0.3f animations:^{
     // This will only do anything on first animation
     self.bottomGradient.alpha = 0.f;
-  } completion:^(BOOL finished) {
-    self.bottomGradient.hidden = YES;
   }];
 }
 
@@ -254,6 +250,8 @@
         completion();
       }
     }];
+    
+    [self fadeOutBottomGradient];
   }];
 }
 

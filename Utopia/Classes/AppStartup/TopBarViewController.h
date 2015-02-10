@@ -67,6 +67,7 @@
 
 @property (nonatomic, assign) IBOutlet UILabel *buildersLabel;
 @property (nonatomic, assign) IBOutlet UIButton *addBuilderButton;
+@property (nonatomic, assign) IBOutlet UIView *saleView;
 
 @property (nonatomic, retain) IBOutlet UIView *freeGemsView;
 @property (nonatomic, retain) IBOutlet UIView *freeGemsSpinner;

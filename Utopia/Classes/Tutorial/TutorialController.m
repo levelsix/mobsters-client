@@ -185,7 +185,7 @@
   self.touchView.userInteractionEnabled = !allowTouch;
   self.dialogueViewController.view.userInteractionEnabled = allowTouch;
   
-  dvc.bottomGradient.hidden = !allowTouch;
+  //dvc.bottomGradient.hidden = !allowTouch;
 }
 
 - (void) displayDialogue:(NSArray *)dialogue allowTouch:(BOOL)allowTouch useShortBubble:(BOOL)shortBubble {
@@ -1051,7 +1051,11 @@ static int timesCloseClicked = 0;
 #pragma mark - DialogueViewController delegate
 
 - (void) dialogueViewController:(DialogueViewController *)dvc willDisplaySpeechAtIndex:(int)index {
-  if (self.currentStep == TutorialStepBeginBuildingThree && index == 1) {
+  if ((_currentStep == TutorialStepBeginBuildingOne && index == 1) ||
+      (_currentStep == TutorialStepBeginBuildingTwo && index == 2) ||
+      (_currentStep == TutorialStepBeginBuildingThree && index == 3)) {
+    dvc.view.userInteractionEnabled = NO;
+  } else if (self.currentStep == TutorialStepBeginBuildingThree && index == 1) {
     [self.homeMap moveToOilDrill];
   } else if (self.currentStep == TutorialStepFacebookLogin && index == 1) {
     [self.homeMap panToMark];
