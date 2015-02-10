@@ -404,12 +404,11 @@ static float buttonInitialWidth = 159.f;
   } else {
     self.revengedLabel.textColor = [UIColor colorWithHexString:RED];
     self.revengeCheck.image = [Globals imageNamed:GREEN_CHECK];
+    self.avengeCheck.image = [Globals imageNamed:GREEN_CHECK];
     if (secs <= 0) {
       self.avengedLabel.textColor = [UIColor colorWithHexString:GREY];
-      self.avengeCheck.image = [Globals imageNamed:GREEN_CHECK];
     } else {
       self.avengedLabel.textColor = [UIColor colorWithHexString:GREEN];
-      self.avengeCheck.image = [Globals imageNamed:GREEN_CHECK];
     }
   }
   
