@@ -90,7 +90,9 @@
 
 - (void) dealDamage
 {
-  const int damage = floorf((float)self.battleLayer.enemyPlayerObject.curHealth * _targetHPPercToDealAsDamage);
+  BattlePlayer* opponent = self.belongsToPlayer ? self.battleLayer.enemyPlayerObject : self.battleLayer.myPlayerObject;
+  int damage = floorf((float)opponent.curHealth * _targetHPPercToDealAsDamage);
+  
   [self.battleLayer dealDamage:damage
                enemyIsAttacker:!self.belongsToPlayer
                   usingAbility:YES

@@ -6,17 +6,13 @@
 //  Copyright (c) 2014 LVL6. All rights reserved.
 //
 
-#import "SkillControllerPassive.h"
+#import "SkillControllerActive.h"
 
-@interface SkillLifeSteal : SkillControllerPassive
+@interface SkillLifeSteal : SkillControllerActive
 {
   // Properties (general)
   NSInteger _numOrbsToSpawn;
   float _lifeStealAmount;
-  
-  // Temp
-  BOOL _logoShown;
-  NSInteger _orbsSpawned;
 }
 
 @end

@@ -109,6 +109,28 @@
   return self;
 }
 
+#pragma mark - Property definitions
+
+- (BattlePlayer*) userPlayer
+{
+  return self.belongsToPlayer ? self.player : self.enemy;
+}
+
+- (BattlePlayer*) opponentPlayer
+{
+  return self.belongsToPlayer ? self.enemy : self.player;
+}
+
+- (BattleSprite*) userSprite
+{
+  return self.belongsToPlayer ? self.playerSprite : self.enemySprite;
+}
+
+- (BattleSprite*) opponentSprite
+{
+  return self.belongsToPlayer ? self.enemySprite : self.playerSprite;
+}
+
 #pragma mark - External calls
 
 - (BOOL) skillIsReady
@@ -130,11 +152,15 @@
 - (BOOL) triggerSkill:(SkillTriggerPoint)trigger withCompletion:(SkillControllerBlock)completion;
 {
   // Try to trigger the skill and use callback right away if it's not responding
+  SkillControllerBlock tempCallbackHolder = _callbackBlock;
   _callbackBlock = completion;
   _callbackParams = nil;
   BOOL triggered = [self skillCalledWithTrigger:trigger execute:YES];
-  if (! triggered)
-    _callbackBlock(NO, _callbackParams);
+  if (!triggered)
+  {
+    _callbackBlock = tempCallbackHolder;
+    completion(NO, _callbackParams);
+  }
   return triggered;
 }
 
@@ -194,7 +220,9 @@
     if (_skillActivated && [self isKindOfClass:[SkillControllerActive class]])
     {
       [skillManager triggerSkills:self.belongsToPlayer ? SkillTriggerPointPlayerSkillActivated : SkillTriggerPointEnemySkillActivated
-                   withCompletion:_callbackBlock];
+                   withCompletion:^(BOOL triggered, id params) {
+                     _callbackBlock(YES, _callbackParams);
+                   }];
     }
     else
     {

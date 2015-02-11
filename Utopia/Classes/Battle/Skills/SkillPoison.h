@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 LVL6. All rights reserved.
 //
 
-#import "SkillControllerPassive.h"
+#import "SkillControllerActiveBuff.h"
 
-@interface SkillPoison : SkillControllerPassive
+@interface SkillPoison : SkillControllerActiveBuff
 {
   // Properties
   NSInteger _orbDamage;

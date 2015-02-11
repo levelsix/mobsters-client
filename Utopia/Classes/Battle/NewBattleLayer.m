@@ -293,6 +293,8 @@
 }
 
 - (void) begin {
+  [skillManager flushPersistentSkills];
+  
   BattlePlayer *bp = [self firstMyPlayer];
   if (bp) {
     [self deployBattleSprite:bp];

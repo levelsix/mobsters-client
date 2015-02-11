@@ -22,7 +22,6 @@
   
   _numOrbsToSpawn = 0;
   _lifeStealAmount = 0.f;
-  _logoShown = NO;
 }
 
 - (void) setValue:(float)value forProperty:(NSString*)property
@@ -37,45 +36,38 @@
 
 #pragma mark - Overrides
 
-- (void) restoreVisualsIfNeeded
-{
-  if (!self.belongsToPlayer)
-    _orbsSpawned = [self specialsOnBoardCount:SpecialOrbTypeLifeSteal];
-}
-
 - (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
 {
   if ([super skillCalledWithTrigger:trigger execute:execute])
     return YES;
   
-  // Initial life steal orb spawn
-  if (trigger == SkillTriggerPointEnemyAppeared && !_logoShown)
+  if (trigger == SkillTriggerPointEndOfPlayerMove)
   {
-    if (execute)
+    if ([self skillIsReady])
     {
-      _logoShown = YES;
-      // Jumping, showing overlay and spawning initial set
-      [self showSkillPopupOverlay:YES withCompletion:^{
-        if (_orbsSpawned == 0)
-        {
+      if (execute)
+      {
+        [self resetOrbCounter];
+        [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
+        [self.battleLayer.orbLayer disallowInput];
+        
+        [self showSkillPopupOverlay:YES withCompletion:^(){
           [self performAfterDelay:.5f block:^{
-            [self spawnLifeStealOrbs:_numOrbsToSpawn withTarget:self andSelector:@selector(skillTriggerFinished)];
+            [self spawnLifeStealOrbs:_numOrbsToSpawn withTarget:self andSelector:@selector(skillTriggerFinishedActivated)];
           }];
-        }
-        else
-          [self skillTriggerFinished];
-      }];
+        }];
+      }
+      return YES;
     }
-    return YES;
   }
   
   // End of player turn
-  if (trigger == SkillTriggerPointEndOfPlayerMove && !self.belongsToPlayer && self.battleLayer.movesLeft == 0)
+  if (trigger == SkillTriggerPointEndOfPlayerTurn && !self.belongsToPlayer)
   {
     if (execute)
     {
-      _orbsSpawned = [self specialsOnBoardCount:SpecialOrbTypeLifeSteal];
-      if (_orbsSpawned > 0)
+      int orbsSpawned = [self specialsOnBoardCount:SpecialOrbTypeLifeSteal];
+      if (orbsSpawned > 0)
       {
         // Life steal orbs left on the board at the end of turn, being stealing life
         [self makeSkillOwnerJumpWithTarget:self selector:@selector(beginLifeSteal)];
@@ -103,6 +95,11 @@
 }
 
 #pragma mark - Skill logic
+
+- (int) calculateLifeStealAmount
+{
+  return [self specialsOnBoardCount:SpecialOrbTypeLifeSteal] * _lifeStealAmount;
+}
 
 - (void) beginLifeSteal
 {
@@ -192,24 +189,28 @@
                                        [RecursiveTintTo actionWithDuration:.2f color:[CCColor whiteColor]],
                                        nil]];
   
+  [self beginLifeStealEffect];
+  
+  int damage = [self calculateLifeStealAmount];
+  
   // Deal damage to player
-  [self.battleLayer dealDamage:_lifeStealAmount
+  [self.battleLayer dealDamage:damage
                enemyIsAttacker:YES
                   usingAbility:YES
-                    withTarget:self
-                  withSelector:@selector(beginLifeStealEffect)];
-  [self.battleLayer setEnemyDamageDealt:(int)_lifeStealAmount];
+                    withTarget:nil
+                  withSelector:nil];
+  [self.battleLayer setEnemyDamageDealt:(int)damage];
   [self.battleLayer sendServerUpdatedValuesVerifyDamageDealt:NO];
   
 }
 
 - (void) beginLifeStealEffect
 {
-  if (self.battleLayer.myPlayerObject.curHealth <= 0)
-  {
-    [self endLifeSteal];
-    return;
-  }
+//  if (self.battleLayer.myPlayerObject.curHealth <= 0)
+//  {
+//    [self endLifeSteal];
+//    return;
+//  }
   
   const CGPoint startPosition = ccp(self.playerSprite.position.x, self.playerSprite.position.y + self.playerSprite.contentSize.height * .5f);
   const CGPoint endPosition = ccp(self.enemySprite.position.x, self.enemySprite.position.y + self.enemySprite.contentSize.height * .5f);
@@ -246,13 +247,13 @@
 
 - (void) healEnemy
 {
-  [self.battleLayer healForAmount:(int)_lifeStealAmount enemyIsHealed:YES withTarget:self andSelector:@selector(endLifeSteal)];
+  [self.battleLayer healForAmount:[self calculateLifeStealAmount] enemyIsHealed:YES withTarget:self andSelector:@selector(endLifeSteal)];
 }
 
 - (void) endLifeSteal
 {
-  [self.battleLayer.orbLayer.bgdLayer turnTheLightsOn];
-  [self.battleLayer.orbLayer allowInput];
+//  [self.battleLayer.orbLayer.bgdLayer turnTheLightsOn];
+//  [self.battleLayer.orbLayer allowInput];
   
   [self skillTriggerFinished];
 }
@@ -308,8 +309,6 @@
       OrbSprite* orbSprite = [self.battleLayer.orbLayer.swipeLayer spriteForOrb:orb];
       [orbSprite reloadSprite:YES];
     }];
-    
-    ++_orbsSpawned;
   }
 }
 

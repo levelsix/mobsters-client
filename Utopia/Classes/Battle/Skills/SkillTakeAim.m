@@ -37,6 +37,8 @@
     _critChancePerOrb = value;
   else if ([property isEqualToString:@"CRIT_DAMAGE_MULTIPLIER"])
     _critDamageMultiplier = value;
+  else if ([property isEqualToString:@"PLAYER_CRIT_CHANCE"])
+    _playerCritChance = value;
 }
 
 #pragma mark - Overrides
@@ -54,6 +56,16 @@
       damage = damage * _critDamageMultiplier;
     }
   }
+  else if ([self isActive])
+  {
+    float rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
+    if (rand < _playerCritChance)
+    {
+      [self showCriticalHit];
+      damage = damage * _critDamageMultiplier;
+    }
+    [self tickDuration];
+  }
   
   return damage;
 }
@@ -63,7 +75,7 @@
   if ([super skillCalledWithTrigger:trigger execute:execute])
     return YES;
   
-  if (trigger == SkillTriggerPointEndOfPlayerMove)
+  if (trigger == SkillTriggerPointEndOfPlayerMove && !self.belongsToPlayer)
   {
     if ([self skillIsReady])
     {
@@ -73,7 +85,6 @@
         [self.battleLayer.orbLayer disallowInput];
         [self showSkillPopupOverlay:YES withCompletion:^(){
           [self resetOrbCounter];
-          [self spawnTakeAimOrbs:_numOrbsToSpawn withTarget:self andSelector:@selector(skillTriggerFinishedActivated)];
         }];
       }
       return YES;
@@ -81,8 +92,7 @@
   }
   
   //On user death, delete all orbs
-  if ((trigger == SkillTriggerPointEnemyDefeated && !self.belongsToPlayer) ||
-      (trigger == SkillTriggerPointPlayerMobDefeated && self.belongsToPlayer))
+  if ((trigger == SkillTriggerPointEnemyDefeated && !self.belongsToPlayer))
   {
     if (execute)
     {
@@ -95,6 +105,17 @@
     return YES;
   }
   
+  return NO;
+}
+
+- (BOOL) onDurationStart
+{
+  if (!self.belongsToPlayer)
+  {
+    [self spawnTakeAimOrbs:_numOrbsToSpawn withTarget:self andSelector:@selector(skillTriggerFinishedActivated)];
+    [self endDurationNow];
+    return YES;
+  }
   return NO;
 }
 
