@@ -51,12 +51,10 @@
 
 - (void) begin {
   [self initBattleLayer];
-  [self.gameViewController crossFadeIntoBattleLayer:self.battleLayer];
   
-  self.touchView = [[TutorialTouchView alloc] initWithFrame:self.gameViewController.view.bounds];
-  [self.gameViewController.view addSubview:self.touchView];
-  [self.touchView addResponder:[CCDirector sharedDirector].view];
-  self.touchView.userInteractionEnabled = NO;
+  if (self.battleLayer) {
+    [self.gameViewController crossFadeIntoBattleLayer:self.battleLayer];
+  }
 }
 
 - (void) moveMade {
@@ -65,6 +63,10 @@
 }
 
 - (void) displayDialogue:(NSArray *)dialogue {
+  [self displayDialogue:dialogue isLeftSide:YES];
+}
+
+- (void) displayDialogue:(NSArray *)dialogue isLeftSide:(BOOL)isLeftSide {
   DialogueProto_Builder *dp = [DialogueProto builder];
   
   GameState *gs = [GameState sharedGameState];
@@ -73,7 +75,7 @@
     DialogueProto_SpeechSegmentProto_Builder *ss = [DialogueProto_SpeechSegmentProto builder];
     ss.speaker = mp.displayName;
     ss.speakerImage = mp.imagePrefix;
-    ss.isLeftSide = YES;
+    ss.isLeftSide = isLeftSide;
     ss.speakerText = speakerText;
     [dp addSpeechSegment:ss.build];
   }
@@ -81,17 +83,14 @@
   DialogueViewController *dvc = [[DialogueViewController alloc] initWithDialogueProto:dp.build useSmallBubble:YES];
   dvc.delegate = self;
   [self.gameViewController addChildViewController:dvc];
-  [self.gameViewController.view insertSubview:dvc.view belowSubview:self.touchView];
+  [self.gameViewController.view addSubview:dvc.view];
+  dvc.view.frame = self.gameViewController.view.bounds;
   self.dialogueViewController = dvc;
-  
-  [self.touchView addResponder:self.dialogueViewController];
 }
 
 - (void) battleComplete:(NSDictionary *)params {
   [self.gameViewController battleComplete:params];
   [self.delegate miniTutorialComplete:self];
-  
-  [self.touchView removeFromSuperview];
 }
 
 - (void) battleLayerReachedEnemy {
@@ -101,28 +100,14 @@
 - (void) stop {
   [self.dialogueViewController removeFromParentViewController];
   [self.dialogueViewController.view removeFromSuperview];
-  [self.touchView removeFromSuperview];
 }
 
 #pragma mark - Dialogue delegate
 
 - (void) dialogueViewController:(DialogueViewController *)dvc willDisplaySpeechAtIndex:(int)index {
   if (index == dvc.dialogue.speechSegmentList.count-1) {
-    self.touchView.userInteractionEnabled = YES;
-    [self.touchView addResponder:dvc];
-    
-    if (index == 0) {
-      [dvc.bottomGradient removeFromSuperview];
-    } else {
-      [dvc fadeOutBottomGradient];
-    }
+    [dvc allowClickThrough];
   }
-}
-
-
-- (void) dialogueViewControllerFinished:(DialogueViewController *)dvc {
-  [self.touchView removeResponder:self.dialogueViewController];
-  self.touchView.userInteractionEnabled = NO;
 }
 
 @end

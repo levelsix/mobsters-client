@@ -93,8 +93,6 @@
 @property (nonatomic, retain) IBOutlet UIView *skipButtonView;
 @property (nonatomic, retain) IBOutlet UIView *enhanceButtonView;
 
-@property (nonatomic, retain) DailyEventCornerView *dailyEventView;
-
 @property (nonatomic, retain) ItemSelectViewController *itemSelectViewController;
 @property (nonatomic, retain) SpeedupItemsFiller *speedupItemsFiller;
 @property (nonatomic, retain) ResourceItemsFiller *resourceItemsFiller;
@@ -106,12 +104,20 @@
 
 - (UserEnhancement *) currentEnhancement;
 
+- (void) confirmationAccepted;
+
 - (void) reloadQueueViewAnimated:(BOOL)animated;
 - (void) reloadListViewAnimated:(BOOL)animated;
 - (void) updateLabelsNonTimer;
 - (void) updateStats;
 
 - (IBAction)helpClicked:(id)sender;
+
+// For tutorial
+- (IBAction) enhanceButtonClicked:(id)sender;
+- (void) handleSubmitMonsterEnhancementResponseProto:(id)fe;
 - (IBAction)finishClicked:(id)sender;
+- (IBAction)collectClicked:(id)sender;
+- (void) handleCollectMonsterEnhancementResponseProto:(id)fe;
 
 @end

@@ -30,13 +30,17 @@
 - (void) enterTeamCenterClicked;
 - (void) upgradeClicked;
 
+- (void) enterLabClicked;
+
 @end
 
 @interface TutorialHomeMap : HomeMap {
   CGPoint _lastBoatPosition;
   
   BOOL _enteringHospital;
+  BOOL _enteringTeamCenter;
   BOOL _enteringTownHall;
+  BOOL _enteringLab;
 }
 
 @property (nonatomic, retain) StartupResponseProto_TutorialConstants *constants;
@@ -83,7 +87,9 @@
 - (void) panToMark;
 - (void) friendFaceForward;
 - (void) guideFaceForward;
+
 - (void) moveToTeamCenter;
 - (UserStruct *) moveToTownHall;
+- (void) moveToLab;
 
 @end

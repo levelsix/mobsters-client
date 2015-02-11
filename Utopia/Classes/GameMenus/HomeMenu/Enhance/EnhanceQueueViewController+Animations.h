@@ -12,5 +12,6 @@
 
 - (void) animateEnhancement;
 - (void) speedupEnhancementAnimation;
+- (void) enhancementAnimationComplete;
 
 @end

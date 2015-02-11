@@ -51,6 +51,7 @@
 #import "PvpRankUpNode.h"
 #import "TutorialBuildingUpgradeController.h"
 #import <Kamcord/Kamcord.h>
+#import "TutorialEnhanceController.h"
 
 #define DEFAULT_PNG_IMAGE_VIEW_TAG 103
 #define KINGDOM_PNG_IMAGE_VIEW_TAG 104
@@ -779,6 +780,7 @@ static const CGSize FIXED_SIZE = {568, 384};
       CCScene *scene = [CCScene node];
       HomeMap *hm = [HomeMap node];
       [scene addChild:hm];
+      [hm refresh];
       [hm moveToCenterAnimated:NO];
       self.currentMap = hm;
       
@@ -1067,6 +1069,8 @@ static const CGSize FIXED_SIZE = {568, 384};
 - (void) miniTutorialComplete:(MiniTutorialController *)tut {
   self.miniTutController = nil;
   
+  [self.notificationController resumeNotifications];
+  
   [self performSelector:@selector(checkQuests) withObject:nil afterDelay:0.7];
   
   [self checkLevelUp];
@@ -1127,15 +1131,29 @@ static const CGSize FIXED_SIZE = {568, 384};
     }
   } else if (!dp) {
     [self showTopBarDuration:duration completion:^{
-      [self checkQuests];
-      [self.notificationController resumeNotifications];
+      if (!self.miniTutController) {
+        [self checkQuests];
+        [self.notificationController resumeNotifications];
+      }
     }];
   }
+  
+  UserStruct *lab = gs.myLaboratory;
   
   if ([gs isTaskCompleted:[Globals sharedGlobals].taskIdOfFirstSkill] && ![gs hasUpgradedBuilding])
   {
     self.miniTutController = [[TutorialBuildingUpgradeController alloc] initWithMyTeam:nil gameViewController:self];
+    self.miniTutController.delegate = self;
     [self.miniTutController begin];
+  } else if (lab.staticStruct.structInfo.level == 0 && [lab satisfiesAllPrerequisites] && lab.staticStructForNextLevel.structInfo.buildCost <= 0) {
+    FullUserMonsterProto *mon = [params[BATTLE_USER_MONSTERS_GAINED_KEY] firstObject];
+    
+    if (mon) {
+      TutorialEnhanceController *enhance = [[TutorialEnhanceController alloc] initWithBaseMonster:[[gs allBattleAvailableMonstersOnTeamWithClanSlot:NO] firstObject] feeder:[gs myMonsterWithUserMonsterUuid:mon.userMonsterUuid] gameViewController:self];
+      self.miniTutController = enhance;
+      enhance.delegate = self;
+      [enhance begin];
+    }
   }
   
   [self playMapMusic];

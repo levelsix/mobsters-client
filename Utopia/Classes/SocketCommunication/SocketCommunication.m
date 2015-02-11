@@ -643,7 +643,7 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCMoveOrRotateNormStructureEvent queueUp:YES];
 }
 
-- (int) sendUpgradeNormStructureMessage:(NSString *)userStructUuid time:(uint64_t)curTime resourceType:(ResourceType)type resourceChange:(int)resourceChange gemCost:(int)gemCost {
+- (int) sendUpgradeNormStructureMessage:(NSString *)userStructUuid time:(uint64_t)curTime resourceType:(ResourceType)type resourceChange:(int)resourceChange gemCost:(int)gemCost queueUp:(BOOL)queueUp {
   UpgradeNormStructureRequestProto *req = [[[[[[[[UpgradeNormStructureRequestProto builder]
                                                  setSender:_sender]
                                                 setUserStructUuid:userStructUuid]
@@ -653,7 +653,7 @@ static NSString *udid = nil;
                                             setGemsSpent:gemCost]
                                            build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCUpgradeNormStructureEvent];
+  return [self sendData:req withMessageType:EventProtocolRequestCUpgradeNormStructureEvent queueUp:queueUp];
 }
 
 - (int) sendFinishNormStructBuildWithDiamondsMessage:(NSString *)userStructUuid gemCost:(int)gemCost time:(uint64_t)milliseconds queueUp:(BOOL)queueUp {
@@ -1011,7 +1011,7 @@ static NSString *udid = nil;
     }
   }
   
-  return [self sendData:bldr.build withMessageType:EventProtocolRequestCUpdateMonsterHealthEvent];
+  return [self sendData:bldr.build withMessageType:EventProtocolRequestCUpdateMonsterHealthEvent queueUp:YES];
 }
 
 - (int) sendEndDungeonMessage:(NSString *)userTaskUuid userWon:(BOOL)userWon isFirstTimeCompleted:(BOOL)isFirstTimeCompleted droplessTsfuUuids:(NSArray *)droplessTsfuUuids time:(uint64_t)time {

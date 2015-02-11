@@ -11,6 +11,19 @@
 
 #import "NibUtils.h"
 
+@protocol DialogueViewDelegate <NSObject>
+
+- (void) dialogueViewPointInsideChecked;
+
+@end
+
+@interface DialogueView : UIView
+
+@property (nonatomic, assign) IBOutlet id<DialogueViewDelegate> delegate;
+@property (nonatomic, assign) BOOL allowClickThrough;
+
+@end
+
 @class DialogueViewController;
 
 @protocol DialogueViewControllerDelegate <NSObject>
@@ -23,7 +36,7 @@
 
 @end
 
-@interface DialogueViewController : UIViewController {
+@interface DialogueViewController : UIViewController <DialogueViewDelegate> {
   int _curIndex;
   BOOL _isAnimating;
   BOOL _useSmallBubble;
@@ -67,5 +80,8 @@
 
 - (void) pauseAndHideSpeakers;
 - (void) continueAndRevealSpeakers;
+
+- (void) allowClickThrough;
+- (void) disallowClickThrough;
 
 @end

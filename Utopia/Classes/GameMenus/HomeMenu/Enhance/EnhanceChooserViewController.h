@@ -25,8 +25,6 @@
 @property (nonatomic, retain) IBOutlet UILabel *noMobstersLabel;
 @property (nonatomic, retain) IBOutlet UILabel *queueEmptyLabel;
 
-@property (nonatomic, retain) DailyEventCornerView *dailyEventView;
-
 @property (nonatomic, retain) NSMutableArray *userMonsters;
 
 - (void) reloadListViewAnimated:(BOOL)animated;

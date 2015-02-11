@@ -580,8 +580,9 @@
 
 - (void) updateSaleView {
   GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
   
-  BOOL showSaleView = gs.numBeginnerSalesPurchased == 0;
+  BOOL showSaleView = gs.numBeginnerSalesPurchased == 0 && gl.starterPackIapPackage;
   
   if (showSaleView) {
     self.saleView.hidden = NO;
@@ -830,9 +831,12 @@
     
     GameViewController *gvc = (GameViewController *)self.parentViewController;
     SaleViewController *sgvc = [[SaleViewController alloc] initWithSale:gs.starterPack product:prod];
-    [gvc addChildViewController:sgvc];
-    sgvc.view.frame = gvc.view.bounds;
-    [gvc.view addSubview:sgvc.view];
+    
+    if (sgvc) {
+      [gvc addChildViewController:sgvc];
+      sgvc.view.frame = gvc.view.bounds;
+      [gvc.view addSubview:sgvc.view];
+    }
   }
 }
 

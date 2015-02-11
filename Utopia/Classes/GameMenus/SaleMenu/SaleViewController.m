@@ -50,11 +50,6 @@
 static NSString *nibName = @"SaleViewCell";
 
 - (id) initWithSale:(BoosterPackProto *)sale product:(SKProduct *)product {
-#warning put back
-//  if (!sale || !product) {
-//    return nil;
-//  }
-  
   if ((self = [super init])) {
     self.sale = sale;
     self.product = product;
@@ -132,7 +127,11 @@ static NSString *nibName = @"SaleViewCell";
 
 - (void) handleInAppPurchaseResponseProto:(FullEvent *)fe {
   [self.loadingView stop];
-  [self closeClicked:nil];
+  
+  InAppPurchaseResponseProto *proto = (InAppPurchaseResponseProto *)fe.event;
+  if (proto.status == InAppPurchaseResponseProto_InAppPurchaseStatusSuccess) {
+    [self closeClicked:nil];
+  }
 }
 
 - (IBAction)closeClicked:(id)sender {

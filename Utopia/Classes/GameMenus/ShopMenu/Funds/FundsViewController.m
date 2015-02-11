@@ -65,9 +65,11 @@
   Globals *gl = [Globals sharedGlobals];
   IAPHelper *iap = [IAPHelper sharedIAPHelper];
   for (InAppPurchasePackageProto *pkg in gl.iapPackages) {
-    SKProduct *prod = iap.products[pkg.iapPackageId];
-    if (prod) {
-      [packages addObject:[InAppPurchaseData createWithProduct:prod]];
+    if (pkg.iapPackageType == InAppPurchasePackageProto_InAppPurchasePackageTypeGems) {
+      SKProduct *prod = iap.products[pkg.iapPackageId];
+      if (prod) {
+        [packages addObject:[InAppPurchaseData createWithProduct:prod]];
+      }
     }
   }
   

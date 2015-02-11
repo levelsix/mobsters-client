@@ -51,6 +51,9 @@
     NSString *name = [NSString stringWithFormat:@"%@%@", sip.name, self.quantity == 1 ? @"" : @"s"];
     
     return [NSString stringWithFormat:@"%@%@%@", quant, lvl, name];
+  } else if (self.prereqGameType == GameTypeTask) {
+    TaskMapElementProto *elem = [gs mapElementWithTaskId:self.prereqGameEntityId];
+    return [NSString stringWithFormat:@"Defeat Level %d", elem.mapElementId];
   }
   return nil;
 }
