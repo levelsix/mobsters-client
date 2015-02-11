@@ -540,6 +540,8 @@
 - (void) littleUpgradeClicked:(id)sender {
   if (_enteringTownHall)
   {
+    [Globals removeUIArrowFromViewRecursively:self.bottomOptionView];
+    
     [self.delegate upgradeClicked];
   }
 }

@@ -22,7 +22,6 @@
 
 - (void) displayDialogue:(NSArray *)dialogue {
   [super displayDialogue:dialogue];
-  self.dialogueViewController.view.userInteractionEnabled = NO;
   [self.dialogueViewController allowClickThrough];
 }
 
@@ -59,7 +58,7 @@
   self.gameViewController.currentMap = homeMap;
   
   CCDirector *dir = [CCDirector sharedDirector];
-  [dir popToRootScene];
+  [dir popToRootSceneWithTransition:[CCTransition transitionCrossFadeWithDuration:0.6]];
   [dir replaceScene:scene];
 }
 
@@ -94,7 +93,7 @@
   [self.upgradeViewController close];
   
   
-  NSArray *dialogue = @[[NSString stringWithFormat:@"Keep on building upgrading your buildings to get better, stronger, harder, and faster!"]];
+  NSArray *dialogue = @[[NSString stringWithFormat:@"Keep on upgrading your buildings to get better, harder, faster, and stronger!"]];
   [self displayDialogue:dialogue];
   
   self.currentStep = TutorialBuildingUpgradeStepFinish;
