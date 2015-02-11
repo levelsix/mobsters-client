@@ -379,7 +379,7 @@
   
   int unread = 0;
   for (PvpHistoryProto *pvp in [gs pvpDefenseHistory]) {
-    if (pvp.isUnread) {
+    if (!pvp.isRead) {
       unread ++;
     }
   }
@@ -566,7 +566,7 @@
   [super updateForChats:arr animated:animated];
   
   NSInteger pathIndex = [self.chats indexOfObject:_clickedCell];
-  if( pathIndex == NSNotFound) {
+  if(_clickedCell && pathIndex == NSNotFound) {
     NSIndexPath *path = [NSIndexPath indexPathForRow:self.chats.count-1 inSection:0];
     [self.chatTable scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
   } else {

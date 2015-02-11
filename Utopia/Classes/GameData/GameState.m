@@ -683,7 +683,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   NSArray *defenceChats = [self pvpDefenseHistory];
   NSMutableArray *unread = [[NSMutableArray alloc] init];
   for (PvpHistoryProto *php in defenceChats) {
-    if (php.isUnread) {
+    if (!php.isRead) {
       [unread addObject:php];
     }
   }
