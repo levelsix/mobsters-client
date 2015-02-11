@@ -18,7 +18,6 @@
   [super setDefaultValues];
   _damageMultiplier = 1.5;
   _sizeMultiplier = 1.1;
-  _enragedNow = NO;
 }
 
 - (void) setValue:(float)value forProperty:(NSString*)property
@@ -32,22 +31,13 @@
 
 #pragma mark - Overrides
 
-- (void) orbDestroyed:(OrbColor)color special:(SpecialOrbType)type
-{
-  if (_enragedNow)
-    return;
-  else
-    [super orbDestroyed:color special:type];
-}
-
 - (NSInteger) modifyDamage:(NSInteger)damage forPlayer:(BOOL)player
 {
   // If attacker is the skill owner and he's enraged, modify
   if (player == self.belongsToPlayer)
-    if (_enragedNow)
+    if ([self isActive])
     {
-      _enragedNow = NO;
-      [self performSelector:@selector(removeEnrageAnimations) withObject:nil afterDelay:2.0];
+      [self tickDuration];
       return damage * _damageMultiplier;
     }
   
@@ -56,33 +46,21 @@
 
 - (void) restoreVisualsIfNeeded
 {
-  if (_enragedNow)
+  if ([self isActive])
     [self addEnrageAnimations];
 }
 
-- (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
+- (BOOL) onDurationStart
 {
-  if ([super skillCalledWithTrigger:trigger execute:execute])
-    return YES;
-  
-  //if (trigger == SkillTriggerPointEndOfPlayerMove)
-  if ((self.activationType == SkillActivationTypeUserActivated && trigger == SkillTriggerPointManualActivation) ||
-      (self.activationType == SkillActivationTypeAutoActivated && trigger == SkillTriggerPointEndOfPlayerMove))
-  {
-    if ([self skillIsReady])
-    {
-      if (execute)
-      {
-        [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
-        [self.battleLayer.orbLayer disallowInput];
-        [self showSkillPopupOverlay:YES withCompletion:^(){
-          [self becomeEnraged];
-        }];
-      }
-      return YES;
-    }
-  }
-  
+  [self becomeEnraged];
+  return YES;
+}
+
+- (BOOL) onDurationEnd
+{
+  [self performAfterDelay:2.0 block:^(void){
+    [self removeEnrageAnimations];
+  }];
   return NO;
 }
 
@@ -131,8 +109,6 @@
         [CCActionRemove action],
         nil]];
   
-  _enragedNow = YES;
-  
   // Animations
   [self addEnrageAnimations];
   
@@ -144,26 +120,4 @@
     [self skillTriggerFinished:YES];
   }];
 }
-
-#pragma mark - Serialization
-
-- (NSDictionary*) serialize
-{
-  NSMutableDictionary* result = [NSMutableDictionary dictionaryWithDictionary:[super serialize]];
-  [result setObject:@(_enragedNow) forKey:@"enragedNow"];
-  return result;
-}
-
-- (BOOL) deserialize:(NSDictionary*)dict
-{
-  if (! [super deserialize:dict])
-    return NO;
-  
-  NSNumber* enragedNow = [dict objectForKey:@"enragedNow"];
-  if (enragedNow)
-    _enragedNow = [enragedNow boolValue];
-  
-  return YES;
-}
-
 @end

@@ -6,19 +6,17 @@
 //  Copyright (c) 2015 LVL6. All rights reserved.
 //
 
-#import "SkillControllerActive.h"
+#import "SkillControllerActiveBuff.h"
 
-@interface SkillPoisonPowder : SkillControllerActive
+@interface SkillPoisonPowder : SkillControllerActiveBuff
 {
   // Properties
   float _damage;
   float _percent;
-  
-  // Counters
-  BOOL _isPoisoned;
-
-  // Loading
-  BOOL _wasPoisoned; //Because the animation goes on the opposite character, we need to wait for initialization to apply
 }
+
+@property (readonly) int poisonDamage;
+
+- (void) poisonOpponent;
 
 @end

@@ -83,17 +83,20 @@
 
 - (BOOL) onDurationStart
 {
-  return NO;
+  [self skillTriggerFinished:YES];
+  return YES;
 }
 
 - (BOOL) onDurationReset
 {
-  return NO;
+  [self skillTriggerFinished:YES];
+  return YES;
 }
 
 - (BOOL) onDurationEnd
 {
-  return NO;
+  [self skillTriggerFinished:NO];
+  return YES;
 }
 
 - (void) endDurationNow

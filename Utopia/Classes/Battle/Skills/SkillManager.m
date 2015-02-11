@@ -588,7 +588,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
    */
   
   [_battleLayer.hudView.skillPopupView displayWithSkillName:proto.name
-                                                description:proto.desc
+                                                description:proto.description
                                                counterLabel:orbCount
                                              orbDescription:orbDesc
                                             backgroundImage:bgName

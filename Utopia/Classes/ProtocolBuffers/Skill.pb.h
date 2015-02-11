@@ -54,6 +54,7 @@ typedef NS_ENUM(SInt32, SkillType) {
   SkillTypeCurse = 31,
   SkillTypeInsurance = 32,
   SkillTypeFlameBreak = 33,
+  SkillTypePoisonSkewer = 34,
 };
 
 BOOL SkillTypeIsValidValue(SkillType value);
@@ -81,7 +82,8 @@ BOOL SkillActivationTypeIsValidValue(SkillActivationType value);
   BOOL hasSucId_:1;
   BOOL hasSkillEffectDuration_:1;
   BOOL hasName_:1;
-  BOOL hasDesc_:1;
+  BOOL hasDefDesc_:1;
+  BOOL hasOffDesc_:1;
   BOOL hasImgNamePrefix_:1;
   BOOL hasType_:1;
   BOOL hasActivationType_:1;
@@ -91,7 +93,8 @@ BOOL SkillActivationTypeIsValidValue(SkillActivationType value);
   int32_t sucId;
   int32_t skillEffectDuration;
   NSString* name;
-  NSString* desc;
+  NSString* defDesc;
+  NSString* offDesc;
   NSString* imgNamePrefix;
   SkillType type;
   SkillActivationType activationType;
@@ -104,7 +107,8 @@ BOOL SkillActivationTypeIsValidValue(SkillActivationType value);
 - (BOOL) hasActivationType;
 - (BOOL) hasPredecId;
 - (BOOL) hasSucId;
-- (BOOL) hasDesc;
+- (BOOL) hasDefDesc;
+- (BOOL) hasOffDesc;
 - (BOOL) hasImgNamePrefix;
 - (BOOL) hasSkillEffectDuration;
 @property (readonly) int32_t skillId;
@@ -115,7 +119,8 @@ BOOL SkillActivationTypeIsValidValue(SkillActivationType value);
 @property (readonly) int32_t predecId;
 @property (readonly) int32_t sucId;
 @property (readonly, strong) NSArray * propertiesList;
-@property (readonly, strong) NSString* desc;
+@property (readonly, strong) NSString* defDesc;
+@property (readonly, strong) NSString* offDesc;
 @property (readonly, strong) NSString* imgNamePrefix;
 @property (readonly) int32_t skillEffectDuration;
 - (SkillPropertyProto*)propertiesAtIndex:(NSUInteger)index;
@@ -196,10 +201,15 @@ BOOL SkillActivationTypeIsValidValue(SkillActivationType value);
 - (SkillProto_Builder *)addAllProperties:(NSArray *)array;
 - (SkillProto_Builder *)clearProperties;
 
-- (BOOL) hasDesc;
-- (NSString*) desc;
-- (SkillProto_Builder*) setDesc:(NSString*) value;
-- (SkillProto_Builder*) clearDesc;
+- (BOOL) hasDefDesc;
+- (NSString*) defDesc;
+- (SkillProto_Builder*) setDefDesc:(NSString*) value;
+- (SkillProto_Builder*) clearDefDesc;
+
+- (BOOL) hasOffDesc;
+- (NSString*) offDesc;
+- (SkillProto_Builder*) setOffDesc:(NSString*) value;
+- (SkillProto_Builder*) clearOffDesc;
 
 - (BOOL) hasImgNamePrefix;
 - (NSString*) imgNamePrefix;

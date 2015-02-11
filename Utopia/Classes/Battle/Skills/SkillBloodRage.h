@@ -6,17 +6,13 @@
 //  Copyright (c) 2015 LVL6. All rights reserved.
 //
 
-#import "SkillControllerActive.h"
+#import "SkillControllerActiveBuff.h"
 
-@interface SkillBloodRage : SkillControllerActive
+@interface SkillBloodRage : SkillControllerActiveBuff
 {
   // Properties
   float _damageGivenMultiplier;
   float _damageTakenMultiplier;
-  
-  // Counters
-  BOOL _ragedNow;
-  BOOL _wasRaged;
 }
 
 @end

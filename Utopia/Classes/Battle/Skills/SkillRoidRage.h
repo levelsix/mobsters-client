@@ -6,16 +6,13 @@
 //  Copyright (c) 2014 LVL6. All rights reserved.
 //
 
-#import "SkillControllerActive.h"
+#import "SkillControllerActiveBuff.h"
 
-@interface SkillRoidRage : SkillControllerActive
+@interface SkillRoidRage : SkillControllerActiveBuff
 {
   // Properties
   float _damageMultiplier;
   float _sizeMultiplier;
-  
-  // Counters
-  BOOL  _enragedNow;
 }
 
 @end

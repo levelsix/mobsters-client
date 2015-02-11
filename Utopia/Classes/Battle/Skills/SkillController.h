@@ -42,7 +42,7 @@ static NSString* const cheatCodesForSkills[] = {
   @"", @"reset", @"cake", @"goo", @"atk", @"bombs", @"shield", @"poison", @"rage", @"momentum", @"toughskin",
   @"critevade", @"shuffle", @"headshot", @"mud", @"lifesteal", @"counterstrike", @"flamestrike", @"confusion",
   @"staticfield", @"blindinglight", @"poisonpowder", @"skewer", @"knockout", @"shallowgrave", @"hammertime",
-  @"bloodrage", @"takeaim", @"hellfire", @"energize", @"righthook", @"curse", @"insurance", @"flamebreak"};
+  @"bloodrage", @"takeaim", @"hellfire", @"energize", @"righthook", @"curse", @"insurance", @"flamebreak", @"pskew"};
 
 static NSString* const kSkillIconImageNameSuffix = @"icon.png";
 static NSString* const kSkillLogoImageNameSuffix = @"logo.png";
@@ -76,6 +76,11 @@ static NSString* const kSkillMiniLogoImageNameSuffix = @"minilogo.png";
 @property (weak, nonatomic) BattleSprite    *playerSprite;
 @property (weak, nonatomic) BattleSprite    *enemySprite;
 
+@property (nonatomic) BattlePlayer  *userPlayer;
+@property (nonatomic) BattlePlayer  *opponentPlayer;
+@property (nonatomic) BattleSprite  *userSprite;
+@property (nonatomic) BattleSprite  *opponentSprite;
+
 @property (assign, nonatomic) BOOL          belongsToPlayer;
 
 @property (readonly) OrbColor orbColor;
@@ -101,6 +106,8 @@ static NSString* const kSkillMiniLogoImageNameSuffix = @"minilogo.png";
 - (void) setValue:(float)value forProperty:(NSString*)property;
 - (BOOL) shouldSpawnRibbon;
 - (BOOL) shouldPersist;
+
+- (void) dealPoisonDamage:(int)damage;
 
 // To be called by inherited skills to show the overlay
 - (void) showSkillPopupOverlay:(BOOL)jumpFirst withCompletion:(SkillPopupBlock)completion;

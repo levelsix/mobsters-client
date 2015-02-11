@@ -19,8 +19,6 @@
   [super setDefaultValues];
   _damageGivenMultiplier = 1.25;
   _damageTakenMultiplier = 1.5;
-  _ragedNow = NO;
-  _wasRaged = NO;
 }
 
 - (void) setValue:(float)value forProperty:(NSString *)property
@@ -36,14 +34,22 @@
 
 - (BOOL) shouldPersist
 {
-  return _ragedNow || _wasRaged;
+  return [self isActive];
 }
 
 - (NSInteger) modifyDamage:(NSInteger)damage forPlayer:(BOOL)player
 {
-  if (_ragedNow)
+  if ([self isActive])
   {
-    return damage * (player == self.belongsToPlayer ? _damageTakenMultiplier : _damageGivenMultiplier);
+    if (self.belongsToPlayer == player)
+    {
+      [self tickDuration];
+      return damage * _damageTakenMultiplier;
+    }
+    else
+    {
+      return damage * _damageGivenMultiplier;
+    }
   }
   
   return damage;
@@ -51,56 +57,14 @@
 
 - (void) restoreVisualsIfNeeded
 {
-  if (_ragedNow)
+  if ([self isActive])
     [self addRageAnimations];
-}
-
-- (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
-{
-  if ([super skillCalledWithTrigger:trigger execute:execute])
-    return YES;
-  if ((self.belongsToPlayer && trigger == SkillTriggerPointEnemyInitialized)
-      || (!self.belongsToPlayer && trigger == SkillTriggerPointPlayerInitialized))
-  {
-    if (_ragedNow)
-    {
-      [self endBloodRage];
-    }
-    else if (_wasRaged)
-    {
-      [self startBloodRage];
-      _wasRaged = false;
-    }
-  }
-  
-  if (!_ragedNow)
-  {
-    if ((self.activationType == SkillActivationTypeUserActivated && trigger == SkillTriggerPointManualActivation) ||
-        (self.activationType == SkillActivationTypeAutoActivated && trigger == SkillTriggerPointEndOfPlayerMove))
-    {
-      if ([self skillIsReady])
-      {
-        if (execute)
-        {
-          [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
-          [self.battleLayer.orbLayer disallowInput];
-          [self showSkillPopupOverlay:YES withCompletion:^(){
-            [self startBloodRage];
-          }];
-        }
-        return YES;
-      }
-    }
-  }
-  
-  return NO;
 }
 
 #pragma mark - Skill Logic
 
-- (void) startBloodRage
+- (BOOL) onDurationStart
 {
-  _ragedNow = YES;
   [self addRageAnimations];
   
   [self performAfterDelay:0.3 block:^{
@@ -108,13 +72,15 @@
     [self.battleLayer.orbLayer allowInput];
     [self skillTriggerFinished:YES];
   }];
+  
+  return YES;
 }
 
-- (void) endBloodRage
+- (BOOL) onDurationEnd
 {
-  _ragedNow = NO;
-  [self resetOrbCounter];
   [self removeRageAnimations];
+  
+  return NO;
 }
 
 #pragma mark - Animations
@@ -142,27 +108,5 @@
   [opponent.sprite stopActionByTag:1914];
   [opponent.sprite runAction:[CCActionTintTo actionWithDuration:0.3 color:[CCColor whiteColor]]];
 }
-
-#pragma mark - Serialization
-
-- (NSDictionary*) serialize
-{
-  NSMutableDictionary* result = [NSMutableDictionary dictionaryWithDictionary:[super serialize]];
-  [result setObject:@(_ragedNow) forKey:@"ragedNow"];
-  return result;
-}
-
-- (BOOL) deserialize:(NSDictionary*)dict
-{
-  if (! [super deserialize:dict])
-    return NO;
-  
-  NSNumber* ragedNow = [dict objectForKey:@"ragedNow"];
-  if (ragedNow)
-    _wasRaged = [ragedNow boolValue];
-  
-  return YES;
-}
-
 
 @end

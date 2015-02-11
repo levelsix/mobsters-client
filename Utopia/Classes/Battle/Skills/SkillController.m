@@ -41,6 +41,7 @@
 #import "SkillInsurance.h"
 #import "SkillCurse.h"
 #import "SkillFlameBreak.h"
+#import "SkillPoisonSkewer.h"
 
 @implementation SkillController
 
@@ -80,6 +81,7 @@
     case SkillTypeCurse: return [[SkillCurse alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypeInsurance: return [[SkillInsurance alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypeFlameBreak: return [[SkillFlameBreak alloc] initWithProto:proto andMobsterColor:color];
+    case SkillTypePoisonSkewer: return [[SkillPoisonSkewer alloc] initWithProto:proto andMobsterColor:color];
     default: CustomAssert(NO, @"Trying to create a skill with the factory for undefined skill."); return nil;
   }
 }
@@ -109,6 +111,28 @@
   return self;
 }
 
+#pragma mark - Property definitions
+
+- (BattlePlayer*) userPlayer
+{
+  return self.belongsToPlayer ? self.player : self.enemy;
+}
+
+- (BattlePlayer*) opponentPlayer
+{
+  return self.belongsToPlayer ? self.enemy : self.player;
+}
+
+- (BattleSprite*) userSprite
+{
+  return self.belongsToPlayer ? self.playerSprite : self.enemySprite;
+}
+
+- (BattleSprite*) opponentSprite
+{
+  return self.belongsToPlayer ? self.enemySprite : self.playerSprite;
+}
+
 #pragma mark - External calls
 
 - (BOOL) skillIsReady
@@ -130,11 +154,15 @@
 - (BOOL) triggerSkill:(SkillTriggerPoint)trigger withCompletion:(SkillControllerBlock)completion;
 {
   // Try to trigger the skill and use callback right away if it's not responding
+  SkillControllerBlock tempCallbackHolder = _callbackBlock;
   _callbackBlock = completion;
   _callbackParams = nil;
   BOOL triggered = [self skillCalledWithTrigger:trigger execute:YES];
-  if (! triggered)
-    _callbackBlock(NO, _callbackParams);
+  if (!triggered)
+  {
+    _callbackBlock = tempCallbackHolder;
+    completion(NO, _callbackParams);
+  }
   return triggered;
 }
 
@@ -194,7 +222,9 @@
     if (_skillActivated && [self isKindOfClass:[SkillControllerActive class]])
     {
       [skillManager triggerSkills:self.belongsToPlayer ? SkillTriggerPointPlayerSkillActivated : SkillTriggerPointEnemySkillActivated
-                   withCompletion:_callbackBlock];
+                   withCompletion:^(BOOL triggered, id params) {
+                     _callbackBlock(YES, _callbackParams);
+                   }];
     }
     else
     {
@@ -223,6 +253,58 @@
 
 - (void) restoreVisualsIfNeeded
 {
+}
+
+#pragma mark - Reusable Poison Logic
+
+- (void) dealPoisonDamage:(int)damage
+{
+  if (self.belongsToPlayer)
+  {
+    [self.opponentSprite performNearFlinchAnimationWithStrength:0 delay:0.4];
+  }
+  else
+  {
+    // Flinch
+    [self.opponentSprite performFarFlinchAnimationWithDelay:0.4];
+  }
+  
+  // Flash red
+  [self.opponentSprite.sprite runAction:[CCActionSequence actions:
+                                    [CCActionDelay actionWithDuration:0.3],
+                                    [RecursiveTintTo actionWithDuration:0.2 color:[CCColor purpleColor]],
+                                    [RecursiveTintTo actionWithDuration:0.2 color:[CCColor whiteColor]],
+                                    nil]];
+  
+  // Skull and bones
+  CCSprite* skull = [CCSprite spriteWithImageNamed:@"poisonplayer.png"];
+  skull.position = ccp(20, self.opponentSprite.contentSize.height/2);
+  skull.scale = 0.01;
+  skull.opacity = 0.0;
+  [self.opponentSprite addChild:skull z:10];
+  [skull runAction:[CCActionSequence actions:
+                    [CCActionSpawn actions:
+                     [CCActionEaseElasticOut actionWithAction:[CCActionScaleTo actionWithDuration:0.3f scale:1]],
+                     [CCActionFadeIn actionWithDuration:0.3f],
+                     nil],
+                    [CCActionCallBlock actionWithBlock:^{
+                      [self dealPoisonDamage2:damage];
+                    }],
+                    [CCActionDelay actionWithDuration:0.5],
+                    [CCActionEaseElasticIn actionWithAction:[CCActionScaleTo actionWithDuration:0.7f scale:0]],
+                    [CCActionRemove action],
+                    nil]];
+}
+
+- (void) dealPoisonDamage2:(int)damage
+{
+  // Deal damage
+  [self.battleLayer dealDamage:(int)damage enemyIsAttacker:!self.belongsToPlayer usingAbility:YES withTarget:self withSelector:@selector(dealPoisonDamage3)];
+}
+
+- (void) dealPoisonDamage3
+{
+  [self skillTriggerFinished];
 }
 
 #pragma mark - UI
