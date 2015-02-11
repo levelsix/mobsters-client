@@ -81,6 +81,10 @@
   }
 }
 
+- (void) listView:(ListCollectionView *)listView infoClickedAtIndexPath:(NSIndexPath *)indexPath {
+  // Do nothing
+}
+
 - (BOOL) canClose {
   return NO;
 }

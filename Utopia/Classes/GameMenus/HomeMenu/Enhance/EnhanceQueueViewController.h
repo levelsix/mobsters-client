@@ -105,6 +105,7 @@
 - (UserEnhancement *) currentEnhancement;
 
 - (void) confirmationAccepted;
+- (void) allowAddToQueue;
 
 - (void) reloadQueueViewAnimated:(BOOL)animated;
 - (void) reloadListViewAnimated:(BOOL)animated;

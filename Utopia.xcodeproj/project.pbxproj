@@ -3993,7 +3993,6 @@
 		CF48190619F7217F00041486 /* FAQViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF29EA5D1965100E00B40DA4 /* FAQViewController.m */; };
 		CF48190719F7217F00041486 /* ClanRaidLeaderboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF30278D18BFFD8E009D2D25 /* ClanRaidLeaderboardViewController.m */; };
 		CF48190819F7217F00041486 /* EventUser.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574721909CAF100ABF1F4 /* EventUser.pb.m */; };
-		CF48190919F7217F00041486 /* FundsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF29E9151961006500B40DA4 /* FundsViewController.m */; };
 		CF48190A19F7217F00041486 /* SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = CF689C1215C3B89400F2E50E /* SBJSON.m */; };
 		CF48190B19F7217F00041486 /* TutorialTouchView.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8BA21F18CDA9DD003277D1 /* TutorialTouchView.m */; };
 		CF48190C19F7217F00041486 /* FundsViews.m in Sources */ = {isa = PBXBuildFile; fileRef = CF29E91C19612CA000B40DA4 /* FundsViews.m */; };
@@ -26210,7 +26209,6 @@
 				CF48190619F7217F00041486 /* FAQViewController.m in Sources */,
 				CF48190719F7217F00041486 /* ClanRaidLeaderboardViewController.m in Sources */,
 				CF48190819F7217F00041486 /* EventUser.pb.m in Sources */,
-				CF48190919F7217F00041486 /* FundsViewController.m in Sources */,
 				CF48190A19F7217F00041486 /* SBJSON.m in Sources */,
 				6B0784101A8545BB005CDFCF /* SkillControllerActiveBuff.m in Sources */,
 				CF48190B19F7217F00041486 /* TutorialTouchView.m in Sources */,
@@ -26622,8 +26620,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

@@ -191,9 +191,10 @@
 }
 
 - (void) attackClicked {
+  self.dialogueViewController.delegate = nil;
   [self.dialogueViewController animateNext];
   [self.gameViewController.topBarViewController attackClicked:nil];
-  [self stop];
+  [self performSelector:@selector(stop) withObject:nil afterDelay:1.f];
 }
 
 #pragma mark - Dialogue Delegate

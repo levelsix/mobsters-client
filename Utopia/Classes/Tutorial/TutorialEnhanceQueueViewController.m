@@ -88,6 +88,11 @@
   [self confirmationAccepted];
 }
 
+- (void) confirmationAccepted {
+  // Disabled the first time sacrifice confirmation
+  [self allowAddToQueue];
+}
+
 - (void) listView:(ListCollectionView *)listView minusClickedAtIndexPath:(NSIndexPath *)indexPath {
   // Do nothing
 }
@@ -134,7 +139,7 @@
   if (_allowFinish) {
     [super collectClicked:sender];
     
-    [Globals removeUIArrowFromViewRecursively:self.view];
+    [Globals removeUIArrowFromViewRecursively:self.parentViewController.view];
     
     _allowFinish = NO;
   }

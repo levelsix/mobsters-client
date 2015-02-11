@@ -18,7 +18,7 @@
 
 #import "DailyEventViewController.h"
 
-#define ENHANCE_FIRST_TIME_DEFAULTS_KEY @"EnhanceFirstTime"
+#define ENHANCE_FIRST_TIME_DEFAULTS_KEY @"EnhanceFirstTime2"
 
 @implementation EnhanceSmallCardCell
 
@@ -474,7 +474,7 @@
   } else {
     // Disabled for enhance tutorial
     NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
-    if (false || ![def boolForKey:ENHANCE_FIRST_TIME_DEFAULTS_KEY]) {
+    if (![def boolForKey:ENHANCE_FIRST_TIME_DEFAULTS_KEY]) {
       NSString *str = [NSString stringWithFormat:@"You will lose this %@ by sacrificing it for enhancement. Continue?", MONSTER_NAME];
       [GenericPopupController displayConfirmationWithDescription:str title:[NSString stringWithFormat:@"Sacrifice %@?", MONSTER_NAME] okayButton:@"Sacrifice" cancelButton:@"Cancel" target:self selector:@selector(allowAddToQueue)];
     } else {
