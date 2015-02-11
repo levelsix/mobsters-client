@@ -6,16 +6,21 @@
 //  Copyright (c) 2015 LVL6. All rights reserved.
 //
 
-#import "SkillControllerActive.h"
+#import "SkillControllerActiveBuff.h"
 
-@interface SkillEnergize : SkillControllerActive
+@interface SkillEnergize : SkillControllerActiveBuff
 {
-  // Properties
+  // Properties (general)
   float _speedIncrease;
   float _attackIncrease;
   
+  // Properties (defensive)
+  NSInteger _numOrbsToSpawn;
+  NSInteger _orbsSpawnCounter;
+  
   // Temp
   int _initialSpeed;
+  NSInteger _orbsSpawned;
   BOOL _logoShown;
   
   // Counters

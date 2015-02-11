@@ -6,15 +6,12 @@
 //  Copyright (c) 2014 LVL6. All rights reserved.
 //
 
-#import "SkillControllerActive.h"
+#import "SkillControllerActiveBuff.h"
 
-@interface SkillShallowGrave : SkillControllerActive
+@interface SkillShallowGrave : SkillControllerActiveBuff
 {
   // Properties (both)
   int _minHPAllowed;
-  
-  // Properties (offensive)
-  int _numTurnsToRemainActive;
   
   // Properties (defensive)
   int _graveSpawnCount;
@@ -24,7 +21,6 @@
   
   // Counters
   BOOL _skillActive;
-  int _turnsLeft;
 }
 
 @end

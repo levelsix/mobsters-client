@@ -53,6 +53,8 @@
     case SpecialOrbTypeBullet:
     case SpecialOrbTypeGlove:
     case SpecialOrbTypeSword:
+    case SpecialOrbTypeFryingPan:
+    case SpecialOrbTypeBattery:
       if (_orb.turnCounter > 0) [self loadHeadshotElements]; break;
     default: break;
   }
@@ -202,6 +204,10 @@
       return [NSString stringWithFormat:@"%@swordorb%@.png", resPrefix, suffix];
       break;
       
+    case SpecialOrbTypeBattery:
+      return [NSString stringWithFormat:@"%@energizeorb%@.png", resPrefix, suffix];
+      break;
+      
     case SpecialOrbTypeCloud:
       return [NSString stringWithFormat:@"%@cloud%d%@.png", resPrefix, (int)orb.cloudCounter, suffix ];
       break;
@@ -225,6 +231,13 @@
         return nil;
       if (orb.powerupType == PowerupTypeNone)
         return [NSString stringWithFormat:@"%@%@%@.png", resPrefix, [Globals imageNameForElement:(Element)orbColor suffix:@"glove"], suffix ];
+      break;
+      
+    case SpecialOrbTypeFryingPan:
+      if (orbColor == OrbColorNone)
+        return nil;
+      if (orb.powerupType == PowerupTypeNone)
+        return [NSString stringWithFormat:@"%@%@%@.png", resPrefix, [Globals imageNameForElement:(Element)orbColor suffix:@"fryingpan"], suffix ];
       break;
       
       //TODO: This suffix needs to change! Currently reusing poison orbs for this ability

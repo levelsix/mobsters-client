@@ -80,7 +80,8 @@
         
         // Display confused symbol on opponent's next turn indicator
         [self.battleLayer.hudView.battleScheduleView updateConfusionState:YES
-                                                 onUpcomingTurnForMonster:self.belongsToPlayer ? self.enemy.monsterId : self.player.monsterId
+                                                          onUpcomingTurns:(int)self.turnsLeft
+                                                               forMonster:self.belongsToPlayer ? self.enemy.monsterId : self.player.monsterId
                                                                 forPlayer:!self.belongsToPlayer];
       }
     }
@@ -143,9 +144,23 @@
   
   // Display confused symbol on opponent's next turn indicator
   [self.battleLayer.hudView.battleScheduleView updateConfusionState:YES
-                                           onUpcomingTurnForMonster:self.belongsToPlayer ? self.enemy.monsterId : self.player.monsterId
+                                                    onUpcomingTurns:(int)self.turnsLeft
+                                                         forMonster:self.belongsToPlayer ? self.enemy.monsterId : self.player.monsterId
                                                           forPlayer:!self.belongsToPlayer];
 
+  return NO;
+}
+
+- (BOOL) onDurationReset
+{
+  SkillLogStart(@"Confusion -- Skill reactivated");
+  
+  // Display confused symbol on opponent's next turn indicator
+  [self.battleLayer.hudView.battleScheduleView updateConfusionState:YES
+                                                    onUpcomingTurns:(int)self.turnsLeft
+                                                         forMonster:self.belongsToPlayer ? self.enemy.monsterId : self.player.monsterId
+                                                          forPlayer:!self.belongsToPlayer];
+  
   return NO;
 }
 
@@ -157,7 +172,8 @@
   // and remove confused symbol from his next turn indicator
   (self.belongsToPlayer ? self.enemy : self.player).isConfused = NO;
   [self.battleLayer.hudView.battleScheduleView updateConfusionState:NO
-                                           onUpcomingTurnForMonster:self.belongsToPlayer ? self.enemy.monsterId : self.player.monsterId
+                                                    onUpcomingTurns:(int)self.turnsLeft
+                                                         forMonster:self.belongsToPlayer ? self.enemy.monsterId : self.player.monsterId
                                                           forPlayer:!self.belongsToPlayer];
   
   return NO;

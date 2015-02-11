@@ -11,6 +11,7 @@
 @interface SkillControllerActiveBuff : SkillControllerActive
 
 - (BOOL) isActive;
+- (NSInteger) getDuration;
 - (BOOL) resetDuration;
 - (void) tickDuration;
 - (BOOL) onDurationStart;

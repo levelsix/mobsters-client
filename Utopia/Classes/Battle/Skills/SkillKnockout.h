@@ -10,12 +10,20 @@
 
 @interface SkillKnockout : SkillControllerActive
 {
-  // Properties
-  int _enemyHealthThreshold;
+  // Properties (defensive)
+  NSInteger _numOrbsToSpawn;
+  NSInteger _orbsSpawnCounter;
+  int _fixedDamageReceived;
+  
+  // Properties (offensive)
   int _fixedDamageDone;
+  
+  // Properties (general)
+  int _enemyHealthThreshold;
   
   // Temp
   BOOL _logoShown;
+  NSInteger _orbsSpawned;
 }
 
 @end
