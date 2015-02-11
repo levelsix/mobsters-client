@@ -107,6 +107,8 @@ static NSString* const kSkillMiniLogoImageNameSuffix = @"minilogo.png";
 - (BOOL) shouldSpawnRibbon;
 - (BOOL) shouldPersist;
 
+- (void) dealPoisonDamage:(int)damage;
+
 // To be called by inherited skills to show the overlay
 - (void) showSkillPopupOverlay:(BOOL)jumpFirst withCompletion:(SkillPopupBlock)completion;
 - (void) makeSkillOwnerJumpWithTarget:(id)target selector:(SEL)completion;

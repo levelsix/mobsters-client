@@ -253,6 +253,58 @@
 {
 }
 
+#pragma mark - Reusable Poison Logic
+
+- (void) dealPoisonDamage:(int)damage
+{
+  if (self.belongsToPlayer)
+  {
+    [self.opponentSprite performNearFlinchAnimationWithStrength:0 delay:0.4];
+  }
+  else
+  {
+    // Flinch
+    [self.opponentSprite performFarFlinchAnimationWithDelay:0.4];
+  }
+  
+  // Flash red
+  [self.opponentSprite.sprite runAction:[CCActionSequence actions:
+                                    [CCActionDelay actionWithDuration:0.3],
+                                    [RecursiveTintTo actionWithDuration:0.2 color:[CCColor purpleColor]],
+                                    [RecursiveTintTo actionWithDuration:0.2 color:[CCColor whiteColor]],
+                                    nil]];
+  
+  // Skull and bones
+  CCSprite* skull = [CCSprite spriteWithImageNamed:@"poisonplayer.png"];
+  skull.position = ccp(20, self.opponentSprite.contentSize.height/2);
+  skull.scale = 0.01;
+  skull.opacity = 0.0;
+  [self.opponentSprite addChild:skull z:10];
+  [skull runAction:[CCActionSequence actions:
+                    [CCActionSpawn actions:
+                     [CCActionEaseElasticOut actionWithAction:[CCActionScaleTo actionWithDuration:0.3f scale:1]],
+                     [CCActionFadeIn actionWithDuration:0.3f],
+                     nil],
+                    [CCActionCallBlock actionWithBlock:^{
+                      [self dealPoisonDamage2:damage];
+                    }],
+                    [CCActionDelay actionWithDuration:0.5],
+                    [CCActionEaseElasticIn actionWithAction:[CCActionScaleTo actionWithDuration:0.7f scale:0]],
+                    [CCActionRemove action],
+                    nil]];
+}
+
+- (void) dealPoisonDamage2:(int)damage
+{
+  // Deal damage
+  [self.battleLayer dealDamage:(int)damage enemyIsAttacker:!self.belongsToPlayer usingAbility:YES withTarget:self withSelector:@selector(dealPoisonDamage3)];
+}
+
+- (void) dealPoisonDamage3
+{
+  [self skillTriggerFinished];
+}
+
 #pragma mark - UI
 
 - (void) prepareCharacterImage
