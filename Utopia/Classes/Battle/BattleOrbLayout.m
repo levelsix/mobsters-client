@@ -734,14 +734,16 @@
   return (orb.specialOrbType != SpecialOrbTypeCake &&
           orb.specialOrbType != SpecialOrbTypeGrave &&
           orb.specialOrbType != SpecialOrbTypeBullet &&
-          orb.specialOrbType != SpecialOrbTypeSword);
+          orb.specialOrbType != SpecialOrbTypeSword &&
+          orb.specialOrbType != SpecialOrbTypeBullet);
 }
 
 - (BOOL) orbIsBottomFeeder:(BattleOrb *)orb {
   return (orb.specialOrbType == SpecialOrbTypeCake ||
           orb.specialOrbType == SpecialOrbTypeGrave ||
           orb.specialOrbType == SpecialOrbTypeBullet ||
-          orb.specialOrbType == SpecialOrbTypeSword);
+          orb.specialOrbType == SpecialOrbTypeSword ||
+          orb.specialOrbType == SpecialOrbTypeBullet);
 }
 
 #pragma mark - Powerup Matches

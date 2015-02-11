@@ -57,10 +57,15 @@
   return _turnsLeft != 0;
 }
 
+- (NSInteger) getDuration
+{
+  return _duration;
+}
+
 - (BOOL) resetDuration
 {
   NSInteger tempOldTurns = _turnsLeft;
-  _turnsLeft = _duration;
+  _turnsLeft = [self getDuration];
   
   if (tempOldTurns == 0)
     return [self onDurationStart];
@@ -70,7 +75,8 @@
 
 - (void) tickDuration
 {
-  _turnsLeft--;
+  if (_turnsLeft > 0)
+    _turnsLeft--;
   if (_turnsLeft == 0)
     [self onDurationEnd];
 }

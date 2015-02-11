@@ -40,11 +40,12 @@
     _powerupType = PowerupTypeNone;
   }
   
-  if (self.specialOrbType == SpecialOrbTypeCake ||
-      self.specialOrbType == SpecialOrbTypeCloud ||
-      self.specialOrbType == SpecialOrbTypeGrave ||
+  if (self.specialOrbType == SpecialOrbTypeCake   ||
+      self.specialOrbType == SpecialOrbTypeCloud  ||
+      self.specialOrbType == SpecialOrbTypeGrave  ||
       self.specialOrbType == SpecialOrbTypeBullet ||
-      self.specialOrbType == SpecialOrbTypeSword) {
+      self.specialOrbType == SpecialOrbTypeSword  ||
+      self.specialOrbType == SpecialOrbTypeBullet) {
     self.orbColor = OrbColorNone;
   }
 }

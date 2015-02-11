@@ -345,8 +345,6 @@
   }
    */
   
-  self.movesLeftContainer = nil;
-  _movesLeftHidden = YES;
   
   _lootBgd = [CCSprite spriteWithImageNamed:@"collectioncapsule.png"];
   [self addChild:_lootBgd];
@@ -402,11 +400,6 @@
         [self.movesLeftContainer addChild:self.movesLeftCounter];
     }
     
-    if (movesLeft == 0 && !_movesLeftHidden)
-      [self hideMovesLeft:YES withCompletion:^{ _movesLeftHidden = YES; }];
-    if (movesLeft > 0 && _movesLeftHidden)
-      [self hideMovesLeft:NO withCompletion:^{ _movesLeftHidden = NO; }];
-    
     if (movesLeft > 0) // Note: Max turns we have an asset for is 10
     {
       NSString* img = (movesLeft == 1) ? @"movelabelmove.png" : @"movelabelmoves.png";
@@ -425,10 +418,10 @@
           [self.movesLeftCounter setAnchorPoint:ccp(1.f, .5f)];
           [self.movesLeftCounter setPosition:ccp(self.movesLeftContainer.contentSize.width * .5f - 15.f, self.movesLeftContainer.contentSize.height * .5f - 1.f + 15.f)];
           [self.movesLeftContainer addChild:self.movesLeftCounter];
-        [self.movesLeftCounter runAction:[CCActionSequence actions:
-                                          [CCActionSpawn actions:
-                                           [CCActionMoveBy actionWithDuration:.3f position:ccp(0.f, -15.f)],
-                                           [CCActionFadeIn actionWithDuration:.3f], nil], nil]];
+          [self.movesLeftCounter runAction:[CCActionSequence actions:
+                                            [CCActionSpawn actions:
+                                             [CCActionMoveBy actionWithDuration:.3f position:ccp(0.f, -15.f)],
+                                             [CCActionFadeIn actionWithDuration:.3f], nil], nil]];
       }
       else
       {
@@ -436,6 +429,11 @@
         [self.movesLeftCounter setSpriteFrame:[CCSpriteFrame frameWithImageNamed:img]];
       }
     }
+    
+    if (movesLeft == 0 && !_movesLeftHidden)
+      [self hideMovesLeft:YES withCompletion:^{ _movesLeftHidden = YES; }];
+    if (movesLeft > 0 && _movesLeftHidden)
+      [self hideMovesLeft:NO withCompletion:^{ _movesLeftHidden = NO; }];
   }
   
   _movesLeft = movesLeft;
@@ -449,17 +447,20 @@
       [self hideMovesLeft:hide node:child withCompletion:^{}];
     [self hideMovesLeft:hide node:self.movesLeftContainer withCompletion:completion];
   }
+  else
+    completion();
 }
 
 - (void) hideMovesLeft:(BOOL)hide node:(CCNode*)node withCompletion:(void(^)())completion
 {
   if ((hide && node.opacity == 1.f) || (!hide && node.opacity == 0.f))
   {
-    [node stopAllActions];
     [node runAction:[CCActionSequence actions:
                      hide ? [CCActionFadeOut actionWithDuration:.3f] : [CCActionFadeIn actionWithDuration:.3f],
                      [CCActionCallBlock actionWithBlock:completion], nil]];
   }
+  else
+    completion();
 }
 
 - (void) mobsterInfoDisplayed:(BOOL)displayed onSprite:(BattleSprite*)sprite
@@ -475,6 +476,11 @@
 }
 
 - (void) createNextMyPlayerSprite {
+  [self hideMovesLeft:YES withCompletion:^{
+    [self.movesLeftContainer removeFromParent];
+    _movesLeftHidden = YES;
+  }];
+  
   BattleSprite *mp = [[BattleSprite alloc] initWithPrefix:self.myPlayerObject.spritePrefix nameString:self.myPlayerObject.attrName rarity:self.myPlayerObject.rarity animationType:self.myPlayerObject.animationType isMySprite:YES verticalOffset:self.myPlayerObject.verticalOffset];
   mp.battleLayer = self;
   mp.healthBar.color = [self.orbLayer.swipeLayer colorForSparkle:(OrbColor)self.myPlayerObject.element];
@@ -483,6 +489,7 @@
   if (_puzzleIsOnLeft) mp.position = ccpAdd(mp.position, ccp(PUZZLE_ON_LEFT_BGD_OFFSET, 0));
   mp.isFacingNear = NO;
   self.myPlayer = mp;
+  self.movesLeftContainer = nil;
   [self updateHealthBars];
 }
 
@@ -1121,6 +1128,11 @@
                            [SoundEngine puzzleDamageTickStop];
                            
                            if (newHealth <= 0) {
+                             if (!enemyIsAttacker) {
+                               [self.movesLeftContainer removeFromParent];
+                               self.movesLeftContainer = nil;
+                             }
+                             
                              [self blowupBattleSprite:bs withBlock:^{
                                [target performSelector:selector];
                              }];
@@ -1197,6 +1209,11 @@
                            [SoundEngine puzzleDamageTickStop];
                            
                            if (newHealth <= 0) {
+                             if (enemyIsAttacker) {
+                               [self.movesLeftContainer removeFromParent];
+                               self.movesLeftContainer = nil;
+                             }
+                             
                              [self blowupBattleSprite:defSpr withBlock:^{
                                [target performSelector:selector];
                              }];
@@ -1311,8 +1328,12 @@
   bp.curHealth = newHealth;
 }
 
-- (void) instantSetHealthForEnemey:(BOOL)enemy to:(int)health withTarget:(id)target andSelector:(SEL)selector
+- (void) instantSetHealthForEnemy:(BOOL)enemy to:(int)health withTarget:(id)target andSelector:(SEL)selector
 {
+  // TODO - Right now only used to instakill a BattlePlayer. Not sure
+  // why we would wanna set the health to any value other than zero
+  // and not go through the usual dealDamage: flow
+  
   BattlePlayer* bp = enemy ? self.enemyPlayerObject : self.myPlayerObject;
   BattleSprite* bs = enemy ? self.currentEnemy : self.myPlayer;
   
@@ -1320,6 +1341,11 @@
   [self updateHealthBars];
   
   if (health <= 0) {
+    if (!enemy) {
+      [self.movesLeftContainer removeFromParent];
+      self.movesLeftContainer = nil;
+    }
+    
     [self blowupBattleSprite:bs withBlock:^{
       [target performSelector:selector];
     }];
@@ -1333,6 +1359,10 @@
     }
   } else {
     [target performSelector:selector];
+  }
+  
+  if (!enemy) {
+    [self sendServerUpdatedValuesVerifyDamageDealt:NO];
   }
 }
 
@@ -1476,7 +1506,6 @@
       [self stopPulsing];
       self.myPlayer = nil;
       self.myPlayerObject = nil;
-      self.movesLeftContainer = nil;
       [self updateHealthBars];
       
       [self displayDeployViewAndIsCancellable:NO];
@@ -1486,7 +1515,6 @@
     [self stopPulsing];
     self.myPlayer = nil;
     self.myPlayerObject = nil;
-    self.movesLeftContainer = nil;
     [self updateHealthBars];
     
     [self youLost];

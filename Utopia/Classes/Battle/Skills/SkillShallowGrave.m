@@ -21,10 +21,8 @@ static const NSInteger kGraveOrbsMaxSearchIterations = 256;
   [super setDefaultValues];
   
   _minHPAllowed = 0;
-  _numTurnsToRemainActive = 0;
   _graveSpawnCount = 0;
   _skillActive = NO;
-  _turnsLeft = 0;
   _logoShown = NO;
 }
 
@@ -34,8 +32,6 @@ static const NSInteger kGraveOrbsMaxSearchIterations = 256;
   
   if ([property isEqualToString:@"MIN_HP_ALLOWED"])
     _minHPAllowed = value;
-  if ([property isEqualToString:@"OFF_NUM_TURNS_ACTIVE"])
-    _numTurnsToRemainActive = value;
   if ([property isEqualToString:@"DEF_SPAWN_COUNT"])
     _graveSpawnCount = value;
 }
@@ -61,7 +57,7 @@ static const NSInteger kGraveOrbsMaxSearchIterations = 256;
       }];
       
       // Will restore visuals if coming back to a battle after leaving midway
-      if (_skillActive)
+      if ((self.belongsToPlayer && [self isActive]) || (!self.belongsToPlayer && _skillActive))
       {
         SkillLogStart(@"Shallow Grave -- Skill activated");
         
@@ -75,56 +71,26 @@ static const NSInteger kGraveOrbsMaxSearchIterations = 256;
    * Offensive Triggers *
    **********************/
   
-  if (trigger == SkillTriggerPointEndOfPlayerMove && self.belongsToPlayer)
+  if ([self isActive])
   {
-    if (!_skillActive && [self skillIsReady])
+    if (trigger == SkillTriggerPointEnemyDealsDamage && self.belongsToPlayer)
     {
       if (execute)
       {
-        SkillLogStart(@"Shallow Grave -- Skill activated");
-        
-        _skillActive = YES;
-        _turnsLeft = _numTurnsToRemainActive;
-        
-        [self makeSkillOwnerJumpWithTarget:nil selector:nil];
-        [self performAfterDelay:.5f block:^{
-          [self addDefensiveShieldForPlayer:self.player];
+        [self tickDuration];
+        [self showLogo];
+        [self performAfterDelay:.3f block:^{
           [self skillTriggerFinished];
         }];
       }
       return YES;
     }
-  }
-  
-  if ((trigger == SkillTriggerPointEnemyDealsDamage && self.belongsToPlayer) ||
-      (trigger == SkillTriggerPointEnemyDefeated && self.belongsToPlayer))
-  {
-    if (_skillActive)
+    
+    if (trigger == SkillTriggerPointEnemyDefeated && self.belongsToPlayer)
     {
       if (execute)
       {
-        if (--_turnsLeft == 0 || trigger == SkillTriggerPointEnemyDefeated)
-        {
-          SkillLogStart(@"Shallow Grave -- Skill deactivated");
-          
-          _skillActive = NO;
-          [self resetOrbCounter];
-          
-          [self showLogo];
-          [self performAfterDelay:.3f block:^{
-            [self removeDefensiveShieldForPlayer:self.player];
-            [self skillTriggerFinished];
-          }];
-        }
-        else
-        {
-          SkillLogStart(@"Shallow Grave -- %d enemy turns remaining", _turnsLeft);
-          
-          [self showLogo];
-          [self performAfterDelay:.3f block:^{
-            [self skillTriggerFinished];
-          }];
-        }
+        [self endDurationNow];
       }
       return YES;
     }
@@ -201,6 +167,42 @@ static const NSInteger kGraveOrbsMaxSearchIterations = 256;
   // TODO - Remove visual effect from the player
 }
 
+- (BOOL) onDurationStart
+{
+  if (self.belongsToPlayer)
+  {
+    SkillLogStart(@"Shallow Grave -- Skill activated");
+    
+    [self addDefensiveShieldForPlayer:self.player];
+  }
+  
+  return NO;
+}
+
+- (BOOL) onDurationReset
+{
+  if (self.belongsToPlayer)
+  {
+    SkillLogStart(@"Shallow Grave -- Skill reactivated");
+    
+    [self addDefensiveShieldForPlayer:self.player];
+  }
+  
+  return NO;
+}
+
+- (BOOL) onDurationEnd
+{
+  if (self.belongsToPlayer)
+  {
+    SkillLogStart(@"Shallow Grave -- Skill deactivated");
+    
+    [self removeDefensiveShieldForPlayer:self.player];
+  }
+  
+  return NO;
+}
+
 - (void) showLogo
 {
   // Display logo
@@ -244,7 +246,7 @@ static const NSInteger kGraveOrbsMaxSearchIterations = 256;
     if (!orb)
     {
       if (n == _graveSpawnCount - 1)
-        [self skillTriggerFinished];
+        [self skillTriggerFinishedActivated];
       continue;
     }
     
@@ -258,7 +260,7 @@ static const NSInteger kGraveOrbsMaxSearchIterations = 256;
     [bgdLayer updateTile:tile
                  keepLit:YES
               withTarget:(n == _graveSpawnCount - 1) ? self : nil
-             andCallback:@selector(skillTriggerFinished)];
+             andCallback:@selector(skillTriggerFinishedActivated)];
     
     // Update orb
     [self performAfterDelay:.5f block:^{
@@ -301,7 +303,6 @@ static const NSInteger kGraveOrbsMaxSearchIterations = 256;
 {
   NSMutableDictionary* result = [NSMutableDictionary dictionaryWithDictionary:[super serialize]];
   [result setObject:@(_skillActive) forKey:@"skillActive"];
-  [result setObject:@(_turnsLeft) forKey:@"turnsLeft"];
   
   return result;
 }
@@ -313,8 +314,6 @@ static const NSInteger kGraveOrbsMaxSearchIterations = 256;
   
   NSNumber* skillActive = [dict objectForKey:@"skillActive"];
   if (skillActive) _skillActive = [skillActive boolValue];
-  NSNumber* turnsLeft = [dict objectForKey:@"turnsLeft"];
-  if (turnsLeft) _turnsLeft = [turnsLeft intValue];
   
   return YES;
 }

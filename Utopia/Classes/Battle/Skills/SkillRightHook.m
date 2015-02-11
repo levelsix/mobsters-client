@@ -275,11 +275,14 @@
                                                                 forPlayer:YES];
       }
       
-      // Remove all glove orbs added by this enemy
-      [self removeAllGloveOrbs];
-      [self performAfterDelay:.3f block:^{
-        [self skillTriggerFinished];
-      }];
+      if (trigger == SkillTriggerPointEnemyDefeated)
+      {
+        // Remove all glove orbs added by this enemy
+        [self removeAllGloveOrbs];
+        [self performAfterDelay:.3f block:^{
+          [self skillTriggerFinished];
+        }];
+      }
     }
     return YES;
   }
