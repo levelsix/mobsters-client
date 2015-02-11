@@ -1182,6 +1182,9 @@
 		6B07840E1A8545BB005CDFCF /* SkillControllerActiveBuff.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B07840D1A8545BB005CDFCF /* SkillControllerActiveBuff.m */; };
 		6B07840F1A8545BB005CDFCF /* SkillControllerActiveBuff.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B07840D1A8545BB005CDFCF /* SkillControllerActiveBuff.m */; };
 		6B0784101A8545BB005CDFCF /* SkillControllerActiveBuff.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B07840D1A8545BB005CDFCF /* SkillControllerActiveBuff.m */; };
+		6B3BC16D1A8BC68E00E0D457 /* SkillPoisonSkewer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B3BC16C1A8BC68E00E0D457 /* SkillPoisonSkewer.m */; };
+		6B3BC16E1A8BC68E00E0D457 /* SkillPoisonSkewer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B3BC16C1A8BC68E00E0D457 /* SkillPoisonSkewer.m */; };
+		6B3BC16F1A8BC68E00E0D457 /* SkillPoisonSkewer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B3BC16C1A8BC68E00E0D457 /* SkillPoisonSkewer.m */; };
 		6BA24DF31A7A9ECF00BEF920 /* SkillBloodRage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA24DF21A7A9ECF00BEF920 /* SkillBloodRage.m */; };
 		6BA24E091A7AEA6E00BEF920 /* SkillTakeAim.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA24E081A7AEA6E00BEF920 /* SkillTakeAim.m */; };
 		6BA24E0A1A7AEA6E00BEF920 /* SkillTakeAim.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA24E081A7AEA6E00BEF920 /* SkillTakeAim.m */; };
@@ -8111,6 +8114,8 @@
 		6B0784021A828C1C005CDFCF /* SkillInsurance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillInsurance.m; sourceTree = "<group>"; };
 		6B07840A1A854532005CDFCF /* SkillControllerActiveBuff.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillControllerActiveBuff.h; sourceTree = "<group>"; };
 		6B07840D1A8545BB005CDFCF /* SkillControllerActiveBuff.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillControllerActiveBuff.m; sourceTree = "<group>"; };
+		6B3BC16A1A8BC67E00E0D457 /* SkillPoisonSkewer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SkillPoisonSkewer.h; sourceTree = "<group>"; };
+		6B3BC16C1A8BC68E00E0D457 /* SkillPoisonSkewer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillPoisonSkewer.m; sourceTree = "<group>"; };
 		6BA24DF01A7A9EC100BEF920 /* SkillBloodRage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillBloodRage.h; sourceTree = "<group>"; };
 		6BA24DF21A7A9ECF00BEF920 /* SkillBloodRage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillBloodRage.m; sourceTree = "<group>"; };
 		6BA24E061A7AEA6100BEF920 /* SkillTakeAim.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SkillTakeAim.h; sourceTree = "<group>"; };
@@ -18432,6 +18437,8 @@
 				6B0784021A828C1C005CDFCF /* SkillInsurance.m */,
 				9B41AF7E1A830BB300529879 /* SkillFlameBreak.h */,
 				9B41AF7F1A830BB300529879 /* SkillFlameBreak.m */,
+				6B3BC16A1A8BC67E00E0D457 /* SkillPoisonSkewer.h */,
+				6B3BC16C1A8BC68E00E0D457 /* SkillPoisonSkewer.m */,
 			);
 			name = Specific;
 			sourceTree = "<group>";
@@ -25294,6 +25301,7 @@
 				CFA9F77B1A0D8D8900EBE77D /* ItemSelectViewController.m in Sources */,
 				CF81C96D19A58511002682A2 /* OrbSwipeLayer.m in Sources */,
 				CF0CECFE196F452900ECD301 /* easing.c in Sources */,
+				6B3BC16E1A8BC68E00E0D457 /* SkillPoisonSkewer.m in Sources */,
 				CF0CED00196F452900ECD301 /* TutorialAttackMapViewController.m in Sources */,
 				CF0CED01196F452900ECD301 /* HospitalQueueSimulator.m in Sources */,
 				CF0CED02196F452900ECD301 /* Protocols.pb.m in Sources */,
@@ -25876,6 +25884,7 @@
 				CF6574BA1909CAF200ABF1F4 /* EventStructure.pb.m in Sources */,
 				CF6574B21909CAF200ABF1F4 /* EventDungeon.pb.m in Sources */,
 				CF6574A61909CAF200ABF1F4 /* AchievementStuff.pb.m in Sources */,
+				6B3BC16D1A8BC68E00E0D457 /* SkillPoisonSkewer.m in Sources */,
 				CF48259A19F729D000041486 /* PPEmitterView.m in Sources */,
 				CFF3913C182A10CD0010A3BE /* DBFBProfilePictureView.m in Sources */,
 				CF6574E51909CAF200ABF1F4 /* User.pb.m in Sources */,
@@ -25973,6 +25982,7 @@
 				CFA9F77C1A0D8D8900EBE77D /* ItemSelectViewController.m in Sources */,
 				CF4818A219F7217F00041486 /* OrbSwipeLayer.m in Sources */,
 				CF4818A319F7217F00041486 /* easing.c in Sources */,
+				6B3BC16F1A8BC68E00E0D457 /* SkillPoisonSkewer.m in Sources */,
 				CF4818A419F7217F00041486 /* TutorialAttackMapViewController.m in Sources */,
 				CF4818A519F7217F00041486 /* HospitalQueueSimulator.m in Sources */,
 				CF4818A619F7217F00041486 /* Protocols.pb.m in Sources */,

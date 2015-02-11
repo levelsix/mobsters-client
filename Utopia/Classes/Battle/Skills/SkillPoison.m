@@ -99,7 +99,7 @@
 
 - (BOOL) onDurationReset
 {
-  [self dealPoisonDamage];
+  [self dealPoisonDamage:_tempDamageDealt];
   return YES;
 }
 

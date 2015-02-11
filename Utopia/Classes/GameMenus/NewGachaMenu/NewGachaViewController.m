@@ -648,7 +648,7 @@
   }
   
   [self.skillPopup displayWithSkillName:skill.name
-                            description:skill.desc
+                            description:skill.offDesc
                            counterLabel:nil
                          orbDescription:orbDesc
                         backgroundImage:bgName

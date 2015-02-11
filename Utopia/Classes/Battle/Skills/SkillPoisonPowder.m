@@ -43,6 +43,11 @@
   }
 }
 
+- (int) poisonDamage
+{
+  return MAX(_damage, _percent * (self.belongsToPlayer ? self.enemy.maxHealth : self.player.maxHealth));
+}
+
 - (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
 {
   if ([super skillCalledWithTrigger:trigger execute:execute])
@@ -53,8 +58,7 @@
     if ((!self.belongsToPlayer && trigger == SkillTriggerPointEndOfPlayerTurn)
         || (self.belongsToPlayer && trigger == SkillTriggerPointEndOfEnemyTurn))
     {
-      int damage = MAX(_damage, _percent * (self.belongsToPlayer ? self.enemy.maxHealth : self.player.maxHealth));
-      [self dealPoisonDamage:damage];
+      [self dealPoisonDamage:self.poisonDamage];
       [self tickDuration];
       return YES;
     }
@@ -62,7 +66,7 @@
     else if ((self.belongsToPlayer && trigger == SkillTriggerPointEnemyInitialized)
              || (!self.belongsToPlayer && trigger == SkillTriggerPointPlayerInitialized))
     {
-      [self removePoison];
+      [self endDurationNow];
     }
   }
   
@@ -87,8 +91,6 @@
   
   // Finish trigger execution
   [self performAfterDelay:0.3 block:^{
-    [self.battleLayer.orbLayer.bgdLayer turnTheLightsOn];
-    [self.battleLayer.orbLayer allowInput];
     [self skillTriggerFinished:YES];
   }];
 }

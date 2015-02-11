@@ -153,7 +153,7 @@
       self.offensiveSkillName.text = skillProto.name;
       if (offensive)
       {
-        [self setDescriptionLabelString:skillProto.desc];
+        [self setDescriptionLabelString:skillProto.offDesc];
         self.offensiveSkillName.textColor = [UIColor colorWithHexString:@"1a85e3"];
       }
       else
@@ -184,7 +184,7 @@
       self.defensiveSkillName.text = skillProto.name;
       if (! offensive)
       {
-        [self setDescriptionLabelString:skillProto.desc];
+        [self setDescriptionLabelString:skillProto.offDesc];
         self.defensiveSkillName.textColor = [UIColor colorWithHexString:@"1a85e3"];
       }
       else
