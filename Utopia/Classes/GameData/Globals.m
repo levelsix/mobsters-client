@@ -2016,6 +2016,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
         quantity++;
       }
     }
+  } else if (prereq.prereqGameType == GameTypeTask) {
+    quantity = [gs isTaskCompleted:prereq.prereqGameEntityId];
   }
   
   return quantity >= prereq.quantity;
@@ -2310,10 +2312,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (void) createUIArrowForView:(UIView *)view atAngle:(float)angle {
+  [self createUIArrowForView:view atAngle:angle inSuperview:view.superview];
+}
+
++ (void) createUIArrowForView:(UIView *)view atAngle:(float)angle inSuperview:(UIView *)sv {
   UIImageView *img = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"arrow.png"]];
-  [view.superview addSubview:img];
+  [sv addSubview:img];
   
   CGPoint pt = [self pointOnRect:CGRectInset(view.frame, -20, -20) atAngle:-angle];
+  pt = [sv convertPoint:pt fromView:view.superview];
   img.center = pt;
   img.tag = ARROW_TAG;
   

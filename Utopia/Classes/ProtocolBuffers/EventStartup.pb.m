@@ -6251,6 +6251,7 @@ static StartupResponseProto_StartupConstants_TaskMapConstants* defaultStartupRes
 @interface StartupResponseProto_StartupConstants_MiniTutorialConstants ()
 @property int32_t miniTutorialTaskId;
 @property int32_t guideMonsterId;
+@property int32_t enhanceGuideMonsterId;
 @end
 
 @implementation StartupResponseProto_StartupConstants_MiniTutorialConstants
@@ -6269,10 +6270,18 @@ static StartupResponseProto_StartupConstants_TaskMapConstants* defaultStartupRes
   hasGuideMonsterId_ = !!value_;
 }
 @synthesize guideMonsterId;
+- (BOOL) hasEnhanceGuideMonsterId {
+  return !!hasEnhanceGuideMonsterId_;
+}
+- (void) setHasEnhanceGuideMonsterId:(BOOL) value_ {
+  hasEnhanceGuideMonsterId_ = !!value_;
+}
+@synthesize enhanceGuideMonsterId;
 - (id) init {
   if ((self = [super init])) {
     self.miniTutorialTaskId = 0;
     self.guideMonsterId = 0;
+    self.enhanceGuideMonsterId = 0;
   }
   return self;
 }
@@ -6298,6 +6307,9 @@ static StartupResponseProto_StartupConstants_MiniTutorialConstants* defaultStart
   if (self.hasGuideMonsterId) {
     [output writeInt32:2 value:self.guideMonsterId];
   }
+  if (self.hasEnhanceGuideMonsterId) {
+    [output writeInt32:3 value:self.enhanceGuideMonsterId];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -6312,6 +6324,9 @@ static StartupResponseProto_StartupConstants_MiniTutorialConstants* defaultStart
   }
   if (self.hasGuideMonsterId) {
     size_ += computeInt32Size(2, self.guideMonsterId);
+  }
+  if (self.hasEnhanceGuideMonsterId) {
+    size_ += computeInt32Size(3, self.enhanceGuideMonsterId);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -6354,6 +6369,9 @@ static StartupResponseProto_StartupConstants_MiniTutorialConstants* defaultStart
   if (self.hasGuideMonsterId) {
     [output appendFormat:@"%@%@: %@\n", indent, @"guideMonsterId", [NSNumber numberWithInteger:self.guideMonsterId]];
   }
+  if (self.hasEnhanceGuideMonsterId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"enhanceGuideMonsterId", [NSNumber numberWithInteger:self.enhanceGuideMonsterId]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -6369,6 +6387,8 @@ static StartupResponseProto_StartupConstants_MiniTutorialConstants* defaultStart
       (!self.hasMiniTutorialTaskId || self.miniTutorialTaskId == otherMessage.miniTutorialTaskId) &&
       self.hasGuideMonsterId == otherMessage.hasGuideMonsterId &&
       (!self.hasGuideMonsterId || self.guideMonsterId == otherMessage.guideMonsterId) &&
+      self.hasEnhanceGuideMonsterId == otherMessage.hasEnhanceGuideMonsterId &&
+      (!self.hasEnhanceGuideMonsterId || self.enhanceGuideMonsterId == otherMessage.enhanceGuideMonsterId) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -6378,6 +6398,9 @@ static StartupResponseProto_StartupConstants_MiniTutorialConstants* defaultStart
   }
   if (self.hasGuideMonsterId) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.guideMonsterId] hash];
+  }
+  if (self.hasEnhanceGuideMonsterId) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.enhanceGuideMonsterId] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -6428,6 +6451,9 @@ static StartupResponseProto_StartupConstants_MiniTutorialConstants* defaultStart
   if (other.hasGuideMonsterId) {
     [self setGuideMonsterId:other.guideMonsterId];
   }
+  if (other.hasEnhanceGuideMonsterId) {
+    [self setEnhanceGuideMonsterId:other.enhanceGuideMonsterId];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -6455,6 +6481,10 @@ static StartupResponseProto_StartupConstants_MiniTutorialConstants* defaultStart
       }
       case 16: {
         [self setGuideMonsterId:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setEnhanceGuideMonsterId:[input readInt32]];
         break;
       }
     }
@@ -6490,6 +6520,22 @@ static StartupResponseProto_StartupConstants_MiniTutorialConstants* defaultStart
 - (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) clearGuideMonsterId {
   result.hasGuideMonsterId = NO;
   result.guideMonsterId = 0;
+  return self;
+}
+- (BOOL) hasEnhanceGuideMonsterId {
+  return result.hasEnhanceGuideMonsterId;
+}
+- (int32_t) enhanceGuideMonsterId {
+  return result.enhanceGuideMonsterId;
+}
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) setEnhanceGuideMonsterId:(int32_t) value {
+  result.hasEnhanceGuideMonsterId = YES;
+  result.enhanceGuideMonsterId = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) clearEnhanceGuideMonsterId {
+  result.hasEnhanceGuideMonsterId = NO;
+  result.enhanceGuideMonsterId = 0;
   return self;
 }
 @end

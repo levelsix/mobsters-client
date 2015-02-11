@@ -34,6 +34,7 @@
 - (int) retrieveFromNormStructure:(UserStruct *)userStruct;
 - (void) instaUpgrade:(UserStruct *)userStruct delegate:(id)delegate queueUp:(BOOL)queueUp;
 - (void) normStructWaitComplete:(UserStruct *)userStruct delegate:(id)delegate;
+- (void) upgradeAndCompleteFreeBuilding:(UserStruct *)us;
 - (void) upgradeNormStruct:(UserStruct *)userStruct allowGems:(BOOL)allowGems delegate:(id)delegate;
 
 - (void) loadPlayerCity:(NSString *)userUuid withDelegate:(id)delegate;

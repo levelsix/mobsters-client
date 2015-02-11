@@ -2398,9 +2398,6 @@
 }
 
 - (void) onEnter {
-  // Can't call refresh in init because it causes tutorial to try and spawn new obstacles
-  [self refresh];
-  
   [super onEnter];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadStorages) name:GAMESTATE_UPDATE_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadRetrievableIcons) name:GAMESTATE_UPDATE_NOTIFICATION object:nil];

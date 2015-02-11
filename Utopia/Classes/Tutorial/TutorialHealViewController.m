@@ -52,7 +52,7 @@
 - (void) allowClose {
   _allowClose = YES;
   
-  [Globals createUIArrowForView:self.parentViewController.closeButton atAngle:M_PI];
+  [Globals createUIArrowForView:self.parentViewController.closeButton atAngle:M_PI inSuperview:self.parentViewController.view];
 }
 
 #pragma mark - Overwritten methods

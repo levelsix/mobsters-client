@@ -12,6 +12,18 @@
 #import "Globals.h"
 #import "SoundEngine.h"
 
+@implementation DialogueView
+
+- (BOOL) pointInside:(CGPoint)point withEvent:(UIEvent *)event {
+  if (self.allowClickThrough) {
+    [self.delegate dialogueViewPointInsideChecked];
+    return NO;
+  }
+  return [super pointInside:point withEvent:event];
+}
+
+@end
+
 @implementation DialogueViewController
 
 - (id) initWithDialogueProto:(DialogueProto *)dialogue {
@@ -329,6 +341,18 @@
 
 - (IBAction) buttonClicked:(id)sender {
   [self.delegate dialogueViewControllerButtonClicked:self];
+}
+
+- (void) dialogueViewPointInsideChecked {
+  [self animateNext];
+}
+
+- (void) allowClickThrough {
+  [(DialogueView *)self.view setAllowClickThrough:YES];
+}
+
+- (void) disallowClickThrough {
+  [(DialogueView *)self.view setAllowClickThrough:NO];
 }
 
 @end

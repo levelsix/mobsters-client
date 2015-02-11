@@ -99,6 +99,15 @@
   return nil;
 }
 
+- (LabBuilding *) labBuilding {
+  for (CCNode *n in self.children) {
+    if ([n isKindOfClass:[LabBuilding class]]) {
+      return (LabBuilding *)n;
+    }
+  }
+  return nil;
+}
+
 - (ResourceGeneratorBuilding *) oilDrill {
   for (CCNode *n in self.children) {
     if ([n isKindOfClass:[ResourceGeneratorBuilding class]]) {
@@ -459,8 +468,10 @@
   
   if (_enteringHospital) {
     [self.delegate enterHospitalClicked];
-  } else {
+  } else if (_enteringTeamCenter) {
     [self.delegate enterTeamCenterClicked];
+  } else if (_enteringLab) {
+    [self.delegate enterLabClicked];
   }
 }
 
@@ -481,6 +492,7 @@
   TeamCenterBuilding *tcb = [self teamCenterBuilding];
   [tcb displayArrow];
   [self moveToSprite:tcb animated:YES withOffset:ccp(50, 0)];
+  _enteringTeamCenter = YES;
   
   self.clickableUserStructUuid = tcb.userStruct.userStructUuid;
 }
@@ -494,6 +506,16 @@
   _enteringTownHall = YES;
   
   return thb.userStruct;
+}
+
+- (void) moveToLab {
+  LabBuilding *tcb = [self labBuilding];
+  [tcb displayArrow];
+  [self moveToSprite:tcb animated:YES withOffset:ccp(50, 0)];
+  
+  _enteringLab = YES;
+  
+  self.clickableUserStructUuid = tcb.userStruct.userStructUuid;
 }
 
 - (void) panToMark {
@@ -662,7 +684,7 @@
   if (self.clickableUserStructUuid) {
     [super tap:recognizer];
     
-    if (!_enteringHospital) {
+    if (_enteringTeamCenter) {
       [self.delegate teamCenterClicked];
     }
   }
@@ -680,9 +702,22 @@
   // Do nothing
 }
 
+- (void) retrieveFromBuilding:(HomeBuilding *)hb {
+  // Do nothing
+}
+
 - (void) reloadTeamCenter {
   if (!self.constants) {
     [super reloadTeamCenter];
+  }
+}
+
+- (void) refresh {
+  [super refresh];
+  
+  if (self.clickableUserStructUuid) {
+    Building *b = (Building *)[self getChildByName:STRUCT_TAG(self.clickableUserStructUuid) recursively:NO];
+    [b displayArrow];
   }
 }
 

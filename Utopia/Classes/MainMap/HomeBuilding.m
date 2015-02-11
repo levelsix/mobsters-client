@@ -121,16 +121,34 @@
 }
 
 - (BOOL) select {
-  BOOL ret = [super select];
-  _startMoveCoordinate = _location.origin;
-  _startOrientation = self.orientation;
-  [self displayMoveArrows];
+  // Check if prereqs contain task
+  Globals *gl = [Globals sharedGlobals];
+  NSArray *incomplete = [gl incompletePrereqsForStructId:self.userStruct.staticStructForNextLevel.structInfo.structId];
   
-  CCSprite *frame = (CCSprite *)[self getChildByName:CONSTR_FRAME_TAG recursively:YES];
-  [frame stopActionByTag:BOUNCE_ACTION_TAG];
-  [frame runAction:[self.buildingSprite getActionByTag:BOUNCE_ACTION_TAG].copy];
+  PrereqProto *pre = nil;
+  for (PrereqProto *p in incomplete) {
+    if (p.prereqGameType == GameTypeTask) {
+      pre = p;
+    }
+  }
   
-  return ret;
+  if (!pre) {
+    BOOL ret = [super select];
+    _startMoveCoordinate = _location.origin;
+    _startOrientation = self.orientation;
+    [self displayMoveArrows];
+    
+    CCSprite *frame = (CCSprite *)[self getChildByName:CONSTR_FRAME_TAG recursively:YES];
+    [frame stopActionByTag:BOUNCE_ACTION_TAG];
+    [frame runAction:[self.buildingSprite getActionByTag:BOUNCE_ACTION_TAG].copy];
+    
+    return ret;
+  } else {
+    GameState *gs = [GameState sharedGameState];
+    TaskMapElementProto *elem = [gs mapElementWithTaskId:pre.prereqGameEntityId];
+    [Globals addAlertNotification:[NSString stringWithFormat:@"This building is locked until you defeat Level %d.", elem.mapElementId]];
+    return NO;
+  }
 }
 
 - (void) unselect {

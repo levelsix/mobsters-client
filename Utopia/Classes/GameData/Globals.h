@@ -342,6 +342,7 @@
 
 + (void) animateUIArrow:(UIView *)arrow atAngle:(float)angle;
 + (void) createUIArrowForView:(UIView *)view atAngle:(float)angle;
++ (void) createUIArrowForView:(UIView *)view atAngle:(float)angle inSuperview:(UIView *)sv;
 + (void) removeUIArrowFromViewRecursively:(UIView *)view;
 + (void) animateCCArrow:(CCNode *)arrow atAngle:(float)angle;
 

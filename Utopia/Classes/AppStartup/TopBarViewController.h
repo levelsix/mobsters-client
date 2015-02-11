@@ -114,6 +114,7 @@
 - (void) showClanView;
 - (void) removeClanView;
 
+- (IBAction)attackClicked:(id)sender;
 - (IBAction)menuClicked:(id)sender;
 - (IBAction)questsClicked:(id)sender;
 - (void) replaceChatViewWithView:(MapBotView *)view;

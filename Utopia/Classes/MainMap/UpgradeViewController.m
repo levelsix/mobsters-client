@@ -412,6 +412,7 @@
 @implementation UpgradeViewController
 
 - (id) initWithUserStruct:(UserStruct *)us {
+  // Changed to [self init] for tutorial vc
   if ((self = [self init])) {
     self.userStruct = us;
   }

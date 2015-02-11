@@ -29,8 +29,6 @@
 @property (nonatomic, assign) GameViewController *gameViewController;
 @property (nonatomic, assign) int speakerMonsterId;
 
-@property (nonatomic, retain) TutorialTouchView *touchView;
-
 @property (nonatomic, retain) NSArray *myTeam;
 
 @property (nonatomic, assign) id<MiniTutorialDelegate> delegate;
@@ -45,5 +43,6 @@
 - (void) stop;
 
 - (void) displayDialogue:(NSArray *)dialogue;
+- (void) displayDialogue:(NSArray *)dialogue isLeftSide:(BOOL)isLeftSide;
 
 @end

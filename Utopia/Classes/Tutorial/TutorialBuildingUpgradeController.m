@@ -20,29 +20,10 @@
   _currentStep = currentStep;
 }
 
-- (void) displayUpgradeDialogue:(NSArray *)dialogue {
-  DialogueProto_Builder *dp = [DialogueProto builder];
-  
-  GameState *gs = [GameState sharedGameState];
-  for (int i = 0; i+1 < dialogue.count; i += 2) {
-    MonsterProto *mp = [gs monsterWithId:self.speakerMonsterId];
-    NSString *speakerText = dialogue[i+1];
-    
-    DialogueProto_SpeechSegmentProto_Builder *ss = [DialogueProto_SpeechSegmentProto builder];
-    ss.speaker = mp.displayName;
-    ss.speakerImage = [mp.imagePrefix stringByAppendingString:@"Tut"];
-    ss.speakerText = speakerText;
-    [dp addSpeechSegment:ss.build];
-  }
-  
-  DialogueViewController *dvc = [[DialogueViewController alloc] initWithDialogueProto:dp.build useSmallBubble:NO];
-  dvc.delegate = self;
-  [self.gameViewController addChildViewController:dvc];
-  [self.gameViewController.view addSubview:dvc.view];
-  self.dialogueViewController.view.frame = self.gameViewController.view.bounds;
-  self.dialogueViewController = dvc;
+- (void) displayDialogue:(NSArray *)dialogue {
+  [super displayDialogue:dialogue];
   self.dialogueViewController.view.userInteractionEnabled = NO;
-  [dvc.bottomGradient removeFromSuperview];
+  [self.dialogueViewController allowClickThrough];
 }
 
 - (void) begin {
@@ -95,9 +76,8 @@
 
 - (void) beginClickBuildingPhase {
   
-  NSArray *dialogue = @[@NO,
-                        [NSString stringWithFormat:@"Hey %@! Looks like you've got a nice stockpile of resources! Let's upgrade your Command Center!", [GameState sharedGameState].name]];
-  [self displayUpgradeDialogue:dialogue];
+  NSArray *dialogue = @[[NSString stringWithFormat:@"Hey %@! Looks like you've got a nice stockpile of resources! Let's upgrade your Command Center!", [GameState sharedGameState].name]];
+  [self displayDialogue:dialogue];
   
   self.userStruct = [self.homeMap moveToTownHall];
   
@@ -114,11 +94,10 @@
   [self.upgradeViewController close];
   
   
-  NSArray *dialogue = @[@NO,
-                        [NSString stringWithFormat:@"Keep on building upgrading your buildings to get better, stronger, harder, and faster!"]];
-  [self displayUpgradeDialogue:dialogue];
+  NSArray *dialogue = @[[NSString stringWithFormat:@"Keep on building upgrading your buildings to get better, stronger, harder, and faster!"]];
+  [self displayDialogue:dialogue];
   
-  self.currentStep = TutorialBuildingUpgradeStephFinish;
+  self.currentStep = TutorialBuildingUpgradeStepFinish;
 }
 
 - (void) teamCenterClicked {

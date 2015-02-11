@@ -301,6 +301,17 @@
                                     <rect key="frame" x="0.0" y="0.0" width="453" height="251"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
+                                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="none" rowHeight="66" sectionHeaderHeight="14" sectionFooterHeight="22" id="vgn-HL-6qP" customClass="CancellableTableView">
+                                            <rect key="frame" x="0.0" y="0.0" width="453" height="205"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            <color key="separatorColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                                            <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                            <connections>
+                                                <outlet property="dataSource" destination="Han-uB-4S1" id="heE-Pg-ysX"/>
+                                                <outlet property="delegate" destination="Han-uB-4S1" id="Fg5-8I-IwO"/>
+                                            </connections>
+                                        </tableView>
                                         <view contentMode="scaleToFill" id="fck-TC-Vtx" userLabel="Bottom View">
                                             <rect key="frame" x="0.0" y="205" width="453" height="43"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -410,17 +421,6 @@
                                             </subviews>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                         </view>
-                                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="none" rowHeight="66" sectionHeaderHeight="14" sectionFooterHeight="22" id="vgn-HL-6qP" customClass="CancellableTableView">
-                                            <rect key="frame" x="0.0" y="0.0" width="453" height="205"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                            <color key="separatorColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
-                                            <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                            <connections>
-                                                <outlet property="dataSource" destination="Han-uB-4S1" id="heE-Pg-ysX"/>
-                                                <outlet property="delegate" destination="Han-uB-4S1" id="Fg5-8I-IwO"/>
-                                            </connections>
-                                        </tableView>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <connections>

@@ -1521,13 +1521,17 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @private
   BOOL hasMiniTutorialTaskId_:1;
   BOOL hasGuideMonsterId_:1;
+  BOOL hasEnhanceGuideMonsterId_:1;
   int32_t miniTutorialTaskId;
   int32_t guideMonsterId;
+  int32_t enhanceGuideMonsterId;
 }
 - (BOOL) hasMiniTutorialTaskId;
 - (BOOL) hasGuideMonsterId;
+- (BOOL) hasEnhanceGuideMonsterId;
 @property (readonly) int32_t miniTutorialTaskId;
 @property (readonly) int32_t guideMonsterId;
+@property (readonly) int32_t enhanceGuideMonsterId;
 
 + (StartupResponseProto_StartupConstants_MiniTutorialConstants*) defaultInstance;
 - (StartupResponseProto_StartupConstants_MiniTutorialConstants*) defaultInstance;
@@ -1573,6 +1577,11 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (int32_t) guideMonsterId;
 - (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) setGuideMonsterId:(int32_t) value;
 - (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) clearGuideMonsterId;
+
+- (BOOL) hasEnhanceGuideMonsterId;
+- (int32_t) enhanceGuideMonsterId;
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) setEnhanceGuideMonsterId:(int32_t) value;
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) clearEnhanceGuideMonsterId;
 @end
 
 @interface StartupResponseProto_StartupConstants_ClanHelpConstants : PBGeneratedMessage {

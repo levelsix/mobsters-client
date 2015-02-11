@@ -203,9 +203,9 @@
   
 #ifdef DEBUG
   [self initHomeMap];
-  [self beginGuideGreetingPhase];
+  //[self beginGuideGreetingPhase];
   //[self beginEnterBattlePhase];
-  //[self beginPostBattleConfrontation];
+  [self beginPostBattleConfrontation];
   //[self initTopBar];
   //[self beginFacebookLoginPhase];
   //[self beginFacebookRejectedNamingPhase];
@@ -352,6 +352,7 @@
   CCScene *scene = [CCScene node];
   HomeMap *hm = [HomeMap node];
   [scene addChild:hm];
+  [hm refresh];
   [hm moveToCenterAnimated:NO];
   self.gameViewController.currentMap = hm;
   [[CCDirector sharedDirector] replaceScene:scene];

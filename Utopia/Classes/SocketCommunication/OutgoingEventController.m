@@ -171,6 +171,27 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   return us;
 }
 
+- (void) upgradeAndCompleteFreeBuilding:(UserStruct *)us {
+  if (![us satisfiesAllPrerequisites]) {
+    [Globals popupMessage:@"Prerequisites not met."];
+    return;
+  }
+  
+  StructureInfoProto *nextFsp = us.staticStructForNextLevel.structInfo;
+  if (nextFsp.buildCost) {
+    [Globals popupMessage:@"Trying to upgrade non-free building."];
+    return;
+  }
+  
+  int64_t ms = [self getCurrentMilliseconds];
+  [[SocketCommunication sharedSocketCommunication] sendUpgradeNormStructureMessage:us.userStructUuid time:ms resourceType:nextFsp.buildResourceType resourceChange:0 gemCost:0 queueUp:YES];
+  [[SocketCommunication sharedSocketCommunication] sendFinishNormStructBuildWithDiamondsMessage:us.userStructUuid gemCost:0 time:ms queueUp:YES];
+  
+  us.structId = nextFsp.structId;
+  us.lastRetrieved = [MSDate dateWithTimeIntervalSinceNow:ms/1000.];
+  us.purchaseTime = us.lastRetrieved;
+}
+
 - (void) upgradeNormStruct:(UserStruct *)userStruct allowGems:(BOOL)allowGems delegate:(id)delegate {
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
@@ -221,7 +242,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       [Globals popupMessage:@"Trying to upgrade without enough resources."];
     } else {
       int64_t ms = [self getCurrentMilliseconds];
-      int tag = [sc sendUpgradeNormStructureMessage:userStruct.userStructUuid time:ms resourceType:nextFsp.buildResourceType resourceChange:-cost gemCost:gemCost];
+      int tag = [sc sendUpgradeNormStructureMessage:userStruct.userStructUuid time:ms resourceType:nextFsp.buildResourceType resourceChange:-cost gemCost:gemCost queueUp:NO];
       [sc setDelegate:delegate forTag:tag];
       
       userStruct.isComplete = NO;
