@@ -11,6 +11,13 @@
 #import <cocos2d-ui/CCButton.h>
 #import "SkillController.h"
 
+@protocol SkillBattleIndicatorViewDelegate <NSObject>
+
+@optional
+- (void) onCloseSkillPopup;
+
+@end
+
 @interface SkillBattleIndicatorView : CCNode
 {
   CCSprite    *_skillIcon;
@@ -35,6 +42,7 @@
 }
 
 @property (nonatomic, readonly) float percentage;
+@property (nonatomic, assign) id<SkillBattleIndicatorViewDelegate> delegate;
 
 - (instancetype) initWithSkillController:(SkillController*)skillController enemy:(BOOL)enemy;
 - (void) appear:(BOOL)instantly;

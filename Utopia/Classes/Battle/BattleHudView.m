@@ -165,7 +165,9 @@
   [self setHidden:NO];
   
   [Globals bounceView:self fadeInBgdView:nil anchorPoint:CGPointMake(.5f, 1.f) completion:^(BOOL finished) {
-    if (self.parentView) [self.parentView skillPopupDisplayed];
+    if (self.parentView) {
+      [self.parentView skillPopupDisplayed];
+    }
   }];
 }
 
@@ -312,6 +314,9 @@
 
 - (IBAction) hideSkillPopup:(id)sender
 {
+  if(self.battleLayerDelegate) {
+    [self.battleLayerDelegate skillPopupClosed];
+  }
   [self.skillPopupView hide];
   [self.skillPopupCloseButton setUserInteractionEnabled:NO];
 }

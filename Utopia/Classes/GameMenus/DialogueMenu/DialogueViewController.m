@@ -97,7 +97,7 @@
     DialogueProto_SpeechSegmentProto *oldSS = _curIndex > 0 ? self.dialogue.speechSegmentList[_curIndex-1] : nil;
     DialogueProto_SpeechSegmentProto *curSS = self.dialogue.speechSegmentList[_curIndex];
     
-    if (oldSS.isLeftSide == curSS.isLeftSide && [oldSS.speaker isEqualToString:curSS.speaker]) {
+    if (oldSS.isLeftSide == curSS.isLeftSide && [oldSS.speaker isEqualToString:curSS.speaker] && !self.paused) {
       [self animateBubbleOutCompletion:^{
         if ([self.delegate respondsToSelector:@selector(dialogueViewController:willDisplaySpeechAtIndex:)]) {
           [self.delegate dialogueViewController:self willDisplaySpeechAtIndex:thisIndex];
@@ -129,13 +129,12 @@
         [self animateIn:curSS.isLeftSide];
       };
       
-      if (_curIndex > 0) {
+      if (_curIndex > 0 && !self.paused) {
         [self animateOut:anim];
       } else {
         anim();
       }
     }
-    
     _curIndex++;
   } else {
     [self animateOut:^{
@@ -201,6 +200,7 @@
 #define IMAGE_END_SCALE 1.f
 
 - (void) animateIn:(BOOL)isLeftSide {
+  self.leftImageView.alpha = 1.f;
   if (isLeftSide) {
     self.view.transform = CGAffineTransformIdentity;
     self.dialogueLabel.transform = CGAffineTransformIdentity;
@@ -303,8 +303,26 @@
   }];
 }
 
+- (void) pauseAndHideSpeakers {
+  [UIView animateWithDuration:.3f animations:^{
+    self.view.alpha = 0.f;
+  } completion:^(BOOL finished) {
+    [self animateOut:nil];
+  }];
+  self.paused = YES;
+}
+
+- (void) continueAndRevealSpeakers {
+  self.leftImageView.alpha = 0.f;
+  [UIView animateWithDuration:.3f animations:^{
+     self.view.alpha = 1.f;
+  }];
+  [self animateNext];
+  self.paused = NO;
+}
+
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-  if (self.buttonView.hidden) {
+  if (self.buttonView.hidden && !self.paused) {
     [self animateNext];
   }
 }

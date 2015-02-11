@@ -52,6 +52,7 @@
 @property (nonatomic, assign) id<DialogueViewControllerDelegate> delegate;
 
 @property (nonatomic, assign) BOOL blackOutSpeakers;
+@property (nonatomic, assign) BOOL paused;
 
 - (id) initWithDialogueProto:(DialogueProto *)dialogue;
 - (id) initWithDialogueProto:(DialogueProto *)dialogue useSmallBubble:(BOOL)smallBubble;
@@ -63,5 +64,8 @@
 - (void) showFbButtonView;
 - (void) beginFbSpinning;
 - (void) endFbSpinning;
+
+- (void) pauseAndHideSpeakers;
+- (void) continueAndRevealSpeakers;
 
 @end

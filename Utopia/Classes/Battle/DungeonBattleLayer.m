@@ -525,17 +525,13 @@
   }
 }
 
-- (void) dialogueViewController:(DialogueViewController *)dvc didDisplaySpeechAtIndex:(int)index {
-  if(index == SHOW_PLAYER_SKILL_BUTTON_DIALOGUE_INDEX) {
-    Globals *gl = [Globals sharedGlobals];
-    if ([self dungeonInfo].taskId == gl.taskIdOfFirstSkill) {
-      [self forceSkillClickOver:dvc];
-    }
-    
+- (void) dialogueViewController:(DialogueViewController *)dvc willDisplaySpeechAtIndex:(int)index {
+  Globals *gl = [Globals sharedGlobals];
+  if(index == SHOW_PLAYER_SKILL_BUTTON_DIALOGUE_INDEX && [self dungeonInfo].taskId == gl.taskIdOfFirstSkill) {
+    dvc.paused = YES;
+    [self forceSkillClickOver:dvc];
   }
 }
-
-
 
 - (void) dialogueViewControllerFinished:(DialogueViewController *)dvc {
   [self beginNextTurn];

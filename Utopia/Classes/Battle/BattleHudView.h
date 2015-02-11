@@ -41,8 +41,12 @@
 @end
 
 @protocol BattleSkillCounterPopupCallbackDelegate <NSObject>
-
 - (void) skillPopupDisplayed;
+
+@end
+
+@protocol BattleLayerSkillPopupDelegate <NSObject>
+- (void) skillPopupClosed;
 
 @end
 
@@ -82,6 +86,8 @@
 @property (nonatomic, retain) IBOutlet UIButton* skillPopupCloseButton;
 
 @property (nonatomic, assign) CGPoint schedulePosition;
+
+@property (nonatomic, assign) id<BattleLayerSkillPopupDelegate> battleLayerDelegate;
 
 - (void) displaySwapButton;
 - (void) removeSwapButtonAnimated:(BOOL)animated;

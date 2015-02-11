@@ -2291,6 +2291,12 @@
   [parent addChildViewController:mpvc];
 }
 
+-(void) skillPopupClosed {
+  if(_forcedSkillDialogueViewController) {
+    [_forcedSkillDialogueViewController continueAndRevealSpeakers];
+  }
+}
+
 #pragma mark - No Input Layer Methods
 
 - (void) displayOrbLayer {
@@ -2350,6 +2356,8 @@
   [[NSBundle mainBundle] loadNibNamed:bundleName owner:self options:nil];
   self.hudView.frame = view.bounds;
   [view insertSubview:self.hudView aboveSubview:[CCDirector sharedDirector].view];
+  
+  self.hudView.battleLayerDelegate = self;
   
   // Make the bottom view flush with the board
   float bottomDist = ORB_LAYER_DIST_FROM_SIDE-2;
@@ -2566,7 +2574,7 @@
 
 - (IBAction)skillClicked:(id)sender {
   [[skillManager enemySkillIndicatorView] popupOrbCounter];
-  [_forcedSkillDialogueViewController animateNext];
+  [_forcedSkillDialogueViewController pauseAndHideSpeakers];
   [UIView animateWithDuration:0.3f animations:^{
     self.forcedSkillView.alpha = 0.f;
   } completion:^(BOOL finished) {
