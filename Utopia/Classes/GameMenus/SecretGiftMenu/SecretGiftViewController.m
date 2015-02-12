@@ -10,6 +10,7 @@
 
 #import "Globals.h"
 #import "GameState.h"
+#import "GameViewController.h"
 
 #import "OutgoingEventController.h"
 
@@ -87,17 +88,28 @@
 }
 
 - (IBAction)collectClicked:(id)sender {
+  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+  NSInteger giftsCollected = [defaults integerForKey:SECRET_GIFTS_ACCEPTED_KEY];
   if (self.secretGift) {
     [[OutgoingEventController sharedOutgoingEventController] redeemSecretGift:self.secretGift];
+    
+    giftsCollected++;
+    [defaults setInteger:giftsCollected forKey:SECRET_GIFTS_ACCEPTED_KEY];
   }
   
-  [self close];
+  [self closeWithGiftCount:giftsCollected];
 }
 
-- (void) close {
+- (void) closeWithGiftCount:(NSInteger)giftsCollected {
+  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+  GameViewController *gvc = [GameViewController baseController];
   [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
+    
     [self.view removeFromSuperview];
     [self removeFromParentViewController];
+    if ((giftsCollected == 2 || giftsCollected == 20) && ![defaults boolForKey:[Globals userConfimredPushNotificationsKey]]) {
+      [gvc openPushNotificationRequestWithMessage:@"Would you like to be notified when your secret gift is ready?"];
+    }
   }];
 }
 

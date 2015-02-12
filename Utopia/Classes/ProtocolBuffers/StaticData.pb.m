@@ -47,7 +47,6 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property (strong) NSMutableArray * mutableUnredeemedQuestsList;
 @property (strong) NSMutableArray * mutableAvailableQuestsList;
 @property (strong) NSMutableArray * mutableBoosterPacksList;
-@property (strong) BoosterPackProto* starterPack;
 @property (strong) NSMutableArray * mutableAllGeneratorsList;
 @property (strong) NSMutableArray * mutableAllStoragesList;
 @property (strong) NSMutableArray * mutableAllHospitalsList;
@@ -102,13 +101,6 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @dynamic availableQuestsList;
 @synthesize mutableBoosterPacksList;
 @dynamic boosterPacksList;
-- (BOOL) hasStarterPack {
-  return !!hasStarterPack_;
-}
-- (void) setHasStarterPack:(BOOL) value_ {
-  hasStarterPack_ = !!value_;
-}
-@synthesize starterPack;
 @synthesize mutableAllGeneratorsList;
 @dynamic allGeneratorsList;
 @synthesize mutableAllStoragesList;
@@ -158,7 +150,6 @@ static PBExtensionRegistry* extensionRegistry = nil;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.starterPack = [BoosterPackProto defaultInstance];
   }
   return self;
 }
@@ -478,9 +469,6 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   [self.researchList enumerateObjectsUsingBlock:^(ResearchProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:35 value:element];
   }];
-  if (self.hasStarterPack) {
-    [output writeMessage:36 value:self.starterPack];
-  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -592,9 +580,6 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   [self.researchList enumerateObjectsUsingBlock:^(ResearchProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(35, element);
   }];
-  if (self.hasStarterPack) {
-    size_ += computeMessageSize(36, self.starterPack);
-  }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
   return size_;
@@ -834,12 +819,6 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }];
-  if (self.hasStarterPack) {
-    [output appendFormat:@"%@%@ {\n", indent, @"starterPack"];
-    [self.starterPack writeDescriptionTo:output
-                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
-    [output appendFormat:@"%@}\n", indent];
-  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -886,8 +865,6 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
       [self.prereqsList isEqualToArray:otherMessage.prereqsList] &&
       [self.boardsList isEqualToArray:otherMessage.boardsList] &&
       [self.researchList isEqualToArray:otherMessage.researchList] &&
-      self.hasStarterPack == otherMessage.hasStarterPack &&
-      (!self.hasStarterPack || [self.starterPack isEqual:otherMessage.starterPack]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -994,9 +971,6 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   [self.researchList enumerateObjectsUsingBlock:^(ResearchProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
-  if (self.hasStarterPack) {
-    hashCode = hashCode * 31 + [self.starterPack hash];
-  }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
@@ -1112,9 +1086,6 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
     } else {
       [result.mutableBoosterPacksList addObjectsFromArray:other.mutableBoosterPacksList];
     }
-  }
-  if (other.hasStarterPack) {
-    [self mergeStarterPack:other.starterPack];
   }
   if (other.mutableAllGeneratorsList.count > 0) {
     if (result.mutableAllGeneratorsList == nil) {
@@ -1505,15 +1476,6 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
         [self addResearch:[subBuilder buildPartial]];
         break;
       }
-      case 290: {
-        BoosterPackProto_Builder* subBuilder = [BoosterPackProto builder];
-        if (self.hasStarterPack) {
-          [subBuilder mergeFrom:self.starterPack];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setStarterPack:[subBuilder buildPartial]];
-        break;
-      }
     }
   }
 }
@@ -1785,36 +1747,6 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
 }
 - (StaticDataProto_Builder *)clearBoosterPacks {
   result.mutableBoosterPacksList = nil;
-  return self;
-}
-- (BOOL) hasStarterPack {
-  return result.hasStarterPack;
-}
-- (BoosterPackProto*) starterPack {
-  return result.starterPack;
-}
-- (StaticDataProto_Builder*) setStarterPack:(BoosterPackProto*) value {
-  result.hasStarterPack = YES;
-  result.starterPack = value;
-  return self;
-}
-- (StaticDataProto_Builder*) setStarterPack_Builder:(BoosterPackProto_Builder*) builderForValue {
-  return [self setStarterPack:[builderForValue build]];
-}
-- (StaticDataProto_Builder*) mergeStarterPack:(BoosterPackProto*) value {
-  if (result.hasStarterPack &&
-      result.starterPack != [BoosterPackProto defaultInstance]) {
-    result.starterPack =
-      [[[BoosterPackProto builderWithPrototype:result.starterPack] mergeFrom:value] buildPartial];
-  } else {
-    result.starterPack = value;
-  }
-  result.hasStarterPack = YES;
-  return self;
-}
-- (StaticDataProto_Builder*) clearStarterPack {
-  result.hasStarterPack = NO;
-  result.starterPack = [BoosterPackProto defaultInstance];
   return self;
 }
 - (NSMutableArray *)allGeneratorsList {

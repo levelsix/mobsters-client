@@ -38,7 +38,6 @@ message StaticDataProto {
 	
 	//optional RetrieveStaticDataStatus status = 10; //defined near the end
 	repeated BoosterPackProto boosterPacks = 11;
-	optional BoosterPackProto starterPack = 36;
 	
 	repeated ResourceGeneratorProto allGenerators = 12;
 	repeated ResourceStorageProto allStorages = 13;
@@ -76,7 +75,5 @@ message StaticDataProto {
 	repeated BoardLayoutProto boards = 34;
 	
 	repeated ResearchProto research = 35;
-	
-	//optional BoosterPackProto starterPack = 36; defined above 
 }
 	

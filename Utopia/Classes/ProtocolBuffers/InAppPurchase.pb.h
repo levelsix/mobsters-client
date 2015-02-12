@@ -29,15 +29,6 @@ typedef NS_ENUM(SInt32, EarnFreeDiamondsType) {
 
 BOOL EarnFreeDiamondsTypeIsValidValue(EarnFreeDiamondsType value);
 
-typedef NS_ENUM(SInt32, InAppPurchasePackageProto_InAppPurchasePackageType) {
-  InAppPurchasePackageProto_InAppPurchasePackageTypeNoInAppPurchasePackageType = 4,
-  InAppPurchasePackageProto_InAppPurchasePackageTypeGems = 1,
-  InAppPurchasePackageProto_InAppPurchasePackageTypeStarterPack = 2,
-  InAppPurchasePackageProto_InAppPurchasePackageTypeMoneyTree = 3,
-};
-
-BOOL InAppPurchasePackageProto_InAppPurchasePackageTypeIsValidValue(InAppPurchasePackageProto_InAppPurchasePackageType value);
-
 
 @interface InAppPurchaseRoot : NSObject {
 }
@@ -50,20 +41,16 @@ BOOL InAppPurchasePackageProto_InAppPurchasePackageTypeIsValidValue(InAppPurchas
   BOOL hasCurrencyAmount_:1;
   BOOL hasIapPackageId_:1;
   BOOL hasImageName_:1;
-  BOOL hasIapPackageType_:1;
   int32_t currencyAmount;
   NSString* iapPackageId;
   NSString* imageName;
-  InAppPurchasePackageProto_InAppPurchasePackageType iapPackageType;
 }
 - (BOOL) hasIapPackageId;
 - (BOOL) hasCurrencyAmount;
 - (BOOL) hasImageName;
-- (BOOL) hasIapPackageType;
 @property (readonly, strong) NSString* iapPackageId;
 @property (readonly) int32_t currencyAmount;
 @property (readonly, strong) NSString* imageName;
-@property (readonly) InAppPurchasePackageProto_InAppPurchasePackageType iapPackageType;
 
 + (InAppPurchasePackageProto*) defaultInstance;
 - (InAppPurchasePackageProto*) defaultInstance;
@@ -114,11 +101,6 @@ BOOL InAppPurchasePackageProto_InAppPurchasePackageTypeIsValidValue(InAppPurchas
 - (NSString*) imageName;
 - (InAppPurchasePackageProto_Builder*) setImageName:(NSString*) value;
 - (InAppPurchasePackageProto_Builder*) clearImageName;
-
-- (BOOL) hasIapPackageType;
-- (InAppPurchasePackageProto_InAppPurchasePackageType) iapPackageType;
-- (InAppPurchasePackageProto_Builder*) setIapPackageType:(InAppPurchasePackageProto_InAppPurchasePackageType) value;
-- (InAppPurchasePackageProto_Builder*) clearIapPackageTypeList;
 @end
 
 @interface GoldSaleProto : PBGeneratedMessage {

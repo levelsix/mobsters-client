@@ -472,12 +472,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     gs.battleHistory = [proto.recentNbattlesList mutableCopy];
     
-    AppDelegate *ad = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    [ad registerForPushNotifications];
-    [ad removeLocalNotifications];
-    if (ad.apnsToken && ![ad.apnsToken isEqualToString:gs.deviceToken]) {
-      [[OutgoingEventController sharedOutgoingEventController] enableApns:ad.apnsToken];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if([defaults boolForKey:[Globals userConfimredPushNotificationsKey]]) {
+      //this case is just the register the user if they have already accepted to register in a previous session
+      [Globals registerUserForPushNotifications];
     }
+  
     NSString *gcId = [GameCenterDelegate gameCenterId];
     if (gcId) {
       [[OutgoingEventController sharedOutgoingEventController] setGameCenterId:gcId];

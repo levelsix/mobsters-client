@@ -27,7 +27,6 @@ BOOL ItemTypeIsValidValue(ItemType value) {
     case ItemTypeItemOil:
     case ItemTypeItemCash:
     case ItemTypeSpeedUp:
-    case ItemTypeBuilder:
       return YES;
     default:
       return NO;
@@ -333,7 +332,6 @@ static UserItemProto* defaultUserItemProtoInstance = nil;
 @property int32_t staticDataId;
 @property int32_t amount;
 @property Float32 secretGiftChance;
-@property BOOL alwaysDisplayToUser;
 @end
 
 @implementation ItemProto
@@ -387,18 +385,6 @@ static UserItemProto* defaultUserItemProtoInstance = nil;
   hasSecretGiftChance_ = !!value_;
 }
 @synthesize secretGiftChance;
-- (BOOL) hasAlwaysDisplayToUser {
-  return !!hasAlwaysDisplayToUser_;
-}
-- (void) setHasAlwaysDisplayToUser:(BOOL) value_ {
-  hasAlwaysDisplayToUser_ = !!value_;
-}
-- (BOOL) alwaysDisplayToUser {
-  return !!alwaysDisplayToUser_;
-}
-- (void) setAlwaysDisplayToUser:(BOOL) value_ {
-  alwaysDisplayToUser_ = !!value_;
-}
 - (id) init {
   if ((self = [super init])) {
     self.itemId = 0;
@@ -408,7 +394,6 @@ static UserItemProto* defaultUserItemProtoInstance = nil;
     self.staticDataId = 0;
     self.amount = 0;
     self.secretGiftChance = 0;
-    self.alwaysDisplayToUser = NO;
   }
   return self;
 }
@@ -449,9 +434,6 @@ static ItemProto* defaultItemProtoInstance = nil;
   if (self.hasSecretGiftChance) {
     [output writeFloat:7 value:self.secretGiftChance];
   }
-  if (self.hasAlwaysDisplayToUser) {
-    [output writeBool:8 value:self.alwaysDisplayToUser];
-  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -481,9 +463,6 @@ static ItemProto* defaultItemProtoInstance = nil;
   }
   if (self.hasSecretGiftChance) {
     size_ += computeFloatSize(7, self.secretGiftChance);
-  }
-  if (self.hasAlwaysDisplayToUser) {
-    size_ += computeBoolSize(8, self.alwaysDisplayToUser);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -541,9 +520,6 @@ static ItemProto* defaultItemProtoInstance = nil;
   if (self.hasSecretGiftChance) {
     [output appendFormat:@"%@%@: %@\n", indent, @"secretGiftChance", [NSNumber numberWithFloat:self.secretGiftChance]];
   }
-  if (self.hasAlwaysDisplayToUser) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"alwaysDisplayToUser", [NSNumber numberWithBool:self.alwaysDisplayToUser]];
-  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -569,8 +545,6 @@ static ItemProto* defaultItemProtoInstance = nil;
       (!self.hasAmount || self.amount == otherMessage.amount) &&
       self.hasSecretGiftChance == otherMessage.hasSecretGiftChance &&
       (!self.hasSecretGiftChance || self.secretGiftChance == otherMessage.secretGiftChance) &&
-      self.hasAlwaysDisplayToUser == otherMessage.hasAlwaysDisplayToUser &&
-      (!self.hasAlwaysDisplayToUser || self.alwaysDisplayToUser == otherMessage.alwaysDisplayToUser) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -595,9 +569,6 @@ static ItemProto* defaultItemProtoInstance = nil;
   }
   if (self.hasSecretGiftChance) {
     hashCode = hashCode * 31 + [[NSNumber numberWithFloat:self.secretGiftChance] hash];
-  }
-  if (self.hasAlwaysDisplayToUser) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.alwaysDisplayToUser] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -663,9 +634,6 @@ static ItemProto* defaultItemProtoInstance = nil;
   if (other.hasSecretGiftChance) {
     [self setSecretGiftChance:other.secretGiftChance];
   }
-  if (other.hasAlwaysDisplayToUser) {
-    [self setAlwaysDisplayToUser:other.alwaysDisplayToUser];
-  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -718,10 +686,6 @@ static ItemProto* defaultItemProtoInstance = nil;
       }
       case 61: {
         [self setSecretGiftChance:[input readFloat]];
-        break;
-      }
-      case 64: {
-        [self setAlwaysDisplayToUser:[input readBool]];
         break;
       }
     }
@@ -837,22 +801,6 @@ static ItemProto* defaultItemProtoInstance = nil;
 - (ItemProto_Builder*) clearSecretGiftChance {
   result.hasSecretGiftChance = NO;
   result.secretGiftChance = 0;
-  return self;
-}
-- (BOOL) hasAlwaysDisplayToUser {
-  return result.hasAlwaysDisplayToUser;
-}
-- (BOOL) alwaysDisplayToUser {
-  return result.alwaysDisplayToUser;
-}
-- (ItemProto_Builder*) setAlwaysDisplayToUser:(BOOL) value {
-  result.hasAlwaysDisplayToUser = YES;
-  result.alwaysDisplayToUser = value;
-  return self;
-}
-- (ItemProto_Builder*) clearAlwaysDisplayToUser {
-  result.hasAlwaysDisplayToUser = NO;
-  result.alwaysDisplayToUser = NO;
   return self;
 }
 @end

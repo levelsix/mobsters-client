@@ -30,7 +30,6 @@ typedef NS_ENUM(SInt32, ItemType) {
   ItemTypeItemOil = 2,
   ItemTypeItemCash = 3,
   ItemTypeSpeedUp = 4,
-  ItemTypeBuilder = 5,
 };
 
 BOOL ItemTypeIsValidValue(ItemType value);
@@ -111,7 +110,6 @@ BOOL ItemTypeIsValidValue(ItemType value);
 
 @interface ItemProto : PBGeneratedMessage {
 @private
-  BOOL hasAlwaysDisplayToUser_:1;
   BOOL hasSecretGiftChance_:1;
   BOOL hasItemId_:1;
   BOOL hasStaticDataId_:1;
@@ -119,7 +117,6 @@ BOOL ItemTypeIsValidValue(ItemType value);
   BOOL hasName_:1;
   BOOL hasImgName_:1;
   BOOL hasItemType_:1;
-  BOOL alwaysDisplayToUser_:1;
   Float32 secretGiftChance;
   int32_t itemId;
   int32_t staticDataId;
@@ -135,7 +132,6 @@ BOOL ItemTypeIsValidValue(ItemType value);
 - (BOOL) hasStaticDataId;
 - (BOOL) hasAmount;
 - (BOOL) hasSecretGiftChance;
-- (BOOL) hasAlwaysDisplayToUser;
 @property (readonly) int32_t itemId;
 @property (readonly, strong) NSString* name;
 @property (readonly, strong) NSString* imgName;
@@ -143,7 +139,6 @@ BOOL ItemTypeIsValidValue(ItemType value);
 @property (readonly) int32_t staticDataId;
 @property (readonly) int32_t amount;
 @property (readonly) Float32 secretGiftChance;
-- (BOOL) alwaysDisplayToUser;
 
 + (ItemProto*) defaultInstance;
 - (ItemProto*) defaultInstance;
@@ -214,11 +209,6 @@ BOOL ItemTypeIsValidValue(ItemType value);
 - (Float32) secretGiftChance;
 - (ItemProto_Builder*) setSecretGiftChance:(Float32) value;
 - (ItemProto_Builder*) clearSecretGiftChance;
-
-- (BOOL) hasAlwaysDisplayToUser;
-- (BOOL) alwaysDisplayToUser;
-- (ItemProto_Builder*) setAlwaysDisplayToUser:(BOOL) value;
-- (ItemProto_Builder*) clearAlwaysDisplayToUser;
 @end
 
 @interface UserItemUsageProto : PBGeneratedMessage {

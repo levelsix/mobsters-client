@@ -212,6 +212,8 @@
 + (Globals *) sharedGlobals;
 + (void) purgeSingleton;
 
++ (void) registerUserForPushNotifications;
+
 - (void) updateInAppPurchases;
 - (void) updateConstants:(StartupResponseProto_StartupConstants *)constants;
 - (InAppPurchasePackageProto *) starterPackIapPackage;
@@ -278,6 +280,7 @@
 + (void) adjustFontSizeForCCLabelTTF:(CCLabelTTF *)label size:(int)size;
 + (void) adjustFontSizeForSize:(int)size CCLabelTTFs:(CCLabelTTF *)field1, ... NS_REQUIRES_NIL_TERMINATION;
 
++ (NSString *) userConfimredPushNotificationsKey;
 + (NSString *) cashStringForNumber:(int)n;
 + (NSString *) commafyNumber:(float)n;
 + (NSString *) shortenNumber:(int)num;

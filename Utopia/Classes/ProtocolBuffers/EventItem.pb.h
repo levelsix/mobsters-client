@@ -226,7 +226,6 @@ BOOL RedeemSecretGiftResponseProto_RedeemSecretGiftStatusIsValidValue(RedeemSecr
   BoosterItemProto* prize;
   TradeItemForBoosterResponseProto_TradeItemForBoosterStatus status;
   NSMutableArray * mutableUpdatedOrNewList;
-  NSMutableArray * mutableUpdatedUserItemsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
@@ -235,9 +234,7 @@ BOOL RedeemSecretGiftResponseProto_RedeemSecretGiftStatusIsValidValue(RedeemSecr
 @property (readonly) TradeItemForBoosterResponseProto_TradeItemForBoosterStatus status;
 @property (readonly, strong) NSArray * updatedOrNewList;
 @property (readonly, strong) BoosterItemProto* prize;
-@property (readonly, strong) NSArray * updatedUserItemsList;
 - (FullUserMonsterProto*)updatedOrNewAtIndex:(NSUInteger)index;
-- (UserItemProto*)updatedUserItemsAtIndex:(NSUInteger)index;
 
 + (TradeItemForBoosterResponseProto*) defaultInstance;
 - (TradeItemForBoosterResponseProto*) defaultInstance;
@@ -298,12 +295,6 @@ BOOL RedeemSecretGiftResponseProto_RedeemSecretGiftStatusIsValidValue(RedeemSecr
 - (TradeItemForBoosterResponseProto_Builder*) setPrize_Builder:(BoosterItemProto_Builder*) builderForValue;
 - (TradeItemForBoosterResponseProto_Builder*) mergePrize:(BoosterItemProto*) value;
 - (TradeItemForBoosterResponseProto_Builder*) clearPrize;
-
-- (NSMutableArray *)updatedUserItemsList;
-- (UserItemProto*)updatedUserItemsAtIndex:(NSUInteger)index;
-- (TradeItemForBoosterResponseProto_Builder *)addUpdatedUserItems:(UserItemProto*)value;
-- (TradeItemForBoosterResponseProto_Builder *)addAllUpdatedUserItems:(NSArray *)array;
-- (TradeItemForBoosterResponseProto_Builder *)clearUpdatedUserItems;
 @end
 
 @interface TradeItemForSpeedUpsRequestProto : PBGeneratedMessage {

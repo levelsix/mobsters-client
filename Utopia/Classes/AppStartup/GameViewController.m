@@ -50,6 +50,7 @@
 #import "StageCompleteNode.h"
 #import "PvpRankUpNode.h"
 #import "TutorialBuildingUpgradeController.h"
+#import "RequestPushNotificationViewController.h"
 #import <Kamcord/Kamcord.h>
 #import "TutorialEnhanceController.h"
 
@@ -1264,6 +1265,15 @@ static const CGSize FIXED_SIZE = {568, 384};
   }
   
   [self removeAllViewControllersWithExceptions:arr];
+}
+
+#pragma mark - Request Push Notifications
+
+- (void) openPushNotificationRequestWithMessage:(NSString *) message{
+  RequestPushNotificationViewController *rpnvc = [[RequestPushNotificationViewController alloc] initWithMessage:message];
+  [self addChildViewController:rpnvc];
+  rpnvc.BGView.frame = self.view.bounds;
+  [self.view addSubview:rpnvc.view];
 }
 
 #pragma mark - Quests and Achievements

@@ -3,16 +3,12 @@
 #import "ProtocolBuffers.h"
 
 #import "InAppPurchase.pb.h"
-#import "Item.pb.h"
-#import "MonsterStuff.pb.h"
 #import "Structure.pb.h"
 #import "User.pb.h"
 // @@protoc_insertion_point(imports)
 
 @class ClanHouseProto;
 @class ClanHouseProto_Builder;
-@class ClanMemberTeamDonationProto;
-@class ClanMemberTeamDonationProto_Builder;
 @class CoordinateProto;
 @class CoordinateProto_Builder;
 @class EarnFreeDiamondsRequestProto;
@@ -25,8 +21,6 @@
 @class ExchangeGemsForResourcesRequestProto_Builder;
 @class ExchangeGemsForResourcesResponseProto;
 @class ExchangeGemsForResourcesResponseProto_Builder;
-@class FullUserMonsterProto;
-@class FullUserMonsterProto_Builder;
 @class FullUserProto;
 @class FullUserProto_Builder;
 @class FullUserStructureProto;
@@ -41,8 +35,6 @@
 @class InAppPurchaseRequestProto_Builder;
 @class InAppPurchaseResponseProto;
 @class InAppPurchaseResponseProto_Builder;
-@class ItemProto;
-@class ItemProto_Builder;
 @class LabProto;
 @class LabProto_Builder;
 @class MiniJobCenterProto;
@@ -51,10 +43,6 @@
 @class MinimumClanProto_Builder;
 @class MinimumObstacleProto;
 @class MinimumObstacleProto_Builder;
-@class MinimumUserMonsterProto;
-@class MinimumUserMonsterProto_Builder;
-@class MinimumUserMonsterSellProto;
-@class MinimumUserMonsterSellProto_Builder;
 @class MinimumUserProto;
 @class MinimumUserProtoWithFacebookId;
 @class MinimumUserProtoWithFacebookId_Builder;
@@ -63,12 +51,6 @@
 @class MinimumUserProtoWithMaxResources;
 @class MinimumUserProtoWithMaxResources_Builder;
 @class MinimumUserProto_Builder;
-@class MonsterBattleDialogueProto;
-@class MonsterBattleDialogueProto_Builder;
-@class MonsterLevelInfoProto;
-@class MonsterLevelInfoProto_Builder;
-@class MonsterProto;
-@class MonsterProto_Builder;
 @class ObstacleProto;
 @class ObstacleProto_Builder;
 @class ResidenceProto;
@@ -87,30 +69,8 @@
 @class TownHallProto_Builder;
 @class TutorialStructProto;
 @class TutorialStructProto_Builder;
-@class UserCurrentMonsterTeamProto;
-@class UserCurrentMonsterTeamProto_Builder;
-@class UserEnhancementItemProto;
-@class UserEnhancementItemProto_Builder;
-@class UserEnhancementProto;
-@class UserEnhancementProto_Builder;
 @class UserFacebookInviteForSlotProto;
 @class UserFacebookInviteForSlotProto_Builder;
-@class UserItemProto;
-@class UserItemProto_Builder;
-@class UserItemSecretGiftProto;
-@class UserItemSecretGiftProto_Builder;
-@class UserItemUsageProto;
-@class UserItemUsageProto_Builder;
-@class UserMonsterCurrentExpProto;
-@class UserMonsterCurrentExpProto_Builder;
-@class UserMonsterCurrentHealthProto;
-@class UserMonsterCurrentHealthProto_Builder;
-@class UserMonsterEvolutionProto;
-@class UserMonsterEvolutionProto_Builder;
-@class UserMonsterHealingProto;
-@class UserMonsterHealingProto_Builder;
-@class UserMonsterSnapshotProto;
-@class UserMonsterSnapshotProto_Builder;
 @class UserObstacleProto;
 @class UserObstacleProto_Builder;
 @class UserPvpLeagueProto;
@@ -271,8 +231,6 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
   NSString* receipt;
   MinimumUserProto* sender;
   InAppPurchaseResponseProto_InAppPurchaseStatus status;
-  NSMutableArray * mutableUpdatedOrNewList;
-  NSMutableArray * mutableUpdatedUserItemsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
@@ -288,10 +246,6 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 @property (readonly, strong) NSString* packageName;
 @property (readonly) Float64 packagePrice;
 @property (readonly, strong) NSString* receipt;
-@property (readonly, strong) NSArray * updatedOrNewList;
-@property (readonly, strong) NSArray * updatedUserItemsList;
-- (FullUserMonsterProto*)updatedOrNewAtIndex:(NSUInteger)index;
-- (UserItemProto*)updatedUserItemsAtIndex:(NSUInteger)index;
 
 + (InAppPurchaseResponseProto*) defaultInstance;
 - (InAppPurchaseResponseProto*) defaultInstance;
@@ -364,18 +318,6 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 - (NSString*) receipt;
 - (InAppPurchaseResponseProto_Builder*) setReceipt:(NSString*) value;
 - (InAppPurchaseResponseProto_Builder*) clearReceipt;
-
-- (NSMutableArray *)updatedOrNewList;
-- (FullUserMonsterProto*)updatedOrNewAtIndex:(NSUInteger)index;
-- (InAppPurchaseResponseProto_Builder *)addUpdatedOrNew:(FullUserMonsterProto*)value;
-- (InAppPurchaseResponseProto_Builder *)addAllUpdatedOrNew:(NSArray *)array;
-- (InAppPurchaseResponseProto_Builder *)clearUpdatedOrNew;
-
-- (NSMutableArray *)updatedUserItemsList;
-- (UserItemProto*)updatedUserItemsAtIndex:(NSUInteger)index;
-- (InAppPurchaseResponseProto_Builder *)addUpdatedUserItems:(UserItemProto*)value;
-- (InAppPurchaseResponseProto_Builder *)addAllUpdatedUserItems:(NSArray *)array;
-- (InAppPurchaseResponseProto_Builder *)clearUpdatedUserItems;
 @end
 
 @interface EarnFreeDiamondsRequestProto : PBGeneratedMessage {

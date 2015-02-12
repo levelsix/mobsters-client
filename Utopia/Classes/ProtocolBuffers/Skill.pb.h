@@ -80,7 +80,6 @@ BOOL SkillActivationTypeIsValidValue(SkillActivationType value);
   BOOL hasOrbCost_:1;
   BOOL hasPredecId_:1;
   BOOL hasSucId_:1;
-  BOOL hasSkillEffectDuration_:1;
   BOOL hasName_:1;
   BOOL hasDefDesc_:1;
   BOOL hasOffDesc_:1;
@@ -91,7 +90,6 @@ BOOL SkillActivationTypeIsValidValue(SkillActivationType value);
   int32_t orbCost;
   int32_t predecId;
   int32_t sucId;
-  int32_t skillEffectDuration;
   NSString* name;
   NSString* defDesc;
   NSString* offDesc;
@@ -110,7 +108,6 @@ BOOL SkillActivationTypeIsValidValue(SkillActivationType value);
 - (BOOL) hasDefDesc;
 - (BOOL) hasOffDesc;
 - (BOOL) hasImgNamePrefix;
-- (BOOL) hasSkillEffectDuration;
 @property (readonly) int32_t skillId;
 @property (readonly, strong) NSString* name;
 @property (readonly) int32_t orbCost;
@@ -122,7 +119,6 @@ BOOL SkillActivationTypeIsValidValue(SkillActivationType value);
 @property (readonly, strong) NSString* defDesc;
 @property (readonly, strong) NSString* offDesc;
 @property (readonly, strong) NSString* imgNamePrefix;
-@property (readonly) int32_t skillEffectDuration;
 - (SkillPropertyProto*)propertiesAtIndex:(NSUInteger)index;
 
 + (SkillProto*) defaultInstance;
@@ -215,11 +211,6 @@ BOOL SkillActivationTypeIsValidValue(SkillActivationType value);
 - (NSString*) imgNamePrefix;
 - (SkillProto_Builder*) setImgNamePrefix:(NSString*) value;
 - (SkillProto_Builder*) clearImgNamePrefix;
-
-- (BOOL) hasSkillEffectDuration;
-- (int32_t) skillEffectDuration;
-- (SkillProto_Builder*) setSkillEffectDuration:(int32_t) value;
-- (SkillProto_Builder*) clearSkillEffectDuration;
 @end
 
 @interface SkillPropertyProto : PBGeneratedMessage {
