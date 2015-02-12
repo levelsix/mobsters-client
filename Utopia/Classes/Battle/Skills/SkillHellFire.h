@@ -18,6 +18,7 @@
   // Temp
   BOOL _logoShown;
   NSInteger _orbsSpawned;
+  int _orbsConsumed;
 }
 
 @end

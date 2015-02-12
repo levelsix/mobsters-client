@@ -142,12 +142,13 @@ static const NSInteger kBatteryOrbsMaxSearchIterations = 256;
       if (execute)
       {
         // Update counters on special orbs
-        if (_orbsSpawned > 0 && [self updateSpecialOrbs])
+        int usedUpOrbCount = [self updateSpecialOrbs];
+        if (_orbsSpawned > 0 && usedUpOrbCount > 0)
         {
           SkillLogStart(@"Energize -- Skill activated");
           
-          _curSpeedMultiplier += _speedIncrease;
-          _curAttackMultiplier += _attackIncrease;
+          _curSpeedMultiplier += _speedIncrease * usedUpOrbCount;
+          _curAttackMultiplier += _attackIncrease * usedUpOrbCount;
           
           [self updateSkillOwnerSpeed];
         }
@@ -269,7 +270,7 @@ static const NSInteger kBatteryOrbsMaxSearchIterations = 256;
                          nil]];
 }
 
-- (BOOL) updateSpecialOrbs
+- (int) updateSpecialOrbs
 {
   BattleOrbLayout* layout = self.battleLayer.orbLayer.layout;
   OrbSwipeLayer* layer = self.battleLayer.orbLayer.swipeLayer;
@@ -333,7 +334,7 @@ static const NSInteger kBatteryOrbsMaxSearchIterations = 256;
                              nil]];
   }
   
-  return (usedUpOrbCount > 0);
+  return usedUpOrbCount;
 }
 
 - (void) spawnSpecialOrbs:(NSInteger)count withTarget:(id)target andSelector:(SEL)selector

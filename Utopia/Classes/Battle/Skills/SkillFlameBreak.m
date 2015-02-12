@@ -152,7 +152,8 @@ static const NSInteger kSwordOrbsMaxSearchIterations = 256;
       if (execute)
       {
         // Update counters on sword orbs
-        if (_orbsSpawned > 0 && [self updateSwordOrbs])
+        int usedUpOrbCount = [self updateSwordOrbs];
+        if (_orbsSpawned > 0 && usedUpOrbCount > 0)
         {
           _skillActive = YES;
           
@@ -164,6 +165,8 @@ static const NSInteger kSwordOrbsMaxSearchIterations = 256;
           // with the random damage done, e.g. max damage stuns for zero turns,
           // while min damage stuns for max turns allowed
           _turnsLeft = _maxStunTurns - floorf((_maxStunTurns + 1) * ((float)_damageReceived / _maxDamage));
+          
+          _damageReceived *= usedUpOrbCount;
         }
         else
           [self skillTriggerFinished];
@@ -338,7 +341,7 @@ static const NSInteger kSwordOrbsMaxSearchIterations = 256;
   [opponent.sprite runAction:[CCActionTintTo actionWithDuration:.3f color:[CCColor whiteColor]]];
 }
 
-- (BOOL) updateSwordOrbs
+- (int) updateSwordOrbs
 {
   BattleOrbLayout* layout = self.battleLayer.orbLayer.layout;
   OrbSwipeLayer* layer = self.battleLayer.orbLayer.swipeLayer;
@@ -402,7 +405,7 @@ static const NSInteger kSwordOrbsMaxSearchIterations = 256;
                              nil]];
   }
   
-  return (usedUpOrbCount > 0);
+  return usedUpOrbCount;
 }
 
 - (void) spawnSwordOrbs:(NSInteger)count withTarget:(id)target andSelector:(SEL)selector

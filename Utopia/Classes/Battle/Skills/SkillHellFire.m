@@ -58,8 +58,9 @@ static const NSInteger kBulletOrbsMaxSearchIterations = 256;
     if (execute)
     {
       _orbsSpawned = [self specialsOnBoardCount:SpecialOrbTypeBullet];
+      _orbsConsumed = [self updateBulletOrbs];
       // Update counters on bullet orbs
-      if (_orbsSpawned > 0 && [self updateBulletOrbs])
+      if (_orbsSpawned > 0 && _orbsConsumed > 0)
       {
         // If any orbs have reached zero turns left, perform out of turn attack
         [self makeSkillOwnerJumpWithTarget:self selector:@selector(beginOutOfTurnAttack)];
@@ -99,7 +100,7 @@ static const NSInteger kBulletOrbsMaxSearchIterations = 256;
 
 #pragma mark - Skill logic
 
-- (BOOL) updateBulletOrbs
+- (int) updateBulletOrbs
 {
   BattleOrbLayout* layout = self.battleLayer.orbLayer.layout;
   OrbSwipeLayer* layer = self.battleLayer.orbLayer.swipeLayer;
@@ -163,7 +164,7 @@ static const NSInteger kBulletOrbsMaxSearchIterations = 256;
                              nil]];
   }
   
-  return (usedUpOrbCount > 0);
+  return usedUpOrbCount;
 }
 
 - (void) beginOutOfTurnAttack
@@ -184,13 +185,13 @@ static const NSInteger kBulletOrbsMaxSearchIterations = 256;
 
 - (void) dealDamage
 {
-  [self.battleLayer dealDamage:_fixedDamageReceived
+  [self.battleLayer dealDamage:_fixedDamageReceived * _orbsConsumed
                enemyIsAttacker:YES
                   usingAbility:YES
                     withTarget:self
                   withSelector:@selector(endOutOfTurnAttack)];
   
-  [self.battleLayer setEnemyDamageDealt:(int)_fixedDamageReceived];
+  [self.battleLayer setEnemyDamageDealt:(int)_fixedDamageReceived * _orbsConsumed];
   [self.battleLayer sendServerUpdatedValuesVerifyDamageDealt:NO];
 }
 
