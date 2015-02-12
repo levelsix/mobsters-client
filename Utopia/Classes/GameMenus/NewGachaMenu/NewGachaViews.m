@@ -98,7 +98,7 @@ typedef void (^RevealAnimCompletionBlock)(void);
     self.background.image = [Globals imageNamed:[elementStr stringByAppendingString:@"grbackground.png"]];
     self.elementbigFlash.image = [Globals imageNamed:[elementStr stringByAppendingString:@"grbigflash1.png"]];
     self.elementGlow.image = [Globals imageNamed:[elementStr stringByAppendingString:@"grglow2glowblend.png"]];
-    self.elementLightsFlash.image = [Globals imageNamed:[elementStr stringByAppendingString:@"grlightsflashlow1.png"]];
+    self.elementLightsFlash.image = [Globals imageNamed:[elementStr stringByAppendingString:@"lightsflashlow1.png"]];
   }
 }
 

@@ -1809,8 +1809,17 @@
   CGPoint curPos = n.position;
   
   NSMutableArray *moves = [NSMutableArray array];
-  for (int i = 0; i < 5+intensity*14; i++) {
-    CGPoint pt = ccp(drand48()*intensity*10, drand48()*intensity*10);
+  int numTimes = 8+intensity*14;
+  for (int i = 0; i < numTimes; i++) {
+    float divisor = 1;
+    float start = numTimes/3;
+    if (i > start) {
+      divisor = 1+(i-start)/5;
+    }
+    
+    int signX = arc4random() % 2 ? 1 : -1;
+    int signY = arc4random() % 2 ? 1 : -1;
+    CGPoint pt = ccp(drand48()*intensity*8*signX/divisor, drand48()*intensity*8*signY/divisor);
     CCActionMoveTo *move = [CCActionMoveTo actionWithDuration:0.02f position:ccpAdd(pt, curPos)];
     [moves addObject:move];
   }

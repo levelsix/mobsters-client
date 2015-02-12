@@ -228,6 +228,7 @@
 
 + (NSString *) convertTimeToString:(int)secs withDays:(BOOL)withDays;
 + (NSString *) convertTimeToShortString:(int)secs;
++ (NSString *) convertTimeToShortString:(int)secs withAllDenominations:(BOOL)allDenom;
 + (NSString *) convertTimeToShorterString:(int)secs;
 + (NSString *) convertTimeToLongString:(int)secs;
 + (NSString *) convertTimeToMediumString:(int)secs;

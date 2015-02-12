@@ -1907,7 +1907,7 @@
     } else {
       [self speedupBuildingAndUpgradeOrPurchase];
     }
-  } else if (cost) {
+  } else {
     if (cost > curAmount) {
       ItemSelectViewController *svc = [[ItemSelectViewController alloc] init];
       if (svc) {

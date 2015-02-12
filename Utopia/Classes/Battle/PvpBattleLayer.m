@@ -712,7 +712,7 @@
   statue.anchorPoint = ccp(0.6, 0.25);
   
   CCSprite *shadow = [CCSprite spriteWithImageNamed:@"statueshadow.png"];
-  shadow.position = ccp(5, 5);
+  shadow.position = ccp(-5, -1);
   
   CCNode *node = [CCNode node];
   [node addChild:shadow];

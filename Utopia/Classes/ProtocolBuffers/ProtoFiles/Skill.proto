@@ -130,7 +130,10 @@ enum SideEffectType {
 	NO_SIDE_EFFECT = 1;
 	
 	POISONED = 2;
+<<<<<<< HEAD
 	CURSED = 3;
+=======
+>>>>>>> falling gems icon done
 }
 enum SideEffectTraitType {
 	NO_TRAIT = 1;

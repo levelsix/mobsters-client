@@ -9,8 +9,11 @@
             <connections>
                 <outlet property="bgdView" destination="PgA-mi-kMl" id="mkk-F9-4bx"/>
                 <outlet property="bonusItemsCollectionView" destination="CIQ-US-IVq" id="WzJ-L5-F5j"/>
+                <outlet property="endsInLabel" destination="wcb-iX-dk7" id="H4B-AL-U8w"/>
+                <outlet property="litBgdView" destination="KsX-P2-wsq" id="b1b-Wh-cF3"/>
                 <outlet property="loadingView" destination="lV4-pA-Vuf" id="h3j-x5-bLE"/>
                 <outlet property="mainView" destination="nko-En-znK" id="VyT-Ab-sHg"/>
+                <outlet property="numItemsLabel" destination="TOv-Lt-vwe" id="rZb-J6-oI0"/>
                 <outlet property="priceLabel" destination="0LC-Pr-Hfx" id="wBT-8G-Gc8"/>
                 <outlet property="timeLeftLabel" destination="MNR-60-iB7" id="6Ax-KQ-NTA"/>
                 <outlet property="timerIcon" destination="2Nc-GA-Xz5" id="0oZ-iE-tQ8"/>
@@ -37,22 +40,88 @@
                             </connections>
                         </button>
                     </subviews>
-                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
                 </view>
                 <view contentMode="scaleToFill" id="nko-En-znK" customClass="TouchableSubviewsView">
-                    <rect key="frame" x="92" y="0.0" width="384" height="320"/>
+                    <rect key="frame" x="76" y="0.0" width="417" height="320"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="builderpackbg.png" id="RqB-mF-FnF">
-                            <rect key="frame" x="6" y="-3" width="373" height="297"/>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="saleheader.png" id="1dv-TD-bPM">
+                            <rect key="frame" x="26" y="-6" width="365" height="89"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="37dollarvaluestamp.png" id="U2f-zb-QlF">
-                            <rect key="frame" x="321" y="101" width="63" height="64"/>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="saleunlitbg.png" id="J8L-pr-6Iq">
+                            <rect key="frame" x="26" y="83" width="365" height="218"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="salelitbg.png" id="KsX-P2-wsq">
+                            <rect key="frame" x="26" y="83" width="365" height="218"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="INCLUDES THESE 10 ITEMS" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="TOv-Lt-vwe" customClass="NiceFontLabel8">
+                            <rect key="frame" x="192" y="105" width="167" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                            <color key="textColor" red="0.9882352941176471" green="0.0" blue="0.62352941176470589" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <view clipsSubviews="YES" contentMode="scaleToFill" id="fSf-CS-yXT" userLabel="Table Container">
+                            <rect key="frame" x="177" y="112" width="198" height="143"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" id="CIQ-US-IVq">
+                                    <rect key="frame" x="0.0" y="17" width="198" height="126"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="2Tp-YE-0GO">
+                                        <size key="itemSize" width="197" height="29"/>
+                                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                    </collectionViewFlowLayout>
+                                    <connections>
+                                        <outlet property="dataSource" destination="-1" id="eyy-Od-DAd"/>
+                                        <outlet property="delegate" destination="-1" id="vGz-pf-Mbu"/>
+                                    </connections>
+                                </collectionView>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
+                        <view contentMode="scaleToFill" id="UW8-eg-kEv">
+                            <rect key="frame" x="137" y="15" width="129" height="24"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" 4M 12S" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="MNR-60-iB7" customClass="NiceFontLabel10T">
+                                    <rect key="frame" x="73" y="0.0" width="85" height="21"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <nil key="highlightedColor"/>
+                                    <color key="shadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ENDS IN: " textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="wcb-iX-dk7" customClass="NiceFontLabel10T">
+                                    <rect key="frame" x="-31" y="0.0" width="85" height="21"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <nil key="highlightedColor"/>
+                                    <color key="shadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="saletimericon.png" id="2Nc-GA-Xz5">
+                                    <rect key="frame" x="59" y="4" width="12" height="15"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="salegirl.png" id="3xZ-rX-O6c">
+                            <rect key="frame" x="56" y="92" width="86" height="161"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
                         <view contentMode="scaleToFill" id="Sx3-rb-d5q">
-                            <rect key="frame" x="130" y="265" width="124" height="51"/>
+                            <rect key="frame" x="213" y="270" width="124" height="51"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="z8J-Dh-Acw">
@@ -77,41 +146,14 @@
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
-                        <view contentMode="scaleToFill" id="UW8-eg-kEv">
-                            <rect key="frame" x="156" y="13" width="73" height="24"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <subviews>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="saletimericon.png" id="2Nc-GA-Xz5">
-                                    <rect key="frame" x="0.0" y="2" width="17" height="20"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </imageView>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" 4M 12S" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="MNR-60-iB7" customClass="NiceFontLabel10T">
-                                    <rect key="frame" x="18" y="0.0" width="85" height="21"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <nil key="highlightedColor"/>
-                                    <color key="shadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    <size key="shadowOffset" width="0.0" height="1"/>
-                                </label>
-                            </subviews>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        </view>
-                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" id="CIQ-US-IVq">
-                            <rect key="frame" x="44" y="176" width="297" height="72"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="2Tp-YE-0GO">
-                                <size key="itemSize" width="143" height="18"/>
-                                <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                            </collectionViewFlowLayout>
-                            <connections>
-                                <outlet property="dataSource" destination="-1" id="eyy-Od-DAd"/>
-                                <outlet property="delegate" destination="-1" id="vGz-pf-Mbu"/>
-                            </connections>
-                        </collectionView>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="barshadow.png" id="F8i-zK-25S">
+                            <rect key="frame" x="176" y="129" width="198" height="2"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="37dollarvaluestamp.png" id="U2f-zb-QlF">
+                            <rect key="frame" x="354" y="74" width="63" height="64"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
@@ -121,7 +163,7 @@
             <nil key="simulatedTopBarMetrics"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="545" y="428"/>
+            <point key="canvasLocation" x="541" y="458"/>
         </view>
         <view contentMode="scaleToFill" id="lV4-pA-Vuf" customClass="LoadingView">
             <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
@@ -150,9 +192,13 @@
     </objects>
     <resources>
         <image name="37dollarvaluestamp.png" width="63" height="64"/>
-        <image name="builderpackbg.png" width="373" height="297"/>
+        <image name="barshadow.png" width="1" height="2"/>
         <image name="buysale.png" width="124" height="51"/>
-        <image name="saletimericon.png" width="17" height="20"/>
+        <image name="salegirl.png" width="86" height="161"/>
+        <image name="saleheader.png" width="365" height="89"/>
+        <image name="salelitbg.png" width="365" height="218"/>
+        <image name="saletimericon.png" width="12" height="15"/>
+        <image name="saleunlitbg.png" width="365" height="218"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

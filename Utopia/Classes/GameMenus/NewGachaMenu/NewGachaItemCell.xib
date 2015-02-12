@@ -59,11 +59,11 @@
             <point key="canvasLocation" x="342" y="545"/>
         </view>
         <view contentMode="scaleToFill" id="9Wg-iX-7Gh" userLabel="ItemView">
-            <rect key="frame" x="0.0" y="0.0" width="40" height="46"/>
+            <rect key="frame" x="0.0" y="0.0" width="40" height="44"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" id="Gwg-O1-nTB">
-                    <rect key="frame" x="0.0" y="2" width="41" height="41"/>
+                    <rect key="frame" x="-1" y="3" width="41" height="41"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="giftitembg.png" id="V8U-PT-V5b">
@@ -86,7 +86,7 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
                 <view contentMode="scaleToFill" id="k4r-gn-guc">
-                    <rect key="frame" x="25" y="26" width="18" height="18"/>
+                    <rect key="frame" x="25" y="27" width="18" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="squadrewardsprogress.png" id="4Yu-5Z-Tz1">
@@ -109,6 +109,7 @@
             <nil key="simulatedStatusBarMetrics"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="819" y="543"/>
         </view>
     </objects>
     <resources>

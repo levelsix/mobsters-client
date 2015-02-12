@@ -66,8 +66,15 @@ static NSString *nibName = @"SaleViewCell";
   self.timeLeftLabel.strokeSize = 1.f;
   self.timeLeftLabel.gradientStartColor = [UIColor whiteColor];
   self.timeLeftLabel.gradientEndColor = [UIColor colorWithHexString:@"ffe5ba"];
-  self.timeLeftLabel.shadowColor = [UIColor colorWithHexString:@"aa6b00c0"];
+//  self.timeLeftLabel.shadowColor = [UIColor colorWithHexString:@"aa6b00c0"];
   self.timeLeftLabel.shadowBlur = 0.9f;
+  
+  self.endsInLabel.strokeColor = self.timeLeftLabel.strokeColor;
+  self.endsInLabel.strokeSize = self.timeLeftLabel.strokeSize;
+  self.endsInLabel.gradientStartColor = self.timeLeftLabel.gradientStartColor;
+  self.endsInLabel.gradientEndColor = self.timeLeftLabel.gradientEndColor;
+  self.endsInLabel.shadowColor = self.timeLeftLabel.shadowColor;
+  self.endsInLabel.shadowBlur = self.timeLeftLabel.shadowBlur;
   
   self.priceLabel.strokeColor = [UIColor colorWithHexString:@"2a7204"];
   self.priceLabel.strokeSize = 1.f;
@@ -78,6 +85,26 @@ static NSString *nibName = @"SaleViewCell";
   self.priceLabel.text = [[IAPHelper sharedIAPHelper] priceForProduct:self.product];
   
   [self.bonusItemsCollectionView registerNib:[UINib nibWithNibName:nibName bundle:nil] forCellWithReuseIdentifier:nibName];
+  
+  self.numItemsLabel.text = [NSString stringWithFormat:@"INCLUDES THESE %d ITEMS!", (int)self.sale.displayItemsList.count];
+  
+  self.bonusItemsCollectionView.superview.layer.cornerRadius = 5.f;
+  self.bonusItemsCollectionView.superview.height += 0.5f;
+  self.bonusItemsCollectionView.superview.originX -= 0.5f;
+}
+
+- (void) fadeLitBgd {
+  // flash in fast, fade out slow
+  self.litBgdView.alpha = 0.f;
+  [UIView animateWithDuration:.2f animations:^{
+    self.litBgdView.alpha = 1.f;
+  } completion:^(BOOL finished) {
+    [UIView animateWithDuration:1.8f animations:^{
+      self.litBgdView.alpha = 0.f;
+    } completion:^(BOOL finished) {
+      [self fadeLitBgd];
+    }];
+  }];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -86,6 +113,10 @@ static NSString *nibName = @"SaleViewCell";
   self.updateTimer = [NSTimer timerWithTimeInterval:1.f target:self selector:@selector(updateLabels) userInfo:nil repeats:YES];
   [[NSRunLoop mainRunLoop] addTimer:self.updateTimer forMode:NSRunLoopCommonModes];
   [self updateLabels];
+  
+  [self fadeLitBgd];
+  
+  [[CCDirector sharedDirector] pause];
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
@@ -95,23 +126,25 @@ static NSString *nibName = @"SaleViewCell";
   self.updateTimer = nil;
   
   [[NSNotificationCenter defaultCenter] removeObserver:self];
+  
+  [[CCDirector sharedDirector] resume];
 }
 
 - (void) updateLabels {
   GameState *gs = [GameState sharedGameState];
   
-  int secsSinceStart = -gs.createTime.timeIntervalSinceNow;
-  int mod = 60*60*24;
-  int days = secsSinceStart/mod;
-  int secsForToday = mod - (secsSinceStart % mod);
+  int secsLeft = gs.timeLeftOnStarterSale;
   
-  if (days < 5 && secsForToday >= 0) {
-    self.timeLeftLabel.text = [@" " stringByAppendingString:[Globals convertTimeToShortString:secsForToday].uppercaseString];
+  if (secsLeft >= 0) {
+    self.timeLeftLabel.text = [@" " stringByAppendingString:[Globals convertTimeToShortString:secsLeft withAllDenominations:YES].uppercaseString];
     
-    [Globals adjustViewForCentering:self.timeLeftLabel.superview withLabel:self.timeLeftLabel];
+    //[Globals adjustViewForCentering:self.timeLeftLabel.superview withLabel:self.timeLeftLabel];
   } else if (self.timerIcon) {
     [self.timerIcon removeFromSuperview];
     self.timerIcon = nil;
+    
+    [self.endsInLabel removeFromSuperview];
+    self.endsInLabel = nil;
     
     self.timeLeftLabel.centerX = self.timeLeftLabel.superview.width/2;
     self.timeLeftLabel.textAlignment = NSTextAlignmentCenter;

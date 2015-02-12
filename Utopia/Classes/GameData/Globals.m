@@ -236,6 +236,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (NSString *) convertTimeToShortString:(int)secs {
+  return [self convertTimeToShortString:secs withAllDenominations:NO];
+}
+
++ (NSString *) convertTimeToShortString:(int)secs withAllDenominations:(BOOL)allDenom {
   if (secs <= 0) {
     return @"0s";
   }
@@ -247,22 +251,28 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   int mins = secs / 60;
   secs %= 60;
   
+  NSString *formatStr = allDenom ? @"%02d" : @"%d";
+  
   if (days > 0) {
-    NSString *hrsStr = hrs == 0 ? @"" : [NSString stringWithFormat:@" %dh", hrs];
-    return [NSString stringWithFormat:@"%dd%@", days, hrsStr];
+    NSString *hrsStr = hrs > 0 || allDenom ? [NSString stringWithFormat:[NSString stringWithFormat:@" %@h", formatStr], hrs] : @"";
+    NSString *minsStr = allDenom ? [NSString stringWithFormat:[NSString stringWithFormat:@" %@m", formatStr], mins] : @"";
+    NSString *secsStr = allDenom ? [NSString stringWithFormat:[NSString stringWithFormat:@" %@s", formatStr], secs] : @"";
+    return [NSString stringWithFormat:[NSString stringWithFormat:@"%@d%%@%%@%%@", formatStr], days, hrsStr, minsStr, secsStr];
   }
   
-  if (hrs > 0) {
-    NSString *minsStr = mins == 0 ? @"" : [NSString stringWithFormat:@" %dm", mins];
-    return [NSString stringWithFormat:@"%dh%@", hrs, minsStr];
+  // Choosing to set all denom to show hrs always.. For sale view controller
+  if (hrs > 0 || allDenom) {
+    NSString *minsStr = mins > 0 || allDenom ? [NSString stringWithFormat:[NSString stringWithFormat:@" %@m", formatStr], mins] : @"";
+    NSString *secsStr = allDenom ? [NSString stringWithFormat:[NSString stringWithFormat:@" %@s", formatStr], secs] : @"";
+    return [NSString stringWithFormat:[NSString stringWithFormat:@"%@h%%@%%@", formatStr], hrs, minsStr, secsStr];
   }
   
   if (mins > 0) {
-    NSString *secsStr = secs == 0 ? @"" : [NSString stringWithFormat:@" %ds", secs];
-    return [NSString stringWithFormat:@"%dm%@", mins, secsStr];
+    NSString *secsStr = secs > 0 || allDenom ? [NSString stringWithFormat:@" %ds", secs] : @"";
+    return [NSString stringWithFormat:[NSString stringWithFormat:@"%@m%%@", formatStr], mins, secsStr];
   }
   
-  return [NSString stringWithFormat:@"%ds", secs];
+  return [NSString stringWithFormat:[NSString stringWithFormat:@"%@s", formatStr], secs];
 }
 
 + (NSString *) convertTimeToShorterString:(int)secs {

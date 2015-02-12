@@ -213,7 +213,11 @@ message StartupResponseProto {
 		optional int32 taskIdOfFirstSkill = 38;
 		optional int32 minsToResolicitTeamDonation = 39;
 	
+<<<<<<< HEAD
 		repeated FileDownloadConstantProto fileDownloadProto = 40;
+=======
+		repeated string fileNamesToDownload = 40;
+>>>>>>> falling gems icon done
 		
 		message AnimatedSpriteOffsetProto {
 			optional string imageName = 1;

@@ -66,7 +66,7 @@
   {
     if (execute)
     {
-      int orbsSpawned = [self specialsOnBoardCount:SpecialOrbTypeLifeSteal];
+      int orbsSpawned = (int)[self specialsOnBoardCount:SpecialOrbTypeLifeSteal];
       if (orbsSpawned > 0)
       {
         // Life steal orbs left on the board at the end of turn, being stealing life

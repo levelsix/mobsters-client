@@ -8,29 +8,33 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="LfI-wq-m1T" customClass="SaleViewCell">
-            <rect key="frame" x="0.0" y="0.0" width="143" height="18"/>
+            <rect key="frame" x="0.0" y="0.0" width="198" height="29"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="salespeedupicon.png" id="qor-oa-4Rp">
-                    <rect key="frame" x="0.0" y="2" width="15" height="15"/>
-                    <autoresizingMask key="autoresizingMask"/>
-                </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="500 Gems" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Vkv-IV-i1C" customClass="NiceFontLabel9">
-                    <rect key="frame" x="18" y="-1" width="87" height="21"/>
+                    <rect key="frame" x="34" y="4" width="116" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
                     <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="x10" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="CPe-H2-bYM" customClass="NiceFontLabel9">
-                    <rect key="frame" x="103" y="-1" width="40" height="21"/>
+                    <rect key="frame" x="142" y="4" width="40" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
                     <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="salespeedupicon.png" id="qor-oa-4Rp">
+                    <rect key="frame" x="11" y="8" width="13" height="13"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                </imageView>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popupline.png" id="XdQ-9b-d6H" customClass="VerticalFlipImageView">
+                    <rect key="frame" x="0.0" y="28" width="198" height="1"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                </imageView>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <nil key="simulatedStatusBarMetrics"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
@@ -39,11 +43,12 @@
                 <outlet property="nameLabel" destination="Vkv-IV-i1C" id="wHz-3n-HrC"/>
                 <outlet property="quantityLabel" destination="CPe-H2-bYM" id="Xph-lM-nqN"/>
             </connections>
-            <point key="canvasLocation" x="635.5" y="184"/>
+            <point key="canvasLocation" x="677" y="334"/>
         </view>
     </objects>
     <resources>
-        <image name="salespeedupicon.png" width="9" height="11"/>
+        <image name="popupline.png" width="1" height="1"/>
+        <image name="salespeedupicon.png" width="11" height="13"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

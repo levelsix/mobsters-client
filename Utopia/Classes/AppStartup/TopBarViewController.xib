@@ -37,6 +37,10 @@
                 <outlet property="oilView" destination="cN7-iW-rjC" id="3Vh-Vd-Nxl"/>
                 <outlet property="questBadge" destination="FXC-S5-i6S" id="a7P-HJ-eWz"/>
                 <outlet property="questView" destination="cL0-yI-Pkw" id="aZS-VR-shA"/>
+                <outlet property="saleGemsIcon" destination="LpS-pU-ea3" id="NM9-j1-QyI"/>
+                <outlet property="saleLabel" destination="bH5-bU-JrS" id="Pcg-Ep-K5t"/>
+                <outlet property="saleMultiplierIcon" destination="yyK-b8-P0P" id="zcG-Io-EJC"/>
+                <outlet property="saleTimeLabel" destination="lWw-F7-HNa" id="80w-up-okd"/>
                 <outlet property="saleView" destination="7le-vr-bAt" id="BKQ-qb-Ygv"/>
                 <outlet property="secretGiftIcon" destination="otx-lv-xMe" id="xmu-vX-gkj"/>
                 <outlet property="secretGiftLabel" destination="5k0-W8-KCu" id="mY8-tw-atX"/>
@@ -515,8 +519,8 @@
                                     <rect key="frame" x="3" y="5" width="50" height="50"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="salegemspile.png" id="eNJ-qN-C30">
-                                    <rect key="frame" x="4" y="30" width="49" height="23"/>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="fallinggems14.png" id="LpS-pU-ea3">
+                                    <rect key="frame" x="6" y="-10" width="45" height="60"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="saleoranagebar.png" id="zo7-8P-C0b">
@@ -524,7 +528,16 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="SALE!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.15000000596046448" id="bH5-bU-JrS" customClass="NiceFontLabel8">
-                                    <rect key="frame" x="7" y="40" width="43" height="19"/>
+                                    <rect key="frame" x="6" y="40" width="43" height="20"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <nil key="highlightedColor"/>
+                                    <color key="shadowColor" white="0.0" alpha="0.29999999999999999" colorSpace="calibratedWhite"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="SALE!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.15000000596046448" id="lWw-F7-HNa" customClass="NiceFontLabel8">
+                                    <rect key="frame" x="6" y="40" width="43" height="20"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="9"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -837,6 +850,7 @@
         <image name="cashmiddle.png" width="1" height="18"/>
         <image name="diamond.png" width="29" height="27"/>
         <image name="diamondbar.png" width="72" height="18"/>
+        <image name="fallinggems14.png" width="45" height="60"/>
         <image name="freegem.png" width="40" height="32"/>
         <image name="freegemslabel.png" width="29" height="9"/>
         <image name="gemsspinner.png" width="64" height="64"/>
@@ -850,7 +864,6 @@
         <image name="oilcap.png" width="4" height="18"/>
         <image name="oilicon.png" width="25" height="30"/>
         <image name="oilmiddle.png" width="1" height="18"/>
-        <image name="salegemspile.png" width="49" height="23"/>
         <image name="saleiconbg.png" width="50" height="50"/>
         <image name="saleoranagebar.png" width="56" height="19"/>
         <image name="secretgiftcounter.png" width="44" height="15"/>

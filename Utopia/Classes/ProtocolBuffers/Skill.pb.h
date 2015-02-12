@@ -73,7 +73,10 @@ BOOL SkillActivationTypeIsValidValue(SkillActivationType value);
 typedef NS_ENUM(SInt32, SideEffectType) {
   SideEffectTypeNoSideEffect = 1,
   SideEffectTypePoisoned = 2,
+<<<<<<< HEAD
   SideEffectTypeCursed = 3,
+=======
+>>>>>>> falling gems icon done
 };
 
 BOOL SideEffectTypeIsValidValue(SideEffectType value);

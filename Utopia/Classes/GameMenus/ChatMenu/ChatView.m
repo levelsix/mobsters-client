@@ -372,8 +372,6 @@
   self.privateChatList = privateChats;
   [self.listTable reloadData];
   
-  self.emptyListLabel.hidden = privateChats.count > 0;
-  
   GameState *gs = [GameState sharedGameState];
   [self.monsterView updateForMonsterId:gs.avatarMonsterId];
   
@@ -397,16 +395,22 @@
   [self.displayedChatList removeAllObjects];
   GameState *gs = [GameState sharedGameState];
   //create a filter hear and replace references to privatechat list with displayedPrivateChat lists
+  NSString *emptyText = nil;
   if (_chatMode == PrivateChatModeAllMessages){
     self.displayedChatList = [NSMutableArray arrayWithArray:self.privateChatList];
+    emptyText = @"You have no private chats.";
     
   } else if (_chatMode == PrivateChatModeAttackLog) {
     self.displayedChatList = [NSMutableArray arrayWithArray:[gs pvpAttackHistory]];
+    emptyText = @"You have never attacked anyone.";
     
   } else if (_chatMode == PrivateChatModeDefenseLog) {
     self.displayedChatList = [NSMutableArray arrayWithArray:[gs pvpDefenseHistory]];
+    emptyText = @"You have never been attacked.";
   }
   
+  self.emptyListLabel.hidden = self.displayedChatList.count > 0;
+  self.emptyListLabel.text = emptyText;
   
   [self.listTable reloadData];
 }

@@ -540,6 +540,13 @@
   if (self.secretGiftTimerView.hidden != (!shouldDisplayTimer)) {
     [self updateSecretGiftView];
   }
+  
+  int saleTimeLeft = [gs timeLeftOnStarterSale];
+  if (saleTimeLeft >= 0) {
+    self.saleTimeLabel.text = [[Globals convertTimeToShortString:saleTimeLeft] uppercaseString];
+  } else {
+    self.saleTimeLabel.text = @"Sale!";
+  }
 }
 
 - (void) showPrivateChatNotification:(NSNotification *)notification {
@@ -593,6 +600,12 @@
     self.freeGemsView.originY = self.saleView.originY-self.freeGemsView.height;
     
     self.timersView.height = self.freeGemsView.originY-self.timersView.originY;
+    
+    if (!_isAnimatingFallingGems) {
+      self.saleMultiplierIcon.hidden = YES;
+      [self performFallingGemsAnimation];
+      _isAnimatingFallingGems = YES;
+    }
   } else {
     self.freeGemsView.originY = self.shopView.originY-self.freeGemsView.height;
     
@@ -600,6 +613,69 @@
     
     self.saleView.hidden = YES;
   }
+}
+
+- (void) performFallingGemsAnimation {
+  
+  [self setupFallingGems];
+  
+  [UIView animateWithDuration:0.1f animations:^{
+    self.saleMultiplierIcon.alpha = 0.f;
+  }];
+  
+  [self.saleGemsIcon startAnimating];
+  [self performSelector:@selector(checkGemsAnimationComplete) withObject:nil afterDelay:self.saleGemsIcon.animationDuration];
+}
+
+- (void) checkGemsAnimationComplete {
+  if (!self.saleGemsIcon.isAnimating) {
+    // Animate the multiplier
+    
+    float scale = 6.f;
+    self.saleMultiplierIcon.transform = CGAffineTransformMakeScale(scale, scale);
+    self.saleMultiplierIcon.alpha = 0.f;
+    self.saleMultiplierIcon.hidden = NO;
+    [UIView animateWithDuration:0.15f delay:0.3f options:UIViewAnimationOptionCurveEaseOut animations:^{
+      self.saleMultiplierIcon.alpha = 1.f;
+      self.saleMultiplierIcon.transform = CGAffineTransformIdentity;
+    } completion:^(BOOL finished) {
+      [self performSelector:@selector(performFallingGemsAnimation) withObject:nil afterDelay:10.f];
+    }];
+  } else {
+    [self performSelector:@selector(checkGemsAnimationComplete) withObject:nil afterDelay:0.1f];
+  }
+}
+
+- (void) setupFallingGems {
+  NSMutableArray *imgs = [NSMutableArray array];
+  
+  if (!self.saleGemsIcon.animationImages.count) {
+    for (int i = 0; i <= 14; i++) {
+      NSString *str = [NSString stringWithFormat:@"fallinggems%02d.png", i];
+      UIImage *img = [Globals imageNamed:str];
+      [imgs addObject:img];
+    }
+    
+    self.saleGemsIcon.animationImages = imgs;
+    
+    self.saleGemsIcon.animationDuration = imgs.count*0.06;
+    self.saleGemsIcon.animationRepeatCount = 1;
+    
+    self.saleTimeLabel.alpha = 0.f;
+    self.saleLabel.alpha = 1.f;
+    [self fadeSaleLabels];
+  }
+}
+
+
+
+- (void) fadeSaleLabels {
+  [UIView animateWithDuration:1.f animations:^{
+    self.saleLabel.alpha = 1.f-self.saleLabel.alpha;
+    self.saleTimeLabel.alpha = 1.f-self.saleTimeLabel.alpha;
+  } completion:^(BOOL finished) {
+    [self performSelector:@selector(fadeSaleLabels) withObject:nil afterDelay:6.f];
+  }];
 }
 
 #pragma mark - Bottom view methods

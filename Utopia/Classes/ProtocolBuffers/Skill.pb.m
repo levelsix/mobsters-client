@@ -76,7 +76,10 @@ BOOL SideEffectTypeIsValidValue(SideEffectType value) {
   switch (value) {
     case SideEffectTypeNoSideEffect:
     case SideEffectTypePoisoned:
+<<<<<<< HEAD
     case SideEffectTypeCursed:
+=======
+>>>>>>> falling gems icon done
       return YES;
     default:
       return NO;

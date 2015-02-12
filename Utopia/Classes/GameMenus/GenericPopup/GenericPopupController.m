@@ -125,7 +125,7 @@
 }
 
 + (GenericPopupController *) displayNotEnoughGemsView {
-  GenericPopupController *gp = [GenericPopupController displayNotificationViewWithText:@"You don't have enough gems. Want more?" title:@"Not Enough Gems" okayButton:@"Enter Shop" target:[GameViewController baseController] selector:@selector(openGemShop)];
+  GenericPopupController *gp = [GenericPopupController displayNotificationViewWithText:@"You don't have enough gems.\nWant more?" title:@"Not Enough Gems" okayButton:@"Enter Shop" target:[GameViewController baseController] selector:@selector(openGemShop)];
   
   [gp.notifButton setImage:[Globals imageNamed:@"purplemenuoption.png"] forState:UIControlStateNormal];
   gp.titleBgd.image = [Globals imageNamed:@"purplenotificationheader.png"];

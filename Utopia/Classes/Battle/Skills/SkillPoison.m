@@ -143,13 +143,13 @@ static NSString* const skullId = @"skull";
         // Update tile
         if (fromTrigger)
         {
-//          BattleTile* tile = [layout tileAtColumn:col row:row];
+          //          BattleTile* tile = [layout tileAtColumn:col row:row];
           if (lastOrbLayer)
             [lastOrbLayer updateTile:lastTile];
           lastOrbLayer = self.battleLayer.orbLayer.bgdLayer;
           lastTile = [layout tileAtColumn:col row:row];
-//          OrbBgdLayer* bgdLayer = self.battleLayer.orbLayer.bgdLayer;
-//          [bgdLayer updateTile:tile keepLit:NO withTarget:nil andCallback:nil];
+          //          OrbBgdLayer* bgdLayer = self.battleLayer.orbLayer.bgdLayer;
+          //          [bgdLayer updateTile:tile keepLit:NO withTarget:nil andCallback:nil];
         }
       }
     }
