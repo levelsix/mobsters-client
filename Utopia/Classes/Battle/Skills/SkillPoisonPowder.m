@@ -63,7 +63,7 @@
     if ((!self.belongsToPlayer && trigger == SkillTriggerPointEndOfPlayerTurn)
         || (self.belongsToPlayer && trigger == SkillTriggerPointEndOfEnemyTurn))
     {
-      [self dealPoisonDamage:self.poisonDamage];
+      [self dealPoisonDamage];
       [self tickDuration];
       return YES;
     }

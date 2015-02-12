@@ -35,27 +35,17 @@
   return YES;
 }
 
-- (void) dealQuickAttack
+- (BOOL) onDurationReset
 {
-  if (self.belongsToPlayer)
-    [self.playerSprite performFarAttackAnimationWithStrength:0.f shouldEvade:NO enemy:self.enemySprite
-                                                      target:self selector:@selector(dealQuickAttack1) animCompletion:nil];
-  else
-    [self.enemySprite performNearAttackAnimationWithEnemy:self.playerSprite shouldReturn:YES shouldEvade:NO shouldFlinch:YES
-                                                   target:self selector:@selector(dealQuickAttack1) animCompletion:nil];
+  return [self onDurationStart];
 }
 
-- (void) dealQuickAttack1
+- (int) quickAttackDamage
 {
-  // Deal damage
-  [self.battleLayer dealDamage:self.poisonDamage enemyIsAttacker:(!self.belongsToPlayer) usingAbility:YES withTarget:self withSelector:@selector(dealQuickAttack2)];
-  
-  if (!self.belongsToPlayer) {
-    [self.battleLayer sendServerUpdatedValuesVerifyDamageDealt:NO];
-  }
+  return _initialDamage;
 }
 
-- (void) dealQuickAttack2
+- (void) onFinishQuickAttack
 {
   if ([self doesPoison])
   {

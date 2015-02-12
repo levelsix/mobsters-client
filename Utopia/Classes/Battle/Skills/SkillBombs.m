@@ -67,6 +67,8 @@
     {
       if (execute)
       {
+        [self resetOrbCounter];
+        
         NSInteger bombsOnBoard = [self specialsOnBoardCount:SpecialOrbTypeBomb];
         NSInteger countToSpawn = MIN(_bombsPerActivation, _maxBombs - bombsOnBoard);
         
@@ -84,8 +86,6 @@
             }];
           }];
         }
-        else
-          return NO;
       }
       return YES;
     }
@@ -139,7 +139,6 @@
 
 - (void) finishSpawn
 {
-  [self resetOrbCounter];
   
   [self.battleLayer.orbLayer.bgdLayer turnTheLightsOn];
   [self.battleLayer.orbLayer allowInput];

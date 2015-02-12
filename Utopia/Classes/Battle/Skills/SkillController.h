@@ -42,7 +42,7 @@ static NSString* const cheatCodesForSkills[] = {
   @"", @"reset", @"cake", @"goo", @"atk", @"bombs", @"shield", @"poison", @"rage", @"momentum", @"toughskin",
   @"critevade", @"shuffle", @"headshot", @"mud", @"lifesteal", @"counterstrike", @"flamestrike", @"confusion",
   @"staticfield", @"blindinglight", @"poisonpowder", @"skewer", @"knockout", @"shallowgrave", @"hammertime",
-  @"bloodrage", @"takeaim", @"hellfire", @"energize", @"righthook", @"curse", @"insurance", @"flamebreak", @"pskew"};
+  @"bloodrage", @"takeaim", @"hellfire", @"energize", @"righthook", @"curse", @"insurance", @"flamebreak", @"pskew", @"pfire"};
 
 static NSString* const kSkillIconImageNameSuffix = @"icon.png";
 static NSString* const kSkillLogoImageNameSuffix = @"logo.png";
@@ -108,7 +108,15 @@ static NSString* const kSkillMiniLogoImageNameSuffix = @"minilogo.png";
 - (BOOL) shouldPersist;
 - (NSSet*) sideEffects;
 
-- (void) dealPoisonDamage:(int)damage;
+// Reusable poison effects
+@property (readonly) int poisonDamage;
+- (void) dealPoisonDamage;
+- (void) onFinishPoisonDamage;
+
+// Reusable quick attack effects
+@property (readonly) int quickAttackDamage; //Override the getter to set value
+- (void) dealQuickAttack;
+- (void) onFinishQuickAttack;
 
 // To be called by inherited skills to show the overlay
 - (void) showSkillPopupOverlay:(BOOL)jumpFirst withCompletion:(SkillPopupBlock)completion;

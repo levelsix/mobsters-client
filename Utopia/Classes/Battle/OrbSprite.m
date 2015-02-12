@@ -55,6 +55,7 @@
     case SpecialOrbTypeSword:
     case SpecialOrbTypeFryingPan:
     case SpecialOrbTypeBattery:
+    case SpecialOrbTypePoisonFire:
       if (_orb.turnCounter > 0) [self loadHeadshotElements]; break;
     default: break;
   }
@@ -261,6 +262,10 @@
         return nil;
       if (orb.powerupType == PowerupTypeNone)
         return [NSString stringWithFormat:@"%@%@%@.png", resPrefix, [Globals imageNameForElement:(Element)orbColor suffix:@"headshot"], suffix ];
+      break;
+      
+    case SpecialOrbTypePoisonFire:
+      return [NSString stringWithFormat:@"%@energizeorb%@.png", resPrefix, suffix];
       break;
       
     default:

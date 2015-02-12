@@ -41,7 +41,7 @@
         [self.battleLayer.orbLayer disallowInput];
         [self showSkillPopupOverlay:YES withCompletion:^(){
           [self resetOrbCounter];
-          if (![self resetDuration])
+          if (![self activate])
             [self skillTriggerFinished:YES];
         }];
       }
@@ -60,6 +60,11 @@
 - (NSInteger) getDuration
 {
   return _duration;
+}
+
+- (BOOL) activate
+{
+  return [self resetDuration];
 }
 
 - (BOOL) resetDuration

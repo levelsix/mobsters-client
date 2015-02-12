@@ -56,6 +56,11 @@
   [super orbDestroyed:color special:type];
 }
 
+- (int) poisonDamage
+{
+  return _tempDamageDealt;
+}
+
 - (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
 {
   if ([super skillCalledWithTrigger:trigger execute:execute])
@@ -71,7 +76,7 @@
         [self.battleLayer.orbLayer disallowInput];
         [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
         [self showSkillPopupOverlay:YES withCompletion:^(){
-          [self dealPoisonDamage:_tempDamageDealt];
+          [self dealPoisonDamage];
         }];
       }
       return YES;
@@ -99,7 +104,7 @@
 
 - (BOOL) onDurationReset
 {
-  [self dealPoisonDamage:_tempDamageDealt];
+  [self dealPoisonDamage];
   return YES;
 }
 
