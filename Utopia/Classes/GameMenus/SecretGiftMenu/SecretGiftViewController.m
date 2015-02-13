@@ -107,8 +107,8 @@
     
     [self.view removeFromSuperview];
     [self removeFromParentViewController];
-    if ((giftsCollected == 2 || giftsCollected == 20) && ![defaults boolForKey:[Globals userConfimredPushNotificationsKey]]) {
-      [gvc openPushNotificationRequestWithMessage:@"Would you like to be notified when your secret gift is ready?"];
+    if ((giftsCollected == 2 || giftsCollected == 40) && ![defaults boolForKey:[Globals userConfimredPushNotificationsKey]]) {
+      [gvc openPushNotificationRequestWithMessage:@"Would you like to recieve push notifications when your secret gift is ready?"];
     }
   }];
 }

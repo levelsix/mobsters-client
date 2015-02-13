@@ -805,8 +805,6 @@
   MSDate *nextSecretGiftDate = [gs nextSecretGiftOpenDate];
   GameViewController *gvc = (GameViewController *)self.parentViewController;
   
-  [gvc openPushNotificationRequestWithMessage:@"Would you like to be notified when your secret gift is ready?"];
-  
   if (nextSecretGiftDate) {
     if (nextSecretGiftDate.timeIntervalSinceNow > 0) {
       [Globals addAlertNotification:@"Your Secret Gift is not yet available."];

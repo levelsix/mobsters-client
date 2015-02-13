@@ -25,6 +25,8 @@
 #define STRUCT_TAG(d) [NSString stringWithFormat:@"UserStruct%@", d]
 #define PURCH_STRUCT_TAG @"PurchasingStruct"
 
+#define TOTAL_TIMES_RESOURCES_COLLECTED_KEY @"totalTimesResourcesCollected"
+
 @class HomeBuildingMenu;
 
 @interface HomeMap : GameMap <MapBotViewDelegate, MapBotViewButtonDelegate, UpgradeViewControllerDelegate, HireViewDelegate, SpeedupItemsFillerDelegate, HomeViewControllerDelegate, ResourceItemsFillerDelegate> {
