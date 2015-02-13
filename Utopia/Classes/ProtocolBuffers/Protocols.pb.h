@@ -544,6 +544,8 @@
 @class SkillPropertyProto_Builder;
 @class SkillProto;
 @class SkillProto_Builder;
+@class SkillSideEffectProto;
+@class SkillSideEffectProto_Builder;
 @class SolicitClanHelpRequestProto;
 @class SolicitClanHelpRequestProto_Builder;
 @class SolicitClanHelpResponseProto;
@@ -580,6 +582,8 @@
 @class StartupResponseProto_StartupConstants_ClanHelpConstants_Builder;
 @class StartupResponseProto_StartupConstants_DownloadableNibConstants;
 @class StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder;
+@class StartupResponseProto_StartupConstants_FileDownloadConstantProto;
+@class StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder;
 @class StartupResponseProto_StartupConstants_MiniTutorialConstants;
 @class StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder;
 @class StartupResponseProto_StartupConstants_MonsterConstants;

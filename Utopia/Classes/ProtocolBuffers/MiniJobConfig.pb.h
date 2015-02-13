@@ -123,6 +123,8 @@
   BOOL hasMonsterIdReward_:1;
   BOOL hasItemIdReward_:1;
   BOOL hasItemRewardQuantity_:1;
+  BOOL hasSecondItemIdReward_:1;
+  BOOL hasSecondItemRewardQuantity_:1;
   BOOL hasMaxNumMonstersAllowed_:1;
   BOOL hasHpRequired_:1;
   BOOL hasAtkRequired_:1;
@@ -141,6 +143,8 @@
   int32_t monsterIdReward;
   int32_t itemIdReward;
   int32_t itemRewardQuantity;
+  int32_t secondItemIdReward;
+  int32_t secondItemRewardQuantity;
   int32_t maxNumMonstersAllowed;
   int32_t hpRequired;
   int32_t atkRequired;
@@ -160,6 +164,8 @@
 - (BOOL) hasMonsterIdReward;
 - (BOOL) hasItemIdReward;
 - (BOOL) hasItemRewardQuantity;
+- (BOOL) hasSecondItemIdReward;
+- (BOOL) hasSecondItemRewardQuantity;
 - (BOOL) hasQuality;
 - (BOOL) hasMaxNumMonstersAllowed;
 - (BOOL) hasChanceToAppear;
@@ -178,6 +184,8 @@
 @property (readonly) int32_t monsterIdReward;
 @property (readonly) int32_t itemIdReward;
 @property (readonly) int32_t itemRewardQuantity;
+@property (readonly) int32_t secondItemIdReward;
+@property (readonly) int32_t secondItemRewardQuantity;
 @property (readonly) Quality quality;
 @property (readonly) int32_t maxNumMonstersAllowed;
 @property (readonly) Float32 chanceToAppear;
@@ -267,6 +275,16 @@
 - (int32_t) itemRewardQuantity;
 - (MiniJobProto_Builder*) setItemRewardQuantity:(int32_t) value;
 - (MiniJobProto_Builder*) clearItemRewardQuantity;
+
+- (BOOL) hasSecondItemIdReward;
+- (int32_t) secondItemIdReward;
+- (MiniJobProto_Builder*) setSecondItemIdReward:(int32_t) value;
+- (MiniJobProto_Builder*) clearSecondItemIdReward;
+
+- (BOOL) hasSecondItemRewardQuantity;
+- (int32_t) secondItemRewardQuantity;
+- (MiniJobProto_Builder*) setSecondItemRewardQuantity:(int32_t) value;
+- (MiniJobProto_Builder*) clearSecondItemRewardQuantity;
 
 - (BOOL) hasQuality;
 - (Quality) quality;

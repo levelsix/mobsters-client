@@ -14,6 +14,8 @@ static PBExtensionRegistry* extensionRegistry = nil;
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
     [InAppPurchaseRoot registerAllExtensions:registry];
+    [ItemRoot registerAllExtensions:registry];
+    [MonsterStuffRoot registerAllExtensions:registry];
     [StructureRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
     extensionRegistry = registry;
@@ -483,6 +485,8 @@ static InAppPurchaseRequestProto* defaultInAppPurchaseRequestProtoInstance = nil
 @property (strong) NSString* packageName;
 @property Float64 packagePrice;
 @property (strong) NSString* receipt;
+@property (strong) NSMutableArray * mutableUpdatedOrNewList;
+@property (strong) NSMutableArray * mutableUpdatedUserItemsList;
 @end
 
 @implementation InAppPurchaseResponseProto
@@ -536,6 +540,10 @@ static InAppPurchaseRequestProto* defaultInAppPurchaseRequestProtoInstance = nil
   hasReceipt_ = !!value_;
 }
 @synthesize receipt;
+@synthesize mutableUpdatedOrNewList;
+@dynamic updatedOrNewList;
+@synthesize mutableUpdatedUserItemsList;
+@dynamic updatedUserItemsList;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
@@ -559,6 +567,18 @@ static InAppPurchaseResponseProto* defaultInAppPurchaseResponseProtoInstance = n
 }
 - (InAppPurchaseResponseProto*) defaultInstance {
   return defaultInAppPurchaseResponseProtoInstance;
+}
+- (NSArray *)updatedOrNewList {
+  return mutableUpdatedOrNewList;
+}
+- (FullUserMonsterProto*)updatedOrNewAtIndex:(NSUInteger)index {
+  return [mutableUpdatedOrNewList objectAtIndex:index];
+}
+- (NSArray *)updatedUserItemsList {
+  return mutableUpdatedUserItemsList;
+}
+- (UserItemProto*)updatedUserItemsAtIndex:(NSUInteger)index {
+  return [mutableUpdatedUserItemsList objectAtIndex:index];
 }
 - (BOOL) isInitialized {
   return YES;
@@ -585,6 +605,12 @@ static InAppPurchaseResponseProto* defaultInAppPurchaseResponseProtoInstance = n
   if (self.hasReceipt) {
     [output writeString:7 value:self.receipt];
   }
+  [self.updatedOrNewList enumerateObjectsUsingBlock:^(FullUserMonsterProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:8 value:element];
+  }];
+  [self.updatedUserItemsList enumerateObjectsUsingBlock:^(UserItemProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:9 value:element];
+  }];
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -615,6 +641,12 @@ static InAppPurchaseResponseProto* defaultInAppPurchaseResponseProtoInstance = n
   if (self.hasReceipt) {
     size_ += computeStringSize(7, self.receipt);
   }
+  [self.updatedOrNewList enumerateObjectsUsingBlock:^(FullUserMonsterProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(8, element);
+  }];
+  [self.updatedUserItemsList enumerateObjectsUsingBlock:^(UserItemProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(9, element);
+  }];
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
   return size_;
@@ -674,6 +706,18 @@ static InAppPurchaseResponseProto* defaultInAppPurchaseResponseProtoInstance = n
   if (self.hasReceipt) {
     [output appendFormat:@"%@%@: %@\n", indent, @"receipt", self.receipt];
   }
+  [self.updatedOrNewList enumerateObjectsUsingBlock:^(FullUserMonsterProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"updatedOrNew"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
+  [self.updatedUserItemsList enumerateObjectsUsingBlock:^(UserItemProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"updatedUserItems"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -699,6 +743,8 @@ static InAppPurchaseResponseProto* defaultInAppPurchaseResponseProtoInstance = n
       (!self.hasPackagePrice || self.packagePrice == otherMessage.packagePrice) &&
       self.hasReceipt == otherMessage.hasReceipt &&
       (!self.hasReceipt || [self.receipt isEqual:otherMessage.receipt]) &&
+      [self.updatedOrNewList isEqualToArray:otherMessage.updatedOrNewList] &&
+      [self.updatedUserItemsList isEqualToArray:otherMessage.updatedUserItemsList] &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -724,6 +770,12 @@ static InAppPurchaseResponseProto* defaultInAppPurchaseResponseProtoInstance = n
   if (self.hasReceipt) {
     hashCode = hashCode * 31 + [self.receipt hash];
   }
+  [self.updatedOrNewList enumerateObjectsUsingBlock:^(FullUserMonsterProto *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  [self.updatedUserItemsList enumerateObjectsUsingBlock:^(UserItemProto *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
@@ -798,6 +850,20 @@ BOOL InAppPurchaseResponseProto_InAppPurchaseStatusIsValidValue(InAppPurchaseRes
   if (other.hasReceipt) {
     [self setReceipt:other.receipt];
   }
+  if (other.mutableUpdatedOrNewList.count > 0) {
+    if (result.mutableUpdatedOrNewList == nil) {
+      result.mutableUpdatedOrNewList = [[NSMutableArray alloc] initWithArray:other.mutableUpdatedOrNewList];
+    } else {
+      [result.mutableUpdatedOrNewList addObjectsFromArray:other.mutableUpdatedOrNewList];
+    }
+  }
+  if (other.mutableUpdatedUserItemsList.count > 0) {
+    if (result.mutableUpdatedUserItemsList == nil) {
+      result.mutableUpdatedUserItemsList = [[NSMutableArray alloc] initWithArray:other.mutableUpdatedUserItemsList];
+    } else {
+      [result.mutableUpdatedUserItemsList addObjectsFromArray:other.mutableUpdatedUserItemsList];
+    }
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -855,6 +921,18 @@ BOOL InAppPurchaseResponseProto_InAppPurchaseStatusIsValidValue(InAppPurchaseRes
       }
       case 58: {
         [self setReceipt:[input readString]];
+        break;
+      }
+      case 66: {
+        FullUserMonsterProto_Builder* subBuilder = [FullUserMonsterProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addUpdatedOrNew:[subBuilder buildPartial]];
+        break;
+      }
+      case 74: {
+        UserItemProto_Builder* subBuilder = [UserItemProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addUpdatedUserItems:[subBuilder buildPartial]];
         break;
       }
     }
@@ -984,6 +1062,54 @@ BOOL InAppPurchaseResponseProto_InAppPurchaseStatusIsValidValue(InAppPurchaseRes
 - (InAppPurchaseResponseProto_Builder*) clearReceipt {
   result.hasReceipt = NO;
   result.receipt = @"";
+  return self;
+}
+- (NSMutableArray *)updatedOrNewList {
+  return result.mutableUpdatedOrNewList;
+}
+- (FullUserMonsterProto*)updatedOrNewAtIndex:(NSUInteger)index {
+  return [result updatedOrNewAtIndex:index];
+}
+- (InAppPurchaseResponseProto_Builder *)addUpdatedOrNew:(FullUserMonsterProto*)value {
+  if (result.mutableUpdatedOrNewList == nil) {
+    result.mutableUpdatedOrNewList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableUpdatedOrNewList addObject:value];
+  return self;
+}
+- (InAppPurchaseResponseProto_Builder *)addAllUpdatedOrNew:(NSArray *)array {
+  if (result.mutableUpdatedOrNewList == nil) {
+    result.mutableUpdatedOrNewList = [NSMutableArray array];
+  }
+  [result.mutableUpdatedOrNewList addObjectsFromArray:array];
+  return self;
+}
+- (InAppPurchaseResponseProto_Builder *)clearUpdatedOrNew {
+  result.mutableUpdatedOrNewList = nil;
+  return self;
+}
+- (NSMutableArray *)updatedUserItemsList {
+  return result.mutableUpdatedUserItemsList;
+}
+- (UserItemProto*)updatedUserItemsAtIndex:(NSUInteger)index {
+  return [result updatedUserItemsAtIndex:index];
+}
+- (InAppPurchaseResponseProto_Builder *)addUpdatedUserItems:(UserItemProto*)value {
+  if (result.mutableUpdatedUserItemsList == nil) {
+    result.mutableUpdatedUserItemsList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableUpdatedUserItemsList addObject:value];
+  return self;
+}
+- (InAppPurchaseResponseProto_Builder *)addAllUpdatedUserItems:(NSArray *)array {
+  if (result.mutableUpdatedUserItemsList == nil) {
+    result.mutableUpdatedUserItemsList = [NSMutableArray array];
+  }
+  [result.mutableUpdatedUserItemsList addObjectsFromArray:array];
+  return self;
+}
+- (InAppPurchaseResponseProto_Builder *)clearUpdatedUserItems {
+  result.mutableUpdatedUserItemsList = nil;
   return self;
 }
 @end

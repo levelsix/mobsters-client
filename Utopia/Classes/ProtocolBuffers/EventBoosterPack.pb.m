@@ -14,6 +14,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
     [BoosterPackStuffRoot registerAllExtensions:registry];
+    [ItemRoot registerAllExtensions:registry];
     [MonsterStuffRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
     extensionRegistry = registry;
@@ -393,6 +394,7 @@ static PurchaseBoosterPackRequestProto* defaultPurchaseBoosterPackRequestProtoIn
 @property PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatus status;
 @property (strong) NSMutableArray * mutableUpdatedOrNewList;
 @property (strong) BoosterItemProto* prize;
+@property (strong) NSMutableArray * mutableUpdatedUserItemsList;
 @end
 
 @implementation PurchaseBoosterPackResponseProto
@@ -420,6 +422,8 @@ static PurchaseBoosterPackRequestProto* defaultPurchaseBoosterPackRequestProtoIn
   hasPrize_ = !!value_;
 }
 @synthesize prize;
+@synthesize mutableUpdatedUserItemsList;
+@dynamic updatedUserItemsList;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
@@ -446,6 +450,12 @@ static PurchaseBoosterPackResponseProto* defaultPurchaseBoosterPackResponseProto
 - (FullUserMonsterProto*)updatedOrNewAtIndex:(NSUInteger)index {
   return [mutableUpdatedOrNewList objectAtIndex:index];
 }
+- (NSArray *)updatedUserItemsList {
+  return mutableUpdatedUserItemsList;
+}
+- (UserItemProto*)updatedUserItemsAtIndex:(NSUInteger)index {
+  return [mutableUpdatedUserItemsList objectAtIndex:index];
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -462,6 +472,9 @@ static PurchaseBoosterPackResponseProto* defaultPurchaseBoosterPackResponseProto
   if (self.hasPrize) {
     [output writeMessage:4 value:self.prize];
   }
+  [self.updatedUserItemsList enumerateObjectsUsingBlock:^(UserItemProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:5 value:element];
+  }];
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -483,6 +496,9 @@ static PurchaseBoosterPackResponseProto* defaultPurchaseBoosterPackResponseProto
   if (self.hasPrize) {
     size_ += computeMessageSize(4, self.prize);
   }
+  [self.updatedUserItemsList enumerateObjectsUsingBlock:^(UserItemProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(5, element);
+  }];
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
   return size_;
@@ -539,6 +555,12 @@ static PurchaseBoosterPackResponseProto* defaultPurchaseBoosterPackResponseProto
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
+  [self.updatedUserItemsList enumerateObjectsUsingBlock:^(UserItemProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"updatedUserItems"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -557,6 +579,7 @@ static PurchaseBoosterPackResponseProto* defaultPurchaseBoosterPackResponseProto
       [self.updatedOrNewList isEqualToArray:otherMessage.updatedOrNewList] &&
       self.hasPrize == otherMessage.hasPrize &&
       (!self.hasPrize || [self.prize isEqual:otherMessage.prize]) &&
+      [self.updatedUserItemsList isEqualToArray:otherMessage.updatedUserItemsList] &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -573,6 +596,9 @@ static PurchaseBoosterPackResponseProto* defaultPurchaseBoosterPackResponseProto
   if (self.hasPrize) {
     hashCode = hashCode * 31 + [self.prize hash];
   }
+  [self.updatedUserItemsList enumerateObjectsUsingBlock:^(UserItemProto *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
@@ -642,6 +668,13 @@ BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(Purc
   if (other.hasPrize) {
     [self mergePrize:other.prize];
   }
+  if (other.mutableUpdatedUserItemsList.count > 0) {
+    if (result.mutableUpdatedUserItemsList == nil) {
+      result.mutableUpdatedUserItemsList = [[NSMutableArray alloc] initWithArray:other.mutableUpdatedUserItemsList];
+    } else {
+      [result.mutableUpdatedUserItemsList addObjectsFromArray:other.mutableUpdatedUserItemsList];
+    }
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -694,6 +727,12 @@ BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(Purc
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setPrize:[subBuilder buildPartial]];
+        break;
+      }
+      case 42: {
+        UserItemProto_Builder* subBuilder = [UserItemProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addUpdatedUserItems:[subBuilder buildPartial]];
         break;
       }
     }
@@ -797,6 +836,30 @@ BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(Purc
 - (PurchaseBoosterPackResponseProto_Builder*) clearPrize {
   result.hasPrize = NO;
   result.prize = [BoosterItemProto defaultInstance];
+  return self;
+}
+- (NSMutableArray *)updatedUserItemsList {
+  return result.mutableUpdatedUserItemsList;
+}
+- (UserItemProto*)updatedUserItemsAtIndex:(NSUInteger)index {
+  return [result updatedUserItemsAtIndex:index];
+}
+- (PurchaseBoosterPackResponseProto_Builder *)addUpdatedUserItems:(UserItemProto*)value {
+  if (result.mutableUpdatedUserItemsList == nil) {
+    result.mutableUpdatedUserItemsList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableUpdatedUserItemsList addObject:value];
+  return self;
+}
+- (PurchaseBoosterPackResponseProto_Builder *)addAllUpdatedUserItems:(NSArray *)array {
+  if (result.mutableUpdatedUserItemsList == nil) {
+    result.mutableUpdatedUserItemsList = [NSMutableArray array];
+  }
+  [result.mutableUpdatedUserItemsList addObjectsFromArray:array];
+  return self;
+}
+- (PurchaseBoosterPackResponseProto_Builder *)clearUpdatedUserItems {
+  result.mutableUpdatedUserItemsList = nil;
   return self;
 }
 @end

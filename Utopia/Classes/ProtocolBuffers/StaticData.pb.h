@@ -173,6 +173,8 @@
 @class SkillPropertyProto_Builder;
 @class SkillProto;
 @class SkillProto_Builder;
+@class SkillSideEffectProto;
+@class SkillSideEffectProto_Builder;
 @class StaticDataProto;
 @class StaticDataProto_Builder;
 @class StaticUserLevelInfoProto;
@@ -251,8 +253,9 @@
 @interface StaticDataProto : PBGeneratedMessage {
 @private
   BOOL hasSender_:1;
+  BOOL hasStarterPack_:1;
   MinimumUserProto* sender;
-  NSMutableArray * mutableExpansionCostsList;
+  BoosterPackProto* starterPack;
   NSMutableArray * mutableAllCitiesList;
   NSMutableArray * mutableAllTasksList;
   NSMutableArray * mutableAllTaskMapElementsList;
@@ -262,6 +265,7 @@
   NSMutableArray * mutableUnredeemedQuestsList;
   NSMutableArray * mutableAvailableQuestsList;
   NSMutableArray * mutableBoosterPacksList;
+  NSMutableArray * mutableExpansionCostsList;
   NSMutableArray * mutableAllGeneratorsList;
   NSMutableArray * mutableAllStoragesList;
   NSMutableArray * mutableAllHospitalsList;
@@ -282,11 +286,13 @@
   NSMutableArray * mutableLeaguesList;
   NSMutableArray * mutableAchievementsList;
   NSMutableArray * mutableSkillsList;
+  NSMutableArray * mutableSideEffectsList;
   NSMutableArray * mutablePrereqsList;
   NSMutableArray * mutableBoardsList;
   NSMutableArray * mutableResearchList;
 }
 - (BOOL) hasSender;
+- (BOOL) hasStarterPack;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly, strong) NSArray * expansionCostsList;
 @property (readonly, strong) NSArray * allCitiesList;
@@ -298,6 +304,7 @@
 @property (readonly, strong) NSArray * unredeemedQuestsList;
 @property (readonly, strong) NSArray * availableQuestsList;
 @property (readonly, strong) NSArray * boosterPacksList;
+@property (readonly, strong) BoosterPackProto* starterPack;
 @property (readonly, strong) NSArray * allGeneratorsList;
 @property (readonly, strong) NSArray * allStoragesList;
 @property (readonly, strong) NSArray * allHospitalsList;
@@ -318,6 +325,7 @@
 @property (readonly, strong) NSArray * leaguesList;
 @property (readonly, strong) NSArray * achievementsList;
 @property (readonly, strong) NSArray * skillsList;
+@property (readonly, strong) NSArray * sideEffectsList;
 @property (readonly, strong) NSArray * prereqsList;
 @property (readonly, strong) NSArray * boardsList;
 @property (readonly, strong) NSArray * researchList;
@@ -351,6 +359,7 @@
 - (PvpLeagueProto*)leaguesAtIndex:(NSUInteger)index;
 - (AchievementProto*)achievementsAtIndex:(NSUInteger)index;
 - (SkillProto*)skillsAtIndex:(NSUInteger)index;
+- (SkillSideEffectProto*)sideEffectsAtIndex:(NSUInteger)index;
 - (PrereqProto*)prereqsAtIndex:(NSUInteger)index;
 - (BoardLayoutProto*)boardsAtIndex:(NSUInteger)index;
 - (ResearchProto*)researchAtIndex:(NSUInteger)index;
@@ -456,6 +465,13 @@
 - (StaticDataProto_Builder *)addBoosterPacks:(BoosterPackProto*)value;
 - (StaticDataProto_Builder *)addAllBoosterPacks:(NSArray *)array;
 - (StaticDataProto_Builder *)clearBoosterPacks;
+
+- (BOOL) hasStarterPack;
+- (BoosterPackProto*) starterPack;
+- (StaticDataProto_Builder*) setStarterPack:(BoosterPackProto*) value;
+- (StaticDataProto_Builder*) setStarterPack_Builder:(BoosterPackProto_Builder*) builderForValue;
+- (StaticDataProto_Builder*) mergeStarterPack:(BoosterPackProto*) value;
+- (StaticDataProto_Builder*) clearStarterPack;
 
 - (NSMutableArray *)allGeneratorsList;
 - (ResourceGeneratorProto*)allGeneratorsAtIndex:(NSUInteger)index;
@@ -576,6 +592,12 @@
 - (StaticDataProto_Builder *)addSkills:(SkillProto*)value;
 - (StaticDataProto_Builder *)addAllSkills:(NSArray *)array;
 - (StaticDataProto_Builder *)clearSkills;
+
+- (NSMutableArray *)sideEffectsList;
+- (SkillSideEffectProto*)sideEffectsAtIndex:(NSUInteger)index;
+- (StaticDataProto_Builder *)addSideEffects:(SkillSideEffectProto*)value;
+- (StaticDataProto_Builder *)addAllSideEffects:(NSArray *)array;
+- (StaticDataProto_Builder *)clearSideEffects;
 
 - (NSMutableArray *)prereqsList;
 - (PrereqProto*)prereqsAtIndex:(NSUInteger)index;
