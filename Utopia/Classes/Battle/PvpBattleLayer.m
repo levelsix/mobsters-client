@@ -582,6 +582,7 @@
     _isRevenge = NO;
   } else {
     NSMutableSet *set = [NSMutableSet set];
+    NSMutableSet *skillSideEffects = [NSMutableSet set];
     NSMutableArray *enemyTeam = [NSMutableArray array];
     
     PvpProto *enemy = self.defendersList[_curQueueNum];
@@ -593,6 +594,7 @@
       if (bp.spritePrefix) {
         [set addObject:bp.spritePrefix];
       }
+      [skillSideEffects addObjectsFromArray:[Globals skillSideEffectProtosForBattlePlayer:bp enemy:YES]];
     }
     
     if (enemy.hasCmtd) {
@@ -605,6 +607,7 @@
         if (bp.spritePrefix) {
           [set addObject:bp.spritePrefix];
         }
+        [skillSideEffects addObjectsFromArray:[Globals skillSideEffectProtosForBattlePlayer:bp enemy:YES]];
       }
     }
     
@@ -612,12 +615,15 @@
       if (bp.spritePrefix) {
         [set addObject:bp.spritePrefix];
       }
+      [skillSideEffects addObjectsFromArray:[Globals skillSideEffectProtosForBattlePlayer:bp enemy:NO]];
     }
     
     _waitingForDownload = YES;
     [Globals downloadAllFilesForSpritePrefixes:set.allObjects completion:^{
       self.enemyTeam = enemyTeam;
-      _waitingForDownload = NO;
+      [Globals downloadAllAssetsForSkillSideEffects:skillSideEffects completion:^{
+        _waitingForDownload = NO;
+      }];
     }];
   }
 }

@@ -1167,6 +1167,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   for (SkillProto* skillProto in proto.skillsList)
     [self.staticSkills setObject:skillProto forKey:[NSNumber numberWithInteger:skillProto.skillId]];
   
+  self.staticSkillSideEffects = [NSMutableDictionary dictionary];
+  for (SkillSideEffectProto* skillSideEffectProto in proto.sideEffectsList)
+    [self.staticSkillSideEffects setObject:skillSideEffectProto forKey:[NSNumber numberWithInteger:skillSideEffectProto.skillSideEffectId]];
+  
   if (self.connected) {
     [[NSNotificationCenter defaultCenter] postNotificationName:STATIC_DATA_UPDATED_NOTIFICATION object:nil];
   }

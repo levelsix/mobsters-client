@@ -106,6 +106,8 @@
 
 #define FAT_KID_DUNGEON_LEVEL 5
 
+@class BattlePlayer;
+
 @interface Globals : NSObject
 
 @property (nonatomic, assign) int minNameLength;
@@ -231,6 +233,7 @@
 + (NSString *) convertTimeToMediumString:(int)secs;
 
 + (void) downloadAllFilesForSpritePrefixes:(NSArray *)spritePrefixes completion:(void (^)(void))completed;
++ (void) downloadAllAssetsForSkillSideEffects:(NSSet*)skillSideEffects completion:(void (^)(void))completed;
 
 + (NSString *) pathToFile:(NSString *)fileName useiPhone6Prefix:(BOOL)prefix;
 + (BOOL) isFileDownloaded:(NSString *)fileName useiPhone6Prefix:(BOOL)prefix;
@@ -270,6 +273,9 @@
 
 + (NSArray *) convertCurrentTeamToArray:(UserCurrentMonsterTeamProto *)team;
 + (NSDictionary *) convertUserTeamArrayToDictionary:(NSArray *)array;
+
++ (SkillSideEffectProto*) protoForSkillSideEffectType:(SideEffectType)type;
++ (NSArray*) skillSideEffectProtosForBattlePlayer:(BattlePlayer*)bp enemy:(BOOL)enemy;
 
 + (void) adjustFontSizeForSize:(int)size withUIView:(UIView *)somethingWithText;
 + (void) adjustFontSizeForSize:(int)size withUIViews:(UIView *)field1, ... NS_REQUIRES_NIL_TERMINATION;

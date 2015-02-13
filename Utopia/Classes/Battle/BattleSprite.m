@@ -15,8 +15,10 @@
 #import "Downloader.h"
 #import "CCFileUtils.h"
 #import "NewBattleLayer.h"
+#import "GameState.h"
+#import "SkillSideEffect.h"
 
-#define ANIMATATION_DELAY 0.07f
+#define ANIMATION_DELAY 0.07f
 #define MAX_SHOTS 3
 
 #define BATTLE_SPRITE_INFO_DISPLAYED_NOTIFICATION @"BSInfoDisplayed"
@@ -85,9 +87,77 @@
     CCParticleSystem *q = [[CCParticleSystem alloc] initWithDictionary:dict];
     q.angle = 0;
     
+    _skillSideEffects = [NSMutableArray array];
+    
     self.userInteractionEnabled = YES;
   }
   return self;
+}
+
+- (void) addSkillSideEffect:(SideEffectType)type
+{
+  // Allow only unique side effect types
+  for (SkillSideEffect* sideEffect in _skillSideEffects)
+    if (sideEffect.type == type)
+      return;
+  
+  // Create side effect and push it onto the stack
+  SkillSideEffectProto* proto = [Globals protoForSkillSideEffectType:type];
+  if (proto)
+  {
+    SkillSideEffect* sideEffect = [SkillSideEffect sideEffectWithProto:proto];
+    if (sideEffect)
+    {
+      [sideEffect addToCharacterSprite:self zOrder:_skillSideEffects.count];
+      [_skillSideEffects addObject:sideEffect];
+      
+      [self updateSkillSideEffectsDisplayOrder];
+    }
+  }
+}
+
+- (void) removeSkillSideEffect:(SideEffectType)type
+{
+  NSMutableArray* discard = [NSMutableArray array];
+  for (SkillSideEffect* sideEffect in _skillSideEffects)
+    if (sideEffect.type == type)
+    {
+      [sideEffect removeFromCharacterSprite];
+      [discard addObject:sideEffect];
+    }
+  
+  [_skillSideEffects removeObjectsInArray:discard];
+  
+  if (discard.count > 0)
+    [self updateSkillSideEffectsDisplayOrder];
+}
+
+- (void) removeAllSkillSideEffects
+{
+  for (SkillSideEffect* sideEffect in _skillSideEffects)
+    [sideEffect removeFromCharacterSprite];
+  [_skillSideEffects removeAllObjects];
+}
+
+- (void) updateSkillSideEffectsDisplayOrder
+{
+  NSMutableArray* groupA = [NSMutableArray array];
+  NSMutableArray* groupB = [NSMutableArray array];
+  
+  for (SkillSideEffect* sideEffect in _skillSideEffects)
+    [(sideEffect.positionType == SideEffectPositionTypeBelowCharacter ? groupA : groupB) addObject:sideEffect];
+  
+  for (int i = 0; i < groupA.count; ++i)
+    [(SkillSideEffect*)[groupA objectAtIndex:i] setDisplayOrder:(groupA.count == 1) ? -1 : i totalCount:(int)groupA.count];
+  for (int i = 0; i < groupB.count; ++i)
+    [(SkillSideEffect*)[groupB objectAtIndex:i] setDisplayOrder:(groupB.count == 1) ? -1 : i totalCount:(int)groupB.count];
+}
+
+- (void) onExit
+{
+  [self removeAllSkillSideEffects];
+  
+  [super onExit];
 }
 
 - (void) onEnter {
@@ -309,7 +379,7 @@
     [self checkRunSpriteSheetWithCompletion:^(BOOL success) {
       if (success) {
         NSString *p = [NSString stringWithFormat:@"%@RunN", self.prefix];
-        CCAnimation *anim = [CCAnimation animationWithSpritePrefix:p delay:ANIMATATION_DELAY];
+        CCAnimation *anim = [CCAnimation animationWithSpritePrefix:p delay:ANIMATION_DELAY];
         self.walkActionN = [CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:anim]];
       }
     }];
@@ -322,7 +392,7 @@
     [self checkRunSpriteSheetWithCompletion:^(BOOL success) {
       if (success) {
         NSString *p = [NSString stringWithFormat:@"%@RunF", self.prefix];
-        CCAnimation *anim = [CCAnimation animationWithSpritePrefix:p delay:ANIMATATION_DELAY];
+        CCAnimation *anim = [CCAnimation animationWithSpritePrefix:p delay:ANIMATION_DELAY];
         self.walkActionF = [CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:anim]];
       }
     }];
@@ -335,7 +405,7 @@
     [self checkAttackSpriteSheetWithCompletion:^(BOOL success) {
       if (success) {
         NSString *p = [NSString stringWithFormat:@"%@AttackN", self.prefix];
-        self.attackAnimationN = [CCAnimation animationWithSpritePrefix:p delay:ANIMATATION_DELAY];
+        self.attackAnimationN = [CCAnimation animationWithSpritePrefix:p delay:ANIMATION_DELAY];
       }
     }];
   }
@@ -347,7 +417,7 @@
     [self checkAttackSpriteSheetWithCompletion:^(BOOL success) {
       if (success) {
         NSString *p = [NSString stringWithFormat:@"%@AttackF", self.prefix];
-        self.attackAnimationF = [CCAnimation animationWithSpritePrefix:p delay:ANIMATATION_DELAY];
+        self.attackAnimationF = [CCAnimation animationWithSpritePrefix:p delay:ANIMATION_DELAY];
       }
     }];
   }
@@ -359,7 +429,7 @@
     [self checkAttackSpriteSheetWithCompletion:^(BOOL success) {
       if (success) {
         NSString *p = [NSString stringWithFormat:@"%@FlinchN", self.prefix];
-        self.flinchAnimationN = [CCAnimation animationWithSpritePrefix:p delay:ANIMATATION_DELAY];
+        self.flinchAnimationN = [CCAnimation animationWithSpritePrefix:p delay:ANIMATION_DELAY];
       }
     }];
   }
@@ -371,7 +441,7 @@
     [self checkAttackSpriteSheetWithCompletion:^(BOOL success) {
       if (success) {
         NSString *p = [NSString stringWithFormat:@"%@FlinchF", self.prefix];
-        self.flinchAnimationF = [CCAnimation animationWithSpritePrefix:p delay:ANIMATATION_DELAY];
+        self.flinchAnimationF = [CCAnimation animationWithSpritePrefix:p delay:ANIMATION_DELAY];
       }
     }];
   }

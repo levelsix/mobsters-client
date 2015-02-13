@@ -297,6 +297,7 @@
   
   if (proto.status == BeginDungeonResponseProto_BeginDungeonStatusSuccess) {
     NSMutableSet *set = [NSMutableSet set];
+    NSMutableSet *skillSideEffects = [NSMutableSet set];
     NSMutableArray *enemyTeam = [NSMutableArray array];
     _isFirstTime = ![gs isTaskCompleted:proto.taskId];
     for (TaskStageProto *tsp in proto.tspList) {
@@ -312,18 +313,22 @@
       }
       
       [set addObject:bp.spritePrefix];
+      [skillSideEffects addObjectsFromArray:[Globals skillSideEffectProtosForBattlePlayer:bp enemy:YES]];
     }
     self.enemyTeam = enemyTeam;
     
     for (BattlePlayer *bp in self.myTeam) {
       [set addObject:bp.spritePrefix];
+      [skillSideEffects addObjectsFromArray:[Globals skillSideEffectProtosForBattlePlayer:bp enemy:NO]];
     }
     
     self.dungeonInfo = proto;
     
     _isDownloading = YES;
     [Globals downloadAllFilesForSpritePrefixes:set.allObjects completion:^{
-      _isDownloading = NO;
+      [Globals downloadAllAssetsForSkillSideEffects:skillSideEffects completion:^{
+        _isDownloading = NO;
+      }];
     }];
   } else {
     [self performSelector:@selector(exitFinal) withObject:nil afterDelay:2.f];

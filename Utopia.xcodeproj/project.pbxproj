@@ -1698,6 +1698,15 @@
 		9BC9F3311A8B05E1009DC3D5 /* energizeorb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BC9F3301A8B05E1009DC3D5 /* energizeorb@2x.png */; };
 		9BC9F3321A8B05E1009DC3D5 /* energizeorb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BC9F3301A8B05E1009DC3D5 /* energizeorb@2x.png */; };
 		9BC9F3331A8B05E1009DC3D5 /* energizeorb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BC9F3301A8B05E1009DC3D5 /* energizeorb@2x.png */; };
+		9BC9F33F1A8C12AF009DC3D5 /* SkillSideEffect.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BC9F33E1A8C12AF009DC3D5 /* SkillSideEffect.m */; };
+		9BC9F3401A8C12AF009DC3D5 /* SkillSideEffect.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BC9F33E1A8C12AF009DC3D5 /* SkillSideEffect.m */; };
+		9BC9F3411A8C12AF009DC3D5 /* SkillSideEffect.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BC9F33E1A8C12AF009DC3D5 /* SkillSideEffect.m */; };
+		9BC9F3451A8C1420009DC3D5 /* SkillSideEffectBuff.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BC9F3441A8C1420009DC3D5 /* SkillSideEffectBuff.m */; };
+		9BC9F3461A8C1420009DC3D5 /* SkillSideEffectBuff.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BC9F3441A8C1420009DC3D5 /* SkillSideEffectBuff.m */; };
+		9BC9F3471A8C1420009DC3D5 /* SkillSideEffectBuff.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BC9F3441A8C1420009DC3D5 /* SkillSideEffectBuff.m */; };
+		9BC9F34A1A8C143B009DC3D5 /* SkillSideEffectNerf.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BC9F3491A8C143B009DC3D5 /* SkillSideEffectNerf.m */; };
+		9BC9F34B1A8C143B009DC3D5 /* SkillSideEffectNerf.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BC9F3491A8C143B009DC3D5 /* SkillSideEffectNerf.m */; };
+		9BC9F34C1A8C143B009DC3D5 /* SkillSideEffectNerf.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BC9F3491A8C143B009DC3D5 /* SkillSideEffectNerf.m */; };
 		9BDA8B331A3945B800C7AC27 /* evasionicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8B321A3945B800C7AC27 /* evasionicon@2x.png */; };
 		9BDA8B341A3945B800C7AC27 /* evasionicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8B321A3945B800C7AC27 /* evasionicon@2x.png */; };
 		9BDA8B351A3945B800C7AC27 /* evasionicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8B321A3945B800C7AC27 /* evasionicon@2x.png */; };
@@ -8325,6 +8334,12 @@
 		9BC9F3281A8B05B3009DC3D5 /* 6energizeorb-9@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "6energizeorb-9@2x.png"; sourceTree = "<group>"; };
 		9BC9F3291A8B05B3009DC3D5 /* energizeorb-9@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "energizeorb-9@2x.png"; sourceTree = "<group>"; };
 		9BC9F3301A8B05E1009DC3D5 /* energizeorb@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "energizeorb@2x.png"; sourceTree = "<group>"; };
+		9BC9F33D1A8C12AF009DC3D5 /* SkillSideEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillSideEffect.h; sourceTree = "<group>"; };
+		9BC9F33E1A8C12AF009DC3D5 /* SkillSideEffect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SkillSideEffect.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		9BC9F3431A8C1420009DC3D5 /* SkillSideEffectBuff.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillSideEffectBuff.h; sourceTree = "<group>"; };
+		9BC9F3441A8C1420009DC3D5 /* SkillSideEffectBuff.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillSideEffectBuff.m; sourceTree = "<group>"; };
+		9BC9F3481A8C143B009DC3D5 /* SkillSideEffectNerf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillSideEffectNerf.h; sourceTree = "<group>"; };
+		9BC9F3491A8C143B009DC3D5 /* SkillSideEffectNerf.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillSideEffectNerf.m; sourceTree = "<group>"; };
 		9BDA8B321A3945B800C7AC27 /* evasionicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "evasionicon@2x.png"; sourceTree = "<group>"; };
 		9BDA8B391A3945DB00C7AC27 /* evasionlogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "evasionlogo@2x.png"; sourceTree = "<group>"; };
 		9BDA8B3D1A3945F600C7AC27 /* evasionminilogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "evasionminilogo@2x.png"; sourceTree = "<group>"; };
@@ -9206,8 +9221,8 @@
 		CF4825B119F7549300041486 /* Prerequisite.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Prerequisite.pb.m; sourceTree = "<group>"; };
 		CF4825B519F754D300041486 /* Prerequisite.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Prerequisite.proto; sourceTree = "<group>"; };
 		CF4825B919F78FB900041486 /* MiniJobsQueueFooterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MiniJobsQueueFooterView.xib; sourceTree = "<group>"; };
-		CF4DB8AC1807DA1E00062258 /* AnimatedSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimatedSprite.h; sourceTree = "<group>"; };
-		CF4DB8AD1807DA1E00062258 /* AnimatedSprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnimatedSprite.m; sourceTree = "<group>"; };
+		CF4DB8AC1807DA1E00062258 /* AnimatedSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = AnimatedSprite.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		CF4DB8AD1807DA1E00062258 /* AnimatedSprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = AnimatedSprite.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		CF4DB8AF1807DA1E00062258 /* Building.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Building.h; sourceTree = "<group>"; };
 		CF4DB8B01807DA1E00062258 /* Building.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Building.m; sourceTree = "<group>"; };
 		CF4DB8BC1807DA1E00062258 /* GameMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameMap.h; sourceTree = "<group>"; };
@@ -10701,7 +10716,7 @@
 		CFF1D7B317E14DA600874339 /* movesleft.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = movesleft.png; path = "Puzzle Images/movesleft.png"; sourceTree = "<group>"; };
 		CFF1D7B417E14DA700874339 /* movesleft@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "movesleft@2x.png"; sourceTree = "<group>"; };
 		CFF1D7C317E2636400874339 /* BattleSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BattleSprite.h; sourceTree = "<group>"; };
-		CFF1D7C417E2636400874339 /* BattleSprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BattleSprite.m; sourceTree = "<group>"; };
+		CFF1D7C417E2636400874339 /* BattleSprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = BattleSprite.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		CFF1D7C717E2645F00874339 /* CCAnimation+SpriteLoading.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CCAnimation+SpriteLoading.h"; sourceTree = "<group>"; };
 		CFF1D7C817E2645F00874339 /* CCAnimation+SpriteLoading.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CCAnimation+SpriteLoading.m"; sourceTree = "<group>"; };
 		CFF2080417FE269300AA6F84 /* DungeonBattleLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DungeonBattleLayer.h; sourceTree = "<group>"; };
@@ -18412,6 +18427,12 @@
 				DA0FC58119B65B0200393BF4 /* SkillControllerPassive.m */,
 				6B07840A1A854532005CDFCF /* SkillControllerActiveBuff.h */,
 				6B07840D1A8545BB005CDFCF /* SkillControllerActiveBuff.m */,
+				9BC9F33D1A8C12AF009DC3D5 /* SkillSideEffect.h */,
+				9BC9F33E1A8C12AF009DC3D5 /* SkillSideEffect.m */,
+				9BC9F3431A8C1420009DC3D5 /* SkillSideEffectBuff.h */,
+				9BC9F3441A8C1420009DC3D5 /* SkillSideEffectBuff.m */,
+				9BC9F3481A8C143B009DC3D5 /* SkillSideEffectNerf.h */,
+				9BC9F3491A8C143B009DC3D5 /* SkillSideEffectNerf.m */,
 			);
 			name = Core;
 			sourceTree = "<group>";
@@ -25348,6 +25369,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9BC9F34B1A8C143B009DC3D5 /* SkillSideEffectNerf.m in Sources */,
 				CF0CDEAA19E50675006A5ECB /* TimerViewController.m in Sources */,
 				CF0CECF9196F452900ECD301 /* OrbBgdLayer.m in Sources */,
 				29AF1C701A443A2A00E8E457 /* BattleOrbPath.m in Sources */,
@@ -25394,8 +25416,10 @@
 				9B2389D71A314B8400FA3743 /* SkillThickSkin.m in Sources */,
 				CF0CED19196F452900ECD301 /* EasyTableView.m in Sources */,
 				9B9BA8021A73367B001B7D04 /* SkillConfusion.m in Sources */,
+				9BC9F3401A8C12AF009DC3D5 /* SkillSideEffect.m in Sources */,
 				CFE11F931A141C040094F797 /* amqp_timer.c in Sources */,
 				CF0CED1A196F452900ECD301 /* GenericPopupController.m in Sources */,
+				9BC9F3461A8C1420009DC3D5 /* SkillSideEffectBuff.m in Sources */,
 				CF0CED1B196F452900ECD301 /* QuestCompleteLayer.m in Sources */,
 				CF0CED1C196F452900ECD301 /* EventStaticData.pb.m in Sources */,
 				9BDA8B5E1A3A894B00C7AC27 /* SkillHeadshot.m in Sources */,
@@ -25902,6 +25926,7 @@
 				CF15BA8316572A8400A51F85 /* AMQPExchange.m in Sources */,
 				DA0FC55C19B1861500393BF4 /* SkillControllerActive.m in Sources */,
 				CF15BA8416572A8400A51F85 /* AMQPMessage.m in Sources */,
+				9BC9F33F1A8C12AF009DC3D5 /* SkillSideEffect.m in Sources */,
 				9BDA8B5D1A3A894B00C7AC27 /* SkillHeadshot.m in Sources */,
 				CF6574E91909CEBC00ABF1F4 /* AchievementsViewController.m in Sources */,
 				CF6574AD1909CAF200ABF1F4 /* EventApns.pb.m in Sources */,
@@ -25956,6 +25981,7 @@
 				CF3B01CE174AEE2B00A3A4F2 /* ODIN.m in Sources */,
 				9B41AF441A8058FC00529879 /* SkillEnergize.m in Sources */,
 				CFE0DAEE177AE26E00A3CEF7 /* GameState.m in Sources */,
+				9BC9F34A1A8C143B009DC3D5 /* SkillSideEffectNerf.m in Sources */,
 				CF32EAF91960A9DD00A4AEE3 /* BuildingViewController.m in Sources */,
 				CFBF02D617C2F68D0082A9BF /* MenuNavigationController.m in Sources */,
 				CFC04D55188FAF8200F2DB59 /* PersistentEventProto+Time.m in Sources */,
@@ -25993,6 +26019,7 @@
 				CF6574E31909CAF200ABF1F4 /* Task.pb.m in Sources */,
 				CFA7502318CAD30000AC66FC /* TutorialNameViewController.m in Sources */,
 				CFFB3B7419820E90005D7AF5 /* EventDev.pb.m in Sources */,
+				9BC9F3451A8C1420009DC3D5 /* SkillSideEffectBuff.m in Sources */,
 				CF81C97119A67224002682A2 /* OrbMainLayer.m in Sources */,
 				CFF1D7C517E2636500874339 /* BattleSprite.m in Sources */,
 				6BB5F85F1A80095B006515B9 /* TutorialBuildingUpgradeController.m in Sources */,
@@ -26031,6 +26058,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9BC9F34C1A8C143B009DC3D5 /* SkillSideEffectNerf.m in Sources */,
 				CF48189E19F7217F00041486 /* TimerViewController.m in Sources */,
 				CF48189F19F7217F00041486 /* OrbBgdLayer.m in Sources */,
 				29AF1C711A443A2A00E8E457 /* BattleOrbPath.m in Sources */,
@@ -26077,8 +26105,10 @@
 				9B2389D81A314B8400FA3743 /* SkillThickSkin.m in Sources */,
 				CF4818C019F7217F00041486 /* EasyTableView.m in Sources */,
 				9B9BA8031A73367B001B7D04 /* SkillConfusion.m in Sources */,
+				9BC9F3411A8C12AF009DC3D5 /* SkillSideEffect.m in Sources */,
 				CFE11F941A141C040094F797 /* amqp_timer.c in Sources */,
 				CF4818C119F7217F00041486 /* GenericPopupController.m in Sources */,
+				9BC9F3471A8C1420009DC3D5 /* SkillSideEffectBuff.m in Sources */,
 				CF4818C219F7217F00041486 /* QuestCompleteLayer.m in Sources */,
 				CF4818C319F7217F00041486 /* EventStaticData.pb.m in Sources */,
 				9BDA8B5F1A3A894B00C7AC27 /* SkillHeadshot.m in Sources */,

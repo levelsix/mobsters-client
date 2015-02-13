@@ -106,6 +106,7 @@ static NSString* const kSkillMiniLogoImageNameSuffix = @"minilogo.png";
 - (void) setValue:(float)value forProperty:(NSString*)property;
 - (BOOL) shouldSpawnRibbon;
 - (BOOL) shouldPersist;
+- (NSSet*) sideEffects;
 
 - (void) dealPoisonDamage:(int)damage;
 

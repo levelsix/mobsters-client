@@ -181,12 +181,10 @@
 
 -(void)showCriticalHit
 {
-  const CGFloat yOffset = self.belongsToPlayer ? 40.f : -20.f;
-  
   // Display logo
   CCSprite* logoSprite = [CCSprite spriteWithImageNamed:[self.skillImageNamePrefix stringByAppendingString:kSkillMiniLogoImageNameSuffix]];
   logoSprite.position = CGPointMake((self.enemySprite.position.x + self.playerSprite.position.x) * .5f + self.playerSprite.contentSize.width * .5f - 10.f,
-                                    (self.playerSprite.position.y + self.enemySprite.position.y) * .5f + self.playerSprite.contentSize.height * .5f + yOffset);
+                                    (self.playerSprite.position.y + self.enemySprite.position.y) * .5f + self.playerSprite.contentSize.height * .5f);
   logoSprite.scale = 0.f;
   [self.playerSprite.parent addChild:logoSprite z:50];
   
@@ -217,12 +215,10 @@
 
 -(void)showDodged
 {
-  const CGFloat yOffset = self.belongsToPlayer ? 40.f : -20.f;
-  
   // Display logo
   CCSprite* logoSprite = [CCSprite spriteWithImageNamed:[self.skillImageNamePrefix stringByAppendingString:kSkillMiniLogoImageNameSuffix]];
   logoSprite.position = CGPointMake((self.enemySprite.position.x + self.playerSprite.position.x) * .5f + self.playerSprite.contentSize.width * .5f - 10.f,
-                                    (self.playerSprite.position.y + self.enemySprite.position.y) * .5f + self.playerSprite.contentSize.height * .5f + yOffset);
+                                    (self.playerSprite.position.y + self.enemySprite.position.y) * .5f + self.playerSprite.contentSize.height * .5f);
   logoSprite.scale = 0.f;
   [self.playerSprite.parent addChild:logoSprite z:50];
   
