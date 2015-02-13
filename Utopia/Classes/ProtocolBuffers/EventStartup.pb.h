@@ -892,23 +892,9 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   StartupResponseProto_StartupConstants_DownloadableNibConstants* downloadableNibConstants;
   StartupResponseProto_StartupConstants_ClanConstants* clanConstants;
   StartupResponseProto_StartupConstants_PvpConstants* pvpConstant;
-<<<<<<< HEAD
-<<<<<<< HEAD
   NSMutableArray * mutableSucpList;
   NSMutableArray * mutableRccpList;
   NSMutableArray * mutableClanHelpConstantsList;
-=======
-  NSMutableArray * mutableFileNamesToDownloadList;
-  NSMutableArray * mutableRccpList;
-  NSMutableArray * mutableClanHelpConstantsList;
-  NSMutableArray * mutableSucpList;
-  NSMutableArray * mutableAnimatedSpriteOffsetsList;
->>>>>>> falling gems icon done
-=======
-  NSMutableArray * mutableSucpList;
-  NSMutableArray * mutableRccpList;
-  NSMutableArray * mutableClanHelpConstantsList;
->>>>>>> added reachability; fixed building upgrade popup
   NSMutableArray * mutableInAppPurchasePackagesList;
   NSMutableArray * mutableAnimatedSpriteOffsetsList;
   NSMutableArray * mutableFileDownloadProtoList;
@@ -986,29 +972,13 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) displayRarity;
 @property (readonly) int32_t taskIdOfFirstSkill;
 @property (readonly) int32_t minsToResolicitTeamDonation;
-<<<<<<< HEAD
-<<<<<<< HEAD
 @property (readonly, strong) NSArray * fileDownloadProtoList;
-=======
-@property (readonly, strong) NSArray * fileNamesToDownloadList;
->>>>>>> falling gems icon done
-=======
-@property (readonly, strong) NSArray * fileDownloadProtoList;
->>>>>>> added reachability; fixed building upgrade popup
 - (InAppPurchasePackageProto*)inAppPurchasePackagesAtIndex:(NSUInteger)index;
 - (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*)animatedSpriteOffsetsAtIndex:(NSUInteger)index;
 - (StartupResponseProto_StartupConstants_ClanHelpConstants*)clanHelpConstantsAtIndex:(NSUInteger)index;
 - (StartupResponseProto_StartupConstants_SpeedUpConstantProto*)sucpAtIndex:(NSUInteger)index;
 - (StartupResponseProto_StartupConstants_ResourceConversionConstantProto*)rccpAtIndex:(NSUInteger)index;
-<<<<<<< HEAD
-<<<<<<< HEAD
 - (StartupResponseProto_StartupConstants_FileDownloadConstantProto*)fileDownloadProtoAtIndex:(NSUInteger)index;
-=======
-- (NSString*)fileNamesToDownloadAtIndex:(NSUInteger)index;
->>>>>>> falling gems icon done
-=======
-- (StartupResponseProto_StartupConstants_FileDownloadConstantProto*)fileDownloadProtoAtIndex:(NSUInteger)index;
->>>>>>> added reachability; fixed building upgrade popup
 
 + (StartupResponseProto_StartupConstants*) defaultInstance;
 - (StartupResponseProto_StartupConstants*) defaultInstance;
@@ -2227,25 +2197,11 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_StartupConstants_Builder*) setMinsToResolicitTeamDonation:(int32_t) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearMinsToResolicitTeamDonation;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> added reachability; fixed building upgrade popup
 - (NSMutableArray *)fileDownloadProtoList;
 - (StartupResponseProto_StartupConstants_FileDownloadConstantProto*)fileDownloadProtoAtIndex:(NSUInteger)index;
 - (StartupResponseProto_StartupConstants_Builder *)addFileDownloadProto:(StartupResponseProto_StartupConstants_FileDownloadConstantProto*)value;
 - (StartupResponseProto_StartupConstants_Builder *)addAllFileDownloadProto:(NSArray *)array;
 - (StartupResponseProto_StartupConstants_Builder *)clearFileDownloadProto;
-<<<<<<< HEAD
-=======
-- (NSMutableArray *)fileNamesToDownloadList;
-- (NSString*)fileNamesToDownloadAtIndex:(NSUInteger)index;
-- (StartupResponseProto_StartupConstants_Builder *)addFileNamesToDownload:(NSString*)value;
-- (StartupResponseProto_StartupConstants_Builder *)addAllFileNamesToDownload:(NSArray *)array;
-- (StartupResponseProto_StartupConstants_Builder *)clearFileNamesToDownload;
->>>>>>> falling gems icon done
-=======
->>>>>>> added reachability; fixed building upgrade popup
 @end
 
 @interface StartupResponseProto_TutorialConstants : PBGeneratedMessage {

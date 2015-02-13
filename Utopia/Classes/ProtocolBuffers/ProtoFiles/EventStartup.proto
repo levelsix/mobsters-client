@@ -213,15 +213,7 @@ message StartupResponseProto {
 		optional int32 taskIdOfFirstSkill = 38;
 		optional int32 minsToResolicitTeamDonation = 39;
 	
-<<<<<<< HEAD
-<<<<<<< HEAD
 		repeated FileDownloadConstantProto fileDownloadProto = 40;
-=======
-		repeated string fileNamesToDownload = 40;
->>>>>>> falling gems icon done
-=======
-		repeated FileDownloadConstantProto fileDownloadProto = 40;
->>>>>>> added reachability; fixed building upgrade popup
 		
 		message AnimatedSpriteOffsetProto {
 			optional string imageName = 1;

@@ -76,14 +76,7 @@ BOOL SideEffectTypeIsValidValue(SideEffectType value) {
   switch (value) {
     case SideEffectTypeNoSideEffect:
     case SideEffectTypePoisoned:
-<<<<<<< HEAD
-<<<<<<< HEAD
     case SideEffectTypeCursed:
-=======
->>>>>>> falling gems icon done
-=======
-    case SideEffectTypeCursed:
->>>>>>> added reachability; fixed building upgrade popup
       return YES;
     default:
       return NO;

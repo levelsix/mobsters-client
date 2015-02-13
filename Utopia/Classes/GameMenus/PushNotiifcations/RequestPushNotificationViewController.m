@@ -58,7 +58,7 @@
   return self;
 }
 
-- (IBAction)ClickedAccept:(id)sender {
+- (IBAction)clickedAccept:(id)sender {
   //close this popup after opening the confirm popup
   [Globals registerUserForPushNotifications];
   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -67,7 +67,7 @@
   
 }
 
-- (IBAction)ClickedCancel:(id)sender {
+- (IBAction)clickedCancel:(id)sender {
   [self close];
 }
 
