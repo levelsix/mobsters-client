@@ -35,13 +35,12 @@
 
 -(NSInteger)modifyDamage:(NSInteger)damage forPlayer:(BOOL)player
 {
-  if ([self isActive])
+  if ([self isActive] && player != self.belongsToPlayer)
   {
-    if (player != self.belongsToPlayer)
-      SkillLogStart(@"Thick Skin -- %@ skill invoked from %@ with damage %ld",
-                    self.belongsToPlayer ? @"PLAYER" : @"ENEMY",
-                    player ? @"PLAYER" : @"ENEMY",
-                    (long)damage);
+    SkillLogStart(@"Thick Skin -- %@ skill invoked from %@ with damage %ld",
+                  self.belongsToPlayer ? @"PLAYER" : @"ENEMY",
+                  player ? @"PLAYER" : @"ENEMY",
+                  (long)damage);
     
     _damageAbsorbed = 0;
     
@@ -90,11 +89,11 @@
                          nil]];
   
   // Finish trigger execution
-  [self performAfterDelay:.3f block:^{
-    [self.battleLayer.orbLayer.bgdLayer turnTheLightsOn];
-    [self.battleLayer.orbLayer allowInput];
-    [self skillTriggerFinished];
-  }];
+//  [self performAfterDelay:.3f block:^{
+//    [self.battleLayer.orbLayer.bgdLayer turnTheLightsOn];
+//    [self.battleLayer.orbLayer allowInput];
+//    [self skillTriggerFinished];
+//  }];
 }
 
 @end

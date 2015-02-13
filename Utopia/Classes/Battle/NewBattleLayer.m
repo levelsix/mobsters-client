@@ -945,10 +945,6 @@
   int currentScore = (float)(_myDamageDealt + scoreModifier)/(float)[self.myPlayerObject totalAttackPower]*100.f;
   
   if (currentScore > 0) {
-    if (currentScore > MAKEITRAIN_SCORE) {
-      [self.myPlayer restoreStandingFrame];
-      [self spawnPlaneWithTarget:nil selector:nil];
-    }
   
     // If the player's confused, he will deal damage to himself. Instead of the usual flow, show
     // the popup above his head, followed by flinch animation and showing the damage label
@@ -971,6 +967,10 @@
     }
     else
     {
+      if (currentScore > MAKEITRAIN_SCORE) {
+        [self.myPlayer restoreStandingFrame];
+        [self spawnPlaneWithTarget:nil selector:nil];
+      }
       float strength = MIN(1, currentScore/(float)STRENGTH_FOR_MAX_SHOTS);
       [self.myPlayer performFarAttackAnimationWithStrength:strength
                                                shouldEvade:[skillManager playerWillEvade:NO]

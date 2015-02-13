@@ -86,6 +86,7 @@
 
 - (BOOL) onDurationEnd
 {
+  [super onDurationEnd];
   [self removePoison];
   return NO;
 }

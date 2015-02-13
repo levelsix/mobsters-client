@@ -1889,12 +1889,10 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @interface StartupResponseProto_StartupConstants_FileDownloadConstantProto : PBGeneratedMessage {
 @private
   BOOL hasDownloadOnlyOverWifi_:1;
-  BOOL hasUseIphone6Prefix_:1;
   BOOL hasFileDownloadId_:1;
   BOOL hasPriority_:1;
   BOOL hasFileName_:1;
   BOOL downloadOnlyOverWifi_:1;
-  BOOL useIphone6Prefix_:1;
   int32_t fileDownloadId;
   int32_t priority;
   NSString* fileName;
@@ -1903,12 +1901,10 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasFileName;
 - (BOOL) hasPriority;
 - (BOOL) hasDownloadOnlyOverWifi;
-- (BOOL) hasUseIphone6Prefix;
 @property (readonly) int32_t fileDownloadId;
 @property (readonly, strong) NSString* fileName;
 @property (readonly) int32_t priority;
 - (BOOL) downloadOnlyOverWifi;
-- (BOOL) useIphone6Prefix;
 
 + (StartupResponseProto_StartupConstants_FileDownloadConstantProto*) defaultInstance;
 - (StartupResponseProto_StartupConstants_FileDownloadConstantProto*) defaultInstance;
@@ -1964,11 +1960,6 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) downloadOnlyOverWifi;
 - (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) setDownloadOnlyOverWifi:(BOOL) value;
 - (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) clearDownloadOnlyOverWifi;
-
-- (BOOL) hasUseIphone6Prefix;
-- (BOOL) useIphone6Prefix;
-- (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) setUseIphone6Prefix:(BOOL) value;
-- (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) clearUseIphone6Prefix;
 @end
 
 @interface StartupResponseProto_StartupConstants_Builder : PBGeneratedMessageBuilder {

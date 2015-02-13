@@ -51,6 +51,11 @@ static const NSInteger kBatteryOrbsMaxSearchIterations = 256;
     _orbsSpawned = [self specialsOnBoardCount:SpecialOrbTypeBattery];
 }
 
+- (BOOL) doesRefresh
+{
+  return !self.belongsToPlayer;
+}
+
 - (NSInteger) modifyDamage:(NSInteger)damage forPlayer:(BOOL)player
 {
   if ([self isActive])
@@ -83,6 +88,26 @@ static const NSInteger kBatteryOrbsMaxSearchIterations = 256;
           [self skillTriggerFinished];
         }];
       }];
+    }
+    return YES;
+  }
+  
+  if (trigger == SkillTriggerPointEndOfPlayerMove && !self.belongsToPlayer)
+  {
+    if (execute)
+    {
+      // Update counters on special orbs
+      if (_orbsSpawned > 0 && [self updateSpecialOrbs])
+      {
+        SkillLogStart(@"Energize -- Skill activated");
+        
+        _curSpeedMultiplier += _speedIncrease;
+        _curAttackMultiplier += _attackIncrease;
+        
+        [self updateSkillOwnerSpeed];
+      }
+      
+      [self skillTriggerFinished];
     }
     return YES;
   }
@@ -136,27 +161,6 @@ static const NSInteger kBatteryOrbsMaxSearchIterations = 256;
       }
       return YES;
     }
-
-    if (trigger == SkillTriggerPointEndOfPlayerMove && !self.belongsToPlayer)
-    {
-      if (execute)
-      {
-        // Update counters on special orbs
-        int usedUpOrbCount = [self updateSpecialOrbs];
-        if (_orbsSpawned > 0 && usedUpOrbCount > 0)
-        {
-          SkillLogStart(@"Energize -- Skill activated");
-          
-          _curSpeedMultiplier += _speedIncrease * usedUpOrbCount;
-          _curAttackMultiplier += _attackIncrease * usedUpOrbCount;
-          
-          [self updateSkillOwnerSpeed];
-        }
-
-        [self skillTriggerFinished];
-      }
-      return YES;
-    }
     
     if (trigger == SkillTriggerPointEnemyDefeated && !self.belongsToPlayer)
     {
@@ -177,42 +181,36 @@ static const NSInteger kBatteryOrbsMaxSearchIterations = 256;
 
 #pragma mark - Skill logic
 
-- (BOOL) onDurationStart
+- (BOOL) activate
 {
-  SkillLogStart(@"Energize -- Skill activated");
-  
   if (self.belongsToPlayer)
   {
-    _curSpeedMultiplier += _speedIncrease;
-    _curAttackMultiplier += _attackIncrease;
-    
-    [self updateSkillOwnerSpeed];
+    return [self resetDuration];
   }
   else
   {
     [self spawnSpecialOrbs:_numOrbsToSpawn withTarget:self andSelector:@selector(skillTriggerFinishedActivated)];
+    return YES;
   }
+}
+
+- (BOOL) onDurationStart
+{
+  SkillLogStart(@"Energize -- Skill activated");
   
-  return NO;
+  _curSpeedMultiplier += _speedIncrease;
+  _curAttackMultiplier += _attackIncrease;
+  
+  [self updateSkillOwnerSpeed];
+  
+  return YES;
 }
 
 - (BOOL) onDurationReset
 {
   SkillLogStart(@"Energize -- Skill reactivated (buffs will stack)");
   
-  if (self.belongsToPlayer)
-  {
-    _curSpeedMultiplier += _speedIncrease;
-    _curAttackMultiplier += _attackIncrease;
-    
-    [self updateSkillOwnerSpeed];
-  }
-  else
-  {
-    [self spawnSpecialOrbs:_numOrbsToSpawn withTarget:self andSelector:@selector(skillTriggerFinishedActivated)];
-  }
-  
-  return NO;
+  return [self onDurationStart];
 }
 
 - (BOOL) onDurationEnd
@@ -224,7 +222,7 @@ static const NSInteger kBatteryOrbsMaxSearchIterations = 256;
   
   [self updateSkillOwnerSpeed];
   
-  return NO;
+  return [super onDurationEnd];
 }
 
 - (void) updateSkillOwnerSpeed
@@ -239,6 +237,7 @@ static const NSInteger kBatteryOrbsMaxSearchIterations = 256;
                                                     playerB:self.enemy.speed
                                                    andOrder:[self.battleLayer.battleSchedule nextTurnIsPlayers] ? ScheduleFirstTurnPlayer : ScheduleFirstTurnEnemy];
   [self.battleLayer setShouldDisplayNewSchedule:YES];
+  [self skillTriggerFinished:YES];
 }
 
 - (void) showAttackMultiplier

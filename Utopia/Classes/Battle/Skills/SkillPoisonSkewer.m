@@ -29,6 +29,11 @@
     _poisonChance = value;
 }
 
+- (BOOL) doesRefresh
+{
+  return YES;
+}
+
 - (BOOL) onDurationStart
 {
   [self dealQuickAttack];

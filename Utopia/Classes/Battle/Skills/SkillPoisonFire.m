@@ -46,6 +46,11 @@ static const NSInteger maxSearchIterations = 256;
   return [super quickAttackDamage] * _quickAttackStacks;
 }
 
+- (BOOL) doesRefresh
+{
+  return YES;
+}
+
 - (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
 {
   if ([super skillCalledWithTrigger:trigger execute:execute])
