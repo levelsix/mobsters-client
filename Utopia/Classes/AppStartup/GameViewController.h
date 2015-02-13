@@ -86,6 +86,7 @@
 
 - (void) visitCityClicked:(int)cityId assetId:(int)assetId;
 - (void) visitCityClicked:(int)cityId;
+- (void) visitCityClicked:(int)cityId assetId:(int)assetId animated:(BOOL)animated;
 
 - (void) openPrivateChatWithUserUuid:(NSString *)userUuid name:(NSString *)name;
 - (void) openChatWithScope:(ChatScope)scope;

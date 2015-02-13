@@ -116,11 +116,7 @@
     } else if (isSpecial1 != isSpecial2) {
       return [@(isSpecial2) compare:@(isSpecial1)];
     } else {
-//      if (obj1.prerequisiteTownHallLvl != obj2.prerequisiteTownHallLvl) {
-//        return [@(obj1.prerequisiteTownHallLvl) compare:@(obj2.prerequisiteTownHallLvl)];
-//      } else {
         return [@(obj1.structId) compare:@(obj2.structId)];
-//      }
     }
   };
   

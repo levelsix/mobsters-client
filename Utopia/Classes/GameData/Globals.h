@@ -243,7 +243,6 @@
 + (void) checkAndLoadSpriteSheet:(NSString *)fileName completion:(void (^)(BOOL success))completion;
 + (void) checkAndLoadFiles:(NSArray *)fileNames completion:(void (^)(BOOL success))completion;
 + (NSBundle *) bundleNamed:(NSString *)bundleName;
-+ (void) asyncDownloadBundles;
 + (NSString*) getDoubleResolutionImage:(NSString*)path useiPhone6Prefix:(BOOL)prefix;
 + (UIImage *) imageNamed:(NSString *)path;
 + (UIImage *) imageNamed:(NSString *)path useiPhone6Prefix:(BOOL)prefix;

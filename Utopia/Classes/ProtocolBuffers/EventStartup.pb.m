@@ -2882,10 +2882,14 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property int32_t taskIdOfFirstSkill;
 @property int32_t minsToResolicitTeamDonation;
 <<<<<<< HEAD
+<<<<<<< HEAD
 @property (strong) NSMutableArray * mutableFileDownloadProtoList;
 =======
 @property (strong) NSMutableArray * mutableFileNamesToDownloadList;
 >>>>>>> falling gems icon done
+=======
+@property (strong) NSMutableArray * mutableFileDownloadProtoList;
+>>>>>>> added reachability; fixed building upgrade popup
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -3154,12 +3158,17 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 }
 @synthesize minsToResolicitTeamDonation;
 <<<<<<< HEAD
+<<<<<<< HEAD
 @synthesize mutableFileDownloadProtoList;
 @dynamic fileDownloadProtoList;
 =======
 @synthesize mutableFileNamesToDownloadList;
 @dynamic fileNamesToDownloadList;
 >>>>>>> falling gems icon done
+=======
+@synthesize mutableFileDownloadProtoList;
+@dynamic fileDownloadProtoList;
+>>>>>>> added reachability; fixed building upgrade popup
 - (id) init {
   if ((self = [super init])) {
     self.maxLevelForUser = 0;
@@ -3242,6 +3251,7 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   return [mutableRccpList objectAtIndex:index];
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 - (NSArray *)fileDownloadProtoList {
   return mutableFileDownloadProtoList;
 }
@@ -3254,6 +3264,13 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
 - (NSString*)fileNamesToDownloadAtIndex:(NSUInteger)index {
   return [mutableFileNamesToDownloadList objectAtIndex:index];
 >>>>>>> falling gems icon done
+=======
+- (NSArray *)fileDownloadProtoList {
+  return mutableFileDownloadProtoList;
+}
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto*)fileDownloadProtoAtIndex:(NSUInteger)index {
+  return [mutableFileDownloadProtoList objectAtIndex:index];
+>>>>>>> added reachability; fixed building upgrade popup
 }
 - (BOOL) isInitialized {
   return YES;
@@ -3377,12 +3394,17 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
     [output writeInt32:39 value:self.minsToResolicitTeamDonation];
   }
 <<<<<<< HEAD
+<<<<<<< HEAD
   [self.fileDownloadProtoList enumerateObjectsUsingBlock:^(StartupResponseProto_StartupConstants_FileDownloadConstantProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:40 value:element];
 =======
   [self.fileNamesToDownloadList enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
     [output writeString:40 value:element];
 >>>>>>> falling gems icon done
+=======
+  [self.fileDownloadProtoList enumerateObjectsUsingBlock:^(StartupResponseProto_StartupConstants_FileDownloadConstantProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:40 value:element];
+>>>>>>> added reachability; fixed building upgrade popup
   }];
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -3511,6 +3533,7 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
     size_ += computeInt32Size(39, self.minsToResolicitTeamDonation);
   }
 <<<<<<< HEAD
+<<<<<<< HEAD
   [self.fileDownloadProtoList enumerateObjectsUsingBlock:^(StartupResponseProto_StartupConstants_FileDownloadConstantProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(40, element);
   }];
@@ -3525,6 +3548,11 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
     size_ += (SInt32)(2 * count);
   }
 >>>>>>> falling gems icon done
+=======
+  [self.fileDownloadProtoList enumerateObjectsUsingBlock:^(StartupResponseProto_StartupConstants_FileDownloadConstantProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(40, element);
+  }];
+>>>>>>> added reachability; fixed building upgrade popup
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
   return size_;
@@ -3720,15 +3748,21 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
     [output appendFormat:@"%@%@: %@\n", indent, @"minsToResolicitTeamDonation", [NSNumber numberWithInteger:self.minsToResolicitTeamDonation]];
   }
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> added reachability; fixed building upgrade popup
   [self.fileDownloadProtoList enumerateObjectsUsingBlock:^(StartupResponseProto_StartupConstants_FileDownloadConstantProto *element, NSUInteger idx, BOOL *stop) {
     [output appendFormat:@"%@%@ {\n", indent, @"fileDownloadProto"];
     [element writeDescriptionTo:output
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
+<<<<<<< HEAD
 =======
   [self.fileNamesToDownloadList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
     [output appendFormat:@"%@%@: %@\n", indent, @"fileNamesToDownload", obj];
 >>>>>>> falling gems icon done
+=======
+>>>>>>> added reachability; fixed building upgrade popup
   }];
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -3815,10 +3849,14 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
       self.hasMinsToResolicitTeamDonation == otherMessage.hasMinsToResolicitTeamDonation &&
       (!self.hasMinsToResolicitTeamDonation || self.minsToResolicitTeamDonation == otherMessage.minsToResolicitTeamDonation) &&
 <<<<<<< HEAD
+<<<<<<< HEAD
       [self.fileDownloadProtoList isEqualToArray:otherMessage.fileDownloadProtoList] &&
 =======
       [self.fileNamesToDownloadList isEqualToArray:otherMessage.fileNamesToDownloadList] &&
 >>>>>>> falling gems icon done
+=======
+      [self.fileDownloadProtoList isEqualToArray:otherMessage.fileDownloadProtoList] &&
+>>>>>>> added reachability; fixed building upgrade popup
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -3941,10 +3979,14 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.minsToResolicitTeamDonation] hash];
   }
 <<<<<<< HEAD
+<<<<<<< HEAD
   [self.fileDownloadProtoList enumerateObjectsUsingBlock:^(StartupResponseProto_StartupConstants_FileDownloadConstantProto *element, NSUInteger idx, BOOL *stop) {
 =======
   [self.fileNamesToDownloadList enumerateObjectsUsingBlock:^(id element, NSUInteger idx, BOOL *stop) {
 >>>>>>> falling gems icon done
+=======
+  [self.fileDownloadProtoList enumerateObjectsUsingBlock:^(StartupResponseProto_StartupConstants_FileDownloadConstantProto *element, NSUInteger idx, BOOL *stop) {
+>>>>>>> added reachability; fixed building upgrade popup
     hashCode = hashCode * 31 + [element hash];
   }];
   hashCode = hashCode * 31 + [self.unknownFields hash];
@@ -8447,6 +8489,7 @@ static StartupResponseProto_StartupConstants_FileDownloadConstantProto* defaultS
     [self setMinsToResolicitTeamDonation:other.minsToResolicitTeamDonation];
   }
 <<<<<<< HEAD
+<<<<<<< HEAD
   if (other.mutableFileDownloadProtoList.count > 0) {
     if (result.mutableFileDownloadProtoList == nil) {
       result.mutableFileDownloadProtoList = [[NSMutableArray alloc] initWithArray:other.mutableFileDownloadProtoList];
@@ -8459,6 +8502,13 @@ static StartupResponseProto_StartupConstants_FileDownloadConstantProto* defaultS
     } else {
       [result.mutableFileNamesToDownloadList addObjectsFromArray:other.mutableFileNamesToDownloadList];
 >>>>>>> falling gems icon done
+=======
+  if (other.mutableFileDownloadProtoList.count > 0) {
+    if (result.mutableFileDownloadProtoList == nil) {
+      result.mutableFileDownloadProtoList = [[NSMutableArray alloc] initWithArray:other.mutableFileDownloadProtoList];
+    } else {
+      [result.mutableFileDownloadProtoList addObjectsFromArray:other.mutableFileDownloadProtoList];
+>>>>>>> added reachability; fixed building upgrade popup
     }
   }
   [self mergeUnknownFields:other.unknownFields];
@@ -8695,12 +8745,18 @@ static StartupResponseProto_StartupConstants_FileDownloadConstantProto* defaultS
       }
       case 322: {
 <<<<<<< HEAD
+<<<<<<< HEAD
         StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder* subBuilder = [StartupResponseProto_StartupConstants_FileDownloadConstantProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addFileDownloadProto:[subBuilder buildPartial]];
 =======
         [self addFileNamesToDownload:[input readString]];
 >>>>>>> falling gems icon done
+=======
+        StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder* subBuilder = [StartupResponseProto_StartupConstants_FileDownloadConstantProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addFileDownloadProto:[subBuilder buildPartial]];
+>>>>>>> added reachability; fixed building upgrade popup
         break;
       }
     }
@@ -9497,6 +9553,7 @@ static StartupResponseProto_StartupConstants_FileDownloadConstantProto* defaultS
   return self;
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 - (NSMutableArray *)fileDownloadProtoList {
   return result.mutableFileDownloadProtoList;
 }
@@ -9522,27 +9579,36 @@ static StartupResponseProto_StartupConstants_FileDownloadConstantProto* defaultS
 =======
 - (NSMutableArray *)fileNamesToDownloadList {
   return result.mutableFileNamesToDownloadList;
+=======
+- (NSMutableArray *)fileDownloadProtoList {
+  return result.mutableFileDownloadProtoList;
+>>>>>>> added reachability; fixed building upgrade popup
 }
-- (NSString*)fileNamesToDownloadAtIndex:(NSUInteger)index {
-  return [result fileNamesToDownloadAtIndex:index];
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto*)fileDownloadProtoAtIndex:(NSUInteger)index {
+  return [result fileDownloadProtoAtIndex:index];
 }
-- (StartupResponseProto_StartupConstants_Builder *)addFileNamesToDownload:(NSString*)value {
-  if (result.mutableFileNamesToDownloadList == nil) {
-    result.mutableFileNamesToDownloadList = [[NSMutableArray alloc]init];
+- (StartupResponseProto_StartupConstants_Builder *)addFileDownloadProto:(StartupResponseProto_StartupConstants_FileDownloadConstantProto*)value {
+  if (result.mutableFileDownloadProtoList == nil) {
+    result.mutableFileDownloadProtoList = [[NSMutableArray alloc]init];
   }
-  [result.mutableFileNamesToDownloadList addObject:value];
+  [result.mutableFileDownloadProtoList addObject:value];
   return self;
 }
-- (StartupResponseProto_StartupConstants_Builder *)addAllFileNamesToDownload:(NSArray *)array {
-  if (result.mutableFileNamesToDownloadList == nil) {
-    result.mutableFileNamesToDownloadList = [NSMutableArray array];
+- (StartupResponseProto_StartupConstants_Builder *)addAllFileDownloadProto:(NSArray *)array {
+  if (result.mutableFileDownloadProtoList == nil) {
+    result.mutableFileDownloadProtoList = [NSMutableArray array];
   }
-  [result.mutableFileNamesToDownloadList addObjectsFromArray:array];
+  [result.mutableFileDownloadProtoList addObjectsFromArray:array];
   return self;
 }
+<<<<<<< HEAD
 - (StartupResponseProto_StartupConstants_Builder *)clearFileNamesToDownload {
   result.mutableFileNamesToDownloadList = nil;
 >>>>>>> falling gems icon done
+=======
+- (StartupResponseProto_StartupConstants_Builder *)clearFileDownloadProto {
+  result.mutableFileDownloadProtoList = nil;
+>>>>>>> added reachability; fixed building upgrade popup
   return self;
 }
 @end

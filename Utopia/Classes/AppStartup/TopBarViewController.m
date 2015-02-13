@@ -338,7 +338,7 @@
   CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
   // Divide by 2 to account for autoreversing
   int repeatCt = 3;
-  float rotationAmt = M_PI/7;
+  float rotationAmt = M_PI/10;
   [animation setDuration:0.1];
   [animation setRepeatCount:repeatCt];
   [animation setAutoreverses:YES];
@@ -545,7 +545,7 @@
   if (saleTimeLeft >= 0) {
     self.saleTimeLabel.text = [[Globals convertTimeToShortString:saleTimeLeft] uppercaseString];
   } else {
-    self.saleTimeLabel.text = @"Sale!";
+    self.saleTimeLabel.text = @"SALE!";
   }
 }
 

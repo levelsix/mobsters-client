@@ -277,10 +277,6 @@ static const CGSize FIXED_SIZE = {568, 384};
       }
     }
     
-    if (![acceptable containsObject:self.topBarViewController.shopViewController]) {
-      [self.topBarViewController.shopViewController close];
-    }
-    
     if (self.presentedViewController && ![acceptable containsObject:self.presentedViewController]) {
       [self dismissViewControllerAnimated:NO completion:nil];
     }
@@ -1141,7 +1137,7 @@ static const CGSize FIXED_SIZE = {568, 384};
   
   UserStruct *lab = gs.myLaboratory;
   
-  if ([gs isTaskCompleted:[Globals sharedGlobals].taskIdOfFirstSkill] && ![gs hasUpgradedBuilding])
+  if (YES) //[gs isTaskCompleted:[Globals sharedGlobals].taskIdOfFirstSkill] && ![gs hasUpgradedBuilding])
   {
     self.miniTutController = [[TutorialBuildingUpgradeController alloc] initWithMyTeam:nil gameViewController:self];
     self.miniTutController.delegate = self;

@@ -180,22 +180,23 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   for (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto *aso in constants.animatedSpriteOffsetsList) {
     [self.animatingSpriteOffsets setObject:aso.offSet forKey:aso.imageName];
   }
+  
+  [Globals backgroundDownloadFiles:constants.fileDownloadProtoList];
 }
 
-+ (void) asyncDownloadBundles {
-  //  Globals *gl = [Globals sharedGlobals];
-  //  StartupResponseProto_StartupConstants_DownloadableNibConstants *n = gl.downloadableNibConstants;
-  NSArray *bundleNames = [NSArray arrayWithObjects:nil];
-  Downloader *dl = [Downloader sharedDownloader];
++ (void) backgroundDownloadFiles:(NSArray *)fileNames {
+  NSMutableArray *toDownload = [NSMutableArray array];
   
-  int i = BUNDLE_SCHEDULE_INTERVAL;
-  for (NSString *name in bundleNames) {
-    if (![self bundleExists:name]) {
-      [dl performSelector:@selector(asyncDownloadBundle:) withObject:name afterDelay:i];
-      LNLog(@"Scheduled download of bundle %@ in %d seconds", name, i);
-      i += BUNDLE_SCHEDULE_INTERVAL;
-    }
+  for (StartupResponseProto_StartupConstants_FileDownloadConstantProto *f in fileNames) {
+    NSString *fileName = [self getDoubleResolutionImage:f.fileName useiPhone6Prefix:f.useIphone6Prefix];
+    
+    BgdFileDownload *bgd = [[BgdFileDownload alloc] init];
+    bgd.fileName = fileName;
+    bgd.onlyUseWifi = f.downloadOnlyOverWifi;
+    [toDownload addObject:bgd];
   }
+  
+  [[Downloader sharedDownloader] backgroundDownloadFiles:toDownload];
 }
 
 + (NSString *) font {
@@ -2552,9 +2553,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 + (BOOL) checkEnteringDungeonWithTarget:(id)target noTeamSelector:(SEL)noTeamSelector inventoryFullSelector:(SEL)inventoryFullSelector {
-//#ifdef DEBUG
-//  return YES;
-//#else
+#ifdef DEBUG
+  return YES;
+#else
   // Check that team is valid
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
@@ -2609,7 +2610,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
   
   return YES;
-//#endif
+#endif
 }
 #pragma clang diagnostic pop
 

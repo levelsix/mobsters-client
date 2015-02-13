@@ -28,6 +28,7 @@ PODS:
   - NRTouchPoints (0.1.0)
   - OpenSSL (1.0.109)
   - ProtocolBuffers (1.9.2)
+  - Reachability (3.2)
   - UIImage+BlurredFrame (0.0.4)
 
 DEPENDENCIES:
@@ -40,6 +41,7 @@ DEPENDENCIES:
   - NRTouchPoints
   - OpenSSL
   - ProtocolBuffers (= 1.9.2)
+  - Reachability
   - UIImage+BlurredFrame
 
 EXTERNAL SOURCES:
@@ -62,6 +64,7 @@ SPEC CHECKSUMS:
   NRTouchPoints: 27181c60de1320be3510948c363b25bc19e20145
   OpenSSL: 4810adf5c99b0e2cd20670a11a987c805e8a521c
   ProtocolBuffers: a834d6fe4ae0cc94d081b864e4948bdd483ad228
+  Reachability: 1ef8adf5c4e3d362f96515d4278f68dad3c26930
   UIImage+BlurredFrame: 0c38f5760d72125c47d16001a88faaac573bd35d
 
 COCOAPODS: 0.35.0

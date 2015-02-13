@@ -10,7 +10,15 @@
 #import "LNSynthesizeSingleton.h"
 #import "Globals.h"
 
+#import "Protocols.pb.h"
+
+#import <Reachability/Reachability.h>
+
 #define URL_BASE @"https://s3-us-west-1.amazonaws.com/lvl6mobsters/Resources/";
+
+@implementation BgdFileDownload
+
+@end
 
 @implementation Downloader
 
@@ -21,7 +29,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
 - (id) init {
   if ((self = [super init])) {
     _syncQueue = dispatch_queue_create("Sync Downloader", NULL);
-    _asyncQueue = dispatch_queue_create("Async Downloader", NULL);
+    _asyncQueue = dispatch_queue_create("Async Downloader", DISPATCH_QUEUE_CONCURRENT);
+    _bgdQueue = dispatch_queue_create("Bgd Downloader", dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, QOS_CLASS_BACKGROUND, 0));
     _cacheDir = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0] copy];
     LNLog(@"Cache Dir: %@", _cacheDir);
     
@@ -47,6 +56,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
   BOOL success = YES;
   
   if (![[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+    LNLog(@"Beginning %@.", imageName);
     NSData *data = [[NSData alloc] initWithContentsOfURL:url];
     if (data) {
       success = [data writeToFile:filePath atomically:YES];
@@ -180,6 +190,33 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
   } else {
     LNLog(@"Failed to delete %@.", file);
   }
+}
+
+- (void) backgroundDownloadFiles:(NSArray *)fileNames {
+  // Every time we call this method, it will basically cancel the previous invocation and start working on the new array.
+  // It is possible that multiple dispatch blocks are running at once but it will clean itself up when the array is empty.
+  self.bgdFilesToDownload = [fileNames mutableCopy];
+  
+  [self backgroundDownloadNextFile];
+}
+
+- (void) backgroundDownloadNextFile {
+  dispatch_async(_bgdQueue, ^{
+    BgdFileDownload *nextFile = [self.bgdFilesToDownload firstObject];
+    
+    if (nextFile) {
+      [self.bgdFilesToDownload removeObject:nextFile];
+      
+      Reachability *r = [Reachability reachabilityForLocalWiFi];
+      
+      if (!nextFile.onlyUseWifi || [r isReachableViaWiFi]) {
+        [self downloadFile:nextFile.fileName];
+      }
+      
+      // Schedule next one
+      [self backgroundDownloadNextFile];
+    }
+  });
 }
 
 @end

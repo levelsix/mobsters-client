@@ -11,6 +11,10 @@
             <rect key="frame" x="0.0" y="0.0" width="198" height="29"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="buildercell.png" id="fcd-QN-qBl">
+                    <rect key="frame" x="0.0" y="0.0" width="198" height="29"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="500 Gems" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Vkv-IV-i1C" customClass="NiceFontLabel9">
                     <rect key="frame" x="34" y="4" width="116" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -39,6 +43,7 @@
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
+                <outlet property="cellBgd" destination="fcd-QN-qBl" id="7hO-Ip-j9x"/>
                 <outlet property="itemIcon" destination="qor-oa-4Rp" id="0sl-Rq-h3o"/>
                 <outlet property="nameLabel" destination="Vkv-IV-i1C" id="wHz-3n-HrC"/>
                 <outlet property="quantityLabel" destination="CPe-H2-bYM" id="Xph-lM-nqN"/>
@@ -47,6 +52,7 @@
         </view>
     </objects>
     <resources>
+        <image name="buildercell.png" width="1" height="29"/>
         <image name="popupline.png" width="1" height="1"/>
         <image name="salespeedupicon.png" width="11" height="13"/>
     </resources>

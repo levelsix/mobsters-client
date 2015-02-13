@@ -645,8 +645,13 @@
 }
 
 - (IBAction)finishNowClicked:(id)sender {
-  _speedupBuilding = (Building *)[self getChildByName:STRUCT_TAG(self.clickableUserStructUuid) recursively:NO];
-  [self speedUpBuildingQueueUp:NO];
+  // Building upgrade tut still needs to send to server
+  if (self.constants) {
+    _speedupBuilding = (Building *)[self getChildByName:STRUCT_TAG(self.clickableUserStructUuid) recursively:NO];
+    [self speedUpBuildingQueueUp:NO];
+  } else {
+    [super finishNowClicked:sender];
+  }
 }
 
 - (void) sendNormStructComplete:(UserStruct *)us {
@@ -656,14 +661,19 @@
 }
 
 - (void) sendSpeedupBuilding:(UserStruct *)us queueUp:(BOOL)queueUp {
-  Globals *gl = [Globals sharedGlobals];
-  int timeLeft = us.timeLeftForBuildComplete;
-  int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
-  us.isComplete = YES;
-  [self.delegate buildingWasSpedUp:gemCost];
-  self.clickableUserStructUuid = nil;
-  [Globals removeUIArrowFromViewRecursively:self.bottomOptionView];
-  self.bottomOptionView = nil;
+  // Building upgrade tut still needs to send to server
+  if (self.constants) {
+    Globals *gl = [Globals sharedGlobals];
+    int timeLeft = us.timeLeftForBuildComplete;
+    int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
+    us.isComplete = YES;
+    [self.delegate buildingWasSpedUp:gemCost];
+    self.clickableUserStructUuid = nil;
+    [Globals removeUIArrowFromViewRecursively:self.bottomOptionView];
+    self.bottomOptionView = nil;
+  } else {
+    [super sendSpeedupBuilding:us queueUp:queueUp];
+  }
 }
 
 - (void) reselectCurrentSelection {

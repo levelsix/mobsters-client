@@ -131,9 +131,13 @@ enum SideEffectType {
 	
 	POISONED = 2;
 <<<<<<< HEAD
+<<<<<<< HEAD
 	CURSED = 3;
 =======
 >>>>>>> falling gems icon done
+=======
+	CURSED = 3;
+>>>>>>> added reachability; fixed building upgrade popup
 }
 enum SideEffectTraitType {
 	NO_TRAIT = 1;

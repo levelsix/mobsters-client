@@ -15,7 +15,7 @@
 
 @implementation SaleViewCell
 
-- (void) updateForDisplayItem:(BoosterDisplayItemProto *)display {
+- (void) updateForDisplayItem:(BoosterDisplayItemProto *)display isSpecial:(BOOL)isSpecial {
   GameState *gs = [GameState sharedGameState];
   NSString *imgName = nil;
   if (display.gemReward) {
@@ -36,6 +36,20 @@
     self.itemIcon.contentMode = UIViewContentModeScaleAspectFit;
   } else {
     self.itemIcon.contentMode = UIViewContentModeCenter;
+  }
+  
+  if (isSpecial) {
+    self.nameLabel.font = [UIFont fontWithName:@"Gotham-Ultra" size:self.nameLabel.font.pointSize];
+    self.quantityLabel.font = [UIFont fontWithName:@"Gotham-Ultra" size:self.quantityLabel.font.pointSize];
+    
+    self.nameLabel.text = [self.nameLabel.text uppercaseString];
+    
+    self.cellBgd.hidden = NO;
+  } else {
+    self.nameLabel.font = [UIFont fontWithName:@"Gotham-Bold" size:self.nameLabel.font.pointSize];
+    self.quantityLabel.font = [UIFont fontWithName:@"Gotham-Bold" size:self.quantityLabel.font.pointSize];
+    
+    self.cellBgd.hidden = YES;
   }
 }
 
@@ -90,7 +104,9 @@ static NSString *nibName = @"SaleViewCell";
   
   self.bonusItemsCollectionView.superview.layer.cornerRadius = 5.f;
   self.bonusItemsCollectionView.superview.height += 0.5f;
-  self.bonusItemsCollectionView.superview.originX -= 0.5f;
+  self.bonusItemsCollectionView.superview.width += 0.5f;
+  
+  [self rotateBuilderBadge];
 }
 
 - (void) fadeLitBgd {
@@ -149,7 +165,8 @@ static NSString *nibName = @"SaleViewCell";
     self.timeLeftLabel.centerX = self.timeLeftLabel.superview.width/2;
     self.timeLeftLabel.textAlignment = NSTextAlignmentCenter;
     
-    self.timeLeftLabel.text = @"Limited Time!";
+    self.timeLeftLabel.text = @"LIMITED TIME!";
+    self.timeLeftLabel.font = [UIFont fontWithName:self.timeLeftLabel.font.fontName size:self.timeLeftLabel.font.pointSize+2];
   }
 }
 
@@ -174,6 +191,29 @@ static NSString *nibName = @"SaleViewCell";
   }];
 }
 
+- (void) rotateBuilderBadge {
+  CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
+  // Divide by 2 to account for autoreversing
+  int repeatCt = 3;
+  float rotationAmt = M_PI/7;
+  [animation setDuration:0.1];
+  [animation setRepeatCount:repeatCt];
+  [animation setAutoreverses:YES];
+  [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+  [animation setFromValue:[NSNumber numberWithFloat:-rotationAmt]];
+  [animation setToValue:[NSNumber numberWithFloat:rotationAmt]];
+  [animation setDelegate:self];
+  [animation setBeginTime:CACurrentMediaTime()+4.f];
+  [self.builderIcon.layer addAnimation:animation forKey:@"rotation"];
+}
+
+- (void) animationDidStop:(CAAnimation *)anim finished:(BOOL)flag {
+  
+  if (flag) {
+    [self rotateBuilderBadge];
+  }
+}
+
 #pragma mark - Collection View Data Source/Delegate
 
 - (NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -183,7 +223,7 @@ static NSString *nibName = @"SaleViewCell";
 - (UICollectionViewCell *) collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
   SaleViewCell *cell = [self.bonusItemsCollectionView dequeueReusableCellWithReuseIdentifier:nibName forIndexPath:indexPath];
   
-  [cell updateForDisplayItem:self.sale.displayItemsList[indexPath.row]];
+  [cell updateForDisplayItem:self.sale.displayItemsList[indexPath.row] isSpecial:indexPath.row == 0];
   
   return cell;
 }

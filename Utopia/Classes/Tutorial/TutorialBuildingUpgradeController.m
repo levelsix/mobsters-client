@@ -38,9 +38,16 @@
 }
 
 - (void) stop {
-  [self.gameViewController visitCityClicked:0];
+  CGPoint prevPt = self.homeMap.position;
+  [self.gameViewController visitCityClicked:0 assetId:0 animated:NO];
+  self.gameViewController.currentMap.position = prevPt;
+  
   self.gameViewController.topBarViewController.mainView.hidden = NO;
   self.gameViewController.topBarViewController.chatBottomView.hidden = NO;
+  
+  self.gameViewController.topBarViewController.view.alpha = 0.f;
+  [self.gameViewController showTopBarDuration:0.3f completion:nil];
+  
   [self.delegate miniTutorialComplete:self];
 }
 

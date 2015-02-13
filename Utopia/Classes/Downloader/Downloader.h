@@ -8,6 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
+@interface BgdFileDownload : NSObject
+
+@property (nonatomic, retain) NSString *fileName;
+@property (nonatomic, assign) BOOL onlyUseWifi;
+
+@end
+
 @interface DownloaderLoadingView : UIView
 
 @property (nonatomic, retain) IBOutlet UIView *darkView;
@@ -19,10 +26,14 @@
 @interface Downloader : NSObject {
   dispatch_queue_t _syncQueue;
   dispatch_queue_t _asyncQueue;
+  dispatch_queue_t _bgdQueue;
   NSString *_cacheDir;
+  
+  NSMutableArray *_bgdFilesToDownload;
 }
 
 @property (nonatomic, retain) IBOutlet DownloaderLoadingView *loadingView;
+@property (nonatomic, retain) NSMutableArray *bgdFilesToDownload;
 
 + (Downloader *) sharedDownloader;
 
@@ -33,5 +44,7 @@
 
 - (void) purgeAllDownloadedData;
 - (void) deleteFile:(NSString *)file;
+
+- (void) backgroundDownloadFiles:(NSArray *)fileNames;
 
 @end

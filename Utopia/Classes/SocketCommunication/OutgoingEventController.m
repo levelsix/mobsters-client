@@ -112,9 +112,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     return nil;
   }
   
-  if (![us satisfiesAllPrerequisites]) {
+  if ([gl incompletePrereqsForStructId:structId].count) {
     [Globals popupMessage:@"Prerequisites for this building not met"];
-    return us;
+    return nil;
   }
   
   int numConstructing = 0;

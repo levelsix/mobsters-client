@@ -9,6 +9,7 @@
             <connections>
                 <outlet property="bgdView" destination="PgA-mi-kMl" id="mkk-F9-4bx"/>
                 <outlet property="bonusItemsCollectionView" destination="CIQ-US-IVq" id="WzJ-L5-F5j"/>
+                <outlet property="builderIcon" destination="GHC-YQ-9D1" id="odE-N6-1UE"/>
                 <outlet property="endsInLabel" destination="wcb-iX-dk7" id="H4B-AL-U8w"/>
                 <outlet property="litBgdView" destination="KsX-P2-wsq" id="b1b-Wh-cF3"/>
                 <outlet property="loadingView" destination="lV4-pA-Vuf" id="h3j-x5-bLE"/>
@@ -66,7 +67,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <view clipsSubviews="YES" contentMode="scaleToFill" id="fSf-CS-yXT" userLabel="Table Container">
-                            <rect key="frame" x="177" y="112" width="198" height="143"/>
+                            <rect key="frame" x="176" y="112" width="198" height="143"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" id="CIQ-US-IVq">
@@ -74,7 +75,7 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="2Tp-YE-0GO">
-                                        <size key="itemSize" width="197" height="29"/>
+                                        <size key="itemSize" width="198" height="29"/>
                                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                         <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                         <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -88,7 +89,7 @@
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
                         <view contentMode="scaleToFill" id="UW8-eg-kEv">
-                            <rect key="frame" x="137" y="15" width="129" height="24"/>
+                            <rect key="frame" x="137" y="15" width="143" height="24"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" 4M 12S" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="MNR-60-iB7" customClass="NiceFontLabel10T">
@@ -154,6 +155,21 @@
                             <rect key="frame" x="354" y="74" width="63" height="64"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
+                        <view contentMode="scaleToFill" id="BgN-7E-m1I">
+                            <rect key="frame" x="29" y="117" width="52" height="52"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="2ndbuildercircleshadow.png" id="BDJ-c7-eCG">
+                                    <rect key="frame" x="0.0" y="0.0" width="52" height="52"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="2ndbuildercircle.png" id="GHC-YQ-9D1">
+                                    <rect key="frame" x="3" y="1" width="46" height="46"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
@@ -163,7 +179,7 @@
             <nil key="simulatedTopBarMetrics"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="541" y="458"/>
+            <point key="canvasLocation" x="837" y="506"/>
         </view>
         <view contentMode="scaleToFill" id="lV4-pA-Vuf" customClass="LoadingView">
             <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
@@ -191,6 +207,8 @@
         </view>
     </objects>
     <resources>
+        <image name="2ndbuildercircle.png" width="46" height="46"/>
+        <image name="2ndbuildercircleshadow.png" width="52" height="52"/>
         <image name="37dollarvaluestamp.png" width="63" height="64"/>
         <image name="barshadow.png" width="1" height="2"/>
         <image name="buysale.png" width="124" height="51"/>
