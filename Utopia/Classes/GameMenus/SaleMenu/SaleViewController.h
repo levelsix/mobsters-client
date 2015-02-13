@@ -22,7 +22,9 @@
 
 @end
 
-@interface SaleViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate>
+@interface SaleViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate> {
+  float _lastWigglePauseTime;
+}
 
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *bgdView;

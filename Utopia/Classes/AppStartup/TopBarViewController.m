@@ -125,7 +125,7 @@
   [center addObserver:self selector:@selector(updateShopBadge) name:ITEMS_CHANGED_NOTIFICATION object:nil];
   // If updateShopBadge returns YES, we need to animate it in viewDidAppear so set it to visible or not based on that.
   if ([self updateShopBadge]) {
-    self.shopBadge.alpha = 0.f; 
+    self.shopBadge.alpha = 0.f;
   }
   
   if (gs.connected && !self.chatBottomView && !gs.isTutorial) {
@@ -293,7 +293,7 @@
 - (BOOL) updateShopBadge {
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
-
+  
   BOOL dailyFreeSpin = [gs hasDailyFreeSpin];
   int numGoodSpins = [gs numberOfFreeSpinsForBoosterPack:[gs.boosterPacks[1] boosterPackId]];
   int numBadSpins = [gs numberOfFreeSpinsForBoosterPack:[gs.boosterPacks[0] boosterPackId]];
@@ -338,7 +338,7 @@
   CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
   // Divide by 2 to account for autoreversing
   int repeatCt = 3;
-  float rotationAmt = M_PI/10;
+  float rotationAmt = M_PI/7;
   [animation setDuration:0.1];
   [animation setRepeatCount:repeatCt];
   [animation setAutoreverses:YES];
@@ -432,10 +432,10 @@
     }
   }
   
-//  // Check if squad HQ can even be built yet
-//  UserStruct *cs = [gs myClanHouse];
-//  int level = cs.staticStruct.structInfo.level;
-//  BOOL availBuilding = (cs.isComplete || level > 1);
+  //  // Check if squad HQ can even be built yet
+  //  UserStruct *cs = [gs myClanHouse];
+  //  int level = cs.staticStruct.structInfo.level;
+  //  BOOL availBuilding = (cs.isComplete || level > 1);
   BOOL availBuilding = YES; // Should always show
   
   self.freeGemsBadge.badgeNum = badgeNum;
@@ -631,14 +631,15 @@
   if (!self.saleGemsIcon.isAnimating) {
     // Animate the multiplier
     
-    float scale = 6.f;
+    float scale = 15.f;
     self.saleMultiplierIcon.transform = CGAffineTransformMakeScale(scale, scale);
     self.saleMultiplierIcon.alpha = 0.f;
     self.saleMultiplierIcon.hidden = NO;
-    [UIView animateWithDuration:0.15f delay:0.3f options:UIViewAnimationOptionCurveEaseOut animations:^{
+    [UIView animateWithDuration:0.2f delay:0.f options:UIViewAnimationOptionCurveEaseIn animations:^{
       self.saleMultiplierIcon.alpha = 1.f;
       self.saleMultiplierIcon.transform = CGAffineTransformIdentity;
     } completion:^(BOOL finished) {
+      [Globals shakeView:self.saleView duration:0.4f offset:5.f];
       [self performSelector:@selector(performFallingGemsAnimation) withObject:nil afterDelay:10.f];
     }];
   } else {
@@ -650,15 +651,16 @@
   NSMutableArray *imgs = [NSMutableArray array];
   
   if (!self.saleGemsIcon.animationImages.count) {
-    for (int i = 0; i <= 14; i++) {
+    for (int i = 1; i <= 26; i++) {
       NSString *str = [NSString stringWithFormat:@"fallinggems%02d.png", i];
       UIImage *img = [Globals imageNamed:str];
       [imgs addObject:img];
     }
     
+    self.saleGemsIcon.image = [imgs lastObject];
     self.saleGemsIcon.animationImages = imgs;
     
-    self.saleGemsIcon.animationDuration = imgs.count*0.06;
+    self.saleGemsIcon.animationDuration = imgs.count*0.04;
     self.saleGemsIcon.animationRepeatCount = 1;
     
     self.saleTimeLabel.alpha = 0.f;

@@ -105,22 +105,6 @@ static NSString *nibName = @"SaleViewCell";
   self.bonusItemsCollectionView.superview.layer.cornerRadius = 5.f;
   self.bonusItemsCollectionView.superview.height += 0.5f;
   self.bonusItemsCollectionView.superview.width += 0.5f;
-  
-  [self rotateBuilderBadge];
-}
-
-- (void) fadeLitBgd {
-  // flash in fast, fade out slow
-  self.litBgdView.alpha = 0.f;
-  [UIView animateWithDuration:.2f animations:^{
-    self.litBgdView.alpha = 1.f;
-  } completion:^(BOOL finished) {
-    [UIView animateWithDuration:1.8f animations:^{
-      self.litBgdView.alpha = 0.f;
-    } completion:^(BOOL finished) {
-      [self fadeLitBgd];
-    }];
-  }];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -130,7 +114,9 @@ static NSString *nibName = @"SaleViewCell";
   [[NSRunLoop mainRunLoop] addTimer:self.updateTimer forMode:NSRunLoopCommonModes];
   [self updateLabels];
   
-  [self fadeLitBgd];
+  self.litBgdView.alpha = 0.f;
+  [self performSelector:@selector(fadeLitBgd) withObject:nil afterDelay:1.f];
+  [self performSelector:@selector(rotateBuilderBadge) withObject:nil afterDelay:1.5f];
   
   [[CCDirector sharedDirector] pause];
 }
@@ -163,10 +149,11 @@ static NSString *nibName = @"SaleViewCell";
     self.endsInLabel = nil;
     
     self.timeLeftLabel.centerX = self.timeLeftLabel.superview.width/2;
+    self.timeLeftLabel.originY += 1.f;
     self.timeLeftLabel.textAlignment = NSTextAlignmentCenter;
     
     self.timeLeftLabel.text = @"LIMITED TIME!";
-    self.timeLeftLabel.font = [UIFont fontWithName:self.timeLeftLabel.font.fontName size:self.timeLeftLabel.font.pointSize+2];
+    self.timeLeftLabel.font = [UIFont fontWithName:self.timeLeftLabel.font.fontName size:self.timeLeftLabel.font.pointSize+3];
   }
 }
 
@@ -191,26 +178,61 @@ static NSString *nibName = @"SaleViewCell";
   }];
 }
 
+#pragma mark - Animations
+
+static float rotationAmt = M_PI/15;
+static float timePerRotation = 0.08;
+static float fadeInTime = 2.f;
+static float fadeOutTime = 2.f;
+
+- (void) fadeLitBgd {
+  // flash in fast, fade out slow
+  self.litBgdView.alpha = 0.f;
+  [UIView animateWithDuration:fadeInTime animations:^{
+    self.litBgdView.alpha = 1.f;
+  } completion:^(BOOL finished) {
+    [UIView animateWithDuration:fadeOutTime animations:^{
+      self.litBgdView.alpha = 0.f;
+    } completion:^(BOOL finished) {
+      [self fadeLitBgd];
+    }];
+  }];
+}
+
 - (void) rotateBuilderBadge {
-  CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
-  // Divide by 2 to account for autoreversing
-  int repeatCt = 3;
-  float rotationAmt = M_PI/7;
-  [animation setDuration:0.1];
-  [animation setRepeatCount:repeatCt];
-  [animation setAutoreverses:YES];
-  [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
-  [animation setFromValue:[NSNumber numberWithFloat:-rotationAmt]];
-  [animation setToValue:[NSNumber numberWithFloat:rotationAmt]];
-  [animation setDelegate:self];
-  [animation setBeginTime:CACurrentMediaTime()+4.f];
-  [self.builderIcon.layer addAnimation:animation forKey:@"rotation"];
+  self.builderIcon.layer.transform = CATransform3DIdentity;
+  
+  // Pause for 0.5 after first wiggle, 2.f for second wiggle, then repeat
+  [UIView animateWithDuration:timePerRotation/2 delay:0.f options:UIViewAnimationOptionCurveEaseOut animations:^{
+    self.builderIcon.layer.transform = CATransform3DMakeRotation(-rotationAmt, 0, 0, 1);
+  } completion:^(BOOL finished) {
+    
+    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
+    // Divide by 2 to account for autoreversing
+    int repeatCt = 3;
+    [animation setDuration:timePerRotation];
+    [animation setRepeatCount:repeatCt];
+    [animation setAutoreverses:YES];
+    [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+    [animation setFromValue:[NSNumber numberWithFloat:-rotationAmt]];
+    [animation setToValue:[NSNumber numberWithFloat:rotationAmt]];
+    [animation setDelegate:self];
+    //[animation setBeginTime:CACurrentMediaTime()+4.f];
+    [self.builderIcon.layer addAnimation:animation forKey:@"rotation"];
+  }];
 }
 
 - (void) animationDidStop:(CAAnimation *)anim finished:(BOOL)flag {
   
   if (flag) {
-    [self rotateBuilderBadge];
+    [UIView animateWithDuration:timePerRotation/2 delay:0.f options:UIViewAnimationOptionCurveEaseIn animations:^{
+      self.builderIcon.layer.transform = CATransform3DMakeRotation(0, 0, 0, 1);
+    } completion:^(BOOL finished) {
+      float animTime = timePerRotation*7;
+      _lastWigglePauseTime = _lastWigglePauseTime == fadeInTime ? fadeOutTime : fadeInTime;
+      float nextDelay = _lastWigglePauseTime - animTime;
+      [self performSelector:@selector(rotateBuilderBadge) withObject:nil afterDelay:nextDelay];
+    }];
   }
 }
 

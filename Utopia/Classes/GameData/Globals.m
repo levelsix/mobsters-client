@@ -1114,18 +1114,26 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (void) shakeView:(UIView *)view duration:(float)duration offset:(int)offset {
-  CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"position"];
-  // Divide by 2 to account for autoreversing
-  int repeatCt = duration / SHAKE_DURATION / 2;
-  [animation setDuration:SHAKE_DURATION];
-  [animation setRepeatCount:repeatCt];
-  [animation setAutoreverses:YES];
-  [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
-  [animation setFromValue:[NSValue valueWithCGPoint:
-                           CGPointMake(view.center.x - offset, view.center.y)]];
-  [animation setToValue:[NSValue valueWithCGPoint:
-                         CGPointMake(view.center.x + offset, view.center.y)]];
-  [view.layer addAnimation:animation forKey:@"position"];
+  NSMutableArray *keyTimes = [NSMutableArray array];
+  NSMutableArray *values = [NSMutableArray array];
+  const CGPoint pos = view.layer.position;
+  const int numFrames = 60.f*duration;
+  for (int i = 0; i < numFrames-1; ++i)
+  {
+    [keyTimes addObject:@((float)i / (float)numFrames)];
+    [values addObject:[NSValue valueWithCGPoint:CGPointMake(pos.x + (CGFloat)arc4random_uniform(offset) - offset * .5f,
+                                                            pos.y + (CGFloat)arc4random_uniform(offset) - offset * .5f)]];
+  }
+  // Add original point
+  [keyTimes addObject:@((numFrames-1) / (float)numFrames)];
+  [values addObject:[NSValue valueWithCGPoint:pos]];
+  
+  CAKeyframeAnimation *anim = [CAKeyframeAnimation animationWithKeyPath:@"position"];
+  [anim setDuration:duration];
+  [anim setCalculationMode:kCAAnimationLinear];
+  [anim setKeyTimes:keyTimes];
+  [anim setValues:values];
+  [view.layer addAnimation:anim forKey:@"shake"];
 }
 
 + (void) displayUIView:(UIView *)view {
@@ -1361,6 +1369,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   // If view is null, it will download image without worrying about the view
   Globals *gl = [Globals sharedGlobals];
   NSString *key = [NSString stringWithFormat:@"%p", view];
+  
+  [[gl imageViewsWaitingForDownloading] removeObjectForKey:key];
   
   NSString *greyImageKey = [imageName stringByAppendingString:@"greyscale"];
   
