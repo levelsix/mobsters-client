@@ -103,7 +103,6 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
   BOOL hasLevel_:1;
   BOOL hasBuildCost_:1;
   BOOL hasMinutesToBuild_:1;
-  BOOL hasPrerequisiteTownHallLvl_:1;
   BOOL hasWidth_:1;
   BOOL hasHeight_:1;
   BOOL hasPredecessorStructId_:1;
@@ -124,7 +123,6 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
   int32_t level;
   int32_t buildCost;
   int32_t minutesToBuild;
-  int32_t prerequisiteTownHallLvl;
   int32_t width;
   int32_t height;
   int32_t predecessorStructId;
@@ -144,7 +142,6 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (BOOL) hasBuildResourceType;
 - (BOOL) hasBuildCost;
 - (BOOL) hasMinutesToBuild;
-- (BOOL) hasPrerequisiteTownHallLvl;
 - (BOOL) hasWidth;
 - (BOOL) hasHeight;
 - (BOOL) hasPredecessorStructId;
@@ -165,7 +162,6 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 @property (readonly) ResourceType buildResourceType;
 @property (readonly) int32_t buildCost;
 @property (readonly) int32_t minutesToBuild;
-@property (readonly) int32_t prerequisiteTownHallLvl;
 @property (readonly) int32_t width;
 @property (readonly) int32_t height;
 @property (readonly) int32_t predecessorStructId;
@@ -249,11 +245,6 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (int32_t) minutesToBuild;
 - (StructureInfoProto_Builder*) setMinutesToBuild:(int32_t) value;
 - (StructureInfoProto_Builder*) clearMinutesToBuild;
-
-- (BOOL) hasPrerequisiteTownHallLvl;
-- (int32_t) prerequisiteTownHallLvl;
-- (StructureInfoProto_Builder*) setPrerequisiteTownHallLvl:(int32_t) value;
-- (StructureInfoProto_Builder*) clearPrerequisiteTownHallLvl;
 
 - (BOOL) hasWidth;
 - (int32_t) width;

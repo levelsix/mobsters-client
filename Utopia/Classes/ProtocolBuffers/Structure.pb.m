@@ -51,7 +51,6 @@ BOOL StructOrientationIsValidValue(StructOrientation value) {
 @property ResourceType buildResourceType;
 @property int32_t buildCost;
 @property int32_t minutesToBuild;
-@property int32_t prerequisiteTownHallLvl;
 @property int32_t width;
 @property int32_t height;
 @property int32_t predecessorStructId;
@@ -118,13 +117,6 @@ BOOL StructOrientationIsValidValue(StructOrientation value) {
   hasMinutesToBuild_ = !!value_;
 }
 @synthesize minutesToBuild;
-- (BOOL) hasPrerequisiteTownHallLvl {
-  return !!hasPrerequisiteTownHallLvl_;
-}
-- (void) setHasPrerequisiteTownHallLvl:(BOOL) value_ {
-  hasPrerequisiteTownHallLvl_ = !!value_;
-}
-@synthesize prerequisiteTownHallLvl;
 - (BOOL) hasWidth {
   return !!hasWidth_;
 }
@@ -225,7 +217,6 @@ BOOL StructOrientationIsValidValue(StructOrientation value) {
     self.buildResourceType = ResourceTypeNoResource;
     self.buildCost = 0;
     self.minutesToBuild = 0;
-    self.prerequisiteTownHallLvl = 0;
     self.width = 0;
     self.height = 0;
     self.predecessorStructId = 0;
@@ -279,47 +270,44 @@ static StructureInfoProto* defaultStructureInfoProtoInstance = nil;
   if (self.hasMinutesToBuild) {
     [output writeInt32:7 value:self.minutesToBuild];
   }
-  if (self.hasPrerequisiteTownHallLvl) {
-    [output writeInt32:8 value:self.prerequisiteTownHallLvl];
-  }
   if (self.hasWidth) {
-    [output writeInt32:9 value:self.width];
+    [output writeInt32:8 value:self.width];
   }
   if (self.hasHeight) {
-    [output writeInt32:10 value:self.height];
+    [output writeInt32:9 value:self.height];
   }
   if (self.hasPredecessorStructId) {
-    [output writeInt32:12 value:self.predecessorStructId];
+    [output writeInt32:10 value:self.predecessorStructId];
   }
   if (self.hasSuccessorStructId) {
-    [output writeInt32:13 value:self.successorStructId];
+    [output writeInt32:11 value:self.successorStructId];
   }
   if (self.hasImgName) {
-    [output writeString:14 value:self.imgName];
+    [output writeString:12 value:self.imgName];
   }
   if (self.hasImgVerticalPixelOffset) {
-    [output writeFloat:15 value:self.imgVerticalPixelOffset];
-  }
-  if (self.hasDescription) {
-    [output writeString:16 value:self.description];
-  }
-  if (self.hasShortDescription) {
-    [output writeString:17 value:self.shortDescription];
+    [output writeFloat:13 value:self.imgVerticalPixelOffset];
   }
   if (self.hasImgHorizontalPixelOffset) {
-    [output writeFloat:18 value:self.imgHorizontalPixelOffset];
+    [output writeFloat:14 value:self.imgHorizontalPixelOffset];
+  }
+  if (self.hasDescription) {
+    [output writeString:15 value:self.description];
+  }
+  if (self.hasShortDescription) {
+    [output writeString:16 value:self.shortDescription];
   }
   if (self.hasShadowImgName) {
-    [output writeString:19 value:self.shadowImgName];
+    [output writeString:18 value:self.shadowImgName];
   }
   if (self.hasShadowVerticalOffset) {
-    [output writeFloat:20 value:self.shadowVerticalOffset];
+    [output writeFloat:19 value:self.shadowVerticalOffset];
   }
   if (self.hasShadowHorizontalOfffset) {
-    [output writeFloat:21 value:self.shadowHorizontalOfffset];
+    [output writeFloat:20 value:self.shadowHorizontalOfffset];
   }
   if (self.hasShadowScale) {
-    [output writeFloat:22 value:self.shadowScale];
+    [output writeFloat:21 value:self.shadowScale];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -351,47 +339,44 @@ static StructureInfoProto* defaultStructureInfoProtoInstance = nil;
   if (self.hasMinutesToBuild) {
     size_ += computeInt32Size(7, self.minutesToBuild);
   }
-  if (self.hasPrerequisiteTownHallLvl) {
-    size_ += computeInt32Size(8, self.prerequisiteTownHallLvl);
-  }
   if (self.hasWidth) {
-    size_ += computeInt32Size(9, self.width);
+    size_ += computeInt32Size(8, self.width);
   }
   if (self.hasHeight) {
-    size_ += computeInt32Size(10, self.height);
+    size_ += computeInt32Size(9, self.height);
   }
   if (self.hasPredecessorStructId) {
-    size_ += computeInt32Size(12, self.predecessorStructId);
+    size_ += computeInt32Size(10, self.predecessorStructId);
   }
   if (self.hasSuccessorStructId) {
-    size_ += computeInt32Size(13, self.successorStructId);
+    size_ += computeInt32Size(11, self.successorStructId);
   }
   if (self.hasImgName) {
-    size_ += computeStringSize(14, self.imgName);
+    size_ += computeStringSize(12, self.imgName);
   }
   if (self.hasImgVerticalPixelOffset) {
-    size_ += computeFloatSize(15, self.imgVerticalPixelOffset);
-  }
-  if (self.hasDescription) {
-    size_ += computeStringSize(16, self.description);
-  }
-  if (self.hasShortDescription) {
-    size_ += computeStringSize(17, self.shortDescription);
+    size_ += computeFloatSize(13, self.imgVerticalPixelOffset);
   }
   if (self.hasImgHorizontalPixelOffset) {
-    size_ += computeFloatSize(18, self.imgHorizontalPixelOffset);
+    size_ += computeFloatSize(14, self.imgHorizontalPixelOffset);
+  }
+  if (self.hasDescription) {
+    size_ += computeStringSize(15, self.description);
+  }
+  if (self.hasShortDescription) {
+    size_ += computeStringSize(16, self.shortDescription);
   }
   if (self.hasShadowImgName) {
-    size_ += computeStringSize(19, self.shadowImgName);
+    size_ += computeStringSize(18, self.shadowImgName);
   }
   if (self.hasShadowVerticalOffset) {
-    size_ += computeFloatSize(20, self.shadowVerticalOffset);
+    size_ += computeFloatSize(19, self.shadowVerticalOffset);
   }
   if (self.hasShadowHorizontalOfffset) {
-    size_ += computeFloatSize(21, self.shadowHorizontalOfffset);
+    size_ += computeFloatSize(20, self.shadowHorizontalOfffset);
   }
   if (self.hasShadowScale) {
-    size_ += computeFloatSize(22, self.shadowScale);
+    size_ += computeFloatSize(21, self.shadowScale);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -449,9 +434,6 @@ static StructureInfoProto* defaultStructureInfoProtoInstance = nil;
   if (self.hasMinutesToBuild) {
     [output appendFormat:@"%@%@: %@\n", indent, @"minutesToBuild", [NSNumber numberWithInteger:self.minutesToBuild]];
   }
-  if (self.hasPrerequisiteTownHallLvl) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"prerequisiteTownHallLvl", [NSNumber numberWithInteger:self.prerequisiteTownHallLvl]];
-  }
   if (self.hasWidth) {
     [output appendFormat:@"%@%@: %@\n", indent, @"width", [NSNumber numberWithInteger:self.width]];
   }
@@ -470,14 +452,14 @@ static StructureInfoProto* defaultStructureInfoProtoInstance = nil;
   if (self.hasImgVerticalPixelOffset) {
     [output appendFormat:@"%@%@: %@\n", indent, @"imgVerticalPixelOffset", [NSNumber numberWithFloat:self.imgVerticalPixelOffset]];
   }
+  if (self.hasImgHorizontalPixelOffset) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"imgHorizontalPixelOffset", [NSNumber numberWithFloat:self.imgHorizontalPixelOffset]];
+  }
   if (self.hasDescription) {
     [output appendFormat:@"%@%@: %@\n", indent, @"description", self.description];
   }
   if (self.hasShortDescription) {
     [output appendFormat:@"%@%@: %@\n", indent, @"shortDescription", self.shortDescription];
-  }
-  if (self.hasImgHorizontalPixelOffset) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"imgHorizontalPixelOffset", [NSNumber numberWithFloat:self.imgHorizontalPixelOffset]];
   }
   if (self.hasShadowImgName) {
     [output appendFormat:@"%@%@: %@\n", indent, @"shadowImgName", self.shadowImgName];
@@ -516,8 +498,6 @@ static StructureInfoProto* defaultStructureInfoProtoInstance = nil;
       (!self.hasBuildCost || self.buildCost == otherMessage.buildCost) &&
       self.hasMinutesToBuild == otherMessage.hasMinutesToBuild &&
       (!self.hasMinutesToBuild || self.minutesToBuild == otherMessage.minutesToBuild) &&
-      self.hasPrerequisiteTownHallLvl == otherMessage.hasPrerequisiteTownHallLvl &&
-      (!self.hasPrerequisiteTownHallLvl || self.prerequisiteTownHallLvl == otherMessage.prerequisiteTownHallLvl) &&
       self.hasWidth == otherMessage.hasWidth &&
       (!self.hasWidth || self.width == otherMessage.width) &&
       self.hasHeight == otherMessage.hasHeight &&
@@ -530,12 +510,12 @@ static StructureInfoProto* defaultStructureInfoProtoInstance = nil;
       (!self.hasImgName || [self.imgName isEqual:otherMessage.imgName]) &&
       self.hasImgVerticalPixelOffset == otherMessage.hasImgVerticalPixelOffset &&
       (!self.hasImgVerticalPixelOffset || self.imgVerticalPixelOffset == otherMessage.imgVerticalPixelOffset) &&
+      self.hasImgHorizontalPixelOffset == otherMessage.hasImgHorizontalPixelOffset &&
+      (!self.hasImgHorizontalPixelOffset || self.imgHorizontalPixelOffset == otherMessage.imgHorizontalPixelOffset) &&
       self.hasDescription == otherMessage.hasDescription &&
       (!self.hasDescription || [self.description isEqual:otherMessage.description]) &&
       self.hasShortDescription == otherMessage.hasShortDescription &&
       (!self.hasShortDescription || [self.shortDescription isEqual:otherMessage.shortDescription]) &&
-      self.hasImgHorizontalPixelOffset == otherMessage.hasImgHorizontalPixelOffset &&
-      (!self.hasImgHorizontalPixelOffset || self.imgHorizontalPixelOffset == otherMessage.imgHorizontalPixelOffset) &&
       self.hasShadowImgName == otherMessage.hasShadowImgName &&
       (!self.hasShadowImgName || [self.shadowImgName isEqual:otherMessage.shadowImgName]) &&
       self.hasShadowVerticalOffset == otherMessage.hasShadowVerticalOffset &&
@@ -569,9 +549,6 @@ static StructureInfoProto* defaultStructureInfoProtoInstance = nil;
   if (self.hasMinutesToBuild) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.minutesToBuild] hash];
   }
-  if (self.hasPrerequisiteTownHallLvl) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.prerequisiteTownHallLvl] hash];
-  }
   if (self.hasWidth) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.width] hash];
   }
@@ -590,14 +567,14 @@ static StructureInfoProto* defaultStructureInfoProtoInstance = nil;
   if (self.hasImgVerticalPixelOffset) {
     hashCode = hashCode * 31 + [[NSNumber numberWithFloat:self.imgVerticalPixelOffset] hash];
   }
+  if (self.hasImgHorizontalPixelOffset) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithFloat:self.imgHorizontalPixelOffset] hash];
+  }
   if (self.hasDescription) {
     hashCode = hashCode * 31 + [self.description hash];
   }
   if (self.hasShortDescription) {
     hashCode = hashCode * 31 + [self.shortDescription hash];
-  }
-  if (self.hasImgHorizontalPixelOffset) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithFloat:self.imgHorizontalPixelOffset] hash];
   }
   if (self.hasShadowImgName) {
     hashCode = hashCode * 31 + [self.shadowImgName hash];
@@ -692,9 +669,6 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
   }
   if (other.hasMinutesToBuild) {
     [self setMinutesToBuild:other.minutesToBuild];
-  }
-  if (other.hasPrerequisiteTownHallLvl) {
-    [self setPrerequisiteTownHallLvl:other.prerequisiteTownHallLvl];
   }
   if (other.hasWidth) {
     [self setWidth:other.width];
@@ -795,58 +769,54 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
         break;
       }
       case 64: {
-        [self setPrerequisiteTownHallLvl:[input readInt32]];
-        break;
-      }
-      case 72: {
         [self setWidth:[input readInt32]];
         break;
       }
-      case 80: {
+      case 72: {
         [self setHeight:[input readInt32]];
         break;
       }
-      case 96: {
+      case 80: {
         [self setPredecessorStructId:[input readInt32]];
         break;
       }
-      case 104: {
+      case 88: {
         [self setSuccessorStructId:[input readInt32]];
         break;
       }
-      case 114: {
+      case 98: {
         [self setImgName:[input readString]];
         break;
       }
-      case 125: {
+      case 109: {
         [self setImgVerticalPixelOffset:[input readFloat]];
         break;
       }
-      case 130: {
-        [self setDescription:[input readString]];
-        break;
-      }
-      case 138: {
-        [self setShortDescription:[input readString]];
-        break;
-      }
-      case 149: {
+      case 117: {
         [self setImgHorizontalPixelOffset:[input readFloat]];
         break;
       }
-      case 154: {
+      case 122: {
+        [self setDescription:[input readString]];
+        break;
+      }
+      case 130: {
+        [self setShortDescription:[input readString]];
+        break;
+      }
+      case 146: {
         [self setShadowImgName:[input readString]];
         break;
       }
-      case 165: {
+      case 157: {
         [self setShadowVerticalOffset:[input readFloat]];
         break;
       }
-      case 173: {
+      case 165: {
         [self setShadowHorizontalOfffset:[input readFloat]];
         break;
       }
-      case 181: {
+      case 173: {
         [self setShadowScale:[input readFloat]];
         break;
       }
@@ -963,22 +933,6 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (StructureInfoProto_Builder*) clearMinutesToBuild {
   result.hasMinutesToBuild = NO;
   result.minutesToBuild = 0;
-  return self;
-}
-- (BOOL) hasPrerequisiteTownHallLvl {
-  return result.hasPrerequisiteTownHallLvl;
-}
-- (int32_t) prerequisiteTownHallLvl {
-  return result.prerequisiteTownHallLvl;
-}
-- (StructureInfoProto_Builder*) setPrerequisiteTownHallLvl:(int32_t) value {
-  result.hasPrerequisiteTownHallLvl = YES;
-  result.prerequisiteTownHallLvl = value;
-  return self;
-}
-- (StructureInfoProto_Builder*) clearPrerequisiteTownHallLvl {
-  result.hasPrerequisiteTownHallLvl = NO;
-  result.prerequisiteTownHallLvl = 0;
   return self;
 }
 - (BOOL) hasWidth {

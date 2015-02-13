@@ -415,6 +415,7 @@ static RareBoosterPurchaseProto* defaultRareBoosterPurchaseProtoInstance = nil;
 @property (strong) NSString* navTitleImgName;
 @property (strong) NSString* machineImgName;
 @property (strong) NSMutableArray * mutableDisplayItemsList;
+@property BoosterPackProto_BoosterPackType type;
 @end
 
 @implementation BoosterPackProto
@@ -479,6 +480,13 @@ static RareBoosterPurchaseProto* defaultRareBoosterPurchaseProtoInstance = nil;
 @synthesize machineImgName;
 @synthesize mutableDisplayItemsList;
 @dynamic displayItemsList;
+- (BOOL) hasType {
+  return !!hasType_;
+}
+- (void) setHasType:(BOOL) value_ {
+  hasType_ = !!value_;
+}
+@synthesize type;
 - (id) init {
   if ((self = [super init])) {
     self.boosterPackId = 0;
@@ -489,6 +497,7 @@ static RareBoosterPurchaseProto* defaultRareBoosterPurchaseProtoInstance = nil;
     self.navBarImgName = @"";
     self.navTitleImgName = @"";
     self.machineImgName = @"";
+    self.type = BoosterPackProto_BoosterPackTypeNoType;
   }
   return self;
 }
@@ -550,6 +559,9 @@ static BoosterPackProto* defaultBoosterPackProtoInstance = nil;
   [self.displayItemsList enumerateObjectsUsingBlock:^(BoosterDisplayItemProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:10 value:element];
   }];
+  if (self.hasType) {
+    [output writeEnum:11 value:self.type];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -589,6 +601,9 @@ static BoosterPackProto* defaultBoosterPackProtoInstance = nil;
   [self.displayItemsList enumerateObjectsUsingBlock:^(BoosterDisplayItemProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(10, element);
   }];
+  if (self.hasType) {
+    size_ += computeEnumSize(11, self.type);
+  }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
   return size_;
@@ -660,6 +675,9 @@ static BoosterPackProto* defaultBoosterPackProtoInstance = nil;
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }];
+  if (self.hasType) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"type", [NSNumber numberWithInteger:self.type]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -689,6 +707,8 @@ static BoosterPackProto* defaultBoosterPackProtoInstance = nil;
       self.hasMachineImgName == otherMessage.hasMachineImgName &&
       (!self.hasMachineImgName || [self.machineImgName isEqual:otherMessage.machineImgName]) &&
       [self.displayItemsList isEqualToArray:otherMessage.displayItemsList] &&
+      self.hasType == otherMessage.hasType &&
+      (!self.hasType || self.type == otherMessage.type) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -723,11 +743,26 @@ static BoosterPackProto* defaultBoosterPackProtoInstance = nil;
   [self.displayItemsList enumerateObjectsUsingBlock:^(BoosterDisplayItemProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
+  if (self.hasType) {
+    hashCode = hashCode * 31 + self.type;
+  }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
 @end
 
+BOOL BoosterPackProto_BoosterPackTypeIsValidValue(BoosterPackProto_BoosterPackType value) {
+  switch (value) {
+    case BoosterPackProto_BoosterPackTypeNoType:
+    case BoosterPackProto_BoosterPackTypeBasic:
+    case BoosterPackProto_BoosterPackTypeUltimate:
+    case BoosterPackProto_BoosterPackTypeStarter:
+    case BoosterPackProto_BoosterPackTypeRigged:
+      return YES;
+    default:
+      return NO;
+  }
+}
 @interface BoosterPackProto_Builder()
 @property (strong) BoosterPackProto* result;
 @end
@@ -804,6 +839,9 @@ static BoosterPackProto* defaultBoosterPackProtoInstance = nil;
       [result.mutableDisplayItemsList addObjectsFromArray:other.mutableDisplayItemsList];
     }
   }
+  if (other.hasType) {
+    [self setType:other.type];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -867,6 +905,15 @@ static BoosterPackProto* defaultBoosterPackProtoInstance = nil;
         BoosterDisplayItemProto_Builder* subBuilder = [BoosterDisplayItemProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addDisplayItems:[subBuilder buildPartial]];
+        break;
+      }
+      case 88: {
+        BoosterPackProto_BoosterPackType value = (BoosterPackProto_BoosterPackType)[input readEnum];
+        if (BoosterPackProto_BoosterPackTypeIsValidValue(value)) {
+          [self setType:value];
+        } else {
+          [unknownFields mergeVarintField:11 value:value];
+        }
         break;
       }
     }
@@ -1046,6 +1093,22 @@ static BoosterPackProto* defaultBoosterPackProtoInstance = nil;
 }
 - (BoosterPackProto_Builder *)clearDisplayItems {
   result.mutableDisplayItemsList = nil;
+  return self;
+}
+- (BOOL) hasType {
+  return result.hasType;
+}
+- (BoosterPackProto_BoosterPackType) type {
+  return result.type;
+}
+- (BoosterPackProto_Builder*) setType:(BoosterPackProto_BoosterPackType) value {
+  result.hasType = YES;
+  result.type = value;
+  return self;
+}
+- (BoosterPackProto_Builder*) clearTypeList {
+  result.hasType = NO;
+  result.type = BoosterPackProto_BoosterPackTypeNoType;
   return self;
 }
 @end

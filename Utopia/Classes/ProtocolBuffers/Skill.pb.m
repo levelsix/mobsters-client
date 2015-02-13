@@ -56,6 +56,7 @@ BOOL SkillTypeIsValidValue(SkillType value) {
     case SkillTypeInsurance:
     case SkillTypeFlameBreak:
     case SkillTypePoisonSkewer:
+    case SkillTypePoisonFire:
       return YES;
     default:
       return NO;
@@ -66,6 +67,43 @@ BOOL SkillActivationTypeIsValidValue(SkillActivationType value) {
     case SkillActivationTypeUserActivated:
     case SkillActivationTypeAutoActivated:
     case SkillActivationTypePassive:
+      return YES;
+    default:
+      return NO;
+  }
+}
+BOOL SideEffectTypeIsValidValue(SideEffectType value) {
+  switch (value) {
+    case SideEffectTypeNoSideEffect:
+    case SideEffectTypePoisoned:
+    case SideEffectTypeCursed:
+      return YES;
+    default:
+      return NO;
+  }
+}
+BOOL SideEffectTraitTypeIsValidValue(SideEffectTraitType value) {
+  switch (value) {
+    case SideEffectTraitTypeNoTrait:
+    case SideEffectTraitTypeBuff:
+    case SideEffectTraitTypeNerf:
+      return YES;
+    default:
+      return NO;
+  }
+}
+BOOL SideEffectPositionTypeIsValidValue(SideEffectPositionType value) {
+  switch (value) {
+    case SideEffectPositionTypeBelowCharacter:
+    case SideEffectPositionTypeAboveCharacter:
+      return YES;
+    default:
+      return NO;
+  }
+}
+BOOL SideEffectBlendModeIsValidValue(SideEffectBlendMode value) {
+  switch (value) {
+    case SideEffectBlendModeNormalFullOpacity:
       return YES;
     default:
       return NO;
@@ -1091,6 +1129,870 @@ static SkillPropertyProto* defaultSkillPropertyProtoInstance = nil;
 - (SkillPropertyProto_Builder*) clearSkillValue {
   result.hasSkillValue = NO;
   result.skillValue = 0;
+  return self;
+}
+@end
+
+@interface SkillSideEffectProto ()
+@property int32_t skillSideEffectId;
+@property (strong) NSString* name;
+@property (strong) NSString* desc;
+@property SideEffectType type;
+@property SideEffectTraitType traitType;
+@property (strong) NSString* imgName;
+@property int32_t imgPixelOffsetX;
+@property int32_t imgPixelOffsetY;
+@property (strong) NSString* iconImgName;
+@property (strong) NSString* pfxName;
+@property (strong) NSString* pfxColor;
+@property SideEffectPositionType positionType;
+@property int32_t pfxPixelOffsetX;
+@property int32_t pfxPixelOffsetY;
+@property SideEffectBlendMode blendMode;
+@end
+
+@implementation SkillSideEffectProto
+
+- (BOOL) hasSkillSideEffectId {
+  return !!hasSkillSideEffectId_;
+}
+- (void) setHasSkillSideEffectId:(BOOL) value_ {
+  hasSkillSideEffectId_ = !!value_;
+}
+@synthesize skillSideEffectId;
+- (BOOL) hasName {
+  return !!hasName_;
+}
+- (void) setHasName:(BOOL) value_ {
+  hasName_ = !!value_;
+}
+@synthesize name;
+- (BOOL) hasDesc {
+  return !!hasDesc_;
+}
+- (void) setHasDesc:(BOOL) value_ {
+  hasDesc_ = !!value_;
+}
+@synthesize desc;
+- (BOOL) hasType {
+  return !!hasType_;
+}
+- (void) setHasType:(BOOL) value_ {
+  hasType_ = !!value_;
+}
+@synthesize type;
+- (BOOL) hasTraitType {
+  return !!hasTraitType_;
+}
+- (void) setHasTraitType:(BOOL) value_ {
+  hasTraitType_ = !!value_;
+}
+@synthesize traitType;
+- (BOOL) hasImgName {
+  return !!hasImgName_;
+}
+- (void) setHasImgName:(BOOL) value_ {
+  hasImgName_ = !!value_;
+}
+@synthesize imgName;
+- (BOOL) hasImgPixelOffsetX {
+  return !!hasImgPixelOffsetX_;
+}
+- (void) setHasImgPixelOffsetX:(BOOL) value_ {
+  hasImgPixelOffsetX_ = !!value_;
+}
+@synthesize imgPixelOffsetX;
+- (BOOL) hasImgPixelOffsetY {
+  return !!hasImgPixelOffsetY_;
+}
+- (void) setHasImgPixelOffsetY:(BOOL) value_ {
+  hasImgPixelOffsetY_ = !!value_;
+}
+@synthesize imgPixelOffsetY;
+- (BOOL) hasIconImgName {
+  return !!hasIconImgName_;
+}
+- (void) setHasIconImgName:(BOOL) value_ {
+  hasIconImgName_ = !!value_;
+}
+@synthesize iconImgName;
+- (BOOL) hasPfxName {
+  return !!hasPfxName_;
+}
+- (void) setHasPfxName:(BOOL) value_ {
+  hasPfxName_ = !!value_;
+}
+@synthesize pfxName;
+- (BOOL) hasPfxColor {
+  return !!hasPfxColor_;
+}
+- (void) setHasPfxColor:(BOOL) value_ {
+  hasPfxColor_ = !!value_;
+}
+@synthesize pfxColor;
+- (BOOL) hasPositionType {
+  return !!hasPositionType_;
+}
+- (void) setHasPositionType:(BOOL) value_ {
+  hasPositionType_ = !!value_;
+}
+@synthesize positionType;
+- (BOOL) hasPfxPixelOffsetX {
+  return !!hasPfxPixelOffsetX_;
+}
+- (void) setHasPfxPixelOffsetX:(BOOL) value_ {
+  hasPfxPixelOffsetX_ = !!value_;
+}
+@synthesize pfxPixelOffsetX;
+- (BOOL) hasPfxPixelOffsetY {
+  return !!hasPfxPixelOffsetY_;
+}
+- (void) setHasPfxPixelOffsetY:(BOOL) value_ {
+  hasPfxPixelOffsetY_ = !!value_;
+}
+@synthesize pfxPixelOffsetY;
+- (BOOL) hasBlendMode {
+  return !!hasBlendMode_;
+}
+- (void) setHasBlendMode:(BOOL) value_ {
+  hasBlendMode_ = !!value_;
+}
+@synthesize blendMode;
+- (id) init {
+  if ((self = [super init])) {
+    self.skillSideEffectId = 0;
+    self.name = @"";
+    self.desc = @"";
+    self.type = SideEffectTypeNoSideEffect;
+    self.traitType = SideEffectTraitTypeNoTrait;
+    self.imgName = @"";
+    self.imgPixelOffsetX = 0;
+    self.imgPixelOffsetY = 0;
+    self.iconImgName = @"";
+    self.pfxName = @"";
+    self.pfxColor = @"";
+    self.positionType = SideEffectPositionTypeBelowCharacter;
+    self.pfxPixelOffsetX = 0;
+    self.pfxPixelOffsetY = 0;
+    self.blendMode = SideEffectBlendModeNormalFullOpacity;
+  }
+  return self;
+}
+static SkillSideEffectProto* defaultSkillSideEffectProtoInstance = nil;
++ (void) initialize {
+  if (self == [SkillSideEffectProto class]) {
+    defaultSkillSideEffectProtoInstance = [[SkillSideEffectProto alloc] init];
+  }
+}
++ (SkillSideEffectProto*) defaultInstance {
+  return defaultSkillSideEffectProtoInstance;
+}
+- (SkillSideEffectProto*) defaultInstance {
+  return defaultSkillSideEffectProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSkillSideEffectId) {
+    [output writeInt32:1 value:self.skillSideEffectId];
+  }
+  if (self.hasName) {
+    [output writeString:2 value:self.name];
+  }
+  if (self.hasDesc) {
+    [output writeString:3 value:self.desc];
+  }
+  if (self.hasType) {
+    [output writeEnum:4 value:self.type];
+  }
+  if (self.hasTraitType) {
+    [output writeEnum:5 value:self.traitType];
+  }
+  if (self.hasImgName) {
+    [output writeString:6 value:self.imgName];
+  }
+  if (self.hasImgPixelOffsetX) {
+    [output writeInt32:7 value:self.imgPixelOffsetX];
+  }
+  if (self.hasImgPixelOffsetY) {
+    [output writeInt32:8 value:self.imgPixelOffsetY];
+  }
+  if (self.hasIconImgName) {
+    [output writeString:9 value:self.iconImgName];
+  }
+  if (self.hasPfxName) {
+    [output writeString:10 value:self.pfxName];
+  }
+  if (self.hasPfxColor) {
+    [output writeString:11 value:self.pfxColor];
+  }
+  if (self.hasPositionType) {
+    [output writeEnum:12 value:self.positionType];
+  }
+  if (self.hasPfxPixelOffsetX) {
+    [output writeInt32:13 value:self.pfxPixelOffsetX];
+  }
+  if (self.hasPfxPixelOffsetY) {
+    [output writeInt32:14 value:self.pfxPixelOffsetY];
+  }
+  if (self.hasBlendMode) {
+    [output writeEnum:15 value:self.blendMode];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasSkillSideEffectId) {
+    size_ += computeInt32Size(1, self.skillSideEffectId);
+  }
+  if (self.hasName) {
+    size_ += computeStringSize(2, self.name);
+  }
+  if (self.hasDesc) {
+    size_ += computeStringSize(3, self.desc);
+  }
+  if (self.hasType) {
+    size_ += computeEnumSize(4, self.type);
+  }
+  if (self.hasTraitType) {
+    size_ += computeEnumSize(5, self.traitType);
+  }
+  if (self.hasImgName) {
+    size_ += computeStringSize(6, self.imgName);
+  }
+  if (self.hasImgPixelOffsetX) {
+    size_ += computeInt32Size(7, self.imgPixelOffsetX);
+  }
+  if (self.hasImgPixelOffsetY) {
+    size_ += computeInt32Size(8, self.imgPixelOffsetY);
+  }
+  if (self.hasIconImgName) {
+    size_ += computeStringSize(9, self.iconImgName);
+  }
+  if (self.hasPfxName) {
+    size_ += computeStringSize(10, self.pfxName);
+  }
+  if (self.hasPfxColor) {
+    size_ += computeStringSize(11, self.pfxColor);
+  }
+  if (self.hasPositionType) {
+    size_ += computeEnumSize(12, self.positionType);
+  }
+  if (self.hasPfxPixelOffsetX) {
+    size_ += computeInt32Size(13, self.pfxPixelOffsetX);
+  }
+  if (self.hasPfxPixelOffsetY) {
+    size_ += computeInt32Size(14, self.pfxPixelOffsetY);
+  }
+  if (self.hasBlendMode) {
+    size_ += computeEnumSize(15, self.blendMode);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (SkillSideEffectProto*) parseFromData:(NSData*) data {
+  return (SkillSideEffectProto*)[[[SkillSideEffectProto builder] mergeFromData:data] build];
+}
++ (SkillSideEffectProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SkillSideEffectProto*)[[[SkillSideEffectProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (SkillSideEffectProto*) parseFromInputStream:(NSInputStream*) input {
+  return (SkillSideEffectProto*)[[[SkillSideEffectProto builder] mergeFromInputStream:input] build];
+}
++ (SkillSideEffectProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SkillSideEffectProto*)[[[SkillSideEffectProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (SkillSideEffectProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (SkillSideEffectProto*)[[[SkillSideEffectProto builder] mergeFromCodedInputStream:input] build];
+}
++ (SkillSideEffectProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SkillSideEffectProto*)[[[SkillSideEffectProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (SkillSideEffectProto_Builder*) builder {
+  return [[SkillSideEffectProto_Builder alloc] init];
+}
++ (SkillSideEffectProto_Builder*) builderWithPrototype:(SkillSideEffectProto*) prototype {
+  return [[SkillSideEffectProto builder] mergeFrom:prototype];
+}
+- (SkillSideEffectProto_Builder*) builder {
+  return [SkillSideEffectProto builder];
+}
+- (SkillSideEffectProto_Builder*) toBuilder {
+  return [SkillSideEffectProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasSkillSideEffectId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"skillSideEffectId", [NSNumber numberWithInteger:self.skillSideEffectId]];
+  }
+  if (self.hasName) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"name", self.name];
+  }
+  if (self.hasDesc) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"desc", self.desc];
+  }
+  if (self.hasType) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"type", [NSNumber numberWithInteger:self.type]];
+  }
+  if (self.hasTraitType) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"traitType", [NSNumber numberWithInteger:self.traitType]];
+  }
+  if (self.hasImgName) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"imgName", self.imgName];
+  }
+  if (self.hasImgPixelOffsetX) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"imgPixelOffsetX", [NSNumber numberWithInteger:self.imgPixelOffsetX]];
+  }
+  if (self.hasImgPixelOffsetY) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"imgPixelOffsetY", [NSNumber numberWithInteger:self.imgPixelOffsetY]];
+  }
+  if (self.hasIconImgName) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"iconImgName", self.iconImgName];
+  }
+  if (self.hasPfxName) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"pfxName", self.pfxName];
+  }
+  if (self.hasPfxColor) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"pfxColor", self.pfxColor];
+  }
+  if (self.hasPositionType) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"positionType", [NSNumber numberWithInteger:self.positionType]];
+  }
+  if (self.hasPfxPixelOffsetX) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"pfxPixelOffsetX", [NSNumber numberWithInteger:self.pfxPixelOffsetX]];
+  }
+  if (self.hasPfxPixelOffsetY) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"pfxPixelOffsetY", [NSNumber numberWithInteger:self.pfxPixelOffsetY]];
+  }
+  if (self.hasBlendMode) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"blendMode", [NSNumber numberWithInteger:self.blendMode]];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[SkillSideEffectProto class]]) {
+    return NO;
+  }
+  SkillSideEffectProto *otherMessage = other;
+  return
+      self.hasSkillSideEffectId == otherMessage.hasSkillSideEffectId &&
+      (!self.hasSkillSideEffectId || self.skillSideEffectId == otherMessage.skillSideEffectId) &&
+      self.hasName == otherMessage.hasName &&
+      (!self.hasName || [self.name isEqual:otherMessage.name]) &&
+      self.hasDesc == otherMessage.hasDesc &&
+      (!self.hasDesc || [self.desc isEqual:otherMessage.desc]) &&
+      self.hasType == otherMessage.hasType &&
+      (!self.hasType || self.type == otherMessage.type) &&
+      self.hasTraitType == otherMessage.hasTraitType &&
+      (!self.hasTraitType || self.traitType == otherMessage.traitType) &&
+      self.hasImgName == otherMessage.hasImgName &&
+      (!self.hasImgName || [self.imgName isEqual:otherMessage.imgName]) &&
+      self.hasImgPixelOffsetX == otherMessage.hasImgPixelOffsetX &&
+      (!self.hasImgPixelOffsetX || self.imgPixelOffsetX == otherMessage.imgPixelOffsetX) &&
+      self.hasImgPixelOffsetY == otherMessage.hasImgPixelOffsetY &&
+      (!self.hasImgPixelOffsetY || self.imgPixelOffsetY == otherMessage.imgPixelOffsetY) &&
+      self.hasIconImgName == otherMessage.hasIconImgName &&
+      (!self.hasIconImgName || [self.iconImgName isEqual:otherMessage.iconImgName]) &&
+      self.hasPfxName == otherMessage.hasPfxName &&
+      (!self.hasPfxName || [self.pfxName isEqual:otherMessage.pfxName]) &&
+      self.hasPfxColor == otherMessage.hasPfxColor &&
+      (!self.hasPfxColor || [self.pfxColor isEqual:otherMessage.pfxColor]) &&
+      self.hasPositionType == otherMessage.hasPositionType &&
+      (!self.hasPositionType || self.positionType == otherMessage.positionType) &&
+      self.hasPfxPixelOffsetX == otherMessage.hasPfxPixelOffsetX &&
+      (!self.hasPfxPixelOffsetX || self.pfxPixelOffsetX == otherMessage.pfxPixelOffsetX) &&
+      self.hasPfxPixelOffsetY == otherMessage.hasPfxPixelOffsetY &&
+      (!self.hasPfxPixelOffsetY || self.pfxPixelOffsetY == otherMessage.pfxPixelOffsetY) &&
+      self.hasBlendMode == otherMessage.hasBlendMode &&
+      (!self.hasBlendMode || self.blendMode == otherMessage.blendMode) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasSkillSideEffectId) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.skillSideEffectId] hash];
+  }
+  if (self.hasName) {
+    hashCode = hashCode * 31 + [self.name hash];
+  }
+  if (self.hasDesc) {
+    hashCode = hashCode * 31 + [self.desc hash];
+  }
+  if (self.hasType) {
+    hashCode = hashCode * 31 + self.type;
+  }
+  if (self.hasTraitType) {
+    hashCode = hashCode * 31 + self.traitType;
+  }
+  if (self.hasImgName) {
+    hashCode = hashCode * 31 + [self.imgName hash];
+  }
+  if (self.hasImgPixelOffsetX) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.imgPixelOffsetX] hash];
+  }
+  if (self.hasImgPixelOffsetY) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.imgPixelOffsetY] hash];
+  }
+  if (self.hasIconImgName) {
+    hashCode = hashCode * 31 + [self.iconImgName hash];
+  }
+  if (self.hasPfxName) {
+    hashCode = hashCode * 31 + [self.pfxName hash];
+  }
+  if (self.hasPfxColor) {
+    hashCode = hashCode * 31 + [self.pfxColor hash];
+  }
+  if (self.hasPositionType) {
+    hashCode = hashCode * 31 + self.positionType;
+  }
+  if (self.hasPfxPixelOffsetX) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.pfxPixelOffsetX] hash];
+  }
+  if (self.hasPfxPixelOffsetY) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.pfxPixelOffsetY] hash];
+  }
+  if (self.hasBlendMode) {
+    hashCode = hashCode * 31 + self.blendMode;
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+@interface SkillSideEffectProto_Builder()
+@property (strong) SkillSideEffectProto* result;
+@end
+
+@implementation SkillSideEffectProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[SkillSideEffectProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (SkillSideEffectProto_Builder*) clear {
+  self.result = [[SkillSideEffectProto alloc] init];
+  return self;
+}
+- (SkillSideEffectProto_Builder*) clone {
+  return [SkillSideEffectProto builderWithPrototype:result];
+}
+- (SkillSideEffectProto*) defaultInstance {
+  return [SkillSideEffectProto defaultInstance];
+}
+- (SkillSideEffectProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (SkillSideEffectProto*) buildPartial {
+  SkillSideEffectProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (SkillSideEffectProto_Builder*) mergeFrom:(SkillSideEffectProto*) other {
+  if (other == [SkillSideEffectProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSkillSideEffectId) {
+    [self setSkillSideEffectId:other.skillSideEffectId];
+  }
+  if (other.hasName) {
+    [self setName:other.name];
+  }
+  if (other.hasDesc) {
+    [self setDesc:other.desc];
+  }
+  if (other.hasType) {
+    [self setType:other.type];
+  }
+  if (other.hasTraitType) {
+    [self setTraitType:other.traitType];
+  }
+  if (other.hasImgName) {
+    [self setImgName:other.imgName];
+  }
+  if (other.hasImgPixelOffsetX) {
+    [self setImgPixelOffsetX:other.imgPixelOffsetX];
+  }
+  if (other.hasImgPixelOffsetY) {
+    [self setImgPixelOffsetY:other.imgPixelOffsetY];
+  }
+  if (other.hasIconImgName) {
+    [self setIconImgName:other.iconImgName];
+  }
+  if (other.hasPfxName) {
+    [self setPfxName:other.pfxName];
+  }
+  if (other.hasPfxColor) {
+    [self setPfxColor:other.pfxColor];
+  }
+  if (other.hasPositionType) {
+    [self setPositionType:other.positionType];
+  }
+  if (other.hasPfxPixelOffsetX) {
+    [self setPfxPixelOffsetX:other.pfxPixelOffsetX];
+  }
+  if (other.hasPfxPixelOffsetY) {
+    [self setPfxPixelOffsetY:other.pfxPixelOffsetY];
+  }
+  if (other.hasBlendMode) {
+    [self setBlendMode:other.blendMode];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (SkillSideEffectProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (SkillSideEffectProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setSkillSideEffectId:[input readInt32]];
+        break;
+      }
+      case 18: {
+        [self setName:[input readString]];
+        break;
+      }
+      case 26: {
+        [self setDesc:[input readString]];
+        break;
+      }
+      case 32: {
+        SideEffectType value = (SideEffectType)[input readEnum];
+        if (SideEffectTypeIsValidValue(value)) {
+          [self setType:value];
+        } else {
+          [unknownFields mergeVarintField:4 value:value];
+        }
+        break;
+      }
+      case 40: {
+        SideEffectTraitType value = (SideEffectTraitType)[input readEnum];
+        if (SideEffectTraitTypeIsValidValue(value)) {
+          [self setTraitType:value];
+        } else {
+          [unknownFields mergeVarintField:5 value:value];
+        }
+        break;
+      }
+      case 50: {
+        [self setImgName:[input readString]];
+        break;
+      }
+      case 56: {
+        [self setImgPixelOffsetX:[input readInt32]];
+        break;
+      }
+      case 64: {
+        [self setImgPixelOffsetY:[input readInt32]];
+        break;
+      }
+      case 74: {
+        [self setIconImgName:[input readString]];
+        break;
+      }
+      case 82: {
+        [self setPfxName:[input readString]];
+        break;
+      }
+      case 90: {
+        [self setPfxColor:[input readString]];
+        break;
+      }
+      case 96: {
+        SideEffectPositionType value = (SideEffectPositionType)[input readEnum];
+        if (SideEffectPositionTypeIsValidValue(value)) {
+          [self setPositionType:value];
+        } else {
+          [unknownFields mergeVarintField:12 value:value];
+        }
+        break;
+      }
+      case 104: {
+        [self setPfxPixelOffsetX:[input readInt32]];
+        break;
+      }
+      case 112: {
+        [self setPfxPixelOffsetY:[input readInt32]];
+        break;
+      }
+      case 120: {
+        SideEffectBlendMode value = (SideEffectBlendMode)[input readEnum];
+        if (SideEffectBlendModeIsValidValue(value)) {
+          [self setBlendMode:value];
+        } else {
+          [unknownFields mergeVarintField:15 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSkillSideEffectId {
+  return result.hasSkillSideEffectId;
+}
+- (int32_t) skillSideEffectId {
+  return result.skillSideEffectId;
+}
+- (SkillSideEffectProto_Builder*) setSkillSideEffectId:(int32_t) value {
+  result.hasSkillSideEffectId = YES;
+  result.skillSideEffectId = value;
+  return self;
+}
+- (SkillSideEffectProto_Builder*) clearSkillSideEffectId {
+  result.hasSkillSideEffectId = NO;
+  result.skillSideEffectId = 0;
+  return self;
+}
+- (BOOL) hasName {
+  return result.hasName;
+}
+- (NSString*) name {
+  return result.name;
+}
+- (SkillSideEffectProto_Builder*) setName:(NSString*) value {
+  result.hasName = YES;
+  result.name = value;
+  return self;
+}
+- (SkillSideEffectProto_Builder*) clearName {
+  result.hasName = NO;
+  result.name = @"";
+  return self;
+}
+- (BOOL) hasDesc {
+  return result.hasDesc;
+}
+- (NSString*) desc {
+  return result.desc;
+}
+- (SkillSideEffectProto_Builder*) setDesc:(NSString*) value {
+  result.hasDesc = YES;
+  result.desc = value;
+  return self;
+}
+- (SkillSideEffectProto_Builder*) clearDesc {
+  result.hasDesc = NO;
+  result.desc = @"";
+  return self;
+}
+- (BOOL) hasType {
+  return result.hasType;
+}
+- (SideEffectType) type {
+  return result.type;
+}
+- (SkillSideEffectProto_Builder*) setType:(SideEffectType) value {
+  result.hasType = YES;
+  result.type = value;
+  return self;
+}
+- (SkillSideEffectProto_Builder*) clearTypeList {
+  result.hasType = NO;
+  result.type = SideEffectTypeNoSideEffect;
+  return self;
+}
+- (BOOL) hasTraitType {
+  return result.hasTraitType;
+}
+- (SideEffectTraitType) traitType {
+  return result.traitType;
+}
+- (SkillSideEffectProto_Builder*) setTraitType:(SideEffectTraitType) value {
+  result.hasTraitType = YES;
+  result.traitType = value;
+  return self;
+}
+- (SkillSideEffectProto_Builder*) clearTraitTypeList {
+  result.hasTraitType = NO;
+  result.traitType = SideEffectTraitTypeNoTrait;
+  return self;
+}
+- (BOOL) hasImgName {
+  return result.hasImgName;
+}
+- (NSString*) imgName {
+  return result.imgName;
+}
+- (SkillSideEffectProto_Builder*) setImgName:(NSString*) value {
+  result.hasImgName = YES;
+  result.imgName = value;
+  return self;
+}
+- (SkillSideEffectProto_Builder*) clearImgName {
+  result.hasImgName = NO;
+  result.imgName = @"";
+  return self;
+}
+- (BOOL) hasImgPixelOffsetX {
+  return result.hasImgPixelOffsetX;
+}
+- (int32_t) imgPixelOffsetX {
+  return result.imgPixelOffsetX;
+}
+- (SkillSideEffectProto_Builder*) setImgPixelOffsetX:(int32_t) value {
+  result.hasImgPixelOffsetX = YES;
+  result.imgPixelOffsetX = value;
+  return self;
+}
+- (SkillSideEffectProto_Builder*) clearImgPixelOffsetX {
+  result.hasImgPixelOffsetX = NO;
+  result.imgPixelOffsetX = 0;
+  return self;
+}
+- (BOOL) hasImgPixelOffsetY {
+  return result.hasImgPixelOffsetY;
+}
+- (int32_t) imgPixelOffsetY {
+  return result.imgPixelOffsetY;
+}
+- (SkillSideEffectProto_Builder*) setImgPixelOffsetY:(int32_t) value {
+  result.hasImgPixelOffsetY = YES;
+  result.imgPixelOffsetY = value;
+  return self;
+}
+- (SkillSideEffectProto_Builder*) clearImgPixelOffsetY {
+  result.hasImgPixelOffsetY = NO;
+  result.imgPixelOffsetY = 0;
+  return self;
+}
+- (BOOL) hasIconImgName {
+  return result.hasIconImgName;
+}
+- (NSString*) iconImgName {
+  return result.iconImgName;
+}
+- (SkillSideEffectProto_Builder*) setIconImgName:(NSString*) value {
+  result.hasIconImgName = YES;
+  result.iconImgName = value;
+  return self;
+}
+- (SkillSideEffectProto_Builder*) clearIconImgName {
+  result.hasIconImgName = NO;
+  result.iconImgName = @"";
+  return self;
+}
+- (BOOL) hasPfxName {
+  return result.hasPfxName;
+}
+- (NSString*) pfxName {
+  return result.pfxName;
+}
+- (SkillSideEffectProto_Builder*) setPfxName:(NSString*) value {
+  result.hasPfxName = YES;
+  result.pfxName = value;
+  return self;
+}
+- (SkillSideEffectProto_Builder*) clearPfxName {
+  result.hasPfxName = NO;
+  result.pfxName = @"";
+  return self;
+}
+- (BOOL) hasPfxColor {
+  return result.hasPfxColor;
+}
+- (NSString*) pfxColor {
+  return result.pfxColor;
+}
+- (SkillSideEffectProto_Builder*) setPfxColor:(NSString*) value {
+  result.hasPfxColor = YES;
+  result.pfxColor = value;
+  return self;
+}
+- (SkillSideEffectProto_Builder*) clearPfxColor {
+  result.hasPfxColor = NO;
+  result.pfxColor = @"";
+  return self;
+}
+- (BOOL) hasPositionType {
+  return result.hasPositionType;
+}
+- (SideEffectPositionType) positionType {
+  return result.positionType;
+}
+- (SkillSideEffectProto_Builder*) setPositionType:(SideEffectPositionType) value {
+  result.hasPositionType = YES;
+  result.positionType = value;
+  return self;
+}
+- (SkillSideEffectProto_Builder*) clearPositionTypeList {
+  result.hasPositionType = NO;
+  result.positionType = SideEffectPositionTypeBelowCharacter;
+  return self;
+}
+- (BOOL) hasPfxPixelOffsetX {
+  return result.hasPfxPixelOffsetX;
+}
+- (int32_t) pfxPixelOffsetX {
+  return result.pfxPixelOffsetX;
+}
+- (SkillSideEffectProto_Builder*) setPfxPixelOffsetX:(int32_t) value {
+  result.hasPfxPixelOffsetX = YES;
+  result.pfxPixelOffsetX = value;
+  return self;
+}
+- (SkillSideEffectProto_Builder*) clearPfxPixelOffsetX {
+  result.hasPfxPixelOffsetX = NO;
+  result.pfxPixelOffsetX = 0;
+  return self;
+}
+- (BOOL) hasPfxPixelOffsetY {
+  return result.hasPfxPixelOffsetY;
+}
+- (int32_t) pfxPixelOffsetY {
+  return result.pfxPixelOffsetY;
+}
+- (SkillSideEffectProto_Builder*) setPfxPixelOffsetY:(int32_t) value {
+  result.hasPfxPixelOffsetY = YES;
+  result.pfxPixelOffsetY = value;
+  return self;
+}
+- (SkillSideEffectProto_Builder*) clearPfxPixelOffsetY {
+  result.hasPfxPixelOffsetY = NO;
+  result.pfxPixelOffsetY = 0;
+  return self;
+}
+- (BOOL) hasBlendMode {
+  return result.hasBlendMode;
+}
+- (SideEffectBlendMode) blendMode {
+  return result.blendMode;
+}
+- (SkillSideEffectProto_Builder*) setBlendMode:(SideEffectBlendMode) value {
+  result.hasBlendMode = YES;
+  result.blendMode = value;
+  return self;
+}
+- (SkillSideEffectProto_Builder*) clearBlendModeList {
+  result.hasBlendMode = NO;
+  result.blendMode = SideEffectBlendModeNormalFullOpacity;
   return self;
 }
 @end

@@ -161,6 +161,8 @@
 @class SkillPropertyProto_Builder;
 @class SkillProto;
 @class SkillProto_Builder;
+@class SkillSideEffectProto;
+@class SkillSideEffectProto_Builder;
 @class StaticDataProto;
 @class StaticDataProto_Builder;
 @class StaticUserLevelInfoProto;

@@ -94,6 +94,8 @@
 
 - (void) openGemShop;
 
+- (void) openPushNotificationRequestWithMessage:(NSString *) message;
+
 - (void) questComplete:(FullQuestProto *)fqp;
 - (void) beginDialogue:(DialogueProto *)proto withQuestId:(int)questId;
 

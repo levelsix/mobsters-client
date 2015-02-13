@@ -13,6 +13,9 @@
 #import "NibUtils.h"
 #import "HomeViewController.h"
 
+
+#define SECRET_GIFTS_ACCEPTED_KEY @"secretGiftsAccepted"
+
 @interface SecretGiftViewController : UIViewController
 
 @property (nonatomic, strong) IBOutlet THLabel *congratsLabel;

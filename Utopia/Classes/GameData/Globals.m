@@ -52,6 +52,16 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return self;
 }
 
++ (void) registerUserForPushNotifications {
+  GameState *gs = [GameState sharedGameState];
+  AppDelegate *ad = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+  [ad registerForPushNotifications];
+  [ad removeLocalNotifications];
+  if (ad.apnsToken && ![ad.apnsToken isEqualToString:gs.deviceToken]) {
+    [[OutgoingEventController sharedOutgoingEventController] enableApns:ad.apnsToken];
+  }
+}
+
 - (void) updateInAppPurchases {
   NSMutableDictionary *dict = [NSMutableDictionary dictionary];
   
@@ -759,7 +769,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   va_end(params);
 }
 
-#pragma mark - Strings
+#pragma mark - 
+
++ (NSString *) userConfimredPushNotificationsKey {
+  return @"userConfimredPushNotificationsKey";
+}
 
 + (NSString *) cashStringForNumber:(int)n {
   return [NSString stringWithFormat:@"$%@", [self commafyNumber:n]];

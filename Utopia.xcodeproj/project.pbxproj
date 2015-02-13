@@ -1077,6 +1077,15 @@
 		63AB75561A79D17400CFC2B4 /* jobsbutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63AB754C1A79D17400CFC2B4 /* jobsbutton@2x.png */; };
 		63AB75571A79D17400CFC2B4 /* jobsbutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63AB754C1A79D17400CFC2B4 /* jobsbutton@2x.png */; };
 		63AB75581A79D17400CFC2B4 /* jobsbutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63AB754C1A79D17400CFC2B4 /* jobsbutton@2x.png */; };
+		63B044C11A8BE86F00C74F0C /* RequestPushNotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B044BF1A8BE86F00C74F0C /* RequestPushNotificationViewController.m */; };
+		63B044C21A8BE86F00C74F0C /* RequestPushNotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B044BF1A8BE86F00C74F0C /* RequestPushNotificationViewController.m */; };
+		63B044C31A8BE86F00C74F0C /* RequestPushNotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B044BF1A8BE86F00C74F0C /* RequestPushNotificationViewController.m */; };
+		63B044C41A8BE86F00C74F0C /* RequestPushNotificationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63B044C01A8BE86F00C74F0C /* RequestPushNotificationViewController.xib */; };
+		63B044C51A8BE86F00C74F0C /* RequestPushNotificationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63B044C01A8BE86F00C74F0C /* RequestPushNotificationViewController.xib */; };
+		63B044C61A8BE86F00C74F0C /* RequestPushNotificationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63B044C01A8BE86F00C74F0C /* RequestPushNotificationViewController.xib */; };
+		63B044C91A8C167B00C74F0C /* chatbubbleline@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63B044C81A8C167B00C74F0C /* chatbubbleline@2x.png */; };
+		63B044CA1A8C167B00C74F0C /* chatbubbleline@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63B044C81A8C167B00C74F0C /* chatbubbleline@2x.png */; };
+		63B044CB1A8C167B00C74F0C /* chatbubbleline@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63B044C81A8C167B00C74F0C /* chatbubbleline@2x.png */; };
 		63B7BEFC1A7090EA00C62FB7 /* blackborder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63B7BEFB1A7090EA00C62FB7 /* blackborder@2x.png */; };
 		63BACADF1A71A7D9000A641A /* DailyEventScheduleViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63BACADE1A71A7D9000A641A /* DailyEventScheduleViewController.xib */; };
 		63BACAE31A71A816000A641A /* DailyEventScheduleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63BACAE21A71A816000A641A /* DailyEventScheduleViewController.m */; };
@@ -8067,6 +8076,10 @@
 		63AB754A1A79D17400CFC2B4 /* girl2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "girl2@2x.png"; sourceTree = "<group>"; };
 		63AB754B1A79D17400CFC2B4 /* girl3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "girl3@2x.png"; sourceTree = "<group>"; };
 		63AB754C1A79D17400CFC2B4 /* jobsbutton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jobsbutton@2x.png"; sourceTree = "<group>"; };
+		63B044BE1A8BE86F00C74F0C /* RequestPushNotificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RequestPushNotificationViewController.h; path = PushNotiifcations/RequestPushNotificationViewController.h; sourceTree = "<group>"; };
+		63B044BF1A8BE86F00C74F0C /* RequestPushNotificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RequestPushNotificationViewController.m; path = PushNotiifcations/RequestPushNotificationViewController.m; sourceTree = "<group>"; };
+		63B044C01A8BE86F00C74F0C /* RequestPushNotificationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RequestPushNotificationViewController.xib; path = PushNotiifcations/RequestPushNotificationViewController.xib; sourceTree = "<group>"; };
+		63B044C81A8C167B00C74F0C /* chatbubbleline@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "chatbubbleline@2x.png"; path = "EnableNotifications/chatbubbleline@2x.png"; sourceTree = "<group>"; };
 		63B7BEFB1A7090EA00C62FB7 /* blackborder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blackborder@2x.png"; sourceTree = "<group>"; };
 		63BACADE1A71A7D9000A641A /* DailyEventScheduleViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DailyEventScheduleViewController.xib; sourceTree = "<group>"; };
 		63BACAE11A71A816000A641A /* DailyEventScheduleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DailyEventScheduleViewController.h; sourceTree = "<group>"; };
@@ -13524,6 +13537,24 @@
 			path = "New tribal girl poses";
 			sourceTree = "<group>";
 		};
+		63B044BC1A8BE79A00C74F0C /* PushNotifications */ = {
+			isa = PBXGroup;
+			children = (
+				63B044BE1A8BE86F00C74F0C /* RequestPushNotificationViewController.h */,
+				63B044BF1A8BE86F00C74F0C /* RequestPushNotificationViewController.m */,
+				63B044C01A8BE86F00C74F0C /* RequestPushNotificationViewController.xib */,
+			);
+			name = PushNotifications;
+			sourceTree = "<group>";
+		};
+		63B044C71A8C165D00C74F0C /* EnableNotifications */ = {
+			isa = PBXGroup;
+			children = (
+				63B044C81A8C167B00C74F0C /* chatbubbleline@2x.png */,
+			);
+			name = EnableNotifications;
+			sourceTree = "<group>";
+		};
 		63BACAE41A71B7C2000A641A /* Calendar */ = {
 			isa = PBXGroup;
 			children = (
@@ -14238,6 +14269,7 @@
 		CF1265491538ACC400E0C1AD /* Game Menus */ = {
 			isa = PBXGroup;
 			children = (
+				63B044BC1A8BE79A00C74F0C /* PushNotifications */,
 				29FC5E851A89416600A50FA7 /* SaleMenu */,
 				2991FC061A800D85009BB1D8 /* Popovers */,
 				29AAE5E01A7B0F7300E4F022 /* DonateMsgMenu */,
@@ -14413,6 +14445,7 @@
 		CF1267741538ACC500E0C1AD /* Utopia Images */ = {
 			isa = PBXGroup;
 			children = (
+				63B044C71A8C165D00C74F0C /* EnableNotifications */,
 				29FC5E8F1A89427B00A50FA7 /* Builder Starter Pack */,
 				2965487E1A81C4170080B195 /* Statues */,
 				634174571A843521006DA494 /* New Private Messages */,
@@ -19766,6 +19799,7 @@
 				634174721A843521006DA494 /* greenchatmiddle@2x.png in Resources */,
 				CF0CF372196F452900ECD301 /* platinumribbon@2x.png in Resources */,
 				CF9F996519E49D20006B0119 /* superjob@2x.png in Resources */,
+				63B044CA1A8C167B00C74F0C /* chatbubbleline@2x.png in Resources */,
 				CFA793781A0C63ED00DF3407 /* earthcakeeventlive@2x.png in Resources */,
 				9B41AF2C1A7C334C00529879 /* bulletorb-9@2x.png in Resources */,
 				CF0CF374196F452900ECD301 /* questnumberbg@2x.png in Resources */,
@@ -20812,6 +20846,7 @@
 				29E00D521A7997D300F34D51 /* bomblabel@2x.png in Resources */,
 				CF3737AA19E3767600CB16E3 /* obtimerpurplecap@2x.png in Resources */,
 				CF0CF81F196F452900ECD301 /* sell@2x.png in Resources */,
+				63B044C51A8BE86F00C74F0C /* RequestPushNotificationViewController.xib in Resources */,
 				CF0CF820196F452900ECD301 /* buildingspinner@2x.png in Resources */,
 				CF010F3E19DDFBDD00DAD527 /* 6thebasicgrab@2x.png in Resources */,
 				9BC9F32B1A8B05B3009DC3D5 /* 6energizeorb-9@2x.png in Resources */,
@@ -21618,6 +21653,7 @@
 				CF134A8418A5E4B500D7D700 /* FatBoy5Move01@2x.png in Resources */,
 				CFA9F79C1A0D8F6300EBE77D /* greyitemsbutton@2x.png in Resources */,
 				CFF2C941193FD71F00F28D9E /* chatglobalinactive@2x.png in Resources */,
+				63B044C41A8BE86F00C74F0C /* RequestPushNotificationViewController.xib in Resources */,
 				CFC9716B182C5AA400FF1D83 /* streak@2x.png in Resources */,
 				29AF1C661A43AB1100E8E457 /* borderroundeddark@2x.png in Resources */,
 				CFF7876318E28FE200413E78 /* upgradecheckbg@2x.png in Resources */,
@@ -21766,6 +21802,7 @@
 				CF29E93919620DB600B40DA4 /* enhancelabmenuheader@2x.png in Resources */,
 				CF0CF84B196F4AA000ECD301 /* tips.txt in Resources */,
 				9BB9491F1A6E1197006EE920 /* lightgrbackground@2x.png in Resources */,
+				63B044C91A8C167B00C74F0C /* chatbubbleline@2x.png in Resources */,
 				634174771A843521006DA494 /* greencheck@2x.png in Resources */,
 				DA6EBF5119C273EE0020B628 /* goosplashlogo@2x.png in Resources */,
 				CF145B2F19218E0200AD1D5A /* legendjob@2x.png in Resources */,
@@ -23628,6 +23665,7 @@
 				CF481D8F19F7217F00041486 /* sfx_building_complete.mp3 in Resources */,
 				CF481D9019F7217F00041486 /* Scientist1Turn03@2x.png in Resources */,
 				CFA9F7C81A0D8F6300EBE77D /* yellowitemsbutton@2x.png in Resources */,
+				63B044CB1A8C167B00C74F0C /* chatbubbleline@2x.png in Resources */,
 				CF481D9219F7217F00041486 /* waterfeederevent@2x.png in Resources */,
 				CF481D9319F7217F00041486 /* Scientist4Breath02@2x.png in Resources */,
 				CF481D9419F7217F00041486 /* Whitney-Bold.otf in Resources */,
@@ -23875,6 +23913,7 @@
 				9B41AEC01A7C191300529879 /* 6graveorb-9@2x.png in Resources */,
 				CF481EDA19F7217F00041486 /* Scientist1Turn12@2x.png in Resources */,
 				CF481EDC19F7217F00041486 /* battledonegreen@2x.png in Resources */,
+				63B044C61A8BE86F00C74F0C /* RequestPushNotificationViewController.xib in Resources */,
 				CF481EE019F7217F00041486 /* levelnumber@2x.png in Resources */,
 				CF481EE319F7217F00041486 /* 4x4buildingframe@2x.png in Resources */,
 				29AE75C21A6F36E000264070 /* MilitaryChicken1T1RunNF@2x.plist in Resources */,
@@ -25501,6 +25540,7 @@
 				CF0CED92196F452900ECD301 /* AchievementsViewController.m in Sources */,
 				CF0CED93196F452900ECD301 /* EventApns.pb.m in Sources */,
 				CF7CFE2719A55A68009338A2 /* BattleSwap.m in Sources */,
+				63B044C21A8BE86F00C74F0C /* RequestPushNotificationViewController.m in Sources */,
 				CF0CED94196F452900ECD301 /* TeamViewController.m in Sources */,
 				CF0CED95196F452900ECD301 /* InAppPurchaseData.m in Sources */,
 				CF0CED96196F452900ECD301 /* FullQuestProto+JobAccess.m in Sources */,
@@ -25863,6 +25903,7 @@
 				CFCE571D1813BC0700494F8C /* ProfileViewController.m in Sources */,
 				CF54942518C56EBE001E7D32 /* TutorialBattleLayer.m in Sources */,
 				CF023CB61992ED9E0082FE61 /* BattleSchedule.m in Sources */,
+				63B044C11A8BE86F00C74F0C /* RequestPushNotificationViewController.m in Sources */,
 				CF15BA8616572A8400A51F85 /* AMQPQueue.m in Sources */,
 				CF746134196A0D73002D6AE6 /* TutorialBuildingViewController.m in Sources */,
 				CFE11F6E1A141C040094F797 /* amqp_connection.c in Sources */,
@@ -26182,6 +26223,7 @@
 				CF48193E19F7217F00041486 /* AchievementsViewController.m in Sources */,
 				CF48193F19F7217F00041486 /* EventApns.pb.m in Sources */,
 				CF48194019F7217F00041486 /* BattleSwap.m in Sources */,
+				63B044C31A8BE86F00C74F0C /* RequestPushNotificationViewController.m in Sources */,
 				CF48194119F7217F00041486 /* TeamViewController.m in Sources */,
 				CF48194219F7217F00041486 /* InAppPurchaseData.m in Sources */,
 				CF48194319F7217F00041486 /* FullQuestProto+JobAccess.m in Sources */,

@@ -2881,6 +2881,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property BOOL displayRarity;
 @property int32_t taskIdOfFirstSkill;
 @property int32_t minsToResolicitTeamDonation;
+@property (strong) NSMutableArray * mutableFileDownloadProtoList;
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -3148,6 +3149,8 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasMinsToResolicitTeamDonation_ = !!value_;
 }
 @synthesize minsToResolicitTeamDonation;
+@synthesize mutableFileDownloadProtoList;
+@dynamic fileDownloadProtoList;
 - (id) init {
   if ((self = [super init])) {
     self.maxLevelForUser = 0;
@@ -3228,6 +3231,12 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
 }
 - (StartupResponseProto_StartupConstants_ResourceConversionConstantProto*)rccpAtIndex:(NSUInteger)index {
   return [mutableRccpList objectAtIndex:index];
+}
+- (NSArray *)fileDownloadProtoList {
+  return mutableFileDownloadProtoList;
+}
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto*)fileDownloadProtoAtIndex:(NSUInteger)index {
+  return [mutableFileDownloadProtoList objectAtIndex:index];
 }
 - (BOOL) isInitialized {
   return YES;
@@ -3350,6 +3359,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasMinsToResolicitTeamDonation) {
     [output writeInt32:39 value:self.minsToResolicitTeamDonation];
   }
+  [self.fileDownloadProtoList enumerateObjectsUsingBlock:^(StartupResponseProto_StartupConstants_FileDownloadConstantProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:40 value:element];
+  }];
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -3476,6 +3488,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasMinsToResolicitTeamDonation) {
     size_ += computeInt32Size(39, self.minsToResolicitTeamDonation);
   }
+  [self.fileDownloadProtoList enumerateObjectsUsingBlock:^(StartupResponseProto_StartupConstants_FileDownloadConstantProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(40, element);
+  }];
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
   return size_;
@@ -3670,6 +3685,12 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasMinsToResolicitTeamDonation) {
     [output appendFormat:@"%@%@: %@\n", indent, @"minsToResolicitTeamDonation", [NSNumber numberWithInteger:self.minsToResolicitTeamDonation]];
   }
+  [self.fileDownloadProtoList enumerateObjectsUsingBlock:^(StartupResponseProto_StartupConstants_FileDownloadConstantProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"fileDownloadProto"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -3754,6 +3775,7 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
       (!self.hasTaskIdOfFirstSkill || self.taskIdOfFirstSkill == otherMessage.taskIdOfFirstSkill) &&
       self.hasMinsToResolicitTeamDonation == otherMessage.hasMinsToResolicitTeamDonation &&
       (!self.hasMinsToResolicitTeamDonation || self.minsToResolicitTeamDonation == otherMessage.minsToResolicitTeamDonation) &&
+      [self.fileDownloadProtoList isEqualToArray:otherMessage.fileDownloadProtoList] &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -3875,6 +3897,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasMinsToResolicitTeamDonation) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.minsToResolicitTeamDonation] hash];
   }
+  [self.fileDownloadProtoList enumerateObjectsUsingBlock:^(StartupResponseProto_StartupConstants_FileDownloadConstantProto *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
@@ -7856,6 +7881,400 @@ static StartupResponseProto_StartupConstants_ResourceConversionConstantProto* de
 }
 @end
 
+@interface StartupResponseProto_StartupConstants_FileDownloadConstantProto ()
+@property int32_t fileDownloadId;
+@property (strong) NSString* fileName;
+@property int32_t priority;
+@property BOOL downloadOnlyOverWifi;
+@property BOOL useIphone6Prefix;
+@end
+
+@implementation StartupResponseProto_StartupConstants_FileDownloadConstantProto
+
+- (BOOL) hasFileDownloadId {
+  return !!hasFileDownloadId_;
+}
+- (void) setHasFileDownloadId:(BOOL) value_ {
+  hasFileDownloadId_ = !!value_;
+}
+@synthesize fileDownloadId;
+- (BOOL) hasFileName {
+  return !!hasFileName_;
+}
+- (void) setHasFileName:(BOOL) value_ {
+  hasFileName_ = !!value_;
+}
+@synthesize fileName;
+- (BOOL) hasPriority {
+  return !!hasPriority_;
+}
+- (void) setHasPriority:(BOOL) value_ {
+  hasPriority_ = !!value_;
+}
+@synthesize priority;
+- (BOOL) hasDownloadOnlyOverWifi {
+  return !!hasDownloadOnlyOverWifi_;
+}
+- (void) setHasDownloadOnlyOverWifi:(BOOL) value_ {
+  hasDownloadOnlyOverWifi_ = !!value_;
+}
+- (BOOL) downloadOnlyOverWifi {
+  return !!downloadOnlyOverWifi_;
+}
+- (void) setDownloadOnlyOverWifi:(BOOL) value_ {
+  downloadOnlyOverWifi_ = !!value_;
+}
+- (BOOL) hasUseIphone6Prefix {
+  return !!hasUseIphone6Prefix_;
+}
+- (void) setHasUseIphone6Prefix:(BOOL) value_ {
+  hasUseIphone6Prefix_ = !!value_;
+}
+- (BOOL) useIphone6Prefix {
+  return !!useIphone6Prefix_;
+}
+- (void) setUseIphone6Prefix:(BOOL) value_ {
+  useIphone6Prefix_ = !!value_;
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.fileDownloadId = 0;
+    self.fileName = @"";
+    self.priority = 0;
+    self.downloadOnlyOverWifi = NO;
+    self.useIphone6Prefix = NO;
+  }
+  return self;
+}
+static StartupResponseProto_StartupConstants_FileDownloadConstantProto* defaultStartupResponseProto_StartupConstants_FileDownloadConstantProtoInstance = nil;
++ (void) initialize {
+  if (self == [StartupResponseProto_StartupConstants_FileDownloadConstantProto class]) {
+    defaultStartupResponseProto_StartupConstants_FileDownloadConstantProtoInstance = [[StartupResponseProto_StartupConstants_FileDownloadConstantProto alloc] init];
+  }
+}
++ (StartupResponseProto_StartupConstants_FileDownloadConstantProto*) defaultInstance {
+  return defaultStartupResponseProto_StartupConstants_FileDownloadConstantProtoInstance;
+}
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto*) defaultInstance {
+  return defaultStartupResponseProto_StartupConstants_FileDownloadConstantProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasFileDownloadId) {
+    [output writeInt32:1 value:self.fileDownloadId];
+  }
+  if (self.hasFileName) {
+    [output writeString:2 value:self.fileName];
+  }
+  if (self.hasPriority) {
+    [output writeInt32:3 value:self.priority];
+  }
+  if (self.hasDownloadOnlyOverWifi) {
+    [output writeBool:4 value:self.downloadOnlyOverWifi];
+  }
+  if (self.hasUseIphone6Prefix) {
+    [output writeBool:5 value:self.useIphone6Prefix];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasFileDownloadId) {
+    size_ += computeInt32Size(1, self.fileDownloadId);
+  }
+  if (self.hasFileName) {
+    size_ += computeStringSize(2, self.fileName);
+  }
+  if (self.hasPriority) {
+    size_ += computeInt32Size(3, self.priority);
+  }
+  if (self.hasDownloadOnlyOverWifi) {
+    size_ += computeBoolSize(4, self.downloadOnlyOverWifi);
+  }
+  if (self.hasUseIphone6Prefix) {
+    size_ += computeBoolSize(5, self.useIphone6Prefix);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (StartupResponseProto_StartupConstants_FileDownloadConstantProto*) parseFromData:(NSData*) data {
+  return (StartupResponseProto_StartupConstants_FileDownloadConstantProto*)[[[StartupResponseProto_StartupConstants_FileDownloadConstantProto builder] mergeFromData:data] build];
+}
++ (StartupResponseProto_StartupConstants_FileDownloadConstantProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_FileDownloadConstantProto*)[[[StartupResponseProto_StartupConstants_FileDownloadConstantProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_FileDownloadConstantProto*) parseFromInputStream:(NSInputStream*) input {
+  return (StartupResponseProto_StartupConstants_FileDownloadConstantProto*)[[[StartupResponseProto_StartupConstants_FileDownloadConstantProto builder] mergeFromInputStream:input] build];
+}
++ (StartupResponseProto_StartupConstants_FileDownloadConstantProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_FileDownloadConstantProto*)[[[StartupResponseProto_StartupConstants_FileDownloadConstantProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_FileDownloadConstantProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (StartupResponseProto_StartupConstants_FileDownloadConstantProto*)[[[StartupResponseProto_StartupConstants_FileDownloadConstantProto builder] mergeFromCodedInputStream:input] build];
+}
++ (StartupResponseProto_StartupConstants_FileDownloadConstantProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_FileDownloadConstantProto*)[[[StartupResponseProto_StartupConstants_FileDownloadConstantProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) builder {
+  return [[StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder alloc] init];
+}
++ (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_FileDownloadConstantProto*) prototype {
+  return [[StartupResponseProto_StartupConstants_FileDownloadConstantProto builder] mergeFrom:prototype];
+}
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) builder {
+  return [StartupResponseProto_StartupConstants_FileDownloadConstantProto builder];
+}
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) toBuilder {
+  return [StartupResponseProto_StartupConstants_FileDownloadConstantProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasFileDownloadId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"fileDownloadId", [NSNumber numberWithInteger:self.fileDownloadId]];
+  }
+  if (self.hasFileName) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"fileName", self.fileName];
+  }
+  if (self.hasPriority) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"priority", [NSNumber numberWithInteger:self.priority]];
+  }
+  if (self.hasDownloadOnlyOverWifi) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"downloadOnlyOverWifi", [NSNumber numberWithBool:self.downloadOnlyOverWifi]];
+  }
+  if (self.hasUseIphone6Prefix) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"useIphone6Prefix", [NSNumber numberWithBool:self.useIphone6Prefix]];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[StartupResponseProto_StartupConstants_FileDownloadConstantProto class]]) {
+    return NO;
+  }
+  StartupResponseProto_StartupConstants_FileDownloadConstantProto *otherMessage = other;
+  return
+      self.hasFileDownloadId == otherMessage.hasFileDownloadId &&
+      (!self.hasFileDownloadId || self.fileDownloadId == otherMessage.fileDownloadId) &&
+      self.hasFileName == otherMessage.hasFileName &&
+      (!self.hasFileName || [self.fileName isEqual:otherMessage.fileName]) &&
+      self.hasPriority == otherMessage.hasPriority &&
+      (!self.hasPriority || self.priority == otherMessage.priority) &&
+      self.hasDownloadOnlyOverWifi == otherMessage.hasDownloadOnlyOverWifi &&
+      (!self.hasDownloadOnlyOverWifi || self.downloadOnlyOverWifi == otherMessage.downloadOnlyOverWifi) &&
+      self.hasUseIphone6Prefix == otherMessage.hasUseIphone6Prefix &&
+      (!self.hasUseIphone6Prefix || self.useIphone6Prefix == otherMessage.useIphone6Prefix) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasFileDownloadId) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.fileDownloadId] hash];
+  }
+  if (self.hasFileName) {
+    hashCode = hashCode * 31 + [self.fileName hash];
+  }
+  if (self.hasPriority) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.priority] hash];
+  }
+  if (self.hasDownloadOnlyOverWifi) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.downloadOnlyOverWifi] hash];
+  }
+  if (self.hasUseIphone6Prefix) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.useIphone6Prefix] hash];
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+@interface StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder()
+@property (strong) StartupResponseProto_StartupConstants_FileDownloadConstantProto* result;
+@end
+
+@implementation StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[StartupResponseProto_StartupConstants_FileDownloadConstantProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) clear {
+  self.result = [[StartupResponseProto_StartupConstants_FileDownloadConstantProto alloc] init];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) clone {
+  return [StartupResponseProto_StartupConstants_FileDownloadConstantProto builderWithPrototype:result];
+}
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto*) defaultInstance {
+  return [StartupResponseProto_StartupConstants_FileDownloadConstantProto defaultInstance];
+}
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto*) buildPartial {
+  StartupResponseProto_StartupConstants_FileDownloadConstantProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_FileDownloadConstantProto*) other {
+  if (other == [StartupResponseProto_StartupConstants_FileDownloadConstantProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasFileDownloadId) {
+    [self setFileDownloadId:other.fileDownloadId];
+  }
+  if (other.hasFileName) {
+    [self setFileName:other.fileName];
+  }
+  if (other.hasPriority) {
+    [self setPriority:other.priority];
+  }
+  if (other.hasDownloadOnlyOverWifi) {
+    [self setDownloadOnlyOverWifi:other.downloadOnlyOverWifi];
+  }
+  if (other.hasUseIphone6Prefix) {
+    [self setUseIphone6Prefix:other.useIphone6Prefix];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setFileDownloadId:[input readInt32]];
+        break;
+      }
+      case 18: {
+        [self setFileName:[input readString]];
+        break;
+      }
+      case 24: {
+        [self setPriority:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setDownloadOnlyOverWifi:[input readBool]];
+        break;
+      }
+      case 40: {
+        [self setUseIphone6Prefix:[input readBool]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasFileDownloadId {
+  return result.hasFileDownloadId;
+}
+- (int32_t) fileDownloadId {
+  return result.fileDownloadId;
+}
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) setFileDownloadId:(int32_t) value {
+  result.hasFileDownloadId = YES;
+  result.fileDownloadId = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) clearFileDownloadId {
+  result.hasFileDownloadId = NO;
+  result.fileDownloadId = 0;
+  return self;
+}
+- (BOOL) hasFileName {
+  return result.hasFileName;
+}
+- (NSString*) fileName {
+  return result.fileName;
+}
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) setFileName:(NSString*) value {
+  result.hasFileName = YES;
+  result.fileName = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) clearFileName {
+  result.hasFileName = NO;
+  result.fileName = @"";
+  return self;
+}
+- (BOOL) hasPriority {
+  return result.hasPriority;
+}
+- (int32_t) priority {
+  return result.priority;
+}
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) setPriority:(int32_t) value {
+  result.hasPriority = YES;
+  result.priority = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) clearPriority {
+  result.hasPriority = NO;
+  result.priority = 0;
+  return self;
+}
+- (BOOL) hasDownloadOnlyOverWifi {
+  return result.hasDownloadOnlyOverWifi;
+}
+- (BOOL) downloadOnlyOverWifi {
+  return result.downloadOnlyOverWifi;
+}
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) setDownloadOnlyOverWifi:(BOOL) value {
+  result.hasDownloadOnlyOverWifi = YES;
+  result.downloadOnlyOverWifi = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) clearDownloadOnlyOverWifi {
+  result.hasDownloadOnlyOverWifi = NO;
+  result.downloadOnlyOverWifi = NO;
+  return self;
+}
+- (BOOL) hasUseIphone6Prefix {
+  return result.hasUseIphone6Prefix;
+}
+- (BOOL) useIphone6Prefix {
+  return result.useIphone6Prefix;
+}
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) setUseIphone6Prefix:(BOOL) value {
+  result.hasUseIphone6Prefix = YES;
+  result.useIphone6Prefix = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) clearUseIphone6Prefix {
+  result.hasUseIphone6Prefix = NO;
+  result.useIphone6Prefix = NO;
+  return self;
+}
+@end
+
 @interface StartupResponseProto_StartupConstants_Builder()
 @property (strong) StartupResponseProto_StartupConstants* result;
 @end
@@ -8030,6 +8449,13 @@ static StartupResponseProto_StartupConstants_ResourceConversionConstantProto* de
   }
   if (other.hasMinsToResolicitTeamDonation) {
     [self setMinsToResolicitTeamDonation:other.minsToResolicitTeamDonation];
+  }
+  if (other.mutableFileDownloadProtoList.count > 0) {
+    if (result.mutableFileDownloadProtoList == nil) {
+      result.mutableFileDownloadProtoList = [[NSMutableArray alloc] initWithArray:other.mutableFileDownloadProtoList];
+    } else {
+      [result.mutableFileDownloadProtoList addObjectsFromArray:other.mutableFileDownloadProtoList];
+    }
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -8261,6 +8687,12 @@ static StartupResponseProto_StartupConstants_ResourceConversionConstantProto* de
       }
       case 312: {
         [self setMinsToResolicitTeamDonation:[input readInt32]];
+        break;
+      }
+      case 322: {
+        StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder* subBuilder = [StartupResponseProto_StartupConstants_FileDownloadConstantProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addFileDownloadProto:[subBuilder buildPartial]];
         break;
       }
     }
@@ -9054,6 +9486,30 @@ static StartupResponseProto_StartupConstants_ResourceConversionConstantProto* de
 - (StartupResponseProto_StartupConstants_Builder*) clearMinsToResolicitTeamDonation {
   result.hasMinsToResolicitTeamDonation = NO;
   result.minsToResolicitTeamDonation = 0;
+  return self;
+}
+- (NSMutableArray *)fileDownloadProtoList {
+  return result.mutableFileDownloadProtoList;
+}
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto*)fileDownloadProtoAtIndex:(NSUInteger)index {
+  return [result fileDownloadProtoAtIndex:index];
+}
+- (StartupResponseProto_StartupConstants_Builder *)addFileDownloadProto:(StartupResponseProto_StartupConstants_FileDownloadConstantProto*)value {
+  if (result.mutableFileDownloadProtoList == nil) {
+    result.mutableFileDownloadProtoList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableFileDownloadProtoList addObject:value];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder *)addAllFileDownloadProto:(NSArray *)array {
+  if (result.mutableFileDownloadProtoList == nil) {
+    result.mutableFileDownloadProtoList = [NSMutableArray array];
+  }
+  [result.mutableFileDownloadProtoList addObjectsFromArray:array];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder *)clearFileDownloadProto {
+  result.mutableFileDownloadProtoList = nil;
   return self;
 }
 @end

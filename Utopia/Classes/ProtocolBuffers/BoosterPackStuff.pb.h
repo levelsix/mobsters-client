@@ -44,6 +44,16 @@
   #endif
 #endif
 
+typedef NS_ENUM(SInt32, BoosterPackProto_BoosterPackType) {
+  BoosterPackProto_BoosterPackTypeNoType = 1,
+  BoosterPackProto_BoosterPackTypeBasic = 2,
+  BoosterPackProto_BoosterPackTypeUltimate = 3,
+  BoosterPackProto_BoosterPackTypeStarter = 4,
+  BoosterPackProto_BoosterPackTypeRigged = 5,
+};
+
+BOOL BoosterPackProto_BoosterPackTypeIsValidValue(BoosterPackProto_BoosterPackType value);
+
 
 @interface BoosterPackStuffRoot : NSObject {
 }
@@ -141,6 +151,7 @@
   BOOL hasNavBarImgName_:1;
   BOOL hasNavTitleImgName_:1;
   BOOL hasMachineImgName_:1;
+  BOOL hasType_:1;
   int32_t boosterPackId;
   int32_t gemPrice;
   NSString* boosterPackName;
@@ -149,6 +160,7 @@
   NSString* navBarImgName;
   NSString* navTitleImgName;
   NSString* machineImgName;
+  BoosterPackProto_BoosterPackType type;
   NSMutableArray * mutableSpecialItemsList;
   NSMutableArray * mutableDisplayItemsList;
 }
@@ -160,6 +172,7 @@
 - (BOOL) hasNavBarImgName;
 - (BOOL) hasNavTitleImgName;
 - (BOOL) hasMachineImgName;
+- (BOOL) hasType;
 @property (readonly) int32_t boosterPackId;
 @property (readonly, strong) NSString* boosterPackName;
 @property (readonly) int32_t gemPrice;
@@ -170,6 +183,7 @@
 @property (readonly, strong) NSString* navTitleImgName;
 @property (readonly, strong) NSString* machineImgName;
 @property (readonly, strong) NSArray * displayItemsList;
+@property (readonly) BoosterPackProto_BoosterPackType type;
 - (BoosterItemProto*)specialItemsAtIndex:(NSUInteger)index;
 - (BoosterDisplayItemProto*)displayItemsAtIndex:(NSUInteger)index;
 
@@ -259,6 +273,11 @@
 - (BoosterPackProto_Builder *)addDisplayItems:(BoosterDisplayItemProto*)value;
 - (BoosterPackProto_Builder *)addAllDisplayItems:(NSArray *)array;
 - (BoosterPackProto_Builder *)clearDisplayItems;
+
+- (BOOL) hasType;
+- (BoosterPackProto_BoosterPackType) type;
+- (BoosterPackProto_Builder*) setType:(BoosterPackProto_BoosterPackType) value;
+- (BoosterPackProto_Builder*) clearTypeList;
 @end
 
 @interface BoosterItemProto : PBGeneratedMessage {

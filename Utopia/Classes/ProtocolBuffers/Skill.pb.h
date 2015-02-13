@@ -8,6 +8,8 @@
 @class SkillPropertyProto_Builder;
 @class SkillProto;
 @class SkillProto_Builder;
+@class SkillSideEffectProto;
+@class SkillSideEffectProto_Builder;
 #ifndef __has_feature
   #define __has_feature(x) 0 // Compatibility with non-clang compilers.
 #endif // __has_feature
@@ -55,6 +57,7 @@ typedef NS_ENUM(SInt32, SkillType) {
   SkillTypeInsurance = 32,
   SkillTypeFlameBreak = 33,
   SkillTypePoisonSkewer = 34,
+  SkillTypePoisonFire = 35,
 };
 
 BOOL SkillTypeIsValidValue(SkillType value);
@@ -66,6 +69,35 @@ typedef NS_ENUM(SInt32, SkillActivationType) {
 };
 
 BOOL SkillActivationTypeIsValidValue(SkillActivationType value);
+
+typedef NS_ENUM(SInt32, SideEffectType) {
+  SideEffectTypeNoSideEffect = 1,
+  SideEffectTypePoisoned = 2,
+  SideEffectTypeCursed = 3,
+};
+
+BOOL SideEffectTypeIsValidValue(SideEffectType value);
+
+typedef NS_ENUM(SInt32, SideEffectTraitType) {
+  SideEffectTraitTypeNoTrait = 1,
+  SideEffectTraitTypeBuff = 2,
+  SideEffectTraitTypeNerf = 3,
+};
+
+BOOL SideEffectTraitTypeIsValidValue(SideEffectTraitType value);
+
+typedef NS_ENUM(SInt32, SideEffectPositionType) {
+  SideEffectPositionTypeBelowCharacter = 1,
+  SideEffectPositionTypeAboveCharacter = 2,
+};
+
+BOOL SideEffectPositionTypeIsValidValue(SideEffectPositionType value);
+
+typedef NS_ENUM(SInt32, SideEffectBlendMode) {
+  SideEffectBlendModeNormalFullOpacity = 1,
+};
+
+BOOL SideEffectBlendModeIsValidValue(SideEffectBlendMode value);
 
 
 @interface SkillRoot : NSObject {
@@ -287,6 +319,181 @@ BOOL SkillActivationTypeIsValidValue(SkillActivationType value);
 - (Float32) skillValue;
 - (SkillPropertyProto_Builder*) setSkillValue:(Float32) value;
 - (SkillPropertyProto_Builder*) clearSkillValue;
+@end
+
+@interface SkillSideEffectProto : PBGeneratedMessage {
+@private
+  BOOL hasSkillSideEffectId_:1;
+  BOOL hasImgPixelOffsetX_:1;
+  BOOL hasImgPixelOffsetY_:1;
+  BOOL hasPfxPixelOffsetX_:1;
+  BOOL hasPfxPixelOffsetY_:1;
+  BOOL hasName_:1;
+  BOOL hasDesc_:1;
+  BOOL hasImgName_:1;
+  BOOL hasIconImgName_:1;
+  BOOL hasPfxName_:1;
+  BOOL hasPfxColor_:1;
+  BOOL hasType_:1;
+  BOOL hasTraitType_:1;
+  BOOL hasPositionType_:1;
+  BOOL hasBlendMode_:1;
+  int32_t skillSideEffectId;
+  int32_t imgPixelOffsetX;
+  int32_t imgPixelOffsetY;
+  int32_t pfxPixelOffsetX;
+  int32_t pfxPixelOffsetY;
+  NSString* name;
+  NSString* desc;
+  NSString* imgName;
+  NSString* iconImgName;
+  NSString* pfxName;
+  NSString* pfxColor;
+  SideEffectType type;
+  SideEffectTraitType traitType;
+  SideEffectPositionType positionType;
+  SideEffectBlendMode blendMode;
+}
+- (BOOL) hasSkillSideEffectId;
+- (BOOL) hasName;
+- (BOOL) hasDesc;
+- (BOOL) hasType;
+- (BOOL) hasTraitType;
+- (BOOL) hasImgName;
+- (BOOL) hasImgPixelOffsetX;
+- (BOOL) hasImgPixelOffsetY;
+- (BOOL) hasIconImgName;
+- (BOOL) hasPfxName;
+- (BOOL) hasPfxColor;
+- (BOOL) hasPositionType;
+- (BOOL) hasPfxPixelOffsetX;
+- (BOOL) hasPfxPixelOffsetY;
+- (BOOL) hasBlendMode;
+@property (readonly) int32_t skillSideEffectId;
+@property (readonly, strong) NSString* name;
+@property (readonly, strong) NSString* desc;
+@property (readonly) SideEffectType type;
+@property (readonly) SideEffectTraitType traitType;
+@property (readonly, strong) NSString* imgName;
+@property (readonly) int32_t imgPixelOffsetX;
+@property (readonly) int32_t imgPixelOffsetY;
+@property (readonly, strong) NSString* iconImgName;
+@property (readonly, strong) NSString* pfxName;
+@property (readonly, strong) NSString* pfxColor;
+@property (readonly) SideEffectPositionType positionType;
+@property (readonly) int32_t pfxPixelOffsetX;
+@property (readonly) int32_t pfxPixelOffsetY;
+@property (readonly) SideEffectBlendMode blendMode;
+
++ (SkillSideEffectProto*) defaultInstance;
+- (SkillSideEffectProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (SkillSideEffectProto_Builder*) builder;
++ (SkillSideEffectProto_Builder*) builder;
++ (SkillSideEffectProto_Builder*) builderWithPrototype:(SkillSideEffectProto*) prototype;
+- (SkillSideEffectProto_Builder*) toBuilder;
+
++ (SkillSideEffectProto*) parseFromData:(NSData*) data;
++ (SkillSideEffectProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (SkillSideEffectProto*) parseFromInputStream:(NSInputStream*) input;
++ (SkillSideEffectProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (SkillSideEffectProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (SkillSideEffectProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface SkillSideEffectProto_Builder : PBGeneratedMessageBuilder {
+@private
+  SkillSideEffectProto* result;
+}
+
+- (SkillSideEffectProto*) defaultInstance;
+
+- (SkillSideEffectProto_Builder*) clear;
+- (SkillSideEffectProto_Builder*) clone;
+
+- (SkillSideEffectProto*) build;
+- (SkillSideEffectProto*) buildPartial;
+
+- (SkillSideEffectProto_Builder*) mergeFrom:(SkillSideEffectProto*) other;
+- (SkillSideEffectProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (SkillSideEffectProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSkillSideEffectId;
+- (int32_t) skillSideEffectId;
+- (SkillSideEffectProto_Builder*) setSkillSideEffectId:(int32_t) value;
+- (SkillSideEffectProto_Builder*) clearSkillSideEffectId;
+
+- (BOOL) hasName;
+- (NSString*) name;
+- (SkillSideEffectProto_Builder*) setName:(NSString*) value;
+- (SkillSideEffectProto_Builder*) clearName;
+
+- (BOOL) hasDesc;
+- (NSString*) desc;
+- (SkillSideEffectProto_Builder*) setDesc:(NSString*) value;
+- (SkillSideEffectProto_Builder*) clearDesc;
+
+- (BOOL) hasType;
+- (SideEffectType) type;
+- (SkillSideEffectProto_Builder*) setType:(SideEffectType) value;
+- (SkillSideEffectProto_Builder*) clearTypeList;
+
+- (BOOL) hasTraitType;
+- (SideEffectTraitType) traitType;
+- (SkillSideEffectProto_Builder*) setTraitType:(SideEffectTraitType) value;
+- (SkillSideEffectProto_Builder*) clearTraitTypeList;
+
+- (BOOL) hasImgName;
+- (NSString*) imgName;
+- (SkillSideEffectProto_Builder*) setImgName:(NSString*) value;
+- (SkillSideEffectProto_Builder*) clearImgName;
+
+- (BOOL) hasImgPixelOffsetX;
+- (int32_t) imgPixelOffsetX;
+- (SkillSideEffectProto_Builder*) setImgPixelOffsetX:(int32_t) value;
+- (SkillSideEffectProto_Builder*) clearImgPixelOffsetX;
+
+- (BOOL) hasImgPixelOffsetY;
+- (int32_t) imgPixelOffsetY;
+- (SkillSideEffectProto_Builder*) setImgPixelOffsetY:(int32_t) value;
+- (SkillSideEffectProto_Builder*) clearImgPixelOffsetY;
+
+- (BOOL) hasIconImgName;
+- (NSString*) iconImgName;
+- (SkillSideEffectProto_Builder*) setIconImgName:(NSString*) value;
+- (SkillSideEffectProto_Builder*) clearIconImgName;
+
+- (BOOL) hasPfxName;
+- (NSString*) pfxName;
+- (SkillSideEffectProto_Builder*) setPfxName:(NSString*) value;
+- (SkillSideEffectProto_Builder*) clearPfxName;
+
+- (BOOL) hasPfxColor;
+- (NSString*) pfxColor;
+- (SkillSideEffectProto_Builder*) setPfxColor:(NSString*) value;
+- (SkillSideEffectProto_Builder*) clearPfxColor;
+
+- (BOOL) hasPositionType;
+- (SideEffectPositionType) positionType;
+- (SkillSideEffectProto_Builder*) setPositionType:(SideEffectPositionType) value;
+- (SkillSideEffectProto_Builder*) clearPositionTypeList;
+
+- (BOOL) hasPfxPixelOffsetX;
+- (int32_t) pfxPixelOffsetX;
+- (SkillSideEffectProto_Builder*) setPfxPixelOffsetX:(int32_t) value;
+- (SkillSideEffectProto_Builder*) clearPfxPixelOffsetX;
+
+- (BOOL) hasPfxPixelOffsetY;
+- (int32_t) pfxPixelOffsetY;
+- (SkillSideEffectProto_Builder*) setPfxPixelOffsetY:(int32_t) value;
+- (SkillSideEffectProto_Builder*) clearPfxPixelOffsetY;
+
+- (BOOL) hasBlendMode;
+- (SideEffectBlendMode) blendMode;
+- (SkillSideEffectProto_Builder*) setBlendMode:(SideEffectBlendMode) value;
+- (SkillSideEffectProto_Builder*) clearBlendModeList;
 @end
 
 

@@ -1184,6 +1184,17 @@
   mb.retrievable = NO;
   
   if (amountCollected > 0) {
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSInteger totalTimesCollected = [defaults integerForKey:TOTAL_TIMES_RESOURCES_COLLECTED_KEY];
+    totalTimesCollected++;
+    [defaults setInteger:totalTimesCollected forKey:TOTAL_TIMES_RESOURCES_COLLECTED_KEY];
+    
+    if(totalTimesCollected == 20 && ![defaults boolForKey:[Globals userConfimredPushNotificationsKey]]) {
+      GameViewController *gvc = [GameViewController baseController];
+      [gvc openPushNotificationRequestWithMessage:@"Would you like to recieve push notifications when all your resource collecters are full?"];
+    }
+    
     // Spawn a label on building
     ResourceType resType = ((ResourceGeneratorProto *)mb.userStruct.staticStruct).resourceType;
     NSString *fnt = resType == ResourceTypeCash ? @"cashcollected.fnt" : @"oilcollected.fnt";

@@ -68,6 +68,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property (strong) NSMutableArray * mutableLeaguesList;
 @property (strong) NSMutableArray * mutableAchievementsList;
 @property (strong) NSMutableArray * mutableSkillsList;
+@property (strong) NSMutableArray * mutableSideEffectsList;
 @property (strong) NSMutableArray * mutablePrereqsList;
 @property (strong) NSMutableArray * mutableBoardsList;
 @property (strong) NSMutableArray * mutableResearchList;
@@ -149,6 +150,8 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @dynamic achievementsList;
 @synthesize mutableSkillsList;
 @dynamic skillsList;
+@synthesize mutableSideEffectsList;
+@dynamic sideEffectsList;
 @synthesize mutablePrereqsList;
 @dynamic prereqsList;
 @synthesize mutableBoardsList;
@@ -354,6 +357,12 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
 - (SkillProto*)skillsAtIndex:(NSUInteger)index {
   return [mutableSkillsList objectAtIndex:index];
 }
+- (NSArray *)sideEffectsList {
+  return mutableSideEffectsList;
+}
+- (SkillSideEffectProto*)sideEffectsAtIndex:(NSUInteger)index {
+  return [mutableSideEffectsList objectAtIndex:index];
+}
 - (NSArray *)prereqsList {
   return mutablePrereqsList;
 }
@@ -481,6 +490,9 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   if (self.hasStarterPack) {
     [output writeMessage:36 value:self.starterPack];
   }
+  [self.sideEffectsList enumerateObjectsUsingBlock:^(SkillSideEffectProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:37 value:element];
+  }];
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -595,6 +607,9 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   if (self.hasStarterPack) {
     size_ += computeMessageSize(36, self.starterPack);
   }
+  [self.sideEffectsList enumerateObjectsUsingBlock:^(SkillSideEffectProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(37, element);
+  }];
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
   return size_;
@@ -840,6 +855,12 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
+  [self.sideEffectsList enumerateObjectsUsingBlock:^(SkillSideEffectProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"sideEffects"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -888,6 +909,7 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
       [self.researchList isEqualToArray:otherMessage.researchList] &&
       self.hasStarterPack == otherMessage.hasStarterPack &&
       (!self.hasStarterPack || [self.starterPack isEqual:otherMessage.starterPack]) &&
+      [self.sideEffectsList isEqualToArray:otherMessage.sideEffectsList] &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -997,6 +1019,9 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   if (self.hasStarterPack) {
     hashCode = hashCode * 31 + [self.starterPack hash];
   }
+  [self.sideEffectsList enumerateObjectsUsingBlock:^(SkillSideEffectProto *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
@@ -1256,6 +1281,13 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
       [result.mutableSkillsList addObjectsFromArray:other.mutableSkillsList];
     }
   }
+  if (other.mutableSideEffectsList.count > 0) {
+    if (result.mutableSideEffectsList == nil) {
+      result.mutableSideEffectsList = [[NSMutableArray alloc] initWithArray:other.mutableSideEffectsList];
+    } else {
+      [result.mutableSideEffectsList addObjectsFromArray:other.mutableSideEffectsList];
+    }
+  }
   if (other.mutablePrereqsList.count > 0) {
     if (result.mutablePrereqsList == nil) {
       result.mutablePrereqsList = [[NSMutableArray alloc] initWithArray:other.mutablePrereqsList];
@@ -1512,6 +1544,12 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setStarterPack:[subBuilder buildPartial]];
+        break;
+      }
+      case 298: {
+        SkillSideEffectProto_Builder* subBuilder = [SkillSideEffectProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addSideEffects:[subBuilder buildPartial]];
         break;
       }
     }
@@ -2295,6 +2333,30 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
 }
 - (StaticDataProto_Builder *)clearSkills {
   result.mutableSkillsList = nil;
+  return self;
+}
+- (NSMutableArray *)sideEffectsList {
+  return result.mutableSideEffectsList;
+}
+- (SkillSideEffectProto*)sideEffectsAtIndex:(NSUInteger)index {
+  return [result sideEffectsAtIndex:index];
+}
+- (StaticDataProto_Builder *)addSideEffects:(SkillSideEffectProto*)value {
+  if (result.mutableSideEffectsList == nil) {
+    result.mutableSideEffectsList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableSideEffectsList addObject:value];
+  return self;
+}
+- (StaticDataProto_Builder *)addAllSideEffects:(NSArray *)array {
+  if (result.mutableSideEffectsList == nil) {
+    result.mutableSideEffectsList = [NSMutableArray array];
+  }
+  [result.mutableSideEffectsList addObjectsFromArray:array];
+  return self;
+}
+- (StaticDataProto_Builder *)clearSideEffects {
+  result.mutableSideEffectsList = nil;
   return self;
 }
 - (NSMutableArray *)prereqsList {

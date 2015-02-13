@@ -182,6 +182,8 @@
 @class SkillPropertyProto_Builder;
 @class SkillProto;
 @class SkillProto_Builder;
+@class SkillSideEffectProto;
+@class SkillSideEffectProto_Builder;
 @class StartupRequestProto;
 @class StartupRequestProto_Builder;
 @class StartupRequestProto_VersionNumberProto;
@@ -202,6 +204,8 @@
 @class StartupResponseProto_StartupConstants_ClanHelpConstants_Builder;
 @class StartupResponseProto_StartupConstants_DownloadableNibConstants;
 @class StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder;
+@class StartupResponseProto_StartupConstants_FileDownloadConstantProto;
+@class StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder;
 @class StartupResponseProto_StartupConstants_MiniTutorialConstants;
 @class StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder;
 @class StartupResponseProto_StartupConstants_MonsterConstants;
@@ -823,76 +827,77 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   BOOL hasDisplayRarity_:1;
   BOOL hasFacebookPopUp_:1;
   BOOL hasAddAllFbFriends_:1;
-  BOOL hasGemsPerResource_:1;
-  BOOL hasBattleRunAwayIncrement_:1;
-  BOOL hasBattleRunAwayBasePercent_:1;
-  BOOL hasContinueBattleGemCostMultiplier_:1;
-  BOOL hasMonsterDmgMultiplier_:1;
   BOOL hasMinutesPerGem_:1;
+  BOOL hasGemsPerResource_:1;
+  BOOL hasMonsterDmgMultiplier_:1;
+  BOOL hasContinueBattleGemCostMultiplier_:1;
+  BOOL hasBattleRunAwayBasePercent_:1;
+  BOOL hasBattleRunAwayIncrement_:1;
+  BOOL hasPvpRequiredMinLvl_:1;
+  BOOL hasMaxLevelForUser_:1;
+  BOOL hasMaxNumOfSingleStruct_:1;
+  BOOL hasMinsToResolicitTeamDonation_:1;
+  BOOL hasMinNameLength_:1;
+  BOOL hasMaxNameLength_:1;
+  BOOL hasMaxLengthOfChatString_:1;
+  BOOL hasMaxMinutesForFreeSpeedUp_:1;
   BOOL hasNumHoursBeforeReshowingGoldSale_:1;
   BOOL hasLevelToShowRateUsPopup_:1;
-  BOOL hasFbConnectRewardDiamonds_:1;
-  BOOL hasNumBeginnerSalesAllowed_:1;
-  BOOL hasMinsToResolicitTeamDonation_:1;
-  BOOL hasPvpRequiredMinLvl_:1;
-  BOOL hasMaxLengthOfChatString_:1;
-  BOOL hasMaxNameLength_:1;
-  BOOL hasMinNameLength_:1;
-  BOOL hasMaxNumOfSingleStruct_:1;
-  BOOL hasMaxObstacles_:1;
   BOOL hasMinutesPerObstacle_:1;
-  BOOL hasMaxMinutesForFreeSpeedUp_:1;
-  BOOL hasMaxLevelForUser_:1;
+  BOOL hasFbConnectRewardDiamonds_:1;
+  BOOL hasMaxObstacles_:1;
+  BOOL hasNumBeginnerSalesAllowed_:1;
   BOOL hasTaskIdOfFirstSkill_:1;
   BOOL hasFaqFileName_:1;
-  BOOL hasTouramentConstants_:1;
-  BOOL hasAdminChatUserProto_:1;
-  BOOL hasUserMonsterConstants_:1;
   BOOL hasMonsterConstants_:1;
+  BOOL hasUserMonsterConstants_:1;
+  BOOL hasMiniTuts_:1;
+  BOOL hasAdminChatUserProto_:1;
+  BOOL hasTouramentConstants_:1;
+  BOOL hasTaskMapConstants_:1;
   BOOL hasDownloadableNibConstants_:1;
   BOOL hasClanConstants_:1;
-  BOOL hasMiniTuts_:1;
-  BOOL hasTaskMapConstants_:1;
   BOOL hasPvpConstant_:1;
   BOOL displayRarity_:1;
   BOOL facebookPopUp_:1;
   BOOL addAllFbFriends_:1;
-  Float32 gemsPerResource;
-  Float32 battleRunAwayIncrement;
-  Float32 battleRunAwayBasePercent;
-  Float32 continueBattleGemCostMultiplier;
-  Float32 monsterDmgMultiplier;
   Float32 minutesPerGem;
+  Float32 gemsPerResource;
+  Float32 monsterDmgMultiplier;
+  Float32 continueBattleGemCostMultiplier;
+  Float32 battleRunAwayBasePercent;
+  Float32 battleRunAwayIncrement;
+  int32_t pvpRequiredMinLvl;
+  int32_t maxLevelForUser;
+  int32_t maxNumOfSingleStruct;
+  int32_t minsToResolicitTeamDonation;
+  int32_t minNameLength;
+  int32_t maxNameLength;
+  int32_t maxLengthOfChatString;
+  int32_t maxMinutesForFreeSpeedUp;
   int32_t numHoursBeforeReshowingGoldSale;
   int32_t levelToShowRateUsPopup;
-  int32_t fbConnectRewardDiamonds;
-  int32_t numBeginnerSalesAllowed;
-  int32_t minsToResolicitTeamDonation;
-  int32_t pvpRequiredMinLvl;
-  int32_t maxLengthOfChatString;
-  int32_t maxNameLength;
-  int32_t minNameLength;
-  int32_t maxNumOfSingleStruct;
-  int32_t maxObstacles;
   int32_t minutesPerObstacle;
-  int32_t maxMinutesForFreeSpeedUp;
-  int32_t maxLevelForUser;
+  int32_t fbConnectRewardDiamonds;
+  int32_t maxObstacles;
+  int32_t numBeginnerSalesAllowed;
   int32_t taskIdOfFirstSkill;
   NSString* faqFileName;
-  StartupResponseProto_StartupConstants_TournamentConstants* touramentConstants;
-  MinimumUserProto* adminChatUserProto;
-  StartupResponseProto_StartupConstants_UserMonsterConstants* userMonsterConstants;
   StartupResponseProto_StartupConstants_MonsterConstants* monsterConstants;
+  StartupResponseProto_StartupConstants_UserMonsterConstants* userMonsterConstants;
+  StartupResponseProto_StartupConstants_MiniTutorialConstants* miniTuts;
+  MinimumUserProto* adminChatUserProto;
+  StartupResponseProto_StartupConstants_TournamentConstants* touramentConstants;
+  StartupResponseProto_StartupConstants_TaskMapConstants* taskMapConstants;
   StartupResponseProto_StartupConstants_DownloadableNibConstants* downloadableNibConstants;
   StartupResponseProto_StartupConstants_ClanConstants* clanConstants;
-  StartupResponseProto_StartupConstants_MiniTutorialConstants* miniTuts;
-  StartupResponseProto_StartupConstants_TaskMapConstants* taskMapConstants;
   StartupResponseProto_StartupConstants_PvpConstants* pvpConstant;
-  NSMutableArray * mutableAnimatedSpriteOffsetsList;
-  NSMutableArray * mutableClanHelpConstantsList;
   NSMutableArray * mutableSucpList;
   NSMutableArray * mutableRccpList;
+  NSMutableArray * mutableClanHelpConstantsList;
   NSMutableArray * mutableInAppPurchasePackagesList;
+  NSMutableArray * mutableAnimatedSpriteOffsetsList;
+  NSMutableArray * mutableFileDownloadProtoList;
 }
 - (BOOL) hasMaxLevelForUser;
 - (BOOL) hasMaxNumOfSingleStruct;
@@ -967,11 +972,13 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) displayRarity;
 @property (readonly) int32_t taskIdOfFirstSkill;
 @property (readonly) int32_t minsToResolicitTeamDonation;
+@property (readonly, strong) NSArray * fileDownloadProtoList;
 - (InAppPurchasePackageProto*)inAppPurchasePackagesAtIndex:(NSUInteger)index;
 - (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*)animatedSpriteOffsetsAtIndex:(NSUInteger)index;
 - (StartupResponseProto_StartupConstants_ClanHelpConstants*)clanHelpConstantsAtIndex:(NSUInteger)index;
 - (StartupResponseProto_StartupConstants_SpeedUpConstantProto*)sucpAtIndex:(NSUInteger)index;
 - (StartupResponseProto_StartupConstants_ResourceConversionConstantProto*)rccpAtIndex:(NSUInteger)index;
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto*)fileDownloadProtoAtIndex:(NSUInteger)index;
 
 + (StartupResponseProto_StartupConstants*) defaultInstance;
 - (StartupResponseProto_StartupConstants*) defaultInstance;
@@ -1879,6 +1886,91 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_StartupConstants_ResourceConversionConstantProto_Builder*) clearNumGems;
 @end
 
+@interface StartupResponseProto_StartupConstants_FileDownloadConstantProto : PBGeneratedMessage {
+@private
+  BOOL hasDownloadOnlyOverWifi_:1;
+  BOOL hasUseIphone6Prefix_:1;
+  BOOL hasFileDownloadId_:1;
+  BOOL hasPriority_:1;
+  BOOL hasFileName_:1;
+  BOOL downloadOnlyOverWifi_:1;
+  BOOL useIphone6Prefix_:1;
+  int32_t fileDownloadId;
+  int32_t priority;
+  NSString* fileName;
+}
+- (BOOL) hasFileDownloadId;
+- (BOOL) hasFileName;
+- (BOOL) hasPriority;
+- (BOOL) hasDownloadOnlyOverWifi;
+- (BOOL) hasUseIphone6Prefix;
+@property (readonly) int32_t fileDownloadId;
+@property (readonly, strong) NSString* fileName;
+@property (readonly) int32_t priority;
+- (BOOL) downloadOnlyOverWifi;
+- (BOOL) useIphone6Prefix;
+
++ (StartupResponseProto_StartupConstants_FileDownloadConstantProto*) defaultInstance;
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) builder;
++ (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) builder;
++ (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_FileDownloadConstantProto*) prototype;
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) toBuilder;
+
++ (StartupResponseProto_StartupConstants_FileDownloadConstantProto*) parseFromData:(NSData*) data;
++ (StartupResponseProto_StartupConstants_FileDownloadConstantProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_FileDownloadConstantProto*) parseFromInputStream:(NSInputStream*) input;
++ (StartupResponseProto_StartupConstants_FileDownloadConstantProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_FileDownloadConstantProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (StartupResponseProto_StartupConstants_FileDownloadConstantProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder : PBGeneratedMessageBuilder {
+@private
+  StartupResponseProto_StartupConstants_FileDownloadConstantProto* result;
+}
+
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto*) defaultInstance;
+
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) clear;
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) clone;
+
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto*) build;
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto*) buildPartial;
+
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_FileDownloadConstantProto*) other;
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasFileDownloadId;
+- (int32_t) fileDownloadId;
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) setFileDownloadId:(int32_t) value;
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) clearFileDownloadId;
+
+- (BOOL) hasFileName;
+- (NSString*) fileName;
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) setFileName:(NSString*) value;
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) clearFileName;
+
+- (BOOL) hasPriority;
+- (int32_t) priority;
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) setPriority:(int32_t) value;
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) clearPriority;
+
+- (BOOL) hasDownloadOnlyOverWifi;
+- (BOOL) downloadOnlyOverWifi;
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) setDownloadOnlyOverWifi:(BOOL) value;
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) clearDownloadOnlyOverWifi;
+
+- (BOOL) hasUseIphone6Prefix;
+- (BOOL) useIphone6Prefix;
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) setUseIphone6Prefix:(BOOL) value;
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) clearUseIphone6Prefix;
+@end
+
 @interface StartupResponseProto_StartupConstants_Builder : PBGeneratedMessageBuilder {
 @private
   StartupResponseProto_StartupConstants* result;
@@ -2113,6 +2205,12 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (int32_t) minsToResolicitTeamDonation;
 - (StartupResponseProto_StartupConstants_Builder*) setMinsToResolicitTeamDonation:(int32_t) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearMinsToResolicitTeamDonation;
+
+- (NSMutableArray *)fileDownloadProtoList;
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto*)fileDownloadProtoAtIndex:(NSUInteger)index;
+- (StartupResponseProto_StartupConstants_Builder *)addFileDownloadProto:(StartupResponseProto_StartupConstants_FileDownloadConstantProto*)value;
+- (StartupResponseProto_StartupConstants_Builder *)addAllFileDownloadProto:(NSArray *)array;
+- (StartupResponseProto_StartupConstants_Builder *)clearFileDownloadProto;
 @end
 
 @interface StartupResponseProto_TutorialConstants : PBGeneratedMessage {
