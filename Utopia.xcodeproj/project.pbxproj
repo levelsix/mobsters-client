@@ -1086,6 +1086,9 @@
 		63B044C91A8C167B00C74F0C /* chatbubbleline@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63B044C81A8C167B00C74F0C /* chatbubbleline@2x.png */; };
 		63B044CA1A8C167B00C74F0C /* chatbubbleline@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63B044C81A8C167B00C74F0C /* chatbubbleline@2x.png */; };
 		63B044CB1A8C167B00C74F0C /* chatbubbleline@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63B044C81A8C167B00C74F0C /* chatbubbleline@2x.png */; };
+		63B044D11A8EC35000C74F0C /* arrowsign@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63B044D01A8EC35000C74F0C /* arrowsign@2x.png */; };
+		63B044D21A8EC35000C74F0C /* arrowsign@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63B044D01A8EC35000C74F0C /* arrowsign@2x.png */; };
+		63B044D31A8EC35000C74F0C /* arrowsign@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63B044D01A8EC35000C74F0C /* arrowsign@2x.png */; };
 		63B7BEFC1A7090EA00C62FB7 /* blackborder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63B7BEFB1A7090EA00C62FB7 /* blackborder@2x.png */; };
 		63BACADF1A71A7D9000A641A /* DailyEventScheduleViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63BACADE1A71A7D9000A641A /* DailyEventScheduleViewController.xib */; };
 		63BACAE31A71A816000A641A /* DailyEventScheduleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63BACAE21A71A816000A641A /* DailyEventScheduleViewController.m */; };
@@ -8080,6 +8083,7 @@
 		63B044BF1A8BE86F00C74F0C /* RequestPushNotificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RequestPushNotificationViewController.m; path = PushNotiifcations/RequestPushNotificationViewController.m; sourceTree = "<group>"; };
 		63B044C01A8BE86F00C74F0C /* RequestPushNotificationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RequestPushNotificationViewController.xib; path = PushNotiifcations/RequestPushNotificationViewController.xib; sourceTree = "<group>"; };
 		63B044C81A8C167B00C74F0C /* chatbubbleline@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "chatbubbleline@2x.png"; path = "EnableNotifications/chatbubbleline@2x.png"; sourceTree = "<group>"; };
+		63B044D01A8EC35000C74F0C /* arrowsign@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "arrowsign@2x.png"; path = "UpgradeArrow/arrowsign@2x.png"; sourceTree = "<group>"; };
 		63B7BEFB1A7090EA00C62FB7 /* blackborder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blackborder@2x.png"; sourceTree = "<group>"; };
 		63BACADE1A71A7D9000A641A /* DailyEventScheduleViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DailyEventScheduleViewController.xib; sourceTree = "<group>"; };
 		63BACAE11A71A816000A641A /* DailyEventScheduleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DailyEventScheduleViewController.h; sourceTree = "<group>"; };
@@ -13555,6 +13559,14 @@
 			name = EnableNotifications;
 			sourceTree = "<group>";
 		};
+		63B044CE1A8EC33E00C74F0C /* UpgradeArrow */ = {
+			isa = PBXGroup;
+			children = (
+				63B044D01A8EC35000C74F0C /* arrowsign@2x.png */,
+			);
+			name = UpgradeArrow;
+			sourceTree = "<group>";
+		};
 		63BACAE41A71B7C2000A641A /* Calendar */ = {
 			isa = PBXGroup;
 			children = (
@@ -14445,6 +14457,7 @@
 		CF1267741538ACC500E0C1AD /* Utopia Images */ = {
 			isa = PBXGroup;
 			children = (
+				63B044CE1A8EC33E00C74F0C /* UpgradeArrow */,
 				63B044C71A8C165D00C74F0C /* EnableNotifications */,
 				29FC5E8F1A89427B00A50FA7 /* Builder Starter Pack */,
 				2965487E1A81C4170080B195 /* Statues */,
@@ -19169,6 +19182,7 @@
 				CFA9F7A31A0D8F6300EBE77D /* itemsheaderbg@2x.png in Resources */,
 				CF0CF071196F452900ECD301 /* FatBoy4Move11@2x.png in Resources */,
 				CF0CF073196F452900ECD301 /* menubutton@2x.png in Resources */,
+				63B044D21A8EC35000C74F0C /* arrowsign@2x.png in Resources */,
 				9BDA8B761A3B8DC200C7AC27 /* 6nightheadshot@2x.png in Resources */,
 				CF0CF076196F452900ECD301 /* popupheadermiddle@2x.png in Resources */,
 				CF0CF077196F452900ECD301 /* Scientist5Turn14@2x.png in Resources */,
@@ -21108,6 +21122,7 @@
 				CFF646F8195D319C00C43641 /* teamsemiemptyslot@2x.png in Resources */,
 				CFFBDF9318ACA3D90090CA9A /* Scientist3Breath06@2x.png in Resources */,
 				CFC45C071942955600BBA4A6 /* 1starmachineinactive@2x.png in Resources */,
+				63B044D11A8EC35000C74F0C /* arrowsign@2x.png in Resources */,
 				CF9F995A19E48734006B0119 /* helpredbubbleexclamation@2x.png in Resources */,
 				CF40D01E18DFCC6C0034A721 /* championicon@2x.png in Resources */,
 				CFFBDF8F18ACA3D90090CA9A /* Scientist3Breath02@2x.png in Resources */,
@@ -24760,6 +24775,7 @@
 				CF48234719F7217F00041486 /* teamslotopen@2x.png in Resources */,
 				CF48234819F7217F00041486 /* sfx_collect_oil_doober.mp3 in Resources */,
 				CF48234A19F7217F00041486 /* FatBoy5Move10@2x.png in Resources */,
+				63B044D31A8EC35000C74F0C /* arrowsign@2x.png in Resources */,
 				CF48234C19F7217F00041486 /* pier_3@2x.png in Resources */,
 				CF48234D19F7217F00041486 /* finishbuild@2x.png in Resources */,
 				CF48234E19F7217F00041486 /* instantmiddle@2x.png in Resources */,

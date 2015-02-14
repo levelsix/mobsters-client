@@ -2577,8 +2577,11 @@
 - (void) forceSkillClickOver:(DialogueViewController *)dvc {
   _forcedSkillDialogueViewController = dvc;
   
-  [self.forcedSkillView removeFromSuperview];
+  if(self.forcedSkillView.superview) {
+    [self.forcedSkillView removeFromSuperview];
+  }
   GameViewController *gvc = [GameViewController baseController];
+  self.forcedSkillView.frame = gvc.view.bounds;
   [gvc.view addSubview:self.forcedSkillView];
   
   [skillManager triggerSkills:SkillTriggerPointEnemyAppeared withCompletion:^(BOOL triggered, id params) {
@@ -2608,8 +2611,7 @@
   [UIView animateWithDuration:0.3f animations:^{
     self.forcedSkillView.alpha = 0.f;
   } completion:^(BOOL finished) {
-    self.forcedSkillView.hidden = YES;
-    
+    [self.forcedSkillView removeFromSuperview];
   }];
 }
 

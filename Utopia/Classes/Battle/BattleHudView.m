@@ -206,6 +206,7 @@
   self.swapLabel.gradientEndColor = [UIColor colorWithWhite:233/255.f alpha:1.f];
   
   [self addSubview:self.deployView];
+  [self addSubview:self.skillPopupView];
 }
 
 - (void) removeButtons {
