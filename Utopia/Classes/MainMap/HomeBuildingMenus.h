@@ -76,9 +76,7 @@ typedef enum {
 
 @end
 
-@interface UpgradeSign : CCNode {
-  
-}
+@interface UpgradeSign : CCNode
 
 @end
 

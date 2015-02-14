@@ -21,7 +21,6 @@
 @interface Building : SelectableSprite {
   float _percentage;
   BuildingBubble *_bubble;
-  ;
 }
 
 @property (nonatomic, retain) CCSprite *buildingSprite;
