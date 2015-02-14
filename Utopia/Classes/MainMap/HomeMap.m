@@ -304,6 +304,7 @@
     [c removeFromParent];
   }
   
+  [self reloadUpgradeSigns];
   [self reloadAllBubbles];
   
   // Search through the structs and see if any are at 0,0
@@ -704,6 +705,17 @@
   
   // In case there's a purch building
   [_purchBuilding setBubbleType:BuildingBubbleTypeNone];
+}
+
+- (void) reloadUpgradeSigns {
+  BOOL availBuilder = [self hasAvailableBuilder];
+  for(HomeBuilding *building in [self childrenOfClassType:[HomeBuilding class]]) {
+    if(building.userStruct.satisfiesAllPrerequisites) {
+      building.sign.visible = availBuilder;
+    } else {
+      building.sign.visible = NO;
+    }
+  }
 }
 
 #pragma mark - Moving
@@ -1427,6 +1439,7 @@
       [self closeCurrentViewController];
     }
     
+    [self reloadUpgradeSigns];
     [self reloadAllBubbles];
     
     [QuestUtil checkAllStructQuests];
@@ -2127,6 +2140,7 @@
             [self reselectCurrentSelection];
           }
           
+          [self reloadUpgradeSigns];
           [self reloadAllBubbles];
           
           if (_speedupBuilding == mb) {

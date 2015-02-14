@@ -76,6 +76,12 @@ typedef enum {
 
 @end
 
+@interface UpgradeSign : CCNode {
+  
+}
+
+@end
+
 @interface MiniMonsterViewSprite : CCSprite
 
 + (id) spriteWIthMonsterId:(int)monsterId;

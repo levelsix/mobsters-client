@@ -20,8 +20,8 @@
 
 @interface Building : SelectableSprite {
   float _percentage;
-  
   BuildingBubble *_bubble;
+  ;
 }
 
 @property (nonatomic, retain) CCSprite *buildingSprite;
@@ -32,6 +32,8 @@
 @property (nonatomic, assign) float baseScale;
 
 @property (nonatomic, retain) UpgradeProgressBar *progressBar;
+
+@property (nonatomic, retain) UpgradeSign *sign;
 
 - (void) setupBuildingSprite:(NSString *)fileName;
 - (void) adjustBuildingSprite;

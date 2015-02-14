@@ -221,6 +221,21 @@
 
 @end
 
+@implementation UpgradeSign
+- (id) init {
+  if ((self = [super init])) {
+    self.anchorPoint = ccp(0.5, 0);
+  }
+  
+  CCSprite *sign = [CCSprite spriteWithImageNamed:@"arrowsign.png"];
+  [self addChild:sign];
+  self.contentSize = sign.contentSize;
+  sign.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
+  return self;
+}
+
+@end
+
 @implementation MiniMonsterViewSprite
 
 + (id) spriteWIthMonsterId:(int)monsterId {
