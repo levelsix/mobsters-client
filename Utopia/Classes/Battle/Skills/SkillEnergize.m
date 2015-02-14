@@ -76,22 +76,6 @@ static const NSInteger kBatteryOrbsMaxSearchIterations = 256;
   if ([super skillCalledWithTrigger:trigger execute:execute])
     return YES;
   
-  if ((trigger == SkillTriggerPointEnemyAppeared      && !_logoShown) ||
-      (trigger == SkillTriggerPointStartOfPlayerTurn  && !_logoShown) ||
-      (trigger == SkillTriggerPointStartOfEnemyTurn   && !_logoShown))
-  {
-    if (execute)
-    {
-      _logoShown = YES;
-      [self showSkillPopupOverlay:YES withCompletion:^(){
-        [self performAfterDelay:.5f block:^{
-          [self skillTriggerFinished];
-        }];
-      }];
-    }
-    return YES;
-  }
-  
   if (trigger == SkillTriggerPointEndOfPlayerMove && !self.belongsToPlayer)
   {
     if (execute)
@@ -105,9 +89,23 @@ static const NSInteger kBatteryOrbsMaxSearchIterations = 256;
         _curAttackMultiplier += _attackIncrease;
         
         [self updateSkillOwnerSpeed];
+        return YES;
       }
       
-      [self skillTriggerFinished];
+      //[self skillTriggerFinished];
+    }
+    //return YES;
+  }
+  
+  if (trigger == SkillTriggerPointEnemyDefeated && !self.belongsToPlayer)
+  {
+    if (execute)
+    {
+      // Remove all special orbs added by this enemy
+      [self removeAllSpecialOrbs];
+      [self performAfterDelay:.3f block:^{
+        [self skillTriggerFinished];
+      }];
     }
     return YES;
   }
@@ -151,26 +149,14 @@ static const NSInteger kBatteryOrbsMaxSearchIterations = 256;
       return YES;
     }
     
-    if ((trigger == SkillTriggerPointEndOfPlayerTurn && self.belongsToPlayer) ||
-        (trigger == SkillTriggerPointEndOfEnemyTurn && !self.belongsToPlayer))
+    if ((trigger == SkillTriggerPointStartOfPlayerTurn && self.belongsToPlayer) ||
+        (trigger == SkillTriggerPointStartOfEnemyTurn && !self.belongsToPlayer))
     {
       if (execute)
       {
         [self tickDuration];
-        [self skillTriggerFinished];
-      }
-      return YES;
-    }
-    
-    if (trigger == SkillTriggerPointEnemyDefeated && !self.belongsToPlayer)
-    {
-      if (execute)
-      {
-        // Remove all special orbs added by this enemy
-        [self removeAllSpecialOrbs];
-        [self performAfterDelay:.3f block:^{
+        if ([self isActive])
           [self skillTriggerFinished];
-        }];
       }
       return YES;
     }
@@ -235,9 +221,12 @@ static const NSInteger kBatteryOrbsMaxSearchIterations = 256;
   // Recalculate battle schedule based on new speeds
   [self.battleLayer.battleSchedule createScheduleForPlayerA:self.player.speed
                                                     playerB:self.enemy.speed
-                                                   andOrder:[self.battleLayer.battleSchedule nextTurnIsPlayers] ? ScheduleFirstTurnPlayer : ScheduleFirstTurnEnemy];
-  [self.battleLayer setShouldDisplayNewSchedule:YES];
-  [self skillTriggerFinished:YES];
+                                                   andOrder:[self.battleLayer.battleSchedule getNthMove:-1] ? ScheduleFirstTurnPlayer : ScheduleFirstTurnEnemy];
+  [self.battleLayer prepareScheduleView];
+  
+  [self performAfterDelay:1 block:^{
+    [self skillTriggerFinished];
+  }];
 }
 
 - (void) showAttackMultiplier
