@@ -160,7 +160,7 @@ static NSString* const skullId = @"skull";
   else
   {
     if (target && callback)
-      [target performSelector:callback];
+      SUPPRESS_PERFORM_SELECTOR_LEAK_WARNING([target performSelector:callback];);
   }
 }
 
