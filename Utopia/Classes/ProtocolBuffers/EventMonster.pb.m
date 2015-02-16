@@ -1956,6 +1956,11 @@ BOOL SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusIsValid
     case SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusFailInsufficientGems:
     case SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusFailInsufficientOil:
     case SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusFailOther:
+    case SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusFailMonsterInEnhancing:
+    case SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusFailMonsterInHealing:
+    case SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusFailMonsterInEvolution:
+    case SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusFailMonsterNonexistent:
+    case SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusFailMonsterRestricted:
       return YES;
     default:
       return NO;
