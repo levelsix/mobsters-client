@@ -63,7 +63,7 @@ static const NSInteger kBulletOrbsMaxSearchIterations = 256;
       if (_orbsSpawned > 0 && _orbsConsumed > 0)
       {
         // If any orbs have reached zero turns left, perform out of turn attack
-        [self makeSkillOwnerJumpWithTarget:self selector:@selector(beginOutOfTurnAttack)];
+        [self beginOutOfTurnAttack];
         return YES;
       }
     }

@@ -76,6 +76,7 @@
   if ([super skillCalledWithTrigger:trigger execute:execute])
     return YES;
   
+  /*
   if (trigger == SkillTriggerPointEndOfPlayerMove && !self.belongsToPlayer)
   {
     if ([self skillIsReady])
@@ -91,6 +92,7 @@
       return YES;
     }
   }
+   */
   
   //On user death, delete all orbs
   if ((trigger == SkillTriggerPointEnemyDefeated && !self.belongsToPlayer))

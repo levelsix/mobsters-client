@@ -50,11 +50,13 @@ static const NSInteger kGraveOrbsMaxSearchIterations = 256;
     if (execute)
     {
       _logoShown = YES;
+      /*
       [self showSkillPopupOverlay:YES withCompletion:^(){
         [self performAfterDelay:.5f block:^{
           [self skillTriggerFinished];
         }];
       }];
+       */
       
       // Will restore visuals if coming back to a battle after leaving midway
       if ((self.belongsToPlayer && [self isActive]) || (!self.belongsToPlayer && _skillActive))
@@ -63,6 +65,8 @@ static const NSInteger kGraveOrbsMaxSearchIterations = 256;
         
         [self addDefensiveShieldForPlayer:self.belongsToPlayer ? self.player : self.enemy];
       }
+      
+      [self skillTriggerFinished];
     }
     return YES;
   }

@@ -67,11 +67,13 @@
     if (execute)
     {
       _logoShown = YES;
+      /*
       [self showSkillPopupOverlay:YES withCompletion:^(){
         [self performAfterDelay:.5f block:^{
           [self skillTriggerFinished];
         }];
       }];
+       */
       
       // Will restore visuals if coming back to a battle after leaving midway
       if ([self isActive])
@@ -84,6 +86,8 @@
                                                                forMonster:self.belongsToPlayer ? self.enemy.monsterId : self.player.monsterId
                                                                 forPlayer:!self.belongsToPlayer];
       }
+      
+      [self skillTriggerFinished];
     }
     return YES;
   }

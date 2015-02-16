@@ -9,6 +9,16 @@
 #import "SkillShuffle.h"
 #import "NewBattleLayer.h"
 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ *
+ * DEPRECATION WARNING
+ *
+ * For now there are no plans to use this skill in the near
+ * future, so the code has not been updated with the recent
+ * changes to skills (orb-activated, duration, logo, etc.)
+ *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 @implementation SkillShuffle
 
 #pragma mark - Initialization

@@ -77,7 +77,6 @@
           // Spawn new bombs on board
           [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
           [self.battleLayer.orbLayer disallowInput];
-          [self makeSkillOwnerJumpWithTarget:nil selector:nil];
           
           [self showSkillPopupOverlay:YES withCompletion:^(){
             [self performAfterDelay:0.5 block:^{

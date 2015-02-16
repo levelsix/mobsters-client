@@ -84,11 +84,13 @@
     if (execute)
     {
       _logoShown = YES;
+      /*
       [self showSkillPopupOverlay:YES withCompletion:^(){
         [self performAfterDelay:.5f block:^{
           [self skillTriggerFinished];
         }];
       }];
+       */
       
       // Will restore visuals if coming back to a battle after leaving midway
       if (_skillActive)
@@ -109,6 +111,8 @@
                                                                   forPlayer:NO];
         }
       }
+      
+      [self skillTriggerFinished];
     }
     return YES;
   }
@@ -125,7 +129,11 @@
       {
         _skillActive = YES;
         
-        [self makeSkillOwnerJumpWithTarget:self selector:@selector(beginOutOfTurnAttack)];
+        [self showSkillPopupOverlay:YES withCompletion:^{
+          [self performAfterDelay:.5f block:^{
+            [self beginOutOfTurnAttack];
+          }];
+        }];
         
         // Display confused symbol on enemy's next turn indicator
         [self.battleLayer.hudView.battleScheduleView updateConfusionState:YES
@@ -224,7 +232,7 @@
                                                                 forPlayer:YES];
         
         // If any orbs have reached zero turns left, perform out of turn attack
-        [self makeSkillOwnerJumpWithTarget:self selector:@selector(beginOutOfTurnAttack)];
+        [self beginOutOfTurnAttack];
       }
       else
         [self skillTriggerFinished];

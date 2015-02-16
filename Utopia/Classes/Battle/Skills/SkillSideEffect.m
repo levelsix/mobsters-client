@@ -106,8 +106,7 @@
             _vfx.zOrder = belowCharacter ? zOrder : SIDE_EFFECT_TOP_MOST_Z_ORDER + zOrder;
             [self setSpriteBlendMode:_vfx];
             
-            // Our naming convention must be locked down for the following to work
-            NSString* prefix = [[[_imageName stringByDeletingPathExtension] lowercaseString] stringByAppendingString:@"_00"];
+            NSString* prefix = [_imageName stringByDeletingPathExtension]; // DO NOT CHANGE - Naming convention that the assets follow
             CCAnimation* anim = [CCAnimation animationWithSpritePrefix:prefix delay:SIDE_EFFECT_ANIM_DELAY_PER_FRAME];
             CCAction* action = [CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:anim]];
             [_vfx runAction:action];

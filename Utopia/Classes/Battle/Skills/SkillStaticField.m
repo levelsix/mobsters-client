@@ -56,7 +56,7 @@
         
         [self showLogo];
         
-        [self makeSkillOwnerJumpWithTarget:self selector:@selector(beginCounterAttack)];
+        [self beginCounterAttack];
       }
       return YES;
     }

@@ -43,9 +43,7 @@
         [self tickDuration];
         float rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
         if (rand < _chance){
-          [self showSkillPopupOverlay:YES withCompletion:^(){
-            [self beginCounterStrike];
-          }];
+          [self beginCounterStrike];
         }
         else{
           return NO;

@@ -64,6 +64,7 @@
   if ([super skillCalledWithTrigger:trigger execute:execute])
     return YES;
   
+  /*
   // Do nothing, only show the splash at the beginning. Flag is for the case when you defeated the previous one, don't show the logo then.
   if (trigger == SkillTriggerPointEnemyAppeared && ! _logoShown)
   {
@@ -78,6 +79,7 @@
     }
     return YES;
   }
+   */
   
   if ((trigger == SkillTriggerPointEnemyDealsDamage && self.belongsToPlayer)
       || (trigger == SkillTriggerPointPlayerDealsDamage && !self.belongsToPlayer))
@@ -116,13 +118,13 @@
 
 - (BOOL) onDurationStart
 {
-  [self makeSkillOwnerJumpWithTarget:self selector:@selector(beginOutOfTurnAttack)];
+  [self beginOutOfTurnAttack];
   return YES;
 }
 
 - (BOOL) onDurationReset
 {
-  [self makeSkillOwnerJumpWithTarget:self selector:@selector(beginOutOfTurnAttack)];
+  [self beginOutOfTurnAttack];
   return YES;
 }
 
