@@ -185,6 +185,9 @@
 }
 
 - (BOOL) canClose {
+  if (_allowClose) {
+    [Globals removeUIArrowFromViewRecursively:self.parentViewController.view];
+  }
   return _allowClose;
 }
 

@@ -720,6 +720,10 @@
   // Do nothing
 }
 
+- (void) reloadUpgradeSigns {
+  // Do nothing
+}
+
 - (void) reloadTeamCenter {
   if (!self.constants) {
     [super reloadTeamCenter];

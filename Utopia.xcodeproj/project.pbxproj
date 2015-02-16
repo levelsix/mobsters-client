@@ -19,6 +19,9 @@
 		292771421A72DBB400E3AB65 /* fightonbubblearrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 292771411A72DBB400E3AB65 /* fightonbubblearrow@2x.png */; };
 		292771431A72DBB400E3AB65 /* fightonbubblearrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 292771411A72DBB400E3AB65 /* fightonbubblearrow@2x.png */; };
 		292771441A72DBB400E3AB65 /* fightonbubblearrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 292771411A72DBB400E3AB65 /* fightonbubblearrow@2x.png */; };
+		2945AB291A929FB700733827 /* youlost@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF5DBA7194D18F20019EB2B /* youlost@2x.png */; };
+		2945AB2A1A929FB700733827 /* revealsep@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BB948E11A6D93DC006EE920 /* revealsep@2x.png */; };
+		2945AB2B1A929FB700733827 /* LevelUpNode.ccbi in Resources */ = {isa = PBXBuildFile; fileRef = CFF4129D19BFC261002672D4 /* LevelUpNode.ccbi */; };
 		295FA2AF1A1B44A4006B79F3 /* SpeedupItemsFiller.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBEB1C21A118DCE00149937 /* SpeedupItemsFiller.m */; };
 		295FA2B31A1B44A4006B79F3 /* SpeedupItemsFiller.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBEB1C21A118DCE00149937 /* SpeedupItemsFiller.m */; };
 		295FA2B41A1B44A7006B79F3 /* ResourceItemsFiller.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBEB1C51A118DD900149937 /* ResourceItemsFiller.m */; };
@@ -1686,7 +1689,6 @@
 		9BB948DE1A6A0099006EE920 /* grbigafterglow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BB948DB1A6A0099006EE920 /* grbigafterglow@2x.png */; };
 		9BB948E21A6D93DC006EE920 /* revealsep@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BB948E11A6D93DC006EE920 /* revealsep@2x.png */; };
 		9BB948E31A6D93DC006EE920 /* revealsep@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BB948E11A6D93DC006EE920 /* revealsep@2x.png */; };
-		9BB948E41A6D93DC006EE920 /* revealsep@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BB948E11A6D93DC006EE920 /* revealsep@2x.png */; };
 		9BB948EB1A6DF856006EE920 /* whitegrlightcircle2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BB948EA1A6DF856006EE920 /* whitegrlightcircle2@2x.png */; };
 		9BB948EC1A6DF856006EE920 /* whitegrlightcircle2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BB948EA1A6DF856006EE920 /* whitegrlightcircle2@2x.png */; };
 		9BB948ED1A6DF856006EE920 /* whitegrlightcircle2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BB948EA1A6DF856006EE920 /* whitegrlightcircle2@2x.png */; };
@@ -5714,8 +5716,6 @@
 		CF48249419F7217F00041486 /* goosplashlogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DA6EBF4619C273EE0020B628 /* goosplashlogo@2x.png */; };
 		CF48249519F7217F00041486 /* residencemenuheader@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF29E93719620DB600B40DA4 /* residencemenuheader@2x.png */; };
 		CF48249919F7217F00041486 /* bombdrop@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE0E6C917E7B886002ECA84 /* bombdrop@2x.png */; };
-		CF48249B19F7217F00041486 /* LevelUpNode.ccbi in Resources */ = {isa = PBXBuildFile; fileRef = CFF4129D19BFC261002672D4 /* LevelUpNode.ccbi */; };
-		CF48249D19F7217F00041486 /* youlost@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF5DBA7194D18F20019EB2B /* youlost@2x.png */; };
 		CF4824A319F7217F00041486 /* FatBoy2Move06@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF134A1E18A5E4B500D7D700 /* FatBoy2Move06@2x.png */; };
 		CF4824A719F7217F00041486 /* firemediumsquare@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFCD0EA11953F07400EDC233 /* firemediumsquare@2x.png */; };
 		CF4824A819F7217F00041486 /* youlostitembg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF5DBA9194D18F20019EB2B /* youlostitembg@2x.png */; };
@@ -25372,17 +25372,12 @@
 				CF48249919F7217F00041486 /* bombdrop@2x.png in Resources */,
 				299AA3711A7856AA00A2D806 /* 6waterorb-9@2x.png in Resources */,
 				9B41AF791A82DA7E00529879 /* menuultimategrab@2x.png in Resources */,
-				CF48249B19F7217F00041486 /* LevelUpNode.ccbi in Resources */,
-				CF48249D19F7217F00041486 /* youlost@2x.png in Resources */,
+				2945AB2B1A929FB700733827 /* LevelUpNode.ccbi in Resources */,
+				2945AB291A929FB700733827 /* youlost@2x.png in Resources */,
 				299AA3321A7856AA00A2D806 /* 6lightgrenade-9@2x.png in Resources */,
 				9BC9F32C1A8B05B3009DC3D5 /* 6energizeorb-9@2x.png in Resources */,
-				9BB948E41A6D93DC006EE920 /* revealsep@2x.png in Resources */,
-				CF48249B19F7217F00041486 /* LevelUpNode.ccbi in Resources */,
+				2945AB2A1A929FB700733827 /* revealsep@2x.png in Resources */,
 				29DCCFFB1A8C3310003176FD /* fallinggems14@2x.png in Resources */,
-				CF48249D19F7217F00041486 /* youlost@2x.png in Resources */,
-				9BB948E41A6D93DC006EE920 /* revealsep@2x.png in Resources */,
-				CF48249B19F7217F00041486 /* LevelUpNode.ccbi in Resources */,
-				CF48249D19F7217F00041486 /* youlost@2x.png in Resources */,
 				9B0E6E411A73374400118210 /* powermovelogo@2x.png in Resources */,
 				299AA42D1A786BB000A2D806 /* waterbomb-9@2x.png in Resources */,
 				CF4824A319F7217F00041486 /* FatBoy2Move06@2x.png in Resources */,

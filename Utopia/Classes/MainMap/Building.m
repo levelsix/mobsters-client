@@ -27,7 +27,7 @@
     
     _sign = [[UpgradeSign alloc] init];
     _sign.anchorPoint = ccp(0.5, 0);
-    [self addChild:_sign z:0];
+    [self addChild:_sign z:1];
     _sign.visible = NO;
     
     _bubble = [[BuildingBubble alloc] init];

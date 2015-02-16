@@ -148,6 +148,7 @@
             <connections>
                 <outlet property="delegate" destination="-1" id="Cjc-tg-YzB"/>
             </connections>
+            <point key="canvasLocation" x="525" y="563"/>
         </view>
     </objects>
     <resources>
