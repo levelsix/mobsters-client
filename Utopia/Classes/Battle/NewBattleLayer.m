@@ -1976,7 +1976,12 @@
 - (void) youForfeited {
   // Make sure you can actually make a move
   if (self.orbLayer.swipeLayer.userInteractionEnabled) {
-    [self youLost];
+    [self makeMyPlayerWalkOutWithBlock:^{
+      [self youLost];
+    }];
+    self.myPlayer = nil;
+    self.myPlayerObject = nil;
+    [self.orbLayer disallowInput];
   }
 }
 

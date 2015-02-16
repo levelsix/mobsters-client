@@ -44,7 +44,42 @@
   [self addChild:self.bgdNode z:-1];
 }
 
-- (void) updateForRewards:(NSArray *)rewards isWin:(BOOL)isWin allowsContinue:(BOOL)allowsContinue {
+- (void) setupContinueLayout:(int)gems {
+  
+  CCSpriteFrame *frame = [self.continueButton backgroundSpriteFrameForState:CCControlStateNormal];
+  self.continueButton.preferredSize = frame.originalSize;
+  self.continueButton.maxSize = frame.originalSize;
+  self.continueButton.position = ccp(0,0);
+  self.continueButton.label.fontSize += 2.f;
+  NSString *buttonStr = [NSString stringWithFormat:@"CONTINUE          %d", gems];
+  [self.continueButton setTitle:buttonStr];
+  
+  CCSprite *sprite = [CCSprite spriteWithImageNamed:@"diamond.png"];
+  [self.continueButton addChild:sprite];
+  sprite.scale = 0.6;
+  
+  NSString *str = @"CONTINUE     ";
+  UIFont *font = [UIFont fontWithName:self.continueButton.label.fontName size:self.continueButton.label.fontSize];
+  CGSize s1 = [str getSizeWithFont:font];
+  CGSize s2 = [buttonStr getSizeWithFont:font];
+  sprite.position = ccp(s1.width-s2.width/2+self.continueButton.contentSize.width/2, self.continueButton.contentSize.height/2);
+  
+  self.continueButton.label.position = ccpAdd(self.continueButton.label.position, ccp(0, 5));
+  
+  self.doneButton.position = ccp(0.5, self.tipLabel.position.y+0.02f);
+  self.doneButton.positionType = CCPositionTypeNormalized;
+  [self.doneButton removeFromParent];
+  [self.tipLabel.parent addChild:self.doneButton];
+  
+  self.headerView.position = ccpAdd(self.headerView.position, ccp(0, 0.05f));
+  self.spinner.position = ccpAdd(self.spinner.position, ccp(0, 0.05f));
+  self.rewardsBgd.parent.parent.position = ccpAdd(self.rewardsBgd.parent.parent.position, ccp(0, 0.05f));
+  self.continueButton.parent.position = ccpAdd(self.continueButton.parent.position, ccp(0, 0.05f));
+  
+  [self.tipLabel removeFromParent];
+}
+
+- (void) updateForRewards:(NSArray *)rewards isWin:(BOOL)isWin allowsContinue:(BOOL)allowsContinue continueCost:(int)continueCost {
   _isWin = isWin;
   
   if (!isWin) {
@@ -69,6 +104,10 @@
   [clip addChild:self.rewardsBgd];
   self.rewardsBgd.position = ccp(clip.contentSize.width/2, clip.contentSize.height/2);
   
+  
+  if (allowsContinue) {
+    [self setupContinueLayout:continueCost];
+  }
   
   
   if (!rewards.count) {
