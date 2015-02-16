@@ -8,8 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "Skill.pb.h"
+#import "BattleOrb.h"
 
 typedef void(^SkillPopupBlock)();
+
+@class THLabel;
 
 @interface SkillPopupOverlay : UIView
 {
@@ -19,13 +22,27 @@ typedef void(^SkillPopupBlock)();
   __weak IBOutlet UIImageView *_imagePlayer;
   __weak IBOutlet UIImageView *_imageEnemy;
   
-  __weak IBOutlet UIImageView *_skillImagePlayer;
-  __weak IBOutlet UIImageView *_skillImageEnemy;
+  __weak IBOutlet UIImageView *_rocksImagePlayer;
+  __weak IBOutlet UIImageView *_rocksImageEnemy;
   
-  __weak IBOutlet UIImageView *_enemyGradient;
+  __weak IBOutlet UIImageView *_leavesImagePlayer;
+  __weak IBOutlet UIImageView *_leavesImageEnemy;
+  
+  __weak IBOutlet UIView *_skillPlayer;
+  __weak IBOutlet UIView *_skillEnemy;
+  
+  __weak IBOutlet THLabel *_skillNameLabelPlayer;
+  __weak IBOutlet THLabel *_skillNameLabelEnemy;
+  
+  __weak IBOutlet THLabel *_skillTopLabelPlayer;
+  __weak IBOutlet THLabel *_skillTopLabelEnemy;
+  
+  __weak IBOutlet THLabel *_skillBottomLabelPlayer;
+  __weak IBOutlet THLabel *_skillBottomLabelEnemy;
 }
 
-- (void) animateForSkill:(NSInteger)skillId forPlayer:(BOOL)player withImage:(UIImageView*)imageView withCompletion:(SkillPopupBlock)completion;
-- (void) hideWithCompletion:(SkillPopupBlock)completion;
+- (void) animateForSkill:(NSInteger)skillId forPlayer:(BOOL)player withImage:(UIImage*)characterImage
+                orbColor:(OrbColor)orbColor withCompletion:(SkillPopupBlock)completion;
+- (void) hideWithCompletion:(SkillPopupBlock)completion forPlayer:(BOOL)player;
 
 @end

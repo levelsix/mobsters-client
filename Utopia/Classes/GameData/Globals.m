@@ -1167,6 +1167,17 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     [Globals alignSubviewsToPixelsBoundaries:subview];
 }
 
++ (void) setAnchorPoint:(CGPoint)anchorPoint onView:(UIView*)view
+{
+  CGPoint position = view.layer.position;
+  CGPoint transformedOffset = CGPointApplyAffineTransform(CGPointMake(anchorPoint.x - view.layer.anchorPoint.x,
+                                                                      anchorPoint.y - view.layer.anchorPoint.y), view.transform);
+  position.x += transformedOffset.x * CGRectGetWidth(view.layer.bounds);
+  position.y += transformedOffset.y * CGRectGetHeight(view.layer.bounds);
+  view.layer.position = position;
+  view.layer.anchorPoint = anchorPoint;
+}
+
 #pragma mark - Downloading
 
 + (NSString *) pathToFile:(NSString *)fileName useiPhone6Prefix:(BOOL)useiPhone6Prefix {

@@ -323,6 +323,7 @@
 + (void) displayUIView:(UIView *)view;
 + (CGPoint) convertPointToWindowCoordinates:(CGPoint)point fromViewCoordinates:(UIView *)view;
 + (void) alignSubviewsToPixelsBoundaries:(UIView*)view;
++ (void) setAnchorPoint:(CGPoint)anchorPoint onView:(UIView*)view;
 
 + (NSString *) urlStringForFacebookId:(NSString *)uid;
 

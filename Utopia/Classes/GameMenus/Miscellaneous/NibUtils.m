@@ -481,6 +481,26 @@
 
 @end
 
+@implementation NiceFontLabel19B
+
+- (void) awakeFromNib {
+  [Globals adjustFontSizeForUILabel:self];
+  self.font = [UIFont fontWithName:@"Titillium-Black" size:self.font.pointSize];
+  self.shadowBlur = 1.2f;
+}
+
+@end
+
+@implementation NiceFontLabel20B
+
+- (void) awakeFromNib {
+  [Globals adjustFontSizeForUILabel:self];
+  self.font = [UIFont fontWithName:@"Titillium-BoldUpright" size:self.font.pointSize];
+  self.shadowBlur = 1.2f;
+}
+
+@end
+
 @implementation NiceFontButton
 
 - (void) awakeFromNib {
