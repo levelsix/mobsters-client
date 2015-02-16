@@ -149,8 +149,8 @@ static const NSInteger kBatteryOrbsMaxSearchIterations = 256;
       return YES;
     }
     
-    if ((trigger == SkillTriggerPointStartOfPlayerTurn && self.belongsToPlayer) ||
-        (trigger == SkillTriggerPointStartOfEnemyTurn && !self.belongsToPlayer))
+    if ((trigger == SkillTriggerPointEndOfPlayerTurn && self.belongsToPlayer) ||
+        (trigger == SkillTriggerPointEndOfEnemyTurn && !self.belongsToPlayer))
     {
       if (execute)
       {
@@ -221,12 +221,10 @@ static const NSInteger kBatteryOrbsMaxSearchIterations = 256;
   // Recalculate battle schedule based on new speeds
   [self.battleLayer.battleSchedule createScheduleForPlayerA:self.player.speed
                                                     playerB:self.enemy.speed
-                                                   andOrder:[self.battleLayer.battleSchedule getNthMove:-1] ? ScheduleFirstTurnPlayer : ScheduleFirstTurnEnemy];
-  [self.battleLayer prepareScheduleView];
+                                                   andOrder:ScheduleFirstTurnRandom];
+  [self.battleLayer setShouldDisplayNewSchedule:YES];
   
-  [self performAfterDelay:1 block:^{
-    [self skillTriggerFinished];
-  }];
+  [self skillTriggerFinished];
 }
 
 - (void) showAttackMultiplier
