@@ -81,14 +81,20 @@ static const NSInteger kBatteryOrbsMaxSearchIterations = 256;
     if (execute)
     {
       // Update counters on special orbs
-      if (_orbsSpawned > 0 && [self updateSpecialOrbs])
+      int usedUpOrbCount = [self updateSpecialOrbs];
+      if (usedUpOrbCount)
       {
         SkillLogStart(@"Energize -- Skill activated");
         
-        _curSpeedMultiplier += _speedIncrease;
-        _curAttackMultiplier += _attackIncrease;
+        _curSpeedMultiplier += _speedIncrease * usedUpOrbCount;
+        _curAttackMultiplier += _attackIncrease * usedUpOrbCount;
         
         [self updateSkillOwnerSpeed];
+        
+        [self resetDuration];
+        
+        [self skillTriggerFinished];
+        
         return YES;
       }
       
@@ -155,8 +161,7 @@ static const NSInteger kBatteryOrbsMaxSearchIterations = 256;
       if (execute)
       {
         [self tickDuration];
-        if ([self isActive])
-          [self skillTriggerFinished];
+        [self skillTriggerFinished];
       }
       return YES;
     }
@@ -175,10 +180,15 @@ static const NSInteger kBatteryOrbsMaxSearchIterations = 256;
   }
   else
   {
-    if ([self updateSpecialOrbs])
-      [self spawnSpecialOrbs:_numOrbsToSpawn withTarget:nil andSelector:nil];
-    else
-      [self spawnSpecialOrbs:_numOrbsToSpawn withTarget:self andSelector:@selector(skillTriggerFinishedActivated)];
+    int usedUpOrbCount = [self updateSpecialOrbs];
+    if (usedUpOrbCount)
+    {
+      _curSpeedMultiplier += _speedIncrease * usedUpOrbCount;
+      _curAttackMultiplier += _attackIncrease * usedUpOrbCount;
+      
+      [self resetDuration];
+    }
+    [self spawnSpecialOrbs:_numOrbsToSpawn withTarget:self andSelector:@selector(skillTriggerFinishedActivated)];
     return YES;
   }
 }
@@ -187,10 +197,14 @@ static const NSInteger kBatteryOrbsMaxSearchIterations = 256;
 {
   SkillLogStart(@"Energize -- Skill activated");
   
-  _curSpeedMultiplier += _speedIncrease;
-  _curAttackMultiplier += _attackIncrease;
+  if (self.belongsToPlayer)
+  {
+    _curSpeedMultiplier += _speedIncrease;
+    _curAttackMultiplier += _attackIncrease;
+    [self updateSkillOwnerSpeed];
+  }
   
-  [self updateSkillOwnerSpeed];
+  [self skillTriggerFinished:self.belongsToPlayer];
   
   return YES;
 }
@@ -226,8 +240,6 @@ static const NSInteger kBatteryOrbsMaxSearchIterations = 256;
                                                     playerB:self.enemy.speed
                                                    andOrder:ScheduleFirstTurnRandom];
   [self.battleLayer setShouldDisplayNewSchedule:YES];
-  
-  [self skillTriggerFinished];
 }
 
 - (void) showAttackMultiplier
