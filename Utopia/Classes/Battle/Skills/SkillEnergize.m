@@ -175,7 +175,10 @@ static const NSInteger kBatteryOrbsMaxSearchIterations = 256;
   }
   else
   {
-    [self spawnSpecialOrbs:_numOrbsToSpawn withTarget:self andSelector:@selector(skillTriggerFinishedActivated)];
+    if ([self updateSpecialOrbs])
+      [self spawnSpecialOrbs:_numOrbsToSpawn withTarget:nil andSelector:nil];
+    else
+      [self spawnSpecialOrbs:_numOrbsToSpawn withTarget:self andSelector:@selector(skillTriggerFinishedActivated)];
     return YES;
   }
 }

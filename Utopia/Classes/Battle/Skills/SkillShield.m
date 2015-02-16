@@ -39,14 +39,6 @@
 
 #pragma mark - Overrides
 
-- (void) orbDestroyed:(OrbColor)color special:(SpecialOrbType)type
-{
-  if (_currentShieldHp > 0)
-    return;
-  else
-    [super orbDestroyed:color special:type];
-}
-
 - (BOOL) shouldSpawnRibbon
 {
   return (_currentShieldHp == 0);
@@ -89,7 +81,7 @@
         [self showSkillPopupOverlay:YES withCompletion:^(){
           
           // Set shield power
-          _currentShieldHp = _shieldHp;
+          _currentShieldHp += _shieldHp;
           
           // Create sprite
           [self performAfterDelay:0.3 block:^{
