@@ -18,7 +18,7 @@
 
 - (void) awakeFromNib {
   if (![Globals isSmallestiPhone]) {
-    if ([Globals isiPhone6])
+    if ([Globals isiPhone6] || [Globals isiPhone6Plus])
       self.numSlots = 6;
     else
       self.numSlots = 5;
