@@ -6,17 +6,14 @@
 //  Copyright (c) 2014 LVL6. All rights reserved.
 //
 
-#import "SkillControllerActive.h"
+#import "SkillControllerActiveBuff.h"
 
-@interface SkillFlameStrike : SkillControllerActive
+@interface SkillFlameStrike : SkillControllerActiveBuff
 {
   // Properties
-  int _numAffectedMoves;
   float _damageMultiplier;
   
   // Temp
-  BOOL _skillActive;
-  int _remainingMoves;
   BOOL _logoShown;
 }
 

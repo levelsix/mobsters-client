@@ -251,6 +251,11 @@
   return NO;
 }
 
+- (NSSet*) sideEffects
+{
+  return [NSSet set];
+}
+
 - (void) restoreVisualsIfNeeded
 {
 }

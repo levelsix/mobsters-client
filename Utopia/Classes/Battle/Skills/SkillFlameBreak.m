@@ -152,7 +152,8 @@ static const NSInteger kSwordOrbsMaxSearchIterations = 256;
       if (execute)
       {
         // Update counters on sword orbs
-        if (_orbsSpawned > 0 && [self updateSwordOrbs])
+        int usedUpOrbCount = [self updateSwordOrbs];
+        if (_orbsSpawned > 0 && usedUpOrbCount > 0)
         {
           _skillActive = YES;
           
@@ -164,6 +165,8 @@ static const NSInteger kSwordOrbsMaxSearchIterations = 256;
           // with the random damage done, e.g. max damage stuns for zero turns,
           // while min damage stuns for max turns allowed
           _turnsLeft = _maxStunTurns - floorf((_maxStunTurns + 1) * ((float)_damageReceived / _maxDamage));
+          
+          _damageReceived *= usedUpOrbCount;
         }
         else
           [self skillTriggerFinished];
@@ -259,23 +262,21 @@ static const NSInteger kSwordOrbsMaxSearchIterations = 256;
    * 2/4/15 - BN - Disabling skills displaying logos
    *
    
-   const CGFloat yOffset = self.belongsToPlayer ? 40.f : -20.f;
-   
-   // Display logo
-   CCSprite* logoSprite = [CCSprite spriteWithImageNamed:[self.skillImageNamePrefix stringByAppendingString:kSkillMiniLogoImageNameSuffix]];
-   logoSprite.position = CGPointMake((self.enemySprite.position.x + self.playerSprite.position.x) * .5f + self.playerSprite.contentSize.width * .5f - 10.f,
-   (self.playerSprite.position.y + self.enemySprite.position.y) * .5f + self.playerSprite.contentSize.height * .5f + yOffset);
-   logoSprite.scale = 0.f;
-   [self.playerSprite.parent addChild:logoSprite z:50];
-   
-   // Animate
-   [logoSprite runAction:[CCActionSequence actions:
-   [CCActionDelay actionWithDuration:.3f],
-   [CCActionEaseBounceOut actionWithAction:[CCActionScaleTo actionWithDuration:.5f scale:1.f]],
-   [CCActionDelay actionWithDuration:.5f],
-   [CCActionEaseIn actionWithAction:[CCActionScaleTo actionWithDuration:.3f scale:0.f]],
-   [CCActionRemove action],
-   nil]];
+  // Display logo
+  CCSprite* logoSprite = [CCSprite spriteWithImageNamed:[self.skillImageNamePrefix stringByAppendingString:kSkillMiniLogoImageNameSuffix]];
+  logoSprite.position = CGPointMake((self.enemySprite.position.x + self.playerSprite.position.x) * .5f + self.playerSprite.contentSize.width * .5f - 10.f,
+                                    (self.playerSprite.position.y + self.enemySprite.position.y) * .5f + self.playerSprite.contentSize.height * .5f);
+  logoSprite.scale = 0.f;
+  [self.playerSprite.parent addChild:logoSprite z:50];
+  
+  // Animate
+  [logoSprite runAction:[CCActionSequence actions:
+                         [CCActionDelay actionWithDuration:.3f],
+                         [CCActionEaseBounceOut actionWithAction:[CCActionScaleTo actionWithDuration:.5f scale:1.f]],
+                         [CCActionDelay actionWithDuration:.5f],
+                         [CCActionEaseIn actionWithAction:[CCActionScaleTo actionWithDuration:.3f scale:0.f]],
+                         [CCActionRemove action],
+                         nil]];
    */
 }
 
@@ -338,7 +339,7 @@ static const NSInteger kSwordOrbsMaxSearchIterations = 256;
   [opponent.sprite runAction:[CCActionTintTo actionWithDuration:.3f color:[CCColor whiteColor]]];
 }
 
-- (BOOL) updateSwordOrbs
+- (int) updateSwordOrbs
 {
   BattleOrbLayout* layout = self.battleLayer.orbLayer.layout;
   OrbSwipeLayer* layer = self.battleLayer.orbLayer.swipeLayer;
@@ -402,7 +403,7 @@ static const NSInteger kSwordOrbsMaxSearchIterations = 256;
                              nil]];
   }
   
-  return (usedUpOrbCount > 0);
+  return usedUpOrbCount;
 }
 
 - (void) spawnSwordOrbs:(NSInteger)count withTarget:(id)target andSelector:(SEL)selector

@@ -52,6 +52,12 @@
 // Used for clan battle sprites
 @property (nonatomic, assign) BOOL cameFromTop;
 
+@property (nonatomic, readonly) NSMutableArray* skillSideEffects;
+
+- (void) addSkillSideEffect:(SideEffectType)type;
+- (void) removeSkillSideEffect:(SideEffectType)type;
+- (void) removeAllSkillSideEffects;
+
 - (void) initiateSpeechBubbleWithText:(NSString *)text;
 - (void) initiateSpeechBubbleWithText:(NSString *)text completion:(void (^)(void))completion;
 

@@ -37,6 +37,11 @@
   return [self isActive];
 }
 
+- (NSSet*) sideEffects
+{
+  return [NSSet setWithObjects:@(SideEffectTypePoisoned), nil];
+}
+
 - (void) restoreVisualsIfNeeded {
   if ([self isActive]) {
     [self addPoisonAnimations];
@@ -107,6 +112,8 @@
                                                                            nil]];
   action.tag = 1914;
   [opponent.sprite runAction:action];
+  
+  [self.playerSprite addSkillSideEffect:SideEffectTypePoisoned];
 }
 
 - (void) removePoison
@@ -123,6 +130,8 @@
                     [CCActionEaseBounceOut actionWithAction:[CCActionScaleTo actionWithDuration:0.5 scale:1.0]]]];
   [opponent.sprite stopActionByTag:1914];
   [opponent.sprite runAction:[CCActionTintTo actionWithDuration:0.3 color:[CCColor whiteColor]]];
+  
+  [self.playerSprite removeSkillSideEffect:SideEffectTypePoisoned];
 }
 
 

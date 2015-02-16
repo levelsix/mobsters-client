@@ -18,10 +18,7 @@
 {
   [super setDefaultValues];
   
-  _numAffectedMoves = 0;
   _damageMultiplier = 1.f;
-  _skillActive = NO;
-  _remainingMoves = 0;
   _logoShown = NO;
 }
 
@@ -29,8 +26,6 @@
 {
   [super setValue:value forProperty:property];
   
-  if ([property isEqualToString:@"NUM_AFFECTED_MOVES"])
-    _numAffectedMoves = value;
   if ([property isEqualToString:@"DAMAGE_MULTIPLIER"])
     _damageMultiplier = value;
 }
@@ -39,7 +34,7 @@
 
 - (BOOL) generateSpecialOrb:(BattleOrb*)orb atColumn:(int)column row:(int)row
 {
-  if (_skillActive)
+  if ([self isActive])
   {
     if (orb.specialOrbType == SpecialOrbTypeNone &&
         orb.powerupType < PowerupTypeAllOfOneColor &&
@@ -58,7 +53,9 @@
   if ([super skillCalledWithTrigger:trigger execute:execute])
     return YES;
   
-  if (trigger == SkillTriggerPointEnemyAppeared && !_logoShown)
+  if ((trigger == SkillTriggerPointEnemyAppeared      && !_logoShown) ||
+      (trigger == SkillTriggerPointStartOfPlayerTurn  && !_logoShown) ||
+      (trigger == SkillTriggerPointStartOfEnemyTurn   && !_logoShown))
   {
     if (execute)
     {
@@ -72,57 +69,23 @@
     return YES;
   }
   
-  if (trigger == SkillTriggerPointEndOfPlayerMove && self.belongsToPlayer)
+  if ([self isActive])
   {
-    if (!_skillActive && [self skillIsReady])
+    if (trigger == SkillTriggerPointEndOfPlayerTurn && self.belongsToPlayer)
     {
       if (execute)
       {
-        _skillActive = YES;
-        _remainingMoves = _numAffectedMoves;
-        SkillLogStart(@"Flame Strike -- Skill activated");
-        
-        // Set damage multiplier on fire orbs
-        [self setDamageMultiplierOnFireOrbs:floorf(_damageMultiplier)];
-        
-        [self skillTriggerFinished:YES];
-      }
-      return YES;
-    }
-    if (_skillActive)
-    {
-      if (execute)
-      {
-        SkillLogStart(@"Flame Strike -- %d moves remaining", _remainingMoves - 1);
-        if (--_remainingMoves == 0)
-        {
-          _skillActive = NO;
-          [self resetOrbCounter];
-          SkillLogStart(@"Flame Strike -- Skill deactivated");
-          
-          // Reset damage multiplier on fire orbs
-          [self setDamageMultiplierOnFireOrbs:1];
-        }
-        
+        [self tickDuration];
         [self skillTriggerFinished];
       }
       return YES;
     }
-  }
-  
-  if (trigger == SkillTriggerPointPlayerMobDefeated && self.belongsToPlayer)
-  {
-    if (_skillActive)
+    
+    if (trigger == SkillTriggerPointPlayerMobDefeated && self.belongsToPlayer)
     {
       if (execute)
       {
-        _skillActive = NO;
-        [self resetOrbCounter];
-        SkillLogStart(@"Flame Strike -- Skill deactivated");
-        
-        // Reset damage multiplier on fire orbs
-        [self setDamageMultiplierOnFireOrbs:1];
-        
+        [self endDurationNow];
         [self skillTriggerFinished];
       }
       return YES;
@@ -133,6 +96,33 @@
 }
 
 #pragma mark - Skill logic
+
+- (BOOL) onDurationStart
+{
+  SkillLogStart(@"Flame Strike -- Skill activated");
+  
+  // Set damage multiplier on fire orbs
+  [self setDamageMultiplierOnFireOrbs:floorf(_damageMultiplier)];
+  
+  return NO;
+}
+
+- (BOOL) onDurationReset
+{
+  SkillLogStart(@"Flame Strike -- Skill reactivated");
+  
+  return NO;
+}
+
+- (BOOL) onDurationEnd
+{
+  SkillLogStart(@"Flame Strike -- Skill deactivated");
+  
+  // Reset damage multiplier on fire orbs
+  [self setDamageMultiplierOnFireOrbs:1];
+  
+  return NO;
+}
 
 - (void) setDamageMultiplierOnFireOrbs:(int)multiplier
 {
@@ -152,30 +142,6 @@
         [orbSprite reloadSprite:YES];
       }
     }
-}
-
-#pragma mark - Serialization
-
-- (NSDictionary*) serialize
-{
-  NSMutableDictionary* result = [NSMutableDictionary dictionaryWithDictionary:[super serialize]];
-  [result setObject:@(_skillActive) forKey:@"skillActive"];
-  [result setObject:@(_remainingMoves) forKey:@"remainingMoves"];
-  
-  return result;
-}
-
-- (BOOL) deserialize:(NSDictionary*)dict
-{
-  if (![super deserialize:dict])
-    return NO;
-  
-  NSNumber* skillActive = [dict objectForKey:@"skillActive"];
-  if (skillActive) _skillActive = [skillActive boolValue];
-  NSNumber* remainingMoves = [dict objectForKey:@"remainingMoves"];
-  if (remainingMoves) _remainingMoves = [remainingMoves intValue];
-  
-  return YES;
 }
 
 @end

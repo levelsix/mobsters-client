@@ -696,6 +696,46 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return [NSString stringWithFormat:@"%d%@%@ ago", time / interval, shortened ? @"y" : @" year", !shortened && time / interval != 1 ? @"s" : @""];
 }
 
++ (SkillSideEffectProto*) protoForSkillSideEffectType:(SideEffectType)type
+{
+  if (SideEffectTypeIsValidValue(type))
+  {
+    NSDictionary* skillSideEffects = [GameState sharedGameState].staticSkillSideEffects;
+    for (NSNumber* key in skillSideEffects)
+    {
+      SkillSideEffectProto* proto = [skillSideEffects objectForKey:key];
+      if (proto.type == type)
+        return proto;
+    }
+  }
+  
+  return nil;
+}
+
++ (NSArray*) skillSideEffectProtosForBattlePlayer:(BattlePlayer*)bp enemy:(BOOL)enemy
+{
+  NSMutableArray* sideEffectProtos = [NSMutableArray array];
+  NSNumber* skillId = [NSNumber numberWithInteger:enemy ? bp.defensiveSkillId : bp.offensiveSkillId];
+  SkillProto* skillProto = [[GameState sharedGameState].staticSkills objectForKey:skillId];
+  if (skillProto)
+  {
+    SkillController* skillController = [SkillController skillWithProto:skillProto andMobsterColor:(OrbColor)bp.element];
+    if (skillController)
+    {
+      NSSet* sideEffects = [skillController sideEffects];
+      for (NSNumber* sideEffect in sideEffects)
+      {
+        SideEffectType sideEffectType = [sideEffect intValue];
+        SkillSideEffectProto* proto = [Globals protoForSkillSideEffectType:sideEffectType];
+        if (proto)
+          [sideEffectProtos addObject:proto];
+      }
+    }
+  }
+  
+  return sideEffectProtos;
+}
+
 #pragma mark - Font Adjustment
 
 + (void) adjustFontSizeForSize:(int)size withUIView:(UIView *)somethingWithText {
@@ -1158,6 +1198,23 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       NSString *fileName = [NSString stringWithFormat:str, spritePrefix];
       [arr addObject:fileName];
     }
+  }
+  [self checkAndLoadFiles:arr completion:^(BOOL success) {
+    completed();
+  }];
+}
+
++ (void) downloadAllAssetsForSkillSideEffects:(NSSet*)skillSideEffects completion:(void (^)(void))completed
+{
+  NSMutableArray *arr = [NSMutableArray array];
+  for (SkillSideEffectProto* proto in skillSideEffects)
+  {
+    if (proto.imgName && ![proto.imgName isEqualToString:@""])
+      [arr addObject:proto.imgName];
+    if (proto.pfxName && ![proto.pfxName isEqualToString:@""])
+      [arr addObject:proto.pfxName];
+    if (proto.iconImgName && ![proto.iconImgName isEqualToString:@""])
+      [arr addObject:proto.iconImgName];
   }
   [self checkAndLoadFiles:arr completion:^(BOOL success) {
     completed();

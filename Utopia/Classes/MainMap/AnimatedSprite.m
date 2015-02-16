@@ -87,7 +87,7 @@
       if (success) {
         [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:spritesheetName];
         NSString *p = [NSString stringWithFormat:@"%@RunN", self.prefix];
-        CCAnimation *anim = [CCAnimation animationWithSpritePrefix:p delay:ANIMATATION_DELAY];
+        CCAnimation *anim = [CCAnimation animationWithSpritePrefix:p delay:ANIMATION_DELAY];
         self.walkActionN = [CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:anim]];
       } else {
         self.walkActionN = [CCActionRepeatForever actionWithAction:[CCActionDelay actionWithDuration:1.f]];
@@ -104,7 +104,7 @@
       if (success) {
         [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:spritesheetName];
         NSString *p = [NSString stringWithFormat:@"%@RunF", self.prefix];
-        CCAnimation *anim = [CCAnimation animationWithSpritePrefix:p delay:ANIMATATION_DELAY];
+        CCAnimation *anim = [CCAnimation animationWithSpritePrefix:p delay:ANIMATION_DELAY];
         self.walkActionF = [CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:anim]];
       } else {
         self.walkActionF = [CCActionRepeatForever actionWithAction:[CCActionDelay actionWithDuration:1.f]];

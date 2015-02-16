@@ -115,7 +115,8 @@
     if (execute)
     {
       // Update counters on special orbs
-      if (_orbsSpawned > 0 && [self updateSpecialOrbs])
+      _orbsConsumed = [self updateSpecialOrbs];
+      if (_orbsSpawned > 0 && _orbsConsumed > 0)
       {
         // If any orbs have reached zero turns left, Perform out of turn attack
         // and either instantly kill the target or deal fixed damage
@@ -145,7 +146,7 @@
 
 #pragma mark - Skill logic
 
-- (BOOL) updateSpecialOrbs
+- (int) updateSpecialOrbs
 {
   BattleOrbLayout* layout = self.battleLayer.orbLayer.layout;
   OrbSwipeLayer* layer = self.battleLayer.orbLayer.swipeLayer;
@@ -206,7 +207,7 @@
                              nil]];
   }
   
-  return (usedUpOrbCount > 0);
+  return usedUpOrbCount;
 }
 
 - (void) beginOutOfTurnAttack
@@ -240,7 +241,7 @@
 
 - (void) dealDamageToEnemy
 {
-  [self.battleLayer dealDamage:self.belongsToPlayer ? _fixedDamageDone : _fixedDamageReceived
+  [self.battleLayer dealDamage:self.belongsToPlayer ? _fixedDamageDone : _fixedDamageReceived * _orbsConsumed
                enemyIsAttacker:!self.belongsToPlayer
                   usingAbility:YES
                     withTarget:self
@@ -248,7 +249,7 @@
   
   if (!self.belongsToPlayer)
   {
-    [self.battleLayer setEnemyDamageDealt:(int)_fixedDamageReceived];
+    [self.battleLayer setEnemyDamageDealt:(int)_fixedDamageReceived * _orbsConsumed];
     [self.battleLayer sendServerUpdatedValuesVerifyDamageDealt:NO];
   }
 }
