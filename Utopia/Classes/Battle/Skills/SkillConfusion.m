@@ -166,6 +166,8 @@
 
 - (BOOL) onDurationEnd
 {
+  [super onDurationEnd];
+  
   SkillLogStart(@"Confusion -- Skill deactivated");
   
   // Tell NewBattleLayer that opponent is no longer confused

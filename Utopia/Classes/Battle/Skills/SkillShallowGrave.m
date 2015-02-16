@@ -196,7 +196,8 @@ static const NSInteger kGraveOrbsMaxSearchIterations = 256;
   if (self.belongsToPlayer)
   {
     SkillLogStart(@"Shallow Grave -- Skill deactivated");
-    
+   
+    [super onDurationEnd];
     [self removeDefensiveShieldForPlayer:self.player];
   }
   

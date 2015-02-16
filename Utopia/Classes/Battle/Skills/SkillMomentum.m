@@ -34,6 +34,11 @@
 
 #pragma mark - Overrides
 
+- (BOOL) doesRefresh
+{
+  return YES;
+}
+
 - (NSInteger) modifyDamage:(NSInteger)damage forPlayer:(BOOL)player
 {
   // If attacker is the skill owner

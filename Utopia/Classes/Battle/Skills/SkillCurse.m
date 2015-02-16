@@ -63,6 +63,7 @@
 
 - (BOOL) onDurationEnd
 {
+  [super onDurationEnd];
   [self removeCurse];
   return NO;
 }

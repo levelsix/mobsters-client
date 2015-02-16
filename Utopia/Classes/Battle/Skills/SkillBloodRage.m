@@ -78,6 +78,8 @@
 
 - (BOOL) onDurationEnd
 {
+  [super onDurationEnd];
+  
   [self removeRageAnimations];
   
   return NO;

@@ -30,22 +30,26 @@
   if ([super skillCalledWithTrigger:trigger execute:execute])
     return YES;
   
-  if ((self.activationType == SkillActivationTypeUserActivated && trigger == SkillTriggerPointManualActivation) ||
-      (self.activationType == SkillActivationTypeAutoActivated && trigger == SkillTriggerPointEndOfPlayerMove))
+  if ([self doesRefresh] || ![self isActive])
   {
-    if ([self skillIsReady])
+    if ((self.activationType == SkillActivationTypeUserActivated && trigger == SkillTriggerPointManualActivation) ||
+        (self.activationType == SkillActivationTypeAutoActivated && trigger == SkillTriggerPointEndOfPlayerMove))
     {
-      if (execute)
+      if ([self skillIsReady])
       {
-        [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
-        [self.battleLayer.orbLayer disallowInput];
-        [self showSkillPopupOverlay:YES withCompletion:^(){
-          [self resetOrbCounter];
-          if (![self resetDuration])
-            [self skillTriggerFinished:YES];
-        }];
+        if (execute)
+        {
+          [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
+          [self.battleLayer.orbLayer disallowInput];
+          [self showSkillPopupOverlay:YES withCompletion:^(){
+            if ([self doesRefresh])
+              [self resetOrbCounter];
+            if (![self activate])
+              [self skillTriggerFinished:YES];
+          }];
+        }
+        return YES;
       }
-      return YES;
     }
   }
   
@@ -57,9 +61,19 @@
   return _turnsLeft != 0;
 }
 
+- (BOOL) doesRefresh
+{
+  return NO;
+}
+
 - (NSInteger) getDuration
 {
   return _duration;
+}
+
+- (BOOL) activate
+{
+  return [self resetDuration];
 }
 
 - (BOOL) resetDuration
@@ -95,8 +109,9 @@
 
 - (BOOL) onDurationEnd
 {
-  [self skillTriggerFinished:NO];
-  return YES;
+  if (![self doesRefresh])
+    [self resetOrbCounter];
+  return NO;
 }
 
 - (void) endDurationNow

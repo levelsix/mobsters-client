@@ -58,6 +58,7 @@
 
 - (BOOL) onDurationEnd
 {
+  [super onDurationEnd];
   [self performAfterDelay:2.0 block:^(void){
     [self removeEnrageAnimations];
   }];

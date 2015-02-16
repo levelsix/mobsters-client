@@ -42,6 +42,7 @@
 #import "SkillCurse.h"
 #import "SkillFlameBreak.h"
 #import "SkillPoisonSkewer.h"
+#import "SkillPoisonFire.h"
 
 @implementation SkillController
 
@@ -82,6 +83,7 @@
     case SkillTypeInsurance: return [[SkillInsurance alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypeFlameBreak: return [[SkillFlameBreak alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypePoisonSkewer: return [[SkillPoisonSkewer alloc] initWithProto:proto andMobsterColor:color];
+    case SkillTypePoisonFire: return [[SkillPoisonFire alloc] initWithProto:proto andMobsterColor:color];
     default: CustomAssert(NO, @"Trying to create a skill with the factory for undefined skill."); return nil;
   }
 }
@@ -262,7 +264,9 @@
 
 #pragma mark - Reusable Poison Logic
 
-- (void) dealPoisonDamage:(int)damage
+- (int) poisonDamage { return 0; }
+
+- (void) dealPoisonDamage
 {
   if (self.belongsToPlayer)
   {
@@ -293,7 +297,7 @@
                      [CCActionFadeIn actionWithDuration:0.3f],
                      nil],
                     [CCActionCallBlock actionWithBlock:^{
-                      [self dealPoisonDamage2:damage];
+                      [self dealPoisonDamage2];
                     }],
                     [CCActionDelay actionWithDuration:0.5],
                     [CCActionEaseElasticIn actionWithAction:[CCActionScaleTo actionWithDuration:0.7f scale:0]],
@@ -301,13 +305,42 @@
                     nil]];
 }
 
-- (void) dealPoisonDamage2:(int)damage
+- (void) dealPoisonDamage2
 {
   // Deal damage
-  [self.battleLayer dealDamage:(int)damage enemyIsAttacker:!self.belongsToPlayer usingAbility:YES withTarget:self withSelector:@selector(dealPoisonDamage3)];
+  [self.battleLayer dealDamage:(int)self.poisonDamage enemyIsAttacker:!self.belongsToPlayer usingAbility:YES withTarget:self withSelector:@selector(onFinishPoisonDamage)];
 }
 
-- (void) dealPoisonDamage3
+- (void) onFinishPoisonDamage
+{
+  [self skillTriggerFinished];
+}
+
+#pragma mark - Reusable Quick Attack Logic
+
+- (int) quickAttackDamage { return 0; }
+
+- (void) dealQuickAttack
+{
+  if (self.belongsToPlayer)
+    [self.playerSprite performFarAttackAnimationWithStrength:0.f shouldEvade:NO enemy:self.enemySprite
+                                                      target:self selector:@selector(dealQuickAttack1) animCompletion:nil];
+  else
+    [self.enemySprite performNearAttackAnimationWithEnemy:self.playerSprite shouldReturn:YES shouldEvade:NO shouldFlinch:YES
+                                                   target:self selector:@selector(dealQuickAttack1) animCompletion:nil];
+}
+
+- (void) dealQuickAttack1
+{
+  // Deal damage
+  [self.battleLayer dealDamage:self.quickAttackDamage enemyIsAttacker:(!self.belongsToPlayer) usingAbility:YES withTarget:self withSelector:@selector(onFinishQuickAttack)];
+  
+  if (!self.belongsToPlayer) {
+    [self.battleLayer sendServerUpdatedValuesVerifyDamageDealt:NO];
+  }
+}
+
+- (void) onFinishQuickAttack
 {
   [self skillTriggerFinished];
 }

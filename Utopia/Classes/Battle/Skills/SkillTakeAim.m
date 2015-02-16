@@ -10,6 +10,7 @@
 #import "SkillTakeAim.h"
 #import "NewBattleLayer.h"
 #import "SoundEngine.h"
+#import "Globals.h"
 
 @implementation SkillTakeAim
 
@@ -47,7 +48,7 @@
 - (NSInteger) modifyDamage:(NSInteger)damage forPlayer:(BOOL)player
 {
   _orbsSpawned = (int)[self specialsOnBoardCount:SpecialOrbTypeTakeAim];
-  if (!player && _orbsSpawned)
+  if (!player && !self.belongsToPlayer && _orbsSpawned)
   {
     float rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
     if (rand < _orbsSpawned * _critChancePerOrb)
@@ -56,7 +57,7 @@
       damage = damage * _critDamageMultiplier;
     }
   }
-  else if ([self isActive])
+  else if (player && self.belongsToPlayer && [self isActive])
   {
     float rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
     if (rand < _playerCritChance)
@@ -183,14 +184,17 @@
 {
   /*
    * 2/4/15 - BN - Disabling skills displaying logos
-   *
-   
+   */
+  const CGFloat yOffset = self.belongsToPlayer ? 40.f : -20.f;
+  
   // Display logo
-  CCSprite* logoSprite = [CCSprite spriteWithImageNamed:[self.skillImageNamePrefix stringByAppendingString:kSkillMiniLogoImageNameSuffix]];
+//  CCSprite* logoSprite = [CCSprite spriteWithImageNamed:[self.skillImageNamePrefix stringByAppendingString:kSkillMiniLogoImageNameSuffix]];
+  CCSprite* logoSprite = [CCSprite node];
+  [Globals imageNamed:[self.skillImageNamePrefix stringByAppendingString:kSkillMiniLogoImageNameSuffix] toReplaceSprite:logoSprite];
   logoSprite.position = CGPointMake((self.enemySprite.position.x + self.playerSprite.position.x) * .5f + self.playerSprite.contentSize.width * .5f - 10.f,
-                                    (self.playerSprite.position.y + self.enemySprite.position.y) * .5f + self.playerSprite.contentSize.height * .5f);
+                                    (self.playerSprite.position.y + self.enemySprite.position.y) * .5f + self.playerSprite.contentSize.height * .5f + yOffset);
   logoSprite.scale = 0.f;
-  [self.playerSprite.parent addChild:logoSprite z:50];
+  [self.opponentSprite.parent addChild:logoSprite z:50];
   
   // Display damage modifier label
   CCLabelTTF* floatingLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%.1gX DAMAGE", _critDamageMultiplier] fontName:@"GothamNarrow-Ultra" fontSize:12];
@@ -210,7 +214,6 @@
                          [CCActionEaseIn actionWithAction:[CCActionScaleTo actionWithDuration:.3f scale:0.f]],
                          [CCActionRemove action],
                          nil]];
-   */
   
   // Finish trigger execution
 //  [self performAfterDelay:.3f block:^{

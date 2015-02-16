@@ -1197,6 +1197,9 @@
 		6B3BC16D1A8BC68E00E0D457 /* SkillPoisonSkewer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B3BC16C1A8BC68E00E0D457 /* SkillPoisonSkewer.m */; };
 		6B3BC16E1A8BC68E00E0D457 /* SkillPoisonSkewer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B3BC16C1A8BC68E00E0D457 /* SkillPoisonSkewer.m */; };
 		6B3BC16F1A8BC68E00E0D457 /* SkillPoisonSkewer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B3BC16C1A8BC68E00E0D457 /* SkillPoisonSkewer.m */; };
+		6B3BC1751A8BE3CD00E0D457 /* SkillPoisonFire.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B3BC1741A8BE3CD00E0D457 /* SkillPoisonFire.m */; };
+		6B3BC1761A8BE3CD00E0D457 /* SkillPoisonFire.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B3BC1741A8BE3CD00E0D457 /* SkillPoisonFire.m */; };
+		6B3BC1771A8BE3CD00E0D457 /* SkillPoisonFire.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B3BC1741A8BE3CD00E0D457 /* SkillPoisonFire.m */; };
 		6BA24DF31A7A9ECF00BEF920 /* SkillBloodRage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA24DF21A7A9ECF00BEF920 /* SkillBloodRage.m */; };
 		6BA24E091A7AEA6E00BEF920 /* SkillTakeAim.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA24E081A7AEA6E00BEF920 /* SkillTakeAim.m */; };
 		6BA24E0A1A7AEA6E00BEF920 /* SkillTakeAim.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA24E081A7AEA6E00BEF920 /* SkillTakeAim.m */; };
@@ -8142,6 +8145,8 @@
 		6B07840D1A8545BB005CDFCF /* SkillControllerActiveBuff.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillControllerActiveBuff.m; sourceTree = "<group>"; };
 		6B3BC16A1A8BC67E00E0D457 /* SkillPoisonSkewer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SkillPoisonSkewer.h; sourceTree = "<group>"; };
 		6B3BC16C1A8BC68E00E0D457 /* SkillPoisonSkewer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillPoisonSkewer.m; sourceTree = "<group>"; };
+		6B3BC1741A8BE3CD00E0D457 /* SkillPoisonFire.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillPoisonFire.m; sourceTree = "<group>"; };
+		6B3BC1791A8BE3DA00E0D457 /* SkillPoisonFire.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SkillPoisonFire.h; sourceTree = "<group>"; };
 		6BA24DF01A7A9EC100BEF920 /* SkillBloodRage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillBloodRage.h; sourceTree = "<group>"; };
 		6BA24DF21A7A9ECF00BEF920 /* SkillBloodRage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillBloodRage.m; sourceTree = "<group>"; };
 		6BA24E061A7AEA6100BEF920 /* SkillTakeAim.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SkillTakeAim.h; sourceTree = "<group>"; };
@@ -18506,6 +18511,8 @@
 				9B41AF7F1A830BB300529879 /* SkillFlameBreak.m */,
 				6B3BC16A1A8BC67E00E0D457 /* SkillPoisonSkewer.h */,
 				6B3BC16C1A8BC68E00E0D457 /* SkillPoisonSkewer.m */,
+				6B3BC1791A8BE3DA00E0D457 /* SkillPoisonFire.h */,
+				6B3BC1741A8BE3CD00E0D457 /* SkillPoisonFire.m */,
 			);
 			name = Specific;
 			sourceTree = "<group>";
@@ -25701,6 +25708,7 @@
 				CFFCF56F19B01C58007E316D /* TangoDelegate.m in Sources */,
 				CFE11F961A141C040094F797 /* amqp_url.c in Sources */,
 				CFE11F781A141C040094F797 /* amqp_framing.c in Sources */,
+				6B3BC1761A8BE3CD00E0D457 /* SkillPoisonFire.m in Sources */,
 				CF0CEDF1196F452900ECD301 /* MiniJobsListViewController.m in Sources */,
 				CFFCF55B19AFB112007E316D /* BattleHudView.m in Sources */,
 				CF0CEDF2196F452900ECD301 /* QuestUtil.m in Sources */,
@@ -25741,6 +25749,7 @@
 				9B0E6E5D1A77087000118210 /* SkillBlindingLight.m in Sources */,
 				CF7064C31845E4C7005B30A1 /* OneLineNotificationViewController.m in Sources */,
 				6BCBD8751A797E63002C584F /* SkillHammerTime.m in Sources */,
+				6B3BC1751A8BE3CD00E0D457 /* SkillPoisonFire.m in Sources */,
 				CF126D341538ACCA00E0C1AD /* Downloader.m in Sources */,
 				CF4DB8E81807DA1F00062258 /* HomeMap.m in Sources */,
 				29A2FCF11A647EEB00FF93B6 /* OrbFallAction.m in Sources */,
@@ -26390,6 +26399,7 @@
 				CF4819A519F7217F00041486 /* TangoDelegate.m in Sources */,
 				CFE11F971A141C040094F797 /* amqp_url.c in Sources */,
 				CFE11F791A141C040094F797 /* amqp_framing.c in Sources */,
+				6B3BC1771A8BE3CD00E0D457 /* SkillPoisonFire.m in Sources */,
 				CF4819A619F7217F00041486 /* MiniJobsListViewController.m in Sources */,
 				CF4819A719F7217F00041486 /* BattleHudView.m in Sources */,
 				CF4819A819F7217F00041486 /* QuestUtil.m in Sources */,
