@@ -2411,7 +2411,7 @@
   self.hudView.bottomView.centerX = BOTTOM_CENTER_X;
   
   UIImage *img = [Globals imageNamed:@"6movesqueuebgwide.png"];
-  if (BOTTOM_CENTER_X*2 > img.size.width+bottomDist*2) {
+  if (BOTTOM_CENTER_X*2 >= img.size.width) {
     self.hudView.battleScheduleView.bgdView.image = img;
     self.hudView.battleScheduleView.width = img.size.width;
   }

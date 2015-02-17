@@ -141,7 +141,7 @@
   [self.queueViewController allowChoose:self.feederUserMonster.userMonsterUuid];
   
   NSArray *dialogue = @[[NSString stringWithFormat:@"Excellent! Now we need to sacrifice a %@ and fuse its power into %@.", MONSTER_NAME, self.baseUserMonster.staticMonster.displayName]];
-  [self displayDialogue:dialogue];
+  [self displayDialogue:dialogue isLeftSide:NO];
   
   self.currentStep = TutorialEnhanceStepChooseFeeder;
 }

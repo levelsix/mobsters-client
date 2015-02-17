@@ -611,6 +611,8 @@ A common user pattern in building a Cocos2d game is to subclass CCNode, add it t
  */
 - (CGPoint)convertToWorldSpaceAR:(CGPoint)nodePoint;
 
+// LVL6 Addition
+- (CGPoint)convertToWindowSpace:(CGPoint)nodePoint;
 
 /// -----------------------------------------------------------------------
 /// @name Rendering (Used by Subclasses)

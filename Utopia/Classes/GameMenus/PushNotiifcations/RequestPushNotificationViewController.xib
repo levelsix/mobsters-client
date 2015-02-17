@@ -7,7 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RequestPushNotificationViewController">
             <connections>
-                <outlet property="BGView" destination="fkV-9g-TRa" id="pJV-1s-H7e"/>
+                <outlet property="bgView" destination="fkV-9g-TRa" id="n4E-9a-t4m"/>
                 <outlet property="requestView" destination="HDf-VQ-alJ" id="Sq9-ON-5vM"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="cLT-9O-Wcy"/>
             </connections>

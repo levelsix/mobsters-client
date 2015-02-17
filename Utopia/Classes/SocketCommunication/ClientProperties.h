@@ -21,10 +21,10 @@
 #else
 
 //#define USE_PROD
-//#define USE_STAGING
+#define USE_STAGING
 
 #define UDID [OpenUDID value]
-#define FORCE_TUTORIAL
+//#define FORCE_TUTORIAL
 
 #endif
 

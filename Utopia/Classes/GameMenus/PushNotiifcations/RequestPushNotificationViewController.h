@@ -17,9 +17,13 @@
 
 @end
 
-@interface RequestPushNotificationViewController : UIViewController
+@interface RequestPushNotificationViewController : UIViewController {
+  NSString *_message;
+}
+
 @property (nonatomic, retain) IBOutlet UIView *requestView;
-@property (nonatomic, retain) IBOutlet UIView *BGView;
+@property (nonatomic, retain) IBOutlet UIView *bgView;
 
 - (id) initWithMessage:(NSString *) message;
+
 @end

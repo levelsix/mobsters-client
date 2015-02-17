@@ -37,6 +37,20 @@
   [self.delegate queueOpened];
 }
 
+- (void) reloadMonstersArray {
+  [super reloadMonstersArray];
+  
+  NSMutableArray *arr = [self.userMonsters mutableCopy];
+  for (UserMonster *um in self.userMonsters) {
+    if ([um.userMonsterUuid isEqualToString:self.clickableUserMonsterUuid]) {
+      [arr removeObject:um];
+      [arr insertObject:um atIndex:0];
+    }
+  }
+  
+  self.userMonsters = arr;
+}
+
 - (void) allowChoose:(NSString *)userMonsterUuid {
   self.clickableUserMonsterUuid = userMonsterUuid;
   self.listView.userInteractionEnabled = YES;

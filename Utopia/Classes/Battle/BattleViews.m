@@ -174,6 +174,8 @@
   [self.loadingSpinner removeFromSuperview];
   [self.msgTextField removeFromSuperview];
   
+  self.doneButton.title = @"GO HOME";
+  
   //  CCClippingNode *clip = (CCClippingNode *)self.rewardsView.parent;
   //  clip.stencil = nil;
   
@@ -353,7 +355,7 @@
 
 - (void) spinnerOnDone {
   self.doneButton.title = @"";
-  [self loadSpinnerAtCenter:[self.doneButton.parent convertToWorldSpace:self.doneButton.position]];
+  [self loadSpinnerAtCenter:[self.doneButton.parent convertToWorldSpace:self.doneButton.positionInPoints]];
 }
 
 #pragma mark - TextField delegate methods

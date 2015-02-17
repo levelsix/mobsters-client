@@ -64,6 +64,8 @@
 
 #define EQUIP_MINI_TUTORIAL_DEFAULT_KEY [NSString stringWithFormat:@"EquipMiniTutComplete%d", gs.userId]
 
+#define PVP_BATTLE_LAYER_BOARD_SIZE CGSizeMake(8,8)
+
 @implementation GameViewController
 
 - (id) init {
@@ -1020,7 +1022,7 @@ static const CGSize FIXED_SIZE = {568, 384};
   }
   
   GameState *gs = [GameState sharedGameState];
-  PvpBattleLayer *bl = [[PvpBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeamWithClanSlot:YES] puzzleIsOnLeft:NO gridSize:CGSizeMake(9, 9)];
+  PvpBattleLayer *bl = [[PvpBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeamWithClanSlot:YES] puzzleIsOnLeft:NO gridSize:PVP_BATTLE_LAYER_BOARD_SIZE];
   bl.delegate = self;
   bl.itemUsagesForQueue = itemsDict;
   
@@ -1036,7 +1038,7 @@ static const CGSize FIXED_SIZE = {568, 384};
   }
   
   GameState *gs = [GameState sharedGameState];
-  PvpBattleLayer *bl = [[PvpBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeamWithClanSlot:YES] puzzleIsOnLeft:NO gridSize:CGSizeMake(9, 9) pvpHistoryForRevenge:history];
+  PvpBattleLayer *bl = [[PvpBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeamWithClanSlot:YES] puzzleIsOnLeft:NO gridSize:PVP_BATTLE_LAYER_BOARD_SIZE pvpHistoryForRevenge:history];
   bl.delegate = self;
   
   [[OutgoingEventController sharedOutgoingEventController] retrieveUserTeam:history.attacker.userUuid delegate:bl];
@@ -1051,7 +1053,7 @@ static const CGSize FIXED_SIZE = {568, 384};
   }
   
   GameState *gs = [GameState sharedGameState];
-  PvpBattleLayer *bl = [[PvpBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeamWithClanSlot:YES] puzzleIsOnLeft:NO gridSize:CGSizeMake(9, 9)];
+  PvpBattleLayer *bl = [[PvpBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeamWithClanSlot:YES] puzzleIsOnLeft:NO gridSize:PVP_BATTLE_LAYER_BOARD_SIZE];
   bl.delegate = self;
   [bl setClanAvenging:ca];
   
@@ -1268,7 +1270,7 @@ static const CGSize FIXED_SIZE = {568, 384};
 - (void) openPushNotificationRequestWithMessage:(NSString *) message{
   RequestPushNotificationViewController *rpnvc = [[RequestPushNotificationViewController alloc] initWithMessage:message];
   [self addChildViewController:rpnvc];
-  rpnvc.BGView.frame = self.view.bounds;
+  rpnvc.view.frame = self.view.bounds;
   [self.view addSubview:rpnvc.view];
 }
 

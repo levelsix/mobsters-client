@@ -112,6 +112,9 @@
 - (void) updateLabelsNonTimer;
 - (void) updateStats;
 
+// For the tutorial controller
+- (void) reloadMonstersArray;
+
 - (IBAction)helpClicked:(id)sender;
 
 // For tutorial
