@@ -510,8 +510,12 @@
 
 - (void) moveToLab {
   LabBuilding *tcb = [self labBuilding];
+  [self moveToSprite:tcb animated:NO withOffset:ccp(50, 0)];
+}
+
+- (void) arrowOnLab {
+  LabBuilding *tcb = [self labBuilding];
   [tcb displayArrow];
-  [self moveToSprite:tcb animated:YES withOffset:ccp(50, 0)];
   
   _enteringLab = YES;
   

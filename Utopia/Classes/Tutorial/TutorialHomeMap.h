@@ -91,5 +91,6 @@
 - (void) moveToTeamCenter;
 - (UserStruct *) moveToTownHall;
 - (void) moveToLab;
+- (void) arrowOnLab;
 
 @end

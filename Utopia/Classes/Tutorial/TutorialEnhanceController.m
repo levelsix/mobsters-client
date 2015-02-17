@@ -121,6 +121,8 @@
 #pragma mark - Sequence
 
 - (void) beginClickBuildingPhase {
+  [self.homeMap moveToLab];
+  
   NSArray *dialogue = @[@"Greetings simpleton! My laboratory is now open for business.",
                         @"The lab is the only place where you can level up your toons. Care to take a tour?"];
   [self displayDialogue:dialogue];
@@ -138,10 +140,9 @@
 }
 
 - (void) beginChooseFeederPhase {
-  [self.queueViewController allowChoose:self.feederUserMonster.userMonsterUuid];
   
   NSArray *dialogue = @[[NSString stringWithFormat:@"Excellent! Now we need to sacrifice a %@ and fuse its power into %@.", MONSTER_NAME, self.baseUserMonster.staticMonster.displayName]];
-  [self displayDialogue:dialogue isLeftSide:NO];
+  [self displayDialogue:dialogue isLeftSide:YES];
   
   self.currentStep = TutorialEnhanceStepChooseFeeder;
 }
@@ -166,6 +167,7 @@
 
 - (void) choseMonster {
   [self initQueueViewController];
+  [self.queueViewController allowChoose:self.feederUserMonster.userMonsterUuid];
 }
 
 - (void) queueOpened {
@@ -205,7 +207,7 @@
   if (index == dvc.dialogue.speechSegmentList.count-1) {
     
     if (self.currentStep == TutorialEnhanceStepClickBuilding) {
-      [self.homeMap moveToLab];
+      [self.homeMap arrowOnLab];
     } else if (self.currentStep == TutorialEnhanceStepAttackMap) {
       [self initTopBar];
       [self.topBarViewController allowAttackClick];
