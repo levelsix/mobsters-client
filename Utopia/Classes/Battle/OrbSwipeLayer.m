@@ -119,6 +119,9 @@
 }
 
 - (void) touchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
+  if (!self.userInteractionEnabled) {
+    return;
+  }
   
   // Convert the touch location to a point relative to the orbsLayer.
   CGPoint location = [touch locationInNode:self];
@@ -142,6 +145,9 @@
 }
 
 - (void) touchMoved:(UITouch *)touch withEvent:(UIEvent *)event {
+  if (!self.userInteractionEnabled) {
+    return;
+  }
   
   // If swipeFromColumn is NSNotFound then either the swipe began outside
   // the valid area or the game has already swapped the orbs and we need
@@ -209,6 +215,10 @@
 }
 
 - (void) touchEnded:(UITouch *)touch withEvent:(UIEvent *)event {
+  if (!self.userInteractionEnabled) {
+    return;
+  }
+  
   // If the gesture ended, regardless of whether if was a valid swipe or not,
   // reset the starting column and row numbers.
   self.swipeFromColumn = self.swipeFromRow = NSNotFound;

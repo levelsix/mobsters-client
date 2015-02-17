@@ -23,8 +23,6 @@
 
 - (void) viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
-  [self.listView.collectionView reloadData];
-  [self.listView.collectionView layoutIfNeeded];
   
   self.listView.collectionView.scrollEnabled = NO;
   
@@ -37,9 +35,26 @@
   [self.delegate queueOpened];
 }
 
+- (void) reloadMonstersArray {
+  [super reloadMonstersArray];
+  
+  NSMutableArray *arr = [self.userMonsters mutableCopy];
+  for (UserMonster *um in self.userMonsters) {
+    if ([um.userMonsterUuid isEqualToString:self.clickableUserMonsterUuid]) {
+      [arr removeObject:um];
+      [arr addObject:um];
+      break;
+    }
+  }
+  
+  self.userMonsters = arr;
+}
+
 - (void) allowChoose:(NSString *)userMonsterUuid {
   self.clickableUserMonsterUuid = userMonsterUuid;
   self.listView.userInteractionEnabled = YES;
+  
+  [self reloadListViewAnimated:NO];
   
   [self moveToMonster:userMonsterUuid];
   [self arrowOverMonster:userMonsterUuid];
@@ -57,6 +72,7 @@
 - (void) moveToMonster:(NSString *)userMonsterUuid {
   NSIndexPath *ip = [self indexPathForUserMonsterUuid:userMonsterUuid];
   [self.listView.collectionView scrollToItemAtIndexPath:ip atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
+  [self.listView.collectionView layoutIfNeeded];
 }
 
 - (void) arrowOverMonster:(NSString *)userMonsterUuid {
@@ -86,6 +102,11 @@
 
 - (void) checkUserMonsterOnTeam {
   [self confirmationAccepted];
+}
+
+- (void) confirmationAccepted {
+  // Disabled the first time sacrifice confirmation
+  [self allowAddToQueue];
 }
 
 - (void) listView:(ListCollectionView *)listView minusClickedAtIndexPath:(NSIndexPath *)indexPath {
@@ -134,7 +155,7 @@
   if (_allowFinish) {
     [super collectClicked:sender];
     
-    [Globals removeUIArrowFromViewRecursively:self.view];
+    [Globals removeUIArrowFromViewRecursively:self.parentViewController.view];
     
     _allowFinish = NO;
   }

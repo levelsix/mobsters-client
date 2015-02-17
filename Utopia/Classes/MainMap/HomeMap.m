@@ -1224,6 +1224,9 @@
                       [CCActionCallFunc actionWithTarget:label selector:@selector(removeFromParent)], nil]];
     
     [AchievementUtil checkCollectResource:resType amount:amountCollected];
+    
+    // In case you now have the cash or oil
+    [self reloadUpgradeSigns];
   } else {
     ResourceType resType = ((ResourceGeneratorProto *)mb.userStruct.staticStruct).resourceType;
     
@@ -1773,6 +1776,8 @@
       _purchBuilding = nil;
       
       [self reselectCurrentSelection];
+      
+      [self reloadUpgradeSigns];
     } else {
       [homeBuilding liftBlock];
       [homeBuilding removeFromParent];
@@ -1907,7 +1912,7 @@
     } else {
       [self speedupBuildingAndUpgradeOrPurchase];
     }
-  } else if (cost) {
+  } else {
     if (cost > curAmount) {
       ItemSelectViewController *svc = [[ItemSelectViewController alloc] init];
       if (svc) {
@@ -2000,6 +2005,8 @@
       
       [self reselectCurrentSelection];
       
+      [self reloadUpgradeSigns];
+      
       [[NSNotificationCenter defaultCenter] postNotificationName:STRUCT_PURCHASED_NOTIFICATION object:nil];
     }
   } else if ([self.selected isKindOfClass:[ObstacleSprite class]]) {
@@ -2014,6 +2021,8 @@
       [os displayProgressBar];
       
       [self reselectCurrentSelection];
+      
+      [self reloadUpgradeSigns];
       
       [[NSNotificationCenter defaultCenter] postNotificationName:OBSTACLE_REMOVAL_BEGAN_NOTIFICATION object:nil];
     }

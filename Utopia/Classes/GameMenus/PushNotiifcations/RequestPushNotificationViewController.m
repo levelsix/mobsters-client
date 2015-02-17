@@ -44,21 +44,23 @@
 - (void) viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
   
-  [Globals bounceView:self.requestView fadeInBgdView:self.BGView];
+  [Globals bounceView:self.requestView fadeInBgdView:self.bgView];
 }
 
 - (id) initWithMessage:(NSString *) message {
   if ((self = [super init])) {
-    [[NSBundle mainBundle] loadNibNamed:@"RequestPushNotificationViewController" owner:self options:nil];
-    RequestPushNotificationView *view = (RequestPushNotificationView *)self.view;
-    
-    [view updateWithString:message];
-    [view initFonts];
+    _message = message;
   }
   return self;
 }
 
-- (IBAction)ClickedAccept:(id)sender {
+- (void) viewDidLoad {
+  RequestPushNotificationView *view = (RequestPushNotificationView *)self.view;
+  [view updateWithString:_message];
+  [view initFonts];
+}
+
+- (IBAction)clickedAccept:(id)sender {
   //close this popup after opening the confirm popup
   [Globals registerUserForPushNotifications];
   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -67,12 +69,12 @@
   
 }
 
-- (IBAction)ClickedCancel:(id)sender {
+- (IBAction)clickedCancel:(id)sender {
   [self close];
 }
 
 - (void) close {
-  [Globals popOutView:self.requestView fadeOutBgdView:self.BGView completion:^{
+  [Globals popOutView:self.requestView fadeOutBgdView:self.bgView completion:^{
     [self.view removeFromSuperview];
     [self removeFromParentViewController];
   }];

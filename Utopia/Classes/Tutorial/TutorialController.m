@@ -171,21 +171,18 @@
     dvc = [[DialogueViewController alloc] initWithDialogueProto:dp.build useSmallBubble:shortBubble buttonText:buttonText];
     dvc.delegate = self;
     [vc addChildViewController:dvc];
-    [vc.view insertSubview:dvc.view belowSubview:self.touchView];
+    [vc.view addSubview:dvc.view];
     dvc.view.frame = vc.view.bounds;
     self.dialogueViewController = dvc;
-    
-    [self.touchView addResponder:self.dialogueViewController];
   } else {
     dvc = self.dialogueViewController;
     [dvc extendDialogue:dp.build];
     [dvc animateNext];
   }
   
-  self.touchView.userInteractionEnabled = !allowTouch;
-  self.dialogueViewController.view.userInteractionEnabled = allowTouch;
-  
-  //dvc.bottomGradient.hidden = !allowTouch;
+  if (!allowTouch) {
+    [self.dialogueViewController allowClickThrough];
+  }
 }
 
 - (void) displayDialogue:(NSArray *)dialogue allowTouch:(BOOL)allowTouch useShortBubble:(BOOL)shortBubble {
@@ -195,11 +192,6 @@
 - (void) beginTutorial {
   [self.gameViewController.topBarViewController.mainView setHidden:YES];
   [self.gameViewController.topBarViewController.chatBottomView setHidden:YES];
-  
-  self.touchView = [[TutorialTouchView alloc] initWithFrame:self.gameViewController.view.bounds];
-  [self.gameViewController.view addSubview:self.touchView];
-  [self.touchView addResponder:[CCDirector sharedDirector].view];
-  self.touchView.userInteractionEnabled = NO;
   
 #ifdef DEBUG
   [self initHomeMap];
@@ -251,7 +243,7 @@
     self.topBarViewController.view.frame = self.gameViewController.view.bounds;
     self.topBarViewController.mainView.hidden = YES;
     [self.gameViewController addChildViewController:self.topBarViewController];
-    [self.gameViewController.view insertSubview:self.topBarViewController.view belowSubview:self.touchView];
+    [self.gameViewController.view addSubview:self.topBarViewController.view];
     [self.topBarViewController displayMenuButton];
     [self.topBarViewController displayCoinBars];
     
@@ -340,8 +332,6 @@
   
   [self.gameViewController.topBarViewController.mainView setHidden:NO];
   [self.gameViewController.topBarViewController.chatBottomView setHidden:NO];
-  
-  [self.touchView removeFromSuperview];
   
   self.currentStep = TutorialStepComplete;
 }
@@ -1052,21 +1042,20 @@ static int timesCloseClicked = 0;
 #pragma mark - DialogueViewController delegate
 
 - (void) dialogueViewController:(DialogueViewController *)dvc willDisplaySpeechAtIndex:(int)index {
-  if ((_currentStep == TutorialStepBeginBuildingOne && index == 1) ||
-      (_currentStep == TutorialStepBeginBuildingTwo && index == 2) ||
-      (_currentStep == TutorialStepBeginBuildingThree && index == 3)) {
-    dvc.view.userInteractionEnabled = NO;
-  } else if (self.currentStep == TutorialStepBeginBuildingThree && index == 1) {
-    [self.homeMap moveToOilDrill];
-  } else if (self.currentStep == TutorialStepFacebookLogin && index == 1) {
-    [self.homeMap panToMark];
-  } else if (self.currentStep == TutorialStepBattleEnemyTaunt && index == 1) {
-    [self.battleLayer enemyTwoLookAtEnemy];
-  } else if (self.currentStep == TutorialStepFacebookLogin && index == dvc.dialogue.speechSegmentList.count-1) {
-    //[dvc showFbButtonView];
-  } else if (self.currentStep == TutorialStepAttackMap && index == dvc.dialogue.speechSegmentList.count-1) {
-    [self.homeMap guideFaceForward];
-  }
+  if (index == dvc.dialogue.speechSegmentList.count-1 &&
+      ((_currentStep == TutorialStepBeginBuildingOne) ||
+       (_currentStep == TutorialStepBeginBuildingTwo) ||
+       (_currentStep == TutorialStepBeginBuildingThree))) {
+        [dvc allowClickThrough];
+      } else if (self.currentStep == TutorialStepBeginBuildingThree && index == 1) {
+        [self.homeMap moveToOilDrill];
+      } else if (self.currentStep == TutorialStepFacebookLogin && index == 1) {
+        [self.homeMap panToMark];
+      } else if (self.currentStep == TutorialStepBattleEnemyTaunt && index == 1) {
+        [self.battleLayer enemyTwoLookAtEnemy];
+      } else if (self.currentStep == TutorialStepAttackMap && index == dvc.dialogue.speechSegmentList.count-1) {
+        [self.homeMap guideFaceForward];
+      }
 }
 
 - (void) dialogueViewController:(DialogueViewController *)dvc didDisplaySpeechAtIndex:(int)index {
@@ -1128,9 +1117,6 @@ static int timesCloseClicked = 0;
     } else if (self.currentStep == TutorialStepAttackMap) {
       [self.topBarViewController allowAttackClick];
     }
-    
-    [self.touchView removeResponder:self.dialogueViewController];
-    self.touchView.userInteractionEnabled = NO;
     
     self.dialogueViewController = nil;
   }

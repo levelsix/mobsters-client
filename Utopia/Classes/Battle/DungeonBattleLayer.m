@@ -53,7 +53,7 @@
 
 - (void) youWon {
   [super youWon];
-  [self.endView updateForRewards:[Reward createRewardsForDungeon:self.dungeonInfo droplessStageNums:self.droplessStageNums] isWin:YES allowsContinue:[self shouldShowContinueButton]];
+  [self.endView updateForRewards:[Reward createRewardsForDungeon:self.dungeonInfo droplessStageNums:self.droplessStageNums] isWin:YES allowsContinue:NO continueCost:0];
   [[OutgoingEventController sharedOutgoingEventController] endDungeon:self.dungeonInfo userWon:YES droplessStageNums:self.droplessStageNums delegate:self];
   [self makeGoCarrotCalls];
   
@@ -62,7 +62,10 @@
 
 - (void) youLost {
   [super youLost];
-  [self.endView updateForRewards:[Reward createRewardsForDungeon:self.dungeonInfo tillStage:_curStage-1 droplessStageNums:self.droplessStageNums] isWin:NO allowsContinue:[self shouldShowContinueButton]];
+  
+  Globals *gl = [Globals sharedGlobals];
+  int gemsAmount = [gl calculateGemCostToHealTeamDuringBattle:self.myTeam];
+  [self.endView updateForRewards:[Reward createRewardsForDungeon:self.dungeonInfo tillStage:_curStage-1 droplessStageNums:self.droplessStageNums] isWin:NO allowsContinue:YES continueCost:gemsAmount];
   
   [self saveCurrentStateWithForceFlush:YES];
 }

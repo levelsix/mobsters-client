@@ -101,7 +101,7 @@
   [super youWon];
   
   PvpProto *pvp = self.defendersList[_curQueueNum];
-  [self.endView updateForRewards:[Reward createRewardsForPvpProto:pvp droplessStageNums:self.droplessStageNums isWin:YES] isWin:YES allowsContinue:[self shouldShowContinueButton]];
+  [self.endView updateForRewards:[Reward createRewardsForPvpProto:pvp droplessStageNums:self.droplessStageNums isWin:YES] isWin:YES allowsContinue:NO continueCost:0];
   [[OutgoingEventController sharedOutgoingEventController] endPvpBattleMessage:pvp userAttacked:_userAttacked userWon:YES droplessStageNums:self.droplessStageNums delegate:self];
   
   // Send a private chat if avenge
@@ -115,7 +115,7 @@
   [super youLost];
   
   PvpProto *pvp = self.defendersList[_curQueueNum];
-  [self.endView updateForRewards:[Reward createRewardsForPvpProto:pvp droplessStageNums:self.droplessStageNums isWin:NO] isWin:NO allowsContinue:[self shouldShowContinueButton]];
+  [self.endView updateForRewards:[Reward createRewardsForPvpProto:pvp droplessStageNums:self.droplessStageNums isWin:NO] isWin:NO allowsContinue:NO continueCost:0];
   [[OutgoingEventController sharedOutgoingEventController] endPvpBattleMessage:pvp userAttacked:_userAttacked userWon:NO droplessStageNums:self.droplessStageNums delegate:self];
   
   // Send a private chat if avenge
@@ -712,7 +712,7 @@
   statue.anchorPoint = ccp(0.6, 0.25);
   
   CCSprite *shadow = [CCSprite spriteWithImageNamed:@"statueshadow.png"];
-  shadow.position = ccp(5, 5);
+  shadow.position = ccp(-5, -1);
   
   CCNode *node = [CCNode node];
   [node addChild:shadow];

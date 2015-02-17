@@ -33,6 +33,8 @@
   CGPoint _originalProgressCenter;
   
   int _structIdForArrow;
+  
+  BOOL _isAnimatingFallingGems;
 }
 
 @property (nonatomic, assign) IBOutlet SplitImageProgressBar *expBar;
@@ -68,6 +70,10 @@
 @property (nonatomic, assign) IBOutlet UILabel *buildersLabel;
 @property (nonatomic, assign) IBOutlet UIButton *addBuilderButton;
 @property (nonatomic, assign) IBOutlet UIView *saleView;
+@property (nonatomic, assign) IBOutlet UIImageView *saleGemsIcon;
+@property (nonatomic, assign) IBOutlet UILabel *saleLabel;
+@property (nonatomic, assign) IBOutlet UILabel *saleTimeLabel;
+@property (nonatomic, assign) IBOutlet UIImageView *saleMultiplierIcon;
 
 @property (nonatomic, retain) IBOutlet UIView *freeGemsView;
 @property (nonatomic, retain) IBOutlet UIView *freeGemsSpinner;

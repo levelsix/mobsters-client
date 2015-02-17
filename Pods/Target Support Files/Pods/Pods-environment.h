@@ -90,6 +90,12 @@
 #define COCOAPODS_VERSION_MINOR_ProtocolBuffers 9
 #define COCOAPODS_VERSION_PATCH_ProtocolBuffers 2
 
+// Reachability
+#define COCOAPODS_POD_AVAILABLE_Reachability
+#define COCOAPODS_VERSION_MAJOR_Reachability 3
+#define COCOAPODS_VERSION_MINOR_Reachability 2
+#define COCOAPODS_VERSION_PATCH_Reachability 0
+
 // UIImage+BlurredFrame
 #define COCOAPODS_POD_AVAILABLE_UIImage_BlurredFrame
 #define COCOAPODS_VERSION_MAJOR_UIImage_BlurredFrame 0

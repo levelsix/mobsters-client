@@ -33,8 +33,9 @@
 }
 
 - (void) setupItems {
-  NSMutableArray *arr = [NSMutableArray array];
-  for (int i = 0; i < 20; i++) {
+  // No longer randomizing, just use the current display items list with db order
+//  NSMutableArray *arr = [NSMutableArray array];
+//  for (int i = 0; i < 20; i++) {
     NSMutableArray *sub = [NSMutableArray array];
     for (BoosterDisplayItemProto *item in self.boosterPack.displayItemsList) {
       // Add it as many times as quantity
@@ -43,10 +44,10 @@
         [sub addObject:item];
       }
     }
-    [sub shuffle];
-    [arr addObjectsFromArray:sub];
-  }
-  self.items = arr;
+//    [sub shuffle];
+//    [arr addObjectsFromArray:sub];
+//  }
+  self.items = sub;
   
   self.gachaTable.tableView.repeatSize = CGSizeMake(0, TABLE_CELL_WIDTH*self.items.count);
 }
@@ -516,6 +517,11 @@
       [self displayWhiteFlash];
     } else if (self.prize.itemId) {
       [self displayItemPrizeView];
+    } else {
+      self.gachaTable.userInteractionEnabled = YES;
+      _isSpinning = NO;
+      
+      [self.topBar updateLabels];
     }
     /*
     if (self.prize.monsterId) {

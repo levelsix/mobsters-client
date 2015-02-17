@@ -62,6 +62,7 @@
     
     self.iconLabel.text = labelName;
     self.itemQuantityLabel.text = [NSString stringWithFormat:@"%dx", quantity];
+    self.itemQuantityLabel.superview.hidden = quantity <= 1;
     
     self.itemView.hidden = NO;
     self.mainView.hidden = YES;

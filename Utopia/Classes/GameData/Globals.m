@@ -180,22 +180,23 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   for (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto *aso in constants.animatedSpriteOffsetsList) {
     [self.animatingSpriteOffsets setObject:aso.offSet forKey:aso.imageName];
   }
+  
+  [Globals backgroundDownloadFiles:constants.fileDownloadProtoList];
 }
 
-+ (void) asyncDownloadBundles {
-  //  Globals *gl = [Globals sharedGlobals];
-  //  StartupResponseProto_StartupConstants_DownloadableNibConstants *n = gl.downloadableNibConstants;
-  NSArray *bundleNames = [NSArray arrayWithObjects:nil];
-  Downloader *dl = [Downloader sharedDownloader];
++ (void) backgroundDownloadFiles:(NSArray *)fileNames {
+  NSMutableArray *toDownload = [NSMutableArray array];
   
-  int i = BUNDLE_SCHEDULE_INTERVAL;
-  for (NSString *name in bundleNames) {
-    if (![self bundleExists:name]) {
-      [dl performSelector:@selector(asyncDownloadBundle:) withObject:name afterDelay:i];
-      LNLog(@"Scheduled download of bundle %@ in %d seconds", name, i);
-      i += BUNDLE_SCHEDULE_INTERVAL;
-    }
+  for (StartupResponseProto_StartupConstants_FileDownloadConstantProto *f in fileNames) {
+    NSString *fileName = [self getDoubleResolutionImage:f.fileName useiPhone6Prefix:f.useIphone6Prefix];
+    
+    BgdFileDownload *bgd = [[BgdFileDownload alloc] init];
+    bgd.fileName = fileName;
+    bgd.onlyUseWifi = f.downloadOnlyOverWifi;
+    [toDownload addObject:bgd];
   }
+  
+  [[Downloader sharedDownloader] backgroundDownloadFiles:toDownload];
 }
 
 + (NSString *) font {
@@ -236,6 +237,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (NSString *) convertTimeToShortString:(int)secs {
+  return [self convertTimeToShortString:secs withAllDenominations:NO];
+}
+
++ (NSString *) convertTimeToShortString:(int)secs withAllDenominations:(BOOL)allDenom {
   if (secs <= 0) {
     return @"0s";
   }
@@ -247,22 +252,28 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   int mins = secs / 60;
   secs %= 60;
   
+  NSString *formatStr = allDenom ? @"%02d" : @"%d";
+  
   if (days > 0) {
-    NSString *hrsStr = hrs == 0 ? @"" : [NSString stringWithFormat:@" %dh", hrs];
-    return [NSString stringWithFormat:@"%dd%@", days, hrsStr];
+    NSString *hrsStr = hrs > 0 || allDenom ? [NSString stringWithFormat:[NSString stringWithFormat:@" %@h", formatStr], hrs] : @"";
+    NSString *minsStr = allDenom ? [NSString stringWithFormat:[NSString stringWithFormat:@" %@m", formatStr], mins] : @"";
+    NSString *secsStr = allDenom ? [NSString stringWithFormat:[NSString stringWithFormat:@" %@s", formatStr], secs] : @"";
+    return [NSString stringWithFormat:[NSString stringWithFormat:@"%@d%%@%%@%%@", formatStr], days, hrsStr, minsStr, secsStr];
   }
   
-  if (hrs > 0) {
-    NSString *minsStr = mins == 0 ? @"" : [NSString stringWithFormat:@" %dm", mins];
-    return [NSString stringWithFormat:@"%dh%@", hrs, minsStr];
+  // Choosing to set all denom to show hrs always.. For sale view controller
+  if (hrs > 0 || allDenom) {
+    NSString *minsStr = mins > 0 || allDenom ? [NSString stringWithFormat:[NSString stringWithFormat:@" %@m", formatStr], mins] : @"";
+    NSString *secsStr = allDenom ? [NSString stringWithFormat:[NSString stringWithFormat:@" %@s", formatStr], secs] : @"";
+    return [NSString stringWithFormat:[NSString stringWithFormat:@"%@h%%@%%@", formatStr], hrs, minsStr, secsStr];
   }
   
   if (mins > 0) {
-    NSString *secsStr = secs == 0 ? @"" : [NSString stringWithFormat:@" %ds", secs];
-    return [NSString stringWithFormat:@"%dm%@", mins, secsStr];
+    NSString *secsStr = secs > 0 || allDenom ? [NSString stringWithFormat:@" %ds", secs] : @"";
+    return [NSString stringWithFormat:[NSString stringWithFormat:@"%@m%%@", formatStr], mins, secsStr];
   }
   
-  return [NSString stringWithFormat:@"%ds", secs];
+  return [NSString stringWithFormat:[NSString stringWithFormat:@"%@s", formatStr], secs];
 }
 
 + (NSString *) convertTimeToShorterString:(int)secs {
@@ -1103,18 +1114,26 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (void) shakeView:(UIView *)view duration:(float)duration offset:(int)offset {
-  CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"position"];
-  // Divide by 2 to account for autoreversing
-  int repeatCt = duration / SHAKE_DURATION / 2;
-  [animation setDuration:SHAKE_DURATION];
-  [animation setRepeatCount:repeatCt];
-  [animation setAutoreverses:YES];
-  [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
-  [animation setFromValue:[NSValue valueWithCGPoint:
-                           CGPointMake(view.center.x - offset, view.center.y)]];
-  [animation setToValue:[NSValue valueWithCGPoint:
-                         CGPointMake(view.center.x + offset, view.center.y)]];
-  [view.layer addAnimation:animation forKey:@"position"];
+  NSMutableArray *keyTimes = [NSMutableArray array];
+  NSMutableArray *values = [NSMutableArray array];
+  const CGPoint pos = view.layer.position;
+  const int numFrames = 60.f*duration;
+  for (int i = 0; i < numFrames-1; ++i)
+  {
+    [keyTimes addObject:@((float)i / (float)numFrames)];
+    [values addObject:[NSValue valueWithCGPoint:CGPointMake(pos.x + (CGFloat)arc4random_uniform(offset) - offset * .5f,
+                                                            pos.y + (CGFloat)arc4random_uniform(offset) - offset * .5f)]];
+  }
+  // Add original point
+  [keyTimes addObject:@((numFrames-1) / (float)numFrames)];
+  [values addObject:[NSValue valueWithCGPoint:pos]];
+  
+  CAKeyframeAnimation *anim = [CAKeyframeAnimation animationWithKeyPath:@"position"];
+  [anim setDuration:duration];
+  [anim setCalculationMode:kCAAnimationLinear];
+  [anim setKeyTimes:keyTimes];
+  [anim setValues:values];
+  [view.layer addAnimation:anim forKey:@"shake"];
 }
 
 + (void) displayUIView:(UIView *)view {
@@ -1350,6 +1369,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   // If view is null, it will download image without worrying about the view
   Globals *gl = [Globals sharedGlobals];
   NSString *key = [NSString stringWithFormat:@"%p", view];
+  
+  [[gl imageViewsWaitingForDownloading] removeObjectForKey:key];
   
   NSString *greyImageKey = [imageName stringByAppendingString:@"greyscale"];
   
@@ -2542,9 +2563,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 + (BOOL) checkEnteringDungeonWithTarget:(id)target noTeamSelector:(SEL)noTeamSelector inventoryFullSelector:(SEL)inventoryFullSelector {
-//#ifdef DEBUG
-//  return YES;
-//#else
+#ifdef DEBUG
+  return YES;
+#else
   // Check that team is valid
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
@@ -2599,7 +2620,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
   
   return YES;
-//#endif
+#endif
 }
 #pragma clang diagnostic pop
 

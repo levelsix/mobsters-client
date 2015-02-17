@@ -18,16 +18,26 @@
 @property (nonatomic, retain) IBOutlet UILabel *nameLabel;
 @property (nonatomic, retain) IBOutlet UILabel *quantityLabel;
 
+@property (nonatomic, retain) IBOutlet UIImageView *cellBgd;
+
 @end
 
-@interface SaleViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate>
+@interface SaleViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate> {
+  float _lastWigglePauseTime;
+}
 
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
 
+@property (nonatomic, retain) IBOutlet UIImageView *litBgdView;
+@property (nonatomic, retain) IBOutlet UIImageView *builderIcon;
+
 @property (nonatomic, retain) IBOutlet UIImageView *timerIcon;
+@property (nonatomic, retain) IBOutlet THLabel *endsInLabel;
 @property (nonatomic, retain) IBOutlet THLabel *timeLeftLabel;
 @property (nonatomic, retain) IBOutlet THLabel *priceLabel;
+
+@property (nonatomic, retain) IBOutlet UILabel *numItemsLabel;
 
 @property (nonatomic, retain) IBOutlet UICollectionView *bonusItemsCollectionView;
 

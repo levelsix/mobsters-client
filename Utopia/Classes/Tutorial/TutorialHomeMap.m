@@ -510,8 +510,12 @@
 
 - (void) moveToLab {
   LabBuilding *tcb = [self labBuilding];
+  [self moveToSprite:tcb animated:NO withOffset:ccp(50, 0)];
+}
+
+- (void) arrowOnLab {
+  LabBuilding *tcb = [self labBuilding];
   [tcb displayArrow];
-  [self moveToSprite:tcb animated:YES withOffset:ccp(50, 0)];
   
   _enteringLab = YES;
   
@@ -645,8 +649,13 @@
 }
 
 - (IBAction)finishNowClicked:(id)sender {
-  _speedupBuilding = (Building *)[self getChildByName:STRUCT_TAG(self.clickableUserStructUuid) recursively:NO];
-  [self speedUpBuildingQueueUp:NO];
+  // Building upgrade tut still needs to send to server
+  if (self.constants) {
+    _speedupBuilding = (Building *)[self getChildByName:STRUCT_TAG(self.clickableUserStructUuid) recursively:NO];
+    [self speedUpBuildingQueueUp:NO];
+  } else {
+    [super finishNowClicked:sender];
+  }
 }
 
 - (void) sendNormStructComplete:(UserStruct *)us {
@@ -659,11 +668,18 @@
   Globals *gl = [Globals sharedGlobals];
   int timeLeft = us.timeLeftForBuildComplete;
   int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
-  us.isComplete = YES;
+  
+  // Building upgrade tut still needs to send to server
+  if (self.constants) {
+    us.isComplete = YES;
+  } else {
+    [super sendSpeedupBuilding:us queueUp:queueUp];
+  }
+  
   [self.delegate buildingWasSpedUp:gemCost];
-  self.clickableUserStructUuid = nil;
   [Globals removeUIArrowFromViewRecursively:self.bottomOptionView];
   self.bottomOptionView = nil;
+  self.clickableUserStructUuid = nil;
 }
 
 - (void) reselectCurrentSelection {
@@ -705,6 +721,10 @@
 }
 
 - (void) retrieveFromBuilding:(HomeBuilding *)hb {
+  // Do nothing
+}
+
+- (void) reloadUpgradeSigns {
   // Do nothing
 }
 

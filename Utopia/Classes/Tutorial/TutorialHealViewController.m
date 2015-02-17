@@ -169,6 +169,8 @@
   if (self.monsterHealingQueueEndTime.timeIntervalSinceNow < 0) {
     [self speedupButtonClicked:nil];
   }
+  
+  
 }
 
 - (void) listView:(ListCollectionView *)listView minusClickedAtIndexPath:(NSIndexPath *)indexPath {
@@ -183,6 +185,9 @@
 }
 
 - (BOOL) canClose {
+  if (_allowClose) {
+    [Globals removeUIArrowFromViewRecursively:self.parentViewController.view];
+  }
   return _allowClose;
 }
 

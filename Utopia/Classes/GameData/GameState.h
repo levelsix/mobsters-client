@@ -304,4 +304,6 @@
 - (BOOL) hasBeatFirstBoss;
 - (BOOL) hasUpgradedBuilding;
 
+- (NSTimeInterval) timeLeftOnStarterSale;
+
 @end

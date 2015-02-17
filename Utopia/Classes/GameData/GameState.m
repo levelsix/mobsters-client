@@ -2006,4 +2006,17 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return NO;
 }
 
+- (NSTimeInterval) timeLeftOnStarterSale {
+  int secsSinceStart = -self.createTime.timeIntervalSinceNow;
+  int mod = 60*60*24;
+  int days = secsSinceStart/mod;
+  int secsForToday = mod - (secsSinceStart % mod);
+  
+  if (days < 5 && secsForToday >= 0) {
+    return secsForToday;
+  } else {
+    return -1;
+  }
+}
+
 @end

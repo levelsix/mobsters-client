@@ -180,8 +180,8 @@
 
 @implementation MapBotView
 
-#define ANIMATION_SPEED 0.175f
-#define ANIMATION_DELAY 0.085f
+#define MAP_ANIMATION_SPEED 0.175f
+#define MAP_ANIMATION_DELAY 0.085f
 
 - (void) awakeFromNib {
   self.animateViews = [self.animateViews sortedArrayUsingComparator:^NSComparisonResult(UIView *obj1, UIView *obj2) {
@@ -208,7 +208,7 @@
   [self update];
   
   self.bgdView.alpha = 0.f;
-  [UIView animateWithDuration:ANIMATION_SPEED+ANIMATION_DELAY*self.animateViews.count delay:0.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+  [UIView animateWithDuration:MAP_ANIMATION_SPEED+MAP_ANIMATION_DELAY*self.animateViews.count delay:0.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
     self.bgdView.alpha = 1.f;
   } completion:nil];
   
@@ -219,7 +219,7 @@
       v.center = ccp(v.center.x, v.superview.frame.size.height);
       
       BOOL isLast = self.animateViews.count-1 == i;
-      [UIView animateWithDuration:ANIMATION_SPEED delay:ANIMATION_DELAY*i options:UIViewAnimationOptionCurveEaseInOut animations:^{
+      [UIView animateWithDuration:MAP_ANIMATION_SPEED delay:MAP_ANIMATION_DELAY*i options:UIViewAnimationOptionCurveEaseInOut animations:^{
         v.alpha = 1.f;
         v.center = ccp(v.center.x, v.superview.frame.size.height-v.frame.size.height/2);
       } completion:^(BOOL finished) {
@@ -236,7 +236,7 @@
 }
 
 - (void) animateOut:(void (^)())block {
-  [UIView animateWithDuration:ANIMATION_SPEED+ANIMATION_DELAY*self.animateViews.count delay:0.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+  [UIView animateWithDuration:MAP_ANIMATION_SPEED+MAP_ANIMATION_DELAY*self.animateViews.count delay:0.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
     self.bgdView.alpha = 0.f;
   } completion:nil];
   
@@ -244,7 +244,7 @@
     for (int i = 0; i < self.animateViews.count; i++) {
       UIView *v = [self.animateViews objectAtIndex:i];
       BOOL isLast = self.animateViews.count-1 == i;
-      [UIView animateWithDuration:ANIMATION_SPEED delay:ANIMATION_DELAY*i options:UIViewAnimationOptionCurveEaseInOut animations:^{
+      [UIView animateWithDuration:MAP_ANIMATION_SPEED delay:MAP_ANIMATION_DELAY*i options:UIViewAnimationOptionCurveEaseInOut animations:^{
         v.alpha = 0.f;
         v.center = ccp(v.center.x, v.superview.frame.size.height);
       } completion:^(BOOL finished) {

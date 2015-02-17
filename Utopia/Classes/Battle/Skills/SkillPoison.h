@@ -14,7 +14,7 @@
   NSInteger _orbDamage;
   
   // Counters
-  NSInteger _tempDamageDealt;
+  int _tempDamageDealt;
 }
 
 @end

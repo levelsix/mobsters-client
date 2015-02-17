@@ -15,7 +15,7 @@
 
 @implementation SaleViewCell
 
-- (void) updateForDisplayItem:(BoosterDisplayItemProto *)display {
+- (void) updateForDisplayItem:(BoosterDisplayItemProto *)display isSpecial:(BOOL)isSpecial {
   GameState *gs = [GameState sharedGameState];
   NSString *imgName = nil;
   if (display.gemReward) {
@@ -36,6 +36,20 @@
     self.itemIcon.contentMode = UIViewContentModeScaleAspectFit;
   } else {
     self.itemIcon.contentMode = UIViewContentModeCenter;
+  }
+  
+  if (isSpecial) {
+    self.nameLabel.font = [UIFont fontWithName:@"Gotham-Ultra" size:self.nameLabel.font.pointSize];
+    self.quantityLabel.font = [UIFont fontWithName:@"Gotham-Ultra" size:self.quantityLabel.font.pointSize];
+    
+    self.nameLabel.text = [self.nameLabel.text uppercaseString];
+    
+    self.cellBgd.hidden = NO;
+  } else {
+    self.nameLabel.font = [UIFont fontWithName:@"Gotham-Bold" size:self.nameLabel.font.pointSize];
+    self.quantityLabel.font = [UIFont fontWithName:@"Gotham-Bold" size:self.quantityLabel.font.pointSize];
+    
+    self.cellBgd.hidden = YES;
   }
 }
 
@@ -66,8 +80,15 @@ static NSString *nibName = @"SaleViewCell";
   self.timeLeftLabel.strokeSize = 1.f;
   self.timeLeftLabel.gradientStartColor = [UIColor whiteColor];
   self.timeLeftLabel.gradientEndColor = [UIColor colorWithHexString:@"ffe5ba"];
-  self.timeLeftLabel.shadowColor = [UIColor colorWithHexString:@"aa6b00c0"];
+//  self.timeLeftLabel.shadowColor = [UIColor colorWithHexString:@"aa6b00c0"];
   self.timeLeftLabel.shadowBlur = 0.9f;
+  
+  self.endsInLabel.strokeColor = self.timeLeftLabel.strokeColor;
+  self.endsInLabel.strokeSize = self.timeLeftLabel.strokeSize;
+  self.endsInLabel.gradientStartColor = self.timeLeftLabel.gradientStartColor;
+  self.endsInLabel.gradientEndColor = self.timeLeftLabel.gradientEndColor;
+  self.endsInLabel.shadowColor = self.timeLeftLabel.shadowColor;
+  self.endsInLabel.shadowBlur = self.timeLeftLabel.shadowBlur;
   
   self.priceLabel.strokeColor = [UIColor colorWithHexString:@"2a7204"];
   self.priceLabel.strokeSize = 1.f;
@@ -78,6 +99,12 @@ static NSString *nibName = @"SaleViewCell";
   self.priceLabel.text = [[IAPHelper sharedIAPHelper] priceForProduct:self.product];
   
   [self.bonusItemsCollectionView registerNib:[UINib nibWithNibName:nibName bundle:nil] forCellWithReuseIdentifier:nibName];
+  
+  self.numItemsLabel.text = [NSString stringWithFormat:@"INCLUDES THESE %d ITEMS!", (int)self.sale.displayItemsList.count];
+  
+  self.bonusItemsCollectionView.superview.layer.cornerRadius = 5.f;
+  self.bonusItemsCollectionView.superview.height += 0.5f;
+  self.bonusItemsCollectionView.superview.width += 0.5f;
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -86,6 +113,12 @@ static NSString *nibName = @"SaleViewCell";
   self.updateTimer = [NSTimer timerWithTimeInterval:1.f target:self selector:@selector(updateLabels) userInfo:nil repeats:YES];
   [[NSRunLoop mainRunLoop] addTimer:self.updateTimer forMode:NSRunLoopCommonModes];
   [self updateLabels];
+  
+  self.litBgdView.alpha = 0.f;
+  [self performSelector:@selector(fadeLitBgd) withObject:nil afterDelay:1.f];
+  [self performSelector:@selector(rotateBuilderBadge) withObject:nil afterDelay:1.5f];
+  
+  [[CCDirector sharedDirector] pause];
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
@@ -95,28 +128,32 @@ static NSString *nibName = @"SaleViewCell";
   self.updateTimer = nil;
   
   [[NSNotificationCenter defaultCenter] removeObserver:self];
+  
+  [[CCDirector sharedDirector] resume];
 }
 
 - (void) updateLabels {
   GameState *gs = [GameState sharedGameState];
   
-  int secsSinceStart = -gs.createTime.timeIntervalSinceNow;
-  int mod = 60*60*24;
-  int days = secsSinceStart/mod;
-  int secsForToday = mod - (secsSinceStart % mod);
+  int secsLeft = gs.timeLeftOnStarterSale;
   
-  if (days < 5 && secsForToday >= 0) {
-    self.timeLeftLabel.text = [@" " stringByAppendingString:[Globals convertTimeToShortString:secsForToday].uppercaseString];
+  if (secsLeft >= 0) {
+    self.timeLeftLabel.text = [@" " stringByAppendingString:[Globals convertTimeToShortString:secsLeft withAllDenominations:YES].uppercaseString];
     
-    [Globals adjustViewForCentering:self.timeLeftLabel.superview withLabel:self.timeLeftLabel];
+    //[Globals adjustViewForCentering:self.timeLeftLabel.superview withLabel:self.timeLeftLabel];
   } else if (self.timerIcon) {
     [self.timerIcon removeFromSuperview];
     self.timerIcon = nil;
     
+    [self.endsInLabel removeFromSuperview];
+    self.endsInLabel = nil;
+    
     self.timeLeftLabel.centerX = self.timeLeftLabel.superview.width/2;
+    self.timeLeftLabel.originY += 1.f;
     self.timeLeftLabel.textAlignment = NSTextAlignmentCenter;
     
-    self.timeLeftLabel.text = @"Limited Time!";
+    self.timeLeftLabel.text = @"LIMITED TIME!";
+    self.timeLeftLabel.font = [UIFont fontWithName:self.timeLeftLabel.font.fontName size:self.timeLeftLabel.font.pointSize+3];
   }
 }
 
@@ -141,6 +178,64 @@ static NSString *nibName = @"SaleViewCell";
   }];
 }
 
+#pragma mark - Animations
+
+static float rotationAmt = M_PI/15;
+static float timePerRotation = 0.08;
+static float fadeInTime = 2.f;
+static float fadeOutTime = 2.f;
+
+- (void) fadeLitBgd {
+  // flash in fast, fade out slow
+  self.litBgdView.alpha = 0.f;
+  [UIView animateWithDuration:fadeInTime animations:^{
+    self.litBgdView.alpha = 1.f;
+  } completion:^(BOOL finished) {
+    [UIView animateWithDuration:fadeOutTime animations:^{
+      self.litBgdView.alpha = 0.f;
+    } completion:^(BOOL finished) {
+      [self fadeLitBgd];
+    }];
+  }];
+}
+
+- (void) rotateBuilderBadge {
+  self.builderIcon.layer.transform = CATransform3DIdentity;
+  
+  // Pause for 0.5 after first wiggle, 2.f for second wiggle, then repeat
+  [UIView animateWithDuration:timePerRotation/2 delay:0.f options:UIViewAnimationOptionCurveEaseOut animations:^{
+    self.builderIcon.layer.transform = CATransform3DMakeRotation(-rotationAmt, 0, 0, 1);
+  } completion:^(BOOL finished) {
+    
+    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
+    // Divide by 2 to account for autoreversing
+    int repeatCt = 3;
+    [animation setDuration:timePerRotation];
+    [animation setRepeatCount:repeatCt];
+    [animation setAutoreverses:YES];
+    [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+    [animation setFromValue:[NSNumber numberWithFloat:-rotationAmt]];
+    [animation setToValue:[NSNumber numberWithFloat:rotationAmt]];
+    [animation setDelegate:self];
+    //[animation setBeginTime:CACurrentMediaTime()+4.f];
+    [self.builderIcon.layer addAnimation:animation forKey:@"rotation"];
+  }];
+}
+
+- (void) animationDidStop:(CAAnimation *)anim finished:(BOOL)flag {
+  
+  if (flag) {
+    [UIView animateWithDuration:timePerRotation/2 delay:0.f options:UIViewAnimationOptionCurveEaseIn animations:^{
+      self.builderIcon.layer.transform = CATransform3DMakeRotation(0, 0, 0, 1);
+    } completion:^(BOOL finished) {
+      float animTime = timePerRotation*7;
+      _lastWigglePauseTime = _lastWigglePauseTime == fadeInTime ? fadeOutTime : fadeInTime;
+      float nextDelay = _lastWigglePauseTime - animTime;
+      [self performSelector:@selector(rotateBuilderBadge) withObject:nil afterDelay:nextDelay];
+    }];
+  }
+}
+
 #pragma mark - Collection View Data Source/Delegate
 
 - (NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -150,7 +245,7 @@ static NSString *nibName = @"SaleViewCell";
 - (UICollectionViewCell *) collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
   SaleViewCell *cell = [self.bonusItemsCollectionView dequeueReusableCellWithReuseIdentifier:nibName forIndexPath:indexPath];
   
-  [cell updateForDisplayItem:self.sale.displayItemsList[indexPath.row]];
+  [cell updateForDisplayItem:self.sale.displayItemsList[indexPath.row] isSpecial:indexPath.row == 0];
   
   return cell;
 }

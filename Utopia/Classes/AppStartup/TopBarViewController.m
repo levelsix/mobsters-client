@@ -125,7 +125,7 @@
   [center addObserver:self selector:@selector(updateShopBadge) name:ITEMS_CHANGED_NOTIFICATION object:nil];
   // If updateShopBadge returns YES, we need to animate it in viewDidAppear so set it to visible or not based on that.
   if ([self updateShopBadge]) {
-    self.shopBadge.alpha = 0.f; 
+    self.shopBadge.alpha = 0.f;
   }
   
   if (gs.connected && !self.chatBottomView && !gs.isTutorial) {
@@ -293,7 +293,7 @@
 - (BOOL) updateShopBadge {
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
-
+  
   BOOL dailyFreeSpin = [gs hasDailyFreeSpin];
   int numGoodSpins = [gs numberOfFreeSpinsForBoosterPack:[gs.boosterPacks[1] boosterPackId]];
   int numBadSpins = [gs numberOfFreeSpinsForBoosterPack:[gs.boosterPacks[0] boosterPackId]];
@@ -432,10 +432,10 @@
     }
   }
   
-//  // Check if squad HQ can even be built yet
-//  UserStruct *cs = [gs myClanHouse];
-//  int level = cs.staticStruct.structInfo.level;
-//  BOOL availBuilding = (cs.isComplete || level > 1);
+  //  // Check if squad HQ can even be built yet
+  //  UserStruct *cs = [gs myClanHouse];
+  //  int level = cs.staticStruct.structInfo.level;
+  //  BOOL availBuilding = (cs.isComplete || level > 1);
   BOOL availBuilding = YES; // Should always show
   
   self.freeGemsBadge.badgeNum = badgeNum;
@@ -540,6 +540,13 @@
   if (self.secretGiftTimerView.hidden != (!shouldDisplayTimer)) {
     [self updateSecretGiftView];
   }
+  
+  int saleTimeLeft = [gs timeLeftOnStarterSale];
+  if (saleTimeLeft >= 0) {
+    self.saleTimeLabel.text = [[Globals convertTimeToShortString:saleTimeLeft] uppercaseString];
+  } else {
+    self.saleTimeLabel.text = @"SALE!";
+  }
 }
 
 - (void) showPrivateChatNotification:(NSNotification *)notification {
@@ -593,6 +600,12 @@
     self.freeGemsView.originY = self.saleView.originY-self.freeGemsView.height;
     
     self.timersView.height = self.freeGemsView.originY-self.timersView.originY;
+    
+    if (!_isAnimatingFallingGems) {
+      self.saleMultiplierIcon.hidden = YES;
+      [self performFallingGemsAnimation];
+      _isAnimatingFallingGems = YES;
+    }
   } else {
     self.freeGemsView.originY = self.shopView.originY-self.freeGemsView.height;
     
@@ -600,6 +613,71 @@
     
     self.saleView.hidden = YES;
   }
+}
+
+- (void) performFallingGemsAnimation {
+  
+  [self setupFallingGems];
+  
+  [UIView animateWithDuration:0.1f animations:^{
+    self.saleMultiplierIcon.alpha = 0.f;
+  }];
+  
+  [self.saleGemsIcon startAnimating];
+  [self performSelector:@selector(checkGemsAnimationComplete) withObject:nil afterDelay:self.saleGemsIcon.animationDuration];
+}
+
+- (void) checkGemsAnimationComplete {
+  if (!self.saleGemsIcon.isAnimating) {
+    // Animate the multiplier
+    
+    float scale = 15.f;
+    self.saleMultiplierIcon.transform = CGAffineTransformMakeScale(scale, scale);
+    self.saleMultiplierIcon.alpha = 0.f;
+    self.saleMultiplierIcon.hidden = NO;
+    [UIView animateWithDuration:0.2f delay:0.f options:UIViewAnimationOptionCurveEaseIn animations:^{
+      self.saleMultiplierIcon.alpha = 1.f;
+      self.saleMultiplierIcon.transform = CGAffineTransformIdentity;
+    } completion:^(BOOL finished) {
+      [Globals shakeView:self.saleView duration:0.4f offset:5.f];
+      [self performSelector:@selector(performFallingGemsAnimation) withObject:nil afterDelay:10.f];
+    }];
+  } else {
+    [self performSelector:@selector(checkGemsAnimationComplete) withObject:nil afterDelay:0.1f];
+  }
+}
+
+- (void) setupFallingGems {
+  NSMutableArray *imgs = [NSMutableArray array];
+  
+  if (!self.saleGemsIcon.animationImages.count) {
+    for (int i = 1; i <= 26; i++) {
+      NSString *str = [NSString stringWithFormat:@"fallinggems%02d.png", i];
+      UIImage *img = [Globals imageNamed:str];
+      [imgs addObject:img];
+    }
+    
+    self.saleGemsIcon.image = [imgs lastObject];
+    self.saleGemsIcon.animationImages = imgs;
+    
+    self.saleGemsIcon.animationDuration = imgs.count*0.04;
+    self.saleGemsIcon.animationRepeatCount = 1;
+    
+    self.saleTimeLabel.alpha = 0.f;
+    self.saleLabel.alpha = 1.f;
+    [self fadeSaleLabels];
+  }
+}
+
+
+
+- (void) fadeSaleLabels {
+  [UIView animateWithDuration:1.f animations:^{
+    self.saleLabel.alpha = 1.f-self.saleLabel.alpha;
+    self.saleTimeLabel.alpha = 1.f-self.saleTimeLabel.alpha;
+  } completion:^(BOOL finished) {
+    [self performSelector:@selector(fadeSaleLabels) withObject:nil afterDelay:6.f];
+  }];
 }
 
 #pragma mark - Bottom view methods

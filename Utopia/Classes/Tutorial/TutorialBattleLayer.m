@@ -563,4 +563,8 @@
   // Do nothing
 }
 
+- (void) begin {
+  [self deployBattleSprite:[self firstMyPlayer]];
+}
+
 @end
