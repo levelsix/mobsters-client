@@ -1811,7 +1811,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   if (proto.status == QueueUpResponseProto_QueueUpStatusSuccess) {
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
-    [Globals popupMessage:@"Server failed to queue up."];
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
