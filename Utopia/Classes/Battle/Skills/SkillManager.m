@@ -574,7 +574,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
 - (void) displaySkillCounterPopupForController:(SkillController*)controller withProto:(SkillProto*)proto atPosition:(CGPoint)pos
 {
   NSString *bgName = [NSString stringWithFormat:@"%@.png", [Globals imageNameForElement:(Element)controller.orbColor suffix:@"skilldescription"]];
-  NSString *orbImage = nil, *orbCount = nil, *orbDesc = nil;
+  NSString *orbImage = nil, *orbCount = nil, *orbDesc = nil, *description = nil;
+  
+  if (controller == _playerSkillController) {
+    description = proto.offDesc;
+  } else if (controller == _enemySkillController) {
+    description = proto.defDesc;
+  }
   
   /*
   if ([controller isKindOfClass:[SkillControllerActive class]])
@@ -588,7 +594,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
    */
   
   [_battleLayer.hudView.skillPopupView displayWithSkillName:proto.name
-                                                description:proto.description
+                                                description:description
                                                counterLabel:orbCount
                                              orbDescription:orbDesc
                                             backgroundImage:bgName

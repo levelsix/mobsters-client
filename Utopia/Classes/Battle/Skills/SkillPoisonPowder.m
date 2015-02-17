@@ -39,7 +39,7 @@
 
 - (NSSet*) sideEffects
 {
-  return [NSSet setWithObjects:@(SideEffectTypePoisoned), nil];
+  return [NSSet setWithObjects:@(SideEffectTypeNerfPoison), nil];
 }
 
 - (void) restoreVisualsIfNeeded {
@@ -114,7 +114,7 @@
   action.tag = 1914;
   [opponent.sprite runAction:action];
   
-  [self.playerSprite addSkillSideEffect:SideEffectTypePoisoned];
+  [self.playerSprite addSkillSideEffect:SideEffectTypeNerfPoison];
 }
 
 - (void) removePoison
@@ -132,7 +132,7 @@
   [opponent.sprite stopActionByTag:1914];
   [opponent.sprite runAction:[CCActionTintTo actionWithDuration:0.3 color:[CCColor whiteColor]]];
   
-  [self.playerSprite removeSkillSideEffect:SideEffectTypePoisoned];
+  [self.playerSprite removeSkillSideEffect:SideEffectTypeNerfPoison];
 }
 
 
