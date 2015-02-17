@@ -195,7 +195,7 @@ static NSString *udid = nil;
   }
 }
 
-- (void) initNetworkCommunicationWithDelegate:(id)delegate {
+- (void) initNetworkCommunicationWithDelegate:(id)delegate clearMessages:(BOOL)clearMessages {
   if (self.popupController) {
     [self.popupController close:nil];
     self.popupController = nil;
@@ -228,7 +228,7 @@ static NSString *udid = nil;
   self.tagDelegates = [NSMutableDictionary dictionary];
   [self setDelegate:delegate forTag:CONNECTED_TO_HOST_DELEGATE_TAG];
   
-  if (self.queuedMessages.count) {
+  if (clearMessages && self.queuedMessages.count) {
     LNLog(@"Removing %d queued messages.", (int)self.queuedMessages.count);
     [self.queuedMessages removeAllObjects];
   }
@@ -259,7 +259,7 @@ static NSString *udid = nil;
     LNLog(@"Unable to find delegate for connectedToHost");
   }
   
-  _flushTimer = [NSTimer timerWithTimeInterval:10.f target:self selector:@selector(flush) userInfo:nil repeats:YES];
+  _flushTimer = [NSTimer timerWithTimeInterval:10.f target:self selector:@selector(timerFlush) userInfo:nil repeats:YES];
   [[NSRunLoop mainRunLoop] addTimer:_flushTimer forMode:NSRunLoopCommonModes];
   
   NSMutableArray *toRemove = [NSMutableArray array];
@@ -1764,6 +1764,12 @@ static NSString *udid = nil;
 
 #pragma mark - Flush
 
+- (void) timerFlush {
+  if (!_pauseFlushTimer) {
+    [self flush];
+  }
+}
+
 - (void) flush {
   [self flushAndQueueUp];
   if (self.queuedMessages.count) {
@@ -1848,6 +1854,14 @@ static NSString *udid = nil;
   return found;
 }
 
+- (void) pauseFlushTimer {
+  _pauseFlushTimer = YES;
+}
+
+- (void) resumeFlushTimer {
+  _pauseFlushTimer = NO;
+}
+
 - (void) closeDownConnection {
   [_flushTimer invalidate];
   _flushTimer = nil;
@@ -1855,6 +1869,8 @@ static NSString *udid = nil;
   [self.connectionThread end];
   _canSendRegularEvents = NO;
   _canSendPreDbEvents = NO;
+  
+  LNLog(@"Closed down connection..");
 }
 
 @end

@@ -25,10 +25,15 @@
     self.baseScale = 1.f;
     if (file) [self setupBuildingSprite:file];
     
-    _sign = [[UpgradeSign alloc] init];
-    _sign.anchorPoint = ccp(0.5, 0);
-    [self addChild:_sign z:1];
-    _sign.visible = NO;
+    _greenSign = [[UpgradeSign alloc] initWithGreen:YES];
+    _greenSign.anchorPoint = ccp(0.5, 0);
+    [self addChild:_greenSign z:1];
+    _greenSign.visible = NO;
+    
+    _redSign = [[UpgradeSign alloc] initWithGreen:NO];
+    _redSign.anchorPoint = ccp(0.5, 0);
+    [self addChild:_redSign z:1];
+    _redSign.visible = NO;
     
     _bubble = [[BuildingBubble alloc] init];
     [self addChild:_bubble z:5];
@@ -119,7 +124,8 @@
   self.orientation = self.orientation;
   
   _bubble.position = ccp(self.contentSize.width/2,self.contentSize.height+0.f);
-  _sign.position = ccp(self.contentSize.width/2,1.f);
+  _greenSign.position = ccp(self.contentSize.width/2,1.f);
+  _redSign.position = ccp(self.contentSize.width/2,1.f);
 
   if (self.progressBar) {
     // Redisplay progress bar

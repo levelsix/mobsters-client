@@ -143,9 +143,10 @@
   //}
   
   GameState *gs = [GameState sharedGameState];
+  FacebookDelegate *fd = [FacebookDelegate sharedFacebookDelegate];
   if (!gs.connected) {
     GameViewController *gvc = [GameViewController baseController];
-    [[SocketCommunication sharedSocketCommunication] initNetworkCommunicationWithDelegate:gvc];
+    [[SocketCommunication sharedSocketCommunication] initNetworkCommunicationWithDelegate:gvc clearMessages:fd.timeOfLastLoginAttempt == nil];
   }
   
   // This will restart loading screen
@@ -171,8 +172,8 @@
   [[GameViewController baseController] invalidateAllTimers];
   
   GameState *gs = [GameState sharedGameState];
-  FacebookDelegate *fd = [FacebookDelegate sharedFacebookDelegate];
-  if (gs.connected && !fd.timeOfLastLoginAttempt) {
+  //FacebookDelegate *fd = [FacebookDelegate sharedFacebookDelegate];
+  if (gs.connected) {// && !fd.timeOfLastLoginAttempt) {
     [[OutgoingEventController sharedOutgoingEventController] logout];
     [[SocketCommunication sharedSocketCommunication] closeDownConnection];
     [[GameState sharedGameState] setConnected:NO];

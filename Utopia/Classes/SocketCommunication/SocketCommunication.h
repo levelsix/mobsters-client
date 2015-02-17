@@ -41,6 +41,7 @@
   NSMutableArray *_resourceUpdatedUserItems;
   
   NSDate *_lastFlushedTime;
+  BOOL _pauseFlushTimer;
   
   NSData *_latestTaskClientState;
 }
@@ -72,7 +73,7 @@
 - (void) rebuildSender;
 
 + (SocketCommunication *)sharedSocketCommunication;
-- (void) initNetworkCommunicationWithDelegate:(id)delegate;
+- (void) initNetworkCommunicationWithDelegate:(id)delegate clearMessages:(BOOL)clearMessages;
 - (void) initUserIdMessageQueue;
 - (void) closeDownConnection;
 - (void) messageReceived:(NSData *)buffer withType:(EventProtocolResponse)eventType tag:(int)tag;
@@ -217,5 +218,7 @@
 - (int) sendRetrieveUserMonsterTeamMessage:(NSArray *)userUuids;
 
 - (void) flush;
+- (void) pauseFlushTimer;
+- (void) resumeFlushTimer;
 
 @end

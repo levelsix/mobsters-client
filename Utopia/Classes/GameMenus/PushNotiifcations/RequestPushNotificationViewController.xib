@@ -23,20 +23,20 @@
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.75" colorSpace="custom" customColorSpace="sRGB"/>
                 </view>
                 <view contentMode="scaleToFill" id="HDf-VQ-alJ" userLabel="RequestView">
-                    <rect key="frame" x="144" y="42" width="373" height="263"/>
+                    <rect key="frame" x="144" y="42" width="378" height="263"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <view contentMode="scaleToFill" id="3AK-kP-WKM" customClass="PopupShadowView">
-                            <rect key="frame" x="33" y="93" width="320" height="125"/>
+                            <rect key="frame" x="29" y="93" width="320" height="125"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         </view>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="TribalGirl1T1P3TutBig.png" id="KJv-7f-3AT">
-                            <rect key="frame" x="20" y="8" width="125" height="210"/>
+                            <rect key="frame" x="16" y="8" width="125" height="210"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         </imageView>
                         <view contentMode="scaleToFill" id="6wb-88-nSt" userLabel="InnerView">
-                            <rect key="frame" x="135" y="93" width="218" height="150"/>
+                            <rect key="frame" x="131" y="93" width="218" height="150"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ruby" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="5js-vF-dMj" customClass="NiceFontLabel12">

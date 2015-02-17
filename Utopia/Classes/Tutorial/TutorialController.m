@@ -18,6 +18,8 @@
 #import "SoundEngine.h"
 #import "Analytics.h"
 
+#define TUTORIAL_SAVED_STEP_KEY @"TutorialSavedStepKey"
+
 @implementation TutorialController
 
 - (id) initWithTutorialConstants:(StartupResponseProto_TutorialConstants *)constants gameViewController:(GameViewController *)gvc {
@@ -57,6 +59,8 @@
 - (void) setCurrentStep:(TutorialStep)currentStep {
   _currentStep = currentStep;
   [Analytics tutorialStep:currentStep];
+  
+  [self saveTutorialStep:_currentStep];
 }
 
 - (void) displayDialogue:(NSArray *)dialogue allowTouch:(BOOL)allowTouch useShortBubble:(BOOL)shortBubble buttonText:(NSString *)buttonText toViewController:(UIViewController *)vc {
@@ -193,22 +197,38 @@
   [self.gameViewController.topBarViewController.mainView setHidden:YES];
   [self.gameViewController.topBarViewController.chatBottomView setHidden:YES];
   
+  
 #ifdef DEBUG
-  [self initHomeMap];
-  //[self beginGuideGreetingPhase];
-  //[self beginEnterBattlePhase];
-  [self beginPostBattleConfrontation];
-  //[self initTopBar];
-  //[self beginFacebookLoginPhase];
-  //[self beginFacebookRejectedNamingPhase];
-#else
-  [self initHomeMap];
-  [self beginGuideGreetingPhase];
+//  [self saveTutorialStep:TutorialStepGuideGreeting];
 #endif
+  [self resumeTutorialStep];
   
   [self createCloseButton];
   
   [[SoundEngine sharedSoundEngine] playMissionMapMusic];
+}
+
+- (void) resumeTutorialStep {
+  NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+  TutorialStep resumedStep = (TutorialStep)[def integerForKey:TUTORIAL_SAVED_STEP_KEY];
+  
+  [self initHomeMap];
+  
+  if (resumedStep < TutorialStepEnteredBattle) {
+    [self beginGuideGreetingPhase];
+  } else if (resumedStep < TutorialStepPostBattleConfrontation) {
+    [self beginEnterBattlePhase];
+  } else if (resumedStep < TutorialStepFacebookLogin) {
+    [self beginPostBattleConfrontation];
+  } else {
+    [self initTopBar];
+    [self beginFacebookLoginPhase];
+  }
+}
+
+- (void) saveTutorialStep:(TutorialStep)step {
+  NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+  [def setInteger:step forKey:TUTORIAL_SAVED_STEP_KEY];
 }
 
 - (void) initHomeMap {
@@ -465,14 +485,14 @@ static int timesCloseClicked = 0;
 }
 
 - (void) beginEnemyBossThreatPhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemyBoss3), @"What’s up, peasants? Nice island. I’ll be taking it now."];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemyBoss3), @"What is up, peasants? Nice island. I will be taking it now."];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
   
   self.currentStep = TutorialStepEnemyBossThreat;
 }
 
 - (void) beginEnemyTwoThreatPhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemyTwo4), @"Heh, EGG-cellent choice, master!"];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemyTwo4), @"Heh, EGG-cellent choice, supreme leader!"];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
   
   self.currentStep = TutorialStepEnemyTwoThreat;

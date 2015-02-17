@@ -708,12 +708,25 @@
 }
 
 - (void) reloadUpgradeSigns {
+  GameState *gs = [GameState sharedGameState];
   BOOL availBuilder = [self hasAvailableBuilder];
   for(HomeBuilding *building in [self childrenOfClassType:[HomeBuilding class]]) {
-    if(building.userStruct.isComplete && building.userStruct.satisfiesAllPrerequisites) {
-      building.sign.visible = availBuilder;
-    } else {
-      building.sign.visible = NO;
+    
+    building.greenSign.visible = NO;
+    building.redSign.visible = NO;
+    
+    if (availBuilder && building.userStruct.isComplete && building.userStruct.satisfiesAllPrerequisites) {
+      
+      StructureInfoProto *fsp = building.userStruct.staticStructForNextLevel.structInfo;
+      int cost = fsp.buildCost;
+      BOOL isOilBuilding = fsp.buildResourceType == ResourceTypeOil;
+      int curAmount = isOilBuilding ? gs.oil : gs.cash;
+      
+      if (cost > curAmount) {
+        building.redSign.visible = availBuilder;
+      } else {
+        building.greenSign.visible = availBuilder;
+      }
     }
   }
 }
@@ -1224,9 +1237,6 @@
                       [CCActionCallFunc actionWithTarget:label selector:@selector(removeFromParent)], nil]];
     
     [AchievementUtil checkCollectResource:resType amount:amountCollected];
-    
-    // In case you now have the cash or oil
-    [self reloadUpgradeSigns];
   } else {
     ResourceType resType = ((ResourceGeneratorProto *)mb.userStruct.staticStruct).resourceType;
     
@@ -2434,6 +2444,7 @@
 - (void) onEnter {
   [super onEnter];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadStorages) name:GAMESTATE_UPDATE_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadUpgradeSigns) name:GAMESTATE_UPDATE_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadRetrievableIcons) name:GAMESTATE_UPDATE_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadHospitals) name:HEAL_QUEUE_CHANGED_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupTeamSprites) name:HEAL_QUEUE_CHANGED_NOTIFICATION object:nil];
@@ -2452,6 +2463,7 @@
   
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(beginTimers) name:STATIC_DATA_UPDATED_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadAllBubbles) name:STATIC_DATA_UPDATED_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadUpgradeSigns) name:STATIC_DATA_UPDATED_NOTIFICATION object:nil];
   
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(beginTimers) name:RECEIVED_CLAN_HELP_NOTIFICATION object:nil];
   

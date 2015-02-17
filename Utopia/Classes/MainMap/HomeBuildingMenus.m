@@ -222,15 +222,16 @@
 @end
 
 @implementation UpgradeSign
-- (id) init {
+
+- (id) initWithGreen:(BOOL)green {
   if ((self = [super init])) {
     self.anchorPoint = ccp(0.5, 0);
+    
+    CCSprite *sign = [CCSprite spriteWithImageNamed:green ? @"greenarrow.png" : @"redarrow.png"];
+    [self addChild:sign];
+    self.contentSize = sign.contentSize;
+    sign.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
   }
-  
-  CCSprite *sign = [CCSprite spriteWithImageNamed:@"arrowsign.png"];
-  [self addChild:sign];
-  self.contentSize = sign.contentSize;
-  sign.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
   return self;
 }
 

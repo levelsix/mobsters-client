@@ -387,7 +387,7 @@ static const CGSize FIXED_SIZE = {568, 384};
 - (void) doFreshRestart {
   _isFreshRestart = YES;
   [self fadeToLoadingScreenPercentage:PART_1_PERCENT animated:YES];
-  [[SocketCommunication sharedSocketCommunication] initNetworkCommunicationWithDelegate:self];
+  [[SocketCommunication sharedSocketCommunication] initNetworkCommunicationWithDelegate:self clearMessages:YES];
 }
 
 - (void) reloadAccountWithStartupResponse:(StartupResponseProto *)startupResponse {
