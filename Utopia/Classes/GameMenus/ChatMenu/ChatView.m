@@ -574,11 +574,12 @@
   NSInteger pathIndex = [self.chats indexOfObject:_clickedCell];
   if(!_clickedCell || pathIndex == NSNotFound) {
     NSIndexPath *path = [NSIndexPath indexPathForRow:self.chats.count-1 inSection:0];
-    [self.chatTable scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
+    [self.chatTable scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionMiddle animated:animated];
   } else {
     NSIndexPath *path = [NSIndexPath indexPathForRow:pathIndex inSection:0];
-    [self.chatTable scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
+    [self.chatTable scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionMiddle animated:animated];
   }
+  _clickedCell = nil;
 }
 
 - (IBAction)sendChatClicked:(id)sender {
@@ -595,7 +596,10 @@
       
       [self.unrespondedChatMessages addObject:cm];
       
-      [self addChatMessage:cm];
+      
+      dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.35f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        [self addChatMessage:cm];
+      });
     }
     [super sendChatClicked:sender];
   } else {
@@ -640,13 +644,13 @@
     case 2:
       _chatMode = PrivateChatModeDefenseLog;
       self.defensiveLogTabButton.titleLabel.font = [UIFont fontWithName:@"Gotham-Bold"
-                                                                  size:self.defensiveLogTabButton.titleLabel.font.pointSize];
+                                                                   size:self.defensiveLogTabButton.titleLabel.font.pointSize];
       [self.defensiveLogTabButton setTitleColor:[UIColor colorWithHexString:ACTIVE_PRIVATE_CHAT_TAB_COLOR] forState:UIControlStateNormal];
       break;
     case 3:
       _chatMode = PrivateChatModeAttackLog;
       self.offensiveLogTabButton.titleLabel.font = [UIFont fontWithName:@"Gotham-Bold"
-                                                                  size:self.offensiveLogTabButton.titleLabel.font.pointSize];
+                                                                   size:self.offensiveLogTabButton.titleLabel.font.pointSize];
       [self.offensiveLogTabButton setTitleColor:[UIColor colorWithHexString:ACTIVE_PRIVATE_CHAT_TAB_COLOR] forState:UIControlStateNormal];
       break;
       

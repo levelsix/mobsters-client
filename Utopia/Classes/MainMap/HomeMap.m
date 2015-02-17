@@ -710,7 +710,7 @@
 - (void) reloadUpgradeSigns {
   BOOL availBuilder = [self hasAvailableBuilder];
   for(HomeBuilding *building in [self childrenOfClassType:[HomeBuilding class]]) {
-    if(building.userStruct.satisfiesAllPrerequisites) {
+    if(building.userStruct.isComplete && building.userStruct.satisfiesAllPrerequisites) {
       building.sign.visible = availBuilder;
     } else {
       building.sign.visible = NO;
