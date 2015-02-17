@@ -72,8 +72,23 @@ BOOL SkillActivationTypeIsValidValue(SkillActivationType value);
 
 typedef NS_ENUM(SInt32, SideEffectType) {
   SideEffectTypeNoSideEffect = 1,
-  SideEffectTypePoisoned = 2,
-  SideEffectTypeCursed = 3,
+  SideEffectTypeNerfPoison = 2,
+  SideEffectTypeNerfCurse = 3,
+  SideEffectTypeNerfStun = 4,
+  SideEffectTypeNerfConfusion = 5,
+  SideEffectTypeNerfBlindingLight = 6,
+  SideEffectTypeNerfBloodRage = 7,
+  SideEffectTypeBuffMomentum = 8,
+  SideEffectTypeBuffThickSkin = 9,
+  SideEffectTypeBuffDrunkenBrawl = 10,
+  SideEffectTypeBuffCriticalStrike = 11,
+  SideEffectTypeBuffEvade = 12,
+  SideEffectTypeBuffStaticField = 13,
+  SideEffectTypeBuffCounterStrike = 14,
+  SideEffectTypeBuffRoidRage = 15,
+  SideEffectTypeBuffShallowGrave = 16,
+  SideEffectTypeBuffEnergize = 17,
+  SideEffectTypeBuffInsurance = 18,
 };
 
 BOOL SideEffectTypeIsValidValue(SideEffectType value);
