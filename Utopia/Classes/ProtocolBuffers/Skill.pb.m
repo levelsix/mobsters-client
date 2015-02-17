@@ -75,8 +75,23 @@ BOOL SkillActivationTypeIsValidValue(SkillActivationType value) {
 BOOL SideEffectTypeIsValidValue(SideEffectType value) {
   switch (value) {
     case SideEffectTypeNoSideEffect:
-    case SideEffectTypePoisoned:
-    case SideEffectTypeCursed:
+    case SideEffectTypeNerfPoison:
+    case SideEffectTypeNerfCurse:
+    case SideEffectTypeNerfStun:
+    case SideEffectTypeNerfConfusion:
+    case SideEffectTypeNerfBlindingLight:
+    case SideEffectTypeNerfBloodRage:
+    case SideEffectTypeBuffMomentum:
+    case SideEffectTypeBuffThickSkin:
+    case SideEffectTypeBuffDrunkenBrawl:
+    case SideEffectTypeBuffCriticalStrike:
+    case SideEffectTypeBuffEvade:
+    case SideEffectTypeBuffStaticField:
+    case SideEffectTypeBuffCounterStrike:
+    case SideEffectTypeBuffRoidRage:
+    case SideEffectTypeBuffShallowGrave:
+    case SideEffectTypeBuffEnergize:
+    case SideEffectTypeBuffInsurance:
       return YES;
     default:
       return NO;
