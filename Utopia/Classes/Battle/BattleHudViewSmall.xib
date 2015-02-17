@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NewBattleLayer">
@@ -153,98 +153,6 @@
                         <action selector="hideSkillPopup:" destination="iN0-l3-epB" eventType="touchUpInside" id="qFG-lA-CC6"/>
                     </connections>
                 </button>
-                <view hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" id="I1U-bx-Yrm" customClass="BattleSkillCounterPopupView">
-                    <rect key="frame" x="130" y="95" width="220" height="129"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="earthskilldescription.png" id="AZb-cS-Yhm" userLabel="Popup Background Image">
-                            <rect key="frame" x="0.0" y="0.0" width="220" height="129"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        </imageView>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Skill Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="qbq-KO-0bo" userLabel="Skill Name Label" customClass="NiceFontLabel18">
-                            <rect key="frame" x="8" y="0.0" width="204" height="30"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <nil key="highlightedColor"/>
-                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
-                            <size key="shadowOffset" width="0.0" height="1"/>
-                        </label>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="skilldescriptionline.png" id="cEF-g8-P3i" userLabel="Separator Line">
-                            <rect key="frame" x="16" y="29" width="187" height="1"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        </imageView>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Skill Description" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="bal-1S-C4z" userLabel="Skill Description Label" customClass="NiceFontLabel2">
-                            <rect key="frame" x="8" y="29" width="204" height="64"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <nil key="highlightedColor"/>
-                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
-                            <size key="shadowOffset" width="0.0" height="1"/>
-                        </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="V7p-z9-YU0" userLabel="Orbs Description Label" customClass="NiceFontLabel2">
-                            <rect key="frame" x="8" y="94" width="204" height="17"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="9"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <nil key="highlightedColor"/>
-                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
-                            <size key="shadowOffset" width="0.0" height="1"/>
-                        </label>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="fireorb.png" id="NKk-9I-9sX" userLabel="Orb Icon">
-                            <rect key="frame" x="82" y="96" width="17" height="17"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        </imageView>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="00/00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="naw-aX-gm2" userLabel="Orbs Counter Label" customClass="NiceFontLabel18">
-                            <rect key="frame" x="105" y="96" width="55" height="17"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <nil key="highlightedColor"/>
-                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
-                            <size key="shadowOffset" width="0.0" height="1"/>
-                        </label>
-                    </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <connections>
-                        <outlet property="background" destination="AZb-cS-Yhm" id="zaJ-IQ-rhd"/>
-                        <outlet property="descLabel" destination="bal-1S-C4z" id="BLd-k2-FZy"/>
-                        <outlet property="nameLabel" destination="qbq-KO-0bo" id="wee-Gf-Pti"/>
-                        <outlet property="orbCounterLabel" destination="naw-aX-gm2" id="m2Y-CZ-27G"/>
-                        <outlet property="orbDescriptionLabel" destination="V7p-z9-YU0" id="WxW-Bm-bdi"/>
-                        <outlet property="orbIcon" destination="NKk-9I-9sX" id="q4r-2n-b2U"/>
-                        <outlet property="parentView" destination="iN0-l3-epB" id="AQr-TC-hs2"/>
-                    </connections>
-                </view>
-                <view hidden="YES" alpha="0.0" contentMode="scaleToFill" id="vvm-FW-zYV" userLabel="SkillTutorialView">
-                    <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                    <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Rgd-yX-3bh" userLabel="HitBoxWall">
-                            <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <state key="normal">
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                        </button>
-                        <view contentMode="scaleToFill" id="5yg-lm-XQV" userLabel="InnerView">
-                            <rect key="frame" x="98" y="80" width="284" height="160"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" id="Iqs-qt-jaQ" userLabel="ForcedToClick">
-                                    <rect key="frame" x="117" y="55" width="50" height="50"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <state key="normal">
-                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                    </state>
-                                </button>
-                            </subviews>
-                            <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
-                        </view>
-                    </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                </view>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <nil key="simulatedStatusBarMetrics"/>
@@ -263,6 +171,7 @@
                 <outlet property="swapView" destination="9tG-Yt-5ot" id="eOe-Vp-k2h"/>
                 <outlet property="waveNumLabel" destination="lh2-01-Mam" id="mlZ-Up-Ax5"/>
             </connections>
+            <point key="canvasLocation" x="50" y="457"/>
         </view>
         <view contentMode="scaleToFill" id="YaB-78-ktZ" customClass="BattleDeployView">
             <rect key="frame" x="0.0" y="0.0" width="235" height="93"/>
@@ -775,6 +684,104 @@
                 <outletCollection property="cardViews" destination="rhF-8A-Aze" id="SBI-Um-o6g"/>
             </connections>
             <point key="canvasLocation" x="653.5" y="809.5"/>
+        </view>
+        <view alpha="0.0" contentMode="scaleToFill" id="vvm-FW-zYV" userLabel="SkillTutorialView">
+            <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
+            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Rgd-yX-3bh" userLabel="HitBoxWall">
+                    <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                </button>
+                <view contentMode="scaleToFill" id="5yg-lm-XQV" userLabel="InnerView">
+                    <rect key="frame" x="98" y="80" width="284" height="160"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" id="Iqs-qt-jaQ" userLabel="ForcedToClick">
+                            <rect key="frame" x="117" y="55" width="50" height="50"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="7" y="669"/>
+        </view>
+        <view hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" id="I1U-bx-Yrm" customClass="BattleSkillCounterPopupView">
+            <rect key="frame" x="0.0" y="0.0" width="220" height="129"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="earthskilldescription.png" id="AZb-cS-Yhm" userLabel="Popup Background Image">
+                    <rect key="frame" x="0.0" y="0.0" width="220" height="129"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                </imageView>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Skill Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="qbq-KO-0bo" userLabel="Skill Name Label" customClass="NiceFontLabel18">
+                    <rect key="frame" x="8" y="0.0" width="204" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                    <size key="shadowOffset" width="0.0" height="1"/>
+                </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="skilldescriptionline.png" id="cEF-g8-P3i" userLabel="Separator Line">
+                    <rect key="frame" x="16" y="29" width="187" height="1"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Skill Description" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="bal-1S-C4z" userLabel="Skill Description Label" customClass="NiceFontLabel2">
+                    <rect key="frame" x="8" y="29" width="204" height="64"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                    <size key="shadowOffset" width="0.0" height="1"/>
+                </label>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="V7p-z9-YU0" userLabel="Orbs Description Label" customClass="NiceFontLabel2">
+                    <rect key="frame" x="8" y="94" width="204" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                    <size key="shadowOffset" width="0.0" height="1"/>
+                </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="fireorb.png" id="NKk-9I-9sX" userLabel="Orb Icon">
+                    <rect key="frame" x="82" y="96" width="17" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="00/00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="naw-aX-gm2" userLabel="Orbs Counter Label" customClass="NiceFontLabel18">
+                    <rect key="frame" x="105" y="96" width="55" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                    <size key="shadowOffset" width="0.0" height="1"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="background" destination="AZb-cS-Yhm" id="zaJ-IQ-rhd"/>
+                <outlet property="descLabel" destination="bal-1S-C4z" id="BLd-k2-FZy"/>
+                <outlet property="nameLabel" destination="qbq-KO-0bo" id="wee-Gf-Pti"/>
+                <outlet property="orbCounterLabel" destination="naw-aX-gm2" id="m2Y-CZ-27G"/>
+                <outlet property="orbDescriptionLabel" destination="V7p-z9-YU0" id="WxW-Bm-bdi"/>
+                <outlet property="orbIcon" destination="NKk-9I-9sX" id="q4r-2n-b2U"/>
+                <outlet property="parentView" destination="iN0-l3-epB" id="AQr-TC-hs2"/>
+            </connections>
+            <point key="canvasLocation" x="150" y="833"/>
         </view>
     </objects>
     <resources>
