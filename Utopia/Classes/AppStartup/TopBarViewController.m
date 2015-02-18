@@ -27,6 +27,7 @@
 #import "SecretGiftViewController.h"
 #import "SaleViewController.h"
 #import "IAPHelper.h"
+#import "AttackedAlertViewController.h"
 
 @implementation TopBarMonsterView
 

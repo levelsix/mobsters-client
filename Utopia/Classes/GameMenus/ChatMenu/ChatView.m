@@ -482,6 +482,8 @@
   } else {
     [Globals addAlertNotification:[NSString stringWithFormat:@"You are already messaging %@.", name]];
   }
+  
+  
 }
 
 - (void) handleRetrievePrivateChatPostsResponseProto:(FullEvent *)fe {
@@ -570,14 +572,13 @@
   [super updateForChats:arr animated:animated];
   
   NSInteger pathIndex = [self.chats indexOfObject:_clickedCell];
-  if(_clickedCell && pathIndex == NSNotFound) {
+  if(!_clickedCell || pathIndex == NSNotFound) {
     NSIndexPath *path = [NSIndexPath indexPathForRow:self.chats.count-1 inSection:0];
     [self.chatTable scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
   } else {
     NSIndexPath *path = [NSIndexPath indexPathForRow:pathIndex inSection:0];
     [self.chatTable scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
   }
-  
 }
 
 - (IBAction)sendChatClicked:(id)sender {
@@ -683,8 +684,7 @@
   if(_chatMode == PrivateChatModeAllMessages) {
     cell = [tableView dequeueReusableCellWithIdentifier:@"PrivateChatListCell"];
     if (!cell) {
-      [[NSBundle mainBundle] loadNibNamed:@"PrivateChatListCell" owner:self options:nil];
-      cell = self.listCell;
+      cell = [[NSBundle mainBundle] loadNibNamed:@"PrivateChatListCell" owner:self options:nil][0];
     }
   } else if (_chatMode == PrivateChatModeAttackLog || _chatMode == PrivateChatModeDefenseLog) {
     cell = [tableView dequeueReusableCellWithIdentifier:@"PrivateChatAttackLogCell"];

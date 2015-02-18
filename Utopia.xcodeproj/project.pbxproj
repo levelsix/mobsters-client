@@ -1197,6 +1197,21 @@
 		63B044D11A8EC35000C74F0C /* arrowsign@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63B044D01A8EC35000C74F0C /* arrowsign@2x.png */; };
 		63B044D21A8EC35000C74F0C /* arrowsign@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63B044D01A8EC35000C74F0C /* arrowsign@2x.png */; };
 		63B044D31A8EC35000C74F0C /* arrowsign@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63B044D01A8EC35000C74F0C /* arrowsign@2x.png */; };
+		63B045021A92B9C600C74F0C /* AttackedAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B045001A92B9C600C74F0C /* AttackedAlertViewController.m */; };
+		63B045031A92B9C600C74F0C /* AttackedAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B045001A92B9C600C74F0C /* AttackedAlertViewController.m */; };
+		63B045041A92B9C600C74F0C /* AttackedAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B045001A92B9C600C74F0C /* AttackedAlertViewController.m */; };
+		63B045051A92B9C600C74F0C /* AttackedAlertViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63B045011A92B9C600C74F0C /* AttackedAlertViewController.xib */; };
+		63B045061A92B9C600C74F0C /* AttackedAlertViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63B045011A92B9C600C74F0C /* AttackedAlertViewController.xib */; };
+		63B045071A92B9C600C74F0C /* AttackedAlertViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63B045011A92B9C600C74F0C /* AttackedAlertViewController.xib */; };
+		63B0450C1A92BAD600C74F0C /* beenattackedgirl@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63B0450A1A92BAD600C74F0C /* beenattackedgirl@2x.png */; };
+		63B0450D1A92BAD600C74F0C /* beenattackedgirl@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63B0450A1A92BAD600C74F0C /* beenattackedgirl@2x.png */; };
+		63B0450E1A92BAD600C74F0C /* beenattackedgirl@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63B0450A1A92BAD600C74F0C /* beenattackedgirl@2x.png */; };
+		63B0450F1A92BAD600C74F0C /* beenattackedheader@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63B0450B1A92BAD600C74F0C /* beenattackedheader@2x.png */; };
+		63B045101A92BAD600C74F0C /* beenattackedheader@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63B0450B1A92BAD600C74F0C /* beenattackedheader@2x.png */; };
+		63B045111A92BAD600C74F0C /* beenattackedheader@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63B0450B1A92BAD600C74F0C /* beenattackedheader@2x.png */; };
+		63B045131A93F8B500C74F0C /* AttackAlertCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63B045121A93F8B500C74F0C /* AttackAlertCell.xib */; };
+		63B045141A93F8B500C74F0C /* AttackAlertCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63B045121A93F8B500C74F0C /* AttackAlertCell.xib */; };
+		63B045151A93F8B500C74F0C /* AttackAlertCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63B045121A93F8B500C74F0C /* AttackAlertCell.xib */; };
 		63B7BEFC1A7090EA00C62FB7 /* blackborder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63B7BEFB1A7090EA00C62FB7 /* blackborder@2x.png */; };
 		63BACADF1A71A7D9000A641A /* DailyEventScheduleViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63BACADE1A71A7D9000A641A /* DailyEventScheduleViewController.xib */; };
 		63BACAE31A71A816000A641A /* DailyEventScheduleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63BACAE21A71A816000A641A /* DailyEventScheduleViewController.m */; };
@@ -8262,6 +8277,12 @@
 		63B044C01A8BE86F00C74F0C /* RequestPushNotificationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RequestPushNotificationViewController.xib; path = PushNotiifcations/RequestPushNotificationViewController.xib; sourceTree = "<group>"; };
 		63B044C81A8C167B00C74F0C /* chatbubbleline@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "chatbubbleline@2x.png"; path = "EnableNotifications/chatbubbleline@2x.png"; sourceTree = "<group>"; };
 		63B044D01A8EC35000C74F0C /* arrowsign@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "arrowsign@2x.png"; path = "UpgradeArrow/arrowsign@2x.png"; sourceTree = "<group>"; };
+		63B044FF1A92B9C600C74F0C /* AttackedAlertViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttackedAlertViewController.h; sourceTree = "<group>"; };
+		63B045001A92B9C600C74F0C /* AttackedAlertViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttackedAlertViewController.m; sourceTree = "<group>"; };
+		63B045011A92B9C600C74F0C /* AttackedAlertViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AttackedAlertViewController.xib; sourceTree = "<group>"; };
+		63B0450A1A92BAD600C74F0C /* beenattackedgirl@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "beenattackedgirl@2x.png"; sourceTree = "<group>"; };
+		63B0450B1A92BAD600C74F0C /* beenattackedheader@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "beenattackedheader@2x.png"; sourceTree = "<group>"; };
+		63B045121A93F8B500C74F0C /* AttackAlertCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AttackAlertCell.xib; sourceTree = "<group>"; };
 		63B7BEFB1A7090EA00C62FB7 /* blackborder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blackborder@2x.png"; sourceTree = "<group>"; };
 		63BACADE1A71A7D9000A641A /* DailyEventScheduleViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DailyEventScheduleViewController.xib; sourceTree = "<group>"; };
 		63BACAE11A71A816000A641A /* DailyEventScheduleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DailyEventScheduleViewController.h; sourceTree = "<group>"; };
@@ -13805,6 +13826,26 @@
 			name = UpgradeArrow;
 			sourceTree = "<group>";
 		};
+		63B044FE1A92B9C600C74F0C /* AttackedAlert */ = {
+			isa = PBXGroup;
+			children = (
+				63B044FF1A92B9C600C74F0C /* AttackedAlertViewController.h */,
+				63B045001A92B9C600C74F0C /* AttackedAlertViewController.m */,
+				63B045011A92B9C600C74F0C /* AttackedAlertViewController.xib */,
+				63B045121A93F8B500C74F0C /* AttackAlertCell.xib */,
+			);
+			path = AttackedAlert;
+			sourceTree = "<group>";
+		};
+		63B045091A92BAD600C74F0C /* BeenAttacked */ = {
+			isa = PBXGroup;
+			children = (
+				63B0450A1A92BAD600C74F0C /* beenattackedgirl@2x.png */,
+				63B0450B1A92BAD600C74F0C /* beenattackedheader@2x.png */,
+			);
+			path = BeenAttacked;
+			sourceTree = "<group>";
+		};
 		63BACAE41A71B7C2000A641A /* Calendar */ = {
 			isa = PBXGroup;
 			children = (
@@ -14519,6 +14560,7 @@
 		CF1265491538ACC400E0C1AD /* Game Menus */ = {
 			isa = PBXGroup;
 			children = (
+				63B044FE1A92B9C600C74F0C /* AttackedAlert */,
 				63B044BC1A8BE79A00C74F0C /* PushNotifications */,
 				29FC5E851A89416600A50FA7 /* SaleMenu */,
 				2991FC061A800D85009BB1D8 /* Popovers */,
@@ -14695,6 +14737,7 @@
 		CF1267741538ACC500E0C1AD /* Utopia Images */ = {
 			isa = PBXGroup;
 			children = (
+				63B045091A92BAD600C74F0C /* BeenAttacked */,
 				63B044CE1A8EC33E00C74F0C /* UpgradeArrow */,
 				63B044C71A8C165D00C74F0C /* EnableNotifications */,
 				29FC5E8F1A89427B00A50FA7 /* Builder Starter Pack */,
@@ -19471,6 +19514,7 @@
 				CF0CF08D196F452900ECD301 /* BuildingViewController.xib in Resources */,
 				CF0CF08E196F452900ECD301 /* visittask@2x.png in Resources */,
 				29AE75DC1A6F36E000264070 /* TribalGuy0T1AttackNF@2x.pvr.ccz in Resources */,
+				63B045061A92B9C600C74F0C /* AttackedAlertViewController.xib in Resources */,
 				CF0CF08F196F452900ECD301 /* lightbar@2x.png in Resources */,
 				299AA3731A7856AA00A2D806 /* 6waterpoison-9@2x.png in Resources */,
 				CF0CF092196F452900ECD301 /* runawaysuccess@2x.png in Resources */,
@@ -20357,6 +20401,7 @@
 				CF0CF497196F452900ECD301 /* diamondprofribbon@2x.png in Resources */,
 				DA173A3619CA4230005236C0 /* forcefieldback@2x.png in Resources */,
 				CF0CF49C196F452900ECD301 /* sfx_firework_02.mp3 in Resources */,
+				63B045141A93F8B500C74F0C /* AttackAlertCell.xib in Resources */,
 				CF0CF49D196F452900ECD301 /* 2splashbg@2x.png in Resources */,
 				CFA9F7971A0D8F6300EBE77D /* greenitemsbutton@2x.png in Resources */,
 				CF0CF4A1196F452900ECD301 /* eventsinactive@2x.png in Resources */,
@@ -20545,6 +20590,7 @@
 				CF0CF576196F452900ECD301 /* teamemptyslot@2x.png in Resources */,
 				CFA8B1BA19EF524800CF6BFD /* 6movesqueuebgwide@2x.png in Resources */,
 				9BDA8BC71A40DFC900C7AC27 /* 6boardmud@2x.png in Resources */,
+				63B045101A92BAD600C74F0C /* beenattackedheader@2x.png in Resources */,
 				CF0CF578196F452900ECD301 /* earthtimermobster@2x.png in Resources */,
 				CF0CF57B196F452900ECD301 /* questbg@2x.png in Resources */,
 				CF0CF57C196F452900ECD301 /* youlostitemborder@2x.png in Resources */,
@@ -20882,6 +20928,7 @@
 				CFA728F41A0B037900FF6031 /* fireeventtimer@2x.png in Resources */,
 				CF0CDEA219E5050E006A5ECB /* timerstopbg@2x.png in Resources */,
 				29FFD94E1A36E2BD0063C17C /* attackpvpbubble@2x.png in Resources */,
+				63B0450D1A92BAD600C74F0C /* beenattackedgirl@2x.png in Resources */,
 				CF0CF6E1196F452900ECD301 /* FatBoy3Move11@2x.png in Resources */,
 				63BACB211A71EF5E000A641A /* greycal@2x.png in Resources */,
 				CF0CF6E3196F452900ECD301 /* buildinginfobg@2x.png in Resources */,
@@ -21377,6 +21424,7 @@
 				CFF64651195A69A300C43641 /* EnhanceQueueViewController.xib in Resources */,
 				63C57EA21A66282700ED406E /* gradientlightdailylab@2x.png in Resources */,
 				299AA33C1A7856AA00A2D806 /* 6lightsideways-9@2x.png in Resources */,
+				63B0450C1A92BAD600C74F0C /* beenattackedgirl@2x.png in Resources */,
 				298050421A265EE800806253 /* 11gbhud@2x.png in Resources */,
 				CFFBDFC318ACA3D90090CA9A /* Scientist4Breath11@2x.png in Resources */,
 				CF9520451939690800A98290 /* nightfeederevent@2x.png in Resources */,
@@ -21608,6 +21656,7 @@
 				299AA3241A7856AA00A2D806 /* 6firepoison-9@2x.png in Resources */,
 				CFEC99401947FBF300BD893E /* gachararetag@2x.png in Resources */,
 				29AE759C1A6F36E000264070 /* TribalGirl1T1P4TutBig@2x.png in Resources */,
+				63B0450F1A92BAD600C74F0C /* beenattackedheader@2x.png in Resources */,
 				9B41AE931A787B2900529879 /* shallowgraveicon@2x.png in Resources */,
 				9BB9484D1A65D386006EE920 /* gooniegrabinactivetabpressed@2x.png in Resources */,
 				9BB9489C1A69EADF006EE920 /* grlightcircle1@2x.png in Resources */,
@@ -22492,6 +22541,7 @@
 				CF134A7D18A5E4B500D7D700 /* FatBoy4Move07@2x.png in Resources */,
 				9B2389C31A30048D00FA3743 /* itemssidearrow@2x.png in Resources */,
 				DA5E400C19D104E7001F28CE /* 150percentatk@2x.png in Resources */,
+				63B045051A92B9C600C74F0C /* AttackedAlertViewController.xib in Resources */,
 				29AE75EA1A6F36E000264070 /* Zark1T1RunNF@2x.plist in Resources */,
 				CFFBDF3318ACA3D90090CA9A /* Scientist1Blink09@2x.png in Resources */,
 				CFC4D29718D7BD04004681FD /* sfx_piece_fall_03.mp3 in Resources */,
@@ -22830,6 +22880,7 @@
 				CF95203F1939690800A98290 /* earthfeederevent@2x.png in Resources */,
 				CF134A6318A5E4B500D7D700 /* FatBoy2Move07@2x.png in Resources */,
 				CFFBDF8718ACA3D90090CA9A /* Scientist3Blink07@2x.png in Resources */,
+				63B045131A93F8B500C74F0C /* AttackAlertCell.xib in Resources */,
 				CF6F19FF181518C900CFF2B9 /* rewardbg@2x.png in Resources */,
 				CFA728ED1A0B037900FF6031 /* fireeventtag@2x.png in Resources */,
 				CF864E09193E8F3000DE0D7A /* greensmallbutton@2x.png in Resources */,
@@ -23401,6 +23452,7 @@
 				29DCCFE61A8C3310003176FD /* fallinggems07@2x.png in Resources */,
 				9B2389C51A30048D00FA3743 /* itemssidearrow@2x.png in Resources */,
 				CF4819E019F7217F00041486 /* GenericPopupController.xib in Resources */,
+				63B045111A92BAD600C74F0C /* beenattackedheader@2x.png in Resources */,
 				CF4819E519F7217F00041486 /* sellblue@2x.png in Resources */,
 				299AA33B1A7856AA00A2D806 /* 6lightpoison-9@2x.png in Resources */,
 				CF4819E619F7217F00041486 /* rewardlabel@2x.png in Resources */,
@@ -23445,6 +23497,7 @@
 				CF481A1919F7217F00041486 /* SellViewController.xib in Resources */,
 				CF481A1C19F7217F00041486 /* AttackMapIconView.xib in Resources */,
 				CF481A2319F7217F00041486 /* activeheart@2x.png in Resources */,
+				63B045071A92B9C600C74F0C /* AttackedAlertViewController.xib in Resources */,
 				CF481A2519F7217F00041486 /* MonsterQueueCell.xib in Resources */,
 				CF481A2619F7217F00041486 /* MenuOilStorageT1@2x.png in Resources */,
 				CF481A2A19F7217F00041486 /* runawaybgwide@2x.png in Resources */,
@@ -25062,6 +25115,7 @@
 				CF4822E319F7217F00041486 /* earthbigavatar@2x.png in Resources */,
 				CF4822E419F7217F00041486 /* enhanceheaderimage@2x.png in Resources */,
 				CF4822E519F7217F00041486 /* movesbg@2x.png in Resources */,
+				63B045151A93F8B500C74F0C /* AttackAlertCell.xib in Resources */,
 				CF4822E619F7217F00041486 /* menuicon@2x.png in Resources */,
 				CF4822E719F7217F00041486 /* teambubble3@2x.png in Resources */,
 				CF4822EB19F7217F00041486 /* purplesmallbutton@2x.png in Resources */,
@@ -25281,6 +25335,7 @@
 				29FC5EB31A89427B00A50FA7 /* buysale@2x.png in Resources */,
 				CFA728D11A0B037900FF6031 /* charactercircle@2x.png in Resources */,
 				CF4823D319F7217F00041486 /* EvolveDetailsViewController.xib in Resources */,
+				63B0450E1A92BAD600C74F0C /* beenattackedgirl@2x.png in Resources */,
 				9B0E6E2E1A73373100118210 /* confusionbubble@2x.png in Resources */,
 				9B2389E61A32540900FA3743 /* thickskinminilogo@2x.png in Resources */,
 				9B41AF351A7C4C3000529879 /* hellfirelogo@2x.png in Resources */,
@@ -25802,6 +25857,7 @@
 				CF0CED2A196F452900ECD301 /* AnimatedSprite.m in Sources */,
 				DA0FC58719B65F2A00393BF4 /* SkillJelly.m in Sources */,
 				29AAE5F21A7C389800E4F022 /* ClanTeamDonateUtil.m in Sources */,
+				63B045031A92B9C600C74F0C /* AttackedAlertViewController.m in Sources */,
 				CF0CED2B196F452900ECD301 /* ChatViewController.m in Sources */,
 				CF0CED2C196F452900ECD301 /* PullRefreshTableViewController.m in Sources */,
 				3E1A0C051A645B4B00DF00AD /* Board.pb.m in Sources */,
@@ -26076,6 +26132,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63B045021A92B9C600C74F0C /* AttackedAlertViewController.m in Sources */,
 				CF023CBD19935D8F0082FE61 /* BattleScheduleView.m in Sources */,
 				9B41AE811A7824AA00529879 /* SkillKnockout.m in Sources */,
 				CFFEB1B9183704DA007C4BA3 /* OrbBgdLayer.m in Sources */,
@@ -26493,6 +26550,7 @@
 				CF4818CF19F7217F00041486 /* AnimatedSprite.m in Sources */,
 				CF4818D019F7217F00041486 /* SkillJelly.m in Sources */,
 				29AAE5F31A7C389800E4F022 /* ClanTeamDonateUtil.m in Sources */,
+				63B045041A92B9C600C74F0C /* AttackedAlertViewController.m in Sources */,
 				CF4818D119F7217F00041486 /* ChatViewController.m in Sources */,
 				CF4818D219F7217F00041486 /* PullRefreshTableViewController.m in Sources */,
 				3E1A0C061A645B4B00DF00AD /* Board.pb.m in Sources */,
