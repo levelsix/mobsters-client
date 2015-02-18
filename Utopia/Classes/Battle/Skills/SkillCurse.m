@@ -21,6 +21,23 @@
   return [self isActive];
 }
 
+- (NSSet*) sideEffects
+{
+  return [NSSet setWithObjects:@(SideEffectTypeNerfCurse), nil];
+}
+
+- (void) restoreVisualsIfNeeded
+{
+  if ([self isActive])
+  {
+    BattlePlayer* opponent = self.belongsToPlayer ? self.enemy : self.player;
+    if (opponent.isCursed)
+    {
+      [self addCurseAnimations];
+    }
+  }
+}
+
 - (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
 {
   if ([super skillCalledWithTrigger:trigger execute:execute])
@@ -90,6 +107,8 @@
                                                                            nil]];
   action.tag = 1914;
   [opponent.sprite runAction:action];
+  
+  [opponent addSkillSideEffect:SideEffectTypeNerfCurse];
 }
 
 - (void) endCurseAnimations
@@ -100,6 +119,8 @@
                        [CCActionEaseBounceOut actionWithAction:[CCActionScaleTo actionWithDuration:0.5 scale:1.0]]]];
   [opponent.sprite stopActionByTag:1914];
   [opponent.sprite runAction:[CCActionTintTo actionWithDuration:0.3 color:[CCColor whiteColor]]];
+  
+  [opponent removeSkillSideEffect:SideEffectTypeNerfCurse];
 }
 
 @end

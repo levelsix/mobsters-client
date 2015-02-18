@@ -45,10 +45,25 @@
 
 #pragma mark - Overrides
 
+- (NSSet*) sideEffects
+{
+  return [NSSet setWithObjects:@(SideEffectTypeNerfConfusion), nil];
+}
+
 - (void) restoreVisualsIfNeeded
 {
   if (!self.belongsToPlayer)
     _orbsSpawned = [self specialsOnBoardCount:SpecialOrbTypeGlove];
+  
+  if (_skillActive)
+  {
+    BattlePlayer* opponent = self.belongsToPlayer ? self.enemy : self.player;
+    if (opponent.isConfused)
+    {
+      BattleSprite *bs = self.belongsToPlayer ? self.enemySprite : self.playerSprite;
+      [bs addSkillSideEffect:SideEffectTypeNerfConfusion];
+    }
+  }
 }
 
 - (NSInteger) modifyDamage:(NSInteger)damage forPlayer:(BOOL)player
@@ -64,7 +79,8 @@
         [self showLogo];
         
         // Tell NewBattleLayer that enemy will be confused on his next turn
-        self.player.isConfused = YES;
+        [self.player setIsConfused:YES];
+        [self.playerSprite addSkillSideEffect:SideEffectTypeNerfConfusion];
       }
     }
   }
@@ -84,11 +100,13 @@
     if (execute)
     {
       _logoShown = YES;
+      /*
       [self showSkillPopupOverlay:YES withCompletion:^(){
         [self performAfterDelay:.5f block:^{
           [self skillTriggerFinished];
         }];
       }];
+       */
       
       // Will restore visuals if coming back to a battle after leaving midway
       if (_skillActive)
@@ -109,6 +127,8 @@
                                                                   forPlayer:NO];
         }
       }
+      
+      [self skillTriggerFinished];
     }
     return YES;
   }
@@ -125,7 +145,11 @@
       {
         _skillActive = YES;
         
-        [self makeSkillOwnerJumpWithTarget:self selector:@selector(beginOutOfTurnAttack)];
+        [self showSkillPopupOverlay:YES withCompletion:^{
+          [self performAfterDelay:.5f block:^{
+            [self beginOutOfTurnAttack];
+          }];
+        }];
         
         // Display confused symbol on enemy's next turn indicator
         [self.battleLayer.hudView.battleScheduleView updateConfusionState:YES
@@ -149,7 +173,8 @@
           [self showLogo];
           
           // Tell NewBattleLayer that enemy will be confused on his next turn
-          self.enemy.isConfused = YES;
+          [self.enemy setIsConfused:YES];
+          [self.enemySprite addSkillSideEffect:SideEffectTypeNerfConfusion];
         }
         
         [self skillTriggerFinished];
@@ -171,7 +196,8 @@
         
         // Tell NewBattleLayer that enemy is no longer confused,
         // remove confused symbol from enemy's next turn indicator
-        self.enemy.isConfused = NO;
+        [self.enemy setIsConfused:NO];
+        [self.enemySprite removeSkillSideEffect:SideEffectTypeNerfConfusion];
         [self.battleLayer.hudView.battleScheduleView updateConfusionState:NO
                                                  onUpcomingTurnForMonster:self.enemy.monsterId
                                                                 forPlayer:NO];
@@ -224,7 +250,7 @@
                                                                 forPlayer:YES];
         
         // If any orbs have reached zero turns left, perform out of turn attack
-        [self makeSkillOwnerJumpWithTarget:self selector:@selector(beginOutOfTurnAttack)];
+        [self beginOutOfTurnAttack];
       }
       else
         [self skillTriggerFinished];
@@ -245,7 +271,8 @@
           
           // Tell NewBattleLayer that player is no longer confused,
           // remove confused symbol from player's turn indicator(s)
-          self.player.isConfused = NO;
+          [self.player setIsConfused:NO];
+          [self.playerSprite removeSkillSideEffect:SideEffectTypeNerfConfusion];
           [self.battleLayer.hudView.battleScheduleView updateConfusionState:NO
                                                onAllUpcomingTurnsForMonster:self.player.monsterId
                                                                   forPlayer:YES];
@@ -269,7 +296,8 @@
         
         // Tell NewBattleLayer that player is no longer confused,
         // remove confused symbol from player's turn indicator(s)
-        self.player.isConfused = NO;
+        [self.player setIsConfused:NO];
+        [self.playerSprite removeSkillSideEffect:SideEffectTypeNerfConfusion];
         [self.battleLayer.hudView.battleScheduleView updateConfusionState:NO
                                              onAllUpcomingTurnsForMonster:self.player.monsterId
                                                                 forPlayer:YES];

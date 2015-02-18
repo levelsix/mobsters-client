@@ -55,6 +55,7 @@
   if ([super skillCalledWithTrigger:trigger execute:execute])
     return YES;
   
+  /*
   // Do nothing, only show the splash at the beginning. Flag is for the case when you defeated the previous one, don't show the logo then.
   if (trigger == SkillTriggerPointEnemyAppeared && ! _logoShown)
   {
@@ -69,6 +70,7 @@
     }
     return YES;
   }
+   */
   
   /**********************
    * Offensive Triggers *
@@ -83,7 +85,11 @@
         SkillLogStart(@"Knockout -- Skill activated");
         
         // Perform out of turn attack and either instantly kill the target or deal fixed damage
-        [self makeSkillOwnerJumpWithTarget:self selector:@selector(beginOutOfTurnAttack)];
+        [self showSkillPopupOverlay:YES withCompletion:^{
+          [self performAfterDelay:.5f block:^{
+            [self beginOutOfTurnAttack];
+          }];
+        }];
       }
       return YES;
     }
@@ -120,7 +126,7 @@
       {
         // If any orbs have reached zero turns left, Perform out of turn attack
         // and either instantly kill the target or deal fixed damage
-        [self makeSkillOwnerJumpWithTarget:self selector:@selector(beginOutOfTurnAttack)];
+        [self beginOutOfTurnAttack];
       }
       else
         [self skillTriggerFinished];

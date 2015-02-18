@@ -15,6 +15,7 @@
   float _critMultiplier;
   float _evadeChance;
   float _missChance;
+  SideEffectType _sideEffectType;
   
   // Temp
   BOOL _logoShown;

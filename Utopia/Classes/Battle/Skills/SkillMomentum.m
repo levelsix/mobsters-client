@@ -39,6 +39,11 @@
   return YES;
 }
 
+- (NSSet*) sideEffects
+{
+  return [NSSet setWithObjects:@(SideEffectTypeBuffMomentum), nil];
+}
+
 - (NSInteger) modifyDamage:(NSInteger)damage forPlayer:(BOOL)player
 {
   // If attacker is the skill owner
@@ -53,17 +58,28 @@
 - (void) restoreVisualsIfNeeded
 {
   [self updateOwnerSprite];
+  
+  if ([self isActive])
+  {
+    BattleSprite *bs = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
+    [bs addSkillSideEffect:SideEffectTypeBuffMomentum];
+  }
 }
 
 - (BOOL) onDurationReset
 {
   [self increaseMultiplier];
+  
   return YES;
 }
 
 - (BOOL) onDurationStart
 {
   [self increaseMultiplier];
+  
+  BattleSprite *bs = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
+  [bs addSkillSideEffect:SideEffectTypeBuffMomentum];
+  
   return YES;
 }
 
@@ -72,6 +88,10 @@
   _currentMultiplier = 1.0;
   _currentSizeMultiplier = 1.0;
   [self resetSpriteSize];
+  
+  BattleSprite *bs = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
+  [bs removeSkillSideEffect:SideEffectTypeBuffMomentum];
+  
   return NO;
 }
 

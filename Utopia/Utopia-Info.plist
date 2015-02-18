@@ -59,6 +59,8 @@
 		<string>Whitney-Semibold.otf</string>
 		<string>Whitney-SemiboldItalic.otf</string>
 		<string>GothamNarrow-Ultra.otf</string>
+		<string>Titillium-Black.otf</string>
+		<string>Titillium-BoldUpright.otf</string>
 	</array>
 	<key>UIPrerenderedIcon</key>
 	<true/>

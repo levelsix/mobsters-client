@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
-        <deployment defaultVersion="1792" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -12,39 +12,95 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view hidden="YES" autoresizesSubviews="NO" contentMode="center" id="XOF-Jy-miL" userLabel="Player">
-                    <rect key="frame" x="0.0" y="161" width="250" height="222"/>
+                    <rect key="frame" x="0.0" y="97" width="410" height="286"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" alpha="0.69999999999999996" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="skillgradient.png" id="qRQ-Rl-ymv">
-                            <rect key="frame" x="0.0" y="56" width="375" height="103"/>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="skillintroleaves.png" id="qRQ-Rl-ymv" userLabel="Leaves">
+                            <rect key="frame" x="0.0" y="131" width="255" height="93"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         </imageView>
-                        <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="0KA-xH-FJl">
-                            <rect key="frame" x="-70" y="-4" width="250" height="222"/>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="greyrocks.png" id="VWc-iF-oQP" userLabel="Rocks">
+                            <rect key="frame" x="0.0" y="141" width="251" height="83"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         </imageView>
-                        <imageView userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="goosplashlogo.png" id="fI2-JP-eEX">
-                            <rect key="frame" x="110" y="83" width="150" height="70"/>
+                        <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="0KA-xH-FJl" userLabel="Character Image">
+                            <rect key="frame" x="-103" y="18" width="305" height="271"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         </imageView>
+                        <view contentMode="scaleToFill" id="oQA-Aj-Dce" userLabel="Skill">
+                            <rect key="frame" x="110" y="146" width="300" height="71"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3x" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="uqB-Kk-937" customClass="NiceFontLabel19B">
+                                    <rect key="frame" x="0.0" y="0.0" width="300" height="25"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CONFUSION" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="lM0-10-L2d" customClass="NiceFontLabel19B">
+                                    <rect key="frame" x="0.0" y="18" width="300" height="40"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3 MOVES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="oDh-gU-XgR" customClass="NiceFontLabel20B">
+                                    <rect key="frame" x="0.0" y="51" width="300" height="20"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
                     </subviews>
                 </view>
-                <view hidden="YES" autoresizesSubviews="NO" contentMode="center" id="jnu-79-S4j" userLabel="Enemy">
-                    <rect key="frame" x="318" y="161" width="250" height="222"/>
+                <view hidden="YES" autoresizesSubviews="NO" contentMode="center" id="QwW-jF-qmJ" userLabel="Enemy">
+                    <rect key="frame" x="158" y="97" width="410" height="286"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" alpha="0.69999999999999996" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="skillgradient.png" id="OOu-Zh-W4e">
-                            <rect key="frame" x="-125" y="34" width="375" height="125"/>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="skillintroleaves.png" id="zJL-oP-bsm" userLabel="Leaves">
+                            <rect key="frame" x="155" y="131" width="255" height="93"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         </imageView>
-                        <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="PX2-NB-LzS">
-                            <rect key="frame" x="70" y="-4" width="250" height="222"/>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="greyrocks.png" id="JZ7-Xt-SdZ" userLabel="Rocks">
+                            <rect key="frame" x="159" y="141" width="251" height="83"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         </imageView>
-                        <imageView userInteractionEnabled="NO" contentMode="right" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="goosplashlogo.png" id="hlp-bX-1V7">
-                            <rect key="frame" x="-10" y="83" width="150" height="70"/>
+                        <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="PmX-mw-UZk" userLabel="Character Image">
+                            <rect key="frame" x="208" y="18" width="305" height="271"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         </imageView>
+                        <view contentMode="scaleToFill" id="xKg-J5-h8d" userLabel="Skill">
+                            <rect key="frame" x="0.0" y="146" width="300" height="71"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3x" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="n4r-hi-VCG" customClass="NiceFontLabel19B">
+                                    <rect key="frame" x="0.0" y="0.0" width="300" height="25"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CONFUSION" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ow0-w0-JuL" customClass="NiceFontLabel19B">
+                                    <rect key="frame" x="0.0" y="18" width="300" height="40"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3 MOVES" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="k0b-F1-e0V" customClass="NiceFontLabel20B">
+                                    <rect key="frame" x="0.0" y="51" width="300" height="20"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
                     </subviews>
                 </view>
             </subviews>
@@ -52,19 +108,28 @@
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
-                <outlet property="_avatarEnemy" destination="jnu-79-S4j" id="PB3-to-n53"/>
+                <outlet property="_avatarEnemy" destination="QwW-jF-qmJ" id="eOL-pZ-ekw"/>
                 <outlet property="_avatarPlayer" destination="XOF-Jy-miL" id="jdZ-9O-0MH"/>
-                <outlet property="_enemyGradient" destination="OOu-Zh-W4e" id="0nh-ce-B1l"/>
-                <outlet property="_imageEnemy" destination="PX2-NB-LzS" id="2ND-Mp-H58"/>
+                <outlet property="_imageEnemy" destination="PmX-mw-UZk" id="Xj2-nb-v2F"/>
                 <outlet property="_imagePlayer" destination="0KA-xH-FJl" id="Ytv-zN-Zr0"/>
-                <outlet property="_skillImageEnemy" destination="hlp-bX-1V7" id="MFz-tc-Srq"/>
-                <outlet property="_skillImagePlayer" destination="fI2-JP-eEX" id="BFh-NP-O6B"/>
+                <outlet property="_leavesImageEnemy" destination="zJL-oP-bsm" id="6cq-KP-cof"/>
+                <outlet property="_leavesImagePlayer" destination="qRQ-Rl-ymv" id="fEv-kc-sMN"/>
+                <outlet property="_rocksImageEnemy" destination="JZ7-Xt-SdZ" id="fyh-Hp-TUp"/>
+                <outlet property="_rocksImagePlayer" destination="VWc-iF-oQP" id="58U-9w-zAM"/>
+                <outlet property="_skillBottomLabelEnemy" destination="k0b-F1-e0V" id="z58-T2-MgZ"/>
+                <outlet property="_skillBottomLabelPlayer" destination="oDh-gU-XgR" id="sI7-qg-7wf"/>
+                <outlet property="_skillEnemy" destination="xKg-J5-h8d" id="8i8-yT-HOC"/>
+                <outlet property="_skillNameLabelEnemy" destination="ow0-w0-JuL" id="L0X-Ie-Fkb"/>
+                <outlet property="_skillNameLabelPlayer" destination="lM0-10-L2d" id="k9L-l8-yo3"/>
+                <outlet property="_skillPlayer" destination="oQA-Aj-Dce" id="ChD-JV-AhT"/>
+                <outlet property="_skillTopLabelEnemy" destination="n4r-hi-VCG" id="ZEQ-MU-zLv"/>
+                <outlet property="_skillTopLabelPlayer" destination="uqB-Kk-937" id="vPc-Ks-nhD"/>
             </connections>
         </view>
     </objects>
     <resources>
-        <image name="goosplashlogo.png" width="97" height="59"/>
-        <image name="skillgradient.png" width="375" height="103"/>
+        <image name="greyrocks.png" width="251" height="83"/>
+        <image name="skillintroleaves.png" width="255" height="93"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

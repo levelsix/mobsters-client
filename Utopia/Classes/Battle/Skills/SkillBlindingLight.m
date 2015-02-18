@@ -36,6 +36,20 @@
 
 #pragma mark - Overrides
 
+- (NSSet*) sideEffects
+{
+  return [NSSet setWithObjects:@(SideEffectTypeNerfBlindingLight), nil];
+}
+
+- (void) restoreVisualsIfNeeded
+{
+  if ([self isActive])
+  {
+    BattleSprite *bs = self.belongsToPlayer ? self.enemySprite : self.playerSprite;
+    [bs addSkillSideEffect:SideEffectTypeNerfBlindingLight];
+  }
+}
+
 - (NSInteger) modifyDamage:(NSInteger)damage forPlayer:(BOOL)player
 {
   if (player != self.belongsToPlayer)
@@ -64,6 +78,7 @@
   if ([super skillCalledWithTrigger:trigger execute:execute])
     return YES;
   
+  /*
   // Do nothing, only show the splash at the beginning. Flag is for the case when you defeated the previous one, don't show the logo then.
   if (trigger == SkillTriggerPointEnemyAppeared && ! _logoShown)
   {
@@ -78,6 +93,7 @@
     }
     return YES;
   }
+   */
   
   if ((trigger == SkillTriggerPointEnemyDealsDamage && self.belongsToPlayer)
       || (trigger == SkillTriggerPointPlayerDealsDamage && !self.belongsToPlayer))
@@ -101,9 +117,6 @@
     {
       if (execute)
       {
-        SkillLogStart(@"Blinding Light -- Skill deactivated");
-        
-        [self resetOrbCounter];
         [self endDurationNow];
         [self skillTriggerFinished];
       }
@@ -116,13 +129,26 @@
 
 - (BOOL) onDurationStart
 {
-  [self makeSkillOwnerJumpWithTarget:self selector:@selector(beginOutOfTurnAttack)];
+  [self beginOutOfTurnAttack];
+  
+  BattleSprite *bs = self.belongsToPlayer ? self.enemySprite : self.playerSprite;
+  [bs addSkillSideEffect:SideEffectTypeNerfBlindingLight];
+  
+  return YES;
+}
+
+- (BOOL) onDurationEnd
+{
+  BattleSprite *bs = self.belongsToPlayer ? self.enemySprite : self.playerSprite;
+  [bs removeSkillSideEffect:SideEffectTypeNerfBlindingLight];
+  
   return YES;
 }
 
 - (BOOL) onDurationReset
 {
-  [self makeSkillOwnerJumpWithTarget:self selector:@selector(beginOutOfTurnAttack)];
+  [self beginOutOfTurnAttack];
+  
   return YES;
 }
 

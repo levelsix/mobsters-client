@@ -28,6 +28,11 @@
 
 #pragma mark - Overrides
 
+- (NSSet*) sideEffects
+{
+  return [NSSet setWithObjects:@(SideEffectTypeBuffInsurance), nil];
+}
+
 - (NSInteger) modifyDamage:(NSInteger)damage forPlayer:(BOOL)player
 {
   if ([self isActive] && self.belongsToPlayer != player)
@@ -74,6 +79,8 @@
                                                                            nil]];
   action.tag = 1914;
   [mySprite.sprite runAction:action];
+  
+  [mySprite addSkillSideEffect:SideEffectTypeBuffInsurance];
 }
 
 - (void) endInsuranceAnimations
@@ -84,6 +91,8 @@
                        [CCActionEaseBounceOut actionWithAction:[CCActionScaleTo actionWithDuration:0.5 scale:1.0]]]];
   [mySprite.sprite stopActionByTag:1914];
   [mySprite.sprite runAction:[CCActionTintTo actionWithDuration:0.3 color:[CCColor whiteColor]]];
+  
+  [mySprite removeSkillSideEffect:SideEffectTypeBuffInsurance];
 }
 
 @end

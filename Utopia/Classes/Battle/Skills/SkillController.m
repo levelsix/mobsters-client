@@ -212,26 +212,16 @@
   if (_currentTrigger == SkillTriggerPointEnemyAppeared)
     _executedInitialAction = YES;
   
-  // Hide popup and call block
-  if (_popupOverlay)
+  if (_skillActivated && [self isKindOfClass:[SkillControllerActive class]])
   {
-    [self hideSkillPopupOverlayInternal];
-    _popupOverlay = nil;
+    [skillManager triggerSkills:self.belongsToPlayer ? SkillTriggerPointPlayerSkillActivated : SkillTriggerPointEnemySkillActivated
+                 withCompletion:^(BOOL triggered, id params) {
+                   _callbackBlock(YES, _callbackParams);
+                 }];
   }
   else
   {
-
-    if (_skillActivated && [self isKindOfClass:[SkillControllerActive class]])
-    {
-      [skillManager triggerSkills:self.belongsToPlayer ? SkillTriggerPointPlayerSkillActivated : SkillTriggerPointEnemySkillActivated
-                   withCompletion:^(BOOL triggered, id params) {
-                     _callbackBlock(YES, _callbackParams);
-                   }];
-    }
-    else
-    {
-      _callbackBlock(YES, _callbackParams);
-    }
+    _callbackBlock(YES, _callbackParams);
   }
 }
 
@@ -363,6 +353,31 @@
 
 - (void) showSkillPopupOverlayInternal
 {
+  // Create overlay
+  UIView *parentView = self.battleLayer.hudView;
+  _popupOverlay = [[[NSBundle mainBundle] loadNibNamed:@"SkillPopupOverlay" owner:self options:nil] objectAtIndex:0];
+  [_popupOverlay setBounds:parentView.bounds];
+  [_popupOverlay setOrigin:CGPointMake((parentView.width - _popupOverlay.width)/2, (parentView.height - _popupOverlay.height)/2)];
+  [parentView addSubview:_popupOverlay];
+  [_popupOverlay animateForSkill:_skillId forPlayer:_belongsToPlayer withImage:_characterImage.image orbColor:_orbColor withCompletion:^{
+    // Hide popup and call block
+    if (_popupOverlay)
+    {
+      [self hideSkillPopupOverlayInternal];
+      _popupOverlay = nil;
+    }
+  }];
+  
+  // Hide pieces of battle hud
+  if (self.belongsToPlayer)
+  {
+    [UIView animateWithDuration:0.1 animations:^{
+      self.battleLayer.hudView.bottomView.alpha = 0.0;
+    } completion:^(BOOL finished) {
+      self.battleLayer.hudView.bottomView.hidden = YES;
+    }];
+  }
+  
   /*
    * 2/4/15 - BN - Disabling skills displaying logos
    *
@@ -385,8 +400,6 @@
     }];
   }
    */
-  
-  _callbackBlockForPopup();
 }
 
 - (void) hideSkillPopupOverlayInternal
@@ -403,20 +416,11 @@
       }];
     }
     
-    
-    if (_skillActivated && [self isKindOfClass:[SkillControllerActive class]])
-    {
-      [skillManager triggerSkills:self.belongsToPlayer ? SkillTriggerPointPlayerSkillActivated : SkillTriggerPointEnemySkillActivated
-                   withCompletion:_callbackBlock];
-    }
-    else
-    {
-      _callbackBlock(YES, _callbackParams);
-    }
+    _callbackBlockForPopup();
   };
   
   // Hide overlay
-  [_popupOverlay hideWithCompletion:newCompletion];
+  [_popupOverlay hideWithCompletion:newCompletion forPlayer:_belongsToPlayer];
 }
 
 - (void) showSkillPopupOverlay:(BOOL)jumpFirst withCompletion:(SkillPopupBlock)completion

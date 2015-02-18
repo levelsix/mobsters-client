@@ -40,6 +40,26 @@
   return _stunTurnsLeft > 0;
 }
 
+- (NSSet*) sideEffects
+{
+  return [NSSet setWithObjects:@(SideEffectTypeBuffHammerTime), @(SideEffectTypeNerfStun), nil];
+}
+
+- (void) restoreVisualsIfNeeded
+{
+  if ([self isActive])
+  {
+    BattleSprite *bs = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
+    [bs addSkillSideEffect:SideEffectTypeBuffHammerTime];
+    
+    BattlePlayer* opponent = self.belongsToPlayer ? self.enemy : self.player;
+    if (opponent.isStunned)
+    {
+      [self addStunAnimations];
+    }
+  }
+}
+
 - (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
 {
   if ([super skillCalledWithTrigger:trigger execute:execute])
@@ -115,6 +135,8 @@
                                                                            nil]];
   action.tag = 1914;
   [opponent.sprite runAction:action];
+  
+  [opponent addSkillSideEffect:SideEffectTypeNerfStun];
 }
 
 - (void) endStun
@@ -135,6 +157,24 @@
                        [CCActionEaseBounceOut actionWithAction:[CCActionScaleTo actionWithDuration:0.5 scale:1.0]]]];
   [opponent.sprite stopActionByTag:1914];
   [opponent.sprite runAction:[CCActionTintTo actionWithDuration:0.3 color:[CCColor whiteColor]]];
+  
+  [opponent removeSkillSideEffect:SideEffectTypeNerfStun];
+}
+
+- (BOOL) onDurationStart
+{
+  BattleSprite *bs = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
+  [bs addSkillSideEffect:SideEffectTypeBuffHammerTime];
+  
+  return NO;
+}
+
+- (BOOL) onDurationEnd
+{
+  BattleSprite *bs = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
+  [bs removeSkillSideEffect:SideEffectTypeBuffHammerTime];
+  
+  return NO;
 }
 
 - (void) showLogo

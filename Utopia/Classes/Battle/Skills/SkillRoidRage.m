@@ -31,6 +31,11 @@
 
 #pragma mark - Overrides
 
+- (NSSet*) sideEffects
+{
+  return [NSSet setWithObjects:@(SideEffectTypeBuffRoidRage), nil];
+}
+
 - (NSInteger) modifyDamage:(NSInteger)damage forPlayer:(BOOL)player
 {
   // If attacker is the skill owner and he's enraged, modify
@@ -81,6 +86,8 @@
                                                                            nil]];
   action.tag = 1914;
   [owner.sprite runAction:action];
+  
+  [owner addSkillSideEffect:SideEffectTypeBuffRoidRage];
 }
 
 - (void) removeEnrageAnimations
@@ -91,6 +98,8 @@
                                                         [CCActionEaseBounceOut actionWithAction:[CCActionScaleTo actionWithDuration:0.5 scale:1.0]]]];
   [owner.sprite stopActionByTag:1914];
   [owner.sprite runAction:[CCActionTintTo actionWithDuration:0.3 color:[CCColor whiteColor]]];
+  
+  [owner removeSkillSideEffect:SideEffectTypeBuffRoidRage];
 }
 
 - (void) becomeEnraged

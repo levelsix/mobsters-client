@@ -12,6 +12,14 @@
 #import "GameState.h"
 #import "SkillController.h"
 
+#define POPUP_STAY_DURATION .5f
+#define SHAKE_ANIM_DURATION .3f
+#define SHAKE_RADIUS_MIN 1.f
+#define SHAKE_RADIUS_MAX 5.f
+#define SHAKE_ANIM_COMPLETION_BLOCK_KEY @"SkillPopupShakeAnimationCompletionBlock"
+
+typedef void (^ShakeAnimCompletionBlock)(void);
+
 @implementation SkillPopupOverlay
 
 - (id)initWithCoder:(NSCoder *)aDecoder
@@ -25,60 +33,165 @@
   return self;
 }
 
-- (void) animateForSkill:(NSInteger)skillId forPlayer:(BOOL)player withImage:(UIImageView*)imageView withCompletion:(SkillPopupBlock)completion
+- (void) animateForSkill:(NSInteger)skillId forPlayer:(BOOL)player withImage:(UIImage*)characterImage
+                orbColor:(OrbColor)orbColor withCompletion:(SkillPopupBlock)completion
 {
+  ////////////
+  // Layout //
+  ////////////
+  
+  [_imagePlayer setTransform:CGAffineTransformMakeScale(-1.f, 1.f)];
+  [_rocksImageEnemy setTransform:CGAffineTransformMakeScale(-1.f, 1.f)];
+  [_leavesImageEnemy setTransform:CGAffineTransformMakeScale(-1.f, 1.f)];
+  [Globals setAnchorPoint:CGPointMake(0.f, .5f) onView:_skillPlayer];
+  [Globals setAnchorPoint:CGPointMake(1.f, .5f) onView:_skillEnemy];
+  [_rocksImagePlayer setOrigin:CGPointMake(_rocksImagePlayer.origin.x - 5.f, _rocksImagePlayer.origin.y + 5.f)];
+  [_leavesImagePlayer setOrigin:CGPointMake(_leavesImagePlayer.origin.x - 5.f, _leavesImagePlayer.origin.y + 5.f)];
+  [_rocksImageEnemy setOrigin:CGPointMake(_rocksImageEnemy.origin.x + 5.f, _rocksImageEnemy.origin.y + 5.f)];
+  [_leavesImageEnemy setOrigin:CGPointMake(_leavesImageEnemy.origin.x + 5.f, _leavesImageEnemy.origin.y + 5.f)];
+  
   UIView* mainView = player ? _avatarPlayer : _avatarEnemy;
-  UIImageView* skillImage = player ? _skillImagePlayer : _skillImageEnemy;
+  UIView* skillView = player ? _skillPlayer : _skillEnemy;
   UIImageView* playerImage = player ? _imagePlayer : _imageEnemy;
-  mainView.hidden = NO;
+  UIImageView* rocksImage = player ? _rocksImagePlayer : _rocksImageEnemy;
+  UIImageView* leavesImage = player ? _leavesImagePlayer : _leavesImageEnemy;
+  THLabel* nameLabel = player ? _skillNameLabelPlayer : _skillNameLabelEnemy;
+  THLabel* topLabel = player ? _skillTopLabelPlayer : _skillTopLabelEnemy;
+  THLabel* bottomLabel = player ? _skillBottomLabelPlayer : _skillBottomLabelEnemy;
   
-  // Skill image
-  GameState* gs = [GameState sharedGameState];
-  SkillProto* playerSkillProto = [gs.staticSkills objectForKey:[NSNumber numberWithInteger:skillId]];
-  NSString* logoName = [playerSkillProto.imgNamePrefix stringByAppendingString:kSkillLogoImageNameSuffix];
-  [Globals imageNamed:logoName withView:skillImage greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
-  skillImage.alpha = 0.0;
-  skillImage.transform = CGAffineTransformMakeScale(10.0, 10.0);
+  [mainView setHidden:NO];
+  [topLabel setHidden:YES]; // Haven't figured out what we wanna use this label for yet
   
-  // Mobster image
-  imageView.frame = playerImage.frame;
-  [mainView addSubview:imageView];
-  playerImage.hidden = YES;
-  imageView.originY += 200;
+  nameLabel.gradientStartColor = [UIColor whiteColor];
+  nameLabel.gradientEndColor = [UIColor colorWithHexString:@"E4E4E4"];
+  nameLabel.strokeSize = 1.f;
+  nameLabel.strokeColor = [UIColor colorWithWhite:0.f alpha:.5f];
+  nameLabel.shadowColor = [UIColor blackColor];
+  nameLabel.shadowOffset = CGSizeMake(0.f, 1.5f);
+  nameLabel.shadowBlur = 1.5f;
   
-  // Flip enemy avatar and his gradient
-  if (! player)
-  {
-    //imageView.transform = CGAffineTransformMakeScale(-1, 1); // We decided not to flip the enemy
-    _enemyGradient.transform = CGAffineTransformMakeScale(-1, 1);
-  }
+  topLabel.gradientStartColor = [UIColor colorWithHexString:@"ff4927"];
+  topLabel.gradientEndColor = [UIColor colorWithHexString:@"ff1e10"];
+  topLabel.strokeSize = 1.f;
+  topLabel.strokeColor = [UIColor colorWithWhite:0.f alpha:.5f];
+  topLabel.shadowColor = [UIColor blackColor];
+  topLabel.shadowOffset = CGSizeMake(0.f, 1.5f);
+  topLabel.shadowBlur = 1.5f;
   
-  // Show view
-  [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveLinear animations:^{
-    self.alpha = 1.0;
-    
+  bottomLabel.textColor = [UIColor whiteColor];
+  bottomLabel.strokeSize = 0.f;
+  bottomLabel.shadowColor = [UIColor blackColor];
+  bottomLabel.shadowOffset = CGSizeMake(0.f, 1.5f);
+  bottomLabel.shadowBlur = 1.5f;
+  
+  [playerImage setImage:characterImage];
+  
+//[rocksImage setImage:[UIImage imageNamed:[Globals imageNameForElement:(Element)orbColor suffix:@"rocks.png"]]];
+  
+  SkillProto* playerSkillProto = [[GameState sharedGameState].staticSkills objectForKey:[NSNumber numberWithInteger:skillId]];
+  [nameLabel setText:[playerSkillProto.name uppercaseString]];
+  [bottomLabel setText:(player ? playerSkillProto.shortOffDesc : playerSkillProto.shortDefDesc)];
+  
+  ////////////////
+  // Animations //
+  ////////////////
+  
+  const CGPoint leavesImagePosition = leavesImage.origin;
+  const CGPoint leavesTravelOffset = CGPointMake(player ? -100.f : 100.f, 100.f);
+  [leavesImage setOrigin:CGPointMake(leavesImagePosition.x + leavesTravelOffset.x, leavesImagePosition.y + leavesTravelOffset.y)];
+  [UIView animateWithDuration:.1f delay:0.f options:UIViewAnimationOptionCurveLinear animations:^{
+    [leavesImage setOrigin:leavesImagePosition];
+  } completion:nil];
+  
+  const CGPoint rocksImagePosition = rocksImage.origin;
+  const CGPoint rocksTravelOffset = CGPointMake(player ? -100.f : 100.f, 100.f);
+  [rocksImage setOrigin:CGPointMake(rocksImagePosition.x + rocksTravelOffset.x, rocksImagePosition.y + rocksTravelOffset.y)];
+  [UIView animateWithDuration:.1f delay:.025f options:UIViewAnimationOptionCurveLinear animations:^{
+    [rocksImage setOrigin:rocksImagePosition];
+  } completion:nil];
+  
+  const CGPoint playerImagePosition = playerImage.origin;
+  const CGPoint playerTravelOffset = CGPointMake(player ? -150.f : 150.f, 25.f);
+  [playerImage setOrigin:CGPointMake(playerImagePosition.x + playerTravelOffset.x, playerImagePosition.y + playerTravelOffset.y)];
+  [UIView animateWithDuration:.1f delay:.05f options:UIViewAnimationOptionCurveLinear animations:^{
+    [playerImage setOrigin:playerImagePosition];
+  } completion:nil];
+  
+  [skillView.layer setOpacity:0.f];
+  [skillView.layer setTransform:CATransform3DMakeScale(10.f, 10.f, 1.f)];
+  [UIView animateWithDuration:.2f delay:.15f options:UIViewAnimationOptionCurveEaseIn animations:^{
+    [skillView.layer setOpacity:1.f];
+    [skillView.layer setTransform:CATransform3DIdentity];
   } completion:^(BOOL finished) {
-    
-    // Animate skill image
-    [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-      skillImage.alpha = 1.0;
-      skillImage.transform = CGAffineTransformIdentity;
-      imageView.originY -= 200;
-    } completion:^(BOOL finished) {
+    [self shakeView:mainView withKey:@"SkillPopupShakeAnimation" completion:^{
       completion();
     }];
   }];
+  
+  [self setAlpha:1.f];
 }
 
-- (void) hideWithCompletion:(SkillPopupBlock)completion
+- (void) hideWithCompletion:(SkillPopupBlock)completion forPlayer:(BOOL)player
 {
-  // Hide view
-  [UIView animateWithDuration:0.3 delay:0.2 options:UIViewAnimationOptionCurveLinear animations:^{
-    self.alpha = 0.0;
+  UIView* skillView = player ? _skillPlayer : _skillEnemy;
+  UIImageView* playerImage = player ? _imagePlayer : _imageEnemy;
+  UIImageView* rocksImage = player ? _rocksImagePlayer : _rocksImageEnemy;
+  UIImageView* leavesImage = player ? _leavesImagePlayer : _leavesImageEnemy;
+  
+  [UIView animateWithDuration:.1f delay:POPUP_STAY_DURATION + 0.f options:UIViewAnimationOptionCurveEaseIn animations:^{
+    [skillView setOrigin:CGPointMake(skillView.origin.x, skillView.origin.y + 150.f)];
+    [skillView setAlpha:0.f];
+  } completion:nil];
+  
+  [UIView animateWithDuration:.1f delay:POPUP_STAY_DURATION + .03f options:UIViewAnimationOptionCurveEaseIn animations:^{
+    [playerImage setOrigin:CGPointMake(playerImage.origin.x, playerImage.origin.y + 150.f)];
+    [playerImage setAlpha:0.f];
+  } completion:nil];
+  
+  [UIView animateWithDuration:.1f delay:POPUP_STAY_DURATION + .06f options:UIViewAnimationOptionCurveEaseIn animations:^{
+    [rocksImage setOrigin:CGPointMake(rocksImage.origin.x, rocksImage.origin.y + 150.f)];
+    [rocksImage setAlpha:0.f];
+  } completion:nil];
+  
+  [UIView animateWithDuration:.1f delay:POPUP_STAY_DURATION + .09f options:UIViewAnimationOptionCurveEaseIn animations:^{
+    [leavesImage setOrigin:CGPointMake(leavesImage.origin.x, leavesImage.origin.y + 150.f)];
+    [leavesImage setAlpha:0.f];
   } completion:^(BOOL finished) {
     [self removeFromSuperview];
     completion();
   }];
+}
+
+- (void) shakeView:(UIView*)view withKey:(NSString*)key completion:(ShakeAnimCompletionBlock)completion
+{
+  NSMutableArray *keyTimes = [NSMutableArray array];
+  NSMutableArray *values = [NSMutableArray array];
+  const CGPoint pos = view.layer.position;
+  const int numFrames = 60.f * SHAKE_ANIM_DURATION;
+  for (int i = 0; i < numFrames; ++i)
+  {
+    const float t = (float)i / (float)numFrames;
+    const float theta = ((float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX) * (M_PI * 2.f);
+    const float radius = SHAKE_RADIUS_MIN + (SHAKE_RADIUS_MAX - SHAKE_RADIUS_MIN) * (1.f - t);
+    [keyTimes addObject:@(t)];
+    [values addObject:[NSValue valueWithCGPoint:CGPointMake(pos.x + radius * cosf(theta), pos.y + radius * sinf(theta))]];
+  }
+  CAKeyframeAnimation *anim = [CAKeyframeAnimation animationWithKeyPath:@"position"];
+  [anim setDuration:SHAKE_ANIM_DURATION];
+  [anim setCalculationMode:kCAAnimationLinear];
+  [anim setKeyTimes:keyTimes];
+  [anim setValues:values];
+  if (completion) {
+    [anim setDelegate:self];
+    [anim setValue:completion forKey:SHAKE_ANIM_COMPLETION_BLOCK_KEY];
+  }
+  [view.layer addAnimation:anim forKey:key];
+}
+
+- (void) animationDidStop:(CAAnimation*)anim finished:(BOOL)flag
+{
+  ShakeAnimCompletionBlock completionBlock = [anim valueForKey:SHAKE_ANIM_COMPLETION_BLOCK_KEY];
+  if (completionBlock) completionBlock();
 }
 
 @end

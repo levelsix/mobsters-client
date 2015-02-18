@@ -53,6 +53,7 @@
   if ([super skillCalledWithTrigger:trigger execute:execute])
     return YES;
   
+  /*
   if ((trigger == SkillTriggerPointEnemyAppeared      && !_logoShown) ||
       (trigger == SkillTriggerPointStartOfPlayerTurn  && !_logoShown) ||
       (trigger == SkillTriggerPointStartOfEnemyTurn   && !_logoShown))
@@ -68,6 +69,7 @@
     }
     return YES;
   }
+   */
   
   if ([self isActive])
   {

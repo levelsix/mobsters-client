@@ -37,6 +37,11 @@
   return [self isActive];
 }
 
+- (NSSet*) sideEffects
+{
+  return [NSSet setWithObjects:@(SideEffectTypeNerfBloodRage), nil];
+}
+
 - (NSInteger) modifyDamage:(NSInteger)damage forPlayer:(BOOL)player
 {
   if ([self isActive])
@@ -99,6 +104,8 @@
                                                                            nil]];
   action.tag = 1914;
   [opponent.sprite runAction:action];
+  
+  [opponent addSkillSideEffect:SideEffectTypeNerfBloodRage];
 }
 
 - (void) removeRageAnimations
@@ -109,6 +116,8 @@
                        [CCActionEaseBounceOut actionWithAction:[CCActionScaleTo actionWithDuration:0.5 scale:1.0]]]];
   [opponent.sprite stopActionByTag:1914];
   [opponent.sprite runAction:[CCActionTintTo actionWithDuration:0.3 color:[CCColor whiteColor]]];
+  
+  [opponent removeSkillSideEffect:SideEffectTypeNerfBloodRage];
 }
 
 @end

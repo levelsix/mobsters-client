@@ -75,9 +75,7 @@
       {
         [self.battleLayer.orbLayer disallowInput];
         [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
-        [self showSkillPopupOverlay:YES withCompletion:^(){
-          [self dealPoisonDamage];
-        }];
+        [self dealPoisonDamage];
       }
       return YES;
     }
@@ -160,7 +158,7 @@ static NSString* const skullId = @"skull";
   else
   {
     if (target && callback)
-      SUPPRESS_PERFORM_SELECTOR_LEAK_WARNING([target performSelector:callback];);
+      [target performSelector:callback withObject:nil afterDelay:0.f];
   }
 }
 

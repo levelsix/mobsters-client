@@ -50,6 +50,11 @@ static const NSInteger kSwordOrbsMaxSearchIterations = 256;
   return _skillActive;
 }
 
+- (NSSet*) sideEffects
+{
+  return [NSSet setWithObjects:@(SideEffectTypeNerfStun), nil];
+}
+
 - (void) restoreVisualsIfNeeded
 {
   if (!self.belongsToPlayer)
@@ -68,6 +73,7 @@ static const NSInteger kSwordOrbsMaxSearchIterations = 256;
    * Offensive Triggers *
    **********************/
   
+  /*
   if (trigger == SkillTriggerPointEnemyAppeared && !_logoShown)
   {
     if (execute)
@@ -81,6 +87,7 @@ static const NSInteger kSwordOrbsMaxSearchIterations = 256;
     }
     return YES;
   }
+   */
   
   if (trigger == SkillTriggerPointEndOfPlayerMove && self.belongsToPlayer)
   {
@@ -92,7 +99,11 @@ static const NSInteger kSwordOrbsMaxSearchIterations = 256;
         
         // Deal out of turn damage of a random amount
         _damageDone = arc4random_uniform((int)_maxDamage - 1) + 1;
-        [self makeSkillOwnerJumpWithTarget:self selector:@selector(beginOutOfTurnAttack)];
+        [self showSkillPopupOverlay:YES withCompletion:^{
+          [self performAfterDelay:.5f block:^{
+            [self beginOutOfTurnAttack];
+          }];
+        }];
         
         // Number of turns for the opponent to be stunned is inversely correlated
         // with the random damage done, e.g. max damage stuns for zero turns,
@@ -159,7 +170,7 @@ static const NSInteger kSwordOrbsMaxSearchIterations = 256;
           
           // If any orbs have reached zero turns left, deal out of turn damage of a random amount
           _damageReceived = arc4random_uniform((int)_maxDamage - 1) + 1;
-          [self makeSkillOwnerJumpWithTarget:self selector:@selector(beginOutOfTurnAttack)];
+          [self beginOutOfTurnAttack];
           
           // Number of turns for the opponent to be stunned is inversely correlated
           // with the random damage done, e.g. max damage stuns for zero turns,
@@ -316,6 +327,8 @@ static const NSInteger kSwordOrbsMaxSearchIterations = 256;
                                                                            nil]];
   [action setTag:1914];
   [opponent.sprite runAction:action];
+  
+  [opponent addSkillSideEffect:SideEffectTypeNerfStun];
 }
 
 - (void) endStun
@@ -337,6 +350,8 @@ static const NSInteger kSwordOrbsMaxSearchIterations = 256;
   [opponent runAction:[CCActionEaseBounceIn actionWithAction:[CCActionEaseBounceOut actionWithAction:[CCActionScaleTo actionWithDuration:.5f scale:1.f]]]];
   [opponent.sprite stopActionByTag:1914];
   [opponent.sprite runAction:[CCActionTintTo actionWithDuration:.3f color:[CCColor whiteColor]]];
+  
+  [opponent removeSkillSideEffect:SideEffectTypeNerfStun];
 }
 
 - (int) updateSwordOrbs

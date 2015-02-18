@@ -45,10 +45,21 @@ static const NSInteger kBatteryOrbsMaxSearchIterations = 256;
 
 #pragma mark - Overrides
 
+- (NSSet*) sideEffects
+{
+  return [NSSet setWithObjects:@(SideEffectTypeBuffEnergize), nil];
+}
+
 - (void) restoreVisualsIfNeeded
 {
   if (!self.belongsToPlayer)
     _orbsSpawned = [self specialsOnBoardCount:SpecialOrbTypeBattery];
+  
+  if ([self isActive])
+  {
+    BattleSprite *bs = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
+    [bs addSkillSideEffect:SideEffectTypeBuffEnergize];
+  }
 }
 
 - (BOOL) doesRefresh
@@ -204,6 +215,9 @@ static const NSInteger kBatteryOrbsMaxSearchIterations = 256;
     [self updateSkillOwnerSpeed];
   }
   
+  BattleSprite *bs = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
+  [bs addSkillSideEffect:SideEffectTypeBuffEnergize];
+  
   [self skillTriggerFinished:self.belongsToPlayer];
   
   return YES;
@@ -222,8 +236,10 @@ static const NSInteger kBatteryOrbsMaxSearchIterations = 256;
   
   _curSpeedMultiplier = 1.f;
   _curAttackMultiplier = 1.f;
-  
   [self updateSkillOwnerSpeed];
+  
+  BattleSprite *bs = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
+  [bs removeSkillSideEffect:SideEffectTypeBuffEnergize];
   
   return [super onDurationEnd];
 }

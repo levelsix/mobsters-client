@@ -66,11 +66,11 @@
   {
     if (execute)
     {
-      int orbsSpawned = (int)[self specialsOnBoardCount:SpecialOrbTypeLifeSteal];
+      NSInteger orbsSpawned = [self specialsOnBoardCount:SpecialOrbTypeLifeSteal];
       if (orbsSpawned > 0)
       {
         // Life steal orbs left on the board at the end of turn, being stealing life
-        [self makeSkillOwnerJumpWithTarget:self selector:@selector(beginLifeSteal)];
+        [self beginLifeSteal];
       }
       else
         [self skillTriggerFinished];

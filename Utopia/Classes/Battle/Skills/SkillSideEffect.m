@@ -17,6 +17,9 @@
 #define SIDE_EFFECT_VFX_FADE_DURATION     .2f
 #define SIDE_EFFECT_VFX_DISPLAY_DURATION  2.f
 #define SIDE_EFFECT_VFX_DISPLAY_INTERVAL  (SIDE_EFFECT_VFX_DISPLAY_DURATION + SIDE_EFFECT_VFX_FADE_DURATION * 2.f)
+#define SIDE_EFFECT_VFX_APPEAR_DURATION   .4f
+#define SIDE_EFFECT_VFX_SCALE_MODIFIER    1.f
+#define SIDE_EFFECT_PFX_SCALE_MODIFIER    .5f // Retina display
 #define SIDE_EFFECT_TOP_MOST_Z_ORDER      1000
 #define SIDE_EFFECT_DISPLAY_ACTION_TAG    881039
 
@@ -89,9 +92,14 @@
         if (_vfx)
         {
           _vfx.position = ccpAdd(ccp(sprite.contentSize.width * .5f, belowCharacter ? 0.f : sprite.contentSize.height), _imagePixelOffset);
-          _vfx.zOrder = (_positionType == SideEffectPositionTypeBelowCharacter) ? zOrder : SIDE_EFFECT_TOP_MOST_Z_ORDER + zOrder;
+          _vfx.zOrder = belowCharacter ? zOrder : SIDE_EFFECT_TOP_MOST_Z_ORDER + zOrder;
+          _vfx.scale = 0.f;
           
-          [_vfx runAction:[CCActionFadeIn actionWithDuration:SIDE_EFFECT_VFX_FADE_DURATION]];
+          [_vfx runAction:[CCActionSpawn actions:
+                           [CCActionEaseBounceOut actionWithAction:
+                            [CCActionScaleTo actionWithDuration:SIDE_EFFECT_VFX_APPEAR_DURATION scale:SIDE_EFFECT_VFX_SCALE_MODIFIER]],
+                           [CCActionFadeIn actionWithDuration:SIDE_EFFECT_VFX_APPEAR_DURATION], nil]];
+          
           [sprite addChild:_vfx z:_vfx.zOrder];
         }
       }
@@ -104,14 +112,18 @@
             _vfx = [CCSprite node];
             _vfx.position = ccpAdd(ccp(sprite.contentSize.width * .5f, belowCharacter ? 0.f : sprite.contentSize.height), _imagePixelOffset);
             _vfx.zOrder = belowCharacter ? zOrder : SIDE_EFFECT_TOP_MOST_Z_ORDER + zOrder;
+            _vfx.scale = 0.f;
             [self setSpriteBlendMode:_vfx];
             
-            // Our naming convention must be locked down for the following to work
-            NSString* prefix = [[[_imageName stringByDeletingPathExtension] lowercaseString] stringByAppendingString:@"_00"];
+            NSString* prefix = [_imageName stringByDeletingPathExtension]; // DO NOT CHANGE - Naming convention that the assets follow
             CCAnimation* anim = [CCAnimation animationWithSpritePrefix:prefix delay:SIDE_EFFECT_ANIM_DELAY_PER_FRAME];
             CCAction* action = [CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:anim]];
             [_vfx runAction:action];
-            [_vfx runAction:[CCActionFadeIn actionWithDuration:SIDE_EFFECT_VFX_FADE_DURATION]];
+
+            [_vfx runAction:[CCActionSpawn actions:
+                             [CCActionEaseBounceOut actionWithAction:
+                              [CCActionScaleTo actionWithDuration:SIDE_EFFECT_VFX_APPEAR_DURATION scale:SIDE_EFFECT_VFX_SCALE_MODIFIER]],
+                             [CCActionFadeIn actionWithDuration:SIDE_EFFECT_VFX_APPEAR_DURATION], nil]];
             
             [sprite addChild:_vfx z:_vfx.zOrder];
           }
@@ -128,7 +140,7 @@
         _pfx.startColor = [CCColor colorWithRed:_pfxColor.red green:_pfxColor.green blue:_pfxColor.blue alpha:_pfx.startColor.alpha];
         _pfx.endColor = [CCColor colorWithRed:_pfxColor.red green:_pfxColor.green blue:_pfxColor.blue alpha:_pfx.endColor.alpha];
         _pfx.zOrder = SIDE_EFFECT_TOP_MOST_Z_ORDER;
-        _pfx.scale = .5f; // Retina display
+        _pfx.scale = SIDE_EFFECT_PFX_SCALE_MODIFIER;
         [sprite addChild:_pfx z:_pfx.zOrder];
       }
     }
@@ -144,7 +156,9 @@
 {
   if (_vfx && [_vfx getActionByTag:SIDE_EFFECT_DISPLAY_ACTION_TAG] == nil)
     [_vfx runAction:[CCActionSequence actions:
-                     [CCActionFadeOut actionWithDuration:SIDE_EFFECT_VFX_FADE_DURATION],
+                     [CCActionSpawn actions:
+                      [CCActionScaleTo actionWithDuration:SIDE_EFFECT_VFX_APPEAR_DURATION scale:0.f],
+                      [CCActionFadeOut actionWithDuration:SIDE_EFFECT_VFX_APPEAR_DURATION], nil],
                      [CCActionCallFunc actionWithTarget:self selector:@selector(removeFromCharacterSpriteInternal)]
                      , nil]];
   else

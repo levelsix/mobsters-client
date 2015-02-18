@@ -32,6 +32,20 @@
 
 #pragma mark - Overrides
 
+- (NSSet*) sideEffects
+{
+  return [NSSet setWithObjects:@(SideEffectTypeBuffStaticField), nil];
+}
+
+- (void) restoreVisualsIfNeeded
+{
+  if ([self isActive])
+  {
+    BattleSprite *bs = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
+    [bs addSkillSideEffect:SideEffectTypeBuffStaticField];
+  }
+}
+
 - (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
 {
   if ([super skillCalledWithTrigger:trigger execute:execute])
@@ -56,12 +70,28 @@
         
         [self showLogo];
         
-        [self makeSkillOwnerJumpWithTarget:self selector:@selector(beginCounterAttack)];
+        [self beginCounterAttack];
       }
       return YES;
     }
     
   }
+  
+  return NO;
+}
+
+- (BOOL) onDurationStart
+{
+  BattleSprite *bs = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
+  [bs addSkillSideEffect:SideEffectTypeBuffStaticField];
+  
+  return NO;
+}
+
+- (BOOL) onDurationEnd
+{
+  BattleSprite *bs = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
+  [bs removeSkillSideEffect:SideEffectTypeBuffStaticField];
   
   return NO;
 }

@@ -200,7 +200,8 @@
 
 - (void) startAttackingPlayer
 {
-  [self makeSkillOwnerJumpWithTarget:self selector:@selector(startAttackingPlayerPhase2)];
+//[self makeSkillOwnerJumpWithTarget:self selector:@selector(startAttackingPlayerPhase2)];
+  [self startAttackingPlayerPhase2];
 }
 
 - (void) startAttackingPlayerPhase2

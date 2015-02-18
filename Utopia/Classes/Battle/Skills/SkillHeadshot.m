@@ -82,7 +82,7 @@
       if (_orbsSpawned > 0 && [self updateHeadshotOrbs])
       {
         // If any orbs have reached zero turns left, perform headshot
-        [self makeSkillOwnerJumpWithTarget:self selector:@selector(beginHeadshot)];
+        [self beginHeadshot];
       }
       else
       {
@@ -106,7 +106,7 @@
         _orbsSpawned = [self specialsOnBoardCount:SpecialOrbTypeHeadshot];
         if (_orbsSpawned == 0)
         {
-          [self makeSkillOwnerJumpWithTarget:self selector:@selector(beginHeadshot)];
+          [self beginHeadshot];
         }
         else
           [self skillTriggerFinished];

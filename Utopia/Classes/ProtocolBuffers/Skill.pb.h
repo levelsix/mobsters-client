@@ -89,6 +89,7 @@ typedef NS_ENUM(SInt32, SideEffectType) {
   SideEffectTypeBuffShallowGrave = 16,
   SideEffectTypeBuffEnergize = 17,
   SideEffectTypeBuffInsurance = 18,
+  SideEffectTypeBuffHammerTime = 19,
 };
 
 BOOL SideEffectTypeIsValidValue(SideEffectType value);
@@ -131,6 +132,8 @@ BOOL SideEffectBlendModeIsValidValue(SideEffectBlendMode value);
   BOOL hasName_:1;
   BOOL hasDefDesc_:1;
   BOOL hasOffDesc_:1;
+  BOOL hasShortDefDesc_:1;
+  BOOL hasShortOffDesc_:1;
   BOOL hasImgNamePrefix_:1;
   BOOL hasType_:1;
   BOOL hasActivationType_:1;
@@ -142,6 +145,8 @@ BOOL SideEffectBlendModeIsValidValue(SideEffectBlendMode value);
   NSString* name;
   NSString* defDesc;
   NSString* offDesc;
+  NSString* shortDefDesc;
+  NSString* shortOffDesc;
   NSString* imgNamePrefix;
   SkillType type;
   SkillActivationType activationType;
@@ -156,6 +161,8 @@ BOOL SideEffectBlendModeIsValidValue(SideEffectBlendMode value);
 - (BOOL) hasSucId;
 - (BOOL) hasDefDesc;
 - (BOOL) hasOffDesc;
+- (BOOL) hasShortDefDesc;
+- (BOOL) hasShortOffDesc;
 - (BOOL) hasImgNamePrefix;
 - (BOOL) hasSkillEffectDuration;
 @property (readonly) int32_t skillId;
@@ -168,6 +175,8 @@ BOOL SideEffectBlendModeIsValidValue(SideEffectBlendMode value);
 @property (readonly, strong) NSArray * propertiesList;
 @property (readonly, strong) NSString* defDesc;
 @property (readonly, strong) NSString* offDesc;
+@property (readonly, strong) NSString* shortDefDesc;
+@property (readonly, strong) NSString* shortOffDesc;
 @property (readonly, strong) NSString* imgNamePrefix;
 @property (readonly) int32_t skillEffectDuration;
 - (SkillPropertyProto*)propertiesAtIndex:(NSUInteger)index;
@@ -257,6 +266,16 @@ BOOL SideEffectBlendModeIsValidValue(SideEffectBlendMode value);
 - (NSString*) offDesc;
 - (SkillProto_Builder*) setOffDesc:(NSString*) value;
 - (SkillProto_Builder*) clearOffDesc;
+
+- (BOOL) hasShortDefDesc;
+- (NSString*) shortDefDesc;
+- (SkillProto_Builder*) setShortDefDesc:(NSString*) value;
+- (SkillProto_Builder*) clearShortDefDesc;
+
+- (BOOL) hasShortOffDesc;
+- (NSString*) shortOffDesc;
+- (SkillProto_Builder*) setShortOffDesc:(NSString*) value;
+- (SkillProto_Builder*) clearShortOffDesc;
 
 - (BOOL) hasImgNamePrefix;
 - (NSString*) imgNamePrefix;

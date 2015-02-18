@@ -38,6 +38,11 @@ static const NSInteger kGraveOrbsMaxSearchIterations = 256;
 
 #pragma mark - Overrides
 
+- (NSSet*) sideEffects
+{
+  return [NSSet setWithObjects:@(SideEffectTypeBuffShallowGrave), nil];
+}
+
 - (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
 {
   if ([super skillCalledWithTrigger:trigger execute:execute])
@@ -50,11 +55,13 @@ static const NSInteger kGraveOrbsMaxSearchIterations = 256;
     if (execute)
     {
       _logoShown = YES;
+      /*
       [self showSkillPopupOverlay:YES withCompletion:^(){
         [self performAfterDelay:.5f block:^{
           [self skillTriggerFinished];
         }];
       }];
+       */
       
       // Will restore visuals if coming back to a battle after leaving midway
       if ((self.belongsToPlayer && [self isActive]) || (!self.belongsToPlayer && _skillActive))
@@ -62,7 +69,12 @@ static const NSInteger kGraveOrbsMaxSearchIterations = 256;
         SkillLogStart(@"Shallow Grave -- Skill activated");
         
         [self addDefensiveShieldForPlayer:self.belongsToPlayer ? self.player : self.enemy];
+        
+        BattleSprite *bs = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
+        [bs addSkillSideEffect:SideEffectTypeBuffShallowGrave];
       }
+      
+      [self skillTriggerFinished];
     }
     return YES;
   }
@@ -114,6 +126,8 @@ static const NSInteger kGraveOrbsMaxSearchIterations = 256;
         [self showSkillPopupOverlay:YES withCompletion:^{
           [self performSelector:@selector(spawnInitialGraveOrbs) withObject:nil afterDelay:.5f];
           [self addDefensiveShieldForPlayer:self.enemy];
+          
+          [self.enemySprite addSkillSideEffect:SideEffectTypeBuffShallowGrave];
         }];
       }
       return YES;
@@ -138,6 +152,7 @@ static const NSInteger kGraveOrbsMaxSearchIterations = 256;
           [self removeAllGraveOrbs];
           [self performAfterDelay:.3f block:^{
             [self removeDefensiveShieldForPlayer:self.enemy];
+            [self.enemySprite removeSkillSideEffect:SideEffectTypeBuffShallowGrave];
             [self skillTriggerFinished];
           }];
         }
@@ -174,6 +189,7 @@ static const NSInteger kGraveOrbsMaxSearchIterations = 256;
     SkillLogStart(@"Shallow Grave -- Skill activated");
     
     [self addDefensiveShieldForPlayer:self.player];
+    [self.playerSprite addSkillSideEffect:SideEffectTypeBuffShallowGrave];
   }
   
   return NO;
@@ -199,6 +215,7 @@ static const NSInteger kGraveOrbsMaxSearchIterations = 256;
    
     [super onDurationEnd];
     [self removeDefensiveShieldForPlayer:self.player];
+    [self.playerSprite removeSkillSideEffect:SideEffectTypeBuffShallowGrave];
   }
   
   return NO;
