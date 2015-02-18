@@ -34,6 +34,8 @@ static const float orbUpdateAnimDuration = 0.3f;
 - (void) reloadSprite:(BOOL)animated;
 
 // Specials
+- (void) decrementCloud;
+
 - (void) updateTurnCounter:(BOOL)animated;
 
 - (void) resetOrbSpriteScale;
