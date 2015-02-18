@@ -203,6 +203,7 @@
 - (NSArray *) pvpAttackHistory;
 - (NSArray *) pvpDefenseHistory;
 - (NSArray *) allUnreadDefenseHistory;
+- (NSArray *) allUnreadDefenseHistorySinceLastLogin;
 - (NSArray *) allPrivateChats;
 - (NSArray *) allUnreadPrivateChats;
 - (NSArray *) allClanChatObjects;

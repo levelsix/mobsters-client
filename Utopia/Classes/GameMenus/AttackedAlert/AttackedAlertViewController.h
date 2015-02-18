@@ -7,24 +7,32 @@
 //
 
 #import "NibUtils.h"
+#import "ChatCell.h"
+#import "HudNotificationController.h"
 
-@interface AttackedAlertView : UIView {
+@interface AttackedAlertViewController : UIViewController <TopBarNotification>{
   int _oilLost;
   int _cashLost;
   int _rankLost;
+  dispatch_block_t _completion;
+  NSArray *_curDefenses;
 }
+
+@property (nonatomic, retain) IBOutlet UIView *mainView;
+@property (nonatomic, retain) IBOutlet UIView *bgView;
+@property (nonatomic, retain) IBOutlet UIView *tableContainerView;
+@property (nonatomic, retain) IBOutlet UIView *resultsContainerView;
+@property (nonatomic, retain) IBOutlet UIView *titleView;
 
 @property (nonatomic, retain) IBOutlet UILabel *cashLabel;
 @property (nonatomic, retain) IBOutlet UILabel *oilLabel;
 @property (nonatomic, retain) IBOutlet UILabel *rankLabel;
+@property (nonatomic, retain) IBOutlet THLabel *titleLabel;
 
-- (void) updateForPvpList:(NSArray *) pvpList;
+@property (nonatomic, retain) IBOutlet UITableView *alertsTable;
 
 @end
 
-@interface AttackedAlertViewController : UIViewController
-
-@property (nonatomic, retain) IBOutlet AttackedAlertView *alertView;
-@property (weak, nonatomic) IBOutlet UIView *BGView;
+@interface AttackAlertCell : PrivateChatListCell
 
 @end

@@ -113,7 +113,6 @@ typedef enum {
 @property (nonatomic, retain) NSString *curUserUuid;
 
 @property (nonatomic, retain) IBOutlet UITableView *listTable;
-@property (nonatomic, retain) IBOutlet PrivateChatListCell *listCell;
 @property (nonatomic, retain) IBOutlet PrivateChatAttackLogCell *battleListCell;
 
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *spinner;

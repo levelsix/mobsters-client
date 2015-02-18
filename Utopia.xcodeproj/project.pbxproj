@@ -1209,6 +1209,9 @@
 		63B0450F1A92BAD600C74F0C /* beenattackedheader@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63B0450B1A92BAD600C74F0C /* beenattackedheader@2x.png */; };
 		63B045101A92BAD600C74F0C /* beenattackedheader@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63B0450B1A92BAD600C74F0C /* beenattackedheader@2x.png */; };
 		63B045111A92BAD600C74F0C /* beenattackedheader@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63B0450B1A92BAD600C74F0C /* beenattackedheader@2x.png */; };
+		63B045131A93F8B500C74F0C /* AttackAlertCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63B045121A93F8B500C74F0C /* AttackAlertCell.xib */; };
+		63B045141A93F8B500C74F0C /* AttackAlertCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63B045121A93F8B500C74F0C /* AttackAlertCell.xib */; };
+		63B045151A93F8B500C74F0C /* AttackAlertCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63B045121A93F8B500C74F0C /* AttackAlertCell.xib */; };
 		63B7BEFC1A7090EA00C62FB7 /* blackborder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63B7BEFB1A7090EA00C62FB7 /* blackborder@2x.png */; };
 		63BACADF1A71A7D9000A641A /* DailyEventScheduleViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63BACADE1A71A7D9000A641A /* DailyEventScheduleViewController.xib */; };
 		63BACAE31A71A816000A641A /* DailyEventScheduleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63BACAE21A71A816000A641A /* DailyEventScheduleViewController.m */; };
@@ -8279,6 +8282,7 @@
 		63B045011A92B9C600C74F0C /* AttackedAlertViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AttackedAlertViewController.xib; sourceTree = "<group>"; };
 		63B0450A1A92BAD600C74F0C /* beenattackedgirl@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "beenattackedgirl@2x.png"; sourceTree = "<group>"; };
 		63B0450B1A92BAD600C74F0C /* beenattackedheader@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "beenattackedheader@2x.png"; sourceTree = "<group>"; };
+		63B045121A93F8B500C74F0C /* AttackAlertCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AttackAlertCell.xib; sourceTree = "<group>"; };
 		63B7BEFB1A7090EA00C62FB7 /* blackborder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blackborder@2x.png"; sourceTree = "<group>"; };
 		63BACADE1A71A7D9000A641A /* DailyEventScheduleViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DailyEventScheduleViewController.xib; sourceTree = "<group>"; };
 		63BACAE11A71A816000A641A /* DailyEventScheduleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DailyEventScheduleViewController.h; sourceTree = "<group>"; };
@@ -13828,6 +13832,7 @@
 				63B044FF1A92B9C600C74F0C /* AttackedAlertViewController.h */,
 				63B045001A92B9C600C74F0C /* AttackedAlertViewController.m */,
 				63B045011A92B9C600C74F0C /* AttackedAlertViewController.xib */,
+				63B045121A93F8B500C74F0C /* AttackAlertCell.xib */,
 			);
 			path = AttackedAlert;
 			sourceTree = "<group>";
@@ -20396,6 +20401,7 @@
 				CF0CF497196F452900ECD301 /* diamondprofribbon@2x.png in Resources */,
 				DA173A3619CA4230005236C0 /* forcefieldback@2x.png in Resources */,
 				CF0CF49C196F452900ECD301 /* sfx_firework_02.mp3 in Resources */,
+				63B045141A93F8B500C74F0C /* AttackAlertCell.xib in Resources */,
 				CF0CF49D196F452900ECD301 /* 2splashbg@2x.png in Resources */,
 				CFA9F7971A0D8F6300EBE77D /* greenitemsbutton@2x.png in Resources */,
 				CF0CF4A1196F452900ECD301 /* eventsinactive@2x.png in Resources */,
@@ -22874,6 +22880,7 @@
 				CF95203F1939690800A98290 /* earthfeederevent@2x.png in Resources */,
 				CF134A6318A5E4B500D7D700 /* FatBoy2Move07@2x.png in Resources */,
 				CFFBDF8718ACA3D90090CA9A /* Scientist3Blink07@2x.png in Resources */,
+				63B045131A93F8B500C74F0C /* AttackAlertCell.xib in Resources */,
 				CF6F19FF181518C900CFF2B9 /* rewardbg@2x.png in Resources */,
 				CFA728ED1A0B037900FF6031 /* fireeventtag@2x.png in Resources */,
 				CF864E09193E8F3000DE0D7A /* greensmallbutton@2x.png in Resources */,
@@ -25108,6 +25115,7 @@
 				CF4822E319F7217F00041486 /* earthbigavatar@2x.png in Resources */,
 				CF4822E419F7217F00041486 /* enhanceheaderimage@2x.png in Resources */,
 				CF4822E519F7217F00041486 /* movesbg@2x.png in Resources */,
+				63B045151A93F8B500C74F0C /* AttackAlertCell.xib in Resources */,
 				CF4822E619F7217F00041486 /* menuicon@2x.png in Resources */,
 				CF4822E719F7217F00041486 /* teambubble3@2x.png in Resources */,
 				CF4822EB19F7217F00041486 /* purplesmallbutton@2x.png in Resources */,

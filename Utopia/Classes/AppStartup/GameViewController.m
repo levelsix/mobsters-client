@@ -53,6 +53,7 @@
 #import "RequestPushNotificationViewController.h"
 #import <Kamcord/Kamcord.h>
 #import "TutorialEnhanceController.h"
+#import "AttackedAlertViewController.h"
 
 #define DEFAULT_PNG_IMAGE_VIEW_TAG 103
 #define KINGDOM_PNG_IMAGE_VIEW_TAG 104
@@ -525,11 +526,18 @@ static const CGSize FIXED_SIZE = {568, 384};
     } else {
       [self.notificationController resumeNotifications];
     }
+    GameState *gs = [GameState sharedGameState];
+    
+    //check if there are unread defenses since the last you logged in, if so alert the player
+    NSArray *defenses = [gs allUnreadDefenseHistorySinceLastLogin];
+    if (defenses.count > 0) {
+      AttackedAlertViewController *aavc = [[AttackedAlertViewController alloc] init];
+      [self.notificationController addNotification:aavc];
+    }
     
     //check if the player has any unread private messages
-    GameState *gs = [GameState sharedGameState];
+    
     NSMutableArray *unreadChats = [NSMutableArray arrayWithArray:[gs allUnreadPrivateChats]];
-    [unreadChats addObjectsFromArray:[gs allUnreadDefenseHistory]];
     if(unreadChats.count > 0) {
       [Globals addPrivateMessageNotification:unreadChats];
     }
