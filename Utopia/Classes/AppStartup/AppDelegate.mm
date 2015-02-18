@@ -143,16 +143,15 @@
   //}
   
   GameState *gs = [GameState sharedGameState];
-  FacebookDelegate *fd = [FacebookDelegate sharedFacebookDelegate];
-  if (!gs.connected) {
+  //FacebookDelegate *fd = [FacebookDelegate sharedFacebookDelegate];
+//  if (!gs.connected) {
     GameViewController *gvc = [GameViewController baseController];
-    [[SocketCommunication sharedSocketCommunication] initNetworkCommunicationWithDelegate:gvc clearMessages:fd.timeOfLastLoginAttempt == nil];
-  }
+    [[SocketCommunication sharedSocketCommunication] initNetworkCommunicationWithDelegate:gvc clearMessages:!gs.connected];
+//  }
   
   // This will restart loading screen
   // Must put this here instead of willEnterForeground because the ordering is foreground, openURL, active
   // This is required for Facebook App Switch
-  GameViewController *gvc = [GameViewController baseController];
   [gvc handleSignificantTimeChange];
   
   [FacebookDelegate handleDidBecomeActive];
@@ -172,12 +171,12 @@
   [[GameViewController baseController] invalidateAllTimers];
   
   GameState *gs = [GameState sharedGameState];
-  //FacebookDelegate *fd = [FacebookDelegate sharedFacebookDelegate];
-  if (gs.connected) {// && !fd.timeOfLastLoginAttempt) {
+  FacebookDelegate *fd = [FacebookDelegate sharedFacebookDelegate];
+  if (gs.connected && !fd.timeOfLastLoginAttempt) {
     [[OutgoingEventController sharedOutgoingEventController] logout];
-    [[SocketCommunication sharedSocketCommunication] closeDownConnection];
     [[GameState sharedGameState] setConnected:NO];
   }
+  [[SocketCommunication sharedSocketCommunication] closeDownConnection];
 }
 
 - (void) applicationWillEnterForeground:(UIApplication *)application {

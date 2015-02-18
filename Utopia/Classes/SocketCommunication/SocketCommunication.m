@@ -225,7 +225,9 @@ static NSString *udid = nil;
   _resourceItemIdsUsed = [NSMutableArray array];
   _resourceUpdatedUserItems = [NSMutableArray array];
   
-  self.tagDelegates = [NSMutableDictionary dictionary];
+  if (clearMessages) {
+    self.tagDelegates = [NSMutableDictionary dictionary];
+  }
   [self setDelegate:delegate forTag:CONNECTED_TO_HOST_DELEGATE_TAG];
   
   if (clearMessages && self.queuedMessages.count) {

@@ -222,6 +222,7 @@
     [self beginPostBattleConfrontation];
   } else {
     [self initTopBar];
+    [self.homeMap moveFriendsOffBuildableMap];
     [self beginFacebookLoginPhase];
   }
 }
@@ -229,6 +230,11 @@
 - (void) saveTutorialStep:(TutorialStep)step {
   NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
   [def setInteger:step forKey:TUTORIAL_SAVED_STEP_KEY];
+}
+
+- (void) removeSavedTutorialStep {
+  NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+  [def removeObjectForKey:TUTORIAL_SAVED_STEP_KEY];
 }
 
 - (void) initHomeMap {
@@ -371,6 +377,8 @@
   [self.gameViewController tutorialFinished];
   
   [Analytics tutorialComplete];
+  
+  [self removeSavedTutorialStep];
 }
 
 - (void) sendUserCreate {
