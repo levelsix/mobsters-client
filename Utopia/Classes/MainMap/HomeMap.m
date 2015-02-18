@@ -689,7 +689,8 @@
           [b setBubbleType:BuildingBubbleTypeEnhance];
         }
       } else {
-        [b setBubbleType:BuildingBubbleTypeFix];
+        //[b setBubbleType:BuildingBubbleTypeFix];
+        [b setBubbleType:BuildingBubbleTypeNone];
       }
     }
   }
@@ -969,6 +970,15 @@
     
     [self removeArrowOnBuilding];
   }
+}
+
+- (void) setBottomOptionView:(MapBotView *)bottomOptionView {
+  // Need to do this check in event that the selected doesn't get redone fast enough, i.e. after speedup
+  for (MapBotViewButton *b in self.bottomOptionView.animateViews) {
+    b.delegate = nil;
+  }
+  
+  [super setBottomOptionView:bottomOptionView];
 }
 
 - (void) updateMapBotView:(MapBotView *)botView {

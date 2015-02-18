@@ -217,6 +217,8 @@ static NSString *udid = nil;
   _canSendRegularEvents = NO;
   _canSendPreDbEvents = NO;
   
+  _pauseFlushTimer = NO;
+  
   self.structRetrievals = [NSMutableArray array];
   self.structRetrievalAchievements = [NSMutableDictionary dictionary];
   _healingQueuePotentiallyChanged = NO;
@@ -1350,7 +1352,7 @@ static NSString *udid = nil;
                                               setTeamSlotNum:teamSlot]
                                              build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCAddMonsterToBattleTeamEvent];
+  return [self sendData:req withMessageType:EventProtocolRequestCAddMonsterToBattleTeamEvent queueUp:YES];
 }
 
 - (int) sendRemoveMonsterFromTeam:(NSString *)userMonsterUuid {
@@ -1359,7 +1361,7 @@ static NSString *udid = nil;
                                                    setUserMonsterUuid:userMonsterUuid]
                                                   build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCRemoveMonsterFromBattleTeamEvent];
+  return [self sendData:req withMessageType:EventProtocolRequestCRemoveMonsterFromBattleTeamEvent queueUp:YES];
 }
 
 - (int) sendBuyInventorySlotsWithGems:(NSString *)userStructUuid {
