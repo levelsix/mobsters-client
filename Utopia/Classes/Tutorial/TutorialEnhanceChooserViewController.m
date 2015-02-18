@@ -21,8 +21,6 @@
 
 - (void) viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
-  [self.listView.collectionView reloadData];
-  [self.listView.collectionView layoutIfNeeded];
   
   self.listView.collectionView.scrollEnabled = NO;
   
@@ -33,6 +31,26 @@
 - (void) viewDidAppear:(BOOL)animated {
   [super viewDidAppear:animated];
   [self.delegate chooserOpened];
+}
+
+- (void) reloadMonstersArray {
+  [super reloadMonstersArray];
+  
+  NSMutableArray *arr = [self.userMonsters mutableCopy];
+  for (UserMonster *um in self.userMonsters) {
+    if ([um.userMonsterUuid isEqualToString:self.clickableUserMonsterUuid]) {
+      [arr removeObject:um];
+      
+      if (arr.count < 5) {
+        [arr addObject:um];
+      } else {
+        [arr insertObject:um atIndex:4];
+      }
+      break;
+    }
+  }
+  
+  self.userMonsters = arr;
 }
 
 - (void) allowChoose:(NSString *)userMonsterUuid {
@@ -55,6 +73,7 @@
 - (void) moveToMonster:(NSString *)userMonsterUuid {
   NSIndexPath *ip = [self indexPathForUserMonsterUuid:userMonsterUuid];
   [self.listView.collectionView scrollToItemAtIndexPath:ip atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:NO];
+  [self.listView.collectionView layoutIfNeeded];
 }
 
 - (void) arrowOverMonster:(NSString *)userMonsterUuid {

@@ -28,6 +28,7 @@
 #import "SaleViewController.h"
 #import "IAPHelper.h"
 #import "AttackedAlertViewController.h"
+#import "SocketCommunication.h"
 
 @implementation TopBarMonsterView
 
@@ -1127,6 +1128,8 @@
   
   // Remove the bgdView manually since it is no longer in the item select view hierarchy
   [[viewController bgdView] removeFromSuperview];
+  
+  [[SocketCommunication sharedSocketCommunication] flush];
 }
 
 @end

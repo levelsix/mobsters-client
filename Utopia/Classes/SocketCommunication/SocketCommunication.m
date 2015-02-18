@@ -195,7 +195,7 @@ static NSString *udid = nil;
   }
 }
 
-- (void) initNetworkCommunicationWithDelegate:(id)delegate {
+- (void) initNetworkCommunicationWithDelegate:(id)delegate clearMessages:(BOOL)clearMessages {
   if (self.popupController) {
     [self.popupController close:nil];
     self.popupController = nil;
@@ -217,6 +217,8 @@ static NSString *udid = nil;
   _canSendRegularEvents = NO;
   _canSendPreDbEvents = NO;
   
+  _pauseFlushTimer = NO;
+  
   self.structRetrievals = [NSMutableArray array];
   self.structRetrievalAchievements = [NSMutableDictionary dictionary];
   _healingQueuePotentiallyChanged = NO;
@@ -225,10 +227,12 @@ static NSString *udid = nil;
   _resourceItemIdsUsed = [NSMutableArray array];
   _resourceUpdatedUserItems = [NSMutableArray array];
   
-  self.tagDelegates = [NSMutableDictionary dictionary];
+  if (clearMessages) {
+    self.tagDelegates = [NSMutableDictionary dictionary];
+  }
   [self setDelegate:delegate forTag:CONNECTED_TO_HOST_DELEGATE_TAG];
   
-  if (self.queuedMessages.count) {
+  if (clearMessages && self.queuedMessages.count) {
     LNLog(@"Removing %d queued messages.", (int)self.queuedMessages.count);
     [self.queuedMessages removeAllObjects];
   }
@@ -259,7 +263,7 @@ static NSString *udid = nil;
     LNLog(@"Unable to find delegate for connectedToHost");
   }
   
-  _flushTimer = [NSTimer timerWithTimeInterval:10.f target:self selector:@selector(flush) userInfo:nil repeats:YES];
+  _flushTimer = [NSTimer timerWithTimeInterval:10.f target:self selector:@selector(timerFlush) userInfo:nil repeats:YES];
   [[NSRunLoop mainRunLoop] addTimer:_flushTimer forMode:NSRunLoopCommonModes];
   
   NSMutableArray *toRemove = [NSMutableArray array];
@@ -1348,7 +1352,7 @@ static NSString *udid = nil;
                                               setTeamSlotNum:teamSlot]
                                              build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCAddMonsterToBattleTeamEvent];
+  return [self sendData:req withMessageType:EventProtocolRequestCAddMonsterToBattleTeamEvent queueUp:YES];
 }
 
 - (int) sendRemoveMonsterFromTeam:(NSString *)userMonsterUuid {
@@ -1357,7 +1361,7 @@ static NSString *udid = nil;
                                                    setUserMonsterUuid:userMonsterUuid]
                                                   build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCRemoveMonsterFromBattleTeamEvent];
+  return [self sendData:req withMessageType:EventProtocolRequestCRemoveMonsterFromBattleTeamEvent queueUp:YES];
 }
 
 - (int) sendBuyInventorySlotsWithGems:(NSString *)userStructUuid {
@@ -1457,7 +1461,7 @@ static NSString *udid = nil;
                                        addAllNotice:clanHelpNotices]
                                       build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCSolicitClanHelpEvent queueUp:YES];
+  return [self sendData:req withMessageType:EventProtocolRequestCSolicitClanHelpEvent flush:NO queueUp:NO];
 }
 
 - (int) sendGiveClanHelpMessage:(NSArray *)clanHelpUuids {
@@ -1476,7 +1480,7 @@ static NSString *udid = nil;
                                    addAllClanHelpUuids:clanHelpUuids]
                                   build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCEndClanHelpEvent queueUp:YES];
+  return [self sendData:req withMessageType:EventProtocolRequestCEndClanHelpEvent flush:NO queueUp:YES];
 }
 
 - (int) sendRemoveUserItemUsedMessage:(NSArray *)usageUuids {
@@ -1764,6 +1768,12 @@ static NSString *udid = nil;
 
 #pragma mark - Flush
 
+- (void) timerFlush {
+  if (!_pauseFlushTimer) {
+    [self flush];
+  }
+}
+
 - (void) flush {
   [self flushAndQueueUp];
   if (self.queuedMessages.count) {
@@ -1802,7 +1812,8 @@ static NSString *udid = nil;
   // Combining heal and speedups becuase otherwise speeding up heal queue won't batch either event
   // since it changes heal queue and adds a speedup
   if (type != EventProtocolRequestCHealMonsterEvent &&
-      type != EventProtocolRequestCTradeItemForSpeedUpsEvent) {
+      type != EventProtocolRequestCTradeItemForSpeedUpsEvent &&
+      type != EventProtocolRequestCSolicitClanHelpEvent) {
     if (_healingQueuePotentiallyChanged) {
       int val = [self sendHealMonsterMessage];
       [self reloadHealQueueSnapshot];
@@ -1848,6 +1859,14 @@ static NSString *udid = nil;
   return found;
 }
 
+- (void) pauseFlushTimer {
+  _pauseFlushTimer = YES;
+}
+
+- (void) resumeFlushTimer {
+  _pauseFlushTimer = NO;
+}
+
 - (void) closeDownConnection {
   [_flushTimer invalidate];
   _flushTimer = nil;
@@ -1855,6 +1874,8 @@ static NSString *udid = nil;
   [self.connectionThread end];
   _canSendRegularEvents = NO;
   _canSendPreDbEvents = NO;
+  
+  LNLog(@"Closed down connection..");
 }
 
 @end

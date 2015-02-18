@@ -32,7 +32,8 @@
 
 @property (nonatomic, retain) UpgradeProgressBar *progressBar;
 
-@property (nonatomic, retain) UpgradeSign *sign;
+@property (nonatomic, retain) UpgradeSign *greenSign;
+@property (nonatomic, retain) UpgradeSign *redSign;
 
 - (void) setupBuildingSprite:(NSString *)fileName;
 - (void) adjustBuildingSprite;

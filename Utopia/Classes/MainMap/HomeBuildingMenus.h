@@ -78,6 +78,8 @@ typedef enum {
 
 @interface UpgradeSign : CCNode
 
+- (id) initWithGreen:(BOOL)green;
+
 @end
 
 @interface MiniMonsterViewSprite : CCSprite

@@ -16,6 +16,7 @@
 #import "GenericPopupController.h"
 
 #import "OutgoingEventController.h"
+#import "SocketCommunication.h"
 
 #define LAST_TEAM_DONATE_MSG_KEY @"LastTeamDonateMsgKey2"
 
@@ -181,6 +182,8 @@
   [self reloadTitleView];
   
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTeamSlotViews) name:MY_CLAN_TEAM_DONATION_CHANGED_NOTIFICATION object:nil];
+  
+  [[SocketCommunication sharedSocketCommunication] pauseFlushTimer];
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
@@ -191,6 +194,9 @@
   [[NSNotificationCenter defaultCenter] removeObserver:self];
   
   [self.itemSelectViewController closeClicked:nil];
+  
+  [[SocketCommunication sharedSocketCommunication] flush];
+  [[SocketCommunication sharedSocketCommunication] resumeFlushTimer];
 }
 
 - (void) waitTimeComplete {

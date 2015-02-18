@@ -1,4 +1,4 @@
- ///
+//
 //  ClientProperties.h
 //  Utopia
 //
@@ -20,7 +20,7 @@
 
 #else
 
-#define USE_PROD
+//#define USE_PROD
 //#define USE_STAGING
 
 #define UDID [OpenUDID value]

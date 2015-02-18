@@ -98,12 +98,15 @@
   UIView *switcher = self.hospitalSwitcherView;
   if (switcher.superview) switcher.frame = [parentView convertRect:switcher.frame fromView:switcher.superview];
   [parentView addSubview:switcher];
+  
+  [[SocketCommunication sharedSocketCommunication] pauseFlushTimer];
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
   [super viewWillDisappear:animated];
   
   [[SocketCommunication sharedSocketCommunication] flush];
+  [[SocketCommunication sharedSocketCommunication] resumeFlushTimer];
   
   [self.itemSelectViewController closeClicked:nil];
   

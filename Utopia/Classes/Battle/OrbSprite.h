@@ -36,6 +36,7 @@ static const float orbUpdateAnimDuration = 0.3f;
 // Specials
 - (void) updateTurnCounter:(BOOL)animated;
 
+- (void) resetOrbSpriteScale;
 - (void) removeLockElements;
 
 @end

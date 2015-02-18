@@ -32,15 +32,21 @@
   return self;
 }
 
+- (void) resetOrbSpriteScale {
+  if ([Globals isiPhone6Plus]) {
+    self.orbSprite.scale = 1.1;
+  } else {
+    self.orbSprite.scale = 1.f;
+  }
+}
+
 - (void) loadSprite
 {
   NSString *imageName = [OrbSprite orbSpriteImageNameWithOrb:_orb withSuffix:_suffix];
   _orbSprite = [CCSprite spriteWithImageNamed:imageName];
   [self addChild:self.orbSprite];
   
-  if ([Globals isiPhone6Plus]) {
-    self.orbSprite.scale = 1.1;
-  }
+  [self resetOrbSpriteScale];
   
   // Handle specials
   _turnCounter = nil;

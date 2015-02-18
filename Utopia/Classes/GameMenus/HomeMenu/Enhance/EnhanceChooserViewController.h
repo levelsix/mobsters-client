@@ -28,5 +28,6 @@
 @property (nonatomic, retain) NSMutableArray *userMonsters;
 
 - (void) reloadListViewAnimated:(BOOL)animated;
+- (void) reloadMonstersArray;
 
 @end

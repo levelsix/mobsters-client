@@ -592,7 +592,7 @@
   for (OrbSprite *node in self.children) {
     if ([node isKindOfClass:[OrbSprite class]]) {
       [node.orbSprite stopActionByTag:PULSING_ANIMATION_TAG];
-      node.orbSprite.scale = 1.f;
+      [node resetOrbSpriteScale];
       
       CCNode *n = [node getChildByName:@"Overlay" recursively:YES];
       [n removeFromParent];

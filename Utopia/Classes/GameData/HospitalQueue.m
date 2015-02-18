@@ -69,9 +69,12 @@
   for (int i = 1; i < self.timeDistribution.count; i += 2) {
     healthToHeal += [self.timeDistribution[i] intValue];
   }
-  float totalHealth = self.healthProgress+healthToHeal;
   
-  float basePerc = self.healthProgress/totalHealth;
+  Globals *gl = [Globals sharedGlobals];
+  UserMonster *um = self.userMonster;
+  float totalHealth = [gl calculateMaxHealthForMonster:um]-self.userMonster.curHealth;
+  
+  float basePerc = (totalHealth-healthToHeal)/totalHealth;
   float percentage = basePerc;
   for (int i = 0; i < self.timeDistribution.count; i += 2) {
     float secs = [self.timeDistribution[i] floatValue];
