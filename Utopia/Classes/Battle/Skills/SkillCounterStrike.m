@@ -11,6 +11,8 @@
 
 @implementation SkillCounterStrike
 
+# pragma mark - Initialization
+
 - (void) setDefaultValues
 {
   [super setDefaultValues];
@@ -29,6 +31,8 @@
     _chance = value;
 }
 
+# pragma mark - Overrides
+
 - (NSSet*) sideEffects
 {
   return [NSSet setWithObjects:@(SideEffectTypeBuffCounterStrike), nil];
@@ -41,6 +45,22 @@
     BattleSprite *bs = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
     [bs addSkillSideEffect:SideEffectTypeBuffCounterStrike];
   }
+}
+
+- (BOOL) onDurationStart
+{
+  BattleSprite *bs = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
+  [bs addSkillSideEffect:SideEffectTypeBuffCounterStrike];
+  
+  return [super onDurationStart];
+}
+
+- (BOOL) onDurationEnd
+{
+  BattleSprite *bs = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
+  [bs removeSkillSideEffect:SideEffectTypeBuffCounterStrike];
+  
+  return [super onDurationEnd];
 }
 
 - (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute {
@@ -69,6 +89,8 @@
   
   return NO;
 }
+
+#pragma mark - Skill Logic
 
 - (void) beginCounterStrike {
   
@@ -109,22 +131,6 @@
 
 - (void) endCounterStrike {
   [self skillTriggerFinished];
-}
-
-- (BOOL) onDurationStart
-{
-  BattleSprite *bs = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
-  [bs addSkillSideEffect:SideEffectTypeBuffCounterStrike];
-  
-  return NO;
-}
-
-- (BOOL) onDurationEnd
-{
-  BattleSprite *bs = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
-  [bs removeSkillSideEffect:SideEffectTypeBuffCounterStrike];
-  
-  return NO;
 }
 
 @end
