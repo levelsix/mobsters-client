@@ -85,12 +85,13 @@
     }
   }
   
-  CCActionScaleTo *scale = [CCActionScaleTo actionWithDuration:0.2 scale:0];
+  CCActionFadeOut *fade = [CCActionFadeOut actionWithDuration:.2];
+//  CCActionScaleTo *scale = [CCActionScaleTo actionWithDuration:0.2 scale:0];
   CCActionCallBlock *completion = [CCActionCallBlock actionWithBlock:^{
     [_orbSprite removeChild:topLayer cleanup:YES];
   }];
   
-  [topLayer runAction:[CCActionSequence actions:scale, completion, nil]];
+  [topLayer runAction:[CCActionSequence actions:fade, completion, nil]];
 }
 
 - (void) loadCloudElements
@@ -184,14 +185,40 @@
 - (void) loadLockElements {
   NSString *resPrefix = [Globals isiPhone6] || [Globals isiPhone6Plus] ? @"6" : @"";
   
-  _lockedSprite = [CCSprite spriteWithImageNamed:[resPrefix stringByAppendingString:@"lockedorb.png"]];
-  [self addChild:_lockedSprite];
+  _lockedSpriteLeft = [CCSprite spriteWithImageNamed:[resPrefix stringByAppendingString:@"lockedorbleft.png"]];
+  [self addChild:_lockedSpriteLeft];
+  _lockedSpriteRight = [CCSprite spriteWithImageNamed:[resPrefix stringByAppendingString:@"lockedorbright.png"]];
+  [self addChild:_lockedSpriteRight];
 }
 
+#define LOCK_REMOVE_TIME .55
+#define LOCK_REMOVE_MOVE_UP_PORTION .15
+
 - (void) removeLockElements {
-  [_lockedSprite runAction:
+  [_lockedSpriteLeft runAction:
+   [CCActionEaseInOut actionWithAction:[CCActionRotateTo actionWithDuration:LOCK_REMOVE_TIME angle:-33]]];
+  
+  [_lockedSpriteLeft runAction:
    [CCActionSequence actions:
-    [CCActionFadeOut actionWithDuration:0.2],
+    [CCActionEaseOut actionWithAction:[CCActionMoveTo actionWithDuration:LOCK_REMOVE_TIME * LOCK_REMOVE_MOVE_UP_PORTION position:CGPointMake(-5, 6)]],
+    [CCActionEaseInOut actionWithAction:[CCActionMoveTo actionWithDuration:LOCK_REMOVE_TIME * (1-LOCK_REMOVE_MOVE_UP_PORTION) position:CGPointMake(-19, -60)]], nil]];
+  
+  [_lockedSpriteLeft runAction:
+   [CCActionSequence actions:
+    [CCActionEaseInOut actionWithAction:[CCActionFadeOut actionWithDuration:LOCK_REMOVE_TIME]],
+    [CCActionRemove action], nil]];
+
+  [_lockedSpriteRight runAction:
+   [CCActionEaseInOut actionWithAction:[CCActionRotateTo actionWithDuration:LOCK_REMOVE_TIME angle:20]]];
+  
+  [_lockedSpriteRight runAction:
+   [CCActionSequence actions:
+    [CCActionEaseOut actionWithAction:[CCActionMoveTo actionWithDuration:LOCK_REMOVE_TIME * LOCK_REMOVE_MOVE_UP_PORTION position:CGPointMake(8, 7)]],
+    [CCActionEaseInOut actionWithAction:[CCActionMoveTo actionWithDuration:LOCK_REMOVE_TIME * (1-LOCK_REMOVE_MOVE_UP_PORTION) position:CGPointMake(21, -39)]], nil]];
+  
+  [_lockedSpriteRight runAction:
+   [CCActionSequence actions:
+    [CCActionEaseInOut actionWithAction:[CCActionFadeOut actionWithDuration:LOCK_REMOVE_TIME]],
     [CCActionRemove action], nil]];
 }
 

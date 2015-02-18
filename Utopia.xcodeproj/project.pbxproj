@@ -1365,6 +1365,30 @@
 		6B67FE341A940A6C00DBA8AE /* cloudexploding1.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B67FE331A940A6C00DBA8AE /* cloudexploding1.plist */; };
 		6B67FE351A940A6C00DBA8AE /* cloudexploding1.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B67FE331A940A6C00DBA8AE /* cloudexploding1.plist */; };
 		6B67FE361A940A6C00DBA8AE /* cloudexploding1.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B67FE331A940A6C00DBA8AE /* cloudexploding1.plist */; };
+		6B89A69F1A941948004C16B6 /* 6lockedorbleft-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B89A6971A941948004C16B6 /* 6lockedorbleft-9@2x.png */; };
+		6B89A6A01A941948004C16B6 /* 6lockedorbleft-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B89A6971A941948004C16B6 /* 6lockedorbleft-9@2x.png */; };
+		6B89A6A11A941948004C16B6 /* 6lockedorbleft-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B89A6971A941948004C16B6 /* 6lockedorbleft-9@2x.png */; };
+		6B89A6A21A941948004C16B6 /* 6lockedorbleft@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B89A6981A941948004C16B6 /* 6lockedorbleft@2x.png */; };
+		6B89A6A31A941948004C16B6 /* 6lockedorbleft@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B89A6981A941948004C16B6 /* 6lockedorbleft@2x.png */; };
+		6B89A6A41A941948004C16B6 /* 6lockedorbleft@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B89A6981A941948004C16B6 /* 6lockedorbleft@2x.png */; };
+		6B89A6A51A941948004C16B6 /* 6lockedorbright-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B89A6991A941948004C16B6 /* 6lockedorbright-9@2x.png */; };
+		6B89A6A61A941948004C16B6 /* 6lockedorbright-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B89A6991A941948004C16B6 /* 6lockedorbright-9@2x.png */; };
+		6B89A6A71A941948004C16B6 /* 6lockedorbright-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B89A6991A941948004C16B6 /* 6lockedorbright-9@2x.png */; };
+		6B89A6A81A941948004C16B6 /* 6lockedorbright@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B89A69A1A941948004C16B6 /* 6lockedorbright@2x.png */; };
+		6B89A6A91A941948004C16B6 /* 6lockedorbright@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B89A69A1A941948004C16B6 /* 6lockedorbright@2x.png */; };
+		6B89A6AA1A941948004C16B6 /* 6lockedorbright@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B89A69A1A941948004C16B6 /* 6lockedorbright@2x.png */; };
+		6B89A6AB1A941948004C16B6 /* lockedorbleft-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B89A69B1A941948004C16B6 /* lockedorbleft-9@2x.png */; };
+		6B89A6AC1A941948004C16B6 /* lockedorbleft-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B89A69B1A941948004C16B6 /* lockedorbleft-9@2x.png */; };
+		6B89A6AD1A941948004C16B6 /* lockedorbleft-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B89A69B1A941948004C16B6 /* lockedorbleft-9@2x.png */; };
+		6B89A6AE1A941948004C16B6 /* lockedorbleft@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B89A69C1A941948004C16B6 /* lockedorbleft@2x.png */; };
+		6B89A6AF1A941948004C16B6 /* lockedorbleft@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B89A69C1A941948004C16B6 /* lockedorbleft@2x.png */; };
+		6B89A6B01A941948004C16B6 /* lockedorbleft@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B89A69C1A941948004C16B6 /* lockedorbleft@2x.png */; };
+		6B89A6B11A941948004C16B6 /* lockedorbright-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B89A69D1A941948004C16B6 /* lockedorbright-9@2x.png */; };
+		6B89A6B21A941948004C16B6 /* lockedorbright-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B89A69D1A941948004C16B6 /* lockedorbright-9@2x.png */; };
+		6B89A6B31A941948004C16B6 /* lockedorbright-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B89A69D1A941948004C16B6 /* lockedorbright-9@2x.png */; };
+		6B89A6B41A941948004C16B6 /* lockedorbright@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B89A69E1A941948004C16B6 /* lockedorbright@2x.png */; };
+		6B89A6B51A941948004C16B6 /* lockedorbright@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B89A69E1A941948004C16B6 /* lockedorbright@2x.png */; };
+		6B89A6B61A941948004C16B6 /* lockedorbright@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B89A69E1A941948004C16B6 /* lockedorbright@2x.png */; };
 		6BA24DF31A7A9ECF00BEF920 /* SkillBloodRage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA24DF21A7A9ECF00BEF920 /* SkillBloodRage.m */; };
 		6BA24E091A7AEA6E00BEF920 /* SkillTakeAim.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA24E081A7AEA6E00BEF920 /* SkillTakeAim.m */; };
 		6BA24E0A1A7AEA6E00BEF920 /* SkillTakeAim.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA24E081A7AEA6E00BEF920 /* SkillTakeAim.m */; };
@@ -8391,6 +8415,14 @@
 		6B67FE211A93F69900DBA8AE /* cloud2-9@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cloud2-9@2x.png"; sourceTree = "<group>"; };
 		6B67FE221A93F69900DBA8AE /* cloud2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cloud2@2x.png"; sourceTree = "<group>"; };
 		6B67FE331A940A6C00DBA8AE /* cloudexploding1.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = cloudexploding1.plist; sourceTree = "<group>"; };
+		6B89A6971A941948004C16B6 /* 6lockedorbleft-9@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "6lockedorbleft-9@2x.png"; sourceTree = "<group>"; };
+		6B89A6981A941948004C16B6 /* 6lockedorbleft@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "6lockedorbleft@2x.png"; sourceTree = "<group>"; };
+		6B89A6991A941948004C16B6 /* 6lockedorbright-9@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "6lockedorbright-9@2x.png"; sourceTree = "<group>"; };
+		6B89A69A1A941948004C16B6 /* 6lockedorbright@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "6lockedorbright@2x.png"; sourceTree = "<group>"; };
+		6B89A69B1A941948004C16B6 /* lockedorbleft-9@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lockedorbleft-9@2x.png"; sourceTree = "<group>"; };
+		6B89A69C1A941948004C16B6 /* lockedorbleft@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lockedorbleft@2x.png"; sourceTree = "<group>"; };
+		6B89A69D1A941948004C16B6 /* lockedorbright-9@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lockedorbright-9@2x.png"; sourceTree = "<group>"; };
+		6B89A69E1A941948004C16B6 /* lockedorbright@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lockedorbright@2x.png"; sourceTree = "<group>"; };
 		6BA24DF01A7A9EC100BEF920 /* SkillBloodRage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillBloodRage.h; sourceTree = "<group>"; };
 		6BA24DF21A7A9ECF00BEF920 /* SkillBloodRage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillBloodRage.m; sourceTree = "<group>"; };
 		6BA24E061A7AEA6100BEF920 /* SkillTakeAim.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SkillTakeAim.h; sourceTree = "<group>"; };
@@ -17521,6 +17553,14 @@
 		CFF1D64D17DFC43600874339 /* Puzzle Images */ = {
 			isa = PBXGroup;
 			children = (
+				6B89A6971A941948004C16B6 /* 6lockedorbleft-9@2x.png */,
+				6B89A6981A941948004C16B6 /* 6lockedorbleft@2x.png */,
+				6B89A6991A941948004C16B6 /* 6lockedorbright-9@2x.png */,
+				6B89A69A1A941948004C16B6 /* 6lockedorbright@2x.png */,
+				6B89A69B1A941948004C16B6 /* lockedorbleft-9@2x.png */,
+				6B89A69C1A941948004C16B6 /* lockedorbleft@2x.png */,
+				6B89A69D1A941948004C16B6 /* lockedorbright-9@2x.png */,
+				6B89A69E1A941948004C16B6 /* lockedorbright@2x.png */,
 				6B67FE331A940A6C00DBA8AE /* cloudexploding1.plist */,
 				6B67FE1F1A93F69900DBA8AE /* 6cloud2-9@2x.png */,
 				6B67FE201A93F69900DBA8AE /* 6cloud2@2x.png */,
@@ -19170,6 +19210,7 @@
 				CFF2A5F519709C4800269084 /* MenuOilStorageT1@2x.png in Resources */,
 				CF023CA71992E2BB0082FE61 /* runawaybgwide@2x.png in Resources */,
 				CF0CEE68196F452900ECD301 /* FatBoy2Move12@2x.png in Resources */,
+				6B89A6A01A941948004C16B6 /* 6lockedorbleft-9@2x.png in Resources */,
 				9B41AEA21A787BE400529879 /* shallowgraveminilogo@2x.png in Resources */,
 				CF6A64EE19D24F030002E05D /* 6rocksideways@2x.png in Resources */,
 				CF0CEE69196F452900ECD301 /* orangemenuoption@2x.png in Resources */,
@@ -19725,6 +19766,7 @@
 				CFF2A51F19709C4800269084 /* MPMT1@2x.plist in Resources */,
 				CF0CF137196F452900ECD301 /* lightpointsfont.fnt in Resources */,
 				4C16FEF519CE03A200F9FC1E /* rockpoison@2x.png in Resources */,
+				6B89A6A91A941948004C16B6 /* 6lockedorbright@2x.png in Resources */,
 				CF0CF13A196F452900ECD301 /* connectshadow@2x.png in Resources */,
 				63BACB1F1A71EF5E000A641A /* earthcal@2x.png in Resources */,
 				9BB948721A68A85B006EE920 /* 6basicgrabgachatabactive@2x.png in Resources */,
@@ -19872,6 +19914,7 @@
 				CF0CF1F0196F452900ECD301 /* Scientist2Blink02@2x.png in Resources */,
 				CF0CF1F1196F452900ECD301 /* FatBoy5Move01@2x.png in Resources */,
 				CF48259E19F729D000041486 /* untitled.plist in Resources */,
+				6B89A6A61A941948004C16B6 /* 6lockedorbright-9@2x.png in Resources */,
 				CF0CF1F6196F452900ECD301 /* chatglobalinactive@2x.png in Resources */,
 				CF0CF1F7196F452900ECD301 /* streak@2x.png in Resources */,
 				CF6A650C19D252D00002E05D /* 6rockgrenade@2x.png in Resources */,
@@ -19960,6 +20003,7 @@
 				299AA32E1A7856AA00A2D806 /* 6gootile-9@2x.png in Resources */,
 				DA173A4D19CA428F005236C0 /* forcefieldlogo@2x.png in Resources */,
 				CF0CF260196F452900ECD301 /* Scientist3Blink00@2x.png in Resources */,
+				6B89A6AF1A941948004C16B6 /* lockedorbleft@2x.png in Resources */,
 				CF0CF261196F452900ECD301 /* cashmiddle@2x.png in Resources */,
 				CFA8FF3419F899B200F9908C /* readyforupgradebigcheck@2x.png in Resources */,
 				299AA4111A786BB000A2D806 /* 6nightbomb-9@2x.png in Resources */,
@@ -20087,6 +20131,7 @@
 				CF0CF2EE196F452900ECD301 /* HomeViewController.xib in Resources */,
 				CF0CF2F1196F452900ECD301 /* mediumbubbleover@2x.png in Resources */,
 				63BACB1D1A71EF46000A641A /* EventScheduleDayView.xib in Resources */,
+				6B89A6AC1A941948004C16B6 /* lockedorbleft-9@2x.png in Resources */,
 				CF0CF2F2196F452900ECD301 /* collect@2x.png in Resources */,
 				CF0CF2F5196F452900ECD301 /* teamhealthbarbg@2x.png in Resources */,
 				DA6DBACD19C0F7E900BD7B7F /* skillgradient@2x.png in Resources */,
@@ -20103,6 +20148,7 @@
 				CF0CF303196F452900ECD301 /* sharecheckboxbg@2x.png in Resources */,
 				29AE75A61A6F36E000264070 /* TribalGuy0T1P3TutBig@2x.png in Resources */,
 				298050731A265EE800806253 /* 3gbhud@2x.png in Resources */,
+				6B89A6B51A941948004C16B6 /* lockedorbright@2x.png in Resources */,
 				29804FB51A241F4A00806253 /* squadrewardbg@2x.png in Resources */,
 				CFA7283F1A0AE62A00FF6031 /* buildinggethelpbutton@2x.png in Resources */,
 				CF0CDE9619E5050E006A5ECB /* timersbottombg@2x.png in Resources */,
@@ -20167,6 +20213,7 @@
 				29FC5EE81A89427B00A50FA7 /* saleoranagebar@2x.png in Resources */,
 				CF65ECCA19A2B1CC00ABBC77 /* chatmiddle@2x.png in Resources */,
 				CF0CF34A196F452900ECD301 /* sfx_chat_slide_out.mp3 in Resources */,
+				6B89A6B21A941948004C16B6 /* lockedorbright-9@2x.png in Resources */,
 				CF0CF34B196F452900ECD301 /* buildingbonusslots@2x.png in Resources */,
 				9BDA8C361A5DF58500C7AC27 /* spinbutton@2x.png in Resources */,
 				CF0CF34C196F452900ECD301 /* healredbubble6@2x.png in Resources */,
@@ -20863,6 +20910,7 @@
 				CF0CF64E196F452900ECD301 /* firebigavatar@2x.png in Resources */,
 				CF0CF650196F452900ECD301 /* Scientist1Blink06@2x.png in Resources */,
 				CF0CF654196F452900ECD301 /* notinaclanbutton@2x.png in Resources */,
+				6B89A6A31A941948004C16B6 /* 6lockedorbleft@2x.png in Resources */,
 				CF0CF655196F452900ECD301 /* earthmediumsquare@2x.png in Resources */,
 				29AE75CA1A6F36E000264070 /* MilitaryGirl0T1AttackNF@2x.pvr.ccz in Resources */,
 				CF0CF658196F452900ECD301 /* bigsquarebottom@2x.png in Resources */,
@@ -21547,6 +21595,7 @@
 				2991FC031A800D7F009BB1D8 /* MonsterSelectViewController.xib in Resources */,
 				2980506C1A265EE800806253 /* 2gbhud@2x.png in Resources */,
 				CFE7CD441819FC3300930847 /* diamondbarbg@2x.png in Resources */,
+				6B89A6B11A941948004C16B6 /* lockedorbright-9@2x.png in Resources */,
 				CFFBDF3918ACA3D90090CA9A /* Scientist1Breath02@2x.png in Resources */,
 				9BDA8C481A5F502900C7AC27 /* gachabottomslot@2x.png in Resources */,
 				299AA3601A7856AA00A2D806 /* 6rockpoison-9@2x.png in Resources */,
@@ -21561,6 +21610,7 @@
 				CFC45C071942955600BBA4A6 /* 1starmachineinactive@2x.png in Resources */,
 				CF9F995A19E48734006B0119 /* helpredbubbleexclamation@2x.png in Resources */,
 				CF40D01E18DFCC6C0034A721 /* championicon@2x.png in Resources */,
+				6B89A6AE1A941948004C16B6 /* lockedorbleft@2x.png in Resources */,
 				CFFBDF8F18ACA3D90090CA9A /* Scientist3Breath02@2x.png in Resources */,
 				CF2A4B311905C0E600B2D7D7 /* battlecommontag@2x.png in Resources */,
 				2965488B1A81C4170080B195 /* lightstatue@2x.png in Resources */,
@@ -21611,12 +21661,14 @@
 				CF6574EC1909CEC900ABF1F4 /* AchievementsCell.xib in Resources */,
 				CF864DA6193E7C5C00DE0D7A /* nightavatar@2x.png in Resources */,
 				CF29E97C196228FA00B40DA4 /* menuresourcesactive@2x.png in Resources */,
+				6B89A6B41A941948004C16B6 /* lockedorbright@2x.png in Resources */,
 				CF32EAA9195FAB0C00A4AEE3 /* lockeddailylab@2x.png in Resources */,
 				CF32EAE7195FF81900A4AEE3 /* menuactivetab@2x.png in Resources */,
 				298050C31A2E961D00806253 /* shopbutton@3x.png in Resources */,
 				CF68903E1912E7B500FF1F71 /* engagearrow@2x.png in Resources */,
 				299AA4C11A7872C300A2D806 /* cloud2@2x.png in Resources */,
 				CF134A7218A5E4B500D7D700 /* FatBoy3Move09@2x.png in Resources */,
+				6B89A6A51A941948004C16B6 /* 6lockedorbright-9@2x.png in Resources */,
 				CFBB37A318F49D3200FD6C8C /* oilicon@2x.png in Resources */,
 				CFA728F91A0B037900FF6031 /* lighteventbg@2x.png in Resources */,
 				29FC5EF01A89427B00A50FA7 /* saleultimategrabicon@2x.png in Resources */,
@@ -21630,6 +21682,7 @@
 				9BDA8BB91A40D94E00C7AC27 /* mudicon@2x.png in Resources */,
 				CFCD0EC11953F07400EDC233 /* enhancetime@2x.png in Resources */,
 				29FC5EE71A89427B00A50FA7 /* saleoranagebar@2x.png in Resources */,
+				6B89A6AB1A941948004C16B6 /* lockedorbleft-9@2x.png in Resources */,
 				CFA9F7C01A0D8F6300EBE77D /* speedupitemicon@2x.png in Resources */,
 				CFC4D2AB18D7BD04004681FD /* sfx_swap_mobster_window_slide_in.mp3 in Resources */,
 				299AA3031A7856AA00A2D806 /* 6cloud1-9@2x.png in Resources */,
@@ -22523,6 +22576,7 @@
 				63808B9F1A5F7142008DA8AC /* livehelpgirl@2x.png in Resources */,
 				CF20F1AE180FCABC005551B5 /* minitimebg@2x.png in Resources */,
 				CFE7CDB61819FC3300930847 /* topbarbg@2x.png in Resources */,
+				6B89A69F1A941948004C16B6 /* 6lockedorbleft-9@2x.png in Resources */,
 				CF29E978196228FA00B40DA4 /* menumobstersactive@2x.png in Resources */,
 				9BB9490A1A6E1197006EE920 /* earthgrbigflash1@2x.png in Resources */,
 				CF012B2D18D13747004C6825 /* hpfont@2x.png in Resources */,
@@ -22550,6 +22604,7 @@
 				299AA4221A786BB000A2D806 /* lightbomb-9@2x.png in Resources */,
 				CF6890561912E7B500FF1F71 /* selectmobstersminitaskbg@2x.png in Resources */,
 				29FC5EAE1A89427B00A50FA7 /* builderpackbg@2x.png in Resources */,
+				6B89A6A81A941948004C16B6 /* 6lockedorbright@2x.png in Resources */,
 				CF134A7C18A5E4B500D7D700 /* FatBoy4Move06@2x.png in Resources */,
 				CF864E2C193E8F3000DE0D7A /* searchclansbar@2x.png in Resources */,
 				CF06B602193699FC008BF892 /* addteam@2x.png in Resources */,
@@ -23174,6 +23229,7 @@
 				299AA3331A7856AA00A2D806 /* 6lightheadshot-9@2x.png in Resources */,
 				CFF9DD7419B861F200CA9A8E /* fireenhancebg@2x.png in Resources */,
 				CF9F994E19E48734006B0119 /* helpredbubble7@2x.png in Resources */,
+				6B89A6A21A941948004C16B6 /* 6lockedorbleft@2x.png in Resources */,
 				CF0CDE9D19E5050E006A5ECB /* timersmiddlebg@2x.png in Resources */,
 				CFF2161718FDC7660057B5CE /* tagshine@2x.png in Resources */,
 				CFF7875318E28FE200413E78 /* amountbarbg@2x.png in Resources */,
@@ -23788,6 +23844,7 @@
 				634174731A843521006DA494 /* greenchatmiddle@2x.png in Resources */,
 				CF481B3119F7217F00041486 /* Scientist3Breath02@2x.png in Resources */,
 				CFA8FF4719F899B200F9908C /* requirementmet@2x.png in Resources */,
+				6B89A6A41A941948004C16B6 /* 6lockedorbleft@2x.png in Resources */,
 				CF481B3319F7217F00041486 /* battlecommontag@2x.png in Resources */,
 				CF481B3519F7217F00041486 /* TopBarQuestProgressView.xib in Resources */,
 				638C876E1A733E850094C396 /* viewschedule@2x.png in Resources */,
@@ -24011,6 +24068,7 @@
 				CF481C7C19F7217F00041486 /* popupheadermiddle@2x.png in Resources */,
 				CF481C7D19F7217F00041486 /* Scientist5Turn14@2x.png in Resources */,
 				CF481C8019F7217F00041486 /* dectrunk@2x.png in Resources */,
+				6B89A6B61A941948004C16B6 /* lockedorbright@2x.png in Resources */,
 				CF481C8119F7217F00041486 /* menubg@2x.png in Resources */,
 				CF481C8319F7217F00041486 /* connectheader@2x.png in Resources */,
 				CF481C8419F7217F00041486 /* ChatBottomView.xib in Resources */,
@@ -24510,6 +24568,7 @@
 				CF481F3719F7217F00041486 /* MiniJobsListCell.xib in Resources */,
 				296548961A81C4170080B195 /* waterstatue@2x.png in Resources */,
 				CF481F3A19F7217F00041486 /* createclanbox2@2x.png in Resources */,
+				6B89A6A71A941948004C16B6 /* 6lockedorbright-9@2x.png in Resources */,
 				CF481F3B19F7217F00041486 /* fullachievementstar@2x.png in Resources */,
 				CF481F3D19F7217F00041486 /* firedailylab@2x.png in Resources */,
 				CF481F3E19F7217F00041486 /* wide@2x.png in Resources */,
@@ -24562,6 +24621,7 @@
 				CF481F7719F7217F00041486 /* sfx_combo_catch_fire.mp3 in Resources */,
 				CF481F7A19F7217F00041486 /* poisonplayer@2x.png in Resources */,
 				CF481F7B19F7217F00041486 /* Scientist5Turn16@2x.png in Resources */,
+				6B89A6A11A941948004C16B6 /* 6lockedorbleft-9@2x.png in Resources */,
 				CF481F7E19F7217F00041486 /* chatglobalactive@2x.png in Resources */,
 				CF481F7F19F7217F00041486 /* donebtn@2x.png in Resources */,
 				CF481F8119F7217F00041486 /* gachalegendpiece@2x.png in Resources */,
@@ -24720,6 +24780,7 @@
 				CF48205219F7217F00041486 /* hpfont.fnt in Resources */,
 				CF48205419F7217F00041486 /* Scientist4Blink05@2x.png in Resources */,
 				CF48205619F7217F00041486 /* darkboardsquare@2x.png in Resources */,
+				6B89A6AA1A941948004C16B6 /* 6lockedorbright@2x.png in Resources */,
 				CF48205719F7217F00041486 /* createclanbox3@2x.png in Resources */,
 				CF48205819F7217F00041486 /* healingmiddle@2x.png in Resources */,
 				CF48205A19F7217F00041486 /* facebookmenuoption@2x.png in Resources */,
@@ -25268,6 +25329,7 @@
 				CF48231D19F7217F00041486 /* ClanBrowseViewController.xib in Resources */,
 				CF48231E19F7217F00041486 /* Scientist4Turn10@2x.png in Resources */,
 				9BDA8B931A3B8E1700C7AC27 /* headshotminilogo@2x.png in Resources */,
+				6B89A6B01A941948004C16B6 /* lockedorbleft@2x.png in Resources */,
 				9BB948DE1A6A0099006EE920 /* grbigafterglow@2x.png in Resources */,
 				CF48231F19F7217F00041486 /* Scientist5Blink10@2x.png in Resources */,
 				299AA4241A786BB000A2D806 /* lightbomb-9@2x.png in Resources */,
@@ -25375,6 +25437,7 @@
 				CF48238C19F7217F00041486 /* helpredbubble6@2x.png in Resources */,
 				2985E5D91A30045D0041ABF4 /* mini7@2x.png in Resources */,
 				CF48239019F7217F00041486 /* Scientist5Blink12@2x.png in Resources */,
+				6B89A6AD1A941948004C16B6 /* lockedorbleft-9@2x.png in Resources */,
 				29AE758F1A6F36E000264070 /* MilitaryChicken1T1P5TutBig@2x.png in Resources */,
 				29FC5EFC1A8955BB00A50FA7 /* SaleViewCell.xib in Resources */,
 				CF48239119F7217F00041486 /* rocket@2x.png in Resources */,
@@ -25532,6 +25595,7 @@
 				9B6B78071A8994870080C8E5 /* movescounterbg@2x.png in Resources */,
 				CF48242D19F7217F00041486 /* ultraband@2x.png in Resources */,
 				299AA3741A7856AA00A2D806 /* 6waterpoison-9@2x.png in Resources */,
+				6B89A6B31A941948004C16B6 /* lockedorbright-9@2x.png in Resources */,
 				CF48242F19F7217F00041486 /* watersmallsquare@2x.png in Resources */,
 				CF48243319F7217F00041486 /* spinnertest@2x.png in Resources */,
 				CF48243619F7217F00041486 /* profilecircle@2x.png in Resources */,
