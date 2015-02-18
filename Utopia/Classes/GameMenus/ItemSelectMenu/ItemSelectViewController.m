@@ -108,8 +108,6 @@
   [self.updateTimer invalidate];
   self.updateTimer = nil;
   
-  [[SocketCommunication sharedSocketCommunication] flush];
-  
   [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 

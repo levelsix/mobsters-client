@@ -199,7 +199,7 @@
   
   
 #ifdef DEBUG
-//  [self saveTutorialStep:TutorialStepGuideGreeting];
+  [self saveTutorialStep:TutorialStepAttackMap];
 #endif
   [self resumeTutorialStep];
   

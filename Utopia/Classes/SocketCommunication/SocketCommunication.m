@@ -1461,7 +1461,7 @@ static NSString *udid = nil;
                                        addAllNotice:clanHelpNotices]
                                       build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCSolicitClanHelpEvent queueUp:YES];
+  return [self sendData:req withMessageType:EventProtocolRequestCSolicitClanHelpEvent flush:NO queueUp:NO];
 }
 
 - (int) sendGiveClanHelpMessage:(NSArray *)clanHelpUuids {
@@ -1480,7 +1480,7 @@ static NSString *udid = nil;
                                    addAllClanHelpUuids:clanHelpUuids]
                                   build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCEndClanHelpEvent queueUp:YES];
+  return [self sendData:req withMessageType:EventProtocolRequestCEndClanHelpEvent flush:NO queueUp:YES];
 }
 
 - (int) sendRemoveUserItemUsedMessage:(NSArray *)usageUuids {
@@ -1812,7 +1812,8 @@ static NSString *udid = nil;
   // Combining heal and speedups becuase otherwise speeding up heal queue won't batch either event
   // since it changes heal queue and adds a speedup
   if (type != EventProtocolRequestCHealMonsterEvent &&
-      type != EventProtocolRequestCTradeItemForSpeedUpsEvent) {
+      type != EventProtocolRequestCTradeItemForSpeedUpsEvent &&
+      type != EventProtocolRequestCSolicitClanHelpEvent) {
     if (_healingQueuePotentiallyChanged) {
       int val = [self sendHealMonsterMessage];
       [self reloadHealQueueSnapshot];
