@@ -572,12 +572,14 @@
   [super updateForChats:arr animated:animated];
   
   NSInteger pathIndex = [self.chats indexOfObject:_clickedCell];
-  if(!_clickedCell || pathIndex == NSNotFound) {
-    NSIndexPath *path = [NSIndexPath indexPathForRow:self.chats.count-1 inSection:0];
-    [self.chatTable scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionMiddle animated:animated];
-  } else {
-    NSIndexPath *path = [NSIndexPath indexPathForRow:pathIndex inSection:0];
-    [self.chatTable scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionMiddle animated:animated];
+  if (self.chats.count) {
+    if(!_clickedCell || pathIndex == NSNotFound) {
+      NSIndexPath *path = [NSIndexPath indexPathForRow:self.chats.count-1 inSection:0];
+      [self.chatTable scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionMiddle animated:animated];
+    } else {
+      NSIndexPath *path = [NSIndexPath indexPathForRow:pathIndex inSection:0];
+      [self.chatTable scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionMiddle animated:animated];
+    }
   }
   _clickedCell = nil;
 }
