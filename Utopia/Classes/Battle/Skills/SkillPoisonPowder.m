@@ -114,7 +114,7 @@
   action.tag = 1914;
   [opponent.sprite runAction:action];
   
-  [self.playerSprite addSkillSideEffect:SideEffectTypeNerfPoison];
+  [opponent addSkillSideEffect:SideEffectTypeNerfPoison];
 }
 
 - (void) removePoison
@@ -132,9 +132,8 @@
   [opponent.sprite stopActionByTag:1914];
   [opponent.sprite runAction:[CCActionTintTo actionWithDuration:0.3 color:[CCColor whiteColor]]];
   
-  [self.playerSprite removeSkillSideEffect:SideEffectTypeNerfPoison];
+  [opponent removeSkillSideEffect:SideEffectTypeNerfPoison];
 }
-
 
 //- (void) dealPoisonDamage
 //{

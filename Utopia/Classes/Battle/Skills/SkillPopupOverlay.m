@@ -61,7 +61,6 @@ typedef void (^ShakeAnimCompletionBlock)(void);
   
   [mainView setHidden:NO];
   [topLabel setHidden:YES]; // Haven't figured out what we wanna use this label for yet
-  [bottomLabel setHidden:YES]; // Hidden until we get the short description column in skill_config
   
   nameLabel.gradientStartColor = [UIColor whiteColor];
   nameLabel.gradientEndColor = [UIColor colorWithHexString:@"E4E4E4"];
@@ -91,6 +90,7 @@ typedef void (^ShakeAnimCompletionBlock)(void);
   
   SkillProto* playerSkillProto = [[GameState sharedGameState].staticSkills objectForKey:[NSNumber numberWithInteger:skillId]];
   [nameLabel setText:[playerSkillProto.name uppercaseString]];
+  [bottomLabel setText:(player ? playerSkillProto.shortOffDesc : playerSkillProto.shortDefDesc)];
   
   ////////////////
   // Animations //

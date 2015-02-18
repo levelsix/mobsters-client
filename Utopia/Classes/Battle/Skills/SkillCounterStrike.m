@@ -29,6 +29,20 @@
     _chance = value;
 }
 
+- (NSSet*) sideEffects
+{
+  return [NSSet setWithObjects:@(SideEffectTypeBuffCounterStrike), nil];
+}
+
+- (void) restoreVisualsIfNeeded
+{
+  if ([self isActive])
+  {
+    BattleSprite *bs = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
+    [bs addSkillSideEffect:SideEffectTypeBuffCounterStrike];
+  }
+}
+
 - (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute {
   
   if ([super skillCalledWithTrigger:trigger execute:execute])
@@ -95,6 +109,22 @@
 
 - (void) endCounterStrike {
   [self skillTriggerFinished];
+}
+
+- (BOOL) onDurationStart
+{
+  BattleSprite *bs = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
+  [bs addSkillSideEffect:SideEffectTypeBuffCounterStrike];
+  
+  return NO;
+}
+
+- (BOOL) onDurationEnd
+{
+  BattleSprite *bs = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
+  [bs removeSkillSideEffect:SideEffectTypeBuffCounterStrike];
+  
+  return NO;
 }
 
 @end

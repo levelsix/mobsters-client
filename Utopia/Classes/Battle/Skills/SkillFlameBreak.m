@@ -50,6 +50,11 @@ static const NSInteger kSwordOrbsMaxSearchIterations = 256;
   return _skillActive;
 }
 
+- (NSSet*) sideEffects
+{
+  return [NSSet setWithObjects:@(SideEffectTypeNerfStun), nil];
+}
+
 - (void) restoreVisualsIfNeeded
 {
   if (!self.belongsToPlayer)
@@ -322,6 +327,8 @@ static const NSInteger kSwordOrbsMaxSearchIterations = 256;
                                                                            nil]];
   [action setTag:1914];
   [opponent.sprite runAction:action];
+  
+  [opponent addSkillSideEffect:SideEffectTypeNerfStun];
 }
 
 - (void) endStun
@@ -343,6 +350,8 @@ static const NSInteger kSwordOrbsMaxSearchIterations = 256;
   [opponent runAction:[CCActionEaseBounceIn actionWithAction:[CCActionEaseBounceOut actionWithAction:[CCActionScaleTo actionWithDuration:.5f scale:1.f]]]];
   [opponent.sprite stopActionByTag:1914];
   [opponent.sprite runAction:[CCActionTintTo actionWithDuration:.3f color:[CCColor whiteColor]]];
+  
+  [opponent removeSkillSideEffect:SideEffectTypeNerfStun];
 }
 
 - (int) updateSwordOrbs

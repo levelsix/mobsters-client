@@ -159,7 +159,7 @@ static const NSInteger maxSearchIterations = 256;
   OrbSwipeLayer* layer = self.battleLayer.orbLayer.swipeLayer;
   OrbBgdLayer* bgdLayer = self.battleLayer.orbLayer.bgdLayer;
   
-  NSInteger usedUpOrbCount = 0;
+  int usedUpOrbCount = 0;
   NSMutableSet* clonedOrbs = [NSMutableSet set];
   
   for (NSInteger column = 0; column < layout.numColumns; ++column)

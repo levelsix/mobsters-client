@@ -32,6 +32,24 @@
 
 #pragma mark - Overrides
 
+- (NSSet*) sideEffects
+{
+  return [NSSet setWithObjects:@(SideEffectTypeNerfConfusion), nil];
+}
+
+- (void) restoreVisualsIfNeeded
+{
+  if ([self isActive])
+  {
+    BattlePlayer* opponent = self.belongsToPlayer ? self.enemy : self.player;
+    if (opponent.isConfused)
+    {
+      BattleSprite *bs = self.belongsToPlayer ? self.enemySprite : self.playerSprite;
+      [bs addSkillSideEffect:SideEffectTypeNerfConfusion];
+    }
+  }
+}
+
 - (NSInteger) modifyDamage:(NSInteger)damage forPlayer:(BOOL)player
 {
   if (player && !self.belongsToPlayer)
@@ -47,7 +65,8 @@
         [self showLogo];
         
         // Tell NewBattleLayer that player will be confused on his next turn
-        self.player.isConfused = YES;
+        [self.player setIsConfused:YES];
+        [self.playerSprite addSkillSideEffect:SideEffectTypeNerfConfusion];
       }
     }
   }
@@ -107,7 +126,8 @@
           [self showLogo];
           
           // Tell NewBattleLayer that enemy will be confused on his next turn
-          self.enemy.isConfused = YES;
+          [self.enemy setIsConfused:YES];
+          [self.enemySprite addSkillSideEffect:SideEffectTypeNerfConfusion];
         }
         
         [self skillTriggerFinished];
@@ -181,6 +201,9 @@
                                                     onUpcomingTurns:(int)self.turnsLeft
                                                          forMonster:self.belongsToPlayer ? self.enemy.monsterId : self.player.monsterId
                                                           forPlayer:!self.belongsToPlayer];
+  
+  BattleSprite *bs = self.belongsToPlayer ? self.enemySprite : self.playerSprite;
+  [bs removeSkillSideEffect:SideEffectTypeNerfConfusion];
   
   return NO;
 }

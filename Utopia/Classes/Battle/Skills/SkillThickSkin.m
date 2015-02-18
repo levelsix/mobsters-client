@@ -33,6 +33,20 @@
 
 #pragma mark - Overrides
 
+- (NSSet*) sideEffects
+{
+  return [NSSet setWithObjects:@(SideEffectTypeBuffThickSkin), nil];
+}
+
+- (void) restoreVisualsIfNeeded
+{
+  if ([self isActive])
+  {
+    BattleSprite *bs = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
+    [bs addSkillSideEffect:SideEffectTypeBuffThickSkin];
+  }
+}
+
 -(NSInteger)modifyDamage:(NSInteger)damage forPlayer:(BOOL)player
 {
   if ([self isActive] && player != self.belongsToPlayer)
@@ -56,6 +70,22 @@
   }
   
   return damage;
+}
+
+- (BOOL) onDurationStart
+{
+  BattleSprite *bs = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
+  [bs addSkillSideEffect:SideEffectTypeBuffThickSkin];
+  
+  return NO;
+}
+
+- (BOOL) onDurationEnd
+{
+  BattleSprite *bs = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
+  [bs removeSkillSideEffect:SideEffectTypeBuffThickSkin];
+  
+  return NO;
 }
 
 #pragma mark - Skill logic

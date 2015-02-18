@@ -92,6 +92,7 @@ BOOL SideEffectTypeIsValidValue(SideEffectType value) {
     case SideEffectTypeBuffShallowGrave:
     case SideEffectTypeBuffEnergize:
     case SideEffectTypeBuffInsurance:
+    case SideEffectTypeBuffHammerTime:
       return YES;
     default:
       return NO;
@@ -135,6 +136,8 @@ BOOL SideEffectBlendModeIsValidValue(SideEffectBlendMode value) {
 @property (strong) NSMutableArray * mutablePropertiesList;
 @property (strong) NSString* defDesc;
 @property (strong) NSString* offDesc;
+@property (strong) NSString* shortDefDesc;
+@property (strong) NSString* shortOffDesc;
 @property (strong) NSString* imgNamePrefix;
 @property int32_t skillEffectDuration;
 @end
@@ -206,6 +209,20 @@ BOOL SideEffectBlendModeIsValidValue(SideEffectBlendMode value) {
   hasOffDesc_ = !!value_;
 }
 @synthesize offDesc;
+- (BOOL) hasShortDefDesc {
+  return !!hasShortDefDesc_;
+}
+- (void) setHasShortDefDesc:(BOOL) value_ {
+  hasShortDefDesc_ = !!value_;
+}
+@synthesize shortDefDesc;
+- (BOOL) hasShortOffDesc {
+  return !!hasShortOffDesc_;
+}
+- (void) setHasShortOffDesc:(BOOL) value_ {
+  hasShortOffDesc_ = !!value_;
+}
+@synthesize shortOffDesc;
 - (BOOL) hasImgNamePrefix {
   return !!hasImgNamePrefix_;
 }
@@ -231,6 +248,8 @@ BOOL SideEffectBlendModeIsValidValue(SideEffectBlendMode value) {
     self.sucId = 0;
     self.defDesc = @"";
     self.offDesc = @"";
+    self.shortDefDesc = @"";
+    self.shortOffDesc = @"";
     self.imgNamePrefix = @"";
     self.skillEffectDuration = 0;
   }
@@ -294,6 +313,12 @@ static SkillProto* defaultSkillProtoInstance = nil;
   if (self.hasOffDesc) {
     [output writeString:14 value:self.offDesc];
   }
+  if (self.hasShortDefDesc) {
+    [output writeString:15 value:self.shortDefDesc];
+  }
+  if (self.hasShortOffDesc) {
+    [output writeString:16 value:self.shortOffDesc];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -338,6 +363,12 @@ static SkillProto* defaultSkillProtoInstance = nil;
   }
   if (self.hasOffDesc) {
     size_ += computeStringSize(14, self.offDesc);
+  }
+  if (self.hasShortDefDesc) {
+    size_ += computeStringSize(15, self.shortDefDesc);
+  }
+  if (self.hasShortOffDesc) {
+    size_ += computeStringSize(16, self.shortOffDesc);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -413,6 +444,12 @@ static SkillProto* defaultSkillProtoInstance = nil;
   if (self.hasOffDesc) {
     [output appendFormat:@"%@%@: %@\n", indent, @"offDesc", self.offDesc];
   }
+  if (self.hasShortDefDesc) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"shortDefDesc", self.shortDefDesc];
+  }
+  if (self.hasShortOffDesc) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"shortOffDesc", self.shortOffDesc];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -447,6 +484,10 @@ static SkillProto* defaultSkillProtoInstance = nil;
       (!self.hasSkillEffectDuration || self.skillEffectDuration == otherMessage.skillEffectDuration) &&
       self.hasOffDesc == otherMessage.hasOffDesc &&
       (!self.hasOffDesc || [self.offDesc isEqual:otherMessage.offDesc]) &&
+      self.hasShortDefDesc == otherMessage.hasShortDefDesc &&
+      (!self.hasShortDefDesc || [self.shortDefDesc isEqual:otherMessage.shortDefDesc]) &&
+      self.hasShortOffDesc == otherMessage.hasShortOffDesc &&
+      (!self.hasShortOffDesc || [self.shortOffDesc isEqual:otherMessage.shortOffDesc]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -486,6 +527,12 @@ static SkillProto* defaultSkillProtoInstance = nil;
   }
   if (self.hasOffDesc) {
     hashCode = hashCode * 31 + [self.offDesc hash];
+  }
+  if (self.hasShortDefDesc) {
+    hashCode = hashCode * 31 + [self.shortDefDesc hash];
+  }
+  if (self.hasShortOffDesc) {
+    hashCode = hashCode * 31 + [self.shortOffDesc hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -563,6 +610,12 @@ static SkillProto* defaultSkillProtoInstance = nil;
   }
   if (other.hasOffDesc) {
     [self setOffDesc:other.offDesc];
+  }
+  if (other.hasShortDefDesc) {
+    [self setShortDefDesc:other.shortDefDesc];
+  }
+  if (other.hasShortOffDesc) {
+    [self setShortOffDesc:other.shortOffDesc];
   }
   if (other.hasImgNamePrefix) {
     [self setImgNamePrefix:other.imgNamePrefix];
@@ -649,6 +702,14 @@ static SkillProto* defaultSkillProtoInstance = nil;
       }
       case 114: {
         [self setOffDesc:[input readString]];
+        break;
+      }
+      case 122: {
+        [self setShortDefDesc:[input readString]];
+        break;
+      }
+      case 130: {
+        [self setShortOffDesc:[input readString]];
         break;
       }
     }
@@ -820,6 +881,38 @@ static SkillProto* defaultSkillProtoInstance = nil;
 - (SkillProto_Builder*) clearOffDesc {
   result.hasOffDesc = NO;
   result.offDesc = @"";
+  return self;
+}
+- (BOOL) hasShortDefDesc {
+  return result.hasShortDefDesc;
+}
+- (NSString*) shortDefDesc {
+  return result.shortDefDesc;
+}
+- (SkillProto_Builder*) setShortDefDesc:(NSString*) value {
+  result.hasShortDefDesc = YES;
+  result.shortDefDesc = value;
+  return self;
+}
+- (SkillProto_Builder*) clearShortDefDesc {
+  result.hasShortDefDesc = NO;
+  result.shortDefDesc = @"";
+  return self;
+}
+- (BOOL) hasShortOffDesc {
+  return result.hasShortOffDesc;
+}
+- (NSString*) shortOffDesc {
+  return result.shortOffDesc;
+}
+- (SkillProto_Builder*) setShortOffDesc:(NSString*) value {
+  result.hasShortOffDesc = YES;
+  result.shortOffDesc = value;
+  return self;
+}
+- (SkillProto_Builder*) clearShortOffDesc {
+  result.hasShortOffDesc = NO;
+  result.shortOffDesc = @"";
   return self;
 }
 - (BOOL) hasImgNamePrefix {

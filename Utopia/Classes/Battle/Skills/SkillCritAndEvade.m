@@ -10,6 +10,7 @@
 #import "NewBattleLayer.h"
 #import "SkillManager.h"
 #import "Globals.h"
+#import "GameState.h"
 
 @implementation SkillCritAndEvade
 
@@ -24,6 +25,7 @@
   _evadeChance = 0.f;
   _missChance = 0.f;
   _criticalHit = NO;
+  _sideEffectType = SideEffectTypeNoSideEffect;
   _evaded = NO;
   _missed = NO;
   _logoShown = NO;
@@ -41,9 +43,30 @@
     _evadeChance = value;
   if ([property isEqualToString:@"MISS_CHANCE"])
     _missChance = value;
+  if ([property isEqualToString:@"SKILL_SIDE_EFFECT_ID"])
+  {
+    NSDictionary* skillSideEffects = [GameState sharedGameState].staticSkillSideEffects;
+    SkillSideEffectProto* proto = [skillSideEffects objectForKey:[NSNumber numberWithInteger:(int)value]];
+    if (proto)
+      _sideEffectType = proto.type;
+  }
 }
 
 #pragma mark - Overrides
+
+- (NSSet*) sideEffects
+{
+  return [NSSet setWithObjects:@(_sideEffectType), nil];
+}
+
+- (void) restoreVisualsIfNeeded
+{
+  if ([self isActive])
+  {
+    BattleSprite *bs = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
+    [bs addSkillSideEffect:_sideEffectType];
+  }
+}
 
 -(BOOL)skillOwnerWillEvade
 {
@@ -53,7 +76,6 @@
 
 -(NSInteger)modifyDamage:(NSInteger)damage forPlayer:(BOOL)player
 {
-  
   if ([self isActive])
   {
     SkillLogStart(@"Crit and Evade -- %@ skill invoked from %@ with damage %ld",
@@ -173,6 +195,22 @@
       return YES;
     }
   }
+  
+  return NO;
+}
+
+- (BOOL) onDurationStart
+{
+  BattleSprite *bs = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
+  [bs addSkillSideEffect:_sideEffectType];
+  
+  return NO;
+}
+
+- (BOOL) onDurationEnd
+{
+  BattleSprite *bs = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
+  [bs removeSkillSideEffect:_sideEffectType];
   
   return NO;
 }
