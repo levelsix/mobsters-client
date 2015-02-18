@@ -89,6 +89,12 @@
   return NO;
 }
 
+- (void) onFinishPoisonDamage
+{
+  _tempDamageDealt = 0;
+  [super onFinishPoisonDamage];
+}
+
 - (BOOL) shouldSpawnRibbon
 {
   return YES;

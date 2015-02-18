@@ -299,6 +299,11 @@
 {
   // Deal damage
   [self.battleLayer dealDamage:(int)self.poisonDamage enemyIsAttacker:!self.belongsToPlayer usingAbility:YES withTarget:self withSelector:@selector(onFinishPoisonDamage)];
+  
+  if (!self.belongsToPlayer)
+  {
+    [self.battleLayer sendServerUpdatedValuesVerifyDamageDealt:NO];
+  }
 }
 
 - (void) onFinishPoisonDamage
