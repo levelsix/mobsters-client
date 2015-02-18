@@ -55,6 +55,7 @@
   {
     case SpecialOrbTypeNone: if (_orb.damageMultiplier > 1) [self loadDamageMultiplierElements]; break;
     case SpecialOrbTypeBomb: if (_orb.turnCounter > 0) [self loadBombElements]; break;
+    case SpecialOrbTypeCloud: [self loadCloudElements]; break;
     case SpecialOrbTypeHeadshot:
     case SpecialOrbTypeBullet:
     case SpecialOrbTypeGlove:
@@ -72,6 +73,38 @@
 }
 
 #pragma mark - Specials
+
+- (void) decrementCloud
+{
+  CCNode *topLayer;
+  for (CCNode *child in _orbSprite.children)
+  {
+    if ([child isKindOfClass:[CCSprite class]])
+    {
+      topLayer = child;
+    }
+  }
+  
+  CCActionScaleTo *scale = [CCActionScaleTo actionWithDuration:0.2 scale:0];
+  CCActionCallBlock *completion = [CCActionCallBlock actionWithBlock:^{
+    [_orbSprite removeChild:topLayer cleanup:YES];
+  }];
+  
+  [topLayer runAction:[CCActionSequence actions:scale, completion, nil]];
+}
+
+- (void) loadCloudElements
+{
+  NSString *resPrefix = [Globals isiPhone6] || [Globals isiPhone6Plus] ? @"6" : @"";
+  for (int i = 2; i <= _orb.cloudCounter; i++)
+  {
+    CCSprite* cloudLayer = [CCSprite node];
+    cloudLayer.position = ccp(.5f, .5f);
+    cloudLayer.positionType = CCPositionTypeNormalized;
+    [Globals imageNamed:[NSString stringWithFormat:@"%@cloud%d.png", resPrefix, i] toReplaceSprite:cloudLayer];
+    [_orbSprite addChild:cloudLayer];
+  }
+}
 
 - (void) loadBombElements
 {
@@ -216,7 +249,7 @@
       break;
       
     case SpecialOrbTypeCloud:
-      return [NSString stringWithFormat:@"%@cloud%d%@.png", resPrefix, (int)orb.cloudCounter, suffix ];
+      return [NSString stringWithFormat:@"%@cloud1%@.png", resPrefix, suffix ];
       break;
     
     case SpecialOrbTypeBomb:
