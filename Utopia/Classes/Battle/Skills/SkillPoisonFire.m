@@ -34,6 +34,8 @@ static const NSInteger maxSearchIterations = 256;
     _orbSpawnTurnCounter = value;
 }
 
+#pragma mark - Overrides
+
 - (int) poisonDamage
 {
   if (self.belongsToPlayer) return [super poisonDamage];
@@ -96,6 +98,8 @@ static const NSInteger maxSearchIterations = 256;
   }
   return YES;
 }
+
+#pragma mark - Skill Logic
 
 - (BOOL) checkOrbs
 {

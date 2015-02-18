@@ -29,6 +29,8 @@
     _poisonChance = value;
 }
 
+#pragma mark - Overrides
+
 - (BOOL) doesRefresh
 {
   return YES;
@@ -62,6 +64,8 @@
     [self skillTriggerFinished:YES];
   }
 }
+
+#pragma mark - Skill Logic
 
 - (BOOL) doesPoison
 {
