@@ -166,7 +166,7 @@
   BattleSprite *bs = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
   [bs addSkillSideEffect:SideEffectTypeBuffHammerTime];
   
-  return NO;
+  return [super onDurationStart];
 }
 
 - (BOOL) onDurationEnd
@@ -174,7 +174,7 @@
   BattleSprite *bs = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
   [bs removeSkillSideEffect:SideEffectTypeBuffHammerTime];
   
-  return NO;
+  return [super onDurationEnd];
 }
 
 - (void) showLogo

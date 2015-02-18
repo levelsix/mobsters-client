@@ -142,7 +142,7 @@
   BattleSprite *bs = self.belongsToPlayer ? self.enemySprite : self.playerSprite;
   [bs removeSkillSideEffect:SideEffectTypeNerfBlindingLight];
   
-  return YES;
+  return [super onDurationEnd];
 }
 
 - (BOOL) onDurationReset

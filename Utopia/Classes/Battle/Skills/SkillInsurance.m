@@ -60,9 +60,8 @@
 
 - (BOOL) onDurationEnd
 {
-  [super onDurationEnd];
   [self endInsuranceAnimations];
-  return NO;
+  return [super onDurationEnd];
 }
 
 #pragma mark - Animations

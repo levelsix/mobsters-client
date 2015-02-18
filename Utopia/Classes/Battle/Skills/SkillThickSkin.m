@@ -77,7 +77,7 @@
   BattleSprite *bs = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
   [bs addSkillSideEffect:SideEffectTypeBuffThickSkin];
   
-  return NO;
+  return [self onDurationStart];
 }
 
 - (BOOL) onDurationEnd
@@ -85,7 +85,7 @@
   BattleSprite *bs = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
   [bs removeSkillSideEffect:SideEffectTypeBuffThickSkin];
   
-  return NO;
+  return [self onDurationEnd];
 }
 
 #pragma mark - Skill logic

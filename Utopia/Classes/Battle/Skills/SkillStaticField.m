@@ -85,7 +85,7 @@
   BattleSprite *bs = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
   [bs addSkillSideEffect:SideEffectTypeBuffStaticField];
   
-  return NO;
+  return [super onDurationStart];
 }
 
 - (BOOL) onDurationEnd
@@ -93,7 +93,7 @@
   BattleSprite *bs = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
   [bs removeSkillSideEffect:SideEffectTypeBuffStaticField];
   
-  return NO;
+  return [super onDurationEnd];
 }
 
 #pragma mark - Skill logic
