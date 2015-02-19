@@ -196,6 +196,17 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     [toDownload addObject:bgd];
   }
   
+  // For testing.. Need to open game twice since static monsters won't be set the first time
+//  GameState *gs = [GameState sharedGameState];
+//  for (MonsterProto *mp in gs.staticMonsters.allValues) {
+//    NSString *fileName = [NSString stringWithFormat:@"%@AttackNF.pvr.ccz", mp.imagePrefix];
+//    
+//    BgdFileDownload *bgd = [[BgdFileDownload alloc] init];
+//    bgd.fileName = fileName;
+//    bgd.onlyUseWifi = NO;
+//    [toDownload addObject:bgd];
+//  }
+  
   [[Downloader sharedDownloader] backgroundDownloadFiles:toDownload];
 }
 

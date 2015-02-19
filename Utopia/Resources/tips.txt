@@ -15,7 +15,7 @@ Use the Grab machines to find exciting and powerful x_characters.
 Watch out for Lil’ Kim. He’s a bad apple.
 The mail popup shows you info about your recent attacks.
 Complete Achievements to earn free Purple Gems.
-In multiplayer battles a defenders x_characters always start at full health.
+In multiplayer battles a defender's x_characters always start at full health.
 Join a Squad to to chat and play with others from around the world.
 Night and Day x_characters are powerful against each other.
 Rock orbs are neutral.
