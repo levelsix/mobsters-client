@@ -2177,9 +2177,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   [gvc.notificationController addNotification:oln];
 }
 
-+ (void) addOrangeAlertNotification:(NSString *)msg {
++ (void) addOrangeAlertNotification:(NSString *)msg isImmediate:(BOOL)isImmediate {
   GameViewController *gvc = [GameViewController baseController];
-  OneLineNotificationViewController *oln = [[OneLineNotificationViewController alloc] initWithNotificationString:msg color:NotificationColorOrange isImmediate:NO];
+  OneLineNotificationViewController *oln = [[OneLineNotificationViewController alloc] initWithNotificationString:msg color:NotificationColorOrange isImmediate:isImmediate];
   [gvc.notificationController addNotification:oln];
 }
 

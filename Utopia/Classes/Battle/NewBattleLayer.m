@@ -1127,7 +1127,7 @@
                          ^{
                            [healthLabel stopActionByTag:1015];
                            [self updateHealthBars];
-                           [SoundEngine puzzleDamageTickStop];
+                           [SoundEngine stopRepeatingEffect];
                            
                            if (newHealth <= 0) {
                              if (!enemyIsAttacker) {
@@ -1208,7 +1208,7 @@
                          ^{
                            [healthLabel stopActionByTag:1015];
                            [self updateHealthBars];
-                           [SoundEngine puzzleDamageTickStop];
+                           [SoundEngine stopRepeatingEffect];
                            
                            if (newHealth <= 0) {
                              if (enemyIsAttacker) {
@@ -1297,7 +1297,7 @@
                          ^{
                            [healthLabel stopActionByTag:1827];
                            [self updateHealthBars];
-                           [SoundEngine puzzleDamageTickStop];
+                           [SoundEngine stopRepeatingEffect];
                            [target performSelector:selector];
                          }],
                         nil]];

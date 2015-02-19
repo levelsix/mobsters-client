@@ -19,6 +19,7 @@
 #import "HomeViewController.h"
 #import "GameViewController.h"
 #import "SecretGiftViewController.h"
+#import "SoundEngine.h"
 
 @implementation NewGachaViewController
 
@@ -443,6 +444,8 @@
       _cachedDailySpin = NO;
     
     [self updateFreeGachasCounter];
+    
+    [SoundEngine gachaSpinStart];
   }else {
     _isSpinning = NO;
   }
@@ -523,6 +526,8 @@
       
       [self.topBar updateLabels];
     }
+    
+    [SoundEngine stopRepeatingEffect];
     /*
     if (self.prize.monsterId) {
       [self displayWhiteFlash];
@@ -559,6 +564,8 @@
   
   self.gachaTable.userInteractionEnabled = YES;
   _isSpinning = NO;
+  
+  [SoundEngine gachaReveal];
 }
 
 - (void) displayPrizeView {

@@ -851,6 +851,30 @@
 		29C3CA5A1A92EFB5005407E9 /* redarrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29C3CA561A92EFB5005407E9 /* redarrow@2x.png */; };
 		29C3CA5B1A92EFB5005407E9 /* redarrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29C3CA561A92EFB5005407E9 /* redarrow@2x.png */; };
 		29C3CA5C1A92EFB5005407E9 /* redarrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29C3CA561A92EFB5005407E9 /* redarrow@2x.png */; };
+		29C3CA6B1A955BD0005407E9 /* free_speedup_available.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 29C3CA631A955BCF005407E9 /* free_speedup_available.mp3 */; };
+		29C3CA6C1A955BD0005407E9 /* free_speedup_available.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 29C3CA631A955BCF005407E9 /* free_speedup_available.mp3 */; };
+		29C3CA6D1A955BD0005407E9 /* free_speedup_available.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 29C3CA631A955BCF005407E9 /* free_speedup_available.mp3 */; };
+		29C3CA6E1A955BD0005407E9 /* gacha_reveal.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 29C3CA641A955BCF005407E9 /* gacha_reveal.mp3 */; };
+		29C3CA6F1A955BD0005407E9 /* gacha_reveal.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 29C3CA641A955BCF005407E9 /* gacha_reveal.mp3 */; };
+		29C3CA701A955BD0005407E9 /* gacha_reveal.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 29C3CA641A955BCF005407E9 /* gacha_reveal.mp3 */; };
+		29C3CA711A955BD0005407E9 /* gacha_spin.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 29C3CA651A955BCF005407E9 /* gacha_spin.mp3 */; };
+		29C3CA721A955BD0005407E9 /* gacha_spin.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 29C3CA651A955BCF005407E9 /* gacha_spin.mp3 */; };
+		29C3CA731A955BD0005407E9 /* gacha_spin.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 29C3CA651A955BCF005407E9 /* gacha_spin.mp3 */; };
+		29C3CA741A955BD0005407E9 /* push_notification.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 29C3CA661A955BCF005407E9 /* push_notification.mp3 */; };
+		29C3CA751A955BD0005407E9 /* push_notification.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 29C3CA661A955BCF005407E9 /* push_notification.mp3 */; };
+		29C3CA761A955BD0005407E9 /* push_notification.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 29C3CA661A955BCF005407E9 /* push_notification.mp3 */; };
+		29C3CA771A955BD0005407E9 /* secret_gift_collected.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 29C3CA671A955BCF005407E9 /* secret_gift_collected.mp3 */; };
+		29C3CA781A955BD0005407E9 /* secret_gift_collected.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 29C3CA671A955BCF005407E9 /* secret_gift_collected.mp3 */; };
+		29C3CA791A955BD0005407E9 /* secret_gift_collected.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 29C3CA671A955BCF005407E9 /* secret_gift_collected.mp3 */; };
+		29C3CA7A1A955BD0005407E9 /* secret_gift_collecteddd.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 29C3CA681A955BCF005407E9 /* secret_gift_collecteddd.mp3 */; };
+		29C3CA7B1A955BD0005407E9 /* secret_gift_collecteddd.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 29C3CA681A955BCF005407E9 /* secret_gift_collecteddd.mp3 */; };
+		29C3CA7C1A955BD0005407E9 /* secret_gift_collecteddd.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 29C3CA681A955BCF005407E9 /* secret_gift_collecteddd.mp3 */; };
+		29C3CA7D1A955BD0005407E9 /* use_gems.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 29C3CA691A955BCF005407E9 /* use_gems.mp3 */; };
+		29C3CA7E1A955BD0005407E9 /* use_gems.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 29C3CA691A955BCF005407E9 /* use_gems.mp3 */; };
+		29C3CA7F1A955BD0005407E9 /* use_gems.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 29C3CA691A955BCF005407E9 /* use_gems.mp3 */; };
+		29C3CA801A955BD0005407E9 /* use_oil.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 29C3CA6A1A955BD0005407E9 /* use_oil.mp3 */; };
+		29C3CA811A955BD0005407E9 /* use_oil.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 29C3CA6A1A955BD0005407E9 /* use_oil.mp3 */; };
+		29C3CA821A955BD0005407E9 /* use_oil.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 29C3CA6A1A955BD0005407E9 /* use_oil.mp3 */; };
 		29DCCF941A8A9D6B003176FD /* TutorialEnhanceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29DCCF931A8A9D6B003176FD /* TutorialEnhanceController.m */; };
 		29DCCF951A8A9D6B003176FD /* TutorialEnhanceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29DCCF931A8A9D6B003176FD /* TutorialEnhanceController.m */; };
 		29DCCF961A8A9D6B003176FD /* TutorialEnhanceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29DCCF931A8A9D6B003176FD /* TutorialEnhanceController.m */; };
@@ -1200,9 +1224,6 @@
 		63B044C91A8C167B00C74F0C /* chatbubbleline@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63B044C81A8C167B00C74F0C /* chatbubbleline@2x.png */; };
 		63B044CA1A8C167B00C74F0C /* chatbubbleline@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63B044C81A8C167B00C74F0C /* chatbubbleline@2x.png */; };
 		63B044CB1A8C167B00C74F0C /* chatbubbleline@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63B044C81A8C167B00C74F0C /* chatbubbleline@2x.png */; };
-		63B044D11A8EC35000C74F0C /* arrowsign@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63B044D01A8EC35000C74F0C /* arrowsign@2x.png */; };
-		63B044D21A8EC35000C74F0C /* arrowsign@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63B044D01A8EC35000C74F0C /* arrowsign@2x.png */; };
-		63B044D31A8EC35000C74F0C /* arrowsign@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63B044D01A8EC35000C74F0C /* arrowsign@2x.png */; };
 		63B045021A92B9C600C74F0C /* AttackedAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B045001A92B9C600C74F0C /* AttackedAlertViewController.m */; };
 		63B045031A92B9C600C74F0C /* AttackedAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B045001A92B9C600C74F0C /* AttackedAlertViewController.m */; };
 		63B045041A92B9C600C74F0C /* AttackedAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B045001A92B9C600C74F0C /* AttackedAlertViewController.m */; };
@@ -7801,7 +7822,6 @@
 		292771361A71A52A00E3AB65 /* dialoguebubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dialoguebubble@2x.png"; sourceTree = "<group>"; };
 		292771371A71A52A00E3AB65 /* tutorialbackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tutorialbackground@2x.png"; sourceTree = "<group>"; };
 		292771411A72DBB400E3AB65 /* fightonbubblearrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fightonbubblearrow@2x.png"; sourceTree = "<group>"; };
-		294E23631A1B19EF00148D7E /* ToonSquad-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ToonSquad-Info.plist"; sourceTree = "<group>"; };
 		295FA2BC1A1BEC7D006B79F3 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = SOURCE_ROOT; };
 		296548641A8163F80080B195 /* donatetoonslot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "donatetoonslot@2x.png"; sourceTree = "<group>"; };
 		296548691A8193A00080B195 /* UIView+Superview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Superview.h"; sourceTree = "<group>"; };
@@ -8132,6 +8152,16 @@
 		29AF1C6E1A443A2A00E8E457 /* BattleOrbPath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BattleOrbPath.m; sourceTree = "<group>"; };
 		29C3CA551A92EFB5005407E9 /* greenarrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greenarrow@2x.png"; sourceTree = "<group>"; };
 		29C3CA561A92EFB5005407E9 /* redarrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "redarrow@2x.png"; sourceTree = "<group>"; };
+		29C3CA631A955BCF005407E9 /* free_speedup_available.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = free_speedup_available.mp3; sourceTree = "<group>"; };
+		29C3CA641A955BCF005407E9 /* gacha_reveal.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = gacha_reveal.mp3; sourceTree = "<group>"; };
+		29C3CA651A955BCF005407E9 /* gacha_spin.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = gacha_spin.mp3; sourceTree = "<group>"; };
+		29C3CA661A955BCF005407E9 /* push_notification.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = push_notification.mp3; sourceTree = "<group>"; };
+		29C3CA671A955BCF005407E9 /* secret_gift_collected.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = secret_gift_collected.mp3; sourceTree = "<group>"; };
+		29C3CA681A955BCF005407E9 /* secret_gift_collecteddd.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = secret_gift_collecteddd.mp3; sourceTree = "<group>"; };
+		29C3CA691A955BCF005407E9 /* use_gems.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = use_gems.mp3; sourceTree = "<group>"; };
+		29C3CA6A1A955BD0005407E9 /* use_oil.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = use_oil.mp3; sourceTree = "<group>"; };
+		29C3CA861A956B6C005407E9 /* ToonSquad-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "ToonSquad-Info.plist"; path = "Utopia/ToonSquad-Info.plist"; sourceTree = SOURCE_ROOT; };
+		29C3CA871A956B78005407E9 /* TangoToonSquad-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "TangoToonSquad-Info.plist"; path = "Utopia/TangoToonSquad-Info.plist"; sourceTree = SOURCE_ROOT; };
 		29DCCF921A8A9D6B003176FD /* TutorialEnhanceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialEnhanceController.h; sourceTree = "<group>"; };
 		29DCCF931A8A9D6B003176FD /* TutorialEnhanceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialEnhanceController.m; sourceTree = "<group>"; };
 		29DCCFA81A8AA114003176FD /* TutorialEnhanceChooserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialEnhanceChooserViewController.h; sourceTree = "<group>"; };
@@ -8284,7 +8314,6 @@
 		63B044BF1A8BE86F00C74F0C /* RequestPushNotificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RequestPushNotificationViewController.m; path = PushNotiifcations/RequestPushNotificationViewController.m; sourceTree = "<group>"; };
 		63B044C01A8BE86F00C74F0C /* RequestPushNotificationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RequestPushNotificationViewController.xib; path = PushNotiifcations/RequestPushNotificationViewController.xib; sourceTree = "<group>"; };
 		63B044C81A8C167B00C74F0C /* chatbubbleline@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "chatbubbleline@2x.png"; path = "EnableNotifications/chatbubbleline@2x.png"; sourceTree = "<group>"; };
-		63B044D01A8EC35000C74F0C /* arrowsign@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "arrowsign@2x.png"; path = "UpgradeArrow/arrowsign@2x.png"; sourceTree = "<group>"; };
 		63B044FF1A92B9C600C74F0C /* AttackedAlertViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttackedAlertViewController.h; sourceTree = "<group>"; };
 		63B045001A92B9C600C74F0C /* AttackedAlertViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttackedAlertViewController.m; sourceTree = "<group>"; };
 		63B045011A92B9C600C74F0C /* AttackedAlertViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AttackedAlertViewController.xib; sourceTree = "<group>"; };
@@ -9417,7 +9446,6 @@
 		CF42537D19AD746B00964547 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		CF48189419F71D2900041486 /* LaboratoryT0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LaboratoryT0@2x.png"; sourceTree = "<group>"; };
 		CF48256419F7217F00041486 /* Toon Squad.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Toon Squad.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		CF48256519F7217F00041486 /* TangoToonSquad-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "TangoToonSquad-Info.plist"; path = "../../TangoToonSquad-Info.plist"; sourceTree = "<group>"; };
 		CF48259319F729D000041486 /* mysprite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mysprite.png; sourceTree = "<group>"; };
 		CF48259419F729D000041486 /* PPEmitterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPEmitterView.h; sourceTree = "<group>"; };
 		CF48259519F729D000041486 /* PPEmitterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPEmitterView.m; sourceTree = "<group>"; };
@@ -14729,9 +14757,9 @@
 		CF1267661538ACC500E0C1AD /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				29C3CA871A956B78005407E9 /* TangoToonSquad-Info.plist */,
+				29C3CA861A956B6C005407E9 /* ToonSquad-Info.plist */,
 				295FA2BC1A1BEC7D006B79F3 /* Entitlements.plist */,
-				CF48256519F7217F00041486 /* TangoToonSquad-Info.plist */,
-				294E23631A1B19EF00148D7E /* ToonSquad-Info.plist */,
 				CF5BD68E19CA5521006C4B4C /* icons.xcassets */,
 				CF0CF849196F4AA000ECD301 /* tips.txt */,
 				CF864D61193E639900DE0D7A /* NRTouchImage@2x.png */,
@@ -16914,6 +16942,14 @@
 		CFC4D24818D7BD03004681FD /* SFX */ = {
 			isa = PBXGroup;
 			children = (
+				29C3CA631A955BCF005407E9 /* free_speedup_available.mp3 */,
+				29C3CA641A955BCF005407E9 /* gacha_reveal.mp3 */,
+				29C3CA651A955BCF005407E9 /* gacha_spin.mp3 */,
+				29C3CA661A955BCF005407E9 /* push_notification.mp3 */,
+				29C3CA671A955BCF005407E9 /* secret_gift_collected.mp3 */,
+				29C3CA681A955BCF005407E9 /* secret_gift_collecteddd.mp3 */,
+				29C3CA691A955BCF005407E9 /* use_gems.mp3 */,
+				29C3CA6A1A955BD0005407E9 /* use_oil.mp3 */,
 				CFC4D24918D7BD03004681FD /* lp_beach_forest_amb.mp3 */,
 				CFC4D24A18D7BD03004681FD /* lp_city_amb.mp3 */,
 				CFC4D24C18D7BD03004681FD /* sfx_arial_bomb_drop.mp3 */,
@@ -19202,6 +19238,7 @@
 				DA58F52E19AE9BE900D025BC /* LeagueListViewCell.xib in Resources */,
 				CF0CEED5196F452900ECD301 /* gacharevealbg@2x.png in Resources */,
 				CF0CEED6196F452900ECD301 /* Scientist1Turn08@2x.png in Resources */,
+				29C3CA7E1A955BD0005407E9 /* use_gems.mp3 in Resources */,
 				CF0CEED7196F452900ECD301 /* greymediumsquare@2x.png in Resources */,
 				CF0CEED8196F452900ECD301 /* noteffective@2x.png in Resources */,
 				CF0CEEDF196F452900ECD301 /* Scientist2Turn12@2x.png in Resources */,
@@ -20236,6 +20273,7 @@
 				29AE75CD1A6F36E000264070 /* MilitaryGirl0T1RunNF@2x.plist in Resources */,
 				9BB9490B1A6E1197006EE920 /* earthgrbigflash1@2x.png in Resources */,
 				CF37379E19E3767600CB16E3 /* obtimerbg@2x.png in Resources */,
+				29C3CA6F1A955BD0005407E9 /* gacha_reveal.mp3 in Resources */,
 				CF0CF3CA196F452900ECD301 /* menumobstersactive@2x.png in Resources */,
 				CF0CF3CB196F452900ECD301 /* hpfont@2x.png in Resources */,
 				CF0CF3CC196F452900ECD301 /* combofire.plist in Resources */,
@@ -20289,6 +20327,7 @@
 				CF0CF3FA196F452900ECD301 /* watertimermobster@2x.png in Resources */,
 				CFA728E81A0B037900FF6031 /* fireeventbg@2x.png in Resources */,
 				CF0CF3FB196F452900ECD301 /* sfx_attack_button.mp3 in Resources */,
+				29C3CA811A955BD0005407E9 /* use_oil.mp3 in Resources */,
 				CF0CF3FD196F452900ECD301 /* clanbrowseactiveicon2@2x.png in Resources */,
 				CF0CF3FE196F452900ECD301 /* Scientist1Breath10@2x.png in Resources */,
 				9B41AF241A7C331100529879 /* 6bulletorb@2x.png in Resources */,
@@ -20909,6 +20948,7 @@
 				CF0CF6BC196F452900ECD301 /* engagegrayarrow@2x.png in Resources */,
 				DA173A3A19CA4230005236C0 /* forcefieldfront@2x.png in Resources */,
 				9B2389C91A310BAC00FA3743 /* nextmatchmask@2x.png in Resources */,
+				29C3CA781A955BD0005407E9 /* secret_gift_collected.mp3 in Resources */,
 				CF0CF6BD196F452900ECD301 /* buildtimeclock@2x.png in Resources */,
 				CF0CF6BE196F452900ECD301 /* timerbg@2x.png in Resources */,
 				CF0CF6C2196F452900ECD301 /* timeryellow@2x.png in Resources */,
@@ -21103,6 +21143,7 @@
 				CF0CF7A0196F452900ECD301 /* firemediumsquare@2x.png in Resources */,
 				29AE75D01A6F36E000264070 /* MilitaryGirl0T1RunNF@2x.pvr.ccz in Resources */,
 				CF0CF7A1196F452900ECD301 /* youlostitembg@2x.png in Resources */,
+				29C3CA6C1A955BD0005407E9 /* free_speedup_available.mp3 in Resources */,
 				29AD765A1A39316100430F0E /* 1slot@2x.png in Resources */,
 				CF0CF7A2196F452900ECD301 /* lootcollect@2x.png in Resources */,
 				CF9F995319E48734006B0119 /* helpredbubble8@2x.png in Resources */,
@@ -21137,6 +21178,7 @@
 				CF0CF7C5196F452900ECD301 /* Ziggurat-HTF-Black-Italic.otf in Resources */,
 				299AA4261A786BB000A2D806 /* nightbomb-9@2x.png in Resources */,
 				CF0CF7C6196F452900ECD301 /* menuresourcesinactive@2x.png in Resources */,
+				29C3CA7B1A955BD0005407E9 /* secret_gift_collecteddd.mp3 in Resources */,
 				9B6B77EC1A858B1A0080C8E5 /* movelabelmove@2x.png in Resources */,
 				CFF2A52B19709C4800269084 /* ResidenceT1.png in Resources */,
 				CF0CF7C7196F452900ECD301 /* questspinner@2x.png in Resources */,
@@ -21186,6 +21228,7 @@
 				9B41AF701A81B46C00529879 /* 6fireglove-9@2x.png in Resources */,
 				CF0CF7FE196F452900ECD301 /* Scientist1Turn10@2x.png in Resources */,
 				CF0CF7FF196F452900ECD301 /* walking.aif in Resources */,
+				29C3CA751A955BD0005407E9 /* push_notification.mp3 in Resources */,
 				9B238A0E1A363EF500FA3743 /* skilldescriptionline@2x.png in Resources */,
 				9B0E6E621A772F1B00118210 /* blindinglightlogo@2x.png in Resources */,
 				CF0CF800196F452900ECD301 /* wrongmove.aif in Resources */,
@@ -21215,6 +21258,7 @@
 				29E00D521A7997D300F34D51 /* bomblabel@2x.png in Resources */,
 				CF3737AA19E3767600CB16E3 /* obtimerpurplecap@2x.png in Resources */,
 				CF0CF81F196F452900ECD301 /* sell@2x.png in Resources */,
+				29C3CA721A955BD0005407E9 /* gacha_spin.mp3 in Resources */,
 				63B044C51A8BE86F00C74F0C /* RequestPushNotificationViewController.xib in Resources */,
 				CF0CF820196F452900ECD301 /* buildingspinner@2x.png in Resources */,
 				CF010F3E19DDFBDD00DAD527 /* 6thebasicgrab@2x.png in Resources */,
@@ -21345,6 +21389,7 @@
 				CF06B5D7193699FC008BF892 /* buildtime@2x.png in Resources */,
 				9B6B77D61A858B1A0080C8E5 /* 4moveslabel@2x.png in Resources */,
 				CFC04DC2188FE8D400F2DB59 /* wonlostspinner@2x.png in Resources */,
+				29C3CA741A955BD0005407E9 /* push_notification.mp3 in Resources */,
 				29AAE5E71A7B0FDB00E4F022 /* DonateMsgViewController.xib in Resources */,
 				29DCCFF61A8C3310003176FD /* fallinggems13@2x.png in Resources */,
 				29DCD03D1A8D8514003176FD /* fallinggems18@2x.png in Resources */,
@@ -21545,6 +21590,7 @@
 				CFBB37A318F49D3200FD6C8C /* oilicon@2x.png in Resources */,
 				CFA728F91A0B037900FF6031 /* lighteventbg@2x.png in Resources */,
 				29FC5EF01A89427B00A50FA7 /* saleultimategrabicon@2x.png in Resources */,
+				29C3CA6B1A955BD0005407E9 /* free_speedup_available.mp3 in Resources */,
 				CFE7CD341819FC3300930847 /* cashbar@2x.png in Resources */,
 				296548651A8163F80080B195 /* donatetoonslot@2x.png in Resources */,
 				CF134A7E18A5E4B500D7D700 /* FatBoy4Move08@2x.png in Resources */,
@@ -21614,6 +21660,7 @@
 				CFFF9A4A18BEB67D0036EEC3 /* lighttimermobster@2x.png in Resources */,
 				CF746144196A2C0D002D6AE6 /* arrowlight@2x.png in Resources */,
 				CFC8B61718E53FC100CFD652 /* mobstersbottombarbg@2x.png in Resources */,
+				29C3CA7D1A955BD0005407E9 /* use_gems.mp3 in Resources */,
 				CFFBDFF518ACA3D90090CA9A /* Scientist5Turn05@2x.png in Resources */,
 				CFF646FE195D57A800C43641 /* HomeTitleView.xib in Resources */,
 				CFC4D28218D7BD04004681FD /* sfx_attack_ui_slide_in.mp3 in Resources */,
@@ -21813,6 +21860,7 @@
 				CFC04D92188FE8D400F2DB59 /* epicfound@2x.png in Resources */,
 				CFFBDFF318ACA3D90090CA9A /* Scientist5Turn03@2x.png in Resources */,
 				299AA3571A7856AA00A2D806 /* 6rockgrenade-9@2x.png in Resources */,
+				29C3CA711A955BD0005407E9 /* gacha_spin.mp3 in Resources */,
 				2980507E1A265EE800806253 /* 5gbhud@2x.png in Resources */,
 				CFF2A5EC19709C4800269084 /* MenuMPMT1@2x.png in Resources */,
 				CF2A4AC21901B8F500B2D7D7 /* purplemenuoption@2x.png in Resources */,
@@ -22037,6 +22085,7 @@
 				9BB9493D1A6E1197006EE920 /* watergrglow2glowblend@2x.png in Resources */,
 				6341748C1A843521006DA494 /* redchatmiddle@2x.png in Resources */,
 				CFFBDF7818ACA3D90090CA9A /* Scientist2Turn09@2x.png in Resources */,
+				29C3CA801A955BD0005407E9 /* use_oil.mp3 in Resources */,
 				CFFBDF5718ACA3D90090CA9A /* Scientist2Blink02@2x.png in Resources */,
 				292771421A72DBB400E3AB65 /* fightonbubblearrow@2x.png in Resources */,
 				CF134A8418A5E4B500D7D700 /* FatBoy5Move01@2x.png in Resources */,
@@ -22370,6 +22419,7 @@
 				CFDEA541199C34D800445F3C /* lockedinactive@2x.png in Resources */,
 				CF6A64E119D24F030002E05D /* 6nightorb@2x.png in Resources */,
 				CF6A64F519D24F030002E05D /* 6watersideways@2x.png in Resources */,
+				29C3CA771A955BD0005407E9 /* secret_gift_collected.mp3 in Resources */,
 				CFBB36D718EE3AF400FD6C8C /* myteambg@2x.png in Resources */,
 				CFFBDF5218ACA3D90090CA9A /* Scientist1Turn14@2x.png in Resources */,
 				2927713B1A71A52A00E3AB65 /* tutorialbackground@2x.png in Resources */,
@@ -22921,6 +22971,7 @@
 				CFFC510D19C4C57700BDAA62 /* notmiddlered@2x.png in Resources */,
 				CFFD3120185061720091E315 /* UpgradeBonusCell.xib in Resources */,
 				CF0CDEA119E5050E006A5ECB /* timerstopbg@2x.png in Resources */,
+				29C3CA6E1A955BD0005407E9 /* gacha_reveal.mp3 in Resources */,
 				CF283C221A11AB460086262E /* speedupbigicon@2x.png in Resources */,
 				CFFBDFE918ACA3D90090CA9A /* Scientist5Breath06@2x.png in Resources */,
 				CF29EA501964F38E00B40DA4 /* settingsmusic@2x.png in Resources */,
@@ -23243,6 +23294,7 @@
 				CFDA7906198C303C0014A8CD /* profilecircle@2x.png in Resources */,
 				9B6B77D31A858B1A0080C8E5 /* 3moveslabel@2x.png in Resources */,
 				CF134A5618A5E4B500D7D700 /* FatBoy1Move07@2x.png in Resources */,
+				29C3CA7A1A955BD0005407E9 /* secret_gift_collecteddd.mp3 in Resources */,
 				CF9F995619E48734006B0119 /* helpredbubble9@2x.png in Resources */,
 				4C16FEF819CE03A200F9FC1E /* waterpoison@2x.png in Resources */,
 				CFE0E6A417E3A536002ECA84 /* characterdie.plist in Resources */,
@@ -23850,6 +23902,7 @@
 				9BB948F11A6DF872006EE920 /* revealskillbg@2x.png in Resources */,
 				CF481C0319F7217F00041486 /* Scientist5Blink04@2x.png in Resources */,
 				CF481C0419F7217F00041486 /* oilcap@2x.png in Resources */,
+				29C3CA761A955BD0005407E9 /* push_notification.mp3 in Resources */,
 				CFA728E31A0B037900FF6031 /* eartheventtimer@2x.png in Resources */,
 				2980504A1A265EE800806253 /* 12gbhud@2x.png in Resources */,
 				CF481C0C19F7217F00041486 /* FatBoy1Move02@2x.png in Resources */,
@@ -24444,6 +24497,7 @@
 				CF481F5519F7217F00041486 /* pier_0@2x.png in Resources */,
 				CF481F5619F7217F00041486 /* DownloaderSpinner.xib in Resources */,
 				CF481F5719F7217F00041486 /* Scientist5Breath03@2x.png in Resources */,
+				29C3CA7C1A955BD0005407E9 /* secret_gift_collecteddd.mp3 in Resources */,
 				CF481F5819F7217F00041486 /* watersquare@2x.png in Resources */,
 				CF481F5D19F7217F00041486 /* menubuildingsiconactive@2x.png in Resources */,
 				CF481F5E19F7217F00041486 /* 6cakeorb@2x.png in Resources */,
@@ -24695,10 +24749,12 @@
 				CF4820AE19F7217F00041486 /* menusquareactive@2x.png in Resources */,
 				CF4820AF19F7217F00041486 /* silverbig@2x.png in Resources */,
 				CF4820B019F7217F00041486 /* moneystack@2x.png in Resources */,
+				29C3CA791A955BD0005407E9 /* secret_gift_collected.mp3 in Resources */,
 				298050681A265EE800806253 /* 1gbhud@2x.png in Resources */,
 				CF4820B219F7217F00041486 /* championribbon@2x.png in Resources */,
 				CF4820B319F7217F00041486 /* fireavatar@2x.png in Resources */,
 				CF4820B519F7217F00041486 /* Ziggurat-HTF-Black.otf in Resources */,
+				29C3CA701A955BD0005407E9 /* gacha_reveal.mp3 in Resources */,
 				CF4820B619F7217F00041486 /* FatBoy4Move03@2x.png in Resources */,
 				CF4820BC19F7217F00041486 /* championbig@2x.png in Resources */,
 				9BB948DA1A69FC2F006EE920 /* grlb7@2x.png in Resources */,
@@ -24763,6 +24819,7 @@
 				299AA3B31A7856AA00A2D806 /* lightorb-9@2x.png in Resources */,
 				CF48210C19F7217F00041486 /* minidivider@2x.png in Resources */,
 				CFA728A11A0B037900FF6031 /* fireeventbigbg@2x.png in Resources */,
+				29C3CA731A955BD0005407E9 /* gacha_spin.mp3 in Resources */,
 				CF48211019F7217F00041486 /* bigsquareempty@2x.png in Resources */,
 				CF48211119F7217F00041486 /* EvolveHeaderView.xib in Resources */,
 				CF48211319F7217F00041486 /* fullfriendmask@2x.png in Resources */,
@@ -25017,8 +25074,10 @@
 				63C57E841A6627FE00ED406E /* maptaskdonecheck@2x.png in Resources */,
 				CF48225419F7217F00041486 /* requestsactive@2x.png in Resources */,
 				CF48225519F7217F00041486 /* Scientist5Turn02@2x.png in Resources */,
+				29C3CA821A955BD0005407E9 /* use_oil.mp3 in Resources */,
 				CF48225719F7217F00041486 /* SkillPopupOverlay.xib in Resources */,
 				CF48225A19F7217F00041486 /* Scientist4Blink06@2x.png in Resources */,
+				29C3CA6D1A955BD0005407E9 /* free_speedup_available.mp3 in Resources */,
 				CF48225C19F7217F00041486 /* moretimerarrow@2x.png in Resources */,
 				299AA3951A7856AA00A2D806 /* earthupdown-9@2x.png in Resources */,
 				CF48225D19F7217F00041486 /* questiconactive@2x.png in Resources */,
@@ -25584,6 +25643,7 @@
 				CF4824F019F7217F00041486 /* lightavatar@2x.png in Resources */,
 				CF4824F219F7217F00041486 /* createclanbox1@2x.png in Resources */,
 				CF4824F419F7217F00041486 /* firesquare@2x.png in Resources */,
+				29C3CA7F1A955BD0005407E9 /* use_gems.mp3 in Resources */,
 				CF4824F519F7217F00041486 /* nightdailylab@2x.png in Resources */,
 				9BDA8C0A1A5C7BB700C7AC27 /* gooniegrabnavicon@2x.png in Resources */,
 				CF4824F619F7217F00041486 /* madgrab@2x.png in Resources */,
@@ -27000,7 +27060,7 @@
 					"Utopia/libs/**",
 					"\"$(SRCROOT)/Utopia/libs/Tango/include\"",
 				);
-				INFOPLIST_FILE = "ToonSquad-Info.plist";
+				INFOPLIST_FILE = "Utopia/ToonSquad-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -27045,8 +27105,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -27079,7 +27139,7 @@
 					"Utopia/libs/**",
 					"\"$(SRCROOT)/Utopia/libs/Tango/include\"",
 				);
-				INFOPLIST_FILE = "ToonSquad-Info.plist";
+				INFOPLIST_FILE = "Utopia/ToonSquad-Info.plist";
 				INSTALL_OWNER = "$(USER)";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
@@ -27161,7 +27221,7 @@
 					"Utopia/libs/**",
 					"\"$(SRCROOT)/Utopia/libs/Tango/include\"",
 				);
-				INFOPLIST_FILE = "ToonSquad-Info.plist";
+				INFOPLIST_FILE = "Utopia/ToonSquad-Info.plist";
 				INSTALL_OWNER = "$(USER)";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
@@ -27450,7 +27510,7 @@
 					"Utopia/libs/**",
 					"\"$(SRCROOT)/Utopia/libs/Tango/include\"",
 				);
-				INFOPLIST_FILE = "$(SRCROOT)/TangoToonSquad-Info.plist";
+				INFOPLIST_FILE = "Utopia/TangoToonSquad-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -27531,7 +27591,7 @@
 					"Utopia/libs/**",
 					"\"$(SRCROOT)/Utopia/libs/Tango/include\"",
 				);
-				INFOPLIST_FILE = "$(SRCROOT)/TangoToonSquad-Info.plist";
+				INFOPLIST_FILE = "Utopia/TangoToonSquad-Info.plist";
 				INSTALL_OWNER = "$(USER)";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
@@ -27614,7 +27674,7 @@
 					"Utopia/libs/**",
 					"\"$(SRCROOT)/Utopia/libs/Tango/include\"",
 				);
-				INFOPLIST_FILE = "$(SRCROOT)/TangoToonSquad-Info.plist";
+				INFOPLIST_FILE = "Utopia/TangoToonSquad-Info.plist";
 				INSTALL_OWNER = "$(USER)";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (

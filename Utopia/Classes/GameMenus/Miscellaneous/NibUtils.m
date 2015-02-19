@@ -1604,7 +1604,7 @@ void undoDelayOnScrollViewHierarchy(UIView *v) {
 @implementation SoundButton
 
 - (void) awakeFromNib {
-  [self addTarget:self action:@selector(playSound) forControlEvents:UIControlEventTouchDown];
+  [self addTarget:self action:@selector(buttonClicked) forControlEvents:UIControlEventTouchDown];
   
   //  [self addTarget:self action:@selector(getSmaller) forControlEvents:UIControlEventTouchDown];
   //  [self addTarget:self action:@selector(getBigger) forControlEvents:UIControlEventTouchUpInside];
@@ -1612,6 +1612,12 @@ void undoDelayOnScrollViewHierarchy(UIView *v) {
   //  [self addTarget:self action:@selector(getBigger) forControlEvents:UIControlEventTouchDragExit];
   //  [self addTarget:self action:@selector(getBigger) forControlEvents:UIControlEventTouchCancel];
   //  self.adjustsImageWhenHighlighted = NO;
+}
+
+- (void) buttonClicked {
+  if (!self.dontPlaySound) {
+    [self playSound];
+  }
 }
 
 - (void) playSound {
@@ -1678,6 +1684,30 @@ void undoDelayOnScrollViewHierarchy(UIView *v) {
 
 - (void) playSound {
   [SoundEngine structUpgradeClicked];
+}
+
+@end
+
+@implementation CollectButton
+
+- (void) playSound {
+  [SoundEngine secretGiftCollectClicked];
+}
+
+@end
+
+@implementation GemsButton
+
+- (void) playSound {
+  [SoundEngine itemSelectUseGems];
+}
+
+@end
+
+@implementation OilButton
+
+- (void) playSound {
+  [SoundEngine itemSelectUseOil];
 }
 
 @end

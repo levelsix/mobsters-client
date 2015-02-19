@@ -302,7 +302,7 @@
 + (void) addGreenAlertNotification:(NSString *)msg;
 + (void) addGreenAlertNotification:(NSString *)msg isImmediate:(BOOL)isImmediate;
 + (void) addPurpleAlertNotification:(NSString *)msg;
-+ (void) addOrangeAlertNotification:(NSString *)msg;
++ (void) addOrangeAlertNotification:(NSString *)msg isImmediate:(BOOL)isImmediate;
 + (void) addBlueAlertNotification:(NSString *)msg;
 + (void) addPrivateMessageNotification:(NSArray *)messages;
 

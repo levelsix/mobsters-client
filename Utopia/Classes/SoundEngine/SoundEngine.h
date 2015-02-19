@@ -21,7 +21,7 @@ typedef enum {
   BackgroundMusic _lastPlayedMusic;
 }
 
-@property (nonatomic, retain) id<ALSoundSource> damageTick;
+@property (nonatomic, retain) id<ALSoundSource> repeatingEffect;
 @property (nonatomic, retain) id<ALSoundSource> ambientNoise;
 
 + (SoundEngine *)sharedSoundEngine;
@@ -30,6 +30,7 @@ typedef enum {
 - (void) resumeBackgroundMusic;
 - (id<ALSoundSource>) playEffect:(NSString *)effect;
 - (void) preloadEffect:(NSString *)effect;
++ (void) stopRepeatingEffect;
 
 - (void) playHomeMapMusic;
 - (void) playMissionMapMusic;
@@ -48,6 +49,14 @@ typedef enum {
 
 + (void) enhanceFlying;
 
++ (void) freeSpeedupAvailable;
++ (void) gachaReveal;
++ (void) gachaSpinStart;
++ (void) secretGiftClicked;
++ (void) secretGiftCollectClicked;
++ (void) itemSelectUseGems;
++ (void) itemSelectUseOil;
+
 + (void) structSpeedupConstruction;
 + (void) structUpgradeClicked;
 + (void) structDropped;
@@ -58,7 +67,6 @@ typedef enum {
 + (void) structCollectCash;
 
 + (void) puzzleDamageTickStart;
-+ (void) puzzleDamageTickStop;
 + (void) puzzleSwapWindow;
 + (void) puzzleSwapCharacterChosen;
 + (void) puzzleMonsterDefeated;

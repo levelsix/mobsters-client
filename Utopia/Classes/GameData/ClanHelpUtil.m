@@ -70,7 +70,7 @@
   
   // We want to do alerts and then notifications so that free speedup timer doesn't popup before the help
   for (id<ClanHelp> help in forAlerts) {
-    [Globals addOrangeAlertNotification:[help justHelpedString:sender.name]];
+    [Globals addOrangeAlertNotification:[help justHelpedString:sender.name] isImmediate:NO];
   }
   
   for (ClanHelp *ch in forNotifications) {

@@ -8,6 +8,7 @@
 
 #import "OneLineNotificationViewController.h"
 #import "Globals.h"
+#import "SoundEngine.h"
 
 #define LOWEST_LABEL_BOT_POINT 20.f
 
@@ -85,6 +86,7 @@
     [[NSBundle mainBundle] loadNibNamed:@"OneLineNotificationView" owner:self options:nil];
     [self.notificationView updateForString:str color:color];
     _priority = isImmediate ? NotificationPriorityImmediate : NotificationPriorityRegular;
+    _playSound = color == NotificationColorPurple;
   }
   return self;
 }
@@ -118,6 +120,10 @@
   [self.notificationView animateIn:^{
     [self performSelector:@selector(end) withObject:nil afterDelay:3.f];
   }];
+  
+  if (_playSound) {
+    [SoundEngine freeSpeedupAvailable];
+  }
 }
 
 - (void) end {
