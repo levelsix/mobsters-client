@@ -125,6 +125,8 @@
   
   [ChartboostDelegate setUpChartboost];
   
+  _shouldReconnect = YES;
+  
   return YES;
 }
 
@@ -143,11 +145,12 @@
   //}
   
   GameState *gs = [GameState sharedGameState];
+  GameViewController *gvc = [GameViewController baseController];
   //FacebookDelegate *fd = [FacebookDelegate sharedFacebookDelegate];
-//  if (!gs.connected) {
-    GameViewController *gvc = [GameViewController baseController];
+  if (_shouldReconnect) {
     [[SocketCommunication sharedSocketCommunication] initNetworkCommunicationWithDelegate:gvc clearMessages:!gs.connected];
-//  }
+    _shouldReconnect = NO;
+  }
   
   // This will restart loading screen
   // Must put this here instead of willEnterForeground because the ordering is foreground, openURL, active
@@ -177,6 +180,7 @@
     [[GameState sharedGameState] setConnected:NO];
   }
   [[SocketCommunication sharedSocketCommunication] closeDownConnection];
+  _shouldReconnect = YES;
 }
 
 - (void) applicationWillEnterForeground:(UIApplication *)application {

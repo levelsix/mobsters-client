@@ -208,6 +208,7 @@
 - (BOOL) spawnNextEnemy;
 - (BOOL) createNextEnemyObject;
 - (void) createNextEnemySprite;
+- (void) triggerSkillForEnemyCreatedWithBlock:(dispatch_block_t)block;
 
 - (CCSprite *) getCurrentEnemyLoot;
 - (void) dropLoot:(CCSprite *)ed;
@@ -244,6 +245,7 @@
 
 - (void) displayDeployViewAndIsCancellable:(BOOL)cancel;
 - (void) deployBattleSprite:(BattlePlayer *)bp;
+- (void) triggerSkillForPlayerCreatedWithBlock:(dispatch_block_t)block;
 
 - (void) loadHudView;
 

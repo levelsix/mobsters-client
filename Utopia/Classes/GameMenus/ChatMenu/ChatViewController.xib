@@ -122,7 +122,7 @@
                                     <rect key="frame" x="61" y="-2" width="331" height="41"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
-                                        <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="1Ry-Xq-I5P">
+                                        <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="1Ry-Xq-I5P" customClass="GeneralButton">
                                             <rect key="frame" x="41" y="7" width="83" height="28"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" image="chatinactiveside.png">
@@ -134,7 +134,7 @@
                                                 <action selector="buttonClicked:" destination="eXa-Ou-uhP" eventType="touchUpInside" id="cKE-rJ-CEU"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="VVM-Zm-3gA">
+                                        <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="VVM-Zm-3gA" customClass="GeneralButton">
                                             <rect key="frame" x="124" y="7" width="83" height="28"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" image="chatinactivemiddle.png">
@@ -146,7 +146,7 @@
                                                 <action selector="buttonClicked:" destination="eXa-Ou-uhP" eventType="touchUpInside" id="hcg-wt-LHJ"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="4W5-oe-7D1" customClass="FlipButton">
+                                        <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="4W5-oe-7D1" customClass="GeneralButton">
                                             <rect key="frame" x="207" y="7" width="83" height="28"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" image="chatinactiveside.png">
@@ -439,7 +439,7 @@
                             <rect key="frame" x="0.0" y="-14" width="102" height="56"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="t1s-6X-Vjj">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="t1s-6X-Vjj" customClass="GeneralButton">
                                     <rect key="frame" x="0.0" y="0.0" width="90" height="56"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <state key="normal">

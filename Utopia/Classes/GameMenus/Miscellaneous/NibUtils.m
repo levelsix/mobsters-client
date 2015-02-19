@@ -1260,6 +1260,10 @@ void undoDelayOnScrollViewHierarchy(UIView *v) {
   [self clickButton:1];
 }
 
+- (UIButton *) getButton:(int)button {
+  return (UIButton *)[self viewWithTag:button];
+}
+
 - (void) clickButton:(int)button {
   if (!self.label1.highlightedTextColor) {
     UIColor *inactiveText = self.inactiveTextColor;
@@ -1602,6 +1606,13 @@ void undoDelayOnScrollViewHierarchy(UIView *v) {
 #pragma mark - Sound buttons
 
 @implementation SoundButton
+
+- (id) initWithFrame:(CGRect)frame {
+  if ((self = [super initWithFrame:frame])) {
+    [self awakeFromNib];
+  }
+  return self;
+}
 
 - (void) awakeFromNib {
   [self addTarget:self action:@selector(buttonClicked) forControlEvents:UIControlEventTouchDown];

@@ -142,7 +142,11 @@
 
 - (IBAction)message:(id)sender {
   GameViewController *gvc = [GameViewController baseController];
+#ifdef APPSTORE
   [gvc openPrivateChatWithUserUuid:self.fup.userUuid name:self.fup.name];
+#else
+  [gvc beginPvpMatchAgainstUser:self.fup.userUuid];
+#endif
   
   // Will close automatically
   // [self close:nil];

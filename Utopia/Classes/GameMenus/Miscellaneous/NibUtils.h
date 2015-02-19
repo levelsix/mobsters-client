@@ -490,6 +490,7 @@ typedef enum {
 
 @property (nonatomic, assign) IBOutlet id<TabBarDelegate> delegate;
 
+- (UIButton *) getButton:(int)button;
 - (void) clickButton:(int)button;
 - (IBAction) buttonClicked:(id)sender;
 - (void) button:(int)button shouldBeHidden:(BOOL)hidden;

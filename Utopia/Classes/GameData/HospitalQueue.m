@@ -70,9 +70,15 @@
     healthToHeal += [self.timeDistribution[i] intValue];
   }
   
-  Globals *gl = [Globals sharedGlobals];
-  UserMonster *um = self.userMonster;
-  float totalHealth = [gl calculateMaxHealthForMonster:um]-self.userMonster.curHealth;
+  GameState *gs = [GameState sharedGameState];
+  float totalHealth;
+  if (!gs.isTutorial) {
+    Globals *gl = [Globals sharedGlobals];
+    UserMonster *um = self.userMonster;
+    totalHealth = [gl calculateMaxHealthForMonster:um]-self.userMonster.curHealth;
+  } else {
+    totalHealth = self.healthProgress+healthToHeal;
+  }
   
   float basePerc = (totalHealth-healthToHeal)/totalHealth;
   float percentage = basePerc;

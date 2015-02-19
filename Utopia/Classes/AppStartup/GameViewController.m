@@ -1039,6 +1039,21 @@ static const CGSize FIXED_SIZE = {568, 384};
   [self blackFadeIntoBattleLayer:bl];
 }
 
+- (void) beginPvpMatchAgainstUser:(NSString *)userUuid {
+  if (_isInBattle) {
+    [self removeAllViewControllers];
+    return;
+  }
+  
+  GameState *gs = [GameState sharedGameState];
+  PvpBattleLayer *bl = [[PvpBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeamWithClanSlot:YES] puzzleIsOnLeft:NO gridSize:PVP_BATTLE_LAYER_BOARD_SIZE pvpHistoryForRevenge:nil];
+  bl.delegate = self;
+  
+  [[OutgoingEventController sharedOutgoingEventController] retrieveUserTeam:userUuid delegate:bl];
+  
+  [self crossFadeIntoBattleLayer:bl];
+}
+
 - (void) beginPvpMatchForRevenge:(PvpHistoryProto *)history {
   if (_isInBattle) {
     [self removeAllViewControllers];

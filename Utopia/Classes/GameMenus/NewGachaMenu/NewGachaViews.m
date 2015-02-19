@@ -561,8 +561,8 @@ typedef void (^RevealAnimCompletionBlock)(void);
 {
   [super layoutSubviews];
   
-  self.offensiveSkillView.origin = CGPointMake(self.nameLabel.originX, self.attackLabel.originY + self.attackLabel.height + 5);
-  self.defensiveSkillView.origin = self.offensiveSkillView.origin;
+  self.offensiveSkillView.origin = ccp(self.nameLabel.originX, self.attackLabel.originY + self.attackLabel.height + 5);
+  self.defensiveSkillView.origin = ccpAdd(self.offensiveSkillView.origin, ccp(self.offensiveSkillView.width+8.f, 0));
   
   _leftSkillViewOrigin = self.offensiveSkillView.origin;
   _rightSkillViewOrigin = self.defensiveSkillView.origin;

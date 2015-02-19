@@ -2124,6 +2124,7 @@
     [Globals addAlertNotification:@"Hold on, we are still processing your building purchase."];
   } else {
     [[OutgoingEventController sharedOutgoingEventController] instaUpgrade:us delegate:self queueUp:queueUp];
+    us.hasShownFreeSpeedup = NO;
     
     // If queue up is on, that means a purch is gonna come right after
     if (!queueUp) {
@@ -2299,14 +2300,14 @@
         [[OutgoingEventController sharedOutgoingEventController] tradeItemForSpeedup:ui.itemId userStruct:hb.userStruct];
         
         [viewController reloadDataAnimated:YES];
-        [self beginTimers];
+        [self updateTimersForBuilding:_speedupBuilding];
         [self updateMapBotView:self.bottomOptionView];
       } else if ([_speedupBuilding isKindOfClass:[ObstacleSprite class]]) {
         ObstacleSprite *hb = (ObstacleSprite *)_speedupBuilding;
         [[OutgoingEventController sharedOutgoingEventController] tradeItemForSpeedup:ui.itemId userObstacle:hb.obstacle];
         
         [viewController reloadDataAnimated:YES];
-        [self beginTimers];
+        [self updateTimersForBuilding:_speedupBuilding];
         [self updateMapBotView:self.bottomOptionView];
       }
     }

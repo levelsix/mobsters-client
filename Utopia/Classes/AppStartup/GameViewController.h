@@ -100,6 +100,7 @@
 - (void) questComplete:(FullQuestProto *)fqp;
 - (void) beginDialogue:(DialogueProto *)proto withQuestId:(int)questId;
 
+- (void) beginPvpMatchAgainstUser:(NSString *)userUuid;
 - (void) beginPvpMatchForRevenge:(PvpHistoryProto *)history;
 - (void) beginPvpMatchForAvenge:(PvpClanAvenging *)ca;
 

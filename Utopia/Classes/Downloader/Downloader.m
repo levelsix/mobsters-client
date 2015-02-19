@@ -30,7 +30,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
   if ((self = [super init])) {
     _syncQueue = dispatch_queue_create("Sync Downloader", NULL);
     _asyncQueue = dispatch_queue_create("Async Downloader", DISPATCH_QUEUE_CONCURRENT);
-    _bgdQueue = dispatch_queue_create("Bgd Downloader", dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, QOS_CLASS_BACKGROUND, 0));
+    
+    //dispatch_queue_attr_t attr = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, QOS_CLASS_BACKGROUND, 0);
+    dispatch_queue_attr_t attr = DISPATCH_QUEUE_SERIAL;
+    _bgdQueue = dispatch_queue_create("Bgd Downloader", attr);
+    dispatch_set_target_queue(_bgdQueue, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0));
+    
     _cacheDir = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0] copy];
     LNLog(@"Cache Dir: %@", _cacheDir);
     
@@ -90,9 +95,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
 
 - (NSString *) syncDownloadFile:(NSString *)fileName {
   LNLog(@"Beginning sync download of file %@", fileName);
-  //[self beginLoading:fileName];
   NSString *path = [self downloadFile:fileName];
-  //[self stopLoading];
   return path;
 }
 

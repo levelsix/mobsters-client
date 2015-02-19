@@ -376,10 +376,6 @@
   [[OutgoingEventController sharedOutgoingEventController] beginPvpBattle:pvp isRevenge:_isRevenge previousBattleTime:_prevBattleStartTime];
   
   [self removeQueueNode];
-  [self runAction:
-   [CCActionSequence actions:
-    [CCActionDelay actionWithDuration:0.7f],
-    [CCActionCallFunc actionWithTarget:self selector:@selector(displayOrbLayer)], nil]];
   
   // Explode if the clan statue is first enemy because then enemy can appear from behind the explosion
   [self destroyEnemyStatueWithExplosion:self.enemyTeamSprites.count == 0];
@@ -423,17 +419,34 @@
   self.myTeamSprites = nil;
   
   // Have to fake this
-  _displayedWaveNumber = YES;
-  _reachedNextScene = YES;
-  [self createScheduleWithSwap:NO];
-  [self beginNextTurn];
+  //  _reachedNextScene = YES;
+  //  [self createScheduleWithSwap:NO];
+  //  [self beginNextTurn];
   [self removeCloseButton];
   
   _hasChosenEnemy = YES;
   _curStage = 0;
   _hasStarted = YES;
+  _firstTurn = YES;
   
+  _displayedWaveNumber = YES;
+  _reachedNextScene = YES;
   self.hudView.waveNumLabel.text = [NSString stringWithFormat:@"ENEMY %d/%d", _curStage+1, (int)self.enemyTeam.count];
+  
+  [self runAction:
+   [CCActionSequence actions:
+    [CCActionDelay actionWithDuration:0.7f],
+    [CCActionCallFunc actionWithTarget:self selector:@selector(displayOrbLayer)],
+    [CCActionDelay actionWithDuration:0.5f],
+    [CCActionCallBlock actionWithBlock:
+     ^{
+       [self triggerSkillForPlayerCreatedWithBlock:^{
+         [self triggerSkillForEnemyCreatedWithBlock:^{
+           [self createScheduleWithSwap:NO playerHitsFirst:NO];
+           [self beginNextTurn];
+         }];
+       }];
+     }], nil]];
   
   [Analytics foundMatch:@"attack"];
 }

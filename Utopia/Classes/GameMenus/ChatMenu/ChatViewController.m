@@ -90,6 +90,8 @@
   
   [self reloadTablesAnimated:NO];
   
+  [self.topBar getButton:3].transform = CGAffineTransformMakeScale(-1, 1);
+  
   
   self.updateTimer = [NSTimer timerWithTimeInterval:1.f target:self selector:@selector(updateLabels) userInfo:nil repeats:YES];
   [[NSRunLoop mainRunLoop] addTimer:self.updateTimer forMode:NSRunLoopCommonModes];

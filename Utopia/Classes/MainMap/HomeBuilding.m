@@ -147,6 +147,9 @@
     GameState *gs = [GameState sharedGameState];
     TaskMapElementProto *elem = [gs mapElementWithTaskId:pre.prereqGameEntityId];
     [Globals addAlertNotification:[NSString stringWithFormat:@"This building is locked until you defeat Level %d.", elem.mapElementId]];
+    
+    [SoundEngine generalButtonClick];
+    
     return NO;
   }
 }
