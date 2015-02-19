@@ -352,15 +352,28 @@
   }
 }
 
+- (void) cloudPoof:(BattleOrb *)orb {
+  OrbSprite *orbLayer = [self spriteForOrb:orb];
+  
+  CCParticleSystem *q = [CCParticleSystem particleWithFile:@"cloudexploding1.plist"];
+  [self addChild:q z:100];
+  q.scale = .4f;
+  q.position = orbLayer.position;
+  q.autoRemoveOnFinish = YES;
+}
+
 - (void) performOrbChange:(BattleOrb *)orb chains:(NSSet *)chains fromPowerup:(PowerupType)powerup {
   OrbSprite *orbSprite = [self spriteForOrb:orb];
   
   if (orb.changeType == OrbChangeTypeDestroyed) {
+    if (orb.cloudCounter > 0)
+      [self cloudPoof:orb];
     [self destroyOrb:orb chains:chains fromPowerup:powerup];
   } else if (orb.changeType == OrbChangeTypeLockRemoved) {
     [self destroyLock:orb];
   } else if (orb.changeType == OrbChangeTypeCloudDecremented) {
-    [orbSprite reloadSprite:YES];
+    [self cloudPoof:orb];
+    [orbSprite decrementCloud];
   }
   
   // Set orb sprite's change type to none so it doesnt happen again

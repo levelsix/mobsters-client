@@ -19,7 +19,8 @@ static const float orbUpdateAnimDuration = 0.3f;
   CCLabelTTF* _turnCounter;
   CCLabelTTF* _damageMultiplier;
   
-  CCSprite* _lockedSprite;
+  CCSprite* _lockedSpriteLeft;
+  CCSprite* _lockedSpriteRight;
   
   NSString *_suffix;
 }
@@ -34,6 +35,8 @@ static const float orbUpdateAnimDuration = 0.3f;
 - (void) reloadSprite:(BOOL)animated;
 
 // Specials
+- (void) decrementCloud;
+
 - (void) updateTurnCounter:(BOOL)animated;
 
 - (void) resetOrbSpriteScale;

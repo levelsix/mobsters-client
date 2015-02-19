@@ -55,6 +55,7 @@
   {
     case SpecialOrbTypeNone: if (_orb.damageMultiplier > 1) [self loadDamageMultiplierElements]; break;
     case SpecialOrbTypeBomb: if (_orb.turnCounter > 0) [self loadBombElements]; break;
+    case SpecialOrbTypeCloud: [self loadCloudElements]; break;
     case SpecialOrbTypeHeadshot:
     case SpecialOrbTypeBullet:
     case SpecialOrbTypeGlove:
@@ -72,6 +73,39 @@
 }
 
 #pragma mark - Specials
+
+- (void) decrementCloud
+{
+  CCNode *topLayer;
+  for (CCNode *child in _orbSprite.children)
+  {
+    if ([child isKindOfClass:[CCSprite class]])
+    {
+      topLayer = child;
+    }
+  }
+  
+  CCActionFadeOut *fade = [CCActionFadeOut actionWithDuration:.2];
+//  CCActionScaleTo *scale = [CCActionScaleTo actionWithDuration:0.2 scale:0];
+  CCActionCallBlock *completion = [CCActionCallBlock actionWithBlock:^{
+    [_orbSprite removeChild:topLayer cleanup:YES];
+  }];
+  
+  [topLayer runAction:[CCActionSequence actions:fade, completion, nil]];
+}
+
+- (void) loadCloudElements
+{
+  NSString *resPrefix = [Globals isiPhone6] || [Globals isiPhone6Plus] ? @"6" : @"";
+  for (int i = 2; i <= _orb.cloudCounter; i++)
+  {
+    CCSprite* cloudLayer = [CCSprite node];
+    cloudLayer.position = ccp(.5f, .5f);
+    cloudLayer.positionType = CCPositionTypeNormalized;
+    [Globals imageNamed:[NSString stringWithFormat:@"%@cloud%d.png", resPrefix, i] toReplaceSprite:cloudLayer];
+    [_orbSprite addChild:cloudLayer];
+  }
+}
 
 - (void) loadBombElements
 {
@@ -151,14 +185,37 @@
 - (void) loadLockElements {
   NSString *resPrefix = [Globals isiPhone6] || [Globals isiPhone6Plus] ? @"6" : @"";
   
-  _lockedSprite = [CCSprite spriteWithImageNamed:[resPrefix stringByAppendingString:@"lockedorb.png"]];
-  [self addChild:_lockedSprite];
+  _lockedSpriteLeft = [CCSprite spriteWithImageNamed:[resPrefix stringByAppendingString:@"lockedorbleft.png"]];
+  [self addChild:_lockedSpriteLeft];
+  _lockedSpriteRight = [CCSprite spriteWithImageNamed:[resPrefix stringByAppendingString:@"lockedorbright.png"]];
+  [self addChild:_lockedSpriteRight];
 }
 
+#define LOCK_REMOVE_TIME .55
+#define LOCK_REMOVE_MOVE_UP_PORTION .15
+
 - (void) removeLockElements {
-  [_lockedSprite runAction:
+  CCActionEaseInOut *fadeOut = [CCActionEaseInOut actionWithAction:[CCActionFadeOut actionWithDuration:LOCK_REMOVE_TIME]];
+  
+  CCActionEaseInOut *leftRotate = [CCActionEaseInOut actionWithAction:[CCActionRotateTo actionWithDuration:LOCK_REMOVE_TIME angle:-33]];
+  CCActionEaseInOut *rightRotate = [CCActionEaseInOut actionWithAction:[CCActionRotateTo actionWithDuration:LOCK_REMOVE_TIME angle:20]];
+  
+  CCActionSequence *leftMove = [CCActionSequence actions:
+    [CCActionEaseOut actionWithAction:[CCActionMoveTo actionWithDuration:LOCK_REMOVE_TIME * LOCK_REMOVE_MOVE_UP_PORTION position:CGPointMake(-5, 6)]],
+    [CCActionEaseInOut actionWithAction:[CCActionMoveTo actionWithDuration:LOCK_REMOVE_TIME * (1-LOCK_REMOVE_MOVE_UP_PORTION) position:CGPointMake(-19, -60)]], nil];
+  
+  CCActionSequence *rightMove = [CCActionSequence actions:
+   [CCActionEaseOut actionWithAction:[CCActionMoveTo actionWithDuration:LOCK_REMOVE_TIME * LOCK_REMOVE_MOVE_UP_PORTION position:CGPointMake(8, 7)]],
+   [CCActionEaseInOut actionWithAction:[CCActionMoveTo actionWithDuration:LOCK_REMOVE_TIME * (1-LOCK_REMOVE_MOVE_UP_PORTION) position:CGPointMake(21, -39)]], nil];
+  
+  [_lockedSpriteRight runAction:
    [CCActionSequence actions:
-    [CCActionFadeOut actionWithDuration:0.2],
+    [CCActionSpawn actions:fadeOut, rightRotate, rightMove, nil],
+    [CCActionRemove action], nil]];
+  
+  [_lockedSpriteLeft runAction:
+   [CCActionSequence actions:
+    [CCActionSpawn actions:fadeOut, leftRotate, leftMove, nil],
     [CCActionRemove action], nil]];
 }
 
@@ -216,7 +273,7 @@
       break;
       
     case SpecialOrbTypeCloud:
-      return [NSString stringWithFormat:@"%@cloud%d%@.png", resPrefix, (int)orb.cloudCounter, suffix ];
+      return [NSString stringWithFormat:@"%@cloud1%@.png", resPrefix, suffix ];
       break;
     
     case SpecialOrbTypeBomb:
