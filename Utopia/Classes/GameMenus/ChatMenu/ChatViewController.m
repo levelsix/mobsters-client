@@ -106,6 +106,8 @@
     self.mainView.center = ccp(self.view.frame.size.width/2, self.view.frame.size.height/2);
     self.bgdView.alpha = 1.f;
   }];
+  
+  [SoundEngine chatOpened];
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
@@ -114,6 +116,8 @@
   [[CCDirector sharedDirector] resume];
   
   [self.monsterSelectViewController closeClicked:nil];
+  
+  [SoundEngine chatClosed];
 }
 
 - (void) viewDidDisappear:(BOOL)animated {

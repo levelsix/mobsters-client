@@ -1294,7 +1294,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
     
     for (id<ClanHelp> ch in forNotifications) {
-      [Globals addOrangeAlertNotification:[NSString stringWithFormat:@"Squad Help Requested: %@.", [ch justSolicitedString]]];
+      [Globals addOrangeAlertNotification:[NSString stringWithFormat:@"Squad Help Requested: %@.", [ch justSolicitedString]] isImmediate:YES];
     }
     
     [AchievementUtil checkSolicitedClanHelp];
@@ -1502,7 +1502,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [gs addUnrespondedUpdate:[GemsUpdate updateWithTag:tag change:-gemsSpent]];
     
     NSString *str = [NSString stringWithFormat:@"Team Donate Requested: %@", message];
-    [Globals addOrangeAlertNotification:str];
+    [Globals addOrangeAlertNotification:str isImmediate:YES];
   }
 }
 

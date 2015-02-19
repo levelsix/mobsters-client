@@ -73,6 +73,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(SoundEngine);
   return nil;
 }
 
++ (void) stopRepeatingEffect {
+  SoundEngine *se = [SoundEngine sharedSoundEngine];
+  [se.repeatingEffect stop];
+  se.repeatingEffect = nil;
+}
+
 - (void) playAmbientMusic:(NSString *)ambient {
   [self.ambientNoise stop];
   
@@ -151,6 +157,36 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(SoundEngine);
   [[SoundEngine sharedSoundEngine] playEffect:@"sfx_chat_slide_in.mp3"];
 }
 
++ (void) freeSpeedupAvailable {
+  [[SoundEngine sharedSoundEngine] playEffect:@"free_speedup_available.mp3"];
+}
+
++ (void) gachaReveal {
+  [[SoundEngine sharedSoundEngine] playEffect:@"gacha_reveal.mp3"];
+}
+
++ (void) gachaSpinStart {
+  SoundEngine *se = [SoundEngine sharedSoundEngine];
+  [se.repeatingEffect stop];
+  se.repeatingEffect = [se playEffect:@"gacha_spin.mp3" volume:1.f pitch:1.f pan:0.f loop:YES];
+}
+
++ (void) secretGiftClicked {
+  [[SoundEngine sharedSoundEngine] playEffect:@"secret_gift_collected.mp3"];
+}
+
++ (void) secretGiftCollectClicked {
+  [[SoundEngine sharedSoundEngine] playEffect:@"secret_gift_collecteddd.mp3"];
+}
+
++ (void) itemSelectUseGems {
+  [[SoundEngine sharedSoundEngine] playEffect:@"use_gems.mp3"];
+}
+
++ (void) itemSelectUseOil {
+  [[SoundEngine sharedSoundEngine] playEffect:@"use_oil.mp3"];
+}
+
 #pragma mark - Home building sounds
 
 + (void) structSpeedupConstruction {
@@ -190,14 +226,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(SoundEngine);
 
 + (void) puzzleDamageTickStart {
   SoundEngine *se = [SoundEngine sharedSoundEngine];
-  [se.damageTick stop];
-  se.damageTick = [se playEffect:@"sfx_damage_click_lp.mp3" volume:0.2f pitch:1.f pan:0.f loop:YES];
-}
-
-+ (void) puzzleDamageTickStop {
-  SoundEngine *se = [SoundEngine sharedSoundEngine];
-  [se.damageTick stop];
-  se.damageTick = nil;
+  [se.repeatingEffect stop];
+  se.repeatingEffect = [se playEffect:@"sfx_damage_click_lp.mp3" volume:0.2f pitch:1.f pan:0.f loop:YES];
 }
 
 + (void) puzzleSwapWindow {

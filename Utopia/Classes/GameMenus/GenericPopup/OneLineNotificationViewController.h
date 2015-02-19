@@ -29,6 +29,8 @@ typedef enum {
 @interface OneLineNotificationViewController : OmnipresentViewController <TopBarNotification> {
   dispatch_block_t _completion;
   NotificationPriority _priority;
+  
+  BOOL _playSound;
 }
 
 @property (nonatomic, retain) IBOutlet OneLineNotificationView *notificationView;

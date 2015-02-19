@@ -11,6 +11,7 @@
 #import "Globals.h"
 #import "GameState.h"
 #import "GameViewController.h"
+#import "SoundEngine.h"
 
 #import "OutgoingEventController.h"
 
@@ -66,6 +67,8 @@
     self.homeTitleView.titleLabel.font = [UIFont fontWithName:self.homeTitleView.titleLabel.font.fontName size:16.f];
     self.homeTitleView.titleLabel.centerY -= 16.f;
   }
+  
+  [SoundEngine secretGiftClicked];
 }
 
 - (void) reload {
@@ -98,6 +101,8 @@
   }
   
   [self closeWithGiftCount:giftsCollected];
+  
+  [SoundEngine secretGiftCollectClicked];
 }
 
 - (void) closeWithGiftCount:(NSInteger)giftsCollected {

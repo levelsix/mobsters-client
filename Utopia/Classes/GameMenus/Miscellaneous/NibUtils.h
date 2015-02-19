@@ -189,6 +189,8 @@ typedef enum {
   BOOL _allowAnimate;
 }
 
+@property (nonatomic, assign) BOOL dontPlaySound;
+
 - (void) playSound;
 
 @end
@@ -198,6 +200,18 @@ typedef enum {
 @end
 
 @interface UpgradeButton : SoundButton
+
+@end
+
+@interface CollectButton : SoundButton
+
+@end
+
+@interface GemsButton : SoundButton
+
+@end
+
+@interface OilButton : SoundButton
 
 @end
 
