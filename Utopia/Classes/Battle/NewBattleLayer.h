@@ -245,6 +245,7 @@
 
 - (void) displayDeployViewAndIsCancellable:(BOOL)cancel;
 - (void) deployBattleSprite:(BattlePlayer *)bp;
+- (void) triggerSkillForPlayerCreatedWithBlock:(dispatch_block_t)block;
 
 - (void) loadHudView;
 

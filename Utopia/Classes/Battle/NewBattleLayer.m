@@ -1990,6 +1990,7 @@
     self.myPlayer = nil;
     self.myPlayerObject = nil;
     [self.orbLayer disallowInput];
+    [self.hudView removeButtons];
   }
 }
 
@@ -2508,18 +2509,13 @@
     
     [self createNextMyPlayerSprite];
     
-    // Skills trigger for player appeared
-    SkillLogStart(@"TRIGGER STARTED: player initialized");
-    [skillManager triggerSkills:SkillTriggerPointPlayerInitialized withCompletion:^(BOOL triggered, id params) {
-      
-      SkillLogEnd(triggered, @"  Player initialized trigger ENDED");
+    [self triggerSkillForPlayerCreatedWithBlock:^{
       
       // If it is swap, enemy should attack
       // If it is game start, wait till battle response has arrived
       // Otherwise, it is coming back from player just dying
       SEL selector = isSwap ? @selector(beginNextTurn) : !_hasStarted ? @selector(reachedNextScene) : @selector(beginNextTurn);
       [self makePlayer:self.myPlayer walkInFromEntranceWithSelector:selector];
-      
     }];
     
   } else if (isSwap) {
@@ -2527,6 +2523,21 @@
     [self.orbLayer allowInput];
     [self.orbLayer.bgdLayer turnTheLightsOn];
   }
+}
+
+- (void) triggerSkillForPlayerCreatedWithBlock:(dispatch_block_t)block {
+  
+  // Skills trigger for player appeared
+  SkillLogStart(@"TRIGGER STARTED: player initialized");
+  [skillManager triggerSkills:SkillTriggerPointPlayerInitialized withCompletion:^(BOOL triggered, id params) {
+    
+    SkillLogEnd(triggered, @"  Player initialized trigger ENDED");
+    
+    if (block) {
+      block();
+    }
+    
+  }];
 }
 
 #pragma mark - Continue View Actions
