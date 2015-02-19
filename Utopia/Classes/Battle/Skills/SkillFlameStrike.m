@@ -106,14 +106,7 @@
   // Set damage multiplier on fire orbs
   [self setDamageMultiplierOnFireOrbs:floorf(_damageMultiplier)];
   
-  return NO;
-}
-
-- (BOOL) onDurationReset
-{
-  SkillLogStart(@"Flame Strike -- Skill reactivated");
-  
-  return NO;
+  return [super onDurationStart];
 }
 
 - (BOOL) onDurationEnd
@@ -123,7 +116,7 @@
   // Reset damage multiplier on fire orbs
   [self setDamageMultiplierOnFireOrbs:1];
   
-  return NO;
+  return [super onDurationEnd];
 }
 
 - (void) setDamageMultiplierOnFireOrbs:(int)multiplier

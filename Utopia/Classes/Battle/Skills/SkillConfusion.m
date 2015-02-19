@@ -172,7 +172,7 @@
                                                          forMonster:self.belongsToPlayer ? self.enemy.monsterId : self.player.monsterId
                                                           forPlayer:!self.belongsToPlayer];
 
-  return NO;
+  return [super onDurationStart];
 }
 
 - (BOOL) onDurationReset
@@ -185,13 +185,11 @@
                                                          forMonster:self.belongsToPlayer ? self.enemy.monsterId : self.player.monsterId
                                                           forPlayer:!self.belongsToPlayer];
   
-  return NO;
+  return [super onDurationReset];
 }
 
 - (BOOL) onDurationEnd
 {
-  [super onDurationEnd];
-  
   SkillLogStart(@"Confusion -- Skill deactivated");
   
   // Tell NewBattleLayer that opponent is no longer confused
@@ -205,7 +203,7 @@
   BattleSprite *bs = self.belongsToPlayer ? self.enemySprite : self.playerSprite;
   [bs removeSkillSideEffect:SideEffectTypeNerfConfusion];
   
-  return NO;
+  return [super onDurationEnd];
 }
 
 - (void) showLogo

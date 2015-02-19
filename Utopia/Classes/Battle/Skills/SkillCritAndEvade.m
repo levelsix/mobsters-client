@@ -204,7 +204,7 @@
   BattleSprite *bs = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
   [bs addSkillSideEffect:_sideEffectType];
   
-  return NO;
+  return [super onDurationStart];
 }
 
 - (BOOL) onDurationEnd
@@ -212,7 +212,7 @@
   BattleSprite *bs = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
   [bs removeSkillSideEffect:_sideEffectType];
   
-  return NO;
+  return [super onDurationEnd];
 }
 
 #pragma mark - Skill logic

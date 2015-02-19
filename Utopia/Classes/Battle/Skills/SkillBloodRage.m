@@ -83,11 +83,9 @@
 
 - (BOOL) onDurationEnd
 {
-  [super onDurationEnd];
-  
   [self removeRageAnimations];
   
-  return NO;
+  return [super onDurationEnd];
 }
 
 #pragma mark - Animations

@@ -190,6 +190,7 @@ static const NSInteger kGraveOrbsMaxSearchIterations = 256;
     
     [self addDefensiveShieldForPlayer:self.player];
     [self.playerSprite addSkillSideEffect:SideEffectTypeBuffShallowGrave];
+    return [super onDurationStart];
   }
   
   return NO;

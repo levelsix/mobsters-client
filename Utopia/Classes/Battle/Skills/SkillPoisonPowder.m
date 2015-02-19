@@ -86,9 +86,8 @@
 
 - (BOOL) onDurationEnd
 {
-  [super onDurationEnd];
   [self removePoison];
-  return NO;
+  return [super onDurationEnd];
 }
 
 - (void) poisonOpponent

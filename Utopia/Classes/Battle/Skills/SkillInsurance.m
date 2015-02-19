@@ -55,14 +55,13 @@
 - (BOOL) onDurationStart
 {
   [self addInsuranceAnimations];
-  return NO;
+  return [super onDurationStart];
 }
 
 - (BOOL) onDurationEnd
 {
-  [super onDurationEnd];
   [self endInsuranceAnimations];
-  return NO;
+  return [super onDurationEnd];
 }
 
 #pragma mark - Animations

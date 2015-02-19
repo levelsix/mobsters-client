@@ -142,7 +142,7 @@
   BattleSprite *bs = self.belongsToPlayer ? self.enemySprite : self.playerSprite;
   [bs removeSkillSideEffect:SideEffectTypeNerfBlindingLight];
   
-  return YES;
+  return [super onDurationEnd];
 }
 
 - (BOOL) onDurationReset
@@ -199,7 +199,7 @@
   [self.battleLayer.orbLayer.bgdLayer turnTheLightsOn];
   [self.battleLayer.orbLayer allowInput];
   
-  [self skillTriggerFinished];
+  [self skillTriggerFinished:YES];
 }
 
 - (void) showLogo:(BOOL)showMissedLabel

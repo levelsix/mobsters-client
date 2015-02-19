@@ -119,7 +119,7 @@
     [self endDurationNow];
     return YES;
   }
-  return NO;
+  return [super onDurationStart];
 }
 
 #pragma mark - Skill Logic
