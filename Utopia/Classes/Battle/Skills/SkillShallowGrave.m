@@ -104,7 +104,7 @@ static const NSInteger kGraveOrbsMaxSearchIterations = 256;
       {
         [self endDurationNow];
       }
-      return YES;
+      return NO;
     }
   }
   
