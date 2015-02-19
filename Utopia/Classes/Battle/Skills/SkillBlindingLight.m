@@ -199,7 +199,7 @@
   [self.battleLayer.orbLayer.bgdLayer turnTheLightsOn];
   [self.battleLayer.orbLayer allowInput];
   
-  [self skillTriggerFinished];
+  [self skillTriggerFinished:YES];
 }
 
 - (void) showLogo:(BOOL)showMissedLabel

@@ -55,7 +55,7 @@
 - (BOOL) onDurationStart
 {
   [self addInsuranceAnimations];
-  return NO;
+  return [super onDurationStart];
 }
 
 - (BOOL) onDurationEnd

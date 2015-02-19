@@ -80,7 +80,7 @@
   BattleSprite *bs = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
   [bs addSkillSideEffect:SideEffectTypeBuffMomentum];
   
-  return YES;
+  return [super onDurationStart];
 }
 
 - (BOOL) onDurationEnd
