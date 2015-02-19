@@ -1389,19 +1389,9 @@
 		6B89A6B41A941948004C16B6 /* lockedorbright@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B89A69E1A941948004C16B6 /* lockedorbright@2x.png */; };
 		6B89A6B51A941948004C16B6 /* lockedorbright@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B89A69E1A941948004C16B6 /* lockedorbright@2x.png */; };
 		6B89A6B61A941948004C16B6 /* lockedorbright@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B89A69E1A941948004C16B6 /* lockedorbright@2x.png */; };
-		6B89A6D01A965104004C16B6 /* lockbreak.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B89A6CF1A965104004C16B6 /* lockbreak.plist */; };
-		6B89A6D71A96776A004C16B6 /* lockbreak3.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B89A6D61A96776A004C16B6 /* lockbreak3.plist */; };
-		6B89A6D81A96776A004C16B6 /* lockbreak3.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B89A6D61A96776A004C16B6 /* lockbreak3.plist */; };
-		6B89A6D91A96776A004C16B6 /* lockbreak3.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B89A6D61A96776A004C16B6 /* lockbreak3.plist */; };
-		6B89A6DC1A9679DC004C16B6 /* lockbreak3@2x (1).plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B89A6DB1A9679DC004C16B6 /* lockbreak3@2x (1).plist */; };
-		6B89A6DD1A9679DC004C16B6 /* lockbreak3@2x (1).plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B89A6DB1A9679DC004C16B6 /* lockbreak3@2x (1).plist */; };
-		6B89A6DE1A9679DC004C16B6 /* lockbreak3@2x (1).plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B89A6DB1A9679DC004C16B6 /* lockbreak3@2x (1).plist */; };
-		6B89A6E01A9679F4004C16B6 /* lockbreak4.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B89A6DF1A9679F4004C16B6 /* lockbreak4.plist */; };
-		6B89A6E11A9679F4004C16B6 /* lockbreak4.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B89A6DF1A9679F4004C16B6 /* lockbreak4.plist */; };
-		6B89A6E21A9679F4004C16B6 /* lockbreak4.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B89A6DF1A9679F4004C16B6 /* lockbreak4.plist */; };
-		6B89A6E41A967BF6004C16B6 /* lockbreak5.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B89A6E31A967BF6004C16B6 /* lockbreak5.plist */; };
-		6B89A6E51A967BF6004C16B6 /* lockbreak5.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B89A6E31A967BF6004C16B6 /* lockbreak5.plist */; };
-		6B89A6E61A967BF6004C16B6 /* lockbreak5.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B89A6E31A967BF6004C16B6 /* lockbreak5.plist */; };
+		6B89A6E41A967BF6004C16B6 /* lockbreak.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B89A6E31A967BF6004C16B6 /* lockbreak.plist */; };
+		6B89A6E51A967BF6004C16B6 /* lockbreak.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B89A6E31A967BF6004C16B6 /* lockbreak.plist */; };
+		6B89A6E61A967BF6004C16B6 /* lockbreak.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B89A6E31A967BF6004C16B6 /* lockbreak.plist */; };
 		6BA24DF31A7A9ECF00BEF920 /* SkillBloodRage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA24DF21A7A9ECF00BEF920 /* SkillBloodRage.m */; };
 		6BA24E091A7AEA6E00BEF920 /* SkillTakeAim.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA24E081A7AEA6E00BEF920 /* SkillTakeAim.m */; };
 		6BA24E0A1A7AEA6E00BEF920 /* SkillTakeAim.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA24E081A7AEA6E00BEF920 /* SkillTakeAim.m */; };
@@ -8436,11 +8426,7 @@
 		6B89A69C1A941948004C16B6 /* lockedorbleft@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lockedorbleft@2x.png"; sourceTree = "<group>"; };
 		6B89A69D1A941948004C16B6 /* lockedorbright-9@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lockedorbright-9@2x.png"; sourceTree = "<group>"; };
 		6B89A69E1A941948004C16B6 /* lockedorbright@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lockedorbright@2x.png"; sourceTree = "<group>"; };
-		6B89A6CF1A965104004C16B6 /* lockbreak.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = lockbreak.plist; sourceTree = "<group>"; };
-		6B89A6D61A96776A004C16B6 /* lockbreak3.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = lockbreak3.plist; sourceTree = "<group>"; };
-		6B89A6DB1A9679DC004C16B6 /* lockbreak3@2x (1).plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "lockbreak3@2x (1).plist"; sourceTree = "<group>"; };
-		6B89A6DF1A9679F4004C16B6 /* lockbreak4.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = lockbreak4.plist; sourceTree = "<group>"; };
-		6B89A6E31A967BF6004C16B6 /* lockbreak5.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = lockbreak5.plist; sourceTree = "<group>"; };
+		6B89A6E31A967BF6004C16B6 /* lockbreak.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = lockbreak.plist; sourceTree = "<group>"; };
 		6BA24DF01A7A9EC100BEF920 /* SkillBloodRage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillBloodRage.h; sourceTree = "<group>"; };
 		6BA24DF21A7A9ECF00BEF920 /* SkillBloodRage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillBloodRage.m; sourceTree = "<group>"; };
 		6BA24E061A7AEA6100BEF920 /* SkillTakeAim.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SkillTakeAim.h; sourceTree = "<group>"; };
@@ -17571,11 +17557,7 @@
 		CFF1D64D17DFC43600874339 /* Puzzle Images */ = {
 			isa = PBXGroup;
 			children = (
-				6B89A6E31A967BF6004C16B6 /* lockbreak5.plist */,
-				6B89A6DF1A9679F4004C16B6 /* lockbreak4.plist */,
-				6B89A6DB1A9679DC004C16B6 /* lockbreak3@2x (1).plist */,
-				6B89A6D61A96776A004C16B6 /* lockbreak3.plist */,
-				6B89A6CF1A965104004C16B6 /* lockbreak.plist */,
+				6B89A6E31A967BF6004C16B6 /* lockbreak.plist */,
 				6B89A6971A941948004C16B6 /* 6lockedorbleft-9@2x.png */,
 				6B89A6981A941948004C16B6 /* 6lockedorbleft@2x.png */,
 				6B89A6991A941948004C16B6 /* 6lockedorbright-9@2x.png */,
@@ -19656,7 +19638,7 @@
 				299AA3731A7856AA00A2D806 /* 6waterpoison-9@2x.png in Resources */,
 				CF0CF092196F452900ECD301 /* runawaysuccess@2x.png in Resources */,
 				CF0CF093196F452900ECD301 /* Scientist1Blink12@2x.png in Resources */,
-				6B89A6E51A967BF6004C16B6 /* lockbreak5.plist in Resources */,
+				6B89A6E51A967BF6004C16B6 /* lockbreak.plist in Resources */,
 				CF0CF094196F452900ECD301 /* chatinactiveside@2x.png in Resources */,
 				DA88EB2919B7CF3E005EE827 /* wateryourskill@2x.png in Resources */,
 				CF0CF095196F452900ECD301 /* gachaarrow@2x.png in Resources */,
@@ -20587,7 +20569,6 @@
 				CF0CF4D6196F452900ECD301 /* pier_2@2x.png in Resources */,
 				29804F701A241F4A00806253 /* completedsquadrewards@2x.png in Resources */,
 				CFA728D61A0B037900FF6031 /* eartheventbg@2x.png in Resources */,
-				6B89A6DD1A9679DC004C16B6 /* lockbreak3@2x (1).plist in Resources */,
 				9B2389FE1A363EE800FA3743 /* fireskilldescription@2x.png in Resources */,
 				299AA3881A7856AA00A2D806 /* earthheadshot-9@2x.png in Resources */,
 				CF0CF4D9196F452900ECD301 /* earthdailylab@2x.png in Resources */,
@@ -21052,7 +21033,6 @@
 				9B2389C91A310BAC00FA3743 /* nextmatchmask@2x.png in Resources */,
 				29C3CA781A955BD0005407E9 /* secret_gift_collected.mp3 in Resources */,
 				CF0CF6BD196F452900ECD301 /* buildtimeclock@2x.png in Resources */,
-				6B89A6D81A96776A004C16B6 /* lockbreak3.plist in Resources */,
 				CF0CF6BE196F452900ECD301 /* timerbg@2x.png in Resources */,
 				CF0CF6C2196F452900ECD301 /* timeryellow@2x.png in Resources */,
 				9BDA8B981A3B8E1700C7AC27 /* nightheadshot@2x.png in Resources */,
@@ -21079,7 +21059,6 @@
 				CF0CF6DD196F452900ECD301 /* FatBoy3Move08@2x.png in Resources */,
 				CF0CF6DE196F452900ECD301 /* teamhealthbarcap@2x.png in Resources */,
 				CFA728F41A0B037900FF6031 /* fireeventtimer@2x.png in Resources */,
-				6B89A6E11A9679F4004C16B6 /* lockbreak4.plist in Resources */,
 				CF0CDEA219E5050E006A5ECB /* timerstopbg@2x.png in Resources */,
 				29FFD94E1A36E2BD0063C17C /* attackpvpbubble@2x.png in Resources */,
 				63B0450D1A92BAD600C74F0C /* beenattackedgirl@2x.png in Resources */,
@@ -21889,7 +21868,7 @@
 				CF864E0B193E8F3000DE0D7A /* greysmallbutton@2x.png in Resources */,
 				29AE75B41A6F36E000264070 /* Kim1T1RunNF@2x.plist in Resources */,
 				CFF2C924193FD4C000F28D9E /* chatactiveside@2x.png in Resources */,
-				6B89A6E41A967BF6004C16B6 /* lockbreak5.plist in Resources */,
+				6B89A6E41A967BF6004C16B6 /* lockbreak.plist in Resources */,
 				CF134A8118A5E4B500D7D700 /* FatBoy4Move11@2x.png in Resources */,
 				9BB949221A6E1197006EE920 /* lightgrbigflash1@2x.png in Resources */,
 				CFE7CD881819FC3300930847 /* menubutton@2x.png in Resources */,
@@ -22732,7 +22711,6 @@
 				CFF2C93D193FD71F00F28D9E /* chatclaninactive@2x.png in Resources */,
 				CFA729291A0B037900FF6031 /* watereventtimer@2x.png in Resources */,
 				9B41AF2F1A7C336900529879 /* bulletorb@2x.png in Resources */,
-				6B89A6D01A965104004C16B6 /* lockbreak.plist in Resources */,
 				CFFBDF7218ACA3D90090CA9A /* Scientist2Turn03@2x.png in Resources */,
 				2985E6141A330DB00041ABF4 /* pinkchatcorner@2x.png in Resources */,
 				CFA728D51A0B037900FF6031 /* eartheventbg@2x.png in Resources */,
@@ -22820,7 +22798,6 @@
 				CF6890421912E7B500FF1F71 /* engagedisabled@2x.png in Resources */,
 				CFFBDF6818ACA3D90090CA9A /* Scientist2Breath06@2x.png in Resources */,
 				CFEE898D18EA545500047CA4 /* questinfobg@2x.png in Resources */,
-				6B89A6DC1A9679DC004C16B6 /* lockbreak3@2x (1).plist in Resources */,
 				299AA4F11A7872C300A2D806 /* nightupdown@2x.png in Resources */,
 				2980502A1A265EE800806253 /* bigsecretgift@2x.png in Resources */,
 				9B41AE971A787B4D00529879 /* knockouticon@2x.png in Resources */,
@@ -23285,7 +23262,6 @@
 				CF32EA92195F70A000A4AEE3 /* greysquare@2x.png in Resources */,
 				9B2389C81A310BAC00FA3743 /* nextmatchmask@2x.png in Resources */,
 				CF6890441912E7B500FF1F71 /* engagegrayarrow@2x.png in Resources */,
-				6B89A6D71A96776A004C16B6 /* lockbreak3.plist in Resources */,
 				298050961A265EE800806253 /* 9gbhud@2x.png in Resources */,
 				CF32EAD5195FF81900A4AEE3 /* buildtimeclock@2x.png in Resources */,
 				9BDA8B971A3B8E1700C7AC27 /* nightheadshot@2x.png in Resources */,
@@ -23312,7 +23288,6 @@
 				CFFBDFE518ACA3D90090CA9A /* Scientist5Breath02@2x.png in Resources */,
 				DA86923D19C7C64500320A74 /* noskillcircle@2x.png in Resources */,
 				CFF5DC23194FDD390019EB2B /* platinumprofribbon@2x.png in Resources */,
-				6B89A6E01A9679F4004C16B6 /* lockbreak4.plist in Resources */,
 				CF6A650319D252D00002E05D /* 6earthgrenade@2x.png in Resources */,
 				29FFD94D1A36E2BD0063C17C /* attackpvpbubble@2x.png in Resources */,
 				CF9F993E19E48734006B0119 /* helpredbubble3@2x.png in Resources */,
@@ -23831,7 +23806,6 @@
 				29AE75C81A6F36E000264070 /* MilitaryGirl0T1AttackNF@2x.plist in Resources */,
 				CF481AEE19F7217F00041486 /* FatBoy3Move05@2x.png in Resources */,
 				CF481AF219F7217F00041486 /* youfound@2x.png in Resources */,
-				6B89A6DE1A9679DC004C16B6 /* lockbreak3@2x (1).plist in Resources */,
 				CF481AF319F7217F00041486 /* nightpointsfont@2x.png in Resources */,
 				CF481AF419F7217F00041486 /* oilready@2x.png in Resources */,
 				CF481AF519F7217F00041486 /* fightarrow@2x.png in Resources */,
@@ -25015,7 +24989,6 @@
 				CF48215E19F7217F00041486 /* mediumgreenbtn@2x.png in Resources */,
 				CF48216119F7217F00041486 /* bluelightbluedivider@2x.png in Resources */,
 				9B41AEA31A787BE400529879 /* shallowgraveminilogo@2x.png in Resources */,
-				6B89A6D91A96776A004C16B6 /* lockbreak3.plist in Resources */,
 				9B9BA80E1A7336AE001B7D04 /* powermoveicon@2x.png in Resources */,
 				CF48216319F7217F00041486 /* legendband@2x.png in Resources */,
 				CF48216619F7217F00041486 /* diamondribbon@2x.png in Resources */,
@@ -25379,7 +25352,7 @@
 				CF48232B19F7217F00041486 /* bigsquarebottom@2x.png in Resources */,
 				29AAE5E91A7B0FDB00E4F022 /* DonateMsgViewController.xib in Resources */,
 				29AE758C1A6F36E000264070 /* MilitaryChicken1T1P4TutBig@2x.png in Resources */,
-				6B89A6E61A967BF6004C16B6 /* lockbreak5.plist in Resources */,
+				6B89A6E61A967BF6004C16B6 /* lockbreak.plist in Resources */,
 				CF48232E19F7217F00041486 /* findamatchtext@2x.png in Resources */,
 				CF48232F19F7217F00041486 /* lightenhancebg@2x.png in Resources */,
 				29AA13A11A33214A004A9F22 /* ChatMonsterView.xib in Resources */,
@@ -25850,7 +25823,6 @@
 				CF48254919F7217F00041486 /* ChatCell.xib in Resources */,
 				CF48254A19F7217F00041486 /* 6nightsideways@2x.png in Resources */,
 				CF48254B19F7217F00041486 /* clanscreateinactive@2x.png in Resources */,
-				6B89A6E21A9679F4004C16B6 /* lockbreak4.plist in Resources */,
 				CF48255219F7217F00041486 /* clansbrowseactive@2x.png in Resources */,
 				CF48255319F7217F00041486 /* itemdurabilitybar@2x.png in Resources */,
 				CF48255519F7217F00041486 /* timercapleft@2x.png in Resources */,
