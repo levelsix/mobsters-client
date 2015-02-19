@@ -353,6 +353,12 @@
   
   if (orbLayer) {
     [orbLayer removeLockElements];
+    
+    CCParticleSystem *q = [CCParticleSystem particleWithFile:@"lockbreak.plist"];
+    [self addChild:q z:100];
+    q.scale = .4f;
+    q.position = orbLayer.position;
+    q.autoRemoveOnFinish = YES;
   }
 }
 
