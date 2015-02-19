@@ -208,6 +208,7 @@
 - (BOOL) spawnNextEnemy;
 - (BOOL) createNextEnemyObject;
 - (void) createNextEnemySprite;
+- (void) triggerSkillForEnemyCreatedWithBlock:(dispatch_block_t)block;
 
 - (CCSprite *) getCurrentEnemyLoot;
 - (void) dropLoot:(CCSprite *)ed;

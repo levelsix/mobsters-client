@@ -412,7 +412,7 @@
     self.currentEnemy.zOrder = self.statueNode.zOrder;
   }
   
-  self.myPlayerObject = [self.myTeam firstObject];
+  BattlePlayer *nextMyPlayerObject = [self.myTeam firstObject];
   BattleSprite *myPlayer = [self.myTeamSprites firstObject];
   self.myTeamSprites = [self.myTeamSprites subarrayWithRange:NSMakeRange(1, self.myTeamSprites.count-1)];
   for (BattleSprite *bs in self.myTeamSprites) {
@@ -423,17 +423,26 @@
   self.myTeamSprites = nil;
   
   // Have to fake this
-  _displayedWaveNumber = YES;
-  _reachedNextScene = YES;
-  [self createScheduleWithSwap:NO];
-  [self beginNextTurn];
+//  _reachedNextScene = YES;
+//  [self createScheduleWithSwap:NO];
+//  [self beginNextTurn];
   [self removeCloseButton];
+  
+  self.myPlayerObject = nil;
+  [self deployBattleSprite:nextMyPlayerObject];
   
   _hasChosenEnemy = YES;
   _curStage = 0;
   _hasStarted = YES;
   
+  _displayedWaveNumber = YES;
+  _reachedNextScene = YES;
   self.hudView.waveNumLabel.text = [NSString stringWithFormat:@"ENEMY %d/%d", _curStage+1, (int)self.enemyTeam.count];
+  
+  [self triggerSkillForEnemyCreatedWithBlock:^{
+    [self createScheduleWithSwap:NO playerHitsFirst:NO];
+    [self beginNextTurn];
+  }];
   
   [Analytics foundMatch:@"attack"];
 }

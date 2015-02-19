@@ -613,14 +613,22 @@
     [self.currentEnemy.healthLabel stopActionByTag:RED_TINT_TAG];
     self.currentEnemy.healthLabel.color = [CCColor colorWithCcColor3b:ccc3(255,255,255)];
     
-    SkillLogStart(@"TRIGGER STARTED: enemy initialized");
-    [skillManager triggerSkills:SkillTriggerPointEnemyInitialized withCompletion:^(BOOL triggered, id params) {
-      SkillLogEnd(triggered, @"  Enemy initialized trigger ENDED");
+    [self triggerSkillForEnemyCreatedWithBlock:^{
       [self createScheduleWithSwap:NO playerHitsFirst:_dungeonPlayerHitsFirst];
     }];
   }
   
   return success;
+}
+
+- (void) triggerSkillForEnemyCreatedWithBlock:(dispatch_block_t)block {
+  SkillLogStart(@"TRIGGER STARTED: enemy initialized");
+  [skillManager triggerSkills:SkillTriggerPointEnemyInitialized withCompletion:^(BOOL triggered, id params) {
+    SkillLogEnd(triggered, @"  Enemy initialized trigger ENDED");
+    if (block) {
+      block();
+    }
+  }];
 }
 
 - (BOOL) createNextEnemyObject {
@@ -2497,6 +2505,7 @@
       [self makeMyPlayerWalkOutWithBlock:nil];
       [self.hudView removeButtons];
     }
+    
     [self createNextMyPlayerSprite];
     
     // Skills trigger for player appeared

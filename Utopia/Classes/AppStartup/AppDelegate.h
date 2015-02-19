@@ -14,6 +14,7 @@
 	UIWindow *window;
   
   BOOL _attemptedTango;
+  BOOL _shouldReconnect;
 }
 
 @property (nonatomic, assign) BOOL hasTrackedVisit;

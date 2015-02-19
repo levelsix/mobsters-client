@@ -551,7 +551,7 @@
 }
 
 - (void) cancelMoveClicked:(id)sender {
-  // Do nothing
+  [SoundEngine generalButtonClick];
 }
 
 - (void) waitForIncomeComplete:(NSTimer *)timer {

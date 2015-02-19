@@ -29,6 +29,7 @@
 #import "IAPHelper.h"
 #import "AttackedAlertViewController.h"
 #import "SocketCommunication.h"
+#import "SoundEngine.h"
 
 @implementation TopBarMonsterView
 
@@ -888,6 +889,8 @@
   if (nextSecretGiftDate) {
     if (nextSecretGiftDate.timeIntervalSinceNow > 0) {
       [Globals addAlertNotification:@"Your Secret Gift is not yet available."];
+      
+      [SoundEngine generalButtonClick];
     } else {
       SecretGiftViewController *sgvc = [[SecretGiftViewController alloc] initWithSecretGift:[gs nextSecretGift]];
       [gvc addChildViewController:sgvc];

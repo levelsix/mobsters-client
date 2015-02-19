@@ -245,6 +245,8 @@
   CCAction *moveB = [CCActionEaseSineOut actionWithAction:
                      [CCActionMoveTo actionWithDuration:ORB_ANIMATION_TIME position:spriteA.position]];
   [spriteB runAction:moveB];
+  
+  [SoundEngine puzzleSwapPiece];
 }
 
 - (void)animateInvalidSwap:(BattleSwap *)swap completion:(dispatch_block_t)completion {
@@ -269,6 +271,8 @@
   
   [spriteA runAction:[CCActionSequence actionWithArray:@[moveA.copy, moveB.copy, [CCActionCallBlock actionWithBlock:completion]]]];
   [spriteB runAction:[CCActionSequence actionWithArray:@[moveB.copy, moveA.copy]]];
+  
+  [SoundEngine puzzleSwapPiece];
 }
 
 #pragma mark -

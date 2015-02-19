@@ -68,7 +68,7 @@
                             <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.40000000000000002" colorSpace="deviceRGB"/>
                             <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="fightonbubblearrow.png" id="Slp-XR-vzO">
+                        <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" image="fightonbubblearrow.png" id="Slp-XR-vzO">
                             <rect key="frame" x="78" y="15" width="10" height="14"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
