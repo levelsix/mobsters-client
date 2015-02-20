@@ -57,8 +57,7 @@ static const NSInteger kBatteryOrbsMaxSearchIterations = 256;
   
   if ([self isActive])
   {
-    BattleSprite *bs = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
-    [bs addSkillSideEffect:SideEffectTypeBuffEnergize];
+    [self addSkillSideEffectToSkillOwner:SideEffectTypeBuffEnergize turnsAffected:self.turnsLeft];
   }
 }
 
@@ -215,8 +214,7 @@ static const NSInteger kBatteryOrbsMaxSearchIterations = 256;
     [self updateSkillOwnerSpeed];
   }
   
-  BattleSprite *bs = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
-  [bs addSkillSideEffect:SideEffectTypeBuffEnergize];
+  [self addSkillSideEffectToSkillOwner:SideEffectTypeBuffEnergize turnsAffected:self.turnsLeft];
   
   [self skillTriggerFinished:self.belongsToPlayer];
   
@@ -227,7 +225,18 @@ static const NSInteger kBatteryOrbsMaxSearchIterations = 256;
 {
   SkillLogStart(@"Energize -- Skill reactivated (buffs will stack)");
   
-  return [self onDurationStart];
+  if (self.belongsToPlayer)
+  {
+    _curSpeedMultiplier += _speedIncrease;
+    _curAttackMultiplier += _attackIncrease;
+    [self updateSkillOwnerSpeed];
+  }
+  
+  [self resetAfftectedTurnsCount:self.turnsLeft forSkillSideEffectOnSkillOwner:SideEffectTypeBuffEnergize];
+  
+  [self skillTriggerFinished:self.belongsToPlayer];
+  
+  return YES;
 }
 
 - (BOOL) onDurationEnd
@@ -238,8 +247,7 @@ static const NSInteger kBatteryOrbsMaxSearchIterations = 256;
   _curAttackMultiplier = 1.f;
   [self updateSkillOwnerSpeed];
   
-  BattleSprite *bs = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
-  [bs removeSkillSideEffect:SideEffectTypeBuffEnergize];
+  [self removeSkillSideEffectFromSkillOwner:SideEffectTypeBuffEnergize];
   
   return [super onDurationEnd];
 }

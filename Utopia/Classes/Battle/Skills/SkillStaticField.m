@@ -41,8 +41,7 @@
 {
   if ([self isActive])
   {
-    BattleSprite *bs = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
-    [bs addSkillSideEffect:SideEffectTypeBuffStaticField];
+    [self addSkillSideEffectToSkillOwner:SideEffectTypeBuffStaticField turnsAffected:self.turnsLeft];
   }
 }
 
@@ -82,16 +81,21 @@
 
 - (BOOL) onDurationStart
 {
-  BattleSprite *bs = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
-  [bs addSkillSideEffect:SideEffectTypeBuffStaticField];
+  [self addSkillSideEffectToSkillOwner:SideEffectTypeBuffStaticField turnsAffected:self.turnsLeft];
+  
+  return NO;
+}
+
+- (BOOL) onDurationReset
+{
+  [self resetAfftectedTurnsCount:self.turnsLeft forSkillSideEffectOnSkillOwner:SideEffectTypeBuffStaticField];
   
   return [super onDurationStart];
 }
 
 - (BOOL) onDurationEnd
 {
-  BattleSprite *bs = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
-  [bs removeSkillSideEffect:SideEffectTypeBuffStaticField];
+  [self removeSkillSideEffectFromSkillOwner:SideEffectTypeBuffStaticField];
   
   return [super onDurationEnd];
 }

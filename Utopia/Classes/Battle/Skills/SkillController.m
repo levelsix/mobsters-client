@@ -446,6 +446,44 @@
     [_enemySprite jumpNumTimes:2 completionTarget:target selector:completion];
 }
 
+#pragma mark - Side effects
+
+- (void) addSkillSideEffectToSkillOwner:(SideEffectType)type turnsAffected:(NSInteger)numTurns
+{
+  [(_belongsToPlayer ? _playerSprite : _enemySprite) addSkillSideEffect:type
+                                                               forSkill:_skillId
+                                                          turnsAffected:numTurns
+                                                               toPlayer:_belongsToPlayer];
+}
+
+- (void) addSkillSideEffectToOpponent:(SideEffectType)type turnsAffected:(NSInteger)numTurns
+{
+  [(_belongsToPlayer ? _enemySprite : _playerSprite) addSkillSideEffect:type
+                                                               forSkill:_skillId
+                                                          turnsAffected:numTurns
+                                                               toPlayer:!_belongsToPlayer];
+}
+
+- (void) removeSkillSideEffectFromSkillOwner:(SideEffectType)type
+{
+  [(_belongsToPlayer ? _playerSprite : _enemySprite) removeSkillSideEffect:type];
+}
+
+- (void) removeSkillSideEffectFromOpponent:(SideEffectType)type
+{
+  [(_belongsToPlayer ? _enemySprite : _playerSprite) removeSkillSideEffect:type];
+}
+
+- (void) resetAfftectedTurnsCount:(NSInteger)numTurns forSkillSideEffectOnSkillOwner:(SideEffectType)type
+{
+  [(_belongsToPlayer ? _playerSprite : _enemySprite) resetAfftectedTurnsCount:numTurns forSkillSideEffect:type];
+}
+
+- (void) resetAfftectedTurnsCount:(NSInteger)numTurns forSkillSideEffectOnOpponent:(SideEffectType)type
+{
+  [(_belongsToPlayer ? _enemySprite : _playerSprite) resetAfftectedTurnsCount:numTurns forSkillSideEffect:type];
+}
+
 #pragma mark - Serialization
 
 - (NSDictionary*) serialize

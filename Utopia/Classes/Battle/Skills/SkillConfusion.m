@@ -41,12 +41,7 @@
 {
   if ([self isActive])
   {
-    BattlePlayer* opponent = self.belongsToPlayer ? self.enemy : self.player;
-    if (opponent.isConfused)
-    {
-      BattleSprite *bs = self.belongsToPlayer ? self.enemySprite : self.playerSprite;
-      [bs addSkillSideEffect:SideEffectTypeNerfConfusion];
-    }
+    [self addSkillSideEffectToOpponent:SideEffectTypeNerfConfusion turnsAffected:self.turnsLeft];
   }
 }
 
@@ -65,8 +60,7 @@
         [self showLogo];
         
         // Tell NewBattleLayer that player will be confused on his next turn
-        [self.player setIsConfused:YES];
-        [self.playerSprite addSkillSideEffect:SideEffectTypeNerfConfusion];
+        self.player.isConfused = YES;
       }
     }
   }
@@ -78,38 +72,6 @@
 {
   if ([super skillCalledWithTrigger:trigger execute:execute])
     return YES;
-  
-  if ((trigger == SkillTriggerPointEnemyAppeared      && !_logoShown) ||
-      (trigger == SkillTriggerPointStartOfPlayerTurn  && !_logoShown) ||
-      (trigger == SkillTriggerPointStartOfEnemyTurn   && !_logoShown))
-  {
-    if (execute)
-    {
-      _logoShown = YES;
-      /*
-      [self showSkillPopupOverlay:YES withCompletion:^(){
-        [self performAfterDelay:.5f block:^{
-          [self skillTriggerFinished];
-        }];
-      }];
-       */
-      
-      // Will restore visuals if coming back to a battle after leaving midway
-      if ([self isActive])
-      {
-        SkillLogStart(@"Confusion -- Skill activated");
-        
-        // Display confused symbol on opponent's next turn indicator
-        [self.battleLayer.hudView.battleScheduleView updateConfusionState:YES
-                                                          onUpcomingTurns:(int)self.turnsLeft
-                                                               forMonster:self.belongsToPlayer ? self.enemy.monsterId : self.player.monsterId
-                                                                forPlayer:!self.belongsToPlayer];
-      }
-      
-      [self skillTriggerFinished];
-    }
-    return YES;
-  }
   
   if ([self isActive])
   {
@@ -126,8 +88,7 @@
           [self showLogo];
           
           // Tell NewBattleLayer that enemy will be confused on his next turn
-          [self.enemy setIsConfused:YES];
-          [self.enemySprite addSkillSideEffect:SideEffectTypeNerfConfusion];
+          self.enemy.isConfused = YES;
         }
         
         [self skillTriggerFinished];
@@ -140,6 +101,8 @@
     {
       if (execute)
       {
+        (self.belongsToPlayer ? self.enemy : self.player).isConfused = NO;
+        
         [self tickDuration];
         [self skillTriggerFinished];
       }
@@ -166,11 +129,7 @@
 {
   SkillLogStart(@"Confusion -- Skill activated");
   
-  // Display confused symbol on opponent's next turn indicator
-  [self.battleLayer.hudView.battleScheduleView updateConfusionState:YES
-                                                    onUpcomingTurns:(int)self.turnsLeft
-                                                         forMonster:self.belongsToPlayer ? self.enemy.monsterId : self.player.monsterId
-                                                          forPlayer:!self.belongsToPlayer];
+  [self addSkillSideEffectToOpponent:SideEffectTypeNerfConfusion turnsAffected:self.turnsLeft];
 
   return [super onDurationStart];
 }
@@ -179,11 +138,7 @@
 {
   SkillLogStart(@"Confusion -- Skill reactivated");
   
-  // Display confused symbol on opponent's next turn indicator
-  [self.battleLayer.hudView.battleScheduleView updateConfusionState:YES
-                                                    onUpcomingTurns:(int)self.turnsLeft
-                                                         forMonster:self.belongsToPlayer ? self.enemy.monsterId : self.player.monsterId
-                                                          forPlayer:!self.belongsToPlayer];
+  [self resetAfftectedTurnsCount:self.turnsLeft forSkillSideEffectOnOpponent:SideEffectTypeNerfConfusion];
   
   return [super onDurationReset];
 }
@@ -193,15 +148,9 @@
   SkillLogStart(@"Confusion -- Skill deactivated");
   
   // Tell NewBattleLayer that opponent is no longer confused
-  // and remove confused symbol from his next turn indicator
   (self.belongsToPlayer ? self.enemy : self.player).isConfused = NO;
-  [self.battleLayer.hudView.battleScheduleView updateConfusionState:NO
-                                                    onUpcomingTurns:(int)self.turnsLeft
-                                                         forMonster:self.belongsToPlayer ? self.enemy.monsterId : self.player.monsterId
-                                                          forPlayer:!self.belongsToPlayer];
   
-  BattleSprite *bs = self.belongsToPlayer ? self.enemySprite : self.playerSprite;
-  [bs removeSkillSideEffect:SideEffectTypeNerfConfusion];
+  [self removeSkillSideEffectFromOpponent:SideEffectTypeNerfConfusion];
   
   return [super onDurationEnd];
 }

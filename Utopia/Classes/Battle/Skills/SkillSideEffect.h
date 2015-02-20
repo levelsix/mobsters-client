@@ -25,6 +25,8 @@
   
   CCSprite* _vfx;
   CCParticleSystem* _pfx;
+  
+  BOOL _castOnPlayer;
 }
 
 @property (nonatomic, readonly) NSString* name;
@@ -35,12 +37,12 @@
 
 @property (nonatomic, readonly) BattleSprite* characterSprite;
 
-+ (instancetype)sideEffectWithProto:(SkillSideEffectProto*)proto;
++ (instancetype)sideEffectWithProto:(SkillSideEffectProto*)proto invokingSkill:(NSInteger)skillId;
+- (instancetype)initWithProto:(SkillSideEffectProto*)proto invokingSkill:(NSInteger)skillId;
 
-- (instancetype)initWithProto:(SkillSideEffectProto*)proto;
-
-- (void)addToCharacterSprite:(BattleSprite*)sprite zOrder:(NSInteger)zOrder;
+- (void)addToCharacterSprite:(BattleSprite*)sprite zOrder:(NSInteger)zOrder turnsAffected:(NSInteger)numTurns castOnPlayer:(BOOL)player;
 - (void)removeFromCharacterSprite;
 - (void)setDisplayOrder:(int)order totalCount:(int)total;
+- (void)resetAfftectedTurnsCount:(NSInteger)numTurns;
 
 @end

@@ -43,41 +43,21 @@ static const NSInteger kGraveOrbsMaxSearchIterations = 256;
   return [NSSet setWithObjects:@(SideEffectTypeBuffShallowGrave), nil];
 }
 
+- (void) restoreVisualsIfNeeded
+{
+  if ((self.belongsToPlayer && [self isActive]) || (!self.belongsToPlayer && _skillActive))
+  {
+    SkillLogStart(@"Shallow Grave -- Skill activated");
+    
+    [self addDefensiveShieldForPlayer:self.belongsToPlayer ? self.player : self.enemy];
+    [self addSkillSideEffectToSkillOwner:SideEffectTypeBuffShallowGrave turnsAffected:self.belongsToPlayer ? self.turnsLeft : -1];
+  }
+}
+
 - (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
 {
   if ([super skillCalledWithTrigger:trigger execute:execute])
     return YES;
-  
-  if ((trigger == SkillTriggerPointEnemyAppeared      && !_logoShown) ||
-      (trigger == SkillTriggerPointStartOfPlayerTurn  && !_logoShown) ||
-      (trigger == SkillTriggerPointStartOfEnemyTurn   && !_logoShown))
-  {
-    if (execute)
-    {
-      _logoShown = YES;
-      /*
-      [self showSkillPopupOverlay:YES withCompletion:^(){
-        [self performAfterDelay:.5f block:^{
-          [self skillTriggerFinished];
-        }];
-      }];
-       */
-      
-      // Will restore visuals if coming back to a battle after leaving midway
-      if ((self.belongsToPlayer && [self isActive]) || (!self.belongsToPlayer && _skillActive))
-      {
-        SkillLogStart(@"Shallow Grave -- Skill activated");
-        
-        [self addDefensiveShieldForPlayer:self.belongsToPlayer ? self.player : self.enemy];
-        
-        BattleSprite *bs = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
-        [bs addSkillSideEffect:SideEffectTypeBuffShallowGrave];
-      }
-      
-      [self skillTriggerFinished];
-    }
-    return YES;
-  }
   
   /**********************
    * Offensive Triggers *
@@ -96,15 +76,6 @@ static const NSInteger kGraveOrbsMaxSearchIterations = 256;
         }];
       }
       return YES;
-    }
-    
-    if (trigger == SkillTriggerPointEnemyDefeated && self.belongsToPlayer)
-    {
-      if (execute)
-      {
-        [self endDurationNow];
-      }
-      return NO;
     }
   }
   
@@ -126,8 +97,7 @@ static const NSInteger kGraveOrbsMaxSearchIterations = 256;
         [self showSkillPopupOverlay:YES withCompletion:^{
           [self performSelector:@selector(spawnInitialGraveOrbs) withObject:nil afterDelay:.5f];
           [self addDefensiveShieldForPlayer:self.enemy];
-          
-          [self.enemySprite addSkillSideEffect:SideEffectTypeBuffShallowGrave];
+          [self addSkillSideEffectToSkillOwner:SideEffectTypeBuffShallowGrave turnsAffected:-1];
         }];
       }
       return YES;
@@ -152,7 +122,7 @@ static const NSInteger kGraveOrbsMaxSearchIterations = 256;
           [self removeAllGraveOrbs];
           [self performAfterDelay:.3f block:^{
             [self removeDefensiveShieldForPlayer:self.enemy];
-            [self.enemySprite removeSkillSideEffect:SideEffectTypeBuffShallowGrave];
+            [self removeSkillSideEffectFromSkillOwner:SideEffectTypeBuffShallowGrave];
             [self skillTriggerFinished];
           }];
         }
@@ -189,7 +159,7 @@ static const NSInteger kGraveOrbsMaxSearchIterations = 256;
     SkillLogStart(@"Shallow Grave -- Skill activated");
     
     [self addDefensiveShieldForPlayer:self.player];
-    [self.playerSprite addSkillSideEffect:SideEffectTypeBuffShallowGrave];
+    [self addSkillSideEffectToSkillOwner:SideEffectTypeBuffShallowGrave turnsAffected:self.turnsLeft];
     return [super onDurationStart];
   }
   
@@ -203,6 +173,7 @@ static const NSInteger kGraveOrbsMaxSearchIterations = 256;
     SkillLogStart(@"Shallow Grave -- Skill reactivated");
     
     [self addDefensiveShieldForPlayer:self.player];
+    [self resetAfftectedTurnsCount:self.turnsLeft forSkillSideEffectOnSkillOwner:SideEffectTypeBuffShallowGrave];
   }
   
   return NO;
@@ -216,7 +187,7 @@ static const NSInteger kGraveOrbsMaxSearchIterations = 256;
    
     [super onDurationEnd];
     [self removeDefensiveShieldForPlayer:self.player];
-    [self.playerSprite removeSkillSideEffect:SideEffectTypeBuffShallowGrave];
+    [self removeSkillSideEffectFromSkillOwner:SideEffectTypeBuffShallowGrave];
   }
   
   return NO;

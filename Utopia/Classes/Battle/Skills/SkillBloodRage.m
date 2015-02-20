@@ -81,6 +81,13 @@
   return YES;
 }
 
+- (BOOL) onDurationReset
+{
+  [self resetAfftectedTurnsCount:self.turnsLeft forSkillSideEffectOnOpponent:SideEffectTypeNerfBloodRage];
+  
+  return NO;
+}
+
 - (BOOL) onDurationEnd
 {
   [self removeRageAnimations];
@@ -103,7 +110,7 @@
   action.tag = 1914;
   [opponent.sprite runAction:action];
   
-  [opponent addSkillSideEffect:SideEffectTypeNerfBloodRage];
+  [self addSkillSideEffectToOpponent:SideEffectTypeNerfBloodRage turnsAffected:self.turnsLeft];
 }
 
 - (void) removeRageAnimations
@@ -115,7 +122,7 @@
   [opponent.sprite stopActionByTag:1914];
   [opponent.sprite runAction:[CCActionTintTo actionWithDuration:0.3 color:[CCColor whiteColor]]];
   
-  [opponent removeSkillSideEffect:SideEffectTypeNerfBloodRage];
+  [self removeSkillSideEffectFromOpponent:SideEffectTypeNerfBloodRage];
 }
 
 @end

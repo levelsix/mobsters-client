@@ -44,6 +44,7 @@
   NSDictionary*     _enemySkillSerializedState;
   
   NSInteger         _turnsCounter;
+  BOOL              _skillVisualsRestored;
 }
 
 SYNTHESIZE_SINGLETON_FOR_CLASS_HEADER(SkillManager);
@@ -52,10 +53,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS_HEADER(SkillManager);
 @property (assign, nonatomic) SkillType cheatPlayerSkillType;
 @property (assign, nonatomic) NSInteger cheatEnemySkillId;    // If more or equal to zero, overrides skills from protos
 @property (assign, nonatomic) NSInteger cheatPlayerSkillId;
-
-// Used for skills that display visuals which would take precedence over attack effectiveness
-@property (assign, nonatomic) BOOL playerUsedAbility;
-@property (assign, nonatomic) BOOL enemyUsedAbility;
 
 // Core external calls
 - (void) updateBattleLayer:(NewBattleLayer*)battleLayer;
@@ -84,5 +81,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS_HEADER(SkillManager);
 - (BOOL) cakeKidSchedule;
 - (void) displaySkillCounterPopupForController:(SkillController*)controller withProto:(SkillProto*)proto atPosition:(CGPoint)pos;
 - (void) flushPersistentSkills;
+- (__weak NewBattleLayer*) battleLayer;
 
 @end

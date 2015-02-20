@@ -61,6 +61,12 @@
   return YES;
 }
 
+- (BOOL) onDurationReset
+{
+  [self resetAfftectedTurnsCount:self.turnsLeft forSkillSideEffectOnSkillOwner:SideEffectTypeBuffRoidRage];
+  return NO;
+}
+
 - (BOOL) onDurationEnd
 {
   [self performAfterDelay:2.0 block:^(void){
@@ -86,7 +92,7 @@
   action.tag = 1914;
   [owner.sprite runAction:action];
   
-  [owner addSkillSideEffect:SideEffectTypeBuffRoidRage];
+  [self addSkillSideEffectToSkillOwner:SideEffectTypeBuffRoidRage turnsAffected:self.turnsLeft];
 }
 
 - (void) removeEnrageAnimations
@@ -98,7 +104,7 @@
   [owner.sprite stopActionByTag:1914];
   [owner.sprite runAction:[CCActionTintTo actionWithDuration:0.3 color:[CCColor whiteColor]]];
   
-  [owner removeSkillSideEffect:SideEffectTypeBuffRoidRage];
+  [self removeSkillSideEffectFromSkillOwner:SideEffectTypeBuffRoidRage];
 }
 
 - (void) becomeEnraged

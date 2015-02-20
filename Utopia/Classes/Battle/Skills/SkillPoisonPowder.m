@@ -84,6 +84,12 @@
   return YES;
 }
 
+- (BOOL) onDurationReset
+{
+  [self resetAfftectedTurnsCount:self.turnsLeft forSkillSideEffectOnOpponent:SideEffectTypeNerfPoison];
+  return NO;
+}
+
 - (BOOL) onDurationEnd
 {
   [self removePoison];
@@ -113,7 +119,7 @@
   action.tag = 1914;
   [opponent.sprite runAction:action];
   
-  [opponent addSkillSideEffect:SideEffectTypeNerfPoison];
+  [self addSkillSideEffectToOpponent:SideEffectTypeNerfPoison turnsAffected:self.turnsLeft];
 }
 
 - (void) removePoison
@@ -131,7 +137,7 @@
   [opponent.sprite stopActionByTag:1914];
   [opponent.sprite runAction:[CCActionTintTo actionWithDuration:0.3 color:[CCColor whiteColor]]];
   
-  [opponent removeSkillSideEffect:SideEffectTypeNerfPoison];
+  [self removeSkillSideEffectFromOpponent:SideEffectTypeNerfPoison];
 }
 
 //- (void) dealPoisonDamage

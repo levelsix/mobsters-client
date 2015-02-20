@@ -1928,6 +1928,9 @@
 		9BC9F3AA1A928392009DC3D5 /* greyrocks@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BC9F3A91A928392009DC3D5 /* greyrocks@2x.png */; };
 		9BC9F3AB1A928392009DC3D5 /* greyrocks@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BC9F3A91A928392009DC3D5 /* greyrocks@2x.png */; };
 		9BC9F3AC1A928392009DC3D5 /* greyrocks@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BC9F3A91A928392009DC3D5 /* greyrocks@2x.png */; };
+		9BC9F3D91A95561B009DC3D5 /* turnmovesbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BC9F3D81A95561B009DC3D5 /* turnmovesbg@2x.png */; };
+		9BC9F3DA1A95561B009DC3D5 /* turnmovesbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BC9F3D81A95561B009DC3D5 /* turnmovesbg@2x.png */; };
+		9BC9F3DB1A95561B009DC3D5 /* turnmovesbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BC9F3D81A95561B009DC3D5 /* turnmovesbg@2x.png */; };
 		9BDA8B331A3945B800C7AC27 /* evasionicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8B321A3945B800C7AC27 /* evasionicon@2x.png */; };
 		9BDA8B341A3945B800C7AC27 /* evasionicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8B321A3945B800C7AC27 /* evasionicon@2x.png */; };
 		9BDA8B351A3945B800C7AC27 /* evasionicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8B321A3945B800C7AC27 /* evasionicon@2x.png */; };
@@ -8634,6 +8637,7 @@
 		9BC9F3971A8EB9C5009DC3D5 /* Titillium-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Titillium-Black.otf"; sourceTree = "<group>"; };
 		9BC9F3981A8EB9C5009DC3D5 /* Titillium-BoldUpright.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Titillium-BoldUpright.otf"; sourceTree = "<group>"; };
 		9BC9F3A91A928392009DC3D5 /* greyrocks@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greyrocks@2x.png"; sourceTree = "<group>"; };
+		9BC9F3D81A95561B009DC3D5 /* turnmovesbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "turnmovesbg@2x.png"; sourceTree = "<group>"; };
 		9BDA8B321A3945B800C7AC27 /* evasionicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "evasionicon@2x.png"; sourceTree = "<group>"; };
 		9BDA8B391A3945DB00C7AC27 /* evasionlogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "evasionlogo@2x.png"; sourceTree = "<group>"; };
 		9BDA8B3D1A3945F600C7AC27 /* evasionminilogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "evasionminilogo@2x.png"; sourceTree = "<group>"; };
@@ -15179,6 +15183,7 @@
 				3E6F09A91A6F0DBF006F2FF5 /* evobadge2@2x.png */,
 				CF20F108180FCABB005551B5 /* minitimebar@2x.png */,
 				CF20F10A180FCABB005551B5 /* minitimebg@2x.png */,
+				9BC9F3D81A95561B009DC3D5 /* turnmovesbg@2x.png */,
 			);
 			path = goonies;
 			sourceTree = "<group>";
@@ -20099,6 +20104,7 @@
 				296548991A81C46F0080B195 /* statueshadow@2x.png in Resources */,
 				CF0CF2C1196F452900ECD301 /* gachaepicball@2x.png in Resources */,
 				CFF2A52D19709C4800269084 /* ResidenceT1@2x.png in Resources */,
+				9BC9F3DA1A95561B009DC3D5 /* turnmovesbg@2x.png in Resources */,
 				CF0CF2C6196F452900ECD301 /* ClanViewController.xib in Resources */,
 				CF0CF2C8196F452900ECD301 /* greennotificationheader@2x.png in Resources */,
 				CF0CF2C9196F452900ECD301 /* rejectrequest@2x.png in Resources */,
@@ -22516,6 +22522,7 @@
 				CFBB36D718EE3AF400FD6C8C /* myteambg@2x.png in Resources */,
 				CFFBDF5218ACA3D90090CA9A /* Scientist1Turn14@2x.png in Resources */,
 				2927713B1A71A52A00E3AB65 /* tutorialbackground@2x.png in Resources */,
+				9BC9F3D91A95561B009DC3D5 /* turnmovesbg@2x.png in Resources */,
 				CFFBDFAD18ACA3D90090CA9A /* Scientist4Blink02@2x.png in Resources */,
 				CFA7502B18CAD3B900AC66FC /* nameinput@2x.png in Resources */,
 				DAF7994F19AD65EF00586583 /* bluenotificationbubble@2x.png in Resources */,
@@ -23994,6 +24001,7 @@
 				9B0E6E561A76EDE500118210 /* staticfieldlogo@2x.png in Resources */,
 				CF481BFE19F7217F00041486 /* Scientist3Turn08@2x.png in Resources */,
 				29FC5EE31A89427B00A50FA7 /* salegemspile@2x.png in Resources */,
+				9BC9F3DB1A95561B009DC3D5 /* turnmovesbg@2x.png in Resources */,
 				CF481BFF19F7217F00041486 /* healredbubble3@2x.png in Resources */,
 				CF481C0019F7217F00041486 /* earthyourskill@2x.png in Resources */,
 				CF481C0119F7217F00041486 /* RequestsFacebookHeader.xib in Resources */,
