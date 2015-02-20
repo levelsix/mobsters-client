@@ -80,7 +80,7 @@
   
   [self addSkillSideEffectToSkillOwner:SideEffectTypeBuffMomentum turnsAffected:self.turnsLeft];
   
-  return [super onDurationStart];
+  return YES;
 }
 
 - (BOOL) onDurationEnd
@@ -98,19 +98,6 @@
 {
   if ([super skillCalledWithTrigger:trigger execute:execute])
     return YES;
-  
-  // Do nothing, only show the splash at the beginning. Flag is for the case when you defeated the previous one, don't show the logo then.
-//  if (trigger == SkillTriggerPointEnemyAppeared && ! _logoShown)
-//  {
-//    if (execute)
-//    {
-//      _logoShown = YES;
-//      [self showSkillPopupOverlay:YES withCompletion:^(){
-//        [self skillTriggerFinished];
-//      }];
-//    }
-//    return YES;
-//  }
   
   if ((trigger == SkillTriggerPointStartOfPlayerTurn && self.belongsToPlayer) ||
       (trigger == SkillTriggerPointStartOfEnemyTurn && ! self.belongsToPlayer) )
