@@ -180,6 +180,7 @@
   [center addObserver:self selector:@selector(privateChatViewed) name:PRIVATE_CHAT_VIEWED_NOTIFICATION object:nil];
   
   [center addObserver:self selector:@selector(showPrivateChatNotification:) name:PRIVATE_CHAT_RECEIVED_NOTIFICATION object:nil];
+  [center addObserver:self selector:@selector(showNewBattleHistory:) name:NEW_BATTLE_HISTORY_NOTIFICATION object:nil];
   [self.chatBottomView reloadData];
   
   // Arrow to residence
@@ -559,6 +560,15 @@
   if (![pcpp.sender.userUuid isEqualToString:gs.userUuid]) {
     NSArray *singleMessage = [NSArray arrayWithObject:pcpp];
     [Globals addPrivateMessageNotification:singleMessage];
+  }
+}
+
+- (void) showNewBattleHistory:(NSNotification *)notification {
+  GameState *gs = [GameState sharedGameState];
+  PvpHistoryProto *php = notification.object;
+  if(![php.sender.userUuid isEqualToString:gs.userUuid]) {
+    NSArray *singleBattle = [NSArray arrayWithObject:php];
+    [Globals addPrivateMessageNotification:singleBattle];
   }
 }
 

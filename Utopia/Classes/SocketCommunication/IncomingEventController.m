@@ -1848,7 +1848,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
         [gs.battleHistory addObject:proto.battleThatJustEnded];
       }
       
-      [[NSNotificationCenter defaultCenter] postNotificationName:NEW_BATTLE_HISTORY_NOTIFICATION object:nil];
+      [[NSNotificationCenter defaultCenter] postNotificationName:NEW_BATTLE_HISTORY_NOTIFICATION object:proto.battleThatJustEnded];
     }
     
     [gs removeNonFullUserUpdatesForTag:tag];
