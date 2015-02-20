@@ -69,23 +69,6 @@
   if ([super skillCalledWithTrigger:trigger execute:execute])
     return YES;
   
-  /*
-  // Do nothing, only show the splash at the beginning. Flag is for the case when you defeated the previous one, don't show the logo then.
-  if (trigger == SkillTriggerPointEnemyAppeared && ! _logoShown)
-  {
-    if (execute)
-    {
-      _logoShown = YES;
-      [self showSkillPopupOverlay:YES withCompletion:^(){
-        [self performAfterDelay:.5f block:^{
-          [self skillTriggerFinished];
-        }];
-      }];
-    }
-    return YES;
-  }
-   */
-  
   /**********************
    * Offensive Triggers *
    **********************/
@@ -235,8 +218,6 @@
   [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
   [self.battleLayer.orbLayer disallowInput];
   
-  [self showLogo];
-  
   const SEL selector = ((self.belongsToPlayer ? self.enemy : self.player).curHealth < _enemyHealthThreshold)
     ? @selector(instantlyKillEnemy)
     : @selector(dealDamageToEnemy);
@@ -280,7 +261,9 @@
   [self.battleLayer.orbLayer allowInput];
   
   [self resetOrbCounter];
-  [self skillTriggerFinished:YES];
+  [self performAfterDelay:self.userSprite.animationType == MonsterProto_AnimationTypeMelee ? .5 : 0 block:^{
+    [self skillTriggerFinished:YES];
+  }];
 }
 
 - (void) instantlyKillEnemy
@@ -289,25 +272,6 @@
                                           to:0
                                   withTarget:self
                                  andSelector:@selector(endOutOfTurnAttack)];
-}
-
-- (void) showLogo
-{
-  // Display logo
-//  CCSprite* logoSprite = [CCSprite spriteWithImageNamed:[self.skillImageNamePrefix stringByAppendingString:kSkillMiniLogoImageNameSuffix]];
-//  logoSprite.position = CGPointMake((self.enemySprite.position.x + self.playerSprite.position.x) * .5f + self.playerSprite.contentSize.width * .5f - 10.f,
-//                                    (self.playerSprite.position.y + self.enemySprite.position.y) * .5f + self.playerSprite.contentSize.height * .5f);
-//  logoSprite.scale = 0.f;
-//  [self.playerSprite.parent addChild:logoSprite z:50];
-//  
-//  // Animate
-//  [logoSprite runAction:[CCActionSequence actions:
-//                         [CCActionDelay actionWithDuration:.3f],
-//                         [CCActionEaseBounceOut actionWithAction:[CCActionScaleTo actionWithDuration:.5f scale:1.f]],
-//                         [CCActionDelay actionWithDuration:.5f],
-//                         [CCActionEaseIn actionWithAction:[CCActionScaleTo actionWithDuration:.3f scale:0.f]],
-//                         [CCActionRemove action],
-//                         nil]];
 }
 
 - (void) spawnSpecialOrbs:(NSInteger)count withTarget:(id)target andSelector:(SEL)selector

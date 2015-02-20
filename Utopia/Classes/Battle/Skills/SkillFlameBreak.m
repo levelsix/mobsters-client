@@ -325,7 +325,9 @@ static const NSInteger kSwordOrbsMaxSearchIterations = 256;
   [self performAfterDelay:.3f block:^{
     [self.battleLayer.orbLayer.bgdLayer turnTheLightsOn];
     [self.battleLayer.orbLayer allowInput];
-    [self skillTriggerFinished];
+    [self performAfterDelay:self.userSprite.animationType == MonsterProto_AnimationTypeMelee ? .5 : 0 block:^{
+      [self skillTriggerFinished];
+    }];
   }];
 }
 

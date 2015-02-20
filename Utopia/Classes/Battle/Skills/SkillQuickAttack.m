@@ -28,6 +28,11 @@
 
 #pragma mark - Overrides
 
+- (int) quickAttackDamage
+{
+  return _damage;
+}
+
 - (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
 {
   if ([super skillCalledWithTrigger:trigger execute:execute])
@@ -52,38 +57,12 @@
   return NO;
 }
 
-#pragma mark - Skill logic
-
-- (void) dealQuickAttack
+- (void) onFinishQuickAttack
 {
-  // Perform attack animation
-  if (self.belongsToPlayer)
-    [self.playerSprite performFarAttackAnimationWithStrength:0.f shouldEvade:NO enemy:self.enemySprite
-                                                      target:self selector:@selector(dealQuickAttack1) animCompletion:nil];
-  else
-    [self.enemySprite performNearAttackAnimationWithEnemy:self.playerSprite shouldReturn:YES shouldEvade:NO shouldFlinch:YES
-                                                   target:self selector:@selector(dealQuickAttack1) animCompletion:nil];
-}
-
-- (void) dealQuickAttack1
-{
-  // Deal damage
-  [self.battleLayer dealDamage:_damage enemyIsAttacker:(!self.belongsToPlayer) usingAbility:YES withTarget:self withSelector:@selector(dealQuickAttack2)];
-  
-  if (!self.belongsToPlayer) {
-    [self.battleLayer sendServerUpdatedValuesVerifyDamageDealt:NO];
-  }
-}
-
-- (void) dealQuickAttack2
-{
-  // Turn on the lights for the board and finish skill execution
-//  [self performAfterDelay:1.3 block:^{
-//    [self.battleLayer.orbLayer allowInput];
-//    [self.battleLayer.orbLayer.bgdLayer turnTheLightsOn];
-//  }];
   [self resetOrbCounter];
-  [self skillTriggerFinished:YES];
+  [self performAfterDelay:self.userSprite.animationType == MonsterProto_AnimationTypeMelee ? .5 : 0 block:^{
+    [self skillTriggerFinished:YES];
+  }];
 }
 
 @end

@@ -20,7 +20,6 @@
   
   _fixedDamageDone = 0;
   _missChance = 0.f;
-  _logoShown = NO;
   _missed = NO;
 }
 
@@ -77,30 +76,11 @@
   if ([super skillCalledWithTrigger:trigger execute:execute])
     return YES;
   
-  /*
-  // Do nothing, only show the splash at the beginning. Flag is for the case when you defeated the previous one, don't show the logo then.
-  if (trigger == SkillTriggerPointEnemyAppeared && ! _logoShown)
-  {
-    if (execute)
-    {
-      _logoShown = YES;
-      [self showSkillPopupOverlay:YES withCompletion:^(){
-        [self performAfterDelay:.5f block:^{
-          [self skillTriggerFinished];
-        }];
-      }];
-    }
-    return YES;
-  }
-   */
-  
   if ((trigger == SkillTriggerPointEnemyDealsDamage && self.belongsToPlayer)
       || (trigger == SkillTriggerPointPlayerDealsDamage && !self.belongsToPlayer))
   {
     if (execute)
     {
-      if (_missed)
-        [self showLogo:YES];
       
       [self performAfterDelay:.3f block:^{
         [self skillTriggerFinished];
@@ -128,7 +108,7 @@
 
 - (BOOL) onDurationStart
 {
-  [self beginOutOfTurnAttack];
+  [self dealQuickAttack];
   
   [self addSkillSideEffectToOpponent:SideEffectTypeNerfBlindingLight turnsAffected:self.turnsLeft];
   
@@ -144,93 +124,18 @@
 
 - (BOOL) onDurationReset
 {
-  [self beginOutOfTurnAttack];
+  [self dealQuickAttack];
   
   [self resetAfftectedTurnsCount:self.turnsLeft forSkillSideEffectOnOpponent:SideEffectTypeNerfBlindingLight];
   
   return YES;
 }
 
-#pragma mark - Skill logic
-
-- (void) beginOutOfTurnAttack
+- (void) onFinishQuickAttack
 {
-  [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
-  [self.battleLayer.orbLayer disallowInput];
-  
-  [self showLogo:NO];
-  
-  // Perform attack animation
-  if (self.belongsToPlayer)
-    [self.playerSprite performFarAttackAnimationWithStrength:0.f
-                                                 shouldEvade:NO
-                                                       enemy:self.enemySprite
-                                                      target:self
-                                                    selector:@selector(dealDamage)
-                                              animCompletion:nil];
-  else
-    [self.enemySprite performNearAttackAnimationWithEnemy:self.playerSprite
-                                             shouldReturn:YES
-                                              shouldEvade:NO
-                                             shouldFlinch:YES
-                                                   target:self
-                                                 selector:@selector(dealDamage)
-                                           animCompletion:nil];
-}
-
-- (void) dealDamage
-{
-  [self.battleLayer dealDamage:_fixedDamageDone
-               enemyIsAttacker:!self.belongsToPlayer
-                  usingAbility:YES
-                    withTarget:self
-                  withSelector:@selector(endOutOfTurnAttack)];
-  
-  if (!self.belongsToPlayer)
-  {
-    [self.battleLayer setEnemyDamageDealt:(int)_fixedDamageDone];
-    [self.battleLayer sendServerUpdatedValuesVerifyDamageDealt:NO];
-  }
-}
-
-- (void) endOutOfTurnAttack
-{
-  [self.battleLayer.orbLayer.bgdLayer turnTheLightsOn];
-  [self.battleLayer.orbLayer allowInput];
-  
-  [self skillTriggerFinished:YES];
-}
-
-- (void) showLogo:(BOOL)showMissedLabel
-{
-//  // Display logo
-//  CCSprite* logoSprite = [CCSprite spriteWithImageNamed:[self.skillImageNamePrefix stringByAppendingString:kSkillMiniLogoImageNameSuffix]];
-//  logoSprite.position = CGPointMake((self.enemySprite.position.x + self.playerSprite.position.x) * .5f + self.playerSprite.contentSize.width * .5f - 10.f,
-//                                    (self.playerSprite.position.y + self.enemySprite.position.y) * .5f + self.playerSprite.contentSize.height * .5f);
-//  logoSprite.scale = 0.f;
-//  [self.playerSprite.parent addChild:logoSprite z:50];
-//  
-//  if (showMissedLabel)
-//  {
-//    // Display missed label
-//    CCLabelTTF* floatingLabel = [CCLabelTTF labelWithString:@"MISSED" fontName:@"GothamNarrow-Ultra" fontSize:12];
-//    floatingLabel.position = ccp(logoSprite.spriteFrame.rect.size.width * .5f, -13.f);
-//    floatingLabel.fontColor = [CCColor colorWithRed:255.f / 225.f green:44.f / 225.f blue:44.f / 225.f];
-//    floatingLabel.outlineColor = [CCColor whiteColor];
-//    floatingLabel.shadowOffset = ccp(0.f, -1.f);
-//    floatingLabel.shadowColor = [CCColor colorWithWhite:0.f alpha:.75f];
-//    floatingLabel.shadowBlurRadius = 2.f;
-//    [logoSprite addChild:floatingLabel];
-//  }
-//  
-//  // Animate
-//  [logoSprite runAction:[CCActionSequence actions:
-//                         [CCActionDelay actionWithDuration:.3f],
-//                         [CCActionEaseBounceOut actionWithAction:[CCActionScaleTo actionWithDuration:.5f scale:1.f]],
-//                         [CCActionDelay actionWithDuration:.5f],
-//                         [CCActionEaseIn actionWithAction:[CCActionScaleTo actionWithDuration:.3f scale:0.f]],
-//                         [CCActionRemove action],
-//                         nil]];
+  [self performAfterDelay:self.userSprite.animationType == MonsterProto_AnimationTypeMelee ? .5 : 0 block:^{
+    [self skillTriggerFinished:YES];
+  }];
 }
 
 @end
