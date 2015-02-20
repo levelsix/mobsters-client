@@ -131,12 +131,17 @@
   DailyEventCornerView *cv = (DailyEventCornerView *)self.leftCornerView;
   cv.delegate = self;
   [cv updateForEnhance];
+  
+  [[SocketCommunication sharedSocketCommunication] pauseFlushTimer];
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
   [super viewWillDisappear:animated];
   
   [self.itemSelectViewController closeClicked:nil];
+  
+  [[SocketCommunication sharedSocketCommunication] flush];
+  [[SocketCommunication sharedSocketCommunication] resumeFlushTimer];
 }
 
 - (int) maxQueueSize {

@@ -162,7 +162,7 @@
   Globals *gl = [Globals sharedGlobals];
   PersistentEventProto *pe = [gs currentPersistentEventWithType:_eventType];
   if(!pe) {
-    pe = _nextEvent ? _nextEvent : [gs nextEventWithType:PersistentEventProto_EventTypeEnhance];
+    pe = _nextEvent ? _nextEvent : [gs nextEventWithType:_eventType];
     _nextEvent = pe;
   }
   if (_persistentEventId != pe.eventId) {

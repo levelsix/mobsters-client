@@ -101,8 +101,6 @@
   }
   
   [self closeWithGiftCount:giftsCollected];
-  
-  [SoundEngine secretGiftCollectClicked];
 }
 
 - (void) closeWithGiftCount:(NSInteger)giftsCollected {
