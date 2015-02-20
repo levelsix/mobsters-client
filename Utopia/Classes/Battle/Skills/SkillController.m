@@ -340,7 +340,9 @@
 
 - (void) onFinishQuickAttack
 {
-  [self skillTriggerFinished];
+  [self performAfterDelay:self.userSprite.animationType == MonsterProto_AnimationTypeMelee ? .5 : 0 block:^{
+    [self skillTriggerFinished];
+  }];
 }
 
 #pragma mark - UI

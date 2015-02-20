@@ -45,6 +45,11 @@
   }
 }
 
+- (int) quickAttackDamage
+{
+  return floorf((float)self.opponentPlayer.curHealth * _targetHPPercToDealAsDamage);
+}
+
 - (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
 {
   if ([super skillCalledWithTrigger:trigger execute:execute])
@@ -68,9 +73,7 @@
         [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
         [self.battleLayer.orbLayer disallowInput];
         
-        [self showLogo];
-        
-        [self beginCounterAttack];
+        [self dealQuickAttack];
       }
       return YES;
     }
@@ -99,72 +102,6 @@
   [self removeSkillSideEffectFromSkillOwner:SideEffectTypeBuffStaticField];
   
   return [super onDurationEnd];
-}
-
-#pragma mark - Skill logic
-
-- (void) beginCounterAttack
-{
-  // Perform attack animation
-  if (self.belongsToPlayer)
-    [self.playerSprite performFarAttackAnimationWithStrength:0.f
-                                                 shouldEvade:NO
-                                                       enemy:self.enemySprite
-                                                      target:self
-                                                    selector:@selector(dealDamage)
-                                              animCompletion:nil];
-  else
-    [self.enemySprite performNearAttackAnimationWithEnemy:self.playerSprite
-                                             shouldReturn:YES
-                                              shouldEvade:NO
-                                             shouldFlinch:YES
-                                                   target:self
-                                                 selector:@selector(dealDamage)
-                                           animCompletion:nil];
-}
-
-- (void) dealDamage
-{
-  BattlePlayer* opponent = self.belongsToPlayer ? self.battleLayer.enemyPlayerObject : self.battleLayer.myPlayerObject;
-  int damage = floorf((float)opponent.curHealth * _targetHPPercToDealAsDamage);
-  
-  [self.battleLayer dealDamage:damage
-               enemyIsAttacker:!self.belongsToPlayer
-                  usingAbility:YES
-                    withTarget:self
-                  withSelector:@selector(endCounterAttack)];
-  
-  if (!self.belongsToPlayer)
-  {
-    [self.battleLayer setEnemyDamageDealt:(int)damage];
-    [self.battleLayer sendServerUpdatedValuesVerifyDamageDealt:NO];
-  }
-}
-
-- (void) endCounterAttack
-{
-  [self.battleLayer.orbLayer.bgdLayer turnTheLightsOn];
-  [self.battleLayer.orbLayer allowInput];
-  [self skillTriggerFinished];
-}
-
-- (void) showLogo
-{
-//  // Display logo
-//  CCSprite* logoSprite = [CCSprite spriteWithImageNamed:[self.skillImageNamePrefix stringByAppendingString:kSkillMiniLogoImageNameSuffix]];
-//  logoSprite.position = CGPointMake((self.enemySprite.position.x + self.playerSprite.position.x) * .5f + self.playerSprite.contentSize.width * .5f - 10.f,
-//                                    (self.playerSprite.position.y + self.enemySprite.position.y) * .5f + self.playerSprite.contentSize.height * .5f);
-//  logoSprite.scale = 0.f;
-//  [self.playerSprite.parent addChild:logoSprite z:50];
-//  
-//  // Animate
-//  [logoSprite runAction:[CCActionSequence actions:
-//                         [CCActionDelay actionWithDuration:.3f],
-//                         [CCActionEaseBounceOut actionWithAction:[CCActionScaleTo actionWithDuration:.5f scale:1.f]],
-//                         [CCActionDelay actionWithDuration:.5f],
-//                         [CCActionEaseIn actionWithAction:[CCActionScaleTo actionWithDuration:.3f scale:0.f]],
-//                         [CCActionRemove action],
-//                         nil]];
 }
 
 @end

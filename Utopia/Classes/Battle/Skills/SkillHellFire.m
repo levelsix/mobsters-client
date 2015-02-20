@@ -203,7 +203,9 @@ static const NSInteger kBulletOrbsMaxSearchIterations = 256;
   if ([self skillIsReady])
     [self spawnOrbs];
   else
-    [self skillTriggerFinished];
+    [self performAfterDelay:self.userSprite.animationType == MonsterProto_AnimationTypeMelee ? .5 : 0 block:^{
+      [self skillTriggerFinished:YES];
+    }];
 }
 
 - (void) showLogo
