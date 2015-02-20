@@ -250,6 +250,7 @@
   [super onExitTransitionDidStart];
   
   [self.hudView removeFromSuperview];
+  [self.forcedSkillView removeFromSuperview];
 }
 
 - (BattlePlayer *) firstMyPlayer {

@@ -40,7 +40,7 @@
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ruby" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="5js-vF-dMj" customClass="NiceFontLabel12">
-                                    <rect key="frame" x="80" y="9" width="58" height="21"/>
+                                    <rect key="frame" x="8" y="6" width="202" height="30"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                     <color key="textColor" red="0.12549019607843137" green="0.49411764705882355" blue="0.93725490196078431" alpha="1" colorSpace="calibratedRGB"/>
