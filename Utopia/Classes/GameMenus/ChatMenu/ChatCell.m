@@ -414,7 +414,7 @@ static float buttonInitialWidth = 159.f;
   }
   
   if (!self.avengeButton.superview.hidden && self.revengeButton.superview.hidden) {
-    self.avengeButton.superview.frame = self.revengeButton.superview.frame;
+//    self.avengeButton.superview.frame = self.revengeButton.superview.frame;
   } else {
     self.avengeButton.superview.frame = _initAvengeFrame;
   }
