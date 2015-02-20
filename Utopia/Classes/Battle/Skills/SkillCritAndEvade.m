@@ -29,6 +29,7 @@
   _evaded = NO;
   _missed = NO;
   _logoShown = NO;
+  _fromSave = NO;
 }
 
 -(void)setValue:(float)value forProperty:(NSString *)property
@@ -135,7 +136,11 @@
   
   if ([self isActive])
   {
-    if ((self.belongsToPlayer && trigger == SkillTriggerPointStartOfPlayerTurn)
+    if (_fromSave && (trigger == SkillTriggerPointStartOfPlayerTurn || trigger == SkillTriggerPointStartOfEnemyTurn))
+    {
+      _fromSave = NO;
+    }
+    else if ((self.belongsToPlayer && trigger == SkillTriggerPointStartOfPlayerTurn)
         || (!self.belongsToPlayer && trigger == SkillTriggerPointEndOfEnemyTurn))
     {
       [self tickDuration];
@@ -295,6 +300,16 @@
   [owner runAction:[CCActionEaseBounceIn actionWithAction:[CCActionEaseBounceOut actionWithAction:[CCActionScaleTo actionWithDuration:.5f scale:1.f]]]];
   [owner.sprite stopActionByTag:2864];
   [owner.sprite runAction:[CCActionTintTo actionWithDuration:.5f color:[CCColor whiteColor]]];
+}
+
+- (BOOL) deserialize:(NSDictionary *)dict
+{
+  if (! [super deserialize:dict])
+    return NO;
+  
+  _fromSave = [self isActive];
+  
+  return YES;
 }
 
 @end
