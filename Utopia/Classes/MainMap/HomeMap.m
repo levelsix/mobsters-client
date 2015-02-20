@@ -1454,30 +1454,32 @@
 - (void) constructionComplete:(NSTimer *)timer {
   HomeBuilding *mb = [timer userInfo];
   if (mb.userStruct.userStructUuid && !_waitingForResponse) {
-    [self sendNormStructComplete:mb.userStruct];
-    [self updateTimersForBuilding:mb justBuilt:NO];
-    mb.isConstructing = NO;
-    [mb removeProgressBar];
-    [mb displayUpgradeComplete];
-    if (mb == self.selected) {
-      [mb cancelMove];
-      [self reselectCurrentSelection];
+    if (!mb.userStruct.isComplete) {
+      [self sendNormStructComplete:mb.userStruct];
+      [self updateTimersForBuilding:mb justBuilt:NO];
+      mb.isConstructing = NO;
+      [mb removeProgressBar];
+      [mb displayUpgradeComplete];
+      if (mb == self.selected) {
+        [mb cancelMove];
+        [self reselectCurrentSelection];
+      }
+      
+      // Make sure we don't actually have the upgrade view open
+      if (self.speedupItemsFiller) {
+        [self closeCurrentViewController];
+      }
+      
+      [self reloadUpgradeSigns];
+      [self reloadAllBubbles];
+      
+      [QuestUtil checkAllStructQuests];
+      [AchievementUtil checkBuildingUpgrade:mb.userStruct.structId];
+      
+      // Max cash/oil may have changed
+      [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
+      [[NSNotificationCenter defaultCenter] postNotificationName:STRUCT_COMPLETE_NOTIFICATION object:nil];
     }
-    
-    // Make sure we don't actually have the upgrade view open
-    if (self.speedupItemsFiller) {
-      [self closeCurrentViewController];
-    }
-    
-    [self reloadUpgradeSigns];
-    [self reloadAllBubbles];
-    
-    [QuestUtil checkAllStructQuests];
-    [AchievementUtil checkBuildingUpgrade:mb.userStruct.structId];
-    
-    // Max cash/oil may have changed
-    [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
-    [[NSNotificationCenter defaultCenter] postNotificationName:STRUCT_COMPLETE_NOTIFICATION object:nil];
   } else {
     // Try again in 1 second
     [self performSelector:@selector(updateTimersForBuilding:) withObject:mb afterDelay:1.f];

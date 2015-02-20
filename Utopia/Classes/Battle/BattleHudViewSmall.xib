@@ -703,18 +703,22 @@
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" id="Iqs-qt-jaQ" userLabel="ForcedToClick">
                             <rect key="frame" x="117" y="55" width="50" height="50"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <state key="normal">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
+                            <connections>
+                                <action selector="skillClicked:" destination="-1" eventType="touchUpInside" id="d1A-SI-b3w"/>
+                            </connections>
                         </button>
                     </subviews>
-                    <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="7" y="669"/>
+            <point key="canvasLocation" x="191" y="877"/>
         </view>
         <view hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" id="I1U-bx-Yrm" customClass="BattleSkillCounterPopupView">
             <rect key="frame" x="0.0" y="0.0" width="220" height="129"/>
@@ -781,7 +785,7 @@
                 <outlet property="orbIcon" destination="NKk-9I-9sX" id="q4r-2n-b2U"/>
                 <outlet property="parentView" destination="iN0-l3-epB" id="AQr-TC-hs2"/>
             </connections>
-            <point key="canvasLocation" x="150" y="833"/>
+            <point key="canvasLocation" x="-265" y="797.5"/>
         </view>
     </objects>
     <resources>
