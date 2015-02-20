@@ -188,6 +188,7 @@ static UIImage *img = nil;
     {
       UIImageView* sideEffectSymbol = [[UIImageView alloc] initWithImage:[UIImage imageNamed:icon]];
       [sideEffectSymbol setFrame:CGRectMake(1.f, 1.f, 13.f, 14.f)];
+      [sideEffectSymbol setContentMode:UIViewContentModeScaleAspectFit];
       [sideEffectSymbol setTag:7910];
       [view addSubview:sideEffectSymbol];
       [view setHidden:NO];
