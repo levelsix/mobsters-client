@@ -63,8 +63,7 @@
 {
   if ([self isActive])
   {
-    BattleSprite *bs = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
-    [bs addSkillSideEffect:_sideEffectType];
+    [self addSkillSideEffectToSkillOwner:_sideEffectType turnsAffected:self.turnsLeft];
   }
 }
 
@@ -157,11 +156,6 @@
           [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
           [self.battleLayer.orbLayer disallowInput];
 
-          if (self.belongsToPlayer)
-            [skillManager setPlayerUsedAbility:YES];
-          else
-            [skillManager setEnemyUsedAbility:YES];
-          
           if (_missed)
             [self showDodged];
           else
@@ -182,11 +176,6 @@
           [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
           [self.battleLayer.orbLayer disallowInput];
           
-          if (self.belongsToPlayer)
-            [skillManager setPlayerUsedAbility:YES];
-          else
-            [skillManager setEnemyUsedAbility:YES];
-          
           [self showDodged];
         }
         else
@@ -201,16 +190,21 @@
 
 - (BOOL) onDurationStart
 {
-  BattleSprite *bs = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
-  [bs addSkillSideEffect:_sideEffectType];
+  [self addSkillSideEffectToSkillOwner:_sideEffectType turnsAffected:self.turnsLeft];
+  
+  return NO;
+}
+
+- (BOOL) onDurationReset
+{
+  [self resetAfftectedTurnsCount:self.turnsLeft forSkillSideEffectOnSkillOwner:_sideEffectType];
   
   return [super onDurationStart];
 }
 
 - (BOOL) onDurationEnd
 {
-  BattleSprite *bs = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
-  [bs removeSkillSideEffect:_sideEffectType];
+  [self removeSkillSideEffectFromSkillOwner:_sideEffectType];
   
   return [super onDurationEnd];
 }

@@ -54,7 +54,8 @@
 
 @property (nonatomic, readonly) NSMutableArray* skillSideEffects;
 
-- (void) addSkillSideEffect:(SideEffectType)type;
+- (void) addSkillSideEffect:(SideEffectType)type forSkill:(NSInteger)skillId turnsAffected:(NSInteger)numTurns toPlayer:(BOOL)player;
+- (void) resetAfftectedTurnsCount:(NSInteger)numTurns forSkillSideEffect:(SideEffectType)type;
 - (void) removeSkillSideEffect:(SideEffectType)type;
 - (void) removeAllSkillSideEffects;
 

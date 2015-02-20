@@ -78,6 +78,13 @@
   return YES;
 }
 
+- (BOOL) onDurationReset
+{
+  [self resetAfftectedTurnsCount:self.turnsLeft forSkillSideEffectOnOpponent:SideEffectTypeNerfCurse];
+  
+  return NO;
+}
+
 - (BOOL) onDurationEnd
 {
   [self removeCurse];
@@ -107,7 +114,7 @@
   action.tag = 1914;
   [opponent.sprite runAction:action];
   
-  [opponent addSkillSideEffect:SideEffectTypeNerfCurse];
+  [self addSkillSideEffectToOpponent:SideEffectTypeNerfCurse turnsAffected:self.turnsLeft];
 }
 
 - (void) endCurseAnimations
@@ -119,7 +126,7 @@
   [opponent.sprite stopActionByTag:1914];
   [opponent.sprite runAction:[CCActionTintTo actionWithDuration:0.3 color:[CCColor whiteColor]]];
   
-  [opponent removeSkillSideEffect:SideEffectTypeNerfCurse];
+  [self removeSkillSideEffectFromOpponent:SideEffectTypeNerfCurse];
 }
 
 @end

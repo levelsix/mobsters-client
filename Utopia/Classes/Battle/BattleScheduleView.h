@@ -12,13 +12,17 @@
 - (void) mobsterViewTapped:(id)sender;
 @end
 
+@interface SideEffectActiveTurns : NSObject
+
+@property (nonatomic, retain) NSString* displaySymbol;
+@property (nonatomic, assign) NSInteger playerTurns;
+@property (nonatomic, assign) NSInteger enemyTurns;
+
+@end
+
 @interface BattleScheduleView : UIView
 {
-  // Used to track if any upcoming turns for a monster (that
-  // do not have associated views created for them yet) need
-  // to display the confusion symbol. Keys are monster IDs.
-  NSMutableDictionary* _upcomingPlayerConfusedTurns;
-  NSMutableDictionary* _upcomingEnemyConfusedTurns;
+  NSMutableDictionary* _upcomingSideEffectTurns;
 }
 
 @property (nonatomic, assign) IBOutlet UIImageView *bgdView;
@@ -41,8 +45,7 @@
 
 - (void) bounceLastView;
 
-- (void) updateConfusionState:(BOOL)confused onUpcomingTurnForMonster:(int)monsterId forPlayer:(BOOL)player;
-- (void) updateConfusionState:(BOOL)confused onAllUpcomingTurnsForMonster:(int)monsterId forPlayer:(BOOL)player;
-- (void) updateConfusionState:(BOOL)confused onUpcomingTurns:(int)numTurns forMonster:(int)monsterId forPlayer:(BOOL)player;
+- (void) displaySideEffectIcon:(NSString*)icon withKey:(NSString*)key onUpcomingTurns:(NSInteger)numTurns forPlayer:(BOOL)player;
+- (void) removeSideEffectIconWithKey:(NSString*)key onAllUpcomingTurnsForPlayer:(BOOL)player;
 
 @end

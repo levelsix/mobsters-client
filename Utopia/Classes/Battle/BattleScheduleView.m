@@ -14,6 +14,10 @@
 
 #define VIEW_SPACING 4
 
+@implementation SideEffectActiveTurns
+
+@end
+
 @implementation BattleScheduleView
 
 - (void) awakeFromNib {
@@ -26,8 +30,7 @@
     self.numSlots = 3;
   }
   
-  _upcomingPlayerConfusedTurns = [NSMutableDictionary dictionary];
-  _upcomingEnemyConfusedTurns = [NSMutableDictionary dictionary];
+  _upcomingSideEffectTurns = [NSMutableDictionary dictionary];
   
   UIImage *dark = [Globals maskImage:self.bgdView.image withColor:[UIColor colorWithWhite:0.f alpha:1.f]];
   UIImageView *img = [[UIImageView alloc] initWithImage:dark];
@@ -182,10 +185,12 @@
     [mmv addSubview:label];
   }
   
-  // Yeah... This is not pretty right now. I'll update it when we generalize ailments
-  NSDictionary* upcomingConfusedTurns = player ? _upcomingPlayerConfusedTurns : _upcomingEnemyConfusedTurns;
-  const int remainingConfusedTurns = [upcomingConfusedTurns objectForKey:@(monsterId)] ? [[upcomingConfusedTurns objectForKey:@(monsterId)] intValue] : 0;
-  if (remainingConfusedTurns != 0) [self updateConfusionState:YES onView:mmv forMonster:monsterId forPlayer:player];
+  for (NSString* key in _upcomingSideEffectTurns)
+  {
+    SideEffectActiveTurns* at = [_upcomingSideEffectTurns objectForKey:key];
+    if ((player && at.playerTurns != 0) || (!player && at.enemyTurns != 0))
+      [self display:YES sideEffectIcon:at.displaySymbol withKey:key onView:mmv forPlayer:player];
+  }
   
   // Button to activate mobster window
   if (self.delegate)
@@ -201,28 +206,22 @@
   return mmv;
 }
 
-- (void) updateConfusionState:(BOOL)confused onUpcomingTurnForMonster:(int)monsterId forPlayer:(BOOL)player
+- (void) displaySideEffectIcon:(NSString*)icon withKey:(NSString*)key onUpcomingTurns:(NSInteger)numTurns forPlayer:(BOOL)player
 {
-  [self updateConfusionState:confused onUpcomingTurns:1 forMonster:monsterId forPlayer:player];
-}
-
-- (void) updateConfusionState:(BOOL)confused onAllUpcomingTurnsForMonster:(int)monsterId forPlayer:(BOOL)player
-{
-  [self updateConfusionState:confused onUpcomingTurns:-1 forMonster:monsterId forPlayer:player];
-}
-
-- (void) updateConfusionState:(BOOL)confused onUpcomingTurns:(int)numTurns forMonster:(int)monsterId forPlayer:(BOOL)player
-{
-  [(player ? _upcomingPlayerConfusedTurns : _upcomingEnemyConfusedTurns) setObject:confused ? @(numTurns) : @0 forKey:@(monsterId)];
+  SideEffectActiveTurns* at = [_upcomingSideEffectTurns objectForKey:key];
+  if (!at) at = [[SideEffectActiveTurns alloc] init];
+  if (player) at.playerTurns = numTurns; else at.enemyTurns = numTurns;
+  at.displaySymbol = icon;
+  [_upcomingSideEffectTurns setObject:at forKey:key];
   
   int turnCounter = 0;
   if (numTurns == 0) return;
   
   for (MiniMonsterView* mv in self.monsterViews)
   {
-    if (mv.monsterId == monsterId && mv.belongsToPlayer == player)
+    if (mv.belongsToPlayer == player)
     {
-      [self updateConfusionState:confused onView:mv forMonster:monsterId forPlayer:player];
+      [self display:YES sideEffectIcon:icon withKey:key onView:mv forPlayer:player];
       
       if (++turnCounter == numTurns)
         break;
@@ -230,35 +229,25 @@
   }
 }
 
-- (void) updateConfusionState:(BOOL)confused onView:(MiniMonsterView*)mv forMonster:(int)monsterId forPlayer:(BOOL)player
+- (void) removeSideEffectIconWithKey:(NSString*)key onAllUpcomingTurnsForPlayer:(BOOL)player
 {
-  if (confused && [mv viewWithTag:7910] == nil)
+  for (MiniMonsterView* mv in self.monsterViews)
+    if (mv.belongsToPlayer == player)
+      [self display:NO sideEffectIcon:nil withKey:key onView:mv forPlayer:player];
+}
+
+- (void) display:(BOOL)display sideEffectIcon:(NSString*)icon withKey:(NSString*)key onView:(MiniMonsterView*)mv forPlayer:(BOOL)player
+{
+  if (display)
   {
-    // Add confused symbol to turn indicator
-    UIImageView* confusedSymbol = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"confusionspiral.png"]];
-    [confusedSymbol setFrame:CGRectMake(0.f, 0.f, 19.f, 19.f)];
-    [confusedSymbol setTag:7910];
-    [mv addSubview:confusedSymbol];
+    [mv displaySideEffectIcon:icon withKey:key];
     
-    // Add spinning animation
-    CABasicAnimation* spinAnimation;
-    spinAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
-    spinAnimation.toValue = [NSNumber numberWithFloat: M_PI * 2.f];
-    spinAnimation.duration = 1.f;
-    spinAnimation.cumulative = YES;
-    spinAnimation.repeatCount = HUGE_VALF; // The stupid (and only) way to infinitely loop a CABasicAnimation
-    [confusedSymbol.layer addAnimation:spinAnimation forKey:@"ConfusedSymbolSpinAnimation"];
-    
-    const int remainingConfusedTurns = [[(player ? _upcomingPlayerConfusedTurns : _upcomingEnemyConfusedTurns) objectForKey:@(monsterId)] intValue];
-    if (remainingConfusedTurns > 0) [(player ? _upcomingPlayerConfusedTurns : _upcomingEnemyConfusedTurns) setObject:@(remainingConfusedTurns - 1) forKey:@(monsterId)];
+    SideEffectActiveTurns* at = [_upcomingSideEffectTurns objectForKey:key];
+    const NSInteger remainingActiveTurns = player ? at.playerTurns : at.enemyTurns;
+    if (remainingActiveTurns > 0) { if (player) at.playerTurns = remainingActiveTurns - 1; else at.enemyTurns = remainingActiveTurns - 1; }
   }
-  if (!confused && [mv viewWithTag:7910] != nil)
-  {
-    // Stop spinning animation and remove symbol
-    UIImageView* confusedSymbol = (UIImageView*)[mv viewWithTag:7910];
-    [confusedSymbol.layer removeAllAnimations];
-    [confusedSymbol removeFromSuperview];
-  }
+  else
+    [mv removeSideEffectIconWithKey:key];
 }
 
 @end

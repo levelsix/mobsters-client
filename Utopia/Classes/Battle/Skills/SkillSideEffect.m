@@ -12,6 +12,9 @@
 #import "Globals.h"
 #import "BattleSprite.h"
 #import "CCAnimation+SpriteLoading.h"
+#import "GameState.h"
+#import "SkillManager.h"
+#import "NewBattleLayer.h"
 
 #define SIDE_EFFECT_ANIM_DELAY_PER_FRAME  .07f
 #define SIDE_EFFECT_VFX_FADE_DURATION     .2f
@@ -25,15 +28,15 @@
 
 @implementation SkillSideEffect
 
-+ (instancetype)sideEffectWithProto:(SkillSideEffectProto*)proto
++ (instancetype)sideEffectWithProto:(SkillSideEffectProto*)proto invokingSkill:(NSInteger)skillId
 {
   switch (proto.traitType)
   {
     case SideEffectTraitTypeBuff:
-      return [[SkillSideEffectBuff alloc] initWithProto:proto];
+      return [[SkillSideEffectBuff alloc] initWithProto:proto invokingSkill:skillId];
       break;
     case SideEffectTraitTypeNerf:
-      return [[SkillSideEffectNerf alloc] initWithProto:proto];
+      return [[SkillSideEffectNerf alloc] initWithProto:proto invokingSkill:skillId];
       break;
       
     case SideEffectTraitTypeNoTrait:
@@ -42,7 +45,7 @@
   }
 }
 
-- (instancetype)initWithProto:(SkillSideEffectProto*)proto
+- (instancetype)initWithProto:(SkillSideEffectProto*)proto invokingSkill:(NSInteger)skillId
 {
   if (self = [super init])
   {
@@ -60,6 +63,14 @@
       _pfxPixelOffset = CGPointMake(proto.pfxPixelOffsetX, proto.pfxPixelOffsetY);
       _positionType = proto.positionType;
       _blendMode = proto.blendMode;
+      
+      // Use invoking skill's icon if none provided
+      if (_iconImageName || [_iconImageName isEqualToString:@""])
+      {
+        SkillProto* skillProto = [[GameState sharedGameState].staticSkills objectForKey:[NSNumber numberWithInteger:skillId]];
+        if (skillProto)
+          _iconImageName = [skillProto.imgNamePrefix stringByAppendingString:kSkillIconImageNameSuffix];
+      }
     }
     
     _vfx = nil;
@@ -70,7 +81,7 @@
   return self;
 }
 
-- (void)addToCharacterSprite:(BattleSprite*)sprite zOrder:(NSInteger)zOrder
+- (void)addToCharacterSprite:(BattleSprite*)sprite zOrder:(NSInteger)zOrder turnsAffected:(NSInteger)numTurns castOnPlayer:(BOOL)player
 {
   if (_characterSprite)
     [self removeFromCharacterSprite];
@@ -78,6 +89,7 @@
   if (sprite)
   {
     _characterSprite = sprite;
+    _castOnPlayer = player;
     
     // If no _imageName is provided or the corresponding
     // asset is missing, nothing will be displayed
@@ -145,15 +157,20 @@
       }
     }
     
-    if (_iconImageName && ![_iconImageName isEqualToString:@""])
-    {
-      // TODO
-    }
+    // Display side effect symbol on turn indicators for the affected turns
+    [[[[skillManager battleLayer] hudView] battleScheduleView] displaySideEffectIcon:_iconImageName
+                                                                             withKey:_name
+                                                                     onUpcomingTurns:numTurns
+                                                                           forPlayer:player];
   }
 }
 
 - (void)removeFromCharacterSprite
 {
+  // Remove side effect symbol from turn indicators
+  [[[[skillManager battleLayer] hudView] battleScheduleView] removeSideEffectIconWithKey:_name
+                                                             onAllUpcomingTurnsForPlayer:_castOnPlayer];
+  
   if (_vfx && [_vfx getActionByTag:SIDE_EFFECT_DISPLAY_ACTION_TAG] == nil)
     [_vfx runAction:[CCActionSequence actions:
                      [CCActionSpawn actions:
@@ -222,6 +239,15 @@
     action.tag = SIDE_EFFECT_DISPLAY_ACTION_TAG;
     [_pfx runAction:action];
   }
+}
+
+- (void)resetAfftectedTurnsCount:(NSInteger)numTurns
+{
+  // Display side effect symbol on turn indicators for the affected turns
+  [[[[skillManager battleLayer] hudView] battleScheduleView] displaySideEffectIcon:_iconImageName
+                                                                           withKey:_name
+                                                                   onUpcomingTurns:numTurns
+                                                                         forPlayer:_castOnPlayer];
 }
 
 - (void)loadSpriteSheet:(NSString*)spriteSheet withCompletion:(void(^)(BOOL success))completion

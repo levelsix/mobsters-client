@@ -61,14 +61,15 @@
   
   if ([self isActive])
   {
-    BattleSprite *bs = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
-    [bs addSkillSideEffect:SideEffectTypeBuffMomentum];
+    [self addSkillSideEffectToSkillOwner:SideEffectTypeBuffMomentum turnsAffected:self.turnsLeft];
   }
 }
 
 - (BOOL) onDurationReset
 {
   [self increaseMultiplier];
+  
+  [self resetAfftectedTurnsCount:self.turnsLeft forSkillSideEffectOnSkillOwner:SideEffectTypeBuffMomentum];
   
   return YES;
 }
@@ -77,8 +78,7 @@
 {
   [self increaseMultiplier];
   
-  BattleSprite *bs = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
-  [bs addSkillSideEffect:SideEffectTypeBuffMomentum];
+  [self addSkillSideEffectToSkillOwner:SideEffectTypeBuffMomentum turnsAffected:self.turnsLeft];
   
   return [super onDurationStart];
 }
@@ -89,8 +89,7 @@
   _currentSizeMultiplier = 1.0;
   [self resetSpriteSize];
   
-  BattleSprite *bs = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
-  [bs removeSkillSideEffect:SideEffectTypeBuffMomentum];
+  [self removeSkillSideEffectFromSkillOwner:SideEffectTypeBuffMomentum];
   
   return NO;
 }

@@ -49,8 +49,7 @@
 {
   if ([self isActive])
   {
-    BattleSprite *bs = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
-    [bs addSkillSideEffect:SideEffectTypeBuffHammerTime];
+    [self addSkillSideEffectToSkillOwner:SideEffectTypeBuffHammerTime turnsAffected:self.turnsLeft];
     
     BattlePlayer* opponent = self.belongsToPlayer ? self.enemy : self.player;
     if (opponent.isStunned)
@@ -112,8 +111,12 @@
   
   opponent.isStunned = YES;
   
+  const BOOL alreadyStunned = _stunTurnsLeft > 0;
   _stunTurnsLeft = _stunTurns;
-  [self addStunAnimations];
+  if (alreadyStunned)
+    [self resetAfftectedTurnsCount:_stunTurnsLeft forSkillSideEffectOnOpponent:SideEffectTypeNerfStun];
+  else
+    [self addStunAnimations];
   
   // Finish trigger execution
 //  [self performAfterDelay:0.3 block:^{
@@ -136,7 +139,7 @@
   action.tag = 1914;
   [opponent.sprite runAction:action];
   
-  [opponent addSkillSideEffect:SideEffectTypeNerfStun];
+  [self addSkillSideEffectToOpponent:SideEffectTypeNerfStun turnsAffected:_stunTurnsLeft];
 }
 
 - (void) endStun
@@ -158,21 +161,26 @@
   [opponent.sprite stopActionByTag:1914];
   [opponent.sprite runAction:[CCActionTintTo actionWithDuration:0.3 color:[CCColor whiteColor]]];
   
-  [opponent removeSkillSideEffect:SideEffectTypeNerfStun];
+  [self removeSkillSideEffectFromOpponent:SideEffectTypeNerfStun];
 }
 
 - (BOOL) onDurationStart
 {
-  BattleSprite *bs = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
-  [bs addSkillSideEffect:SideEffectTypeBuffHammerTime];
+  [self addSkillSideEffectToSkillOwner:SideEffectTypeBuffHammerTime turnsAffected:self.turnsLeft];
+  
+  return NO;
+}
+
+- (BOOL) onDurationReset
+{
+  [self resetAfftectedTurnsCount:self.turnsLeft forSkillSideEffectOnSkillOwner:SideEffectTypeBuffHammerTime];
   
   return [super onDurationStart];
 }
 
 - (BOOL) onDurationEnd
 {
-  BattleSprite *bs = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
-  [bs removeSkillSideEffect:SideEffectTypeBuffHammerTime];
+  [self removeSkillSideEffectFromSkillOwner:SideEffectTypeBuffHammerTime];
   
   return [super onDurationEnd];
 }

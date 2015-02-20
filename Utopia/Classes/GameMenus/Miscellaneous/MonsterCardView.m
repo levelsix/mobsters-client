@@ -141,10 +141,6 @@ static UIImage *img = nil;
 
 @implementation MiniMonsterView
 
--(void)dealloc {
-  [self.layer removeAllAnimations];
-}
-
 - (void) updateForMonsterId:(int)monsterId {
   [self updateForMonsterId:monsterId greyscale:NO];
 }
@@ -161,6 +157,13 @@ static UIImage *img = nil;
     self.evoBadge.hidden = YES;
   }
   self.monsterId = monsterId;
+  
+  for (UIView* view in self.sideEffectViews)
+  {
+    [[view viewWithTag:7910] removeFromSuperview];
+    [view setHidden:YES];
+  }
+  [_sideEffectSymbols removeAllObjects];
 }
 
 - (void) updateForElement:(Element)element imgPrefix:(NSString *)imgPrefix greyscale:(BOOL)greyscale {
@@ -170,6 +173,52 @@ static UIImage *img = nil;
   NSString *suffix = self.bgdIcon.frame.size.width > 45 ? @"mediumsquare.png" : @"smallsquare.png";
   file = !greyscale ? [Globals imageNameForElement:element suffix:suffix] : [@"grey" stringByAppendingString:suffix];
   [Globals imageNamed:file withView:self.bgdIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+}
+
+- (void) displaySideEffectIcon:(NSString*)icon withKey:(NSString*)key
+{
+  if (!_sideEffectSymbols)
+    _sideEffectSymbols = [NSMutableDictionary dictionary];
+  if ([_sideEffectSymbols objectForKey:key])
+    [self removeSideEffectIconWithKey:key];
+  
+  for (UIView* view in self.sideEffectViews)
+  {
+    if ([view viewWithTag:7910] == nil)
+    {
+      UIImageView* sideEffectSymbol = [[UIImageView alloc] initWithImage:[UIImage imageNamed:icon]];
+      [sideEffectSymbol setFrame:CGRectMake(1.f, 1.f, 13.f, 14.f)];
+      [sideEffectSymbol setTag:7910];
+      [view addSubview:sideEffectSymbol];
+      [view setHidden:NO];
+      
+      /*
+      // Add spinning animation
+      CABasicAnimation* spinAnimation;
+      spinAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
+      spinAnimation.toValue = [NSNumber numberWithFloat: M_PI * 2.f];
+      spinAnimation.duration = 1.f;
+      spinAnimation.cumulative = YES;
+      spinAnimation.repeatCount = HUGE_VALF; // The stupid (and only) way to infinitely loop a CABasicAnimation
+      [sideEffectSymbol.layer addAnimation:spinAnimation forKey:@"ConfusedSymbolSpinAnimation"];
+       */
+      
+      [_sideEffectSymbols setObject:sideEffectSymbol forKey:key];
+      
+      break;
+    }
+  }
+}
+
+- (void) removeSideEffectIconWithKey:(NSString*)key
+{
+  UIImageView* sideEffectSymbol = [_sideEffectSymbols objectForKey:key];
+  if (sideEffectSymbol)
+  {
+    [sideEffectSymbol.superview setHidden:YES];
+    [sideEffectSymbol removeFromSuperview];
+    [_sideEffectSymbols removeObjectForKey:key];
+  }
 }
 
 @end

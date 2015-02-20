@@ -66,10 +66,14 @@
 @end
 
 @interface MiniMonsterView : UIView
+{
+  NSMutableDictionary* _sideEffectSymbols;
+}
 
 @property (nonatomic, retain) IBOutlet UIImageView *monsterIcon;
 @property (nonatomic, retain) IBOutlet UIImageView *bgdIcon;
 @property (nonatomic, retain) IBOutlet EvoBadge *evoBadge;
+@property (nonatomic, retain) IBOutletCollection(UIView) NSArray* sideEffectViews;
 
 @property (nonatomic, assign) int monsterId;
 @property (nonatomic, assign) BOOL belongsToPlayer; // Set and used only by BattleScheduleView
@@ -77,6 +81,9 @@
 - (void) updateForMonsterId:(int)monsterId;
 - (void) updateForMonsterId:(int)monsterId greyscale:(BOOL)greyscale;
 - (void) updateForElement:(Element)element imgPrefix:(NSString *)imgPrefix greyscale:(BOOL)greyscale;
+
+- (void) displaySideEffectIcon:(NSString*)icon withKey:(NSString*)key;
+- (void) removeSideEffectIconWithKey:(NSString*)key;
 
 @end
 

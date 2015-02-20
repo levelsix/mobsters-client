@@ -45,8 +45,7 @@
 {
   if ([self isActive])
   {
-    BattleSprite *bs = self.belongsToPlayer ? self.enemySprite : self.playerSprite;
-    [bs addSkillSideEffect:SideEffectTypeNerfBlindingLight];
+    [self addSkillSideEffectToOpponent:SideEffectTypeNerfBlindingLight turnsAffected:self.turnsLeft];
   }
 }
 
@@ -131,16 +130,14 @@
 {
   [self beginOutOfTurnAttack];
   
-  BattleSprite *bs = self.belongsToPlayer ? self.enemySprite : self.playerSprite;
-  [bs addSkillSideEffect:SideEffectTypeNerfBlindingLight];
+  [self addSkillSideEffectToOpponent:SideEffectTypeNerfBlindingLight turnsAffected:self.turnsLeft];
   
   return YES;
 }
 
 - (BOOL) onDurationEnd
 {
-  BattleSprite *bs = self.belongsToPlayer ? self.enemySprite : self.playerSprite;
-  [bs removeSkillSideEffect:SideEffectTypeNerfBlindingLight];
+  [self removeSkillSideEffectFromOpponent:SideEffectTypeNerfBlindingLight];
   
   return [super onDurationEnd];
 }
@@ -148,6 +145,8 @@
 - (BOOL) onDurationReset
 {
   [self beginOutOfTurnAttack];
+  
+  [self resetAfftectedTurnsCount:self.turnsLeft forSkillSideEffectOnOpponent:SideEffectTypeNerfBlindingLight];
   
   return YES;
 }

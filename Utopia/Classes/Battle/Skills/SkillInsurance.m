@@ -58,6 +58,12 @@
   return [super onDurationStart];
 }
 
+- (BOOL) onDurationReset
+{
+  [self resetAfftectedTurnsCount:self.turnsLeft forSkillSideEffectOnSkillOwner:SideEffectTypeBuffInsurance];
+  return NO;
+}
+
 - (BOOL) onDurationEnd
 {
   [self endInsuranceAnimations];
@@ -79,7 +85,7 @@
   action.tag = 1914;
   [mySprite.sprite runAction:action];
   
-  [mySprite addSkillSideEffect:SideEffectTypeBuffInsurance];
+  [self addSkillSideEffectToSkillOwner:SideEffectTypeBuffInsurance turnsAffected:self.turnsLeft];
 }
 
 - (void) endInsuranceAnimations
@@ -91,7 +97,7 @@
   [mySprite.sprite stopActionByTag:1914];
   [mySprite.sprite runAction:[CCActionTintTo actionWithDuration:0.3 color:[CCColor whiteColor]]];
   
-  [mySprite removeSkillSideEffect:SideEffectTypeBuffInsurance];
+  [self removeSkillSideEffectFromSkillOwner:SideEffectTypeBuffInsurance];
 }
 
 @end

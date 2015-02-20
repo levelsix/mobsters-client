@@ -38,9 +38,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   //_cheatPlayerSkillId = -1;
 #endif
   
-  _playerUsedAbility = NO;
-  _enemyUsedAbility = NO;
-  
   return self;
 }
 
@@ -283,7 +280,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
     [self updatePlayerSkill];
     [self updateReferences];
     [self createPlayerSkillIndicator];
-    [_playerSkillController restoreVisualsIfNeeded];
+//  [_playerSkillController restoreVisualsIfNeeded];
+    
+    _skillVisualsRestored = NO;
   }
   
   // Initialize enemy skill
@@ -298,7 +297,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   {
     [self createEnemySkillIndicator];
     [self updateReferences];  // To update reference to enemy sprite which is not initialized when it's called for the first time few lines above
+//  [_enemySkillController restoreVisualsIfNeeded];
+  }
+  
+  /*
+   * 2/19/15 - BN - Moving restoreVisualsIfNeeded invokation to a bit later,
+   * when battle schedule, character sprites, etc. have all been initialized
+   */
+  if (!_skillVisualsRestored && (trigger == SkillTriggerPointStartOfPlayerTurn ||
+                                 trigger == SkillTriggerPointStartOfEnemyTurn))
+  {
+    [_playerSkillController restoreVisualsIfNeeded];
     [_enemySkillController restoreVisualsIfNeeded];
+    
+    _skillVisualsRestored = YES;
   }
   
   /*
@@ -605,6 +617,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
 - (void) flushPersistentSkills
 {
   [_persistentSkillControllers removeAllObjects];
+}
+
+- (__weak NewBattleLayer*) battleLayer
+{
+  return _battleLayer;
 }
 
 #pragma mark - Specials

@@ -1001,14 +1001,7 @@
     
     _enemyShouldAttack = YES;
     
-    // The block invocation that will lead to this method being called is quite convoluted
-    // and can take a few different paths. Ideally we would use 'params' to send along any
-    // arguments needed, but for the sake of my sanity I'm resorting to doing the following
-    const BOOL usingAbility = skillManager.playerUsedAbility || skillManager.enemyUsedAbility;
-    skillManager.playerUsedAbility = NO;
-    skillManager.enemyUsedAbility = NO;
-    
-    [self dealDamage:_myDamageDealt enemyIsAttacker:NO usingAbility:usingAbility withTarget:self withSelector:@selector(checkEnemyHealthAndStartNewTurn)];
+    [self dealDamage:_myDamageDealt enemyIsAttacker:NO usingAbility:NO withTarget:self withSelector:@selector(checkEnemyHealthAndStartNewTurn)];
     
     float perc = ((float)self.enemyPlayerObject.curHealth)/self.enemyPlayerObject.maxHealth;
     if (perc < PULSE_CONT_THRESH) {
@@ -1029,14 +1022,7 @@
     
     _totalDamageTaken += _enemyDamageDealt;
     
-    // The block invocation that will lead to this method being called is quite convoluted
-    // and can take a few different paths. Ideally we would use 'params' to send along any
-    // arguments needed, but for the sake of my sanity I'm resorting to doing the following
-    const BOOL usingAbility = skillManager.playerUsedAbility || skillManager.enemyUsedAbility;
-    skillManager.playerUsedAbility = NO;
-    skillManager.enemyUsedAbility = NO;
-    
-    [self dealDamage:_enemyDamageDealt enemyIsAttacker:YES usingAbility:usingAbility withTarget:self withSelector:@selector(endEnemyTurn)];
+    [self dealDamage:_enemyDamageDealt enemyIsAttacker:YES usingAbility:NO withTarget:self withSelector:@selector(endEnemyTurn)];
     
     float perc = ((float)self.myPlayerObject.curHealth)/self.myPlayerObject.maxHealth;
     if (!_bloodSplatter || _bloodSplatter.numberOfRunningActions == 0) {
@@ -1264,13 +1250,15 @@
                            [CCActionMoveBy actionWithDuration:1.5f position:ccp(0,25)],nil],
                           [CCActionCallFunc actionWithTarget:damageLabel selector:@selector(removeFromParent)], nil]];
   
+  /*
   if ( ! usingAbility )
   {
     CGPoint pos = defSpr.position;
     int val = 40*(enemyIsAttacker ? 1 : -1);
     pos = ccpAdd(pos, ccp(val, 15));
-    //[self displayEffectivenessForAttackerElement:att.element defenderElement:def.element position:pos];
+    [self displayEffectivenessForAttackerElement:att.element defenderElement:def.element position:pos];
   }
+   */
   
   def.curHealth = newHealth;
 }

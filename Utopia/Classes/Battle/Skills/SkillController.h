@@ -126,6 +126,14 @@ static NSString* const kSkillMiniLogoImageNameSuffix = @"minilogo.png";
 - (NSDictionary*) serialize;
 - (BOOL) deserialize:(NSDictionary*)dict;
 
+// Side effects
+- (void) addSkillSideEffectToSkillOwner:(SideEffectType)type turnsAffected:(NSInteger)numTurns;
+- (void) addSkillSideEffectToOpponent:(SideEffectType)type turnsAffected:(NSInteger)numTurns;
+- (void) removeSkillSideEffectFromSkillOwner:(SideEffectType)type;
+- (void) removeSkillSideEffectFromOpponent:(SideEffectType)type;
+- (void) resetAfftectedTurnsCount:(NSInteger)numTurns forSkillSideEffectOnSkillOwner:(SideEffectType)type;
+- (void) resetAfftectedTurnsCount:(NSInteger)numTurns forSkillSideEffectOnOpponent:(SideEffectType)type;
+
 // Helpers
 - (void) preseedRandomization;
 + (NSInteger) specialsOnBoardCount:(SpecialOrbType)type layout:(BattleOrbLayout*)layout;
