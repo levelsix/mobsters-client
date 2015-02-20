@@ -15,32 +15,41 @@
 
 + (void) spamAllFriendsWithRequest {
   [FacebookDelegate getInvitableFacebookFriendsWithLoginUI:NO callback:^(NSArray *fbFriends) {
-    NSArray *arr = [self facebookIdsFromFbData:fbFriends];
-    int maxSize = 50;
-    UIApplication *app = [UIApplication sharedApplication];
-    MSWindow *window = (MSWindow *)app.keyWindow;
-    window.silentlyAcceptFacebookRequests = YES;
-    for (int i = 0; i < arr.count; i += maxSize) {
-      [self openDialogForFacebookIds:[arr subarrayWithRange:NSMakeRange(i, MIN(maxSize, arr.count-i))]];
-    }
-    window.silentlyAcceptFacebookRequests = NO;
+    NSMutableArray *arr = [self facebookIdsFromFbData:fbFriends];
+    
+    [self openDialogForFacebookIds:arr];
   }];
 }
 
-+ (NSArray *) facebookIdsFromFbData:(NSArray *)data {
++ (NSMutableArray *) facebookIdsFromFbData:(NSArray *)data {
   NSMutableArray *arr = [NSMutableArray array];
   for (NSDictionary *dict in data) {
-    [arr addObject:dict[@"uid"]];
+    [arr addObject:dict[@"id"]];
   }
   return arr;
 }
 
-+ (void) openDialogForFacebookIds:(NSArray *)ids {
-  [FacebookDelegate initiateRequestToFacebookIds:ids withMessage:[NSString stringWithFormat:@"Come play %@ with me!", GAME_NAME] completionBlock:^(BOOL success, NSArray *friendIds) {
++ (void) openDialogForFacebookIds:(NSArray *)arr {
+  int maxSize = 50;
+  NSArray *subarr = [arr subarrayWithRange:NSMakeRange(0, MIN(maxSize, arr.count))];
+  NSArray *rest = nil;
+  if (arr.count > maxSize) {
+    rest = [arr subarrayWithRange:NSMakeRange(maxSize, arr.count-maxSize)];
+  }
+  
+  UIApplication *app = [UIApplication sharedApplication];
+  MSWindow *window = (MSWindow *)app.keyWindow;
+  window.silentlyAcceptFacebookRequests = YES;
+  
+  [FacebookDelegate initiateRequestToFacebookIds:subarr withMessage:[NSString stringWithFormat:@"Come play %@ with me!", GAME_NAME] completionBlock:^(BOOL success, NSArray *friendIds) {
     if (success) {
       LNLog(@"Spammed %@", friendIds);
+      
+      [self openDialogForFacebookIds:rest];
     }
   }];
+  
+  window.silentlyAcceptFacebookRequests = NO;
 }
 
 @end

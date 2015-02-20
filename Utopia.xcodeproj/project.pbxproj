@@ -286,6 +286,12 @@
 		2991FC111A806287009BB1D8 /* TeamDonateMonstersFiller.m in Sources */ = {isa = PBXBuildFile; fileRef = 2991FC0E1A806287009BB1D8 /* TeamDonateMonstersFiller.m */; };
 		2991FC121A808DC7009BB1D8 /* SkillBloodRage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA24DF21A7A9ECF00BEF920 /* SkillBloodRage.m */; };
 		2991FC131A808DC8009BB1D8 /* SkillBloodRage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA24DF21A7A9ECF00BEF920 /* SkillBloodRage.m */; };
+		299800191A970F050014DFC9 /* TribalGuy0T1Card@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 299800171A970F050014DFC9 /* TribalGuy0T1Card@2x.png */; };
+		2998001A1A970F050014DFC9 /* TribalGuy0T1Card@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 299800171A970F050014DFC9 /* TribalGuy0T1Card@2x.png */; };
+		2998001B1A970F050014DFC9 /* TribalGuy0T1Card@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 299800171A970F050014DFC9 /* TribalGuy0T1Card@2x.png */; };
+		2998001C1A970F050014DFC9 /* Zark1T1Card@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 299800181A970F050014DFC9 /* Zark1T1Card@2x.png */; };
+		2998001D1A970F050014DFC9 /* Zark1T1Card@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 299800181A970F050014DFC9 /* Zark1T1Card@2x.png */; };
+		2998001E1A970F050014DFC9 /* Zark1T1Card@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 299800181A970F050014DFC9 /* Zark1T1Card@2x.png */; };
 		299AA3001A7856AA00A2D806 /* 6allcocktail-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 299AA2AE1A7856A900A2D806 /* 6allcocktail-9@2x.png */; };
 		299AA3011A7856AA00A2D806 /* 6allcocktail-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 299AA2AE1A7856A900A2D806 /* 6allcocktail-9@2x.png */; };
 		299AA3021A7856AA00A2D806 /* 6allcocktail-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 299AA2AE1A7856A900A2D806 /* 6allcocktail-9@2x.png */; };
@@ -8003,6 +8009,8 @@
 		2991FC071A8012F8009BB1D8 /* TeamDonateMonsterSelectCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TeamDonateMonsterSelectCell.xib; sourceTree = "<group>"; };
 		2991FC0D1A806287009BB1D8 /* TeamDonateMonstersFiller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TeamDonateMonstersFiller.h; sourceTree = "<group>"; };
 		2991FC0E1A806287009BB1D8 /* TeamDonateMonstersFiller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TeamDonateMonstersFiller.m; sourceTree = "<group>"; };
+		299800171A970F050014DFC9 /* TribalGuy0T1Card@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "TribalGuy0T1Card@2x.png"; sourceTree = "<group>"; };
+		299800181A970F050014DFC9 /* Zark1T1Card@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Zark1T1Card@2x.png"; sourceTree = "<group>"; };
 		299AA2AE1A7856A900A2D806 /* 6allcocktail-9@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "6allcocktail-9@2x.png"; sourceTree = "<group>"; };
 		299AA2AF1A7856A900A2D806 /* 6cloud1-9@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "6cloud1-9@2x.png"; sourceTree = "<group>"; };
 		299AA2B01A7856A900A2D806 /* 6cloud2-9@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "6cloud2-9@2x.png"; sourceTree = "<group>"; };
@@ -13504,6 +13512,8 @@
 		29AE75521A6F36E000264070 /* Poses */ = {
 			isa = PBXGroup;
 			children = (
+				299800171A970F050014DFC9 /* TribalGuy0T1Card@2x.png */,
+				299800181A970F050014DFC9 /* Zark1T1Card@2x.png */,
 				29AE75531A6F36E000264070 /* Kim1T1P2TutBig@2x.png */,
 				29AE75541A6F36E000264070 /* Kim1T1P3TutBig@2x.png */,
 				29AE75551A6F36E000264070 /* Kim1T1TutBig@2x.png */,
@@ -19272,6 +19282,7 @@
 				CF0CEE9A196F452900ECD301 /* AttackEventView.xib in Resources */,
 				299AA3431A7856AA00A2D806 /* 6lockedorb-9@2x.png in Resources */,
 				299AA3461A7856AA00A2D806 /* 6nightgrenade-9@2x.png in Resources */,
+				2998001A1A970F050014DFC9 /* TribalGuy0T1Card@2x.png in Resources */,
 				CF0CEE9B196F452900ECD301 /* buildingcap@2x.png in Resources */,
 				CF0CEE9E196F452900ECD301 /* ComboFire4.plist in Resources */,
 				CF0CEE9F196F452900ECD301 /* menutopbar@2x.png in Resources */,
@@ -21371,6 +21382,7 @@
 				CF0CF836196F452900ECD301 /* clansbrowseactive@2x.png in Resources */,
 				CF0CF837196F452900ECD301 /* itemdurabilitybar@2x.png in Resources */,
 				CF0CF839196F452900ECD301 /* timercapleft@2x.png in Resources */,
+				2998001D1A970F050014DFC9 /* Zark1T1Card@2x.png in Resources */,
 				29DCD00C1A8C3D8B003176FD /* salelitbg@2x.png in Resources */,
 				CF023CCA199B3D0F0082FE61 /* BattleHudViewSmall.xib in Resources */,
 				CFF2A53119709C4800269084 /* TeamCenterT1@2x.pvr.ccz in Resources */,
@@ -21740,6 +21752,7 @@
 				CFF2A5DC19709C4800269084 /* MenuEvolutionLabT1@2x.png in Resources */,
 				29DCD0491A8D8514003176FD /* fallinggems22@2x.png in Resources */,
 				29AA13B51A35916E004A9F22 /* battleinputmessage@2x.png in Resources */,
+				299800191A970F050014DFC9 /* TribalGuy0T1Card@2x.png in Resources */,
 				CF9520571939690800A98290 /* multiplayerworldbg@2x.png in Resources */,
 				CF746140196A25F5002D6AE6 /* doneusername@2x.png in Resources */,
 				CF6890401912E7B500FF1F71 /* engagebutton@2x.png in Resources */,
@@ -23025,6 +23038,7 @@
 				CFFF9A4018BEB67D0036EEC3 /* stagecomplete@2x.png in Resources */,
 				CFF2A65C1974997A00269084 /* pvpplatinumribbon@2x.png in Resources */,
 				CFF5DBBD194D18F20019EB2B /* youwonitemborder@2x.png in Resources */,
+				2998001C1A970F050014DFC9 /* Zark1T1Card@2x.png in Resources */,
 				299AA3AE1A7856AA00A2D806 /* lightheadshot-9@2x.png in Resources */,
 				CF2A4AE01901B8F500B2D7D7 /* achievementsiconactive@2x.png in Resources */,
 				29AE75841A6F36E000264070 /* MilitaryChicken1T1P2TutBig@2x.png in Resources */,
@@ -24130,6 +24144,7 @@
 				298050861A265EE800806253 /* 6gbhud@2x.png in Resources */,
 				2985E5D61A30045D0041ABF4 /* mini7.fnt in Resources */,
 				CF481CBD19F7217F00041486 /* goldleaguebg@2x.png in Resources */,
+				2998001B1A970F050014DFC9 /* TribalGuy0T1Card@2x.png in Resources */,
 				9BDA8B771A3B8DC200C7AC27 /* 6nightheadshot@2x.png in Resources */,
 				CF481CBE19F7217F00041486 /* superband@2x.png in Resources */,
 				63AB75581A79D17400CFC2B4 /* jobsbutton@2x.png in Resources */,
@@ -24470,6 +24485,7 @@
 				CF481EA519F7217F00041486 /* activeskillarrow@2x.png in Resources */,
 				CF481EA619F7217F00041486 /* 6fireupdown@2x.png in Resources */,
 				CFA9F7D71A0DB3AF00EBE77D /* ItemSelectCell.xib in Resources */,
+				2998001E1A970F050014DFC9 /* Zark1T1Card@2x.png in Resources */,
 				CF481EAF19F7217F00041486 /* TopBarMonsterView.xib in Resources */,
 				CF481EB019F7217F00041486 /* plus10percent@2x.png in Resources */,
 				CF481EB219F7217F00041486 /* levelxpbglong@2x.png in Resources */,
@@ -27225,8 +27241,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

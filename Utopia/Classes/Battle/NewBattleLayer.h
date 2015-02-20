@@ -18,8 +18,8 @@
 #import "SkillBattleIndicatorView.h"
 #import "DialogueViewController.h"
 
-#define SkillLogStart(...) NSLogYellow(__VA_ARGS__)
-#define SkillLogEnd(triggered, ...) if (triggered) { NSLogGreen(__VA_ARGS__); } else { NSLogYellow(__VA_ARGS__); }
+#define SkillLogStart(...) //NSLogYellow(__VA_ARGS__)
+#define SkillLogEnd(triggered, ...) //if (triggered) { NSLogGreen(__VA_ARGS__); } else { NSLogYellow(__VA_ARGS__); }
 
 #define Y_MOVEMENT_FOR_NEW_SCENE 160
 #define TIME_TO_SCROLL_PER_SCENE 2.4f

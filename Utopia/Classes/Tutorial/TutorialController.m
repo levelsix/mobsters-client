@@ -199,7 +199,7 @@
   
   
 #ifdef DEBUG
-  //[self saveTutorialStep:TutorialStepAttackMap];
+  [self saveTutorialStep:TutorialStepFacebookLogin];
 #endif
   [self resumeTutorialStep];
   
@@ -493,7 +493,7 @@ static int timesCloseClicked = 0;
 }
 
 - (void) beginEnemyBossThreatPhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemyBoss3), @"What is up, peasants? Nice island. I will be taking it now."];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemyBoss3), @"What's up, peasants? Nice island. I will be taking it now."];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
   
   self.currentStep = TutorialStepEnemyBossThreat;
