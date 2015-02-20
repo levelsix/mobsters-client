@@ -19,8 +19,9 @@
 
 @interface ChatCell : UITableViewCell {
   BOOL _bubbleColorChanged;
-  UIColor *_initLabelColor;
-  UIColor *_initLabelHighlightedColor;
+  UIColor *_initMsgLabelColor;
+  UIColor *_initMsgLabelHighlightedColor;
+  UIColor *_initTimeLabelColor;
   
   float _initialMsgLabelWidth;
 }
