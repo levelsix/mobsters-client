@@ -1,3 +1,4 @@
+ClientProperties.h
 build/
 .DS_Store
 **/*.pbxuser

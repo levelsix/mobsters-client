@@ -44,7 +44,7 @@
                 </view>
                 <view contentMode="scaleToFill" id="boL-iZ-CCo" userLabel="MainView">
                     <rect key="frame" x="133" y="38" width="400" height="294"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <view contentMode="scaleToFill" id="k5T-oJ-RUe" customClass="PopupShadowView">
                             <rect key="frame" x="0.0" y="26" width="400" height="247"/>
