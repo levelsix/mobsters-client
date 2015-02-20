@@ -148,9 +148,6 @@
       {
         if (_missed || _criticalHit)
         {
-          [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
-          [self.battleLayer.orbLayer disallowInput];
-
           if (_missed)
             [self showDodged];
           else
@@ -171,8 +168,6 @@
       {
         if (_evaded)
         {
-          [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
-          [self.battleLayer.orbLayer disallowInput];
           
           [self showDodged];
           _evaded = NO;
@@ -240,7 +235,7 @@
 //  
 //  // Finish trigger execution
 //  [self performAfterDelay:.3f block:^{
-//    [self skillTriggerFinished];
+    [self skillTriggerFinished];
 //  }];
 }
 
@@ -274,7 +269,7 @@
 //  
 //  // Finish trigger execution
 //  [self performAfterDelay:.3f block:^{
-//    [self skillTriggerFinished];
+    [self skillTriggerFinished];
 //  }];
 }
 
