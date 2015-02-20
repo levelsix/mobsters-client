@@ -82,14 +82,14 @@
 {
   [self resetAfftectedTurnsCount:self.turnsLeft forSkillSideEffectOnSkillOwner:SideEffectTypeBuffThickSkin];
   
-  return [self onDurationStart];
+  return [super onDurationStart];
 }
 
 - (BOOL) onDurationEnd
 {
   [self removeSkillSideEffectFromSkillOwner:SideEffectTypeBuffThickSkin];
   
-  return [self onDurationEnd];
+  return [super onDurationEnd];
 }
 
 #pragma mark - Skill logic
