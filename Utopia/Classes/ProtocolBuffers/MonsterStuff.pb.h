@@ -841,13 +841,21 @@ BOOL UserMonsterSnapshotProto_SnapshotTypeIsValidValue(UserMonsterSnapshotProto_
 @private
   BOOL hasMonsterId_:1;
   BOOL hasMonsterLvl_:1;
+  BOOL hasOffensiveSkillId_:1;
+  BOOL hasDefensiveSkillId_:1;
   int32_t monsterId;
   int32_t monsterLvl;
+  int32_t offensiveSkillId;
+  int32_t defensiveSkillId;
 }
 - (BOOL) hasMonsterId;
 - (BOOL) hasMonsterLvl;
+- (BOOL) hasOffensiveSkillId;
+- (BOOL) hasDefensiveSkillId;
 @property (readonly) int32_t monsterId;
 @property (readonly) int32_t monsterLvl;
+@property (readonly) int32_t offensiveSkillId;
+@property (readonly) int32_t defensiveSkillId;
 
 + (MinimumUserMonsterProto*) defaultInstance;
 - (MinimumUserMonsterProto*) defaultInstance;
@@ -893,6 +901,16 @@ BOOL UserMonsterSnapshotProto_SnapshotTypeIsValidValue(UserMonsterSnapshotProto_
 - (int32_t) monsterLvl;
 - (MinimumUserMonsterProto_Builder*) setMonsterLvl:(int32_t) value;
 - (MinimumUserMonsterProto_Builder*) clearMonsterLvl;
+
+- (BOOL) hasOffensiveSkillId;
+- (int32_t) offensiveSkillId;
+- (MinimumUserMonsterProto_Builder*) setOffensiveSkillId:(int32_t) value;
+- (MinimumUserMonsterProto_Builder*) clearOffensiveSkillId;
+
+- (BOOL) hasDefensiveSkillId;
+- (int32_t) defensiveSkillId;
+- (MinimumUserMonsterProto_Builder*) setDefensiveSkillId:(int32_t) value;
+- (MinimumUserMonsterProto_Builder*) clearDefensiveSkillId;
 @end
 
 @interface UserMonsterHealingProto : PBGeneratedMessage {

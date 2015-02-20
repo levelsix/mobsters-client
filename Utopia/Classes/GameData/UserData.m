@@ -49,6 +49,9 @@
     self.monsterId = proto.monsterId;
     self.level = proto.monsterLvl;
     
+    self.offensiveSkillId = proto.offensiveSkillId;
+    self.defensiveSkillId = proto.defensiveSkillId;
+    
     Globals *gl = [Globals sharedGlobals];
     self.curHealth = [gl calculateMaxHealthForMonster:self];
     self.isComplete = YES;

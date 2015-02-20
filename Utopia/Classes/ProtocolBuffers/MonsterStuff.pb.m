@@ -3712,6 +3712,8 @@ static FullUserMonsterProto* defaultFullUserMonsterProtoInstance = nil;
 @interface MinimumUserMonsterProto ()
 @property int32_t monsterId;
 @property int32_t monsterLvl;
+@property int32_t offensiveSkillId;
+@property int32_t defensiveSkillId;
 @end
 
 @implementation MinimumUserMonsterProto
@@ -3730,10 +3732,26 @@ static FullUserMonsterProto* defaultFullUserMonsterProtoInstance = nil;
   hasMonsterLvl_ = !!value_;
 }
 @synthesize monsterLvl;
+- (BOOL) hasOffensiveSkillId {
+  return !!hasOffensiveSkillId_;
+}
+- (void) setHasOffensiveSkillId:(BOOL) value_ {
+  hasOffensiveSkillId_ = !!value_;
+}
+@synthesize offensiveSkillId;
+- (BOOL) hasDefensiveSkillId {
+  return !!hasDefensiveSkillId_;
+}
+- (void) setHasDefensiveSkillId:(BOOL) value_ {
+  hasDefensiveSkillId_ = !!value_;
+}
+@synthesize defensiveSkillId;
 - (id) init {
   if ((self = [super init])) {
     self.monsterId = 0;
     self.monsterLvl = 0;
+    self.offensiveSkillId = 0;
+    self.defensiveSkillId = 0;
   }
   return self;
 }
@@ -3759,6 +3777,12 @@ static MinimumUserMonsterProto* defaultMinimumUserMonsterProtoInstance = nil;
   if (self.hasMonsterLvl) {
     [output writeInt32:2 value:self.monsterLvl];
   }
+  if (self.hasOffensiveSkillId) {
+    [output writeInt32:3 value:self.offensiveSkillId];
+  }
+  if (self.hasDefensiveSkillId) {
+    [output writeInt32:4 value:self.defensiveSkillId];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -3773,6 +3797,12 @@ static MinimumUserMonsterProto* defaultMinimumUserMonsterProtoInstance = nil;
   }
   if (self.hasMonsterLvl) {
     size_ += computeInt32Size(2, self.monsterLvl);
+  }
+  if (self.hasOffensiveSkillId) {
+    size_ += computeInt32Size(3, self.offensiveSkillId);
+  }
+  if (self.hasDefensiveSkillId) {
+    size_ += computeInt32Size(4, self.defensiveSkillId);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -3815,6 +3845,12 @@ static MinimumUserMonsterProto* defaultMinimumUserMonsterProtoInstance = nil;
   if (self.hasMonsterLvl) {
     [output appendFormat:@"%@%@: %@\n", indent, @"monsterLvl", [NSNumber numberWithInteger:self.monsterLvl]];
   }
+  if (self.hasOffensiveSkillId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"offensiveSkillId", [NSNumber numberWithInteger:self.offensiveSkillId]];
+  }
+  if (self.hasDefensiveSkillId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"defensiveSkillId", [NSNumber numberWithInteger:self.defensiveSkillId]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -3830,6 +3866,10 @@ static MinimumUserMonsterProto* defaultMinimumUserMonsterProtoInstance = nil;
       (!self.hasMonsterId || self.monsterId == otherMessage.monsterId) &&
       self.hasMonsterLvl == otherMessage.hasMonsterLvl &&
       (!self.hasMonsterLvl || self.monsterLvl == otherMessage.monsterLvl) &&
+      self.hasOffensiveSkillId == otherMessage.hasOffensiveSkillId &&
+      (!self.hasOffensiveSkillId || self.offensiveSkillId == otherMessage.offensiveSkillId) &&
+      self.hasDefensiveSkillId == otherMessage.hasDefensiveSkillId &&
+      (!self.hasDefensiveSkillId || self.defensiveSkillId == otherMessage.defensiveSkillId) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -3839,6 +3879,12 @@ static MinimumUserMonsterProto* defaultMinimumUserMonsterProtoInstance = nil;
   }
   if (self.hasMonsterLvl) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.monsterLvl] hash];
+  }
+  if (self.hasOffensiveSkillId) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.offensiveSkillId] hash];
+  }
+  if (self.hasDefensiveSkillId) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.defensiveSkillId] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -3889,6 +3935,12 @@ static MinimumUserMonsterProto* defaultMinimumUserMonsterProtoInstance = nil;
   if (other.hasMonsterLvl) {
     [self setMonsterLvl:other.monsterLvl];
   }
+  if (other.hasOffensiveSkillId) {
+    [self setOffensiveSkillId:other.offensiveSkillId];
+  }
+  if (other.hasDefensiveSkillId) {
+    [self setDefensiveSkillId:other.defensiveSkillId];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -3916,6 +3968,14 @@ static MinimumUserMonsterProto* defaultMinimumUserMonsterProtoInstance = nil;
       }
       case 16: {
         [self setMonsterLvl:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setOffensiveSkillId:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setDefensiveSkillId:[input readInt32]];
         break;
       }
     }
@@ -3951,6 +4011,38 @@ static MinimumUserMonsterProto* defaultMinimumUserMonsterProtoInstance = nil;
 - (MinimumUserMonsterProto_Builder*) clearMonsterLvl {
   result.hasMonsterLvl = NO;
   result.monsterLvl = 0;
+  return self;
+}
+- (BOOL) hasOffensiveSkillId {
+  return result.hasOffensiveSkillId;
+}
+- (int32_t) offensiveSkillId {
+  return result.offensiveSkillId;
+}
+- (MinimumUserMonsterProto_Builder*) setOffensiveSkillId:(int32_t) value {
+  result.hasOffensiveSkillId = YES;
+  result.offensiveSkillId = value;
+  return self;
+}
+- (MinimumUserMonsterProto_Builder*) clearOffensiveSkillId {
+  result.hasOffensiveSkillId = NO;
+  result.offensiveSkillId = 0;
+  return self;
+}
+- (BOOL) hasDefensiveSkillId {
+  return result.hasDefensiveSkillId;
+}
+- (int32_t) defensiveSkillId {
+  return result.defensiveSkillId;
+}
+- (MinimumUserMonsterProto_Builder*) setDefensiveSkillId:(int32_t) value {
+  result.hasDefensiveSkillId = YES;
+  result.defensiveSkillId = value;
+  return self;
+}
+- (MinimumUserMonsterProto_Builder*) clearDefensiveSkillId {
+  result.hasDefensiveSkillId = NO;
+  result.defensiveSkillId = 0;
   return self;
 }
 @end
