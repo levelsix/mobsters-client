@@ -8,6 +8,7 @@
 
 #import "RequestPushNotificationViewController.h"
 #import "Globals.h"
+#import "GameState.h"
 
 #define GREEN @"DEFFC2"
 #define GREY @"C5C5C5"
@@ -29,6 +30,11 @@
   NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
   [paragraphStyle setLineSpacing:1.5];
   [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [self.paragragh.text length])];
+  
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  MonsterProto *mp = [gs monsterWithId:gl.miniTutorialConstants.guideMonsterId];
+  self.nameLabel.text = mp.displayName;
 }
 
 - (void) updateWithString:(NSString *) description {

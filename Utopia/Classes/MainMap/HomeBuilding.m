@@ -533,13 +533,6 @@
   if (self.retrievable) {
     [_homeMap retrieveFromBuilding:self];
     
-    ResourceGeneratorProto *res = (ResourceGeneratorProto *)self.userStruct.staticStruct;
-    if (res.resourceType == ResourceTypeCash) {
-      [SoundEngine structCollectCash];
-    } else if (res.resourceType == ResourceTypeOil) {
-      [SoundEngine structCollectOil];
-    }
-    
     return NO;
   } else {
     return [super select];

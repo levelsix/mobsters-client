@@ -289,7 +289,7 @@
       if (orbColor == OrbColorNone)
         return nil;
       if (orb.powerupType == PowerupTypeNone)
-        return [NSString stringWithFormat:@"%@%@%@.png", resPrefix, [Globals imageNameForElement:(Element)orbColor suffix:@"fryingpan"], suffix ];
+        return [NSString stringWithFormat:@"%@%@%@.png", resPrefix, [Globals imageNameForElement:(Element)orbColor suffix:@"poison"], suffix ];
       break;
       
       //TODO: This suffix needs to change! Currently reusing poison orbs for this ability

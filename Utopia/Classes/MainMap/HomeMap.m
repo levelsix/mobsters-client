@@ -1214,6 +1214,7 @@
 
 - (void) retrieveFromBuilding:(ResourceGeneratorBuilding *)mb {
   GameState *gs = [GameState sharedGameState];
+  ResourceType resType = ((ResourceGeneratorProto *)mb.userStruct.staticStruct).resourceType;
   
   int amountCollected = [[OutgoingEventController sharedOutgoingEventController] retrieveFromNormStructure:mb.userStruct];
   mb.retrievable = NO;
@@ -1231,7 +1232,6 @@
     }
     
     // Spawn a label on building
-    ResourceType resType = ((ResourceGeneratorProto *)mb.userStruct.staticStruct).resourceType;
     NSString *fnt = resType == ResourceTypeCash ? @"cashcollected.fnt" : @"oilcollected.fnt";
     CCLabelBMFont *label = [CCLabelBMFont labelWithString:[Globals commafyNumber:amountCollected] fntFile:fnt];
     [self addChild:label z:1000];
@@ -1261,6 +1261,13 @@
     
     [Globals addAlertNotification:[NSString stringWithFormat:@"Your storages are full.%@", name ? [NSString stringWithFormat:@" Upgrade or build more %@s to store more!", name] : @""]];
   }
+  
+  if (resType == ResourceTypeCash) {
+    [SoundEngine structCollectCash];
+  } else if (resType == ResourceTypeOil) {
+    [SoundEngine structCollectOil];
+  }
+  
   [self setupIncomeTimerForBuilding:mb];
 }
 

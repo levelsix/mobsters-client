@@ -326,7 +326,7 @@
   [self.enemy1Sprite restoreStandingFrame:MapDirectionFarLeft];
   [self.enemy2Sprite restoreStandingFrame:MapDirectionFarLeft];
   [self.enemyBossSprite restoreStandingFrame:MapDirectionFarLeft];
-  [self.friendSprite restoreStandingFrame:MapDirectionNearLeft];
+  [self.friendSprite restoreStandingFrame:MapDirectionKneel];
   [self.guideSprite restoreStandingFrame:MapDirectionNearLeft];
   [self.markZSprite restoreStandingFrame:MapDirectionNearRight];
   

@@ -747,22 +747,28 @@
 }
 
 - (void) jumpNumTimes:(int)numTimes timePerJump:(float)dur height:(float)height completionTarget:(id)target selector:(SEL)completion {
-  CCActionJumpBy *jump = [CCActionJumpBy actionWithDuration:dur*numTimes position:ccp(0,0) height:height jumps:numTimes];
-  [self.sprite runAction:[CCActionSequence actions:jump,
-                          [CCActionCallFunc actionWithTarget:target selector:completion], nil]];
-  
-  CCSprite *spr = (CCSprite *)[self getChildByName:SHADOW_TAG recursively:NO];
-  [spr runAction:
-   [CCActionRepeat actionWithAction:
-    [CCActionSequence actions:
-     [CCActionCallBlock actionWithBlock:
-      ^{
-        [SoundEngine spriteJump];
-      }],
-     [CCActionScaleTo actionWithDuration:dur/2.f scale:0.9],
-     [CCActionScaleTo actionWithDuration:dur/2.f scale:1.f],
-     nil]
-                              times:numTimes]];
+  if (self.sprite) {
+    CCActionJumpBy *jump = [CCActionJumpBy actionWithDuration:dur*numTimes position:ccp(0,0) height:height jumps:numTimes];
+    [self.sprite runAction:[CCActionSequence actions:jump,
+                            [CCActionCallFunc actionWithTarget:target selector:completion], nil]];
+    
+    CCSprite *spr = (CCSprite *)[self getChildByName:SHADOW_TAG recursively:NO];
+    [spr runAction:
+     [CCActionRepeat actionWithAction:
+      [CCActionSequence actions:
+       [CCActionCallBlock actionWithBlock:
+        ^{
+          [SoundEngine spriteJump];
+        }],
+       [CCActionScaleTo actionWithDuration:dur/2.f scale:0.9],
+       [CCActionScaleTo actionWithDuration:dur/2.f scale:1.f],
+       nil]
+                                times:numTimes]];
+  } else {
+    SUPPRESS_PERFORM_SELECTOR_LEAK_WARNING(
+                                           [target performSelector:completion];
+                                           );
+  }
 }
 
 - (void) jumpLeftAndBack:(BOOL)left delay:(float)delay duration:(float)duration distance:(float)distance height:(float)height

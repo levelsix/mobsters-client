@@ -119,11 +119,11 @@
     [self addStunAnimations];
   
   // Finish trigger execution
-//  [self performAfterDelay:0.3 block:^{
-//    [self.battleLayer.orbLayer.bgdLayer turnTheLightsOn];
-//    [self.battleLayer.orbLayer allowInput];
-//    [self skillTriggerFinished];
-//  }];
+  [self performAfterDelay:0.3 block:^{
+    [self.battleLayer.orbLayer.bgdLayer turnTheLightsOn];
+    [self.battleLayer.orbLayer allowInput];
+    [self skillTriggerFinished];
+  }];
 }
 
 - (void) addStunAnimations

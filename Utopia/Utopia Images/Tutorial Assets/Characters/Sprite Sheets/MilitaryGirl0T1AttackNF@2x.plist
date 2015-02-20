@@ -7,390 +7,390 @@
             <key>MilitaryGirl0T1AttackF00.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,1448},{58,124}}</string>
+                <string>{{128,824},{50,124}}</string>
                 <key>offset</key>
-                <string>{-1,-19}</string>
+                <string>{-2,-19}</string>
                 <key>rotated</key>
-                <false/>
+                <true/>
                 <key>sourceColorRect</key>
-                <string>{{95,82},{58,124}}</string>
+                <string>{{98,82},{50,124}}</string>
                 <key>sourceSize</key>
                 <string>{250,250}</string>
             </dict>
             <key>MilitaryGirl0T1AttackF01.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{158,134},{82,124}}</string>
+                <string>{{128,682},{74,124}}</string>
                 <key>offset</key>
-                <string>{-13,-19}</string>
+                <string>{-14,-19}</string>
                 <key>rotated</key>
-                <false/>
+                <true/>
                 <key>sourceColorRect</key>
-                <string>{{71,82},{82,124}}</string>
+                <string>{{74,82},{74,124}}</string>
                 <key>sourceSize</key>
                 <string>{250,250}</string>
             </dict>
             <key>MilitaryGirl0T1AttackF02.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{158,2},{92,130}}</string>
+                <string>{{114,424},{84,128}}</string>
                 <key>offset</key>
-                <string>{-18,-16}</string>
+                <string>{-20,-17}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{61,76},{92,130}}</string>
+                <string>{{63,78},{84,128}}</string>
                 <key>sourceSize</key>
                 <string>{250,250}</string>
             </dict>
             <key>MilitaryGirl0T1AttackF03.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,1004},{124,150}}</string>
+                <string>{{2,572},{110,142}}</string>
                 <key>offset</key>
-                <string>{-34,-6}</string>
+                <string>{-33,-10}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{29,56},{124,150}}</string>
+                <string>{{37,64},{110,142}}</string>
                 <key>sourceSize</key>
                 <string>{250,250}</string>
             </dict>
             <key>MilitaryGirl0T1AttackF04.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,300},{146,142}}</string>
+                <string>{{2,144},{132,138}}</string>
                 <key>offset</key>
-                <string>{-45,-10}</string>
+                <string>{-45,-12}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{7,64},{146,142}}</string>
+                <string>{{14,68},{132,138}}</string>
                 <key>sourceSize</key>
                 <string>{250,250}</string>
             </dict>
             <key>MilitaryGirl0T1AttackF05.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{128,1056},{124,150}}</string>
+                <string>{{2,424},{110,146}}</string>
                 <key>offset</key>
-                <string>{-34,-6}</string>
+                <string>{-33,-8}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{29,56},{124,150}}</string>
+                <string>{{37,60},{110,146}}</string>
                 <key>sourceSize</key>
                 <string>{250,250}</string>
             </dict>
             <key>MilitaryGirl0T1AttackF06.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,2},{154,150}}</string>
+                <string>{{2,284},{132,138}}</string>
                 <key>offset</key>
-                <string>{-48,-6}</string>
+                <string>{-44,-12}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{0,56},{154,150}}</string>
+                <string>{{15,68},{132,138}}</string>
                 <key>sourceSize</key>
                 <string>{250,250}</string>
             </dict>
             <key>MilitaryGirl0T1AttackF07.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,1156},{124,148}}</string>
+                <string>{{138,2},{112,142}}</string>
                 <key>offset</key>
-                <string>{-34,-7}</string>
+                <string>{-32,-10}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{29,58},{124,148}}</string>
+                <string>{{37,64},{112,142}}</string>
                 <key>sourceSize</key>
                 <string>{250,250}</string>
             </dict>
             <key>MilitaryGirl0T1AttackF08.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,154},{154,144}}</string>
+                <string>{{2,2},{134,140}}</string>
                 <key>offset</key>
-                <string>{-48,-9}</string>
+                <string>{-43,-11}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{0,62},{154,144}}</string>
+                <string>{{15,66},{134,140}}</string>
                 <key>sourceSize</key>
                 <string>{250,250}</string>
             </dict>
             <key>MilitaryGirl0T1AttackF09.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{128,1208},{120,126}}</string>
+                <string>{{136,146},{110,124}}</string>
                 <key>offset</key>
-                <string>{-32,-18}</string>
+                <string>{-33,-19}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{33,80},{120,126}}</string>
+                <string>{{37,82},{110,124}}</string>
                 <key>sourceSize</key>
                 <string>{250,250}</string>
             </dict>
             <key>MilitaryGirl0T1AttackF10.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{158,260},{80,124}}</string>
+                <string>{{128,980},{72,122}}</string>
                 <key>offset</key>
-                <string>{-12,-19}</string>
+                <string>{-13,-20}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{73,82},{80,124}}</string>
+                <string>{{76,84},{72,122}}</string>
                 <key>sourceSize</key>
                 <string>{250,250}</string>
             </dict>
             <key>MilitaryGirl0T1AttackF11.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{144,528},{72,126}}</string>
+                <string>{{128,758},{64,124}}</string>
                 <key>offset</key>
-                <string>{-8,-18}</string>
+                <string>{-9,-19}</string>
                 <key>rotated</key>
-                <false/>
+                <true/>
                 <key>sourceColorRect</key>
-                <string>{{81,80},{72,126}}</string>
+                <string>{{84,82},{64,124}}</string>
                 <key>sourceSize</key>
                 <string>{250,250}</string>
             </dict>
             <key>MilitaryGirl0T1AttackF12.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{62,1448},{58,124}}</string>
+                <string>{{128,876},{50,124}}</string>
                 <key>offset</key>
-                <string>{-1,-19}</string>
+                <string>{-2,-19}</string>
                 <key>rotated</key>
-                <false/>
+                <true/>
                 <key>sourceColorRect</key>
-                <string>{{95,82},{58,124}}</string>
+                <string>{{98,82},{50,124}}</string>
                 <key>sourceSize</key>
                 <string>{250,250}</string>
             </dict>
             <key>MilitaryGirl0T1AttackN00.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{122,1536},{44,140}}</string>
+                <string>{{202,980},{42,126}}</string>
                 <key>offset</key>
-                <string>{0,-27}</string>
+                <string>{1,-21}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{103,82},{44,140}}</string>
+                <string>{{105,83},{42,126}}</string>
                 <key>sourceSize</key>
                 <string>{250,250}</string>
             </dict>
             <key>MilitaryGirl0T1AttackN01.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,1306},{60,140}}</string>
+                <string>{{128,1232},{58,126}}</string>
                 <key>offset</key>
-                <string>{-9,-27}</string>
+                <string>{-7,-21}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{86,82},{60,140}}</string>
+                <string>{{89,83},{58,126}}</string>
                 <key>sourceSize</key>
                 <string>{250,250}</string>
             </dict>
             <key>MilitaryGirl0T1AttackN02.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{142,798},{110,140}}</string>
+                <string>{{136,272},{106,124}}</string>
                 <key>offset</key>
-                <string>{-35,-27}</string>
+                <string>{-32,-22}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{35,82},{110,140}}</string>
+                <string>{{40,85},{106,124}}</string>
                 <key>sourceSize</key>
                 <string>{250,250}</string>
             </dict>
             <key>MilitaryGirl0T1AttackN03.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,586},{138,140}}</string>
+                <string>{{2,716},{130,124}}</string>
                 <key>offset</key>
-                <string>{-49,-27}</string>
+                <string>{-44,-22}</string>
                 <key>rotated</key>
                 <true/>
                 <key>sourceColorRect</key>
-                <string>{{7,82},{138,140}}</string>
+                <string>{{16,85},{130,124}}</string>
                 <key>sourceSize</key>
                 <string>{250,250}</string>
             </dict>
             <key>MilitaryGirl0T1AttackN04.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{122,1336},{128,138}}</string>
+                <string>{{2,1370},{118,124}}</string>
                 <key>offset</key>
-                <string>{-44,-28}</string>
+                <string>{-39,-22}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{17,84},{128,138}}</string>
+                <string>{{27,85},{118,124}}</string>
                 <key>sourceSize</key>
                 <string>{250,250}</string>
             </dict>
             <key>MilitaryGirl0T1AttackN05.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,866},{136,138}}</string>
+                <string>{{2,848},{130,124}}</string>
                 <key>offset</key>
-                <string>{-48,-28}</string>
+                <string>{-45,-22}</string>
                 <key>rotated</key>
                 <true/>
                 <key>sourceColorRect</key>
-                <string>{{9,84},{136,138}}</string>
+                <string>{{15,85},{130,124}}</string>
                 <key>sourceSize</key>
                 <string>{250,250}</string>
             </dict>
             <key>MilitaryGirl0T1AttackN06.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,1678},{132,138}}</string>
+                <string>{{2,1244},{124,124}}</string>
                 <key>offset</key>
-                <string>{-45,-28}</string>
+                <string>{-42,-22}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{14,84},{132,138}}</string>
+                <string>{{21,85},{124,124}}</string>
                 <key>sourceSize</key>
                 <string>{250,250}</string>
             </dict>
             <key>MilitaryGirl0T1AttackN07.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,726},{138,138}}</string>
+                <string>{{2,980},{130,124}}</string>
                 <key>offset</key>
-                <string>{-47,-28}</string>
+                <string>{-45,-22}</string>
                 <key>rotated</key>
-                <false/>
+                <true/>
                 <key>sourceColorRect</key>
-                <string>{{9,84},{138,138}}</string>
+                <string>{{15,85},{130,124}}</string>
                 <key>sourceSize</key>
                 <string>{250,250}</string>
             </dict>
             <key>MilitaryGirl0T1AttackN08.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,444},{140,140}}</string>
+                <string>{{2,1112},{130,124}}</string>
                 <key>offset</key>
-                <string>{-47,-27}</string>
+                <string>{-44,-22}</string>
                 <key>rotated</key>
-                <false/>
+                <true/>
                 <key>sourceColorRect</key>
-                <string>{{8,82},{140,140}}</string>
+                <string>{{16,85},{130,124}}</string>
                 <key>sourceSize</key>
                 <string>{250,250}</string>
             </dict>
             <key>MilitaryGirl0T1AttackN09.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{150,386},{98,140}}</string>
+                <string>{{114,554},{94,126}}</string>
                 <key>offset</key>
-                <string>{-28,-27}</string>
+                <string>{-26,-21}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{48,82},{98,140}}</string>
+                <string>{{52,83},{94,126}}</string>
                 <key>sourceSize</key>
                 <string>{250,250}</string>
             </dict>
             <key>MilitaryGirl0T1AttackN10.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{144,656},{64,140}}</string>
+                <string>{{128,1104},{62,126}}</string>
                 <key>offset</key>
-                <string>{-11,-27}</string>
+                <string>{-9,-21}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{82,82},{64,140}}</string>
+                <string>{{85,83},{62,126}}</string>
                 <key>sourceSize</key>
                 <string>{250,250}</string>
             </dict>
             <key>MilitaryGirl0T1AttackN11.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{64,1306},{56,140}}</string>
+                <string>{{192,1108},{56,126}}</string>
                 <key>offset</key>
-                <string>{-7,-27}</string>
+                <string>{-6,-21}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{90,82},{56,140}}</string>
+                <string>{{91,83},{56,126}}</string>
                 <key>sourceSize</key>
                 <string>{250,250}</string>
             </dict>
             <key>MilitaryGirl0T1AttackN12.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{136,1678},{44,140}}</string>
+                <string>{{210,398},{42,126}}</string>
                 <key>offset</key>
-                <string>{0,-27}</string>
+                <string>{1,-21}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{103,82},{44,140}}</string>
+                <string>{{105,83},{42,126}}</string>
                 <key>sourceSize</key>
                 <string>{250,250}</string>
             </dict>
             <key>MilitaryGirl0T1FlinchF00.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{122,1476},{58,124}}</string>
+                <string>{{128,928},{50,124}}</string>
                 <key>offset</key>
-                <string>{-1,-19}</string>
+                <string>{-2,-19}</string>
                 <key>rotated</key>
                 <true/>
                 <key>sourceColorRect</key>
-                <string>{{95,82},{58,124}}</string>
+                <string>{{98,82},{50,124}}</string>
                 <key>sourceSize</key>
                 <string>{250,250}</string>
             </dict>
             <key>MilitaryGirl0T1FlinchF01.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{142,940},{78,114}}</string>
+                <string>{{122,1370},{72,108}}</string>
                 <key>offset</key>
-                <string>{-8,-10}</string>
+                <string>{-7,-9}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{78,78},{78,114}}</string>
+                <string>{{82,80},{72,108}}</string>
                 <key>sourceSize</key>
                 <string>{250,250}</string>
             </dict>
             <key>MilitaryGirl0T1FlinchN00.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{168,1536},{44,140}}</string>
+                <string>{{210,526},{42,126}}</string>
                 <key>offset</key>
-                <string>{0,-27}</string>
+                <string>{1,-21}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{103,82},{44,140}}</string>
+                <string>{{105,83},{42,126}}</string>
                 <key>sourceSize</key>
                 <string>{250,250}</string>
             </dict>
             <key>MilitaryGirl0T1FlinchN01.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,1574},{70,76}}</string>
+                <string>{{188,1236},{64,72}}</string>
                 <key>offset</key>
-                <string>{-4,-18}</string>
+                <string>{-4,-16}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{86,105},{70,76}}</string>
+                <string>{{89,105},{64,72}}</string>
                 <key>sourceSize</key>
                 <string>{250,250}</string>
             </dict>
@@ -402,9 +402,9 @@
             <key>realTextureFileName</key>
             <string>MilitaryGirl0T1AttackNF@2x.pvr.ccz</string>
             <key>size</key>
-            <string>{254,1820}</string>
+            <string>{254,1497}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:ce7635884b6d99da61367aa3755c02be:44c9816518b7b499ec785d2e43a95ef4:5166239fbfa8b946d7f895aef5719ebf$</string>
+            <string>$TexturePacker:SmartUpdate:1a2e0c78afa681ee129d9dd0f132d098:9a95b86808f8935c8bd1847350371070:5166239fbfa8b946d7f895aef5719ebf$</string>
             <key>textureFileName</key>
             <string>MilitaryGirl0T1AttackNF@2x.pvr.ccz</string>
         </dict>

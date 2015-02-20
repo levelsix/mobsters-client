@@ -57,7 +57,7 @@
                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <view contentMode="scaleToFill" id="aid-uh-zGv" userLabel="CancleView">
+                                <view contentMode="scaleToFill" id="aid-uh-zGv" userLabel="CancelView">
                                     <rect key="frame" x="20" y="99" width="84" height="51"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES"/>
                                     <subviews>
@@ -80,7 +80,7 @@
                                         </label>
                                     </subviews>
                                 </view>
-                                <view contentMode="scaleToFill" id="4kr-UD-5UW" userLabel="AccpetView">
+                                <view contentMode="scaleToFill" id="4kr-UD-5UW" userLabel="AcceptView">
                                     <rect key="frame" x="113" y="99" width="84" height="51"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES"/>
                                     <subviews>
@@ -115,9 +115,10 @@
             <connections>
                 <outlet property="acceptLabel" destination="Lwz-BU-rER" id="39f-L6-hUV"/>
                 <outlet property="cancelLabel" destination="gUP-X7-4fg" id="kVx-9d-cEi"/>
+                <outlet property="nameLabel" destination="5js-vF-dMj" id="9zm-kY-q2y"/>
                 <outlet property="paragragh" destination="iOJ-4r-s6X" id="vGd-9B-rVc"/>
             </connections>
-            <point key="canvasLocation" x="600.5" y="443.5"/>
+            <point key="canvasLocation" x="484.5" y="396.5"/>
         </view>
     </objects>
     <resources>

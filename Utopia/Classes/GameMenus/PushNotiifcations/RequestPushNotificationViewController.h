@@ -11,6 +11,7 @@
 @interface RequestPushNotificationView : TouchableSubviewsView
 @property (nonatomic, retain) IBOutlet UILabel *paragragh;
 @property (nonatomic, retain) IBOutlet THLabel *cancelLabel;
+@property (nonatomic, retain) IBOutlet UILabel *nameLabel;
 @property (nonatomic, retain) IBOutlet THLabel *acceptLabel;
 
 - (void) initFonts;

@@ -42,8 +42,9 @@ static float buttonInitialWidth = 159.f;
   self.backgroundView = [[UIView alloc] init];
   self.backgroundView.backgroundColor = [UIColor clearColor];
   
-  _initLabelColor = self.msgLabel.textColor;
-  _initLabelHighlightedColor = self.msgLabel.highlightedTextColor;
+  _initMsgLabelColor = self.msgLabel.textColor;
+  _initMsgLabelHighlightedColor = self.msgLabel.highlightedTextColor;
+  _initTimeLabelColor = self.timeLabel.textColor;
   
   _initialMsgLabelWidth = self.msgLabel.width;
 }
@@ -56,10 +57,11 @@ static float buttonInitialWidth = 159.f;
   GameState *gs = [GameState sharedGameState];
   
   self.msgLabel.text = message;
-  self.msgLabel.textColor = _initLabelColor;
-  self.msgLabel.highlightedTextColor = _initLabelHighlightedColor;
+  self.msgLabel.textColor = _initMsgLabelColor;
+  self.msgLabel.highlightedTextColor = _initMsgLabelHighlightedColor;
   
   self.timeLabel.text = [Globals stringForTimeSinceNow:date shortened:NO];
+  self.timeLabel.textColor = _initTimeLabelColor;
   
   NSString *buttonText = [Globals fullNameWithName:sender.name clanTag:sender.clan.tag];
   if (!showsClanTag) {

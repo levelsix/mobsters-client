@@ -26,8 +26,12 @@
 }
 
 - (void) autoClickSend:(UIWebView *)webView {
-  NSString *req = @"document.getElementsByName(\"__CONFIRM__\")[0].click()";
-  [webView stringByEvaluatingJavaScriptFromString:req];
+  if (webView.superview) {
+    NSString *req = @"document.getElementsByName(\"__CONFIRM__\")[0].click()";
+    [webView stringByEvaluatingJavaScriptFromString:req];
+    
+    [self performSelector:@selector(autoClickSend:) withObject:webView afterDelay:1.f];
+  }
 }
 
 - (void) webViewDidStartLoad:(UIWebView *)webView {
@@ -69,11 +73,13 @@
       self.facebookDelegates = [NSMutableArray array];
     }
     FacebookWebViewDelegate *delegate = [[FacebookWebViewDelegate alloc] init];
+    [NSObject cancelPreviousPerformRequestsWithTarget:delegate];
     delegate.realDelegate = web.delegate;
     web.delegate = delegate;
     [self.facebookDelegates addObject:delegate];
     
     [self insertSubview:view atIndex:0];
+    //[super addSubview:view];
   } else {
     [super addSubview:view];
   }
