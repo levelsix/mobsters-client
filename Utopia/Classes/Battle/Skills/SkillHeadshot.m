@@ -79,7 +79,7 @@
     if (execute)
     {
       _orbsSpawned = [self specialsOnBoardCount:SpecialOrbTypeHeadshot];
-      if (_orbsSpawned > 0 && [self updateHeadshotOrbs])
+      if ([self updateHeadshotOrbs])
       {
         // If any orbs have reached zero turns left, perform headshot
         [self beginHeadshot];
