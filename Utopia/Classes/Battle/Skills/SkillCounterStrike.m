@@ -102,21 +102,23 @@
   [self.battleLayer.orbLayer disallowInput];
   
   // Perform attack animation
-  if (self.belongsToPlayer)
-    [self.playerSprite performFarAttackAnimationWithStrength:0.f
-                                                 shouldEvade:NO
-                                                       enemy:self.enemySprite
-                                                      target:self
-                                                    selector:@selector(dealDamage)
-                                              animCompletion:nil];
-  else
-    [self.enemySprite performNearAttackAnimationWithEnemy:self.playerSprite
-                                             shouldReturn:YES
-                                              shouldEvade:NO
-                                             shouldFlinch:YES
-                                                   target:self
-                                                 selector:@selector(dealDamage)
-                                           animCompletion:nil];
+  [self performAfterDelay:self.opponentSprite.animationType == MonsterProto_AnimationTypeMelee ? .5 : 0 block:^{
+    if (self.belongsToPlayer)
+      [self.playerSprite performFarAttackAnimationWithStrength:0.f
+                                                   shouldEvade:NO
+                                                         enemy:self.enemySprite
+                                                        target:self
+                                                      selector:@selector(dealDamage)
+                                                animCompletion:nil];
+    else
+      [self.enemySprite performNearAttackAnimationWithEnemy:self.playerSprite
+                                               shouldReturn:YES
+                                                shouldEvade:NO
+                                               shouldFlinch:YES
+                                                     target:self
+                                                   selector:@selector(dealDamage)
+                                             animCompletion:nil];
+  }];
 }
 
 - (void) dealDamage {

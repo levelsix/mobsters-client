@@ -46,6 +46,20 @@
   _orbsSpawned = [self specialsOnBoardCount:SpecialOrbTypeHeadshot];
 }
 
+- (void) orbDestroyed:(OrbColor)color special:(SpecialOrbType)type
+{
+  [super orbDestroyed:color special:type];
+  
+  if (!self.belongsToPlayer && type == SpecialOrbTypeHeadshot)
+  {
+    _orbsSpawned--;
+    if (_orbsSpawned == 0)
+    {
+      [self resetOrbCounter];
+    }
+  }
+}
+
 - (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
 {
   if ([super skillCalledWithTrigger:trigger execute:execute])
@@ -79,17 +93,13 @@
     if (execute)
     {
       _orbsSpawned = [self specialsOnBoardCount:SpecialOrbTypeHeadshot];
-      if (_orbsSpawned > 0 && [self updateHeadshotOrbs])
+      if ([self updateHeadshotOrbs])
       {
         // If any orbs have reached zero turns left, perform headshot
         [self beginHeadshot];
       }
       else
       {
-        if (_orbsSpawned == 0)
-        {
-          [self resetOrbCounter];
-        }
         [self skillTriggerFinished];
       }
     }
