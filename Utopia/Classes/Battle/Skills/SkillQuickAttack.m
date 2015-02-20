@@ -63,21 +63,6 @@
   else
     [self.enemySprite performNearAttackAnimationWithEnemy:self.playerSprite shouldReturn:YES shouldEvade:NO shouldFlinch:YES
                                                    target:self selector:@selector(dealQuickAttack1) animCompletion:nil];
-  
-  // Show attack label
-  /*_attackSprite = [CCSprite spriteWithImageNamed:@"cheapshotlogo.png"];
-   _attackSprite.position = CGPointMake((self.enemySprite.position.x + self.playerSprite.position.x)/2 + self.playerSprite.contentSize.width/2 - 20, (self.playerSprite.position.y + self.enemySprite.position.y)/2 + self.playerSprite.contentSize.height/2);
-   _attackSprite.scale = 0.0;
-   [self.playerSprite.parent addChild:_attackSprite z:50];
-  
-  // Run animation
-  [_attackSprite runAction:[CCActionSequence actions:
-                            [CCActionDelay actionWithDuration:0.3],
-                            [CCActionEaseBounceOut actionWithAction:[CCActionScaleTo actionWithDuration:0.5 scale:0.5]],
-                            [CCActionDelay actionWithDuration:1.0],
-                            [CCActionEaseIn actionWithAction:[CCActionScaleTo actionWithDuration:0.3 scale:0.0]],
-                            [CCActionRemove action],
-                            nil]];*/
 }
 
 - (void) dealQuickAttack1
