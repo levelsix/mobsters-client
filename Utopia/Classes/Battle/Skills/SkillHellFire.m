@@ -60,7 +60,7 @@ static const NSInteger kBulletOrbsMaxSearchIterations = 256;
       _orbsSpawned = [self specialsOnBoardCount:SpecialOrbTypeBullet];
       _orbsConsumed = [self updateBulletOrbs];
       // Update counters on bullet orbs
-      if (_orbsSpawned > 0 && _orbsConsumed > 0)
+      if (_orbsConsumed > 0)
       {
         // If any orbs have reached zero turns left, perform out of turn attack
         [self beginOutOfTurnAttack];

@@ -45,6 +45,20 @@ static const NSInteger kSwordOrbsMaxSearchIterations = 256;
 
 #pragma mark - Overrides
 
+- (void) orbDestroyed:(OrbColor)color special:(SpecialOrbType)type
+{
+  [super orbDestroyed:color special:type];
+  
+  if (type == SpecialOrbTypeSword)
+  {
+    _orbsSpawned--;
+    if (_orbsSpawned == 0)
+    {
+      [self resetOrbCounter];
+    }
+  }
+}
+
 - (BOOL) shouldPersist
 {
   return _skillActive;
@@ -164,7 +178,7 @@ static const NSInteger kSwordOrbsMaxSearchIterations = 256;
       {
         // Update counters on sword orbs
         int usedUpOrbCount = [self updateSwordOrbs];
-        if (_orbsSpawned > 0 && usedUpOrbCount > 0)
+        if (usedUpOrbCount > 0)
         {
           _skillActive = YES;
           
