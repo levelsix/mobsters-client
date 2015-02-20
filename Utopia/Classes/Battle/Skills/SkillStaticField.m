@@ -57,8 +57,9 @@
       [self tickDuration];
     }
     
-    if ((trigger == SkillTriggerPointEnemySkillActivated && self.belongsToPlayer)
-        || (trigger == SkillTriggerPointPlayerSkillActivated && !self.belongsToPlayer))
+    if (self.userPlayer.curHealth > 0 &&
+        ((trigger == SkillTriggerPointEnemySkillActivated && self.belongsToPlayer)
+        || (trigger == SkillTriggerPointPlayerSkillActivated && !self.belongsToPlayer)))
     {
       if (execute)
       {

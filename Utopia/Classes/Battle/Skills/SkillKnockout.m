@@ -44,6 +44,20 @@
 
 #pragma mark - Overrides
 
+- (void) orbDestroyed:(OrbColor)color special:(SpecialOrbType)type
+{
+  [super orbDestroyed:color special:type];
+  
+  if (type == SpecialOrbTypeFryingPan)
+  {
+    _orbsSpawned--;
+    if (_orbsSpawned == 0)
+    {
+      [self resetOrbCounter];
+    }
+  }
+}
+
 - (void) restoreVisualsIfNeeded
 {
   if (!self.belongsToPlayer)
@@ -122,7 +136,7 @@
     {
       // Update counters on special orbs
       _orbsConsumed = [self updateSpecialOrbs];
-      if (_orbsSpawned > 0 && _orbsConsumed > 0)
+      if (_orbsConsumed > 0)
       {
         // If any orbs have reached zero turns left, Perform out of turn attack
         // and either instantly kill the target or deal fixed damage

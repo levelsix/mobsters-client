@@ -50,6 +50,20 @@
   return [NSSet setWithObjects:@(SideEffectTypeNerfConfusion), nil];
 }
 
+- (void) orbDestroyed:(OrbColor)color special:(SpecialOrbType)type
+{
+  [super orbDestroyed:color special:type];
+  
+  if (type == SpecialOrbTypeGlove)
+  {
+    _orbsSpawned--;
+    if (_orbsSpawned == 0)
+    {
+      [self resetOrbCounter];
+    }
+  }
+}
+
 - (void) restoreVisualsIfNeeded
 {
   if (!self.belongsToPlayer)
@@ -189,7 +203,7 @@
     {
       const BOOL alreadyConfused = _confusionTurns > 0;
       // Update counters on glove orbs
-      if (_orbsSpawned > 0 && [self updateGloveOrbs])
+      if ([self updateGloveOrbs])
       {
         _skillActive = YES;
         

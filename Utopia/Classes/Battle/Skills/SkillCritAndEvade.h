@@ -22,6 +22,8 @@
   BOOL _criticalHit;
   BOOL _evaded;
   BOOL _missed;
+  
+  BOOL _fromSave;
 }
 
 @end
