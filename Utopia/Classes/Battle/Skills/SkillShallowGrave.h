@@ -18,9 +18,6 @@
   
   // Temp
   BOOL _logoShown;
-  
-  // Counters
-  BOOL _skillActive;
 }
 
 @end

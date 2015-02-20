@@ -22,7 +22,6 @@ static const NSInteger kGraveOrbsMaxSearchIterations = 256;
   
   _minHPAllowed = 0;
   _graveSpawnCount = 0;
-  _skillActive = NO;
   _logoShown = NO;
 }
 
@@ -45,13 +44,20 @@ static const NSInteger kGraveOrbsMaxSearchIterations = 256;
 
 - (void) restoreVisualsIfNeeded
 {
-  if ((self.belongsToPlayer && [self isActive]) || (!self.belongsToPlayer && _skillActive))
+  if ([self isActive])
   {
     SkillLogStart(@"Shallow Grave -- Skill activated");
     
     [self addDefensiveShieldForPlayer:self.belongsToPlayer ? self.player : self.enemy];
     [self addSkillSideEffectToSkillOwner:SideEffectTypeBuffShallowGrave turnsAffected:self.belongsToPlayer ? self.turnsLeft : -1];
   }
+}
+
+- (NSInteger) getDuration
+{
+  // Defensive variation of Shallow Grave will remain active
+  // for as longs there are grave orbs on the board
+  return self.belongsToPlayer ? [super getDuration] : -1;
 }
 
 - (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
@@ -83,50 +89,18 @@ static const NSInteger kGraveOrbsMaxSearchIterations = 256;
    * Defensive Triggers *
    **********************/
   
-  // Initial grave orbs spawn
-  if (trigger == SkillTriggerPointEndOfPlayerMove && !self.belongsToPlayer)
-  {
-    if (!_skillActive && [self skillIsReady])
-    {
-      if (execute)
-      {
-        SkillLogStart(@"Shallow Grave -- Skill activated");
-        
-        _skillActive = YES;
-        
-        [self showSkillPopupOverlay:YES withCompletion:^{
-          [self performSelector:@selector(spawnInitialGraveOrbs) withObject:nil afterDelay:.5f];
-          [self addDefensiveShieldForPlayer:self.enemy];
-          [self addSkillSideEffectToSkillOwner:SideEffectTypeBuffShallowGrave turnsAffected:-1];
-        }];
-      }
-      return YES;
-    }
-  }
-  
   // Grave orbs cleanup
   if ((trigger == SkillTriggerPointEndOfPlayerMove && !self.belongsToPlayer) ||
       (trigger == SkillTriggerPointEnemyDefeated && !self.belongsToPlayer))
   {
-    if (_skillActive)
+    if ([self isActive])
     {
       if (trigger == SkillTriggerPointEnemyDefeated || [self specialsOnBoardCount:SpecialOrbTypeGrave] == 0)
       {
         if (execute)
         {
-          SkillLogStart(@"Shallow Grave -- Skill deactivated");
-          
-          _skillActive = NO;
-          [self resetOrbCounter];
-          
-          [self removeAllGraveOrbs];
-          [self performAfterDelay:.3f block:^{
-            [self removeDefensiveShieldForPlayer:self.enemy];
-            [self removeSkillSideEffectFromSkillOwner:SideEffectTypeBuffShallowGrave];
-            [self skillTriggerFinished];
-          }];
+          [self endDurationNow];
         }
-        return YES;
       }
     }
   }
@@ -141,37 +115,38 @@ static const NSInteger kGraveOrbsMaxSearchIterations = 256;
   // Do not allow player's health to fall below a certain
   // threshold for a predefined number of turns
   player.minHealth = _minHPAllowed;
-  
-  // TODO - Add some visual effect to the player to signify the active skill
 }
 
 - (void) removeDefensiveShieldForPlayer:(BattlePlayer*)player
 {
   player.minHealth = 0;
-  
-  // TODO - Remove visual effect from the player
 }
 
 - (BOOL) onDurationStart
 {
+  SkillLogStart(@"Shallow Grave -- Skill activated");
+  
   if (self.belongsToPlayer)
   {
-    SkillLogStart(@"Shallow Grave -- Skill activated");
-    
     [self addDefensiveShieldForPlayer:self.player];
     [self addSkillSideEffectToSkillOwner:SideEffectTypeBuffShallowGrave turnsAffected:self.turnsLeft];
-    return [super onDurationStart];
+  }
+  else
+  {
+    [self spawnInitialGraveOrbs];
+    [self addDefensiveShieldForPlayer:self.enemy];
+    [self addSkillSideEffectToSkillOwner:SideEffectTypeBuffShallowGrave turnsAffected:-1];
   }
   
-  return NO;
+  return [super onDurationStart];
 }
 
 - (BOOL) onDurationReset
 {
+  SkillLogStart(@"Shallow Grave -- Skill reactivated");
+  
   if (self.belongsToPlayer)
   {
-    SkillLogStart(@"Shallow Grave -- Skill reactivated");
-    
     [self addDefensiveShieldForPlayer:self.player];
     [self resetAfftectedTurnsCount:self.turnsLeft forSkillSideEffectOnSkillOwner:SideEffectTypeBuffShallowGrave];
   }
@@ -181,13 +156,24 @@ static const NSInteger kGraveOrbsMaxSearchIterations = 256;
 
 - (BOOL) onDurationEnd
 {
+  SkillLogStart(@"Shallow Grave -- Skill deactivated");
+  
+  [super onDurationEnd];
+  
   if (self.belongsToPlayer)
   {
-    SkillLogStart(@"Shallow Grave -- Skill deactivated");
-   
-    [super onDurationEnd];
     [self removeDefensiveShieldForPlayer:self.player];
     [self removeSkillSideEffectFromSkillOwner:SideEffectTypeBuffShallowGrave];
+  }
+  else
+  {
+    [self removeAllGraveOrbs];
+    [self performAfterDelay:.3f block:^{
+      [self removeDefensiveShieldForPlayer:self.enemy];
+      [self removeSkillSideEffectFromSkillOwner:SideEffectTypeBuffShallowGrave];
+      [self skillTriggerFinished];
+    }];
+    return YES;
   }
   
   return NO;
@@ -285,27 +271,6 @@ static const NSInteger kGraveOrbsMaxSearchIterations = 256;
       }
     }
   }
-}
-
-#pragma mark - Serialization
-
-- (NSDictionary*) serialize
-{
-  NSMutableDictionary* result = [NSMutableDictionary dictionaryWithDictionary:[super serialize]];
-  [result setObject:@(_skillActive) forKey:@"skillActive"];
-  
-  return result;
-}
-
-- (BOOL) deserialize:(NSDictionary*)dict
-{
-  if (![super deserialize:dict])
-    return NO;
-  
-  NSNumber* skillActive = [dict objectForKey:@"skillActive"];
-  if (skillActive) _skillActive = [skillActive boolValue];
-  
-  return YES;
 }
 
 @end
