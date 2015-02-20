@@ -66,7 +66,7 @@
   
   self.continueButton.label.position = ccpAdd(self.continueButton.label.position, ccp(0, 5));
   
-  self.doneButton.position = ccp(0.5, self.tipLabel.position.y+0.02f);
+  self.doneButton.position = ccp(0.5, self.tipLabel.position.y+0.03f);
   self.doneButton.positionType = CCPositionTypeNormalized;
   [self.doneButton removeFromParent];
   [self.tipLabel.parent addChild:self.doneButton];
@@ -74,7 +74,7 @@
   self.headerView.position = ccpAdd(self.headerView.position, ccp(0, 0.05f));
   self.spinner.position = ccpAdd(self.spinner.position, ccp(0, 0.05f));
   self.rewardsBgd.parent.parent.position = ccpAdd(self.rewardsBgd.parent.parent.position, ccp(0, 0.05f));
-  self.continueButton.parent.position = ccpAdd(self.continueButton.parent.position, ccp(0, 0.05f));
+  self.continueButton.parent.position = ccpAdd(self.continueButton.parent.position, ccp(0, 0.06f));
   
   [self.tipLabel removeFromParent];
 }
