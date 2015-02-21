@@ -44,7 +44,7 @@
     self.isFacingNear = YES;
     
     self.healthBgd = [CCSprite spriteWithImageNamed:@"minitimebg.png"];
-    [self addChild:self.healthBgd z:6];
+    [self addChild:self.healthBgd z:100];
     self.healthBgd.position = ccp(self.contentSize.width/2, self.contentSize.height);
     
     self.healthBar = [CCProgressNode progressWithSprite:[CCSprite spriteWithImageNamed:@"minihpbar.png"]];

@@ -390,7 +390,7 @@
         [self.movesLeftContainer setAnchorPoint:ccp(.5f, 0.f)];
         [self.movesLeftContainer setPosition:ccp(self.myPlayer.contentSize.width * .5f, self.myPlayer.contentSize.height + 15.f)];
         [self.movesLeftContainer setOpacity:0.f];
-        [self.myPlayer addChild:self.movesLeftContainer];
+        [self.myPlayer addChild:self.movesLeftContainer z:150];
       self.movesLeftLabel = [CCSprite spriteWithImageNamed:@"movelabelmoves.png"];
         [self.movesLeftLabel setAnchorPoint:ccp(0.f, .5f)];
         [self.movesLeftLabel setPosition:ccp(self.movesLeftContainer.contentSize.width * .5f - 15.f, self.movesLeftContainer.contentSize.height * .5f - 1.f)];
