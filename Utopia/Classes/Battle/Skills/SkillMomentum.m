@@ -116,20 +116,19 @@
 - (void) resetSpriteSize
 {
   BattleSprite* owner = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
-
-  [owner runAction:[CCActionEaseBounceIn actionWithAction:
-                    [CCActionEaseBounceOut actionWithAction:[CCActionScaleTo actionWithDuration:0.5 scale:1.0]]]];
+  [owner.sprite runAction:[CCActionEaseBounceIn actionWithAction:
+                           [CCActionEaseBounceOut actionWithAction:[CCActionScaleTo actionWithDuration:0.5 scale:1.0]]]];
 }
 
 - (void) updateOwnerSprite
 {
   if (_currentSizeMultiplier == 1.0)
     return;
-  BattleSprite* sprite = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
-  [sprite runAction:[CCActionSequence actions:
-                     [CCActionEaseIn actionWithAction:[CCActionScaleTo actionWithDuration:0.5 scale:_currentSizeMultiplier + 0.1]],
-                     [CCActionEaseOut actionWithAction:[CCActionScaleTo actionWithDuration:0.2 scale:_currentSizeMultiplier]],
-                     nil]];
+  BattleSprite* owner = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
+  [owner.sprite runAction:[CCActionSequence actions:
+                           [CCActionEaseIn actionWithAction:[CCActionScaleTo actionWithDuration:0.5 scale:_currentSizeMultiplier + 0.1]],
+                           [CCActionEaseOut actionWithAction:[CCActionScaleTo actionWithDuration:0.2 scale:_currentSizeMultiplier]],
+                           nil]];
 }
 
 - (void) increaseMultiplier
