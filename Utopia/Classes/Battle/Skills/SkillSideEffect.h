@@ -22,11 +22,6 @@
   CCColor*  _pfxColor;
   CGPoint   _pfxPixelOffset;
   SideEffectBlendMode _blendMode;
-  
-  CCSprite* _vfx;
-  CCParticleSystem* _pfx;
-  
-  BOOL _castOnPlayer;
 }
 
 @property (nonatomic, readonly) NSString* name;
@@ -34,8 +29,11 @@
 @property (nonatomic, readonly) SideEffectType type;
 @property (nonatomic, readonly) SideEffectTraitType traitType;
 @property (nonatomic, readonly) SideEffectPositionType positionType;
+@property (nonatomic, readonly) BOOL castOnPlayer;
 
 @property (nonatomic, readonly) BattleSprite* characterSprite;
+@property (nonatomic, readonly) CCSprite* vfx;
+@property (nonatomic, readonly) CCParticleSystem* pfx;
 
 + (instancetype)sideEffectWithProto:(SkillSideEffectProto*)proto invokingSkill:(NSInteger)skillId;
 - (instancetype)initWithProto:(SkillSideEffectProto*)proto invokingSkill:(NSInteger)skillId;
