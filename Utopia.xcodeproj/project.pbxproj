@@ -1461,6 +1461,9 @@
 		6B8CD5851A9BAE20000DAAB8 /* SkillControllerSplitOffDef.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B8CD5841A9BAE20000DAAB8 /* SkillControllerSplitOffDef.m */; };
 		6B8CD5861A9BAE20000DAAB8 /* SkillControllerSplitOffDef.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B8CD5841A9BAE20000DAAB8 /* SkillControllerSplitOffDef.m */; };
 		6B8CD5871A9BAE20000DAAB8 /* SkillControllerSplitOffDef.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B8CD5841A9BAE20000DAAB8 /* SkillControllerSplitOffDef.m */; };
+		6B8CD58A1A9BB45C000DAAB8 /* SkillControllerSpecialOrb.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B8CD5891A9BB45C000DAAB8 /* SkillControllerSpecialOrb.m */; };
+		6B8CD58B1A9BB45C000DAAB8 /* SkillControllerSpecialOrb.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B8CD5891A9BB45C000DAAB8 /* SkillControllerSpecialOrb.m */; };
+		6B8CD58C1A9BB45C000DAAB8 /* SkillControllerSpecialOrb.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B8CD5891A9BB45C000DAAB8 /* SkillControllerSpecialOrb.m */; };
 		6BA24DF31A7A9ECF00BEF920 /* SkillBloodRage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA24DF21A7A9ECF00BEF920 /* SkillBloodRage.m */; };
 		6BA24E091A7AEA6E00BEF920 /* SkillTakeAim.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA24E081A7AEA6E00BEF920 /* SkillTakeAim.m */; };
 		6BA24E0A1A7AEA6E00BEF920 /* SkillTakeAim.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA24E081A7AEA6E00BEF920 /* SkillTakeAim.m */; };
@@ -7422,6 +7425,8 @@
 		6B89A6E31A967BF6004C16B6 /* lockbreak.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = lockbreak.plist; sourceTree = "<group>"; };
 		6B8CD5821A9BAE0C000DAAB8 /* SkillControllerSplitOffDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillControllerSplitOffDef.h; sourceTree = "<group>"; };
 		6B8CD5841A9BAE20000DAAB8 /* SkillControllerSplitOffDef.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillControllerSplitOffDef.m; sourceTree = "<group>"; };
+		6B8CD5881A9BB176000DAAB8 /* SkillControllerSpecialOrb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillControllerSpecialOrb.h; sourceTree = "<group>"; };
+		6B8CD5891A9BB45C000DAAB8 /* SkillControllerSpecialOrb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillControllerSpecialOrb.m; sourceTree = "<group>"; };
 		6BA24DF01A7A9EC100BEF920 /* SkillBloodRage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillBloodRage.h; sourceTree = "<group>"; };
 		6BA24DF21A7A9ECF00BEF920 /* SkillBloodRage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillBloodRage.m; sourceTree = "<group>"; };
 		6BA24E061A7AEA6100BEF920 /* SkillTakeAim.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SkillTakeAim.h; sourceTree = "<group>"; };
@@ -16892,6 +16897,8 @@
 				9BC9F3491A8C143B009DC3D5 /* SkillSideEffectNerf.m */,
 				6B8CD5821A9BAE0C000DAAB8 /* SkillControllerSplitOffDef.h */,
 				6B8CD5841A9BAE20000DAAB8 /* SkillControllerSplitOffDef.m */,
+				6B8CD5881A9BB176000DAAB8 /* SkillControllerSpecialOrb.h */,
+				6B8CD5891A9BB45C000DAAB8 /* SkillControllerSpecialOrb.m */,
 			);
 			name = Core;
 			sourceTree = "<group>";
@@ -23282,6 +23289,7 @@
 				9BB9494B1A6EEC8C006EE920 /* NSData+Base64.m in Sources */,
 				6BB5F8601A80095B006515B9 /* TutorialBuildingUpgradeController.m in Sources */,
 				CFE11F811A141C040094F797 /* amqp_mem.c in Sources */,
+				6B8CD58B1A9BB45C000DAAB8 /* SkillControllerSpecialOrb.m in Sources */,
 				CF0CEDE5196F452900ECD301 /* EventPvp.pb.m in Sources */,
 				6B0784041A828C1C005CDFCF /* SkillInsurance.m in Sources */,
 				CF0CEDE7196F452900ECD301 /* ChatView.m in Sources */,
@@ -23383,6 +23391,7 @@
 				DA07606219B129EC00E43E5A /* SkillQuickAttack.m in Sources */,
 				CF6574B91909CAF200ABF1F4 /* EventStaticData.pb.m in Sources */,
 				CF126D5D1538ACCA00E0C1AD /* CoinBar.m in Sources */,
+				6B8CD58A1A9BB45C000DAAB8 /* SkillControllerSpecialOrb.m in Sources */,
 				CF0CDEB219E5103C006A5ECB /* TimerAction.m in Sources */,
 				CF126D5E1538ACCA00E0C1AD /* NibUtils.m in Sources */,
 				CF376713183305DD00D0A77E /* TimingFunctionTableView.m in Sources */,
@@ -23733,6 +23742,7 @@
 				CF4818CC19F7217F00041486 /* Structure.pb.m in Sources */,
 				CF4818CD19F7217F00041486 /* OutgoingEventController.m in Sources */,
 				CF4818CE19F7217F00041486 /* SocketCommunication.m in Sources */,
+				6B8CD58C1A9BB45C000DAAB8 /* SkillControllerSpecialOrb.m in Sources */,
 				9B8CA6131A3798C00060BE8F /* SkillCritAndEvade.m in Sources */,
 				CF4818CF19F7217F00041486 /* AnimatedSprite.m in Sources */,
 				CF4818D019F7217F00041486 /* SkillJelly.m in Sources */,
