@@ -33,6 +33,11 @@
 
 # pragma mark - Overrides
 
+- (int) quickAttackDamage
+{
+  return _damage;
+}
+
 - (NSSet*) sideEffects
 {
   return [NSSet setWithObjects:@(SideEffectTypeBuffCounterStrike), nil];
@@ -72,7 +77,6 @@
   if ([super skillCalledWithTrigger:trigger execute:execute])
     return YES;
   
-  
   if ([self isActive])
   {
     if ((trigger == SkillTriggerPointEndOfEnemyTurn && self.belongsToPlayer)
@@ -81,7 +85,9 @@
         [self tickDuration];
         float rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
         if (rand < _chance){
-          [self beginCounterStrike];
+          [self performAfterDelay:self.opponentSprite.animationType == MonsterProto_AnimationTypeMelee ? .5 : 0 block:^{
+            [self dealQuickAttack];
+          }];
         }
         else{
           return NO;
@@ -92,51 +98,6 @@
   }
   
   return NO;
-}
-
-#pragma mark - Skill Logic
-
-- (void) beginCounterStrike {
-  
-  [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
-  [self.battleLayer.orbLayer disallowInput];
-  
-  // Perform attack animation
-  [self performAfterDelay:self.opponentSprite.animationType == MonsterProto_AnimationTypeMelee ? .5 : 0 block:^{
-    if (self.belongsToPlayer)
-      [self.playerSprite performFarAttackAnimationWithStrength:0.f
-                                                   shouldEvade:NO
-                                                         enemy:self.enemySprite
-                                                        target:self
-                                                      selector:@selector(dealDamage)
-                                                animCompletion:nil];
-    else
-      [self.enemySprite performNearAttackAnimationWithEnemy:self.playerSprite
-                                               shouldReturn:YES
-                                                shouldEvade:NO
-                                               shouldFlinch:YES
-                                                     target:self
-                                                   selector:@selector(dealDamage)
-                                             animCompletion:nil];
-  }];
-}
-
-- (void) dealDamage {
-  [self.battleLayer dealDamage:_damage
-               enemyIsAttacker:!self.belongsToPlayer
-                  usingAbility:YES
-                    withTarget:self
-                  withSelector:@selector(endCounterStrike)];
-  
-  if (!self.belongsToPlayer)
-  {
-    [self.battleLayer setEnemyDamageDealt:(int)_damage];
-    [self.battleLayer sendServerUpdatedValuesVerifyDamageDealt:NO];
-  }
-}
-
-- (void) endCounterStrike {
-  [self skillTriggerFinished];
 }
 
 @end
