@@ -19,6 +19,8 @@
 #define LIGHT_RED @"E90005"
 #define DARK_RED @"D30004"
 
+#define ATTACK_ALERT_COUNT_KEY @"AttackAlertCountKey"
+
 @implementation AttackAlertCell
 
 - (void) updateForBattleHistory:(PvpHistoryProto *)php {
@@ -61,6 +63,24 @@
   _rankLabel.text = [NSString stringWithFormat:@"%d", _rankLost];
 }
 
+- (IBAction)clickedClose:(id)sender {
+  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+  GameViewController *gvc = [GameViewController baseController];
+  
+  NSInteger numAlerts = [defaults integerForKey:ATTACK_ALERT_COUNT_KEY];
+  numAlerts++;
+  [defaults setInteger:numAlerts forKey:ATTACK_ALERT_COUNT_KEY];
+  
+  [Globals popOutView:self.mainView fadeOutBgdView:self.bgView completion:^{
+    
+    [self.view removeFromSuperview];
+    [self removeFromParentViewController];
+    if ((numAlerts%7 == 0) && ![defaults boolForKey:[Globals userConfimredPushNotificationsKey]]) {
+      [gvc openPushNotificationRequestWithMessage:@"Would you like to recieve push notifications when you've been attacked?"];
+    }
+  }];
+}
+
 - (void) close {
   [Globals popOutView:self.mainView fadeOutBgdView:self.bgView completion:^{
     [self.view removeFromSuperview];
@@ -69,9 +89,6 @@
       _completion();
     }
   }];
-}
-- (IBAction)clickedClose:(id)sender {
-  [self close];
 }
 
 #pragma mark - TableView delegate
