@@ -407,8 +407,9 @@
     {
       NSString* img = (movesLeft == 1) ? @"movelabelmove.png" : @"movelabelmoves.png";
       [self.movesLeftLabel setSpriteFrame:[CCSpriteFrame frameWithImageNamed:img]];
-      
-      if (animated)
+
+      const BOOL containerHidden = self.movesLeftContainer.opacity < 1.f;
+      if (animated && !containerHidden)
       {
         [self.movesLeftCounter runAction:[CCActionSequence actions:
                                           [CCActionSpawn actions:
