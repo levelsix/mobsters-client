@@ -363,7 +363,6 @@ static const NSInteger kSwordOrbsMaxSearchIterations = 256;
 {
   BattleSprite* opponent = self.belongsToPlayer ? self.enemySprite : self.playerSprite;
   
-  [opponent runAction:[CCActionEaseBounceIn actionWithAction:[CCActionEaseBounceOut actionWithAction:[CCActionScaleTo actionWithDuration:.5f scale:1.f]]]];
   [opponent.sprite stopActionByTag:1914];
   [opponent.sprite runAction:[CCActionTintTo actionWithDuration:.3f color:[CCColor whiteColor]]];
   

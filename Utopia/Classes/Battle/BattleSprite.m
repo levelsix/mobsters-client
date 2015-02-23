@@ -44,7 +44,7 @@
     self.isFacingNear = YES;
     
     self.healthBgd = [CCSprite spriteWithImageNamed:@"minitimebg.png"];
-    [self addChild:self.healthBgd z:6];
+    [self addChild:self.healthBgd z:100];
     self.healthBgd.position = ccp(self.contentSize.width/2, self.contentSize.height);
     
     self.healthBar = [CCProgressNode progressWithSprite:[CCSprite spriteWithImageNamed:@"minihpbar.png"]];
@@ -797,6 +797,7 @@
   CCActionFiniteTime* shadowScaleAndMoveAction = [CCActionSpawn actions:[CCActionMoveBy actionWithDuration:duration * .2f position:movement], shadowScaleAction, nil];
   CCActionFiniteTime* shadowScaleAndMoveBackAction = [CCActionSpawn actions:[CCActionMoveBy actionWithDuration:duration * .2f position:movementBack], shadowScaleAction, nil];
   
+  // Animate and move character shadow with the sprite
   CCSprite* shadow = (CCSprite*)[self getChildByName:SHADOW_TAG recursively:NO];
   [shadow runAction:[CCActionSequence actions:
                      delayAction,
@@ -806,6 +807,15 @@
                      jumpSoundAction,
                      shadowScaleAndMoveBackAction,
                      nil]];
+  
+  // Animate and move any side effect visuals or particle effects with the sprite
+  for (SkillSideEffect* sideEffect in _skillSideEffects)
+  {
+    if (sideEffect.vfx)
+      [sideEffect.vfx runAction:[CCActionSequence actions:delayAction, shadowScaleAndMoveAction, pauseAction, shadowScaleAndMoveBackAction, nil]];
+    if (sideEffect.pfx)
+      [sideEffect.pfx runAction:[CCActionSequence actions:delayAction, shadowScaleAndMoveAction, pauseAction, shadowScaleAndMoveBackAction, nil]];
+  }
 }
 
 - (void) setScale:(float)scale

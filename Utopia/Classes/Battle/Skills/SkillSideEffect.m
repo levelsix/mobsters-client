@@ -23,7 +23,7 @@
 #define SIDE_EFFECT_VFX_APPEAR_DURATION   .4f
 #define SIDE_EFFECT_VFX_SCALE_MODIFIER    1.f
 #define SIDE_EFFECT_PFX_SCALE_MODIFIER    .5f // Retina display
-#define SIDE_EFFECT_TOP_MOST_Z_ORDER      1000
+#define SIDE_EFFECT_TOP_MOST_Z_ORDER      50
 #define SIDE_EFFECT_DISPLAY_ACTION_TAG    881039
 
 @implementation SkillSideEffect

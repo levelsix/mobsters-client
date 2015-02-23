@@ -92,8 +92,6 @@
 {
   BattleSprite* mySprite = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
   
-  [mySprite runAction:[CCActionEaseBounceIn actionWithAction:
-                       [CCActionEaseBounceOut actionWithAction:[CCActionScaleTo actionWithDuration:0.5 scale:1.0]]]];
   [mySprite.sprite stopActionByTag:1914];
   [mySprite.sprite runAction:[CCActionTintTo actionWithDuration:0.3 color:[CCColor whiteColor]]];
   

@@ -283,7 +283,8 @@
   BattleSprite* owner = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
   
   // Size player and make him blue
-  [owner runAction:[CCActionEaseBounceIn actionWithAction:[CCActionEaseBounceOut actionWithAction:[CCActionScaleTo actionWithDuration:.5f scale:1.25f]]]];
+  [owner.sprite runAction:[CCActionEaseBounceIn actionWithAction:
+                           [CCActionEaseBounceOut actionWithAction:[CCActionScaleTo actionWithDuration:.5f scale:1.15f]]]];
   [owner.sprite stopActionByTag:2864];
   CCActionRepeatForever* action = [CCActionRepeatForever actionWithAction:[CCActionSequence actions:
                                                                            [CCActionTintTo actionWithDuration:.5f color:[CCColor cyanColor]],
@@ -297,7 +298,8 @@
 {
   BattleSprite* owner = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
   
-  [owner runAction:[CCActionEaseBounceIn actionWithAction:[CCActionEaseBounceOut actionWithAction:[CCActionScaleTo actionWithDuration:.5f scale:1.f]]]];
+  // Back to original size and color
+  [owner.sprite runAction:[CCActionEaseBounceIn actionWithAction:[CCActionEaseBounceOut actionWithAction:[CCActionScaleTo actionWithDuration:.5f scale:1.f]]]];
   [owner.sprite stopActionByTag:2864];
   [owner.sprite runAction:[CCActionTintTo actionWithDuration:.5f color:[CCColor whiteColor]]];
 }

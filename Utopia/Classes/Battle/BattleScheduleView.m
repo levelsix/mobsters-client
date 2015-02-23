@@ -16,6 +16,17 @@
 
 @implementation SideEffectActiveTurns
 
+- (instancetype) init
+{
+  if (self = [super init])
+  {
+    _displaySymbol = nil;
+    _playerTurns = 0;
+    _enemyTurns = 0;
+  }
+  return self;
+}
+
 @end
 
 @implementation BattleScheduleView
@@ -61,6 +72,16 @@
 
 - (void) setOrdering:(NSArray *)ordering showEnemyBands:(NSArray *)showEnemyBands playerTurns:(NSArray*)playerTurns{
   NSMutableArray *oldArr = self.monsterViews;
+  
+  // Account for how many turns currently display side effects before
+  // throwing away the old schedule, so that the new schedule can
+  // properly display side effects on newly-created turn indicators
+  for (MiniMonsterView* mmv in self.monsterViews)
+    for (NSString* key in mmv.sideEffectSymbols)
+    {
+      SideEffectActiveTurns* at = [_upcomingSideEffectTurns objectForKey:key];
+      if (mmv.belongsToPlayer) ++at.playerTurns; else ++at.enemyTurns;
+    }
   
   // If it was hidden just remove all the old monster views
   if (self.hidden) {
@@ -185,6 +206,7 @@
     [mmv addSubview:label];
   }
   
+  // If there are any outstanding side effects, display them on this turn indicator
   for (NSString* key in _upcomingSideEffectTurns)
   {
     SideEffectActiveTurns* at = [_upcomingSideEffectTurns objectForKey:key];
@@ -209,24 +231,14 @@
 - (void) displaySideEffectIcon:(NSString*)icon withKey:(NSString*)key onUpcomingTurns:(NSInteger)numTurns forPlayer:(BOOL)player
 {
   SideEffectActiveTurns* at = [_upcomingSideEffectTurns objectForKey:key];
-  if (!at) at = [[SideEffectActiveTurns alloc] init];
+  if (!at) { at = [[SideEffectActiveTurns alloc] init]; [_upcomingSideEffectTurns setObject:at forKey:key]; }
   if (player) at.playerTurns = numTurns; else at.enemyTurns = numTurns;
   at.displaySymbol = icon;
-  [_upcomingSideEffectTurns setObject:at forKey:key];
   
   int turnCounter = 0;
-  if (numTurns == 0) return;
-  
   for (MiniMonsterView* mv in self.monsterViews)
-  {
     if (mv.belongsToPlayer == player)
-    {
-      [self display:YES sideEffectIcon:icon withKey:key onView:mv forPlayer:player];
-      
-      if (++turnCounter == numTurns)
-        break;
-    }
-  }
+      [self display:(numTurns < 0 || turnCounter++ < numTurns) sideEffectIcon:icon withKey:key onView:mv forPlayer:player];
 }
 
 - (void) removeSideEffectIconWithKey:(NSString*)key onAllUpcomingTurnsForPlayer:(BOOL)player
@@ -234,6 +246,9 @@
   for (MiniMonsterView* mv in self.monsterViews)
     if (mv.belongsToPlayer == player)
       [self display:NO sideEffectIcon:nil withKey:key onView:mv forPlayer:player];
+  
+  SideEffectActiveTurns* at = [_upcomingSideEffectTurns objectForKey:key];
+  if (player) at.playerTurns = 0; else at.enemyTurns = 0;
 }
 
 - (void) display:(BOOL)display sideEffectIcon:(NSString*)icon withKey:(NSString*)key onView:(MiniMonsterView*)mv forPlayer:(BOOL)player
@@ -241,10 +256,8 @@
   if (display)
   {
     [mv displaySideEffectIcon:icon withKey:key];
-    
     SideEffectActiveTurns* at = [_upcomingSideEffectTurns objectForKey:key];
-    const NSInteger remainingActiveTurns = player ? at.playerTurns : at.enemyTurns;
-    if (remainingActiveTurns > 0) { if (player) at.playerTurns = remainingActiveTurns - 1; else at.enemyTurns = remainingActiveTurns - 1; }
+    if (player) { if (at.playerTurns > 0) --at.playerTurns; } else { if (at.enemyTurns > 0) --at.enemyTurns; }
   }
   else
     [mv removeSideEffectIconWithKey:key];
