@@ -574,8 +574,15 @@
   if ((self = [super initWithImageNamed:bgdName])) {
     _inside = [CCSprite node];
     [Globals imageNamed:imgName toReplaceSprite:_inside completion:^(BOOL success) {
-      if (success && _inside.contentSize.height > self.contentSize.height) {
-        _inside.scale = self.contentSize.height/_inside.contentSize.height;
+      if (success)
+      {
+        if (reward.type == RewardTypePvpLeague)
+        {
+          _inside.scale = 30 / _inside.contentSize.height;
+        }
+        else if (_inside.contentSize.height > self.contentSize.height) {
+          _inside.scale = self.contentSize.height/_inside.contentSize.height;
+        }
       }
     }];
     [self addChild:_inside];  
@@ -631,10 +638,8 @@
   if (league && league.hasImgPrefix) {
     NSString *imgName = [league.imgPrefix stringByAppendingString:@"icon.png"];
     [Globals imageNamed:imgName toReplaceSprite:_inside completion:^(BOOL success) {
+      _inside.scale = 30 / _inside.contentSize.height;
       _inside.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
-      if (_inside.contentSize.height > self.contentSize.height) {
-        _inside.scale = self.contentSize.height/_inside.contentSize.height;
-      }
     }];
   }
   
