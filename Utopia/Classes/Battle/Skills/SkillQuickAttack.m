@@ -33,28 +33,10 @@
   return _damage;
 }
 
-- (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
+- (BOOL) activate
 {
-  if ([super skillCalledWithTrigger:trigger execute:execute])
-    return YES;
-  
-  if (trigger == SkillTriggerPointEndOfPlayerMove)
-  {
-    if ([self skillIsReady])
-    {
-      if (execute)
-      {
-        [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
-        [self.battleLayer.orbLayer disallowInput];
-        [self showSkillPopupOverlay:YES withCompletion:^(){
-          [self dealQuickAttack];
-        }];
-      }
-      return YES;
-    }
-  }
-  
-  return NO;
+  [self dealQuickAttack];
+  return YES;
 }
 
 - (void) onFinishQuickAttack
