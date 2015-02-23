@@ -111,28 +111,11 @@
 
 - (void) becomeEnraged
 {
-  // Show attack label
-  CCSprite* increaseSprite = [CCSprite spriteWithImageNamed:@"150percentatk.png"];
-  increaseSprite.position = CGPointMake((self.enemySprite.position.x + self.playerSprite.position.x)/2 + self.playerSprite.contentSize.width/2 - 20, (self.playerSprite.position.y + self.enemySprite.position.y)/2 + self.playerSprite.contentSize.height/2);
-  increaseSprite.scale = 0.0;
-  [self.playerSprite.parent addChild:increaseSprite z:50];
-  
-  // Run animation
-  [increaseSprite runAction:[CCActionSequence actions:
-        [CCActionDelay actionWithDuration:0.3],
-        [CCActionEaseBounceOut actionWithAction:[CCActionScaleTo actionWithDuration:0.5 scale:1.0]],
-        [CCActionDelay actionWithDuration:0.5],
-        [CCActionEaseIn actionWithAction:[CCActionScaleTo actionWithDuration:0.3 scale:0.0]],
-        [CCActionRemove action],
-        nil]];
-  
   // Animations
   [self addEnrageAnimations];
   
   // Finish trigger execution
   [self performAfterDelay:0.3 block:^{
-    [self.battleLayer.orbLayer.bgdLayer turnTheLightsOn];
-    [self.battleLayer.orbLayer allowInput];
     [self skillTriggerFinished:YES];
   }];
 }
