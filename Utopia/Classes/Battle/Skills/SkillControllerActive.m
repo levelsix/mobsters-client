@@ -7,6 +7,7 @@
 //
 
 #import "SkillControllerActive.h"
+#import "NewBattleLayer.h"
 
 @implementation SkillControllerActive
 
@@ -22,6 +23,21 @@
   return self;
 }
 
+- (BOOL) doesRefresh
+{
+  return NO;
+}
+
+- (BOOL) isActive
+{
+  return NO;
+}
+
+- (BOOL) activate
+{
+  return NO;
+}
+
 - (BOOL) skillIsReady
 {
   return _orbCounter == 0;
@@ -35,6 +51,37 @@
     // 2/24/15 - BN - Special orbs no longer count towards skill activation
     if (type == SpecialOrbTypeNone && color == self.orbColor && _orbCounter > 0)
       _orbCounter--;
+}
+
+- (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
+{
+  if ([super skillCalledWithTrigger:trigger execute:execute])
+    return YES;
+  
+  if ([self doesRefresh] || ![self isActive])
+  {
+    if ((self.activationType == SkillActivationTypeUserActivated && trigger == SkillTriggerPointManualActivation) ||
+        (self.activationType == SkillActivationTypeAutoActivated && trigger == SkillTriggerPointEndOfPlayerMove))
+    {
+      if ([self skillIsReady])
+      {
+        if (execute)
+        {
+          [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
+          [self.battleLayer.orbLayer disallowInput];
+          [self showSkillPopupOverlay:YES withCompletion:^(){
+            if ([self doesRefresh])
+              [self resetOrbCounter];
+            if (![self activate])
+              [self skillTriggerFinished:YES];
+          }];
+        }
+        return YES;
+      }
+    }
+  }
+  
+  return NO;
 }
 
 - (void) resetOrbCounter
