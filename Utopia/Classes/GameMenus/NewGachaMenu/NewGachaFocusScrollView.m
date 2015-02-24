@@ -46,12 +46,14 @@
     if (!shouldLoop) {
       self.scrollView.contentSize = CGSizeMake(width*_numItems, self.scrollView.frame.size.height);
       self.scrollView.contentOffset = ccp(0, 0);
-      self.pageControl.numberOfPages = _numItems;
     } else {
       self.scrollView.contentSize = CGSizeMake(NUM_REPEATED_FOR_LOOPING*width*_numItems, self.scrollView.frame.size.height);
       self.scrollView.contentOffset = ccp(NUM_REPEATED_FOR_LOOPING*_numItems/2*width, 0);
-      self.pageControl.numberOfPages = NUM_REPEATED_FOR_LOOPING * _numItems;
     }
+    self.pageControl.numberOfPages = _numItems;
+    
+    UIView* viewContainer = self.pageControl.superview.superview;
+    self.pageControl.centerX = [viewContainer convertPoint:viewContainer.center toView:self.pageControl.superview].x;
     
     [self scrollViewDidScroll:self.scrollView];
   }
@@ -63,7 +65,7 @@
   int leftIdx = floorf(curIdx-self.frame.size.width/width/2);
   int rightIdx = floorf(curIdx+self.frame.size.width/width/2);
   
-  self.pageControl.currentPage = floorf(curIdx);
+  self.pageControl.currentPage = (int)floorf(curIdx) % self.pageControl.numberOfPages;
   
   NSMutableArray *toRemove = [NSMutableArray array];
   for (UIView *v in self.innerViews) {

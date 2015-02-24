@@ -17,10 +17,10 @@
 #import "NewBattleLayer.h"
 
 #define SIDE_EFFECT_ANIM_DELAY_PER_FRAME  .07f
-#define SIDE_EFFECT_VFX_FADE_DURATION     .2f
+#define SIDE_EFFECT_VFX_FADE_DURATION     .25f
 #define SIDE_EFFECT_VFX_DISPLAY_DURATION  2.f
 #define SIDE_EFFECT_VFX_DISPLAY_INTERVAL  (SIDE_EFFECT_VFX_DISPLAY_DURATION + SIDE_EFFECT_VFX_FADE_DURATION * 2.f)
-#define SIDE_EFFECT_VFX_APPEAR_DURATION   .4f
+#define SIDE_EFFECT_VFX_APPEAR_DURATION   .5f
 #define SIDE_EFFECT_VFX_SCALE_MODIFIER    1.f
 #define SIDE_EFFECT_PFX_SCALE_MODIFIER    .5f // Retina display
 #define SIDE_EFFECT_TOP_MOST_Z_ORDER      50
@@ -107,10 +107,12 @@
           _vfx.zOrder = belowCharacter ? zOrder : SIDE_EFFECT_TOP_MOST_Z_ORDER + zOrder;
           _vfx.scale = 0.f;
           
-          [_vfx runAction:[CCActionSpawn actions:
-                           [CCActionEaseBounceOut actionWithAction:
-                            [CCActionScaleTo actionWithDuration:SIDE_EFFECT_VFX_APPEAR_DURATION scale:SIDE_EFFECT_VFX_SCALE_MODIFIER]],
-                           [CCActionFadeIn actionWithDuration:SIDE_EFFECT_VFX_APPEAR_DURATION], nil]];
+          CCAction* action = [CCActionSpawn actions:
+                              [CCActionEaseBounceOut actionWithAction:
+                               [CCActionScaleTo actionWithDuration:SIDE_EFFECT_VFX_APPEAR_DURATION scale:SIDE_EFFECT_VFX_SCALE_MODIFIER]],
+                              [CCActionFadeIn actionWithDuration:SIDE_EFFECT_VFX_APPEAR_DURATION], nil];
+          action.tag = SIDE_EFFECT_DISPLAY_ACTION_TAG;
+          [_vfx runAction:action];
           
           [sprite addChild:_vfx z:_vfx.zOrder];
         }
@@ -129,13 +131,14 @@
             
             NSString* prefix = [_imageName stringByDeletingPathExtension]; // DO NOT CHANGE - Naming convention that the assets follow
             CCAnimation* anim = [CCAnimation animationWithSpritePrefix:prefix delay:SIDE_EFFECT_ANIM_DELAY_PER_FRAME];
-            CCAction* action = [CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:anim]];
-            [_vfx runAction:action];
+            [_vfx runAction:[CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:anim]]];
 
-            [_vfx runAction:[CCActionSpawn actions:
-                             [CCActionEaseBounceOut actionWithAction:
-                              [CCActionScaleTo actionWithDuration:SIDE_EFFECT_VFX_APPEAR_DURATION scale:SIDE_EFFECT_VFX_SCALE_MODIFIER]],
-                             [CCActionFadeIn actionWithDuration:SIDE_EFFECT_VFX_APPEAR_DURATION], nil]];
+            CCAction* action = [CCActionSpawn actions:
+                                [CCActionEaseBounceOut actionWithAction:
+                                 [CCActionScaleTo actionWithDuration:SIDE_EFFECT_VFX_APPEAR_DURATION scale:SIDE_EFFECT_VFX_SCALE_MODIFIER]],
+                                [CCActionFadeIn actionWithDuration:SIDE_EFFECT_VFX_APPEAR_DURATION], nil];
+            action.tag = SIDE_EFFECT_DISPLAY_ACTION_TAG;
+            [_vfx runAction:action];
             
             [sprite addChild:_vfx z:_vfx.zOrder];
           }
@@ -215,29 +218,36 @@
   }
   else
   {
-    _vfx.opacity = 0.f;
-    CCAction* action = [CCActionRepeatForever actionWithAction:
-                        [CCActionSequence actions:
-                         [CCActionDelay   actionWithDuration:SIDE_EFFECT_VFX_DISPLAY_INTERVAL * order],
-                         [CCActionFadeIn  actionWithDuration:SIDE_EFFECT_VFX_FADE_DURATION],
-                         [CCActionDelay   actionWithDuration:SIDE_EFFECT_VFX_DISPLAY_DURATION],
-                         [CCActionFadeOut actionWithDuration:SIDE_EFFECT_VFX_FADE_DURATION],
-                         [CCActionDelay   actionWithDuration:SIDE_EFFECT_VFX_DISPLAY_INTERVAL * (total - order - 1)]
-                         , nil]];
-    action.tag = SIDE_EFFECT_DISPLAY_ACTION_TAG;
-    [_vfx runAction:action];
+    if (_vfx)
+    {
+      _vfx.opacity = 0.f;
+      _vfx.scale = SIDE_EFFECT_VFX_SCALE_MODIFIER;
+      CCAction* action = [CCActionRepeatForever actionWithAction:
+                          [CCActionSequence actions:
+                           [CCActionDelay   actionWithDuration:SIDE_EFFECT_VFX_DISPLAY_INTERVAL * order],
+                           [CCActionFadeIn  actionWithDuration:SIDE_EFFECT_VFX_FADE_DURATION],
+                           [CCActionDelay   actionWithDuration:SIDE_EFFECT_VFX_DISPLAY_DURATION],
+                           [CCActionFadeOut actionWithDuration:SIDE_EFFECT_VFX_FADE_DURATION],
+                           [CCActionDelay   actionWithDuration:SIDE_EFFECT_VFX_DISPLAY_INTERVAL * (total - order - 1)]
+                           , nil]];
+      action.tag = SIDE_EFFECT_DISPLAY_ACTION_TAG;
+      [_vfx runAction:action];
+    }
     
-    [_pfx stopSystem];
-    action = [CCActionRepeatForever actionWithAction:
-              [CCActionSequence actions:
-               [CCActionDelay   actionWithDuration:SIDE_EFFECT_VFX_DISPLAY_INTERVAL * order],
-               [CCActionCallFunc actionWithTarget:_pfx selector:@selector(resetSystem)],
-               [CCActionDelay   actionWithDuration:SIDE_EFFECT_VFX_DISPLAY_INTERVAL],
-               [CCActionCallFunc actionWithTarget:_pfx selector:@selector(stopSystem)],
-               [CCActionDelay   actionWithDuration:SIDE_EFFECT_VFX_DISPLAY_INTERVAL * (total - order - 1)]
-               , nil]];
-    action.tag = SIDE_EFFECT_DISPLAY_ACTION_TAG;
-    [_pfx runAction:action];
+    if (_pfx)
+    {
+      [_pfx stopSystem];
+      CCAction* action = [CCActionRepeatForever actionWithAction:
+                          [CCActionSequence actions:
+                           [CCActionDelay   actionWithDuration:SIDE_EFFECT_VFX_DISPLAY_INTERVAL * order],
+                           [CCActionCallFunc actionWithTarget:_pfx selector:@selector(resetSystem)],
+                           [CCActionDelay   actionWithDuration:SIDE_EFFECT_VFX_DISPLAY_INTERVAL],
+                           [CCActionCallFunc actionWithTarget:_pfx selector:@selector(stopSystem)],
+                           [CCActionDelay   actionWithDuration:SIDE_EFFECT_VFX_DISPLAY_INTERVAL * (total - order - 1)]
+                           , nil]];
+      action.tag = SIDE_EFFECT_DISPLAY_ACTION_TAG;
+      [_pfx runAction:action];
+    }
   }
 }
 

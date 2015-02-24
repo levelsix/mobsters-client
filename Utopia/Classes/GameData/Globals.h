@@ -322,6 +322,7 @@
 + (void) shakeView:(UIView *)view duration:(float)duration offset:(int)offset;
 + (void) displayUIView:(UIView *)view;
 + (CGPoint) convertPointToWindowCoordinates:(CGPoint)point fromViewCoordinates:(UIView *)view;
++ (CGPoint) convertPointFromWindowCoordinates:(CGPoint)point toViewCoordinates:(UIView *)view;
 + (void) alignSubviewsToPixelsBoundaries:(UIView*)view;
 + (void) setAnchorPoint:(CGPoint)anchorPoint onView:(UIView*)view;
 

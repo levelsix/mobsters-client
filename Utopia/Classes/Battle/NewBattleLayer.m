@@ -407,8 +407,9 @@
     {
       NSString* img = (movesLeft == 1) ? @"movelabelmove.png" : @"movelabelmoves.png";
       [self.movesLeftLabel setSpriteFrame:[CCSpriteFrame frameWithImageNamed:img]];
-      
-      if (animated)
+
+      const BOOL containerHidden = self.movesLeftContainer.opacity < 1.f;
+      if (animated && !containerHidden)
       {
         [self.movesLeftCounter runAction:[CCActionSequence actions:
                                           [CCActionSpawn actions:
@@ -1996,6 +1997,11 @@
   [self.hudView removeBattleScheduleView];
   [self.hudView hideSkillPopup:nil];
   self.hudView.bottomView.hidden = YES;
+  
+  [self setMovesLeft:0 animated:NO];
+  [self.movesLeftContainer removeFromParent];
+  self.movesLeftContainer = nil;
+  _movesLeftHidden = YES;
   
   [self removeOrbLayerAnimated:YES withBlock:^{
     [SoundEngine puzzleWinLoseUI];
