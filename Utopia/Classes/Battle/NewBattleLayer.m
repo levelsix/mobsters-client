@@ -2195,19 +2195,22 @@
       
       CGPoint endPoint = [self.orbLayer convertToNodeSpace:[self.bgdContainer convertToWorldSpace:ccpAdd(self.myPlayer.position, ccp(0, self.myPlayer.contentSize.height/2))]];
       [self spawnRibbonForOrb:orb target:endPoint baseDuration:0.15f skill:NO];
-      
-      // Skill ribbons
-      if ([skillManager shouldSpawnRibbonForPlayerSkill:orb.orbColor])
-      {
-        endPoint = [skillManager playerSkillIndicatorPosition];
-        [self spawnRibbonForOrb:orb target:endPoint baseDuration:0.4f skill:YES];
-      }
-      if ([skillManager shouldSpawnRibbonForEnemySkill:orb.orbColor])
-      {
-        endPoint = [skillManager enemySkillIndicatorPosition];
-        [self spawnRibbonForOrb:orb target:endPoint baseDuration:0.4f skill:YES];
-      }
 
+      // 2/24/15 - BN - Special orbs no longer count towards skill activation
+      if (orb.specialOrbType == SpecialOrbTypeNone)
+      {
+        // Skill ribbons
+        if ([skillManager shouldSpawnRibbonForPlayerSkill:orb.orbColor])
+        {
+          endPoint = [skillManager playerSkillIndicatorPosition];
+          [self spawnRibbonForOrb:orb target:endPoint baseDuration:0.4f skill:YES];
+        }
+        if ([skillManager shouldSpawnRibbonForEnemySkill:orb.orbColor])
+        {
+          endPoint = [skillManager enemySkillIndicatorPosition];
+          [self spawnRibbonForOrb:orb target:endPoint baseDuration:0.4f skill:YES];
+        }
+      }
     }
     else if (orb.specialOrbType == SpecialOrbTypeCake)
     {

@@ -32,7 +32,8 @@
   //If owner is cursed, don't tick down counter
   if ((self.belongsToPlayer && !self.player.isCursed)
       || (!self.belongsToPlayer && !self.enemy.isCursed))
-    if ( color == self.orbColor && _orbCounter > 0)
+    // 2/24/15 - BN - Special orbs no longer count towards skill activation
+    if (type == SpecialOrbTypeNone && color == self.orbColor && _orbCounter > 0)
       _orbCounter--;
 }
 
