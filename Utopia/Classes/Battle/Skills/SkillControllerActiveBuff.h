@@ -17,6 +17,7 @@
 - (BOOL) onDurationReset;
 - (BOOL) onDurationEnd;
 - (void) endDurationNow;
+- (BOOL) affectsOwner;
 
 - (void) addVisualEffects:(BOOL)finishSkillTrigger;
 - (void) removeVisualEffects;

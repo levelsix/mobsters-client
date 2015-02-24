@@ -11,6 +11,8 @@
 
 @implementation SkillControllerActiveBuff
 
+#pragma mark - Overrides
+
 - (id) initWithProto:(SkillProto *)proto andMobsterColor:(OrbColor)color
 {
   self = [super initWithProto:proto andMobsterColor:color];
@@ -30,19 +32,22 @@
   return _turnsLeft != 0;
 }
 
-- (BOOL) doesRefresh
+- (BOOL) activate
 {
-  return NO;
+  return [self resetDuration];
 }
+
+- (void) restoreVisualsIfNeeded
+{
+  if ([self isActive])
+    [self addVisualEffects:NO];
+}
+
+#pragma mark - Class Functions
 
 - (NSInteger) getDuration
 {
   return _duration;
-}
-
-- (BOOL) activate
-{
-  return [self resetDuration];
 }
 
 - (BOOL) resetDuration
@@ -62,12 +67,6 @@
     _turnsLeft--;
   if (_turnsLeft == 0)
     [self onDurationEnd];
-}
-
-- (void) restoreVisualsIfNeeded
-{
-  if ([self isActive])
-    [self addVisualEffects:NO];
 }
 
 - (BOOL) onDurationStart
@@ -96,6 +95,20 @@
   return NO;
 }
 
+- (void) endDurationNow
+{
+  if (_turnsLeft != 0)
+  {
+    _turnsLeft = 0;
+    [self onDurationEnd];
+  }
+}
+
+- (BOOL) affectsOwner
+{
+  return YES;
+}
+
 - (void) addVisualEffects:(BOOL)finishSkillTrigger
 {
   for (NSNumber *sideEff in [self sideEffects])
@@ -114,15 +127,6 @@
   {
     SideEffectType sideType = [sideEff intValue];
     [self removeSkillSideEffectFromSkillOwner:sideType];
-  }
-}
-
-- (void) endDurationNow
-{
-  if (_turnsLeft != 0)
-  {
-    _turnsLeft = 0;
-    [self onDurationEnd];
   }
 }
 

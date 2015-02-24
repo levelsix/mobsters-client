@@ -19,7 +19,6 @@
   [super setDefaultValues];
   
   _targetHPPercToDealAsDamage = 0.f;
-  _logoShown = NO;
 }
 
 - (void) setValue:(float)value forProperty:(NSString*)property
@@ -35,14 +34,6 @@
 - (NSSet*) sideEffects
 {
   return [NSSet setWithObjects:@(SideEffectTypeBuffStaticField), nil];
-}
-
-- (void) restoreVisualsIfNeeded
-{
-  if ([self isActive])
-  {
-    [self addSkillSideEffectToSkillOwner:SideEffectTypeBuffStaticField turnsAffected:self.turnsLeft];
-  }
 }
 
 - (int) quickAttackDamage
@@ -81,27 +72,6 @@
   }
   
   return NO;
-}
-
-- (BOOL) onDurationStart
-{
-  [self addSkillSideEffectToSkillOwner:SideEffectTypeBuffStaticField turnsAffected:self.turnsLeft];
-  
-  return NO;
-}
-
-- (BOOL) onDurationReset
-{
-  [self resetAfftectedTurnsCount:self.turnsLeft forSkillSideEffectOnSkillOwner:SideEffectTypeBuffStaticField];
-  
-  return [super onDurationStart];
-}
-
-- (BOOL) onDurationEnd
-{
-  [self removeSkillSideEffectFromSkillOwner:SideEffectTypeBuffStaticField];
-  
-  return [super onDurationEnd];
 }
 
 @end

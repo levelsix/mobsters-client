@@ -12,9 +12,6 @@
 {
   // Properties
   float _targetHPPercToDealAsDamage;
-  
-  // Temp
-  BOOL _logoShown;
 }
 
 @end
