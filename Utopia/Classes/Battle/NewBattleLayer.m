@@ -1998,6 +1998,11 @@
   [self.hudView hideSkillPopup:nil];
   self.hudView.bottomView.hidden = YES;
   
+  [self setMovesLeft:0 animated:NO];
+  [self.movesLeftContainer removeFromParent];
+  self.movesLeftContainer = nil;
+  _movesLeftHidden = YES;
+  
   [self removeOrbLayerAnimated:YES withBlock:^{
     [SoundEngine puzzleWinLoseUI];
     
