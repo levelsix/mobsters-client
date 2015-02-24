@@ -127,8 +127,12 @@
                             <rect key="frame" x="0.0" y="31" width="235" height="59"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="toonrequestbubble.png" id="kTR-Lh-26E">
+                                    <rect key="frame" x="7" y="9" width="220" height="41"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" text="hi" textAlignment="center" id="IoB-TD-IKb" customClass="NiceFontTextView9">
-                                    <rect key="frame" x="8" y="0.0" width="219" height="59"/>
+                                    <rect key="frame" x="8" y="6" width="219" height="47"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <inset key="contentInset" minX="-3" minY="4" maxX="0.0" maxY="0.0"/>
@@ -149,6 +153,7 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <nil key="simulatedStatusBarMetrics"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+            <point key="canvasLocation" x="493" y="579"/>
         </view>
     </objects>
     <resources>
@@ -156,6 +161,7 @@
         <image name="greenmenuoption.png" width="80" height="40"/>
         <image name="greymenuoption.png" width="80" height="40"/>
         <image name="itemsheaderbg.png" width="1" height="35"/>
+        <image name="toonrequestbubble.png" width="220" height="41"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

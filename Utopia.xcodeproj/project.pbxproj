@@ -854,6 +854,9 @@
 		29C0D2321A9BFA79005A4EC0 /* ultimategrabitem@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29C0D2311A9BFA79005A4EC0 /* ultimategrabitem@2x.png */; };
 		29C0D2331A9BFA79005A4EC0 /* ultimategrabitem@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29C0D2311A9BFA79005A4EC0 /* ultimategrabitem@2x.png */; };
 		29C0D2341A9BFA79005A4EC0 /* ultimategrabitem@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29C0D2311A9BFA79005A4EC0 /* ultimategrabitem@2x.png */; };
+		29C0D2381A9C1098005A4EC0 /* toonrequestbubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29C0D2371A9C1098005A4EC0 /* toonrequestbubble@2x.png */; };
+		29C0D2391A9C1098005A4EC0 /* toonrequestbubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29C0D2371A9C1098005A4EC0 /* toonrequestbubble@2x.png */; };
+		29C0D23A1A9C1098005A4EC0 /* toonrequestbubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29C0D2371A9C1098005A4EC0 /* toonrequestbubble@2x.png */; };
 		29C3CA571A92EFB5005407E9 /* greenarrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29C3CA551A92EFB5005407E9 /* greenarrow@2x.png */; };
 		29C3CA581A92EFB5005407E9 /* greenarrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29C3CA551A92EFB5005407E9 /* greenarrow@2x.png */; };
 		29C3CA591A92EFB5005407E9 /* greenarrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29C3CA551A92EFB5005407E9 /* greenarrow@2x.png */; };
@@ -8183,6 +8186,7 @@
 		29AF1C6E1A443A2A00E8E457 /* BattleOrbPath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BattleOrbPath.m; sourceTree = "<group>"; };
 		29C0D22C1A9BF4BF005A4EC0 /* lockedbubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lockedbubble@2x.png"; sourceTree = "<group>"; };
 		29C0D2311A9BFA79005A4EC0 /* ultimategrabitem@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ultimategrabitem@2x.png"; sourceTree = "<group>"; };
+		29C0D2371A9C1098005A4EC0 /* toonrequestbubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "toonrequestbubble@2x.png"; sourceTree = "<group>"; };
 		29C3CA551A92EFB5005407E9 /* greenarrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greenarrow@2x.png"; sourceTree = "<group>"; };
 		29C3CA561A92EFB5005407E9 /* redarrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "redarrow@2x.png"; sourceTree = "<group>"; };
 		29C3CA631A955BCF005407E9 /* free_speedup_available.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = free_speedup_available.mp3; sourceTree = "<group>"; };
@@ -13701,6 +13705,7 @@
 		29E00D5D1A79B52D00F34D51 /* Donate Enhancement */ = {
 			isa = PBXGroup;
 			children = (
+				29C0D2371A9C1098005A4EC0 /* toonrequestbubble@2x.png */,
 				296548641A8163F80080B195 /* donatetoonslot@2x.png */,
 				29E00D5E1A79B52D00F34D51 /* donateenhancebottombar.png */,
 				29E00D5F1A79B52D00F34D51 /* donateenhancebottombar@2x.png */,
@@ -21171,6 +21176,7 @@
 				CFF2A51519709C4800269084 /* CashStorageT1@2x.plist in Resources */,
 				CFF2A5D519709C4800269084 /* 1mapsection1@2x.png in Resources */,
 				CF0CF776196F452900ECD301 /* platinumbig@2x.png in Resources */,
+				29C0D2391A9C1098005A4EC0 /* toonrequestbubble@2x.png in Resources */,
 				CF0CF77A196F452900ECD301 /* bomb@2x.png in Resources */,
 				CF6A64E219D24F030002E05D /* 6nightorb@2x.png in Resources */,
 				63733A661A79E2F300CB6888 /* helpsbg@2x.png in Resources */,
@@ -23070,6 +23076,7 @@
 				CFFBDFBE18ACA3D90090CA9A /* Scientist4Breath06@2x.png in Resources */,
 				9B6B77DC1A858B1A0080C8E5 /* 6moveslabel@2x.png in Resources */,
 				9BDA8B3E1A3945F600C7AC27 /* evasionminilogo@2x.png in Resources */,
+				29C0D2381A9C1098005A4EC0 /* toonrequestbubble@2x.png in Resources */,
 				CFFEB16B1834A82C007C4BA3 /* MonsterTeamSlotView.xib in Resources */,
 				CF29E95A1962236600B40DA4 /* largebubbleover@2x.png in Resources */,
 				CFFBDF2D18ACA3D90090CA9A /* Scientist1Blink03@2x.png in Resources */,
@@ -24868,6 +24875,7 @@
 				CF4820E919F7217F00041486 /* EnhanceChooserViewController.xib in Resources */,
 				CF4820EC19F7217F00041486 /* goosplashicon@2x.png in Resources */,
 				CF4820EF19F7217F00041486 /* waterbomb@2x.png in Resources */,
+				29C0D23A1A9C1098005A4EC0 /* toonrequestbubble@2x.png in Resources */,
 				CF4820F219F7217F00041486 /* backgroundright@2x.png in Resources */,
 				CF4820F319F7217F00041486 /* timergethelp@2x.png in Resources */,
 				CF4820F419F7217F00041486 /* QuestLogViewController.xib in Resources */,
