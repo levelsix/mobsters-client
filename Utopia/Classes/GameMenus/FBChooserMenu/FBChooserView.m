@@ -21,6 +21,7 @@
   self.profilePic.profileID = nil;
   
   [self.profilePic.imageView cancelImageRequestOperation];
+  self.profilePic.imageView.image = nil;
   
   // Invitable friends have picture property..
   // Actual friends don't so just set the id
@@ -62,13 +63,16 @@
       NSArray *appFriends = fbFriends;
       
       [FacebookDelegate getInvitableFacebookFriendsWithLoginUI:NO callback:^(NSArray *fbFriends) {
-        _retrievedFriends = YES;
-        
-        [self organizeData:fbFriends isAppUser:NO];
-        [self organizeData:appFriends isAppUser:YES];
+        if (!_retrievedFriends) {
+          _retrievedFriends = YES;
+          
+          [self organizeData:fbFriends isAppUser:NO];
+          [self organizeData:appFriends isAppUser:YES];
+          
+          [self.chooserTable reloadData];
+        }
         
         self.spinner.hidden = YES;
-        [self.chooserTable reloadData];
       }];
     } else {
       self.spinner.hidden = YES;

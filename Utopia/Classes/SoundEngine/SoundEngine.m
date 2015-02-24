@@ -150,11 +150,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(SoundEngine);
 }
 
 + (void) chatOpened {
-  [[SoundEngine sharedSoundEngine] playEffect:@"sfx_chat_slide_out.mp3"];
+  [[SoundEngine sharedSoundEngine] playEffect:@"sfx_attack_ui_slide_in.mp3"];
 }
 
 + (void) chatClosed {
-  [[SoundEngine sharedSoundEngine] playEffect:@"sfx_chat_slide_in.mp3"];
+  [[SoundEngine sharedSoundEngine] playEffect:@"sfx_attack_ui_slide_out.mp3"];
 }
 
 + (void) freeSpeedupAvailable {

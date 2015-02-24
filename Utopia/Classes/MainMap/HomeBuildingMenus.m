@@ -200,6 +200,9 @@
       case BuildingBubbleTypeScientist:
         imgName = [Globals imageNameForElement:num suffix:@"scientisteventlive.png"];
         break;
+      case BuildingBubbleTypeLocked:
+        imgName = [NSString stringWithFormat:@"lockedbubble.png"];
+        break;
         
       default:
         break;

@@ -62,6 +62,7 @@ typedef enum {
   BuildingBubbleTypeJoinClan,
   BuildingBubbleTypeCakeKid,
   BuildingBubbleTypeScientist,
+  BuildingBubbleTypeLocked,
 } BuildingBubbleType;
 
 @interface BuildingBubble : CCNode {

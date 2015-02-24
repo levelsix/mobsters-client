@@ -689,8 +689,7 @@
           [b setBubbleType:BuildingBubbleTypeEnhance];
         }
       } else {
-        //[b setBubbleType:BuildingBubbleTypeFix];
-        [b setBubbleType:BuildingBubbleTypeNone];
+        [b setBubbleType:BuildingBubbleTypeLocked];
       }
     }
   }

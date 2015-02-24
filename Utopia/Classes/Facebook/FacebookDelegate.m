@@ -162,9 +162,6 @@
 }
 
 - (void) openSessionWithLoginUI:(BOOL)login completionHandler:(void (^)(BOOL success))completionHandler {
-  if (completionHandler) {
-    [_completionHandlers addObject:completionHandler];
-  }
   
   // If the session state is any of the two "open" states when the button is clicked
   if (FBSession.activeSession.state == FBSessionStateOpen
@@ -173,49 +170,54 @@
     // Only accept this completion handler in case we are checking that the fbId is valid
     if (completionHandler) {
       completionHandler(YES);
-      [_completionHandlers removeObject:completionHandler];
     }
-  } else if (FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded) {
-    [FBSession.activeSession openWithCompletionHandler:^(FBSession *session, FBSessionState state, NSError *error) {
-      [self sessionStateChanged:session state:state error:error];
-    }];
   } else {
-    // Open a session showing the user the login UI
-    // You must ALWAYS ask for basic_info permissions when opening a session
-    BOOL triedToOpen = NO;
-    if (false) {//login) {
-      triedToOpen = [FBSession openActiveSessionWithPublishPermissions:PUBLISH_PERMISSIONS
-                                                       defaultAudience:FBSessionDefaultAudienceFriends
-                                                          allowLoginUI:login
-                                                     completionHandler:^(FBSession *session, FBSessionState state, NSError *error) {
-                                                       [self sessionStateChanged:session state:state error:error];
-                                                     }];
+    if (completionHandler) {
+      [_completionHandlers addObject:completionHandler];
+    }
+    
+    if (FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded) {
+      [FBSession.activeSession openWithCompletionHandler:^(FBSession *session, FBSessionState state, NSError *error) {
+        [self sessionStateChanged:session state:state error:error];
+      }];
     } else {
-      FBSession *session = [[FBSession alloc] initWithPermissions:READ_PERMISSIONS];
-      [FBSession setActiveSession:session];
-      if (login || session.state == FBSessionStateCreatedTokenLoaded) {
+      // Open a session showing the user the login UI
+      // You must ALWAYS ask for basic_info permissions when opening a session
+      BOOL triedToOpen = NO;
+      if (false) {//login) {
+        triedToOpen = [FBSession openActiveSessionWithPublishPermissions:PUBLISH_PERMISSIONS
+                                                         defaultAudience:FBSessionDefaultAudienceFriends
+                                                            allowLoginUI:login
+                                                       completionHandler:^(FBSession *session, FBSessionState state, NSError *error) {
+                                                         [self sessionStateChanged:session state:state error:error];
+                                                       }];
+      } else {
+        FBSession *session = [[FBSession alloc] initWithPermissions:READ_PERMISSIONS];
+        [FBSession setActiveSession:session];
+        if (login || session.state == FBSessionStateCreatedTokenLoaded) {
 #ifdef TEST_APP_SWITCH
-        FBSessionLoginBehavior behavior = FBSessionLoginBehaviorWithFallbackToWebView;
+          FBSessionLoginBehavior behavior = FBSessionLoginBehaviorWithFallbackToWebView;
 #else
-        FBSessionLoginBehavior behavior = FBSessionLoginBehaviorUseSystemAccountIfPresent;
+          FBSessionLoginBehavior behavior = FBSessionLoginBehaviorUseSystemAccountIfPresent;
 #endif
-        [session openWithBehavior:behavior completionHandler:^(FBSession *session, FBSessionState state, NSError *error) {
-          [self sessionStateChanged:session state:state error:error];
-        }];
+          [session openWithBehavior:behavior completionHandler:^(FBSession *session, FBSessionState state, NSError *error) {
+            [self sessionStateChanged:session state:state error:error];
+          }];
+        }
       }
-    }
-    
-    if (login) {
-      self.timeOfLastLoginAttempt = [MSDate date];
-    }
-    
-    // If session isn't created.. it means no token was found
-    // To check this, call activeSession. Since, this will create a new session if it
-    // is not already set, we must check if it's current state is created, since that
-    // means it hasn't attempted logging in or anything.
-    FBSession *session = [FBSession activeSession];
-    if (!triedToOpen && session.state == FBSessionStateCreated) {
-      [self respondToCompletionHandlersWithSuccess:NO];
+      
+      if (login) {
+        self.timeOfLastLoginAttempt = [MSDate date];
+      }
+      
+      // If session isn't created.. it means no token was found
+      // To check this, call activeSession. Since, this will create a new session if it
+      // is not already set, we must check if it's current state is created, since that
+      // means it hasn't attempted logging in or anything.
+      FBSession *session = [FBSession activeSession];
+      if (!triedToOpen && session.state == FBSessionStateCreated) {
+        [self respondToCompletionHandlersWithSuccess:NO];
+      }
     }
   }
 }
@@ -379,8 +381,8 @@
   if (!self.myFacebookUser) {
     LNLog(@"Attempting login for my facebook user.");
     [self openSessionWithLoginUI:NO completionHandler:^(BOOL success) {
-      LNLog(@"Getting my facebook user.");
       if (success) {
+        LNLog(@"Getting my facebook user.");
         [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *result, NSError *error) {
           LNLog(@"Received my facebook user.");
           if (!error) {
