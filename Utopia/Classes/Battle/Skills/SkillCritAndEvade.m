@@ -76,6 +76,8 @@
 
 -(NSInteger)modifyDamage:(NSInteger)damage forPlayer:(BOOL)player
 {
+  _evaded = NO;
+  
   if ([self isActive])
   {
     SkillLogStart(@"Crit and Evade -- %@ skill invoked from %@ with damage %ld",
@@ -85,43 +87,51 @@
     
     if (player == self.belongsToPlayer) // The character attacking has the skill
     {
-      // Chance of missing
-      float rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
-      if (rand < _missChance)
+      
+      if (_missChance > 0 || _critChance > 0)
       {
-        damage = 0;
-        _missed = YES;
-        SkillLogStart(@"Crit and Evade -- Skill caused a miss");
-      }
-      else
-      {
-        // Chance of critical hit
-        rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
-        if (rand < _critChance)
+        // Chance of missing
+        float rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
+        if (rand < _missChance)
         {
-          damage *= _critMultiplier;
-          _criticalHit = YES;
-          
-          /*
-          [self addEnrageAnimationForCriticalHit];
-          [self performAfterDelay:2.f block:^{
-            [self removeEnrageAnimation];
-          }];
-           */
-          
-          SkillLogStart(@"Crit and Evade -- Skill caused a critical hit, increasing damage to %ld", (long)damage);
+          damage = 0;
+          [self showDodged:YES];
+          SkillLogStart(@"Crit and Evade -- Skill caused a miss");
         }
+        else
+        {
+          // Chance of critical hit
+          rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
+          if (rand < _critChance)
+          {
+            damage *= _critMultiplier;
+            
+            [self showCriticalHit];
+            
+            SkillLogStart(@"Crit and Evade -- Skill caused a critical hit, increasing damage to %ld", (long)damage);
+          }
+        }
+        [self tickDuration];
       }
     }
     else // The character defending has the skill
     {
-      // Chance of evading
-      float rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
-      if (rand < _evadeChance)
+      if (_evadeChance)
       {
-        damage = 0;
-        _evaded = YES;
-        SkillLogStart(@"Crit and Evade -- Skill caused an evade");
+        if (_critChance <= 0 && _missChance <= 0)
+        {
+          [self tickDuration];
+        }
+        
+        // Chance of evading
+        float rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
+        if (rand < _evadeChance)
+        {
+          damage = 0;
+          [self showDodged:NO];
+          _evaded = YES;
+          SkillLogStart(@"Crit and Evade -- Skill caused an evade");
+        }
       }
     }
   }
@@ -134,55 +144,45 @@
   if ([super skillCalledWithTrigger:trigger execute:execute])
     return YES;
   
-  if ([self isActive])
-  {
-    if (_fromSave && (trigger == SkillTriggerPointStartOfPlayerTurn || trigger == SkillTriggerPointStartOfEnemyTurn))
-    {
-      _fromSave = NO;
-    }
-    else if ((self.belongsToPlayer && trigger == SkillTriggerPointStartOfPlayerTurn)
-        || (!self.belongsToPlayer && trigger == SkillTriggerPointEndOfEnemyTurn))
-    {
-      [self tickDuration];
-    }
-    
-    if ((trigger == SkillTriggerPointPlayerDealsDamage && self.belongsToPlayer) ||
-        (trigger == SkillTriggerPointEnemyDealsDamage && !self.belongsToPlayer))
-    {
-      if (execute)
-      {
-        if (_missed || _criticalHit)
-        {
-          if (_missed)
-            [self showDodged];
-          else
-            [self showCriticalHit];
-          
-          _missed = NO;
-          _criticalHit = NO;
-        }
-        else
-          [self skillTriggerFinished];
-      }
-      return YES;
-    }
-    if ((trigger == SkillTriggerPointEnemyDealsDamage && self.belongsToPlayer) ||
-        (trigger == SkillTriggerPointPlayerDealsDamage && !self.belongsToPlayer))
-    {
-      if (execute)
-      {
-        if (_evaded)
-        {
-          
-          [self showDodged];
-          _evaded = NO;
-        }
-        else
-          [self skillTriggerFinished];
-      }
-      return YES;
-    }
-  }
+//  if ([self isActive])
+//  {
+//    if ((trigger == SkillTriggerPointPlayerDealsDamage && self.belongsToPlayer) ||
+//        (trigger == SkillTriggerPointEnemyDealsDamage && !self.belongsToPlayer))
+//    {
+//      if (execute)
+//      {
+//        if (_missed || _criticalHit)
+//        {
+//          if (_missed)
+//            [self showDodged:YES];
+//          else
+//            [self showCriticalHit];
+//          
+//          _missed = NO;
+//          _criticalHit = NO;
+//        }
+//        else
+//          [self skillTriggerFinished];
+//      }
+//      return YES;
+//    }
+//    if ((trigger == SkillTriggerPointEnemyDealsDamage && self.belongsToPlayer) ||
+//        (trigger == SkillTriggerPointPlayerDealsDamage && !self.belongsToPlayer))
+//    {
+//      if (execute)
+//      {
+//        if (_evaded)
+//        {
+//          
+//          [self showDodged];
+//          _evaded = NO;
+//        }
+//        else
+//          [self skillTriggerFinished];
+//      }
+//      return YES;
+//    }
+//  }
   
   return NO;
 }
@@ -212,69 +212,69 @@
 
 -(void)showCriticalHit
 {
-//  // Display logo
-//  CCSprite* logoSprite = [CCSprite spriteWithImageNamed:[self.skillImageNamePrefix stringByAppendingString:kSkillMiniLogoImageNameSuffix]];
-//  logoSprite.position = CGPointMake((self.enemySprite.position.x + self.playerSprite.position.x) * .5f + self.playerSprite.contentSize.width * .5f - 10.f,
-//                                    (self.playerSprite.position.y + self.enemySprite.position.y) * .5f + self.playerSprite.contentSize.height * .5f);
-//  logoSprite.scale = 0.f;
-//  [self.playerSprite.parent addChild:logoSprite z:50];
-//  
-//  // Display damage modifier label
-//  CCLabelTTF* floatingLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%.1gX DAMAGE", _critMultiplier] fontName:@"GothamNarrow-Ultra" fontSize:12];
-//  floatingLabel.position = ccp(logoSprite.spriteFrame.rect.size.width * .5f, -13.f);
-//  floatingLabel.fontColor = [CCColor colorWithRed:255.f / 225.f green:44.f / 225.f blue:44.f / 225.f];
-//  floatingLabel.outlineColor = [CCColor whiteColor];
-//  floatingLabel.shadowOffset = ccp(0.f, -1.f);
-//  floatingLabel.shadowColor = [CCColor colorWithWhite:0.f alpha:0.75f];
-//  floatingLabel.shadowBlurRadius = 2.f;
-//  [logoSprite addChild:floatingLabel];
-//  
-//  // Animate both
-//  [logoSprite runAction:[CCActionSequence actions:
-//                         [CCActionDelay actionWithDuration:.3f],
-//                         [CCActionEaseBounceOut actionWithAction:[CCActionScaleTo actionWithDuration:.5f scale:1.f]],
-//                         [CCActionDelay actionWithDuration:.5f],
-//                         [CCActionEaseIn actionWithAction:[CCActionScaleTo actionWithDuration:.3f scale:0.f]],
-//                         [CCActionRemove action],
-//                         nil]];
-//  
-//  // Finish trigger execution
+  // Display logo
+  CCSprite* logoSprite = [CCSprite spriteWithImageNamed:[self.skillImageNamePrefix stringByAppendingString:kSkillMiniLogoImageNameSuffix]];
+  logoSprite.position = CGPointMake((self.enemySprite.position.x + self.playerSprite.position.x) * .5f + self.playerSprite.contentSize.width * .5f - 10.f,
+                                    (self.playerSprite.position.y + self.enemySprite.position.y) * .5f + self.playerSprite.contentSize.height * .5f);
+  logoSprite.scale = 0.f;
+  [self.playerSprite.parent addChild:logoSprite z:50];
+  
+  // Display damage modifier label
+  CCLabelTTF* floatingLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%.1gX DAMAGE", _critMultiplier] fontName:@"GothamNarrow-Ultra" fontSize:12];
+  floatingLabel.position = ccp(logoSprite.spriteFrame.rect.size.width * .5f, -13.f);
+  floatingLabel.fontColor = [CCColor colorWithRed:255.f / 225.f green:44.f / 225.f blue:44.f / 225.f];
+  floatingLabel.outlineColor = [CCColor whiteColor];
+  floatingLabel.shadowOffset = ccp(0.f, -1.f);
+  floatingLabel.shadowColor = [CCColor colorWithWhite:0.f alpha:0.75f];
+  floatingLabel.shadowBlurRadius = 2.f;
+  [logoSprite addChild:floatingLabel];
+  
+  // Animate both
+  [logoSprite runAction:[CCActionSequence actions:
+                         [CCActionDelay actionWithDuration:.3f],
+                         [CCActionEaseBounceOut actionWithAction:[CCActionScaleTo actionWithDuration:.5f scale:1.f]],
+                         [CCActionDelay actionWithDuration:.5f],
+                         [CCActionEaseIn actionWithAction:[CCActionScaleTo actionWithDuration:.3f scale:0.f]],
+                         [CCActionRemove action],
+                         nil]];
+  
+  // Finish trigger execution
 //  [self performAfterDelay:.3f block:^{
-    [self skillTriggerFinished];
+//    [self skillTriggerFinished];
 //  }];
 }
 
--(void)showDodged
+-(void)showDodged:(BOOL)missed
 {
-//  // Display logo
-//  CCSprite* logoSprite = [CCSprite spriteWithImageNamed:[self.skillImageNamePrefix stringByAppendingString:kSkillMiniLogoImageNameSuffix]];
-//  logoSprite.position = CGPointMake((self.enemySprite.position.x + self.playerSprite.position.x) * .5f + self.playerSprite.contentSize.width * .5f - 10.f,
-//                                    (self.playerSprite.position.y + self.enemySprite.position.y) * .5f + self.playerSprite.contentSize.height * .5f);
-//  logoSprite.scale = 0.f;
-//  [self.playerSprite.parent addChild:logoSprite z:50];
-//  
-//  // Display missed/evaded label
-//  CCLabelTTF* floatingLabel = [CCLabelTTF labelWithString:_missed ? @"MISSED" : @"EVADED" fontName:@"GothamNarrow-Ultra" fontSize:12];
-//  floatingLabel.position = ccp(logoSprite.spriteFrame.rect.size.width * .5f, -13.f);
-//  floatingLabel.fontColor = [CCColor colorWithRed:255.f / 225.f green:44.f / 225.f blue:44.f / 225.f];
-//  floatingLabel.outlineColor = [CCColor whiteColor];
-//  floatingLabel.shadowOffset = ccp(0.f, -1.f);
-//  floatingLabel.shadowColor = [CCColor colorWithWhite:0.f alpha:.75f];
-//  floatingLabel.shadowBlurRadius = 2.f;
-//  [logoSprite addChild:floatingLabel];
-//  
-//  // Animate both
-//  [logoSprite runAction:[CCActionSequence actions:
-//                         [CCActionDelay actionWithDuration:.3f],
-//                         [CCActionEaseBounceOut actionWithAction:[CCActionScaleTo actionWithDuration:.5f scale:1.f]],
-//                         [CCActionDelay actionWithDuration:.5f],
-//                         [CCActionEaseIn actionWithAction:[CCActionScaleTo actionWithDuration:.3f scale:0.f]],
-//                         [CCActionRemove action],
-//                         nil]];
-//  
-//  // Finish trigger execution
+  // Display logo
+  CCSprite* logoSprite = [CCSprite spriteWithImageNamed:[self.skillImageNamePrefix stringByAppendingString:kSkillMiniLogoImageNameSuffix]];
+  logoSprite.position = CGPointMake((self.enemySprite.position.x + self.playerSprite.position.x) * .5f + self.playerSprite.contentSize.width * .5f - 10.f,
+                                    (self.playerSprite.position.y + self.enemySprite.position.y) * .5f + self.playerSprite.contentSize.height * .5f);
+  logoSprite.scale = 0.f;
+  [self.playerSprite.parent addChild:logoSprite z:50];
+  
+  // Display missed/evaded label
+  CCLabelTTF* floatingLabel = [CCLabelTTF labelWithString:missed ? @"MISSED" : @"EVADED" fontName:@"GothamNarrow-Ultra" fontSize:12];
+  floatingLabel.position = ccp(logoSprite.spriteFrame.rect.size.width * .5f, -13.f);
+  floatingLabel.fontColor = [CCColor colorWithRed:255.f / 225.f green:44.f / 225.f blue:44.f / 225.f];
+  floatingLabel.outlineColor = [CCColor whiteColor];
+  floatingLabel.shadowOffset = ccp(0.f, -1.f);
+  floatingLabel.shadowColor = [CCColor colorWithWhite:0.f alpha:.75f];
+  floatingLabel.shadowBlurRadius = 2.f;
+  [logoSprite addChild:floatingLabel];
+  
+  // Animate both
+  [logoSprite runAction:[CCActionSequence actions:
+                         [CCActionDelay actionWithDuration:.3f],
+                         [CCActionEaseBounceOut actionWithAction:[CCActionScaleTo actionWithDuration:.5f scale:1.f]],
+                         [CCActionDelay actionWithDuration:.5f],
+                         [CCActionEaseIn actionWithAction:[CCActionScaleTo actionWithDuration:.3f scale:0.f]],
+                         [CCActionRemove action],
+                         nil]];
+  
+  // Finish trigger execution
 //  [self performAfterDelay:.3f block:^{
-    [self skillTriggerFinished];
+//    [self skillTriggerFinished];
 //  }];
 }
 

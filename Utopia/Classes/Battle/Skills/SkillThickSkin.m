@@ -64,11 +64,24 @@
       damage = MAX(damage - _damageAbsorbed, 0);
       SkillLogStart(@"Thick Skin -- Skill reduced damage to %ld", (long)damage);
     }
-    
-    [self tickDuration];
   }
   
   return damage;
+}
+
+- (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
+{
+  if ([super skillCalledWithTrigger:trigger execute:execute])
+    return YES;
+  
+  if ((self.belongsToPlayer && trigger == SkillTriggerPointEndOfEnemyTurn)
+      || (!self.belongsToPlayer && trigger == SkillTriggerPointEndOfPlayerTurn))
+  {
+    if (execute)
+    {
+      [self tickDuration];
+    }
+  }
 }
 
 - (BOOL) onDurationStart
