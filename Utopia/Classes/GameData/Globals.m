@@ -1168,6 +1168,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return [view convertPoint:point toView:[UIApplication sharedApplication].keyWindow.rootViewController.view];
 }
 
++ (CGPoint) convertPointFromWindowCoordinates:(CGPoint)point toViewCoordinates:(UIView *)view
+{
+  return [view convertPoint:point fromView:[UIApplication sharedApplication].keyWindow.rootViewController.view];
+}
+
 + (void) alignSubviewsToPixelsBoundaries:(UIView*)view
 {
   view.frame = CGRectMake(floorf(view.frame.origin.x),

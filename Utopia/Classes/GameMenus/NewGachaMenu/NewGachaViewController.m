@@ -98,6 +98,7 @@
     gemLabel.strokeColor = [UIColor colorWithRed:59.f / 255.f green:4.f / 255.f blue:134.f / 255.f alpha:1.f];
     gemLabel.gradientStartColor = [UIColor whiteColor];
     gemLabel.gradientEndColor = [UIColor colorWithRed:248.f / 255.f green:191.f / 255.f blue:255.f / 255.f alpha:1.f];
+    gemLabel.originY += 1.f;
   }
   
   if (self.boosterPack.boosterPackId == self.badBoosterPack.boosterPackId) {
