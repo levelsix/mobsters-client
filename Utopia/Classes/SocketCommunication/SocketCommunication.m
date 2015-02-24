@@ -210,10 +210,6 @@ static NSString *udid = nil;
   _shouldReconnect = YES;
   _numDisconnects = 0;
   
-  // Need to do this so clan queue gets recreated on clicking home button
-  _sender = nil;
-  LNLog (@"Nulled out sender..");
-  
   _canSendRegularEvents = NO;
   _canSendPreDbEvents = NO;
   
@@ -229,6 +225,10 @@ static NSString *udid = nil;
   
   if (clearMessages) {
     self.tagDelegates = [NSMutableDictionary dictionary];
+    
+    // Need to do this so clan queue gets recreated on clicking home button
+    _sender = nil;
+    LNLog (@"Nulled out sender..");
   }
   [self setDelegate:delegate forTag:CONNECTED_TO_HOST_DELEGATE_TAG];
   

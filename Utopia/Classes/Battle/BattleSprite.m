@@ -384,10 +384,14 @@
 - (CCAction *) walkActionN {
   if (!_walkActionN) {
     [self checkRunSpriteSheetWithCompletion:^(BOOL success) {
-      if (success) {
+      if (success && !_walkActionN) {
         NSString *p = [NSString stringWithFormat:@"%@RunN", self.prefix];
         CCAnimation *anim = [CCAnimation animationWithSpritePrefix:p delay:ANIMATION_DELAY];
         self.walkActionN = [CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:anim]];
+        
+        if (!self.isWalking) {
+          [self beginWalking];
+        }
       }
     }];
   }
@@ -397,10 +401,14 @@
 - (CCAction *) walkActionF {
   if (!_walkActionF) {
     [self checkRunSpriteSheetWithCompletion:^(BOOL success) {
-      if (success) {
+      if (success && !_walkActionF) {
         NSString *p = [NSString stringWithFormat:@"%@RunF", self.prefix];
         CCAnimation *anim = [CCAnimation animationWithSpritePrefix:p delay:ANIMATION_DELAY];
         self.walkActionF = [CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:anim]];
+        
+        if (!self.isWalking) {
+          [self beginWalking];
+        }
       }
     }];
   }
@@ -410,7 +418,7 @@
 - (CCAnimation *) attackAnimationN {
   if (!_attackAnimationN) {
     [self checkAttackSpriteSheetWithCompletion:^(BOOL success) {
-      if (success) {
+      if (success && !_attackAnimationN) {
         NSString *p = [NSString stringWithFormat:@"%@AttackN", self.prefix];
         self.attackAnimationN = [CCAnimation animationWithSpritePrefix:p delay:ANIMATION_DELAY];
       }
@@ -422,7 +430,7 @@
 - (CCAnimation *) attackAnimationF {
   if (!_attackAnimationF) {
     [self checkAttackSpriteSheetWithCompletion:^(BOOL success) {
-      if (success) {
+      if (success && !_attackAnimationF) {
         NSString *p = [NSString stringWithFormat:@"%@AttackF", self.prefix];
         self.attackAnimationF = [CCAnimation animationWithSpritePrefix:p delay:ANIMATION_DELAY];
       }
@@ -434,7 +442,7 @@
 - (CCAnimation *) flinchAnimationN {
   if (!_flinchAnimationN) {
     [self checkAttackSpriteSheetWithCompletion:^(BOOL success) {
-      if (success) {
+      if (success && !_flinchAnimationN) {
         NSString *p = [NSString stringWithFormat:@"%@FlinchN", self.prefix];
         self.flinchAnimationN = [CCAnimation animationWithSpritePrefix:p delay:ANIMATION_DELAY];
       }
@@ -446,7 +454,7 @@
 - (CCAnimation *) flinchAnimationF {
   if (!_flinchAnimationF) {
     [self checkAttackSpriteSheetWithCompletion:^(BOOL success) {
-      if (success) {
+      if (success && !_flinchAnimationF) {
         NSString *p = [NSString stringWithFormat:@"%@FlinchF", self.prefix];
         self.flinchAnimationF = [CCAnimation animationWithSpritePrefix:p delay:ANIMATION_DELAY];
       }
@@ -456,7 +464,7 @@
 }
 
 - (void) restoreStandingFrame {
-  [self restoreStandingFrame:self.isFacingNear?MapDirectionNearLeft:MapDirectionFarRight];
+  [self restoreStandingFrame:self.isFacingNear ? MapDirectionNearLeft : MapDirectionFarRight];
 }
 
 - (void) restoreStandingFrame:(MapDirection)direction {
@@ -478,23 +486,16 @@
 
 - (void) beginWalking {
   if (!self.isWalking) {
+    self.isWalking = YES;
+    
     self.sprite.flipX = !self.isFacingNear;
     CCAction *action = self.isFacingNear ? self.walkActionN : self.walkActionF;
     
     if (action) {
       [self.sprite runAction:action];
-      self.isWalking = YES;
+    } else {
+      self.isWalking = NO;
     }
-    
-    CCActionSequence *seq = [CCActionSequence actions:
-                             [CCActionCallBlock actionWithBlock:
-                              ^{
-                                //                                [[SoundEngine sharedSoundEngine] puzzleWalking];
-                              }],
-                             [CCActionDelay actionWithDuration:0.9], nil];
-    CCActionRepeatForever *r = [CCActionRepeatForever actionWithAction:seq];
-    r.tag = 7654;
-    //[self runAction:r];
   }
 }
 
@@ -503,9 +504,6 @@
   if (_walkActionF) [self.sprite stopAction:self.walkActionF];
   if (_walkActionN) [self.sprite stopAction:self.walkActionN];
   [self restoreStandingFrame];
-  
-  [self stopActionByTag:7654];
-  //  [[SoundEngine sharedSoundEngine] puzzleStopWalking];
 }
 
 - (void) performNearAttackAnimationWithEnemy:(BattleSprite *)enemy shouldReturn:(BOOL)shouldReturn shouldEvade:(BOOL)evade shouldFlinch:(BOOL)flinch
@@ -530,7 +528,7 @@
             [CCActionCallBlock actionWithBlock:^{
              if (evade) [enemy jumpLeftAndBack:NO delay:.4f duration:1.f distance:25.f height:25.f];
              else if (flinch) [enemy performFarFlinchAnimationWithDelay:0.5];
-            }],
+           }],
             [CCSoundAnimate actionWithAnimation:anim],
             nil],
            [CCActionCallFunc actionWithTarget:self selector:@selector(restoreStandingFrame)],
@@ -556,7 +554,7 @@
               [CCActionCallBlock actionWithBlock:^{
                if (evade) [enemy jumpLeftAndBack:NO delay:.4f duration:1.f distance:25.f height:25.f];
                else if (flinch) [enemy performFarFlinchAnimationWithDelay:0.3];
-              }],
+             }],
               [CCSoundAnimate actionWithAnimation:anim],
               nil],
              [CCActionCallFunc actionWithTarget:target selector:selector],
@@ -601,7 +599,7 @@
             [CCActionCallBlock actionWithBlock:^{
              if (evade) [enemy jumpLeftAndBack:NO delay:.4f duration:1.f distance:25.f height:25.f];
              else if(strength >= 0) [enemy performNearFlinchAnimationWithStrength:strength delay:0.5];
-            }],
+           }],
             [CCSoundAnimate actionWithAnimation:anim],
             nil],
            [CCActionCallFunc actionWithTarget:self selector:@selector(restoreStandingFrame)],
@@ -626,7 +624,7 @@
             [CCActionCallBlock actionWithBlock:^{
              if (evade) [enemy jumpLeftAndBack:NO delay:.4f duration:1.f distance:25.f height:25.f];
              else if (strength >= 0) [enemy performNearFlinchAnimationWithStrength:strength delay:0.3];
-            }],
+           }],
             [CCSoundAnimate actionWithAnimation:anim],
             nil],
            [CCActionCallFunc actionWithTarget:target selector:selector],

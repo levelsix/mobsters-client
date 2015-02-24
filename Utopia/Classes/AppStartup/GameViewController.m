@@ -1473,7 +1473,6 @@ static const CGSize FIXED_SIZE = {568, 384};
     [GenericPopupController displayConfirmationWithDescription:desc title:@"Account Already Set" okayButton:@"Reload" cancelButton:@"Cancel" okTarget:self okSelector:@selector(swapAccounts) cancelTarget:self cancelSelector:@selector(swapRejected)];
   }
   
-  _isFromFacebook = NO;
   return returnVal;
 }
 
