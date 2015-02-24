@@ -50,7 +50,10 @@
   {
     if (trigger == SkillTriggerPointStartOfPlayerTurn)
     {
-      [self tickDuration];
+      if (execute)
+      {
+        [self tickDuration];
+      }
     }
     
     if (self.userPlayer.curHealth > 0 &&

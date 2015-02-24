@@ -20,6 +20,7 @@
 - (BOOL) affectsOwner;
 
 - (void) addVisualEffects:(BOOL)finishSkillTrigger;
+- (void) resetVisualEffects;
 - (void) removeVisualEffects;
 
 @property (readonly) NSInteger duration;

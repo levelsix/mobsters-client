@@ -20,7 +20,6 @@
   _sizeMultiplier = 1.1;
   _currentMultiplier = 1.0;
   _currentSizeMultiplier = 1.0;
-  _logoShown = NO;
 }
 
 - (void) setValue:(float)value forProperty:(NSString*)property
@@ -61,28 +60,20 @@
 - (void) restoreVisualsIfNeeded
 {
   [self updateOwnerSprite];
-  
-  if ([self isActive])
-  {
-    [self addSkillSideEffectToSkillOwner:SideEffectTypeBuffMomentum turnsAffected:self.turnsLeft];
-  }
-}
-
-- (BOOL) onDurationReset
-{
-  [self increaseMultiplier];
-  
-  [self resetAfftectedTurnsCount:self.turnsLeft forSkillSideEffectOnSkillOwner:SideEffectTypeBuffMomentum];
-  
-  return YES;
+  [super restoreVisualsIfNeeded];
 }
 
 - (BOOL) onDurationStart
 {
   [self increaseMultiplier];
-  
-  [self addSkillSideEffectToSkillOwner:SideEffectTypeBuffMomentum turnsAffected:self.turnsLeft];
-  
+  [self addVisualEffects:NO];
+  return YES;
+}
+
+- (BOOL) onDurationReset
+{
+  [self increaseMultiplier];
+  [self resetVisualEffects];
   return YES;
 }
 
@@ -91,9 +82,7 @@
   _currentMultiplier = 1.0;
   _currentSizeMultiplier = 1.0;
   [self resetSpriteSize];
-  
-  [self removeSkillSideEffectFromSkillOwner:SideEffectTypeBuffMomentum];
-  
+  [self removeVisualEffects];
   return NO;
 }
 
@@ -102,12 +91,15 @@
   if ([super skillCalledWithTrigger:trigger execute:execute])
     return YES;
   
-  if ((trigger == SkillTriggerPointStartOfPlayerTurn && self.belongsToPlayer) ||
-      (trigger == SkillTriggerPointStartOfEnemyTurn && ! self.belongsToPlayer) )
+  if ((trigger == SkillTriggerPointEndOfPlayerTurn && self.belongsToPlayer) ||
+      (trigger == SkillTriggerPointEndOfEnemyTurn && !self.belongsToPlayer) )
   {
-    if ([self isActive])
+    if (execute)
     {
-      [self tickDuration];
+      if ([self isActive])
+      {
+        [self tickDuration];
+      }
     }
   }
   

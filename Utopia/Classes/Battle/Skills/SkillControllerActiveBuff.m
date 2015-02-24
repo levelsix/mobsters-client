@@ -77,15 +77,7 @@
 
 - (BOOL) onDurationReset
 {
-  for (NSNumber *sideEff in [self sideEffects])
-  {
-    SideEffectType sideType = [sideEff intValue];
-    if ([self affectsOwner])
-      [self resetAfftectedTurnsCount:self.turnsLeft forSkillSideEffectOnSkillOwner:sideType];
-    else
-      [self resetAfftectedTurnsCount:self.turnsLeft forSkillSideEffectOnOpponent:sideType];
-  }
-  
+  [self resetVisualEffects];
   [self skillTriggerFinished:YES];
   return YES;
 }
@@ -125,6 +117,18 @@
   
   if (finishSkillTrigger)
     [self skillTriggerFinished:YES];
+}
+
+- (void) resetVisualEffects
+{
+  for (NSNumber *sideEff in [self sideEffects])
+  {
+    SideEffectType sideType = [sideEff intValue];
+    if ([self affectsOwner])
+      [self resetAfftectedTurnsCount:self.turnsLeft forSkillSideEffectOnSkillOwner:sideType];
+    else
+      [self resetAfftectedTurnsCount:self.turnsLeft forSkillSideEffectOnOpponent:sideType];
+  }
 }
 
 - (void) removeVisualEffects
