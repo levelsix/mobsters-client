@@ -80,7 +80,10 @@
   for (NSNumber *sideEff in [self sideEffects])
   {
     SideEffectType sideType = [sideEff intValue];
-    [self resetAfftectedTurnsCount:self.turnsLeft forSkillSideEffectOnOpponent:sideType];
+    if ([self affectsOwner])
+      [self resetAfftectedTurnsCount:self.turnsLeft forSkillSideEffectOnSkillOwner:sideType];
+    else
+      [self resetAfftectedTurnsCount:self.turnsLeft forSkillSideEffectOnOpponent:sideType];
   }
   
   [self skillTriggerFinished:YES];
@@ -114,7 +117,10 @@
   for (NSNumber *sideEff in [self sideEffects])
   {
     SideEffectType sideType = [sideEff intValue];
-    [self addSkillSideEffectToSkillOwner:sideType turnsAffected:self.turnsLeft];
+    if ([self affectsOwner])
+      [self addSkillSideEffectToSkillOwner:sideType turnsAffected:self.turnsLeft];
+    else
+      [self addSkillSideEffectToOpponent:sideType turnsAffected:self.turnsLeft];
   }
   
   if (finishSkillTrigger)
@@ -126,7 +132,10 @@
   for (NSNumber *sideEff in [self sideEffects])
   {
     SideEffectType sideType = [sideEff intValue];
-    [self removeSkillSideEffectFromSkillOwner:sideType];
+    if ([self affectsOwner])
+      [self removeSkillSideEffectFromSkillOwner:sideType];
+    else
+      [self removeSkillSideEffectFromOpponent:sideType];
   }
 }
 
