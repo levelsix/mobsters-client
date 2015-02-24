@@ -18,6 +18,9 @@
 - (BOOL) onDurationEnd;
 - (void) endDurationNow;
 
+- (void) addVisualEffects:(BOOL)finishSkillTrigger;
+- (void) removeVisualEffects;
+
 @property (readonly) NSInteger duration;
 @property (readonly) NSInteger turnsLeft;
 

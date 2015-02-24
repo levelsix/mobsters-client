@@ -64,23 +64,57 @@
     [self onDurationEnd];
 }
 
+- (void) restoreVisualsIfNeeded
+{
+  if ([self isActive])
+    [self addVisualEffects:NO];
+}
+
 - (BOOL) onDurationStart
 {
-  [self skillTriggerFinished:YES];
+  [self addVisualEffects:YES];
   return YES;
 }
 
 - (BOOL) onDurationReset
 {
+  for (NSNumber *sideEff in [self sideEffects])
+  {
+    SideEffectType sideType = [sideEff intValue];
+    [self resetAfftectedTurnsCount:self.turnsLeft forSkillSideEffectOnOpponent:sideType];
+  }
+  
   [self skillTriggerFinished:YES];
   return YES;
 }
 
 - (BOOL) onDurationEnd
 {
+  [self removeVisualEffects];
   if (![self doesRefresh])
     [self resetOrbCounter];
   return NO;
+}
+
+- (void) addVisualEffects:(BOOL)finishSkillTrigger
+{
+  for (NSNumber *sideEff in [self sideEffects])
+  {
+    SideEffectType sideType = [sideEff intValue];
+    [self addSkillSideEffectToSkillOwner:sideType turnsAffected:self.turnsLeft];
+  }
+  
+  if (finishSkillTrigger)
+    [self skillTriggerFinished:YES];
+}
+
+- (void) removeVisualEffects
+{
+  for (NSNumber *sideEff in [self sideEffects])
+  {
+    SideEffectType sideType = [sideEff intValue];
+    [self removeSkillSideEffectFromSkillOwner:sideType];
+  }
 }
 
 - (void) endDurationNow

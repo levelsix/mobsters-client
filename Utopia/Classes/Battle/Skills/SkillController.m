@@ -214,9 +214,10 @@
   
   if (_skillActivated && [self isKindOfClass:[SkillControllerActive class]])
   {
+    SkillControllerBlock completion = _callbackBlock;
     [skillManager triggerSkills:self.belongsToPlayer ? SkillTriggerPointPlayerSkillActivated : SkillTriggerPointEnemySkillActivated
                  withCompletion:^(BOOL triggered, id params) {
-                   _callbackBlock(YES, _callbackParams);
+                   completion(YES, _callbackParams);
                  }];
   }
   else

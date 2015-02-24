@@ -60,14 +60,6 @@
   return [NSSet setWithObjects:@(_sideEffectType), nil];
 }
 
-- (void) restoreVisualsIfNeeded
-{
-  if ([self isActive])
-  {
-    [self addSkillSideEffectToSkillOwner:_sideEffectType turnsAffected:self.turnsLeft];
-  }
-}
-
 -(BOOL)skillOwnerWillEvade
 {
   // Last time defending an attack led to an evasion
@@ -152,27 +144,6 @@
   return NO;
 }
 
-- (BOOL) onDurationStart
-{
-  [self addSkillSideEffectToSkillOwner:_sideEffectType turnsAffected:self.turnsLeft];
-  
-  return NO;
-}
-
-- (BOOL) onDurationReset
-{
-  [self resetAfftectedTurnsCount:self.turnsLeft forSkillSideEffectOnSkillOwner:_sideEffectType];
-  
-  return [super onDurationStart];
-}
-
-- (BOOL) onDurationEnd
-{
-  [self removeSkillSideEffectFromSkillOwner:_sideEffectType];
-  
-  return [super onDurationEnd];
-}
-
 #pragma mark - Skill logic
       
 - (BOOL) ticksOnPlayerTurn
@@ -248,32 +219,6 @@
                          [CCActionRemove action],
                          nil]];
    */
-}
-
--(void)addEnrageAnimationForCriticalHit
-{
-  BattleSprite* owner = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
-  
-  // Size player and make him blue
-  [owner.sprite runAction:[CCActionEaseBounceIn actionWithAction:
-                           [CCActionEaseBounceOut actionWithAction:[CCActionScaleTo actionWithDuration:.5f scale:1.15f]]]];
-  [owner.sprite stopActionByTag:2864];
-  CCActionRepeatForever* action = [CCActionRepeatForever actionWithAction:[CCActionSequence actions:
-                                                                           [CCActionTintTo actionWithDuration:.5f color:[CCColor cyanColor]],
-                                                                           [CCActionTintTo actionWithDuration:.5f color:[CCColor whiteColor]],
-                                                                           nil]];
-  [action setTag:2864];
-  [owner.sprite runAction:action];
-}
-
--(void)removeEnrageAnimation
-{
-  BattleSprite* owner = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
-  
-  // Back to original size and color
-  [owner.sprite runAction:[CCActionEaseBounceIn actionWithAction:[CCActionEaseBounceOut actionWithAction:[CCActionScaleTo actionWithDuration:.5f scale:1.f]]]];
-  [owner.sprite stopActionByTag:2864];
-  [owner.sprite runAction:[CCActionTintTo actionWithDuration:.5f color:[CCColor whiteColor]]];
 }
 
 - (BOOL) deserialize:(NSDictionary *)dict

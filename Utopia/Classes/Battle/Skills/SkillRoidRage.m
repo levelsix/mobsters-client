@@ -52,35 +52,9 @@
   return damage;
 }
 
-- (void) restoreVisualsIfNeeded
-{
-  if ([self isActive])
-    [self addEnrageAnimations];
-}
-
-- (BOOL) onDurationStart
-{
-  [self becomeEnraged];
-  return YES;
-}
-
-- (BOOL) onDurationReset
-{
-  [self resetAfftectedTurnsCount:self.turnsLeft forSkillSideEffectOnSkillOwner:SideEffectTypeBuffRoidRage];
-  return NO;
-}
-
-- (BOOL) onDurationEnd
-{
-  [self performAfterDelay:2.0 block:^(void){
-    [self removeEnrageAnimations];
-  }];
-  return [super onDurationEnd];
-}
-
 #pragma mark - Skill logic
 
-- (void) addEnrageAnimations
+- (void) addVisualEffects
 {
   BattleSprite* owner = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
   
@@ -94,10 +68,12 @@
   action.tag = 1914;
   [owner.sprite runAction:action];
   
-  [self addSkillSideEffectToSkillOwner:SideEffectTypeBuffRoidRage turnsAffected:self.turnsLeft];
+  [self performAfterDelay:0.3 block:^{
+    [self skillTriggerFinished:YES];
+  }];
 }
 
-- (void) removeEnrageAnimations
+- (void) removeVisualEffects
 {
   BattleSprite* owner = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
   
@@ -106,17 +82,6 @@
   [owner.sprite stopActionByTag:1914];
   [owner.sprite runAction:[CCActionTintTo actionWithDuration:0.3 color:[CCColor whiteColor]]];
   
-  [self removeSkillSideEffectFromSkillOwner:SideEffectTypeBuffRoidRage];
-}
-
-- (void) becomeEnraged
-{
-  // Animations
-  [self addEnrageAnimations];
   
-  // Finish trigger execution
-  [self performAfterDelay:0.3 block:^{
-    [self skillTriggerFinished:YES];
-  }];
 }
 @end

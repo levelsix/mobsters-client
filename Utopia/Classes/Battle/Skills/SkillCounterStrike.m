@@ -43,35 +43,6 @@
   return [NSSet setWithObjects:@(SideEffectTypeBuffCounterStrike), nil];
 }
 
-- (void) restoreVisualsIfNeeded
-{
-  if ([self isActive])
-  {
-    [self addSkillSideEffectToSkillOwner:SideEffectTypeBuffCounterStrike turnsAffected:self.turnsLeft];
-  }
-}
-
-- (BOOL) onDurationStart
-{
-  [self addSkillSideEffectToSkillOwner:SideEffectTypeBuffCounterStrike turnsAffected:self.turnsLeft];
-  
-  return [super onDurationStart];
-}
-
-- (BOOL) onDurationReset
-{
-  [self resetAfftectedTurnsCount:self.turnsLeft forSkillSideEffectOnSkillOwner:SideEffectTypeBuffCounterStrike];
-  
-  return NO;
-}
-
-- (BOOL) onDurationEnd
-{
-  [self removeSkillSideEffectFromSkillOwner:SideEffectTypeBuffCounterStrike];
-  
-  return [super onDurationEnd];
-}
-
 - (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute {
   
   if ([super skillCalledWithTrigger:trigger execute:execute])
