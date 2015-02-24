@@ -168,8 +168,8 @@
   [self.gachaBgBottomRight setContentMode:UIViewContentModeScaleToFill];
   
   UIView *featuredContainer = self.focusScrollView.superview;
-  featuredContainer.originY += navBarHeight;
-  featuredContainer.height -= navBarHeight;
+  featuredContainer.height = CGRectGetMaxY(featuredContainer.frame) - navBarHeight;
+  featuredContainer.originY = navBarHeight;
 
   CGPoint oldCenter = self.spinButton.center;
   {
