@@ -96,7 +96,7 @@
 
 @end
 
-@interface ListCollectionView : UIView <UICollectionViewDataSource, UICollectionViewDelegate, ListCellDelegate> {
+@interface ListCollectionView : UIView <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, ListCellDelegate> {
   void (^_scrollingComplete)(void);
 }
 

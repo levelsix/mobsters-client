@@ -63,6 +63,9 @@
 		296548981A81C46F0080B195 /* statueshadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 296548971A81C46F0080B195 /* statueshadow@2x.png */; };
 		296548991A81C46F0080B195 /* statueshadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 296548971A81C46F0080B195 /* statueshadow@2x.png */; };
 		2965489A1A81C46F0080B195 /* statueshadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 296548971A81C46F0080B195 /* statueshadow@2x.png */; };
+		297DE2281A9D597700692D80 /* MilitaryGirl0T1P3TutBig@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 297DE2271A9D597700692D80 /* MilitaryGirl0T1P3TutBig@2x.png */; };
+		297DE2291A9D597700692D80 /* MilitaryGirl0T1P3TutBig@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 297DE2271A9D597700692D80 /* MilitaryGirl0T1P3TutBig@2x.png */; };
+		297DE22A1A9D597700692D80 /* MilitaryGirl0T1P3TutBig@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 297DE2271A9D597700692D80 /* MilitaryGirl0T1P3TutBig@2x.png */; };
 		29804F2A1A1DA91200806253 /* speedupicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29804F261A1DA91200806253 /* speedupicon@2x.png */; };
 		29804F2B1A1DA91200806253 /* speedupicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29804F261A1DA91200806253 /* speedupicon@2x.png */; };
 		29804F2C1A1DA91200806253 /* speedupicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29804F261A1DA91200806253 /* speedupicon@2x.png */; };
@@ -415,9 +418,6 @@
 		299AA37E1A7856AA00A2D806 /* cloud1-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 299AA2D81A7856A900A2D806 /* cloud1-9@2x.png */; };
 		299AA37F1A7856AA00A2D806 /* cloud1-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 299AA2D81A7856A900A2D806 /* cloud1-9@2x.png */; };
 		299AA3801A7856AA00A2D806 /* cloud1-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 299AA2D81A7856A900A2D806 /* cloud1-9@2x.png */; };
-		299AA3811A7856AA00A2D806 /* cloud2-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 299AA2D91A7856A900A2D806 /* cloud2-9@2x.png */; };
-		299AA3821A7856AA00A2D806 /* cloud2-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 299AA2D91A7856A900A2D806 /* cloud2-9@2x.png */; };
-		299AA3831A7856AA00A2D806 /* cloud2-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 299AA2D91A7856A900A2D806 /* cloud2-9@2x.png */; };
 		299AA3841A7856AA00A2D806 /* earthgrenade-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 299AA2DA1A7856A900A2D806 /* earthgrenade-9@2x.png */; };
 		299AA3851A7856AA00A2D806 /* earthgrenade-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 299AA2DA1A7856A900A2D806 /* earthgrenade-9@2x.png */; };
 		299AA3861A7856AA00A2D806 /* earthgrenade-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 299AA2DA1A7856A900A2D806 /* earthgrenade-9@2x.png */; };
@@ -7843,6 +7843,7 @@
 		296548821A81C4170080B195 /* nightstatue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nightstatue@2x.png"; sourceTree = "<group>"; };
 		296548841A81C4170080B195 /* waterstatue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "waterstatue@2x.png"; sourceTree = "<group>"; };
 		296548971A81C46F0080B195 /* statueshadow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "statueshadow@2x.png"; sourceTree = "<group>"; };
+		297DE2271A9D597700692D80 /* MilitaryGirl0T1P3TutBig@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MilitaryGirl0T1P3TutBig@2x.png"; sourceTree = "<group>"; };
 		29804F251A1DA91200806253 /* speedupicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = speedupicon.png; path = Items/speedupicon.png; sourceTree = "<group>"; };
 		29804F261A1DA91200806253 /* speedupicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "speedupicon@2x.png"; sourceTree = "<group>"; };
 		29804F2D1A1EE9DF00806253 /* itemstimerbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = itemstimerbg.png; path = Items/itemstimerbg.png; sourceTree = "<group>"; };
@@ -8008,7 +8009,6 @@
 		299AA2D61A7856A900A2D806 /* 6waterupdown-9@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "6waterupdown-9@2x.png"; sourceTree = "<group>"; };
 		299AA2D71A7856A900A2D806 /* allcocktail-9@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "allcocktail-9@2x.png"; sourceTree = "<group>"; };
 		299AA2D81A7856A900A2D806 /* cloud1-9@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cloud1-9@2x.png"; sourceTree = "<group>"; };
-		299AA2D91A7856A900A2D806 /* cloud2-9@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cloud2-9@2x.png"; sourceTree = "<group>"; };
 		299AA2DA1A7856A900A2D806 /* earthgrenade-9@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "earthgrenade-9@2x.png"; sourceTree = "<group>"; };
 		299AA2DB1A7856A900A2D806 /* earthheadshot-9@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "earthheadshot-9@2x.png"; sourceTree = "<group>"; };
 		299AA2DC1A7856A900A2D806 /* earthorb-9@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "earthorb-9@2x.png"; sourceTree = "<group>"; };
@@ -13327,7 +13327,6 @@
 				9B41AF2A1A7C334C00529879 /* bulletorb-9@2x.png */,
 				299AA3FD1A786BB000A2D806 /* cakeorb-9@2x.png */,
 				299AA2D81A7856A900A2D806 /* cloud1-9@2x.png */,
-				299AA2D91A7856A900A2D806 /* cloud2-9@2x.png */,
 				299AA3FE1A786BB000A2D806 /* earthbomb-9@2x.png */,
 				9B6B78141A8ABEE60080C8E5 /* earthfryingpan-9@2x.png */,
 				299AA2DA1A7856A900A2D806 /* earthgrenade-9@2x.png */,
@@ -13448,6 +13447,7 @@
 				29AE75591A6F36E000264070 /* MilitaryChicken1T1P5TutBig@2x.png */,
 				29AE755A1A6F36E000264070 /* MilitaryGirl0T1P2TutBig@2x.png */,
 				29AE755B1A6F36E000264070 /* MilitaryGirl0T1TutBig@2x.png */,
+				297DE2271A9D597700692D80 /* MilitaryGirl0T1P3TutBig@2x.png */,
 				29DCCFB61A8AF4B9003176FD /* Scientist1T1Big@2x.png */,
 				29DCCFB21A8ACCBB003176FD /* TribalGirl1T1Big@2x.png */,
 				29AE755C1A6F36E000264070 /* TribalGirl1T1P2TutBig@2x.png */,
@@ -19971,7 +19971,6 @@
 				CF0CF287196F452900ECD301 /* profteaminactive@2x.png in Resources */,
 				CF0CF288196F452900ECD301 /* popupactivetab@2x.png in Resources */,
 				CF0CF28A196F452900ECD301 /* lightsquare@2x.png in Resources */,
-				299AA3821A7856AA00A2D806 /* cloud2-9@2x.png in Resources */,
 				9B41AEA81A796EC100529879 /* graveorb@2x.png in Resources */,
 				CFA8B22819F4D1EB00CF6BFD /* 1scene@2x.png in Resources */,
 				CFF2A6651974997A00269084 /* pvpsilverribbon@2x.png in Resources */,
@@ -20371,6 +20370,7 @@
 				CF0CF427196F452900ECD301 /* Ziggurat-HTF-Black.otf in Resources */,
 				CF0CF428196F452900ECD301 /* FatBoy4Move03@2x.png in Resources */,
 				9BDA8BDD1A43837D00C7AC27 /* NewGachaFeaturedView.xib in Resources */,
+				297DE2291A9D597700692D80 /* MilitaryGirl0T1P3TutBig@2x.png in Resources */,
 				CF0CF42F196F452900ECD301 /* championbig@2x.png in Resources */,
 				CF0CF430196F452900ECD301 /* openquestarrow@2x.png in Resources */,
 				CF0CF433196F452900ECD301 /* ClanRaidInactiveCell.xib in Resources */,
@@ -21493,6 +21493,7 @@
 				29AE75B71A6F36E000264070 /* Kim1T1RunNF@2x.pvr.ccz in Resources */,
 				CFC97188182C74E500FF1D83 /* waterpointsfont.fnt in Resources */,
 				CF012B4418D400DD004C6825 /* supereffective@2x.png in Resources */,
+				297DE2281A9D597700692D80 /* MilitaryGirl0T1P3TutBig@2x.png in Resources */,
 				CFF2A6361970DCBA00269084 /* openbosspin@2x.png in Resources */,
 				CF29E9F31964BD0500B40DA4 /* healredbubble2@2x.png in Resources */,
 				29ABD6C81A732EF2003A65F4 /* tutorialrocks@2x.png in Resources */,
@@ -23474,7 +23475,6 @@
 				CF22F97E17F150E200DFD79D /* gem_blows_up.mp3 in Resources */,
 				CFA8FF5719F899B200F9908C /* woopsalertsign@2x.png in Resources */,
 				9B41AEBE1A7C191300529879 /* 6graveorb-9@2x.png in Resources */,
-				299AA3811A7856AA00A2D806 /* cloud2-9@2x.png in Resources */,
 				CF22F98617F24E4A00DFD79D /* cancelbuild@2x.png in Resources */,
 				CF134A5418A5E4B500D7D700 /* FatBoy1Move05@2x.png in Resources */,
 				CFFF9A4C18BEB67D0036EEC3 /* nighttimermobster@2x.png in Resources */,
@@ -25127,6 +25127,7 @@
 				CF48229519F7217F00041486 /* upgradebarnewmiddle@2x.png in Resources */,
 				29FFD9651A37E5100063C17C /* ChatClanAvengeView.xib in Resources */,
 				CF48229619F7217F00041486 /* close1.png in Resources */,
+				297DE22A1A9D597700692D80 /* MilitaryGirl0T1P3TutBig@2x.png in Resources */,
 				9B6B77D51A858B1A0080C8E5 /* 3moveslabel@2x.png in Resources */,
 				9BDA8B5A1A3A4D0600C7AC27 /* shuffleicon@2x.png in Resources */,
 				CF48229719F7217F00041486 /* menuclosex@2x.png in Resources */,
@@ -25152,7 +25153,6 @@
 				CFA7939D1A0C63ED00DF3407 /* nightcakeeventlive@2x.png in Resources */,
 				29804F981A241F4A00806253 /* requesthelp@2x.png in Resources */,
 				9BB9493F1A6E1197006EE920 /* watergrglow2glowblend@2x.png in Resources */,
-				299AA3831A7856AA00A2D806 /* cloud2-9@2x.png in Resources */,
 				CF4822B919F7217F00041486 /* silverribbon@2x.png in Resources */,
 				CF4822BB19F7217F00041486 /* sfx_points_fly_from_match_01.mp3 in Resources */,
 				CF4822BD19F7217F00041486 /* chatinputcap@2x.png in Resources */,
