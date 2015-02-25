@@ -16,6 +16,12 @@
 
 #pragma mark - Overrides
 
+//Little trick to make it always tick after player turns
+- (TickTrigger)tickTrigger
+{
+  return self.belongsToPlayer ? TickTriggerAfterUserTurn : TickTriggerAfterOpponentTurn;
+}
+
 - (BOOL) affectsOwner
 {
   return NO;
@@ -55,10 +61,6 @@
           || (!self.belongsToPlayer && trigger == SkillTriggerPointPlayerInitialized))
       {
         [self endDurationNow];
-      }
-      else if (trigger == SkillTriggerPointEndOfPlayerTurn)
-      {
-        [self tickDuration];
       }
     }
   }

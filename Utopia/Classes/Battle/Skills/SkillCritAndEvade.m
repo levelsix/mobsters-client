@@ -51,6 +51,11 @@
 
 #pragma mark - Overrides
 
+- (TickTrigger) tickTrigger
+{
+  return (_missChance > 0 || _critChance > 0) ? TickTriggerAfterUserTurn : TickTriggerAfterOpponentTurn;
+}
+
 - (NSSet*) sideEffects
 {
   return [NSSet setWithObjects:@(_sideEffectType), nil];
@@ -109,25 +114,6 @@
   }
   
   return damage;
-}
-
--(BOOL)skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
-{
-  if ([super skillCalledWithTrigger:trigger execute:execute])
-    return YES;
-  
-  if ([self isActive])
-  {
-    if (([self ticksOnPlayerTurn] && (trigger == SkillTriggerPointEndOfPlayerTurn || trigger == SkillTriggerPointEnemyDefeated))
-        || (![self ticksOnPlayerTurn] && (trigger == SkillTriggerPointEndOfEnemyTurn || trigger == SkillTriggerPointEnemyDefeated)))
-    {
-      if (execute)
-      {
-        [self tickDuration];
-      }
-    }
-  }
-  return NO;
 }
 
 - (BOOL) ticksOnPlayerTurn

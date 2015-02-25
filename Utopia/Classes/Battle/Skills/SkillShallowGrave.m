@@ -53,11 +53,11 @@ static const NSInteger kGraveOrbsMaxSearchIterations = 256;
   }
 }
 
-- (NSInteger) getDuration
+- (NSInteger) duration
 {
   // Defensive variation of Shallow Grave will remain active
   // for as longs there are grave orbs on the board
-  return self.belongsToPlayer ? [super getDuration] : -1;
+  return self.belongsToPlayer ? [super duration] : -1;
 }
 
 - (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute

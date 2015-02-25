@@ -53,7 +53,6 @@
     if ((trigger == SkillTriggerPointEndOfEnemyTurn && self.belongsToPlayer)
         || (trigger == SkillTriggerPointEndOfPlayerTurn && !self.belongsToPlayer)){
       if (execute){
-        [self tickDuration];
         float rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
         if (rand < _chance){
           [self performAfterDelay:self.opponentSprite.animationType == MonsterProto_AnimationTypeMelee ? .5 : 0 block:^{

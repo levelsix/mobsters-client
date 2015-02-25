@@ -61,23 +61,6 @@
   return damage;
 }
 
-- (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
-{
-  if ([super skillCalledWithTrigger:trigger execute:execute])
-    return YES;
-  
-  if ((self.belongsToPlayer && trigger == SkillTriggerPointEndOfEnemyTurn)
-      || (!self.belongsToPlayer && trigger == SkillTriggerPointEndOfPlayerTurn))
-  {
-    if (execute)
-    {
-      [self tickDuration];
-    }
-  }
-  
-  return NO;
-}
-
 #pragma mark - Skill logic
 
 -(void)showDamageAbsorbed
@@ -89,5 +72,4 @@
                      withCompletion:^{}];
   }
 }
-
 @end

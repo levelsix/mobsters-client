@@ -31,6 +31,11 @@
 
 #pragma mark - Overrides
 
+- (TickTrigger) tickTrigger
+{
+  return self.belongsToPlayer ? TickTriggerAfterUserTurn : TickTriggerAfterOpponentTurn;
+}
+
 - (NSSet*) sideEffects
 {
   return [NSSet setWithObjects:@(SideEffectTypeBuffStaticField), nil];
@@ -48,14 +53,6 @@
   
   if ([self isActive])
   {
-    if (trigger == SkillTriggerPointStartOfPlayerTurn)
-    {
-      if (execute)
-      {
-        [self tickDuration];
-      }
-    }
-    
     if (self.userPlayer.curHealth > 0 &&
         ((trigger == SkillTriggerPointEnemySkillActivated && self.belongsToPlayer)
         || (trigger == SkillTriggerPointPlayerSkillActivated && !self.belongsToPlayer)))

@@ -42,7 +42,6 @@
   if (player == self.belongsToPlayer)
     if ([self isActive])
     {
-      [self tickDuration];
       [self showSkillPopupMiniOverlay:NO
                            bottomText:[NSString stringWithFormat:@"%.3gX ATK", _damageMultiplier]
                        withCompletion:^{}];

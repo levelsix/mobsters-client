@@ -86,26 +86,6 @@
   return NO;
 }
 
-- (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
-{
-  if ([super skillCalledWithTrigger:trigger execute:execute])
-    return YES;
-  
-  if ((trigger == SkillTriggerPointEndOfPlayerTurn && self.belongsToPlayer) ||
-      (trigger == SkillTriggerPointEndOfEnemyTurn && !self.belongsToPlayer) )
-  {
-    if (execute)
-    {
-      if ([self isActive])
-      {
-        [self tickDuration];
-      }
-    }
-  }
-  
-  return NO;
-}
-
 #pragma mark - Skill Logic
 
 - (void) resetSpriteSize

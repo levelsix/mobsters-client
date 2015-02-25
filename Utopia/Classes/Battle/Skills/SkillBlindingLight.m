@@ -45,6 +45,11 @@
   return YES;
 }
 
+- (TickTrigger) tickTrigger
+{
+  return TickTriggerAfterOpponentTurn;
+}
+
 - (NSSet*) sideEffects
 {
   return [NSSet setWithObjects:@(SideEffectTypeNerfBlindingLight), nil];
@@ -68,8 +73,6 @@
                          withCompletion:^{}];
         SkillLogStart(@"Blinding Light -- Skill caused a miss");
       }
-      
-      [self tickDuration];
     }
   }
   

@@ -24,7 +24,6 @@
   _turnsLeft = 0;
   
   return self;
-  
 }
 
 - (BOOL) isActive
@@ -43,17 +42,43 @@
     [self addVisualEffects:NO];
 }
 
+- (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
+{
+  if ([super skillCalledWithTrigger:trigger execute:execute])
+    return YES;
+  
+  if ([self isActive])
+  {
+    if (([self tickTrigger] == TickTriggerAfterUserTurn &&
+        ((self.belongsToPlayer && (trigger == SkillTriggerPointEndOfPlayerTurn || trigger == SkillTriggerPointEnemyDefeated))
+         || (!self.belongsToPlayer && (trigger == SkillTriggerPointEndOfEnemyTurn || trigger == SkillTriggerPointPlayerMobDefeated))))
+      ||([self tickTrigger] == TickTriggerAfterOpponentTurn &&
+        ((!self.belongsToPlayer && (trigger == SkillTriggerPointEndOfPlayerTurn || trigger == SkillTriggerPointEnemyDefeated)) ||
+         (self.belongsToPlayer && (trigger == SkillTriggerPointEndOfEnemyTurn || trigger == SkillTriggerPointPlayerMobDefeated)))))
+    {
+      if (execute)
+      {
+        [self tickDuration];
+        [self skillTriggerFinished];
+      }
+      return YES;
+    }
+  }
+ 
+  return NO;
+}
+
 #pragma mark - Class Functions
 
-- (NSInteger) getDuration
+- (TickTrigger) tickTrigger
 {
-  return _duration;
+  return TickTriggerAfterUserTurn;
 }
 
 - (BOOL) resetDuration
 {
   NSInteger tempOldTurns = _turnsLeft;
-  _turnsLeft = [self getDuration];
+  _turnsLeft = self.duration;
   
   if (tempOldTurns == 0)
     return [self onDurationStart];

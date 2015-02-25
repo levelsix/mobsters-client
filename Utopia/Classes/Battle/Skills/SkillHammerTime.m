@@ -70,22 +70,21 @@
     }
   }
   
+  //If the character dies before the stun runs up, make sure the stun doesn't persist
+  if (_stunTurnsLeft>0 && ((self.belongsToPlayer && trigger == SkillTriggerPointEnemyDefeated)
+                           || (!self.belongsToPlayer && trigger == SkillTriggerPointPlayerInitialized)))
+  {
+    [self endStun];
+  }
+  
   if ([self isActive])
   {
-    //If the character dies before the stun runs up, make sure the stun doesn't persist
-    if (_stunTurnsLeft>0 && ((self.belongsToPlayer && trigger == SkillTriggerPointEnemyDefeated)
-             || (!self.belongsToPlayer && trigger == SkillTriggerPointPlayerInitialized)))
-    {
-      [self endStun];
-    }
-    
     //Note: You can refresh a stun!
     if ((self.belongsToPlayer && trigger == SkillTriggerPointPlayerDealsDamage) ||
              (!self.belongsToPlayer && trigger == SkillTriggerPointEnemyDealsDamage))
     {
       if (execute)
       {
-        [self tickDuration];
         float rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
         if (rand < _chance){
           [self stunOpponent];
@@ -132,9 +131,6 @@
 
 - (void) endStunAnimations
 {
-  [self.opponentSprite.sprite stopActionByTag:1914];
-  [self.opponentSprite.sprite runAction:[CCActionTintTo actionWithDuration:0.3 color:[CCColor whiteColor]]];
-  
   [self removeSkillSideEffectFromOpponent:SideEffectTypeNerfStun];
 }
 

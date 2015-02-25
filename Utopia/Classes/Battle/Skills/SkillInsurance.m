@@ -28,6 +28,11 @@
 
 #pragma mark - Overrides
 
+- (TickTrigger) tickTrigger
+{
+  return TickTriggerAfterOpponentTurn;
+}
+
 - (NSSet*) sideEffects
 {
   return [NSSet setWithObjects:@(SideEffectTypeBuffInsurance), nil];
@@ -41,7 +46,6 @@
     [self showSkillPopupMiniOverlay:NO
                          bottomText:[NSString stringWithFormat:@"%.3gX ATK", _damageTakenMultiplier]
                      withCompletion:^{}];
-    [self tickDuration];
   }
   
   return damage;

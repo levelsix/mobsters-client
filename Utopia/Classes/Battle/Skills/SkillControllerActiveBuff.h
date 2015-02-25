@@ -8,9 +8,14 @@
 
 #import "SkillControllerActive.h"
 
+typedef enum {
+  TickTriggerAfterUserTurn = 0,
+  TickTriggerAfterOpponentTurn = 1
+} TickTrigger;
+
 @interface SkillControllerActiveBuff : SkillControllerActive
 
-- (NSInteger) getDuration;
+- (TickTrigger) tickTrigger;
 - (BOOL) resetDuration;
 - (void) tickDuration;
 - (BOOL) onDurationStart;

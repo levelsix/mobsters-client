@@ -42,6 +42,11 @@
   return [self isActive];
 }
 
+- (TickTrigger) tickTrigger
+{
+  return TickTriggerAfterOpponentTurn;
+}
+
 - (NSSet*) sideEffects
 {
   return [NSSet setWithObjects:@(SideEffectTypeNerfConfusion), nil];
@@ -89,19 +94,6 @@
           self.enemy.isConfused = YES;
         }
         
-        [self skillTriggerFinished];
-      }
-      return YES;
-    }
-    
-    if ((trigger == SkillTriggerPointEndOfEnemyTurn && self.belongsToPlayer) ||
-        (trigger == SkillTriggerPointEndOfPlayerTurn && !self.belongsToPlayer))
-    {
-      if (execute)
-      {
-        (self.belongsToPlayer ? self.enemy : self.player).isConfused = NO;
-        
-        [self tickDuration];
         [self skillTriggerFinished];
       }
       return YES;
