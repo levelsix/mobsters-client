@@ -152,6 +152,12 @@
 
 #pragma mark - List view delegate
 
+- (BOOL) testForMoneyTreeWithIndex:(NSInteger)index {
+  StructureInfoProto *sip = self.staticStructs[index];
+  if(sip.structType == stru)
+  return NO;
+}
+
 - (void) listView:(ListCollectionView *)listView updateCell:(BuildingCardCell *)cell forIndexPath:(NSIndexPath *)indexPath listObject:(StructureInfoProto *)listObject {
   [cell updateForStructInfo:listObject townHall:[self townHall] structs:[self curStructsList]];
   cell.recommendedTag.hidden = listObject.structId != _recommendedStructId;

@@ -11,6 +11,9 @@
 #import "Globals.h"
 #import "GameState.h"
 
+#define TREE_WIDTH 200
+#define TREE_HEIGHT 180
+
 @implementation ListCollectionViewCell
 
 - (void) updateForListObject:(id)listObject {
@@ -220,6 +223,18 @@
     [self.collectionView reloadData];
     [self.collectionView layoutIfNeeded];
   }
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+  //special size for the money tree card
+  if([self.delegate respondsToSelector:@selector(testForMoneyTreeWithIndex:)]) {
+    if([self.delegate testForMoneyTreeWithIndex:indexPath.row]) {
+      ListCollectionViewCell *cell = (ListCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
+      cell.size = CGSizeMake(TREE_WIDTH, TREE_HEIGHT);
+    }
+  }
+  UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)collectionViewLayout;
+  return layout.itemSize;
 }
 
 #pragma mark - Monster card delegate

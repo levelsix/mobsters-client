@@ -94,6 +94,8 @@
 - (void) listView:(ListCollectionView *)listView updateFooterView:(UICollectionReusableView *)footerView;
 - (void) listView:(ListCollectionView *)listView updateHeaderView:(UICollectionReusableView *)headerView;
 
+- (BOOL) testForMoneyTreeWithIndex:(NSInteger)index;
+
 @end
 
 @interface ListCollectionView : UIView <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, ListCellDelegate> {
