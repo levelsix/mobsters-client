@@ -587,10 +587,10 @@
       [view removeFromSuperview];
       [self.prizeView beginAnimation];
     }];
+    
+    self.gachaTable.userInteractionEnabled = YES;
+    _isSpinning = NO;
   }];
-  
-  self.gachaTable.userInteractionEnabled = YES;
-  _isSpinning = NO;
   
   [SoundEngine gachaReveal];
 }

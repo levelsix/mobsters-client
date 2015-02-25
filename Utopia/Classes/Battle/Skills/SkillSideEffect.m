@@ -25,6 +25,7 @@
 #define SIDE_EFFECT_PFX_SCALE_MODIFIER    .5f // Retina display
 #define SIDE_EFFECT_TOP_MOST_Z_ORDER      50
 #define SIDE_EFFECT_DISPLAY_ACTION_TAG    881039
+#define SIDE_EFFECT_FADE_IN_ACTION_TAG    885461
 
 @implementation SkillSideEffect
 
@@ -111,7 +112,7 @@
                               [CCActionEaseBounceOut actionWithAction:
                                [CCActionScaleTo actionWithDuration:SIDE_EFFECT_VFX_APPEAR_DURATION scale:SIDE_EFFECT_VFX_SCALE_MODIFIER]],
                               [CCActionFadeIn actionWithDuration:SIDE_EFFECT_VFX_APPEAR_DURATION], nil];
-          action.tag = SIDE_EFFECT_DISPLAY_ACTION_TAG;
+          action.tag = SIDE_EFFECT_FADE_IN_ACTION_TAG;
           [_vfx runAction:action];
           
           [sprite addChild:_vfx z:_vfx.zOrder];
@@ -137,7 +138,7 @@
                                 [CCActionEaseBounceOut actionWithAction:
                                  [CCActionScaleTo actionWithDuration:SIDE_EFFECT_VFX_APPEAR_DURATION scale:SIDE_EFFECT_VFX_SCALE_MODIFIER]],
                                 [CCActionFadeIn actionWithDuration:SIDE_EFFECT_VFX_APPEAR_DURATION], nil];
-            action.tag = SIDE_EFFECT_DISPLAY_ACTION_TAG;
+            action.tag = SIDE_EFFECT_FADE_IN_ACTION_TAG;
             [_vfx runAction:action];
             
             [sprite addChild:_vfx z:_vfx.zOrder];
@@ -231,6 +232,7 @@
                            [CCActionDelay   actionWithDuration:SIDE_EFFECT_VFX_DISPLAY_INTERVAL * (total - order - 1)]
                            , nil]];
       action.tag = SIDE_EFFECT_DISPLAY_ACTION_TAG;
+      [_vfx stopActionByTag:SIDE_EFFECT_FADE_IN_ACTION_TAG];
       [_vfx runAction:action];
     }
     
