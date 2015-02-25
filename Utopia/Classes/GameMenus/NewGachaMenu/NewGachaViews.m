@@ -722,6 +722,7 @@ typedef void (^RevealAnimCompletionBlock)(void);
     
     self.iconLabel.text = ui.iconText;
     self.itemQuantityLabel.text = [NSString stringWithFormat:@"%dx", item.itemQuantity];
+    self.itemQuantityLabel.superview.hidden = item.itemQuantity <= 1;
     
     self.itemView.hidden = NO;
     self.mainView.hidden = YES;

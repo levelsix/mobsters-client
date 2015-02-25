@@ -37,8 +37,9 @@
   
   NSString *desc = [self.delegate footerDescription];
   NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-  [paragraphStyle setLineSpacing:2];
-  NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:desc attributes:@{NSParagraphStyleAttributeName : paragraphStyle}];
+  [paragraphStyle setLineSpacing:3];
+  NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:desc];
+  [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, desc.length)];
   self.footerDescLabel.attributedText = attributedString;
   
 }
