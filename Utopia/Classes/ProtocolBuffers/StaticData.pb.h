@@ -117,6 +117,8 @@
 @class MinimumUserProto_Builder;
 @class MinimumUserTaskProto;
 @class MinimumUserTaskProto_Builder;
+@class MoneyTreeProto;
+@class MoneyTreeProto_Builder;
 @class MonsterBattleDialogueProto;
 @class MonsterBattleDialogueProto_Builder;
 @class MonsterLevelInfoProto;
@@ -276,6 +278,7 @@
   NSMutableArray * mutableAllEvoChambersList;
   NSMutableArray * mutableAllTeamCentersList;
   NSMutableArray * mutableAllClanHousesList;
+  NSMutableArray * mutableAllMoneyTreesList;
   NSMutableArray * mutablePersistentEventsList;
   NSMutableArray * mutableMbdsList;
   NSMutableArray * mutableRaidsList;
@@ -315,6 +318,7 @@
 @property (readonly, strong) NSArray * allEvoChambersList;
 @property (readonly, strong) NSArray * allTeamCentersList;
 @property (readonly, strong) NSArray * allClanHousesList;
+@property (readonly, strong) NSArray * allMoneyTreesList;
 @property (readonly, strong) NSArray * persistentEventsList;
 @property (readonly, strong) NSArray * mbdsList;
 @property (readonly, strong) NSArray * raidsList;
@@ -349,6 +353,7 @@
 - (EvoChamberProto*)allEvoChambersAtIndex:(NSUInteger)index;
 - (TeamCenterProto*)allTeamCentersAtIndex:(NSUInteger)index;
 - (ClanHouseProto*)allClanHousesAtIndex:(NSUInteger)index;
+- (MoneyTreeProto*)allMoneyTreesAtIndex:(NSUInteger)index;
 - (PersistentEventProto*)persistentEventsAtIndex:(NSUInteger)index;
 - (MonsterBattleDialogueProto*)mbdsAtIndex:(NSUInteger)index;
 - (ClanRaidProto*)raidsAtIndex:(NSUInteger)index;
@@ -532,6 +537,12 @@
 - (StaticDataProto_Builder *)addAllClanHouses:(ClanHouseProto*)value;
 - (StaticDataProto_Builder *)addAllAllClanHouses:(NSArray *)array;
 - (StaticDataProto_Builder *)clearAllClanHouses;
+
+- (NSMutableArray *)allMoneyTreesList;
+- (MoneyTreeProto*)allMoneyTreesAtIndex:(NSUInteger)index;
+- (StaticDataProto_Builder *)addAllMoneyTrees:(MoneyTreeProto*)value;
+- (StaticDataProto_Builder *)addAllAllMoneyTrees:(NSArray *)array;
+- (StaticDataProto_Builder *)clearAllMoneyTrees;
 
 - (NSMutableArray *)persistentEventsList;
 - (PersistentEventProto*)persistentEventsAtIndex:(NSUInteger)index;

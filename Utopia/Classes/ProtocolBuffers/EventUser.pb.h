@@ -49,6 +49,8 @@
 @class MinimumUserProtoWithMaxResources;
 @class MinimumUserProtoWithMaxResources_Builder;
 @class MinimumUserProto_Builder;
+@class MoneyTreeProto;
+@class MoneyTreeProto_Builder;
 @class MonsterBattleDialogueProto;
 @class MonsterBattleDialogueProto_Builder;
 @class MonsterLevelInfoProto;

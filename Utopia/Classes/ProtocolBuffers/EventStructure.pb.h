@@ -19,6 +19,10 @@
 @class ClanHouseProto_Builder;
 @class CoordinateProto;
 @class CoordinateProto_Builder;
+@class DestroyMoneyTreeStructureRequestProto;
+@class DestroyMoneyTreeStructureRequestProto_Builder;
+@class DestroyMoneyTreeStructureResponseProto;
+@class DestroyMoneyTreeStructureResponseProto_Builder;
 @class EvoChamberProto;
 @class EvoChamberProto_Builder;
 @class ExpansionWaitCompleteRequestProto;
@@ -53,6 +57,8 @@
 @class MinimumUserProtoWithMaxResources;
 @class MinimumUserProtoWithMaxResources_Builder;
 @class MinimumUserProto_Builder;
+@class MoneyTreeProto;
+@class MoneyTreeProto_Builder;
 @class MoveOrRotateNormStructureRequestProto;
 @class MoveOrRotateNormStructureRequestProto_Builder;
 @class MoveOrRotateNormStructureResponseProto;
@@ -179,6 +185,14 @@ typedef NS_ENUM(SInt32, RetrieveCurrencyFromNormStructureResponseProto_RetrieveC
 };
 
 BOOL RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusIsValidValue(RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus value);
+
+typedef NS_ENUM(SInt32, DestroyMoneyTreeStructureResponseProto_DestroyMoneyTreeStructureStatus) {
+  DestroyMoneyTreeStructureResponseProto_DestroyMoneyTreeStructureStatusSuccess = 1,
+  DestroyMoneyTreeStructureResponseProto_DestroyMoneyTreeStructureStatusFailNotExpiredYet = 2,
+  DestroyMoneyTreeStructureResponseProto_DestroyMoneyTreeStructureStatusFailOther = 3,
+};
+
+BOOL DestroyMoneyTreeStructureResponseProto_DestroyMoneyTreeStructureStatusIsValidValue(DestroyMoneyTreeStructureResponseProto_DestroyMoneyTreeStructureStatus value);
 
 typedef NS_ENUM(SInt32, ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatus) {
   ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusSuccess = 1,
@@ -1163,6 +1177,126 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus) status;
 - (RetrieveCurrencyFromNormStructureResponseProto_Builder*) setStatus:(RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus) value;
 - (RetrieveCurrencyFromNormStructureResponseProto_Builder*) clearStatusList;
+@end
+
+@interface DestroyMoneyTreeStructureRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  MinimumUserProto* sender;
+  NSMutableArray * mutableUserStructUuidList;
+}
+- (BOOL) hasSender;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) NSArray * userStructUuidList;
+- (NSString*)userStructUuidAtIndex:(NSUInteger)index;
+
++ (DestroyMoneyTreeStructureRequestProto*) defaultInstance;
+- (DestroyMoneyTreeStructureRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (DestroyMoneyTreeStructureRequestProto_Builder*) builder;
++ (DestroyMoneyTreeStructureRequestProto_Builder*) builder;
++ (DestroyMoneyTreeStructureRequestProto_Builder*) builderWithPrototype:(DestroyMoneyTreeStructureRequestProto*) prototype;
+- (DestroyMoneyTreeStructureRequestProto_Builder*) toBuilder;
+
++ (DestroyMoneyTreeStructureRequestProto*) parseFromData:(NSData*) data;
++ (DestroyMoneyTreeStructureRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (DestroyMoneyTreeStructureRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (DestroyMoneyTreeStructureRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (DestroyMoneyTreeStructureRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (DestroyMoneyTreeStructureRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface DestroyMoneyTreeStructureRequestProto_Builder : PBGeneratedMessageBuilder {
+@private
+  DestroyMoneyTreeStructureRequestProto* result;
+}
+
+- (DestroyMoneyTreeStructureRequestProto*) defaultInstance;
+
+- (DestroyMoneyTreeStructureRequestProto_Builder*) clear;
+- (DestroyMoneyTreeStructureRequestProto_Builder*) clone;
+
+- (DestroyMoneyTreeStructureRequestProto*) build;
+- (DestroyMoneyTreeStructureRequestProto*) buildPartial;
+
+- (DestroyMoneyTreeStructureRequestProto_Builder*) mergeFrom:(DestroyMoneyTreeStructureRequestProto*) other;
+- (DestroyMoneyTreeStructureRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (DestroyMoneyTreeStructureRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (DestroyMoneyTreeStructureRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (DestroyMoneyTreeStructureRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (DestroyMoneyTreeStructureRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (DestroyMoneyTreeStructureRequestProto_Builder*) clearSender;
+
+- (NSMutableArray *)userStructUuidList;
+- (NSString*)userStructUuidAtIndex:(NSUInteger)index;
+- (DestroyMoneyTreeStructureRequestProto_Builder *)addUserStructUuid:(NSString*)value;
+- (DestroyMoneyTreeStructureRequestProto_Builder *)addAllUserStructUuid:(NSArray *)array;
+- (DestroyMoneyTreeStructureRequestProto_Builder *)clearUserStructUuid;
+@end
+
+@interface DestroyMoneyTreeStructureResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  DestroyMoneyTreeStructureResponseProto_DestroyMoneyTreeStructureStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly) DestroyMoneyTreeStructureResponseProto_DestroyMoneyTreeStructureStatus status;
+
++ (DestroyMoneyTreeStructureResponseProto*) defaultInstance;
+- (DestroyMoneyTreeStructureResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (DestroyMoneyTreeStructureResponseProto_Builder*) builder;
++ (DestroyMoneyTreeStructureResponseProto_Builder*) builder;
++ (DestroyMoneyTreeStructureResponseProto_Builder*) builderWithPrototype:(DestroyMoneyTreeStructureResponseProto*) prototype;
+- (DestroyMoneyTreeStructureResponseProto_Builder*) toBuilder;
+
++ (DestroyMoneyTreeStructureResponseProto*) parseFromData:(NSData*) data;
++ (DestroyMoneyTreeStructureResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (DestroyMoneyTreeStructureResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (DestroyMoneyTreeStructureResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (DestroyMoneyTreeStructureResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (DestroyMoneyTreeStructureResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface DestroyMoneyTreeStructureResponseProto_Builder : PBGeneratedMessageBuilder {
+@private
+  DestroyMoneyTreeStructureResponseProto* result;
+}
+
+- (DestroyMoneyTreeStructureResponseProto*) defaultInstance;
+
+- (DestroyMoneyTreeStructureResponseProto_Builder*) clear;
+- (DestroyMoneyTreeStructureResponseProto_Builder*) clone;
+
+- (DestroyMoneyTreeStructureResponseProto*) build;
+- (DestroyMoneyTreeStructureResponseProto*) buildPartial;
+
+- (DestroyMoneyTreeStructureResponseProto_Builder*) mergeFrom:(DestroyMoneyTreeStructureResponseProto*) other;
+- (DestroyMoneyTreeStructureResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (DestroyMoneyTreeStructureResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (DestroyMoneyTreeStructureResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (DestroyMoneyTreeStructureResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (DestroyMoneyTreeStructureResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (DestroyMoneyTreeStructureResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (DestroyMoneyTreeStructureResponseProto_DestroyMoneyTreeStructureStatus) status;
+- (DestroyMoneyTreeStructureResponseProto_Builder*) setStatus:(DestroyMoneyTreeStructureResponseProto_DestroyMoneyTreeStructureStatus) value;
+- (DestroyMoneyTreeStructureResponseProto_Builder*) clearStatusList;
 @end
 
 @interface ExpansionWaitCompleteRequestProto : PBGeneratedMessage {

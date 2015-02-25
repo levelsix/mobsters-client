@@ -487,6 +487,7 @@ static InAppPurchaseRequestProto* defaultInAppPurchaseRequestProtoInstance = nil
 @property (strong) NSString* receipt;
 @property (strong) NSMutableArray * mutableUpdatedOrNewList;
 @property (strong) NSMutableArray * mutableUpdatedUserItemsList;
+@property (strong) NSMutableArray * mutableUpdatedMoneyTreeList;
 @end
 
 @implementation InAppPurchaseResponseProto
@@ -544,6 +545,8 @@ static InAppPurchaseRequestProto* defaultInAppPurchaseRequestProtoInstance = nil
 @dynamic updatedOrNewList;
 @synthesize mutableUpdatedUserItemsList;
 @dynamic updatedUserItemsList;
+@synthesize mutableUpdatedMoneyTreeList;
+@dynamic updatedMoneyTreeList;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
@@ -580,6 +583,12 @@ static InAppPurchaseResponseProto* defaultInAppPurchaseResponseProtoInstance = n
 - (UserItemProto*)updatedUserItemsAtIndex:(NSUInteger)index {
   return [mutableUpdatedUserItemsList objectAtIndex:index];
 }
+- (NSArray *)updatedMoneyTreeList {
+  return mutableUpdatedMoneyTreeList;
+}
+- (FullUserStructureProto*)updatedMoneyTreeAtIndex:(NSUInteger)index {
+  return [mutableUpdatedMoneyTreeList objectAtIndex:index];
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -610,6 +619,9 @@ static InAppPurchaseResponseProto* defaultInAppPurchaseResponseProtoInstance = n
   }];
   [self.updatedUserItemsList enumerateObjectsUsingBlock:^(UserItemProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:9 value:element];
+  }];
+  [self.updatedMoneyTreeList enumerateObjectsUsingBlock:^(FullUserStructureProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:10 value:element];
   }];
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -646,6 +658,9 @@ static InAppPurchaseResponseProto* defaultInAppPurchaseResponseProtoInstance = n
   }];
   [self.updatedUserItemsList enumerateObjectsUsingBlock:^(UserItemProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(9, element);
+  }];
+  [self.updatedMoneyTreeList enumerateObjectsUsingBlock:^(FullUserStructureProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(10, element);
   }];
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -718,6 +733,12 @@ static InAppPurchaseResponseProto* defaultInAppPurchaseResponseProtoInstance = n
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }];
+  [self.updatedMoneyTreeList enumerateObjectsUsingBlock:^(FullUserStructureProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"updatedMoneyTree"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -745,6 +766,7 @@ static InAppPurchaseResponseProto* defaultInAppPurchaseResponseProtoInstance = n
       (!self.hasReceipt || [self.receipt isEqual:otherMessage.receipt]) &&
       [self.updatedOrNewList isEqualToArray:otherMessage.updatedOrNewList] &&
       [self.updatedUserItemsList isEqualToArray:otherMessage.updatedUserItemsList] &&
+      [self.updatedMoneyTreeList isEqualToArray:otherMessage.updatedMoneyTreeList] &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -774,6 +796,9 @@ static InAppPurchaseResponseProto* defaultInAppPurchaseResponseProtoInstance = n
     hashCode = hashCode * 31 + [element hash];
   }];
   [self.updatedUserItemsList enumerateObjectsUsingBlock:^(UserItemProto *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  [self.updatedMoneyTreeList enumerateObjectsUsingBlock:^(FullUserStructureProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
   hashCode = hashCode * 31 + [self.unknownFields hash];
@@ -864,6 +889,13 @@ BOOL InAppPurchaseResponseProto_InAppPurchaseStatusIsValidValue(InAppPurchaseRes
       [result.mutableUpdatedUserItemsList addObjectsFromArray:other.mutableUpdatedUserItemsList];
     }
   }
+  if (other.mutableUpdatedMoneyTreeList.count > 0) {
+    if (result.mutableUpdatedMoneyTreeList == nil) {
+      result.mutableUpdatedMoneyTreeList = [[NSMutableArray alloc] initWithArray:other.mutableUpdatedMoneyTreeList];
+    } else {
+      [result.mutableUpdatedMoneyTreeList addObjectsFromArray:other.mutableUpdatedMoneyTreeList];
+    }
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -933,6 +965,12 @@ BOOL InAppPurchaseResponseProto_InAppPurchaseStatusIsValidValue(InAppPurchaseRes
         UserItemProto_Builder* subBuilder = [UserItemProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addUpdatedUserItems:[subBuilder buildPartial]];
+        break;
+      }
+      case 82: {
+        FullUserStructureProto_Builder* subBuilder = [FullUserStructureProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addUpdatedMoneyTree:[subBuilder buildPartial]];
         break;
       }
     }
@@ -1110,6 +1148,30 @@ BOOL InAppPurchaseResponseProto_InAppPurchaseStatusIsValidValue(InAppPurchaseRes
 }
 - (InAppPurchaseResponseProto_Builder *)clearUpdatedUserItems {
   result.mutableUpdatedUserItemsList = nil;
+  return self;
+}
+- (NSMutableArray *)updatedMoneyTreeList {
+  return result.mutableUpdatedMoneyTreeList;
+}
+- (FullUserStructureProto*)updatedMoneyTreeAtIndex:(NSUInteger)index {
+  return [result updatedMoneyTreeAtIndex:index];
+}
+- (InAppPurchaseResponseProto_Builder *)addUpdatedMoneyTree:(FullUserStructureProto*)value {
+  if (result.mutableUpdatedMoneyTreeList == nil) {
+    result.mutableUpdatedMoneyTreeList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableUpdatedMoneyTreeList addObject:value];
+  return self;
+}
+- (InAppPurchaseResponseProto_Builder *)addAllUpdatedMoneyTree:(NSArray *)array {
+  if (result.mutableUpdatedMoneyTreeList == nil) {
+    result.mutableUpdatedMoneyTreeList = [NSMutableArray array];
+  }
+  [result.mutableUpdatedMoneyTreeList addObjectsFromArray:array];
+  return self;
+}
+- (InAppPurchaseResponseProto_Builder *)clearUpdatedMoneyTree {
+  result.mutableUpdatedMoneyTreeList = nil;
   return self;
 }
 @end

@@ -274,7 +274,11 @@
 }
 
 - (IBAction)elementButtonClicked:(id)sender {
-  [self.elementView open];
+  if ([self.battleLayerDelegate respondsToSelector:@selector(elementButtonClicked)]) {
+    [self.battleLayerDelegate elementButtonClicked];
+  } else {
+    [self.elementView open];
+  }
 }
 
 - (void) displayBattleScheduleView {

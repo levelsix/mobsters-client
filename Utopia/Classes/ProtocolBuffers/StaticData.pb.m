@@ -58,6 +58,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property (strong) NSMutableArray * mutableAllEvoChambersList;
 @property (strong) NSMutableArray * mutableAllTeamCentersList;
 @property (strong) NSMutableArray * mutableAllClanHousesList;
+@property (strong) NSMutableArray * mutableAllMoneyTreesList;
 @property (strong) NSMutableArray * mutablePersistentEventsList;
 @property (strong) NSMutableArray * mutableMbdsList;
 @property (strong) NSMutableArray * mutableRaidsList;
@@ -130,6 +131,8 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @dynamic allTeamCentersList;
 @synthesize mutableAllClanHousesList;
 @dynamic allClanHousesList;
+@synthesize mutableAllMoneyTreesList;
+@dynamic allMoneyTreesList;
 @synthesize mutablePersistentEventsList;
 @dynamic persistentEventsList;
 @synthesize mutableMbdsList;
@@ -296,6 +299,12 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
 }
 - (ClanHouseProto*)allClanHousesAtIndex:(NSUInteger)index {
   return [mutableAllClanHousesList objectAtIndex:index];
+}
+- (NSArray *)allMoneyTreesList {
+  return mutableAllMoneyTreesList;
+}
+- (MoneyTreeProto*)allMoneyTreesAtIndex:(NSUInteger)index {
+  return [mutableAllMoneyTreesList objectAtIndex:index];
 }
 - (NSArray *)persistentEventsList {
   return mutablePersistentEventsList;
@@ -493,6 +502,9 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   [self.sideEffectsList enumerateObjectsUsingBlock:^(SkillSideEffectProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:37 value:element];
   }];
+  [self.allMoneyTreesList enumerateObjectsUsingBlock:^(MoneyTreeProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:38 value:element];
+  }];
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -609,6 +621,9 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   }
   [self.sideEffectsList enumerateObjectsUsingBlock:^(SkillSideEffectProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(37, element);
+  }];
+  [self.allMoneyTreesList enumerateObjectsUsingBlock:^(MoneyTreeProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(38, element);
   }];
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -861,6 +876,12 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }];
+  [self.allMoneyTreesList enumerateObjectsUsingBlock:^(MoneyTreeProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"allMoneyTrees"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -910,6 +931,7 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
       self.hasStarterPack == otherMessage.hasStarterPack &&
       (!self.hasStarterPack || [self.starterPack isEqual:otherMessage.starterPack]) &&
       [self.sideEffectsList isEqualToArray:otherMessage.sideEffectsList] &&
+      [self.allMoneyTreesList isEqualToArray:otherMessage.allMoneyTreesList] &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -1020,6 +1042,9 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
     hashCode = hashCode * 31 + [self.starterPack hash];
   }
   [self.sideEffectsList enumerateObjectsUsingBlock:^(SkillSideEffectProto *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  [self.allMoneyTreesList enumerateObjectsUsingBlock:^(MoneyTreeProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
   hashCode = hashCode * 31 + [self.unknownFields hash];
@@ -1209,6 +1234,13 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
       result.mutableAllClanHousesList = [[NSMutableArray alloc] initWithArray:other.mutableAllClanHousesList];
     } else {
       [result.mutableAllClanHousesList addObjectsFromArray:other.mutableAllClanHousesList];
+    }
+  }
+  if (other.mutableAllMoneyTreesList.count > 0) {
+    if (result.mutableAllMoneyTreesList == nil) {
+      result.mutableAllMoneyTreesList = [[NSMutableArray alloc] initWithArray:other.mutableAllMoneyTreesList];
+    } else {
+      [result.mutableAllMoneyTreesList addObjectsFromArray:other.mutableAllMoneyTreesList];
     }
   }
   if (other.mutablePersistentEventsList.count > 0) {
@@ -1550,6 +1582,12 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
         SkillSideEffectProto_Builder* subBuilder = [SkillSideEffectProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addSideEffects:[subBuilder buildPartial]];
+        break;
+      }
+      case 306: {
+        MoneyTreeProto_Builder* subBuilder = [MoneyTreeProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addAllMoneyTrees:[subBuilder buildPartial]];
         break;
       }
     }
@@ -2093,6 +2131,30 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
 }
 - (StaticDataProto_Builder *)clearAllClanHouses {
   result.mutableAllClanHousesList = nil;
+  return self;
+}
+- (NSMutableArray *)allMoneyTreesList {
+  return result.mutableAllMoneyTreesList;
+}
+- (MoneyTreeProto*)allMoneyTreesAtIndex:(NSUInteger)index {
+  return [result allMoneyTreesAtIndex:index];
+}
+- (StaticDataProto_Builder *)addAllMoneyTrees:(MoneyTreeProto*)value {
+  if (result.mutableAllMoneyTreesList == nil) {
+    result.mutableAllMoneyTreesList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableAllMoneyTreesList addObject:value];
+  return self;
+}
+- (StaticDataProto_Builder *)addAllAllMoneyTrees:(NSArray *)array {
+  if (result.mutableAllMoneyTreesList == nil) {
+    result.mutableAllMoneyTreesList = [NSMutableArray array];
+  }
+  [result.mutableAllMoneyTreesList addObjectsFromArray:array];
+  return self;
+}
+- (StaticDataProto_Builder *)clearAllMoneyTrees {
+  result.mutableAllMoneyTreesList = nil;
   return self;
 }
 - (NSMutableArray *)persistentEventsList {

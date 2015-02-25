@@ -27,6 +27,8 @@
 @class MiniJobCenterProto_Builder;
 @class MinimumObstacleProto;
 @class MinimumObstacleProto_Builder;
+@class MoneyTreeProto;
+@class MoneyTreeProto_Builder;
 @class ObstacleProto;
 @class ObstacleProto_Builder;
 @class ResidenceProto;

@@ -42,6 +42,7 @@ typedef enum {
   
   TutorialDialogueSpeakerEnemy,
   TutorialDialogueSpeakerEnemy2,
+  TutorialDialogueSpeakerEnemy3,
   TutorialDialogueSpeakerEnemyTwo,
   TutorialDialogueSpeakerEnemyTwo2,
   TutorialDialogueSpeakerEnemyTwo3,

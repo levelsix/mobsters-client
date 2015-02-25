@@ -123,6 +123,11 @@
         suffix = [@"P2" stringByAppendingString:suffix];
         isLeftSide = NO;
         break;
+      case TutorialDialogueSpeakerEnemy3:
+        monsterId = self.constants.enemyMonsterId;
+        suffix = [@"P3" stringByAppendingString:suffix];
+        isLeftSide = NO;
+        break;
       case TutorialDialogueSpeakerEnemyTwo:
         monsterId = self.constants.enemyMonsterIdTwo;
         suffix = [@"P2" stringByAppendingString:suffix];
@@ -199,7 +204,8 @@
   
   
 #ifdef DEBUG
-  [self saveTutorialStep:TutorialStepFacebookLogin];
+  [self saveTutorialStep:TutorialStepGuideGreeting];
+  //[self saveTutorialStep:TutorialStepEnteredBattle];
 #endif
   [self resumeTutorialStep];
   
@@ -507,6 +513,8 @@ static int timesCloseClicked = 0;
 }
 
 - (void) beginGuideScaredPhase {
+  [self.homeMap guideLookScaredWithFlip:YES];
+  
   NSArray *dialogue = @[@(TutorialDialogueSpeakerGuide3), @"Oh no, it’s Dictator Kim! What are we going to do?"];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
   
@@ -547,7 +555,7 @@ static int timesCloseClicked = 0;
 }
 
 - (void) beginEnemyDefensePhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemy2), @"OW! Can’t take a joke chicken? Don’t make me fry..."];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemy3), @"OW! Can’t take a joke chicken? Don’t make me fry..."];
   
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
   self.dialogueViewController.leftImageView.transform = CGAffineTransformMakeScale(-1, 1);

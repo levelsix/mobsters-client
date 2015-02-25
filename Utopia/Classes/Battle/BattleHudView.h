@@ -48,6 +48,9 @@
 @protocol BattleLayerSkillPopupDelegate <NSObject>
 - (void) skillPopupClosed;
 
+@optional
+- (void) elementButtonClicked;
+
 @end
 
 @class BattleHudView;
