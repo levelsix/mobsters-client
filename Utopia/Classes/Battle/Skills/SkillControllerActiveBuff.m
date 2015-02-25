@@ -58,8 +58,9 @@
     {
       if (execute)
       {
-        [self tickDuration];
-        [self skillTriggerFinished];
+        BOOL holdSkillTrigger = [self tickDuration];
+        if (!holdSkillTrigger)
+          [self skillTriggerFinished];
       }
       return YES;
     }
@@ -86,12 +87,13 @@
     return [self onDurationReset];
 }
 
-- (void) tickDuration
+- (BOOL) tickDuration
 {
   if (_turnsLeft > 0)
     _turnsLeft--;
   if (_turnsLeft == 0)
-    [self onDurationEnd];
+    return [self onDurationEnd];
+  return NO;
 }
 
 - (BOOL) onDurationStart

@@ -17,7 +17,7 @@ typedef enum {
 
 - (TickTrigger) tickTrigger;
 - (BOOL) resetDuration;
-- (void) tickDuration;
+- (BOOL) tickDuration;
 - (BOOL) onDurationStart;
 - (BOOL) onDurationReset;
 - (BOOL) onDurationEnd;

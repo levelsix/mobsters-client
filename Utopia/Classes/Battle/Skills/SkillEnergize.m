@@ -170,8 +170,9 @@ static const NSInteger kBatteryOrbsMaxSearchIterations = 256;
     {
       if (execute)
       {
-        [self tickDuration];
-        [self skillTriggerFinished];
+        BOOL holdSkillTrigger = [self tickDuration];
+        if (!holdSkillTrigger)
+          [self skillTriggerFinished];
       }
       return YES;
     }

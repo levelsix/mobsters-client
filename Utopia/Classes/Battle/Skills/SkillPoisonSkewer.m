@@ -36,7 +36,7 @@
   return YES;
 }
 
-- (BOOL) onDurationStart
+- (BOOL) activate
 {
   [self dealQuickAttack];
   return YES;
@@ -56,11 +56,10 @@
 {
   if ([self doesPoison])
   {
-    [self poisonOpponent];
+    [self resetDuration];
   }
   else
   {
-    [self endDurationNow];
     [self skillTriggerFinished:YES];
   }
 }
