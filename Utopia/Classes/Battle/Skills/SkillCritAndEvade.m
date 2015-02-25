@@ -138,16 +138,17 @@
   if ([super skillCalledWithTrigger:trigger execute:execute])
     return YES;
   
-  if (([self ticksOnPlayerTurn] && (trigger == SkillTriggerPointEndOfPlayerTurn || trigger == SkillTriggerPointEnemyDefeated))
+  if ([self isActive])
+  {
+    if (([self ticksOnPlayerTurn] && (trigger == SkillTriggerPointEndOfPlayerTurn || trigger == SkillTriggerPointEnemyDefeated))
        || (![self ticksOnPlayerTurn] && (trigger == SkillTriggerPointEndOfEnemyTurn || trigger == SkillTriggerPointPlayerMobDefeated)))
     {
       if (execute)
       {
-        NSLog(@"Tick");
         [self tickDuration];
       }
     }
-  
+  }
   return NO;
 }
 
