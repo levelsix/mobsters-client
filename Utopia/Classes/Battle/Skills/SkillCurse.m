@@ -46,14 +46,17 @@
   if ([self isActive])
   {
     //Reset on new target
-    if ((self.belongsToPlayer && trigger == SkillTriggerPointEnemyInitialized)
-        || (!self.belongsToPlayer && trigger == SkillTriggerPointPlayerInitialized))
+    if (execute)
     {
-      [self removeCurse];
-    }
-    else if (trigger == SkillTriggerPointEndOfPlayerMove)
-    {
-      [self tickDuration];
+      if ((self.belongsToPlayer && trigger == SkillTriggerPointEnemyInitialized)
+          || (!self.belongsToPlayer && trigger == SkillTriggerPointPlayerInitialized))
+      {
+        [self endDurationNow];
+      }
+      else if (trigger == SkillTriggerPointEndOfPlayerTurn)
+      {
+        [self tickDuration];
+      }
     }
   }
   
