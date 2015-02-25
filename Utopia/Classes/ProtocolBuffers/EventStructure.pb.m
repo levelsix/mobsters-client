@@ -4529,6 +4529,574 @@ BOOL RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStru
 }
 @end
 
+@interface DestroyMoneyTreeStructureRequestProto ()
+@property (strong) MinimumUserProto* sender;
+@property (strong) NSMutableArray * mutableUserStructUuidList;
+@end
+
+@implementation DestroyMoneyTreeStructureRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value_ {
+  hasSender_ = !!value_;
+}
+@synthesize sender;
+@synthesize mutableUserStructUuidList;
+@dynamic userStructUuidList;
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+  }
+  return self;
+}
+static DestroyMoneyTreeStructureRequestProto* defaultDestroyMoneyTreeStructureRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [DestroyMoneyTreeStructureRequestProto class]) {
+    defaultDestroyMoneyTreeStructureRequestProtoInstance = [[DestroyMoneyTreeStructureRequestProto alloc] init];
+  }
+}
++ (DestroyMoneyTreeStructureRequestProto*) defaultInstance {
+  return defaultDestroyMoneyTreeStructureRequestProtoInstance;
+}
+- (DestroyMoneyTreeStructureRequestProto*) defaultInstance {
+  return defaultDestroyMoneyTreeStructureRequestProtoInstance;
+}
+- (NSArray *)userStructUuidList {
+  return mutableUserStructUuidList;
+}
+- (NSString*)userStructUuidAtIndex:(NSUInteger)index {
+  return [mutableUserStructUuidList objectAtIndex:index];
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  [self.userStructUuidList enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+    [output writeString:2 value:element];
+  }];
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasSender) {
+    size_ += computeMessageSize(1, self.sender);
+  }
+  {
+    __block SInt32 dataSize = 0;
+    const NSUInteger count = self.userStructUuidList.count;
+    [self.userStructUuidList enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+      dataSize += computeStringSizeNoTag(element);
+    }];
+    size_ += dataSize;
+    size_ += (SInt32)(1 * count);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (DestroyMoneyTreeStructureRequestProto*) parseFromData:(NSData*) data {
+  return (DestroyMoneyTreeStructureRequestProto*)[[[DestroyMoneyTreeStructureRequestProto builder] mergeFromData:data] build];
+}
++ (DestroyMoneyTreeStructureRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (DestroyMoneyTreeStructureRequestProto*)[[[DestroyMoneyTreeStructureRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (DestroyMoneyTreeStructureRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (DestroyMoneyTreeStructureRequestProto*)[[[DestroyMoneyTreeStructureRequestProto builder] mergeFromInputStream:input] build];
+}
++ (DestroyMoneyTreeStructureRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (DestroyMoneyTreeStructureRequestProto*)[[[DestroyMoneyTreeStructureRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (DestroyMoneyTreeStructureRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (DestroyMoneyTreeStructureRequestProto*)[[[DestroyMoneyTreeStructureRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (DestroyMoneyTreeStructureRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (DestroyMoneyTreeStructureRequestProto*)[[[DestroyMoneyTreeStructureRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (DestroyMoneyTreeStructureRequestProto_Builder*) builder {
+  return [[DestroyMoneyTreeStructureRequestProto_Builder alloc] init];
+}
++ (DestroyMoneyTreeStructureRequestProto_Builder*) builderWithPrototype:(DestroyMoneyTreeStructureRequestProto*) prototype {
+  return [[DestroyMoneyTreeStructureRequestProto builder] mergeFrom:prototype];
+}
+- (DestroyMoneyTreeStructureRequestProto_Builder*) builder {
+  return [DestroyMoneyTreeStructureRequestProto builder];
+}
+- (DestroyMoneyTreeStructureRequestProto_Builder*) toBuilder {
+  return [DestroyMoneyTreeStructureRequestProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasSender) {
+    [output appendFormat:@"%@%@ {\n", indent, @"sender"];
+    [self.sender writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  [self.userStructUuidList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userStructUuid", obj];
+  }];
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[DestroyMoneyTreeStructureRequestProto class]]) {
+    return NO;
+  }
+  DestroyMoneyTreeStructureRequestProto *otherMessage = other;
+  return
+      self.hasSender == otherMessage.hasSender &&
+      (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
+      [self.userStructUuidList isEqualToArray:otherMessage.userStructUuidList] &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasSender) {
+    hashCode = hashCode * 31 + [self.sender hash];
+  }
+  [self.userStructUuidList enumerateObjectsUsingBlock:^(id element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+@interface DestroyMoneyTreeStructureRequestProto_Builder()
+@property (strong) DestroyMoneyTreeStructureRequestProto* result;
+@end
+
+@implementation DestroyMoneyTreeStructureRequestProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[DestroyMoneyTreeStructureRequestProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (DestroyMoneyTreeStructureRequestProto_Builder*) clear {
+  self.result = [[DestroyMoneyTreeStructureRequestProto alloc] init];
+  return self;
+}
+- (DestroyMoneyTreeStructureRequestProto_Builder*) clone {
+  return [DestroyMoneyTreeStructureRequestProto builderWithPrototype:result];
+}
+- (DestroyMoneyTreeStructureRequestProto*) defaultInstance {
+  return [DestroyMoneyTreeStructureRequestProto defaultInstance];
+}
+- (DestroyMoneyTreeStructureRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (DestroyMoneyTreeStructureRequestProto*) buildPartial {
+  DestroyMoneyTreeStructureRequestProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (DestroyMoneyTreeStructureRequestProto_Builder*) mergeFrom:(DestroyMoneyTreeStructureRequestProto*) other {
+  if (other == [DestroyMoneyTreeStructureRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.mutableUserStructUuidList.count > 0) {
+    if (result.mutableUserStructUuidList == nil) {
+      result.mutableUserStructUuidList = [[NSMutableArray alloc] initWithArray:other.mutableUserStructUuidList];
+    } else {
+      [result.mutableUserStructUuidList addObjectsFromArray:other.mutableUserStructUuidList];
+    }
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (DestroyMoneyTreeStructureRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (DestroyMoneyTreeStructureRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        [self addUserStructUuid:[input readString]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (DestroyMoneyTreeStructureRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (DestroyMoneyTreeStructureRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (DestroyMoneyTreeStructureRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (DestroyMoneyTreeStructureRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (NSMutableArray *)userStructUuidList {
+  return result.mutableUserStructUuidList;
+}
+- (NSString*)userStructUuidAtIndex:(NSUInteger)index {
+  return [result userStructUuidAtIndex:index];
+}
+- (DestroyMoneyTreeStructureRequestProto_Builder *)addUserStructUuid:(NSString*)value {
+  if (result.mutableUserStructUuidList == nil) {
+    result.mutableUserStructUuidList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableUserStructUuidList addObject:value];
+  return self;
+}
+- (DestroyMoneyTreeStructureRequestProto_Builder *)addAllUserStructUuid:(NSArray *)array {
+  if (result.mutableUserStructUuidList == nil) {
+    result.mutableUserStructUuidList = [NSMutableArray array];
+  }
+  [result.mutableUserStructUuidList addObjectsFromArray:array];
+  return self;
+}
+- (DestroyMoneyTreeStructureRequestProto_Builder *)clearUserStructUuid {
+  result.mutableUserStructUuidList = nil;
+  return self;
+}
+@end
+
+@interface DestroyMoneyTreeStructureResponseProto ()
+@property (strong) MinimumUserProto* sender;
+@property DestroyMoneyTreeStructureResponseProto_DestroyMoneyTreeStructureStatus status;
+@end
+
+@implementation DestroyMoneyTreeStructureResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value_ {
+  hasSender_ = !!value_;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value_ {
+  hasStatus_ = !!value_;
+}
+@synthesize status;
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = DestroyMoneyTreeStructureResponseProto_DestroyMoneyTreeStructureStatusSuccess;
+  }
+  return self;
+}
+static DestroyMoneyTreeStructureResponseProto* defaultDestroyMoneyTreeStructureResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [DestroyMoneyTreeStructureResponseProto class]) {
+    defaultDestroyMoneyTreeStructureResponseProtoInstance = [[DestroyMoneyTreeStructureResponseProto alloc] init];
+  }
+}
++ (DestroyMoneyTreeStructureResponseProto*) defaultInstance {
+  return defaultDestroyMoneyTreeStructureResponseProtoInstance;
+}
+- (DestroyMoneyTreeStructureResponseProto*) defaultInstance {
+  return defaultDestroyMoneyTreeStructureResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasSender) {
+    size_ += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size_ += computeEnumSize(2, self.status);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (DestroyMoneyTreeStructureResponseProto*) parseFromData:(NSData*) data {
+  return (DestroyMoneyTreeStructureResponseProto*)[[[DestroyMoneyTreeStructureResponseProto builder] mergeFromData:data] build];
+}
++ (DestroyMoneyTreeStructureResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (DestroyMoneyTreeStructureResponseProto*)[[[DestroyMoneyTreeStructureResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (DestroyMoneyTreeStructureResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (DestroyMoneyTreeStructureResponseProto*)[[[DestroyMoneyTreeStructureResponseProto builder] mergeFromInputStream:input] build];
+}
++ (DestroyMoneyTreeStructureResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (DestroyMoneyTreeStructureResponseProto*)[[[DestroyMoneyTreeStructureResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (DestroyMoneyTreeStructureResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (DestroyMoneyTreeStructureResponseProto*)[[[DestroyMoneyTreeStructureResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (DestroyMoneyTreeStructureResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (DestroyMoneyTreeStructureResponseProto*)[[[DestroyMoneyTreeStructureResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (DestroyMoneyTreeStructureResponseProto_Builder*) builder {
+  return [[DestroyMoneyTreeStructureResponseProto_Builder alloc] init];
+}
++ (DestroyMoneyTreeStructureResponseProto_Builder*) builderWithPrototype:(DestroyMoneyTreeStructureResponseProto*) prototype {
+  return [[DestroyMoneyTreeStructureResponseProto builder] mergeFrom:prototype];
+}
+- (DestroyMoneyTreeStructureResponseProto_Builder*) builder {
+  return [DestroyMoneyTreeStructureResponseProto builder];
+}
+- (DestroyMoneyTreeStructureResponseProto_Builder*) toBuilder {
+  return [DestroyMoneyTreeStructureResponseProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasSender) {
+    [output appendFormat:@"%@%@ {\n", indent, @"sender"];
+    [self.sender writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  if (self.hasStatus) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[DestroyMoneyTreeStructureResponseProto class]]) {
+    return NO;
+  }
+  DestroyMoneyTreeStructureResponseProto *otherMessage = other;
+  return
+      self.hasSender == otherMessage.hasSender &&
+      (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
+      self.hasStatus == otherMessage.hasStatus &&
+      (!self.hasStatus || self.status == otherMessage.status) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasSender) {
+    hashCode = hashCode * 31 + [self.sender hash];
+  }
+  if (self.hasStatus) {
+    hashCode = hashCode * 31 + self.status;
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+BOOL DestroyMoneyTreeStructureResponseProto_DestroyMoneyTreeStructureStatusIsValidValue(DestroyMoneyTreeStructureResponseProto_DestroyMoneyTreeStructureStatus value) {
+  switch (value) {
+    case DestroyMoneyTreeStructureResponseProto_DestroyMoneyTreeStructureStatusSuccess:
+    case DestroyMoneyTreeStructureResponseProto_DestroyMoneyTreeStructureStatusFailNotExpiredYet:
+    case DestroyMoneyTreeStructureResponseProto_DestroyMoneyTreeStructureStatusFailOther:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface DestroyMoneyTreeStructureResponseProto_Builder()
+@property (strong) DestroyMoneyTreeStructureResponseProto* result;
+@end
+
+@implementation DestroyMoneyTreeStructureResponseProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[DestroyMoneyTreeStructureResponseProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (DestroyMoneyTreeStructureResponseProto_Builder*) clear {
+  self.result = [[DestroyMoneyTreeStructureResponseProto alloc] init];
+  return self;
+}
+- (DestroyMoneyTreeStructureResponseProto_Builder*) clone {
+  return [DestroyMoneyTreeStructureResponseProto builderWithPrototype:result];
+}
+- (DestroyMoneyTreeStructureResponseProto*) defaultInstance {
+  return [DestroyMoneyTreeStructureResponseProto defaultInstance];
+}
+- (DestroyMoneyTreeStructureResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (DestroyMoneyTreeStructureResponseProto*) buildPartial {
+  DestroyMoneyTreeStructureResponseProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (DestroyMoneyTreeStructureResponseProto_Builder*) mergeFrom:(DestroyMoneyTreeStructureResponseProto*) other {
+  if (other == [DestroyMoneyTreeStructureResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (DestroyMoneyTreeStructureResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (DestroyMoneyTreeStructureResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        DestroyMoneyTreeStructureResponseProto_DestroyMoneyTreeStructureStatus value = (DestroyMoneyTreeStructureResponseProto_DestroyMoneyTreeStructureStatus)[input readEnum];
+        if (DestroyMoneyTreeStructureResponseProto_DestroyMoneyTreeStructureStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (DestroyMoneyTreeStructureResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (DestroyMoneyTreeStructureResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (DestroyMoneyTreeStructureResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (DestroyMoneyTreeStructureResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (DestroyMoneyTreeStructureResponseProto_DestroyMoneyTreeStructureStatus) status {
+  return result.status;
+}
+- (DestroyMoneyTreeStructureResponseProto_Builder*) setStatus:(DestroyMoneyTreeStructureResponseProto_DestroyMoneyTreeStructureStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (DestroyMoneyTreeStructureResponseProto_Builder*) clearStatusList {
+  result.hasStatus = NO;
+  result.status = DestroyMoneyTreeStructureResponseProto_DestroyMoneyTreeStructureStatusSuccess;
+  return self;
+}
+@end
+
 @interface ExpansionWaitCompleteRequestProto ()
 @property (strong) MinimumUserProto* sender;
 @property int64_t curTime;

@@ -74,6 +74,8 @@
 - (void) friendRunForBattleEnter;
 - (void) guideRunToMark;
 
+- (void) guideLookScaredWithFlip:(BOOL)flip;
+
 - (void) beginPostBattleConfrontation;
 - (void) walkOutEnemyTeam;
 

@@ -24,6 +24,7 @@
 #import "EventMonster.pb.h"
 #import "EventPvp.pb.h"
 #import "EventQuest.pb.h"
+#import "EventResearch.pb.h"
 #import "EventReferral.pb.h"
 #import "EventStartup.pb.h"
 #import "EventStaticData.pb.h"
@@ -170,6 +171,10 @@
 @class CreateClanRequestProto_Builder;
 @class CreateClanResponseProto;
 @class CreateClanResponseProto_Builder;
+@class DestroyMoneyTreeStructureRequestProto;
+@class DestroyMoneyTreeStructureRequestProto_Builder;
+@class DestroyMoneyTreeStructureResponseProto;
+@class DestroyMoneyTreeStructureResponseProto_Builder;
 @class DevRequestProto;
 @class DevRequestProto_Builder;
 @class DevResponseProto;
@@ -232,6 +237,10 @@
 @class FinishNormStructWaittimeWithDiamondsRequestProto_Builder;
 @class FinishNormStructWaittimeWithDiamondsResponseProto;
 @class FinishNormStructWaittimeWithDiamondsResponseProto_Builder;
+@class FinishPerformingResearchRequestProto;
+@class FinishPerformingResearchRequestProto_Builder;
+@class FinishPerformingResearchResponseProto;
+@class FinishPerformingResearchResponseProto_Builder;
 @class ForceLogoutResponseProto;
 @class ForceLogoutResponseProto_Builder;
 @class FulfillTeamDonationSolicitationRequestProto;
@@ -342,6 +351,8 @@
 @class MinimumUserProto_Builder;
 @class MinimumUserTaskProto;
 @class MinimumUserTaskProto_Builder;
+@class MoneyTreeProto;
+@class MoneyTreeProto_Builder;
 @class MonsterBattleDialogueProto;
 @class MonsterBattleDialogueProto_Builder;
 @class MonsterLevelInfoProto;
@@ -362,6 +373,10 @@
 @class ObstacleRemovalCompleteRequestProto_Builder;
 @class ObstacleRemovalCompleteResponseProto;
 @class ObstacleRemovalCompleteResponseProto_Builder;
+@class PerformResearchRequestProto;
+@class PerformResearchRequestProto_Builder;
+@class PerformResearchResponseProto;
+@class PerformResearchResponseProto_Builder;
 @class PersistentClanEventClanInfoProto;
 @class PersistentClanEventClanInfoProto_Builder;
 @class PersistentClanEventProto;
@@ -823,8 +838,11 @@ typedef NS_ENUM(SInt32, EventProtocolRequest) {
   EventProtocolRequestCFulfillTeamDonationSolicitationEvent = 95,
   EventProtocolRequestCVoidTeamDonationSolicitationEvent = 96,
   EventProtocolRequestCRetrieveUserMonsterTeamEvent = 97,
+  EventProtocolRequestCDestroyMoneyTreeStructureEvent = 98,
   EventProtocolRequestCLogoutEvent = 101,
   EventProtocolRequestCDevEvent = 200,
+  EventProtocolRequestCPerformResearchEvent = 201,
+  EventProtocolRequestCFinishPerformingResearchEvent = 202,
 };
 
 BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value);
@@ -926,6 +944,7 @@ typedef NS_ENUM(SInt32, EventProtocolResponse) {
   EventProtocolResponseSFulfillTeamDonationSolicitationEvent = 95,
   EventProtocolResponseSVoidTeamDonationSolicitationEvent = 96,
   EventProtocolResponseSRetrieveUserMonsterTeamEvent = 97,
+  EventProtocolResponseSDestroyMoneyTreeStructureEvent = 98,
   EventProtocolResponseSUpdateClientUserEvent = 101,
   EventProtocolResponseSReferralCodeUsedEvent = 102,
   EventProtocolResponseSPurgeStaticDataEvent = 103,
@@ -937,6 +956,8 @@ typedef NS_ENUM(SInt32, EventProtocolResponse) {
   EventProtocolResponseSForceLogoutEvent = 109,
   EventProtocolResponseSRetrieveClanDataEvent = 110,
   EventProtocolResponseSDevEvent = 200,
+  EventProtocolResponseSPerformResearchEvent = 201,
+  EventProtocolResponseSFinishPerformingResearchEvent = 202,
 };
 
 BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value);

@@ -63,6 +63,8 @@
 @class MinimumUserProtoWithMaxResources;
 @class MinimumUserProtoWithMaxResources_Builder;
 @class MinimumUserProto_Builder;
+@class MoneyTreeProto;
+@class MoneyTreeProto_Builder;
 @class MonsterBattleDialogueProto;
 @class MonsterBattleDialogueProto_Builder;
 @class MonsterLevelInfoProto;
@@ -273,6 +275,7 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
   InAppPurchaseResponseProto_InAppPurchaseStatus status;
   NSMutableArray * mutableUpdatedOrNewList;
   NSMutableArray * mutableUpdatedUserItemsList;
+  NSMutableArray * mutableUpdatedMoneyTreeList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
@@ -290,8 +293,10 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 @property (readonly, strong) NSString* receipt;
 @property (readonly, strong) NSArray * updatedOrNewList;
 @property (readonly, strong) NSArray * updatedUserItemsList;
+@property (readonly, strong) NSArray * updatedMoneyTreeList;
 - (FullUserMonsterProto*)updatedOrNewAtIndex:(NSUInteger)index;
 - (UserItemProto*)updatedUserItemsAtIndex:(NSUInteger)index;
+- (FullUserStructureProto*)updatedMoneyTreeAtIndex:(NSUInteger)index;
 
 + (InAppPurchaseResponseProto*) defaultInstance;
 - (InAppPurchaseResponseProto*) defaultInstance;
@@ -376,6 +381,12 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 - (InAppPurchaseResponseProto_Builder *)addUpdatedUserItems:(UserItemProto*)value;
 - (InAppPurchaseResponseProto_Builder *)addAllUpdatedUserItems:(NSArray *)array;
 - (InAppPurchaseResponseProto_Builder *)clearUpdatedUserItems;
+
+- (NSMutableArray *)updatedMoneyTreeList;
+- (FullUserStructureProto*)updatedMoneyTreeAtIndex:(NSUInteger)index;
+- (InAppPurchaseResponseProto_Builder *)addUpdatedMoneyTree:(FullUserStructureProto*)value;
+- (InAppPurchaseResponseProto_Builder *)addAllUpdatedMoneyTree:(NSArray *)array;
+- (InAppPurchaseResponseProto_Builder *)clearUpdatedMoneyTree;
 @end
 
 @interface EarnFreeDiamondsRequestProto : PBGeneratedMessage {

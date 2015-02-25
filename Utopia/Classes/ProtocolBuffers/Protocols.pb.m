@@ -35,6 +35,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [EventMonsterRoot registerAllExtensions:registry];
     [EventPvpRoot registerAllExtensions:registry];
     [EventQuestRoot registerAllExtensions:registry];
+    [EventResearchRoot registerAllExtensions:registry];
     [EventReferralRoot registerAllExtensions:registry];
     [EventStartupRoot registerAllExtensions:registry];
     [EventStaticDataRoot registerAllExtensions:registry];
@@ -160,8 +161,11 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCFulfillTeamDonationSolicitationEvent:
     case EventProtocolRequestCVoidTeamDonationSolicitationEvent:
     case EventProtocolRequestCRetrieveUserMonsterTeamEvent:
+    case EventProtocolRequestCDestroyMoneyTreeStructureEvent:
     case EventProtocolRequestCLogoutEvent:
     case EventProtocolRequestCDevEvent:
+    case EventProtocolRequestCPerformResearchEvent:
+    case EventProtocolRequestCFinishPerformingResearchEvent:
       return YES;
     default:
       return NO;
@@ -265,6 +269,7 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSFulfillTeamDonationSolicitationEvent:
     case EventProtocolResponseSVoidTeamDonationSolicitationEvent:
     case EventProtocolResponseSRetrieveUserMonsterTeamEvent:
+    case EventProtocolResponseSDestroyMoneyTreeStructureEvent:
     case EventProtocolResponseSUpdateClientUserEvent:
     case EventProtocolResponseSReferralCodeUsedEvent:
     case EventProtocolResponseSPurgeStaticDataEvent:
@@ -276,6 +281,8 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSForceLogoutEvent:
     case EventProtocolResponseSRetrieveClanDataEvent:
     case EventProtocolResponseSDevEvent:
+    case EventProtocolResponseSPerformResearchEvent:
+    case EventProtocolResponseSFinishPerformingResearchEvent:
       return YES;
     default:
       return NO;

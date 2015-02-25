@@ -189,12 +189,18 @@
     }
   }
   
+#ifdef APPSTORE
+  BOOL showFake = NO;
+#else
+  BOOL showFake = YES;
+#endif
+  
   // Check map icons
   UINib *nib = nil;
   // Do it in reverse so that the lower ones are higher
   float scaledHeight = self.mapScrollView.frame.size.height/scaleFactor;
   for (TaskMapElementProto *elem in gs.staticMapElements.reverseObjectEnumerator) {
-    if (elem.yPos > pt.y-scaledHeight && elem.yPos < pt.y+scaledHeight && ![self.mapScrollView viewWithTag:elem.mapElementId]) {
+    if ((!elem.isFake || showFake) && elem.yPos > pt.y-scaledHeight && elem.yPos < pt.y+scaledHeight && ![self.mapScrollView viewWithTag:elem.mapElementId]) {
       if (!nib) {
         nib = [UINib nibWithNibName:@"AttackMapIconView" bundle:nil];
       }

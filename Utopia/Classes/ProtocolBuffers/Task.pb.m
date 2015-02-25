@@ -3787,6 +3787,7 @@ static UserPersistentEventProto* defaultUserPersistentEventProtoInstance = nil;
 @property int32_t charImgVertPixelOffset;
 @property int32_t charImgHorizPixelOffset;
 @property Float32 charImgScaleFactor;
+@property BOOL isFake;
 @end
 
 @implementation TaskMapElementProto
@@ -3901,6 +3902,18 @@ static UserPersistentEventProto* defaultUserPersistentEventProtoInstance = nil;
   hasCharImgScaleFactor_ = !!value_;
 }
 @synthesize charImgScaleFactor;
+- (BOOL) hasIsFake {
+  return !!hasIsFake_;
+}
+- (void) setHasIsFake:(BOOL) value_ {
+  hasIsFake_ = !!value_;
+}
+- (BOOL) isFake {
+  return !!isFake_;
+}
+- (void) setIsFake:(BOOL) value_ {
+  isFake_ = !!value_;
+}
 - (id) init {
   if ((self = [super init])) {
     self.mapElementId = 0;
@@ -3918,6 +3931,7 @@ static UserPersistentEventProto* defaultUserPersistentEventProtoInstance = nil;
     self.charImgVertPixelOffset = 0;
     self.charImgHorizPixelOffset = 0;
     self.charImgScaleFactor = 0;
+    self.isFake = NO;
   }
   return self;
 }
@@ -3982,6 +3996,9 @@ static TaskMapElementProto* defaultTaskMapElementProtoInstance = nil;
   if (self.hasCharImgScaleFactor) {
     [output writeFloat:15 value:self.charImgScaleFactor];
   }
+  if (self.hasIsFake) {
+    [output writeBool:16 value:self.isFake];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -4035,6 +4052,9 @@ static TaskMapElementProto* defaultTaskMapElementProtoInstance = nil;
   }
   if (self.hasCharImgScaleFactor) {
     size_ += computeFloatSize(15, self.charImgScaleFactor);
+  }
+  if (self.hasIsFake) {
+    size_ += computeBoolSize(16, self.isFake);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -4116,6 +4136,9 @@ static TaskMapElementProto* defaultTaskMapElementProtoInstance = nil;
   if (self.hasCharImgScaleFactor) {
     [output appendFormat:@"%@%@: %@\n", indent, @"charImgScaleFactor", [NSNumber numberWithFloat:self.charImgScaleFactor]];
   }
+  if (self.hasIsFake) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"isFake", [NSNumber numberWithBool:self.isFake]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -4157,6 +4180,8 @@ static TaskMapElementProto* defaultTaskMapElementProtoInstance = nil;
       (!self.hasCharImgHorizPixelOffset || self.charImgHorizPixelOffset == otherMessage.charImgHorizPixelOffset) &&
       self.hasCharImgScaleFactor == otherMessage.hasCharImgScaleFactor &&
       (!self.hasCharImgScaleFactor || self.charImgScaleFactor == otherMessage.charImgScaleFactor) &&
+      self.hasIsFake == otherMessage.hasIsFake &&
+      (!self.hasIsFake || self.isFake == otherMessage.isFake) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -4205,6 +4230,9 @@ static TaskMapElementProto* defaultTaskMapElementProtoInstance = nil;
   }
   if (self.hasCharImgScaleFactor) {
     hashCode = hashCode * 31 + [[NSNumber numberWithFloat:self.charImgScaleFactor] hash];
+  }
+  if (self.hasIsFake) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.isFake] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -4294,6 +4322,9 @@ static TaskMapElementProto* defaultTaskMapElementProtoInstance = nil;
   if (other.hasCharImgScaleFactor) {
     [self setCharImgScaleFactor:other.charImgScaleFactor];
   }
+  if (other.hasIsFake) {
+    [self setIsFake:other.isFake];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -4378,6 +4409,10 @@ static TaskMapElementProto* defaultTaskMapElementProtoInstance = nil;
       }
       case 125: {
         [self setCharImgScaleFactor:[input readFloat]];
+        break;
+      }
+      case 128: {
+        [self setIsFake:[input readBool]];
         break;
       }
     }
@@ -4621,6 +4656,22 @@ static TaskMapElementProto* defaultTaskMapElementProtoInstance = nil;
 - (TaskMapElementProto_Builder*) clearCharImgScaleFactor {
   result.hasCharImgScaleFactor = NO;
   result.charImgScaleFactor = 0;
+  return self;
+}
+- (BOOL) hasIsFake {
+  return result.hasIsFake;
+}
+- (BOOL) isFake {
+  return result.isFake;
+}
+- (TaskMapElementProto_Builder*) setIsFake:(BOOL) value {
+  result.hasIsFake = YES;
+  result.isFake = value;
+  return self;
+}
+- (TaskMapElementProto_Builder*) clearIsFake {
+  result.hasIsFake = NO;
+  result.isFake = NO;
   return self;
 }
 @end

@@ -21,6 +21,8 @@
 @class MiniJobCenterProto_Builder;
 @class MinimumObstacleProto;
 @class MinimumObstacleProto_Builder;
+@class MoneyTreeProto;
+@class MoneyTreeProto_Builder;
 @class ObstacleProto;
 @class ObstacleProto_Builder;
 @class ResidenceProto;
@@ -457,6 +459,93 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (int32_t) capacity;
 - (ResourceStorageProto_Builder*) setCapacity:(int32_t) value;
 - (ResourceStorageProto_Builder*) clearCapacity;
+@end
+
+@interface MoneyTreeProto : PBGeneratedMessage {
+@private
+  BOOL hasProductionRate_:1;
+  BOOL hasCapacity_:1;
+  BOOL hasDaysOfDuration_:1;
+  BOOL hasDaysForRenewal_:1;
+  BOOL hasStructInfo_:1;
+  Float32 productionRate;
+  int32_t capacity;
+  int32_t daysOfDuration;
+  int32_t daysForRenewal;
+  StructureInfoProto* structInfo;
+}
+- (BOOL) hasStructInfo;
+- (BOOL) hasProductionRate;
+- (BOOL) hasCapacity;
+- (BOOL) hasDaysOfDuration;
+- (BOOL) hasDaysForRenewal;
+@property (readonly, strong) StructureInfoProto* structInfo;
+@property (readonly) Float32 productionRate;
+@property (readonly) int32_t capacity;
+@property (readonly) int32_t daysOfDuration;
+@property (readonly) int32_t daysForRenewal;
+
++ (MoneyTreeProto*) defaultInstance;
+- (MoneyTreeProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (MoneyTreeProto_Builder*) builder;
++ (MoneyTreeProto_Builder*) builder;
++ (MoneyTreeProto_Builder*) builderWithPrototype:(MoneyTreeProto*) prototype;
+- (MoneyTreeProto_Builder*) toBuilder;
+
++ (MoneyTreeProto*) parseFromData:(NSData*) data;
++ (MoneyTreeProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (MoneyTreeProto*) parseFromInputStream:(NSInputStream*) input;
++ (MoneyTreeProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (MoneyTreeProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (MoneyTreeProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface MoneyTreeProto_Builder : PBGeneratedMessageBuilder {
+@private
+  MoneyTreeProto* result;
+}
+
+- (MoneyTreeProto*) defaultInstance;
+
+- (MoneyTreeProto_Builder*) clear;
+- (MoneyTreeProto_Builder*) clone;
+
+- (MoneyTreeProto*) build;
+- (MoneyTreeProto*) buildPartial;
+
+- (MoneyTreeProto_Builder*) mergeFrom:(MoneyTreeProto*) other;
+- (MoneyTreeProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (MoneyTreeProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasStructInfo;
+- (StructureInfoProto*) structInfo;
+- (MoneyTreeProto_Builder*) setStructInfo:(StructureInfoProto*) value;
+- (MoneyTreeProto_Builder*) setStructInfo_Builder:(StructureInfoProto_Builder*) builderForValue;
+- (MoneyTreeProto_Builder*) mergeStructInfo:(StructureInfoProto*) value;
+- (MoneyTreeProto_Builder*) clearStructInfo;
+
+- (BOOL) hasProductionRate;
+- (Float32) productionRate;
+- (MoneyTreeProto_Builder*) setProductionRate:(Float32) value;
+- (MoneyTreeProto_Builder*) clearProductionRate;
+
+- (BOOL) hasCapacity;
+- (int32_t) capacity;
+- (MoneyTreeProto_Builder*) setCapacity:(int32_t) value;
+- (MoneyTreeProto_Builder*) clearCapacity;
+
+- (BOOL) hasDaysOfDuration;
+- (int32_t) daysOfDuration;
+- (MoneyTreeProto_Builder*) setDaysOfDuration:(int32_t) value;
+- (MoneyTreeProto_Builder*) clearDaysOfDuration;
+
+- (BOOL) hasDaysForRenewal;
+- (int32_t) daysForRenewal;
+- (MoneyTreeProto_Builder*) setDaysForRenewal:(int32_t) value;
+- (MoneyTreeProto_Builder*) clearDaysForRenewal;
 @end
 
 @interface HospitalProto : PBGeneratedMessage {

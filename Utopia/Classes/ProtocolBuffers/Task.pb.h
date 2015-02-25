@@ -59,6 +59,8 @@
 @class MinimumUserProto_Builder;
 @class MinimumUserTaskProto;
 @class MinimumUserTaskProto_Builder;
+@class MoneyTreeProto;
+@class MoneyTreeProto_Builder;
 @class MonsterBattleDialogueProto;
 @class MonsterBattleDialogueProto_Builder;
 @class MonsterLevelInfoProto;
@@ -934,6 +936,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 @interface TaskMapElementProto : PBGeneratedMessage {
 @private
   BOOL hasBoss_:1;
+  BOOL hasIsFake_:1;
   BOOL hasCharImgScaleFactor_:1;
   BOOL hasMapElementId_:1;
   BOOL hasTaskId_:1;
@@ -949,6 +952,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
   BOOL hasCharacterImgName_:1;
   BOOL hasElement_:1;
   BOOL boss_:1;
+  BOOL isFake_:1;
   Float32 charImgScaleFactor;
   int32_t mapElementId;
   int32_t taskId;
@@ -979,6 +983,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (BOOL) hasCharImgVertPixelOffset;
 - (BOOL) hasCharImgHorizPixelOffset;
 - (BOOL) hasCharImgScaleFactor;
+- (BOOL) hasIsFake;
 @property (readonly) int32_t mapElementId;
 @property (readonly) int32_t taskId;
 @property (readonly) int32_t xPos;
@@ -994,6 +999,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 @property (readonly) int32_t charImgVertPixelOffset;
 @property (readonly) int32_t charImgHorizPixelOffset;
 @property (readonly) Float32 charImgScaleFactor;
+- (BOOL) isFake;
 
 + (TaskMapElementProto*) defaultInstance;
 - (TaskMapElementProto*) defaultInstance;
@@ -1104,6 +1110,11 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (Float32) charImgScaleFactor;
 - (TaskMapElementProto_Builder*) setCharImgScaleFactor:(Float32) value;
 - (TaskMapElementProto_Builder*) clearCharImgScaleFactor;
+
+- (BOOL) hasIsFake;
+- (BOOL) isFake;
+- (TaskMapElementProto_Builder*) setIsFake:(BOOL) value;
+- (TaskMapElementProto_Builder*) clearIsFake;
 @end
 
 

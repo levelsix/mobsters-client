@@ -254,7 +254,13 @@
 - (void) enemyBossReachedJumpTalkLocation {
   [self faceSpriteFarLeft:self.enemyBossSprite];
   [self moveToSprite:self.enemyBossSprite animated:YES];
+  
   [self.delegate boatLanded];
+}
+
+- (void) guideLookScaredWithFlip:(BOOL)flip {
+  [self.guideSprite restoreStandingFrame:MapDirectionKneel];
+  self.guideSprite.sprite.flipX = flip;
 }
 
 - (void) enemyTwoJump {

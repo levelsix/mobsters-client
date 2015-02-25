@@ -1829,6 +1829,412 @@ static ResourceStorageProto* defaultResourceStorageProtoInstance = nil;
 }
 @end
 
+@interface MoneyTreeProto ()
+@property (strong) StructureInfoProto* structInfo;
+@property Float32 productionRate;
+@property int32_t capacity;
+@property int32_t daysOfDuration;
+@property int32_t daysForRenewal;
+@end
+
+@implementation MoneyTreeProto
+
+- (BOOL) hasStructInfo {
+  return !!hasStructInfo_;
+}
+- (void) setHasStructInfo:(BOOL) value_ {
+  hasStructInfo_ = !!value_;
+}
+@synthesize structInfo;
+- (BOOL) hasProductionRate {
+  return !!hasProductionRate_;
+}
+- (void) setHasProductionRate:(BOOL) value_ {
+  hasProductionRate_ = !!value_;
+}
+@synthesize productionRate;
+- (BOOL) hasCapacity {
+  return !!hasCapacity_;
+}
+- (void) setHasCapacity:(BOOL) value_ {
+  hasCapacity_ = !!value_;
+}
+@synthesize capacity;
+- (BOOL) hasDaysOfDuration {
+  return !!hasDaysOfDuration_;
+}
+- (void) setHasDaysOfDuration:(BOOL) value_ {
+  hasDaysOfDuration_ = !!value_;
+}
+@synthesize daysOfDuration;
+- (BOOL) hasDaysForRenewal {
+  return !!hasDaysForRenewal_;
+}
+- (void) setHasDaysForRenewal:(BOOL) value_ {
+  hasDaysForRenewal_ = !!value_;
+}
+@synthesize daysForRenewal;
+- (id) init {
+  if ((self = [super init])) {
+    self.structInfo = [StructureInfoProto defaultInstance];
+    self.productionRate = 0;
+    self.capacity = 0;
+    self.daysOfDuration = 0;
+    self.daysForRenewal = 0;
+  }
+  return self;
+}
+static MoneyTreeProto* defaultMoneyTreeProtoInstance = nil;
++ (void) initialize {
+  if (self == [MoneyTreeProto class]) {
+    defaultMoneyTreeProtoInstance = [[MoneyTreeProto alloc] init];
+  }
+}
++ (MoneyTreeProto*) defaultInstance {
+  return defaultMoneyTreeProtoInstance;
+}
+- (MoneyTreeProto*) defaultInstance {
+  return defaultMoneyTreeProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasStructInfo) {
+    [output writeMessage:1 value:self.structInfo];
+  }
+  if (self.hasProductionRate) {
+    [output writeFloat:2 value:self.productionRate];
+  }
+  if (self.hasCapacity) {
+    [output writeInt32:3 value:self.capacity];
+  }
+  if (self.hasDaysOfDuration) {
+    [output writeInt32:4 value:self.daysOfDuration];
+  }
+  if (self.hasDaysForRenewal) {
+    [output writeInt32:5 value:self.daysForRenewal];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasStructInfo) {
+    size_ += computeMessageSize(1, self.structInfo);
+  }
+  if (self.hasProductionRate) {
+    size_ += computeFloatSize(2, self.productionRate);
+  }
+  if (self.hasCapacity) {
+    size_ += computeInt32Size(3, self.capacity);
+  }
+  if (self.hasDaysOfDuration) {
+    size_ += computeInt32Size(4, self.daysOfDuration);
+  }
+  if (self.hasDaysForRenewal) {
+    size_ += computeInt32Size(5, self.daysForRenewal);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (MoneyTreeProto*) parseFromData:(NSData*) data {
+  return (MoneyTreeProto*)[[[MoneyTreeProto builder] mergeFromData:data] build];
+}
++ (MoneyTreeProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MoneyTreeProto*)[[[MoneyTreeProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (MoneyTreeProto*) parseFromInputStream:(NSInputStream*) input {
+  return (MoneyTreeProto*)[[[MoneyTreeProto builder] mergeFromInputStream:input] build];
+}
++ (MoneyTreeProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MoneyTreeProto*)[[[MoneyTreeProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MoneyTreeProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (MoneyTreeProto*)[[[MoneyTreeProto builder] mergeFromCodedInputStream:input] build];
+}
++ (MoneyTreeProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MoneyTreeProto*)[[[MoneyTreeProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MoneyTreeProto_Builder*) builder {
+  return [[MoneyTreeProto_Builder alloc] init];
+}
++ (MoneyTreeProto_Builder*) builderWithPrototype:(MoneyTreeProto*) prototype {
+  return [[MoneyTreeProto builder] mergeFrom:prototype];
+}
+- (MoneyTreeProto_Builder*) builder {
+  return [MoneyTreeProto builder];
+}
+- (MoneyTreeProto_Builder*) toBuilder {
+  return [MoneyTreeProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasStructInfo) {
+    [output appendFormat:@"%@%@ {\n", indent, @"structInfo"];
+    [self.structInfo writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  if (self.hasProductionRate) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"productionRate", [NSNumber numberWithFloat:self.productionRate]];
+  }
+  if (self.hasCapacity) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"capacity", [NSNumber numberWithInteger:self.capacity]];
+  }
+  if (self.hasDaysOfDuration) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"daysOfDuration", [NSNumber numberWithInteger:self.daysOfDuration]];
+  }
+  if (self.hasDaysForRenewal) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"daysForRenewal", [NSNumber numberWithInteger:self.daysForRenewal]];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[MoneyTreeProto class]]) {
+    return NO;
+  }
+  MoneyTreeProto *otherMessage = other;
+  return
+      self.hasStructInfo == otherMessage.hasStructInfo &&
+      (!self.hasStructInfo || [self.structInfo isEqual:otherMessage.structInfo]) &&
+      self.hasProductionRate == otherMessage.hasProductionRate &&
+      (!self.hasProductionRate || self.productionRate == otherMessage.productionRate) &&
+      self.hasCapacity == otherMessage.hasCapacity &&
+      (!self.hasCapacity || self.capacity == otherMessage.capacity) &&
+      self.hasDaysOfDuration == otherMessage.hasDaysOfDuration &&
+      (!self.hasDaysOfDuration || self.daysOfDuration == otherMessage.daysOfDuration) &&
+      self.hasDaysForRenewal == otherMessage.hasDaysForRenewal &&
+      (!self.hasDaysForRenewal || self.daysForRenewal == otherMessage.daysForRenewal) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasStructInfo) {
+    hashCode = hashCode * 31 + [self.structInfo hash];
+  }
+  if (self.hasProductionRate) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithFloat:self.productionRate] hash];
+  }
+  if (self.hasCapacity) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.capacity] hash];
+  }
+  if (self.hasDaysOfDuration) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.daysOfDuration] hash];
+  }
+  if (self.hasDaysForRenewal) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.daysForRenewal] hash];
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+@interface MoneyTreeProto_Builder()
+@property (strong) MoneyTreeProto* result;
+@end
+
+@implementation MoneyTreeProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[MoneyTreeProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (MoneyTreeProto_Builder*) clear {
+  self.result = [[MoneyTreeProto alloc] init];
+  return self;
+}
+- (MoneyTreeProto_Builder*) clone {
+  return [MoneyTreeProto builderWithPrototype:result];
+}
+- (MoneyTreeProto*) defaultInstance {
+  return [MoneyTreeProto defaultInstance];
+}
+- (MoneyTreeProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (MoneyTreeProto*) buildPartial {
+  MoneyTreeProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (MoneyTreeProto_Builder*) mergeFrom:(MoneyTreeProto*) other {
+  if (other == [MoneyTreeProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasStructInfo) {
+    [self mergeStructInfo:other.structInfo];
+  }
+  if (other.hasProductionRate) {
+    [self setProductionRate:other.productionRate];
+  }
+  if (other.hasCapacity) {
+    [self setCapacity:other.capacity];
+  }
+  if (other.hasDaysOfDuration) {
+    [self setDaysOfDuration:other.daysOfDuration];
+  }
+  if (other.hasDaysForRenewal) {
+    [self setDaysForRenewal:other.daysForRenewal];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (MoneyTreeProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (MoneyTreeProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        StructureInfoProto_Builder* subBuilder = [StructureInfoProto builder];
+        if (self.hasStructInfo) {
+          [subBuilder mergeFrom:self.structInfo];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setStructInfo:[subBuilder buildPartial]];
+        break;
+      }
+      case 21: {
+        [self setProductionRate:[input readFloat]];
+        break;
+      }
+      case 24: {
+        [self setCapacity:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setDaysOfDuration:[input readInt32]];
+        break;
+      }
+      case 40: {
+        [self setDaysForRenewal:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasStructInfo {
+  return result.hasStructInfo;
+}
+- (StructureInfoProto*) structInfo {
+  return result.structInfo;
+}
+- (MoneyTreeProto_Builder*) setStructInfo:(StructureInfoProto*) value {
+  result.hasStructInfo = YES;
+  result.structInfo = value;
+  return self;
+}
+- (MoneyTreeProto_Builder*) setStructInfo_Builder:(StructureInfoProto_Builder*) builderForValue {
+  return [self setStructInfo:[builderForValue build]];
+}
+- (MoneyTreeProto_Builder*) mergeStructInfo:(StructureInfoProto*) value {
+  if (result.hasStructInfo &&
+      result.structInfo != [StructureInfoProto defaultInstance]) {
+    result.structInfo =
+      [[[StructureInfoProto builderWithPrototype:result.structInfo] mergeFrom:value] buildPartial];
+  } else {
+    result.structInfo = value;
+  }
+  result.hasStructInfo = YES;
+  return self;
+}
+- (MoneyTreeProto_Builder*) clearStructInfo {
+  result.hasStructInfo = NO;
+  result.structInfo = [StructureInfoProto defaultInstance];
+  return self;
+}
+- (BOOL) hasProductionRate {
+  return result.hasProductionRate;
+}
+- (Float32) productionRate {
+  return result.productionRate;
+}
+- (MoneyTreeProto_Builder*) setProductionRate:(Float32) value {
+  result.hasProductionRate = YES;
+  result.productionRate = value;
+  return self;
+}
+- (MoneyTreeProto_Builder*) clearProductionRate {
+  result.hasProductionRate = NO;
+  result.productionRate = 0;
+  return self;
+}
+- (BOOL) hasCapacity {
+  return result.hasCapacity;
+}
+- (int32_t) capacity {
+  return result.capacity;
+}
+- (MoneyTreeProto_Builder*) setCapacity:(int32_t) value {
+  result.hasCapacity = YES;
+  result.capacity = value;
+  return self;
+}
+- (MoneyTreeProto_Builder*) clearCapacity {
+  result.hasCapacity = NO;
+  result.capacity = 0;
+  return self;
+}
+- (BOOL) hasDaysOfDuration {
+  return result.hasDaysOfDuration;
+}
+- (int32_t) daysOfDuration {
+  return result.daysOfDuration;
+}
+- (MoneyTreeProto_Builder*) setDaysOfDuration:(int32_t) value {
+  result.hasDaysOfDuration = YES;
+  result.daysOfDuration = value;
+  return self;
+}
+- (MoneyTreeProto_Builder*) clearDaysOfDuration {
+  result.hasDaysOfDuration = NO;
+  result.daysOfDuration = 0;
+  return self;
+}
+- (BOOL) hasDaysForRenewal {
+  return result.hasDaysForRenewal;
+}
+- (int32_t) daysForRenewal {
+  return result.daysForRenewal;
+}
+- (MoneyTreeProto_Builder*) setDaysForRenewal:(int32_t) value {
+  result.hasDaysForRenewal = YES;
+  result.daysForRenewal = value;
+  return self;
+}
+- (MoneyTreeProto_Builder*) clearDaysForRenewal {
+  result.hasDaysForRenewal = NO;
+  result.daysForRenewal = 0;
+  return self;
+}
+@end
+
 @interface HospitalProto ()
 @property (strong) StructureInfoProto* structInfo;
 @property int32_t queueSize;
