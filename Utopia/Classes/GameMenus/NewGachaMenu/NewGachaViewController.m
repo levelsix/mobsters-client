@@ -168,8 +168,8 @@
   [self.gachaBgBottomRight setContentMode:UIViewContentModeScaleToFill];
   
   UIView *featuredContainer = self.focusScrollView.superview;
-  featuredContainer.originY += navBarHeight;
-  featuredContainer.height -= navBarHeight;
+  featuredContainer.height = CGRectGetMaxY(featuredContainer.frame) - navBarHeight;
+  featuredContainer.originY = navBarHeight;
 
   CGPoint oldCenter = self.spinButton.center;
   {
@@ -414,8 +414,6 @@
     
     GameState *gs = [GameState sharedGameState];
     if (self.prize.monsterId) {
-      [self.prizeView preloadWithMonsterId:self.prize.monsterId];
-      
       MonsterProto *mp = [gs monsterWithId:self.prize.monsterId];
       NSString *fileName = [mp.imagePrefix stringByAppendingString:@"Character.png"];
       [Globals imageNamedWithiPhone6Prefix:fileName withView:nil greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
@@ -429,30 +427,58 @@
       } else {
         _numPuzzlePieces = 0;
       }
+      
+      // If it's immediate, it will just delete the loading view and start the spin
+      TravelingLoadingView *tlv = [[NSBundle mainBundle] loadNibNamed:@"TravelingLoadingView" owner:self options:nil][0];
+      NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+      {
+        [paragraphStyle setLineSpacing:3];
+        [paragraphStyle setAlignment:NSTextAlignmentCenter];
+        [tlv.label setAttributedText:[[NSAttributedString alloc] initWithString:@"Loading\nAssets"
+                                                                     attributes:@{NSParagraphStyleAttributeName : paragraphStyle}]];
+        [tlv display:self.navigationController.view];
+      }
+      
+      const NSString* elementStr = [[Globals stringForElement:mp.monsterElement] lowercaseString];
+      NSArray* assetsToDownload = @[ [elementStr stringByAppendingString:@"grbackground.png"] ];
+      [Globals checkAndLoadFiles:assetsToDownload completion:^(BOOL success) {
+        if (success) {
+          [self.prizeView preloadWithMonsterId:self.prize.monsterId];
+          [self completeGachaSpinWithKnownPrize:prize];
+        }
+        [tlv stop];
+      }];
     }
-    
-    TimingFunctionTableView *table = self.gachaTable.tableView;
-    CGPoint pt = table.contentOffset;
-    pt = [self nearestCellMiddleFromPoint:ccp(pt.x, pt.y+6000) withBoosterItem:prize];
-    float time = (rand() / (float)RAND_MAX) * 2.f + 6.f;
-    [table setContentOffset:pt withTimingFunction:[CAMediaTimingFunction functionWithControlPoints:0.1f :0.8f :0.35f :1.f] duration:time];
-    
-    int gemChange = self.prize.gemReward-self.boosterPack.gemPrice;
-    [Analytics buyGacha:self.boosterPack.boosterPackId monsterId:self.prize.monsterId isPiece:!self.prize.isComplete gemChange:gemChange gemBalance:gs.gems];
-    
-    // Decrement cached daily spin count locally and update UI
-    if ( _lastSpinWasFree )
-      _cachedDailySpin = NO;
-    
-    [self updateFreeGachasCounter];
-    
-    [SoundEngine gachaSpinStart];
+    else
+      [self completeGachaSpinWithKnownPrize:prize];
   }else {
     _isSpinning = NO;
   }
   
   self.spinner.hidden = YES;
   self.spinView.hidden = NO;
+}
+
+- (void) completeGachaSpinWithKnownPrize:(BoosterItemProto *)prize
+{
+  GameState *gs = [GameState sharedGameState];
+  
+  TimingFunctionTableView *table = self.gachaTable.tableView;
+  CGPoint pt = table.contentOffset;
+  pt = [self nearestCellMiddleFromPoint:ccp(pt.x, pt.y+6000) withBoosterItem:prize];
+  float time = (rand() / (float)RAND_MAX) * 2.f + 6.f;
+  [table setContentOffset:pt withTimingFunction:[CAMediaTimingFunction functionWithControlPoints:0.1f :0.8f :0.35f :1.f] duration:time];
+  
+  int gemChange = self.prize.gemReward-self.boosterPack.gemPrice;
+  [Analytics buyGacha:self.boosterPack.boosterPackId monsterId:self.prize.monsterId isPiece:!self.prize.isComplete gemChange:gemChange gemBalance:gs.gems];
+  
+  // Decrement cached daily spin count locally and update UI
+  if ( _lastSpinWasFree )
+    _cachedDailySpin = NO;
+  
+  [self updateFreeGachasCounter];
+  
+  [SoundEngine gachaSpinStart];
 }
 
 - (void) handlePurchaseBoosterPackResponseProto:(FullEvent *)fe {
