@@ -22,7 +22,6 @@
 #import "FacebookDelegate.h"
 #import "MSWindow.h"
 #import "GameCenterDelegate.h"
-#import <BugSense-iOS/BugSenseController.h>
 #import <Crashlytics/Crashlytics.h>
 #import <cocos2d-ui.h>
 #import "ChartboostDelegate.h"
@@ -37,8 +36,6 @@
 #define KAMCORD_SECRET       @"VHeSPx2Ux15I2pi8dJ7ygFsSSKn7zhDIAw1qr9Zi9L1"
 
 #define NEW_RELIC_TOKEN      @"AA01b4a84c5c83bc8345d534eb4910b3a323b70b5b"
-
-#define BUG_SENSE_API_KEY    @"ff946ee1"
 
 @implementation AppDelegate
 
@@ -100,11 +97,6 @@
   
   [Analytics initAnalytics];
   [Analytics checkInstall];
-  
-#ifdef MOBSTERS
-  // Bug sense
-  [BugSenseController sharedControllerWithBugSenseAPIKey:BUG_SENSE_API_KEY];
-#endif
   
   // Publish install
   [FacebookDelegate activateApp];

@@ -85,7 +85,7 @@
 }
 
 - (BOOL) textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
-  int maxNumLines = 3;
+  int maxNumLines = 2;
   
   NSMutableString *t = [NSMutableString stringWithString:textView.text];
   [t replaceCharactersInRange:range withString:text];

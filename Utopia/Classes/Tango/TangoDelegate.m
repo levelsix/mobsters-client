@@ -8,7 +8,12 @@
 
 #import "TangoDelegate.h"
 
-#import <TangoSDK/TangoSDK.h>
+#import <TangoSDK/TangoProfileResult.h>
+#import <TangoSDK/TangoProfileEntry.h>
+#import <TangoSDK/TangoProfile.h>
+#import <TangoSDK/TangoSession.h>
+#import <TangoSDK/TangoTools.h>
+#import <error_codes.h>
 
 #define TANGO_ENABLED 
 

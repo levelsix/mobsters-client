@@ -83,17 +83,22 @@ static int sessionId;
 
 - (void) initUserIdMessageQueue {
   GameState *gs = [GameState sharedGameState];
-  NSString *useridKey = USER_ID_KEY;
-  _useridQueue = [[AMQPQueue alloc] initWithName:[useridKey stringByAppendingFormat:@"_%d_queue", sessionId]  onChannel:_udidConsumer.channel  isPassive:NO isExclusive:NO isDurable:YES getsAutoDeleted:YES];
-  [_useridQueue bindToExchange:_directExchange withKey:useridKey];
-  _useridConsumer = [_useridQueue startConsumerWithAcknowledgements:NO isExclusive:NO receiveLocalMessages:YES];
   
-  NSString *udidKey = USER_ID_KEY;
-  _chatQueue = [[AMQPQueue alloc] initWithName:[udidKey stringByAppendingFormat:@"_%d_chat_queue", sessionId] onChannel:[_connection openChannel] isPassive:NO isExclusive:NO isDurable:YES getsAutoDeleted:YES];
-  [_chatQueue bindToExchange:_topicExchange withKey:CHAT_KEY];
-  _chatConsumer = [_chatQueue startConsumerWithAcknowledgements:NO isExclusive:NO receiveLocalMessages:YES];
-  
-  LNLog(@"Created queues");
+  if (gs.userUuid) {
+    NSString *useridKey = USER_ID_KEY;
+    _useridQueue = [[AMQPQueue alloc] initWithName:[useridKey stringByAppendingFormat:@"_%d_queue", sessionId]  onChannel:_udidConsumer.channel  isPassive:NO isExclusive:NO isDurable:YES getsAutoDeleted:YES];
+    [_useridQueue bindToExchange:_directExchange withKey:useridKey];
+    _useridConsumer = [_useridQueue startConsumerWithAcknowledgements:NO isExclusive:NO receiveLocalMessages:YES];
+    
+    NSString *udidKey = USER_ID_KEY;
+    _chatQueue = [[AMQPQueue alloc] initWithName:[udidKey stringByAppendingFormat:@"_%d_chat_queue", sessionId] onChannel:[_connection openChannel] isPassive:NO isExclusive:NO isDurable:YES getsAutoDeleted:YES];
+    [_chatQueue bindToExchange:_topicExchange withKey:CHAT_KEY];
+    _chatConsumer = [_chatQueue startConsumerWithAcknowledgements:NO isExclusive:NO receiveLocalMessages:YES];
+    
+    LNLog(@"Created queues");
+  } else {
+    LNLog(@"ERROR: Trying to init user id queue without a user id..");
+  }
   
   if ([_delegate respondsToSelector:@selector(connectedToUserIdQueue)]) {
     [_delegate performSelectorOnMainThread:@selector(connectedToUserIdQueue) withObject:nil waitUntilDone:NO];

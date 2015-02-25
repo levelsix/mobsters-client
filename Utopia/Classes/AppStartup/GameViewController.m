@@ -452,12 +452,14 @@ static const CGSize FIXED_SIZE = {568, 384};
     }];
     
     [Analytics connectedToHost];
+  } else if (self.tutController) {
+    gs.connected = YES;
+    
+    [Analytics connectedToServerWithLevel:gs.level gems:gs.gems cash:gs.cash oil:gs.oil];
   } else if (_isFromFacebook) {
     gs.connected = YES;
     
     [[SocketCommunication sharedSocketCommunication] initUserIdMessageQueue];
-  } else if (self.tutController) {
-    [Analytics connectedToServerWithLevel:gs.level gems:gs.gems cash:gs.cash oil:gs.oil];
   }
   _isFromFacebook = NO;
 }

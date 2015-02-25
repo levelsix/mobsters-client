@@ -9,8 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "AppDelegate.h"
 
-#import <BugSense-iOS/BugSenseController.h>
-
 void SigPipeHandler(int s);
 
 int main(int argc, char *argv[]) {
@@ -21,10 +19,6 @@ int main(int argc, char *argv[]) {
     retVal = UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
   }
   @catch (NSException* exception) {
-#ifndef DEBUG
-    BUGSENSE_LOG(exception, nil);
-#endif
-
     NSLog(@"Uncaught exception: %@", exception.description);
     NSLog(@"Stack trace: %@", [exception callStackSymbols]);
   }

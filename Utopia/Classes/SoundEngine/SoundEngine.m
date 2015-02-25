@@ -150,7 +150,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(SoundEngine);
 }
 
 + (void) chatOpened {
-  [[SoundEngine sharedSoundEngine] playEffect:@"sfx_attack_ui_slide_in.mp3"];
+  [[SoundEngine sharedSoundEngine] playEffect:@"sfx_swap_mobster_window_slide_in.mp3"];
 }
 
 + (void) chatClosed {
