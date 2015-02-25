@@ -21,7 +21,6 @@ static const int SHOW_PLAYER_SKILL_BUTTON_DIALOGUE_INDEX = 1;
 
 @interface DungeonBattleLayer : NewBattleLayer <DialogueViewControllerDelegate> {
   
-  
   BOOL _receivedEndDungeonResponse;
   BOOL _waitingForEndDungeonResponse;
   
@@ -40,7 +39,7 @@ static const int SHOW_PLAYER_SKILL_BUTTON_DIALOGUE_INDEX = 1;
   NSString *_resumedUserMonsterUuid;
 }
 
-@property (nonatomic, retain) IBOutlet NSString *dungeonType;
+@property (nonatomic, retain) NSString *dungeonType;
 @property (nonatomic, retain) IBOutlet UIView *runawayMiddleView;
 @property (nonatomic, retain) IBOutlet UILabel *runawayPercentLabel;
 

@@ -77,6 +77,14 @@
   return @"TeamDonateMonsterSelectCell";
 }
 
+- (NSString *) footerTitle {
+  return [NSString stringWithFormat:@"Tap a %@ to Donate", MONSTER_NAME];
+}
+
+- (NSString *) footerDescription {
+  return [NSString stringWithFormat:@"Donated %@s lose their HP and need to be healed.", MONSTER_NAME];
+}
+
 - (void) updateCell:(TeamDonateMonsterSelectCell *)cell monster:(UserMonster *)monster {
   [cell updateForListObject:monster powerLimit:self.donation.powerAvailability];
 }

@@ -46,7 +46,7 @@
 - (void) allowSpeedup {
   self.queueView.userInteractionEnabled = YES;
   
-  [Globals createUIArrowForView:self.speedupCostLabel.superview.superview atAngle:M_PI_2];
+  [Globals createUIArrowForView:self.speedupIcon.superview.superview atAngle:M_PI_2];
 }
 
 - (void) allowClose {

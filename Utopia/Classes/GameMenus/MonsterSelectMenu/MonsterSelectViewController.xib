@@ -8,6 +8,8 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MonsterSelectViewController">
             <connections>
                 <outlet property="bgdView" destination="3TJ-MX-sZ3" id="rdZ-NU-LCi"/>
+                <outlet property="footerDescLabel" destination="ppa-ct-KkO" id="Lws-E4-GTA"/>
+                <outlet property="footerTitleLabel" destination="515-I7-3XC" id="9hi-40-hsc"/>
                 <outlet property="headerView" destination="Hsi-hI-QPn" id="sAT-Y7-4hf"/>
                 <outlet property="listView" destination="Ltq-C6-foZ" id="JJk-nL-TnM"/>
                 <outlet property="mainView" destination="4GQ-xe-U3E" id="DvH-eO-zho"/>
@@ -50,11 +52,11 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <view contentMode="scaleToFill" id="Ltq-C6-foZ" customClass="ListCollectionView">
-                                    <rect key="frame" x="0.0" y="32" width="241" height="226"/>
+                                    <rect key="frame" x="0.0" y="32" width="241" height="164"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="none" id="nJW-ny-8HI" customClass="CancellableCollectionView">
-                                            <rect key="frame" x="0.0" y="0.0" width="241" height="226"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="241" height="164"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="6" minimumInteritemSpacing="6" id="fMh-9Y-Lky">
@@ -96,6 +98,36 @@
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
+                                <view contentMode="scaleToFill" id="KI5-Cf-uLk" userLabel="Footer View">
+                                    <rect key="frame" x="0.0" y="195" width="241" height="63"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <subviews>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="donateenhancebottombar.png" id="Rx9-BX-izG">
+                                            <rect key="frame" x="6" y="0.0" width="229" height="57"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </imageView>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Select a mobster to enhance." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="515-I7-3XC" customClass="NiceFontLabel12">
+                                            <rect key="frame" x="79" y="0.0" width="145" height="29"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                            <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                            <size key="shadowOffset" width="0.0" height="1"/>
+                                        </label>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="girl2.png" id="bri-9Q-VHs">
+                                            <rect key="frame" x="10" y="-32" width="62" height="88"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </imageView>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description." lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="ppa-ct-KkO" customClass="NiceFontLabel2">
+                                            <rect key="frame" x="79" y="22" width="145" height="30"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                            <color key="textColor" red="0.20000001789999999" green="0.20000001789999999" blue="0.20000001789999999" alpha="1" colorSpace="deviceRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
@@ -111,10 +143,12 @@
             <nil key="simulatedStatusBarMetrics"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="850" y="525"/>
+            <point key="canvasLocation" x="331" y="638"/>
         </view>
     </objects>
     <resources>
+        <image name="donateenhancebottombar.png" width="229" height="57"/>
+        <image name="girl2.png" width="62" height="88"/>
         <image name="itemsheaderbg.png" width="1" height="35"/>
         <image name="itemssidearrow.png" width="9" height="18"/>
     </resources>

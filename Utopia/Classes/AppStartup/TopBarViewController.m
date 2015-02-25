@@ -653,7 +653,7 @@
       self.saleMultiplierIcon.transform = CGAffineTransformIdentity;
     } completion:^(BOOL finished) {
       [Globals shakeView:self.saleView duration:0.4f offset:5.f];
-      [self performSelector:@selector(performFallingGemsAnimation) withObject:nil afterDelay:10.f];
+      [self performSelector:@selector(performFallingGemsAnimation) withObject:nil afterDelay:60.f];
     }];
   } else {
     [self performSelector:@selector(checkGemsAnimationComplete) withObject:nil afterDelay:0.1f];

@@ -100,11 +100,15 @@
 - (void) collectClicked:(id)sender {
   NSInteger idx = [self.questViews indexOfObject:sender];
   
+  GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   if (idx != NSNotFound && idx < gl.clanRewardAchievementIds.count) {
     int achievementId = [gl.clanRewardAchievementIds[idx] intValue];
+    AchievementProto *ap = [gs achievementWithId:achievementId];
     
     [[OutgoingEventController sharedOutgoingEventController] redeemAchievement:achievementId delegate:nil];
+    
+    [Globals addPurpleAlertNotification:[NSString stringWithFormat:@"You collected %d Gems for completing %@!", ap.gemReward, ap.name]];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:ACHIEVEMENTS_CHANGED_NOTIFICATION object:self];
   }

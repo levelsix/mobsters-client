@@ -57,6 +57,8 @@
   self.clickableUserMonsterUuid = userMonsterUuid;
   self.listView.userInteractionEnabled = YES;
   
+  [self reloadListViewAnimated:NO];
+  
   [self moveToMonster:userMonsterUuid];
   [self arrowOverMonster:userMonsterUuid];
 }
