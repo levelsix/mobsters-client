@@ -111,18 +111,12 @@
             SkillLogStart(@"Crit and Evade -- Skill caused a critical hit, increasing damage to %ld", (long)damage);
           }
         }
-        [self tickDuration];
       }
     }
     else // The character defending has the skill
     {
       if (_evadeChance)
       {
-        if (_critChance <= 0 && _missChance <= 0)
-        {
-          [self tickDuration];
-        }
-        
         // Chance of evading
         float rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
         if (rand < _evadeChance)
@@ -144,45 +138,15 @@
   if ([super skillCalledWithTrigger:trigger execute:execute])
     return YES;
   
-//  if ([self isActive])
-//  {
-//    if ((trigger == SkillTriggerPointPlayerDealsDamage && self.belongsToPlayer) ||
-//        (trigger == SkillTriggerPointEnemyDealsDamage && !self.belongsToPlayer))
-//    {
-//      if (execute)
-//      {
-//        if (_missed || _criticalHit)
-//        {
-//          if (_missed)
-//            [self showDodged:YES];
-//          else
-//            [self showCriticalHit];
-//          
-//          _missed = NO;
-//          _criticalHit = NO;
-//        }
-//        else
-//          [self skillTriggerFinished];
-//      }
-//      return YES;
-//    }
-//    if ((trigger == SkillTriggerPointEnemyDealsDamage && self.belongsToPlayer) ||
-//        (trigger == SkillTriggerPointPlayerDealsDamage && !self.belongsToPlayer))
-//    {
-//      if (execute)
-//      {
-//        if (_evaded)
-//        {
-//          
-//          [self showDodged];
-//          _evaded = NO;
-//        }
-//        else
-//          [self skillTriggerFinished];
-//      }
-//      return YES;
-//    }
-//  }
+  if (([self ticksOnPlayerTurn] && (trigger == SkillTriggerPointEndOfPlayerTurn || trigger == SkillTriggerPointEnemyDefeated))
+       || (![self ticksOnPlayerTurn] && (trigger == SkillTriggerPointEndOfEnemyTurn || trigger == SkillTriggerPointPlayerMobDefeated)))
+    {
+      if (execute)
+      {
+        NSLog(@"Tick");
+        [self tickDuration];
+      }
+    }
   
   return NO;
 }
@@ -209,6 +173,11 @@
 }
 
 #pragma mark - Skill logic
+      
+- (BOOL) ticksOnPlayerTurn
+{
+  return self.belongsToPlayer == (_missChance > 0 || _critChance > 0);
+}
 
 -(void)showCriticalHit
 {

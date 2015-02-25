@@ -51,7 +51,7 @@
       if ((self.belongsToPlayer && trigger == SkillTriggerPointEnemyInitialized)
           || (!self.belongsToPlayer && trigger == SkillTriggerPointPlayerInitialized))
       {
-        [self removeCurse];
+        [self endDurationNow];
       }
       else if (trigger == SkillTriggerPointEndOfPlayerTurn)
       {
