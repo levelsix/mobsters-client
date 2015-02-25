@@ -35,12 +35,10 @@
 {
   if ([self isActive])
   {
-    BattlePlayer* opponent = self.belongsToPlayer ? self.enemy : self.player;
-    if (opponent.isCursed)
-    {
-      [self addCurseAnimations];
-    }
+    self.opponentPlayer.isCursed = YES;
   }
+  
+  [super restoreVisualsIfNeeded];
 }
 
 - (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
@@ -72,25 +70,9 @@
 
 - (BOOL) onDurationStart
 {
-  BattlePlayer* opponent = self.belongsToPlayer ? self.enemy : self.player;
-  opponent.isCursed = YES;
+  self.opponentPlayer.isCursed = YES;
   
-  [self addCurseAnimations];
-  
-  [self performAfterDelay:0.3 block:^{
-    [self.battleLayer.orbLayer.bgdLayer turnTheLightsOn];
-    [self.battleLayer.orbLayer allowInput];
-    [self skillTriggerFinished:YES];
-  }];
-  
-  return YES;
-}
-
-- (BOOL) onDurationReset
-{
-  [self resetAfftectedTurnsCount:self.turnsLeft forSkillSideEffectOnOpponent:SideEffectTypeNerfCurse];
-  
-  return NO;
+  return [super onDurationStart];
 }
 
 - (BOOL) onDurationEnd
@@ -101,38 +83,7 @@
 
 - (void) removeCurse
 {
-  BattlePlayer* opponent = self.belongsToPlayer ? self.enemy : self.player;
-  opponent.isCursed = NO;
-  
-  [self endCurseAnimations];
-}
-
-#pragma mark - Animations
-
-- (void) addCurseAnimations
-{
-  BattleSprite* opponent = self.belongsToPlayer ? self.enemySprite : self.playerSprite;
-  
-  //Make character blink purple
-  [opponent.sprite stopActionByTag:1914];
-  CCActionRepeatForever* action = [CCActionRepeatForever actionWithAction:[CCActionSequence actions:
-                                                                           [CCActionTintTo actionWithDuration:1.5 color:[CCColor purpleColor]],
-                                                                           [CCActionTintTo actionWithDuration:1.5 color:[CCColor whiteColor]],
-                                                                           nil]];
-  action.tag = 1914;
-  [opponent.sprite runAction:action];
-  
-  [self addSkillSideEffectToOpponent:SideEffectTypeNerfCurse turnsAffected:self.turnsLeft];
-}
-
-- (void) endCurseAnimations
-{
-  BattleSprite* opponent = self.belongsToPlayer ? self.enemySprite : self.playerSprite;
-  
-  [opponent.sprite stopActionByTag:1914];
-  [opponent.sprite runAction:[CCActionTintTo actionWithDuration:0.3 color:[CCColor whiteColor]]];
-  
-  [self removeSkillSideEffectFromOpponent:SideEffectTypeNerfCurse];
+  self.opponentPlayer.isCursed = NO;
 }
 
 @end
