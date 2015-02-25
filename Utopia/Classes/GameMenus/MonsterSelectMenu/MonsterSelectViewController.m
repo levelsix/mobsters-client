@@ -33,6 +33,14 @@
   [self.listView reloadTableAnimated:animated listObjects:self.monsters];
   
   self.titleLabel.text = [self.delegate titleName];
+  self.footerTitleLabel.text = [self.delegate footerTitle];
+  
+  NSString *desc = [self.delegate footerDescription];
+  NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+  [paragraphStyle setLineSpacing:2];
+  NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:desc attributes:@{NSParagraphStyleAttributeName : paragraphStyle}];
+  self.footerDescLabel.attributedText = attributedString;
+  
 }
 
 - (IBAction)closeClicked:(id)sender {

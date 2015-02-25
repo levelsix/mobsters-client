@@ -16,6 +16,9 @@
 - (NSString *) titleName;
 - (NSString *) cellClassName;
 
+- (NSString *) footerTitle;
+- (NSString *) footerDescription;
+
 - (void) updateCell:(id)cell monster:(id)monster;
 - (void) monsterSelected:(id)monster viewController:(id)viewController;
 - (void) monsterSelectClosed;
@@ -27,6 +30,9 @@
 @interface MonsterSelectViewController : PopoverViewController <ListCollectionDelegate>
 
 @property (nonatomic, retain) IBOutlet ListCollectionView *listView;
+
+@property (nonatomic, retain) IBOutlet UILabel *footerTitleLabel;
+@property (nonatomic, retain) IBOutlet UILabel *footerDescLabel;
 
 @property (nonatomic, retain) NSArray *monsters;
 

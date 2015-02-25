@@ -204,7 +204,7 @@
   
   
 #ifdef DEBUG
-  [self saveTutorialStep:TutorialStepGuideGreeting];
+  [self saveTutorialStep:TutorialStepPostBattleConfrontation];
   //[self saveTutorialStep:TutorialStepEnteredBattle];
 #endif
   [self resumeTutorialStep];
@@ -668,6 +668,11 @@ static int timesCloseClicked = 0;
   MonsterProto *mp = [gs monsterWithId:self.constants.startingMonsterId];
   NSArray *dialogue = @[@(TutorialDialogueSpeakerMark), [NSString stringWithFormat:@"Tap on %@ to insert him into the healing queue.", mp.displayName]];
   [self displayDialogue:dialogue allowTouch:NO useShortBubble:NO];
+  
+  // We need to move the dialogue vc down on non-iphone 6's to account for him blocking the top
+  if ([Globals isiPhone5orSmaller]) {
+    self.dialogueViewController.view.height += 40;
+  }
   
   [self.homeMap moveFriendsOffBuildableMap];
   

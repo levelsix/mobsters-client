@@ -1010,21 +1010,12 @@
 		29E00D511A7997D300F34D51 /* bomblabel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29E00D501A7997D300F34D51 /* bomblabel@2x.png */; };
 		29E00D521A7997D300F34D51 /* bomblabel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29E00D501A7997D300F34D51 /* bomblabel@2x.png */; };
 		29E00D531A7997D300F34D51 /* bomblabel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29E00D501A7997D300F34D51 /* bomblabel@2x.png */; };
-		29E00D6C1A79B52D00F34D51 /* donateenhancebottombar.png in Resources */ = {isa = PBXBuildFile; fileRef = 29E00D5E1A79B52D00F34D51 /* donateenhancebottombar.png */; };
-		29E00D6D1A79B52D00F34D51 /* donateenhancebottombar.png in Resources */ = {isa = PBXBuildFile; fileRef = 29E00D5E1A79B52D00F34D51 /* donateenhancebottombar.png */; };
-		29E00D6E1A79B52D00F34D51 /* donateenhancebottombar.png in Resources */ = {isa = PBXBuildFile; fileRef = 29E00D5E1A79B52D00F34D51 /* donateenhancebottombar.png */; };
 		29E00D6F1A79B52D00F34D51 /* donateenhancebottombar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29E00D5F1A79B52D00F34D51 /* donateenhancebottombar@2x.png */; };
 		29E00D701A79B52D00F34D51 /* donateenhancebottombar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29E00D5F1A79B52D00F34D51 /* donateenhancebottombar@2x.png */; };
 		29E00D711A79B52D00F34D51 /* donateenhancebottombar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29E00D5F1A79B52D00F34D51 /* donateenhancebottombar@2x.png */; };
-		29E00D721A79B52D00F34D51 /* fulldonatearro.png in Resources */ = {isa = PBXBuildFile; fileRef = 29E00D601A79B52D00F34D51 /* fulldonatearro.png */; };
-		29E00D731A79B52D00F34D51 /* fulldonatearro.png in Resources */ = {isa = PBXBuildFile; fileRef = 29E00D601A79B52D00F34D51 /* fulldonatearro.png */; };
-		29E00D741A79B52D00F34D51 /* fulldonatearro.png in Resources */ = {isa = PBXBuildFile; fileRef = 29E00D601A79B52D00F34D51 /* fulldonatearro.png */; };
 		29E00D751A79B52D00F34D51 /* fulldonatearro@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29E00D611A79B52D00F34D51 /* fulldonatearro@2x.png */; };
 		29E00D761A79B52D00F34D51 /* fulldonatearro@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29E00D611A79B52D00F34D51 /* fulldonatearro@2x.png */; };
 		29E00D771A79B52D00F34D51 /* fulldonatearro@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29E00D611A79B52D00F34D51 /* fulldonatearro@2x.png */; };
-		29E00D781A79B52D00F34D51 /* opendonatearrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 29E00D621A79B52D00F34D51 /* opendonatearrow.png */; };
-		29E00D791A79B52D00F34D51 /* opendonatearrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 29E00D621A79B52D00F34D51 /* opendonatearrow.png */; };
-		29E00D7A1A79B52D00F34D51 /* opendonatearrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 29E00D621A79B52D00F34D51 /* opendonatearrow.png */; };
 		29E00D7B1A79B52D00F34D51 /* opendonatearrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29E00D631A79B52D00F34D51 /* opendonatearrow@2x.png */; };
 		29E00D7C1A79B52D00F34D51 /* opendonatearrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29E00D631A79B52D00F34D51 /* opendonatearrow@2x.png */; };
 		29E00D7D1A79B52D00F34D51 /* opendonatearrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29E00D631A79B52D00F34D51 /* opendonatearrow@2x.png */; };
@@ -8219,11 +8210,8 @@
 		29DCD0331A8D8514003176FD /* fallinggems26@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fallinggems26@2x.png"; sourceTree = "<group>"; };
 		29DCD0591A8D97E9003176FD /* salemultiplier@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "salemultiplier@2x.png"; sourceTree = "<group>"; };
 		29E00D501A7997D300F34D51 /* bomblabel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bomblabel@2x.png"; sourceTree = "<group>"; };
-		29E00D5E1A79B52D00F34D51 /* donateenhancebottombar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = donateenhancebottombar.png; sourceTree = "<group>"; };
 		29E00D5F1A79B52D00F34D51 /* donateenhancebottombar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "donateenhancebottombar@2x.png"; sourceTree = "<group>"; };
-		29E00D601A79B52D00F34D51 /* fulldonatearro.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fulldonatearro.png; sourceTree = "<group>"; };
 		29E00D611A79B52D00F34D51 /* fulldonatearro@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fulldonatearro@2x.png"; sourceTree = "<group>"; };
-		29E00D621A79B52D00F34D51 /* opendonatearrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = opendonatearrow.png; sourceTree = "<group>"; };
 		29E00D631A79B52D00F34D51 /* opendonatearrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "opendonatearrow@2x.png"; sourceTree = "<group>"; };
 		29FC5E861A89422500A50FA7 /* SaleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SaleViewController.h; sourceTree = "<group>"; };
 		29FC5E871A89422500A50FA7 /* SaleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SaleViewController.m; sourceTree = "<group>"; };
@@ -13662,11 +13650,8 @@
 			children = (
 				29C0D2371A9C1098005A4EC0 /* toonrequestbubble@2x.png */,
 				296548641A8163F80080B195 /* donatetoonslot@2x.png */,
-				29E00D5E1A79B52D00F34D51 /* donateenhancebottombar.png */,
 				29E00D5F1A79B52D00F34D51 /* donateenhancebottombar@2x.png */,
-				29E00D601A79B52D00F34D51 /* fulldonatearro.png */,
 				29E00D611A79B52D00F34D51 /* fulldonatearro@2x.png */,
-				29E00D621A79B52D00F34D51 /* opendonatearrow.png */,
 				29E00D631A79B52D00F34D51 /* opendonatearrow@2x.png */,
 			);
 			path = "Donate Enhancement";
@@ -20273,7 +20258,6 @@
 				CF0CF3C0196F452900ECD301 /* Scientist5Breath11@2x.png in Resources */,
 				CF0CF3C1196F452900ECD301 /* bigavatarbg@2x.png in Resources */,
 				9B41AF301A7C336900529879 /* bulletorb@2x.png in Resources */,
-				29E00D6D1A79B52D00F34D51 /* donateenhancebottombar.png in Resources */,
 				CFA728301A0AE62A00FF6031 /* buildingfinishnowbutton@2x.png in Resources */,
 				CF0CF3C4196F452900ECD301 /* diamondbig@2x.png in Resources */,
 				299AA3DF1A7856AA00A2D806 /* rocksideways-9@2x.png in Resources */,
@@ -20902,7 +20886,6 @@
 				CF0CF689196F452900ECD301 /* gachalegendtag@2x.png in Resources */,
 				CF0CF68A196F452900ECD301 /* Scientist3Turn13@2x.png in Resources */,
 				CF0CF68B196F452900ECD301 /* AttackEventViewSmall.xib in Resources */,
-				29E00D791A79B52D00F34D51 /* opendonatearrow.png in Resources */,
 				6BCBD8681A797AEE002C584F /* counterstrikelogo@2x.png in Resources */,
 				CF0CF68C196F452900ECD301 /* healthbar@2x.png in Resources */,
 				CF0CF68D196F452900ECD301 /* rockettail.plist in Resources */,
@@ -21128,7 +21111,6 @@
 				CF812EE319E676E200D91157 /* ClanHelpViewController.xib in Resources */,
 				DA5E401519D104FC001F28CE /* momentumlogo@2x.png in Resources */,
 				CF0CF786196F452900ECD301 /* HealViewController.xib in Resources */,
-				29E00D731A79B52D00F34D51 /* fulldonatearro.png in Resources */,
 				CF0CF787196F452900ECD301 /* Scientist1Turn01@2x.png in Resources */,
 				9B41AF961A841DDA00529879 /* swordorb@2x.png in Resources */,
 				CF0CF789196F452900ECD301 /* Gotham-UltraItalic.otf in Resources */,
@@ -21775,7 +21757,6 @@
 				CFCD0EC91953F07400EDC233 /* homenavrnextarrow@2x.png in Resources */,
 				DA5E400819D104E7001F28CE /* plus10percent@2x.png in Resources */,
 				CFFBDF4B18ACA3D90090CA9A /* Scientist1Turn07@2x.png in Resources */,
-				29E00D781A79B52D00F34D51 /* opendonatearrow.png in Resources */,
 				CFA793831A0C63ED00DF3407 /* firecakeeventlive@2x.png in Resources */,
 				CF9AE70F180CA78C0013DD44 /* LoadingViewController.xib in Resources */,
 				CF689097191C514000FF1F71 /* pier_1@2x.png in Resources */,
@@ -22466,7 +22447,6 @@
 				9BB948CC1A69FC2F006EE920 /* grlb3@2x.png in Resources */,
 				CF06B604193699FC008BF892 /* bottomcardoverlay@2x.png in Resources */,
 				CFF2C943193FD71F00F28D9E /* chatprivateactive@2x.png in Resources */,
-				29E00D721A79B52D00F34D51 /* fulldonatearro.png in Resources */,
 				29C3CA5A1A92EFB5005407E9 /* redarrow@2x.png in Resources */,
 				2985E5C31A30044E0041ABF4 /* bubblemiddle@2x.png in Resources */,
 				299AA3A21A7856AA00A2D806 /* firesideways-9@2x.png in Resources */,
@@ -23431,7 +23411,6 @@
 				CF29E97A196228FA00B40DA4 /* menumobstersinactive@2x.png in Resources */,
 				CF6A64CF19D24F030002E05D /* 6earthupdown@2x.png in Resources */,
 				29DCCFF31A8C3310003176FD /* fallinggems12@2x.png in Resources */,
-				29E00D6C1A79B52D00F34D51 /* donateenhancebottombar.png in Resources */,
 				CF864DA4193E7C5C00DE0D7A /* lightavatar@2x.png in Resources */,
 				CF864E17193E8F3000DE0D7A /* createclanbox1@2x.png in Resources */,
 				CFCD0EE71953F07400EDC233 /* firesquare@2x.png in Resources */,
@@ -24399,7 +24378,6 @@
 				2982A16C1A1973B700CEB283 /* cacert.pem in Resources */,
 				2985E5CB1A30044E0041ABF4 /* bubbleright@2x.png in Resources */,
 				29DCD00D1A8C3D8B003176FD /* salelitbg@2x.png in Resources */,
-				29E00D6E1A79B52D00F34D51 /* donateenhancebottombar.png in Resources */,
 				CF481ECB19F7217F00041486 /* mus_mobsquad_battle.mp3 in Resources */,
 				CF481ECC19F7217F00041486 /* profteaminactive@2x.png in Resources */,
 				63BACB1E1A71EF47000A641A /* EventScheduleDayView.xib in Resources */,
@@ -24917,7 +24895,6 @@
 				CFA728951A0B037900FF6031 /* eartheventbigbg@2x.png in Resources */,
 				CF48218819F7217F00041486 /* sharecheckmark@2x.png in Resources */,
 				CF48218A19F7217F00041486 /* Scientist1Blink05@2x.png in Resources */,
-				29E00D741A79B52D00F34D51 /* fulldonatearro.png in Resources */,
 				CF48218B19F7217F00041486 /* Scientist4Turn14@2x.png in Resources */,
 				299AA3381A7856AA00A2D806 /* 6lightorb-9@2x.png in Resources */,
 				CF48218D19F7217F00041486 /* OilStorageT1@2x.plist in Resources */,
@@ -25627,7 +25604,6 @@
 				29AE75DD1A6F36E000264070 /* TribalGuy0T1AttackNF@2x.pvr.ccz in Resources */,
 				298050621A265EE800806253 /* 16gbhud@2x.png in Resources */,
 				CF4824CE19F7217F00041486 /* rocket.aif in Resources */,
-				29E00D7A1A79B52D00F34D51 /* opendonatearrow.png in Resources */,
 				9B6B78171A8ABEE70080C8E5 /* earthfryingpan-9@2x.png in Resources */,
 				CF4824D019F7217F00041486 /* Scientist2Blink10@2x.png in Resources */,
 				CF4824D119F7217F00041486 /* tiles@2x.png in Resources */,
@@ -27127,8 +27103,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
