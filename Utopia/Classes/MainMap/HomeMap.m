@@ -611,9 +611,20 @@
 
 - (void) reloadTeamCenter {
   GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
   int numOnTeam = (int)[gs allBattleAvailableAliveMonstersOnTeamWithClanSlot:NO].count;
+  
+  BOOL hasAvailMobsters = NO;
+  for (UserMonster *um in gs.myMonsters) {
+    if ([um isAvailable] && !um.teamSlot && um.curHealth > 0 && [gl currentBattleReadyTeamHasCostFor:um]) {
+      hasAvailMobsters = YES;
+    }
+  }
+  
+  BuildingBubbleType type = !numOnTeam || (numOnTeam < gl.maxTeamSize && hasAvailMobsters) ? BuildingBubbleTypeTeamRed : BuildingBubbleTypeTeamGreen;
+  
   for (TeamCenterBuilding *b in [self childrenOfClassType:[TeamCenterBuilding class]]) {
-    [b setBubbleType:BuildingBubbleTypeManage withNum:numOnTeam];
+    [b setBubbleType:type withNum:numOnTeam];
     [b setNumEquipped:numOnTeam];
   }
 }

@@ -182,8 +182,11 @@
       case BuildingBubbleTypeHeal:
         imgName = [NSString stringWithFormat:@"healredbubble%@.png", suffix];
         break;
-      case BuildingBubbleTypeManage:
+      case BuildingBubbleTypeTeamRed:
         imgName = [NSString stringWithFormat:@"teambubble%@.png", suffix];
+        break;
+      case BuildingBubbleTypeTeamGreen:
+        imgName = [NSString stringWithFormat:@"teambubble%@green.png", suffix];
         break;
       case BuildingBubbleTypeSell:
         imgName = [NSString stringWithFormat:@"sellbubble%@.png", suffix];
