@@ -83,6 +83,7 @@ typedef NS_ENUM(SInt32, StructureInfoProto_StructType) {
   StructureInfoProto_StructTypeMiniJob = 9,
   StructureInfoProto_StructTypeTeamCenter = 10,
   StructureInfoProto_StructTypeClan = 11,
+  StructureInfoProto_StructTypeMoneyTree = 12,
 };
 
 BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType value);

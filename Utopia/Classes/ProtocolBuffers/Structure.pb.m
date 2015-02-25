@@ -606,6 +606,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
     case StructureInfoProto_StructTypeMiniJob:
     case StructureInfoProto_StructTypeTeamCenter:
     case StructureInfoProto_StructTypeClan:
+    case StructureInfoProto_StructTypeMoneyTree:
       return YES;
     default:
       return NO;

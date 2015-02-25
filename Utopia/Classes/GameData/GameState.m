@@ -1140,6 +1140,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [self addToStaticStructs:proto.allTeamCentersList];
   [self addToStaticStructs:proto.allEvoChambersList];
   [self addToStaticStructs:proto.allClanHousesList];
+  [self addToStaticStructs:proto.allMoneyTreesList];
   
   [self.staticItems removeAllObjects];
   [self addToStaticItems:proto.itemsList];

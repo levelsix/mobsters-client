@@ -1245,6 +1245,9 @@
 		63B045131A93F8B500C74F0C /* AttackAlertCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63B045121A93F8B500C74F0C /* AttackAlertCell.xib */; };
 		63B045141A93F8B500C74F0C /* AttackAlertCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63B045121A93F8B500C74F0C /* AttackAlertCell.xib */; };
 		63B045151A93F8B500C74F0C /* AttackAlertCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63B045121A93F8B500C74F0C /* AttackAlertCell.xib */; };
+		63B0452C1A9D7CD700C74F0C /* EventResearch.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B0452B1A9D7CD600C74F0C /* EventResearch.pb.m */; };
+		63B0452D1A9D7CD700C74F0C /* EventResearch.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B0452B1A9D7CD600C74F0C /* EventResearch.pb.m */; };
+		63B0452E1A9D7CD700C74F0C /* EventResearch.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B0452B1A9D7CD600C74F0C /* EventResearch.pb.m */; };
 		63B7BEFC1A7090EA00C62FB7 /* blackborder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63B7BEFB1A7090EA00C62FB7 /* blackborder@2x.png */; };
 		63BACADF1A71A7D9000A641A /* DailyEventScheduleViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63BACADE1A71A7D9000A641A /* DailyEventScheduleViewController.xib */; };
 		63BACAE31A71A816000A641A /* DailyEventScheduleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63BACAE21A71A816000A641A /* DailyEventScheduleViewController.m */; };
@@ -7270,6 +7273,8 @@
 		63B0450A1A92BAD600C74F0C /* beenattackedgirl@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "beenattackedgirl@2x.png"; sourceTree = "<group>"; };
 		63B0450B1A92BAD600C74F0C /* beenattackedheader@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "beenattackedheader@2x.png"; sourceTree = "<group>"; };
 		63B045121A93F8B500C74F0C /* AttackAlertCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AttackAlertCell.xib; sourceTree = "<group>"; };
+		63B0452A1A9D7CD600C74F0C /* EventResearch.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventResearch.pb.h; sourceTree = "<group>"; };
+		63B0452B1A9D7CD600C74F0C /* EventResearch.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventResearch.pb.m; sourceTree = "<group>"; };
 		63B7BEFB1A7090EA00C62FB7 /* blackborder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blackborder@2x.png"; sourceTree = "<group>"; };
 		63BACADE1A71A7D9000A641A /* DailyEventScheduleViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DailyEventScheduleViewController.xib; sourceTree = "<group>"; };
 		63BACAE11A71A816000A641A /* DailyEventScheduleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DailyEventScheduleViewController.h; sourceTree = "<group>"; };
@@ -14100,6 +14105,8 @@
 			children = (
 				297DE2311A9D7D6B00692D80 /* EventResearch.pb.h */,
 				297DE2321A9D7D6B00692D80 /* EventResearch.pb.m */,
+				63B0452A1A9D7CD600C74F0C /* EventResearch.pb.h */,
+				63B0452B1A9D7CD600C74F0C /* EventResearch.pb.m */,
 				3E1A0C001A645B4B00DF00AD /* Board.pb.h */,
 				3E1A0C011A645B4B00DF00AD /* Board.pb.m */,
 				3E1A0C021A645B4B00DF00AD /* Research.pb.h */,
@@ -23006,6 +23013,7 @@
 				CF0CED85196F452900ECD301 /* AMQPChannel.m in Sources */,
 				CF0CED86196F452900ECD301 /* GachaChooserViewController.m in Sources */,
 				297DE2361A9D7D8200692D80 /* EventResearch.pb.m in Sources */,
+				63B0452D1A9D7CD700C74F0C /* EventResearch.pb.m in Sources */,
 				CF0CED87196F452900ECD301 /* FacebookSpammer.m in Sources */,
 				9B41AF811A830BB300529879 /* SkillFlameBreak.m in Sources */,
 				CF0CED88196F452900ECD301 /* MapBotView.m in Sources */,
@@ -23464,6 +23472,7 @@
 				CFFB3B7419820E90005D7AF5 /* EventDev.pb.m in Sources */,
 				9BC9F3451A8C1420009DC3D5 /* SkillSideEffectBuff.m in Sources */,
 				297DE2331A9D7D6B00692D80 /* EventResearch.pb.m in Sources */,
+				63B0452C1A9D7CD700C74F0C /* EventResearch.pb.m in Sources */,
 				CF81C97119A67224002682A2 /* OrbMainLayer.m in Sources */,
 				CFF1D7C517E2636500874339 /* BattleSprite.m in Sources */,
 				6BB5F85F1A80095B006515B9 /* TutorialBuildingUpgradeController.m in Sources */,
@@ -23811,6 +23820,7 @@
 				CF48199519F7217F00041486 /* BattleViews.m in Sources */,
 				29DCCFB11A8AB444003176FD /* TutorialEnhanceQueueViewController.m in Sources */,
 				CF48199619F7217F00041486 /* BuildingViews.m in Sources */,
+				63B0452E1A9D7CD700C74F0C /* EventResearch.pb.m in Sources */,
 				CF48199719F7217F00041486 /* CCSoundAnimation.m in Sources */,
 				9BB9494C1A6EEC8C006EE920 /* NSData+Base64.m in Sources */,
 				6BB5F8611A80095B006515B9 /* TutorialBuildingUpgradeController.m in Sources */,

@@ -154,7 +154,9 @@
 
 - (BOOL) testForMoneyTreeWithIndex:(NSInteger)index {
   StructureInfoProto *sip = self.staticStructs[index];
-  if(sip.structType == stru)
+  if(sip.structType == StructureInfoProto_StructTypeMoneyTree){
+    return YES;
+  }
   return NO;
 }
 
