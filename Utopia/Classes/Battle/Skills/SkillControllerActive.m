@@ -91,7 +91,7 @@
 
 - (BOOL) shouldSpawnRibbon
 {
-  return YES;
+  return _orbCounter > 0;
 }
 
 #pragma mark - Serialization

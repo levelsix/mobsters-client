@@ -17,6 +17,8 @@
 {
   [super setDefaultValues];
   _shieldHp = 1;
+  
+  _currentShieldHp = 0;
 }
 
 - (void) setValue:(float)value forProperty:(NSString*)property
@@ -26,23 +28,7 @@
     _shieldHp = value;
 }
 
-- (id) initWithProto:(SkillProto*)proto andMobsterColor:(OrbColor)color
-{
-  self = [super initWithProto:proto andMobsterColor:color];
-  if ( ! self )
-    return nil;
-  
-  _currentShieldHp = 0;
-  
-  return self;
-}
-
 #pragma mark - Overrides
-
-- (BOOL) shouldSpawnRibbon
-{
-  return (_currentShieldHp == 0);
-}
 
 - (NSInteger) modifyDamage:(NSInteger)damage forPlayer:(BOOL)player
 {
@@ -50,12 +36,15 @@
   if (player == self.belongsToPlayer)
     return damage;
   
-  _tempDamageDealt = damage;
-  
-  // Modify damage
-  damage -= _currentShieldHp;
-  if (damage < 0)
-    damage = 0;
+  if (_currentShieldHp > 0)
+  {
+    _tempDamageDealt = damage;
+    
+    // Modify damage
+    damage -= _currentShieldHp;
+    if (damage < 0)
+      damage = 0;
+  }
   
   NSInteger damageAbsorbed = MIN(_tempDamageDealt, _currentShieldHp);
   if (damageAbsorbed > 0)

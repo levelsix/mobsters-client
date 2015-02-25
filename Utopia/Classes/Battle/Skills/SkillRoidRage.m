@@ -54,23 +54,25 @@
 
 #pragma mark - Skill logic
 
-- (void) addVisualEffects
+- (void) addVisualEffects:(BOOL)skillTriggerFinished
 {
-  BattleSprite* owner = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
-  
   // Size player and make him blue
-  [owner.sprite runAction:[CCActionEaseBounceIn actionWithAction:[CCActionScaleTo actionWithDuration:0.3 scale:1.15]]];
-  [owner.sprite stopActionByTag:1914];
+  [self.userSprite runAction:[CCActionEaseBounceIn actionWithAction:[CCActionScaleTo actionWithDuration:0.3 scale:1.25]]];
+  
+  [self.userSprite.sprite stopActionByTag:1914];
   CCActionRepeatForever* action = [CCActionRepeatForever actionWithAction:[CCActionSequence actions:
                                                                            [CCActionTintTo actionWithDuration:0.5 color:[CCColor cyanColor]],
                                                                            [CCActionTintTo actionWithDuration:0.5 color:[CCColor whiteColor]],
                                                                            nil]];
   action.tag = 1914;
-  [owner.sprite runAction:action];
+  [self.userSprite.sprite runAction:action];
   
-  [self performAfterDelay:0.3 block:^{
-    [self skillTriggerFinished:YES];
-  }];
+  [super addVisualEffects:NO];
+  
+  if (skillTriggerFinished)
+    [self performAfterDelay:0.3 block:^{
+      [self skillTriggerFinished:YES];
+    }];
 }
 
 - (void) removeVisualEffects
@@ -82,6 +84,6 @@
   [owner.sprite stopActionByTag:1914];
   [owner.sprite runAction:[CCActionTintTo actionWithDuration:0.3 color:[CCColor whiteColor]]];
   
-  
+  [super removeVisualEffects];
 }
 @end

@@ -95,11 +95,6 @@
   [super onFinishPoisonDamage];
 }
 
-- (BOOL) shouldSpawnRibbon
-{
-  return YES;
-}
-
 - (BOOL) onDurationStart
 {
   [self addSkullsToOrbs:YES withTarget:self andCallback:@selector(skillTriggerFinishedActivated)];

@@ -32,17 +32,19 @@
 
 #pragma mark - Overrides
 
+- (BOOL) affectsOwner
+{
+  return NO;
+}
+
+- (BOOL) shouldPersist
+{
+  return [self isActive];
+}
+
 - (NSSet*) sideEffects
 {
   return [NSSet setWithObjects:@(SideEffectTypeNerfConfusion), nil];
-}
-
-- (void) restoreVisualsIfNeeded
-{
-  if ([self isActive])
-  {
-    [self addSkillSideEffectToOpponent:SideEffectTypeNerfConfusion turnsAffected:self.turnsLeft];
-  }
 }
 
 - (NSInteger) modifyDamage:(NSInteger)damage forPlayer:(BOOL)player
@@ -56,8 +58,6 @@
       if (rand < _chanceToHitSelf)
       {
         SkillLogStart(@"Confusion -- Skill caused player to hit himself");
-        
-        [self showLogo];
         
         // Tell NewBattleLayer that player will be confused on his next turn
         self.player.isConfused = YES;
@@ -84,8 +84,6 @@
         if (rand < _chanceToHitSelf)
         {
           SkillLogStart(@"Confusion -- Skill caused enemy to hit himself");
-
-          [self showLogo];
           
           // Tell NewBattleLayer that enemy will be confused on his next turn
           self.enemy.isConfused = YES;
@@ -109,7 +107,8 @@
       return YES;
     }
     
-    if (trigger == SkillTriggerPointEnemyDefeated || trigger == SkillTriggerPointPlayerMobDefeated)
+    if ((self.belongsToPlayer && trigger == SkillTriggerPointEnemyDefeated)
+        || (!self.belongsToPlayer && trigger == SkillTriggerPointPlayerInitialized))
     {
       if (execute)
       {
@@ -125,32 +124,12 @@
 
 #pragma mark - Skill logic
 
-- (BOOL) onDurationStart
-{
-  SkillLogStart(@"Confusion -- Skill activated");
-  
-  [self addSkillSideEffectToOpponent:SideEffectTypeNerfConfusion turnsAffected:self.turnsLeft];
-
-  return [super onDurationStart];
-}
-
-- (BOOL) onDurationReset
-{
-  SkillLogStart(@"Confusion -- Skill reactivated");
-  
-  [self resetAfftectedTurnsCount:self.turnsLeft forSkillSideEffectOnOpponent:SideEffectTypeNerfConfusion];
-  
-  return [super onDurationReset];
-}
-
 - (BOOL) onDurationEnd
 {
   SkillLogStart(@"Confusion -- Skill deactivated");
   
   // Tell NewBattleLayer that opponent is no longer confused
-  (self.belongsToPlayer ? self.enemy : self.player).isConfused = NO;
-  
-  [self removeSkillSideEffectFromOpponent:SideEffectTypeNerfConfusion];
+  self.opponentPlayer.isConfused = NO;
   
   return [super onDurationEnd];
 }
@@ -160,24 +139,5 @@
   [self showSkillPopupMiniOverlay:NO
                        bottomText:@"CONFUSED"
                    withCompletion:^{}];
-  
-  /*
-  // Display logo
-  CCSprite* logoSprite = [CCSprite spriteWithImageNamed:[self.skillImageNamePrefix stringByAppendingString:kSkillMiniLogoImageNameSuffix]];
-  logoSprite.position = CGPointMake((self.enemySprite.position.x + self.playerSprite.position.x) * .5f + self.playerSprite.contentSize.width * .5f - 10.f,
-                                    (self.playerSprite.position.y + self.enemySprite.position.y) * .5f + self.playerSprite.contentSize.height * .5f);
-  logoSprite.scale = 0.f;
-  [self.playerSprite.parent addChild:logoSprite z:50];
-  
-  // Animate
-  [logoSprite runAction:[CCActionSequence actions:
-                         [CCActionDelay actionWithDuration:.3f],
-                         [CCActionEaseBounceOut actionWithAction:[CCActionScaleTo actionWithDuration:.5f scale:1.f]],
-                         [CCActionDelay actionWithDuration:.5f],
-                         [CCActionEaseIn actionWithAction:[CCActionScaleTo actionWithDuration:.3f scale:0.f]],
-                         [CCActionRemove action],
-                         nil]];
-   */
 }
-
 @end

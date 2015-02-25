@@ -53,24 +53,6 @@
   if ([super skillCalledWithTrigger:trigger execute:execute])
     return YES;
   
-  /*
-  if ((trigger == SkillTriggerPointEnemyAppeared      && !_logoShown) ||
-      (trigger == SkillTriggerPointStartOfPlayerTurn  && !_logoShown) ||
-      (trigger == SkillTriggerPointStartOfEnemyTurn   && !_logoShown))
-  {
-    if (execute)
-    {
-      _logoShown = YES;
-      [self showSkillPopupOverlay:YES withCompletion:^(){
-        [self performAfterDelay:.5f block:^{
-          [self skillTriggerFinished];
-        }];
-      }];
-    }
-    return YES;
-  }
-   */
-  
   if ([self isActive])
   {
     if (trigger == SkillTriggerPointEndOfPlayerTurn && self.belongsToPlayer)
