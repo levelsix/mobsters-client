@@ -17,7 +17,6 @@ typedef enum {
 @interface SkillControllerSpecialOrb : SkillControllerSplitOffDef
 {
   NSInteger _orbsPerSpawn;
-  NSInteger _orbSpawnCounter;
   NSInteger _maxOrbs;
   NSInteger _orbsSpawned;
 }
@@ -29,5 +28,9 @@ typedef enum {
 - (BOOL) onSpecialOrbCounterFinish:(NSInteger)numOrbs;
 
 - (void) spawnSpecialOrbs:(NSInteger)count withTarget:(id)target andSelector:(SEL)selector;
+- (void) removeSpecialOrbs;
+- (BOOL) checkSpecialOrbs;
+
+@property (readonly) NSInteger orbSpawnCounter;
 
 @end
