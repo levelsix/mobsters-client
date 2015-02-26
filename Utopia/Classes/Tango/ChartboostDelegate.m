@@ -35,7 +35,7 @@ static NSString *showInterstitial = nil;
 
 + (void) showInterstitial:(NSString *)str {
 #ifdef TOONSQUAD
-//#ifndef DEBUG
+#ifndef DEBUG
   GameState *gs = [GameState sharedGameState];
   NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
   int numOpens = (int)[def integerForKey:APP_OPEN_KEY];
@@ -47,7 +47,7 @@ static NSString *showInterstitial = nil;
       showInterstitial = str;
     }
   }
-//#endif
+#endif
 #endif
 }
 

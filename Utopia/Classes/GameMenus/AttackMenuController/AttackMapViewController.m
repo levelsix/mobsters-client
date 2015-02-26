@@ -199,7 +199,12 @@
   UINib *nib = nil;
   // Do it in reverse so that the lower ones are higher
   float scaledHeight = self.mapScrollView.frame.size.height/scaleFactor;
-  for (TaskMapElementProto *elem in gs.staticMapElements.reverseObjectEnumerator) {
+  
+  NSArray *mapElements = [gs.staticMapElements sortedArrayUsingComparator:^(TaskMapElementProto *p1, TaskMapElementProto *p2) {
+    return [@(p2.yPos) compare:@(p1.yPos)];
+  }];
+  
+  for (TaskMapElementProto *elem in mapElements) {
     if ((!elem.isFake || showFake) && elem.yPos > pt.y-scaledHeight && elem.yPos < pt.y+scaledHeight && ![self.mapScrollView viewWithTag:elem.mapElementId]) {
       if (!nib) {
         nib = [UINib nibWithNibName:@"AttackMapIconView" bundle:nil];
