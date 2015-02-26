@@ -40,7 +40,7 @@
 
 - (SpecialOrbType)specialType
 {
-  return SpecialOrbTypeGlove;
+  return SpecialOrbTypeFryingPan;
 }
 
 - (int) quickAttackDamage
