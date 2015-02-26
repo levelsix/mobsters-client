@@ -75,6 +75,11 @@
   return NO;
 }
 
+- (BOOL) onSpecialOrbCounterFinish:(NSInteger)numOrbs
+{
+  return NO;
+}
+
 - (BOOL) checkSpecialOrbs
 {
   NSInteger _orbsFinished = [self updateSpecialOrbs];
@@ -153,6 +158,13 @@
       {
         orb.specialOrbType = SpecialOrbTypeNone;
         
+        if (orb.orbColor == OrbColorNone)
+        {
+          do {
+            orb.orbColor = [layout generateRandomOrbColor];
+          } while ([layout hasChainAtColumn:column row:row]);
+        }
+        
         OrbSprite* orbSprite = [layer spriteForOrb:orb];
         [orbSprite reloadSprite:YES];
       }
@@ -203,7 +215,7 @@
     for (NSInteger row = 0; row < layout.numRows; ++row)
     {
       BattleOrb* orb = [layout orbAtColumn:column row:row];
-      if (orb.specialOrbType == SpecialOrbTypeHeadshot && orb.turnCounter > 0)
+      if (orb.specialOrbType == [self specialType] && orb.turnCounter > 0)
       {
         // Update counter
         --orb.turnCounter;
@@ -220,6 +232,14 @@
           
           // Change sprite type
           orb.specialOrbType = SpecialOrbTypeNone;
+          
+          // Change orb color, if necessary
+          if (orb.orbColor == OrbColorNone)
+          {
+            do {
+              orb.orbColor = [layout generateRandomOrbColor];
+            } while ([layout hasChainAtColumn:column row:row]);
+          }
           
           // Reload sprite
           [sprite reloadSprite:YES];

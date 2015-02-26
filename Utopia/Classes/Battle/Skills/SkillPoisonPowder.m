@@ -61,7 +61,7 @@
 
 - (int) poisonDamage
 {
-  return MAX(_damage, _percent * (self.belongsToPlayer ? self.enemy.maxHealth : self.player.maxHealth));
+  return MAX(_damage, _percent * self.opponentPlayer.maxHealth);
 }
 
 - (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute

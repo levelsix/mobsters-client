@@ -321,6 +321,9 @@
 
 - (void) dealQuickAttack
 {
+  [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
+  [self.battleLayer.orbLayer disallowInput];
+  
   if (self.belongsToPlayer)
     [self.playerSprite performFarAttackAnimationWithStrength:0.f shouldEvade:NO enemy:self.enemySprite
                                                       target:self selector:@selector(dealQuickAttack1) animCompletion:nil];
