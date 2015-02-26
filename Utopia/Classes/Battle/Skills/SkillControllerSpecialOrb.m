@@ -102,6 +102,10 @@
       [self spawnSpecialOrbs:orbsToSpawn withTarget:nil andSelector:nil];
     else
       [self spawnSpecialOrbs:orbsToSpawn withTarget:self andSelector:@selector(skillTriggerFinishedActivated)];
+    
+    if ([self doesRefresh])
+      [self resetOrbCounter];
+    
     return YES;
   }
   return [super activate];
@@ -113,6 +117,13 @@
   
   BattleOrbLayout* layout = self.battleLayer.orbLayer.layout;
   BattleOrb* orb;
+  
+  if (count == 0)
+  {
+    if (target && selector)
+      SUPPRESS_PERFORM_SELECTOR_LEAK_WARNING([target performSelector:selector withObject:nil];);
+  }
+  
   for (NSInteger n = 0; n < count; ++n)
   {
     orb = [self pickOrb:layout];

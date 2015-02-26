@@ -257,15 +257,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
       _turnsCounter++;
   };
   
-  // Update specials if needed and only then trigger skill
-  if (trigger == SkillTriggerPointEndOfPlayerMove)
-  {
-    [self updateSpecialsWithCompletion:^(BOOL triggered, id params) {
-      [self triggerSkillsInternal:trigger withCompletion:newBlock];
-    }];
-  }
-  else
-    [self triggerSkillsInternal:trigger withCompletion:newBlock];
+  [self triggerSkillsInternal:trigger withCompletion:newBlock];
 }
 
 - (void) triggerSkillsInternal:(SkillTriggerPoint)trigger withCompletion:(SkillControllerBlock)completion
@@ -629,11 +621,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
 - (BOOL) cakeKidSchedule
 {
   return (_enemySkillController && [_enemySkillController isKindOfClass:[SkillCakeDrop class]]);
-}
-
-- (void) updateSpecialsWithCompletion:(SkillControllerBlock)completion
-{
-  [SkillBombs updateBombs:_battleLayer withCompletion:completion];
 }
 
 
