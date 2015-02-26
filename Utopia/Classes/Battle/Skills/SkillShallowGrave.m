@@ -75,7 +75,7 @@ static const NSInteger kGraveOrbsMaxSearchIterations = 256;
     {
       if (execute)
       {
-        [self tickDuration];
+//        [self tickDuration];
         [self showLogo];
         [self performAfterDelay:.3f block:^{
           [self skillTriggerFinished];
