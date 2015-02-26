@@ -1836,6 +1836,7 @@ static ResourceStorageProto* defaultResourceStorageProtoInstance = nil;
 @property int32_t capacity;
 @property int32_t daysOfDuration;
 @property int32_t daysForRenewal;
+@property (strong) NSString* iapProductId;
 @end
 
 @implementation MoneyTreeProto
@@ -1875,6 +1876,13 @@ static ResourceStorageProto* defaultResourceStorageProtoInstance = nil;
   hasDaysForRenewal_ = !!value_;
 }
 @synthesize daysForRenewal;
+- (BOOL) hasIapProductId {
+  return !!hasIapProductId_;
+}
+- (void) setHasIapProductId:(BOOL) value_ {
+  hasIapProductId_ = !!value_;
+}
+@synthesize iapProductId;
 - (id) init {
   if ((self = [super init])) {
     self.structInfo = [StructureInfoProto defaultInstance];
@@ -1882,6 +1890,7 @@ static ResourceStorageProto* defaultResourceStorageProtoInstance = nil;
     self.capacity = 0;
     self.daysOfDuration = 0;
     self.daysForRenewal = 0;
+    self.iapProductId = @"";
   }
   return self;
 }
@@ -1916,6 +1925,9 @@ static MoneyTreeProto* defaultMoneyTreeProtoInstance = nil;
   if (self.hasDaysForRenewal) {
     [output writeInt32:5 value:self.daysForRenewal];
   }
+  if (self.hasIapProductId) {
+    [output writeString:6 value:self.iapProductId];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -1939,6 +1951,9 @@ static MoneyTreeProto* defaultMoneyTreeProtoInstance = nil;
   }
   if (self.hasDaysForRenewal) {
     size_ += computeInt32Size(5, self.daysForRenewal);
+  }
+  if (self.hasIapProductId) {
+    size_ += computeStringSize(6, self.iapProductId);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -1993,6 +2008,9 @@ static MoneyTreeProto* defaultMoneyTreeProtoInstance = nil;
   if (self.hasDaysForRenewal) {
     [output appendFormat:@"%@%@: %@\n", indent, @"daysForRenewal", [NSNumber numberWithInteger:self.daysForRenewal]];
   }
+  if (self.hasIapProductId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"iapProductId", self.iapProductId];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -2014,6 +2032,8 @@ static MoneyTreeProto* defaultMoneyTreeProtoInstance = nil;
       (!self.hasDaysOfDuration || self.daysOfDuration == otherMessage.daysOfDuration) &&
       self.hasDaysForRenewal == otherMessage.hasDaysForRenewal &&
       (!self.hasDaysForRenewal || self.daysForRenewal == otherMessage.daysForRenewal) &&
+      self.hasIapProductId == otherMessage.hasIapProductId &&
+      (!self.hasIapProductId || [self.iapProductId isEqual:otherMessage.iapProductId]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -2032,6 +2052,9 @@ static MoneyTreeProto* defaultMoneyTreeProtoInstance = nil;
   }
   if (self.hasDaysForRenewal) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.daysForRenewal] hash];
+  }
+  if (self.hasIapProductId) {
+    hashCode = hashCode * 31 + [self.iapProductId hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -2091,6 +2114,9 @@ static MoneyTreeProto* defaultMoneyTreeProtoInstance = nil;
   if (other.hasDaysForRenewal) {
     [self setDaysForRenewal:other.daysForRenewal];
   }
+  if (other.hasIapProductId) {
+    [self setIapProductId:other.iapProductId];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -2135,6 +2161,10 @@ static MoneyTreeProto* defaultMoneyTreeProtoInstance = nil;
       }
       case 40: {
         [self setDaysForRenewal:[input readInt32]];
+        break;
+      }
+      case 50: {
+        [self setIapProductId:[input readString]];
         break;
       }
     }
@@ -2232,6 +2262,22 @@ static MoneyTreeProto* defaultMoneyTreeProtoInstance = nil;
 - (MoneyTreeProto_Builder*) clearDaysForRenewal {
   result.hasDaysForRenewal = NO;
   result.daysForRenewal = 0;
+  return self;
+}
+- (BOOL) hasIapProductId {
+  return result.hasIapProductId;
+}
+- (NSString*) iapProductId {
+  return result.iapProductId;
+}
+- (MoneyTreeProto_Builder*) setIapProductId:(NSString*) value {
+  result.hasIapProductId = YES;
+  result.iapProductId = value;
+  return self;
+}
+- (MoneyTreeProto_Builder*) clearIapProductId {
+  result.hasIapProductId = NO;
+  result.iapProductId = @"";
   return self;
 }
 @end

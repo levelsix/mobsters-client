@@ -468,11 +468,13 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
   BOOL hasCapacity_:1;
   BOOL hasDaysOfDuration_:1;
   BOOL hasDaysForRenewal_:1;
+  BOOL hasIapProductId_:1;
   BOOL hasStructInfo_:1;
   Float32 productionRate;
   int32_t capacity;
   int32_t daysOfDuration;
   int32_t daysForRenewal;
+  NSString* iapProductId;
   StructureInfoProto* structInfo;
 }
 - (BOOL) hasStructInfo;
@@ -480,11 +482,13 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (BOOL) hasCapacity;
 - (BOOL) hasDaysOfDuration;
 - (BOOL) hasDaysForRenewal;
+- (BOOL) hasIapProductId;
 @property (readonly, strong) StructureInfoProto* structInfo;
 @property (readonly) Float32 productionRate;
 @property (readonly) int32_t capacity;
 @property (readonly) int32_t daysOfDuration;
 @property (readonly) int32_t daysForRenewal;
+@property (readonly, strong) NSString* iapProductId;
 
 + (MoneyTreeProto*) defaultInstance;
 - (MoneyTreeProto*) defaultInstance;
@@ -547,6 +551,11 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (int32_t) daysForRenewal;
 - (MoneyTreeProto_Builder*) setDaysForRenewal:(int32_t) value;
 - (MoneyTreeProto_Builder*) clearDaysForRenewal;
+
+- (BOOL) hasIapProductId;
+- (NSString*) iapProductId;
+- (MoneyTreeProto_Builder*) setIapProductId:(NSString*) value;
+- (MoneyTreeProto_Builder*) clearIapProductId;
 @end
 
 @interface HospitalProto : PBGeneratedMessage {

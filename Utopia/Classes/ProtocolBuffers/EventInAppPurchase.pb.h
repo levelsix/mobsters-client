@@ -168,12 +168,14 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
   BOOL hasLocalcurrency_:1;
   BOOL hasLocale_:1;
   BOOL hasIpaddr_:1;
+  BOOL hasIapProductId_:1;
   BOOL hasSender_:1;
   NSString* receipt;
   NSString* localcents;
   NSString* localcurrency;
   NSString* locale;
   NSString* ipaddr;
+  NSString* iapProductId;
   MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
@@ -182,12 +184,14 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 - (BOOL) hasLocalcurrency;
 - (BOOL) hasLocale;
 - (BOOL) hasIpaddr;
+- (BOOL) hasIapProductId;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly, strong) NSString* receipt;
 @property (readonly, strong) NSString* localcents;
 @property (readonly, strong) NSString* localcurrency;
 @property (readonly, strong) NSString* locale;
 @property (readonly, strong) NSString* ipaddr;
+@property (readonly, strong) NSString* iapProductId;
 
 + (InAppPurchaseRequestProto*) defaultInstance;
 - (InAppPurchaseRequestProto*) defaultInstance;
@@ -255,6 +259,11 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 - (NSString*) ipaddr;
 - (InAppPurchaseRequestProto_Builder*) setIpaddr:(NSString*) value;
 - (InAppPurchaseRequestProto_Builder*) clearIpaddr;
+
+- (BOOL) hasIapProductId;
+- (NSString*) iapProductId;
+- (InAppPurchaseRequestProto_Builder*) setIapProductId:(NSString*) value;
+- (InAppPurchaseRequestProto_Builder*) clearIapProductId;
 @end
 
 @interface InAppPurchaseResponseProto : PBGeneratedMessage {
