@@ -56,6 +56,11 @@
   } else {
     self.buttonLabel.text = [itemObject buttonText];
     
+    self.useButton.type = 0;
+    if (available && [itemObject isKindOfClass:[UserItem class]]) {
+      self.useButton.type = [(UserItem *)itemObject staticItem].itemType;
+    }
+    
     if (!available) {
       [self.useButton setImage:[Globals imageNamed:@"greyitemsbutton.png"] forState:UIControlStateNormal];
       self.buttonLabel.textColor = [UIColor colorWithHexString:@"666666"];

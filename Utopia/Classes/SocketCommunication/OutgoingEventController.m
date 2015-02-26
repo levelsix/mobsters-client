@@ -1299,6 +1299,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     
     [AchievementUtil checkSolicitedClanHelp];
     
+    [SoundEngine helpRequested];
+    
     LNLog(@"Soliciting help for %d timers.", (int)clanHelpNotices.count);
   }
 }

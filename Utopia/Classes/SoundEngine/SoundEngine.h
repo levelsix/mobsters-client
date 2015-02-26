@@ -49,13 +49,18 @@ typedef enum {
 
 + (void) enhanceFlying;
 
++ (void) helpRequested;
 + (void) freeSpeedupAvailable;
+
 + (void) gachaReveal;
 + (void) gachaSpinStart;
 + (void) secretGiftClicked;
 + (void) secretGiftCollectClicked;
+
 + (void) itemSelectUseGems;
 + (void) itemSelectUseOil;
++ (void) itemSelectUseCash;
++ (void) itemSelectUseSpeedup;
 
 + (void) structSpeedupConstruction;
 + (void) structUpgradeClicked;
@@ -86,5 +91,8 @@ typedef enum {
 + (void) puzzleWinLoseUI;
 + (void) puzzleYouWon;
 + (void) puzzleYouLose;
++ (void) puzzleRainbowCreate;
++ (void) puzzleGrenadeCreate;
++ (void) puzzleRocketCreate;;
 
 @end

@@ -25,7 +25,7 @@
 @property (nonatomic, retain) IBOutlet UILabel *quantityLabel;
 
 @property (nonatomic, retain) IBOutlet UILabel *buttonLabel;
-@property (nonatomic, retain) IBOutlet UIButton *useButton;
+@property (nonatomic, retain) IBOutlet ItemSelectButton *useButton;
 
 @property (nonatomic, retain) IBOutlet UILabel *gemsLabel;
 @property (nonatomic, retain) IBOutlet UILabel *freeLabel;

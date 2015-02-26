@@ -418,6 +418,15 @@
      [CCActionSequence actions:
       [CCActionEaseOut actionWithAction:[CCActionScaleTo actionWithDuration:duration scale:1.3]],
       [CCActionEaseIn actionWithAction:[CCActionScaleTo actionWithDuration:duration scale:1]], nil]];
+    
+    if (orb.powerupType == PowerupTypeHorizontalLine ||
+        orb.powerupType == PowerupTypeVerticalLine) {
+      [SoundEngine puzzleRocketCreate];
+    } else if (orb.powerupType == PowerupTypeExplosion) {
+      [SoundEngine puzzleGrenadeCreate];
+    } else if (orb.powerupType == PowerupTypeAllOfOneColor) {
+      [SoundEngine puzzleRainbowCreate];
+    }
   }
   
   _matchesCompletionBlock = completion;

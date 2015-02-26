@@ -267,15 +267,14 @@
     NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
     int lastKey = (int)[def integerForKey:LAST_ELEM_KEY];
     [def setInteger:bestElem.mapElementId forKey:LAST_ELEM_KEY];
+    
     if (lastKey == bestElem.mapElementId-1) {
       AttackMapIconView *prevIcon = (AttackMapIconView *)[self.mapScrollView viewWithTag:bestElem.mapElementId-1];
       [self createMyPositionViewFromIcon:prevIcon toIcon:icon];
       icon = prevIcon;
     } else {
       [self createMyPositionViewForIcon:icon];
-    }
-    
-    if (!((self.evoEventView && !self.evoEventView.hidden) || (self.enhanceEventView && !self.enhanceEventView.hidden))) {
+      
       [self cityClicked:icon];
     }
   } else {
@@ -340,7 +339,6 @@
   FullTaskProto *task = [gs taskWithId:elem.taskId];
   
   [tIcon updateForTaskMapElement:elem task:task isLocked:YES];
-  _curEventView.userInteractionEnabled = NO;
   
   [self createMyPositionViewForIcon:fIcon];
   
@@ -349,7 +347,6 @@
     self.myPositionView.center = ccpAdd(tIcon.center, diff);
   } completion:^(BOOL finished) {
     [tIcon updateForTaskMapElement:elem task:task isLocked:NO];
-    _curEventView.userInteractionEnabled = YES;
     
     [self cityClicked:tIcon];
   }];
