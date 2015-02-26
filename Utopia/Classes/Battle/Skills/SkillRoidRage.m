@@ -76,12 +76,11 @@
 
 - (void) removeVisualEffects
 {
-  BattleSprite* owner = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
-  
   // Back to original size and color
-  [owner.sprite runAction:[CCActionEaseBounceIn actionWithAction:[CCActionEaseBounceOut actionWithAction:[CCActionScaleTo actionWithDuration:0.5 scale:1.0]]]];
-  [owner.sprite stopActionByTag:1914];
-  [owner.sprite runAction:[CCActionTintTo actionWithDuration:0.3 color:[CCColor whiteColor]]];
+  [self.userSprite runAction:[CCActionEaseBounceIn actionWithAction:[CCActionEaseBounceOut actionWithAction:[CCActionScaleTo actionWithDuration:0.5 scale:1.0]]]];
+  
+  [self.userSprite.sprite stopActionByTag:1914];
+  [self.userSprite.sprite runAction:[CCActionTintTo actionWithDuration:0.3 color:[CCColor whiteColor]]];
   
   [super removeVisualEffects];
 }

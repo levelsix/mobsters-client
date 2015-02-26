@@ -38,6 +38,11 @@
   return [NSSet setWithObjects:@(SideEffectTypeBuffThickSkin), nil];
 }
 
+- (TickTrigger)tickTrigger
+{
+  return TickTriggerAfterOpponentTurn;
+}
+
 -(NSInteger)modifyDamage:(NSInteger)damage forPlayer:(BOOL)player
 {
   if ([self isActive] && player != self.belongsToPlayer)
