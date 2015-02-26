@@ -338,7 +338,9 @@
   
   [self removeQueueNode];
   
-  [self destroyEnemyStatueWithExplosion:YES];
+  if (self.statueNode) {
+    [self destroyEnemyStatueWithExplosion:YES];
+  }
   
   for (BattleSprite *bs in self.enemyTeamSprites) {
     CGPoint startPos = bs.position;
@@ -377,8 +379,10 @@
   
   [self removeQueueNode];
   
-  // Explode if the clan statue is first enemy because then enemy can appear from behind the explosion
-  [self destroyEnemyStatueWithExplosion:self.enemyTeamSprites.count == 0];
+  if (self.statueNode) {
+    // Explode if the clan statue is first enemy because then enemy can appear from behind the explosion
+    [self destroyEnemyStatueWithExplosion:self.enemyTeamSprites.count == 0];
+  }
   
   if (self.enemyTeamSprites.count) {
     self.currentEnemy = [self.enemyTeamSprites firstObject];
@@ -760,6 +764,7 @@
                                 [RecursiveFadeTo actionWithDuration:0.3f opacity:0],
                                 [CCActionRemove action], nil]];
   }
+  self.statueNode = nil;
 }
 
 - (void) reachedNextScene {
