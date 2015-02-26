@@ -28,41 +28,29 @@
 {
   [super setValue:value forProperty:property];
   
-  if ([property isEqualToString:@"NUM_ORBS_TO_SPAWN"])
-    _numOrbsToSpawn = value;
   if ([property isEqualToString:@"LIFE_STEAL_AMOUNT"])
     _lifeStealAmount = value;
 }
 
 #pragma mark - Overrides
 
-- (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
+- (SpecialOrbType) specialType
 {
-  if ([super skillCalledWithTrigger:trigger execute:execute])
+  return SpecialOrbTypeLifeSteal;
+}
+
+- (BOOL) doesRefresh
+{
+  return YES;
+}
+
+- (BOOL) skillDefCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
+{
+  if ([super skillDefCalledWithTrigger:trigger execute:execute])
     return YES;
   
-  if (trigger == SkillTriggerPointEndOfPlayerMove)
-  {
-    if ([self skillIsReady])
-    {
-      if (execute)
-      {
-        [self resetOrbCounter];
-        [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
-        [self.battleLayer.orbLayer disallowInput];
-        
-        [self showSkillPopupOverlay:YES withCompletion:^(){
-          [self performAfterDelay:.5f block:^{
-            [self spawnLifeStealOrbs:_numOrbsToSpawn withTarget:self andSelector:@selector(skillTriggerFinishedActivated)];
-          }];
-        }];
-      }
-      return YES;
-    }
-  }
-  
   // End of player turn
-  if (trigger == SkillTriggerPointEndOfPlayerTurn && !self.belongsToPlayer)
+  if (trigger == SkillTriggerPointEndOfPlayerTurn)
   {
     if (execute)
     {
@@ -78,19 +66,6 @@
     return YES;
   }
 
-  if (trigger == SkillTriggerPointEnemyDefeated && !self.belongsToPlayer)
-  {
-    if (execute)
-    {
-      // Remove all life steal orbs added by this enemy
-      [self removeAllLifeStealOrbs];
-      [self performAfterDelay:.3f block:^{
-        [self skillTriggerFinished];
-      }];
-    }
-    return YES;
-  }
-  
   return NO;
 }
 
@@ -103,10 +78,6 @@
 
 - (void) beginLifeSteal
 {
-  [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
-  [self.battleLayer.orbLayer disallowInput];
-  
-  [self showLogo];
   [self beginLifeStealOrbEffect];
 }
 
@@ -252,87 +223,6 @@
 
 - (void) endLifeSteal
 {
-//  [self.battleLayer.orbLayer.bgdLayer turnTheLightsOn];
-//  [self.battleLayer.orbLayer allowInput];
-  
   [self skillTriggerFinished];
 }
-
-- (void) showLogo
-{
-  /*
-  // Display logo
-  CCSprite* logoSprite = [CCSprite spriteWithImageNamed:[self.skillImageNamePrefix stringByAppendingString:kSkillMiniLogoImageNameSuffix]];
-  logoSprite.position = CGPointMake((self.enemySprite.position.x + self.playerSprite.position.x) * .5f + self.playerSprite.contentSize.width * .5f - 10.f,
-                                    (self.playerSprite.position.y + self.enemySprite.position.y) * .5f + self.playerSprite.contentSize.height * .5f);
-  logoSprite.scale = 0.f;
-  [self.playerSprite.parent addChild:logoSprite z:50];
-  
-  // Animate
-  [logoSprite runAction:[CCActionSequence actions:
-                         [CCActionDelay actionWithDuration:.3f],
-                         [CCActionEaseBounceOut actionWithAction:[CCActionScaleTo actionWithDuration:.5f scale:1.f]],
-                         [CCActionDelay actionWithDuration:.5f],
-                         [CCActionEaseIn actionWithAction:[CCActionScaleTo actionWithDuration:.3f scale:0.f]],
-                         [CCActionRemove action],
-                         nil]];
-   */
-}
-
-- (void) spawnLifeStealOrbs:(NSInteger)count withTarget:(id)target andSelector:(SEL)selector
-{
-  [self preseedRandomization];
-  
-  for (NSInteger n = 0; n < count; ++n)
-  {
-    BattleOrbLayout* layout = self.battleLayer.orbLayer.layout;
-    BattleOrb* orb = [layout findOrbWithColorPreference:self.orbColor isInitialSkill:YES];
-    
-    // Nothing found (just in case), continue and perform selector if the last life steal orb
-    if (!orb)
-    {
-      if (n == count - 1)
-        if (target && selector)
-          SUPPRESS_PERFORM_SELECTOR_LEAK_WARNING([target performSelector:selector withObject:nil];);
-      continue;
-    }
-    
-    // Update data
-    orb.specialOrbType = SpecialOrbTypeLifeSteal;
-    orb.orbColor = self.orbColor;
-    
-    // Update tile
-    OrbBgdLayer* bgdLayer = self.battleLayer.orbLayer.bgdLayer;
-    BattleTile* tile = [layout tileAtColumn:orb.column row:orb.row];
-    [bgdLayer updateTile:tile keepLit:NO withTarget:(n == count - 1) ? target : nil andCallback:selector];
-    
-    // Update orb
-    [self performAfterDelay:.5f block:^{
-      OrbSprite* orbSprite = [self.battleLayer.orbLayer.swipeLayer spriteForOrb:orb];
-      [orbSprite reloadSprite:YES];
-    }];
-  }
-}
-
-- (void) removeAllLifeStealOrbs
-{
-  BattleOrbLayout* layout = self.battleLayer.orbLayer.layout;
-  OrbSwipeLayer* layer = self.battleLayer.orbLayer.swipeLayer;
-  
-  for (NSInteger column = 0; column < layout.numColumns; ++column)
-  {
-    for (NSInteger row = 0; row < layout.numRows; ++row)
-    {
-      BattleOrb* orb = [layout orbAtColumn:column row:row];
-      if (orb.specialOrbType == SpecialOrbTypeLifeSteal)
-      {
-        orb.specialOrbType = SpecialOrbTypeNone;
-        
-        OrbSprite* orbSprite = [layer spriteForOrb:orb];
-        [orbSprite reloadSprite:YES];
-      }
-    }
-  }
-}
-
 @end

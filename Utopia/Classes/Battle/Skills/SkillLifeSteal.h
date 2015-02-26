@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 LVL6. All rights reserved.
 //
 
-#import "SkillControllerActive.h"
+#import "SkillControllerSpecialOrb.h"
 
-@interface SkillLifeSteal : SkillControllerActive
+@interface SkillLifeSteal : SkillControllerSpecialOrb
 {
   // Properties (general)
   NSInteger _numOrbsToSpawn;
