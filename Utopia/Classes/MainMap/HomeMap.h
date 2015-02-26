@@ -79,6 +79,7 @@
 
 - (BOOL) speedUpBuildingQueueUp:(BOOL)queueUp;
 - (void) scrollScreenForTouch:(CGPoint)pt;
+- (void) retrieveFromMoneyTree:(MoneyTreeBuilding *)mt;
 - (void) retrieveFromBuilding:(HomeBuilding *)hb;
 - (void) invalidateAllTimers;
 

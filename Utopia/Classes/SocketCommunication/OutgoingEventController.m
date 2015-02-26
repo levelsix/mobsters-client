@@ -281,15 +281,19 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   if (!userStruct.userStructUuid) {
     [Globals popupMessage:@"Waiting for confirmation of purchase!"];
-  } else if (fsp.structType != StructureInfoProto_StructTypeResourceGenerator) {
+  } else if (fsp.structType != StructureInfoProto_StructTypeResourceGenerator && fsp.structType != StructureInfoProto_StructTypeMoneyTree) {
     [Globals popupMessage:@"This building is not a resource generator"];
   } else if (![userStruct.userUuid isEqualToString:gs.userUuid]) {
     [Globals popupMessage:@"This is not your building!"];
   } else if (userStruct.isComplete && userStruct.lastRetrieved) {
     int64_t ms = [self getCurrentMilliseconds];
     int numRes = userStruct.numResourcesAvailable;
-    int maxCollect = gen.resourceType == ResourceTypeCash ? gs.maxCash-gs.cash : gs.maxOil-gs.oil;
-    amountCollected = MIN(numRes, maxCollect);
+    if(fsp.structType == StructureInfoProto_StructTypeResourceGenerator) {
+      int maxCollect = gen.resourceType == ResourceTypeCash ? gs.maxCash-gs.cash : gs.maxOil-gs.oil;
+      amountCollected = MIN(numRes, maxCollect);
+    } else if (fsp.structType == StructureInfoProto_StructTypeMoneyTree) {
+      amountCollected = numRes;
+    }
     
     if (amountCollected > 0) {
       ms -= (int)((numRes-amountCollected)/gen.productionRate*3600*1000);
@@ -298,18 +302,25 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       userStruct.lastRetrieved = [MSDate dateWithTimeIntervalSince1970:ms/1000.0];
       
       // Update game state
-      FullUserUpdate *up = nil;
-      int oilChange = 0, cashChange = 0;
-      if (gen.resourceType == ResourceTypeCash) {
-        up = [CashUpdate updateWithTag:tag change:amountCollected];
-        cashChange = amountCollected;
-      } else if (gen.resourceType == ResourceTypeOil) {
-        up = [OilUpdate updateWithTag:tag change:amountCollected];
-        oilChange = amountCollected;
+      int oilChange = 0, cashChange = 0, gemChange = 0;
+      if(fsp.structType == StructureInfoProto_StructTypeResourceGenerator) {
+        FullUserUpdate *up = nil;
+        if (gen.resourceType == ResourceTypeCash) {
+          up = [CashUpdate updateWithTag:tag change:amountCollected];
+          cashChange = amountCollected;
+        } else if (gen.resourceType == ResourceTypeOil) {
+          up = [OilUpdate updateWithTag:tag change:amountCollected];
+          oilChange = amountCollected;
+        }
+        [gs addUnrespondedUpdate:up];
+      } else if (fsp.structType == StructureInfoProto_StructTypeMoneyTree) {
+        GemsUpdate *gu = [GemsUpdate updateWithTag:tag change:amountCollected];
+        gemChange = amountCollected;
+        [gs addUnrespondedUpdate:gu];
       }
-      [gs addUnrespondedUpdate:up];
       
-      [Analytics retrieveCurrency:fsp.structId cashChange:cashChange cashBalance:gs.cash oilChange:oilChange oilBalance:gs.oil];
+      [Analytics retrieveCurrency:fsp.structId cashChange:cashChange cashBalance:gs.cash oilChange:oilChange oilBalance:gs.oil gemChange:gemChange gemBalance:gs.gems];
+      
     }
   } else {
     [Globals popupMessage:[NSString stringWithFormat:@"Building %@ is not ready to be retrieved", userStruct.userStructUuid]];

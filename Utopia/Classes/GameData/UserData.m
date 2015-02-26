@@ -861,11 +861,11 @@
 
 - (int) numResourcesAvailable {
   ResourceGeneratorProto *gen = (ResourceGeneratorProto *)self.staticStruct;
-  if (![gen isKindOfClass:[ResourceGeneratorProto class]]) {
+  if (![gen isKindOfClass:[ResourceGeneratorProto class]] && ![gen isKindOfClass:[MoneyTreeProto class]]) {
     return 0;
   }
   float secs = -[self.lastRetrieved timeIntervalSinceNow];
-  int numRes = gen.productionRate/3600.f*secs;
+  int numRes = roundf(gen.productionRate/3600.f*secs);
   return MIN(numRes, gen.capacity);
 }
 

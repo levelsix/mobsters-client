@@ -77,6 +77,10 @@
       buildingClass = [ClanHouseBuilding class];
       break;
       
+    case StructureInfoProto_StructTypeMoneyTree:
+      buildingClass = [MoneyTreeBuilding class];
+      break;
+      
     default:
       buildingClass = [HomeBuilding class];
       break;
@@ -569,6 +573,60 @@
 - (void) setIsConstructing:(BOOL)isConstructing {
   [super setIsConstructing:isConstructing];
   self.retrievable = NO;
+}
+
+@end
+
+@implementation MoneyTreeBuilding
+
+- (void) setupBuildingSprite:(NSString *)fileName {
+  [self.buildingSprite removeFromParent];
+  
+  fileName = fileName.stringByDeletingPathExtension;
+  
+  NSString *spritesheetName = [NSString stringWithFormat:@"%@.plist", fileName];
+  [Globals checkAndLoadSpriteSheet:spritesheetName completion:^(BOOL success) {
+    if (success) {
+      [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:spritesheetName];
+      CCAnimation *anim = [CCAnimation animationWithSpritePrefix:fileName delay:0.2];
+      
+      if (anim.frames.count) {
+        CCSprite *spr = [CCSprite spriteWithSpriteFrame:[anim.frames[0] spriteFrame]];
+        [spr runAction:[CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:anim]]];
+        [self addChild:spr];
+        self.buildingSprite = spr;
+      }
+      
+      [self adjustBuildingSprite];
+    }
+  }];
+}
+
+- (void) initializeRetrieveBubble {
+  float pxlOffset = 16;
+  
+  NSString *fileName = @"gems ready";
+  
+  if (!_retrieveBubble || ![_retrieveBubble.name isEqualToString:fileName]) {
+    // Make sure to cleanup just in case
+    [_retrieveBubble removeFromParent];
+    
+    _retrieveBubble = [CCButton buttonWithTitle:nil spriteFrame:[CCSpriteFrame frameWithImageNamed:fileName] highlightedSpriteFrame:nil disabledSpriteFrame:nil];
+    [_retrieveBubble setTarget:self selector:@selector(select)];
+    [self addChild:_retrieveBubble z:1 name:fileName];
+    _retrieveBubble.anchorPoint = ccp(0.5, 0);
+    _retrieveBubble.position = ccp(self.contentSize.width/2,self.contentSize.height-pxlOffset);
+  }
+}
+
+- (BOOL) select {
+  if (self.retrievable) {
+    [_homeMap retrieveFromMoneyTree:self];
+    
+    return NO;
+  } else {
+    return [super select];
+  }
 }
 
 @end

@@ -1222,6 +1222,40 @@
   }
 }
 
+- (void) retrieveFromMoneyTree:(MoneyTreeBuilding *)mt {
+  ResourceType resType = ResourceTypeGems;
+  
+  int amountCollected = [[OutgoingEventController sharedOutgoingEventController] retrieveFromNormStructure:mt.userStruct];
+  mt.retrievable = NO;
+  
+  if (amountCollected > 0) {
+    
+    // Spawn a label on building
+    NSString *fnt = resType == ResourceTypeCash ? @"cashcollected.fnt" : @"oilcollected.fnt";
+    CCLabelBMFont *label = [CCLabelBMFont labelWithString:[Globals commafyNumber:amountCollected] fntFile:fnt];
+    [self addChild:label z:1000];
+    label.position = ccp(mt.position.x, mt.position.y+mt.contentSize.height*4/5);
+    
+    [label runAction:[CCActionSequence actions:
+                      [CCActionSpawn actions:
+                       [CCActionEaseElasticOut actionWithAction:[CCActionScaleTo actionWithDuration:1.2f scale:1]],
+                       [CCActionSequence actions:
+                        [CCActionDelay actionWithDuration:1.f],
+                        [CCActionFadeOut actionWithDuration:1.f], nil],
+                       [CCActionMoveBy actionWithDuration:2.f position:ccp(0,40)],nil],
+                      [CCActionCallFunc actionWithTarget:label selector:@selector(removeFromParent)], nil]];
+    
+    [AchievementUtil checkCollectResource:resType amount:amountCollected];
+  } else {
+    //this section is for when storages are full but there is infinite gem storage
+    [Globals addAlertNotification:@"something went wrong in the money tree"];
+  }
+//  [SoundEngine structCollectOil];
+  
+  [self setupIncomeTimerForBuilding:mt];
+  
+}
+
 - (void) retrieveFromBuilding:(ResourceGeneratorBuilding *)mb {
   GameState *gs = [GameState sharedGameState];
   ResourceType resType = ((ResourceGeneratorProto *)mb.userStruct.staticStruct).resourceType;

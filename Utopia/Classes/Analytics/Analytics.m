@@ -534,8 +534,8 @@ static NSDate *timeSinceLastTutStep = nil;
   [self gameTransactionWithTransactionType:@"remove_obstacle" context:nil cashChange:cashChange cashBalance:cashBalance oilChange:oilChange oilBalance:oilBalance gemChange:gemChange gemBalance:gemBalance extraParams:@{@"id": @(obstacleId)}];
 }
 
-+ (void) retrieveCurrency:(int)buildingId cashChange:(int)cashChange cashBalance:(int)cashBalance oilChange:(int)oilChange oilBalance:(int)oilBalance {
-  [self gameTransactionWithTransactionType:@"collect_currency" context:nil cashChange:cashChange cashBalance:cashBalance oilChange:oilChange oilBalance:oilBalance gemChange:0 gemBalance:0 extraParams:@{@"id": @(buildingId)}];
++ (void) retrieveCurrency:(int)buildingId cashChange:(int)cashChange cashBalance:(int)cashBalance oilChange:(int)oilChange oilBalance:(int)oilBalance gemChange:(int)gemChange gemBalance:(int)gemBalance{
+  [self gameTransactionWithTransactionType:@"collect_currency" context:nil cashChange:cashChange cashBalance:cashBalance oilChange:oilChange oilBalance:oilBalance gemChange:gemChange gemBalance:gemBalance extraParams:@{@"id": @(buildingId)}];
 }
 
 

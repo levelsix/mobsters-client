@@ -1196,7 +1196,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (void) addToStaticStructs:(NSArray *)arr {
   for (id<StaticStructure> p in arr) {
-    NSLog(@"%@",p.structInfo.name);
     [self.staticStructs setObject:p forKey:@(p.structInfo.structId)];
   }
 }

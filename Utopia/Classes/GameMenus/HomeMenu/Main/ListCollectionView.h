@@ -94,7 +94,7 @@
 - (void) listView:(ListCollectionView *)listView updateFooterView:(UICollectionReusableView *)footerView;
 - (void) listView:(ListCollectionView *)listView updateHeaderView:(UICollectionReusableView *)headerView;
 
-- (BOOL) testForMoneyTreeWithIndex:(NSInteger)index;
+- (CGSize) specialCellSizeWithIndex:(NSInteger)index;
 
 @end
 

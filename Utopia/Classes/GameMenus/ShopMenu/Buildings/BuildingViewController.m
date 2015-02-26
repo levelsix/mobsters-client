@@ -11,6 +11,9 @@
 #import "GameState.h"
 #import "Globals.h"
 
+#define TREE_WIDTH 200
+#define TREE_HEIGHT 180
+
 @implementation BuildingViewController
 
 - (void) viewDidLoad {
@@ -152,12 +155,12 @@
 
 #pragma mark - List view delegate
 
-- (BOOL) testForMoneyTreeWithIndex:(NSInteger)index {
+- (CGSize) specialCellSizeWithIndex:(NSInteger)index {
   StructureInfoProto *sip = self.staticStructs[index];
   if(sip.structType == StructureInfoProto_StructTypeMoneyTree){
-    return YES;
+    return CGSizeMake(TREE_WIDTH, TREE_HEIGHT);
   }
-  return NO;
+  return CGSizeMake(0, 0);
 }
 
 - (void) listView:(ListCollectionView *)listView updateCell:(BuildingCardCell *)cell forIndexPath:(NSIndexPath *)indexPath listObject:(StructureInfoProto *)listObject {

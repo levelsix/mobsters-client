@@ -58,6 +58,10 @@
 
 @end
 
+@interface MoneyTreeBuilding : ResourceGeneratorBuilding
+
+@end
+
 @interface ResourceStorageBuilding : HomeBuilding
 
 @property (nonatomic, retain) CCAnimation *anim;

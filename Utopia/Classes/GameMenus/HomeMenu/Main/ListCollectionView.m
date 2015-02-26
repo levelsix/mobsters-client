@@ -227,9 +227,10 @@
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
   //special size for the money tree card
-  if([self.delegate respondsToSelector:@selector(testForMoneyTreeWithIndex:)]) {
-    if([self.delegate testForMoneyTreeWithIndex:indexPath.row]) {
-      return CGSizeMake(TREE_WIDTH, TREE_HEIGHT);
+  if([self.delegate respondsToSelector:@selector(specialCellSizeWithIndex:)]) {
+    CGSize specialSize = [self.delegate specialCellSizeWithIndex:indexPath.row];
+    if(specialSize.width != 0.f && specialSize.width != 0.f) {
+      return specialSize;
     }
   }
   UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)collectionViewLayout;
