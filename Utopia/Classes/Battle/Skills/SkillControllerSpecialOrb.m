@@ -201,7 +201,7 @@
         orb = [layout orbAtColumn:column row:row];
         ++counter;
       }
-      while ((!orb || orb.specialOrbType != SpecialOrbTypeNone || orb.powerupType != PowerupTypeNone || orb.isLocked) &&
+      while ((orb.specialOrbType != SpecialOrbTypeNone || orb.powerupType != PowerupTypeNone || orb.isLocked) &&
              counter < MAX_SEARCH_ITERATIONS);
       
       return orb;

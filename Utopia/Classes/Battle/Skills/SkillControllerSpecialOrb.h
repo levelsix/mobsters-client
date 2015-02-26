@@ -29,6 +29,5 @@ typedef enum {
 - (BOOL) onSpecialOrbCounterFinish:(NSInteger)numOrbs;
 
 - (void) spawnSpecialOrbs:(NSInteger)count withTarget:(id)target andSelector:(SEL)selector;
-- (void) removeSpecialOrbs;
 
 @end

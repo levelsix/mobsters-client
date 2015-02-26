@@ -117,14 +117,13 @@
   return NO;
 }
 
-- (BOOL) endDurationNow
+- (void) endDurationNow
 {
   if (_turnsLeft != 0)
   {
     _turnsLeft = 0;
-    return [self onDurationEnd];
+    [self onDurationEnd];
   }
-  return NO;
 }
 
 - (BOOL) affectsOwner

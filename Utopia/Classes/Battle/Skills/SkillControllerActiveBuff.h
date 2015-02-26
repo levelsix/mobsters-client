@@ -21,7 +21,7 @@ typedef enum {
 - (BOOL) onDurationStart;
 - (BOOL) onDurationReset;
 - (BOOL) onDurationEnd;
-- (BOOL) endDurationNow;
+- (void) endDurationNow;
 - (BOOL) affectsOwner;
 
 - (void) addVisualEffects:(BOOL)finishSkillTrigger;
