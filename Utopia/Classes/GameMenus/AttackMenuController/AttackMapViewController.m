@@ -234,7 +234,7 @@
   GameState *gs = [GameState sharedGameState];
   TaskMapElementProto *bestElem = nil;
   for (TaskMapElementProto *elem in gs.staticMapElements) {
-    if ([gs isTaskUnlocked:elem.taskId]) {
+    if (!elem.isFake && [gs isTaskUnlocked:elem.taskId]) {
       if (!bestElem) {
         bestElem = elem;
       } else {

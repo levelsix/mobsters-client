@@ -272,7 +272,7 @@
                       [bs2 beginWalking];
                       [bs2 runAction:
                        [CCActionSequence actions:
-                        [CCActionMoveTo actionWithDuration:ccpDistance(startPos, bs2.position)/MY_WALKING_SPEED position:startPos],
+                        [CCActionMoveTo actionWithDuration:ccpDistance(startPos, bs2.position)/MY_WALKING_SPEED/1.5f position:startPos],
                         [CCActionCallFunc actionWithTarget:self selector:@selector(enemyTwoAttackEnemyAndRunOut)], nil]];
                     }],
                    nil]];
@@ -283,7 +283,7 @@
   [bs stopWalking];
   [bs restoreStandingFrame:MapDirectionNearRight];
   [self runAction:[CCActionSequence actions:
-                   [CCActionDelay actionWithDuration:0.8f],
+                   [CCActionDelay actionWithDuration:1.f],
                    [CCActionCallBlock actionWithBlock:
                     ^{
                       [self enemyTwoAttackEnemyWithTarget:self selector:@selector(enemyTwoRunOut)];
