@@ -326,13 +326,13 @@
   
   if (self.belongsToPlayer)
     [self.playerSprite performFarAttackAnimationWithStrength:0.f shouldEvade:NO enemy:self.enemySprite
-                                                      target:self selector:@selector(dealQuickAttack1) animCompletion:nil];
+                                                      target:self selector:@selector(quickAttackDealDamage) animCompletion:nil];
   else
     [self.enemySprite performNearAttackAnimationWithEnemy:self.playerSprite shouldReturn:YES shouldEvade:NO shouldFlinch:YES
-                                                   target:self selector:@selector(dealQuickAttack1) animCompletion:nil];
+                                                   target:self selector:@selector(quickAttackDealDamage) animCompletion:nil];
 }
 
-- (void) dealQuickAttack1
+- (void) quickAttackDealDamage
 {
   // Deal damage
   [self.battleLayer dealDamage:self.quickAttackDamage enemyIsAttacker:(!self.belongsToPlayer) usingAbility:YES withTarget:self withSelector:@selector(onFinishQuickAttack)];
