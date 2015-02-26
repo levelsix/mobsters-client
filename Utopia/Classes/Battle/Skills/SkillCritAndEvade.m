@@ -83,18 +83,23 @@
       
       if (_missChance > 0 || _critChance > 0)
       {
-        damage = 0;
-        SkillLogStart(@"Crit and Evade -- Skill caused a miss");
-      }
-      else
-      {
-        // Chance of critical hit
+        // Chance of missing
         float rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
-        if (rand < _critChance)
+        if (rand < _missChance)
         {
-          damage *= _critMultiplier;
-          
-          SkillLogStart(@"Crit and Evade -- Skill caused a critical hit, increasing damage to %ld", (long)damage);        }
+          damage = 0;
+          SkillLogStart(@"Crit and Evade -- Skill caused a miss");
+        }
+        else
+        {
+          // Chance of critical hit
+          float rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
+          if (rand < _critChance)
+          {
+            damage *= _critMultiplier;
+            
+            SkillLogStart(@"Crit and Evade -- Skill caused a critical hit, increasing damage to %ld", (long)damage);        }
+        }
       }
     }
     else // The character defending has the skill
