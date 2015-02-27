@@ -53,7 +53,7 @@
   if (cs.width < ss.width) {
     self.listView.collectionView.scrollEnabled = NO;
     
-    f.size = cs;
+    f.size.width = cs.width;
     f.origin.x = ss.width/2-f.size.width/2;
     self.view.frame = f;
   } else {

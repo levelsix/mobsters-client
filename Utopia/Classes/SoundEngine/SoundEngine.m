@@ -157,6 +157,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(SoundEngine);
   [[SoundEngine sharedSoundEngine] playEffect:@"sfx_attack_ui_slide_out.mp3"];
 }
 
++ (void) helpRequested {
+  [[SoundEngine sharedSoundEngine] playEffect:@"help_requested.mp3"];
+}
+
 + (void) freeSpeedupAvailable {
   [[SoundEngine sharedSoundEngine] playEffect:@"free_speedup_available.mp3"];
 }
@@ -185,6 +189,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(SoundEngine);
 
 + (void) itemSelectUseOil {
   [[SoundEngine sharedSoundEngine] playEffect:@"use_oil.mp3"];
+}
+
++ (void) itemSelectUseCash {
+  [[SoundEngine sharedSoundEngine] playEffect:@"use_cash.mp3"];
+}
+
++ (void) itemSelectUseSpeedup {
+  [[SoundEngine sharedSoundEngine] playEffect:@"use_speedup.mp3"];
 }
 
 #pragma mark - Home building sounds
@@ -306,6 +318,18 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(SoundEngine);
 
 + (void) puzzleYouLose {
   [[SoundEngine sharedSoundEngine] playEffect:@"stg_lose.mp3"];
+}
+
++ (void) puzzleRainbowCreate {
+  [[SoundEngine sharedSoundEngine] playEffect:@"color_bomb_create.mp3"];
+}
+
++ (void) puzzleGrenadeCreate {
+  [[SoundEngine sharedSoundEngine] playEffect:@"grenade_create.mp3"];
+}
+
++ (void) puzzleRocketCreate {
+  [[SoundEngine sharedSoundEngine] playEffect:@"rocket_create.mp3"];
 }
 
 @end

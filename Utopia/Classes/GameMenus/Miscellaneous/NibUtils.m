@@ -1715,10 +1715,16 @@ void undoDelayOnScrollViewHierarchy(UIView *v) {
 
 @end
 
-@implementation OilButton
+@implementation ItemSelectButton
 
 - (void) playSound {
-  [SoundEngine itemSelectUseOil];
+  if (_type == ItemTypeItemOil) {
+    [SoundEngine itemSelectUseOil];
+  } else if (_type == ItemTypeItemCash) {
+    [SoundEngine itemSelectUseCash];
+  } else if (_type == ItemTypeSpeedUp) {
+    [SoundEngine itemSelectUseSpeedup];
+  }
 }
 
 @end

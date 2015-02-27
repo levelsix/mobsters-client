@@ -48,6 +48,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 #ifndef APPSTORE
     [Globals turnOnLogging];
 #endif
+    
+#ifdef DEBUG
+    self.ignorePrerequisites = YES;
+#endif
   }
   return self;
 }
@@ -1713,26 +1717,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       break;
     }
       
-    case StructureInfoProto_StructTypeLab:
-      return thp.numLabs;
-      
-    case StructureInfoProto_StructTypeEvo:
-      return thp.numEvoChambers;
-      
-    case StructureInfoProto_StructTypeTownHall:
-      return 1;
-      
-    case StructureInfoProto_StructTypeTeamCenter:
-      return 1;
-      
-    case StructureInfoProto_StructTypeMiniJob:
-      return 1;
-      
-    case StructureInfoProto_StructTypeClan:
-      return 1;
-      
     default:
-      break;
+      return 1;
   }
   return 0;
 }
@@ -2125,21 +2111,24 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 - (BOOL) isPrerequisiteComplete:(PrereqProto *)prereq {
-  GameState *gs = [GameState sharedGameState];
-  int quantity = 0;
-  
-  if (prereq.prereqGameType == GameTypeStructure) {
-    // Go through struct list
-    for (UserStruct *us in gs.myStructs) {
-      if ([us isAncestorOfStructId:prereq.prereqGameEntityId]) {
-        quantity++;
+  if (!self.ignorePrerequisites) {
+    GameState *gs = [GameState sharedGameState];
+    int quantity = 0;
+    
+    if (prereq.prereqGameType == GameTypeStructure) {
+      // Go through struct list
+      for (UserStruct *us in gs.myStructs) {
+        if ([us isAncestorOfStructId:prereq.prereqGameEntityId]) {
+          quantity++;
+        }
       }
+    } else if (prereq.prereqGameType == GameTypeTask) {
+      quantity = [gs isTaskCompleted:prereq.prereqGameEntityId];
     }
-  } else if (prereq.prereqGameType == GameTypeTask) {
-    quantity = [gs isTaskCompleted:prereq.prereqGameEntityId];
+    
+    return quantity >= prereq.quantity;
   }
-  
-  return quantity >= prereq.quantity;
+  return YES;
 }
 
 - (NSArray *) incompletePrereqsForStructId:(int)structId {

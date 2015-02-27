@@ -164,6 +164,8 @@
 
 @property (nonatomic, assign) int minsToResolicitTeamDonation;
 
+@property (nonatomic, assign) BOOL ignorePrerequisites;
+
 // Monster Constants
 @property (nonatomic, assign) int maxTeamSize;
 @property (nonatomic, assign) int baseInventorySize;

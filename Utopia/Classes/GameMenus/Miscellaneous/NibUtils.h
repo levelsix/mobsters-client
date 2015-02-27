@@ -211,7 +211,9 @@ typedef enum {
 
 @end
 
-@interface OilButton : SoundButton
+@interface ItemSelectButton : SoundButton
+
+@property (nonatomic, assign) ItemType type;
 
 @end
 

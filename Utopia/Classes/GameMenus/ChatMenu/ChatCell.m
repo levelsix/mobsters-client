@@ -83,7 +83,7 @@ static float buttonInitialWidth = 159.f;
   r.size.width = buttonSize.width+7.f;
   self.nameLabel.frame = r;
   
-  CGSize size = [message getSizeWithFont:self.msgLabel.font constrainedToSize:CGSizeMake(_initialMsgLabelWidth, 999)];
+  CGSize size = [message getSizeWithFont:self.msgLabel.font constrainedToSize:CGSizeMake(_initialMsgLabelWidth, 999) lineBreakMode:self.msgLabel.lineBreakMode];
   
   // Do width after we use the current chat subview
   self.msgLabel.height = size.height+3.f;

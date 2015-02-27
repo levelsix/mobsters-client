@@ -47,13 +47,8 @@
 }
 
 - (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell {
-  UIFont *font = chatCell.msgLabel.font;
-  CGRect frame = chatCell.msgLabel.frame;
-  
-  NSString *msg = [self message];
-  CGSize size = [msg getSizeWithFont:font constrainedToSize:CGSizeMake(frame.size.width, 999) lineBreakMode:NSLineBreakByWordWrapping];
-  float height = size.height+frame.origin.y+14.f;
-  return height;
+  [self updateInChatCell:chatCell showsClanTag:NO];
+  return CGRectGetMaxY(chatCell.msgLabel.frame)+14.f;
 }
 
 - (void) markAsRead {
@@ -116,17 +111,8 @@
 }
 
 - (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell {
-  UIFont *font = chatCell.msgLabel.font;
-  CGRect frame = chatCell.msgLabel.frame;
-  
   [self updateInChatCell:chatCell showsClanTag:YES];
-  
-  NSString *msg = [self message];
-  CGSize size = [msg getSizeWithFont:font constrainedToSize:CGSizeMake(frame.size.width, 999) lineBreakMode:NSLineBreakByWordWrapping];
-  float height = size.height+frame.origin.y+14.f;
-  height = MAX(height, CGRectGetMaxY(chatCell.currentChatSubview.frame)+14.f);
-  
-  return height;
+  return CGRectGetMaxY(chatCell.currentChatSubview.frame)+14.f;
 }
 
 - (PrivateChatPostProto *) privateChat {
@@ -266,17 +252,8 @@
 }
 
 - (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell {
-  UIFont *font = chatCell.msgLabel.font;
-  CGRect frame = chatCell.msgLabel.frame;
-  
   [self updateInChatCell:chatCell showsClanTag:YES];
-  
-  NSString *msg = [self message];
-  CGSize size = [msg getSizeWithFont:font constrainedToSize:CGSizeMake(frame.size.width, 999) lineBreakMode:NSLineBreakByWordWrapping];
-  float height = size.height+frame.origin.y+14.f;
-  height = MAX(height, CGRectGetMaxY(chatCell.currentChatSubview.frame)+14.f);
-  
-  return height;
+  return CGRectGetMaxY(chatCell.currentChatSubview.frame)+14.f;
 }
 
 - (PrivateChatPostProto *) privateChat {
@@ -425,17 +402,8 @@
 }
 
 - (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell {
-  UIFont *font = chatCell.msgLabel.font;
-  CGRect frame = chatCell.msgLabel.frame;
-  
   [self updateInChatCell:chatCell showsClanTag:YES];
-  
-  NSString *msg = [self message];
-  CGSize size = [msg getSizeWithFont:font constrainedToSize:CGSizeMake(frame.size.width, 999) lineBreakMode:NSLineBreakByWordWrapping];
-  float height = size.height+frame.origin.y+14.f;
-  height = MAX(height, CGRectGetMaxY(chatCell.currentChatSubview.frame)+14.f);
-  
-  return height;
+  return CGRectGetMaxY(chatCell.currentChatSubview.frame)+14.f;
 }
 
 - (IBAction)attackClicked:(id)sender {
