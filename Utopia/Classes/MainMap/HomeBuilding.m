@@ -483,6 +483,7 @@
       [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:spritesheetName];
       CCAnimation *anim = [CCAnimation animationWithSpritePrefix:fileName delay:0.2];
       
+      //userstruct is null on startup
       ResourceGeneratorProto *res = (ResourceGeneratorProto *)self.userStruct.staticStruct;
       if (res.resourceType == ResourceTypeOil) {
         //    [anim repeatFrames:NSMakeRange(3,2) numTimes:5];
@@ -579,33 +580,31 @@
 
 @implementation MoneyTreeBuilding
 
-- (void) setupBuildingSprite:(NSString *)fileName {
-  [self.buildingSprite removeFromParent];
+- (id) initWithUserStruct:(UserStruct *)userStruct map:(HomeMap *)map {
+  StructureInfoProto *fsp = userStruct.isComplete || !userStruct.staticStruct.structInfo.predecessorStructId ? userStruct.staticStruct.structInfo : userStruct.staticStructForPrevLevel.structInfo;
+  NSString *file = fsp.imgName;
   
-  fileName = fileName.stringByDeletingPathExtension;
+  MoneyTreeProto *mtp = (MoneyTreeProto *)userStruct.staticStruct;
+  int dayInSeconds = 60*60*24;
+  if(-[userStruct.purchaseTime timeIntervalSinceNow] >= dayInSeconds * mtp.daysOfDuration) {
+    file = file.stringByDeletingPathExtension;
+    file = [NSString stringWithFormat:@"%@dead",file];
+  }
   
-  NSString *spritesheetName = [NSString stringWithFormat:@"%@.plist", fileName];
-  [Globals checkAndLoadSpriteSheet:spritesheetName completion:^(BOOL success) {
-    if (success) {
-      [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:spritesheetName];
-      CCAnimation *anim = [CCAnimation animationWithSpritePrefix:fileName delay:0.2];
-      
-      if (anim.frames.count) {
-        CCSprite *spr = [CCSprite spriteWithSpriteFrame:[anim.frames[0] spriteFrame]];
-        [spr runAction:[CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:anim]]];
-        [self addChild:spr];
-        self.buildingSprite = spr;
-      }
-      
-      [self adjustBuildingSprite];
-    }
-  }];
+  CGRect loc = CGRectMake(userStruct.coordinates.x, userStruct.coordinates.y, fsp.width, fsp.height);
+  if ((self = [self initWithFile:file location:loc map:map])) {
+    self.userStruct = userStruct;
+    self.orientation = self.userStruct.orientation;
+    
+    [self adjustBuildingSprite];
+  }
+  return self;
 }
 
 - (void) initializeRetrieveBubble {
   float pxlOffset = 16;
   
-  NSString *fileName = @"gems ready";
+  NSString *fileName = @"oilready.png";
   
   if (!_retrieveBubble || ![_retrieveBubble.name isEqualToString:fileName]) {
     // Make sure to cleanup just in case

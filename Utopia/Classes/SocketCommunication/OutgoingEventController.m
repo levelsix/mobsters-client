@@ -288,6 +288,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   } else if (userStruct.isComplete && userStruct.lastRetrieved) {
     int64_t ms = [self getCurrentMilliseconds];
     int numRes = userStruct.numResourcesAvailable;
+    
     if(fsp.structType == StructureInfoProto_StructTypeResourceGenerator) {
       int maxCollect = gen.resourceType == ResourceTypeCash ? gs.maxCash-gs.cash : gs.maxOil-gs.oil;
       amountCollected = MIN(numRes, maxCollect);

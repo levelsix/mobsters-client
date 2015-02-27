@@ -1218,6 +1218,8 @@
   for (ResourceGeneratorBuilding *res in self.children) {
     if ([res isKindOfClass:[ResourceGeneratorBuilding class]] && res.retrievable) {
       res.retrievable = YES;
+    } else if([res isKindOfClass:[ResourceGeneratorBuilding class]] && res.retrievable) {
+      res.retrievable = YES;
     }
   }
 }
@@ -1457,7 +1459,15 @@
         mb.userStruct.hasShownFreeSpeedup = YES;
       }
     } else {
-      if ([mb isKindOfClass:[ResourceGeneratorBuilding class]]) {
+      if ([mb isKindOfClass:[MoneyTreeBuilding class]]){
+        ResourceGeneratorBuilding *rb = (ResourceGeneratorBuilding *)mb;
+        if (rb.userStruct.numResourcesAvailable > 0) {
+          rb.retrievable = YES;
+        } else {
+          [self setupIncomeTimerForBuilding:rb];
+        }
+      }
+      else if ([mb isKindOfClass:[ResourceGeneratorBuilding class]]) {
         ResourceGeneratorBuilding *rb = (ResourceGeneratorBuilding *)mb;
         if (rb.userStruct.numResourcesAvailable >= RESOURCE_GEN_MIN_AMT) {
           rb.retrievable = YES;
@@ -1477,7 +1487,12 @@
 }
 
 - (void) setupIncomeTimerForBuilding:(ResourceGeneratorBuilding *)mb {
-  int numRes = RESOURCE_GEN_MIN_AMT;
+  int numRes;
+  if ([mb isKindOfClass:[MoneyTreeBuilding class]]){
+    numRes = 1;
+  } else {
+    numRes = RESOURCE_GEN_MIN_AMT;
+  }
   
   NSTimer *timer = nil;
   // Set timer for when building has x resources
