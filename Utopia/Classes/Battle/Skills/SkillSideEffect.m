@@ -101,22 +101,27 @@
       if ([_imageName rangeOfString:@".plist"].location == NSNotFound)
       {
         // Display static image
-        _vfx = [CCSprite spriteWithImageNamed:_imageName];
-        if (_vfx)
-        {
-          _vfx.position = ccpAdd(ccp(sprite.contentSize.width * .5f, belowCharacter ? 0.f : sprite.contentSize.height), _imagePixelOffset);
-          _vfx.zOrder = belowCharacter ? zOrder : SIDE_EFFECT_TOP_MOST_Z_ORDER + zOrder;
-          _vfx.scale = 0.f;
-          
-          CCAction* action = [CCActionSpawn actions:
-                              [CCActionEaseBounceOut actionWithAction:
-                               [CCActionScaleTo actionWithDuration:SIDE_EFFECT_VFX_APPEAR_DURATION scale:SIDE_EFFECT_VFX_SCALE_MODIFIER]],
-                              [CCActionFadeIn actionWithDuration:SIDE_EFFECT_VFX_APPEAR_DURATION], nil];
-          action.tag = SIDE_EFFECT_FADE_IN_ACTION_TAG;
-          [_vfx runAction:action];
-          
-          [sprite addChild:_vfx z:_vfx.zOrder];
-        }
+        [Globals checkAndLoadFile:_imageName useiPhone6Prefix:NO completion:^(BOOL success) {
+          if (success)
+          {
+            _vfx = [CCSprite spriteWithImageNamed:_imageName];
+            if (_vfx)
+            {
+              _vfx.position = ccpAdd(ccp(sprite.contentSize.width * .5f, belowCharacter ? 0.f : sprite.contentSize.height), _imagePixelOffset);
+              _vfx.zOrder = belowCharacter ? zOrder : SIDE_EFFECT_TOP_MOST_Z_ORDER + zOrder;
+              _vfx.scale = 0.f;
+              
+              CCAction* action = [CCActionSpawn actions:
+                                  [CCActionEaseBounceOut actionWithAction:
+                                   [CCActionScaleTo actionWithDuration:SIDE_EFFECT_VFX_APPEAR_DURATION scale:SIDE_EFFECT_VFX_SCALE_MODIFIER]],
+                                  [CCActionFadeIn actionWithDuration:SIDE_EFFECT_VFX_APPEAR_DURATION], nil];
+              action.tag = SIDE_EFFECT_FADE_IN_ACTION_TAG;
+              [_vfx runAction:action];
+              
+              [sprite addChild:_vfx z:_vfx.zOrder];
+            }
+          }
+        }];
       }
       else
       {
@@ -149,23 +154,34 @@
     
     if (_pfxName && ![_pfxName isEqualToString:@""])
     {
-      _pfx = [CCParticleSystem particleWithFile:_pfxName];
-      if (_pfx)
-      {
-        _pfx.position = ccpAdd(ccp(sprite.contentSize.width * .5f, 0.f), _pfxPixelOffset);
-        _pfx.startColor = [CCColor colorWithRed:_pfxColor.red green:_pfxColor.green blue:_pfxColor.blue alpha:_pfx.startColor.alpha];
-        _pfx.endColor = [CCColor colorWithRed:_pfxColor.red green:_pfxColor.green blue:_pfxColor.blue alpha:_pfx.endColor.alpha];
-        _pfx.zOrder = SIDE_EFFECT_TOP_MOST_Z_ORDER;
-        _pfx.scale = SIDE_EFFECT_PFX_SCALE_MODIFIER;
-        [sprite addChild:_pfx z:_pfx.zOrder];
-      }
+      // Display particle effect
+      [Globals checkAndLoadFile:_pfxName useiPhone6Prefix:NO completion:^(BOOL success) {
+        if (success)
+        {
+          _pfx = [CCParticleSystem particleWithFile:_pfxName];
+          if (_pfx)
+          {
+            _pfx.position = ccpAdd(ccp(sprite.contentSize.width * .5f, 0.f), _pfxPixelOffset);
+            _pfx.startColor = [CCColor colorWithRed:_pfxColor.red green:_pfxColor.green blue:_pfxColor.blue alpha:_pfx.startColor.alpha];
+            _pfx.endColor = [CCColor colorWithRed:_pfxColor.red green:_pfxColor.green blue:_pfxColor.blue alpha:_pfx.endColor.alpha];
+            _pfx.zOrder = SIDE_EFFECT_TOP_MOST_Z_ORDER;
+            _pfx.scale = SIDE_EFFECT_PFX_SCALE_MODIFIER;
+            [sprite addChild:_pfx z:_pfx.zOrder];
+          }
+        }
+      }];
     }
     
-    // Display side effect symbol on turn indicators for the affected turns
-    [[[[skillManager battleLayer] hudView] battleScheduleView] displaySideEffectIcon:_iconImageName
-                                                                             withKey:_name
-                                                                     onUpcomingTurns:numTurns
-                                                                           forPlayer:player];
+    [Globals checkAndLoadFile:_iconImageName useiPhone6Prefix:NO completion:^(BOOL success) {
+      if (success)
+      {
+        // Display side effect symbol on turn indicators for the affected turns
+        [[[[skillManager battleLayer] hudView] battleScheduleView] displaySideEffectIcon:_iconImageName
+                                                                                 withKey:_name
+                                                                         onUpcomingTurns:numTurns
+                                                                               forPlayer:player];
+      }
+    }];
   }
 }
 
