@@ -85,17 +85,8 @@
 }
 
 - (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell {
-  UIFont *font = chatCell.msgLabel.font;
-  CGRect frame = chatCell.msgLabel.frame;
-  
   [self updateInChatCell:chatCell showsClanTag:YES];
-  
-  NSString *message = [self message];
-  CGSize size = [message getSizeWithFont:font constrainedToSize:CGSizeMake(frame.size.width, 999) lineBreakMode:NSLineBreakByWordWrapping];
-  float height = size.height+frame.origin.y+14.f;
-  height = MAX(height, CGRectGetMaxY(chatCell.currentChatSubview.frame)+14.f);
-  
-  return height;
+  return CGRectGetMaxY(chatCell.currentChatSubview.frame)+14.f;
 }
 
 - (IBAction) donateClicked:(id)sender {

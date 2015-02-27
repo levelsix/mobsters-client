@@ -38,6 +38,7 @@
 #define GET_ITEM_CODE @"instaitem"
 #define SKILL_CODE @"skill"
 #define LOG_TOGGLE_CODE @"togglelog"
+#define UNLOCK_PREREQS_CODE @"pimpmytown"
 
 #define  LVL6_SHARED_SECRET @"mister8conrad3chan9is1a2very4great5man"
 
@@ -1064,6 +1065,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       } else if ([code isEqualToString:SKIP_QUESTS_CODE]) {
         msg = @"Quests can now be skipped.";
         gs.allowQuestSkipping = YES;
+      } else if ([code isEqualToString:UNLOCK_PREREQS_CODE]) {
+        gl.ignorePrerequisites = !gl.ignorePrerequisites;
+        msg = [NSString stringWithFormat:@"Prerequisites turned %@.", !gl.ignorePrerequisites ? @"on" : @"off"];
       }
 #endif
       

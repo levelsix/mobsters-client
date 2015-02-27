@@ -65,6 +65,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="meep meep meep" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="Juf-fn-qu5" userLabel="Manually adjust, don't make this stretch" customClass="NiceFontLabel17">
                                 <rect key="frame" x="54" y="26" width="234" height="61"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                 <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="deviceRGB"/>
                                 <color key="highlightedColor" red="0.027450980390000001" green="0.36078431370000003" blue="0.44705882349999998" alpha="1" colorSpace="deviceRGB"/>

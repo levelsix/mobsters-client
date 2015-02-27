@@ -25,7 +25,7 @@
                         </connections>
                     </button>
                     <view userInteractionEnabled="NO" contentMode="scaleToFill" id="77X-Cr-qYo" customClass="BadgeIcon">
-                        <rect key="frame" x="212" y="25" width="26" height="26"/>
+                        <rect key="frame" x="199" y="25" width="26" height="26"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bignotificationbubble.png" id="fxa-tr-6tl">

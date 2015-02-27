@@ -79,6 +79,16 @@
   [self updateForPersistentEvent:pe greyscaleString:str];
 }
 
+- (void) setStaticImageForEvent:(PersistentEventProto *)pe {
+  if (pe.type == PersistentEventProto_EventTypeEvolution) {
+    NSString *str = [NSString stringWithFormat:@"Scientist%dBreath%02d.png", (int)pe.monsterElement, 0];
+    [Globals imageNamed:str withView:self.characterIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  } else if (pe.type == PersistentEventProto_EventTypeEnhance) {
+    NSString *str = [NSString stringWithFormat:@"FatBoy%dMove%02d.png", (int)pe.monsterElement, 0];
+    [Globals imageNamed:str withView:self.characterIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  }
+}
+
 - (void) updateForPersistentEvent:(PersistentEventProto *)pe greyscaleString:(NSString *)greyscaleString {
   BOOL greyscale = greyscaleString != nil;
   
@@ -88,64 +98,63 @@
   int cdTimeLeft = [cdTime timeIntervalSinceNow];
   
   if (!greyscale) {
+    [self setStaticImageForEvent:pe];
+    
     if (cdTimeLeft <= 0) {
-      NSMutableArray *imgs = [NSMutableArray array];
+      NSMutableArray *imgNames = [NSMutableArray array];
+      //NSMutableArray *imgs = [NSMutableArray array];
       float speed = 0.1;
       if (pe.type == PersistentEventProto_EventTypeEvolution) {
         for (int i = 0; i <= 12; i++) {
           NSString *str = [NSString stringWithFormat:@"Scientist%dBreath%02d.png", (int)pe.monsterElement, i];
-          UIImage *img = [Globals imageNamed:str];
-          [imgs addObject:img];
+          [imgNames addObject:str];
         }
         for (int i = 0; i <= 12; i++) {
           // Repeat breath
-          [imgs addObject:imgs[i]];
+          [imgNames addObject:imgNames[i]];
         }
         for (int i = 0; i <= 12; i++) {
           NSString *str = [NSString stringWithFormat:@"Scientist%dBlink%02d.png", (int)pe.monsterElement, i];
-          UIImage *img = [Globals imageNamed:str];
-          [imgs addObject:img];
+          [imgNames addObject:str];
         }
         for (int i = 0; i <= 12; i++) {
           // Repeat breath
-          [imgs addObject:imgs[i]];
+          [imgNames addObject:imgNames[i]];
         }
         for (int i = 0; i <= 12; i++) {
           // Repeat breath
-          [imgs addObject:imgs[i]];
+          [imgNames addObject:imgNames[i]];
         }
         for (int i = 0; i <= 16; i++) {
           NSString *str = [NSString stringWithFormat:@"Scientist%dTurn%02d.png", (int)pe.monsterElement, i];
-          UIImage *img = [Globals imageNamed:str];
-          [imgs addObject:img];
+          [imgNames addObject:str];
         }
         speed = 0.08;
       } else if (pe.type == PersistentEventProto_EventTypeEnhance) {
         for (int i = 0; i <= 12; i++) {
           NSString *str = [NSString stringWithFormat:@"FatBoy%dMove%02d.png", (int)pe.monsterElement, i];
-          UIImage *img = [Globals imageNamed:str];
-          [imgs addObject:img];
+          [imgNames addObject:str];
         }
       }
       
-      self.characterIcon.animationImages = imgs;
-      if (imgs.count > 0) self.characterIcon.image = imgs[0];
-      
-      self.characterIcon.animationDuration = imgs.count*speed;
-      
-      if (!self.characterIcon.isAnimating) {
-        [self.characterIcon startAnimating];
-      }
-    } else {
-      if (pe.type == PersistentEventProto_EventTypeEvolution) {
-        NSString *str = [NSString stringWithFormat:@"Scientist%dBreath%02d.png", (int)pe.monsterElement, 0];
-        UIImage *img = [Globals imageNamed:str];
-        self.characterIcon.image = img;
-      } else if (pe.type == PersistentEventProto_EventTypeEnhance) {
-        NSString *str = [NSString stringWithFormat:@"FatBoy%dMove%02d.png", (int)pe.monsterElement, 0];
-        UIImage *img = [Globals imageNamed:str];
-        self.characterIcon.image = img;
-      }
+      NSArray *arr = [NSSet setWithArray:imgNames].allObjects;
+      [Globals checkAndLoadFiles:arr completion:^(BOOL success) {
+        if (success) {
+          NSMutableArray *imgs = [NSMutableArray array];
+          for (NSString *str in imgNames) {
+            [imgs addObject:[Globals imageNamed:str]];
+          }
+          
+          self.characterIcon.animationImages = imgs;
+          if (imgs.count > 0) self.characterIcon.image = imgs[0];
+          
+          self.characterIcon.animationDuration = imgs.count*speed;
+          
+          if (!self.characterIcon.isAnimating) {
+            [self.characterIcon startAnimating];
+          }
+        }
+      }];
     }
   } else {
     NSString *file = [Globals imageNameForElement:ElementRock suffix:@"cakekid.png"];
