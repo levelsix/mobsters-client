@@ -28,6 +28,11 @@
   return YES;
 }
 
+- (BOOL) skillIsReady
+{
+  return [super skillIsReady] && (self.belongsToPlayer || [self doesRefresh] || [self specialsOnBoardCount:[self specialType]]==0);
+}
+
 - (void) setDefaultValues
 {
   [super setDefaultValues];
@@ -45,6 +50,25 @@
     _orbSpawnCounter = value;
   else if ([property isEqualToString:@"MAX_ORBS"])
     _maxOrbs = value;
+}
+
+- (void)orbDestroyed:(OrbColor)color special:(SpecialOrbType)type
+{
+  if (_orbsSpawned && type == [self specialType])
+  {
+    _orbsSpawned--;
+    if (_orbsSpawned == 0)
+    {
+      [self onAllSpecialsDestroyed];
+    }
+  }
+  
+  [super orbDestroyed:color special:type];
+}
+
+- (void)onAllSpecialsDestroyed
+{
+  //Placeholder for children to override
 }
 
 - (BOOL) skillDefCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute

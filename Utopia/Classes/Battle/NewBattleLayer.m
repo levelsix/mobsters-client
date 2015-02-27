@@ -983,10 +983,12 @@
     }
     else
     {
+#if !TARGET_IPHONE_SIMULATOR
       if (currentScore > MAKEITRAIN_SCORE) {
         [self.myPlayer restoreStandingFrame];
         [self spawnPlaneWithTarget:nil selector:nil];
       }
+#endif
       float strength = MIN(1, currentScore/(float)STRENGTH_FOR_MAX_SHOTS);
       [self.myPlayer performFarAttackAnimationWithStrength:strength
                                                shouldEvade:[skillManager playerWillEvade:NO]
@@ -1793,6 +1795,7 @@
 }
 
 - (void) spawnPlaneWithTarget:(id)target selector:(SEL)selector {
+  
   CGPoint pt = POINT_OFFSET_PER_SCENE;
   
   CCSprite *plane = [CCSprite spriteWithImageNamed:@"airplane.png"];

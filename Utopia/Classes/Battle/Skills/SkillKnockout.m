@@ -53,18 +53,9 @@
   return YES;
 }
 
-- (void) orbDestroyed:(OrbColor)color special:(SpecialOrbType)type
+- (void)onAllSpecialsDestroyed
 {
-  [super orbDestroyed:color special:type];
-  
-  if (type == SpecialOrbTypeFryingPan)
-  {
-    _orbsSpawned--;
-    if (_orbsSpawned == 0)
-    {
-      [self resetOrbCounter];
-    }
-  }
+  [self resetOrbCounter];
 }
 
 - (BOOL) activate

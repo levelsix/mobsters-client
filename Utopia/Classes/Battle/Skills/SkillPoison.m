@@ -121,12 +121,6 @@
     [self skillTriggerFinished];
 }
 
-- (BOOL) onDurationStart
-{
-  [self addSkullsToOrbs:YES withTarget:self andCallback:@selector(skillTriggerFinishedActivated)];
-  return YES;
-}
-
 - (BOOL) onDurationReset
 {
   [self dealPoisonDamage];

@@ -54,18 +54,9 @@
   return self.belongsToPlayer ? 0 : [super orbSpawnCounter];
 }
 
-- (void) orbDestroyed:(OrbColor)color special:(SpecialOrbType)type
+- (void)onAllSpecialsDestroyed
 {
-  [super orbDestroyed:color special:type];
-  
-  if (!self.belongsToPlayer && type == SpecialOrbTypeHeadshot)
-  {
-    _orbsSpawned--;
-    if (_orbsSpawned == 0)
-    {
-      [self resetOrbCounter];
-    }
-  }
+  [self resetOrbCounter];
 }
 
 - (BOOL)skillOffCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute

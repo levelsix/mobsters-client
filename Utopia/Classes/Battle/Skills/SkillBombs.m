@@ -39,6 +39,11 @@
   return YES;
 }
 
+- (BOOL)shouldPersist
+{
+  return _orbsSpawned > 0;
+}
+
 - (SpecialOrbType)specialType
 {
   return SpecialOrbTypeBomb;

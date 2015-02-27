@@ -66,18 +66,9 @@
   return TickTriggerAfterOpponentTurn;
 }
 
-- (void) orbDestroyed:(OrbColor)color special:(SpecialOrbType)type
+- (void)onAllSpecialsDestroyed
 {
-  [super orbDestroyed:color special:type];
-  
-  if (type == SpecialOrbTypeGlove)
-  {
-    _orbsSpawned--;
-    if (_orbsSpawned == 0)
-    {
-      [self resetOrbCounter];
-    }
-  }
+  [self resetOrbCounter];
 }
 
 - (BOOL)onSpecialOrbCounterFinish:(NSInteger)numOrbs
