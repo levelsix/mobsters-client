@@ -861,12 +861,30 @@
 
 - (int) numResourcesAvailable {
   ResourceGeneratorProto *gen = (ResourceGeneratorProto *)self.staticStruct;
-  if (![gen isKindOfClass:[ResourceGeneratorProto class]] && ![gen isKindOfClass:[MoneyTreeProto class]]) {
-    return 0;
+  if ([gen isKindOfClass:[ResourceGeneratorProto class]]) {
+    float secs = -[self.lastRetrieved timeIntervalSinceNow];
+    int numRes = roundf(gen.productionRate/3600.f*secs);
+    return MIN(numRes, gen.capacity);
+    
+  } else if([gen isKindOfClass:[MoneyTreeProto class]]) {
+    MoneyTreeProto *mtp = (MoneyTreeProto *)gen;
+    int secondsInADay = 60*60*24;
+    NSTimeInterval duration = secondsInADay * mtp.daysOfDuration;
+    MSDate *endDate = [self.purchaseTime dateByAddingTimeInterval:duration];
+    float timeSinceEndDate = -[endDate timeIntervalSinceNow];
+    float timeSinceLastRetrieved = -[self.lastRetrieved timeIntervalSinceNow];
+    float secs = 0;
+    if (timeSinceLastRetrieved >= timeSinceEndDate && timeSinceEndDate > 0) {
+      secs = timeSinceLastRetrieved - timeSinceEndDate;
+    } else if (timeSinceEndDate > timeSinceLastRetrieved) {
+      secs = 0;
+    } else {
+      secs = timeSinceLastRetrieved;
+    }
+    int numRes = roundf(gen.productionRate/3600.f*secs);
+    return MIN(numRes, gen.capacity);
   }
-  float secs = -[self.lastRetrieved timeIntervalSinceNow];
-  int numRes = roundf(gen.productionRate/3600.f*secs);
-  return MIN(numRes, gen.capacity);
+  return 0;
 }
 
 - (NSArray *) allPrerequisites {

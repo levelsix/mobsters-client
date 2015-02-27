@@ -278,6 +278,15 @@
     StructureInfoProto *fsp = s.staticStruct.structInfo;
     if (!fsp)
       continue;
+    if([s.staticStruct isKindOfClass:[MoneyTreeProto class]]) {
+      MoneyTreeProto *mtp = (MoneyTreeProto *)s.staticStruct;
+      int secondsInADay = 60*60*24;
+      long lifeTime = (mtp.daysOfDuration + mtp.daysForRenewal) * secondsInADay;
+      long timeAlive = -[s.purchaseTime timeIntervalSinceNow];
+      if(timeAlive >= lifeTime) {
+        continue;
+      }
+    }
     
     HomeBuilding *homeBuilding = [HomeBuilding buildingWithUserStruct:s map:self];
     [self addChild:homeBuilding z:0 name:STRUCT_TAG(s.userStructUuid)];

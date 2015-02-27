@@ -84,9 +84,6 @@
 		297DE2281A9D597700692D80 /* MilitaryGirl0T1P3TutBig@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 297DE2271A9D597700692D80 /* MilitaryGirl0T1P3TutBig@2x.png */; };
 		297DE2291A9D597700692D80 /* MilitaryGirl0T1P3TutBig@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 297DE2271A9D597700692D80 /* MilitaryGirl0T1P3TutBig@2x.png */; };
 		297DE22A1A9D597700692D80 /* MilitaryGirl0T1P3TutBig@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 297DE2271A9D597700692D80 /* MilitaryGirl0T1P3TutBig@2x.png */; };
-		297DE2331A9D7D6B00692D80 /* EventResearch.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 297DE2321A9D7D6B00692D80 /* EventResearch.pb.m */; };
-		297DE2361A9D7D8200692D80 /* EventResearch.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 297DE2321A9D7D6B00692D80 /* EventResearch.pb.m */; };
-		297DE2371A9D7D8300692D80 /* EventResearch.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 297DE2321A9D7D6B00692D80 /* EventResearch.pb.m */; };
 		297DE23F1A9E89C100692D80 /* teambubble1green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 297DE23D1A9E89C100692D80 /* teambubble1green@2x.png */; };
 		297DE2401A9E89C100692D80 /* teambubble1green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 297DE23D1A9E89C100692D80 /* teambubble1green@2x.png */; };
 		297DE2411A9E89C100692D80 /* teambubble1green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 297DE23D1A9E89C100692D80 /* teambubble1green@2x.png */; };
@@ -6794,8 +6791,6 @@
 		297D7E561A9EBD080057F4E6 /* use_cash.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = use_cash.mp3; sourceTree = "<group>"; };
 		297D7E571A9EBD080057F4E6 /* use_speedup.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = use_speedup.mp3; sourceTree = "<group>"; };
 		297DE2271A9D597700692D80 /* MilitaryGirl0T1P3TutBig@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MilitaryGirl0T1P3TutBig@2x.png"; sourceTree = "<group>"; };
-		297DE2311A9D7D6B00692D80 /* EventResearch.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventResearch.pb.h; sourceTree = "<group>"; };
-		297DE2321A9D7D6B00692D80 /* EventResearch.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventResearch.pb.m; sourceTree = "<group>"; };
 		297DE2351A9D7D7500692D80 /* EventResearch.proto */ = {isa = PBXFileReference; lastKnownFileType = text; path = EventResearch.proto; sourceTree = "<group>"; };
 		297DE23D1A9E89C100692D80 /* teambubble1green@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "teambubble1green@2x.png"; sourceTree = "<group>"; };
 		297DE23E1A9E89C100692D80 /* teambubble2green@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "teambubble2green@2x.png"; sourceTree = "<group>"; };
@@ -14103,8 +14098,6 @@
 		CF4DB9651808AE9100062258 /* Protocol Buffers */ = {
 			isa = PBXGroup;
 			children = (
-				297DE2311A9D7D6B00692D80 /* EventResearch.pb.h */,
-				297DE2321A9D7D6B00692D80 /* EventResearch.pb.m */,
 				63B0452A1A9D7CD600C74F0C /* EventResearch.pb.h */,
 				63B0452B1A9D7CD600C74F0C /* EventResearch.pb.m */,
 				3E1A0C001A645B4B00DF00AD /* Board.pb.h */,
@@ -23012,7 +23005,6 @@
 				29AAE5E51A7B0FDB00E4F022 /* DonateMsgViewController.m in Sources */,
 				CF0CED85196F452900ECD301 /* AMQPChannel.m in Sources */,
 				CF0CED86196F452900ECD301 /* GachaChooserViewController.m in Sources */,
-				297DE2361A9D7D8200692D80 /* EventResearch.pb.m in Sources */,
 				63B0452D1A9D7CD700C74F0C /* EventResearch.pb.m in Sources */,
 				CF0CED87196F452900ECD301 /* FacebookSpammer.m in Sources */,
 				9B41AF811A830BB300529879 /* SkillFlameBreak.m in Sources */,
@@ -23471,7 +23463,6 @@
 				CFA7502318CAD30000AC66FC /* TutorialNameViewController.m in Sources */,
 				CFFB3B7419820E90005D7AF5 /* EventDev.pb.m in Sources */,
 				9BC9F3451A8C1420009DC3D5 /* SkillSideEffectBuff.m in Sources */,
-				297DE2331A9D7D6B00692D80 /* EventResearch.pb.m in Sources */,
 				63B0452C1A9D7CD700C74F0C /* EventResearch.pb.m in Sources */,
 				CF81C97119A67224002682A2 /* OrbMainLayer.m in Sources */,
 				CFF1D7C517E2636500874339 /* BattleSprite.m in Sources */,
@@ -23705,7 +23696,6 @@
 				CF48192F19F7217F00041486 /* AMQPChannel.m in Sources */,
 				CF48193019F7217F00041486 /* GachaChooserViewController.m in Sources */,
 				CF48193119F7217F00041486 /* FacebookSpammer.m in Sources */,
-				297DE2371A9D7D8300692D80 /* EventResearch.pb.m in Sources */,
 				9B41AF821A830BB300529879 /* SkillFlameBreak.m in Sources */,
 				CF48193219F7217F00041486 /* MapBotView.m in Sources */,
 				CF48193319F7217F00041486 /* TutorialBattleLayout.m in Sources */,
