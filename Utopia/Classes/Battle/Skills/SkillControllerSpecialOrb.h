@@ -24,7 +24,6 @@ typedef enum {
 - (SpecialOrbType) specialType;
 - (SpecialOrbSpawnZone) spawnZone;
 - (BOOL) keepColor;
-- (BOOL) removeOnExit;
 
 - (BOOL) onSpecialOrbCounterFinish:(NSInteger)numOrbs;
 
