@@ -580,6 +580,29 @@
 
 @implementation MoneyTreeBuilding
 
+- (void) setupBuildingSprite:(NSString *)fileName {
+  [self.buildingSprite removeFromParent];
+  
+  fileName = fileName.stringByDeletingPathExtension;
+  
+  NSString *spritesheetName = [NSString stringWithFormat:@"%@.plist", fileName];
+  [Globals checkAndLoadSpriteSheet:spritesheetName completion:^(BOOL success) {
+    if (success) {
+      [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:spritesheetName];
+      CCAnimation *anim = [CCAnimation animationWithSpritePrefix:fileName delay:0.2];
+      
+      if (anim.frames.count) {
+        CCSprite *spr = [CCSprite spriteWithSpriteFrame:[anim.frames[0] spriteFrame]];
+        [spr runAction:[CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:anim]]];
+        [self addChild:spr];
+        self.buildingSprite = spr;
+      }
+      
+      [self adjustBuildingSprite];
+    }
+  }];
+}
+
 - (id) initWithUserStruct:(UserStruct *)userStruct map:(HomeMap *)map {
   StructureInfoProto *fsp = userStruct.isComplete || !userStruct.staticStruct.structInfo.predecessorStructId ? userStruct.staticStruct.structInfo : userStruct.staticStructForPrevLevel.structInfo;
   NSString *file = fsp.imgName;
