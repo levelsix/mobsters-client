@@ -106,6 +106,8 @@
 
 #define FAT_KID_DUNGEON_LEVEL 5
 
+#define SGN(A) ({ __typeof__(A) __a = (A); (0 < __a) - (__a < 0); })
+
 @class BattlePlayer;
 
 @interface Globals : NSObject
