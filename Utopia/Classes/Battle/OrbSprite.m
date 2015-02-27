@@ -286,10 +286,11 @@
       break;
       
     case SpecialOrbTypeFryingPan:
-      if (orbColor == OrbColorNone)
-        return nil;
-      if (orb.powerupType == PowerupTypeNone)
-        return [NSString stringWithFormat:@"%@%@%@.png", resPrefix, [Globals imageNameForElement:(Element)orbColor suffix:@"poison"], suffix ];
+//      if (orbColor == OrbColorNone)
+//        return nil;
+//      if (orb.powerupType == PowerupTypeNone)
+//        return [NSString stringWithFormat:@"%@%@%@.png", resPrefix, [Globals imageNameForElement:(Element)orbColor suffix:@"poison"], suffix ];
+      return [NSString stringWithFormat:@"%@fireglove%@.png", resPrefix, suffix];
       break;
       
       //TODO: This suffix needs to change! Currently reusing poison orbs for this ability

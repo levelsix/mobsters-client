@@ -302,7 +302,12 @@ static const NSInteger kSwordOrbsMaxSearchIterations = 256;
    */
 }
 
-- (void) stunOpponent
+- (void)onAllSpecialsDestroyed
+{
+  [self resetOrbCounter];
+}
+
+- (BOOL)skillOffCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
 {
   SkillLogStart(@"Flame Break -- Skill caused opponent to stun for %ld turns", (long)_turnsLeft);
   
@@ -344,19 +349,7 @@ static const NSInteger kSwordOrbsMaxSearchIterations = 256;
   [self addSkillSideEffectToOpponent:SideEffectTypeNerfStun turnsAffected:_turnsLeft];
 }
 
-- (void) endStun
-{
-  SkillLogStart(@"Flame Break -- Opponent no longer stunned");
-  
-  BattlePlayer* opponent = self.belongsToPlayer ? self.enemy : self.player;
-  opponent.isStunned = NO;
-  
-  _turnsLeft = 0;
-  
-  [self endStunAnimations];
-}
-
-- (void) endStunAnimations
+- (BOOL)activate
 {
   BattleSprite* opponent = self.belongsToPlayer ? self.enemySprite : self.playerSprite;
   
@@ -412,25 +405,7 @@ static const NSInteger kSwordOrbsMaxSearchIterations = 256;
       }
     }
   }
-  
-  for (CCSprite* clonedSprite in clonedOrbs)
-  {
-    [self.battleLayer.orbLayer.bgdLayer addChild:clonedSprite];
-    [clonedSprite runAction:[CCActionSequence actions:
-                             [CCActionEaseOut actionWithAction:
-                              [CCActionMoveTo actionWithDuration:.25f position:ccp(bgdLayer.contentSize.width * .5f, bgdLayer.contentSize.height * .5f)]],
-                             [CCActionDelay actionWithDuration:.25f],
-                             [CCActionSpawn actions:
-                              [CCActionEaseIn actionWithAction:
-                               [CCActionScaleBy actionWithDuration:.35f scale:10.f]],
-                              [CCActionEaseIn actionWithAction:
-                               [CCActionFadeOut actionWithDuration:.35f]],
-                              nil],
-                             [CCActionRemove action],
-                             nil]];
-  }
-  
-  return usedUpOrbCount;
+  return [super activate];
 }
 
 - (void) spawnSwordOrbs:(NSInteger)count withTarget:(id)target andSelector:(SEL)selector
