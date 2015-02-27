@@ -121,7 +121,7 @@
   NSString* bgName = [NSString stringWithFormat:@"%@.png", [Globals imageNameForElement:element suffix:@"counterbg"]];
   _skillCounterBg = [CCSprite spriteWithImageNamed:bgName];
   [_skillCounterBg setPosition:ccp(0, 5)];
-  [self addChild:_skillCounterBg];
+  [self addChild:_skillCounterBg z:10];
 
   NSString* orbImg = [NSString stringWithFormat:@"mini%@.png", [Globals imageNameForElement:element suffix:@""]];
   _skillOrbIcon = [CCSprite spriteWithImageNamed:orbImg];
