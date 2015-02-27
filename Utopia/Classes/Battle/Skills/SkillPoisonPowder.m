@@ -72,8 +72,8 @@
   if ([self isActive])
   {
     //Reset on new target
-    if ((self.belongsToPlayer && trigger == SkillTriggerPointEnemyInitialized)
-             || (!self.belongsToPlayer && trigger == SkillTriggerPointPlayerInitialized))
+    if ((self.belongsToPlayer && trigger == SkillTriggerPointEnemyDefeated)
+             || (!self.belongsToPlayer && (trigger == SkillTriggerPointPlayerInitialized || trigger == SkillTriggerPointPlayerMobDefeated)))
     {
       [self endDurationNow];
     }

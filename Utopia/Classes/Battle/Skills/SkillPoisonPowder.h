@@ -15,6 +15,4 @@
   float _percent;
 }
 
-- (void) poisonOpponent;
-
 @end
