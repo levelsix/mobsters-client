@@ -93,6 +93,8 @@
   
   int _myDamageDealt;
   int _myDamageForThisTurn;
+  int _myDamageDealtUnmodified;
+  int _enemyDamageDealtUnmodified;
   
   BOOL _hasStarted;
   BOOL _isExiting;

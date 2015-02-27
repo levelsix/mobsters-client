@@ -1564,6 +1564,9 @@
 		9B8CA6111A3798C00060BE8F /* SkillCritAndEvade.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B8CA6101A3798C00060BE8F /* SkillCritAndEvade.m */; };
 		9B8CA6121A3798C00060BE8F /* SkillCritAndEvade.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B8CA6101A3798C00060BE8F /* SkillCritAndEvade.m */; };
 		9B8CA6131A3798C00060BE8F /* SkillCritAndEvade.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B8CA6101A3798C00060BE8F /* SkillCritAndEvade.m */; };
+		9B8CA61C1A379CCB0060BE8F /* drunkenbrawllogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B8CA61B1A379CCB0060BE8F /* drunkenbrawllogo@2x.png */; };
+		9B8CA61D1A379CCB0060BE8F /* drunkenbrawllogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B8CA61B1A379CCB0060BE8F /* drunkenbrawllogo@2x.png */; };
+		9B8CA61E1A379CCB0060BE8F /* drunkenbrawllogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B8CA61B1A379CCB0060BE8F /* drunkenbrawllogo@2x.png */; };
 		9B8CA6211A379D400060BE8F /* drunkenbrawlminilogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B8CA6201A379D400060BE8F /* drunkenbrawlminilogo@2x.png */; };
 		9B8CA6221A379D400060BE8F /* drunkenbrawlminilogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B8CA6201A379D400060BE8F /* drunkenbrawlminilogo@2x.png */; };
 		9B8CA6231A379D400060BE8F /* drunkenbrawlminilogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B8CA6201A379D400060BE8F /* drunkenbrawlminilogo@2x.png */; };
@@ -1919,6 +1922,21 @@
 		9BDA8C5D1A60B60200C7AC27 /* gachainactivedot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8C5C1A60B60200C7AC27 /* gachainactivedot@2x.png */; };
 		9BDA8C5E1A60B60200C7AC27 /* gachainactivedot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8C5C1A60B60200C7AC27 /* gachainactivedot@2x.png */; };
 		9BDA8C5F1A60B60200C7AC27 /* gachainactivedot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8C5C1A60B60200C7AC27 /* gachainactivedot@2x.png */; };
+		9BE512E11A9E6362005F3BF5 /* decreased.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 9BE512DB1A9E6362005F3BF5 /* decreased.fnt */; };
+		9BE512E21A9E6362005F3BF5 /* decreased.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 9BE512DB1A9E6362005F3BF5 /* decreased.fnt */; };
+		9BE512E31A9E6362005F3BF5 /* decreased.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 9BE512DB1A9E6362005F3BF5 /* decreased.fnt */; };
+		9BE512E41A9E6362005F3BF5 /* decreased@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BE512DC1A9E6362005F3BF5 /* decreased@2x.png */; };
+		9BE512E51A9E6362005F3BF5 /* decreased@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BE512DC1A9E6362005F3BF5 /* decreased@2x.png */; };
+		9BE512E61A9E6362005F3BF5 /* decreased@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BE512DC1A9E6362005F3BF5 /* decreased@2x.png */; };
+		9BE513011A9FB0EA005F3BF5 /* increased.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 9BE512FF1A9FB0EA005F3BF5 /* increased.fnt */; };
+		9BE513021A9FB0EA005F3BF5 /* increased.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 9BE512FF1A9FB0EA005F3BF5 /* increased.fnt */; };
+		9BE513031A9FB0EA005F3BF5 /* increased.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 9BE512FF1A9FB0EA005F3BF5 /* increased.fnt */; };
+		9BE513041A9FB0EA005F3BF5 /* increased@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BE513001A9FB0EA005F3BF5 /* increased@2x.png */; };
+		9BE513051A9FB0EA005F3BF5 /* increased@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BE513001A9FB0EA005F3BF5 /* increased@2x.png */; };
+		9BE513061A9FB0EA005F3BF5 /* increased@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BE513001A9FB0EA005F3BF5 /* increased@2x.png */; };
+		9BE513071A9FFD96005F3BF5 /* drunkenbrawlicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B8CA6171A379CB50060BE8F /* drunkenbrawlicon@2x.png */; };
+		9BE513081A9FFD96005F3BF5 /* drunkenbrawlicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B8CA6171A379CB50060BE8F /* drunkenbrawlicon@2x.png */; };
+		9BE513091A9FFD97005F3BF5 /* drunkenbrawlicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B8CA6171A379CB50060BE8F /* drunkenbrawlicon@2x.png */; };
 		CF00865C19CBAC02002F6149 /* NSString+Sizing.m in Sources */ = {isa = PBXBuildFile; fileRef = CF00865B19CBAC02002F6149 /* NSString+Sizing.m */; };
 		CF00865D19CBAC02002F6149 /* NSString+Sizing.m in Sources */ = {isa = PBXBuildFile; fileRef = CF00865B19CBAC02002F6149 /* NSString+Sizing.m */; };
 		CF010F2D19DDE5C400DAD527 /* chatinputbgcap@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF010F2419DDE5C400DAD527 /* chatinputbgcap@2x.png */; };
@@ -8349,6 +8367,10 @@
 		9BDA8C581A60B5FB00C7AC27 /* gachaactivedot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gachaactivedot@2x.png"; sourceTree = "<group>"; };
 		9BDA8C5C1A60B60200C7AC27 /* gachainactivedot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gachainactivedot@2x.png"; sourceTree = "<group>"; };
 		9BDA8C651A6366DA00C7AC27 /* Research.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Research.proto; sourceTree = "<group>"; };
+		9BE512DB1A9E6362005F3BF5 /* decreased.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = decreased.fnt; sourceTree = "<group>"; };
+		9BE512DC1A9E6362005F3BF5 /* decreased@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "decreased@2x.png"; sourceTree = "<group>"; };
+		9BE512FF1A9FB0EA005F3BF5 /* increased.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = increased.fnt; sourceTree = "<group>"; };
+		9BE513001A9FB0EA005F3BF5 /* increased@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "increased@2x.png"; sourceTree = "<group>"; };
 		C9FD33409B145AADA35D447A /* Pods-Mobsters.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mobsters.appstore.xcconfig"; path = "Pods/Target Support Files/Pods-Mobsters/Pods-Mobsters.appstore.xcconfig"; sourceTree = "<group>"; };
 		CF00865A19CBAC02002F6149 /* NSString+Sizing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSString+Sizing.h"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CF00865B19CBAC02002F6149 /* NSString+Sizing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "NSString+Sizing.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -17099,6 +17121,10 @@
 		CFF1D64D17DFC43600874339 /* Puzzle Images */ = {
 			isa = PBXGroup;
 			children = (
+				9BE512FF1A9FB0EA005F3BF5 /* increased.fnt */,
+				9BE513001A9FB0EA005F3BF5 /* increased@2x.png */,
+				9BE512DB1A9E6362005F3BF5 /* decreased.fnt */,
+				9BE512DC1A9E6362005F3BF5 /* decreased@2x.png */,
 				6B89A6E31A967BF6004C16B6 /* lockbreak.plist */,
 				6B89A6971A941948004C16B6 /* 6lockedorbleft-9@2x.png */,
 				6B89A6981A941948004C16B6 /* 6lockedorbleft@2x.png */,
@@ -18984,6 +19010,7 @@
 				CF0CEFEB196F452900ECD301 /* sfx_attack_ui_slide_in.mp3 in Resources */,
 				CF0CEFEE196F452900ECD301 /* Scientist3Turn06@2x.png in Resources */,
 				CF812EF519E67D4E00D91157 /* clanhelpbarbg@2x.png in Resources */,
+				9B8CA6321A37DD2F0060BE8F /* momentumicon@2x.png in Resources */,
 				CF0CEFEF196F452900ECD301 /* sfx_damage_click_lp.mp3 in Resources */,
 				CFF2A6271970C81200269084 /* battledonegrey@2x.png in Resources */,
 				CF0CEFF1196F452900ECD301 /* sfx_piece_swap.mp3 in Resources */,
@@ -19373,6 +19400,7 @@
 				CF0CF1ED196F452900ECD301 /* Whitney-Semibold.otf in Resources */,
 				CF0CF1EE196F452900ECD301 /* Scientist2Turn09@2x.png in Resources */,
 				CF0CF1F0196F452900ECD301 /* Scientist2Blink02@2x.png in Resources */,
+				9BE513021A9FB0EA005F3BF5 /* increased.fnt in Resources */,
 				CF0CF1F1196F452900ECD301 /* FatBoy5Move01@2x.png in Resources */,
 				CF48259E19F729D000041486 /* untitled.plist in Resources */,
 				6B89A6A61A941948004C16B6 /* 6lockedorbright-9@2x.png in Resources */,
@@ -20095,6 +20123,7 @@
 				CF0CF54B196F452900ECD301 /* firesmallsquare@2x.png in Resources */,
 				CF0CF54D196F452900ECD301 /* FatBoy3Move02@2x.png in Resources */,
 				CF0CF54E196F452900ECD301 /* Scientist3Blink03@2x.png in Resources */,
+				9BE513051A9FB0EA005F3BF5 /* increased@2x.png in Resources */,
 				CF0CF550196F452900ECD301 /* diamondrankbg@2x.png in Resources */,
 				CF0CF551196F452900ECD301 /* sfx_piece_fall_02.mp3 in Resources */,
 				CF0CF552196F452900ECD301 /* Scientist2Breath11@2x.png in Resources */,
@@ -20359,6 +20388,7 @@
 				CF0CF66E196F452900ECD301 /* teamslotopen@2x.png in Resources */,
 				299AA3611A7856AA00A2D806 /* 6rockpoison-9@2x.png in Resources */,
 				298050911A265EE800806253 /* 8gbhud@2x.png in Resources */,
+				9BE513081A9FFD96005F3BF5 /* drunkenbrawlicon@2x.png in Resources */,
 				9B6B77E61A858B1A0080C8E5 /* 9moveslabel@2x.png in Resources */,
 				CF0CF66F196F452900ECD301 /* sfx_collect_oil_doober.mp3 in Resources */,
 				299AA31C1A7856AA00A2D806 /* 6firegrenade-9@2x.png in Resources */,
@@ -20754,6 +20784,7 @@
 				CF0CF82E196F452900ECD301 /* ChatCell.xib in Resources */,
 				CF6A64E619D24F030002E05D /* 6nightsideways@2x.png in Resources */,
 				CF0CF82F196F452900ECD301 /* clanscreateinactive@2x.png in Resources */,
+				9BE512E51A9E6362005F3BF5 /* decreased@2x.png in Resources */,
 				29804FC11A241F4A00806253 /* squadrewardsheaderbuilding@2x.png in Resources */,
 				CF0CF836196F452900ECD301 /* clansbrowseactive@2x.png in Resources */,
 				CF0CF837196F452900ECD301 /* itemdurabilitybar@2x.png in Resources */,
@@ -20763,6 +20794,7 @@
 				CF023CCA199B3D0F0082FE61 /* BattleHudViewSmall.xib in Resources */,
 				CFF2A53119709C4800269084 /* TeamCenterT1@2x.pvr.ccz in Resources */,
 				CF0CF83C196F452900ECD301 /* itemdurabilitybg@2x.png in Resources */,
+				9BE512E21A9E6362005F3BF5 /* decreased.fnt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -20899,6 +20931,7 @@
 				CFE02DCB18264D2A0016C1E2 /* FBFriendCell.xib in Resources */,
 				CF864E11193E8F3000DE0D7A /* clandetailgradient@2x.png in Resources */,
 				9BC9F32A1A8B05B3009DC3D5 /* 6energizeorb-9@2x.png in Resources */,
+				9BE513011A9FB0EA005F3BF5 /* increased.fnt in Resources */,
 				CF134A8818A5E4B500D7D700 /* FatBoy5Move05@2x.png in Resources */,
 				CFC4D29F18D7BD04004681FD /* sfx_time_bar_rise_completion.mp3 in Resources */,
 				CFEE89A418EA625200047CA4 /* OneLineNotificationView.xib in Resources */,
@@ -21120,6 +21153,7 @@
 				CFC4D29518D7BD04004681FD /* sfx_piece_fall_01.mp3 in Resources */,
 				63BACB091A71B7C2000A641A /* nightscientisteventguy@2x.png in Resources */,
 				CFF7876118E28FE200413E78 /* upgradeborder@2x.png in Resources */,
+				9B8CA6311A37DD2F0060BE8F /* momentumicon@2x.png in Resources */,
 				CFFF9A4A18BEB67D0036EEC3 /* lighttimermobster@2x.png in Resources */,
 				CF746144196A2C0D002D6AE6 /* arrowlight@2x.png in Resources */,
 				CFC8B61718E53FC100CFD652 /* mobstersbottombarbg@2x.png in Resources */,
@@ -21826,6 +21860,7 @@
 				CF2A4B181901B8F500B2D7D7 /* tasknumberbg@2x.png in Resources */,
 				CF134A8018A5E4B500D7D700 /* FatBoy4Move10@2x.png in Resources */,
 				9BB949161A6E1197006EE920 /* firegrbigflash1@2x.png in Resources */,
+				9BE512E11A9E6362005F3BF5 /* decreased.fnt in Resources */,
 				DA86924119C7C64500320A74 /* skillbottom@2x.png in Resources */,
 				CF4825AD19F72A3900041486 /* notmiddleblue@2x.png in Resources */,
 				CF134A8918A5E4B500D7D700 /* FatBoy5Move06@2x.png in Resources */,
@@ -22606,6 +22641,7 @@
 				CF2A4B121901B8F500B2D7D7 /* revenge@2x.png in Resources */,
 				299AA4DF1A7872C300A2D806 /* lightorb@2x.png in Resources */,
 				296548751A81C4070080B195 /* deployemptyslot@2x.png in Resources */,
+				9BE513041A9FB0EA005F3BF5 /* increased@2x.png in Resources */,
 				299AA4CA1A7872C300A2D806 /* earthsideways@2x.png in Resources */,
 				9BDA8BFC1A5B432900C7AC27 /* gooniegrabgachatabactive@2x.png in Resources */,
 				CF40D03218DFCC6C0034A721 /* platinumicon@2x.png in Resources */,
@@ -22640,6 +22676,7 @@
 				CFA8B19719EB63C400CF6BFD /* 6rockbomb@2x.png in Resources */,
 				9B41AF231A7C331100529879 /* 6bulletorb@2x.png in Resources */,
 				CFFBDFBD18ACA3D90090CA9A /* Scientist4Breath05@2x.png in Resources */,
+				9BE512E41A9E6362005F3BF5 /* decreased@2x.png in Resources */,
 				2965487B1A81C4070080B195 /* deploysep@2x.png in Resources */,
 				CF4251A819AD2C9D00964547 /* recommendedtag@2x.png in Resources */,
 				CF2A4B1C1901B8F500B2D7D7 /* upgradebarbg@2x.png in Resources */,
@@ -22656,6 +22693,7 @@
 				CF70654518470051005B30A1 /* xpcap@2x.png in Resources */,
 				CFF1D7AF17E14A1400874339 /* opponentsbg@2x.png in Resources */,
 				29AA139F1A33214A004A9F22 /* ChatMonsterView.xib in Resources */,
+				9BE513071A9FFD96005F3BF5 /* drunkenbrawlicon@2x.png in Resources */,
 				CF688FFE1912E5D000FF1F71 /* MiniJobsDetailsViewController.xib in Resources */,
 				29DCCFD81A8C3310003176FD /* fallinggems03@2x.png in Resources */,
 				CF134A8218A5E4B500D7D700 /* FatBoy4Move12@2x.png in Resources */,
@@ -23103,6 +23141,7 @@
 				CFA7935F1A0C342D00DF3407 /* rockeventtag@2x.png in Resources */,
 				CF481AF819F7217F00041486 /* supereffective@2x.png in Resources */,
 				CF481AF919F7217F00041486 /* openbosspin@2x.png in Resources */,
+				9BE512E61A9E6362005F3BF5 /* decreased@2x.png in Resources */,
 				CF481AFB19F7217F00041486 /* healredbubble2@2x.png in Resources */,
 				CF481AFD19F7217F00041486 /* Scientist2Turn14@2x.png in Resources */,
 				CF481AFE19F7217F00041486 /* currentborder@2x.png in Resources */,
@@ -23135,6 +23174,7 @@
 				CF481B2919F7217F00041486 /* Scientist3Breath06@2x.png in Resources */,
 				CF481B2A19F7217F00041486 /* 1starmachineinactive@2x.png in Resources */,
 				CF481B2B19F7217F00041486 /* championicon@2x.png in Resources */,
+				9BE513091A9FFD97005F3BF5 /* drunkenbrawlicon@2x.png in Resources */,
 				CF481B2D19F7217F00041486 /* attackbutton@3x.png in Resources */,
 				634174731A843521006DA494 /* greenchatmiddle@2x.png in Resources */,
 				CF481B3119F7217F00041486 /* Scientist3Breath02@2x.png in Resources */,
@@ -23765,6 +23805,7 @@
 				CF481ED719F7217F00041486 /* labbingicon@2x.png in Resources */,
 				299AA3B01A7856AA00A2D806 /* lightheadshot-9@2x.png in Resources */,
 				CF481ED819F7217F00041486 /* cashfound@2x.png in Resources */,
+				9BE512E31A9E6362005F3BF5 /* decreased.fnt in Resources */,
 				CF481ED919F7217F00041486 /* nightsquare@2x.png in Resources */,
 				9B41AEC01A7C191300529879 /* 6graveorb-9@2x.png in Resources */,
 				CF481EDA19F7217F00041486 /* Scientist1Turn12@2x.png in Resources */,
@@ -23984,6 +24025,7 @@
 				CF48201919F7217F00041486 /* waterdailylab@2x.png in Resources */,
 				9BB949361A6E1197006EE920 /* nightlightsflashlow1@2x.png in Resources */,
 				CF48201A19F7217F00041486 /* EnhanceCardCell.xib in Resources */,
+				9BE513061A9FB0EA005F3BF5 /* increased@2x.png in Resources */,
 				CF48201C19F7217F00041486 /* youwonyou@2x.png in Resources */,
 				CF48202019F7217F00041486 /* bottomcardoverlay@2x.png in Resources */,
 				CF48202119F7217F00041486 /* chatprivateactive@2x.png in Resources */,
@@ -24854,6 +24896,7 @@
 				9BB949271A6E1197006EE920 /* lightgrglow2glowblend@2x.png in Resources */,
 				299AA4E41A7872C300A2D806 /* lightsideways@2x.png in Resources */,
 				CF48246319F7217F00041486 /* addfunds@2x.png in Resources */,
+				9BE513031A9FB0EA005F3BF5 /* increased.fnt in Resources */,
 				CF48246419F7217F00041486 /* sfx_dialogue_box.mp3 in Resources */,
 				CF48246519F7217F00041486 /* sfx_machine_gun_attack.mp3 in Resources */,
 				CF48246719F7217F00041486 /* Scientist3Turn14@2x.png in Resources */,

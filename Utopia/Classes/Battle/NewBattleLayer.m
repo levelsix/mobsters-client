@@ -801,6 +801,8 @@
   _myDamageDealt = 0;
   _myDamageForThisTurn = 0;
   _enemyDamageDealt = 0;
+  _myDamageDealtUnmodified = 0;
+  _enemyDamageDealtUnmodified = 0;
   
   for (int i = 0; i < OrbColorNone; i++) {
     _orbCounts[i] = 0;
@@ -870,6 +872,7 @@
           [self performAfterDelay:0.5 block:^{
             _enemyDamageDealt = [self.enemyPlayerObject randomDamage];
             _enemyDamageDealt = _enemyDamageDealt*[self damageMultiplierIsEnemyAttacker:YES];
+            _enemyDamageDealtUnmodified = _enemyDamageDealt;
             _enemyDamageDealt = (int)[skillManager modifyDamage:_enemyDamageDealt forPlayer:NO];
             
             // If the enemy's stunned, short the attack function
@@ -945,6 +948,7 @@
 - (void) doMyAttackAnimation {
   
   _myDamageDealt = _myDamageDealt*[self damageMultiplierIsEnemyAttacker:NO];
+  _myDamageDealtUnmodified = _myDamageDealt;
   
   // Changing damage with a skill
   NSInteger scoreModifier = _myDamageDealt > 0 ? 1 : 0; // used to make current score not 0 if damage was modified to 0 by skillManager
@@ -1003,15 +1007,9 @@
     
     _enemyShouldAttack = YES;
     
-    [self dealDamage:_myDamageDealt enemyIsAttacker:NO usingAbility:NO withTarget:self withSelector:@selector(checkEnemyHealthAndStartNewTurn)];
-    
-    float perc = ((float)self.enemyPlayerObject.curHealth)/self.enemyPlayerObject.maxHealth;
-    if (perc < PULSE_CONT_THRESH) {
-      [self pulseHealthLabel:YES];
-    } else {
-      [self.currentEnemy.healthLabel stopActionByTag:RED_TINT_TAG];
-      self.currentEnemy.healthLabel.color = [CCColor whiteColor];
-    }
+    [self animateDamageLabel:_myDamageDealtUnmodified modifiedDamage:_myDamageDealt targetSprite:self.currentEnemy withCompletion:^{
+      [self dealDamage:_myDamageDealt enemyIsAttacker:NO usingAbility:NO showDamageLabel:NO withTarget:self withSelector:@selector(checkEnemyHealthAndStartNewTurn)];
+    }];
   }];
 }
 
@@ -1024,19 +1022,9 @@
     
     _totalDamageTaken += _enemyDamageDealt;
     
-    [self dealDamage:_enemyDamageDealt enemyIsAttacker:YES usingAbility:NO withTarget:self withSelector:@selector(endEnemyTurn)];
-    
-    float perc = ((float)self.myPlayerObject.curHealth)/self.myPlayerObject.maxHealth;
-    if (!_bloodSplatter || _bloodSplatter.numberOfRunningActions == 0) {
-      if (perc < PULSE_CONT_THRESH) {
-        [self pulseBloodContinuously];
-        [self pulseHealthLabel:NO];
-      } else if (perc < PULSE_ONCE_THRESH) {
-        [self pulseBloodOnce];
-      }
-    } else if (perc > PULSE_ONCE_THRESH) {
-      [self stopPulsing];
-    }
+    [self animateDamageLabel:_enemyDamageDealtUnmodified modifiedDamage:_enemyDamageDealt targetSprite:self.myPlayer withCompletion:^{
+      [self dealDamage:_enemyDamageDealt enemyIsAttacker:YES usingAbility:NO showDamageLabel:NO withTarget:self withSelector:@selector(endEnemyTurn)];
+    }];
   }];
 }
 
@@ -1065,22 +1053,12 @@
     _enemyShouldAttack = YES;
     _totalDamageTaken += _myDamageDealt;
     
-    [self dealDamageToSelf:_myDamageDealt enemyIsAttacker:NO withTarget:self andSelector:@selector(checkEnemyHealthAndStartNewTurn)];
+    [self animateDamageLabel:_myDamageDealtUnmodified modifiedDamage:_myDamageDealt targetSprite:self.myPlayer withCompletion:^{
+      [self dealDamageToSelf:_myDamageDealt enemyIsAttacker:NO showDamageLabel:NO withTarget:self andSelector:@selector(checkEnemyHealthAndStartNewTurn)];
+    }];
     
-    float perc = ((float)self.myPlayerObject.curHealth)/self.myPlayerObject.maxHealth;
-    if (!_bloodSplatter || _bloodSplatter.numberOfRunningActions == 0) {
-      if (perc < PULSE_CONT_THRESH) {
-        [self pulseBloodContinuously];
-        [self pulseHealthLabel:NO];
-      } else if (perc < PULSE_ONCE_THRESH) {
-        [self pulseBloodOnce];
-      }
-    } else if (perc > PULSE_ONCE_THRESH) {
-      [self stopPulsing];
-    }
+    [self.myPlayer performFarFlinchAnimationWithDelay:0.f];
   }];
-  
-  [self.myPlayer performFarFlinchAnimationWithDelay:0.f];
 }
 
 - (void) enemyDealsDamageToSelf {
@@ -1089,21 +1067,95 @@
     
     SkillLogEnd(triggered, @"  Deal damage by enemy trigger ENDED");
     
-    [self dealDamageToSelf:_enemyDamageDealt enemyIsAttacker:YES withTarget:self andSelector:@selector(endEnemyTurn)];
-    
-    float perc = ((float)self.enemyPlayerObject.curHealth)/self.enemyPlayerObject.maxHealth;
-    if (perc < PULSE_CONT_THRESH) {
-      [self pulseHealthLabel:YES];
-    } else {
-      [self.currentEnemy.healthLabel stopActionByTag:RED_TINT_TAG];
-      self.currentEnemy.healthLabel.color = [CCColor whiteColor];
-    }
+    [self animateDamageLabel:_enemyDamageDealtUnmodified modifiedDamage:_enemyDamageDealt targetSprite:self.currentEnemy withCompletion:^{
+      [self dealDamageToSelf:_enemyDamageDealt enemyIsAttacker:YES showDamageLabel:NO withTarget:self andSelector:@selector(endEnemyTurn)];
+    }];
     
     [self.currentEnemy performNearFlinchAnimationWithStrength:0 delay:0.f];
   }];
 }
 
+- (void) animateDamageLabel:(int)initialDamage modifiedDamage:(int)modifiedDamage targetSprite:(BattleSprite*)targetSprite withCompletion:(void(^)())completion
+{
+  NSString* labelFont = (initialDamage == modifiedDamage) ? @"hpfont.fnt" : (initialDamage > modifiedDamage ? @"decreased.fnt" : @"increased.fnt");
+  CCLabelBMFont* damageLabel = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"%@", [Globals commafyNumber:initialDamage]] fntFile:labelFont];
+  [self.bgdContainer addChild:damageLabel z:targetSprite.zOrder];
+  [damageLabel setPosition:ccpAdd(targetSprite.position, ccp(0, targetSprite.contentSize.height - 15.f))];
+  [damageLabel setAlignment:CCTextAlignmentCenter];
+  [damageLabel setScale:.01f];
+  
+  if (initialDamage == modifiedDamage)
+  {
+    [damageLabel runAction:[CCActionSequence actions:
+                            [CCActionCallBlock actionWithBlock:^{ if (completion) completion(); }],
+                            [CCActionSpawn actions:
+                             [CCActionEaseElasticOut actionWithAction:[CCActionScaleTo actionWithDuration:1.f scale:1.f]],
+                             [CCActionFadeOut actionWithDuration:1.f],
+                             [CCActionMoveBy actionWithDuration:1.f position:ccp(0.f, 25.f)], nil],
+                            [CCActionRemove action], nil]];
+  }
+  else
+  {
+    const float updateDuration = MIN(1.f + abs(initialDamage - modifiedDamage) * .01f, 3.f);
+    const int   updateRepeatCount = ceilf(updateDuration / .05f);
+    const float updateDamageIncrement = (initialDamage - modifiedDamage) / (float)updateRepeatCount;
+    
+    const float labelScaleInitial = (initialDamage > modifiedDamage) ? 1.2f : 1.f;
+    const float labelScaleTarget  = (initialDamage > modifiedDamage) ? 1.f : 1.2f;
+    const int   labelScaleRepeatCount = ceilf(updateDuration / .5f);
+    const float labelScaleIncrement = SGN(labelScaleTarget - labelScaleInitial) * .05f;
+    
+    __block float damage = initialDamage;
+    __block float scale = labelScaleInitial;
+    CCActionFiniteTime* labelUpdateAction = [CCActionSequence actions:
+                                             [CCActionSpawn actions:
+                                              [CCActionRepeat actionWithAction:
+                                               [CCActionSequence actions:
+                                                [CCActionCallBlock actionWithBlock: // Update damage number
+                                                 ^{
+                                                   [damageLabel setString:[NSString stringWithFormat:@"%@", [Globals commafyNumber:floorf(damage)]]];
+                                                   damage = MIN(updateDamageIncrement > 0 ? initialDamage : modifiedDamage,           // Upper limit
+                                                                MAX(damage - updateDamageIncrement,
+                                                                    updateDamageIncrement > 0 ? modifiedDamage : initialDamage));     // Lower limit
+                                                 }],
+                                                [CCActionDelay actionWithDuration:.05f], nil] times:updateRepeatCount],
+                                              [CCActionRepeat actionWithAction:
+                                               [CCActionSequence actions:
+                                                [CCActionCallBlock actionWithBlock: // Update label scale
+                                                 ^{
+                                                   [damageLabel runAction:[CCActionSequence actions:
+                                                                           [CCActionEaseInOut actionWithAction:
+                                                                            [CCActionScaleTo actionWithDuration:.15f scale:scale - labelScaleIncrement * 6.f]],
+                                                                           [CCActionEaseInOut actionWithAction:
+                                                                            [CCActionScaleTo actionWithDuration:.35f scale:scale + labelScaleIncrement]], nil]];
+                                                   scale = MIN(labelScaleIncrement > 0 ? labelScaleTarget : labelScaleInitial,        // Upper limit
+                                                                MAX(scale + labelScaleIncrement,
+                                                                    labelScaleIncrement > 0 ? labelScaleInitial : labelScaleTarget)); // Lower limit
+                                                 }],
+                                                [CCActionDelay actionWithDuration:.5f], nil] times:labelScaleRepeatCount], nil],
+                                             [CCActionCallBlock actionWithBlock:    // Set final damage number
+                                              ^{
+                                                [damageLabel setString:[NSString stringWithFormat:@"%@", [Globals commafyNumber:modifiedDamage]]];
+                                              }], nil];
+    
+    [damageLabel runAction:[CCActionSequence actions:
+                            [CCActionEaseOut actionWithAction:
+                             [CCActionScaleTo actionWithDuration:.2f scale:labelScaleInitial]], // Initial scale to appear
+                            labelUpdateAction,                                                  // Update label
+                            [CCActionCallBlock actionWithBlock:^{ if (completion) completion(); }],
+                            [CCActionSpawn actions:                                             // Move up and fade out
+                             [CCActionFadeOut actionWithDuration:.5f],
+                             [CCActionMoveBy actionWithDuration:.5f position:ccp(0.f, 25.f)], nil],
+                            [CCActionRemove action], nil]];
+  }
+}
+
 - (void) dealDamageToSelf:(int)damageDone enemyIsAttacker:(BOOL)enemyIsAttacker withTarget:(id)target andSelector:(SEL)selector
+{
+  [self dealDamageToSelf:damageDone enemyIsAttacker:enemyIsAttacker showDamageLabel:YES withTarget:target andSelector:selector];
+}
+
+- (void) dealDamageToSelf:(int)damageDone enemyIsAttacker:(BOOL)enemyIsAttacker showDamageLabel:(BOOL)showLabel withTarget:(id)target andSelector:(SEL)selector
 {
   BattlePlayer *bp = enemyIsAttacker ? self.enemyPlayerObject : self.myPlayerObject;
   BattleSprite *bs = enemyIsAttacker ? self.currentEnemy : self.myPlayer;
@@ -1156,27 +1208,24 @@
                                                  [Globals commafyNumber:(int)(healthBar.percentage / 100.f * bp.maxHealth)],
                                                  [Globals commafyNumber:bp.maxHealth]];
                          }],
-                        [CCActionDelay actionWithDuration:.03f],
+                        [CCActionDelay actionWithDuration:.02f],
                         nil]];
   f.tag = 1015;
   [healthLabel runAction:f];
   
-  NSString *str = [NSString stringWithFormat:@"-%@", [Globals commafyNumber:damageDone]];
-  CCLabelBMFont *damageLabel = [CCLabelBMFont labelWithString:str fntFile:@"hpfont.fnt"];
-  [self.bgdContainer addChild:damageLabel z:bs.zOrder];
-  damageLabel.position = ccpAdd(bs.position, ccp(0, bs.contentSize.height - 15));
-  damageLabel.scale = .01f;
-  [damageLabel runAction:[CCActionSequence actions:
-                          [CCActionSpawn actions:
-                           [CCActionEaseElasticOut actionWithAction:[CCActionScaleTo actionWithDuration:1.2f scale:1.f]],
-                           [CCActionFadeOut actionWithDuration:1.5f],
-                           [CCActionMoveBy actionWithDuration:1.5f position:ccp(0, 25)],nil],
-                          [CCActionCallFunc actionWithTarget:damageLabel selector:@selector(removeFromParent)], nil]];
+  [self pulseHealthLabelIfRequired:enemyIsAttacker];
+  
+  if (showLabel)
+    [self animateDamageLabel:damageDone modifiedDamage:damageDone targetSprite:bs withCompletion:nil];
   
   bp.curHealth = newHealth;
 }
 
 - (void) dealDamage:(int)damageDone enemyIsAttacker:(BOOL)enemyIsAttacker usingAbility:(BOOL)usingAbility withTarget:(id)target withSelector:(SEL)selector {
+  [self dealDamage:damageDone enemyIsAttacker:enemyIsAttacker usingAbility:usingAbility showDamageLabel:YES withTarget:target withSelector:selector];
+}
+
+- (void) dealDamage:(int)damageDone enemyIsAttacker:(BOOL)enemyIsAttacker usingAbility:(BOOL)usingAbility showDamageLabel:(BOOL)showLabel withTarget:(id)target withSelector:(SEL)selector {
   BattlePlayer *att, *def;
   BattleSprite *attSpr, *defSpr;
   CCLabelTTF *healthLabel;
@@ -1235,22 +1284,15 @@
                          ^{
                            healthLabel.string = [NSString stringWithFormat:@"%@/%@", [Globals commafyNumber:(int)(healthBar.percentage/100.f*def.maxHealth)], [Globals commafyNumber:def.maxHealth]];
                          }],
-                        [CCActionDelay actionWithDuration:0.03],
+                        [CCActionDelay actionWithDuration:0.02],
                         nil]];
   f.tag = 1015;
   [healthLabel runAction:f];
   
-  NSString *str = [NSString stringWithFormat:@"-%@", [Globals commafyNumber:damageDone]];
-  CCLabelBMFont *damageLabel = [CCLabelBMFont labelWithString:str fntFile:@"hpfont.fnt"];
-  [self.bgdContainer addChild:damageLabel z:defSpr.zOrder];
-  damageLabel.position = ccpAdd(defSpr.position, ccp(0, defSpr.contentSize.height-15));
-  damageLabel.scale = 0.01;
-  [damageLabel runAction:[CCActionSequence actions:
-                          [CCActionSpawn actions:
-                           [CCActionEaseElasticOut actionWithAction:[CCActionScaleTo actionWithDuration:1.2f scale:1]],
-                           [CCActionFadeOut actionWithDuration:1.5f],
-                           [CCActionMoveBy actionWithDuration:1.5f position:ccp(0,25)],nil],
-                          [CCActionCallFunc actionWithTarget:damageLabel selector:@selector(removeFromParent)], nil]];
+  [self pulseHealthLabelIfRequired:!enemyIsAttacker];
+  
+  if (showLabel)
+    [self animateDamageLabel:damageDone modifiedDamage:damageDone targetSprite:defSpr withCompletion:nil];
   
   /*
   if ( ! usingAbility )
@@ -1308,10 +1350,12 @@
                                                  [Globals commafyNumber:(int)(healthBar.percentage / 100.f * bp.maxHealth)],
                                                  [Globals commafyNumber:bp.maxHealth]];
                          }],
-                        [CCActionDelay actionWithDuration:.03f],
+                        [CCActionDelay actionWithDuration:.02f],
                         nil]];
   [f setTag:1827];
   [healthLabel runAction:f];
+  
+  [self pulseHealthLabelIfRequired:enemyIsHealed];
   
   NSString *str = [NSString stringWithFormat:@"+%@", [Globals commafyNumber:heal]];
   CCLabelBMFont *healLabel = [CCLabelBMFont labelWithString:str fntFile:@"earthpointsfont.fnt"];
@@ -2060,6 +2104,34 @@
   [self.bloodSplatter runAction:
    [CCActionRepeatForever actionWithAction:
     [CCActionSequence actions:fadeIn, fadeOut, nil]]];
+}
+
+- (void) pulseHealthLabelIfRequired:(BOOL)onEnemy
+{
+  if (onEnemy)
+  {
+    float perc = ((float)self.enemyPlayerObject.curHealth)/self.enemyPlayerObject.maxHealth;
+    if (perc < PULSE_CONT_THRESH) {
+      [self pulseHealthLabel:YES];
+    } else {
+      [self.currentEnemy.healthLabel stopActionByTag:RED_TINT_TAG];
+      self.currentEnemy.healthLabel.color = [CCColor whiteColor];
+    }
+  }
+  else
+  {
+    float perc = ((float)self.myPlayerObject.curHealth)/self.myPlayerObject.maxHealth;
+    if (!_bloodSplatter || _bloodSplatter.numberOfRunningActions == 0) {
+      if (perc < PULSE_CONT_THRESH) {
+        [self pulseBloodContinuously];
+        [self pulseHealthLabel:NO];
+      } else if (perc < PULSE_ONCE_THRESH) {
+        [self pulseBloodOnce];
+      }
+    } else if (perc > PULSE_ONCE_THRESH) {
+      [self stopPulsing];
+    }
+  }
 }
 
 - (void) pulseHealthLabel:(BOOL)isEnemy {

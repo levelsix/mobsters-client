@@ -15,8 +15,6 @@ enum TickerState
   TickerState_Falling
 };
 
-#define SGN(A) ({ __typeof__(A) __a = (A); (0 < __a) - (__a < 0); })
-
 static const float kContentStartOffset_iPhone6 = -7.5f;     // Magic number; do not touch unless scroll bar width changes
 static const float kContentStartOffset_iPhone6Plus = 28.5f; // Magic number; do not touch unless scroll bar width changes
 static const float kContentStartOffset_iPhone5 = 2.f;       // Magic number; do not touch unless scroll bar width changes
