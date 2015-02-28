@@ -167,35 +167,7 @@ static const NSInteger kBulletOrbsMaxSearchIterations = 256;
   return usedUpOrbCount;
 }
 
-- (void) beginOutOfTurnAttack
-{
-  [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
-  [self.battleLayer.orbLayer disallowInput];
-  
-  [self showLogo];
-  
-  [self.enemySprite performNearAttackAnimationWithEnemy:self.playerSprite
-                                           shouldReturn:YES
-                                            shouldEvade:NO
-                                           shouldFlinch:YES
-                                                 target:self
-                                               selector:@selector(dealDamage)
-                                         animCompletion:nil];
-}
-
-- (void) dealDamage
-{
-  [self.battleLayer dealDamage:_fixedDamageReceived * _orbsConsumed
-               enemyIsAttacker:YES
-                  usingAbility:YES
-                    withTarget:self
-                  withSelector:@selector(endOutOfTurnAttack)];
-  
-  [self.battleLayer setEnemyDamageDealt:(int)_fixedDamageReceived * _orbsConsumed];
-  [self.battleLayer sendServerUpdatedValuesVerifyDamageDealt:NO];
-}
-
-- (void) endOutOfTurnAttack
+- (int)quickAttackDamage
 {
   [self.battleLayer.orbLayer.bgdLayer turnTheLightsOn];
   [self.battleLayer.orbLayer allowInput];
@@ -229,99 +201,9 @@ static const NSInteger kBulletOrbsMaxSearchIterations = 256;
    */
 }
 
-- (void) spawnOrbs
-{
-  [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
-  [self.battleLayer.orbLayer disallowInput];
-  // Jumping, showing overlay and spawning set
-  [self showSkillPopupOverlay:YES withCompletion:^{
-    [self performAfterDelay:.5f block:^{
-      [self spawnBulletOrbs:_numOrbsToSpawn withTarget:self andSelector:@selector(finishSpawn)];
-    }];
-  }];
-}
-
-- (void) spawnBulletOrbs:(NSInteger)count withTarget:(id)target andSelector:(SEL)selector
-{
-  [self preseedRandomization];
-  
-  BattleOrbLayout* layout = self.battleLayer.orbLayer.layout;
-  BattleOrb* orb = nil;
-  
-  for (NSInteger n = 0; n < count; ++n)
-  {
-    NSInteger column, row;
-    NSInteger counter = 0;
-    do {
-      column = rand() % layout.numColumns;
-      row = (layout.numRows - 1) - rand() % 2; // Top two rows
-      orb = [layout orbAtColumn:column row:row];
-      ++counter;
-    }
-    while ((orb.specialOrbType != SpecialOrbTypeNone || orb.powerupType != PowerupTypeNone || orb.isLocked) &&
-           counter < kBulletOrbsMaxSearchIterations);
-    
-    // Nothing found (just in case), continue and perform selector if the last bullet orb
-    if (!orb)
-    {
-      if (n == count - 1)
-        if (target && selector)
-          SUPPRESS_PERFORM_SELECTOR_LEAK_WARNING([target performSelector:selector withObject:nil];);
-      continue;
-    }
-    
-    // Update data
-    orb.specialOrbType = SpecialOrbTypeBullet;
-    orb.orbColor = OrbColorNone;
-    orb.turnCounter = _orbsSpawnCounter;
-    
-    // Update tile
-    OrbBgdLayer* bgdLayer = self.battleLayer.orbLayer.bgdLayer;
-    BattleTile* tile = [layout tileAtColumn:orb.column row:orb.row];
-    [bgdLayer updateTile:tile keepLit:NO withTarget:(n == count - 1) ? target : nil andCallback:selector];
-    
-    // Update orb
-    [self performAfterDelay:.5f block:^{
-      OrbSprite* orbSprite = [self.battleLayer.orbLayer.swipeLayer spriteForOrb:orb];
-      [orbSprite reloadSprite:YES];
-    }];
-    
-    ++_orbsSpawned;
-  }
-}
-
-- (void) finishSpawn
+- (void)onAllSpecialsDestroyed
 {
   [self resetOrbCounter];
-  
-  [self.battleLayer.orbLayer.bgdLayer turnTheLightsOn];
-  [self.battleLayer.orbLayer allowInput];
-  
-  [self skillTriggerFinished:YES];
-}
-
-- (void) removeAllBulletOrbs
-{
-  BattleOrbLayout* layout = self.battleLayer.orbLayer.layout;
-  OrbSwipeLayer* layer = self.battleLayer.orbLayer.swipeLayer;
-  
-  for (NSInteger column = 0; column < layout.numColumns; ++column)
-  {
-    for (NSInteger row = 0; row < layout.numRows; ++row)
-    {
-      BattleOrb* orb = [layout orbAtColumn:column row:row];
-      if (orb.specialOrbType == SpecialOrbTypeBullet)
-      {
-        orb.specialOrbType = SpecialOrbTypeNone;
-        do {
-          orb.orbColor = [layout generateRandomOrbColor];
-        } while ([layout hasChainAtColumn:column row:row]);
-        
-        OrbSprite* orbSprite = [layer spriteForOrb:orb];
-        [orbSprite reloadSprite:YES];
-      }
-    }
-  }
 }
 
 @end
