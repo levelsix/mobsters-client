@@ -3781,7 +3781,6 @@
 		CF48195919F7217F00041486 /* MiniJobsCompleteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF5DB9E194BD8CE0019EB2B /* MiniJobsCompleteViewController.m */; };
 		CF48195A19F7217F00041486 /* Quest.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65749B1909CAF200ABF1F4 /* Quest.pb.m */; };
 		CF48195C19F7217F00041486 /* EventReferral.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574681909CAF100ABF1F4 /* EventReferral.pb.m */; };
-		CF48195F19F7217F00041486 /* BattleSimulation.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFCF55F19AFDBFB007E316D /* BattleSimulation.m */; };
 		CF48196119F7217F00041486 /* RewardsView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF740691817D3D2009DE4A4 /* RewardsView.m */; };
 		CF48196219F7217F00041486 /* EnhanceQueueViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF6464E195A69A300C43641 /* EnhanceQueueViewController.m */; };
 		CF48196319F7217F00041486 /* AMQPConnectionThread.m in Sources */ = {isa = PBXBuildFile; fileRef = CF7F27D2165B36CF00D967DC /* AMQPConnectionThread.m */; };
@@ -3836,7 +3835,6 @@
 		CF48199519F7217F00041486 /* BattleViews.m in Sources */ = {isa = PBXBuildFile; fileRef = CF52D0AC17EA3E7D00A067A6 /* BattleViews.m */; };
 		CF48199619F7217F00041486 /* BuildingViews.m in Sources */ = {isa = PBXBuildFile; fileRef = CF29E9111960E85100B40DA4 /* BuildingViews.m */; };
 		CF48199719F7217F00041486 /* CCSoundAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = CF63F78117EC168C00FEBAA9 /* CCSoundAnimation.m */; };
-		CF48199819F7217F00041486 /* BaseBattleLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF81C96819A57406002682A2 /* BaseBattleLayer.m */; };
 		CF48199919F7217F00041486 /* EventPvp.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574641909CAF100ABF1F4 /* EventPvp.pb.m */; };
 		CF48199A19F7217F00041486 /* ChatView.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3765A9183175DE00D0A77E /* ChatView.m */; };
 		CF48199B19F7217F00041486 /* DungeonBattleLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF2080517FE269300AA6F84 /* DungeonBattleLayer.m */; };
@@ -5466,10 +5464,8 @@
 		CF812F2A19E7723300D91157 /* minijobsgethelp@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF812F1619E7723300D91157 /* minijobsgethelp@2x.png */; };
 		CF812F3119E7723300D91157 /* timergethelp@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF812F1A19E7723300D91157 /* timergethelp@2x.png */; };
 		CF812F3219E7723300D91157 /* timergethelp@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF812F1A19E7723300D91157 /* timergethelp@2x.png */; };
-		CF81C96919A57406002682A2 /* BaseBattleLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF81C96819A57406002682A2 /* BaseBattleLayer.m */; };
 		CF81C96C19A575EA002682A2 /* OrbSwipeLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF81C96B19A575EA002682A2 /* OrbSwipeLayer.m */; };
 		CF81C96D19A58511002682A2 /* OrbSwipeLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF81C96B19A575EA002682A2 /* OrbSwipeLayer.m */; };
-		CF81C96E19A58515002682A2 /* BaseBattleLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF81C96819A57406002682A2 /* BaseBattleLayer.m */; };
 		CF81C97119A67224002682A2 /* OrbMainLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF81C97019A67224002682A2 /* OrbMainLayer.m */; };
 		CF864D5E193D492D00DE0D7A /* AttackEventView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF864D5D193D492D00DE0D7A /* AttackEventView.xib */; };
 		CF864D60193D493A00DE0D7A /* AttackEventViewSmall.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF864D5F193D493A00DE0D7A /* AttackEventViewSmall.xib */; };
@@ -6581,8 +6577,6 @@
 		CFFC510E19C4C57700BDAA62 /* notmiddlered@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFC50F619C4C57700BDAA62 /* notmiddlered@2x.png */; };
 		CFFCF55519AFAEC9007E316D /* BattleHudView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFCF55419AFAEC9007E316D /* BattleHudView.m */; };
 		CFFCF55B19AFB112007E316D /* BattleHudView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFCF55419AFAEC9007E316D /* BattleHudView.m */; };
-		CFFCF56019AFDBFB007E316D /* BattleSimulation.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFCF55F19AFDBFB007E316D /* BattleSimulation.m */; };
-		CFFCF56119AFF141007E316D /* BattleSimulation.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFCF55F19AFDBFB007E316D /* BattleSimulation.m */; };
 		CFFCF56F19B01C58007E316D /* TangoDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = CFFCF56D19B01C4E007E316D /* TangoDelegate.mm */; };
 		CFFCF57A19B1608B007E316D /* tangoorangebutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFCF57619B1608B007E316D /* tangoorangebutton@2x.png */; };
 		CFFCF57C19B163B8007E316D /* settingsconnect@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFCF57419B1608B007E316D /* settingsconnect@2x.png */; };
@@ -8796,8 +8790,6 @@
 		CF812F1619E7723300D91157 /* minijobsgethelp@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "minijobsgethelp@2x.png"; sourceTree = "<group>"; };
 		CF812F1919E7723300D91157 /* timergethelp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = timergethelp.png; path = "Clan Help/timergethelp.png"; sourceTree = "<group>"; };
 		CF812F1A19E7723300D91157 /* timergethelp@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "timergethelp@2x.png"; sourceTree = "<group>"; };
-		CF81C96719A57406002682A2 /* BaseBattleLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseBattleLayer.h; sourceTree = "<group>"; };
-		CF81C96819A57406002682A2 /* BaseBattleLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseBattleLayer.m; sourceTree = "<group>"; };
 		CF81C96A19A575EA002682A2 /* OrbSwipeLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrbSwipeLayer.h; sourceTree = "<group>"; };
 		CF81C96B19A575EA002682A2 /* OrbSwipeLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrbSwipeLayer.m; sourceTree = "<group>"; };
 		CF81C96F19A67224002682A2 /* OrbMainLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrbMainLayer.h; sourceTree = "<group>"; };
@@ -10266,8 +10258,6 @@
 		CFFC50F619C4C57700BDAA62 /* notmiddlered@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notmiddlered@2x.png"; sourceTree = "<group>"; };
 		CFFCF55319AFAEC9007E316D /* BattleHudView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BattleHudView.h; sourceTree = "<group>"; };
 		CFFCF55419AFAEC9007E316D /* BattleHudView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BattleHudView.m; sourceTree = "<group>"; };
-		CFFCF55E19AFDBFB007E316D /* BattleSimulation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BattleSimulation.h; sourceTree = "<group>"; };
-		CFFCF55F19AFDBFB007E316D /* BattleSimulation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BattleSimulation.m; sourceTree = "<group>"; };
 		CFFCF56C19B01C4E007E316D /* TangoDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TangoDelegate.h; sourceTree = "<group>"; };
 		CFFCF56D19B01C4E007E316D /* TangoDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TangoDelegate.mm; sourceTree = "<group>"; };
 		CFFCF57319B1608B007E316D /* settingsconnect.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = settingsconnect.png; path = Settings/settingsconnect.png; sourceTree = "<group>"; };
@@ -14778,8 +14768,6 @@
 		CF81C96119A573B4002682A2 /* Layers */ = {
 			isa = PBXGroup;
 			children = (
-				CF81C96719A57406002682A2 /* BaseBattleLayer.h */,
-				CF81C96819A57406002682A2 /* BaseBattleLayer.m */,
 				CF81C96F19A67224002682A2 /* OrbMainLayer.h */,
 				CF81C97019A67224002682A2 /* OrbMainLayer.m */,
 				CF81C96A19A575EA002682A2 /* OrbSwipeLayer.h */,
@@ -16565,8 +16553,6 @@
 		CFFCF55D19AFD8E0007E316D /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				CFFCF55E19AFDBFB007E316D /* BattleSimulation.h */,
-				CFFCF55F19AFDBFB007E316D /* BattleSimulation.m */,
 				CFE0E6B617E3C05F002ECA84 /* BattlePlayer.h */,
 				CFE0E6B717E3C05F002ECA84 /* BattlePlayer.m */,
 				CF023CB41992ED9E0082FE61 /* BattleSchedule.h */,
@@ -23042,7 +23028,6 @@
 				CF0CEDAC196F452900ECD301 /* Quest.pb.m in Sources */,
 				CF0CEDAE196F452900ECD301 /* EventReferral.pb.m in Sources */,
 				9BB9485A1A674935006EE920 /* NewGachaTicker.m in Sources */,
-				CFFCF56119AFF141007E316D /* BattleSimulation.m in Sources */,
 				CFA9F7CD1A0DA0F900EBE77D /* ItemUtil.m in Sources */,
 				CF0CEDB2196F452900ECD301 /* RewardsView.m in Sources */,
 				CF0CEDB3196F452900ECD301 /* EnhanceQueueViewController.m in Sources */,
@@ -23114,7 +23099,6 @@
 				CF0CEDE4196F452900ECD301 /* CCSoundAnimation.m in Sources */,
 				9BB9494B1A6EEC8C006EE920 /* NSData+Base64.m in Sources */,
 				6BB5F8601A80095B006515B9 /* TutorialBuildingUpgradeController.m in Sources */,
-				CF81C96E19A58515002682A2 /* BaseBattleLayer.m in Sources */,
 				CFE11F811A141C040094F797 /* amqp_mem.c in Sources */,
 				CF0CEDE5196F452900ECD301 /* EventPvp.pb.m in Sources */,
 				6B0784041A828C1C005CDFCF /* SkillInsurance.m in Sources */,
@@ -23208,7 +23192,6 @@
 				CF4DB8EB1807DA1F00062258 /* MapSprite.m in Sources */,
 				CF20F22F180FCDCB005551B5 /* EasyTableView.m in Sources */,
 				CFBEB1C31A118DCE00149937 /* SpeedupItemsFiller.m in Sources */,
-				CFFCF56019AFDBFB007E316D /* BattleSimulation.m in Sources */,
 				CF126D4D1538ACCA00E0C1AD /* GenericPopupController.m in Sources */,
 				CFBB379D18F4853900FD6C8C /* QuestCompleteLayer.m in Sources */,
 				CFE11F6B1A141C040094F797 /* amqp_api.c in Sources */,
@@ -23229,7 +23212,6 @@
 				CF126D831538ACCA00E0C1AD /* IncomingEventController.m in Sources */,
 				CF6574E21909CAF200ABF1F4 /* Structure.pb.m in Sources */,
 				CF126D841538ACCA00E0C1AD /* OutgoingEventController.m in Sources */,
-				CF81C96919A57406002682A2 /* BaseBattleLayer.m in Sources */,
 				CF126D851538ACCA00E0C1AD /* SocketCommunication.m in Sources */,
 				CF4DB8DA1807DA1F00062258 /* AnimatedSprite.m in Sources */,
 				CF3764FC182DD6BD00D0A77E /* ChatViewController.m in Sources */,
@@ -23737,7 +23719,6 @@
 				CF48195A19F7217F00041486 /* Quest.pb.m in Sources */,
 				CF48195C19F7217F00041486 /* EventReferral.pb.m in Sources */,
 				9BB9485B1A674935006EE920 /* NewGachaTicker.m in Sources */,
-				CF48195F19F7217F00041486 /* BattleSimulation.m in Sources */,
 				CFA9F7CE1A0DA0F900EBE77D /* ItemUtil.m in Sources */,
 				CF48196119F7217F00041486 /* RewardsView.m in Sources */,
 				CF48196219F7217F00041486 /* EnhanceQueueViewController.m in Sources */,
@@ -23809,7 +23790,6 @@
 				CF48199719F7217F00041486 /* CCSoundAnimation.m in Sources */,
 				9BB9494C1A6EEC8C006EE920 /* NSData+Base64.m in Sources */,
 				6BB5F8611A80095B006515B9 /* TutorialBuildingUpgradeController.m in Sources */,
-				CF48199819F7217F00041486 /* BaseBattleLayer.m in Sources */,
 				CFE11F821A141C040094F797 /* amqp_mem.c in Sources */,
 				CF48199919F7217F00041486 /* EventPvp.pb.m in Sources */,
 				6B0784051A828C1C005CDFCF /* SkillInsurance.m in Sources */,
