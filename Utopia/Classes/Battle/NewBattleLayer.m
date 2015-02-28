@@ -820,7 +820,7 @@
     
     if (self.myPlayerObject.isStunned)
     {
-      [self endMyTurnAfterDelay:.5f];
+      [self endMyTurnAfterDelay:1.5f];
       return;
     }
     
@@ -880,7 +880,9 @@
             // If the enemy's stunned, short the attack function
             if (self.enemyPlayerObject.isStunned)
             {
-              [self endEnemyTurn];
+              [self performAfterDelay:1.5 block:^{
+                [self endEnemyTurn];
+              }];
               return;
             }
             
