@@ -480,6 +480,7 @@
     if (bp.curHealth <= 0) {
       bp = nil;
       self.battleSchedule = nil;
+      [self.hudView.battleScheduleView setBattleSchedule:nil];
     }
   }
   
@@ -767,6 +768,8 @@
   int curIdx = (int)[[stateDict objectForKey:SCHEDULE_INDEX_KEY] integerValue];
   self.battleSchedule = [[BattleSchedule alloc] initWithSequence:schedule currentIndex:curIdx-1];
   _shouldDisplayNewSchedule = YES;
+  
+  [self.hudView.battleScheduleView setBattleSchedule:self.battleSchedule];
   
   _resumedUserMonsterUuid = [stateDict objectForKey:MY_USER_MONSTER_ID_KEY];
   

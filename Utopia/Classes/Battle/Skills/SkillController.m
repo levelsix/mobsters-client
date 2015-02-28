@@ -455,17 +455,29 @@
 
 - (void) addSkillSideEffectToSkillOwner:(SideEffectType)type turnsAffected:(NSInteger)numTurns
 {
-  [(_belongsToPlayer ? _playerSprite : _enemySprite) addSkillSideEffect:type
-                                                               forSkill:_skillId
-                                                          turnsAffected:numTurns
-                                                               toPlayer:_belongsToPlayer];
+  [self addSkillSideEffectToSkillOwner:type turnsAffected:numTurns turnsAreSkillOwners:YES];
 }
 
 - (void) addSkillSideEffectToOpponent:(SideEffectType)type turnsAffected:(NSInteger)numTurns
 {
+  [self addSkillSideEffectToOpponent:type turnsAffected:numTurns turnsAreSkillOwners:NO];
+}
+
+- (void) addSkillSideEffectToSkillOwner:(SideEffectType)type turnsAffected:(NSInteger)numTurns turnsAreSkillOwners:(BOOL)turnsAreSkillOwners
+{
+  [(_belongsToPlayer ? _playerSprite : _enemySprite) addSkillSideEffect:type
+                                                               forSkill:_skillId
+                                                          turnsAffected:numTurns
+                                               turnsAreSideEffectOwners:turnsAreSkillOwners
+                                                               toPlayer:_belongsToPlayer];
+}
+
+- (void) addSkillSideEffectToOpponent:(SideEffectType)type turnsAffected:(NSInteger)numTurns turnsAreSkillOwners:(BOOL)turnsAreSkillOwners
+{
   [(_belongsToPlayer ? _enemySprite : _playerSprite) addSkillSideEffect:type
                                                                forSkill:_skillId
                                                           turnsAffected:numTurns
+                                               turnsAreSideEffectOwners:!turnsAreSkillOwners
                                                                toPlayer:!_belongsToPlayer];
 }
 

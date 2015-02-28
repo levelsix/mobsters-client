@@ -82,7 +82,8 @@
   return self;
 }
 
-- (void)addToCharacterSprite:(BattleSprite*)sprite zOrder:(NSInteger)zOrder turnsAffected:(NSInteger)numTurns castOnPlayer:(BOOL)player
+- (void)addToCharacterSprite:(BattleSprite*)sprite zOrder:(NSInteger)zOrder turnsAffected:(NSInteger)numTurns
+    turnsAreSideEffectOwners:(BOOL)turnsAreSideEffectOwners castOnPlayer:(BOOL)player
 {
   if (_characterSprite)
     [self removeFromCharacterSprite];
@@ -176,10 +177,20 @@
       if (success)
       {
         // Display side effect symbol on turn indicators for the affected turns
-        [[[[skillManager battleLayer] hudView] battleScheduleView] displaySideEffectIcon:_iconImageName
-                                                                                 withKey:_name
-                                                                         onUpcomingTurns:numTurns
-                                                                               forPlayer:player];
+        if (turnsAreSideEffectOwners)
+        {
+          [[[[skillManager battleLayer] hudView] battleScheduleView] displaySideEffectIcon:_iconImageName
+                                                                                   withKey:_name
+                                                                  forUpcomingNumberOfTurns:numTurns
+                                                                                 forPlayer:player];
+        }
+        else
+        {
+          [[[[skillManager battleLayer] hudView] battleScheduleView] displaySideEffectIcon:_iconImageName
+                                                                                   withKey:_name
+                                                          forUpcomingNumberOfOpponentTurns:numTurns
+                                                                                 forPlayer:player];
+        }
       }
     }];
   }
@@ -274,7 +285,7 @@
   // Display side effect symbol on turn indicators for the affected turns
   [[[[skillManager battleLayer] hudView] battleScheduleView] displaySideEffectIcon:_iconImageName
                                                                            withKey:_name
-                                                                   onUpcomingTurns:numTurns
+                                                          forUpcomingNumberOfTurns:numTurns
                                                                          forPlayer:_castOnPlayer];
 }
 

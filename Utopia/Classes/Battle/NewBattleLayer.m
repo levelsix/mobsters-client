@@ -291,6 +291,8 @@
     [self.hudView removeBattleScheduleView];
     self.battleSchedule = nil;
   }
+  
+  [self.hudView.battleScheduleView setBattleSchedule:self.battleSchedule];
 }
 
 - (void) begin {

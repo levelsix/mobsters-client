@@ -94,7 +94,8 @@
   return self;
 }
 
-- (void) addSkillSideEffect:(SideEffectType)type forSkill:(NSInteger)skillId turnsAffected:(NSInteger)numTurns toPlayer:(BOOL)player
+- (void) addSkillSideEffect:(SideEffectType)type forSkill:(NSInteger)skillId turnsAffected:(NSInteger)numTurns
+   turnsAreSideEffectOwners:(BOOL)turnsAreSideEffectOwners toPlayer:(BOOL)player
 {
   // Allow only unique side effect types
   for (SkillSideEffect* sideEffect in _skillSideEffects)
@@ -108,7 +109,8 @@
     SkillSideEffect* sideEffect = [SkillSideEffect sideEffectWithProto:proto invokingSkill:skillId];
     if (sideEffect)
     {
-      [sideEffect addToCharacterSprite:self zOrder:_skillSideEffects.count turnsAffected:numTurns castOnPlayer:player];
+      [sideEffect addToCharacterSprite:self zOrder:_skillSideEffects.count turnsAffected:numTurns
+              turnsAreSideEffectOwners:turnsAreSideEffectOwners castOnPlayer:player];
       [_skillSideEffects addObject:sideEffect];
       
       [self updateSkillSideEffectsDisplayOrder];

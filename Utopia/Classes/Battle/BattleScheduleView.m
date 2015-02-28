@@ -7,9 +7,8 @@
 //
 
 #import "BattleScheduleView.h"
-
+#import "BattleSchedule.h"
 #import "Globals.h"
-
 #import "CAKeyFrameAnimation+Jumping.h"
 
 #define VIEW_SPACING 4
@@ -41,6 +40,7 @@
     self.numSlots = 3;
   }
   
+  _battleSchedule = nil;
   _upcomingSideEffectTurns = [NSMutableDictionary dictionary];
   
   UIImage *dark = [Globals maskImage:self.bgdView.image withColor:[UIColor colorWithWhite:0.f alpha:1.f]];
@@ -56,6 +56,11 @@
   [super setFrame:frame];
   
   self.numSlots = roundf(self.width/(self.currentBorder.width+VIEW_SPACING));
+}
+
+- (void) setBattleSchedule:(__weak BattleSchedule*)battleSchedule
+{
+  _battleSchedule = battleSchedule;
 }
 
 - (void) displayOverlayView {
@@ -228,7 +233,7 @@
   return mmv;
 }
 
-- (void) displaySideEffectIcon:(NSString*)icon withKey:(NSString*)key onUpcomingTurns:(NSInteger)numTurns forPlayer:(BOOL)player
+- (void) displaySideEffectIcon:(NSString*)icon withKey:(NSString*)key forUpcomingNumberOfTurns:(NSInteger)numTurns forPlayer:(BOOL)player
 {
   SideEffectActiveTurns* at = [_upcomingSideEffectTurns objectForKey:key];
   if (!at) { at = [[SideEffectActiveTurns alloc] init]; [_upcomingSideEffectTurns setObject:at forKey:key]; }
@@ -239,6 +244,21 @@
   for (MiniMonsterView* mv in self.monsterViews)
     if (mv.belongsToPlayer == player)
       [self display:(numTurns < 0 || turnCounter++ < numTurns) sideEffectIcon:icon withKey:key onView:mv forPlayer:player];
+}
+
+- (void) displaySideEffectIcon:(NSString*)icon withKey:(NSString*)key forUpcomingNumberOfOpponentTurns:(NSInteger)numTurns forPlayer:(BOOL)player
+{
+  if (_battleSchedule && numTurns > 0)
+  {
+    int turn = -1;
+    int upcomingAffectedTurns = 0;
+    int opponentTurnsEncountered = 0;
+    while (opponentTurnsEncountered < numTurns)
+      if ([_battleSchedule getNthMove:turn++] == player) ++upcomingAffectedTurns;
+      else ++opponentTurnsEncountered;
+    
+    [self displaySideEffectIcon:icon withKey:key forUpcomingNumberOfTurns:upcomingAffectedTurns forPlayer:player];
+  }
 }
 
 - (void) removeSideEffectIconWithKey:(NSString*)key onAllUpcomingTurnsForPlayer:(BOOL)player
