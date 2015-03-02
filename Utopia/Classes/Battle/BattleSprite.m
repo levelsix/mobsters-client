@@ -783,10 +783,10 @@
   CCActionFiniteTime* jumpAndMoveAction = [CCActionJumpBy actionWithDuration:duration * .2f position:movement height:height jumps:1];
   CCActionFiniteTime* jumpAndMoveBackAction = [CCActionJumpBy actionWithDuration:duration * .2f position:movementBack height:height jumps:1];
   [self.sprite runAction:[CCActionSequence actions:
-                          delayAction,
-                          jumpAndMoveAction,
-                          pauseAction,
-                          jumpAndMoveBackAction,
+                          [delayAction copy],
+                          [jumpAndMoveAction copy],
+                          [pauseAction copy],
+                          [jumpAndMoveBackAction copy],
                           nil]];
   
   CCActionFiniteTime* jumpSoundAction = [CCActionCallBlock actionWithBlock:^{ [SoundEngine spriteJump]; }];
@@ -794,27 +794,27 @@
                                            [CCActionScaleTo actionWithDuration:duration * .1f scale:.7f],
                                            [CCActionScaleTo actionWithDuration:duration * .1f scale:1.f],
                                            nil];
-  CCActionFiniteTime* shadowScaleAndMoveAction = [CCActionSpawn actions:[CCActionMoveBy actionWithDuration:duration * .2f position:movement], shadowScaleAction, nil];
-  CCActionFiniteTime* shadowScaleAndMoveBackAction = [CCActionSpawn actions:[CCActionMoveBy actionWithDuration:duration * .2f position:movementBack], shadowScaleAction, nil];
+  CCActionFiniteTime* shadowScaleAndMoveAction = [CCActionSpawn actions:[CCActionMoveBy actionWithDuration:duration * .2f position:movement], [shadowScaleAction copy], nil];
+  CCActionFiniteTime* shadowScaleAndMoveBackAction = [CCActionSpawn actions:[CCActionMoveBy actionWithDuration:duration * .2f position:movementBack], [shadowScaleAction copy], nil];
   
   // Animate and move character shadow with the sprite
   CCSprite* shadow = (CCSprite*)[self getChildByName:SHADOW_TAG recursively:NO];
   [shadow runAction:[CCActionSequence actions:
-                     delayAction,
-                     jumpSoundAction,
-                     shadowScaleAndMoveAction,
-                     pauseAction,
-                     jumpSoundAction,
-                     shadowScaleAndMoveBackAction,
+                     [delayAction copy],
+                     [jumpSoundAction copy],
+                     [shadowScaleAndMoveAction copy],
+                     [pauseAction copy],
+                     [jumpSoundAction copy],
+                     [shadowScaleAndMoveBackAction copy],
                      nil]];
   
   // Animate and move any side effect visuals or particle effects with the sprite
   for (SkillSideEffect* sideEffect in _skillSideEffects)
   {
     if (sideEffect.vfx)
-      [sideEffect.vfx runAction:[CCActionSequence actions:delayAction, shadowScaleAndMoveAction, pauseAction, shadowScaleAndMoveBackAction, nil]];
+      [sideEffect.vfx runAction:[CCActionSequence actions:[delayAction copy], [shadowScaleAndMoveAction copy], [pauseAction copy], [shadowScaleAndMoveBackAction copy], nil]];
     if (sideEffect.pfx)
-      [sideEffect.pfx runAction:[CCActionSequence actions:delayAction, shadowScaleAndMoveAction, pauseAction, shadowScaleAndMoveBackAction, nil]];
+      [sideEffect.pfx runAction:[CCActionSequence actions:[delayAction copy], [shadowScaleAndMoveAction copy], [pauseAction copy], [shadowScaleAndMoveBackAction copy], nil]];
   }
 }
 
