@@ -12,3 +12,7 @@
 @interface ResearchViewController : PopupSubViewController
 
 @end
+
+@interface ResearchCategoryCellView : UITableViewCell
+
+@end

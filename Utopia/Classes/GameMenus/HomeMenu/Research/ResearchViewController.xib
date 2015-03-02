@@ -23,6 +23,10 @@
                             <rect key="frame" x="0.0" y="8" width="430" height="175"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <outlet property="dataSource" destination="-1" id="8tz-YP-Tjk"/>
+                                <outlet property="delegate" destination="-1" id="BHX-d7-jgU"/>
+                            </connections>
                         </tableView>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
