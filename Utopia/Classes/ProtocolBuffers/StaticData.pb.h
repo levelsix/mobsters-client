@@ -4,7 +4,6 @@
 
 #import "AchievementStuff.pb.h"
 #import "Battle.pb.h"
-#import "BattleItem.pb.h"
 #import "Board.pb.h"
 #import "BoosterPackStuff.pb.h"
 #import "City.pb.h"
@@ -14,7 +13,6 @@
 #import "Prerequisite.pb.h"
 #import "Quest.pb.h"
 #import "Research.pb.h"
-#import "Reward.pb.h"
 #import "Skill.pb.h"
 #import "Structure.pb.h"
 #import "Task.pb.h"
@@ -23,12 +21,6 @@
 
 @class AchievementProto;
 @class AchievementProto_Builder;
-@class BattleItemFactoryProto;
-@class BattleItemFactoryProto_Builder;
-@class BattleItemProto;
-@class BattleItemProto_Builder;
-@class BattleItemQueueForUserProto;
-@class BattleItemQueueForUserProto_Builder;
 @class BoardLayoutProto;
 @class BoardLayoutProto_Builder;
 @class BoardPropertyProto;
@@ -69,8 +61,6 @@
 @class ColorProto_Builder;
 @class CoordinateProto;
 @class CoordinateProto_Builder;
-@class DefaultLanguagesProto;
-@class DefaultLanguagesProto_Builder;
 @class DialogueProto;
 @class DialogueProto_Builder;
 @class DialogueProto_SpeechSegmentProto;
@@ -153,8 +143,6 @@
 @class PersistentEventProto_Builder;
 @class PrereqProto;
 @class PrereqProto_Builder;
-@class PrivateChatDefaultLanguageProto;
-@class PrivateChatDefaultLanguageProto_Builder;
 @class PrivateChatPostProto;
 @class PrivateChatPostProto_Builder;
 @class PvpBoardHouseProto;
@@ -177,8 +165,6 @@
 @class QuestJobProto_Builder;
 @class RareBoosterPurchaseProto;
 @class RareBoosterPurchaseProto_Builder;
-@class ResearchHouseProto;
-@class ResearchHouseProto_Builder;
 @class ResearchPropertyProto;
 @class ResearchPropertyProto_Builder;
 @class ResearchProto;
@@ -189,8 +175,6 @@
 @class ResourceGeneratorProto_Builder;
 @class ResourceStorageProto;
 @class ResourceStorageProto_Builder;
-@class RewardProto;
-@class RewardProto_Builder;
 @class SkillPropertyProto;
 @class SkillPropertyProto_Builder;
 @class SkillProto;
@@ -213,14 +197,10 @@
 @class TeamCenterProto_Builder;
 @class TownHallProto;
 @class TownHallProto_Builder;
-@class TranslatedTextProto;
-@class TranslatedTextProto_Builder;
 @class TutorialStructProto;
 @class TutorialStructProto_Builder;
 @class UserAchievementProto;
 @class UserAchievementProto_Builder;
-@class UserBattleItemProto;
-@class UserBattleItemProto_Builder;
 @class UserCityExpansionDataProto;
 @class UserCityExpansionDataProto_Builder;
 @class UserCurrentMonsterTeamProto;
@@ -257,10 +237,6 @@
 @class UserPvpLeagueProto_Builder;
 @class UserQuestJobProto;
 @class UserQuestJobProto_Builder;
-@class UserResearchProto;
-@class UserResearchProto_Builder;
-@class UserRewardProto;
-@class UserRewardProto_Builder;
 @class UserTaskCompletedProto;
 @class UserTaskCompletedProto_Builder;
 #ifndef __has_feature
@@ -310,8 +286,6 @@
   NSMutableArray * mutableAllClanHousesList;
   NSMutableArray * mutableAllMoneyTreesList;
   NSMutableArray * mutableAllPvpBoardHousesList;
-  NSMutableArray * mutableAllResearchHousesList;
-  NSMutableArray * mutableAllBattleItemFactorysList;
   NSMutableArray * mutablePersistentEventsList;
   NSMutableArray * mutableMbdsList;
   NSMutableArray * mutableRaidsList;
@@ -327,8 +301,6 @@
   NSMutableArray * mutableBoardsList;
   NSMutableArray * mutableResearchList;
   NSMutableArray * mutablePvpBoardObstacleProtosList;
-  NSMutableArray * mutableBattleItemList;
-  NSMutableArray * mutableRewardList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStarterPack;
@@ -356,8 +328,6 @@
 @property (readonly, strong) NSArray * allClanHousesList;
 @property (readonly, strong) NSArray * allMoneyTreesList;
 @property (readonly, strong) NSArray * allPvpBoardHousesList;
-@property (readonly, strong) NSArray * allResearchHousesList;
-@property (readonly, strong) NSArray * allBattleItemFactorysList;
 @property (readonly, strong) NSArray * persistentEventsList;
 @property (readonly, strong) NSArray * mbdsList;
 @property (readonly, strong) NSArray * raidsList;
@@ -373,8 +343,6 @@
 @property (readonly, strong) NSArray * boardsList;
 @property (readonly, strong) NSArray * researchList;
 @property (readonly, strong) NSArray * pvpBoardObstacleProtosList;
-@property (readonly, strong) NSArray * battleItemList;
-@property (readonly, strong) NSArray * rewardList;
 - (CityExpansionCostProto*)expansionCostsAtIndex:(NSUInteger)index;
 - (FullCityProto*)allCitiesAtIndex:(NSUInteger)index;
 - (FullTaskProto*)allTasksAtIndex:(NSUInteger)index;
@@ -397,8 +365,6 @@
 - (ClanHouseProto*)allClanHousesAtIndex:(NSUInteger)index;
 - (MoneyTreeProto*)allMoneyTreesAtIndex:(NSUInteger)index;
 - (PvpBoardHouseProto*)allPvpBoardHousesAtIndex:(NSUInteger)index;
-- (ResearchHouseProto*)allResearchHousesAtIndex:(NSUInteger)index;
-- (BattleItemFactoryProto*)allBattleItemFactorysAtIndex:(NSUInteger)index;
 - (PersistentEventProto*)persistentEventsAtIndex:(NSUInteger)index;
 - (MonsterBattleDialogueProto*)mbdsAtIndex:(NSUInteger)index;
 - (ClanRaidProto*)raidsAtIndex:(NSUInteger)index;
@@ -414,8 +380,6 @@
 - (BoardLayoutProto*)boardsAtIndex:(NSUInteger)index;
 - (ResearchProto*)researchAtIndex:(NSUInteger)index;
 - (PvpBoardObstacleProto*)pvpBoardObstacleProtosAtIndex:(NSUInteger)index;
-- (BattleItemProto*)battleItemAtIndex:(NSUInteger)index;
-- (RewardProto*)rewardAtIndex:(NSUInteger)index;
 
 + (StaticDataProto*) defaultInstance;
 - (StaticDataProto*) defaultInstance;
@@ -598,18 +562,6 @@
 - (StaticDataProto_Builder *)addAllAllPvpBoardHouses:(NSArray *)array;
 - (StaticDataProto_Builder *)clearAllPvpBoardHouses;
 
-- (NSMutableArray *)allResearchHousesList;
-- (ResearchHouseProto*)allResearchHousesAtIndex:(NSUInteger)index;
-- (StaticDataProto_Builder *)addAllResearchHouses:(ResearchHouseProto*)value;
-- (StaticDataProto_Builder *)addAllAllResearchHouses:(NSArray *)array;
-- (StaticDataProto_Builder *)clearAllResearchHouses;
-
-- (NSMutableArray *)allBattleItemFactorysList;
-- (BattleItemFactoryProto*)allBattleItemFactorysAtIndex:(NSUInteger)index;
-- (StaticDataProto_Builder *)addAllBattleItemFactorys:(BattleItemFactoryProto*)value;
-- (StaticDataProto_Builder *)addAllAllBattleItemFactorys:(NSArray *)array;
-- (StaticDataProto_Builder *)clearAllBattleItemFactorys;
-
 - (NSMutableArray *)persistentEventsList;
 - (PersistentEventProto*)persistentEventsAtIndex:(NSUInteger)index;
 - (StaticDataProto_Builder *)addPersistentEvents:(PersistentEventProto*)value;
@@ -699,18 +651,6 @@
 - (StaticDataProto_Builder *)addPvpBoardObstacleProtos:(PvpBoardObstacleProto*)value;
 - (StaticDataProto_Builder *)addAllPvpBoardObstacleProtos:(NSArray *)array;
 - (StaticDataProto_Builder *)clearPvpBoardObstacleProtos;
-
-- (NSMutableArray *)battleItemList;
-- (BattleItemProto*)battleItemAtIndex:(NSUInteger)index;
-- (StaticDataProto_Builder *)addBattleItem:(BattleItemProto*)value;
-- (StaticDataProto_Builder *)addAllBattleItem:(NSArray *)array;
-- (StaticDataProto_Builder *)clearBattleItem;
-
-- (NSMutableArray *)rewardList;
-- (RewardProto*)rewardAtIndex:(NSUInteger)index;
-- (StaticDataProto_Builder *)addReward:(RewardProto*)value;
-- (StaticDataProto_Builder *)addAllReward:(NSArray *)array;
-- (StaticDataProto_Builder *)clearReward;
 @end
 
 

@@ -46,8 +46,6 @@ BOOL StructOrientationIsValidValue(StructOrientation value) {
 BOOL BoardObstacleTypeIsValidValue(BoardObstacleType value) {
   switch (value) {
     case BoardObstacleTypeCloud:
-    case BoardObstacleTypeLock:
-    case BoardObstacleTypeHole:
       return YES;
     default:
       return NO;
@@ -641,8 +639,6 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
     case StructureInfoProto_StructTypeClan:
     case StructureInfoProto_StructTypeMoneyTree:
     case StructureInfoProto_StructTypePvpBoard:
-    case StructureInfoProto_StructTypeResearchHouse:
-    case StructureInfoProto_StructTypeBattleItemFactory:
       return YES;
     default:
       return NO;
@@ -1896,7 +1892,6 @@ static ResourceStorageProto* defaultResourceStorageProtoInstance = nil;
 @property int32_t daysOfDuration;
 @property int32_t daysForRenewal;
 @property (strong) NSString* iapProductId;
-@property (strong) NSString* fakeIapproductId;
 @end
 
 @implementation MoneyTreeProto
@@ -1943,13 +1938,6 @@ static ResourceStorageProto* defaultResourceStorageProtoInstance = nil;
   hasIapProductId_ = !!value_;
 }
 @synthesize iapProductId;
-- (BOOL) hasFakeIapproductId {
-  return !!hasFakeIapproductId_;
-}
-- (void) setHasFakeIapproductId:(BOOL) value_ {
-  hasFakeIapproductId_ = !!value_;
-}
-@synthesize fakeIapproductId;
 - (id) init {
   if ((self = [super init])) {
     self.structInfo = [StructureInfoProto defaultInstance];
@@ -1958,7 +1946,6 @@ static ResourceStorageProto* defaultResourceStorageProtoInstance = nil;
     self.daysOfDuration = 0;
     self.daysForRenewal = 0;
     self.iapProductId = @"";
-    self.fakeIapproductId = @"";
   }
   return self;
 }
@@ -1996,9 +1983,6 @@ static MoneyTreeProto* defaultMoneyTreeProtoInstance = nil;
   if (self.hasIapProductId) {
     [output writeString:6 value:self.iapProductId];
   }
-  if (self.hasFakeIapproductId) {
-    [output writeString:7 value:self.fakeIapproductId];
-  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -2025,9 +2009,6 @@ static MoneyTreeProto* defaultMoneyTreeProtoInstance = nil;
   }
   if (self.hasIapProductId) {
     size_ += computeStringSize(6, self.iapProductId);
-  }
-  if (self.hasFakeIapproductId) {
-    size_ += computeStringSize(7, self.fakeIapproductId);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -2085,9 +2066,6 @@ static MoneyTreeProto* defaultMoneyTreeProtoInstance = nil;
   if (self.hasIapProductId) {
     [output appendFormat:@"%@%@: %@\n", indent, @"iapProductId", self.iapProductId];
   }
-  if (self.hasFakeIapproductId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"fakeIapproductId", self.fakeIapproductId];
-  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -2111,8 +2089,6 @@ static MoneyTreeProto* defaultMoneyTreeProtoInstance = nil;
       (!self.hasDaysForRenewal || self.daysForRenewal == otherMessage.daysForRenewal) &&
       self.hasIapProductId == otherMessage.hasIapProductId &&
       (!self.hasIapProductId || [self.iapProductId isEqual:otherMessage.iapProductId]) &&
-      self.hasFakeIapproductId == otherMessage.hasFakeIapproductId &&
-      (!self.hasFakeIapproductId || [self.fakeIapproductId isEqual:otherMessage.fakeIapproductId]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -2134,9 +2110,6 @@ static MoneyTreeProto* defaultMoneyTreeProtoInstance = nil;
   }
   if (self.hasIapProductId) {
     hashCode = hashCode * 31 + [self.iapProductId hash];
-  }
-  if (self.hasFakeIapproductId) {
-    hashCode = hashCode * 31 + [self.fakeIapproductId hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -2199,9 +2172,6 @@ static MoneyTreeProto* defaultMoneyTreeProtoInstance = nil;
   if (other.hasIapProductId) {
     [self setIapProductId:other.iapProductId];
   }
-  if (other.hasFakeIapproductId) {
-    [self setFakeIapproductId:other.fakeIapproductId];
-  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -2250,10 +2220,6 @@ static MoneyTreeProto* defaultMoneyTreeProtoInstance = nil;
       }
       case 50: {
         [self setIapProductId:[input readString]];
-        break;
-      }
-      case 58: {
-        [self setFakeIapproductId:[input readString]];
         break;
       }
     }
@@ -2367,244 +2333,6 @@ static MoneyTreeProto* defaultMoneyTreeProtoInstance = nil;
 - (MoneyTreeProto_Builder*) clearIapProductId {
   result.hasIapProductId = NO;
   result.iapProductId = @"";
-  return self;
-}
-- (BOOL) hasFakeIapproductId {
-  return result.hasFakeIapproductId;
-}
-- (NSString*) fakeIapproductId {
-  return result.fakeIapproductId;
-}
-- (MoneyTreeProto_Builder*) setFakeIapproductId:(NSString*) value {
-  result.hasFakeIapproductId = YES;
-  result.fakeIapproductId = value;
-  return self;
-}
-- (MoneyTreeProto_Builder*) clearFakeIapproductId {
-  result.hasFakeIapproductId = NO;
-  result.fakeIapproductId = @"";
-  return self;
-}
-@end
-
-@interface ResearchHouseProto ()
-@property (strong) StructureInfoProto* structInfo;
-@end
-
-@implementation ResearchHouseProto
-
-- (BOOL) hasStructInfo {
-  return !!hasStructInfo_;
-}
-- (void) setHasStructInfo:(BOOL) value_ {
-  hasStructInfo_ = !!value_;
-}
-@synthesize structInfo;
-- (id) init {
-  if ((self = [super init])) {
-    self.structInfo = [StructureInfoProto defaultInstance];
-  }
-  return self;
-}
-static ResearchHouseProto* defaultResearchHouseProtoInstance = nil;
-+ (void) initialize {
-  if (self == [ResearchHouseProto class]) {
-    defaultResearchHouseProtoInstance = [[ResearchHouseProto alloc] init];
-  }
-}
-+ (ResearchHouseProto*) defaultInstance {
-  return defaultResearchHouseProtoInstance;
-}
-- (ResearchHouseProto*) defaultInstance {
-  return defaultResearchHouseProtoInstance;
-}
-- (BOOL) isInitialized {
-  return YES;
-}
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasStructInfo) {
-    [output writeMessage:1 value:self.structInfo];
-  }
-  [self.unknownFields writeToCodedOutputStream:output];
-}
-- (SInt32) serializedSize {
-  __block SInt32 size_ = memoizedSerializedSize;
-  if (size_ != -1) {
-    return size_;
-  }
-
-  size_ = 0;
-  if (self.hasStructInfo) {
-    size_ += computeMessageSize(1, self.structInfo);
-  }
-  size_ += self.unknownFields.serializedSize;
-  memoizedSerializedSize = size_;
-  return size_;
-}
-+ (ResearchHouseProto*) parseFromData:(NSData*) data {
-  return (ResearchHouseProto*)[[[ResearchHouseProto builder] mergeFromData:data] build];
-}
-+ (ResearchHouseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (ResearchHouseProto*)[[[ResearchHouseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
-}
-+ (ResearchHouseProto*) parseFromInputStream:(NSInputStream*) input {
-  return (ResearchHouseProto*)[[[ResearchHouseProto builder] mergeFromInputStream:input] build];
-}
-+ (ResearchHouseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (ResearchHouseProto*)[[[ResearchHouseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (ResearchHouseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (ResearchHouseProto*)[[[ResearchHouseProto builder] mergeFromCodedInputStream:input] build];
-}
-+ (ResearchHouseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (ResearchHouseProto*)[[[ResearchHouseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (ResearchHouseProto_Builder*) builder {
-  return [[ResearchHouseProto_Builder alloc] init];
-}
-+ (ResearchHouseProto_Builder*) builderWithPrototype:(ResearchHouseProto*) prototype {
-  return [[ResearchHouseProto builder] mergeFrom:prototype];
-}
-- (ResearchHouseProto_Builder*) builder {
-  return [ResearchHouseProto builder];
-}
-- (ResearchHouseProto_Builder*) toBuilder {
-  return [ResearchHouseProto builderWithPrototype:self];
-}
-- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
-  if (self.hasStructInfo) {
-    [output appendFormat:@"%@%@ {\n", indent, @"structInfo"];
-    [self.structInfo writeDescriptionTo:output
-                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
-    [output appendFormat:@"%@}\n", indent];
-  }
-  [self.unknownFields writeDescriptionTo:output withIndent:indent];
-}
-- (BOOL) isEqual:(id)other {
-  if (other == self) {
-    return YES;
-  }
-  if (![other isKindOfClass:[ResearchHouseProto class]]) {
-    return NO;
-  }
-  ResearchHouseProto *otherMessage = other;
-  return
-      self.hasStructInfo == otherMessage.hasStructInfo &&
-      (!self.hasStructInfo || [self.structInfo isEqual:otherMessage.structInfo]) &&
-      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
-}
-- (NSUInteger) hash {
-  __block NSUInteger hashCode = 7;
-  if (self.hasStructInfo) {
-    hashCode = hashCode * 31 + [self.structInfo hash];
-  }
-  hashCode = hashCode * 31 + [self.unknownFields hash];
-  return hashCode;
-}
-@end
-
-@interface ResearchHouseProto_Builder()
-@property (strong) ResearchHouseProto* result;
-@end
-
-@implementation ResearchHouseProto_Builder
-@synthesize result;
-- (id) init {
-  if ((self = [super init])) {
-    self.result = [[ResearchHouseProto alloc] init];
-  }
-  return self;
-}
-- (PBGeneratedMessage*) internalGetResult {
-  return result;
-}
-- (ResearchHouseProto_Builder*) clear {
-  self.result = [[ResearchHouseProto alloc] init];
-  return self;
-}
-- (ResearchHouseProto_Builder*) clone {
-  return [ResearchHouseProto builderWithPrototype:result];
-}
-- (ResearchHouseProto*) defaultInstance {
-  return [ResearchHouseProto defaultInstance];
-}
-- (ResearchHouseProto*) build {
-  [self checkInitialized];
-  return [self buildPartial];
-}
-- (ResearchHouseProto*) buildPartial {
-  ResearchHouseProto* returnMe = result;
-  self.result = nil;
-  return returnMe;
-}
-- (ResearchHouseProto_Builder*) mergeFrom:(ResearchHouseProto*) other {
-  if (other == [ResearchHouseProto defaultInstance]) {
-    return self;
-  }
-  if (other.hasStructInfo) {
-    [self mergeStructInfo:other.structInfo];
-  }
-  [self mergeUnknownFields:other.unknownFields];
-  return self;
-}
-- (ResearchHouseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
-  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
-}
-- (ResearchHouseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
-  while (YES) {
-    SInt32 tag = [input readTag];
-    switch (tag) {
-      case 0:
-        [self setUnknownFields:[unknownFields build]];
-        return self;
-      default: {
-        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
-          [self setUnknownFields:[unknownFields build]];
-          return self;
-        }
-        break;
-      }
-      case 10: {
-        StructureInfoProto_Builder* subBuilder = [StructureInfoProto builder];
-        if (self.hasStructInfo) {
-          [subBuilder mergeFrom:self.structInfo];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setStructInfo:[subBuilder buildPartial]];
-        break;
-      }
-    }
-  }
-}
-- (BOOL) hasStructInfo {
-  return result.hasStructInfo;
-}
-- (StructureInfoProto*) structInfo {
-  return result.structInfo;
-}
-- (ResearchHouseProto_Builder*) setStructInfo:(StructureInfoProto*) value {
-  result.hasStructInfo = YES;
-  result.structInfo = value;
-  return self;
-}
-- (ResearchHouseProto_Builder*) setStructInfo_Builder:(StructureInfoProto_Builder*) builderForValue {
-  return [self setStructInfo:[builderForValue build]];
-}
-- (ResearchHouseProto_Builder*) mergeStructInfo:(StructureInfoProto*) value {
-  if (result.hasStructInfo &&
-      result.structInfo != [StructureInfoProto defaultInstance]) {
-    result.structInfo =
-      [[[StructureInfoProto builderWithPrototype:result.structInfo] mergeFrom:value] buildPartial];
-  } else {
-    result.structInfo = value;
-  }
-  result.hasStructInfo = YES;
-  return self;
-}
-- (ResearchHouseProto_Builder*) clearStructInfo {
-  result.hasStructInfo = NO;
-  result.structInfo = [StructureInfoProto defaultInstance];
   return self;
 }
 @end
@@ -2972,6 +2700,7 @@ static HospitalProto* defaultHospitalProtoInstance = nil;
 @interface LabProto ()
 @property (strong) StructureInfoProto* structInfo;
 @property int32_t queueSize;
+@property Float32 pointsPerSecond;
 @property Float32 pointsMultiplier;
 @end
 
@@ -2991,6 +2720,13 @@ static HospitalProto* defaultHospitalProtoInstance = nil;
   hasQueueSize_ = !!value_;
 }
 @synthesize queueSize;
+- (BOOL) hasPointsPerSecond {
+  return !!hasPointsPerSecond_;
+}
+- (void) setHasPointsPerSecond:(BOOL) value_ {
+  hasPointsPerSecond_ = !!value_;
+}
+@synthesize pointsPerSecond;
 - (BOOL) hasPointsMultiplier {
   return !!hasPointsMultiplier_;
 }
@@ -3002,6 +2738,7 @@ static HospitalProto* defaultHospitalProtoInstance = nil;
   if ((self = [super init])) {
     self.structInfo = [StructureInfoProto defaultInstance];
     self.queueSize = 0;
+    self.pointsPerSecond = 0;
     self.pointsMultiplier = 0;
   }
   return self;
@@ -3028,6 +2765,9 @@ static LabProto* defaultLabProtoInstance = nil;
   if (self.hasQueueSize) {
     [output writeInt32:2 value:self.queueSize];
   }
+  if (self.hasPointsPerSecond) {
+    [output writeFloat:3 value:self.pointsPerSecond];
+  }
   if (self.hasPointsMultiplier) {
     [output writeFloat:4 value:self.pointsMultiplier];
   }
@@ -3045,6 +2785,9 @@ static LabProto* defaultLabProtoInstance = nil;
   }
   if (self.hasQueueSize) {
     size_ += computeInt32Size(2, self.queueSize);
+  }
+  if (self.hasPointsPerSecond) {
+    size_ += computeFloatSize(3, self.pointsPerSecond);
   }
   if (self.hasPointsMultiplier) {
     size_ += computeFloatSize(4, self.pointsMultiplier);
@@ -3093,6 +2836,9 @@ static LabProto* defaultLabProtoInstance = nil;
   if (self.hasQueueSize) {
     [output appendFormat:@"%@%@: %@\n", indent, @"queueSize", [NSNumber numberWithInteger:self.queueSize]];
   }
+  if (self.hasPointsPerSecond) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"pointsPerSecond", [NSNumber numberWithFloat:self.pointsPerSecond]];
+  }
   if (self.hasPointsMultiplier) {
     [output appendFormat:@"%@%@: %@\n", indent, @"pointsMultiplier", [NSNumber numberWithFloat:self.pointsMultiplier]];
   }
@@ -3111,6 +2857,8 @@ static LabProto* defaultLabProtoInstance = nil;
       (!self.hasStructInfo || [self.structInfo isEqual:otherMessage.structInfo]) &&
       self.hasQueueSize == otherMessage.hasQueueSize &&
       (!self.hasQueueSize || self.queueSize == otherMessage.queueSize) &&
+      self.hasPointsPerSecond == otherMessage.hasPointsPerSecond &&
+      (!self.hasPointsPerSecond || self.pointsPerSecond == otherMessage.pointsPerSecond) &&
       self.hasPointsMultiplier == otherMessage.hasPointsMultiplier &&
       (!self.hasPointsMultiplier || self.pointsMultiplier == otherMessage.pointsMultiplier) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
@@ -3122,6 +2870,9 @@ static LabProto* defaultLabProtoInstance = nil;
   }
   if (self.hasQueueSize) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.queueSize] hash];
+  }
+  if (self.hasPointsPerSecond) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithFloat:self.pointsPerSecond] hash];
   }
   if (self.hasPointsMultiplier) {
     hashCode = hashCode * 31 + [[NSNumber numberWithFloat:self.pointsMultiplier] hash];
@@ -3175,6 +2926,9 @@ static LabProto* defaultLabProtoInstance = nil;
   if (other.hasQueueSize) {
     [self setQueueSize:other.queueSize];
   }
+  if (other.hasPointsPerSecond) {
+    [self setPointsPerSecond:other.pointsPerSecond];
+  }
   if (other.hasPointsMultiplier) {
     [self setPointsMultiplier:other.pointsMultiplier];
   }
@@ -3210,6 +2964,10 @@ static LabProto* defaultLabProtoInstance = nil;
       }
       case 16: {
         [self setQueueSize:[input readInt32]];
+        break;
+      }
+      case 29: {
+        [self setPointsPerSecond:[input readFloat]];
         break;
       }
       case 37: {
@@ -3263,6 +3021,22 @@ static LabProto* defaultLabProtoInstance = nil;
 - (LabProto_Builder*) clearQueueSize {
   result.hasQueueSize = NO;
   result.queueSize = 0;
+  return self;
+}
+- (BOOL) hasPointsPerSecond {
+  return result.hasPointsPerSecond;
+}
+- (Float32) pointsPerSecond {
+  return result.pointsPerSecond;
+}
+- (LabProto_Builder*) setPointsPerSecond:(Float32) value {
+  result.hasPointsPerSecond = YES;
+  result.pointsPerSecond = value;
+  return self;
+}
+- (LabProto_Builder*) clearPointsPerSecond {
+  result.hasPointsPerSecond = NO;
+  result.pointsPerSecond = 0;
   return self;
 }
 - (BOOL) hasPointsMultiplier {
@@ -8690,7 +8464,7 @@ static PvpBoardHouseProto* defaultPvpBoardHouseProtoInstance = nil;
 @property (strong) NSString* name;
 @property BoardObstacleType obstacleType;
 @property int32_t powerAmt;
-@property BOOL initiallyAvailable;
+@property BOOL initAvailable;
 @end
 
 @implementation PvpBoardObstacleProto
@@ -8723,17 +8497,17 @@ static PvpBoardHouseProto* defaultPvpBoardHouseProtoInstance = nil;
   hasPowerAmt_ = !!value_;
 }
 @synthesize powerAmt;
-- (BOOL) hasInitiallyAvailable {
-  return !!hasInitiallyAvailable_;
+- (BOOL) hasInitAvailable {
+  return !!hasInitAvailable_;
 }
-- (void) setHasInitiallyAvailable:(BOOL) value_ {
-  hasInitiallyAvailable_ = !!value_;
+- (void) setHasInitAvailable:(BOOL) value_ {
+  hasInitAvailable_ = !!value_;
 }
-- (BOOL) initiallyAvailable {
-  return !!initiallyAvailable_;
+- (BOOL) initAvailable {
+  return !!initAvailable_;
 }
-- (void) setInitiallyAvailable:(BOOL) value_ {
-  initiallyAvailable_ = !!value_;
+- (void) setInitAvailable:(BOOL) value_ {
+  initAvailable_ = !!value_;
 }
 - (id) init {
   if ((self = [super init])) {
@@ -8741,7 +8515,7 @@ static PvpBoardHouseProto* defaultPvpBoardHouseProtoInstance = nil;
     self.name = @"";
     self.obstacleType = BoardObstacleTypeCloud;
     self.powerAmt = 0;
-    self.initiallyAvailable = NO;
+    self.initAvailable = NO;
   }
   return self;
 }
@@ -8773,8 +8547,8 @@ static PvpBoardObstacleProto* defaultPvpBoardObstacleProtoInstance = nil;
   if (self.hasPowerAmt) {
     [output writeInt32:4 value:self.powerAmt];
   }
-  if (self.hasInitiallyAvailable) {
-    [output writeBool:5 value:self.initiallyAvailable];
+  if (self.hasInitAvailable) {
+    [output writeBool:5 value:self.initAvailable];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -8797,8 +8571,8 @@ static PvpBoardObstacleProto* defaultPvpBoardObstacleProtoInstance = nil;
   if (self.hasPowerAmt) {
     size_ += computeInt32Size(4, self.powerAmt);
   }
-  if (self.hasInitiallyAvailable) {
-    size_ += computeBoolSize(5, self.initiallyAvailable);
+  if (self.hasInitAvailable) {
+    size_ += computeBoolSize(5, self.initAvailable);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -8847,8 +8621,8 @@ static PvpBoardObstacleProto* defaultPvpBoardObstacleProtoInstance = nil;
   if (self.hasPowerAmt) {
     [output appendFormat:@"%@%@: %@\n", indent, @"powerAmt", [NSNumber numberWithInteger:self.powerAmt]];
   }
-  if (self.hasInitiallyAvailable) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"initiallyAvailable", [NSNumber numberWithBool:self.initiallyAvailable]];
+  if (self.hasInitAvailable) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"initAvailable", [NSNumber numberWithBool:self.initAvailable]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -8869,8 +8643,8 @@ static PvpBoardObstacleProto* defaultPvpBoardObstacleProtoInstance = nil;
       (!self.hasObstacleType || self.obstacleType == otherMessage.obstacleType) &&
       self.hasPowerAmt == otherMessage.hasPowerAmt &&
       (!self.hasPowerAmt || self.powerAmt == otherMessage.powerAmt) &&
-      self.hasInitiallyAvailable == otherMessage.hasInitiallyAvailable &&
-      (!self.hasInitiallyAvailable || self.initiallyAvailable == otherMessage.initiallyAvailable) &&
+      self.hasInitAvailable == otherMessage.hasInitAvailable &&
+      (!self.hasInitAvailable || self.initAvailable == otherMessage.initAvailable) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -8887,8 +8661,8 @@ static PvpBoardObstacleProto* defaultPvpBoardObstacleProtoInstance = nil;
   if (self.hasPowerAmt) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.powerAmt] hash];
   }
-  if (self.hasInitiallyAvailable) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.initiallyAvailable] hash];
+  if (self.hasInitAvailable) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.initAvailable] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -8945,8 +8719,8 @@ static PvpBoardObstacleProto* defaultPvpBoardObstacleProtoInstance = nil;
   if (other.hasPowerAmt) {
     [self setPowerAmt:other.powerAmt];
   }
-  if (other.hasInitiallyAvailable) {
-    [self setInitiallyAvailable:other.initiallyAvailable];
+  if (other.hasInitAvailable) {
+    [self setInitAvailable:other.initAvailable];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -8991,7 +8765,7 @@ static PvpBoardObstacleProto* defaultPvpBoardObstacleProtoInstance = nil;
         break;
       }
       case 40: {
-        [self setInitiallyAvailable:[input readBool]];
+        [self setInitAvailable:[input readBool]];
         break;
       }
     }
@@ -9061,26 +8835,26 @@ static PvpBoardObstacleProto* defaultPvpBoardObstacleProtoInstance = nil;
   result.powerAmt = 0;
   return self;
 }
-- (BOOL) hasInitiallyAvailable {
-  return result.hasInitiallyAvailable;
+- (BOOL) hasInitAvailable {
+  return result.hasInitAvailable;
 }
-- (BOOL) initiallyAvailable {
-  return result.initiallyAvailable;
+- (BOOL) initAvailable {
+  return result.initAvailable;
 }
-- (PvpBoardObstacleProto_Builder*) setInitiallyAvailable:(BOOL) value {
-  result.hasInitiallyAvailable = YES;
-  result.initiallyAvailable = value;
+- (PvpBoardObstacleProto_Builder*) setInitAvailable:(BOOL) value {
+  result.hasInitAvailable = YES;
+  result.initAvailable = value;
   return self;
 }
-- (PvpBoardObstacleProto_Builder*) clearInitiallyAvailable {
-  result.hasInitiallyAvailable = NO;
-  result.initiallyAvailable = NO;
+- (PvpBoardObstacleProto_Builder*) clearInitAvailable {
+  result.hasInitAvailable = NO;
+  result.initAvailable = NO;
   return self;
 }
 @end
 
 @interface UserPvpBoardObstacleProto ()
-@property int32_t userPvpBoardObstacleId;
+@property (strong) NSString* userPvpBoardObstacleUuid;
 @property (strong) NSString* userUuid;
 @property int32_t obstacleId;
 @property int32_t posX;
@@ -9089,13 +8863,13 @@ static PvpBoardObstacleProto* defaultPvpBoardObstacleProtoInstance = nil;
 
 @implementation UserPvpBoardObstacleProto
 
-- (BOOL) hasUserPvpBoardObstacleId {
-  return !!hasUserPvpBoardObstacleId_;
+- (BOOL) hasUserPvpBoardObstacleUuid {
+  return !!hasUserPvpBoardObstacleUuid_;
 }
-- (void) setHasUserPvpBoardObstacleId:(BOOL) value_ {
-  hasUserPvpBoardObstacleId_ = !!value_;
+- (void) setHasUserPvpBoardObstacleUuid:(BOOL) value_ {
+  hasUserPvpBoardObstacleUuid_ = !!value_;
 }
-@synthesize userPvpBoardObstacleId;
+@synthesize userPvpBoardObstacleUuid;
 - (BOOL) hasUserUuid {
   return !!hasUserUuid_;
 }
@@ -9126,7 +8900,7 @@ static PvpBoardObstacleProto* defaultPvpBoardObstacleProtoInstance = nil;
 @synthesize posY;
 - (id) init {
   if ((self = [super init])) {
-    self.userPvpBoardObstacleId = 0;
+    self.userPvpBoardObstacleUuid = @"";
     self.userUuid = @"";
     self.obstacleId = 0;
     self.posX = 0;
@@ -9150,8 +8924,8 @@ static UserPvpBoardObstacleProto* defaultUserPvpBoardObstacleProtoInstance = nil
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasUserPvpBoardObstacleId) {
-    [output writeInt32:1 value:self.userPvpBoardObstacleId];
+  if (self.hasUserPvpBoardObstacleUuid) {
+    [output writeString:1 value:self.userPvpBoardObstacleUuid];
   }
   if (self.hasUserUuid) {
     [output writeString:2 value:self.userUuid];
@@ -9174,8 +8948,8 @@ static UserPvpBoardObstacleProto* defaultUserPvpBoardObstacleProtoInstance = nil
   }
 
   size_ = 0;
-  if (self.hasUserPvpBoardObstacleId) {
-    size_ += computeInt32Size(1, self.userPvpBoardObstacleId);
+  if (self.hasUserPvpBoardObstacleUuid) {
+    size_ += computeStringSize(1, self.userPvpBoardObstacleUuid);
   }
   if (self.hasUserUuid) {
     size_ += computeStringSize(2, self.userUuid);
@@ -9224,8 +8998,8 @@ static UserPvpBoardObstacleProto* defaultUserPvpBoardObstacleProtoInstance = nil
   return [UserPvpBoardObstacleProto builderWithPrototype:self];
 }
 - (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
-  if (self.hasUserPvpBoardObstacleId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"userPvpBoardObstacleId", [NSNumber numberWithInteger:self.userPvpBoardObstacleId]];
+  if (self.hasUserPvpBoardObstacleUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userPvpBoardObstacleUuid", self.userPvpBoardObstacleUuid];
   }
   if (self.hasUserUuid) {
     [output appendFormat:@"%@%@: %@\n", indent, @"userUuid", self.userUuid];
@@ -9250,8 +9024,8 @@ static UserPvpBoardObstacleProto* defaultUserPvpBoardObstacleProtoInstance = nil
   }
   UserPvpBoardObstacleProto *otherMessage = other;
   return
-      self.hasUserPvpBoardObstacleId == otherMessage.hasUserPvpBoardObstacleId &&
-      (!self.hasUserPvpBoardObstacleId || self.userPvpBoardObstacleId == otherMessage.userPvpBoardObstacleId) &&
+      self.hasUserPvpBoardObstacleUuid == otherMessage.hasUserPvpBoardObstacleUuid &&
+      (!self.hasUserPvpBoardObstacleUuid || [self.userPvpBoardObstacleUuid isEqual:otherMessage.userPvpBoardObstacleUuid]) &&
       self.hasUserUuid == otherMessage.hasUserUuid &&
       (!self.hasUserUuid || [self.userUuid isEqual:otherMessage.userUuid]) &&
       self.hasObstacleId == otherMessage.hasObstacleId &&
@@ -9264,8 +9038,8 @@ static UserPvpBoardObstacleProto* defaultUserPvpBoardObstacleProtoInstance = nil
 }
 - (NSUInteger) hash {
   __block NSUInteger hashCode = 7;
-  if (self.hasUserPvpBoardObstacleId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.userPvpBoardObstacleId] hash];
+  if (self.hasUserPvpBoardObstacleUuid) {
+    hashCode = hashCode * 31 + [self.userPvpBoardObstacleUuid hash];
   }
   if (self.hasUserUuid) {
     hashCode = hashCode * 31 + [self.userUuid hash];
@@ -9322,8 +9096,8 @@ static UserPvpBoardObstacleProto* defaultUserPvpBoardObstacleProtoInstance = nil
   if (other == [UserPvpBoardObstacleProto defaultInstance]) {
     return self;
   }
-  if (other.hasUserPvpBoardObstacleId) {
-    [self setUserPvpBoardObstacleId:other.userPvpBoardObstacleId];
+  if (other.hasUserPvpBoardObstacleUuid) {
+    [self setUserPvpBoardObstacleUuid:other.userPvpBoardObstacleUuid];
   }
   if (other.hasUserUuid) {
     [self setUserUuid:other.userUuid];
@@ -9358,8 +9132,8 @@ static UserPvpBoardObstacleProto* defaultUserPvpBoardObstacleProtoInstance = nil
         }
         break;
       }
-      case 8: {
-        [self setUserPvpBoardObstacleId:[input readInt32]];
+      case 10: {
+        [self setUserPvpBoardObstacleUuid:[input readString]];
         break;
       }
       case 18: {
@@ -9381,20 +9155,20 @@ static UserPvpBoardObstacleProto* defaultUserPvpBoardObstacleProtoInstance = nil
     }
   }
 }
-- (BOOL) hasUserPvpBoardObstacleId {
-  return result.hasUserPvpBoardObstacleId;
+- (BOOL) hasUserPvpBoardObstacleUuid {
+  return result.hasUserPvpBoardObstacleUuid;
 }
-- (int32_t) userPvpBoardObstacleId {
-  return result.userPvpBoardObstacleId;
+- (NSString*) userPvpBoardObstacleUuid {
+  return result.userPvpBoardObstacleUuid;
 }
-- (UserPvpBoardObstacleProto_Builder*) setUserPvpBoardObstacleId:(int32_t) value {
-  result.hasUserPvpBoardObstacleId = YES;
-  result.userPvpBoardObstacleId = value;
+- (UserPvpBoardObstacleProto_Builder*) setUserPvpBoardObstacleUuid:(NSString*) value {
+  result.hasUserPvpBoardObstacleUuid = YES;
+  result.userPvpBoardObstacleUuid = value;
   return self;
 }
-- (UserPvpBoardObstacleProto_Builder*) clearUserPvpBoardObstacleId {
-  result.hasUserPvpBoardObstacleId = NO;
-  result.userPvpBoardObstacleId = 0;
+- (UserPvpBoardObstacleProto_Builder*) clearUserPvpBoardObstacleUuid {
+  result.hasUserPvpBoardObstacleUuid = NO;
+  result.userPvpBoardObstacleUuid = @"";
   return self;
 }
 - (BOOL) hasUserUuid {
@@ -9459,274 +9233,6 @@ static UserPvpBoardObstacleProto* defaultUserPvpBoardObstacleProtoInstance = nil
 - (UserPvpBoardObstacleProto_Builder*) clearPosY {
   result.hasPosY = NO;
   result.posY = 0;
-  return self;
-}
-@end
-
-@interface BattleItemFactoryProto ()
-@property (strong) StructureInfoProto* structInfo;
-@property int32_t powerLimit;
-@end
-
-@implementation BattleItemFactoryProto
-
-- (BOOL) hasStructInfo {
-  return !!hasStructInfo_;
-}
-- (void) setHasStructInfo:(BOOL) value_ {
-  hasStructInfo_ = !!value_;
-}
-@synthesize structInfo;
-- (BOOL) hasPowerLimit {
-  return !!hasPowerLimit_;
-}
-- (void) setHasPowerLimit:(BOOL) value_ {
-  hasPowerLimit_ = !!value_;
-}
-@synthesize powerLimit;
-- (id) init {
-  if ((self = [super init])) {
-    self.structInfo = [StructureInfoProto defaultInstance];
-    self.powerLimit = 0;
-  }
-  return self;
-}
-static BattleItemFactoryProto* defaultBattleItemFactoryProtoInstance = nil;
-+ (void) initialize {
-  if (self == [BattleItemFactoryProto class]) {
-    defaultBattleItemFactoryProtoInstance = [[BattleItemFactoryProto alloc] init];
-  }
-}
-+ (BattleItemFactoryProto*) defaultInstance {
-  return defaultBattleItemFactoryProtoInstance;
-}
-- (BattleItemFactoryProto*) defaultInstance {
-  return defaultBattleItemFactoryProtoInstance;
-}
-- (BOOL) isInitialized {
-  return YES;
-}
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasStructInfo) {
-    [output writeMessage:1 value:self.structInfo];
-  }
-  if (self.hasPowerLimit) {
-    [output writeInt32:2 value:self.powerLimit];
-  }
-  [self.unknownFields writeToCodedOutputStream:output];
-}
-- (SInt32) serializedSize {
-  __block SInt32 size_ = memoizedSerializedSize;
-  if (size_ != -1) {
-    return size_;
-  }
-
-  size_ = 0;
-  if (self.hasStructInfo) {
-    size_ += computeMessageSize(1, self.structInfo);
-  }
-  if (self.hasPowerLimit) {
-    size_ += computeInt32Size(2, self.powerLimit);
-  }
-  size_ += self.unknownFields.serializedSize;
-  memoizedSerializedSize = size_;
-  return size_;
-}
-+ (BattleItemFactoryProto*) parseFromData:(NSData*) data {
-  return (BattleItemFactoryProto*)[[[BattleItemFactoryProto builder] mergeFromData:data] build];
-}
-+ (BattleItemFactoryProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (BattleItemFactoryProto*)[[[BattleItemFactoryProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
-}
-+ (BattleItemFactoryProto*) parseFromInputStream:(NSInputStream*) input {
-  return (BattleItemFactoryProto*)[[[BattleItemFactoryProto builder] mergeFromInputStream:input] build];
-}
-+ (BattleItemFactoryProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (BattleItemFactoryProto*)[[[BattleItemFactoryProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (BattleItemFactoryProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (BattleItemFactoryProto*)[[[BattleItemFactoryProto builder] mergeFromCodedInputStream:input] build];
-}
-+ (BattleItemFactoryProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (BattleItemFactoryProto*)[[[BattleItemFactoryProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (BattleItemFactoryProto_Builder*) builder {
-  return [[BattleItemFactoryProto_Builder alloc] init];
-}
-+ (BattleItemFactoryProto_Builder*) builderWithPrototype:(BattleItemFactoryProto*) prototype {
-  return [[BattleItemFactoryProto builder] mergeFrom:prototype];
-}
-- (BattleItemFactoryProto_Builder*) builder {
-  return [BattleItemFactoryProto builder];
-}
-- (BattleItemFactoryProto_Builder*) toBuilder {
-  return [BattleItemFactoryProto builderWithPrototype:self];
-}
-- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
-  if (self.hasStructInfo) {
-    [output appendFormat:@"%@%@ {\n", indent, @"structInfo"];
-    [self.structInfo writeDescriptionTo:output
-                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
-    [output appendFormat:@"%@}\n", indent];
-  }
-  if (self.hasPowerLimit) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"powerLimit", [NSNumber numberWithInteger:self.powerLimit]];
-  }
-  [self.unknownFields writeDescriptionTo:output withIndent:indent];
-}
-- (BOOL) isEqual:(id)other {
-  if (other == self) {
-    return YES;
-  }
-  if (![other isKindOfClass:[BattleItemFactoryProto class]]) {
-    return NO;
-  }
-  BattleItemFactoryProto *otherMessage = other;
-  return
-      self.hasStructInfo == otherMessage.hasStructInfo &&
-      (!self.hasStructInfo || [self.structInfo isEqual:otherMessage.structInfo]) &&
-      self.hasPowerLimit == otherMessage.hasPowerLimit &&
-      (!self.hasPowerLimit || self.powerLimit == otherMessage.powerLimit) &&
-      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
-}
-- (NSUInteger) hash {
-  __block NSUInteger hashCode = 7;
-  if (self.hasStructInfo) {
-    hashCode = hashCode * 31 + [self.structInfo hash];
-  }
-  if (self.hasPowerLimit) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.powerLimit] hash];
-  }
-  hashCode = hashCode * 31 + [self.unknownFields hash];
-  return hashCode;
-}
-@end
-
-@interface BattleItemFactoryProto_Builder()
-@property (strong) BattleItemFactoryProto* result;
-@end
-
-@implementation BattleItemFactoryProto_Builder
-@synthesize result;
-- (id) init {
-  if ((self = [super init])) {
-    self.result = [[BattleItemFactoryProto alloc] init];
-  }
-  return self;
-}
-- (PBGeneratedMessage*) internalGetResult {
-  return result;
-}
-- (BattleItemFactoryProto_Builder*) clear {
-  self.result = [[BattleItemFactoryProto alloc] init];
-  return self;
-}
-- (BattleItemFactoryProto_Builder*) clone {
-  return [BattleItemFactoryProto builderWithPrototype:result];
-}
-- (BattleItemFactoryProto*) defaultInstance {
-  return [BattleItemFactoryProto defaultInstance];
-}
-- (BattleItemFactoryProto*) build {
-  [self checkInitialized];
-  return [self buildPartial];
-}
-- (BattleItemFactoryProto*) buildPartial {
-  BattleItemFactoryProto* returnMe = result;
-  self.result = nil;
-  return returnMe;
-}
-- (BattleItemFactoryProto_Builder*) mergeFrom:(BattleItemFactoryProto*) other {
-  if (other == [BattleItemFactoryProto defaultInstance]) {
-    return self;
-  }
-  if (other.hasStructInfo) {
-    [self mergeStructInfo:other.structInfo];
-  }
-  if (other.hasPowerLimit) {
-    [self setPowerLimit:other.powerLimit];
-  }
-  [self mergeUnknownFields:other.unknownFields];
-  return self;
-}
-- (BattleItemFactoryProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
-  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
-}
-- (BattleItemFactoryProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
-  while (YES) {
-    SInt32 tag = [input readTag];
-    switch (tag) {
-      case 0:
-        [self setUnknownFields:[unknownFields build]];
-        return self;
-      default: {
-        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
-          [self setUnknownFields:[unknownFields build]];
-          return self;
-        }
-        break;
-      }
-      case 10: {
-        StructureInfoProto_Builder* subBuilder = [StructureInfoProto builder];
-        if (self.hasStructInfo) {
-          [subBuilder mergeFrom:self.structInfo];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setStructInfo:[subBuilder buildPartial]];
-        break;
-      }
-      case 16: {
-        [self setPowerLimit:[input readInt32]];
-        break;
-      }
-    }
-  }
-}
-- (BOOL) hasStructInfo {
-  return result.hasStructInfo;
-}
-- (StructureInfoProto*) structInfo {
-  return result.structInfo;
-}
-- (BattleItemFactoryProto_Builder*) setStructInfo:(StructureInfoProto*) value {
-  result.hasStructInfo = YES;
-  result.structInfo = value;
-  return self;
-}
-- (BattleItemFactoryProto_Builder*) setStructInfo_Builder:(StructureInfoProto_Builder*) builderForValue {
-  return [self setStructInfo:[builderForValue build]];
-}
-- (BattleItemFactoryProto_Builder*) mergeStructInfo:(StructureInfoProto*) value {
-  if (result.hasStructInfo &&
-      result.structInfo != [StructureInfoProto defaultInstance]) {
-    result.structInfo =
-      [[[StructureInfoProto builderWithPrototype:result.structInfo] mergeFrom:value] buildPartial];
-  } else {
-    result.structInfo = value;
-  }
-  result.hasStructInfo = YES;
-  return self;
-}
-- (BattleItemFactoryProto_Builder*) clearStructInfo {
-  result.hasStructInfo = NO;
-  result.structInfo = [StructureInfoProto defaultInstance];
-  return self;
-}
-- (BOOL) hasPowerLimit {
-  return result.hasPowerLimit;
-}
-- (int32_t) powerLimit {
-  return result.powerLimit;
-}
-- (BattleItemFactoryProto_Builder*) setPowerLimit:(int32_t) value {
-  result.hasPowerLimit = YES;
-  result.powerLimit = value;
-  return self;
-}
-- (BattleItemFactoryProto_Builder*) clearPowerLimit {
-  result.hasPowerLimit = NO;
-  result.powerLimit = 0;
   return self;
 }
 @end

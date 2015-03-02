@@ -15,18 +15,15 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [self registerAllExtensions:registry];
     [AchievementStuffRoot registerAllExtensions:registry];
     [BattleRoot registerAllExtensions:registry];
-    [BattleItemRoot registerAllExtensions:registry];
     [BoosterPackStuffRoot registerAllExtensions:registry];
     [ChatRoot registerAllExtensions:registry];
     [CityRoot registerAllExtensions:registry];
     [ClanRoot registerAllExtensions:registry];
     [InAppPurchaseRoot registerAllExtensions:registry];
     [ItemRoot registerAllExtensions:registry];
-    [MiniEventRoot registerAllExtensions:registry];
     [MiniJobConfigRoot registerAllExtensions:registry];
     [MonsterStuffRoot registerAllExtensions:registry];
     [QuestRoot registerAllExtensions:registry];
-    [ResearchRoot registerAllExtensions:registry];
     [SharedEnumConfigRoot registerAllExtensions:registry];
     [StaticDataRoot registerAllExtensions:registry];
     [StructureRoot registerAllExtensions:registry];
@@ -979,11 +976,6 @@ static StartupRequestProto_VersionNumberProto* defaultStartupRequestProto_Versio
 @property (strong) NSMutableArray * mutableItemsInUseList;
 @property (strong) NSMutableArray * mutableGiftsList;
 @property (strong) NSMutableArray * mutableUserPvpBoardObstaclesList;
-@property (strong) NSMutableArray * mutableBattleItemQueueList;
-@property (strong) NSMutableArray * mutableBattleItemList;
-@property (strong) NSMutableArray * mutableUserResearchsList;
-@property (strong) DefaultLanguagesProto* userDefaultLanguages;
-@property (strong) UserMiniEventProto* userMiniEvent;
 @end
 
 @implementation StartupResponseProto
@@ -1172,26 +1164,6 @@ static StartupRequestProto_VersionNumberProto* defaultStartupRequestProto_Versio
 @dynamic giftsList;
 @synthesize mutableUserPvpBoardObstaclesList;
 @dynamic userPvpBoardObstaclesList;
-@synthesize mutableBattleItemQueueList;
-@dynamic battleItemQueueList;
-@synthesize mutableBattleItemList;
-@dynamic battleItemList;
-@synthesize mutableUserResearchsList;
-@dynamic userResearchsList;
-- (BOOL) hasUserDefaultLanguages {
-  return !!hasUserDefaultLanguages_;
-}
-- (void) setHasUserDefaultLanguages:(BOOL) value_ {
-  hasUserDefaultLanguages_ = !!value_;
-}
-@synthesize userDefaultLanguages;
-- (BOOL) hasUserMiniEvent {
-  return !!hasUserMiniEvent_;
-}
-- (void) setHasUserMiniEvent:(BOOL) value_ {
-  hasUserMiniEvent_ = !!value_;
-}
-@synthesize userMiniEvent;
 - (id) init {
   if ((self = [super init])) {
     self.serverTimeMillis = 0L;
@@ -1211,8 +1183,6 @@ static StartupRequestProto_VersionNumberProto* defaultStartupRequestProto_Versio
     self.curRaidClanInfo = [PersistentClanEventClanInfoProto defaultInstance];
     self.curTask = [MinimumUserTaskProto defaultInstance];
     self.clanData = [ClanDataProto defaultInstance];
-    self.userDefaultLanguages = [DefaultLanguagesProto defaultInstance];
-    self.userMiniEvent = [UserMiniEventProto defaultInstance];
   }
   return self;
 }
@@ -1408,24 +1378,6 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
 - (UserPvpBoardObstacleProto*)userPvpBoardObstaclesAtIndex:(NSUInteger)index {
   return [mutableUserPvpBoardObstaclesList objectAtIndex:index];
 }
-- (NSArray *)battleItemQueueList {
-  return mutableBattleItemQueueList;
-}
-- (BattleItemQueueForUserProto*)battleItemQueueAtIndex:(NSUInteger)index {
-  return [mutableBattleItemQueueList objectAtIndex:index];
-}
-- (NSArray *)battleItemList {
-  return mutableBattleItemList;
-}
-- (UserBattleItemProto*)battleItemAtIndex:(NSUInteger)index {
-  return [mutableBattleItemList objectAtIndex:index];
-}
-- (NSArray *)userResearchsList {
-  return mutableUserResearchsList;
-}
-- (UserResearchProto*)userResearchsAtIndex:(NSUInteger)index {
-  return [mutableUserResearchsList objectAtIndex:index];
-}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -1583,21 +1535,6 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   [self.userPvpBoardObstaclesList enumerateObjectsUsingBlock:^(UserPvpBoardObstacleProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:47 value:element];
   }];
-  [self.battleItemQueueList enumerateObjectsUsingBlock:^(BattleItemQueueForUserProto *element, NSUInteger idx, BOOL *stop) {
-    [output writeMessage:48 value:element];
-  }];
-  [self.battleItemList enumerateObjectsUsingBlock:^(UserBattleItemProto *element, NSUInteger idx, BOOL *stop) {
-    [output writeMessage:49 value:element];
-  }];
-  [self.userResearchsList enumerateObjectsUsingBlock:^(UserResearchProto *element, NSUInteger idx, BOOL *stop) {
-    [output writeMessage:50 value:element];
-  }];
-  if (self.hasUserDefaultLanguages) {
-    [output writeMessage:51 value:self.userDefaultLanguages];
-  }
-  if (self.hasUserMiniEvent) {
-    [output writeMessage:52 value:self.userMiniEvent];
-  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -1775,21 +1712,6 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   [self.userPvpBoardObstaclesList enumerateObjectsUsingBlock:^(UserPvpBoardObstacleProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(47, element);
   }];
-  [self.battleItemQueueList enumerateObjectsUsingBlock:^(BattleItemQueueForUserProto *element, NSUInteger idx, BOOL *stop) {
-    size_ += computeMessageSize(48, element);
-  }];
-  [self.battleItemList enumerateObjectsUsingBlock:^(UserBattleItemProto *element, NSUInteger idx, BOOL *stop) {
-    size_ += computeMessageSize(49, element);
-  }];
-  [self.userResearchsList enumerateObjectsUsingBlock:^(UserResearchProto *element, NSUInteger idx, BOOL *stop) {
-    size_ += computeMessageSize(50, element);
-  }];
-  if (self.hasUserDefaultLanguages) {
-    size_ += computeMessageSize(51, self.userDefaultLanguages);
-  }
-  if (self.hasUserMiniEvent) {
-    size_ += computeMessageSize(52, self.userMiniEvent);
-  }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
   return size_;
@@ -2071,36 +1993,6 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }];
-  [self.battleItemQueueList enumerateObjectsUsingBlock:^(BattleItemQueueForUserProto *element, NSUInteger idx, BOOL *stop) {
-    [output appendFormat:@"%@%@ {\n", indent, @"battleItemQueue"];
-    [element writeDescriptionTo:output
-                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
-    [output appendFormat:@"%@}\n", indent];
-  }];
-  [self.battleItemList enumerateObjectsUsingBlock:^(UserBattleItemProto *element, NSUInteger idx, BOOL *stop) {
-    [output appendFormat:@"%@%@ {\n", indent, @"battleItem"];
-    [element writeDescriptionTo:output
-                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
-    [output appendFormat:@"%@}\n", indent];
-  }];
-  [self.userResearchsList enumerateObjectsUsingBlock:^(UserResearchProto *element, NSUInteger idx, BOOL *stop) {
-    [output appendFormat:@"%@%@ {\n", indent, @"userResearchs"];
-    [element writeDescriptionTo:output
-                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
-    [output appendFormat:@"%@}\n", indent];
-  }];
-  if (self.hasUserDefaultLanguages) {
-    [output appendFormat:@"%@%@ {\n", indent, @"userDefaultLanguages"];
-    [self.userDefaultLanguages writeDescriptionTo:output
-                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
-    [output appendFormat:@"%@}\n", indent];
-  }
-  if (self.hasUserMiniEvent) {
-    [output appendFormat:@"%@%@ {\n", indent, @"userMiniEvent"];
-    [self.userMiniEvent writeDescriptionTo:output
-                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
-    [output appendFormat:@"%@}\n", indent];
-  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -2176,13 +2068,6 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
       [self.giftsList isEqualToArray:otherMessage.giftsList] &&
       [self.completedTasksList isEqualToArray:otherMessage.completedTasksList] &&
       [self.userPvpBoardObstaclesList isEqualToArray:otherMessage.userPvpBoardObstaclesList] &&
-      [self.battleItemQueueList isEqualToArray:otherMessage.battleItemQueueList] &&
-      [self.battleItemList isEqualToArray:otherMessage.battleItemList] &&
-      [self.userResearchsList isEqualToArray:otherMessage.userResearchsList] &&
-      self.hasUserDefaultLanguages == otherMessage.hasUserDefaultLanguages &&
-      (!self.hasUserDefaultLanguages || [self.userDefaultLanguages isEqual:otherMessage.userDefaultLanguages]) &&
-      self.hasUserMiniEvent == otherMessage.hasUserMiniEvent &&
-      (!self.hasUserMiniEvent || [self.userMiniEvent isEqual:otherMessage.userMiniEvent]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -2328,21 +2213,6 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   [self.userPvpBoardObstaclesList enumerateObjectsUsingBlock:^(UserPvpBoardObstacleProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
-  [self.battleItemQueueList enumerateObjectsUsingBlock:^(BattleItemQueueForUserProto *element, NSUInteger idx, BOOL *stop) {
-    hashCode = hashCode * 31 + [element hash];
-  }];
-  [self.battleItemList enumerateObjectsUsingBlock:^(UserBattleItemProto *element, NSUInteger idx, BOOL *stop) {
-    hashCode = hashCode * 31 + [element hash];
-  }];
-  [self.userResearchsList enumerateObjectsUsingBlock:^(UserResearchProto *element, NSUInteger idx, BOOL *stop) {
-    hashCode = hashCode * 31 + [element hash];
-  }];
-  if (self.hasUserDefaultLanguages) {
-    hashCode = hashCode * 31 + [self.userDefaultLanguages hash];
-  }
-  if (self.hasUserMiniEvent) {
-    hashCode = hashCode * 31 + [self.userMiniEvent hash];
-  }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
@@ -10978,33 +10848,6 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
       [result.mutableUserPvpBoardObstaclesList addObjectsFromArray:other.mutableUserPvpBoardObstaclesList];
     }
   }
-  if (other.mutableBattleItemQueueList.count > 0) {
-    if (result.mutableBattleItemQueueList == nil) {
-      result.mutableBattleItemQueueList = [[NSMutableArray alloc] initWithArray:other.mutableBattleItemQueueList];
-    } else {
-      [result.mutableBattleItemQueueList addObjectsFromArray:other.mutableBattleItemQueueList];
-    }
-  }
-  if (other.mutableBattleItemList.count > 0) {
-    if (result.mutableBattleItemList == nil) {
-      result.mutableBattleItemList = [[NSMutableArray alloc] initWithArray:other.mutableBattleItemList];
-    } else {
-      [result.mutableBattleItemList addObjectsFromArray:other.mutableBattleItemList];
-    }
-  }
-  if (other.mutableUserResearchsList.count > 0) {
-    if (result.mutableUserResearchsList == nil) {
-      result.mutableUserResearchsList = [[NSMutableArray alloc] initWithArray:other.mutableUserResearchsList];
-    } else {
-      [result.mutableUserResearchsList addObjectsFromArray:other.mutableUserResearchsList];
-    }
-  }
-  if (other.hasUserDefaultLanguages) {
-    [self mergeUserDefaultLanguages:other.userDefaultLanguages];
-  }
-  if (other.hasUserMiniEvent) {
-    [self mergeUserMiniEvent:other.userMiniEvent];
-  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -11319,42 +11162,6 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
         UserPvpBoardObstacleProto_Builder* subBuilder = [UserPvpBoardObstacleProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addUserPvpBoardObstacles:[subBuilder buildPartial]];
-        break;
-      }
-      case 386: {
-        BattleItemQueueForUserProto_Builder* subBuilder = [BattleItemQueueForUserProto builder];
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self addBattleItemQueue:[subBuilder buildPartial]];
-        break;
-      }
-      case 394: {
-        UserBattleItemProto_Builder* subBuilder = [UserBattleItemProto builder];
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self addBattleItem:[subBuilder buildPartial]];
-        break;
-      }
-      case 402: {
-        UserResearchProto_Builder* subBuilder = [UserResearchProto builder];
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self addUserResearchs:[subBuilder buildPartial]];
-        break;
-      }
-      case 410: {
-        DefaultLanguagesProto_Builder* subBuilder = [DefaultLanguagesProto builder];
-        if (self.hasUserDefaultLanguages) {
-          [subBuilder mergeFrom:self.userDefaultLanguages];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setUserDefaultLanguages:[subBuilder buildPartial]];
-        break;
-      }
-      case 418: {
-        UserMiniEventProto_Builder* subBuilder = [UserMiniEventProto builder];
-        if (self.hasUserMiniEvent) {
-          [subBuilder mergeFrom:self.userMiniEvent];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setUserMiniEvent:[subBuilder buildPartial]];
         break;
       }
     }
@@ -12488,138 +12295,6 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
 }
 - (StartupResponseProto_Builder *)clearUserPvpBoardObstacles {
   result.mutableUserPvpBoardObstaclesList = nil;
-  return self;
-}
-- (NSMutableArray *)battleItemQueueList {
-  return result.mutableBattleItemQueueList;
-}
-- (BattleItemQueueForUserProto*)battleItemQueueAtIndex:(NSUInteger)index {
-  return [result battleItemQueueAtIndex:index];
-}
-- (StartupResponseProto_Builder *)addBattleItemQueue:(BattleItemQueueForUserProto*)value {
-  if (result.mutableBattleItemQueueList == nil) {
-    result.mutableBattleItemQueueList = [[NSMutableArray alloc]init];
-  }
-  [result.mutableBattleItemQueueList addObject:value];
-  return self;
-}
-- (StartupResponseProto_Builder *)addAllBattleItemQueue:(NSArray *)array {
-  if (result.mutableBattleItemQueueList == nil) {
-    result.mutableBattleItemQueueList = [NSMutableArray array];
-  }
-  [result.mutableBattleItemQueueList addObjectsFromArray:array];
-  return self;
-}
-- (StartupResponseProto_Builder *)clearBattleItemQueue {
-  result.mutableBattleItemQueueList = nil;
-  return self;
-}
-- (NSMutableArray *)battleItemList {
-  return result.mutableBattleItemList;
-}
-- (UserBattleItemProto*)battleItemAtIndex:(NSUInteger)index {
-  return [result battleItemAtIndex:index];
-}
-- (StartupResponseProto_Builder *)addBattleItem:(UserBattleItemProto*)value {
-  if (result.mutableBattleItemList == nil) {
-    result.mutableBattleItemList = [[NSMutableArray alloc]init];
-  }
-  [result.mutableBattleItemList addObject:value];
-  return self;
-}
-- (StartupResponseProto_Builder *)addAllBattleItem:(NSArray *)array {
-  if (result.mutableBattleItemList == nil) {
-    result.mutableBattleItemList = [NSMutableArray array];
-  }
-  [result.mutableBattleItemList addObjectsFromArray:array];
-  return self;
-}
-- (StartupResponseProto_Builder *)clearBattleItem {
-  result.mutableBattleItemList = nil;
-  return self;
-}
-- (NSMutableArray *)userResearchsList {
-  return result.mutableUserResearchsList;
-}
-- (UserResearchProto*)userResearchsAtIndex:(NSUInteger)index {
-  return [result userResearchsAtIndex:index];
-}
-- (StartupResponseProto_Builder *)addUserResearchs:(UserResearchProto*)value {
-  if (result.mutableUserResearchsList == nil) {
-    result.mutableUserResearchsList = [[NSMutableArray alloc]init];
-  }
-  [result.mutableUserResearchsList addObject:value];
-  return self;
-}
-- (StartupResponseProto_Builder *)addAllUserResearchs:(NSArray *)array {
-  if (result.mutableUserResearchsList == nil) {
-    result.mutableUserResearchsList = [NSMutableArray array];
-  }
-  [result.mutableUserResearchsList addObjectsFromArray:array];
-  return self;
-}
-- (StartupResponseProto_Builder *)clearUserResearchs {
-  result.mutableUserResearchsList = nil;
-  return self;
-}
-- (BOOL) hasUserDefaultLanguages {
-  return result.hasUserDefaultLanguages;
-}
-- (DefaultLanguagesProto*) userDefaultLanguages {
-  return result.userDefaultLanguages;
-}
-- (StartupResponseProto_Builder*) setUserDefaultLanguages:(DefaultLanguagesProto*) value {
-  result.hasUserDefaultLanguages = YES;
-  result.userDefaultLanguages = value;
-  return self;
-}
-- (StartupResponseProto_Builder*) setUserDefaultLanguages_Builder:(DefaultLanguagesProto_Builder*) builderForValue {
-  return [self setUserDefaultLanguages:[builderForValue build]];
-}
-- (StartupResponseProto_Builder*) mergeUserDefaultLanguages:(DefaultLanguagesProto*) value {
-  if (result.hasUserDefaultLanguages &&
-      result.userDefaultLanguages != [DefaultLanguagesProto defaultInstance]) {
-    result.userDefaultLanguages =
-      [[[DefaultLanguagesProto builderWithPrototype:result.userDefaultLanguages] mergeFrom:value] buildPartial];
-  } else {
-    result.userDefaultLanguages = value;
-  }
-  result.hasUserDefaultLanguages = YES;
-  return self;
-}
-- (StartupResponseProto_Builder*) clearUserDefaultLanguages {
-  result.hasUserDefaultLanguages = NO;
-  result.userDefaultLanguages = [DefaultLanguagesProto defaultInstance];
-  return self;
-}
-- (BOOL) hasUserMiniEvent {
-  return result.hasUserMiniEvent;
-}
-- (UserMiniEventProto*) userMiniEvent {
-  return result.userMiniEvent;
-}
-- (StartupResponseProto_Builder*) setUserMiniEvent:(UserMiniEventProto*) value {
-  result.hasUserMiniEvent = YES;
-  result.userMiniEvent = value;
-  return self;
-}
-- (StartupResponseProto_Builder*) setUserMiniEvent_Builder:(UserMiniEventProto_Builder*) builderForValue {
-  return [self setUserMiniEvent:[builderForValue build]];
-}
-- (StartupResponseProto_Builder*) mergeUserMiniEvent:(UserMiniEventProto*) value {
-  if (result.hasUserMiniEvent &&
-      result.userMiniEvent != [UserMiniEventProto defaultInstance]) {
-    result.userMiniEvent =
-      [[[UserMiniEventProto builderWithPrototype:result.userMiniEvent] mergeFrom:value] buildPartial];
-  } else {
-    result.userMiniEvent = value;
-  }
-  result.hasUserMiniEvent = YES;
-  return self;
-}
-- (StartupResponseProto_Builder*) clearUserMiniEvent {
-  result.hasUserMiniEvent = NO;
-  result.userMiniEvent = [UserMiniEventProto defaultInstance];
   return self;
 }
 @end

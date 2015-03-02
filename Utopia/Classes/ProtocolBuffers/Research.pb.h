@@ -5,8 +5,6 @@
 #import "Structure.pb.h"
 // @@protoc_insertion_point(imports)
 
-@class BattleItemFactoryProto;
-@class BattleItemFactoryProto_Builder;
 @class ClanHouseProto;
 @class ClanHouseProto_Builder;
 @class CoordinateProto;
@@ -31,8 +29,6 @@
 @class PvpBoardHouseProto_Builder;
 @class PvpBoardObstacleProto;
 @class PvpBoardObstacleProto_Builder;
-@class ResearchHouseProto;
-@class ResearchHouseProto_Builder;
 @class ResearchPropertyProto;
 @class ResearchPropertyProto_Builder;
 @class ResearchProto;
@@ -55,8 +51,6 @@
 @class UserObstacleProto_Builder;
 @class UserPvpBoardObstacleProto;
 @class UserPvpBoardObstacleProto_Builder;
-@class UserResearchProto;
-@class UserResearchProto_Builder;
 #ifndef __has_feature
   #define __has_feature(x) 0 // Compatibility with non-clang compilers.
 #endif // __has_feature
@@ -71,39 +65,12 @@
 
 typedef NS_ENUM(SInt32, ResearchType) {
   ResearchTypeNoResearch = 1,
-  ResearchTypeCost = 2,
-  ResearchTypeSpeed = 3,
-  ResearchTypeIncreaseQueueSize = 4,
-  ResearchTypeIncreaseNumCanBuild = 5,
-  ResearchTypeXpBonus = 6,
-  ResearchTypeIncreaseConstructionTime = 7,
-  ResearchTypeIncreaseCashProduction = 8,
-  ResearchTypeIncreaseOilProduction = 9,
-  ResearchTypeIncreaseGemProduction = 10,
-  ResearchTypeIncreaseAttack = 11,
-  ResearchTypeIncreaseHp = 12,
-  ResearchTypeMinorPotion = 13,
-  ResearchTypeUnlockChillAntidote = 14,
-  ResearchTypeUnlockPoisonAntidote = 15,
-  ResearchTypeUnlockLollipopHammer = 16,
-  ResearchTypeUnlockPutty = 17,
-  ResearchTypeUnlockShuffle = 18,
-  ResearchTypeUnlockClouds = 19,
-  ResearchTypeUnlockLocks = 20,
-  ResearchTypeUnlockHoles = 21,
-  ResearchTypeUnlockVines = 22,
 };
 
 BOOL ResearchTypeIsValidValue(ResearchType value);
 
 typedef NS_ENUM(SInt32, ResearchDomain) {
   ResearchDomainNoDomain = 1,
-  ResearchDomainRestorative = 2,
-  ResearchDomainLevelup = 3,
-  ResearchDomainResources = 4,
-  ResearchDomainBattle = 5,
-  ResearchDomainItems = 6,
-  ResearchDomainTrapsAndObstacles = 7,
 };
 
 BOOL ResearchDomainIsValidValue(ResearchDomain value);
@@ -117,33 +84,27 @@ BOOL ResearchDomainIsValidValue(ResearchDomain value);
 
 @interface ResearchProto : PBGeneratedMessage {
 @private
-  BOOL hasPriority_:1;
   BOOL hasResearchId_:1;
   BOOL hasPredId_:1;
   BOOL hasSuccId_:1;
   BOOL hasDurationMin_:1;
   BOOL hasCostAmt_:1;
-  BOOL hasLevel_:1;
-  BOOL hasTier_:1;
+  BOOL hasResearchType_:1;
+  BOOL hasResearchDomain_:1;
   BOOL hasIconImgName_:1;
   BOOL hasName_:1;
   BOOL hasDesc_:1;
-  BOOL hasResearchType_:1;
-  BOOL hasResearchDomain_:1;
   BOOL hasCostType_:1;
-  Float32 priority;
   int32_t researchId;
   int32_t predId;
   int32_t succId;
   int32_t durationMin;
   int32_t costAmt;
-  int32_t level;
-  int32_t tier;
+  NSString* researchType;
+  NSString* researchDomain;
   NSString* iconImgName;
   NSString* name;
   NSString* desc;
-  ResearchType researchType;
-  ResearchDomain researchDomain;
   ResourceType costType;
   NSMutableArray * mutablePropertiesList;
 }
@@ -158,12 +119,9 @@ BOOL ResearchDomainIsValidValue(ResearchDomain value);
 - (BOOL) hasDurationMin;
 - (BOOL) hasCostAmt;
 - (BOOL) hasCostType;
-- (BOOL) hasLevel;
-- (BOOL) hasPriority;
-- (BOOL) hasTier;
 @property (readonly) int32_t researchId;
-@property (readonly) ResearchType researchType;
-@property (readonly) ResearchDomain researchDomain;
+@property (readonly, strong) NSString* researchType;
+@property (readonly, strong) NSString* researchDomain;
 @property (readonly, strong) NSString* iconImgName;
 @property (readonly, strong) NSString* name;
 @property (readonly) int32_t predId;
@@ -173,9 +131,6 @@ BOOL ResearchDomainIsValidValue(ResearchDomain value);
 @property (readonly) int32_t costAmt;
 @property (readonly) ResourceType costType;
 @property (readonly, strong) NSArray * propertiesList;
-@property (readonly) int32_t level;
-@property (readonly) Float32 priority;
-@property (readonly) int32_t tier;
 - (ResearchPropertyProto*)propertiesAtIndex:(NSUInteger)index;
 
 + (ResearchProto*) defaultInstance;
@@ -219,14 +174,14 @@ BOOL ResearchDomainIsValidValue(ResearchDomain value);
 - (ResearchProto_Builder*) clearResearchId;
 
 - (BOOL) hasResearchType;
-- (ResearchType) researchType;
-- (ResearchProto_Builder*) setResearchType:(ResearchType) value;
-- (ResearchProto_Builder*) clearResearchTypeList;
+- (NSString*) researchType;
+- (ResearchProto_Builder*) setResearchType:(NSString*) value;
+- (ResearchProto_Builder*) clearResearchType;
 
 - (BOOL) hasResearchDomain;
-- (ResearchDomain) researchDomain;
-- (ResearchProto_Builder*) setResearchDomain:(ResearchDomain) value;
-- (ResearchProto_Builder*) clearResearchDomainList;
+- (NSString*) researchDomain;
+- (ResearchProto_Builder*) setResearchDomain:(NSString*) value;
+- (ResearchProto_Builder*) clearResearchDomain;
 
 - (BOOL) hasIconImgName;
 - (NSString*) iconImgName;
@@ -273,21 +228,6 @@ BOOL ResearchDomainIsValidValue(ResearchDomain value);
 - (ResearchProto_Builder *)addProperties:(ResearchPropertyProto*)value;
 - (ResearchProto_Builder *)addAllProperties:(NSArray *)array;
 - (ResearchProto_Builder *)clearProperties;
-
-- (BOOL) hasLevel;
-- (int32_t) level;
-- (ResearchProto_Builder*) setLevel:(int32_t) value;
-- (ResearchProto_Builder*) clearLevel;
-
-- (BOOL) hasPriority;
-- (Float32) priority;
-- (ResearchProto_Builder*) setPriority:(Float32) value;
-- (ResearchProto_Builder*) clearPriority;
-
-- (BOOL) hasTier;
-- (int32_t) tier;
-- (ResearchProto_Builder*) setTier:(int32_t) value;
-- (ResearchProto_Builder*) clearTier;
 @end
 
 @interface ResearchPropertyProto : PBGeneratedMessage {
@@ -364,91 +304,6 @@ BOOL ResearchDomainIsValidValue(ResearchDomain value);
 - (int32_t) researchId;
 - (ResearchPropertyProto_Builder*) setResearchId:(int32_t) value;
 - (ResearchPropertyProto_Builder*) clearResearchId;
-@end
-
-@interface UserResearchProto : PBGeneratedMessage {
-@private
-  BOOL hasComplete_:1;
-  BOOL hasTimePurchased_:1;
-  BOOL hasResearchId_:1;
-  BOOL hasUserResearchUuid_:1;
-  BOOL hasUserUuid_:1;
-  BOOL complete_:1;
-  int64_t timePurchased;
-  int32_t researchId;
-  NSString* userResearchUuid;
-  NSString* userUuid;
-}
-- (BOOL) hasUserResearchUuid;
-- (BOOL) hasUserUuid;
-- (BOOL) hasResearchId;
-- (BOOL) hasTimePurchased;
-- (BOOL) hasComplete;
-@property (readonly, strong) NSString* userResearchUuid;
-@property (readonly, strong) NSString* userUuid;
-@property (readonly) int32_t researchId;
-@property (readonly) int64_t timePurchased;
-- (BOOL) complete;
-
-+ (UserResearchProto*) defaultInstance;
-- (UserResearchProto*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (UserResearchProto_Builder*) builder;
-+ (UserResearchProto_Builder*) builder;
-+ (UserResearchProto_Builder*) builderWithPrototype:(UserResearchProto*) prototype;
-- (UserResearchProto_Builder*) toBuilder;
-
-+ (UserResearchProto*) parseFromData:(NSData*) data;
-+ (UserResearchProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (UserResearchProto*) parseFromInputStream:(NSInputStream*) input;
-+ (UserResearchProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (UserResearchProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (UserResearchProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface UserResearchProto_Builder : PBGeneratedMessageBuilder {
-@private
-  UserResearchProto* result;
-}
-
-- (UserResearchProto*) defaultInstance;
-
-- (UserResearchProto_Builder*) clear;
-- (UserResearchProto_Builder*) clone;
-
-- (UserResearchProto*) build;
-- (UserResearchProto*) buildPartial;
-
-- (UserResearchProto_Builder*) mergeFrom:(UserResearchProto*) other;
-- (UserResearchProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (UserResearchProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasUserResearchUuid;
-- (NSString*) userResearchUuid;
-- (UserResearchProto_Builder*) setUserResearchUuid:(NSString*) value;
-- (UserResearchProto_Builder*) clearUserResearchUuid;
-
-- (BOOL) hasUserUuid;
-- (NSString*) userUuid;
-- (UserResearchProto_Builder*) setUserUuid:(NSString*) value;
-- (UserResearchProto_Builder*) clearUserUuid;
-
-- (BOOL) hasResearchId;
-- (int32_t) researchId;
-- (UserResearchProto_Builder*) setResearchId:(int32_t) value;
-- (UserResearchProto_Builder*) clearResearchId;
-
-- (BOOL) hasTimePurchased;
-- (int64_t) timePurchased;
-- (UserResearchProto_Builder*) setTimePurchased:(int64_t) value;
-- (UserResearchProto_Builder*) clearTimePurchased;
-
-- (BOOL) hasComplete;
-- (BOOL) complete;
-- (UserResearchProto_Builder*) setComplete:(BOOL) value;
-- (UserResearchProto_Builder*) clearComplete;
 @end
 
 

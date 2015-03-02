@@ -5,8 +5,6 @@
 #import "SharedEnumConfig.pb.h"
 // @@protoc_insertion_point(imports)
 
-@class BattleItemFactoryProto;
-@class BattleItemFactoryProto_Builder;
 @class ClanHouseProto;
 @class ClanHouseProto_Builder;
 @class CoordinateProto;
@@ -31,8 +29,6 @@
 @class PvpBoardHouseProto_Builder;
 @class PvpBoardObstacleProto;
 @class PvpBoardObstacleProto_Builder;
-@class ResearchHouseProto;
-@class ResearchHouseProto_Builder;
 @class ResidenceProto;
 @class ResidenceProto_Builder;
 @class ResourceGeneratorProto;
@@ -83,8 +79,6 @@ BOOL StructOrientationIsValidValue(StructOrientation value);
 
 typedef NS_ENUM(SInt32, BoardObstacleType) {
   BoardObstacleTypeCloud = 1,
-  BoardObstacleTypeLock = 2,
-  BoardObstacleTypeHole = 3,
 };
 
 BOOL BoardObstacleTypeIsValidValue(BoardObstacleType value);
@@ -103,8 +97,6 @@ typedef NS_ENUM(SInt32, StructureInfoProto_StructType) {
   StructureInfoProto_StructTypeClan = 11,
   StructureInfoProto_StructTypeMoneyTree = 12,
   StructureInfoProto_StructTypePvpBoard = 13,
-  StructureInfoProto_StructTypeResearchHouse = 14,
-  StructureInfoProto_StructTypeBattleItemFactory = 15,
 };
 
 BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType value);
@@ -499,14 +491,12 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
   BOOL hasDaysOfDuration_:1;
   BOOL hasDaysForRenewal_:1;
   BOOL hasIapProductId_:1;
-  BOOL hasFakeIapproductId_:1;
   BOOL hasStructInfo_:1;
   Float32 productionRate;
   int32_t capacity;
   int32_t daysOfDuration;
   int32_t daysForRenewal;
   NSString* iapProductId;
-  NSString* fakeIapproductId;
   StructureInfoProto* structInfo;
 }
 - (BOOL) hasStructInfo;
@@ -515,14 +505,12 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (BOOL) hasDaysOfDuration;
 - (BOOL) hasDaysForRenewal;
 - (BOOL) hasIapProductId;
-- (BOOL) hasFakeIapproductId;
 @property (readonly, strong) StructureInfoProto* structInfo;
 @property (readonly) Float32 productionRate;
 @property (readonly) int32_t capacity;
 @property (readonly) int32_t daysOfDuration;
 @property (readonly) int32_t daysForRenewal;
 @property (readonly, strong) NSString* iapProductId;
-@property (readonly, strong) NSString* fakeIapproductId;
 
 + (MoneyTreeProto*) defaultInstance;
 - (MoneyTreeProto*) defaultInstance;
@@ -590,62 +578,6 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (NSString*) iapProductId;
 - (MoneyTreeProto_Builder*) setIapProductId:(NSString*) value;
 - (MoneyTreeProto_Builder*) clearIapProductId;
-
-- (BOOL) hasFakeIapproductId;
-- (NSString*) fakeIapproductId;
-- (MoneyTreeProto_Builder*) setFakeIapproductId:(NSString*) value;
-- (MoneyTreeProto_Builder*) clearFakeIapproductId;
-@end
-
-@interface ResearchHouseProto : PBGeneratedMessage {
-@private
-  BOOL hasStructInfo_:1;
-  StructureInfoProto* structInfo;
-}
-- (BOOL) hasStructInfo;
-@property (readonly, strong) StructureInfoProto* structInfo;
-
-+ (ResearchHouseProto*) defaultInstance;
-- (ResearchHouseProto*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (ResearchHouseProto_Builder*) builder;
-+ (ResearchHouseProto_Builder*) builder;
-+ (ResearchHouseProto_Builder*) builderWithPrototype:(ResearchHouseProto*) prototype;
-- (ResearchHouseProto_Builder*) toBuilder;
-
-+ (ResearchHouseProto*) parseFromData:(NSData*) data;
-+ (ResearchHouseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (ResearchHouseProto*) parseFromInputStream:(NSInputStream*) input;
-+ (ResearchHouseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (ResearchHouseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (ResearchHouseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface ResearchHouseProto_Builder : PBGeneratedMessageBuilder {
-@private
-  ResearchHouseProto* result;
-}
-
-- (ResearchHouseProto*) defaultInstance;
-
-- (ResearchHouseProto_Builder*) clear;
-- (ResearchHouseProto_Builder*) clone;
-
-- (ResearchHouseProto*) build;
-- (ResearchHouseProto*) buildPartial;
-
-- (ResearchHouseProto_Builder*) mergeFrom:(ResearchHouseProto*) other;
-- (ResearchHouseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (ResearchHouseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasStructInfo;
-- (StructureInfoProto*) structInfo;
-- (ResearchHouseProto_Builder*) setStructInfo:(StructureInfoProto*) value;
-- (ResearchHouseProto_Builder*) setStructInfo_Builder:(StructureInfoProto_Builder*) builderForValue;
-- (ResearchHouseProto_Builder*) mergeStructInfo:(StructureInfoProto*) value;
-- (ResearchHouseProto_Builder*) clearStructInfo;
 @end
 
 @interface HospitalProto : PBGeneratedMessage {
@@ -728,18 +660,22 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 
 @interface LabProto : PBGeneratedMessage {
 @private
+  BOOL hasPointsPerSecond_:1;
   BOOL hasPointsMultiplier_:1;
   BOOL hasQueueSize_:1;
   BOOL hasStructInfo_:1;
+  Float32 pointsPerSecond;
   Float32 pointsMultiplier;
   int32_t queueSize;
   StructureInfoProto* structInfo;
 }
 - (BOOL) hasStructInfo;
 - (BOOL) hasQueueSize;
+- (BOOL) hasPointsPerSecond;
 - (BOOL) hasPointsMultiplier;
 @property (readonly, strong) StructureInfoProto* structInfo;
 @property (readonly) int32_t queueSize;
+@property (readonly) Float32 pointsPerSecond;
 @property (readonly) Float32 pointsMultiplier;
 
 + (LabProto*) defaultInstance;
@@ -788,6 +724,11 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (int32_t) queueSize;
 - (LabProto_Builder*) setQueueSize:(int32_t) value;
 - (LabProto_Builder*) clearQueueSize;
+
+- (BOOL) hasPointsPerSecond;
+- (Float32) pointsPerSecond;
+- (LabProto_Builder*) setPointsPerSecond:(Float32) value;
+- (LabProto_Builder*) clearPointsPerSecond;
 
 - (BOOL) hasPointsMultiplier;
 - (Float32) pointsMultiplier;
@@ -1951,12 +1892,12 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 
 @interface PvpBoardObstacleProto : PBGeneratedMessage {
 @private
-  BOOL hasInitiallyAvailable_:1;
+  BOOL hasInitAvailable_:1;
   BOOL hasPvpBoardId_:1;
   BOOL hasPowerAmt_:1;
   BOOL hasName_:1;
   BOOL hasObstacleType_:1;
-  BOOL initiallyAvailable_:1;
+  BOOL initAvailable_:1;
   int32_t pvpBoardId;
   int32_t powerAmt;
   NSString* name;
@@ -1966,12 +1907,12 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (BOOL) hasName;
 - (BOOL) hasObstacleType;
 - (BOOL) hasPowerAmt;
-- (BOOL) hasInitiallyAvailable;
+- (BOOL) hasInitAvailable;
 @property (readonly) int32_t pvpBoardId;
 @property (readonly, strong) NSString* name;
 @property (readonly) BoardObstacleType obstacleType;
 @property (readonly) int32_t powerAmt;
-- (BOOL) initiallyAvailable;
+- (BOOL) initAvailable;
 
 + (PvpBoardObstacleProto*) defaultInstance;
 - (PvpBoardObstacleProto*) defaultInstance;
@@ -2028,31 +1969,31 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (PvpBoardObstacleProto_Builder*) setPowerAmt:(int32_t) value;
 - (PvpBoardObstacleProto_Builder*) clearPowerAmt;
 
-- (BOOL) hasInitiallyAvailable;
-- (BOOL) initiallyAvailable;
-- (PvpBoardObstacleProto_Builder*) setInitiallyAvailable:(BOOL) value;
-- (PvpBoardObstacleProto_Builder*) clearInitiallyAvailable;
+- (BOOL) hasInitAvailable;
+- (BOOL) initAvailable;
+- (PvpBoardObstacleProto_Builder*) setInitAvailable:(BOOL) value;
+- (PvpBoardObstacleProto_Builder*) clearInitAvailable;
 @end
 
 @interface UserPvpBoardObstacleProto : PBGeneratedMessage {
 @private
-  BOOL hasUserPvpBoardObstacleId_:1;
   BOOL hasObstacleId_:1;
   BOOL hasPosX_:1;
   BOOL hasPosY_:1;
+  BOOL hasUserPvpBoardObstacleUuid_:1;
   BOOL hasUserUuid_:1;
-  int32_t userPvpBoardObstacleId;
   int32_t obstacleId;
   int32_t posX;
   int32_t posY;
+  NSString* userPvpBoardObstacleUuid;
   NSString* userUuid;
 }
-- (BOOL) hasUserPvpBoardObstacleId;
+- (BOOL) hasUserPvpBoardObstacleUuid;
 - (BOOL) hasUserUuid;
 - (BOOL) hasObstacleId;
 - (BOOL) hasPosX;
 - (BOOL) hasPosY;
-@property (readonly) int32_t userPvpBoardObstacleId;
+@property (readonly, strong) NSString* userPvpBoardObstacleUuid;
 @property (readonly, strong) NSString* userUuid;
 @property (readonly) int32_t obstacleId;
 @property (readonly) int32_t posX;
@@ -2093,10 +2034,10 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (UserPvpBoardObstacleProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (UserPvpBoardObstacleProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasUserPvpBoardObstacleId;
-- (int32_t) userPvpBoardObstacleId;
-- (UserPvpBoardObstacleProto_Builder*) setUserPvpBoardObstacleId:(int32_t) value;
-- (UserPvpBoardObstacleProto_Builder*) clearUserPvpBoardObstacleId;
+- (BOOL) hasUserPvpBoardObstacleUuid;
+- (NSString*) userPvpBoardObstacleUuid;
+- (UserPvpBoardObstacleProto_Builder*) setUserPvpBoardObstacleUuid:(NSString*) value;
+- (UserPvpBoardObstacleProto_Builder*) clearUserPvpBoardObstacleUuid;
 
 - (BOOL) hasUserUuid;
 - (NSString*) userUuid;
@@ -2117,66 +2058,6 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (int32_t) posY;
 - (UserPvpBoardObstacleProto_Builder*) setPosY:(int32_t) value;
 - (UserPvpBoardObstacleProto_Builder*) clearPosY;
-@end
-
-@interface BattleItemFactoryProto : PBGeneratedMessage {
-@private
-  BOOL hasPowerLimit_:1;
-  BOOL hasStructInfo_:1;
-  int32_t powerLimit;
-  StructureInfoProto* structInfo;
-}
-- (BOOL) hasStructInfo;
-- (BOOL) hasPowerLimit;
-@property (readonly, strong) StructureInfoProto* structInfo;
-@property (readonly) int32_t powerLimit;
-
-+ (BattleItemFactoryProto*) defaultInstance;
-- (BattleItemFactoryProto*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (BattleItemFactoryProto_Builder*) builder;
-+ (BattleItemFactoryProto_Builder*) builder;
-+ (BattleItemFactoryProto_Builder*) builderWithPrototype:(BattleItemFactoryProto*) prototype;
-- (BattleItemFactoryProto_Builder*) toBuilder;
-
-+ (BattleItemFactoryProto*) parseFromData:(NSData*) data;
-+ (BattleItemFactoryProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (BattleItemFactoryProto*) parseFromInputStream:(NSInputStream*) input;
-+ (BattleItemFactoryProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (BattleItemFactoryProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (BattleItemFactoryProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface BattleItemFactoryProto_Builder : PBGeneratedMessageBuilder {
-@private
-  BattleItemFactoryProto* result;
-}
-
-- (BattleItemFactoryProto*) defaultInstance;
-
-- (BattleItemFactoryProto_Builder*) clear;
-- (BattleItemFactoryProto_Builder*) clone;
-
-- (BattleItemFactoryProto*) build;
-- (BattleItemFactoryProto*) buildPartial;
-
-- (BattleItemFactoryProto_Builder*) mergeFrom:(BattleItemFactoryProto*) other;
-- (BattleItemFactoryProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (BattleItemFactoryProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasStructInfo;
-- (StructureInfoProto*) structInfo;
-- (BattleItemFactoryProto_Builder*) setStructInfo:(StructureInfoProto*) value;
-- (BattleItemFactoryProto_Builder*) setStructInfo_Builder:(StructureInfoProto_Builder*) builderForValue;
-- (BattleItemFactoryProto_Builder*) mergeStructInfo:(StructureInfoProto*) value;
-- (BattleItemFactoryProto_Builder*) clearStructInfo;
-
-- (BOOL) hasPowerLimit;
-- (int32_t) powerLimit;
-- (BattleItemFactoryProto_Builder*) setPowerLimit:(int32_t) value;
-- (BattleItemFactoryProto_Builder*) clearPowerLimit;
 @end
 
 

@@ -7,8 +7,6 @@
 #import "User.pb.h"
 // @@protoc_insertion_point(imports)
 
-@class BattleItemFactoryProto;
-@class BattleItemFactoryProto_Builder;
 @class ClanHouseProto;
 @class ClanHouseProto_Builder;
 @class ClanMemberTeamDonationProto;
@@ -65,8 +63,6 @@
 @class PvpBoardHouseProto_Builder;
 @class PvpBoardObstacleProto;
 @class PvpBoardObstacleProto_Builder;
-@class ResearchHouseProto;
-@class ResearchHouseProto_Builder;
 @class ResidenceProto;
 @class ResidenceProto_Builder;
 @class ResourceGeneratorProto;

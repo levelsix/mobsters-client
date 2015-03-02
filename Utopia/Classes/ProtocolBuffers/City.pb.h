@@ -5,8 +5,6 @@
 #import "Structure.pb.h"
 // @@protoc_insertion_point(imports)
 
-@class BattleItemFactoryProto;
-@class BattleItemFactoryProto_Builder;
 @class CityElementProto;
 @class CityElementProto_Builder;
 @class CityExpansionCostProto;
@@ -37,8 +35,6 @@
 @class PvpBoardHouseProto_Builder;
 @class PvpBoardObstacleProto;
 @class PvpBoardObstacleProto_Builder;
-@class ResearchHouseProto;
-@class ResearchHouseProto_Builder;
 @class ResidenceProto;
 @class ResidenceProto_Builder;
 @class ResourceGeneratorProto;
