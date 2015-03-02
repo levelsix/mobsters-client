@@ -377,7 +377,7 @@
   
   _curStage = -1;
   
-  [self setMovesLeft:NUM_MOVES_PER_TURN animated:NO];
+  _movesLeftHidden = YES;
   
   [self updateHealthBars];
 }
