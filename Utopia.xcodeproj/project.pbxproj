@@ -1315,9 +1315,9 @@
 		631BF3AE1A6DD8000091253B /* PrivateMessageNotificationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 631BF3AD1A6DD8000091253B /* PrivateMessageNotificationView.xib */; };
 		631BF3B31A6DDAEC0091253B /* PrivateMessageNotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 631BF3B21A6DDAEC0091253B /* PrivateMessageNotificationViewController.m */; };
 		631BF3B51A6DF0480091253B /* CircleMonsterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 631BF3B41A6DF0480091253B /* CircleMonsterView.xib */; };
-		633CCAD61AA139B200C6649F /* ResearchCategoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 633CCAD51AA139B200C6649F /* ResearchCategoryCell.xib */; };
-		633CCAD71AA139B200C6649F /* ResearchCategoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 633CCAD51AA139B200C6649F /* ResearchCategoryCell.xib */; };
-		633CCAD81AA139B200C6649F /* ResearchCategoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 633CCAD51AA139B200C6649F /* ResearchCategoryCell.xib */; };
+		633CCAD61AA139B200C6649F /* ResearchCategoryCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 633CCAD51AA139B200C6649F /* ResearchCategoryCellView.xib */; };
+		633CCAD71AA139B200C6649F /* ResearchCategoryCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 633CCAD51AA139B200C6649F /* ResearchCategoryCellView.xib */; };
+		633CCAD81AA139B200C6649F /* ResearchCategoryCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 633CCAD51AA139B200C6649F /* ResearchCategoryCellView.xib */; };
 		633CCADD1AA139E900C6649F /* ResearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 633CCADB1AA139E900C6649F /* ResearchViewController.m */; };
 		633CCADE1AA139E900C6649F /* ResearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 633CCADB1AA139E900C6649F /* ResearchViewController.m */; };
 		633CCADF1AA139E900C6649F /* ResearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 633CCADB1AA139E900C6649F /* ResearchViewController.m */; };
@@ -1330,6 +1330,9 @@
 		633CCAF41AA1502A00C6649F /* ResearchDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 633CCAF31AA1502A00C6649F /* ResearchDetailViewController.xib */; };
 		633CCAF51AA1502A00C6649F /* ResearchDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 633CCAF31AA1502A00C6649F /* ResearchDetailViewController.xib */; };
 		633CCAF61AA1502A00C6649F /* ResearchDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 633CCAF31AA1502A00C6649F /* ResearchDetailViewController.xib */; };
+		633CCAFC1AA15E3200C6649F /* ResearchDetailCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 633CCAFB1AA15E3200C6649F /* ResearchDetailCellView.xib */; };
+		633CCAFD1AA15E3200C6649F /* ResearchDetailCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 633CCAFB1AA15E3200C6649F /* ResearchDetailCellView.xib */; };
+		633CCAFE1AA15E3200C6649F /* ResearchDetailCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 633CCAFB1AA15E3200C6649F /* ResearchDetailCellView.xib */; };
 		634174681A843521006DA494 /* avengebutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 634174581A843521006DA494 /* avengebutton@2x.png */; };
 		634174691A843521006DA494 /* avengebutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 634174581A843521006DA494 /* avengebutton@2x.png */; };
 		6341746A1A843521006DA494 /* avengebutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 634174581A843521006DA494 /* avengebutton@2x.png */; };
@@ -7546,12 +7549,13 @@
 		631BF3B11A6DDAEC0091253B /* PrivateMessageNotificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrivateMessageNotificationViewController.h; sourceTree = "<group>"; };
 		631BF3B21A6DDAEC0091253B /* PrivateMessageNotificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrivateMessageNotificationViewController.m; sourceTree = "<group>"; };
 		631BF3B41A6DF0480091253B /* CircleMonsterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CircleMonsterView.xib; sourceTree = "<group>"; };
-		633CCAD51AA139B200C6649F /* ResearchCategoryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ResearchCategoryCell.xib; path = HomeMenu/Research/ResearchCategoryCell.xib; sourceTree = "<group>"; };
+		633CCAD51AA139B200C6649F /* ResearchCategoryCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ResearchCategoryCellView.xib; path = HomeMenu/Research/ResearchCategoryCellView.xib; sourceTree = "<group>"; };
 		633CCADA1AA139E900C6649F /* ResearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ResearchViewController.h; path = HomeMenu/Research/ResearchViewController.h; sourceTree = "<group>"; };
 		633CCADB1AA139E900C6649F /* ResearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ResearchViewController.m; path = HomeMenu/Research/ResearchViewController.m; sourceTree = "<group>"; };
 		633CCADC1AA139E900C6649F /* ResearchViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ResearchViewController.xib; path = HomeMenu/Research/ResearchViewController.xib; sourceTree = "<group>"; };
 		633CCAEF1AA1444800C6649F /* ResearchInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ResearchInfoViewController.xib; path = HomeMenu/Research/ResearchInfoViewController.xib; sourceTree = "<group>"; };
 		633CCAF31AA1502A00C6649F /* ResearchDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ResearchDetailViewController.xib; path = HomeMenu/Research/ResearchDetailViewController.xib; sourceTree = "<group>"; };
+		633CCAFB1AA15E3200C6649F /* ResearchDetailCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ResearchDetailCellView.xib; path = HomeMenu/Research/ResearchDetailCellView.xib; sourceTree = "<group>"; };
 		634174581A843521006DA494 /* avengebutton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "avengebutton@2x.png"; sourceTree = "<group>"; };
 		634174591A843521006DA494 /* greenchatcorner@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greenchatcorner@2x.png"; sourceTree = "<group>"; };
 		6341745A1A843521006DA494 /* greenchatdivider@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greenchatdivider@2x.png"; sourceTree = "<group>"; };
@@ -12925,8 +12929,9 @@
 				633CCADA1AA139E900C6649F /* ResearchViewController.h */,
 				633CCADB1AA139E900C6649F /* ResearchViewController.m */,
 				633CCADC1AA139E900C6649F /* ResearchViewController.xib */,
-				633CCAD51AA139B200C6649F /* ResearchCategoryCell.xib */,
+				633CCAD51AA139B200C6649F /* ResearchCategoryCellView.xib */,
 				633CCAF31AA1502A00C6649F /* ResearchDetailViewController.xib */,
+				633CCAFB1AA15E3200C6649F /* ResearchDetailCellView.xib */,
 			);
 			name = Research;
 			path = ..;
@@ -17616,6 +17621,7 @@
 				CFDEA54D199D5BA300445F3C /* lockedmobster@2x.png in Resources */,
 				CF0CEE44196F452900ECD301 /* QuestDetailsViewController.xib in Resources */,
 				6341746F1A843521006DA494 /* greenchatdivider@2x.png in Resources */,
+				633CCAFD1AA15E3200C6649F /* ResearchDetailCellView.xib in Resources */,
 				29DCCFE81A8C3310003176FD /* fallinggems08@2x.png in Resources */,
 				CF0CEE4A196F452900ECD301 /* timerbgmiddle@2x.png in Resources */,
 				CFA729241A0B037900FF6031 /* watereventtag@2x.png in Resources */,
@@ -18774,7 +18780,7 @@
 				CF0CF4C6196F452900ECD301 /* mediumgreenbtn@2x.png in Resources */,
 				CF0CF4C9196F452900ECD301 /* bluelightbluedivider@2x.png in Resources */,
 				CF0CF4CA196F452900ECD301 /* legendband@2x.png in Resources */,
-				633CCAD71AA139B200C6649F /* ResearchCategoryCell.xib in Resources */,
+				633CCAD71AA139B200C6649F /* ResearchCategoryCellView.xib in Resources */,
 				CF0CF4CD196F452900ECD301 /* diamondribbon@2x.png in Resources */,
 				CF0CF4CE196F452900ECD301 /* requestsinactive@2x.png in Resources */,
 				CF3737B219E3767600CB16E3 /* obtimeryellowcap@2x.png in Resources */,
@@ -20195,6 +20201,7 @@
 				CF12799D181F5F1600211623 /* progressquest@2x.png in Resources */,
 				CFF2160D18FDC7660057B5CE /* battleepictag@2x.png in Resources */,
 				CFF2A62E1970C81200269084 /* battledonepurple@2x.png in Resources */,
+				633CCAFC1AA15E3200C6649F /* ResearchDetailCellView.xib in Resources */,
 				9B41AF2B1A7C334C00529879 /* bulletorb-9@2x.png in Resources */,
 				CFF2A5F019709C4800269084 /* MenuOilDrillT1@2x.png in Resources */,
 				CFF7875518E28FE200413E78 /* currentamountbar@2x.png in Resources */,
@@ -20350,7 +20357,7 @@
 				CFE7CDCA1819FC3300930847 /* wide@2x.png in Resources */,
 				CFDA78EA198C303C0014A8CD /* lockedcity@2x.png in Resources */,
 				29C0D2321A9BFA79005A4EC0 /* ultimategrabitem@2x.png in Resources */,
-				633CCAD61AA139B200C6649F /* ResearchCategoryCell.xib in Resources */,
+				633CCAD61AA139B200C6649F /* ResearchCategoryCellView.xib in Resources */,
 				CF37377A19E36B1D00CB16E3 /* youmissoutonribbon@2x.png in Resources */,
 				299AA4BB1A7872C300A2D806 /* allcocktail@2x.png in Resources */,
 				CFFC50F919C4C57700BDAA62 /* notendcapgreen@2x.png in Resources */,
@@ -21900,6 +21907,7 @@
 				CF481CDB19F7217F00041486 /* epicfound@2x.png in Resources */,
 				29DCD03F1A8D8514003176FD /* fallinggems18@2x.png in Resources */,
 				CF481CDE19F7217F00041486 /* MenuMPMT1@2x.png in Resources */,
+				633CCAFE1AA15E3200C6649F /* ResearchDetailCellView.xib in Resources */,
 				9BDA8BB61A40D87A00C7AC27 /* boardmud@2x.png in Resources */,
 				CF481CE019F7217F00041486 /* shieldfont@2x.png in Resources */,
 				299AA4E71A7872C300A2D806 /* lightupdown@2x.png in Resources */,
@@ -22972,7 +22980,7 @@
 				299AA35F1A7856AA00A2D806 /* 6rockorb-9@2x.png in Resources */,
 				CF48236019F7217F00041486 /* sfx_firework_01.mp3 in Resources */,
 				CF48236219F7217F00041486 /* QuestListCell.xib in Resources */,
-				633CCAD81AA139B200C6649F /* ResearchCategoryCell.xib in Resources */,
+				633CCAD81AA139B200C6649F /* ResearchCategoryCellView.xib in Resources */,
 				CF48236319F7217F00041486 /* greychatmiddle@2x.png in Resources */,
 				9B41AF6D1A81B44200529879 /* fireglove-9@2x.png in Resources */,
 				29AA82B01AA15A50000ADABF /* LoadingSpinnerView.xib in Resources */,

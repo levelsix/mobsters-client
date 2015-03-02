@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PopupSubViewController.h"
 
-@interface ResearchViewController : UIViewController
+@interface ResearchViewController : PopupSubViewController
 
 @end

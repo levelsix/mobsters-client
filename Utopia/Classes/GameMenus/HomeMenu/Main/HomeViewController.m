@@ -17,6 +17,7 @@
 #import "TeamViewController.h"
 #import "MiniJobsListViewController.h"
 #import "ItemFactoryViewController.h"
+#import "ResearchViewController.h"
 
 @implementation HomeTitleView
 
@@ -107,6 +108,7 @@
   EnhanceChooserViewController *enhance = [[EnhanceChooserViewController alloc] init];
   MiniJobsListViewController *miniJobs = [[MiniJobsListViewController alloc] init];
   ItemFactoryViewController *itemFactory = [[ItemFactoryViewController alloc] init];
+  ResearchViewController *research = [[ResearchViewController alloc] init];
   
   GameState *gs = [GameState sharedGameState];
   NSMutableArray *arr = [@[team, sell] mutableCopy];
@@ -115,6 +117,8 @@
   if (gs.myEvoChamber.isComplete || gs.myEvoChamber.staticStruct.structInfo.level > 1) [arr addObject:evo];
   if ((gs.myMiniJobCenter.isComplete && gs.myMiniJobCenter.staticStruct.structInfo.level > 0) || gs.myMiniJobCenter.staticStruct.structInfo.level > 1) [arr addObject:miniJobs];
   if (gs.myBattleItemFactory.isComplete || gs.myBattleItemFactory.staticStruct.structInfo.level > 1) [arr addObject:itemFactory];
+  //make me fix this Ashwin
+  [arr addObject:research];
   self.mainViewControllers = arr;
 }
 
