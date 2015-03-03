@@ -268,6 +268,11 @@ static const NSInteger kBatteryOrbsMaxSearchIterations = 256;
 
 - (void) showAttackMultiplier
 {
+  [self showSkillPopupMiniOverlay:NO
+                       bottomText:[NSString stringWithFormat:@"%.3gX ATK", _curAttackMultiplier]
+                   withCompletion:^{}];
+  
+  /*
   // Display logo
   CCSprite* logoSprite = [CCSprite spriteWithImageNamed:[self.skillImageNamePrefix stringByAppendingString:kSkillMiniLogoImageNameSuffix]];
   logoSprite.position = CGPointMake((self.enemySprite.position.x + self.playerSprite.position.x) * .5f + self.playerSprite.contentSize.width * .5f - 20.f,
@@ -293,6 +298,7 @@ static const NSInteger kBatteryOrbsMaxSearchIterations = 256;
                          [CCActionEaseIn actionWithAction:[CCActionScaleTo actionWithDuration:.3f scale:0.f]],
                          [CCActionRemove action],
                          nil]];
+   */
 }
 
 - (int) updateSpecialOrbs

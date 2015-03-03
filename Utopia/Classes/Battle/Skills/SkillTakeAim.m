@@ -184,13 +184,14 @@
 
 -(void)showCriticalHit
 {
+  [self showSkillPopupMiniOverlay:NO
+                       bottomText:[NSString stringWithFormat:@"%.3gX ATK", _critDamageMultiplier]
+                   withCompletion:^{}];
+  
   /*
-   * 2/4/15 - BN - Disabling skills displaying logos
-   */
   const CGFloat yOffset = self.belongsToPlayer ? 40.f : -20.f;
   
   // Display logo
-//  CCSprite* logoSprite = [CCSprite spriteWithImageNamed:[self.skillImageNamePrefix stringByAppendingString:kSkillMiniLogoImageNameSuffix]];
   CCSprite* logoSprite = [CCSprite node];
   [Globals imageNamed:[self.skillImageNamePrefix stringByAppendingString:kSkillMiniLogoImageNameSuffix] toReplaceSprite:logoSprite];
   logoSprite.position = CGPointMake((self.enemySprite.position.x + self.playerSprite.position.x) * .5f + self.playerSprite.contentSize.width * .5f - 10.f,
@@ -216,13 +217,7 @@
                          [CCActionEaseIn actionWithAction:[CCActionScaleTo actionWithDuration:.3f scale:0.f]],
                          [CCActionRemove action],
                          nil]];
-  
-  // Finish trigger execution
-//  [self performAfterDelay:.3f block:^{
-//    [self.battleLayer.orbLayer.bgdLayer turnTheLightsOn];
-//    [self.battleLayer.orbLayer allowInput];
-//    [self skillTriggerFinished];
-//  }];
+   */
 }
 
 @end
