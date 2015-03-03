@@ -25,6 +25,12 @@
 @class MoneyTreeProto_Builder;
 @class ObstacleProto;
 @class ObstacleProto_Builder;
+@class PvpBoardHouseProto;
+@class PvpBoardHouseProto_Builder;
+@class PvpBoardObstacleProto;
+@class PvpBoardObstacleProto_Builder;
+@class ResearchHouseProto;
+@class ResearchHouseProto_Builder;
 @class ResearchPropertyProto;
 @class ResearchPropertyProto_Builder;
 @class ResearchProto;
@@ -45,6 +51,8 @@
 @class TutorialStructProto_Builder;
 @class UserObstacleProto;
 @class UserObstacleProto_Builder;
+@class UserPvpBoardObstacleProto;
+@class UserPvpBoardObstacleProto_Builder;
 #ifndef __has_feature
   #define __has_feature(x) 0 // Compatibility with non-clang compilers.
 #endif // __has_feature
@@ -59,12 +67,25 @@
 
 typedef NS_ENUM(SInt32, ResearchType) {
   ResearchTypeNoResearch = 1,
+  ResearchTypeCost = 2,
+  ResearchTypeSpeed = 3,
+  ResearchTypeIncreaseQueueSize = 4,
+  ResearchTypeIncreaseNumCanBuild = 5,
+  ResearchTypeXpBonus = 6,
+  ResearchTypeIncreaseCashProduction = 7,
+  ResearchTypeIncreaseOilProduction = 8,
+  ResearchTypeIncreaseAttack = 9,
+  ResearchTypeIncreaseHp = 10,
 };
 
 BOOL ResearchTypeIsValidValue(ResearchType value);
 
 typedef NS_ENUM(SInt32, ResearchDomain) {
   ResearchDomainNoDomain = 1,
+  ResearchDomainRestorative = 2,
+  ResearchDomainLevelup = 3,
+  ResearchDomainResources = 4,
+  ResearchDomainBattle = 5,
 };
 
 BOOL ResearchDomainIsValidValue(ResearchDomain value);

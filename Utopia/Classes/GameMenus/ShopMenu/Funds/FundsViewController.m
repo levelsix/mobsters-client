@@ -13,6 +13,7 @@
 #import "IAPHelper.h"
 #import "InAppPurchaseData.h"
 #import "GenericPopupController.h"
+#import "GameViewController.h"
 
 @implementation FundsViewController
 
@@ -32,6 +33,12 @@
   [super viewDidAppear:animated];
   
   [self adjustSizeOfView];
+}
+
+- (void) viewWillDisappear:(BOOL)animated {
+  [super viewWillDisappear:animated];
+  
+  [self.loadingView stop];
 }
 
 - (void) adjustSizeOfView {
@@ -134,7 +141,8 @@
   BOOL success = [_purchase makePurchaseWithDelegate:self];
   _purchase = nil;
   if (success) {
-    [self.loadingView display:self.parentViewController.view];
+    GameViewController *gvc = [GameViewController baseController];
+    [self.loadingView display:gvc.view];
     _isLoading = YES;
   }
 }

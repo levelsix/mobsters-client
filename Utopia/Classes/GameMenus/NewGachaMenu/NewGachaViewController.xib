@@ -722,7 +722,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 </imageView>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cheapshoticon.png" id="Mzu-5F-CHg">
+                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="Mzu-5F-CHg">
                                     <rect key="frame" x="8" y="7" width="25" height="25"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 </imageView>
@@ -755,7 +755,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 </imageView>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cakedropicon.png" id="1xc-I0-r2D">
+                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="1xc-I0-r2D">
                                     <rect key="frame" x="8" y="7" width="25" height="25"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 </imageView>
@@ -853,8 +853,6 @@
         <image name="basicgrabnavicon.png" width="28" height="36"/>
         <image name="basicmachine.png" width="161" height="190"/>
         <image name="battleepictag.png" width="29" height="14"/>
-        <image name="cakedropicon.png" width="32" height="32"/>
-        <image name="cheapshoticon.png" width="34" height="30"/>
         <image name="diamond.png" width="29" height="27"/>
         <image name="earthskilldescription.png" width="219" height="129"/>
         <image name="firegrbigflash1.png" width="613" height="375"/>

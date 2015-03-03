@@ -1010,6 +1010,10 @@
   }
 }
 
+- (void) closeShop {
+  [self.shopViewController close];
+}
+
 - (void) openShopWithFunds {
   [self openShop];
   [self.shopViewController openFundsShop];

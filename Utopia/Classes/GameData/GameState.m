@@ -404,7 +404,21 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (void) addToMyStructs:(NSArray *)structs {
   for (FullUserStructureProto *st in structs) {
-    [self.myStructs addObject:[UserStruct userStructWithProto:st]];
+    UserStruct *us = [UserStruct userStructWithProto:st];
+    id<StaticStructure> ss = us.staticStruct;
+    if ([ss structInfo].structType == StructureInfoProto_StructTypeMoneyTree) {
+      if (us.isNoLongerValidForRenewal) {
+        continue;
+      }
+    }
+    
+    for (UserStruct *u in self.myStructs.copy) {
+      if ([u.userStructUuid isEqualToString:st.userStructUuid]) {
+        [self.myStructs removeObject:u];
+      }
+    }
+    
+    [self.myStructs addObject:us];
   }
   [self checkResidencesForFbCompletion];
   [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
@@ -2023,12 +2037,17 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   int mod = 60*60*24;
   int days = secsSinceStart/mod;
   int secsForToday = mod - (secsSinceStart % mod);
+  secsForToday = MIN(secsForToday, mod-1);
   
   if (days < 5 && secsForToday >= 0) {
     return secsForToday;
   } else {
     return -1;
   }
+}
+
+- (NSTimeInterval) timeLeftOnMoneyTree {
+  return self.timeLeftOnStarterSale;
 }
 
 @end

@@ -25,6 +25,18 @@
 @property (nonatomic, retain) IBOutlet UIView *lockedView;
 @property (nonatomic, retain) IBOutlet UIView *unlockedView;
 
+@property (nonatomic, retain) IBOutlet UIView *buildingView;
+@property (nonatomic, retain) IBOutlet UIView *moneyTreeView;
+
+@property (nonatomic, retain) IBOutlet THLabel *timeLeftLabel;
+@property (nonatomic, retain) IBOutlet UILabel *producesLabel;
+@property (nonatomic, retain) IBOutlet UILabel *daysLabel;
+@property (nonatomic, retain) IBOutlet UILabel *oldCostLabel;
+@property (nonatomic, retain) IBOutlet THLabel *curCostLabel;
+@property (nonatomic, retain) IBOutlet UIImageView *timerIcon;
+
 - (void) updateForStructInfo:(StructureInfoProto *)structInfo townHall:(UserStruct *)townHall structs:(NSArray *)structs;
+- (void) updateForMoneyTree:(MoneyTreeProto *)mtp;
+- (void) updateTime:(int)secsLeft;
 
 @end

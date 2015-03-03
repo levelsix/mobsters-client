@@ -24,6 +24,7 @@
 #import "HomeViewController.h"
 #import "PersistentEventProto+Time.h"
 #import "SpeedupItemsFiller.h"
+#import "IAPHelper.h"
 
 #define FAR_LEFT_EXPANSION_START 58
 #define FAR_RIGHT_EXPANSION_START 58
@@ -278,15 +279,6 @@
     StructureInfoProto *fsp = s.staticStruct.structInfo;
     if (!fsp)
       continue;
-    if([s.staticStruct isKindOfClass:[MoneyTreeProto class]]) {
-      MoneyTreeProto *mtp = (MoneyTreeProto *)s.staticStruct;
-      int secondsInADay = 60*60*24;
-      long lifeTime = (mtp.daysOfDuration + mtp.daysForRenewal) * secondsInADay;
-      long timeAlive = -[s.purchaseTime timeIntervalSinceNow];
-      if(timeAlive >= lifeTime) {
-        continue;
-      }
-    }
     
     HomeBuilding *homeBuilding = [HomeBuilding buildingWithUserStruct:s map:self];
     [self addChild:homeBuilding z:0 name:STRUCT_TAG(s.userStructUuid)];
@@ -713,6 +705,8 @@
       }
     }
   }
+  
+  
 }
 
 - (void) reloadAllBubbles {
@@ -730,7 +724,7 @@
 - (void) reloadUpgradeSigns {
   GameState *gs = [GameState sharedGameState];
   BOOL availBuilder = [self hasAvailableBuilder];
-  for(HomeBuilding *building in [self childrenOfClassType:[HomeBuilding class]]) {
+  for (HomeBuilding *building in [self childrenOfClassType:[HomeBuilding class]]) {
     
     building.greenSign.visible = NO;
     building.redSign.visible = NO;
@@ -738,14 +732,17 @@
     if (availBuilder && building.userStruct.isComplete && building.userStruct.satisfiesAllPrerequisites) {
       
       StructureInfoProto *fsp = building.userStruct.staticStructForNextLevel.structInfo;
-      int cost = fsp.buildCost;
-      BOOL isOilBuilding = fsp.buildResourceType == ResourceTypeOil;
-      int curAmount = isOilBuilding ? gs.oil : gs.cash;
       
-      if (cost > curAmount) {
-        building.redSign.visible = availBuilder;
-      } else {
-        building.greenSign.visible = availBuilder;
+      if (fsp) {
+        int cost = fsp.buildCost;
+        BOOL isOilBuilding = fsp.buildResourceType == ResourceTypeOil;
+        int curAmount = isOilBuilding ? gs.oil : gs.cash;
+        
+        if (cost > curAmount) {
+          building.redSign.visible = availBuilder;
+        } else {
+          building.greenSign.visible = availBuilder;
+        }
       }
     }
   }
@@ -1013,10 +1010,34 @@
     
     BOOL isUpgradableBuilding = fsp.predecessorStructId || fsp.successorStructId;
     NSString *lvlStr = isUpgradableBuilding ? [NSString stringWithFormat:@" (%@)", fsp.level ? [NSString stringWithFormat:@"LVL %d", fsp.level] : @"Broken"] : @"";
-    self.buildingNameLabel.text = [NSString stringWithFormat:@"%@%@", fsp.name, lvlStr];
+    
+    if (fsp.structType != StructureInfoProto_StructTypeMoneyTree) {
+      self.buildingNameLabel.text = [NSString stringWithFormat:@"%@%@", fsp.name, lvlStr];
+    } else {
+      if (us.isExpired) {
+        self.buildingNameLabel.text = [NSString stringWithFormat:@"%@ (Expired)", fsp.name];
+      } else {
+        self.buildingNameLabel.text = [NSString stringWithFormat:@"%@ (%@)", fsp.name, [Globals convertTimeToSingleLongString:[us timeTillExpiry]]];
+      }
+    }
+    
+    
     if (us.isComplete) {
       
-      if (isUpgradableBuilding) {
+      // SPECIAL CASE.. Money Tree
+      BOOL continueNormally = YES;
+      if (fsp.structType == StructureInfoProto_StructTypeMoneyTree && us.isExpired) {
+        MoneyTreeProto *mtp = (MoneyTreeProto *)us.staticStruct;
+        
+        IAPHelper *iap = [IAPHelper sharedIAPHelper];
+        SKProduct *prod = [iap productForIdentifier:mtp.iapProductId];
+        NSString *price = [iap priceForProduct:prod];
+        [buttonViews addObject:[MapBotViewButton fixButtonWithIapString:price]];
+        
+        continueNormally = NO;
+      }
+      
+      if (continueNormally) {
         if (fsp.successorStructId) {
           if (fsp.level == 0) {
             [buttonViews addObject:[MapBotViewButton fixButtonWithResourceType:nextFsp.buildResourceType buildCost:nextFsp.buildCost]];
@@ -1026,44 +1047,44 @@
         } else {
           [buttonViews addObject:[MapBotViewButton infoButton]];
         }
-      }
-      
-      switch (fsp.structType) {
-        case StructureInfoProto_StructTypeResidence:
-          [buttonViews addObject:[MapBotViewButton bonusSlotsButton]];
-          [buttonViews addObject:[MapBotViewButton sellButton]];
-          break;
-          
-        case StructureInfoProto_StructTypeHospital:
-          [buttonViews addObject:[MapBotViewButton healButton]];
-          break;
-          
-        case StructureInfoProto_StructTypeEvo:
-          [buttonViews addObject:[MapBotViewButton evolveButton]];
-          break;
-          
-        case StructureInfoProto_StructTypeLab:
-          if (fsp.level > 0) {
-            [buttonViews addObject:[MapBotViewButton enhanceButton]];
-          }
-          break;
-          
-        case StructureInfoProto_StructTypeMiniJob:
-          if (fsp.level > 0) {
-            [buttonViews addObject:[MapBotViewButton miniJobsButton]];
-          }
-          break;
-          
-        case StructureInfoProto_StructTypeTeamCenter:
-          [buttonViews addObject:[MapBotViewButton teamButton]];
-          break;
-          
-        case StructureInfoProto_StructTypeClan:
-          [buttonViews addObject:[MapBotViewButton joinClanButton]];
-          break;
-          
-        default:
-          break;
+        
+        switch (fsp.structType) {
+          case StructureInfoProto_StructTypeResidence:
+            [buttonViews addObject:[MapBotViewButton bonusSlotsButton]];
+            [buttonViews addObject:[MapBotViewButton sellButton]];
+            break;
+            
+          case StructureInfoProto_StructTypeHospital:
+            [buttonViews addObject:[MapBotViewButton healButton]];
+            break;
+            
+          case StructureInfoProto_StructTypeEvo:
+            [buttonViews addObject:[MapBotViewButton evolveButton]];
+            break;
+            
+          case StructureInfoProto_StructTypeLab:
+            if (fsp.level > 0) {
+              [buttonViews addObject:[MapBotViewButton enhanceButton]];
+            }
+            break;
+            
+          case StructureInfoProto_StructTypeMiniJob:
+            if (fsp.level > 0) {
+              [buttonViews addObject:[MapBotViewButton miniJobsButton]];
+            }
+            break;
+            
+          case StructureInfoProto_StructTypeTeamCenter:
+            [buttonViews addObject:[MapBotViewButton teamButton]];
+            break;
+            
+          case StructureInfoProto_StructTypeClan:
+            [buttonViews addObject:[MapBotViewButton joinClanButton]];
+            break;
+            
+          default:
+            break;
+        }
       }
     } else {
       int timeLeft = [self timeLeftForConstructionBuildingOrObstacle:self.selected];
@@ -1242,7 +1263,7 @@
   if (amountCollected > 0) {
     
     // Spawn a label on building
-    NSString *fnt = resType == ResourceTypeCash ? @"cashcollected.fnt" : @"oilcollected.fnt";
+    NSString *fnt = @"gemscollected.fnt";
     CCLabelBMFont *label = [CCLabelBMFont labelWithString:[Globals commafyNumber:amountCollected] fntFile:fnt];
     [self addChild:label z:1000];
     label.position = ccp(mt.position.x, mt.position.y+mt.contentSize.height*4/5);
@@ -1259,11 +1280,11 @@
     [AchievementUtil checkCollectResource:resType amount:amountCollected];
   } else {
     //this section is for when storages are full but there is infinite gem storage
-    [Globals addAlertNotification:@"something went wrong in the money tree"];
+    [Globals addAlertNotification:@"Something went wrong with the Gem Mine"];
   }
-//  [SoundEngine structCollectOil];
+  //  [SoundEngine structCollectOil];
   
-  [self setupIncomeTimerForBuilding:mt];
+  [self updateTimersForBuilding:mt];
   
 }
 
@@ -1469,10 +1490,11 @@
       }
     } else {
       if ([mb isKindOfClass:[MoneyTreeBuilding class]]){
-        ResourceGeneratorBuilding *rb = (ResourceGeneratorBuilding *)mb;
-        if (rb.userStruct.numResourcesAvailable > 0) {
+        MoneyTreeBuilding *rb = (MoneyTreeBuilding *)mb;
+        UserStruct *us = rb.userStruct;
+        if (us.numResourcesAvailable > 0) {
           rb.retrievable = YES;
-        } else {
+        } else if (!us.isExpired) {
           [self setupIncomeTimerForBuilding:rb];
         }
       }
@@ -1910,7 +1932,16 @@
 
 - (IBAction)littleUpgradeClicked:(id)sender {
   if ([self.selected isKindOfClass:[HomeBuilding class]]) {
-    [self loadUpgradeViewControllerForIsHire:NO];
+    UserStruct *us = (UserStruct *)[(HomeBuilding *)self.selected userStruct];
+    
+    if ([self.selected isKindOfClass:[MoneyTreeBuilding class]] && us.isExpired) {
+      // Re-purchase money tree
+      MoneyTreeBuilding *mtb = (MoneyTreeBuilding *)self.selected;
+      GameViewController *gvc = [GameViewController baseController];
+      [gvc buildingPurchased:mtb.userStruct.structId];
+    } else {
+      [self loadUpgradeViewControllerForIsHire:NO];
+    }
   } else if ([self.selected isKindOfClass:[ObstacleSprite class]]) {
     [self bigUpgradeClicked:sender];
   }

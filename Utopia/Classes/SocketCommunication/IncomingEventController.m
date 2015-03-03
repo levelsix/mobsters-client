@@ -597,6 +597,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [gs.itemUtil addToMyItems:proto.updatedUserItemsList];
     }
     
+    if (proto.updatedMoneyTreeList) {
+      [gs addToMyStructs:proto.updatedMoneyTreeList];
+    }
+    
     SKPaymentTransaction *lastTransaction = iap.lastTransaction;
     SKProduct *prod = [iap.products objectForKey:lastTransaction.payment.productIdentifier];
     if (lastTransaction && prod) {

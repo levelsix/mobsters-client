@@ -205,7 +205,7 @@
   
 #ifdef DEBUG
   //[self saveTutorialStep:TutorialStepPostBattleConfrontation];
-  [self saveTutorialStep:TutorialStepEnteredBattle];
+  //[self saveTutorialStep:TutorialStepEnteredBattle];
 #endif
   [self resumeTutorialStep];
   
@@ -990,9 +990,10 @@ static int timesCloseClicked = 0;
 
 #pragma mark - Carpenter delegate
 
-- (void) buildingPurchased:(int)structId {
+- (BOOL) buildingPurchased:(int)structId {
   [self.homeMap preparePurchaseOfStruct:structId];
   [self.gameViewController dismissViewControllerAnimated:YES completion:nil];
+  return NO;
 }
 
 #pragma mark - Facebook delegate

@@ -58,7 +58,17 @@
 
 @end
 
-@interface MoneyTreeBuilding : ResourceGeneratorBuilding
+@interface MoneyTreeBuilding : ResourceGeneratorBuilding {
+  CCSprite *_holeSprite;
+  CCSprite *_drillSprite;
+  CCSprite *_baseSprite;
+  
+  CCAnimation *_holeAnim;
+  CCAnimation *_drillAnim;
+  CCAnimation *_baseAnim;
+  
+  CCParticleSystem *_smoke;
+}
 
 @end
 

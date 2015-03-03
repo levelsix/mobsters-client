@@ -975,6 +975,7 @@ static StartupRequestProto_VersionNumberProto* defaultStartupRequestProto_Versio
 @property (strong) ClanDataProto* clanData;
 @property (strong) NSMutableArray * mutableItemsInUseList;
 @property (strong) NSMutableArray * mutableGiftsList;
+@property (strong) NSMutableArray * mutableUserPvpBoardObstaclesList;
 @end
 
 @implementation StartupResponseProto
@@ -1161,6 +1162,8 @@ static StartupRequestProto_VersionNumberProto* defaultStartupRequestProto_Versio
 @dynamic itemsInUseList;
 @synthesize mutableGiftsList;
 @dynamic giftsList;
+@synthesize mutableUserPvpBoardObstaclesList;
+@dynamic userPvpBoardObstaclesList;
 - (id) init {
   if ((self = [super init])) {
     self.serverTimeMillis = 0L;
@@ -1369,6 +1372,12 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
 - (UserItemSecretGiftProto*)giftsAtIndex:(NSUInteger)index {
   return [mutableGiftsList objectAtIndex:index];
 }
+- (NSArray *)userPvpBoardObstaclesList {
+  return mutableUserPvpBoardObstaclesList;
+}
+- (UserPvpBoardObstacleProto*)userPvpBoardObstaclesAtIndex:(NSUInteger)index {
+  return [mutableUserPvpBoardObstaclesList objectAtIndex:index];
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -1522,6 +1531,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }];
   [self.completedTasksList enumerateObjectsUsingBlock:^(UserTaskCompletedProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:46 value:element];
+  }];
+  [self.userPvpBoardObstaclesList enumerateObjectsUsingBlock:^(UserPvpBoardObstacleProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:47 value:element];
   }];
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -1696,6 +1708,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }];
   [self.completedTasksList enumerateObjectsUsingBlock:^(UserTaskCompletedProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(46, element);
+  }];
+  [self.userPvpBoardObstaclesList enumerateObjectsUsingBlock:^(UserPvpBoardObstacleProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(47, element);
   }];
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -1972,6 +1987,12 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }];
+  [self.userPvpBoardObstaclesList enumerateObjectsUsingBlock:^(UserPvpBoardObstacleProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"userPvpBoardObstacles"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -2046,6 +2067,7 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
       [self.itemsInUseList isEqualToArray:otherMessage.itemsInUseList] &&
       [self.giftsList isEqualToArray:otherMessage.giftsList] &&
       [self.completedTasksList isEqualToArray:otherMessage.completedTasksList] &&
+      [self.userPvpBoardObstaclesList isEqualToArray:otherMessage.userPvpBoardObstaclesList] &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -2186,6 +2208,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
     hashCode = hashCode * 31 + [element hash];
   }];
   [self.completedTasksList enumerateObjectsUsingBlock:^(UserTaskCompletedProto *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  [self.userPvpBoardObstaclesList enumerateObjectsUsingBlock:^(UserPvpBoardObstacleProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
   hashCode = hashCode * 31 + [self.unknownFields hash];
@@ -10770,6 +10795,13 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
       [result.mutableGiftsList addObjectsFromArray:other.mutableGiftsList];
     }
   }
+  if (other.mutableUserPvpBoardObstaclesList.count > 0) {
+    if (result.mutableUserPvpBoardObstaclesList == nil) {
+      result.mutableUserPvpBoardObstaclesList = [[NSMutableArray alloc] initWithArray:other.mutableUserPvpBoardObstaclesList];
+    } else {
+      [result.mutableUserPvpBoardObstaclesList addObjectsFromArray:other.mutableUserPvpBoardObstaclesList];
+    }
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -11078,6 +11110,12 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
         UserTaskCompletedProto_Builder* subBuilder = [UserTaskCompletedProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addCompletedTasks:[subBuilder buildPartial]];
+        break;
+      }
+      case 378: {
+        UserPvpBoardObstacleProto_Builder* subBuilder = [UserPvpBoardObstacleProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addUserPvpBoardObstacles:[subBuilder buildPartial]];
         break;
       }
     }
@@ -12187,6 +12225,30 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
 }
 - (StartupResponseProto_Builder *)clearGifts {
   result.mutableGiftsList = nil;
+  return self;
+}
+- (NSMutableArray *)userPvpBoardObstaclesList {
+  return result.mutableUserPvpBoardObstaclesList;
+}
+- (UserPvpBoardObstacleProto*)userPvpBoardObstaclesAtIndex:(NSUInteger)index {
+  return [result userPvpBoardObstaclesAtIndex:index];
+}
+- (StartupResponseProto_Builder *)addUserPvpBoardObstacles:(UserPvpBoardObstacleProto*)value {
+  if (result.mutableUserPvpBoardObstaclesList == nil) {
+    result.mutableUserPvpBoardObstaclesList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableUserPvpBoardObstaclesList addObject:value];
+  return self;
+}
+- (StartupResponseProto_Builder *)addAllUserPvpBoardObstacles:(NSArray *)array {
+  if (result.mutableUserPvpBoardObstaclesList == nil) {
+    result.mutableUserPvpBoardObstaclesList = [NSMutableArray array];
+  }
+  [result.mutableUserPvpBoardObstaclesList addObjectsFromArray:array];
+  return self;
+}
+- (StartupResponseProto_Builder *)clearUserPvpBoardObstacles {
+  result.mutableUserPvpBoardObstaclesList = nil;
   return self;
 }
 @end

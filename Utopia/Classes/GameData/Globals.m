@@ -312,6 +312,17 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return longStr;
 }
 
++ (NSString *) convertTimeToSingleLongString:(int)secs {
+  NSString *longStr = [self convertTimeToLongString:secs];
+  
+  NSArray *comps = [longStr componentsSeparatedByString:@" "];
+  if (comps.count > 2) {
+    return [NSString stringWithFormat:@"%@ %@", comps[0], comps[1]];
+  }
+  
+  return longStr;
+}
+
 + (NSString *) convertTimeToLongString:(int)secs {
   if (secs <= 0) {
     return @"0 Seconds";

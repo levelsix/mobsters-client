@@ -32,7 +32,6 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property (strong) NSString* localcurrency;
 @property (strong) NSString* locale;
 @property (strong) NSString* ipaddr;
-@property (strong) NSString* iapProductId;
 @end
 
 @implementation InAppPurchaseRequestProto
@@ -79,13 +78,6 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasIpaddr_ = !!value_;
 }
 @synthesize ipaddr;
-- (BOOL) hasIapProductId {
-  return !!hasIapProductId_;
-}
-- (void) setHasIapProductId:(BOOL) value_ {
-  hasIapProductId_ = !!value_;
-}
-@synthesize iapProductId;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
@@ -94,7 +86,6 @@ static PBExtensionRegistry* extensionRegistry = nil;
     self.localcurrency = @"";
     self.locale = @"";
     self.ipaddr = @"";
-    self.iapProductId = @"";
   }
   return self;
 }
@@ -132,9 +123,6 @@ static InAppPurchaseRequestProto* defaultInAppPurchaseRequestProtoInstance = nil
   if (self.hasIpaddr) {
     [output writeString:6 value:self.ipaddr];
   }
-  if (self.hasIapProductId) {
-    [output writeString:7 value:self.iapProductId];
-  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -161,9 +149,6 @@ static InAppPurchaseRequestProto* defaultInAppPurchaseRequestProtoInstance = nil
   }
   if (self.hasIpaddr) {
     size_ += computeStringSize(6, self.ipaddr);
-  }
-  if (self.hasIapProductId) {
-    size_ += computeStringSize(7, self.iapProductId);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -221,9 +206,6 @@ static InAppPurchaseRequestProto* defaultInAppPurchaseRequestProtoInstance = nil
   if (self.hasIpaddr) {
     [output appendFormat:@"%@%@: %@\n", indent, @"ipaddr", self.ipaddr];
   }
-  if (self.hasIapProductId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"iapProductId", self.iapProductId];
-  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -247,8 +229,6 @@ static InAppPurchaseRequestProto* defaultInAppPurchaseRequestProtoInstance = nil
       (!self.hasLocale || [self.locale isEqual:otherMessage.locale]) &&
       self.hasIpaddr == otherMessage.hasIpaddr &&
       (!self.hasIpaddr || [self.ipaddr isEqual:otherMessage.ipaddr]) &&
-      self.hasIapProductId == otherMessage.hasIapProductId &&
-      (!self.hasIapProductId || [self.iapProductId isEqual:otherMessage.iapProductId]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -270,9 +250,6 @@ static InAppPurchaseRequestProto* defaultInAppPurchaseRequestProtoInstance = nil
   }
   if (self.hasIpaddr) {
     hashCode = hashCode * 31 + [self.ipaddr hash];
-  }
-  if (self.hasIapProductId) {
-    hashCode = hashCode * 31 + [self.iapProductId hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -335,9 +312,6 @@ static InAppPurchaseRequestProto* defaultInAppPurchaseRequestProtoInstance = nil
   if (other.hasIpaddr) {
     [self setIpaddr:other.ipaddr];
   }
-  if (other.hasIapProductId) {
-    [self setIapProductId:other.iapProductId];
-  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -386,10 +360,6 @@ static InAppPurchaseRequestProto* defaultInAppPurchaseRequestProtoInstance = nil
       }
       case 50: {
         [self setIpaddr:[input readString]];
-        break;
-      }
-      case 58: {
-        [self setIapProductId:[input readString]];
         break;
       }
     }
@@ -503,22 +473,6 @@ static InAppPurchaseRequestProto* defaultInAppPurchaseRequestProtoInstance = nil
 - (InAppPurchaseRequestProto_Builder*) clearIpaddr {
   result.hasIpaddr = NO;
   result.ipaddr = @"";
-  return self;
-}
-- (BOOL) hasIapProductId {
-  return result.hasIapProductId;
-}
-- (NSString*) iapProductId {
-  return result.iapProductId;
-}
-- (InAppPurchaseRequestProto_Builder*) setIapProductId:(NSString*) value {
-  result.hasIapProductId = YES;
-  result.iapProductId = value;
-  return self;
-}
-- (InAppPurchaseRequestProto_Builder*) clearIapProductId {
-  result.hasIapProductId = NO;
-  result.iapProductId = @"";
   return self;
 }
 @end

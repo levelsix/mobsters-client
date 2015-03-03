@@ -54,6 +54,7 @@
 #import <Kamcord/Kamcord.h>
 #import "TutorialEnhanceController.h"
 #import "AttackedAlertViewController.h"
+#import "IAPHelper.h"
 
 #define DEFAULT_PNG_IMAGE_VIEW_TAG 103
 #define KINGDOM_PNG_IMAGE_VIEW_TAG 104
@@ -648,13 +649,53 @@ static const CGSize FIXED_SIZE = {568, 384};
 
 #pragma mark - Home Map Methods
 
-- (void) buildingPurchased:(int)structId {
-  if (self.currentMap.cityId != 0) {
-    [self visitCityClicked:0];
+- (BOOL) buildingPurchased:(int)structId {
+  GameState *gs = [GameState sharedGameState];
+  id<StaticStructure> ss = [gs structWithId:structId];
+  StructureInfoProto *fsp = [ss structInfo];
+
+  if (fsp.structType != StructureInfoProto_StructTypeMoneyTree) {
+    if (self.currentMap.cityId != 0) {
+      [self visitCityClicked:0];
+    }
+    if ([self.currentMap isKindOfClass:[HomeMap class]]) {
+      [(HomeMap *)self.currentMap preparePurchaseOfStruct:structId];
+    }
+    return NO;
+  } else {
+    MoneyTreeProto *mtp = (MoneyTreeProto *)ss;
+    IAPHelper *iap = [IAPHelper sharedIAPHelper];
+    SKProduct *prod = [iap productForIdentifier:mtp.iapProductId];
+    
+    if (prod) {
+      [iap buyProductIdentifier:prod withDelegate:self];
+    }
+    
+    self.loadingView = [[NSBundle mainBundle] loadNibNamed:@"LoadingSpinnerView" owner:self options:nil][0];
+    [self.loadingView display:self.view];
+    
+    return YES;
   }
-  if ([self.currentMap isKindOfClass:[HomeMap class]]) {
-    [(HomeMap *)self.currentMap preparePurchaseOfStruct:structId];
+}
+
+
+- (void) handleInAppPurchaseResponseProto:(FullEvent *)fe {
+  InAppPurchaseResponseProto *proto = (InAppPurchaseResponseProto *)fe.event;
+  
+  if (proto.status == InAppPurchaseResponseProto_InAppPurchaseStatusSuccess) {
+    HomeMap *map = (HomeMap *)self.currentMap;
+    [map refresh];
+    
+    if (proto.updatedMoneyTreeList.count) {
+      FullUserStructureProto *us = [proto.updatedMoneyTreeList firstObject];
+      [map moveToSprite:(CCSprite *)[map getChildByName:STRUCT_TAG(us.userStructUuid) recursively:NO] animated:YES];
+    }
+    
+    [self.topBarViewController closeShop];
   }
+  
+  [self.loadingView stop];
+  self.loadingView = nil;
 }
 
 - (void) pointArrowOnManageTeam {

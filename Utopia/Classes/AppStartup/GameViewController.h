@@ -49,6 +49,9 @@
 
 @property (nonatomic, strong) LoadingViewController *loadingViewController;
 
+// Generic spinner for money tree
+@property (nonatomic, strong) LoadingView *loadingView;
+
 @property (nonatomic, strong) ChatViewController *chatViewController;
 @property (nonatomic, strong) ClanViewController *clanViewController;
 
@@ -77,7 +80,7 @@
 - (void) tutorialReceivedStartupResponse:(StartupResponseProto *)startupResponse;
 - (void) tutorialFinished;
 
-- (void) buildingPurchased:(int)structId;
+- (BOOL) buildingPurchased:(int)structId;
 - (void) pointArrowOnSellMobsters;
 - (void) pointArrowOnManageTeam;
 - (BOOL) pointArrowToUpgradeForStructId:(int)structId quantity:(int)quantity;

@@ -236,6 +236,7 @@
 + (NSString *) convertTimeToShorterString:(int)secs;
 + (NSString *) convertTimeToLongString:(int)secs;
 + (NSString *) convertTimeToMediumString:(int)secs;
++ (NSString *) convertTimeToSingleLongString:(int)secs;
 
 + (void) downloadAllFilesForSpritePrefixes:(NSArray *)spritePrefixes completion:(void (^)(void))completed;
 + (void) downloadAllAssetsForSkillSideEffects:(NSSet*)skillSideEffects completion:(void (^)(void))completed;

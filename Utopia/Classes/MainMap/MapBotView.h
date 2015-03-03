@@ -65,6 +65,7 @@ typedef enum {
 + (id) clanHelpButton;
 + (id) upgradeButtonWithResourceType:(ResourceType)type buildCost:(int)buildCost;
 + (id) fixButtonWithResourceType:(ResourceType)type buildCost:(int)buildCost;
++ (id) fixButtonWithIapString:(NSString *)str;
 + (id) removeButtonWithResourceType:(ResourceType)type removeCost:(int)removeCost;
 + (id) speedupButtonWithGemCost:(int)gemCost;
 

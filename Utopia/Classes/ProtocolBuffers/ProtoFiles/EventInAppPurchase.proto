@@ -19,7 +19,6 @@ message InAppPurchaseRequestProto {
 	optional string localcurrency = 4;
 	optional string locale = 5;
 	optional string ipaddr = 6;
-	optional string iapProductId = 7;
 }
 
 																						//DONE
@@ -42,7 +41,7 @@ message InAppPurchaseResponseProto {
 	repeated UserItemProto updatedUserItems = 9;
 	
 	repeated FullUserStructureProto updatedMoneyTree = 10;
-	
+		
 	enum InAppPurchaseStatus {
 		SUCCESS = 1;
 		FAIL = 2;

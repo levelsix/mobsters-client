@@ -13,7 +13,8 @@
 
 @protocol BuildingViewDelegate <NSObject>
 
-- (void) buildingPurchased:(int)structId;
+// Will return YES if it wants this to display loading view
+- (BOOL) buildingPurchased:(int)structId;
 
 @end
 

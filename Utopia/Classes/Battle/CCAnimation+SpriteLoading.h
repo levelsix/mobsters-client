@@ -20,6 +20,8 @@
 + (id) animationWithSpritePrefix:(NSString *)prefix delay:(float)delay;
 - (id) initWithSpritePrefix:(NSString *)prefix delay:(float)delay;
 
+- (id) reversedAnimation;
+
 - (id) copy;
 
 @end

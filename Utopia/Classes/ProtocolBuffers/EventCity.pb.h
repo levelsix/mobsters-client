@@ -57,6 +57,12 @@
 @class PurchaseCityExpansionRequestProto_Builder;
 @class PurchaseCityExpansionResponseProto;
 @class PurchaseCityExpansionResponseProto_Builder;
+@class PvpBoardHouseProto;
+@class PvpBoardHouseProto_Builder;
+@class PvpBoardObstacleProto;
+@class PvpBoardObstacleProto_Builder;
+@class ResearchHouseProto;
+@class ResearchHouseProto_Builder;
 @class ResidenceProto;
 @class ResidenceProto_Builder;
 @class ResourceGeneratorProto;
@@ -79,6 +85,8 @@
 @class UserFacebookInviteForSlotProto_Builder;
 @class UserObstacleProto;
 @class UserObstacleProto_Builder;
+@class UserPvpBoardObstacleProto;
+@class UserPvpBoardObstacleProto_Builder;
 @class UserPvpLeagueProto;
 @class UserPvpLeagueProto_Builder;
 #ifndef __has_feature

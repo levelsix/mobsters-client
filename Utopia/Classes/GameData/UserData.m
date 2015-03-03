@@ -887,6 +887,27 @@
   return 0;
 }
 
+#pragma mark - Money Tree methods
+
+- (BOOL) isExpired {
+  return [self timeTillExpiry] < 0;
+}
+
+- (int) timeTillExpiry {
+  MoneyTreeProto *mtp = (MoneyTreeProto *)self.staticStruct;
+  return [self.purchaseTime dateByAddingTimeInterval:mtp.daysOfDuration*24*3600].timeIntervalSinceNow;
+}
+
+- (BOOL) isNoLongerValidForRenewal {
+  MoneyTreeProto *mtp = (MoneyTreeProto *)self.staticStruct;
+  MSDate *d1 = [self.purchaseTime dateByAddingTimeInterval:(mtp.daysOfDuration+mtp.daysForRenewal)*24*3600];
+  MSDate *d2 = [self.lastRetrieved dateByAddingTimeInterval:(mtp.daysForRenewal)*24*3600];
+  MSDate *date = [d1 compare:d2] == NSOrderedAscending ? d2 : d1;
+  return self.numResourcesAvailable <= 0 && date.timeIntervalSinceNow < 0;
+}
+
+#pragma mark - Prerequisites
+
 - (NSArray *) allPrerequisites {
   GameState *gs = [GameState sharedGameState];
   NSArray *arr = [gs prerequisitesForGameType:GameTypeStructure gameEntityId:self.staticStruct.structInfo.successorStructId];

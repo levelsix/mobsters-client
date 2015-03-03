@@ -11,7 +11,7 @@
 #import "GameState.h"
 #import "Globals.h"
 
-#define TREE_WIDTH 200
+#define TREE_WIDTH 259
 #define TREE_HEIGHT 180
 
 @implementation BuildingViewController
@@ -43,7 +43,8 @@
   
   // Find the struct
   NSInteger section = 0, row = -1;
-  for (StructureInfoProto *fsp in self.staticStructs) {
+  for (id<StaticStructure> ss in self.staticStructs) {
+    StructureInfoProto *fsp = [ss structInfo];
     if (fsp.structId == structId) {
       row = [self.staticStructs indexOfObject:fsp];
     }
@@ -59,6 +60,21 @@
   }
 }
 
+- (void) updateLabels {
+  for (id<StaticStructure> ss in self.staticStructs) {
+    if ([ss structInfo].structType == StructureInfoProto_StructTypeMoneyTree) {
+      // update cell for time
+      NSInteger idx = [self.staticStructs indexOfObject:ss];
+      BuildingCardCell *cell = (BuildingCardCell *)[self.listView.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:idx inSection:0]];
+      
+      if (cell) {
+        GameState *gs = [GameState sharedGameState];
+        [cell updateTime:gs.timeLeftOnMoneyTree];
+      }
+    }
+  }
+}
+
 #pragma mark - Refreshing list view
 
 - (void) reloadListView {
@@ -68,6 +84,8 @@
 
 - (int) isTypeRecommended:(StructureInfoProto_StructType)structType {
   switch (structType) {
+    case StructureInfoProto_StructTypeMoneyTree:
+      return 4;
     case StructureInfoProto_StructTypeClan:
       return 3;
     case StructureInfoProto_StructTypeMiniJob:
@@ -86,23 +104,31 @@
   Globals *gl = [Globals sharedGlobals];
   NSArray *structs = [[gs staticStructs] allValues];
   NSMutableArray *validStructs = [NSMutableArray array];
+  NSArray *myStructs = gs.myStructs;
   
   for (id<StaticStructure> s in structs) {
     StructureInfoProto *fsp = s.structInfo;
     if (fsp.predecessorStructId ||
         fsp.structType == StructureInfoProto_StructTypeTownHall ||
         fsp.structType == StructureInfoProto_StructTypeTeamCenter ||
-        fsp.structType == StructureInfoProto_StructTypeLab) {
+        fsp.structType  == StructureInfoProto_StructTypeLab) {
       continue;
     }
     
-    [validStructs addObject:fsp];
+    // Don't show money tree if it's already been built
+    if (fsp.structType == StructureInfoProto_StructTypeMoneyTree) {
+      if ([gl calculateCurrentQuantityOfStructId:fsp.structId structs:myStructs] > 0) {
+        continue;
+      }
+    }
+    
+    [validStructs addObject:s];
   }
   
   UserStruct *townHall = gs.myTownHall;
   TownHallProto *thp = (TownHallProto *)townHall.staticStructForCurrentConstructionLevel;
-  NSArray *myStructs = gs.myStructs;
-  NSComparator comp = ^NSComparisonResult(StructureInfoProto *obj1, StructureInfoProto *obj2) {
+  NSComparator comp = ^NSComparisonResult(id<StaticStructure> ss1, id<StaticStructure> ss2) {
+    StructureInfoProto *obj1 = [ss1 structInfo], *obj2 = [ss2 structInfo];
     int cur = [gl calculateCurrentQuantityOfStructId:obj1.structId structs:myStructs];
     int max = [gl calculateMaxQuantityOfStructId:obj1.structId withTownHall:thp];
     BOOL avail1 = cur < max && [gl satisfiesPrereqsForStructId:obj1.structId];
@@ -126,9 +152,16 @@
   [validStructs sortUsingComparator:comp];
   self.staticStructs = validStructs;
   
-  StructureInfoProto *potRec = [self.staticStructs firstObject];
-  if ([self isTypeRecommended:potRec.structType]) {
-    _recommendedStructId = potRec.structId;
+  for (id<StaticStructure> ss in self.staticStructs) {
+    StructureInfoProto *potRec = [ss structInfo];
+    if (potRec.structType == StructureInfoProto_StructTypeMoneyTree) {
+      continue;
+    }
+    
+    if ([self isTypeRecommended:potRec.structType]) {
+      _recommendedStructId = potRec.structId;
+    }
+    break;
   }
 }
 
@@ -149,28 +182,38 @@
 }
 
 - (void) buildingPurchased:(int)structId {
-  [self.delegate buildingPurchased:structId];
-  [self.parentViewController close];
+  if (![self.delegate buildingPurchased:structId]) {
+    [self.parentViewController close];
+  }
 }
 
 #pragma mark - List view delegate
 
 - (CGSize) specialCellSizeWithIndex:(NSInteger)index {
-  StructureInfoProto *sip = self.staticStructs[index];
+  StructureInfoProto *sip = [self.staticStructs[index] structInfo];
   if(sip.structType == StructureInfoProto_StructTypeMoneyTree){
     return CGSizeMake(TREE_WIDTH, TREE_HEIGHT);
   }
   return CGSizeMake(0, 0);
 }
 
-- (void) listView:(ListCollectionView *)listView updateCell:(BuildingCardCell *)cell forIndexPath:(NSIndexPath *)indexPath listObject:(StructureInfoProto *)listObject {
-  [cell updateForStructInfo:listObject townHall:[self townHall] structs:[self curStructsList]];
-  cell.recommendedTag.hidden = listObject.structId != _recommendedStructId;
+- (void) listView:(ListCollectionView *)listView updateCell:(BuildingCardCell *)cell forIndexPath:(NSIndexPath *)indexPath listObject:(id<StaticStructure>)lo {
+  StructureInfoProto *listObject = [lo structInfo];
+  
+  if (listObject.structType != StructureInfoProto_StructTypeMoneyTree) {
+    [cell updateForStructInfo:listObject townHall:[self townHall] structs:[self curStructsList]];
+    cell.recommendedTag.hidden = listObject.structId != _recommendedStructId;
+  } else {
+    [cell updateForMoneyTree:(MoneyTreeProto *)lo];
+    
+    GameState *gs = [GameState sharedGameState];
+    [cell updateTime:gs.timeLeftOnMoneyTree];
+  }
 }
 
 - (void) listView:(ListCollectionView *)listView cardClickedAtIndexPath:(NSIndexPath *)indexPath {
   Globals *gl = [Globals sharedGlobals];
-  StructureInfoProto *fsp = self.staticStructs[indexPath.row];
+  StructureInfoProto *fsp = [self.staticStructs[indexPath.row] structInfo];
   
   UserStruct *townHall = [self townHall];
   TownHallProto *thp = (TownHallProto *)townHall.staticStructForCurrentConstructionLevel;

@@ -56,8 +56,8 @@
   
   // Button view
   BOOL isOil = nextSS.structInfo.buildResourceType == ResourceTypeOil;
-  self.upgradeCashLabel.text = curSS != nextSS ? [Globals commafyNumber:nextSS.structInfo.buildCost] : @"N/A";
-  self.upgradeOilLabel.text = curSS != nextSS ? [Globals commafyNumber:nextSS.structInfo.buildCost] : @"N/A";
+  self.upgradeCashLabel.text = [Globals commafyNumber:nextSS.structInfo.buildCost];
+  self.upgradeOilLabel.text = [Globals commafyNumber:nextSS.structInfo.buildCost];
   [Globals adjustViewForCentering:self.upgradeOilLabel.superview withLabel:self.upgradeOilLabel];
   [Globals adjustViewForCentering:self.upgradeCashLabel.superview withLabel:self.upgradeCashLabel];
   self.oilButtonView.hidden = !isOil;
@@ -76,6 +76,12 @@
     } else {
       preView.hidden = YES;
     }
+  }
+  
+  if (curSS == nextSS) {
+    self.readyLabel.text = @"Building at Max";
+    self.readySubLabel.text = [NSString stringWithFormat:@"This building cannot be upgraded anymore."];
+    self.oilButtonView.superview.hidden = YES;
   }
   
   NSArray *incomplete = [us incompletePrerequisites];
@@ -257,6 +263,23 @@
     
     useSqrt2 = YES;
     showsCashSymbol1 = showsCashSymbol2 = (cur.resourceType == ResourceTypeCash);
+  } else if (structType == StructureInfoProto_StructTypeMoneyTree) {
+    MoneyTreeProto *cur = (MoneyTreeProto *)curSS;
+    MoneyTreeProto *next = (MoneyTreeProto *)nextSS;
+    MoneyTreeProto *max = (MoneyTreeProto *)maxSS;
+    
+    requiresTwoBars = YES;
+    
+    curStat1 = cur.productionRate*24;
+    newStat1 = next.productionRate*24;
+    maxStat1 = max.productionRate*24;
+    statName1 = @"Rate:";
+    suffix1 = @" Per Day";
+    
+    curStat2 = cur.capacity;
+    newStat2 = next.capacity;
+    maxStat2 = max.capacity;
+    statName2 = @"Capacity:";
   } else if (structType == StructureInfoProto_StructTypeResourceStorage) {
     ResourceStorageProto *cur = (ResourceStorageProto *)curSS;
     ResourceStorageProto *next = (ResourceStorageProto *)nextSS;
