@@ -147,6 +147,8 @@
 @property (nonatomic, retain) NSMutableDictionary *staticPvpBoardObstacles;
 @property (nonatomic, retain) NSMutableArray* myPvpBoardObstacles;
 
+@property (nonatomic, retain) NSMutableDictionary *staticResearch;
+
 @property (nonatomic, retain) UserEnhancement *userEnhancement;
 @property (nonatomic, retain) UserEvolution *userEvolution;
 

@@ -1214,6 +1214,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [self.staticBoards removeAllObjects];
   [self addToStaticBoards:proto.boardsList];
   
+  [self.staticResearch removeAllObjects];
+  [self addToStaticResearch:proto.researchList];
+  
   self.persistentEvents = proto.persistentEventsList;
   self.persistentClanEvents = proto.persistentClanEventsList;
   
@@ -1296,6 +1299,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 - (void) addToStaticAchievements:(NSArray *)arr {
   for (AchievementProto *p in arr) {
     [self.staticAchievements setObject:p forKey:@(p.achievementId)];
+  }
+}
+
+- (void) addToStaticResearch:(NSArray *)arr {
+  for (ResearchProto *r in arr) {
+    [self.staticResearch setObject:r forKey:@(r.researchId)];
   }
 }
 

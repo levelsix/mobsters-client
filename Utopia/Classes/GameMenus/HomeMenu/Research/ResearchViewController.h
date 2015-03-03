@@ -9,10 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "PopupSubViewController.h"
 
+#import "ResearchInfoViewController.h"
+
 @interface ResearchViewController : PopupSubViewController
 
 @end
 
-@interface ResearchCategoryCellView : UITableViewCell
+@interface ResearchCategoryViewCell : UITableViewCell
 
 @end
