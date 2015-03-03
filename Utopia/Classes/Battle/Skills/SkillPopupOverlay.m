@@ -12,10 +12,14 @@
 #import "GameState.h"
 #import "SkillController.h"
 
-#define POPUP_STAY_DURATION .5f
-#define SHAKE_ANIM_DURATION .3f
-#define SHAKE_RADIUS_MIN 1.f
-#define SHAKE_RADIUS_MAX 5.f
+#define POPUP_STAY_DURATION_SHORT .5f
+#define POPUP_STAY_DURATION_LONG 1.5f
+#define BIG_SHAKE_RADIUS 5.f
+#define BIG_SHAKE_STARTING_SCALE 10.f
+#define BIG_SHAKE_ANIM_DURATION .3f
+#define SMALL_SHAKE_RADIUS 3.f
+#define SMALL_SHAKE_STARTING_SCALE 4.f
+#define SMALL_SHAKE_ANIM_DURATION .15f
 #define SHAKE_ANIM_COMPLETION_BLOCK_KEY @"SkillPopupShakeAnimationCompletionBlock"
 
 typedef void (^ShakeAnimCompletionBlock)(void);
@@ -33,22 +37,25 @@ typedef void (^ShakeAnimCompletionBlock)(void);
   return self;
 }
 
-- (void) animateForSkill:(NSInteger)skillId forPlayer:(BOOL)player withImage:(UIImage*)characterImage
-                orbColor:(OrbColor)orbColor withCompletion:(SkillPopupBlock)completion
+- (void) animateForSkill:(NSInteger)skillId forPlayer:(BOOL)player withImage:(UIImage*)characterImage bottomText:(NSString*)bottomText
+                orbColor:(OrbColor)orbColor miniPopup:(BOOL)mini withCompletion:(SkillPopupBlock)completion
 {
   ////////////
   // Layout //
   ////////////
+  
+  const float viewShakeRadius = mini ? SMALL_SHAKE_RADIUS : BIG_SHAKE_RADIUS;
+  const float viewShakeStartingScale = mini ? SMALL_SHAKE_STARTING_SCALE : BIG_SHAKE_STARTING_SCALE;
   
   [_imagePlayer setTransform:CGAffineTransformMakeScale(-1.f, 1.f)];
   [_rocksImageEnemy setTransform:CGAffineTransformMakeScale(-1.f, 1.f)];
   [_leavesImageEnemy setTransform:CGAffineTransformMakeScale(-1.f, 1.f)];
   [Globals setAnchorPoint:CGPointMake(0.f, .5f) onView:_skillPlayer];
   [Globals setAnchorPoint:CGPointMake(1.f, .5f) onView:_skillEnemy];
-  [_rocksImagePlayer setOrigin:CGPointMake(_rocksImagePlayer.origin.x - 5.f, _rocksImagePlayer.origin.y + 5.f)];
-  [_leavesImagePlayer setOrigin:CGPointMake(_leavesImagePlayer.origin.x - 5.f, _leavesImagePlayer.origin.y + 5.f)];
-  [_rocksImageEnemy setOrigin:CGPointMake(_rocksImageEnemy.origin.x + 5.f, _rocksImageEnemy.origin.y + 5.f)];
-  [_leavesImageEnemy setOrigin:CGPointMake(_leavesImageEnemy.origin.x + 5.f, _leavesImageEnemy.origin.y + 5.f)];
+  [_rocksImagePlayer setOrigin:CGPointMake(_rocksImagePlayer.origin.x - viewShakeRadius, _rocksImagePlayer.origin.y + viewShakeRadius)];
+  [_leavesImagePlayer setOrigin:CGPointMake(_leavesImagePlayer.origin.x - viewShakeRadius, _leavesImagePlayer.origin.y + viewShakeRadius)];
+  [_rocksImageEnemy setOrigin:CGPointMake(_rocksImageEnemy.origin.x + viewShakeRadius, _rocksImageEnemy.origin.y + viewShakeRadius)];
+  [_leavesImageEnemy setOrigin:CGPointMake(_leavesImageEnemy.origin.x + viewShakeRadius, _leavesImageEnemy.origin.y + viewShakeRadius)];
   
   UIView* mainView = player ? _avatarPlayer : _avatarEnemy;
   UIView* skillView = player ? _skillPlayer : _skillEnemy;
@@ -86,11 +93,14 @@ typedef void (^ShakeAnimCompletionBlock)(void);
   
   [playerImage setImage:characterImage];
   
-//[rocksImage setImage:[UIImage imageNamed:[Globals imageNameForElement:(Element)orbColor suffix:@"rocks.png"]]];
+  /* No longer using colored rocks
+  [rocksImage setImage:[UIImage imageNamed:[Globals imageNameForElement:(Element)orbColor suffix:@"rocks.png"]]];
+   */
   
   SkillProto* playerSkillProto = [[GameState sharedGameState].staticSkills objectForKey:[NSNumber numberWithInteger:skillId]];
   [nameLabel setText:[playerSkillProto.name uppercaseString]];
-  [bottomLabel setText:(player ? playerSkillProto.shortOffDesc : playerSkillProto.shortDefDesc)];
+  if (!bottomText || [bottomText isEqualToString:@""]) [bottomLabel setText:(player ? playerSkillProto.shortOffDesc : playerSkillProto.shortDefDesc)];
+  else [bottomLabel setText:bottomText];
   
   ////////////////
   // Animations //
@@ -118,13 +128,15 @@ typedef void (^ShakeAnimCompletionBlock)(void);
   } completion:nil];
   
   [skillView.layer setOpacity:0.f];
-  [skillView.layer setTransform:CATransform3DMakeScale(10.f, 10.f, 1.f)];
+  [skillView.layer setTransform:CATransform3DMakeScale(viewShakeStartingScale, viewShakeStartingScale, 1.f)];
   [UIView animateWithDuration:.2f delay:.15f options:UIViewAnimationOptionCurveEaseIn animations:^{
     [skillView.layer setOpacity:1.f];
     [skillView.layer setTransform:CATransform3DIdentity];
   } completion:^(BOOL finished) {
-    [self shakeView:mainView withKey:@"SkillPopupShakeAnimation" completion:^{
-      completion();
+    [self shakeView:mainView withKey:@"SkillPopupShakeAnimation" smallShake:mini completion:^{
+      [self performAfterDelay:mini ? POPUP_STAY_DURATION_LONG : POPUP_STAY_DURATION_SHORT block:^{
+        completion();
+      }];
     }];
   }];
   
@@ -138,22 +150,22 @@ typedef void (^ShakeAnimCompletionBlock)(void);
   UIImageView* rocksImage = player ? _rocksImagePlayer : _rocksImageEnemy;
   UIImageView* leavesImage = player ? _leavesImagePlayer : _leavesImageEnemy;
   
-  [UIView animateWithDuration:.1f delay:POPUP_STAY_DURATION + 0.f options:UIViewAnimationOptionCurveEaseIn animations:^{
+  [UIView animateWithDuration:.1f delay:0.f options:UIViewAnimationOptionCurveEaseIn animations:^{
     [skillView setOrigin:CGPointMake(skillView.origin.x, skillView.origin.y + 150.f)];
     [skillView setAlpha:0.f];
   } completion:nil];
   
-  [UIView animateWithDuration:.1f delay:POPUP_STAY_DURATION + .03f options:UIViewAnimationOptionCurveEaseIn animations:^{
+  [UIView animateWithDuration:.1f delay:.03f options:UIViewAnimationOptionCurveEaseIn animations:^{
     [playerImage setOrigin:CGPointMake(playerImage.origin.x, playerImage.origin.y + 150.f)];
     [playerImage setAlpha:0.f];
   } completion:nil];
   
-  [UIView animateWithDuration:.1f delay:POPUP_STAY_DURATION + .06f options:UIViewAnimationOptionCurveEaseIn animations:^{
+  [UIView animateWithDuration:.1f delay:.06f options:UIViewAnimationOptionCurveEaseIn animations:^{
     [rocksImage setOrigin:CGPointMake(rocksImage.origin.x, rocksImage.origin.y + 150.f)];
     [rocksImage setAlpha:0.f];
   } completion:nil];
   
-  [UIView animateWithDuration:.1f delay:POPUP_STAY_DURATION + .09f options:UIViewAnimationOptionCurveEaseIn animations:^{
+  [UIView animateWithDuration:.1f delay:.09f options:UIViewAnimationOptionCurveEaseIn animations:^{
     [leavesImage setOrigin:CGPointMake(leavesImage.origin.x, leavesImage.origin.y + 150.f)];
     [leavesImage setAlpha:0.f];
   } completion:^(BOOL finished) {
@@ -162,22 +174,26 @@ typedef void (^ShakeAnimCompletionBlock)(void);
   }];
 }
 
-- (void) shakeView:(UIView*)view withKey:(NSString*)key completion:(ShakeAnimCompletionBlock)completion
+- (void) shakeView:(UIView*)view withKey:(NSString*)key smallShake:(BOOL)small completion:(ShakeAnimCompletionBlock)completion
 {
+  const float shakeDuration = small ? SMALL_SHAKE_ANIM_DURATION : BIG_SHAKE_ANIM_DURATION;
+  const float shakeRadius = small ? SMALL_SHAKE_RADIUS : BIG_SHAKE_RADIUS;
   NSMutableArray *keyTimes = [NSMutableArray array];
   NSMutableArray *values = [NSMutableArray array];
   const CGPoint pos = view.layer.position;
-  const int numFrames = 60.f * SHAKE_ANIM_DURATION;
+  const int numFrames = 60.f * shakeDuration;
+  
   for (int i = 0; i < numFrames; ++i)
   {
     const float t = (float)i / (float)numFrames;
     const float theta = ((float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX) * (M_PI * 2.f);
-    const float radius = SHAKE_RADIUS_MIN + (SHAKE_RADIUS_MAX - SHAKE_RADIUS_MIN) * (1.f - t);
+    const float radius = 1.f + (shakeRadius - 1.f) * (1.f - t);
     [keyTimes addObject:@(t)];
     [values addObject:[NSValue valueWithCGPoint:CGPointMake(pos.x + radius * cosf(theta), pos.y + radius * sinf(theta))]];
+  
   }
   CAKeyframeAnimation *anim = [CAKeyframeAnimation animationWithKeyPath:@"position"];
-  [anim setDuration:SHAKE_ANIM_DURATION];
+  [anim setDuration:shakeDuration];
   [anim setCalculationMode:kCAAnimationLinear];
   [anim setKeyTimes:keyTimes];
   [anim setValues:values];

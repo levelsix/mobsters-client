@@ -41,8 +41,8 @@ typedef void(^SkillPopupBlock)();
   __weak IBOutlet THLabel *_skillBottomLabelEnemy;
 }
 
-- (void) animateForSkill:(NSInteger)skillId forPlayer:(BOOL)player withImage:(UIImage*)characterImage
-                orbColor:(OrbColor)orbColor withCompletion:(SkillPopupBlock)completion;
+- (void) animateForSkill:(NSInteger)skillId forPlayer:(BOOL)player withImage:(UIImage*)characterImage bottomText:(NSString*)bottomText
+                orbColor:(OrbColor)orbColor miniPopup:(BOOL)mini withCompletion:(SkillPopupBlock)completion;
 - (void) hideWithCompletion:(SkillPopupBlock)completion forPlayer:(BOOL)player;
 
 @end
