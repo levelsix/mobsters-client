@@ -20,8 +20,12 @@
 
 @end
 
+@class BattleSchedule;
+
 @interface BattleScheduleView : UIView
 {
+  __weak BattleSchedule* _battleSchedule;
+  
   NSMutableDictionary* _upcomingSideEffectTurns;
 }
 
@@ -37,6 +41,8 @@
 
 @property (nonatomic, weak) id<BattleScheduleViewDelegate> delegate;
 
+- (void) setBattleSchedule:(__weak BattleSchedule*)battleSchedule;
+
 - (void) displayOverlayView;
 - (void) removeOverlayView;
 
@@ -45,7 +51,8 @@
 
 - (void) bounceLastView;
 
-- (void) displaySideEffectIcon:(NSString*)icon withKey:(NSString*)key onUpcomingTurns:(NSInteger)numTurns forPlayer:(BOOL)player;
+- (void) displaySideEffectIcon:(NSString*)icon withKey:(NSString*)key forUpcomingNumberOfTurns:(NSInteger)numTurns forPlayer:(BOOL)player;
+- (void) displaySideEffectIcon:(NSString*)icon withKey:(NSString*)key forUpcomingNumberOfOpponentTurns:(NSInteger)numTurns forPlayer:(BOOL)player;
 - (void) removeSideEffectIconWithKey:(NSString*)key onAllUpcomingTurnsForPlayer:(BOOL)player;
 
 @end

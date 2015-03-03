@@ -354,8 +354,6 @@
   [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
   [self.battleLayer.orbLayer disallowInput];
   
-  [self showLogo];
-  
   // Perform attack animation
   if (self.belongsToPlayer)
     [self.playerSprite performFarAttackAnimationWithStrength:0.f
@@ -401,10 +399,11 @@
 
 - (void) showLogo
 {
+  [self showSkillPopupMiniOverlay:NO
+                       bottomText:@"CONFUSED"
+                   withCompletion:^{}];
+  
   /*
-   * 2/4/15 - BN - Disabling skills displaying logos
-   *
-   
   // Display logo
   CCSprite* logoSprite = [CCSprite spriteWithImageNamed:[self.skillImageNamePrefix stringByAppendingString:kSkillMiniLogoImageNameSuffix]];
   logoSprite.position = CGPointMake((self.enemySprite.position.x + self.playerSprite.position.x) * .5f + self.playerSprite.contentSize.width * .5f - 10.f,

@@ -361,55 +361,44 @@
   [Globals imageNamedWithiPhone6Prefix:fileName withView:_characterImage maskedColor:nil indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
 }
 
-- (void) showSkillPopupOverlayInternal
+- (void) showSkillPopupOverlayInternal { [self showSkillPopupOverlayInternal:NO]; }
+- (void) showSkillPopupMiniOverlayInternal { [self showSkillPopupOverlayInternal:YES]; }
+- (void) showSkillPopupOverlayInternal:(BOOL)mini
 {
   // Create overlay
   UIView *parentView = self.battleLayer.hudView;
-  _popupOverlay = [[[NSBundle mainBundle] loadNibNamed:@"SkillPopupOverlay" owner:self options:nil] objectAtIndex:0];
+  _popupOverlay = [[[NSBundle mainBundle] loadNibNamed:mini ? @"SkillPopupMiniOverlay" : @"SkillPopupOverlay" owner:self options:nil] objectAtIndex:0];
   [_popupOverlay setBounds:parentView.bounds];
   [_popupOverlay setOrigin:CGPointMake((parentView.width - _popupOverlay.width)/2, (parentView.height - _popupOverlay.height)/2)];
-  [parentView addSubview:_popupOverlay];
-  [_popupOverlay animateForSkill:_skillId forPlayer:_belongsToPlayer withImage:_characterImage.image orbColor:_orbColor withCompletion:^{
-    // Hide popup and call block
-    if (_popupOverlay)
-    {
-      [self hideSkillPopupOverlayInternal];
-      _popupOverlay = nil;
-    }
-  }];
-  
-  // Hide pieces of battle hud
-  if (self.belongsToPlayer)
-  {
-    [UIView animateWithDuration:0.1 animations:^{
-      self.battleLayer.hudView.bottomView.alpha = 0.0;
-    } completion:^(BOOL finished) {
-      self.battleLayer.hudView.bottomView.hidden = YES;
-    }];
-  }
-  
   /*
-   * 2/4/15 - BN - Disabling skills displaying logos
-   *
-   
-  // Create overlay
-  UIView *parentView = self.battleLayer.hudView;
-  _popupOverlay = [[[NSBundle mainBundle] loadNibNamed:@"SkillPopupOverlay" owner:self options:nil] objectAtIndex:0];
-  _popupOverlay.frame = parentView.bounds;
-  [parentView addSubview:_popupOverlay];
-  _popupOverlay.origin = CGPointMake((parentView.width - _popupOverlay.width)/2, (parentView.height - _popupOverlay.height)/2);
-  [_popupOverlay animateForSkill:_skillId forPlayer:_belongsToPlayer withImage:_characterImage withCompletion:_callbackBlockForPopup];
-  
-  // Hide pieces of battle hud
-  if (self.belongsToPlayer)
+  if (mini && !_belongsToPlayer)
   {
-    [UIView animateWithDuration:0.1 animations:^{
-      self.battleLayer.hudView.bottomView.alpha = 0.0;
-    } completion:^(BOOL finished) {
-      self.battleLayer.hudView.bottomView.hidden = YES;
-    }];
+    // Move enemy's mini overlay to the left of the puzzle board
+    [_popupOverlay setOriginX:_popupOverlay.originX - (self.battleLayer.contentSize.width - (self.battleLayer.lootBgd.position.x +
+                                                                                             self.battleLayer.lootBgd.contentSize.width))];
   }
    */
+  [parentView addSubview:_popupOverlay];
+  [_popupOverlay animateForSkill:_skillId forPlayer:_belongsToPlayer withImage:_characterImage.image
+                      bottomText:_popupBottomText orbColor:_orbColor miniPopup:mini withCompletion:
+   ^{
+     // Hide popup and call block
+     if (_popupOverlay)
+     {
+       [self hideSkillPopupOverlayInternal];
+       _popupOverlay = nil;
+     }
+   }];
+
+  // Hide pieces of battle hud
+  if (self.belongsToPlayer)
+  {
+    [UIView animateWithDuration:0.1 animations:^{
+      self.battleLayer.hudView.bottomView.alpha = 0.0;
+    } completion:^(BOOL finished) {
+      self.battleLayer.hudView.bottomView.hidden = YES;
+    }];
+  }
 }
 
 - (void) hideSkillPopupOverlayInternal
@@ -436,11 +425,23 @@
 - (void) showSkillPopupOverlay:(BOOL)jumpFirst withCompletion:(SkillPopupBlock)completion
 {
   _callbackBlockForPopup = completion;
+  _popupBottomText = nil;
   
   if (jumpFirst)
     [self makeSkillOwnerJumpWithTarget:self selector:@selector(showSkillPopupOverlayInternal)];
   else
     [self showSkillPopupOverlayInternal];
+}
+
+- (void) showSkillPopupMiniOverlay:(BOOL)jumpFirst bottomText:(NSString*)bottomText withCompletion:(SkillPopupBlock)completion
+{
+  _callbackBlockForPopup = completion;
+  _popupBottomText = bottomText;
+  
+  if (jumpFirst)
+    [self makeSkillOwnerJumpWithTarget:self selector:@selector(showSkillPopupMiniOverlayInternal)];
+  else
+    [self showSkillPopupMiniOverlayInternal];
 }
 
 - (void) makeSkillOwnerJumpWithTarget:(id)target selector:(SEL)completion
@@ -455,17 +456,29 @@
 
 - (void) addSkillSideEffectToSkillOwner:(SideEffectType)type turnsAffected:(NSInteger)numTurns
 {
-  [(_belongsToPlayer ? _playerSprite : _enemySprite) addSkillSideEffect:type
-                                                               forSkill:_skillId
-                                                          turnsAffected:numTurns
-                                                               toPlayer:_belongsToPlayer];
+  [self addSkillSideEffectToSkillOwner:type turnsAffected:numTurns turnsAreSkillOwners:YES];
 }
 
 - (void) addSkillSideEffectToOpponent:(SideEffectType)type turnsAffected:(NSInteger)numTurns
 {
+  [self addSkillSideEffectToOpponent:type turnsAffected:numTurns turnsAreSkillOwners:NO];
+}
+
+- (void) addSkillSideEffectToSkillOwner:(SideEffectType)type turnsAffected:(NSInteger)numTurns turnsAreSkillOwners:(BOOL)turnsAreSkillOwners
+{
+  [(_belongsToPlayer ? _playerSprite : _enemySprite) addSkillSideEffect:type
+                                                               forSkill:_skillId
+                                                          turnsAffected:numTurns
+                                               turnsAreSideEffectOwners:turnsAreSkillOwners
+                                                               toPlayer:_belongsToPlayer];
+}
+
+- (void) addSkillSideEffectToOpponent:(SideEffectType)type turnsAffected:(NSInteger)numTurns turnsAreSkillOwners:(BOOL)turnsAreSkillOwners
+{
   [(_belongsToPlayer ? _enemySprite : _playerSprite) addSkillSideEffect:type
                                                                forSkill:_skillId
                                                           turnsAffected:numTurns
+                                               turnsAreSideEffectOwners:!turnsAreSkillOwners
                                                                toPlayer:!_belongsToPlayer];
 }
 

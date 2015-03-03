@@ -284,9 +284,6 @@ static const NSInteger kSwordOrbsMaxSearchIterations = 256;
 - (void) showLogo
 {
   /*
-   * 2/4/15 - BN - Disabling skills displaying logos
-   *
-   
   // Display logo
   CCSprite* logoSprite = [CCSprite spriteWithImageNamed:[self.skillImageNamePrefix stringByAppendingString:kSkillMiniLogoImageNameSuffix]];
   logoSprite.position = CGPointMake((self.enemySprite.position.x + self.playerSprite.position.x) * .5f + self.playerSprite.contentSize.width * .5f - 10.f,

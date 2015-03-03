@@ -112,6 +112,14 @@
 
 -(void)showDamageAbsorbed
 {
+  if (_damageAbsorbed > 0)
+  {
+    [self showSkillPopupMiniOverlay:NO
+                         bottomText:[NSString stringWithFormat:@"%ld DMG BLOCKED", (long)_damageAbsorbed]
+                     withCompletion:^{}];
+  }
+  
+  /*
   // Display logo
   CCSprite* logoSprite = [CCSprite spriteWithImageNamed:[self.skillImageNamePrefix stringByAppendingString:kSkillMiniLogoImageNameSuffix]];
   logoSprite.position = CGPointMake((self.enemySprite.position.x + self.playerSprite.position.x) * .5f + self.playerSprite.contentSize.width * .5f - 10.f,
@@ -137,13 +145,7 @@
                          [CCActionEaseIn actionWithAction:[CCActionScaleTo actionWithDuration:.3f scale:0.f]],
                          [CCActionRemove action],
                          nil]];
-  
-  // Finish trigger execution
-//  [self performAfterDelay:.3f block:^{
-//    [self.battleLayer.orbLayer.bgdLayer turnTheLightsOn];
-//    [self.battleLayer.orbLayer allowInput];
-//    [self skillTriggerFinished];
-//  }];
+   */
 }
 
 @end

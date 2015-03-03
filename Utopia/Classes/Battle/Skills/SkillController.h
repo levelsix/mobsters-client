@@ -59,6 +59,7 @@ static NSString* const kSkillMiniLogoImageNameSuffix = @"minilogo.png";
   SkillPopupBlock       _callbackBlockForPopup;
   UIImageView*          _characterImage;
   SkillPopupOverlay*    _popupOverlay;
+  NSString*             _popupBottomText;
   
   SkillTriggerPoint     _currentTrigger;
   BOOL                  _executedInitialAction;
@@ -120,6 +121,7 @@ static NSString* const kSkillMiniLogoImageNameSuffix = @"minilogo.png";
 
 // To be called by inherited skills to show the overlay
 - (void) showSkillPopupOverlay:(BOOL)jumpFirst withCompletion:(SkillPopupBlock)completion;
+- (void) showSkillPopupMiniOverlay:(BOOL)jumpFirst bottomText:(NSString*)bottomText withCompletion:(SkillPopupBlock)completion;
 - (void) makeSkillOwnerJumpWithTarget:(id)target selector:(SEL)completion;
 
 // Serialization
@@ -129,6 +131,8 @@ static NSString* const kSkillMiniLogoImageNameSuffix = @"minilogo.png";
 // Side effects
 - (void) addSkillSideEffectToSkillOwner:(SideEffectType)type turnsAffected:(NSInteger)numTurns;
 - (void) addSkillSideEffectToOpponent:(SideEffectType)type turnsAffected:(NSInteger)numTurns;
+- (void) addSkillSideEffectToSkillOwner:(SideEffectType)type turnsAffected:(NSInteger)numTurns turnsAreSkillOwners:(BOOL)turnsAreSkillOwners;
+- (void) addSkillSideEffectToOpponent:(SideEffectType)type turnsAffected:(NSInteger)numTurns turnsAreSkillOwners:(BOOL)turnsAreSkillOwners;
 - (void) removeSkillSideEffectFromSkillOwner:(SideEffectType)type;
 - (void) removeSkillSideEffectFromOpponent:(SideEffectType)type;
 - (void) resetAfftectedTurnsCount:(NSInteger)numTurns forSkillSideEffectOnSkillOwner:(SideEffectType)type;

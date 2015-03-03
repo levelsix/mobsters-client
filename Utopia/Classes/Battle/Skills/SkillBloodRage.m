@@ -49,11 +49,17 @@
     if (self.belongsToPlayer == player)
     {
       [self tickDuration];
-      return damage * _damageTakenMultiplier;
+      [self showSkillPopupMiniOverlay:NO
+                           bottomText:[NSString stringWithFormat:@"%.3gX ATK", _damageGivenMultiplier]
+                       withCompletion:^{}];
+      return damage * _damageGivenMultiplier;
     }
     else
     {
-      return damage * _damageGivenMultiplier;
+      [self showSkillPopupMiniOverlay:NO
+                           bottomText:[NSString stringWithFormat:@"%.3gX DMG", _damageTakenMultiplier]
+                       withCompletion:^{}];
+      return damage * _damageTakenMultiplier;
     }
   }
   
