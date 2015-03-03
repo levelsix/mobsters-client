@@ -29,6 +29,8 @@
 @class PvpBoardHouseProto_Builder;
 @class PvpBoardObstacleProto;
 @class PvpBoardObstacleProto_Builder;
+@class ResearchHouseProto;
+@class ResearchHouseProto_Builder;
 @class ResidenceProto;
 @class ResidenceProto_Builder;
 @class ResourceGeneratorProto;
@@ -97,6 +99,7 @@ typedef NS_ENUM(SInt32, StructureInfoProto_StructType) {
   StructureInfoProto_StructTypeClan = 11,
   StructureInfoProto_StructTypeMoneyTree = 12,
   StructureInfoProto_StructTypePvpBoard = 13,
+  StructureInfoProto_StructTypeResearchHouse = 14,
 };
 
 BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType value);
@@ -491,12 +494,14 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
   BOOL hasDaysOfDuration_:1;
   BOOL hasDaysForRenewal_:1;
   BOOL hasIapProductId_:1;
+  BOOL hasFakeIapproductId_:1;
   BOOL hasStructInfo_:1;
   Float32 productionRate;
   int32_t capacity;
   int32_t daysOfDuration;
   int32_t daysForRenewal;
   NSString* iapProductId;
+  NSString* fakeIapproductId;
   StructureInfoProto* structInfo;
 }
 - (BOOL) hasStructInfo;
@@ -505,12 +510,14 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (BOOL) hasDaysOfDuration;
 - (BOOL) hasDaysForRenewal;
 - (BOOL) hasIapProductId;
+- (BOOL) hasFakeIapproductId;
 @property (readonly, strong) StructureInfoProto* structInfo;
 @property (readonly) Float32 productionRate;
 @property (readonly) int32_t capacity;
 @property (readonly) int32_t daysOfDuration;
 @property (readonly) int32_t daysForRenewal;
 @property (readonly, strong) NSString* iapProductId;
+@property (readonly, strong) NSString* fakeIapproductId;
 
 + (MoneyTreeProto*) defaultInstance;
 - (MoneyTreeProto*) defaultInstance;
@@ -578,6 +585,60 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (NSString*) iapProductId;
 - (MoneyTreeProto_Builder*) setIapProductId:(NSString*) value;
 - (MoneyTreeProto_Builder*) clearIapProductId;
+
+- (BOOL) hasFakeIapproductId;
+- (NSString*) fakeIapproductId;
+- (MoneyTreeProto_Builder*) setFakeIapproductId:(NSString*) value;
+- (MoneyTreeProto_Builder*) clearFakeIapproductId;
+@end
+
+@interface ResearchHouseProto : PBGeneratedMessage {
+@private
+  BOOL hasStructId_:1;
+  int32_t structId;
+}
+- (BOOL) hasStructId;
+@property (readonly) int32_t structId;
+
++ (ResearchHouseProto*) defaultInstance;
+- (ResearchHouseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (ResearchHouseProto_Builder*) builder;
++ (ResearchHouseProto_Builder*) builder;
++ (ResearchHouseProto_Builder*) builderWithPrototype:(ResearchHouseProto*) prototype;
+- (ResearchHouseProto_Builder*) toBuilder;
+
++ (ResearchHouseProto*) parseFromData:(NSData*) data;
++ (ResearchHouseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ResearchHouseProto*) parseFromInputStream:(NSInputStream*) input;
++ (ResearchHouseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ResearchHouseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (ResearchHouseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface ResearchHouseProto_Builder : PBGeneratedMessageBuilder {
+@private
+  ResearchHouseProto* result;
+}
+
+- (ResearchHouseProto*) defaultInstance;
+
+- (ResearchHouseProto_Builder*) clear;
+- (ResearchHouseProto_Builder*) clone;
+
+- (ResearchHouseProto*) build;
+- (ResearchHouseProto*) buildPartial;
+
+- (ResearchHouseProto_Builder*) mergeFrom:(ResearchHouseProto*) other;
+- (ResearchHouseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (ResearchHouseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasStructId;
+- (int32_t) structId;
+- (ResearchHouseProto_Builder*) setStructId:(int32_t) value;
+- (ResearchHouseProto_Builder*) clearStructId;
 @end
 
 @interface HospitalProto : PBGeneratedMessage {

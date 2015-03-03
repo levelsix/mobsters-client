@@ -165,6 +165,8 @@
 @class QuestJobProto_Builder;
 @class RareBoosterPurchaseProto;
 @class RareBoosterPurchaseProto_Builder;
+@class ResearchHouseProto;
+@class ResearchHouseProto_Builder;
 @class ResearchPropertyProto;
 @class ResearchPropertyProto_Builder;
 @class ResearchProto;
@@ -286,6 +288,7 @@
   NSMutableArray * mutableAllClanHousesList;
   NSMutableArray * mutableAllMoneyTreesList;
   NSMutableArray * mutableAllPvpBoardHousesList;
+  NSMutableArray * mutableAllResearchHousesList;
   NSMutableArray * mutablePersistentEventsList;
   NSMutableArray * mutableMbdsList;
   NSMutableArray * mutableRaidsList;
@@ -328,6 +331,7 @@
 @property (readonly, strong) NSArray * allClanHousesList;
 @property (readonly, strong) NSArray * allMoneyTreesList;
 @property (readonly, strong) NSArray * allPvpBoardHousesList;
+@property (readonly, strong) NSArray * allResearchHousesList;
 @property (readonly, strong) NSArray * persistentEventsList;
 @property (readonly, strong) NSArray * mbdsList;
 @property (readonly, strong) NSArray * raidsList;
@@ -365,6 +369,7 @@
 - (ClanHouseProto*)allClanHousesAtIndex:(NSUInteger)index;
 - (MoneyTreeProto*)allMoneyTreesAtIndex:(NSUInteger)index;
 - (PvpBoardHouseProto*)allPvpBoardHousesAtIndex:(NSUInteger)index;
+- (ResearchHouseProto*)allResearchHousesAtIndex:(NSUInteger)index;
 - (PersistentEventProto*)persistentEventsAtIndex:(NSUInteger)index;
 - (MonsterBattleDialogueProto*)mbdsAtIndex:(NSUInteger)index;
 - (ClanRaidProto*)raidsAtIndex:(NSUInteger)index;
@@ -561,6 +566,12 @@
 - (StaticDataProto_Builder *)addAllPvpBoardHouses:(PvpBoardHouseProto*)value;
 - (StaticDataProto_Builder *)addAllAllPvpBoardHouses:(NSArray *)array;
 - (StaticDataProto_Builder *)clearAllPvpBoardHouses;
+
+- (NSMutableArray *)allResearchHousesList;
+- (ResearchHouseProto*)allResearchHousesAtIndex:(NSUInteger)index;
+- (StaticDataProto_Builder *)addAllResearchHouses:(ResearchHouseProto*)value;
+- (StaticDataProto_Builder *)addAllAllResearchHouses:(NSArray *)array;
+- (StaticDataProto_Builder *)clearAllResearchHouses;
 
 - (NSMutableArray *)persistentEventsList;
 - (PersistentEventProto*)persistentEventsAtIndex:(NSUInteger)index;

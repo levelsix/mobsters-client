@@ -639,6 +639,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
     case StructureInfoProto_StructTypeClan:
     case StructureInfoProto_StructTypeMoneyTree:
     case StructureInfoProto_StructTypePvpBoard:
+    case StructureInfoProto_StructTypeResearchHouse:
       return YES;
     default:
       return NO;
@@ -1892,6 +1893,7 @@ static ResourceStorageProto* defaultResourceStorageProtoInstance = nil;
 @property int32_t daysOfDuration;
 @property int32_t daysForRenewal;
 @property (strong) NSString* iapProductId;
+@property (strong) NSString* fakeIapproductId;
 @end
 
 @implementation MoneyTreeProto
@@ -1938,6 +1940,13 @@ static ResourceStorageProto* defaultResourceStorageProtoInstance = nil;
   hasIapProductId_ = !!value_;
 }
 @synthesize iapProductId;
+- (BOOL) hasFakeIapproductId {
+  return !!hasFakeIapproductId_;
+}
+- (void) setHasFakeIapproductId:(BOOL) value_ {
+  hasFakeIapproductId_ = !!value_;
+}
+@synthesize fakeIapproductId;
 - (id) init {
   if ((self = [super init])) {
     self.structInfo = [StructureInfoProto defaultInstance];
@@ -1946,6 +1955,7 @@ static ResourceStorageProto* defaultResourceStorageProtoInstance = nil;
     self.daysOfDuration = 0;
     self.daysForRenewal = 0;
     self.iapProductId = @"";
+    self.fakeIapproductId = @"";
   }
   return self;
 }
@@ -1983,6 +1993,9 @@ static MoneyTreeProto* defaultMoneyTreeProtoInstance = nil;
   if (self.hasIapProductId) {
     [output writeString:6 value:self.iapProductId];
   }
+  if (self.hasFakeIapproductId) {
+    [output writeString:7 value:self.fakeIapproductId];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -2009,6 +2022,9 @@ static MoneyTreeProto* defaultMoneyTreeProtoInstance = nil;
   }
   if (self.hasIapProductId) {
     size_ += computeStringSize(6, self.iapProductId);
+  }
+  if (self.hasFakeIapproductId) {
+    size_ += computeStringSize(7, self.fakeIapproductId);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -2066,6 +2082,9 @@ static MoneyTreeProto* defaultMoneyTreeProtoInstance = nil;
   if (self.hasIapProductId) {
     [output appendFormat:@"%@%@: %@\n", indent, @"iapProductId", self.iapProductId];
   }
+  if (self.hasFakeIapproductId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"fakeIapproductId", self.fakeIapproductId];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -2089,6 +2108,8 @@ static MoneyTreeProto* defaultMoneyTreeProtoInstance = nil;
       (!self.hasDaysForRenewal || self.daysForRenewal == otherMessage.daysForRenewal) &&
       self.hasIapProductId == otherMessage.hasIapProductId &&
       (!self.hasIapProductId || [self.iapProductId isEqual:otherMessage.iapProductId]) &&
+      self.hasFakeIapproductId == otherMessage.hasFakeIapproductId &&
+      (!self.hasFakeIapproductId || [self.fakeIapproductId isEqual:otherMessage.fakeIapproductId]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -2110,6 +2131,9 @@ static MoneyTreeProto* defaultMoneyTreeProtoInstance = nil;
   }
   if (self.hasIapProductId) {
     hashCode = hashCode * 31 + [self.iapProductId hash];
+  }
+  if (self.hasFakeIapproductId) {
+    hashCode = hashCode * 31 + [self.fakeIapproductId hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -2172,6 +2196,9 @@ static MoneyTreeProto* defaultMoneyTreeProtoInstance = nil;
   if (other.hasIapProductId) {
     [self setIapProductId:other.iapProductId];
   }
+  if (other.hasFakeIapproductId) {
+    [self setFakeIapproductId:other.fakeIapproductId];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -2220,6 +2247,10 @@ static MoneyTreeProto* defaultMoneyTreeProtoInstance = nil;
       }
       case 50: {
         [self setIapProductId:[input readString]];
+        break;
+      }
+      case 58: {
+        [self setFakeIapproductId:[input readString]];
         break;
       }
     }
@@ -2333,6 +2364,222 @@ static MoneyTreeProto* defaultMoneyTreeProtoInstance = nil;
 - (MoneyTreeProto_Builder*) clearIapProductId {
   result.hasIapProductId = NO;
   result.iapProductId = @"";
+  return self;
+}
+- (BOOL) hasFakeIapproductId {
+  return result.hasFakeIapproductId;
+}
+- (NSString*) fakeIapproductId {
+  return result.fakeIapproductId;
+}
+- (MoneyTreeProto_Builder*) setFakeIapproductId:(NSString*) value {
+  result.hasFakeIapproductId = YES;
+  result.fakeIapproductId = value;
+  return self;
+}
+- (MoneyTreeProto_Builder*) clearFakeIapproductId {
+  result.hasFakeIapproductId = NO;
+  result.fakeIapproductId = @"";
+  return self;
+}
+@end
+
+@interface ResearchHouseProto ()
+@property int32_t structId;
+@end
+
+@implementation ResearchHouseProto
+
+- (BOOL) hasStructId {
+  return !!hasStructId_;
+}
+- (void) setHasStructId:(BOOL) value_ {
+  hasStructId_ = !!value_;
+}
+@synthesize structId;
+- (id) init {
+  if ((self = [super init])) {
+    self.structId = 0;
+  }
+  return self;
+}
+static ResearchHouseProto* defaultResearchHouseProtoInstance = nil;
++ (void) initialize {
+  if (self == [ResearchHouseProto class]) {
+    defaultResearchHouseProtoInstance = [[ResearchHouseProto alloc] init];
+  }
+}
++ (ResearchHouseProto*) defaultInstance {
+  return defaultResearchHouseProtoInstance;
+}
+- (ResearchHouseProto*) defaultInstance {
+  return defaultResearchHouseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasStructId) {
+    [output writeInt32:1 value:self.structId];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasStructId) {
+    size_ += computeInt32Size(1, self.structId);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (ResearchHouseProto*) parseFromData:(NSData*) data {
+  return (ResearchHouseProto*)[[[ResearchHouseProto builder] mergeFromData:data] build];
+}
++ (ResearchHouseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ResearchHouseProto*)[[[ResearchHouseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (ResearchHouseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (ResearchHouseProto*)[[[ResearchHouseProto builder] mergeFromInputStream:input] build];
+}
++ (ResearchHouseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ResearchHouseProto*)[[[ResearchHouseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ResearchHouseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (ResearchHouseProto*)[[[ResearchHouseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (ResearchHouseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ResearchHouseProto*)[[[ResearchHouseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ResearchHouseProto_Builder*) builder {
+  return [[ResearchHouseProto_Builder alloc] init];
+}
++ (ResearchHouseProto_Builder*) builderWithPrototype:(ResearchHouseProto*) prototype {
+  return [[ResearchHouseProto builder] mergeFrom:prototype];
+}
+- (ResearchHouseProto_Builder*) builder {
+  return [ResearchHouseProto builder];
+}
+- (ResearchHouseProto_Builder*) toBuilder {
+  return [ResearchHouseProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasStructId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"structId", [NSNumber numberWithInteger:self.structId]];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[ResearchHouseProto class]]) {
+    return NO;
+  }
+  ResearchHouseProto *otherMessage = other;
+  return
+      self.hasStructId == otherMessage.hasStructId &&
+      (!self.hasStructId || self.structId == otherMessage.structId) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasStructId) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.structId] hash];
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+@interface ResearchHouseProto_Builder()
+@property (strong) ResearchHouseProto* result;
+@end
+
+@implementation ResearchHouseProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[ResearchHouseProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (ResearchHouseProto_Builder*) clear {
+  self.result = [[ResearchHouseProto alloc] init];
+  return self;
+}
+- (ResearchHouseProto_Builder*) clone {
+  return [ResearchHouseProto builderWithPrototype:result];
+}
+- (ResearchHouseProto*) defaultInstance {
+  return [ResearchHouseProto defaultInstance];
+}
+- (ResearchHouseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (ResearchHouseProto*) buildPartial {
+  ResearchHouseProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (ResearchHouseProto_Builder*) mergeFrom:(ResearchHouseProto*) other {
+  if (other == [ResearchHouseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasStructId) {
+    [self setStructId:other.structId];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (ResearchHouseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (ResearchHouseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setStructId:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasStructId {
+  return result.hasStructId;
+}
+- (int32_t) structId {
+  return result.structId;
+}
+- (ResearchHouseProto_Builder*) setStructId:(int32_t) value {
+  result.hasStructId = YES;
+  result.structId = value;
+  return self;
+}
+- (ResearchHouseProto_Builder*) clearStructId {
+  result.hasStructId = NO;
+  result.structId = 0;
   return self;
 }
 @end

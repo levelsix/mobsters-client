@@ -60,6 +60,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property (strong) NSMutableArray * mutableAllClanHousesList;
 @property (strong) NSMutableArray * mutableAllMoneyTreesList;
 @property (strong) NSMutableArray * mutableAllPvpBoardHousesList;
+@property (strong) NSMutableArray * mutableAllResearchHousesList;
 @property (strong) NSMutableArray * mutablePersistentEventsList;
 @property (strong) NSMutableArray * mutableMbdsList;
 @property (strong) NSMutableArray * mutableRaidsList;
@@ -137,6 +138,8 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @dynamic allMoneyTreesList;
 @synthesize mutableAllPvpBoardHousesList;
 @dynamic allPvpBoardHousesList;
+@synthesize mutableAllResearchHousesList;
+@dynamic allResearchHousesList;
 @synthesize mutablePersistentEventsList;
 @dynamic persistentEventsList;
 @synthesize mutableMbdsList;
@@ -317,6 +320,12 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
 }
 - (PvpBoardHouseProto*)allPvpBoardHousesAtIndex:(NSUInteger)index {
   return [mutableAllPvpBoardHousesList objectAtIndex:index];
+}
+- (NSArray *)allResearchHousesList {
+  return mutableAllResearchHousesList;
+}
+- (ResearchHouseProto*)allResearchHousesAtIndex:(NSUInteger)index {
+  return [mutableAllResearchHousesList objectAtIndex:index];
 }
 - (NSArray *)persistentEventsList {
   return mutablePersistentEventsList;
@@ -529,6 +538,9 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   [self.pvpBoardObstacleProtosList enumerateObjectsUsingBlock:^(PvpBoardObstacleProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:40 value:element];
   }];
+  [self.allResearchHousesList enumerateObjectsUsingBlock:^(ResearchHouseProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:41 value:element];
+  }];
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -654,6 +666,9 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   }];
   [self.pvpBoardObstacleProtosList enumerateObjectsUsingBlock:^(PvpBoardObstacleProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(40, element);
+  }];
+  [self.allResearchHousesList enumerateObjectsUsingBlock:^(ResearchHouseProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(41, element);
   }];
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -924,6 +939,12 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }];
+  [self.allResearchHousesList enumerateObjectsUsingBlock:^(ResearchHouseProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"allResearchHouses"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -976,6 +997,7 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
       [self.allMoneyTreesList isEqualToArray:otherMessage.allMoneyTreesList] &&
       [self.allPvpBoardHousesList isEqualToArray:otherMessage.allPvpBoardHousesList] &&
       [self.pvpBoardObstacleProtosList isEqualToArray:otherMessage.pvpBoardObstacleProtosList] &&
+      [self.allResearchHousesList isEqualToArray:otherMessage.allResearchHousesList] &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -1095,6 +1117,9 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
     hashCode = hashCode * 31 + [element hash];
   }];
   [self.pvpBoardObstacleProtosList enumerateObjectsUsingBlock:^(PvpBoardObstacleProto *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  [self.allResearchHousesList enumerateObjectsUsingBlock:^(ResearchHouseProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
   hashCode = hashCode * 31 + [self.unknownFields hash];
@@ -1298,6 +1323,13 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
       result.mutableAllPvpBoardHousesList = [[NSMutableArray alloc] initWithArray:other.mutableAllPvpBoardHousesList];
     } else {
       [result.mutableAllPvpBoardHousesList addObjectsFromArray:other.mutableAllPvpBoardHousesList];
+    }
+  }
+  if (other.mutableAllResearchHousesList.count > 0) {
+    if (result.mutableAllResearchHousesList == nil) {
+      result.mutableAllResearchHousesList = [[NSMutableArray alloc] initWithArray:other.mutableAllResearchHousesList];
+    } else {
+      [result.mutableAllResearchHousesList addObjectsFromArray:other.mutableAllResearchHousesList];
     }
   }
   if (other.mutablePersistentEventsList.count > 0) {
@@ -1664,6 +1696,12 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
         PvpBoardObstacleProto_Builder* subBuilder = [PvpBoardObstacleProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addPvpBoardObstacleProtos:[subBuilder buildPartial]];
+        break;
+      }
+      case 330: {
+        ResearchHouseProto_Builder* subBuilder = [ResearchHouseProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addAllResearchHouses:[subBuilder buildPartial]];
         break;
       }
     }
@@ -2255,6 +2293,30 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
 }
 - (StaticDataProto_Builder *)clearAllPvpBoardHouses {
   result.mutableAllPvpBoardHousesList = nil;
+  return self;
+}
+- (NSMutableArray *)allResearchHousesList {
+  return result.mutableAllResearchHousesList;
+}
+- (ResearchHouseProto*)allResearchHousesAtIndex:(NSUInteger)index {
+  return [result allResearchHousesAtIndex:index];
+}
+- (StaticDataProto_Builder *)addAllResearchHouses:(ResearchHouseProto*)value {
+  if (result.mutableAllResearchHousesList == nil) {
+    result.mutableAllResearchHousesList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableAllResearchHousesList addObject:value];
+  return self;
+}
+- (StaticDataProto_Builder *)addAllAllResearchHouses:(NSArray *)array {
+  if (result.mutableAllResearchHousesList == nil) {
+    result.mutableAllResearchHousesList = [NSMutableArray array];
+  }
+  [result.mutableAllResearchHousesList addObjectsFromArray:array];
+  return self;
+}
+- (StaticDataProto_Builder *)clearAllResearchHouses {
+  result.mutableAllResearchHousesList = nil;
   return self;
 }
 - (NSMutableArray *)persistentEventsList {

@@ -10,19 +10,19 @@ option java_outer_classname = "ResearchsProto";
 
 
 //------------------------------------------------------------------------------------------
- 
+
 message ResearchProto {
 	optional int32 researchId = 1;
 	
 	//reducing resource cost or speed
 	//TODO: turn into enum later on
 	//optional ResearchType researchType = 2;
-	optional ResearchType researchType = 2; 
+	optional string researchType = 2; 
 	
 	//battle, resources, restorative/healing
 	//TODO: turn into enum later on
 	//optional ResearchDomain researchDomain = 3;
-	optional ResearchDomain researchDomain = 3;
+	optional string researchDomain = 3;
 	
 	optional string iconImgName = 4;
 	optional string name = 5;
@@ -39,10 +39,6 @@ message ResearchProto {
 	optional ResourceType costType = 11;
 
 	repeated ResearchPropertyProto properties = 12;
-	
-	optional int32 level = 13;
-	optional float priority = 14;
-	optional int32 tier = 15;
 	
 }
 
@@ -66,22 +62,10 @@ enum ResearchType {
 	INCREASE_QUEUE_SIZE = 4;
 	INCREASE_NUM_CAN_BUILD = 5;
 	XP_BONUS = 6;
-	INCREASE_CONSTRUCTION_TIME = 7;
-	INCREASE_CASH_PRODUCTION = 8;
-	INCREASE_OIL_PRODUCTION = 9;
-	INCREASE_GEM_PRODUCTION = 10;
-	INCREASE_ATTACK = 11;
-	INCREASE_HP = 12;
-	MINOR_POTION = 13;
-	UNLOCK_CHILL_ANTIDOTE = 14;
-	UNLOCK_POISON_ANTIDOTE = 15;
-	UNLOCK_LOLLIPOP_HAMMER = 16;
-	UNLOCK_PUTTY = 17;
-	UNLOCK_SHUFFLE = 18;
-	UNLOCK_CLOUDS = 19;
-	UNLOCK_LOCKS = 20;
-	UNLOCK_HOLES = 21;
-	UNLOCK_VINES = 22;
+	INCREASE_CASH_PRODUCTION = 7;
+	INCREASE_OIL_PRODUCTION = 8;
+	INCREASE_ATTACK = 9;
+	INCREASE_HP = 10;
 }
 
 enum ResearchDomain {
@@ -90,16 +74,5 @@ enum ResearchDomain {
 	LEVELUP = 3;
 	RESOURCES = 4;
 	BATTLE = 5;
-	ITEMS = 6;
-	TRAPS_AND_OBSTACLES = 7;
 	
-}
-
-//the research that is currently being researched and the research that are completed
-message UserResearchProto {
-	optional string userResearchUuid = 1;
-	optional string userUuid = 2;
-	optional int32 researchId = 3;
-	optional int64 timePurchased = 4;
-	optional bool complete = 5;
 }
