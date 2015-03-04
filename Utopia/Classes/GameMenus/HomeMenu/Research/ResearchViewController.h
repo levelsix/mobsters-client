@@ -9,12 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "PopupSubViewController.h"
 
-#import "ResearchInfoViewController.h"
-
 @interface ResearchViewController : PopupSubViewController
 
 @end
 
-@interface ResearchCategoryViewCell : UITableViewCell
+@interface ResearchCategoryCell : UITableViewCell
+
+- (void) updateForDomain:(ResearchDomain) domain;
+@property (nonatomic, retain) IBOutlet UIImageView *categoryIcon;
+@property (nonatomic, retain) IBOutlet UILabel *categoryTitle;
 
 @end

@@ -753,6 +753,37 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return unread;
 }
 
+#pragma mark - Research
+
+- (NSString *) stringForDomain:(ResearchDomain)domain {
+  switch (domain) {
+    case ResearchDomainBattle:
+      return @"DomainBattle";
+    case ResearchDomainLevelup:
+      return @"DomainLevelUp";
+    case ResearchDomainResources:
+      return @"DomainResources";
+    case ResearchDomainRestorative:
+      return @"DomainResorative";
+    case ResearchDomainNoDomain:
+      return @"DomainNoDomain";
+    default:
+      return @"DomainNotFound";
+  }
+}
+
+- (NSArray *) allStaticResearchForDomain:(ResearchDomain)domain{
+  NSMutableArray *ar = [[NSMutableArray alloc] init];
+  for(ResearchProto *rp in self.staticResearch) {
+    if(rp.researchDomain == [self stringForDomain:domain]) {
+      [ar addObject:rp];
+    }
+  }
+  return ar;
+}
+
+#pragma mark
+
 - (NSArray *) allClanChatObjects {
   NSMutableArray *arr = [self.clanChatMessages mutableCopy];
   

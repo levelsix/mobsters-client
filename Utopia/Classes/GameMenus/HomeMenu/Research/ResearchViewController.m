@@ -7,6 +7,7 @@
 //
 
 #import "ResearchViewController.h"
+#import "ResearchTreeViewController.h"
 
 #import "GameState.h"
 
@@ -22,22 +23,60 @@
 #pragma TableView Delegates
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  ResearchCategoryViewCell *cell;
-  cell = [tableView dequeueReusableCellWithIdentifier:@"ResearchCategoryCellView"];
+  ResearchCategoryCell *cell;
+  cell = [tableView dequeueReusableCellWithIdentifier:@"ResearchCategoryCell"];
   if (!cell) {
-    cell = [[NSBundle mainBundle] loadNibNamed:@"ResearchCategoryCellView" owner:self options:nil][0];
+    cell = [[NSBundle mainBundle] loadNibNamed:@"ResearchCategoryCell" owner:self options:nil][0];
   }
+  
+  ResearchDomain domain = (ResearchDomain)indexPath.row+2; //add 2 to avoid 0 and NO_DOMAIN
+  [cell updateForDomain:domain];
   
   return cell;
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return 15;
+  return 4;//it looks like there is no way to just count how many enums there are
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  ResearchInfoViewController *rivc = [[ResearchInfoViewController alloc] init];
-  [self.parentViewController pushViewController:rivc animated:YES];
+  [tableView deselectRowAtIndexPath:indexPath animated:NO];
+  ResearchTreeViewController *rtvc = [[ResearchTreeViewController alloc] initWithDomain:(ResearchDomain)indexPath.row+2];
+  [self.parentViewController pushViewController:rtvc animated:YES];
+}
+
+@end
+
+@implementation ResearchCategoryCell : UITableViewCell
+
+- (void) updateForDomain:(ResearchDomain) domain {
+  
+  switch (domain) {
+    case ResearchDomainRestorative:
+      self.categoryTitle.text = @"Restorative";
+      self.categoryIcon.image = [Globals imageNamed:@"researchtoons.png"];
+      break;
+    case ResearchDomainBattle:
+      self.categoryTitle.text = @"Battle";
+      self.categoryIcon.image =[Globals imageNamed:@"researchbattle.png"];
+      break;
+    case ResearchDomainLevelup:
+      self.categoryTitle.text = @"Level Up";
+      break;
+    case ResearchDomainResources:
+      self.categoryTitle.text = @"Resources";
+      self.categoryIcon.image =[Globals imageNamed:@"researchresources.png"];
+      break;
+      
+    case ResearchDomainNoDomain:
+      self.categoryTitle.text = @"No Domain";
+      break;
+      
+      default:
+      self.categoryTitle.text = [NSString stringWithFormat:@"Had a problem loading domain type %d",domain];
+      break;
+  }
+  
 }
 
 @end
