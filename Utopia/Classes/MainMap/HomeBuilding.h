@@ -70,6 +70,8 @@
   CCParticleSystem *_smoke;
 }
 
+- (NSString *) fileNameForUserStruct:(UserStruct *)userStruct;
+
 @end
 
 @interface ResourceStorageBuilding : HomeBuilding

@@ -705,8 +705,21 @@
       }
     }
   }
+}
+
+- (void) reloadMoneyTree:(NSTimer *)timer {
+  for (MoneyTreeBuilding *b in [self childrenOfClassType:[MoneyTreeBuilding class]]) {
+    UserStruct *us = b.userStruct;
+    if (us.numResourcesAvailable <= 0 &&  us.isExpired) {
+      [b setBubbleType:BuildingBubbleTypeRenew];
+    } else {
+      [b setBubbleType:BuildingBubbleTypeNone];
+    }
+    
+    [b setupBuildingSprite:[b fileNameForUserStruct:us]];
+  }
   
-  
+  [_timers removeObject:timer];
 }
 
 - (void) reloadAllBubbles {
@@ -716,6 +729,7 @@
   [self reloadBubblesOnMiscBuildings];
   [self reloadTeamCenter];
   [self reloadClanHouse];
+  [self reloadMoneyTree:nil];
   
   // In case there's a purch building
   [_purchBuilding setBubbleType:BuildingBubbleTypeNone];
@@ -1278,6 +1292,8 @@
                       [CCActionCallFunc actionWithTarget:label selector:@selector(removeFromParent)], nil]];
     
     [AchievementUtil checkCollectResource:resType amount:amountCollected];
+    
+    [self reloadMoneyTree:nil];
   } else {
     //this section is for when storages are full but there is infinite gem storage
     [Globals addAlertNotification:@"Something went wrong with the Gem Mine"];
@@ -1497,6 +1513,11 @@
         } else if (!us.isExpired) {
           [self setupIncomeTimerForBuilding:rb];
         }
+        
+        // Setup timer for expiration
+        NSTimer *timer = [NSTimer timerWithTimeInterval:us.timeTillExpiry target:self selector:@selector(reloadMoneyTree:) userInfo:mb repeats:NO];
+        [_timers addObject:timer];
+        [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
       }
       else if ([mb isKindOfClass:[ResourceGeneratorBuilding class]]) {
         ResourceGeneratorBuilding *rb = (ResourceGeneratorBuilding *)mb;
@@ -1591,7 +1612,7 @@
   if (!us.hasShownFreeSpeedup && timeLeft > 0 && timeLeft/60.f < gl.maxMinutesForFreeSpeedUp) {
     BOOL isInitialConstruction = sip.level == 1;
     NSString *desc = [NSString stringWithFormat:@"%@ %@ is below %d minutes. Free speedup available!", sip.name, isInitialConstruction ? @"construction" : @"upgrade", gl.maxMinutesForFreeSpeedUp];
-    [Globals addPurpleAlertNotification:desc];
+    [Globals addPurpleAlertNotification:desc isImmediate:NO];
     
     us.hasShownFreeSpeedup = YES;
   }
@@ -1608,7 +1629,7 @@
   
   if (!hq.hasShownFreeHealingQueueSpeedup && timeLeft > 0 && timeLeft/60.f < gl.maxMinutesForFreeSpeedUp) {
     NSString *desc = [NSString stringWithFormat:@"Healing time is below %d minutes. Free speedup available!", gl.maxMinutesForFreeSpeedUp];
-    [Globals addPurpleAlertNotification:desc];
+    [Globals addPurpleAlertNotification:desc isImmediate:NO];
     
     hq.hasShownFreeHealingQueueSpeedup = YES;
   }

@@ -270,9 +270,9 @@
     
     requiresTwoBars = YES;
     
-    curStat1 = cur.productionRate*24;
-    newStat1 = next.productionRate*24;
-    maxStat1 = max.productionRate*24;
+    curStat1 = roundf(cur.productionRate*24);
+    newStat1 = roundf(next.productionRate*24);
+    maxStat1 = roundf(max.productionRate*24);
     statName1 = @"Rate:";
     suffix1 = @" Per Day";
     

@@ -867,11 +867,7 @@
     return MIN(numRes, gen.capacity);
     
   } else if([gen isKindOfClass:[MoneyTreeProto class]]) {
-    MoneyTreeProto *mtp = (MoneyTreeProto *)gen;
-    int secondsInADay = 60*60*24;
-    NSTimeInterval duration = secondsInADay * mtp.daysOfDuration;
-    MSDate *endDate = [self.purchaseTime dateByAddingTimeInterval:duration];
-    float timeSinceEndDate = -[endDate timeIntervalSinceNow];
+    float timeSinceEndDate = -[self timeTillExpiry];
     float timeSinceLastRetrieved = -[self.lastRetrieved timeIntervalSinceNow];
     float secs = 0;
     if (timeSinceLastRetrieved >= timeSinceEndDate && timeSinceEndDate > 0) {
@@ -894,8 +890,10 @@
 }
 
 - (int) timeTillExpiry {
-  MoneyTreeProto *mtp = (MoneyTreeProto *)self.staticStruct;
-  return [self.purchaseTime dateByAddingTimeInterval:mtp.daysOfDuration*24*3600].timeIntervalSinceNow;
+//  MoneyTreeProto *mtp = (MoneyTreeProto *)self.staticStruct;
+//  return [self.purchaseTime dateByAddingTimeInterval:mtp.daysOfDuration*24*3600].timeIntervalSinceNow;
+  GameState *gs = [GameState sharedGameState];
+  return [MSDate dateWithTimeIntervalSince1970:gs.lastLoginTimeNum/1000. + 20.f].timeIntervalSinceNow;
 }
 
 - (BOOL) isNoLongerValidForRenewal {

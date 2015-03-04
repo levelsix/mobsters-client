@@ -162,7 +162,7 @@
     cell.collectLabel.hidden = NO;
   }
   
-  [Globals addPurpleAlertNotification:[NSString stringWithFormat:@"You collected %d Gems for completing %@: Rank %d!", ap.gemReward, ap.name, ap.lvl]];
+  [Globals addPurpleAlertNotification:[NSString stringWithFormat:@"You collected %d Gems for completing %@: Rank %d!", ap.gemReward, ap.name, ap.lvl] isImmediate:YES];
   
   [Analytics redeemedAchievement:_redeemingAchievementId];
   

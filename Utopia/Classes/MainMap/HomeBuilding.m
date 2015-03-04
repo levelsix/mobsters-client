@@ -625,6 +625,7 @@
       _smoke = [CCParticleSystem particleWithFile:@"gemsmoke.plist"];
       _smoke.scale = 0.5f;
       _smoke.position = ccp(self.buildingSprite.contentSize.width/2, 14);
+      [_smoke stopSystem];
       [self.buildingSprite addChild:_smoke];
       
       [self adjustBuildingSprite];
@@ -700,8 +701,8 @@
                            [CCActionCallFunc actionWithTarget:self selector:@selector(animateDrill)], nil]];
 }
 
-- (id) initWithUserStruct:(UserStruct *)userStruct map:(HomeMap *)map {
-  StructureInfoProto *fsp = userStruct.isComplete || !userStruct.staticStruct.structInfo.predecessorStructId ? userStruct.staticStruct.structInfo : userStruct.staticStructForPrevLevel.structInfo;
+- (NSString *) fileNameForUserStruct:(UserStruct *)userStruct {
+  StructureInfoProto *fsp = userStruct.staticStruct.structInfo;
   NSString *file = fsp.imgName;
   
   if (userStruct.isExpired) {
@@ -709,8 +710,13 @@
     file = [NSString stringWithFormat:@"%@dead",file];
   }
   
+  return file;
+}
+
+- (id) initWithUserStruct:(UserStruct *)userStruct map:(HomeMap *)map {
+  StructureInfoProto *fsp = userStruct.staticStruct.structInfo;
   CGRect loc = CGRectMake(userStruct.coordinates.x, userStruct.coordinates.y, fsp.width, fsp.height);
-  if ((self = [self initWithFile:file location:loc map:map])) {
+  if ((self = [self initWithFile:[self fileNameForUserStruct:userStruct] location:loc map:map])) {
     self.userStruct = userStruct;
     self.orientation = self.userStruct.orientation;
     

@@ -1659,7 +1659,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
       [QuestUtil checkAllDonateQuests];
     } else if (ue.totalSeconds > gl.maxMinutesForFreeSpeedUp*60 && timeLeft < gl.maxMinutesForFreeSpeedUp*60) {
       NSString *desc = [NSString stringWithFormat:@"Your current Enhancement is below %d minutes. Free speedup available!", gl.maxMinutesForFreeSpeedUp];
-      [Globals addPurpleAlertNotification:desc];
+      [Globals addPurpleAlertNotification:desc isImmediate:NO];
       
       ue.hasShownFreeSpeedup = YES;
       
@@ -1843,7 +1843,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   Globals *gl = [Globals sharedGlobals];
   LNLog(@"Firing free speedup for mini job...");
   NSString *desc = [NSString stringWithFormat:@"Your current Mini Job is below %d minutes. Free speedup available!", gl.maxMinutesForFreeSpeedUp];
-  [Globals addPurpleAlertNotification:desc];
+  [Globals addPurpleAlertNotification:desc isImmediate:NO];
   
   umj.hasShownFreeSpeedup = YES;
 }
