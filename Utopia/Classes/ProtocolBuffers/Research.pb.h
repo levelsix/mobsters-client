@@ -55,6 +55,8 @@
 @class UserObstacleProto_Builder;
 @class UserPvpBoardObstacleProto;
 @class UserPvpBoardObstacleProto_Builder;
+@class UserResearchProto;
+@class UserResearchProto_Builder;
 #ifndef __has_feature
   #define __has_feature(x) 0 // Compatibility with non-clang compilers.
 #endif // __has_feature
@@ -330,6 +332,91 @@ BOOL ResearchDomainIsValidValue(ResearchDomain value);
 - (int32_t) researchId;
 - (ResearchPropertyProto_Builder*) setResearchId:(int32_t) value;
 - (ResearchPropertyProto_Builder*) clearResearchId;
+@end
+
+@interface UserResearchProto : PBGeneratedMessage {
+@private
+  BOOL hasComplete_:1;
+  BOOL hasTimePurchased_:1;
+  BOOL hasResearchId_:1;
+  BOOL hasUserResearchUuid_:1;
+  BOOL hasUserUuid_:1;
+  BOOL complete_:1;
+  int64_t timePurchased;
+  int32_t researchId;
+  NSString* userResearchUuid;
+  NSString* userUuid;
+}
+- (BOOL) hasUserResearchUuid;
+- (BOOL) hasUserUuid;
+- (BOOL) hasResearchId;
+- (BOOL) hasTimePurchased;
+- (BOOL) hasComplete;
+@property (readonly, strong) NSString* userResearchUuid;
+@property (readonly, strong) NSString* userUuid;
+@property (readonly) int32_t researchId;
+@property (readonly) int64_t timePurchased;
+- (BOOL) complete;
+
++ (UserResearchProto*) defaultInstance;
+- (UserResearchProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (UserResearchProto_Builder*) builder;
++ (UserResearchProto_Builder*) builder;
++ (UserResearchProto_Builder*) builderWithPrototype:(UserResearchProto*) prototype;
+- (UserResearchProto_Builder*) toBuilder;
+
++ (UserResearchProto*) parseFromData:(NSData*) data;
++ (UserResearchProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UserResearchProto*) parseFromInputStream:(NSInputStream*) input;
++ (UserResearchProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UserResearchProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (UserResearchProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface UserResearchProto_Builder : PBGeneratedMessageBuilder {
+@private
+  UserResearchProto* result;
+}
+
+- (UserResearchProto*) defaultInstance;
+
+- (UserResearchProto_Builder*) clear;
+- (UserResearchProto_Builder*) clone;
+
+- (UserResearchProto*) build;
+- (UserResearchProto*) buildPartial;
+
+- (UserResearchProto_Builder*) mergeFrom:(UserResearchProto*) other;
+- (UserResearchProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (UserResearchProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasUserResearchUuid;
+- (NSString*) userResearchUuid;
+- (UserResearchProto_Builder*) setUserResearchUuid:(NSString*) value;
+- (UserResearchProto_Builder*) clearUserResearchUuid;
+
+- (BOOL) hasUserUuid;
+- (NSString*) userUuid;
+- (UserResearchProto_Builder*) setUserUuid:(NSString*) value;
+- (UserResearchProto_Builder*) clearUserUuid;
+
+- (BOOL) hasResearchId;
+- (int32_t) researchId;
+- (UserResearchProto_Builder*) setResearchId:(int32_t) value;
+- (UserResearchProto_Builder*) clearResearchId;
+
+- (BOOL) hasTimePurchased;
+- (int64_t) timePurchased;
+- (UserResearchProto_Builder*) setTimePurchased:(int64_t) value;
+- (UserResearchProto_Builder*) clearTimePurchased;
+
+- (BOOL) hasComplete;
+- (BOOL) complete;
+- (UserResearchProto_Builder*) setComplete:(BOOL) value;
+- (UserResearchProto_Builder*) clearComplete;
 @end
 
 

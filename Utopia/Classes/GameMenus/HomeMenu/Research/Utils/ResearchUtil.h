@@ -11,10 +11,10 @@
 
 @interface ResearchUtil : NSObject
 
-@property (nonatomic, assign) NSArray *userResearched;
+@property (nonatomic, assign) NSMutableArray *userResearches;
+-(id) initWithResearches:(NSArray *)researches;
 
 -(ResearchProto *) currentResearch;
--(void) initResearchListWithResearches:(NSArray *)researches;
 -(BOOL) isResearched:(ResearchProto *)research;
 
 @end

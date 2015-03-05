@@ -16,6 +16,7 @@
 #import "ItemUtil.h"
 #import "ClanTeamDonateUtil.h"
 #import "BattleItemUtil.h"
+#import "ResearchUtil.h"
 
 @interface GameState : NSObject {
   NSTimer *_enhanceTimer;
@@ -103,6 +104,7 @@
 @property (nonatomic, retain) NSMutableArray *mySecretGifts;
 
 @property (nonatomic, retain) ItemUtil *itemUtil;
+@property (nonatomic, retain) ResearchUtil *researchUtil;
 
 @property (nonatomic, retain) NSMutableDictionary *monsterHealingQueues;
 
