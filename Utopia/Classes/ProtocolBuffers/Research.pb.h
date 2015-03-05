@@ -106,6 +106,7 @@ BOOL ResearchDomainIsValidValue(ResearchDomain value);
   BOOL hasSuccId_:1;
   BOOL hasDurationMin_:1;
   BOOL hasCostAmt_:1;
+  BOOL hasLevel_:1;
   BOOL hasIconImgName_:1;
   BOOL hasName_:1;
   BOOL hasDesc_:1;
@@ -117,6 +118,7 @@ BOOL ResearchDomainIsValidValue(ResearchDomain value);
   int32_t succId;
   int32_t durationMin;
   int32_t costAmt;
+  int32_t level;
   NSString* iconImgName;
   NSString* name;
   NSString* desc;
@@ -136,6 +138,7 @@ BOOL ResearchDomainIsValidValue(ResearchDomain value);
 - (BOOL) hasDurationMin;
 - (BOOL) hasCostAmt;
 - (BOOL) hasCostType;
+- (BOOL) hasLevel;
 @property (readonly) int32_t researchId;
 @property (readonly) ResearchType researchType;
 @property (readonly) ResearchDomain researchDomain;
@@ -148,6 +151,7 @@ BOOL ResearchDomainIsValidValue(ResearchDomain value);
 @property (readonly) int32_t costAmt;
 @property (readonly) ResourceType costType;
 @property (readonly, strong) NSArray * propertiesList;
+@property (readonly) int32_t level;
 - (ResearchPropertyProto*)propertiesAtIndex:(NSUInteger)index;
 
 + (ResearchProto*) defaultInstance;
@@ -245,6 +249,11 @@ BOOL ResearchDomainIsValidValue(ResearchDomain value);
 - (ResearchProto_Builder *)addProperties:(ResearchPropertyProto*)value;
 - (ResearchProto_Builder *)addAllProperties:(NSArray *)array;
 - (ResearchProto_Builder *)clearProperties;
+
+- (BOOL) hasLevel;
+- (int32_t) level;
+- (ResearchProto_Builder*) setLevel:(int32_t) value;
+- (ResearchProto_Builder*) clearLevel;
 @end
 
 @interface ResearchPropertyProto : PBGeneratedMessage {
