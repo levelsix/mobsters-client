@@ -2139,6 +2139,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       }
     } else if (prereq.prereqGameType == GameTypeTask) {
       quantity = [gs isTaskCompleted:prereq.prereqGameEntityId];
+    } else if (prereq.prereqGameType == GameTypeResearch) {
+      quantity = 0;
     }
     
     return quantity >= prereq.quantity;

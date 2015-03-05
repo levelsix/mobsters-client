@@ -21,6 +21,8 @@
 
 @interface UpgradePrereqView : EmbeddedNibView
 
+- (void) updateForPrereq:(PrereqProto *)pre isComplete:(BOOL)isComplete;
+
 @property (nonatomic, retain) IBOutlet UIImageView *checkIcon;
 @property (nonatomic, retain) IBOutlet UILabel *prereqLabel;
 @property (nonatomic, retain) IBOutlet UIView *goButtonView;

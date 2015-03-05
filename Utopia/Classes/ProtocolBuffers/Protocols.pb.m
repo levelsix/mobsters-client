@@ -24,7 +24,6 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [DevRoot registerAllExtensions:registry];
     [EventAchievementRoot registerAllExtensions:registry];
     [EventApnsRoot registerAllExtensions:registry];
-    [EventBattleItemRoot registerAllExtensions:registry];
     [EventBoosterPackRoot registerAllExtensions:registry];
     [EventChatRoot registerAllExtensions:registry];
     [EventCityRoot registerAllExtensions:registry];
@@ -33,7 +32,6 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [EventDungeonRoot registerAllExtensions:registry];
     [EventInAppPurchaseRoot registerAllExtensions:registry];
     [EventItemRoot registerAllExtensions:registry];
-    [EventMiniEventRoot registerAllExtensions:registry];
     [EventMiniJobRoot registerAllExtensions:registry];
     [EventMonsterRoot registerAllExtensions:registry];
     [EventPvpRoot registerAllExtensions:registry];
@@ -47,13 +45,11 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [EventUserRoot registerAllExtensions:registry];
     [InAppPurchaseRoot registerAllExtensions:registry];
     [ItemRoot registerAllExtensions:registry];
-    [MiniEventRoot registerAllExtensions:registry];
     [MiniJobConfigRoot registerAllExtensions:registry];
     [MonsterStuffRoot registerAllExtensions:registry];
     [PrerequisiteRoot registerAllExtensions:registry];
     [QuestRoot registerAllExtensions:registry];
     [ResearchRoot registerAllExtensions:registry];
-    [RewardRoot registerAllExtensions:registry];
     [SharedEnumConfigRoot registerAllExtensions:registry];
     [SkillRoot registerAllExtensions:registry];
     [StaticDataRoot registerAllExtensions:registry];
@@ -171,14 +167,8 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCDevEvent:
     case EventProtocolRequestCPerformResearchEvent:
     case EventProtocolRequestCFinishPerformingResearchEvent:
-    case EventProtocolRequestCCustomizePvpBoardObstacleEvent:
     case EventProtocolRequestCCreateBattleItemEvent:
     case EventProtocolRequestCDiscardBattleItemEvent:
-    case EventProtocolRequestCCompleteBattleItemEvent:
-    case EventProtocolRequestCRedeemMiniEventRewardEvent:
-    case EventProtocolRequestCRetrieveMiniEventEvent:
-    case EventProtocolRequestCUpdateMiniEventEvent:
-    case EventProtocolRequestCTranslateSelectMessagesEvent:
       return YES;
     default:
       return NO;
@@ -296,14 +286,8 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSDevEvent:
     case EventProtocolResponseSPerformResearchEvent:
     case EventProtocolResponseSFinishPerformingResearchEvent:
-    case EventProtocolResponseSCustomizePvpBoardObstacleEvent:
     case EventProtocolResponseSCreateBattleItemEvent:
     case EventProtocolResponseSDiscardBattleItemEvent:
-    case EventProtocolResponseSCompleteBattleItemEvent:
-    case EventProtocolResponseSRedeemMiniEventRewardEvent:
-    case EventProtocolResponseSRetrieveMiniEventEvent:
-    case EventProtocolResponseSUpdateMiniEventEvent:
-    case EventProtocolResponseSTranslateSelectMessagesEvent:
       return YES;
     default:
       return NO;

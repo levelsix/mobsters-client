@@ -45,6 +45,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _staticPrerequisites = [[NSMutableDictionary alloc] init];
     _staticBoards = [[NSMutableDictionary alloc] init];
     _staticBattleItems = [[NSMutableDictionary alloc] init];
+    _staticResearch = [[NSMutableDictionary alloc] init];
     _eventCooldownTimes = [[NSMutableDictionary alloc] init];
     _notifications = [[NSMutableArray alloc] init];
     _myStructs = [[NSMutableArray alloc] init];
@@ -772,10 +773,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
 }
 
-- (NSArray *) allStaticResearchForDomain:(ResearchDomain)domain{
+- (NSArray *) allStaticResearchForDomain:(ResearchDomain)domain {
   NSMutableArray *ar = [[NSMutableArray alloc] init];
-  for(ResearchProto *rp in self.staticResearch) {
-    if(rp.researchDomain == [self stringForDomain:domain]) {
+  for(ResearchProto *rp in self.staticResearch.allValues) {
+    if(rp.researchDomain == domain) {
       [ar addObject:rp];
     }
   }

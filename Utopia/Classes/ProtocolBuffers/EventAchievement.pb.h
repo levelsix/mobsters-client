@@ -16,6 +16,8 @@
 @class AchievementRedeemRequestProto_Builder;
 @class AchievementRedeemResponseProto;
 @class AchievementRedeemResponseProto_Builder;
+@class BattleItemFactoryProto;
+@class BattleItemFactoryProto_Builder;
 @class ClanHouseProto;
 @class ClanHouseProto_Builder;
 @class CoordinateProto;

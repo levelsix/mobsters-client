@@ -13,7 +13,6 @@
 #import "Dev.pb.h"
 #import "EventAchievement.pb.h"
 #import "EventApns.pb.h"
-#import "EventBattleItem.pb.h"
 #import "EventBoosterPack.pb.h"
 #import "EventChat.pb.h"
 #import "EventCity.pb.h"
@@ -169,28 +168,16 @@
 @class CombineUserMonsterPiecesRequestProto_Builder;
 @class CombineUserMonsterPiecesResponseProto;
 @class CombineUserMonsterPiecesResponseProto_Builder;
-@class CompleteBattleItemRequestProto;
-@class CompleteBattleItemRequestProto_Builder;
-@class CompleteBattleItemResponseProto;
-@class CompleteBattleItemResponseProto_Builder;
 @class CompleteMiniJobRequestProto;
 @class CompleteMiniJobRequestProto_Builder;
 @class CompleteMiniJobResponseProto;
 @class CompleteMiniJobResponseProto_Builder;
 @class CoordinateProto;
 @class CoordinateProto_Builder;
-@class CreateBattleItemRequestProto;
-@class CreateBattleItemRequestProto_Builder;
-@class CreateBattleItemResponseProto;
-@class CreateBattleItemResponseProto_Builder;
 @class CreateClanRequestProto;
 @class CreateClanRequestProto_Builder;
 @class CreateClanResponseProto;
 @class CreateClanResponseProto_Builder;
-@class CustomizePvpBoardObstacleRequestProto;
-@class CustomizePvpBoardObstacleRequestProto_Builder;
-@class CustomizePvpBoardObstacleResponseProto;
-@class CustomizePvpBoardObstacleResponseProto_Builder;
 @class DestroyMoneyTreeStructureRequestProto;
 @class DestroyMoneyTreeStructureRequestProto_Builder;
 @class DestroyMoneyTreeStructureResponseProto;
@@ -203,10 +190,6 @@
 @class DialogueProto_Builder;
 @class DialogueProto_SpeechSegmentProto;
 @class DialogueProto_SpeechSegmentProto_Builder;
-@class DiscardBattleItemRequestProto;
-@class DiscardBattleItemRequestProto_Builder;
-@class DiscardBattleItemResponseProto;
-@class DiscardBattleItemResponseProto_Builder;
 @class EarnFreeDiamondsRequestProto;
 @class EarnFreeDiamondsRequestProto_Builder;
 @class EarnFreeDiamondsResponseProto;
@@ -757,8 +740,6 @@
 @class UserPvpLeagueProto_Builder;
 @class UserQuestJobProto;
 @class UserQuestJobProto_Builder;
-@class UserResearchProto;
-@class UserResearchProto_Builder;
 @class UserTaskCompletedProto;
 @class UserTaskCompletedProto_Builder;
 @class VoidTeamDonationSolicitationRequestProto;
@@ -879,10 +860,8 @@ typedef NS_ENUM(SInt32, EventProtocolRequest) {
   EventProtocolRequestCDevEvent = 200,
   EventProtocolRequestCPerformResearchEvent = 201,
   EventProtocolRequestCFinishPerformingResearchEvent = 202,
-  EventProtocolRequestCCustomizePvpBoardObstacleEvent = 203,
-  EventProtocolRequestCCreateBattleItemEvent = 204,
-  EventProtocolRequestCDiscardBattleItemEvent = 205,
-  EventProtocolRequestCCompleteBattleItemEvent = 206,
+  EventProtocolRequestCCreateBattleItemEvent = 203,
+  EventProtocolRequestCDiscardBattleItemEvent = 204,
 };
 
 BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value);
@@ -998,10 +977,8 @@ typedef NS_ENUM(SInt32, EventProtocolResponse) {
   EventProtocolResponseSDevEvent = 200,
   EventProtocolResponseSPerformResearchEvent = 201,
   EventProtocolResponseSFinishPerformingResearchEvent = 202,
-  EventProtocolResponseSCustomizePvpBoardObstacleEvent = 203,
-  EventProtocolResponseSCreateBattleItemEvent = 204,
-  EventProtocolResponseSDiscardBattleItemEvent = 205,
-  EventProtocolResponseSCompleteBattleItemEvent = 206,
+  EventProtocolResponseSCreateBattleItemEvent = 203,
+  EventProtocolResponseSDiscardBattleItemEvent = 204,
 };
 
 BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value);

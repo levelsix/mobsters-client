@@ -9,19 +9,33 @@
 #import <UIKit/UIKit.h>
 #import "PopupSubViewController.h"
 
-@interface ResearchTreeViewController : PopupSubViewController
+@interface ResearchTreeViewController : PopupSubViewController {
+  NSArray *_researches;
+}
+
 -(id)initWithDomain:(ResearchDomain)domain;
--(void)researchButtonClickWithIndex:(NSInteger) index;
+-(void)researchButtonClickWithId:(int) id;
 
 @end
 
-@interface ResearchButtonView : UIView
+@interface ResearchTreeView : UIView
 
-@property (weak, nonatomic) IBOutlet UILabel *researchNameLabel;
-@property (weak, nonatomic) IBOutlet UILabel *rankLabel;
+@property (nonatomic, assign) IBOutlet UIView *mainView;
+@property (nonatomic, assign) IBOutlet UIScrollView *scrollView;
 
-@property (weak, nonatomic) IBOutlet UIImageView *selectedOutline;
-@property (weak, nonatomic) IBOutlet UIImageView *bgView;
+@end
+
+@interface ResearchSelectionView : UIView {
+  int _id;
+}
+
+- (void)updateForProto:(ResearchProto *)research;
+
+@property (nonatomic, assign) IBOutlet UILabel *researchNameLabel;
+@property (nonatomic, assign) IBOutlet UILabel *rankLabel;
+
+@property (nonatomic, assign) IBOutlet UIImageView *selectedOutline;
+@property (nonatomic, assign) IBOutlet UIImageView *bgView;
 
 @property (nonatomic, assign) ResearchTreeViewController* delegate;
 

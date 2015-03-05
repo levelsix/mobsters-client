@@ -4,6 +4,7 @@
 
 #import "AchievementStuff.pb.h"
 #import "Battle.pb.h"
+#import "BattleItem.pb.h"
 #import "BoosterPackStuff.pb.h"
 #import "Chat.pb.h"
 #import "City.pb.h"
@@ -22,6 +23,12 @@
 
 @class AchievementProto;
 @class AchievementProto_Builder;
+@class BattleItemFactoryProto;
+@class BattleItemFactoryProto_Builder;
+@class BattleItemProto;
+@class BattleItemProto_Builder;
+@class BattleItemQueueForUserProto;
+@class BattleItemQueueForUserProto_Builder;
 @class BoardLayoutProto;
 @class BoardLayoutProto_Builder;
 @class BoardPropertyProto;
@@ -252,6 +259,8 @@
 @class TutorialStructProto_Builder;
 @class UserAchievementProto;
 @class UserAchievementProto_Builder;
+@class UserBattleItemProto;
+@class UserBattleItemProto_Builder;
 @class UserCityExpansionDataProto;
 @class UserCityExpansionDataProto_Builder;
 @class UserCurrentMonsterTeamProto;
@@ -525,7 +534,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   BOOL hasReviewPageConfirmationMessage_:1;
   BOOL hasReviewPageUrl_:1;
   BOOL hasAppStoreUrl_:1;
-  BOOL hasEnhancements_:1;
+  BOOL hasEvolution_:1;
   BOOL hasClanData_:1;
   BOOL hasCurTask_:1;
   BOOL hasTutorialConstants_:1;
@@ -533,7 +542,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   BOOL hasCurRaidClanInfo_:1;
   BOOL hasStaticDataStuffProto_:1;
   BOOL hasSender_:1;
-  BOOL hasEvolution_:1;
+  BOOL hasEnhancements_:1;
   BOOL hasUpdateStatus_:1;
   BOOL hasStartupStatus_:1;
   BOOL playerHasBoughtInAppPurchase_:1;
@@ -542,7 +551,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   NSString* reviewPageConfirmationMessage;
   NSString* reviewPageUrl;
   NSString* appStoreUrl;
-  UserEnhancementProto* enhancements;
+  UserMonsterEvolutionProto* evolution;
   ClanDataProto* clanData;
   MinimumUserTaskProto* curTask;
   StartupResponseProto_TutorialConstants* tutorialConstants;
@@ -550,7 +559,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   PersistentClanEventClanInfoProto* curRaidClanInfo;
   StaticDataProto* staticDataStuffProto;
   FullUserProto* sender;
-  UserMonsterEvolutionProto* evolution;
+  UserEnhancementProto* enhancements;
   StartupResponseProto_UpdateStatus updateStatus;
   StartupResponseProto_StartupStatus startupStatus;
   PBAppendableArray * mutableRedeemedQuestIdsList;
@@ -559,8 +568,8 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   NSMutableArray * mutableNoticesToPlayersList;
   NSMutableArray * mutableUsersMonstersList;
   NSMutableArray * mutableMonstersHealingList;
-  NSMutableArray * mutableUserQuestsList;
   NSMutableArray * mutablePcppList;
+  NSMutableArray * mutableUserQuestsList;
   NSMutableArray * mutableRareBoosterPurchasesList;
   NSMutableArray * mutableClanChatsList;
   NSMutableArray * mutableInvitesToMeForSlotsList;
@@ -582,6 +591,8 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   NSMutableArray * mutableUserClanInfoList;
   NSMutableArray * mutableItemsInUseList;
   NSMutableArray * mutableGiftsList;
+  NSMutableArray * mutableBattleItemQueueList;
+  NSMutableArray * mutableBattleItemList;
   NSMutableArray * mutableUserPvpBoardObstaclesList;
 }
 - (BOOL) hasServerTimeMillis;
@@ -647,6 +658,8 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @property (readonly, strong) ClanDataProto* clanData;
 @property (readonly, strong) NSArray * itemsInUseList;
 @property (readonly, strong) NSArray * giftsList;
+@property (readonly, strong) NSArray * battleItemQueueList;
+@property (readonly, strong) NSArray * battleItemList;
 @property (readonly, strong) NSArray * userPvpBoardObstaclesList;
 - (FullUserQuestProto*)userQuestsAtIndex:(NSUInteger)index;
 - (int32_t)redeemedQuestIdsAtIndex:(NSUInteger)index;
@@ -677,6 +690,8 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (ClanInviteProto*)clanInvitesAtIndex:(NSUInteger)index;
 - (UserItemUsageProto*)itemsInUseAtIndex:(NSUInteger)index;
 - (UserItemSecretGiftProto*)giftsAtIndex:(NSUInteger)index;
+- (BattleItemQueueForUserProto*)battleItemQueueAtIndex:(NSUInteger)index;
+- (UserBattleItemProto*)battleItemAtIndex:(NSUInteger)index;
 - (UserPvpBoardObstacleProto*)userPvpBoardObstaclesAtIndex:(NSUInteger)index;
 
 + (StartupResponseProto*) defaultInstance;
@@ -2716,6 +2731,18 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_Builder *)addGifts:(UserItemSecretGiftProto*)value;
 - (StartupResponseProto_Builder *)addAllGifts:(NSArray *)array;
 - (StartupResponseProto_Builder *)clearGifts;
+
+- (NSMutableArray *)battleItemQueueList;
+- (BattleItemQueueForUserProto*)battleItemQueueAtIndex:(NSUInteger)index;
+- (StartupResponseProto_Builder *)addBattleItemQueue:(BattleItemQueueForUserProto*)value;
+- (StartupResponseProto_Builder *)addAllBattleItemQueue:(NSArray *)array;
+- (StartupResponseProto_Builder *)clearBattleItemQueue;
+
+- (NSMutableArray *)battleItemList;
+- (UserBattleItemProto*)battleItemAtIndex:(NSUInteger)index;
+- (StartupResponseProto_Builder *)addBattleItem:(UserBattleItemProto*)value;
+- (StartupResponseProto_Builder *)addAllBattleItem:(NSArray *)array;
+- (StartupResponseProto_Builder *)clearBattleItem;
 
 - (NSMutableArray *)userPvpBoardObstaclesList;
 - (UserPvpBoardObstacleProto*)userPvpBoardObstaclesAtIndex:(NSUInteger)index;

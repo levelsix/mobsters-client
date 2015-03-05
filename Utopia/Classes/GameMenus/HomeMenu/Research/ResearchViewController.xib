@@ -20,7 +20,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="56" sectionHeaderHeight="40" sectionFooterHeight="22" id="8CX-Id-9qc">
-                            <rect key="frame" x="0.0" y="8" width="430" height="185"/>
+                            <rect key="frame" x="0.0" y="0.0" width="430" height="193"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
@@ -37,7 +37,7 @@
                 </imageView>
                 <view contentMode="scaleToFill" id="ecc-tt-Kij">
                     <rect key="frame" x="3" y="193" width="424" height="50"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" heightSizable="YES"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                     <subviews>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="girl2.png" id="5tR-om-BvJ">
                             <rect key="frame" x="12" y="-38" width="62" height="88"/>
@@ -59,7 +59,7 @@
             <nil key="simulatedStatusBarMetrics"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="756" y="486"/>
+            <point key="canvasLocation" x="-74" y="97"/>
         </view>
         <view contentMode="scaleToFill" id="1rB-Td-rvz" userLabel="CurrentResearchBar">
             <rect key="frame" x="0.0" y="0.0" width="424" height="50"/>

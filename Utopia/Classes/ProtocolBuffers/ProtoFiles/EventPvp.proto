@@ -2,9 +2,8 @@
 //DO NO START PROPERTY METHODS WITH THE WORDS NEW OR COPY
 
 import "Battle.proto";
+import "BattleItem.proto";
 import "MonsterStuff.proto";
-//import "Research.proto";
-import "Structure.proto";
 import "User.proto";
 
 package com.lvl6.proto;
@@ -18,6 +17,7 @@ option java_outer_classname = "EventPvpProto";
 
 message QueueUpRequestProto {
 	optional MinimumUserProto attacker = 1;
+	optional int32 attackerElo = 2;
 
 	/* an EventUser.proto UpdateUserCurrencyEvent will be used instead of this stuff
 	//if user needs, say, five more cash, then user can spend gems to replace
@@ -165,22 +165,4 @@ message SetDefendingMsgResponseProto {
 	}
 }
 
-//------------------------------------------------------------------------------------------
-
-message CustomizePvpBoardObstacleRequestProto {
-	optional MinimumUserProto sender = 1;
-	repeated UserPvpBoardObstacleProto nuOrUpdatedObstacles = 2;
-	repeated int32 removeUpboIds = 3;
-	
-}
-
-message CustomizePvpBoardObstacleResponseProto {
-	optional MinimumUserProto sender = 1;
-	optional CustomizePvpBoardObstacleStatus status = 2;
-	
-	enum CustomizePvpBoardObstacleStatus {
-		SUCCESS = 1;
-		FAIL_OTHER = 2;
-	}  
-}
 

@@ -5,6 +5,8 @@
 #import "Structure.pb.h"
 // @@protoc_insertion_point(imports)
 
+@class BattleItemFactoryProto;
+@class BattleItemFactoryProto_Builder;
 @class ClanHouseProto;
 @class ClanHouseProto_Builder;
 @class CoordinateProto;
@@ -104,22 +106,22 @@ BOOL ResearchDomainIsValidValue(ResearchDomain value);
   BOOL hasSuccId_:1;
   BOOL hasDurationMin_:1;
   BOOL hasCostAmt_:1;
-  BOOL hasResearchType_:1;
-  BOOL hasResearchDomain_:1;
   BOOL hasIconImgName_:1;
   BOOL hasName_:1;
   BOOL hasDesc_:1;
+  BOOL hasResearchType_:1;
+  BOOL hasResearchDomain_:1;
   BOOL hasCostType_:1;
   int32_t researchId;
   int32_t predId;
   int32_t succId;
   int32_t durationMin;
   int32_t costAmt;
-  NSString* researchType;
-  NSString* researchDomain;
   NSString* iconImgName;
   NSString* name;
   NSString* desc;
+  ResearchType researchType;
+  ResearchDomain researchDomain;
   ResourceType costType;
   NSMutableArray * mutablePropertiesList;
 }
@@ -135,8 +137,8 @@ BOOL ResearchDomainIsValidValue(ResearchDomain value);
 - (BOOL) hasCostAmt;
 - (BOOL) hasCostType;
 @property (readonly) int32_t researchId;
-@property (readonly, strong) NSString* researchType;
-@property (readonly, strong) NSString* researchDomain;
+@property (readonly) ResearchType researchType;
+@property (readonly) ResearchDomain researchDomain;
 @property (readonly, strong) NSString* iconImgName;
 @property (readonly, strong) NSString* name;
 @property (readonly) int32_t predId;
@@ -189,14 +191,14 @@ BOOL ResearchDomainIsValidValue(ResearchDomain value);
 - (ResearchProto_Builder*) clearResearchId;
 
 - (BOOL) hasResearchType;
-- (NSString*) researchType;
-- (ResearchProto_Builder*) setResearchType:(NSString*) value;
-- (ResearchProto_Builder*) clearResearchType;
+- (ResearchType) researchType;
+- (ResearchProto_Builder*) setResearchType:(ResearchType) value;
+- (ResearchProto_Builder*) clearResearchTypeList;
 
 - (BOOL) hasResearchDomain;
-- (NSString*) researchDomain;
-- (ResearchProto_Builder*) setResearchDomain:(NSString*) value;
-- (ResearchProto_Builder*) clearResearchDomain;
+- (ResearchDomain) researchDomain;
+- (ResearchProto_Builder*) setResearchDomain:(ResearchDomain) value;
+- (ResearchProto_Builder*) clearResearchDomainList;
 
 - (BOOL) hasIconImgName;
 - (NSString*) iconImgName;

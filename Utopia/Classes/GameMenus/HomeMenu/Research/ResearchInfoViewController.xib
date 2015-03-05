@@ -11,7 +11,7 @@
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="iN0-l3-epB">
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="ResearchInfoView">
             <rect key="frame" x="0.0" y="0.0" width="430" height="236"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
@@ -130,22 +130,22 @@
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
                 <view contentMode="scaleToFill" id="lnt-hF-P0q" userLabel="Prereq View">
-                    <rect key="frame" x="175" y="93" width="225" height="85"/>
+                    <rect key="frame" x="175" y="93" width="247" height="76"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <view contentMode="scaleToFill" id="j0P-G2-Aog" customClass="UpgradePrereqView">
-                            <rect key="frame" x="19" y="2" width="198" height="21"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <view contentMode="scaleToFill" id="j0P-G2-Aog" customClass="ResearchPrereqView">
+                            <rect key="frame" x="0.0" y="2" width="247" height="21"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                             <color key="backgroundColor" red="0.52682557399999996" green="0.005127211865" blue="0.033727087160000002" alpha="0.75" colorSpace="calibratedRGB"/>
                         </view>
-                        <view contentMode="scaleToFill" id="izd-Qr-p9g" customClass="UpgradePrereqView">
-                            <rect key="frame" x="19" y="26" width="198" height="21"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <view contentMode="scaleToFill" id="izd-Qr-p9g" customClass="ResearchPrereqView">
+                            <rect key="frame" x="0.0" y="26" width="247" height="21"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                             <color key="backgroundColor" red="0.52682557399999996" green="0.005127211865" blue="0.033727087160000002" alpha="0.75" colorSpace="calibratedRGB"/>
                         </view>
-                        <view contentMode="scaleToFill" id="VUx-9c-hFj" customClass="UpgradePrereqView">
-                            <rect key="frame" x="19" y="50" width="198" height="21"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <view contentMode="scaleToFill" id="VUx-9c-hFj" customClass="ResearchPrereqView">
+                            <rect key="frame" x="0.0" y="50" width="247" height="21"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                             <color key="backgroundColor" red="0.52682557399999996" green="0.005127211865" blue="0.033727087160000002" alpha="0.75" colorSpace="calibratedRGB"/>
                         </view>
                     </subviews>
@@ -168,7 +168,7 @@
                             <color key="shadowColor" red="1" green="1" blue="1" alpha="0.75" colorSpace="calibratedRGB"/>
                             <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="UPGRADE TIME:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="tYG-wg-3Vf" customClass="NiceFontLabel9">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="RESEARCH TIME:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="tYG-wg-3Vf" customClass="NiceFontLabel9">
                             <rect key="frame" x="32" y="116" width="94" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="8"/>
@@ -290,6 +290,24 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="botPercentBar" destination="Ozf-P4-Acf" id="j2w-nX-4TO"/>
+                <outlet property="bottomBarDescription" destination="YfJ-6j-IJ1" id="aq8-Db-kbC"/>
+                <outlet property="bottomBarIcon" destination="2RJ-g4-2Rf" id="QHS-sv-6i6"/>
+                <outlet property="bottomBarTitle" destination="bjr-19-cVq" id="Kjc-Zb-U22"/>
+                <outlet property="cashButtonLabel" destination="xnp-42-xkn" id="VcR-8n-lAF"/>
+                <outlet property="cashButtonView" destination="w78-Cm-p6E" id="rZg-xo-O8Q"/>
+                <outlet property="oilButtonLabel" destination="EyH-si-K9l" id="U5v-Rg-sBI"/>
+                <outlet property="oilButtonView" destination="fNx-v5-2mz" id="hCb-bN-x0i"/>
+                <outlet property="percentIncreseLabel" destination="335-Oq-AS2" id="l9c-Z1-OtV"/>
+                <outlet property="prereqViewA" destination="j0P-G2-Aog" id="5G3-yD-CB3"/>
+                <outlet property="prereqViewB" destination="izd-Qr-p9g" id="ZtB-Ng-N0d"/>
+                <outlet property="prereqViewC" destination="VUx-9c-hFj" id="R0z-21-MCt"/>
+                <outlet property="researchImage" destination="o29-tA-AlS" id="JPL-IO-FIl"/>
+                <outlet property="researchName" destination="TQz-pw-1Vn" id="Xok-xe-QlK"/>
+                <outlet property="researchTimeLabel" destination="qVM-Ga-tOT" id="sDV-rZ-HQo"/>
+                <outlet property="topPercentBar" destination="Fxm-vk-gPO" id="1TD-tS-ggh"/>
+            </connections>
             <point key="canvasLocation" x="428" y="282"/>
         </view>
     </objects>

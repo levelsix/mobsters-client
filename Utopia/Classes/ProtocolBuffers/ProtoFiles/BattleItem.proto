@@ -12,7 +12,7 @@ option java_outer_classname = "BattleItemsProto";
 //------------------------------------------------------------------------------------------
 
 message UserBattleItemProto {
-	optional string userBattleItemId = 1;
+	optional string id = 1;
 	optional string userUuid = 2;
 	optional int32 battleItemId = 3;
 	optional int32 quantity = 4;
@@ -25,35 +25,29 @@ message BattleItemProto {
 	optional int32 battleItemId = 1;
 	optional string name = 2;
 	optional string imgName = 3;
-	optional BattleItemType battleItemType = 4;
-	optional BattleItemCategory battleItemCategory = 5;
-	optional ResourceType createResourceType = 6;
+	optional string battleItemType = 4;
+	optional string battleItemCategory = 5;
+	optional string createResourceType = 6;
 	optional int32 createCost = 7;
 	optional string description = 8;
 	optional int32 powerAmount = 9;	
-	optional int32 priority = 11;
-	optional int32 minutesToCreate = 12;
-	optional int32 inBattleGemCost = 13;
-	optional int32 amount = 14;
 }
 
 
 //------------------------------------------------------------------------------------------
 
 enum BattleItemType {
-	HEALING_POTION = 1;
-	CHILL_ANTIDOTE = 2;
-	POISON_ANTIDOTE = 3;
-	ORB_HAMMER = 4;
-	HAND_SWAP = 5;
-	BOARD_SHUFFLE = 6;
-	PUTTY = 7;
+	ANTIDOTE = 1;
+	HAMMER = 2;
+	
+	
+	
 	
 }
 
 enum BattleItemCategory {
-	POTION = 1;
-	PUZZLE = 2;
+	BATTLE_ITEM_CATEGORY1 = 1;
+	BATTLE_ITEM_CATEGORY2 = 2;
 
 
 
@@ -65,8 +59,7 @@ message BattleItemQueueForUserProto {
 	optional int32 priority = 1;
 	optional string userUuid = 2;
 	optional int32 battleItemId = 3;
-	optional int64 expectedStartTime = 4;
-	optional float elapsedTime = 5;	
+	optional int64 expectedStartTime = 4;	
 }
 
 	

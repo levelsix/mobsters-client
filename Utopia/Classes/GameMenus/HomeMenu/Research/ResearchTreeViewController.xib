@@ -11,18 +11,17 @@
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="JyE-dU-01S">
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="JyE-dU-01S" customClass="ResearchTreeView">
             <rect key="frame" x="0.0" y="0.0" width="430" height="236"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="HJ5-ll-cNw">
-                    <rect key="frame" x="0.0" y="0.0" width="430" height="236"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                    <rect key="frame" x="0.0" y="0.0" width="430" height="193"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <view contentMode="scaleToFill" id="UbZ-fr-3Tk">
-                            <rect key="frame" x="0.0" y="0.0" width="430" height="479"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <rect key="frame" x="0.0" y="0.0" width="430" height="472"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                         </view>
                     </subviews>
                 </scrollView>
@@ -54,7 +53,11 @@
             <nil key="simulatedStatusBarMetrics"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="756" y="486"/>
+            <connections>
+                <outlet property="mainView" destination="UbZ-fr-3Tk" id="FrG-fF-2Sp"/>
+                <outlet property="scrollView" destination="HJ5-ll-cNw" id="oye-jt-yaW"/>
+            </connections>
+            <point key="canvasLocation" x="756" y="456"/>
         </view>
     </objects>
     <resources>
