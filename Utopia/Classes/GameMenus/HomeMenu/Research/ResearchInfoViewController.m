@@ -35,6 +35,13 @@
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
+  //for now we assume only a single property for each research
+  NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+  [formatter setMaximumFractionDigits:5];
+  [formatter setMinimumFractionDigits:0];
+  NSString *result = [formatter stringFromNumber:[NSNumber numberWithFloat:[research researchBenefit]]];
+  self.percentIncreseLabel.text = [NSString stringWithFormat:@"%@%@", result, [research firstProperty].name];
+  
   self.researchImage.image = [Globals imageNamed:research.iconImgName];
   self.researchName.text = research.name;
   self.researchTimeLabel.text = [Globals convertTimeToMediumString:research.durationMin*60];
@@ -58,6 +65,19 @@
     [self.prereqViewC updateForPrereq:prereqs[2] isComplete:isComplete];
   }
   
+  float maxPercent = (1.f + ([[research maxLevelResearch] firstProperty].researchValue / 100.f));
+  float curPercent;
+  if([research predecessorResearch]) {
+    curPercent = (1.f + ([[research predecessorResearch] firstProperty].researchValue / 100.f)) / maxPercent;
+  } else {
+    curPercent = 1.f / maxPercent;
+  }
+  
+  float nextPercent = (1.f + ([research firstProperty].researchValue / 100.f)) / maxPercent;
+  
+  [self.topPercentBar setPercentage:curPercent];
+  [self.botPercentBar setPercentage:nextPercent];
+  
 }
 
 
@@ -72,6 +92,7 @@
 - (id)initWithResearch:(ResearchProto *)research {
   if((self = [super init])) {
     [self.view updateWithResearch:research];
+    self.title = [NSString stringWithFormat:@"Research to Rank %d",research.level];
   }
   
   return self;
@@ -106,6 +127,14 @@
     return [[self predecessorResearch] minLevelResearch];
   }
   return self;
+}
+
+- (ResearchPropertyProto *)firstProperty {
+  return self.propertiesList[0];
+}
+
+- (float)researchBenefit {
+    return [self firstProperty].researchValue - [[self predecessorResearch] firstProperty].researchValue;
 }
 
 @end

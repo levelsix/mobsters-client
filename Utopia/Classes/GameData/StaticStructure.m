@@ -68,7 +68,12 @@
     return [NSString stringWithFormat:@"Defeat Level %d", elem.mapElementId];
   } else if (self.prereqGameType == GameTypeResearch) {
     ResearchProto *research = [gs.staticResearch objectForKey:@(self.prereqGameEntityId)];
-    return [NSString stringWithFormat:@"%@", research.name];
+    if (research.level > 1) {
+      NSString *lvl = [NSString stringWithFormat:@"Rank %d", research.level];
+      return [NSString stringWithFormat:@"%@ %@",lvl, research.name];
+    } else {
+      return [NSString stringWithFormat:@"%@",research.name];
+    }
   }
   return nil;
 }

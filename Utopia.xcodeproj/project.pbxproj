@@ -1447,6 +1447,9 @@
 		636C3E5B1AA7DDB100B02980 /* ResearchPrereqView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 636C3E5A1AA7DDB100B02980 /* ResearchPrereqView.xib */; };
 		636C3E5C1AA7DDB100B02980 /* ResearchPrereqView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 636C3E5A1AA7DDB100B02980 /* ResearchPrereqView.xib */; };
 		636C3E5D1AA7DDB100B02980 /* ResearchPrereqView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 636C3E5A1AA7DDB100B02980 /* ResearchPrereqView.xib */; };
+		636C3E621AA808C900B02980 /* ResearchUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 636C3E611AA808C900B02980 /* ResearchUtil.m */; };
+		636C3E631AA808C900B02980 /* ResearchUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 636C3E611AA808C900B02980 /* ResearchUtil.m */; };
+		636C3E641AA808C900B02980 /* ResearchUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 636C3E611AA808C900B02980 /* ResearchUtil.m */; };
 		63733A651A79E2F300CB6888 /* helpsbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63733A641A79E2F300CB6888 /* helpsbg@2x.png */; };
 		63733A661A79E2F300CB6888 /* helpsbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63733A641A79E2F300CB6888 /* helpsbg@2x.png */; };
 		63733A671A79E2F300CB6888 /* helpsbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63733A641A79E2F300CB6888 /* helpsbg@2x.png */; };
@@ -7665,6 +7668,8 @@
 		634174661A843521006DA494 /* revengebutton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "revengebutton@2x.png"; sourceTree = "<group>"; };
 		634174671A843521006DA494 /* revengecheckbox@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "revengecheckbox@2x.png"; sourceTree = "<group>"; };
 		636C3E5A1AA7DDB100B02980 /* ResearchPrereqView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ResearchPrereqView.xib; sourceTree = "<group>"; };
+		636C3E601AA808C900B02980 /* ResearchUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ResearchUtil.h; path = HomeMenu/Research/Utils/ResearchUtil.h; sourceTree = "<group>"; };
+		636C3E611AA808C900B02980 /* ResearchUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ResearchUtil.m; path = HomeMenu/Research/Utils/ResearchUtil.m; sourceTree = "<group>"; };
 		63733A641A79E2F300CB6888 /* helpsbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "helpsbg@2x.png"; sourceTree = "<group>"; };
 		63808B9E1A5F7142008DA8AC /* livehelpgirl@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "livehelpgirl@2x.png"; sourceTree = "<group>"; };
 		638C876B1A733E850094C396 /* viewschedule@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "viewschedule@2x.png"; sourceTree = "<group>"; };
@@ -12934,6 +12939,15 @@
 			path = "New Private Messages";
 			sourceTree = "<group>";
 		};
+		636C3E5F1AA8072F00B02980 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				636C3E601AA808C900B02980 /* ResearchUtil.h */,
+				636C3E611AA808C900B02980 /* ResearchUtil.m */,
+			);
+			name = Utils;
+			sourceTree = "<group>";
+		};
 		63AB75481A79D17400CFC2B4 /* New tribal girl poses */ = {
 			isa = PBXGroup;
 			children = (
@@ -13039,6 +13053,7 @@
 		63BC3F351AA1314200E144BF /* Research */ = {
 			isa = PBXGroup;
 			children = (
+				636C3E5F1AA8072F00B02980 /* Utils */,
 				633CCADA1AA139E900C6649F /* ResearchViewController.h */,
 				633CCADB1AA139E900C6649F /* ResearchViewController.m */,
 				633CCAD51AA139B200C6649F /* ResearchCategoryCell.xib */,
@@ -23755,6 +23770,7 @@
 				CF0CED1A196F452900ECD301 /* GenericPopupController.m in Sources */,
 				9BC9F3461A8C1420009DC3D5 /* SkillSideEffectBuff.m in Sources */,
 				CF0CED1B196F452900ECD301 /* QuestCompleteLayer.m in Sources */,
+				636C3E631AA808C900B02980 /* ResearchUtil.m in Sources */,
 				CF0CED1C196F452900ECD301 /* EventStaticData.pb.m in Sources */,
 				9BDA8B5E1A3A894B00C7AC27 /* SkillHeadshot.m in Sources */,
 				CF0CED1D196F452900ECD301 /* CoinBar.m in Sources */,
@@ -24209,6 +24225,7 @@
 				CFEF25D618C9DFC400FB867A /* MSWindow.m in Sources */,
 				CF20F04B180E142B005551B5 /* AttackMapViewController.m in Sources */,
 				9B41AF591A81ABD600529879 /* SkillRightHook.m in Sources */,
+				636C3E621AA808C900B02980 /* ResearchUtil.m in Sources */,
 				9BB948591A674935006EE920 /* NewGachaTicker.m in Sources */,
 				DA075FB719AFEA3500E43E5A /* Skill.pb.m in Sources */,
 				CFA729501A0B2A3500FF6031 /* DailyEventViewController.m in Sources */,
@@ -24491,6 +24508,7 @@
 				CF4818C119F7217F00041486 /* GenericPopupController.m in Sources */,
 				9BC9F3471A8C1420009DC3D5 /* SkillSideEffectBuff.m in Sources */,
 				CF4818C219F7217F00041486 /* QuestCompleteLayer.m in Sources */,
+				636C3E641AA808C900B02980 /* ResearchUtil.m in Sources */,
 				CF4818C319F7217F00041486 /* EventStaticData.pb.m in Sources */,
 				9BDA8B5F1A3A894B00C7AC27 /* SkillHeadshot.m in Sources */,
 				CF4818C419F7217F00041486 /* CoinBar.m in Sources */,

@@ -55,6 +55,8 @@
 - (ResearchProto *)predecessorResearch;
 - (ResearchProto *)maxLevelResearch;
 - (ResearchProto *)minLevelResearch;
+- (ResearchPropertyProto *)firstProperty;
+- (float)researchBenefit;
 
 @end
 
