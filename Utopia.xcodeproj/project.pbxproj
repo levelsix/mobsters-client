@@ -14510,6 +14510,8 @@
 				63B0452A1A9D7CD600C74F0C /* EventResearch.pb.h */,
 				63B0452B1A9D7CD600C74F0C /* EventResearch.pb.m */,
 				CF6574771909CAF100ABF1F4 /* Proto files */,
+				297DE2311A9D7D6B00692D80 /* EventResearch.pb.h */,
+				297DE2321A9D7D6B00692D80 /* EventResearch.pb.m */,
 				3E1A0C001A645B4B00DF00AD /* Board.pb.h */,
 				3E1A0C011A645B4B00DF00AD /* Board.pb.m */,
 				3E1A0C021A645B4B00DF00AD /* Research.pb.h */,

@@ -1,18 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<<<<<<< HEAD
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+=======
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+>>>>>>> Defensive board designer initial commit
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="BoardDesignerViewController">
             <connections>
                 <outlet property="bgdView" destination="O71-YF-p3g" id="noq-GK-38W"/>
+<<<<<<< HEAD
                 <outlet property="closeButton" destination="QNi-OY-mQO" id="CEt-1v-m2a"/>
                 <outlet property="containerView" destination="eWj-tP-Xy6" id="12m-dW-tCj"/>
                 <outlet property="descriptionBgd" destination="nTW-Bm-1n4" id="mXa-Ai-lOH"/>
                 <outlet property="descriptionBody" destination="OmE-FF-dKx" id="6N7-Ao-EFp"/>
                 <outlet property="descriptionImage" destination="Jv6-5T-TVr" id="10h-Ti-dE2"/>
+=======
+                <outlet property="containerView" destination="eWj-tP-Xy6" id="12m-dW-tCj"/>
+                <outlet property="descriptionBgd" destination="nTW-Bm-1n4" id="mXa-Ai-lOH"/>
+                <outlet property="descriptionBody" destination="OmE-FF-dKx" id="6N7-Ao-EFp"/>
+>>>>>>> Defensive board designer initial commit
                 <outlet property="descriptionTitle" destination="9Z3-ur-mUq" id="mP4-vt-OwU"/>
                 <outlet property="homeTitleView" destination="sCa-jF-tnM" id="c1q-vx-dzI"/>
                 <outlet property="mainView" destination="4w7-i8-FHr" id="SOl-aA-aow"/>
@@ -51,6 +64,7 @@
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
                 </view>
                 <view contentMode="scaleToFill" id="4w7-i8-FHr" customClass="TouchableSubviewsView">
+<<<<<<< HEAD
                     <rect key="frame" x="50" y="33" width="250" height="310"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <subviews>
@@ -60,6 +74,17 @@
                             <subviews>
                                 <view contentMode="scaleToFill" id="eWj-tP-Xy6">
                                     <rect key="frame" x="0.0" y="0.0" width="250" height="295"/>
+=======
+                    <rect key="frame" x="50" y="25" width="250" height="325"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" id="oWJ-vj-c5E" customClass="PopupShadowView">
+                            <rect key="frame" x="0.0" y="15" width="250" height="310"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <view contentMode="scaleToFill" id="eWj-tP-Xy6">
+                                    <rect key="frame" x="0.0" y="0.0" width="250" height="310"/>
+>>>>>>> Defensive board designer initial commit
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" id="RHy-B6-oX8">
@@ -72,7 +97,11 @@
                                                 </imageView>
                                                 <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="QNi-OY-mQO" userLabel="Close Button" customClass="CloseButton">
                                                     <rect key="frame" x="18" y="12" width="30" height="32"/>
+<<<<<<< HEAD
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+=======
+                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+>>>>>>> Defensive board designer initial commit
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                                     <state key="normal" image="menuclosex.png">
                                                         <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -90,11 +119,19 @@
                                         </view>
                                         <view contentMode="scaleToFill" id="shf-Xs-AJ9">
                                             <rect key="frame" x="0.0" y="55" width="250" height="255"/>
+<<<<<<< HEAD
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="obstaclesdescriptionmiddle.png" id="nTW-Bm-1n4">
                                                     <rect key="frame" x="14" y="8" width="222" height="79"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+=======
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="obstaclesdescriptionmiddle.png" id="nTW-Bm-1n4">
+                                                    <rect key="frame" x="14" y="8" width="222" height="79"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+>>>>>>> Defensive board designer initial commit
                                                 </imageView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="girl2.png" id="Jv6-5T-TVr">
                                                     <rect key="frame" x="14" y="-1" width="62" height="88"/>
@@ -116,6 +153,7 @@
                                                     <nil key="highlightedColor"/>
                                                     <size key="shadowOffset" width="0.0" height="1"/>
                                                 </label>
+<<<<<<< HEAD
                                                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" id="pgY-oT-Gzc">
                                                     <rect key="frame" x="10" y="100" width="230" height="85"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
@@ -139,6 +177,27 @@
                                                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="obstaclespowerbarcap.png" id="nxZ-Cw-H2g" customClass="FlipImageView">
                                                             <rect key="frame" x="93" y="0.0" width="6" height="34"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+=======
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="obstaclespowerbarbgmiddle.png" id="TGS-fh-eSF">
+                                                    <rect key="frame" x="14" y="213" width="222" height="34"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                </imageView>
+                                                <view contentMode="scaleToFill" id="DwL-qB-zXZ" customClass="SplitImageProgressBar">
+                                                    <rect key="frame" x="8" y="213" width="234" height="34"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                                    <subviews>
+                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="obstaclespowerbarcap.png" id="DKp-cH-jba">
+                                                            <rect key="frame" x="0.0" y="0.0" width="6" height="34"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                        </imageView>
+                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="obstaclespowerbarmiddle.png" id="8tD-XK-wfZ">
+                                                            <rect key="frame" x="3" y="0.0" width="96" height="34"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                        </imageView>
+                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="obstaclespowerbarcap.png" id="nxZ-Cw-H2g" customClass="FlipImageView">
+                                                            <rect key="frame" x="93" y="0.0" width="6" height="34"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+>>>>>>> Defensive board designer initial commit
                                                         </imageView>
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -149,13 +208,25 @@
                                                     </connections>
                                                 </view>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="POWER: 6/7" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="NCD-wb-0ZO" customClass="NiceFontLabel8T">
+<<<<<<< HEAD
                                                     <rect key="frame" x="56" y="203" width="138" height="23"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+=======
+                                                    <rect key="frame" x="56" y="218" width="138" height="23"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+>>>>>>> Defensive board designer initial commit
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                     <size key="shadowOffset" width="0.0" height="1"/>
                                                 </label>
+<<<<<<< HEAD
+=======
+                                                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="pgY-oT-Gzc">
+                                                    <rect key="frame" x="10" y="110" width="230" height="85"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </scrollView>
+>>>>>>> Defensive board designer initial commit
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
@@ -167,6 +238,7 @@
                         </view>
                         <view contentMode="scaleToFill" id="MKj-Ob-tXe">
                             <rect key="frame" x="50" y="-18" width="150" height="90"/>
+<<<<<<< HEAD
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <view contentMode="scaleToFill" id="sCa-jF-tnM" customClass="HomeTitleView">
@@ -176,6 +248,17 @@
                                         <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="boardbuildermenuheader.png" id="IQl-sP-Hd4">
                                             <rect key="frame" x="0.0" y="15" width="150" height="61"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+=======
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <view contentMode="scaleToFill" id="sCa-jF-tnM" customClass="HomeTitleView">
+                                    <rect key="frame" x="0.0" y="0.0" width="150" height="90"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="bottom" image="residencemenuheader.png" id="IQl-sP-Hd4">
+                                            <rect key="frame" x="0.0" y="0.0" width="150" height="73"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+>>>>>>> Defensive board designer initial commit
                                         </imageView>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MY BOARD" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="aWH-x8-703" customClass="NiceFontLabel12">
                                             <rect key="frame" x="0.0" y="64" width="150" height="23"/>
@@ -207,7 +290,10 @@
         </view>
     </objects>
     <resources>
+<<<<<<< HEAD
         <image name="boardbuildermenuheader.png" width="68" height="74"/>
+=======
+>>>>>>> Defensive board designer initial commit
         <image name="girl2.png" width="62" height="88"/>
         <image name="homemenutop.png" width="1" height="57"/>
         <image name="menuclosex.png" width="17" height="17"/>
@@ -215,6 +301,10 @@
         <image name="obstaclespowerbarbgmiddle.png" width="1" height="34"/>
         <image name="obstaclespowerbarcap.png" width="5" height="34"/>
         <image name="obstaclespowerbarmiddle.png" width="1" height="34"/>
+<<<<<<< HEAD
+=======
+        <image name="residencemenuheader.png" width="60" height="53"/>
+>>>>>>> Defensive board designer initial commit
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
