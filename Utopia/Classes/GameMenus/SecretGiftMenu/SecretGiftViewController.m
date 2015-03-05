@@ -49,8 +49,6 @@
   self.iconLabel.strokeSize = 1.5f;
   self.iconLabel.strokeColor = [UIColor colorWithHexString:@"ebebeb"];
   
-  [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
-  
   [self reload];
 }
 

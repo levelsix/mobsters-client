@@ -5,8 +5,6 @@
 #import "SharedEnumConfig.pb.h"
 // @@protoc_insertion_point(imports)
 
-@class BattleItemFactoryProto;
-@class BattleItemFactoryProto_Builder;
 @class ClanHouseProto;
 @class ClanHouseProto_Builder;
 @class CoordinateProto;
@@ -104,7 +102,6 @@ typedef NS_ENUM(SInt32, StructureInfoProto_StructType) {
   StructureInfoProto_StructTypeMoneyTree = 12,
   StructureInfoProto_StructTypePvpBoard = 13,
   StructureInfoProto_StructTypeResearchHouse = 14,
-  StructureInfoProto_StructTypeBattleItemFactory = 15,
 };
 
 BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType value);
@@ -2106,66 +2103,6 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (int32_t) posY;
 - (UserPvpBoardObstacleProto_Builder*) setPosY:(int32_t) value;
 - (UserPvpBoardObstacleProto_Builder*) clearPosY;
-@end
-
-@interface BattleItemFactoryProto : PBGeneratedMessage {
-@private
-  BOOL hasPowerLimit_:1;
-  BOOL hasStructInfo_:1;
-  int32_t powerLimit;
-  StructureInfoProto* structInfo;
-}
-- (BOOL) hasStructInfo;
-- (BOOL) hasPowerLimit;
-@property (readonly, strong) StructureInfoProto* structInfo;
-@property (readonly) int32_t powerLimit;
-
-+ (BattleItemFactoryProto*) defaultInstance;
-- (BattleItemFactoryProto*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (BattleItemFactoryProto_Builder*) builder;
-+ (BattleItemFactoryProto_Builder*) builder;
-+ (BattleItemFactoryProto_Builder*) builderWithPrototype:(BattleItemFactoryProto*) prototype;
-- (BattleItemFactoryProto_Builder*) toBuilder;
-
-+ (BattleItemFactoryProto*) parseFromData:(NSData*) data;
-+ (BattleItemFactoryProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (BattleItemFactoryProto*) parseFromInputStream:(NSInputStream*) input;
-+ (BattleItemFactoryProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (BattleItemFactoryProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (BattleItemFactoryProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface BattleItemFactoryProto_Builder : PBGeneratedMessageBuilder {
-@private
-  BattleItemFactoryProto* result;
-}
-
-- (BattleItemFactoryProto*) defaultInstance;
-
-- (BattleItemFactoryProto_Builder*) clear;
-- (BattleItemFactoryProto_Builder*) clone;
-
-- (BattleItemFactoryProto*) build;
-- (BattleItemFactoryProto*) buildPartial;
-
-- (BattleItemFactoryProto_Builder*) mergeFrom:(BattleItemFactoryProto*) other;
-- (BattleItemFactoryProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (BattleItemFactoryProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasStructInfo;
-- (StructureInfoProto*) structInfo;
-- (BattleItemFactoryProto_Builder*) setStructInfo:(StructureInfoProto*) value;
-- (BattleItemFactoryProto_Builder*) setStructInfo_Builder:(StructureInfoProto_Builder*) builderForValue;
-- (BattleItemFactoryProto_Builder*) mergeStructInfo:(StructureInfoProto*) value;
-- (BattleItemFactoryProto_Builder*) clearStructInfo;
-
-- (BOOL) hasPowerLimit;
-- (int32_t) powerLimit;
-- (BattleItemFactoryProto_Builder*) setPowerLimit:(int32_t) value;
-- (BattleItemFactoryProto_Builder*) clearPowerLimit;
 @end
 
 
