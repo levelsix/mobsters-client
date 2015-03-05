@@ -204,8 +204,9 @@
   
   
 #ifdef DEBUG
-  //[self saveTutorialStep:TutorialStepPostBattleConfrontation];
-  //[self saveTutorialStep:TutorialStepEnteredBattle];
+#ifdef FORCE_TUTORIAL
+  [self saveTutorialStep:FORCE_TUTORIAL];
+#endif
 #endif
   [self resumeTutorialStep];
   

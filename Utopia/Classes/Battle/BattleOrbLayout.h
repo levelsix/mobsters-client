@@ -13,11 +13,6 @@
 
 #import "Board.pb.h"
 
-// This will set moves to 50, make you always have first hit, and allow you to move anywhere, and have orb log
-#ifdef DEBUG
-#define DEBUG_BATTLE_MODE
-#endif
-
 #define SPAWN_TILE @"SPAWN_TILE"
 #define NOT_SPAWN_TILE @"NOT_SPAWN_TILE"
 #define HOLE @"HOLE"
