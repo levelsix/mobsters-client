@@ -10,8 +10,13 @@
 
 @class HomeTitleView;
 @class SplitImageProgressBar;
+@class TouchableSubviewsView;
 
 @interface BoardDesignerViewController : UIViewController
+{
+  TouchableSubviewsView* _boardContainer;
+  NSMutableArray* _boardTiles;
+}
 
 @property (nonatomic, retain) IBOutlet UIView* mainView;
 @property (nonatomic, retain) IBOutlet UIView* bgdView;

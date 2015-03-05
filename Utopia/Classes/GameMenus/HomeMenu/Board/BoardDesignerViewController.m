@@ -8,6 +8,7 @@
 
 #import "BoardDesignerViewController.h"
 #import "BoardDesignerObstacleView.h"
+#import "BoardDesignerTile.h"
 #import "HomeViewController.h"
 #import "Globals.h"
 
@@ -65,9 +66,9 @@
     powerLabel.shadowBlur = 2.f;
   }
   
-  [self loadObstacles];
-  
   [self.powerProgressBar setPercentage:.8f];
+  [self loadObstacles];
+  [self buildBoardWithRows:9 andColumns:9];
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -105,6 +106,57 @@
     [self.obstaclesScrollView addSubview:obstacleView];
   
   [self.obstaclesScrollView setContentSize:CGSizeMake(CGRectGetMaxX(obstacleView.frame), self.obstaclesScrollView.height)];
+}
+
+- (void) buildBoardWithRows:(int)rows andColumns:(int)cols
+{
+  static const int kTileWidth  = 34;
+  static const int kTileHeight = 34;
+  static const int kBoardMarginTop  = 15;
+  static const int kBoardMarginLeft = 15;
+  
+  const CGSize boardSize = CGSizeMake(kTileWidth * cols, kTileHeight * rows);
+  UIColor* kTileColorLight = [UIColor colorWithHexString:@"3C4747"];
+  UIColor* kTileColorDark  = [UIColor colorWithHexString:@"353F3F"];
+  
+  // Create board container
+  _boardContainer = [[TouchableSubviewsView alloc] initWithFrame:CGRectMake(self.mainView.width + kBoardMarginLeft,
+                                                                            kBoardMarginTop * .5f + (self.mainView.height - boardSize.height) * .5f,
+                                                                            boardSize.width,
+                                                                            boardSize.height)];
+  [_boardContainer setBackgroundColor:[UIColor clearColor]];
+  [self.mainView setWidth:self.mainView.width + kBoardMarginLeft + boardSize.width];
+  [self.mainView addSubview:_boardContainer];
+  
+  // Create tiles
+  _boardTiles = [NSMutableArray array];
+  for (int row = 0; row < rows; ++row)
+  {
+    [_boardTiles addObject:[NSMutableArray array]];
+    for (int col = 0; col < cols; ++col)
+    {
+      BoardDesignerTile* tile = [[BoardDesignerTile alloc] initWithFrame:CGRectMake(col * kTileWidth, row * kTileHeight, kTileWidth, kTileHeight)
+                                                               baseColor:((row + col) % 2 == 0) ? kTileColorDark : kTileColorLight];
+      [_boardContainer addSubview:tile];
+      [[_boardTiles objectAtIndex:row] addObject:tile];
+    }
+  }
+  
+  // Assign neighbors
+  for (int row = 0; row < rows; ++row)
+    for (int col = 0; col < cols; ++col)
+    {
+      BoardDesignerTile* tile = [[_boardTiles objectAtIndex:row] objectAtIndex:col];
+      if (row > 0) tile.NeighborN = [[_boardTiles objectAtIndex:row - 1] objectAtIndex:col];
+      if (col > 0) tile.NeighborW = [[_boardTiles objectAtIndex:row] objectAtIndex:col - 1];
+      if (row < rows - 1) tile.NeighborS = [[_boardTiles objectAtIndex:row + 1] objectAtIndex:col];
+      if (col < cols - 1) tile.NeighborE = [[_boardTiles objectAtIndex:row] objectAtIndex:col + 1];
+    }
+  
+  // Create borders
+  for (int row = 0; row < rows; ++row)
+    for (int col = 0; col < cols; ++col)
+      [(BoardDesignerTile*)[[_boardTiles objectAtIndex:row] objectAtIndex:col] updateBorders];
 }
 
 - (IBAction) closeClicked:(id)sender
