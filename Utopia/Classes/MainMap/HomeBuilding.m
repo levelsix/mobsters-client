@@ -473,33 +473,37 @@
 @implementation ResourceGeneratorBuilding
 
 - (void) setupBuildingSprite:(NSString *)fileName {
-  [self.buildingSprite removeFromParent];
-  
-  fileName = fileName.stringByDeletingPathExtension;
-  
-  NSString *spritesheetName = [NSString stringWithFormat:@"%@.plist", fileName];
-  [Globals checkAndLoadSpriteSheet:spritesheetName completion:^(BOOL success) {
-    if (success) {
-      [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:spritesheetName];
-      CCAnimation *anim = [CCAnimation animationWithSpritePrefix:fileName delay:0.2];
-      
-      //userstruct is null on startup
-      ResourceGeneratorProto *res = (ResourceGeneratorProto *)self.userStruct.staticStruct;
-      if (res.resourceType == ResourceTypeOil) {
-        //    [anim repeatFrames:NSMakeRange(3,2) numTimes:5];
-        anim.delayPerUnit = 0.1;
+  if ([self isMemberOfClass:[ResourceGeneratorBuilding class]]) {
+    [self.buildingSprite removeFromParent];
+    
+    fileName = fileName.stringByDeletingPathExtension;
+    
+    NSString *spritesheetName = [NSString stringWithFormat:@"%@.plist", fileName];
+    [Globals checkAndLoadSpriteSheet:spritesheetName completion:^(BOOL success) {
+      if (success) {
+        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:spritesheetName];
+        CCAnimation *anim = [CCAnimation animationWithSpritePrefix:fileName delay:0.2];
+        
+        //userstruct is null on startup
+        ResourceGeneratorProto *res = (ResourceGeneratorProto *)self.userStruct.staticStruct;
+        if (res.resourceType == ResourceTypeOil) {
+          //    [anim repeatFrames:NSMakeRange(3,2) numTimes:5];
+          anim.delayPerUnit = 0.1;
+        }
+        
+        if (anim.frames.count) {
+          CCSprite *spr = [CCSprite spriteWithSpriteFrame:[anim.frames[0] spriteFrame]];
+          [spr runAction:[CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:anim]]];
+          [self addChild:spr];
+          self.buildingSprite = spr;
+        }
+        
+        [self adjustBuildingSprite];
       }
-      
-      if (anim.frames.count) {
-        CCSprite *spr = [CCSprite spriteWithSpriteFrame:[anim.frames[0] spriteFrame]];
-        [spr runAction:[CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:anim]]];
-        [self addChild:spr];
-        self.buildingSprite = spr;
-      }
-      
-      [self adjustBuildingSprite];
-    }
-  }];
+    }];
+  } else {
+    [super setupBuildingSprite:fileName];
+  }
 }
 
 - (void) adjustBuildingSprite {
@@ -580,59 +584,76 @@
 
 @implementation MoneyTreeBuilding
 
+- (NSString *) fileNameForUserStruct:(UserStruct *)userStruct {
+  StructureInfoProto *fsp = userStruct.staticStruct.structInfo;
+  NSString *file = fsp.imgName;
+  
+  if (userStruct.isExpired) {
+    NSString *extension = file.pathExtension;
+    file = file.stringByDeletingPathExtension;
+    file = [NSString stringWithFormat:@"%@dead.%@",file, extension];
+  }
+  
+  return file;
+}
+
 - (void) setupBuildingSprite:(NSString *)fileName {
-  [self.buildingSprite removeFromParent];
-  
-  fileName = fileName.stringByDeletingPathExtension;
-  
-  NSString *spritesheetName = [NSString stringWithFormat:@"%@.plist", fileName];
-  [Globals checkAndLoadSpriteSheet:spritesheetName completion:^(BOOL success) {
-    if (success) {
-      [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:spritesheetName];
-      
-      float delay = 0.1;
-      
-      CCAnimation *hole = [CCAnimation animationWithSpritePrefix:[fileName stringByAppendingString:@"Hole"] delay:delay];
-      
-      if (hole.frames.count) {
-        CCSprite *spr = [CCSprite spriteWithSpriteFrame:[hole.frames[0] spriteFrame]];
-        _holeAnim = hole;
-        [self addChild:spr];
-        self.buildingSprite = spr;
-        _holeSprite = spr;
+  if ([fileName rangeOfString:@"dead"].length > 0) {
+    [super setupBuildingSprite:fileName];
+  } else {
+    [self.buildingSprite removeFromParent];
+    
+    fileName = fileName.stringByDeletingPathExtension;
+    
+    NSString *spritesheetName = [NSString stringWithFormat:@"%@.plist", fileName];
+    [Globals checkAndLoadSpriteSheet:spritesheetName completion:^(BOOL success) {
+      if (success) {
+        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:spritesheetName];
+        
+        float delay = 0.1;
+        
+        CCAnimation *hole = [CCAnimation animationWithSpritePrefix:[fileName stringByAppendingString:@"Hole"] delay:delay];
+        
+        if (hole.frames.count) {
+          CCSprite *spr = [CCSprite spriteWithSpriteFrame:[hole.frames[0] spriteFrame]];
+          _holeAnim = hole;
+          [self addChild:spr];
+          self.buildingSprite = spr;
+          _holeSprite = spr;
+        }
+        
+        CCAnimation *drill = [CCAnimation animationWithSpritePrefix:[fileName stringByAppendingString:@"Drill"] delay:delay];
+        
+        if (drill.frames.count) {
+          CCSprite *spr = [CCSprite spriteWithSpriteFrame:[drill.frames[0] spriteFrame]];
+          _drillAnim = drill;
+          [self.buildingSprite addChild:spr];
+          spr.position = ccp(self.buildingSprite.contentSize.width/2, self.buildingSprite.contentSize.height/2+2);
+          _drillSprite = spr;
+        }
+        
+        CCAnimation *base = [CCAnimation animationWithSpritePrefix:[fileName stringByAppendingString:@"Base"] delay:delay];
+        
+        if (base.frames.count) {
+          CCSprite *spr = [CCSprite spriteWithSpriteFrame:[base.frames[0] spriteFrame]];
+          _baseAnim = base;
+          [self.buildingSprite addChild:spr];
+          spr.position = ccp(self.buildingSprite.contentSize.width/2, self.buildingSprite.contentSize.height/2);
+          _baseSprite = spr;
+        }
+        
+        _smoke = [CCParticleSystem particleWithFile:@"gemsmoke.plist"];
+        _smoke.scale = 0.5f;
+        _smoke.position = ccp(self.buildingSprite.contentSize.width/2, 14);
+        [_smoke stopSystem];
+        [self.buildingSprite addChild:_smoke];
+        
+        [self adjustBuildingSprite];
+        
+        [self animateDrill];
       }
-      
-      CCAnimation *drill = [CCAnimation animationWithSpritePrefix:[fileName stringByAppendingString:@"Drill"] delay:delay];
-      
-      if (drill.frames.count) {
-        CCSprite *spr = [CCSprite spriteWithSpriteFrame:[drill.frames[0] spriteFrame]];
-        _drillAnim = drill;
-        [self.buildingSprite addChild:spr];
-        spr.position = ccp(self.buildingSprite.contentSize.width/2, self.buildingSprite.contentSize.height/2+2);
-        _drillSprite = spr;
-      }
-      
-      CCAnimation *base = [CCAnimation animationWithSpritePrefix:[fileName stringByAppendingString:@"Base"] delay:delay];
-      
-      if (base.frames.count) {
-        CCSprite *spr = [CCSprite spriteWithSpriteFrame:[base.frames[0] spriteFrame]];
-        _baseAnim = base;
-        [self.buildingSprite addChild:spr];
-        spr.position = ccp(self.buildingSprite.contentSize.width/2, self.buildingSprite.contentSize.height/2);
-        _baseSprite = spr;
-      }
-      
-      _smoke = [CCParticleSystem particleWithFile:@"gemsmoke.plist"];
-      _smoke.scale = 0.5f;
-      _smoke.position = ccp(self.buildingSprite.contentSize.width/2, 14);
-      [_smoke stopSystem];
-      [self.buildingSprite addChild:_smoke];
-      
-      [self adjustBuildingSprite];
-      
-      [self animateDrill];
-    }
-  }];
+    }];
+  }
 }
 
 #define MONEY_TREE_ANIM_TAG 999
@@ -699,18 +720,6 @@
                            [CCActionCallFunc actionWithTarget:self selector:@selector(stopAnimations)],
                            [CCActionDelay actionWithDuration:1.],
                            [CCActionCallFunc actionWithTarget:self selector:@selector(animateDrill)], nil]];
-}
-
-- (NSString *) fileNameForUserStruct:(UserStruct *)userStruct {
-  StructureInfoProto *fsp = userStruct.staticStruct.structInfo;
-  NSString *file = fsp.imgName;
-  
-  if (userStruct.isExpired) {
-    file = file.stringByDeletingPathExtension;
-    file = [NSString stringWithFormat:@"%@dead",file];
-  }
-  
-  return file;
 }
 
 - (id) initWithUserStruct:(UserStruct *)userStruct map:(HomeMap *)map {

@@ -27,7 +27,7 @@
 #define MY_WALKING_SPEED 250.f
 
 #ifdef DEBUG_BATTLE_MODE
-#define NUM_MOVES_PER_TURN 50
+#define NUM_MOVES_PER_TURN 10
 #else
 // Don't edit this one
 #define NUM_MOVES_PER_TURN 3

@@ -14,6 +14,7 @@
 #import <TangoSDK/TangoSession.h>
 #import <TangoSDK/TangoTools.h>
 #import <error_codes.h>
+#import "Globals.h"
 
 #define TANGO_ENABLED 
 

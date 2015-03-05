@@ -1939,11 +1939,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 - (void) progressDungeon:(NSArray *)curHealths dungeonInfo:(BeginDungeonResponseProto *)dungeonInfo newStageNum:(int)newStageNum dropless:(BOOL)dropless {
   NSMutableArray *arr = [NSMutableArray array];
   for (BattlePlayer *bp in curHealths) {
-    UserMonsterCurrentHealthProto *m = [[[[UserMonsterCurrentHealthProto builder]
-                                          setCurrentHealth:bp.curHealth]
-                                         setUserMonsterUuid:bp.userMonsterUuid]
-                                        build];
-    [arr addObject:m];
+    if (!bp.isClanMonster) {
+      UserMonsterCurrentHealthProto *m = [[[[UserMonsterCurrentHealthProto builder]
+                                            setCurrentHealth:bp.curHealth]
+                                           setUserMonsterUuid:bp.userMonsterUuid]
+                                          build];
+      [arr addObject:m];
+    }
   }
   
   if (newStageNum < dungeonInfo.tspList.count) {

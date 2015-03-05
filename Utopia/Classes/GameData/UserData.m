@@ -886,14 +886,14 @@
 #pragma mark - Money Tree methods
 
 - (BOOL) isExpired {
-  return [self timeTillExpiry] < 0;
+  return [self timeTillExpiry] <= 0;
 }
 
-- (int) timeTillExpiry {
+- (NSTimeInterval) timeTillExpiry {
 //  MoneyTreeProto *mtp = (MoneyTreeProto *)self.staticStruct;
 //  return [self.purchaseTime dateByAddingTimeInterval:mtp.daysOfDuration*24*3600].timeIntervalSinceNow;
   GameState *gs = [GameState sharedGameState];
-  return [MSDate dateWithTimeIntervalSince1970:gs.lastLoginTimeNum/1000. + 20.f].timeIntervalSinceNow;
+  return [MSDate dateWithTimeIntervalSince1970:gs.lastLoginTimeNum/1000. + 15.f].timeIntervalSinceNow;
 }
 
 - (BOOL) isNoLongerValidForRenewal {

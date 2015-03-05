@@ -187,7 +187,7 @@
 - (NSTimeInterval) timeLeftForBuildComplete;
 
 - (BOOL) isExpired;
-- (int) timeTillExpiry;
+- (NSTimeInterval) timeTillExpiry;
 - (BOOL) isNoLongerValidForRenewal;
 
 @end

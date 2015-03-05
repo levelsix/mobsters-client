@@ -358,6 +358,9 @@
 		2992D7E31AA561E600547B11 /* renewbubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2992D7E21AA561E600547B11 /* renewbubble@2x.png */; };
 		2992D7E41AA561E600547B11 /* renewbubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2992D7E21AA561E600547B11 /* renewbubble@2x.png */; };
 		2992D7E51AA561E600547B11 /* renewbubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2992D7E21AA561E600547B11 /* renewbubble@2x.png */; };
+		2992D7EE1AA7B3C800547B11 /* GemBuildingT1dead@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2992D7ED1AA7B3C800547B11 /* GemBuildingT1dead@2x.png */; };
+		2992D7EF1AA7B3C800547B11 /* GemBuildingT1dead@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2992D7ED1AA7B3C800547B11 /* GemBuildingT1dead@2x.png */; };
+		2992D7F01AA7B3C800547B11 /* GemBuildingT1dead@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2992D7ED1AA7B3C800547B11 /* GemBuildingT1dead@2x.png */; };
 		299800191A970F050014DFC9 /* TribalGuy0T1Card@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 299800171A970F050014DFC9 /* TribalGuy0T1Card@2x.png */; };
 		2998001A1A970F050014DFC9 /* TribalGuy0T1Card@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 299800171A970F050014DFC9 /* TribalGuy0T1Card@2x.png */; };
 		2998001B1A970F050014DFC9 /* TribalGuy0T1Card@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 299800171A970F050014DFC9 /* TribalGuy0T1Card@2x.png */; };
@@ -6979,6 +6982,7 @@
 		2992D7DA1AA557C800547B11 /* GemBuildingT1@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GemBuildingT1@2x.plist"; sourceTree = "<group>"; };
 		2992D7DB1AA557C800547B11 /* GemBuildingT1@2x.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GemBuildingT1@2x.pvr.ccz"; sourceTree = "<group>"; };
 		2992D7E21AA561E600547B11 /* renewbubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "renewbubble@2x.png"; sourceTree = "<group>"; };
+		2992D7ED1AA7B3C800547B11 /* GemBuildingT1dead@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "GemBuildingT1dead@2x.png"; sourceTree = "<group>"; };
 		299800171A970F050014DFC9 /* TribalGuy0T1Card@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "TribalGuy0T1Card@2x.png"; sourceTree = "<group>"; };
 		299800181A970F050014DFC9 /* Zark1T1Card@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Zark1T1Card@2x.png"; sourceTree = "<group>"; };
 		299AA2AE1A7856A900A2D806 /* 6allcocktail-9@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "6allcocktail-9@2x.png"; sourceTree = "<group>"; };
@@ -11921,6 +11925,7 @@
 		2992D7291AA5326B00547B11 /* Gem Mine */ = {
 			isa = PBXGroup;
 			children = (
+				2992D7ED1AA7B3C800547B11 /* GemBuildingT1dead@2x.png */,
 				2992D7DA1AA557C800547B11 /* GemBuildingT1@2x.plist */,
 				2992D7DB1AA557C800547B11 /* GemBuildingT1@2x.pvr.ccz */,
 				2992D72A1AA5326B00547B11 /* crossedout@2x.png */,
@@ -18160,6 +18165,7 @@
 				CF0CF3C4196F452900ECD301 /* diamondbig@2x.png in Resources */,
 				299AA3DF1A7856AA00A2D806 /* rocksideways-9@2x.png in Resources */,
 				CF0CF3C5196F452900ECD301 /* minitimebg@2x.png in Resources */,
+				2992D7EF1AA7B3C800547B11 /* GemBuildingT1dead@2x.png in Resources */,
 				DAAD3DF119C8D7E700557698 /* firebomb@2x.png in Resources */,
 				CF0CF3C6196F452900ECD301 /* topbarbg@2x.png in Resources */,
 				29AE75CD1A6F36E000264070 /* MilitaryGirl0T1RunNF@2x.plist in Resources */,
@@ -19359,6 +19365,7 @@
 				CF29E91A1961058A00B40DA4 /* FundsCardCell.xib in Resources */,
 				CF74617E196B9A5F002D6AE6 /* buildingfix@2x.png in Resources */,
 				CFC4D29518D7BD04004681FD /* sfx_piece_fall_01.mp3 in Resources */,
+				2992D7EE1AA7B3C800547B11 /* GemBuildingT1dead@2x.png in Resources */,
 				63BACB091A71B7C2000A641A /* nightscientisteventguy@2x.png in Resources */,
 				CFF7876118E28FE200413E78 /* upgradeborder@2x.png in Resources */,
 				CFFF9A4A18BEB67D0036EEC3 /* lighttimermobster@2x.png in Resources */,
@@ -22052,6 +22059,7 @@
 				CF48211719F7217F00041486 /* minihpbar@2x.png in Resources */,
 				CF48211819F7217F00041486 /* menuteamhealthbar@2x.png in Resources */,
 				2985E5E31A32BA1C0041ABF4 /* ChatBonusSlotRequestView.xib in Resources */,
+				2992D7F01AA7B3C800547B11 /* GemBuildingT1dead@2x.png in Resources */,
 				CF48211919F7217F00041486 /* waterpoison@2x.png in Resources */,
 				CF48211B19F7217F00041486 /* emptysmallsquare@2x.png in Resources */,
 				CF48211F19F7217F00041486 /* buildingremove@2x.png in Resources */,

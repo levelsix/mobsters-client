@@ -1566,12 +1566,15 @@
   return columns;
 }
 
-- (NSSet *)detectBottomFeeders {
+- (NSSet *)detectBottomFeeders:(NSMutableArray *)orbPaths {
   NSMutableSet *set = [NSMutableSet set];
   
   for (int i = 0; i < _numColumns; i++) {
     BattleOrb *orb = [self orbAtColumn:i row:0];
     if ([self orbIsBottomFeeder:orb]) {
+      
+      [self addPoint:ccp(i, 0) forOrb:orb withOrbPaths:orbPaths];
+      
       [set addObject:orb];
       orb.changeType = OrbChangeTypeDestroyed;
       [self setOrb:nil column:i row:0];

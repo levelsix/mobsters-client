@@ -710,13 +710,14 @@
 - (void) reloadMoneyTree:(NSTimer *)timer {
   for (MoneyTreeBuilding *b in [self childrenOfClassType:[MoneyTreeBuilding class]]) {
     UserStruct *us = b.userStruct;
+    
+    [b setupBuildingSprite:[b fileNameForUserStruct:us]];
+    
     if (us.numResourcesAvailable <= 0 &&  us.isExpired) {
       [b setBubbleType:BuildingBubbleTypeRenew];
     } else {
       [b setBubbleType:BuildingBubbleTypeNone];
     }
-    
-    [b setupBuildingSprite:[b fileNameForUserStruct:us]];
   }
   
   [_timers removeObject:timer];
@@ -1514,10 +1515,12 @@
           [self setupIncomeTimerForBuilding:rb];
         }
         
-        // Setup timer for expiration
-        NSTimer *timer = [NSTimer timerWithTimeInterval:us.timeTillExpiry target:self selector:@selector(reloadMoneyTree:) userInfo:mb repeats:NO];
-        [_timers addObject:timer];
-        [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+        if (!us.isExpired) {
+          // Setup timer for expiration
+          NSTimer *timer = [NSTimer timerWithTimeInterval:us.timeTillExpiry target:self selector:@selector(reloadMoneyTree:) userInfo:mb repeats:NO];
+          [_timers addObject:timer];
+          [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+        }
       }
       else if ([mb isKindOfClass:[ResourceGeneratorBuilding class]]) {
         ResourceGeneratorBuilding *rb = (ResourceGeneratorBuilding *)mb;
