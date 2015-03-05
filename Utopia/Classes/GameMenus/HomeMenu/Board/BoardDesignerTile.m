@@ -11,19 +11,20 @@
 #import "UIColor+HexColor.h"
 
 static const int kBorderThickness = 2;
-static const int kCornerInset = 6;
+static const int kCornerSize = 8;
+static const int kCornerInset = kCornerSize - kBorderThickness;
 
 @implementation BoardDesignerTile
 
-- (instancetype) initWithFrame:(CGRect)frame baseColor:(UIColor*)baseColor
+- (instancetype) initWithFrame:(CGRect)frame darkBaseColor:(BOOL)dark
 {
   if (self = [super initWithFrame:frame])
   {
-    _baseColor = baseColor;
-    self.backgroundColor = baseColor;
-    
+    _baseColorIsDark = dark;
+    _baseColor = dark ? [UIColor colorWithHexString:@"353F3F"] : [UIColor colorWithHexString:@"3C4747"];
     _borderColor = [UIColor colorWithHexString:@"181B1C"];
-    _cornerImage = [UIImage imageNamed:@"boardeditorcorner.png"];
+    _outerCornerImage = [UIImage imageNamed:@"boardeditorcorner.png"];
+    _innerCornerImage = dark ? [UIImage imageNamed:@"boardeditorcornerlight.png"] : [UIImage imageNamed:@"boardeditorcornerdark.png"];
     
     self.NeighborN = nil;
     self.NeighborS = nil;
@@ -36,31 +37,38 @@ static const int kCornerInset = 6;
 
 - (void) updateBorders
 {
+  // Remove all subviews
+  [[self subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
+  
   if (self.isHole)
   {
-    // TODO
+    self.backgroundColor = [UIColor clearColor];
+    
+    [self updateInnerBorders];
   }
   else
   {
+    self.backgroundColor = _baseColor;
+    
     [self updateOuterBorders];
   }
 }
 
 - (void) updateOuterBorders
 {
-  if (!self.NeighborN)
+  if (![self hasNeighborN])
   {
     [self updateTopOuterBorder];
   }
-  if (!self.NeighborE)
+  if (![self hasNeighborE])
   {
     [self updateRightOuterBorder];
   }
-  if (!self.NeighborS)
+  if (![self hasNeighborS])
   {
     [self updateBottomOuterBorder];
   }
-  if (!self.NeighborW)
+  if (![self hasNeighborW])
   {
     [self updateLeftOuterBorder];
   }
@@ -73,21 +81,21 @@ static const int kCornerInset = 6;
   [border setBackgroundColor:_borderColor];
   [self addSubview:border];
   
-  if (self.NeighborW)
+  if (![self hasNeighborW])
+  {
+    // Top-left outer corner
+    UIImageView* corner = [[UIImageView alloc] initWithImage:_outerCornerImage];
+    [corner setOrigin:CGPointMake(-kBorderThickness, -kBorderThickness)];
+    [self addSubview:corner];
+  }
+  else if (![self.NeighborW hasNeighborN])
   {
     // Extend border to far left
     [border setOriginX:border.originX - kCornerInset];
     [border setWidth:border.width + kCornerInset];
   }
-  else
-  {
-    // Top-left outer corner
-    UIImageView* corner = [[UIImageView alloc] initWithImage:_cornerImage];
-    [corner setOrigin:CGPointMake(-kBorderThickness, -kBorderThickness)];
-    [self addSubview:corner];
-  }
   
-  if (self.NeighborE)
+  if ([self hasNeighborE] && ![self.NeighborE hasNeighborN])
   {
     // Extend border to far right
     [border setWidth:border.width + kCornerInset];
@@ -101,22 +109,22 @@ static const int kCornerInset = 6;
   [border setBackgroundColor:_borderColor];
   [self addSubview:border];
   
-  if (self.NeighborN)
+  if (![self hasNeighborN])
+  {
+    // Top-right outer corner
+    UIImageView* corner = [[UIImageView alloc] initWithImage:_outerCornerImage];
+    [corner setOrigin:CGPointMake(self.width - kCornerInset, -kBorderThickness)];
+    [corner.layer setTransform:CATransform3DMakeScale(-1, 1, 1)];
+    [self addSubview:corner];
+  }
+  else if (![self.NeighborN hasNeighborE])
   {
     // Extend border to far top
     [border setOriginY:border.originY - kCornerInset];
     [border setHeight:border.height + kCornerInset];
   }
-  else
-  {
-    // Top-right outer corner
-    UIImageView* corner = [[UIImageView alloc] initWithImage:_cornerImage];
-    [corner setOrigin:CGPointMake(self.width - kCornerInset, -kBorderThickness)];
-    [corner.layer setTransform:CATransform3DMakeScale(-1, 1, 1)];
-    [self addSubview:corner];
-  }
   
-  if (self.NeighborS)
+  if ([self hasNeighborS] && ![self.NeighborS hasNeighborE])
   {
     // Extend border to far bottom
     [border setHeight:border.height + kCornerInset];
@@ -130,21 +138,21 @@ static const int kCornerInset = 6;
   [border setBackgroundColor:_borderColor];
   [self addSubview:border];
   
-  if (self.NeighborE)
-  {
-    // Extend border to far right
-    [border setWidth:border.width + kCornerInset];
-  }
-  else
+  if (![self hasNeighborE])
   {
     // Bottom-right outer corner
-    UIImageView* corner = [[UIImageView alloc] initWithImage:_cornerImage];
+    UIImageView* corner = [[UIImageView alloc] initWithImage:_outerCornerImage];
     [corner setOrigin:CGPointMake(self.width - kCornerInset, self.height - kCornerInset)];
     [corner.layer setTransform:CATransform3DMakeScale(-1, -1, 1)];
     [self addSubview:corner];
   }
+  else if (![self.NeighborE hasNeighborS])
+  {
+    // Extend border to far right
+    [border setWidth:border.width + kCornerInset];
+  }
   
-  if (self.NeighborW)
+  if ([self hasNeighborW] && ![self.NeighborW hasNeighborS])
   {
     // Extend border to far left
     [border setOriginX:border.originX - kCornerInset];
@@ -159,26 +167,84 @@ static const int kCornerInset = 6;
   [border setBackgroundColor:_borderColor];
   [self addSubview:border];
   
-  if (self.NeighborS)
-  {
-    // Extend border to far bottom
-    [border setHeight:border.height + kCornerInset];
-  }
-  else
+  if (![self hasNeighborS])
   {
     // Bottom-left outer corner
-    UIImageView* corner = [[UIImageView alloc] initWithImage:_cornerImage];
+    UIImageView* corner = [[UIImageView alloc] initWithImage:_outerCornerImage];
     [corner setOrigin:CGPointMake(-kBorderThickness, self.height - kCornerInset)];
     [corner.layer setTransform:CATransform3DMakeScale(1, -1, 1)];
     [self addSubview:corner];
   }
+  else if (![self.NeighborS hasNeighborW])
+  {
+    // Extend border to far bottom
+    [border setHeight:border.height + kCornerInset];
+  }
   
-  if (self.NeighborN)
+  if ([self hasNeighborN] && ![self.NeighborN hasNeighborW])
   {
     // Extend border to far top
     [border setOriginY:border.originY - kCornerInset];
     [border setHeight:border.height + kCornerInset];
   }
+}
+
+- (void) updateInnerBorders
+{
+  if ([self hasNeighborN] && [self hasNeighborW])
+  {
+    // Top-left inner corner
+    UIImageView* corner = [[UIImageView alloc] initWithImage:_innerCornerImage];
+    [corner setOrigin:CGPointMake(0, 0)];
+    [self addSubview:corner];
+  }
+  
+  if ([self hasNeighborE] && [self hasNeighborN])
+  {
+    // Top-right inner corner
+    UIImageView* corner = [[UIImageView alloc] initWithImage:_innerCornerImage];
+    [corner setOrigin:CGPointMake(self.width - kCornerSize, 0)];
+    [corner.layer setTransform:CATransform3DMakeScale(-1, 1, 1)];
+    [self addSubview:corner];
+  }
+  
+  if ([self hasNeighborS] && [self hasNeighborE])
+  {
+    // Bottom-right inner corner
+    UIImageView* corner = [[UIImageView alloc] initWithImage:_innerCornerImage];
+    [corner setOrigin:CGPointMake(self.width - kCornerSize, self.height - kCornerSize)];
+    [corner.layer setTransform:CATransform3DMakeScale(-1, -1, 1)];
+    [self addSubview:corner];
+  }
+  
+  if ([self hasNeighborW] && [self hasNeighborS])
+  {
+    // Bottom-left inner corner
+    UIImageView* corner = [[UIImageView alloc] initWithImage:_innerCornerImage];
+    [corner setOrigin:CGPointMake(0, self.height - kCornerSize)];
+    [corner.layer setTransform:CATransform3DMakeScale(1, -1, 1)];
+    [self addSubview:corner];
+  }
+}
+
+- (BOOL) hasNeighborN
+{
+  return (self.NeighborN && !self.NeighborN.isHole);
+}
+
+- (BOOL) hasNeighborS
+{
+  return (self.NeighborS && !self.NeighborS.isHole);
+}
+
+- (BOOL) hasNeighborW
+{
+  return (self.NeighborW && !self.NeighborW.isHole);
+}
+
+- (BOOL) hasNeighborE
+{
+  return (self.NeighborE && !self.NeighborE.isHole);
 }
 
 @end

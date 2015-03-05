@@ -10,10 +10,11 @@
 
 @interface BoardDesignerTile : UIView
 {
+  BOOL     _baseColorIsDark;
   UIColor* _baseColor;
-  
   UIColor* _borderColor;
-  UIImage* _cornerImage;
+  UIImage* _outerCornerImage;
+  UIImage* _innerCornerImage;
 }
 
 @property (nonatomic, assign) BOOL isHole;
@@ -23,8 +24,12 @@
 @property (nonatomic, assign) BoardDesignerTile* NeighborW;
 @property (nonatomic, assign) BoardDesignerTile* NeighborE;
 
-- (instancetype) initWithFrame:(CGRect)frame baseColor:(UIColor*)baseColor;
+- (instancetype) initWithFrame:(CGRect)frame darkBaseColor:(BOOL)dark;
 
 - (void) updateBorders;
+- (BOOL) hasNeighborN;
+- (BOOL) hasNeighborS;
+- (BOOL) hasNeighborW;
+- (BOOL) hasNeighborE;
 
 @end

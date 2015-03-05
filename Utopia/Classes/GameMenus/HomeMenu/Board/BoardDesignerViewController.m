@@ -116,8 +116,6 @@
   static const int kBoardMarginLeft = 15;
   
   const CGSize boardSize = CGSizeMake(kTileWidth * cols, kTileHeight * rows);
-  UIColor* kTileColorLight = [UIColor colorWithHexString:@"3C4747"];
-  UIColor* kTileColorDark  = [UIColor colorWithHexString:@"353F3F"];
   
   // Create board container
   _boardContainer = [[TouchableSubviewsView alloc] initWithFrame:CGRectMake(self.mainView.width + kBoardMarginLeft,
@@ -136,7 +134,7 @@
     for (int col = 0; col < cols; ++col)
     {
       BoardDesignerTile* tile = [[BoardDesignerTile alloc] initWithFrame:CGRectMake(col * kTileWidth, row * kTileHeight, kTileWidth, kTileHeight)
-                                                               baseColor:((row + col) % 2 == 0) ? kTileColorDark : kTileColorLight];
+                                                           darkBaseColor:((row + col) % 2 == 0)];
       [_boardContainer addSubview:tile];
       [[_boardTiles objectAtIndex:row] addObject:tile];
     }
