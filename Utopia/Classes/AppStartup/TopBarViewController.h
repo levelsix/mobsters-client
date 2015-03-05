@@ -129,6 +129,7 @@
 - (void) displayQuestProgressViewForQuest:(FullQuestProto *)fqp userQuest:(UserQuest *)uq jobId:(int)jobId completion:(void (^)(void))completion;
 
 - (void) openShop;
+- (void) closeShop;
 - (void) openShopWithFunds;
 - (void) openShopWithBuildings:(int)structId;
 - (void) openShopWithGacha;

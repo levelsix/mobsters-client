@@ -404,7 +404,21 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (void) addToMyStructs:(NSArray *)structs {
   for (FullUserStructureProto *st in structs) {
-    [self.myStructs addObject:[UserStruct userStructWithProto:st]];
+    UserStruct *us = [UserStruct userStructWithProto:st];
+    id<StaticStructure> ss = us.staticStruct;
+    if ([ss structInfo].structType == StructureInfoProto_StructTypeMoneyTree) {
+      if (us.isNoLongerValidForRenewal) {
+        continue;
+      }
+    }
+    
+    for (UserStruct *u in self.myStructs.copy) {
+      if ([u.userStructUuid isEqualToString:st.userStructUuid]) {
+        [self.myStructs removeObject:u];
+      }
+    }
+    
+    [self.myStructs addObject:us];
   }
   [self checkResidencesForFbCompletion];
   [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
@@ -1140,6 +1154,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [self addToStaticStructs:proto.allTeamCentersList];
   [self addToStaticStructs:proto.allEvoChambersList];
   [self addToStaticStructs:proto.allClanHousesList];
+  [self addToStaticStructs:proto.allMoneyTreesList];
   
   [self.staticItems removeAllObjects];
   [self addToStaticItems:proto.itemsList];
@@ -1644,7 +1659,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
       [QuestUtil checkAllDonateQuests];
     } else if (ue.totalSeconds > gl.maxMinutesForFreeSpeedUp*60 && timeLeft < gl.maxMinutesForFreeSpeedUp*60) {
       NSString *desc = [NSString stringWithFormat:@"Your current Enhancement is below %d minutes. Free speedup available!", gl.maxMinutesForFreeSpeedUp];
-      [Globals addPurpleAlertNotification:desc];
+      [Globals addPurpleAlertNotification:desc isImmediate:NO];
       
       ue.hasShownFreeSpeedup = YES;
       
@@ -1828,7 +1843,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   Globals *gl = [Globals sharedGlobals];
   LNLog(@"Firing free speedup for mini job...");
   NSString *desc = [NSString stringWithFormat:@"Your current Mini Job is below %d minutes. Free speedup available!", gl.maxMinutesForFreeSpeedUp];
-  [Globals addPurpleAlertNotification:desc];
+  [Globals addPurpleAlertNotification:desc isImmediate:NO];
   
   umj.hasShownFreeSpeedup = YES;
 }
@@ -2022,12 +2037,17 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   int mod = 60*60*24;
   int days = secsSinceStart/mod;
   int secsForToday = mod - (secsSinceStart % mod);
+  secsForToday = MIN(secsForToday, mod-1);
   
   if (days < 5 && secsForToday >= 0) {
     return secsForToday;
   } else {
     return -1;
   }
+}
+
+- (NSTimeInterval) timeLeftOnMoneyTree {
+  return self.timeLeftOnStarterSale;
 }
 
 @end

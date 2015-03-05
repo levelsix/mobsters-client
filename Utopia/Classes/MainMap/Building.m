@@ -135,7 +135,7 @@
 
 - (void) setupBuildingSprite:(NSString *)fileName {
   if (self.buildingSprite) {
-    [self removeChild:self.buildingSprite];
+    [self.buildingSprite removeFromParent];
     self.buildingSprite = nil;
   }
   if (fileName) {

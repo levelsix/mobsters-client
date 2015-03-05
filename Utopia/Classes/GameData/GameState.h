@@ -306,5 +306,6 @@
 - (BOOL) hasUpgradedBuilding;
 
 - (NSTimeInterval) timeLeftOnStarterSale;
+- (NSTimeInterval) timeLeftOnMoneyTree;
 
 @end

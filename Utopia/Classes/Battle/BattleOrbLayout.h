@@ -13,11 +13,6 @@
 
 #import "Board.pb.h"
 
-// This will set moves to 50, make you always have first hit, and allow you to move anywhere
-#ifdef DEBUG
-//#define DEBUG_BATTLE_MODE
-#endif
-
 #define SPAWN_TILE @"SPAWN_TILE"
 #define NOT_SPAWN_TILE @"NOT_SPAWN_TILE"
 #define HOLE @"HOLE"
@@ -141,7 +136,7 @@
 
 // This will detect if any specials like cake are at the bottom so that they can be
 // deleted. This will probably be followed by another set of calls to fillHoles and topUpOrbs.
-- (NSSet *)detectBottomFeeders;
+- (NSSet *)detectBottomFeeders:(NSMutableArray *)orbPaths;
 
 - (BattleOrb *) findOrbWithColorPreference:(OrbColor)orbColor isInitialSkill:(BOOL)isInitialSkill;
 

@@ -861,13 +861,50 @@
 
 - (int) numResourcesAvailable {
   ResourceGeneratorProto *gen = (ResourceGeneratorProto *)self.staticStruct;
-  if (![gen isKindOfClass:[ResourceGeneratorProto class]]) {
-    return 0;
+  if ([gen isKindOfClass:[ResourceGeneratorProto class]]) {
+    float secs = -[self.lastRetrieved timeIntervalSinceNow];
+    int numRes = roundf(gen.productionRate/3600.f*secs);
+    return MIN(numRes, gen.capacity);
+    
+  } else if([gen isKindOfClass:[MoneyTreeProto class]]) {
+    float timeSinceEndDate = -[self timeTillExpiry];
+    float timeSinceLastRetrieved = -[self.lastRetrieved timeIntervalSinceNow];
+    float secs = 0;
+    if (timeSinceLastRetrieved >= timeSinceEndDate && timeSinceEndDate > 0) {
+      secs = timeSinceLastRetrieved - timeSinceEndDate;
+    } else if (timeSinceEndDate > timeSinceLastRetrieved) {
+      secs = 0;
+    } else {
+      secs = timeSinceLastRetrieved;
+    }
+    int numRes = roundf(gen.productionRate/3600.f*secs);
+    return MIN(numRes, gen.capacity);
   }
-  float secs = -[self.lastRetrieved timeIntervalSinceNow];
-  int numRes = gen.productionRate/3600.f*secs;
-  return MIN(numRes, gen.capacity);
+  return 0;
 }
+
+#pragma mark - Money Tree methods
+
+- (BOOL) isExpired {
+  return [self timeTillExpiry] <= 0;
+}
+
+- (NSTimeInterval) timeTillExpiry {
+//  MoneyTreeProto *mtp = (MoneyTreeProto *)self.staticStruct;
+//  return [self.purchaseTime dateByAddingTimeInterval:mtp.daysOfDuration*24*3600].timeIntervalSinceNow;
+  GameState *gs = [GameState sharedGameState];
+  return [MSDate dateWithTimeIntervalSince1970:gs.lastLoginTimeNum/1000. + 15.f].timeIntervalSinceNow;
+}
+
+- (BOOL) isNoLongerValidForRenewal {
+  MoneyTreeProto *mtp = (MoneyTreeProto *)self.staticStruct;
+  MSDate *d1 = [self.purchaseTime dateByAddingTimeInterval:(mtp.daysOfDuration+mtp.daysForRenewal)*24*3600];
+  MSDate *d2 = [self.lastRetrieved dateByAddingTimeInterval:(mtp.daysForRenewal)*24*3600];
+  MSDate *date = [d1 compare:d2] == NSOrderedAscending ? d2 : d1;
+  return self.numResourcesAvailable <= 0 && date.timeIntervalSinceNow < 0;
+}
+
+#pragma mark - Prerequisites
 
 - (NSArray *) allPrerequisites {
   GameState *gs = [GameState sharedGameState];

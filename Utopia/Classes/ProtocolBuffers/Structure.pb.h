@@ -25,6 +25,12 @@
 @class MoneyTreeProto_Builder;
 @class ObstacleProto;
 @class ObstacleProto_Builder;
+@class PvpBoardHouseProto;
+@class PvpBoardHouseProto_Builder;
+@class PvpBoardObstacleProto;
+@class PvpBoardObstacleProto_Builder;
+@class ResearchHouseProto;
+@class ResearchHouseProto_Builder;
 @class ResidenceProto;
 @class ResidenceProto_Builder;
 @class ResourceGeneratorProto;
@@ -41,6 +47,8 @@
 @class TutorialStructProto_Builder;
 @class UserObstacleProto;
 @class UserObstacleProto_Builder;
+@class UserPvpBoardObstacleProto;
+@class UserPvpBoardObstacleProto_Builder;
 #ifndef __has_feature
   #define __has_feature(x) 0 // Compatibility with non-clang compilers.
 #endif // __has_feature
@@ -71,6 +79,12 @@ typedef NS_ENUM(SInt32, StructOrientation) {
 
 BOOL StructOrientationIsValidValue(StructOrientation value);
 
+typedef NS_ENUM(SInt32, BoardObstacleType) {
+  BoardObstacleTypeCloud = 1,
+};
+
+BOOL BoardObstacleTypeIsValidValue(BoardObstacleType value);
+
 typedef NS_ENUM(SInt32, StructureInfoProto_StructType) {
   StructureInfoProto_StructTypeNoStruct = 8,
   StructureInfoProto_StructTypeResourceGenerator = 1,
@@ -83,6 +97,9 @@ typedef NS_ENUM(SInt32, StructureInfoProto_StructType) {
   StructureInfoProto_StructTypeMiniJob = 9,
   StructureInfoProto_StructTypeTeamCenter = 10,
   StructureInfoProto_StructTypeClan = 11,
+  StructureInfoProto_StructTypeMoneyTree = 12,
+  StructureInfoProto_StructTypePvpBoard = 13,
+  StructureInfoProto_StructTypeResearchHouse = 14,
 };
 
 BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType value);
@@ -467,11 +484,15 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
   BOOL hasCapacity_:1;
   BOOL hasDaysOfDuration_:1;
   BOOL hasDaysForRenewal_:1;
+  BOOL hasIapProductId_:1;
+  BOOL hasFakeIapproductId_:1;
   BOOL hasStructInfo_:1;
   Float32 productionRate;
   int32_t capacity;
   int32_t daysOfDuration;
   int32_t daysForRenewal;
+  NSString* iapProductId;
+  NSString* fakeIapproductId;
   StructureInfoProto* structInfo;
 }
 - (BOOL) hasStructInfo;
@@ -479,11 +500,15 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (BOOL) hasCapacity;
 - (BOOL) hasDaysOfDuration;
 - (BOOL) hasDaysForRenewal;
+- (BOOL) hasIapProductId;
+- (BOOL) hasFakeIapproductId;
 @property (readonly, strong) StructureInfoProto* structInfo;
 @property (readonly) Float32 productionRate;
 @property (readonly) int32_t capacity;
 @property (readonly) int32_t daysOfDuration;
 @property (readonly) int32_t daysForRenewal;
+@property (readonly, strong) NSString* iapProductId;
+@property (readonly, strong) NSString* fakeIapproductId;
 
 + (MoneyTreeProto*) defaultInstance;
 - (MoneyTreeProto*) defaultInstance;
@@ -546,6 +571,65 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (int32_t) daysForRenewal;
 - (MoneyTreeProto_Builder*) setDaysForRenewal:(int32_t) value;
 - (MoneyTreeProto_Builder*) clearDaysForRenewal;
+
+- (BOOL) hasIapProductId;
+- (NSString*) iapProductId;
+- (MoneyTreeProto_Builder*) setIapProductId:(NSString*) value;
+- (MoneyTreeProto_Builder*) clearIapProductId;
+
+- (BOOL) hasFakeIapproductId;
+- (NSString*) fakeIapproductId;
+- (MoneyTreeProto_Builder*) setFakeIapproductId:(NSString*) value;
+- (MoneyTreeProto_Builder*) clearFakeIapproductId;
+@end
+
+@interface ResearchHouseProto : PBGeneratedMessage {
+@private
+  BOOL hasStructId_:1;
+  int32_t structId;
+}
+- (BOOL) hasStructId;
+@property (readonly) int32_t structId;
+
++ (ResearchHouseProto*) defaultInstance;
+- (ResearchHouseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (ResearchHouseProto_Builder*) builder;
++ (ResearchHouseProto_Builder*) builder;
++ (ResearchHouseProto_Builder*) builderWithPrototype:(ResearchHouseProto*) prototype;
+- (ResearchHouseProto_Builder*) toBuilder;
+
++ (ResearchHouseProto*) parseFromData:(NSData*) data;
++ (ResearchHouseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ResearchHouseProto*) parseFromInputStream:(NSInputStream*) input;
++ (ResearchHouseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ResearchHouseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (ResearchHouseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface ResearchHouseProto_Builder : PBGeneratedMessageBuilder {
+@private
+  ResearchHouseProto* result;
+}
+
+- (ResearchHouseProto*) defaultInstance;
+
+- (ResearchHouseProto_Builder*) clear;
+- (ResearchHouseProto_Builder*) clone;
+
+- (ResearchHouseProto*) build;
+- (ResearchHouseProto*) buildPartial;
+
+- (ResearchHouseProto_Builder*) mergeFrom:(ResearchHouseProto*) other;
+- (ResearchHouseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (ResearchHouseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasStructId;
+- (int32_t) structId;
+- (ResearchHouseProto_Builder*) setStructId:(int32_t) value;
+- (ResearchHouseProto_Builder*) clearStructId;
 @end
 
 @interface HospitalProto : PBGeneratedMessage {
@@ -1796,6 +1880,236 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (int32_t) teamDonationPowerLimit;
 - (ClanHouseProto_Builder*) setTeamDonationPowerLimit:(int32_t) value;
 - (ClanHouseProto_Builder*) clearTeamDonationPowerLimit;
+@end
+
+@interface PvpBoardHouseProto : PBGeneratedMessage {
+@private
+  BOOL hasPvpBoardPowerLimit_:1;
+  BOOL hasStructInfo_:1;
+  int32_t pvpBoardPowerLimit;
+  StructureInfoProto* structInfo;
+}
+- (BOOL) hasStructInfo;
+- (BOOL) hasPvpBoardPowerLimit;
+@property (readonly, strong) StructureInfoProto* structInfo;
+@property (readonly) int32_t pvpBoardPowerLimit;
+
++ (PvpBoardHouseProto*) defaultInstance;
+- (PvpBoardHouseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (PvpBoardHouseProto_Builder*) builder;
++ (PvpBoardHouseProto_Builder*) builder;
++ (PvpBoardHouseProto_Builder*) builderWithPrototype:(PvpBoardHouseProto*) prototype;
+- (PvpBoardHouseProto_Builder*) toBuilder;
+
++ (PvpBoardHouseProto*) parseFromData:(NSData*) data;
++ (PvpBoardHouseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PvpBoardHouseProto*) parseFromInputStream:(NSInputStream*) input;
++ (PvpBoardHouseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PvpBoardHouseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (PvpBoardHouseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface PvpBoardHouseProto_Builder : PBGeneratedMessageBuilder {
+@private
+  PvpBoardHouseProto* result;
+}
+
+- (PvpBoardHouseProto*) defaultInstance;
+
+- (PvpBoardHouseProto_Builder*) clear;
+- (PvpBoardHouseProto_Builder*) clone;
+
+- (PvpBoardHouseProto*) build;
+- (PvpBoardHouseProto*) buildPartial;
+
+- (PvpBoardHouseProto_Builder*) mergeFrom:(PvpBoardHouseProto*) other;
+- (PvpBoardHouseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (PvpBoardHouseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasStructInfo;
+- (StructureInfoProto*) structInfo;
+- (PvpBoardHouseProto_Builder*) setStructInfo:(StructureInfoProto*) value;
+- (PvpBoardHouseProto_Builder*) setStructInfo_Builder:(StructureInfoProto_Builder*) builderForValue;
+- (PvpBoardHouseProto_Builder*) mergeStructInfo:(StructureInfoProto*) value;
+- (PvpBoardHouseProto_Builder*) clearStructInfo;
+
+- (BOOL) hasPvpBoardPowerLimit;
+- (int32_t) pvpBoardPowerLimit;
+- (PvpBoardHouseProto_Builder*) setPvpBoardPowerLimit:(int32_t) value;
+- (PvpBoardHouseProto_Builder*) clearPvpBoardPowerLimit;
+@end
+
+@interface PvpBoardObstacleProto : PBGeneratedMessage {
+@private
+  BOOL hasInitAvailable_:1;
+  BOOL hasPvpBoardId_:1;
+  BOOL hasPowerAmt_:1;
+  BOOL hasName_:1;
+  BOOL hasObstacleType_:1;
+  BOOL initAvailable_:1;
+  int32_t pvpBoardId;
+  int32_t powerAmt;
+  NSString* name;
+  BoardObstacleType obstacleType;
+}
+- (BOOL) hasPvpBoardId;
+- (BOOL) hasName;
+- (BOOL) hasObstacleType;
+- (BOOL) hasPowerAmt;
+- (BOOL) hasInitAvailable;
+@property (readonly) int32_t pvpBoardId;
+@property (readonly, strong) NSString* name;
+@property (readonly) BoardObstacleType obstacleType;
+@property (readonly) int32_t powerAmt;
+- (BOOL) initAvailable;
+
++ (PvpBoardObstacleProto*) defaultInstance;
+- (PvpBoardObstacleProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (PvpBoardObstacleProto_Builder*) builder;
++ (PvpBoardObstacleProto_Builder*) builder;
++ (PvpBoardObstacleProto_Builder*) builderWithPrototype:(PvpBoardObstacleProto*) prototype;
+- (PvpBoardObstacleProto_Builder*) toBuilder;
+
++ (PvpBoardObstacleProto*) parseFromData:(NSData*) data;
++ (PvpBoardObstacleProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PvpBoardObstacleProto*) parseFromInputStream:(NSInputStream*) input;
++ (PvpBoardObstacleProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PvpBoardObstacleProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (PvpBoardObstacleProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface PvpBoardObstacleProto_Builder : PBGeneratedMessageBuilder {
+@private
+  PvpBoardObstacleProto* result;
+}
+
+- (PvpBoardObstacleProto*) defaultInstance;
+
+- (PvpBoardObstacleProto_Builder*) clear;
+- (PvpBoardObstacleProto_Builder*) clone;
+
+- (PvpBoardObstacleProto*) build;
+- (PvpBoardObstacleProto*) buildPartial;
+
+- (PvpBoardObstacleProto_Builder*) mergeFrom:(PvpBoardObstacleProto*) other;
+- (PvpBoardObstacleProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (PvpBoardObstacleProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasPvpBoardId;
+- (int32_t) pvpBoardId;
+- (PvpBoardObstacleProto_Builder*) setPvpBoardId:(int32_t) value;
+- (PvpBoardObstacleProto_Builder*) clearPvpBoardId;
+
+- (BOOL) hasName;
+- (NSString*) name;
+- (PvpBoardObstacleProto_Builder*) setName:(NSString*) value;
+- (PvpBoardObstacleProto_Builder*) clearName;
+
+- (BOOL) hasObstacleType;
+- (BoardObstacleType) obstacleType;
+- (PvpBoardObstacleProto_Builder*) setObstacleType:(BoardObstacleType) value;
+- (PvpBoardObstacleProto_Builder*) clearObstacleTypeList;
+
+- (BOOL) hasPowerAmt;
+- (int32_t) powerAmt;
+- (PvpBoardObstacleProto_Builder*) setPowerAmt:(int32_t) value;
+- (PvpBoardObstacleProto_Builder*) clearPowerAmt;
+
+- (BOOL) hasInitAvailable;
+- (BOOL) initAvailable;
+- (PvpBoardObstacleProto_Builder*) setInitAvailable:(BOOL) value;
+- (PvpBoardObstacleProto_Builder*) clearInitAvailable;
+@end
+
+@interface UserPvpBoardObstacleProto : PBGeneratedMessage {
+@private
+  BOOL hasObstacleId_:1;
+  BOOL hasPosX_:1;
+  BOOL hasPosY_:1;
+  BOOL hasUserPvpBoardObstacleUuid_:1;
+  BOOL hasUserUuid_:1;
+  int32_t obstacleId;
+  int32_t posX;
+  int32_t posY;
+  NSString* userPvpBoardObstacleUuid;
+  NSString* userUuid;
+}
+- (BOOL) hasUserPvpBoardObstacleUuid;
+- (BOOL) hasUserUuid;
+- (BOOL) hasObstacleId;
+- (BOOL) hasPosX;
+- (BOOL) hasPosY;
+@property (readonly, strong) NSString* userPvpBoardObstacleUuid;
+@property (readonly, strong) NSString* userUuid;
+@property (readonly) int32_t obstacleId;
+@property (readonly) int32_t posX;
+@property (readonly) int32_t posY;
+
++ (UserPvpBoardObstacleProto*) defaultInstance;
+- (UserPvpBoardObstacleProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (UserPvpBoardObstacleProto_Builder*) builder;
++ (UserPvpBoardObstacleProto_Builder*) builder;
++ (UserPvpBoardObstacleProto_Builder*) builderWithPrototype:(UserPvpBoardObstacleProto*) prototype;
+- (UserPvpBoardObstacleProto_Builder*) toBuilder;
+
++ (UserPvpBoardObstacleProto*) parseFromData:(NSData*) data;
++ (UserPvpBoardObstacleProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UserPvpBoardObstacleProto*) parseFromInputStream:(NSInputStream*) input;
++ (UserPvpBoardObstacleProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UserPvpBoardObstacleProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (UserPvpBoardObstacleProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface UserPvpBoardObstacleProto_Builder : PBGeneratedMessageBuilder {
+@private
+  UserPvpBoardObstacleProto* result;
+}
+
+- (UserPvpBoardObstacleProto*) defaultInstance;
+
+- (UserPvpBoardObstacleProto_Builder*) clear;
+- (UserPvpBoardObstacleProto_Builder*) clone;
+
+- (UserPvpBoardObstacleProto*) build;
+- (UserPvpBoardObstacleProto*) buildPartial;
+
+- (UserPvpBoardObstacleProto_Builder*) mergeFrom:(UserPvpBoardObstacleProto*) other;
+- (UserPvpBoardObstacleProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (UserPvpBoardObstacleProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasUserPvpBoardObstacleUuid;
+- (NSString*) userPvpBoardObstacleUuid;
+- (UserPvpBoardObstacleProto_Builder*) setUserPvpBoardObstacleUuid:(NSString*) value;
+- (UserPvpBoardObstacleProto_Builder*) clearUserPvpBoardObstacleUuid;
+
+- (BOOL) hasUserUuid;
+- (NSString*) userUuid;
+- (UserPvpBoardObstacleProto_Builder*) setUserUuid:(NSString*) value;
+- (UserPvpBoardObstacleProto_Builder*) clearUserUuid;
+
+- (BOOL) hasObstacleId;
+- (int32_t) obstacleId;
+- (UserPvpBoardObstacleProto_Builder*) setObstacleId:(int32_t) value;
+- (UserPvpBoardObstacleProto_Builder*) clearObstacleId;
+
+- (BOOL) hasPosX;
+- (int32_t) posX;
+- (UserPvpBoardObstacleProto_Builder*) setPosX:(int32_t) value;
+- (UserPvpBoardObstacleProto_Builder*) clearPosX;
+
+- (BOOL) hasPosY;
+- (int32_t) posY;
+- (UserPvpBoardObstacleProto_Builder*) setPosY:(int32_t) value;
+- (UserPvpBoardObstacleProto_Builder*) clearPosY;
 @end
 
 

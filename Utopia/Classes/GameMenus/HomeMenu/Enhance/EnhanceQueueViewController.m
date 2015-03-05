@@ -477,10 +477,15 @@
   if (self.currentEnhancement.feeders.count >= self.maxQueueSize) {
     [Globals addAlertNotification:@"The laboratory queue is already full!"];
   } else {
+    Quality qual = _confirmUserMonster.staticMonster.quality;
+    
     // Disabled for enhance tutorial
     NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
     if (![def boolForKey:ENHANCE_FIRST_TIME_DEFAULTS_KEY]) {
       NSString *str = [NSString stringWithFormat:@"You will lose this %@ by sacrificing it for enhancement. Continue?", MONSTER_NAME];
+      [GenericPopupController displayConfirmationWithDescription:str title:[NSString stringWithFormat:@"Sacrifice %@?", MONSTER_NAME] okayButton:@"Sacrifice" cancelButton:@"Cancel" target:self selector:@selector(allowAddToQueue)];
+    } else if (qual >= QualityRare) {
+      NSString *str = [NSString stringWithFormat:@"You are about to sacrifice a %@ %@. Continue?", [Globals stringForRarity:qual], MONSTER_NAME];
       [GenericPopupController displayConfirmationWithDescription:str title:[NSString stringWithFormat:@"Sacrifice %@?", MONSTER_NAME] okayButton:@"Sacrifice" cancelButton:@"Cancel" target:self selector:@selector(allowAddToQueue)];
     } else {
       [self allowAddToQueue];

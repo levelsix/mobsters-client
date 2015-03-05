@@ -77,6 +77,10 @@
       buildingClass = [ClanHouseBuilding class];
       break;
       
+    case StructureInfoProto_StructTypeMoneyTree:
+      buildingClass = [MoneyTreeBuilding class];
+      break;
+      
     default:
       buildingClass = [HomeBuilding class];
       break;
@@ -469,32 +473,37 @@
 @implementation ResourceGeneratorBuilding
 
 - (void) setupBuildingSprite:(NSString *)fileName {
-  [self.buildingSprite removeFromParent];
-  
-  fileName = fileName.stringByDeletingPathExtension;
-  
-  NSString *spritesheetName = [NSString stringWithFormat:@"%@.plist", fileName];
-  [Globals checkAndLoadSpriteSheet:spritesheetName completion:^(BOOL success) {
-    if (success) {
-      [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:spritesheetName];
-      CCAnimation *anim = [CCAnimation animationWithSpritePrefix:fileName delay:0.2];
-      
-      ResourceGeneratorProto *res = (ResourceGeneratorProto *)self.userStruct.staticStruct;
-      if (res.resourceType == ResourceTypeOil) {
-        //    [anim repeatFrames:NSMakeRange(3,2) numTimes:5];
-        anim.delayPerUnit = 0.1;
+  if ([self isMemberOfClass:[ResourceGeneratorBuilding class]]) {
+    [self.buildingSprite removeFromParent];
+    
+    fileName = fileName.stringByDeletingPathExtension;
+    
+    NSString *spritesheetName = [NSString stringWithFormat:@"%@.plist", fileName];
+    [Globals checkAndLoadSpriteSheet:spritesheetName completion:^(BOOL success) {
+      if (success) {
+        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:spritesheetName];
+        CCAnimation *anim = [CCAnimation animationWithSpritePrefix:fileName delay:0.2];
+        
+        //userstruct is null on startup
+        ResourceGeneratorProto *res = (ResourceGeneratorProto *)self.userStruct.staticStruct;
+        if (res.resourceType == ResourceTypeOil) {
+          //    [anim repeatFrames:NSMakeRange(3,2) numTimes:5];
+          anim.delayPerUnit = 0.1;
+        }
+        
+        if (anim.frames.count) {
+          CCSprite *spr = [CCSprite spriteWithSpriteFrame:[anim.frames[0] spriteFrame]];
+          [spr runAction:[CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:anim]]];
+          [self addChild:spr];
+          self.buildingSprite = spr;
+        }
+        
+        [self adjustBuildingSprite];
       }
-      
-      if (anim.frames.count) {
-        CCSprite *spr = [CCSprite spriteWithSpriteFrame:[anim.frames[0] spriteFrame]];
-        [spr runAction:[CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:anim]]];
-        [self addChild:spr];
-        self.buildingSprite = spr;
-      }
-      
-      [self adjustBuildingSprite];
-    }
-  }];
+    }];
+  } else {
+    [super setupBuildingSprite:fileName];
+  }
 }
 
 - (void) adjustBuildingSprite {
@@ -569,6 +578,187 @@
 - (void) setIsConstructing:(BOOL)isConstructing {
   [super setIsConstructing:isConstructing];
   self.retrievable = NO;
+}
+
+@end
+
+@implementation MoneyTreeBuilding
+
+- (NSString *) fileNameForUserStruct:(UserStruct *)userStruct {
+  StructureInfoProto *fsp = userStruct.staticStruct.structInfo;
+  NSString *file = fsp.imgName;
+  
+  if (userStruct.isExpired) {
+    NSString *extension = file.pathExtension;
+    file = file.stringByDeletingPathExtension;
+    file = [NSString stringWithFormat:@"%@dead.%@",file, extension];
+  }
+  
+  return file;
+}
+
+- (void) setupBuildingSprite:(NSString *)fileName {
+  if ([fileName rangeOfString:@"dead"].length > 0) {
+    [super setupBuildingSprite:fileName];
+  } else {
+    [self.buildingSprite removeFromParent];
+    
+    fileName = fileName.stringByDeletingPathExtension;
+    
+    NSString *spritesheetName = [NSString stringWithFormat:@"%@.plist", fileName];
+    [Globals checkAndLoadSpriteSheet:spritesheetName completion:^(BOOL success) {
+      if (success) {
+        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:spritesheetName];
+        
+        float delay = 0.1;
+        
+        CCAnimation *hole = [CCAnimation animationWithSpritePrefix:[fileName stringByAppendingString:@"Hole"] delay:delay];
+        
+        if (hole.frames.count) {
+          CCSprite *spr = [CCSprite spriteWithSpriteFrame:[hole.frames[0] spriteFrame]];
+          _holeAnim = hole;
+          [self addChild:spr];
+          self.buildingSprite = spr;
+          _holeSprite = spr;
+        }
+        
+        CCAnimation *drill = [CCAnimation animationWithSpritePrefix:[fileName stringByAppendingString:@"Drill"] delay:delay];
+        
+        if (drill.frames.count) {
+          CCSprite *spr = [CCSprite spriteWithSpriteFrame:[drill.frames[0] spriteFrame]];
+          _drillAnim = drill;
+          [self.buildingSprite addChild:spr];
+          spr.position = ccp(self.buildingSprite.contentSize.width/2, self.buildingSprite.contentSize.height/2+2);
+          _drillSprite = spr;
+        }
+        
+        CCAnimation *base = [CCAnimation animationWithSpritePrefix:[fileName stringByAppendingString:@"Base"] delay:delay];
+        
+        if (base.frames.count) {
+          CCSprite *spr = [CCSprite spriteWithSpriteFrame:[base.frames[0] spriteFrame]];
+          _baseAnim = base;
+          [self.buildingSprite addChild:spr];
+          spr.position = ccp(self.buildingSprite.contentSize.width/2, self.buildingSprite.contentSize.height/2);
+          _baseSprite = spr;
+        }
+        
+        _smoke = [CCParticleSystem particleWithFile:@"gemsmoke.plist"];
+        _smoke.scale = 0.5f;
+        _smoke.position = ccp(self.buildingSprite.contentSize.width/2, 14);
+        [_smoke stopSystem];
+        [self.buildingSprite addChild:_smoke];
+        
+        [self adjustBuildingSprite];
+        
+        [self animateDrill];
+      }
+    }];
+  }
+}
+
+#define MONEY_TREE_ANIM_TAG 999
+
+- (void) beginAnimationsInReverse:(BOOL)reverse {
+  CCAnimation *hole = reverse ? _holeAnim.reversedAnimation : _holeAnim;
+  CCAnimation *drill = reverse ? _drillAnim.reversedAnimation : _drillAnim;
+  CCAnimation *base = reverse ? _baseAnim.reversedAnimation : _baseAnim;
+  
+  CCActionRepeatForever *repeat = [CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:hole]];
+  repeat.tag = MONEY_TREE_ANIM_TAG;
+  [_holeSprite runAction:repeat];
+  
+  repeat = [CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:drill]];
+  repeat.tag = MONEY_TREE_ANIM_TAG;
+  [_drillSprite runAction:repeat];
+  
+  repeat = [CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:base]];
+  repeat.tag = MONEY_TREE_ANIM_TAG;
+  [_baseSprite runAction:repeat];
+}
+
+- (void) stopAnimations {
+  [_holeSprite stopActionByTag:MONEY_TREE_ANIM_TAG];
+  [_drillSprite stopActionByTag:MONEY_TREE_ANIM_TAG];
+  [_baseSprite stopActionByTag:MONEY_TREE_ANIM_TAG];
+}
+
+- (void) animateDrill {
+  [self beginAnimationsInReverse:NO];
+  
+  CGPoint origPos = _drillSprite.position;
+  CGPoint botPos = ccpAdd(origPos, ccp(0, -10));
+  
+  // Shake anim
+  NSMutableArray *moves = [NSMutableArray array];
+  int numTimes = 60;
+  for (int i = 0; i < numTimes; i++) {
+    int signX = arc4random() % 2 ? 1 : -1;
+    int signY = arc4random() % 2 ? 1 : -1;
+    CGPoint pt = ccp(drand48()*0.7*signX, drand48()*0.7*signY);
+    CCActionMoveTo *move = [CCActionMoveTo actionWithDuration:0.03f position:ccpAdd(pt, botPos)];
+    [moves addObject:move];
+  }
+  CCActionMoveTo *move = [CCActionMoveTo actionWithDuration:0.03f position:botPos];
+  [moves addObject:move];
+  
+  CCActionSequence *seq = [CCActionSequence actionWithArray:moves];
+  
+  [_drillSprite runAction:[CCActionSequence actions:
+                           [CCActionMoveTo actionWithDuration:3.f position:botPos],
+                           [CCActionCallFunc actionWithTarget:self selector:@selector(stopAnimations)],
+                           [CCActionCallBlock actionWithBlock:
+                            ^{
+                              [_smoke resetSystem];
+                            }],
+                           seq,
+                           [CCActionCallBlock actionWithBlock:
+                            ^{
+                              [_smoke stopSystem];
+                              [self beginAnimationsInReverse:YES];
+                            }],
+                           [CCActionMoveTo actionWithDuration:3.f position:origPos],
+                           [CCActionCallFunc actionWithTarget:self selector:@selector(stopAnimations)],
+                           [CCActionDelay actionWithDuration:1.],
+                           [CCActionCallFunc actionWithTarget:self selector:@selector(animateDrill)], nil]];
+}
+
+- (id) initWithUserStruct:(UserStruct *)userStruct map:(HomeMap *)map {
+  StructureInfoProto *fsp = userStruct.staticStruct.structInfo;
+  CGRect loc = CGRectMake(userStruct.coordinates.x, userStruct.coordinates.y, fsp.width, fsp.height);
+  if ((self = [self initWithFile:[self fileNameForUserStruct:userStruct] location:loc map:map])) {
+    self.userStruct = userStruct;
+    self.orientation = self.userStruct.orientation;
+    
+    [self adjustBuildingSprite];
+  }
+  return self;
+}
+
+- (void) initializeRetrieveBubble {
+  float pxlOffset = 11;
+  
+  NSString *fileName = @"gemready.png";
+  
+  if (!_retrieveBubble || ![_retrieveBubble.name isEqualToString:fileName]) {
+    // Make sure to cleanup just in case
+    [_retrieveBubble removeFromParent];
+    
+    _retrieveBubble = [CCButton buttonWithTitle:nil spriteFrame:[CCSpriteFrame frameWithImageNamed:fileName] highlightedSpriteFrame:nil disabledSpriteFrame:nil];
+    [_retrieveBubble setTarget:self selector:@selector(select)];
+    [self addChild:_retrieveBubble z:1 name:fileName];
+    _retrieveBubble.anchorPoint = ccp(0.5, 0);
+    _retrieveBubble.position = ccp(self.contentSize.width/2,self.contentSize.height-pxlOffset);
+  }
+}
+
+- (BOOL) select {
+  if (self.retrievable) {
+    [_homeMap retrieveFromMoneyTree:self];
+    
+    return NO;
+  } else {
+    return [super select];
+  }
 }
 
 @end

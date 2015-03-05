@@ -186,6 +186,10 @@
 - (MSDate *) buildCompleteDate;
 - (NSTimeInterval) timeLeftForBuildComplete;
 
+- (BOOL) isExpired;
+- (NSTimeInterval) timeTillExpiry;
+- (BOOL) isNoLongerValidForRenewal;
+
 @end
 
 @interface UserObstacle : NSObject

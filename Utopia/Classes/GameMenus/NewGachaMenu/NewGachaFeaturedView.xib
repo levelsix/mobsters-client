@@ -115,7 +115,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 </imageView>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cheapshoticon.png" id="1mj-Lv-dhD">
+                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="1mj-Lv-dhD">
                                     <rect key="frame" x="5" y="5" width="20" height="20"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 </imageView>
@@ -140,7 +140,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 </imageView>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cakedropicon.png" id="7DB-MP-R4t">
+                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="7DB-MP-R4t">
                                     <rect key="frame" x="5" y="5" width="20" height="20"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 </imageView>
@@ -186,8 +186,6 @@
     <resources>
         <image name="activeskill.png" width="30" height="30"/>
         <image name="battleepictag.png" width="29" height="14"/>
-        <image name="cakedropicon.png" width="32" height="32"/>
-        <image name="cheapshoticon.png" width="34" height="30"/>
         <image name="detailshadow.png" width="66" height="31"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

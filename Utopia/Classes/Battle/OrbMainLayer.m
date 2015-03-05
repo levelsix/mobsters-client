@@ -246,7 +246,7 @@
         OrbLog(@"Diag fill holes Layout: %@", self.layout);
       }
       
-      NSSet *newBottomFeeders = [self.layout detectBottomFeeders];
+      NSSet *newBottomFeeders = [self.layout detectBottomFeeders:orbPaths];
       bottomFeeders = [bottomFeeders setByAddingObjectsFromSet:newBottomFeeders];
       
       if (newBottomFeeders.count) {

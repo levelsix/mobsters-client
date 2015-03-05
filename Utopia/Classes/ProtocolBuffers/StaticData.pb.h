@@ -145,6 +145,10 @@
 @class PrereqProto_Builder;
 @class PrivateChatPostProto;
 @class PrivateChatPostProto_Builder;
+@class PvpBoardHouseProto;
+@class PvpBoardHouseProto_Builder;
+@class PvpBoardObstacleProto;
+@class PvpBoardObstacleProto_Builder;
 @class PvpClanAvengeProto;
 @class PvpClanAvengeProto_Builder;
 @class PvpHistoryProto;
@@ -161,6 +165,8 @@
 @class QuestJobProto_Builder;
 @class RareBoosterPurchaseProto;
 @class RareBoosterPurchaseProto_Builder;
+@class ResearchHouseProto;
+@class ResearchHouseProto_Builder;
 @class ResearchPropertyProto;
 @class ResearchPropertyProto_Builder;
 @class ResearchProto;
@@ -227,6 +233,8 @@
 @class UserObstacleProto_Builder;
 @class UserPersistentEventProto;
 @class UserPersistentEventProto_Builder;
+@class UserPvpBoardObstacleProto;
+@class UserPvpBoardObstacleProto_Builder;
 @class UserPvpLeagueProto;
 @class UserPvpLeagueProto_Builder;
 @class UserQuestJobProto;
@@ -279,6 +287,8 @@
   NSMutableArray * mutableAllTeamCentersList;
   NSMutableArray * mutableAllClanHousesList;
   NSMutableArray * mutableAllMoneyTreesList;
+  NSMutableArray * mutableAllPvpBoardHousesList;
+  NSMutableArray * mutableAllResearchHousesList;
   NSMutableArray * mutablePersistentEventsList;
   NSMutableArray * mutableMbdsList;
   NSMutableArray * mutableRaidsList;
@@ -293,6 +303,7 @@
   NSMutableArray * mutablePrereqsList;
   NSMutableArray * mutableBoardsList;
   NSMutableArray * mutableResearchList;
+  NSMutableArray * mutablePvpBoardObstacleProtosList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStarterPack;
@@ -319,6 +330,8 @@
 @property (readonly, strong) NSArray * allTeamCentersList;
 @property (readonly, strong) NSArray * allClanHousesList;
 @property (readonly, strong) NSArray * allMoneyTreesList;
+@property (readonly, strong) NSArray * allPvpBoardHousesList;
+@property (readonly, strong) NSArray * allResearchHousesList;
 @property (readonly, strong) NSArray * persistentEventsList;
 @property (readonly, strong) NSArray * mbdsList;
 @property (readonly, strong) NSArray * raidsList;
@@ -333,6 +346,7 @@
 @property (readonly, strong) NSArray * prereqsList;
 @property (readonly, strong) NSArray * boardsList;
 @property (readonly, strong) NSArray * researchList;
+@property (readonly, strong) NSArray * pvpBoardObstacleProtosList;
 - (CityExpansionCostProto*)expansionCostsAtIndex:(NSUInteger)index;
 - (FullCityProto*)allCitiesAtIndex:(NSUInteger)index;
 - (FullTaskProto*)allTasksAtIndex:(NSUInteger)index;
@@ -354,6 +368,8 @@
 - (TeamCenterProto*)allTeamCentersAtIndex:(NSUInteger)index;
 - (ClanHouseProto*)allClanHousesAtIndex:(NSUInteger)index;
 - (MoneyTreeProto*)allMoneyTreesAtIndex:(NSUInteger)index;
+- (PvpBoardHouseProto*)allPvpBoardHousesAtIndex:(NSUInteger)index;
+- (ResearchHouseProto*)allResearchHousesAtIndex:(NSUInteger)index;
 - (PersistentEventProto*)persistentEventsAtIndex:(NSUInteger)index;
 - (MonsterBattleDialogueProto*)mbdsAtIndex:(NSUInteger)index;
 - (ClanRaidProto*)raidsAtIndex:(NSUInteger)index;
@@ -368,6 +384,7 @@
 - (PrereqProto*)prereqsAtIndex:(NSUInteger)index;
 - (BoardLayoutProto*)boardsAtIndex:(NSUInteger)index;
 - (ResearchProto*)researchAtIndex:(NSUInteger)index;
+- (PvpBoardObstacleProto*)pvpBoardObstacleProtosAtIndex:(NSUInteger)index;
 
 + (StaticDataProto*) defaultInstance;
 - (StaticDataProto*) defaultInstance;
@@ -544,6 +561,18 @@
 - (StaticDataProto_Builder *)addAllAllMoneyTrees:(NSArray *)array;
 - (StaticDataProto_Builder *)clearAllMoneyTrees;
 
+- (NSMutableArray *)allPvpBoardHousesList;
+- (PvpBoardHouseProto*)allPvpBoardHousesAtIndex:(NSUInteger)index;
+- (StaticDataProto_Builder *)addAllPvpBoardHouses:(PvpBoardHouseProto*)value;
+- (StaticDataProto_Builder *)addAllAllPvpBoardHouses:(NSArray *)array;
+- (StaticDataProto_Builder *)clearAllPvpBoardHouses;
+
+- (NSMutableArray *)allResearchHousesList;
+- (ResearchHouseProto*)allResearchHousesAtIndex:(NSUInteger)index;
+- (StaticDataProto_Builder *)addAllResearchHouses:(ResearchHouseProto*)value;
+- (StaticDataProto_Builder *)addAllAllResearchHouses:(NSArray *)array;
+- (StaticDataProto_Builder *)clearAllResearchHouses;
+
 - (NSMutableArray *)persistentEventsList;
 - (PersistentEventProto*)persistentEventsAtIndex:(NSUInteger)index;
 - (StaticDataProto_Builder *)addPersistentEvents:(PersistentEventProto*)value;
@@ -627,6 +656,12 @@
 - (StaticDataProto_Builder *)addResearch:(ResearchProto*)value;
 - (StaticDataProto_Builder *)addAllResearch:(NSArray *)array;
 - (StaticDataProto_Builder *)clearResearch;
+
+- (NSMutableArray *)pvpBoardObstacleProtosList;
+- (PvpBoardObstacleProto*)pvpBoardObstacleProtosAtIndex:(NSUInteger)index;
+- (StaticDataProto_Builder *)addPvpBoardObstacleProtos:(PvpBoardObstacleProto*)value;
+- (StaticDataProto_Builder *)addAllPvpBoardObstacleProtos:(NSArray *)array;
+- (StaticDataProto_Builder *)clearPvpBoardObstacleProtos;
 @end
 
 

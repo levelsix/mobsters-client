@@ -58,4 +58,16 @@
   return anim;
 }
 
+- (id) reversedAnimation {
+  CCAnimation *anim = [self copy];
+  
+  NSMutableArray *newArr = [NSMutableArray array];
+  for (id obj in anim.frames.reverseObjectEnumerator) {
+    [newArr addObject:obj];
+  }
+  anim.frames = newArr;
+  
+  return anim;
+}
+
 @end

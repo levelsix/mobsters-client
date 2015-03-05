@@ -97,21 +97,28 @@
 + (id) removeButtonWithResourceType:(ResourceType)type removeCost:(int)removeCost {
   MapBotViewButton *button = [self button];
   [button updateWithImageName:@"buildingremove.png" actionText:@"Remove" config:MapBotViewButtonRemove];
-  [button updateTopLabelForResourceType:type cost:removeCost];
+  [button updateTopLabelForResourceType:type cost:removeCost string:nil];
   return button;
 }
 
 + (id) upgradeButtonWithResourceType:(ResourceType)type buildCost:(int)buildCost {
   MapBotViewButton *button = [self button];
   [button updateWithImageName:@"buildingupgrade.png" actionText:@"Upgrade" config:MapBotViewButtonUpgrade];
-  [button updateTopLabelForResourceType:type cost:buildCost];
+  [button updateTopLabelForResourceType:type cost:buildCost string:nil];
   return button;
 }
 
 + (id) fixButtonWithResourceType:(ResourceType)type buildCost:(int)buildCost {
   MapBotViewButton *button = [self button];
   [button updateWithImageName:@"buildingfix.png" actionText:@"Fix" config:MapBotViewButtonFix];
-  [button updateTopLabelForResourceType:type cost:buildCost];
+  [button updateTopLabelForResourceType:type cost:buildCost string:nil];
+  return button;
+}
+
++ (id) fixButtonWithIapString:(NSString *)str {
+  MapBotViewButton *button = [self button];
+  [button updateWithImageName:@"buildingfix.png" actionText:@"Renew" config:MapBotViewButtonFix];
+  [button updateTopLabelForResourceType:0 cost:0 string:str];
   return button;
 }
 
@@ -125,7 +132,7 @@
   
   THLabel *topLabel = nil;
   if (gemCost) {
-    [button updateTopLabelForResourceType:ResourceTypeGems cost:gemCost];
+    [button updateTopLabelForResourceType:ResourceTypeGems cost:gemCost string:nil];
     button.freeLabel.hidden = YES;
     
     //topLabel = button.topLabel;
@@ -154,14 +161,23 @@
   self.config = config;
 }
 
-- (void) updateTopLabelForResourceType:(ResourceType)type cost:(int)cost {
-  self.topLabel.text = [@" " stringByAppendingString:[Globals commafyNumber:cost]];
-  [Globals adjustViewForCentering:self.topLabel.superview withLabel:self.topLabel];
+- (void) updateTopLabelForResourceType:(ResourceType)type cost:(int)cost string:(NSString *)str {
+  self.topLabel.text = [@" " stringByAppendingString:str ?: [Globals commafyNumber:cost]];
+  
+  if (str) {
+    self.topLabel.centerX = self.topLabel.superview.width/2;
+    self.topLabel.textAlignment = NSTextAlignmentCenter;
+  } else {
+    [Globals adjustViewForCentering:self.topLabel.superview withLabel:self.topLabel];
+  }
+  
   
   if (type == ResourceTypeCash) {
     self.topLabel.textColor = [UIColor colorWithRed:106/255.f green:181/255.f blue:0.f alpha:1.f];
   } else if (type == ResourceTypeOil) {
     self.topLabel.textColor = [UIColor colorWithRed:205/255.f green:167/255.f blue:27/255.f alpha:1.f];
+  } else {
+    self.topLabel.textColor = [UIColor colorWithRed:51/255.f green:51/255.f blue:51/255.f alpha:1.f];
   }
   
   self.cashIcon.hidden = type != ResourceTypeCash;

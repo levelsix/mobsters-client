@@ -206,6 +206,9 @@
       case BuildingBubbleTypeLocked:
         imgName = [NSString stringWithFormat:@"lockedbubble.png"];
         break;
+      case BuildingBubbleTypeRenew:
+        imgName = [NSString stringWithFormat:@"renewbubble.png"];
+        break;
         
       default:
         break;

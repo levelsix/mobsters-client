@@ -10,9 +10,14 @@
 
 #import "Globals.h"
 
+#import "IAPHelper.h"
+
 @implementation BuildingCardCell
 
 - (void) updateForStructInfo:(StructureInfoProto *)structInfo townHall:(UserStruct *)townHall structs:(NSArray *)structs {
+  self.moneyTreeView.hidden = YES;
+  self.buildingView.hidden = NO;
+  
   NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
   [paragraphStyle setLineSpacing:1.8];
   [paragraphStyle setAlignment:NSTextAlignmentCenter];
@@ -75,6 +80,54 @@
   [Globals imageNamed:fileName withView:self.buildingIcon greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   self.lockedView.hidden = !greyscale;
   self.unlockedView.hidden = greyscale;
+}
+
+- (void) updateForMoneyTree:(MoneyTreeProto *)mtp {
+  if (!self.moneyTreeView) {
+    self.moneyTreeView = [[NSBundle mainBundle] loadNibNamed:@"BuildingMoneyTreeView" owner:self options:nil][0];
+    
+    [self.contentView addSubview:self.moneyTreeView];
+    
+    self.curCostLabel.gradientStartColor = [UIColor colorWithHexString:@"efff00"];
+    self.curCostLabel.gradientEndColor = [UIColor colorWithHexString:@"11ff00"];
+    
+    self.timeLeftLabel.strokeColor = [UIColor colorWithHexString:@"61077b"];
+    self.timeLeftLabel.strokeSize = 1.f;
+    self.timeLeftLabel.gradientStartColor = [UIColor whiteColor];
+    self.timeLeftLabel.gradientEndColor = [UIColor colorWithHexString:@"f9dbff"];
+    self.timeLeftLabel.shadowBlur = 0.9f;
+  }
+  
+  self.moneyTreeView.hidden = NO;
+  self.buildingView.hidden = YES;
+  
+  self.producesLabel.text = [NSString stringWithFormat:@"Produces %d", (int)roundf(mtp.productionRate*24)];
+  self.daysLabel.text = [NSString stringWithFormat:@"Lasts for %d Days.", mtp.daysOfDuration];
+  
+  IAPHelper *iap = [IAPHelper sharedIAPHelper];
+  SKProduct *prod = [iap productForIdentifier:mtp.iapProductId];
+  self.curCostLabel.text = [iap priceForProduct:prod];
+  
+  prod = [iap productForIdentifier:mtp.fakeIapproductId];
+  self.oldCostLabel.text = [iap priceForProduct:prod];
+}
+
+- (void) updateTime:(int)secsLeft {
+  if (secsLeft >= 0) {
+    self.timeLeftLabel.text = [@" " stringByAppendingString:[Globals convertTimeToShortString:secsLeft withAllDenominations:YES].uppercaseString];
+    
+    //[Globals adjustViewForCentering:self.timeLeftLabel.superview withLabel:self.timeLeftLabel];
+  } else if (self.timerIcon) {
+    [self.timerIcon removeFromSuperview];
+    self.timerIcon = nil;
+    
+    self.timeLeftLabel.centerX = self.timeLeftLabel.superview.width/2;
+    self.timeLeftLabel.originY += 1.f;
+    self.timeLeftLabel.textAlignment = NSTextAlignmentCenter;
+    
+    self.timeLeftLabel.text = @"LIMITED TIME!";
+    //self.timeLeftLabel.font = [UIFont fontWithName:self.timeLeftLabel.font.fontName size:self.timeLeftLabel.font.pointSize];
+  }
 }
 
 @end
