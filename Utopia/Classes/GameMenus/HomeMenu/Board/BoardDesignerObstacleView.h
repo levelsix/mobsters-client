@@ -20,6 +20,9 @@
 @property (nonatomic, retain) IBOutlet UIImageView* lockImageView;
 @property (nonatomic, retain) IBOutlet UILabel* lockLabel;
 
+@property (nonatomic, readonly) BOOL isEnabled;
+@property (nonatomic, readonly) BOOL isLocked;
+
 + (instancetype) viewWithObstacleImage:(NSString*)image name:(NSString*)name andPowerCost:(NSInteger)powerCost;
 
 - (void) disableObstacle;

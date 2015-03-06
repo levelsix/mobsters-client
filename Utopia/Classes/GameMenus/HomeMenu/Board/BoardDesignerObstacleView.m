@@ -25,6 +25,9 @@
   [self.obstacleImageView setImage:[UIImage imageNamed:image]];
   [self.obstacleNameLabel setText:[name uppercaseString]];
   [self.obstaclePowerCostLabel setText:[NSString stringWithFormat:@"%ld", (long)powerCost]];
+  
+  _isEnabled = YES;
+  _isLocked = NO;
 }
 
 - (void) disableObstacle
@@ -32,6 +35,8 @@
   [self.obstacleNameLabel setTextColor:[UIColor colorWithHexString:@"B2B2B2"]];
   [self.obstaclePowerLabel setTextColor:[UIColor colorWithHexString:@"B2B2B2"]];
   [self.obstaclePowerCostLabel setTextColor:[UIColor colorWithHexString:@"DB2C2C"]];
+  
+  _isEnabled = NO;
 }
 
 - (void) enableObstacle
@@ -39,6 +44,8 @@
   [self.obstacleNameLabel setTextColor:[UIColor colorWithHexString:@"00C2FF"]];
   [self.obstaclePowerLabel setTextColor:[UIColor colorWithHexString:@"6F9F11"]];
   [self.obstaclePowerCostLabel setTextColor:[UIColor colorWithHexString:@"6F9F11"]];
+  
+  _isEnabled = YES;
 }
 
 - (void) lockObstacle
@@ -50,6 +57,8 @@
   [self.lockLabel setHidden:NO];
   [self.obstaclePowerLabel setHidden:YES];
   [self.obstaclePowerCostLabel setHidden:YES];
+  
+  _isLocked = YES;
 }
 
 - (void) unlockObstacle
@@ -61,6 +70,8 @@
   [self.lockLabel setHidden:YES];
   [self.obstaclePowerLabel setHidden:NO];
   [self.obstaclePowerCostLabel setHidden:NO];
+  
+  _isLocked = NO;
 }
 
 @end

@@ -18,8 +18,8 @@
 {
   [super viewDidLoad];
   
-  self.containerView.layer.cornerRadius = 5.f;
-  self.containerView.clipsToBounds = YES;
+  [self.containerView.layer setCornerRadius:5.f];
+  [self.containerView setClipsToBounds:YES];
   
   UIImageView* descriptionCapLeft = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"obstaclesdescriptioncap.png"]];
   {
@@ -69,6 +69,20 @@
   [self.powerProgressBar setPercentage:.8f];
   [self loadObstacles];
   [self buildBoardWithRows:9 andColumns:9];
+  
+  // Gesture recognizer for dragging views around
+  UIPanGestureRecognizer* panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
+    [panGestureRecognizer setDelegate:self];
+    [self.view setGestureRecognizers:@[ panGestureRecognizer ]];
+  // Gesture recognizer for detecting long press on obstacles in the
+  // scroll view. If the scroll view does not need to scroll due to
+  // its content size, the minimum long press duration is set to zero
+  UILongPressGestureRecognizer* longPressGestureRecogzier = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
+    [longPressGestureRecogzier setDelegate:self];
+    [longPressGestureRecogzier setMinimumPressDuration:(self.obstaclesScrollView.contentSize.width > self.obstaclesScrollView.width) ? .1f : 0.f];
+    [self.obstaclesScrollView setGestureRecognizers:@[ longPressGestureRecogzier ]];
+  
+  _draggingObstacle = NO;
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -81,11 +95,14 @@
 - (void) loadObstacles
 {
   static const int kCellPadding = 5;
+  
+  _obstacleViews = [NSMutableArray array];
 
   // HARDCODED Cloud
   BoardDesignerObstacleView* obstacleView = [BoardDesignerObstacleView viewWithObstacleImage:@"cloudobstacle.png" name:@"Cloud" andPowerCost:1];
     [obstacleView setOriginX:0.f];
     [self.obstaclesScrollView addSubview:obstacleView];
+    [_obstacleViews addObject:obstacleView];
   UIImageView* separator = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"popuplinevertical.png"]];
     [separator setFrame:CGRectMake(CGRectGetMaxX(obstacleView.frame) + kCellPadding, 0, 1, self.obstaclesScrollView.height)];
     [self.obstaclesScrollView addSubview:separator];
@@ -95,6 +112,7 @@
     [obstacleView disableObstacle];
     [obstacleView setOriginX:separator.originX + kCellPadding];
     [self.obstaclesScrollView addSubview:obstacleView];
+    [_obstacleViews addObject:obstacleView];
   separator = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"popuplinevertical.png"]];
     [separator setFrame:CGRectMake(CGRectGetMaxX(obstacleView.frame) + kCellPadding, 0, 1, self.obstaclesScrollView.height)];
     [self.obstaclesScrollView addSubview:separator];
@@ -104,6 +122,7 @@
     [obstacleView lockObstacle];
     [obstacleView setOriginX:separator.originX + kCellPadding];
     [self.obstaclesScrollView addSubview:obstacleView];
+    [_obstacleViews addObject:obstacleView];
   
   [self.obstaclesScrollView setContentSize:CGSizeMake(CGRectGetMaxX(obstacleView.frame), self.obstaclesScrollView.height)];
 }
@@ -155,6 +174,83 @@
   for (int row = 0; row < rows; ++row)
     for (int col = 0; col < cols; ++col)
       [(BoardDesignerTile*)[[_boardTiles objectAtIndex:row] objectAtIndex:col] updateBorders];
+}
+
+- (BOOL) gestureRecognizer:(UIGestureRecognizer*)gestureRecognizer
+  shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer*)otherGestureRecognizer
+{
+  return YES;
+}
+
+- (void) handleLongPress:(UIPanGestureRecognizer*)gestureRecognizer
+{
+  CGPoint point = [gestureRecognizer locationInView:self.view];
+  if (gestureRecognizer.state == UIGestureRecognizerStateBegan)
+  {
+    for (BoardDesignerObstacleView* obstacleView in _obstacleViews)
+      if (obstacleView.isEnabled && !obstacleView.isLocked)
+      {
+        CGPoint localPoint = [self.view convertPoint:point toView:obstacleView.obstacleImageView];
+        if ([obstacleView.obstacleImageView pointInside:localPoint withEvent:nil])
+        {
+          // Begin dragging an obstacle that is enabled and unlocked out of the scroll view
+          
+          _dragOrigin = [obstacleView convertPoint:obstacleView.obstacleImageView.center toView:self.view];
+          _dragLastMovementTime = CACurrentMediaTime();
+          
+          _draggedObstacle = [[UIImageView alloc] initWithImage:obstacleView.obstacleImageView.image];
+            [_draggedObstacle setCenter:point];
+            [_draggedObstacle setAlpha:0.f];
+            [_draggedObstacle.layer setAnchorPoint:CGPointMake(localPoint.x / obstacleView.obstacleImageView.width,
+                                                               localPoint.y / obstacleView.obstacleImageView.height)];
+            [self.view insertSubview:_draggedObstacle aboveSubview:self.mainView];
+          [UIView animateWithDuration:.1f animations:^{
+            [_draggedObstacle setAlpha:1.f];
+            [_draggedObstacle.layer setTransform:CATransform3DMakeScale(1.5f, 1.5f, 1.f)];
+          }];
+          
+          _draggingObstacle = YES;
+          
+          // Valid drag gesture detected; disable scrolling
+          [self.obstaclesScrollView setScrollEnabled:NO];
+          
+          break;
+        }
+      }
+  }
+  if (gestureRecognizer.state == UIGestureRecognizerStateEnded)
+  {
+    // Dragged obstacle will fly back to its origin
+    [UIView animateWithDuration:.1f animations:^{
+      [_draggedObstacle setCenter:_dragOrigin];
+      [_draggedObstacle.layer setAnchorPoint:CGPointMake(.5f, .5f)];
+      [_draggedObstacle.layer setTransform:CATransform3DIdentity];
+    } completion:^(BOOL finished) {
+      [_draggedObstacle removeFromSuperview];
+      _draggedObstacle = nil;
+    }];
+    
+    _draggingObstacle = NO;
+    
+    // Drag gesture ended; re-enable scrolling
+    [self.obstaclesScrollView setScrollEnabled:YES];
+  }
+}
+
+- (void) handlePan:(UIPanGestureRecognizer*)gestureRecognizer
+{
+  CGPoint point = [gestureRecognizer locationInView:self.view];
+  if (gestureRecognizer.state == UIGestureRecognizerStateChanged)
+  {
+    if (_draggingObstacle)
+    {
+      // Obstacle being dragged will follow finger movement
+      [UIView animateWithDuration:CACurrentMediaTime() - _dragLastMovementTime animations:^{
+        [_draggedObstacle setCenter:point];
+      }];
+      _dragLastMovementTime = CACurrentMediaTime();
+    }
+  }
 }
 
 - (IBAction) closeClicked:(id)sender

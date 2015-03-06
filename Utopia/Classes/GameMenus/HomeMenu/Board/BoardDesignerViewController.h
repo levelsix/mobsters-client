@@ -12,10 +12,17 @@
 @class SplitImageProgressBar;
 @class TouchableSubviewsView;
 
-@interface BoardDesignerViewController : UIViewController
+@interface BoardDesignerViewController : UIViewController <UIGestureRecognizerDelegate>
 {
-  TouchableSubviewsView* _boardContainer;
-  NSMutableArray* _boardTiles;
+  NSMutableArray*         _obstacleViews;
+  
+  TouchableSubviewsView*  _boardContainer;
+  NSMutableArray*         _boardTiles;
+  
+  BOOL                    _draggingObstacle;
+  CGPoint                 _dragOrigin;
+  UIImageView*            _draggedObstacle;
+  CFTimeInterval          _dragLastMovementTime;
 }
 
 @property (nonatomic, retain) IBOutlet UIView* mainView;
