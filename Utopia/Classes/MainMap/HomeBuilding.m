@@ -628,7 +628,7 @@
           CCSprite *spr = [CCSprite spriteWithSpriteFrame:[drill.frames[0] spriteFrame]];
           _drillAnim = drill;
           [self.buildingSprite addChild:spr];
-          spr.position = ccp(self.buildingSprite.contentSize.width/2, self.buildingSprite.contentSize.height/2+2);
+          spr.position = ccp(self.buildingSprite.contentSize.width/2, self.buildingSprite.contentSize.height/2+3);
           _drillSprite = spr;
         }
         

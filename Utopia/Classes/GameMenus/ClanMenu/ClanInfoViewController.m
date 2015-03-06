@@ -175,7 +175,7 @@
       int status1 = m1.numClanHelpsGiven;
       int status2 = m2.numClanHelpsGiven;
       if (status1 != status2) {
-        return [@(status1) compare:@(status2)];
+        return [@(status2) compare:@(status1)];
       } else {
         return baseComp(m1, m2);
       }

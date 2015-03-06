@@ -315,13 +315,17 @@
         bp.dialogue = !tsm.hasDefaultD ? nil : tsm.defaultD;
       }
       
-      [set addObject:bp.spritePrefix];
+      if (bp.spritePrefix) {
+        [set addObject:bp.spritePrefix];
+      }
       [skillSideEffects addObjectsFromArray:[Globals skillSideEffectProtosForBattlePlayer:bp enemy:YES]];
     }
     self.enemyTeam = enemyTeam;
     
     for (BattlePlayer *bp in self.myTeam) {
-      [set addObject:bp.spritePrefix];
+      if (bp.spritePrefix) {
+        [set addObject:bp.spritePrefix];
+      }
       [skillSideEffects addObjectsFromArray:[Globals skillSideEffectProtosForBattlePlayer:bp enemy:NO]];
     }
     

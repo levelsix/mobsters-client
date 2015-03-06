@@ -2582,6 +2582,8 @@
 - (void) onEnterTransitionDidFinish {
   [super onEnterTransitionDidFinish];
   [self beginTimers];
+  
+  NSLog(@"%p: onEnterTransitionDidFinish", self);
 }
 
 - (void) onEnter {
@@ -2612,17 +2614,23 @@
   
   // Mini job just redeemed, clan donate redeemed
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadHospitals) name:MY_TEAM_CHANGED_NOTIFICATION object:nil];
+  
+  NSLog(@"%p: enter", self);
 }
 
 - (void) onExitTransitionDidStart {
   [super onExitTransitionDidStart];
   
   [self closeCurrentViewController];
+  
+  NSLog(@"%p: onExitTransitionDidStart", self);
 }
 
 - (void) onExit {
   [super onExit];
   [self invalidateAllTimers];
+  
+  NSLog(@"%p: exit", self);
 }
 
 @end

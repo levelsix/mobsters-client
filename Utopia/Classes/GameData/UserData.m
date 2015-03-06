@@ -890,10 +890,8 @@
 }
 
 - (NSTimeInterval) timeTillExpiry {
-//  MoneyTreeProto *mtp = (MoneyTreeProto *)self.staticStruct;
-//  return [self.purchaseTime dateByAddingTimeInterval:mtp.daysOfDuration*24*3600].timeIntervalSinceNow;
-  GameState *gs = [GameState sharedGameState];
-  return [MSDate dateWithTimeIntervalSince1970:gs.lastLoginTimeNum/1000. + 15.f].timeIntervalSinceNow;
+  MoneyTreeProto *mtp = (MoneyTreeProto *)self.staticStruct;
+  return [self.purchaseTime dateByAddingTimeInterval:mtp.daysOfDuration*24*3600].timeIntervalSinceNow;
 }
 
 - (BOOL) isNoLongerValidForRenewal {
