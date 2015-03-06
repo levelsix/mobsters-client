@@ -36,11 +36,7 @@
   Globals *gl = [Globals sharedGlobals];
   
   //for now we assume only a single property for each research
-  NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-  [formatter setMaximumFractionDigits:5];
-  [formatter setMinimumFractionDigits:0];
-  NSString *result = [formatter stringFromNumber:[NSNumber numberWithFloat:[research researchBenefit]]];
-  self.percentIncreseLabel.text = [NSString stringWithFormat:@"%@%@", result, [research firstProperty].name];
+  self.percentIncreseLabel.text = [NSString stringWithFormat:@"%@%@", [research description], [research firstProperty].name];
   
   self.researchImage.image = [Globals imageNamed:research.iconImgName];
   self.researchName.text = research.name;
@@ -77,7 +73,6 @@
   
   [self.topPercentBar setPercentage:curPercent];
   [self.botPercentBar setPercentage:nextPercent];
-  
 }
 
 
@@ -93,48 +88,15 @@
   if((self = [super init])) {
     [self.view updateWithResearch:research];
     self.title = [NSString stringWithFormat:@"Research to Rank %d",research.level];
+    _researchId = research.researchId;
   }
   
   return self;
 }
 
 - (IBAction)DetailsClicked:(id)sender {
-  ResearchDetailViewController *rdvc = [[ResearchDetailViewController alloc] init];
+  ResearchDetailViewController *rdvc = [[ResearchDetailViewController alloc] initWithResearchId:_researchId];
   [self.parentViewController pushViewController:rdvc animated:YES];
-}
-
-@end
-
-@implementation ResearchProto (prereqObject)
-
-- (ResearchProto *)successorResearch {
-  return [[GameState sharedGameState].staticResearch objectForKey:@(self.succId)];
-}
-
-- (ResearchProto *)predecessorResearch {
-  return [[GameState sharedGameState].staticResearch objectForKey:@(self.predId)];
-}
-
-- (ResearchProto *)maxLevelResearch {
-  if(self.succId) {
-    return [[self successorResearch] maxLevelResearch];
-  }
-  return self;
-}
-
-- (ResearchProto *)minLevelResearch {
-  if(self.predId) {
-    return [[self predecessorResearch] minLevelResearch];
-  }
-  return self;
-}
-
-- (ResearchPropertyProto *)firstProperty {
-  return self.propertiesList[0];
-}
-
-- (float)researchBenefit {
-    return [self firstProperty].researchValue - [[self predecessorResearch] firstProperty].researchValue;
 }
 
 @end

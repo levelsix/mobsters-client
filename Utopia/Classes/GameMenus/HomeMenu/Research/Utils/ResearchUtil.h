@@ -18,3 +18,16 @@
 -(BOOL) isResearched:(ResearchProto *)research;
 
 @end
+
+@interface ResearchProto (prereqObject)
+
+- (ResearchProto *)successorResearch;
+- (ResearchProto *)predecessorResearch;
+- (ResearchProto *)maxLevelResearch;
+- (ResearchProto *)minLevelResearch;
+- (ResearchPropertyProto *)firstProperty;
+- (float)researchBenefit;
+- (NSArray *)fullResearchFamily;
+- (NSString *)description;
+
+@end

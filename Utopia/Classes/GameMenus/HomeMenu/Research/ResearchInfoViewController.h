@@ -41,22 +41,13 @@
 
 @end
 
-@interface ResearchInfoViewController : PopupSubViewController
+@interface ResearchInfoViewController : PopupSubViewController {
+  int _researchId;
+}
 
 -(id)initWithResearch:(ResearchProto *)research;
 
 @property (nonatomic, assign) IBOutlet ResearchInfoView *view;
-
-@end
-
-@interface ResearchProto (prereqObject)
-
-- (ResearchProto *)successorResearch;
-- (ResearchProto *)predecessorResearch;
-- (ResearchProto *)maxLevelResearch;
-- (ResearchProto *)minLevelResearch;
-- (ResearchPropertyProto *)firstProperty;
-- (float)researchBenefit;
 
 @end
 
