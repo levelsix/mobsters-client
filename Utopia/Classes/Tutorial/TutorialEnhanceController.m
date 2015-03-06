@@ -87,7 +87,7 @@
   self.gameViewController.currentMap = homeMap;
   
   CCDirector *dir = [CCDirector sharedDirector];
-  [dir popToRootSceneWithTransition:[CCTransition transitionCrossFadeWithDuration:0.6]];
+  [dir popToRootScene];
   [dir replaceScene:scene];
 }
 

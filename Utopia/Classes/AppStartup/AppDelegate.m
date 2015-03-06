@@ -361,7 +361,7 @@
   
   for (UserMiniJob *miniJob in gs.myMiniJobs) {
     if (miniJob.timeStarted && !miniJob.timeCompleted) {
-      [self scheduleNotificationWithText:[NSString stringWithFormat:@"Your %@s have come back from their %@.", MONSTER_NAME, miniJob.miniJob.name] badge:1 date:miniJob.tentativeCompletionDate];
+      [self scheduleNotificationWithText:[NSString stringWithFormat:@"Your %@s have come back from their mini job %@.", MONSTER_NAME, miniJob.miniJob.name] badge:1 date:miniJob.tentativeCompletionDate];
     }
   }
   

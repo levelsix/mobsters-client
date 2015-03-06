@@ -1169,7 +1169,26 @@ static const CGSize FIXED_SIZE = {568, 384};
   
   _isInBattle = NO;
   
-  [[CCDirector sharedDirector] popSceneWithTransition:[CCTransition transitionCrossFadeWithDuration:duration]];
+  UserStruct *lab = gs.myLaboratory;
+  
+  if (true) //[gs isTaskCompleted:[Globals sharedGlobals].taskIdOfFirstSkill] && ![gs hasUpgradedBuilding])
+  {
+    self.miniTutController = [[TutorialBuildingUpgradeController alloc] initWithMyTeam:nil gameViewController:self];
+    self.miniTutController.delegate = self;
+    [self.miniTutController begin];
+  } else if (lab.staticStruct.structInfo.level == 0 && [lab satisfiesAllPrerequisites] && lab.staticStructForNextLevel.structInfo.buildCost <= 0) {
+    FullUserMonsterProto *mon = [params[BATTLE_USER_MONSTERS_GAINED_KEY] firstObject];
+    
+    if (mon) {
+      TutorialEnhanceController *enhance = [[TutorialEnhanceController alloc] initWithBaseMonster:[[gs allBattleAvailableMonstersOnTeamWithClanSlot:NO] firstObject] feeder:[gs myMonsterWithUserMonsterUuid:mon.userMonsterUuid] gameViewController:self];
+      self.miniTutController = enhance;
+      enhance.delegate = self;
+      [enhance begin];
+    }
+  } else {
+    
+    [[CCDirector sharedDirector] popSceneWithTransition:[CCTransition transitionCrossFadeWithDuration:duration]];
+  }
   
   DialogueProto *dp = params[BATTLE_DEFEATED_DIALOGUE_KEY];
   if (dp) {
@@ -1201,24 +1220,6 @@ static const CGSize FIXED_SIZE = {568, 384};
         [self.notificationController resumeNotifications];
       }
     }];
-  }
-  
-  UserStruct *lab = gs.myLaboratory;
-  
-  if ([gs isTaskCompleted:[Globals sharedGlobals].taskIdOfFirstSkill] && ![gs hasUpgradedBuilding])
-  {
-    self.miniTutController = [[TutorialBuildingUpgradeController alloc] initWithMyTeam:nil gameViewController:self];
-    self.miniTutController.delegate = self;
-    [self.miniTutController begin];
-  } else if (lab.staticStruct.structInfo.level == 0 && [lab satisfiesAllPrerequisites] && lab.staticStructForNextLevel.structInfo.buildCost <= 0) {
-    FullUserMonsterProto *mon = [params[BATTLE_USER_MONSTERS_GAINED_KEY] firstObject];
-    
-    if (mon) {
-      TutorialEnhanceController *enhance = [[TutorialEnhanceController alloc] initWithBaseMonster:[[gs allBattleAvailableMonstersOnTeamWithClanSlot:NO] firstObject] feeder:[gs myMonsterWithUserMonsterUuid:mon.userMonsterUuid] gameViewController:self];
-      self.miniTutController = enhance;
-      enhance.delegate = self;
-      [enhance begin];
-    }
   }
   
   [self playMapMusic];
