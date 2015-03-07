@@ -1098,11 +1098,11 @@
             break;
             
           case StructureInfoProto_StructTypePvpBoard:
-            [buttonViews addObject:[MapBotViewButton teamButton]];
+            [buttonViews addObject:[MapBotViewButton pvpBoardButton]];
             break;
             
           case StructureInfoProto_StructTypeBattleItemFactory:
-            [buttonViews addObject:[MapBotViewButton joinClanButton]];
+            [buttonViews addObject:[MapBotViewButton itemFactoryButton]];
             break;
             
           default:
@@ -1187,6 +1187,8 @@
     case MapBotViewButtonTeam:
     case MapBotViewButtonSell:
     case MapBotViewButtonJoinClan:
+    case MapBotViewButtonPvpBoard:
+    case MapBotViewButtonItemFactory:
       [self enterClicked:button];
       break;
       

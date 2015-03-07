@@ -359,7 +359,7 @@
     newStat1 = next.teamCostLimit;
     maxStat1 = max.teamCostLimit;
     
-    statName1 = @"Team Power:";
+    statName1 = @"Power Limit:";
   } else if (structType == StructureInfoProto_StructTypeClan) {
     ClanHouseProto *cur = (ClanHouseProto *)curSS;
     ClanHouseProto *next = (ClanHouseProto *)nextSS;
@@ -390,6 +390,26 @@
     statString1 = [NSString stringWithFormat:@"%@ Evo %d", [Globals stringForRarity:next.qualityUnlocked], next.evoTierUnlocked];
     
     statName1 = @"Unlocks:";
+  } else if (structType == StructureInfoProto_StructTypePvpBoard) {
+    PvpBoardHouseProto *cur = (PvpBoardHouseProto *)curSS;
+    PvpBoardHouseProto *next = (PvpBoardHouseProto *)nextSS;
+    PvpBoardHouseProto *max = (PvpBoardHouseProto *)maxSS;
+    
+    curStat1 = cur.pvpBoardPowerLimit;
+    newStat1 = next.pvpBoardPowerLimit;
+    maxStat1 = max.pvpBoardPowerLimit;
+    
+    statName1 = @"Power Limit:";
+  } else if (structType == StructureInfoProto_StructTypeBattleItemFactory) {
+    BattleItemFactoryProto *cur = (BattleItemFactoryProto *)curSS;
+    BattleItemFactoryProto *next = (BattleItemFactoryProto *)nextSS;
+    BattleItemFactoryProto *max = (BattleItemFactoryProto *)maxSS;
+    
+    curStat1 = cur.powerLimit;
+    newStat1 = next.powerLimit;
+    maxStat1 = max.powerLimit;
+    
+    statName1 = @"Power Limit:";
   }
   
   NSString *dollarSign = showsCashSymbol1 ? @"$" : @"";
