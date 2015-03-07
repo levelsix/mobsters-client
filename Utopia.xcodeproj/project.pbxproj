@@ -910,6 +910,12 @@
 		29AF1C6F1A443A2A00E8E457 /* BattleOrbPath.m in Sources */ = {isa = PBXBuildFile; fileRef = 29AF1C6E1A443A2A00E8E457 /* BattleOrbPath.m */; };
 		29AF1C701A443A2A00E8E457 /* BattleOrbPath.m in Sources */ = {isa = PBXBuildFile; fileRef = 29AF1C6E1A443A2A00E8E457 /* BattleOrbPath.m */; };
 		29AF1C711A443A2A00E8E457 /* BattleOrbPath.m in Sources */ = {isa = PBXBuildFile; fileRef = 29AF1C6E1A443A2A00E8E457 /* BattleOrbPath.m */; };
+		29AF48941AAA87800034927C /* BattleItem.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 29AF48911AAA87800034927C /* BattleItem.pb.m */; };
+		29AF48951AAA87800034927C /* EventBattleItem.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 29AF48931AAA87800034927C /* EventBattleItem.pb.m */; };
+		29AF48971AAA87880034927C /* BattleItem.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 29AF48911AAA87800034927C /* BattleItem.pb.m */; };
+		29AF48981AAA87880034927C /* EventBattleItem.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 29AF48931AAA87800034927C /* EventBattleItem.pb.m */; };
+		29AF48991AAA87890034927C /* BattleItem.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 29AF48911AAA87800034927C /* BattleItem.pb.m */; };
+		29AF489A1AAA87890034927C /* EventBattleItem.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 29AF48931AAA87800034927C /* EventBattleItem.pb.m */; };
 		29C0D22D1A9BF4BF005A4EC0 /* lockedbubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29C0D22C1A9BF4BF005A4EC0 /* lockedbubble@2x.png */; };
 		29C0D22E1A9BF4BF005A4EC0 /* lockedbubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29C0D22C1A9BF4BF005A4EC0 /* lockedbubble@2x.png */; };
 		29C0D22F1A9BF4BF005A4EC0 /* lockedbubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29C0D22C1A9BF4BF005A4EC0 /* lockedbubble@2x.png */; };
@@ -7172,6 +7178,10 @@
 		29AF1C651A43AB1100E8E457 /* borderroundedlight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "borderroundedlight@2x.png"; sourceTree = "<group>"; };
 		29AF1C6D1A443A2A00E8E457 /* BattleOrbPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BattleOrbPath.h; sourceTree = "<group>"; };
 		29AF1C6E1A443A2A00E8E457 /* BattleOrbPath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BattleOrbPath.m; sourceTree = "<group>"; };
+		29AF48901AAA87800034927C /* BattleItem.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BattleItem.pb.h; sourceTree = "<group>"; };
+		29AF48911AAA87800034927C /* BattleItem.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BattleItem.pb.m; sourceTree = "<group>"; };
+		29AF48921AAA87800034927C /* EventBattleItem.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventBattleItem.pb.h; sourceTree = "<group>"; };
+		29AF48931AAA87800034927C /* EventBattleItem.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventBattleItem.pb.m; sourceTree = "<group>"; };
 		29C0D22C1A9BF4BF005A4EC0 /* lockedbubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lockedbubble@2x.png"; sourceTree = "<group>"; };
 		29C0D2311A9BFA79005A4EC0 /* ultimategrabitem@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ultimategrabitem@2x.png"; sourceTree = "<group>"; };
 		29C0D2371A9C1098005A4EC0 /* toonrequestbubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "toonrequestbubble@2x.png"; sourceTree = "<group>"; };
@@ -14191,6 +14201,10 @@
 		CF4DB9651808AE9100062258 /* Protocol Buffers */ = {
 			isa = PBXGroup;
 			children = (
+				29AF48901AAA87800034927C /* BattleItem.pb.h */,
+				29AF48911AAA87800034927C /* BattleItem.pb.m */,
+				29AF48921AAA87800034927C /* EventBattleItem.pb.h */,
+				29AF48931AAA87800034927C /* EventBattleItem.pb.m */,
 				63B0452A1A9D7CD600C74F0C /* EventResearch.pb.h */,
 				63B0452B1A9D7CD600C74F0C /* EventResearch.pb.m */,
 				3E1A0C001A645B4B00DF00AD /* Board.pb.h */,
@@ -22956,6 +22970,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9BC9F34B1A8C143B009DC3D5 /* SkillSideEffectNerf.m in Sources */,
+				29AF48971AAA87880034927C /* BattleItem.pb.m in Sources */,
 				CF0CDEAA19E50675006A5ECB /* TimerViewController.m in Sources */,
 				CF0CECF9196F452900ECD301 /* OrbBgdLayer.m in Sources */,
 				29AF1C701A443A2A00E8E457 /* BattleOrbPath.m in Sources */,
@@ -23060,6 +23075,7 @@
 				CF0CED40196F452900ECD301 /* EventTournament.pb.m in Sources */,
 				CF0CED41196F452900ECD301 /* MiniTutorialBattleLayer.m in Sources */,
 				CF0CED42196F452900ECD301 /* EventMonster.pb.m in Sources */,
+				29AF48981AAA87880034927C /* EventBattleItem.pb.m in Sources */,
 				3E1A0C081A645B4B00DF00AD /* Research.pb.m in Sources */,
 				CF0CED43196F452900ECD301 /* OmnipresentViewController.m in Sources */,
 				CFE11F841A141C040094F797 /* amqp_openssl.c in Sources */,
@@ -23509,6 +23525,7 @@
 				DAAD3DD319C8C31E00557698 /* SkillBombs.m in Sources */,
 				CFFF9A5E18BEB9B80036EEC3 /* ClanRaidProto+EasyAccess.m in Sources */,
 				CF15BA8216572A8400A51F85 /* AMQPConsumerThread.m in Sources */,
+				29AF48951AAA87800034927C /* EventBattleItem.pb.m in Sources */,
 				CF8BA23418CEAD06003277D1 /* MiniTutorialController.m in Sources */,
 				CF15BA8316572A8400A51F85 /* AMQPExchange.m in Sources */,
 				DA0FC55C19B1861500393BF4 /* SkillControllerActive.m in Sources */,
@@ -23577,6 +23594,7 @@
 				CF6574A81909CAF200ABF1F4 /* BoosterPackStuff.pb.m in Sources */,
 				CF9F41A119A6FF2C002EBF03 /* OrbSwipeLayer+PowerupAnimations.m in Sources */,
 				9B41AEB51A7C114D00529879 /* SkillHellFire.m in Sources */,
+				29AF48941AAA87800034927C /* BattleItem.pb.m in Sources */,
 				CFCD0EF81954D01600EDC233 /* PopupSubViewController.m in Sources */,
 				CF6574A71909CAF200ABF1F4 /* Battle.pb.m in Sources */,
 				29FC5E891A89422500A50FA7 /* SaleViewController.m in Sources */,
@@ -23647,6 +23665,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9BC9F34C1A8C143B009DC3D5 /* SkillSideEffectNerf.m in Sources */,
+				29AF48991AAA87890034927C /* BattleItem.pb.m in Sources */,
 				CF48189E19F7217F00041486 /* TimerViewController.m in Sources */,
 				CF48189F19F7217F00041486 /* OrbBgdLayer.m in Sources */,
 				29AF1C711A443A2A00E8E457 /* BattleOrbPath.m in Sources */,
@@ -23751,6 +23770,7 @@
 				CF4818E719F7217F00041486 /* EventTournament.pb.m in Sources */,
 				CF4818E819F7217F00041486 /* MiniTutorialBattleLayer.m in Sources */,
 				CF4818E919F7217F00041486 /* EventMonster.pb.m in Sources */,
+				29AF489A1AAA87890034927C /* EventBattleItem.pb.m in Sources */,
 				3E1A0C091A645B4B00DF00AD /* Research.pb.m in Sources */,
 				CF4818EA19F7217F00041486 /* OmnipresentViewController.m in Sources */,
 				CFE11F851A141C040094F797 /* amqp_openssl.c in Sources */,

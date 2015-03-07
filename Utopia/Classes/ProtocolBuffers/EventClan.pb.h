@@ -26,6 +26,8 @@
 @class AvengeClanMateResponseProto_Builder;
 @class AwardClanRaidStageRewardResponseProto;
 @class AwardClanRaidStageRewardResponseProto_Builder;
+@class BattleItemFactoryProto;
+@class BattleItemFactoryProto_Builder;
 @class BeginClanAvengingRequestProto;
 @class BeginClanAvengingRequestProto_Builder;
 @class BeginClanAvengingResponseProto;

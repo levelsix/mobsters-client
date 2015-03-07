@@ -7,6 +7,12 @@
 
 @class AchievementProto;
 @class AchievementProto_Builder;
+@class BattleItemFactoryProto;
+@class BattleItemFactoryProto_Builder;
+@class BattleItemProto;
+@class BattleItemProto_Builder;
+@class BattleItemQueueForUserProto;
+@class BattleItemQueueForUserProto_Builder;
 @class BoardLayoutProto;
 @class BoardLayoutProto_Builder;
 @class BoardPropertyProto;
@@ -191,6 +197,8 @@
 @class TutorialStructProto_Builder;
 @class UserAchievementProto;
 @class UserAchievementProto_Builder;
+@class UserBattleItemProto;
+@class UserBattleItemProto_Builder;
 @class UserCityExpansionDataProto;
 @class UserCityExpansionDataProto_Builder;
 @class UserCurrentMonsterTeamProto;
@@ -227,6 +235,8 @@
 @class UserPvpLeagueProto_Builder;
 @class UserQuestJobProto;
 @class UserQuestJobProto_Builder;
+@class UserResearchProto;
+@class UserResearchProto_Builder;
 @class UserTaskCompletedProto;
 @class UserTaskCompletedProto_Builder;
 #ifndef __has_feature

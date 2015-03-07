@@ -8,6 +8,8 @@
 
 @class AchievementProto;
 @class AchievementProto_Builder;
+@class BattleItemFactoryProto;
+@class BattleItemFactoryProto_Builder;
 @class ClanHouseProto;
 @class ClanHouseProto_Builder;
 @class CoordinateProto;

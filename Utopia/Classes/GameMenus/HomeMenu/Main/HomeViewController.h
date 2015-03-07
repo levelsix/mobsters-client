@@ -42,6 +42,7 @@
 - (id) initWithEnhance;
 - (id) initWithEvolve;
 - (id) initWithMiniJobs;
+- (id) initWithBattleItemFactory;
 
 - (void) loadMainViewControllers;
 

@@ -10,6 +10,8 @@
 #import "User.pb.h"
 // @@protoc_insertion_point(imports)
 
+@class BattleItemFactoryProto;
+@class BattleItemFactoryProto_Builder;
 @class ClanDataProto;
 @class ClanDataProto_Builder;
 @class ClanHelpNoticeProto;

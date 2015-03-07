@@ -4,6 +4,7 @@
 
 #import "AchievementStuff.pb.h"
 #import "Battle.pb.h"
+#import "BattleItem.pb.h"
 #import "Board.pb.h"
 #import "BoosterPackStuff.pb.h"
 #import "Chat.pb.h"
@@ -83,6 +84,12 @@
 @class AvengeClanMateResponseProto_Builder;
 @class AwardClanRaidStageRewardResponseProto;
 @class AwardClanRaidStageRewardResponseProto_Builder;
+@class BattleItemFactoryProto;
+@class BattleItemFactoryProto_Builder;
+@class BattleItemProto;
+@class BattleItemProto_Builder;
+@class BattleItemQueueForUserProto;
+@class BattleItemQueueForUserProto_Builder;
 @class BeginClanAvengingRequestProto;
 @class BeginClanAvengingRequestProto_Builder;
 @class BeginClanAvengingResponseProto;
@@ -689,6 +696,8 @@
 @class UpgradeNormStructureResponseProto_Builder;
 @class UserAchievementProto;
 @class UserAchievementProto_Builder;
+@class UserBattleItemProto;
+@class UserBattleItemProto_Builder;
 @class UserCityExpansionDataProto;
 @class UserCityExpansionDataProto_Builder;
 @class UserCreateRequestProto;
@@ -731,6 +740,8 @@
 @class UserPvpLeagueProto_Builder;
 @class UserQuestJobProto;
 @class UserQuestJobProto_Builder;
+@class UserResearchProto;
+@class UserResearchProto_Builder;
 @class UserTaskCompletedProto;
 @class UserTaskCompletedProto_Builder;
 @class VoidTeamDonationSolicitationRequestProto;
@@ -851,6 +862,8 @@ typedef NS_ENUM(SInt32, EventProtocolRequest) {
   EventProtocolRequestCDevEvent = 200,
   EventProtocolRequestCPerformResearchEvent = 201,
   EventProtocolRequestCFinishPerformingResearchEvent = 202,
+  EventProtocolRequestCCreateBattleItemEvent = 203,
+  EventProtocolRequestCDiscardBattleItemEvent = 204,
 };
 
 BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value);
@@ -966,6 +979,8 @@ typedef NS_ENUM(SInt32, EventProtocolResponse) {
   EventProtocolResponseSDevEvent = 200,
   EventProtocolResponseSPerformResearchEvent = 201,
   EventProtocolResponseSFinishPerformingResearchEvent = 202,
+  EventProtocolResponseSCreateBattleItemEvent = 203,
+  EventProtocolResponseSDiscardBattleItemEvent = 204,
 };
 
 BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value);

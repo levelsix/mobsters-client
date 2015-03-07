@@ -38,6 +38,18 @@
 
 @end
 
+@implementation MoneyTreeProto (StaticStructureImpl)
+
+@end
+
+@implementation PvpBoardHouseProto (StaticStructureImpl)
+
+@end
+
+@implementation BattleItemFactoryProto (StaticStructureImpl)
+
+@end
+
 @implementation PrereqProto (Stringify)
 
 - (NSString *) prereqString {
