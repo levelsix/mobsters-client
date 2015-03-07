@@ -108,6 +108,9 @@ static const int kBoardMarginLeft = 15;
     [self.view removeFromSuperview];
     [self removeFromParentViewController];
   }];
+  
+  if (self.delegate)
+    [self.delegate boardDesignerViewControllerClosed];
 }
 
 - (void) loadObstacles

@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol BoardDesignerViewControllerDelegate <NSObject>
+
+- (void) boardDesignerViewControllerClosed;
+
+@end
+
 @class HomeTitleView;
 @class SplitImageProgressBar;
 @class TouchableSubviewsView;
@@ -41,6 +47,8 @@
 
 @property (nonatomic, retain) IBOutlet HomeTitleView* homeTitleView;
 @property (nonatomic, retain) IBOutlet SplitImageProgressBar* powerProgressBar;
+
+@property (nonatomic, assign) id<BoardDesignerViewControllerDelegate> delegate;
 
 - (IBAction) closeClicked:(id)sender;
 
