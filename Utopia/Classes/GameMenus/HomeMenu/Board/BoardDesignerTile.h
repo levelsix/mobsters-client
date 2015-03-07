@@ -15,9 +15,12 @@
   UIColor* _borderColor;
   UIImage* _outerCornerImage;
   UIImage* _innerCornerImage;
+  
+  UIImageView* _obstacleImageView;
 }
 
 @property (nonatomic, assign) BOOL isHole;
+@property (nonatomic, readonly) BOOL isOccupied;
 
 @property (nonatomic, assign) BoardDesignerTile* NeighborN;
 @property (nonatomic, assign) BoardDesignerTile* NeighborS;
@@ -27,6 +30,9 @@
 - (instancetype) initWithFrame:(CGRect)frame darkBaseColor:(BOOL)dark;
 
 - (void) updateBorders;
+- (BOOL) canAcceptObstacle;
+- (void) addObstacle:(UIImage*)obstacleImage;
+- (UIImage*) removeObstacle;
 - (BOOL) hasNeighborN;
 - (BOOL) hasNeighborS;
 - (BOOL) hasNeighborW;

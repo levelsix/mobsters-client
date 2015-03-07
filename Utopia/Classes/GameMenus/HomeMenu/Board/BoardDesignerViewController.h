@@ -18,11 +18,14 @@
   
   TouchableSubviewsView*  _boardContainer;
   NSMutableArray*         _boardTiles;
+  CGSize                  _boardSize;
   
   BOOL                    _draggingObstacle;
-  CGPoint                 _dragOrigin;
   UIImageView*            _draggedObstacle;
+  BOOL                    _draggedObstacleIsHole;
   CFTimeInterval          _dragLastMovementTime;
+  CGPoint                 _dragOrigin;
+  BOOL                    _dragOriginatedFromBoard;
 }
 
 @property (nonatomic, retain) IBOutlet UIView* mainView;

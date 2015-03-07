@@ -13,6 +13,7 @@
 static const int kBorderThickness = 2;
 static const int kCornerSize = 8;
 static const int kCornerInset = kCornerSize - kBorderThickness;
+static const int kObstacleInset = 2;
 
 @implementation BoardDesignerTile
 
@@ -25,12 +26,15 @@ static const int kCornerInset = kCornerSize - kBorderThickness;
     _borderColor = [UIColor colorWithHexString:@"181B1C"];
     _outerCornerImage = [UIImage imageNamed:@"boardeditorcorner.png"];
     _innerCornerImage = dark ? [UIImage imageNamed:@"boardeditorcornerlight.png"] : [UIImage imageNamed:@"boardeditorcornerdark.png"];
+    _obstacleImageView = nil;
+    
+    _isHole = NO;
+    _isOccupied = NO;
     
     self.NeighborN = nil;
     self.NeighborS = nil;
     self.NeighborW = nil;
     self.NeighborE = nil;
-    self.isHole = NO;
   }
   return self;
 }
@@ -39,6 +43,9 @@ static const int kCornerInset = kCornerSize - kBorderThickness;
 {
   // Remove all subviews
   [[self subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
+  
+  if (_obstacleImageView)
+    [self addSubview:_obstacleImageView];
   
   if (self.isHole)
   {
@@ -191,7 +198,7 @@ static const int kCornerInset = kCornerSize - kBorderThickness;
 
 - (void) updateInnerBorders
 {
-  if ([self hasNeighborN] && [self hasNeighborW])
+  if ([self hasNeighborN] && [self hasNeighborW] && [self.NeighborN hasNeighborW])
   {
     // Top-left inner corner
     UIImageView* corner = [[UIImageView alloc] initWithImage:_innerCornerImage];
@@ -199,7 +206,7 @@ static const int kCornerInset = kCornerSize - kBorderThickness;
     [self addSubview:corner];
   }
   
-  if ([self hasNeighborE] && [self hasNeighborN])
+  if ([self hasNeighborE] && [self hasNeighborN] && [self.NeighborE hasNeighborN])
   {
     // Top-right inner corner
     UIImageView* corner = [[UIImageView alloc] initWithImage:_innerCornerImage];
@@ -208,7 +215,7 @@ static const int kCornerInset = kCornerSize - kBorderThickness;
     [self addSubview:corner];
   }
   
-  if ([self hasNeighborS] && [self hasNeighborE])
+  if ([self hasNeighborS] && [self hasNeighborE] && [self.NeighborS hasNeighborE])
   {
     // Bottom-right inner corner
     UIImageView* corner = [[UIImageView alloc] initWithImage:_innerCornerImage];
@@ -217,7 +224,7 @@ static const int kCornerInset = kCornerSize - kBorderThickness;
     [self addSubview:corner];
   }
   
-  if ([self hasNeighborW] && [self hasNeighborS])
+  if ([self hasNeighborW] && [self hasNeighborS] && [self.NeighborW hasNeighborS])
   {
     // Bottom-left inner corner
     UIImageView* corner = [[UIImageView alloc] initWithImage:_innerCornerImage];
@@ -225,6 +232,34 @@ static const int kCornerInset = kCornerSize - kBorderThickness;
     [corner.layer setTransform:CATransform3DMakeScale(1, -1, 1)];
     [self addSubview:corner];
   }
+}
+
+- (BOOL) canAcceptObstacle
+{
+  // TODO - Logic for allowing certain obstacles to stack
+  
+  return !self.isOccupied && !self.isHole;
+}
+
+- (void) addObstacle:(UIImage*)obstacleImage
+{
+  _obstacleImageView = [[UIImageView alloc] initWithImage:obstacleImage];
+    [_obstacleImageView setFrame:CGRectMake(kObstacleInset, kObstacleInset, self.width - kObstacleInset * 2, self.height - kObstacleInset * 2)];
+    [self addSubview:_obstacleImageView];
+  
+  _isOccupied = YES;
+}
+
+- (UIImage*) removeObstacle
+{
+  UIImage* ret = _obstacleImageView.image;
+  
+  [_obstacleImageView removeFromSuperview];
+  _obstacleImageView = nil;
+  
+  _isOccupied = NO;
+  
+  return ret;
 }
 
 - (BOOL) hasNeighborN

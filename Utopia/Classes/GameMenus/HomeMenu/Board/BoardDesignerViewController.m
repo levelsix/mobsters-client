@@ -12,6 +12,11 @@
 #import "HomeViewController.h"
 #import "Globals.h"
 
+static const int kTileWidth  = 34;
+static const int kTileHeight = 34;
+static const int kBoardMarginTop  = 15;
+static const int kBoardMarginLeft = 15;
+
 @implementation BoardDesignerViewController
 
 - (void) viewDidLoad
@@ -74,13 +79,18 @@
   UIPanGestureRecognizer* panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
     [panGestureRecognizer setDelegate:self];
     [self.view setGestureRecognizers:@[ panGestureRecognizer ]];
-  // Gesture recognizer for detecting long press on obstacles in the
-  // scroll view. If the scroll view does not need to scroll due to
-  // its content size, the minimum long press duration is set to zero
+  // Gesture recognizer for detecting long press on obstacles in the scroll
+  // view. If the scroll view does not need to scroll due to its content
+  // size, the minimum long press duration is set to zero
   UILongPressGestureRecognizer* longPressGestureRecogzier = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
     [longPressGestureRecogzier setDelegate:self];
     [longPressGestureRecogzier setMinimumPressDuration:(self.obstaclesScrollView.contentSize.width > self.obstaclesScrollView.width) ? .1f : 0.f];
     [self.obstaclesScrollView setGestureRecognizers:@[ longPressGestureRecogzier ]];
+  // Gesture recognizer for detecting long press on obstacles on the board
+  longPressGestureRecogzier = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
+    [longPressGestureRecogzier setDelegate:self];
+    [longPressGestureRecogzier setMinimumPressDuration:0.f];
+    [_boardContainer setGestureRecognizers:@[ longPressGestureRecogzier ]];
   
   _draggingObstacle = NO;
 }
@@ -90,6 +100,14 @@
   [super viewWillAppear:animated];
   
   [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
+}
+
+- (IBAction) closeClicked:(id)sender
+{
+  [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
+    [self.view removeFromSuperview];
+    [self removeFromParentViewController];
+  }];
 }
 
 - (void) loadObstacles
@@ -109,7 +127,7 @@
   
   // HARDCODED Lock
   obstacleView = [BoardDesignerObstacleView viewWithObstacleImage:@"lockobstacle.png" name:@"Lock" andPowerCost:3];
-    [obstacleView disableObstacle];
+    /* [obstacleView disableObstacle]; */
     [obstacleView setOriginX:separator.originX + kCellPadding];
     [self.obstaclesScrollView addSubview:obstacleView];
     [_obstacleViews addObject:obstacleView];
@@ -119,7 +137,7 @@
   
   // HARDCODED Hole
   obstacleView = [BoardDesignerObstacleView viewWithObstacleImage:@"holeobstacle.png" name:@"Hole" andPowerCost:5];
-    [obstacleView lockObstacle];
+    /* [obstacleView lockObstacle]; */
     [obstacleView setOriginX:separator.originX + kCellPadding];
     [self.obstaclesScrollView addSubview:obstacleView];
     [_obstacleViews addObject:obstacleView];
@@ -129,20 +147,16 @@
 
 - (void) buildBoardWithRows:(int)rows andColumns:(int)cols
 {
-  static const int kTileWidth  = 34;
-  static const int kTileHeight = 34;
-  static const int kBoardMarginTop  = 15;
-  static const int kBoardMarginLeft = 15;
-  
-  const CGSize boardSize = CGSizeMake(kTileWidth * cols, kTileHeight * rows);
+  _boardSize = CGSizeMake(cols, rows);
+  const CGSize boardBounds = CGSizeMake(kTileWidth * cols, kTileHeight * rows);
   
   // Create board container
   _boardContainer = [[TouchableSubviewsView alloc] initWithFrame:CGRectMake(self.mainView.width + kBoardMarginLeft,
-                                                                            kBoardMarginTop * .5f + (self.mainView.height - boardSize.height) * .5f,
-                                                                            boardSize.width,
-                                                                            boardSize.height)];
+                                                                            kBoardMarginTop * .5f + (self.mainView.height - boardBounds.height) * .5f,
+                                                                            boardBounds.width,
+                                                                            boardBounds.height)];
   [_boardContainer setBackgroundColor:[UIColor clearColor]];
-  [self.mainView setWidth:self.mainView.width + kBoardMarginLeft + boardSize.width];
+  [self.mainView setWidth:self.mainView.width + kBoardMarginLeft + boardBounds.width];
   [self.mainView addSubview:_boardContainer];
   
   // Create tiles
@@ -187,53 +201,190 @@
   CGPoint point = [gestureRecognizer locationInView:self.view];
   if (gestureRecognizer.state == UIGestureRecognizerStateBegan)
   {
-    for (BoardDesignerObstacleView* obstacleView in _obstacleViews)
-      if (obstacleView.isEnabled && !obstacleView.isLocked)
+    if (!_draggingObstacle)
+    {
+      UIImage* draggedObstacleImage = nil;
+      CGPoint draggedObstacleAnchorPoint = CGPointMake(.5f, .5f);
+      
+      CGPoint localPoint = [self.view convertPoint:point toView:_boardContainer];
+      if ([_boardContainer pointInside:localPoint withEvent:nil])
       {
-        CGPoint localPoint = [self.view convertPoint:point toView:obstacleView.obstacleImageView];
-        if ([obstacleView.obstacleImageView pointInside:localPoint withEvent:nil])
+        const int row = floorf(localPoint.y / kTileHeight);
+        const int col = floorf(localPoint.x / kTileWidth);
+        
+        BoardDesignerTile* targetTile = [[_boardTiles objectAtIndex:row] objectAtIndex:col];
+        localPoint = [self.view convertPoint:point toView:targetTile];
+        
+        if (targetTile.isHole)
         {
-          // Begin dragging an obstacle that is enabled and unlocked out of the scroll view
+          // Begin dragging a hole that has been placed on the board
+
+          [targetTile setIsHole:NO];
+          [[self tilesSurroundingAndIncludingTileAtRow:row andColumn:col] makeObjectsPerformSelector:@selector(updateBorders)];
           
-          _dragOrigin = [obstacleView convertPoint:obstacleView.obstacleImageView.center toView:self.view];
-          _dragLastMovementTime = CACurrentMediaTime();
-          
-          _draggedObstacle = [[UIImageView alloc] initWithImage:obstacleView.obstacleImageView.image];
-            [_draggedObstacle setCenter:point];
-            [_draggedObstacle setAlpha:0.f];
-            [_draggedObstacle.layer setAnchorPoint:CGPointMake(localPoint.x / obstacleView.obstacleImageView.width,
-                                                               localPoint.y / obstacleView.obstacleImageView.height)];
-            [self.view insertSubview:_draggedObstacle aboveSubview:self.mainView];
-          [UIView animateWithDuration:.1f animations:^{
-            [_draggedObstacle setAlpha:1.f];
-            [_draggedObstacle.layer setTransform:CATransform3DMakeScale(1.5f, 1.5f, 1.f)];
-          }];
+          draggedObstacleImage = [UIImage imageNamed:@"holeobstacle.png"]; // TODO - Will unhack this once data has been hooked up
           
           _draggingObstacle = YES;
+          _draggedObstacleIsHole = YES;
+        }
+        else if (targetTile.isOccupied)
+        {
+          // Begin dragging an obstacle that has been placed on the board
           
-          // Valid drag gesture detected; disable scrolling
-          [self.obstaclesScrollView setScrollEnabled:NO];
+          draggedObstacleImage = [targetTile removeObstacle];
           
-          break;
+          _draggingObstacle = YES;
+          _draggedObstacleIsHole = NO;
+        }
+        
+        if (_draggingObstacle)
+        {
+          _dragOrigin = [targetTile.superview convertPoint:targetTile.center toView:self.view];
+          _dragOriginatedFromBoard = YES;
+          
+          draggedObstacleAnchorPoint = CGPointMake(localPoint.x / targetTile.width, localPoint.y / targetTile.height);
         }
       }
+      else
+      {
+        for (BoardDesignerObstacleView* obstacleView in _obstacleViews)
+          if (obstacleView.isEnabled && !obstacleView.isLocked)
+          {
+            CGPoint localPoint = [self.view convertPoint:point toView:obstacleView.obstacleImageView];
+            if ([obstacleView.obstacleImageView pointInside:localPoint withEvent:nil])
+            {
+              // Begin dragging an obstacle that is enabled and unlocked out of the scroll view
+              
+              _dragOrigin = [obstacleView convertPoint:obstacleView.obstacleImageView.center toView:self.view];
+              
+              draggedObstacleImage = obstacleView.obstacleImageView.image;
+              draggedObstacleAnchorPoint = CGPointMake(localPoint.x / obstacleView.obstacleImageView.width, localPoint.y / obstacleView.obstacleImageView.height);
+              
+              _draggingObstacle = YES;
+              _draggedObstacleIsHole = (obstacleView == [_obstacleViews objectAtIndex:2]); // TODO - Will unhack this once data has been hooked up
+              _dragOriginatedFromBoard = NO;
+              
+              // Valid drag gesture detected; disable scrolling
+              [self.obstaclesScrollView setScrollEnabled:NO];
+              
+              break;
+            }
+          }
+      }
+      
+      if (_draggingObstacle)
+      {
+        _draggedObstacle = [[UIImageView alloc] initWithImage:draggedObstacleImage];
+          [_draggedObstacle setCenter:point];
+          [_draggedObstacle setAlpha:0.f];
+          [_draggedObstacle.layer setAnchorPoint:draggedObstacleAnchorPoint];
+          [self.view insertSubview:_draggedObstacle aboveSubview:self.mainView];
+        [UIView animateWithDuration:.1f animations:^{
+          [_draggedObstacle setAlpha:1.f];
+          [_draggedObstacle.layer setTransform:CATransform3DMakeScale(1.5f, 1.5f, 1.f)];
+        }];
+        
+        _dragLastMovementTime = CACurrentMediaTime();
+      }
+    }
   }
   if (gestureRecognizer.state == UIGestureRecognizerStateEnded)
   {
-    // Dragged obstacle will fly back to its origin
-    [UIView animateWithDuration:.1f animations:^{
-      [_draggedObstacle setCenter:_dragOrigin];
-      [_draggedObstacle.layer setAnchorPoint:CGPointMake(.5f, .5f)];
-      [_draggedObstacle.layer setTransform:CATransform3DIdentity];
-    } completion:^(BOOL finished) {
-      [_draggedObstacle removeFromSuperview];
-      _draggedObstacle = nil;
-    }];
-    
-    _draggingObstacle = NO;
-    
-    // Drag gesture ended; re-enable scrolling
-    [self.obstaclesScrollView setScrollEnabled:YES];
+    if (_draggingObstacle)
+    {
+      BOOL invalidDrop = YES;
+      
+      CGPoint localPoint = [self.view convertPoint:point toView:_boardContainer];
+      if ([_boardContainer pointInside:localPoint withEvent:nil])
+      {
+        int row = floorf(localPoint.y / kTileHeight);
+        int col = floorf(localPoint.x / kTileWidth);
+        
+        BoardDesignerTile* targetTile = [[_boardTiles objectAtIndex:row] objectAtIndex:col];
+        if ([targetTile canAcceptObstacle] || _dragOriginatedFromBoard)
+        {
+          // Dropping obstacle onto a board tile that is willing to accept it,
+          // or dargging an obstacle already on the board onto an invalid tile,
+          // in which case it will fly back to the tile it originated from
+          
+          if (![targetTile canAcceptObstacle])
+          {
+            CGPoint localPoint = [self.view convertPoint:_dragOrigin toView:_boardContainer];
+            row = floorf(localPoint.y / kTileHeight);
+            col = floorf(localPoint.x / kTileWidth);
+            targetTile = [[_boardTiles objectAtIndex:row] objectAtIndex:col];
+          }
+          
+          CGPoint dragTarget = [targetTile.superview convertPoint:targetTile.center toView:self.view];
+          
+          if (_draggedObstacleIsHole)
+          {
+            [UIView animateWithDuration:.1f animations:^{
+              [_draggedObstacle setCenter:dragTarget];
+              [_draggedObstacle.layer setAnchorPoint:CGPointMake(.5f, .5f)];
+              [_draggedObstacle.layer setTransform:CATransform3DMakeScale(.85, .85, 1.f)];
+            } completion:^(BOOL finished) {
+              [targetTile setIsHole:YES];
+              [[self tilesSurroundingAndIncludingTileAtRow:row andColumn:col] makeObjectsPerformSelector:@selector(updateBorders)];
+              
+              [UIView animateWithDuration:.1f animations:^{
+                [_draggedObstacle setAlpha:0.f];
+              } completion:^(BOOL finished) {
+                [_draggedObstacle removeFromSuperview];
+                _draggedObstacle = nil;
+              }];
+            }];
+          }
+          else
+          {
+            [UIView animateWithDuration:.1f animations:^{
+              [_draggedObstacle setCenter:dragTarget];
+              [_draggedObstacle.layer setAnchorPoint:CGPointMake(.5f, .5f)];
+              [_draggedObstacle.layer setTransform:CATransform3DMakeScale(.65f, .65f, 1.f)];
+            } completion:^(BOOL finished) {
+              [targetTile addObstacle:_draggedObstacle.image];
+              
+              [_draggedObstacle removeFromSuperview];
+              _draggedObstacle = nil;
+            }];
+          }
+          
+          invalidDrop = NO;
+        }
+      }
+      
+      if (invalidDrop)
+      {
+        if (_dragOriginatedFromBoard)
+        {
+          // Dragged obstacle will be removed from the board with a poof animation
+          [UIView animateWithDuration:.1f animations:^{
+            [_draggedObstacle setAlpha:0.f];
+            [_draggedObstacle.layer setTransform:CATransform3DMakeScale(2.5f, 2.5f, 1.f)];
+          } completion:^(BOOL finished) {
+            [_draggedObstacle removeFromSuperview];
+            _draggedObstacle = nil;
+          }];
+        }
+        else
+        {
+          // Dragged obstacle will fly back to its origin
+          [UIView animateWithDuration:.1f animations:^{
+            [_draggedObstacle setCenter:_dragOrigin];
+            [_draggedObstacle.layer setAnchorPoint:CGPointMake(.5f, .5f)];
+            [_draggedObstacle.layer setTransform:CATransform3DIdentity];
+          } completion:^(BOOL finished) {
+            [_draggedObstacle removeFromSuperview];
+            _draggedObstacle = nil;
+          }];
+        }
+      }
+      
+      _draggingObstacle = NO;
+      
+      // Drag gesture ended; re-enable scrolling
+      [self.obstaclesScrollView setScrollEnabled:YES];
+    }
   }
 }
 
@@ -253,12 +404,15 @@
   }
 }
 
-- (IBAction) closeClicked:(id)sender
+- (NSArray*) tilesSurroundingAndIncludingTileAtRow:(int)row andColumn:(int)col
 {
-  [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
-    [self.view removeFromSuperview];
-    [self removeFromParentViewController];
-  }];
+  NSMutableArray* tiles = [NSMutableArray array];
+  for (int r = row - 1; r <= row + 1; ++r)
+    for (int c = col - 1; c <= col + 1; ++c)
+      if (r >= 0 && r < _boardSize.height && c >= 0 && c < _boardSize.width)
+        [tiles addObject:[[_boardTiles objectAtIndex:r] objectAtIndex:c]];
+  
+  return [NSArray arrayWithArray:tiles];
 }
 
 @end
