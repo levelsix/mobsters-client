@@ -55,6 +55,7 @@ message StructureInfoProto {
 		MONEY_TREE = 12;
 		PVP_BOARD = 13;
 		RESEARCH_HOUSE = 14;
+		BATTLE_ITEM_FACTORY = 15;
 	}
 }
 
@@ -322,5 +323,13 @@ message UserPvpBoardObstacleProto {
 	optional int32 posX = 4;
 	optional int32 posY = 5;
 	
+}
+
+//------------------------------------------------------------------------------------------
+
+message BattleItemFactoryProto {
+	optional StructureInfoProto structInfo = 1;
+	optional int32 powerLimit = 2;
+
 }
 

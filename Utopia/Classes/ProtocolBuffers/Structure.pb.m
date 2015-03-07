@@ -619,6 +619,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
     case StructureInfoProto_StructTypeMoneyTree:
     case StructureInfoProto_StructTypePvpBoard:
     case StructureInfoProto_StructTypeResearchHouse:
+    case StructureInfoProto_StructTypeBattleItemFactory:
       return YES;
     default:
       return NO;
@@ -9412,6 +9413,274 @@ static UserPvpBoardObstacleProto* defaultUserPvpBoardObstacleProtoInstance = nil
 - (UserPvpBoardObstacleProto_Builder*) clearPosY {
   result.hasPosY = NO;
   result.posY = 0;
+  return self;
+}
+@end
+
+@interface BattleItemFactoryProto ()
+@property (strong) StructureInfoProto* structInfo;
+@property int32_t powerLimit;
+@end
+
+@implementation BattleItemFactoryProto
+
+- (BOOL) hasStructInfo {
+  return !!hasStructInfo_;
+}
+- (void) setHasStructInfo:(BOOL) value_ {
+  hasStructInfo_ = !!value_;
+}
+@synthesize structInfo;
+- (BOOL) hasPowerLimit {
+  return !!hasPowerLimit_;
+}
+- (void) setHasPowerLimit:(BOOL) value_ {
+  hasPowerLimit_ = !!value_;
+}
+@synthesize powerLimit;
+- (id) init {
+  if ((self = [super init])) {
+    self.structInfo = [StructureInfoProto defaultInstance];
+    self.powerLimit = 0;
+  }
+  return self;
+}
+static BattleItemFactoryProto* defaultBattleItemFactoryProtoInstance = nil;
++ (void) initialize {
+  if (self == [BattleItemFactoryProto class]) {
+    defaultBattleItemFactoryProtoInstance = [[BattleItemFactoryProto alloc] init];
+  }
+}
++ (BattleItemFactoryProto*) defaultInstance {
+  return defaultBattleItemFactoryProtoInstance;
+}
+- (BattleItemFactoryProto*) defaultInstance {
+  return defaultBattleItemFactoryProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasStructInfo) {
+    [output writeMessage:1 value:self.structInfo];
+  }
+  if (self.hasPowerLimit) {
+    [output writeInt32:2 value:self.powerLimit];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasStructInfo) {
+    size_ += computeMessageSize(1, self.structInfo);
+  }
+  if (self.hasPowerLimit) {
+    size_ += computeInt32Size(2, self.powerLimit);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (BattleItemFactoryProto*) parseFromData:(NSData*) data {
+  return (BattleItemFactoryProto*)[[[BattleItemFactoryProto builder] mergeFromData:data] build];
+}
++ (BattleItemFactoryProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (BattleItemFactoryProto*)[[[BattleItemFactoryProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (BattleItemFactoryProto*) parseFromInputStream:(NSInputStream*) input {
+  return (BattleItemFactoryProto*)[[[BattleItemFactoryProto builder] mergeFromInputStream:input] build];
+}
++ (BattleItemFactoryProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (BattleItemFactoryProto*)[[[BattleItemFactoryProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (BattleItemFactoryProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (BattleItemFactoryProto*)[[[BattleItemFactoryProto builder] mergeFromCodedInputStream:input] build];
+}
++ (BattleItemFactoryProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (BattleItemFactoryProto*)[[[BattleItemFactoryProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (BattleItemFactoryProto_Builder*) builder {
+  return [[BattleItemFactoryProto_Builder alloc] init];
+}
++ (BattleItemFactoryProto_Builder*) builderWithPrototype:(BattleItemFactoryProto*) prototype {
+  return [[BattleItemFactoryProto builder] mergeFrom:prototype];
+}
+- (BattleItemFactoryProto_Builder*) builder {
+  return [BattleItemFactoryProto builder];
+}
+- (BattleItemFactoryProto_Builder*) toBuilder {
+  return [BattleItemFactoryProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasStructInfo) {
+    [output appendFormat:@"%@%@ {\n", indent, @"structInfo"];
+    [self.structInfo writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  if (self.hasPowerLimit) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"powerLimit", [NSNumber numberWithInteger:self.powerLimit]];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[BattleItemFactoryProto class]]) {
+    return NO;
+  }
+  BattleItemFactoryProto *otherMessage = other;
+  return
+      self.hasStructInfo == otherMessage.hasStructInfo &&
+      (!self.hasStructInfo || [self.structInfo isEqual:otherMessage.structInfo]) &&
+      self.hasPowerLimit == otherMessage.hasPowerLimit &&
+      (!self.hasPowerLimit || self.powerLimit == otherMessage.powerLimit) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasStructInfo) {
+    hashCode = hashCode * 31 + [self.structInfo hash];
+  }
+  if (self.hasPowerLimit) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.powerLimit] hash];
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+@interface BattleItemFactoryProto_Builder()
+@property (strong) BattleItemFactoryProto* result;
+@end
+
+@implementation BattleItemFactoryProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[BattleItemFactoryProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (BattleItemFactoryProto_Builder*) clear {
+  self.result = [[BattleItemFactoryProto alloc] init];
+  return self;
+}
+- (BattleItemFactoryProto_Builder*) clone {
+  return [BattleItemFactoryProto builderWithPrototype:result];
+}
+- (BattleItemFactoryProto*) defaultInstance {
+  return [BattleItemFactoryProto defaultInstance];
+}
+- (BattleItemFactoryProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (BattleItemFactoryProto*) buildPartial {
+  BattleItemFactoryProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (BattleItemFactoryProto_Builder*) mergeFrom:(BattleItemFactoryProto*) other {
+  if (other == [BattleItemFactoryProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasStructInfo) {
+    [self mergeStructInfo:other.structInfo];
+  }
+  if (other.hasPowerLimit) {
+    [self setPowerLimit:other.powerLimit];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (BattleItemFactoryProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (BattleItemFactoryProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        StructureInfoProto_Builder* subBuilder = [StructureInfoProto builder];
+        if (self.hasStructInfo) {
+          [subBuilder mergeFrom:self.structInfo];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setStructInfo:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setPowerLimit:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasStructInfo {
+  return result.hasStructInfo;
+}
+- (StructureInfoProto*) structInfo {
+  return result.structInfo;
+}
+- (BattleItemFactoryProto_Builder*) setStructInfo:(StructureInfoProto*) value {
+  result.hasStructInfo = YES;
+  result.structInfo = value;
+  return self;
+}
+- (BattleItemFactoryProto_Builder*) setStructInfo_Builder:(StructureInfoProto_Builder*) builderForValue {
+  return [self setStructInfo:[builderForValue build]];
+}
+- (BattleItemFactoryProto_Builder*) mergeStructInfo:(StructureInfoProto*) value {
+  if (result.hasStructInfo &&
+      result.structInfo != [StructureInfoProto defaultInstance]) {
+    result.structInfo =
+      [[[StructureInfoProto builderWithPrototype:result.structInfo] mergeFrom:value] buildPartial];
+  } else {
+    result.structInfo = value;
+  }
+  result.hasStructInfo = YES;
+  return self;
+}
+- (BattleItemFactoryProto_Builder*) clearStructInfo {
+  result.hasStructInfo = NO;
+  result.structInfo = [StructureInfoProto defaultInstance];
+  return self;
+}
+- (BOOL) hasPowerLimit {
+  return result.hasPowerLimit;
+}
+- (int32_t) powerLimit {
+  return result.powerLimit;
+}
+- (BattleItemFactoryProto_Builder*) setPowerLimit:(int32_t) value {
+  result.hasPowerLimit = YES;
+  result.powerLimit = value;
+  return self;
+}
+- (BattleItemFactoryProto_Builder*) clearPowerLimit {
+  result.hasPowerLimit = NO;
+  result.powerLimit = 0;
   return self;
 }
 @end

@@ -57,6 +57,8 @@
 
 @property (nonatomic, assign) id<BoardDesignerViewControllerDelegate> delegate;
 
+@property (nonatomic, assign) id<BoardDesignerViewControllerDelegate> delegate;
+
 - (IBAction) closeClicked:(id)sender;
 
 @end
