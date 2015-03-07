@@ -642,11 +642,11 @@
           _baseSprite = spr;
         }
         
-        _smoke = [CCParticleSystem particleWithFile:@"gemsmoke.plist"];
-        _smoke.scale = 0.5f;
-        _smoke.position = ccp(self.buildingSprite.contentSize.width/2, 14);
-        [_smoke stopSystem];
-        [self.buildingSprite addChild:_smoke];
+        //_smoke = [CCParticleSystem particleWithFile:@"gemsmoke.plist"];
+        //_smoke.scale = 0.5f;
+        //_smoke.position = ccp(self.buildingSprite.contentSize.width/2, 14);
+        //[_smoke stopSystem];
+        //[self.buildingSprite addChild:_smoke];
         
         [self adjustBuildingSprite];
         

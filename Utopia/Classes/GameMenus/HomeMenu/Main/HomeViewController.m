@@ -66,6 +66,13 @@
   return self;
 }
 
+- (id) initWithBattleItemFactory {
+  if ((self = [super init])) {
+//    _initViewControllerClass = [MiniJobsListViewController class];
+  }
+  return self;
+}
+
 #pragma mark - View loading
 
 - (void) viewDidLoad {

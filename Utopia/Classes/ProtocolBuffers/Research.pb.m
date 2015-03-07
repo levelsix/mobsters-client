@@ -52,8 +52,8 @@ BOOL ResearchDomainIsValidValue(ResearchDomain value) {
 }
 @interface ResearchProto ()
 @property int32_t researchId;
-@property (strong) NSString* researchType;
-@property (strong) NSString* researchDomain;
+@property ResearchType researchType;
+@property ResearchDomain researchDomain;
 @property (strong) NSString* iconImgName;
 @property (strong) NSString* name;
 @property int32_t predId;
@@ -63,6 +63,7 @@ BOOL ResearchDomainIsValidValue(ResearchDomain value) {
 @property int32_t costAmt;
 @property ResourceType costType;
 @property (strong) NSMutableArray * mutablePropertiesList;
+@property int32_t level;
 @end
 
 @implementation ResearchProto
@@ -146,11 +147,18 @@ BOOL ResearchDomainIsValidValue(ResearchDomain value) {
 @synthesize costType;
 @synthesize mutablePropertiesList;
 @dynamic propertiesList;
+- (BOOL) hasLevel {
+  return !!hasLevel_;
+}
+- (void) setHasLevel:(BOOL) value_ {
+  hasLevel_ = !!value_;
+}
+@synthesize level;
 - (id) init {
   if ((self = [super init])) {
     self.researchId = 0;
-    self.researchType = @"";
-    self.researchDomain = @"";
+    self.researchType = ResearchTypeNoResearch;
+    self.researchDomain = ResearchDomainNoDomain;
     self.iconImgName = @"";
     self.name = @"";
     self.predId = 0;
@@ -159,6 +167,7 @@ BOOL ResearchDomainIsValidValue(ResearchDomain value) {
     self.durationMin = 0;
     self.costAmt = 0;
     self.costType = ResourceTypeNoResource;
+    self.level = 0;
   }
   return self;
 }
@@ -188,10 +197,10 @@ static ResearchProto* defaultResearchProtoInstance = nil;
     [output writeInt32:1 value:self.researchId];
   }
   if (self.hasResearchType) {
-    [output writeString:2 value:self.researchType];
+    [output writeEnum:2 value:self.researchType];
   }
   if (self.hasResearchDomain) {
-    [output writeString:3 value:self.researchDomain];
+    [output writeEnum:3 value:self.researchDomain];
   }
   if (self.hasIconImgName) {
     [output writeString:4 value:self.iconImgName];
@@ -220,6 +229,9 @@ static ResearchProto* defaultResearchProtoInstance = nil;
   [self.propertiesList enumerateObjectsUsingBlock:^(ResearchPropertyProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:12 value:element];
   }];
+  if (self.hasLevel) {
+    [output writeInt32:13 value:self.level];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -233,10 +245,10 @@ static ResearchProto* defaultResearchProtoInstance = nil;
     size_ += computeInt32Size(1, self.researchId);
   }
   if (self.hasResearchType) {
-    size_ += computeStringSize(2, self.researchType);
+    size_ += computeEnumSize(2, self.researchType);
   }
   if (self.hasResearchDomain) {
-    size_ += computeStringSize(3, self.researchDomain);
+    size_ += computeEnumSize(3, self.researchDomain);
   }
   if (self.hasIconImgName) {
     size_ += computeStringSize(4, self.iconImgName);
@@ -265,6 +277,9 @@ static ResearchProto* defaultResearchProtoInstance = nil;
   [self.propertiesList enumerateObjectsUsingBlock:^(ResearchPropertyProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(12, element);
   }];
+  if (self.hasLevel) {
+    size_ += computeInt32Size(13, self.level);
+  }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
   return size_;
@@ -304,10 +319,10 @@ static ResearchProto* defaultResearchProtoInstance = nil;
     [output appendFormat:@"%@%@: %@\n", indent, @"researchId", [NSNumber numberWithInteger:self.researchId]];
   }
   if (self.hasResearchType) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"researchType", self.researchType];
+    [output appendFormat:@"%@%@: %@\n", indent, @"researchType", [NSNumber numberWithInteger:self.researchType]];
   }
   if (self.hasResearchDomain) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"researchDomain", self.researchDomain];
+    [output appendFormat:@"%@%@: %@\n", indent, @"researchDomain", [NSNumber numberWithInteger:self.researchDomain]];
   }
   if (self.hasIconImgName) {
     [output appendFormat:@"%@%@: %@\n", indent, @"iconImgName", self.iconImgName];
@@ -339,6 +354,9 @@ static ResearchProto* defaultResearchProtoInstance = nil;
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }];
+  if (self.hasLevel) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"level", [NSNumber numberWithInteger:self.level]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -353,9 +371,9 @@ static ResearchProto* defaultResearchProtoInstance = nil;
       self.hasResearchId == otherMessage.hasResearchId &&
       (!self.hasResearchId || self.researchId == otherMessage.researchId) &&
       self.hasResearchType == otherMessage.hasResearchType &&
-      (!self.hasResearchType || [self.researchType isEqual:otherMessage.researchType]) &&
+      (!self.hasResearchType || self.researchType == otherMessage.researchType) &&
       self.hasResearchDomain == otherMessage.hasResearchDomain &&
-      (!self.hasResearchDomain || [self.researchDomain isEqual:otherMessage.researchDomain]) &&
+      (!self.hasResearchDomain || self.researchDomain == otherMessage.researchDomain) &&
       self.hasIconImgName == otherMessage.hasIconImgName &&
       (!self.hasIconImgName || [self.iconImgName isEqual:otherMessage.iconImgName]) &&
       self.hasName == otherMessage.hasName &&
@@ -373,6 +391,8 @@ static ResearchProto* defaultResearchProtoInstance = nil;
       self.hasCostType == otherMessage.hasCostType &&
       (!self.hasCostType || self.costType == otherMessage.costType) &&
       [self.propertiesList isEqualToArray:otherMessage.propertiesList] &&
+      self.hasLevel == otherMessage.hasLevel &&
+      (!self.hasLevel || self.level == otherMessage.level) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -381,10 +401,10 @@ static ResearchProto* defaultResearchProtoInstance = nil;
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.researchId] hash];
   }
   if (self.hasResearchType) {
-    hashCode = hashCode * 31 + [self.researchType hash];
+    hashCode = hashCode * 31 + self.researchType;
   }
   if (self.hasResearchDomain) {
-    hashCode = hashCode * 31 + [self.researchDomain hash];
+    hashCode = hashCode * 31 + self.researchDomain;
   }
   if (self.hasIconImgName) {
     hashCode = hashCode * 31 + [self.iconImgName hash];
@@ -413,6 +433,9 @@ static ResearchProto* defaultResearchProtoInstance = nil;
   [self.propertiesList enumerateObjectsUsingBlock:^(ResearchPropertyProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
+  if (self.hasLevel) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.level] hash];
+  }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
@@ -496,6 +519,9 @@ static ResearchProto* defaultResearchProtoInstance = nil;
       [result.mutablePropertiesList addObjectsFromArray:other.mutablePropertiesList];
     }
   }
+  if (other.hasLevel) {
+    [self setLevel:other.level];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -521,12 +547,22 @@ static ResearchProto* defaultResearchProtoInstance = nil;
         [self setResearchId:[input readInt32]];
         break;
       }
-      case 18: {
-        [self setResearchType:[input readString]];
+      case 16: {
+        ResearchType value = (ResearchType)[input readEnum];
+        if (ResearchTypeIsValidValue(value)) {
+          [self setResearchType:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
         break;
       }
-      case 26: {
-        [self setResearchDomain:[input readString]];
+      case 24: {
+        ResearchDomain value = (ResearchDomain)[input readEnum];
+        if (ResearchDomainIsValidValue(value)) {
+          [self setResearchDomain:value];
+        } else {
+          [unknownFields mergeVarintField:3 value:value];
+        }
         break;
       }
       case 34: {
@@ -572,6 +608,10 @@ static ResearchProto* defaultResearchProtoInstance = nil;
         [self addProperties:[subBuilder buildPartial]];
         break;
       }
+      case 104: {
+        [self setLevel:[input readInt32]];
+        break;
+      }
     }
   }
 }
@@ -594,33 +634,33 @@ static ResearchProto* defaultResearchProtoInstance = nil;
 - (BOOL) hasResearchType {
   return result.hasResearchType;
 }
-- (NSString*) researchType {
+- (ResearchType) researchType {
   return result.researchType;
 }
-- (ResearchProto_Builder*) setResearchType:(NSString*) value {
+- (ResearchProto_Builder*) setResearchType:(ResearchType) value {
   result.hasResearchType = YES;
   result.researchType = value;
   return self;
 }
-- (ResearchProto_Builder*) clearResearchType {
+- (ResearchProto_Builder*) clearResearchTypeList {
   result.hasResearchType = NO;
-  result.researchType = @"";
+  result.researchType = ResearchTypeNoResearch;
   return self;
 }
 - (BOOL) hasResearchDomain {
   return result.hasResearchDomain;
 }
-- (NSString*) researchDomain {
+- (ResearchDomain) researchDomain {
   return result.researchDomain;
 }
-- (ResearchProto_Builder*) setResearchDomain:(NSString*) value {
+- (ResearchProto_Builder*) setResearchDomain:(ResearchDomain) value {
   result.hasResearchDomain = YES;
   result.researchDomain = value;
   return self;
 }
-- (ResearchProto_Builder*) clearResearchDomain {
+- (ResearchProto_Builder*) clearResearchDomainList {
   result.hasResearchDomain = NO;
-  result.researchDomain = @"";
+  result.researchDomain = ResearchDomainNoDomain;
   return self;
 }
 - (BOOL) hasIconImgName {
@@ -773,6 +813,22 @@ static ResearchProto* defaultResearchProtoInstance = nil;
 }
 - (ResearchProto_Builder *)clearProperties {
   result.mutablePropertiesList = nil;
+  return self;
+}
+- (BOOL) hasLevel {
+  return result.hasLevel;
+}
+- (int32_t) level {
+  return result.level;
+}
+- (ResearchProto_Builder*) setLevel:(int32_t) value {
+  result.hasLevel = YES;
+  result.level = value;
+  return self;
+}
+- (ResearchProto_Builder*) clearLevel {
+  result.hasLevel = NO;
+  result.level = 0;
   return self;
 }
 @end
@@ -1111,6 +1167,395 @@ static ResearchPropertyProto* defaultResearchPropertyProtoInstance = nil;
 - (ResearchPropertyProto_Builder*) clearResearchId {
   result.hasResearchId = NO;
   result.researchId = 0;
+  return self;
+}
+@end
+
+@interface UserResearchProto ()
+@property (strong) NSString* userResearchUuid;
+@property (strong) NSString* userUuid;
+@property int32_t researchId;
+@property int64_t timePurchased;
+@property BOOL complete;
+@end
+
+@implementation UserResearchProto
+
+- (BOOL) hasUserResearchUuid {
+  return !!hasUserResearchUuid_;
+}
+- (void) setHasUserResearchUuid:(BOOL) value_ {
+  hasUserResearchUuid_ = !!value_;
+}
+@synthesize userResearchUuid;
+- (BOOL) hasUserUuid {
+  return !!hasUserUuid_;
+}
+- (void) setHasUserUuid:(BOOL) value_ {
+  hasUserUuid_ = !!value_;
+}
+@synthesize userUuid;
+- (BOOL) hasResearchId {
+  return !!hasResearchId_;
+}
+- (void) setHasResearchId:(BOOL) value_ {
+  hasResearchId_ = !!value_;
+}
+@synthesize researchId;
+- (BOOL) hasTimePurchased {
+  return !!hasTimePurchased_;
+}
+- (void) setHasTimePurchased:(BOOL) value_ {
+  hasTimePurchased_ = !!value_;
+}
+@synthesize timePurchased;
+- (BOOL) hasComplete {
+  return !!hasComplete_;
+}
+- (void) setHasComplete:(BOOL) value_ {
+  hasComplete_ = !!value_;
+}
+- (BOOL) complete {
+  return !!complete_;
+}
+- (void) setComplete:(BOOL) value_ {
+  complete_ = !!value_;
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.userResearchUuid = @"";
+    self.userUuid = @"";
+    self.researchId = 0;
+    self.timePurchased = 0L;
+    self.complete = NO;
+  }
+  return self;
+}
+static UserResearchProto* defaultUserResearchProtoInstance = nil;
++ (void) initialize {
+  if (self == [UserResearchProto class]) {
+    defaultUserResearchProtoInstance = [[UserResearchProto alloc] init];
+  }
+}
++ (UserResearchProto*) defaultInstance {
+  return defaultUserResearchProtoInstance;
+}
+- (UserResearchProto*) defaultInstance {
+  return defaultUserResearchProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasUserResearchUuid) {
+    [output writeString:1 value:self.userResearchUuid];
+  }
+  if (self.hasUserUuid) {
+    [output writeString:2 value:self.userUuid];
+  }
+  if (self.hasResearchId) {
+    [output writeInt32:3 value:self.researchId];
+  }
+  if (self.hasTimePurchased) {
+    [output writeInt64:4 value:self.timePurchased];
+  }
+  if (self.hasComplete) {
+    [output writeBool:5 value:self.complete];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasUserResearchUuid) {
+    size_ += computeStringSize(1, self.userResearchUuid);
+  }
+  if (self.hasUserUuid) {
+    size_ += computeStringSize(2, self.userUuid);
+  }
+  if (self.hasResearchId) {
+    size_ += computeInt32Size(3, self.researchId);
+  }
+  if (self.hasTimePurchased) {
+    size_ += computeInt64Size(4, self.timePurchased);
+  }
+  if (self.hasComplete) {
+    size_ += computeBoolSize(5, self.complete);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (UserResearchProto*) parseFromData:(NSData*) data {
+  return (UserResearchProto*)[[[UserResearchProto builder] mergeFromData:data] build];
+}
++ (UserResearchProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UserResearchProto*)[[[UserResearchProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (UserResearchProto*) parseFromInputStream:(NSInputStream*) input {
+  return (UserResearchProto*)[[[UserResearchProto builder] mergeFromInputStream:input] build];
+}
++ (UserResearchProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UserResearchProto*)[[[UserResearchProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (UserResearchProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (UserResearchProto*)[[[UserResearchProto builder] mergeFromCodedInputStream:input] build];
+}
++ (UserResearchProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UserResearchProto*)[[[UserResearchProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (UserResearchProto_Builder*) builder {
+  return [[UserResearchProto_Builder alloc] init];
+}
++ (UserResearchProto_Builder*) builderWithPrototype:(UserResearchProto*) prototype {
+  return [[UserResearchProto builder] mergeFrom:prototype];
+}
+- (UserResearchProto_Builder*) builder {
+  return [UserResearchProto builder];
+}
+- (UserResearchProto_Builder*) toBuilder {
+  return [UserResearchProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasUserResearchUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userResearchUuid", self.userResearchUuid];
+  }
+  if (self.hasUserUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userUuid", self.userUuid];
+  }
+  if (self.hasResearchId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"researchId", [NSNumber numberWithInteger:self.researchId]];
+  }
+  if (self.hasTimePurchased) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"timePurchased", [NSNumber numberWithLongLong:self.timePurchased]];
+  }
+  if (self.hasComplete) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"complete", [NSNumber numberWithBool:self.complete]];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[UserResearchProto class]]) {
+    return NO;
+  }
+  UserResearchProto *otherMessage = other;
+  return
+      self.hasUserResearchUuid == otherMessage.hasUserResearchUuid &&
+      (!self.hasUserResearchUuid || [self.userResearchUuid isEqual:otherMessage.userResearchUuid]) &&
+      self.hasUserUuid == otherMessage.hasUserUuid &&
+      (!self.hasUserUuid || [self.userUuid isEqual:otherMessage.userUuid]) &&
+      self.hasResearchId == otherMessage.hasResearchId &&
+      (!self.hasResearchId || self.researchId == otherMessage.researchId) &&
+      self.hasTimePurchased == otherMessage.hasTimePurchased &&
+      (!self.hasTimePurchased || self.timePurchased == otherMessage.timePurchased) &&
+      self.hasComplete == otherMessage.hasComplete &&
+      (!self.hasComplete || self.complete == otherMessage.complete) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasUserResearchUuid) {
+    hashCode = hashCode * 31 + [self.userResearchUuid hash];
+  }
+  if (self.hasUserUuid) {
+    hashCode = hashCode * 31 + [self.userUuid hash];
+  }
+  if (self.hasResearchId) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.researchId] hash];
+  }
+  if (self.hasTimePurchased) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.timePurchased] hash];
+  }
+  if (self.hasComplete) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.complete] hash];
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+@interface UserResearchProto_Builder()
+@property (strong) UserResearchProto* result;
+@end
+
+@implementation UserResearchProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[UserResearchProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (UserResearchProto_Builder*) clear {
+  self.result = [[UserResearchProto alloc] init];
+  return self;
+}
+- (UserResearchProto_Builder*) clone {
+  return [UserResearchProto builderWithPrototype:result];
+}
+- (UserResearchProto*) defaultInstance {
+  return [UserResearchProto defaultInstance];
+}
+- (UserResearchProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (UserResearchProto*) buildPartial {
+  UserResearchProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (UserResearchProto_Builder*) mergeFrom:(UserResearchProto*) other {
+  if (other == [UserResearchProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasUserResearchUuid) {
+    [self setUserResearchUuid:other.userResearchUuid];
+  }
+  if (other.hasUserUuid) {
+    [self setUserUuid:other.userUuid];
+  }
+  if (other.hasResearchId) {
+    [self setResearchId:other.researchId];
+  }
+  if (other.hasTimePurchased) {
+    [self setTimePurchased:other.timePurchased];
+  }
+  if (other.hasComplete) {
+    [self setComplete:other.complete];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (UserResearchProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (UserResearchProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        [self setUserResearchUuid:[input readString]];
+        break;
+      }
+      case 18: {
+        [self setUserUuid:[input readString]];
+        break;
+      }
+      case 24: {
+        [self setResearchId:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setTimePurchased:[input readInt64]];
+        break;
+      }
+      case 40: {
+        [self setComplete:[input readBool]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasUserResearchUuid {
+  return result.hasUserResearchUuid;
+}
+- (NSString*) userResearchUuid {
+  return result.userResearchUuid;
+}
+- (UserResearchProto_Builder*) setUserResearchUuid:(NSString*) value {
+  result.hasUserResearchUuid = YES;
+  result.userResearchUuid = value;
+  return self;
+}
+- (UserResearchProto_Builder*) clearUserResearchUuid {
+  result.hasUserResearchUuid = NO;
+  result.userResearchUuid = @"";
+  return self;
+}
+- (BOOL) hasUserUuid {
+  return result.hasUserUuid;
+}
+- (NSString*) userUuid {
+  return result.userUuid;
+}
+- (UserResearchProto_Builder*) setUserUuid:(NSString*) value {
+  result.hasUserUuid = YES;
+  result.userUuid = value;
+  return self;
+}
+- (UserResearchProto_Builder*) clearUserUuid {
+  result.hasUserUuid = NO;
+  result.userUuid = @"";
+  return self;
+}
+- (BOOL) hasResearchId {
+  return result.hasResearchId;
+}
+- (int32_t) researchId {
+  return result.researchId;
+}
+- (UserResearchProto_Builder*) setResearchId:(int32_t) value {
+  result.hasResearchId = YES;
+  result.researchId = value;
+  return self;
+}
+- (UserResearchProto_Builder*) clearResearchId {
+  result.hasResearchId = NO;
+  result.researchId = 0;
+  return self;
+}
+- (BOOL) hasTimePurchased {
+  return result.hasTimePurchased;
+}
+- (int64_t) timePurchased {
+  return result.timePurchased;
+}
+- (UserResearchProto_Builder*) setTimePurchased:(int64_t) value {
+  result.hasTimePurchased = YES;
+  result.timePurchased = value;
+  return self;
+}
+- (UserResearchProto_Builder*) clearTimePurchased {
+  result.hasTimePurchased = NO;
+  result.timePurchased = 0L;
+  return self;
+}
+- (BOOL) hasComplete {
+  return result.hasComplete;
+}
+- (BOOL) complete {
+  return result.complete;
+}
+- (UserResearchProto_Builder*) setComplete:(BOOL) value {
+  result.hasComplete = YES;
+  result.complete = value;
+  return self;
+}
+- (UserResearchProto_Builder*) clearComplete {
+  result.hasComplete = NO;
+  result.complete = NO;
   return self;
 }
 @end

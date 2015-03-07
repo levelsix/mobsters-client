@@ -79,6 +79,18 @@
   return button;
 }
 
++ (id) pvpBoardButton {
+  MapBotViewButton *button = [self button];
+  [button updateWithImageName:@"buildingeditboard.png" actionText:@"Edit Board" config:MapBotViewButtonPvpBoard];
+  return button;
+}
+
++ (id) itemFactoryButton {
+  MapBotViewButton *button = [self button];
+  [button updateWithImageName:@"buildingsquad.png" actionText:@"Create Items" config:MapBotViewButtonItemFactory];
+  return button;
+}
+
 + (id) clanHelpButton {
   MapBotViewButton *button = [self button];
   [button.bgdButton setImage:[Globals imageNamed:@"buildinggethelpbutton.png"] forState:UIControlStateNormal];

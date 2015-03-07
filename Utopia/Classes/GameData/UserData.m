@@ -462,7 +462,7 @@
   }
   
   // Account for speedups
-  MSDate *initialStartDate = [[self.feeders firstObject] expectedStartTime];
+  MSDate *initialStartDate = [(EnhancementItem *)[self.feeders firstObject] expectedStartTime];
   int speedupMins = [gs.itemUtil getSpeedupMinutesForType:GameActionTypeEnhanceTime userDataUuid:self.baseMonster.userMonsterUuid earliestDate:initialStartDate];
   if (speedupMins > 0) {
     secsToDock += speedupMins*60;

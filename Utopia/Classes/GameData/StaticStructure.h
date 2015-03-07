@@ -42,6 +42,18 @@
 
 @end
 
+@interface MoneyTreeProto (StaticStructureImpl) <StaticStructure>
+
+@end
+
+@interface PvpBoardHouseProto (StaticStructureImpl) <StaticStructure>
+
+@end
+
+@interface BattleItemFactoryProto (StaticStructureImpl) <StaticStructure>
+
+@end
+
 
 @interface PrereqProto (Stringify)
 

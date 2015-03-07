@@ -7,6 +7,8 @@
 #import "User.pb.h"
 // @@protoc_insertion_point(imports)
 
+@class BattleItemFactoryProto;
+@class BattleItemFactoryProto_Builder;
 @class BeginObstacleRemovalRequestProto;
 @class BeginObstacleRemovalRequestProto_Builder;
 @class BeginObstacleRemovalResponseProto;
