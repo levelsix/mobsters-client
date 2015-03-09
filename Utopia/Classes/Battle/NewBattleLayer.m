@@ -1548,29 +1548,24 @@
 }
 
 - (void) currentMyPlayerDied {
-  
-  if ([self playerMobstersLeft] > 0) {
-    SkillLogStart(@"TRIGGER STARTED: mob defeated");
-    [skillManager triggerSkills:SkillTriggerPointPlayerMobDefeated withCompletion:^(BOOL triggered, id params) {
-      SkillLogEnd(triggered, @"  Mob defeated trigger ENDED");
-      
-      [self setMovesLeft:0 animated:NO];
-      [self stopPulsing];
-      self.myPlayer = nil;
-      self.myPlayerObject = nil;
-      [self updateHealthBars];
-      
-      [self displayDeployViewAndIsCancellable:NO];
-    }];
-  } else {
+  SkillLogStart(@"TRIGGER STARTED: mob defeated");
+  [skillManager triggerSkills:SkillTriggerPointPlayerMobDefeated withCompletion:^(BOOL triggered, id params) {
+    SkillLogEnd(triggered, @"  Mob defeated trigger ENDED");
+    
     [self setMovesLeft:0 animated:NO];
     [self stopPulsing];
     self.myPlayer = nil;
     self.myPlayerObject = nil;
     [self updateHealthBars];
     
-    [self youLost];
-  }
+    if ([self playerMobstersLeft] > 0) {
+      [self displayDeployViewAndIsCancellable:NO];
+    }
+    else
+    {
+      [self youLost];
+    }
+  }];
 }
 
 - (void) displayWaveNumber {
