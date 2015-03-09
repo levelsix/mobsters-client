@@ -123,24 +123,6 @@
     }
   }
   
-  if (trigger == SkillTriggerPointEnemyDefeated)
-  {
-    [self endDurationNow];
-  }
-  
-  return NO;
-}
-
-- (BOOL)skillDefCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
-{
-  if ([super skillDefCalledWithTrigger:trigger execute:execute])
-    return YES;
-  
-  if (trigger == SkillTriggerPointPlayerMobDefeated)
-  {
-    [self endDurationNow];
-  }
-  
   return NO;
 }
 

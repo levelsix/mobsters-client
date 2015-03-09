@@ -64,22 +64,4 @@
   return MAX(_damage, _percent * self.opponentPlayer.maxHealth);
 }
 
-- (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
-{
-  if ([super skillCalledWithTrigger:trigger execute:execute])
-    return YES;
-  
-  if ([self isActive])
-  {
-    //Reset on new target
-    if ((self.belongsToPlayer && trigger == SkillTriggerPointEnemyDefeated)
-             || (!self.belongsToPlayer && (trigger == SkillTriggerPointPlayerInitialized || trigger == SkillTriggerPointPlayerMobDefeated)))
-    {
-      [self endDurationNow];
-    }
-  }
-  
-  return NO;
-}
-
 @end

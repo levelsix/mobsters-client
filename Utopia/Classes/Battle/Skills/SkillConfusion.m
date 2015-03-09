@@ -98,17 +98,6 @@
       }
       return YES;
     }
-    
-    if ((self.belongsToPlayer && trigger == SkillTriggerPointEnemyDefeated)
-        || (!self.belongsToPlayer && trigger == SkillTriggerPointPlayerInitialized))
-    {
-      if (execute)
-      {
-        [self endDurationNow];
-        [self skillTriggerFinished];
-      }
-      return YES;
-    }
   }
   
   return NO;

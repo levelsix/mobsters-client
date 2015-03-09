@@ -47,27 +47,6 @@
   [super restoreVisualsIfNeeded];
 }
 
-- (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
-{
-  if ([super skillCalledWithTrigger:trigger execute:execute])
-    return YES;
-  
-  if ([self isActive])
-  {
-    //Reset on new target
-    if (execute)
-    {
-      if ((self.belongsToPlayer && trigger == SkillTriggerPointEnemyInitialized)
-          || (!self.belongsToPlayer && trigger == SkillTriggerPointPlayerInitialized))
-      {
-        [self endDurationNow];
-      }
-    }
-  }
-  
-  return NO;
-}
-
 #pragma mark - Skill Logic
 
 - (BOOL) onDurationStart

@@ -298,48 +298,6 @@ static const NSInteger kSwordOrbsMaxSearchIterations = 256;
   [self resetOrbCounter];
 }
 
-- (BOOL)skillOffCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
-{
-  SkillLogStart(@"Flame Break -- Skill caused opponent to stun for %ld turns", (long)_turnsLeft);
-  
-  BattlePlayer* opponent = self.belongsToPlayer ? self.enemy : self.player;
-  opponent.isStunned = YES;
-  
-  [self addStunAnimations];
-  
-  if (!self.belongsToPlayer)
-  {
-    // Being stunned while in the middle of a turn
-    // causes the player's turn to end immediately
-    [self.battleLayer endMyTurnAfterDelay:.5f];
-  }
-  
-  // Finish trigger execution
-  [self performAfterDelay:.3f block:^{
-    [self.battleLayer.orbLayer.bgdLayer turnTheLightsOn];
-    [self.battleLayer.orbLayer allowInput];
-    [self performAfterDelay:self.userSprite.animationType == MonsterProto_AnimationTypeMelee ? .5 : 0 block:^{
-      [self skillTriggerFinished];
-    }];
-  }];
-}
-
-- (void) addStunAnimations
-{
-  BattleSprite* opponent = self.belongsToPlayer ? self.enemySprite : self.playerSprite;
-  
-  // Make character blink yellow
-  [opponent.sprite stopActionByTag:1914];
-  CCActionRepeatForever* action = [CCActionRepeatForever actionWithAction:[CCActionSequence actions:
-                                                                           [CCActionTintTo actionWithDuration:1.5f color:[CCColor yellowColor]],
-                                                                           [CCActionTintTo actionWithDuration:1.5f color:[CCColor whiteColor]],
-                                                                           nil]];
-  [action setTag:1914];
-  [opponent.sprite runAction:action];
-  
-  [self addSkillSideEffectToOpponent:SideEffectTypeNerfStun turnsAffected:_turnsLeft];
-}
-
 - (BOOL)activate
 {
   BattleSprite* opponent = self.belongsToPlayer ? self.enemySprite : self.playerSprite;
