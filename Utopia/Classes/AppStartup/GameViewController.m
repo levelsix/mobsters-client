@@ -1185,8 +1185,9 @@ static const CGSize FIXED_SIZE = {568, 384};
       enhance.delegate = self;
       [enhance begin];
     }
-  } else {
-    
+  }
+  
+  if (!self.miniTutController) {
     [[CCDirector sharedDirector] popSceneWithTransition:[CCTransition transitionCrossFadeWithDuration:duration]];
   }
   

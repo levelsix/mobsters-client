@@ -422,7 +422,10 @@ static NSDate *timeSinceLastTutStep = nil;
   dict[@"skill_id"] = @(skillId);
   dict[@"num_continues"] = @(numContinues);
   
-  //[self event:@"pve_hit" withArgs:dict];
+  // Only fire on test flight
+#ifdef RELEASE
+  [self event:@"pve_hit" withArgs:dict];
+#endif
 }
 
 + (void) pveMatchEnd:(BOOL)won numEnemiesDefeated:(int)enemiesDefeated type:(NSString *)type mobsterIdsUsed:(NSArray *)mobsterIdsUsed numPiecesGained:(int)numPieces mobsterIdsGained:(NSArray *)mobsterIdsGained totalRounds:(int)totalRounds dungeonId:(int)dungeonId numContinues:(int)numContinues outcome:(NSString *)outcome {
