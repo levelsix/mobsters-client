@@ -8,10 +8,26 @@
 
 #import <Foundation/Foundation.h>
 
+#import "MSDate.h"
+#import "Protocols.pb.h"
+
 @interface BattleItemQueueObject : NSObject
+
+@property (nonatomic, assign) int priority;
+@property (nonatomic, retain) NSString *userUuid;
+@property (nonatomic, assign) int battleItemId;
+@property (nonatomic, retain) MSDate *expectedStartTime;
 
 @end
 
 @interface BattleItemQueue : NSObject
+
+@property (nonatomic, retain) NSMutableArray *queueObjects;
+
+@property (nonatomic, assign) BOOL hasShownFreeHealingQueueSpeedup;
+
+- (void) addAllBattleItemQueueObjects:(NSArray *)objects;
+- (void) addToEndOfQueue:(BattleItemQueueObject *)object;
+- (void) removeFromQueue:(BattleItemQueueObject *)object;
 
 @end

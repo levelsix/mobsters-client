@@ -1753,6 +1753,76 @@ static NSString *udid = nil;
   }
 }
 
+
+
+- (int) setBattleItemQueueDirtyWithCoinChange:(int)coinChange oilChange:(int)oilChange gemCost:(int)gemCost {
+  [self flushAllExceptEventType:EventProtocolRequestCHealMonsterEvent];
+  _battleItemQueueCashChange += coinChange;
+  _battleItemQueueOilChange += oilChange;
+  _battleItemQueueGemCost += gemCost;
+  _battleItemQueuePotentiallyChanged = YES;
+  return _currentTagNum;
+}
+
+- (void) reloadBattleItemQueueSnapshot {
+  GameState *gs = [GameState sharedGameState];
+  self.battleItemQueueSnapshot = [gs.battleItemUtil.battleItemQueue.queueObjects clone];
+}
+
+- (int) sendBattleItemQueueMessage {
+  GameState *gs = [GameState sharedGameState];
+  NSMutableSet *old = [NSMutableSet setWithArray:self.battleItemQueueSnapshot];
+  NSMutableSet *cur = [NSMutableSet setWithArray:gs.battleItemUtil.battleItemQueue.queueObjects];
+  
+  NSMutableSet *added = cur.mutableCopy;
+  [added minusSet:old];
+  
+  NSMutableSet *removed = old.mutableCopy;
+  [removed minusSet:cur];
+  
+  NSMutableSet *modifiedOld = old.mutableCopy;
+  [modifiedOld intersectSet:cur];
+  
+  NSMutableSet *modifiedCur = cur.mutableCopy;
+  [modifiedCur intersectSet:old];
+  
+  NSMutableSet *changed = [NSMutableSet set];
+  for (UserMonsterHealingItem *itemOld in modifiedOld) {
+    UserMonsterHealingItem *itemNew = [modifiedCur member:itemOld];
+    if (![[itemOld convertToProto].data isEqual:[itemNew convertToProto].data]) {
+      [changed addObject:itemNew];
+    }
+  }
+  
+//  if (added.count || removed.count || changed.count || _battleItemQueueCashChange || _battleItemQueueOilChange || _battleItemQueueGemCost) {
+//    BattleItemQu *bldr = [[HealMonsterRequestProto builder] setSender:[self senderWithMaxResources]];
+//    
+//    for (UserMonsterHealingItem *item in added) {
+//      [bldr addUmhNew:[item convertToProto]];
+//    }
+//    
+//    for (UserMonsterHealingItem *item in removed) {
+//      [bldr addUmhDelete:[item convertToProto]];
+//    }
+//    
+//    for (UserMonsterHealingItem *item in changed) {
+//      [bldr addUmhUpdate:[item convertToProto]];
+//    }
+//    
+//    [bldr setCashChange:_healingQueueCashChange];
+//    [bldr setGemCostForHealing:_healingQueueGemCost];
+//    
+//    LNLog(@"Sending healing queue update with %d adds, %d removals, and %d updates.",  (int)added.count,  (int)removed.count,  (int)changed.count);
+//    LNLog(@"Cash change: %@, gemCost: %d", [Globals commafyNumber:_healingQueueCashChange], _healingQueueGemCost);
+//    
+//    return [self sendData:bldr.build withMessageType:EventProtocolRequestCHealMonsterEvent flush:NO queueUp:YES];
+//  } else {
+    return 0;
+//  }
+}
+
+
+
 - (int) updateClientTaskStateMessage:(NSData *)data {
   [self flushAllExceptEventType:EventProtocolRequestCUpdateClientTaskStateEvent];
   
