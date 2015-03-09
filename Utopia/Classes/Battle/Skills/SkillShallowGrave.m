@@ -108,8 +108,6 @@
   return damage;
 }
 
-#pragma mark - Skill logic
-
 - (void) addDefensiveShieldForUser
 {
   // Do not allow user's health to fall below a certain
