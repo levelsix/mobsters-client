@@ -45,20 +45,6 @@
   return NO;
 }
 
-- (NSInteger) duration
-{
-  return self.belongsToPlayer ? [super duration] : -1;
-}
-
-- (BOOL) activate
-{
-  if (!self.belongsToPlayer)
-  {
-    [self resetDuration];
-  }
-  return [super activate];
-}
-
 - (int)quickAttackDamage
 {
   return _fixedDamageReceived;
@@ -73,23 +59,9 @@
   return YES;
 }
 
-- (BOOL) skillDefCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
+- (void)onAllSpecialsDestroyed
 {
-  if ([super skillDefCalledWithTrigger:trigger execute:execute])
-    return YES;
-  
-  if ([self isActive])
-  {
-    if (trigger == SkillTriggerPointEndOfPlayerMove && [self specialsOnBoardCount:[self specialType]] == 0)
-    {
-      if (execute)
-      {
-        return [self endDurationNow];
-      }
-    }
-  }
-  
-  return NO;
+  [self resetOrbCounter];
 }
 
 @end
