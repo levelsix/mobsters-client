@@ -298,7 +298,7 @@
       if (orbColor == OrbColorNone)
         return nil;
       if (orb.powerupType == PowerupTypeNone)
-        return [NSString stringWithFormat:@"%@%@%@.png", resPrefix, [Globals imageNameForElement:(Element)orbColor suffix:@"poison"], suffix ];
+        return [NSString stringWithFormat:@"%@%@%@.png", resPrefix, [Globals imageNameForElement:(Element)orbColor suffix:@"lsorb"], suffix ];
       break;
       
     case SpecialOrbTypePoison:
