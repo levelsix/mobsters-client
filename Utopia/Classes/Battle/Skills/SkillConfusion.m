@@ -105,16 +105,6 @@
 
 #pragma mark - Skill logic
 
-- (BOOL) onDurationEnd
-{
-  SkillLogStart(@"Confusion -- Skill deactivated");
-  
-  // Tell NewBattleLayer that opponent is no longer confused
-  self.opponentPlayer.isConfused = NO;
-  
-  return [super onDurationEnd];
-}
-
 - (void) showLogo
 {
   [self showSkillPopupMiniOverlay:NO
