@@ -20,6 +20,7 @@
   _sizeMultiplier = 1.1;
   _currentMultiplier = 1.0;
   _currentSizeMultiplier = 1.0;
+  _sizeCap = 2.0;
 }
 
 - (void) setValue:(float)value forProperty:(NSString*)property
@@ -29,6 +30,9 @@
     _damageMultiplier = value;
   if ( [property isEqualToString:@"SIZE_MULTIPLIER"] )
     _sizeMultiplier = value;
+  if ( [property isEqualToString:@"SIZE_CAP"])
+    _sizeCap = value;
+  
 }
 
 #pragma mark - Overrides
@@ -110,7 +114,7 @@
 {
   // Increase multiplier
   _currentMultiplier *= _damageMultiplier;
-  _currentSizeMultiplier *= _sizeMultiplier;
+  _currentSizeMultiplier = MIN(_currentSizeMultiplier * _sizeMultiplier, _sizeCap);
   
   // Size player and make him blue
   [self performSelector:@selector(updateOwnerSprite) withObject:nil afterDelay:0.3];

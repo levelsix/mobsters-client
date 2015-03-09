@@ -13,6 +13,7 @@
   // Properties
   float _damageMultiplier;
   float _sizeMultiplier;
+  float _sizeCap;
 
   // Counters
   float _currentMultiplier;
