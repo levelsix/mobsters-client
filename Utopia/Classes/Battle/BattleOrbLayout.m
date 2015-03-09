@@ -736,7 +736,8 @@
           orb.specialOrbType != SpecialOrbTypeBullet &&
           orb.specialOrbType != SpecialOrbTypeSword &&
           orb.specialOrbType != SpecialOrbTypeBullet &&
-          orb.specialOrbType != SpecialOrbTypePoisonFire);
+          orb.specialOrbType != SpecialOrbTypePoisonFire &&
+          orb.specialOrbType != SpecialOrbTypeBattery);
 }
 
 - (BOOL) orbIsBottomFeeder:(BattleOrb *)orb {
@@ -745,7 +746,8 @@
           orb.specialOrbType == SpecialOrbTypeBullet ||
           orb.specialOrbType == SpecialOrbTypeSword ||
           orb.specialOrbType == SpecialOrbTypeBullet ||
-          orb.specialOrbType == SpecialOrbTypePoisonFire);
+          orb.specialOrbType == SpecialOrbTypePoisonFire ||
+          orb.specialOrbType == SpecialOrbTypeBattery);
 }
 
 #pragma mark - Powerup Matches

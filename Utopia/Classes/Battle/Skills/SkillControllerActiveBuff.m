@@ -71,6 +71,8 @@
     {
       if (execute)
       {
+        if (![self doesRefresh])
+          [self resetOrbCounter];
         if (![self endDurationNow])
           [self skillTriggerFinished];
       }
