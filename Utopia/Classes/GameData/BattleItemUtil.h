@@ -8,6 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
+@interface UserBattleItem : NSObject
+
+@property (nonatomic, assign) int battleItemId;
+@property (nonatomic, retain) NSString *userUuid;
+@property (nonatomic, assign) int quantity;
+
+@end
+
 @interface BattleItemUtil : NSObject
 
 @end
