@@ -10,8 +10,6 @@
 #import "NewBattleLayer.h"
 #import "Globals.h"
 
-static const NSInteger kGraveOrbsMaxSearchIterations = 256;
-
 @implementation SkillShallowGrave
 
 #pragma mark - Initialization
@@ -21,8 +19,6 @@ static const NSInteger kGraveOrbsMaxSearchIterations = 256;
   [super setDefaultValues];
   
   _minHPAllowed = 0;
-  _graveSpawnCount = 0;
-  _logoShown = NO;
 }
 
 - (void) setValue:(float)value forProperty:(NSString*)property
@@ -31,11 +27,29 @@ static const NSInteger kGraveOrbsMaxSearchIterations = 256;
   
   if ([property isEqualToString:@"MIN_HP_ALLOWED"])
     _minHPAllowed = value;
-  if ([property isEqualToString:@"DEF_SPAWN_COUNT"])
-    _graveSpawnCount = value;
 }
 
 #pragma mark - Overrides
+
+- (TickTrigger)tickTrigger
+{
+  return TickTriggerAfterOpponentTurn;
+}
+
+- (SpecialOrbType) specialType
+{
+  return SpecialOrbTypeGrave;
+}
+
+- (BOOL)keepColor
+{
+  return NO;
+}
+
+- (SpecialOrbSpawnZone)spawnZone
+{
+  return SpecialOrbSpawnTop;
+}
 
 - (NSSet*) sideEffects
 {
@@ -45,6 +59,7 @@ static const NSInteger kGraveOrbsMaxSearchIterations = 256;
 - (void)onAllSpecialsDestroyed
 {
   [self endDurationNow];
+  [self resetOrbCounter];
 }
 
 - (void) restoreVisualsIfNeeded
@@ -53,9 +68,10 @@ static const NSInteger kGraveOrbsMaxSearchIterations = 256;
   {
     SkillLogStart(@"Shallow Grave -- Skill activated");
     
-    [self addDefensiveShieldForPlayer:self.belongsToPlayer ? self.player : self.enemy];
-    [self addSkillSideEffectToSkillOwner:SideEffectTypeBuffShallowGrave turnsAffected:self.belongsToPlayer ? self.turnsLeft : -1];
+    [self addDefensiveShieldForUser];
   }
+  
+  [super restoreVisualsIfNeeded];
 }
 
 - (NSInteger) duration
@@ -65,23 +81,25 @@ static const NSInteger kGraveOrbsMaxSearchIterations = 256;
   return self.belongsToPlayer ? [super duration] : -1;
 }
 
-#pragma mark - Skill logic
-
-- (void) addDefensiveShieldForPlayer:(BattlePlayer*)player
+- (BOOL)activate
 {
-  // Do not allow player's health to fall below a certain
-  // threshold for a predefined number of turns
-  player.minHealth = _minHPAllowed;
+  if (!self.belongsToPlayer)
+  {
+    [self addVisualEffects:NO];
+    [self addDefensiveShieldForUser];
+    _turnsLeft = -1;
+  }
+  
+  return [super activate];
 }
+
+#pragma mark - Skill logic
 
 - (void) addDefensiveShieldForUser
 {
+  // Do not allow user's health to fall below a certain
+  // threshold while active
   self.userPlayer.minHealth = _minHPAllowed;
-}
-
-- (void) removeDefensiveShieldForPlayer:(BattlePlayer*)player
-{
-  player.minHealth = 0;
 }
 
 - (void) removeDefensiveShieldFromUser
@@ -95,18 +113,6 @@ static const NSInteger kGraveOrbsMaxSearchIterations = 256;
   
   [self addDefensiveShieldForUser];
   
-//  if (self.belongsToPlayer)
-//  {
-//    [self addDefensiveShieldForPlayer:self.player];
-//    [self addSkillSideEffectToSkillOwner:SideEffectTypeBuffShallowGrave turnsAffected:self.turnsLeft];
-//  }
-//  else
-//  {
-//    [self spawnInitialGraveOrbs];
-//    [self addDefensiveShieldForPlayer:self.enemy];
-//    [self addSkillSideEffectToSkillOwner:SideEffectTypeBuffShallowGrave turnsAffected:-1];
-//  }
-  
   return [super onDurationStart];
 }
 
@@ -114,129 +120,17 @@ static const NSInteger kGraveOrbsMaxSearchIterations = 256;
 {
   SkillLogStart(@"Shallow Grave -- Skill activated");
   [self addDefensiveShieldForUser];
-  [self addVisualEffects:self.belongsToPlayer];
-  return YES;
+  
+  return [super onDurationReset];
 }
 
 - (BOOL) onDurationEnd
 {
   SkillLogStart(@"Shallow Grave -- Skill deactivated");
   
-  [super onDurationEnd];
+  [self removeDefensiveShieldFromUser];
   
-  if (self.belongsToPlayer)
-  {
-    [self removeDefensiveShieldForPlayer:self.player];
-    [self removeSkillSideEffectFromSkillOwner:SideEffectTypeBuffShallowGrave];
-  }
-  else
-  {
-    [self removeAllGraveOrbs];
-    [self performAfterDelay:.3f block:^{
-      [self removeDefensiveShieldForPlayer:self.enemy];
-      [self removeSkillSideEffectFromSkillOwner:SideEffectTypeBuffShallowGrave];
-      [self skillTriggerFinished];
-    }];
-    return YES;
-  }
-  
-  return NO;
-}
-
-- (void) showLogo
-{
-  /*
-  // Display logo
-  CCSprite* logoSprite = [CCSprite spriteWithImageNamed:[self.skillImageNamePrefix stringByAppendingString:kSkillMiniLogoImageNameSuffix]];
-  logoSprite.position = CGPointMake((self.enemySprite.position.x + self.playerSprite.position.x) * .5f + self.playerSprite.contentSize.width * .5f - 10.f,
-                                    (self.playerSprite.position.y + self.enemySprite.position.y) * .5f + self.playerSprite.contentSize.height * .5f);
-  logoSprite.scale = 0.f;
-  [self.playerSprite.parent addChild:logoSprite z:50];
-  
-  // Animate
-  [logoSprite runAction:[CCActionSequence actions:
-                         [CCActionDelay actionWithDuration:.3f],
-                         [CCActionEaseBounceOut actionWithAction:[CCActionScaleTo actionWithDuration:.5f scale:1.f]],
-                         [CCActionDelay actionWithDuration:.5f],
-                         [CCActionEaseIn actionWithAction:[CCActionScaleTo actionWithDuration:.3f scale:0.f]],
-                         [CCActionRemove action],
-                         nil]];
-   */
-}
-
-- (void) spawnInitialGraveOrbs
-{
-  [self preseedRandomization];
-  
-  BattleOrbLayout* layout = self.battleLayer.orbLayer.layout;
-  BattleOrb* orb = nil;
-  
-  for (NSInteger n = 0; n < _graveSpawnCount; ++n)
-  {
-    NSInteger column, row;
-    NSInteger counter = 0;
-    do {
-      column = rand() % layout.numColumns;
-      row = (layout.numRows - 1) - rand() % 2; // Top two rows
-      orb = [layout orbAtColumn:column row:row];
-      ++counter;
-    }
-    while ((orb.specialOrbType != SpecialOrbTypeNone || orb.powerupType != PowerupTypeNone || orb.isLocked) &&
-           counter < kGraveOrbsMaxSearchIterations);
-    
-    // Nothing found (just in case), continue and perform selector if the last grave orb
-    if (!orb)
-    {
-      if (n == _graveSpawnCount - 1)
-        [self skillTriggerFinishedActivated];
-      continue;
-    }
-    
-    // Update data
-    orb.specialOrbType = SpecialOrbTypeGrave;
-    orb.orbColor = OrbColorNone;
-    
-    // Update tile
-    OrbBgdLayer* bgdLayer = self.battleLayer.orbLayer.bgdLayer;
-    BattleTile* tile = [layout tileAtColumn:column row:row];
-    [bgdLayer updateTile:tile
-                 keepLit:YES
-              withTarget:(n == _graveSpawnCount - 1) ? self : nil
-             andCallback:@selector(skillTriggerFinishedActivated)];
-    
-    // Update orb
-    [self performAfterDelay:.5f block:^{
-      OrbSprite* orbSprite = [self.battleLayer.orbLayer.swipeLayer spriteForOrb:orb];
-      [orbSprite reloadSprite:YES];
-    }];
-  }
-  
-  // Update available swaps list
-  [layout detectPossibleSwaps];
-}
-
-- (void) removeAllGraveOrbs
-{
-  BattleOrbLayout* layout = self.battleLayer.orbLayer.layout;
-  OrbSwipeLayer* layer = self.battleLayer.orbLayer.swipeLayer;
-  
-  for (NSInteger column = 0; column < layout.numColumns; ++column)
-  {
-    for (NSInteger row = 0; row < layout.numRows; ++row)
-    {
-      BattleOrb* orb = [layout orbAtColumn:column row:row];
-      if (orb.specialOrbType == SpecialOrbTypeGrave)
-      {
-        orb.specialOrbType = SpecialOrbTypeNone;
-        do {
-          orb.orbColor = [layout generateRandomOrbColor];
-        } while ([layout hasChainAtColumn:column row:row]);
-        
-        OrbSprite* orbSprite = [layer spriteForOrb:orb];
-        [orbSprite reloadSprite:YES];
-      }
-    }
-  }
+  return [super onDurationEnd];
 }
 
 @end

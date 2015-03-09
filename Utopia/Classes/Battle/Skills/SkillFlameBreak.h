@@ -23,10 +23,6 @@
   NSInteger _orbsSpawned;
   int _damageDone;
   int _damageReceived;
-  
-  // Counters
-  BOOL _skillActive;
-  NSInteger _turnsLeft;
 }
 
 @end

@@ -47,16 +47,7 @@ static const NSInteger kSwordOrbsMaxSearchIterations = 256;
 
 - (void) orbDestroyed:(OrbColor)color special:(SpecialOrbType)type
 {
-  [super orbDestroyed:color special:type];
-  
-  if (type == SpecialOrbTypeSword)
-  {
-    _orbsSpawned--;
-    if (_orbsSpawned == 0)
-    {
-      [self resetOrbCounter];
-    }
-  }
+  return [self isActive];
 }
 
 - (BOOL) shouldPersist

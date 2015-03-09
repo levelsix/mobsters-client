@@ -6,18 +6,12 @@
 //  Copyright (c) 2014 LVL6. All rights reserved.
 //
 
-#import "SkillControllerActiveBuff.h"
+#import "SkillControllerSpecialOrb.h"
 
-@interface SkillShallowGrave : SkillControllerActiveBuff
+@interface SkillShallowGrave : SkillControllerSpecialOrb
 {
   // Properties (both)
   int _minHPAllowed;
-  
-  // Properties (defensive)
-  int _graveSpawnCount;
-  
-  // Temp
-  BOOL _logoShown;
 }
 
 @end

@@ -132,24 +132,6 @@
   [self removeSkillSideEffectFromOpponent:SideEffectTypeNerfStun];
 }
 
-- (void) addVisualEffects:(BOOL)finishSkillTrigger
-{
-  [self addSkillSideEffectToSkillOwner:SideEffectTypeBuffHammerTime turnsAffected:self.turnsLeft];
-  
-  if (finishSkillTrigger)
-    [self skillTriggerFinished:YES];
-}
-
-- (void) resetVisualEffects
-{
-  [self resetAfftectedTurnsCount:self.turnsLeft forSkillSideEffectOnSkillOwner:SideEffectTypeBuffHammerTime];
-}
-
-- (void) removeVisualEffects
-{
-  [self removeSkillSideEffectFromSkillOwner:SideEffectTypeBuffHammerTime];
-}
-
 #pragma mark - Serialization
 
 - (NSDictionary*) serialize

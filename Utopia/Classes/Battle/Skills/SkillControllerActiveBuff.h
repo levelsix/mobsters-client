@@ -13,7 +13,9 @@ typedef enum {
   TickTriggerAfterOpponentTurn = 1
 } TickTrigger;
 
-@interface SkillControllerActiveBuff : SkillControllerActive
+@interface SkillControllerActiveBuff : SkillControllerActive {
+  NSInteger _turnsLeft;
+}
 
 - (TickTrigger) tickTrigger;
 - (BOOL) resetDuration;
@@ -29,6 +31,5 @@ typedef enum {
 - (void) removeVisualEffects;
 
 @property (readonly) NSInteger duration;
-@property (readonly) NSInteger turnsLeft;
 
 @end

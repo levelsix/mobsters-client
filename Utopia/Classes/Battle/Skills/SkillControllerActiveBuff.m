@@ -137,9 +137,9 @@
   {
     SideEffectType sideType = [sideEff intValue];
     if ([self affectsOwner])
-      [self addSkillSideEffectToSkillOwner:sideType turnsAffected:self.turnsLeft];
+      [self addSkillSideEffectToSkillOwner:sideType turnsAffected:_turnsLeft];
     else
-      [self addSkillSideEffectToOpponent:sideType turnsAffected:self.turnsLeft];
+      [self addSkillSideEffectToOpponent:sideType turnsAffected:_turnsLeft];
   }
   
   if (finishSkillTrigger)
@@ -152,9 +152,9 @@
   {
     SideEffectType sideType = [sideEff intValue];
     if ([self affectsOwner])
-      [self resetAfftectedTurnsCount:self.turnsLeft forSkillSideEffectOnSkillOwner:sideType];
+      [self resetAfftectedTurnsCount:_turnsLeft forSkillSideEffectOnSkillOwner:sideType];
     else
-      [self resetAfftectedTurnsCount:self.turnsLeft forSkillSideEffectOnOpponent:sideType];
+      [self resetAfftectedTurnsCount:_turnsLeft forSkillSideEffectOnOpponent:sideType];
   }
 }
 
