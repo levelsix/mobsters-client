@@ -88,13 +88,19 @@
   }
 }
 
-
 - (void) instantlyKillEnemy
 {
   [self.battleLayer instantSetHealthForEnemy:self.belongsToPlayer
                                           to:0
                                   withTarget:self
                                  andSelector:@selector(onFinishQuickAttack)];
+}
+
+- (void) onFinishQuickAttack
+{
+  [self performAfterDelay:self.userSprite.animationType == MonsterProto_AnimationTypeMelee ? .5 : 0 block:^{
+    [self skillTriggerFinished:self.belongsToPlayer];
+  }];
 }
 
 @end

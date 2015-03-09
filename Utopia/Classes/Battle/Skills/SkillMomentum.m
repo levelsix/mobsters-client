@@ -117,7 +117,7 @@
   
   // Finish trigger execution
   [self performAfterDelay:0.6 block:^{
-    [self skillTriggerFinished];
+    [self skillTriggerFinished:YES];
   }];
 }
 

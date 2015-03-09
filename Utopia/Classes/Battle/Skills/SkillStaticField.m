@@ -43,7 +43,7 @@
 
 - (int) quickAttackDamage
 {
-  return floorf((float)self.opponentPlayer.curHealth * _targetHPPercToDealAsDamage);
+  return ceilf((float)self.opponentPlayer.curHealth * _targetHPPercToDealAsDamage);
 }
 
 - (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
