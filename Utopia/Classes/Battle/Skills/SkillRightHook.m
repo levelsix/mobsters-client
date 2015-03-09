@@ -90,8 +90,6 @@
         // Tell NewBattleLayer that enemy will be confused on his next turn
         self.player.isConfused = YES;
       }
-      else
-        self.player.isConfused = NO;
     }
   }
   

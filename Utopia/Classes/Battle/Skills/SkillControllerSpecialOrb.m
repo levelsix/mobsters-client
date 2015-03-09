@@ -177,6 +177,8 @@
       [orbSprite reloadSprite:YES];
     }];
   }
+  
+  [layout detectPossibleSwaps];
 }
 
 - (void) removeSpecialOrbs

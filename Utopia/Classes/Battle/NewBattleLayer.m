@@ -890,6 +890,8 @@
             // the popup above his head, followed by flinch animation and showing the damage label
             if (self.enemyPlayerObject.isConfused)
             {
+              self.enemyPlayerObject.isConfused = NO;
+              
               CCSprite* confusedPopup = [CCSprite spriteWithImageNamed:@"confusionbubble.png"];
               [confusedPopup setAnchorPoint:CGPointMake(.5f, 0.f)];
               [confusedPopup setPosition:CGPointMake(self.currentEnemy.contentSize.width * .5f, self.currentEnemy.contentSize.height + 13.f)];
@@ -968,6 +970,8 @@
     // the popup above his head, followed by flinch animation and showing the damage label
     if (self.myPlayerObject.isConfused)
     {
+      self.myPlayerObject.isConfused = NO;
+      
       CCSprite* confusedPopup = [CCSprite spriteWithImageNamed:@"confusionbubble.png"];
       [confusedPopup setAnchorPoint:CGPointMake(.5f, 0.f)];
       [confusedPopup setPosition:CGPointMake(self.myPlayer.contentSize.width * .5f, self.myPlayer.contentSize.height + 13.f)];
