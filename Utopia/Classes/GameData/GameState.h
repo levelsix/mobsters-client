@@ -15,6 +15,7 @@
 #import "ChatObject.h"
 #import "ItemUtil.h"
 #import "ClanTeamDonateUtil.h"
+#import "BattleItemUtil.h"
 
 @interface GameState : NSObject {
   NSTimer *_enhanceTimer;
@@ -102,6 +103,8 @@
 @property (nonatomic, retain) ItemUtil *itemUtil;
 
 @property (nonatomic, retain) NSMutableDictionary *monsterHealingQueues;
+
+@property (nonatomic, retain) BattleItemUtil *battleItemUtil;
 
 @property (nonatomic, retain) NSMutableDictionary *inProgressCompleteQuests;
 @property (nonatomic, retain) NSMutableDictionary *inProgressIncompleteQuests;

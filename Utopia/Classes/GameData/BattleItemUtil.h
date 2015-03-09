@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "BattleItemQueue.h"
+
 @interface UserBattleItem : NSObject
 
 @property (nonatomic, assign) int battleItemId;
@@ -17,5 +19,7 @@
 @end
 
 @interface BattleItemUtil : NSObject
+
+@property (nonatomic, retain) BattleItemQueue *battleItemQueue;
 
 @end

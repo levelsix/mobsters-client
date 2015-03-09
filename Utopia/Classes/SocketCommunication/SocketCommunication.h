@@ -34,6 +34,11 @@
   int _healingQueueCashChange;
   int _healingQueueGemCost;
   
+  BOOL _battleItemQueuePotentiallyChanged;
+  int _battleItemQueueCashChange;
+  int _battleItemQueueOilChange;
+  int _battleItemQueueGemCost;
+  
   NSMutableArray *_speedupItemUsages;
   NSMutableArray *_speedupUpdatedUserItems;
   
@@ -57,7 +62,7 @@
 @property (nonatomic, assign) uint64_t lastClientTime;
 
 @property (nonatomic, retain) NSArray *healingQueueSnapshot;
-@property (nonatomic, retain) UserEnhancement *enhancementSnapshot;
+@property (nonatomic, retain) NSArray *battleItemQueueSnapshot;
 
 @property (nonatomic, retain) NSMutableDictionary *tagDelegates;
 @property (nonatomic, retain) NSMutableArray *clanEventDelegates;
