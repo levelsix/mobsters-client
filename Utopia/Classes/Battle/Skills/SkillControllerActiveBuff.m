@@ -151,9 +151,9 @@
   {
     SideEffectType sideType = [sideEff intValue];
     if ([self affectsOwner])
-      [self addSkillSideEffectToSkillOwner:sideType turnsAffected:_turnsLeft];
+      [self addSkillSideEffectToSkillOwner:sideType turnsAffected:_turnsLeft turnsAreSkillOwners:[self tickTrigger] == TickTriggerAfterUserTurn];
     else
-      [self addSkillSideEffectToOpponent:sideType turnsAffected:_turnsLeft];
+      [self addSkillSideEffectToOpponent:sideType turnsAffected:_turnsLeft turnsAreSkillOwners:[self tickTrigger] == TickTriggerAfterUserTurn];
   }
   
   if (finishSkillTrigger)
