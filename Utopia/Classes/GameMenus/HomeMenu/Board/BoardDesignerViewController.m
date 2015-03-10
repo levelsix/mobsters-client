@@ -16,10 +16,10 @@
 #define DEFAULT_BOARD_NUM_ROWS 9
 #define DEFAULT_BOARD_NUM_COLS 9
 
-static const int kTileWidth  = 34;
-static const int kTileHeight = 34;
+static const int kTileWidth  = 33;
+static const int kTileHeight = 33;
 static const int kBoardMarginTop  = 15;
-static const int kBoardMarginLeft = 15;
+static const int kBoardMarginLeft = 10;
 
 @implementation BoardDesignerViewController
 
@@ -29,6 +29,22 @@ static const int kBoardMarginLeft = 15;
   
   [self.containerView.layer setCornerRadius:5.f];
   [self.containerView setClipsToBounds:YES];
+  
+  if ([Globals isSmallestiPhone])
+  {
+    // Adjust layout for iPhone 4 and 4S
+    
+    [self.containerView.superview setWidth:self.containerView.superview.width - 90];
+    [self.mainView setWidth:self.containerView.superview.width];
+    [self.mainView setOriginX:self.mainView.originX + 85];
+    
+    [self.descriptionImage setHidden:YES];
+    [self.descriptionTitle setOriginX:self.descriptionTitle.originX - 75];
+    [self.descriptionBody setOriginX:self.descriptionBody.originX - 75];
+    
+    [self.homeTitleView setOriginX:self.homeTitleView.originX - 40];
+    [self.closeButton setOriginX:self.closeButton.originX - 10];
+  }
   
   UIImageView* descriptionCapLeft = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"obstaclesdescriptioncap.png"]];
   {
@@ -93,7 +109,7 @@ static const int kBoardMarginLeft = 15;
   UILongPressGestureRecognizer* longPressGestureRecogzier = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
     [longPressGestureRecogzier setDelegate:self];
     [longPressGestureRecogzier setMinimumPressDuration:(self.obstaclesScrollView.contentSize.width > self.obstaclesScrollView.width) ? .1f : 0.f];
-    [self.obstaclesScrollView setGestureRecognizers:@[ longPressGestureRecogzier ]];
+    [self.obstaclesScrollView setGestureRecognizers:[self.obstaclesScrollView.gestureRecognizers arrayByAddingObjectsFromArray:@[ longPressGestureRecogzier ]]];
   // Gesture recognizer for detecting long press on obstacles on the board
   longPressGestureRecogzier = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
     [longPressGestureRecogzier setDelegate:self];

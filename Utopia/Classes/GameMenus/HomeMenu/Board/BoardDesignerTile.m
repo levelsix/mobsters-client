@@ -46,11 +46,6 @@ static const int kObstacleInset = 2;
   // Remove all subviews
   [[self subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
   
-  if (_obstacleImageView)
-  {
-    [self addSubview:_obstacleImageView];
-  }
-  
   if (self.isHole)
   {
     self.backgroundColor = [UIColor clearColor];
@@ -62,6 +57,11 @@ static const int kObstacleInset = 2;
     self.backgroundColor = _baseColor;
     
     [self updateOuterBorders];
+    
+    if (_obstacleImageView)
+    {
+      [self addSubview:_obstacleImageView];
+    }
   }
 }
 
