@@ -91,12 +91,13 @@ static const int kBoardMarginLeft = 10;
     powerLabel.shadowBlur = 2.f;
   }
   
-  [self loadObstacles];
+  [self loadObstaclesInScrollView];
   [self buildBoardWithRows:DEFAULT_BOARD_NUM_ROWS andColumns:DEFAULT_BOARD_NUM_COLS];
+  [self loadObstaclesOnBoard];
   
+  // Get the power limit of the PvP Board Editor building
   PvpBoardHouseProto *bhp = (PvpBoardHouseProto*)[[[GameState sharedGameState] myPvpBoardHouse] staticStructForCurrentConstructionLevel];
   _powerLimit = bhp.pvpBoardPowerLimit;
-  _powerUsed = 0; // TODO - This value will be based on the obstacles in userPvpBoardObstaclesList of EventStartup
   [self updatePowerLevel:NO];
   
   // Gesture recognizer for dragging views around
@@ -137,7 +138,7 @@ static const int kBoardMarginLeft = 10;
     [self.delegate boardDesignerViewControllerClosed];
 }
 
-- (void) loadObstacles
+- (void) loadObstaclesInScrollView
 {
   static const int kCellPadding = 5;
   
@@ -217,6 +218,34 @@ static const int kBoardMarginLeft = 10;
   for (int row = 0; row < rows; ++row)
     for (int col = 0; col < cols; ++col)
       [(BoardDesignerTile*)[[_boardTiles objectAtIndex:row] objectAtIndex:col] updateBorders];
+}
+
+- (void) loadObstaclesOnBoard
+{
+  _powerUsed = 0;
+  
+  NSArray* userPvpBoardObstacles  = [GameState sharedGameState].myPvpBoardObstacles;
+  NSDictionary* pvpBoardObstacles = [GameState sharedGameState].staticPvpBoardObstacles;
+  for (UserPvpBoardObstacleProto* userObstacleProto in userPvpBoardObstacles)
+  {
+    PvpBoardObstacleProto* obstacleProto = [pvpBoardObstacles objectForKey:[NSNumber numberWithInteger:userObstacleProto.obstacleId]];
+    if (obstacleProto)
+    {
+      const int row = userObstacleProto.posY;
+      const int col = userObstacleProto.posX;
+      if (row >= 0 && row < DEFAULT_BOARD_NUM_ROWS &&
+          col >= 0 && col < DEFAULT_BOARD_NUM_COLS)
+      {
+        BoardDesignerTile* tile = [[_boardTiles objectAtIndex:row] objectAtIndex:col];
+        [tile addObstacle:obstacleProto withImage:[UIImage imageNamed:[BoardDesignerObstacleView imageForObstacleProto:obstacleProto]]];
+        
+        if (obstacleProto.obstacleType == BoardObstacleTypeHole)
+          [[self tilesSurroundingAndIncludingTileAtRow:row andColumn:col] makeObjectsPerformSelector:@selector(updateBorders)];
+        
+        _powerUsed += obstacleProto.powerAmt;
+      }
+    }
+  }
 }
 
 - (void) updatePowerLevel:(BOOL)animated

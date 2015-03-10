@@ -472,6 +472,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     gs.battleHistory = [proto.recentNbattlesList mutableCopy];
     
+    gs.myPvpBoardObstacles = [proto.userPvpBoardObstaclesList mutableCopy];
+    
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     if([defaults boolForKey:[Globals userConfimredPushNotificationsKey]]) {
       //this case is just the register the user if they have already accepted to register in a previous session

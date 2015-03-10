@@ -28,6 +28,7 @@
 @property (nonatomic, readonly) BOOL isLocked;
 
 + (instancetype) viewWithObstacleProto:(PvpBoardObstacleProto*)proto;
++ (NSString*) imageForObstacleProto:(PvpBoardObstacleProto*)proto;
 
 - (void) disableObstacle;
 - (void) enableObstacle;

@@ -22,18 +22,22 @@
   return nil;
 }
 
++ (NSString*) imageForObstacleProto:(PvpBoardObstacleProto*)proto
+{
+  switch (proto.obstacleType)
+  {
+    case BoardObstacleTypeCloud: return @"cloudobstacle.png";
+    case BoardObstacleTypeLock:  return @"lockobstacle.png";
+    case BoardObstacleTypeHole:  return @"holeobstacle.png";
+    default:
+      return nil;
+  }
+}
+
 - (void) updateWithObstacleProto:(PvpBoardObstacleProto*)proto
 {
   _obstacleProto = proto;
-  
-  switch (proto.obstacleType)
-  {
-    case BoardObstacleTypeCloud: _obstacleImage = @"cloudobstacle.png"; break;
-    case BoardObstacleTypeLock:  _obstacleImage = @"lockobstacle.png";  break;
-    case BoardObstacleTypeHole:  _obstacleImage = @"holeobstacle.png";  break;
-    default:
-      break;
-  }
+  _obstacleImage = [BoardDesignerObstacleView imageForObstacleProto:proto];
   
   [self.obstacleImageView setImage:[UIImage imageNamed:_obstacleImage]];
   [self.obstacleNameLabel setText:[proto.name uppercaseString]];
