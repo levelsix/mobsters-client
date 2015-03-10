@@ -88,6 +88,7 @@
         if (rand < _missChance)
         {
           damage = 0;
+          [self showDodged:YES];
           SkillLogStart(@"Crit and Evade -- Skill caused a miss");
         }
         else
@@ -97,7 +98,7 @@
           if (rand < _critChance)
           {
             damage *= _critMultiplier;
-            
+            [self showCriticalHit];
             SkillLogStart(@"Crit and Evade -- Skill caused a critical hit, increasing damage to %ld", (long)damage);        }
         }
       }
@@ -112,6 +113,7 @@
         {
           damage = 0;
           _evaded = YES;
+          [self showDodged:NO];
           SkillLogStart(@"Crit and Evade -- Skill caused an evade");
         }
       }
