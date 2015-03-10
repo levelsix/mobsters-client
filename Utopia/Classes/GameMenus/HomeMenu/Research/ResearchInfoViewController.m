@@ -151,7 +151,7 @@
 
 - (IBAction)clickResearchStart:(id)sender {
   ResearchProto *research = [[GameState sharedGameState].staticResearch objectForKey:@(_researchId)];
-  BOOL success = [[OutgoingEventController sharedOutgoingEventController] beginResearch:research gemsSpent:0 resourceType:research.costType resourceChange:-research.costAmt delegate:self];
+  BOOL success = [[OutgoingEventController sharedOutgoingEventController] beginResearch:research gemsSpent:0 resourceType:research.costType resourceChange:research.costAmt delegate:self];
   if(!success) {
     [Globals popupMessage:@"it didn't work weeeeee"];
   } else {
@@ -162,7 +162,7 @@
   }
 }
 
-- (void) handlePerformResearchRequestProto:(FullEvent *)fe {
+- (void) handlePerformResearchResponseProto:(FullEvent *)fe {
   PerformResearchResponseProto *proto = (PerformResearchResponseProto *)fe.event;
   if(proto.status == PerformResearchResponseProto_PerformResearchStatusSuccess) {
     ResearchInfoView *riv = self.view;

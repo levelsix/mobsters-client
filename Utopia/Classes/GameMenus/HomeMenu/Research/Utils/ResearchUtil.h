@@ -8,13 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import "Research.pb.h"
+#import "UserData.h"
 
 @interface ResearchUtil : NSObject
 
 @property (nonatomic, retain) NSMutableArray *userResearches;
 -(id) initWithResearches:(NSArray *)researches;
 
--(UserResearchProto *) currentResearch;
+-(UserResearch *) currentResearch;
 -(BOOL) isResearched:(ResearchProto *)research;
 -(BOOL) isResearching:(ResearchProto *)research;
 -(NSString *)uuidForResearch:(ResearchProto *)research;

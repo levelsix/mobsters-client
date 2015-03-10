@@ -1555,3 +1555,37 @@
 }
 
 @end
+
+@implementation UserResearch
+
++ (id) userResearchWithProto:(UserResearchProto *)proto {
+  return [[UserResearch alloc] initWithProto:proto];
+}
+
+- (id) initWithProto:(UserResearchProto *)proto {
+  GameState *gs = [GameState sharedGameState];
+  self.userResearchUuid = proto.userResearchUuid;
+  self.researchId = proto.researchId;
+  self.timePurchased = proto.timePurchased;
+  self.complete = proto.complete;
+  self.research = [gs.staticResearch objectForKey:@(self.researchId)];
+  self.timeCompleted = [self tentativeCompletionDate];
+  self.timeStarted = [MSDate dateWithTimeIntervalSince1970:self.timePurchased];
+  return self;
+}
+
+- (MSDate *)tentativeCompletionDate {
+  GameState *gs = [GameState sharedGameState];
+  
+  int seconds = self.research.durationMin * 60;
+  
+  // Account for speedups
+  int speedupMins = [gs.itemUtil getSpeedupMinutesForType:GameActionTypeMiniJob userDataUuid:self.userResearchUuid earliestDate:self.timeStarted];
+  if (speedupMins > 0) {
+    seconds -= speedupMins*60;
+  }
+  
+  return [self.timeStarted dateByAddingTimeInterval:seconds];
+}
+
+@end

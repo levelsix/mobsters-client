@@ -7,7 +7,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ResearchTreeViewController">
             <connections>
-                <outlet property="selectFieldView" destination="9d6-cX-Nwj" id="RHo-FJ-f6T"/>
                 <outlet property="view" destination="JyE-dU-01S" id="8rO-te-bDe"/>
             </connections>
         </placeholder>
@@ -29,28 +28,44 @@
                         <outlet property="delegate" destination="-1" id="6mW-8F-Cxd"/>
                     </connections>
                 </scrollView>
-                <view clipsSubviews="YES" contentMode="scaleToFill" id="9d6-cX-Nwj" customClass="researchSelectionBarView">
-                    <rect key="frame" x="3" y="182" width="424" height="51"/>
+                <view contentMode="scaleToFill" id="u2P-QN-Bbv" customClass="researchSelectionBarView">
+                    <rect key="frame" x="0.0" y="182" width="430" height="56"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <subviews>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="tapforresearchdetails.png" id="4hi-19-5y0">
-                            <rect key="frame" x="0.0" y="20" width="424" height="31"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="girl2.png" id="DaI-Ar-Azi">
-                            <rect key="frame" x="8" y="1" width="62" height="69"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Select a Field of Research" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="C8Q-Sc-sy3" customClass="NiceFontLabel12">
-                            <rect key="frame" x="45" y="20" width="334" height="37"/>
+                        <view contentMode="scaleToFill" id="nfT-TT-Jhd" userLabel="BGView">
+                            <rect key="frame" x="0.0" y="36" width="430" height="20"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                            <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                            <nil key="highlightedColor"/>
-                            <size key="shadowOffset" width="0.0" height="1"/>
-                        </label>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </view>
+                        <view clipsSubviews="YES" contentMode="scaleToFill" id="9d6-cX-Nwj" userLabel="InnerView" customClass="researchSelectionBarView">
+                            <rect key="frame" x="3" y="0.0" width="424" height="51"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <view contentMode="scaleToFill" id="HRc-Rk-8Kf">
+                                    <rect key="frame" x="0.0" y="26" width="212" height="26"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </view>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="tapforresearchdetails.png" id="4hi-19-5y0">
+                                    <rect key="frame" x="0.0" y="20" width="424" height="31"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Select a Field of Research" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="C8Q-Sc-sy3" customClass="NiceFontLabel12">
+                                    <rect key="frame" x="45" y="20" width="334" height="37"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                    <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="girl2.png" id="DaI-Ar-Azi">
+                                    <rect key="frame" x="8" y="1" width="62" height="69"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
                     </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>

@@ -361,3 +361,17 @@ typedef enum {
 - (NSDictionary *) damageDealtPerUserMonsterUuid;
 
 @end
+
+@interface UserResearch : NSObject
+
+@property (nonatomic, retain) NSString *userResearchUuid;
+@property (nonatomic, assign) int researchId;
+@property (nonatomic, assign) int64_t timePurchased;
+@property (nonatomic, assign) BOOL complete;
+@property (nonatomic, retain) MSDate *timeCompleted;
+@property (nonatomic, retain) ResearchProto *research;
+@property (nonatomic, retain) MSDate *timeStarted;
+
++ (id) userResearchWithProto:(UserResearchProto *)proto;
+
+@end

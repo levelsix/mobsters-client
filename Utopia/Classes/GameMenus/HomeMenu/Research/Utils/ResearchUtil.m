@@ -14,24 +14,27 @@
 
 -(id) initWithResearches:(NSArray *)researches {
   if((self = [super init])) {
-    self.userResearches = [NSMutableArray arrayWithArray:researches];
+    self.userResearches = [NSMutableArray array];
+    for (UserResearchProto *urp in researches) {
+      [self.userResearches addObject:[UserResearch userResearchWithProto:urp]];
+    }
   }
   return self;
 }
 
--(UserResearchProto *) currentResearch {
-  for (UserResearchProto *urp in self.userResearches) {
-    if (!urp.complete) {
-      return urp;
+-(UserResearch *) currentResearch {
+  for (UserResearch *ur in self.userResearches) {
+    if (!ur.complete) {
+      return ur;
     }
   }
   return nil;
 }
 
 -(BOOL) isResearched:(ResearchProto *)research {
-  for (UserResearchProto *urp in self.userResearches) {
-    MSDate *purchaseTime = [MSDate dateWithTimeIntervalSince1970:urp.timePurchased];
-    if (urp.researchId == research.researchId && (urp.complete || -[purchaseTime timeIntervalSinceNow] > research.durationMin * 60)) {
+  for (UserResearch *ur in self.userResearches) {
+    MSDate *purchaseTime = [MSDate dateWithTimeIntervalSince1970:ur.timePurchased];
+    if (ur.researchId == research.researchId && (ur.complete || -[purchaseTime timeIntervalSinceNow] > research.durationMin * 60)) {
       return YES;
     }
   }
@@ -39,9 +42,9 @@
 }
 
 -(BOOL)isResearching:(ResearchProto *)research {
-  for (UserResearchProto *urp in self.userResearches) {
-    MSDate *purchaseTime = [MSDate dateWithTimeIntervalSince1970:urp.timePurchased];
-    if (urp.researchId == research.researchId && !urp.complete && -[purchaseTime timeIntervalSinceNow] < research.durationMin * 60) {
+  for (UserResearch *ur in self.userResearches) {
+    MSDate *purchaseTime = [MSDate dateWithTimeIntervalSince1970:ur.timePurchased];
+    if (ur.researchId == research.researchId && !ur.complete && -[purchaseTime timeIntervalSinceNow] < research.durationMin * 60) {
       return YES;
     }
   }
@@ -49,9 +52,9 @@
 }
 
 -(NSString *)uuidForResearch:(ResearchProto *)research {
-  for (UserResearchProto *urp in self.userResearches) {
-    if(urp.researchId == research.researchId) {
-      return urp.userResearchUuid;
+  for (UserResearch *ur in self.userResearches) {
+    if(ur.researchId == research.researchId) {
+      return ur.userResearchUuid;
     }
   }
   return nil;

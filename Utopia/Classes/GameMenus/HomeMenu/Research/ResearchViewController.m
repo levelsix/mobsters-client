@@ -21,7 +21,7 @@
   self.titleImageName = @"residencemenuheader.png";
   self.title = @"RESEARCH LAB";
   
-  UserResearchProto *curResearch = [gs.researchUtil currentResearch];
+  UserResearch *curResearch = [gs.researchUtil currentResearch];
   if(curResearch) {
     CGPoint position = self.selectFieldView.center;
     [self.selectFieldView removeFromSuperview];
@@ -30,7 +30,7 @@
   }
 }
 
-#pragma TableView Delegates
+#pragma mark - TableView Delegates
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   ResearchCategoryCell *cell;
@@ -53,6 +53,12 @@
   [tableView deselectRowAtIndexPath:indexPath animated:NO];
   ResearchTreeViewController *rtvc = [[ResearchTreeViewController alloc] initWithDomain:(ResearchDomain)indexPath.row+2];
   [self.parentViewController pushViewController:rtvc animated:YES];
+}
+
+#pragma mark - updateLabels
+
+-(void)updateLabels {
+  
 }
 
 @end
