@@ -116,6 +116,9 @@
 - (int) sendAchievementProgressMessage:(NSArray *)userAchievements clientTime:(uint64_t)clientTime;
 - (int) sendAchievementRedeemMessage:(int)achievementId clientTime:(uint64_t)clientTime;
 
+- (int) sendBeginResearchMessage:(int)researchId uuid:(NSString*)uuid clientTime:(uint64_t)clientTime gems:(int)gems resourceType:(ResourceType)resourceType resourceChange:(int)resourceChange;
+- (int) sendFinishPerformingResearchRequestProto:(NSString *)uuid gemsSpent:(int)gemsSpent;
+
 - (int) sendRetrieveUsersForUserUuids:(NSArray *)userUuids includeCurMonsterTeam:(BOOL)includeCurMonsterTeam;
 
 - (int) sendAPNSMessage:(NSString *)deviceToken;

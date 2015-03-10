@@ -2126,7 +2126,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 - (BOOL) isPrerequisiteComplete:(PrereqProto *)prereq {
-  if (!self.ignorePrerequisites) {
+  if (!self.ignorePrerequisites || YES) {
     GameState *gs = [GameState sharedGameState];
     int quantity = 0;
     
@@ -2140,7 +2140,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     } else if (prereq.prereqGameType == GameTypeTask) {
       quantity = [gs isTaskCompleted:prereq.prereqGameEntityId];
     } else if (prereq.prereqGameType == GameTypeResearch) {
-      quantity = 0;
+      ResearchProto *rp = gs.staticResearch[@(prereq.prereqGameEntityId)];
+      quantity = [rp isComplete];
     }
     
     return quantity >= prereq.quantity;

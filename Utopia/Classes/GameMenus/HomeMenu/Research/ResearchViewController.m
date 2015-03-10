@@ -16,8 +16,18 @@
 - (void) viewDidLoad {
   [super viewDidLoad];
   
+  GameState *gs = [GameState sharedGameState];
+  
   self.titleImageName = @"residencemenuheader.png";
   self.title = @"RESEARCH LAB";
+  
+  UserResearchProto *curResearch = [gs.researchUtil currentResearch];
+  if(curResearch) {
+    CGPoint position = self.selectFieldView.center;
+    [self.selectFieldView removeFromSuperview];
+    [self.view addSubview:self.curReseaerchBar];
+    self.curReseaerchBar.center = position;
+  }
 }
 
 #pragma TableView Delegates

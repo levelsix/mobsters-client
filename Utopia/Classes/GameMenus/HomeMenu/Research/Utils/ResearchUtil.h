@@ -11,11 +11,13 @@
 
 @interface ResearchUtil : NSObject
 
-@property (nonatomic, assign) NSMutableArray *userResearches;
+@property (nonatomic, retain) NSMutableArray *userResearches;
 -(id) initWithResearches:(NSArray *)researches;
 
--(ResearchProto *) currentResearch;
+-(UserResearchProto *) currentResearch;
 -(BOOL) isResearched:(ResearchProto *)research;
+-(BOOL) isResearching:(ResearchProto *)research;
+-(NSString *)uuidForResearch:(ResearchProto *)research;
 
 @end
 
@@ -28,6 +30,10 @@
 - (ResearchPropertyProto *)firstProperty;
 - (float)researchBenefit;
 - (NSArray *)fullResearchFamily;
-- (NSString *)description;
+- (NSString *)simpleValue;
+- (BOOL)isComplete;
+- (BOOL)isResearching;
+- (BOOL)isAvailable;
+- (BOOL)prereqsComplete;
 
 @end

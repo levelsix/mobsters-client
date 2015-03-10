@@ -1260,6 +1260,30 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCAchievementRedeemEvent];
 }
 
+- (int) sendBeginResearchMessage:(int)researchId uuid:(NSString*)uuid clientTime:(uint64_t)clientTime gems:(int)gems resourceType:(ResourceType)resourceType resourceChange:(int)resourceChange{
+  PerformResearchRequestProto *req = [[[[[[[[[PerformResearchRequestProto builder]
+                                             setSender:_sender]
+                                            setResearchId:researchId]
+                                           setUserResearchUuid:uuid]
+                                          setClientTime:clientTime]
+                                         setGemsSpent:gems]
+                                        setResourceChange:resourceChange]
+                                       setResourceType:resourceType]
+                                      build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCPerformResearchEvent];
+}
+
+- (int) sendFinishPerformingResearchRequestProto:(NSString *)uuid gemsSpent:(int)gemsSpent {
+  FinishPerformingResearchRequestProto *req = [[[[[FinishPerformingResearchRequestProto builder]
+                                                 setSender:_sender]
+                                                setUserResearchUuid:uuid]
+                                               setGemsSpent:gemsSpent]
+                                               build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCFinishPerformingResearchEvent];
+}
+
 - (int) sendSpawnMiniJobMessage:(int)numToSpawn clientTime:(uint64_t)clientTime structId:(int)structId {
   SpawnMiniJobRequestProto *req = [[[[[[SpawnMiniJobRequestProto builder]
                                        setSender:_sender]
