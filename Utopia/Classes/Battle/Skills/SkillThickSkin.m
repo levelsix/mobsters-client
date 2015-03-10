@@ -59,6 +59,7 @@
     {
       _damageAbsorbed = damage * _bonusResistance;
       damage = MAX(damage - _damageAbsorbed, 0);
+      [self showDamageAbsorbed];
       SkillLogStart(@"Thick Skin -- Skill reduced damage to %ld", (long)damage);
     }
   }

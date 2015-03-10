@@ -319,6 +319,13 @@
 
 - (int) quickAttackDamage { return 0; }
 
+- (void) showQuickAttackMiniLogo
+{
+  [self showSkillPopupMiniOverlay:NO
+                       bottomText:[NSString stringWithFormat:@"%ld DMG BLOCKED", (long)self.quickAttackDamage]
+                   withCompletion:^{}];
+}
+
 - (void) dealQuickAttack
 {
   [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
