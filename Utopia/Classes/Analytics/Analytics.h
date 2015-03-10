@@ -25,7 +25,7 @@
 + (void) tutorialFbConfirmSkip;
 + (void) tutorialWaitingOnUserCreate;
 
-+ (void) setUserUuid:(NSString *)userUuid name:(NSString *)name email:(NSString *)email;
++ (void) setUserUuid:(NSString *)userUuid name:(NSString *)name email:(NSString *)email level:(int)level;
 + (void) newAccountCreated;
 + (void) tutorialComplete;
 + (void) appOpen:(int)numTimesOpened;

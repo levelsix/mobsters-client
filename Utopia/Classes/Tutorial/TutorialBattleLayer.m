@@ -431,7 +431,7 @@
   [super beginSecondMove];
 }
 
-- (void) dealDamage:(int)damageDone enemyIsAttacker:(BOOL)enemyIsAttacker usingAbility:(BOOL)usingAbility withTarget:(id)target withSelector:(SEL)selector {
+- (void) dealDamage:(int)damageDone enemyIsAttacker:(BOOL)enemyIsAttacker usingAbility:(BOOL)usingAbility showDamageLabel:(BOOL)showLabel withTarget:(id)target withSelector:(SEL)selector {
   if (!enemyIsAttacker) {
     if (_curStage == ENEMY_INDEX) {
       // Make sure he kills
@@ -446,7 +446,7 @@
     }
   }
   
-  [super dealDamage:damageDone enemyIsAttacker:enemyIsAttacker usingAbility:usingAbility withTarget:target withSelector:selector];
+  [super dealDamage:damageDone enemyIsAttacker:enemyIsAttacker usingAbility:usingAbility showDamageLabel:showLabel withTarget:target withSelector:selector];
 }
 
 - (void) swapToMark {
