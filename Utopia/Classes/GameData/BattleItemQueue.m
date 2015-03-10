@@ -9,6 +9,7 @@
 #import "BattleItemQueue.h"
 
 #import "Globals.h"
+#import "SocketCommunication.h"
 
 @implementation BattleItemQueueObject
 
@@ -18,6 +19,7 @@
     self.userUuid = proto.userUuid;
     self.battleItemId = proto.battleItemId;
     self.expectedStartTime = [MSDate dateWithTimeIntervalSince1970:proto.expectedStartTime/1000.];
+//    self.elapsedTime = prot
   }
   return self;
 }
@@ -52,58 +54,59 @@
   return self;
 }
 
-//- (void) addAllBattleItemQueueObjects:(NSArray *)objects {
-//  [self.queueObjects removeAllObjects];
-//  
-//  for (BattleItemQueueForUserProto *proto in objects) {
-//      [self.queueObjects addObject:[[BattleItemQueueObject alloc] initWithProto:proto]];
-//  }
-//  
-//  [self.queueObjects sortUsingComparator:^NSComparisonResult(BattleItemQueueObject *obj1, BattleItemQueueObject *obj2) {
-//    return [@(obj1.priority) compare:@(obj2.priority)];
-//  }];
-//  
-//  [[SocketCommunication sharedSocketCommunication] reloadHealQueueSnapshot];
-//  
-//  [self readjustAllMonsterHealingProtos];
-//  
-//  self.hasShownFreeHealingQueueSpeedup = NO;
-//  
-//  [[NSNotificationCenter defaultCenter] postNotificationName:HEAL_WAIT_COMPLETE_NOTIFICATION object:nil];
-//}
-//
-//- (void) addUserMonsterHealingItemToEndOfQueue:(UserMonsterHealingItem *)item {
-//  // Save the last guy's health progress so we get elapsed time as well.
-//  [self saveHealthProgressesFromIndex:self.healingItems.count-1];
-//  
-//  UserMonsterHealingItem *prevItem = [self.healingItems lastObject];
-//  item.priority = prevItem.priority+1;
-//  item.queueTime = [MSDate date];
-//  item.elapsedTime = prevItem.elapsedTime;
-//  
-//  [self.healingItems addObject:item];
-//  [self readjustAllMonsterHealingProtos];
-//  
-//  Globals *gl = [Globals sharedGlobals];
-//  if (self.queueEndTime.timeIntervalSinceNow > gl.maxMinutesForFreeSpeedUp*60) {
-//    self.hasShownFreeHealingQueueSpeedup = NO;
-//  } else {
-//    self.hasShownFreeHealingQueueSpeedup = YES;
-//  }
-//}
-//
-//- (void) removeUserMonsterHealingItem:(UserMonsterHealingItem *)item {
-//  NSInteger index = [self.healingItems indexOfObject:item];
-//  [self saveHealthProgressesFromIndex:index];
-//  
-//  [self.healingItems removeObject:item];
-//  
-//  [self readjustAllMonsterHealingProtos];
-//  
-//  Globals *gl = [Globals sharedGlobals];
-//  if (self.queueEndTime.timeIntervalSinceNow < gl.maxMinutesForFreeSpeedUp*60) {
-//    self.hasShownFreeHealingQueueSpeedup = YES;
-//  }
-//}
+- (void) addAllBattleItemQueueObjects:(NSArray *)objects {
+  [self.queueObjects removeAllObjects];
+  
+  for (BattleItemQueueForUserProto *proto in objects) {
+      [self.queueObjects addObject:[[BattleItemQueueObject alloc] initWithProto:proto]];
+  }
+  
+  [self.queueObjects sortUsingComparator:^NSComparisonResult(BattleItemQueueObject *obj1, BattleItemQueueObject *obj2) {
+    return [@(obj1.priority) compare:@(obj2.priority)];
+  }];
+  
+  [[SocketCommunication sharedSocketCommunication] reloadBattleItemQueueSnapshot];
+  
+  [self readjustQueue];
+  
+  self.hasShownFreeHealingQueueSpeedup = NO;
+  
+  [[NSNotificationCenter defaultCenter] postNotificationName:HEAL_WAIT_COMPLETE_NOTIFICATION object:nil];
+}
+
+- (void) addToEndOfQueue:(BattleItemQueueObject *)item {
+  BattleItemQueueObject *prevItem = [self.queueObjects lastObject];
+  item.priority = prevItem.priority+1;
+  item.expectedStartTime = [MSDate date];
+  item.elapsedTime = prevItem.elapsedTime;
+  
+  [self.queueObjects addObject:item];
+  
+  [self readjustQueue];
+  
+  Globals *gl = [Globals sharedGlobals];
+  if (self.queueEndTime.timeIntervalSinceNow > gl.maxMinutesForFreeSpeedUp*60) {
+    self.hasShownFreeHealingQueueSpeedup = NO;
+  } else {
+    self.hasShownFreeHealingQueueSpeedup = YES;
+  }
+}
+
+- (void) removeUserMonsterHealingItem:(UserMonsterHealingItem *)item {
+  NSInteger index = [self.queueObjects indexOfObject:item];
+  //[self saveHealthProgressesFromIndex:index];
+  
+  [self.queueObjects removeObject:item];
+  
+  [self readjustQueue];
+  
+  Globals *gl = [Globals sharedGlobals];
+  if (self.queueEndTime.timeIntervalSinceNow < gl.maxMinutesForFreeSpeedUp*60) {
+    self.hasShownFreeHealingQueueSpeedup = YES;
+  }
+}
+
+- (void) readjustQueue {
+}
 
 @end

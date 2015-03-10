@@ -17,6 +17,7 @@
 @property (nonatomic, retain) NSString *userUuid;
 @property (nonatomic, assign) int battleItemId;
 @property (nonatomic, retain) MSDate *expectedStartTime;
+@property (nonatomic, assign) float elapsedTime;
 
 @end
 
@@ -25,6 +26,8 @@
 @property (nonatomic, retain) NSMutableArray *queueObjects;
 
 @property (nonatomic, assign) BOOL hasShownFreeHealingQueueSpeedup;
+@property (nonatomic, retain) MSDate *queueEndTime;
+@property (nonatomic, assign) float totalTimeForHealQueue;
 
 - (void) addAllBattleItemQueueObjects:(NSArray *)objects;
 - (void) addToEndOfQueue:(BattleItemQueueObject *)object;

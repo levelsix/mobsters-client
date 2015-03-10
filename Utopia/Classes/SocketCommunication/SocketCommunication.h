@@ -224,6 +224,10 @@
 
 - (int) sendCustomizePvpBoardObstacleMessage:(NSArray *)removeUpboIds nuOrUpdatedObstacles:(NSArray *)nuOrUpdatedObstacles;
 
+- (int) setBattleItemQueueDirtyWithCoinChange:(int)coinChange oilChange:(int)oilChange gemCost:(int)gemCost;
+- (void) reloadBattleItemQueueSnapshot;
+- (int) sendBattleItemQueueMessage;
+
 - (void) flush;
 - (void) pauseFlushTimer;
 - (void) resumeFlushTimer;
