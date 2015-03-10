@@ -335,18 +335,25 @@
 - (void) quickAttackDealDamage
 {
   // Deal damage
-  [self.battleLayer dealDamage:self.quickAttackDamage enemyIsAttacker:(!self.belongsToPlayer) usingAbility:YES withTarget:self withSelector:@selector(onFinishQuickAttack)];
+  
+  [self.battleLayer dealDamage:self.quickAttackDamage enemyIsAttacker:(!self.belongsToPlayer) usingAbility:YES withTarget:self withSelector:@selector(preFinishQuickAttack)];
   
   if (!self.belongsToPlayer) {
     [self.battleLayer sendServerUpdatedValuesVerifyDamageDealt:NO];
   }
 }
 
+// Puts a delay inbetween the quick attack and releasing the skill trigger for melee toons
+- (void) preFinishQuickAttack
+{
+  [self performAfterDelay:self.userSprite.animationType == MonsterProto_AnimationTypeMelee ? .8 : 0 block:^{
+    [self onFinishQuickAttack];
+  }];
+}
+
 - (void) onFinishQuickAttack
 {
-  [self performAfterDelay:self.userSprite.animationType == MonsterProto_AnimationTypeMelee ? .5 : 0 block:^{
-    [self skillTriggerFinished];
-  }];
+  [self skillTriggerFinished];
 }
 
 #pragma mark - UI

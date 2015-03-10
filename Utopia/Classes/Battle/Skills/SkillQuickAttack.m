@@ -42,9 +42,7 @@
 - (void) onFinishQuickAttack
 {
   [self resetOrbCounter];
-  [self performAfterDelay:self.userSprite.animationType == MonsterProto_AnimationTypeMelee ? .5 : 0 block:^{
-    [self skillTriggerFinished:YES];
-  }];
+  [self skillTriggerFinished:YES];
 }
 
 @end

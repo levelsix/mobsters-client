@@ -116,9 +116,7 @@
 //Overriden to make [super activate] wait until the attack is finished, which will start the visual effects then
 - (void) onFinishQuickAttack
 {
-  [self performAfterDelay:self.userSprite.animationType == MonsterProto_AnimationTypeMelee ? .5 : 0 block:^{
-    [super activate];
-  }];
+  [super activate];
 }
 
 @end

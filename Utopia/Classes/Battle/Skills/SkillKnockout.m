@@ -98,9 +98,7 @@
 
 - (void) onFinishQuickAttack
 {
-  [self performAfterDelay:self.userSprite.animationType == MonsterProto_AnimationTypeMelee ? .5 : 0 block:^{
-    [self skillTriggerFinished:self.belongsToPlayer];
-  }];
+  [self skillTriggerFinished:self.belongsToPlayer];
 }
 
 @end
