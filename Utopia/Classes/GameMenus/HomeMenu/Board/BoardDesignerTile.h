@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+@class PvpBoardObstacleProto;
+
 @interface BoardDesignerTile : UIView
 {
   BOOL     _baseColorIsDark;
@@ -19,7 +21,9 @@
   UIImageView* _obstacleImageView;
 }
 
-@property (nonatomic, assign) BOOL isHole;
+@property (nonatomic, readonly) PvpBoardObstacleProto* obstacleProto;
+
+@property (nonatomic, readonly) BOOL isHole;
 @property (nonatomic, readonly) BOOL isOccupied;
 
 @property (nonatomic, assign) BoardDesignerTile* NeighborN;
@@ -31,7 +35,7 @@
 
 - (void) updateBorders;
 - (BOOL) canAcceptObstacle;
-- (void) addObstacle:(UIImage*)obstacleImage;
+- (void) addObstacle:(PvpBoardObstacleProto*)obstacleProto withImage:(UIImage*)obstacleImage;
 - (UIImage*) removeObstacle;
 - (BOOL) hasNeighborN;
 - (BOOL) hasNeighborS;

@@ -11,67 +11,95 @@
 
 @implementation BoardDesignerObstacleView
 
-+ (instancetype) viewWithObstacleImage:(NSString*)image name:(NSString*)name andPowerCost:(NSInteger)powerCost
++ (instancetype) viewWithObstacleProto:(PvpBoardObstacleProto*)proto
 {
-  BoardDesignerObstacleView* obstacleView = [[NSBundle mainBundle] loadNibNamed:NSStringFromClass([self class]) owner:self options:nil][0];
-  [obstacleView updateWithObstacleImage:image name:name andPowerCost:powerCost];
-  return obstacleView;
+  if (proto)
+  {
+    BoardDesignerObstacleView* obstacleView = [[NSBundle mainBundle] loadNibNamed:NSStringFromClass([self class]) owner:self options:nil][0];
+    [obstacleView updateWithObstacleProto:proto];
+    return obstacleView;
+  }
+  return nil;
 }
 
-- (void) updateWithObstacleImage:(NSString*)image name:(NSString*)name andPowerCost:(NSInteger)powerCost
+- (void) updateWithObstacleProto:(PvpBoardObstacleProto*)proto
 {
-  _obstacleImage = image;
+  _obstacleProto = proto;
   
-  [self.obstacleImageView setImage:[UIImage imageNamed:image]];
-  [self.obstacleNameLabel setText:[name uppercaseString]];
-  [self.obstaclePowerCostLabel setText:[NSString stringWithFormat:@"%ld", (long)powerCost]];
+  switch (proto.obstacleType)
+  {
+    case BoardObstacleTypeCloud: _obstacleImage = @"cloudobstacle.png"; break;
+    case BoardObstacleTypeLock:  _obstacleImage = @"lockobstacle.png";  break;
+    case BoardObstacleTypeHole:  _obstacleImage = @"holeobstacle.png";  break;
+    default:
+      break;
+  }
+  
+  [self.obstacleImageView setImage:[UIImage imageNamed:_obstacleImage]];
+  [self.obstacleNameLabel setText:[proto.name uppercaseString]];
+  [self.obstaclePowerCostLabel setText:[NSString stringWithFormat:@"%ld", (long)proto.powerAmt]];
   
   _isEnabled = YES;
   _isLocked = NO;
+  
+  if (!proto.initAvailable)
+    [self lockObstacle];
 }
 
 - (void) disableObstacle
 {
-  [self.obstacleNameLabel setTextColor:[UIColor colorWithHexString:@"B2B2B2"]];
-  [self.obstaclePowerLabel setTextColor:[UIColor colorWithHexString:@"B2B2B2"]];
-  [self.obstaclePowerCostLabel setTextColor:[UIColor colorWithHexString:@"DB2C2C"]];
-  
-  _isEnabled = NO;
+  if (self.isEnabled)
+  {
+    [self.obstacleNameLabel setTextColor:[UIColor colorWithHexString:@"B2B2B2"]];
+    [self.obstaclePowerLabel setTextColor:[UIColor colorWithHexString:@"B2B2B2"]];
+    [self.obstaclePowerCostLabel setTextColor:[UIColor colorWithHexString:@"DB2C2C"]];
+    
+    _isEnabled = NO;
+  }
 }
 
 - (void) enableObstacle
 {
-  [self.obstacleNameLabel setTextColor:[UIColor colorWithHexString:@"00C2FF"]];
-  [self.obstaclePowerLabel setTextColor:[UIColor colorWithHexString:@"6F9F11"]];
-  [self.obstaclePowerCostLabel setTextColor:[UIColor colorWithHexString:@"6F9F11"]];
-  
-  _isEnabled = YES;
+  if (!self.isEnabled)
+  {
+    [self.obstacleNameLabel setTextColor:[UIColor colorWithHexString:@"00C2FF"]];
+    [self.obstaclePowerLabel setTextColor:[UIColor colorWithHexString:@"6F9F11"]];
+    [self.obstaclePowerCostLabel setTextColor:[UIColor colorWithHexString:@"6F9F11"]];
+    
+    _isEnabled = YES;
+  }
 }
 
 - (void) lockObstacle
 {
-  [Globals imageNamed:_obstacleImage withView:self.obstacleImageView maskedColor:[UIColor colorWithWhite:.85f alpha:1.f] indicator:0 clearImageDuringDownload:NO];
-  [self.obstacleNameLabel setTextColor:[UIColor colorWithHexString:@"B2B2B2"]];
-  
-  [self.lockImageView setHidden:NO];
-  [self.lockLabel setHidden:NO];
-  [self.obstaclePowerLabel setHidden:YES];
-  [self.obstaclePowerCostLabel setHidden:YES];
-  
-  _isLocked = YES;
+  if (!self.isLocked)
+  {
+    [Globals imageNamed:_obstacleImage withView:self.obstacleImageView maskedColor:[UIColor colorWithWhite:.85f alpha:1.f] indicator:0 clearImageDuringDownload:NO];
+    [self.obstacleNameLabel setTextColor:[UIColor colorWithHexString:@"B2B2B2"]];
+    
+    [self.lockImageView setHidden:NO];
+    [self.lockLabel setHidden:NO];
+    [self.obstaclePowerLabel setHidden:YES];
+    [self.obstaclePowerCostLabel setHidden:YES];
+    
+    _isLocked = YES;
+  }
 }
 
 - (void) unlockObstacle
 {
-  [self.obstacleImageView setImage:[UIImage imageNamed:_obstacleImage]];
-  [self.obstacleNameLabel setTextColor:[UIColor colorWithHexString:@"00C2FF"]];
-  
-  [self.lockImageView setHidden:YES];
-  [self.lockLabel setHidden:YES];
-  [self.obstaclePowerLabel setHidden:NO];
-  [self.obstaclePowerCostLabel setHidden:NO];
-  
-  _isLocked = NO;
+  if (self.isLocked)
+  {
+    [self.obstacleImageView setImage:[UIImage imageNamed:_obstacleImage]];
+    [self.obstacleNameLabel setTextColor:[UIColor colorWithHexString:@"00C2FF"]];
+    
+    [self.lockImageView setHidden:YES];
+    [self.lockLabel setHidden:YES];
+    [self.obstaclePowerLabel setHidden:NO];
+    [self.obstaclePowerCostLabel setHidden:NO];
+    
+    _isLocked = NO;
+  }
 }
 
 @end

@@ -9,6 +9,7 @@
 #import "BoardDesignerTile.h"
 #import "UIView+Coordinates.h"
 #import "UIColor+HexColor.h"
+#import "Structure.pb.h"
 
 static const int kBorderThickness = 2;
 static const int kCornerSize = 8;
@@ -27,6 +28,7 @@ static const int kObstacleInset = 2;
     _outerCornerImage = [UIImage imageNamed:@"boardeditorcorner.png"];
     _innerCornerImage = dark ? [UIImage imageNamed:@"boardeditorcornerlight.png"] : [UIImage imageNamed:@"boardeditorcornerdark.png"];
     _obstacleImageView = nil;
+    _obstacleProto = nil;
     
     _isHole = NO;
     _isOccupied = NO;
@@ -45,7 +47,9 @@ static const int kObstacleInset = 2;
   [[self subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
   
   if (_obstacleImageView)
+  {
     [self addSubview:_obstacleImageView];
+  }
   
   if (self.isHole)
   {
@@ -241,23 +245,41 @@ static const int kObstacleInset = 2;
   return !self.isOccupied && !self.isHole;
 }
 
-- (void) addObstacle:(UIImage*)obstacleImage
+- (void) addObstacle:(PvpBoardObstacleProto*)obstacleProto withImage:(UIImage*)obstacleImage
 {
+  _obstacleProto = obstacleProto;
   _obstacleImageView = [[UIImageView alloc] initWithImage:obstacleImage];
+  
+  if (obstacleProto.obstacleType == BoardObstacleTypeHole)
+  {
+    _isHole = YES;
+  }
+  else
+  {
     [_obstacleImageView setFrame:CGRectMake(kObstacleInset, kObstacleInset, self.width - kObstacleInset * 2, self.height - kObstacleInset * 2)];
     [self addSubview:_obstacleImageView];
-  
-  _isOccupied = YES;
+    
+    _isOccupied = YES;
+  }
 }
 
 - (UIImage*) removeObstacle
 {
   UIImage* ret = _obstacleImageView.image;
   
-  [_obstacleImageView removeFromSuperview];
-  _obstacleImageView = nil;
+  if (_obstacleProto.obstacleType == BoardObstacleTypeHole)
+  {
+    _isHole = NO;
+  }
+  else
+  {
+    [_obstacleImageView removeFromSuperview];
+    
+    _isOccupied = NO;
+  }
   
-  _isOccupied = NO;
+  _obstacleImageView = nil;
+  _obstacleProto = nil;
   
   return ret;
 }

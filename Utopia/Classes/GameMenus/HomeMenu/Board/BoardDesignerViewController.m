@@ -10,7 +10,11 @@
 #import "BoardDesignerObstacleView.h"
 #import "BoardDesignerTile.h"
 #import "HomeViewController.h"
+#import "GameState.h"
 #import "Globals.h"
+
+#define DEFAULT_BOARD_NUM_ROWS 9
+#define DEFAULT_BOARD_NUM_COLS 9
 
 static const int kTileWidth  = 34;
 static const int kTileHeight = 34;
@@ -71,9 +75,13 @@ static const int kBoardMarginLeft = 15;
     powerLabel.shadowBlur = 2.f;
   }
   
-  [self.powerProgressBar setPercentage:.8f];
   [self loadObstacles];
-  [self buildBoardWithRows:9 andColumns:9];
+  [self buildBoardWithRows:DEFAULT_BOARD_NUM_ROWS andColumns:DEFAULT_BOARD_NUM_COLS];
+  
+  PvpBoardHouseProto *bhp = (PvpBoardHouseProto*)[[[GameState sharedGameState] myPvpBoardHouse] staticStructForCurrentConstructionLevel];
+  _powerLimit = bhp.pvpBoardPowerLimit;
+  _powerUsed = 0; // TODO - This value will be based on the obstacles in userPvpBoardObstaclesList of EventStartup
+  [self updatePowerLevel:NO];
   
   // Gesture recognizer for dragging views around
   UIPanGestureRecognizer* panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
@@ -117,35 +125,37 @@ static const int kBoardMarginLeft = 15;
 {
   static const int kCellPadding = 5;
   
+  UIImage* separatorImage = [UIImage imageNamed:@"popuplinevertical.png"];
+  float obstacleViewOrigin = 0.f;
+  int obstacleViewIndex = 0;
+  
   _obstacleViews = [NSMutableArray array];
-
-  // HARDCODED Cloud
-  BoardDesignerObstacleView* obstacleView = [BoardDesignerObstacleView viewWithObstacleImage:@"cloudobstacle.png" name:@"Cloud" andPowerCost:1];
-    [obstacleView setOriginX:0.f];
+  
+  // Sort obstacles in ascending order of power required
+  NSDictionary* pvpBoardObstacles = [GameState sharedGameState].staticPvpBoardObstacles;
+  NSArray* sortedObstacles = [[pvpBoardObstacles allValues] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+    return [(PvpBoardObstacleProto*)obj1 powerAmt] > [(PvpBoardObstacleProto*)obj2 powerAmt];
+  }];
+  
+  // Build obstacle views
+  for (PvpBoardObstacleProto* obstacleProto in sortedObstacles)
+  {
+    BoardDesignerObstacleView* obstacleView = [BoardDesignerObstacleView viewWithObstacleProto:obstacleProto];
+    [obstacleView setOriginX:obstacleViewOrigin];
     [self.obstaclesScrollView addSubview:obstacleView];
     [_obstacleViews addObject:obstacleView];
-  UIImageView* separator = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"popuplinevertical.png"]];
-    [separator setFrame:CGRectMake(CGRectGetMaxX(obstacleView.frame) + kCellPadding, 0, 1, self.obstaclesScrollView.height)];
-    [self.obstaclesScrollView addSubview:separator];
+    
+    if (++obstacleViewIndex < pvpBoardObstacles.count)
+    {
+      UIImageView* separator = [[UIImageView alloc] initWithImage:separatorImage];
+      [separator setFrame:CGRectMake(CGRectGetMaxX(obstacleView.frame) + kCellPadding, 0, 1, self.obstaclesScrollView.height)];
+      [self.obstaclesScrollView addSubview:separator];
+      
+      obstacleViewOrigin = separator.originX + kCellPadding;
+    }
+  }
   
-  // HARDCODED Lock
-  obstacleView = [BoardDesignerObstacleView viewWithObstacleImage:@"lockobstacle.png" name:@"Lock" andPowerCost:3];
-    /* [obstacleView disableObstacle]; */
-    [obstacleView setOriginX:separator.originX + kCellPadding];
-    [self.obstaclesScrollView addSubview:obstacleView];
-    [_obstacleViews addObject:obstacleView];
-  separator = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"popuplinevertical.png"]];
-    [separator setFrame:CGRectMake(CGRectGetMaxX(obstacleView.frame) + kCellPadding, 0, 1, self.obstaclesScrollView.height)];
-    [self.obstaclesScrollView addSubview:separator];
-  
-  // HARDCODED Hole
-  obstacleView = [BoardDesignerObstacleView viewWithObstacleImage:@"holeobstacle.png" name:@"Hole" andPowerCost:5];
-    /* [obstacleView lockObstacle]; */
-    [obstacleView setOriginX:separator.originX + kCellPadding];
-    [self.obstaclesScrollView addSubview:obstacleView];
-    [_obstacleViews addObject:obstacleView];
-  
-  [self.obstaclesScrollView setContentSize:CGSizeMake(CGRectGetMaxX(obstacleView.frame), self.obstaclesScrollView.height)];
+  [self.obstaclesScrollView setContentSize:CGSizeMake(CGRectGetMaxX([(UIView*)[_obstacleViews lastObject] frame]), self.obstaclesScrollView.height)];
 }
 
 - (void) buildBoardWithRows:(int)rows andColumns:(int)cols
@@ -193,6 +203,25 @@ static const int kBoardMarginLeft = 15;
       [(BoardDesignerTile*)[[_boardTiles objectAtIndex:row] objectAtIndex:col] updateBorders];
 }
 
+- (void) updatePowerLevel:(BOOL)animated
+{
+  const float   percentage = (float)_powerUsed / (float)_powerLimit;
+  const int32_t powerAvailable = _powerLimit - _powerUsed;
+  
+  if (animated)
+    [self.powerProgressBar animateToPercentage:percentage duration:.2f completion:nil];
+  else
+    [self.powerProgressBar setPercentage:percentage];
+  
+  [self.powerLabel setText:[NSString stringWithFormat:@"POWER: %d/%d", _powerUsed, _powerLimit]];
+  
+  for (BoardDesignerObstacleView* obstacleView in _obstacleViews)
+    if (obstacleView.obstacleProto.powerAmt > powerAvailable)
+      [obstacleView disableObstacle];
+    else
+      [obstacleView enableObstacle];
+}
+
 - (BOOL) gestureRecognizer:(UIGestureRecognizer*)gestureRecognizer
   shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer*)otherGestureRecognizer
 {
@@ -218,34 +247,21 @@ static const int kBoardMarginLeft = 15;
         BoardDesignerTile* targetTile = [[_boardTiles objectAtIndex:row] objectAtIndex:col];
         localPoint = [self.view convertPoint:point toView:targetTile];
         
-        if (targetTile.isHole)
+        if (![targetTile canAcceptObstacle]) // Tile is either a hole or occupied with an obstacle
         {
-          // Begin dragging a hole that has been placed on the board
-
-          [targetTile setIsHole:NO];
-          [[self tilesSurroundingAndIncludingTileAtRow:row andColumn:col] makeObjectsPerformSelector:@selector(updateBorders)];
+          // Begin dragging a hole or obstacle that has been placed on the board
           
-          draggedObstacleImage = [UIImage imageNamed:@"holeobstacle.png"]; // TODO - Will unhack this once data has been hooked up
-          
-          _draggingObstacle = YES;
-          _draggedObstacleIsHole = YES;
-        }
-        else if (targetTile.isOccupied)
-        {
-          // Begin dragging an obstacle that has been placed on the board
+          _draggedObstacle = targetTile.obstacleProto;
+          _dragOrigin = [targetTile.superview convertPoint:targetTile.center toView:self.view];
           
           draggedObstacleImage = [targetTile removeObstacle];
+          draggedObstacleAnchorPoint = CGPointMake(localPoint.x / targetTile.width, localPoint.y / targetTile.height);
+          
+          if (_draggedObstacle.obstacleType == BoardObstacleTypeHole)
+            [[self tilesSurroundingAndIncludingTileAtRow:row andColumn:col] makeObjectsPerformSelector:@selector(updateBorders)];
           
           _draggingObstacle = YES;
-          _draggedObstacleIsHole = NO;
-        }
-        
-        if (_draggingObstacle)
-        {
-          _dragOrigin = [targetTile.superview convertPoint:targetTile.center toView:self.view];
           _dragOriginatedFromBoard = YES;
-          
-          draggedObstacleAnchorPoint = CGPointMake(localPoint.x / targetTile.width, localPoint.y / targetTile.height);
         }
       }
       else
@@ -258,13 +274,13 @@ static const int kBoardMarginLeft = 15;
             {
               // Begin dragging an obstacle that is enabled and unlocked out of the scroll view
               
+              _draggedObstacle = obstacleView.obstacleProto;
               _dragOrigin = [obstacleView convertPoint:obstacleView.obstacleImageView.center toView:self.view];
               
               draggedObstacleImage = obstacleView.obstacleImageView.image;
               draggedObstacleAnchorPoint = CGPointMake(localPoint.x / obstacleView.obstacleImageView.width, localPoint.y / obstacleView.obstacleImageView.height);
               
               _draggingObstacle = YES;
-              _draggedObstacleIsHole = (obstacleView == [_obstacleViews objectAtIndex:2]); // TODO - Will unhack this once data has been hooked up
               _dragOriginatedFromBoard = NO;
               
               // Valid drag gesture detected; disable scrolling
@@ -277,14 +293,14 @@ static const int kBoardMarginLeft = 15;
       
       if (_draggingObstacle)
       {
-        _draggedObstacle = [[UIImageView alloc] initWithImage:draggedObstacleImage];
-          [_draggedObstacle setCenter:point];
-          [_draggedObstacle setAlpha:0.f];
-          [_draggedObstacle.layer setAnchorPoint:draggedObstacleAnchorPoint];
-          [self.view insertSubview:_draggedObstacle aboveSubview:self.mainView];
+        _draggedObstacleImage = [[UIImageView alloc] initWithImage:draggedObstacleImage];
+          [_draggedObstacleImage setCenter:point];
+          [_draggedObstacleImage setAlpha:0.f];
+          [_draggedObstacleImage.layer setAnchorPoint:draggedObstacleAnchorPoint];
+          [self.view insertSubview:_draggedObstacleImage aboveSubview:self.mainView];
         [UIView animateWithDuration:.1f animations:^{
-          [_draggedObstacle setAlpha:1.f];
-          [_draggedObstacle.layer setTransform:CATransform3DMakeScale(1.5f, 1.5f, 1.f)];
+          [_draggedObstacleImage setAlpha:1.f];
+          [_draggedObstacleImage.layer setTransform:CATransform3DMakeScale(1.5f, 1.5f, 1.f)];
         }];
         
         _dragLastMovementTime = CACurrentMediaTime();
@@ -312,45 +328,48 @@ static const int kBoardMarginLeft = 15;
           
           if (![targetTile canAcceptObstacle])
           {
-            CGPoint localPoint = [self.view convertPoint:_dragOrigin toView:_boardContainer];
+            localPoint = [self.view convertPoint:_dragOrigin toView:_boardContainer];
             row = floorf(localPoint.y / kTileHeight);
             col = floorf(localPoint.x / kTileWidth);
             targetTile = [[_boardTiles objectAtIndex:row] objectAtIndex:col];
           }
           
-          CGPoint dragTarget = [targetTile.superview convertPoint:targetTile.center toView:self.view];
-          
-          if (_draggedObstacleIsHole)
+          if (!_dragOriginatedFromBoard)
           {
-            [UIView animateWithDuration:.1f animations:^{
-              [_draggedObstacle setCenter:dragTarget];
-              [_draggedObstacle.layer setAnchorPoint:CGPointMake(.5f, .5f)];
-              [_draggedObstacle.layer setTransform:CATransform3DMakeScale(.85, .85, 1.f)];
-            } completion:^(BOOL finished) {
-              [targetTile setIsHole:YES];
+            _powerUsed += _draggedObstacle.powerAmt;
+            [self updatePowerLevel:YES];
+          }
+          
+          const CGPoint dragTarget = [targetTile.superview convertPoint:targetTile.center toView:self.view];
+          const BOOL    draggedObstacleIsHole = (_draggedObstacle.obstacleType == BoardObstacleTypeHole);
+          const float   draggedObstacleTargetScale = draggedObstacleIsHole ? .85f : .65f;
+          
+          [UIView animateWithDuration:.1f animations:^{
+            [_draggedObstacleImage setCenter:dragTarget];
+            [_draggedObstacleImage.layer setAnchorPoint:CGPointMake(.5f, .5f)];
+            [_draggedObstacleImage.layer setTransform:CATransform3DMakeScale(draggedObstacleTargetScale, draggedObstacleTargetScale, 1.f)];
+          } completion:^(BOOL finished) {
+            [targetTile addObstacle:_draggedObstacle withImage:_draggedObstacleImage.image];
+            
+            if (draggedObstacleIsHole)
+            {
               [[self tilesSurroundingAndIncludingTileAtRow:row andColumn:col] makeObjectsPerformSelector:@selector(updateBorders)];
-              
+            
               [UIView animateWithDuration:.1f animations:^{
-                [_draggedObstacle setAlpha:0.f];
+                [_draggedObstacleImage setAlpha:0.f];
               } completion:^(BOOL finished) {
-                [_draggedObstacle removeFromSuperview];
+                [_draggedObstacleImage removeFromSuperview];
+                _draggedObstacleImage = nil;
                 _draggedObstacle = nil;
               }];
-            }];
-          }
-          else
-          {
-            [UIView animateWithDuration:.1f animations:^{
-              [_draggedObstacle setCenter:dragTarget];
-              [_draggedObstacle.layer setAnchorPoint:CGPointMake(.5f, .5f)];
-              [_draggedObstacle.layer setTransform:CATransform3DMakeScale(.65f, .65f, 1.f)];
-            } completion:^(BOOL finished) {
-              [targetTile addObstacle:_draggedObstacle.image];
-              
-              [_draggedObstacle removeFromSuperview];
+            }
+            else
+            {
+              [_draggedObstacleImage removeFromSuperview];
+              _draggedObstacleImage = nil;
               _draggedObstacle = nil;
-            }];
-          }
+            }
+          }];
           
           invalidDrop = NO;
         }
@@ -360,12 +379,16 @@ static const int kBoardMarginLeft = 15;
       {
         if (_dragOriginatedFromBoard)
         {
+          _powerUsed -= _draggedObstacle.powerAmt;
+          [self updatePowerLevel:YES];
+          
           // Dragged obstacle will be removed from the board with a poof animation
           [UIView animateWithDuration:.1f animations:^{
-            [_draggedObstacle setAlpha:0.f];
-            [_draggedObstacle.layer setTransform:CATransform3DMakeScale(2.5f, 2.5f, 1.f)];
+            [_draggedObstacleImage setAlpha:0.f];
+            [_draggedObstacleImage.layer setTransform:CATransform3DMakeScale(2.5f, 2.5f, 1.f)];
           } completion:^(BOOL finished) {
-            [_draggedObstacle removeFromSuperview];
+            [_draggedObstacleImage removeFromSuperview];
+            _draggedObstacleImage = nil;
             _draggedObstacle = nil;
           }];
         }
@@ -373,11 +396,12 @@ static const int kBoardMarginLeft = 15;
         {
           // Dragged obstacle will fly back to its origin
           [UIView animateWithDuration:.1f animations:^{
-            [_draggedObstacle setCenter:_dragOrigin];
-            [_draggedObstacle.layer setAnchorPoint:CGPointMake(.5f, .5f)];
-            [_draggedObstacle.layer setTransform:CATransform3DIdentity];
+            [_draggedObstacleImage setCenter:_dragOrigin];
+            [_draggedObstacleImage.layer setAnchorPoint:CGPointMake(.5f, .5f)];
+            [_draggedObstacleImage.layer setTransform:CATransform3DIdentity];
           } completion:^(BOOL finished) {
-            [_draggedObstacle removeFromSuperview];
+            [_draggedObstacleImage removeFromSuperview];
+            _draggedObstacleImage = nil;
             _draggedObstacle = nil;
           }];
         }
@@ -393,14 +417,14 @@ static const int kBoardMarginLeft = 15;
 
 - (void) handlePan:(UIPanGestureRecognizer*)gestureRecognizer
 {
-  CGPoint point = [gestureRecognizer locationInView:self.view];
+  const CGPoint point = [gestureRecognizer locationInView:self.view];
   if (gestureRecognizer.state == UIGestureRecognizerStateChanged)
   {
     if (_draggingObstacle)
     {
       // Obstacle being dragged will follow finger movement
       [UIView animateWithDuration:CACurrentMediaTime() - _dragLastMovementTime animations:^{
-        [_draggedObstacle setCenter:point];
+        [_draggedObstacleImage setCenter:point];
       }];
       _dragLastMovementTime = CACurrentMediaTime();
     }

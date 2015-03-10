@@ -8,10 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+@class PvpBoardObstacleProto;
+
 @interface BoardDesignerObstacleView : UIView
 {
   NSString* _obstacleImage;
 }
+
+@property (nonatomic, readonly) PvpBoardObstacleProto* obstacleProto;
 
 @property (nonatomic, retain) IBOutlet UIImageView* obstacleImageView;
 @property (nonatomic, retain) IBOutlet UILabel* obstacleNameLabel;
@@ -23,7 +27,7 @@
 @property (nonatomic, readonly) BOOL isEnabled;
 @property (nonatomic, readonly) BOOL isLocked;
 
-+ (instancetype) viewWithObstacleImage:(NSString*)image name:(NSString*)name andPowerCost:(NSInteger)powerCost;
++ (instancetype) viewWithObstacleProto:(PvpBoardObstacleProto*)proto;
 
 - (void) disableObstacle;
 - (void) enableObstacle;

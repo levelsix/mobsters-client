@@ -1037,6 +1037,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return nil;
 }
 
+- (UserStruct *) myPvpBoardHouse {
+  for (UserStruct *us in self.myStructs) {
+    if (us.staticStruct.structInfo.structType == StructureInfoProto_StructTypePvpBoard) {
+      return us;
+    }
+  }
+  return nil;
+}
+
 - (NSArray *) allHospitals {
   NSMutableArray *allHospitals = [NSMutableArray array];
   for (UserStruct *us in self.myStructs) {
@@ -1197,6 +1206,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.staticSkillSideEffects = [NSMutableDictionary dictionary];
   for (SkillSideEffectProto* skillSideEffectProto in proto.sideEffectsList)
     [self.staticSkillSideEffects setObject:skillSideEffectProto forKey:[NSNumber numberWithInteger:skillSideEffectProto.skillSideEffectId]];
+  
+  self.staticPvpBoardObstacles = [NSMutableDictionary dictionary];
+  for (PvpBoardObstacleProto* pvpBoardObstacleProto in proto.pvpBoardObstacleProtosList)
+    [self.staticPvpBoardObstacles setObject:pvpBoardObstacleProto forKey:[NSNumber numberWithInteger:pvpBoardObstacleProto.pvpBoardId]];
   
   if (self.connected) {
     [[NSNotificationCenter defaultCenter] postNotificationName:STATIC_DATA_UPDATED_NOTIFICATION object:nil];

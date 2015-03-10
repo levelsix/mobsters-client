@@ -17,9 +17,13 @@
 @class HomeTitleView;
 @class SplitImageProgressBar;
 @class TouchableSubviewsView;
+@class PvpBoardObstacleProto;
 
 @interface BoardDesignerViewController : UIViewController <UIGestureRecognizerDelegate>
 {
+  int32_t                 _powerLimit;
+  int32_t                 _powerUsed;
+  
   NSMutableArray*         _obstacleViews;
   
   TouchableSubviewsView*  _boardContainer;
@@ -27,8 +31,8 @@
   CGSize                  _boardSize;
   
   BOOL                    _draggingObstacle;
-  UIImageView*            _draggedObstacle;
-  BOOL                    _draggedObstacleIsHole;
+  UIImageView*            _draggedObstacleImage;
+  PvpBoardObstacleProto*  _draggedObstacle;
   CFTimeInterval          _dragLastMovementTime;
   CGPoint                 _dragOrigin;
   BOOL                    _dragOriginatedFromBoard;
