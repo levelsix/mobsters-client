@@ -92,9 +92,7 @@ static NSString* urlEncodeString(NSString* nonEncodedString) {
   [Adjust appDidLaunch:[ADJConfig configWithAppToken:ADJUST_APP_TOKEN environment:[self isSandbox] ? ADJEnvironmentSandbox : ADJEnvironmentProduction]];
 }
 
-+ (void) setupAmplitude {
-  [amplitudeClass initializeApiKey:AMPLITUDE_KEY];
-  
++ (NSMutableDictionary *) userPropertiesWithName:(NSString *)name level:(int)level {
   NSMutableDictionary *dict = [NSMutableDictionary dictionary];
   
   //app_version - we go ahead and set this, but this can be changed if a cutom version is set with adjust_customVersion()
@@ -125,7 +123,19 @@ static NSString* urlEncodeString(NSString* nonEncodedString) {
   //sandbox
   [dict setObject:[self isSandbox] ? @"True" : @"False" forKey:@"sandbox"];
   
-  [amplitudeClass setUserProperties:dict];
+  if (name) {
+    [dict setObject:name forKey:@"user_name"];
+    
+    [dict setObject:[NSString stringWithFormat:@"%d", level] forKey:@"user_level"];
+  }
+  
+  return dict;
+}
+
++ (void) setupAmplitude {
+  [amplitudeClass initializeApiKey:AMPLITUDE_KEY];
+  
+  [amplitudeClass setUserProperties:[self userPropertiesWithName:nil level:0]];
 }
 
 + (void) setupTitan {
@@ -221,7 +231,7 @@ static NSString* urlEncodeString(NSString* nonEncodedString) {
 
 #pragma mark - Attribution stuff
 
-+ (void) setUserUuid:(NSString *)userUuid name:(NSString *)name email:(NSString *)email {
++ (void) setUserUuid:(NSString *)userUuid name:(NSString *)name email:(NSString *)email level:(int)level {
   NSString *uid = userUuid;
 #ifdef MOBSTERS
 //  [ScopelyAttributionWrapper mat_setUserInfoForUserId:uid withNameUser:name withEmail:email];
@@ -230,6 +240,7 @@ static NSString* urlEncodeString(NSString* nonEncodedString) {
 #endif
   
   [amplitudeClass setUserId:uid];
+  [amplitudeClass setUserProperties:[self userPropertiesWithName:name level:level]];
 }
 
 + (void) newAccountCreated {

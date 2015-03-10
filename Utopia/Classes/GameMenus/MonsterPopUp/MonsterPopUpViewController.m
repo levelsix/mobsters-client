@@ -184,7 +184,7 @@
       self.defensiveSkillName.text = skillProto.name;
       if (! offensive)
       {
-        [self setDescriptionLabelString:skillProto.offDesc];
+        [self setDescriptionLabelString:skillProto.defDesc];
         self.defensiveSkillName.textColor = [UIColor colorWithHexString:@"1a85e3"];
       }
       else

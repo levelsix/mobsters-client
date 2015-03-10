@@ -17,6 +17,7 @@
 #import "GenericPopupController.h"
 #import "SoundEngine.h"
 #import "Analytics.h"
+#import "ClientProperties.h"
 
 #define TUTORIAL_SAVED_STEP_KEY @"TutorialSavedStepKey"
 

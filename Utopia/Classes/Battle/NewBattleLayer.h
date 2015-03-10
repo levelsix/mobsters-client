@@ -200,6 +200,7 @@
 - (float) damageMultiplierIsEnemyAttacker:(BOOL)isEnemy;
 - (void) dealDamageToSelf:(int)damageDone enemyIsAttacker:(BOOL)enemyIsAttacker withTarget:(id)target andSelector:(SEL)selector;
 - (void) dealDamage:(int)damageDone enemyIsAttacker:(BOOL)enemyIsAttacker usingAbility:(BOOL)usingAbility withTarget:(id)target withSelector:(SEL)selector;
+- (void) dealDamage:(int)damageDone enemyIsAttacker:(BOOL)enemyIsAttacker usingAbility:(BOOL)usingAbility showDamageLabel:(BOOL)showLabel withTarget:(id)target withSelector:(SEL)selector;
 - (void) healForAmount:(int)heal enemyIsHealed:(BOOL)enemyIsHealed withTarget:(id)target andSelector:(SEL)selector;
 - (void) instantSetHealthForEnemy:(BOOL)enemy to:(int)health withTarget:(id)target andSelector:(SEL)selector;
 - (void) spawnPlaneWithTarget:(id)target selector:(SEL)selector;

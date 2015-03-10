@@ -109,9 +109,9 @@
   GameState *gs = [GameState sharedGameState];
   NSMutableArray *arr = [@[team, sell] mutableCopy];
   if (true || gs.myValidHospitals.count) [arr insertObject:heal atIndex:0];
-  if (gs.myLaboratory.isComplete && gs.myLaboratory.staticStruct.structInfo.level > 0) [arr addObject:enhance];
-  if (gs.myEvoChamber.isComplete) [arr addObject:evo];
-  if (gs.myMiniJobCenter.isComplete && gs.myMiniJobCenter.staticStruct.structInfo.level > 0) [arr addObject:miniJobs];
+  if ((gs.myLaboratory.isComplete && gs.myLaboratory.staticStruct.structInfo.level > 0) || gs.myLaboratory.staticStruct.structInfo.level > 1) [arr addObject:enhance];
+  if (gs.myEvoChamber.isComplete || gs.myEvoChamber.staticStruct.structInfo.level > 1) [arr addObject:evo];
+  if ((gs.myMiniJobCenter.isComplete && gs.myMiniJobCenter.staticStruct.structInfo.level > 0) || gs.myMiniJobCenter.staticStruct.structInfo.level > 1) [arr addObject:miniJobs];
   self.mainViewControllers = arr;
 }
 
