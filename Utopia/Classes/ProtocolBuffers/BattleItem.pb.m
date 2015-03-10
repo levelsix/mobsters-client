@@ -388,6 +388,9 @@ static UserBattleItemProto* defaultUserBattleItemProtoInstance = nil;
 @property int32_t createCost;
 @property (strong) NSString* description;
 @property int32_t powerAmount;
+@property int32_t priority;
+@property int32_t minutesToCreate;
+@property int32_t inBattleGemCost;
 @end
 
 @implementation BattleItemProto
@@ -455,6 +458,27 @@ static UserBattleItemProto* defaultUserBattleItemProtoInstance = nil;
   hasPowerAmount_ = !!value_;
 }
 @synthesize powerAmount;
+- (BOOL) hasPriority {
+  return !!hasPriority_;
+}
+- (void) setHasPriority:(BOOL) value_ {
+  hasPriority_ = !!value_;
+}
+@synthesize priority;
+- (BOOL) hasMinutesToCreate {
+  return !!hasMinutesToCreate_;
+}
+- (void) setHasMinutesToCreate:(BOOL) value_ {
+  hasMinutesToCreate_ = !!value_;
+}
+@synthesize minutesToCreate;
+- (BOOL) hasInBattleGemCost {
+  return !!hasInBattleGemCost_;
+}
+- (void) setHasInBattleGemCost:(BOOL) value_ {
+  hasInBattleGemCost_ = !!value_;
+}
+@synthesize inBattleGemCost;
 - (id) init {
   if ((self = [super init])) {
     self.battleItemId = 0;
@@ -466,6 +490,9 @@ static UserBattleItemProto* defaultUserBattleItemProtoInstance = nil;
     self.createCost = 0;
     self.description = @"";
     self.powerAmount = 0;
+    self.priority = 0;
+    self.minutesToCreate = 0;
+    self.inBattleGemCost = 0;
   }
   return self;
 }
@@ -512,6 +539,15 @@ static BattleItemProto* defaultBattleItemProtoInstance = nil;
   if (self.hasPowerAmount) {
     [output writeInt32:9 value:self.powerAmount];
   }
+  if (self.hasPriority) {
+    [output writeInt32:10 value:self.priority];
+  }
+  if (self.hasMinutesToCreate) {
+    [output writeInt32:11 value:self.minutesToCreate];
+  }
+  if (self.hasInBattleGemCost) {
+    [output writeInt32:12 value:self.inBattleGemCost];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -547,6 +583,15 @@ static BattleItemProto* defaultBattleItemProtoInstance = nil;
   }
   if (self.hasPowerAmount) {
     size_ += computeInt32Size(9, self.powerAmount);
+  }
+  if (self.hasPriority) {
+    size_ += computeInt32Size(10, self.priority);
+  }
+  if (self.hasMinutesToCreate) {
+    size_ += computeInt32Size(11, self.minutesToCreate);
+  }
+  if (self.hasInBattleGemCost) {
+    size_ += computeInt32Size(12, self.inBattleGemCost);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -610,6 +655,15 @@ static BattleItemProto* defaultBattleItemProtoInstance = nil;
   if (self.hasPowerAmount) {
     [output appendFormat:@"%@%@: %@\n", indent, @"powerAmount", [NSNumber numberWithInteger:self.powerAmount]];
   }
+  if (self.hasPriority) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"priority", [NSNumber numberWithInteger:self.priority]];
+  }
+  if (self.hasMinutesToCreate) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"minutesToCreate", [NSNumber numberWithInteger:self.minutesToCreate]];
+  }
+  if (self.hasInBattleGemCost) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"inBattleGemCost", [NSNumber numberWithInteger:self.inBattleGemCost]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -639,6 +693,12 @@ static BattleItemProto* defaultBattleItemProtoInstance = nil;
       (!self.hasDescription || [self.description isEqual:otherMessage.description]) &&
       self.hasPowerAmount == otherMessage.hasPowerAmount &&
       (!self.hasPowerAmount || self.powerAmount == otherMessage.powerAmount) &&
+      self.hasPriority == otherMessage.hasPriority &&
+      (!self.hasPriority || self.priority == otherMessage.priority) &&
+      self.hasMinutesToCreate == otherMessage.hasMinutesToCreate &&
+      (!self.hasMinutesToCreate || self.minutesToCreate == otherMessage.minutesToCreate) &&
+      self.hasInBattleGemCost == otherMessage.hasInBattleGemCost &&
+      (!self.hasInBattleGemCost || self.inBattleGemCost == otherMessage.inBattleGemCost) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -669,6 +729,15 @@ static BattleItemProto* defaultBattleItemProtoInstance = nil;
   }
   if (self.hasPowerAmount) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.powerAmount] hash];
+  }
+  if (self.hasPriority) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.priority] hash];
+  }
+  if (self.hasMinutesToCreate) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.minutesToCreate] hash];
+  }
+  if (self.hasInBattleGemCost) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.inBattleGemCost] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -740,6 +809,15 @@ static BattleItemProto* defaultBattleItemProtoInstance = nil;
   if (other.hasPowerAmount) {
     [self setPowerAmount:other.powerAmount];
   }
+  if (other.hasPriority) {
+    [self setPriority:other.priority];
+  }
+  if (other.hasMinutesToCreate) {
+    [self setMinutesToCreate:other.minutesToCreate];
+  }
+  if (other.hasInBattleGemCost) {
+    [self setInBattleGemCost:other.inBattleGemCost];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -795,6 +873,18 @@ static BattleItemProto* defaultBattleItemProtoInstance = nil;
       }
       case 72: {
         [self setPowerAmount:[input readInt32]];
+        break;
+      }
+      case 80: {
+        [self setPriority:[input readInt32]];
+        break;
+      }
+      case 88: {
+        [self setMinutesToCreate:[input readInt32]];
+        break;
+      }
+      case 96: {
+        [self setInBattleGemCost:[input readInt32]];
         break;
       }
     }
@@ -944,6 +1034,54 @@ static BattleItemProto* defaultBattleItemProtoInstance = nil;
   result.powerAmount = 0;
   return self;
 }
+- (BOOL) hasPriority {
+  return result.hasPriority;
+}
+- (int32_t) priority {
+  return result.priority;
+}
+- (BattleItemProto_Builder*) setPriority:(int32_t) value {
+  result.hasPriority = YES;
+  result.priority = value;
+  return self;
+}
+- (BattleItemProto_Builder*) clearPriority {
+  result.hasPriority = NO;
+  result.priority = 0;
+  return self;
+}
+- (BOOL) hasMinutesToCreate {
+  return result.hasMinutesToCreate;
+}
+- (int32_t) minutesToCreate {
+  return result.minutesToCreate;
+}
+- (BattleItemProto_Builder*) setMinutesToCreate:(int32_t) value {
+  result.hasMinutesToCreate = YES;
+  result.minutesToCreate = value;
+  return self;
+}
+- (BattleItemProto_Builder*) clearMinutesToCreate {
+  result.hasMinutesToCreate = NO;
+  result.minutesToCreate = 0;
+  return self;
+}
+- (BOOL) hasInBattleGemCost {
+  return result.hasInBattleGemCost;
+}
+- (int32_t) inBattleGemCost {
+  return result.inBattleGemCost;
+}
+- (BattleItemProto_Builder*) setInBattleGemCost:(int32_t) value {
+  result.hasInBattleGemCost = YES;
+  result.inBattleGemCost = value;
+  return self;
+}
+- (BattleItemProto_Builder*) clearInBattleGemCost {
+  result.hasInBattleGemCost = NO;
+  result.inBattleGemCost = 0;
+  return self;
+}
 @end
 
 @interface BattleItemQueueForUserProto ()
@@ -951,6 +1089,7 @@ static BattleItemProto* defaultBattleItemProtoInstance = nil;
 @property (strong) NSString* userUuid;
 @property int32_t battleItemId;
 @property int64_t expectedStartTime;
+@property Float32 elapsedTime;
 @end
 
 @implementation BattleItemQueueForUserProto
@@ -983,12 +1122,20 @@ static BattleItemProto* defaultBattleItemProtoInstance = nil;
   hasExpectedStartTime_ = !!value_;
 }
 @synthesize expectedStartTime;
+- (BOOL) hasElapsedTime {
+  return !!hasElapsedTime_;
+}
+- (void) setHasElapsedTime:(BOOL) value_ {
+  hasElapsedTime_ = !!value_;
+}
+@synthesize elapsedTime;
 - (id) init {
   if ((self = [super init])) {
     self.priority = 0;
     self.userUuid = @"";
     self.battleItemId = 0;
     self.expectedStartTime = 0L;
+    self.elapsedTime = 0;
   }
   return self;
 }
@@ -1020,6 +1167,9 @@ static BattleItemQueueForUserProto* defaultBattleItemQueueForUserProtoInstance =
   if (self.hasExpectedStartTime) {
     [output writeInt64:4 value:self.expectedStartTime];
   }
+  if (self.hasElapsedTime) {
+    [output writeFloat:5 value:self.elapsedTime];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -1040,6 +1190,9 @@ static BattleItemQueueForUserProto* defaultBattleItemQueueForUserProtoInstance =
   }
   if (self.hasExpectedStartTime) {
     size_ += computeInt64Size(4, self.expectedStartTime);
+  }
+  if (self.hasElapsedTime) {
+    size_ += computeFloatSize(5, self.elapsedTime);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -1088,6 +1241,9 @@ static BattleItemQueueForUserProto* defaultBattleItemQueueForUserProtoInstance =
   if (self.hasExpectedStartTime) {
     [output appendFormat:@"%@%@: %@\n", indent, @"expectedStartTime", [NSNumber numberWithLongLong:self.expectedStartTime]];
   }
+  if (self.hasElapsedTime) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"elapsedTime", [NSNumber numberWithFloat:self.elapsedTime]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -1107,6 +1263,8 @@ static BattleItemQueueForUserProto* defaultBattleItemQueueForUserProtoInstance =
       (!self.hasBattleItemId || self.battleItemId == otherMessage.battleItemId) &&
       self.hasExpectedStartTime == otherMessage.hasExpectedStartTime &&
       (!self.hasExpectedStartTime || self.expectedStartTime == otherMessage.expectedStartTime) &&
+      self.hasElapsedTime == otherMessage.hasElapsedTime &&
+      (!self.hasElapsedTime || self.elapsedTime == otherMessage.elapsedTime) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -1122,6 +1280,9 @@ static BattleItemQueueForUserProto* defaultBattleItemQueueForUserProtoInstance =
   }
   if (self.hasExpectedStartTime) {
     hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.expectedStartTime] hash];
+  }
+  if (self.hasElapsedTime) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithFloat:self.elapsedTime] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -1178,6 +1339,9 @@ static BattleItemQueueForUserProto* defaultBattleItemQueueForUserProtoInstance =
   if (other.hasExpectedStartTime) {
     [self setExpectedStartTime:other.expectedStartTime];
   }
+  if (other.hasElapsedTime) {
+    [self setElapsedTime:other.elapsedTime];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -1213,6 +1377,10 @@ static BattleItemQueueForUserProto* defaultBattleItemQueueForUserProtoInstance =
       }
       case 32: {
         [self setExpectedStartTime:[input readInt64]];
+        break;
+      }
+      case 45: {
+        [self setElapsedTime:[input readFloat]];
         break;
       }
     }
@@ -1280,6 +1448,22 @@ static BattleItemQueueForUserProto* defaultBattleItemQueueForUserProtoInstance =
 - (BattleItemQueueForUserProto_Builder*) clearExpectedStartTime {
   result.hasExpectedStartTime = NO;
   result.expectedStartTime = 0L;
+  return self;
+}
+- (BOOL) hasElapsedTime {
+  return result.hasElapsedTime;
+}
+- (Float32) elapsedTime {
+  return result.elapsedTime;
+}
+- (BattleItemQueueForUserProto_Builder*) setElapsedTime:(Float32) value {
+  result.hasElapsedTime = YES;
+  result.elapsedTime = value;
+  return self;
+}
+- (BattleItemQueueForUserProto_Builder*) clearElapsedTime {
+  result.hasElapsedTime = NO;
+  result.elapsedTime = 0;
   return self;
 }
 @end

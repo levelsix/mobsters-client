@@ -119,32 +119,32 @@ BOOL FinishPerformingResearchResponseProto_FinishPerformingResearchStatusIsValid
 @private
   BOOL hasClientTime_:1;
   BOOL hasResearchId_:1;
-  BOOL hasGemsSpent_:1;
+  BOOL hasGemsCost_:1;
   BOOL hasUserResearchUuid_:1;
   BOOL hasSender_:1;
   BOOL hasResourceType_:1;
-  BOOL hasResourceChange_:1;
+  BOOL hasResourceCost_:1;
   int64_t clientTime;
   int32_t researchId;
-  int32_t gemsSpent;
+  int32_t gemsCost;
   NSString* userResearchUuid;
   MinimumUserProto* sender;
   ResourceType resourceType;
-  int32_t resourceChange;
+  int32_t resourceCost;
 }
 - (BOOL) hasSender;
 - (BOOL) hasResearchId;
 - (BOOL) hasUserResearchUuid;
 - (BOOL) hasClientTime;
-- (BOOL) hasGemsSpent;
-- (BOOL) hasResourceChange;
+- (BOOL) hasGemsCost;
+- (BOOL) hasResourceCost;
 - (BOOL) hasResourceType;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) int32_t researchId;
 @property (readonly, strong) NSString* userResearchUuid;
 @property (readonly) int64_t clientTime;
-@property (readonly) int32_t gemsSpent;
-@property (readonly) int32_t resourceChange;
+@property (readonly) int32_t gemsCost;
+@property (readonly) int32_t resourceCost;
 @property (readonly) ResourceType resourceType;
 
 + (PerformResearchRequestProto*) defaultInstance;
@@ -204,15 +204,15 @@ BOOL FinishPerformingResearchResponseProto_FinishPerformingResearchStatusIsValid
 - (PerformResearchRequestProto_Builder*) setClientTime:(int64_t) value;
 - (PerformResearchRequestProto_Builder*) clearClientTime;
 
-- (BOOL) hasGemsSpent;
-- (int32_t) gemsSpent;
-- (PerformResearchRequestProto_Builder*) setGemsSpent:(int32_t) value;
-- (PerformResearchRequestProto_Builder*) clearGemsSpent;
+- (BOOL) hasGemsCost;
+- (int32_t) gemsCost;
+- (PerformResearchRequestProto_Builder*) setGemsCost:(int32_t) value;
+- (PerformResearchRequestProto_Builder*) clearGemsCost;
 
-- (BOOL) hasResourceChange;
-- (int32_t) resourceChange;
-- (PerformResearchRequestProto_Builder*) setResourceChange:(int32_t) value;
-- (PerformResearchRequestProto_Builder*) clearResourceChange;
+- (BOOL) hasResourceCost;
+- (int32_t) resourceCost;
+- (PerformResearchRequestProto_Builder*) setResourceCost:(int32_t) value;
+- (PerformResearchRequestProto_Builder*) clearResourceCost;
 
 - (BOOL) hasResourceType;
 - (ResourceType) resourceType;
@@ -291,19 +291,19 @@ BOOL FinishPerformingResearchResponseProto_FinishPerformingResearchStatusIsValid
 
 @interface FinishPerformingResearchRequestProto : PBGeneratedMessage {
 @private
-  BOOL hasGemsSpent_:1;
+  BOOL hasGemsCost_:1;
   BOOL hasUserResearchUuid_:1;
   BOOL hasSender_:1;
-  int32_t gemsSpent;
+  int32_t gemsCost;
   NSString* userResearchUuid;
   MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
 - (BOOL) hasUserResearchUuid;
-- (BOOL) hasGemsSpent;
+- (BOOL) hasGemsCost;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly, strong) NSString* userResearchUuid;
-@property (readonly) int32_t gemsSpent;
+@property (readonly) int32_t gemsCost;
 
 + (FinishPerformingResearchRequestProto*) defaultInstance;
 - (FinishPerformingResearchRequestProto*) defaultInstance;
@@ -352,10 +352,10 @@ BOOL FinishPerformingResearchResponseProto_FinishPerformingResearchStatusIsValid
 - (FinishPerformingResearchRequestProto_Builder*) setUserResearchUuid:(NSString*) value;
 - (FinishPerformingResearchRequestProto_Builder*) clearUserResearchUuid;
 
-- (BOOL) hasGemsSpent;
-- (int32_t) gemsSpent;
-- (FinishPerformingResearchRequestProto_Builder*) setGemsSpent:(int32_t) value;
-- (FinishPerformingResearchRequestProto_Builder*) clearGemsSpent;
+- (BOOL) hasGemsCost;
+- (int32_t) gemsCost;
+- (FinishPerformingResearchRequestProto_Builder*) setGemsCost:(int32_t) value;
+- (FinishPerformingResearchRequestProto_Builder*) clearGemsCost;
 @end
 
 @interface FinishPerformingResearchResponseProto : PBGeneratedMessage {

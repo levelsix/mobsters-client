@@ -30,7 +30,10 @@ message BattleItemProto {
 	optional string createResourceType = 6;
 	optional int32 createCost = 7;
 	optional string description = 8;
-	optional int32 powerAmount = 9;	
+	optional int32 powerAmount = 9;
+	optional int32 priority = 10;	
+	optional int32 minutesToCreate = 11;
+	optional int32 inBattleGemCost = 12;
 }
 
 
@@ -60,6 +63,7 @@ message BattleItemQueueForUserProto {
 	optional string userUuid = 2;
 	optional int32 battleItemId = 3;
 	optional int64 expectedStartTime = 4;	
+	optional float elapsedTime = 5;
 }
 
 	

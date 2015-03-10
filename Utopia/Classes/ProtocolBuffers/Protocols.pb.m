@@ -167,6 +167,7 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCDevEvent:
     case EventProtocolRequestCPerformResearchEvent:
     case EventProtocolRequestCFinishPerformingResearchEvent:
+    case EventProtocolRequestCCustomizePvpBoardObstacleEvent:
     case EventProtocolRequestCCreateBattleItemEvent:
     case EventProtocolRequestCDiscardBattleItemEvent:
       return YES;
@@ -286,6 +287,7 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSDevEvent:
     case EventProtocolResponseSPerformResearchEvent:
     case EventProtocolResponseSFinishPerformingResearchEvent:
+    case EventProtocolResponseSCustomizePvpBoardObstacleEvent:
     case EventProtocolResponseSCreateBattleItemEvent:
     case EventProtocolResponseSDiscardBattleItemEvent:
       return YES;
