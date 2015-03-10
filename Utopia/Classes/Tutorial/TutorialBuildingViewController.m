@@ -26,9 +26,10 @@
   
   // Find the struct
   NSInteger section = 0, row = -1;
-  for (StructureInfoProto *fsp in self.staticStructs) {
+  for (id<StaticStructure> ss in self.staticStructs) {
+    StructureInfoProto *fsp = [ss structInfo];
     if (fsp.structId == self.clickableStructId) {
-      row = [self.staticStructs indexOfObject:fsp];
+      row = [self.staticStructs indexOfObject:ss];
     }
   }
   
@@ -39,6 +40,21 @@
     UIView *v = [self.listView.collectionView cellForItemAtIndexPath:ip];
     [Globals createUIArrowForView:v atAngle:0];
   }
+}
+
+- (void) reloadCarpenterStructs {
+  // Remove the money tree
+  [super reloadCarpenterStructs];
+  
+  NSMutableArray *structs = [self.staticStructs mutableCopy];
+  for (id<StaticStructure> ss in self.staticStructs) {
+    StructureInfoProto *fsp = [ss structInfo];
+    if (fsp.structType == StructureInfoProto_StructTypeMoneyTree) {
+      [structs removeObject:ss];
+    }
+  }
+  
+  self.staticStructs = structs;
 }
 
 - (void) allowPurchaseOfStructId:(int)structId {
@@ -61,7 +77,8 @@
 }
 
 - (void) listView:(ListCollectionView *)listView cardClickedAtIndexPath:(NSIndexPath *)indexPath {
-  StructureInfoProto *fsp = self.staticStructs[indexPath.row];
+  id<StaticStructure> ss = self.staticStructs[indexPath.row];
+  StructureInfoProto *fsp = [ss structInfo];
   
   if (fsp.structId == self.clickableStructId) {
     [super listView:listView cardClickedAtIndexPath:indexPath];

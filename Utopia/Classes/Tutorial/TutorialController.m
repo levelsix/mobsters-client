@@ -590,7 +590,7 @@ static int timesCloseClicked = 0;
 }
 
 - (void) beginFirstBattleFinalMovePhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend2), @"You’re a natural! you got one last move left before I attack."];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend2), @"You’re a natural! You got one last move left before I attack."];
   [self displayDialogue:dialogue allowTouch:NO useShortBubble:YES];
   
   self.currentStep = TutorialStepFirstBattleLastMove;

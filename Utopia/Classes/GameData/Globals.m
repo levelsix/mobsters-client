@@ -50,7 +50,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 #endif
     
 #ifdef DEBUG
-    self.ignorePrerequisites = YES;
+    //self.ignorePrerequisites = YES;
 #endif
   }
   return self;

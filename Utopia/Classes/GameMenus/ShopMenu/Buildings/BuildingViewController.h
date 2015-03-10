@@ -30,4 +30,6 @@
 
 - (void) displayArrowOverStructId:(int)structId;
 
+- (void) reloadCarpenterStructs;
+
 @end
