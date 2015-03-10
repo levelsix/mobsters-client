@@ -67,7 +67,7 @@
     
     if ((![self affectsOwner] &&
          ((self.belongsToPlayer && trigger == SkillTriggerPointEnemyDefeated) ||
-         (!self.belongsToPlayer && trigger == SkillTriggerPointPlayerInitialized))))
+         (!self.belongsToPlayer && (trigger == SkillTriggerPointPlayerMobDefeated || trigger == SkillTriggerPointPlayerInitialized)))))
     {
       if (execute)
       {
