@@ -14,21 +14,21 @@
         <tableViewCell autoresizesSubviews="NO" contentMode="scaleToFill" selectionStyle="gray" indentationWidth="10" reuseIdentifier="MiniJobsListCell" id="0TZ-OT-pvx" customClass="MiniJobsListCell">
             <rect key="frame" x="0.0" y="0.0" width="424" height="60"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-            <tableViewCellContentView key="contentView" opaque="NO" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0TZ-OT-pvx" id="alT-h7-I9P">
+            <tableViewCellContentView key="contentView" autoresizesSubviews="NO" opaque="NO" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0TZ-OT-pvx" id="alT-h7-I9P">
                 <rect key="frame" x="0.0" y="0.0" width="364" height="59"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" id="e8t-Dd-qgq">
-                        <rect key="frame" x="0.0" y="0.0" width="424" height="60"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <rect key="frame" x="0.0" y="0.0" width="424" height="59"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="deviceRGB"/>
                     </view>
-                    <view contentMode="scaleToFill" id="PbH-d4-fa7">
-                        <rect key="frame" x="0.0" y="0.0" width="424" height="59"/>
+                    <view autoresizesSubviews="NO" contentMode="scaleToFill" id="PbH-d4-fa7">
+                        <rect key="frame" x="0.0" y="0.0" width="424" height="62"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="UXi-fy-sWM">
-                                <rect key="frame" x="8" y="8" width="140" height="45"/>
+                                <rect key="frame" x="8" y="10" width="140" height="45"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Quest At Sea" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="dNr-1f-m4j" customClass="NiceFontLabel12">
@@ -67,7 +67,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                             </imageView>
                             <view contentMode="scaleToFill" id="o0c-gu-eua">
-                                <rect key="frame" x="307" y="6" width="109" height="43"/>
+                                <rect key="frame" x="307" y="9" width="109" height="43"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="openquestarrow.png" id="gEE-Ji-ewH">
