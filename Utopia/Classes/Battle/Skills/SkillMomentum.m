@@ -50,7 +50,7 @@
 - (NSInteger) modifyDamage:(NSInteger)damage forPlayer:(BOOL)player
 {
   // If attacker is the skill owner
-  if (player == self.belongsToPlayer)
+  if ([self isActive] && player == self.belongsToPlayer)
   {
     [self showSkillPopupMiniOverlay:NO
                          bottomText:[NSString stringWithFormat:@"%.3gX ATK", _currentMultiplier]
