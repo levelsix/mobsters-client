@@ -98,6 +98,9 @@
     item.expectedStartTime = prevItem.expectedEndTime;
   }
   
+  self.queueEndTime = item.expectedEndTime;
+  self.totalTimeForHealQueue = item.elapsedTime+item.totalSecondsToComplete;
+  
   [self.queueObjects addObject:item];
   
   Globals *gl = [Globals sharedGlobals];
