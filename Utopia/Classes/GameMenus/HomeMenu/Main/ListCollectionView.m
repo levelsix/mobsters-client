@@ -45,7 +45,21 @@
 @implementation MonsterQueueCell
 
 - (void) updateForListObject:(UserMonster *)um {
-  [self.monsterView updateForMonsterId:um.monsterId];
+  if ([um isKindOfClass:[BattleItemQueueObject class]]) {
+    [self updateForBattleItemQueueObject:(BattleItemQueueObject *)um];
+  } else {
+    [self.monsterView updateForMonsterId:um.monsterId];
+    
+    self.botLabel.hidden = YES;
+    self.timerView.hidden = YES;
+    self.minusButton.hidden = NO;
+    self.checkView.hidden = YES;
+  }
+}
+
+- (void) updateForBattleItemQueueObject:(BattleItemQueueObject *)obj {
+  BattleItemProto *bip = obj.staticBattleItem;
+  [self.monsterView updateForElement:ElementWater imgPrefix:bip.imgName greyscale:NO];
   
   self.botLabel.hidden = YES;
   self.timerView.hidden = YES;

@@ -123,13 +123,6 @@
   }
 }
 
-- (void) infoClicked:(MonsterCardView *)view {
-  MonsterPopUpViewController *mpvc = [[MonsterPopUpViewController alloc] initWithMonsterProto:view.monster];
-  [self addChildViewController:mpvc];
-  mpvc.view.frame = self.view.frame;
-  [self.view addSubview:mpvc.view];
-}
-
 - (IBAction)clanClicked:(id)sender {
   // Go visit clan
   if (self.fup.hasClan) {

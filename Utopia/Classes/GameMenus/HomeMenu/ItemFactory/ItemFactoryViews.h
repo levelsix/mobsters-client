@@ -8,6 +8,18 @@
 
 #import <Foundation/Foundation.h>
 
-@interface ItemFactoryViews : NSObject
+#import "ListCollectionView.h"
+
+@interface FactoryCardCell : ListCollectionViewCell <MonsterCardViewDelegate>
+
+@property (nonatomic, retain) IBOutlet UIImageView *bgdIcon;
+@property (nonatomic, retain) IBOutlet UIImageView *itemIcon;
+@property (nonatomic, retain) IBOutlet UILabel *nameLabel;
+
+@property (nonatomic, retain) IBOutlet UIImageView *cashIcon;
+@property (nonatomic, retain) IBOutlet UIImageView *oilIcon;
+@property (nonatomic, retain) IBOutlet UILabel *costLabel;
+
+- (void) updateForListObject:(id)listObject;
 
 @end

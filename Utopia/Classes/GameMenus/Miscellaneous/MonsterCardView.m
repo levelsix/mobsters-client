@@ -66,7 +66,6 @@ static UIImage *img = nil;
   
   GameState *gs = [GameState sharedGameState];
   MonsterProto *mp = [gs monsterWithId:um.monsterId];
-  self.monster = um;
   
   NSString *fileName = [mp.imagePrefix stringByAppendingString:@"Card.png"];
   [Globals imageNamed:fileName withView:self.monsterIcon greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
@@ -97,8 +96,6 @@ static UIImage *img = nil;
 }
 
 - (void) updateForNoMonsterWithLabel:(NSString *)str {
-  self.monster = nil;
-  
   self.nameLabel.text = str;
   
   self.mainView.hidden = YES;

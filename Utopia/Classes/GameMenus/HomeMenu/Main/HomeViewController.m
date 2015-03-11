@@ -16,6 +16,7 @@
 #import "HealViewController.h"
 #import "TeamViewController.h"
 #import "MiniJobsListViewController.h"
+#import "ItemFactoryViewController.h"
 
 @implementation HomeTitleView
 
@@ -68,7 +69,7 @@
 
 - (id) initWithBattleItemFactory {
   if ((self = [super init])) {
-//    _initViewControllerClass = [MiniJobsListViewController class];
+    _initViewControllerClass = [ItemFactoryViewController class];
   }
   return self;
 }
@@ -105,6 +106,7 @@
   EvolveChooserViewController *evo = [[EvolveChooserViewController alloc] init];
   EnhanceChooserViewController *enhance = [[EnhanceChooserViewController alloc] init];
   MiniJobsListViewController *miniJobs = [[MiniJobsListViewController alloc] init];
+  ItemFactoryViewController *itemFactory = [[ItemFactoryViewController alloc] init];
   
   GameState *gs = [GameState sharedGameState];
   NSMutableArray *arr = [@[team, sell] mutableCopy];
@@ -112,6 +114,7 @@
   if ((gs.myLaboratory.isComplete && gs.myLaboratory.staticStruct.structInfo.level > 0) || gs.myLaboratory.staticStruct.structInfo.level > 1) [arr addObject:enhance];
   if (gs.myEvoChamber.isComplete || gs.myEvoChamber.staticStruct.structInfo.level > 1) [arr addObject:evo];
   if ((gs.myMiniJobCenter.isComplete && gs.myMiniJobCenter.staticStruct.structInfo.level > 0) || gs.myMiniJobCenter.staticStruct.structInfo.level > 1) [arr addObject:miniJobs];
+  if (gs.myBattleItemFactory.isComplete || gs.myBattleItemFactory.staticStruct.structInfo.level > 1) [arr addObject:itemFactory];
   self.mainViewControllers = arr;
 }
 

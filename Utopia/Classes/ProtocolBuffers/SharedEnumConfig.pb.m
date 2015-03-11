@@ -75,7 +75,7 @@ BOOL GameActionTypeIsValidValue(GameActionType value) {
     case GameActionTypeRemoveObstacle:
     case GameActionTypeCombineMonster:
     case GameActionTypeEnterPersistentEvent:
-    case GameActionTypePerformingResearch:
+    case GameActionTypeGameActionTypeResearch:
     case GameActionTypeCreateBattleItem:
       return YES;
     default:

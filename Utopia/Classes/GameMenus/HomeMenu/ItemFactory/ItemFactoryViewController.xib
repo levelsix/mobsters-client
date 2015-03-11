@@ -5,7 +5,17 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ItemFactoryViewController"/>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ItemFactoryViewController">
+            <connections>
+                <outlet property="freeLabel" destination="h0Z-YT-n4s" id="kO8-vq-gxw"/>
+                <outlet property="listView" destination="dbo-kc-JWc" id="FeZ-Pw-6AF"/>
+                <outlet property="queueArrow" destination="am0-vd-5dN" id="gch-OK-PcV"/>
+                <outlet property="queueView" destination="yMQ-G4-44w" id="hB9-nJ-df5"/>
+                <outlet property="speedupIcon" destination="ea5-WL-NxZ" id="8ef-GB-l0d"/>
+                <outlet property="timeLabel" destination="VPd-cV-oPj" id="f9W-Z1-rMi"/>
+                <outlet property="view" destination="ScD-2l-Y8H" id="dMZ-RB-b2g"/>
+            </connections>
+        </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="ScD-2l-Y8H">
             <rect key="frame" x="0.0" y="0.0" width="430" height="236"/>
@@ -35,6 +45,7 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <connections>
                         <outlet property="collectionView" destination="jAl-Qj-b4h" id="jwW-6M-AoY"/>
+                        <outlet property="delegate" destination="-1" id="Ash-Ec-zgu"/>
                         <outlet property="notEmptyListView" destination="jAl-Qj-b4h" id="dbt-Fk-6ki"/>
                     </connections>
                 </view>
@@ -54,7 +65,7 @@
                                     <rect key="frame" x="3" y="0.0" width="424" height="50"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Select a mobster to heal." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="2aY-08-qxE" customClass="NiceFontLabel12">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Select an item to create." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="2aY-08-qxE" customClass="NiceFontLabel12">
                                             <rect key="frame" x="45" y="6" width="334" height="37"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
@@ -127,7 +138,7 @@
                                                     <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="1" minimumInteritemSpacing="3" id="RZA-DU-wzh">
                                                         <size key="itemSize" width="50" height="50"/>
                                                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                                        <size key="footerReferenceSize" width="50" height="50"/>
+                                                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                                         <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                     </collectionViewFlowLayout>
                                                     <cells/>
@@ -207,6 +218,7 @@
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             <connections>
                                 <outlet property="collectionView" destination="rQW-jQ-jg4" id="Qxg-a1-LtD"/>
+                                <outlet property="delegate" destination="-1" id="GZO-4j-8RU"/>
                                 <outlet property="emptyListView" destination="5ZN-NL-VCm" id="JSe-vZ-7Dt"/>
                                 <outlet property="notEmptyListView" destination="wd5-yP-Tpp" id="rlM-yK-ybL"/>
                             </connections>
@@ -219,7 +231,7 @@
             <nil key="simulatedStatusBarMetrics"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="787" y="512"/>
+            <point key="canvasLocation" x="1055" y="743"/>
         </view>
     </objects>
     <resources>
