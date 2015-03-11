@@ -1112,14 +1112,8 @@
     const int   updateRepeatCount = ceilf(updateDuration / .05f);
     const float updateDamageIncrement = (initialDamage - modifiedDamage) / (float)updateRepeatCount;
     
-    const float labelScaleInitial = .01f;
-//  const float labelScaleInitial = (initialDamage > modifiedDamage) ? 1.2f : 1.f;
-//  const float labelScaleTarget  = (initialDamage > modifiedDamage) ? 1.f : 1.2f;
-//  const int   labelScaleRepeatCount = ceilf(updateDuration / .5f);
-//  const float labelScaleIncrement = SGN(labelScaleTarget - labelScaleInitial) * .05f;
-    
     __block float damage = initialDamage;
-//  __block float scale = labelScaleInitial;
+    
     CCActionFiniteTime* labelUpdateAction = [CCActionSequence actions:
                                              [CCActionSpawn actions:
                                               [CCActionRepeat actionWithAction:
@@ -1132,21 +1126,7 @@
                                                                     updateDamageIncrement > 0 ? modifiedDamage : initialDamage));     // Lower limit
                                                  }],
                                                 [CCActionDelay actionWithDuration:.05f], nil] times:updateRepeatCount],
-                                              /*
-                                              [CCActionRepeat actionWithAction:
-                                               [CCActionSequence actions:
-                                                [CCActionCallBlock actionWithBlock: // Update label scale
-                                                 ^{
-                                                   [damageLabel runAction:[CCActionSequence actions:
-                                                                           [CCActionEaseInOut actionWithAction:
-                                                                            [CCActionScaleTo actionWithDuration:.15f scale:scale - labelScaleIncrement * 6.f]],
-                                                                           [CCActionEaseInOut actionWithAction:
-                                                                            [CCActionScaleTo actionWithDuration:.35f scale:scale + labelScaleIncrement]], nil]];
-                                                   scale = MIN(labelScaleIncrement > 0 ? labelScaleTarget : labelScaleInitial,        // Upper limit
-                                                                MAX(scale + labelScaleIncrement,
-                                                                    labelScaleIncrement > 0 ? labelScaleInitial : labelScaleTarget)); // Lower limit
-                                                 }],
-                                                [CCActionDelay actionWithDuration:.5f], nil] times:labelScaleRepeatCount], */ nil],
+                                              nil],
                                              [CCActionCallBlock actionWithBlock:    // Set final damage number
                                               ^{
                                                 [damageLabel setString:[NSString stringWithFormat:@"%@", [Globals commafyNumber:modifiedDamage]]];
