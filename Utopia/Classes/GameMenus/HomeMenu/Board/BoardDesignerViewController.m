@@ -118,6 +118,11 @@ static const int kBoardMarginLeft = 10;
     [longPressGestureRecogzier setMinimumPressDuration:0.f];
     [_boardContainer setGestureRecognizers:@[ longPressGestureRecogzier ]];
   
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(saveCurrentBoard)
+                                               name:UIApplicationWillResignActiveNotification
+                                             object:nil];
+  
   _draggingObstacle = NO;
 }
 
@@ -271,6 +276,8 @@ static const int kBoardMarginLeft = 10;
     }
   
   [[OutgoingEventController sharedOutgoingEventController] saveUserPvpBoard:obstacleList];
+  
+  [NSNotificationCenter.defaultCenter removeObserver:self];
 }
 
 - (void) updatePowerLevel:(BOOL)animated
