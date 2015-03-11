@@ -2141,7 +2141,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       quantity = [gs isTaskCompleted:prereq.prereqGameEntityId];
     } else if (prereq.prereqGameType == GameTypeResearch) {
       ResearchProto *rp = gs.staticResearch[@(prereq.prereqGameEntityId)];
-      quantity = [rp isComplete];
+      quantity = [gs.researchUtil prerequisiteFullfilledForResearch:rp];
     }
     
     return quantity >= prereq.quantity;

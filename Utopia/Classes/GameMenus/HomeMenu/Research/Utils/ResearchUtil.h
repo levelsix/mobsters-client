@@ -10,15 +10,17 @@
 #import "Research.pb.h"
 #import "UserData.h"
 
-@interface ResearchUtil : NSObject
+@interface ResearchUtil : NSObject {
+  UserResearch *_curResearch;
+}
 
 @property (nonatomic, retain) NSMutableArray *userResearches;
--(id) initWithResearches:(NSArray *)researches;
+- (id) initWithResearches:(NSArray *)researches;
 
--(UserResearch *) currentResearch;
--(BOOL) isResearched:(ResearchProto *)research;
--(BOOL) isResearching:(ResearchProto *)research;
--(NSString *)uuidForResearch:(ResearchProto *)research;
+- (void)startResearch:(UserResearch *)userResearch;
+- (UserResearch *) currentResearch;
+- (UserResearch *) userResearchForProto:(ResearchProto *)research;
+- (BOOL)prerequisiteFullfilledForResearch:(ResearchProto *)research;
 
 @end
 
@@ -32,9 +34,6 @@
 - (float)researchBenefit;
 - (NSArray *)fullResearchFamily;
 - (NSString *)simpleValue;
-- (BOOL)isComplete;
-- (BOOL)isResearching;
-- (BOOL)isAvailable;
 - (BOOL)prereqsComplete;
 
 @end

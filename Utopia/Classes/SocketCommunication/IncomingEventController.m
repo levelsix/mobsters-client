@@ -351,6 +351,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSDiscardBattleItemEvent:
       responseClass = [DiscardBattleItemResponseProto class];
       break;
+    case EventProtocolResponseSPerformResearchEvent:
+      responseClass = [PerformResearchResponseProto class];
+      break;
+    case EventProtocolResponseSFinishPerformingResearchEvent:
+      responseClass = [FinishPerformingResearchRequestProto class];
+      break;
     default:
       responseClass = nil;
       break;
@@ -2376,6 +2382,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
+}
+
+#pragma mark - Research
+
+- (void) handlePerformResearchResponseProto:(FullEvent *)fe {
+  PerformResearchResponseProto *proto = (PerformResearchResponseProto *)fe.event;
+  
 }
 
 @end

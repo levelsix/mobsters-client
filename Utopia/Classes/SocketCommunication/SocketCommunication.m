@@ -1260,14 +1260,14 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCAchievementRedeemEvent];
 }
 
-- (int) sendBeginResearchMessage:(int)researchId uuid:(NSString*)uuid clientTime:(uint64_t)clientTime gems:(int)gems resourceType:(ResourceType)resourceType resourceChange:(int)resourceChange{
+- (int) sendBeginResearchMessage:(int)researchId uuid:(NSString*)uuid clientTime:(uint64_t)clientTime gems:(int)gems resourceType:(ResourceType)resourceType resourceCost:(int)resourceCost{
   PerformResearchRequestProto *req = [[[[[[[[[PerformResearchRequestProto builder]
                                              setSender:_sender]
                                             setResearchId:researchId]
                                            setUserResearchUuid:uuid]
                                           setClientTime:clientTime]
-                                         setGemsSpent:gems]
-                                        setResourceChange:resourceChange]
+                                         setGemsCost:gems]
+                                        setResourceCost:resourceCost]
                                        setResourceType:resourceType]
                                       build];
   
@@ -1278,7 +1278,7 @@ static NSString *udid = nil;
   FinishPerformingResearchRequestProto *req = [[[[[FinishPerformingResearchRequestProto builder]
                                                  setSender:_sender]
                                                 setUserResearchUuid:uuid]
-                                               setGemsSpent:gemsSpent]
+                                               setGemsCost:gemsSpent]
                                                build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCFinishPerformingResearchEvent];

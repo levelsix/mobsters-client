@@ -26,6 +26,7 @@
   NSTimer *_miniJobTimer;
   NSTimer *_avengeTimer;
   NSTimer *_battleItemTimer;
+  NSTimer *_researchTimer;
 }
 
 @property (nonatomic, assign) BOOL isTutorial;

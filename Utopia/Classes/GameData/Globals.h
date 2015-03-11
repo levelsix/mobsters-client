@@ -38,6 +38,8 @@
 #define ENHANCE_MONSTER_NOTIFICATION @"EnhanceMonsterNotification"
 #define EVOLUTION_WAIT_COMPLETE_NOTIFICATION @"EvolutionWaitCompleteNotification"
 #define EVOLUTION_CHANGED_NOTIFICATION @"EvolutionChangedNotification"
+#define RESEARCH_WAIT_COMPLETE_NOTIFICATION @"ResearchWaitCompleteNotification"
+#define RESEARCH_CHANGED_NOTIFICATION @"ResearchChangedNotification"
 #define COMBINE_WAIT_COMPLETE_NOTIFICATION @"CombineWaitCompleteNotification"
 #define MINI_JOB_CHANGED_NOTIFICATION @"MiniJobWaitCompleteNotification"
 #define MONSTER_SOLD_COMPLETE_NOTIFICATION @"MonsterSoldNotification"

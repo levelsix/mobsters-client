@@ -20,11 +20,12 @@
 
 @implementation researchSelectionBarView
 
--(void)updateForProto:(ResearchProto *)proto {
-  _researchId = proto.researchId;
-  BOOL isAvailable = [proto prereqsComplete];
+-(void)updateForProto:(UserResearch *)userResearch {
+  _userResearch = userResearch;
+  ResearchProto *proto = userResearch.research;
+  BOOL isAvailable = [userResearch.research prereqsComplete];
   
-  [Globals imageNamed:proto.iconImgName withView:self.selectionIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:userResearch.research.iconImgName withView:self.selectionIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   self.rankTotal.text = [NSString stringWithFormat:@"%d/%@", proto.level, @([proto fullResearchFamily].count)];
   self.selectionTitle.text = [NSString stringWithFormat:@"%@ Rank %d", proto.name, proto.level];
   self.selectionDescription.text = proto.desc;
@@ -71,7 +72,7 @@
 }
 - (IBAction)clicked:(id)sender {
   ResearchTreeViewController *rtvc = (ResearchTreeViewController *)self.delegate;
-  [rtvc barClickedWithId:_researchId];
+  [rtvc barClickedWithResearch:_userResearch];
 }
 
 @end
@@ -116,7 +117,7 @@
     
     selectView.origin = CGPointMake(0.f, 100.f*index);
     selectView.delegate = self;
-    [selectView updateForProto:rp];
+    [selectView updateForResearch:[UserResearch userResearchWithResearch:rp]];
     index++;
   }
   
@@ -127,21 +128,21 @@
   self.titleImageName = @"researchtoons.png";
 }
 
--(void)researchButtonClickWithId:(int) index {
-  GameState *gs = [GameState sharedGameState];
-  ResearchProto *clickedResearch = [gs.staticResearch objectForKey:@(index)];
-  
+-(void)researchButtonClickWithResearch:(UserResearch *)userResearch {
   UIView *outView = _curBarView;
   [_curBarView animateOut:^{
     [outView removeFromSuperview];
   }];
   _curBarView = [[NSBundle mainBundle] loadNibNamed:@"ResearchSelectionBar" owner:self options:nil][0];
   [self.view addSubview:_curBarView];
-  [_curBarView updateForProto:clickedResearch];
+  [_curBarView updateForProto:userResearch];
   [_curBarView animateIn:nil];
   _curBarView.delegate = self;
   
   if(_selectFieldViewUp) {
+    [UIView animateWithDuration:0.3f animations:^{
+      _selectFieldView.alpha = 0.f;
+    }];
     [_selectFieldView animateOut:^{
       _selectFieldViewUp = NO;
       _barAnimating = NO;
@@ -150,9 +151,8 @@
   
 }
 
--(void)barClickedWithId:(int)index {
-  ResearchProto *proto = [[GameState sharedGameState].staticResearch objectForKey:@(index)];
-  ResearchInfoViewController *rivc = [[ResearchInfoViewController alloc] initWithResearch:proto];
+-(void)barClickedWithResearch:(UserResearch *)research {
+  ResearchInfoViewController *rivc = [[ResearchInfoViewController alloc] initWithResearch:research];
   [self.parentViewController pushViewController:rivc animated:YES];
 }
 
@@ -164,6 +164,9 @@
   }
   if(_selectFieldViewUp) {
     if( scrollView.contentOffset.y > 100) {
+      [UIView animateWithDuration:0.3f animations:^{
+        _selectFieldView.alpha = 0.f;
+      }];
       _barAnimating = YES;
       [_selectFieldView animateOut:^{
         _selectFieldViewUp = NO;
@@ -172,6 +175,9 @@
     }
   } else {
     if( scrollView.contentOffset.y < 100) {
+      [UIView animateWithDuration:0.3f animations:^{
+        _selectFieldView.alpha = 1.f;
+      }];
       _barAnimating = YES;
       [_selectFieldView animateIn:^{
         _selectFieldViewUp = YES;
@@ -189,14 +195,15 @@
 
 @implementation ResearchButtonView
 
-- (void)updateForProto:(ResearchProto *)research {
-    _id = research.researchId;
+- (void)updateForResearch:(UserResearch *)userResearch {
+  ResearchProto *research = userResearch.research;
+  _userResearch = userResearch;
   self.researchNameLabel.text = research.name;
   self.rankLabel.text = [NSString stringWithFormat:@"%d/%@",research.level, @([research fullResearchFamily].count)];
 }
 
 - (IBAction)researchSelected:(id)sender {
-  [self.delegate researchButtonClickWithId:_id];
+  [self.delegate researchButtonClickWithResearch:_userResearch];
 }
 
 @end

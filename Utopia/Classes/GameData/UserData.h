@@ -368,10 +368,14 @@ typedef enum {
 @property (nonatomic, assign) int researchId;
 @property (nonatomic, assign) int64_t timePurchased;
 @property (nonatomic, assign) BOOL complete;
-@property (nonatomic, retain) MSDate *timeCompleted;
+@property (nonatomic, retain) MSDate *endTime;
 @property (nonatomic, retain) ResearchProto *research;
 @property (nonatomic, retain) MSDate *timeStarted;
-
 + (id) userResearchWithProto:(UserResearchProto *)proto;
++ (id) userResearchWithResearch:(ResearchProto *)proto;
+- (id) initWithResearch:(ResearchProto *)proto;
 
+- (void) updateForUserResearch:(UserResearch *)UserResearch;
+
+- (BOOL)isResearching;
 @end

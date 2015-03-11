@@ -3326,51 +3326,49 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 #pragma mark - Researching
 
--(BOOL) beginResearch:(ResearchProto *)research gemsSpent:(int)gems resourceType:(ResourceType)resourceType resourceChange:(int)resourceChange delegate:(id)delegate{
+-(UserResearch *) beginResearch:(UserResearch *)userResearch gemsSpent:(int)gems resourceType:(ResourceType)resourceType resourceCost:(int)resourceCost delegate:(id)delegate{
+  
   GameState *gs = [GameState sharedGameState];
   switch (resourceType) {
     case ResourceTypeOil:
-      if(gs.oil < -resourceChange) {
-        return NO;
+      if(gs.oil < resourceCost) {
+        return nil;
       }
       break;
       case ResourceTypeCash:
-      if (gs.cash < -resourceChange) {
-        return NO;
+      if (gs.cash < -resourceCost) {
+        return nil;
       }
     default:
       break;
   }
   
   if(gs.gems < gems) {
-    return NO;
+    return nil;
   }
   
   uint64_t ms = [self getCurrentMilliseconds];
-  NSString *uuid = [gs.researchUtil uuidForResearch:research];
-  int tag = [[SocketCommunication sharedSocketCommunication] sendBeginResearchMessage:research.researchId uuid:uuid clientTime:ms gems:gems resourceType:resourceType resourceChange:resourceChange];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendBeginResearchMessage:userResearch.researchId uuid:userResearch.userResearchUuid clientTime:ms gems:gems resourceType:resourceType resourceCost:resourceCost];
   
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
   
   GemsUpdate *gu = [GemsUpdate updateWithTag:tag change:-gems];
   if(resourceType == ResourceTypeCash) {
-    CashUpdate *cu = [CashUpdate updateWithTag:tag change:resourceChange];
+    CashUpdate *cu = [CashUpdate updateWithTag:tag change:resourceCost];
     [gs addUnrespondedUpdates:cu,gu, nil];
   } else if (resourceType == ResourceTypeOil) {
-    OilUpdate *ou = [OilUpdate updateWithTag:tag change:resourceChange];
+    OilUpdate *ou = [OilUpdate updateWithTag:tag change:resourceCost];
     [gs addUnrespondedUpdates:ou,gu, nil];
   }
-  
-  return YES;
+  return [[UserResearch alloc] initWithResearch:userResearch.research];
 }
 
--(BOOL) finishResearch:(ResearchProto *)research gemsSpent:(int)gems delegate:(id)delegate{
+-(BOOL) finishResearch:(UserResearch *)userResearch gemsSpent:(int)gems delegate:(id)delegate{
   GameState *gs = [GameState sharedGameState];
   if(gs.gems < gems) {
     return NO;
   }
-  NSString *uuid = [gs.researchUtil uuidForResearch:research];
-  int tag = [[SocketCommunication sharedSocketCommunication] sendFinishPerformingResearchRequestProto:uuid gemsSpent:gems];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendFinishPerformingResearchRequestProto:userResearch.userResearchUuid gemsSpent:gems];
   
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
   

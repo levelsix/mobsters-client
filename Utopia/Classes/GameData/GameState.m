@@ -1873,6 +1873,42 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
 }
 
+#pragma mark ResearchTimer
+
+- (void) beginResearchTimer {
+  [self stopResearchTimer];
+  
+  if ([self.researchUtil currentResearch]) {
+    if ([[self.researchUtil currentResearch].endTime timeIntervalSinceNow] <= 0) {
+      [self researchWaitTimeComplete];
+    } else {
+      _researchTimer = [NSTimer timerWithTimeInterval:[self.researchUtil currentResearch].endTime.timeIntervalSinceNow target:self selector:@selector(researchWaitTimeComplete) userInfo:nil repeats:NO];
+      [[NSRunLoop mainRunLoop] addTimer:_researchTimer forMode:NSRunLoopCommonModes];
+    }
+  }
+}
+
+- (void) researchWaitTimeComplete {
+  if ([self.researchUtil currentResearch] && [[self.researchUtil currentResearch].endTime timeIntervalSinceNow] < 0) {
+    UserResearch *ur = [self.researchUtil currentResearch];
+    
+    [[OutgoingEventController sharedOutgoingEventController] finishResearch:ur gemsSpent:0 delegate:self];
+    [[NSNotificationCenter defaultCenter] postNotificationName:RESEARCH_WAIT_COMPLETE_NOTIFICATION object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:RESEARCH_CHANGED_NOTIFICATION object:nil];
+    
+    [Globals addGreenAlertNotification:[NSString stringWithFormat:@"%@ has finished researching!", ur.research.name] isImmediate:NO];
+    
+//    [QuestUtil checkAllDonateQuests];???
+  }
+}
+
+- (void) stopResearchTimer {
+  if (_researchTimer) {
+    [_researchTimer invalidate];
+    _researchTimer = nil;
+  }
+}
+
 #pragma mark Combine Timer
 
 - (void) beginCombineTimer {

@@ -22,42 +22,56 @@
   return self;
 }
 
+-(void)startResearch:(UserResearch *)userResearch {
+  //update existing userResearch if another research of the same id exists
+  for(UserResearch *ur in self.userResearches) {
+    if (ur.userResearchUuid == userResearch.userResearchUuid) {
+      [ur updateForUserResearch:userResearch];
+      return;
+    }
+  }
+  //add the new user research to the list
+  [self.userResearches addObject:userResearch];
+}
+
 -(UserResearch *) currentResearch {
+  if (_curResearch) {
+    //make sure _curResearching is in fact researching
+    if([self.userResearches containsObject:_curResearch] && !_curResearch.complete) {
+      return _curResearch;
+    } else {
+      _curResearch = nil;
+    }
+  }
+  
   for (UserResearch *ur in self.userResearches) {
-    if (!ur.complete) {
+    if ([ur isResearching]) {
+      _curResearch = ur;
       return ur;
     }
   }
   return nil;
 }
 
--(BOOL) isResearched:(ResearchProto *)research {
+-(UserResearch *) userResearchForProto:(ResearchProto *)research {
   for (UserResearch *ur in self.userResearches) {
-    MSDate *purchaseTime = [MSDate dateWithTimeIntervalSince1970:ur.timePurchased];
-    if (ur.researchId == research.researchId && (ur.complete || -[purchaseTime timeIntervalSinceNow] > research.durationMin * 60)) {
-      return YES;
-    }
-  }
-  return NO;
-}
-
--(BOOL)isResearching:(ResearchProto *)research {
-  for (UserResearch *ur in self.userResearches) {
-    MSDate *purchaseTime = [MSDate dateWithTimeIntervalSince1970:ur.timePurchased];
-    if (ur.researchId == research.researchId && !ur.complete && -[purchaseTime timeIntervalSinceNow] < research.durationMin * 60) {
-      return YES;
-    }
-  }
-  return NO;
-}
-
--(NSString *)uuidForResearch:(ResearchProto *)research {
-  for (UserResearch *ur in self.userResearches) {
-    if(ur.researchId == research.researchId) {
-      return ur.userResearchUuid;
+    if(ur.research.researchId == research.researchId) {
+      return ur;
     }
   }
   return nil;
+}
+
+-(BOOL)prerequisiteFullfilledForResearch:(ResearchProto *)research {
+  UserResearch *userResearch = [self userResearchForProto:research];
+  if (userResearch) {
+    return userResearch.complete;
+  }
+  ResearchProto *successor = [userResearch.research successorResearch];
+  if (successor) {
+    return [self prerequisiteFullfilledForResearch:successor];
+  }
+  return NO;
 }
 
 @end
@@ -111,24 +125,6 @@
   [formatter setMaximumFractionDigits:5];
   [formatter setMinimumFractionDigits:0];
   return [formatter stringFromNumber:[NSNumber numberWithFloat:[self researchBenefit]]];
-}
-
--(BOOL)isComplete {
-  GameState *gs = [GameState sharedGameState];
-  return [gs.researchUtil isResearched:self];
-}
-
--(BOOL)isResearching {
-  GameState *gs = [GameState sharedGameState];
-  return [gs.researchUtil isResearching:self];
-}
-
--(BOOL)isAvailable {
-  if([self predecessorResearch]) {
-    return [[self predecessorResearch] isComplete] && ![self isComplete] && ![self isResearching];
-  } else {
-    return ![self isComplete] && ![self isResearching];
-  }
 }
 
 -(BOOL)prereqsComplete {

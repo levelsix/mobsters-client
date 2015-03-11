@@ -1557,9 +1557,30 @@
 @end
 
 @implementation UserResearch
-
 + (id) userResearchWithProto:(UserResearchProto *)proto {
   return [[UserResearch alloc] initWithProto:proto];
+}
+
++ (id) userResearchWithResearch:(ResearchProto *)proto {
+  GameState *gs = [GameState sharedGameState];
+  
+  UserResearch *userResearch = [gs.researchUtil userResearchForProto:proto];
+  if(userResearch) {
+    return userResearch;
+  }
+  
+  return [[UserResearch alloc] initWithResearch:proto];
+}
+
+- (id) initWithResearch:(ResearchProto *)proto {
+  self.userResearchUuid = nil;
+  self.researchId = proto.researchId;
+  self.timePurchased = [MSDate date].timeIntervalSince1970;
+  self.complete = NO;
+  self.research = proto;
+  self.endTime = [self tentativeCompletionDate];
+  self.timeStarted = [MSDate date];
+  return self;
 }
 
 - (id) initWithProto:(UserResearchProto *)proto {
@@ -1569,7 +1590,7 @@
   self.timePurchased = proto.timePurchased;
   self.complete = proto.complete;
   self.research = [gs.staticResearch objectForKey:@(self.researchId)];
-  self.timeCompleted = [self tentativeCompletionDate];
+  self.endTime = [self tentativeCompletionDate];
   self.timeStarted = [MSDate dateWithTimeIntervalSince1970:self.timePurchased];
   return self;
 }
@@ -1586,6 +1607,20 @@
   }
   
   return [self.timeStarted dateByAddingTimeInterval:seconds];
+}
+
+-(void)updateForUserResearch:(UserResearch *)UserResearch {
+  self.userResearchUuid = UserResearch.userResearchUuid;
+  self.researchId = UserResearch.researchId;
+  self.timePurchased = UserResearch.timePurchased;
+  self.complete = UserResearch.complete;
+  self.research = UserResearch.research;
+  self.endTime= [self tentativeCompletionDate];
+  self.timeStarted = [MSDate dateWithTimeIntervalSince1970:self.timePurchased];
+}
+
+- (BOOL)isResearching {
+  return !self.complete && self.endTime && self.endTime.timeIntervalSinceNow < 0;
 }
 
 @end

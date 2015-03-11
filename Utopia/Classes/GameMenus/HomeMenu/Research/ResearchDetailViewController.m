@@ -22,9 +22,9 @@
 
 @implementation ResearchDetailView
 
-- (void)updateWith:(ResearchProto *)research {
-  self.researchName.text = research.name;
-  self.researchRank.text = [NSString stringWithFormat:@"%d/%@",research.level, @([research fullResearchFamily].count)];
+- (void)updateWithResearch:(UserResearch *)userResearch {
+  self.researchName.text = userResearch.research.name;
+  self.researchRank.text = [NSString stringWithFormat:@"%d/%@",userResearch.research.level, @([userResearch.research fullResearchFamily].count)];
 }
 
 @end
@@ -35,12 +35,12 @@
   self.title = @"Ranks";
 }
 
-- (id)initWithResearchId:(int)researchId {
-  _researchId = researchId;
+- (id)initWithResearchResearch:(UserResearch *)userResearch {
+  _userResearch = userResearch;
   GameState *gs = [GameState sharedGameState];
   if((self = [super init])){
-    ResearchProto *research = [gs.staticResearch objectForKey:@(researchId)];
-    [self.view updateWith:research];
+    ResearchProto *research = [gs.staticResearch objectForKey:@(userResearch.researchId)];
+    [self.view updateWithResearch:userResearch];
     self.title = [NSString stringWithFormat:@"%@ Ranks", research.name];
   }
   return self;
@@ -50,7 +50,7 @@
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   GameState *gs = [GameState sharedGameState];
-  ResearchProto *research = [gs.staticResearch objectForKey:@(_researchId)];
+  ResearchProto *research = _userResearch.research;
   ResearchController *rc = [ResearchController researchControllerWithProto:research];
   NSArray *researchFamily = [research fullResearchFamily];
   research = [researchFamily objectAtIndex:indexPath.row];
@@ -64,21 +64,19 @@
                               orientation:UIImageOrientationDownMirrored];
   }
   
-  if (research.researchId == _researchId) {
+  if (research.researchId == _userResearch.researchId) {
     cell.bgView.backgroundColor = [UIColor colorWithHexString:@"FFFFDC"];
   } else {
     cell.bgView.backgroundColor = [UIColor whiteColor];
   }
   
-  [cell updateWithRank:[NSString stringWithFormat:@"%d",research.level] description:[rc shortImprovementString] showCheckMark:[research isComplete]];
+  [cell updateWithRank:[NSString stringWithFormat:@"%d",research.level] description:[rc shortImprovementString] showCheckMark:[gs.researchUtil prerequisiteFullfilledForResearch:research]];
   
   return cell;
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  GameState *gs = [GameState sharedGameState];
-  ResearchProto *research = [gs.staticResearch objectForKey:@(_researchId)];
-  return [research fullResearchFamily].count;
+  return [_userResearch.research fullResearchFamily].count;
 }
 
 @end

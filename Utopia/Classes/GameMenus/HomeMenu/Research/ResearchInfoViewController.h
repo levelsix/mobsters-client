@@ -18,8 +18,18 @@
 
 @interface ResearchInfoView : UIView
 
+- (void) updateLabels;
+
 @property (nonatomic, assign) IBOutlet UIView *cashButtonView;
 @property (nonatomic, assign) IBOutlet UIView *oilButtonView;
+@property (nonatomic, assign) IBOutlet UIView *finishButtonView;
+@property (nonatomic, assign) IBOutlet UIView *helpButtonView;
+
+@property (weak, nonatomic) IBOutlet NiceFontLabel12B *finishFreeLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *finishSpeedupIcon;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *finishActivityIndicator;
+@property (weak, nonatomic) IBOutlet GeneralButton *finishButton;
+
 @property (nonatomic, assign) IBOutlet NiceFontLabel12 *cashButtonLabel;
 @property (nonatomic, assign) IBOutlet NiceFontLabel12 *oilButtonLabel;
 
@@ -28,13 +38,13 @@
 @property (nonatomic, assign) IBOutlet NiceFontLabel12 *bottomBarTitle;
 @property (nonatomic, assign) IBOutlet NiceFontLabel2 *bottomBarDescription;
 
-@property (weak, nonatomic) IBOutlet UpgradeButton *cashButton;
-@property (weak, nonatomic) IBOutlet UpgradeButton *oilButton;
-@property (weak, nonatomic) IBOutlet UIImageView *cashIcon;
-@property (weak, nonatomic) IBOutlet UIImageView *oilIcon;
-@property (weak, nonatomic) IBOutlet NiceFontLabel12 *researchCashLabel;
-@property (weak, nonatomic) IBOutlet NiceFontLabel12 *researchOilLabel;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property (nonatomic, assign) IBOutlet UpgradeButton *cashButton;
+@property (nonatomic, assign) IBOutlet UpgradeButton *oilButton;
+@property (nonatomic, assign) IBOutlet UIImageView *cashIcon;
+@property (nonatomic, assign) IBOutlet UIImageView *oilIcon;
+@property (nonatomic, assign) IBOutlet NiceFontLabel12 *researchCashLabel;
+@property (nonatomic, assign) IBOutlet NiceFontLabel12 *researchOilLabel;
+@property (nonatomic, assign) IBOutlet UIActivityIndicatorView *activityIndicator;
 
 @property (nonatomic, assign) IBOutlet ResearchPrereqView *prereqViewA;
 @property (nonatomic, assign) IBOutlet ResearchPrereqView *prereqViewB;
@@ -48,23 +58,17 @@
 @property (nonatomic, assign) IBOutlet SplitImageProgressBar *topPercentBar;
 @property (nonatomic, assign) IBOutlet SplitImageProgressBar *botPercentBar;
 
-@property (weak, nonatomic) IBOutlet GemsButton *finishNowButton;
-@property (weak, nonatomic) IBOutlet NiceFontLabel12B *gemAmount;
-@property (weak, nonatomic) IBOutlet NiceFontLabel12B *finishLabel;
-@property (weak, nonatomic) IBOutlet NiceFontLabel12B *freeLabel;
-
-@property (weak, nonatomic) IBOutlet UIView *inactiveResearchBar;
-@property (weak, nonatomic) IBOutlet UIView *activeResearchBar;
+@property (nonatomic, assign) IBOutlet NiceFontLabel8T *timeLeftLabel;
 
 @end
 
 @interface ResearchInfoViewController : PopupSubViewController {
-  int _researchId;
+  UserResearch *_userResearch;
 }
 
--(id)initWithResearch:(ResearchProto *)research;
-
-- (void) handlePerformResearchRequestProto:(FullEvent *)fe;
+-(id)initWithResearch:(UserResearch *)userResearch;
+- (void) updateLabels;
+- (void) handlePerformResearchResponseProto:(FullEvent *)fe;
 
 @property (nonatomic, assign) IBOutlet ResearchInfoView *view;
 

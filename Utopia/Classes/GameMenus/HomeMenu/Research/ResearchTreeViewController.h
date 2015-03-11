@@ -10,7 +10,7 @@
 #import "PopupSubViewController.h"
 
 @interface researchSelectionBarView : TouchableSubviewsView {
-  int _researchId;
+  UserResearch *_userResearch;
 }
 
 @property (nonatomic, assign) IBOutlet UIImageView *selectionIcon;
@@ -22,7 +22,7 @@
 
 @property (nonatomic, assign) id delegate;
 
--(void)updateForProto:(ResearchProto *)proto;
+-(void)updateForProto:(UserResearch *)userResearch;
 -(void) animateIn:(dispatch_block_t)completion;
 -(void) animateOut:(dispatch_block_t)completion;
 
@@ -38,8 +38,8 @@
 @property (weak, nonatomic) IBOutlet researchSelectionBarView *selectFieldView;
 
 -(id)initWithDomain:(ResearchDomain)domain;
--(void)researchButtonClickWithId:(int) index;
--(void)barClickedWithId:(int)index;
+-(void)researchButtonClickWithResearch:(UserResearch *)userResearch;
+-(void)barClickedWithResearch:(UserResearch *)userResearch;
 @end
 
 @interface ResearchTreeView : UIView
@@ -48,7 +48,7 @@
 @end
 
 @interface ResearchButtonView : UIView {
-  int _id;
+  UserResearch *_userResearch;
 }
 @property (nonatomic, assign) IBOutlet UILabel *researchNameLabel;
 @property (nonatomic, assign) IBOutlet UILabel *rankLabel;
@@ -56,6 +56,6 @@
 @property (nonatomic, assign) IBOutlet UIImageView *bgView;
 @property (nonatomic, assign) ResearchTreeViewController* delegate;
 
-- (void)updateForProto:(ResearchProto *)research;
+- (void)updateForResearch:(UserResearch *)userResearch;
 
 @end

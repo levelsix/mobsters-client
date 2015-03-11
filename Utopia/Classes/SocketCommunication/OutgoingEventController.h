@@ -148,8 +148,8 @@
 
 - (void) updateUserCurrencyWithCashSpent:(int)cashSpent oilSpent:(int)oilSpent gemsSpent:(int)gemsSpent reason:(NSString *)reason;
 
-- (BOOL) beginResearch:(ResearchProto *)research gemsSpent:(int)gems resourceType:(ResourceType)resourceType resourceChange:(int)resourceChange delegate:(id)delegate;
-- (BOOL) finishResearch:(ResearchProto *)research gemsSpent:(int)gems delegate:(id)delegate;
+- (UserResearch *) beginResearch:(UserResearch *)userResearch gemsSpent:(int)gems resourceType:(ResourceType)resourceType resourceCost:(int)resourceCost delegate:(id)delegate;
+- (BOOL) finishResearch:(UserResearch *)userResearch gemsSpent:(int)gems delegate:(id)delegate;
 
 - (void) spawnObstacles:(NSArray *)obstacles delegate:(id)delegate;
 - (void) beginObstacleRemoval:(UserObstacle *)obstacle spendGems:(BOOL)spendGems;

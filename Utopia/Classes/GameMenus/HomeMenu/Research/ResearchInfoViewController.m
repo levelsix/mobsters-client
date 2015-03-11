@@ -12,6 +12,9 @@
 #import "Globals.h"
 #import "GameState.h"
 
+#define RESEARCHING_DESCRIPTION @"This research is currently in progress"
+#define RESEARCHING_TITLE @"Currently Researching"
+
 @implementation ResearchPrereqView
 
 - (void) updateForPrereq:(PrereqProto *)pre isComplete:(BOOL)isComplete {
@@ -32,7 +35,8 @@
 
 @implementation ResearchInfoView
 
--(void)updateWithResearch:(ResearchProto *)research {
+-(void)updateWithResearch:(UserResearch *)userResearch {
+  ResearchProto *research = userResearch.research;
   
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
@@ -84,6 +88,9 @@
   
   if(unfulfilledRequirements > 0) {
     [self setDisplayForNumMissingRequirements:unfulfilledRequirements];
+  } else if ([userResearch isResearching]) {
+    self.bottomBarDescription.text = RESEARCHING_DESCRIPTION;
+    self.bottomBarTitle.text = RESEARCHING_TITLE;
   }
   
   float maxPercent = (1.f + ([[research maxLevelResearch] firstProperty].researchValue / 100.f));
@@ -125,6 +132,10 @@
   self.bottomBarDescription.highlighted = YES;
 }
 
+-(void)updateLabels {
+  UserResearch *curResearch = [[GameState sharedGameState].researchUtil currentResearch];
+  self.timeLeftLabel.text = [Globals convertTimeToShortString:-[curResearch.endTime timeIntervalSinceNow]];
+}
 
 @end
 
@@ -134,47 +145,57 @@
   self.title = @"info view";
 }
 
-- (id)initWithResearch:(ResearchProto *)research {
+- (id)initWithResearch:(UserResearch *)userResearch {
   if((self = [super init])) {
-    [self.view updateWithResearch:research];
-    self.title = [NSString stringWithFormat:@"Research to Rank %d",research.level];
-    _researchId = research.researchId;
+    [self.view updateWithResearch:userResearch];
+    self.title = [NSString stringWithFormat:@"Research to Rank %d",userResearch.research.level];
+    _userResearch = userResearch;
   }
   
   return self;
 }
 
 - (IBAction)DetailsClicked:(id)sender {
-  ResearchDetailViewController *rdvc = [[ResearchDetailViewController alloc] initWithResearchId:_researchId];
+  ResearchDetailViewController *rdvc = [[ResearchDetailViewController alloc] initWithResearchResearch:_userResearch];
   [self.parentViewController pushViewController:rdvc animated:YES];
 }
 
 - (IBAction)clickResearchStart:(id)sender {
-  ResearchProto *research = [[GameState sharedGameState].staticResearch objectForKey:@(_researchId)];
-  BOOL success = [[OutgoingEventController sharedOutgoingEventController] beginResearch:research gemsSpent:0 resourceType:research.costType resourceChange:research.costAmt delegate:self];
-  if(!success) {
+  ResearchProto *research = _userResearch.research;
+  UserResearch *startedResearch = [[OutgoingEventController sharedOutgoingEventController] beginResearch:_userResearch gemsSpent:0 resourceType:research.costType resourceCost:research.costAmt delegate:self];
+  if(!startedResearch) {
     [Globals popupMessage:@"it didn't work weeeeee"];
   } else {
-    ResearchInfoView *riv = self.view;
-    riv.oilButtonLabel.superview.hidden = YES;
-    riv.cashButtonLabel.superview.hidden = NO;
-    riv.activityIndicator.hidden = NO;
+    self.view.oilButtonLabel.superview.hidden = YES;
+    self.view.cashButtonLabel.superview.hidden = YES;
+    self.view.activityIndicator.hidden = NO;
+    self.view.cashButton.userInteractionEnabled = NO;
+    [[GameState sharedGameState].researchUtil startResearch:startedResearch];
   }
 }
 
 - (void) handlePerformResearchResponseProto:(FullEvent *)fe {
   PerformResearchResponseProto *proto = (PerformResearchResponseProto *)fe.event;
-  if(proto.status == PerformResearchResponseProto_PerformResearchStatusSuccess) {
-    ResearchInfoView *riv = self.view;
-    riv.oilButtonLabel.superview.hidden = NO;
-    riv.cashButtonLabel.superview.hidden = YES;
-    riv.activityIndicator.hidden = YES;
-  
-    CGPoint barCenter = riv.inactiveResearchBar.center;
-    [riv.inactiveResearchBar.superview addSubview:riv.activeResearchBar];
-    [riv.inactiveResearchBar removeFromSuperview];
-    riv.activeResearchBar.center = barCenter;
+  if(proto.status != PerformResearchResponseProto_PerformResearchStatusSuccess) {
+    
   }
+  self.view.oilButtonLabel.superview.hidden = NO;
+  self.view.cashButtonLabel.superview.hidden = NO;
+  self.view.activityIndicator.hidden = YES;
+  self.view.cashButton.userInteractionEnabled = YES;
+  
+  self.view.oilButtonView.hidden = YES;
+  self.view.cashButtonView.hidden = YES;
+  self.view.helpButtonView.hidden = YES;
+  self.view.finishButtonView.hidden = NO;
+  
+  self.view.timeLeftLabel.hidden = NO;
+  self.view.bottomBarTitle.text = RESEARCHING_TITLE;
+  self.view.bottomBarDescription.text = RESEARCHING_DESCRIPTION;
+}
+
+- (void) updateLabels {
+  [self.view updateLabels];
 }
 
 @end

@@ -26,15 +26,15 @@
 @property (nonatomic, assign) IBOutlet NiceFontLabel8 *researchRank;
 
 
--(void) updateWith:(ResearchProto *)research;
+-(void) updateWithResearch:(UserResearch *)userResearch;
 
 @end
 
 @interface ResearchDetailViewController : PopupSubViewController {
-  int _researchId;
+  UserResearch *_userResearch;
 }
 
-- (id) initWithResearchId:(int)researchId;
+- (id) initWithResearchResearch:(UserResearch *)userResearch;
 
 @property (nonatomic, assign) IBOutlet ResearchDetailView *view;
 
