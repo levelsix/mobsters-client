@@ -26,6 +26,7 @@
   _missChance = 0.f;
   _sideEffectType = SideEffectTypeNoSideEffect;
   _evaded = NO;
+  _missed = NO;
 }
 
 -(void)setValue:(float)value forProperty:(NSString *)property
@@ -67,9 +68,15 @@
   return _evaded;
 }
 
+-(BOOL)skillOwnerWillMiss
+{
+  return _missed;
+}
+
 -(NSInteger)modifyDamage:(NSInteger)damage forPlayer:(BOOL)player
 {
   _evaded = NO;
+  _missed = NO;
   
   if ([self isActive])
   {
@@ -88,6 +95,7 @@
         if (rand < _missChance)
         {
           damage = 0;
+          _missed = YES;
           [self showDodged:YES];
           SkillLogStart(@"Crit and Evade -- Skill caused a miss");
         }

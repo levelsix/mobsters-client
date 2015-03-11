@@ -81,7 +81,7 @@
       
       // Eat the cake and reload schedule UI then
       self.enemySprite.animationType = MonsterProto_AnimationTypeRanged;
-      [self.enemySprite performNearAttackAnimationWithEnemy:self.playerSprite shouldReturn:YES shouldEvade:NO shouldFlinch:NO
+      [self.enemySprite performNearAttackAnimationWithEnemy:self.playerSprite shouldReturn:YES shouldEvade:NO shouldMiss:NO shouldFlinch:NO
                                                      target:nil selector:nil animCompletion:nil];
     }];
   }
@@ -207,7 +207,7 @@
 - (void) startAttackingPlayerPhase2
 {
   self.enemySprite.animationType = MonsterProto_AnimationTypeMelee; // To ensure that enemy will run
-  [self.enemySprite performNearAttackAnimationWithEnemy:self.playerSprite shouldReturn:NO shouldEvade:NO shouldFlinch:NO
+  [self.enemySprite performNearAttackAnimationWithEnemy:self.playerSprite shouldReturn:NO shouldEvade:NO shouldMiss:NO shouldFlinch:NO
                                                  target:self selector:@selector(startAttackingPlayerPhase3) animCompletion:nil];
 }
 

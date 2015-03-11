@@ -195,6 +195,16 @@
   return NO;
 }
 
+- (BOOL) skillOwnerWillMiss
+{
+  return NO;
+}
+
+- (BOOL) skillOpponentWillMiss
+{
+  return NO;
+}
+
 - (void) skillTriggerFinished
 {
   [self skillTriggerFinished:NO];
@@ -322,7 +332,7 @@
 - (void) showQuickAttackMiniLogo
 {
   [self showSkillPopupMiniOverlay:NO
-                       bottomText:[NSString stringWithFormat:@"%ld DMG BLOCKED", (long)self.quickAttackDamage]
+                       bottomText:[NSString stringWithFormat:@"%ld ATK", (long)self.quickAttackDamage]
                    withCompletion:^{}];
 }
 
@@ -331,11 +341,13 @@
   [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
   [self.battleLayer.orbLayer disallowInput];
   
+  [self showQuickAttackMiniLogo];
+  
   if (self.belongsToPlayer)
-    [self.playerSprite performFarAttackAnimationWithStrength:0.f shouldEvade:NO enemy:self.enemySprite
+    [self.playerSprite performFarAttackAnimationWithStrength:0.f shouldEvade:NO shouldMiss:NO enemy:self.enemySprite
                                                       target:self selector:@selector(quickAttackDealDamage) animCompletion:nil];
   else
-    [self.enemySprite performNearAttackAnimationWithEnemy:self.playerSprite shouldReturn:YES shouldEvade:NO shouldFlinch:YES
+    [self.enemySprite performNearAttackAnimationWithEnemy:self.playerSprite shouldReturn:YES shouldEvade:NO shouldMiss:NO shouldFlinch:YES
                                                    target:self selector:@selector(quickAttackDealDamage) animCompletion:nil];
 }
 

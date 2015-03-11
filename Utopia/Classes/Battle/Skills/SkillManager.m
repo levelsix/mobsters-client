@@ -235,6 +235,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   return NO;
 }
 
+- (BOOL) playerWillMiss:(BOOL)player
+{
+  if (player)
+  {
+    return (_playerSkillController && [_playerSkillController skillOwnerWillMiss]) || (_enemySkillController && [_enemySkillController skillOpponentWillMiss]);
+  }
+  else
+  {
+    return (_enemySkillController && [_enemySkillController skillOwnerWillMiss]) || (_playerSkillController && [_playerSkillController skillOpponentWillMiss]);
+  }
+}
+
 - (void) triggerSkills:(SkillTriggerPoint)trigger withCompletion:(SkillControllerBlock)completion
 {
   //completion(NO); // Uncomment these lines to totally disable skills.
