@@ -16,6 +16,17 @@
 
 #pragma mark - Overrides
 
+//Little trick to make it always tick after player turns
+- (TickTrigger)tickTrigger
+{
+  return self.belongsToPlayer ? TickTriggerAfterUserTurn : TickTriggerAfterOpponentTurn;
+}
+
+- (BOOL) affectsOwner
+{
+  return NO;
+}
+
 - (BOOL) shouldPersist
 {
   return [self isActive];
@@ -30,62 +41,19 @@
 {
   if ([self isActive])
   {
-    BattlePlayer* opponent = self.belongsToPlayer ? self.enemy : self.player;
-    if (opponent.isCursed)
-    {
-      [self addCurseAnimations];
-    }
-  }
-}
-
-- (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
-{
-  if ([super skillCalledWithTrigger:trigger execute:execute])
-    return YES;
-  
-  if ([self isActive])
-  {
-    //Reset on new target
-    if (execute)
-    {
-      if ((self.belongsToPlayer && trigger == SkillTriggerPointEnemyInitialized)
-          || (!self.belongsToPlayer && trigger == SkillTriggerPointPlayerInitialized))
-      {
-        [self endDurationNow];
-      }
-      else if (trigger == SkillTriggerPointEndOfPlayerTurn)
-      {
-        [self tickDuration];
-      }
-    }
+    self.opponentPlayer.isCursed = YES;
   }
   
-  return NO;
+  [super restoreVisualsIfNeeded];
 }
 
 #pragma mark - Skill Logic
 
 - (BOOL) onDurationStart
 {
-  BattlePlayer* opponent = self.belongsToPlayer ? self.enemy : self.player;
-  opponent.isCursed = YES;
+  self.opponentPlayer.isCursed = YES;
   
-  [self addCurseAnimations];
-  
-  [self performAfterDelay:0.3 block:^{
-    [self.battleLayer.orbLayer.bgdLayer turnTheLightsOn];
-    [self.battleLayer.orbLayer allowInput];
-    [self skillTriggerFinished:YES];
-  }];
-  
-  return YES;
-}
-
-- (BOOL) onDurationReset
-{
-  [self resetAfftectedTurnsCount:self.turnsLeft forSkillSideEffectOnOpponent:SideEffectTypeNerfCurse];
-  
-  return NO;
+  return [super onDurationStart];
 }
 
 - (BOOL) onDurationEnd
@@ -96,38 +64,7 @@
 
 - (void) removeCurse
 {
-  BattlePlayer* opponent = self.belongsToPlayer ? self.enemy : self.player;
-  opponent.isCursed = NO;
-  
-  [self endCurseAnimations];
-}
-
-#pragma mark - Animations
-
-- (void) addCurseAnimations
-{
-  BattleSprite* opponent = self.belongsToPlayer ? self.enemySprite : self.playerSprite;
-  
-  //Make character blink purple
-  [opponent.sprite stopActionByTag:1914];
-  CCActionRepeatForever* action = [CCActionRepeatForever actionWithAction:[CCActionSequence actions:
-                                                                           [CCActionTintTo actionWithDuration:1.5 color:[CCColor purpleColor]],
-                                                                           [CCActionTintTo actionWithDuration:1.5 color:[CCColor whiteColor]],
-                                                                           nil]];
-  action.tag = 1914;
-  [opponent.sprite runAction:action];
-  
-  [self addSkillSideEffectToOpponent:SideEffectTypeNerfCurse turnsAffected:self.turnsLeft];
-}
-
-- (void) endCurseAnimations
-{
-  BattleSprite* opponent = self.belongsToPlayer ? self.enemySprite : self.playerSprite;
-  
-  [opponent.sprite stopActionByTag:1914];
-  [opponent.sprite runAction:[CCActionTintTo actionWithDuration:0.3 color:[CCColor whiteColor]]];
-  
-  [self removeSkillSideEffectFromOpponent:SideEffectTypeNerfCurse];
+  self.opponentPlayer.isCursed = NO;
 }
 
 @end

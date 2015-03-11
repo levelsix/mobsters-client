@@ -13,13 +13,11 @@
   // Properties
   float _damageMultiplier;
   float _sizeMultiplier;
+  float _sizeCap;
 
   // Counters
   float _currentMultiplier;
   float _currentSizeMultiplier;
-  
-  // Temp
-  BOOL  _logoShown;
 }
 
 @end

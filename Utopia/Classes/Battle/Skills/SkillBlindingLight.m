@@ -35,17 +35,24 @@
 
 #pragma mark - Overrides
 
+- (BOOL) affectsOwner
+{
+  return NO;
+}
+
+- (BOOL) doesRefresh
+{
+  return YES;
+}
+
+- (TickTrigger) tickTrigger
+{
+  return TickTriggerAfterOpponentTurn;
+}
+
 - (NSSet*) sideEffects
 {
   return [NSSet setWithObjects:@(SideEffectTypeNerfBlindingLight), nil];
-}
-
-- (void) restoreVisualsIfNeeded
-{
-  if ([self isActive])
-  {
-    [self addSkillSideEffectToOpponent:SideEffectTypeNerfBlindingLight turnsAffected:self.turnsLeft];
-  }
 }
 
 - (NSInteger) modifyDamage:(NSInteger)damage forPlayer:(BOOL)player
@@ -66,8 +73,6 @@
                          withCompletion:^{}];
         SkillLogStart(@"Blinding Light -- Skill caused a miss");
       }
-      
-      [self tickDuration];
     }
   }
   
@@ -79,28 +84,16 @@
   if ([super skillCalledWithTrigger:trigger execute:execute])
     return YES;
   
-  if ((trigger == SkillTriggerPointEnemyDealsDamage && self.belongsToPlayer)
-      || (trigger == SkillTriggerPointPlayerDealsDamage && !self.belongsToPlayer))
+  if ([self isActive])
   {
-    if (execute)
-    {
-      
-      [self performAfterDelay:.3f block:^{
-        [self skillTriggerFinished];
-      }];
-    }
-    return YES;
-  }
-  
-  if ((trigger == SkillTriggerPointEnemyDefeated && self.belongsToPlayer)
-      || (trigger == SkillTriggerPointPlayerInitialized && !self.belongsToPlayer))
-  {
-    if ([self isActive])
+    if (_missed && ((trigger == SkillTriggerPointEnemyDealsDamage && self.belongsToPlayer)
+        || (trigger == SkillTriggerPointPlayerDealsDamage && !self.belongsToPlayer)))
     {
       if (execute)
       {
-        [self endDurationNow];
-        [self skillTriggerFinished];
+        [self performAfterDelay:.3f block:^{
+          [self skillTriggerFinished];
+        }];
       }
       return YES;
     }
@@ -109,36 +102,21 @@
   return NO;
 }
 
-- (BOOL) onDurationStart
+- (int) quickAttackDamage
+{
+  return _fixedDamageDone;
+}
+
+- (BOOL) activate
 {
   [self dealQuickAttack];
-  
-  [self addSkillSideEffectToOpponent:SideEffectTypeNerfBlindingLight turnsAffected:self.turnsLeft];
-  
   return YES;
 }
 
-- (BOOL) onDurationEnd
-{
-  [self removeSkillSideEffectFromOpponent:SideEffectTypeNerfBlindingLight];
-  
-  return [super onDurationEnd];
-}
-
-- (BOOL) onDurationReset
-{
-  [self dealQuickAttack];
-  
-  [self resetAfftectedTurnsCount:self.turnsLeft forSkillSideEffectOnOpponent:SideEffectTypeNerfBlindingLight];
-  
-  return YES;
-}
-
+//Overriden to make [super activate] wait until the attack is finished, which will start the visual effects then
 - (void) onFinishQuickAttack
 {
-  [self performAfterDelay:self.userSprite.animationType == MonsterProto_AnimationTypeMelee ? .5 : 0 block:^{
-    [self skillTriggerFinished:YES];
-  }];
+  [super activate];
 }
 
 @end

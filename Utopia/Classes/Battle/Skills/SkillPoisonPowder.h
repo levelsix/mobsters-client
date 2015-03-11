@@ -15,8 +15,4 @@
   float _percent;
 }
 
-@property (readonly) int poisonDamage;
-
-- (void) poisonOpponent;
-
 @end

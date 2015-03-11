@@ -20,7 +20,7 @@
   _sizeMultiplier = 1.1;
   _currentMultiplier = 1.0;
   _currentSizeMultiplier = 1.0;
-  _logoShown = NO;
+  _sizeCap = 2.0;
 }
 
 - (void) setValue:(float)value forProperty:(NSString*)property
@@ -30,6 +30,9 @@
     _damageMultiplier = value;
   if ( [property isEqualToString:@"SIZE_MULTIPLIER"] )
     _sizeMultiplier = value;
+  if ( [property isEqualToString:@"SIZE_CAP"])
+    _sizeCap = value;
+  
 }
 
 #pragma mark - Overrides
@@ -61,28 +64,20 @@
 - (void) restoreVisualsIfNeeded
 {
   [self updateOwnerSprite];
-  
-  if ([self isActive])
-  {
-    [self addSkillSideEffectToSkillOwner:SideEffectTypeBuffMomentum turnsAffected:self.turnsLeft];
-  }
-}
-
-- (BOOL) onDurationReset
-{
-  [self increaseMultiplier];
-  
-  [self resetAfftectedTurnsCount:self.turnsLeft forSkillSideEffectOnSkillOwner:SideEffectTypeBuffMomentum];
-  
-  return YES;
+  [super restoreVisualsIfNeeded];
 }
 
 - (BOOL) onDurationStart
 {
   [self increaseMultiplier];
-  
-  [self addSkillSideEffectToSkillOwner:SideEffectTypeBuffMomentum turnsAffected:self.turnsLeft];
-  
+  [self addVisualEffects:NO];
+  return YES;
+}
+
+- (BOOL) onDurationReset
+{
+  [self increaseMultiplier];
+  [self resetVisualEffects];
   return YES;
 }
 
@@ -91,26 +86,7 @@
   _currentMultiplier = 1.0;
   _currentSizeMultiplier = 1.0;
   [self resetSpriteSize];
-  
-  [self removeSkillSideEffectFromSkillOwner:SideEffectTypeBuffMomentum];
-  
-  return NO;
-}
-
-- (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
-{
-  if ([super skillCalledWithTrigger:trigger execute:execute])
-    return YES;
-  
-  if ((trigger == SkillTriggerPointStartOfPlayerTurn && self.belongsToPlayer) ||
-      (trigger == SkillTriggerPointStartOfEnemyTurn && ! self.belongsToPlayer) )
-  {
-    if ([self isActive])
-    {
-      [self tickDuration];
-    }
-  }
-  
+  [self removeVisualEffects];
   return NO;
 }
 
@@ -138,14 +114,14 @@
 {
   // Increase multiplier
   _currentMultiplier *= _damageMultiplier;
-  _currentSizeMultiplier *= _sizeMultiplier;
+  _currentSizeMultiplier = MIN(_currentSizeMultiplier * _sizeMultiplier, _sizeCap);
   
   // Size player and make him blue
   [self performSelector:@selector(updateOwnerSprite) withObject:nil afterDelay:0.3];
   
   // Finish trigger execution
   [self performAfterDelay:0.6 block:^{
-    [self skillTriggerFinished];
+    [self skillTriggerFinished:YES];
   }];
 }
 

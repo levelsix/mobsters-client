@@ -10,8 +10,6 @@
 #import "NewBattleLayer.h"
 #import "Globals.h"
 
-static const NSInteger kBatteryOrbsMaxSearchIterations = 256;
-
 @implementation SkillEnergize
 
 #pragma mark - Initialization
@@ -22,11 +20,8 @@ static const NSInteger kBatteryOrbsMaxSearchIterations = 256;
   
   _speedIncrease = 0.f;
   _attackIncrease = 0.f;
-  _numOrbsToSpawn = 0;
-  _orbsSpawnCounter = 0;
   _curSpeedMultiplier = 1.f;
   _curAttackMultiplier = 1.f;
-  _logoShown = NO;
 }
 
 - (void) setValue:(float)value forProperty:(NSString*)property
@@ -37,33 +32,33 @@ static const NSInteger kBatteryOrbsMaxSearchIterations = 256;
     _speedIncrease = value;
   if ([property isEqualToString:@"ATTACK_INCREASE_PERC"])
     _attackIncrease = value;
-  if ([property isEqualToString:@"DEF_NUM_ORBS_TO_SPAWN"])
-    _numOrbsToSpawn = value;
-  if ([property isEqualToString:@"DEF_ORBS_SPAWN_COUNTER"])
-    _orbsSpawnCounter = value;
 }
 
 #pragma mark - Overrides
+
+- (SpecialOrbType)specialType
+{
+  return SpecialOrbTypeBattery;
+}
+
+- (SpecialOrbSpawnZone)spawnZone
+{
+  return SpecialOrbSpawnTop;
+}
 
 - (NSSet*) sideEffects
 {
   return [NSSet setWithObjects:@(SideEffectTypeBuffEnergize), nil];
 }
 
-- (void) restoreVisualsIfNeeded
-{
-  if (!self.belongsToPlayer)
-    _orbsSpawned = [self specialsOnBoardCount:SpecialOrbTypeBattery];
-  
-  if ([self isActive])
-  {
-    [self addSkillSideEffectToSkillOwner:SideEffectTypeBuffEnergize turnsAffected:self.turnsLeft];
-  }
-}
-
 - (BOOL) doesRefresh
 {
-  return !self.belongsToPlayer;
+  return YES;
+}
+
+- (BOOL)keepColor
+{
+  return NO;
 }
 
 - (NSInteger) modifyDamage:(NSInteger)damage forPlayer:(BOOL)player
@@ -81,57 +76,31 @@ static const NSInteger kBatteryOrbsMaxSearchIterations = 256;
   return damage;
 }
 
+- (BOOL)onSpecialOrbCounterFinish:(NSInteger)numOrbs
+{
+  _curSpeedMultiplier += _speedIncrease * numOrbs;
+  _curAttackMultiplier += _attackIncrease * numOrbs;
+  
+  [self updateSkillOwnerSpeed];
+  
+  [self performAfterDelay:.3 block:^{
+    [self resetDuration];
+  }];
+  
+  return YES;
+}
+
 - (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
 {
   if ([super skillCalledWithTrigger:trigger execute:execute])
     return YES;
-  
-  if (trigger == SkillTriggerPointEndOfPlayerMove && !self.belongsToPlayer)
-  {
-    if (execute)
-    {
-      // Update counters on special orbs
-      int usedUpOrbCount = [self updateSpecialOrbs];
-      if (usedUpOrbCount)
-      {
-        SkillLogStart(@"Energize -- Skill activated");
-        
-        _curSpeedMultiplier += _speedIncrease * usedUpOrbCount;
-        _curAttackMultiplier += _attackIncrease * usedUpOrbCount;
-        
-        [self updateSkillOwnerSpeed];
-        
-        [self resetDuration];
-        
-        [self skillTriggerFinished];
-        
-        return YES;
-      }
-      
-      //[self skillTriggerFinished];
-    }
-    //return YES;
-  }
-  
-  if (trigger == SkillTriggerPointEnemyDefeated && !self.belongsToPlayer)
-  {
-    if (execute)
-    {
-      // Remove all special orbs added by this enemy
-      [self removeAllSpecialOrbs];
-      [self performAfterDelay:.3f block:^{
-        [self skillTriggerFinished];
-      }];
-    }
-    return YES;
-  }
   
   if ((trigger == SkillTriggerPointPlayerInitialized && self.belongsToPlayer) ||
       (trigger == SkillTriggerPointEnemyInitialized && !self.belongsToPlayer))
   {
     if (execute)
     {
-      _initialSpeed = self.belongsToPlayer ? self.player.speed : self.enemy.speed;
+      _initialSpeed = self.userPlayer.speed;
       
       SkillLogStart(@"Energize -- Inital speed is %d", _initialSpeed);
       
@@ -146,37 +115,6 @@ static const NSInteger kBatteryOrbsMaxSearchIterations = 256;
     return YES;
   }
   
-  if ([self isActive])
-  {
-    if ((trigger == SkillTriggerPointPlayerDealsDamage && self.belongsToPlayer) ||
-        (trigger == SkillTriggerPointEnemyDealsDamage && !self.belongsToPlayer))
-    {
-      if (execute)
-      {
-        if (_curAttackMultiplier > 1.f)
-        {
-          [self showAttackMultiplier];
-        }
-        
-        [self performAfterDelay:.3f block:^{
-          [self skillTriggerFinished];
-        }];
-      }
-      return YES;
-    }
-    
-    if ((trigger == SkillTriggerPointEndOfPlayerTurn && self.belongsToPlayer) ||
-        (trigger == SkillTriggerPointEndOfEnemyTurn && !self.belongsToPlayer))
-    {
-      if (execute)
-      {
-        [self tickDuration];
-        [self skillTriggerFinished];
-      }
-      return YES;
-    }
-  }
-  
   return NO;
 }
 
@@ -186,57 +124,11 @@ static const NSInteger kBatteryOrbsMaxSearchIterations = 256;
 {
   if (self.belongsToPlayer)
   {
+    _curSpeedMultiplier += _speedIncrease;
+    _curAttackMultiplier += _attackIncrease;
     return [self resetDuration];
   }
-  else
-  {
-    int usedUpOrbCount = [self updateSpecialOrbs];
-    if (usedUpOrbCount)
-    {
-      _curSpeedMultiplier += _speedIncrease * usedUpOrbCount;
-      _curAttackMultiplier += _attackIncrease * usedUpOrbCount;
-      
-      [self resetDuration];
-    }
-    [self spawnSpecialOrbs:_numOrbsToSpawn withTarget:self andSelector:@selector(skillTriggerFinishedActivated)];
-    return YES;
-  }
-}
-
-- (BOOL) onDurationStart
-{
-  SkillLogStart(@"Energize -- Skill activated");
-  
-  if (self.belongsToPlayer)
-  {
-    _curSpeedMultiplier += _speedIncrease;
-    _curAttackMultiplier += _attackIncrease;
-    [self updateSkillOwnerSpeed];
-  }
-  
-  [self addSkillSideEffectToSkillOwner:SideEffectTypeBuffEnergize turnsAffected:self.turnsLeft];
-  
-  [self skillTriggerFinished:self.belongsToPlayer];
-  
-  return YES;
-}
-
-- (BOOL) onDurationReset
-{
-  SkillLogStart(@"Energize -- Skill reactivated (buffs will stack)");
-  
-  if (self.belongsToPlayer)
-  {
-    _curSpeedMultiplier += _speedIncrease;
-    _curAttackMultiplier += _attackIncrease;
-    [self updateSkillOwnerSpeed];
-  }
-  
-  [self resetAfftectedTurnsCount:self.turnsLeft forSkillSideEffectOnSkillOwner:SideEffectTypeBuffEnergize];
-  
-  [self skillTriggerFinished:self.belongsToPlayer];
-  
-  return YES;
+  return [super activate];
 }
 
 - (BOOL) onDurationEnd
@@ -246,8 +138,6 @@ static const NSInteger kBatteryOrbsMaxSearchIterations = 256;
   _curSpeedMultiplier = 1.f;
   _curAttackMultiplier = 1.f;
   [self updateSkillOwnerSpeed];
-  
-  [self removeSkillSideEffectFromSkillOwner:SideEffectTypeBuffEnergize];
   
   return [super onDurationEnd];
 }
@@ -299,146 +189,6 @@ static const NSInteger kBatteryOrbsMaxSearchIterations = 256;
                          [CCActionRemove action],
                          nil]];
    */
-}
-
-- (int) updateSpecialOrbs
-{
-  BattleOrbLayout* layout = self.battleLayer.orbLayer.layout;
-  OrbSwipeLayer* layer = self.battleLayer.orbLayer.swipeLayer;
-  OrbBgdLayer* bgdLayer = self.battleLayer.orbLayer.bgdLayer;
-  
-  int usedUpOrbCount = 0;
-  NSMutableSet* clonedOrbs = [NSMutableSet set];
-  
-  for (NSInteger column = 0; column < layout.numColumns; ++column)
-  {
-    for (NSInteger row = 0; row < layout.numRows; ++row)
-    {
-      BattleOrb* orb = [layout orbAtColumn:column row:row];
-      if (orb.specialOrbType == SpecialOrbTypeBattery && orb.turnCounter > 0)
-      {
-        // Update counter
-        --orb.turnCounter;
-        
-        // Update sprite
-        OrbSprite* sprite = [layer spriteForOrb:orb];
-        if (orb.turnCounter <= 0) // Use up the special orb
-        {
-          // Clone the orb sprite to be used in the visual effect
-          CCSprite* clonedSprite = [CCSprite spriteWithTexture:sprite.orbSprite.texture rect:sprite.orbSprite.textureRect];
-          clonedSprite.position = [bgdLayer convertToNodeSpace:[sprite.orbSprite convertToWorldSpaceAR:sprite.orbSprite.position]];
-          clonedSprite.zOrder = sprite.orbSprite.zOrder + 100;
-          [clonedOrbs addObject:clonedSprite];
-          
-          // Change sprite type
-          orb.specialOrbType = SpecialOrbTypeNone;
-          do {
-            orb.orbColor = [layout generateRandomOrbColor];
-          } while ([layout hasChainAtColumn:column row:row]);
-          
-          // Reload sprite
-          [sprite reloadSprite:YES];
-          
-          ++usedUpOrbCount;
-          --_orbsSpawned;
-        }
-        else
-          [sprite updateTurnCounter:YES];
-      }
-    }
-  }
-  
-  for (CCSprite* clonedSprite in clonedOrbs)
-  {
-    [self.battleLayer.orbLayer.bgdLayer addChild:clonedSprite];
-    [clonedSprite runAction:[CCActionSequence actions:
-                             [CCActionEaseOut actionWithAction:
-                              [CCActionMoveTo actionWithDuration:.25f position:ccp(bgdLayer.contentSize.width * .5f, bgdLayer.contentSize.height * .5f)]],
-                             [CCActionDelay actionWithDuration:.25f],
-                             [CCActionSpawn actions:
-                              [CCActionEaseIn actionWithAction:
-                               [CCActionScaleBy actionWithDuration:.35f scale:10.f]],
-                              [CCActionEaseIn actionWithAction:
-                               [CCActionFadeOut actionWithDuration:.35f]],
-                              nil],
-                             [CCActionRemove action],
-                             nil]];
-  }
-  
-  return usedUpOrbCount;
-}
-
-- (void) spawnSpecialOrbs:(NSInteger)count withTarget:(id)target andSelector:(SEL)selector
-{
-  [self preseedRandomization];
-  
-  BattleOrbLayout* layout = self.battleLayer.orbLayer.layout;
-  BattleOrb* orb = nil;
-  
-  for (NSInteger n = 0; n < count; ++n)
-  {
-    NSInteger column, row;
-    NSInteger counter = 0;
-    do {
-      column = rand() % layout.numColumns;
-      row = (layout.numRows - 1) - rand() % 2; // Top two rows
-      orb = [layout orbAtColumn:column row:row];
-      ++counter;
-    }
-    while ((orb.specialOrbType != SpecialOrbTypeNone || orb.powerupType != PowerupTypeNone || orb.isLocked) &&
-           counter < kBatteryOrbsMaxSearchIterations);
-    
-    // Nothing found (just in case), continue and perform selector if the last special orb
-    if (!orb)
-    {
-      if (n == count - 1)
-        if (target && selector)
-          SUPPRESS_PERFORM_SELECTOR_LEAK_WARNING([target performSelector:selector withObject:nil];);
-      continue;
-    }
-    
-    // Update data
-    orb.specialOrbType = SpecialOrbTypeBattery;
-    orb.orbColor = OrbColorNone;
-    orb.turnCounter = _orbsSpawnCounter;
-    
-    // Update tile
-    OrbBgdLayer* bgdLayer = self.battleLayer.orbLayer.bgdLayer;
-    BattleTile* tile = [layout tileAtColumn:orb.column row:orb.row];
-    [bgdLayer updateTile:tile keepLit:NO withTarget:(n == count - 1) ? target : nil andCallback:selector];
-    
-    // Update orb
-    [self performAfterDelay:.5f block:^{
-      OrbSprite* orbSprite = [self.battleLayer.orbLayer.swipeLayer spriteForOrb:orb];
-      [orbSprite reloadSprite:YES];
-    }];
-    
-    ++_orbsSpawned;
-  }
-}
-
-- (void) removeAllSpecialOrbs
-{
-  BattleOrbLayout* layout = self.battleLayer.orbLayer.layout;
-  OrbSwipeLayer* layer = self.battleLayer.orbLayer.swipeLayer;
-  
-  for (NSInteger column = 0; column < layout.numColumns; ++column)
-  {
-    for (NSInteger row = 0; row < layout.numRows; ++row)
-    {
-      BattleOrb* orb = [layout orbAtColumn:column row:row];
-      if (orb.specialOrbType == SpecialOrbTypeBattery)
-      {
-        orb.specialOrbType = SpecialOrbTypeNone;
-        do {
-          orb.orbColor = [layout generateRandomOrbColor];
-        } while ([layout hasChainAtColumn:column row:row]);
-        
-        OrbSprite* orbSprite = [layer spriteForOrb:orb];
-        [orbSprite reloadSprite:YES];
-      }
-    }
-  }
 }
 
 #pragma mark - Serialization

@@ -14,4 +14,10 @@
 
 - (void) resetOrbCounter;
 
+- (BOOL) doesRefresh;
+- (BOOL) isActive;
+
+- (BOOL) activate;
+
+
 @end

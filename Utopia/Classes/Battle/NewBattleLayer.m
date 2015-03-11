@@ -820,7 +820,7 @@
     
     if (self.myPlayerObject.isStunned)
     {
-      [self endMyTurnAfterDelay:.5f];
+      [self endMyTurnAfterDelay:1.5f];
       return;
     }
     
@@ -880,7 +880,9 @@
             // If the enemy's stunned, short the attack function
             if (self.enemyPlayerObject.isStunned)
             {
-              [self endEnemyTurn];
+              [self performAfterDelay:1.5 block:^{
+                [self endEnemyTurn];
+              }];
               return;
             }
             
@@ -888,6 +890,8 @@
             // the popup above his head, followed by flinch animation and showing the damage label
             if (self.enemyPlayerObject.isConfused)
             {
+              self.enemyPlayerObject.isConfused = NO;
+              
               CCSprite* confusedPopup = [CCSprite spriteWithImageNamed:@"confusionbubble.png"];
               [confusedPopup setAnchorPoint:CGPointMake(.5f, 0.f)];
               [confusedPopup setPosition:CGPointMake(self.currentEnemy.contentSize.width * .5f, self.currentEnemy.contentSize.height + 13.f)];
@@ -966,6 +970,8 @@
     // the popup above his head, followed by flinch animation and showing the damage label
     if (self.myPlayerObject.isConfused)
     {
+      self.myPlayerObject.isConfused = NO;
+      
       CCSprite* confusedPopup = [CCSprite spriteWithImageNamed:@"confusionbubble.png"];
       [confusedPopup setAnchorPoint:CGPointMake(.5f, 0.f)];
       [confusedPopup setPosition:CGPointMake(self.myPlayer.contentSize.width * .5f, self.myPlayer.contentSize.height + 13.f)];
@@ -983,10 +989,12 @@
     }
     else
     {
+#if !TARGET_IPHONE_SIMULATOR
       if (currentScore > MAKEITRAIN_SCORE) {
         [self.myPlayer restoreStandingFrame];
         [self spawnPlaneWithTarget:nil selector:nil];
       }
+#endif
       float strength = MIN(1, currentScore/(float)STRENGTH_FOR_MAX_SHOTS);
       [self.myPlayer performFarAttackAnimationWithStrength:strength
                                                shouldEvade:[skillManager playerWillEvade:NO]
@@ -1544,29 +1552,24 @@
 }
 
 - (void) currentMyPlayerDied {
-  
-  if ([self playerMobstersLeft] > 0) {
-    SkillLogStart(@"TRIGGER STARTED: mob defeated");
-    [skillManager triggerSkills:SkillTriggerPointPlayerMobDefeated withCompletion:^(BOOL triggered, id params) {
-      SkillLogEnd(triggered, @"  Mob defeated trigger ENDED");
-      
-      [self setMovesLeft:0 animated:NO];
-      [self stopPulsing];
-      self.myPlayer = nil;
-      self.myPlayerObject = nil;
-      [self updateHealthBars];
-      
-      [self displayDeployViewAndIsCancellable:NO];
-    }];
-  } else {
+  SkillLogStart(@"TRIGGER STARTED: mob defeated");
+  [skillManager triggerSkills:SkillTriggerPointPlayerMobDefeated withCompletion:^(BOOL triggered, id params) {
+    SkillLogEnd(triggered, @"  Mob defeated trigger ENDED");
+    
     [self setMovesLeft:0 animated:NO];
     [self stopPulsing];
     self.myPlayer = nil;
     self.myPlayerObject = nil;
     [self updateHealthBars];
     
-    [self youLost];
-  }
+    if ([self playerMobstersLeft] > 0) {
+      [self displayDeployViewAndIsCancellable:NO];
+    }
+    else
+    {
+      [self youLost];
+    }
+  }];
 }
 
 - (void) displayWaveNumber {
@@ -1793,6 +1796,7 @@
 }
 
 - (void) spawnPlaneWithTarget:(id)target selector:(SEL)selector {
+  
   CGPoint pt = POINT_OFFSET_PER_SCENE;
   
   CCSprite *plane = [CCSprite spriteWithImageNamed:@"airplane.png"];

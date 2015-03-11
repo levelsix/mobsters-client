@@ -19,7 +19,6 @@
   [super setDefaultValues];
   
   _targetHPPercToDealAsDamage = 0.f;
-  _logoShown = NO;
 }
 
 - (void) setValue:(float)value forProperty:(NSString*)property
@@ -32,22 +31,19 @@
 
 #pragma mark - Overrides
 
+- (TickTrigger) tickTrigger
+{
+  return self.belongsToPlayer ? TickTriggerAfterUserTurn : TickTriggerAfterOpponentTurn;
+}
+
 - (NSSet*) sideEffects
 {
   return [NSSet setWithObjects:@(SideEffectTypeBuffStaticField), nil];
 }
 
-- (void) restoreVisualsIfNeeded
-{
-  if ([self isActive])
-  {
-    [self addSkillSideEffectToSkillOwner:SideEffectTypeBuffStaticField turnsAffected:self.turnsLeft];
-  }
-}
-
 - (int) quickAttackDamage
 {
-  return floorf((float)self.opponentPlayer.curHealth * _targetHPPercToDealAsDamage);
+  return ceilf((float)self.opponentPlayer.curHealth * _targetHPPercToDealAsDamage);
 }
 
 - (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
@@ -57,11 +53,6 @@
   
   if ([self isActive])
   {
-    if (trigger == SkillTriggerPointStartOfPlayerTurn)
-    {
-      [self tickDuration];
-    }
-    
     if (self.userPlayer.curHealth > 0 &&
         ((trigger == SkillTriggerPointEnemySkillActivated && self.belongsToPlayer)
         || (trigger == SkillTriggerPointPlayerSkillActivated && !self.belongsToPlayer)))
@@ -81,27 +72,6 @@
   }
   
   return NO;
-}
-
-- (BOOL) onDurationStart
-{
-  [self addSkillSideEffectToSkillOwner:SideEffectTypeBuffStaticField turnsAffected:self.turnsLeft];
-  
-  return NO;
-}
-
-- (BOOL) onDurationReset
-{
-  [self resetAfftectedTurnsCount:self.turnsLeft forSkillSideEffectOnSkillOwner:SideEffectTypeBuffStaticField];
-  
-  return [super onDurationStart];
-}
-
-- (BOOL) onDurationEnd
-{
-  [self removeSkillSideEffectFromSkillOwner:SideEffectTypeBuffStaticField];
-  
-  return [super onDurationEnd];
 }
 
 @end

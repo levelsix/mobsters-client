@@ -6,13 +6,11 @@
 //  Copyright (c) 2014 LVL6. All rights reserved.
 //
 
-#import "SkillControllerActive.h"
+#import "SkillControllerSpecialOrb.h"
 
-@interface SkillKnockout : SkillControllerActive
+@interface SkillKnockout : SkillControllerSpecialOrb
 {
   // Properties (defensive)
-  NSInteger _numOrbsToSpawn;
-  NSInteger _orbsSpawnCounter;
   int _fixedDamageReceived;
   
   // Properties (offensive)
@@ -22,8 +20,6 @@
   int _enemyHealthThreshold;
   
   // Temp
-  BOOL _logoShown;
-  NSInteger _orbsSpawned;
   int _orbsConsumed;
 }
 

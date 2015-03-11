@@ -6,15 +6,15 @@
 //  Copyright (c) 2015 LVL6. All rights reserved.
 //
 
-#import "SkillPoisonSkewer.h"
+#import "SkillControllerSpecialOrb.h"
 
-@interface SkillPoisonFire : SkillPoisonSkewer
+@interface SkillPoisonFire : SkillControllerSpecialOrb
 {
-  int _numOrbsSpawned;
-  int _orbSpawnTurnCounter;
-  
   int _poisonStacks;
   int _quickAttackStacks;
+  int _initialDamage;
+  int _poisonDamage;
+  int _poisonPercent;
 }
 
 @end

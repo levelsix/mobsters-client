@@ -6,27 +6,21 @@
 //  Copyright (c) 2014 LVL6. All rights reserved.
 //
 
-#import "SkillControllerActive.h"
+#import "SkillControllerSpecialOrb.h"
 
-@interface SkillFlameBreak : SkillControllerActive
+@interface SkillFlameBreak : SkillControllerSpecialOrb
 {
   // Properties (general)
   float _maxDamage;
   NSInteger _maxStunTurns;
   
-  // Properties (defensive)
-  NSInteger _numOrbsToSpawn;
-  NSInteger _orbsSpawnCounter;
+  // Temp
+  int _damage;
+  int _stunTurns;
   
   // Temp
-  BOOL _logoShown;
-  NSInteger _orbsSpawned;
   int _damageDone;
   int _damageReceived;
-  
-  // Counters
-  BOOL _skillActive;
-  NSInteger _turnsLeft;
 }
 
 @end

@@ -32,9 +32,19 @@
 
 #pragma mark - Overrides
 
+- (BOOL) affectsOwner
+{
+  return NO;
+}
+
 - (BOOL) shouldPersist
 {
   return [self isActive];
+}
+
+- (TickTrigger) tickTrigger
+{
+  return TickTriggerAfterOpponentTurn;
 }
 
 - (NSSet*) sideEffects
@@ -48,7 +58,6 @@
   {
     if (self.belongsToPlayer == player)
     {
-      [self tickDuration];
       [self showSkillPopupMiniOverlay:NO
                            bottomText:[NSString stringWithFormat:@"%.3gX ATK", _damageGivenMultiplier]
                        withCompletion:^{}];
@@ -65,68 +74,4 @@
   
   return damage;
 }
-
-- (void) restoreVisualsIfNeeded
-{
-  if ([self isActive])
-    [self addRageAnimations];
-}
-
-#pragma mark - Skill Logic
-
-- (BOOL) onDurationStart
-{
-  [self addRageAnimations];
-  
-  [self performAfterDelay:0.3 block:^{
-    [self.battleLayer.orbLayer.bgdLayer turnTheLightsOn];
-    [self.battleLayer.orbLayer allowInput];
-    [self skillTriggerFinished:YES];
-  }];
-  
-  return YES;
-}
-
-- (BOOL) onDurationReset
-{
-  [self resetAfftectedTurnsCount:self.turnsLeft forSkillSideEffectOnOpponent:SideEffectTypeNerfBloodRage];
-  
-  return NO;
-}
-
-- (BOOL) onDurationEnd
-{
-  [self removeRageAnimations];
-  
-  return [super onDurationEnd];
-}
-
-#pragma mark - Animations
-
-- (void) addRageAnimations
-{
-  BattleSprite* opponent = self.belongsToPlayer ? self.enemySprite : self.playerSprite;
-  
-  //Make character blink orange
-  [opponent.sprite stopActionByTag:1914];
-  CCActionRepeatForever* action = [CCActionRepeatForever actionWithAction:[CCActionSequence actions:
-                                                                           [CCActionTintTo actionWithDuration:1.5 color:[CCColor orangeColor]],
-                                                                           [CCActionTintTo actionWithDuration:1.5 color:[CCColor whiteColor]],
-                                                                           nil]];
-  action.tag = 1914;
-  [opponent.sprite runAction:action];
-  
-  [self addSkillSideEffectToOpponent:SideEffectTypeNerfBloodRage turnsAffected:self.turnsLeft];
-}
-
-- (void) removeRageAnimations
-{
-  BattleSprite* opponent = self.belongsToPlayer ? self.enemySprite : self.playerSprite;
-  
-  [opponent.sprite stopActionByTag:1914];
-  [opponent.sprite runAction:[CCActionTintTo actionWithDuration:0.3 color:[CCColor whiteColor]]];
-  
-  [self removeSkillSideEffectFromOpponent:SideEffectTypeNerfBloodRage];
-}
-
 @end

@@ -6,19 +6,16 @@
 //  Copyright (c) 2015 LVL6. All rights reserved.
 //
 
-#import "SkillControllerActiveBuff.h"
+#import "SkillControllerSpecialOrb.h"
 
-@interface SkillTakeAim : SkillControllerActiveBuff
+@interface SkillTakeAim : SkillControllerSpecialOrb
 {
-  NSInteger _numOrbsToSpawn;
-  NSInteger _maxOrbs;
-  
   float _critChancePerOrb;
   float _critDamageMultiplier;
   
   float _playerCritChance;
   
-  NSInteger _orbsSpawned;
+  int _playerCritStacks;
 }
 
 @end

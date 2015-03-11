@@ -7,9 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "SkillControllerActive.h"
+#import "SkillQuickAttack.h"
 
-@interface SkillSkewer : SkillControllerActive
+@interface SkillSkewer : SkillQuickAttack
 {
   // Properties
   float       _lowDamage;

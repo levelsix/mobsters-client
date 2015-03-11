@@ -11,6 +11,8 @@
 
 @implementation SkillControllerActiveBuff
 
+#pragma mark - Overrides
+
 - (id) initWithProto:(SkillProto *)proto andMobsterColor:(OrbColor)color
 {
   self = [super initWithProto:proto andMobsterColor:color];
@@ -22,38 +24,6 @@
   _turnsLeft = 0;
   
   return self;
-  
-}
-
-- (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
-{
-  if ([super skillCalledWithTrigger:trigger execute:execute])
-    return YES;
-  
-  if ([self doesRefresh] || ![self isActive])
-  {
-    if ((self.activationType == SkillActivationTypeUserActivated && trigger == SkillTriggerPointManualActivation) ||
-        (self.activationType == SkillActivationTypeAutoActivated && trigger == SkillTriggerPointEndOfPlayerMove))
-    {
-      if ([self skillIsReady])
-      {
-        if (execute)
-        {
-          [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
-          [self.battleLayer.orbLayer disallowInput];
-          [self showSkillPopupOverlay:YES withCompletion:^(){
-            if ([self doesRefresh])
-              [self resetOrbCounter];
-            if (![self activate])
-              [self skillTriggerFinished:YES];
-          }];
-        }
-        return YES;
-      }
-    }
-  }
-  
-  return NO;
 }
 
 - (BOOL) isActive
@@ -61,25 +31,69 @@
   return _turnsLeft != 0;
 }
 
-- (BOOL) doesRefresh
-{
-  return NO;
-}
-
-- (NSInteger) getDuration
-{
-  return _duration;
-}
-
 - (BOOL) activate
 {
   return [self resetDuration];
 }
 
+- (void) restoreVisualsIfNeeded
+{
+  if ([self isActive])
+    [self addVisualEffects:NO];
+}
+
+- (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
+{
+  if ([super skillCalledWithTrigger:trigger execute:execute])
+    return YES;
+  
+  if ([self isActive])
+  {
+    if (([self tickTrigger] == TickTriggerAfterUserTurn &&
+        ((self.belongsToPlayer && (trigger == SkillTriggerPointEndOfPlayerTurn || trigger == SkillTriggerPointEnemyDefeated))
+         || (!self.belongsToPlayer && (trigger == SkillTriggerPointEndOfEnemyTurn || trigger == SkillTriggerPointPlayerMobDefeated))))
+      ||([self tickTrigger] == TickTriggerAfterOpponentTurn &&
+        ((!self.belongsToPlayer && (trigger == SkillTriggerPointEndOfPlayerTurn || trigger == SkillTriggerPointEnemyDefeated)) ||
+         (self.belongsToPlayer && (trigger == SkillTriggerPointEndOfEnemyTurn || trigger == SkillTriggerPointPlayerMobDefeated)))))
+    {
+      if (execute)
+      {
+        BOOL holdSkillTrigger = [self tickDuration];
+        if (!holdSkillTrigger)
+          [self skillTriggerFinished];
+      }
+      return YES;
+    }
+    
+    if ((![self affectsOwner] &&
+         ((self.belongsToPlayer && trigger == SkillTriggerPointEnemyDefeated) ||
+         (!self.belongsToPlayer && (trigger == SkillTriggerPointPlayerMobDefeated || trigger == SkillTriggerPointPlayerInitialized)))))
+    {
+      if (execute)
+      {
+        if (![self doesRefresh])
+          [self resetOrbCounter];
+        if (![self endDurationNow])
+          [self skillTriggerFinished];
+      }
+      return YES;
+    }
+  }
+ 
+  return NO;
+}
+
+#pragma mark - Class Functions
+
+- (TickTrigger) tickTrigger
+{
+  return TickTriggerAfterUserTurn;
+}
+
 - (BOOL) resetDuration
 {
   NSInteger tempOldTurns = _turnsLeft;
-  _turnsLeft = [self getDuration];
+  _turnsLeft = self.duration;
   
   if (tempOldTurns == 0)
     return [self onDurationStart];
@@ -87,39 +101,87 @@
     return [self onDurationReset];
 }
 
-- (void) tickDuration
+- (BOOL) tickDuration
 {
   if (_turnsLeft > 0)
     _turnsLeft--;
   if (_turnsLeft == 0)
-    [self onDurationEnd];
+    return [self onDurationEnd];
+  return NO;
 }
 
 - (BOOL) onDurationStart
 {
-  [self skillTriggerFinished:YES];
+  [self addVisualEffects:YES];
   return YES;
 }
 
 - (BOOL) onDurationReset
 {
+  [self resetVisualEffects];
   [self skillTriggerFinished:YES];
   return YES;
 }
 
 - (BOOL) onDurationEnd
 {
+  [self removeVisualEffects];
   if (![self doesRefresh])
     [self resetOrbCounter];
   return NO;
 }
 
-- (void) endDurationNow
+- (BOOL) endDurationNow
 {
   if (_turnsLeft != 0)
   {
     _turnsLeft = 0;
-    [self onDurationEnd];
+    return [self onDurationEnd];
+  }
+  return NO;
+}
+
+- (BOOL) affectsOwner
+{
+  return YES;
+}
+
+- (void) addVisualEffects:(BOOL)finishSkillTrigger
+{
+  for (NSNumber *sideEff in [self sideEffects])
+  {
+    SideEffectType sideType = [sideEff intValue];
+    if ([self affectsOwner])
+      [self addSkillSideEffectToSkillOwner:sideType turnsAffected:_turnsLeft turnsAreSkillOwners:[self tickTrigger] == TickTriggerAfterUserTurn];
+    else
+      [self addSkillSideEffectToOpponent:sideType turnsAffected:_turnsLeft turnsAreSkillOwners:[self tickTrigger] == TickTriggerAfterUserTurn];
+  }
+  
+  if (finishSkillTrigger)
+    [self skillTriggerFinished:YES];
+}
+
+- (void) resetVisualEffects
+{
+  for (NSNumber *sideEff in [self sideEffects])
+  {
+    SideEffectType sideType = [sideEff intValue];
+    if ([self affectsOwner])
+      [self resetAfftectedTurnsCount:_turnsLeft forSkillSideEffectOnSkillOwner:sideType];
+    else
+      [self resetAfftectedTurnsCount:_turnsLeft forSkillSideEffectOnOpponent:sideType];
+  }
+}
+
+- (void) removeVisualEffects
+{
+  for (NSNumber *sideEff in [self sideEffects])
+  {
+    SideEffectType sideType = [sideEff intValue];
+    if ([self affectsOwner])
+      [self removeSkillSideEffectFromSkillOwner:sideType];
+    else
+      [self removeSkillSideEffectFromOpponent:sideType];
   }
 }
 

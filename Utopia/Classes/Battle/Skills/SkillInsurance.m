@@ -28,6 +28,11 @@
 
 #pragma mark - Overrides
 
+- (TickTrigger) tickTrigger
+{
+  return TickTriggerAfterOpponentTurn;
+}
+
 - (NSSet*) sideEffects
 {
   return [NSSet setWithObjects:@(SideEffectTypeBuffInsurance), nil];
@@ -41,64 +46,8 @@
     [self showSkillPopupMiniOverlay:NO
                          bottomText:[NSString stringWithFormat:@"%.3gX ATK", _damageTakenMultiplier]
                      withCompletion:^{}];
-    [self tickDuration];
   }
   
   return damage;
 }
-
-- (void) restoreVisualsIfNeeded
-{
-  if ([self isActive])
-    [self addInsuranceAnimations];
-}
-
-#pragma mark - Skill Logic
-
-- (BOOL) onDurationStart
-{
-  [self addInsuranceAnimations];
-  return [super onDurationStart];
-}
-
-- (BOOL) onDurationReset
-{
-  [self resetAfftectedTurnsCount:self.turnsLeft forSkillSideEffectOnSkillOwner:SideEffectTypeBuffInsurance];
-  return NO;
-}
-
-- (BOOL) onDurationEnd
-{
-  [self endInsuranceAnimations];
-  return [super onDurationEnd];
-}
-
-#pragma mark - Animations
-
-- (void) addInsuranceAnimations
-{
-  BattleSprite* mySprite = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
-  
-  //Make character blink gray
-  [mySprite.sprite stopActionByTag:1914];
-  CCActionRepeatForever* action = [CCActionRepeatForever actionWithAction:[CCActionSequence actions:
-                                                                           [CCActionTintTo actionWithDuration:1.5 color:[CCColor grayColor]],
-                                                                           [CCActionTintTo actionWithDuration:1.5 color:[CCColor whiteColor]],
-                                                                           nil]];
-  action.tag = 1914;
-  [mySprite.sprite runAction:action];
-  
-  [self addSkillSideEffectToSkillOwner:SideEffectTypeBuffInsurance turnsAffected:self.turnsLeft];
-}
-
-- (void) endInsuranceAnimations
-{
-  BattleSprite* mySprite = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
-  
-  [mySprite.sprite stopActionByTag:1914];
-  [mySprite.sprite runAction:[CCActionTintTo actionWithDuration:0.3 color:[CCColor whiteColor]]];
-  
-  [self removeSkillSideEffectFromSkillOwner:SideEffectTypeBuffInsurance];
-}
-
 @end

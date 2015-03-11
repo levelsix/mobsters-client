@@ -13,12 +13,9 @@
   // Properties
   float _chance;
   int _stunTurns;
-  int _duration;
   
   // Counters
   int _stunTurnsLeft;
-  int _skillTurnsLeft;
-  BOOL _showLogo;
 }
 
 @end

@@ -214,9 +214,10 @@
   
   if (_skillActivated && [self isKindOfClass:[SkillControllerActive class]])
   {
+    SkillControllerBlock completion = _callbackBlock;
     [skillManager triggerSkills:self.belongsToPlayer ? SkillTriggerPointPlayerSkillActivated : SkillTriggerPointEnemySkillActivated
                  withCompletion:^(BOOL triggered, id params) {
-                   _callbackBlock(YES, _callbackParams);
+                   completion(YES, _callbackParams);
                  }];
   }
   else
@@ -318,31 +319,48 @@
 
 - (int) quickAttackDamage { return 0; }
 
-- (void) dealQuickAttack
+- (void) showQuickAttackMiniLogo
 {
-  if (self.belongsToPlayer)
-    [self.playerSprite performFarAttackAnimationWithStrength:0.f shouldEvade:NO enemy:self.enemySprite
-                                                      target:self selector:@selector(dealQuickAttack1) animCompletion:nil];
-  else
-    [self.enemySprite performNearAttackAnimationWithEnemy:self.playerSprite shouldReturn:YES shouldEvade:NO shouldFlinch:YES
-                                                   target:self selector:@selector(dealQuickAttack1) animCompletion:nil];
+  [self showSkillPopupMiniOverlay:NO
+                       bottomText:[NSString stringWithFormat:@"%ld DMG BLOCKED", (long)self.quickAttackDamage]
+                   withCompletion:^{}];
 }
 
-- (void) dealQuickAttack1
+- (void) dealQuickAttack
+{
+  [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
+  [self.battleLayer.orbLayer disallowInput];
+  
+  if (self.belongsToPlayer)
+    [self.playerSprite performFarAttackAnimationWithStrength:0.f shouldEvade:NO enemy:self.enemySprite
+                                                      target:self selector:@selector(quickAttackDealDamage) animCompletion:nil];
+  else
+    [self.enemySprite performNearAttackAnimationWithEnemy:self.playerSprite shouldReturn:YES shouldEvade:NO shouldFlinch:YES
+                                                   target:self selector:@selector(quickAttackDealDamage) animCompletion:nil];
+}
+
+- (void) quickAttackDealDamage
 {
   // Deal damage
-  [self.battleLayer dealDamage:self.quickAttackDamage enemyIsAttacker:(!self.belongsToPlayer) usingAbility:YES withTarget:self withSelector:@selector(onFinishQuickAttack)];
+  
+  [self.battleLayer dealDamage:self.quickAttackDamage enemyIsAttacker:(!self.belongsToPlayer) usingAbility:YES withTarget:self withSelector:@selector(preFinishQuickAttack)];
   
   if (!self.belongsToPlayer) {
     [self.battleLayer sendServerUpdatedValuesVerifyDamageDealt:NO];
   }
 }
 
+// Puts a delay inbetween the quick attack and releasing the skill trigger for melee toons
+- (void) preFinishQuickAttack
+{
+  [self performAfterDelay:self.userSprite.animationType == MonsterProto_AnimationTypeMelee ? .8 : 0 block:^{
+    [self onFinishQuickAttack];
+  }];
+}
+
 - (void) onFinishQuickAttack
 {
-  [self performAfterDelay:self.userSprite.animationType == MonsterProto_AnimationTypeMelee ? .5 : 0 block:^{
-    [self skillTriggerFinished];
-  }];
+  [self skillTriggerFinished];
 }
 
 #pragma mark - UI

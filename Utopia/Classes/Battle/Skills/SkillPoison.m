@@ -31,20 +31,30 @@
 
 #pragma mark - Overrides
 
-- (BOOL) shouldPersist
-{
-  return ([self specialsOnBoardCount:SpecialOrbTypePoison]) || [self isActive];
-}
-
 - (BOOL) generateSpecialOrb:(BattleOrb *)orb atColumn:(int)column row:(int)row
 {
   if ([self isActive] && orb.orbColor == self.orbColor)
   {
-    orb.specialOrbType = SpecialOrbTypePoison;
+    orb.specialOrbType = [self specialType];
     return YES;
   }
   
   return [super generateSpecialOrb:orb atColumn:column row:row];
+}
+
+- (SpecialOrbType)specialType
+{
+  return SpecialOrbTypePoison;
+}
+
+- (TickTrigger)tickTrigger
+{
+  return TickTriggerAfterOpponentTurn;
+}
+
+- (BOOL) shouldPersist
+{
+  return ([self specialsOnBoardCount:SpecialOrbTypePoison]) || [self isActive];
 }
 
 - (void) orbDestroyed:(OrbColor)color special:(SpecialOrbType)type
@@ -81,35 +91,46 @@
     }
   }
   
-  if ([self isActive] && trigger == SkillTriggerPointEndOfEnemyTurn)
-  {
-    [self tickDuration];
-  }
-  
   return NO;
 }
 
-- (void) onFinishPoisonDamage
+- (BOOL) activate
 {
-  _tempDamageDealt = 0;
-  [super onFinishPoisonDamage];
-}
-
-- (BOOL) shouldSpawnRibbon
-{
+  if (_tempDamageDealt)
+    [self dealPoisonDamage];
+  else
+  {
+    [super activate];
+    [self resetDuration];
+  }
   return YES;
 }
 
 - (BOOL) onDurationStart
 {
-  [self addSkullsToOrbs:YES withTarget:self andCallback:@selector(skillTriggerFinishedActivated)];
+  [self addVisualEffects:NO];
   return YES;
+}
+
+- (void) onFinishPoisonDamage
+{
+  _tempDamageDealt = 0;
+  if ([self skillIsReady] && ![self isActive])
+    [self activate];
+  else
+    [self skillTriggerFinished];
 }
 
 - (BOOL) onDurationReset
 {
   [self dealPoisonDamage];
   return YES;
+}
+
+//Pop this special logic in here.
+- (void)spawnSpecialOrbs:(NSInteger)count withTarget:(id)target andSelector:(SEL)selector
+{
+  [self addSkullsToOrbs:YES withTarget:target andCallback:selector];
 }
 
 #pragma mark - Skill Logic
@@ -147,13 +168,10 @@ static NSString* const skullId = @"skull";
         // Update tile
         if (fromTrigger)
         {
-          //          BattleTile* tile = [layout tileAtColumn:col row:row];
           if (lastOrbLayer)
             [lastOrbLayer updateTile:lastTile];
           lastOrbLayer = self.battleLayer.orbLayer.bgdLayer;
           lastTile = [layout tileAtColumn:col row:row];
-          //          OrbBgdLayer* bgdLayer = self.battleLayer.orbLayer.bgdLayer;
-          //          [bgdLayer updateTile:tile keepLit:NO withTarget:nil andCallback:nil];
         }
       }
     }
@@ -166,26 +184,6 @@ static NSString* const skullId = @"skull";
     if (target && callback)
       [target performSelector:callback withObject:nil afterDelay:0.f];
   }
-}
-
-- (void) removeSkullsFromOrbs
-{
-  BattleOrbLayout* layout = self.battleLayer.orbLayer.layout;
-  
-  OrbSwipeLayer* layer = self.battleLayer.orbLayer.swipeLayer;
-  
-  for (NSInteger col = 0; col < layout.numColumns; col++)
-    for (NSInteger row = 0; row < layout.numRows; row++)
-    {
-      BattleOrb* orb = [layout orbAtColumn:col row:row];
-      OrbSprite* sprite = [layer spriteForOrb:orb];
-      
-      if (orb.specialOrbType == SpecialOrbTypePoison)
-      {
-        orb.specialOrbType = SpecialOrbTypeNone;
-        [sprite reloadSprite:YES];
-      }
-    }
 }
 
 @end

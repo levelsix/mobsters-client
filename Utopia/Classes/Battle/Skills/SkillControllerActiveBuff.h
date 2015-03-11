@@ -8,20 +8,28 @@
 
 #import "SkillControllerActive.h"
 
-@interface SkillControllerActiveBuff : SkillControllerActive
+typedef enum {
+  TickTriggerAfterUserTurn = 0,
+  TickTriggerAfterOpponentTurn = 1
+} TickTrigger;
 
-- (BOOL) doesRefresh;
-- (BOOL) isActive;
-- (NSInteger) getDuration;
-- (BOOL) activate;
+@interface SkillControllerActiveBuff : SkillControllerActive {
+  NSInteger _turnsLeft;
+}
+
+- (TickTrigger) tickTrigger;
 - (BOOL) resetDuration;
-- (void) tickDuration;
+- (BOOL) tickDuration;
 - (BOOL) onDurationStart;
 - (BOOL) onDurationReset;
 - (BOOL) onDurationEnd;
-- (void) endDurationNow;
+- (BOOL) endDurationNow;
+- (BOOL) affectsOwner;
+
+- (void) addVisualEffects:(BOOL)finishSkillTrigger;
+- (void) resetVisualEffects;
+- (void) removeVisualEffects;
 
 @property (readonly) NSInteger duration;
-@property (readonly) NSInteger turnsLeft;
 
 @end
