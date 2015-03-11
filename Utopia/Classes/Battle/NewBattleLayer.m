@@ -1108,11 +1108,11 @@
   }
   else
   {
-    const float updateDuration = MIN(1.f + abs(initialDamage - modifiedDamage) * .01f, 3.f);
+    const float updateDuration = MIN(abs(initialDamage - modifiedDamage) * .05f, 1.f);
     const int   updateRepeatCount = ceilf(updateDuration / .05f);
     const float updateDamageIncrement = (initialDamage - modifiedDamage) / (float)updateRepeatCount;
     
-    const float labelScaleInitial = 1.f;
+    const float labelScaleInitial = .01f;
 //  const float labelScaleInitial = (initialDamage > modifiedDamage) ? 1.2f : 1.f;
 //  const float labelScaleTarget  = (initialDamage > modifiedDamage) ? 1.f : 1.2f;
 //  const int   labelScaleRepeatCount = ceilf(updateDuration / .5f);
@@ -1153,8 +1153,7 @@
                                               }], nil];
     
     [damageLabel runAction:[CCActionSequence actions:
-                            [CCActionEaseOut actionWithAction:
-                             [CCActionScaleTo actionWithDuration:.2f scale:labelScaleInitial]], // Initial scale to appear
+                            [CCActionEaseElasticOut actionWithAction:[CCActionScaleTo actionWithDuration:.35f scale:1.f]], // Initial scale to appear
                             labelUpdateAction,                                                  // Update label
                             [CCActionCallBlock actionWithBlock:^{ if (completion) completion(); }],
                             [CCActionSpawn actions:                                             // Move up and fade out
