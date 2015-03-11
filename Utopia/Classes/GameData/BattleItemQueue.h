@@ -19,13 +19,17 @@
 @property (nonatomic, retain) MSDate *expectedStartTime;
 @property (nonatomic, assign) float elapsedTime;
 
+- (BattleItemProto *) staticBattleItem;
+- (int) totalSecondsToComplete;
+- (MSDate *) expectedEndTime;
+
 @end
 
 @interface BattleItemQueue : NSObject
 
 @property (nonatomic, retain) NSMutableArray *queueObjects;
 
-@property (nonatomic, assign) BOOL hasShownFreeHealingQueueSpeedup;
+@property (nonatomic, assign) BOOL hasShownFreeSpeedup;
 @property (nonatomic, retain) MSDate *queueEndTime;
 @property (nonatomic, assign) float totalTimeForHealQueue;
 

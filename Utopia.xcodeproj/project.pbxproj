@@ -328,6 +328,12 @@
 		29927E6A1AAE1BCE00418683 /* BattleItemUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 29927E691AAE1BCE00418683 /* BattleItemUtil.m */; };
 		29927E6B1AAE1BCE00418683 /* BattleItemUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 29927E691AAE1BCE00418683 /* BattleItemUtil.m */; };
 		29927E6C1AAE1BCE00418683 /* BattleItemUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 29927E691AAE1BCE00418683 /* BattleItemUtil.m */; };
+		29927EAA1AAF9D1700418683 /* ItemFactoryCardCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29927EA91AAF9D1700418683 /* ItemFactoryCardCell.xib */; };
+		29927EAB1AAF9D1700418683 /* ItemFactoryCardCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29927EA91AAF9D1700418683 /* ItemFactoryCardCell.xib */; };
+		29927EAC1AAF9D1700418683 /* ItemFactoryCardCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29927EA91AAF9D1700418683 /* ItemFactoryCardCell.xib */; };
+		29927EAF1AAFAF9B00418683 /* ItemFactoryViews.m in Sources */ = {isa = PBXBuildFile; fileRef = 29927EAE1AAFAF9B00418683 /* ItemFactoryViews.m */; };
+		29927EB01AAFAF9B00418683 /* ItemFactoryViews.m in Sources */ = {isa = PBXBuildFile; fileRef = 29927EAE1AAFAF9B00418683 /* ItemFactoryViews.m */; };
+		29927EB11AAFAF9B00418683 /* ItemFactoryViews.m in Sources */ = {isa = PBXBuildFile; fileRef = 29927EAE1AAFAF9B00418683 /* ItemFactoryViews.m */; };
 		2992D7571AA5326B00547B11 /* crossedout@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2992D72A1AA5326B00547B11 /* crossedout@2x.png */; };
 		2992D7581AA5326B00547B11 /* crossedout@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2992D72A1AA5326B00547B11 /* crossedout@2x.png */; };
 		2992D7591AA5326B00547B11 /* crossedout@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2992D72A1AA5326B00547B11 /* crossedout@2x.png */; };
@@ -7202,6 +7208,9 @@
 		29927E641AAE1B6D00418683 /* BattleItemQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BattleItemQueue.m; sourceTree = "<group>"; };
 		29927E681AAE1BCE00418683 /* BattleItemUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BattleItemUtil.h; sourceTree = "<group>"; };
 		29927E691AAE1BCE00418683 /* BattleItemUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BattleItemUtil.m; sourceTree = "<group>"; };
+		29927EA91AAF9D1700418683 /* ItemFactoryCardCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ItemFactoryCardCell.xib; sourceTree = "<group>"; };
+		29927EAD1AAFAF9B00418683 /* ItemFactoryViews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemFactoryViews.h; sourceTree = "<group>"; };
+		29927EAE1AAFAF9B00418683 /* ItemFactoryViews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemFactoryViews.m; sourceTree = "<group>"; };
 		2992D72A1AA5326B00547B11 /* crossedout@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "crossedout@2x.png"; sourceTree = "<group>"; };
 		2992D74E1AA5326B00547B11 /* gemminebg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gemminebg@2x.png"; sourceTree = "<group>"; };
 		2992D74F1AA5326B00547B11 /* gemminebgpressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gemminebgpressed@2x.png"; sourceTree = "<group>"; };
@@ -12517,9 +12526,12 @@
 		29AF48FD1AAA96150034927C /* Item Factory */ = {
 			isa = PBXGroup;
 			children = (
+				29927EAD1AAFAF9B00418683 /* ItemFactoryViews.h */,
+				29927EAE1AAFAF9B00418683 /* ItemFactoryViews.m */,
 				29AF48FE1AAA96DD0034927C /* ItemFactoryViewController.h */,
 				29AF48FF1AAA96DD0034927C /* ItemFactoryViewController.m */,
 				29AF49001AAA96DD0034927C /* ItemFactoryViewController.xib */,
+				29927EA91AAF9D1700418683 /* ItemFactoryCardCell.xib */,
 			);
 			name = "Item Factory";
 			path = ItemFactory;
@@ -16061,6 +16073,7 @@
 			isa = PBXGroup;
 			children = (
 				9BB5AF641AA66160002076E3 /* Board */,
+				CFCD0F011955055000EDC233 /* Main */,
 				29AF48FD1AAA96150034927C /* Item Factory */,
 				CFA729411A0B059F00FF6031 /* Daily Events */,
 				CF688FEF1912E3CB00FF1F71 /* MiniJob */,
@@ -16069,7 +16082,6 @@
 				CFF646C0195CD19900C43641 /* Heal */,
 				CFF6462D195A390C00C43641 /* Enhance */,
 				CFCD0F021955056200EDC233 /* Sell */,
-				CFCD0F011955055000EDC233 /* Main */,
 			);
 			path = HomeMenu;
 			sourceTree = "<group>";
@@ -19436,6 +19448,7 @@
 				CF0CF7C3196F452900ECD301 /* combo2a.aif in Resources */,
 				9BC535901A845C1200E49F4D /* miniearth@2x.png in Resources */,
 				63C57EB51A66282700ED406E /* gradientwaterdailylab@2x.png in Resources */,
+				29927EAB1AAF9D1700418683 /* ItemFactoryCardCell.xib in Resources */,
 				9B6B77E31A858B1A0080C8E5 /* 8moveslabel@2x.png in Resources */,
 				9BB9486F1A68A85B006EE920 /* 5basicgrabgachatabactive@2x.png in Resources */,
 				2985E6211A330DB00041ABF4 /* pinkchatmiddle@2x.png in Resources */,
@@ -21307,6 +21320,7 @@
 				CFFA31EE18B3DC46008B81B9 /* ClanRaidListViewController.xib in Resources */,
 				DA173A6019CBAF00005236C0 /* shieldfont@2x.png in Resources */,
 				CFE0E6B017E3C002002ECA84 /* filledstar@2x.png in Resources */,
+				29927EAA1AAF9D1700418683 /* ItemFactoryCardCell.xib in Resources */,
 				CFE0E6B417E3C002002ECA84 /* innerstar@2x.png in Resources */,
 				9BDA8B9D1A3B8E1700C7AC27 /* waterheadshot@2x.png in Resources */,
 				CFE0E6BD17E3F6BD002ECA84 /* wavefont.fnt in Resources */,
@@ -22407,6 +22421,7 @@
 				CF481FCE19F7217F00041486 /* leftrightexpand@2x.png in Resources */,
 				2985E6161A330DB00041ABF4 /* pinkchatcorner@2x.png in Resources */,
 				CF481FD119F7217F00041486 /* badgeicon@2x.png in Resources */,
+				29927EAC1AAF9D1700418683 /* ItemFactoryCardCell.xib in Resources */,
 				CF481FD819F7217F00041486 /* ClanRaidViewController.xib in Resources */,
 				9BB5AF831AA695F6002076E3 /* obstaclespowerbarcap@2x.png in Resources */,
 				CFA728CB1A0B037900FF6031 /* watereventbigbgcap@2x.png in Resources */,
@@ -23902,6 +23917,7 @@
 				CF0CEDE2196F452900ECD301 /* BattleViews.m in Sources */,
 				29DCCFB01A8AB444003176FD /* TutorialEnhanceQueueViewController.m in Sources */,
 				CF0CEDE3196F452900ECD301 /* BuildingViews.m in Sources */,
+				29927EB01AAFAF9B00418683 /* ItemFactoryViews.m in Sources */,
 				CF0CEDE4196F452900ECD301 /* CCSoundAnimation.m in Sources */,
 				9BB9494B1A6EEC8C006EE920 /* NSData+Base64.m in Sources */,
 				6BB5F8601A80095B006515B9 /* TutorialBuildingUpgradeController.m in Sources */,
@@ -24073,6 +24089,7 @@
 				DA88EB3A19B90250005EE827 /* NSObject+PerformBlockAfterDelay.m in Sources */,
 				CFF64640195A3EE400C43641 /* EnhanceChooserViewController.m in Sources */,
 				CF6574A91909CAF200ABF1F4 /* Chat.pb.m in Sources */,
+				29927EAF1AAFAF9B00418683 /* ItemFactoryViews.m in Sources */,
 				CFFEB1681834A80A007C4BA3 /* MonsterTeamSlotView.m in Sources */,
 				CFEF25D618C9DFC400FB867A /* MSWindow.m in Sources */,
 				CF20F04B180E142B005551B5 /* AttackMapViewController.m in Sources */,
@@ -24622,6 +24639,7 @@
 				29DCCFB11A8AB444003176FD /* TutorialEnhanceQueueViewController.m in Sources */,
 				CF48199619F7217F00041486 /* BuildingViews.m in Sources */,
 				63B0452E1A9D7CD700C74F0C /* EventResearch.pb.m in Sources */,
+				29927EB11AAFAF9B00418683 /* ItemFactoryViews.m in Sources */,
 				CF48199719F7217F00041486 /* CCSoundAnimation.m in Sources */,
 				9BB9494C1A6EEC8C006EE920 /* NSData+Base64.m in Sources */,
 				6BB5F8611A80095B006515B9 /* TutorialBuildingUpgradeController.m in Sources */,

@@ -44,6 +44,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _staticAchievements = [[NSMutableDictionary alloc] init];
     _staticPrerequisites = [[NSMutableDictionary alloc] init];
     _staticBoards = [[NSMutableDictionary alloc] init];
+    _staticBattleItems = [[NSMutableDictionary alloc] init];
     _eventCooldownTimes = [[NSMutableDictionary alloc] init];
     _notifications = [[NSMutableArray alloc] init];
     _myStructs = [[NSMutableArray alloc] init];
@@ -301,6 +302,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     return [self getStaticDataFrom:_staticBoards withId:boardId];
   }
   return nil;
+}
+
+- (BattleItemProto *) battleItemForId:(int)battleItemId {
+  if (battleItemId == 0) {
+    [Globals popupMessage:@"Attempted to access battle item 0"];
+    return nil;
+  }
+  return [self getStaticDataFrom:_staticBattleItems withId:battleItemId];
 }
 
 - (ObstacleProto *) obstacleWithId:(int)obstacleId {
@@ -1046,6 +1055,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return nil;
 }
 
+- (UserStruct *) myBattleItemFactory {
+  for (UserStruct *us in self.myStructs) {
+    if (us.staticStruct.structInfo.structType == StructureInfoProto_StructTypeBattleItemFactory) {
+      return us;
+    }
+  }
+  return nil;
+}
+
 - (NSArray *) allHospitals {
   NSMutableArray *allHospitals = [NSMutableArray array];
   for (UserStruct *us in self.myStructs) {
@@ -1127,6 +1145,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return 1+quantity;
 }
 
+#pragma mark - Static Data
+
 - (void) updateStaticData:(StaticDataProto *)proto {
   // Add these before updating user or else UI will update incorrectly
   [self addToStaticLevelInfos:proto.slipList];
@@ -1168,6 +1188,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   
   [self.staticItems removeAllObjects];
   [self addToStaticItems:proto.itemsList];
+  
+  [self.staticBattleItems removeAllObjects];
+  [self addToStaticBattleItems:proto.battleItemList];
   
   [self.staticObstacles removeAllObjects];
   [self addToStaticObstacles:proto.obstaclesList];
@@ -1261,6 +1284,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 - (void) addToStaticItems:(NSArray *)arr {
   for (ItemProto *p in arr) {
     [self.staticItems setObject:p forKey:@(p.itemId)];
+  }
+}
+
+- (void) addToStaticBattleItems:(NSArray *)arr {
+  for (BattleItemProto *p in arr) {
+    [self.staticBattleItems setObject:p forKey:@(p.battleItemId)];
   }
 }
 

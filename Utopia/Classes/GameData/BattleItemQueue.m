@@ -8,6 +8,7 @@
 
 #import "BattleItemQueue.h"
 
+#import "GameState.h"
 #import "Globals.h"
 #import "SocketCommunication.h"
 
@@ -19,9 +20,22 @@
     self.userUuid = proto.userUuid;
     self.battleItemId = proto.battleItemId;
     self.expectedStartTime = [MSDate dateWithTimeIntervalSince1970:proto.expectedStartTime/1000.];
-//    self.elapsedTime = prot
+    self.elapsedTime = proto.elapsedTime;
   }
   return self;
+}
+
+- (BattleItemProto *) staticBattleItem {
+  GameState *gs = [GameState sharedGameState];
+  return [gs battleItemWithId:self.battleItemId];
+}
+
+- (int) totalSecondsToComplete {
+  return self.staticBattleItem.minutesToCreate*60;
+}
+
+- (MSDate *) expectedEndTime {
+  return [self.expectedStartTime dateByAddingTimeInterval:self.totalSecondsToComplete];
 }
 
 - (id) copy {
@@ -30,6 +44,7 @@
   item.priority = self.priority;
   item.battleItemId = self.battleItemId;
   item.expectedStartTime = [self.expectedStartTime copy];
+  item.elapsedTime = self.elapsedTime;
   return item;
 }
 
@@ -58,7 +73,7 @@
   [self.queueObjects removeAllObjects];
   
   for (BattleItemQueueForUserProto *proto in objects) {
-      [self.queueObjects addObject:[[BattleItemQueueObject alloc] initWithProto:proto]];
+    [self.queueObjects addObject:[[BattleItemQueueObject alloc] initWithProto:proto]];
   }
   
   [self.queueObjects sortUsingComparator:^NSComparisonResult(BattleItemQueueObject *obj1, BattleItemQueueObject *obj2) {
@@ -67,9 +82,7 @@
   
   [[SocketCommunication sharedSocketCommunication] reloadBattleItemQueueSnapshot];
   
-  [self readjustQueue];
-  
-  self.hasShownFreeHealingQueueSpeedup = NO;
+  self.hasShownFreeSpeedup = NO;
   
   [[NSNotificationCenter defaultCenter] postNotificationName:HEAL_WAIT_COMPLETE_NOTIFICATION object:nil];
 }
@@ -77,36 +90,50 @@
 - (void) addToEndOfQueue:(BattleItemQueueObject *)item {
   BattleItemQueueObject *prevItem = [self.queueObjects lastObject];
   item.priority = prevItem.priority+1;
-  item.expectedStartTime = [MSDate date];
   item.elapsedTime = prevItem.elapsedTime;
+  
+  if (self.queueObjects.count == 0) {
+    item.expectedStartTime = [MSDate date];
+  } else {
+    item.expectedStartTime = prevItem.expectedEndTime;
+  }
   
   [self.queueObjects addObject:item];
   
-  [self readjustQueue];
-  
   Globals *gl = [Globals sharedGlobals];
   if (self.queueEndTime.timeIntervalSinceNow > gl.maxMinutesForFreeSpeedUp*60) {
-    self.hasShownFreeHealingQueueSpeedup = NO;
+    self.hasShownFreeSpeedup = NO;
   } else {
-    self.hasShownFreeHealingQueueSpeedup = YES;
+    self.hasShownFreeSpeedup = YES;
   }
 }
 
-- (void) removeUserMonsterHealingItem:(UserMonsterHealingItem *)item {
+- (void) removeFromQueue:(BattleItemQueueObject *)item {
   NSInteger index = [self.queueObjects indexOfObject:item];
-  //[self saveHealthProgressesFromIndex:index];
+  NSInteger total = self.queueObjects.count;
+  
+  if (index != NSNotFound && total > index+1) {
+    BattleItemQueueObject *next = [self.queueObjects objectAtIndex:index+1];
+    if (index == 0) {
+      next.expectedStartTime = [MSDate date];
+    } else {
+      BattleItemQueueObject *prev = [self.queueObjects objectAtIndex:index-1];
+      next.expectedStartTime = prev.expectedEndTime;
+    }
+    
+    for (NSInteger i = index+2; i < total; i++) {
+      BattleItemQueueObject *next2 = [self.queueObjects objectAtIndex:i];
+      BattleItemQueueObject *next1 = [self.queueObjects objectAtIndex:i-1];
+      next2.expectedStartTime = next1.expectedEndTime;
+    }
+  }
   
   [self.queueObjects removeObject:item];
   
-  [self readjustQueue];
-  
   Globals *gl = [Globals sharedGlobals];
   if (self.queueEndTime.timeIntervalSinceNow < gl.maxMinutesForFreeSpeedUp*60) {
-    self.hasShownFreeHealingQueueSpeedup = YES;
+    self.hasShownFreeSpeedup = YES;
   }
-}
-
-- (void) readjustQueue {
 }
 
 @end

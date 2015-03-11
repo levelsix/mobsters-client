@@ -75,6 +75,7 @@
 @property (nonatomic, retain) NSMutableDictionary *staticObstacles;
 @property (nonatomic, retain) NSMutableDictionary *staticPrerequisites;
 @property (nonatomic, retain) NSMutableDictionary *staticBoards;
+@property (nonatomic, retain) NSMutableDictionary *staticBattleItems;
 @property (nonatomic, retain) NSArray *persistentEvents;
 @property (nonatomic, retain) NSMutableDictionary *eventCooldownTimes;
 @property (nonatomic, retain) NSArray *staticClanIcons;
@@ -179,6 +180,7 @@
 - (PersistentEventProto *) nextEventWithType:(PersistentEventProto_EventType)type;
 - (MonsterBattleDialogueProto *) battleDialogueForMonsterId:(int)monsterId type:(MonsterBattleDialogueProto_DialogueType)type;
 - (BoardLayoutProto *) boardWithId:(int)boardId;
+- (BattleItemProto *) battleItemWithId:(int)battleItemId;
 
 - (void) unlockAllTasks;
 - (BOOL) isTaskUnlocked:(int)taskId;
@@ -241,6 +243,7 @@
 - (UserStruct *) myMiniJobCenter;
 - (UserStruct *) myClanHouse;
 - (UserStruct *) myPvpBoardHouse;
+- (UserStruct *) myBattleItemFactory;
 - (NSArray *) allHospitals;
 - (NSArray *) myValidHospitals;
 - (int) maxHospitalQueueSize;

@@ -46,7 +46,7 @@ BOOL BattleItemCategoryIsValidValue(BattleItemCategory value) {
   }
 }
 @interface UserBattleItemProto ()
-@property (strong) NSString* userBattleItemId;
+@property (strong) NSString* id;
 @property (strong) NSString* userUuid;
 @property int32_t battleItemId;
 @property int32_t quantity;
@@ -54,13 +54,13 @@ BOOL BattleItemCategoryIsValidValue(BattleItemCategory value) {
 
 @implementation UserBattleItemProto
 
-- (BOOL) hasUserBattleItemId {
-  return !!hasUserBattleItemId_;
+- (BOOL) hasId {
+  return !!hasId_;
 }
-- (void) setHasUserBattleItemId:(BOOL) value_ {
-  hasUserBattleItemId_ = !!value_;
+- (void) setHasId:(BOOL) value_ {
+  hasId_ = !!value_;
 }
-@synthesize userBattleItemId;
+@synthesize id;
 - (BOOL) hasUserUuid {
   return !!hasUserUuid_;
 }
@@ -84,7 +84,7 @@ BOOL BattleItemCategoryIsValidValue(BattleItemCategory value) {
 @synthesize quantity;
 - (id) init {
   if ((self = [super init])) {
-    self.userBattleItemId = @"";
+    self.id = @"";
     self.userUuid = @"";
     self.battleItemId = 0;
     self.quantity = 0;
@@ -107,8 +107,8 @@ static UserBattleItemProto* defaultUserBattleItemProtoInstance = nil;
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasUserBattleItemId) {
-    [output writeString:1 value:self.userBattleItemId];
+  if (self.hasId) {
+    [output writeString:1 value:self.id];
   }
   if (self.hasUserUuid) {
     [output writeString:2 value:self.userUuid];
@@ -128,8 +128,8 @@ static UserBattleItemProto* defaultUserBattleItemProtoInstance = nil;
   }
 
   size_ = 0;
-  if (self.hasUserBattleItemId) {
-    size_ += computeStringSize(1, self.userBattleItemId);
+  if (self.hasId) {
+    size_ += computeStringSize(1, self.id);
   }
   if (self.hasUserUuid) {
     size_ += computeStringSize(2, self.userUuid);
@@ -175,8 +175,8 @@ static UserBattleItemProto* defaultUserBattleItemProtoInstance = nil;
   return [UserBattleItemProto builderWithPrototype:self];
 }
 - (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
-  if (self.hasUserBattleItemId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"userBattleItemId", self.userBattleItemId];
+  if (self.hasId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"id", self.id];
   }
   if (self.hasUserUuid) {
     [output appendFormat:@"%@%@: %@\n", indent, @"userUuid", self.userUuid];
@@ -198,8 +198,8 @@ static UserBattleItemProto* defaultUserBattleItemProtoInstance = nil;
   }
   UserBattleItemProto *otherMessage = other;
   return
-      self.hasUserBattleItemId == otherMessage.hasUserBattleItemId &&
-      (!self.hasUserBattleItemId || [self.userBattleItemId isEqual:otherMessage.userBattleItemId]) &&
+      self.hasId == otherMessage.hasId &&
+      (!self.hasId || [self.id isEqual:otherMessage.id]) &&
       self.hasUserUuid == otherMessage.hasUserUuid &&
       (!self.hasUserUuid || [self.userUuid isEqual:otherMessage.userUuid]) &&
       self.hasBattleItemId == otherMessage.hasBattleItemId &&
@@ -210,8 +210,8 @@ static UserBattleItemProto* defaultUserBattleItemProtoInstance = nil;
 }
 - (NSUInteger) hash {
   __block NSUInteger hashCode = 7;
-  if (self.hasUserBattleItemId) {
-    hashCode = hashCode * 31 + [self.userBattleItemId hash];
+  if (self.hasId) {
+    hashCode = hashCode * 31 + [self.id hash];
   }
   if (self.hasUserUuid) {
     hashCode = hashCode * 31 + [self.userUuid hash];
@@ -265,8 +265,8 @@ static UserBattleItemProto* defaultUserBattleItemProtoInstance = nil;
   if (other == [UserBattleItemProto defaultInstance]) {
     return self;
   }
-  if (other.hasUserBattleItemId) {
-    [self setUserBattleItemId:other.userBattleItemId];
+  if (other.hasId) {
+    [self setId:other.id];
   }
   if (other.hasUserUuid) {
     [self setUserUuid:other.userUuid];
@@ -299,7 +299,7 @@ static UserBattleItemProto* defaultUserBattleItemProtoInstance = nil;
         break;
       }
       case 10: {
-        [self setUserBattleItemId:[input readString]];
+        [self setId:[input readString]];
         break;
       }
       case 18: {
@@ -317,20 +317,20 @@ static UserBattleItemProto* defaultUserBattleItemProtoInstance = nil;
     }
   }
 }
-- (BOOL) hasUserBattleItemId {
-  return result.hasUserBattleItemId;
+- (BOOL) hasId {
+  return result.hasId;
 }
-- (NSString*) userBattleItemId {
-  return result.userBattleItemId;
+- (NSString*) id {
+  return result.id;
 }
-- (UserBattleItemProto_Builder*) setUserBattleItemId:(NSString*) value {
-  result.hasUserBattleItemId = YES;
-  result.userBattleItemId = value;
+- (UserBattleItemProto_Builder*) setId:(NSString*) value {
+  result.hasId = YES;
+  result.id = value;
   return self;
 }
-- (UserBattleItemProto_Builder*) clearUserBattleItemId {
-  result.hasUserBattleItemId = NO;
-  result.userBattleItemId = @"";
+- (UserBattleItemProto_Builder*) clearId {
+  result.hasId = NO;
+  result.id = @"";
   return self;
 }
 - (BOOL) hasUserUuid {
@@ -554,13 +554,13 @@ static BattleItemProto* defaultBattleItemProtoInstance = nil;
     [output writeInt32:9 value:self.powerAmount];
   }
   if (self.hasPriority) {
-    [output writeInt32:11 value:self.priority];
+    [output writeInt32:10 value:self.priority];
   }
   if (self.hasMinutesToCreate) {
-    [output writeInt32:12 value:self.minutesToCreate];
+    [output writeInt32:11 value:self.minutesToCreate];
   }
   if (self.hasInBattleGemCost) {
-    [output writeInt32:13 value:self.inBattleGemCost];
+    [output writeInt32:12 value:self.inBattleGemCost];
   }
   if (self.hasAmount) {
     [output writeInt32:14 value:self.amount];
@@ -602,13 +602,13 @@ static BattleItemProto* defaultBattleItemProtoInstance = nil;
     size_ += computeInt32Size(9, self.powerAmount);
   }
   if (self.hasPriority) {
-    size_ += computeInt32Size(11, self.priority);
+    size_ += computeInt32Size(10, self.priority);
   }
   if (self.hasMinutesToCreate) {
-    size_ += computeInt32Size(12, self.minutesToCreate);
+    size_ += computeInt32Size(11, self.minutesToCreate);
   }
   if (self.hasInBattleGemCost) {
-    size_ += computeInt32Size(13, self.inBattleGemCost);
+    size_ += computeInt32Size(12, self.inBattleGemCost);
   }
   if (self.hasAmount) {
     size_ += computeInt32Size(14, self.amount);
@@ -921,15 +921,15 @@ static BattleItemProto* defaultBattleItemProtoInstance = nil;
         [self setPowerAmount:[input readInt32]];
         break;
       }
-      case 88: {
+      case 80: {
         [self setPriority:[input readInt32]];
         break;
       }
-      case 96: {
+      case 88: {
         [self setMinutesToCreate:[input readInt32]];
         break;
       }
-      case 104: {
+      case 96: {
         [self setInBattleGemCost:[input readInt32]];
         break;
       }
