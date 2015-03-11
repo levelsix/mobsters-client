@@ -11,6 +11,9 @@
 #import "ListCollectionView.h"
 
 #import "ResourceItemsFiller.h"
+#import "SpeedupItemsFiller.h"
+
+#import "ItemFactoryViews.h"
 
 typedef enum {
   ItemFactoryScopeAll,
@@ -18,8 +21,13 @@ typedef enum {
   ItemFactoryScopePuzzle
 } ItemFactoryScope;
 
-@interface ItemFactoryViewController : PopupSubViewController {
+@interface ItemFactoryViewController : PopupSubViewController <ResourceItemsFillerDelegate, SpeedupItemsFillerDelegate, UICollectionViewDelegate> {
   ItemFactoryScope _scope;
+  
+  BattleItemProto *_tempBattleItem;
+  UIImageView *_tempBgdImageView;
+  
+  BOOL _waitingForResponse;
 }
 
 @property (nonatomic, retain) IBOutlet ListCollectionView *listView;
@@ -37,6 +45,7 @@ typedef enum {
 
 @property (nonatomic, retain) ItemSelectViewController *itemSelectViewController;
 @property (nonatomic, retain) ResourceItemsFiller *resourceItemsFiller;
+@property (nonatomic, retain) SpeedupItemsFiller *speedupItemsFiller;
 
 @property (nonatomic, retain) NSArray *itemList;
 

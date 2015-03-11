@@ -11,7 +11,7 @@
 #import "Globals.h"
 #import "Protocols.pb.h"
 
-@implementation FactoryCardCell
+@implementation ItemFactoryCardCell
 
 - (void) updateForListObject:(BattleItemProto *)bip {
   NSString *bgdImgName = [Globals imageNameForElement:ElementWater suffix:@"square.png"];

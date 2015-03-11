@@ -10,7 +10,7 @@
 
 #import "ListCollectionView.h"
 
-@interface FactoryCardCell : ListCollectionViewCell <MonsterCardViewDelegate>
+@interface ItemFactoryCardCell : ListCollectionViewCell <MonsterCardViewDelegate>
 
 @property (nonatomic, retain) IBOutlet UIImageView *bgdIcon;
 @property (nonatomic, retain) IBOutlet UIImageView *itemIcon;
