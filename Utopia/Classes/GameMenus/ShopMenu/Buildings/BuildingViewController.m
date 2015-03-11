@@ -46,7 +46,7 @@
   for (id<StaticStructure> ss in self.staticStructs) {
     StructureInfoProto *fsp = [ss structInfo];
     if (fsp.structId == structId) {
-      row = [self.staticStructs indexOfObject:fsp];
+      row = [self.staticStructs indexOfObject:ss];
     }
   }
   
