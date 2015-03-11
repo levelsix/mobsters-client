@@ -10,8 +10,8 @@
 
 @interface SkillPoisonFire : SkillControllerSpecialOrb
 {
-  int _poisonStacks;
-  int _quickAttackStacks;
+  NSInteger _poisonStacks;
+  NSInteger _quickAttackStacks;
   int _initialDamage;
   int _poisonDamage;
   int _poisonPercent;

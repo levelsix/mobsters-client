@@ -508,7 +508,7 @@
   [self restoreStandingFrame];
 }
 
-- (void) performNearAttackAnimationWithEnemy:(BattleSprite *)enemy shouldReturn:(BOOL)shouldReturn shouldEvade:(BOOL)evade shouldFlinch:(BOOL)flinch
+- (void) performNearAttackAnimationWithEnemy:(BattleSprite *)enemy shouldReturn:(BOOL)shouldReturn shouldEvade:(BOOL)evade shouldMiss:(BOOL)miss shouldFlinch:(BOOL)flinch
                                       target:(id)target selector:(SEL)selector animCompletion:(void(^)(void))completion {
   CCAnimation *anim = self.attackAnimationN.copy;
   anim = anim ?: [CCAnimation animation];
@@ -529,10 +529,14 @@
            [CCActionSpawn actions:
             [CCActionCallBlock actionWithBlock:^{
              if (evade) [enemy jumpLeftAndBack:NO delay:.4f duration:1.f distance:25.f height:25.f];
+             else if (miss) self.sprite.flipX = !self.sprite.flipX;
              else if (flinch) [enemy performFarFlinchAnimationWithDelay:0.5];
            }],
             [CCSoundAnimate actionWithAnimation:anim],
             nil],
+           [CCActionCallBlock actionWithBlock:^{
+            if (miss) self.sprite.flipX = !self.sprite.flipX;
+           }],
            [CCActionCallFunc actionWithTarget:self selector:@selector(restoreStandingFrame)],
            [CCActionCallFunc actionWithTarget:target selector:selector],
            nil];
@@ -555,10 +559,14 @@
              [CCActionSpawn actions:
               [CCActionCallBlock actionWithBlock:^{
                if (evade) [enemy jumpLeftAndBack:NO delay:.4f duration:1.f distance:25.f height:25.f];
+               else if (miss) self.sprite.flipX = !self.sprite.flipX;
                else if (flinch) [enemy performFarFlinchAnimationWithDelay:0.3];
              }],
               [CCSoundAnimate actionWithAnimation:anim],
               nil],
+             [CCActionCallBlock actionWithBlock:^{
+              if (miss) self.sprite.flipX = !self.sprite.flipX;
+             }],
              [CCActionCallFunc actionWithTarget:target selector:selector],
              [CCActionCallFunc actionWithTarget:self selector:@selector(faceFarWithoutUpdate)],
              [CCActionCallFunc actionWithTarget:self selector:@selector(beginWalking)],
@@ -575,7 +583,7 @@
   [self runAction:[CCActionSequence actions:seq, [CCActionCallBlock actionWithBlock:completion], nil]];
 }
 
-- (void) performFarAttackAnimationWithStrength:(float)strength shouldEvade:(BOOL)evade enemy:(BattleSprite *)enemy
+- (void) performFarAttackAnimationWithStrength:(float)strength shouldEvade:(BOOL)evade shouldMiss:(BOOL)miss enemy:(BattleSprite *)enemy
                                         target:(id)target selector:(SEL)selector animCompletion:(void(^)(void))completion {
   CCAnimation *anim = self.attackAnimationF.copy;
   anim = anim ?: [CCAnimation animation];
@@ -600,10 +608,14 @@
            [CCActionSpawn actions:
             [CCActionCallBlock actionWithBlock:^{
              if (evade) [enemy jumpLeftAndBack:NO delay:.4f duration:1.f distance:25.f height:25.f];
+             else if (miss) self.sprite.flipX = !self.sprite.flipX;
              else if(strength >= 0) [enemy performNearFlinchAnimationWithStrength:strength delay:0.5];
            }],
             [CCSoundAnimate actionWithAnimation:anim],
             nil],
+           [CCActionCallBlock actionWithBlock:^{
+            if (miss) self.sprite.flipX = !self.sprite.flipX;
+           }],
            [CCActionCallFunc actionWithTarget:self selector:@selector(restoreStandingFrame)],
            [CCActionCallFunc actionWithTarget:target selector:selector],
            nil];
@@ -625,10 +637,14 @@
            [CCActionSpawn actions:
             [CCActionCallBlock actionWithBlock:^{
              if (evade) [enemy jumpLeftAndBack:NO delay:.4f duration:1.f distance:25.f height:25.f];
+             else if (miss) self.sprite.flipX = !self.sprite.flipX;
              else if (strength >= 0) [enemy performNearFlinchAnimationWithStrength:strength delay:0.3];
            }],
             [CCSoundAnimate actionWithAnimation:anim],
             nil],
+           [CCActionCallBlock actionWithBlock:^{
+            if (miss) self.sprite.flipX = !self.sprite.flipX;
+           }],
            [CCActionCallFunc actionWithTarget:target selector:selector],
            [CCActionCallFunc actionWithTarget:self selector:@selector(faceNearWithoutUpdate)],
            [CCActionCallFunc actionWithTarget:self selector:@selector(beginWalking)],

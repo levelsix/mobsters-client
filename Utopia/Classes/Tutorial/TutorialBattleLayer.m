@@ -111,7 +111,7 @@
 
 - (void) enemyShoot {
   BattleSprite *bs = self.enemyTeamSprites[ENEMY_INDEX];
-  [bs performNearAttackAnimationWithEnemy:nil shouldReturn:YES shouldEvade:NO shouldFlinch:YES
+  [bs performNearAttackAnimationWithEnemy:nil shouldReturn:YES shouldEvade:NO shouldMiss:NO shouldFlinch:YES
                                    target:self selector:@selector(enemySecondJump) animCompletion:nil];
 }
 

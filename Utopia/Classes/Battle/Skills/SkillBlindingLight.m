@@ -55,6 +55,11 @@
   return [NSSet setWithObjects:@(SideEffectTypeNerfBlindingLight), nil];
 }
 
+- (BOOL)skillOpponentWillMiss
+{
+  return _missed;
+}
+
 - (NSInteger) modifyDamage:(NSInteger)damage forPlayer:(BOOL)player
 {
   if (player != self.belongsToPlayer)
@@ -77,29 +82,6 @@
   }
   
   return damage;
-}
-
-- (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
-{
-  if ([super skillCalledWithTrigger:trigger execute:execute])
-    return YES;
-  
-  if ([self isActive])
-  {
-    if (_missed && ((trigger == SkillTriggerPointEnemyDealsDamage && self.belongsToPlayer)
-        || (trigger == SkillTriggerPointPlayerDealsDamage && !self.belongsToPlayer)))
-    {
-      if (execute)
-      {
-        [self performAfterDelay:.3f block:^{
-          [self skillTriggerFinished];
-        }];
-      }
-      return YES;
-    }
-  }
-  
-  return NO;
 }
 
 - (int) quickAttackDamage

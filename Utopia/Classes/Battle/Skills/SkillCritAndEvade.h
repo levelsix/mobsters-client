@@ -19,6 +19,7 @@
   
   // Temp
   BOOL _evaded;
+  BOOL _missed;
 }
 
 @end

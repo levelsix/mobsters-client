@@ -95,6 +95,8 @@ static NSString* const kSkillMiniLogoImageNameSuffix = @"minilogo.png";
 - (BOOL) generateSpecialOrb:(BattleOrb*)orb atColumn:(int)column row:(int)row;
 - (NSInteger) modifyDamage:(NSInteger)damage forPlayer:(BOOL)player;
 - (BOOL) skillOwnerWillEvade;
+- (BOOL) skillOwnerWillMiss;
+- (BOOL) skillOpponentWillMiss;
 - (BOOL) triggerSkill:(SkillTriggerPoint)trigger withCompletion:(SkillControllerBlock)completion;
 - (void) restoreVisualsIfNeeded;
 

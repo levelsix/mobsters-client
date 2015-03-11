@@ -95,7 +95,7 @@
   self.view = v;
   
 #ifdef DEBUG
-  BOOL showStats = YES;
+  BOOL showStats = NO;
 #else
   BOOL showStats = NO;
 #endif

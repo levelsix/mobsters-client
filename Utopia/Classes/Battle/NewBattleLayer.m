@@ -911,6 +911,7 @@
               [self.currentEnemy performNearAttackAnimationWithEnemy:self.myPlayer
                                                         shouldReturn:YES
                                                          shouldEvade:[skillManager playerWillEvade:YES]
+                                                          shouldMiss:[skillManager playerWillMiss:NO]
                                                         shouldFlinch:(_enemyDamageDealt>0)
                                                               target:self
                                                             selector:@selector(dealEnemyDamage)
@@ -998,6 +999,7 @@
       float strength = MIN(1, currentScore/(float)STRENGTH_FOR_MAX_SHOTS);
       [self.myPlayer performFarAttackAnimationWithStrength:strength
                                                shouldEvade:[skillManager playerWillEvade:NO]
+                                                shouldMiss:[skillManager playerWillMiss:YES]
                                                      enemy:self.currentEnemy
                                                     target:self
                                                   selector:@selector(dealMyDamage)
