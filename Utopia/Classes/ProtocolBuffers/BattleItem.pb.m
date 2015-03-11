@@ -33,8 +33,8 @@ BOOL BattleItemTypeIsValidValue(BattleItemType value) {
 }
 BOOL BattleItemCategoryIsValidValue(BattleItemCategory value) {
   switch (value) {
-    case BattleItemCategoryBattleItemCategory1:
-    case BattleItemCategoryBattleItemCategory2:
+    case BattleItemCategoryPotion:
+    case BattleItemCategoryPuzzle:
       return YES;
     default:
       return NO;
@@ -382,9 +382,9 @@ static UserBattleItemProto* defaultUserBattleItemProtoInstance = nil;
 @property int32_t battleItemId;
 @property (strong) NSString* name;
 @property (strong) NSString* imgName;
-@property (strong) NSString* battleItemType;
-@property (strong) NSString* battleItemCategory;
-@property (strong) NSString* createResourceType;
+@property BattleItemType battleItemType;
+@property BattleItemCategory battleItemCategory;
+@property ResourceType createResourceType;
 @property int32_t createCost;
 @property (strong) NSString* description;
 @property int32_t powerAmount;
@@ -484,9 +484,9 @@ static UserBattleItemProto* defaultUserBattleItemProtoInstance = nil;
     self.battleItemId = 0;
     self.name = @"";
     self.imgName = @"";
-    self.battleItemType = @"";
-    self.battleItemCategory = @"";
-    self.createResourceType = @"";
+    self.battleItemType = BattleItemTypeAntidote;
+    self.battleItemCategory = BattleItemCategoryPotion;
+    self.createResourceType = ResourceTypeNoResource;
     self.createCost = 0;
     self.description = @"";
     self.powerAmount = 0;
@@ -522,13 +522,13 @@ static BattleItemProto* defaultBattleItemProtoInstance = nil;
     [output writeString:3 value:self.imgName];
   }
   if (self.hasBattleItemType) {
-    [output writeString:4 value:self.battleItemType];
+    [output writeEnum:4 value:self.battleItemType];
   }
   if (self.hasBattleItemCategory) {
-    [output writeString:5 value:self.battleItemCategory];
+    [output writeEnum:5 value:self.battleItemCategory];
   }
   if (self.hasCreateResourceType) {
-    [output writeString:6 value:self.createResourceType];
+    [output writeEnum:6 value:self.createResourceType];
   }
   if (self.hasCreateCost) {
     [output writeInt32:7 value:self.createCost];
@@ -567,13 +567,13 @@ static BattleItemProto* defaultBattleItemProtoInstance = nil;
     size_ += computeStringSize(3, self.imgName);
   }
   if (self.hasBattleItemType) {
-    size_ += computeStringSize(4, self.battleItemType);
+    size_ += computeEnumSize(4, self.battleItemType);
   }
   if (self.hasBattleItemCategory) {
-    size_ += computeStringSize(5, self.battleItemCategory);
+    size_ += computeEnumSize(5, self.battleItemCategory);
   }
   if (self.hasCreateResourceType) {
-    size_ += computeStringSize(6, self.createResourceType);
+    size_ += computeEnumSize(6, self.createResourceType);
   }
   if (self.hasCreateCost) {
     size_ += computeInt32Size(7, self.createCost);
@@ -638,13 +638,13 @@ static BattleItemProto* defaultBattleItemProtoInstance = nil;
     [output appendFormat:@"%@%@: %@\n", indent, @"imgName", self.imgName];
   }
   if (self.hasBattleItemType) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"battleItemType", self.battleItemType];
+    [output appendFormat:@"%@%@: %@\n", indent, @"battleItemType", [NSNumber numberWithInteger:self.battleItemType]];
   }
   if (self.hasBattleItemCategory) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"battleItemCategory", self.battleItemCategory];
+    [output appendFormat:@"%@%@: %@\n", indent, @"battleItemCategory", [NSNumber numberWithInteger:self.battleItemCategory]];
   }
   if (self.hasCreateResourceType) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"createResourceType", self.createResourceType];
+    [output appendFormat:@"%@%@: %@\n", indent, @"createResourceType", [NSNumber numberWithInteger:self.createResourceType]];
   }
   if (self.hasCreateCost) {
     [output appendFormat:@"%@%@: %@\n", indent, @"createCost", [NSNumber numberWithInteger:self.createCost]];
@@ -682,11 +682,11 @@ static BattleItemProto* defaultBattleItemProtoInstance = nil;
       self.hasImgName == otherMessage.hasImgName &&
       (!self.hasImgName || [self.imgName isEqual:otherMessage.imgName]) &&
       self.hasBattleItemType == otherMessage.hasBattleItemType &&
-      (!self.hasBattleItemType || [self.battleItemType isEqual:otherMessage.battleItemType]) &&
+      (!self.hasBattleItemType || self.battleItemType == otherMessage.battleItemType) &&
       self.hasBattleItemCategory == otherMessage.hasBattleItemCategory &&
-      (!self.hasBattleItemCategory || [self.battleItemCategory isEqual:otherMessage.battleItemCategory]) &&
+      (!self.hasBattleItemCategory || self.battleItemCategory == otherMessage.battleItemCategory) &&
       self.hasCreateResourceType == otherMessage.hasCreateResourceType &&
-      (!self.hasCreateResourceType || [self.createResourceType isEqual:otherMessage.createResourceType]) &&
+      (!self.hasCreateResourceType || self.createResourceType == otherMessage.createResourceType) &&
       self.hasCreateCost == otherMessage.hasCreateCost &&
       (!self.hasCreateCost || self.createCost == otherMessage.createCost) &&
       self.hasDescription == otherMessage.hasDescription &&
@@ -713,13 +713,13 @@ static BattleItemProto* defaultBattleItemProtoInstance = nil;
     hashCode = hashCode * 31 + [self.imgName hash];
   }
   if (self.hasBattleItemType) {
-    hashCode = hashCode * 31 + [self.battleItemType hash];
+    hashCode = hashCode * 31 + self.battleItemType;
   }
   if (self.hasBattleItemCategory) {
-    hashCode = hashCode * 31 + [self.battleItemCategory hash];
+    hashCode = hashCode * 31 + self.battleItemCategory;
   }
   if (self.hasCreateResourceType) {
-    hashCode = hashCode * 31 + [self.createResourceType hash];
+    hashCode = hashCode * 31 + self.createResourceType;
   }
   if (self.hasCreateCost) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.createCost] hash];
@@ -851,16 +851,31 @@ static BattleItemProto* defaultBattleItemProtoInstance = nil;
         [self setImgName:[input readString]];
         break;
       }
-      case 34: {
-        [self setBattleItemType:[input readString]];
+      case 32: {
+        BattleItemType value = (BattleItemType)[input readEnum];
+        if (BattleItemTypeIsValidValue(value)) {
+          [self setBattleItemType:value];
+        } else {
+          [unknownFields mergeVarintField:4 value:value];
+        }
         break;
       }
-      case 42: {
-        [self setBattleItemCategory:[input readString]];
+      case 40: {
+        BattleItemCategory value = (BattleItemCategory)[input readEnum];
+        if (BattleItemCategoryIsValidValue(value)) {
+          [self setBattleItemCategory:value];
+        } else {
+          [unknownFields mergeVarintField:5 value:value];
+        }
         break;
       }
-      case 50: {
-        [self setCreateResourceType:[input readString]];
+      case 48: {
+        ResourceType value = (ResourceType)[input readEnum];
+        if (ResourceTypeIsValidValue(value)) {
+          [self setCreateResourceType:value];
+        } else {
+          [unknownFields mergeVarintField:6 value:value];
+        }
         break;
       }
       case 56: {
@@ -941,49 +956,49 @@ static BattleItemProto* defaultBattleItemProtoInstance = nil;
 - (BOOL) hasBattleItemType {
   return result.hasBattleItemType;
 }
-- (NSString*) battleItemType {
+- (BattleItemType) battleItemType {
   return result.battleItemType;
 }
-- (BattleItemProto_Builder*) setBattleItemType:(NSString*) value {
+- (BattleItemProto_Builder*) setBattleItemType:(BattleItemType) value {
   result.hasBattleItemType = YES;
   result.battleItemType = value;
   return self;
 }
-- (BattleItemProto_Builder*) clearBattleItemType {
+- (BattleItemProto_Builder*) clearBattleItemTypeList {
   result.hasBattleItemType = NO;
-  result.battleItemType = @"";
+  result.battleItemType = BattleItemTypeAntidote;
   return self;
 }
 - (BOOL) hasBattleItemCategory {
   return result.hasBattleItemCategory;
 }
-- (NSString*) battleItemCategory {
+- (BattleItemCategory) battleItemCategory {
   return result.battleItemCategory;
 }
-- (BattleItemProto_Builder*) setBattleItemCategory:(NSString*) value {
+- (BattleItemProto_Builder*) setBattleItemCategory:(BattleItemCategory) value {
   result.hasBattleItemCategory = YES;
   result.battleItemCategory = value;
   return self;
 }
-- (BattleItemProto_Builder*) clearBattleItemCategory {
+- (BattleItemProto_Builder*) clearBattleItemCategoryList {
   result.hasBattleItemCategory = NO;
-  result.battleItemCategory = @"";
+  result.battleItemCategory = BattleItemCategoryPotion;
   return self;
 }
 - (BOOL) hasCreateResourceType {
   return result.hasCreateResourceType;
 }
-- (NSString*) createResourceType {
+- (ResourceType) createResourceType {
   return result.createResourceType;
 }
-- (BattleItemProto_Builder*) setCreateResourceType:(NSString*) value {
+- (BattleItemProto_Builder*) setCreateResourceType:(ResourceType) value {
   result.hasCreateResourceType = YES;
   result.createResourceType = value;
   return self;
 }
-- (BattleItemProto_Builder*) clearCreateResourceType {
+- (BattleItemProto_Builder*) clearCreateResourceTypeList {
   result.hasCreateResourceType = NO;
-  result.createResourceType = @"";
+  result.createResourceType = ResourceTypeNoResource;
   return self;
 }
 - (BOOL) hasCreateCost {
