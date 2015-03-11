@@ -1783,6 +1783,9 @@
 		9BB5AFAE1AA7FEC7002076E3 /* boardeditorcornerlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BB5AFA71AA7FEC7002076E3 /* boardeditorcornerlight@2x.png */; };
 		9BB5AFAF1AA7FEC7002076E3 /* boardeditorcornerlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BB5AFA71AA7FEC7002076E3 /* boardeditorcornerlight@2x.png */; };
 		9BB5AFB01AA7FEC7002076E3 /* boardeditorcornerlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BB5AFA71AA7FEC7002076E3 /* boardeditorcornerlight@2x.png */; };
+		9BB5AFBA1AAFCFF9002076E3 /* boardbuildermenuheader@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BB5AFB91AAFCFF9002076E3 /* boardbuildermenuheader@2x.png */; };
+		9BB5AFBB1AAFCFF9002076E3 /* boardbuildermenuheader@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BB5AFB91AAFCFF9002076E3 /* boardbuildermenuheader@2x.png */; };
+		9BB5AFBC1AAFCFF9002076E3 /* boardbuildermenuheader@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BB5AFB91AAFCFF9002076E3 /* boardbuildermenuheader@2x.png */; };
 		9BB948411A64A774006EE920 /* 6spinbutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BB948401A64A774006EE920 /* 6spinbutton@2x.png */; };
 		9BB948421A64A774006EE920 /* 6spinbutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BB948401A64A774006EE920 /* 6spinbutton@2x.png */; };
 		9BB948431A64A774006EE920 /* 6spinbutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BB948401A64A774006EE920 /* 6spinbutton@2x.png */; };
@@ -7675,6 +7678,7 @@
 		9BB5AFA51AA7FEC7002076E3 /* boardeditorcorner@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "boardeditorcorner@2x.png"; sourceTree = "<group>"; };
 		9BB5AFA61AA7FEC7002076E3 /* boardeditorcornerdark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "boardeditorcornerdark@2x.png"; sourceTree = "<group>"; };
 		9BB5AFA71AA7FEC7002076E3 /* boardeditorcornerlight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "boardeditorcornerlight@2x.png"; sourceTree = "<group>"; };
+		9BB5AFB91AAFCFF9002076E3 /* boardbuildermenuheader@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "boardbuildermenuheader@2x.png"; sourceTree = "<group>"; };
 		9BB948401A64A774006EE920 /* 6spinbutton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "6spinbutton@2x.png"; sourceTree = "<group>"; };
 		9BB948471A65D37B006EE920 /* basicgrabinactivetabpressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "basicgrabinactivetabpressed@2x.png"; sourceTree = "<group>"; };
 		9BB9484C1A65D385006EE920 /* gooniegrabinactivetabpressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gooniegrabinactivetabpressed@2x.png"; sourceTree = "<group>"; };
@@ -13875,6 +13879,7 @@
 		CF29E92D19620DB600B40DA4 /* Menu Header buildings */ = {
 			isa = PBXGroup;
 			children = (
+				9BB5AFB91AAFCFF9002076E3 /* boardbuildermenuheader@2x.png */,
 				CF9F991319E4734B006B0119 /* minijobsbuilding@2x.png */,
 				CF0CE081196D356700ECD301 /* manageteammenuheader@2x.png */,
 				CF29E92F19620DB600B40DA4 /* enhancelabmenuheader@2x.png */,
@@ -14399,8 +14404,6 @@
 				63B0452A1A9D7CD600C74F0C /* EventResearch.pb.h */,
 				63B0452B1A9D7CD600C74F0C /* EventResearch.pb.m */,
 				CF6574771909CAF100ABF1F4 /* Proto files */,
-				297DE2311A9D7D6B00692D80 /* EventResearch.pb.h */,
-				297DE2321A9D7D6B00692D80 /* EventResearch.pb.m */,
 				3E1A0C001A645B4B00DF00AD /* Board.pb.h */,
 				3E1A0C011A645B4B00DF00AD /* Board.pb.m */,
 				3E1A0C021A645B4B00DF00AD /* Research.pb.h */,
@@ -17869,6 +17872,7 @@
 				DAAD3DE919C8D7E700557698 /* bombparticle.plist in Resources */,
 				CF0CF0E1196F452900ECD301 /* menutopbarresourcebg@2x.png in Resources */,
 				CF6A64F219D24F030002E05D /* 6waterorb@2x.png in Resources */,
+				9BB5AFBB1AAFCFF9002076E3 /* boardbuildermenuheader@2x.png in Resources */,
 				CF0CF0E4196F452900ECD301 /* hireslotbg@2x.png in Resources */,
 				CF0CF0E5196F452900ECD301 /* DialogueViewController.xib in Resources */,
 				CFA9F79D1A0D8F6300EBE77D /* greyitemsbutton@2x.png in Resources */,
@@ -19712,6 +19716,7 @@
 				CF2A4B4319060F8700B2D7D7 /* RequestsBattleHeader.xib in Resources */,
 				CF864DB2193E7C5C00DE0D7A /* greychattail@2x.png in Resources */,
 				CFA7288D1A0B037900FF6031 /* behindcharacterglow@2x.png in Resources */,
+				9BB5AFBA1AAFCFF9002076E3 /* boardbuildermenuheader@2x.png in Resources */,
 				CFCD0EC91953F07400EDC233 /* homenavrnextarrow@2x.png in Resources */,
 				DA5E400819D104E7001F28CE /* plus10percent@2x.png in Resources */,
 				CFA793831A0C63ED00DF3407 /* firecakeeventlive@2x.png in Resources */,
@@ -21875,6 +21880,7 @@
 				CF481E2A19F7217F00041486 /* streak@2x.png in Resources */,
 				CF481E2B19F7217F00041486 /* 6rockgrenade@2x.png in Resources */,
 				CF481E2C19F7217F00041486 /* upgradecheckbg@2x.png in Resources */,
+				9BB5AFBC1AAFCFF9002076E3 /* boardbuildermenuheader@2x.png in Resources */,
 				63C57E9E1A66282700ED406E /* gradientfiredailylab@2x.png in Resources */,
 				CF481E2F19F7217F00041486 /* sfx_firework_03.mp3 in Resources */,
 				CF481E3019F7217F00041486 /* sfx_points_fly_from_match_02.mp3 in Resources */,

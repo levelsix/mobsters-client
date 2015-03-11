@@ -10,6 +10,7 @@
 #import "BoardDesignerObstacleView.h"
 #import "BoardDesignerTile.h"
 #import "HomeViewController.h"
+#import "OutgoingEventController.h"
 #import "GameState.h"
 #import "Globals.h"
 
@@ -136,6 +137,9 @@ static const int kBoardMarginLeft = 10;
   
   if (self.delegate)
     [self.delegate boardDesignerViewControllerClosed];
+  
+  // Current board layout will be saved locally (in GameState) and sent to the server
+  [self saveCurrentBoard];
 }
 
 - (void) loadObstaclesInScrollView
@@ -246,6 +250,27 @@ static const int kBoardMarginLeft = 10;
       }
     }
   }
+}
+
+- (void) saveCurrentBoard
+{
+  NSMutableArray* obstacleList = [NSMutableArray array];
+  
+  for (int row = 0; row < _boardSize.height; ++row)
+    for (int col = 0; col < _boardSize.width; ++col)
+    {
+      BoardDesignerTile* tile = [[_boardTiles objectAtIndex:row] objectAtIndex:col];
+      if (![tile canAcceptObstacle]) // Tile is either a hole or occupied with an obstacle
+      {
+        UserPvpBoardObstacleProto* obstacleProto = [[[[[UserPvpBoardObstacleProto builder]
+                                                       setObstacleId:tile.obstacleProto.pvpBoardId]
+                                                      setPosX:col]
+                                                     setPosY:row] build];
+        [obstacleList addObject:obstacleProto];
+      }
+    }
+  
+  [[OutgoingEventController sharedOutgoingEventController] saveUserPvpBoard:obstacleList];
 }
 
 - (void) updatePowerLevel:(BOOL)animated

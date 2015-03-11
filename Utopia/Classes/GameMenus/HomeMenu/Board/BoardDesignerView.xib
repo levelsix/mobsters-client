@@ -173,8 +173,8 @@
                                     <rect key="frame" x="0.0" y="0.0" width="150" height="90"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
-                                        <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="bottom" image="residencemenuheader.png" id="IQl-sP-Hd4">
-                                            <rect key="frame" x="0.0" y="0.0" width="150" height="73"/>
+                                        <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="bottom" image="boardbuildermenuheader.png" id="IQl-sP-Hd4">
+                                            <rect key="frame" x="0.0" y="0.0" width="150" height="74"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MY BOARD" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="aWH-x8-703" customClass="NiceFontLabel12">
@@ -207,6 +207,7 @@
         </view>
     </objects>
     <resources>
+        <image name="boardbuildermenuheader.png" width="68" height="74"/>
         <image name="girl2.png" width="62" height="88"/>
         <image name="homemenutop.png" width="1" height="57"/>
         <image name="menuclosex.png" width="17" height="17"/>
@@ -214,7 +215,6 @@
         <image name="obstaclespowerbarbgmiddle.png" width="1" height="34"/>
         <image name="obstaclespowerbarcap.png" width="5" height="34"/>
         <image name="obstaclespowerbarmiddle.png" width="1" height="34"/>
-        <image name="residencemenuheader.png" width="60" height="53"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

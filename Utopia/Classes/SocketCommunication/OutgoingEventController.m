@@ -2139,6 +2139,67 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
 }
 
+- (void) saveUserPvpBoard:(NSArray *)obstacleList {
+  GameState *gs = [GameState sharedGameState];
+  
+  // Read the latest board layout saved locally (and on the server) to compare against
+  NSMutableArray* localObstacleList = [gs.myPvpBoardObstacles mutableCopy];
+  NSMutableArray* newLocalObstacleList = [NSMutableArray array];
+  
+  // Find the highest used id in the pvp_board_obstacle_for_user table for
+  // this user and add one, or just start from one in case of no rows
+  int userPvpBoardObstacleId = 0;
+  for (UserPvpBoardObstacleProto* curLayoutObstacleProto in localObstacleList)
+    if (curLayoutObstacleProto.userPvpBoardObstacleId > userPvpBoardObstacleId)
+      userPvpBoardObstacleId = curLayoutObstacleProto.userPvpBoardObstacleId;
+  ++userPvpBoardObstacleId;
+  
+  NSMutableArray* deletedObstacles = [NSMutableArray array];
+  NSMutableArray* updatedObstacles = [NSMutableArray array]; // Includes new obstacles
+  
+  for (UserPvpBoardObstacleProto* newLayoutObstacleProto in obstacleList)
+  {
+    // Find the obstacle at the same position on the board in the current (local) layout
+    UserPvpBoardObstacleProto* parallelObstacleProto = nil;
+    for (UserPvpBoardObstacleProto* curLayoutObstacleProto in localObstacleList)
+      if (curLayoutObstacleProto.posX == newLayoutObstacleProto.posX &&
+          curLayoutObstacleProto.posY == newLayoutObstacleProto.posY)
+      {
+        parallelObstacleProto = curLayoutObstacleProto;
+        break;
+      }
+    
+    // Build the full proto for the new or updated obstacle to be saved locally and on the server
+    UserPvpBoardObstacleProto* newObstacleProto = [[[[[[[UserPvpBoardObstacleProto builder]
+                                                        setUserUuid:gs.userUuid]
+                                                       setUserPvpBoardObstacleId:parallelObstacleProto ? parallelObstacleProto.userPvpBoardObstacleId : userPvpBoardObstacleId++]
+                                                      setObstacleId:newLayoutObstacleProto.obstacleId]
+                                                     setPosX:newLayoutObstacleProto.posX]
+                                                    setPosY:newLayoutObstacleProto.posY] build];
+    [newLocalObstacleList addObject:newObstacleProto];
+    
+    // Keep track of new or updated obstacles
+    if (!parallelObstacleProto || parallelObstacleProto.obstacleId != newLayoutObstacleProto.obstacleId)
+      [updatedObstacles addObject:newObstacleProto];
+    
+    // If a parallel was found in the current (local) layout, prevent it from being deleted
+    if (parallelObstacleProto)
+      [localObstacleList removeObject:parallelObstacleProto];
+  }
+  
+  // Any obstacles in the current (local) layout that have a parallel in
+  // the new layout have already been removed from localObstacleList.
+  // Anything left in that list is considered a deleted obstacle
+  for (UserPvpBoardObstacleProto* deletedObstacleProto in localObstacleList)
+    [deletedObstacles addObject:@( deletedObstacleProto.userPvpBoardObstacleId )];
+  
+  if (deletedObstacles.count || updatedObstacles.count)
+    [[SocketCommunication sharedSocketCommunication] sendCustomizePvpBoardObstacleMessage:deletedObstacles nuOrUpdatedObstacles:updatedObstacles];
+  
+  // Save the most recent layout locally
+  gs.myPvpBoardObstacles = newLocalObstacleList;
+}
+
 #pragma mark - Team
 
 - (BOOL) removeMonsterFromTeam:(NSString *)userMonsterUuid {

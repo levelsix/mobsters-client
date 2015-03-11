@@ -1590,6 +1590,15 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCRetrieveUserMonsterTeamEvent];
 }
 
+- (int) sendCustomizePvpBoardObstacleMessage:(NSArray *)removeUpboIds nuOrUpdatedObstacles:(NSArray *)nuOrUpdatedObstacles {
+  CustomizePvpBoardObstacleRequestProto* req = [[[[[CustomizePvpBoardObstacleRequestProto builder]
+                                                   setSender:_sender]
+                                                  addAllRemoveUpboIds:removeUpboIds]
+                                                 addAllNuOrUpdatedObstacles:nuOrUpdatedObstacles] build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCCustomizePvpBoardObstacleEvent];
+}
+
 #pragma mark - Batch/Flush events
 
 - (int) retrieveCurrencyFromStruct:(NSString *)userStructUuid time:(uint64_t)time amountCollected:(int)amountCollected {

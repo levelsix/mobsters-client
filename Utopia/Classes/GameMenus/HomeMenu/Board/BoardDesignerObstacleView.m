@@ -46,7 +46,7 @@
   _isEnabled = YES;
   _isLocked = NO;
   
-  if (!proto.initAvailable)
+  if (!proto.initiallyAvailable)
     [self lockObstacle];
 }
 

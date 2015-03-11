@@ -11,7 +11,6 @@ import "Clan.proto";
 import "Dev.proto";
 import "EventAchievement.proto";
 import "EventApns.proto";
-import "EventBattleItem.proto";
 import "EventBoosterPack.proto";
 import "EventChat.proto";
 import "EventCity.proto";
@@ -181,7 +180,7 @@ enum EventProtocolRequest {
 	C_CUSTOMIZE_PVP_BOARD_OBSTACLE_EVENT = 203; 
 	C_CREATE_BATTLE_ITEM_EVENT = 204;
 	C_DISCARD_BATTLE_ITEM_EVENT = 205;
-	C_COMPLETE_BATTLE_ITEM_EVENT = 206;
+	
 	
 }
 
@@ -326,6 +325,5 @@ enum EventProtocolResponse {
 	
 	S_CREATE_BATTLE_ITEM_EVENT = 204;
 	S_DISCARD_BATTLE_ITEM_EVENT = 205;
-	S_COMPLETE_BATTLE_ITEM_EVENT = 206;
 	
 }
