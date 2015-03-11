@@ -115,7 +115,7 @@
 - (BOOL)onSpecialOrbCounterFinish:(NSInteger)numOrbs
 {
   _poisonStacks += numOrbs;
-  _quickAttackStacks = numOrbs;
+  _quickAttackStacks = (int)numOrbs;
   [self dealQuickAttack];
   return YES;
 }
