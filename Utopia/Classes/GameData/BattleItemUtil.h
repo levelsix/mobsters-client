@@ -21,5 +21,8 @@
 @interface BattleItemUtil : NSObject
 
 @property (nonatomic, retain) BattleItemQueue *battleItemQueue;
+@property (nonatomic, retain) NSMutableArray *battleItems;
+
+- (id) initWithQueueProtos:(NSArray *)queueProtos itemProtos:(NSArray *)itemProtos;
 
 @end

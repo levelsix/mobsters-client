@@ -23,6 +23,10 @@
 - (int) totalSecondsToComplete;
 - (MSDate *) expectedEndTime;
 
+- (NSString *) battleItemQueueUuid;
+
+- (BattleItemQueueForUserProto *) convertToProto;
+
 @end
 
 @interface BattleItemQueue : NSObject
@@ -31,10 +35,16 @@
 
 @property (nonatomic, assign) BOOL hasShownFreeSpeedup;
 @property (nonatomic, retain) MSDate *queueEndTime;
-@property (nonatomic, assign) float totalTimeForHealQueue;
+@property (nonatomic, assign) float totalTimeForQueue;
 
 - (void) addAllBattleItemQueueObjects:(NSArray *)objects;
 - (void) addToEndOfQueue:(BattleItemQueueObject *)object;
 - (void) removeFromQueue:(BattleItemQueueObject *)object;
+- (void) updateElapsedTimesWithCompletedObjects:(NSArray *)objs;
+
+- (void) readjustQueueObjects;
+
+- (MSDate *) queueEndTime;
+- (float) totalTimeForQueue;
 
 @end

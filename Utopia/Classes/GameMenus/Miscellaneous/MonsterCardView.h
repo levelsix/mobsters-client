@@ -78,6 +78,7 @@
 - (void) updateForMonsterId:(int)monsterId;
 - (void) updateForMonsterId:(int)monsterId greyscale:(BOOL)greyscale;
 - (void) updateForElement:(Element)element imgPrefix:(NSString *)imgPrefix greyscale:(BOOL)greyscale;
+- (void) updateForElement:(Element)element imgName:(NSString *)file greyscale:(BOOL)greyscale;
 
 - (void) displaySideEffectIcon:(NSString*)icon withKey:(NSString*)key;
 - (void) removeSideEffectIconWithKey:(NSString*)key;

@@ -227,6 +227,7 @@
 - (int) setBattleItemQueueDirtyWithCoinChange:(int)coinChange oilChange:(int)oilChange gemCost:(int)gemCost;
 - (void) reloadBattleItemQueueSnapshot;
 - (int) sendBattleItemQueueMessage;
+- (int) sendCompleteBattleItemMessage:(NSArray *)completedBiqfus isSpeedup:(BOOL)isSpeedup gemCost:(int)gemCost;
 
 - (void) flush;
 - (void) pauseFlushTimer;

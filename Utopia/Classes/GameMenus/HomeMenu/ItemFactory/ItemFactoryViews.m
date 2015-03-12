@@ -21,7 +21,7 @@
   
   self.nameLabel.text = bip.name;
   
-  self.costLabel.text = [Globals commafyNumber:bip.createCost];
+  self.costLabel.text = [@" " stringByAppendingString:[Globals commafyNumber:bip.createCost]];
   self.cashIcon.hidden = bip.createResourceType != ResourceTypeCash;
   self.oilIcon.hidden = bip.createResourceType != ResourceTypeOil;
   

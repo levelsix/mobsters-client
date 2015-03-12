@@ -13,6 +13,7 @@
 #import "Dev.pb.h"
 #import "EventAchievement.pb.h"
 #import "EventApns.pb.h"
+#import "EventBattleItem.pb.h"
 #import "EventBoosterPack.pb.h"
 #import "EventChat.pb.h"
 #import "EventCity.pb.h"
@@ -168,12 +169,20 @@
 @class CombineUserMonsterPiecesRequestProto_Builder;
 @class CombineUserMonsterPiecesResponseProto;
 @class CombineUserMonsterPiecesResponseProto_Builder;
+@class CompleteBattleItemRequestProto;
+@class CompleteBattleItemRequestProto_Builder;
+@class CompleteBattleItemResponseProto;
+@class CompleteBattleItemResponseProto_Builder;
 @class CompleteMiniJobRequestProto;
 @class CompleteMiniJobRequestProto_Builder;
 @class CompleteMiniJobResponseProto;
 @class CompleteMiniJobResponseProto_Builder;
 @class CoordinateProto;
 @class CoordinateProto_Builder;
+@class CreateBattleItemRequestProto;
+@class CreateBattleItemRequestProto_Builder;
+@class CreateBattleItemResponseProto;
+@class CreateBattleItemResponseProto_Builder;
 @class CreateClanRequestProto;
 @class CreateClanRequestProto_Builder;
 @class CreateClanResponseProto;
@@ -194,6 +203,10 @@
 @class DialogueProto_Builder;
 @class DialogueProto_SpeechSegmentProto;
 @class DialogueProto_SpeechSegmentProto_Builder;
+@class DiscardBattleItemRequestProto;
+@class DiscardBattleItemRequestProto_Builder;
+@class DiscardBattleItemResponseProto;
+@class DiscardBattleItemResponseProto_Builder;
 @class EarnFreeDiamondsRequestProto;
 @class EarnFreeDiamondsRequestProto_Builder;
 @class EarnFreeDiamondsResponseProto;
@@ -869,6 +882,7 @@ typedef NS_ENUM(SInt32, EventProtocolRequest) {
   EventProtocolRequestCCustomizePvpBoardObstacleEvent = 203,
   EventProtocolRequestCCreateBattleItemEvent = 204,
   EventProtocolRequestCDiscardBattleItemEvent = 205,
+  EventProtocolRequestCCompleteBattleItemEvent = 206,
 };
 
 BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value);
@@ -987,6 +1001,7 @@ typedef NS_ENUM(SInt32, EventProtocolResponse) {
   EventProtocolResponseSCustomizePvpBoardObstacleEvent = 203,
   EventProtocolResponseSCreateBattleItemEvent = 204,
   EventProtocolResponseSDiscardBattleItemEvent = 205,
+  EventProtocolResponseSCompleteBattleItemEvent = 206,
 };
 
 BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value);

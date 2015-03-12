@@ -20,7 +20,7 @@
 
 @end
 
-@interface ProfileViewController : UIViewController <MonsterCardViewDelegate, TabBarDelegate>
+@interface ProfileViewController : UIViewController <TabBarDelegate>
 
 @property (nonatomic, strong) IBOutlet UIView *mainView;
 @property (nonatomic, strong) IBOutlet UIView *bgdView;

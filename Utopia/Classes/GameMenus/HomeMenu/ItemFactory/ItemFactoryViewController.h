@@ -41,6 +41,9 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UIImageView *speedupIcon;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *buttonSpinner;
 
+@property (nonatomic, retain) IBOutlet UIView *helpView;
+@property (nonatomic, retain) IBOutlet UIView *buttonLabelsView;
+
 @property (nonatomic, retain) IBOutlet UIImageView *queueArrow;
 
 @property (nonatomic, retain) ItemSelectViewController *itemSelectViewController;

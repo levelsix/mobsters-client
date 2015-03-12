@@ -50,6 +50,9 @@
   } else if (self.helpType == GameActionTypeEnhanceTime) {
     MonsterProto *mp = [gs monsterWithId:self.staticDataId];
     return [NSString stringWithFormat:@" enhance %@", mp.displayName];
+  } else if (self.helpType == GameActionTypeCreateBattleItem) {
+    BattleItemProto *bip = [gs battleItemWithId:self.staticDataId];
+    return [NSString stringWithFormat:@" create a %@", bip.name];
   }
   return @"!";
 }

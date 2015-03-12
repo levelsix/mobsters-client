@@ -24,6 +24,7 @@
   NSTimer *_combineTimer;
   NSTimer *_miniJobTimer;
   NSTimer *_avengeTimer;
+  NSTimer *_battleItemTimer;
 }
 
 @property (nonatomic, assign) BOOL isTutorial;
@@ -278,6 +279,9 @@
 
 - (void) beginHealingTimer;
 - (void) stopHealingTimer;
+
+- (void) beginBattleItemTimer;
+- (void) stopBattleItemTimer;
 
 - (void) beginEnhanceTimer;
 - (void) stopEnhanceTimer;
