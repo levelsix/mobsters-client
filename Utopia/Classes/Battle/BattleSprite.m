@@ -838,6 +838,9 @@
 {
   [super setScale:scale];
   [self.healthBgd setScale:1.0/scale];
+  [self.nameLabel setScale:1.0/scale];
+  if (self.movesCounter)
+    [self.movesCounter setScale:1.0/scale];
 }
 
 @end
