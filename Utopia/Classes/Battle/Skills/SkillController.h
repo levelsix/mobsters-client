@@ -118,6 +118,7 @@ static NSString* const kSkillMiniLogoImageNameSuffix = @"minilogo.png";
 
 // Reusable quick attack effects
 @property (readonly) int quickAttackDamage; //Override the getter to set value
+- (void) showQuickAttackMiniLogo;
 - (void) dealQuickAttack;
 - (void) quickAttackDealDamage;
 - (void) onFinishQuickAttack;
