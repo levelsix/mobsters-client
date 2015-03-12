@@ -138,7 +138,7 @@
 
 -(void)showCriticalHit
 {
-  [self showSkillPopupMiniOverlay:[NSString stringWithFormat:@"%.3gX ATK", _critMultiplier];
+  [self showSkillPopupMiniOverlay:[NSString stringWithFormat:@"%.3gX ATK", _critMultiplier]];
 }
 
 -(void)showDodged:(BOOL)missed
