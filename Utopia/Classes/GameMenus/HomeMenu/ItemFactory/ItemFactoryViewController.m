@@ -63,24 +63,34 @@
   [self.itemSelectViewController closeClicked:nil];
 }
 
-- (BattleItemQueue *) battleItemQueue {
+- (BattleItemUtil *) battleItemUtil {
   GameState *gs = [GameState sharedGameState];
-  return gs.battleItemUtil.battleItemQueue;
+  return gs.battleItemUtil;
+}
+
+- (BattleItemQueue *) battleItemQueue {
+  return self.battleItemUtil.battleItemQueue;
 }
 
 - (void) reloadTitleView {
   GameState *gs = [GameState sharedGameState];
-  Globals *gl = [Globals sharedGlobals];
   
   BattleItemFactoryProto *factory = (BattleItemFactoryProto *)gs.myBattleItemFactory.staticStruct;
-  NSString *str = [NSString stringWithFormat:@"%@ (%d/%d POWER)", factory.structInfo.name, 0, factory.powerLimit];
+  NSString *str = [NSString stringWithFormat:@"%@ (%d/%d POWER)", factory.structInfo.name.uppercaseString, self.battleItemUtil.totalPowerAmount, factory.powerLimit];
   self.title = str;
+  
+  int quantity = 0;
+  for (UserBattleItem *bi in self.battleItemUtil.battleItems) {
+    quantity += bi.quantity;
+  }
+  self.numItemsLabel.text = [NSString stringWithFormat:@"%d", quantity];
 }
 
 - (void) waitTimeComplete {
   [self reloadListViewAnimated:YES];
   [self reloadQueueViewAnimated:YES];
   [self updateLabels];
+  [self reloadTitleView];
 }
 
 - (void) updateLabels {
@@ -279,6 +289,7 @@
       [self reloadListViewAnimated:YES];
       
       [self updateLabels];
+      [self reloadTitleView];
     }
   } else {
     [Globals addAlertNotification:@"Hold on, we are still processing your previous request."];
@@ -318,6 +329,7 @@
       [self reloadQueueViewAnimated:YES];
       
       [self updateLabels];
+      [self reloadTitleView];
     }
   } else {
     [Globals addAlertNotification:@"Hold on, we are still processing your previous request."];
@@ -419,7 +431,7 @@
       
       _waitingForResponse = YES;
       
-      [[NSNotificationCenter defaultCenter] postNotificationName:HEAL_QUEUE_CHANGED_NOTIFICATION object:self];
+      [[NSNotificationCenter defaultCenter] postNotificationName:BATTLE_ITEM_QUEUE_CHANGED_NOTIFICATION object:self];
     }
   }
 }
@@ -484,16 +496,18 @@
   [self updateLabels];
 }
 
-//- (void) handleHealMonsterResponseProto:(FullEvent *)fe {
-//  self.buttonLabelsView.hidden = NO;
-//  self.buttonSpinner.hidden = YES;
-//  
-//  [self reloadListViewAnimated:YES];
-//  [self reloadQueueViewAnimated:YES];
-//
-//  [[NSNotificationCenter defaultCenter] postNotificationName:BATTLE_ITEM_QUEUE_CHANGED_NOTIFICATION object:self];
-//  
-//  _waitingForResponse = NO;
-//}
+- (void) handleCompleteBattleItemResponseProto:(FullEvent *)fe {
+  self.buttonLabelsView.hidden = NO;
+  self.buttonSpinner.hidden = YES;
+  
+  [self reloadListViewAnimated:YES];
+  [self reloadQueueViewAnimated:YES];
+  
+  [self reloadTitleView];
+
+  [[NSNotificationCenter defaultCenter] postNotificationName:BATTLE_ITEM_QUEUE_CHANGED_NOTIFICATION object:self];
+  
+  _waitingForResponse = NO;
+}
 
 @end

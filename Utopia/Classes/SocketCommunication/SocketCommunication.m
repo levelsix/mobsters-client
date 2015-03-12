@@ -1767,7 +1767,7 @@ static NSString *udid = nil;
 
 
 - (int) setBattleItemQueueDirtyWithCoinChange:(int)coinChange oilChange:(int)oilChange gemCost:(int)gemCost {
-  [self flushAllExceptEventType:EventProtocolRequestCHealMonsterEvent];
+  [self flushAllExceptEventType:EventProtocolRequestCCreateBattleItemEvent];
   _battleItemQueueCashChange += coinChange;
   _battleItemQueueOilChange += oilChange;
   _battleItemQueueGemCost += gemCost;
@@ -1798,15 +1798,15 @@ static NSString *udid = nil;
   [modifiedCur intersectSet:old];
   
   NSMutableSet *changed = [NSMutableSet set];
-  for (UserMonsterHealingItem *itemOld in modifiedOld) {
-    UserMonsterHealingItem *itemNew = [modifiedCur member:itemOld];
+  for (BattleItemQueueObject *itemOld in modifiedOld) {
+    BattleItemQueueObject *itemNew = [modifiedCur member:itemOld];
     if (![[itemOld convertToProto].data isEqual:[itemNew convertToProto].data]) {
       [changed addObject:itemNew];
     }
   }
   
   if (added.count || removed.count || changed.count || _battleItemQueueCashChange || _battleItemQueueOilChange || _battleItemQueueGemCost) {
-    CreateBattleItemRequestProto_Builder *bldr = [[CreateBattleItemRequestProto builder] setSender:_sender];//[self senderWithMaxResources]];
+    CreateBattleItemRequestProto_Builder *bldr = [[CreateBattleItemRequestProto builder] setSender:[self senderWithMaxResources]];
     
     for (BattleItemQueueObject *item in added) {
       [bldr addBiqfuNew:[item convertToProto]];
@@ -1827,7 +1827,7 @@ static NSString *udid = nil;
     LNLog(@"Sending battle item queue update with %d adds, %d removals, and %d updates.",  (int)added.count,  (int)removed.count,  (int)changed.count);
     LNLog(@"Cash change: %@, oil change: %@, gemCost: %d", [Globals commafyNumber:_battleItemQueueCashChange], [Globals commafyNumber:_battleItemQueueOilChange], _battleItemQueueGemCost);
     
-    return [self sendData:bldr.build withMessageType:EventProtocolRequestCHealMonsterEvent flush:NO queueUp:YES];
+    return [self sendData:bldr.build withMessageType:EventProtocolRequestCCreateBattleItemEvent flush:NO queueUp:YES];
   } else {
     return 0;
   }
@@ -1913,15 +1913,41 @@ static NSString *udid = nil;
       if (val) {
         found = YES;
       }
+      
+      if (_speedupItemUsages.count > 0) {
+        [self sendTradeItemForSpeedUpsMessage];
+        
+        [_speedupItemUsages removeAllObjects];
+        [_speedupUpdatedUserItems removeAllObjects];
+        
+        found = YES;
+      }
     }
-    
-    if (_speedupItemUsages.count > 0) {
-      [self sendTradeItemForSpeedUpsMessage];
+  }
+  
+  if (type != EventProtocolRequestCCreateBattleItemEvent &&
+      type != EventProtocolRequestCTradeItemForSpeedUpsEvent &&
+      type != EventProtocolRequestCSolicitClanHelpEvent) {
+    if (_battleItemQueuePotentiallyChanged) {
+      int val = [self sendBattleItemQueueMessage];
+      [self reloadBattleItemQueueSnapshot];
+      _battleItemQueuePotentiallyChanged = NO;
+      _battleItemQueueGemCost = 0;
+      _battleItemQueueCashChange = 0;
+      _battleItemQueueOilChange = 0;
       
-      [_speedupItemUsages removeAllObjects];
-      [_speedupUpdatedUserItems removeAllObjects];
+      if (val) {
+        found = YES;
+      }
       
-      found = YES;
+      if (_speedupItemUsages.count > 0) {
+        [self sendTradeItemForSpeedUpsMessage];
+        
+        [_speedupItemUsages removeAllObjects];
+        [_speedupUpdatedUserItems removeAllObjects];
+        
+        found = YES;
+      }
     }
   }
   

@@ -23,7 +23,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @end
 
 @interface CreateBattleItemRequestProto ()
-@property (strong) MinimumUserProto* sender;
+@property (strong) MinimumUserProtoWithMaxResources* sender;
 @property (strong) NSMutableArray * mutableBiqfuDeleteList;
 @property (strong) NSMutableArray * mutableBiqfuUpdateList;
 @property (strong) NSMutableArray * mutableBiqfuNewList;
@@ -70,7 +70,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @synthesize gemCostForCreating;
 - (id) init {
   if ((self = [super init])) {
-    self.sender = [MinimumUserProto defaultInstance];
+    self.sender = [MinimumUserProtoWithMaxResources defaultInstance];
     self.cashChange = 0;
     self.oilChange = 0;
     self.gemCostForCreating = 0;
@@ -375,7 +375,7 @@ static CreateBattleItemRequestProto* defaultCreateBattleItemRequestProtoInstance
         break;
       }
       case 10: {
-        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        MinimumUserProtoWithMaxResources_Builder* subBuilder = [MinimumUserProtoWithMaxResources builder];
         if (self.hasSender) {
           [subBuilder mergeFrom:self.sender];
         }
@@ -419,22 +419,22 @@ static CreateBattleItemRequestProto* defaultCreateBattleItemRequestProtoInstance
 - (BOOL) hasSender {
   return result.hasSender;
 }
-- (MinimumUserProto*) sender {
+- (MinimumUserProtoWithMaxResources*) sender {
   return result.sender;
 }
-- (CreateBattleItemRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+- (CreateBattleItemRequestProto_Builder*) setSender:(MinimumUserProtoWithMaxResources*) value {
   result.hasSender = YES;
   result.sender = value;
   return self;
 }
-- (CreateBattleItemRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue {
+- (CreateBattleItemRequestProto_Builder*) setSender_Builder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue {
   return [self setSender:[builderForValue build]];
 }
-- (CreateBattleItemRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+- (CreateBattleItemRequestProto_Builder*) mergeSender:(MinimumUserProtoWithMaxResources*) value {
   if (result.hasSender &&
-      result.sender != [MinimumUserProto defaultInstance]) {
+      result.sender != [MinimumUserProtoWithMaxResources defaultInstance]) {
     result.sender =
-      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+      [[[MinimumUserProtoWithMaxResources builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
   } else {
     result.sender = value;
   }
@@ -443,7 +443,7 @@ static CreateBattleItemRequestProto* defaultCreateBattleItemRequestProtoInstance
 }
 - (CreateBattleItemRequestProto_Builder*) clearSender {
   result.hasSender = NO;
-  result.sender = [MinimumUserProto defaultInstance];
+  result.sender = [MinimumUserProtoWithMaxResources defaultInstance];
   return self;
 }
 - (NSMutableArray *)biqfuDeleteList {

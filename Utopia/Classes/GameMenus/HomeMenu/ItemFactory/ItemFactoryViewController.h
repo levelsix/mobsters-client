@@ -41,6 +41,8 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UIImageView *speedupIcon;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *buttonSpinner;
 
+@property (nonatomic, retain) IBOutlet UILabel *numItemsLabel;
+
 @property (nonatomic, retain) IBOutlet UIView *helpView;
 @property (nonatomic, retain) IBOutlet UIView *buttonLabelsView;
 

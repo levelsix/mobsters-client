@@ -16,6 +16,8 @@
 @property (nonatomic, retain) NSString *userUuid;
 @property (nonatomic, assign) int quantity;
 
+- (BattleItemProto *) staticBattleItem;
+
 @end
 
 @interface BattleItemUtil : NSObject
@@ -23,6 +25,9 @@
 @property (nonatomic, retain) BattleItemQueue *battleItemQueue;
 @property (nonatomic, retain) NSMutableArray *battleItems;
 
-- (id) initWithQueueProtos:(NSArray *)queueProtos itemProtos:(NSArray *)itemProtos;
+- (void) updateWithQueueProtos:(NSArray *)queueProtos itemProtos:(NSArray *)itemProtos;
+
+- (int) currentPowerAmountFromCreatedItems;
+- (int) totalPowerAmount;
 
 @end

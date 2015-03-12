@@ -1735,7 +1735,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   if (item) {
     [self tradeItemForSpeedup:@[bldr.build]];
     
-    [biq readjustQueueObjects];
+    // Move back first item's start time by the number of minutes
+    ItemProto *ip = [gs itemForId:itemId];
+    if (ip.itemType == ItemTypeSpeedUp) {
+      int speedupMins = ip.amount;
+      item.expectedStartTime = [item.expectedStartTime dateByAddingTimeInterval:-speedupMins*60];
+      [biq readjustQueueObjects];
+      [gs beginBattleItemTimer];
+    }
   }
 }
 

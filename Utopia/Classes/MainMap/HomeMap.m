@@ -506,6 +506,25 @@
   }
 }
 
+- (void) reloadItemFactory {
+  GameState *gs = [GameState sharedGameState];
+  
+  for (CCSprite *spr in [self childrenOfClassType:[ItemFactoryBuilding class]]) {
+    ItemFactoryBuilding *ifb = (ItemFactoryBuilding *)spr;
+    UserStruct *s = ifb.userStruct;
+    BattleItemQueue *hq = gs.battleItemUtil.battleItemQueue;
+    BattleItemQueueObject *item = [hq.queueObjects firstObject];
+    
+    if (item) {
+      [ifb beginAnimatingWithBattleItemQueueObject:item];
+      
+      [ifb setBubbleType:BuildingBubbleTypeNone];
+    } else {
+      [ifb stopAnimating];
+    }
+  }
+}
+
 - (void) reloadMiniJobCenter {
   GameState *gs = [GameState sharedGameState];
   UserStruct *mjc = [gs myMiniJobCenter];
@@ -731,6 +750,7 @@
   [self reloadTeamCenter];
   [self reloadClanHouse];
   [self reloadMoneyTree:nil];
+  [self reloadItemFactory];
   
   // In case there's a purch building
   [_purchBuilding setBubbleType:BuildingBubbleTypeNone];
@@ -2575,6 +2595,7 @@
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadRetrievableIcons) name:GAMESTATE_UPDATE_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadHospitals) name:HEAL_QUEUE_CHANGED_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupTeamSprites) name:HEAL_QUEUE_CHANGED_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadItemFactory) name:BATTLE_ITEM_QUEUE_CHANGED_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTimerForHealingDidJustQueueUp) name:HEAL_QUEUE_CHANGED_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadMiniJobCenter) name:MINI_JOB_CHANGED_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTeamCenter) name:MY_TEAM_CHANGED_NOTIFICATION object:nil];
