@@ -35,7 +35,39 @@
 }
 
 - (MSDate *) expectedEndTime {
-  return [self.expectedStartTime dateByAddingTimeInterval:self.totalSecondsToComplete];
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  int seconds = self.totalSecondsToComplete;
+  
+  // Account for clan helps
+  int numHelps = [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeCreateBattleItem userDataUuid:self.battleItemQueueUuid];
+  if (numHelps > 0) {
+#warning use proper constant
+    int secsToDockPerHelp = MAX(gl.buildingClanHelpConstants.amountRemovedPerHelp*60, roundf(seconds*gl.buildingClanHelpConstants.percentRemovedPerHelp));
+    seconds -= numHelps*secsToDockPerHelp;
+  }
+  
+  // Account for speedups
+  int speedupMins = [gs.itemUtil getSpeedupMinutesForType:GameActionTypeCreateBattleItem userDataUuid:self.battleItemQueueUuid earliestDate:self.expectedStartTime];
+  if (speedupMins > 0) {
+    seconds -= speedupMins*60;
+  }
+  
+  return [self.expectedStartTime dateByAddingTimeInterval:seconds];
+}
+
+- (NSString *)battleItemQueueUuid {
+  return [NSString stringWithFormat:@"%d", self.priority];
+}
+
+- (BattleItemQueueForUserProto *) convertToProto {
+  BattleItemQueueForUserProto_Builder *bldr = [BattleItemQueueForUserProto builder];
+  bldr.priority = self.priority;
+  bldr.userUuid = self.userUuid;
+  bldr.battleItemId = self.battleItemId;
+  bldr.expectedStartTime = self.expectedStartTime.timeIntervalSince1970*1000.;
+  bldr.elapsedTime = self.elapsedTime;
+  return bldr.build;
 }
 
 - (id) copy {
@@ -82,6 +114,8 @@
   
   [[SocketCommunication sharedSocketCommunication] reloadBattleItemQueueSnapshot];
   
+  [self readjustQueueObjects];
+  
   self.hasShownFreeSpeedup = NO;
   
   [[NSNotificationCenter defaultCenter] postNotificationName:HEAL_WAIT_COMPLETE_NOTIFICATION object:nil];
@@ -98,9 +132,6 @@
     item.expectedStartTime = prevItem.expectedEndTime;
   }
   
-  self.queueEndTime = item.expectedEndTime;
-  self.totalTimeForHealQueue = item.elapsedTime+item.totalSecondsToComplete;
-  
   [self.queueObjects addObject:item];
   
   Globals *gl = [Globals sharedGlobals];
@@ -116,26 +147,55 @@
   NSInteger total = self.queueObjects.count;
   
   if (index != NSNotFound && total > index+1) {
-    BattleItemQueueObject *next = [self.queueObjects objectAtIndex:index+1];
     if (index == 0) {
+      BattleItemQueueObject *next = [self.queueObjects objectAtIndex:1];
       next.expectedStartTime = [MSDate date];
-    } else {
-      BattleItemQueueObject *prev = [self.queueObjects objectAtIndex:index-1];
-      next.expectedStartTime = prev.expectedEndTime;
-    }
-    
-    for (NSInteger i = index+2; i < total; i++) {
-      BattleItemQueueObject *next2 = [self.queueObjects objectAtIndex:i];
-      BattleItemQueueObject *next1 = [self.queueObjects objectAtIndex:i-1];
-      next2.expectedStartTime = next1.expectedEndTime;
     }
   }
   
   [self.queueObjects removeObject:item];
   
+  [self readjustQueueObjects];
+  
   Globals *gl = [Globals sharedGlobals];
   if (self.queueEndTime.timeIntervalSinceNow < gl.maxMinutesForFreeSpeedUp*60) {
     self.hasShownFreeSpeedup = YES;
+  }
+}
+
+- (void) readjustQueueObjects {
+  for (int i = 1; i < self.queueObjects.count; i++) {
+    BattleItemQueueObject *prev = self.queueObjects[i-1];
+    BattleItemQueueObject *cur = self.queueObjects[i];
+    
+    cur.expectedStartTime = prev.expectedEndTime;
+  }
+  
+  [[SocketCommunication sharedSocketCommunication] setBattleItemQueueDirtyWithCoinChange:0 oilChange:0 gemCost:0];
+}
+
+- (MSDate *) queueEndTime {
+  BattleItemQueueObject *last = [self.queueObjects lastObject];
+  
+  return last.expectedEndTime;
+}
+
+- (float) totalTimeForQueue {
+  BattleItemQueueObject *first = [self.queueObjects firstObject];
+  float totalTime = first.elapsedTime;
+  
+  for (BattleItemQueueObject *item in self.queueObjects) {
+    totalTime += item.totalSecondsToComplete;
+  }
+  
+  return totalTime;
+}
+
+- (void) updateElapsedTimesWithCompletedObjects:(NSArray *)objs {
+  for (BattleItemQueueObject *obj in objs) {
+    for (BattleItemQueueObject *biqo in self.queueObjects) {
+      biqo.elapsedTime += obj.totalSecondsToComplete;
+    }
   }
 }
 

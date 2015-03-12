@@ -139,7 +139,7 @@ BOOL DiscardBattleItemResponseProto_DiscardBattleItemStatusIsValidValue(DiscardB
   BOOL hasCashChange_:1;
   BOOL hasOilChange_:1;
   int32_t gemCostForCreating;
-  MinimumUserProtoWithMaxResources* sender;
+  MinimumUserProto* sender;
   int32_t cashChange;
   int32_t oilChange;
   NSMutableArray * mutableBiqfuDeleteList;
@@ -150,7 +150,7 @@ BOOL DiscardBattleItemResponseProto_DiscardBattleItemStatusIsValidValue(DiscardB
 - (BOOL) hasCashChange;
 - (BOOL) hasOilChange;
 - (BOOL) hasGemCostForCreating;
-@property (readonly, strong) MinimumUserProtoWithMaxResources* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly, strong) NSArray * biqfuDeleteList;
 @property (readonly, strong) NSArray * biqfuUpdateList;
 @property (readonly, strong) NSArray * biqfuNewList;
@@ -197,10 +197,10 @@ BOOL DiscardBattleItemResponseProto_DiscardBattleItemStatusIsValidValue(DiscardB
 - (CreateBattleItemRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
 - (BOOL) hasSender;
-- (MinimumUserProtoWithMaxResources*) sender;
-- (CreateBattleItemRequestProto_Builder*) setSender:(MinimumUserProtoWithMaxResources*) value;
-- (CreateBattleItemRequestProto_Builder*) setSender_Builder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue;
-- (CreateBattleItemRequestProto_Builder*) mergeSender:(MinimumUserProtoWithMaxResources*) value;
+- (MinimumUserProto*) sender;
+- (CreateBattleItemRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (CreateBattleItemRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (CreateBattleItemRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (CreateBattleItemRequestProto_Builder*) clearSender;
 
 - (NSMutableArray *)biqfuDeleteList;

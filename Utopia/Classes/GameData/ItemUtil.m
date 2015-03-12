@@ -171,6 +171,15 @@
       UserMonster *um = [gs myMonsterWithUserMonsterUuid:iu.userDataUuid];
       
       isValid = um.isCombining;
+    } else if (iu.actionType == GameActionTypeCreateBattleItem) {
+      BattleItemQueueObject *biq = nil;
+      for (BattleItemQueueObject *item in gs.battleItemUtil.battleItemQueue.queueObjects) {
+        if ([item.battleItemQueueUuid isEqualToString:iu.userDataUuid]) {
+          biq = item;
+        }
+      }
+      
+      isValid = !!biq;
     }
     
     // Wait till it is at least

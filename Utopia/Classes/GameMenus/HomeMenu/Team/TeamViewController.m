@@ -447,7 +447,7 @@
     [self.view addSubview:self.teamCell];
     [self.view insertSubview:self.cardCell aboveSubview:self.listView];
     
-    [Globals animateStartView:cardCell toEndView:slotView.notEmptyView fakeStartView:self.cardCell fakeEndView:self.teamCell completion:completion];
+    [Globals animateStartView:cardCell toEndView:slotView.notEmptyView fakeStartView:self.cardCell fakeEndView:self.teamCell hideStartView:YES hideEndView:YES completion:completion];
   } else {
     animView = slotView;
   }
@@ -663,7 +663,7 @@
     [self.view addSubview:self.teamCell];
     [self.view insertSubview:self.cardCell aboveSubview:self.listView];
     
-    [Globals animateStartView:slotView.notEmptyView toEndView:cardCell fakeStartView:self.teamCell fakeEndView:self.cardCell completion:completion];
+    [Globals animateStartView:slotView.notEmptyView toEndView:cardCell fakeStartView:self.teamCell fakeEndView:self.cardCell hideStartView:YES hideEndView:YES completion:completion];
   } else {
     animView = slotView;
   }

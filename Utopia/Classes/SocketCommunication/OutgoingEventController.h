@@ -13,6 +13,7 @@
 #import "StoreKit/StoreKit.h"
 #import "BattlePlayer.h"
 #import "ChatObject.h"
+#import "BattleItemUtil.h"
 
 @interface OutgoingEventController : NSObject
 
@@ -72,6 +73,7 @@
 - (void) solicitMiniJobHelp:(UserMiniJob *)mj;
 - (void) solicitEvolveHelp:(UserEvolution *)ue;
 - (void) solicitEnhanceHelp:(UserEnhancement *)ue;
+- (void) solicitBattleItemHelp:(BattleItemQueue *)biq;
 - (void) solicitHealHelp:(HospitalQueue *)hq;
 - (void) giveClanHelp:(NSArray *)clanHelpUuids;
 - (void) endClanHelp:(NSArray *)clanHelpUuids;
@@ -126,6 +128,11 @@
 - (BOOL) speedupHealingQueue:(HospitalQueue *)hq delegate:(id)delegate;
 - (void) healQueueWaitTimeComplete:(NSArray *)healingItems;
 
+- (BOOL) addBattleItem:(BattleItemProto *)bi toBattleItemQueue:(BattleItemQueue *)biq useGems:(BOOL)useGems;
+- (BOOL) removeBattleQueueObject:(BattleItemQueueObject *)item fromQueue:(BattleItemQueue *)biq;
+- (BOOL) speedupBattleItemQueue:(BattleItemQueue *)biq delegate:(id)delegate;
+- (void) battleItemQueueWaitTimeComplete:(NSArray *)battleItemQueueObjects fromQueue:(BattleItemQueue *)biq;
+
 - (void) sellUserMonsters:(NSArray *)userMonsterUuids;
 
 - (BOOL) submitEnhancement:(UserEnhancement *)enhancement useGems:(BOOL)useGems delegate:(id)delegate;
@@ -155,6 +162,7 @@
 - (void) tradeItemForSpeedup:(int)itemId userEnhancement:(UserEnhancement *)ue;
 - (void) tradeItemForSpeedup:(int)itemId userEvolution:(UserEvolution *)ue;
 - (void) tradeItemForSpeedup:(int)itemId healingQueue:(HospitalQueue *)hq;
+- (void) tradeItemForSpeedup:(int)itemId battleItemQueue:(BattleItemQueue *)biq;
 - (void) tradeItemForSpeedup:(int)itemId combineUserMonster:(UserMonster *)um;
 - (void) removeUserItemUsed:(NSArray *)usageUuids;
 

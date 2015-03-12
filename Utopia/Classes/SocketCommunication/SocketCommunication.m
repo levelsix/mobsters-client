@@ -1599,6 +1599,17 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCCustomizePvpBoardObstacleEvent];
 }
 
+- (int) sendCompleteBattleItemMessage:(NSArray *)completedBiqfus isSpeedup:(BOOL)isSpeedup gemCost:(int)gemCost {
+  CompleteBattleItemRequestProto *req = [[[[[[CompleteBattleItemRequestProto builder]
+                                            setSender:_sender]
+                                           addAllBiqfuCompleted:completedBiqfus]
+                                          setIsSpeedup:isSpeedup]
+                                         setGemsForSpeedup:gemCost]
+                                         build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCCompleteBattleItemEvent];
+}
+
 #pragma mark - Batch/Flush events
 
 - (int) retrieveCurrencyFromStruct:(NSString *)userStructUuid time:(uint64_t)time amountCollected:(int)amountCollected {
@@ -1794,31 +1805,32 @@ static NSString *udid = nil;
     }
   }
   
-//  if (added.count || removed.count || changed.count || _battleItemQueueCashChange || _battleItemQueueOilChange || _battleItemQueueGemCost) {
-//    BattleItemQu *bldr = [[HealMonsterRequestProto builder] setSender:[self senderWithMaxResources]];
-//    
-//    for (UserMonsterHealingItem *item in added) {
-//      [bldr addUmhNew:[item convertToProto]];
-//    }
-//    
-//    for (UserMonsterHealingItem *item in removed) {
-//      [bldr addUmhDelete:[item convertToProto]];
-//    }
-//    
-//    for (UserMonsterHealingItem *item in changed) {
-//      [bldr addUmhUpdate:[item convertToProto]];
-//    }
-//    
-//    [bldr setCashChange:_healingQueueCashChange];
-//    [bldr setGemCostForHealing:_healingQueueGemCost];
-//    
-//    LNLog(@"Sending healing queue update with %d adds, %d removals, and %d updates.",  (int)added.count,  (int)removed.count,  (int)changed.count);
-//    LNLog(@"Cash change: %@, gemCost: %d", [Globals commafyNumber:_healingQueueCashChange], _healingQueueGemCost);
-//    
-//    return [self sendData:bldr.build withMessageType:EventProtocolRequestCHealMonsterEvent flush:NO queueUp:YES];
-//  } else {
+  if (added.count || removed.count || changed.count || _battleItemQueueCashChange || _battleItemQueueOilChange || _battleItemQueueGemCost) {
+    CreateBattleItemRequestProto_Builder *bldr = [[CreateBattleItemRequestProto builder] setSender:_sender];//[self senderWithMaxResources]];
+    
+    for (BattleItemQueueObject *item in added) {
+      [bldr addBiqfuNew:[item convertToProto]];
+    }
+    
+    for (BattleItemQueueObject *item in removed) {
+      [bldr addBiqfuDelete:[item convertToProto]];
+    }
+    
+    for (BattleItemQueueObject *item in changed) {
+      [bldr addBiqfuUpdate:[item convertToProto]];
+    }
+    
+    [bldr setCashChange:_battleItemQueueCashChange];
+    [bldr setOilChange:_battleItemQueueOilChange];
+    [bldr setGemCostForCreating:_battleItemQueueGemCost];
+    
+    LNLog(@"Sending battle item queue update with %d adds, %d removals, and %d updates.",  (int)added.count,  (int)removed.count,  (int)changed.count);
+    LNLog(@"Cash change: %@, oil change: %@, gemCost: %d", [Globals commafyNumber:_battleItemQueueCashChange], [Globals commafyNumber:_battleItemQueueOilChange], _battleItemQueueGemCost);
+    
+    return [self sendData:bldr.build withMessageType:EventProtocolRequestCHealMonsterEvent flush:NO queueUp:YES];
+  } else {
     return 0;
-//  }
+  }
 }
 
 

@@ -51,6 +51,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     
 #ifdef DEBUG
     //self.ignorePrerequisites = YES;
+    self.ignoreTeamCheck = YES;
 #endif
   }
   return self;
@@ -172,6 +173,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       self.miniJobClanHelpConstants = c;
     } else if (c.helpType == GameActionTypeEnhanceTime) {
       self.enhanceClanHelpConstants = c;
+    } else if (c.helpType == GameActionTypeCreateBattleItem) {
+      self.battleItemClanHelpConstants = c;
     }
   }
   
@@ -2590,14 +2593,24 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 + (BOOL) checkEnteringDungeonWithTarget:(id)target noTeamSelector:(SEL)noTeamSelector inventoryFullSelector:(SEL)inventoryFullSelector {
-#ifdef DEBUG
-  return YES;
-#else
-  // Check that team is valid
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
-  NSArray *myTeam = [gs allBattleAvailableMonstersOnTeamWithClanSlot:NO];
   NSArray *fullTeam = [gs allBattleAvailableMonstersOnTeamWithClanSlot:YES];
+  
+  if (gl.ignoreTeamCheck) {
+    if (fullTeam.count > 0) {
+      return YES;
+    } else {
+      NSString *description = [NSString stringWithFormat:@"You have no %@s on your team. Manage your team now.", MONSTER_NAME];
+      [Globals addAlertNotification:description];
+      [target performSelector:noTeamSelector];
+      
+      return NO;
+    }
+  }
+  
+  // Check that team is valid
+  NSArray *myTeam = [gs allBattleAvailableMonstersOnTeamWithClanSlot:NO];
   BOOL hasValidTeam = NO;
   BOOL hasDeadMonster = NO;
   for (UserMonster *um in fullTeam) {
@@ -2647,11 +2660,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
   
   return YES;
-#endif
 }
 #pragma clang diagnostic pop
 
-+ (void) animateStartView:(UIView *)startView toEndView:(UIView *)endView fakeStartView:(UIView *)fakeStart fakeEndView:(UIView *)fakeEnd completion:(dispatch_block_t)completion {
++ (void) animateStartView:(UIView *)startView toEndView:(UIView *)endView fakeStartView:(UIView *)fakeStart fakeEndView:(UIView *)fakeEnd hideStartView:(BOOL)hideStartView hideEndView:(BOOL)hideEndView completion:(dispatch_block_t)completion {
   fakeStart.center = [fakeStart.superview convertPoint:startView.center fromView:startView.superview];
   fakeEnd.center = fakeStart.center;
   fakeStart.alpha = 1.f;
@@ -2659,8 +2671,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   fakeStart.transform = CGAffineTransformIdentity;
   fakeEnd.transform = CGAffineTransformIdentity;
   
-  startView.hidden = YES;
-  endView.hidden = YES;
+  if (hideStartView) startView.hidden = YES;
+  if (hideEndView) endView.hidden = YES;
   [UIView animateWithDuration:0.3f animations:^{
     fakeEnd.alpha = 1.f;
     fakeEnd.center = [fakeEnd.superview convertPoint:endView.center fromView:endView.superview];
@@ -2680,13 +2692,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       completion();
     }
     
-    startView.hidden = NO;
-    endView.hidden = NO;
+    if (hideStartView) startView.hidden = NO;
+    if (hideEndView) endView.hidden = NO;
   }];
 }
 
 + (void) animateStartView:(UIView *)startView toEndView:(UIView *)endView fakeStartView:(UIView *)fakeStart fakeEndView:(UIView *)fakeEnd {
-  [self animateStartView:startView toEndView:endView fakeStartView:fakeStart fakeEndView:fakeEnd completion:nil];
+  [self animateStartView:startView toEndView:endView fakeStartView:fakeStart fakeEndView:fakeEnd hideStartView:YES hideEndView:YES completion:nil];
 }
 
 + (NSString *) getRandomTipFromFile:(NSString *)file {

@@ -304,7 +304,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return nil;
 }
 
-- (BattleItemProto *) battleItemForId:(int)battleItemId {
+- (BattleItemProto *) battleItemWithId:(int)battleItemId {
   if (battleItemId == 0) {
     [Globals popupMessage:@"Attempted to access battle item 0"];
     return nil;
@@ -727,9 +727,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   NSMutableArray *arr = [self.privateChats mutableCopy];
   
   // Overwrite battle history first since fb requests will never be considered "read"
-//  for (PvpHistoryProto *php in self.battleHistory) {
-//    [self overwriteChatObjectInArray:arr chatObject:php];
-//  }
+  //  for (PvpHistoryProto *php in self.battleHistory) {
+  //    [self overwriteChatObjectInArray:arr chatObject:php];
+  //  }
   
   for (RequestFromFriend *req in self.fbUnacceptedRequestsFromFriends) {
     [self overwriteChatObjectInArray:arr chatObject:req];
@@ -1667,6 +1667,70 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
 }
 
+#pragma mark -
+#pragma mark Battle Item Timer
+
+- (void) beginBattleItemTimer {
+  [self stopBattleItemTimer];
+  
+  BOOL queueWait = NO;
+  MSDate *earliest = nil;
+  for (BattleItemQueueObject *item in self.battleItemUtil.battleItemQueue.queueObjects) {
+    MSDate *endTime = item.expectedEndTime;
+    if (endTime && [endTime timeIntervalSinceNow] <= 0) {
+      queueWait = YES;
+      break;
+    } else {
+      if (!earliest || [earliest compare:item.expectedEndTime] == NSOrderedDescending) {
+        earliest = item.expectedEndTime;
+      }
+    }
+  }
+  
+  if (queueWait) {
+    [self battleItemWaitTimeComplete];
+  } else if (earliest) {
+    _battleItemTimer = [NSTimer timerWithTimeInterval:earliest.timeIntervalSinceNow target:self selector:@selector(battleItemWaitTimeComplete) userInfo:nil repeats:NO];
+    [[NSRunLoop mainRunLoop] addTimer:_battleItemTimer forMode:NSRunLoopCommonModes];
+  }
+}
+
+- (void) battleItemWaitTimeComplete {
+  BattleItemQueue *biq = self.battleItemUtil.battleItemQueue;
+  
+  NSMutableArray *arr = [NSMutableArray array];
+  for (BattleItemQueueObject *item in biq.queueObjects) {
+      MSDate *endTime = item.expectedEndTime;
+      if (endTime && [endTime timeIntervalSinceNow] <= 0) {
+        [arr addObject:item];
+      }
+  }
+  
+  if (arr.count > 0) {
+    [biq updateElapsedTimesWithCompletedObjects:arr];
+    
+    [[OutgoingEventController sharedOutgoingEventController] battleItemQueueWaitTimeComplete:arr fromQueue:biq];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:BATTLE_ITEM_WAIT_COMPLETE_NOTIFICATION object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:BATTLE_ITEM_QUEUE_CHANGED_NOTIFICATION object:nil];
+    [self beginBattleItemTimer];
+    
+    if (arr.count > 1) {
+      [Globals addGreenAlertNotification:[NSString stringWithFormat:@"%d battle items have finished creating!", (int)arr.count] isImmediate:NO];
+    } else {
+      BattleItemQueueObject *item = arr[0];
+      [Globals addGreenAlertNotification:[NSString stringWithFormat:@"%@ has finished creating!", item.staticBattleItem.name] isImmediate:NO];
+    }
+  }
+}
+
+- (void) stopBattleItemTimer {
+  if (_battleItemTimer) {
+    [_battleItemTimer invalidate];
+    _battleItemTimer = nil;
+  }
+}
+
 #pragma mark Enhance Timer
 
 - (void) beginEnhanceTimer {
@@ -2018,6 +2082,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     [self beginMiniJobTimer];
   } else if (ch.helpType == GameActionTypeEnhanceTime) {
     [self beginEnhanceTimer];
+  } else if (ch.helpType == GameActionTypeCreateBattleItem) {
+    [self.battleItemUtil.battleItemQueue readjustQueueObjects];
+    [self beginBattleItemTimer];
   }
 }
 
@@ -2035,6 +2102,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     [self beginEnhanceTimer];
   } else if (ch.actionType == GameActionTypeCombineMonster) {
     [self beginCombineTimer];
+  } else if (ch.actionType == GameActionTypeCreateBattleItem) {
+    [self beginBattleItemTimer];
   }
 }
 

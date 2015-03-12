@@ -164,8 +164,13 @@ static UIImage *img = nil;
   [_sideEffectSymbols removeAllObjects];
 }
 
+
 - (void) updateForElement:(Element)element imgPrefix:(NSString *)imgPrefix greyscale:(BOOL)greyscale {
   NSString *file = [imgPrefix stringByAppendingString:@"Card.png"];
+  [self updateForElement:element imgPrefix:file greyscale:greyscale];
+}
+
+- (void) updateForElement:(Element)element imgName:(NSString *)file greyscale:(BOOL)greyscale {
   [Globals imageNamed:file withView:self.monsterIcon greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   NSString *suffix = self.bgdIcon.frame.size.width > 45 ? @"mediumsquare.png" : @"smallsquare.png";

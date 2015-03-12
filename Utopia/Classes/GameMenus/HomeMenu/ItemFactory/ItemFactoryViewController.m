@@ -12,6 +12,7 @@
 #import "Globals.h"
 #import "GameState.h"
 #import "GameViewController.h"
+#import "OutgoingEventController.h"
 
 @interface ItemFactoryViewController ()
 
@@ -62,9 +63,9 @@
   [self.itemSelectViewController closeClicked:nil];
 }
 
-- (NSArray *) battleItemQueue {
+- (BattleItemQueue *) battleItemQueue {
   GameState *gs = [GameState sharedGameState];
-  return gs.battleItemUtil.battleItemQueue.queueObjects;
+  return gs.battleItemUtil.battleItemQueue;
 }
 
 - (void) reloadTitleView {
@@ -83,7 +84,9 @@
 }
 
 - (void) updateLabels {
-  int timeLeft = self.battleItemQueue..timeIntervalSinceNow;
+  BattleItemQueue *battleItemQueue = [self battleItemQueue];
+  NSArray *queueObjects = battleItemQueue.queueObjects;
+  int timeLeft = self.battleItemQueue.queueEndTime.timeIntervalSinceNow;
   
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
@@ -92,10 +95,10 @@
   BOOL canHelp = [gs canAskForClanHelp];
   if (canHelp) {
     canHelp = NO;
-    //    for (UserMonsterHealingItem *hi in self.monsterHealingQueue) {
-    if (self.monsterHealingQueue.count) {
-      UserMonsterHealingItem *hi = self.monsterHealingQueue[0];
-      if ([gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeHeal userDataUuid:hi.userMonsterUuid] < 0) {
+    //for (BattleItemQueueObject *biq in queueObjects) {
+    BattleItemQueueObject *biq = [queueObjects firstObject];
+    if (biq) {
+      if ([gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeHeal userDataUuid:biq.battleItemQueueUuid] < 0) {
         canHelp = YES;
       }
     }
@@ -105,16 +108,11 @@
     self.timeLabel.text = [[Globals convertTimeToShortString:timeLeft] uppercaseString];
     
     if (speedupCost > 0) {
-      self.speedupCostLabel.text = [Globals commafyNumber:speedupCost];
-      [Globals adjustViewForCentering:self.speedupCostLabel.superview withLabel:self.speedupCostLabel];
-      
       self.helpView.hidden = !canHelp;
       
-      self.speedupCostLabel.superview.hidden = NO;
       self.speedupIcon.hidden = NO;
       self.freeLabel.hidden = YES;
     } else {
-      self.speedupCostLabel.superview.hidden = YES;
       self.speedupIcon.hidden = YES;
       self.freeLabel.hidden = NO;
       self.helpView.hidden = YES;
@@ -123,24 +121,25 @@
     [self.itemSelectViewController closeClicked:nil];
   }
   
-  if (self.monsterHealingQueue.count) {
+  if (queueObjects.count) {
     MonsterQueueCell *cell = (MonsterQueueCell *)[self.queueView.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
     [self updateCellForTime:cell index:0];
   }
-  
-  [self updateOpenSlotsView];
 }
 
 - (void) updateCellForTime:(MonsterQueueCell *)cell index:(int)i {
-  UserMonsterHealingItem *hi = self.monsterHealingQueue[i];
-  [cell updateTimeWithTimeLeft:hi.endTime.timeIntervalSinceNow percent:hi.currentPercentage];
+  BattleItemQueueObject *hi = self.battleItemQueue.queueObjects[i];
+  
+  float timeLeft = hi.expectedEndTime.timeIntervalSinceNow;
+  float totalTime = hi.totalSecondsToComplete;
+  float percentage = 1.f-timeLeft/totalTime;
+  [cell updateTimeWithTimeLeft:timeLeft percent:percentage];
 }
 
 #pragma mark - Refreshing collection view
 
 - (void) reloadQueueViewAnimated:(BOOL)animated {
-  GameState *gs = [GameState sharedGameState];
-  [self.queueView reloadTableAnimated:animated listObjects:gs.battleItemUtil.battleItemQueue.queueObjects];
+  [self.queueView reloadTableAnimated:animated listObjects:self.battleItemQueue.queueObjects];
 }
 
 - (void) reloadListViewAnimated:(BOOL)animated {
@@ -177,7 +176,6 @@
 
 - (void) addBattleItemToQueue:(BattleItemProto *)bip indexPath:(NSIndexPath*)indexPath {
   GameState *gs = [GameState sharedGameState];
-  Globals *gl = [Globals sharedGlobals];
   
   int cost = bip.createCost;
   int curAmount = bip.createResourceType == ResourceTypeCash ? gs.cash : gs.oil;
@@ -271,7 +269,9 @@
 
 - (void) sendCreate:(BattleItemProto *)bip itemsDict:(NSDictionary *)itemsDict allowGems:(BOOL)allowGems {
   if (!_waitingForResponse) {
-    BOOL success = [self addMonsterToHealingQueue:um.userMonsterUuid itemsDict:itemsDict useGems:allowGems];
+    [[OutgoingEventController sharedOutgoingEventController] tradeItemIdsForResources:itemsDict];
+    BOOL success = [[OutgoingEventController sharedOutgoingEventController] addBattleItem:bip toBattleItemQueue:[self battleItemQueue] useGems:allowGems];
+    
     if (success) {
       // Use this ordering so the new one appears in the queue, then table is reloaded after animation begins
       [self reloadQueueViewAnimated:YES];
@@ -279,32 +279,29 @@
       [self reloadListViewAnimated:YES];
       
       [self updateLabels];
-      
-      if (um.teamSlot) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
-      }
     }
   } else {
     [Globals addAlertNotification:@"Hold on, we are still processing your previous request."];
   }
 }
 
-- (void) animateUserMonsterIntoQueue:(UserMonster *)um {
-  int monsterIndex = (int)[self.listView.listObjects indexOfObject:um];
+- (void) animateBattleItemIntoQueue:(BattleItemProto *)bip {
+  NSInteger monsterIndex = [self.listView.listObjects indexOfObject:bip];
   MonsterListCell *cardCell = (MonsterListCell *)[self.listView.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:monsterIndex inSection:0]];
   
-  monsterIndex = (int)[self.queueView.listObjects indexOfObject:um];
+  monsterIndex = self.queueView.listObjects.count-1;
+  BattleItemQueueObject *item = self.queueView.listObjects[monsterIndex];
   NSIndexPath *ip = [NSIndexPath indexPathForItem:monsterIndex inSection:0];
   MonsterQueueCell *queueCell = (MonsterQueueCell *)[self.queueView.collectionView cellForItemAtIndexPath:ip];
   
   if (cardCell && queueCell) {
-    [self.queueCell updateForListObject:um];
-    [self.cardCell updateForListObject:um];
+    [self.queueCell updateForListObject:item];
+    [self.cardCell updateForListObject:bip];
     
     [self.view addSubview:self.queueCell];
     [self.view insertSubview:self.cardCell belowSubview:self.queueView];
     
-    [Globals animateStartView:cardCell toEndView:queueCell fakeStartView:self.cardCell fakeEndView:self.queueCell];
+    [Globals animateStartView:cardCell toEndView:queueCell fakeStartView:self.cardCell fakeEndView:self.queueCell hideStartView:NO hideEndView:YES completion:nil];
   } else {
     [self.queueView.collectionView scrollToItemAtIndexPath:ip atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
   }
@@ -312,43 +309,118 @@
 
 - (void) listView:(ListCollectionView *)listView minusClickedAtIndexPath:(NSIndexPath *)indexPath {
   if (!_waitingForResponse) {
-    UserMonsterHealingItem *hi = self.monsterHealingQueue[indexPath.row];
-    UserMonster *um = self.monsterList[[self.monsterList indexOfObject:hi]];
-    BOOL success = [[OutgoingEventController sharedOutgoingEventController] removeMonsterFromHealingQueue:hi];
+    BattleItemQueue *biq = [self battleItemQueue];
+    BattleItemQueueObject *item = biq.queueObjects[indexPath.row];
+    BOOL success = [[OutgoingEventController sharedOutgoingEventController] removeBattleQueueObject:item fromQueue:biq];
     if (success) {
       [self reloadListViewAnimated:YES];
-      [self animateUserMonsterOutOfQueue:um];
+      [self animateBattleItemOutOfQueue:item];
       [self reloadQueueViewAnimated:YES];
       
       [self updateLabels];
-      
-      if (um.teamSlot) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
-      }
     }
   } else {
     [Globals addAlertNotification:@"Hold on, we are still processing your previous request."];
   }
 }
 
-- (void) animateUserMonsterOutOfQueue:(UserMonster *)um {
-  int monsterIndex = (int)[self.listView.listObjects indexOfObject:um];
+- (void) animateBattleItemOutOfQueue:(BattleItemQueueObject *)item {
+  BattleItemProto *bip = item.staticBattleItem;
+  int monsterIndex = (int)[self.listView.listObjects indexOfObject:bip];
   NSIndexPath *ip = [NSIndexPath indexPathForRow:monsterIndex inSection:0];
   MonsterListCell *cardCell = (MonsterListCell *)[self.listView.collectionView cellForItemAtIndexPath:ip];
   
-  monsterIndex = (int)[self.queueView.listObjects indexOfObject:um];
+  monsterIndex = (int)[self.queueView.listObjects indexOfObject:item];
   MonsterQueueCell *queueCell = (MonsterQueueCell *)[self.queueView.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:monsterIndex inSection:0]];
   
   if (cardCell && queueCell) {
-    [self.queueCell updateForListObject:um];
-    [self.cardCell updateForListObject:um];
+    [self.queueCell updateForListObject:item];
+    [self.cardCell updateForListObject:bip];
     
     [self.view addSubview:self.queueCell];
     [self.view insertSubview:self.cardCell belowSubview:self.queueView];
     
-    [Globals animateStartView:queueCell toEndView:cardCell fakeStartView:self.queueCell fakeEndView:self.cardCell];
+    [Globals animateStartView:queueCell toEndView:cardCell fakeStartView:self.queueCell fakeEndView:self.cardCell hideStartView:YES hideEndView:NO completion:nil];
   } else {
     [self.listView.collectionView scrollToItemAtIndexPath:ip atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
+  }
+}
+
+- (IBAction) speedupButtonClicked:(id)sender {
+  if (!_waitingForResponse) {
+    Globals *gl = [Globals sharedGlobals];
+    
+    int timeLeft = self.battleItemQueue.queueEndTime.timeIntervalSinceNow;
+    int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
+    
+    if (gemCost <= 0) {
+      [self speedupBattleItemQueue];
+    } else {
+      ItemSelectViewController *svc = [[ItemSelectViewController alloc] init];
+      if (svc) {
+        SpeedupItemsFiller *sif = [[SpeedupItemsFiller alloc] init];
+        sif.delegate = self;
+        svc.delegate = sif;
+        self.speedupItemsFiller = sif;
+        self.itemSelectViewController = svc;
+        
+        GameViewController *gvc = [GameViewController baseController];
+        svc.view.frame = gvc.view.bounds;
+        [gvc addChildViewController:svc];
+        [gvc.view addSubview:svc.view];
+        
+        if (sender == nil)
+        {
+          [svc showCenteredOnScreen];
+        }
+        else
+        {
+          if ([sender isKindOfClass:[TimerCell class]]) // Invoked from TimerAction
+          {
+            UIButton* invokingButton = ((TimerCell*)sender).speedupButton;
+            const CGPoint invokingViewAbsolutePosition = [Globals convertPointToWindowCoordinates:invokingButton.frame.origin fromViewCoordinates:invokingButton.superview];
+            [svc showAnchoredToInvokingView:invokingButton
+                              withDirection:invokingViewAbsolutePosition.y < [Globals screenSize].height * .25f ? ViewAnchoringPreferBottomPlacement : ViewAnchoringPreferLeftPlacement
+                          inkovingViewImage:[invokingButton backgroundImageForState:invokingButton.state]];
+          }
+          else if ([sender isKindOfClass:[UIButton class]]) // Speed up healing mobster
+          {
+            UIButton* invokingButton = (UIButton*)sender;
+            [svc showAnchoredToInvokingView:invokingButton
+                              withDirection:ViewAnchoringPreferLeftPlacement
+                          inkovingViewImage:[invokingButton backgroundImageForState:invokingButton.state]];
+          }
+        }
+      }
+    }
+  }
+}
+
+- (void) speedupBattleItemQueue {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  
+  if (self.speedupItemsFiller) {
+    [self.itemSelectViewController closeClicked:nil];
+  }
+  
+  BattleItemQueue *biq = [self battleItemQueue];
+  int timeLeft = biq.queueEndTime.timeIntervalSinceNow;
+  int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
+  
+  if (gs.gems < goldCost) {
+    [GenericPopupController displayNotEnoughGemsView];
+  } else {
+    BOOL success = [[OutgoingEventController sharedOutgoingEventController] speedupBattleItemQueue:biq delegate:self];
+    if (success) {
+      self.buttonLabelsView.hidden = YES;
+      self.buttonSpinner.hidden = NO;
+      [self.buttonSpinner startAnimating];
+      
+      _waitingForResponse = YES;
+      
+      [[NSNotificationCenter defaultCenter] postNotificationName:HEAL_QUEUE_CHANGED_NOTIFICATION object:self];
+    }
   }
 }
 
@@ -356,27 +428,28 @@
 
 - (int) numGemsForTotalSpeedup {
   Globals *gl = [Globals sharedGlobals];
-  int timeLeft = self.monsterHealingQueueEndTime.timeIntervalSinceNow;
+  int timeLeft = self.battleItemQueue.queueEndTime.timeIntervalSinceNow;
   int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
   return gemCost;
 }
 
 - (void) speedupItemUsed:(id<ItemObject>)itemObject viewController:(ItemSelectViewController *)viewController {
   if ([itemObject isKindOfClass:[GemsItemObject class]]) {
-    [self speedupHealingQueue];
+    [self speedupBattleItemQueue];
   } else if ([itemObject isKindOfClass:[UserItem class]]) {
     // Apply items
     GameState *gs = [GameState sharedGameState];
     UserItem *ui = (UserItem *)itemObject;
     ItemProto *ip = [gs itemForId:ui.itemId];
     
+    BattleItemQueue *biq = [self battleItemQueue];
     if (ip.itemType == ItemTypeSpeedUp) {
-      [[OutgoingEventController sharedOutgoingEventController] tradeItemForSpeedup:ui.itemId healingQueue:[self hospitalQueue]];
+      [[OutgoingEventController sharedOutgoingEventController] tradeItemForSpeedup:ui.itemId battleItemQueue:biq];
       
       [self updateLabels];
     }
     
-    int timeLeft = self.monsterHealingQueueEndTime.timeIntervalSinceNow;
+    int timeLeft = biq.queueEndTime.timeIntervalSinceNow;
     if (timeLeft > 0) {
       [viewController reloadDataAnimated:YES];
     }
@@ -384,16 +457,18 @@
 }
 
 - (int) timeLeftForSpeedup {
-  int timeLeft = self.monsterHealingQueueEndTime.timeIntervalSinceNow;
+  BattleItemQueue *biq = [self battleItemQueue];
+  int timeLeft = biq.queueEndTime.timeIntervalSinceNow;
   return timeLeft;
 }
 
 - (int) totalSecondsRequired {
-  return self.totalTimeForHealQueue;
+  BattleItemQueue *biq = [self battleItemQueue];
+  return biq.totalTimeForQueue;
 }
 
 - (void) resourceItemsUsed:(NSDictionary *)itemUsages {
-  [self healWithItemsDict:itemUsages];
+  [self createWithItemsDict:itemUsages];
 }
 
 - (void) itemSelectClosed:(id)viewController {
@@ -402,5 +477,23 @@
   self.resourceItemsFiller = nil;
 }
 
+#pragma mark - Get Help
+
+- (IBAction) getHelpClicked:(id)sender {
+  [[OutgoingEventController sharedOutgoingEventController] solicitBattleItemHelp:[self battleItemQueue]];
+  [self updateLabels];
+}
+
+//- (void) handleHealMonsterResponseProto:(FullEvent *)fe {
+//  self.buttonLabelsView.hidden = NO;
+//  self.buttonSpinner.hidden = YES;
+//  
+//  [self reloadListViewAnimated:YES];
+//  [self reloadQueueViewAnimated:YES];
+//
+//  [[NSNotificationCenter defaultCenter] postNotificationName:BATTLE_ITEM_QUEUE_CHANGED_NOTIFICATION object:self];
+//  
+//  _waitingForResponse = NO;
+//}
 
 @end

@@ -436,6 +436,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       gs.userEvolution = nil;
     }
     
+    gs.battleItemUtil = [[BattleItemUtil alloc] initWithQueueProtos:proto.battleItemQueueList itemProtos:proto.battleItemList];
+    [gs beginBattleItemTimer];
+    
     [gs addToCompleteTasks:proto.completedTasksList];
     
     [gs.myMiniJobs removeAllObjects];

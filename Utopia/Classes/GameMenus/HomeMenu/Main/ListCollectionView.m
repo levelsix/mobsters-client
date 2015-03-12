@@ -59,7 +59,7 @@
 
 - (void) updateForBattleItemQueueObject:(BattleItemQueueObject *)obj {
   BattleItemProto *bip = obj.staticBattleItem;
-  [self.monsterView updateForElement:ElementWater imgPrefix:bip.imgName greyscale:NO];
+  [self.monsterView updateForElement:ElementWater imgName:bip.imgName greyscale:NO];
   
   self.botLabel.hidden = YES;
   self.timerView.hidden = YES;

@@ -83,6 +83,9 @@
 #define ITEM_SELECT_CLOSED_NOTIFICATION @"ItemSelectClosedNotification"
 #define ITEMS_CHANGED_NOTIFICATION @"ItemsChangedNotification"
 
+#define BATTLE_ITEM_QUEUE_CHANGED_NOTIFICATION @"BattleItemQueueChangedNotification"
+#define BATTLE_ITEM_WAIT_COMPLETE_NOTIFICATION @"BattleItemWaitCompleteNotification"
+
 #define MY_CLAN_MEMBERS_LIST_KEY @"MyMembersList"
 #define CLAN_RAID_ATTACK_KEY @"ClanRaidAttackKey"
 #define MUTED_PLAYERS_KEY @"MutedPlayersKey"
@@ -165,6 +168,7 @@
 @property (nonatomic, assign) int minsToResolicitTeamDonation;
 
 @property (nonatomic, assign) BOOL ignorePrerequisites;
+@property (nonatomic, assign) BOOL ignoreTeamCheck;
 
 // Monster Constants
 @property (nonatomic, assign) int maxTeamSize;
@@ -198,6 +202,7 @@
 @property (nonatomic, retain) StartupResponseProto_StartupConstants_ClanHelpConstants *miniJobClanHelpConstants;
 @property (nonatomic, retain) StartupResponseProto_StartupConstants_ClanHelpConstants *buildingClanHelpConstants;
 @property (nonatomic, retain) StartupResponseProto_StartupConstants_ClanHelpConstants *enhanceClanHelpConstants;
+@property (nonatomic, retain) StartupResponseProto_StartupConstants_ClanHelpConstants *battleItemClanHelpConstants;
 
 // Tournament Constants
 @property (nonatomic, assign) int tournamentWinsWeight;
@@ -363,7 +368,7 @@
 + (void) animateCCArrow:(CCNode *)arrow atAngle:(float)angle;
 
 + (void) animateStartView:(UIView *)startView toEndView:(UIView *)endView fakeStartView:(UIView *)fakeStart fakeEndView:(UIView *)fakeEnd;
-+ (void) animateStartView:(UIView *)startView toEndView:(UIView *)endView fakeStartView:(UIView *)fakeStart fakeEndView:(UIView *)fakeEnd completion:(dispatch_block_t)completion;
++ (void) animateStartView:(UIView *)startView toEndView:(UIView *)endView fakeStartView:(UIView *)fakeStart fakeEndView:(UIView *)fakeEnd hideStartView:(BOOL)hideStartView hideEndView:(BOOL)hideEndView completion:(dispatch_block_t)completion;
 
 - (BOOL) validateUserName:(NSString *)name;
 
