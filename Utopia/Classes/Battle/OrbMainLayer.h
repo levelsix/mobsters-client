@@ -38,6 +38,7 @@
 
 - (id) initWithLayoutProto:(BoardLayoutProto *)proto;
 - (id) initWithGridSize:(CGSize)gridSize numColors:(int)numColors;
+- (id) initWithGridSize:(CGSize)gridSize userBoardObstacles:(NSArray *)userBoardObstacles;
 - (id) initWithGridSize:(CGSize)gridSize numColors:(int)numColors layout:(BattleOrbLayout *)layout;
 
 - (void) checkSwap:(BattleSwap *)swap;

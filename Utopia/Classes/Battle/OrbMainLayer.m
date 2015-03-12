@@ -29,6 +29,11 @@
   return [self initWithGridSize:gridSize numColors:numColors layout:layout];
 }
 
+- (id) initWithGridSize:(CGSize)gridSize userBoardObstacles:(NSArray *)userBoardObstacles {
+  BattleOrbLayout *layout = [[BattleOrbLayout alloc] initWithGridSize:gridSize userBoardObstacles:userBoardObstacles];
+  return [self initWithGridSize:gridSize numColors:layout.numColors layout:layout];
+}
+
 - (id) initWithGridSize:(CGSize)gridSize numColors:(int)numColors layout:(BattleOrbLayout *)layout {
   if (self = [super init]) {
     self.layout = layout;

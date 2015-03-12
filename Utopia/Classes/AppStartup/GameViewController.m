@@ -66,7 +66,7 @@
 
 #define EQUIP_MINI_TUTORIAL_DEFAULT_KEY [NSString stringWithFormat:@"EquipMiniTutComplete%d", gs.userId]
 
-#define PVP_BATTLE_LAYER_BOARD_SIZE CGSizeMake(8,8)
+#define PVP_BATTLE_LAYER_BOARD_SIZE CGSizeMake(9,9)
 
 @implementation GameViewController
 

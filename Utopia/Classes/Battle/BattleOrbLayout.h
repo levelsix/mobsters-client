@@ -50,6 +50,7 @@
 
 - (instancetype) initWithBoardLayout:(BoardLayoutProto *)proto;
 - (instancetype) initWithGridSize:(CGSize)gridSize numColors:(int)numColors;
+- (instancetype) initWithGridSize:(CGSize)gridSize userBoardObstacles:(NSArray *)userBoardObstacles;
 
 // Can be overwritten to provide harder combos and what not
 - (OrbColor) generateRandomOrbColor;

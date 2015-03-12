@@ -10,7 +10,7 @@
 #import "SkillManager.h"
 #import "Globals.h"
 #import "BattleOrbPath.h"
-
+#import "GameState.h"
 #import "BoardLayoutProto+Properties.h"
 
 // Make this 1 to allow user to swap wherever they want
@@ -90,6 +90,42 @@
 //    [bldr addProperties:prop.build];
   
   return [self initWithBoardLayout:bldr.build];
+}
+
+- (instancetype) initWithGridSize:(CGSize)gridSize userBoardObstacles:(NSArray *)userBoardObstacles {
+  BoardLayoutProto_Builder* board = [BoardLayoutProto builder];
+  board.width  = gridSize.width;
+  board.height = gridSize.height;
+  board.orbElements = 111111; // User all orb colors
+  
+  NSDictionary* pvpBoardObstacles = [GameState sharedGameState].staticPvpBoardObstacles;
+  for (UserPvpBoardObstacleProto* userObstacleProto in userBoardObstacles)
+  {
+    PvpBoardObstacleProto* obstacleProto = [pvpBoardObstacles objectForKey:[NSNumber numberWithInteger:userObstacleProto.obstacleId]];
+    if (obstacleProto)
+    {
+      BoardPropertyProto_Builder* prop = [BoardPropertyProto builder];
+      prop.posX = userObstacleProto.posX;
+      prop.posY = (gridSize.height - 1) - userObstacleProto.posY; // In BoardLayoutProto 0 indicates the bottom row
+      switch (obstacleProto.obstacleType)
+      {
+        case BoardObstacleTypeCloud:
+          prop.name = ORB_SPECIAL;
+          prop.value = SpecialOrbTypeCloud;
+          prop.quantity = 1; // Will be set to 2 for double cloud
+          break;
+        case BoardObstacleTypeLock:
+          prop.name = ORB_LOCKED;
+          break;
+        case BoardObstacleTypeHole:
+          prop.name = HOLE;
+          break;
+      }
+      [board addProperties:[prop build]];
+    }
+  }
+  
+  return [self initWithBoardLayout:[board build]];
 }
 
 - (instancetype) initWithBoardLayout:(BoardLayoutProto *)proto {
