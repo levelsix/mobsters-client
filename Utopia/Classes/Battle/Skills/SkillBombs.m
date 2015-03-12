@@ -71,6 +71,53 @@
   return YES;
 }
 
+- (NSInteger)updateSpecialOrbs
+{
+  BattleOrbLayout* layout = self.battleLayer.orbLayer.layout;
+  CGPoint position = self.playerSprite.position;
+  OrbSwipeLayer* layer = self.battleLayer.orbLayer.swipeLayer;
+  NSInteger totalDamage = 0;
+  NSInteger bombCount = 0;
+  for (NSInteger column = 0; column < layout.numColumns; column++)
+    for (NSInteger row = 0; row < layout.numRows; row++)
+      {
+        BattleOrb* orb = [layout orbAtColumn:column row:row];
+        if (orb.specialOrbType == SpecialOrbTypeBomb)
+          {
+            // Update counter
+            orb.turnCounter--;
+            
+            // Update sprite
+            OrbSprite* sprite = [layer spriteForOrb:orb];
+            if (orb.turnCounter <= 0) // Blow up the bomb
+            {
+              // Change sprite type
+              orb.specialOrbType = SpecialOrbTypeNone;
+              
+              // Reload sprite
+              [sprite reloadSprite:YES];
+              
+              // Add explosion
+              CCParticleSystem* blast = [CCParticleSystem particleWithFile:@"bombskillexplosion.plist"];
+              blast.scale = 0.5;
+              blast.autoRemoveOnFinish = YES;
+              blast.position = ccp(sprite.contentSize.width/2, sprite.contentSize.height/2);
+              [sprite addChild:blast];
+              
+              // Count damage and bombs
+              totalDamage += orb.bombDamage;
+              bombCount++;
+              
+              [SoundEngine puzzleBoardExplosion];
+              }
+        else
+          [sprite updateTurnCounter:YES];
+        }
+      }
+  
+  return bombCount;
+}
+
 - (void)dropBombsOnPlayer:(NSInteger)bombCount
 {
   CGPoint position = self.playerSprite.position;
