@@ -45,4 +45,9 @@
   [self skillTriggerFinished:YES];
 }
 
+- (void)showQuickAttackMiniLogo
+{
+  //Make this do nothing, since the big logo will be showing anyways
+}
+
 @end
