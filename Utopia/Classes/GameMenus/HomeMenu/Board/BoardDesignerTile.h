@@ -30,6 +30,10 @@
 @property (nonatomic, assign) BoardDesignerTile* NeighborS;
 @property (nonatomic, assign) BoardDesignerTile* NeighborW;
 @property (nonatomic, assign) BoardDesignerTile* NeighborE;
+@property (nonatomic, assign) BoardDesignerTile* NeighborNW;
+@property (nonatomic, assign) BoardDesignerTile* NeighborSW;
+@property (nonatomic, assign) BoardDesignerTile* NeighborNE;
+@property (nonatomic, assign) BoardDesignerTile* NeighborSE;
 
 - (instancetype) initWithFrame:(CGRect)frame darkBaseColor:(BOOL)dark;
 
@@ -37,9 +41,14 @@
 - (BOOL) canAcceptObstacle;
 - (void) addObstacle:(PvpBoardObstacleProto*)obstacleProto withImage:(UIImage*)obstacleImage;
 - (UIImage*) removeObstacle;
+
 - (BOOL) hasNeighborN;
 - (BOOL) hasNeighborS;
 - (BOOL) hasNeighborW;
 - (BOOL) hasNeighborE;
+- (BOOL) hasNeighborNW;
+- (BOOL) hasNeighborSW;
+- (BOOL) hasNeighborNE;
+- (BOOL) hasNeighborSE;
 
 @end

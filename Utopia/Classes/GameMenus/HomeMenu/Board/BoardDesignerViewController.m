@@ -217,10 +217,14 @@ static const int kBoardMarginLeft = 10;
     for (int col = 0; col < cols; ++col)
     {
       BoardDesignerTile* tile = [[_boardTiles objectAtIndex:row] objectAtIndex:col];
-      if (row > 0) tile.NeighborN = [[_boardTiles objectAtIndex:row - 1] objectAtIndex:col];
-      if (col > 0) tile.NeighborW = [[_boardTiles objectAtIndex:row] objectAtIndex:col - 1];
-      if (row < rows - 1) tile.NeighborS = [[_boardTiles objectAtIndex:row + 1] objectAtIndex:col];
-      if (col < cols - 1) tile.NeighborE = [[_boardTiles objectAtIndex:row] objectAtIndex:col + 1];
+      if (row > 0)                          tile.NeighborN  = [[_boardTiles objectAtIndex:row - 1] objectAtIndex:col];
+      if (col > 0)                          tile.NeighborW  = [[_boardTiles objectAtIndex:row] objectAtIndex:col - 1];
+      if (row < rows - 1)                   tile.NeighborS  = [[_boardTiles objectAtIndex:row + 1] objectAtIndex:col];
+      if (col < cols - 1)                   tile.NeighborE  = [[_boardTiles objectAtIndex:row] objectAtIndex:col + 1];
+      if (row > 0 && col > 0)               tile.NeighborNW = [[_boardTiles objectAtIndex:row - 1] objectAtIndex:col - 1];
+      if (row < rows - 1 && col > 0)        tile.NeighborSW = [[_boardTiles objectAtIndex:row + 1] objectAtIndex:col - 1];
+      if (row > 0 && col < cols - 1)        tile.NeighborNE = [[_boardTiles objectAtIndex:row - 1] objectAtIndex:col + 1];
+      if (row < rows - 1 && col < cols - 1) tile.NeighborSE = [[_boardTiles objectAtIndex:row + 1] objectAtIndex:col + 1];
     }
   
   // Create borders
@@ -419,7 +423,7 @@ static const int kBoardMarginLeft = 10;
           
           const CGPoint dragTarget = [targetTile.superview convertPoint:targetTile.center toView:self.view];
           const BOOL    draggedObstacleIsHole = (_draggedObstacle.obstacleType == BoardObstacleTypeHole);
-          const float   draggedObstacleTargetScale = draggedObstacleIsHole ? .85f : .65f;
+          const float   draggedObstacleTargetScale = draggedObstacleIsHole ? .85f : .75f;
           
           [UIView animateWithDuration:.1f animations:^{
             [_draggedObstacleImage setCenter:dragTarget];

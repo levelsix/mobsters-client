@@ -54,6 +54,7 @@
 {
   if (self.isEnabled)
   {
+    [Globals imageNamed:_obstacleImage withView:self.obstacleImageView maskedColor:[UIColor colorWithWhite:.85f alpha:1.f] indicator:0 clearImageDuringDownload:NO];
     [self.obstacleNameLabel setTextColor:[UIColor colorWithHexString:@"B2B2B2"]];
     [self.obstaclePowerLabel setTextColor:[UIColor colorWithHexString:@"B2B2B2"]];
     [self.obstaclePowerCostLabel setTextColor:[UIColor colorWithHexString:@"DB2C2C"]];
@@ -66,6 +67,7 @@
 {
   if (!self.isEnabled)
   {
+    [self.obstacleImageView setImage:[UIImage imageNamed:_obstacleImage]];
     [self.obstacleNameLabel setTextColor:[UIColor colorWithHexString:@"00C2FF"]];
     [self.obstaclePowerLabel setTextColor:[UIColor colorWithHexString:@"6F9F11"]];
     [self.obstaclePowerCostLabel setTextColor:[UIColor colorWithHexString:@"6F9F11"]];
