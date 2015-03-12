@@ -138,15 +138,11 @@
 
 -(void)showCriticalHit
 {
-  [self showSkillPopupMiniOverlay:NO
-                       bottomText:[NSString stringWithFormat:@"%.3gX ATK", _critMultiplier]
-                   withCompletion:^{}];
+  [self showSkillPopupMiniOverlay:[NSString stringWithFormat:@"%.3gX ATK", _critMultiplier];
 }
 
 -(void)showDodged:(BOOL)missed
 {
-  [self showSkillPopupMiniOverlay:NO
-                       bottomText:missed ? @"MISSED" : @"EVADED"
-                   withCompletion:^{}];
+  [self showSkillPopupMiniOverlay:missed ? @"MISSED" : @"EVADED"];
 }
 @end

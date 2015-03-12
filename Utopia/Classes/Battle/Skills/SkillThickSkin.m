@@ -73,9 +73,7 @@
 {
   if (_damageAbsorbed > 0)
   {
-    [self showSkillPopupMiniOverlay:NO
-                         bottomText:[NSString stringWithFormat:@"%ld DMG BLOCKED", (long)_damageAbsorbed]
-                     withCompletion:^{}];
+    [self showSkillPopupMiniOverlay:[NSString stringWithFormat:@"%ld DMG BLOCKED", (long)_damageAbsorbed]];
   }
 }
 @end
