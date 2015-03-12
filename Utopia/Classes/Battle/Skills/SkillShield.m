@@ -49,9 +49,7 @@
   NSInteger damageAbsorbed = MIN(_tempDamageDealt, _currentShieldHp);
   if (damageAbsorbed > 0)
   {
-    [self showSkillPopupMiniOverlay:NO
-                         bottomText:[NSString stringWithFormat:@"%ld DMG BLOCKED", (long)damageAbsorbed]
-                     withCompletion:^{}];
+    [self showSkillPopupMiniOverlay:[NSString stringWithFormat:@"%ld DMG BLOCKED", (long)damageAbsorbed]];
   }
   
   return damage;

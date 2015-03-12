@@ -60,7 +60,7 @@
 - (void) orbDestroyed:(OrbColor)color special:(SpecialOrbType)type
 {
   // Accumulate damage here
-  if (type == SpecialOrbTypePoison)
+  if (type == [self specialType])
     _tempDamageDealt += _orbDamage;
   
   [super orbDestroyed:color special:type];
@@ -86,6 +86,7 @@
         [self.battleLayer.orbLayer disallowInput];
         [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
         [self dealPoisonDamage];
+        [self showSkillPopupMiniOverlay:[NSString stringWithFormat:@"%i POISON DMG", _tempDamageDealt]];
       }
       return YES;
     }
@@ -158,9 +159,9 @@ static NSString* const skullId = @"skull";
       if (orb.powerupType != PowerupTypeNone)
         continue;
       
-      if (orb.specialOrbType != SpecialOrbTypePoison)
+      if (orb.specialOrbType != [self specialType])
       {
-        orb.specialOrbType = SpecialOrbTypePoison;
+        orb.specialOrbType = [self specialType];
         
         // Update orb
         [sprite reloadSprite:YES];

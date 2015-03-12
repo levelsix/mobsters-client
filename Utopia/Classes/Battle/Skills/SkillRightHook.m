@@ -147,8 +147,6 @@
 
 - (void) showLogo
 {
-  [self showSkillPopupMiniOverlay:NO
-                       bottomText:@"CONFUSED"
-                   withCompletion:^{}];
+  [self showSkillPopupMiniOverlay:@"CONFUSED"];
 }
 @end

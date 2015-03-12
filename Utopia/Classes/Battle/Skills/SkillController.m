@@ -463,6 +463,16 @@
     [self showSkillPopupOverlayInternal];
 }
 
+- (void) showSkillPopupMiniOverlay:(NSString *)bottomText
+{
+  [self showSkillPopupMiniOverlay:NO bottomText:bottomText withCompletion:nil];
+}
+
+- (void) showskillPopupMiniOverlay:(NSString*)bottomText withCompletion:(SkillPopupBlock)completion
+{
+  [self showSkillPopupMiniOverlay:NO bottomText:bottomText withCompletion:completion];
+}
+
 - (void) showSkillPopupMiniOverlay:(BOOL)jumpFirst bottomText:(NSString*)bottomText withCompletion:(SkillPopupBlock)completion
 {
   _callbackBlockForPopup = completion;
