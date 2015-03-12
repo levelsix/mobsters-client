@@ -403,6 +403,7 @@
         [self.movesLeftCounter setPosition:ccp(self.movesLeftContainer.contentSize.width * .5f - 15.f, self.movesLeftContainer.contentSize.height * .5f - 1.f)];
         [self.movesLeftCounter setOpacity:0.f];
         [self.movesLeftContainer addChild:self.movesLeftCounter];
+      self.myPlayer.movesCounter = self.movesLeftContainer;
     }
     
     if (movesLeft > 0) // Note: Max turns we have an asset for is 10

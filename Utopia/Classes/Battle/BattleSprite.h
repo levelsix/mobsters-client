@@ -46,6 +46,8 @@
 
 @property (nonatomic, retain) CCSprite *rarityTag;
 
+@property (nonatomic, retain) CCSprite *movesCounter;
+
 @property (nonatomic, assign) BOOL isFacingNear;
 @property (nonatomic, assign) BOOL isWalking;
 
