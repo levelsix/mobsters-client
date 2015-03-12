@@ -11,6 +11,7 @@
 #import "SkillCurse.h"
 #import "NewBattleLayer.h"
 #import "Globals.h"
+#import "SkillManager.h"
 
 @implementation SkillCurse
 
@@ -42,6 +43,7 @@
   if ([self isActive])
   {
     self.opponentPlayer.isCursed = YES;
+    [(self.belongsToPlayer ? skillManager.enemySkillIndicatorView : skillManager.playerSkillIndicatorView) setCurse:YES];
   }
   
   [super restoreVisualsIfNeeded];
@@ -52,6 +54,8 @@
 - (BOOL) onDurationStart
 {
   self.opponentPlayer.isCursed = YES;
+  
+  [(self.belongsToPlayer ? skillManager.enemySkillIndicatorView : skillManager.playerSkillIndicatorView) setCurse:YES];
   
   return [super onDurationStart];
 }
@@ -65,6 +69,7 @@
 - (void) removeCurse
 {
   self.opponentPlayer.isCursed = NO;
+  [(self.belongsToPlayer ? skillManager.enemySkillIndicatorView : skillManager.playerSkillIndicatorView) setCurse:NO];
 }
 
 @end
