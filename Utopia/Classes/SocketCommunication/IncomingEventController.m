@@ -342,6 +342,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSCustomizePvpBoardObstacleEvent:
       responseClass = [CustomizePvpBoardObstacleResponseProto class];
       break;
+    case EventProtocolResponseSCreateBattleItemEvent:
+      responseClass = [CreateBattleItemResponseProto class];
+      break;
+    case EventProtocolResponseSCompleteBattleItemEvent:
+      responseClass = [CompleteBattleItemResponseProto class];
+      break;
+    case EventProtocolResponseSDiscardBattleItemEvent:
+      responseClass = [DiscardBattleItemResponseProto class];
+      break;
     default:
       responseClass = nil;
       break;
@@ -436,7 +445,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       gs.userEvolution = nil;
     }
     
-    gs.battleItemUtil = [[BattleItemUtil alloc] initWithQueueProtos:proto.battleItemQueueList itemProtos:proto.battleItemList];
+    gs.battleItemUtil = [[BattleItemUtil alloc] init];
+    [gs.battleItemUtil updateWithQueueProtos:proto.battleItemQueueList itemProtos:proto.battleItemList];
     [gs beginBattleItemTimer];
     
     [gs addToCompleteTasks:proto.completedTasksList];
@@ -1906,6 +1916,53 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to handle heal monster."];
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+#pragma mark - Battle Item
+
+- (void) handleCreateBattleItemResponseProto:(FullEvent *)fe {
+  CreateBattleItemResponseProto *proto = (CreateBattleItemResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Create battle response received with status %d.", (int)proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == CreateBattleItemResponseProto_CreateBattleItemStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to alter battle item queue."];
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleCompleteBattleItemResponseProto:(FullEvent *)fe {
+  CompleteBattleItemResponseProto *proto = (CompleteBattleItemResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Complete battle response received with status %d.", (int)proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == CompleteBattleItemResponseProto_CompleteBattleItemStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to complete battle item."];
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleDiscardBattleItemResponseProto:(FullEvent *)fe {
+  DiscardBattleItemResponseProto *proto = (DiscardBattleItemResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Discard battle response received with status %d.", (int)proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == DiscardBattleItemResponseProto_DiscardBattleItemStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to discard battle item."];
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }

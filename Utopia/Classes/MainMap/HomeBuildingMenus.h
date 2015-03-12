@@ -87,6 +87,7 @@ typedef enum {
 
 @interface MiniMonsterViewSprite : CCSprite
 
-+ (id) spriteWIthMonsterId:(int)monsterId;
++ (id) spriteWithMonsterId:(int)monsterId;
++ (id) spriteWithElement:(Element)elem imageName:(NSString *)imgName;
 
 @end

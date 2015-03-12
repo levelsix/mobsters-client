@@ -8,6 +8,7 @@
 
 #import "Building.h"
 #import "AnimatedSprite.h"
+#import "BattleItemQueue.h"
 
 #import "cocos2d-ui.h"
 
@@ -97,6 +98,19 @@
 @property (nonatomic, retain) CCAnimation *tubeAnimation;
 
 - (void) beginAnimatingWithHealingItem:(UserMonsterHealingItem *)hi;
+- (void) stopAnimating;
+
+@end
+
+@interface ItemFactoryBuilding : HomeBuilding {
+  BattleItemQueueObject *_battleItemQueueObject;
+}
+
+@property (nonatomic, retain) CCSprite *animSprite;
+
+@property (nonatomic, retain) CCAnimation *spriteAnimation;
+
+- (void) beginAnimatingWithBattleItemQueueObject:(BattleItemQueueObject *)qo;
 - (void) stopAnimating;
 
 @end

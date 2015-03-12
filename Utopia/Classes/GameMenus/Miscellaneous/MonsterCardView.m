@@ -167,7 +167,7 @@ static UIImage *img = nil;
 
 - (void) updateForElement:(Element)element imgPrefix:(NSString *)imgPrefix greyscale:(BOOL)greyscale {
   NSString *file = [imgPrefix stringByAppendingString:@"Card.png"];
-  [self updateForElement:element imgPrefix:file greyscale:greyscale];
+  [self updateForElement:element imgName:file greyscale:greyscale];
 }
 
 - (void) updateForElement:(Element)element imgName:(NSString *)file greyscale:(BOOL)greyscale {

@@ -1716,7 +1716,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     [self beginBattleItemTimer];
     
     if (arr.count > 1) {
-      [Globals addGreenAlertNotification:[NSString stringWithFormat:@"%d battle items have finished creating!", (int)arr.count] isImmediate:NO];
+      [Globals addGreenAlertNotification:[NSString stringWithFormat:@"%d Battle Items have finished creating!", (int)arr.count] isImmediate:NO];
     } else {
       BattleItemQueueObject *item = arr[0];
       [Globals addGreenAlertNotification:[NSString stringWithFormat:@"%@ has finished creating!", item.staticBattleItem.name] isImmediate:NO];

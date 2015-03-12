@@ -42,16 +42,16 @@
   // Account for clan helps
   int numHelps = [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeCreateBattleItem userDataUuid:self.battleItemQueueUuid];
   if (numHelps > 0) {
-#warning use proper constant
-    int secsToDockPerHelp = MAX(gl.buildingClanHelpConstants.amountRemovedPerHelp*60, roundf(seconds*gl.buildingClanHelpConstants.percentRemovedPerHelp));
+    int secsToDockPerHelp = MAX(gl.battleItemClanHelpConstants.amountRemovedPerHelp*60, roundf(seconds*gl.battleItemClanHelpConstants.percentRemovedPerHelp));
     seconds -= numHelps*secsToDockPerHelp;
   }
   
+  // CAN'T USE THIS: Because of userDataUuid we are unable to use a speedup on multiple battle items at once. We must just move startTime back and not use the speedup item usages.
   // Account for speedups
-  int speedupMins = [gs.itemUtil getSpeedupMinutesForType:GameActionTypeCreateBattleItem userDataUuid:self.battleItemQueueUuid earliestDate:self.expectedStartTime];
-  if (speedupMins > 0) {
-    seconds -= speedupMins*60;
-  }
+  //int speedupMins = [gs.itemUtil getSpeedupMinutesForType:GameActionTypeCreateBattleItem userDataUuid:self.battleItemQueueUuid earliestDate:self.expectedStartTime];
+  //if (speedupMins > 0) {
+  //  seconds -= speedupMins*60;
+  //}
   
   return [self.expectedStartTime dateByAddingTimeInterval:seconds];
 }
@@ -90,6 +90,7 @@
 - (NSUInteger) hash {
   return self.userUuid.hash*31 + self.priority*17 + self.battleItemId*11;
 }
+
 @end
 
 @implementation BattleItemQueue
@@ -117,8 +118,6 @@
   [self readjustQueueObjects];
   
   self.hasShownFreeSpeedup = NO;
-  
-  [[NSNotificationCenter defaultCenter] postNotificationName:HEAL_WAIT_COMPLETE_NOTIFICATION object:nil];
 }
 
 - (void) addToEndOfQueue:(BattleItemQueueObject *)item {
@@ -133,6 +132,8 @@
   }
   
   [self.queueObjects addObject:item];
+  
+  [self readjustQueueObjects];
   
   Globals *gl = [Globals sharedGlobals];
   if (self.queueEndTime.timeIntervalSinceNow > gl.maxMinutesForFreeSpeedUp*60) {
@@ -172,6 +173,8 @@
   }
   
   [[SocketCommunication sharedSocketCommunication] setBattleItemQueueDirtyWithCoinChange:0 oilChange:0 gemCost:0];
+  
+  [[NSNotificationCenter defaultCenter] postNotificationName:BATTLE_ITEM_QUEUE_CHANGED_NOTIFICATION object:self];
 }
 
 - (MSDate *) queueEndTime {

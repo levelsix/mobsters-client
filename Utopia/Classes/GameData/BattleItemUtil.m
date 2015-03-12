@@ -8,6 +8,8 @@
 
 #import "BattleItemUtil.h"
 
+#import "GameState.h"
+
 @implementation UserBattleItem
 
 - (id) initWithProto:(UserBattleItemProto *)bip {
@@ -19,12 +21,27 @@
   return self;
 }
 
+- (BattleItemProto *) staticBattleItem {
+  GameState *gs = [GameState sharedGameState];
+  return [gs battleItemWithId:self.battleItemId];
+}
+
+- (BOOL) isEqual:(UserBattleItem *)object {
+  if ([object class] != [UserBattleItem class]) {
+    return NO;
+  }
+  return [object.userUuid isEqualToString:self.userUuid] && self.battleItemId == object.battleItemId;
+}
+
+- (NSUInteger) hash {
+  return self.userUuid.hash*31 + self.battleItemId*11;
+}
+
 @end
 
 @implementation BattleItemUtil
 
-- (id) initWithQueueProtos:(NSArray *)queueProtos itemProtos:(NSArray *)itemProtos {
-  if ((self = [super init])) {
+- (void) updateWithQueueProtos:(NSArray *)queueProtos itemProtos:(NSArray *)itemProtos {
     self.battleItemQueue = [[BattleItemQueue alloc] init];
     [self.battleItemQueue addAllBattleItemQueueObjects:queueProtos];
     
@@ -33,8 +50,28 @@
       UserBattleItem *ubi = [[UserBattleItem alloc] initWithProto:bip];
       [self.battleItems addObject:ubi];
     }
+}
+
+- (int) currentPowerAmountFromCreatedItems {
+  int pwr = 0;
+  
+  for (UserBattleItem *bi in self.battleItems) {
+    pwr += bi.staticBattleItem.powerAmount*bi.quantity;
   }
-  return self;
+  
+  return pwr;
+}
+
+- (int) totalPowerAmount {
+  int pwr = 0;
+  
+  pwr += [self currentPowerAmountFromCreatedItems];
+  
+  for (BattleItemQueueObject *item in self.battleItemQueue.queueObjects) {
+    pwr += item.staticBattleItem.powerAmount;
+  }
+  
+  return pwr;
 }
 
 @end
