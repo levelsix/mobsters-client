@@ -54,4 +54,7 @@ typedef enum {
 
 @property (nonatomic, retain) NSArray *itemList;
 
+- (IBAction) speedupButtonClicked:(id)sender;
+- (IBAction) getHelpClicked:(id)sender;
+
 @end

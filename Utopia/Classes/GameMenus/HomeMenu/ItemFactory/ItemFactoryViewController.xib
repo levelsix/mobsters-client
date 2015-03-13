@@ -213,7 +213,7 @@
                                             <nil key="highlightedColor"/>
                                             <size key="shadowOffset" width="0.0" height="1"/>
                                         </label>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="insuranceiconbig.png" id="eNQ-ur-Mps">
+                                        <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" image="insuranceiconbig.png" id="eNQ-ur-Mps">
                                             <rect key="frame" x="11" y="10" width="25" height="30"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>

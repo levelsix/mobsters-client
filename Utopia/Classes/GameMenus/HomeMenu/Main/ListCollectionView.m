@@ -61,6 +61,11 @@
   BattleItemProto *bip = obj.staticBattleItem;
   [self.monsterView updateForElement:ElementWater imgName:bip.imgName greyscale:NO];
   
+  // Make the icon a bit smaller so that the images aren't stretched to the edge
+  CGPoint center = self.monsterView.monsterIcon.center;
+  self.monsterView.monsterIcon.size = CGSizeMake(36, 36);
+  self.monsterView.monsterIcon.center = center;
+  
   self.botLabel.hidden = YES;
   self.timerView.hidden = YES;
   self.minusButton.hidden = NO;

@@ -2699,6 +2699,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     NSMutableArray *arr = [NSMutableArray array];
     for (BattleItemQueueObject *item in biq.queueObjects) {
       [arr addObject:[item convertToProto]];
+      
+      [gs.battleItemUtil incrementBattleItemId:item.battleItemId quantity:1];
     }
     
     int tag = [[SocketCommunication sharedSocketCommunication] sendCompleteBattleItemMessage:arr isSpeedup:YES gemCost:goldCost];
@@ -2730,6 +2732,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       [Globals popupMessage:@"Trying to finish healing item before time."];
     } else {
       [arr addObject:[item convertToProto]];
+      
+      [gs.battleItemUtil incrementBattleItemId:item.battleItemId quantity:1];
     }
   }
   

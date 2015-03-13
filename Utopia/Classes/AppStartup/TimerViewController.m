@@ -94,6 +94,7 @@
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(waitTimeComplete) name:EVOLUTION_WAIT_COMPLETE_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(waitTimeComplete) name:MINI_JOB_CHANGED_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(waitTimeComplete) name:RECEIVED_CLAN_HELP_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(waitTimeComplete) name:BATTLE_ITEM_WAIT_COMPLETE_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(waitTimeComplete) name:SPEEDUP_USED_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(waitTimeComplete) name:MONSTER_SOLD_COMPLETE_NOTIFICATION object:nil];
   
@@ -103,6 +104,7 @@
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(waitTimeComplete) name:OBSTACLE_REMOVAL_BEGAN_NOTIFICATION object:nil];
   
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(waitTimeComplete) name:HEAL_QUEUE_CHANGED_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(waitTimeComplete) name:BATTLE_ITEM_QUEUE_CHANGED_NOTIFICATION object:nil];
   
   _dummyObjects = [NSMutableArray array];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(clearDummyObjects) name:ITEM_SELECT_CLOSED_NOTIFICATION object:nil];
@@ -192,6 +194,12 @@
       TimerAction *ta = [[HealingTimerAction alloc] initWithHospitalQueue:hq];
       [arr addObject:ta];
     }
+  }
+  
+  BattleItemQueue *biq = gs.battleItemUtil.battleItemQueue;
+  if (biq.queueObjects.count) {
+    TimerAction *ta = [[BattleItemTimerAction alloc] initWithBattleItemQueue:biq];
+    [arr addObject:ta];
   }
   
   [arr sortUsingSelector:@selector(compare:)];

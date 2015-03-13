@@ -45,7 +45,6 @@ typedef enum {
 // Used in case squad doesn't exist so button can go away
 @property (nonatomic, assign) BOOL hasAskedForClanHelp;
 
-- (NSString *) confirmActionString;
 - (NSArray *) performSpeedup:(UIView *)sender;
 - (void) performHelp;
 
@@ -72,6 +71,14 @@ typedef enum {
 @property (nonatomic, retain) HospitalQueue *hospitalQueue;
 
 - (id) initWithHospitalQueue:(HospitalQueue *)hq;
+
+@end
+
+@interface BattleItemTimerAction : TimerAction
+
+@property (nonatomic, retain) BattleItemQueue *battleItemQueue;
+
+- (id) initWithBattleItemQueue:(BattleItemQueue *)biq;
 
 @end
 
