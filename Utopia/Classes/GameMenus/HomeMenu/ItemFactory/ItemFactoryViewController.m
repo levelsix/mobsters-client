@@ -23,7 +23,7 @@
 - (void) viewDidLoad {
   [super viewDidLoad];
   
-  self.titleImageName = @"hospitalmenuheader.png";
+  self.titleImageName = @"itemfactorymenuheader.png";
   
   self.cardCell = [[NSBundle mainBundle] loadNibNamed:@"ItemFactoryCardCell" owner:self options:nil][0];
   self.queueCell = [[NSBundle mainBundle] loadNibNamed:@"MonsterQueueCell" owner:self options:nil][0];

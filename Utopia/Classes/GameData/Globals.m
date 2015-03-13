@@ -1751,7 +1751,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   int num = 0;
   for (id<StaticStructure> s in gs.staticStructs.allValues) {
     StructureInfoProto *structInfo = [s structInfo];
-    if (!structInfo.predecessorStructId) {
+    if (!structInfo.predecessorStructId && structInfo.structType != StructureInfoProto_StructTypeMoneyTree) {
       int cur = [gl calculateCurrentQuantityOfStructId:structInfo.structId structs:gs.myStructs];
       int max = [gl calculateMaxQuantityOfStructId:structInfo.structId];
       

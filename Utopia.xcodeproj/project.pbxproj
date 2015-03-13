@@ -31,6 +31,18 @@
 		2948F5601AB393AD00DF08C2 /* FAQ.3@2x.txt in Resources */ = {isa = PBXBuildFile; fileRef = 2948F55F1AB393AD00DF08C2 /* FAQ.3@2x.txt */; };
 		2948F5611AB393AD00DF08C2 /* FAQ.3@2x.txt in Resources */ = {isa = PBXBuildFile; fileRef = 2948F55F1AB393AD00DF08C2 /* FAQ.3@2x.txt */; };
 		2948F5621AB393AD00DF08C2 /* FAQ.3@2x.txt in Resources */ = {isa = PBXBuildFile; fileRef = 2948F55F1AB393AD00DF08C2 /* FAQ.3@2x.txt */; };
+		2948F5411AB2720A00DF08C2 /* BattleItemSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2948F53F1AB2720A00DF08C2 /* BattleItemSelectViewController.m */; };
+		2948F5421AB2720A00DF08C2 /* BattleItemSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2948F53F1AB2720A00DF08C2 /* BattleItemSelectViewController.m */; };
+		2948F5431AB2720A00DF08C2 /* BattleItemSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2948F53F1AB2720A00DF08C2 /* BattleItemSelectViewController.m */; };
+		2948F5441AB2720A00DF08C2 /* BattleItemSelectViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2948F5401AB2720A00DF08C2 /* BattleItemSelectViewController.xib */; };
+		2948F5451AB2720A00DF08C2 /* BattleItemSelectViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2948F5401AB2720A00DF08C2 /* BattleItemSelectViewController.xib */; };
+		2948F5461AB2720A00DF08C2 /* BattleItemSelectViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2948F5401AB2720A00DF08C2 /* BattleItemSelectViewController.xib */; };
+		2948F5481AB2731C00DF08C2 /* BattleItemSelectCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2948F5471AB2731C00DF08C2 /* BattleItemSelectCell.xib */; };
+		2948F5491AB2731C00DF08C2 /* BattleItemSelectCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2948F5471AB2731C00DF08C2 /* BattleItemSelectCell.xib */; };
+		2948F54A1AB2731C00DF08C2 /* BattleItemSelectCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2948F5471AB2731C00DF08C2 /* BattleItemSelectCell.xib */; };
+		2948F54C1AB2836B00DF08C2 /* itemfactorymenuheader@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2948F54B1AB2836B00DF08C2 /* itemfactorymenuheader@2x.png */; };
+		2948F54D1AB2836B00DF08C2 /* itemfactorymenuheader@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2948F54B1AB2836B00DF08C2 /* itemfactorymenuheader@2x.png */; };
+		2948F54E1AB2836B00DF08C2 /* itemfactorymenuheader@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2948F54B1AB2836B00DF08C2 /* itemfactorymenuheader@2x.png */; };
 		295FA2AF1A1B44A4006B79F3 /* SpeedupItemsFiller.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBEB1C21A118DCE00149937 /* SpeedupItemsFiller.m */; };
 		295FA2B31A1B44A4006B79F3 /* SpeedupItemsFiller.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBEB1C21A118DCE00149937 /* SpeedupItemsFiller.m */; };
 		295FA2B41A1B44A7006B79F3 /* ResourceItemsFiller.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBEB1C51A118DD900149937 /* ResourceItemsFiller.m */; };
@@ -7058,6 +7070,11 @@
 		2948F5521AB36D8D00DF08C2 /* use_gems.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = use_gems.mp3; sourceTree = "<group>"; };
 		2948F5561AB36E7500DF08C2 /* gacha_spin.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = gacha_spin.mp3; sourceTree = "<group>"; };
 		2948F55F1AB393AD00DF08C2 /* FAQ.3@2x.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "FAQ.3@2x.txt"; sourceTree = "<group>"; };
+		2948F53E1AB2720A00DF08C2 /* BattleItemSelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BattleItemSelectViewController.h; sourceTree = "<group>"; };
+		2948F53F1AB2720A00DF08C2 /* BattleItemSelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BattleItemSelectViewController.m; sourceTree = "<group>"; };
+		2948F5401AB2720A00DF08C2 /* BattleItemSelectViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BattleItemSelectViewController.xib; sourceTree = "<group>"; };
+		2948F5471AB2731C00DF08C2 /* BattleItemSelectCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BattleItemSelectCell.xib; sourceTree = "<group>"; };
+		2948F54B1AB2836B00DF08C2 /* itemfactorymenuheader@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "itemfactorymenuheader@2x.png"; sourceTree = "<group>"; };
 		295FA2BC1A1BEC7D006B79F3 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = SOURCE_ROOT; };
 		296548641A8163F80080B195 /* donatetoonslot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "donatetoonslot@2x.png"; sourceTree = "<group>"; };
 		296548691A8193A00080B195 /* UIView+Superview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Superview.h"; sourceTree = "<group>"; };
@@ -10993,6 +11010,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2948F53C1AB271C400DF08C2 /* BattleItemSelectMenu */ = {
+			isa = PBXGroup;
+			children = (
+				2948F53E1AB2720A00DF08C2 /* BattleItemSelectViewController.h */,
+				2948F53F1AB2720A00DF08C2 /* BattleItemSelectViewController.m */,
+				2948F5401AB2720A00DF08C2 /* BattleItemSelectViewController.xib */,
+				2948F5471AB2731C00DF08C2 /* BattleItemSelectCell.xib */,
+			);
+			path = BattleItemSelectMenu;
+			sourceTree = "<group>";
+		};
 		2965487E1A81C4170080B195 /* Statues */ = {
 			isa = PBXGroup;
 			children = (
@@ -12204,6 +12232,7 @@
 		2991FC061A800D85009BB1D8 /* Popovers */ = {
 			isa = PBXGroup;
 			children = (
+				2948F53C1AB271C400DF08C2 /* BattleItemSelectMenu */,
 				2991FBF61A800ABF009BB1D8 /* PopoverMenu */,
 				2991FBFC1A800D50009BB1D8 /* MonsterSelectMenu */,
 				CFA9F7731A0D8CCB00EBE77D /* ItemSelectMenu */,
@@ -14087,6 +14116,7 @@
 				CF29E93119620DB600B40DA4 /* evolutionlabmenuheader@2x.png */,
 				CF29E93319620DB600B40DA4 /* hospitalmenuheader@2x.png */,
 				CF29E93719620DB600B40DA4 /* residencemenuheader@2x.png */,
+				2948F54B1AB2836B00DF08C2 /* itemfactorymenuheader@2x.png */,
 			);
 			name = "Menu Header buildings";
 			path = "Enhance/Menu Header buildings";
@@ -18201,6 +18231,7 @@
 				CF0CF18D196F452900ECD301 /* chatprivateinactive@2x.png in Resources */,
 				CF0CF190196F452900ECD301 /* diamondbar@2x.png in Resources */,
 				9BC9F3321A8B05E1009DC3D5 /* energizeorb@2x.png in Resources */,
+				2948F54D1AB2836B00DF08C2 /* itemfactorymenuheader@2x.png in Resources */,
 				299AA4D71A7872C300A2D806 /* firesideways@2x.png in Resources */,
 				CF0CF197196F452900ECD301 /* healredbubbleexclamation@2x.png in Resources */,
 				CF0CF198196F452900ECD301 /* commonjob@2x.png in Resources */,
@@ -18670,6 +18701,7 @@
 				CF0CF3E7196F452900ECD301 /* selectmobstersminitaskbg@2x.png in Resources */,
 				9B41AF8D1A841D9300529879 /* 6swordorb-9@2x.png in Resources */,
 				9BB9490E1A6E1197006EE920 /* earthgrglow2glowblend@2x.png in Resources */,
+				2948F5451AB2720A00DF08C2 /* BattleItemSelectViewController.xib in Resources */,
 				CF0CF3E9196F452900ECD301 /* searchclansbar@2x.png in Resources */,
 				299AA3581A7856AA00A2D806 /* 6rockgrenade-9@2x.png in Resources */,
 				CFF2A5D919709C4800269084 /* MenuCashStorageT1@2x.png in Resources */,
@@ -19231,6 +19263,7 @@
 				CF0CF6A6196F452900ECD301 /* nightpointsfont.fnt in Resources */,
 				CF0CF6A7196F452900ECD301 /* GothamNarrow-UltraItalic.otf in Resources */,
 				CF0CF6A8196F452900ECD301 /* buildingcomplete@2x.png in Resources */,
+				2948F5491AB2731C00DF08C2 /* BattleItemSelectCell.xib in Resources */,
 				CF0CF6A9196F452900ECD301 /* limitededitionbg@2x.png in Resources */,
 				CF0CF6AA196F452900ECD301 /* ring@2x.png in Resources */,
 				CF9F995F19E48734006B0119 /* joinbubble1@2x.png in Resources */,
@@ -19910,6 +19943,7 @@
 				CF95205B1939690800A98290 /* pveshadow@2x.png in Resources */,
 				CF19087C18D8219000D6F0E4 /* 5x5dark@2x.png in Resources */,
 				9BB948DC1A6A0099006EE920 /* grbigafterglow@2x.png in Resources */,
+				2948F5481AB2731C00DF08C2 /* BattleItemSelectCell.xib in Resources */,
 				CF40D01C18DFCC6C0034A721 /* bronzerankbg@2x.png in Resources */,
 				63733A651A79E2F300CB6888 /* helpsbg@2x.png in Resources */,
 				CFDA78FE198C303C0014A8CD /* opennoelement@2x.png in Resources */,
@@ -20824,6 +20858,7 @@
 				CF37376A19E36B1D00CB16E3 /* youfoundbg@2x.png in Resources */,
 				298050301A265EE800806253 /* collectgift@2x.png in Resources */,
 				2980509C1A265EE800806253 /* giftitembg@2x.png in Resources */,
+				2948F5441AB2720A00DF08C2 /* BattleItemSelectViewController.xib in Resources */,
 				CFA728FF1A0B037900FF6031 /* lighteventtag@2x.png in Resources */,
 				9BC5357B1A845C0500E49F4D /* earthcounterbg@2x.png in Resources */,
 				CF0CECEE196F450C00ECD301 /* splashguyswide@2x.png in Resources */,
@@ -21383,6 +21418,7 @@
 				CF52D08217E9400500A067A6 /* bloodsplatter@2x.png in Resources */,
 				9BFC0C2E1AA51732009DFE50 /* SkillPopupMiniOverlay.xib in Resources */,
 				CF52D0C217EA6CA500A067A6 /* flinchstars.plist in Resources */,
+				2948F54C1AB2836B00DF08C2 /* itemfactorymenuheader@2x.png in Resources */,
 				CF52D0C517EAA65400A067A6 /* charging.plist in Resources */,
 				CF63F77C17EC07FD00FEBAA9 /* molotov.plist in Resources */,
 				9B6B77DF1A858B1A0080C8E5 /* 7moveslabel@2x.png in Resources */,
@@ -22017,6 +22053,7 @@
 				CF481D2E19F7217F00041486 /* AchievementsViewController.xib in Resources */,
 				CF481D2F19F7217F00041486 /* lightsmallsquare@2x.png in Resources */,
 				CF481D3419F7217F00041486 /* youfoundbg@2x.png in Resources */,
+				2948F5461AB2720A00DF08C2 /* BattleItemSelectViewController.xib in Resources */,
 				CF481D3919F7217F00041486 /* orbball.png in Resources */,
 				CF481D3C19F7217F00041486 /* sellbubble6@2x.png in Resources */,
 				CF481D3F19F7217F00041486 /* obtimerpurplemiddle@2x.png in Resources */,
@@ -22986,6 +23023,7 @@
 				9BDA8C1C1A5DE91100C7AC27 /* basicmachine@2x.png in Resources */,
 				CF48231019F7217F00041486 /* openwater@2x.png in Resources */,
 				CF48231119F7217F00041486 /* zarkunderline@2x.png in Resources */,
+				2948F54E1AB2836B00DF08C2 /* itemfactorymenuheader@2x.png in Resources */,
 				CF48231219F7217F00041486 /* BattleQueueNode.ccbi in Resources */,
 				CF48231419F7217F00041486 /* opennight@2x.png in Resources */,
 				9BB949301A6E1197006EE920 /* nightgrbigflash1@2x.png in Resources */,
@@ -23380,6 +23418,7 @@
 				299AA4091A786BB000A2D806 /* 6earthbomb-9@2x.png in Resources */,
 				29804FB61A241F4A00806253 /* squadrewardbg@2x.png in Resources */,
 				CF4824EA19F7217F00041486 /* pvpdiamondribbon@2x.png in Resources */,
+				2948F54A1AB2731C00DF08C2 /* BattleItemSelectCell.xib in Resources */,
 				CF4824EB19F7217F00041486 /* combo7a.aif in Resources */,
 				CF4824EE19F7217F00041486 /* menumobstersinactive@2x.png in Resources */,
 				CF4824F019F7217F00041486 /* lightavatar@2x.png in Resources */,
@@ -23858,6 +23897,7 @@
 				6B8CD5861A9BAE20000DAAB8 /* SkillControllerSplitOffDef.m in Sources */,
 				6BB5F8651A80571A006515B9 /* TutorialUpgradeViewController.m in Sources */,
 				CF0CEDB8196F452900ECD301 /* DBFBProfilePictureView.m in Sources */,
+				2948F5421AB2720A00DF08C2 /* BattleItemSelectViewController.m in Sources */,
 				CF0CEDBA196F452900ECD301 /* User.pb.m in Sources */,
 				CF0CEDBB196F452900ECD301 /* QuestLogViewController.m in Sources */,
 				CF0CEDBC196F452900ECD301 /* MSDate.m in Sources */,
@@ -24275,6 +24315,7 @@
 				CF6574E31909CAF200ABF1F4 /* Task.pb.m in Sources */,
 				CFA7502318CAD30000AC66FC /* TutorialNameViewController.m in Sources */,
 				CFFB3B7419820E90005D7AF5 /* EventDev.pb.m in Sources */,
+				2948F5411AB2720A00DF08C2 /* BattleItemSelectViewController.m in Sources */,
 				9BC9F3451A8C1420009DC3D5 /* SkillSideEffectBuff.m in Sources */,
 				63B0452C1A9D7CD700C74F0C /* EventResearch.pb.m in Sources */,
 				CF81C97119A67224002682A2 /* OrbMainLayer.m in Sources */,
@@ -24579,6 +24620,7 @@
 				CF48196719F7217F00041486 /* AchievementStuff.pb.m in Sources */,
 				6BB5F8661A80571A006515B9 /* TutorialUpgradeViewController.m in Sources */,
 				CF48196819F7217F00041486 /* DBFBProfilePictureView.m in Sources */,
+				2948F5431AB2720A00DF08C2 /* BattleItemSelectViewController.m in Sources */,
 				CF48196919F7217F00041486 /* User.pb.m in Sources */,
 				CF48196A19F7217F00041486 /* QuestLogViewController.m in Sources */,
 				CF48196B19F7217F00041486 /* MSDate.m in Sources */,

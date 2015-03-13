@@ -1945,6 +1945,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == CompleteBattleItemResponseProto_CompleteBattleItemStatusSuccess) {
+    [gs.battleItemUtil addToMyItems:proto.ubiUpdatedList];
+    
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to complete battle item."];

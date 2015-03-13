@@ -42,14 +42,11 @@
 @implementation BattleItemUtil
 
 - (void) updateWithQueueProtos:(NSArray *)queueProtos itemProtos:(NSArray *)itemProtos {
-    self.battleItemQueue = [[BattleItemQueue alloc] init];
-    [self.battleItemQueue addAllBattleItemQueueObjects:queueProtos];
-    
-    self.battleItems = [NSMutableArray array];
-    for (UserBattleItemProto *bip in itemProtos) {
-      UserBattleItem *ubi = [[UserBattleItem alloc] initWithProto:bip];
-      [self.battleItems addObject:ubi];
-    }
+  self.battleItemQueue = [[BattleItemQueue alloc] init];
+  [self.battleItemQueue addAllBattleItemQueueObjects:queueProtos];
+  
+  self.battleItems = [NSMutableArray array];
+  [self addToMyItems:itemProtos];
 }
 
 - (int) currentPowerAmountFromCreatedItems {
@@ -72,6 +69,21 @@
   }
   
   return pwr;
+}
+
+- (void) addToMyItems:(NSArray *)itemProtos {
+  for (UserBattleItemProto *bip in itemProtos) {
+    UserBattleItem *ubi = [[UserBattleItem alloc] initWithProto:bip];
+    
+    if ([self.battleItems containsObject:ubi]) {
+      NSInteger idx = [self.battleItems indexOfObject:ubi];
+      [self.battleItems replaceObjectAtIndex:idx withObject:ubi];
+      
+      LNLog(@"Replacing item at index %d..", (int)idx);
+    } else {
+      [self.battleItems addObject:ubi];
+    }
+  }
 }
 
 - (UserBattleItem *) getUserBattleItemForBattleItemId:(int)itemId {
