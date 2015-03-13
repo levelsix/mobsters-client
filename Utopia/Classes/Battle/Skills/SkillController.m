@@ -271,6 +271,8 @@
 {
   [self performAfterDelay:self.opponentSprite.animationType == MonsterProto_AnimationTypeMelee ? .5 : 0 block:^{
     
+    [self showSkillPopupMiniOverlay:[NSString stringWithFormat:@"%i POISON DMG", [self poisonDamage]]];
+    
     if (self.belongsToPlayer)
     {
       [self.opponentSprite performNearFlinchAnimationWithStrength:0 delay:0.5];
