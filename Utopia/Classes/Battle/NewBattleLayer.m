@@ -1109,13 +1109,14 @@
   }
   else
   {
-    const float updateDuration = MIN(abs(initialDamage - modifiedDamage) * .05f, 1.f);
+    const float updateDuration = MIN(abs(initialDamage - modifiedDamage) * .07f, 1.75f);
     const int   updateRepeatCount = ceilf(updateDuration / .05f);
     const float updateDamageIncrement = (initialDamage - modifiedDamage) / (float)updateRepeatCount;
     
     __block float damage = initialDamage;
     
     CCActionFiniteTime* labelUpdateAction = [CCActionSequence actions:
+                                             [CCActionDelay actionWithDuration:.25f],
                                              [CCActionSpawn actions:
                                               [CCActionRepeat actionWithAction:
                                                [CCActionSequence actions:
@@ -1134,8 +1135,10 @@
                                               }], nil];
     
     [damageLabel runAction:[CCActionSequence actions:
-                            [CCActionEaseElasticOut actionWithAction:[CCActionScaleTo actionWithDuration:.35f scale:1.f]], // Initial scale to appear
-                            labelUpdateAction,                                                  // Update label
+                            [CCActionSpawn actions:
+                             [CCActionEaseElasticOut actionWithAction:[CCActionScaleTo actionWithDuration:1.f scale:1.f]], // Initial scale to appear
+                             labelUpdateAction,
+                             nil],// Update label
                             [CCActionCallBlock actionWithBlock:^{ if (completion) completion(); }],
                             [CCActionSpawn actions:                                             // Move up and fade out
                              [CCActionFadeOut actionWithDuration:.5f],
