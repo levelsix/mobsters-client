@@ -69,6 +69,8 @@
     {
       SkillLogStart(@"Energize -- Multiplying damage by %.2f", _curAttackMultiplier);
       
+      
+      
       return damage * _curAttackMultiplier;
     }
   }

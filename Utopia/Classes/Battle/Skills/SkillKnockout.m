@@ -90,6 +90,8 @@
 
 - (void) instantlyKillEnemy
 {
+  [self showSkillPopupMiniOverlay:@"EXECUTED"];
+  
   [self.battleLayer instantSetHealthForEnemy:self.belongsToPlayer
                                           to:0
                                   withTarget:self
