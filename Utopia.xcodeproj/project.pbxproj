@@ -28,6 +28,9 @@
 		2948F5571AB36E7500DF08C2 /* gacha_spin.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2948F5561AB36E7500DF08C2 /* gacha_spin.mp3 */; };
 		2948F5581AB36E7500DF08C2 /* gacha_spin.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2948F5561AB36E7500DF08C2 /* gacha_spin.mp3 */; };
 		2948F5591AB36E7500DF08C2 /* gacha_spin.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2948F5561AB36E7500DF08C2 /* gacha_spin.mp3 */; };
+		2948F5601AB393AD00DF08C2 /* FAQ.3@2x.txt in Resources */ = {isa = PBXBuildFile; fileRef = 2948F55F1AB393AD00DF08C2 /* FAQ.3@2x.txt */; };
+		2948F5611AB393AD00DF08C2 /* FAQ.3@2x.txt in Resources */ = {isa = PBXBuildFile; fileRef = 2948F55F1AB393AD00DF08C2 /* FAQ.3@2x.txt */; };
+		2948F5621AB393AD00DF08C2 /* FAQ.3@2x.txt in Resources */ = {isa = PBXBuildFile; fileRef = 2948F55F1AB393AD00DF08C2 /* FAQ.3@2x.txt */; };
 		295FA2AF1A1B44A4006B79F3 /* SpeedupItemsFiller.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBEB1C21A118DCE00149937 /* SpeedupItemsFiller.m */; };
 		295FA2B31A1B44A4006B79F3 /* SpeedupItemsFiller.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBEB1C21A118DCE00149937 /* SpeedupItemsFiller.m */; };
 		295FA2B41A1B44A7006B79F3 /* ResourceItemsFiller.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBEB1C51A118DD900149937 /* ResourceItemsFiller.m */; };
@@ -2701,7 +2704,6 @@
 		CF0CF146196F452900ECD301 /* stg_lose.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CFC4D24618D7BD03004681FD /* stg_lose.mp3 */; };
 		CF0CF148196F452900ECD301 /* sfx_choose_mobster_to_swap.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CFC4D27018D7BD03004681FD /* sfx_choose_mobster_to_swap.mp3 */; };
 		CF0CF14A196F452900ECD301 /* menusquareinactivepressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF32EAC5195FF81900A4AEE3 /* menusquareinactivepressed@2x.png */; };
-		CF0CF14F196F452900ECD301 /* FAQ@2x.txt in Resources */ = {isa = PBXBuildFile; fileRef = CF29EA66196533CF00B40DA4 /* FAQ@2x.txt */; };
 		CF0CF151196F452900ECD301 /* sellbubble8@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF29E9E31964BD0500B40DA4 /* sellbubble8@2x.png */; };
 		CF0CF154196F452900ECD301 /* hospitalopenarrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF06B5BE193699FB008BF892 /* hospitalopenarrow@2x.png */; };
 		CF0CF159196F452900ECD301 /* emptyfriendslot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF786F418E28FE000413E78 /* emptyfriendslot@2x.png */; };
@@ -3557,7 +3559,6 @@
 		CF29EA601965100E00B40DA4 /* FAQViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF29EA5E1965100E00B40DA4 /* FAQViewController.xib */; };
 		CF29EA641965102800B40DA4 /* SettingsSubViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF29EA621965102800B40DA4 /* SettingsSubViewController.m */; };
 		CF29EA651965102800B40DA4 /* SettingsSubViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF29EA631965102800B40DA4 /* SettingsSubViewController.xib */; };
-		CF29EA67196533CF00B40DA4 /* FAQ@2x.txt in Resources */ = {isa = PBXBuildFile; fileRef = CF29EA66196533CF00B40DA4 /* FAQ@2x.txt */; };
 		CF29EA721965418F00B40DA4 /* inaclanbutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF29EA6A1965418E00B40DA4 /* inaclanbutton@2x.png */; };
 		CF29EA761965418F00B40DA4 /* mailbutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF29EA6E1965418E00B40DA4 /* mailbutton@2x.png */; };
 		CF29EA781965418F00B40DA4 /* notinaclanbutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF29EA701965418E00B40DA4 /* notinaclanbutton@2x.png */; };
@@ -4366,7 +4367,6 @@
 		CF481D6B19F7217F00041486 /* stg_lose.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CFC4D24618D7BD03004681FD /* stg_lose.mp3 */; };
 		CF481D6D19F7217F00041486 /* sfx_choose_mobster_to_swap.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CFC4D27018D7BD03004681FD /* sfx_choose_mobster_to_swap.mp3 */; };
 		CF481D6F19F7217F00041486 /* menusquareinactivepressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF32EAC5195FF81900A4AEE3 /* menusquareinactivepressed@2x.png */; };
-		CF481D7419F7217F00041486 /* FAQ@2x.txt in Resources */ = {isa = PBXBuildFile; fileRef = CF29EA66196533CF00B40DA4 /* FAQ@2x.txt */; };
 		CF481D7619F7217F00041486 /* sellbubble8@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF29E9E31964BD0500B40DA4 /* sellbubble8@2x.png */; };
 		CF481D7819F7217F00041486 /* HealingCenterT1@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A49819709C4800269084 /* HealingCenterT1@2x.plist */; };
 		CF481D7919F7217F00041486 /* hospitalopenarrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF06B5BE193699FB008BF892 /* hospitalopenarrow@2x.png */; };
@@ -6901,6 +6901,7 @@
 		292771411A72DBB400E3AB65 /* fightonbubblearrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fightonbubblearrow@2x.png"; sourceTree = "<group>"; };
 		2948F5521AB36D8D00DF08C2 /* use_gems.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = use_gems.mp3; sourceTree = "<group>"; };
 		2948F5561AB36E7500DF08C2 /* gacha_spin.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = gacha_spin.mp3; sourceTree = "<group>"; };
+		2948F55F1AB393AD00DF08C2 /* FAQ.3@2x.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "FAQ.3@2x.txt"; sourceTree = "<group>"; };
 		295FA2BC1A1BEC7D006B79F3 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = SOURCE_ROOT; };
 		296548641A8163F80080B195 /* donatetoonslot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "donatetoonslot@2x.png"; sourceTree = "<group>"; };
 		296548691A8193A00080B195 /* UIView+Superview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Superview.h"; sourceTree = "<group>"; };
@@ -8169,7 +8170,6 @@
 		CF29EA611965102800B40DA4 /* SettingsSubViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsSubViewController.h; sourceTree = "<group>"; };
 		CF29EA621965102800B40DA4 /* SettingsSubViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsSubViewController.m; sourceTree = "<group>"; };
 		CF29EA631965102800B40DA4 /* SettingsSubViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsSubViewController.xib; sourceTree = "<group>"; };
-		CF29EA66196533CF00B40DA4 /* FAQ@2x.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "FAQ@2x.txt"; sourceTree = "<group>"; };
 		CF29EA691965418E00B40DA4 /* inaclanbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = inaclanbutton.png; path = "New HUD/Buttons/inaclanbutton.png"; sourceTree = "<group>"; };
 		CF29EA6A1965418E00B40DA4 /* inaclanbutton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "inaclanbutton@2x.png"; sourceTree = "<group>"; };
 		CF29EA6D1965418E00B40DA4 /* mailbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mailbutton.png; path = "New HUD/Buttons/mailbutton.png"; sourceTree = "<group>"; };
@@ -13905,7 +13905,7 @@
 				CF29EA5C1965100E00B40DA4 /* FAQViewController.h */,
 				CF29EA5D1965100E00B40DA4 /* FAQViewController.m */,
 				CF29EA5E1965100E00B40DA4 /* FAQViewController.xib */,
-				CF29EA66196533CF00B40DA4 /* FAQ@2x.txt */,
+				2948F55F1AB393AD00DF08C2 /* FAQ.3@2x.txt */,
 			);
 			name = FAQ;
 			sourceTree = "<group>";
@@ -17809,7 +17809,6 @@
 				CF0CF148196F452900ECD301 /* sfx_choose_mobster_to_swap.mp3 in Resources */,
 				2980504F1A265EE800806253 /* 13gbhud@2x.png in Resources */,
 				CF0CF14A196F452900ECD301 /* menusquareinactivepressed@2x.png in Resources */,
-				CF0CF14F196F452900ECD301 /* FAQ@2x.txt in Resources */,
 				9B6B77DA1A858B1A0080C8E5 /* 5moveslabel@2x.png in Resources */,
 				CF0CF151196F452900ECD301 /* sellbubble8@2x.png in Resources */,
 				CFF2A51B19709C4800269084 /* HealingCenterT1@2x.plist in Resources */,
@@ -18673,6 +18672,7 @@
 				CF0CF5CF196F452900ECD301 /* vaultgems@2x.png in Resources */,
 				29FC5EFB1A8955BB00A50FA7 /* SaleViewCell.xib in Resources */,
 				CF0CF5D0196F452900ECD301 /* SellCardCell.xib in Resources */,
+				2948F5611AB393AD00DF08C2 /* FAQ.3@2x.txt in Resources */,
 				CF0CF5D3196F452900ECD301 /* streak.png in Resources */,
 				CF0CF5D5196F452900ECD301 /* upgradebarnewmiddle@2x.png in Resources */,
 				299AA3AF1A7856AA00A2D806 /* lightheadshot-9@2x.png in Resources */,
@@ -19741,7 +19741,6 @@
 				CFC4D2A318D7BD04004681FD /* sfx_choose_mobster_to_swap.mp3 in Resources */,
 				29DCCFEA1A8C3310003176FD /* fallinggems09@2x.png in Resources */,
 				CF32EAE5195FF81900A4AEE3 /* menusquareinactivepressed@2x.png in Resources */,
-				CF29EA67196533CF00B40DA4 /* FAQ@2x.txt in Resources */,
 				2992D7CF1AA5326B00547B11 /* thegemminelogo@2x.png in Resources */,
 				29DCD0021A8C3D8B003176FD /* barshadow@2x.png in Resources */,
 				CF29EA131964BD0500B40DA4 /* sellbubble8@2x.png in Resources */,
@@ -20736,6 +20735,7 @@
 				CFC4D2B018D7E130004681FD /* sfx_firework_01.mp3 in Resources */,
 				CF6F1A281815240900CFF2B9 /* QuestListCell.xib in Resources */,
 				CFF2C8F4193E9CC700F28D9E /* greychatmiddle@2x.png in Resources */,
+				2948F5601AB393AD00DF08C2 /* FAQ.3@2x.txt in Resources */,
 				CFF2C93B193FD71F00F28D9E /* chatclanactive@2x.png in Resources */,
 				CFEC993E1947FBF300BD893E /* gachalegendtag@2x.png in Resources */,
 				2992D7D31AA5347C00547B11 /* gemsmoke@2x.plist in Resources */,
@@ -21179,6 +21179,7 @@
 				CF481A5419F7217F00041486 /* chatinputbgcap@2x.png in Resources */,
 				CF481A5619F7217F00041486 /* cakeorb@2x.png in Resources */,
 				CF481A5919F7217F00041486 /* gachararepiece@2x.png in Resources */,
+				2948F5621AB393AD00DF08C2 /* FAQ.3@2x.txt in Resources */,
 				CF481A5B19F7217F00041486 /* zarkbubble@2x.png in Resources */,
 				298050A71A265EE800806253 /* secretgiftbluebg@2x.png in Resources */,
 				CF481A6119F7217F00041486 /* helpredbubble5@2x.png in Resources */,
@@ -21618,7 +21619,6 @@
 				CF481D6B19F7217F00041486 /* stg_lose.mp3 in Resources */,
 				CF481D6D19F7217F00041486 /* sfx_choose_mobster_to_swap.mp3 in Resources */,
 				CF481D6F19F7217F00041486 /* menusquareinactivepressed@2x.png in Resources */,
-				CF481D7419F7217F00041486 /* FAQ@2x.txt in Resources */,
 				9BC535861A845C0500E49F4D /* nightcounterbg@2x.png in Resources */,
 				CF481D7619F7217F00041486 /* sellbubble8@2x.png in Resources */,
 				CF481D7819F7217F00041486 /* HealingCenterT1@2x.plist in Resources */,

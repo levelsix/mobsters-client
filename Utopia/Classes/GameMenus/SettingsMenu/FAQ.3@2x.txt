@@ -1,0 +1,136 @@
+How To Play <h>
+
+Attack Map <s>
+
+The Attack Map is where you can test your battle prowess. 
+
+The right side of the screen is the Single Player section. You can progress through the map by defeating the tasks. Rewards are only given out once for each task, but you can still replay all of them for Toon drops.
+
+The left side of the screen is for Multiplayer. Clicking “Find Match” will let you find other players to battle. You can see your opponent’s squad and the rewards that you win upon defeating them. If you don’t like the current match, you can tap “Next Match” to keep searching for an appropriate opponent.
+
+Battle  <s>
+
+It may seem like it’s simply match-3, but don’t be fooled, there are elements to consider, power-ups to be made, and skills to deal with. Each Toon does different amounts of damage per element orb, so make sure you’re maximizing your damage at all times with each move! 
+
+Power-ups: Match 3 for a move, match 4 to create a Rocket, match 5 in a row to make a Rainbow Orb, and match 5 in a L or T shape to conjure a Grenade. 
+
+Skills <s>
+
+Skills add another dimension to battling, and can be great to use on your opponent, but also difficult to fight against. Not all Toons have skills, and those that do can only have one attacking skill and one defensive skill. Attacking skills can be used when you’re doing the attacking, and defensive skills alters an opponent’s battle board when they attack you. 
+
+Speed <s>
+
+Speed helps determine a Toon’s turn during battles. The faster your Toon is against your opponent’s, the more attacks you will have. However, be careful of picking your teams based solely on speed--it may not always be the best choice! 
+
+Collecting Toons <s>
+
+There are three areas where you can collect Toons: Single Player, Multiplayer, and the Toon Grabs. The first two are located on the Attack Map, while the Toon Grab is in the Home Map.
+
+After defeating Toons in Single Player tasks, or enemies in Multiplayer, there is a chance of the Toons dropping either a piece or a complete version of themselves. You must complete the whole task, or beat all of an enemy’s squad in Multiplayer in order to collect the dropped Toons.
+
+The Toon Grab can be found in the Home Map under the “Shop” menu. There are two Grabs where you can try your luck in. The “Basic Grab” guarantees Common Toons, along with a chance at Rare ones, while the “Goonie Grab” guarantees Rare Toons, with possibility of attaining Super & Ultra Toons. If you’re feeling lucky, this is the place to go!
+
+
+Buildings <s>
+
+Buildings are essential to gameplay. Every action, other than battling, is performed through them. Make sure to familiarize yourself with each building and its functions.
+
+
+Command Center:<st>
+
+The Command Center is the structure that dictates which other buildings you can build and when you can build them. Make sure you’re always paying attention to your Command Center so you can unlock the next wave of buildings!
+
+
+Team Center:<st>
+
+Manage your squad selection and access all your Toons from the Team Center. Lock strong Toons from being accidentally used as enhancement or evolution fodder, set another Toon as your avatar, or just familiarize yourself with your team. Always choose your best squad! 
+
+Upgrade the Team Center to increase Team Power.
+
+
+Healing Center:<st>
+
+This is where you can heal your injured Toons. It would be a wise decision to always have your Toons at full health, unless you like to live dangerously.
+
+Upgrade the Healing Center to increase queue size and healing rate. 
+
+
+Squad H.Q:<st>
+
+Find the best clan for you and help it become the best in the game. Don’t forget to help your clan members speed up their timers! Or don’t and disappoint those kind friends counting on you.
+
+Upgrade the Squad H.Q. to increase your help limit.
+
+
+Job Center:<st>
+
+Send your Toons out on mini jobs to bring back extra resources for you. It’s like free labor!
+
+Upgrade the Job Center to get bigger and better rewards.
+
+
+Laboratory:<st>
+
+Enhance your Toons to make them stronger.  We promise the feeder Toons are treated humanely during the process.  Events unlock at level 5. 
+
+Upgrade the Laboratory to increase queue size and enhancement rate.
+
+
+Residence:<st>
+
+Residences provides a home for all your Toons. When there’s no more room left for all of them, you can always host a Hunger Games for your Toons to see who gets sold.
+
+Upgrade Residences to increase slots.
+
+
+Evo Chamber:<st>
+
+Evolve your Toons and make them look cooler. Sure, the stats may also improve substantially, but let’s be real, we’re superficial beings and judge Toons by their looks.
+
+Upgrade the Evo Chamber to unlock higher tier evolutions.
+
+
+Cash Printer & Oil Drill:<st>
+
+Print money at will and drill for all the oil you want. It’s like you’re the government and BP combined, but without regulation! Wait, no, that’s already the case.
+
+Upgrade Cash Printers and Oil Drills to increase production rates.
+
+
+Cash Vault & Oil Silo:<st>
+
+Store all your hard-earned cash and oil. It’s like the physical representation of a Cayman Islands bank account, just that instead of the U.S. government chasing you down, it’s Lil’ Kim...and every other player in Toon Squad.
+
+Upgrade Cash Vaults and Oil Silos to increase storage capacity.
+
+
+FAQ <s>
+
+Help! I lost my account! What do I do?
+
+
+Fear not, talk to any of our Admins or email us at support@lvl6.com, and we’ll make sure  you get your account back. We will ask questions to verify that we are returning accounts to the right people, so don’t worry about those pesky robots trying to steal it. After all, we have an unlimited supply of CAPTCHAs.
+
+How do I connect my Facebook account?
+
+Zark must have been disappointed in you, but I’m sure he’ll forgive you now if you go to “Shop” in the home screen, and tap on the Settings icon in the bottom right corner.
+
+How do I upgrade my buildings?
+
+When you click on each building, there will be an “Upgrade” button. Tap on it to look at what the upgrades will bring you and how much it will cost. For certain buildings (Healing Center, Laboratory, Evo Chamber, and Job Center), you will not be able to use them until the upgrades are finished, so plan accordingly!
+
+I have just purchased gems, but they never came through. What can I do?
+
+While most transactions go smoothly, sometimes Apple or our servers might be slower than usual or experiencing an error. Please wait and see if the purchased gems come through. If they don’t, try restarting the game and then checking. If all else fails, please contact our customer support via email at support@lvl6.com and we will get back to you as soon as possible!
+
+Can I connect multiple devices to the same account?
+
+Yes you can! As long as you connected your account to either Facebook or Game Center, you can log on to it on other devices by signing in. However, you can’t play one account at the same time with multiple devices.
+
+What is a “Maintenance Break”?
+
+Maintenance breaks happen when we need to update our servers, address a minor bug, support new content, or improve the general quality of gameplay! We will always let players know beforehand in-game and through our social media accounts.
+
+I read your awesome guide on How To Play and all of FAQ, but it still doesn’t answer my question. What do I do?
+
+Just email us at support@lvl6.com and we’ll respond to you as soon as we can! Or, talk to  the Admins in chat and they’ll be less sarcastic and more helpful!

@@ -12,21 +12,25 @@
 
 #define SECTION_IDENTIFIER @"Section"
 #define QUESTION_IDENTIFIER @"Question"
+#define SUBTITLE_IDENTIFIER @"Subtitle"
 #define TEXT_IDENTIFIER @"Text"
 #define NEWLINE_IDENTIFIER @"Newline"
 
 #define HEADER_SUFFIX @"<h>"
 #define SECTION_SUFFIX @"<s>"
+#define SUBTITLE_SUFFIX @"<st>"
 #define QUESTION_SUFFIX @"?"
 #define REPLACEMENT_DELIMITER @"`"
 #define LABEL_TAG 51
 
 #define SECTION_FONT @"Ziggurat-HTF-Black"
 #define TEXT_FONT @"Gotham-Book"
-#define QUESTION_FONT @"Ziggurat-HTF-Black"
+#define SUBTITLE_FONT @"Gotham-Ultra"
+#define QUESTION_FONT @"Gotham-Ultra"
 
 #define SECTION_FONT_SIZE 16
 #define TEXT_FONT_SIZE 12
+#define SUBTITLE_FONT_SIZE 13
 #define QUESTION_FONT_SIZE 13
 
 #define TEXT_LEFT_RIGHT_OFFSET 15
@@ -39,7 +43,11 @@
   
   NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
   [paragraphStyle setLineSpacing:6.f];
-  _paraStyle = paragraphStyle;
+  _textParaStyle = paragraphStyle;
+  
+  paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+  [paragraphStyle setLineSpacing:2.f];
+  _questionParaStyle = paragraphStyle;
   
   [self loadFAQ];
 }
@@ -158,7 +166,9 @@
   BOOL isSectionTitle = NO;
   BOOL isQuestion = NO;
   BOOL isNewline = NO;
+  BOOL isSubtitle = NO;
   NSString *reuseId = TEXT_IDENTIFIER;
+  NSDictionary *attrs = nil;
   if (text.length == 0) {
     reuseId = NEWLINE_IDENTIFIER;
     isNewline = YES;
@@ -166,9 +176,16 @@
     isSectionTitle = YES;
     text = [text stringByReplacingOccurrencesOfString:SECTION_SUFFIX withString:@""];
     reuseId = SECTION_IDENTIFIER;
+  } else if ([text hasSuffix:SUBTITLE_SUFFIX]) {
+    isSubtitle = YES;
+    text = [text stringByReplacingOccurrencesOfString:SUBTITLE_SUFFIX withString:@""];
+    reuseId = SUBTITLE_IDENTIFIER;
   } else if ([text hasSuffix:QUESTION_SUFFIX]) {
     isQuestion = YES;
     reuseId = QUESTION_IDENTIFIER;
+    attrs = @{NSParagraphStyleAttributeName:_questionParaStyle};
+  } else {
+    attrs = @{NSParagraphStyleAttributeName:_textParaStyle};
   }
   
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseId];
@@ -188,6 +205,8 @@
         label.font = [UIFont fontWithName:SECTION_FONT size:SECTION_FONT_SIZE];
       } else if (isQuestion) {
         label.font = [UIFont fontWithName:QUESTION_FONT size:QUESTION_FONT_SIZE];
+      } else if (isSubtitle) {
+        label.font = [UIFont fontWithName:SUBTITLE_FONT size:SUBTITLE_FONT_SIZE];
       } else {
         label.font = [UIFont fontWithName:TEXT_FONT size:TEXT_FONT_SIZE];
       }
@@ -195,7 +214,7 @@
   }
   
   UILabel *label = (UILabel *)[cell.contentView viewWithTag:LABEL_TAG];
-  label.attributedText = [[NSAttributedString alloc] initWithString:text attributes:@{NSParagraphStyleAttributeName:_paraStyle, NSFontAttributeName:label.font}];
+  label.attributedText = [[NSAttributedString alloc] initWithString:text attributes:attrs];
   
   CGFloat height = [self tableView:tableView heightForRowAtIndexPath:indexPath];
   label.frame = CGRectMake(TEXT_LEFT_RIGHT_OFFSET,0,tableView.frame.size.width-2*TEXT_LEFT_RIGHT_OFFSET,height);
@@ -212,16 +231,23 @@
   }
   
   UIFont *font = [UIFont fontWithName:TEXT_FONT size:TEXT_FONT_SIZE];
+  NSDictionary *attrs = nil;
   
   if ([text hasSuffix:SECTION_SUFFIX]) {
     text = [text stringByReplacingOccurrencesOfString:SECTION_SUFFIX withString:@""];
     font = [UIFont fontWithName:SECTION_FONT size:SECTION_FONT_SIZE];
+  } else if ([text hasSuffix:SUBTITLE_SUFFIX]) {
+    text = [text stringByReplacingOccurrencesOfString:SUBTITLE_SUFFIX withString:@""];
+    font = [UIFont fontWithName:SUBTITLE_FONT size:SUBTITLE_FONT_SIZE];
   } else if ([text hasSuffix:QUESTION_SUFFIX]) {
     font = [UIFont fontWithName:QUESTION_FONT size:QUESTION_FONT_SIZE];
+    attrs = @{NSParagraphStyleAttributeName:_questionParaStyle};
+  } else {
+    attrs = @{NSParagraphStyleAttributeName:_textParaStyle};
   }
   
   CGRect rect = CGRectMake(TEXT_LEFT_RIGHT_OFFSET,0,tableView.frame.size.width-2*TEXT_LEFT_RIGHT_OFFSET,0);
-  NSAttributedString *attrText = [[NSAttributedString alloc] initWithString:text attributes:@{NSParagraphStyleAttributeName: _paraStyle, NSFontAttributeName:font}];
+  NSAttributedString *attrText = [[NSAttributedString alloc] initWithString:text attributes:attrs];
   CGRect r = [attrText boundingRectWithSize:rect.size options:NSStringDrawingUsesLineFragmentOrigin context:NULL];
   
   return r.size.height+5;

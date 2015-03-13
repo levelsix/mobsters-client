@@ -9,7 +9,8 @@
 #import "PopupSubViewController.h"
 
 @interface FAQViewController : PopupSubViewController <UITableViewDataSource, UITableViewDelegate> {
-  NSParagraphStyle *_paraStyle;
+  NSParagraphStyle *_textParaStyle;
+  NSParagraphStyle *_questionParaStyle;
 }
 
 @property (nonatomic, strong) NSArray *textStrings;

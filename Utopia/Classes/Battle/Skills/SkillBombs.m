@@ -74,7 +74,6 @@
 - (NSInteger)updateSpecialOrbs
 {
   BattleOrbLayout* layout = self.battleLayer.orbLayer.layout;
-  CGPoint position = self.playerSprite.position;
   OrbSwipeLayer* layer = self.battleLayer.orbLayer.swipeLayer;
   NSInteger totalDamage = 0;
   NSInteger bombCount = 0;
