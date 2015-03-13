@@ -42,7 +42,7 @@
   if (player == self.belongsToPlayer)
     if ([self isActive])
     {
-      [self showSkillPopupMiniOverlay:[NSString stringWithFormat:@"%.3gX ATK", _damageMultiplier]];
+      [self showSkillPopupMiniOverlay:[NSString stringWithFormat:@"%.3gX DMG", _damageMultiplier]];
       return damage * _damageMultiplier;
     }
   

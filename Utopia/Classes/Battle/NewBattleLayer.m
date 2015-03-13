@@ -1066,6 +1066,8 @@
     
     SkillLogEnd(triggered, @"  Deal damage by player trigger ENDED");
     
+    [[skillManager enemySkillControler] showSkillPopupMiniOverlay:[NSString stringWithFormat:@"%i DMG TO SELF", _myDamageDealt]];
+    
     _enemyShouldAttack = YES;
     _totalDamageTaken += _myDamageDealt;
     
@@ -1082,6 +1084,8 @@
   [skillManager triggerSkills:SkillTriggerPointEnemyDealsDamage withCompletion:^(BOOL triggered, id params) {
     
     SkillLogEnd(triggered, @"  Deal damage by enemy trigger ENDED");
+    
+    [[skillManager playerSkillControler] showSkillPopupMiniOverlay:[NSString stringWithFormat:@"%i DMG TO SELF", _enemyDamageDealt]];
     
     [self animateDamageLabel:_enemyDamageDealtUnmodified modifiedDamage:_enemyDamageDealt targetSprite:self.currentEnemy withCompletion:^{
       [self dealDamageToSelf:_enemyDamageDealt enemyIsAttacker:YES showDamageLabel:NO withTarget:self andSelector:@selector(endEnemyTurn)];
