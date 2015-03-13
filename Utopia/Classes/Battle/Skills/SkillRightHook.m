@@ -71,6 +71,11 @@
   [self resetOrbCounter];
 }
 
+- (void)showQuickAttackMiniLogo
+{
+  [self showSkillPopupMiniOverlay:[NSString stringWithFormat:@"%ld DMG + CONFUSED", (long)self.quickAttackDamage]];
+}
+
 - (BOOL)onSpecialOrbCounterFinish:(NSInteger)numOrbs
 {
   [self dealQuickAttack];

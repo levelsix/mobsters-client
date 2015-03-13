@@ -92,6 +92,11 @@
   return [super activate];
 }
 
+- (void)showQuickAttackMiniLogo
+{
+  [self showSkillPopupMiniOverlay:[NSString stringWithFormat:@"%i DMG + %i TURNS / STUNNED", _damage, _stunTurns]];
+}
+
 - (BOOL)onSpecialOrbCounterFinish:(NSInteger)numOrbs
 {
   [self calculateValues];

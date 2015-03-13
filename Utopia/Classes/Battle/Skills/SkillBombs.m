@@ -68,6 +68,9 @@
   
   [self dropBombsOnPlayer:numOrbs];
   
+  [self showSkillPopupMiniOverlay:[NSString stringWithFormat:@"%li DMG", totalDamage]];
+
+  
   return YES;
 }
 

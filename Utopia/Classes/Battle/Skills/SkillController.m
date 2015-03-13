@@ -333,7 +333,7 @@
 
 - (void) showQuickAttackMiniLogo
 {
-  [self showSkillPopupMiniOverlay:[NSString stringWithFormat:@"%ld ATK", (long)self.quickAttackDamage]];
+  [self showSkillPopupMiniOverlay:[NSString stringWithFormat:@"%ld DMG", (long)self.quickAttackDamage]];
 }
 
 - (void) dealQuickAttack
