@@ -73,9 +73,7 @@
       {
         damage = 0;
         _missed = YES;
-        [self showSkillPopupMiniOverlay:NO
-                             bottomText:@"MISSED"
-                         withCompletion:^{}];
+        [self showSkillPopupMiniOverlay:@"MISS"];
         SkillLogStart(@"Blinding Light -- Skill caused a miss");
       }
     }
