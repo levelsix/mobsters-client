@@ -81,6 +81,7 @@
 - (void) beginLifeSteal
 {
   [self beginLifeStealOrbEffect];
+  [self showSkillPopupMiniOverlay:[NSString stringWithFormat:@"%i HP STOLEN", [self calculateLifeStealAmount]]];
 }
 
 - (void) beginLifeStealOrbEffect

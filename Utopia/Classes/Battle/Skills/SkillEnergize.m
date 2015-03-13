@@ -69,7 +69,7 @@
     {
       SkillLogStart(@"Energize -- Multiplying damage by %.2f", _curAttackMultiplier);
       
-      
+      [self showSkillPopupMiniOverlay:[NSString stringWithFormat:@"%.3gX DMG", _curAttackMultiplier]];
       
       return damage * _curAttackMultiplier;
     }
@@ -82,6 +82,8 @@
 {
   _curSpeedMultiplier += _speedIncrease * numOrbs;
   _curAttackMultiplier += _attackIncrease * numOrbs;
+  
+  [self showSkillPopupMiniOverlay:[NSString stringWithFormat:@"+%.3g ATK / +%.3g SPD", (_attackIncrease * numOrbs), (_speedIncrease * numOrbs)]];
   
   [self updateSkillOwnerSpeed];
   

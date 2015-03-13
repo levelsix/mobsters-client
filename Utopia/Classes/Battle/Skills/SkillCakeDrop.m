@@ -202,6 +202,7 @@
 {
 //[self makeSkillOwnerJumpWithTarget:self selector:@selector(startAttackingPlayerPhase2)];
   [self startAttackingPlayerPhase2];
+  [self showSkillPopupMiniOverlay:@"CAKESPLOSION"];
 }
 
 - (void) startAttackingPlayerPhase2
