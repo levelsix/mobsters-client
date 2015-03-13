@@ -14,6 +14,10 @@
 @class BattleItemQueueForUserProto_Builder;
 @class ClanHouseProto;
 @class ClanHouseProto_Builder;
+@class CompleteBattleItemRequestProto;
+@class CompleteBattleItemRequestProto_Builder;
+@class CompleteBattleItemResponseProto;
+@class CompleteBattleItemResponseProto_Builder;
 @class CoordinateProto;
 @class CoordinateProto_Builder;
 @class CreateBattleItemRequestProto;
@@ -100,12 +104,18 @@ typedef NS_ENUM(SInt32, CreateBattleItemResponseProto_CreateBattleItemStatus) {
   CreateBattleItemResponseProto_CreateBattleItemStatusSuccess = 1,
   CreateBattleItemResponseProto_CreateBattleItemStatusFailOther = 2,
   CreateBattleItemResponseProto_CreateBattleItemStatusFailInsufficientFunds = 3,
-  CreateBattleItemResponseProto_CreateBattleItemStatusFailAtMaxPowerLimit = 4,
-  CreateBattleItemResponseProto_CreateBattleItemStatusFailAllMonstersNonexistent = 5,
-  CreateBattleItemResponseProto_CreateBattleItemStatusFailCreatingNotComplete = 6,
 };
 
 BOOL CreateBattleItemResponseProto_CreateBattleItemStatusIsValidValue(CreateBattleItemResponseProto_CreateBattleItemStatus value);
+
+typedef NS_ENUM(SInt32, CompleteBattleItemResponseProto_CompleteBattleItemStatus) {
+  CompleteBattleItemResponseProto_CompleteBattleItemStatusSuccess = 1,
+  CompleteBattleItemResponseProto_CompleteBattleItemStatusFailOther = 2,
+  CompleteBattleItemResponseProto_CompleteBattleItemStatusFailInvalidBattleItems = 3,
+  CompleteBattleItemResponseProto_CompleteBattleItemStatusFailInsufficientFunds = 4,
+};
+
+BOOL CompleteBattleItemResponseProto_CompleteBattleItemStatusIsValidValue(CompleteBattleItemResponseProto_CompleteBattleItemStatus value);
 
 typedef NS_ENUM(SInt32, DiscardBattleItemResponseProto_DiscardBattleItemStatus) {
   DiscardBattleItemResponseProto_DiscardBattleItemStatusSuccess = 1,
@@ -124,43 +134,32 @@ BOOL DiscardBattleItemResponseProto_DiscardBattleItemStatusIsValidValue(DiscardB
 
 @interface CreateBattleItemRequestProto : PBGeneratedMessage {
 @private
-  BOOL hasIsSpeedup_:1;
   BOOL hasGemCostForCreating_:1;
-  BOOL hasGemsForSpeedup_:1;
   BOOL hasSender_:1;
   BOOL hasCashChange_:1;
   BOOL hasOilChange_:1;
-  BOOL isSpeedup_:1;
   int32_t gemCostForCreating;
-  int32_t gemsForSpeedup;
-  MinimumUserProto* sender;
+  MinimumUserProtoWithMaxResources* sender;
   int32_t cashChange;
   int32_t oilChange;
-  NSMutableArray * mutableUmhDeleteList;
-  NSMutableArray * mutableUmhRemovedList;
-  NSMutableArray * mutableUmhUpdateList;
-  NSMutableArray * mutableUmhNewList;
+  NSMutableArray * mutableBiqfuDeleteList;
+  NSMutableArray * mutableBiqfuUpdateList;
+  NSMutableArray * mutableBiqfuNewList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasCashChange;
 - (BOOL) hasOilChange;
 - (BOOL) hasGemCostForCreating;
-- (BOOL) hasIsSpeedup;
-- (BOOL) hasGemsForSpeedup;
-@property (readonly, strong) MinimumUserProto* sender;
-@property (readonly, strong) NSArray * umhDeleteList;
-@property (readonly, strong) NSArray * umhRemovedList;
-@property (readonly, strong) NSArray * umhUpdateList;
-@property (readonly, strong) NSArray * umhNewList;
+@property (readonly, strong) MinimumUserProtoWithMaxResources* sender;
+@property (readonly, strong) NSArray * biqfuDeleteList;
+@property (readonly, strong) NSArray * biqfuUpdateList;
+@property (readonly, strong) NSArray * biqfuNewList;
 @property (readonly) int32_t cashChange;
 @property (readonly) int32_t oilChange;
 @property (readonly) int32_t gemCostForCreating;
-- (BOOL) isSpeedup;
-@property (readonly) int32_t gemsForSpeedup;
-- (BattleItemQueueForUserProto*)umhDeleteAtIndex:(NSUInteger)index;
-- (BattleItemQueueForUserProto*)umhRemovedAtIndex:(NSUInteger)index;
-- (BattleItemQueueForUserProto*)umhUpdateAtIndex:(NSUInteger)index;
-- (BattleItemQueueForUserProto*)umhNewAtIndex:(NSUInteger)index;
+- (BattleItemQueueForUserProto*)biqfuDeleteAtIndex:(NSUInteger)index;
+- (BattleItemQueueForUserProto*)biqfuUpdateAtIndex:(NSUInteger)index;
+- (BattleItemQueueForUserProto*)biqfuNewAtIndex:(NSUInteger)index;
 
 + (CreateBattleItemRequestProto*) defaultInstance;
 - (CreateBattleItemRequestProto*) defaultInstance;
@@ -198,35 +197,29 @@ BOOL DiscardBattleItemResponseProto_DiscardBattleItemStatusIsValidValue(DiscardB
 - (CreateBattleItemRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
 - (BOOL) hasSender;
-- (MinimumUserProto*) sender;
-- (CreateBattleItemRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (CreateBattleItemRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
-- (CreateBattleItemRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (MinimumUserProtoWithMaxResources*) sender;
+- (CreateBattleItemRequestProto_Builder*) setSender:(MinimumUserProtoWithMaxResources*) value;
+- (CreateBattleItemRequestProto_Builder*) setSender_Builder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue;
+- (CreateBattleItemRequestProto_Builder*) mergeSender:(MinimumUserProtoWithMaxResources*) value;
 - (CreateBattleItemRequestProto_Builder*) clearSender;
 
-- (NSMutableArray *)umhDeleteList;
-- (BattleItemQueueForUserProto*)umhDeleteAtIndex:(NSUInteger)index;
-- (CreateBattleItemRequestProto_Builder *)addUmhDelete:(BattleItemQueueForUserProto*)value;
-- (CreateBattleItemRequestProto_Builder *)addAllUmhDelete:(NSArray *)array;
-- (CreateBattleItemRequestProto_Builder *)clearUmhDelete;
+- (NSMutableArray *)biqfuDeleteList;
+- (BattleItemQueueForUserProto*)biqfuDeleteAtIndex:(NSUInteger)index;
+- (CreateBattleItemRequestProto_Builder *)addBiqfuDelete:(BattleItemQueueForUserProto*)value;
+- (CreateBattleItemRequestProto_Builder *)addAllBiqfuDelete:(NSArray *)array;
+- (CreateBattleItemRequestProto_Builder *)clearBiqfuDelete;
 
-- (NSMutableArray *)umhRemovedList;
-- (BattleItemQueueForUserProto*)umhRemovedAtIndex:(NSUInteger)index;
-- (CreateBattleItemRequestProto_Builder *)addUmhRemoved:(BattleItemQueueForUserProto*)value;
-- (CreateBattleItemRequestProto_Builder *)addAllUmhRemoved:(NSArray *)array;
-- (CreateBattleItemRequestProto_Builder *)clearUmhRemoved;
+- (NSMutableArray *)biqfuUpdateList;
+- (BattleItemQueueForUserProto*)biqfuUpdateAtIndex:(NSUInteger)index;
+- (CreateBattleItemRequestProto_Builder *)addBiqfuUpdate:(BattleItemQueueForUserProto*)value;
+- (CreateBattleItemRequestProto_Builder *)addAllBiqfuUpdate:(NSArray *)array;
+- (CreateBattleItemRequestProto_Builder *)clearBiqfuUpdate;
 
-- (NSMutableArray *)umhUpdateList;
-- (BattleItemQueueForUserProto*)umhUpdateAtIndex:(NSUInteger)index;
-- (CreateBattleItemRequestProto_Builder *)addUmhUpdate:(BattleItemQueueForUserProto*)value;
-- (CreateBattleItemRequestProto_Builder *)addAllUmhUpdate:(NSArray *)array;
-- (CreateBattleItemRequestProto_Builder *)clearUmhUpdate;
-
-- (NSMutableArray *)umhNewList;
-- (BattleItemQueueForUserProto*)umhNewAtIndex:(NSUInteger)index;
-- (CreateBattleItemRequestProto_Builder *)addUmhNew:(BattleItemQueueForUserProto*)value;
-- (CreateBattleItemRequestProto_Builder *)addAllUmhNew:(NSArray *)array;
-- (CreateBattleItemRequestProto_Builder *)clearUmhNew;
+- (NSMutableArray *)biqfuNewList;
+- (BattleItemQueueForUserProto*)biqfuNewAtIndex:(NSUInteger)index;
+- (CreateBattleItemRequestProto_Builder *)addBiqfuNew:(BattleItemQueueForUserProto*)value;
+- (CreateBattleItemRequestProto_Builder *)addAllBiqfuNew:(NSArray *)array;
+- (CreateBattleItemRequestProto_Builder *)clearBiqfuNew;
 
 - (BOOL) hasCashChange;
 - (int32_t) cashChange;
@@ -242,16 +235,6 @@ BOOL DiscardBattleItemResponseProto_DiscardBattleItemStatusIsValidValue(DiscardB
 - (int32_t) gemCostForCreating;
 - (CreateBattleItemRequestProto_Builder*) setGemCostForCreating:(int32_t) value;
 - (CreateBattleItemRequestProto_Builder*) clearGemCostForCreating;
-
-- (BOOL) hasIsSpeedup;
-- (BOOL) isSpeedup;
-- (CreateBattleItemRequestProto_Builder*) setIsSpeedup:(BOOL) value;
-- (CreateBattleItemRequestProto_Builder*) clearIsSpeedup;
-
-- (BOOL) hasGemsForSpeedup;
-- (int32_t) gemsForSpeedup;
-- (CreateBattleItemRequestProto_Builder*) setGemsForSpeedup:(int32_t) value;
-- (CreateBattleItemRequestProto_Builder*) clearGemsForSpeedup;
 @end
 
 @interface CreateBattleItemResponseProto : PBGeneratedMessage {
@@ -321,6 +304,153 @@ BOOL DiscardBattleItemResponseProto_DiscardBattleItemStatusIsValidValue(DiscardB
 - (CreateBattleItemResponseProto_CreateBattleItemStatus) status;
 - (CreateBattleItemResponseProto_Builder*) setStatus:(CreateBattleItemResponseProto_CreateBattleItemStatus) value;
 - (CreateBattleItemResponseProto_Builder*) clearStatusList;
+@end
+
+@interface CompleteBattleItemRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasIsSpeedup_:1;
+  BOOL hasGemsForSpeedup_:1;
+  BOOL hasSender_:1;
+  BOOL isSpeedup_:1;
+  int32_t gemsForSpeedup;
+  MinimumUserProto* sender;
+  NSMutableArray * mutableBiqfuCompletedList;
+}
+- (BOOL) hasSender;
+- (BOOL) hasIsSpeedup;
+- (BOOL) hasGemsForSpeedup;
+@property (readonly, strong) MinimumUserProto* sender;
+- (BOOL) isSpeedup;
+@property (readonly) int32_t gemsForSpeedup;
+@property (readonly, strong) NSArray * biqfuCompletedList;
+- (BattleItemQueueForUserProto*)biqfuCompletedAtIndex:(NSUInteger)index;
+
++ (CompleteBattleItemRequestProto*) defaultInstance;
+- (CompleteBattleItemRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (CompleteBattleItemRequestProto_Builder*) builder;
++ (CompleteBattleItemRequestProto_Builder*) builder;
++ (CompleteBattleItemRequestProto_Builder*) builderWithPrototype:(CompleteBattleItemRequestProto*) prototype;
+- (CompleteBattleItemRequestProto_Builder*) toBuilder;
+
++ (CompleteBattleItemRequestProto*) parseFromData:(NSData*) data;
++ (CompleteBattleItemRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (CompleteBattleItemRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (CompleteBattleItemRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (CompleteBattleItemRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (CompleteBattleItemRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface CompleteBattleItemRequestProto_Builder : PBGeneratedMessageBuilder {
+@private
+  CompleteBattleItemRequestProto* result;
+}
+
+- (CompleteBattleItemRequestProto*) defaultInstance;
+
+- (CompleteBattleItemRequestProto_Builder*) clear;
+- (CompleteBattleItemRequestProto_Builder*) clone;
+
+- (CompleteBattleItemRequestProto*) build;
+- (CompleteBattleItemRequestProto*) buildPartial;
+
+- (CompleteBattleItemRequestProto_Builder*) mergeFrom:(CompleteBattleItemRequestProto*) other;
+- (CompleteBattleItemRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (CompleteBattleItemRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (CompleteBattleItemRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (CompleteBattleItemRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (CompleteBattleItemRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (CompleteBattleItemRequestProto_Builder*) clearSender;
+
+- (BOOL) hasIsSpeedup;
+- (BOOL) isSpeedup;
+- (CompleteBattleItemRequestProto_Builder*) setIsSpeedup:(BOOL) value;
+- (CompleteBattleItemRequestProto_Builder*) clearIsSpeedup;
+
+- (BOOL) hasGemsForSpeedup;
+- (int32_t) gemsForSpeedup;
+- (CompleteBattleItemRequestProto_Builder*) setGemsForSpeedup:(int32_t) value;
+- (CompleteBattleItemRequestProto_Builder*) clearGemsForSpeedup;
+
+- (NSMutableArray *)biqfuCompletedList;
+- (BattleItemQueueForUserProto*)biqfuCompletedAtIndex:(NSUInteger)index;
+- (CompleteBattleItemRequestProto_Builder *)addBiqfuCompleted:(BattleItemQueueForUserProto*)value;
+- (CompleteBattleItemRequestProto_Builder *)addAllBiqfuCompleted:(NSArray *)array;
+- (CompleteBattleItemRequestProto_Builder *)clearBiqfuCompleted;
+@end
+
+@interface CompleteBattleItemResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  CompleteBattleItemResponseProto_CompleteBattleItemStatus status;
+  NSMutableArray * mutableUbiUpdatedList;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly) CompleteBattleItemResponseProto_CompleteBattleItemStatus status;
+@property (readonly, strong) NSArray * ubiUpdatedList;
+- (UserBattleItemProto*)ubiUpdatedAtIndex:(NSUInteger)index;
+
++ (CompleteBattleItemResponseProto*) defaultInstance;
+- (CompleteBattleItemResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (CompleteBattleItemResponseProto_Builder*) builder;
++ (CompleteBattleItemResponseProto_Builder*) builder;
++ (CompleteBattleItemResponseProto_Builder*) builderWithPrototype:(CompleteBattleItemResponseProto*) prototype;
+- (CompleteBattleItemResponseProto_Builder*) toBuilder;
+
++ (CompleteBattleItemResponseProto*) parseFromData:(NSData*) data;
++ (CompleteBattleItemResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (CompleteBattleItemResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (CompleteBattleItemResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (CompleteBattleItemResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (CompleteBattleItemResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface CompleteBattleItemResponseProto_Builder : PBGeneratedMessageBuilder {
+@private
+  CompleteBattleItemResponseProto* result;
+}
+
+- (CompleteBattleItemResponseProto*) defaultInstance;
+
+- (CompleteBattleItemResponseProto_Builder*) clear;
+- (CompleteBattleItemResponseProto_Builder*) clone;
+
+- (CompleteBattleItemResponseProto*) build;
+- (CompleteBattleItemResponseProto*) buildPartial;
+
+- (CompleteBattleItemResponseProto_Builder*) mergeFrom:(CompleteBattleItemResponseProto*) other;
+- (CompleteBattleItemResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (CompleteBattleItemResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (CompleteBattleItemResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (CompleteBattleItemResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (CompleteBattleItemResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (CompleteBattleItemResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (CompleteBattleItemResponseProto_CompleteBattleItemStatus) status;
+- (CompleteBattleItemResponseProto_Builder*) setStatus:(CompleteBattleItemResponseProto_CompleteBattleItemStatus) value;
+- (CompleteBattleItemResponseProto_Builder*) clearStatusList;
+
+- (NSMutableArray *)ubiUpdatedList;
+- (UserBattleItemProto*)ubiUpdatedAtIndex:(NSUInteger)index;
+- (CompleteBattleItemResponseProto_Builder *)addUbiUpdated:(UserBattleItemProto*)value;
+- (CompleteBattleItemResponseProto_Builder *)addAllUbiUpdated:(NSArray *)array;
+- (CompleteBattleItemResponseProto_Builder *)clearUbiUpdated;
 @end
 
 @interface DiscardBattleItemRequestProto : PBGeneratedMessage {

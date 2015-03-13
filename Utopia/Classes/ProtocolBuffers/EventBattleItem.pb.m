@@ -23,16 +23,13 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @end
 
 @interface CreateBattleItemRequestProto ()
-@property (strong) MinimumUserProto* sender;
-@property (strong) NSMutableArray * mutableUmhDeleteList;
-@property (strong) NSMutableArray * mutableUmhRemovedList;
-@property (strong) NSMutableArray * mutableUmhUpdateList;
-@property (strong) NSMutableArray * mutableUmhNewList;
+@property (strong) MinimumUserProtoWithMaxResources* sender;
+@property (strong) NSMutableArray * mutableBiqfuDeleteList;
+@property (strong) NSMutableArray * mutableBiqfuUpdateList;
+@property (strong) NSMutableArray * mutableBiqfuNewList;
 @property int32_t cashChange;
 @property int32_t oilChange;
 @property int32_t gemCostForCreating;
-@property BOOL isSpeedup;
-@property int32_t gemsForSpeedup;
 @end
 
 @implementation CreateBattleItemRequestProto
@@ -44,14 +41,12 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasSender_ = !!value_;
 }
 @synthesize sender;
-@synthesize mutableUmhDeleteList;
-@dynamic umhDeleteList;
-@synthesize mutableUmhRemovedList;
-@dynamic umhRemovedList;
-@synthesize mutableUmhUpdateList;
-@dynamic umhUpdateList;
-@synthesize mutableUmhNewList;
-@dynamic umhNewList;
+@synthesize mutableBiqfuDeleteList;
+@dynamic biqfuDeleteList;
+@synthesize mutableBiqfuUpdateList;
+@dynamic biqfuUpdateList;
+@synthesize mutableBiqfuNewList;
+@dynamic biqfuNewList;
 - (BOOL) hasCashChange {
   return !!hasCashChange_;
 }
@@ -73,33 +68,12 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasGemCostForCreating_ = !!value_;
 }
 @synthesize gemCostForCreating;
-- (BOOL) hasIsSpeedup {
-  return !!hasIsSpeedup_;
-}
-- (void) setHasIsSpeedup:(BOOL) value_ {
-  hasIsSpeedup_ = !!value_;
-}
-- (BOOL) isSpeedup {
-  return !!isSpeedup_;
-}
-- (void) setIsSpeedup:(BOOL) value_ {
-  isSpeedup_ = !!value_;
-}
-- (BOOL) hasGemsForSpeedup {
-  return !!hasGemsForSpeedup_;
-}
-- (void) setHasGemsForSpeedup:(BOOL) value_ {
-  hasGemsForSpeedup_ = !!value_;
-}
-@synthesize gemsForSpeedup;
 - (id) init {
   if ((self = [super init])) {
-    self.sender = [MinimumUserProto defaultInstance];
+    self.sender = [MinimumUserProtoWithMaxResources defaultInstance];
     self.cashChange = 0;
     self.oilChange = 0;
     self.gemCostForCreating = 0;
-    self.isSpeedup = NO;
-    self.gemsForSpeedup = 0;
   }
   return self;
 }
@@ -115,29 +89,23 @@ static CreateBattleItemRequestProto* defaultCreateBattleItemRequestProtoInstance
 - (CreateBattleItemRequestProto*) defaultInstance {
   return defaultCreateBattleItemRequestProtoInstance;
 }
-- (NSArray *)umhDeleteList {
-  return mutableUmhDeleteList;
+- (NSArray *)biqfuDeleteList {
+  return mutableBiqfuDeleteList;
 }
-- (BattleItemQueueForUserProto*)umhDeleteAtIndex:(NSUInteger)index {
-  return [mutableUmhDeleteList objectAtIndex:index];
+- (BattleItemQueueForUserProto*)biqfuDeleteAtIndex:(NSUInteger)index {
+  return [mutableBiqfuDeleteList objectAtIndex:index];
 }
-- (NSArray *)umhRemovedList {
-  return mutableUmhRemovedList;
+- (NSArray *)biqfuUpdateList {
+  return mutableBiqfuUpdateList;
 }
-- (BattleItemQueueForUserProto*)umhRemovedAtIndex:(NSUInteger)index {
-  return [mutableUmhRemovedList objectAtIndex:index];
+- (BattleItemQueueForUserProto*)biqfuUpdateAtIndex:(NSUInteger)index {
+  return [mutableBiqfuUpdateList objectAtIndex:index];
 }
-- (NSArray *)umhUpdateList {
-  return mutableUmhUpdateList;
+- (NSArray *)biqfuNewList {
+  return mutableBiqfuNewList;
 }
-- (BattleItemQueueForUserProto*)umhUpdateAtIndex:(NSUInteger)index {
-  return [mutableUmhUpdateList objectAtIndex:index];
-}
-- (NSArray *)umhNewList {
-  return mutableUmhNewList;
-}
-- (BattleItemQueueForUserProto*)umhNewAtIndex:(NSUInteger)index {
-  return [mutableUmhNewList objectAtIndex:index];
+- (BattleItemQueueForUserProto*)biqfuNewAtIndex:(NSUInteger)index {
+  return [mutableBiqfuNewList objectAtIndex:index];
 }
 - (BOOL) isInitialized {
   return YES;
@@ -146,32 +114,23 @@ static CreateBattleItemRequestProto* defaultCreateBattleItemRequestProtoInstance
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  [self.umhDeleteList enumerateObjectsUsingBlock:^(BattleItemQueueForUserProto *element, NSUInteger idx, BOOL *stop) {
+  [self.biqfuDeleteList enumerateObjectsUsingBlock:^(BattleItemQueueForUserProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:2 value:element];
   }];
-  [self.umhRemovedList enumerateObjectsUsingBlock:^(BattleItemQueueForUserProto *element, NSUInteger idx, BOOL *stop) {
+  [self.biqfuUpdateList enumerateObjectsUsingBlock:^(BattleItemQueueForUserProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:3 value:element];
   }];
-  [self.umhUpdateList enumerateObjectsUsingBlock:^(BattleItemQueueForUserProto *element, NSUInteger idx, BOOL *stop) {
+  [self.biqfuNewList enumerateObjectsUsingBlock:^(BattleItemQueueForUserProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:4 value:element];
   }];
-  [self.umhNewList enumerateObjectsUsingBlock:^(BattleItemQueueForUserProto *element, NSUInteger idx, BOOL *stop) {
-    [output writeMessage:5 value:element];
-  }];
   if (self.hasCashChange) {
-    [output writeSInt32:6 value:self.cashChange];
+    [output writeSInt32:5 value:self.cashChange];
   }
   if (self.hasOilChange) {
-    [output writeSInt32:7 value:self.oilChange];
+    [output writeSInt32:6 value:self.oilChange];
   }
   if (self.hasGemCostForCreating) {
-    [output writeInt32:8 value:self.gemCostForCreating];
-  }
-  if (self.hasIsSpeedup) {
-    [output writeBool:9 value:self.isSpeedup];
-  }
-  if (self.hasGemsForSpeedup) {
-    [output writeInt32:10 value:self.gemsForSpeedup];
+    [output writeInt32:7 value:self.gemCostForCreating];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -185,32 +144,23 @@ static CreateBattleItemRequestProto* defaultCreateBattleItemRequestProtoInstance
   if (self.hasSender) {
     size_ += computeMessageSize(1, self.sender);
   }
-  [self.umhDeleteList enumerateObjectsUsingBlock:^(BattleItemQueueForUserProto *element, NSUInteger idx, BOOL *stop) {
+  [self.biqfuDeleteList enumerateObjectsUsingBlock:^(BattleItemQueueForUserProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(2, element);
   }];
-  [self.umhRemovedList enumerateObjectsUsingBlock:^(BattleItemQueueForUserProto *element, NSUInteger idx, BOOL *stop) {
+  [self.biqfuUpdateList enumerateObjectsUsingBlock:^(BattleItemQueueForUserProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(3, element);
   }];
-  [self.umhUpdateList enumerateObjectsUsingBlock:^(BattleItemQueueForUserProto *element, NSUInteger idx, BOOL *stop) {
+  [self.biqfuNewList enumerateObjectsUsingBlock:^(BattleItemQueueForUserProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(4, element);
   }];
-  [self.umhNewList enumerateObjectsUsingBlock:^(BattleItemQueueForUserProto *element, NSUInteger idx, BOOL *stop) {
-    size_ += computeMessageSize(5, element);
-  }];
   if (self.hasCashChange) {
-    size_ += computeSInt32Size(6, self.cashChange);
+    size_ += computeSInt32Size(5, self.cashChange);
   }
   if (self.hasOilChange) {
-    size_ += computeSInt32Size(7, self.oilChange);
+    size_ += computeSInt32Size(6, self.oilChange);
   }
   if (self.hasGemCostForCreating) {
-    size_ += computeInt32Size(8, self.gemCostForCreating);
-  }
-  if (self.hasIsSpeedup) {
-    size_ += computeBoolSize(9, self.isSpeedup);
-  }
-  if (self.hasGemsForSpeedup) {
-    size_ += computeInt32Size(10, self.gemsForSpeedup);
+    size_ += computeInt32Size(7, self.gemCostForCreating);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -253,26 +203,20 @@ static CreateBattleItemRequestProto* defaultCreateBattleItemRequestProtoInstance
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
-  [self.umhDeleteList enumerateObjectsUsingBlock:^(BattleItemQueueForUserProto *element, NSUInteger idx, BOOL *stop) {
-    [output appendFormat:@"%@%@ {\n", indent, @"umhDelete"];
+  [self.biqfuDeleteList enumerateObjectsUsingBlock:^(BattleItemQueueForUserProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"biqfuDelete"];
     [element writeDescriptionTo:output
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }];
-  [self.umhRemovedList enumerateObjectsUsingBlock:^(BattleItemQueueForUserProto *element, NSUInteger idx, BOOL *stop) {
-    [output appendFormat:@"%@%@ {\n", indent, @"umhRemoved"];
+  [self.biqfuUpdateList enumerateObjectsUsingBlock:^(BattleItemQueueForUserProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"biqfuUpdate"];
     [element writeDescriptionTo:output
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }];
-  [self.umhUpdateList enumerateObjectsUsingBlock:^(BattleItemQueueForUserProto *element, NSUInteger idx, BOOL *stop) {
-    [output appendFormat:@"%@%@ {\n", indent, @"umhUpdate"];
-    [element writeDescriptionTo:output
-                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
-    [output appendFormat:@"%@}\n", indent];
-  }];
-  [self.umhNewList enumerateObjectsUsingBlock:^(BattleItemQueueForUserProto *element, NSUInteger idx, BOOL *stop) {
-    [output appendFormat:@"%@%@ {\n", indent, @"umhNew"];
+  [self.biqfuNewList enumerateObjectsUsingBlock:^(BattleItemQueueForUserProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"biqfuNew"];
     [element writeDescriptionTo:output
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
@@ -285,12 +229,6 @@ static CreateBattleItemRequestProto* defaultCreateBattleItemRequestProtoInstance
   }
   if (self.hasGemCostForCreating) {
     [output appendFormat:@"%@%@: %@\n", indent, @"gemCostForCreating", [NSNumber numberWithInteger:self.gemCostForCreating]];
-  }
-  if (self.hasIsSpeedup) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"isSpeedup", [NSNumber numberWithBool:self.isSpeedup]];
-  }
-  if (self.hasGemsForSpeedup) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"gemsForSpeedup", [NSNumber numberWithInteger:self.gemsForSpeedup]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -305,20 +243,15 @@ static CreateBattleItemRequestProto* defaultCreateBattleItemRequestProtoInstance
   return
       self.hasSender == otherMessage.hasSender &&
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
-      [self.umhDeleteList isEqualToArray:otherMessage.umhDeleteList] &&
-      [self.umhRemovedList isEqualToArray:otherMessage.umhRemovedList] &&
-      [self.umhUpdateList isEqualToArray:otherMessage.umhUpdateList] &&
-      [self.umhNewList isEqualToArray:otherMessage.umhNewList] &&
+      [self.biqfuDeleteList isEqualToArray:otherMessage.biqfuDeleteList] &&
+      [self.biqfuUpdateList isEqualToArray:otherMessage.biqfuUpdateList] &&
+      [self.biqfuNewList isEqualToArray:otherMessage.biqfuNewList] &&
       self.hasCashChange == otherMessage.hasCashChange &&
       (!self.hasCashChange || self.cashChange == otherMessage.cashChange) &&
       self.hasOilChange == otherMessage.hasOilChange &&
       (!self.hasOilChange || self.oilChange == otherMessage.oilChange) &&
       self.hasGemCostForCreating == otherMessage.hasGemCostForCreating &&
       (!self.hasGemCostForCreating || self.gemCostForCreating == otherMessage.gemCostForCreating) &&
-      self.hasIsSpeedup == otherMessage.hasIsSpeedup &&
-      (!self.hasIsSpeedup || self.isSpeedup == otherMessage.isSpeedup) &&
-      self.hasGemsForSpeedup == otherMessage.hasGemsForSpeedup &&
-      (!self.hasGemsForSpeedup || self.gemsForSpeedup == otherMessage.gemsForSpeedup) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -326,16 +259,13 @@ static CreateBattleItemRequestProto* defaultCreateBattleItemRequestProtoInstance
   if (self.hasSender) {
     hashCode = hashCode * 31 + [self.sender hash];
   }
-  [self.umhDeleteList enumerateObjectsUsingBlock:^(BattleItemQueueForUserProto *element, NSUInteger idx, BOOL *stop) {
+  [self.biqfuDeleteList enumerateObjectsUsingBlock:^(BattleItemQueueForUserProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
-  [self.umhRemovedList enumerateObjectsUsingBlock:^(BattleItemQueueForUserProto *element, NSUInteger idx, BOOL *stop) {
+  [self.biqfuUpdateList enumerateObjectsUsingBlock:^(BattleItemQueueForUserProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
-  [self.umhUpdateList enumerateObjectsUsingBlock:^(BattleItemQueueForUserProto *element, NSUInteger idx, BOOL *stop) {
-    hashCode = hashCode * 31 + [element hash];
-  }];
-  [self.umhNewList enumerateObjectsUsingBlock:^(BattleItemQueueForUserProto *element, NSUInteger idx, BOOL *stop) {
+  [self.biqfuNewList enumerateObjectsUsingBlock:^(BattleItemQueueForUserProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
   if (self.hasCashChange) {
@@ -346,12 +276,6 @@ static CreateBattleItemRequestProto* defaultCreateBattleItemRequestProtoInstance
   }
   if (self.hasGemCostForCreating) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.gemCostForCreating] hash];
-  }
-  if (self.hasIsSpeedup) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.isSpeedup] hash];
-  }
-  if (self.hasGemsForSpeedup) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.gemsForSpeedup] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -399,32 +323,25 @@ static CreateBattleItemRequestProto* defaultCreateBattleItemRequestProtoInstance
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.mutableUmhDeleteList.count > 0) {
-    if (result.mutableUmhDeleteList == nil) {
-      result.mutableUmhDeleteList = [[NSMutableArray alloc] initWithArray:other.mutableUmhDeleteList];
+  if (other.mutableBiqfuDeleteList.count > 0) {
+    if (result.mutableBiqfuDeleteList == nil) {
+      result.mutableBiqfuDeleteList = [[NSMutableArray alloc] initWithArray:other.mutableBiqfuDeleteList];
     } else {
-      [result.mutableUmhDeleteList addObjectsFromArray:other.mutableUmhDeleteList];
+      [result.mutableBiqfuDeleteList addObjectsFromArray:other.mutableBiqfuDeleteList];
     }
   }
-  if (other.mutableUmhRemovedList.count > 0) {
-    if (result.mutableUmhRemovedList == nil) {
-      result.mutableUmhRemovedList = [[NSMutableArray alloc] initWithArray:other.mutableUmhRemovedList];
+  if (other.mutableBiqfuUpdateList.count > 0) {
+    if (result.mutableBiqfuUpdateList == nil) {
+      result.mutableBiqfuUpdateList = [[NSMutableArray alloc] initWithArray:other.mutableBiqfuUpdateList];
     } else {
-      [result.mutableUmhRemovedList addObjectsFromArray:other.mutableUmhRemovedList];
+      [result.mutableBiqfuUpdateList addObjectsFromArray:other.mutableBiqfuUpdateList];
     }
   }
-  if (other.mutableUmhUpdateList.count > 0) {
-    if (result.mutableUmhUpdateList == nil) {
-      result.mutableUmhUpdateList = [[NSMutableArray alloc] initWithArray:other.mutableUmhUpdateList];
+  if (other.mutableBiqfuNewList.count > 0) {
+    if (result.mutableBiqfuNewList == nil) {
+      result.mutableBiqfuNewList = [[NSMutableArray alloc] initWithArray:other.mutableBiqfuNewList];
     } else {
-      [result.mutableUmhUpdateList addObjectsFromArray:other.mutableUmhUpdateList];
-    }
-  }
-  if (other.mutableUmhNewList.count > 0) {
-    if (result.mutableUmhNewList == nil) {
-      result.mutableUmhNewList = [[NSMutableArray alloc] initWithArray:other.mutableUmhNewList];
-    } else {
-      [result.mutableUmhNewList addObjectsFromArray:other.mutableUmhNewList];
+      [result.mutableBiqfuNewList addObjectsFromArray:other.mutableBiqfuNewList];
     }
   }
   if (other.hasCashChange) {
@@ -435,12 +352,6 @@ static CreateBattleItemRequestProto* defaultCreateBattleItemRequestProtoInstance
   }
   if (other.hasGemCostForCreating) {
     [self setGemCostForCreating:other.gemCostForCreating];
-  }
-  if (other.hasIsSpeedup) {
-    [self setIsSpeedup:other.isSpeedup];
-  }
-  if (other.hasGemsForSpeedup) {
-    [self setGemsForSpeedup:other.gemsForSpeedup];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -464,7 +375,7 @@ static CreateBattleItemRequestProto* defaultCreateBattleItemRequestProtoInstance
         break;
       }
       case 10: {
-        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        MinimumUserProtoWithMaxResources_Builder* subBuilder = [MinimumUserProtoWithMaxResources builder];
         if (self.hasSender) {
           [subBuilder mergeFrom:self.sender];
         }
@@ -475,45 +386,31 @@ static CreateBattleItemRequestProto* defaultCreateBattleItemRequestProtoInstance
       case 18: {
         BattleItemQueueForUserProto_Builder* subBuilder = [BattleItemQueueForUserProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self addUmhDelete:[subBuilder buildPartial]];
+        [self addBiqfuDelete:[subBuilder buildPartial]];
         break;
       }
       case 26: {
         BattleItemQueueForUserProto_Builder* subBuilder = [BattleItemQueueForUserProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self addUmhRemoved:[subBuilder buildPartial]];
+        [self addBiqfuUpdate:[subBuilder buildPartial]];
         break;
       }
       case 34: {
         BattleItemQueueForUserProto_Builder* subBuilder = [BattleItemQueueForUserProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self addUmhUpdate:[subBuilder buildPartial]];
+        [self addBiqfuNew:[subBuilder buildPartial]];
         break;
       }
-      case 42: {
-        BattleItemQueueForUserProto_Builder* subBuilder = [BattleItemQueueForUserProto builder];
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self addUmhNew:[subBuilder buildPartial]];
-        break;
-      }
-      case 48: {
+      case 40: {
         [self setCashChange:[input readSInt32]];
         break;
       }
-      case 56: {
+      case 48: {
         [self setOilChange:[input readSInt32]];
         break;
       }
-      case 64: {
+      case 56: {
         [self setGemCostForCreating:[input readInt32]];
-        break;
-      }
-      case 72: {
-        [self setIsSpeedup:[input readBool]];
-        break;
-      }
-      case 80: {
-        [self setGemsForSpeedup:[input readInt32]];
         break;
       }
     }
@@ -522,22 +419,22 @@ static CreateBattleItemRequestProto* defaultCreateBattleItemRequestProtoInstance
 - (BOOL) hasSender {
   return result.hasSender;
 }
-- (MinimumUserProto*) sender {
+- (MinimumUserProtoWithMaxResources*) sender {
   return result.sender;
 }
-- (CreateBattleItemRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+- (CreateBattleItemRequestProto_Builder*) setSender:(MinimumUserProtoWithMaxResources*) value {
   result.hasSender = YES;
   result.sender = value;
   return self;
 }
-- (CreateBattleItemRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue {
+- (CreateBattleItemRequestProto_Builder*) setSender_Builder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue {
   return [self setSender:[builderForValue build]];
 }
-- (CreateBattleItemRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+- (CreateBattleItemRequestProto_Builder*) mergeSender:(MinimumUserProtoWithMaxResources*) value {
   if (result.hasSender &&
-      result.sender != [MinimumUserProto defaultInstance]) {
+      result.sender != [MinimumUserProtoWithMaxResources defaultInstance]) {
     result.sender =
-      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+      [[[MinimumUserProtoWithMaxResources builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
   } else {
     result.sender = value;
   }
@@ -546,103 +443,79 @@ static CreateBattleItemRequestProto* defaultCreateBattleItemRequestProtoInstance
 }
 - (CreateBattleItemRequestProto_Builder*) clearSender {
   result.hasSender = NO;
-  result.sender = [MinimumUserProto defaultInstance];
+  result.sender = [MinimumUserProtoWithMaxResources defaultInstance];
   return self;
 }
-- (NSMutableArray *)umhDeleteList {
-  return result.mutableUmhDeleteList;
+- (NSMutableArray *)biqfuDeleteList {
+  return result.mutableBiqfuDeleteList;
 }
-- (BattleItemQueueForUserProto*)umhDeleteAtIndex:(NSUInteger)index {
-  return [result umhDeleteAtIndex:index];
+- (BattleItemQueueForUserProto*)biqfuDeleteAtIndex:(NSUInteger)index {
+  return [result biqfuDeleteAtIndex:index];
 }
-- (CreateBattleItemRequestProto_Builder *)addUmhDelete:(BattleItemQueueForUserProto*)value {
-  if (result.mutableUmhDeleteList == nil) {
-    result.mutableUmhDeleteList = [[NSMutableArray alloc]init];
+- (CreateBattleItemRequestProto_Builder *)addBiqfuDelete:(BattleItemQueueForUserProto*)value {
+  if (result.mutableBiqfuDeleteList == nil) {
+    result.mutableBiqfuDeleteList = [[NSMutableArray alloc]init];
   }
-  [result.mutableUmhDeleteList addObject:value];
+  [result.mutableBiqfuDeleteList addObject:value];
   return self;
 }
-- (CreateBattleItemRequestProto_Builder *)addAllUmhDelete:(NSArray *)array {
-  if (result.mutableUmhDeleteList == nil) {
-    result.mutableUmhDeleteList = [NSMutableArray array];
+- (CreateBattleItemRequestProto_Builder *)addAllBiqfuDelete:(NSArray *)array {
+  if (result.mutableBiqfuDeleteList == nil) {
+    result.mutableBiqfuDeleteList = [NSMutableArray array];
   }
-  [result.mutableUmhDeleteList addObjectsFromArray:array];
+  [result.mutableBiqfuDeleteList addObjectsFromArray:array];
   return self;
 }
-- (CreateBattleItemRequestProto_Builder *)clearUmhDelete {
-  result.mutableUmhDeleteList = nil;
+- (CreateBattleItemRequestProto_Builder *)clearBiqfuDelete {
+  result.mutableBiqfuDeleteList = nil;
   return self;
 }
-- (NSMutableArray *)umhRemovedList {
-  return result.mutableUmhRemovedList;
+- (NSMutableArray *)biqfuUpdateList {
+  return result.mutableBiqfuUpdateList;
 }
-- (BattleItemQueueForUserProto*)umhRemovedAtIndex:(NSUInteger)index {
-  return [result umhRemovedAtIndex:index];
+- (BattleItemQueueForUserProto*)biqfuUpdateAtIndex:(NSUInteger)index {
+  return [result biqfuUpdateAtIndex:index];
 }
-- (CreateBattleItemRequestProto_Builder *)addUmhRemoved:(BattleItemQueueForUserProto*)value {
-  if (result.mutableUmhRemovedList == nil) {
-    result.mutableUmhRemovedList = [[NSMutableArray alloc]init];
+- (CreateBattleItemRequestProto_Builder *)addBiqfuUpdate:(BattleItemQueueForUserProto*)value {
+  if (result.mutableBiqfuUpdateList == nil) {
+    result.mutableBiqfuUpdateList = [[NSMutableArray alloc]init];
   }
-  [result.mutableUmhRemovedList addObject:value];
+  [result.mutableBiqfuUpdateList addObject:value];
   return self;
 }
-- (CreateBattleItemRequestProto_Builder *)addAllUmhRemoved:(NSArray *)array {
-  if (result.mutableUmhRemovedList == nil) {
-    result.mutableUmhRemovedList = [NSMutableArray array];
+- (CreateBattleItemRequestProto_Builder *)addAllBiqfuUpdate:(NSArray *)array {
+  if (result.mutableBiqfuUpdateList == nil) {
+    result.mutableBiqfuUpdateList = [NSMutableArray array];
   }
-  [result.mutableUmhRemovedList addObjectsFromArray:array];
+  [result.mutableBiqfuUpdateList addObjectsFromArray:array];
   return self;
 }
-- (CreateBattleItemRequestProto_Builder *)clearUmhRemoved {
-  result.mutableUmhRemovedList = nil;
+- (CreateBattleItemRequestProto_Builder *)clearBiqfuUpdate {
+  result.mutableBiqfuUpdateList = nil;
   return self;
 }
-- (NSMutableArray *)umhUpdateList {
-  return result.mutableUmhUpdateList;
+- (NSMutableArray *)biqfuNewList {
+  return result.mutableBiqfuNewList;
 }
-- (BattleItemQueueForUserProto*)umhUpdateAtIndex:(NSUInteger)index {
-  return [result umhUpdateAtIndex:index];
+- (BattleItemQueueForUserProto*)biqfuNewAtIndex:(NSUInteger)index {
+  return [result biqfuNewAtIndex:index];
 }
-- (CreateBattleItemRequestProto_Builder *)addUmhUpdate:(BattleItemQueueForUserProto*)value {
-  if (result.mutableUmhUpdateList == nil) {
-    result.mutableUmhUpdateList = [[NSMutableArray alloc]init];
+- (CreateBattleItemRequestProto_Builder *)addBiqfuNew:(BattleItemQueueForUserProto*)value {
+  if (result.mutableBiqfuNewList == nil) {
+    result.mutableBiqfuNewList = [[NSMutableArray alloc]init];
   }
-  [result.mutableUmhUpdateList addObject:value];
+  [result.mutableBiqfuNewList addObject:value];
   return self;
 }
-- (CreateBattleItemRequestProto_Builder *)addAllUmhUpdate:(NSArray *)array {
-  if (result.mutableUmhUpdateList == nil) {
-    result.mutableUmhUpdateList = [NSMutableArray array];
+- (CreateBattleItemRequestProto_Builder *)addAllBiqfuNew:(NSArray *)array {
+  if (result.mutableBiqfuNewList == nil) {
+    result.mutableBiqfuNewList = [NSMutableArray array];
   }
-  [result.mutableUmhUpdateList addObjectsFromArray:array];
+  [result.mutableBiqfuNewList addObjectsFromArray:array];
   return self;
 }
-- (CreateBattleItemRequestProto_Builder *)clearUmhUpdate {
-  result.mutableUmhUpdateList = nil;
-  return self;
-}
-- (NSMutableArray *)umhNewList {
-  return result.mutableUmhNewList;
-}
-- (BattleItemQueueForUserProto*)umhNewAtIndex:(NSUInteger)index {
-  return [result umhNewAtIndex:index];
-}
-- (CreateBattleItemRequestProto_Builder *)addUmhNew:(BattleItemQueueForUserProto*)value {
-  if (result.mutableUmhNewList == nil) {
-    result.mutableUmhNewList = [[NSMutableArray alloc]init];
-  }
-  [result.mutableUmhNewList addObject:value];
-  return self;
-}
-- (CreateBattleItemRequestProto_Builder *)addAllUmhNew:(NSArray *)array {
-  if (result.mutableUmhNewList == nil) {
-    result.mutableUmhNewList = [NSMutableArray array];
-  }
-  [result.mutableUmhNewList addObjectsFromArray:array];
-  return self;
-}
-- (CreateBattleItemRequestProto_Builder *)clearUmhNew {
-  result.mutableUmhNewList = nil;
+- (CreateBattleItemRequestProto_Builder *)clearBiqfuNew {
+  result.mutableBiqfuNewList = nil;
   return self;
 }
 - (BOOL) hasCashChange {
@@ -691,38 +564,6 @@ static CreateBattleItemRequestProto* defaultCreateBattleItemRequestProtoInstance
 - (CreateBattleItemRequestProto_Builder*) clearGemCostForCreating {
   result.hasGemCostForCreating = NO;
   result.gemCostForCreating = 0;
-  return self;
-}
-- (BOOL) hasIsSpeedup {
-  return result.hasIsSpeedup;
-}
-- (BOOL) isSpeedup {
-  return result.isSpeedup;
-}
-- (CreateBattleItemRequestProto_Builder*) setIsSpeedup:(BOOL) value {
-  result.hasIsSpeedup = YES;
-  result.isSpeedup = value;
-  return self;
-}
-- (CreateBattleItemRequestProto_Builder*) clearIsSpeedup {
-  result.hasIsSpeedup = NO;
-  result.isSpeedup = NO;
-  return self;
-}
-- (BOOL) hasGemsForSpeedup {
-  return result.hasGemsForSpeedup;
-}
-- (int32_t) gemsForSpeedup {
-  return result.gemsForSpeedup;
-}
-- (CreateBattleItemRequestProto_Builder*) setGemsForSpeedup:(int32_t) value {
-  result.hasGemsForSpeedup = YES;
-  result.gemsForSpeedup = value;
-  return self;
-}
-- (CreateBattleItemRequestProto_Builder*) clearGemsForSpeedup {
-  result.hasGemsForSpeedup = NO;
-  result.gemsForSpeedup = 0;
   return self;
 }
 @end
@@ -896,9 +737,6 @@ BOOL CreateBattleItemResponseProto_CreateBattleItemStatusIsValidValue(CreateBatt
     case CreateBattleItemResponseProto_CreateBattleItemStatusSuccess:
     case CreateBattleItemResponseProto_CreateBattleItemStatusFailOther:
     case CreateBattleItemResponseProto_CreateBattleItemStatusFailInsufficientFunds:
-    case CreateBattleItemResponseProto_CreateBattleItemStatusFailAtMaxPowerLimit:
-    case CreateBattleItemResponseProto_CreateBattleItemStatusFailAllMonstersNonexistent:
-    case CreateBattleItemResponseProto_CreateBattleItemStatusFailCreatingNotComplete:
       return YES;
     default:
       return NO;
@@ -1071,6 +909,733 @@ BOOL CreateBattleItemResponseProto_CreateBattleItemStatusIsValidValue(CreateBatt
 - (CreateBattleItemResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = CreateBattleItemResponseProto_CreateBattleItemStatusSuccess;
+  return self;
+}
+@end
+
+@interface CompleteBattleItemRequestProto ()
+@property (strong) MinimumUserProto* sender;
+@property BOOL isSpeedup;
+@property int32_t gemsForSpeedup;
+@property (strong) NSMutableArray * mutableBiqfuCompletedList;
+@end
+
+@implementation CompleteBattleItemRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value_ {
+  hasSender_ = !!value_;
+}
+@synthesize sender;
+- (BOOL) hasIsSpeedup {
+  return !!hasIsSpeedup_;
+}
+- (void) setHasIsSpeedup:(BOOL) value_ {
+  hasIsSpeedup_ = !!value_;
+}
+- (BOOL) isSpeedup {
+  return !!isSpeedup_;
+}
+- (void) setIsSpeedup:(BOOL) value_ {
+  isSpeedup_ = !!value_;
+}
+- (BOOL) hasGemsForSpeedup {
+  return !!hasGemsForSpeedup_;
+}
+- (void) setHasGemsForSpeedup:(BOOL) value_ {
+  hasGemsForSpeedup_ = !!value_;
+}
+@synthesize gemsForSpeedup;
+@synthesize mutableBiqfuCompletedList;
+@dynamic biqfuCompletedList;
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.isSpeedup = NO;
+    self.gemsForSpeedup = 0;
+  }
+  return self;
+}
+static CompleteBattleItemRequestProto* defaultCompleteBattleItemRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [CompleteBattleItemRequestProto class]) {
+    defaultCompleteBattleItemRequestProtoInstance = [[CompleteBattleItemRequestProto alloc] init];
+  }
+}
++ (CompleteBattleItemRequestProto*) defaultInstance {
+  return defaultCompleteBattleItemRequestProtoInstance;
+}
+- (CompleteBattleItemRequestProto*) defaultInstance {
+  return defaultCompleteBattleItemRequestProtoInstance;
+}
+- (NSArray *)biqfuCompletedList {
+  return mutableBiqfuCompletedList;
+}
+- (BattleItemQueueForUserProto*)biqfuCompletedAtIndex:(NSUInteger)index {
+  return [mutableBiqfuCompletedList objectAtIndex:index];
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasIsSpeedup) {
+    [output writeBool:2 value:self.isSpeedup];
+  }
+  if (self.hasGemsForSpeedup) {
+    [output writeInt32:3 value:self.gemsForSpeedup];
+  }
+  [self.biqfuCompletedList enumerateObjectsUsingBlock:^(BattleItemQueueForUserProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:4 value:element];
+  }];
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasSender) {
+    size_ += computeMessageSize(1, self.sender);
+  }
+  if (self.hasIsSpeedup) {
+    size_ += computeBoolSize(2, self.isSpeedup);
+  }
+  if (self.hasGemsForSpeedup) {
+    size_ += computeInt32Size(3, self.gemsForSpeedup);
+  }
+  [self.biqfuCompletedList enumerateObjectsUsingBlock:^(BattleItemQueueForUserProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(4, element);
+  }];
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (CompleteBattleItemRequestProto*) parseFromData:(NSData*) data {
+  return (CompleteBattleItemRequestProto*)[[[CompleteBattleItemRequestProto builder] mergeFromData:data] build];
+}
++ (CompleteBattleItemRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CompleteBattleItemRequestProto*)[[[CompleteBattleItemRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (CompleteBattleItemRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (CompleteBattleItemRequestProto*)[[[CompleteBattleItemRequestProto builder] mergeFromInputStream:input] build];
+}
++ (CompleteBattleItemRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CompleteBattleItemRequestProto*)[[[CompleteBattleItemRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (CompleteBattleItemRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (CompleteBattleItemRequestProto*)[[[CompleteBattleItemRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (CompleteBattleItemRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CompleteBattleItemRequestProto*)[[[CompleteBattleItemRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (CompleteBattleItemRequestProto_Builder*) builder {
+  return [[CompleteBattleItemRequestProto_Builder alloc] init];
+}
++ (CompleteBattleItemRequestProto_Builder*) builderWithPrototype:(CompleteBattleItemRequestProto*) prototype {
+  return [[CompleteBattleItemRequestProto builder] mergeFrom:prototype];
+}
+- (CompleteBattleItemRequestProto_Builder*) builder {
+  return [CompleteBattleItemRequestProto builder];
+}
+- (CompleteBattleItemRequestProto_Builder*) toBuilder {
+  return [CompleteBattleItemRequestProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasSender) {
+    [output appendFormat:@"%@%@ {\n", indent, @"sender"];
+    [self.sender writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  if (self.hasIsSpeedup) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"isSpeedup", [NSNumber numberWithBool:self.isSpeedup]];
+  }
+  if (self.hasGemsForSpeedup) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"gemsForSpeedup", [NSNumber numberWithInteger:self.gemsForSpeedup]];
+  }
+  [self.biqfuCompletedList enumerateObjectsUsingBlock:^(BattleItemQueueForUserProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"biqfuCompleted"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[CompleteBattleItemRequestProto class]]) {
+    return NO;
+  }
+  CompleteBattleItemRequestProto *otherMessage = other;
+  return
+      self.hasSender == otherMessage.hasSender &&
+      (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
+      self.hasIsSpeedup == otherMessage.hasIsSpeedup &&
+      (!self.hasIsSpeedup || self.isSpeedup == otherMessage.isSpeedup) &&
+      self.hasGemsForSpeedup == otherMessage.hasGemsForSpeedup &&
+      (!self.hasGemsForSpeedup || self.gemsForSpeedup == otherMessage.gemsForSpeedup) &&
+      [self.biqfuCompletedList isEqualToArray:otherMessage.biqfuCompletedList] &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasSender) {
+    hashCode = hashCode * 31 + [self.sender hash];
+  }
+  if (self.hasIsSpeedup) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.isSpeedup] hash];
+  }
+  if (self.hasGemsForSpeedup) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.gemsForSpeedup] hash];
+  }
+  [self.biqfuCompletedList enumerateObjectsUsingBlock:^(BattleItemQueueForUserProto *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+@interface CompleteBattleItemRequestProto_Builder()
+@property (strong) CompleteBattleItemRequestProto* result;
+@end
+
+@implementation CompleteBattleItemRequestProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[CompleteBattleItemRequestProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (CompleteBattleItemRequestProto_Builder*) clear {
+  self.result = [[CompleteBattleItemRequestProto alloc] init];
+  return self;
+}
+- (CompleteBattleItemRequestProto_Builder*) clone {
+  return [CompleteBattleItemRequestProto builderWithPrototype:result];
+}
+- (CompleteBattleItemRequestProto*) defaultInstance {
+  return [CompleteBattleItemRequestProto defaultInstance];
+}
+- (CompleteBattleItemRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (CompleteBattleItemRequestProto*) buildPartial {
+  CompleteBattleItemRequestProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (CompleteBattleItemRequestProto_Builder*) mergeFrom:(CompleteBattleItemRequestProto*) other {
+  if (other == [CompleteBattleItemRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasIsSpeedup) {
+    [self setIsSpeedup:other.isSpeedup];
+  }
+  if (other.hasGemsForSpeedup) {
+    [self setGemsForSpeedup:other.gemsForSpeedup];
+  }
+  if (other.mutableBiqfuCompletedList.count > 0) {
+    if (result.mutableBiqfuCompletedList == nil) {
+      result.mutableBiqfuCompletedList = [[NSMutableArray alloc] initWithArray:other.mutableBiqfuCompletedList];
+    } else {
+      [result.mutableBiqfuCompletedList addObjectsFromArray:other.mutableBiqfuCompletedList];
+    }
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (CompleteBattleItemRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (CompleteBattleItemRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setIsSpeedup:[input readBool]];
+        break;
+      }
+      case 24: {
+        [self setGemsForSpeedup:[input readInt32]];
+        break;
+      }
+      case 34: {
+        BattleItemQueueForUserProto_Builder* subBuilder = [BattleItemQueueForUserProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addBiqfuCompleted:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (CompleteBattleItemRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (CompleteBattleItemRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (CompleteBattleItemRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (CompleteBattleItemRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasIsSpeedup {
+  return result.hasIsSpeedup;
+}
+- (BOOL) isSpeedup {
+  return result.isSpeedup;
+}
+- (CompleteBattleItemRequestProto_Builder*) setIsSpeedup:(BOOL) value {
+  result.hasIsSpeedup = YES;
+  result.isSpeedup = value;
+  return self;
+}
+- (CompleteBattleItemRequestProto_Builder*) clearIsSpeedup {
+  result.hasIsSpeedup = NO;
+  result.isSpeedup = NO;
+  return self;
+}
+- (BOOL) hasGemsForSpeedup {
+  return result.hasGemsForSpeedup;
+}
+- (int32_t) gemsForSpeedup {
+  return result.gemsForSpeedup;
+}
+- (CompleteBattleItemRequestProto_Builder*) setGemsForSpeedup:(int32_t) value {
+  result.hasGemsForSpeedup = YES;
+  result.gemsForSpeedup = value;
+  return self;
+}
+- (CompleteBattleItemRequestProto_Builder*) clearGemsForSpeedup {
+  result.hasGemsForSpeedup = NO;
+  result.gemsForSpeedup = 0;
+  return self;
+}
+- (NSMutableArray *)biqfuCompletedList {
+  return result.mutableBiqfuCompletedList;
+}
+- (BattleItemQueueForUserProto*)biqfuCompletedAtIndex:(NSUInteger)index {
+  return [result biqfuCompletedAtIndex:index];
+}
+- (CompleteBattleItemRequestProto_Builder *)addBiqfuCompleted:(BattleItemQueueForUserProto*)value {
+  if (result.mutableBiqfuCompletedList == nil) {
+    result.mutableBiqfuCompletedList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableBiqfuCompletedList addObject:value];
+  return self;
+}
+- (CompleteBattleItemRequestProto_Builder *)addAllBiqfuCompleted:(NSArray *)array {
+  if (result.mutableBiqfuCompletedList == nil) {
+    result.mutableBiqfuCompletedList = [NSMutableArray array];
+  }
+  [result.mutableBiqfuCompletedList addObjectsFromArray:array];
+  return self;
+}
+- (CompleteBattleItemRequestProto_Builder *)clearBiqfuCompleted {
+  result.mutableBiqfuCompletedList = nil;
+  return self;
+}
+@end
+
+@interface CompleteBattleItemResponseProto ()
+@property (strong) MinimumUserProto* sender;
+@property CompleteBattleItemResponseProto_CompleteBattleItemStatus status;
+@property (strong) NSMutableArray * mutableUbiUpdatedList;
+@end
+
+@implementation CompleteBattleItemResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value_ {
+  hasSender_ = !!value_;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value_ {
+  hasStatus_ = !!value_;
+}
+@synthesize status;
+@synthesize mutableUbiUpdatedList;
+@dynamic ubiUpdatedList;
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = CompleteBattleItemResponseProto_CompleteBattleItemStatusSuccess;
+  }
+  return self;
+}
+static CompleteBattleItemResponseProto* defaultCompleteBattleItemResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [CompleteBattleItemResponseProto class]) {
+    defaultCompleteBattleItemResponseProtoInstance = [[CompleteBattleItemResponseProto alloc] init];
+  }
+}
++ (CompleteBattleItemResponseProto*) defaultInstance {
+  return defaultCompleteBattleItemResponseProtoInstance;
+}
+- (CompleteBattleItemResponseProto*) defaultInstance {
+  return defaultCompleteBattleItemResponseProtoInstance;
+}
+- (NSArray *)ubiUpdatedList {
+  return mutableUbiUpdatedList;
+}
+- (UserBattleItemProto*)ubiUpdatedAtIndex:(NSUInteger)index {
+  return [mutableUbiUpdatedList objectAtIndex:index];
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  [self.ubiUpdatedList enumerateObjectsUsingBlock:^(UserBattleItemProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:3 value:element];
+  }];
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasSender) {
+    size_ += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size_ += computeEnumSize(2, self.status);
+  }
+  [self.ubiUpdatedList enumerateObjectsUsingBlock:^(UserBattleItemProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(3, element);
+  }];
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (CompleteBattleItemResponseProto*) parseFromData:(NSData*) data {
+  return (CompleteBattleItemResponseProto*)[[[CompleteBattleItemResponseProto builder] mergeFromData:data] build];
+}
++ (CompleteBattleItemResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CompleteBattleItemResponseProto*)[[[CompleteBattleItemResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (CompleteBattleItemResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (CompleteBattleItemResponseProto*)[[[CompleteBattleItemResponseProto builder] mergeFromInputStream:input] build];
+}
++ (CompleteBattleItemResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CompleteBattleItemResponseProto*)[[[CompleteBattleItemResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (CompleteBattleItemResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (CompleteBattleItemResponseProto*)[[[CompleteBattleItemResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (CompleteBattleItemResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CompleteBattleItemResponseProto*)[[[CompleteBattleItemResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (CompleteBattleItemResponseProto_Builder*) builder {
+  return [[CompleteBattleItemResponseProto_Builder alloc] init];
+}
++ (CompleteBattleItemResponseProto_Builder*) builderWithPrototype:(CompleteBattleItemResponseProto*) prototype {
+  return [[CompleteBattleItemResponseProto builder] mergeFrom:prototype];
+}
+- (CompleteBattleItemResponseProto_Builder*) builder {
+  return [CompleteBattleItemResponseProto builder];
+}
+- (CompleteBattleItemResponseProto_Builder*) toBuilder {
+  return [CompleteBattleItemResponseProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasSender) {
+    [output appendFormat:@"%@%@ {\n", indent, @"sender"];
+    [self.sender writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  if (self.hasStatus) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
+  }
+  [self.ubiUpdatedList enumerateObjectsUsingBlock:^(UserBattleItemProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"ubiUpdated"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[CompleteBattleItemResponseProto class]]) {
+    return NO;
+  }
+  CompleteBattleItemResponseProto *otherMessage = other;
+  return
+      self.hasSender == otherMessage.hasSender &&
+      (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
+      self.hasStatus == otherMessage.hasStatus &&
+      (!self.hasStatus || self.status == otherMessage.status) &&
+      [self.ubiUpdatedList isEqualToArray:otherMessage.ubiUpdatedList] &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasSender) {
+    hashCode = hashCode * 31 + [self.sender hash];
+  }
+  if (self.hasStatus) {
+    hashCode = hashCode * 31 + self.status;
+  }
+  [self.ubiUpdatedList enumerateObjectsUsingBlock:^(UserBattleItemProto *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+BOOL CompleteBattleItemResponseProto_CompleteBattleItemStatusIsValidValue(CompleteBattleItemResponseProto_CompleteBattleItemStatus value) {
+  switch (value) {
+    case CompleteBattleItemResponseProto_CompleteBattleItemStatusSuccess:
+    case CompleteBattleItemResponseProto_CompleteBattleItemStatusFailOther:
+    case CompleteBattleItemResponseProto_CompleteBattleItemStatusFailInvalidBattleItems:
+    case CompleteBattleItemResponseProto_CompleteBattleItemStatusFailInsufficientFunds:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface CompleteBattleItemResponseProto_Builder()
+@property (strong) CompleteBattleItemResponseProto* result;
+@end
+
+@implementation CompleteBattleItemResponseProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[CompleteBattleItemResponseProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (CompleteBattleItemResponseProto_Builder*) clear {
+  self.result = [[CompleteBattleItemResponseProto alloc] init];
+  return self;
+}
+- (CompleteBattleItemResponseProto_Builder*) clone {
+  return [CompleteBattleItemResponseProto builderWithPrototype:result];
+}
+- (CompleteBattleItemResponseProto*) defaultInstance {
+  return [CompleteBattleItemResponseProto defaultInstance];
+}
+- (CompleteBattleItemResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (CompleteBattleItemResponseProto*) buildPartial {
+  CompleteBattleItemResponseProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (CompleteBattleItemResponseProto_Builder*) mergeFrom:(CompleteBattleItemResponseProto*) other {
+  if (other == [CompleteBattleItemResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  if (other.mutableUbiUpdatedList.count > 0) {
+    if (result.mutableUbiUpdatedList == nil) {
+      result.mutableUbiUpdatedList = [[NSMutableArray alloc] initWithArray:other.mutableUbiUpdatedList];
+    } else {
+      [result.mutableUbiUpdatedList addObjectsFromArray:other.mutableUbiUpdatedList];
+    }
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (CompleteBattleItemResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (CompleteBattleItemResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        CompleteBattleItemResponseProto_CompleteBattleItemStatus value = (CompleteBattleItemResponseProto_CompleteBattleItemStatus)[input readEnum];
+        if (CompleteBattleItemResponseProto_CompleteBattleItemStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+      case 26: {
+        UserBattleItemProto_Builder* subBuilder = [UserBattleItemProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addUbiUpdated:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (CompleteBattleItemResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (CompleteBattleItemResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (CompleteBattleItemResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (CompleteBattleItemResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (CompleteBattleItemResponseProto_CompleteBattleItemStatus) status {
+  return result.status;
+}
+- (CompleteBattleItemResponseProto_Builder*) setStatus:(CompleteBattleItemResponseProto_CompleteBattleItemStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (CompleteBattleItemResponseProto_Builder*) clearStatusList {
+  result.hasStatus = NO;
+  result.status = CompleteBattleItemResponseProto_CompleteBattleItemStatusSuccess;
+  return self;
+}
+- (NSMutableArray *)ubiUpdatedList {
+  return result.mutableUbiUpdatedList;
+}
+- (UserBattleItemProto*)ubiUpdatedAtIndex:(NSUInteger)index {
+  return [result ubiUpdatedAtIndex:index];
+}
+- (CompleteBattleItemResponseProto_Builder *)addUbiUpdated:(UserBattleItemProto*)value {
+  if (result.mutableUbiUpdatedList == nil) {
+    result.mutableUbiUpdatedList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableUbiUpdatedList addObject:value];
+  return self;
+}
+- (CompleteBattleItemResponseProto_Builder *)addAllUbiUpdated:(NSArray *)array {
+  if (result.mutableUbiUpdatedList == nil) {
+    result.mutableUbiUpdatedList = [NSMutableArray array];
+  }
+  [result.mutableUbiUpdatedList addObjectsFromArray:array];
+  return self;
+}
+- (CompleteBattleItemResponseProto_Builder *)clearUbiUpdated {
+  result.mutableUbiUpdatedList = nil;
   return self;
 }
 @end

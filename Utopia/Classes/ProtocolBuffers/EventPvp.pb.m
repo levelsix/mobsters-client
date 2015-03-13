@@ -16,6 +16,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [BattleRoot registerAllExtensions:registry];
     [BattleItemRoot registerAllExtensions:registry];
     [MonsterStuffRoot registerAllExtensions:registry];
+    [StructureRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
     extensionRegistry = registry;
   }
@@ -26,7 +27,6 @@ static PBExtensionRegistry* extensionRegistry = nil;
 
 @interface QueueUpRequestProto ()
 @property (strong) MinimumUserProto* attacker;
-@property int32_t attackerElo;
 @property (strong) NSMutableArray * mutableSeenUserUuidsList;
 @property int64_t clientTime;
 @end
@@ -40,13 +40,6 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasAttacker_ = !!value_;
 }
 @synthesize attacker;
-- (BOOL) hasAttackerElo {
-  return !!hasAttackerElo_;
-}
-- (void) setHasAttackerElo:(BOOL) value_ {
-  hasAttackerElo_ = !!value_;
-}
-@synthesize attackerElo;
 @synthesize mutableSeenUserUuidsList;
 @dynamic seenUserUuidsList;
 - (BOOL) hasClientTime {
@@ -59,7 +52,6 @@ static PBExtensionRegistry* extensionRegistry = nil;
 - (id) init {
   if ((self = [super init])) {
     self.attacker = [MinimumUserProto defaultInstance];
-    self.attackerElo = 0;
     self.clientTime = 0L;
   }
   return self;
@@ -89,9 +81,6 @@ static QueueUpRequestProto* defaultQueueUpRequestProtoInstance = nil;
   if (self.hasAttacker) {
     [output writeMessage:1 value:self.attacker];
   }
-  if (self.hasAttackerElo) {
-    [output writeInt32:2 value:self.attackerElo];
-  }
   [self.seenUserUuidsList enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
     [output writeString:5 value:element];
   }];
@@ -109,9 +98,6 @@ static QueueUpRequestProto* defaultQueueUpRequestProtoInstance = nil;
   size_ = 0;
   if (self.hasAttacker) {
     size_ += computeMessageSize(1, self.attacker);
-  }
-  if (self.hasAttackerElo) {
-    size_ += computeInt32Size(2, self.attackerElo);
   }
   {
     __block SInt32 dataSize = 0;
@@ -166,9 +152,6 @@ static QueueUpRequestProto* defaultQueueUpRequestProtoInstance = nil;
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
-  if (self.hasAttackerElo) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"attackerElo", [NSNumber numberWithInteger:self.attackerElo]];
-  }
   [self.seenUserUuidsList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
     [output appendFormat:@"%@%@: %@\n", indent, @"seenUserUuids", obj];
   }];
@@ -188,8 +171,6 @@ static QueueUpRequestProto* defaultQueueUpRequestProtoInstance = nil;
   return
       self.hasAttacker == otherMessage.hasAttacker &&
       (!self.hasAttacker || [self.attacker isEqual:otherMessage.attacker]) &&
-      self.hasAttackerElo == otherMessage.hasAttackerElo &&
-      (!self.hasAttackerElo || self.attackerElo == otherMessage.attackerElo) &&
       [self.seenUserUuidsList isEqualToArray:otherMessage.seenUserUuidsList] &&
       self.hasClientTime == otherMessage.hasClientTime &&
       (!self.hasClientTime || self.clientTime == otherMessage.clientTime) &&
@@ -199,9 +180,6 @@ static QueueUpRequestProto* defaultQueueUpRequestProtoInstance = nil;
   __block NSUInteger hashCode = 7;
   if (self.hasAttacker) {
     hashCode = hashCode * 31 + [self.attacker hash];
-  }
-  if (self.hasAttackerElo) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.attackerElo] hash];
   }
   [self.seenUserUuidsList enumerateObjectsUsingBlock:^(id element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
@@ -255,9 +233,6 @@ static QueueUpRequestProto* defaultQueueUpRequestProtoInstance = nil;
   if (other.hasAttacker) {
     [self mergeAttacker:other.attacker];
   }
-  if (other.hasAttackerElo) {
-    [self setAttackerElo:other.attackerElo];
-  }
   if (other.mutableSeenUserUuidsList.count > 0) {
     if (result.mutableSeenUserUuidsList == nil) {
       result.mutableSeenUserUuidsList = [[NSMutableArray alloc] initWithArray:other.mutableSeenUserUuidsList];
@@ -296,10 +271,6 @@ static QueueUpRequestProto* defaultQueueUpRequestProtoInstance = nil;
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setAttacker:[subBuilder buildPartial]];
-        break;
-      }
-      case 16: {
-        [self setAttackerElo:[input readInt32]];
         break;
       }
       case 42: {
@@ -341,22 +312,6 @@ static QueueUpRequestProto* defaultQueueUpRequestProtoInstance = nil;
 - (QueueUpRequestProto_Builder*) clearAttacker {
   result.hasAttacker = NO;
   result.attacker = [MinimumUserProto defaultInstance];
-  return self;
-}
-- (BOOL) hasAttackerElo {
-  return result.hasAttackerElo;
-}
-- (int32_t) attackerElo {
-  return result.attackerElo;
-}
-- (QueueUpRequestProto_Builder*) setAttackerElo:(int32_t) value {
-  result.hasAttackerElo = YES;
-  result.attackerElo = value;
-  return self;
-}
-- (QueueUpRequestProto_Builder*) clearAttackerElo {
-  result.hasAttackerElo = NO;
-  result.attackerElo = 0;
   return self;
 }
 - (NSMutableArray *)seenUserUuidsList {
@@ -3378,6 +3333,644 @@ BOOL SetDefendingMsgResponseProto_SetDefendingMsgStatusIsValidValue(SetDefending
 - (SetDefendingMsgResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = SetDefendingMsgResponseProto_SetDefendingMsgStatusSuccess;
+  return self;
+}
+@end
+
+@interface CustomizePvpBoardObstacleRequestProto ()
+@property (strong) MinimumUserProto* sender;
+@property (strong) NSMutableArray * mutableNuOrUpdatedObstaclesList;
+@property (strong) PBAppendableArray * mutableRemoveUpboIdsList;
+@end
+
+@implementation CustomizePvpBoardObstacleRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value_ {
+  hasSender_ = !!value_;
+}
+@synthesize sender;
+@synthesize mutableNuOrUpdatedObstaclesList;
+@dynamic nuOrUpdatedObstaclesList;
+@synthesize mutableRemoveUpboIdsList;
+@dynamic removeUpboIdsList;
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+  }
+  return self;
+}
+static CustomizePvpBoardObstacleRequestProto* defaultCustomizePvpBoardObstacleRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [CustomizePvpBoardObstacleRequestProto class]) {
+    defaultCustomizePvpBoardObstacleRequestProtoInstance = [[CustomizePvpBoardObstacleRequestProto alloc] init];
+  }
+}
++ (CustomizePvpBoardObstacleRequestProto*) defaultInstance {
+  return defaultCustomizePvpBoardObstacleRequestProtoInstance;
+}
+- (CustomizePvpBoardObstacleRequestProto*) defaultInstance {
+  return defaultCustomizePvpBoardObstacleRequestProtoInstance;
+}
+- (NSArray *)nuOrUpdatedObstaclesList {
+  return mutableNuOrUpdatedObstaclesList;
+}
+- (UserPvpBoardObstacleProto*)nuOrUpdatedObstaclesAtIndex:(NSUInteger)index {
+  return [mutableNuOrUpdatedObstaclesList objectAtIndex:index];
+}
+- (PBArray *)removeUpboIdsList {
+  return mutableRemoveUpboIdsList;
+}
+- (int32_t)removeUpboIdsAtIndex:(NSUInteger)index {
+  return [mutableRemoveUpboIdsList int32AtIndex:index];
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  [self.nuOrUpdatedObstaclesList enumerateObjectsUsingBlock:^(UserPvpBoardObstacleProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:2 value:element];
+  }];
+  const NSUInteger removeUpboIdsListCount = self.removeUpboIdsList.count;
+  if (removeUpboIdsListCount > 0) {
+    const int32_t *values = (const int32_t *)self.removeUpboIdsList.data;
+    for (NSUInteger i = 0; i < removeUpboIdsListCount; ++i) {
+      [output writeInt32:3 value:values[i]];
+    }
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasSender) {
+    size_ += computeMessageSize(1, self.sender);
+  }
+  [self.nuOrUpdatedObstaclesList enumerateObjectsUsingBlock:^(UserPvpBoardObstacleProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(2, element);
+  }];
+  {
+    __block SInt32 dataSize = 0;
+    const NSUInteger count = self.removeUpboIdsList.count;
+    const int32_t *values = (const int32_t *)self.removeUpboIdsList.data;
+    for (NSUInteger i = 0; i < count; ++i) {
+      dataSize += computeInt32SizeNoTag(values[i]);
+    }
+    size_ += dataSize;
+    size_ += (SInt32)(1 * count);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (CustomizePvpBoardObstacleRequestProto*) parseFromData:(NSData*) data {
+  return (CustomizePvpBoardObstacleRequestProto*)[[[CustomizePvpBoardObstacleRequestProto builder] mergeFromData:data] build];
+}
++ (CustomizePvpBoardObstacleRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CustomizePvpBoardObstacleRequestProto*)[[[CustomizePvpBoardObstacleRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (CustomizePvpBoardObstacleRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (CustomizePvpBoardObstacleRequestProto*)[[[CustomizePvpBoardObstacleRequestProto builder] mergeFromInputStream:input] build];
+}
++ (CustomizePvpBoardObstacleRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CustomizePvpBoardObstacleRequestProto*)[[[CustomizePvpBoardObstacleRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (CustomizePvpBoardObstacleRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (CustomizePvpBoardObstacleRequestProto*)[[[CustomizePvpBoardObstacleRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (CustomizePvpBoardObstacleRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CustomizePvpBoardObstacleRequestProto*)[[[CustomizePvpBoardObstacleRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (CustomizePvpBoardObstacleRequestProto_Builder*) builder {
+  return [[CustomizePvpBoardObstacleRequestProto_Builder alloc] init];
+}
++ (CustomizePvpBoardObstacleRequestProto_Builder*) builderWithPrototype:(CustomizePvpBoardObstacleRequestProto*) prototype {
+  return [[CustomizePvpBoardObstacleRequestProto builder] mergeFrom:prototype];
+}
+- (CustomizePvpBoardObstacleRequestProto_Builder*) builder {
+  return [CustomizePvpBoardObstacleRequestProto builder];
+}
+- (CustomizePvpBoardObstacleRequestProto_Builder*) toBuilder {
+  return [CustomizePvpBoardObstacleRequestProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasSender) {
+    [output appendFormat:@"%@%@ {\n", indent, @"sender"];
+    [self.sender writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  [self.nuOrUpdatedObstaclesList enumerateObjectsUsingBlock:^(UserPvpBoardObstacleProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"nuOrUpdatedObstacles"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
+  [self.removeUpboIdsList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"removeUpboIds", obj];
+  }];
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[CustomizePvpBoardObstacleRequestProto class]]) {
+    return NO;
+  }
+  CustomizePvpBoardObstacleRequestProto *otherMessage = other;
+  return
+      self.hasSender == otherMessage.hasSender &&
+      (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
+      [self.nuOrUpdatedObstaclesList isEqualToArray:otherMessage.nuOrUpdatedObstaclesList] &&
+      [self.removeUpboIdsList isEqualToArray:otherMessage.removeUpboIdsList] &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasSender) {
+    hashCode = hashCode * 31 + [self.sender hash];
+  }
+  [self.nuOrUpdatedObstaclesList enumerateObjectsUsingBlock:^(UserPvpBoardObstacleProto *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  [self.removeUpboIdsList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [obj longValue];
+  }];
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+@interface CustomizePvpBoardObstacleRequestProto_Builder()
+@property (strong) CustomizePvpBoardObstacleRequestProto* result;
+@end
+
+@implementation CustomizePvpBoardObstacleRequestProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[CustomizePvpBoardObstacleRequestProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (CustomizePvpBoardObstacleRequestProto_Builder*) clear {
+  self.result = [[CustomizePvpBoardObstacleRequestProto alloc] init];
+  return self;
+}
+- (CustomizePvpBoardObstacleRequestProto_Builder*) clone {
+  return [CustomizePvpBoardObstacleRequestProto builderWithPrototype:result];
+}
+- (CustomizePvpBoardObstacleRequestProto*) defaultInstance {
+  return [CustomizePvpBoardObstacleRequestProto defaultInstance];
+}
+- (CustomizePvpBoardObstacleRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (CustomizePvpBoardObstacleRequestProto*) buildPartial {
+  CustomizePvpBoardObstacleRequestProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (CustomizePvpBoardObstacleRequestProto_Builder*) mergeFrom:(CustomizePvpBoardObstacleRequestProto*) other {
+  if (other == [CustomizePvpBoardObstacleRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.mutableNuOrUpdatedObstaclesList.count > 0) {
+    if (result.mutableNuOrUpdatedObstaclesList == nil) {
+      result.mutableNuOrUpdatedObstaclesList = [[NSMutableArray alloc] initWithArray:other.mutableNuOrUpdatedObstaclesList];
+    } else {
+      [result.mutableNuOrUpdatedObstaclesList addObjectsFromArray:other.mutableNuOrUpdatedObstaclesList];
+    }
+  }
+  if (other.mutableRemoveUpboIdsList.count > 0) {
+    if (result.mutableRemoveUpboIdsList == nil) {
+      result.mutableRemoveUpboIdsList = [other.mutableRemoveUpboIdsList copy];
+    } else {
+      [result.mutableRemoveUpboIdsList appendArray:other.mutableRemoveUpboIdsList];
+    }
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (CustomizePvpBoardObstacleRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (CustomizePvpBoardObstacleRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        UserPvpBoardObstacleProto_Builder* subBuilder = [UserPvpBoardObstacleProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addNuOrUpdatedObstacles:[subBuilder buildPartial]];
+        break;
+      }
+      case 24: {
+        [self addRemoveUpboIds:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (CustomizePvpBoardObstacleRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (CustomizePvpBoardObstacleRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (CustomizePvpBoardObstacleRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (CustomizePvpBoardObstacleRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (NSMutableArray *)nuOrUpdatedObstaclesList {
+  return result.mutableNuOrUpdatedObstaclesList;
+}
+- (UserPvpBoardObstacleProto*)nuOrUpdatedObstaclesAtIndex:(NSUInteger)index {
+  return [result nuOrUpdatedObstaclesAtIndex:index];
+}
+- (CustomizePvpBoardObstacleRequestProto_Builder *)addNuOrUpdatedObstacles:(UserPvpBoardObstacleProto*)value {
+  if (result.mutableNuOrUpdatedObstaclesList == nil) {
+    result.mutableNuOrUpdatedObstaclesList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableNuOrUpdatedObstaclesList addObject:value];
+  return self;
+}
+- (CustomizePvpBoardObstacleRequestProto_Builder *)addAllNuOrUpdatedObstacles:(NSArray *)array {
+  if (result.mutableNuOrUpdatedObstaclesList == nil) {
+    result.mutableNuOrUpdatedObstaclesList = [NSMutableArray array];
+  }
+  [result.mutableNuOrUpdatedObstaclesList addObjectsFromArray:array];
+  return self;
+}
+- (CustomizePvpBoardObstacleRequestProto_Builder *)clearNuOrUpdatedObstacles {
+  result.mutableNuOrUpdatedObstaclesList = nil;
+  return self;
+}
+- (PBAppendableArray *)removeUpboIdsList {
+  return result.mutableRemoveUpboIdsList;
+}
+- (int32_t)removeUpboIdsAtIndex:(NSUInteger)index {
+  return [result removeUpboIdsAtIndex:index];
+}
+- (CustomizePvpBoardObstacleRequestProto_Builder *)addRemoveUpboIds:(int32_t)value {
+  if (result.mutableRemoveUpboIdsList == nil) {
+    result.mutableRemoveUpboIdsList = [PBAppendableArray arrayWithValueType:PBArrayValueTypeInt32];
+  }
+  [result.mutableRemoveUpboIdsList addInt32:value];
+  return self;
+}
+- (CustomizePvpBoardObstacleRequestProto_Builder *)addAllRemoveUpboIds:(NSArray *)array {
+  if (result.mutableRemoveUpboIdsList == nil) {
+    result.mutableRemoveUpboIdsList = [PBAppendableArray arrayWithValueType:PBArrayValueTypeInt32];
+  }
+  [result.mutableRemoveUpboIdsList appendArray:[PBArray arrayWithArray:array valueType:PBArrayValueTypeInt32]];
+  return self;
+}
+- (CustomizePvpBoardObstacleRequestProto_Builder *)setRemoveUpboIdsValues:(const int32_t *)values count:(NSUInteger)count {
+  result.mutableRemoveUpboIdsList = [PBAppendableArray arrayWithValues:values count:count valueType:PBArrayValueTypeInt32];
+  return self;
+}
+- (CustomizePvpBoardObstacleRequestProto_Builder *)clearRemoveUpboIds {
+  result.mutableRemoveUpboIdsList = nil;
+  return self;
+}
+@end
+
+@interface CustomizePvpBoardObstacleResponseProto ()
+@property (strong) MinimumUserProto* sender;
+@property CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatus status;
+@end
+
+@implementation CustomizePvpBoardObstacleResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value_ {
+  hasSender_ = !!value_;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value_ {
+  hasStatus_ = !!value_;
+}
+@synthesize status;
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatusSuccess;
+  }
+  return self;
+}
+static CustomizePvpBoardObstacleResponseProto* defaultCustomizePvpBoardObstacleResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [CustomizePvpBoardObstacleResponseProto class]) {
+    defaultCustomizePvpBoardObstacleResponseProtoInstance = [[CustomizePvpBoardObstacleResponseProto alloc] init];
+  }
+}
++ (CustomizePvpBoardObstacleResponseProto*) defaultInstance {
+  return defaultCustomizePvpBoardObstacleResponseProtoInstance;
+}
+- (CustomizePvpBoardObstacleResponseProto*) defaultInstance {
+  return defaultCustomizePvpBoardObstacleResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasSender) {
+    size_ += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size_ += computeEnumSize(2, self.status);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (CustomizePvpBoardObstacleResponseProto*) parseFromData:(NSData*) data {
+  return (CustomizePvpBoardObstacleResponseProto*)[[[CustomizePvpBoardObstacleResponseProto builder] mergeFromData:data] build];
+}
++ (CustomizePvpBoardObstacleResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CustomizePvpBoardObstacleResponseProto*)[[[CustomizePvpBoardObstacleResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (CustomizePvpBoardObstacleResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (CustomizePvpBoardObstacleResponseProto*)[[[CustomizePvpBoardObstacleResponseProto builder] mergeFromInputStream:input] build];
+}
++ (CustomizePvpBoardObstacleResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CustomizePvpBoardObstacleResponseProto*)[[[CustomizePvpBoardObstacleResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (CustomizePvpBoardObstacleResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (CustomizePvpBoardObstacleResponseProto*)[[[CustomizePvpBoardObstacleResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (CustomizePvpBoardObstacleResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CustomizePvpBoardObstacleResponseProto*)[[[CustomizePvpBoardObstacleResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (CustomizePvpBoardObstacleResponseProto_Builder*) builder {
+  return [[CustomizePvpBoardObstacleResponseProto_Builder alloc] init];
+}
++ (CustomizePvpBoardObstacleResponseProto_Builder*) builderWithPrototype:(CustomizePvpBoardObstacleResponseProto*) prototype {
+  return [[CustomizePvpBoardObstacleResponseProto builder] mergeFrom:prototype];
+}
+- (CustomizePvpBoardObstacleResponseProto_Builder*) builder {
+  return [CustomizePvpBoardObstacleResponseProto builder];
+}
+- (CustomizePvpBoardObstacleResponseProto_Builder*) toBuilder {
+  return [CustomizePvpBoardObstacleResponseProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasSender) {
+    [output appendFormat:@"%@%@ {\n", indent, @"sender"];
+    [self.sender writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  if (self.hasStatus) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[CustomizePvpBoardObstacleResponseProto class]]) {
+    return NO;
+  }
+  CustomizePvpBoardObstacleResponseProto *otherMessage = other;
+  return
+      self.hasSender == otherMessage.hasSender &&
+      (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
+      self.hasStatus == otherMessage.hasStatus &&
+      (!self.hasStatus || self.status == otherMessage.status) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasSender) {
+    hashCode = hashCode * 31 + [self.sender hash];
+  }
+  if (self.hasStatus) {
+    hashCode = hashCode * 31 + self.status;
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+BOOL CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatusIsValidValue(CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatus value) {
+  switch (value) {
+    case CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatusSuccess:
+    case CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatusFailOther:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface CustomizePvpBoardObstacleResponseProto_Builder()
+@property (strong) CustomizePvpBoardObstacleResponseProto* result;
+@end
+
+@implementation CustomizePvpBoardObstacleResponseProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[CustomizePvpBoardObstacleResponseProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (CustomizePvpBoardObstacleResponseProto_Builder*) clear {
+  self.result = [[CustomizePvpBoardObstacleResponseProto alloc] init];
+  return self;
+}
+- (CustomizePvpBoardObstacleResponseProto_Builder*) clone {
+  return [CustomizePvpBoardObstacleResponseProto builderWithPrototype:result];
+}
+- (CustomizePvpBoardObstacleResponseProto*) defaultInstance {
+  return [CustomizePvpBoardObstacleResponseProto defaultInstance];
+}
+- (CustomizePvpBoardObstacleResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (CustomizePvpBoardObstacleResponseProto*) buildPartial {
+  CustomizePvpBoardObstacleResponseProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (CustomizePvpBoardObstacleResponseProto_Builder*) mergeFrom:(CustomizePvpBoardObstacleResponseProto*) other {
+  if (other == [CustomizePvpBoardObstacleResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (CustomizePvpBoardObstacleResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (CustomizePvpBoardObstacleResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatus value = (CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatus)[input readEnum];
+        if (CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (CustomizePvpBoardObstacleResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (CustomizePvpBoardObstacleResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (CustomizePvpBoardObstacleResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (CustomizePvpBoardObstacleResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatus) status {
+  return result.status;
+}
+- (CustomizePvpBoardObstacleResponseProto_Builder*) setStatus:(CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (CustomizePvpBoardObstacleResponseProto_Builder*) clearStatusList {
+  result.hasStatus = NO;
+  result.status = CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatusSuccess;
   return self;
 }
 @end

@@ -1667,8 +1667,8 @@ BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value) {
 @property Float32 secsToFullyHealExponent;
 @property int32_t enhanceCostPerFeeder;
 @property Float32 enhanceCostExponent;
-@property Float32 enhanceExpPerSecond;
-@property Float32 enhanceExpPerSecondExponent;
+@property Float32 secsToEnhancePerFeeder;
+@property Float32 secsToEnhancePerFeederExponent;
 @end
 
 @implementation MonsterLevelInfoProto
@@ -1834,20 +1834,20 @@ BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value) {
   hasEnhanceCostExponent_ = !!value_;
 }
 @synthesize enhanceCostExponent;
-- (BOOL) hasEnhanceExpPerSecond {
-  return !!hasEnhanceExpPerSecond_;
+- (BOOL) hasSecsToEnhancePerFeeder {
+  return !!hasSecsToEnhancePerFeeder_;
 }
-- (void) setHasEnhanceExpPerSecond:(BOOL) value_ {
-  hasEnhanceExpPerSecond_ = !!value_;
+- (void) setHasSecsToEnhancePerFeeder:(BOOL) value_ {
+  hasSecsToEnhancePerFeeder_ = !!value_;
 }
-@synthesize enhanceExpPerSecond;
-- (BOOL) hasEnhanceExpPerSecondExponent {
-  return !!hasEnhanceExpPerSecondExponent_;
+@synthesize secsToEnhancePerFeeder;
+- (BOOL) hasSecsToEnhancePerFeederExponent {
+  return !!hasSecsToEnhancePerFeederExponent_;
 }
-- (void) setHasEnhanceExpPerSecondExponent:(BOOL) value_ {
-  hasEnhanceExpPerSecondExponent_ = !!value_;
+- (void) setHasSecsToEnhancePerFeederExponent:(BOOL) value_ {
+  hasSecsToEnhancePerFeederExponent_ = !!value_;
 }
-@synthesize enhanceExpPerSecondExponent;
+@synthesize secsToEnhancePerFeederExponent;
 - (id) init {
   if ((self = [super init])) {
     self.lvl = 0;
@@ -1873,8 +1873,8 @@ BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value) {
     self.secsToFullyHealExponent = 0;
     self.enhanceCostPerFeeder = 0;
     self.enhanceCostExponent = 0;
-    self.enhanceExpPerSecond = 0;
-    self.enhanceExpPerSecondExponent = 0;
+    self.secsToEnhancePerFeeder = 0;
+    self.secsToEnhancePerFeederExponent = 0;
   }
   return self;
 }
@@ -1957,11 +1957,11 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
   if (self.hasEnhanceCostExponent) {
     [output writeFloat:21 value:self.enhanceCostExponent];
   }
-  if (self.hasEnhanceExpPerSecond) {
-    [output writeFloat:22 value:self.enhanceExpPerSecond];
+  if (self.hasSecsToEnhancePerFeeder) {
+    [output writeFloat:22 value:self.secsToEnhancePerFeeder];
   }
-  if (self.hasEnhanceExpPerSecondExponent) {
-    [output writeFloat:23 value:self.enhanceExpPerSecondExponent];
+  if (self.hasSecsToEnhancePerFeederExponent) {
+    [output writeFloat:23 value:self.secsToEnhancePerFeederExponent];
   }
   if (self.hasCostToFullyHealExponent) {
     [output writeFloat:24 value:self.costToFullyHealExponent];
@@ -2041,11 +2041,11 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
   if (self.hasEnhanceCostExponent) {
     size_ += computeFloatSize(21, self.enhanceCostExponent);
   }
-  if (self.hasEnhanceExpPerSecond) {
-    size_ += computeFloatSize(22, self.enhanceExpPerSecond);
+  if (self.hasSecsToEnhancePerFeeder) {
+    size_ += computeFloatSize(22, self.secsToEnhancePerFeeder);
   }
-  if (self.hasEnhanceExpPerSecondExponent) {
-    size_ += computeFloatSize(23, self.enhanceExpPerSecondExponent);
+  if (self.hasSecsToEnhancePerFeederExponent) {
+    size_ += computeFloatSize(23, self.secsToEnhancePerFeederExponent);
   }
   if (self.hasCostToFullyHealExponent) {
     size_ += computeFloatSize(24, self.costToFullyHealExponent);
@@ -2151,11 +2151,11 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
   if (self.hasEnhanceCostExponent) {
     [output appendFormat:@"%@%@: %@\n", indent, @"enhanceCostExponent", [NSNumber numberWithFloat:self.enhanceCostExponent]];
   }
-  if (self.hasEnhanceExpPerSecond) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"enhanceExpPerSecond", [NSNumber numberWithFloat:self.enhanceExpPerSecond]];
+  if (self.hasSecsToEnhancePerFeeder) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"secsToEnhancePerFeeder", [NSNumber numberWithFloat:self.secsToEnhancePerFeeder]];
   }
-  if (self.hasEnhanceExpPerSecondExponent) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"enhanceExpPerSecondExponent", [NSNumber numberWithFloat:self.enhanceExpPerSecondExponent]];
+  if (self.hasSecsToEnhancePerFeederExponent) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"secsToEnhancePerFeederExponent", [NSNumber numberWithFloat:self.secsToEnhancePerFeederExponent]];
   }
   if (self.hasCostToFullyHealExponent) {
     [output appendFormat:@"%@%@: %@\n", indent, @"costToFullyHealExponent", [NSNumber numberWithFloat:self.costToFullyHealExponent]];
@@ -2216,10 +2216,10 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
       (!self.hasEnhanceCostPerFeeder || self.enhanceCostPerFeeder == otherMessage.enhanceCostPerFeeder) &&
       self.hasEnhanceCostExponent == otherMessage.hasEnhanceCostExponent &&
       (!self.hasEnhanceCostExponent || self.enhanceCostExponent == otherMessage.enhanceCostExponent) &&
-      self.hasEnhanceExpPerSecond == otherMessage.hasEnhanceExpPerSecond &&
-      (!self.hasEnhanceExpPerSecond || self.enhanceExpPerSecond == otherMessage.enhanceExpPerSecond) &&
-      self.hasEnhanceExpPerSecondExponent == otherMessage.hasEnhanceExpPerSecondExponent &&
-      (!self.hasEnhanceExpPerSecondExponent || self.enhanceExpPerSecondExponent == otherMessage.enhanceExpPerSecondExponent) &&
+      self.hasSecsToEnhancePerFeeder == otherMessage.hasSecsToEnhancePerFeeder &&
+      (!self.hasSecsToEnhancePerFeeder || self.secsToEnhancePerFeeder == otherMessage.secsToEnhancePerFeeder) &&
+      self.hasSecsToEnhancePerFeederExponent == otherMessage.hasSecsToEnhancePerFeederExponent &&
+      (!self.hasSecsToEnhancePerFeederExponent || self.secsToEnhancePerFeederExponent == otherMessage.secsToEnhancePerFeederExponent) &&
       self.hasCostToFullyHealExponent == otherMessage.hasCostToFullyHealExponent &&
       (!self.hasCostToFullyHealExponent || self.costToFullyHealExponent == otherMessage.costToFullyHealExponent) &&
       self.hasSecsToFullyHealExponent == otherMessage.hasSecsToFullyHealExponent &&
@@ -2291,11 +2291,11 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
   if (self.hasEnhanceCostExponent) {
     hashCode = hashCode * 31 + [[NSNumber numberWithFloat:self.enhanceCostExponent] hash];
   }
-  if (self.hasEnhanceExpPerSecond) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithFloat:self.enhanceExpPerSecond] hash];
+  if (self.hasSecsToEnhancePerFeeder) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithFloat:self.secsToEnhancePerFeeder] hash];
   }
-  if (self.hasEnhanceExpPerSecondExponent) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithFloat:self.enhanceExpPerSecondExponent] hash];
+  if (self.hasSecsToEnhancePerFeederExponent) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithFloat:self.secsToEnhancePerFeederExponent] hash];
   }
   if (self.hasCostToFullyHealExponent) {
     hashCode = hashCode * 31 + [[NSNumber numberWithFloat:self.costToFullyHealExponent] hash];
@@ -2415,11 +2415,11 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
   if (other.hasEnhanceCostExponent) {
     [self setEnhanceCostExponent:other.enhanceCostExponent];
   }
-  if (other.hasEnhanceExpPerSecond) {
-    [self setEnhanceExpPerSecond:other.enhanceExpPerSecond];
+  if (other.hasSecsToEnhancePerFeeder) {
+    [self setSecsToEnhancePerFeeder:other.secsToEnhancePerFeeder];
   }
-  if (other.hasEnhanceExpPerSecondExponent) {
-    [self setEnhanceExpPerSecondExponent:other.enhanceExpPerSecondExponent];
+  if (other.hasSecsToEnhancePerFeederExponent) {
+    [self setSecsToEnhancePerFeederExponent:other.secsToEnhancePerFeederExponent];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -2527,11 +2527,11 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
         break;
       }
       case 181: {
-        [self setEnhanceExpPerSecond:[input readFloat]];
+        [self setSecsToEnhancePerFeeder:[input readFloat]];
         break;
       }
       case 189: {
-        [self setEnhanceExpPerSecondExponent:[input readFloat]];
+        [self setSecsToEnhancePerFeederExponent:[input readFloat]];
         break;
       }
       case 197: {
@@ -2913,36 +2913,36 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
   result.enhanceCostExponent = 0;
   return self;
 }
-- (BOOL) hasEnhanceExpPerSecond {
-  return result.hasEnhanceExpPerSecond;
+- (BOOL) hasSecsToEnhancePerFeeder {
+  return result.hasSecsToEnhancePerFeeder;
 }
-- (Float32) enhanceExpPerSecond {
-  return result.enhanceExpPerSecond;
+- (Float32) secsToEnhancePerFeeder {
+  return result.secsToEnhancePerFeeder;
 }
-- (MonsterLevelInfoProto_Builder*) setEnhanceExpPerSecond:(Float32) value {
-  result.hasEnhanceExpPerSecond = YES;
-  result.enhanceExpPerSecond = value;
+- (MonsterLevelInfoProto_Builder*) setSecsToEnhancePerFeeder:(Float32) value {
+  result.hasSecsToEnhancePerFeeder = YES;
+  result.secsToEnhancePerFeeder = value;
   return self;
 }
-- (MonsterLevelInfoProto_Builder*) clearEnhanceExpPerSecond {
-  result.hasEnhanceExpPerSecond = NO;
-  result.enhanceExpPerSecond = 0;
+- (MonsterLevelInfoProto_Builder*) clearSecsToEnhancePerFeeder {
+  result.hasSecsToEnhancePerFeeder = NO;
+  result.secsToEnhancePerFeeder = 0;
   return self;
 }
-- (BOOL) hasEnhanceExpPerSecondExponent {
-  return result.hasEnhanceExpPerSecondExponent;
+- (BOOL) hasSecsToEnhancePerFeederExponent {
+  return result.hasSecsToEnhancePerFeederExponent;
 }
-- (Float32) enhanceExpPerSecondExponent {
-  return result.enhanceExpPerSecondExponent;
+- (Float32) secsToEnhancePerFeederExponent {
+  return result.secsToEnhancePerFeederExponent;
 }
-- (MonsterLevelInfoProto_Builder*) setEnhanceExpPerSecondExponent:(Float32) value {
-  result.hasEnhanceExpPerSecondExponent = YES;
-  result.enhanceExpPerSecondExponent = value;
+- (MonsterLevelInfoProto_Builder*) setSecsToEnhancePerFeederExponent:(Float32) value {
+  result.hasSecsToEnhancePerFeederExponent = YES;
+  result.secsToEnhancePerFeederExponent = value;
   return self;
 }
-- (MonsterLevelInfoProto_Builder*) clearEnhanceExpPerSecondExponent {
-  result.hasEnhanceExpPerSecondExponent = NO;
-  result.enhanceExpPerSecondExponent = 0;
+- (MonsterLevelInfoProto_Builder*) clearSecsToEnhancePerFeederExponent {
+  result.hasSecsToEnhancePerFeederExponent = NO;
+  result.secsToEnhancePerFeederExponent = 0;
   return self;
 }
 @end

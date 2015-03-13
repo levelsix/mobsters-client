@@ -83,6 +83,8 @@ BOOL StructOrientationIsValidValue(StructOrientation value);
 
 typedef NS_ENUM(SInt32, BoardObstacleType) {
   BoardObstacleTypeCloud = 1,
+  BoardObstacleTypeLock = 2,
+  BoardObstacleTypeHole = 3,
 };
 
 BOOL BoardObstacleTypeIsValidValue(BoardObstacleType value);
@@ -715,22 +717,22 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 
 @interface LabProto : PBGeneratedMessage {
 @private
-  BOOL hasPointsPerSecond_:1;
+  BOOL hasFeederTimeMultiplier_:1;
   BOOL hasPointsMultiplier_:1;
   BOOL hasQueueSize_:1;
   BOOL hasStructInfo_:1;
-  Float32 pointsPerSecond;
+  Float32 feederTimeMultiplier;
   Float32 pointsMultiplier;
   int32_t queueSize;
   StructureInfoProto* structInfo;
 }
 - (BOOL) hasStructInfo;
 - (BOOL) hasQueueSize;
-- (BOOL) hasPointsPerSecond;
+- (BOOL) hasFeederTimeMultiplier;
 - (BOOL) hasPointsMultiplier;
 @property (readonly, strong) StructureInfoProto* structInfo;
 @property (readonly) int32_t queueSize;
-@property (readonly) Float32 pointsPerSecond;
+@property (readonly) Float32 feederTimeMultiplier;
 @property (readonly) Float32 pointsMultiplier;
 
 + (LabProto*) defaultInstance;
@@ -780,10 +782,10 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (LabProto_Builder*) setQueueSize:(int32_t) value;
 - (LabProto_Builder*) clearQueueSize;
 
-- (BOOL) hasPointsPerSecond;
-- (Float32) pointsPerSecond;
-- (LabProto_Builder*) setPointsPerSecond:(Float32) value;
-- (LabProto_Builder*) clearPointsPerSecond;
+- (BOOL) hasFeederTimeMultiplier;
+- (Float32) feederTimeMultiplier;
+- (LabProto_Builder*) setFeederTimeMultiplier:(Float32) value;
+- (LabProto_Builder*) clearFeederTimeMultiplier;
 
 - (BOOL) hasPointsMultiplier;
 - (Float32) pointsMultiplier;
@@ -1947,12 +1949,12 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 
 @interface PvpBoardObstacleProto : PBGeneratedMessage {
 @private
-  BOOL hasInitAvailable_:1;
+  BOOL hasInitiallyAvailable_:1;
   BOOL hasPvpBoardId_:1;
   BOOL hasPowerAmt_:1;
   BOOL hasName_:1;
   BOOL hasObstacleType_:1;
-  BOOL initAvailable_:1;
+  BOOL initiallyAvailable_:1;
   int32_t pvpBoardId;
   int32_t powerAmt;
   NSString* name;
@@ -1962,12 +1964,12 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (BOOL) hasName;
 - (BOOL) hasObstacleType;
 - (BOOL) hasPowerAmt;
-- (BOOL) hasInitAvailable;
+- (BOOL) hasInitiallyAvailable;
 @property (readonly) int32_t pvpBoardId;
 @property (readonly, strong) NSString* name;
 @property (readonly) BoardObstacleType obstacleType;
 @property (readonly) int32_t powerAmt;
-- (BOOL) initAvailable;
+- (BOOL) initiallyAvailable;
 
 + (PvpBoardObstacleProto*) defaultInstance;
 - (PvpBoardObstacleProto*) defaultInstance;
@@ -2024,31 +2026,31 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (PvpBoardObstacleProto_Builder*) setPowerAmt:(int32_t) value;
 - (PvpBoardObstacleProto_Builder*) clearPowerAmt;
 
-- (BOOL) hasInitAvailable;
-- (BOOL) initAvailable;
-- (PvpBoardObstacleProto_Builder*) setInitAvailable:(BOOL) value;
-- (PvpBoardObstacleProto_Builder*) clearInitAvailable;
+- (BOOL) hasInitiallyAvailable;
+- (BOOL) initiallyAvailable;
+- (PvpBoardObstacleProto_Builder*) setInitiallyAvailable:(BOOL) value;
+- (PvpBoardObstacleProto_Builder*) clearInitiallyAvailable;
 @end
 
 @interface UserPvpBoardObstacleProto : PBGeneratedMessage {
 @private
+  BOOL hasUserPvpBoardObstacleId_:1;
   BOOL hasObstacleId_:1;
   BOOL hasPosX_:1;
   BOOL hasPosY_:1;
-  BOOL hasUserPvpBoardObstacleUuid_:1;
   BOOL hasUserUuid_:1;
+  int32_t userPvpBoardObstacleId;
   int32_t obstacleId;
   int32_t posX;
   int32_t posY;
-  NSString* userPvpBoardObstacleUuid;
   NSString* userUuid;
 }
-- (BOOL) hasUserPvpBoardObstacleUuid;
+- (BOOL) hasUserPvpBoardObstacleId;
 - (BOOL) hasUserUuid;
 - (BOOL) hasObstacleId;
 - (BOOL) hasPosX;
 - (BOOL) hasPosY;
-@property (readonly, strong) NSString* userPvpBoardObstacleUuid;
+@property (readonly) int32_t userPvpBoardObstacleId;
 @property (readonly, strong) NSString* userUuid;
 @property (readonly) int32_t obstacleId;
 @property (readonly) int32_t posX;
@@ -2089,10 +2091,10 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (UserPvpBoardObstacleProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (UserPvpBoardObstacleProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasUserPvpBoardObstacleUuid;
-- (NSString*) userPvpBoardObstacleUuid;
-- (UserPvpBoardObstacleProto_Builder*) setUserPvpBoardObstacleUuid:(NSString*) value;
-- (UserPvpBoardObstacleProto_Builder*) clearUserPvpBoardObstacleUuid;
+- (BOOL) hasUserPvpBoardObstacleId;
+- (int32_t) userPvpBoardObstacleId;
+- (UserPvpBoardObstacleProto_Builder*) setUserPvpBoardObstacleId:(int32_t) value;
+- (UserPvpBoardObstacleProto_Builder*) clearUserPvpBoardObstacleId;
 
 - (BOOL) hasUserUuid;
 - (NSString*) userUuid;

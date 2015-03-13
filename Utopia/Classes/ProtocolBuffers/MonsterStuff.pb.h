@@ -424,8 +424,8 @@ BOOL UserMonsterSnapshotProto_SnapshotTypeIsValidValue(UserMonsterSnapshotProto_
   BOOL hasCostToFullyHealExponent_:1;
   BOOL hasSecsToFullyHealExponent_:1;
   BOOL hasEnhanceCostExponent_:1;
-  BOOL hasEnhanceExpPerSecond_:1;
-  BOOL hasEnhanceExpPerSecondExponent_:1;
+  BOOL hasSecsToEnhancePerFeeder_:1;
+  BOOL hasSecsToEnhancePerFeederExponent_:1;
   BOOL hasLvl_:1;
   BOOL hasHp_:1;
   BOOL hasCurLvlRequiredExp_:1;
@@ -449,8 +449,8 @@ BOOL UserMonsterSnapshotProto_SnapshotTypeIsValidValue(UserMonsterSnapshotProto_
   Float32 costToFullyHealExponent;
   Float32 secsToFullyHealExponent;
   Float32 enhanceCostExponent;
-  Float32 enhanceExpPerSecond;
-  Float32 enhanceExpPerSecondExponent;
+  Float32 secsToEnhancePerFeeder;
+  Float32 secsToEnhancePerFeederExponent;
   int32_t lvl;
   int32_t hp;
   int32_t curLvlRequiredExp;
@@ -491,8 +491,8 @@ BOOL UserMonsterSnapshotProto_SnapshotTypeIsValidValue(UserMonsterSnapshotProto_
 - (BOOL) hasSecsToFullyHealExponent;
 - (BOOL) hasEnhanceCostPerFeeder;
 - (BOOL) hasEnhanceCostExponent;
-- (BOOL) hasEnhanceExpPerSecond;
-- (BOOL) hasEnhanceExpPerSecondExponent;
+- (BOOL) hasSecsToEnhancePerFeeder;
+- (BOOL) hasSecsToEnhancePerFeederExponent;
 @property (readonly) int32_t lvl;
 @property (readonly) int32_t hp;
 @property (readonly) int32_t curLvlRequiredExp;
@@ -516,8 +516,8 @@ BOOL UserMonsterSnapshotProto_SnapshotTypeIsValidValue(UserMonsterSnapshotProto_
 @property (readonly) Float32 secsToFullyHealExponent;
 @property (readonly) int32_t enhanceCostPerFeeder;
 @property (readonly) Float32 enhanceCostExponent;
-@property (readonly) Float32 enhanceExpPerSecond;
-@property (readonly) Float32 enhanceExpPerSecondExponent;
+@property (readonly) Float32 secsToEnhancePerFeeder;
+@property (readonly) Float32 secsToEnhancePerFeederExponent;
 
 + (MonsterLevelInfoProto*) defaultInstance;
 - (MonsterLevelInfoProto*) defaultInstance;
@@ -669,15 +669,15 @@ BOOL UserMonsterSnapshotProto_SnapshotTypeIsValidValue(UserMonsterSnapshotProto_
 - (MonsterLevelInfoProto_Builder*) setEnhanceCostExponent:(Float32) value;
 - (MonsterLevelInfoProto_Builder*) clearEnhanceCostExponent;
 
-- (BOOL) hasEnhanceExpPerSecond;
-- (Float32) enhanceExpPerSecond;
-- (MonsterLevelInfoProto_Builder*) setEnhanceExpPerSecond:(Float32) value;
-- (MonsterLevelInfoProto_Builder*) clearEnhanceExpPerSecond;
+- (BOOL) hasSecsToEnhancePerFeeder;
+- (Float32) secsToEnhancePerFeeder;
+- (MonsterLevelInfoProto_Builder*) setSecsToEnhancePerFeeder:(Float32) value;
+- (MonsterLevelInfoProto_Builder*) clearSecsToEnhancePerFeeder;
 
-- (BOOL) hasEnhanceExpPerSecondExponent;
-- (Float32) enhanceExpPerSecondExponent;
-- (MonsterLevelInfoProto_Builder*) setEnhanceExpPerSecondExponent:(Float32) value;
-- (MonsterLevelInfoProto_Builder*) clearEnhanceExpPerSecondExponent;
+- (BOOL) hasSecsToEnhancePerFeederExponent;
+- (Float32) secsToEnhancePerFeederExponent;
+- (MonsterLevelInfoProto_Builder*) setSecsToEnhancePerFeederExponent:(Float32) value;
+- (MonsterLevelInfoProto_Builder*) clearSecsToEnhancePerFeederExponent;
 @end
 
 @interface FullUserMonsterProto : PBGeneratedMessage {

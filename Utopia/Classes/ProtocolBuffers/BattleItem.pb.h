@@ -78,8 +78,8 @@ typedef NS_ENUM(SInt32, BattleItemType) {
 BOOL BattleItemTypeIsValidValue(BattleItemType value);
 
 typedef NS_ENUM(SInt32, BattleItemCategory) {
-  BattleItemCategoryBattleItemCategory1 = 1,
-  BattleItemCategoryBattleItemCategory2 = 2,
+  BattleItemCategoryPotion = 1,
+  BattleItemCategoryPuzzle = 2,
 };
 
 BOOL BattleItemCategoryIsValidValue(BattleItemCategory value);
@@ -95,18 +95,18 @@ BOOL BattleItemCategoryIsValidValue(BattleItemCategory value);
 @private
   BOOL hasBattleItemId_:1;
   BOOL hasQuantity_:1;
-  BOOL hasId_:1;
+  BOOL hasUserBattleItemId_:1;
   BOOL hasUserUuid_:1;
   int32_t battleItemId;
   int32_t quantity;
-  NSString* id;
+  NSString* userBattleItemId;
   NSString* userUuid;
 }
-- (BOOL) hasId;
+- (BOOL) hasUserBattleItemId;
 - (BOOL) hasUserUuid;
 - (BOOL) hasBattleItemId;
 - (BOOL) hasQuantity;
-@property (readonly, strong) NSString* id;
+@property (readonly, strong) NSString* userBattleItemId;
 @property (readonly, strong) NSString* userUuid;
 @property (readonly) int32_t battleItemId;
 @property (readonly) int32_t quantity;
@@ -146,10 +146,10 @@ BOOL BattleItemCategoryIsValidValue(BattleItemCategory value);
 - (UserBattleItemProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (UserBattleItemProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasId;
-- (NSString*) id;
-- (UserBattleItemProto_Builder*) setId:(NSString*) value;
-- (UserBattleItemProto_Builder*) clearId;
+- (BOOL) hasUserBattleItemId;
+- (NSString*) userBattleItemId;
+- (UserBattleItemProto_Builder*) setUserBattleItemId:(NSString*) value;
+- (UserBattleItemProto_Builder*) clearUserBattleItemId;
 
 - (BOOL) hasUserUuid;
 - (NSString*) userUuid;
@@ -172,21 +172,27 @@ BOOL BattleItemCategoryIsValidValue(BattleItemCategory value);
   BOOL hasBattleItemId_:1;
   BOOL hasCreateCost_:1;
   BOOL hasPowerAmount_:1;
+  BOOL hasPriority_:1;
+  BOOL hasMinutesToCreate_:1;
+  BOOL hasInBattleGemCost_:1;
   BOOL hasName_:1;
   BOOL hasImgName_:1;
+  BOOL hasDescription_:1;
   BOOL hasBattleItemType_:1;
   BOOL hasBattleItemCategory_:1;
   BOOL hasCreateResourceType_:1;
-  BOOL hasDescription_:1;
   int32_t battleItemId;
   int32_t createCost;
   int32_t powerAmount;
+  int32_t priority;
+  int32_t minutesToCreate;
+  int32_t inBattleGemCost;
   NSString* name;
   NSString* imgName;
-  NSString* battleItemType;
-  NSString* battleItemCategory;
-  NSString* createResourceType;
   NSString* description;
+  BattleItemType battleItemType;
+  BattleItemCategory battleItemCategory;
+  ResourceType createResourceType;
 }
 - (BOOL) hasBattleItemId;
 - (BOOL) hasName;
@@ -197,15 +203,21 @@ BOOL BattleItemCategoryIsValidValue(BattleItemCategory value);
 - (BOOL) hasCreateCost;
 - (BOOL) hasDescription;
 - (BOOL) hasPowerAmount;
+- (BOOL) hasPriority;
+- (BOOL) hasMinutesToCreate;
+- (BOOL) hasInBattleGemCost;
 @property (readonly) int32_t battleItemId;
 @property (readonly, strong) NSString* name;
 @property (readonly, strong) NSString* imgName;
-@property (readonly, strong) NSString* battleItemType;
-@property (readonly, strong) NSString* battleItemCategory;
-@property (readonly, strong) NSString* createResourceType;
+@property (readonly) BattleItemType battleItemType;
+@property (readonly) BattleItemCategory battleItemCategory;
+@property (readonly) ResourceType createResourceType;
 @property (readonly) int32_t createCost;
 @property (readonly, strong) NSString* description;
 @property (readonly) int32_t powerAmount;
+@property (readonly) int32_t priority;
+@property (readonly) int32_t minutesToCreate;
+@property (readonly) int32_t inBattleGemCost;
 
 + (BattleItemProto*) defaultInstance;
 - (BattleItemProto*) defaultInstance;
@@ -258,19 +270,19 @@ BOOL BattleItemCategoryIsValidValue(BattleItemCategory value);
 - (BattleItemProto_Builder*) clearImgName;
 
 - (BOOL) hasBattleItemType;
-- (NSString*) battleItemType;
-- (BattleItemProto_Builder*) setBattleItemType:(NSString*) value;
-- (BattleItemProto_Builder*) clearBattleItemType;
+- (BattleItemType) battleItemType;
+- (BattleItemProto_Builder*) setBattleItemType:(BattleItemType) value;
+- (BattleItemProto_Builder*) clearBattleItemTypeList;
 
 - (BOOL) hasBattleItemCategory;
-- (NSString*) battleItemCategory;
-- (BattleItemProto_Builder*) setBattleItemCategory:(NSString*) value;
-- (BattleItemProto_Builder*) clearBattleItemCategory;
+- (BattleItemCategory) battleItemCategory;
+- (BattleItemProto_Builder*) setBattleItemCategory:(BattleItemCategory) value;
+- (BattleItemProto_Builder*) clearBattleItemCategoryList;
 
 - (BOOL) hasCreateResourceType;
-- (NSString*) createResourceType;
-- (BattleItemProto_Builder*) setCreateResourceType:(NSString*) value;
-- (BattleItemProto_Builder*) clearCreateResourceType;
+- (ResourceType) createResourceType;
+- (BattleItemProto_Builder*) setCreateResourceType:(ResourceType) value;
+- (BattleItemProto_Builder*) clearCreateResourceTypeList;
 
 - (BOOL) hasCreateCost;
 - (int32_t) createCost;
@@ -286,14 +298,31 @@ BOOL BattleItemCategoryIsValidValue(BattleItemCategory value);
 - (int32_t) powerAmount;
 - (BattleItemProto_Builder*) setPowerAmount:(int32_t) value;
 - (BattleItemProto_Builder*) clearPowerAmount;
+
+- (BOOL) hasPriority;
+- (int32_t) priority;
+- (BattleItemProto_Builder*) setPriority:(int32_t) value;
+- (BattleItemProto_Builder*) clearPriority;
+
+- (BOOL) hasMinutesToCreate;
+- (int32_t) minutesToCreate;
+- (BattleItemProto_Builder*) setMinutesToCreate:(int32_t) value;
+- (BattleItemProto_Builder*) clearMinutesToCreate;
+
+- (BOOL) hasInBattleGemCost;
+- (int32_t) inBattleGemCost;
+- (BattleItemProto_Builder*) setInBattleGemCost:(int32_t) value;
+- (BattleItemProto_Builder*) clearInBattleGemCost;
 @end
 
 @interface BattleItemQueueForUserProto : PBGeneratedMessage {
 @private
+  BOOL hasElapsedTime_:1;
   BOOL hasExpectedStartTime_:1;
   BOOL hasPriority_:1;
   BOOL hasBattleItemId_:1;
   BOOL hasUserUuid_:1;
+  Float32 elapsedTime;
   int64_t expectedStartTime;
   int32_t priority;
   int32_t battleItemId;
@@ -303,10 +332,12 @@ BOOL BattleItemCategoryIsValidValue(BattleItemCategory value);
 - (BOOL) hasUserUuid;
 - (BOOL) hasBattleItemId;
 - (BOOL) hasExpectedStartTime;
+- (BOOL) hasElapsedTime;
 @property (readonly) int32_t priority;
 @property (readonly, strong) NSString* userUuid;
 @property (readonly) int32_t battleItemId;
 @property (readonly) int64_t expectedStartTime;
+@property (readonly) Float32 elapsedTime;
 
 + (BattleItemQueueForUserProto*) defaultInstance;
 - (BattleItemQueueForUserProto*) defaultInstance;
@@ -362,6 +393,11 @@ BOOL BattleItemCategoryIsValidValue(BattleItemCategory value);
 - (int64_t) expectedStartTime;
 - (BattleItemQueueForUserProto_Builder*) setExpectedStartTime:(int64_t) value;
 - (BattleItemQueueForUserProto_Builder*) clearExpectedStartTime;
+
+- (BOOL) hasElapsedTime;
+- (Float32) elapsedTime;
+- (BattleItemQueueForUserProto_Builder*) setElapsedTime:(Float32) value;
+- (BattleItemQueueForUserProto_Builder*) clearElapsedTime;
 @end
 
 

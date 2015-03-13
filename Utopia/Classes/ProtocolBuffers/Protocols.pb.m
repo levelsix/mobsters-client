@@ -24,6 +24,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [DevRoot registerAllExtensions:registry];
     [EventAchievementRoot registerAllExtensions:registry];
     [EventApnsRoot registerAllExtensions:registry];
+    [EventBattleItemRoot registerAllExtensions:registry];
     [EventBoosterPackRoot registerAllExtensions:registry];
     [EventChatRoot registerAllExtensions:registry];
     [EventCityRoot registerAllExtensions:registry];
@@ -167,8 +168,10 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCDevEvent:
     case EventProtocolRequestCPerformResearchEvent:
     case EventProtocolRequestCFinishPerformingResearchEvent:
+    case EventProtocolRequestCCustomizePvpBoardObstacleEvent:
     case EventProtocolRequestCCreateBattleItemEvent:
     case EventProtocolRequestCDiscardBattleItemEvent:
+    case EventProtocolRequestCCompleteBattleItemEvent:
       return YES;
     default:
       return NO;
@@ -286,8 +289,10 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSDevEvent:
     case EventProtocolResponseSPerformResearchEvent:
     case EventProtocolResponseSFinishPerformingResearchEvent:
+    case EventProtocolResponseSCustomizePvpBoardObstacleEvent:
     case EventProtocolResponseSCreateBattleItemEvent:
     case EventProtocolResponseSDiscardBattleItemEvent:
+    case EventProtocolResponseSCompleteBattleItemEvent:
       return YES;
     default:
       return NO;

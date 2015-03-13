@@ -27,8 +27,8 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property int32_t researchId;
 @property (strong) NSString* userResearchUuid;
 @property int64_t clientTime;
-@property int32_t gemsSpent;
-@property int32_t resourceChange;
+@property int32_t gemsCost;
+@property int32_t resourceCost;
 @property ResourceType resourceType;
 @end
 
@@ -62,20 +62,20 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasClientTime_ = !!value_;
 }
 @synthesize clientTime;
-- (BOOL) hasGemsSpent {
-  return !!hasGemsSpent_;
+- (BOOL) hasGemsCost {
+  return !!hasGemsCost_;
 }
-- (void) setHasGemsSpent:(BOOL) value_ {
-  hasGemsSpent_ = !!value_;
+- (void) setHasGemsCost:(BOOL) value_ {
+  hasGemsCost_ = !!value_;
 }
-@synthesize gemsSpent;
-- (BOOL) hasResourceChange {
-  return !!hasResourceChange_;
+@synthesize gemsCost;
+- (BOOL) hasResourceCost {
+  return !!hasResourceCost_;
 }
-- (void) setHasResourceChange:(BOOL) value_ {
-  hasResourceChange_ = !!value_;
+- (void) setHasResourceCost:(BOOL) value_ {
+  hasResourceCost_ = !!value_;
 }
-@synthesize resourceChange;
+@synthesize resourceCost;
 - (BOOL) hasResourceType {
   return !!hasResourceType_;
 }
@@ -89,8 +89,8 @@ static PBExtensionRegistry* extensionRegistry = nil;
     self.researchId = 0;
     self.userResearchUuid = @"";
     self.clientTime = 0L;
-    self.gemsSpent = 0;
-    self.resourceChange = 0;
+    self.gemsCost = 0;
+    self.resourceCost = 0;
     self.resourceType = ResourceTypeCash;
   }
   return self;
@@ -123,11 +123,11 @@ static PerformResearchRequestProto* defaultPerformResearchRequestProtoInstance =
   if (self.hasClientTime) {
     [output writeInt64:4 value:self.clientTime];
   }
-  if (self.hasGemsSpent) {
-    [output writeInt32:5 value:self.gemsSpent];
+  if (self.hasGemsCost) {
+    [output writeInt32:5 value:self.gemsCost];
   }
-  if (self.hasResourceChange) {
-    [output writeSInt32:6 value:self.resourceChange];
+  if (self.hasResourceCost) {
+    [output writeSInt32:6 value:self.resourceCost];
   }
   if (self.hasResourceType) {
     [output writeEnum:7 value:self.resourceType];
@@ -153,11 +153,11 @@ static PerformResearchRequestProto* defaultPerformResearchRequestProtoInstance =
   if (self.hasClientTime) {
     size_ += computeInt64Size(4, self.clientTime);
   }
-  if (self.hasGemsSpent) {
-    size_ += computeInt32Size(5, self.gemsSpent);
+  if (self.hasGemsCost) {
+    size_ += computeInt32Size(5, self.gemsCost);
   }
-  if (self.hasResourceChange) {
-    size_ += computeSInt32Size(6, self.resourceChange);
+  if (self.hasResourceCost) {
+    size_ += computeSInt32Size(6, self.resourceCost);
   }
   if (self.hasResourceType) {
     size_ += computeEnumSize(7, self.resourceType);
@@ -212,11 +212,11 @@ static PerformResearchRequestProto* defaultPerformResearchRequestProtoInstance =
   if (self.hasClientTime) {
     [output appendFormat:@"%@%@: %@\n", indent, @"clientTime", [NSNumber numberWithLongLong:self.clientTime]];
   }
-  if (self.hasGemsSpent) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"gemsSpent", [NSNumber numberWithInteger:self.gemsSpent]];
+  if (self.hasGemsCost) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"gemsCost", [NSNumber numberWithInteger:self.gemsCost]];
   }
-  if (self.hasResourceChange) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"resourceChange", [NSNumber numberWithInteger:self.resourceChange]];
+  if (self.hasResourceCost) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"resourceCost", [NSNumber numberWithInteger:self.resourceCost]];
   }
   if (self.hasResourceType) {
     [output appendFormat:@"%@%@: %@\n", indent, @"resourceType", [NSNumber numberWithInteger:self.resourceType]];
@@ -240,10 +240,10 @@ static PerformResearchRequestProto* defaultPerformResearchRequestProtoInstance =
       (!self.hasUserResearchUuid || [self.userResearchUuid isEqual:otherMessage.userResearchUuid]) &&
       self.hasClientTime == otherMessage.hasClientTime &&
       (!self.hasClientTime || self.clientTime == otherMessage.clientTime) &&
-      self.hasGemsSpent == otherMessage.hasGemsSpent &&
-      (!self.hasGemsSpent || self.gemsSpent == otherMessage.gemsSpent) &&
-      self.hasResourceChange == otherMessage.hasResourceChange &&
-      (!self.hasResourceChange || self.resourceChange == otherMessage.resourceChange) &&
+      self.hasGemsCost == otherMessage.hasGemsCost &&
+      (!self.hasGemsCost || self.gemsCost == otherMessage.gemsCost) &&
+      self.hasResourceCost == otherMessage.hasResourceCost &&
+      (!self.hasResourceCost || self.resourceCost == otherMessage.resourceCost) &&
       self.hasResourceType == otherMessage.hasResourceType &&
       (!self.hasResourceType || self.resourceType == otherMessage.resourceType) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
@@ -262,11 +262,11 @@ static PerformResearchRequestProto* defaultPerformResearchRequestProtoInstance =
   if (self.hasClientTime) {
     hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.clientTime] hash];
   }
-  if (self.hasGemsSpent) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.gemsSpent] hash];
+  if (self.hasGemsCost) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.gemsCost] hash];
   }
-  if (self.hasResourceChange) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.resourceChange] hash];
+  if (self.hasResourceCost) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.resourceCost] hash];
   }
   if (self.hasResourceType) {
     hashCode = hashCode * 31 + self.resourceType;
@@ -326,11 +326,11 @@ static PerformResearchRequestProto* defaultPerformResearchRequestProtoInstance =
   if (other.hasClientTime) {
     [self setClientTime:other.clientTime];
   }
-  if (other.hasGemsSpent) {
-    [self setGemsSpent:other.gemsSpent];
+  if (other.hasGemsCost) {
+    [self setGemsCost:other.gemsCost];
   }
-  if (other.hasResourceChange) {
-    [self setResourceChange:other.resourceChange];
+  if (other.hasResourceCost) {
+    [self setResourceCost:other.resourceCost];
   }
   if (other.hasResourceType) {
     [self setResourceType:other.resourceType];
@@ -378,11 +378,11 @@ static PerformResearchRequestProto* defaultPerformResearchRequestProtoInstance =
         break;
       }
       case 40: {
-        [self setGemsSpent:[input readInt32]];
+        [self setGemsCost:[input readInt32]];
         break;
       }
       case 48: {
-        [self setResourceChange:[input readSInt32]];
+        [self setResourceCost:[input readSInt32]];
         break;
       }
       case 56: {
@@ -475,36 +475,36 @@ static PerformResearchRequestProto* defaultPerformResearchRequestProtoInstance =
   result.clientTime = 0L;
   return self;
 }
-- (BOOL) hasGemsSpent {
-  return result.hasGemsSpent;
+- (BOOL) hasGemsCost {
+  return result.hasGemsCost;
 }
-- (int32_t) gemsSpent {
-  return result.gemsSpent;
+- (int32_t) gemsCost {
+  return result.gemsCost;
 }
-- (PerformResearchRequestProto_Builder*) setGemsSpent:(int32_t) value {
-  result.hasGemsSpent = YES;
-  result.gemsSpent = value;
+- (PerformResearchRequestProto_Builder*) setGemsCost:(int32_t) value {
+  result.hasGemsCost = YES;
+  result.gemsCost = value;
   return self;
 }
-- (PerformResearchRequestProto_Builder*) clearGemsSpent {
-  result.hasGemsSpent = NO;
-  result.gemsSpent = 0;
+- (PerformResearchRequestProto_Builder*) clearGemsCost {
+  result.hasGemsCost = NO;
+  result.gemsCost = 0;
   return self;
 }
-- (BOOL) hasResourceChange {
-  return result.hasResourceChange;
+- (BOOL) hasResourceCost {
+  return result.hasResourceCost;
 }
-- (int32_t) resourceChange {
-  return result.resourceChange;
+- (int32_t) resourceCost {
+  return result.resourceCost;
 }
-- (PerformResearchRequestProto_Builder*) setResourceChange:(int32_t) value {
-  result.hasResourceChange = YES;
-  result.resourceChange = value;
+- (PerformResearchRequestProto_Builder*) setResourceCost:(int32_t) value {
+  result.hasResourceCost = YES;
+  result.resourceCost = value;
   return self;
 }
-- (PerformResearchRequestProto_Builder*) clearResourceChange {
-  result.hasResourceChange = NO;
-  result.resourceChange = 0;
+- (PerformResearchRequestProto_Builder*) clearResourceCost {
+  result.hasResourceCost = NO;
+  result.resourceCost = 0;
   return self;
 }
 - (BOOL) hasResourceType {
@@ -859,7 +859,7 @@ BOOL PerformResearchResponseProto_PerformResearchStatusIsValidValue(PerformResea
 @interface FinishPerformingResearchRequestProto ()
 @property (strong) MinimumUserProto* sender;
 @property (strong) NSString* userResearchUuid;
-@property int32_t gemsSpent;
+@property int32_t gemsCost;
 @end
 
 @implementation FinishPerformingResearchRequestProto
@@ -878,18 +878,18 @@ BOOL PerformResearchResponseProto_PerformResearchStatusIsValidValue(PerformResea
   hasUserResearchUuid_ = !!value_;
 }
 @synthesize userResearchUuid;
-- (BOOL) hasGemsSpent {
-  return !!hasGemsSpent_;
+- (BOOL) hasGemsCost {
+  return !!hasGemsCost_;
 }
-- (void) setHasGemsSpent:(BOOL) value_ {
-  hasGemsSpent_ = !!value_;
+- (void) setHasGemsCost:(BOOL) value_ {
+  hasGemsCost_ = !!value_;
 }
-@synthesize gemsSpent;
+@synthesize gemsCost;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.userResearchUuid = @"";
-    self.gemsSpent = 0;
+    self.gemsCost = 0;
   }
   return self;
 }
@@ -915,8 +915,8 @@ static FinishPerformingResearchRequestProto* defaultFinishPerformingResearchRequ
   if (self.hasUserResearchUuid) {
     [output writeString:2 value:self.userResearchUuid];
   }
-  if (self.hasGemsSpent) {
-    [output writeInt32:3 value:self.gemsSpent];
+  if (self.hasGemsCost) {
+    [output writeInt32:3 value:self.gemsCost];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -933,8 +933,8 @@ static FinishPerformingResearchRequestProto* defaultFinishPerformingResearchRequ
   if (self.hasUserResearchUuid) {
     size_ += computeStringSize(2, self.userResearchUuid);
   }
-  if (self.hasGemsSpent) {
-    size_ += computeInt32Size(3, self.gemsSpent);
+  if (self.hasGemsCost) {
+    size_ += computeInt32Size(3, self.gemsCost);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -980,8 +980,8 @@ static FinishPerformingResearchRequestProto* defaultFinishPerformingResearchRequ
   if (self.hasUserResearchUuid) {
     [output appendFormat:@"%@%@: %@\n", indent, @"userResearchUuid", self.userResearchUuid];
   }
-  if (self.hasGemsSpent) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"gemsSpent", [NSNumber numberWithInteger:self.gemsSpent]];
+  if (self.hasGemsCost) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"gemsCost", [NSNumber numberWithInteger:self.gemsCost]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -998,8 +998,8 @@ static FinishPerformingResearchRequestProto* defaultFinishPerformingResearchRequ
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
       self.hasUserResearchUuid == otherMessage.hasUserResearchUuid &&
       (!self.hasUserResearchUuid || [self.userResearchUuid isEqual:otherMessage.userResearchUuid]) &&
-      self.hasGemsSpent == otherMessage.hasGemsSpent &&
-      (!self.hasGemsSpent || self.gemsSpent == otherMessage.gemsSpent) &&
+      self.hasGemsCost == otherMessage.hasGemsCost &&
+      (!self.hasGemsCost || self.gemsCost == otherMessage.gemsCost) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -1010,8 +1010,8 @@ static FinishPerformingResearchRequestProto* defaultFinishPerformingResearchRequ
   if (self.hasUserResearchUuid) {
     hashCode = hashCode * 31 + [self.userResearchUuid hash];
   }
-  if (self.hasGemsSpent) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.gemsSpent] hash];
+  if (self.hasGemsCost) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.gemsCost] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -1062,8 +1062,8 @@ static FinishPerformingResearchRequestProto* defaultFinishPerformingResearchRequ
   if (other.hasUserResearchUuid) {
     [self setUserResearchUuid:other.userResearchUuid];
   }
-  if (other.hasGemsSpent) {
-    [self setGemsSpent:other.gemsSpent];
+  if (other.hasGemsCost) {
+    [self setGemsCost:other.gemsCost];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -1100,7 +1100,7 @@ static FinishPerformingResearchRequestProto* defaultFinishPerformingResearchRequ
         break;
       }
       case 24: {
-        [self setGemsSpent:[input readInt32]];
+        [self setGemsCost:[input readInt32]];
         break;
       }
     }
@@ -1152,20 +1152,20 @@ static FinishPerformingResearchRequestProto* defaultFinishPerformingResearchRequ
   result.userResearchUuid = @"";
   return self;
 }
-- (BOOL) hasGemsSpent {
-  return result.hasGemsSpent;
+- (BOOL) hasGemsCost {
+  return result.hasGemsCost;
 }
-- (int32_t) gemsSpent {
-  return result.gemsSpent;
+- (int32_t) gemsCost {
+  return result.gemsCost;
 }
-- (FinishPerformingResearchRequestProto_Builder*) setGemsSpent:(int32_t) value {
-  result.hasGemsSpent = YES;
-  result.gemsSpent = value;
+- (FinishPerformingResearchRequestProto_Builder*) setGemsCost:(int32_t) value {
+  result.hasGemsCost = YES;
+  result.gemsCost = value;
   return self;
 }
-- (FinishPerformingResearchRequestProto_Builder*) clearGemsSpent {
-  result.hasGemsSpent = NO;
-  result.gemsSpent = 0;
+- (FinishPerformingResearchRequestProto_Builder*) clearGemsCost {
+  result.hasGemsCost = NO;
+  result.gemsCost = 0;
   return self;
 }
 @end

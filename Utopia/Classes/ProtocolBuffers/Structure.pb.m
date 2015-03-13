@@ -46,6 +46,8 @@ BOOL StructOrientationIsValidValue(StructOrientation value) {
 BOOL BoardObstacleTypeIsValidValue(BoardObstacleType value) {
   switch (value) {
     case BoardObstacleTypeCloud:
+    case BoardObstacleTypeLock:
+    case BoardObstacleTypeHole:
       return YES;
     default:
       return NO;
@@ -2902,7 +2904,7 @@ static HospitalProto* defaultHospitalProtoInstance = nil;
 @interface LabProto ()
 @property (strong) StructureInfoProto* structInfo;
 @property int32_t queueSize;
-@property Float32 pointsPerSecond;
+@property Float32 feederTimeMultiplier;
 @property Float32 pointsMultiplier;
 @end
 
@@ -2922,13 +2924,13 @@ static HospitalProto* defaultHospitalProtoInstance = nil;
   hasQueueSize_ = !!value_;
 }
 @synthesize queueSize;
-- (BOOL) hasPointsPerSecond {
-  return !!hasPointsPerSecond_;
+- (BOOL) hasFeederTimeMultiplier {
+  return !!hasFeederTimeMultiplier_;
 }
-- (void) setHasPointsPerSecond:(BOOL) value_ {
-  hasPointsPerSecond_ = !!value_;
+- (void) setHasFeederTimeMultiplier:(BOOL) value_ {
+  hasFeederTimeMultiplier_ = !!value_;
 }
-@synthesize pointsPerSecond;
+@synthesize feederTimeMultiplier;
 - (BOOL) hasPointsMultiplier {
   return !!hasPointsMultiplier_;
 }
@@ -2940,7 +2942,7 @@ static HospitalProto* defaultHospitalProtoInstance = nil;
   if ((self = [super init])) {
     self.structInfo = [StructureInfoProto defaultInstance];
     self.queueSize = 0;
-    self.pointsPerSecond = 0;
+    self.feederTimeMultiplier = 0;
     self.pointsMultiplier = 0;
   }
   return self;
@@ -2967,8 +2969,8 @@ static LabProto* defaultLabProtoInstance = nil;
   if (self.hasQueueSize) {
     [output writeInt32:2 value:self.queueSize];
   }
-  if (self.hasPointsPerSecond) {
-    [output writeFloat:3 value:self.pointsPerSecond];
+  if (self.hasFeederTimeMultiplier) {
+    [output writeFloat:3 value:self.feederTimeMultiplier];
   }
   if (self.hasPointsMultiplier) {
     [output writeFloat:4 value:self.pointsMultiplier];
@@ -2988,8 +2990,8 @@ static LabProto* defaultLabProtoInstance = nil;
   if (self.hasQueueSize) {
     size_ += computeInt32Size(2, self.queueSize);
   }
-  if (self.hasPointsPerSecond) {
-    size_ += computeFloatSize(3, self.pointsPerSecond);
+  if (self.hasFeederTimeMultiplier) {
+    size_ += computeFloatSize(3, self.feederTimeMultiplier);
   }
   if (self.hasPointsMultiplier) {
     size_ += computeFloatSize(4, self.pointsMultiplier);
@@ -3038,8 +3040,8 @@ static LabProto* defaultLabProtoInstance = nil;
   if (self.hasQueueSize) {
     [output appendFormat:@"%@%@: %@\n", indent, @"queueSize", [NSNumber numberWithInteger:self.queueSize]];
   }
-  if (self.hasPointsPerSecond) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"pointsPerSecond", [NSNumber numberWithFloat:self.pointsPerSecond]];
+  if (self.hasFeederTimeMultiplier) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"feederTimeMultiplier", [NSNumber numberWithFloat:self.feederTimeMultiplier]];
   }
   if (self.hasPointsMultiplier) {
     [output appendFormat:@"%@%@: %@\n", indent, @"pointsMultiplier", [NSNumber numberWithFloat:self.pointsMultiplier]];
@@ -3059,8 +3061,8 @@ static LabProto* defaultLabProtoInstance = nil;
       (!self.hasStructInfo || [self.structInfo isEqual:otherMessage.structInfo]) &&
       self.hasQueueSize == otherMessage.hasQueueSize &&
       (!self.hasQueueSize || self.queueSize == otherMessage.queueSize) &&
-      self.hasPointsPerSecond == otherMessage.hasPointsPerSecond &&
-      (!self.hasPointsPerSecond || self.pointsPerSecond == otherMessage.pointsPerSecond) &&
+      self.hasFeederTimeMultiplier == otherMessage.hasFeederTimeMultiplier &&
+      (!self.hasFeederTimeMultiplier || self.feederTimeMultiplier == otherMessage.feederTimeMultiplier) &&
       self.hasPointsMultiplier == otherMessage.hasPointsMultiplier &&
       (!self.hasPointsMultiplier || self.pointsMultiplier == otherMessage.pointsMultiplier) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
@@ -3073,8 +3075,8 @@ static LabProto* defaultLabProtoInstance = nil;
   if (self.hasQueueSize) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.queueSize] hash];
   }
-  if (self.hasPointsPerSecond) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithFloat:self.pointsPerSecond] hash];
+  if (self.hasFeederTimeMultiplier) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithFloat:self.feederTimeMultiplier] hash];
   }
   if (self.hasPointsMultiplier) {
     hashCode = hashCode * 31 + [[NSNumber numberWithFloat:self.pointsMultiplier] hash];
@@ -3128,8 +3130,8 @@ static LabProto* defaultLabProtoInstance = nil;
   if (other.hasQueueSize) {
     [self setQueueSize:other.queueSize];
   }
-  if (other.hasPointsPerSecond) {
-    [self setPointsPerSecond:other.pointsPerSecond];
+  if (other.hasFeederTimeMultiplier) {
+    [self setFeederTimeMultiplier:other.feederTimeMultiplier];
   }
   if (other.hasPointsMultiplier) {
     [self setPointsMultiplier:other.pointsMultiplier];
@@ -3169,7 +3171,7 @@ static LabProto* defaultLabProtoInstance = nil;
         break;
       }
       case 29: {
-        [self setPointsPerSecond:[input readFloat]];
+        [self setFeederTimeMultiplier:[input readFloat]];
         break;
       }
       case 37: {
@@ -3225,20 +3227,20 @@ static LabProto* defaultLabProtoInstance = nil;
   result.queueSize = 0;
   return self;
 }
-- (BOOL) hasPointsPerSecond {
-  return result.hasPointsPerSecond;
+- (BOOL) hasFeederTimeMultiplier {
+  return result.hasFeederTimeMultiplier;
 }
-- (Float32) pointsPerSecond {
-  return result.pointsPerSecond;
+- (Float32) feederTimeMultiplier {
+  return result.feederTimeMultiplier;
 }
-- (LabProto_Builder*) setPointsPerSecond:(Float32) value {
-  result.hasPointsPerSecond = YES;
-  result.pointsPerSecond = value;
+- (LabProto_Builder*) setFeederTimeMultiplier:(Float32) value {
+  result.hasFeederTimeMultiplier = YES;
+  result.feederTimeMultiplier = value;
   return self;
 }
-- (LabProto_Builder*) clearPointsPerSecond {
-  result.hasPointsPerSecond = NO;
-  result.pointsPerSecond = 0;
+- (LabProto_Builder*) clearFeederTimeMultiplier {
+  result.hasFeederTimeMultiplier = NO;
+  result.feederTimeMultiplier = 0;
   return self;
 }
 - (BOOL) hasPointsMultiplier {
@@ -8666,7 +8668,7 @@ static PvpBoardHouseProto* defaultPvpBoardHouseProtoInstance = nil;
 @property (strong) NSString* name;
 @property BoardObstacleType obstacleType;
 @property int32_t powerAmt;
-@property BOOL initAvailable;
+@property BOOL initiallyAvailable;
 @end
 
 @implementation PvpBoardObstacleProto
@@ -8699,17 +8701,17 @@ static PvpBoardHouseProto* defaultPvpBoardHouseProtoInstance = nil;
   hasPowerAmt_ = !!value_;
 }
 @synthesize powerAmt;
-- (BOOL) hasInitAvailable {
-  return !!hasInitAvailable_;
+- (BOOL) hasInitiallyAvailable {
+  return !!hasInitiallyAvailable_;
 }
-- (void) setHasInitAvailable:(BOOL) value_ {
-  hasInitAvailable_ = !!value_;
+- (void) setHasInitiallyAvailable:(BOOL) value_ {
+  hasInitiallyAvailable_ = !!value_;
 }
-- (BOOL) initAvailable {
-  return !!initAvailable_;
+- (BOOL) initiallyAvailable {
+  return !!initiallyAvailable_;
 }
-- (void) setInitAvailable:(BOOL) value_ {
-  initAvailable_ = !!value_;
+- (void) setInitiallyAvailable:(BOOL) value_ {
+  initiallyAvailable_ = !!value_;
 }
 - (id) init {
   if ((self = [super init])) {
@@ -8717,7 +8719,7 @@ static PvpBoardHouseProto* defaultPvpBoardHouseProtoInstance = nil;
     self.name = @"";
     self.obstacleType = BoardObstacleTypeCloud;
     self.powerAmt = 0;
-    self.initAvailable = NO;
+    self.initiallyAvailable = NO;
   }
   return self;
 }
@@ -8749,8 +8751,8 @@ static PvpBoardObstacleProto* defaultPvpBoardObstacleProtoInstance = nil;
   if (self.hasPowerAmt) {
     [output writeInt32:4 value:self.powerAmt];
   }
-  if (self.hasInitAvailable) {
-    [output writeBool:5 value:self.initAvailable];
+  if (self.hasInitiallyAvailable) {
+    [output writeBool:5 value:self.initiallyAvailable];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -8773,8 +8775,8 @@ static PvpBoardObstacleProto* defaultPvpBoardObstacleProtoInstance = nil;
   if (self.hasPowerAmt) {
     size_ += computeInt32Size(4, self.powerAmt);
   }
-  if (self.hasInitAvailable) {
-    size_ += computeBoolSize(5, self.initAvailable);
+  if (self.hasInitiallyAvailable) {
+    size_ += computeBoolSize(5, self.initiallyAvailable);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -8823,8 +8825,8 @@ static PvpBoardObstacleProto* defaultPvpBoardObstacleProtoInstance = nil;
   if (self.hasPowerAmt) {
     [output appendFormat:@"%@%@: %@\n", indent, @"powerAmt", [NSNumber numberWithInteger:self.powerAmt]];
   }
-  if (self.hasInitAvailable) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"initAvailable", [NSNumber numberWithBool:self.initAvailable]];
+  if (self.hasInitiallyAvailable) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"initiallyAvailable", [NSNumber numberWithBool:self.initiallyAvailable]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -8845,8 +8847,8 @@ static PvpBoardObstacleProto* defaultPvpBoardObstacleProtoInstance = nil;
       (!self.hasObstacleType || self.obstacleType == otherMessage.obstacleType) &&
       self.hasPowerAmt == otherMessage.hasPowerAmt &&
       (!self.hasPowerAmt || self.powerAmt == otherMessage.powerAmt) &&
-      self.hasInitAvailable == otherMessage.hasInitAvailable &&
-      (!self.hasInitAvailable || self.initAvailable == otherMessage.initAvailable) &&
+      self.hasInitiallyAvailable == otherMessage.hasInitiallyAvailable &&
+      (!self.hasInitiallyAvailable || self.initiallyAvailable == otherMessage.initiallyAvailable) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -8863,8 +8865,8 @@ static PvpBoardObstacleProto* defaultPvpBoardObstacleProtoInstance = nil;
   if (self.hasPowerAmt) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.powerAmt] hash];
   }
-  if (self.hasInitAvailable) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.initAvailable] hash];
+  if (self.hasInitiallyAvailable) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.initiallyAvailable] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -8921,8 +8923,8 @@ static PvpBoardObstacleProto* defaultPvpBoardObstacleProtoInstance = nil;
   if (other.hasPowerAmt) {
     [self setPowerAmt:other.powerAmt];
   }
-  if (other.hasInitAvailable) {
-    [self setInitAvailable:other.initAvailable];
+  if (other.hasInitiallyAvailable) {
+    [self setInitiallyAvailable:other.initiallyAvailable];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -8967,7 +8969,7 @@ static PvpBoardObstacleProto* defaultPvpBoardObstacleProtoInstance = nil;
         break;
       }
       case 40: {
-        [self setInitAvailable:[input readBool]];
+        [self setInitiallyAvailable:[input readBool]];
         break;
       }
     }
@@ -9037,26 +9039,26 @@ static PvpBoardObstacleProto* defaultPvpBoardObstacleProtoInstance = nil;
   result.powerAmt = 0;
   return self;
 }
-- (BOOL) hasInitAvailable {
-  return result.hasInitAvailable;
+- (BOOL) hasInitiallyAvailable {
+  return result.hasInitiallyAvailable;
 }
-- (BOOL) initAvailable {
-  return result.initAvailable;
+- (BOOL) initiallyAvailable {
+  return result.initiallyAvailable;
 }
-- (PvpBoardObstacleProto_Builder*) setInitAvailable:(BOOL) value {
-  result.hasInitAvailable = YES;
-  result.initAvailable = value;
+- (PvpBoardObstacleProto_Builder*) setInitiallyAvailable:(BOOL) value {
+  result.hasInitiallyAvailable = YES;
+  result.initiallyAvailable = value;
   return self;
 }
-- (PvpBoardObstacleProto_Builder*) clearInitAvailable {
-  result.hasInitAvailable = NO;
-  result.initAvailable = NO;
+- (PvpBoardObstacleProto_Builder*) clearInitiallyAvailable {
+  result.hasInitiallyAvailable = NO;
+  result.initiallyAvailable = NO;
   return self;
 }
 @end
 
 @interface UserPvpBoardObstacleProto ()
-@property (strong) NSString* userPvpBoardObstacleUuid;
+@property int32_t userPvpBoardObstacleId;
 @property (strong) NSString* userUuid;
 @property int32_t obstacleId;
 @property int32_t posX;
@@ -9065,13 +9067,13 @@ static PvpBoardObstacleProto* defaultPvpBoardObstacleProtoInstance = nil;
 
 @implementation UserPvpBoardObstacleProto
 
-- (BOOL) hasUserPvpBoardObstacleUuid {
-  return !!hasUserPvpBoardObstacleUuid_;
+- (BOOL) hasUserPvpBoardObstacleId {
+  return !!hasUserPvpBoardObstacleId_;
 }
-- (void) setHasUserPvpBoardObstacleUuid:(BOOL) value_ {
-  hasUserPvpBoardObstacleUuid_ = !!value_;
+- (void) setHasUserPvpBoardObstacleId:(BOOL) value_ {
+  hasUserPvpBoardObstacleId_ = !!value_;
 }
-@synthesize userPvpBoardObstacleUuid;
+@synthesize userPvpBoardObstacleId;
 - (BOOL) hasUserUuid {
   return !!hasUserUuid_;
 }
@@ -9102,7 +9104,7 @@ static PvpBoardObstacleProto* defaultPvpBoardObstacleProtoInstance = nil;
 @synthesize posY;
 - (id) init {
   if ((self = [super init])) {
-    self.userPvpBoardObstacleUuid = @"";
+    self.userPvpBoardObstacleId = 0;
     self.userUuid = @"";
     self.obstacleId = 0;
     self.posX = 0;
@@ -9126,8 +9128,8 @@ static UserPvpBoardObstacleProto* defaultUserPvpBoardObstacleProtoInstance = nil
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasUserPvpBoardObstacleUuid) {
-    [output writeString:1 value:self.userPvpBoardObstacleUuid];
+  if (self.hasUserPvpBoardObstacleId) {
+    [output writeInt32:1 value:self.userPvpBoardObstacleId];
   }
   if (self.hasUserUuid) {
     [output writeString:2 value:self.userUuid];
@@ -9150,8 +9152,8 @@ static UserPvpBoardObstacleProto* defaultUserPvpBoardObstacleProtoInstance = nil
   }
 
   size_ = 0;
-  if (self.hasUserPvpBoardObstacleUuid) {
-    size_ += computeStringSize(1, self.userPvpBoardObstacleUuid);
+  if (self.hasUserPvpBoardObstacleId) {
+    size_ += computeInt32Size(1, self.userPvpBoardObstacleId);
   }
   if (self.hasUserUuid) {
     size_ += computeStringSize(2, self.userUuid);
@@ -9200,8 +9202,8 @@ static UserPvpBoardObstacleProto* defaultUserPvpBoardObstacleProtoInstance = nil
   return [UserPvpBoardObstacleProto builderWithPrototype:self];
 }
 - (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
-  if (self.hasUserPvpBoardObstacleUuid) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"userPvpBoardObstacleUuid", self.userPvpBoardObstacleUuid];
+  if (self.hasUserPvpBoardObstacleId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userPvpBoardObstacleId", [NSNumber numberWithInteger:self.userPvpBoardObstacleId]];
   }
   if (self.hasUserUuid) {
     [output appendFormat:@"%@%@: %@\n", indent, @"userUuid", self.userUuid];
@@ -9226,8 +9228,8 @@ static UserPvpBoardObstacleProto* defaultUserPvpBoardObstacleProtoInstance = nil
   }
   UserPvpBoardObstacleProto *otherMessage = other;
   return
-      self.hasUserPvpBoardObstacleUuid == otherMessage.hasUserPvpBoardObstacleUuid &&
-      (!self.hasUserPvpBoardObstacleUuid || [self.userPvpBoardObstacleUuid isEqual:otherMessage.userPvpBoardObstacleUuid]) &&
+      self.hasUserPvpBoardObstacleId == otherMessage.hasUserPvpBoardObstacleId &&
+      (!self.hasUserPvpBoardObstacleId || self.userPvpBoardObstacleId == otherMessage.userPvpBoardObstacleId) &&
       self.hasUserUuid == otherMessage.hasUserUuid &&
       (!self.hasUserUuid || [self.userUuid isEqual:otherMessage.userUuid]) &&
       self.hasObstacleId == otherMessage.hasObstacleId &&
@@ -9240,8 +9242,8 @@ static UserPvpBoardObstacleProto* defaultUserPvpBoardObstacleProtoInstance = nil
 }
 - (NSUInteger) hash {
   __block NSUInteger hashCode = 7;
-  if (self.hasUserPvpBoardObstacleUuid) {
-    hashCode = hashCode * 31 + [self.userPvpBoardObstacleUuid hash];
+  if (self.hasUserPvpBoardObstacleId) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.userPvpBoardObstacleId] hash];
   }
   if (self.hasUserUuid) {
     hashCode = hashCode * 31 + [self.userUuid hash];
@@ -9298,8 +9300,8 @@ static UserPvpBoardObstacleProto* defaultUserPvpBoardObstacleProtoInstance = nil
   if (other == [UserPvpBoardObstacleProto defaultInstance]) {
     return self;
   }
-  if (other.hasUserPvpBoardObstacleUuid) {
-    [self setUserPvpBoardObstacleUuid:other.userPvpBoardObstacleUuid];
+  if (other.hasUserPvpBoardObstacleId) {
+    [self setUserPvpBoardObstacleId:other.userPvpBoardObstacleId];
   }
   if (other.hasUserUuid) {
     [self setUserUuid:other.userUuid];
@@ -9334,8 +9336,8 @@ static UserPvpBoardObstacleProto* defaultUserPvpBoardObstacleProtoInstance = nil
         }
         break;
       }
-      case 10: {
-        [self setUserPvpBoardObstacleUuid:[input readString]];
+      case 8: {
+        [self setUserPvpBoardObstacleId:[input readInt32]];
         break;
       }
       case 18: {
@@ -9357,20 +9359,20 @@ static UserPvpBoardObstacleProto* defaultUserPvpBoardObstacleProtoInstance = nil
     }
   }
 }
-- (BOOL) hasUserPvpBoardObstacleUuid {
-  return result.hasUserPvpBoardObstacleUuid;
+- (BOOL) hasUserPvpBoardObstacleId {
+  return result.hasUserPvpBoardObstacleId;
 }
-- (NSString*) userPvpBoardObstacleUuid {
-  return result.userPvpBoardObstacleUuid;
+- (int32_t) userPvpBoardObstacleId {
+  return result.userPvpBoardObstacleId;
 }
-- (UserPvpBoardObstacleProto_Builder*) setUserPvpBoardObstacleUuid:(NSString*) value {
-  result.hasUserPvpBoardObstacleUuid = YES;
-  result.userPvpBoardObstacleUuid = value;
+- (UserPvpBoardObstacleProto_Builder*) setUserPvpBoardObstacleId:(int32_t) value {
+  result.hasUserPvpBoardObstacleId = YES;
+  result.userPvpBoardObstacleId = value;
   return self;
 }
-- (UserPvpBoardObstacleProto_Builder*) clearUserPvpBoardObstacleUuid {
-  result.hasUserPvpBoardObstacleUuid = NO;
-  result.userPvpBoardObstacleUuid = @"";
+- (UserPvpBoardObstacleProto_Builder*) clearUserPvpBoardObstacleId {
+  result.hasUserPvpBoardObstacleId = NO;
+  result.userPvpBoardObstacleId = 0;
   return self;
 }
 - (BOOL) hasUserUuid {

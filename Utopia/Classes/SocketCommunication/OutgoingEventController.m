@@ -2085,7 +2085,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 - (void) beginPvpBattle:(PvpProto *)proto isRevenge:(BOOL)isRevenge previousBattleTime:(uint64_t)previousBattleTime {
   GameState *gs = [GameState sharedGameState];
-  [[SocketCommunication sharedSocketCommunication] sendBeginPvpBattleMessage:proto senderElo:gs.elo isRevenge:isRevenge previousBattleTime:previousBattleTime clientTime:[self getCurrentMilliseconds]];
+  [[SocketCommunication sharedSocketCommunication] sendBeginPvpBattleMessage:proto senderElo:gs.pvpLeague.elo isRevenge:isRevenge previousBattleTime:previousBattleTime clientTime:[self getCurrentMilliseconds]];
   
   if (isRevenge) {
     PvpHistoryProto *pvp = nil;

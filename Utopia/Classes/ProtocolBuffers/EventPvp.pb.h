@@ -5,6 +5,7 @@
 #import "Battle.pb.h"
 #import "BattleItem.pb.h"
 #import "MonsterStuff.pb.h"
+#import "Structure.pb.h"
 #import "User.pb.h"
 // @@protoc_insertion_point(imports)
 
@@ -24,6 +25,10 @@
 @class ClanMemberTeamDonationProto_Builder;
 @class CoordinateProto;
 @class CoordinateProto_Builder;
+@class CustomizePvpBoardObstacleRequestProto;
+@class CustomizePvpBoardObstacleRequestProto_Builder;
+@class CustomizePvpBoardObstacleResponseProto;
+@class CustomizePvpBoardObstacleResponseProto_Builder;
 @class EndPvpBattleRequestProto;
 @class EndPvpBattleRequestProto_Builder;
 @class EndPvpBattleResponseProto;
@@ -180,6 +185,13 @@ typedef NS_ENUM(SInt32, SetDefendingMsgResponseProto_SetDefendingMsgStatus) {
 
 BOOL SetDefendingMsgResponseProto_SetDefendingMsgStatusIsValidValue(SetDefendingMsgResponseProto_SetDefendingMsgStatus value);
 
+typedef NS_ENUM(SInt32, CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatus) {
+  CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatusSuccess = 1,
+  CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatusFailOther = 2,
+};
+
+BOOL CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatusIsValidValue(CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatus value);
+
 
 @interface EventPvpRoot : NSObject {
 }
@@ -190,18 +202,14 @@ BOOL SetDefendingMsgResponseProto_SetDefendingMsgStatusIsValidValue(SetDefending
 @interface QueueUpRequestProto : PBGeneratedMessage {
 @private
   BOOL hasClientTime_:1;
-  BOOL hasAttackerElo_:1;
   BOOL hasAttacker_:1;
   int64_t clientTime;
-  int32_t attackerElo;
   MinimumUserProto* attacker;
   NSMutableArray * mutableSeenUserUuidsList;
 }
 - (BOOL) hasAttacker;
-- (BOOL) hasAttackerElo;
 - (BOOL) hasClientTime;
 @property (readonly, strong) MinimumUserProto* attacker;
-@property (readonly) int32_t attackerElo;
 @property (readonly, strong) NSArray * seenUserUuidsList;
 @property (readonly) int64_t clientTime;
 - (NSString*)seenUserUuidsAtIndex:(NSUInteger)index;
@@ -247,11 +255,6 @@ BOOL SetDefendingMsgResponseProto_SetDefendingMsgStatusIsValidValue(SetDefending
 - (QueueUpRequestProto_Builder*) setAttacker_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (QueueUpRequestProto_Builder*) mergeAttacker:(MinimumUserProto*) value;
 - (QueueUpRequestProto_Builder*) clearAttacker;
-
-- (BOOL) hasAttackerElo;
-- (int32_t) attackerElo;
-- (QueueUpRequestProto_Builder*) setAttackerElo:(int32_t) value;
-- (QueueUpRequestProto_Builder*) clearAttackerElo;
 
 - (NSMutableArray *)seenUserUuidsList;
 - (NSString*)seenUserUuidsAtIndex:(NSUInteger)index;
@@ -863,6 +866,136 @@ BOOL SetDefendingMsgResponseProto_SetDefendingMsgStatusIsValidValue(SetDefending
 - (SetDefendingMsgResponseProto_SetDefendingMsgStatus) status;
 - (SetDefendingMsgResponseProto_Builder*) setStatus:(SetDefendingMsgResponseProto_SetDefendingMsgStatus) value;
 - (SetDefendingMsgResponseProto_Builder*) clearStatusList;
+@end
+
+@interface CustomizePvpBoardObstacleRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  MinimumUserProto* sender;
+  PBAppendableArray * mutableRemoveUpboIdsList;
+  NSMutableArray * mutableNuOrUpdatedObstaclesList;
+}
+- (BOOL) hasSender;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) NSArray * nuOrUpdatedObstaclesList;
+@property (readonly, strong) PBArray * removeUpboIdsList;
+- (UserPvpBoardObstacleProto*)nuOrUpdatedObstaclesAtIndex:(NSUInteger)index;
+- (int32_t)removeUpboIdsAtIndex:(NSUInteger)index;
+
++ (CustomizePvpBoardObstacleRequestProto*) defaultInstance;
+- (CustomizePvpBoardObstacleRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (CustomizePvpBoardObstacleRequestProto_Builder*) builder;
++ (CustomizePvpBoardObstacleRequestProto_Builder*) builder;
++ (CustomizePvpBoardObstacleRequestProto_Builder*) builderWithPrototype:(CustomizePvpBoardObstacleRequestProto*) prototype;
+- (CustomizePvpBoardObstacleRequestProto_Builder*) toBuilder;
+
++ (CustomizePvpBoardObstacleRequestProto*) parseFromData:(NSData*) data;
++ (CustomizePvpBoardObstacleRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (CustomizePvpBoardObstacleRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (CustomizePvpBoardObstacleRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (CustomizePvpBoardObstacleRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (CustomizePvpBoardObstacleRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface CustomizePvpBoardObstacleRequestProto_Builder : PBGeneratedMessageBuilder {
+@private
+  CustomizePvpBoardObstacleRequestProto* result;
+}
+
+- (CustomizePvpBoardObstacleRequestProto*) defaultInstance;
+
+- (CustomizePvpBoardObstacleRequestProto_Builder*) clear;
+- (CustomizePvpBoardObstacleRequestProto_Builder*) clone;
+
+- (CustomizePvpBoardObstacleRequestProto*) build;
+- (CustomizePvpBoardObstacleRequestProto*) buildPartial;
+
+- (CustomizePvpBoardObstacleRequestProto_Builder*) mergeFrom:(CustomizePvpBoardObstacleRequestProto*) other;
+- (CustomizePvpBoardObstacleRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (CustomizePvpBoardObstacleRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (CustomizePvpBoardObstacleRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (CustomizePvpBoardObstacleRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (CustomizePvpBoardObstacleRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (CustomizePvpBoardObstacleRequestProto_Builder*) clearSender;
+
+- (NSMutableArray *)nuOrUpdatedObstaclesList;
+- (UserPvpBoardObstacleProto*)nuOrUpdatedObstaclesAtIndex:(NSUInteger)index;
+- (CustomizePvpBoardObstacleRequestProto_Builder *)addNuOrUpdatedObstacles:(UserPvpBoardObstacleProto*)value;
+- (CustomizePvpBoardObstacleRequestProto_Builder *)addAllNuOrUpdatedObstacles:(NSArray *)array;
+- (CustomizePvpBoardObstacleRequestProto_Builder *)clearNuOrUpdatedObstacles;
+
+- (PBAppendableArray *)removeUpboIdsList;
+- (int32_t)removeUpboIdsAtIndex:(NSUInteger)index;
+- (CustomizePvpBoardObstacleRequestProto_Builder *)addRemoveUpboIds:(int32_t)value;
+- (CustomizePvpBoardObstacleRequestProto_Builder *)addAllRemoveUpboIds:(NSArray *)array;
+- (CustomizePvpBoardObstacleRequestProto_Builder *)setRemoveUpboIdsValues:(const int32_t *)values count:(NSUInteger)count;
+- (CustomizePvpBoardObstacleRequestProto_Builder *)clearRemoveUpboIds;
+@end
+
+@interface CustomizePvpBoardObstacleResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly) CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatus status;
+
++ (CustomizePvpBoardObstacleResponseProto*) defaultInstance;
+- (CustomizePvpBoardObstacleResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (CustomizePvpBoardObstacleResponseProto_Builder*) builder;
++ (CustomizePvpBoardObstacleResponseProto_Builder*) builder;
++ (CustomizePvpBoardObstacleResponseProto_Builder*) builderWithPrototype:(CustomizePvpBoardObstacleResponseProto*) prototype;
+- (CustomizePvpBoardObstacleResponseProto_Builder*) toBuilder;
+
++ (CustomizePvpBoardObstacleResponseProto*) parseFromData:(NSData*) data;
++ (CustomizePvpBoardObstacleResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (CustomizePvpBoardObstacleResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (CustomizePvpBoardObstacleResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (CustomizePvpBoardObstacleResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (CustomizePvpBoardObstacleResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface CustomizePvpBoardObstacleResponseProto_Builder : PBGeneratedMessageBuilder {
+@private
+  CustomizePvpBoardObstacleResponseProto* result;
+}
+
+- (CustomizePvpBoardObstacleResponseProto*) defaultInstance;
+
+- (CustomizePvpBoardObstacleResponseProto_Builder*) clear;
+- (CustomizePvpBoardObstacleResponseProto_Builder*) clone;
+
+- (CustomizePvpBoardObstacleResponseProto*) build;
+- (CustomizePvpBoardObstacleResponseProto*) buildPartial;
+
+- (CustomizePvpBoardObstacleResponseProto_Builder*) mergeFrom:(CustomizePvpBoardObstacleResponseProto*) other;
+- (CustomizePvpBoardObstacleResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (CustomizePvpBoardObstacleResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (CustomizePvpBoardObstacleResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (CustomizePvpBoardObstacleResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (CustomizePvpBoardObstacleResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (CustomizePvpBoardObstacleResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatus) status;
+- (CustomizePvpBoardObstacleResponseProto_Builder*) setStatus:(CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatus) value;
+- (CustomizePvpBoardObstacleResponseProto_Builder*) clearStatusList;
 @end
 
 

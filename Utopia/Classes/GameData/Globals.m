@@ -1943,13 +1943,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   MonsterProto *mp = um.staticMonster;
   MonsterLevelInfoProto *min = [mp.lvlInfoList firstObject];
   MonsterLevelInfoProto *max = [mp.lvlInfoList lastObject];
-  float expPerSecond = min.enhanceExpPerSecond+(max.enhanceExpPerSecond-min.enhanceExpPerSecond)*powf((um.level-1)/(float)(max.lvl-1), max.enhanceExpPerSecondExponent);
-  expPerSecond = MAX(0.001, expPerSecond);
+  float secsToEnhancePerFeeder = min.secsToEnhancePerFeeder+(max.secsToEnhancePerFeeder-min.secsToEnhancePerFeeder)*powf((um.level-1)/(float)(max.lvl-1), max.secsToEnhancePerFeederExponent);
+  secsToEnhancePerFeeder = MAX(1, secsToEnhancePerFeeder);
   
   // Use base feeder exp instead so that time isn't affected by multipliers
   //int expGain = [self calculateExperienceIncrease:baseMonster feeder:feeder];
-  int expGain = feeder.userMonster.feederExp;
-  return (int)ceilf(expGain/expPerSecond);
+  //int expGain = feeder.userMonster.feederExp;
+  return roundf(secsToEnhancePerFeeder);
 }
 
 - (int) calculateExperienceIncrease:(UserEnhancement *)ue {

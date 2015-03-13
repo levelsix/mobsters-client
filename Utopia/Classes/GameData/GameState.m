@@ -118,7 +118,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   if (user.hasPvpLeagueInfo) {
     self.pvpLeague = user.pvpLeagueInfo;
     self.shieldEndTime = [MSDate dateWithTimeIntervalSince1970:user.pvpLeagueInfo.shieldEndTime/1000.0];
-    self.elo = user.pvpLeagueInfo.elo;
   }
   
   for (id<GameStateUpdate> gsu in _unrespondedUpdates) {

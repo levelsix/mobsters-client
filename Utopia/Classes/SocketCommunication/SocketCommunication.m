@@ -1114,10 +1114,8 @@ static NSString *udid = nil;
 }
 
 - (int) sendQueueUpMessage:(NSArray *)seenUserUuids clientTime:(uint64_t)clientTime {
-  GameState *gs = [GameState sharedGameState];
-  QueueUpRequestProto *req = [[[[[[QueueUpRequestProto builder]
-                                  addAllSeenUserUuids:seenUserUuids]
-                                 setAttackerElo:gs.elo]
+  QueueUpRequestProto *req = [[[[[QueueUpRequestProto builder]
+                                 addAllSeenUserUuids:seenUserUuids]
                                 setAttacker:_sender]
                                setClientTime:clientTime]
                               build];
@@ -1553,7 +1551,7 @@ static NSString *udid = nil;
 
 - (int) sendSolicitTeamDonationMessage:(NSString *)msg powerLimit:(int)powerLimit clientTime:(uint64_t)clientTime gemsSpent:(int)gemsSpent {
   SolicitTeamDonationRequestProto *req = [[[[[[[SolicitTeamDonationRequestProto builder]
-                                              setSender:_sender]
+                                               setSender:_sender]
                                               setMsg:msg]
                                              setPowerLimit:powerLimit]
                                             setClientTime:clientTime]
@@ -1565,8 +1563,8 @@ static NSString *udid = nil;
 
 - (int) sendFulfillTeamDonationSolicitationMessage:(FullUserMonsterProto *)fump solicitation:(ClanMemberTeamDonationProto *)solicitation clientTime:(uint64_t)clientTime {
   FulfillTeamDonationSolicitationRequestProto *req = [[[[[[FulfillTeamDonationSolicitationRequestProto builder]
-                                                         setSender:_sender]
-                                                        setClientTime:clientTime]
+                                                          setSender:_sender]
+                                                         setClientTime:clientTime]
                                                         setSolicitation:solicitation]
                                                        setFump:fump]
                                                       build];

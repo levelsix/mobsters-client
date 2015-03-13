@@ -215,7 +215,7 @@
   PvpLeagueProto *league = [gs leagueForId:gs.pvpLeague.leagueId];
   
   NSString *outcome = _wonBattle ? @"Win" : _didRunaway ? @"Flee" : @"Lose";
-  [Analytics pvpMatchEnd:_wonBattle numEnemiesDefeated:_curStage mobsterIdsUsed:mobsterIdsUsed totalRounds:(int)self.enemyTeam.count elo:gs.elo oppElo:pvp.pvpLeagueStats.elo oppId:pvp.defender.minUserProto.userUuid outcome:outcome league:league.leagueName];
+  [Analytics pvpMatchEnd:_wonBattle numEnemiesDefeated:_curStage mobsterIdsUsed:mobsterIdsUsed totalRounds:(int)self.enemyTeam.count elo:gs.pvpLeague.elo oppElo:pvp.pvpLeagueStats.elo oppId:pvp.defender.minUserProto.userUuid outcome:outcome league:league.leagueName];
 }
 
 - (void) sendButtonClicked:(id)sender {

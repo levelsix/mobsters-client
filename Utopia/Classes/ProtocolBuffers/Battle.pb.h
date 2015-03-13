@@ -3,17 +3,36 @@
 #import "ProtocolBuffers.h"
 
 #import "MonsterStuff.pb.h"
+#import "Structure.pb.h"
 #import "User.pb.h"
 // @@protoc_insertion_point(imports)
 
+@class BattleItemFactoryProto;
+@class BattleItemFactoryProto_Builder;
+@class ClanHouseProto;
+@class ClanHouseProto_Builder;
 @class ClanMemberTeamDonationProto;
 @class ClanMemberTeamDonationProto_Builder;
+@class CoordinateProto;
+@class CoordinateProto_Builder;
+@class EvoChamberProto;
+@class EvoChamberProto_Builder;
 @class FullUserMonsterProto;
 @class FullUserMonsterProto_Builder;
 @class FullUserProto;
 @class FullUserProto_Builder;
+@class FullUserStructureProto;
+@class FullUserStructureProto_Builder;
+@class HospitalProto;
+@class HospitalProto_Builder;
+@class LabProto;
+@class LabProto_Builder;
+@class MiniJobCenterProto;
+@class MiniJobCenterProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
+@class MinimumObstacleProto;
+@class MinimumObstacleProto_Builder;
 @class MinimumUserMonsterProto;
 @class MinimumUserMonsterProto_Builder;
 @class MinimumUserMonsterSellProto;
@@ -26,12 +45,20 @@
 @class MinimumUserProtoWithMaxResources;
 @class MinimumUserProtoWithMaxResources_Builder;
 @class MinimumUserProto_Builder;
+@class MoneyTreeProto;
+@class MoneyTreeProto_Builder;
 @class MonsterBattleDialogueProto;
 @class MonsterBattleDialogueProto_Builder;
 @class MonsterLevelInfoProto;
 @class MonsterLevelInfoProto_Builder;
 @class MonsterProto;
 @class MonsterProto_Builder;
+@class ObstacleProto;
+@class ObstacleProto_Builder;
+@class PvpBoardHouseProto;
+@class PvpBoardHouseProto_Builder;
+@class PvpBoardObstacleProto;
+@class PvpBoardObstacleProto_Builder;
 @class PvpClanAvengeProto;
 @class PvpClanAvengeProto_Builder;
 @class PvpHistoryProto;
@@ -44,8 +71,24 @@
 @class PvpProto_Builder;
 @class PvpUserClanAvengeProto;
 @class PvpUserClanAvengeProto_Builder;
+@class ResearchHouseProto;
+@class ResearchHouseProto_Builder;
+@class ResidenceProto;
+@class ResidenceProto_Builder;
+@class ResourceGeneratorProto;
+@class ResourceGeneratorProto_Builder;
+@class ResourceStorageProto;
+@class ResourceStorageProto_Builder;
 @class StaticUserLevelInfoProto;
 @class StaticUserLevelInfoProto_Builder;
+@class StructureInfoProto;
+@class StructureInfoProto_Builder;
+@class TeamCenterProto;
+@class TeamCenterProto_Builder;
+@class TownHallProto;
+@class TownHallProto_Builder;
+@class TutorialStructProto;
+@class TutorialStructProto_Builder;
 @class UserCurrentMonsterTeamProto;
 @class UserCurrentMonsterTeamProto_Builder;
 @class UserEnhancementItemProto;
@@ -64,6 +107,10 @@
 @class UserMonsterHealingProto_Builder;
 @class UserMonsterSnapshotProto;
 @class UserMonsterSnapshotProto_Builder;
+@class UserObstacleProto;
+@class UserObstacleProto_Builder;
+@class UserPvpBoardObstacleProto;
+@class UserPvpBoardObstacleProto_Builder;
 @class UserPvpLeagueProto;
 @class UserPvpLeagueProto_Builder;
 #ifndef __has_feature
@@ -110,6 +157,7 @@ BOOL BattleResultIsValidValue(BattleResult value);
   UserPvpLeagueProto* pvpLeagueStats;
   ClanMemberTeamDonationProto* cmtd;
   NSMutableArray * mutableDefenderMonstersList;
+  NSMutableArray * mutableUserBoardObstaclesList;
 }
 - (BOOL) hasDefender;
 - (BOOL) hasProspectiveCashWinnings;
@@ -126,7 +174,9 @@ BOOL BattleResultIsValidValue(BattleResult value);
 @property (readonly, strong) NSString* defenderMsg;
 @property (readonly, strong) ClanMemberTeamDonationProto* cmtd;
 @property (readonly) int32_t monsterIdDropped;
+@property (readonly, strong) NSArray * userBoardObstaclesList;
 - (PvpMonsterProto*)defenderMonstersAtIndex:(NSUInteger)index;
+- (UserPvpBoardObstacleProto*)userBoardObstaclesAtIndex:(NSUInteger)index;
 
 + (PvpProto*) defaultInstance;
 - (PvpProto*) defaultInstance;
@@ -209,6 +259,12 @@ BOOL BattleResultIsValidValue(BattleResult value);
 - (int32_t) monsterIdDropped;
 - (PvpProto_Builder*) setMonsterIdDropped:(int32_t) value;
 - (PvpProto_Builder*) clearMonsterIdDropped;
+
+- (NSMutableArray *)userBoardObstaclesList;
+- (UserPvpBoardObstacleProto*)userBoardObstaclesAtIndex:(NSUInteger)index;
+- (PvpProto_Builder *)addUserBoardObstacles:(UserPvpBoardObstacleProto*)value;
+- (PvpProto_Builder *)addAllUserBoardObstacles:(NSArray *)array;
+- (PvpProto_Builder *)clearUserBoardObstacles;
 @end
 
 @interface PvpMonsterProto : PBGeneratedMessage {

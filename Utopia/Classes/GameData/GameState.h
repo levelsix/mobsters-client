@@ -39,7 +39,6 @@
 @property (nonatomic, assign) int experience;
 @property (nonatomic, assign) int tasksCompleted;
 @property (nonatomic, assign) int numReferrals;
-@property (nonatomic, assign) int elo;
 @property (nonatomic, assign) int playerHasBoughtInAppPurchase;
 @property (nonatomic, assign) BOOL isAdmin;
 @property (nonatomic, retain) MSDate *createTime;
