@@ -30,6 +30,7 @@
 - (int) currentPowerAmountFromCreatedItems;
 - (int) totalPowerAmount;
 
+- (void) addToMyItems:(NSArray *)itemProtos;
 - (UserBattleItem *) getUserBattleItemForBattleItemId:(int)itemId;
 - (void) incrementBattleItemId:(int)itemId quantity:(int)quantity;
 
