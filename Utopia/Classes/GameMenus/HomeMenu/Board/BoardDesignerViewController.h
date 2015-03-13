@@ -23,6 +23,7 @@
 {
   int32_t                 _powerLimit;
   int32_t                 _powerUsed;
+  int32_t                 _powerUsedExtra; // Extra power cost dictated by restrictions (e.g. adjacency in a row)
   
   NSMutableArray*         _obstacleViews;
   

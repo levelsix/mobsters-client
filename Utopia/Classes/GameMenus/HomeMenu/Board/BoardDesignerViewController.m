@@ -261,6 +261,37 @@ static const int kBoardMarginLeft = 10;
   }
 }
 
+- (void) calculateAdjacencyBasedExtraPowerCost
+{
+  _powerUsedExtra = 0;
+  
+  for (int row = 0; row < _boardSize.height; ++row)
+  {
+    int adjacentObstacleCount = 0;
+    for (int col = 0; col < _boardSize.width; ++col)
+    {
+      BoardDesignerTile* tile = [[_boardTiles objectAtIndex:row] objectAtIndex:col];
+      if (![tile canAcceptObstacle]) ++adjacentObstacleCount;
+      else if (adjacentObstacleCount > 0)
+      {
+        _powerUsedExtra += [self extraPowerCostForAdjacentObstacleCount:adjacentObstacleCount];
+        adjacentObstacleCount = 0;
+      }
+    }
+
+    if (adjacentObstacleCount > 0)
+    {
+      _powerUsedExtra += [self extraPowerCostForAdjacentObstacleCount:adjacentObstacleCount];
+      adjacentObstacleCount = 0;
+    }
+  }
+}
+
+- (int) extraPowerCostForAdjacentObstacleCount:(int)count
+{
+  return (count < 3) ? 0 : (count - 2) + [self extraPowerCostForAdjacentObstacleCount:count - 1];
+}
+
 - (void) saveCurrentBoard
 {
   NSMutableArray* obstacleList = [NSMutableArray array];
@@ -286,21 +317,68 @@ static const int kBoardMarginLeft = 10;
 
 - (void) updatePowerLevel:(BOOL)animated
 {
-  const float   percentage = (float)_powerUsed / (float)_powerLimit;
-  const int32_t powerAvailable = _powerLimit - _powerUsed;
+  [self calculateAdjacencyBasedExtraPowerCost];
+  
+  const int32_t powerUsed = _powerUsed + _powerUsedExtra;
+  const float   percentage = (float)powerUsed / (float)_powerLimit;
+  const int32_t powerAvailable = _powerLimit - powerUsed;
   
   if (animated)
     [self.powerProgressBar animateToPercentage:percentage duration:.2f completion:nil];
   else
     [self.powerProgressBar setPercentage:percentage];
   
-  [self.powerLabel setText:[NSString stringWithFormat:@"POWER: %d/%d", _powerUsed, _powerLimit]];
+  [self.powerLabel setText:[NSString stringWithFormat:@"POWER: %d/%d", powerUsed, _powerLimit]];
   
   for (BoardDesignerObstacleView* obstacleView in _obstacleViews)
     if (obstacleView.obstacleProto.powerAmt > powerAvailable)
       [obstacleView disableObstacle];
     else
       [obstacleView enableObstacle];
+}
+
+- (void) showExtraPowerCostOnUnoccupiedTiles
+{
+  if (_draggedObstacle)
+  {
+    const int32_t powerUsed = _powerUsed + _powerUsedExtra;
+    int32_t powerAvailable = _powerLimit - powerUsed;
+    if (_dragOriginatedFromBoard) powerAvailable += _draggedObstacle.powerAmt;
+    
+    for (int row = 0; row < _boardSize.height; ++row)
+      for (int col = 0; col < _boardSize.width; ++col)
+      {
+        BoardDesignerTile* tile = [[_boardTiles objectAtIndex:row] objectAtIndex:col];
+        if ([tile canAcceptObstacle])
+        {
+          int adjacentObstacleCountLeft  = 0;
+          int adjacentObstacleCountRight = 0;
+          while (col - (adjacentObstacleCountLeft + 1) >= 0 &&
+                 ![[[_boardTiles objectAtIndex:row] objectAtIndex:col - (adjacentObstacleCountLeft + 1)] canAcceptObstacle])
+            ++adjacentObstacleCountLeft;
+          while (col + (adjacentObstacleCountRight + 1) < _boardSize.width &&
+                 ![[[_boardTiles objectAtIndex:row] objectAtIndex:col + (adjacentObstacleCountRight + 1)] canAcceptObstacle])
+            ++adjacentObstacleCountRight;
+          
+          int extraPowerCost = [self extraPowerCostForAdjacentObstacleCount:adjacentObstacleCountLeft + 1 + adjacentObstacleCountRight];
+          if (extraPowerCost > 0)
+          {
+            extraPowerCost -= [self extraPowerCostForAdjacentObstacleCount:adjacentObstacleCountLeft];
+            extraPowerCost -= [self extraPowerCostForAdjacentObstacleCount:adjacentObstacleCountRight];
+            
+            const int adjacencyBasedPowerCost = _draggedObstacle.powerAmt + extraPowerCost;
+            [tile showExtraPowerCost:adjacencyBasedPowerCost available:powerAvailable >= adjacencyBasedPowerCost];
+          }
+        }
+      }
+  }
+}
+
+- (void) hideExtraPowerCostOnAllTiles
+{
+  for (int row = 0; row < _boardSize.height; ++row)
+    for (int col = 0; col < _boardSize.width; ++col)
+      [(BoardDesignerTile*)[[_boardTiles objectAtIndex:row] objectAtIndex:col] hideExtraPowerCost];
 }
 
 - (BOOL) gestureRecognizer:(UIGestureRecognizer*)gestureRecognizer
@@ -337,6 +415,8 @@ static const int kBoardMarginLeft = 10;
           
           draggedObstacleImage = [targetTile removeObstacle];
           draggedObstacleAnchorPoint = CGPointMake(localPoint.x / targetTile.width, localPoint.y / targetTile.height);
+          
+          [self calculateAdjacencyBasedExtraPowerCost];
           
           if (_draggedObstacle.obstacleType == BoardObstacleTypeHole)
             [[self tilesSurroundingAndIncludingTileAtRow:row andColumn:col] makeObjectsPerformSelector:@selector(updateBorders)];
@@ -382,6 +462,8 @@ static const int kBoardMarginLeft = 10;
         [UIView animateWithDuration:.1f animations:^{
           [_draggedObstacleImage setAlpha:1.f];
           [_draggedObstacleImage.layer setTransform:CATransform3DMakeScale(1.5f, 1.5f, 1.f)];
+          
+          [self showExtraPowerCostOnUnoccupiedTiles];
         }];
         
         _dragLastMovementTime = CACurrentMediaTime();
@@ -416,10 +498,9 @@ static const int kBoardMarginLeft = 10;
           }
           
           if (!_dragOriginatedFromBoard)
-          {
             _powerUsed += _draggedObstacle.powerAmt;
-            [self updatePowerLevel:YES];
-          }
+          
+          [self hideExtraPowerCostOnAllTiles];
           
           const CGPoint dragTarget = [targetTile.superview convertPoint:targetTile.center toView:self.view];
           const BOOL    draggedObstacleIsHole = (_draggedObstacle.obstacleType == BoardObstacleTypeHole);
@@ -431,6 +512,8 @@ static const int kBoardMarginLeft = 10;
             [_draggedObstacleImage.layer setTransform:CATransform3DMakeScale(draggedObstacleTargetScale, draggedObstacleTargetScale, 1.f)];
           } completion:^(BOOL finished) {
             [targetTile addObstacle:_draggedObstacle withImage:_draggedObstacleImage.image];
+            
+            [self updatePowerLevel:YES];
             
             if (draggedObstacleIsHole)
             {
@@ -458,6 +541,8 @@ static const int kBoardMarginLeft = 10;
       
       if (invalidDrop)
       {
+        [self hideExtraPowerCostOnAllTiles];
+        
         if (_dragOriginatedFromBoard)
         {
           _powerUsed -= _draggedObstacle.powerAmt;

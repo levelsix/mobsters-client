@@ -32,6 +32,7 @@ static const int kObstacleInset = 1;
     
     _isHole = NO;
     _isOccupied = NO;
+    _tileAvailable = YES;
     
     self.NeighborN  = nil;
     self.NeighborS  = nil;
@@ -258,7 +259,7 @@ static const int kObstacleInset = 1;
 {
   // TODO - Logic for allowing certain obstacles to stack
   
-  return !self.isOccupied && !self.isHole;
+  return !self.isOccupied && !self.isHole && _tileAvailable;
 }
 
 - (void) addObstacle:(PvpBoardObstacleProto*)obstacleProto withImage:(UIImage*)obstacleImage
@@ -298,6 +299,47 @@ static const int kObstacleInset = 1;
   _obstacleProto = nil;
   
   return ret;
+}
+
+- (void) showExtraPowerCost:(int)cost available:(BOOL)available
+{
+  if (!_extraPowerBg)
+  {
+    _extraPowerBg = [[UIView alloc] initWithFrame:self.bounds];
+    _extraPowerBg.backgroundColor = [UIColor colorWithHexString:@"FF48484D"];
+    
+    _extraPowerLabel = [[UILabel alloc] initWithFrame:CGRectMake(3, self.height - 14, self.width - 6, 11)];
+    _extraPowerLabel.font = [UIFont fontWithName:@"GothamBlack" size:8.f];
+    _extraPowerLabel.textAlignment = NSTextAlignmentCenter;
+    _extraPowerLabel.text = @"PWR";
+    
+    _extraPowerCostLabel = [[UILabel alloc] initWithFrame:CGRectMake(3, 3, self.width - 6, _extraPowerLabel.originY)];
+    _extraPowerCostLabel.font = [UIFont fontWithName:@"Gotham-Ultra" size:14.f];
+    _extraPowerCostLabel.textAlignment = NSTextAlignmentCenter;
+  }
+  
+  _extraPowerCostLabel.text = [NSString stringWithFormat:@"%d", cost];
+  
+  UIColor* labelColor = available ? [UIColor colorWithWhite:1.f alpha:.25f] : [UIColor colorWithHexString:@"FFA2A280"];
+  _extraPowerCostLabel.textColor = labelColor;
+  _extraPowerLabel.textColor = labelColor;
+  
+  if (!available)
+    [self addSubview:_extraPowerBg];
+  
+  [self addSubview:_extraPowerCostLabel];
+  [self addSubview:_extraPowerLabel];
+  
+  _tileAvailable = available;
+}
+
+- (void) hideExtraPowerCost
+{
+  [_extraPowerBg removeFromSuperview];
+  [_extraPowerCostLabel removeFromSuperview];
+  [_extraPowerLabel removeFromSuperview];
+  
+  _tileAvailable = YES;
 }
 
 - (BOOL) hasNeighborN

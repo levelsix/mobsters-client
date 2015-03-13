@@ -19,6 +19,11 @@
   UIImage* _innerCornerImage;
   
   UIImageView* _obstacleImageView;
+  
+  UILabel* _extraPowerCostLabel;
+  UILabel* _extraPowerLabel;
+  UIView*  _extraPowerBg;
+  BOOL     _tileAvailable; // Used only while extra power cost is being shown on the tile
 }
 
 @property (nonatomic, readonly) PvpBoardObstacleProto* obstacleProto;
@@ -41,6 +46,8 @@
 - (BOOL) canAcceptObstacle;
 - (void) addObstacle:(PvpBoardObstacleProto*)obstacleProto withImage:(UIImage*)obstacleImage;
 - (UIImage*) removeObstacle;
+- (void) showExtraPowerCost:(int)cost available:(BOOL)available;
+- (void) hideExtraPowerCost;
 
 - (BOOL) hasNeighborN;
 - (BOOL) hasNeighborS;
