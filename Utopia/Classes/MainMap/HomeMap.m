@@ -511,7 +511,6 @@
   
   for (CCSprite *spr in [self childrenOfClassType:[ItemFactoryBuilding class]]) {
     ItemFactoryBuilding *ifb = (ItemFactoryBuilding *)spr;
-    UserStruct *s = ifb.userStruct;
     BattleItemQueue *hq = gs.battleItemUtil.battleItemQueue;
     BattleItemQueueObject *item = [hq.queueObjects firstObject];
     

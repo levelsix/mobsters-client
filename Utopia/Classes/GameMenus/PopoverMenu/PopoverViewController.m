@@ -22,7 +22,7 @@ static BOOL _instanceOpened = NO;
   if (!_instanceOpened) {
     return [super init];
   }
-  LNLog(@"Trying to create multiple item select. Rejecting..");
+  LNLog(@"Trying to create popovers. Rejecting..");
   return nil;
 }
 

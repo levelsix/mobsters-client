@@ -1675,7 +1675,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   
   BOOL queueWait = NO;
   MSDate *earliest = nil;
-  for (BattleItemQueueObject *item in self.battleItemUtil.battleItemQueue.queueObjects) {
+  BattleItemQueue *biq = self.battleItemUtil.battleItemQueue;
+  
+  Globals *gl = [Globals sharedGlobals];
+  if (!biq.hasShownFreeSpeedup) {
+    earliest = [biq.queueEndTime dateByAddingTimeInterval:-gl.maxMinutesForFreeSpeedUp*60];
+  }
+  
+  for (BattleItemQueueObject *item in biq.queueObjects) {
     MSDate *endTime = item.expectedEndTime;
     if (endTime && [endTime timeIntervalSinceNow] <= 0) {
       queueWait = YES;
@@ -1696,6 +1703,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (void) battleItemWaitTimeComplete {
+  Globals *gl = [Globals sharedGlobals];
   BattleItemQueue *biq = self.battleItemUtil.battleItemQueue;
   
   NSMutableArray *arr = [NSMutableArray array];
@@ -1716,11 +1724,18 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     [self beginBattleItemTimer];
     
     if (arr.count > 1) {
-      [Globals addGreenAlertNotification:[NSString stringWithFormat:@"%d Battle Items have finished creating!", (int)arr.count] isImmediate:NO];
+      [Globals addGreenAlertNotification:[NSString stringWithFormat:@"%d Items have finished creating!", (int)arr.count] isImmediate:NO];
     } else {
       BattleItemQueueObject *item = arr[0];
       [Globals addGreenAlertNotification:[NSString stringWithFormat:@"%@ has finished creating!", item.staticBattleItem.name] isImmediate:NO];
     }
+  } else if (!biq.hasShownFreeSpeedup && biq.queueEndTime.timeIntervalSinceNow < gl.maxMinutesForFreeSpeedUp*60) {
+    NSString *desc = [NSString stringWithFormat:@"Item queue time is below %d minutes. Free speedup available!", gl.maxMinutesForFreeSpeedUp];
+    [Globals addPurpleAlertNotification:desc isImmediate:NO];
+    
+    biq.hasShownFreeSpeedup = YES;
+    
+    [self beginBattleItemTimer];
   }
 }
 

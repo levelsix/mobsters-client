@@ -108,7 +108,7 @@
     //for (BattleItemQueueObject *biq in queueObjects) {
     BattleItemQueueObject *biq = [queueObjects firstObject];
     if (biq) {
-      if ([gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeHeal userDataUuid:biq.battleItemQueueUuid] < 0) {
+      if ([gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeCreateBattleItem userDataUuid:biq.battleItemQueueUuid] < 0) {
         canHelp = YES;
       }
     }
@@ -504,8 +504,9 @@
   [self reloadQueueViewAnimated:YES];
   
   [self reloadTitleView];
-
+  
   [[NSNotificationCenter defaultCenter] postNotificationName:BATTLE_ITEM_QUEUE_CHANGED_NOTIFICATION object:self];
+  [[NSNotificationCenter defaultCenter] postNotificationName:BATTLE_ITEM_WAIT_COMPLETE_NOTIFICATION object:self];
   
   _waitingForResponse = NO;
 }

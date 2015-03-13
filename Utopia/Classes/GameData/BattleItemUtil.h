@@ -30,4 +30,7 @@
 - (int) currentPowerAmountFromCreatedItems;
 - (int) totalPowerAmount;
 
+- (UserBattleItem *) getUserBattleItemForBattleItemId:(int)itemId;
+- (void) incrementBattleItemId:(int)itemId quantity:(int)quantity;
+
 @end

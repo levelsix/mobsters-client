@@ -74,4 +74,29 @@
   return pwr;
 }
 
+- (UserBattleItem *) getUserBattleItemForBattleItemId:(int)itemId {
+  for (UserBattleItem *ui in self.battleItems) {
+    if (ui.battleItemId == itemId) {
+      return ui;
+    }
+  }
+  return nil;
+}
+
+- (void) incrementBattleItemId:(int)itemId quantity:(int)quantity {
+  UserBattleItem *ui = [self getUserBattleItemForBattleItemId:itemId];
+  
+  if (!ui) {
+    GameState *gs = [GameState sharedGameState];
+    
+    ui = [[UserBattleItem alloc] init];
+    ui.battleItemId = itemId;
+    ui.userUuid = gs.userUuid;
+    
+    [self.battleItems addObject:ui];
+  }
+  
+  ui.quantity += quantity;
+}
+
 @end

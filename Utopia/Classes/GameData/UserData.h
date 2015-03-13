@@ -11,6 +11,7 @@
 #import "StaticStructure.h"
 #import "ItemObject.h"
 #import "HospitalQueue.h"
+#import "BattleItemUtil.h"
 
 @class ForgeAttempt;
 @class MSDate;

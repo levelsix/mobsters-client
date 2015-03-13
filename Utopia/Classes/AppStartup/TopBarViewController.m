@@ -120,11 +120,13 @@
   [self updateQuestBadge];
   [self updateFreeGemsView];
   
+  // Add observer so that we know when the item was collected
   [center addObserver:self selector:@selector(updateSecretGiftView) name:ITEMS_CHANGED_NOTIFICATION object:nil];
   [self updateSecretGiftView];
   
   [center addObserver:self selector:@selector(updateShopBadge) name:STRUCT_PURCHASED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(updateShopBadge) name:STRUCT_COMPLETE_NOTIFICATION object:nil];
+  // For gacha items
   [center addObserver:self selector:@selector(updateShopBadge) name:ITEMS_CHANGED_NOTIFICATION object:nil];
   // If updateShopBadge returns YES, we need to animate it in viewDidAppear so set it to visible or not based on that.
   if ([self updateShopBadge]) {
@@ -156,6 +158,7 @@
   
   [center addObserver:self selector:@selector(updateBuildersLabel) name:STRUCT_PURCHASED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(updateBuildersLabel) name:STRUCT_COMPLETE_NOTIFICATION object:nil];
+  // For builder items
   [center addObserver:self selector:@selector(updateBuildersLabel) name:ITEMS_CHANGED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(updateBuildersLabel) name:OBSTACLE_REMOVAL_BEGAN_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(updateBuildersLabel) name:OBSTACLE_COMPLETE_NOTIFICATION object:nil];
