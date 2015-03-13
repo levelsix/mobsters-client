@@ -19,7 +19,7 @@
   [super setDefaultValues];
   
   _damageMultiplier = 1.f;
-  _logoShown = NO;
+  _tempDamageGained = 0;
 }
 
 - (void) setValue:(float)value forProperty:(NSString*)property
@@ -31,6 +31,15 @@
 }
 
 #pragma mark - Overrides
+
+- (void)orbDestroyed:(OrbColor)color special:(SpecialOrbType)type
+{
+  if ([self isActive] && color == OrbColorFire)
+  {
+    _tempDamageGained += self.userPlayer.fireDamage * (_damageMultiplier-1);
+  }
+  [super orbDestroyed:color special:type];
+}
 
 - (BOOL) generateSpecialOrb:(BattleOrb*)orb atColumn:(int)column row:(int)row
 {
@@ -55,21 +64,12 @@
   
   if ([self isActive])
   {
-    if (trigger == SkillTriggerPointEndOfPlayerTurn && self.belongsToPlayer)
+    if (trigger == SkillTriggerPointPlayerDealsDamage && self.belongsToPlayer && _tempDamageGained > 0)
     {
       if (execute)
       {
-        [self tickDuration];
-        [self skillTriggerFinished];
-      }
-      return YES;
-    }
-    
-    if (trigger == SkillTriggerPointPlayerMobDefeated && self.belongsToPlayer)
-    {
-      if (execute)
-      {
-        [self endDurationNow];
+        [self showSkillPopupMiniOverlay:[NSString stringWithFormat:@"%i FIRE DAMAGE", _tempDamageGained]];
+        _tempDamageGained = 0;
         [self skillTriggerFinished];
       }
       return YES;
@@ -119,6 +119,27 @@
         [orbSprite reloadSprite:YES];
       }
     }
+}
+
+#pragma mark - Serialization
+
+- (NSDictionary*) serialize
+{
+  NSMutableDictionary* result = [NSMutableDictionary dictionaryWithDictionary:[super serialize]];
+  [result setObject:@(_tempDamageGained) forKey:@"damage"];
+  return result;
+}
+
+- (BOOL) deserialize:(NSDictionary*)dict
+{
+  if (! [super deserialize:dict])
+    return NO;
+  
+  NSNumber* damage = [dict objectForKey:@"damage"];
+  if (damage)
+    _tempDamageGained = [damage floatValue];
+  
+  return YES;
 }
 
 @end
