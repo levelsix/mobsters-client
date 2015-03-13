@@ -87,7 +87,7 @@
   {
     [self addVisualEffects:NO];
 //    [self addDefensiveShieldForUser];
-    _turnsLeft = -1;
+    self.turnsLeft = -1;
   }
   
   return [super activate];

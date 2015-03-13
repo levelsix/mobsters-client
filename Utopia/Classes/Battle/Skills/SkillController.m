@@ -463,7 +463,7 @@
 
 - (void) showSkillPopupMiniOverlay:(NSString *)bottomText
 {
-  [self showSkillPopupMiniOverlay:NO bottomText:bottomText withCompletion:nil];
+  [self showSkillPopupMiniOverlay:NO bottomText:bottomText withCompletion:^{}];
 }
 
 - (void) showskillPopupMiniOverlay:(NSString*)bottomText withCompletion:(SkillPopupBlock)completion

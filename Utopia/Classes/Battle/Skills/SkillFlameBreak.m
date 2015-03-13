@@ -36,11 +36,6 @@
 
 #pragma mark - Overrides
 
-- (BOOL) shouldPersist
-{
-  return [self isActive];
-}
-
 - (BOOL) affectsOwner
 {
   return NO;
