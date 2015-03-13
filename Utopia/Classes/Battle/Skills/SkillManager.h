@@ -81,6 +81,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS_HEADER(SkillManager);
 - (void) enableSkillButton:(BOOL)enable;
 - (BOOL) cakeKidSchedule;
 - (void) displaySkillCounterPopupForController:(SkillController*)controller withProto:(SkillProto*)proto atPosition:(CGPoint)pos;
+- (void) pruneRepeatedSkills:(SkillController *)sameAsSkill;
 - (void) flushPersistentSkills;
 - (__weak NewBattleLayer*) battleLayer;
 

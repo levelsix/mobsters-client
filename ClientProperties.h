@@ -23,7 +23,7 @@
 #define UDID [OpenUDID value]
 
 //#define USE_PROD
-//#define USE_STAGING
+#define USE_STAGING
 
 //#define FORCE_TUTORIAL TutorialStepGuideGreeting
 

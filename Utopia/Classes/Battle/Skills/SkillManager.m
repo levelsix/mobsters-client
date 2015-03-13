@@ -337,17 +337,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   
   // Sequencing player and enemy skills in case both should be triggered
   SkillControllerBlock sequenceBlock = ^(BOOL triggered, id params) {
-    if (triggered)
-    {
-      [self pruneRepeatedSkills:_playerSkillController];
-    }
     BOOL enemySkillTriggered = FALSE;
     if (_enemy.curHealth > 0 || trigger == SkillTriggerPointEnemyDefeated)  // Call if still alive or cleanup trigger
       if (_enemySkillController && shouldTriggerEnemySkill)
       {
         [_enemySkillController triggerSkill:trigger withCompletion:^(BOOL triggered, id params) {
-          if (triggered)
-            [self pruneRepeatedSkills:_enemySkillController];
           [self triggerPersistentSkills:_persistentSkillControllers index:0 trigger:trigger triggered:triggered completion:completion params:params];
         }];
         enemySkillTriggered = TRUE;
@@ -362,8 +356,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
     [_playerSkillController triggerSkill:trigger withCompletion:sequenceBlock];
   else if (_enemySkillController && shouldTriggerEnemySkill)
     [_enemySkillController triggerSkill:trigger withCompletion:^(BOOL triggered, id params) {
-      if (triggered)
-        [self pruneRepeatedSkills:_enemySkillController];
       [self triggerPersistentSkills:_persistentSkillControllers index:0 trigger:trigger triggered:triggered completion:completion params:params];
     }];
   else
@@ -405,7 +397,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
     skill = (SkillController*)_persistentSkillControllers[i];
     if ([skill class] == [sameAsSkill class]
         && skill.belongsToPlayer == sameAsSkill.belongsToPlayer) {
-      [_persistentSkillControllers removeObjectAtIndex:(NSUInteger)i];
+      //[_persistentSkillControllers removeObjectAtIndex:(NSUInteger)i];
+      [[_persistentSkillControllers objectAtIndex:(NSUInteger)i] endDurationNow];
     }
   }
 }

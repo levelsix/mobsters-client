@@ -8,6 +8,7 @@
 
 #import "SkillControllerActive.h"
 #import "NewBattleLayer.h"
+#import "SkillManager.h"
 
 @implementation SkillControllerActive
 
@@ -70,6 +71,7 @@
           [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
           [self.battleLayer.orbLayer disallowInput];
           [self showSkillPopupOverlay:YES withCompletion:^(){
+            [skillManager pruneRepeatedSkills:self];
             if ([self doesRefresh])
               [self resetOrbCounter];
             if (![self activate])

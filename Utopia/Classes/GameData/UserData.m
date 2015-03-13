@@ -70,6 +70,7 @@
     self.level = proto.level;
     self.curHealth = [gl calculateMaxHealthForMonster:self];
     self.defensiveSkillId = proto.defensiveSkillId;
+    self.userMonsterUuid = proto.tsfuUuid;
   }
   return self;
 }
