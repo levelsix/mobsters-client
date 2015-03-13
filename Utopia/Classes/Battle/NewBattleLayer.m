@@ -821,6 +821,7 @@
     
     if (self.myPlayerObject.isStunned)
     {
+      [[skillManager enemySkillControler] showSkillPopupMiniOverlay:@"TURN LOST"];
       [self endMyTurnAfterDelay:1.5f];
       return;
     }
@@ -881,6 +882,7 @@
             // If the enemy's stunned, short the attack function
             if (self.enemyPlayerObject.isStunned)
             {
+              [[skillManager playerSkillControler] showSkillPopupMiniOverlay:@"TURN LOST"];
               [self performAfterDelay:1.5 block:^{
                 [self endEnemyTurn];
               }];
