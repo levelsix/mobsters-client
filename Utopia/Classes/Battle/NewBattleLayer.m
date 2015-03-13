@@ -403,6 +403,7 @@
         [self.movesLeftCounter setPosition:ccp(self.movesLeftContainer.contentSize.width * .5f - 15.f, self.movesLeftContainer.contentSize.height * .5f - 1.f)];
         [self.movesLeftCounter setOpacity:0.f];
         [self.movesLeftContainer addChild:self.movesLeftCounter];
+      self.myPlayer.movesCounter = self.movesLeftContainer;
     }
     
     if (movesLeft > 0) // Note: Max turns we have an asset for is 10
@@ -911,6 +912,7 @@
               [self.currentEnemy performNearAttackAnimationWithEnemy:self.myPlayer
                                                         shouldReturn:YES
                                                          shouldEvade:[skillManager playerWillEvade:YES]
+                                                          shouldMiss:[skillManager playerWillMiss:NO]
                                                         shouldFlinch:(_enemyDamageDealt>0)
                                                               target:self
                                                             selector:@selector(dealEnemyDamage)
@@ -998,6 +1000,7 @@
       float strength = MIN(1, currentScore/(float)STRENGTH_FOR_MAX_SHOTS);
       [self.myPlayer performFarAttackAnimationWithStrength:strength
                                                shouldEvade:[skillManager playerWillEvade:NO]
+                                                shouldMiss:[skillManager playerWillMiss:YES]
                                                      enemy:self.currentEnemy
                                                     target:self
                                                   selector:@selector(dealMyDamage)
@@ -1106,18 +1109,12 @@
   }
   else
   {
-    const float updateDuration = MIN(1.f + abs(initialDamage - modifiedDamage) * .01f, 3.f);
+    const float updateDuration = MIN(abs(initialDamage - modifiedDamage) * .05f, 1.f);
     const int   updateRepeatCount = ceilf(updateDuration / .05f);
     const float updateDamageIncrement = (initialDamage - modifiedDamage) / (float)updateRepeatCount;
     
-    const float labelScaleInitial = 1.f;
-//  const float labelScaleInitial = (initialDamage > modifiedDamage) ? 1.2f : 1.f;
-//  const float labelScaleTarget  = (initialDamage > modifiedDamage) ? 1.f : 1.2f;
-//  const int   labelScaleRepeatCount = ceilf(updateDuration / .5f);
-//  const float labelScaleIncrement = SGN(labelScaleTarget - labelScaleInitial) * .05f;
-    
     __block float damage = initialDamage;
-//  __block float scale = labelScaleInitial;
+    
     CCActionFiniteTime* labelUpdateAction = [CCActionSequence actions:
                                              [CCActionSpawn actions:
                                               [CCActionRepeat actionWithAction:
@@ -1130,29 +1127,14 @@
                                                                     updateDamageIncrement > 0 ? modifiedDamage : initialDamage));     // Lower limit
                                                  }],
                                                 [CCActionDelay actionWithDuration:.05f], nil] times:updateRepeatCount],
-                                              /*
-                                              [CCActionRepeat actionWithAction:
-                                               [CCActionSequence actions:
-                                                [CCActionCallBlock actionWithBlock: // Update label scale
-                                                 ^{
-                                                   [damageLabel runAction:[CCActionSequence actions:
-                                                                           [CCActionEaseInOut actionWithAction:
-                                                                            [CCActionScaleTo actionWithDuration:.15f scale:scale - labelScaleIncrement * 6.f]],
-                                                                           [CCActionEaseInOut actionWithAction:
-                                                                            [CCActionScaleTo actionWithDuration:.35f scale:scale + labelScaleIncrement]], nil]];
-                                                   scale = MIN(labelScaleIncrement > 0 ? labelScaleTarget : labelScaleInitial,        // Upper limit
-                                                                MAX(scale + labelScaleIncrement,
-                                                                    labelScaleIncrement > 0 ? labelScaleInitial : labelScaleTarget)); // Lower limit
-                                                 }],
-                                                [CCActionDelay actionWithDuration:.5f], nil] times:labelScaleRepeatCount], */ nil],
+                                              nil],
                                              [CCActionCallBlock actionWithBlock:    // Set final damage number
                                               ^{
                                                 [damageLabel setString:[NSString stringWithFormat:@"%@", [Globals commafyNumber:modifiedDamage]]];
                                               }], nil];
     
     [damageLabel runAction:[CCActionSequence actions:
-                            [CCActionEaseOut actionWithAction:
-                             [CCActionScaleTo actionWithDuration:.2f scale:labelScaleInitial]], // Initial scale to appear
+                            [CCActionEaseElasticOut actionWithAction:[CCActionScaleTo actionWithDuration:.35f scale:1.f]], // Initial scale to appear
                             labelUpdateAction,                                                  // Update label
                             [CCActionCallBlock actionWithBlock:^{ if (completion) completion(); }],
                             [CCActionSpawn actions:                                             // Move up and fade out

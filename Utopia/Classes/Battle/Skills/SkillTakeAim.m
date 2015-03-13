@@ -97,9 +97,7 @@
 
 -(void)showCriticalHit
 {
-  [self showSkillPopupMiniOverlay:NO
-                       bottomText:[NSString stringWithFormat:@"%.3gX ATK", _critDamageMultiplier]
-                   withCompletion:^{}];
+  [self showSkillPopupMiniOverlay:[NSString stringWithFormat:@"%.3gX ATK", _critDamageMultiplier]];
 }
 
 #pragma mark - Serialization

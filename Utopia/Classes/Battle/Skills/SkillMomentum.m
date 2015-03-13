@@ -50,11 +50,9 @@
 - (NSInteger) modifyDamage:(NSInteger)damage forPlayer:(BOOL)player
 {
   // If attacker is the skill owner
-  if (player == self.belongsToPlayer)
+  if ([self isActive] && player == self.belongsToPlayer)
   {
-    [self showSkillPopupMiniOverlay:NO
-                         bottomText:[NSString stringWithFormat:@"%.3gX ATK", _currentMultiplier]
-                     withCompletion:^{}];
+    [self showSkillPopupMiniOverlay:[NSString stringWithFormat:@"%.3gX ATK", _currentMultiplier]];
     return damage * _currentMultiplier;
   }
   
@@ -95,7 +93,7 @@
 - (void) resetSpriteSize
 {
   BattleSprite* owner = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
-  [owner.sprite runAction:[CCActionEaseBounceIn actionWithAction:
+  [owner runAction:[CCActionEaseBounceIn actionWithAction:
                            [CCActionEaseBounceOut actionWithAction:[CCActionScaleTo actionWithDuration:0.5 scale:1.0]]]];
 }
 
@@ -104,7 +102,7 @@
   if (_currentSizeMultiplier == 1.0)
     return;
   BattleSprite* owner = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
-  [owner.sprite runAction:[CCActionSequence actions:
+  [owner runAction:[CCActionSequence actions:
                            [CCActionEaseIn actionWithAction:[CCActionScaleTo actionWithDuration:0.5 scale:_currentSizeMultiplier + 0.1]],
                            [CCActionEaseOut actionWithAction:[CCActionScaleTo actionWithDuration:0.2 scale:_currentSizeMultiplier]],
                            nil]];

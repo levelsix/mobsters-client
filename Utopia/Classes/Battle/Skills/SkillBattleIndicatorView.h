@@ -36,6 +36,8 @@
   
   BOOL        _skillActive;
   
+  BOOL        _cursed;
+  
   CCSprite*   _orbCounter;
   
   SkillProto* _skillProto;
@@ -46,6 +48,7 @@
 
 - (instancetype) initWithSkillController:(SkillController*)skillController enemy:(BOOL)enemy;
 - (void) appear:(BOOL)instantly;
+- (void) setCurse:(BOOL)curse;
 - (void) update;
 - (void) enableSkillButton:(BOOL)active;
 - (void) popupOrbCounter;

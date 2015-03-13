@@ -46,6 +46,8 @@
 
 @property (nonatomic, retain) CCSprite *rarityTag;
 
+@property (nonatomic, retain) CCSprite *movesCounter;
+
 @property (nonatomic, assign) BOOL isFacingNear;
 @property (nonatomic, assign) BOOL isWalking;
 
@@ -73,9 +75,9 @@
 - (void) faceNearWithoutUpdate;
 - (void) faceFarWithoutUpdate;
 
-- (void) performNearAttackAnimationWithEnemy:(BattleSprite *)enemy shouldReturn:(BOOL)shouldReturn shouldEvade:(BOOL)evade shouldFlinch:(BOOL)flinch
+- (void) performNearAttackAnimationWithEnemy:(BattleSprite *)enemy shouldReturn:(BOOL)shouldReturn shouldEvade:(BOOL)evade shouldMiss:(BOOL)miss shouldFlinch:(BOOL)flinch
                                       target:(id)target selector:(SEL)selector animCompletion:(void(^)(void))completion;
-- (void) performFarAttackAnimationWithStrength:(float)strength shouldEvade:(BOOL)evade enemy:(BattleSprite *)enemy
+- (void) performFarAttackAnimationWithStrength:(float)strength shouldEvade:(BOOL)evade shouldMiss:(BOOL)miss enemy:(BattleSprite *)enemy
                                         target:(id)target selector:(SEL)selector animCompletion:(void(^)(void))completion;
 
 - (void) performNearFlinchAnimationWithStrength:(float)strength delay:(float)delay;

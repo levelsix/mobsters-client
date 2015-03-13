@@ -195,6 +195,16 @@
   return NO;
 }
 
+- (BOOL) skillOwnerWillMiss
+{
+  return NO;
+}
+
+- (BOOL) skillOpponentWillMiss
+{
+  return NO;
+}
+
 - (void) skillTriggerFinished
 {
   [self skillTriggerFinished:NO];
@@ -321,9 +331,7 @@
 
 - (void) showQuickAttackMiniLogo
 {
-  [self showSkillPopupMiniOverlay:NO
-                       bottomText:[NSString stringWithFormat:@"%ld DMG BLOCKED", (long)self.quickAttackDamage]
-                   withCompletion:^{}];
+  [self showSkillPopupMiniOverlay:[NSString stringWithFormat:@"%ld ATK", (long)self.quickAttackDamage]];
 }
 
 - (void) dealQuickAttack
@@ -331,11 +339,13 @@
   [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
   [self.battleLayer.orbLayer disallowInput];
   
+  [self showQuickAttackMiniLogo];
+  
   if (self.belongsToPlayer)
-    [self.playerSprite performFarAttackAnimationWithStrength:0.f shouldEvade:NO enemy:self.enemySprite
+    [self.playerSprite performFarAttackAnimationWithStrength:0.f shouldEvade:NO shouldMiss:NO enemy:self.enemySprite
                                                       target:self selector:@selector(quickAttackDealDamage) animCompletion:nil];
   else
-    [self.enemySprite performNearAttackAnimationWithEnemy:self.playerSprite shouldReturn:YES shouldEvade:NO shouldFlinch:YES
+    [self.enemySprite performNearAttackAnimationWithEnemy:self.playerSprite shouldReturn:YES shouldEvade:NO shouldMiss:NO shouldFlinch:YES
                                                    target:self selector:@selector(quickAttackDealDamage) animCompletion:nil];
 }
 
@@ -449,6 +459,16 @@
     [self makeSkillOwnerJumpWithTarget:self selector:@selector(showSkillPopupOverlayInternal)];
   else
     [self showSkillPopupOverlayInternal];
+}
+
+- (void) showSkillPopupMiniOverlay:(NSString *)bottomText
+{
+  [self showSkillPopupMiniOverlay:NO bottomText:bottomText withCompletion:nil];
+}
+
+- (void) showskillPopupMiniOverlay:(NSString*)bottomText withCompletion:(SkillPopupBlock)completion
+{
+  [self showSkillPopupMiniOverlay:NO bottomText:bottomText withCompletion:completion];
 }
 
 - (void) showSkillPopupMiniOverlay:(BOOL)jumpFirst bottomText:(NSString*)bottomText withCompletion:(SkillPopupBlock)completion

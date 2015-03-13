@@ -43,9 +43,7 @@
   if ([self isActive] && self.belongsToPlayer != player)
   {
     damage *= _damageTakenMultiplier;
-    [self showSkillPopupMiniOverlay:NO
-                         bottomText:[NSString stringWithFormat:@"%.3gX ATK", _damageTakenMultiplier]
-                     withCompletion:^{}];
+    [self showSkillPopupMiniOverlay:[NSString stringWithFormat:@"%.3gX ATK", _damageTakenMultiplier]];
   }
   
   return damage;

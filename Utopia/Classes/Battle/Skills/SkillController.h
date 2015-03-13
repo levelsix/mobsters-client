@@ -95,6 +95,8 @@ static NSString* const kSkillMiniLogoImageNameSuffix = @"minilogo.png";
 - (BOOL) generateSpecialOrb:(BattleOrb*)orb atColumn:(int)column row:(int)row;
 - (NSInteger) modifyDamage:(NSInteger)damage forPlayer:(BOOL)player;
 - (BOOL) skillOwnerWillEvade;
+- (BOOL) skillOwnerWillMiss;
+- (BOOL) skillOpponentWillMiss;
 - (BOOL) triggerSkill:(SkillTriggerPoint)trigger withCompletion:(SkillControllerBlock)completion;
 - (void) restoreVisualsIfNeeded;
 
@@ -116,12 +118,15 @@ static NSString* const kSkillMiniLogoImageNameSuffix = @"minilogo.png";
 
 // Reusable quick attack effects
 @property (readonly) int quickAttackDamage; //Override the getter to set value
+- (void) showQuickAttackMiniLogo;
 - (void) dealQuickAttack;
 - (void) quickAttackDealDamage;
 - (void) onFinishQuickAttack;
 
 // To be called by inherited skills to show the overlay
 - (void) showSkillPopupOverlay:(BOOL)jumpFirst withCompletion:(SkillPopupBlock)completion;
+- (void) showSkillPopupMiniOverlay:(NSString*)bottomText;
+- (void) showSkillPopupMiniOverlay:(NSString*)bottomText withCompletion:(SkillPopupBlock)completion;
 - (void) showSkillPopupMiniOverlay:(BOOL)jumpFirst bottomText:(NSString*)bottomText withCompletion:(SkillPopupBlock)completion;
 - (void) makeSkillOwnerJumpWithTarget:(id)target selector:(SEL)completion;
 

@@ -58,7 +58,9 @@
       if (orbsSpawned > 0)
       {
         // Life steal orbs left on the board at the end of turn, being stealing life
-        [self beginLifeSteal];
+        [self performAfterDelay:self.playerSprite.animationType == MonsterProto_AnimationTypeMelee ? .5 : 0 block:^{
+          [self beginLifeSteal];
+        }];
       }
       else
         [self skillTriggerFinished];

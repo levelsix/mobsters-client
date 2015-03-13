@@ -235,6 +235,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   return NO;
 }
 
+- (BOOL) playerWillMiss:(BOOL)player
+{
+  if (player)
+  {
+    return (_playerSkillController && [_playerSkillController skillOwnerWillMiss]) || (_enemySkillController && [_enemySkillController skillOpponentWillMiss]);
+  }
+  else
+  {
+    return (_enemySkillController && [_enemySkillController skillOwnerWillMiss]) || (_playerSkillController && [_playerSkillController skillOpponentWillMiss]);
+  }
+}
+
 - (void) triggerSkills:(SkillTriggerPoint)trigger withCompletion:(SkillControllerBlock)completion
 {
   //completion(NO); // Uncomment these lines to totally disable skills.
@@ -509,23 +521,25 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
 
 - (BOOL) shouldSpawnRibbonForPlayerSkill:(OrbColor)color
 {
-  if (_playerSkillController)
-    if (_playerSkillController.activationType != SkillActivationTypePassive)
-      if (_skillIndicatorPlayer)
-        if (_playerSkillController.orbColor == color)
-          if ([_playerSkillController shouldSpawnRibbon])
-            return YES;
+  if (!_player.isCursed)
+    if (_playerSkillController)
+      if (_playerSkillController.activationType != SkillActivationTypePassive)
+        if (_skillIndicatorPlayer)
+          if (_playerSkillController.orbColor == color)
+            if ([_playerSkillController shouldSpawnRibbon])
+              return YES;
   return NO;
 }
 
 - (BOOL) shouldSpawnRibbonForEnemySkill:(OrbColor)color
 {
-  if (_enemySkillController)
-    if (_enemySkillController.activationType != SkillActivationTypePassive)
-      if (_skillIndicatorEnemy)
-        if (_enemySkillController.orbColor == color)
-          if ([_enemySkillController shouldSpawnRibbon])
-            return YES;
+  if (!_enemy.isCursed)
+    if (_enemySkillController)
+      if (_enemySkillController.activationType != SkillActivationTypePassive)
+        if (_skillIndicatorEnemy)
+          if (_enemySkillController.orbColor == color)
+            if ([_enemySkillController shouldSpawnRibbon])
+              return YES;
   return NO;
 }
 

@@ -60,6 +60,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS_HEADER(SkillManager);
 - (BOOL) generateSpecialOrb:(BattleOrb*)orb atColumn:(int)column row:(int)row;
 - (NSInteger) modifyDamage:(NSInteger)damage forPlayer:(BOOL)player;
 - (BOOL) playerWillEvade:(BOOL)player;
+- (BOOL) playerWillMiss:(BOOL)player;
 - (void) triggerSkills:(SkillTriggerPoint)trigger withCompletion:(SkillControllerBlock)completion;
 
 // Serialization

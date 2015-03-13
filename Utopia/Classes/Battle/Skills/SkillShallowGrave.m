@@ -68,7 +68,7 @@
   {
     SkillLogStart(@"Shallow Grave -- Skill activated");
     
-    [self addDefensiveShieldForUser];
+//    [self addDefensiveShieldForUser];
   }
   
   [super restoreVisualsIfNeeded];
@@ -86,51 +86,66 @@
   if (!self.belongsToPlayer)
   {
     [self addVisualEffects:NO];
-    [self addDefensiveShieldForUser];
+//    [self addDefensiveShieldForUser];
     _turnsLeft = -1;
   }
   
   return [super activate];
 }
 
+- (NSInteger)modifyDamage:(NSInteger)damage forPlayer:(BOOL)player
+{
+  if ([self isActive] && self.belongsToPlayer != player)
+  {
+    if (self.userPlayer.curHealth - damage < _minHPAllowed)
+    {
+      damage = self.userPlayer.curHealth - _minHPAllowed;
+      
+      [self showSkillPopupMiniOverlay:[NSString stringWithFormat:@"ALL BUT %i DAMAGE BLOCKED", _minHPAllowed]];
+    }
+  }
+  
+  return damage;
+}
+
 #pragma mark - Skill logic
 
-- (void) addDefensiveShieldForUser
-{
-  // Do not allow user's health to fall below a certain
-  // threshold while active
-  self.userPlayer.minHealth = _minHPAllowed;
-}
-
-- (void) removeDefensiveShieldFromUser
-{
-  self.userPlayer.minHealth = 0;
-}
-
-- (BOOL) onDurationStart
-{
-  SkillLogStart(@"Shallow Grave -- Skill activated");
-  
-  [self addDefensiveShieldForUser];
-  
-  return [super onDurationStart];
-}
-
-- (BOOL) onDurationReset
-{
-  SkillLogStart(@"Shallow Grave -- Skill activated");
-  [self addDefensiveShieldForUser];
-  
-  return [super onDurationReset];
-}
-
-- (BOOL) onDurationEnd
-{
-  SkillLogStart(@"Shallow Grave -- Skill deactivated");
-  
-  [self removeDefensiveShieldFromUser];
-  
-  return [super onDurationEnd];
-}
+//- (void) addDefensiveShieldForUser
+//{
+//  // Do not allow user's health to fall below a certain
+//  // threshold while active
+//  self.userPlayer.minHealth = _minHPAllowed;
+//}
+//
+//- (void) removeDefensiveShieldFromUser
+//{
+//  self.userPlayer.minHealth = 0;
+//}
+//
+//- (BOOL) onDurationStart
+//{
+//  SkillLogStart(@"Shallow Grave -- Skill activated");
+//  
+//  [self addDefensiveShieldForUser];
+//  
+//  return [super onDurationStart];
+//}
+//
+//- (BOOL) onDurationReset
+//{
+//  SkillLogStart(@"Shallow Grave -- Skill activated");
+//  [self addDefensiveShieldForUser];
+//  
+//  return [super onDurationReset];
+//}
+//
+//- (BOOL) onDurationEnd
+//{
+//  SkillLogStart(@"Shallow Grave -- Skill deactivated");
+//  
+//  [self removeDefensiveShieldFromUser];
+//  
+//  return [super onDurationEnd];
+//}
 
 @end
