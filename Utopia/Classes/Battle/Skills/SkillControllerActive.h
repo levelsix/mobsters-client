@@ -9,7 +9,7 @@
 
 @interface SkillControllerActive : SkillController
 
-@property (readonly) NSInteger orbCounter;
+@property NSInteger orbCounter;
 @property (readonly) NSInteger orbRequirement;
 
 - (void) resetOrbCounter;

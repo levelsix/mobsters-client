@@ -34,11 +34,6 @@
 
 #pragma mark - Overrides
 
-- (BOOL) shouldPersist
-{
-  return _stunTurnsLeft > 0;
-}
-
 - (NSSet*) sideEffects
 {
   return [NSSet setWithObjects:@(SideEffectTypeBuffHammerTime), @(SideEffectTypeNerfStun), nil];

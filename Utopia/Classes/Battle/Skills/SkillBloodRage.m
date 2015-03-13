@@ -37,11 +37,6 @@
   return NO;
 }
 
-- (BOOL) shouldPersist
-{
-  return [self isActive];
-}
-
 - (TickTrigger) tickTrigger
 {
   return TickTriggerAfterOpponentTurn;
