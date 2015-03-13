@@ -101,7 +101,7 @@
     {
       damage = self.userPlayer.curHealth - _minHPAllowed;
       
-      [self showSkillPopupMiniOverlay:[NSString stringWithFormat:@"ALL BUT %i DAMAGE BLOCKED", _minHPAllowed]];
+      [self showSkillPopupMiniOverlay:@"DEATH AVOIDED"];
     }
   }
   
