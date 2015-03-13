@@ -70,6 +70,7 @@ typedef enum {
 + (void) structCompleted;
 + (void) structCollectOil;
 + (void) structCollectCash;
++ (void) structCollectGems;
 
 + (void) puzzleDamageTickStart;
 + (void) puzzleSwapWindow;

@@ -233,6 +233,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(SoundEngine);
   [[SoundEngine sharedSoundEngine] playEffect:@"sfx_collect_money_doober.mp3"];
 }
 
++ (void) structCollectGems {
+  [[SoundEngine sharedSoundEngine] playEffect:@"sfx_collect_gems_doober.mp3"];
+}
+
 
 #pragma mark - Puzzle sounds
 

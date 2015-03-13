@@ -1293,7 +1293,7 @@
     //this section is for when storages are full but there is infinite gem storage
     [Globals addAlertNotification:@"Something went wrong with the Gem Mine"];
   }
-  //  [SoundEngine structCollectOil];
+  [SoundEngine structCollectGems];
   
   [self updateTimersForBuilding:mt];
   
