@@ -14,9 +14,8 @@ typedef enum {
 } TickTrigger;
 
 @interface SkillControllerActiveBuff : SkillControllerActive {
-  NSInteger _turnsLeft;
+  NSMutableDictionary *_targets;
 }
-
 - (TickTrigger) tickTrigger;
 - (BOOL) resetDuration;
 - (BOOL) tickDuration;
@@ -31,5 +30,7 @@ typedef enum {
 - (void) removeVisualEffects;
 
 @property (readonly) NSInteger duration;
+
+@property NSInteger turnsLeft;
 
 @end

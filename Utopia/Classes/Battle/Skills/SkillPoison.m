@@ -54,7 +54,7 @@
 
 - (BOOL) shouldPersist
 {
-  return ([self specialsOnBoardCount:SpecialOrbTypePoison]) || [self isActive];
+  return ([self specialsOnBoardCount:SpecialOrbTypePoison]) || [super shouldPersist];
 }
 
 - (void) orbDestroyed:(OrbColor)color special:(SpecialOrbType)type
