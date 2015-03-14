@@ -40,7 +40,7 @@
 - (void) battleItemSelected:(UserBattleItem *)item viewController:(id)viewController;
 - (void) battleItemSelectClosed:(id)viewController;
 
-- (NSArray *) reloadItemsArray;
+- (NSArray *) reloadBattleItemsArray;
 
 - (NSString *) progressBarText;
 - (float) progressBarPercent;
@@ -55,7 +55,8 @@
 @property (nonatomic, retain) IBOutlet THLabel *progressBarLabel;
 @property (nonatomic, retain) IBOutlet SplitImageProgressBar *progressBar;
 
-@property (nonatomic, retain) IBOutlet BattleItemSelectCell *selectCell;
+@property (nonatomic, retain) IBOutlet UIView *containerView;
+@property (nonatomic, retain) IBOutlet UIView *contentView;
 
 @property (nonatomic, retain) NSArray *battleItems;
 

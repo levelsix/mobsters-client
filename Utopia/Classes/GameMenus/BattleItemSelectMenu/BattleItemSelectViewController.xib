@@ -8,6 +8,8 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="BattleItemSelectViewController">
             <connections>
                 <outlet property="bgdView" destination="tCj-SA-lXD" id="LOT-H5-I2H"/>
+                <outlet property="containerView" destination="WSb-Nz-DUC" id="xQ0-61-M2Q"/>
+                <outlet property="contentView" destination="pXY-JF-g7A" id="Nf0-3w-Pz0"/>
                 <outlet property="headerView" destination="YRu-xC-rGg" id="ZJN-EQ-bm5"/>
                 <outlet property="itemsTable" destination="g7t-ee-BeA" id="9I2-wg-5kQ"/>
                 <outlet property="mainView" destination="ZBF-Eh-mgn" id="y9i-0l-XhP"/>
@@ -54,7 +56,7 @@
                             <rect key="frame" x="8" y="9" width="241" height="258"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <view contentMode="scaleToFill" id="WSb-Nz-DUC">
+                                <view clipsSubviews="YES" contentMode="scaleToFill" id="WSb-Nz-DUC">
                                     <rect key="frame" x="0.0" y="0.0" width="241" height="258"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -86,6 +88,10 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <color key="separatorColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
                     <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="0iy-vB-Y90"/>
+                        <outlet property="delegate" destination="-1" id="KLQ-jh-hPE"/>
+                    </connections>
                 </tableView>
                 <view clipsSubviews="YES" contentMode="scaleToFill" id="YRu-xC-rGg" userLabel="Header View">
                     <rect key="frame" x="0.0" y="0.0" width="482" height="46"/>

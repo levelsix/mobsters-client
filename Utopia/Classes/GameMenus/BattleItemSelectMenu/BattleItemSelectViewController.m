@@ -76,6 +76,12 @@
 
 @implementation BattleItemSelectViewController
 
+- (void) viewDidLoad {
+  [super viewDidLoad];
+  
+  [self.containerView addSubview:self.contentView];
+}
+
 - (void) viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
   
@@ -84,7 +90,7 @@
 
 - (void) reloadDataAnimated:(BOOL)animated {
   NSArray *oldArray = self.battleItems;
-  self.battleItems = [self.delegate reloadItemsArray];
+  self.battleItems = [self.delegate reloadBattleItemsArray];
   
   if (animated) {
     NSMutableArray *removedIps = [NSMutableArray array], *addedIps = [NSMutableArray array];
@@ -164,8 +170,7 @@
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   BattleItemSelectCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BattleItemSelectCell"];
   if (cell == nil) {
-    [[NSBundle mainBundle] loadNibNamed:@"BattleItemSelectCell" owner:self options:nil];
-    cell = self.selectCell;
+    cell = [[NSBundle mainBundle] loadNibNamed:@"BattleItemSelectCell" owner:self options:nil][0];
   }
   
   [self updateCell:cell battleItem:self.battleItems[indexPath.row]];

@@ -60,7 +60,7 @@
   [[SocketCommunication sharedSocketCommunication] flush];
   [[SocketCommunication sharedSocketCommunication] resumeFlushTimer];
   
-  [self.itemSelectViewController closeClicked:nil];
+  [self.popoverViewController closeClicked:nil];
 }
 
 - (BattleItemUtil *) battleItemUtil {
@@ -128,7 +128,7 @@
       self.helpView.hidden = YES;
     }
   } else if (self.speedupItemsFiller) {
-    [self.itemSelectViewController closeClicked:nil];
+    [self.popoverViewController closeClicked:nil];
   }
   
   if (queueObjects.count) {
@@ -197,7 +197,7 @@
       ResourceItemsFiller *rif = [[ResourceItemsFiller alloc] initWithResourceType:ResourceTypeCash requiredAmount:cost shouldAccumulate:YES];
       rif.delegate = self;
       svc.delegate = rif;
-      self.itemSelectViewController = svc;
+      self.popoverViewController = svc;
       self.resourceItemsFiller = rif;
       
       GameViewController *gvc = [GameViewController baseController];
@@ -251,7 +251,7 @@
 {
   const CGPoint invokingViewAbsolutePosition = [Globals convertPointToWindowCoordinates:_tempBgdImageView.frame.origin fromViewCoordinates:_tempBgdImageView.superview];
   ViewAnchoringDirection popupDirection = invokingViewAbsolutePosition.x < [Globals screenSize].width * .5f ? ViewAnchoringPreferRightPlacement : ViewAnchoringPreferLeftPlacement;
-  [self.itemSelectViewController showAnchoredToInvokingView:_tempBgdImageView withDirection:popupDirection inkovingViewImage:_tempBgdImageView.image];
+  [self.popoverViewController showAnchoredToInvokingView:_tempBgdImageView withDirection:popupDirection inkovingViewImage:_tempBgdImageView.image];
   
   [scrollView setDelegate:nil];
 }
@@ -374,7 +374,7 @@
         sif.delegate = self;
         svc.delegate = sif;
         self.speedupItemsFiller = sif;
-        self.itemSelectViewController = svc;
+        self.popoverViewController = svc;
         
         GameViewController *gvc = [GameViewController baseController];
         svc.view.frame = gvc.view.bounds;
@@ -413,7 +413,7 @@
   Globals *gl = [Globals sharedGlobals];
   
   if (self.speedupItemsFiller) {
-    [self.itemSelectViewController closeClicked:nil];
+    [self.popoverViewController closeClicked:nil];
   }
   
   BattleItemQueue *biq = [self battleItemQueue];
@@ -484,9 +484,64 @@
 }
 
 - (void) itemSelectClosed:(id)viewController {
-  self.itemSelectViewController = nil;
+  self.popoverViewController = nil;
   self.speedupItemsFiller = nil;
   self.resourceItemsFiller = nil;
+}
+
+#pragma mark - Battle Item delegate
+
+- (IBAction) bagClicked:(id)sender {
+  BattleItemSelectViewController *svc = [[BattleItemSelectViewController alloc] init];
+  if (svc) {
+    svc.delegate = self;
+    
+    GameViewController *gvc = [GameViewController baseController];
+    svc.view.frame = gvc.view.bounds;
+    [gvc addChildViewController:svc];
+    [gvc.view addSubview:svc.view];
+    
+    if (sender == nil)
+    {
+      [svc showCenteredOnScreen];
+    }
+    else
+    {
+      if ([sender isKindOfClass:[UIButton class]])
+      {
+        UIButton* invokingButton = (UIButton*)sender;
+        [svc showAnchoredToInvokingView:invokingButton
+                          withDirection:ViewAnchoringPreferLeftPlacement
+                      inkovingViewImage:[invokingButton imageForState:invokingButton.state]];
+      }
+    }
+  }
+}
+
+- (NSArray *) reloadBattleItemsArray {
+  return [self.battleItemUtil.battleItems copy];
+}
+
+- (float) progressBarPercent {
+  GameState *gs = [GameState sharedGameState];
+  
+  BattleItemFactoryProto *factory = (BattleItemFactoryProto *)gs.myBattleItemFactory.staticStruct;
+  return self.battleItemUtil.currentPowerAmountFromCreatedItems/(float)factory.powerLimit;
+}
+
+- (NSString *) progressBarText {
+  GameState *gs = [GameState sharedGameState];
+  
+  BattleItemFactoryProto *factory = (BattleItemFactoryProto *)gs.myBattleItemFactory.staticStruct;
+  return [NSString stringWithFormat:@"%d/%d POWER", self.battleItemUtil.currentPowerAmountFromCreatedItems, factory.powerLimit];
+}
+
+- (void) battleItemSelected:(UserBattleItem *)item viewController:(id)viewController {
+  NSLog(@"Meep");
+}
+
+- (void) battleItemSelectClosed:(id)viewController {
+  self.popoverViewController = nil;
 }
 
 #pragma mark - Get Help
