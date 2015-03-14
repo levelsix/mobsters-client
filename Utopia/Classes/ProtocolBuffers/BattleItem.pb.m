@@ -393,7 +393,6 @@ static UserBattleItemProto* defaultUserBattleItemProtoInstance = nil;
 @property int32_t createCost;
 @property (strong) NSString* description;
 @property int32_t powerAmount;
-@property (strong) NSString* imageName;
 @property int32_t priority;
 @property int32_t minutesToCreate;
 @property int32_t inBattleGemCost;
@@ -465,13 +464,6 @@ static UserBattleItemProto* defaultUserBattleItemProtoInstance = nil;
   hasPowerAmount_ = !!value_;
 }
 @synthesize powerAmount;
-- (BOOL) hasImageName {
-  return !!hasImageName_;
-}
-- (void) setHasImageName:(BOOL) value_ {
-  hasImageName_ = !!value_;
-}
-@synthesize imageName;
 - (BOOL) hasPriority {
   return !!hasPriority_;
 }
@@ -511,7 +503,6 @@ static UserBattleItemProto* defaultUserBattleItemProtoInstance = nil;
     self.createCost = 0;
     self.description = @"";
     self.powerAmount = 0;
-    self.imageName = @"";
     self.priority = 0;
     self.minutesToCreate = 0;
     self.inBattleGemCost = 0;
@@ -562,9 +553,6 @@ static BattleItemProto* defaultBattleItemProtoInstance = nil;
   if (self.hasPowerAmount) {
     [output writeInt32:9 value:self.powerAmount];
   }
-  if (self.hasImageName) {
-    [output writeString:10 value:self.imageName];
-  }
   if (self.hasPriority) {
     [output writeInt32:11 value:self.priority];
   }
@@ -612,9 +600,6 @@ static BattleItemProto* defaultBattleItemProtoInstance = nil;
   }
   if (self.hasPowerAmount) {
     size_ += computeInt32Size(9, self.powerAmount);
-  }
-  if (self.hasImageName) {
-    size_ += computeStringSize(10, self.imageName);
   }
   if (self.hasPriority) {
     size_ += computeInt32Size(11, self.priority);
@@ -690,9 +675,6 @@ static BattleItemProto* defaultBattleItemProtoInstance = nil;
   if (self.hasPowerAmount) {
     [output appendFormat:@"%@%@: %@\n", indent, @"powerAmount", [NSNumber numberWithInteger:self.powerAmount]];
   }
-  if (self.hasImageName) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"imageName", self.imageName];
-  }
   if (self.hasPriority) {
     [output appendFormat:@"%@%@: %@\n", indent, @"priority", [NSNumber numberWithInteger:self.priority]];
   }
@@ -734,8 +716,6 @@ static BattleItemProto* defaultBattleItemProtoInstance = nil;
       (!self.hasDescription || [self.description isEqual:otherMessage.description]) &&
       self.hasPowerAmount == otherMessage.hasPowerAmount &&
       (!self.hasPowerAmount || self.powerAmount == otherMessage.powerAmount) &&
-      self.hasImageName == otherMessage.hasImageName &&
-      (!self.hasImageName || [self.imageName isEqual:otherMessage.imageName]) &&
       self.hasPriority == otherMessage.hasPriority &&
       (!self.hasPriority || self.priority == otherMessage.priority) &&
       self.hasMinutesToCreate == otherMessage.hasMinutesToCreate &&
@@ -774,9 +754,6 @@ static BattleItemProto* defaultBattleItemProtoInstance = nil;
   }
   if (self.hasPowerAmount) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.powerAmount] hash];
-  }
-  if (self.hasImageName) {
-    hashCode = hashCode * 31 + [self.imageName hash];
   }
   if (self.hasPriority) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.priority] hash];
@@ -860,9 +837,6 @@ static BattleItemProto* defaultBattleItemProtoInstance = nil;
   if (other.hasPowerAmount) {
     [self setPowerAmount:other.powerAmount];
   }
-  if (other.hasImageName) {
-    [self setImageName:other.imageName];
-  }
   if (other.hasPriority) {
     [self setPriority:other.priority];
   }
@@ -945,10 +919,6 @@ static BattleItemProto* defaultBattleItemProtoInstance = nil;
       }
       case 72: {
         [self setPowerAmount:[input readInt32]];
-        break;
-      }
-      case 82: {
-        [self setImageName:[input readString]];
         break;
       }
       case 88: {
@@ -1112,22 +1082,6 @@ static BattleItemProto* defaultBattleItemProtoInstance = nil;
 - (BattleItemProto_Builder*) clearPowerAmount {
   result.hasPowerAmount = NO;
   result.powerAmount = 0;
-  return self;
-}
-- (BOOL) hasImageName {
-  return result.hasImageName;
-}
-- (NSString*) imageName {
-  return result.imageName;
-}
-- (BattleItemProto_Builder*) setImageName:(NSString*) value {
-  result.hasImageName = YES;
-  result.imageName = value;
-  return self;
-}
-- (BattleItemProto_Builder*) clearImageName {
-  result.hasImageName = NO;
-  result.imageName = @"";
   return self;
 }
 - (BOOL) hasPriority {
