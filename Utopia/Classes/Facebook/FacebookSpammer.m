@@ -45,6 +45,8 @@
     if (success) {
       LNLog(@"Spammed %@", friendIds);
       
+      [Analytics sentFbSpam:friendIds.count];
+      
       [self openDialogForFacebookIds:rest];
     }
   }];

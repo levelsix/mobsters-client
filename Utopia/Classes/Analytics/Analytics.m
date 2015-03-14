@@ -14,6 +14,7 @@
 //#import "Crittercism.h"
 #import "Amplitude.h"
 #import "TutorialController.h"
+#import "Protocols.pb.h"
 
 #import <MobileAppTracker/MobileAppTracker.h>
 #import <Adjust.h>
@@ -62,8 +63,8 @@ static Class amplitudeClass = nil;
 
 + (void) setUpMobileAppTracker {
 #ifdef MOBSTERS
-//  [ScopelyAttributionWrapper mat_initWithIFAEnabled:YES];
-//  [ScopelyAttributionWrapper mat_startSession];
+  //  [ScopelyAttributionWrapper mat_initWithIFAEnabled:YES];
+  //  [ScopelyAttributionWrapper mat_startSession];
 #else
   [MobileAppTracker initializeWithMATAdvertiserId:MAT_ADVERTISER_ID
                                  MATConversionKey:MAT_APP_KEY];
@@ -224,9 +225,13 @@ static NSString* urlEncodeString(NSString* nonEncodedString) {
 
 + (void) tutorialComplete {
 #ifdef MOBSTERS
-//  [ScopelyAttributionWrapper mat_tutorialComplete];
+  //  [ScopelyAttributionWrapper mat_tutorialComplete];
 #endif
   [self event:@"tut_complete"];
+}
+
++ (void) sentFbSpam:(int)numUsers {
+  [self event:@"fb_spam" withArgs:@{@"num_users":@(numUsers)}];
 }
 
 #pragma mark - Attribution stuff
@@ -234,9 +239,9 @@ static NSString* urlEncodeString(NSString* nonEncodedString) {
 + (void) setUserUuid:(NSString *)userUuid name:(NSString *)name email:(NSString *)email level:(int)level {
   NSString *uid = userUuid;
 #ifdef MOBSTERS
-//  [ScopelyAttributionWrapper mat_setUserInfoForUserId:uid withNameUser:name withEmail:email];
-//  [ScopelyAttributionWrapper adjust_setUserId:uid];
-//  [ScopelyAttributionWrapper adjust_trackEvent:@"w0uwrh"];
+  //  [ScopelyAttributionWrapper mat_setUserInfoForUserId:uid withNameUser:name withEmail:email];
+  //  [ScopelyAttributionWrapper adjust_setUserId:uid];
+  //  [ScopelyAttributionWrapper adjust_trackEvent:@"w0uwrh"];
 #endif
   
   [amplitudeClass setUserId:uid];
@@ -245,23 +250,23 @@ static NSString* urlEncodeString(NSString* nonEncodedString) {
 
 + (void) newAccountCreated {
 #ifdef MOBSTERS
-//  [ScopelyAttributionWrapper mat_newAccountCreated];
+  //  [ScopelyAttributionWrapper mat_newAccountCreated];
 #endif
 }
 
 + (void) appOpen:(int)numTimesOpened {
 #ifdef MOBSTERS
-//  if (numTimesOpened == 2) {
-//    [ScopelyAttributionWrapper mat_appOpen_002];
-//  } else if (numTimesOpened == 20) {
-//    [ScopelyAttributionWrapper mat_appOpen_020];
-//  }
+  //  if (numTimesOpened == 2) {
+  //    [ScopelyAttributionWrapper mat_appOpen_002];
+  //  } else if (numTimesOpened == 20) {
+  //    [ScopelyAttributionWrapper mat_appOpen_020];
+  //  }
 #endif
 }
 
 + (void) connectedToServerWithLevel:(int)level gems:(int)gems cash:(int)cash oil:(int)oil {
   NSDictionary *dict = @{@"gems_balance": @(gems), @"cash_balance": @(cash), @"oil_balance": @(oil)};
-//  [titanClass trackAppOpenWithLevel:S(level) extraParameters:dict];
+  //  [titanClass trackAppOpenWithLevel:S(level) extraParameters:dict];
   
   NSMutableDictionary *d2 = [dict mutableCopy];
   d2[@"level"] = @(level);
@@ -278,7 +283,7 @@ static NSString *installTimeDefaultsKey = @"InstallTimeKey";
   
   if (!installTime) {
     [self event:@"install"];
-//    [titanClass trackEvent:@"install" type:WBAnalyticEventTypeGame parameters:nil];
+    //    [titanClass trackEvent:@"install" type:WBAnalyticEventTypeGame parameters:nil];
     [def setObject:[NSDate date] forKey:installTimeDefaultsKey];
   }
 }
@@ -293,15 +298,175 @@ static NSDate *timeSinceLastTutStep = nil;
   BOOL isComplete = tutorialStep == TutorialStepComplete;
   
   [self event:@"tut_step" withArgs:@{@"step_num": @(tutorialStep),
-                                          @"duration": @(duration),
-                                          @"is_complete": @(isComplete)}];
+                                     @"duration": @(duration),
+                                     @"is_complete": @(isComplete)}];
   
   //[titanClass trackFteFlow:tutorialStep isComplete:isComplete skip:NO duration:duration extraParams:nil];
 }
 
 + (void) levelUpWithPrevLevel:(int)prevLevel curLevel:(int)curLevel {
-  [self event:@"level_up" withArgs:@{@"prev_level": @(prevLevel),
-                                          @"cur_level": @(curLevel)}];
+  GameState *gs = [GameState sharedGameState];
+  NSMutableDictionary *args = [NSMutableDictionary dictionary];
+  
+  args[@"prev_level"] = @(prevLevel);
+  args[@"cur_level"] = @(curLevel);
+  
+  // Structs
+  
+  int cashPrinterLevel = 0;
+  int cashVaultLevel = 0;
+  int oilDrillLevel = 0;
+  int oilSiloLevel = 0;
+  int commandCenterlevel = 0;
+  int evoChamberLevel = 0;
+  int hospitalLevel = 0;
+  int itemFactoryLevel = 0;
+  int jobCenterLevel = 0;
+  int labLevel = 0;
+  int researchCenterLevel = 0;
+  int residenceLevel = 0;
+  int squadHqLevel = 0;
+  int pvpBoardLevel = 0;
+  int teamCenterLevel = 0;
+  int moneyTreeLevel = 0;
+  
+  for (UserStruct *us in gs.myStructs) {
+    StructureInfoProto *fsp = us.staticStructForCurrentConstructionLevel.structInfo;
+    
+    switch (fsp.structType) {
+      case StructureInfoProto_StructTypeResourceGenerator:
+      {
+        ResourceGeneratorProto *rgp = (ResourceGeneratorProto *)us.staticStructForCurrentConstructionLevel;
+        if (rgp.resourceType == ResourceTypeCash) {
+          cashPrinterLevel = MAX(cashPrinterLevel, fsp.level);
+        } else if (rgp.resourceType == ResourceTypeOil) {
+          oilDrillLevel = MAX(oilDrillLevel, fsp.level);
+        }
+      }
+        break;
+        
+      case StructureInfoProto_StructTypeResourceStorage:
+      {
+        ResourceStorageProto *rgp = (ResourceStorageProto *)us.staticStructForCurrentConstructionLevel;
+        if (rgp.resourceType == ResourceTypeCash) {
+          cashVaultLevel = MAX(cashVaultLevel, fsp.level);
+        } else if (rgp.resourceType == ResourceTypeOil) {
+          oilSiloLevel = MAX(oilSiloLevel, fsp.level);
+        }
+      }
+        break;
+        
+      case StructureInfoProto_StructTypeTownHall:
+        commandCenterlevel = MAX(commandCenterlevel, fsp.level);
+        break;
+        
+      case StructureInfoProto_StructTypeEvo:
+        evoChamberLevel = MAX(evoChamberLevel, fsp.level);
+        break;
+        
+      case StructureInfoProto_StructTypeBattleItemFactory:
+        itemFactoryLevel = MAX(itemFactoryLevel, fsp.level);
+        break;
+        
+      case StructureInfoProto_StructTypeMiniJob:
+        jobCenterLevel = MAX(jobCenterLevel, fsp.level);
+        break;
+        
+      case StructureInfoProto_StructTypeLab:
+        labLevel = MAX(labLevel, fsp.level);
+        break;
+        
+      case StructureInfoProto_StructTypeResearchHouse:
+        researchCenterLevel = MAX(researchCenterLevel, fsp.level);
+        break;
+        
+      case StructureInfoProto_StructTypeResidence:
+        residenceLevel = MAX(residenceLevel, fsp.level);
+        break;
+        
+      case StructureInfoProto_StructTypeHospital:
+        hospitalLevel = MAX(hospitalLevel, fsp.level);
+        break;
+        
+      case StructureInfoProto_StructTypeClan:
+        squadHqLevel = MAX(squadHqLevel, fsp.level);
+        break;
+        
+      case StructureInfoProto_StructTypePvpBoard:
+        pvpBoardLevel = MAX(pvpBoardLevel, fsp.level);
+        break;
+        
+      case StructureInfoProto_StructTypeTeamCenter:
+        teamCenterLevel = MAX(teamCenterLevel, fsp.level);
+        break;
+        
+      case StructureInfoProto_StructTypeMoneyTree:
+        moneyTreeLevel = MAX(moneyTreeLevel, fsp.level);
+        break;
+        
+      case StructureInfoProto_StructTypeNoStruct:
+        break;
+    }
+  }
+  
+  args[@"cash_printer_lvl"] = @(cashPrinterLevel);
+  args[@"cash_vault_lvl"] = @(cashVaultLevel);
+  args[@"oil_drill_lvl"] = @(oilDrillLevel);
+  args[@"oil_silo_lvl"] = @(oilSiloLevel);
+  args[@"command_center_lvl"] = @(commandCenterlevel);
+  args[@"evo_chamber_lvl"] = @(evoChamberLevel);
+  args[@"item_factory_lvl"] = @(itemFactoryLevel);
+  args[@"job_center_lvl"] = @(jobCenterLevel);
+  args[@"lab_lvl"] = @(labLevel);
+  args[@"research_center_lvl"] = @(researchCenterLevel);
+  args[@"residence_lvl"] = @(residenceLevel);
+  args[@"hospital_lvl"] = @(hospitalLevel);
+  args[@"squad_hq_lvl"] = @(squadHqLevel);
+  args[@"pvp_board_lvl"] = @(pvpBoardLevel);
+  args[@"team_center_lvl"] = @(teamCenterLevel);
+  args[@"money_tree_lvl"] = @(moneyTreeLevel);
+  
+  // Farthest task beaten
+  
+  int farthestTaskBeaten = 0;
+  for (TaskMapElementProto *me in gs.staticMapElements) {
+    if ([gs isTaskCompleted:me.taskId]) {
+      farthestTaskBeaten = MAX(farthestTaskBeaten, me.mapElementId);
+    }
+  }
+  args[@"farthest_task_beaten"] = @(farthestTaskBeaten);
+  
+  // Toons
+  int maxLvlToonId = 0;
+  int maxLvlToonLvl = 0;
+  int maxEvoTierToonId = 0;
+  int maxEvoTier = 0;
+  Quality maxRarity = QualityNoQuality;
+  
+  for (UserMonster *um in gs.myMonsters) {
+    MonsterProto *mp = um.staticMonster;
+    
+    if (um.level > maxLvlToonLvl) {
+      maxLvlToonId = um.monsterId;
+      maxLvlToonLvl = um.level;
+    }
+    
+    if (mp.evolutionLevel > maxEvoTier) {
+      maxEvoTierToonId = um.monsterId;
+      maxEvoTier = mp.evolutionLevel;
+    }
+    
+    if (mp.quality > maxRarity) {
+      maxRarity = mp.quality;
+    }
+  }
+  args[@"max_lvl_toon_id"] = @(maxLvlToonId);
+  args[@"max_lvl_toon_lvl"] = @(maxLvlToonLvl);
+  args[@"max_evo_tier_toon_id"] = @(maxEvoTierToonId);
+  args[@"max_evo_tier"] = @(maxEvoTier);
+  args[@"max_rarity"] = [Globals stringForRarity:maxRarity];
+  
+  [self event:@"level_up" withArgs:args];
   
   //[titanClass trackLevelUp:S(prevLevel) newLevel:S(curLevel) extraParams:nil];
 }
@@ -316,17 +481,17 @@ static NSDate *timeSinceLastTutStep = nil;
   
   if (fbId) dict[@"id"] = fbId;
   
-//  WBAnalyticGender gen = WBAnalyticGenderUnknown;
-//  char f = [gender characterAtIndex:0];
-//  if (f == 'm') {
-//    gen = WBAnalyticGenderMale;
-//  } else if (f == 'f') {
-//    gen = WBAnalyticGenderFemale;
-//  }
+  //  WBAnalyticGender gen = WBAnalyticGenderUnknown;
+  //  char f = [gender characterAtIndex:0];
+  //  if (f == 'm') {
+  //    gen = WBAnalyticGenderMale;
+  //  } else if (f == 'f') {
+  //    gen = WBAnalyticGenderFemale;
+  //  }
   
-//  NSDateFormatter *df = [[NSDateFormatter alloc] init];
-//  [df setDateFormat:@"MM/dd/yyyy"];
-//  NSDate *date = birthday ? [df dateFromString:birthday] : nil;
+  //  NSDateFormatter *df = [[NSDateFormatter alloc] init];
+  //  [df setDateFormat:@"MM/dd/yyyy"];
+  //  NSDate *date = birthday ? [df dateFromString:birthday] : nil;
   
   //[titanClass trackSocialConnect:@"Facebook" firstName:firstName lastName:lastName gender:gen birthDate:date extraParams:dict];
   
@@ -341,7 +506,7 @@ static NSDate *timeSinceLastTutStep = nil;
 + (void) inviteFacebook {
   
 #ifdef MOBSTERS
-//  [ScopelyAttributionWrapper mat_inviteFacebook];
+  //  [ScopelyAttributionWrapper mat_inviteFacebook];
 #endif
   
   [self event:@"fb_invite"];
@@ -358,16 +523,16 @@ static NSDate *timeSinceLastTutStep = nil;
 + (void) iapWithSKProduct:(SKProduct *)product forTransacton:(SKPaymentTransaction *)transaction amountUS:(float)amountUS {
   if (!product) return;
 #ifdef MOBSTERS
-//  [ScopelyAttributionWrapper mat_iapWithSKProduct:product forTransacton:transaction];
+  //  [ScopelyAttributionWrapper mat_iapWithSKProduct:product forTransacton:transaction];
 #endif
   
   NSString* currencyCode = [product.priceLocale objectForKey:NSLocaleCurrencyCode];
   float unitPrice = [product.price floatValue];
   
   NSDictionary *dict = @{@"amount_us": @(amountUS),
-                        @"amount_local": @(unitPrice),
-                        @"local_cur_code": currencyCode,
-                        @"store_sku": product.productIdentifier};
+                         @"amount_local": @(unitPrice),
+                         @"local_cur_code": currencyCode,
+                         @"store_sku": product.productIdentifier};
   
   [self event:@"iap_purchased" withArgs:dict];
   
@@ -439,7 +604,7 @@ static NSDate *timeSinceLastTutStep = nil;
 #endif
 }
 
-+ (void) pveMatchEnd:(BOOL)won numEnemiesDefeated:(int)enemiesDefeated type:(NSString *)type mobsterIdsUsed:(NSArray *)mobsterIdsUsed numPiecesGained:(int)numPieces mobsterIdsGained:(NSArray *)mobsterIdsGained totalRounds:(int)totalRounds dungeonId:(int)dungeonId numContinues:(int)numContinues outcome:(NSString *)outcome {
++ (void) pveMatchEnd:(BOOL)won numEnemiesDefeated:(int)enemiesDefeated type:(NSString *)type mobstersUsed:(NSArray *)mobstersUsed numPiecesGained:(int)numPieces mobsterIdsGained:(NSArray *)mobsterIdsGained totalRounds:(int)totalRounds dungeonId:(int)dungeonId numContinues:(int)numContinues outcome:(NSString *)outcome {
   NSMutableDictionary *dict = [NSMutableDictionary dictionary];
   dict[@"win"] = @(won);
   dict[@"enemies_defeated"] = @(enemiesDefeated);
@@ -450,9 +615,23 @@ static NSDate *timeSinceLastTutStep = nil;
   dict[@"continue"] = @(numContinues);
   dict[@"outcome"] = outcome;
   
-  for (int i = 0; i < mobsterIdsUsed.count; i++) {
-    dict[[NSString stringWithFormat:@"mobster_%d", i+1]] = mobsterIdsUsed[i];
+  int curIdx = 1;
+  for (BattlePlayer *bp in mobstersUsed) {
+    if (bp.isClanMonster) {
+      dict[@"donated_toon_id"] = @(bp.monsterId);
+      dict[@"donated_toon_lvl"] = @(bp.level);
+      dict[@"donated_toon_remaining_hp"] = @(bp.curHealth);
+      dict[@"donated_toon_max_hp"] = @(bp.maxHealth);
+    } else {
+      dict[[NSString stringWithFormat:@"toon_%d_id", curIdx]] = @(bp.monsterId);
+      dict[[NSString stringWithFormat:@"toon_%d_lvl", curIdx]] = @(bp.level);
+      dict[[NSString stringWithFormat:@"toon_%d_remaining_hp", curIdx]] = @(bp.curHealth);
+      dict[[NSString stringWithFormat:@"toon_%d_max_hp", curIdx]] = @(bp.maxHealth);
+      
+      curIdx++;
+    }
   }
+  
   for (int i = 0; i < mobsterIdsGained.count; i++) {
     dict[[NSString stringWithFormat:@"mobster_gained_%d", i+1]] = mobsterIdsGained[i];
   }
@@ -460,7 +639,7 @@ static NSDate *timeSinceLastTutStep = nil;
   [self event:@"pve_match_end" withArgs:dict sendToTitan:YES];
 }
 
-+ (void) pvpMatchEnd:(BOOL)won numEnemiesDefeated:(int)enemiesDefeated mobsterIdsUsed:(NSArray *)mobsterIdsUsed totalRounds:(int)totalRounds elo:(int)elo oppElo:(int)oppElo oppId:(NSString *)oppId outcome:(NSString *)outcome league:(NSString *)league {
++ (void) pvpMatchEnd:(BOOL)won numEnemiesDefeated:(int)enemiesDefeated mobstersUsed:(NSArray *)mobstersUsed totalRounds:(int)totalRounds elo:(int)elo oppElo:(int)oppElo oppId:(NSString *)oppId outcome:(NSString *)outcome league:(NSString *)league {
   NSMutableDictionary *dict = [NSMutableDictionary dictionary];
   dict[@"win"] = @(won);
   dict[@"enemies_defeated"] = @(enemiesDefeated);
@@ -472,8 +651,21 @@ static NSDate *timeSinceLastTutStep = nil;
   dict[@"outcome"] = outcome;
   dict[@"league"] = league;
   
-  for (int i = 0; i < mobsterIdsUsed.count; i++) {
-    dict[[NSString stringWithFormat:@"mobster_%d", i+1]] = mobsterIdsUsed[i];
+  int curIdx = 1;
+  for (BattlePlayer *bp in mobstersUsed) {
+    if (bp.isClanMonster) {
+      dict[@"donated_toon_id"] = @(bp.monsterId);
+      dict[@"donated_toon_lvl"] = @(bp.level);
+      dict[@"donated_toon_remaining_hp"] = @(bp.curHealth);
+      dict[@"donated_toon_max_hp"] = @(bp.maxHealth);
+    } else {
+      dict[[NSString stringWithFormat:@"toon_%d_id", curIdx]] = @(bp.monsterId);
+      dict[[NSString stringWithFormat:@"toon_%d_lvl", curIdx]] = @(bp.level);
+      dict[[NSString stringWithFormat:@"toon_%d_remaining_hp", curIdx]] = @(bp.curHealth);
+      dict[[NSString stringWithFormat:@"toon_%d_max_hp", curIdx]] = @(bp.maxHealth);
+      
+      curIdx++;
+    }
   }
   
   [self event:@"pvp_match_end" withArgs:dict sendToTitan:YES];
@@ -496,7 +688,7 @@ static NSDate *timeSinceLastTutStep = nil;
   
   [self event:@"game_transaction" withArgs:params];
   
-//  [titanClass trackGameTransactions:itemIds quantities:itemChanges itemBalances:itemBalances transactionType:transactionType context:context extraParams:extraParams];
+  //  [titanClass trackGameTransactions:itemIds quantities:itemChanges itemBalances:itemBalances transactionType:transactionType context:context extraParams:extraParams];
 }
 
 + (void) gameTransactionWithTransactionType:(NSString *)transactionType context:(NSString *)context cashChange:(int)cashChange cashBalance:(int)cashBalance oilChange:(int)oilChange oilBalance:(int)oilBalance gemChange:(int)gemChange gemBalance:(int)gemBalance extraParams:(NSDictionary *)extraParams {

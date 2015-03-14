@@ -133,11 +133,6 @@
 }
 
 - (void) sendAnalytics {
-  NSMutableArray *mobsterIdsUsed = [NSMutableArray array];
-  for (BattlePlayer *bp in self.myTeam) {
-    [mobsterIdsUsed addObject:@(bp.monsterId)];
-  }
-  
   NSMutableArray *mobsterIdsGained = [NSMutableArray array];
   int numPiecesGained = 0;
   if (_wonBattle) {
@@ -152,7 +147,7 @@
   }
   
   NSString *outcome = _wonBattle ? @"Win" : _didRunaway ? @"Flee" : @"Lose";
-  [Analytics pveMatchEnd:_wonBattle numEnemiesDefeated:_curStage type:self.dungeonType mobsterIdsUsed:mobsterIdsUsed numPiecesGained:numPiecesGained mobsterIdsGained:mobsterIdsGained totalRounds:(int)self.enemyTeam.count dungeonId:self.dungeonInfo.taskId numContinues:_numContinues outcome:outcome];
+  [Analytics pveMatchEnd:_wonBattle numEnemiesDefeated:_curStage type:self.dungeonType mobstersUsed:self.myTeam numPiecesGained:numPiecesGained mobsterIdsGained:mobsterIdsGained totalRounds:(int)self.enemyTeam.count dungeonId:self.dungeonInfo.taskId numContinues:_numContinues outcome:outcome];
 }
 
 #pragma mark - Run away

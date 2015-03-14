@@ -205,17 +205,13 @@
 }
 
 - (void) sendAnalytics {
-  NSMutableArray *mobsterIdsUsed = [NSMutableArray array];
-  for (BattlePlayer *bp in self.myTeam) {
-    [mobsterIdsUsed addObject:@(bp.monsterId)];
-  }
   
   GameState *gs = [GameState sharedGameState];
   PvpProto *pvp = self.defendersList[_curQueueNum];
   PvpLeagueProto *league = [gs leagueForId:gs.pvpLeague.leagueId];
   
   NSString *outcome = _wonBattle ? @"Win" : _didRunaway ? @"Flee" : @"Lose";
-  [Analytics pvpMatchEnd:_wonBattle numEnemiesDefeated:_curStage mobsterIdsUsed:mobsterIdsUsed totalRounds:(int)self.enemyTeam.count elo:gs.pvpLeague.elo oppElo:pvp.pvpLeagueStats.elo oppId:pvp.defender.minUserProto.userUuid outcome:outcome league:league.leagueName];
+  [Analytics pvpMatchEnd:_wonBattle numEnemiesDefeated:_curStage mobstersUsed:self.myTeam totalRounds:(int)self.enemyTeam.count elo:gs.pvpLeague.elo oppElo:pvp.pvpLeagueStats.elo oppId:pvp.defender.minUserProto.userUuid outcome:outcome league:league.leagueName];
 }
 
 - (void) sendButtonClicked:(id)sender {
