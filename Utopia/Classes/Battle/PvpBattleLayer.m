@@ -181,8 +181,6 @@
   if (response.hasStatsBefore && response.hasStatsAfter) {
     PvpLeagueProto *newLeague = [[GameState sharedGameState] leagueForId:response.statsAfter.leagueId];
     
-    NSLog(@"Before rank: %i, After rank: %i", response.statsBefore.rank, response.statsAfter.rank);
-    
     if (response.statsBefore.leagueId == response.statsAfter.leagueId)
     {
       [self.endView updatePvpReward:newLeague leagueChange:NO change:(response.statsBefore.rank - response.statsAfter.rank)];
