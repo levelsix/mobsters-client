@@ -110,6 +110,7 @@
   
   self.noMobstersLabel.text = [NSString stringWithFormat:@"You have no available %@s.", MONSTER_NAME];
   self.queueEmptyLabel.text = [NSString stringWithFormat:@"Select a %@ to sacrifice", MONSTER_NAME];
+  self.costTitleLabel.text = [NSString stringWithFormat:@"%@ Cost", MONSTER_NAME];
   
   self.buttonSpinner.hidden = YES;
   

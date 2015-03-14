@@ -14,6 +14,7 @@
                 <outlet property="buttonViewsContainer" destination="Yl6-2e-AUI" id="1oU-WV-aXa"/>
                 <outlet property="collectButtonView" destination="z2x-g4-TCT" id="xbO-g6-lN8"/>
                 <outlet property="collectLabelsView" destination="CMw-gW-tin" id="29o-Hj-0fq"/>
+                <outlet property="costTitleLabel" destination="qaO-Eq-0LF" id="7sG-mo-r8w"/>
                 <outlet property="curExpLabel" destination="buu-8d-K9C" id="zCz-Lm-fyZ"/>
                 <outlet property="curLevelLabel" destination="irF-az-SyA" id="Xer-M6-3xu"/>
                 <outlet property="curProgressBar" destination="llh-uV-ARX" id="6Ao-tO-jhB"/>

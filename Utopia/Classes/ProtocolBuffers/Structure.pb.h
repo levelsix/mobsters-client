@@ -717,22 +717,18 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 
 @interface LabProto : PBGeneratedMessage {
 @private
-  BOOL hasFeederTimeMultiplier_:1;
   BOOL hasPointsMultiplier_:1;
   BOOL hasQueueSize_:1;
   BOOL hasStructInfo_:1;
-  Float32 feederTimeMultiplier;
   Float32 pointsMultiplier;
   int32_t queueSize;
   StructureInfoProto* structInfo;
 }
 - (BOOL) hasStructInfo;
 - (BOOL) hasQueueSize;
-- (BOOL) hasFeederTimeMultiplier;
 - (BOOL) hasPointsMultiplier;
 @property (readonly, strong) StructureInfoProto* structInfo;
 @property (readonly) int32_t queueSize;
-@property (readonly) Float32 feederTimeMultiplier;
 @property (readonly) Float32 pointsMultiplier;
 
 + (LabProto*) defaultInstance;
@@ -781,11 +777,6 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (int32_t) queueSize;
 - (LabProto_Builder*) setQueueSize:(int32_t) value;
 - (LabProto_Builder*) clearQueueSize;
-
-- (BOOL) hasFeederTimeMultiplier;
-- (Float32) feederTimeMultiplier;
-- (LabProto_Builder*) setFeederTimeMultiplier:(Float32) value;
-- (LabProto_Builder*) clearFeederTimeMultiplier;
 
 - (BOOL) hasPointsMultiplier;
 - (Float32) pointsMultiplier;

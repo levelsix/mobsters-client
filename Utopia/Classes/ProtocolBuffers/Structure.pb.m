@@ -2904,7 +2904,6 @@ static HospitalProto* defaultHospitalProtoInstance = nil;
 @interface LabProto ()
 @property (strong) StructureInfoProto* structInfo;
 @property int32_t queueSize;
-@property Float32 feederTimeMultiplier;
 @property Float32 pointsMultiplier;
 @end
 
@@ -2924,13 +2923,6 @@ static HospitalProto* defaultHospitalProtoInstance = nil;
   hasQueueSize_ = !!value_;
 }
 @synthesize queueSize;
-- (BOOL) hasFeederTimeMultiplier {
-  return !!hasFeederTimeMultiplier_;
-}
-- (void) setHasFeederTimeMultiplier:(BOOL) value_ {
-  hasFeederTimeMultiplier_ = !!value_;
-}
-@synthesize feederTimeMultiplier;
 - (BOOL) hasPointsMultiplier {
   return !!hasPointsMultiplier_;
 }
@@ -2942,7 +2934,6 @@ static HospitalProto* defaultHospitalProtoInstance = nil;
   if ((self = [super init])) {
     self.structInfo = [StructureInfoProto defaultInstance];
     self.queueSize = 0;
-    self.feederTimeMultiplier = 0;
     self.pointsMultiplier = 0;
   }
   return self;
@@ -2969,9 +2960,6 @@ static LabProto* defaultLabProtoInstance = nil;
   if (self.hasQueueSize) {
     [output writeInt32:2 value:self.queueSize];
   }
-  if (self.hasFeederTimeMultiplier) {
-    [output writeFloat:3 value:self.feederTimeMultiplier];
-  }
   if (self.hasPointsMultiplier) {
     [output writeFloat:4 value:self.pointsMultiplier];
   }
@@ -2989,9 +2977,6 @@ static LabProto* defaultLabProtoInstance = nil;
   }
   if (self.hasQueueSize) {
     size_ += computeInt32Size(2, self.queueSize);
-  }
-  if (self.hasFeederTimeMultiplier) {
-    size_ += computeFloatSize(3, self.feederTimeMultiplier);
   }
   if (self.hasPointsMultiplier) {
     size_ += computeFloatSize(4, self.pointsMultiplier);
@@ -3040,9 +3025,6 @@ static LabProto* defaultLabProtoInstance = nil;
   if (self.hasQueueSize) {
     [output appendFormat:@"%@%@: %@\n", indent, @"queueSize", [NSNumber numberWithInteger:self.queueSize]];
   }
-  if (self.hasFeederTimeMultiplier) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"feederTimeMultiplier", [NSNumber numberWithFloat:self.feederTimeMultiplier]];
-  }
   if (self.hasPointsMultiplier) {
     [output appendFormat:@"%@%@: %@\n", indent, @"pointsMultiplier", [NSNumber numberWithFloat:self.pointsMultiplier]];
   }
@@ -3061,8 +3043,6 @@ static LabProto* defaultLabProtoInstance = nil;
       (!self.hasStructInfo || [self.structInfo isEqual:otherMessage.structInfo]) &&
       self.hasQueueSize == otherMessage.hasQueueSize &&
       (!self.hasQueueSize || self.queueSize == otherMessage.queueSize) &&
-      self.hasFeederTimeMultiplier == otherMessage.hasFeederTimeMultiplier &&
-      (!self.hasFeederTimeMultiplier || self.feederTimeMultiplier == otherMessage.feederTimeMultiplier) &&
       self.hasPointsMultiplier == otherMessage.hasPointsMultiplier &&
       (!self.hasPointsMultiplier || self.pointsMultiplier == otherMessage.pointsMultiplier) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
@@ -3074,9 +3054,6 @@ static LabProto* defaultLabProtoInstance = nil;
   }
   if (self.hasQueueSize) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.queueSize] hash];
-  }
-  if (self.hasFeederTimeMultiplier) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithFloat:self.feederTimeMultiplier] hash];
   }
   if (self.hasPointsMultiplier) {
     hashCode = hashCode * 31 + [[NSNumber numberWithFloat:self.pointsMultiplier] hash];
@@ -3130,9 +3107,6 @@ static LabProto* defaultLabProtoInstance = nil;
   if (other.hasQueueSize) {
     [self setQueueSize:other.queueSize];
   }
-  if (other.hasFeederTimeMultiplier) {
-    [self setFeederTimeMultiplier:other.feederTimeMultiplier];
-  }
   if (other.hasPointsMultiplier) {
     [self setPointsMultiplier:other.pointsMultiplier];
   }
@@ -3168,10 +3142,6 @@ static LabProto* defaultLabProtoInstance = nil;
       }
       case 16: {
         [self setQueueSize:[input readInt32]];
-        break;
-      }
-      case 29: {
-        [self setFeederTimeMultiplier:[input readFloat]];
         break;
       }
       case 37: {
@@ -3225,22 +3195,6 @@ static LabProto* defaultLabProtoInstance = nil;
 - (LabProto_Builder*) clearQueueSize {
   result.hasQueueSize = NO;
   result.queueSize = 0;
-  return self;
-}
-- (BOOL) hasFeederTimeMultiplier {
-  return result.hasFeederTimeMultiplier;
-}
-- (Float32) feederTimeMultiplier {
-  return result.feederTimeMultiplier;
-}
-- (LabProto_Builder*) setFeederTimeMultiplier:(Float32) value {
-  result.hasFeederTimeMultiplier = YES;
-  result.feederTimeMultiplier = value;
-  return self;
-}
-- (LabProto_Builder*) clearFeederTimeMultiplier {
-  result.hasFeederTimeMultiplier = NO;
-  result.feederTimeMultiplier = 0;
   return self;
 }
 - (BOOL) hasPointsMultiplier {
