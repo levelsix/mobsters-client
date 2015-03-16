@@ -174,10 +174,6 @@
 {
   _currentTrigger = trigger;
   
-  // Cache image if needed
-  if (! _characterImage)
-    [self prepareCharacterImage];
-  
   // Skip initial attack (if deserialized)
   if (trigger == SkillTriggerPointEnemyAppeared && _executedInitialAction)
     return NO;
@@ -271,7 +267,7 @@
 {
   [self performAfterDelay:self.opponentSprite.animationType == MonsterProto_AnimationTypeMelee ? .5 : 0 block:^{
     
-    [self showSkillPopupMiniOverlay:[NSString stringWithFormat:@"%i POISON DMG", [self poisonDamage]]];
+    [self showSkillPopupAilmentOverlay:@"POISON" bottomText:[NSString stringWithFormat:@"%i POISON DMG", [self poisonDamage]]];
     
     if (self.belongsToPlayer)
     {
@@ -377,23 +373,37 @@
 
 #pragma mark - UI
 
-- (void) prepareCharacterImage
+- (NSString*) processSkillDescription:(NSString*)desc
 {
-  BattlePlayer* owner = self.belongsToPlayer ? self.player : self.enemy;
-  if (! owner)
-    return;
-  
-  GameState *gs = [GameState sharedGameState];
-  MonsterProto *proto = [gs monsterWithId:owner.monsterId];
-  
-  _characterImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
-  NSString *fileName = [proto.imagePrefix stringByAppendingString:@"Character.png"];
-  [Globals imageNamedWithiPhone6Prefix:fileName withView:_characterImage maskedColor:nil indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+  return desc;
 }
 
-- (void) showSkillPopupOverlayInternal { [self showSkillPopupOverlayInternal:NO]; }
-- (void) showSkillPopupMiniOverlayInternal { [self showSkillPopupOverlayInternal:YES]; }
-- (void) showSkillPopupOverlayInternal:(BOOL)mini
+- (NSString*) processedSkillDescription
+{
+  SkillProto* skillProto = [[GameState sharedGameState].staticSkills objectForKey:[NSNumber numberWithInteger:_skillId]];
+  NSString* desc = self.belongsToPlayer ? skillProto.shortOffDesc : skillProto.shortDefDesc;
+  return [self processSkillDescription:desc];
+}
+
+- (void) showSkillPopupOverlayInternal
+{
+  SkillProto* skillProto = [[GameState sharedGameState].staticSkills objectForKey:[NSNumber numberWithInteger:_skillId]];
+  _popupBottomText = [self processedSkillDescription];
+  [self showSkillPopupOverlayInternal:NO topText:skillProto.name onUser:YES];
+}
+
+- (void) showSkillPopupMiniOverlayInternal
+{
+  SkillProto* skillProto = [[GameState sharedGameState].staticSkills objectForKey:[NSNumber numberWithInteger:_skillId]];
+  [self showSkillPopupOverlayInternal:YES topText:skillProto.name onUser:YES];
+}
+
+- (void) showSkillAilmentOverlayInternal:(NSString*)ailmentName
+{
+  [self showSkillPopupOverlayInternal:YES topText:ailmentName onUser:NO];
+}
+
+- (void) showSkillPopupOverlayInternal:(BOOL)mini topText:(NSString*)topText onUser:(BOOL)onUser
 {
   // Create overlay
   UIView *parentView = self.battleLayer.hudView;
@@ -409,8 +419,8 @@
   }
    */
   [parentView addSubview:_popupOverlay];
-  [_popupOverlay animateForSkill:_skillId forPlayer:_belongsToPlayer withImage:_characterImage.image
-                      bottomText:_popupBottomText orbColor:_orbColor miniPopup:mini withCompletion:
+  [_popupOverlay animate:(_belongsToPlayer == onUser) withImage:(onUser ? self.userPlayer.characterImage.image : self.opponentPlayer.characterImage.image) topText:topText
+                      bottomText:_popupBottomText miniPopup:mini withCompletion:
    ^{
      // Hide popup and call block
      if (_popupOverlay)
@@ -468,9 +478,25 @@
   [self showSkillPopupMiniOverlay:NO bottomText:bottomText withCompletion:^{}];
 }
 
-- (void) showskillPopupMiniOverlay:(NSString*)bottomText withCompletion:(SkillPopupBlock)completion
+- (void) showSkillPopupMiniOverlay:(NSString*)bottomText withCompletion:(SkillPopupBlock)completion
 {
   [self showSkillPopupMiniOverlay:NO bottomText:bottomText withCompletion:completion];
+}
+
+- (void) showSkillPopupAilmentOverlay:(NSString*)topText bottomText:(NSString*)bottomText
+{
+  [self showSkillPopupAilmentOverlay:NO topText:topText bottomText:bottomText withCompletion:^{}];
+}
+
+- (void) showSkillPopupAilmentOverlay:(BOOL)jumpFirst topText:(NSString*)topText bottomText:(NSString*)bottomText withCompletion:(SkillPopupBlock)completion
+{
+  _callbackBlockForPopup = completion;
+  _popupBottomText = bottomText;
+  
+  if (jumpFirst)
+    [self makeSkillOwnerJumpWithTarget:self selector:@selector(showSkillPopupMiniOverlayInternal)];
+  else
+    [self showSkillAilmentOverlayInternal:topText];
 }
 
 - (void) showSkillPopupMiniOverlay:(BOOL)jumpFirst bottomText:(NSString*)bottomText withCompletion:(SkillPopupBlock)completion

@@ -57,7 +57,6 @@ static NSString* const kSkillMiniLogoImageNameSuffix = @"minilogo.png";
   SkillControllerBlock  _callbackBlock;
   NSDictionary*         _callbackParams;
   SkillPopupBlock       _callbackBlockForPopup;
-  UIImageView*          _characterImage;
   SkillPopupOverlay*    _popupOverlay;
   NSString*             _popupBottomText;
   
@@ -128,6 +127,8 @@ static NSString* const kSkillMiniLogoImageNameSuffix = @"minilogo.png";
 - (void) showSkillPopupOverlay:(BOOL)jumpFirst withCompletion:(SkillPopupBlock)completion;
 - (void) showSkillPopupMiniOverlay:(NSString*)bottomText;
 - (void) showSkillPopupMiniOverlay:(BOOL)jumpFirst bottomText:(NSString*)bottomText withCompletion:(SkillPopupBlock)completion;
+- (void) showSkillPopupAilmentOverlay:(NSString*)topText bottomText:(NSString*)bottomText;
+- (void) showSkillPopupAilmentOverlay:(BOOL)jumpFirst topText:(NSString*)topText bottomText:(NSString*)bottomText withCompletion:(SkillPopupBlock)completion;
 - (void) makeSkillOwnerJumpWithTarget:(id)target selector:(SEL)completion;
 
 // Serialization

@@ -37,8 +37,8 @@ typedef void (^ShakeAnimCompletionBlock)(void);
   return self;
 }
 
-- (void) animateForSkill:(NSInteger)skillId forPlayer:(BOOL)player withImage:(UIImage*)characterImage bottomText:(NSString*)bottomText
-                orbColor:(OrbColor)orbColor miniPopup:(BOOL)mini withCompletion:(SkillPopupBlock)completion
+- (void) animate:(BOOL)player withImage:(UIImage*)characterImage topText:(NSString*)topText bottomText:(NSString*)bottomtext
+                miniPopup:(BOOL)mini withCompletion:(SkillPopupBlock)completion
 {
   ////////////
   // Layout //
@@ -93,14 +93,8 @@ typedef void (^ShakeAnimCompletionBlock)(void);
   
   [playerImage setImage:characterImage];
   
-  /* No longer using colored rocks
-  [rocksImage setImage:[UIImage imageNamed:[Globals imageNameForElement:(Element)orbColor suffix:@"rocks.png"]]];
-   */
-  
-  SkillProto* playerSkillProto = [[GameState sharedGameState].staticSkills objectForKey:[NSNumber numberWithInteger:skillId]];
-  [nameLabel setText:[playerSkillProto.name uppercaseString]];
-  if (!bottomText || [bottomText isEqualToString:@""]) [bottomLabel setText:(player ? playerSkillProto.shortOffDesc : playerSkillProto.shortDefDesc)];
-  else [bottomLabel setText:bottomText];
+  [nameLabel setText:topText];
+  [bottomLabel setText:bottomtext];
   
   ////////////////
   // Animations //

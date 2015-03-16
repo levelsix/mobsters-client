@@ -825,7 +825,7 @@
     
     if (self.myPlayerObject.isStunned)
     {
-      [[skillManager enemySkillControler] showSkillPopupMiniOverlay:@"TURN LOST"];
+      [[skillManager enemySkillControler] showSkillPopupAilmentOverlay:@"STUN" bottomText:@"TURN LOST"];
       [self endMyTurnAfterDelay:1.5f];
       return;
     }
@@ -887,7 +887,7 @@
             // If the enemy's stunned, short the attack function
             if (self.enemyPlayerObject.isStunned)
             {
-              [[skillManager playerSkillControler] showSkillPopupMiniOverlay:@"TURN LOST"];
+              [[skillManager playerSkillControler] showSkillPopupAilmentOverlay:@"STUN" bottomText:@"TURN LOST"];
               [self performAfterDelay:1.5 block:^{
                 [self endEnemyTurn];
               }];
@@ -1071,7 +1071,7 @@
     
     SkillLogEnd(triggered, @"  Deal damage by player trigger ENDED");
     
-    [[skillManager enemySkillControler] showSkillPopupMiniOverlay:[NSString stringWithFormat:@"%i DMG TO SELF", _myDamageDealt]];
+    [[skillManager enemySkillControler] showSkillPopupAilmentOverlay:@"CONFUSION" bottomText:[NSString stringWithFormat:@"%i DMG TO SELF", _myDamageDealt]];
     
     _enemyShouldAttack = YES;
     _totalDamageTaken += _myDamageDealt;
@@ -1090,7 +1090,7 @@
     
     SkillLogEnd(triggered, @"  Deal damage by enemy trigger ENDED");
     
-    [[skillManager playerSkillControler] showSkillPopupMiniOverlay:[NSString stringWithFormat:@"%i DMG TO SELF", _enemyDamageDealt]];
+    [[skillManager playerSkillControler] showSkillPopupAilmentOverlay:@"CONFUSION" bottomText:[NSString stringWithFormat:@"%i DMG TO SELF", _enemyDamageDealt]];
     
     [self animateDamageLabel:_enemyDamageDealtUnmodified modifiedDamage:_enemyDamageDealt targetSprite:self.currentEnemy withCompletion:^{
       [self dealDamageToSelf:_enemyDamageDealt enemyIsAttacker:YES showDamageLabel:NO withTarget:self andSelector:@selector(endEnemyTurn)];

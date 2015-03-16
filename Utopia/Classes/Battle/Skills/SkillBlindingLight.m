@@ -73,7 +73,7 @@
       {
         damage = 0;
         _missed = YES;
-        [self showSkillPopupMiniOverlay:@"MISS"];
+        [self showSkillPopupAilmentOverlay:@"BLIND" bottomText:@"MISS"];
         SkillLogStart(@"Blinding Light -- Skill caused a miss");
       }
     }
@@ -86,6 +86,8 @@
 {
   return _fixedDamageDone;
 }
+
+- (void)showQuickAttackMiniLogo{}
 
 - (BOOL) activate
 {
