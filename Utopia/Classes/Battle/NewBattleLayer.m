@@ -1117,7 +1117,7 @@
   else
   {
     const float updateDuration = MIN(abs(initialDamage - modifiedDamage) * .07f, 1.75f);
-    const int   updateRepeatCount = ceilf(updateDuration / .05f);
+    const int   updateRepeatCount = ceilf(updateDuration / .07f);
     const float updateDamageIncrement = (initialDamage - modifiedDamage) / (float)updateRepeatCount;
     
     __block float damage = initialDamage;
