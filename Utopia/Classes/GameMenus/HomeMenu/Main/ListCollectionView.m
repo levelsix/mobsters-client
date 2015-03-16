@@ -59,7 +59,9 @@
 
 - (void) updateForBattleItemQueueObject:(BattleItemQueueObject *)obj {
   BattleItemProto *bip = obj.staticBattleItem;
-  [self.monsterView updateForElement:ElementWater imgName:bip.imgName greyscale:NO];
+  [self.monsterView updateForElement:ElementNoElement imgName:bip.imgName greyscale:NO];
+  
+  [Globals imageNamed:@"ifitemsquaresmall.png" withView:self.monsterView.bgdIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   // Make the icon a bit smaller so that the images aren't stretched to the edge
   CGPoint center = self.monsterView.monsterIcon.center;
