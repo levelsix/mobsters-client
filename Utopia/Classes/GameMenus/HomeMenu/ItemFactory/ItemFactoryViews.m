@@ -14,9 +14,6 @@
 @implementation ItemFactoryCardCell
 
 - (void) updateForListObject:(BattleItemProto *)bip {
-  NSString *bgdImgName = [Globals imageNameForElement:ElementWater suffix:@"square.png"];
-  [Globals imageNamed:bgdImgName withView:self.bgdIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-  
   [Globals imageNamed:bip.imgName withView:self.itemIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   self.nameLabel.text = bip.name;

@@ -216,8 +216,8 @@
                                             <nil key="highlightedColor"/>
                                             <size key="shadowOffset" width="0.0" height="1"/>
                                         </label>
-                                        <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" image="insuranceiconbig.png" id="eNQ-ur-Mps">
-                                            <rect key="frame" x="11" y="10" width="25" height="30"/>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="itemsbag.png" id="A6c-jq-tCk">
+                                            <rect key="frame" x="8" y="9" width="30" height="34"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="8" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hfL-dr-48N" customClass="NiceFontLabel12">
@@ -255,8 +255,8 @@
         <image name="fullhospitalarrow.png" width="185" height="39"/>
         <image name="girl3.png" width="67" height="94"/>
         <image name="hospitalopenarrow.png" width="185" height="39"/>
-        <image name="insuranceiconbig.png" width="25" height="30"/>
         <image name="itembagbutton.png" width="92" height="42"/>
+        <image name="itemsbag.png" width="30" height="34"/>
         <image name="orangemenuoption.png" width="80" height="40"/>
         <image name="purplemenuoption.png" width="80" height="40"/>
         <image name="sellbarbg.png" width="424" height="50"/>

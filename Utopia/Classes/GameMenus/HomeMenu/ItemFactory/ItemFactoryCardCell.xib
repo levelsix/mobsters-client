@@ -18,7 +18,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="74" height="74"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="watersquare.png" id="ds0-rf-dcN">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="ifitemsquare.png" id="ds0-rf-dcN">
                                 <rect key="frame" x="0.0" y="0.0" width="74" height="74"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
@@ -99,7 +99,7 @@
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <connections>
-                <outlet property="bgdIcon" destination="ds0-rf-dcN" id="G7D-uO-TTy"/>
+                <outlet property="bgdIcon" destination="ds0-rf-dcN" id="rdw-UJ-ei1"/>
                 <outlet property="cashIcon" destination="Ytw-H1-jtX" id="GgJ-fc-AhW"/>
                 <outlet property="costLabel" destination="dxz-lf-zJK" id="eG6-D3-Qb1"/>
                 <outlet property="itemIcon" destination="Viy-rM-p1Z" id="Ve6-lt-hWO"/>
@@ -111,10 +111,10 @@
     </objects>
     <resources>
         <image name="bigsquarebottom.png" width="74" height="19"/>
+        <image name="ifitemsquare.png" width="74" height="74"/>
         <image name="infoi.png" width="18" height="19"/>
         <image name="moneystack.png" width="31" height="30"/>
         <image name="oilicon.png" width="25" height="30"/>
-        <image name="watersquare.png" width="74" height="74"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
