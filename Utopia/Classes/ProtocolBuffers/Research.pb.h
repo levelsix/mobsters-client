@@ -103,24 +103,28 @@ BOOL ResearchDomainIsValidValue(ResearchDomain value);
 
 @interface ResearchProto : PBGeneratedMessage {
 @private
+  BOOL hasPriority_:1;
   BOOL hasResearchId_:1;
   BOOL hasPredId_:1;
   BOOL hasSuccId_:1;
   BOOL hasDurationMin_:1;
   BOOL hasCostAmt_:1;
   BOOL hasLevel_:1;
+  BOOL hasTier_:1;
   BOOL hasIconImgName_:1;
   BOOL hasName_:1;
   BOOL hasDesc_:1;
   BOOL hasResearchType_:1;
   BOOL hasResearchDomain_:1;
   BOOL hasCostType_:1;
+  Float32 priority;
   int32_t researchId;
   int32_t predId;
   int32_t succId;
   int32_t durationMin;
   int32_t costAmt;
   int32_t level;
+  int32_t tier;
   NSString* iconImgName;
   NSString* name;
   NSString* desc;
@@ -141,6 +145,8 @@ BOOL ResearchDomainIsValidValue(ResearchDomain value);
 - (BOOL) hasCostAmt;
 - (BOOL) hasCostType;
 - (BOOL) hasLevel;
+- (BOOL) hasPriority;
+- (BOOL) hasTier;
 @property (readonly) int32_t researchId;
 @property (readonly) ResearchType researchType;
 @property (readonly) ResearchDomain researchDomain;
@@ -154,6 +160,8 @@ BOOL ResearchDomainIsValidValue(ResearchDomain value);
 @property (readonly) ResourceType costType;
 @property (readonly, strong) NSArray * propertiesList;
 @property (readonly) int32_t level;
+@property (readonly) Float32 priority;
+@property (readonly) int32_t tier;
 - (ResearchPropertyProto*)propertiesAtIndex:(NSUInteger)index;
 
 + (ResearchProto*) defaultInstance;
@@ -256,6 +264,16 @@ BOOL ResearchDomainIsValidValue(ResearchDomain value);
 - (int32_t) level;
 - (ResearchProto_Builder*) setLevel:(int32_t) value;
 - (ResearchProto_Builder*) clearLevel;
+
+- (BOOL) hasPriority;
+- (Float32) priority;
+- (ResearchProto_Builder*) setPriority:(Float32) value;
+- (ResearchProto_Builder*) clearPriority;
+
+- (BOOL) hasTier;
+- (int32_t) tier;
+- (ResearchProto_Builder*) setTier:(int32_t) value;
+- (ResearchProto_Builder*) clearTier;
 @end
 
 @interface ResearchPropertyProto : PBGeneratedMessage {
