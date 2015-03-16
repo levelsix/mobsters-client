@@ -86,7 +86,7 @@
         [self.battleLayer.orbLayer disallowInput];
         [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
         [self dealPoisonDamage];
-        [self showSkillPopupMiniOverlay:[NSString stringWithFormat:@"%i POISON DMG", _tempDamageDealt]];
+//        [self showSkillPopupAilmentOverlay:@"POISON" bottomText:[NSString stringWithFormat:@"%i POISON DMG", [self poisonDamage]]];
       }
       return YES;
     }
