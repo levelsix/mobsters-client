@@ -39,6 +39,11 @@
   return NO;
 }
 
+- (BOOL) doesStack
+{
+  return NO;
+}
+
 - (BOOL) skillIsReady
 {
   return _orbCounter == 0;
@@ -70,6 +75,8 @@
         {
           [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
           [self.battleLayer.orbLayer disallowInput];
+          if ([self doesStack])
+            ++_stacks;
           [self showSkillPopupOverlay:YES withCompletion:^(){
             [skillManager pruneRepeatedSkills:self];
             if ([self doesRefresh])

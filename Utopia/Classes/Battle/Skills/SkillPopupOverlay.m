@@ -102,7 +102,7 @@ typedef void (^ShakeAnimCompletionBlock)(void);
   THLabel* bottomLabel = player ? _skillBottomLabelPlayer : _skillBottomLabelEnemy;
   
   [mainView setHidden:NO];
-  [topLabel setHidden:stacks > 1];
+  [topLabel setHidden:stacks <= 1];
   
   nameLabel.gradientStartColor = [UIColor whiteColor];
   nameLabel.gradientEndColor = [UIColor colorWithHexString:@"E4E4E4"];
