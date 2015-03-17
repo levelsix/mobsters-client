@@ -26,7 +26,7 @@ typedef void (^ShakeAnimCompletionBlock)(void);
 
 @implementation SkillPopupData
 
-+ (instancetype)initWithData:(BOOL)player characterImage:(UIImageView *)characterImage topText:(NSString *)topText bottomText:(NSString *)bottomText mini:(BOOL)mini completion:(SkillPopupBlock)completion
++ (instancetype)initWithData:(BOOL)player characterImage:(UIImageView *)characterImage topText:(NSString *)topText bottomText:(NSString *)bottomText mini:(BOOL)mini stacks:(int)stacks completion:(SkillPopupBlock)completion
 {
   SkillPopupData *data = [SkillPopupData alloc];
   data.player = player;
@@ -35,6 +35,7 @@ typedef void (^ShakeAnimCompletionBlock)(void);
   data.bottomText = bottomText;
   data.miniPopup = mini;
   data.completion = completion;
+  data.stacks = stacks;
   data.priority = 0;
   return data;
 }
@@ -72,7 +73,7 @@ typedef void (^ShakeAnimCompletionBlock)(void);
 }
 
 - (void) animate:(BOOL)player withImage:(UIImage*)characterImage topText:(NSString*)topText bottomText:(NSString*)bottomtext
-                miniPopup:(BOOL)mini withCompletion:(SkillPopupBlock)completion
+       miniPopup:(BOOL)mini stacks:(int)stacks withCompletion:(SkillPopupBlock)completion
 {
   ////////////
   // Layout //
@@ -101,7 +102,7 @@ typedef void (^ShakeAnimCompletionBlock)(void);
   THLabel* bottomLabel = player ? _skillBottomLabelPlayer : _skillBottomLabelEnemy;
   
   [mainView setHidden:NO];
-  [topLabel setHidden:YES]; // Haven't figured out what we wanna use this label for yet
+  [topLabel setHidden:stacks > 1];
   
   nameLabel.gradientStartColor = [UIColor whiteColor];
   nameLabel.gradientEndColor = [UIColor colorWithHexString:@"E4E4E4"];
@@ -129,6 +130,7 @@ typedef void (^ShakeAnimCompletionBlock)(void);
   
   [nameLabel setText:topText];
   [bottomLabel setText:bottomtext];
+  [topLabel setText:[NSString stringWithFormat:@"%iX", stacks]];
   
   ////////////////
   // Animations //

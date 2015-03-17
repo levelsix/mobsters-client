@@ -446,7 +446,7 @@
   SkillPopupOverlay *tempPopup = _popupOverlay;
   
   [_popupOverlay animate:_currentSkillPopup.player withImage:_currentSkillPopup.characterImage.image topText:_currentSkillPopup.topText
-              bottomText:_currentSkillPopup.bottomText miniPopup:_currentSkillPopup.miniPopup withCompletion:
+              bottomText:_currentSkillPopup.bottomText miniPopup:_currentSkillPopup.miniPopup stacks:_currentSkillPopup.stacks withCompletion:
    ^{
      // Hide popup and call block, if it hasn't been hidden yet
      if (_popupOverlay == tempPopup)
@@ -484,7 +484,7 @@
    */
   [parentView addSubview:_popupOverlay];
   [_popupOverlay animate:(_belongsToPlayer == onUser) withImage:(onUser ? self.userPlayer.characterImage.image : self.opponentPlayer.characterImage.image) topText:topText
-                      bottomText:_popupBottomText miniPopup:mini withCompletion:
+                      bottomText:_popupBottomText miniPopup:mini stacks:0 withCompletion:
    ^{
      // Hide popup and call block
      if (_popupOverlay)
@@ -538,7 +538,7 @@
 
 - (void) showSkillPopupOverlay:(BOOL)jumpFirst withCompletion:(SkillPopupBlock)completion
 {
-  SkillPopupData *data = [SkillPopupData initWithData:self.belongsToPlayer characterImage:self.userPlayer.characterImage topText:[self skillName] bottomText:[self processedSkillDescription] mini:NO completion:completion];
+  SkillPopupData *data = [SkillPopupData initWithData:self.belongsToPlayer characterImage:self.userPlayer.characterImage topText:[self skillName] bottomText:[self processedSkillDescription] mini:NO stacks:_stacks completion:completion];
   _callbackBlockForPopup = completion;
   [self enqueueSkillPopup:data];
   
@@ -568,7 +568,7 @@
 
 - (void) showSkillPopupAilmentOverlay:(BOOL)jumpFirst topText:(NSString*)topText bottomText:(NSString*)bottomText withCompletion:(SkillPopupBlock)completion
 {
-  SkillPopupData *data = [SkillPopupData initWithData:!self.belongsToPlayer characterImage:self.opponentPlayer.characterImage topText:topText bottomText:bottomText mini:YES completion:completion];
+  SkillPopupData *data = [SkillPopupData initWithData:!self.belongsToPlayer characterImage:self.opponentPlayer.characterImage topText:topText bottomText:bottomText mini:YES stacks:_stacks completion:completion];
   
   data.priority = 1;
   _callbackBlockForPopup = completion;
@@ -586,7 +586,7 @@
 
 - (void) showSkillPopupMiniOverlay:(BOOL)jumpFirst bottomText:(NSString*)bottomText withCompletion:(SkillPopupBlock)completion
 {
-  SkillPopupData *data = [SkillPopupData initWithData:self.belongsToPlayer characterImage:self.userPlayer.characterImage topText:[self skillName] bottomText:bottomText mini:YES completion:completion];
+  SkillPopupData *data = [SkillPopupData initWithData:self.belongsToPlayer characterImage:self.userPlayer.characterImage topText:[self skillName] bottomText:bottomText mini:YES stacks:_stacks completion:completion];
   _callbackBlockForPopup = completion;
   [self enqueueSkillPopup:data];
   
