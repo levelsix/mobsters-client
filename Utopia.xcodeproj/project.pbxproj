@@ -1375,12 +1375,6 @@
 		633CCB541AA675B500C6649F /* scrollbars@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 633CCB2E1AA675B500C6649F /* scrollbars@2x.png */; };
 		633CCB551AA675B500C6649F /* scrollbars@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 633CCB2E1AA675B500C6649F /* scrollbars@2x.png */; };
 		633CCB561AA675B500C6649F /* scrollbars@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 633CCB2E1AA675B500C6649F /* scrollbars@2x.png */; };
-		633CCB5E1AA695F100C6649F /* BattleItem.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 633CCB5B1AA695F100C6649F /* BattleItem.pb.m */; };
-		633CCB5F1AA695F100C6649F /* BattleItem.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 633CCB5B1AA695F100C6649F /* BattleItem.pb.m */; };
-		633CCB601AA695F100C6649F /* BattleItem.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 633CCB5B1AA695F100C6649F /* BattleItem.pb.m */; };
-		633CCB611AA695F100C6649F /* EventBattleItem.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 633CCB5D1AA695F100C6649F /* EventBattleItem.pb.m */; };
-		633CCB621AA695F100C6649F /* EventBattleItem.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 633CCB5D1AA695F100C6649F /* EventBattleItem.pb.m */; };
-		633CCB631AA695F100C6649F /* EventBattleItem.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 633CCB5D1AA695F100C6649F /* EventBattleItem.pb.m */; };
 		634174681A843521006DA494 /* avengebutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 634174581A843521006DA494 /* avengebutton@2x.png */; };
 		634174691A843521006DA494 /* avengebutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 634174581A843521006DA494 /* avengebutton@2x.png */; };
 		6341746A1A843521006DA494 /* avengebutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 634174581A843521006DA494 /* avengebutton@2x.png */; };
@@ -7675,10 +7669,6 @@
 		633CCB2C1AA675B500C6649F /* researchresources@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "researchresources@2x.png"; sourceTree = "<group>"; };
 		633CCB2D1AA675B500C6649F /* researchtoons@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "researchtoons@2x.png"; sourceTree = "<group>"; };
 		633CCB2E1AA675B500C6649F /* scrollbars@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "scrollbars@2x.png"; sourceTree = "<group>"; };
-		633CCB5A1AA695F100C6649F /* BattleItem.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BattleItem.pb.h; sourceTree = "<group>"; };
-		633CCB5B1AA695F100C6649F /* BattleItem.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BattleItem.pb.m; sourceTree = "<group>"; };
-		633CCB5C1AA695F100C6649F /* EventBattleItem.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventBattleItem.pb.h; sourceTree = "<group>"; };
-		633CCB5D1AA695F100C6649F /* EventBattleItem.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventBattleItem.pb.m; sourceTree = "<group>"; };
 		634174581A843521006DA494 /* avengebutton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "avengebutton@2x.png"; sourceTree = "<group>"; };
 		634174591A843521006DA494 /* greenchatcorner@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greenchatcorner@2x.png"; sourceTree = "<group>"; };
 		6341745A1A843521006DA494 /* greenchatdivider@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greenchatdivider@2x.png"; sourceTree = "<group>"; };
@@ -23915,7 +23905,6 @@
 				29927E661AAE1B6D00418683 /* BattleItemQueue.m in Sources */,
 				9B0E6E4B1A76D7A500118210 /* SkillStaticField.m in Sources */,
 				CF0CED3B196F452900ECD301 /* ClanInfoViews.m in Sources */,
-				633CCB5F1AA695F100C6649F /* BattleItem.pb.m in Sources */,
 				9BDA8BC31A40D98F00C7AC27 /* SkillMud.m in Sources */,
 				CF0CED3C196F452900ECD301 /* FullUserUpdates.m in Sources */,
 				DA173A5B19CBACCD005236C0 /* SkillPoison.m in Sources */,
@@ -24376,7 +24365,6 @@
 				CF62E70715FEC6D500DF850F /* ClanViewController.m in Sources */,
 				CF30279218C0176B009D2D25 /* ClanRaidViewController.m in Sources */,
 				CFB2509018587BF300BE0C05 /* THLabel.m in Sources */,
-				633CCB611AA695F100C6649F /* EventBattleItem.pb.m in Sources */,
 				CF6574AA1909CAF200ABF1F4 /* City.pb.m in Sources */,
 				CFE11F8C1A141C040094F797 /* amqp_table.c in Sources */,
 				DA88EB8519BE5810005EE827 /* SkillCakeDrop.m in Sources */,
@@ -24521,7 +24509,6 @@
 				CFE0E6B817E3C060002ECA84 /* BattlePlayer.m in Sources */,
 				6B0784031A828C1C005CDFCF /* SkillInsurance.m in Sources */,
 				CF6574B31909CAF200ABF1F4 /* EventInAppPurchase.pb.m in Sources */,
-				633CCB5E1AA695F100C6649F /* BattleItem.pb.m in Sources */,
 				CFF3907C1828BB810010A3BE /* RequestsViewController.m in Sources */,
 				CF52D0AD17EA3E7D00A067A6 /* BattleViews.m in Sources */,
 				CF29E9121960E85100B40DA4 /* BuildingViews.m in Sources */,
@@ -24656,7 +24643,6 @@
 				29927E671AAE1B6D00418683 /* BattleItemQueue.m in Sources */,
 				9B0E6E4C1A76D7A500118210 /* SkillStaticField.m in Sources */,
 				CF4818E119F7217F00041486 /* ClanInfoViews.m in Sources */,
-				633CCB601AA695F100C6649F /* BattleItem.pb.m in Sources */,
 				9BDA8BC41A40D98F00C7AC27 /* SkillMud.m in Sources */,
 				CF4818E219F7217F00041486 /* FullUserUpdates.m in Sources */,
 				CF4818E319F7217F00041486 /* SkillPoison.m in Sources */,

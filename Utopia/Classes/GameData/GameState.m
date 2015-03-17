@@ -1218,7 +1218,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [self addToStaticStructs:proto.allBattleItemFactorysList];
   [self addToStaticStructs:proto.allPvpBoardHousesList];
   
-  [self addToStaticStructs:proto.allResearchHousesList];
+//[self addToStaticStructs:proto.allResearchHousesList];
   
   [self.staticItems removeAllObjects];
   [self addToStaticItems:proto.itemsList];
