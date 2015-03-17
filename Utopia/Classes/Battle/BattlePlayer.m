@@ -351,6 +351,8 @@
     NSData *data = [[NSData alloc] initWithBase64EncodedString:dict[DIALOGUE_KEY] options:0];
     self.dialogue = [DialogueProto parseFromData:data];
   }
+  
+  [self prepareCharacterImage:self.monsterId];
 }
 
 @end
