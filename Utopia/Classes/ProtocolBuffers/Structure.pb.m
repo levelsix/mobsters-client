@@ -2950,7 +2950,6 @@ static HospitalProto* defaultHospitalProtoInstance = nil;
 @interface LabProto ()
 @property (strong) StructureInfoProto* structInfo;
 @property int32_t queueSize;
-@property Float32 pointsPerSecond;
 @property Float32 pointsMultiplier;
 @end
 
@@ -2970,13 +2969,6 @@ static HospitalProto* defaultHospitalProtoInstance = nil;
   hasQueueSize_ = !!value_;
 }
 @synthesize queueSize;
-- (BOOL) hasPointsPerSecond {
-  return !!hasPointsPerSecond_;
-}
-- (void) setHasPointsPerSecond:(BOOL) value_ {
-  hasPointsPerSecond_ = !!value_;
-}
-@synthesize pointsPerSecond;
 - (BOOL) hasPointsMultiplier {
   return !!hasPointsMultiplier_;
 }
@@ -2988,7 +2980,6 @@ static HospitalProto* defaultHospitalProtoInstance = nil;
   if ((self = [super init])) {
     self.structInfo = [StructureInfoProto defaultInstance];
     self.queueSize = 0;
-    self.pointsPerSecond = 0;
     self.pointsMultiplier = 0;
   }
   return self;
@@ -3015,9 +3006,6 @@ static LabProto* defaultLabProtoInstance = nil;
   if (self.hasQueueSize) {
     [output writeInt32:2 value:self.queueSize];
   }
-  if (self.hasPointsPerSecond) {
-    [output writeFloat:3 value:self.pointsPerSecond];
-  }
   if (self.hasPointsMultiplier) {
     [output writeFloat:4 value:self.pointsMultiplier];
   }
@@ -3035,9 +3023,6 @@ static LabProto* defaultLabProtoInstance = nil;
   }
   if (self.hasQueueSize) {
     size_ += computeInt32Size(2, self.queueSize);
-  }
-  if (self.hasPointsPerSecond) {
-    size_ += computeFloatSize(3, self.pointsPerSecond);
   }
   if (self.hasPointsMultiplier) {
     size_ += computeFloatSize(4, self.pointsMultiplier);
@@ -3086,9 +3071,6 @@ static LabProto* defaultLabProtoInstance = nil;
   if (self.hasQueueSize) {
     [output appendFormat:@"%@%@: %@\n", indent, @"queueSize", [NSNumber numberWithInteger:self.queueSize]];
   }
-  if (self.hasPointsPerSecond) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"pointsPerSecond", [NSNumber numberWithFloat:self.pointsPerSecond]];
-  }
   if (self.hasPointsMultiplier) {
     [output appendFormat:@"%@%@: %@\n", indent, @"pointsMultiplier", [NSNumber numberWithFloat:self.pointsMultiplier]];
   }
@@ -3107,8 +3089,6 @@ static LabProto* defaultLabProtoInstance = nil;
       (!self.hasStructInfo || [self.structInfo isEqual:otherMessage.structInfo]) &&
       self.hasQueueSize == otherMessage.hasQueueSize &&
       (!self.hasQueueSize || self.queueSize == otherMessage.queueSize) &&
-      self.hasPointsPerSecond == otherMessage.hasPointsPerSecond &&
-      (!self.hasPointsPerSecond || self.pointsPerSecond == otherMessage.pointsPerSecond) &&
       self.hasPointsMultiplier == otherMessage.hasPointsMultiplier &&
       (!self.hasPointsMultiplier || self.pointsMultiplier == otherMessage.pointsMultiplier) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
@@ -3120,9 +3100,6 @@ static LabProto* defaultLabProtoInstance = nil;
   }
   if (self.hasQueueSize) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.queueSize] hash];
-  }
-  if (self.hasPointsPerSecond) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithFloat:self.pointsPerSecond] hash];
   }
   if (self.hasPointsMultiplier) {
     hashCode = hashCode * 31 + [[NSNumber numberWithFloat:self.pointsMultiplier] hash];
@@ -3176,9 +3153,6 @@ static LabProto* defaultLabProtoInstance = nil;
   if (other.hasQueueSize) {
     [self setQueueSize:other.queueSize];
   }
-  if (other.hasPointsPerSecond) {
-    [self setPointsPerSecond:other.pointsPerSecond];
-  }
   if (other.hasPointsMultiplier) {
     [self setPointsMultiplier:other.pointsMultiplier];
   }
@@ -3214,10 +3188,6 @@ static LabProto* defaultLabProtoInstance = nil;
       }
       case 16: {
         [self setQueueSize:[input readInt32]];
-        break;
-      }
-      case 29: {
-        [self setPointsPerSecond:[input readFloat]];
         break;
       }
       case 37: {
@@ -3271,22 +3241,6 @@ static LabProto* defaultLabProtoInstance = nil;
 - (LabProto_Builder*) clearQueueSize {
   result.hasQueueSize = NO;
   result.queueSize = 0;
-  return self;
-}
-- (BOOL) hasPointsPerSecond {
-  return result.hasPointsPerSecond;
-}
-- (Float32) pointsPerSecond {
-  return result.pointsPerSecond;
-}
-- (LabProto_Builder*) setPointsPerSecond:(Float32) value {
-  result.hasPointsPerSecond = YES;
-  result.pointsPerSecond = value;
-  return self;
-}
-- (LabProto_Builder*) clearPointsPerSecond {
-  result.hasPointsPerSecond = NO;
-  result.pointsPerSecond = 0;
   return self;
 }
 - (BOOL) hasPointsMultiplier {

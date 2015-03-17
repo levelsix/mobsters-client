@@ -95,18 +95,18 @@ BOOL BattleItemCategoryIsValidValue(BattleItemCategory value);
 @private
   BOOL hasBattleItemId_:1;
   BOOL hasQuantity_:1;
-  BOOL hasId_:1;
+  BOOL hasUserBattleItemId_:1;
   BOOL hasUserUuid_:1;
   int32_t battleItemId;
   int32_t quantity;
-  NSString* id;
+  NSString* userBattleItemId;
   NSString* userUuid;
 }
-- (BOOL) hasId;
+- (BOOL) hasUserBattleItemId;
 - (BOOL) hasUserUuid;
 - (BOOL) hasBattleItemId;
 - (BOOL) hasQuantity;
-@property (readonly, strong) NSString* id;
+@property (readonly, strong) NSString* userBattleItemId;
 @property (readonly, strong) NSString* userUuid;
 @property (readonly) int32_t battleItemId;
 @property (readonly) int32_t quantity;
@@ -146,10 +146,10 @@ BOOL BattleItemCategoryIsValidValue(BattleItemCategory value);
 - (UserBattleItemProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (UserBattleItemProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasId;
-- (NSString*) id;
-- (UserBattleItemProto_Builder*) setId:(NSString*) value;
-- (UserBattleItemProto_Builder*) clearId;
+- (BOOL) hasUserBattleItemId;
+- (NSString*) userBattleItemId;
+- (UserBattleItemProto_Builder*) setUserBattleItemId:(NSString*) value;
+- (UserBattleItemProto_Builder*) clearUserBattleItemId;
 
 - (BOOL) hasUserUuid;
 - (NSString*) userUuid;

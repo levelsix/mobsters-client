@@ -726,22 +726,18 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 
 @interface LabProto : PBGeneratedMessage {
 @private
-  BOOL hasPointsPerSecond_:1;
   BOOL hasPointsMultiplier_:1;
   BOOL hasQueueSize_:1;
   BOOL hasStructInfo_:1;
-  Float32 pointsPerSecond;
   Float32 pointsMultiplier;
   int32_t queueSize;
   StructureInfoProto* structInfo;
 }
 - (BOOL) hasStructInfo;
 - (BOOL) hasQueueSize;
-- (BOOL) hasPointsPerSecond;
 - (BOOL) hasPointsMultiplier;
 @property (readonly, strong) StructureInfoProto* structInfo;
 @property (readonly) int32_t queueSize;
-@property (readonly) Float32 pointsPerSecond;
 @property (readonly) Float32 pointsMultiplier;
 
 + (LabProto*) defaultInstance;
@@ -790,11 +786,6 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (int32_t) queueSize;
 - (LabProto_Builder*) setQueueSize:(int32_t) value;
 - (LabProto_Builder*) clearQueueSize;
-
-- (BOOL) hasPointsPerSecond;
-- (Float32) pointsPerSecond;
-- (LabProto_Builder*) setPointsPerSecond:(Float32) value;
-- (LabProto_Builder*) clearPointsPerSecond;
 
 - (BOOL) hasPointsMultiplier;
 - (Float32) pointsMultiplier;

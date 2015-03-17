@@ -201,18 +201,14 @@ BOOL CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatusIsVal
 @interface QueueUpRequestProto : PBGeneratedMessage {
 @private
   BOOL hasClientTime_:1;
-  BOOL hasAttackerElo_:1;
   BOOL hasAttacker_:1;
   int64_t clientTime;
-  int32_t attackerElo;
   MinimumUserProto* attacker;
   NSMutableArray * mutableSeenUserUuidsList;
 }
 - (BOOL) hasAttacker;
-- (BOOL) hasAttackerElo;
 - (BOOL) hasClientTime;
 @property (readonly, strong) MinimumUserProto* attacker;
-@property (readonly) int32_t attackerElo;
 @property (readonly, strong) NSArray * seenUserUuidsList;
 @property (readonly) int64_t clientTime;
 - (NSString*)seenUserUuidsAtIndex:(NSUInteger)index;
@@ -258,11 +254,6 @@ BOOL CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatusIsVal
 - (QueueUpRequestProto_Builder*) setAttacker_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (QueueUpRequestProto_Builder*) mergeAttacker:(MinimumUserProto*) value;
 - (QueueUpRequestProto_Builder*) clearAttacker;
-
-- (BOOL) hasAttackerElo;
-- (int32_t) attackerElo;
-- (QueueUpRequestProto_Builder*) setAttackerElo:(int32_t) value;
-- (QueueUpRequestProto_Builder*) clearAttackerElo;
 
 - (NSMutableArray *)seenUserUuidsList;
 - (NSString*)seenUserUuidsAtIndex:(NSUInteger)index;
