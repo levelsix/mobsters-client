@@ -2388,21 +2388,21 @@ static MoneyTreeProto* defaultMoneyTreeProtoInstance = nil;
 @end
 
 @interface ResearchHouseProto ()
-@property int32_t structId;
+@property (strong) StructureInfoProto* structInfo;
 @end
 
 @implementation ResearchHouseProto
 
-- (BOOL) hasStructId {
-  return !!hasStructId_;
+- (BOOL) hasStructInfo {
+  return !!hasStructInfo_;
 }
-- (void) setHasStructId:(BOOL) value_ {
-  hasStructId_ = !!value_;
+- (void) setHasStructInfo:(BOOL) value_ {
+  hasStructInfo_ = !!value_;
 }
-@synthesize structId;
+@synthesize structInfo;
 - (id) init {
   if ((self = [super init])) {
-    self.structId = 0;
+    self.structInfo = [StructureInfoProto defaultInstance];
   }
   return self;
 }
@@ -2422,8 +2422,8 @@ static ResearchHouseProto* defaultResearchHouseProtoInstance = nil;
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasStructId) {
-    [output writeInt32:1 value:self.structId];
+  if (self.hasStructInfo) {
+    [output writeMessage:1 value:self.structInfo];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -2434,8 +2434,8 @@ static ResearchHouseProto* defaultResearchHouseProtoInstance = nil;
   }
 
   size_ = 0;
-  if (self.hasStructId) {
-    size_ += computeInt32Size(1, self.structId);
+  if (self.hasStructInfo) {
+    size_ += computeMessageSize(1, self.structInfo);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -2472,8 +2472,11 @@ static ResearchHouseProto* defaultResearchHouseProtoInstance = nil;
   return [ResearchHouseProto builderWithPrototype:self];
 }
 - (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
-  if (self.hasStructId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"structId", [NSNumber numberWithInteger:self.structId]];
+  if (self.hasStructInfo) {
+    [output appendFormat:@"%@%@ {\n", indent, @"structInfo"];
+    [self.structInfo writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -2486,14 +2489,14 @@ static ResearchHouseProto* defaultResearchHouseProtoInstance = nil;
   }
   ResearchHouseProto *otherMessage = other;
   return
-      self.hasStructId == otherMessage.hasStructId &&
-      (!self.hasStructId || self.structId == otherMessage.structId) &&
+      self.hasStructInfo == otherMessage.hasStructInfo &&
+      (!self.hasStructInfo || [self.structInfo isEqual:otherMessage.structInfo]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
   __block NSUInteger hashCode = 7;
-  if (self.hasStructId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.structId] hash];
+  if (self.hasStructInfo) {
+    hashCode = hashCode * 31 + [self.structInfo hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -2538,8 +2541,8 @@ static ResearchHouseProto* defaultResearchHouseProtoInstance = nil;
   if (other == [ResearchHouseProto defaultInstance]) {
     return self;
   }
-  if (other.hasStructId) {
-    [self setStructId:other.structId];
+  if (other.hasStructInfo) {
+    [self mergeStructInfo:other.structInfo];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -2562,27 +2565,46 @@ static ResearchHouseProto* defaultResearchHouseProtoInstance = nil;
         }
         break;
       }
-      case 8: {
-        [self setStructId:[input readInt32]];
+      case 10: {
+        StructureInfoProto_Builder* subBuilder = [StructureInfoProto builder];
+        if (self.hasStructInfo) {
+          [subBuilder mergeFrom:self.structInfo];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setStructInfo:[subBuilder buildPartial]];
         break;
       }
     }
   }
 }
-- (BOOL) hasStructId {
-  return result.hasStructId;
+- (BOOL) hasStructInfo {
+  return result.hasStructInfo;
 }
-- (int32_t) structId {
-  return result.structId;
+- (StructureInfoProto*) structInfo {
+  return result.structInfo;
 }
-- (ResearchHouseProto_Builder*) setStructId:(int32_t) value {
-  result.hasStructId = YES;
-  result.structId = value;
+- (ResearchHouseProto_Builder*) setStructInfo:(StructureInfoProto*) value {
+  result.hasStructInfo = YES;
+  result.structInfo = value;
   return self;
 }
-- (ResearchHouseProto_Builder*) clearStructId {
-  result.hasStructId = NO;
-  result.structId = 0;
+- (ResearchHouseProto_Builder*) setStructInfo_Builder:(StructureInfoProto_Builder*) builderForValue {
+  return [self setStructInfo:[builderForValue build]];
+}
+- (ResearchHouseProto_Builder*) mergeStructInfo:(StructureInfoProto*) value {
+  if (result.hasStructInfo &&
+      result.structInfo != [StructureInfoProto defaultInstance]) {
+    result.structInfo =
+      [[[StructureInfoProto builderWithPrototype:result.structInfo] mergeFrom:value] buildPartial];
+  } else {
+    result.structInfo = value;
+  }
+  result.hasStructInfo = YES;
+  return self;
+}
+- (ResearchHouseProto_Builder*) clearStructInfo {
+  result.hasStructInfo = NO;
+  result.structInfo = [StructureInfoProto defaultInstance];
   return self;
 }
 @end
