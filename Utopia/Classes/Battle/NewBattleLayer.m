@@ -900,6 +900,8 @@
             {
               self.enemyPlayerObject.isConfused = NO;
               
+              [[skillManager playerSkillControler] showSkillPopupAilmentOverlay:@"CONFUSION" bottomText:[NSString stringWithFormat:@"%i DMG TO SELF", _enemyDamageDealt]];
+              
               CCSprite* confusedPopup = [CCSprite spriteWithImageNamed:@"confusionbubble.png"];
               [confusedPopup setAnchorPoint:CGPointMake(.5f, 0.f)];
               [confusedPopup setPosition:CGPointMake(self.currentEnemy.contentSize.width * .5f, self.currentEnemy.contentSize.height + 13.f)];
@@ -981,6 +983,8 @@
     if (self.myPlayerObject.isConfused)
     {
       self.myPlayerObject.isConfused = NO;
+      
+      [[skillManager enemySkillControler] showSkillPopupAilmentOverlay:@"CONFUSION" bottomText:[NSString stringWithFormat:@"%i DMG TO SELF", _myDamageDealt]];
       
       CCSprite* confusedPopup = [CCSprite spriteWithImageNamed:@"confusionbubble.png"];
       [confusedPopup setAnchorPoint:CGPointMake(.5f, 0.f)];
@@ -1071,8 +1075,6 @@
     
     SkillLogEnd(triggered, @"  Deal damage by player trigger ENDED");
     
-    [[skillManager enemySkillControler] showSkillPopupAilmentOverlay:@"CONFUSION" bottomText:[NSString stringWithFormat:@"%i DMG TO SELF", _myDamageDealt]];
-    
     _enemyShouldAttack = YES;
     _totalDamageTaken += _myDamageDealt;
     
@@ -1089,8 +1091,6 @@
   [skillManager triggerSkills:SkillTriggerPointEnemyDealsDamage withCompletion:^(BOOL triggered, id params) {
     
     SkillLogEnd(triggered, @"  Deal damage by enemy trigger ENDED");
-    
-    [[skillManager playerSkillControler] showSkillPopupAilmentOverlay:@"CONFUSION" bottomText:[NSString stringWithFormat:@"%i DMG TO SELF", _enemyDamageDealt]];
     
     [self animateDamageLabel:_enemyDamageDealtUnmodified modifiedDamage:_enemyDamageDealt targetSprite:self.currentEnemy withCompletion:^{
       [self dealDamageToSelf:_enemyDamageDealt enemyIsAttacker:YES showDamageLabel:NO withTarget:self andSelector:@selector(endEnemyTurn)];

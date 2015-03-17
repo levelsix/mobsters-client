@@ -14,6 +14,22 @@ typedef void(^SkillPopupBlock)();
 
 @class THLabel;
 
+@interface SkillPopupData : NSObject
+
+@property (nonatomic, assign) BOOL player;
+@property (nonatomic, retain) UIImageView *characterImage;
+@property (nonatomic, retain) NSString *topText;
+@property (nonatomic, retain) NSString *bottomText;
+@property (nonatomic, assign) BOOL miniPopup;
+@property (nonatomic, retain) SkillPopupData *next;
+@property (nonatomic, assign) float priority;
+@property (nonatomic, assign) SkillPopupBlock completion;
+
++ (instancetype) initWithData:(BOOL)player characterImage:(UIImageView*)characterImage topText:(NSString*)topText bottomText:(NSString*)bottomText
+                         mini:(BOOL)mini completion:(SkillPopupBlock)completion;
+- (void) enqueue:(SkillPopupData*)other;
+@end
+
 @interface SkillPopupOverlay : UIView
 {
   __weak IBOutlet UIView *_avatarPlayer;
@@ -43,6 +59,7 @@ typedef void(^SkillPopupBlock)();
 
 - (void) animate:(BOOL)player withImage:(UIImage*)characterImage topText:(NSString*)topText bottomText:(NSString*)bottomtext
        miniPopup:(BOOL)mini withCompletion:(SkillPopupBlock)completion;
+- (void) quickHide:(BOOL)player;
 - (void) hideWithCompletion:(SkillPopupBlock)completion forPlayer:(BOOL)player;
 
 @end
