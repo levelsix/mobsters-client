@@ -113,6 +113,9 @@
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(waitTimeComplete) name:EVOLUTION_CHANGED_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(waitTimeComplete) name:ENHANCE_MONSTER_NOTIFICATION object:nil];
   
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(waitTimeComplete) name:RESEARCH_CHANGED_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(waitTimeComplete) name:RESEARCH_WAIT_COMPLETE_NOTIFICATION object:nil];
+  
   self.updateTimer = [NSTimer timerWithTimeInterval:0.2f target:self selector:@selector(updateLabels) userInfo:nil repeats:YES];
   [[NSRunLoop mainRunLoop] addTimer:self.updateTimer forMode:NSRunLoopCommonModes];
   [self updateLabels];
@@ -199,6 +202,11 @@
   BattleItemQueue *biq = gs.battleItemUtil.battleItemQueue;
   if (biq.queueObjects.count) {
     TimerAction *ta = [[BattleItemTimerAction alloc] initWithBattleItemQueue:biq];
+    [arr addObject:ta];
+  }
+  
+  if ([gs.researchUtil currentResearch]) {
+    TimerAction *ta = [[ResearchTimerAction alloc] initWithResearch:[gs.researchUtil currentResearch]];
     [arr addObject:ta];
   }
   

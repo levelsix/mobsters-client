@@ -9,8 +9,11 @@
 #import "ResearchInfoViewController.h"
 #import "ResearchController.h"
 #import "OutgoingEventController.h"
+#import "GenericPopupController.h"
+
 #import "Globals.h"
 #import "GameState.h"
+#import "GameViewController.h"
 
 #define RESEARCHING_DESCRIPTION @"This research is currently in progress"
 #define RESEARCHING_TITLE @"Currently Researching"
@@ -41,14 +44,6 @@
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   ResearchController *rc = [ResearchController researchControllerWithProto:research];
-  
-  self.oilButtonLabel.text = [NSString stringWithFormat:@"%d", research.costAmt];
-  self.oilButtonView.hidden = research.costType != ResourceTypeOil;
-  self.cashButtonLabel.text = [NSString stringWithFormat:@"%d", research.costAmt];
-  self.cashButtonView.hidden = research.costType != ResourceTypeCash;
-  
-  [Globals adjustViewForCentering:self.researchOilLabel.superview withLabel:self.researchOilLabel];
-  [Globals adjustViewForCentering:self.researchCashLabel.superview withLabel:self.researchCashLabel];
   
   //for now we assume only a single property for each research
   self.percentIncreseLabel.text = [rc longImprovementString];
@@ -105,6 +100,14 @@
   
   [self.topPercentBar setPercentage:curPercent];
   [self.botPercentBar setPercentage:nextPercent];
+  
+  self.oilButtonLabel.text = [NSString stringWithFormat:@"%d", research.costAmt];
+  self.oilButtonView.hidden = research.costType != ResourceTypeOil;
+  self.cashButtonLabel.text = [NSString stringWithFormat:@"%d", research.costAmt];
+  self.cashButtonView.hidden = research.costType != ResourceTypeCash;
+  
+  [Globals adjustViewForCentering:self.researchOilLabel.superview withLabel:self.researchOilLabel];
+  [Globals adjustViewForCentering:self.researchCashLabel.superview withLabel:self.researchCashLabel];
 }
 
 -(void)setDisplayForNumMissingRequirements:(int)missingRequirements {
@@ -132,10 +135,7 @@
   self.bottomBarDescription.highlighted = YES;
 }
 
--(void)updateLabels {
-  UserResearch *curResearch = [[GameState sharedGameState].researchUtil currentResearch];
-  self.timeLeftLabel.text = [Globals convertTimeToShortString:-[curResearch.endTime timeIntervalSinceNow]];
-}
+
 
 @end
 
@@ -161,41 +161,295 @@
 }
 
 - (IBAction)clickResearchStart:(id)sender {
+  if(!self.view.activityIndicator.hidden) {return;}
+  
+  GameState *gs = [GameState sharedGameState];
   ResearchProto *research = _userResearch.research;
-  UserResearch *startedResearch = [[OutgoingEventController sharedOutgoingEventController] beginResearch:_userResearch gemsSpent:0 resourceType:research.costType resourceCost:research.costAmt delegate:self];
-  if(!startedResearch) {
-    [Globals popupMessage:@"it didn't work weeeeee"];
+  
+  if ( (research.costType == ResourceTypeCash && gs.cash <= research.costAmt) || (research.costType == ResourceTypeOil && gs.oil <= research.costAmt)) {
+    ItemSelectViewController *svc = [[ItemSelectViewController alloc] init];
+    if (svc) {
+      ResourceItemsFiller *rif = [[ResourceItemsFiller alloc] initWithResourceType:research.costType requiredAmount:research.costAmt shouldAccumulate:YES];
+      rif.delegate = self;
+      svc.delegate = rif;
+      self.itemSelectViewController = svc;
+      self.resourceItemsFiller = rif;
+      
+      GameViewController *gvc = [GameViewController baseController];
+      svc.view.frame = gvc.view.bounds;
+      [gvc addChildViewController:svc];
+      [gvc.view addSubview:svc.view];
+      
+      UIButton* invokingButton = (UIButton*)sender;
+      [svc showAnchoredToInvokingView:invokingButton withDirection:ViewAnchoringPreferTopPlacement inkovingViewImage:invokingButton.currentImage];
+    }
   } else {
+    UserResearch *startedResearch = [[OutgoingEventController sharedOutgoingEventController] beginResearch:_userResearch gemsSpent:0 resourceType:research.costType resourceCost:research.costAmt delegate:self];
+    _waitingForServer = YES;
+    if(!startedResearch) {
+      [Globals popupMessage:@"An error occured contacting the server."];
+    } else {
+      self.view.oilButtonLabel.superview.hidden = YES;
+      self.view.cashButtonLabel.superview.hidden = YES;
+      self.view.activityIndicator.hidden = NO;
+      self.view.cashButton.userInteractionEnabled = NO;
+      _userResearch = startedResearch;
+    }
+  }
+}
+
+- (void) beginResearchWithItemsDict:(NSDictionary *)itemIdsToQuantity useGems:(BOOL)useGems {
+  Globals *gl = [Globals sharedGlobals];
+  GameState *gs = [GameState sharedGameState];
+  
+  UserResearch *startedResearch;
+  int gems = 0;
+  [[OutgoingEventController sharedOutgoingEventController] tradeItemIdsForResources:itemIdsToQuantity];
+  if(useGems) {
+    int remainingCost = _userResearch.research.costType == ResourceTypeCash ? _userResearch.research.costAmt - gs.cash : _userResearch.research.costAmt - gs.oil;
+    gems = [gl calculateGemConversionForResourceType:_userResearch.research.costType amount:remainingCost];
+    
+    int playerResource = _userResearch.research.costType == ResourceTypeCash ? gs.cash : gs.oil;
+    startedResearch = [[OutgoingEventController sharedOutgoingEventController] beginResearch:_userResearch gemsSpent:gems resourceType:_userResearch.research.costType resourceCost:playerResource delegate:self];
+  } else {
+    startedResearch = [[OutgoingEventController sharedOutgoingEventController] beginResearch:_userResearch gemsSpent:0 resourceType:_userResearch.research.costType resourceCost:_userResearch.research.costAmt delegate:self];
+  }
+  _waitingForServer = YES;
+  if (startedResearch) {
     self.view.oilButtonLabel.superview.hidden = YES;
     self.view.cashButtonLabel.superview.hidden = YES;
     self.view.activityIndicator.hidden = NO;
     self.view.cashButton.userInteractionEnabled = NO;
-    [[GameState sharedGameState].researchUtil startResearch:startedResearch];
+    _userResearch = startedResearch;
   }
 }
 
 - (void) handlePerformResearchResponseProto:(FullEvent *)fe {
+  _waitingForServer = NO;
   PerformResearchResponseProto *proto = (PerformResearchResponseProto *)fe.event;
   if(proto.status != PerformResearchResponseProto_PerformResearchStatusSuccess) {
     
   }
-  self.view.oilButtonLabel.superview.hidden = NO;
-  self.view.cashButtonLabel.superview.hidden = NO;
-  self.view.activityIndicator.hidden = YES;
-  self.view.cashButton.userInteractionEnabled = YES;
-  
-  self.view.oilButtonView.hidden = YES;
-  self.view.cashButtonView.hidden = YES;
-  self.view.helpButtonView.hidden = YES;
-  self.view.finishButtonView.hidden = NO;
-  
-  self.view.timeLeftLabel.hidden = NO;
   self.view.bottomBarTitle.text = RESEARCHING_TITLE;
   self.view.bottomBarDescription.text = RESEARCHING_DESCRIPTION;
 }
 
 - (void) updateLabels {
-  [self.view updateLabels];
+  if(_waitingForServer) {
+    int timeLeft = _userResearch.endTime.timeIntervalSinceNow;
+    self.view.timeLeftLabel.text = [[Globals convertTimeToShortString:timeLeft] uppercaseString];
+    return;
+  }
+  if(_userResearch.complete) {
+    self.view.oilButtonView.hidden = YES;
+    self.view.cashButtonView.hidden = YES;
+    self.view.finishButtonView.hidden = YES;
+    self.view.helpButtonView.hidden = YES;
+    self.view.timeLeftLabel.superview.hidden = YES;
+    self.view.bottomBarDescription.text = @"This research has already been completed";
+    self.view.bottomBarTitle.text = @"Research Complete!";
+    return;
+  }
+  [_userResearch updateEndTime];
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  int timeLeft = _userResearch.endTime.timeIntervalSinceNow;
+  int speedupCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
+  
+  BOOL canHelp = [gs canAskForClanHelp];
+  if (canHelp) {
+    canHelp = NO;
+    if ([_userResearch isResearching]) {
+      if ([gs.clanHelpUtil getNumClanHelpsForType:GameActionTypePerformingResearch userDataUuid:_userResearch.userResearchUuid] < 0) {
+        canHelp = YES;
+      }
+    }
+  }
+  
+  if (timeLeft > 0) {
+    self.view.oilButtonView.hidden = YES;
+    self.view.cashButtonView.hidden = YES;
+    self.view.activityIndicator.hidden = YES;
+    self.view.finishButtonView.hidden = NO;
+    
+    self.view.timeLeftLabel.text = [[Globals convertTimeToShortString:timeLeft] uppercaseString];
+    self.view.timeLeftLabel.superview.hidden = NO;
+    if (speedupCost > 0) {
+      self.view.helpButtonView.hidden = !canHelp;
+      self.view.finishSpeedupIcon.hidden = NO;
+      self.view.finishFreeLabel.hidden = YES;
+    } else {
+      self.view.helpButtonView.hidden = YES;
+      self.view.finishSpeedupIcon.hidden = YES;
+      self.view.finishFreeLabel.hidden = NO;
+    }
+  } else {
+    self.view.finishButtonView.hidden = YES;
+    self.view.helpButtonView.hidden = YES;
+    self.view.timeLeftLabel.superview.hidden = YES;
+  }
+}
+
+-(void) waitTimeComplete {
+  UserResearch *newUserResearch = [UserResearch userResearchWithResearch:_userResearch.research];
+  newUserResearch.userResearchUuid = _userResearch.userResearchUuid;
+  _userResearch = newUserResearch;
+}
+
+- (IBAction)helpButtonClicked:(id)sender {
+  [[OutgoingEventController sharedOutgoingEventController] solicitResearchHelp:_userResearch];
+  [self updateLabels];
+}
+
+- (IBAction)finishNowClicked:(id)sender {
+  Globals *gl = [Globals sharedGlobals];
+  int timeLeft = _userResearch.endTime.timeIntervalSinceNow;
+  int speedupCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
+  
+  if(speedupCost > 0) {
+    ItemSelectViewController *svc = [[ItemSelectViewController alloc] init];
+    if (svc) {
+      SpeedupItemsFiller *sif = [[SpeedupItemsFiller alloc] init];
+      sif.delegate = self;
+      svc.delegate = sif;
+      self.speedupItemsFiller = sif;
+      self.itemSelectViewController = svc;
+      
+      GameViewController *gvc = [GameViewController baseController];
+      svc.view.frame = gvc.view.bounds;
+      [gvc addChildViewController:svc];
+      [gvc.view addSubview:svc.view];
+      
+      if (sender == nil)
+      {
+        [svc showCenteredOnScreen];
+      }
+      else
+      {
+        if ([sender isKindOfClass:[TimerCell class]]) // Invoked from TimerAction
+        {
+          UIButton* invokingButton = ((TimerCell*)sender).speedupButton;
+          const CGPoint invokingViewAbsolutePosition = [Globals convertPointToWindowCoordinates:invokingButton.frame.origin fromViewCoordinates:invokingButton.superview];
+          [svc showAnchoredToInvokingView:invokingButton
+                            withDirection:invokingViewAbsolutePosition.y < [Globals screenSize].height * .25f ? ViewAnchoringPreferBottomPlacement : ViewAnchoringPreferLeftPlacement
+                        inkovingViewImage:[invokingButton backgroundImageForState:invokingButton.state]];
+        }
+        else if ([sender isKindOfClass:[UIButton class]]) // Speed up healing mobster
+        {
+          UIButton* invokingButton = (UIButton*)sender;
+          [svc showAnchoredToInvokingView:invokingButton
+                            withDirection:ViewAnchoringPreferLeftPlacement
+                        inkovingViewImage:[invokingButton backgroundImageForState:invokingButton.state]];
+        }
+      }
+    }
+  } else {
+    self.view.activityIndicator.hidden = NO;
+    self.view.finishFreeLabel.hidden = YES;
+    _userResearch = [[OutgoingEventController sharedOutgoingEventController] finishResearch:_userResearch gemsSpent:0 delegate:self];
+    _waitingForServer = YES;
+  }
+}
+
+- (void) handleFinishPerformingResearchResponseProto:(FullEvent *)fe {
+  self.view.activityIndicator.hidden = YES;
+  GameState *gs = [GameState sharedGameState];
+  _userResearch = [gs.researchUtil userResearchForProto:_userResearch.research];
+  _waitingForServer = NO;
+}
+
+- (void) speedupResearchWithGems {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  
+  if (self.speedupItemsFiller) {
+    [self.itemSelectViewController closeClicked:nil];
+  }
+  
+  int timeLeft = _userResearch.endTime.timeIntervalSinceNow;
+  int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
+  
+  if (gs.gems < goldCost) {
+    [GenericPopupController displayNotEnoughGemsView];
+  } else {
+    self.view.activityIndicator.hidden = NO;
+    self.view.finishFreeLabel.hidden = YES;
+    _userResearch = [[OutgoingEventController sharedOutgoingEventController] finishResearch:_userResearch gemsSpent:goldCost delegate:self];
+    _waitingForServer = YES;
+      
+      [[NSNotificationCenter defaultCenter] postNotificationName:RESEARCH_CHANGED_NOTIFICATION object:self];
+  }
+}
+
+#pragma mark - SpeedUpItemFillerDelegate
+
+- (void) speedupItemUsed:(id<ItemObject>)itemObject viewController:(ItemSelectViewController *)viewController {
+  if ([itemObject isKindOfClass:[GemsItemObject class]]) {
+    [self speedupResearchWithGems];
+  } else if ([itemObject isKindOfClass:[UserItem class]]) {
+    // Apply items
+    GameState *gs = [GameState sharedGameState];
+    UserItem *ui = (UserItem *)itemObject;
+    ItemProto *ip = [gs itemForId:ui.itemId];
+    
+    if (ip.itemType == ItemTypeSpeedUp) {
+      [[OutgoingEventController sharedOutgoingEventController] tradeItemForSpeedup:ui.itemId userResearch:_userResearch];
+      
+      [self updateLabels];
+    }
+    [_userResearch updateEndTime];
+    int timeLeft = _userResearch.endTime.timeIntervalSinceNow;
+    if (timeLeft > 0) {
+      [_userResearch updateEndTime];
+      [viewController reloadDataAnimated:YES];
+    }
+  }
+}
+
+- (int) numGemsForTotalSpeedup {
+  [_userResearch updateEndTime];
+  int timeLeft = _userResearch.endTime.timeIntervalSinceNow;
+  return [[Globals sharedGlobals] calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
+}
+
+- (void) itemSelectClosed:(id)viewController {
+  self.itemSelectViewController = nil;
+  self.speedupItemsFiller = nil;
+  self.resourceItemsFiller = nil;
+}
+
+- (int) timeLeftForSpeedup {
+  [_userResearch updateEndTime];
+  return _userResearch.endTime.timeIntervalSinceNow;
+}
+
+- (int) totalSecondsRequired {
+  return _userResearch.research.durationMin * 60;
+}
+
+- (NSString *)titleName {
+  //not sure where this even goes
+  return @"Item Menu";
+}
+
+- (void) resourceItemsUsed:(NSDictionary *)itemUsages {
+  // itemUsages are Item Ids to Quantity
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  
+  BOOL allowGems = [itemUsages[@0] boolValue];
+  
+  int cost = _userResearch.research.costAmt;
+  ResourceType resType = _userResearch.research.costType;
+  
+  int curAmount = [gl calculateTotalResourcesForResourceType:resType itemIdsToQuantity:itemUsages];
+  int gemCost = [gl calculateGemConversionForResourceType:resType amount:cost-curAmount];
+  
+  if (allowGems && gemCost > gs.gems) {
+    [GenericPopupController displayNotEnoughGemsView];
+  } else if (allowGems || cost <= curAmount) {
+    [self beginResearchWithItemsDict:itemUsages useGems:allowGems];
+  }
 }
 
 @end

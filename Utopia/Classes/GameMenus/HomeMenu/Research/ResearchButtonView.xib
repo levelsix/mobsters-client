@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
@@ -11,11 +11,11 @@
             <rect key="frame" x="0.0" y="-5" width="70" height="86"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="blueresearchcircle.png" id="9ay-pM-9QZ">
+                <imageView hidden="YES" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="blueresearchcircle.png" id="9ay-pM-9QZ">
                     <rect key="frame" x="12" y="5" width="46" height="46"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="canresearchclickedborder.png" id="3EO-mx-5w3">
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="lightresearchcircle.png" id="3EO-mx-5w3">
                     <rect key="frame" x="12" y="5" width="46" height="46"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
@@ -26,22 +26,15 @@
                     <color key="textColor" red="0.10196078431372549" green="0.63921568627450975" blue="0.89803921568627454" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rank 1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="b5y-S3-YUZ">
-                    <rect key="frame" x="0.0" y="56" width="70" height="19"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="8"/>
-                    <color key="textColor" red="0.1019607843" green="0.63921568630000003" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rank:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="46x-90-PJQ">
-                    <rect key="frame" x="0.0" y="68" width="34" height="19"/>
+                    <rect key="frame" x="0.0" y="60" width="34" height="19"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="8"/>
                     <color key="textColor" red="0.52941176470588236" green="0.52941176470588236" blue="0.52941176470588236" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2/10" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="8UM-rq-dCm">
-                    <rect key="frame" x="37" y="68" width="34" height="19"/>
+                    <rect key="frame" x="37" y="60" width="34" height="19"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="8"/>
                     <color key="textColor" red="0.14901960784313725" green="0.14901960784313725" blue="0.14901960784313725" alpha="1" colorSpace="calibratedRGB"/>
@@ -67,16 +60,16 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="bgView" destination="9ay-pM-9QZ" id="7wd-UU-WUy"/>
+                <outlet property="outline" destination="3EO-mx-5w3" id="lPa-7R-UUZ"/>
                 <outlet property="rankLabel" destination="8UM-rq-dCm" id="Ual-SV-CK6"/>
                 <outlet property="researchNameLabel" destination="d0u-HE-QiV" id="zuI-9l-41V"/>
-                <outlet property="selectedOutline" destination="3EO-mx-5w3" id="JQ0-04-y7q"/>
             </connections>
             <point key="canvasLocation" x="451" y="319"/>
         </view>
     </objects>
     <resources>
         <image name="blueresearchcircle.png" width="46" height="46"/>
-        <image name="canresearchclickedborder.png" width="46" height="46"/>
+        <image name="lightresearchcircle.png" width="46" height="46"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

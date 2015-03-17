@@ -113,3 +113,11 @@ typedef enum {
 - (id) initWithUserMonster:(UserMonster *)um;
 
 @end
+
+@interface ResearchTimerAction : TimerAction
+
+@property (nonatomic, retain) UserResearch *userResearch;
+
+- (id) initWithResearch:(UserResearch *)ur;
+
+@end

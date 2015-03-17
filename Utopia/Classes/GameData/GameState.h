@@ -298,6 +298,9 @@
 - (void) beginEvolutionTimer;
 - (void) stopEvolutionTimer;
 
+- (void) beginResearchTimer;
+- (void) stopResearchTimer;
+
 - (void) beginCombineTimer;
 - (void) stopCombineTimer;
 

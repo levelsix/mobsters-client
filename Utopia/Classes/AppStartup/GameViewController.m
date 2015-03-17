@@ -1559,6 +1559,7 @@ static const CGSize FIXED_SIZE = {568, 384};
   [gs stopMiniJobTimer];
   [gs stopAvengeTimer];
   [gs stopBattleItemTimer];
+  [gs stopResearchTimer];
   
   if ([self.currentMap isKindOfClass:[HomeMap class]]) {
     HomeMap *hm = (HomeMap *)self.currentMap;
@@ -1575,6 +1576,7 @@ static const CGSize FIXED_SIZE = {568, 384};
   [gs beginMiniJobTimerShowFreeSpeedupImmediately:NO];
   [gs beginAvengeTimer];
   [gs beginBattleItemTimer];
+  [gs beginResearchTimer];
   
   if ([self.currentMap isKindOfClass:[HomeMap class]]) {
     HomeMap *hm = (HomeMap *)self.currentMap;

@@ -75,6 +75,49 @@
   [rtvc barClickedWithResearch:_userResearch];
 }
 
+-(void)updateSelf {
+  if(_userResearch) {
+    [self updateForProto:[[GameState sharedGameState].researchUtil currentRankForResearch:_userResearch.research]];
+  }
+}
+
+@end
+
+#define AVAILABLE_OUTLINE @"canresearchclickedborder.png"
+#define UNAVAILABLE_OUTLINE @"cantresearchtapped.png"
+#define DARK_GREY_OUTLINE @"darkresearchcircle.png"
+#define GREY_OUTLINE @"lightresearchcirclepressed.png"
+#define LIGHT_GREY_OUTLINE @"lightresearchcircle.png"
+
+@implementation ResearchButtonView
+
+- (void) select {
+  BOOL isAvailable = [_userResearch.research prereqsComplete];
+  self.bgView.hidden = !isAvailable;
+  self.outline.image = isAvailable ? [Globals imageNamed:AVAILABLE_OUTLINE] : [Globals imageNamed:UNAVAILABLE_OUTLINE];
+}
+
+- (void) deselect {
+  self.bgView.hidden = YES;
+  self.outline.image = [Globals imageNamed:LIGHT_GREY_OUTLINE];
+}
+
+- (void) updateSelf {
+  GameState *gs = [GameState sharedGameState];
+  [self updateForResearch:[gs.researchUtil currentRankForResearch:_userResearch.research]];
+}
+
+- (void)updateForResearch:(UserResearch *)userResearch {
+  ResearchProto *research = userResearch.research;
+  _userResearch = userResearch;
+  self.researchNameLabel.text = research.name;
+  self.rankLabel.text = [NSString stringWithFormat:@"%d/%@",research.level, @([research fullResearchFamily].count)];
+}
+
+- (IBAction)researchSelected:(id)sender {
+  [self.delegate researchButtonClickWithResearch:_userResearch sender:(id) self];
+}
+
 @end
 
 @implementation ResearchTreeViewController
@@ -109,16 +152,23 @@
   GameState *gs = [GameState sharedGameState];
   NSArray *researches = [gs allStaticResearchForDomain:domain];
   
+  _researchButtons = [[NSMutableArray alloc] init];
   int index = 0;
-  for(ResearchProto *rp in researches) {
-    ResearchButtonView *selectView;
-    selectView = [[NSBundle mainBundle] loadNibNamed:@"ResearchButtonView" owner:self options:nil][0];
-    [treeView.mainView addSubview:selectView];
+  for(ResearchProto *research in researches) {
     
-    selectView.origin = CGPointMake(0.f, 100.f*index);
-    selectView.delegate = self;
-    [selectView updateForResearch:[UserResearch userResearchWithResearch:rp]];
-    index++;
+    if(research.level == 1) {
+      UserResearch *userResearch = [gs.researchUtil currentRankForResearch:research];
+      
+      ResearchButtonView *selectView;
+      selectView = [[NSBundle mainBundle] loadNibNamed:@"ResearchButtonView" owner:self options:nil][0];
+      [treeView.mainView addSubview:selectView];
+      [_researchButtons addObject:selectView];
+      
+      selectView.origin = CGPointMake(0.f, 100.f*index);
+      selectView.delegate = self;
+      [selectView updateForResearch:userResearch];
+      index++;
+    }
   }
   
   return self;
@@ -128,7 +178,13 @@
   self.titleImageName = @"researchtoons.png";
 }
 
--(void)researchButtonClickWithResearch:(UserResearch *)userResearch {
+-(void)researchButtonClickWithResearch:(UserResearch *)userResearch sender:(id)sender {
+  
+  ResearchButtonView *clicked = (ResearchButtonView *)sender;
+  [clicked select];
+  [_lastClicked deselect];
+  _lastClicked = clicked;
+  
   UIView *outView = _curBarView;
   [_curBarView animateOut:^{
     [outView removeFromSuperview];
@@ -151,9 +207,19 @@
   
 }
 
--(void)barClickedWithResearch:(UserResearch *)research {
+-(void)barClickedWithResearch:(UserResearch *)research{
   ResearchInfoViewController *rivc = [[ResearchInfoViewController alloc] initWithResearch:research];
   [self.parentViewController pushViewController:rivc animated:YES];
+}
+
+- (void) viewWillAppear:(BOOL)animated {
+  for (ResearchButtonView *rbv in _researchButtons) {
+    [rbv updateSelf];
+  }
+  if(_curBarView) {
+    [_curBarView updateSelf];
+  }
+//needs code for updating the _curBarBased on the last clicked research
 }
 
 #pragma mark - UIScrollView Delegate Methods
@@ -193,17 +259,4 @@
 
 @end
 
-@implementation ResearchButtonView
 
-- (void)updateForResearch:(UserResearch *)userResearch {
-  ResearchProto *research = userResearch.research;
-  _userResearch = userResearch;
-  self.researchNameLabel.text = research.name;
-  self.rankLabel.text = [NSString stringWithFormat:@"%d/%@",research.level, @([research fullResearchFamily].count)];
-}
-
-- (IBAction)researchSelected:(id)sender {
-  [self.delegate researchButtonClickWithResearch:_userResearch];
-}
-
-@end

@@ -9,6 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "PopupSubViewController.h"
 
+@protocol TreeDelegate <NSObject>
+-(void)researchButtonClickWithResearch:(UserResearch *)userResearch sender:(id)sender;
+@end
+
 @interface researchSelectionBarView : TouchableSubviewsView {
   UserResearch *_userResearch;
 }
@@ -23,28 +27,10 @@
 @property (nonatomic, assign) id delegate;
 
 -(void)updateForProto:(UserResearch *)userResearch;
+-(void)updateSelf;
 -(void) animateIn:(dispatch_block_t)completion;
 -(void) animateOut:(dispatch_block_t)completion;
 
-@end
-
-@interface ResearchTreeViewController : PopupSubViewController {
-  NSArray *_researches;
-  researchSelectionBarView *_curBarView;
-  BOOL _selectFieldViewUp;
-  BOOL _barAnimating;
-}
-
-@property (weak, nonatomic) IBOutlet researchSelectionBarView *selectFieldView;
-
--(id)initWithDomain:(ResearchDomain)domain;
--(void)researchButtonClickWithResearch:(UserResearch *)userResearch;
--(void)barClickedWithResearch:(UserResearch *)userResearch;
-@end
-
-@interface ResearchTreeView : UIView
-@property (nonatomic, assign) IBOutlet UIView *mainView;
-@property (nonatomic, assign) IBOutlet UIScrollView *scrollView;
 @end
 
 @interface ResearchButtonView : UIView {
@@ -52,10 +38,34 @@
 }
 @property (nonatomic, assign) IBOutlet UILabel *researchNameLabel;
 @property (nonatomic, assign) IBOutlet UILabel *rankLabel;
-@property (nonatomic, assign) IBOutlet UIImageView *selectedOutline;
+@property (nonatomic, assign) IBOutlet UIImageView *outline;
 @property (nonatomic, assign) IBOutlet UIImageView *bgView;
-@property (nonatomic, assign) ResearchTreeViewController* delegate;
+@property (nonatomic, assign) id<TreeDelegate> delegate;
 
+- (void)updateSelf;
 - (void)updateForResearch:(UserResearch *)userResearch;
+- (void) select;
+- (void) deselect;
 
+@end
+
+@interface ResearchTreeViewController : PopupSubViewController <TreeDelegate>{
+  ResearchButtonView *_lastClicked;
+  NSMutableArray *_researchButtons;
+  researchSelectionBarView *_curBarView;
+  ResearchDomain _domain;
+  BOOL _selectFieldViewUp;
+  BOOL _barAnimating;
+}
+
+@property (weak, nonatomic) IBOutlet researchSelectionBarView *selectFieldView;
+
+-(id)initWithDomain:(ResearchDomain)domain;
+-(void)researchButtonClickWithResearch:(UserResearch *)userResearch sender:(id)sender;
+-(void)barClickedWithResearch:(UserResearch *)research;
+@end
+
+@interface ResearchTreeView : UIView
+@property (nonatomic, assign) IBOutlet UIView *mainView;
+@property (nonatomic, assign) IBOutlet UIScrollView *scrollView;
 @end

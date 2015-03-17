@@ -18,10 +18,12 @@
 - (id) initWithResearches:(NSArray *)researches;
 
 - (void)startResearch:(UserResearch *)userResearch;
+- (UserResearch *) researchForTimer;
 - (UserResearch *) currentResearch;
 - (UserResearch *) userResearchForProto:(ResearchProto *)research;
 - (BOOL)prerequisiteFullfilledForResearch:(ResearchProto *)research;
-
+- (UserResearch *)currentRankForResearch:(ResearchProto *) research;
+- (void)cancelCurrentResearch;
 @end
 
 @interface ResearchProto (prereqObject)

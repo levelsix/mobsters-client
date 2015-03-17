@@ -180,6 +180,9 @@
       }
       
       isValid = !!biq;
+    } else if (iu.actionType == GameActionTypePerformingResearch) {
+      UserResearch *ur = [gs.researchUtil currentResearch];
+      isValid = !!ur && [ur.userResearchUuid isEqualToString:iu.userDataUuid];
     }
     
     // Wait till it is at least

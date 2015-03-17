@@ -207,6 +207,7 @@
 @property (nonatomic, retain) StartupResponseProto_StartupConstants_ClanHelpConstants *buildingClanHelpConstants;
 @property (nonatomic, retain) StartupResponseProto_StartupConstants_ClanHelpConstants *enhanceClanHelpConstants;
 @property (nonatomic, retain) StartupResponseProto_StartupConstants_ClanHelpConstants *battleItemClanHelpConstants;
+@property (nonatomic, retain) StartupResponseProto_StartupConstants_ClanHelpConstants *researchClanHelpConstants;
 
 // Tournament Constants
 @property (nonatomic, assign) int tournamentWinsWeight;

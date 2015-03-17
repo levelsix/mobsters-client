@@ -1575,11 +1575,10 @@
 - (id) initWithResearch:(ResearchProto *)proto {
   self.userResearchUuid = nil;
   self.researchId = proto.researchId;
-  self.timePurchased = [MSDate date].timeIntervalSince1970;
   self.complete = NO;
   self.research = proto;
+  self.timeStarted = nil;
   self.endTime = [self tentativeCompletionDate];
-  self.timeStarted = [MSDate date];
   return self;
 }
 
@@ -1587,21 +1586,28 @@
   GameState *gs = [GameState sharedGameState];
   self.userResearchUuid = proto.userResearchUuid;
   self.researchId = proto.researchId;
-  self.timePurchased = proto.timePurchased;
   self.complete = proto.complete;
   self.research = [gs.staticResearch objectForKey:@(self.researchId)];
+  self.timeStarted = [MSDate dateWithTimeIntervalSince1970:proto.timePurchased / 1000.];
   self.endTime = [self tentativeCompletionDate];
-  self.timeStarted = [MSDate dateWithTimeIntervalSince1970:self.timePurchased];
   return self;
 }
 
 - (MSDate *)tentativeCompletionDate {
   GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
   
   int seconds = self.research.durationMin * 60;
   
+  // Account for clan helps
+  int numHelps = [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypePerformingResearch userDataUuid:self.userResearchUuid];
+  if (numHelps > 0) {
+    int secsToDockPerHelp = MAX(gl.researchClanHelpConstants.amountRemovedPerHelp*60, roundf(seconds*gl.researchClanHelpConstants.percentRemovedPerHelp));
+    seconds -= numHelps*secsToDockPerHelp;
+  }
+  
   // Account for speedups
-  int speedupMins = [gs.itemUtil getSpeedupMinutesForType:GameActionTypeMiniJob userDataUuid:self.userResearchUuid earliestDate:self.timeStarted];
+  int speedupMins = [gs.itemUtil getSpeedupMinutesForType:GameActionTypePerformingResearch userDataUuid:self.userResearchUuid earliestDate:self.timeStarted];
   if (speedupMins > 0) {
     seconds -= speedupMins*60;
   }
@@ -1609,18 +1615,21 @@
   return [self.timeStarted dateByAddingTimeInterval:seconds];
 }
 
--(void)updateForUserResearch:(UserResearch *)UserResearch {
-  self.userResearchUuid = UserResearch.userResearchUuid;
-  self.researchId = UserResearch.researchId;
-  self.timePurchased = UserResearch.timePurchased;
-  self.complete = UserResearch.complete;
-  self.research = UserResearch.research;
-  self.endTime= [self tentativeCompletionDate];
-  self.timeStarted = [MSDate dateWithTimeIntervalSince1970:self.timePurchased];
+-(void)updateForUserResearch:(UserResearch *)userResearch {
+  self.userResearchUuid = self.userResearchUuid ? self.userResearchUuid : userResearch.userResearchUuid;
+  self.researchId = userResearch.researchId;
+  self.complete = userResearch.complete;
+  self.research = userResearch.research;
+  self.timeStarted = userResearch.timeStarted;
+  self.endTime = [self tentativeCompletionDate];
 }
 
 - (BOOL)isResearching {
-  return !self.complete && self.endTime && self.endTime.timeIntervalSinceNow < 0;
+  return !self.complete && self.timeStarted && self.endTime && self.endTime.timeIntervalSinceNow > 0;
+}
+
+- (void) updateEndTime {
+  self.endTime = [self tentativeCompletionDate];
 }
 
 @end

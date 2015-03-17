@@ -230,6 +230,10 @@
         }
         
         isValid = !!biq;
+      } else if (ch.helpType == GameActionTypePerformingResearch) {
+        UserResearch *ur = [gs.researchUtil currentResearch];
+        
+        isValid = ur.researchId == ch.staticDataId;
       }
       
       if (!isValid) {

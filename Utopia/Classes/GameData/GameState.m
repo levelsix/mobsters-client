@@ -1218,6 +1218,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [self addToStaticStructs:proto.allBattleItemFactorysList];
   [self addToStaticStructs:proto.allPvpBoardHousesList];
   
+  [self addToStaticStructs:proto.allResearchHousesList];
+  
   [self.staticItems removeAllObjects];
   [self addToStaticItems:proto.itemsList];
   
@@ -1877,30 +1879,31 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (void) beginResearchTimer {
   [self stopResearchTimer];
-  
-  if ([self.researchUtil currentResearch]) {
-    if ([[self.researchUtil currentResearch].endTime timeIntervalSinceNow] <= 0) {
+  UserResearch *researchForTimer = [self.researchUtil researchForTimer];
+  [researchForTimer updateEndTime];
+  if (researchForTimer) {
+    if ([researchForTimer.endTime timeIntervalSinceNow] <= 0) {
       [self researchWaitTimeComplete];
     } else {
-      _researchTimer = [NSTimer timerWithTimeInterval:[self.researchUtil currentResearch].endTime.timeIntervalSinceNow target:self selector:@selector(researchWaitTimeComplete) userInfo:nil repeats:NO];
+      _researchTimer = [NSTimer timerWithTimeInterval:researchForTimer.endTime.timeIntervalSinceNow target:self selector:@selector(researchWaitTimeComplete) userInfo:nil repeats:NO];
       [[NSRunLoop mainRunLoop] addTimer:_researchTimer forMode:NSRunLoopCommonModes];
     }
   }
 }
 
 - (void) researchWaitTimeComplete {
-  if ([self.researchUtil currentResearch] && [[self.researchUtil currentResearch].endTime timeIntervalSinceNow] < 0) {
-    UserResearch *ur = [self.researchUtil currentResearch];
+  UserResearch *ur = [self.researchUtil researchForTimer];
+  if (ur && [ur.endTime timeIntervalSinceNow] <= 0) {
     
     [[OutgoingEventController sharedOutgoingEventController] finishResearch:ur gemsSpent:0 delegate:self];
     [[NSNotificationCenter defaultCenter] postNotificationName:RESEARCH_WAIT_COMPLETE_NOTIFICATION object:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:RESEARCH_CHANGED_NOTIFICATION object:nil];
     
     [Globals addGreenAlertNotification:[NSString stringWithFormat:@"%@ has finished researching!", ur.research.name] isImmediate:NO];
-    
-//    [QuestUtil checkAllDonateQuests];???
   }
 }
+
+
 
 - (void) stopResearchTimer {
   if (_researchTimer) {
@@ -2176,6 +2179,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   } else if (ch.helpType == GameActionTypeCreateBattleItem) {
     [self.battleItemUtil.battleItemQueue readjustQueueObjects];
     [self beginBattleItemTimer];
+  } else if (ch.helpType == GameActionTypePerformingResearch) {
+    [self beginResearchTimer];
   }
 }
 
@@ -2195,6 +2200,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     [self beginCombineTimer];
   } else if (ch.actionType == GameActionTypeCreateBattleItem) {
     [self beginBattleItemTimer];
+  } else if (ch.actionType == GameActionTypePerformingResearch) {
+    [self beginResearchTimer];
   }
 }
 

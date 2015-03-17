@@ -53,7 +53,7 @@
   } else if (self.helpType == GameActionTypeCreateBattleItem) {
     BattleItemProto *bip = [gs battleItemWithId:self.staticDataId];
     return [NSString stringWithFormat:@" create a %@", bip.name];
-  } else if (self.helpType == GameActionTypeGameActionTypeResearch) {
+  } else if (self.helpType == GameActionTypePerformingResearch) {
     ResearchProto *rp = [gs.staticResearch objectForKey:@(self.staticDataId)];
     return [NSString stringWithFormat:@" research %@",rp.name];
   }

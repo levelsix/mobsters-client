@@ -19,6 +19,7 @@
 #import "EnhanceQueueViewController.h"
 #import "TeamViewController.h"
 #import "ItemFactoryViewController.h"
+#import "ResearchViewController.h"
 
 @implementation TimerAction
 
@@ -439,6 +440,52 @@
 
 - (NSUInteger) hash {
   return (NSUInteger)self.userMonster.userMonsterUuid.hash;
+}
+
+@end
+
+@implementation ResearchTimerAction
+
+- (id) initWithResearch:(UserResearch *)ur {
+  if ((self = [super init])) {
+    self.userResearch = ur;
+    
+    self.title = ur.research.name;
+    self.normalProgressBarColor = TimerProgressBarColorGreen;
+    self.allowsFreeSpeedup = YES;
+    self.completionDate = self.userResearch.endTime;
+    self.totalSeconds = ur.research.durationMin*60;
+  }
+  return self;
+}
+
+- (BOOL) canGetHelp {
+  GameState *gs = [GameState sharedGameState];
+  return [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypePerformingResearch userDataUuid:self.userResearch.userResearchUuid] < 0;
+}
+
+- (NSString *) confirmActionString {
+  return [NSString stringWithFormat:@"Would you like to speedup %@'s Research for %d gem%@?" , self.title, [self gemCost], [self gemCost] == 1 ? @"" : @"s"];
+}
+
+- (NSArray *) performSpeedup:(UIView *)sender {
+  ResearchViewController *rvc = [[ResearchViewController alloc] init];
+  [rvc finishNowClicked:sender];
+  
+  return @[rvc];
+}
+
+- (void) performHelp {
+  ResearchViewController *rvc = [[ResearchViewController alloc] init];
+  [rvc helpButtonClicked:nil];
+}
+
+- (BOOL) isEqual:(id)object {
+  return [self class] == [object class] && [self.userResearch.userResearchUuid isEqualToString:[object userResearch].userResearchUuid];
+}
+
+- (NSUInteger) hash {
+  return (NSUInteger)self.userResearch.userResearchUuid.hash;
 }
 
 @end

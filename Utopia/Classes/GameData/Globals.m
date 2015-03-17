@@ -176,6 +176,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       self.enhanceClanHelpConstants = c;
     } else if (c.helpType == GameActionTypeCreateBattleItem) {
       self.battleItemClanHelpConstants = c;
+    } else if (c.helpType == GameActionTypePerformingResearch) {
+      self.researchClanHelpConstants = c;
     }
   }
   

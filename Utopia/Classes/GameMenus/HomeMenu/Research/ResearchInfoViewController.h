@@ -10,6 +10,7 @@
 #import "PopupSubViewController.h"
 #import "ResearchDetailViewController.h"
 #import "UpgradeViewController.h"
+#import "SpeedupItemsFiller.h"
 
 #import "FullEvent.h"
 @interface ResearchPrereqView : UpgradePrereqView
@@ -18,17 +19,14 @@
 
 @interface ResearchInfoView : UIView
 
-- (void) updateLabels;
-
 @property (nonatomic, assign) IBOutlet UIView *cashButtonView;
 @property (nonatomic, assign) IBOutlet UIView *oilButtonView;
 @property (nonatomic, assign) IBOutlet UIView *finishButtonView;
 @property (nonatomic, assign) IBOutlet UIView *helpButtonView;
 
-@property (weak, nonatomic) IBOutlet NiceFontLabel12B *finishFreeLabel;
-@property (weak, nonatomic) IBOutlet UIImageView *finishSpeedupIcon;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *finishActivityIndicator;
-@property (weak, nonatomic) IBOutlet GeneralButton *finishButton;
+@property (nonatomic, assign) IBOutlet NiceFontLabel12B *finishFreeLabel;
+@property (nonatomic, assign) IBOutlet UIImageView *finishSpeedupIcon;
+@property (nonatomic, assign) IBOutlet GeneralButton *finishButton;
 
 @property (nonatomic, assign) IBOutlet NiceFontLabel12 *cashButtonLabel;
 @property (nonatomic, assign) IBOutlet NiceFontLabel12 *oilButtonLabel;
@@ -62,13 +60,21 @@
 
 @end
 
-@interface ResearchInfoViewController : PopupSubViewController {
+@interface ResearchInfoViewController : PopupSubViewController <SpeedupItemsFillerDelegate, ResourceItemsFillerDelegate>{
   UserResearch *_userResearch;
+  BOOL _waitingForServer;
 }
+
+@property (nonatomic, retain) SpeedupItemsFiller *speedupItemsFiller;
+@property (nonatomic, retain) ItemSelectViewController *itemSelectViewController;
+@property (nonatomic, retain) ResourceItemsFiller *resourceItemsFiller;
 
 -(id)initWithResearch:(UserResearch *)userResearch;
 - (void) updateLabels;
+- (void) waitTimeComplete;
 - (void) handlePerformResearchResponseProto:(FullEvent *)fe;
+- (void) handleFinishPerformingResearchResponseProto:(FullEvent *)fe;
+- (NSString *)titleName;
 
 @property (nonatomic, assign) IBOutlet ResearchInfoView *view;
 

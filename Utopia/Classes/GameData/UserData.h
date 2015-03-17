@@ -366,7 +366,6 @@ typedef enum {
 
 @property (nonatomic, retain) NSString *userResearchUuid;
 @property (nonatomic, assign) int researchId;
-@property (nonatomic, assign) int64_t timePurchased;
 @property (nonatomic, assign) BOOL complete;
 @property (nonatomic, retain) MSDate *endTime;
 @property (nonatomic, retain) ResearchProto *research;
@@ -374,8 +373,7 @@ typedef enum {
 + (id) userResearchWithProto:(UserResearchProto *)proto;
 + (id) userResearchWithResearch:(ResearchProto *)proto;
 - (id) initWithResearch:(ResearchProto *)proto;
-
 - (void) updateForUserResearch:(UserResearch *)UserResearch;
-
-- (BOOL)isResearching;
+- (BOOL) isResearching;
+- (void) updateEndTime;
 @end

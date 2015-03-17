@@ -355,7 +355,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       responseClass = [PerformResearchResponseProto class];
       break;
     case EventProtocolResponseSFinishPerformingResearchEvent:
-      responseClass = [FinishPerformingResearchRequestProto class];
+      responseClass = [FinishPerformingResearchResponseProto class];
       break;
     default:
       responseClass = nil;
@@ -463,6 +463,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     gs.itemUtil = [[ItemUtil alloc] initWithItemProtos:proto.userItemsList itemUsageProtos:proto.itemsInUseList];
     gs.researchUtil = [[ResearchUtil alloc] initWithResearches:proto.userResearchsList];
     gs.mySecretGifts = [proto.giftsList mutableCopy];
+    
+    [gs beginResearchTimer];
     
     [gs.fbUnacceptedRequestsFromFriends removeAllObjects];
     [gs.fbAcceptedRequestsFromMe removeAllObjects];
@@ -799,6 +801,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [gs beginHealingTimer];
       [gs beginMiniJobTimerShowFreeSpeedupImmediately:YES];
       [gs beginEnhanceTimer];
+      [gs beginResearchTimer];
       
       [gs removeNonFullUserUpdatesForTag:tag];
       
@@ -2387,8 +2390,33 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 #pragma mark - Research
 
 - (void) handlePerformResearchResponseProto:(FullEvent *)fe {
+  GameState *gs = [GameState sharedGameState];
   PerformResearchResponseProto *proto = (PerformResearchResponseProto *)fe.event;
-  
+  if(proto.status == PerformResearchResponseProto_PerformResearchStatusSuccess) {
+    [[gs researchUtil] currentResearch].userResearchUuid = proto.userResearchUuid;
+    [gs removeNonFullUserUpdatesForTag:fe.tag];
+    [[NSNotificationCenter defaultCenter] postNotificationName:RESEARCH_CHANGED_NOTIFICATION object:nil];
+  } else {
+    [Globals popupMessage:@"Server failed to redeem research."];
+    
+    [gs.researchUtil cancelCurrentResearch];
+    
+    [gs removeAndUndoAllUpdatesForTag:fe.tag];
+  }
+}
+
+- (void) handleFinishPerformingResearchResponseProto:(FullEvent *)fe {
+  GameState *gs = [GameState sharedGameState];
+  FinishPerformingResearchResponseProto *proto = (FinishPerformingResearchResponseProto *)fe.event;
+  if (proto.status == FinishPerformingResearchResponseProto_FinishPerformingResearchStatusSuccess) {
+    [gs.researchUtil researchForTimer].complete = YES;
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:RESEARCH_WAIT_COMPLETE_NOTIFICATION object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:RESEARCH_CHANGED_NOTIFICATION object:nil];
+  } else {
+    [Globals popupMessage:@"Server failed ro redeem research."];
+    [gs removeAndUndoAllUpdatesForTag:fe.tag];
+  }
 }
 
 @end

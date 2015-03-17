@@ -1397,6 +1397,19 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
+- (void) solicitResearchHelp:(UserResearch *)userResearch {
+  GameState *gs = [GameState sharedGameState];
+  
+  ClanHelpNoticeProto_Builder *notice = [ClanHelpNoticeProto builder];
+  notice.HelpType = GameActionTypePerformingResearch;
+  notice.userDataUuid = userResearch.userResearchUuid;
+  notice.staticDataId = userResearch.researchId;
+  
+  if ([gs.clanHelpUtil getNumClanHelpsForType:notice.helpType userDataUuid:notice.userDataUuid] < 0) {
+    [self solicitClanHelp:@[notice.build]];
+  }
+}
+
 - (void) solicitHealHelp:(HospitalQueue *)hq {
   GameState *gs = [GameState sharedGameState];
   
@@ -1686,6 +1699,23 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   if (!ue.startTime) {
     [Globals popupMessage:@"Trying to speedup invalid evolution."];
+  } else {
+    [self tradeItemForSpeedup:@[bldr.build]];
+  }
+}
+
+- (void) tradeItemForSpeedup:(int)itemId userResearch:(UserResearch *)ur {
+  GameState *gs = [GameState sharedGameState];
+  
+  UserItemUsageProto_Builder *bldr = [UserItemUsageProto builder];
+  bldr.userUuid = gs.userUuid;
+  bldr.actionType = GameActionTypePerformingResearch;
+  bldr.userDataUuid = ur.userResearchUuid;
+  bldr.itemId = itemId;
+  bldr.timeOfEntry = [self getCurrentMilliseconds];
+  
+  if (!ur.endTime) {
+    [Globals popupMessage:@"Trying to speedup invalid Research."];
   } else {
     [self tradeItemForSpeedup:@[bldr.build]];
   }
@@ -3332,11 +3362,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   switch (resourceType) {
     case ResourceTypeOil:
       if(gs.oil < resourceCost) {
+        [Globals popupMessage:@"Attempting to start research with not enough oil"];
         return nil;
       }
       break;
       case ResourceTypeCash:
-      if (gs.cash < -resourceCost) {
+      if (gs.cash < resourceCost) {
+        [Globals popupMessage:@"Attempting to start research with not enough cash"];
         return nil;
       }
     default:
@@ -3349,33 +3381,43 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   uint64_t ms = [self getCurrentMilliseconds];
   int tag = [[SocketCommunication sharedSocketCommunication] sendBeginResearchMessage:userResearch.researchId uuid:userResearch.userResearchUuid clientTime:ms gems:gems resourceType:resourceType resourceCost:resourceCost];
-  
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
   
   GemsUpdate *gu = [GemsUpdate updateWithTag:tag change:-gems];
   if(resourceType == ResourceTypeCash) {
-    CashUpdate *cu = [CashUpdate updateWithTag:tag change:resourceCost];
+    CashUpdate *cu = [CashUpdate updateWithTag:tag change:-resourceCost];
     [gs addUnrespondedUpdates:cu,gu, nil];
   } else if (resourceType == ResourceTypeOil) {
-    OilUpdate *ou = [OilUpdate updateWithTag:tag change:resourceCost];
+    OilUpdate *ou = [OilUpdate updateWithTag:tag change:-resourceCost];
     [gs addUnrespondedUpdates:ou,gu, nil];
   }
-  return [[UserResearch alloc] initWithResearch:userResearch.research];
+  UserResearch *newUserResearch = [[UserResearch alloc] initWithResearch:userResearch.research];
+  newUserResearch.timeStarted = [MSDate date];
+  [newUserResearch updateEndTime];
+  
+  newUserResearch.userResearchUuid = userResearch.userResearchUuid;
+  [gs.researchUtil startResearch:newUserResearch];
+  [gs beginResearchTimer];
+  
+  return newUserResearch;
 }
 
--(BOOL) finishResearch:(UserResearch *)userResearch gemsSpent:(int)gems delegate:(id)delegate{
+-(UserResearch *) finishResearch:(UserResearch *)userResearch gemsSpent:(int)gems delegate:(id)delegate{
   GameState *gs = [GameState sharedGameState];
   if(gs.gems < gems) {
-    return NO;
+    return nil;
   }
   int tag = [[SocketCommunication sharedSocketCommunication] sendFinishPerformingResearchRequestProto:userResearch.userResearchUuid gemsSpent:gems];
-  
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
   
   GemsUpdate *gu = [GemsUpdate updateWithTag:tag change:-gems];
   [gs addUnrespondedUpdate:gu];
+  [gs.clanHelpUtil cleanupRogueClanHelps];
   
-  return YES;
+  UserResearch *newUserResearch = [[UserResearch alloc] initWithResearch:userResearch.research];
+  newUserResearch.complete = YES;
+  
+  return userResearch;
 }
 
 #pragma mark - Mini Jobs

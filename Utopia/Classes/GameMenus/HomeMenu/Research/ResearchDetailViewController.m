@@ -59,9 +59,9 @@
   cell = [tableView dequeueReusableCellWithIdentifier:@"ResearchDetailViewCell"];
   if (!cell) {
     cell = [[NSBundle mainBundle] loadNibNamed:@"ResearchDetailViewCell" owner:self options:nil][0];
-    cell.line = [UIImage imageWithCGImage:cell.line.CGImage
-                                    scale:cell.line.scale
-                              orientation:UIImageOrientationDownMirrored];
+//    cell.line = [UIImage imageWithCGImage:cell.line.CGImage
+//                                    scale:cell.line.scale
+//                              orientation:UIImageOrientationDownMirrored];
   }
   
   if (research.researchId == _userResearch.researchId) {

@@ -34,14 +34,23 @@
   [self.userResearches addObject:userResearch];
 }
 
--(UserResearch *) currentResearch {
-  if (_curResearch) {
-    //make sure _curResearching is in fact researching
-    if([self.userResearches containsObject:_curResearch] && !_curResearch.complete) {
-      return _curResearch;
-    } else {
-      _curResearch = nil;
+-(UserResearch *) researchForTimer {
+  //to be used only for starting the gameState timer
+  //returns potentially expired researches
+  //with the goal of having the timer complete them
+  for (UserResearch *ur in self.userResearches) {
+    if( !ur.complete && ur.timeStarted && ur.endTime) {
+      return ur;
     }
+  }
+  return nil;
+}
+
+-(UserResearch *) currentResearch {
+  if (_curResearch && !_curResearch.complete) {
+    return _curResearch;
+  } else {
+    _curResearch = nil;
   }
   
   for (UserResearch *ur in self.userResearches) {
@@ -64,14 +73,55 @@
 
 -(BOOL)prerequisiteFullfilledForResearch:(ResearchProto *)research {
   UserResearch *userResearch = [self userResearchForProto:research];
+  UserResearch *curRank = [self currentRankForResearch:research];
+  if (curRank.research.level > research.level) {
+    return YES;
+  } else if(curRank.research.level < research.level) {
+    return NO;
+  }
   if (userResearch) {
     return userResearch.complete;
   }
-  ResearchProto *successor = [userResearch.research successorResearch];
-  if (successor) {
-    return [self prerequisiteFullfilledForResearch:successor];
-  }
   return NO;
+}
+
+-(UserResearch *)currentRankForResearch:(ResearchProto *) research {
+  UserResearch *result = [self findCurRankForResearch:[UserResearch userResearchWithResearch:[research minLevelResearch]]];
+  return result ? result : [UserResearch userResearchWithResearch: [research minLevelResearch]];
+}
+
+-(UserResearch *)findCurRankForResearch:(UserResearch *) userResearch {
+  ResearchProto *succesorResearch = [userResearch.research successorResearch];
+  if (userResearch.isResearching){
+    return userResearch;
+  }
+  if (userResearch.complete) {
+    if (succesorResearch) {
+      UserResearch *nextResearch = [UserResearch userResearchWithResearch:succesorResearch];
+      nextResearch.userResearchUuid = userResearch.userResearchUuid;
+      return nextResearch;
+    } else {
+      return userResearch;
+    }
+  } else if (succesorResearch) {
+    return [self findCurRankForResearch:[UserResearch userResearchWithResearch:succesorResearch]];
+  }
+  return nil;
+}
+
+-(void)cancelCurrentResearch {
+  for (UserResearch *ur in self.userResearches) {
+    if ([ur isResearching]) {
+      NSString *userDataId = ur.userResearchUuid;
+      [ur updateForUserResearch:[UserResearch userResearchWithResearch:[ur.research predecessorResearch]]];
+      ur.timeStarted = nil;
+      ur.complete = YES;
+      ur.userResearchUuid = userDataId;
+      [ur updateEndTime];
+      _curResearch = nil;
+      return;
+    }
+  }
 }
 
 @end
