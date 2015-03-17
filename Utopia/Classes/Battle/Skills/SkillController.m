@@ -373,6 +373,35 @@
 
 #pragma mark - UI
 
+- (void)enqueueSkillPopup:(SkillPopupData *)skillPopupData
+{
+  if (_currentSkillPopup)
+  {
+    if (skillPopupData.priority > _currentSkillPopup.priority)
+    {
+      [self quickHideSkillPopup];
+      skillPopupData.next = _currentSkillPopup;
+      _currentSkillPopup = skillPopupData;
+      [self showCurrentSkillPopup];
+    }
+    else
+    {
+      [_currentSkillPopup enqueue:skillPopupData];
+    }
+  }
+  else
+  {
+    _currentSkillPopup = skillPopupData;
+    [self showCurrentSkillPopup];
+  }
+}
+
+- (NSString*) skillName
+{
+  SkillProto* skillProto = [[GameState sharedGameState].staticSkills objectForKey:[NSNumber numberWithInteger:_skillId]];
+  return skillProto.name;
+}
+
 - (NSString*) processSkillDescription:(NSString*)desc
 {
   return desc;
@@ -401,6 +430,41 @@
 - (void) showSkillAilmentOverlayInternal:(NSString*)ailmentName
 {
   [self showSkillPopupOverlayInternal:YES topText:ailmentName onUser:NO];
+}
+
+- (void) showCurrentSkillPopup
+{
+  if (!_currentSkillPopup) return;
+  
+  // Create overlay
+  UIView *parentView = self.battleLayer.hudView;
+  _popupOverlay = [[[NSBundle mainBundle] loadNibNamed:_currentSkillPopup.miniPopup ? @"SkillPopupMiniOverlay" : @"SkillPopupOverlay" owner:self options:nil] objectAtIndex:0];
+  [_popupOverlay setBounds:parentView.bounds];
+  [_popupOverlay setOrigin:CGPointMake((parentView.width - _popupOverlay.width)/2, (parentView.height - _popupOverlay.height)/2)];
+  [parentView addSubview:_popupOverlay];
+  
+  SkillPopupOverlay *tempPopup = _popupOverlay;
+  
+  [_popupOverlay animate:_currentSkillPopup.player withImage:_currentSkillPopup.characterImage.image topText:_currentSkillPopup.topText
+              bottomText:_currentSkillPopup.bottomText miniPopup:_currentSkillPopup.miniPopup withCompletion:
+   ^{
+     // Hide popup and call block, if it hasn't been hidden yet
+     if (_popupOverlay == tempPopup)
+     {
+       [self hideSkillPopupOverlayInternal];
+       _popupOverlay = nil;
+     }
+   }];
+  
+  // Hide pieces of battle hud
+  if (self.belongsToPlayer)
+  {
+    [UIView animateWithDuration:0.1 animations:^{
+      self.battleLayer.hudView.bottomView.alpha = 0.0;
+    } completion:^(BOOL finished) {
+      self.battleLayer.hudView.bottomView.hidden = YES;
+    }];
+  }
 }
 
 - (void) showSkillPopupOverlayInternal:(BOOL)mini topText:(NSString*)topText onUser:(BOOL)onUser
@@ -455,22 +519,36 @@
       }];
     }
     
-    _callbackBlockForPopup();
+    _currentSkillPopup = _currentSkillPopup.next;
+    
+    if (!_currentSkillPopup)
+      _callbackBlockForPopup();
+    else
+      [self showCurrentSkillPopup];
   };
   
   // Hide overlay
-  [_popupOverlay hideWithCompletion:newCompletion forPlayer:_belongsToPlayer];
+  [_popupOverlay hideWithCompletion:newCompletion forPlayer:_currentSkillPopup.player];
+}
+
+- (void) quickHideSkillPopup
+{
+  [_popupOverlay quickHide:_belongsToPlayer];
 }
 
 - (void) showSkillPopupOverlay:(BOOL)jumpFirst withCompletion:(SkillPopupBlock)completion
 {
+  SkillPopupData *data = [SkillPopupData initWithData:self.belongsToPlayer characterImage:self.userPlayer.characterImage topText:[self skillName] bottomText:[self processedSkillDescription] mini:NO completion:completion];
   _callbackBlockForPopup = completion;
-  _popupBottomText = nil;
+  [self enqueueSkillPopup:data];
   
-  if (jumpFirst)
-    [self makeSkillOwnerJumpWithTarget:self selector:@selector(showSkillPopupOverlayInternal)];
-  else
-    [self showSkillPopupOverlayInternal];
+//  _callbackBlockForPopup = completion;
+//  _popupBottomText = nil;
+//  
+//  if (jumpFirst)
+//    [self makeSkillOwnerJumpWithTarget:self selector:@selector(showSkillPopupOverlayInternal)];
+//  else
+//    [self showSkillPopupOverlayInternal];
 }
 
 - (void) showSkillPopupMiniOverlay:(NSString *)bottomText
@@ -490,24 +568,35 @@
 
 - (void) showSkillPopupAilmentOverlay:(BOOL)jumpFirst topText:(NSString*)topText bottomText:(NSString*)bottomText withCompletion:(SkillPopupBlock)completion
 {
-  _callbackBlockForPopup = completion;
-  _popupBottomText = bottomText;
+  SkillPopupData *data = [SkillPopupData initWithData:!self.belongsToPlayer characterImage:self.opponentPlayer.characterImage topText:topText bottomText:bottomText mini:YES completion:completion];
   
-  if (jumpFirst)
-    [self makeSkillOwnerJumpWithTarget:self selector:@selector(showSkillPopupMiniOverlayInternal)];
+  data.priority = 1;
+  _callbackBlockForPopup = completion;
+  
+  SkillController *opponentSkillController = self.belongsToPlayer ? ([skillManager enemySkillControler]) : ([skillManager playerSkillControler]);
+  if (opponentSkillController)
+  {
+    [opponentSkillController enqueueSkillPopup:data];
+  }
   else
-    [self showSkillAilmentOverlayInternal:topText];
+  {
+    [self enqueueSkillPopup:data];
+  }
 }
 
 - (void) showSkillPopupMiniOverlay:(BOOL)jumpFirst bottomText:(NSString*)bottomText withCompletion:(SkillPopupBlock)completion
 {
+  SkillPopupData *data = [SkillPopupData initWithData:self.belongsToPlayer characterImage:self.userPlayer.characterImage topText:[self skillName] bottomText:bottomText mini:YES completion:completion];
   _callbackBlockForPopup = completion;
-  _popupBottomText = bottomText;
+  [self enqueueSkillPopup:data];
   
-  if (jumpFirst)
-    [self makeSkillOwnerJumpWithTarget:self selector:@selector(showSkillPopupMiniOverlayInternal)];
-  else
-    [self showSkillPopupMiniOverlayInternal];
+//  _callbackBlockForPopup = completion;
+//  _popupBottomText = bottomText;
+//  
+//  if (jumpFirst)
+//    [self makeSkillOwnerJumpWithTarget:self selector:@selector(showSkillPopupMiniOverlayInternal)];
+//  else
+//    [self showSkillPopupMiniOverlayInternal];
 }
 
 - (void) makeSkillOwnerJumpWithTarget:(id)target selector:(SEL)completion

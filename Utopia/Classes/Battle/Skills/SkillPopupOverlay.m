@@ -24,6 +24,40 @@
 
 typedef void (^ShakeAnimCompletionBlock)(void);
 
+@implementation SkillPopupData
+
++ (instancetype)initWithData:(BOOL)player characterImage:(UIImageView *)characterImage topText:(NSString *)topText bottomText:(NSString *)bottomText mini:(BOOL)mini completion:(SkillPopupBlock)completion
+{
+  SkillPopupData *data = [SkillPopupData alloc];
+  data.player = player;
+  data.characterImage = characterImage;
+  data.topText = topText;
+  data.bottomText = bottomText;
+  data.miniPopup = mini;
+  data.completion = completion;
+  data.priority = 0;
+  return data;
+}
+
+- (void)enqueue:(SkillPopupData*)other
+{
+  if (!self.next)
+  {
+    self.next = other;
+  }
+  else if (self.next.priority < other.priority)
+  {
+    other.next = self.next;
+    self.next = other;
+  }
+  else
+  {
+    [self.next enqueue:other];
+  }
+}
+
+@end
+
 @implementation SkillPopupOverlay
 
 - (id)initWithCoder:(NSCoder *)aDecoder
@@ -135,6 +169,11 @@ typedef void (^ShakeAnimCompletionBlock)(void);
   }];
   
   [self setAlpha:1.f];
+}
+
+- (void) quickHide:(BOOL)player
+{
+  [self removeFromSuperview];
 }
 
 - (void) hideWithCompletion:(SkillPopupBlock)completion forPlayer:(BOOL)player
