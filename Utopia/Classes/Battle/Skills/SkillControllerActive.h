@@ -16,6 +16,7 @@
 
 - (BOOL) doesRefresh;
 - (BOOL) isActive;
+- (BOOL) doesStack;
 
 - (BOOL) activate;
 

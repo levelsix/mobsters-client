@@ -154,6 +154,7 @@
 
 - (BOOL) onDurationEnd
 {
+  _stacks = 0;
   [self removeVisualEffects];
   if (![self doesRefresh])
     [self resetOrbCounter];
