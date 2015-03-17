@@ -131,11 +131,6 @@
   return damage;
 }
 
-- (BOOL) ticksOnPlayerTurn
-{
-  return self.belongsToPlayer == (_missChance > 0 || _critChance > 0);
-}
-
 -(void)showCriticalHit
 {
   [self showSkillPopupMiniOverlay:[NSString stringWithFormat:@"%.3gX DMG", _critMultiplier]];
