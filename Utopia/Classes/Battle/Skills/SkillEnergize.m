@@ -56,6 +56,11 @@
   return YES;
 }
 
+- (BOOL)doesStack
+{
+  return self.belongsToPlayer;
+}
+
 - (BOOL)keepColor
 {
   return NO;
@@ -82,8 +87,9 @@
 {
   _curSpeedMultiplier += _speedIncrease * numOrbs;
   _curAttackMultiplier += _attackIncrease * numOrbs;
+  _stacks += numOrbs;
   
-  [self showSkillPopupMiniOverlay:[NSString stringWithFormat:@"+%.3g ATK / +%.3g SPD", (_attackIncrease * numOrbs), (_speedIncrease * numOrbs)]];
+  [self showSkillPopupMiniOverlay:[NSString stringWithFormat:@"+%.3gX ATK / +%.3gX SPD", (_attackIncrease * numOrbs), (_speedIncrease * numOrbs)]];
   
   [self updateSkillOwnerSpeed];
   
