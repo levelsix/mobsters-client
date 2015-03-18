@@ -21,8 +21,6 @@
   [super setDefaultValues];
   _critChancePerOrb = 0.25;
   _critDamageMultiplier = 2;
-  
-  _playerCritStacks = 0;
 }
 
 - (void) setValue:(float)value forProperty:(NSString*)property
@@ -49,27 +47,15 @@
   return YES;
 }
 
-- (BOOL) activate
+- (BOOL)doesStack
 {
-  if (self.belongsToPlayer)
-  {
-    _playerCritStacks++;
-  }
-  return [super activate];
-}
-
-- (BOOL)onDurationEnd
-{
-  if (self.belongsToPlayer)
-  {
-    _playerCritStacks = 0;
-  }
-  return [super onDurationEnd];
+  return YES;
 }
 
 - (NSInteger) modifyDamage:(NSInteger)damage forPlayer:(BOOL)player
 {
   _orbsSpawned = (int)[self specialsOnBoardCount:SpecialOrbTypeTakeAim];
+  _stacks = _orbsSpawned;
   if (!player && !self.belongsToPlayer && _orbsSpawned)
   {
     float rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
@@ -82,14 +68,14 @@
   else if (player && self.belongsToPlayer && [self isActive])
   {
     float rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
-    if (rand < (_playerCritChance * _playerCritStacks))
+    if (rand < (_playerCritChance * _stacks))
     {
       [self showCriticalHit];
       damage = damage * _critDamageMultiplier;
     }
     [self tickDuration];
   }
-  
+  _stacks = 0; //Don't ask
   return damage;
 }
 
@@ -98,27 +84,6 @@
 -(void)showCriticalHit
 {
   [self showSkillPopupMiniOverlay:[NSString stringWithFormat:@"%.3gX DMG", _critDamageMultiplier]];
-}
-
-#pragma mark - Serialization
-
-- (NSDictionary*) serialize
-{
-  NSMutableDictionary* result = [NSMutableDictionary dictionaryWithDictionary:[super serialize]];
-  [result setObject:@(_playerCritStacks) forKey:@"playerCritStacks"];
-  return result;
-}
-
-- (BOOL) deserialize:(NSDictionary*)dict
-{
-  if (! [super deserialize:dict])
-    return NO;
-  
-  NSNumber* playerCritStacks = [dict objectForKey:@"playerCritStacks"];
-  if (playerCritStacks)
-    _playerCritStacks = [playerCritStacks floatValue];
-  
-  return YES;
 }
 
 @end
