@@ -92,6 +92,19 @@
   return NO;
 }
 
+- (void)addVisualEffects:(BOOL)finishSkillTrigger
+{
+  [self addSkillSideEffectToSkillOwner:SideEffectTypeBuffHammerTime turnsAffected:self.turnsLeft turnsAreSkillOwners:[self tickTrigger] == TickTriggerAfterUserTurn];
+
+  if (finishSkillTrigger)
+    [self skillTriggerFinished:YES];
+}
+
+- (void)removeVisualEffects
+{
+  [self removeSkillSideEffectFromSkillOwner:SideEffectTypeBuffHammerTime];
+}
+
 - (void) stunOpponent
 {
   self.opponentPlayer.isStunned = YES;
