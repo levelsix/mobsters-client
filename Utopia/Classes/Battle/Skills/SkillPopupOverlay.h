@@ -23,7 +23,7 @@ typedef void(^SkillPopupBlock)();
 @property (nonatomic, assign) BOOL miniPopup;
 @property (nonatomic, retain) SkillPopupData *next;
 @property (nonatomic, assign) float priority;
-@property (nonatomic, assign) SkillPopupBlock completion;
+@property (nonatomic, assign) SkillPopupBlock skillCompletion;
 @property (nonatomic, assign) int stacks;
 
 + (instancetype) initWithData:(BOOL)player characterImage:(UIImageView*)characterImage topText:(NSString*)topText bottomText:(NSString*)bottomText

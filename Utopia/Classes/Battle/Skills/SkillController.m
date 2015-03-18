@@ -373,6 +373,12 @@
 
 #pragma mark - UI
 
+- (void)enqueueSkillPopup:(SkillPopupData *)skillPopupData withCompletion:(SkillPopupBlock)completion
+{
+  _callbackBlockForPopup = completion;
+  [self enqueueSkillPopup:skillPopupData];
+}
+
 - (void)enqueueSkillPopup:(SkillPopupData *)skillPopupData
 {
   if (_currentSkillPopup)
@@ -382,7 +388,6 @@
       [self quickHideSkillPopup];
       skillPopupData.next = _currentSkillPopup;
       _currentSkillPopup = skillPopupData;
-      [self showCurrentSkillPopup];
     }
     else
     {
@@ -392,7 +397,6 @@
   else
   {
     _currentSkillPopup = skillPopupData;
-    [self showCurrentSkillPopup];
   }
 }
 
@@ -523,7 +527,10 @@
     
     if (!_currentSkillPopup){
       if (_callbackBlockForPopup)
+      {
         _callbackBlockForPopup();
+        _callbackBlockForPopup = nil;
+      }
     }
     else
       [self showCurrentSkillPopup];
@@ -544,13 +551,10 @@
   _callbackBlockForPopup = completion;
   [self enqueueSkillPopup:data];
   
-//  _callbackBlockForPopup = completion;
-//  _popupBottomText = nil;
-//  
-//  if (jumpFirst)
-//    [self makeSkillOwnerJumpWithTarget:self selector:@selector(showSkillPopupOverlayInternal)];
-//  else
-//    [self showSkillPopupOverlayInternal];
+  if (jumpFirst)
+    [self makeSkillOwnerJumpWithTarget:self selector:@selector(showCurrentSkillPopup)];
+  else
+    [self showCurrentSkillPopup];
 }
 
 - (void) showSkillPopupMiniOverlay:(NSString *)bottomText
@@ -573,16 +577,18 @@
   SkillPopupData *data = [SkillPopupData initWithData:!self.belongsToPlayer characterImage:self.opponentPlayer.characterImage topText:topText bottomText:bottomText mini:YES stacks:_stacks completion:completion];
   
   data.priority = 1;
-  _callbackBlockForPopup = completion;
   
   SkillController *opponentSkillController = self.belongsToPlayer ? ([skillManager enemySkillControler]) : ([skillManager playerSkillControler]);
   if (opponentSkillController)
   {
-    [opponentSkillController enqueueSkillPopup:data];
+    [opponentSkillController enqueueSkillPopup:data withCompletion:completion];
+    [opponentSkillController showCurrentSkillPopup];
   }
   else
   {
+    _callbackBlockForPopup = completion;
     [self enqueueSkillPopup:data];
+    [self showCurrentSkillPopup];
   }
 }
 
@@ -592,13 +598,10 @@
   _callbackBlockForPopup = completion;
   [self enqueueSkillPopup:data];
   
-//  _callbackBlockForPopup = completion;
-//  _popupBottomText = bottomText;
-//  
-//  if (jumpFirst)
-//    [self makeSkillOwnerJumpWithTarget:self selector:@selector(showSkillPopupMiniOverlayInternal)];
-//  else
-//    [self showSkillPopupMiniOverlayInternal];
+  if (jumpFirst)
+    [self makeSkillOwnerJumpWithTarget:self selector:@selector(showCurrentSkillPopup)];
+  else
+    [self showCurrentSkillPopup];
 }
 
 - (void) makeSkillOwnerJumpWithTarget:(id)target selector:(SEL)completion

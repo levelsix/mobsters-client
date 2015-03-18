@@ -34,7 +34,7 @@ typedef void (^ShakeAnimCompletionBlock)(void);
   data.topText = topText;
   data.bottomText = bottomText;
   data.miniPopup = mini;
-  data.completion = completion;
+  data.skillCompletion = completion;
   data.stacks = stacks;
   data.priority = 0;
   return data;
