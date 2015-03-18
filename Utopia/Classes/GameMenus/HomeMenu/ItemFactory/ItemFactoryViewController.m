@@ -14,6 +14,9 @@
 #import "GameViewController.h"
 #import "OutgoingEventController.h"
 
+#define ACTIVE_BUTTON_TAB_COLOR @"0A9ED7"
+#define INACTIVE_BUTTON_TAB_COLOR @"A2A2A2"
+
 @interface ItemFactoryViewController ()
 
 @end
@@ -75,7 +78,7 @@
 - (void) reloadTitleView {
   GameState *gs = [GameState sharedGameState];
   
-  BattleItemFactoryProto *factory = (BattleItemFactoryProto *)gs.myBattleItemFactory.staticStruct;
+  BattleItemFactoryProto *factory = (BattleItemFactoryProto *)gs.myBattleItemFactory.staticStructForCurrentConstructionLevel;
   NSString *str = [NSString stringWithFormat:@"%@ (%d/%d POWER)", factory.structInfo.name.uppercaseString, self.battleItemUtil.totalPowerAmount, factory.powerLimit];
   self.title = str;
   
@@ -164,7 +167,7 @@
   for (BattleItemProto *item in gs.staticBattleItems.allValues) {
     if (_scope == ItemFactoryScopeAll ||
         (_scope == ItemFactoryScopePotions && item.battleItemCategory == BattleItemCategoryPotion) ||
-        (_scope == ItemFactoryScopePotions && item.battleItemCategory == BattleItemCategoryPuzzle)) {
+        (_scope == ItemFactoryScopePuzzle && item.battleItemCategory == BattleItemCategoryPuzzle)) {
       [avail addObject:item];
     }
   }
@@ -176,6 +179,46 @@
   self.itemList = avail;
 }
 
+#pragma mark - Scope
+
+- (IBAction) scopeTabClicked:(id)sender {
+  float pointSize = self.allItemsTabButton.titleLabel.font.pointSize;
+  
+  UIFont *regFont = [UIFont fontWithName:@"Gotham-Medium" size:pointSize];
+  self.allItemsTabButton.titleLabel.font = regFont;
+  self.potionsTabButton.titleLabel.font = regFont;
+  self.puzzleTabButton.titleLabel.font = regFont;
+  
+  [self.allItemsTabButton setTitleColor:[UIColor colorWithHexString:INACTIVE_BUTTON_TAB_COLOR] forState:UIControlStateNormal];
+  [self.potionsTabButton setTitleColor:[UIColor colorWithHexString:INACTIVE_BUTTON_TAB_COLOR] forState:UIControlStateNormal];
+  [self.puzzleTabButton setTitleColor:[UIColor colorWithHexString:INACTIVE_BUTTON_TAB_COLOR] forState:UIControlStateNormal];
+  
+  UIButton *senderButton = (UIButton*)sender;
+  
+  UIFont *highlightedFont = [UIFont fontWithName:@"Gotham-Bold" size:pointSize];
+  switch (senderButton.tag) {
+    case 1:
+      _scope = ItemFactoryScopeAll;
+      self.allItemsTabButton.titleLabel.font = highlightedFont;
+      [self.allItemsTabButton setTitleColor:[UIColor colorWithHexString:ACTIVE_BUTTON_TAB_COLOR] forState:UIControlStateNormal];
+      break;
+    case 2:
+      _scope = ItemFactoryScopePotions;
+      self.potionsTabButton.titleLabel.font = highlightedFont;
+      [self.potionsTabButton setTitleColor:[UIColor colorWithHexString:ACTIVE_BUTTON_TAB_COLOR] forState:UIControlStateNormal];
+      break;
+    case 3:
+      _scope = ItemFactoryScopePuzzle;
+      self.puzzleTabButton.titleLabel.font = highlightedFont;
+      [self.puzzleTabButton setTitleColor:[UIColor colorWithHexString:ACTIVE_BUTTON_TAB_COLOR] forState:UIControlStateNormal];
+      break;
+      
+    default:
+      break;
+  }
+  
+  [self reloadListViewAnimated:YES];
+}
 
 #pragma mark - MonsterListView delegate
 
@@ -186,6 +229,15 @@
 
 - (void) addBattleItemToQueue:(BattleItemProto *)bip indexPath:(NSIndexPath*)indexPath {
   GameState *gs = [GameState sharedGameState];
+  
+  // Check if item is below power limit
+  BattleItemFactoryProto *factory = (BattleItemFactoryProto *)gs.myBattleItemFactory.staticStructForCurrentConstructionLevel;
+  int totalPower = self.battleItemUtil.totalPowerAmount;
+  int powerLimit = factory.powerLimit;
+  if (bip.powerAmount+totalPower > powerLimit) {
+    [Globals addAlertNotification:[NSString stringWithFormat:@"You need a higher Power Limit to create %@. Upgrade your %@!", bip.name, factory.structInfo.name]];
+    return;
+  }
   
   int cost = bip.createCost;
   int curAmount = bip.createResourceType == ResourceTypeCash ? gs.cash : gs.oil;
@@ -247,7 +299,7 @@
   }
 }
 
--(void)scrollViewDidEndScrollingAnimation:(UIScrollView*)scrollView
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView*)scrollView
 {
   const CGPoint invokingViewAbsolutePosition = [Globals convertPointToWindowCoordinates:_tempBgdImageView.frame.origin fromViewCoordinates:_tempBgdImageView.superview];
   ViewAnchoringDirection popupDirection = invokingViewAbsolutePosition.x < [Globals screenSize].width * .5f ? ViewAnchoringPreferRightPlacement : ViewAnchoringPreferLeftPlacement;
@@ -338,23 +390,25 @@
 
 - (void) animateBattleItemOutOfQueue:(BattleItemQueueObject *)item {
   BattleItemProto *bip = item.staticBattleItem;
-  int monsterIndex = (int)[self.listView.listObjects indexOfObject:bip];
-  NSIndexPath *ip = [NSIndexPath indexPathForRow:monsterIndex inSection:0];
-  MonsterListCell *cardCell = (MonsterListCell *)[self.listView.collectionView cellForItemAtIndexPath:ip];
-  
-  monsterIndex = (int)[self.queueView.listObjects indexOfObject:item];
-  MonsterQueueCell *queueCell = (MonsterQueueCell *)[self.queueView.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:monsterIndex inSection:0]];
-  
-  if (cardCell && queueCell) {
-    [self.queueCell updateForListObject:item];
-    [self.cardCell updateForListObject:bip];
+  NSInteger monsterIndex = [self.listView.listObjects indexOfObject:bip];
+  if (monsterIndex != NSNotFound) {
+    NSIndexPath *ip = [NSIndexPath indexPathForRow:monsterIndex inSection:0];
+    MonsterListCell *cardCell = (MonsterListCell *)[self.listView.collectionView cellForItemAtIndexPath:ip];
     
-    [self.view addSubview:self.queueCell];
-    [self.view insertSubview:self.cardCell belowSubview:self.queueView];
+    monsterIndex = (int)[self.queueView.listObjects indexOfObject:item];
+    MonsterQueueCell *queueCell = (MonsterQueueCell *)[self.queueView.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:monsterIndex inSection:0]];
     
-    [Globals animateStartView:queueCell toEndView:cardCell fakeStartView:self.queueCell fakeEndView:self.cardCell hideStartView:YES hideEndView:NO completion:nil];
-  } else {
-    [self.listView.collectionView scrollToItemAtIndexPath:ip atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
+    if (cardCell && queueCell) {
+      [self.queueCell updateForListObject:item];
+      [self.cardCell updateForListObject:bip];
+      
+      [self.view addSubview:self.queueCell];
+      [self.view insertSubview:self.cardCell belowSubview:self.queueView];
+      
+      [Globals animateStartView:queueCell toEndView:cardCell fakeStartView:self.queueCell fakeEndView:self.cardCell hideStartView:YES hideEndView:NO completion:nil];
+    } else  {
+      [self.listView.collectionView scrollToItemAtIndexPath:ip atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
+    }
   }
 }
 
@@ -492,9 +546,10 @@
 #pragma mark - Battle Item delegate
 
 - (IBAction) bagClicked:(id)sender {
-  BattleItemSelectViewController *svc = [[BattleItemSelectViewController alloc] init];
+  BattleItemSelectViewController *svc = [[BattleItemSelectViewController alloc] initWithShowUseButton:NO];
   if (svc) {
     svc.delegate = self;
+    self.popoverViewController = svc;
     
     GameViewController *gvc = [GameViewController baseController];
     svc.view.frame = gvc.view.bounds;
@@ -518,26 +573,75 @@
   }
 }
 
+- (void) listView:(ListCollectionView *)listView infoClickedAtIndexPath:(NSIndexPath *)indexPath {
+  BattleItemProto *bip = self.itemList[indexPath.row];
+  UserBattleItem *ubi = [self.battleItemUtil getUserBattleItemForBattleItemId:bip.battleItemId];
+  
+  if (!ubi) {
+    ubi = [[UserBattleItem alloc] init];
+    ubi.battleItemId = bip.battleItemId;
+  }
+  
+  ItemFactoryCardCell *cell = (ItemFactoryCardCell *)[listView.collectionView cellForItemAtIndexPath:indexPath];
+  id sender = [cell infoButton];
+  
+  BattleItemSelectViewController *svc = [[BattleItemSelectViewController alloc] initWithShowUseButton:NO];
+  [svc loadInfoViewForBattleItem:ubi animated:NO];
+  if (svc) {
+    svc.delegate = self;
+    self.popoverViewController = svc;
+    
+    GameViewController *gvc = [GameViewController baseController];
+    svc.view.frame = gvc.view.bounds;
+    [gvc addChildViewController:svc];
+    [gvc.view addSubview:svc.view];
+    
+    if (sender == nil)
+    {
+      [svc showCenteredOnScreen];
+    }
+    else
+    {
+      if ([sender isKindOfClass:[UIButton class]])
+      {
+        UIButton* invokingButton = (UIButton*)sender;
+        const CGPoint invokingViewAbsolutePosition = [Globals convertPointToWindowCoordinates:invokingButton.frame.origin fromViewCoordinates:invokingButton.superview];
+        ViewAnchoringDirection popupDirection = invokingViewAbsolutePosition.x < [Globals screenSize].width * .5f ? ViewAnchoringPreferRightPlacement : ViewAnchoringPreferLeftPlacement;
+        [svc showAnchoredToInvokingView:invokingButton
+                          withDirection:popupDirection
+                      inkovingViewImage:[Globals maskImage:[invokingButton imageForState:UIControlStateNormal] withColor:[UIColor whiteColor]]];
+      }
+    }
+  }
+}
+
 - (NSArray *) reloadBattleItemsArray {
-  return [self.battleItemUtil.battleItems copy];
+  // Don't send used ones
+  NSMutableArray *arr = [NSMutableArray array];
+  for (UserBattleItem *ubi in self.battleItemUtil.battleItems) {
+    if (ubi.quantity > 0) {
+      [arr addObject:ubi];
+    }
+  }
+  return arr;
 }
 
 - (float) progressBarPercent {
   GameState *gs = [GameState sharedGameState];
   
-  BattleItemFactoryProto *factory = (BattleItemFactoryProto *)gs.myBattleItemFactory.staticStruct;
+  BattleItemFactoryProto *factory = (BattleItemFactoryProto *)gs.myBattleItemFactory.staticStructForCurrentConstructionLevel;
   return self.battleItemUtil.currentPowerAmountFromCreatedItems/(float)factory.powerLimit;
 }
 
 - (NSString *) progressBarText {
   GameState *gs = [GameState sharedGameState];
   
-  BattleItemFactoryProto *factory = (BattleItemFactoryProto *)gs.myBattleItemFactory.staticStruct;
+  BattleItemFactoryProto *factory = (BattleItemFactoryProto *)gs.myBattleItemFactory.staticStructForCurrentConstructionLevel;
   return [NSString stringWithFormat:@"%d/%d POWER", self.battleItemUtil.currentPowerAmountFromCreatedItems, factory.powerLimit];
 }
 
-- (void) battleItemSelected:(UserBattleItem *)item viewController:(id)viewController {
-  NSLog(@"Meep");
+- (void) battleItemDiscarded:(UserBattleItem *)item {
+  [self reloadTitleView];
 }
 
 - (void) battleItemSelectClosed:(id)viewController {

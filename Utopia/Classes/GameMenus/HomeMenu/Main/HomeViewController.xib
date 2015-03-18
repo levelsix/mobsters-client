@@ -130,7 +130,7 @@
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
-                        <view contentMode="scaleToFill" id="S3h-7l-GTp">
+                        <view contentMode="scaleToFill" id="S3h-7l-GTp" customClass="TouchableSubviewsView">
                             <rect key="frame" x="164" y="-3" width="157" height="98"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>

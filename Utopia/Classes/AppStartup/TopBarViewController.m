@@ -502,25 +502,34 @@
     NSString *staticImgName = [NSString stringWithFormat:@"1gbhud.png"];
     UIImage *staticImg = [Globals imageNamed:staticImgName];
     
-    NSMutableArray *frames = [NSMutableArray array];
-    for (int a = 0; a < numTimesToLoop; a++) {
-      for (int i = 1; i <= numFrames; i++) {
-        NSString *imgName = [NSString stringWithFormat:@"%dgbhud.png", i];
-        UIImage *img = [Globals imageNamed:imgName];
-        [frames addObject:img];
+    NSMutableArray *frameNames = [NSMutableArray array];
+    for (int i = 2; i <= numFrames; i++) {
+      NSString *imgName = [NSString stringWithFormat:@"%dgbhud.png", i];
+      [frameNames addObject:imgName];
+    }
+    
+    [Globals checkAndLoadFiles:frameNames completion:^(BOOL success) {
+      
+      NSMutableArray *frames = [NSMutableArray array];
+      for (int a = 0; a < numTimesToLoop; a++) {
+        for (int i = 1; i <= numFrames; i++) {
+          NSString *imgName = [NSString stringWithFormat:@"%dgbhud.png", i];
+          UIImage *img = [Globals imageNamed:imgName];
+          [frames addObject:img];
+        }
+        
+        for (int i = 0; i < numFramesShortPause; i++) {
+          [frames addObject:staticImg];
+        }
       }
       
-      for (int i = 0; i < numFramesShortPause; i++) {
+      // 30 frames per second
+      for (int i = 0; i < numFramesLongPause; i++) {
         [frames addObject:staticImg];
       }
-    }
-    
-    // 30 frames per second
-    for (int i = 0; i < numFramesLongPause; i++) {
-      [frames addObject:staticImg];
-    }
-    
-    self.secretGiftIcon.animationImages = frames;
+      
+      self.secretGiftIcon.animationImages = frames;
+    }];
   }
 }
 

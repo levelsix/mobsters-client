@@ -2748,6 +2748,25 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [gs.itemUtil cleanupRogueItemUsages];
 }
 
+- (void) removeBattleItems:(NSArray *)battleItemIds {
+  GameState *gs = [GameState sharedGameState];
+  
+  for (NSNumber *num in battleItemIds) {
+    int battleItemId = num.intValue;
+    
+    UserBattleItem *ubi = [gs.battleItemUtil getUserBattleItemForBattleItemId:battleItemId];
+    
+    if (ubi.quantity <= 0) {
+      [Globals popupMessage:@"Trying to remove battle item without any quantity."];
+      return;
+    } else {
+      ubi.quantity--;
+    }
+  }
+  
+  [[SocketCommunication sharedSocketCommunication] sendDiscardBattleItemMessage:battleItemIds];
+}
+
 #pragma mark - Selling monsters
 
 - (void) sellUserMonsters:(NSArray *)userMonsterUuids {

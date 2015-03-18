@@ -102,6 +102,7 @@
                 <outlet property="bgdIcon" destination="ds0-rf-dcN" id="rdw-UJ-ei1"/>
                 <outlet property="cashIcon" destination="Ytw-H1-jtX" id="GgJ-fc-AhW"/>
                 <outlet property="costLabel" destination="dxz-lf-zJK" id="eG6-D3-Qb1"/>
+                <outlet property="infoButton" destination="Kd4-X3-FvN" id="cW3-mr-gGr"/>
                 <outlet property="itemIcon" destination="Viy-rM-p1Z" id="Ve6-lt-hWO"/>
                 <outlet property="nameLabel" destination="Dzv-41-QBe" id="ftW-fy-sJb"/>
                 <outlet property="oilIcon" destination="9Pd-IC-PcM" id="CnW-mE-IZk"/>

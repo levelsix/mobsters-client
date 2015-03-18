@@ -20,6 +20,8 @@
 @property (nonatomic, retain) IBOutlet UIImageView *oilIcon;
 @property (nonatomic, retain) IBOutlet UILabel *costLabel;
 
+@property (nonatomic, retain) IBOutlet UIButton *infoButton;
+
 - (void) updateForListObject:(id)listObject;
 
 @end

@@ -13,13 +13,16 @@
 
 #import "PopoverViewController.h"
 
-@interface BattleItemSelectCell : UITableViewCell {
+@interface BattleItemInfoView : UIView {
   UIColor *_origIconLabelColor;
 }
 
+@property (nonatomic, retain) IBOutlet UIImageView *bgdIcon;
 @property (nonatomic, retain) IBOutlet UIImageView *itemIcon;
 @property (nonatomic, retain) IBOutlet UILabel *nameLabel;
 @property (nonatomic, retain) IBOutlet UILabel *quantityLabel;
+@property (nonatomic, retain) IBOutlet UILabel *descriptionLabel;
+@property (nonatomic, retain) IBOutlet UILabel *typeLabel;
 
 @property (nonatomic, retain) IBOutlet UILabel *gemsLabel;
 @property (nonatomic, retain) IBOutlet UILabel *buttonLabel;
@@ -35,9 +38,14 @@
 
 @end
 
+@interface BattleItemSelectCell : UITableViewCell
+
+@property (nonatomic, retain) IBOutlet BattleItemInfoView *infoView;
+
+@end
+
 @protocol BattleItemSelectDelegate <NSObject>
 
-- (void) battleItemSelected:(UserBattleItem *)item viewController:(id)viewController;
 - (void) battleItemSelectClosed:(id)viewController;
 
 - (NSArray *) reloadBattleItemsArray;
@@ -45,9 +53,16 @@
 - (NSString *) progressBarText;
 - (float) progressBarPercent;
 
+@optional
+- (void) battleItemSelected:(UserBattleItem *)item viewController:(id)viewController;
+- (void) battleItemDiscarded:(UserBattleItem *)item;
+
 @end
 
-@interface BattleItemSelectViewController : PopoverViewController <UITableViewDataSource, UITableViewDelegate>
+@interface BattleItemSelectViewController : PopoverViewController <UITableViewDataSource, UITableViewDelegate> {
+  BOOL _showUseButton;
+  BOOL _isEditing;
+}
 
 @property (nonatomic, retain) IBOutlet UITableView *itemsTable;
 
@@ -58,10 +73,20 @@
 @property (nonatomic, retain) IBOutlet UIView *containerView;
 @property (nonatomic, retain) IBOutlet UIView *contentView;
 
+@property (nonatomic, retain) IBOutlet BattleItemInfoView *infoView;
+@property (nonatomic, retain) IBOutlet UIView *backView;
+
+@property (nonatomic, retain) IBOutlet UILabel *footerDescLabel;
+@property (nonatomic, retain) IBOutlet UILabel *infoTitleLabel;
+@property (nonatomic, retain) IBOutlet UILabel *editLabel;
+@property (nonatomic, retain) IBOutlet MaskedButton *editButton;
+
 @property (nonatomic, retain) NSArray *battleItems;
 
 @property (nonatomic, assign) id<BattleItemSelectDelegate> delegate;
 
+- (id) initWithShowUseButton:(BOOL)showUseButton;
+- (void) loadInfoViewForBattleItem:(UserBattleItem *)ubi animated:(BOOL)animated;
 - (void) reloadDataAnimated:(BOOL)animated;
 
 @end

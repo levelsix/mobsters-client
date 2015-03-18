@@ -132,6 +132,7 @@
 - (BOOL) removeBattleQueueObject:(BattleItemQueueObject *)item fromQueue:(BattleItemQueue *)biq;
 - (BOOL) speedupBattleItemQueue:(BattleItemQueue *)biq delegate:(id)delegate;
 - (void) battleItemQueueWaitTimeComplete:(NSArray *)battleItemQueueObjects fromQueue:(BattleItemQueue *)biq;
+- (void) removeBattleItems:(NSArray *)battleItemIds;
 
 - (void) sellUserMonsters:(NSArray *)userMonsterUuids;
 
