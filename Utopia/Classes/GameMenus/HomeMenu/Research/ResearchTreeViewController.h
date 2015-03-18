@@ -35,6 +35,8 @@
 
 @interface ResearchButtonView : UIView {
   UserResearch *_userResearch;
+  
+  NSHashTable* _parentNodes; // Similar to NSSet, but can hold weak references to its members
 }
 
 @property (nonatomic, assign) IBOutlet UIImageView *researchIcon;
@@ -51,7 +53,7 @@
 - (IBAction)touchUpOnButton:(id)sender;
 
 - (void)updateSelf;
-- (void)updateForResearch:(UserResearch *)userResearch;
+- (void)updateForResearch:(UserResearch *)userResearch parentNodes:(NSSet *)parentNodes;
 - (void)select;
 - (void)deselect;
 

@@ -23,6 +23,10 @@
                         <action selector="touchUpOnButton:" destination="iN0-l3-epB" eventType="touchUpOutside" id="ocy-W3-RsY"/>
                     </connections>
                 </button>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="researchitemgradient.png" id="oPp-a4-b54">
+                    <rect key="frame" x="0.0" y="57" width="80" height="53"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
                 <imageView hidden="YES" userInteractionEnabled="NO" contentMode="center" image="blueresearchcircle.png" id="9ay-pM-9QZ">
                     <rect key="frame" x="14" y="5" width="52" height="52"/>
                     <autoresizingMask key="autoresizingMask"/>
@@ -34,6 +38,10 @@
                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="ufo-1y-SKm">
                     <rect key="frame" x="20" y="11" width="40" height="40"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
+                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="center" image="researchlocked.png" id="YJX-OS-gh2">
+                    <rect key="frame" x="46" y="37" width="22" height="22"/>
+                    <autoresizingMask key="autoresizingMask"/>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Healing Speed" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="d0u-HE-QiV" customClass="NiceFontLabel14">
                     <rect key="frame" x="0.0" y="59" width="80" height="32"/>
@@ -56,12 +64,7 @@
                     <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="center" image="researchlocked.png" id="YJX-OS-gh2">
-                    <rect key="frame" x="46" y="37" width="22" height="22"/>
-                    <autoresizingMask key="autoresizingMask"/>
-                </imageView>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
@@ -73,12 +76,13 @@
                 <outlet property="researchIcon" destination="ufo-1y-SKm" id="uZK-0l-29K"/>
                 <outlet property="researchNameLabel" destination="d0u-HE-QiV" id="zuI-9l-41V"/>
             </connections>
-            <point key="canvasLocation" x="730" y="417"/>
+            <point key="canvasLocation" x="691" y="413"/>
         </view>
     </objects>
     <resources>
         <image name="blueresearchcircle.png" width="52" height="52"/>
         <image name="lightresearchcircle.png" width="52" height="52"/>
+        <image name="researchitemgradient.png" width="2" height="48"/>
         <image name="researchlocked.png" width="22" height="22"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

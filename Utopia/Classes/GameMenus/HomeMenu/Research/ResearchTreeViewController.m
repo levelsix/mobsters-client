@@ -89,6 +89,10 @@
 #define DARK_GREY_OUTLINE   @"darkresearchcircle.png"
 #define GREY_OUTLINE        @"lightresearchcirclepressed.png"
 #define LIGHT_GREY_OUTLINE  @"lightresearchcircle.png"
+#define LIGHT_LINE_COLOR    @"EAEAEA"
+#define DARK_LINE_COLOR     @"555555"
+#define LIGHT_CURVE         @"lightresearchcorner.png"
+#define DARK_CURVE          @"darkresearchcorner.png"
 
 @implementation ResearchButtonView
 
@@ -105,10 +109,10 @@
 
 - (void) updateSelf {
   GameState *gs = [GameState sharedGameState];
-  [self updateForResearch:[gs.researchUtil currentRankForResearch:_userResearch.research]];
+  [self updateForResearch:[gs.researchUtil currentRankForResearch:_userResearch.research] parentNodes:nil];
 }
 
-- (void)updateForResearch:(UserResearch *)userResearch {
+- (void) updateForResearch:(UserResearch *)userResearch parentNodes:(NSSet *)parentNodes {
   ResearchProto *research = userResearch.research;
   _userResearch = userResearch;
   
@@ -126,18 +130,82 @@
   self.lockedIcon.hidden = isAvailable;
   
   [Globals imageNamed:research.iconImgName withView:self.researchIcon greyscale:!isAvailable indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:NO];
+  
+  if (parentNodes)
+    [self drawTreeHierarchyToParentNodes:parentNodes];
 }
 
-- (IBAction)researchSelected:(id)sender {
+- (void) drawTreeHierarchyToParentNodes:(NSSet *)parentNodes
+{
+  _parentNodes = [NSHashTable hashTableWithOptions:NSHashTableWeakMemory]; // Similar to NSSet, but can hold weak references to its members
+  
+  const CGFloat kLineWidth = 2.f;
+  const CGSize  kCornerSize = CGSizeMake(13.f, 13.f);
+  const CGFloat kMeetingPointYModifier = .25f;
+
+  for (ResearchButtonView* parentButtonView in parentNodes)
+  {
+    // All coordinate in this view's local space
+    const CGPoint connectionFromSelf = CGPointMake(self.width * .5f, self.outline.originY);
+    const CGPoint connectionToParent = [self convertPoint:CGPointMake(parentButtonView.centerX,
+                                                                      parentButtonView.originY + CGRectGetMaxY(parentButtonView.outline.frame))
+                                              fromView:parentButtonView.superview];
+    
+    if ((int)connectionFromSelf.x == (int)connectionToParent.x)
+    {
+      // Both nodes are aligned vertically
+      UIView* connectingLine = [[UIView alloc] initWithFrame:CGRectMake(connectionToParent.x - kLineWidth * .5f, connectionToParent.y,
+                                                                        kLineWidth, connectionFromSelf.y - connectionToParent.y + 1)];
+        [connectingLine setBackgroundColor:[UIColor colorWithHexString:LIGHT_LINE_COLOR]];
+        [self insertSubview:connectingLine belowSubview:self.bgView];
+    }
+    else
+    {
+      const CGPoint meetingPointFromSelf = CGPointMake(connectionFromSelf.x, (connectionFromSelf.y + connectionToParent.y) * kMeetingPointYModifier + kCornerSize.height);
+      const CGPoint meetingPointToParent = CGPointMake(connectionToParent.x, (connectionFromSelf.y + connectionToParent.y) * kMeetingPointYModifier - kCornerSize.height);
+      
+      UIView* lineFromSelf = [[UIView alloc] initWithFrame:CGRectMake(meetingPointFromSelf.x - kLineWidth * .5f, meetingPointFromSelf.y,
+                                                                      kLineWidth, connectionFromSelf.y - meetingPointFromSelf.y + 1)];
+        [lineFromSelf setBackgroundColor:[UIColor colorWithHexString:LIGHT_LINE_COLOR]];
+        [self insertSubview:lineFromSelf belowSubview:self.bgView];
+      UIView* lineToParent = [[UIView alloc] initWithFrame:CGRectMake(meetingPointToParent.x - kLineWidth * .5f, connectionToParent.y,
+                                                                      kLineWidth, meetingPointToParent.y - connectionToParent.y + 2)];
+        [lineToParent setBackgroundColor:[UIColor colorWithHexString:LIGHT_LINE_COLOR]];
+        [self insertSubview:lineToParent belowSubview:self.bgView];
+      
+      const BOOL parentToTheRight = (connectionToParent.x - connectionFromSelf.x) > 0;
+      
+      UIImageView* curveFromSelf = [[UIImageView alloc] initWithFrame:CGRectMake(parentToTheRight ? lineFromSelf.originX : lineFromSelf.originX + lineFromSelf.width - kCornerSize.width,
+                                                                                 lineFromSelf.originY - kCornerSize.height, kCornerSize.width, kCornerSize.height)];
+        [curveFromSelf setImage:[UIImage imageNamed:LIGHT_CURVE]];
+        [curveFromSelf.layer setTransform:CATransform3DMakeScale(parentToTheRight ? 1.f : -1.f, 1.f, 1.f)];
+        [self insertSubview:curveFromSelf belowSubview:self.bgView];
+      UIImageView* curveToParent = [[UIImageView alloc] initWithFrame:CGRectMake(parentToTheRight ? lineToParent.originX + lineToParent.width - kCornerSize.width : lineToParent.originX,
+                                                                                 lineToParent.originY + lineToParent.height, kCornerSize.width, kCornerSize.height)];
+        [curveToParent setImage:[UIImage imageNamed:LIGHT_CURVE]];
+        [curveToParent.layer setTransform:CATransform3DMakeScale(parentToTheRight ? -1.f : 1.f, -1.f, 1.f)];
+        [self insertSubview:curveToParent belowSubview:self.bgView];
+      
+      UIView* connectingLine = [[UIView alloc] initWithFrame:CGRectMake((parentToTheRight ? curveFromSelf.originX : curveToParent.originX) + kCornerSize.width, curveFromSelf.originY,
+                                                                        ABS(meetingPointToParent.x - meetingPointFromSelf.x) + kLineWidth - kCornerSize.width * 2.f, kLineWidth)];
+        [connectingLine setBackgroundColor:[UIColor colorWithHexString:LIGHT_LINE_COLOR]];
+        [self insertSubview:connectingLine belowSubview:self.bgView];
+    }
+    
+    [_parentNodes addObject:parentButtonView];
+  }
+}
+
+- (IBAction) researchSelected:(id)sender {
   [self.delegate researchButtonClickWithResearch:_userResearch sender:(id) self];
 }
 
-- (IBAction)touchDownOnButton:(id)sender {
+- (IBAction) touchDownOnButton:(id)sender {
   if (self.bgView.hidden) // Deselected
     self.outline.image = [UIImage imageNamed:GREY_OUTLINE];
 }
 
-- (IBAction)touchUpOnButton:(id)sender {
+- (IBAction) touchUpOnButton:(id)sender {
   if (self.bgView.hidden) // Deselected
     self.outline.image = [UIImage imageNamed:LIGHT_GREY_OUTLINE];
 }
@@ -182,7 +250,7 @@
   GameState* gs = [GameState sharedGameState];
   NSArray* staticResearches = [gs allStaticResearchForDomain:domain];
   ResearchTreeView* treeView = (ResearchTreeView*)self.view;
-  _researchButtons = [[NSMutableArray alloc] init];
+  _researchButtons = [NSMutableArray array];
   
   NSMutableDictionary* tieredResearches = [NSMutableDictionary dictionary];
   for (ResearchProto* research in staticResearches)
@@ -193,10 +261,11 @@
       [(NSMutableArray*)[tieredResearches objectForKey:@( research.tier )] addObject:research];
     }
   
-  const CGSize  kResearchButtonViewSize = CGSizeMake(80.f, 120.f);
+  const CGSize  kResearchButtonViewSize = CGSizeMake(80.f, 135.f);
   const CGFloat kResearchTreeTopPadding = 0.f;
   const CGFloat kResearchTreeBottomPadding = 20.f;
   
+  NSMutableDictionary* researchButtonViews = [NSMutableDictionary dictionary];
   for (int tier = 1; tier < tieredResearches.count + 1; ++tier)
   {
     NSArray* sortedResearches = [(NSArray*)[tieredResearches objectForKey:@( tier )] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
@@ -211,14 +280,23 @@
     {
       UserResearch* userResearch = [gs.researchUtil currentRankForResearch:research];
       
-      ResearchButtonView *researchButtonView = [[NSBundle mainBundle] loadNibNamed:@"ResearchButtonView" owner:self options:nil][0];
-      [researchButtonView updateForResearch:userResearch];
-      [researchButtonView setCenter:CGPointMake(treeView.mainView.width * .5f + (research.priority - (maxPriority - minPriority) * .5f) * kResearchButtonViewSize.width,
-                                                kResearchTreeTopPadding + (tier - .5f) * kResearchButtonViewSize.height)];
-      [researchButtonView setDelegate:self];
+      NSMutableSet* parentResearchButtonViews = [NSMutableSet set];
+      NSArray* parentResearches = [gs prerequisitesForGameType:GameTypeResearch gameEntityId:research.researchId];
+      for (PrereqProto *pp in parentResearches)
+        if (pp.prereqGameType == GameTypeResearch && [researchButtonViews objectForKey:@( pp.prereqGameEntityId )])
+          [parentResearchButtonViews addObject:[researchButtonViews objectForKey:@( pp.prereqGameEntityId )]];
       
-      [treeView.mainView addSubview:researchButtonView];
+      ResearchButtonView *researchButtonView = [[NSBundle mainBundle] loadNibNamed:@"ResearchButtonView" owner:self options:nil][0];
+      {
+        [researchButtonView setCenter:CGPointMake(treeView.mainView.width * .5f + (research.priority - (maxPriority - minPriority) * .5f) * kResearchButtonViewSize.width,
+                                                  kResearchTreeTopPadding + (tier - .5f) * kResearchButtonViewSize.height)];
+        [researchButtonView updateForResearch:userResearch parentNodes:parentResearchButtonViews];
+        [researchButtonView setDelegate:self];
+      }
+      
+      [treeView.mainView insertSubview:researchButtonView atIndex:0]; // Insert below all other subviews already added
       [_researchButtons addObject:researchButtonView];
+      [researchButtonViews setObject:researchButtonView forKey:@( research.researchId )];
     }
   }
   
