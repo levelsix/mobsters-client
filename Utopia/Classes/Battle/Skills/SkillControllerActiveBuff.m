@@ -92,21 +92,24 @@
   if (([self affectsOwner] == self.belongsToPlayer && trigger == SkillTriggerPointPlayerInitialized)
       || ([self affectsOwner] != self.belongsToPlayer && trigger == SkillTriggerPointEnemyInitialized))
   {
-    if (execute)
+    if (![self doesRefresh])
     {
-      if ([self isActive])
+      if (execute)
       {
-        self.orbCounter = 0;
-        [self addVisualEffects:YES];
+        if ([self isActive])
+        {
+          self.orbCounter = 0;
+          [self addVisualEffects:YES];
+        }
+        else
+        {
+          if (self.orbCounter == 0)
+            self.orbCounter = self.orbRequirement;
+          [self skillTriggerFinished];
+        }
       }
-      else
-      {
-        if (self.orbCounter == 0)
-          self.orbCounter = self.orbRequirement;
-        [self skillTriggerFinished];
-      }
+      return YES;
     }
-    return YES;
   }
  
   return NO;
