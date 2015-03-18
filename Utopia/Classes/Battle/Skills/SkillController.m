@@ -521,8 +521,10 @@
     
     _currentSkillPopup = _currentSkillPopup.next;
     
-    if (!_currentSkillPopup)
-      _callbackBlockForPopup();
+    if (!_currentSkillPopup){
+      if (_callbackBlockForPopup)
+        _callbackBlockForPopup();
+    }
     else
       [self showCurrentSkillPopup];
   };
