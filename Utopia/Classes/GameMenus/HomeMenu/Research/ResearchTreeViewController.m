@@ -84,23 +84,23 @@
 
 @end
 
-#define AVAILABLE_OUTLINE @"canresearchclickedborder.png"
+#define AVAILABLE_OUTLINE   @"canresearchclickedborder.png"
 #define UNAVAILABLE_OUTLINE @"cantresearchtapped.png"
-#define DARK_GREY_OUTLINE @"darkresearchcircle.png"
-#define GREY_OUTLINE @"lightresearchcirclepressed.png"
-#define LIGHT_GREY_OUTLINE @"lightresearchcircle.png"
+#define DARK_GREY_OUTLINE   @"darkresearchcircle.png"
+#define GREY_OUTLINE        @"lightresearchcirclepressed.png"
+#define LIGHT_GREY_OUTLINE  @"lightresearchcircle.png"
 
 @implementation ResearchButtonView
 
 - (void) select {
   BOOL isAvailable = [_userResearch.research prereqsComplete];
   self.bgView.hidden = !isAvailable;
-  self.outline.image = isAvailable ? [Globals imageNamed:AVAILABLE_OUTLINE] : [Globals imageNamed:UNAVAILABLE_OUTLINE];
+  self.outline.image = isAvailable ? [UIImage imageNamed:AVAILABLE_OUTLINE] : [UIImage imageNamed:UNAVAILABLE_OUTLINE];
 }
 
 - (void) deselect {
   self.bgView.hidden = YES;
-  self.outline.image = [Globals imageNamed:LIGHT_GREY_OUTLINE];
+  self.outline.image = [UIImage imageNamed:LIGHT_GREY_OUTLINE];
 }
 
 - (void) updateSelf {
@@ -111,13 +111,35 @@
 - (void)updateForResearch:(UserResearch *)userResearch {
   ResearchProto *research = userResearch.research;
   _userResearch = userResearch;
+  
   self.researchNameLabel.text = research.name;
   int curRank = userResearch.complete ? research.level : research.level - 1;
-  self.rankLabel.text = [NSString stringWithFormat:@"%d/%@",curRank, @([research fullResearchFamily].count)];
+  self.rankCountLabel.text = [NSString stringWithFormat:@"%d/%@", curRank, @([research fullResearchFamily].count)];
+  self.researchNameLabel.height = [self.researchNameLabel.text getSizeWithFont:self.researchNameLabel.font
+                                                             constrainedToSize:CGSizeMake(self.researchNameLabel.width, MAXFLOAT)].height;
+  self.rankLabel.originY = CGRectGetMaxY(self.researchNameLabel.frame);
+  self.rankCountLabel.originY = self.rankLabel.originY;
+  
+  BOOL isAvailable = [_userResearch.research prereqsComplete];
+  self.researchNameLabel.textColor = [UIColor colorWithHexString:isAvailable ? @"2AB4E8" : @"555555"];
+  self.rankCountLabel.textColor = [UIColor colorWithHexString:isAvailable ? @"333333" : @"999999"];
+  self.lockedIcon.hidden = isAvailable;
+  
+  [Globals imageNamed:research.iconImgName withView:self.researchIcon greyscale:!isAvailable indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:NO];
 }
 
 - (IBAction)researchSelected:(id)sender {
   [self.delegate researchButtonClickWithResearch:_userResearch sender:(id) self];
+}
+
+- (IBAction)touchDownOnButton:(id)sender {
+  if (self.bgView.hidden) // Deselected
+    self.outline.image = [UIImage imageNamed:GREY_OUTLINE];
+}
+
+- (IBAction)touchUpOnButton:(id)sender {
+  if (self.bgView.hidden) // Deselected
+    self.outline.image = [UIImage imageNamed:LIGHT_GREY_OUTLINE];
 }
 
 @end
@@ -127,8 +149,6 @@
 -(id)initWithDomain:(ResearchDomain)domain {
   _selectFieldViewUp = YES;
   _barAnimating = NO;
-  ResearchTreeView *treeView = (ResearchTreeView *)self.view;
-  treeView.scrollView.contentSize = treeView.mainView.size;
   
   if((self = [super init])){
     switch (domain) {
@@ -151,29 +171,59 @@
         break;
     }
   }
-  GameState *gs = [GameState sharedGameState];
-  NSArray *researches = [gs allStaticResearchForDomain:domain];
+
+  [self createResearchButtonViewsForDomain:domain];
   
+  return self;
+}
+
+- (void) createResearchButtonViewsForDomain:(ResearchDomain)domain
+{
+  GameState* gs = [GameState sharedGameState];
+  NSArray* staticResearches = [gs allStaticResearchForDomain:domain];
+  ResearchTreeView* treeView = (ResearchTreeView*)self.view;
   _researchButtons = [[NSMutableArray alloc] init];
-  int index = 0;
-  for(ResearchProto *research in researches) {
+  
+  NSMutableDictionary* tieredResearches = [NSMutableDictionary dictionary];
+  for (ResearchProto* research in staticResearches)
+    if (research.level == 1)
+    {
+      if (![tieredResearches objectForKey:@( research.tier )])
+        [tieredResearches setObject:[NSMutableArray array] forKey:@( research.tier )];
+      [(NSMutableArray*)[tieredResearches objectForKey:@( research.tier )] addObject:research];
+    }
+  
+  const CGSize  kResearchButtonViewSize = CGSizeMake(80.f, 120.f);
+  const CGFloat kResearchTreeTopPadding = 0.f;
+  const CGFloat kResearchTreeBottomPadding = 20.f;
+  
+  for (int tier = 1; tier < tieredResearches.count + 1; ++tier)
+  {
+    NSArray* sortedResearches = [(NSArray*)[tieredResearches objectForKey:@( tier )] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+      return [(ResearchProto*)obj1 priority] > [(ResearchProto*)obj2 priority];
+    }];
     
-    if(research.level == 1) {
-      UserResearch *userResearch = [gs.researchUtil currentRankForResearch:research];
+    float minPriority = 0.f, maxPriority = 0.f;
+    for (ResearchProto* research in sortedResearches)
+      maxPriority = MAX(maxPriority, research.priority);
+    
+    for (ResearchProto* research in sortedResearches)
+    {
+      UserResearch* userResearch = [gs.researchUtil currentRankForResearch:research];
       
-      ResearchButtonView *selectView;
-      selectView = [[NSBundle mainBundle] loadNibNamed:@"ResearchButtonView" owner:self options:nil][0];
-      [treeView.mainView addSubview:selectView];
-      [_researchButtons addObject:selectView];
+      ResearchButtonView *researchButtonView = [[NSBundle mainBundle] loadNibNamed:@"ResearchButtonView" owner:self options:nil][0];
+      [researchButtonView updateForResearch:userResearch];
+      [researchButtonView setCenter:CGPointMake(treeView.mainView.width * .5f + (research.priority - (maxPriority - minPriority) * .5f) * kResearchButtonViewSize.width,
+                                                kResearchTreeTopPadding + (tier - .5f) * kResearchButtonViewSize.height)];
+      [researchButtonView setDelegate:self];
       
-      selectView.origin = CGPointMake(0.f, 100.f*index);
-      selectView.delegate = self;
-      [selectView updateForResearch:userResearch];
-      index++;
+      [treeView.mainView addSubview:researchButtonView];
+      [_researchButtons addObject:researchButtonView];
     }
   }
   
-  return self;
+  treeView.scrollView.contentSize = CGSizeMake(treeView.mainView.size.width,
+                                               tieredResearches.count * kResearchButtonViewSize.height + kResearchTreeBottomPadding);
 }
 
 -(void)viewDidLoad {
@@ -183,28 +233,30 @@
 -(void)researchButtonClickWithResearch:(UserResearch *)userResearch sender:(id)sender {
   
   ResearchButtonView *clicked = (ResearchButtonView *)sender;
-  [clicked select];
-  [_lastClicked deselect];
-  _lastClicked = clicked;
-  
-  UIView *outView = _curBarView;
-  [_curBarView animateOut:^{
-    [outView removeFromSuperview];
-  }];
-  _curBarView = [[NSBundle mainBundle] loadNibNamed:@"ResearchSelectionBar" owner:self options:nil][0];
-  [self.view addSubview:_curBarView];
-  [_curBarView updateForProto:userResearch];
-  [_curBarView animateIn:nil];
-  _curBarView.delegate = self;
-  
-  if(_selectFieldViewUp) {
-    [UIView animateWithDuration:0.3f animations:^{
-      _selectFieldView.alpha = 0.f;
+  if (clicked != _lastClicked) {
+    [clicked select];
+    [_lastClicked deselect];
+    _lastClicked = clicked;
+    
+    UIView *outView = _curBarView;
+    [_curBarView animateOut:^{
+      [outView removeFromSuperview];
     }];
-    [_selectFieldView animateOut:^{
-      _selectFieldViewUp = NO;
-      _barAnimating = NO;
-    }];
+    _curBarView = [[NSBundle mainBundle] loadNibNamed:@"ResearchSelectionBar" owner:self options:nil][0];
+    [self.view addSubview:_curBarView];
+    [_curBarView updateForProto:userResearch];
+    [_curBarView animateIn:nil];
+    _curBarView.delegate = self;
+    
+    if(_selectFieldViewUp) {
+      [UIView animateWithDuration:0.3f animations:^{
+        _selectFieldView.alpha = 0.f;
+      }];
+      [_selectFieldView animateOut:^{
+        _selectFieldViewUp = NO;
+        _barAnimating = NO;
+      }];
+    }
   }
   
 }

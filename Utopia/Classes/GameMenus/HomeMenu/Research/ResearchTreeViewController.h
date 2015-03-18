@@ -36,16 +36,24 @@
 @interface ResearchButtonView : UIView {
   UserResearch *_userResearch;
 }
+
+@property (nonatomic, assign) IBOutlet UIImageView *researchIcon;
 @property (nonatomic, assign) IBOutlet UILabel *researchNameLabel;
 @property (nonatomic, assign) IBOutlet UILabel *rankLabel;
+@property (nonatomic, assign) IBOutlet UILabel *rankCountLabel;
 @property (nonatomic, assign) IBOutlet UIImageView *outline;
 @property (nonatomic, assign) IBOutlet UIImageView *bgView;
+@property (nonatomic, assign) IBOutlet UIImageView *lockedIcon;
 @property (nonatomic, assign) id<TreeDelegate> delegate;
+
+- (IBAction)researchSelected:(id)sender;
+- (IBAction)touchDownOnButton:(id)sender;
+- (IBAction)touchUpOnButton:(id)sender;
 
 - (void)updateSelf;
 - (void)updateForResearch:(UserResearch *)userResearch;
-- (void) select;
-- (void) deselect;
+- (void)select;
+- (void)deselect;
 
 @end
 
