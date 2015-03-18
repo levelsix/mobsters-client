@@ -12,10 +12,23 @@
 #import "Globals.h"
 
 #import "SocketCommunication.h"
+#import "OutgoingEventController.h"
 
 #import "TimerAction.h"
 
 @implementation BattleItemSelectCell
+
+- (void) updateForEditing:(BOOL)editing {
+  if (editing) {
+    self.infoView.originX = 0.f;
+  } else {
+    self.infoView.originX = self.infoView.superview.width-self.infoView.width;
+  }
+}
+
+@end
+
+@implementation BattleItemInfoView
 
 - (void) awakeFromNib {
   [super awakeFromNib];
@@ -27,7 +40,23 @@
   BattleItemProto *bip = itemObject.staticBattleItem;
   
   self.nameLabel.text = bip.name;
-  self.nameLabel.highlighted = !isValid;
+  float color = isValid ? 51/255.f : 101/255.f;
+  self.nameLabel.textColor = [UIColor colorWithWhite:color alpha:1.f];
+  
+  self.typeLabel.text = [NSString stringWithFormat:@"Type: %@", bip.battleItemCategory == BattleItemCategoryPotion ? @"Potion" : @"Puzzle"];
+  
+  // For the big info view
+  if (self.descriptionLabel) {
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    [paragraphStyle setLineSpacing:3.f];
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:bip.description attributes:@{NSParagraphStyleAttributeName:paragraphStyle, NSFontAttributeName:self.descriptionLabel.font}];
+    self.descriptionLabel.attributedText = attributedString;
+    
+    CGRect rect = [attributedString boundingRectWithSize:CGSizeMake(self.descriptionLabel.width, 10000) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
+    self.descriptionLabel.height = ceilf(rect.size.height)+16.f;
+    
+    self.useButtonView.superview.originY = CGRectGetMaxY(self.descriptionLabel.frame);
+  }
   
   NSString *str1 = @"Owned: ";
   NSString *str2 = [Globals commafyNumber:itemObject.quantity];
@@ -42,33 +71,42 @@
   
   [Globals imageNamed:bip.imgName withView:self.itemIcon greyscale:!isValid indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
-  if (itemObject.quantity <= 0) {
-    self.gemsLabel.text = [Globals commafyNumber:bip.inBattleGemCost];
-    [Globals adjustViewForCentering:self.gemsLabel.superview withLabel:self.gemsLabel];
-    
-    self.gemsButtonView.hidden = NO;
-    self.useButtonView.hidden = YES;
-  } else {
-    
-    if (!isValid) {
-      [self.useButton setImage:[Globals imageNamed:@"greyitemsbutton.png"] forState:UIControlStateNormal];
-      [self.gemsButton setImage:[Globals imageNamed:@"greyitemsbutton.png"] forState:UIControlStateNormal];
-      self.buttonLabel.textColor = [UIColor colorWithHexString:@"666666"];
-      self.buttonLabel.shadowColor = [UIColor colorWithWhite:1.f alpha:0.75f];
-      self.gemsLabel.textColor = [UIColor colorWithHexString:@"666666"];
-      self.gemsLabel.shadowColor = [UIColor colorWithWhite:1.f alpha:0.75f];
+  NSString *bgdImgName = isValid ? @"ifitemsquareverysmall.png" : @"ifitemsquareverysmallgrey.png";
+  [Globals imageNamed:bgdImgName withView:self.bgdIcon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+  
+  if (showButton) {
+    if (itemObject.quantity <= 0) {
+      self.gemsLabel.text = [Globals commafyNumber:bip.inBattleGemCost];
+      [Globals adjustViewForCentering:self.gemsLabel.superview withLabel:self.gemsLabel];
+      
+      self.gemsButtonView.hidden = NO;
+      self.useButtonView.hidden = YES;
     } else {
-      [self.useButton setImage:[Globals imageNamed:@"greenitemsbutton.png"] forState:UIControlStateNormal];
-      [self.gemsButton setImage:[Globals imageNamed:@"purpleitemsbutton.png"] forState:UIControlStateNormal];
-      self.gemIcon.image = [Globals imageNamed:@"diamond.png"];
-      self.buttonLabel.textColor = [UIColor colorWithHexString:@"065d18"];
-      self.buttonLabel.shadowColor = [UIColor colorWithHexString:@"eeffbbbd"];
-      self.gemsLabel.textColor = [UIColor colorWithHexString:@"ffffff"];
-      self.gemsLabel.shadowColor = [UIColor colorWithWhite:0.f alpha:0.5f];
+      
+      if (!isValid) {
+        [self.useButton setImage:[Globals imageNamed:@"greyitemsbutton.png"] forState:UIControlStateNormal];
+        [self.gemsButton setImage:[Globals imageNamed:@"greyitemsbutton.png"] forState:UIControlStateNormal];
+        self.buttonLabel.textColor = [UIColor colorWithHexString:@"666666"];
+        self.buttonLabel.shadowColor = [UIColor colorWithWhite:1.f alpha:0.75f];
+        self.gemsLabel.textColor = [UIColor colorWithHexString:@"666666"];
+        self.gemsLabel.shadowColor = [UIColor colorWithWhite:1.f alpha:0.75f];
+        
+      } else {
+        [self.useButton setImage:[Globals imageNamed:@"greenitemsbutton.png"] forState:UIControlStateNormal];
+        [self.gemsButton setImage:[Globals imageNamed:@"purpleitemsbutton.png"] forState:UIControlStateNormal];
+        self.gemIcon.image = [Globals imageNamed:@"diamond.png"];
+        self.buttonLabel.textColor = [UIColor colorWithHexString:@"065d18"];
+        self.buttonLabel.shadowColor = [UIColor colorWithHexString:@"eeffbbbd"];
+        self.gemsLabel.textColor = [UIColor colorWithHexString:@"ffffff"];
+        self.gemsLabel.shadowColor = [UIColor colorWithWhite:0.f alpha:0.5f];
+      }
+      
+      self.gemsButtonView.hidden = YES;
+      self.useButtonView.hidden = NO;
     }
-    
-    self.gemsButtonView.hidden = YES;
-    self.useButtonView.hidden = NO;
+    self.useButtonView.superview.hidden = NO;
+  } else {
+    self.useButtonView.superview.hidden = YES;
   }
 }
 
@@ -76,10 +114,28 @@
 
 @implementation BattleItemSelectViewController
 
+- (id) initWithShowUseButton:(BOOL)showUseButton  {
+  if ((self = [super init])) {
+    _showUseButton = showUseButton;
+  }
+  return self;
+}
+
 - (void) viewDidLoad {
   [super viewDidLoad];
   
   [self.containerView addSubview:self.contentView];
+  
+  self.containerView.layer.cornerRadius = self.headerView.layer.cornerRadius;
+  
+  [self loadListViewAnimated:NO];
+  
+  NSString *desc = self.footerDescLabel.text;
+  NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+  [paragraphStyle setLineSpacing:3];
+  NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:desc];
+  [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, desc.length)];
+  self.footerDescLabel.attributedText = attributedString;
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -154,6 +210,40 @@
   }
 }
 
+- (void) loadInfoViewForBattleItem:(UserBattleItem *)ubi animated:(BOOL)animated {
+  // Load the view in case it isn't loaded
+  [self view];
+  
+  [self.infoView updateForBattleItem:ubi isValid:YES showButton:NO];
+  self.infoTitleLabel.text = self.infoView.nameLabel.text.uppercaseString;
+  
+  // If animated, show back button otherwise don't.
+  if (animated) {
+    [UIView animateWithDuration:0.3f animations:^{
+      self.contentView.centerX = 0.f;
+      self.backView.alpha = 1.f;
+    }];
+  } else {
+    self.contentView.centerX = 0.f;
+  }
+}
+
+- (void) loadListViewAnimated:(BOOL)animated {
+  if (animated) {
+    [UIView animateWithDuration:0.3f animations:^{
+      self.contentView.originX = 0.f;
+      self.backView.alpha = 0.f;
+    }];
+  } else {
+    self.contentView.originX = 0.f;
+    self.backView.alpha = 0.f;
+  }
+}
+
+- (IBAction)backClicked:(id)sender {
+  [self loadListViewAnimated:YES];
+}
+
 - (IBAction)closeClicked:(id)sender {
   [super closeClicked:sender];
   
@@ -174,16 +264,24 @@
   }
   
   [self updateCell:cell battleItem:self.battleItems[indexPath.row]];
+  [cell updateForEditing:_isEditing];
   
   return cell;
 }
 
 - (void) updateCell:(BattleItemSelectCell *)cell battleItem:(UserBattleItem *)ubi {
-  [cell updateForBattleItem:ubi isValid:YES showButton:YES];
+  [cell.infoView updateForBattleItem:ubi isValid:YES showButton:_showUseButton];
 }
 
 - (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
   return self.progressBarView;
+}
+
+- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+  [tableView deselectRowAtIndexPath:indexPath animated:YES];
+  
+  UserBattleItem *bi = self.battleItems[indexPath.row];
+  [self loadInfoViewForBattleItem:bi animated:YES];
 }
 
 - (IBAction) cellButtonClicked:(UIView *)sender {
@@ -195,6 +293,41 @@
     UserBattleItem *item = self.battleItems[ip.row];
     [self.delegate battleItemSelected:item viewController:self];
   }
+}
+
+#pragma mark - Edit/Done
+
+- (IBAction) editClicked:(id)sender {
+  if (_isEditing) {
+    self.editLabel.text = @"Edit";
+    
+    _isEditing = NO;
+  } else {
+    self.editLabel.text = @"Done";
+    
+    _isEditing = YES;
+  }
+  
+  self.itemsTable.allowsSelection = !_isEditing;
+  
+  [self.editButton remakeImage];
+  
+  [UIView animateWithDuration:0.3f animations:^{
+    for (BattleItemSelectCell *cell in self.itemsTable.visibleCells) {
+      [cell updateForEditing:_isEditing];
+    }
+  }];
+}
+
+- (IBAction) minusClicked:(id)sender {
+  BattleItemSelectCell *cell = [sender getAncestorInViewHierarchyOfType:[BattleItemSelectCell class]];
+  NSIndexPath *ip = [self.itemsTable indexPathForCell:cell];
+  UserBattleItem *item = self.battleItems[ip.row];
+  [[OutgoingEventController sharedOutgoingEventController] removeBattleItems:@[@(item.battleItemId)]];
+  
+  [self.delegate battleItemDiscarded:item];
+  
+  [self reloadDataAnimated:YES];
 }
 
 @end

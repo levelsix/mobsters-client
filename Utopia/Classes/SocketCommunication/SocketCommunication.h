@@ -228,6 +228,7 @@
 - (void) reloadBattleItemQueueSnapshot;
 - (int) sendBattleItemQueueMessage;
 - (int) sendCompleteBattleItemMessage:(NSArray *)completedBiqfus isSpeedup:(BOOL)isSpeedup gemCost:(int)gemCost;
+- (int) sendDiscardBattleItemMessage:(NSArray *)battleItemIds;
 
 - (void) flush;
 - (void) pauseFlushTimer;

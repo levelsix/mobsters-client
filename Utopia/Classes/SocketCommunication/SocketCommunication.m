@@ -1610,6 +1610,10 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCCompleteBattleItemEvent];
 }
 
+- (int) sendDiscardBattleItemMessage:(NSArray *)battleItemIds {
+  return 0;
+}
+
 #pragma mark - Batch/Flush events
 
 - (int) retrieveCurrencyFromStruct:(NSString *)userStructUuid time:(uint64_t)time amountCollected:(int)amountCollected {

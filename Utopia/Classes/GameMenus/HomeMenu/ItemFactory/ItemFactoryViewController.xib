@@ -7,12 +7,15 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ItemFactoryViewController">
             <connections>
-                <outlet property="buttonLabelsView" destination="ssi-so-Xkq" id="Atq-ZS-ZrL"/>
+                <outlet property="allItemsTabButton" destination="LbG-8n-WmS" id="P6q-V8-HfM"/>
+                <outlet property="buttonLabelsView" destination="ssi-so-Xkq" id="czG-CV-QxO"/>
                 <outlet property="buttonSpinner" destination="90Y-zl-GcB" id="v6w-UK-Jav"/>
                 <outlet property="freeLabel" destination="h0Z-YT-n4s" id="kO8-vq-gxw"/>
                 <outlet property="helpView" destination="a0H-cU-J0r" id="JEb-10-j0H"/>
                 <outlet property="listView" destination="dbo-kc-JWc" id="FeZ-Pw-6AF"/>
                 <outlet property="numItemsLabel" destination="hfL-dr-48N" id="syj-5x-djY"/>
+                <outlet property="potionsTabButton" destination="JAd-fg-1tO" id="oWZ-qQ-oKQ"/>
+                <outlet property="puzzleTabButton" destination="HKG-VO-x3C" id="6iJ-RK-yhe"/>
                 <outlet property="queueArrow" destination="am0-vd-5dN" id="gch-OK-PcV"/>
                 <outlet property="queueView" destination="yMQ-G4-44w" id="hB9-nJ-df5"/>
                 <outlet property="speedupIcon" destination="ea5-WL-NxZ" id="8ef-GB-l0d"/>
@@ -29,8 +32,72 @@
                     <rect key="frame" x="0.0" y="0.0" width="430" height="183"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
+                        <view contentMode="scaleToFill" id="mjz-4b-kE3">
+                            <rect key="frame" x="-11" y="0.0" width="453" height="32"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="logobg.png" id="Rbb-b4-sVV">
+                                    <rect key="frame" x="0.0" y="0.0" width="453" height="32"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                                <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="LbG-8n-WmS" customClass="NiceFontButton9">
+                                    <rect key="frame" x="81" y="5" width="99" height="24"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                    <state key="normal" title="ALL ITEMS">
+                                        <color key="titleColor" red="0.039215686270000001" green="0.61960784310000006" blue="0.84313725490000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <state key="highlighted">
+                                        <color key="titleColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="scopeTabClicked:" destination="-1" eventType="touchUpInside" id="0yg-wR-Abs"/>
+                                    </connections>
+                                </button>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popuplinevertical.png" id="Hhl-Me-CMp">
+                                    <rect key="frame" x="178" y="10" width="1" height="14"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                                <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="JAd-fg-1tO" customClass="NiceFontButton2">
+                                    <rect key="frame" x="176" y="5" width="100" height="24"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                    <state key="normal" title="POTION">
+                                        <color key="titleColor" red="0.63529411759999999" green="0.63529411759999999" blue="0.63529411759999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <state key="highlighted">
+                                        <color key="titleColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="scopeTabClicked:" destination="-1" eventType="touchUpInside" id="x10-BT-o8E"/>
+                                    </connections>
+                                </button>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popuplinevertical.png" id="aHX-Jy-m7q">
+                                    <rect key="frame" x="274" y="10" width="1" height="14"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                                <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="HKG-VO-x3C" customClass="NiceFontButton2">
+                                    <rect key="frame" x="272" y="5" width="99" height="24"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                    <state key="normal" title="PUZZLE">
+                                        <color key="titleColor" red="0.63529411759999999" green="0.63529411759999999" blue="0.63529411759999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <state key="highlighted">
+                                        <color key="titleColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="scopeTabClicked:" destination="-1" eventType="touchUpInside" id="IiB-cf-JLH"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        </view>
                         <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="none" id="jAl-Qj-b4h" customClass="CancellableCollectionView">
-                            <rect key="frame" x="0.0" y="0.0" width="430" height="183"/>
+                            <rect key="frame" x="0.0" y="30" width="430" height="153"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="9" id="lR1-GB-fIi">
@@ -216,7 +283,7 @@
                                             <nil key="highlightedColor"/>
                                             <size key="shadowOffset" width="0.0" height="1"/>
                                         </label>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="itemsbag.png" id="A6c-jq-tCk">
+                                        <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" image="itemsbag.png" id="A6c-jq-tCk">
                                             <rect key="frame" x="8" y="9" width="30" height="34"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
@@ -257,7 +324,9 @@
         <image name="hospitalopenarrow.png" width="185" height="39"/>
         <image name="itembagbutton.png" width="92" height="42"/>
         <image name="itemsbag.png" width="30" height="34"/>
+        <image name="logobg.png" width="1" height="32"/>
         <image name="orangemenuoption.png" width="80" height="40"/>
+        <image name="popuplinevertical.png" width="1" height="1"/>
         <image name="purplemenuoption.png" width="80" height="40"/>
         <image name="sellbarbg.png" width="424" height="50"/>
         <image name="speedupbigicon.png" width="23" height="18"/>

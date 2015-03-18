@@ -23,7 +23,7 @@ typedef enum {
   ItemFactoryScopePuzzle
 } ItemFactoryScope;
 
-@interface ItemFactoryViewController : PopupSubViewController <ResourceItemsFillerDelegate, SpeedupItemsFillerDelegate, UICollectionViewDelegate, BattleItemSelectDelegate> {
+@interface ItemFactoryViewController : PopupSubViewController <ResourceItemsFillerDelegate, SpeedupItemsFillerDelegate, UICollectionViewDelegate, BattleItemSelectDelegate, ListCollectionDelegate> {
   ItemFactoryScope _scope;
   
   BattleItemProto *_tempBattleItem;
@@ -49,6 +49,10 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UIView *buttonLabelsView;
 
 @property (nonatomic, retain) IBOutlet UIImageView *queueArrow;
+
+@property (nonatomic, retain) IBOutlet UIButton *allItemsTabButton;
+@property (nonatomic, retain) IBOutlet UIButton *potionsTabButton;
+@property (nonatomic, retain) IBOutlet UIButton *puzzleTabButton;
 
 @property (nonatomic, retain) PopoverViewController *popoverViewController;
 @property (nonatomic, retain) ResourceItemsFiller *resourceItemsFiller;
