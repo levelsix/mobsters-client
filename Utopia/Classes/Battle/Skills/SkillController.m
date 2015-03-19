@@ -572,6 +572,18 @@
   [self showSkillPopupMiniOverlay:NO bottomText:bottomText withCompletion:completion];
 }
 
+- (void) showSkillPopupMiniOverlay:(BOOL)jumpFirst bottomText:(NSString*)bottomText withCompletion:(SkillPopupBlock)completion
+{
+  SkillPopupData *data = [SkillPopupData initWithData:self.belongsToPlayer characterImage:self.userPlayer.characterImage topText:[self skillName] bottomText:bottomText mini:YES stacks:_stacks completion:completion];
+  _callbackBlockForPopup = completion;
+  [self enqueueSkillPopup:data];
+  
+  if (jumpFirst)
+    [self makeSkillOwnerJumpWithTarget:self selector:@selector(showCurrentSkillPopup)];
+  else
+    [self showCurrentSkillPopup];
+}
+
 - (void) showSkillPopupAilmentOverlay:(NSString*)topText bottomText:(NSString*)bottomText
 {
   [self showSkillPopupAilmentOverlay:NO topText:topText bottomText:bottomText withCompletion:^{}];
@@ -579,7 +591,7 @@
 
 - (void) showSkillPopupAilmentOverlay:(BOOL)jumpFirst topText:(NSString*)topText bottomText:(NSString*)bottomText withCompletion:(SkillPopupBlock)completion
 {
-  SkillPopupData *data = [SkillPopupData initWithData:!self.belongsToPlayer characterImage:self.opponentPlayer.characterImage topText:topText bottomText:bottomText mini:YES stacks:[self skillStacks] completion:completion];
+  SkillPopupData *data = [SkillPopupData initWithData:!self.belongsToPlayer characterImage:self.opponentPlayer.characterImage topText:topText bottomText:bottomText mini:YES stacks:_stacks completion:completion];
   
   data.priority = 1;
   
@@ -595,18 +607,6 @@
     [self enqueueSkillPopup:data];
     [self showCurrentSkillPopup];
   }
-}
-
-- (void) showSkillPopupMiniOverlay:(BOOL)jumpFirst bottomText:(NSString*)bottomText withCompletion:(SkillPopupBlock)completion
-{
-  SkillPopupData *data = [SkillPopupData initWithData:self.belongsToPlayer characterImage:self.userPlayer.characterImage topText:[self skillName] bottomText:bottomText mini:YES stacks:[self skillStacks] completion:completion];
-  _callbackBlockForPopup = completion;
-  [self enqueueSkillPopup:data];
-  
-  if (jumpFirst)
-    [self makeSkillOwnerJumpWithTarget:self selector:@selector(showCurrentSkillPopup)];
-  else
-    [self showCurrentSkillPopup];
 }
 
 - (void) makeSkillOwnerJumpWithTarget:(id)target selector:(SEL)completion
