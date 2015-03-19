@@ -43,6 +43,7 @@
 #import "SkillFlameBreak.h"
 #import "SkillPoisonSkewer.h"
 #import "SkillPoisonFire.h"
+#import "SkillChill.h"
 
 @implementation SkillController
 
@@ -84,6 +85,7 @@
     case SkillTypeFlameBreak: return [[SkillFlameBreak alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypePoisonSkewer: return [[SkillPoisonSkewer alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypePoisonFire: return [[SkillPoisonFire alloc] initWithProto:proto andMobsterColor:color];
+    case SkillTypeChill: return [[SkillChill alloc] initWithProto:proto andMobsterColor:color];
     default: CustomAssert(NO, @"Trying to create a skill with the factory for undefined skill."); return nil;
   }
 }
