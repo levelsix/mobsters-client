@@ -36,7 +36,8 @@
 @interface ResearchButtonView : UIView {
   UserResearch *_userResearch;
   
-  NSHashTable* _parentNodes; // Similar to NSSet, but can hold weak references to its members
+  NSHashTable  *_parentNodes; // Similar to NSSet, but can hold weak references to its members
+  NSMutableSet *_connectionsToParentNodes;
 }
 
 @property (nonatomic, assign) IBOutlet UIImageView *researchIcon;
@@ -54,8 +55,11 @@
 
 - (void)updateSelf;
 - (void)updateForResearch:(UserResearch *)userResearch parentNodes:(NSSet *)parentNodes;
+- (void)highlightPathToParentNodes:(BOOL)highlight needsBlackOutline:(BOOL)needsBlackOutline;
 - (void)select;
 - (void)deselect;
+- (void)dropOpacity;
+- (void)fullOpacity;
 
 @end
 
