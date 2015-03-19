@@ -64,7 +64,7 @@
 {
   if (!self.belongsToPlayer)
   {
-    self.battleLayer.movesLeft = MIN(self.battleLayer.movesLeft - _turnsSkipped, 0);
+    [self.battleLayer setMovesLeft:MAX(self.battleLayer.movesLeft - _turnsSkipped, 0) animated:YES];
   }
   return [super activate];
 }
@@ -78,7 +78,11 @@
       && !self.belongsToPlayer && trigger == SkillTriggerPointStartOfPlayerTurn)
   {
     if (execute)
-      self.battleLayer.movesLeft = MIN(self.battleLayer.movesLeft - _turnsSkipped, 0);
+    {
+      [self.battleLayer setMovesLeft:MAX(self.battleLayer.movesLeft - _turnsSkipped, 0) animated:YES];
+      [self showSkillPopupAilmentOverlay:@"CHILLED" bottomText:[NSString stringWithFormat:@"%i MOVE LOST", _turnsSkipped]];
+      [self skillTriggerFinished];
+    }
     return YES;
   }
   
