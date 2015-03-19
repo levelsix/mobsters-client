@@ -89,8 +89,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   if (_playerSkillController && _playerSkillSerializedState)
   {
     [_playerSkillController deserialize:_playerSkillSerializedState];
-    _playerSkillSerializedState = nil;
   }
+  _playerSkillSerializedState = nil;
 }
 
 - (void) updateEnemySkill
@@ -143,8 +143,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   if (_enemySkillController && _enemySkillSerializedState)
   {
     [_enemySkillController deserialize:_enemySkillSerializedState];
-    _enemySkillSerializedState = nil;
   }
+  _enemySkillSerializedState = nil;
+
 }
 
 - (void) updateReferences

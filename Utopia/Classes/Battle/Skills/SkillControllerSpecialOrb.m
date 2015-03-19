@@ -176,6 +176,8 @@
       OrbSprite* orbSprite = [self.battleLayer.orbLayer.swipeLayer spriteForOrb:orb];
       [orbSprite reloadSprite:YES];
     }];
+    
+    _orbsSpawned++;
   }
   
   [layout detectPossibleSwaps];
