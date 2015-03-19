@@ -1543,6 +1543,9 @@
 		6BB5F8641A80571A006515B9 /* TutorialUpgradeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB5F8631A80571A006515B9 /* TutorialUpgradeViewController.m */; };
 		6BB5F8651A80571A006515B9 /* TutorialUpgradeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB5F8631A80571A006515B9 /* TutorialUpgradeViewController.m */; };
 		6BB5F8661A80571A006515B9 /* TutorialUpgradeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB5F8631A80571A006515B9 /* TutorialUpgradeViewController.m */; };
+		6BBBBFBF1ABB7BD8006656C7 /* SkillChill.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBBBFBE1ABB7BD8006656C7 /* SkillChill.m */; };
+		6BBBBFC01ABB7BD8006656C7 /* SkillChill.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBBBFBE1ABB7BD8006656C7 /* SkillChill.m */; };
+		6BBBBFC11ABB7BD8006656C7 /* SkillChill.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBBBFBE1ABB7BD8006656C7 /* SkillChill.m */; };
 		6BCBD8751A797E63002C584F /* SkillHammerTime.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCBD8741A797E63002C584F /* SkillHammerTime.m */; };
 		6BCBD8761A797E63002C584F /* SkillHammerTime.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCBD8741A797E63002C584F /* SkillHammerTime.m */; };
 		6BCBD8771A797E63002C584F /* SkillHammerTime.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCBD8741A797E63002C584F /* SkillHammerTime.m */; };
@@ -7579,6 +7582,8 @@
 		6BB5F85E1A80095B006515B9 /* TutorialBuildingUpgradeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialBuildingUpgradeController.m; sourceTree = "<group>"; };
 		6BB5F8621A80570C006515B9 /* TutorialUpgradeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialUpgradeViewController.h; sourceTree = "<group>"; };
 		6BB5F8631A80571A006515B9 /* TutorialUpgradeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialUpgradeViewController.m; sourceTree = "<group>"; };
+		6BBBBFBC1ABB7BBF006656C7 /* SkillChill.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillChill.h; sourceTree = "<group>"; };
+		6BBBBFBE1ABB7BD8006656C7 /* SkillChill.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillChill.m; sourceTree = "<group>"; };
 		6BCBD8721A797E51002C584F /* SkillHammerTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillHammerTime.h; sourceTree = "<group>"; };
 		6BCBD8741A797E63002C584F /* SkillHammerTime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillHammerTime.m; sourceTree = "<group>"; };
 		7531CD67E149A97B795B119A /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -17196,6 +17201,8 @@
 				6B3BC16C1A8BC68E00E0D457 /* SkillPoisonSkewer.m */,
 				6B3BC1791A8BE3DA00E0D457 /* SkillPoisonFire.h */,
 				6B3BC1741A8BE3CD00E0D457 /* SkillPoisonFire.m */,
+				6BBBBFBC1ABB7BBF006656C7 /* SkillChill.h */,
+				6BBBBFBE1ABB7BD8006656C7 /* SkillChill.m */,
 			);
 			name = Specific;
 			sourceTree = "<group>";
@@ -23356,6 +23363,7 @@
 				9B9BA8021A73367B001B7D04 /* SkillConfusion.m in Sources */,
 				9BC9F3401A8C12AF009DC3D5 /* SkillSideEffect.m in Sources */,
 				CFE11F931A141C040094F797 /* amqp_timer.c in Sources */,
+				6BBBBFC01ABB7BD8006656C7 /* SkillChill.m in Sources */,
 				CF0CED1A196F452900ECD301 /* GenericPopupController.m in Sources */,
 				9BC9F3461A8C1420009DC3D5 /* SkillSideEffectBuff.m in Sources */,
 				CF0CED1B196F452900ECD301 /* QuestCompleteLayer.m in Sources */,
@@ -23862,6 +23870,7 @@
 				CFF6463A195A3A3B00C43641 /* SellViewController.m in Sources */,
 				CF15BA7F16572A8400A51F85 /* AMQPChannel.m in Sources */,
 				CF29E929196151CD00B40DA4 /* GachaChooserViewController.m in Sources */,
+				6BBBBFBF1ABB7BD8006656C7 /* SkillChill.m in Sources */,
 				CFEF25D318C9D6F100FB867A /* FacebookSpammer.m in Sources */,
 				CFE02AE518209CE00016C1E2 /* MapBotView.m in Sources */,
 				CF15BA8016572A8400A51F85 /* AMQPConnection.m in Sources */,
@@ -24061,6 +24070,7 @@
 				CF4818C019F7217F00041486 /* EasyTableView.m in Sources */,
 				9B9BA8031A73367B001B7D04 /* SkillConfusion.m in Sources */,
 				9BC9F3411A8C12AF009DC3D5 /* SkillSideEffect.m in Sources */,
+				6BBBBFC11ABB7BD8006656C7 /* SkillChill.m in Sources */,
 				CFE11F941A141C040094F797 /* amqp_timer.c in Sources */,
 				CF4818C119F7217F00041486 /* GenericPopupController.m in Sources */,
 				9BC9F3471A8C1420009DC3D5 /* SkillSideEffectBuff.m in Sources */,
