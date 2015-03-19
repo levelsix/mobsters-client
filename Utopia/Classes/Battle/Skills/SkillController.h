@@ -132,6 +132,7 @@ static NSString* const kSkillMiniLogoImageNameSuffix = @"minilogo.png";
 - (void) showSkillPopupAilmentOverlay:(BOOL)jumpFirst topText:(NSString*)topText bottomText:(NSString*)bottomText withCompletion:(SkillPopupBlock)completion;
 - (void) makeSkillOwnerJumpWithTarget:(id)target selector:(SEL)completion;
 - (void) enqueueSkillPopup:(SkillPopupData*)skillPopupData;
+- (int) skillStacks;
 
 // Serialization
 - (NSDictionary*) serialize;
