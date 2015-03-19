@@ -51,19 +51,17 @@
 {
   if ([self isActive])
   {
-    if (self.belongsToPlayer == player)
+    if (self.belongsToPlayer == player) //Remember that this is flip-flopped from Roid Rage, since the opponent is getting the effects of the skill!
     {
-      [self showSkillPopupMiniOverlay:NO
-                           bottomText:[NSString stringWithFormat:@"%.3gX DMG", _damageGivenMultiplier]
-                       withCompletion:^{}];
-      return damage * _damageGivenMultiplier;
+      [self showSkillPopupAilmentOverlay:@"BLOOD RAGE"
+                           bottomText:[NSString stringWithFormat:@"%.3gX DMG RECIEVED", _damageTakenMultiplier]];
+      return damage * _damageTakenMultiplier;
     }
     else
     {
-      [self showSkillPopupMiniOverlay:NO
-                           bottomText:[NSString stringWithFormat:@"%.3gX DMG RECEIVED", _damageTakenMultiplier]
-                       withCompletion:^{}];
-      return damage * _damageTakenMultiplier;
+      [self showSkillPopupAilmentOverlay:@"BLOOD RAGE"
+                              bottomText:[NSString stringWithFormat:@"%.3gX DMG", _damageGivenMultiplier]];
+      return damage * _damageGivenMultiplier;
     }
   }
   
