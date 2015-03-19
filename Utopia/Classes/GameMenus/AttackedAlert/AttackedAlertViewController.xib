@@ -12,6 +12,7 @@
                 <outlet property="cashLabel" destination="owP-VK-tEJ" id="j5D-rt-KaE"/>
                 <outlet property="mainView" destination="boL-iZ-CCo" id="fpV-Y1-rp6"/>
                 <outlet property="oilLabel" destination="Swe-nS-OY2" id="Auh-zu-n52"/>
+                <outlet property="rankIcon" destination="mHs-pZ-ctg" id="eCL-TG-mdM"/>
                 <outlet property="rankLabel" destination="CTc-Ox-G1D" id="yjx-rD-Tq6"/>
                 <outlet property="resultsContainerView" destination="PZx-0A-dEM" id="9ad-LP-mA6"/>
                 <outlet property="tableContainerView" destination="slr-JT-9xh" id="IVp-z1-sc1"/>

@@ -28,6 +28,7 @@
 @property (nonatomic, retain) IBOutlet UILabel *oilLabel;
 @property (nonatomic, retain) IBOutlet UILabel *rankLabel;
 @property (nonatomic, retain) IBOutlet THLabel *titleLabel;
+@property (nonatomic, retain) IBOutlet UIImageView *rankIcon;
 
 @property (nonatomic, retain) IBOutlet UITableView *alertsTable;
 
