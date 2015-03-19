@@ -66,6 +66,11 @@
   return NO;
 }
 
+- (int)skillStacks
+{
+  return 0;
+}
+
 - (NSInteger) modifyDamage:(NSInteger)damage forPlayer:(BOOL)player
 {
   if ([self isActive])
