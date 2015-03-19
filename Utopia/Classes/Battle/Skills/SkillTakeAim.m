@@ -47,20 +47,9 @@
   return YES;
 }
 
-- (BOOL)doesStack
-{
-  return YES;
-}
-
-- (int)skillStacks
-{
-  return 0;
-}
-
 - (NSInteger) modifyDamage:(NSInteger)damage forPlayer:(BOOL)player
 {
   _orbsSpawned = (int)[self specialsOnBoardCount:SpecialOrbTypeTakeAim];
-  _stacks = _orbsSpawned;
   if (!player && !self.belongsToPlayer && _orbsSpawned)
   {
     float rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
