@@ -68,6 +68,10 @@
 
 - (int)skillStacks
 {
+  if (self.belongsToPlayer)
+  {
+    return [super skillStacks];
+  }
   return 0;
 }
 
