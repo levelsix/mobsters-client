@@ -35,7 +35,7 @@
 
 @interface ResearchButtonView : UIView {
   UserResearch *_userResearch;
-  
+  BOOL _selected;
   NSHashTable  *_parentNodes; // Similar to NSSet, but can hold weak references to its members
   NSMutableSet *_connectionsToParentNodes;
 }
@@ -72,14 +72,16 @@
   BOOL _barAnimating;
 }
 
-@property (weak, nonatomic) IBOutlet researchSelectionBarView *selectFieldView;
-
 -(id)initWithDomain:(ResearchDomain)domain;
 -(void)researchButtonClickWithResearch:(UserResearch *)userResearch sender:(id)sender;
 -(void)barClickedWithResearch:(UserResearch *)research;
+
+@property (nonatomic, assign) IBOutlet UIButton *bgButton;
+@property (nonatomic, assign) IBOutlet researchSelectionBarView *selectFieldView;
 @end
 
 @interface ResearchTreeView : UIView
 @property (nonatomic, assign) IBOutlet UIView *mainView;
 @property (nonatomic, assign) IBOutlet UIScrollView *scrollView;
+
 @end

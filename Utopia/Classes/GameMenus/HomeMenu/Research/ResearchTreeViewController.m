@@ -97,6 +97,7 @@
 @implementation ResearchButtonView
 
 - (void) select {
+  _selected = YES;
   BOOL isAvailable = [_userResearch.research prereqsComplete];
   self.bgView.hidden = !isAvailable;
   self.outline.image = isAvailable ? [UIImage imageNamed:AVAILABLE_OUTLINE] : [UIImage imageNamed:UNAVAILABLE_OUTLINE];
@@ -105,6 +106,7 @@
 }
 
 - (void) deselect {
+  _selected = NO;
   self.bgView.hidden = YES;
   self.outline.image = [UIImage imageNamed:LIGHT_GREY_OUTLINE];
   
@@ -249,12 +251,12 @@
 }
 
 - (IBAction) touchDownOnButton:(id)sender {
-  if (self.bgView.hidden) // Deselected
+  if (!_selected) // Deselected
     self.outline.image = [UIImage imageNamed:GREY_OUTLINE];
 }
 
 - (IBAction) touchUpOnButton:(id)sender {
-  if (self.bgView.hidden) // Deselected
+  if (!_selected) // Deselected
     self.outline.image = [UIImage imageNamed:LIGHT_GREY_OUTLINE];
 }
 
@@ -314,7 +316,8 @@
   const CGFloat kResearchTreeBottomPadding = 20.f;
   
   NSMutableDictionary* researchButtonViews = [NSMutableDictionary dictionary];
-  for (int tier = 1; tier < tieredResearches.count + 1; ++tier)
+  for (int tier = 1; tier < tieredResearches.count + 1; ++tier
+       )
   {
     NSArray* sortedResearches = [(NSArray*)[tieredResearches objectForKey:@( tier )] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
       return [(ResearchProto*)obj1 priority] > [(ResearchProto*)obj2 priority];
@@ -324,7 +327,7 @@
     for (ResearchProto* research in sortedResearches)
       maxPriority = MAX(maxPriority, research.priority);
     
-    UIView* tierContainer = [[UIView alloc] initWithFrame:CGRectMake(0.f, kResearchTreeTopPadding + (tier - 1) * kResearchButtonViewSize.height,
+    TouchableSubviewsView* tierContainer = [[TouchableSubviewsView alloc] initWithFrame:CGRectMake(0.f, kResearchTreeTopPadding + (tier - 1) * kResearchButtonViewSize.height,
                                                                      treeView.mainView.width, kResearchButtonViewSize.height)];
     [treeView.mainView insertSubview:tierContainer atIndex:0]; // Insert underneath the tier positioned above
     
@@ -355,6 +358,7 @@
   treeView.scrollView.contentSize = CGSizeMake(treeView.mainView.size.width,
                                                tieredResearches.count * kResearchButtonViewSize.height + kResearchTreeBottomPadding);
   
+  [treeView.mainView sendSubviewToBack:self.bgButton];
   [Globals alignSubviewsToPixelsBoundaries:treeView.mainView];
 }
 
@@ -394,9 +398,25 @@
   
 }
 
+-(IBAction)deselectTree:(id)sender {
+  [_lastClicked deselect];
+  [_researchButtons makeObjectsPerformSelector:@selector(fullOpacity)];
+  
+  UIView *outView = _curBarView;
+  [_curBarView animateOut:^{
+    [outView removeFromSuperview];
+  }];
+  _curBarView = nil;
+  ResearchTreeView *treeView = (ResearchTreeView *)self.view;
+  [self scrollViewDidScroll:treeView.scrollView];
+  
+  _lastClicked = nil;
+}
+
 -(void)barClickedWithResearch:(UserResearch *)research{
   ResearchInfoViewController *rivc = [[ResearchInfoViewController alloc] initWithResearch:research];
   [self.parentViewController pushViewController:rivc animated:YES];
+  
 }
 
 - (void) viewWillAppear:(BOOL)animated {
