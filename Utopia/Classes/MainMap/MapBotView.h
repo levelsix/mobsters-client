@@ -20,6 +20,7 @@ typedef enum {
   MapBotViewButtonHeal,
   MapBotViewButtonEnhance,
   MapBotViewButtonEvolve,
+  MapBotViewButtonResearch,
   MapBotViewButtonTeam,
   MapBotViewButtonMiniJob,
   MapBotViewButtonSpeedup,
@@ -60,6 +61,7 @@ typedef enum {
 + (id) healButton;
 + (id) enhanceButton;
 + (id) evolveButton;
++ (id) researchButton;
 + (id) teamButton;
 + (id) miniJobsButton;
 + (id) infoButton;

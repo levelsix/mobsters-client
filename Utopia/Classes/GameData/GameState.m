@@ -1096,6 +1096,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return nil;
 }
 
+- (UserStruct *) myResearchLab {
+  for (UserStruct *us in self.myStructs) {
+    if (us.staticStruct.structInfo.structType == StructureInfoProto_StructTypeResearchHouse) {
+      return us;
+    }
+  }
+  return nil;
+}
+
 - (NSArray *) allHospitals {
   NSMutableArray *allHospitals = [NSMutableArray array];
   for (UserStruct *us in self.myStructs) {
@@ -1218,7 +1227,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [self addToStaticStructs:proto.allBattleItemFactorysList];
   [self addToStaticStructs:proto.allPvpBoardHousesList];
   
-//[self addToStaticStructs:proto.allResearchHousesList];
+  [self addToStaticStructs:proto.allResearchHousesList];
   
   [self.staticItems removeAllObjects];
   [self addToStaticItems:proto.itemsList];

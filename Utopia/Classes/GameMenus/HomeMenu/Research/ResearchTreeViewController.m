@@ -12,11 +12,11 @@
 #import "ResearchInfoViewController.h"
 #import "ResearchController.h"
 
-#define RED_STROKE @"e0181a"
-#define BLUE_STROKE @"1086de"
+#define RED_STROKE @"940500"
+#define BLUE_STROKE @"0A7194"
 
 #define RED_BOT_COLOR @"FFE4E6"
-#define BLUE_BOT_COLOR @"c9f7ff" // D2F7FE
+#define BLUE_BOT_COLOR @"c9f7ff"
 
 @implementation researchSelectionBarView
 
@@ -27,7 +27,8 @@
   
   [Globals imageNamed:userResearch.research.iconImgName withView:self.selectionIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   self.rankTotal.text = [NSString stringWithFormat:@"%d/%@", proto.level, @([proto fullResearchFamily].count)];
-  self.selectionTitle.text = [NSString stringWithFormat:@"%@ Rank %d", proto.name, proto.level];
+  self.rankTotal.shadowBlur = 0.5f;
+  self.selectionTitle.text = [NSString stringWithFormat:@" %@ Rank %d", proto.name, proto.level];
   self.selectionDescription.text = proto.desc;
   
   self.nextArrowButton.image = [UIImage imageWithCGImage:self.nextArrowButton.image.CGImage
@@ -111,7 +112,8 @@
   ResearchProto *research = userResearch.research;
   _userResearch = userResearch;
   self.researchNameLabel.text = research.name;
-  self.rankLabel.text = [NSString stringWithFormat:@"%d/%@",research.level, @([research fullResearchFamily].count)];
+  int curRank = userResearch.complete ? research.level : research.level - 1;
+  self.rankLabel.text = [NSString stringWithFormat:@"%d/%@",curRank, @([research fullResearchFamily].count)];
 }
 
 - (IBAction)researchSelected:(id)sender {

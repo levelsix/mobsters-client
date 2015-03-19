@@ -47,10 +47,13 @@
   
   //for now we assume only a single property for each research
   self.percentIncreseLabel.text = [rc longImprovementString];
+  CGSize size = [self.percentIncreseLabel.text getSizeWithFont:self.percentIncreseLabel.font];
+  int offsetFromBar = 5;
+  self.detailView.center = CGPointMake(self.percentIncreseLabel.frame.origin.x+size.width+(self.detailView.frame.size.width/2) + offsetFromBar, self.percentIncreseLabel.center.y);
   
   [Globals imageNamed:research.iconImgName withView:self.researchImage greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
   self.researchName.text = research.name;
-  self.researchTimeLabel.text = [Globals convertTimeToMediumString:research.durationMin*60];
+  self.researchTimeLabel.text = [[Globals convertTimeToMediumString:research.durationMin*60] uppercaseString];
   
   NSArray *prereqs = [gs prerequisitesForGameType:GameTypeResearch gameEntityId:research.researchId];
   
@@ -127,7 +130,7 @@
   self.researchOilLabel.shadowColor = [UIColor colorWithWhite:1.f alpha:0.25];
   
   self.bottomBarTitle.text = @"Woops!";
-  self.bottomBarDescription.text = [NSString stringWithFormat:@"You are missing %d requirement%@ to upgrade.", missingRequirements, missingRequirements == 1 ? @"" : @"s"];
+  self.bottomBarDescription.text = [NSString stringWithFormat:@"You are missing %d requirement%@ to Research.", missingRequirements, missingRequirements == 1 ? @"" : @"s"];
   
   self.bottomBarIcon.highlighted = YES;
   self.bottomBarImage.highlighted = YES;
@@ -164,6 +167,12 @@
   if(!self.view.activityIndicator.hidden) {return;}
   
   GameState *gs = [GameState sharedGameState];
+  
+  if ([gs.researchUtil currentResearch]) {
+    [Globals popupMessage:@"Research already in progress"];
+    return;
+  }
+  
   ResearchProto *research = _userResearch.research;
   
   if ( (research.costType == ResourceTypeCash && gs.cash <= research.costAmt) || (research.costType == ResourceTypeOil && gs.oil <= research.costAmt)) {
@@ -181,7 +190,7 @@
       [gvc.view addSubview:svc.view];
       
       UIButton* invokingButton = (UIButton*)sender;
-      [svc showAnchoredToInvokingView:invokingButton withDirection:ViewAnchoringPreferTopPlacement inkovingViewImage:invokingButton.currentImage];
+      [svc showAnchoredToInvokingView:invokingButton withDirection:ViewAnchoringPreferLeftPlacement inkovingViewImage:invokingButton.currentImage];
     }
   } else {
     UserResearch *startedResearch = [[OutgoingEventController sharedOutgoingEventController] beginResearch:_userResearch gemsSpent:0 resourceType:research.costType resourceCost:research.costAmt delegate:self];
@@ -326,7 +335,7 @@
       }
       else
       {
-        if ([sender isKindOfClass:[TimerCell class]]) // Invoked from TimerAction
+        if ([sender isKindOfClass:[TimerCell class]])
         {
           UIButton* invokingButton = ((TimerCell*)sender).speedupButton;
           const CGPoint invokingViewAbsolutePosition = [Globals convertPointToWindowCoordinates:invokingButton.frame.origin fromViewCoordinates:invokingButton.superview];

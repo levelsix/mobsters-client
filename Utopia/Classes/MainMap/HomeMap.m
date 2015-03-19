@@ -728,6 +728,17 @@
       }
     }
   }
+  
+  BOOL researchInProgress = [gs.researchUtil currentResearch] != nil;
+  for (ResearchBuilding *b in [self childrenOfClassType:[ResearchBuilding class]]) {
+    if(researchInProgress) {
+      b.userResearch = [gs.researchUtil currentResearch];
+      [b displayProgressBar];
+    } else {
+      b.userResearch = nil;
+      [b removeProgressBar];
+    }
+  }
 }
 
 - (void) reloadMoneyTree:(NSTimer *)timer {
@@ -1111,6 +1122,10 @@
             [buttonViews addObject:[MapBotViewButton evolveButton]];
             break;
             
+          case StructureInfoProto_StructTypeResearchHouse:
+            [buttonViews addObject:[MapBotViewButton researchButton]];
+            break;
+            
           case StructureInfoProto_StructTypeLab:
             [buttonViews addObject:[MapBotViewButton enhanceButton]];
             break;
@@ -1197,6 +1212,7 @@
     case MapBotViewButtonJoinClan:
     case MapBotViewButtonPvpBoard:
     case MapBotViewButtonItemFactory:
+    case MapBotViewButtonResearch:
       [self enterClicked:button];
       break;
       
@@ -1742,6 +1758,10 @@
       
       self.currentViewController = bdvc;
     }
+      break;
+      
+    case StructureInfoProto_StructTypeResearchHouse:
+      hvc = [[HomeViewController alloc] initWithResearchLab];
       break;
       
     case StructureInfoProto_StructTypeClan:
@@ -2613,6 +2633,7 @@
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadBubblesOnMiscBuildings) name:EVOLUTION_CHANGED_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadBubblesOnMiscBuildings) name:MONSTER_SOLD_COMPLETE_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadBubblesOnMiscBuildings) name:FB_INCREASE_SLOTS_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadBubblesOnMiscBuildings) name:RESEARCH_CHANGED_NOTIFICATION object:nil];
   
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(beginTimers) name:STATIC_DATA_UPDATED_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadAllBubbles) name:STATIC_DATA_UPDATED_NOTIFICATION object:nil];

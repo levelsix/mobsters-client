@@ -85,6 +85,10 @@
       buildingClass = [ItemFactoryBuilding class];
       break;
       
+    case StructureInfoProto_StructTypeResearchHouse:
+      buildingClass = [ResearchBuilding class];
+      break;
+      
     default:
       buildingClass = [HomeBuilding class];
       break;
@@ -1237,6 +1241,55 @@
     if ([bar.prefix isEqualToString:prefix]) {
       NSTimeInterval time = _evolution.endTime.timeIntervalSinceNow;
       NSTimeInterval totalSecs = [_evolution.endTime timeIntervalSinceDate:_evolution.startTime];
+      [self.progressBar updateForSecsLeft:time totalSecs:totalSecs];
+      
+      if ([self isFreeSpeedup]) {
+        [self.progressBar animateFreeLabel];
+      }
+    } else {
+      [self displayProgressBar];
+    }
+  }
+}
+
+@end
+
+@implementation ResearchBuilding
+
+- (BOOL) isFreeSpeedup {
+  if (self.isConstructing) {
+    return [super isFreeSpeedup];
+  } else {
+    Globals *gl = [Globals sharedGlobals];
+    NSTimeInterval timeLeft = _userResearch.endTime.timeIntervalSinceNow;
+    int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
+    return gemCost == 0;
+  }
+}
+
+- (NSString *) progressBarPrefix {
+  if (self.isConstructing) {
+    return [super progressBarPrefix];
+  } else {
+    if (![self isFreeSpeedup]) {
+      return @"obtimergreen";
+    } else {
+      return @"obtimerpurple";
+    }
+  }
+}
+
+- (void) updateProgressBar {
+  if (self.isConstructing) {
+    [super updateProgressBar];
+  } else {
+    UpgradeProgressBar *bar = self.progressBar;
+    
+    // Check the prefix
+    NSString *prefix = [self progressBarPrefix];
+    if ([bar.prefix isEqualToString:prefix]) {
+      NSTimeInterval time = _userResearch.endTime.timeIntervalSinceNow;
+      NSTimeInterval totalSecs = _userResearch.research.durationMin * 60;
       [self.progressBar updateForSecsLeft:time totalSecs:totalSecs];
       
       if ([self isFreeSpeedup]) {

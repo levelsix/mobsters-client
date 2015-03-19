@@ -15,7 +15,6 @@
 @property (nonatomic, assign) IBOutlet UIImageView *checkMark;
 @property (nonatomic, assign) IBOutlet UILabel *rankLabel;
 @property (nonatomic, assign) IBOutlet UILabel *improvementLabel;
-@property (nonatomic, assign) IBOutlet UIImage *line;
 
 -(void)updateWithRank:(NSString *)rank description:(NSString *)description showCheckMark:(BOOL)show;
 
@@ -24,6 +23,7 @@
 @interface ResearchDetailView : UIView
 @property (nonatomic, assign) IBOutlet NiceFontLabel9 *researchName;
 @property (nonatomic, assign) IBOutlet NiceFontLabel8 *researchRank;
+@property (nonatomic, assign) IBOutlet UIImageView *researchIcon;
 
 
 -(void) updateWithResearch:(UserResearch *)userResearch;

@@ -14,7 +14,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="openquestarrow.png" id="wrb-rt-mPb">
-                        <rect key="frame" x="409" y="17" width="13" height="21"/>
+                        <rect key="frame" x="400" y="17" width="13" height="21"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="researchbattle.png" id="Wlg-Gr-VXg">
@@ -24,21 +24,36 @@
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Battle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="xmR-ge-WfK" customClass="NiceFontLabel12">
                         <rect key="frame" x="64" y="17" width="321" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
                         <color key="textColor" red="0.10196078431372549" green="0.60784313725490191" blue="0.88235294117647056" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.59999999999999998" contentMode="scaleToFill" image="popupline.png" id="UnH-BZ-F7P">
+                        <rect key="frame" x="5" y="55" width="420" height="1"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    </imageView>
                 </subviews>
             </tableViewCellContentView>
             <connections>
                 <outlet property="categoryIcon" destination="Wlg-Gr-VXg" id="r30-Wp-OKr"/>
                 <outlet property="categoryTitle" destination="xmR-ge-WfK" id="SaB-BR-EAy"/>
+                <outlet property="line" destination="UnH-BZ-F7P" id="3P0-f3-KtJ"/>
+                <outlet property="selectedBackgroundView" destination="PSz-6l-2Kg" id="JDm-nP-OSq"/>
             </connections>
             <point key="canvasLocation" x="692" y="466"/>
         </tableViewCell>
+        <view contentMode="scaleToFill" id="PSz-6l-2Kg">
+            <rect key="frame" x="0.0" y="0.0" width="430" height="56"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <color key="backgroundColor" red="0.94117647058823528" green="0.94117647058823528" blue="0.94117647058823528" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="692" y="578"/>
+        </view>
     </objects>
     <resources>
         <image name="openquestarrow.png" width="13" height="21"/>
+        <image name="popupline.png" width="1" height="1"/>
         <image name="researchbattle.png" width="46" height="46"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

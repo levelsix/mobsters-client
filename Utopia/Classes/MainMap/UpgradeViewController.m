@@ -410,6 +410,16 @@
     maxStat1 = max.powerLimit;
     
     statName1 = @"Power Limit:";
+  } else if (structType == StructureInfoProto_StructTypeResearchHouse) {
+    ResearchHouseProto *cur = (ResearchHouseProto *)curSS;
+    ResearchHouseProto *next = (ResearchHouseProto *)nextSS;
+    ResearchHouseProto *max = (ResearchHouseProto *)maxSS;
+    
+    curStat1 = cur.structInfo.structId;
+    newStat1 = next.structInfo.structId;
+    maxStat1 = max.structInfo.structId;
+    
+    statName1   = @"Struct Id:";
   }
   
   NSString *dollarSign = showsCashSymbol1 ? @"$" : @"";

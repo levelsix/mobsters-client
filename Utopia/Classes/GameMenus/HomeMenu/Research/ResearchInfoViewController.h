@@ -53,6 +53,7 @@
 @property (nonatomic, assign) IBOutlet NiceFontLabel8 *researchTimeLabel;
 
 @property (nonatomic, assign) IBOutlet NiceFontLabel9 *percentIncreseLabel;
+@property (nonatomic, assign) IBOutlet UIView *detailView;
 @property (nonatomic, assign) IBOutlet SplitImageProgressBar *topPercentBar;
 @property (nonatomic, assign) IBOutlet SplitImageProgressBar *botPercentBar;
 

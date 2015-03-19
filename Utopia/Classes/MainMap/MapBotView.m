@@ -55,6 +55,12 @@
   return button;
 }
 
++ (id) researchButton {
+  MapBotViewButton *button = [self button];
+  [button updateWithImageName:@"buildingresearch.png" actionText:@"Research" config:MapBotViewButtonResearch];
+  return button;
+}
+
 + (id) teamButton {
   MapBotViewButton *button = [self button];
   [button updateWithImageName:@"buildingmanage.png" actionText:@"Manage Team" config:MapBotViewButtonTeam];

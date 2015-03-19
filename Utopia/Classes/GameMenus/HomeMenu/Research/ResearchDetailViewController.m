@@ -24,7 +24,9 @@
 
 - (void)updateWithResearch:(UserResearch *)userResearch {
   self.researchName.text = userResearch.research.name;
-  self.researchRank.text = [NSString stringWithFormat:@"%d/%@",userResearch.research.level, @([userResearch.research fullResearchFamily].count)];
+  int curLevel = userResearch.complete ? userResearch.research.level : userResearch.research.level - 1;
+  self.researchRank.text = [NSString stringWithFormat:@"%d/%@",curLevel, @([userResearch.research fullResearchFamily].count)];
+  [Globals imageNamed:userResearch.research.iconImgName withView:self.researchIcon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
 }
 
 @end
@@ -67,7 +69,7 @@
   if (research.researchId == _userResearch.researchId) {
     cell.bgView.backgroundColor = [UIColor colorWithHexString:@"FFFFDC"];
   } else {
-    cell.bgView.backgroundColor = [UIColor whiteColor];
+    cell.bgView.backgroundColor = [UIColor clearColor];
   }
   
   [cell updateWithRank:[NSString stringWithFormat:@"%d",research.level] description:[rc shortImprovementString] showCheckMark:[gs.researchUtil prerequisiteFullfilledForResearch:research]];

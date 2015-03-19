@@ -254,6 +254,7 @@
 - (UserStruct *) myClanHouse;
 - (UserStruct *) myPvpBoardHouse;
 - (UserStruct *) myBattleItemFactory;
+- (UserStruct *) myResearchLab;
 - (NSArray *) allHospitals;
 - (NSArray *) myValidHospitals;
 - (int) maxHospitalQueueSize;

@@ -143,6 +143,12 @@
 
 @end
 
+@interface ResearchBuilding : HomeBuilding
+  
+@property (nonatomic, retain) UserResearch *userResearch;
+
+@end
+
 @interface MiniJobCenterBuilding : HomeBuilding
 
 @property (nonatomic, retain) UserMiniJob *activeMiniJob;

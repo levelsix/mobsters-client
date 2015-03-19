@@ -16,7 +16,7 @@
   BOOL _waitingForServer;
 }
 @property (nonatomic, retain) IBOutlet UIView *curReseaerchBar;
-@property (nonatomic, retain) IBOutlet UILabel *curSkillTitle;
+@property (nonatomic, retain) IBOutlet UILabel *curResearchTitle;
 @property (nonatomic, retain) IBOutlet GeneralButton *helpButton;
 @property (nonatomic, retain) IBOutlet GeneralButton *finishButton;
 @property (nonatomic, retain) IBOutlet NiceFontLabel12B *finishFreeLabel;
@@ -24,6 +24,7 @@
 @property (nonatomic, retain) IBOutlet NiceFontLabel8T *curTimeRemaining;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (nonatomic, retain) IBOutlet UIView *selectFieldView;
+@property (nonatomic, retain) IBOutlet UIImageView *researchIcon;
 
 @property (nonatomic, retain) SpeedupItemsFiller *speedupItemsFiller;
 @property (nonatomic, retain) ItemSelectViewController *itemSelectViewController;
@@ -38,5 +39,6 @@
 - (void) updateForDomain:(ResearchDomain) domain;
 @property (nonatomic, retain) IBOutlet UIImageView *categoryIcon;
 @property (nonatomic, retain) IBOutlet UILabel *categoryTitle;
+@property (nonatomic, retain) IBOutlet UIImageView *line;
 
 @end

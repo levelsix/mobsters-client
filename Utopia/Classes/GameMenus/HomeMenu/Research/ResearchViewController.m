@@ -14,12 +14,14 @@
 #import "GameState.h"
 #import "GameViewController.h"
 
+#define TOTAL_DOMAINS 4
+
 @implementation ResearchViewController
 
 - (void) viewDidLoad {
   [super viewDidLoad];
   
-  self.titleImageName = @"residencemenuheader.png";
+  self.titleImageName = @"researchcentermenuheader.png";
   self.title = @"RESEARCH LAB";
 }
 
@@ -39,19 +41,21 @@
   GameState *gs = [GameState sharedGameState];
   UserResearch *curResearch = [gs.researchUtil currentResearch];
   _curResearch = curResearch;
-  [self updateLabels];
   if(curResearch && !_curResearchUp) {
+  [Globals imageNamed:curResearch.research.iconImgName withView:self.researchIcon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
     CGPoint position = self.selectFieldView.center;
     [self.selectFieldView removeFromSuperview];
     [self.view addSubview:self.curReseaerchBar];
     self.curReseaerchBar.center = position;
     _curResearchUp = YES;
+    [self updateLabels];
   } else if (!curResearch && _curResearchUp) {
     CGPoint position = self.curReseaerchBar.center;
     [self.curReseaerchBar removeFromSuperview];
     [self.view addSubview:self.selectFieldView];
     self.selectFieldView.center = position;
     _curResearchUp = NO;
+    [self updateLabels];
   }
 }
 
@@ -98,7 +102,7 @@
     self.helpButton.superview.hidden = YES;
     self.curTimeRemaining.superview.hidden = YES;
   }
-  self.curSkillTitle.text = _curResearch.research.name;
+  self.curResearchTitle.text = _curResearch.research.name;
 }
 
 -(void)waitTimeComplete {
@@ -132,12 +136,13 @@
   
   ResearchDomain domain = (ResearchDomain)indexPath.row+2; //add 2 to avoid 0 and NO_DOMAIN
   [cell updateForDomain:domain];
+  cell.line.hidden = indexPath.row == TOTAL_DOMAINS -1;
   
   return cell;
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return 4;//it looks like there is no way to just count how many enums there are
+  return TOTAL_DOMAINS;//it looks like there is no way to just count how many enums there are
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

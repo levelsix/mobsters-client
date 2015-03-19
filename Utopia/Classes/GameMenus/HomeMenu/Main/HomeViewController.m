@@ -75,6 +75,13 @@
   return self;
 }
 
+- (id) initWithResearchLab {
+  if((self = [super init])) {
+    _initViewControllerClass = [ResearchViewController class];
+  }
+  return self;
+}
+
 #pragma mark - View loading
 
 - (void) viewDidLoad {
@@ -117,8 +124,7 @@
   if (gs.myEvoChamber.isComplete || gs.myEvoChamber.staticStruct.structInfo.level > 1) [arr addObject:evo];
   if ((gs.myMiniJobCenter.isComplete && gs.myMiniJobCenter.staticStruct.structInfo.level > 0) || gs.myMiniJobCenter.staticStruct.structInfo.level > 1) [arr addObject:miniJobs];
   if (gs.myBattleItemFactory.isComplete || gs.myBattleItemFactory.staticStruct.structInfo.level > 1) [arr addObject:itemFactory];
-  //make me fix this Ashwin
-  [arr addObject:research];
+  if (gs.myResearchLab.isComplete && gs.myResearchLab.staticStruct.structInfo.level > 0) [arr addObject:research];
   self.mainViewControllers = arr;
 }
 
