@@ -112,7 +112,7 @@ static const int kBoardMarginLeft = 10;
     [longPressGestureRecogzier setDelegate:self];
     [longPressGestureRecogzier setMinimumPressDuration:(self.obstaclesScrollView.contentSize.width > self.obstaclesScrollView.width) ? .1f : 0.f];
     [self.obstaclesScrollView setGestureRecognizers:[self.obstaclesScrollView.gestureRecognizers arrayByAddingObjectsFromArray:@[ longPressGestureRecogzier ]]];
-  // Gesture recognizer for detecting long press on obstacles on the board
+  // Gesture recognizer for detecting tap on obstacles on the board
   longPressGestureRecogzier = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
     [longPressGestureRecogzier setDelegate:self];
     [longPressGestureRecogzier setMinimumPressDuration:0.f];
@@ -392,7 +392,7 @@ static const int kBoardMarginLeft = 10;
   CGPoint point = [gestureRecognizer locationInView:self.view];
   if (gestureRecognizer.state == UIGestureRecognizerStateBegan)
   {
-    if (!_draggingObstacle)
+    if (!_draggingObstacle && _draggedObstacle == nil)
     {
       UIImage* draggedObstacleImage = nil;
       CGPoint draggedObstacleAnchorPoint = CGPointMake(.5f, .5f);
@@ -421,7 +421,6 @@ static const int kBoardMarginLeft = 10;
           if (_draggedObstacle.obstacleType == BoardObstacleTypeHole)
             [[self tilesSurroundingAndIncludingTileAtRow:row andColumn:col] makeObjectsPerformSelector:@selector(updateBorders)];
           
-          _draggingObstacle = YES;
           _dragOriginatedFromBoard = YES;
         }
       }
@@ -441,7 +440,6 @@ static const int kBoardMarginLeft = 10;
               draggedObstacleImage = obstacleView.obstacleImageView.image;
               draggedObstacleAnchorPoint = CGPointMake(localPoint.x / obstacleView.obstacleImageView.width, localPoint.y / obstacleView.obstacleImageView.height);
               
-              _draggingObstacle = YES;
               _dragOriginatedFromBoard = NO;
               
               // Valid drag gesture detected; disable scrolling
@@ -452,7 +450,7 @@ static const int kBoardMarginLeft = 10;
           }
       }
       
-      if (_draggingObstacle)
+      if (_draggedObstacle)
       {
         _draggedObstacleImage = [[UIImageView alloc] initWithImage:draggedObstacleImage];
           [_draggedObstacleImage setCenter:point];
@@ -464,6 +462,8 @@ static const int kBoardMarginLeft = 10;
           [_draggedObstacleImage.layer setTransform:CATransform3DMakeScale(1.5f, 1.5f, 1.f)];
           
           [self showExtraPowerCostOnUnoccupiedTiles];
+
+          _draggingObstacle = YES;
         }];
         
         _dragLastMovementTime = CACurrentMediaTime();
@@ -472,7 +472,7 @@ static const int kBoardMarginLeft = 10;
   }
   if (gestureRecognizer.state == UIGestureRecognizerStateEnded)
   {
-    if (_draggingObstacle)
+    if (_draggingObstacle && _draggedObstacle != nil)
     {
       BOOL invalidDrop = YES;
       
@@ -522,17 +522,11 @@ static const int kBoardMarginLeft = 10;
               [UIView animateWithDuration:.1f animations:^{
                 [_draggedObstacleImage setAlpha:0.f];
               } completion:^(BOOL finished) {
-                [_draggedObstacleImage removeFromSuperview];
-                _draggedObstacleImage = nil;
-                _draggedObstacle = nil;
+                [self endDrag];
               }];
             }
             else
-            {
-              [_draggedObstacleImage removeFromSuperview];
-              _draggedObstacleImage = nil;
-              _draggedObstacle = nil;
-            }
+              [self endDrag];
           }];
           
           invalidDrop = NO;
@@ -553,9 +547,7 @@ static const int kBoardMarginLeft = 10;
             [_draggedObstacleImage setAlpha:0.f];
             [_draggedObstacleImage.layer setTransform:CATransform3DMakeScale(2.5f, 2.5f, 1.f)];
           } completion:^(BOOL finished) {
-            [_draggedObstacleImage removeFromSuperview];
-            _draggedObstacleImage = nil;
-            _draggedObstacle = nil;
+            [self endDrag];
           }];
         }
         else
@@ -566,9 +558,7 @@ static const int kBoardMarginLeft = 10;
             [_draggedObstacleImage.layer setAnchorPoint:CGPointMake(.5f, .5f)];
             [_draggedObstacleImage.layer setTransform:CATransform3DIdentity];
           } completion:^(BOOL finished) {
-            [_draggedObstacleImage removeFromSuperview];
-            _draggedObstacleImage = nil;
-            _draggedObstacle = nil;
+            [self endDrag];
           }];
         }
       }
@@ -595,6 +585,13 @@ static const int kBoardMarginLeft = 10;
       _dragLastMovementTime = CACurrentMediaTime();
     }
   }
+}
+
+- (void) endDrag
+{
+  [_draggedObstacleImage removeFromSuperview];
+  _draggedObstacleImage = nil;
+  _draggedObstacle = nil;
 }
 
 - (NSArray*) tilesSurroundingAndIncludingTileAtRow:(int)row andColumn:(int)col
