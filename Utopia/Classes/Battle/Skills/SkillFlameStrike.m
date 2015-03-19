@@ -36,7 +36,7 @@
 {
   if ([self isActive] && color == OrbColorFire)
   {
-    _tempDamageGained += self.userPlayer.fireDamage * (_damageMultiplier-1);
+    _tempDamageGained += self.userPlayer.fireDamage * (_damageMultiplier);
   }
   [super orbDestroyed:color special:type];
 }
