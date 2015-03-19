@@ -76,6 +76,14 @@
 
 #pragma mark - Skill logic
 
+- (void)showQuickAttackMiniLogo
+{
+  if (self.opponentPlayer.curHealth > _enemyHealthThreshold)
+  {
+    [super showQuickAttackMiniLogo];
+  }
+}
+
 - (void)quickAttackDealDamage
 {
   if (self.opponentPlayer.curHealth < _enemyHealthThreshold)
