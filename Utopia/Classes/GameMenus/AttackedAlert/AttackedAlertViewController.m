@@ -60,9 +60,9 @@
   
   _oilLabel.text = [NSString stringWithFormat:@"%d", _oilLost];
   _cashLabel.text = [NSString stringWithFormat:@"%d", _cashLost];
-  _rankLabel.text = [NSString stringWithFormat:@"%@%d", _rankLost > 0 ? "+" : "", _rankLost];
+  _rankLabel.text = [NSString stringWithFormat:@"%s%d", _rankLost > 0 ? "+" : "", _rankLost];
   
-  PvpLeagueProto *league = gs.pvpLeague;
+  PvpLeagueProto *league = [gs leagueForId:gs.pvpLeague.leagueId];
   NSString *icon = [league.imgPrefix stringByAppendingString:@"icon.png"];
   [Globals imageNamed:icon withView:self.rankIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
 }
