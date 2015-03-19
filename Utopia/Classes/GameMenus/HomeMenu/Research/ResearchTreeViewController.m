@@ -87,7 +87,6 @@
 #define AVAILABLE_OUTLINE   @"canresearchclickedborder.png"
 #define UNAVAILABLE_OUTLINE @"cantresearchtapped.png"
 #define DARK_GREY_OUTLINE   @"darkresearchcircle.png"
-#define GREY_OUTLINE        @"lightresearchcirclepressed.png"
 #define LIGHT_GREY_OUTLINE  @"lightresearchcircle.png"
 #define LIGHT_LINE_COLOR    @"EAEAEA"
 #define DARK_LINE_COLOR     @"555555"
@@ -97,7 +96,6 @@
 @implementation ResearchButtonView
 
 - (void) select {
-  _selected = YES;
   BOOL isAvailable = [_userResearch.research prereqsComplete];
   self.bgView.hidden = !isAvailable;
   self.outline.image = isAvailable ? [UIImage imageNamed:AVAILABLE_OUTLINE] : [UIImage imageNamed:UNAVAILABLE_OUTLINE];
@@ -106,7 +104,6 @@
 }
 
 - (void) deselect {
-  _selected = NO;
   self.bgView.hidden = YES;
   self.outline.image = [UIImage imageNamed:LIGHT_GREY_OUTLINE];
   
@@ -191,6 +188,7 @@
         [lineFromSelf setBackgroundColor:[UIColor colorWithHexString:LIGHT_LINE_COLOR]];
         [self insertSubview:lineFromSelf belowSubview:self.bgView];
         [_connectionsToParentNodes addObject:lineFromSelf];
+      
       UIView* lineToParent = [[UIView alloc] initWithFrame:CGRectMake(meetingPointToParent.x - kLineWidth * .5f, connectionToParent.y,
                                                                       kLineWidth, meetingPointToParent.y - connectionToParent.y + 2)];
         [lineToParent setBackgroundColor:[UIColor colorWithHexString:LIGHT_LINE_COLOR]];
@@ -199,21 +197,25 @@
       
       const BOOL parentToTheRight = (connectionToParent.x - connectionFromSelf.x) > 0;
       
-      UIImageView* curveFromSelf = [[UIImageView alloc] initWithFrame:CGRectMake(parentToTheRight ? lineFromSelf.originX : lineFromSelf.originX + lineFromSelf.width - kCornerSize.width,
-                                                                                 lineFromSelf.originY - kCornerSize.height, kCornerSize.width, kCornerSize.height)];
+      UIImageView* curveFromSelf = [[UIImageView alloc] initWithFrame:
+                                    CGRectMake(parentToTheRight ? lineFromSelf.originX : lineFromSelf.originX + lineFromSelf.width - kCornerSize.width,
+                                               lineFromSelf.originY - kCornerSize.height, kCornerSize.width, kCornerSize.height)];
         [curveFromSelf setImage:[UIImage imageNamed:LIGHT_CURVE]];
         [curveFromSelf.layer setTransform:CATransform3DMakeScale(parentToTheRight ? 1.f : -1.f, 1.f, 1.f)];
         [self insertSubview:curveFromSelf belowSubview:self.bgView];
         [_connectionsToParentNodes addObject:curveFromSelf];
-      UIImageView* curveToParent = [[UIImageView alloc] initWithFrame:CGRectMake(parentToTheRight ? lineToParent.originX + lineToParent.width - kCornerSize.width : lineToParent.originX,
-                                                                                 lineToParent.originY + lineToParent.height, kCornerSize.width, kCornerSize.height)];
+      
+      UIImageView* curveToParent = [[UIImageView alloc] initWithFrame:
+                                    CGRectMake(parentToTheRight ? lineToParent.originX + lineToParent.width - kCornerSize.width : lineToParent.originX,
+                                               lineToParent.originY + lineToParent.height, kCornerSize.width, kCornerSize.height)];
         [curveToParent setImage:[UIImage imageNamed:LIGHT_CURVE]];
         [curveToParent.layer setTransform:CATransform3DMakeScale(parentToTheRight ? -1.f : 1.f, -1.f, 1.f)];
         [self insertSubview:curveToParent belowSubview:self.bgView];
         [_connectionsToParentNodes addObject:curveToParent];
       
-      UIView* connectingLine = [[UIView alloc] initWithFrame:CGRectMake((parentToTheRight ? curveFromSelf.originX : curveToParent.originX) + kCornerSize.width, curveFromSelf.originY,
-                                                                        ABS(meetingPointToParent.x - meetingPointFromSelf.x) + kLineWidth - kCornerSize.width * 2.f, kLineWidth)];
+      UIView* connectingLine = [[UIView alloc] initWithFrame:
+                                CGRectMake((parentToTheRight ? curveFromSelf.originX : curveToParent.originX) + kCornerSize.width, curveFromSelf.originY,
+                                           ABS(meetingPointToParent.x - meetingPointFromSelf.x) + kLineWidth - kCornerSize.width * 2.f, kLineWidth)];
         [connectingLine setBackgroundColor:[UIColor colorWithHexString:LIGHT_LINE_COLOR]];
         [self insertSubview:connectingLine belowSubview:self.bgView];
         [_connectionsToParentNodes addObject:connectingLine];
@@ -248,16 +250,6 @@
 
 - (IBAction) researchSelected:(id)sender {
   [self.delegate researchButtonClickWithResearch:_userResearch sender:(id) self];
-}
-
-- (IBAction) touchDownOnButton:(id)sender {
-  if (!_selected) // Deselected
-    self.outline.image = [UIImage imageNamed:GREY_OUTLINE];
-}
-
-- (IBAction) touchUpOnButton:(id)sender {
-  if (!_selected) // Deselected
-    self.outline.image = [UIImage imageNamed:LIGHT_GREY_OUTLINE];
 }
 
 @end
@@ -313,11 +305,10 @@
   
   const CGSize  kResearchButtonViewSize = CGSizeMake(80.f, 135.f);
   const CGFloat kResearchTreeTopPadding = 0.f;
-  const CGFloat kResearchTreeBottomPadding = 20.f;
+  const CGFloat kResearchTreeBottomPadding = 0.f;
   
   NSMutableDictionary* researchButtonViews = [NSMutableDictionary dictionary];
-  for (int tier = 1; tier < tieredResearches.count + 1; ++tier
-       )
+  for (int tier = 1; tier < tieredResearches.count + 1; ++tier)
   {
     NSArray* sortedResearches = [(NSArray*)[tieredResearches objectForKey:@( tier )] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
       return [(ResearchProto*)obj1 priority] > [(ResearchProto*)obj2 priority];
@@ -327,8 +318,9 @@
     for (ResearchProto* research in sortedResearches)
       maxPriority = MAX(maxPriority, research.priority);
     
-    TouchableSubviewsView* tierContainer = [[TouchableSubviewsView alloc] initWithFrame:CGRectMake(0.f, kResearchTreeTopPadding + (tier - 1) * kResearchButtonViewSize.height,
-                                                                     treeView.mainView.width, kResearchButtonViewSize.height)];
+    TouchableSubviewsView* tierContainer = [[TouchableSubviewsView alloc] initWithFrame:
+                                            CGRectMake(0.f, kResearchTreeTopPadding + (tier - 1) * kResearchButtonViewSize.height,
+                                                       treeView.mainView.width, kResearchButtonViewSize.height)];
     [treeView.mainView insertSubview:tierContainer atIndex:0]; // Insert underneath the tier positioned above
     
     for (ResearchProto* research in sortedResearches)
@@ -343,8 +335,9 @@
       
       ResearchButtonView *researchButtonView = [[NSBundle mainBundle] loadNibNamed:@"ResearchButtonView" owner:self options:nil][0];
       {
-        [researchButtonView setCenter:CGPointMake(tierContainer.width * .5f + (research.priority - (maxPriority - minPriority) * .5f) * kResearchButtonViewSize.width,
-                                                  tierContainer.height * .5f)];
+        [researchButtonView setCenter:
+         CGPointMake(tierContainer.width * .5f + (research.priority - (maxPriority - minPriority) * .5f) * kResearchButtonViewSize.width,
+                     tierContainer.height * .5f)];
         [tierContainer addSubview:researchButtonView];
         [researchButtonView updateForResearch:userResearch parentNodes:parentResearchButtonViews];
         [researchButtonView setDelegate:self];
@@ -355,8 +348,8 @@
     }
   }
   
-  treeView.scrollView.contentSize = CGSizeMake(treeView.mainView.size.width,
-                                               tieredResearches.count * kResearchButtonViewSize.height + kResearchTreeBottomPadding);
+  _contentSize = CGSizeMake(treeView.mainView.size.width, tieredResearches.count * kResearchButtonViewSize.height + kResearchTreeBottomPadding);
+  treeView.scrollView.contentSize = _contentSize;
   
   [treeView.mainView sendSubviewToBack:self.bgButton];
   [Globals alignSubviewsToPixelsBoundaries:treeView.mainView];
@@ -385,6 +378,13 @@
     [_curBarView animateIn:nil];
     _curBarView.delegate = self;
     
+    ResearchTreeView *treeView = (ResearchTreeView *)self.view;
+    treeView.scrollView.contentSize = CGSizeMake(_contentSize.width, _contentSize.height + _curBarView.height);
+    [UIView animateWithDuration:0.3f animations:^{
+      const CGFloat yOffset = [treeView.mainView convertPoint:_lastClicked.center fromView:_lastClicked.superview].y - treeView.scrollView.contentOffset.y - treeView.height * .5f;
+      treeView.scrollView.contentOffset = CGPointMake(treeView.scrollView.contentOffset.x, clampf(treeView.scrollView.contentOffset.y + yOffset, 0.f, treeView.scrollView.contentSize.height));
+    }];
+    
     if(_selectFieldViewUp) {
       [UIView animateWithDuration:0.3f animations:^{
         _selectFieldView.alpha = 0.f;
@@ -402,12 +402,17 @@
   [_lastClicked deselect];
   [_researchButtons makeObjectsPerformSelector:@selector(fullOpacity)];
   
+  ResearchTreeView *treeView = (ResearchTreeView *)self.view;
+  [UIView animateWithDuration:0.3f animations:^{
+    treeView.scrollView.contentSize = _contentSize;
+  }];
+  
   UIView *outView = _curBarView;
   [_curBarView animateOut:^{
     [outView removeFromSuperview];
   }];
   _curBarView = nil;
-  ResearchTreeView *treeView = (ResearchTreeView *)self.view;
+  
   [self scrollViewDidScroll:treeView.scrollView];
   
   _lastClicked = nil;
@@ -436,7 +441,7 @@
     return;
   }
   if(_selectFieldViewUp) {
-    if( scrollView.contentOffset.y > 100) {
+    if( scrollView.contentOffset.y > 20) {
       [UIView animateWithDuration:0.3f animations:^{
         _selectFieldView.alpha = 0.f;
       }];
@@ -447,7 +452,7 @@
       }];
     }
   } else {
-    if( scrollView.contentOffset.y < 100) {
+    if( scrollView.contentOffset.y < 20) {
       [UIView animateWithDuration:0.3f animations:^{
         _selectFieldView.alpha = 1.f;
       }];

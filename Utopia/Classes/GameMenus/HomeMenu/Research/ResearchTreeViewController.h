@@ -35,7 +35,7 @@
 
 @interface ResearchButtonView : UIView {
   UserResearch *_userResearch;
-  BOOL _selected;
+
   NSHashTable  *_parentNodes; // Similar to NSSet, but can hold weak references to its members
   NSMutableSet *_connectionsToParentNodes;
 }
@@ -50,8 +50,6 @@
 @property (nonatomic, assign) id<TreeDelegate> delegate;
 
 - (IBAction)researchSelected:(id)sender;
-- (IBAction)touchDownOnButton:(id)sender;
-- (IBAction)touchUpOnButton:(id)sender;
 
 - (void)updateSelf;
 - (void)updateForResearch:(UserResearch *)userResearch parentNodes:(NSSet *)parentNodes;
@@ -68,6 +66,7 @@
   NSMutableArray *_researchButtons;
   researchSelectionBarView *_curBarView;
   ResearchDomain _domain;
+  CGSize _contentSize;
   BOOL _selectFieldViewUp;
   BOOL _barAnimating;
 }

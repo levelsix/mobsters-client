@@ -2183,7 +2183,6 @@
 		9BC9F3D91A95561B009DC3D5 /* turnmovesbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BC9F3D81A95561B009DC3D5 /* turnmovesbg@2x.png */; };
 		9BC9F3DA1A95561B009DC3D5 /* turnmovesbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BC9F3D81A95561B009DC3D5 /* turnmovesbg@2x.png */; };
 		9BC9F3DB1A95561B009DC3D5 /* turnmovesbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BC9F3D81A95561B009DC3D5 /* turnmovesbg@2x.png */; };
-		9BCA5FF61AB90C170087FB41 /* lightresearchcirclepressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BCA5FF51AB90C170087FB41 /* lightresearchcirclepressed@2x.png */; };
 		9BCA5FFC1ABA2E9B0087FB41 /* researchitemgradient@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BCA5FFB1ABA2E9B0087FB41 /* researchitemgradient@2x.png */; };
 		9BCA5FFD1ABA2E9B0087FB41 /* researchitemgradient@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BCA5FFB1ABA2E9B0087FB41 /* researchitemgradient@2x.png */; };
 		9BCA5FFE1ABA2E9B0087FB41 /* researchitemgradient@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BCA5FFB1ABA2E9B0087FB41 /* researchitemgradient@2x.png */; };
@@ -7996,7 +7995,6 @@
 		9BC9F3981A8EB9C5009DC3D5 /* Titillium-BoldUpright.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Titillium-BoldUpright.otf"; sourceTree = "<group>"; };
 		9BC9F3A91A928392009DC3D5 /* greyrocks@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greyrocks@2x.png"; sourceTree = "<group>"; };
 		9BC9F3D81A95561B009DC3D5 /* turnmovesbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "turnmovesbg@2x.png"; sourceTree = "<group>"; };
-		9BCA5FF51AB90C170087FB41 /* lightresearchcirclepressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "lightresearchcirclepressed@2x.png"; path = "New/lightresearchcirclepressed@2x.png"; sourceTree = "<group>"; };
 		9BCA5FFB1ABA2E9B0087FB41 /* researchitemgradient@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "researchitemgradient@2x.png"; sourceTree = "<group>"; };
 		9BDA8B3D1A3945F600C7AC27 /* evasionminilogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "evasionminilogo@2x.png"; sourceTree = "<group>"; };
 		9BDA8B461A3A481300C7AC27 /* SkillShuffle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillShuffle.h; sourceTree = "<group>"; };
@@ -12994,7 +12992,6 @@
 				636C3E6E1AAA865400B02980 /* darkresearchcircle@2x.png */,
 				636C3E6F1AAA865400B02980 /* darkresearchcorner@2x.png */,
 				636C3E711AAA865400B02980 /* lightresearchcircle@2x.png */,
-				9BCA5FF51AB90C170087FB41 /* lightresearchcirclepressed@2x.png */,
 				636C3E721AAA865400B02980 /* lightresearchcorner@2x.png */,
 				636C3E741AAA865400B02980 /* researchlocked@2x.png */,
 				9BCA5FFB1ABA2E9B0087FB41 /* researchitemgradient@2x.png */,
@@ -21331,7 +21328,6 @@
 				CFC4D2B018D7E130004681FD /* sfx_firework_01.mp3 in Resources */,
 				CF6F1A281815240900CFF2B9 /* QuestListCell.xib in Resources */,
 				CFF2C8F4193E9CC700F28D9E /* greychatmiddle@2x.png in Resources */,
-				9BCA5FF61AB90C170087FB41 /* lightresearchcirclepressed@2x.png in Resources */,
 				2948F5601AB393AD00DF08C2 /* FAQ.3@2x.txt in Resources */,
 				CFF2C93B193FD71F00F28D9E /* chatclanactive@2x.png in Resources */,
 				CFEC993E1947FBF300BD893E /* gachalegendtag@2x.png in Resources */,
