@@ -267,7 +267,7 @@
 {
   [self performAfterDelay:self.opponentSprite.animationType == MonsterProto_AnimationTypeMelee ? .5 : 0 block:^{
     
-    [self showSkillPopupAilmentOverlay:@"POISON" bottomText:[NSString stringWithFormat:@"%i POISON DMG", [self poisonDamage]]];
+    [self showSkillPopupAilmentOverlay:@"POISONED" bottomText:[NSString stringWithFormat:@"%i POISON DMG", [self poisonDamage]]];
     
     if (self.belongsToPlayer)
     {
