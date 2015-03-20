@@ -110,42 +110,42 @@
 
 #pragma mark - Skill logic
 
-//- (void) addDefensiveShieldForUser
-//{
-//  // Do not allow user's health to fall below a certain
-//  // threshold while active
-//  self.userPlayer.minHealth = _minHPAllowed;
-//}
-//
-//- (void) removeDefensiveShieldFromUser
-//{
-//  self.userPlayer.minHealth = 0;
-//}
-//
-//- (BOOL) onDurationStart
-//{
-//  SkillLogStart(@"Shallow Grave -- Skill activated");
-//  
-//  [self addDefensiveShieldForUser];
-//  
-//  return [super onDurationStart];
-//}
-//
-//- (BOOL) onDurationReset
-//{
-//  SkillLogStart(@"Shallow Grave -- Skill activated");
-//  [self addDefensiveShieldForUser];
-//  
-//  return [super onDurationReset];
-//}
-//
-//- (BOOL) onDurationEnd
-//{
-//  SkillLogStart(@"Shallow Grave -- Skill deactivated");
-//  
-//  [self removeDefensiveShieldFromUser];
-//  
-//  return [super onDurationEnd];
-//}
+- (void) addDefensiveShieldForUser
+{
+  // Do not allow user's health to fall below a certain
+  // threshold while active
+  self.userPlayer.minHealth = _minHPAllowed;
+}
+
+- (void) removeDefensiveShieldFromUser
+{
+  self.userPlayer.minHealth = 0;
+}
+
+- (BOOL) onDurationStart
+{
+  SkillLogStart(@"Shallow Grave -- Skill activated");
+  
+  [self addDefensiveShieldForUser];
+  
+  return [super onDurationStart];
+}
+
+- (BOOL) onDurationReset
+{
+  SkillLogStart(@"Shallow Grave -- Skill activated");
+  [self addDefensiveShieldForUser];
+  
+  return [super onDurationReset];
+}
+
+- (BOOL) onDurationEnd
+{
+  SkillLogStart(@"Shallow Grave -- Skill deactivated");
+  
+  [self removeDefensiveShieldFromUser];
+  
+  return [super onDurationEnd];
+}
 
 @end
