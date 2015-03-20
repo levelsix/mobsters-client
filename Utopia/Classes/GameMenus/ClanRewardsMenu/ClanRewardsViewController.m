@@ -16,6 +16,10 @@
 #import "OutgoingEventController.h"
 
 #define GREEN_BG @"ECFBD4"
+#define GREY_TEXT @"C3C3C3"
+
+#define GREEN_GRADIENT @"C5F285"
+#define GREEN_STROKE @"2F5008"
 
 @implementation ClanRewardsQuestView
 
@@ -30,19 +34,31 @@
   if(!self.greyScale && !ua.isComplete) {
     self.backgroundColor =[UIColor colorWithHexString:GREEN_BG];
     self.goButtonLabel.superview.hidden = NO;
+    
+    self.goButtonLabel.gradientStartColor = [UIColor whiteColor];
+    self.goButtonLabel.gradientEndColor = [UIColor colorWithHexString:GREEN_GRADIENT];
+    self.goButtonLabel.strokeColor = [UIColor colorWithHexString:GREEN_STROKE];
+    self.goButtonLabel.strokeSize = 1.f;
+  } else if(self.greyScale) {
+    self.nameLabel.textColor = [UIColor colorWithHexString:GREY_TEXT];
+    self.gemsLabel.textColor = [UIColor colorWithHexString:GREY_TEXT];
+    self.circleImage.image = [Globals imageNamed:@"lightsquadrewardcircle.png"];
+    self.diamondIcon.alpha = .5f;
+    self.descriptionIcon.alpha = .5f;
   }
   
   NSString *numberImage = [NSString stringWithFormat:@"%@squadreward%d.png", self.greyScale ? @"grey" : @"green", ap.lvl];
   self.numberIcon.image = [Globals imageNamed:numberImage];
   self.nameLabel.text = ap.name;
   
+  
   [Globals imageNamed:ap.description withView:self.descriptionIcon greyscale:self.greyScale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   [Globals imageNamed:@"diamond.png" withView:self.diamondIcon greyscale:self.greyScale indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
-  [Globals imageNamed:[NSString stringWithFormat:@"srrewardbg%@",self.greyScale ? @"bw":@""] withView:self.diamondIcon greyscale:self.greyScale indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+  [Globals imageNamed:[NSString stringWithFormat:@"srrewardbg%@.png",self.greyScale ? @"bw":@""] withView:self.rewardBg greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
   
   if (!ua.isComplete) {
     self.progressLabel.text = [NSString stringWithFormat:@"%d/%d", ua.progress, ap.quantity];
-    self.gemsLabel.text = [NSString stringWithFormat:@"%d GEMS", ap.gemReward];
+    self.gemsLabel.text = [NSString stringWithFormat:@"%d", ap.gemReward];
     
     self.progressView.hidden = self.greyScale;
     self.diamondIcon.superview.hidden = NO;
@@ -96,54 +112,59 @@
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   NSArray *arr = gl.clanRewardAchievementIds;
-  
+  ClanRewardsQuestView *curActive;
   for (int i = 0; i < arr.count; i++) {
     int achievementId = [arr[i] intValue];
     
     UserAchievement *ua = gs.myAchievements[@(achievementId)];
+    AchievementProto *ap = [gs achievementWithId:achievementId];
+    ClanRewardsQuestView *questView = self.questViews[i];
     
-    if (!ua.isComplete) {
-      [self centerOnAchievementWithIndex:i];
-      return;
+    if (!ua.isComplete && !curActive) {
+      curActive = questView;
+      self.titleLabel.text = [NSString stringWithFormat:@"%@ TO EARN FREE", [ap.name uppercaseString]];
+      CGSize size = [self.titleLabel.text getSizeWithFont:self.titleLabel.font];
+      self.titleDiamond.center = CGPointMake(self.titleLabel.center.x+(size.width/2)+(self.titleDiamond.frame.size.width/2), self.titleLabel.center.y);
+    } else if(!ua.isComplete) {
+      questView.greyScale = YES;
     }
+    [questView updateForUserAchievement:ua achievement:ap];
   }
-  
-  [self centerOnAchievementWithIndex:0];
 }
 
-- (void)centerOnAchievementWithIndex:(int)index {
-  GameState *gs = [GameState sharedGameState];
-  NSArray *arr = [Globals sharedGlobals].clanRewardAchievementIds;
-  int achievementId = [arr[index] intValue];
-  
-  UserAchievement *ua = gs.myAchievements[@(achievementId)];
-  AchievementProto *ap = [gs achievementWithId:achievementId];
-  
-  ClanRewardsQuestView *questView;
-  questView = self.questViews[1];
-  questView.greyScale = NO;
-  [questView updateForUserAchievement:ua achievement:ap];
-  if(index) {
-    ua = gs.myAchievements[@(achievementId-1)];
-    ap = [gs achievementWithId:achievementId-1];
-    questView = self.questViews[0];
-    questView.greyScale = NO;
-    [questView updateForUserAchievement:ua achievement:ap];
-  } else {
-    questView = self.questViews[0];
-    questView.hidden = YES;
-  }
-  if (index+1 != arr.count) {
-    ua = gs.myAchievements[@(achievementId+1)];
-    ap = [gs achievementWithId:achievementId+1];
-    questView = self.questViews[2];
-    questView.greyScale = YES;
-    [questView updateForUserAchievement:ua achievement:ap];
-  } else {
-    questView = self.questViews[2];
-    questView.hidden = YES;
-  }
-}
+//- (void)centerOnAchievementWithIndex:(int)index {
+//  GameState *gs = [GameState sharedGameState];
+//  NSArray *arr = [Globals sharedGlobals].clanRewardAchievementIds;
+//  int achievementId = [arr[index] intValue];
+//  
+//  UserAchievement *ua = gs.myAchievements[@(achievementId)];
+//  AchievementProto *ap = [gs achievementWithId:achievementId];
+//  
+//  ClanRewardsQuestView *questView;
+//  questView = self.questViews[1];
+//  questView.greyScale = NO;
+//  [questView updateForUserAchievement:ua achievement:ap];
+//  if(index) {
+//    ua = gs.myAchievements[@(achievementId-1)];
+//    ap = [gs achievementWithId:achievementId-1];
+//    questView = self.questViews[0];
+//    questView.greyScale = NO;
+//    [questView updateForUserAchievement:ua achievement:ap];
+//  } else {
+//    questView = self.questViews[0];
+//    questView.hidden = YES;
+//  }
+//  if (index+1 != arr.count) {
+//    ua = gs.myAchievements[@(achievementId+1)];
+//    ap = [gs achievementWithId:achievementId+1];
+//    questView = self.questViews[2];
+//    questView.greyScale = YES;
+//    [questView updateForUserAchievement:ua achievement:ap];
+//  } else {
+//    questView = self.questViews[2];
+//    questView.hidden = YES;
+//  }
+//}
 
 - (void) collectClicked:(id)sender {
   NSInteger idx = [self.questViews indexOfObject:sender];

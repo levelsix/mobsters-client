@@ -35,6 +35,7 @@
 @property (nonatomic, retain) IBOutlet UIView *checkView;
 
 @property (nonatomic, retain) IBOutlet THLabel *goButtonLabel;
+@property (nonatomic, retain) IBOutlet UIImageView *circleImage;
 
 @property (nonatomic, assign) IBOutlet id<ClanRewardsQuestDelegate> delegate;
 
@@ -47,5 +48,8 @@
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
 @property (nonatomic, retain) IBOutlet UIView *containerView;
+
+@property (nonatomic, retain) IBOutlet UILabel *titleLabel;
+@property (nonatomic, retain) IBOutlet UIImageView *titleDiamond;
 
 @end
