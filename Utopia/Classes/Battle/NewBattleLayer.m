@@ -943,6 +943,11 @@
 }
 
 - (void) myTurnEnded {
+  
+  _myDamageDealt = _myDamageDealt*[self damageMultiplierIsEnemyAttacker:NO];
+  _myDamageDealtUnmodified = _myDamageDealt;
+  _myDamageDealt = (int)[skillManager modifyDamage:_myDamageDealt forPlayer:YES];
+  
   [self showHighScoreWord];
   [self.orbLayer disallowInput];
   [self.orbLayer.bgdLayer turnTheLightsOff];
@@ -955,12 +960,8 @@
 
 - (void) doMyAttackAnimation {
   
-  _myDamageDealt = _myDamageDealt*[self damageMultiplierIsEnemyAttacker:NO];
-  _myDamageDealtUnmodified = _myDamageDealt;
-  
   // Changing damage with a skill
-  NSInteger scoreModifier = _myDamageDealt > 0 ? 1 : 0; // used to make current score not 0 if damage was modified to 0 by skillManager
-  _myDamageDealt = (int)[skillManager modifyDamage:_myDamageDealt forPlayer:YES];
+  NSInteger scoreModifier = _myDamageDealtUnmodified > 0 ? 1 : 0; // used to make current score not 0 if damage was modified to 0 by skillManager
   if (_myDamageDealt > 0)
     scoreModifier = 0;
   
@@ -991,12 +992,12 @@
     }
     else
     {
-#if !TARGET_IPHONE_SIMULATOR
+//#if !TARGET_IPHONE_SIMULATOR
       if (currentScore > MAKEITRAIN_SCORE) {
         [self.myPlayer restoreStandingFrame];
         [self spawnPlaneWithTarget:nil selector:nil];
       }
-#endif
+//#endif
       float strength = MIN(1, currentScore/(float)STRENGTH_FOR_MAX_SHOTS);
       [self.myPlayer performFarAttackAnimationWithStrength:strength
                                                shouldEvade:[skillManager playerWillEvade:NO]
