@@ -590,11 +590,11 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 
 @interface ResearchHouseProto : PBGeneratedMessage {
 @private
-  BOOL hasStructId_:1;
-  int32_t structId;
+  BOOL hasStructInfo_:1;
+  StructureInfoProto* structInfo;
 }
-- (BOOL) hasStructId;
-@property (readonly) int32_t structId;
+- (BOOL) hasStructInfo;
+@property (readonly, strong) StructureInfoProto* structInfo;
 
 + (ResearchHouseProto*) defaultInstance;
 - (ResearchHouseProto*) defaultInstance;
@@ -631,10 +631,12 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (ResearchHouseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (ResearchHouseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasStructId;
-- (int32_t) structId;
-- (ResearchHouseProto_Builder*) setStructId:(int32_t) value;
-- (ResearchHouseProto_Builder*) clearStructId;
+- (BOOL) hasStructInfo;
+- (StructureInfoProto*) structInfo;
+- (ResearchHouseProto_Builder*) setStructInfo:(StructureInfoProto*) value;
+- (ResearchHouseProto_Builder*) setStructInfo_Builder:(StructureInfoProto_Builder*) builderForValue;
+- (ResearchHouseProto_Builder*) mergeStructInfo:(StructureInfoProto*) value;
+- (ResearchHouseProto_Builder*) clearStructInfo;
 @end
 
 @interface HospitalProto : PBGeneratedMessage {
