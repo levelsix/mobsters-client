@@ -128,8 +128,8 @@ typedef void (^ShakeAnimCompletionBlock)(void);
   
   [playerImage setImage:characterImage];
   
-  [nameLabel setText:topText];
-  [bottomLabel setText:bottomtext];
+  [nameLabel setText:[topText uppercaseString]];
+  [bottomLabel setText:[bottomtext uppercaseString]];
   [topLabel setText:[NSString stringWithFormat:@"%iX", stacks]];
   
   ////////////////
