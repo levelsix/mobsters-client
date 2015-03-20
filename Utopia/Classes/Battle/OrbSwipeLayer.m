@@ -140,6 +140,8 @@
       // orb that will be swapped.
       self.swipeFromColumn = column;
       self.swipeFromRow = row;
+      
+      self.tapDownHandler(orb);
     }
   }
 }
@@ -250,7 +252,7 @@
 }
 
 - (void)animateInvalidSwap:(BattleSwap *)swap completion:(dispatch_block_t)completion {
-
+  
   
   OrbSprite *spriteA = [self spriteForOrb:swap.orbA];
   OrbSprite *spriteB = [self spriteForOrb:swap.orbB];
@@ -352,13 +354,30 @@
   OrbSprite *orbLayer = [self spriteForOrb:orb];
   
   if (orbLayer) {
-    [orbLayer removeLockElements];
+    _numOrbsStillAnimating++;
+    [orbLayer removeLockElementsWithBlock:^{
+      _numOrbsStillAnimating--;
+      [self checkIfAllOrbsAndPowerupsAreDone];
+    }];
     
     CCParticleSystem *q = [CCParticleSystem particleWithFile:@"lockbreak.plist"];
     [self addChild:q z:100];
     q.scale = .4f;
     q.position = orbLayer.position;
     q.autoRemoveOnFinish = YES;
+  }
+}
+
+- (void) decrementCloud:(BattleOrb *)orb {
+  
+  OrbSprite *orbLayer = [self spriteForOrb:orb];
+  
+  if (orbLayer) {
+    _numOrbsStillAnimating++;
+    [orbLayer decrementCloudWithBlock:^{
+      _numOrbsStillAnimating--;
+      [self checkIfAllOrbsAndPowerupsAreDone];
+    }];
   }
 }
 
@@ -373,8 +392,6 @@
 }
 
 - (void) performOrbChange:(BattleOrb *)orb chains:(NSSet *)chains fromPowerup:(PowerupType)powerup {
-  OrbSprite *orbSprite = [self spriteForOrb:orb];
-  
   if (orb.changeType == OrbChangeTypeDestroyed) {
     if (orb.cloudCounter > 0)
       [self cloudPoof:orb];
@@ -383,7 +400,7 @@
     [self destroyLock:orb];
   } else if (orb.changeType == OrbChangeTypeCloudDecremented) {
     [self cloudPoof:orb];
-    [orbSprite decrementCloud];
+    [self decrementCloud:orb];
   }
   
   // Set orb sprite's change type to none so it doesnt happen again
@@ -430,6 +447,9 @@
   }
   
   _matchesCompletionBlock = completion;
+  
+  // In case no orbs were destroyed but a bottom feeder got swapped to the bottom
+  [self checkIfAllOrbsAndPowerupsAreDone];
 }
 
 - (void) animateChainedChainsFromBattleOrb:(BattleOrb *)orb chains:(NSSet *)chains {
@@ -508,12 +528,12 @@
       action = [OrbFallAction actionWithOrbPath:orbPath orb:orbLayer swipeLayer:self isBottomFeeder:NO];
     } else {
       action =
-       [CCActionSequence actions:
-        [OrbFallAction actionWithOrbPath:orbPath orb:orbLayer swipeLayer:self isBottomFeeder:YES],
-        [CCActionCallBlock actionWithBlock:
-         ^{
-           [self performOrbChange:orb chains:nil fromPowerup:PowerupTypeNone];
-         }], nil];
+      [CCActionSequence actions:
+       [OrbFallAction actionWithOrbPath:orbPath orb:orbLayer swipeLayer:self isBottomFeeder:YES],
+       [CCActionCallBlock actionWithBlock:
+        ^{
+          [self performOrbChange:orb chains:nil fromPowerup:PowerupTypeNone];
+        }], nil];
     }
     
     [orbLayer runAction:action];

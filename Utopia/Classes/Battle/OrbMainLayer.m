@@ -10,6 +10,7 @@
 
 #import "Globals.h"
 #import "Protocols.pb.h"
+#import "ClientProperties.h"
 
 #ifdef DEBUG_BATTLE_MODE
 #define OrbLog(...) LNLog(__VA_ARGS__)
@@ -63,6 +64,12 @@
     self.swipeLayer.swipeHandler = block;
     
     block = ^(BattleOrb *orb) {
+      [self tapDownOnOrb:orb];
+    };
+    
+    self.swipeLayer.tapDownHandler = block;
+    
+    block = ^(BattleOrb *orb) {
       [self.delegate orbKilled:orb];
     };
     
@@ -94,20 +101,39 @@
   [self.swipeLayer addSpritesForOrbs:newOrbs];
 }
 
+- (void) tapDownOnOrb:(BattleOrb *)orb {
+  if (self.allowOrbHammer && [self.layout orbCanBeRemoved:orb]) {
+    [self disallowInput];
+    [self.delegate moveBegan];
+    [self handleMatches:nil isFreeSwap:NO destroyedOrb:orb];
+    
+    self.allowOrbHammer = NO;
+  }
+}
+
 - (void) checkSwap:(BattleSwap *)swap {
+  if (self.allowOrbHammer) {
+    return;
+  }
   
   // While orbs are being matched and new orbs fall down to fill up
   // the holes, we don't want the player to tap on anything.
   [self disallowInput];
   
-  if ([self.layout isPossibleSwap:swap]) {
+  if ([self.layout isPossibleSwap:swap] ||
+      (self.allowFreeMove && [swap.orbA isMovable] && [swap.orbB isMovable])) {
     [self.delegate moveBegan];
     
     [self.layout performSwap:swap];
+    
+    // Don't allow powerup matches if the free swap was used to prevent powerup matches from exploding.
+    // This means you can move rainbows and such around without exploding them.
+    BOOL isFreeSwap = self.allowFreeMove;
     [self.swipeLayer animateSwap:swap completion:^{
-      [self handleMatches:swap];
+      [self handleMatches:swap isFreeSwap:isFreeSwap destroyedOrb:nil];
     }];
     
+    self.allowFreeMove = NO;
   } else if ([swap.orbA isMovable] && [swap.orbB isMovable]) {
     [self.swipeLayer animateInvalidSwap:swap completion:^{
       // Recalculate the possible swaps in case of incomplete swap detection..
@@ -119,7 +145,11 @@
   }
 }
 
-- (void) handleMatches:(BattleSwap *)initialSwap {
+- (void) handleMatches {
+  [self handleMatches:nil isFreeSwap:NO destroyedOrb:nil];
+}
+
+- (void) handleMatches:(BattleSwap *)initialSwap isFreeSwap:(BOOL)isFreeSwap destroyedOrb:(BattleOrb *)destroyedOrb {
   
   // This is the main loop that removes any matching orbs and fills up the
   // holes with new orbs. While this happens, the user cannot interact with
@@ -132,7 +162,14 @@
   [self.layout resetOrbChangeTypes];
   
   NSSet *chains = nil;
-  if (initialSwap && [self.layout isPowerupMatch:initialSwap.orbA otherOrb:initialSwap.orbB]) {
+  
+  if (destroyedOrb) {
+    chains = [self.layout createChainForRemovedOrb:destroyedOrb];
+    
+    OrbLog(@"Destroying orb with chains %@", chains);
+    OrbLog(@"Layout: %@", self.layout);
+  }
+  else if (!isFreeSwap && initialSwap && [self.layout isPowerupMatch:initialSwap.orbA otherOrb:initialSwap.orbB]) {
     chains = [self.layout performPowerupMatchWithSwap:initialSwap];
     
     OrbLog(@"Found powerup match with chains %@", chains);
@@ -146,13 +183,13 @@
     OrbLog(@"Layout: %@", self.layout);
     
     // If there are no more matches, then the move is complete.
-    if ([chains count] == 0) {
+    if (!isFreeSwap && [chains count] == 0) {
       NSSet *swaps = [self.layout detectPossibleSwaps];
       
       OrbLog(@"Turn ending.. Detecting swaps: %@", swaps);
       
       if (!swaps.count) {
-        NSSet *newOrbs = [self.layout shuffle];
+        NSSet *newOrbs = [self.layout shuffleEnforceNoMatches:YES];
         
         OrbLog(@"No swaps found.. Shuffling.");
         OrbLog(@"Layout: %@", self.layout);
@@ -261,7 +298,7 @@
       
       foundChange = fillHoles || diagFillHoles || foundNewColumns || newBottomFeeders.count;
       
-      iteration++; 
+      iteration++;
     } while (foundChange);
     
     OrbLog(@"Falling orbs: %@", orbPaths);
@@ -276,15 +313,39 @@
       
       // Keep repeating this cycle until there are no more matches.
       // Don't require swap here because these matches are organic.
-      [self handleMatches:nil];
+      [self handleMatches];
     }];
   }];
 }
 
 - (void) shuffleWithCompletion:(void(^)())completion
 {
-  [self.swipeLayer animateShuffle:[self.layout shuffle] completion:completion];
+  [self.swipeLayer animateShuffle:[self.layout shuffleEnforceNoMatches:YES] completion:completion];
   [self.delegate reshuffleWithPrompt:@"Shuffling..."];
+}
+
+- (void) shuffleWithoutEnforcementAndCheckMatches
+{
+  [self disallowInput];
+  [self.swipeLayer animateShuffle:[self.layout shuffleEnforceNoMatches:NO] completion:^{
+    [self handleMatches];
+  }];
+}
+
+- (void) allowFreeMoveForSingleTurn {
+  self.allowFreeMove = YES;
+}
+
+- (void) cancelFreeMove {
+  self.allowFreeMove = NO;
+}
+
+- (void) allowOrbHammerForSingleTurn {
+  self.allowOrbHammer = YES;
+}
+
+- (void) cancelOrbHammer {
+  self.allowOrbHammer = NO;
 }
 
 - (void)toggleArrows:(BOOL)on

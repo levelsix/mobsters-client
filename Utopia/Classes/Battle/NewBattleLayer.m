@@ -20,6 +20,8 @@
 #import "DestroyedOrb.h"
 #import "SkillManager.h"
 #import "MonsterPopUpViewController.h"
+#import "BattleItemSelectViewController.h"
+#import "ClientProperties.h"
 
 // Disable for this file
 #pragma clang diagnostic push
@@ -2434,8 +2436,8 @@
   const CGPoint orbLayerPosition = ccp(self.contentSize.width-self.orbLayer.contentSize.width/2-ORB_LAYER_DIST_FROM_SIDE, self.orbLayer.position.y);
   [self.orbLayer runAction:[CCActionEaseOut actionWithAction:[CCActionMoveTo actionWithDuration:0.4f position:orbLayerPosition] rate:3]];
 
-  self.lootBgd.position = ccp(orbLayerPosition.x-self.orbLayer.contentSize.width/2-self.lootBgd.contentSize.width/2 - 17,
-                              self.lootBgd.contentSize.height/2+ORB_LAYER_DIST_FROM_SIDE);
+  self.lootBgd.position = ccp(self.lootBgd.contentSize.width/2 + 17,
+                              self.lootBgd.contentSize.height/2+ORB_LAYER_DIST_FROM_SIDE+self.hudView.swapView.height+15);
   [self displayLootCounter:YES];
   
   [SoundEngine puzzleOrbsSlideIn];
@@ -2495,6 +2497,9 @@
   self.hudView.bottomView.originY = self.hudView.bottomView.superview.height-self.hudView.bottomView.height-bottomDist;
   self.hudView.swapView.originY = self.hudView.swapView.superview.height-self.hudView.swapView.height-bottomDist;
   
+  self.hudView.itemsView.originY = self.hudView.itemsView.superview.height-self.hudView.itemsView.height-bottomDist;
+  self.hudView.itemsView.originX = self.hudView.itemsView.superview.width-self.hudView.itemsView.width-self.orbLayer.contentSize.width-ORB_LAYER_DIST_FROM_SIDE-5;
+  
   self.hudView.bottomView.centerX = BOTTOM_CENTER_X;
   
   UIImage *img = [Globals imageNamed:@"6movesqueuebgwide.png"];
@@ -2516,6 +2521,33 @@
     [self.hudView.deployView showClanSlot];
   } else {
     [self.hudView.deployView hideClanSlot];
+  }
+}
+
+- (void) itemsClicked:(id)sender {
+  BattleItemSelectViewController *svc = [[BattleItemSelectViewController alloc] initWithShowUseButton:YES showFooterView:NO];
+  if (svc) {
+    svc.delegate = self;
+    
+    GameViewController *gvc = [GameViewController baseController];
+    svc.view.frame = gvc.view.bounds;
+    [gvc addChildViewController:svc];
+    [gvc.view addSubview:svc.view];
+    
+    if (sender == nil)
+    {
+      [svc showCenteredOnScreen];
+    }
+    else
+    {
+      if ([sender isKindOfClass:[UIButton class]])
+      {
+        UIButton* invokingButton = (UIButton*)sender;
+        [svc showAnchoredToInvokingView:invokingButton
+                          withDirection:ViewAnchoringPreferTopPlacement
+                      inkovingViewImage:[Globals maskImage:[invokingButton imageForState:invokingButton.state] withColor:[UIColor whiteColor]]];
+      }
+    }
   }
 }
 
@@ -2732,6 +2764,140 @@
 
 - (IBAction)sendButtonClicked:(id)sender {
   // Do nothing
+}
+
+#pragma mark - Battle Item Select Delegate
+
+- (NSArray *) reloadBattleItemsArray {
+  GameState *gs = [GameState sharedGameState];
+  NSMutableArray *arr = [NSMutableArray array];
+  
+  BattleItemUtil *bi = gs.battleItemUtil;
+  for (BattleItemProto *bip in gs.staticBattleItems.allValues) {
+    UserBattleItem *ubi = [bi getUserBattleItemForBattleItemId:bip.battleItemId];
+    
+    if (!ubi) {
+      ubi = [[UserBattleItem alloc] init];
+      ubi.battleItemId = bip.battleItemId;
+    }
+    
+    [arr addObject:ubi];
+  }
+  
+  [arr sortUsingComparator:^NSComparisonResult(UserBattleItem *obj1, UserBattleItem *obj2) {
+    BOOL isValid1 = [self battleItemIsValid:obj1];
+    BOOL isValid2 = [self battleItemIsValid:obj2];
+    BOOL hasQuant1 = obj1.quantity > 0;
+    BOOL hasQuant2 = obj2.quantity > 0;
+    
+    if (isValid1 != isValid2) {
+      return [@(isValid2) compare:@(isValid1)];
+    } else if (hasQuant1 != hasQuant2) {
+      return [@(hasQuant2) compare:@(hasQuant1)];
+    } else {
+      return [@(obj1.staticBattleItem.priority) compare:@(obj2.staticBattleItem.priority)];
+    }
+  }];
+  
+  return arr;
+}
+
+- (void) battleItemSelected:(UserBattleItem *)item viewController:(BattleItemSelectViewController *)viewController {
+  BattleItemProto *bip = item.staticBattleItem;
+  if ([self battleItemIsValid:item]) {
+    switch (bip.battleItemType) {
+      case BattleItemTypeHealingPotion:
+        [self useHealthPotion:bip];
+        break;
+        
+      case BattleItemTypeBoardShuffle:
+        [self useBoardShuffle:bip];
+        break;
+        
+      case BattleItemTypeHandSwap:
+        [self useHandSwap:bip];
+        break;
+        
+      case BattleItemTypeOrbHammer:
+        [self useOrbHammer:bip];
+        break;
+        
+      case BattleItemTypeChillAntidote:
+      case BattleItemTypePoisonAntidote:
+#warning for rob: perform action (remove chill/poison)
+        break;
+    }
+    
+    [viewController closeClicked:nil];
+  } else {
+    NSString *str = nil;
+    switch (bip.battleItemType) {
+      case BattleItemTypePoisonAntidote:
+        str = [NSString stringWithFormat:@"Your %@ must be Poisoned to use this Antidote.", MONSTER_NAME];
+        break;
+        
+      case BattleItemTypeChillAntidote:
+        str = [NSString stringWithFormat:@"Your %@ must be Chilled to use this Antidote.", MONSTER_NAME];
+        break;
+        
+      case BattleItemTypeHealingPotion:
+        str = [NSString stringWithFormat:@"Your %@ is already at full health.", MONSTER_NAME];
+        break;
+        
+      case BattleItemTypeBoardShuffle:
+      case BattleItemTypeHandSwap:
+      case BattleItemTypeOrbHammer:
+        // Should always be valid
+        break;
+    }
+    
+    if (str) {
+      [Globals addAlertNotification:str];
+    }
+  }
+}
+
+- (BOOL) battleItemIsValid:(UserBattleItem *)item {
+  BattleItemProto *bip = item.staticBattleItem;
+  switch (bip.battleItemType) {
+    case BattleItemTypeBoardShuffle:
+    case BattleItemTypeHandSwap:
+    case BattleItemTypeOrbHammer:
+      return YES;
+      
+    case BattleItemTypeHealingPotion:
+      return self.myPlayerObject.curHealth < self.myPlayerObject.maxHealth;
+      
+    case BattleItemTypeChillAntidote:
+    case BattleItemTypePoisonAntidote:
+#warning for rob: check whether this item is valid or not, i.e. toon is poisoned/chilled
+      return NO;
+  }
+}
+
+- (void) battleItemSelectClosed:(id)viewController {
+  // Don't need to do anything
+}
+
+#pragma mark Using Battle Items
+
+- (void) useHealthPotion:(BattleItemProto *)bip {
+  [self moveBegan];
+  [self healForAmount:bip.amount enemyIsHealed:NO withTarget:self andSelector:@selector(moveComplete)];
+  [self sendServerUpdatedValuesVerifyDamageDealt:NO];
+}
+
+- (void) useBoardShuffle:(BattleItemProto *)bip {
+  [self moveBegan];
+  [self.orbLayer shuffleWithoutEnforcementAndCheckMatches];
+}
+
+- (void) useHandSwap:(BattleItemProto *)bip {
+  [self.orbLayer allowFreeMoveForSingleTurn];
+}
+
+- (void) useOrbHammer:(BattleItemProto *)bip {
+  [self.orbLayer allowOrbHammerForSingleTurn];
 }
 
 @end

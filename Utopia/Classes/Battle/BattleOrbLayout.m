@@ -11,6 +11,8 @@
 #import "Globals.h"
 #import "BattleOrbPath.h"
 #import "GameState.h"
+#import "ClientProperties.h"
+
 #import "BoardLayoutProto+Properties.h"
 
 // Make this 1 to allow user to swap wherever they want
@@ -232,12 +234,16 @@
 
 #pragma mark - Game Setup
 
-- (NSSet *) shuffle {
+- (NSSet *) shuffleEnforceNoMatches:(BOOL)enforceNoMatches {
   NSMutableSet *set;
   
   BOOL foundMatch;
   
+  int numTimes = 0;
+  
   do {
+    numTimes++;
+    
     set = [NSMutableSet set];
     
     // Put all orbs in an array, shuffle, and put them back
@@ -303,7 +309,7 @@
     
     // If there are no possible moves, then keep trying again until there are.
   }
-  while ([self.possibleSwaps count] == 0 || foundMatch);
+  while (([self.possibleSwaps count] == 0 || (enforceNoMatches && foundMatch)) && numTimes < 1000);
   
   return set;
 }
@@ -663,6 +669,18 @@
   }
 }
 
+- (NSSet *) createChainForRemovedOrb:(BattleOrb *)orb {
+  BattleChain *chain = [[BattleChain alloc] init];
+  chain.chainType = ChainTypeOrbHammer;
+  [chain addOrb:orb];
+  
+  NSSet *set = [NSSet setWithObject:chain];
+  
+  [self removeOrbs:set];
+  
+  return set;
+}
+
 #pragma mark - Detecting Matches
 
 - (NSSet *) removeMatches {
@@ -787,13 +805,7 @@
 }
 
 - (BOOL) orbCanBeRemoved:(BattleOrb *)orb {
-  return (orb.specialOrbType != SpecialOrbTypeCake &&
-          orb.specialOrbType != SpecialOrbTypeGrave &&
-          orb.specialOrbType != SpecialOrbTypeBullet &&
-          orb.specialOrbType != SpecialOrbTypeSword &&
-          orb.specialOrbType != SpecialOrbTypeBullet &&
-          orb.specialOrbType != SpecialOrbTypePoisonFire &&
-          orb.specialOrbType != SpecialOrbTypeBattery);
+  return ![self orbIsBottomFeeder:orb];
 }
 
 - (BOOL) orbIsBottomFeeder:(BattleOrb *)orb {
@@ -801,7 +813,6 @@
           orb.specialOrbType == SpecialOrbTypeGrave ||
           orb.specialOrbType == SpecialOrbTypeBullet ||
           orb.specialOrbType == SpecialOrbTypeSword ||
-          orb.specialOrbType == SpecialOrbTypeBullet ||
           orb.specialOrbType == SpecialOrbTypePoisonFire ||
           orb.specialOrbType == SpecialOrbTypeBattery);
 }

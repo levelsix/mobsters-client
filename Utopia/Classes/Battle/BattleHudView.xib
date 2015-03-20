@@ -153,6 +153,28 @@
                         <action selector="hideSkillPopup:" destination="iN0-l3-epB" eventType="touchUpInside" id="uU7-pV-Re4"/>
                     </connections>
                 </button>
+                <view contentMode="scaleToFill" id="fvo-8u-E9h">
+                    <rect key="frame" x="195" y="265" width="66" height="42"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="tIW-84-LCg">
+                            <rect key="frame" x="0.0" y="0.0" width="66" height="50"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" image="itemsbutton.png">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <state key="disabled" image="itemsbuttongray.png"/>
+                            <connections>
+                                <action selector="itemsClicked:" destination="iN0-l3-epB" eventType="touchUpInside" id="O4Q-OF-pgT"/>
+                            </connections>
+                        </button>
+                        <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="itemsbag.png" id="uSD-qR-E8i">
+                            <rect key="frame" x="23" y="6" width="21" height="23"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <nil key="simulatedStatusBarMetrics"/>
@@ -164,13 +186,16 @@
                 <outlet property="elementButton" destination="2kS-qV-7b6" id="H06-P8-4sH"/>
                 <outlet property="elementView" destination="Qgz-Lk-NDV" id="Epa-eU-LmG"/>
                 <outlet property="forfeitButtonView" destination="BNm-Sv-afd" id="ZlG-ba-rmi"/>
+                <outlet property="itemsBag" destination="uSD-qR-E8i" id="mtA-bo-tP3"/>
+                <outlet property="itemsButton" destination="tIW-84-LCg" id="PmW-X4-0yp"/>
+                <outlet property="itemsView" destination="fvo-8u-E9h" id="mSV-RR-ib2"/>
                 <outlet property="skillPopupCloseButton" destination="pKL-OX-wJm" id="g9g-8H-yTJ"/>
                 <outlet property="skillPopupView" destination="aFa-S4-vV7" id="FQb-PG-Bae"/>
                 <outlet property="swapLabel" destination="MBM-Xk-jdF" id="ewJ-3t-yWE"/>
                 <outlet property="swapView" destination="9tG-Yt-5ot" id="B0x-y1-nYq"/>
                 <outlet property="waveNumLabel" destination="lh2-01-Mam" id="wzS-sS-7f9"/>
             </connections>
-            <point key="canvasLocation" x="1370" y="653"/>
+            <point key="canvasLocation" x="1329" y="640"/>
         </view>
         <view contentMode="scaleToFill" id="zMQ-pc-wO7" customClass="BattleDeployView">
             <rect key="frame" x="0.0" y="0.0" width="235" height="93"/>
@@ -877,6 +902,9 @@
         <image name="evobadge2.png" width="12" height="12"/>
         <image name="fireorb.png" width="27" height="34"/>
         <image name="hospitaltimeleftbg.png" width="37" height="8"/>
+        <image name="itemsbag.png" width="30" height="34"/>
+        <image name="itemsbutton.png" width="66" height="50"/>
+        <image name="itemsbuttongray.png" width="66" height="50"/>
         <image name="movesqueuebgwide.png" width="234" height="62"/>
         <image name="runawaybgwide.png" width="84" height="21"/>
         <image name="runawaybgwidepressed.png" width="75" height="21"/>

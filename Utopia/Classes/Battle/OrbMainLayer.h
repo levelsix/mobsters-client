@@ -34,6 +34,9 @@
 @property (nonatomic, retain) OrbSwipeLayer *swipeLayer;
 @property (nonatomic, retain) OrbBgdLayer *bgdLayer;
 
+@property (nonatomic, assign) BOOL allowFreeMove;
+@property (nonatomic, assign) BOOL allowOrbHammer;
+
 @property (nonatomic, assign) id<OrbMainLayerDelegate> delegate;
 
 - (id) initWithLayoutProto:(BoardLayoutProto *)proto;
@@ -48,6 +51,13 @@
 - (void) allowInput;
 - (void) disallowInput;
 - (void) shuffleWithCompletion:(void(^)())completion;
+- (void) shuffleWithoutEnforcementAndCheckMatches;
+
+- (void) allowFreeMoveForSingleTurn;
+- (void) cancelFreeMove;
+
+- (void) allowOrbHammerForSingleTurn;
+- (void) cancelOrbHammer;
 
 - (void) toggleArrows:(BOOL)on;
 

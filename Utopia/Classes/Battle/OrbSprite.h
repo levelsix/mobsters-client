@@ -35,11 +35,11 @@ static const float orbUpdateAnimDuration = 0.3f;
 - (void) reloadSprite:(BOOL)animated;
 
 // Specials
-- (void) decrementCloud;
+- (void) decrementCloudWithBlock:(dispatch_block_t)comp;
 
 - (void) updateTurnCounter:(BOOL)animated;
 
 - (void) resetOrbSpriteScale;
-- (void) removeLockElements;
+- (void) removeLockElementsWithBlock:(dispatch_block_t)completion;
 
 @end

@@ -1611,7 +1611,12 @@ static NSString *udid = nil;
 }
 
 - (int) sendDiscardBattleItemMessage:(NSArray *)battleItemIds {
-  return 0;
+  DiscardBattleItemRequestProto *req = [[[[DiscardBattleItemRequestProto builder]
+                                          setSender:_sender]
+                                         addAllDiscardedBattleItemIds:battleItemIds]
+                                        build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCDiscardBattleItemEvent];
 }
 
 #pragma mark - Batch/Flush events
