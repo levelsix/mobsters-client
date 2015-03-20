@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
@@ -12,6 +12,7 @@
                 <outlet property="completeView" destination="ixM-xj-QXm" id="ibG-XF-XCk"/>
                 <outlet property="descriptionIcon" destination="BKy-23-ysD" id="0qf-My-tZB"/>
                 <outlet property="gemsLabel" destination="TXM-XE-F9d" id="fKF-bx-Z15"/>
+                <outlet property="goButtonLabel" destination="HdO-C3-fQO" id="KbC-ko-0L7"/>
                 <outlet property="nameLabel" destination="3Z4-I2-Ncm" id="OSi-YR-m9a"/>
                 <outlet property="numberIcon" destination="fRC-eQ-0sR" id="rPR-B8-lQh"/>
                 <outlet property="progressLabel" destination="5jZ-V6-K4N" id="hm8-te-3az"/>
@@ -24,7 +25,7 @@
             <rect key="frame" x="0.0" y="0.0" width="139" height="216"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="squadreward1.png" id="fRC-eQ-0sR">
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="greensquadreward1.png" id="fRC-eQ-0sR">
                     <rect key="frame" x="55" y="11" width="29" height="29"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
@@ -40,7 +41,7 @@
                     <rect key="frame" x="25" y="66" width="84" height="86"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="squadrewardcircle.png" id="bV6-Lf-ArO">
+                        <imageView multipleTouchEnabled="YES" contentMode="center" image="darksquadrewardcircle.png" id="bV6-Lf-ArO">
                             <rect key="frame" x="0.0" y="0.0" width="84" height="84"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
@@ -70,6 +71,27 @@
                                 </label>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
+                        <view contentMode="scaleToFill" id="BU1-KB-DUu" userLabel="GoButtonView">
+                            <rect key="frame" x="50" y="54" width="39" height="39"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="squadrewardgobutton.png" id="WJ1-vZ-zPv">
+                                    <rect key="frame" x="0.0" y="0.0" width="39" height="39"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GO" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="HdO-C3-fQO" customClass="NiceFontLabel12T">
+                                    <rect key="frame" x="-5" y="9" width="42" height="21"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="squadrewardsgoarrow.png" id="Nnh-BR-c4p">
+                                    <rect key="frame" x="25" y="15" width="6" height="10"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                            </subviews>
                         </view>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -146,12 +168,14 @@
     <resources>
         <image name="complete.png" width="78" height="33"/>
         <image name="completedsquadrewards.png" width="25" height="24"/>
+        <image name="darksquadrewardcircle.png" width="85" height="85"/>
         <image name="diamond.png" width="29" height="27"/>
         <image name="greenmenuoption.png" width="80" height="40"/>
+        <image name="greensquadreward1.png" width="29" height="29"/>
         <image name="requesthelp.png" width="75" height="75"/>
-        <image name="squadreward1.png" width="29" height="29"/>
         <image name="squadrewardbg.png" width="88" height="40"/>
-        <image name="squadrewardcircle.png" width="84" height="84"/>
+        <image name="squadrewardgobutton.png" width="39" height="39"/>
+        <image name="squadrewardsgoarrow.png" width="6" height="10"/>
         <image name="squadrewardsprogress.png" width="25" height="24"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
