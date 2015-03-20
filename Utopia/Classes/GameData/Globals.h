@@ -161,6 +161,7 @@
 @property (nonatomic, assign) BOOL displayRarity;
 
 @property (nonatomic, assign) int taskIdOfFirstSkill;
+@property (nonatomic, assign) int taskIdForUpgradeTutorial;
 
 @property (nonatomic, assign) int minsToResolicitTeamDonation;
 
