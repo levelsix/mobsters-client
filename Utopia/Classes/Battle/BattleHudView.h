@@ -47,6 +47,7 @@
 
 @protocol BattleLayerSkillPopupDelegate <NSObject>
 - (void) skillPopupClosed;
+- (void) itemsClicked:(id)sender;
 
 @optional
 - (void) elementButtonClicked;
@@ -82,6 +83,11 @@
 @property (nonatomic, retain) UIButton *deployCancelButton;
 @property (nonatomic, retain) IBOutlet THLabel *waveNumLabel;
 
+@property (nonatomic, retain) IBOutlet UIView *itemsView;
+@property (nonatomic, retain) IBOutlet UIButton *itemsButton;
+@property (nonatomic, retain) IBOutlet UIImageView *itemsBag;
+@property (nonatomic, retain) IBOutlet THLabel *itemsLabel;
+
 @property (nonatomic, retain) IBOutlet UIButton *elementButton;
 @property (nonatomic, retain) IBOutlet BattleElementView *elementView;
 @property (nonatomic, retain) IBOutlet BattleScheduleView *battleScheduleView;
@@ -98,6 +104,9 @@
 - (void) removeDeployView;
 - (void) displayBattleScheduleView;
 - (void) removeBattleScheduleView;
+
+- (void) enableItemsView;
+- (void) disableItemsView;
 
 - (void) removeButtons;
 - (void) prepareForMyTurn;

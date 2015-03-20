@@ -34,8 +34,6 @@
 @property (nonatomic, retain) IBOutlet UIView *useButtonView;
 @property (nonatomic, retain) IBOutlet UIView *gemsButtonView;
 
-- (void) updateForBattleItem:(UserBattleItem *)itemObject isValid:(BOOL)isValid showButton:(BOOL)showButton;
-
 @end
 
 @interface BattleItemSelectCell : UITableViewCell
@@ -50,18 +48,23 @@
 
 - (NSArray *) reloadBattleItemsArray;
 
-- (NSString *) progressBarText;
-- (float) progressBarPercent;
-
 @optional
 - (void) battleItemSelected:(UserBattleItem *)item viewController:(id)viewController;
 - (void) battleItemDiscarded:(UserBattleItem *)item;
+- (BOOL) battleItemIsValid:(UserBattleItem *)item;
+
+- (NSString *) progressBarText;
+- (float) progressBarPercent;
 
 @end
 
 @interface BattleItemSelectViewController : PopoverViewController <UITableViewDataSource, UITableViewDelegate> {
   BOOL _showUseButton;
+  BOOL _showFooterView;
+  
   BOOL _isEditing;
+  
+  UserBattleItem *_selectedItem;
 }
 
 @property (nonatomic, retain) IBOutlet UITableView *itemsTable;
@@ -75,6 +78,7 @@
 
 @property (nonatomic, retain) IBOutlet BattleItemInfoView *infoView;
 @property (nonatomic, retain) IBOutlet UIView *backView;
+@property (nonatomic, retain) IBOutlet UIView *footerView;
 
 @property (nonatomic, retain) IBOutlet UILabel *footerDescLabel;
 @property (nonatomic, retain) IBOutlet UILabel *infoTitleLabel;
@@ -85,8 +89,9 @@
 
 @property (nonatomic, assign) id<BattleItemSelectDelegate> delegate;
 
-- (id) initWithShowUseButton:(BOOL)showUseButton;
+- (id) initWithShowUseButton:(BOOL)showUseButton showFooterView:(BOOL)showFooterView;
 - (void) loadInfoViewForBattleItem:(UserBattleItem *)ubi animated:(BOOL)animated;
 - (void) reloadDataAnimated:(BOOL)animated;
+- (IBAction)closeClicked:(id)sender;
 
 @end

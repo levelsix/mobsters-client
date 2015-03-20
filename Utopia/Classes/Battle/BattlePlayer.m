@@ -141,7 +141,7 @@
       break;
       
     default:
-      return 1;
+      return 0;
       break;
   }
 }

@@ -546,7 +546,7 @@
 #pragma mark - Battle Item delegate
 
 - (IBAction) bagClicked:(id)sender {
-  BattleItemSelectViewController *svc = [[BattleItemSelectViewController alloc] initWithShowUseButton:NO];
+  BattleItemSelectViewController *svc = [[BattleItemSelectViewController alloc] initWithShowUseButton:NO showFooterView:YES];
   if (svc) {
     svc.delegate = self;
     self.popoverViewController = svc;
@@ -585,7 +585,7 @@
   ItemFactoryCardCell *cell = (ItemFactoryCardCell *)[listView.collectionView cellForItemAtIndexPath:indexPath];
   id sender = [cell infoButton];
   
-  BattleItemSelectViewController *svc = [[BattleItemSelectViewController alloc] initWithShowUseButton:NO];
+  BattleItemSelectViewController *svc = [[BattleItemSelectViewController alloc] initWithShowUseButton:NO showFooterView:YES];
   [svc loadInfoViewForBattleItem:ubi animated:NO];
   if (svc) {
     svc.delegate = self;
@@ -623,6 +623,11 @@
       [arr addObject:ubi];
     }
   }
+  
+  [arr sortUsingComparator:^NSComparisonResult(UserBattleItem *obj1, UserBattleItem *obj2) {
+    return [@(obj1.staticBattleItem.priority) compare:@(obj2.staticBattleItem.priority)];
+  }];
+  
   return arr;
 }
 

@@ -74,7 +74,7 @@
 
 #pragma mark - Specials
 
-- (void) decrementCloud
+- (void) decrementCloudWithBlock:(dispatch_block_t)comp
 {
   CCNode *topLayer;
   for (CCNode *child in _orbSprite.children)
@@ -86,9 +86,13 @@
   }
   
   CCActionFadeOut *fade = [CCActionFadeOut actionWithDuration:.2];
-//  CCActionScaleTo *scale = [CCActionScaleTo actionWithDuration:0.2 scale:0];
+  //  CCActionScaleTo *scale = [CCActionScaleTo actionWithDuration:0.2 scale:0];
   CCActionCallBlock *completion = [CCActionCallBlock actionWithBlock:^{
     [_orbSprite removeChild:topLayer cleanup:YES];
+    
+    if (comp) {
+      comp();
+    }
   }];
   
   [topLayer runAction:[CCActionSequence actions:fade, completion, nil]];
@@ -160,12 +164,12 @@
   {
     if (animated)
       [_orbSprite runAction:[CCActionSequence actions:
-                           [CCActionEaseOut actionWithAction:[CCActionScaleTo actionWithDuration:0.2 scale:0.8]],
-                           [CCActionCallBlock actionWithBlock:^{
-                             _turnCounter.string = [NSString stringWithFormat:@"%d", (int)_orb.turnCounter];
-                           }],
-                           [CCActionEaseIn actionWithAction:[CCActionScaleTo actionWithDuration:0.2 scale:1.0]],
-                           nil]];
+                             [CCActionEaseOut actionWithAction:[CCActionScaleTo actionWithDuration:0.2 scale:0.8]],
+                             [CCActionCallBlock actionWithBlock:^{
+        _turnCounter.string = [NSString stringWithFormat:@"%d", (int)_orb.turnCounter];
+      }],
+                             [CCActionEaseIn actionWithAction:[CCActionScaleTo actionWithDuration:0.2 scale:1.0]],
+                             nil]];
     else
       _turnCounter.string = [NSString stringWithFormat:@"%d", (int)_orb.turnCounter];
     
@@ -173,9 +177,9 @@
     {
       [_turnCounter stopActionByTag:1812];
       CCActionRepeatForever* action = [CCActionRepeatForever actionWithAction:[CCActionSequence actions:
-                             [CCActionTintTo actionWithDuration:0.4*_orb.turnCounter color:[CCColor redColor]],
-                             [CCActionTintTo actionWithDuration:0.4*_orb.turnCounter color:[CCColor clearColor]],
-                             nil]];
+                                                                               [CCActionTintTo actionWithDuration:0.4*_orb.turnCounter color:[CCColor redColor]],
+                                                                               [CCActionTintTo actionWithDuration:0.4*_orb.turnCounter color:[CCColor clearColor]],
+                                                                               nil]];
       action.tag = 1812;
       [_turnCounter runAction:action];
     }
@@ -194,13 +198,19 @@
 #define LOCK_REMOVE_TIME .2
 #define LOCK_REMOVE_MOVE_UP_PORTION .15
 
-- (void) removeLockElements {
+- (void) removeLockElementsWithBlock:(dispatch_block_t)completion {
   
   CCActionEaseInOut *fadeOut = [CCActionEaseInOut actionWithAction:[CCActionFadeOut actionWithDuration:LOCK_REMOVE_TIME]];
   
   [_lockedSpriteRight runAction:
    [CCActionSequence actions:
-    fadeOut, [CCActionRemove action], nil]];
+    fadeOut,
+    [CCActionCallBlock actionWithBlock:
+     ^{
+       if (completion) {
+         completion();
+       }
+     }], [CCActionRemove action], nil]];
   
   [_lockedSpriteLeft runAction:
    [CCActionSequence actions:
@@ -263,7 +273,7 @@
     case SpecialOrbTypeCloud:
       return [NSString stringWithFormat:@"%@cloud1%@.png", resPrefix, suffix ];
       break;
-    
+      
     case SpecialOrbTypeBomb:
       if (orbColor == OrbColorNone)
         return nil;
@@ -286,10 +296,10 @@
       break;
       
     case SpecialOrbTypeFryingPan:
-//      if (orbColor == OrbColorNone)
-//        return nil;
-//      if (orb.powerupType == PowerupTypeNone)
-//        return [NSString stringWithFormat:@"%@%@%@.png", resPrefix, [Globals imageNameForElement:(Element)orbColor suffix:@"poison"], suffix ];
+      //      if (orbColor == OrbColorNone)
+      //        return nil;
+      //      if (orb.powerupType == PowerupTypeNone)
+      //        return [NSString stringWithFormat:@"%@%@%@.png", resPrefix, [Globals imageNameForElement:(Element)orbColor suffix:@"poison"], suffix ];
       return [NSString stringWithFormat:@"%@fireglove%@.png", resPrefix, suffix];
       break;
       
@@ -374,8 +384,8 @@
   {
     [_orbSprite setScale:0.0];
     [_orbSprite runAction:[CCActionSequence actions:
-                     [CCActionEaseOut actionWithAction:[CCActionScaleTo actionWithDuration:orbUpdateAnimDuration scale:1.0]],
-                     nil]];
+                           [CCActionEaseOut actionWithAction:[CCActionScaleTo actionWithDuration:orbUpdateAnimDuration scale:1.0]],
+                           nil]];
   }
 }
 

@@ -413,11 +413,10 @@
   }
 }
 
-// checkEnemyHealth is a better place for saving because it's called after both move and skill trigger for that move finish
-/*- (void) moveComplete {
+- (void) moveComplete {
  [super moveComplete];
- [self saveCurrentState];
- }*/
+ [self saveCurrentStateWithForceFlush:NO];
+}
 
 - (BOOL) checkEnemyHealth {
   [self saveCurrentStateWithForceFlush:NO];

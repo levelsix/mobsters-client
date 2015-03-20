@@ -14,6 +14,7 @@
                 <outlet property="editButton" destination="QIR-fb-yqF" id="lIH-ha-eRM"/>
                 <outlet property="editLabel" destination="wNq-oV-Bp6" id="0Di-xa-kob"/>
                 <outlet property="footerDescLabel" destination="LdC-V3-JnO" id="hE3-x3-VcA"/>
+                <outlet property="footerView" destination="BW5-Ck-N3y" id="VeX-FY-xiz"/>
                 <outlet property="headerView" destination="YRu-xC-rGg" id="ZJN-EQ-bm5"/>
                 <outlet property="infoTitleLabel" destination="ojM-Ci-nMd" id="YVm-xm-cMM"/>
                 <outlet property="infoView" destination="XeW-do-BW4" id="VVl-Gp-bdf"/>
@@ -137,6 +138,9 @@
                                             <state key="normal" image="greenitemsbutton.png">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
+                                            <connections>
+                                                <action selector="cellButtonClicked:" destination="-1" eventType="touchUpInside" id="9tz-Dq-mOD"/>
+                                            </connections>
                                         </button>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Use" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="s8a-y0-SCQ" customClass="NiceFontLabel12">
                                             <rect key="frame" x="1" y="3" width="51" height="21"/>
@@ -164,6 +168,9 @@
                                             <state key="normal" image="purpleitemsbutton.png">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
+                                            <connections>
+                                                <action selector="cellButtonClicked:" destination="-1" eventType="touchUpInside" id="ZCJ-bv-uZF"/>
+                                            </connections>
                                         </button>
                                         <view userInteractionEnabled="NO" contentMode="scaleToFill" id="orI-qB-zRC">
                                             <rect key="frame" x="7" y="6" width="36" height="16"/>
@@ -309,54 +316,6 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
-                <view contentMode="scaleToFill" id="bKS-J5-OXf" userLabel="Progress Bar View">
-                    <rect key="frame" x="0.0" y="79" width="231" height="32"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <subviews>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="itemstimerbg.png" id="yiX-uq-Nv9">
-                            <rect key="frame" x="4" y="9" width="222" height="13"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
-                        <view contentMode="scaleToFill" id="4rB-Ic-crP" customClass="SplitImageProgressBar">
-                            <rect key="frame" x="4" y="9" width="222" height="13"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <subviews>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="obtimergreencap.png" id="P6M-et-oTP">
-                                    <rect key="frame" x="71" y="0.0" width="4" height="13"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </imageView>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="obtimergreenmiddle.png" id="f1N-Bu-lgX">
-                                    <rect key="frame" x="5" y="0.0" width="1" height="13"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </imageView>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="obtimergreencap.png" id="Clq-ro-YSC">
-                                    <rect key="frame" x="0.0" y="0.0" width="4" height="13"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </imageView>
-                            </subviews>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            <connections>
-                                <outlet property="leftCap" destination="Clq-ro-YSC" id="UtX-ad-3RB"/>
-                                <outlet property="middleBar" destination="f1N-Bu-lgX" id="mtH-QP-Ys7"/>
-                                <outlet property="rightCap" destination="P6M-et-oTP" id="hBa-s7-Htb"/>
-                            </connections>
-                        </view>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="9M 33S" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="uhg-uG-fNC" customClass="NiceFontLabel14S">
-                            <rect key="frame" x="14" y="8" width="203" height="11"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="9"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <nil key="highlightedColor"/>
-                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="deviceRGB"/>
-                            <size key="shadowOffset" width="0.0" height="1"/>
-                        </label>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popupline.png" id="ebV-ta-tZS" customClass="VerticalFlipImageView">
-                            <rect key="frame" x="0.0" y="31" width="231" height="1"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                        </imageView>
-                    </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                </view>
                 <view contentMode="scaleToFill" id="BW5-Ck-N3y" userLabel="Footer View">
                     <rect key="frame" x="0.0" y="195" width="241" height="63"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -392,6 +351,57 @@
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="647" y="872"/>
+        </view>
+        <view contentMode="scaleToFill" id="bKS-J5-OXf" userLabel="Progress Bar View">
+            <rect key="frame" x="0.0" y="0.0" width="231" height="32"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="itemstimerbg.png" id="yiX-uq-Nv9">
+                    <rect key="frame" x="4" y="9" width="222" height="13"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                </imageView>
+                <view contentMode="scaleToFill" id="4rB-Ic-crP" customClass="SplitImageProgressBar">
+                    <rect key="frame" x="4" y="9" width="222" height="13"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="obtimergreencap.png" id="P6M-et-oTP">
+                            <rect key="frame" x="71" y="0.0" width="4" height="13"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="obtimergreenmiddle.png" id="f1N-Bu-lgX">
+                            <rect key="frame" x="5" y="0.0" width="1" height="13"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="obtimergreencap.png" id="Clq-ro-YSC">
+                            <rect key="frame" x="0.0" y="0.0" width="4" height="13"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="leftCap" destination="Clq-ro-YSC" id="UtX-ad-3RB"/>
+                        <outlet property="middleBar" destination="f1N-Bu-lgX" id="mtH-QP-Ys7"/>
+                        <outlet property="rightCap" destination="P6M-et-oTP" id="hBa-s7-Htb"/>
+                    </connections>
+                </view>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="9M 33S" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="uhg-uG-fNC" customClass="NiceFontLabel14S">
+                    <rect key="frame" x="14" y="8" width="203" height="11"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="deviceRGB"/>
+                    <size key="shadowOffset" width="0.0" height="1"/>
+                </label>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popupline.png" id="ebV-ta-tZS" customClass="VerticalFlipImageView">
+                    <rect key="frame" x="0.0" y="31" width="231" height="1"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="994" y="981"/>
         </view>
     </objects>
     <resources>
