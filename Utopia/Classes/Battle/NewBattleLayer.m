@@ -825,7 +825,7 @@
     
     if (self.myPlayerObject.isStunned)
     {
-      [[skillManager enemySkillControler] showSkillPopupAilmentOverlay:@"STUN" bottomText:@"TURN LOST"];
+      [[skillManager enemySkillControler] showSkillPopupAilmentOverlay:@"STUNNED" bottomText:@"TURN LOST"];
       [self endMyTurnAfterDelay:1.5f];
       return;
     }
@@ -887,7 +887,7 @@
             // If the enemy's stunned, short the attack function
             if (self.enemyPlayerObject.isStunned)
             {
-              [[skillManager playerSkillControler] showSkillPopupAilmentOverlay:@"STUN" bottomText:@"TURN LOST"];
+              [[skillManager playerSkillControler] showSkillPopupAilmentOverlay:@"STUNNED" bottomText:@"TURN LOST"];
               [self performAfterDelay:1.5 block:^{
                 [self endEnemyTurn];
               }];
@@ -900,7 +900,7 @@
             {
               self.enemyPlayerObject.isConfused = NO;
               
-              [[skillManager playerSkillControler] showSkillPopupAilmentOverlay:@"CONFUSION" bottomText:[NSString stringWithFormat:@"%i DMG TO SELF", _enemyDamageDealt]];
+              [[skillManager playerSkillControler] showSkillPopupAilmentOverlay:@"CONFUSED" bottomText:[NSString stringWithFormat:@"%i DMG TO SELF", _enemyDamageDealt]];
               
               CCSprite* confusedPopup = [CCSprite spriteWithImageNamed:@"confusionbubble.png"];
               [confusedPopup setAnchorPoint:CGPointMake(.5f, 0.f)];
@@ -984,7 +984,7 @@
     {
       self.myPlayerObject.isConfused = NO;
       
-      [[skillManager enemySkillControler] showSkillPopupAilmentOverlay:@"CONFUSION" bottomText:[NSString stringWithFormat:@"%i DMG TO SELF", _myDamageDealt]];
+      [[skillManager enemySkillControler] showSkillPopupAilmentOverlay:@"CONFUSED" bottomText:[NSString stringWithFormat:@"%i DMG TO SELF", _myDamageDealt]];
       
       CCSprite* confusedPopup = [CCSprite spriteWithImageNamed:@"confusionbubble.png"];
       [confusedPopup setAnchorPoint:CGPointMake(.5f, 0.f)];
