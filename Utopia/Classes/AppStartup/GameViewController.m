@@ -800,6 +800,22 @@ static const CGSize FIXED_SIZE = {568, 384};
   }
 }
 
+- (void) arrowToStructInShopWithId:(int)structId {
+  [self.topBarViewController showArrowToStructId:structId];
+  [Globals createUIArrowForView:self.topBarViewController.shopView atAngle:M_PI];
+}
+
+- (void) arrowToOpenClanMenu {
+  HomeMap *homeMap = (HomeMap *)self.currentMap;
+  [homeMap pointArrowOnClanHQ];
+}
+
+- (void) arrowToRequestToon {
+  HomeMap *homeMap = (HomeMap *)self.currentMap;
+  homeMap.showArrowOnRequestToon = YES;
+  [homeMap pointArrowOnManageTeam];
+}
+
 #pragma mark - Moving to other cities
 
 - (void) visitCityClicked:(int)cityId attackMapViewController:(id)vc {

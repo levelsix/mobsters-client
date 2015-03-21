@@ -12,6 +12,7 @@
 
 #import "Globals.h"
 #import "GameState.h"
+#import "GameViewController.h"
 
 #import "OutgoingEventController.h"
 
@@ -75,6 +76,10 @@
   [self.delegate collectClicked:self];
 }
 
+- (IBAction)goClicked:(id)sender {
+  [self.delegate goClicked:self];
+}
+
 @end
 
 @implementation ClanRewardsViewController
@@ -119,52 +124,22 @@
     UserAchievement *ua = gs.myAchievements[@(achievementId)];
     AchievementProto *ap = [gs achievementWithId:achievementId];
     ClanRewardsQuestView *questView = self.questViews[i];
+    questView.questType = i;
     
     if (!ua.isComplete && !curActive) {
       curActive = questView;
       self.titleLabel.text = [NSString stringWithFormat:@"%@ TO EARN FREE", [ap.name uppercaseString]];
       CGSize size = [self.titleLabel.text getSizeWithFont:self.titleLabel.font];
       self.titleDiamond.center = CGPointMake(self.titleLabel.center.x+(size.width/2)+(self.titleDiamond.frame.size.width/2), self.titleLabel.center.y);
+      CGPoint arrowLocation = CGPointMake((questView.size.width/2) + (questView.size.width * i) - 1, self.squadRewardArrow.center.y);
+      self.squadRewardArrow.center = arrowLocation;
+      
     } else if(!ua.isComplete) {
       questView.greyScale = YES;
     }
     [questView updateForUserAchievement:ua achievement:ap];
   }
 }
-
-//- (void)centerOnAchievementWithIndex:(int)index {
-//  GameState *gs = [GameState sharedGameState];
-//  NSArray *arr = [Globals sharedGlobals].clanRewardAchievementIds;
-//  int achievementId = [arr[index] intValue];
-//  
-//  UserAchievement *ua = gs.myAchievements[@(achievementId)];
-//  AchievementProto *ap = [gs achievementWithId:achievementId];
-//  
-//  ClanRewardsQuestView *questView;
-//  questView = self.questViews[1];
-//  questView.greyScale = NO;
-//  [questView updateForUserAchievement:ua achievement:ap];
-//  if(index) {
-//    ua = gs.myAchievements[@(achievementId-1)];
-//    ap = [gs achievementWithId:achievementId-1];
-//    questView = self.questViews[0];
-//    questView.greyScale = NO;
-//    [questView updateForUserAchievement:ua achievement:ap];
-//  } else {
-//    questView = self.questViews[0];
-//    questView.hidden = YES;
-//  }
-//  if (index+1 != arr.count) {
-//    ua = gs.myAchievements[@(achievementId+1)];
-//    ap = [gs achievementWithId:achievementId+1];
-//    questView = self.questViews[2];
-//    questView.greyScale = YES;
-//    [questView updateForUserAchievement:ua achievement:ap];
-//  } else {
-//    questView = self.questViews[2];
-//    questView.hidden = YES;
-//  }
-//}
 
 - (void) collectClicked:(id)sender {
   NSInteger idx = [self.questViews indexOfObject:sender];
@@ -180,6 +155,23 @@
     [Globals addPurpleAlertNotification:[NSString stringWithFormat:@"You collected %d Gems for completing %@!", ap.gemReward, ap.name] isImmediate:YES];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:ACHIEVEMENTS_CHANGED_NOTIFICATION object:self];
+  }
+}
+
+- (void) goClicked:(id)sender {
+  ClanRewardsQuestView *sentView = (ClanRewardsQuestView *)sender;
+  if(sentView.questType == QuestTypeBuildHQ) {
+    GameViewController *gvc = [GameViewController baseController];
+    [gvc arrowToStructInShopWithId:1100];
+    [self closeClicked:sender];
+  } else if(sentView.questType == QuestTypeJoinClan) {
+    GameViewController *gvc = [GameViewController baseController];
+    [gvc arrowToOpenClanMenu];
+    [self closeClicked:sender];
+  } else if(sentView.questType == QuestTypeRequestToon) {
+    GameViewController *gvc = [GameViewController baseController];
+    [gvc arrowToRequestToon];
+    [self closeClicked:sender];
   }
 }
 

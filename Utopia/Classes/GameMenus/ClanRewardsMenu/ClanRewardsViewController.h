@@ -10,9 +10,16 @@
 
 #import "NibUtils.h"
 
+typedef enum {
+  QuestTypeBuildHQ = 0,
+  QuestTypeJoinClan,
+  QuestTypeRequestToon,
+} QuestType;
+
 @protocol ClanRewardsQuestDelegate <NSObject>
 
 - (void) collectClicked:(id)sender;
+- (void) goClicked:(id)sender;
 
 @end
 
@@ -39,11 +46,15 @@
 
 @property (nonatomic, assign) IBOutlet id<ClanRewardsQuestDelegate> delegate;
 
+@property (nonatomic, assign) QuestType questType;
+
 @end
 
 @interface ClanRewardsViewController : UIViewController <ClanRewardsQuestDelegate>
 
 @property (nonatomic, retain) IBOutletCollection(ClanRewardsQuestView) NSArray *questViews;
+
+@property (weak, nonatomic) IBOutlet UIImageView *squadRewardArrow;
 
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *bgdView;

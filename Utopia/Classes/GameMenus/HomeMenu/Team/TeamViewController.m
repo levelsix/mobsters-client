@@ -15,6 +15,7 @@
 #import "GameViewController.h"
 #import "GenericPopupController.h"
 
+#import "AchievementUtil.h"
 #import "OutgoingEventController.h"
 #import "SocketCommunication.h"
 
@@ -141,6 +142,14 @@
 
 @implementation TeamViewController
 
+- (id) initShowArrowOnRequestToon:(BOOL) showArrow {
+  if((self = [super init])) {
+    _showRequestToonArrow = showArrow;
+  }
+  
+  return self;
+}
+
 - (void) viewDidLoad {
   [super viewDidLoad];
   
@@ -162,6 +171,9 @@
   if (_showsClanDonateToonView) {
     [[[self.teamSlotViews firstObject] superview] addSubview:self.clanRequestView];
     [self.clanRequestSlotView.superview sendSubviewToBack:self.clanRequestSlotView];
+    if (_showRequestToonArrow) {
+      [Globals createUIArrowForView:self.requestButtonView atAngle:M_PI_2];
+    }
   } else {
     [self.clanRequestView removeFromSuperview];
   }
@@ -746,6 +758,8 @@
   [gvc addChildViewController:dmvc];
   
   [gvc.view addSubview:dmvc.view];
+  
+  [Globals removeUIArrowFromViewRecursively:self.view];
 }
 
 - (void) sendClickedWithMessage:(NSString *)message {
@@ -756,6 +770,7 @@
   
   [[OutgoingEventController sharedOutgoingEventController] solicitClanTeamDonation:message useGems:_useGemsForDonate];
   
+  [AchievementUtil checkRequestedToon];
   [self updateTeamSlotViews];
 }
 

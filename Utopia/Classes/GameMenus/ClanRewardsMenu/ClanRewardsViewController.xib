@@ -10,7 +10,8 @@
                 <outlet property="bgdView" destination="4iy-VI-niI" id="l96-3b-L7q"/>
                 <outlet property="containerView" destination="Bwf-as-xnv" id="XTl-xf-1UJ"/>
                 <outlet property="mainView" destination="9CI-sx-km6" id="VqE-0D-ukZ"/>
-                <outlet property="titleDiamond" destination="a9z-TG-ykw" id="i1O-1x-xnV"/>
+                <outlet property="squadRewardArrow" destination="cUf-sI-s2y" id="oPb-na-OIR"/>
+                <outlet property="titleDiamond" destination="a9z-TG-ykw" id="6Jk-Cq-G38"/>
                 <outlet property="titleLabel" destination="woW-ea-hwF" id="QhN-lZ-ewI"/>
                 <outlet property="view" destination="PUS-GI-5c9" id="5Ip-5y-Na0"/>
                 <outletCollection property="questViews" destination="sPG-B2-Eng" id="Isc-S9-GEL"/>
@@ -120,7 +121,7 @@
                                                     </connections>
                                                 </button>
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="activesquadrewardarrow.png" id="cUf-sI-s2y">
-                                                    <rect key="frame" x="205" y="51" width="20" height="12"/>
+                                                    <rect key="frame" x="205" y="50" width="20" height="12"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                                 </imageView>
                                             </subviews>

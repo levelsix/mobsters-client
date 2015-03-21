@@ -84,6 +84,9 @@
 - (void) pointArrowOnSellMobsters;
 - (void) pointArrowOnManageTeam;
 - (BOOL) pointArrowToUpgradeForStructId:(int)structId quantity:(int)quantity;
+- (void) arrowToStructInShopWithId:(int)structId;
+- (void) arrowToOpenClanMenu;
+- (void) arrowToRequestToon;
 
 - (void) enterDungeon:(int)taskId withDelay:(float)delay;
 
