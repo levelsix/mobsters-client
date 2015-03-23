@@ -24,6 +24,7 @@ typedef enum {
 - (BOOL) onDurationEnd;
 - (BOOL) endDurationNow;
 - (BOOL) affectsOwner;
+- (BOOL) expiresOnDeath;
 
 - (void) addVisualEffects:(BOOL)finishSkillTrigger;
 - (void) resetVisualEffects;
