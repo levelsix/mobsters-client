@@ -1813,6 +1813,7 @@ void undoDelayOnScrollViewHierarchy(UIView *v) {
   
   // Always add 2 pixels because edges of caps are usually empty
   float totalWidth = (int)roundf(_percentage*(self.frame.size.width-2))+2;
+  if (_percentage < .001f) totalWidth = 0.f;
   CGRect r;
   
   r = self.leftCap.frame;
@@ -1853,7 +1854,8 @@ void undoDelayOnScrollViewHierarchy(UIView *v) {
   _shouldStopAnimating = NO;
   
   CADisplayLink *link = [CADisplayLink displayLinkWithTarget:self selector:@selector(updateBar:)];
-  [link addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
+  [link setFrameInterval:1];
+  [link addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
 }
 
 - (void) stopAnimation {

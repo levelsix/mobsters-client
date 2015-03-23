@@ -217,6 +217,8 @@
 
 - (int) sendRetrieveUserMonsterTeamMessage:(NSArray *)userUuids;
 
+- (int) sendCustomizePvpBoardObstacleMessage:(NSArray *)removeUpboIds nuOrUpdatedObstacles:(NSArray *)nuOrUpdatedObstacles;
+
 - (void) flush;
 - (void) pauseFlushTimer;
 - (void) resumeFlushTimer;

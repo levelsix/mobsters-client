@@ -139,6 +139,9 @@
 @property (nonatomic, retain) NSMutableDictionary *staticSkills;
 @property (nonatomic, retain) NSMutableDictionary *staticSkillSideEffects;
 
+@property (nonatomic, retain) NSMutableDictionary *staticPvpBoardObstacles;
+@property (nonatomic, retain) NSMutableArray* myPvpBoardObstacles;
+
 @property (nonatomic, retain) UserEnhancement *userEnhancement;
 @property (nonatomic, retain) UserEvolution *userEvolution;
 
@@ -234,6 +237,7 @@
 - (UserStruct *) myTeamCenter;
 - (UserStruct *) myMiniJobCenter;
 - (UserStruct *) myClanHouse;
+- (UserStruct *) myPvpBoardHouse;
 - (NSArray *) allHospitals;
 - (NSArray *) myValidHospitals;
 - (int) maxHospitalQueueSize;

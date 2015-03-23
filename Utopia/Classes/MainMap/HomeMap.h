@@ -14,6 +14,7 @@
 #import "SpeedupItemsFiller.h"
 #import "HireViewController.h"
 #import "ResourceItemsFiller.h"
+#import "BoardDesignerViewController.h"
 
 #define CENTER_TILE_X 13
 #define CENTER_TILE_Y 13
@@ -29,7 +30,7 @@
 
 @class HomeBuildingMenu;
 
-@interface HomeMap : GameMap <MapBotViewDelegate, MapBotViewButtonDelegate, UpgradeViewControllerDelegate, HireViewDelegate, SpeedupItemsFillerDelegate, HomeViewControllerDelegate, ResourceItemsFillerDelegate> {
+@interface HomeMap : GameMap <MapBotViewDelegate, MapBotViewButtonDelegate, UpgradeViewControllerDelegate, HireViewDelegate, SpeedupItemsFillerDelegate, HomeViewControllerDelegate, ResourceItemsFillerDelegate, BoardDesignerViewControllerDelegate> {
   NSMutableArray *_buildableData;
   BOOL _isMoving;
   BOOL _canMove;

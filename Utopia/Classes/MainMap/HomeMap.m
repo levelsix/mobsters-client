@@ -1708,7 +1708,16 @@
       break;
       
     case StructureInfoProto_StructTypePvpBoard:
-#warning add pvp board view here
+    {
+      GameViewController *gvc = [GameViewController baseController];
+      BoardDesignerViewController* bdvc = [[BoardDesignerViewController alloc] init];
+      [bdvc setDelegate:self];
+      [bdvc.view setFrame:gvc.view.bounds];
+      [gvc addChildViewController:bdvc];
+      [gvc.view addSubview:bdvc.view];
+      
+      self.currentViewController = bdvc;
+    }
       break;
       
     case StructureInfoProto_StructTypeClan:
@@ -2375,6 +2384,10 @@
 }
 
 - (void) homeViewControllerClosed {
+  self.currentViewController = nil;
+}
+
+- (void) boardDesignerViewControllerClosed {
   self.currentViewController = nil;
 }
 

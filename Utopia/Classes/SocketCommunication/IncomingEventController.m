@@ -339,6 +339,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSRetrieveUserMonsterTeamEvent:
       responseClass = [RetrieveUserMonsterTeamResponseProto class];
       break;
+    case EventProtocolResponseSCustomizePvpBoardObstacleEvent:
+      responseClass = [CustomizePvpBoardObstacleResponseProto class];
+      break;
     default:
       responseClass = nil;
       break;
@@ -471,6 +474,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs updateClanData:proto.clanData];
     
     gs.battleHistory = [proto.recentNbattlesList mutableCopy];
+    
+    gs.myPvpBoardObstacles = [proto.userPvpBoardObstaclesList mutableCopy];
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     if([defaults boolForKey:[Globals userConfimredPushNotificationsKey]]) {
@@ -1878,6 +1883,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
+}
+
+- (void) handleCustomizePvpBoardObstacleResponseProto:(FullEvent *)fe {
+  CustomizePvpBoardObstacleResponseProto *proto = (CustomizePvpBoardObstacleResponseProto *)fe.event;
+  LNLog(@"Customize PvP board obstacle response received with status %d.", (int)proto.status);
 }
 
 #pragma mark - Healing

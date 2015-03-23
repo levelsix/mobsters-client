@@ -64,6 +64,8 @@ BOOL ResearchDomainIsValidValue(ResearchDomain value) {
 @property ResourceType costType;
 @property (strong) NSMutableArray * mutablePropertiesList;
 @property int32_t level;
+@property Float32 priority;
+@property int32_t tier;
 @end
 
 @implementation ResearchProto
@@ -154,6 +156,20 @@ BOOL ResearchDomainIsValidValue(ResearchDomain value) {
   hasLevel_ = !!value_;
 }
 @synthesize level;
+- (BOOL) hasPriority {
+  return !!hasPriority_;
+}
+- (void) setHasPriority:(BOOL) value_ {
+  hasPriority_ = !!value_;
+}
+@synthesize priority;
+- (BOOL) hasTier {
+  return !!hasTier_;
+}
+- (void) setHasTier:(BOOL) value_ {
+  hasTier_ = !!value_;
+}
+@synthesize tier;
 - (id) init {
   if ((self = [super init])) {
     self.researchId = 0;
@@ -168,6 +184,8 @@ BOOL ResearchDomainIsValidValue(ResearchDomain value) {
     self.costAmt = 0;
     self.costType = ResourceTypeNoResource;
     self.level = 0;
+    self.priority = 0;
+    self.tier = 0;
   }
   return self;
 }
@@ -232,6 +250,12 @@ static ResearchProto* defaultResearchProtoInstance = nil;
   if (self.hasLevel) {
     [output writeInt32:13 value:self.level];
   }
+  if (self.hasPriority) {
+    [output writeFloat:14 value:self.priority];
+  }
+  if (self.hasTier) {
+    [output writeInt32:15 value:self.tier];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -279,6 +303,12 @@ static ResearchProto* defaultResearchProtoInstance = nil;
   }];
   if (self.hasLevel) {
     size_ += computeInt32Size(13, self.level);
+  }
+  if (self.hasPriority) {
+    size_ += computeFloatSize(14, self.priority);
+  }
+  if (self.hasTier) {
+    size_ += computeInt32Size(15, self.tier);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -357,6 +387,12 @@ static ResearchProto* defaultResearchProtoInstance = nil;
   if (self.hasLevel) {
     [output appendFormat:@"%@%@: %@\n", indent, @"level", [NSNumber numberWithInteger:self.level]];
   }
+  if (self.hasPriority) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"priority", [NSNumber numberWithFloat:self.priority]];
+  }
+  if (self.hasTier) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"tier", [NSNumber numberWithInteger:self.tier]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -393,6 +429,10 @@ static ResearchProto* defaultResearchProtoInstance = nil;
       [self.propertiesList isEqualToArray:otherMessage.propertiesList] &&
       self.hasLevel == otherMessage.hasLevel &&
       (!self.hasLevel || self.level == otherMessage.level) &&
+      self.hasPriority == otherMessage.hasPriority &&
+      (!self.hasPriority || self.priority == otherMessage.priority) &&
+      self.hasTier == otherMessage.hasTier &&
+      (!self.hasTier || self.tier == otherMessage.tier) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -435,6 +475,12 @@ static ResearchProto* defaultResearchProtoInstance = nil;
   }];
   if (self.hasLevel) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.level] hash];
+  }
+  if (self.hasPriority) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithFloat:self.priority] hash];
+  }
+  if (self.hasTier) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.tier] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -521,6 +567,12 @@ static ResearchProto* defaultResearchProtoInstance = nil;
   }
   if (other.hasLevel) {
     [self setLevel:other.level];
+  }
+  if (other.hasPriority) {
+    [self setPriority:other.priority];
+  }
+  if (other.hasTier) {
+    [self setTier:other.tier];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -610,6 +662,14 @@ static ResearchProto* defaultResearchProtoInstance = nil;
       }
       case 104: {
         [self setLevel:[input readInt32]];
+        break;
+      }
+      case 117: {
+        [self setPriority:[input readFloat]];
+        break;
+      }
+      case 120: {
+        [self setTier:[input readInt32]];
         break;
       }
     }
@@ -829,6 +889,38 @@ static ResearchProto* defaultResearchProtoInstance = nil;
 - (ResearchProto_Builder*) clearLevel {
   result.hasLevel = NO;
   result.level = 0;
+  return self;
+}
+- (BOOL) hasPriority {
+  return result.hasPriority;
+}
+- (Float32) priority {
+  return result.priority;
+}
+- (ResearchProto_Builder*) setPriority:(Float32) value {
+  result.hasPriority = YES;
+  result.priority = value;
+  return self;
+}
+- (ResearchProto_Builder*) clearPriority {
+  result.hasPriority = NO;
+  result.priority = 0;
+  return self;
+}
+- (BOOL) hasTier {
+  return result.hasTier;
+}
+- (int32_t) tier {
+  return result.tier;
+}
+- (ResearchProto_Builder*) setTier:(int32_t) value {
+  result.hasTier = YES;
+  result.tier = value;
+  return self;
+}
+- (ResearchProto_Builder*) clearTier {
+  result.hasTier = NO;
+  result.tier = 0;
   return self;
 }
 @end

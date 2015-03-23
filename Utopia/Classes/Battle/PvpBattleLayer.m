@@ -431,10 +431,15 @@
   _reachedNextScene = YES;
   self.hudView.waveNumLabel.text = [NSString stringWithFormat:@"ENEMY %d/%d", _curStage+1, (int)self.enemyTeam.count];
   
+  // At this point data for the potential custom PvP board of
+  // the enemy is at hand, so we need to recreate the board
+  [self recreateOrbLayer];
+  
   [self runAction:
    [CCActionSequence actions:
     [CCActionDelay actionWithDuration:0.7f],
     [CCActionCallFunc actionWithTarget:self selector:@selector(displayOrbLayer)],
+    
     [CCActionDelay actionWithDuration:0.5f],
     [CCActionCallBlock actionWithBlock:
      ^{
@@ -458,6 +463,24 @@
   }
   
   return success;
+}
+
+- (void) recreateOrbLayer {
+  CGPoint pos = CGPointZero;
+  if (self.orbLayer) {
+    pos = self.orbLayer.position;
+    [self.orbLayer removeFromParent];
+    self.orbLayer = nil;
+  }
+  
+  PvpProto *pvp = self.defendersList[_curQueueNum];
+  NSArray *userBoardObstacles = pvp.userBoardObstaclesList;
+  OrbMainLayer *ol = [[OrbMainLayer alloc] initWithGridSize:_gridSize userBoardObstacles:userBoardObstacles];
+  ol.position = pos;
+  ol.delegate = self;
+  self.orbLayer = ol;
+  
+  [self addChild:ol z:2];
 }
 
 #pragma mark - Waiting for server
