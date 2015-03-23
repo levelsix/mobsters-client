@@ -26,9 +26,10 @@
   BOOL isAvailable = [userResearch.research prereqsComplete];
   
   [Globals imageNamed:userResearch.research.iconImgName withView:self.selectionIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-  self.rankTotal.text = [NSString stringWithFormat:@"%d/%@", proto.level, @([proto fullResearchFamily].count)];
+  int curRank = userResearch.complete ? _userResearch.research.level : _userResearch.research.level - 1;
+  self.rankTotal.text = [NSString stringWithFormat:@"%d/%@", curRank, @([proto fullResearchFamily].count)];
   self.rankTotal.shadowBlur = 0.5f;
-  self.selectionTitle.text = [NSString stringWithFormat:@" %@ Rank %d", proto.name, proto.level];
+  self.selectionTitle.text = [NSString stringWithFormat:@" %@", proto.name];
   self.selectionDescription.text = proto.desc;
   
   self.nextArrowButton.image = [UIImage imageWithCGImage:self.nextArrowButton.image.CGImage

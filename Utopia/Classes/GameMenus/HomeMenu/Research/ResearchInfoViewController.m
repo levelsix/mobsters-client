@@ -18,6 +18,9 @@
 #define RESEARCHING_DESCRIPTION @"This research is currently in progress"
 #define RESEARCHING_TITLE @"Currently Researching"
 
+#define DEFAULT_TITLE @"Ready to Research!"
+#define DEFAULT_DESCRIPTION @"You have met all the requirements to Research."
+
 @implementation ResearchPrereqView
 
 - (void) updateForPrereq:(PrereqProto *)pre isComplete:(BOOL)isComplete {
@@ -39,6 +42,9 @@
 @implementation ResearchInfoView
 
 -(void)updateWithResearch:(UserResearch *)userResearch {
+  self.bottomBarDescription.text = DEFAULT_DESCRIPTION;
+  self.bottomBarTitle.text = DEFAULT_TITLE;
+  
   ResearchProto *research = userResearch.research;
   
   GameState *gs = [GameState sharedGameState];
@@ -106,8 +112,12 @@
   
   self.oilButtonLabel.text = [NSString stringWithFormat:@"%d", research.costAmt];
   self.oilButtonView.hidden = research.costType != ResourceTypeOil;
+  self.oilButtonLabel.superview.hidden = NO;
+  self.oilButton.userInteractionEnabled = YES;
   self.cashButtonLabel.text = [NSString stringWithFormat:@"%d", research.costAmt];
   self.cashButtonView.hidden = research.costType != ResourceTypeCash;
+  self.cashButtonLabel.superview.hidden = NO;
+  self.cashButton.userInteractionEnabled = YES;
   
   [Globals adjustViewForCentering:self.researchOilLabel.superview withLabel:self.researchOilLabel];
   [Globals adjustViewForCentering:self.researchCashLabel.superview withLabel:self.researchCashLabel];
@@ -146,6 +156,16 @@
 
 - (void) viewDidLoad {
   self.title = @"info view";
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateUserResearch) name:RESEARCH_CHANGED_NOTIFICATION object:nil];
+}
+
+- (void) updateUserResearch {
+  if(_userResearch) {
+    GameState *gs = [GameState sharedGameState];
+    _userResearch = [gs.researchUtil currentRankForResearch:_userResearch.research];
+    [self.view updateWithResearch:_userResearch];
+    self.title = [NSString stringWithFormat:@"Research to Rank %d",_userResearch.research.level];
+  }
 }
 
 - (id)initWithResearch:(UserResearch *)userResearch {
@@ -362,8 +382,7 @@
 
 - (void) handleFinishPerformingResearchResponseProto:(FullEvent *)fe {
   self.view.activityIndicator.hidden = YES;
-  GameState *gs = [GameState sharedGameState];
-  _userResearch = [gs.researchUtil userResearchForProto:_userResearch.research];
+  _userResearch = [UserResearch userResearchWithResearch:_userResearch.research];
   _waitingForServer = NO;
 }
 
