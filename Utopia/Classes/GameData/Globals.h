@@ -84,6 +84,7 @@
 #define ITEMS_CHANGED_NOTIFICATION @"ItemsChangedNotification"
 
 #define BATTLE_ITEM_QUEUE_CHANGED_NOTIFICATION @"BattleItemQueueChangedNotification"
+#define BATTLE_ITEM_REMOVED_NOTIFICATION @"BattleItemRemovedNotification"
 #define BATTLE_ITEM_WAIT_COMPLETE_NOTIFICATION @"BattleItemWaitCompleteNotification"
 
 #define MY_CLAN_MEMBERS_LIST_KEY @"MyMembersList"

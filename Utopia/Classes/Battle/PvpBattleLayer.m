@@ -76,7 +76,6 @@
 - (void) onExitTransitionDidStart {
   [super onExitTransitionDidStart];
   [self removeCloseButton];
-  [self.itemSelectViewController closeClicked:nil];
 }
 
 #pragma mark - Close Button
@@ -269,7 +268,7 @@
       ResourceItemsFiller *rif = [[ResourceItemsFiller alloc] initWithResourceType:ResourceTypeCash requiredAmount:thp.pvpQueueCashCost shouldAccumulate:YES];
       rif.delegate = self;
       svc.delegate = rif;
-      self.itemSelectViewController = svc;
+      self.popoverViewController = svc;
       self.resourceItemsFiller = rif;
       
       GameViewController *gvc = [GameViewController baseController];
@@ -835,7 +834,7 @@
 }
 
 - (void) itemSelectClosed:(id)viewController {
-  self.itemSelectViewController = nil;
+  self.popoverViewController = nil;
   self.resourceItemsFiller = nil;
 }
 

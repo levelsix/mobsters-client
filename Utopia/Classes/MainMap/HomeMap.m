@@ -520,6 +520,11 @@
       [ifb setBubbleType:BuildingBubbleTypeNone];
     } else {
       [ifb stopAnimating];
+      
+      BattleItemFactoryProto *bif = (BattleItemFactoryProto *)ifb.userStruct.staticStruct;
+      int quantity = [gs.battleItemUtil totalPowerAmount];
+      BOOL showBubble = quantity < bif.powerLimit;
+      [ifb setBubbleType:showBubble ? BuildingBubbleTypeCreate : BuildingBubbleTypeNone];
     }
   }
 }
@@ -2595,6 +2600,7 @@
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadHospitals) name:HEAL_QUEUE_CHANGED_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupTeamSprites) name:HEAL_QUEUE_CHANGED_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadItemFactory) name:BATTLE_ITEM_QUEUE_CHANGED_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadItemFactory) name:BATTLE_ITEM_REMOVED_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTimerForHealingDidJustQueueUp) name:HEAL_QUEUE_CHANGED_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadMiniJobCenter) name:MINI_JOB_CHANGED_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTeamCenter) name:MY_TEAM_CHANGED_NOTIFICATION object:nil];

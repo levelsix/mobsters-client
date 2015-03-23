@@ -41,6 +41,9 @@
   BOOL _isAnimating;
   BOOL _useSmallBubble;
   NSString *_buttonText;
+  
+  BattleItemProto *_battleItem;
+  NSString *_battleItemInstruction;
 }
 
 @property (nonatomic, retain) IBOutlet UIImageView *leftImageView;
@@ -60,6 +63,12 @@
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *fbButtonSpinner;
 @property (nonatomic, retain) IBOutlet UILabel *fbButtonLabel;
 
+@property (nonatomic, retain) IBOutlet UIView *itemSpeechBubble;
+@property (nonatomic, retain) IBOutlet UIImageView *itemSpeechBubbleImage;
+@property (nonatomic, retain) IBOutlet UIImageView *itemIcon;
+@property (nonatomic, retain) IBOutlet UILabel *itemNameLabel;
+@property (nonatomic, retain) IBOutlet UILabel *itemInstructionLabel;
+
 @property (nonatomic, retain) DialogueProto *dialogue;
 
 @property (nonatomic, assign) id<DialogueViewControllerDelegate> delegate;
@@ -70,6 +79,7 @@
 - (id) initWithDialogueProto:(DialogueProto *)dialogue;
 - (id) initWithDialogueProto:(DialogueProto *)dialogue useSmallBubble:(BOOL)smallBubble;
 - (id) initWithDialogueProto:(DialogueProto *)dialogue useSmallBubble:(BOOL)smallBubble buttonText:(NSString *)buttonText;
+- (id) initWithBattleItemName:(BattleItemProto *)bip instruction:(NSString *)str;
 - (void) extendDialogue:(DialogueProto *)dialogue;
 - (void) animateNext;
 - (void) fadeOutBottomGradient;

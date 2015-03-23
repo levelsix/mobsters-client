@@ -29,6 +29,7 @@
     return nil;
   
   self.shouldShowContinueButton = YES;
+  self.allowBattleItemPurchase = YES;
   
   return self;
 }
@@ -275,7 +276,7 @@
   int gemsAmount = [gl calculateGemCostToHealTeamDuringBattle:self.myTeam];
   
   if (gs.gems < gemsAmount) {
-    [GenericPopupController displayNotificationViewWithText:@"You do not have enough gems to continue this dungeon." title:@"Not enough gems"];
+    [GenericPopupController displayNotEnoughGemsViewWithTarget:self selector:@selector(openGemShop)];
   } else {
     if (gemsAmount > 0) {
       [[OutgoingEventController sharedOutgoingEventController] reviveInDungeon:self.dungeonInfo.userTaskUuid taskId:self.dungeonInfo.taskId myTeam:self.myTeam];
@@ -525,23 +526,12 @@
     [gvc addChildViewController:dvc];
     dvc.view.frame = gvc.view.bounds;
     [gvc.view addSubview:dvc.view];
+    _isDisplayingEnemyDialogue = YES;
     
     self.enemyPlayerObject.dialogue = nil;
   } else {
     [super beginNextTurn];
   }
-}
-
-- (void) dialogueViewController:(DialogueViewController *)dvc willDisplaySpeechAtIndex:(int)index {
-  Globals *gl = [Globals sharedGlobals];
-  if(index == SHOW_PLAYER_SKILL_BUTTON_DIALOGUE_INDEX && [self dungeonInfo].taskId == gl.taskIdOfFirstSkill) {
-    dvc.paused = YES;
-    [self forceSkillClickOver:dvc];
-  }
-}
-
-- (void) dialogueViewControllerFinished:(DialogueViewController *)dvc {
-  [self beginNextTurn];
 }
 
 - (void) beginMyTurn {
@@ -591,6 +581,26 @@
     }
   } else {
     [super reachedNextScene];
+  }
+}
+
+#pragma mark - Dialogue VC delegate
+
+- (void) dialogueViewController:(DialogueViewController *)dvc willDisplaySpeechAtIndex:(int)index {
+  if (_isDisplayingEnemyDialogue) {
+    Globals *gl = [Globals sharedGlobals];
+    if(index == SHOW_PLAYER_SKILL_BUTTON_DIALOGUE_INDEX && [self dungeonInfo].taskId == gl.taskIdOfFirstSkill) {
+      dvc.paused = YES;
+      [self forceSkillClickOver:dvc];
+    }
+  }
+}
+
+- (void) dialogueViewControllerFinished:(DialogueViewController *)dvc {
+  if (_isDisplayingEnemyDialogue) {
+    [self beginNextTurn];
+  } else {
+    [super dialogueViewControllerFinished:dvc];
   }
 }
 

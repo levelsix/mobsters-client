@@ -124,8 +124,8 @@
   return gp;
 }
 
-+ (GenericPopupController *) displayNotEnoughGemsView {
-  GenericPopupController *gp = [GenericPopupController displayNotificationViewWithText:@"You don't have enough gems.\nWant more?" title:@"Not Enough Gems" okayButton:@"Enter Shop" target:[GameViewController baseController] selector:@selector(openGemShop)];
++ (GenericPopupController *) displayNotEnoughGemsViewWithTarget:(id)target selector:(SEL)selector {
+  GenericPopupController *gp = [GenericPopupController displayNotificationViewWithText:@"You don't have enough gems.\nWant more?" title:@"Not Enough Gems" okayButton:@"Enter Shop" target:target selector:selector];
   
   [gp.notifButton setImage:[Globals imageNamed:@"purplemenuoption.png"] forState:UIControlStateNormal];
   gp.titleBgd.image = [Globals imageNamed:@"purplenotificationheader.png"];
@@ -136,6 +136,10 @@
   gp.closeButton.hidden = NO;
   
   return gp;
+}
+
++ (GenericPopupController *) displayNotEnoughGemsView {
+  return [self displayNotEnoughGemsViewWithTarget:[GameViewController baseController] selector:@selector(openGemShop)];
 }
 
 + (GenericPopupController *) displayGemConfirmViewWithDescription:(NSString *)description title:(NSString *)title gemCost:(int)gemCost target:(id)target selector:(SEL)selector {
