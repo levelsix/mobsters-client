@@ -698,7 +698,7 @@
     _stacks = [dict[@"stacks"] intValue];
   
   if (dict[@"ownerUdid"])
-    _ownerUdid = [dict[@"ownerUdid"] stringValue];
+    _ownerUdid = dict[@"ownerUdid"];
   
   return YES;
 }
