@@ -164,7 +164,7 @@
 
 - (void) onExit
 {
-  [self removeAllSkillSideEffects];
+//  [self removeAllSkillSideEffects];
   
   [super onExit];
 }
