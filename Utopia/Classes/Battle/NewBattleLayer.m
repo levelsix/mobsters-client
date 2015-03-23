@@ -2559,6 +2559,7 @@
   [self.hudView removeDeployView];
   [self displayLootCounter:YES];
   BOOL isSwap = self.myPlayer != nil;
+  [self.myPlayer removeAllSkillSideEffects];
   if (bp && ![bp.userMonsterUuid isEqualToString:self.myPlayerObject.userMonsterUuid]) {
     self.myPlayerObject = bp;
     
@@ -2576,11 +2577,11 @@
       [self.hudView removeButtons];
     }
     
+    [self createScheduleWithSwap:isSwap];
+    
     [self createNextMyPlayerSprite];
     
     [self triggerSkillForPlayerCreatedWithBlock:^{
-      
-      [self createScheduleWithSwap:isSwap];
       
       // If it is swap, enemy should attack
       // If it is game start, wait till battle response has arrived

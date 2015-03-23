@@ -71,8 +71,21 @@
       return YES;
     }
     
+    //End skills when the user dies
+    if ([self expiresOnDeath] && ([self affectsOwner] &&
+      ((self.belongsToPlayer && trigger == SkillTriggerPointPlayerMobDefeated) ||
+       (!self.belongsToPlayer && trigger == SkillTriggerPointEnemyDefeated))))
+    {
+      if (execute)
+      {
+        if (![self endDurationNow])
+          [self skillTriggerFinished];
+      }
+      return YES;
+    }
+    
     //End skills on opponents when opponents are defeated
-    if ((![self affectsOwner] &&
+    if ([self expiresOnDeath] && (![self affectsOwner] &&
          ((self.belongsToPlayer && trigger == SkillTriggerPointEnemyDefeated) ||
          (!self.belongsToPlayer && trigger == SkillTriggerPointPlayerMobDefeated))))
     {
@@ -99,14 +112,15 @@
         if ([self isActive])
         {
           self.orbCounter = 0;
-          [self addVisualEffects:YES];
+          [self restoreVisualsIfNeeded];
         }
         else
         {
           if (self.orbCounter == 0)
             self.orbCounter = self.orbRequirement;
-          [self skillTriggerFinished];
         }
+        [self skillTriggerFinished];
+
       }
       return YES;
     }
@@ -175,6 +189,11 @@
 }
 
 - (BOOL) affectsOwner
+{
+  return YES;
+}
+
+- (BOOL) expiresOnDeath
 {
   return YES;
 }
