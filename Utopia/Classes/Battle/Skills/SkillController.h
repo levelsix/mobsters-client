@@ -83,6 +83,8 @@ static NSString* const kSkillMiniLogoImageNameSuffix = @"minilogo.png";
 @property (nonatomic) BattleSprite  *userSprite;
 @property (nonatomic) BattleSprite  *opponentSprite;
 
+@property (weak, nonatomic) NSString        *ownerUdid;
+
 @property (assign, nonatomic) BOOL          belongsToPlayer;
 
 @property (readonly) OrbColor orbColor;

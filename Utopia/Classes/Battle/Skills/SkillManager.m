@@ -81,7 +81,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
       _playerSkillType = playerSkillProto.type;
       _playerColor = (OrbColor)_player.element;
       _playerSkillActivation = playerSkillProto.activationType;
-      _playerSkillController = [SkillController skillWithProto:playerSkillProto andMobsterColor:_playerColor];
+      for (SkillController* skillController in _persistentSkillControllers) {
+        if (skillController.ownerUdid == _player.userMonsterUuid)
+        {
+          _playerSkillController = skillController;
+        }
+      }
+      if (!_playerSkillController)
+        _playerSkillController = [SkillController skillWithProto:playerSkillProto andMobsterColor:_playerColor];
+      else
+        [_persistentSkillControllers removeObject:_playerSkillController];
     }
   }
   
@@ -135,7 +144,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
       _enemySkillType = enemySkillProto.type;
       _enemyColor = (OrbColor)_enemy.element;
       _enemySkillActivation = enemySkillProto.activationType;
-      _enemySkillController = [SkillController skillWithProto:enemySkillProto andMobsterColor:_enemyColor];
+      for (SkillController* skillController in _persistentSkillControllers) {
+        if (skillController.ownerUdid == _enemy.userMonsterUuid)
+        {
+          _enemySkillController = skillController;
+        }
+      }
+      if (!_enemySkillController)
+        _enemySkillController = [SkillController skillWithProto:enemySkillProto andMobsterColor:_enemyColor];
+      else
+        [_persistentSkillControllers removeObject:_enemySkillController];
     }
   }
   
@@ -154,9 +172,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   _playerSprite = _battleLayer.myPlayer;
   
   if (_enemySkillController)
+  {
     [self setDataForController:_enemySkillController];
+    _enemySkillController.ownerUdid = _enemy.userMonsterUuid;
+  }
   if (_playerSkillController)
+  {
     [self setDataForController:_playerSkillController];
+    _playerSkillController.ownerUdid = _player.userMonsterUuid;
+  }
   
   for (SkillController *perSkill in _persistentSkillControllers) {
     [self setDataForController:perSkill];

@@ -59,6 +59,18 @@
 
 - (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
 {
+  if (trigger == SkillTriggerPointPlayerInitialized)
+  {
+    if ([self isActive])
+    {
+      [self setDamageMultiplierOnFireOrbs:floorf(_damageMultiplier)];
+    }
+    else
+    {
+      [self setDamageMultiplierOnFireOrbs:1];
+    }
+  }
+  
   if ([super skillCalledWithTrigger:trigger execute:execute])
     return YES;
   
