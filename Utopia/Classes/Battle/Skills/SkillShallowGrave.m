@@ -68,7 +68,7 @@
   {
     SkillLogStart(@"Shallow Grave -- Skill activated");
     
-//    [self addDefensiveShieldForUser];
+    [self addDefensiveShieldForUser];
   }
   
   [super restoreVisualsIfNeeded];
@@ -86,7 +86,7 @@
   if (!self.belongsToPlayer)
   {
     [self addVisualEffects:NO];
-//    [self addDefensiveShieldForUser];
+    [self addDefensiveShieldForUser];
     self.turnsLeft = -1;
   }
   
