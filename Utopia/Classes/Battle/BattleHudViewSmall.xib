@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NewBattleLayer">
@@ -153,6 +153,67 @@
                         <action selector="hideSkillPopup:" destination="iN0-l3-epB" eventType="touchUpInside" id="qFG-lA-CC6"/>
                     </connections>
                 </button>
+                <view contentMode="scaleToFill" id="VIj-h8-c7b" userLabel="Items View">
+                    <rect key="frame" x="138" y="264" width="56" height="42"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" id="TjJ-i3-eQI">
+                            <rect key="frame" x="-5" y="-4" width="66" height="54"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="PxL-nR-dyX">
+                                    <rect key="frame" x="0.0" y="4" width="66" height="50"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" image="itemsbutton.png">
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <state key="disabled" image="itemsbuttongray.png"/>
+                                    <connections>
+                                        <action selector="itemsClicked:" destination="iN0-l3-epB" eventType="touchUpInside" id="KH3-FE-9bL"/>
+                                    </connections>
+                                </button>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Items" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="0mO-Ni-v04" customClass="NiceFontLabel12">
+                                    <rect key="frame" x="12" y="22" width="42" height="21"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                    <color key="textColor" red="0.015686274510000001" green="0.33725490200000002" blue="0.39607843139999999" alpha="1" colorSpace="deviceRGB"/>
+                                    <nil key="highlightedColor"/>
+                                    <color key="shadowColor" red="0.52941176469999995" green="0.98431372549999996" blue="1" alpha="0.80000000000000004" colorSpace="deviceRGB"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
+                                <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="itemsbag.png" id="e1a-4E-RGP">
+                                    <rect key="frame" x="23" y="10" width="19" height="19"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                                <view contentMode="scaleToFill" id="A0n-oQ-Bdl" customClass="BadgeIcon">
+                                    <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="itemsbubble.png" id="lyz-qx-xfl">
+                                            <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </imageView>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="cfa-zQ-ImY" customClass="NiceFontLabel8B">
+                                            <rect key="frame" x="1" y="-1" width="18" height="19"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.40000000000000002" colorSpace="calibratedRGB"/>
+                                            <size key="shadowOffset" width="0.0" height="1"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <connections>
+                                        <outlet property="badgeLabel" destination="cfa-zQ-ImY" id="8Pr-bp-i3j"/>
+                                    </connections>
+                                </view>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <nil key="simulatedStatusBarMetrics"/>
@@ -165,6 +226,10 @@
                 <outlet property="elementButton" destination="2kS-qV-7b6" id="vuG-6I-cQe"/>
                 <outlet property="elementView" destination="Qgz-Lk-NDV" id="zGJ-Fr-1eZ"/>
                 <outlet property="forfeitButtonView" destination="Sb3-AQ-Vv6" id="KnX-Jx-Ekp"/>
+                <outlet property="itemsBadge" destination="A0n-oQ-Bdl" id="hzo-wM-bfZ"/>
+                <outlet property="itemsBag" destination="e1a-4E-RGP" id="Vjg-hr-qZd"/>
+                <outlet property="itemsButton" destination="PxL-nR-dyX" id="xvn-22-Bse"/>
+                <outlet property="itemsView" destination="VIj-h8-c7b" id="eNR-UB-4R5"/>
                 <outlet property="skillPopupCloseButton" destination="iiz-CX-JJj" id="fWe-9w-v4G"/>
                 <outlet property="skillPopupView" destination="I1U-bx-Yrm" id="NvE-0l-DNe"/>
                 <outlet property="swapLabel" destination="lFh-3Z-5Um" id="sjd-w7-Vub"/>
@@ -801,6 +866,10 @@
         <image name="evobadge2.png" width="12" height="12"/>
         <image name="fireorb.png" width="27" height="34"/>
         <image name="hospitaltimeleftbg.png" width="37" height="8"/>
+        <image name="itemsbag.png" width="30" height="34"/>
+        <image name="itemsbubble.png" width="20" height="20"/>
+        <image name="itemsbutton.png" width="66" height="50"/>
+        <image name="itemsbuttongray.png" width="66" height="50"/>
         <image name="movesqueuebg.png" width="142" height="62"/>
         <image name="runawaybg.png" width="43" height="21"/>
         <image name="runawaybgwidepressed.png" width="75" height="21"/>

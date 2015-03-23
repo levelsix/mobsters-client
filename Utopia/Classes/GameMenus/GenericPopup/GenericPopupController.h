@@ -22,6 +22,7 @@
 + (GenericPopupController *) displayNegativeConfirmationWithMiddleView:(UIView *)view title:(NSString *)title okayButton:(NSString *)okay cancelButton:(NSString *)cancel okTarget:(id)okTarget okSelector:(SEL)okSelector cancelTarget:(id)cancelTarget cancelSelector:(SEL)cancelSelector;
 
 + (GenericPopupController *) displayNotEnoughGemsView;
++ (GenericPopupController *) displayNotEnoughGemsViewWithTarget:(id)target selector:(SEL)selector;
 + (GenericPopupController *) displayGemConfirmViewWithDescription:(NSString *)description title:(NSString *)title gemCost:(int)gemCost target:(id)target selector:(SEL)selector;
 + (GenericPopupController *) displayExchangeForGemsViewWithResourceType:(ResourceType)resourceType amount:(int)amount target:(id)target selector:(SEL)selector;
 

@@ -1133,7 +1133,7 @@ static NSString *udid = nil;
                                           setReason:reason]
                                          build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCUpdateUserCurrencyEvent];
+  return [self sendData:req withMessageType:EventProtocolRequestCUpdateUserCurrencyEvent flush:NO queueUp:NO];
 }
 
 - (int) sendBeginPvpBattleMessage:(PvpProto *)enemy senderElo:(int)elo isRevenge:(BOOL)isRevenge previousBattleTime:(uint64_t)previousBattleTime clientTime:(uint64_t)clientTime {
@@ -1616,7 +1616,7 @@ static NSString *udid = nil;
                                          addAllDiscardedBattleItemIds:battleItemIds]
                                         build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCDiscardBattleItemEvent];
+  return [self sendData:req withMessageType:EventProtocolRequestCDiscardBattleItemEvent flush:NO queueUp:YES];
 }
 
 #pragma mark - Batch/Flush events

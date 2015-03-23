@@ -1211,7 +1211,7 @@
 - (void) changeOrb:(BattleOrb *)orb fromPowerupInitiatorOrb:(BattleOrb *)powerupOrb {
   
   // Give rainbow orbs the color of the chain creator
-  if (orb.powerupType == PowerupTypeAllOfOneColor) {
+  if (orb.powerupType == PowerupTypeAllOfOneColor && orb.orbColor == OrbColorNone) {
     // Choose a color of an orb that
     int rand;
     BOOL foundColor = NO;
@@ -1298,9 +1298,7 @@
   for (BattleChain *chain in chains) {
     for (BattleOrb *orb in chain.orbs) {
       if (orb.changeType == OrbChangeTypeDestroyed && orb.powerupType) {
-        if (chain.powerupInitiatorOrb) {
-          [self changeOrb:orb fromPowerupInitiatorOrb:chain.powerupInitiatorOrb];
-        }
+        [self changeOrb:orb fromPowerupInitiatorOrb:chain.powerupInitiatorOrb];
         
         [powerupOrbs addObject:orb];
         [usedPowerupOrbs addObject:orb];

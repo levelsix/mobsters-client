@@ -382,6 +382,8 @@
       
       [self updateLabels];
       [self reloadTitleView];
+      
+      [[NSNotificationCenter defaultCenter] postNotificationName:BATTLE_ITEM_REMOVED_NOTIFICATION object:nil];
     }
   } else {
     [Globals addAlertNotification:@"Hold on, we are still processing your previous request."];

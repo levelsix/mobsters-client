@@ -209,6 +209,9 @@
       case BuildingBubbleTypeRenew:
         imgName = [NSString stringWithFormat:@"renewbubble.png"];
         break;
+      case BuildingBubbleTypeCreate:
+        imgName = [NSString stringWithFormat:@"createbubble.png"];
+        break;
         
       default:
         break;
