@@ -402,13 +402,13 @@
     
   } else if (_chatMode == PrivateChatModeAttackLog) {
     NSMutableArray *attackArray = [NSMutableArray arrayWithArray:[gs pvpAttackHistory]];
-    [attackArray sortUsingComparator:^NSComparisonResult(PvpHistoryProto *a, PvpHistoryProto *b) { return a.battleEndTime >= b.battleEndTime; }];
+    [attackArray sortUsingComparator:^NSComparisonResult(PvpHistoryProto *a, PvpHistoryProto *b) { return a.battleEndTime <= b.battleEndTime; }];
     self.displayedChatList = attackArray;
     emptyText = @"You have never attacked anyone.";
     
   } else if (_chatMode == PrivateChatModeDefenseLog) {
     NSMutableArray *defenseArray = [NSMutableArray arrayWithArray:[gs pvpDefenseHistory]];
-    [defenseArray sortUsingComparator:^NSComparisonResult(PvpHistoryProto *a, PvpHistoryProto *b) { return a.battleEndTime >= b.battleEndTime; }];
+    [defenseArray sortUsingComparator:^NSComparisonResult(PvpHistoryProto *a, PvpHistoryProto *b) { return a.battleEndTime <= b.battleEndTime; }];
     self.displayedChatList = defenseArray;
     emptyText = @"You have never been attacked.";
   }
