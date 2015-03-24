@@ -439,11 +439,20 @@
     }
   }
   
-  //  // Check if squad HQ can even be built yet
-  //  UserStruct *cs = [gs myClanHouse];
-  //  int level = cs.staticStruct.structInfo.level;
-  //  BOOL availBuilding = (cs.isComplete || level > 1);
-  BOOL availBuilding = YES; // Should always show
+  // Check if squad HQ can even be built yet
+  UserStruct *cs = [gs myClanHouse];
+  BOOL availBuilding = NO;
+  if (cs) {
+    availBuilding = YES;
+  } else {
+    for (id<StaticStructure> chp in gs.staticStructs.allValues) {
+      StructureInfoProto *fsp = [chp structInfo];
+      if(fsp.structType == StructureInfoProto_StructTypeClan && !chp.structInfo.predecessorStructId) {
+        availBuilding = [gl incompletePrereqsForStructId:chp.structInfo.structId].count == 0;
+      }
+    }
+  }
+//  BOOL availBuilding = YES; // Should always show
   
   self.freeGemsBadge.badgeNum = badgeNum;
   self.freeGemsView.hidden = !availAchievement || !availBuilding;
