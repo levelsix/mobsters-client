@@ -1267,6 +1267,13 @@
   }
 }
 
+- (void) displayProgressBar {
+  [super displayProgressBar];
+  MiniResearchViewSprite *spr = [MiniResearchViewSprite spriteWithResearchProto:_userResearch.research];
+  [self.progressBar addChild:spr];
+  spr.position = ccp(-spr.contentSize.width/2-4.f, self.progressBar.contentSize.height/2+1.f);
+}
+
 - (NSString *) progressBarPrefix {
   if (self.isConstructing) {
     return [super progressBarPrefix];

@@ -281,3 +281,30 @@
 }
 
 @end
+
+@implementation MiniResearchViewSprite
+
++ (id) spriteWithResearchProto:(ResearchProto *)proto {
+//  GameState *gs = [GameState sharedGameState];
+  
+  MiniResearchViewSprite *s = [MiniMonsterViewSprite node];
+  s.contentSize = CGSizeMake(15, 15);
+  
+//  NSString *file = [Globals imageNameForElement:mp.monsterElement suffix:@"smallsquare.png"];
+//  CCSprite *bgd = [CCSprite spriteWithImageNamed:file];
+//  bgd.scale = s.contentSize.height/bgd.contentSize.height;
+  
+  CCSprite *thumb = [CCSprite node];
+  [Globals imageNamed:proto.iconImgName toReplaceSprite:thumb completion:^(BOOL success) {
+    thumb.scale = s.contentSize.height/thumb.contentSize.height;
+  }];
+  
+//  [s addChild:bgd];
+  [s addChild:thumb];
+//  bgd.position = ccp(s.contentSize.width/2, s.contentSize.height/2);
+  thumb.position = ccp(s.contentSize.width/2, s.contentSize.height/2);
+  
+  return s;
+}
+
+@end

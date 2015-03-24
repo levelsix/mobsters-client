@@ -289,7 +289,8 @@
   if (canHelp) {
     canHelp = NO;
     if ([_userResearch isResearching]) {
-      if ([gs.clanHelpUtil getNumClanHelpsForType:GameActionTypePerformingResearch userDataUuid:_userResearch.userResearchUuid] < 0) {
+      int helpsRequested = [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypePerformingResearch userDataUuid:_userResearch.userResearchUuid];
+      if (helpsRequested <= 0) {
         canHelp = YES;
       }
     }
@@ -382,7 +383,9 @@
 
 - (void) handleFinishPerformingResearchResponseProto:(FullEvent *)fe {
   self.view.activityIndicator.hidden = YES;
+  NSString *researchUserId = _userResearch.userResearchUuid;
   _userResearch = [UserResearch userResearchWithResearch:_userResearch.research];
+  _userResearch.userResearchUuid = researchUserId;
   _waitingForServer = NO;
 }
 

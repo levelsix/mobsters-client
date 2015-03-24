@@ -92,3 +92,9 @@ typedef enum {
 + (id) spriteWithElement:(Element)elem imageName:(NSString *)imgName;
 
 @end
+
+@interface MiniResearchViewSprite : CCSprite
+
++ (id) spriteWithResearchProto:(ResearchProto *)proto;
+
+@end
