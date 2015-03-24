@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="BattleItemSelectViewController">
@@ -14,12 +14,15 @@
                 <outlet property="editButton" destination="QIR-fb-yqF" id="lIH-ha-eRM"/>
                 <outlet property="editLabel" destination="wNq-oV-Bp6" id="0Di-xa-kob"/>
                 <outlet property="footerDescLabel" destination="LdC-V3-JnO" id="hE3-x3-VcA"/>
+                <outlet property="footerImageView" destination="bGs-MD-b61" id="pEg-ca-F0L"/>
+                <outlet property="footerTitleLabel" destination="MxL-VF-CUk" id="phZ-ur-ld4"/>
                 <outlet property="footerView" destination="BW5-Ck-N3y" id="VeX-FY-xiz"/>
                 <outlet property="headerView" destination="YRu-xC-rGg" id="ZJN-EQ-bm5"/>
                 <outlet property="infoTitleLabel" destination="ojM-Ci-nMd" id="YVm-xm-cMM"/>
                 <outlet property="infoView" destination="XeW-do-BW4" id="VVl-Gp-bdf"/>
                 <outlet property="itemsTable" destination="g7t-ee-BeA" id="9I2-wg-5kQ"/>
                 <outlet property="mainView" destination="ZBF-Eh-mgn" id="y9i-0l-XhP"/>
+                <outlet property="noItemsLabel" destination="D0d-8r-rbV" id="A3F-R4-HKR"/>
                 <outlet property="progressBar" destination="4rB-Ic-crP" id="XOu-nt-X0c"/>
                 <outlet property="progressBarLabel" destination="uhg-uG-fNC" id="NKx-pS-gCJ"/>
                 <outlet property="progressBarView" destination="bKS-J5-OXf" id="62f-w8-hLO"/>
@@ -332,12 +335,12 @@
                             <nil key="highlightedColor"/>
                             <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="girl2.png" id="bGs-MD-b61">
-                            <rect key="frame" x="10" y="-32" width="62" height="88"/>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="bottom" image="girl2.png" highlightedImage="itemfactorymenuheader.png" highlighted="YES" id="bGs-MD-b61">
+                            <rect key="frame" x="4" y="-31" width="70" height="88"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Items created can be used in Single Player and Multiplayer battles." lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="LdC-V3-JnO" customClass="NiceFontLabel2">
-                            <rect key="frame" x="79" y="22" width="145" height="30"/>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Items can be used in Single Player and Multiplayer battles." lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="LdC-V3-JnO" customClass="NiceFontLabel2">
+                            <rect key="frame" x="79" y="22" width="147" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="9"/>
                             <color key="textColor" red="0.20000001789999999" green="0.20000001789999999" blue="0.20000001789999999" alpha="1" colorSpace="deviceRGB"/>
@@ -346,6 +349,14 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="YOU HAVE NO ITEMS" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="D0d-8r-rbV" customClass="NiceFontLabel12">
+                    <rect key="frame" x="48" y="99" width="145" height="29"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                    <color key="textColor" red="0.86274509803921573" green="0.14509803921568629" blue="0.0078431372549019607" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                    <size key="shadowOffset" width="0.0" height="1"/>
+                </label>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <nil key="simulatedStatusBarMetrics"/>
@@ -411,6 +422,7 @@
         <image name="greenitemsbutton.png" width="52" height="30"/>
         <image name="homemenuback.png" width="13" height="20"/>
         <image name="ifitemsquareverysmall.png" width="38" height="38"/>
+        <image name="itemfactorymenuheader.png" width="56" height="62"/>
         <image name="itemsheaderbg.png" width="1" height="35"/>
         <image name="itemssidearrow.png" width="9" height="18"/>
         <image name="itemstimerbg.png" width="222" height="13"/>
