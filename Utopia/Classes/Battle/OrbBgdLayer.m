@@ -39,68 +39,88 @@
   _layout = layout;
   _gridSize = gridSize;
   
-  // Setup board background
-  int tileSize = [self tileSize];
-  for (int i = 0; i < gridSize.width; i++) {
-    for (int j = 0; j < gridSize.height; j++) {
-      BattleTile *tile = [layout tileAtColumn:i row:j];
-      
-      if (!tile.isHole) {
-        NSString *fileName = (i+j)%2==0 ? @"lightboardsquare.png" : @"darkboardsquare.png";
-        CCSprite *square = [CCSprite spriteWithImageNamed:fileName];
-        
-        [self addChild:square];
-        square.position = ccp((i+0.5)*tileSize, (j+0.5)*tileSize);
-        square.scale = tileSize;
-      }
-    }
-  }
-  
-  self.contentSize = CGSizeMake(gridSize.width*tileSize, gridSize.height*tileSize);
-  
   self.anchorPoint = ccp(0.5, 0.5);
   
   // Setup bottom, top and darkness tile layers
+  _tilesLayerMain = [CCNode node];
   _tilesLayerBottom = [CCNode node];
   _tilesLayerTop = [CCNode node];
   _tilesLayerDarkness = [CCNode node];
+  [self addChild:_tilesLayerMain z:0];
   [self addChild:_tilesLayerBottom z:1];  // z=2 is for OrbSwipeLayer
   [self addChild:_tilesLayerTop z:3];
   [self addChild:_tilesLayerDarkness z:4];
   
-  for (NSInteger col = 0; col < layout.numColumns; col++) {
-    for (NSInteger row = 0; row < layout.numRows; row++) {
-      
-      // Top and bottom tiles
-      BattleTile* tile = [layout tileAtColumn:col row:row];
-      
-      if (!tile.isHole) {
-        TileSprite* spriteTop = [TileSprite tileSpriteWithTile:tile depth:TileDepthTop];
-        TileSprite* spriteBottom = [TileSprite tileSpriteWithTile:tile depth:TileDepthBottom];
-        if (spriteTop)
-        {
-          spriteTop.position = ccp((col+0.5)*tileSize, (row+0.5)*tileSize);
-          [_tilesLayerTop addChild:spriteTop z:1 name:tile.description];
-        }
-        if (spriteBottom)
-        {
-          spriteBottom.position = ccp((col+0.5)*tileSize, (row+0.5)*tileSize);
-          [_tilesLayerBottom addChild:spriteBottom z:1 name:tile.description];
-        }
-        
-        // Dark tile
-        CCNodeColor *spriteDark = [CCNodeColor nodeWithColor:[CCColor colorWithCcColor4f:ccc4f(0, 0, 0, darknessForTilesOpacity)]
-                                                       width:tileSize height:tileSize];
-        spriteDark.position = ccp(col*tileSize, row*tileSize);
-        [_tilesLayerDarkness addChild:spriteDark z:1 name:tile.description];
-      }
-    }
-  }
+  [self reloadTiles];
   
   return self;
 }
 
+- (void) reloadTiles {
+  [_tilesLayerMain removeAllChildren];
+  [_tilesLayerBottom removeAllChildren];
+  [_tilesLayerTop removeAllChildren];
+  [_tilesLayerDarkness removeAllChildren];
+  
+  // Setup board background
+  int tileSize = [self tileSize];
+  for (int i = 0; i < _gridSize.width; i++) {
+    for (int j = 0; j < _gridSize.height; j++) {
+      BattleTile *tile = [_layout tileAtColumn:i row:j];
+      
+      [self createTileSprite:tile];
+    }
+  }
+  
+  if (_borderNode) {
+    [_borderNode removeFromParent];
+    [self assembleBorder];
+  }
+  
+  self.contentSize = CGSizeMake(_gridSize.width*tileSize, _gridSize.height*tileSize);
+}
+
+- (CCSprite *) createTileSprite:(BattleTile *)tile {
+  NSInteger i = tile.column, j = tile.row;
+  int tileSize = [self tileSize];
+  
+  if (!tile.isHole) {
+    NSString *fileName = (i+j)%2==0 ? @"lightboardsquare.png" : @"darkboardsquare.png";
+    CCSprite *square = [CCSprite spriteWithImageNamed:fileName];
+    
+    [_tilesLayerMain addChild:square];
+    square.position = ccp((i+0.5)*tileSize, (j+0.5)*tileSize);
+    square.scale = tileSize;
+    
+    TileSprite* spriteTop = [TileSprite tileSpriteWithTile:tile depth:TileDepthTop];
+    TileSprite* spriteBottom = [TileSprite tileSpriteWithTile:tile depth:TileDepthBottom];
+    if (spriteTop)
+    {
+      spriteTop.position = ccp((i+0.5)*tileSize, (j+0.5)*tileSize);
+      [_tilesLayerTop addChild:spriteTop z:1 name:tile.description];
+    }
+    if (spriteBottom)
+    {
+      spriteBottom.position = ccp((i+0.5)*tileSize, (j+0.5)*tileSize);
+      [_tilesLayerBottom addChild:spriteBottom z:1 name:tile.description];
+    }
+    
+    // Dark tile
+    CCNodeColor *spriteDark = [CCNodeColor nodeWithColor:[CCColor colorWithCcColor4f:ccc4f(0, 0, 0, darknessForTilesOpacity)]
+                                                   width:tileSize height:tileSize];
+    spriteDark.position = ccp(i*tileSize, j*tileSize);
+    [_tilesLayerDarkness addChild:spriteDark z:1 name:tile.description];
+    
+    return square;
+  }
+  
+  return nil;
+}
+
 - (void) assembleBorder {
+  
+  _borderNode = [CCNode node];
+  [self addChild:_borderNode z:1];
   
   // Go out 1 more on bottom and right so that it will take care of outer edges on bot and right
   for (int i = 0; i < _gridSize.width+1; i++) {
@@ -147,8 +167,6 @@
       int tileSize = [self tileSize];
       CGPoint basePt = ccp(i*tileSize, j*tileSize);
       
-      int z = 1;
-      
       // Draw the lines
       if (leftLine) {
         CCSprite *leftBorder = [CCSprite spriteWithImageNamed:@"borderstraight.png"];
@@ -159,7 +177,7 @@
         leftBorder.anchorPoint = ccp(!mHole, 0);
         leftBorder.position = ccpAdd(basePt, ccp(0, CORNER_SIZE/2));
         
-        [self addChild:leftBorder z:z];
+        [_borderNode addChild:leftBorder];
       }
       
       if (topLine) {
@@ -172,7 +190,7 @@
         topBorder.rotation = 90;
         topBorder.position = ccpAdd(basePt, ccp(tileSize-CORNER_SIZE/2-scale/2, tileSize+(!mHole*2-1)*BORDER_WIDTH/2));
         
-        [self addChild:topBorder z:z];
+        [_borderNode addChild:topBorder];
       }
       
       CGPoint cornerPos = ccpAdd(basePt, ccp(0, tileSize));
@@ -187,7 +205,7 @@
         corner.flipY = YES;
         corner.anchorPoint = ccp(1, 1);
         
-        [self addChild:corner];
+        [_borderNode addChild:corner];
       }
       
       if (mCorner) {
@@ -198,7 +216,7 @@
         corner.flipY = YES;
         corner.anchorPoint = ccp(0, 1);
         
-        [self addChild:corner];
+        [_borderNode addChild:corner];
       }
       
       if (tCorner) {
@@ -208,7 +226,7 @@
         corner.position = isColor ? cornerPos : ccpAdd(cornerPos, ccp(-BORDER_WIDTH, -BORDER_WIDTH));
         corner.anchorPoint = ccp(0, 0);
         
-        [self addChild:corner];
+        [_borderNode addChild:corner];
       }
       
       if (tlCorner) {
@@ -219,7 +237,7 @@
         corner.flipX = YES;
         corner.anchorPoint = ccp(1, 0);
         
-        [self addChild:corner];
+        [_borderNode addChild:corner];
       }
     }
   }
@@ -238,6 +256,18 @@
     return (TileSprite*)[_tilesLayerTop getChildByName:tile.description recursively:NO];
   else
     return (TileSprite*)[_tilesLayerBottom getChildByName:tile.description recursively:NO];
+}
+
+#pragma mark - Putty
+
+- (void) updateForPuttyWithTile:(BattleTile *)tile {
+  [self createTileSprite:tile];
+  [self turnTheLightForTile:tile on:YES instantly:YES];
+  
+  if (_borderNode) {
+    [_borderNode removeFromParent];
+    [self assembleBorder];
+  }
 }
 
 #pragma mark Tiles updating and darkness

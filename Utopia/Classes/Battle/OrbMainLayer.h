@@ -33,9 +33,11 @@
 
 @property (nonatomic, retain) OrbSwipeLayer *swipeLayer;
 @property (nonatomic, retain) OrbBgdLayer *bgdLayer;
+@property (nonatomic, retain) OrbBgdLayer *clipBgdLayer;
 
 @property (nonatomic, assign) BOOL allowFreeMove;
 @property (nonatomic, assign) BOOL allowOrbHammer;
+@property (nonatomic, assign) BOOL allowPutty;
 
 @property (nonatomic, assign) id<OrbMainLayerDelegate> delegate;
 
@@ -58,6 +60,9 @@
 
 - (void) allowOrbHammerForSingleTurn;
 - (void) cancelOrbHammer;
+
+- (void) allowPuttyForSingleTurn;
+- (void) cancelPutty;
 
 - (id) serialize;
 - (void) deserialize:(NSArray *)arr;

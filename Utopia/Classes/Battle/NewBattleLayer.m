@@ -2164,7 +2164,8 @@
   UserBattleItem *item = _selectedBattleItem;
   BattleItemProto *bip = item.staticBattleItem;
   if ((self.orbLayer.allowFreeMove && bip.battleItemType == BattleItemTypeHandSwap) ||
-      (self.orbLayer.allowOrbHammer && bip.battleItemType == BattleItemTypeOrbHammer)) {
+      (self.orbLayer.allowOrbHammer && bip.battleItemType == BattleItemTypeOrbHammer) ||
+      (self.orbLayer.allowPutty && bip.battleItemType == BattleItemTypePutty)) {
     [self deductBattleItem:bip];
     _selectedBattleItem = nil;
   }
@@ -2494,7 +2495,7 @@
   self.hudView.swapView.originY = self.hudView.swapView.superview.height-self.hudView.swapView.height-bottomDist;
   
   self.hudView.itemsView.originY = self.hudView.itemsView.superview.height-self.hudView.itemsView.height-bottomDist;
-  self.hudView.itemsView.originX = self.hudView.itemsView.superview.width-self.hudView.itemsView.width-self.orbLayer.contentSize.width-ORB_LAYER_DIST_FROM_SIDE-5;
+  self.hudView.itemsView.originX = self.hudView.itemsView.superview.width-self.hudView.itemsView.width-self.orbLayer.contentSize.width-ORB_LAYER_DIST_FROM_SIDE-8;
   
   self.hudView.bottomView.centerX = self.hudView.swapView.width+(self.hudView.itemsView.originX-self.hudView.swapView.width)/2;
   
@@ -2850,6 +2851,10 @@
         str = [NSString stringWithFormat:@"Your %@ is already at full health.", MONSTER_NAME];
         break;
         
+      case BattleItemTypePutty:
+        str = [NSString stringWithFormat:@"There are no holes to use %@ on.", bip.name];
+        break;
+        
       case BattleItemTypeBoardShuffle:
       case BattleItemTypeHandSwap:
       case BattleItemTypeOrbHammer:
@@ -2909,6 +2914,11 @@
       instruction = @"Tap an orb to destroy it.";
       break;
       
+    case BattleItemTypePutty:
+      [self usePutty:bip];
+      instruction = @"Tap a hole to fill it in.";
+      break;
+      
     case BattleItemTypeChillAntidote:
     case BattleItemTypePoisonAntidote:
 #warning for rob: perform action (remove chill/poison)
@@ -2962,6 +2972,7 @@
 - (void) cancelBattleItems {
   [self.orbLayer cancelFreeMove];
   [self.orbLayer cancelOrbHammer];
+  [self.orbLayer cancelPutty];
   
   self.dialogueViewController = nil;
 }
@@ -2973,6 +2984,21 @@
     case BattleItemTypeHandSwap:
     case BattleItemTypeOrbHammer:
       return YES;
+      
+    case BattleItemTypePutty:
+    {
+      // Check all the tiles for holes
+      for (int i = 0; i < self.orbLayer.layout.numColumns; i++) {
+        for (int j = 0; j < self.orbLayer.layout.numRows; j++) {
+          BattleTile *tile = [self.orbLayer.layout tileAtColumn:i row:j];
+          if (tile.isHole) {
+            return YES;
+          }
+        }
+      }
+      
+      return NO;
+    }
       
     case BattleItemTypeHealingPotion:
       return self.myPlayerObject.curHealth < self.myPlayerObject.maxHealth;
@@ -3007,6 +3033,10 @@
 
 - (void) useOrbHammer:(BattleItemProto *)bip {
   [self.orbLayer allowOrbHammerForSingleTurn];
+}
+
+- (void) usePutty:(BattleItemProto *)bip {
+  [self.orbLayer allowPuttyForSingleTurn];
 }
 
 #pragma mark - Open Shop

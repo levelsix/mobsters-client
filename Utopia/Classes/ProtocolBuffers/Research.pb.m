@@ -29,10 +29,22 @@ BOOL ResearchTypeIsValidValue(ResearchType value) {
     case ResearchTypeIncreaseQueueSize:
     case ResearchTypeIncreaseNumCanBuild:
     case ResearchTypeXpBonus:
+    case ResearchTypeIncreaseConstructionTime:
     case ResearchTypeIncreaseCashProduction:
     case ResearchTypeIncreaseOilProduction:
+    case ResearchTypeIncreaseGemProduction:
     case ResearchTypeIncreaseAttack:
     case ResearchTypeIncreaseHp:
+    case ResearchTypeMinorPotion:
+    case ResearchTypeUnlockChillAntidote:
+    case ResearchTypeUnlockPoisonAntidote:
+    case ResearchTypeUnlockLollipopHammer:
+    case ResearchTypeUnlockPutty:
+    case ResearchTypeUnlockShuffle:
+    case ResearchTypeUnlockClouds:
+    case ResearchTypeUnlockLocks:
+    case ResearchTypeUnlockHoles:
+    case ResearchTypeUnlockVines:
       return YES;
     default:
       return NO;
@@ -45,6 +57,8 @@ BOOL ResearchDomainIsValidValue(ResearchDomain value) {
     case ResearchDomainLevelup:
     case ResearchDomainResources:
     case ResearchDomainBattle:
+    case ResearchDomainItems:
+    case ResearchDomainTrapsAndObstacles:
       return YES;
     default:
       return NO;

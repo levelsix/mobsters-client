@@ -57,6 +57,7 @@ BOOL SkillTypeIsValidValue(SkillType value) {
     case SkillTypeFlameBreak:
     case SkillTypePoisonSkewer:
     case SkillTypePoisonFire:
+    case SkillTypeChill:
       return YES;
     default:
       return NO;
@@ -93,6 +94,8 @@ BOOL SideEffectTypeIsValidValue(SideEffectType value) {
     case SideEffectTypeBuffEnergize:
     case SideEffectTypeBuffInsurance:
     case SideEffectTypeBuffHammerTime:
+    case SideEffectTypeBuffTakeAim:
+    case SideEffectTypeNerfChill:
       return YES;
     default:
       return NO;

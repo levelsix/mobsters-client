@@ -50,6 +50,7 @@
     stencil.anchorPoint = ccp(0, 0);
     [self.bgdLayer addChild:clip z:2];
     [clip addChild:self.swipeLayer];
+    self.clipBgdLayer = stencil;
     
     self.contentSize = self.bgdLayer.contentSize;
     self.bgdLayer.position = ccp(self.bgdLayer.contentSize.width/2, self.bgdLayer.contentSize.height/2);
@@ -63,8 +64,8 @@
     
     self.swipeLayer.swipeHandler = block;
     
-    block = ^(BattleOrb *orb) {
-      [self tapDownOnOrb:orb];
+    block = ^(BattleOrb *orb, BattleTile *tile) {
+      [self tapDownOnOrb:orb tile:tile];
     };
     
     self.swipeLayer.tapDownHandler = block;
@@ -101,13 +102,24 @@
   [self.swipeLayer addSpritesForOrbs:newOrbs];
 }
 
-- (void) tapDownOnOrb:(BattleOrb *)orb {
+- (void) tapDownOnOrb:(BattleOrb *)orb tile:(BattleTile *)tile {
   if (self.allowOrbHammer && [self.layout orbCanBeRemoved:orb]) {
     [self disallowInput];
     [self.delegate moveBegan];
     [self handleMatches:nil isFreeSwap:NO destroyedOrb:orb];
     
     self.allowOrbHammer = NO;
+  } else if (self.allowPutty && tile.isHole) {
+    tile.isHole = NO;
+    [self.bgdLayer updateForPuttyWithTile:tile];
+    [self.clipBgdLayer updateForPuttyWithTile:tile];
+    
+    [self disallowInput];
+    [self.delegate moveBegan];
+    // Say is free swap is true so that it will update
+    [self handleMatches:nil isFreeSwap:YES destroyedOrb:nil];
+    
+    self.allowPutty = NO;
   }
 }
 
@@ -348,6 +360,14 @@
   self.allowOrbHammer = NO;
 }
 
+- (void) allowPuttyForSingleTurn {
+  self.allowPutty = YES;
+}
+
+- (void) cancelPutty {
+  self.allowPutty = NO;
+}
+
 #pragma mark - Allowing input
 
 - (void) pulseValidMove {
@@ -395,8 +415,7 @@
 #define ORB_KEY @"OrbKey"
 #define POSITION_X_KEY @"PositionXKey"
 #define POSITION_Y_KEY @"PositionYKey"
-#define TILE_TOP_KEY @"TileTopKey"
-#define TILE_BOTTOM_KEY @"TileBottomKey"
+#define TILE_KEY @"TileKey"
 
 - (id) serialize {
   NSMutableArray *arr = [NSMutableArray array];
@@ -410,17 +429,16 @@
       
       if (orb) {
         [gemInfo setObject:orb.serialize forKey:ORB_KEY];
-        
-        // Tile info
-        BattleTile *tile = [self.layout tileAtColumn:i row:j];
-        [gemInfo setObject:@(tile.typeTop) forKey:TILE_TOP_KEY];
-        [gemInfo setObject:@(tile.typeBottom) forKey:TILE_BOTTOM_KEY];
-        
-        [gemInfo setObject:@(orb.column) forKey:POSITION_X_KEY];
-        [gemInfo setObject:@(orb.row) forKey:POSITION_Y_KEY];
-        
-        [arr addObject:gemInfo];
       }
+      
+      [gemInfo setObject:@(i) forKey:POSITION_X_KEY];
+      [gemInfo setObject:@(j) forKey:POSITION_Y_KEY];
+      
+      // Tile info
+      BattleTile *tile = [self.layout tileAtColumn:i row:j];
+      [gemInfo setObject:tile.serialize forKey:TILE_KEY];
+      
+      [arr addObject:gemInfo];
     }
   }
   return arr;
@@ -434,27 +452,31 @@
     int x = (int)[[gemInfo objectForKey:POSITION_X_KEY] integerValue];
     int y = (int)[[gemInfo objectForKey:POSITION_Y_KEY] integerValue];
     
-    BattleOrb *orb = [[BattleOrb alloc] init];
-    orb.powerupType = PowerupTypeNone;
-    orb.orbColor = OrbColorRock;
-    orb.specialOrbType = SpecialOrbTypeNone;
-    orb.column = x;
-    orb.row = y;
-    orb.damageMultiplier = 1;
-    [orb deserialize:orbData];
+    if (orbData) {
+      BattleOrb *orb = [[BattleOrb alloc] init];
+      orb.powerupType = PowerupTypeNone;
+      orb.orbColor = OrbColorRock;
+      orb.specialOrbType = SpecialOrbTypeNone;
+      orb.column = x;
+      orb.row = y;
+      orb.damageMultiplier = 1;
+      [orb deserialize:orbData];
+      
+      [set addObject:orb];
+    }
     
     // Tile info
     BattleTile* tile = [self.layout tileAtColumn:x row:y];
-    tile.typeTop = (int)[[gemInfo objectForKey:TILE_TOP_KEY] integerValue];
-    tile.typeBottom = (int)[[gemInfo objectForKey:TILE_BOTTOM_KEY] integerValue];
-    [self.bgdLayer updateTile:tile];
-    
-    [set addObject:orb];
+    NSDictionary *tileData = [gemInfo objectForKey:TILE_KEY];
+    [tile deserialize:tileData];
   }
   
   [self.swipeLayer removeAllOrbSprites];
   [self.layout restoreLayoutWithOrbs:set];
   [self.swipeLayer addSpritesForOrbs:set];
+  
+  [self.bgdLayer reloadTiles];
+  [self.clipBgdLayer reloadTiles];
 }
 
 @end
