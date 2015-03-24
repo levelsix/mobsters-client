@@ -27,12 +27,12 @@
             <rect key="frame" x="0.0" y="0.0" width="143" height="236"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="greensquadreward1.png" id="fRC-eQ-0sR">
-                    <rect key="frame" x="57" y="11" width="29" height="29"/>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="greycomplete.png" id="ixM-xj-QXm">
+                    <rect key="frame" x="27" y="177" width="88" height="40"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Join a Squad" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="3Z4-I2-Ncm" customClass="NiceFontLabel10">
-                    <rect key="frame" x="17" y="40" width="108" height="21"/>
+                    <rect key="frame" x="17" y="47" width="108" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                     <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -47,11 +47,11 @@
                             <rect key="frame" x="0.0" y="0.0" width="84" height="84"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="requesthelp.png" id="BKy-23-ysD" customClass="ShrinkOnlyImageView">
-                            <rect key="frame" x="5" y="4" width="75" height="75"/>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="squadrewardrequest.png" id="BKy-23-ysD" customClass="ShrinkOnlyImageView">
+                            <rect key="frame" x="4" y="4" width="76" height="76"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="completedsquadrewards.png" id="Owm-xA-jrx">
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="greysquadrewardcheck.png" id="Owm-xA-jrx">
                             <rect key="frame" x="57" y="62" width="25" height="24"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
@@ -94,7 +94,7 @@
                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="squadrewardsgoarrow.png" id="Nnh-BR-c4p">
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="center" image="squadrewardsgoarrow.png" id="Nnh-BR-c4p">
                                     <rect key="frame" x="27" y="13" width="6" height="10"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
@@ -102,12 +102,8 @@
                         </view>
                     </subviews>
                 </view>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="complete.png" id="ixM-xj-QXm">
-                    <rect key="frame" x="30" y="177" width="78" height="33"/>
-                    <autoresizingMask key="autoresizingMask"/>
-                </imageView>
                 <view contentMode="scaleToFill" id="OQD-vO-rud" userLabel="Collect View">
-                    <rect key="frame" x="31" y="173" width="80" height="40"/>
+                    <rect key="frame" x="31" y="177" width="80" height="40"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="nSe-j8-DBS" customClass="GeneralButton">
@@ -132,7 +128,7 @@
                     </subviews>
                 </view>
                 <view contentMode="scaleToFill" id="ouD-RO-7P3" userLabel="Reward View">
-                    <rect key="frame" x="27" y="173" width="88" height="40"/>
+                    <rect key="frame" x="27" y="177" width="88" height="40"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="srrewardbg.png" id="s0s-nn-uxe">
@@ -156,12 +152,16 @@
                             <rect key="frame" x="50" y="15" width="30" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                            <color key="textColor" red="0.56862745098039214" green="0.0" blue="0.87058823529411766" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="textColor" red="0.56862745098039214" green="0.0" blue="0.87058823529411766" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <color key="highlightedColor" red="0.39607843139999999" green="0.39607843139999999" blue="0.39607843139999999" alpha="1" colorSpace="calibratedRGB"/>
                             <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
                     </subviews>
                 </view>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="greensquadreward1.png" id="fRC-eQ-0sR">
+                    <rect key="frame" x="57" y="18" width="29" height="29"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                </imageView>
             </subviews>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
@@ -169,14 +169,14 @@
         </view>
     </objects>
     <resources>
-        <image name="complete.png" width="78" height="33"/>
-        <image name="completedsquadrewards.png" width="25" height="24"/>
         <image name="darksquadrewardcircle.png" width="85" height="85"/>
         <image name="diamond.png" width="29" height="27"/>
         <image name="greenmenuoption.png" width="80" height="40"/>
         <image name="greensquadreward1.png" width="29" height="29"/>
-        <image name="requesthelp.png" width="75" height="75"/>
+        <image name="greycomplete.png" width="78" height="33"/>
+        <image name="greysquadrewardcheck.png" width="24" height="24"/>
         <image name="squadrewardgobutton.png" width="39" height="39"/>
+        <image name="squadrewardrequest.png" width="77" height="77"/>
         <image name="squadrewardsgoarrow.png" width="6" height="10"/>
         <image name="squadrewardsprogress.png" width="25" height="24"/>
         <image name="srrewardbg.png" width="88" height="40"/>

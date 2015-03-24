@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 #import "NibUtils.h"
+#import "FullEvent.h"
 
 typedef enum {
   QuestTypeBuildHQ = 0,
@@ -62,5 +63,6 @@ typedef enum {
 
 @property (nonatomic, retain) IBOutlet UILabel *titleLabel;
 @property (nonatomic, retain) IBOutlet UIImageView *titleDiamond;
+- (void) handleAchievementRedeemResponseProto:(FullEvent *)fe;
 
 @end

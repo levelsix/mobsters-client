@@ -22,6 +22,9 @@
 #define GREEN_GRADIENT @"C5F285"
 #define GREEN_STROKE @"2F5008"
 
+#define PURPLE_TEXT @"9100DE"
+#define DARK_GREY_TEXT @"333333"
+
 @implementation ClanRewardsQuestView
 
 - (void) updateForUserAchievement:(UserAchievement *)ua achievement:(AchievementProto *)ap {
@@ -32,18 +35,24 @@
   self.diamondIcon.superview.hidden = YES;
   self.goButtonLabel.superview.hidden = YES;
   
+  self.nameLabel.textColor = [UIColor colorWithHexString:DARK_GREY_TEXT];
+  self.gemsLabel.textColor = [UIColor colorWithHexString:PURPLE_TEXT];
+  
   if(!self.greyScale && !ua.isComplete) {
-    self.backgroundColor =[UIColor colorWithHexString:GREEN_BG];
+//    self.backgroundColor =[UIColor colorWithHexString:GREEN_BG];
     self.goButtonLabel.superview.hidden = NO;
     
     self.goButtonLabel.gradientStartColor = [UIColor whiteColor];
     self.goButtonLabel.gradientEndColor = [UIColor colorWithHexString:GREEN_GRADIENT];
     self.goButtonLabel.strokeColor = [UIColor colorWithHexString:GREEN_STROKE];
     self.goButtonLabel.strokeSize = 1.f;
+    
+    self.diamondIcon.alpha = 1.f;
+    self.descriptionIcon.alpha = 1.f;
   } else if(self.greyScale) {
     self.nameLabel.textColor = [UIColor colorWithHexString:GREY_TEXT];
     self.gemsLabel.textColor = [UIColor colorWithHexString:GREY_TEXT];
-    self.circleImage.image = [Globals imageNamed:@"lightsquadrewardcircle.png"];
+    
     self.diamondIcon.alpha = .5f;
     self.descriptionIcon.alpha = .5f;
   }
@@ -52,7 +61,7 @@
   self.numberIcon.image = [Globals imageNamed:numberImage];
   self.nameLabel.text = ap.name;
   
-  
+  self.circleImage.image = self.greyScale ? [Globals imageNamed:@"lightsquadrewardcircle.png"] : [Globals imageNamed:@"darksquadrewardcircle.png"];
   [Globals imageNamed:ap.description withView:self.descriptionIcon greyscale:self.greyScale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   [Globals imageNamed:@"diamond.png" withView:self.diamondIcon greyscale:self.greyScale indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
   [Globals imageNamed:[NSString stringWithFormat:@"srrewardbg%@.png",self.greyScale ? @"bw":@""] withView:self.rewardBg greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
@@ -61,13 +70,12 @@
     self.progressLabel.text = [NSString stringWithFormat:@"%d/%d", ua.progress, ap.quantity];
     self.gemsLabel.text = [NSString stringWithFormat:@"%d", ap.gemReward];
     
-    self.progressView.hidden = self.greyScale;
+//    self.progressView.hidden = self.greyScale;
     self.diamondIcon.superview.hidden = NO;
-  } else if (!ua.isRedeemed) {
     self.checkView.hidden = NO;
+  } else if (!ua.isRedeemed) {
     self.collectView.hidden = NO;
   } else {
-    self.checkView.hidden = NO;
     self.completeView.hidden = NO;
   }
 }
@@ -126,15 +134,15 @@
     ClanRewardsQuestView *questView = self.questViews[i];
     questView.questType = i;
     
-    if (!ua.isComplete && !curActive) {
+    if (!ua.isRedeemed && !curActive) {
       curActive = questView;
       self.titleLabel.text = [NSString stringWithFormat:@"%@ TO EARN FREE", [ap.name uppercaseString]];
       CGSize size = [self.titleLabel.text getSizeWithFont:self.titleLabel.font];
       self.titleDiamond.center = CGPointMake(self.titleLabel.center.x+(size.width/2)+(self.titleDiamond.frame.size.width/2), self.titleLabel.center.y);
-      CGPoint arrowLocation = CGPointMake((questView.size.width/2) + (questView.size.width * i) - 1, self.squadRewardArrow.center.y);
+      CGPoint arrowLocation = CGPointMake((questView.size.width/2) + (questView.size.width * i) , self.squadRewardArrow.center.y);
       self.squadRewardArrow.center = arrowLocation;
-      
-    } else if(!ua.isComplete) {
+      questView.greyScale = NO;
+    } else if(!ua.isComplete || ua.isRedeemed) {
       questView.greyScale = YES;
     }
     [questView updateForUserAchievement:ua achievement:ap];
@@ -142,6 +150,7 @@
 }
 
 - (void) collectClicked:(id)sender {
+  [self reload];
   NSInteger idx = [self.questViews indexOfObject:sender];
   
   GameState *gs = [GameState sharedGameState];
@@ -150,12 +159,16 @@
     int achievementId = [gl.clanRewardAchievementIds[idx] intValue];
     AchievementProto *ap = [gs achievementWithId:achievementId];
     
-    [[OutgoingEventController sharedOutgoingEventController] redeemAchievement:achievementId delegate:nil];
+    [[OutgoingEventController sharedOutgoingEventController] redeemAchievement:achievementId delegate:self];
     
     [Globals addPurpleAlertNotification:[NSString stringWithFormat:@"You collected %d Gems for completing %@!", ap.gemReward, ap.name] isImmediate:YES];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:ACHIEVEMENTS_CHANGED_NOTIFICATION object:self];
   }
+}
+
+- (void) handleAchievementRedeemResponseProto:(FullEvent *)fe {
+//  [self reload];
 }
 
 - (void) goClicked:(id)sender {
