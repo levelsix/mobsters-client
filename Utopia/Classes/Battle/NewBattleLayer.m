@@ -2531,7 +2531,8 @@
     return;
   }
   
-  BattleItemSelectViewController *svc = [[BattleItemSelectViewController alloc] initWithShowUseButton:YES showFooterView:NO];
+  BOOL showFooter = !self.allowBattleItemPurchase;
+  BattleItemSelectViewController *svc = [[BattleItemSelectViewController alloc] initWithShowUseButton:YES showFooterView:showFooter showItemFactory:YES];
   if (svc) {
     svc.delegate = self;
     self.popoverViewController = svc;

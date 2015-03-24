@@ -548,7 +548,7 @@
 #pragma mark - Battle Item delegate
 
 - (IBAction) bagClicked:(id)sender {
-  BattleItemSelectViewController *svc = [[BattleItemSelectViewController alloc] initWithShowUseButton:NO showFooterView:YES];
+  BattleItemSelectViewController *svc = [[BattleItemSelectViewController alloc] initWithShowUseButton:NO showFooterView:YES showItemFactory:NO];
   if (svc) {
     svc.delegate = self;
     self.popoverViewController = svc;
@@ -587,7 +587,7 @@
   ItemFactoryCardCell *cell = (ItemFactoryCardCell *)[listView.collectionView cellForItemAtIndexPath:indexPath];
   id sender = [cell infoButton];
   
-  BattleItemSelectViewController *svc = [[BattleItemSelectViewController alloc] initWithShowUseButton:NO showFooterView:YES];
+  BattleItemSelectViewController *svc = [[BattleItemSelectViewController alloc] initWithShowUseButton:NO showFooterView:YES showItemFactory:NO];
   [svc loadInfoViewForBattleItem:ubi animated:NO];
   if (svc) {
     svc.delegate = self;

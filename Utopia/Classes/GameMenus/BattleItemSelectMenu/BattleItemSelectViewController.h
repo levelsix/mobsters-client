@@ -61,6 +61,7 @@
 @interface BattleItemSelectViewController : PopoverViewController <UITableViewDataSource, UITableViewDelegate> {
   BOOL _showUseButton;
   BOOL _showFooterView;
+  BOOL _showItemFactory;
   
   BOOL _isEditing;
   
@@ -80,16 +81,19 @@
 @property (nonatomic, retain) IBOutlet UIView *backView;
 @property (nonatomic, retain) IBOutlet UIView *footerView;
 
+@property (nonatomic, retain) IBOutlet UIImageView *footerImageView;
+@property (nonatomic, retain) IBOutlet UILabel *footerTitleLabel;
 @property (nonatomic, retain) IBOutlet UILabel *footerDescLabel;
 @property (nonatomic, retain) IBOutlet UILabel *infoTitleLabel;
 @property (nonatomic, retain) IBOutlet UILabel *editLabel;
+@property (nonatomic, retain) IBOutlet UILabel *noItemsLabel;
 @property (nonatomic, retain) IBOutlet MaskedButton *editButton;
 
 @property (nonatomic, retain) NSArray *battleItems;
 
 @property (nonatomic, assign) id<BattleItemSelectDelegate> delegate;
 
-- (id) initWithShowUseButton:(BOOL)showUseButton showFooterView:(BOOL)showFooterView;
+- (id) initWithShowUseButton:(BOOL)showUseButton showFooterView:(BOOL)showFooterView showItemFactory:(BOOL)showItemFactory;
 - (void) loadInfoViewForBattleItem:(UserBattleItem *)ubi animated:(BOOL)animated;
 - (void) reloadDataAnimated:(BOOL)animated;
 - (IBAction)closeClicked:(id)sender;

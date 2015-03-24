@@ -115,10 +115,11 @@
 
 @implementation BattleItemSelectViewController
 
-- (id) initWithShowUseButton:(BOOL)showUseButton showFooterView:(BOOL)showFooterView {
+- (id) initWithShowUseButton:(BOOL)showUseButton showFooterView:(BOOL)showFooterView showItemFactory:(BOOL)showItemFactory {
   if ((self = [super init])) {
     _showUseButton = showUseButton;
     _showFooterView = showFooterView;
+    _showItemFactory = showItemFactory;
   }
   return self;
 }
@@ -133,8 +134,36 @@
   [self loadListViewAnimated:NO];
   
   
+  self.editButton.superview.hidden = YES;
+  
   if (_showFooterView) {
-    NSString *desc = self.footerDescLabel.text;
+    NSString *desc = nil;
+    if (!_showItemFactory) {
+      desc = self.footerDescLabel.text;
+      
+      self.editButton.superview.hidden = NO;
+    } else {
+      self.footerImageView.highlighted = YES;
+      
+      GameState *gs = [GameState sharedGameState];
+      UserStruct *us = [gs myBattleItemFactory];
+      NSString *buildingName = us.staticStruct.structInfo.name;
+      
+      if (!us) {
+        for (id<StaticStructure> ss in gs.staticStructs.allValues) {
+          StructureInfoProto *sip = [ss structInfo];
+          if (sip.structType == StructureInfoProto_StructTypeBattleItemFactory && !sip.hasPredecessorStructId) {
+            buildingName = sip.name;
+          }
+        }
+      }
+      
+      desc = !us ? [NSString stringWithFormat:@"Build an %@ to use Items in Multiplayer.", buildingName] :
+                  [NSString stringWithFormat:@"Create Items at the %@ for use in Multiplayer.", buildingName];
+      
+      self.footerTitleLabel.text = !us ? [NSString stringWithFormat:@"REQUIRES %@", buildingName.uppercaseString] : @"HOW ITEMS WORK";
+    }
+    
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
     [paragraphStyle setLineSpacing:3];
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:desc];
@@ -144,8 +173,6 @@
     self.footerView.hidden = !_showFooterView;
     
     self.itemsTable.height = self.itemsTable.superview.height-self.itemsTable.originY;
-    
-    self.editButton.superview.hidden = YES;
   }
 }
 
@@ -188,6 +215,8 @@
   } else {
     [self.itemsTable reloadData];
   }
+  
+  self.noItemsLabel.hidden = self.battleItems.count > 0;
   
   self.titleLabel.text = @"MY ITEMS";
   
