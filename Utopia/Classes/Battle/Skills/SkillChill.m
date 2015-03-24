@@ -41,7 +41,7 @@
 
 - (NSSet *)sideEffects
 {
-  return [NSSet setWithObjects:@(SideEffectTypeBuffThickSkin), nil];
+  return [NSSet setWithObjects:@(SideEffectTypeNerfChill), nil];
 }
 
 - (NSInteger)modifyDamage:(NSInteger)damage forPlayer:(BOOL)player
