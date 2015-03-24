@@ -43,4 +43,7 @@ typedef enum {
 
 - (BOOL) isBlocked;
 
+- (NSDictionary*) serialize;
+- (void) deserialize:(NSDictionary*)dic;
+
 @end

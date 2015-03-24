@@ -77,6 +77,7 @@ typedef NS_ENUM(SInt32, BattleItemType) {
   BattleItemTypeOrbHammer = 4,
   BattleItemTypeHandSwap = 5,
   BattleItemTypeBoardShuffle = 6,
+  BattleItemTypePutty = 7,
 };
 
 BOOL BattleItemTypeIsValidValue(BattleItemType value);

@@ -140,9 +140,10 @@
       // orb that will be swapped.
       self.swipeFromColumn = column;
       self.swipeFromRow = row;
-      
-      self.tapDownHandler(orb);
     }
+    
+    BattleTile *tile = [self.layout tileAtColumn:column row:row];
+    self.tapDownHandler(orb, tile);
   }
 }
 
