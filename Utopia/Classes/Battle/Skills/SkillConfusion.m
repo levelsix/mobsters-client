@@ -98,12 +98,4 @@
   return NO;
 }
 
-#pragma mark - Skill logic
-
-- (void) showLogo
-{
-  [self showSkillPopupMiniOverlay:NO
-                       bottomText:@"CONFUSED"
-                   withCompletion:^{}];
-}
 @end

@@ -44,7 +44,7 @@
   {
     NSInteger unmodifiedDamage = damage;
     damage *= _damageTakenMultiplier;
-    [self showSkillPopupMiniOverlay:[NSString stringWithFormat:@"%li DMG BLOCKED", (unmodifiedDamage - damage)]];
+    [self enqueueSkillPopupMiniOverlay:[NSString stringWithFormat:@"%li DMG BLOCKED", (unmodifiedDamage - damage)]];
   }
   
   return damage;

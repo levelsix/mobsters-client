@@ -381,6 +381,18 @@
 
 - (void)enqueueSkillPopup:(SkillPopupData *)skillPopupData
 {
+  if (self.belongsToPlayer && [skillManager playerSkillControler] && [skillManager playerSkillControler] != self)
+  {
+    [[skillManager playerSkillControler] enqueueSkillPopup:skillPopupData];
+    return;
+  }
+  
+  if (!self.belongsToPlayer && [skillManager enemySkillControler] && [skillManager enemySkillControler] != self)
+  {
+    [[skillManager enemySkillControler] enqueueSkillPopup:skillPopupData];
+    return;
+  }
+  
   if (_currentSkillPopup)
   {
     if (skillPopupData.priority > _currentSkillPopup.priority)
@@ -582,6 +594,28 @@
     [self makeSkillOwnerJumpWithTarget:self selector:@selector(showCurrentSkillPopup)];
   else
     [self showCurrentSkillPopup];
+}
+
+//Only used during the modifyDamage stage. Enqueues the popup, but delays playing until ready
+- (void) enqueueSkillPopupMiniOverlay:(NSString*)bottomText
+{
+  SkillPopupData *data = [SkillPopupData initWithData:self.belongsToPlayer characterImage:self.userPlayer.characterImage topText:[self skillName] bottomText:bottomText mini:YES stacks:_stacks completion:^{}];
+  _callbackBlockForPopup = nil;
+  [self enqueueSkillPopup:data];
+}
+
+- (void) enqueueSkillPopupAilmentOverlay:(NSString*)topText bottomText:(NSString*)bottomText
+{
+  [self enqueueSkillPopupAilmentOverlay:topText bottomText:bottomText priority:1];
+}
+
+- (void) enqueueSkillPopupAilmentOverlay:(NSString*)topText bottomText:(NSString*)bottomText priority:(int)priority
+{
+  SkillPopupData *data = [SkillPopupData initWithData:!self.belongsToPlayer characterImage:self.opponentPlayer.characterImage topText:topText bottomText:bottomText mini:YES stacks:_stacks completion:^{}];
+  
+  data.priority = priority;
+  
+  [self enqueueSkillPopup:data];
 }
 
 - (void) showSkillPopupAilmentOverlay:(NSString*)topText bottomText:(NSString*)bottomText
