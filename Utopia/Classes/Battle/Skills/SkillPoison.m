@@ -86,7 +86,6 @@
         [self.battleLayer.orbLayer disallowInput];
         [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
         [self dealPoisonDamage];
-//        [self showSkillPopupAilmentOverlay:@"POISON" bottomText:[NSString stringWithFormat:@"%i POISON DMG", [self poisonDamage]]];
       }
       return YES;
     }
@@ -120,12 +119,6 @@
     [self activate];
   else
     [self skillTriggerFinished];
-}
-
-- (BOOL) onDurationReset
-{
-  [self dealPoisonDamage];
-  return YES;
 }
 
 //Pop this special logic in here.
