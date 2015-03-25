@@ -43,8 +43,8 @@ Upgrade your Team Center to increase the power limit of your team.
 Upgrade your Oil Drills and Cash Printers to keep the resources coming in fast.
 Help your Squad and they’ll help you back!
 Every time you complete a stage on the mission map you earn a free spin Goonie Grab.
-Fire x_characters beat Earth x_characters.
-Earth x_characters beat Water x_characters.
-Water x_characters beat Fire x_characters.
+Fire x_characters deal extra damage to Earth x_characters.
+Earth x_characters deal extra damage to Water x_characters.
+Water x_characters deal extra damage to Fire x_characters.
 Use the same element when enhancing to get an Xp. boost.
 ABC. Always be catching (x_characters).
