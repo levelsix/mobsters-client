@@ -894,13 +894,15 @@
               return;
             }
             
+            [skillManager playDamageLogos];
+            
             // If the enemy's confused, he will deal damage to himself. Instead of the usual flow, show
             // the popup above his head, followed by flinch animation and showing the damage label
             if (self.enemyPlayerObject.isConfused)
             {
               self.enemyPlayerObject.isConfused = NO;
               
-              [[skillManager playerSkillControler] showSkillPopupAilmentOverlay:@"CONFUSED" bottomText:[NSString stringWithFormat:@"%i DMG TO SELF", _enemyDamageDealt]];
+              [[skillManager playerSkillControler] enqueueSkillPopupAilmentOverlay:@"CONFUSED" bottomText:[NSString stringWithFormat:@"%i DMG TO SELF", _enemyDamageDealt]];
               
               CCSprite* confusedPopup = [CCSprite spriteWithImageNamed:@"confusionbubble.png"];
               [confusedPopup setAnchorPoint:CGPointMake(.5f, 0.f)];
@@ -969,12 +971,14 @@
 
 - (void) doMyAttackAnimation {
   
+  [skillManager playDamageLogos];
+  
   // Changing damage with a skill
   NSInteger scoreModifier = _myDamageDealtUnmodified > 0 ? 1 : 0; // used to make current score not 0 if damage was modified to 0 by skillManager
   if (_myDamageDealt > 0)
     scoreModifier = 0;
   
-  int currentScore = (float)(_myDamageDealt + scoreModifier)/(float)[self.myPlayerObject totalAttackPower]*100.f;
+  int currentScore = (float)(_myDamageDealtUnmodified + scoreModifier)/(float)[self.myPlayerObject totalAttackPower]*100.f;
   
   if (currentScore > 0) {
   
@@ -984,7 +988,7 @@
     {
       self.myPlayerObject.isConfused = NO;
       
-      [[skillManager enemySkillControler] showSkillPopupAilmentOverlay:@"CONFUSED" bottomText:[NSString stringWithFormat:@"%i DMG TO SELF", _myDamageDealt]];
+      [[skillManager enemySkillControler] enqueueSkillPopupAilmentOverlay:@"CONFUSED" bottomText:[NSString stringWithFormat:@"%i DMG TO SELF", _myDamageDealt]];
       
       CCSprite* confusedPopup = [CCSprite spriteWithImageNamed:@"confusionbubble.png"];
       [confusedPopup setAnchorPoint:CGPointMake(.5f, 0.f)];
@@ -1884,7 +1888,7 @@
   CCSprite *phrase = nil;
   NSString *phraseFile = nil;
   BOOL isMakeItRain = NO;
-  int currentScore = _myDamageDealt*[self damageMultiplierIsEnemyAttacker:NO]/(float)[self.myPlayerObject totalAttackPower]*100.f;
+  int currentScore = _myDamageDealtUnmodified*[self damageMultiplierIsEnemyAttacker:NO]/(float)[self.myPlayerObject totalAttackPower]*100.f;
   if (currentScore > MAKEITRAIN_SCORE) {
     isMakeItRain = YES;
   } else if (currentScore > HAMMERTIME_SCORE) {

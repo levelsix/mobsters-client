@@ -76,7 +76,7 @@
 
 -(void)showCriticalHit
 {
-  [self showSkillPopupMiniOverlay:[NSString stringWithFormat:@"%.3gX DMG", _critDamageMultiplier]];
+  [self enqueueSkillPopupMiniOverlay:[NSString stringWithFormat:@"%.3gX DMG", _critDamageMultiplier]];
 }
 
 @end

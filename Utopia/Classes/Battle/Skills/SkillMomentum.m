@@ -57,7 +57,7 @@
   // If attacker is the skill owner
   if ([self isActive] && player == self.belongsToPlayer)
   {
-    [self showSkillPopupMiniOverlay:[NSString stringWithFormat:@"%.3gX DMG", (_damageMultiplier * _stacks)]];
+    [self enqueueSkillPopupMiniOverlay:[NSString stringWithFormat:@"%.3gX DMG", (_damageMultiplier * _stacks)]];
     return (damage * _damageMultiplier * _stacks);
   }
   

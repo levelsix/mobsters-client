@@ -84,5 +84,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS_HEADER(SkillManager);
 - (void) pruneRepeatedSkills:(SkillController *)sameAsSkill;
 - (void) flushPersistentSkills;
 - (__weak NewBattleLayer*) battleLayer;
+- (void) playDamageLogos;
+
 
 @end

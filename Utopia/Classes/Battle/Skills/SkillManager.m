@@ -648,6 +648,22 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   return _battleLayer;
 }
 
+- (void) playDamageLogos
+{
+  if (_playerSkillController)
+  {
+    [_playerSkillController showCurrentSkillPopup];
+  }
+  if (_enemySkillController)
+  {
+    [_enemySkillController showCurrentSkillPopup];
+  }
+  for (SkillController *skill in _persistentSkillControllers)
+  {
+    [skill showCurrentSkillPopup];
+  }
+}
+
 #pragma mark - Specials
 
 - (BOOL) cakeKidSchedule

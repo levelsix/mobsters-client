@@ -64,6 +64,7 @@
 
 - (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
 {
+  //This needs to happen before the super call, since the super call can sometimes stop execution before this
   if (trigger == SkillTriggerPointPlayerInitialized)
   {
     if ([self isActive])
@@ -79,21 +80,18 @@
   if ([super skillCalledWithTrigger:trigger execute:execute])
     return YES;
   
-  if ([self isActive])
+  return NO;
+}
+
+- (NSInteger)modifyDamage:(NSInteger)damage forPlayer:(BOOL)player
+{
+  if (_tempDamageGained && player)
   {
-    if (trigger == SkillTriggerPointPlayerDealsDamage && self.belongsToPlayer && _tempDamageGained > 0)
-    {
-      if (execute)
-      {
-        [self showSkillPopupMiniOverlay:[NSString stringWithFormat:@"%i FIRE DAMAGE", _tempDamageGained]];
-        _tempDamageGained = 0;
-        [self skillTriggerFinished];
-      }
-      return YES;
-    }
+    [self enqueueSkillPopupMiniOverlay:[NSString stringWithFormat:@"%i FIRE DAMAGE", _tempDamageGained]];
+    _tempDamageGained = 0;
   }
   
-  return NO;
+  return [super modifyDamage:damage forPlayer:player];
 }
 
 #pragma mark - Skill logic

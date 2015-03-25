@@ -83,7 +83,7 @@
     {
       SkillLogStart(@"Energize -- Multiplying damage by %.2f", _curAttackMultiplier);
       
-      [self showSkillPopupMiniOverlay:[NSString stringWithFormat:@"%.3gX DMG", _curAttackMultiplier]];
+      [self enqueueSkillPopupMiniOverlay:[NSString stringWithFormat:@"%.3gX DMG", _curAttackMultiplier]];
       
       return damage * _curAttackMultiplier;
     }
@@ -173,11 +173,6 @@
                                                     playerB:self.enemy.speed
                                                    andOrder:ScheduleFirstTurnRandom];
   [self.battleLayer setShouldDisplayNewSchedule:YES];
-}
-
-- (void) showAttackMultiplier
-{
-  [self showSkillPopupMiniOverlay:[NSString stringWithFormat:@"%.3gX ATK", _curAttackMultiplier]];
 }
 
 #pragma mark - Serialization

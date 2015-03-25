@@ -150,8 +150,4 @@
   [self resetDuration];
 }
 
-- (void) showLogo
-{
-  [self showSkillPopupMiniOverlay:@"CONFUSED"];
-}
 @end

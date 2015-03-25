@@ -101,7 +101,7 @@
     {
       damage = self.userPlayer.curHealth - _minHPAllowed;
       
-      [self showSkillPopupMiniOverlay:@"DEATH AVOIDED"];
+      [self enqueueSkillPopupMiniOverlay:@"DEATH AVOIDED"];
     }
   }
   
