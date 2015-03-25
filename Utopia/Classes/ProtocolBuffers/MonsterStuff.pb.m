@@ -1669,6 +1669,8 @@ BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value) {
 @property Float32 enhanceCostExponent;
 @property Float32 secsToEnhancePerFeeder;
 @property Float32 secsToEnhancePerFeederExponent;
+@property int32_t strength;
+@property Float32 strengthExponent;
 @end
 
 @implementation MonsterLevelInfoProto
@@ -1848,6 +1850,20 @@ BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value) {
   hasSecsToEnhancePerFeederExponent_ = !!value_;
 }
 @synthesize secsToEnhancePerFeederExponent;
+- (BOOL) hasStrength {
+  return !!hasStrength_;
+}
+- (void) setHasStrength:(BOOL) value_ {
+  hasStrength_ = !!value_;
+}
+@synthesize strength;
+- (BOOL) hasStrengthExponent {
+  return !!hasStrengthExponent_;
+}
+- (void) setHasStrengthExponent:(BOOL) value_ {
+  hasStrengthExponent_ = !!value_;
+}
+@synthesize strengthExponent;
 - (id) init {
   if ((self = [super init])) {
     self.lvl = 0;
@@ -1875,6 +1891,8 @@ BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value) {
     self.enhanceCostExponent = 0;
     self.secsToEnhancePerFeeder = 0;
     self.secsToEnhancePerFeederExponent = 0;
+    self.strength = 0;
+    self.strengthExponent = 0;
   }
   return self;
 }
@@ -1969,6 +1987,12 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
   if (self.hasSecsToFullyHealExponent) {
     [output writeFloat:25 value:self.secsToFullyHealExponent];
   }
+  if (self.hasStrength) {
+    [output writeInt32:26 value:self.strength];
+  }
+  if (self.hasStrengthExponent) {
+    [output writeFloat:27 value:self.strengthExponent];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -2052,6 +2076,12 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
   }
   if (self.hasSecsToFullyHealExponent) {
     size_ += computeFloatSize(25, self.secsToFullyHealExponent);
+  }
+  if (self.hasStrength) {
+    size_ += computeInt32Size(26, self.strength);
+  }
+  if (self.hasStrengthExponent) {
+    size_ += computeFloatSize(27, self.strengthExponent);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -2163,6 +2193,12 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
   if (self.hasSecsToFullyHealExponent) {
     [output appendFormat:@"%@%@: %@\n", indent, @"secsToFullyHealExponent", [NSNumber numberWithFloat:self.secsToFullyHealExponent]];
   }
+  if (self.hasStrength) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"strength", [NSNumber numberWithInteger:self.strength]];
+  }
+  if (self.hasStrengthExponent) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"strengthExponent", [NSNumber numberWithFloat:self.strengthExponent]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -2224,6 +2260,10 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
       (!self.hasCostToFullyHealExponent || self.costToFullyHealExponent == otherMessage.costToFullyHealExponent) &&
       self.hasSecsToFullyHealExponent == otherMessage.hasSecsToFullyHealExponent &&
       (!self.hasSecsToFullyHealExponent || self.secsToFullyHealExponent == otherMessage.secsToFullyHealExponent) &&
+      self.hasStrength == otherMessage.hasStrength &&
+      (!self.hasStrength || self.strength == otherMessage.strength) &&
+      self.hasStrengthExponent == otherMessage.hasStrengthExponent &&
+      (!self.hasStrengthExponent || self.strengthExponent == otherMessage.strengthExponent) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -2302,6 +2342,12 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
   }
   if (self.hasSecsToFullyHealExponent) {
     hashCode = hashCode * 31 + [[NSNumber numberWithFloat:self.secsToFullyHealExponent] hash];
+  }
+  if (self.hasStrength) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.strength] hash];
+  }
+  if (self.hasStrengthExponent) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithFloat:self.strengthExponent] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -2420,6 +2466,12 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
   }
   if (other.hasSecsToEnhancePerFeederExponent) {
     [self setSecsToEnhancePerFeederExponent:other.secsToEnhancePerFeederExponent];
+  }
+  if (other.hasStrength) {
+    [self setStrength:other.strength];
+  }
+  if (other.hasStrengthExponent) {
+    [self setStrengthExponent:other.strengthExponent];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -2540,6 +2592,14 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
       }
       case 205: {
         [self setSecsToFullyHealExponent:[input readFloat]];
+        break;
+      }
+      case 208: {
+        [self setStrength:[input readInt32]];
+        break;
+      }
+      case 221: {
+        [self setStrengthExponent:[input readFloat]];
         break;
       }
     }
@@ -2943,6 +3003,38 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
 - (MonsterLevelInfoProto_Builder*) clearSecsToEnhancePerFeederExponent {
   result.hasSecsToEnhancePerFeederExponent = NO;
   result.secsToEnhancePerFeederExponent = 0;
+  return self;
+}
+- (BOOL) hasStrength {
+  return result.hasStrength;
+}
+- (int32_t) strength {
+  return result.strength;
+}
+- (MonsterLevelInfoProto_Builder*) setStrength:(int32_t) value {
+  result.hasStrength = YES;
+  result.strength = value;
+  return self;
+}
+- (MonsterLevelInfoProto_Builder*) clearStrength {
+  result.hasStrength = NO;
+  result.strength = 0;
+  return self;
+}
+- (BOOL) hasStrengthExponent {
+  return result.hasStrengthExponent;
+}
+- (Float32) strengthExponent {
+  return result.strengthExponent;
+}
+- (MonsterLevelInfoProto_Builder*) setStrengthExponent:(Float32) value {
+  result.hasStrengthExponent = YES;
+  result.strengthExponent = value;
+  return self;
+}
+- (MonsterLevelInfoProto_Builder*) clearStrengthExponent {
+  result.hasStrengthExponent = NO;
+  result.strengthExponent = 0;
   return self;
 }
 @end

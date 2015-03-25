@@ -12,6 +12,8 @@
 
 @class BattleItemFactoryProto;
 @class BattleItemFactoryProto_Builder;
+@class ChatTranslationsProto;
+@class ChatTranslationsProto_Builder;
 @class ClanDataProto;
 @class ClanDataProto_Builder;
 @class ClanHelpNoticeProto;
@@ -134,6 +136,8 @@
 @class TeamCenterProto_Builder;
 @class TownHallProto;
 @class TownHallProto_Builder;
+@class TranslatedTextProto;
+@class TranslatedTextProto_Builder;
 @class TutorialStructProto;
 @class TutorialStructProto_Builder;
 @class UserCurrentMonsterTeamProto;

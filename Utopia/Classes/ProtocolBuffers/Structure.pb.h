@@ -131,6 +131,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
   BOOL hasHeight_:1;
   BOOL hasPredecessorStructId_:1;
   BOOL hasSuccessorStructId_:1;
+  BOOL hasStrength_:1;
   BOOL hasName_:1;
   BOOL hasImgName_:1;
   BOOL hasDescription_:1;
@@ -151,6 +152,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
   int32_t height;
   int32_t predecessorStructId;
   int32_t successorStructId;
+  int32_t strength;
   NSString* name;
   NSString* imgName;
   NSString* description;
@@ -179,6 +181,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (BOOL) hasShadowVerticalOffset;
 - (BOOL) hasShadowHorizontalOfffset;
 - (BOOL) hasShadowScale;
+- (BOOL) hasStrength;
 @property (readonly) int32_t structId;
 @property (readonly, strong) NSString* name;
 @property (readonly) int32_t level;
@@ -199,6 +202,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 @property (readonly) Float32 shadowVerticalOffset;
 @property (readonly) Float32 shadowHorizontalOfffset;
 @property (readonly) Float32 shadowScale;
+@property (readonly) int32_t strength;
 
 + (StructureInfoProto*) defaultInstance;
 - (StructureInfoProto*) defaultInstance;
@@ -334,6 +338,11 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (Float32) shadowScale;
 - (StructureInfoProto_Builder*) setShadowScale:(Float32) value;
 - (StructureInfoProto_Builder*) clearShadowScale;
+
+- (BOOL) hasStrength;
+- (int32_t) strength;
+- (StructureInfoProto_Builder*) setStrength:(int32_t) value;
+- (StructureInfoProto_Builder*) clearStrength;
 @end
 
 @interface ResourceGeneratorProto : PBGeneratedMessage {

@@ -44,6 +44,8 @@
 @class ChangeClanSettingsRequestProto_Builder;
 @class ChangeClanSettingsResponseProto;
 @class ChangeClanSettingsResponseProto_Builder;
+@class ChatTranslationsProto;
+@class ChatTranslationsProto_Builder;
 @class ClanDataProto;
 @class ClanDataProto_Builder;
 @class ClanHelpNoticeProto;
@@ -228,6 +230,8 @@
 @class TransferClanOwnershipRequestProto_Builder;
 @class TransferClanOwnershipResponseProto;
 @class TransferClanOwnershipResponseProto_Builder;
+@class TranslatedTextProto;
+@class TranslatedTextProto_Builder;
 @class TutorialStructProto;
 @class TutorialStructProto_Builder;
 @class UserCurrentMonsterTeamProto;

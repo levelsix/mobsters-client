@@ -30,6 +30,8 @@ BOOL BattleItemTypeIsValidValue(BattleItemType value) {
     case BattleItemTypeOrbHammer:
     case BattleItemTypeHandSwap:
     case BattleItemTypeBoardShuffle:
+    case BattleItemTypePutty:
+    case BattleItemTypeNone:
       return YES;
     default:
       return NO;

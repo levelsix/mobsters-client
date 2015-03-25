@@ -5,6 +5,8 @@
 #import "User.pb.h"
 // @@protoc_insertion_point(imports)
 
+@class ChatTranslationsProto;
+@class ChatTranslationsProto_Builder;
 @class ColorProto;
 @class ColorProto_Builder;
 @class FullUserProto;
@@ -25,6 +27,8 @@
 @class PrivateChatPostProto_Builder;
 @class StaticUserLevelInfoProto;
 @class StaticUserLevelInfoProto_Builder;
+@class TranslatedTextProto;
+@class TranslatedTextProto_Builder;
 @class UserFacebookInviteForSlotProto;
 @class UserFacebookInviteForSlotProto_Builder;
 @class UserPvpLeagueProto;
@@ -48,6 +52,25 @@ typedef NS_ENUM(SInt32, GroupChatScope) {
 
 BOOL GroupChatScopeIsValidValue(GroupChatScope value);
 
+typedef NS_ENUM(SInt32, ChatType) {
+  ChatTypeGlobalChat = 1,
+  ChatTypePrivateChat = 2,
+};
+
+BOOL ChatTypeIsValidValue(ChatType value);
+
+typedef NS_ENUM(SInt32, TranslateLanguages) {
+  TranslateLanguagesArabic = 1,
+  TranslateLanguagesChineseSimplified = 2,
+  TranslateLanguagesChineseTraditional = 3,
+  TranslateLanguagesEnglish = 4,
+  TranslateLanguagesFrench = 5,
+  TranslateLanguagesGerman = 6,
+  TranslateLanguagesSpanish = 7,
+};
+
+BOOL TranslateLanguagesIsValidValue(TranslateLanguages value);
+
 
 @interface ChatRoot : NSObject {
 }
@@ -62,22 +85,26 @@ BOOL GroupChatScopeIsValidValue(GroupChatScope value);
   BOOL hasContent_:1;
   BOOL hasPoster_:1;
   BOOL hasRecipient_:1;
+  BOOL hasTranslatedContent_:1;
   int64_t timeOfPost;
   NSString* privateChatPostUuid;
   NSString* content;
   MinimumUserProtoWithLevel* poster;
   MinimumUserProtoWithLevel* recipient;
+  TranslatedTextProto* translatedContent;
 }
 - (BOOL) hasPrivateChatPostUuid;
 - (BOOL) hasPoster;
 - (BOOL) hasRecipient;
 - (BOOL) hasTimeOfPost;
 - (BOOL) hasContent;
+- (BOOL) hasTranslatedContent;
 @property (readonly, strong) NSString* privateChatPostUuid;
 @property (readonly, strong) MinimumUserProtoWithLevel* poster;
 @property (readonly, strong) MinimumUserProtoWithLevel* recipient;
 @property (readonly) int64_t timeOfPost;
 @property (readonly, strong) NSString* content;
+@property (readonly, strong) TranslatedTextProto* translatedContent;
 
 + (PrivateChatPostProto*) defaultInstance;
 - (PrivateChatPostProto*) defaultInstance;
@@ -142,6 +169,13 @@ BOOL GroupChatScopeIsValidValue(GroupChatScope value);
 - (NSString*) content;
 - (PrivateChatPostProto_Builder*) setContent:(NSString*) value;
 - (PrivateChatPostProto_Builder*) clearContent;
+
+- (BOOL) hasTranslatedContent;
+- (TranslatedTextProto*) translatedContent;
+- (PrivateChatPostProto_Builder*) setTranslatedContent:(TranslatedTextProto*) value;
+- (PrivateChatPostProto_Builder*) setTranslatedContent_Builder:(TranslatedTextProto_Builder*) builderForValue;
+- (PrivateChatPostProto_Builder*) mergeTranslatedContent:(TranslatedTextProto*) value;
+- (PrivateChatPostProto_Builder*) clearTranslatedContent;
 @end
 
 @interface ColorProto : PBGeneratedMessage {
@@ -223,6 +257,7 @@ BOOL GroupChatScopeIsValidValue(GroupChatScope value);
   NSString* content;
   NSString* chatUuid;
   MinimumUserProtoWithLevel* sender;
+  NSMutableArray * mutableTranslatedContentList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasTimeOfChat;
@@ -232,8 +267,10 @@ BOOL GroupChatScopeIsValidValue(GroupChatScope value);
 @property (readonly, strong) MinimumUserProtoWithLevel* sender;
 @property (readonly) int64_t timeOfChat;
 @property (readonly, strong) NSString* content;
+@property (readonly, strong) NSArray * translatedContentList;
 - (BOOL) isAdmin;
 @property (readonly, strong) NSString* chatUuid;
+- (TranslatedTextProto*)translatedContentAtIndex:(NSUInteger)index;
 
 + (GroupChatMessageProto*) defaultInstance;
 - (GroupChatMessageProto*) defaultInstance;
@@ -287,6 +324,12 @@ BOOL GroupChatScopeIsValidValue(GroupChatScope value);
 - (GroupChatMessageProto_Builder*) setContent:(NSString*) value;
 - (GroupChatMessageProto_Builder*) clearContent;
 
+- (NSMutableArray *)translatedContentList;
+- (TranslatedTextProto*)translatedContentAtIndex:(NSUInteger)index;
+- (GroupChatMessageProto_Builder *)addTranslatedContent:(TranslatedTextProto*)value;
+- (GroupChatMessageProto_Builder *)addAllTranslatedContent:(NSArray *)array;
+- (GroupChatMessageProto_Builder *)clearTranslatedContent;
+
 - (BOOL) hasIsAdmin;
 - (BOOL) isAdmin;
 - (GroupChatMessageProto_Builder*) setIsAdmin:(BOOL) value;
@@ -296,6 +339,149 @@ BOOL GroupChatScopeIsValidValue(GroupChatScope value);
 - (NSString*) chatUuid;
 - (GroupChatMessageProto_Builder*) setChatUuid:(NSString*) value;
 - (GroupChatMessageProto_Builder*) clearChatUuid;
+@end
+
+@interface ChatTranslationsProto : PBGeneratedMessage {
+@private
+  BOOL hasChatTranslationId_:1;
+  BOOL hasChatId_:1;
+  BOOL hasText_:1;
+  BOOL hasChatType_:1;
+  BOOL hasLanguage_:1;
+  NSString* chatTranslationId;
+  NSString* chatId;
+  NSString* text;
+  ChatType chatType;
+  TranslateLanguages language;
+}
+- (BOOL) hasChatTranslationId;
+- (BOOL) hasChatType;
+- (BOOL) hasChatId;
+- (BOOL) hasLanguage;
+- (BOOL) hasText;
+@property (readonly, strong) NSString* chatTranslationId;
+@property (readonly) ChatType chatType;
+@property (readonly, strong) NSString* chatId;
+@property (readonly) TranslateLanguages language;
+@property (readonly, strong) NSString* text;
+
++ (ChatTranslationsProto*) defaultInstance;
+- (ChatTranslationsProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (ChatTranslationsProto_Builder*) builder;
++ (ChatTranslationsProto_Builder*) builder;
++ (ChatTranslationsProto_Builder*) builderWithPrototype:(ChatTranslationsProto*) prototype;
+- (ChatTranslationsProto_Builder*) toBuilder;
+
++ (ChatTranslationsProto*) parseFromData:(NSData*) data;
++ (ChatTranslationsProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ChatTranslationsProto*) parseFromInputStream:(NSInputStream*) input;
++ (ChatTranslationsProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ChatTranslationsProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (ChatTranslationsProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface ChatTranslationsProto_Builder : PBGeneratedMessageBuilder {
+@private
+  ChatTranslationsProto* result;
+}
+
+- (ChatTranslationsProto*) defaultInstance;
+
+- (ChatTranslationsProto_Builder*) clear;
+- (ChatTranslationsProto_Builder*) clone;
+
+- (ChatTranslationsProto*) build;
+- (ChatTranslationsProto*) buildPartial;
+
+- (ChatTranslationsProto_Builder*) mergeFrom:(ChatTranslationsProto*) other;
+- (ChatTranslationsProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (ChatTranslationsProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasChatTranslationId;
+- (NSString*) chatTranslationId;
+- (ChatTranslationsProto_Builder*) setChatTranslationId:(NSString*) value;
+- (ChatTranslationsProto_Builder*) clearChatTranslationId;
+
+- (BOOL) hasChatType;
+- (ChatType) chatType;
+- (ChatTranslationsProto_Builder*) setChatType:(ChatType) value;
+- (ChatTranslationsProto_Builder*) clearChatTypeList;
+
+- (BOOL) hasChatId;
+- (NSString*) chatId;
+- (ChatTranslationsProto_Builder*) setChatId:(NSString*) value;
+- (ChatTranslationsProto_Builder*) clearChatId;
+
+- (BOOL) hasLanguage;
+- (TranslateLanguages) language;
+- (ChatTranslationsProto_Builder*) setLanguage:(TranslateLanguages) value;
+- (ChatTranslationsProto_Builder*) clearLanguageList;
+
+- (BOOL) hasText;
+- (NSString*) text;
+- (ChatTranslationsProto_Builder*) setText:(NSString*) value;
+- (ChatTranslationsProto_Builder*) clearText;
+@end
+
+@interface TranslatedTextProto : PBGeneratedMessage {
+@private
+  BOOL hasText_:1;
+  BOOL hasLanguage_:1;
+  NSString* text;
+  TranslateLanguages language;
+}
+- (BOOL) hasLanguage;
+- (BOOL) hasText;
+@property (readonly) TranslateLanguages language;
+@property (readonly, strong) NSString* text;
+
++ (TranslatedTextProto*) defaultInstance;
+- (TranslatedTextProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (TranslatedTextProto_Builder*) builder;
++ (TranslatedTextProto_Builder*) builder;
++ (TranslatedTextProto_Builder*) builderWithPrototype:(TranslatedTextProto*) prototype;
+- (TranslatedTextProto_Builder*) toBuilder;
+
++ (TranslatedTextProto*) parseFromData:(NSData*) data;
++ (TranslatedTextProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (TranslatedTextProto*) parseFromInputStream:(NSInputStream*) input;
++ (TranslatedTextProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (TranslatedTextProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (TranslatedTextProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface TranslatedTextProto_Builder : PBGeneratedMessageBuilder {
+@private
+  TranslatedTextProto* result;
+}
+
+- (TranslatedTextProto*) defaultInstance;
+
+- (TranslatedTextProto_Builder*) clear;
+- (TranslatedTextProto_Builder*) clone;
+
+- (TranslatedTextProto*) build;
+- (TranslatedTextProto*) buildPartial;
+
+- (TranslatedTextProto_Builder*) mergeFrom:(TranslatedTextProto*) other;
+- (TranslatedTextProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (TranslatedTextProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasLanguage;
+- (TranslateLanguages) language;
+- (TranslatedTextProto_Builder*) setLanguage:(TranslateLanguages) value;
+- (TranslatedTextProto_Builder*) clearLanguageList;
+
+- (BOOL) hasText;
+- (NSString*) text;
+- (TranslatedTextProto_Builder*) setText:(NSString*) value;
+- (TranslatedTextProto_Builder*) clearText;
 @end
 
 
