@@ -1679,6 +1679,12 @@
 		63CDCF661AC2347700A00DB6 /* strengthicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CDCF5C1AC2347700A00DB6 /* strengthicon@2x.png */; };
 		63CDCF671AC2347700A00DB6 /* strengthicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CDCF5C1AC2347700A00DB6 /* strengthicon@2x.png */; };
 		63CDCF681AC2347700A00DB6 /* strengthicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CDCF5C1AC2347700A00DB6 /* strengthicon@2x.png */; };
+		63CDCF6C1AC253EE00A00DB6 /* EmbeddedScrollingUpgradeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63CDCF6B1AC253EE00A00DB6 /* EmbeddedScrollingUpgradeView.m */; };
+		63CDCF6D1AC253EE00A00DB6 /* EmbeddedScrollingUpgradeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63CDCF6B1AC253EE00A00DB6 /* EmbeddedScrollingUpgradeView.m */; };
+		63CDCF6E1AC253EE00A00DB6 /* EmbeddedScrollingUpgradeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63CDCF6B1AC253EE00A00DB6 /* EmbeddedScrollingUpgradeView.m */; };
+		63CDCF701AC2540F00A00DB6 /* EmbeddedScrollingUpgradeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63CDCF6F1AC2540F00A00DB6 /* EmbeddedScrollingUpgradeView.xib */; };
+		63CDCF711AC2540F00A00DB6 /* EmbeddedScrollingUpgradeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63CDCF6F1AC2540F00A00DB6 /* EmbeddedScrollingUpgradeView.xib */; };
+		63CDCF721AC2540F00A00DB6 /* EmbeddedScrollingUpgradeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63CDCF6F1AC2540F00A00DB6 /* EmbeddedScrollingUpgradeView.xib */; };
 		6B0783F91A828468005CDFCF /* SkillCurse.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0783F81A828468005CDFCF /* SkillCurse.m */; };
 		6B0783FA1A828468005CDFCF /* SkillCurse.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0783F81A828468005CDFCF /* SkillCurse.m */; };
 		6B0783FB1A828468005CDFCF /* SkillCurse.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0783F81A828468005CDFCF /* SkillCurse.m */; };
@@ -8078,6 +8084,9 @@
 		63CDCF5A1AC2347700A00DB6 /* strengthaddedmiddlearrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "strengthaddedmiddlearrow@2x.png"; path = "Strength/strengthaddedmiddlearrow@2x.png"; sourceTree = "<group>"; };
 		63CDCF5B1AC2347700A00DB6 /* strengthaddedmiddlestretch@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "strengthaddedmiddlestretch@2x.png"; path = "Strength/strengthaddedmiddlestretch@2x.png"; sourceTree = "<group>"; };
 		63CDCF5C1AC2347700A00DB6 /* strengthicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "strengthicon@2x.png"; path = "Strength/strengthicon@2x.png"; sourceTree = "<group>"; };
+		63CDCF6A1AC253EE00A00DB6 /* EmbeddedScrollingUpgradeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmbeddedScrollingUpgradeView.h; sourceTree = "<group>"; };
+		63CDCF6B1AC253EE00A00DB6 /* EmbeddedScrollingUpgradeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmbeddedScrollingUpgradeView.m; sourceTree = "<group>"; };
+		63CDCF6F1AC2540F00A00DB6 /* EmbeddedScrollingUpgradeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EmbeddedScrollingUpgradeView.xib; sourceTree = "<group>"; };
 		686F8D3F1B86BD06C7EE6627 /* Pods.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.appstore.xcconfig; path = "Pods/Target Support Files/Pods/Pods.appstore.xcconfig"; sourceTree = "<group>"; };
 		6B0783F61A82845B005CDFCF /* SkillCurse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillCurse.h; sourceTree = "<group>"; };
 		6B0783F81A828468005CDFCF /* SkillCurse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillCurse.m; sourceTree = "<group>"; };
@@ -13757,6 +13766,16 @@
 			name = Strength;
 			sourceTree = "<group>";
 		};
+		63CDCF691AC2525600A00DB6 /* ScrollingUpgrade */ = {
+			isa = PBXGroup;
+			children = (
+				63CDCF6A1AC253EE00A00DB6 /* EmbeddedScrollingUpgradeView.h */,
+				63CDCF6B1AC253EE00A00DB6 /* EmbeddedScrollingUpgradeView.m */,
+				63CDCF6F1AC2540F00A00DB6 /* EmbeddedScrollingUpgradeView.xib */,
+			);
+			name = ScrollingUpgrade;
+			sourceTree = "<group>";
+		};
 		6BB5F85D1A80093D006515B9 /* Upgrades */ = {
 			isa = PBXGroup;
 			children = (
@@ -16691,6 +16710,7 @@
 		CFC8B4F718E3F58200CFD652 /* UpgradeMenu */ = {
 			isa = PBXGroup;
 			children = (
+				63CDCF691AC2525600A00DB6 /* ScrollingUpgrade */,
 				CFFD311C18503E880091E315 /* UpgradeViewController.h */,
 				CFFD311D18503E880091E315 /* UpgradeViewController.m */,
 				CF4DB8D81807DA1E00062258 /* UpgradeViewController.xib */,
@@ -18527,6 +18547,8 @@
 				63BACB171A71EF37000A641A /* DailyEventScheduleViewController.xib in Resources */,
 				CF0CEEF2196F452900ECD301 /* sfx_upgrade_button.mp3 in Resources */,
 				29C0D2331A9BFA79005A4EC0 /* ultimategrabitem@2x.png in Resources */,
+				63CDCF711AC2540F00A00DB6 /* EmbeddedScrollingUpgradeView.xib in Resources */,
+				9BB9493B1A6E1197006EE920 /* watergrbigflash1@2x.png in Resources */,
 				CF4825A819F72A3900041486 /* notendcapblue@2x.png in Resources */,
 				CF0CEEFD196F452900ECD301 /* speechbubblename@2x.png in Resources */,
 				299AA38B1A7856AA00A2D806 /* earthorb-9@2x.png in Resources */,
@@ -20517,6 +20539,7 @@
 				63CDCF631AC2347700A00DB6 /* strengthaddedmiddlestretch@2x.png in Resources */,
 				CFF9DD8819B861F200CA9A8E /* up@2x.png in Resources */,
 				636C3E8B1AAA865400B02980 /* lightresearchcorner@2x.png in Resources */,
+				63CDCF701AC2540F00A00DB6 /* EmbeddedScrollingUpgradeView.xib in Resources */,
 				CF864D5E193D492D00DE0D7A /* AttackEventView.xib in Resources */,
 				CFEE89C918EC00C100047CA4 /* buildingcap@2x.png in Resources */,
 				CF48189519F71D2900041486 /* LaboratoryT0@2x.png in Resources */,
@@ -23948,6 +23971,7 @@
 				CF48229619F7217F00041486 /* close1.png in Resources */,
 				297DE22A1A9D597700692D80 /* MilitaryGirl0T1P3TutBig@2x.png in Resources */,
 				9B6B77D51A858B1A0080C8E5 /* 3moveslabel@2x.png in Resources */,
+				63CDCF721AC2540F00A00DB6 /* EmbeddedScrollingUpgradeView.xib in Resources */,
 				CF48229719F7217F00041486 /* menuclosex@2x.png in Resources */,
 				CF48229819F7217F00041486 /* close1@2x.png in Resources */,
 				CF48229A19F7217F00041486 /* UpgradeBonusCell.xib in Resources */,
@@ -24717,6 +24741,7 @@
 				6BA24E0A1A7AEA6E00BEF920 /* SkillTakeAim.m in Sources */,
 				CF0CED18196F452900ECD301 /* MapSprite.m in Sources */,
 				6B0783FA1A828468005CDFCF /* SkillCurse.m in Sources */,
+				63CDCF6D1AC253EE00A00DB6 /* EmbeddedScrollingUpgradeView.m in Sources */,
 				9B2389D71A314B8400FA3743 /* SkillThickSkin.m in Sources */,
 				CF0CED19196F452900ECD301 /* EasyTableView.m in Sources */,
 				9B9BA8021A73367B001B7D04 /* SkillConfusion.m in Sources */,
@@ -25119,6 +25144,7 @@
 				CF126D691538ACCA00E0C1AD /* IAPHelper.m in Sources */,
 				DA0FC58619B65F2A00393BF4 /* SkillJelly.m in Sources */,
 				2991FC0F1A806287009BB1D8 /* TeamDonateMonstersFiller.m in Sources */,
+				63CDCF6C1AC253EE00A00DB6 /* EmbeddedScrollingUpgradeView.m in Sources */,
 				CF4DB8E71807DA1F00062258 /* HomeBuildingMenus.m in Sources */,
 				CFA9F7CC1A0DA0F900EBE77D /* ItemUtil.m in Sources */,
 				CFCD0E6E1953EFE500EDC233 /* PopupNavViewController.m in Sources */,
@@ -25452,6 +25478,7 @@
 				CF4818BD19F7217F00041486 /* TutorialTeamViewController.m in Sources */,
 				6BA24E0B1A7AEA6E00BEF920 /* SkillTakeAim.m in Sources */,
 				CF4818BF19F7217F00041486 /* MapSprite.m in Sources */,
+				63CDCF6E1AC253EE00A00DB6 /* EmbeddedScrollingUpgradeView.m in Sources */,
 				6B0783FB1A828468005CDFCF /* SkillCurse.m in Sources */,
 				9B2389D81A314B8400FA3743 /* SkillThickSkin.m in Sources */,
 				CF4818C019F7217F00041486 /* EasyTableView.m in Sources */,
