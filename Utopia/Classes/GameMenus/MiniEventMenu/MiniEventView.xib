@@ -131,18 +131,6 @@
                                                             <rect key="frame" x="151" y="10" width="18" height="20"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         </imageView>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="eventtabdivider.png" id="T1q-JA-ngi">
-                                                            <rect key="frame" x="31" y="0.0" width="1" height="56"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        </imageView>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="eventtabdivider.png" id="5Nc-6l-vqI">
-                                                            <rect key="frame" x="117" y="0.0" width="1" height="56"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        </imageView>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="eventtabdivider.png" id="NTL-dW-xLT">
-                                                            <rect key="frame" x="203" y="0.0" width="1" height="56"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        </imageView>
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <connections>
@@ -156,7 +144,7 @@
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
-                                        <view clipsSubviews="YES" contentMode="scaleToFill" id="rRK-Nn-czM" userLabel="Container View">
+                                        <view contentMode="scaleToFill" id="rRK-Nn-czM" userLabel="Container View">
                                             <rect key="frame" x="0.0" y="50" width="450" height="250"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -182,7 +170,6 @@
         <image name="eventearnpointsinactive.png" width="18" height="20"/>
         <image name="eventeventactive.png" width="18" height="20"/>
         <image name="eventeventinactive.png" width="18" height="20"/>
-        <image name="eventtabdivider.png" width="1" height="1"/>
         <image name="homemenutop.png" width="1" height="57"/>
         <image name="menuclosex.png" width="17" height="17"/>
     </resources>
