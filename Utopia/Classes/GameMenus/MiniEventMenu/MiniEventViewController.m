@@ -25,16 +25,41 @@
   self.containerView.superview.clipsToBounds = YES;
   
   _tabLeftShadow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"eventtabshadow.png"]];
-  _tabLeftShadow.frame = CGRectMake(self.tab1Button.originX - 4, self.tab1Button.originY, 4, 56);
-  _tabLeftShadow.layer.transform = CATransform3DMakeScale(-1, 1, 1);
-  [self.buttonTabBar addSubview:_tabLeftShadow];
-  
+  {
+    _tabLeftShadow.frame = CGRectMake(self.tab1Button.originX - 4 + 1, self.tab1Button.originY, 4, 56);
+    _tabLeftShadow.layer.transform = CATransform3DMakeScale(-1, 1, 1);
+    [self.buttonTabBar addSubview:_tabLeftShadow];
+  }
   _tabRightShadow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"eventtabshadow.png"]];
-  _tabRightShadow.frame = CGRectMake(self.tab1Button.originX + self.tab1Button.width, self.tab1Button.originY, 4, 56);
-  [self.buttonTabBar addSubview:_tabRightShadow];
+  {
+    _tabRightShadow.frame = CGRectMake(self.tab1Button.originX + self.tab1Button.width, self.tab1Button.originY, 4, 56);
+    [self.buttonTabBar addSubview:_tabRightShadow];
+  }
+  
+  UIImageView* _tabLeftDivider = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"eventtabdivider.png"]];
+  {
+    _tabLeftDivider.frame = CGRectMake(self.tab1Button.originX, self.tab1Button.originY, 1, 56);
+    [self.buttonTabBar addSubview:_tabLeftDivider];
+  }
+  UIImageView* _tabMiddleDivider = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"eventtabdivider.png"]];
+  {
+    _tabMiddleDivider.frame = CGRectMake(self.tab2Button.originX, self.tab2Button.originY, 1, 56);
+    [self.buttonTabBar addSubview:_tabMiddleDivider];
+  }
+  UIImageView* _tabRightDivider = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"eventtabdivider.png"]];
+  {
+    _tabRightDivider.frame = CGRectMake(self.tab2Button.originX + self.tab2Button.width, self.tab2Button.originY, 1, 56);
+    [self.buttonTabBar addSubview:_tabRightDivider];
+  }
+  
+  self.buttonTabBar.inactiveTextColor = [UIColor colorWithHexString:@"0089C6"];
+  self.buttonTabBar.activeTextColor   = [UIColor colorWithHexString:@"15AFD6"];
   
   self.detailsView = [[NSBundle mainBundle] loadNibNamed:@"MiniEventDetailsView" owner:self options:nil][0];
   self.pointsView  = [[NSBundle mainBundle] loadNibNamed:@"MiniEventPointsView" owner:self options:nil][0];
+  
+  [self.detailsView updateForMiniEvent];
+  [self.pointsView updateForMiniEvent];
   
   [self button1Clicked:self];
 }

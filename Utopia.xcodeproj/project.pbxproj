@@ -2217,6 +2217,9 @@
 		9B41AF951A841DDA00529879 /* swordorb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B41AF941A841DDA00529879 /* swordorb@2x.png */; };
 		9B41AF961A841DDA00529879 /* swordorb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B41AF941A841DDA00529879 /* swordorb@2x.png */; };
 		9B41AF971A841DDA00529879 /* swordorb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B41AF941A841DDA00529879 /* swordorb@2x.png */; };
+		9B45F22E1AC22D550000E0F5 /* MiniEventManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B45F22D1AC22D550000E0F5 /* MiniEventManager.m */; };
+		9B45F22F1AC22D550000E0F5 /* MiniEventManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B45F22D1AC22D550000E0F5 /* MiniEventManager.m */; };
+		9B45F2301AC22D550000E0F5 /* MiniEventManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B45F22D1AC22D550000E0F5 /* MiniEventManager.m */; };
 		9B6B77CD1A858B1A0080C8E5 /* 1moveslabel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B6B77C11A858B1A0080C8E5 /* 1moveslabel@2x.png */; };
 		9B6B77CE1A858B1A0080C8E5 /* 1moveslabel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B6B77C11A858B1A0080C8E5 /* 1moveslabel@2x.png */; };
 		9B6B77CF1A858B1A0080C8E5 /* 1moveslabel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B6B77C11A858B1A0080C8E5 /* 1moveslabel@2x.png */; };
@@ -8427,6 +8430,8 @@
 		9B41AF8B1A841D9300529879 /* 6swordorb-9@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "6swordorb-9@2x.png"; sourceTree = "<group>"; };
 		9B41AF8F1A841DA500529879 /* swordorb-9@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "swordorb-9@2x.png"; sourceTree = "<group>"; };
 		9B41AF941A841DDA00529879 /* swordorb@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "swordorb@2x.png"; sourceTree = "<group>"; };
+		9B45F22C1AC22D550000E0F5 /* MiniEventManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiniEventManager.h; sourceTree = "<group>"; };
+		9B45F22D1AC22D550000E0F5 /* MiniEventManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MiniEventManager.m; sourceTree = "<group>"; };
 		9B6B77C11A858B1A0080C8E5 /* 1moveslabel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "1moveslabel@2x.png"; sourceTree = "<group>"; };
 		9B6B77C21A858B1A0080C8E5 /* 2moveslabel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "2moveslabel@2x.png"; sourceTree = "<group>"; };
 		9B6B77C31A858B1A0080C8E5 /* 3moveslabel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "3moveslabel@2x.png"; sourceTree = "<group>"; };
@@ -14100,6 +14105,8 @@
 				9BC189271AC1EF7E001B8E88 /* MiniEventPointsView.h */,
 				9BC189281AC1EF7E001B8E88 /* MiniEventPointsView.m */,
 				9BC1891E1AC1E792001B8E88 /* MiniEventPointsView.xib */,
+				9B45F22C1AC22D550000E0F5 /* MiniEventManager.h */,
+				9B45F22D1AC22D550000E0F5 /* MiniEventManager.m */,
 			);
 			path = MiniEventMenu;
 			sourceTree = "<group>";
@@ -25105,6 +25112,7 @@
 				9B41AE881A78573300529879 /* SkillShallowGrave.m in Sources */,
 				CF0CED03196F452900ECD301 /* UnreadNotifications.m in Sources */,
 				295FA2AF1A1B44A4006B79F3 /* SpeedupItemsFiller.m in Sources */,
+				9B45F22F1AC22D550000E0F5 /* MiniEventManager.m in Sources */,
 				CF0CED04196F452900ECD301 /* UpgradeViewController.m in Sources */,
 				CF0CED05196F452900ECD301 /* MessageComposerView.m in Sources */,
 				CF0CED06196F452900ECD301 /* StaticStructure.m in Sources */,
@@ -25460,6 +25468,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9B45F22E1AC22D550000E0F5 /* MiniEventManager.m in Sources */,
 				63B045021A92B9C600C74F0C /* AttackedAlertViewController.m in Sources */,
 				CF023CBD19935D8F0082FE61 /* BattleScheduleView.m in Sources */,
 				9B41AE811A7824AA00529879 /* SkillKnockout.m in Sources */,
@@ -25848,6 +25857,7 @@
 				CF4818A619F7217F00041486 /* Protocols.pb.m in Sources */,
 				9B41AE891A78573300529879 /* SkillShallowGrave.m in Sources */,
 				CF4818A719F7217F00041486 /* UnreadNotifications.m in Sources */,
+				9B45F2301AC22D550000E0F5 /* MiniEventManager.m in Sources */,
 				295FA2B31A1B44A4006B79F3 /* SpeedupItemsFiller.m in Sources */,
 				CF4818A819F7217F00041486 /* UpgradeViewController.m in Sources */,
 				CF4818A919F7217F00041486 /* MessageComposerView.m in Sources */,
