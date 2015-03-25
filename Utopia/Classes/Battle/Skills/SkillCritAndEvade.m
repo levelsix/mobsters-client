@@ -133,11 +133,11 @@
 
 -(void)showCriticalHit
 {
-  [self showSkillPopupMiniOverlay:[NSString stringWithFormat:@"%.3gX DMG", _critMultiplier]];
+  [self enqueueSkillPopupMiniOverlay:[NSString stringWithFormat:@"%.3gX DMG", _critMultiplier]];
 }
 
 -(void)showDodged:(BOOL)missed damage:(NSInteger)damage
 {
-  [self showSkillPopupMiniOverlay:missed ? @"MISS" : [NSString stringWithFormat:@"%i DAMAGE EVADED", damage]];
+  [self enqueueSkillPopupMiniOverlay:missed ? @"MISS" : [NSString stringWithFormat:@"%i DAMAGE EVADED", damage]];
 }
 @end
