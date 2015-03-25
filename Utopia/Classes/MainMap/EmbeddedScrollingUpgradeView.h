@@ -7,20 +7,38 @@
 //
 
 #import "NibUtils.h"
+#import "UpgradeViewController.h"
 
-@interface UpgradeTitleBar : UIView
+@interface EmbeddedPrereqView : UIView
+@property (nonatomic, retain) IBOutlet UpgradePrereqView *prereqView;
+@end
 
-@property (weak, nonatomic) IBOutlet UILabel *title;
+@interface DetailsProgressBarView : UIView
+@property (nonatomic, retain) IBOutlet NiceFontLabel9 *detailName;
+@property (nonatomic, retain) IBOutlet NiceFontLabel9 *increaseDescription;
+@property (nonatomic, retain) IBOutlet NiceFontButton9 *detailButton;
+
+@property (nonatomic, retain) IBOutlet SplitImageProgressBar *frontBar;
+@property (nonatomic, retain) IBOutlet SplitImageProgressBar *backBar;
 
 @end
 
-@interface StrengthDetails : UIView
+@interface UpgradeTitleBarView : UIView
+
+@property (nonatomic, retain) IBOutlet UILabel *title;
 
 @end
 
-@interface EmbeddedScrollingUpgradeView : EmbeddedNibView
+@interface StrengthDetailsView : UIView
+@property (nonatomic, retain) IBOutlet UILabel *strengthLabel;
 
-@property (retain, nonatomic) IBOutlet UIView *view;
-@property (retain, nonatomic) IBOutlet UIScrollView *scrollView;
+@end
+
+@interface EmbeddedScrollingUpgradeView : EmbeddedNibView {
+  float _curY;
+}
+
+@property (nonatomic, retain) IBOutlet UIView *view;
+@property (nonatomic, retain) IBOutlet UIScrollView *scrollView;
 
 @end
