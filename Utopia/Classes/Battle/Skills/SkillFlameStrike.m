@@ -32,6 +32,11 @@
 
 #pragma mark - Overrides
 
+- (NSSet*) sideEffects
+{
+  return [NSSet setWithObjects:@(SideEffectTypeBuffFlameStrike), nil];
+}
+
 - (void)orbDestroyed:(OrbColor)color special:(SpecialOrbType)type
 {
   if ([self isActive] && color == OrbColorFire)
