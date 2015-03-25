@@ -2448,8 +2448,8 @@
   const CGPoint orbLayerPosition = ccp(self.contentSize.width-self.orbLayer.contentSize.width/2-ORB_LAYER_DIST_FROM_SIDE, self.orbLayer.position.y);
   [self.orbLayer runAction:[CCActionEaseOut actionWithAction:[CCActionMoveTo actionWithDuration:0.4f position:orbLayerPosition] rate:3]];
 
-  self.lootBgd.position = ccp(self.lootBgd.contentSize.width/2 + 17,
-                              self.lootBgd.contentSize.height/2+ORB_LAYER_DIST_FROM_SIDE+self.hudView.swapView.height+15);
+  self.lootBgd.position = ccp(self.lootBgd.contentSize.width/2 + 10,
+                              self.lootBgd.contentSize.height/2+ORB_LAYER_DIST_FROM_SIDE+self.hudView.swapView.height+7);
   [self displayLootCounter:YES];
   
   [SoundEngine puzzleOrbsSlideIn];

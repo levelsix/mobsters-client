@@ -87,7 +87,7 @@
 
 + (id) itemFactoryButton {
   MapBotViewButton *button = [self button];
-  [button updateWithImageName:@"buildingsquad.png" actionText:@"Create Items" config:MapBotViewButtonItemFactory];
+  [button updateWithImageName:@"buildingcreateitems.png" actionText:@"Create Items" config:MapBotViewButtonItemFactory];
   return button;
 }
 

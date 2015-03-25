@@ -2567,6 +2567,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     // Remove after to let the queue update to not be affected
     [hq.healingItems removeAllObjects];
     hq.queueEndTime = nil;
+    hq.hasShownFreeHealingQueueSpeedup = YES;
     [[SocketCommunication sharedSocketCommunication] reloadHealQueueSnapshot];
     [gs beginHealingTimer];
     
@@ -2710,6 +2711,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     // Remove after to let the queue update to not be affected
     [biq.queueObjects removeAllObjects];
     biq.queueEndTime = nil;
+    biq.hasShownFreeSpeedup = YES;
     [[SocketCommunication sharedSocketCommunication] reloadBattleItemQueueSnapshot];
     [gs beginHealingTimer];
     

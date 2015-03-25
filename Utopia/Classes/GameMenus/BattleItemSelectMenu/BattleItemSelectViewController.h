@@ -23,6 +23,7 @@
 @property (nonatomic, retain) IBOutlet UILabel *quantityLabel;
 @property (nonatomic, retain) IBOutlet UILabel *descriptionLabel;
 @property (nonatomic, retain) IBOutlet UILabel *typeLabel;
+@property (nonatomic, retain) IBOutlet UILabel *powerLabel;
 
 @property (nonatomic, retain) IBOutlet UILabel *gemsLabel;
 @property (nonatomic, retain) IBOutlet UILabel *buttonLabel;
@@ -33,6 +34,8 @@
 
 @property (nonatomic, retain) IBOutlet UIView *useButtonView;
 @property (nonatomic, retain) IBOutlet UIView *gemsButtonView;
+
+@property (nonatomic, retain) IBOutlet UIImageView *arrowIcon;
 
 @end
 

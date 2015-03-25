@@ -632,6 +632,10 @@
         
         [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
       }
+    } else {
+      // Something may have gone wrong.. Just reload all team slot views
+      LNLog(@"Reloading team slot views..");
+      [self updateTeamSlotViews:NO animated:NO];
     }
   } else {
     // Clan monster

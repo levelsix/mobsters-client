@@ -58,16 +58,31 @@
     self.useButtonView.superview.originY = CGRectGetMaxY(self.descriptionLabel.frame);
   }
   
-  NSString *str1 = @"Owned: ";
-  NSString *str2 = [Globals commafyNumber:itemObject.quantity];
-  NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:[str1 stringByAppendingString:str2]];
-  
-  if (isValid) {
-    NSRange range = NSMakeRange(str1.length, str2.length);
-    [attr addAttribute:NSFontAttributeName value:self.nameLabel.font range:range];
-    [attr addAttribute:NSForegroundColorAttributeName value:self.nameLabel.textColor range:range];
+  {
+    NSString *str1 = @"Owned: ";
+    NSString *str2 = [Globals commafyNumber:itemObject.quantity];
+    NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:[str1 stringByAppendingString:str2]];
+    
+    if (isValid) {
+      NSRange range = NSMakeRange(str1.length, str2.length);
+      [attr addAttribute:NSFontAttributeName value:self.nameLabel.font range:range];
+      [attr addAttribute:NSForegroundColorAttributeName value:self.nameLabel.textColor range:range];
+    }
+    self.quantityLabel.attributedText = attr;
   }
-  self.quantityLabel.attributedText = attr;
+  
+  {
+    NSString *str1 = @"Power: ";
+    NSString *str2 = [Globals commafyNumber:bip.powerAmount];
+    NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:[str1 stringByAppendingString:str2]];
+    
+    if (isValid) {
+      NSRange range = NSMakeRange(str1.length, str2.length);
+      [attr addAttribute:NSFontAttributeName value:self.nameLabel.font range:range];
+      [attr addAttribute:NSForegroundColorAttributeName value:self.nameLabel.textColor range:range];
+    }
+    self.powerLabel.attributedText = attr;
+  }
   
   [Globals imageNamed:bip.imgName withView:self.itemIcon greyscale:!isValid indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
@@ -133,15 +148,12 @@
   
   [self loadListViewAnimated:NO];
   
-  
   self.editButton.superview.hidden = YES;
   
   if (_showFooterView) {
     NSString *desc = nil;
     if (!_showItemFactory) {
       desc = self.footerDescLabel.text;
-      
-      self.editButton.superview.hidden = NO;
     } else {
       self.footerImageView.highlighted = YES;
       
@@ -159,13 +171,13 @@
       }
       
       desc = !us ? [NSString stringWithFormat:@"Build an %@ to use Items in Multiplayer.", buildingName] :
-                  [NSString stringWithFormat:@"Create Items at the %@ for use in Multiplayer.", buildingName];
+      [NSString stringWithFormat:@"Create Items at the %@ for use in Multiplayer.", buildingName];
       
-      self.footerTitleLabel.text = !us ? [NSString stringWithFormat:@"REQUIRES %@", buildingName.uppercaseString] : @"HOW ITEMS WORK";
+      self.footerTitleLabel.text = !us ? [NSString stringWithFormat:@"REQUIRES %@", buildingName.uppercaseString] : @"HOW TO CREATE ITEMS";
     }
     
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-    [paragraphStyle setLineSpacing:3];
+    [paragraphStyle setLineSpacing:4];
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:desc];
     [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, desc.length)];
     self.footerDescLabel.attributedText = attributedString;
@@ -173,6 +185,8 @@
     self.footerView.hidden = !_showFooterView;
     
     self.itemsTable.height = self.itemsTable.superview.height-self.itemsTable.originY;
+    
+    self.titleLabel.text = @"ITEMS";
   }
 }
 
@@ -184,6 +198,10 @@
   if ([self.delegate respondsToSelector:@selector(progressBarText)]) {
     self.itemsTable.tableHeaderView = self.progressBarView;
   }
+}
+
+- (void) waitTimeComplete {
+  [self reloadDataAnimated:YES];
 }
 
 - (void) reloadDataAnimated:(BOOL)animated {
@@ -217,8 +235,8 @@
   }
   
   self.noItemsLabel.hidden = self.battleItems.count > 0;
-  
-  self.titleLabel.text = @"MY ITEMS";
+  self.itemsTable.hidden = !self.noItemsLabel.hidden;
+  self.editButton.superview.hidden = !(_showFooterView && !_showItemFactory && self.battleItems.count > 0);
   
   if ([self.delegate respondsToSelector:@selector(progressBarText)]) {
     [self updateProgressBar];
@@ -330,6 +348,10 @@
     isValid = [self.delegate battleItemIsValid:ubi];
   }
   [cell.infoView updateForBattleItem:ubi isValid:isValid isButtonValid:isValid showButton:_showUseButton];
+  
+  if (!_showFooterView || _showItemFactory) {
+    cell.infoView.arrowIcon.transform = CGAffineTransformMakeScale(0.7, 0.7);
+  }
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -365,6 +387,8 @@
     _isEditing = YES;
   }
   
+  _selectedItem = nil;
+  
   self.itemsTable.allowsSelection = !_isEditing;
   
   [self.editButton remakeImage];
@@ -380,6 +404,21 @@
   BattleItemSelectCell *cell = [sender getAncestorInViewHierarchyOfType:[BattleItemSelectCell class]];
   NSIndexPath *ip = [self.itemsTable indexPathForCell:cell];
   UserBattleItem *item = self.battleItems[ip.row];
+  _selectedItem = item;
+  
+  NSString *name = item.staticBattleItem.name;
+  NSString *desc = [NSString stringWithFormat:@"Would you like to discard 1 %@ from your inventory?", name];
+  [GenericPopupController displayNegativeConfirmationWithDescription:desc title:[NSString stringWithFormat:@"Discard %@?", name] okayButton:@"Discard" cancelButton:@"Cancel" okTarget:self okSelector:@selector(deleteSelectedItem) cancelTarget:self cancelSelector:@selector(cancelDelete)];
+}
+
+- (void) cancelDelete {
+  _selectedItem = nil;
+}
+
+- (void) deleteSelectedItem {
+  UserBattleItem *item = _selectedItem;
+  _selectedItem = nil;
+  
   [[OutgoingEventController sharedOutgoingEventController] removeBattleItems:@[@(item.battleItemId)]];
   
   [self.delegate battleItemDiscarded:item];
