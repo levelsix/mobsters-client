@@ -332,6 +332,8 @@
   self.attackLabel.text = [NSString stringWithFormat:@"%@%@", [Globals commafyNumber:curAttk], newAttk > curAttk ? [NSString stringWithFormat:@" + %@", [Globals commafyNumber:newAttk-curAttk]] : @""];
   self.healthLabel.text = [NSString stringWithFormat:@"%@%@", [Globals commafyNumber:curHp], newHp > curHp ? [NSString stringWithFormat:@" + %@", [Globals commafyNumber:newHp-curHp]] : @""];
   self.speedLabel.text = [NSString stringWithFormat:@"%@%@", [Globals commafyNumber:curSpeed], newSpeed > curSpeed ? [NSString stringWithFormat:@" + %@", [Globals commafyNumber:newSpeed-curSpeed]] : @""];
+#warning Ashwin fix
+  self.strengthLabel.text = [NSString stringWithFormat:@"+%d", 999];
 }
 
 - (void) updateTimeWithCell:(MonsterQueueCell *)cell {

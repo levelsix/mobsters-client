@@ -102,6 +102,8 @@
   [Globals adjustViewForCentering:self.oilCostLabel.superview withLabel:self.oilCostLabel];
   
   self.timeLabel.text = [Globals convertTimeToLongString:self.evoItem.userMonster1.staticMonster.minutesToEvolve*60];
+#warning AAASHSSWWWWIN
+  self.strengthLabel.text = [NSString stringWithFormat:@"+%d", 1235];
   
   [self.greyscaleView removeFromSuperview];
   if (![self.evoItem isReadyForEvolution]) {
