@@ -103,12 +103,12 @@
         [sv removeFromSuperview];
       }
       
-      UIImageView *img = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"minirocks.png"]];
+      UIImageView *img = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"minileaves.png"]];
       [self.bottomGradient addSubview:img];
       img.originY = self.bottomGradient.height-img.height+10.f;
       img.originX = -42;
       
-      img = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"minileaves.png"]];
+      img = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"minirocks.png"]];
       [self.bottomGradient addSubview:img];
       img.originY = self.bottomGradient.height-img.height+10.f;
       img.originX = -42;

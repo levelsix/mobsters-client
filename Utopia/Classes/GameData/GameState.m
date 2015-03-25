@@ -1667,7 +1667,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
 }
 
-#pragma mark -
 #pragma mark Battle Item Timer
 
 - (void) beginBattleItemTimer {

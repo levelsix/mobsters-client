@@ -128,7 +128,7 @@
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
                         <view contentMode="scaleToFill" id="f6L-rT-y7y">
-                            <rect key="frame" x="62" y="105" width="154" height="40"/>
+                            <rect key="frame" x="62" y="120" width="154" height="40"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <view contentMode="scaleToFill" id="3JU-Xz-N2c" userLabel="Use View">
@@ -202,7 +202,7 @@
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popupline.png" id="TlK-BG-LFa" customClass="VerticalFlipImageView">
-                            <rect key="frame" x="62" y="53" width="154" height="1"/>
+                            <rect key="frame" x="62" y="68" width="154" height="1"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="speedupitemicon.png" id="u22-83-Tlp">
@@ -210,10 +210,18 @@
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Removes poison condition for the remainder of active turns." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="9" id="WUv-Db-ith" customClass="NiceFontLabel2">
-                            <rect key="frame" x="62" y="56" width="154" height="45"/>
+                            <rect key="frame" x="62" y="71" width="154" height="45"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
                             <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Power: 2" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="YBf-53-y1e" customClass="NiceFontLabel9">
+                            <rect key="frame" x="62" y="41" width="80" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                            <color key="textColor" red="0.39607843139999999" green="0.39607843139999999" blue="0.39607843139999999" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                             <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
@@ -229,6 +237,7 @@
                         <outlet property="gemsLabel" destination="keJ-Rd-CJo" id="tFu-tC-5Ps"/>
                         <outlet property="itemIcon" destination="u22-83-Tlp" id="3pu-2s-Pjd"/>
                         <outlet property="nameLabel" destination="jHL-uQ-eAm" id="a8q-gc-9Na"/>
+                        <outlet property="powerLabel" destination="YBf-53-y1e" id="6iX-oI-Bkj"/>
                         <outlet property="quantityLabel" destination="hx2-nz-tnr" id="nDr-H0-JW2"/>
                         <outlet property="useButton" destination="evC-sc-21g" id="IxC-f6-ISk"/>
                         <outlet property="useButtonView" destination="3JU-Xz-N2c" id="gDG-ch-iFO"/>
@@ -262,7 +271,7 @@
                             <rect key="frame" x="251" y="4" width="48" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Back" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="N4z-TL-f5O" customClass="NiceFontLabel8B">
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Back" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="N4z-TL-f5O" customClass="NiceFontLabel8">
                                     <rect key="frame" x="16" y="2" width="53" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
@@ -292,7 +301,7 @@
                             <rect key="frame" x="196" y="4" width="34" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Edit" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="wNq-oV-Bp6" customClass="NiceFontLabel8B">
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Edit" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="wNq-oV-Bp6" customClass="NiceFontLabel9">
                                     <rect key="frame" x="-14" y="2" width="48" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
@@ -320,27 +329,27 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
                 <view contentMode="scaleToFill" id="BW5-Ck-N3y" userLabel="Footer View">
-                    <rect key="frame" x="0.0" y="195" width="241" height="63"/>
+                    <rect key="frame" x="0.0" y="159" width="241" height="99"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="donateenhancebottombar.png" id="QNE-v6-qsF">
-                            <rect key="frame" x="6" y="0.0" width="229" height="57"/>
+                            <rect key="frame" x="6" y="36" width="229" height="57"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="HOW ITEMS WORK" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="MxL-VF-CUk" customClass="NiceFontLabel12">
-                            <rect key="frame" x="79" y="0.0" width="145" height="29"/>
+                            <rect key="frame" x="79" y="36" width="145" height="29"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="9"/>
                             <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                             <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="bottom" image="girl2.png" highlightedImage="itemfactorymenuheader.png" highlighted="YES" id="bGs-MD-b61">
-                            <rect key="frame" x="4" y="-31" width="70" height="88"/>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="girl2.png" highlightedImage="itemfactorymenuheader.png" id="bGs-MD-b61">
+                            <rect key="frame" x="4" y="28" width="70" height="65"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Items can be used in Single Player and Multiplayer battles." lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="LdC-V3-JnO" customClass="NiceFontLabel2">
-                            <rect key="frame" x="79" y="22" width="147" height="30"/>
+                            <rect key="frame" x="79" y="58" width="147" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="9"/>
                             <color key="textColor" red="0.20000001789999999" green="0.20000001789999999" blue="0.20000001789999999" alpha="1" colorSpace="deviceRGB"/>
@@ -352,7 +361,7 @@
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="YOU HAVE NO ITEMS" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="D0d-8r-rbV" customClass="NiceFontLabel12">
                     <rect key="frame" x="48" y="99" width="145" height="29"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
                     <color key="textColor" red="0.86274509803921573" green="0.14509803921568629" blue="0.0078431372549019607" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                     <size key="shadowOffset" width="0.0" height="1"/>

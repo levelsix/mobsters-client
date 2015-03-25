@@ -148,7 +148,11 @@
     
     CCSprite *frame = (CCSprite *)[self getChildByName:CONSTR_FRAME_TAG recursively:YES];
     [frame stopActionByTag:BOUNCE_ACTION_TAG];
-    [frame runAction:[self.buildingSprite getActionByTag:BOUNCE_ACTION_TAG].copy];
+    
+    CCAction *action = [self.buildingSprite getActionByTag:BOUNCE_ACTION_TAG];
+    if (action) {
+      [frame runAction:action.copy];
+    }
     
     return ret;
   } else {

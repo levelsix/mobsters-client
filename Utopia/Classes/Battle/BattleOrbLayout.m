@@ -251,7 +251,6 @@
         
         if (orb) {
           if (orb.specialOrbType != SpecialOrbTypeNone ||
-              orb.powerupType != PowerupTypeNone ||
               ![orb isMovable])
             continue;
           
@@ -273,7 +272,6 @@
         
         if (orb) {
           if (orb.specialOrbType != SpecialOrbTypeNone ||
-              orb.powerupType != PowerupTypeNone ||
               ![orb isMovable])
             continue;
           
