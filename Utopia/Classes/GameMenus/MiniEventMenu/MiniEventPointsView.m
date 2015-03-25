@@ -10,4 +10,9 @@
 
 @implementation MiniEventPointsView
 
+- (void) updateForMiniEvent
+{
+  
+}
+
 @end
