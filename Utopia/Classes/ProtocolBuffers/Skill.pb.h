@@ -93,6 +93,7 @@ typedef NS_ENUM(SInt32, SideEffectType) {
   SideEffectTypeBuffHammerTime = 19,
   SideEffectTypeBuffTakeAim = 20,
   SideEffectTypeNerfChill = 21,
+  SideEffectTypeBuffFlameStrike = 22,
 };
 
 BOOL SideEffectTypeIsValidValue(SideEffectType value);

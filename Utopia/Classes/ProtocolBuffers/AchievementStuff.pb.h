@@ -89,6 +89,7 @@ typedef NS_ENUM(SInt32, AchievementProto_AchievementType) {
   AchievementProto_AchievementTypeJoinClan = 18,
   AchievementProto_AchievementTypeSolicitHelp = 19,
   AchievementProto_AchievementTypeGiveHelp = 20,
+  AchievementProto_AchievementTypeRequestToon = 21,
 };
 
 BOOL AchievementProto_AchievementTypeIsValidValue(AchievementProto_AchievementType value);

@@ -74,6 +74,7 @@ BOOL BoardObstacleTypeIsValidValue(BoardObstacleType value) {
 @property Float32 shadowVerticalOffset;
 @property Float32 shadowHorizontalOfffset;
 @property Float32 shadowScale;
+@property int32_t strength;
 @end
 
 @implementation StructureInfoProto
@@ -218,6 +219,13 @@ BOOL BoardObstacleTypeIsValidValue(BoardObstacleType value) {
   hasShadowScale_ = !!value_;
 }
 @synthesize shadowScale;
+- (BOOL) hasStrength {
+  return !!hasStrength_;
+}
+- (void) setHasStrength:(BOOL) value_ {
+  hasStrength_ = !!value_;
+}
+@synthesize strength;
 - (id) init {
   if ((self = [super init])) {
     self.structId = 0;
@@ -240,6 +248,7 @@ BOOL BoardObstacleTypeIsValidValue(BoardObstacleType value) {
     self.shadowVerticalOffset = 0;
     self.shadowHorizontalOfffset = 0;
     self.shadowScale = 0;
+    self.strength = 0;
   }
   return self;
 }
@@ -319,6 +328,9 @@ static StructureInfoProto* defaultStructureInfoProtoInstance = nil;
   if (self.hasShadowScale) {
     [output writeFloat:21 value:self.shadowScale];
   }
+  if (self.hasStrength) {
+    [output writeInt32:22 value:self.strength];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -387,6 +399,9 @@ static StructureInfoProto* defaultStructureInfoProtoInstance = nil;
   }
   if (self.hasShadowScale) {
     size_ += computeFloatSize(21, self.shadowScale);
+  }
+  if (self.hasStrength) {
+    size_ += computeInt32Size(22, self.strength);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -483,6 +498,9 @@ static StructureInfoProto* defaultStructureInfoProtoInstance = nil;
   if (self.hasShadowScale) {
     [output appendFormat:@"%@%@: %@\n", indent, @"shadowScale", [NSNumber numberWithFloat:self.shadowScale]];
   }
+  if (self.hasStrength) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"strength", [NSNumber numberWithInteger:self.strength]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -534,6 +552,8 @@ static StructureInfoProto* defaultStructureInfoProtoInstance = nil;
       (!self.hasShadowHorizontalOfffset || self.shadowHorizontalOfffset == otherMessage.shadowHorizontalOfffset) &&
       self.hasShadowScale == otherMessage.hasShadowScale &&
       (!self.hasShadowScale || self.shadowScale == otherMessage.shadowScale) &&
+      self.hasStrength == otherMessage.hasStrength &&
+      (!self.hasStrength || self.strength == otherMessage.strength) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -597,6 +617,9 @@ static StructureInfoProto* defaultStructureInfoProtoInstance = nil;
   }
   if (self.hasShadowScale) {
     hashCode = hashCode * 31 + [[NSNumber numberWithFloat:self.shadowScale] hash];
+  }
+  if (self.hasStrength) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.strength] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -723,6 +746,9 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
   if (other.hasShadowScale) {
     [self setShadowScale:other.shadowScale];
   }
+  if (other.hasStrength) {
+    [self setStrength:other.strength];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -832,6 +858,10 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
       }
       case 173: {
         [self setShadowScale:[input readFloat]];
+        break;
+      }
+      case 176: {
+        [self setStrength:[input readInt32]];
         break;
       }
     }
@@ -1155,6 +1185,22 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (StructureInfoProto_Builder*) clearShadowScale {
   result.hasShadowScale = NO;
   result.shadowScale = 0;
+  return self;
+}
+- (BOOL) hasStrength {
+  return result.hasStrength;
+}
+- (int32_t) strength {
+  return result.strength;
+}
+- (StructureInfoProto_Builder*) setStrength:(int32_t) value {
+  result.hasStrength = YES;
+  result.strength = value;
+  return self;
+}
+- (StructureInfoProto_Builder*) clearStrength {
+  result.hasStrength = NO;
+  result.strength = 0;
   return self;
 }
 @end
