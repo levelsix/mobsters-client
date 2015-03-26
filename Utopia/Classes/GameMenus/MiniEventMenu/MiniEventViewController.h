@@ -31,9 +31,4 @@
 
 - (IBAction) closeClicked:(id)sender;
 
-- (IBAction) tab1ButtonTouchDown:(id)sender;
-- (IBAction) tab2ButtonTouchDown:(id)sender;
-- (IBAction) tab1ButtonTouchUpOutside:(id)sender;
-- (IBAction) tab2ButtonTouchUpOutside:(id)sender;
-
 @end

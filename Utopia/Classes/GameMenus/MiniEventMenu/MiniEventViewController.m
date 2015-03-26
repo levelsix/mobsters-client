@@ -26,29 +26,29 @@
   
   _tabLeftShadow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"eventtabshadow.png"]];
   {
-    _tabLeftShadow.frame = CGRectMake(self.tab1Button.originX - 4 + 1, self.tab1Button.originY, 4, 56);
+    _tabLeftShadow.frame = CGRectMake(self.tab1Button.originX - 4 + 1, self.tab1Button.originY, 4, 53);
     _tabLeftShadow.layer.transform = CATransform3DMakeScale(-1, 1, 1);
     [self.buttonTabBar addSubview:_tabLeftShadow];
   }
   _tabRightShadow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"eventtabshadow.png"]];
   {
-    _tabRightShadow.frame = CGRectMake(self.tab1Button.originX + self.tab1Button.width, self.tab1Button.originY, 4, 56);
+    _tabRightShadow.frame = CGRectMake(self.tab1Button.originX + self.tab1Button.width, self.tab1Button.originY, 4, 53);
     [self.buttonTabBar addSubview:_tabRightShadow];
   }
   
   UIImageView* _tabLeftDivider = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"eventtabdivider.png"]];
   {
-    _tabLeftDivider.frame = CGRectMake(self.tab1Button.originX, self.tab1Button.originY, 1, 56);
+    _tabLeftDivider.frame = CGRectMake(self.tab1Button.originX, self.tab1Button.originY, 1, 53);
     [self.buttonTabBar addSubview:_tabLeftDivider];
   }
   UIImageView* _tabMiddleDivider = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"eventtabdivider.png"]];
   {
-    _tabMiddleDivider.frame = CGRectMake(self.tab2Button.originX, self.tab2Button.originY, 1, 56);
+    _tabMiddleDivider.frame = CGRectMake(self.tab2Button.originX, self.tab2Button.originY, 1, 53);
     [self.buttonTabBar addSubview:_tabMiddleDivider];
   }
   UIImageView* _tabRightDivider = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"eventtabdivider.png"]];
   {
-    _tabRightDivider.frame = CGRectMake(self.tab2Button.originX + self.tab2Button.width, self.tab2Button.originY, 1, 56);
+    _tabRightDivider.frame = CGRectMake(self.tab2Button.originX + self.tab2Button.width, self.tab2Button.originY, 1, 53);
     [self.buttonTabBar addSubview:_tabRightDivider];
   }
   
@@ -81,9 +81,6 @@
 
 - (void) button1Clicked:(id)sender
 {
-  self.tab1Button.backgroundColor = [UIColor whiteColor];
-  self.tab2Button.backgroundColor = [UIColor clearColor];
-  
   _tabLeftShadow.originX  = self.tab1Button.originX - _tabLeftShadow.width;
   _tabRightShadow.originX = self.tab1Button.originX + self.tab1Button.width;
   
@@ -96,9 +93,6 @@
 
 - (void) button2Clicked:(id)sender
 {
-  self.tab1Button.backgroundColor = [UIColor clearColor];
-  self.tab2Button.backgroundColor = [UIColor whiteColor];
-  
   _tabLeftShadow.originX  = self.tab2Button.originX - _tabLeftShadow.width;
   _tabRightShadow.originX = self.tab2Button.originX + self.tab2Button.width;
   
@@ -107,26 +101,6 @@
   // Load mini event points view
   [self.containerView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
   [self.containerView addSubview:self.pointsView];
-}
-
-- (IBAction) tab1ButtonTouchDown:(id)sender
-{
-  self.tab1Button.backgroundColor = [UIColor colorWithWhite:1.f alpha:.5f];
-}
-
-- (IBAction) tab2ButtonTouchDown:(id)sender
-{
-  self.tab2Button.backgroundColor = [UIColor colorWithWhite:1.f alpha:.5f];
-}
-
-- (IBAction) tab1ButtonTouchUpOutside:(id)sender
-{
-  self.tab1Button.backgroundColor = [UIColor clearColor];
-}
-
-- (IBAction) tab2ButtonTouchUpOutside:(id)sender
-{
-  self.tab2Button.backgroundColor = [UIColor clearColor];
 }
 
 @end
