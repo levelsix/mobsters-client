@@ -2166,6 +2166,9 @@
 		9B238A0D1A363EF500FA3743 /* skilldescriptionline@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B238A0C1A363EF500FA3743 /* skilldescriptionline@2x.png */; };
 		9B238A0E1A363EF500FA3743 /* skilldescriptionline@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B238A0C1A363EF500FA3743 /* skilldescriptionline@2x.png */; };
 		9B238A0F1A363EF500FA3743 /* skilldescriptionline@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B238A0C1A363EF500FA3743 /* skilldescriptionline@2x.png */; };
+		9B2EFCB51AC38A24005B7B83 /* gemicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B2EFCB41AC38A24005B7B83 /* gemicon@2x.png */; };
+		9B2EFCB61AC38A24005B7B83 /* gemicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B2EFCB41AC38A24005B7B83 /* gemicon@2x.png */; };
+		9B2EFCB71AC38A24005B7B83 /* gemicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B2EFCB41AC38A24005B7B83 /* gemicon@2x.png */; };
 		9B41AE811A7824AA00529879 /* SkillKnockout.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B41AE801A7824AA00529879 /* SkillKnockout.m */; };
 		9B41AE821A7824AA00529879 /* SkillKnockout.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B41AE801A7824AA00529879 /* SkillKnockout.m */; };
 		9B41AE831A7824AA00529879 /* SkillKnockout.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B41AE801A7824AA00529879 /* SkillKnockout.m */; };
@@ -2642,6 +2645,18 @@
 		9BCAA1B41AD5FB770059CEDA /* researchinggreencircle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BCAA1B31AD5FB770059CEDA /* researchinggreencircle@2x.png */; };
 		9BCAA1B51AD5FB770059CEDA /* researchinggreencircle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BCAA1B31AD5FB770059CEDA /* researchinggreencircle@2x.png */; };
 		9BCAA1B61AD5FB770059CEDA /* researchinggreencircle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BCAA1B31AD5FB770059CEDA /* researchinggreencircle@2x.png */; };
+		9BD4738D1AC3681800EBBFB2 /* MiniEventTierPrizeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BD4738C1AC3681800EBBFB2 /* MiniEventTierPrizeView.m */; };
+		9BD4738E1AC3681800EBBFB2 /* MiniEventTierPrizeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BD4738C1AC3681800EBBFB2 /* MiniEventTierPrizeView.m */; };
+		9BD4738F1AC3681800EBBFB2 /* MiniEventTierPrizeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BD4738C1AC3681800EBBFB2 /* MiniEventTierPrizeView.m */; };
+		9BD473921AC3684500EBBFB2 /* MiniEventTierPrizeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BD473911AC3684500EBBFB2 /* MiniEventTierPrizeView.xib */; };
+		9BD473931AC3684500EBBFB2 /* MiniEventTierPrizeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BD473911AC3684500EBBFB2 /* MiniEventTierPrizeView.xib */; };
+		9BD473941AC3684500EBBFB2 /* MiniEventTierPrizeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BD473911AC3684500EBBFB2 /* MiniEventTierPrizeView.xib */; };
+		9BD4739C1AC373BC00EBBFB2 /* MiniEventTierPrizeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BD4739A1AC373BC00EBBFB2 /* MiniEventTierPrizeCell.m */; };
+		9BD4739D1AC373BC00EBBFB2 /* MiniEventTierPrizeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BD4739A1AC373BC00EBBFB2 /* MiniEventTierPrizeCell.m */; };
+		9BD4739E1AC373BC00EBBFB2 /* MiniEventTierPrizeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BD4739A1AC373BC00EBBFB2 /* MiniEventTierPrizeCell.m */; };
+		9BD4739F1AC373BC00EBBFB2 /* MiniEventTierPrizeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BD4739B1AC373BC00EBBFB2 /* MiniEventTierPrizeCell.xib */; };
+		9BD473A01AC373BC00EBBFB2 /* MiniEventTierPrizeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BD4739B1AC373BC00EBBFB2 /* MiniEventTierPrizeCell.xib */; };
+		9BD473A11AC373BC00EBBFB2 /* MiniEventTierPrizeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BD4739B1AC373BC00EBBFB2 /* MiniEventTierPrizeCell.xib */; };
 		9BDA8B3E1A3945F600C7AC27 /* evasionminilogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8B3D1A3945F600C7AC27 /* evasionminilogo@2x.png */; };
 		9BDA8B3F1A3945F600C7AC27 /* evasionminilogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8B3D1A3945F600C7AC27 /* evasionminilogo@2x.png */; };
 		9BDA8B401A3945F600C7AC27 /* evasionminilogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8B3D1A3945F600C7AC27 /* evasionminilogo@2x.png */; };
@@ -8437,6 +8452,7 @@
 		9B2389F81A363EE800FA3743 /* nightskilldescription@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nightskilldescription@2x.png"; sourceTree = "<group>"; };
 		9B2389F91A363EE800FA3743 /* waterskilldescription@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "waterskilldescription@2x.png"; sourceTree = "<group>"; };
 		9B238A0C1A363EF500FA3743 /* skilldescriptionline@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "skilldescriptionline@2x.png"; sourceTree = "<group>"; };
+		9B2EFCB41AC38A24005B7B83 /* gemicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gemicon@2x.png"; sourceTree = "<group>"; };
 		9B41AE7F1A7824AA00529879 /* SkillKnockout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillKnockout.h; sourceTree = "<group>"; };
 		9B41AE801A7824AA00529879 /* SkillKnockout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillKnockout.m; sourceTree = "<group>"; };
 		9B41AE851A78573300529879 /* SkillShallowGrave.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillShallowGrave.h; sourceTree = "<group>"; };
@@ -8620,6 +8636,12 @@
 		9BC9F3D81A95561B009DC3D5 /* turnmovesbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "turnmovesbg@2x.png"; sourceTree = "<group>"; };
 		9BCA5FFB1ABA2E9B0087FB41 /* researchitemgradient@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "researchitemgradient@2x.png"; sourceTree = "<group>"; };
 		9BCAA1B31AD5FB770059CEDA /* researchinggreencircle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "researchinggreencircle@2x.png"; sourceTree = "<group>"; };
+		9BD4738B1AC3681800EBBFB2 /* MiniEventTierPrizeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiniEventTierPrizeView.h; sourceTree = "<group>"; };
+		9BD4738C1AC3681800EBBFB2 /* MiniEventTierPrizeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MiniEventTierPrizeView.m; sourceTree = "<group>"; };
+		9BD473911AC3684500EBBFB2 /* MiniEventTierPrizeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MiniEventTierPrizeView.xib; sourceTree = "<group>"; };
+		9BD473991AC373BC00EBBFB2 /* MiniEventTierPrizeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiniEventTierPrizeCell.h; sourceTree = "<group>"; };
+		9BD4739A1AC373BC00EBBFB2 /* MiniEventTierPrizeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MiniEventTierPrizeCell.m; sourceTree = "<group>"; };
+		9BD4739B1AC373BC00EBBFB2 /* MiniEventTierPrizeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MiniEventTierPrizeCell.xib; sourceTree = "<group>"; };
 		9BDA8B3D1A3945F600C7AC27 /* evasionminilogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "evasionminilogo@2x.png"; sourceTree = "<group>"; };
 		9BDA8B461A3A481300C7AC27 /* SkillShuffle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillShuffle.h; sourceTree = "<group>"; };
 		9BDA8B471A3A481300C7AC27 /* SkillShuffle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillShuffle.m; sourceTree = "<group>"; };
@@ -14157,6 +14179,12 @@
 				9BC189271AC1EF7E001B8E88 /* MiniEventPointsView.h */,
 				9BC189281AC1EF7E001B8E88 /* MiniEventPointsView.m */,
 				9BC1891E1AC1E792001B8E88 /* MiniEventPointsView.xib */,
+				9BD4738B1AC3681800EBBFB2 /* MiniEventTierPrizeView.h */,
+				9BD4738C1AC3681800EBBFB2 /* MiniEventTierPrizeView.m */,
+				9BD473911AC3684500EBBFB2 /* MiniEventTierPrizeView.xib */,
+				9BD473991AC373BC00EBBFB2 /* MiniEventTierPrizeCell.h */,
+				9BD4739A1AC373BC00EBBFB2 /* MiniEventTierPrizeCell.m */,
+				9BD4739B1AC373BC00EBBFB2 /* MiniEventTierPrizeCell.xib */,
 				9B45F22C1AC22D550000E0F5 /* MiniEventManager.h */,
 				9B45F22D1AC22D550000E0F5 /* MiniEventManager.m */,
 			);
@@ -14182,6 +14210,7 @@
 				9B7AAB0C1AC0CDE300CA387F /* eventtabshadow@2x.png */,
 				9B7AAB0D1AC0CDE300CA387F /* eventtimerbg@2x.png */,
 				9B7AAB0E1AC0CDE300CA387F /* eventtimergradientbg@2x.png */,
+				9B2EFCB41AC38A24005B7B83 /* gemicon@2x.png */,
 				9B7AAB0F1AC0CDE300CA387F /* maptaskdonebg@2x.png */,
 				9B7AAB101AC0CDE300CA387F /* maptaskdonecheck@2x.png */,
 				9B7AAB111AC0CDE300CA387F /* mypointsbg@2x.png */,
@@ -19554,6 +19583,7 @@
 				CF0CF29C196F452900ECD301 /* evolveplus@2x.png in Resources */,
 				CF0CF29D196F452900ECD301 /* gachaultrapiece@2x.png in Resources */,
 				CF0CF29E196F452900ECD301 /* sharecheckbox@2x.png in Resources */,
+				9BD473931AC3684500EBBFB2 /* MiniEventTierPrizeView.xib in Resources */,
 				CF0CF29F196F452900ECD301 /* menubuildingsiconinactive@2x.png in Resources */,
 				9BB948D31A69FC2F006EE920 /* grlb5@2x.png in Resources */,
 				CF0CF2A0196F452900ECD301 /* waterbigavatar@2x.png in Resources */,
@@ -19733,6 +19763,7 @@
 				63BACB2B1A71EF64000A641A /* earthcakekid@2x.png in Resources */,
 				CF0CF369196F452900ECD301 /* ClanRaidViewController.xib in Resources */,
 				CFA728CA1A0B037900FF6031 /* watereventbigbgcap@2x.png in Resources */,
+				9B2EFCB61AC38A24005B7B83 /* gemicon@2x.png in Resources */,
 				CF0CF36D196F452900ECD301 /* slotsgemsbutton@2x.png in Resources */,
 				CF0CF36E196F452900ECD301 /* friendfacecircle@2x.png in Resources */,
 				634174871A843521006DA494 /* redchatcorner@2x.png in Resources */,
@@ -20618,6 +20649,7 @@
 				CFA7288E1A0B037900FF6031 /* behindcharacterglow@2x.png in Resources */,
 				CF0CF74C196F452900ECD301 /* clannewsactive@2x.png in Resources */,
 				9BFC0C2F1AA51732009DFE50 /* SkillPopupMiniOverlay.xib in Resources */,
+				9BD473A01AC373BC00EBBFB2 /* MiniEventTierPrizeCell.xib in Resources */,
 				CF0CF74E196F452900ECD301 /* battleultratag@2x.png in Resources */,
 				CF0CF74F196F452900ECD301 /* fbcheck@2x.png in Resources */,
 				4C16FEED19CE03A200F9FC1E /* nightpoison@2x.png in Resources */,
@@ -21367,6 +21399,7 @@
 				CFC4D29118D7BD04004681FD /* sfx_make_it_rain.mp3 in Resources */,
 				CFF0B4B418AEC5BE00C13A27 /* diagradient@2x.png in Resources */,
 				CF29EA581964F64E00B40DA4 /* SettingsViewController.xib in Resources */,
+				9BD4739F1AC373BC00EBBFB2 /* MiniEventTierPrizeCell.xib in Resources */,
 				CFA7282F1A0AE62A00FF6031 /* buildingfinishnowbutton@2x.png in Resources */,
 				29C3CA571A92EFB5005407E9 /* greenarrow@2x.png in Resources */,
 				29AE759F1A6F36E000264070 /* TribalGirl1T1P5TutBig@2x.png in Resources */,
@@ -21956,6 +21989,7 @@
 				299AA3451A7856AA00A2D806 /* 6nightgrenade-9@2x.png in Resources */,
 				CF74618E196B9A5F002D6AE6 /* buildingupgrade@2x.png in Resources */,
 				CFDA78F2198C303C0014A8CD /* openfire@2x.png in Resources */,
+				9B2EFCB51AC38A24005B7B83 /* gemicon@2x.png in Resources */,
 				CF32EADA195FF81900A4AEE3 /* inactivedividerline@2x.png in Resources */,
 				CF65ECC519A2B1CC00ABBC77 /* chatedge@2x.png in Resources */,
 				9BB5AFA81AA7FEC7002076E3 /* boardeditorcorner@2x.png in Resources */,
@@ -22259,6 +22293,7 @@
 				CFF5DC7D19514FA50019EB2B /* hired@2x.png in Resources */,
 				CFCD0EB71953F07400EDC233 /* commonband@2x.png in Resources */,
 				CFEE89E918EC388000047CA4 /* goldbig@2x.png in Resources */,
+				9BD473921AC3684500EBBFB2 /* MiniEventTierPrizeView.xib in Resources */,
 				9B7AAB661AC0CDE300CA387F /* tier2counter@2x.png in Resources */,
 				29FC5EFF1A89A8C200A50FA7 /* earthlightsflashlow1@2x.png in Resources */,
 				CF2A4B351905F83A00B2D7D7 /* popuppressedtab@2x.png in Resources */,
@@ -23724,6 +23759,7 @@
 				29DCD03C1A8D8514003176FD /* fallinggems17@2x.png in Resources */,
 				298133AD1AB80BE400CA5658 /* lightdailylab@2x.png in Resources */,
 				CF481EBD19F7217F00041486 /* sfx_tap_on_building.mp3 in Resources */,
+				9BD473941AC3684500EBBFB2 /* MiniEventTierPrizeView.xib in Resources */,
 				29AE74101A69BD8600264070 /* lockedorb@2x.png in Resources */,
 				CF481EBE19F7217F00041486 /* instantcap@2x.png in Resources */,
 				CF481EC219F7217F00041486 /* toplongbar@2x.png in Resources */,
@@ -23952,6 +23988,7 @@
 				299AA3801A7856AA00A2D806 /* cloud1-9@2x.png in Resources */,
 				29DCD04B1A8D8514003176FD /* fallinggems22@2x.png in Resources */,
 				9BDA8C161A5C9A8E00C7AC27 /* gachatabshadow@2x.png in Resources */,
+				9B2EFCB71AC38A24005B7B83 /* gemicon@2x.png in Resources */,
 				CF48200019F7217F00041486 /* bluenotificationbubble@2x.png in Resources */,
 				299AA39B1A7856AA00A2D806 /* fireheadshot-9@2x.png in Resources */,
 				CF48200119F7217F00041486 /* nameinput@2x.png in Resources */,
@@ -24661,6 +24698,7 @@
 				29AD765E1A39316100430F0E /* 12slot@2x.png in Resources */,
 				CF48239719F7217F00041486 /* sparkle1@2x.plist in Resources */,
 				299AA3111A7856AA00A2D806 /* 6earthorb-9@2x.png in Resources */,
+				9BD473A11AC373BC00EBBFB2 /* MiniEventTierPrizeCell.xib in Resources */,
 				CF48239B19F7217F00041486 /* bluechattail@2x.png in Resources */,
 				CF48239C19F7217F00041486 /* notendcapred@2x.png in Resources */,
 				CF48239D19F7217F00041486 /* chatinactivemiddle@2x.png in Resources */,
@@ -25246,6 +25284,7 @@
 				CF0CED24196F452900ECD301 /* PopupNavViewController.m in Sources */,
 				CF0CED25196F452900ECD301 /* IncomingEventController.m in Sources */,
 				CF4825B319F7549300041486 /* Prerequisite.pb.m in Sources */,
+				9BD4738E1AC3681800EBBFB2 /* MiniEventTierPrizeView.m in Sources */,
 				CF0CED27196F452900ECD301 /* Structure.pb.m in Sources */,
 				CF0CED28196F452900ECD301 /* OutgoingEventController.m in Sources */,
 				CF0CED29196F452900ECD301 /* SocketCommunication.m in Sources */,
@@ -25446,6 +25485,7 @@
 				CF0CEDB4196F452900ECD301 /* AMQPConnectionThread.m in Sources */,
 				29A2FCF21A647EEB00FF93B6 /* OrbFallAction.m in Sources */,
 				CF0CEDB5196F452900ECD301 /* EventStructure.pb.m in Sources */,
+				9BD4739D1AC373BC00EBBFB2 /* MiniEventTierPrizeCell.m in Sources */,
 				DA0FC58319B65B0200393BF4 /* SkillControllerPassive.m in Sources */,
 				CF0CEDB6196F452900ECD301 /* EventDungeon.pb.m in Sources */,
 				CF0CEDB7196F452900ECD301 /* AchievementStuff.pb.m in Sources */,
@@ -25726,6 +25766,7 @@
 				CF29E9171961006500B40DA4 /* FundsViewController.m in Sources */,
 				CF689C1B15C3B89400F2E50E /* SBJSON.m in Sources */,
 				CF8BA22018CDA9DD003277D1 /* TutorialTouchView.m in Sources */,
+				9BD4739C1AC373BC00EBBFB2 /* MiniEventTierPrizeCell.m in Sources */,
 				CF29E91D19612CA000B40DA4 /* FundsViews.m in Sources */,
 				9BDA8BDF1A43837D00C7AC27 /* NewGachaFocusScrollView.m in Sources */,
 				CF00865C19CBAC02002F6149 /* NSString+Sizing.m in Sources */,
@@ -25920,6 +25961,7 @@
 				CFEE898718EA39BB00047CA4 /* TopBarQuestProgressView.m in Sources */,
 				9BB9494A1A6EEC8C006EE920 /* NSData+Base64.m in Sources */,
 				CF688FF81912E5B200FF1F71 /* MiniJobsListViewController.m in Sources */,
+				9BD4738D1AC3681800EBBFB2 /* MiniEventTierPrizeView.m in Sources */,
 				CF5BD68819C92C6F006C4B4C /* PvpRankUpNode.m in Sources */,
 				CFF740801818EE25009DE4A4 /* QuestUtil.m in Sources */,
 				CF6F1A1C181521BE00CFF2B9 /* QuestListViewController.m in Sources */,
@@ -25999,6 +26041,7 @@
 				CF4818C919F7217F00041486 /* OrbSprite.m in Sources */,
 				CF4818CA19F7217F00041486 /* PopupNavViewController.m in Sources */,
 				CF4818CB19F7217F00041486 /* IncomingEventController.m in Sources */,
+				9BD4738F1AC3681800EBBFB2 /* MiniEventTierPrizeView.m in Sources */,
 				CF4825B419F7549300041486 /* Prerequisite.pb.m in Sources */,
 				CF4818CC19F7217F00041486 /* Structure.pb.m in Sources */,
 				CF4818CD19F7217F00041486 /* OutgoingEventController.m in Sources */,
@@ -26199,6 +26242,7 @@
 				CF48196219F7217F00041486 /* EnhanceQueueViewController.m in Sources */,
 				CF48196319F7217F00041486 /* AMQPConnectionThread.m in Sources */,
 				29A2FCF31A647EEB00FF93B6 /* OrbFallAction.m in Sources */,
+				9BD4739E1AC373BC00EBBFB2 /* MiniEventTierPrizeCell.m in Sources */,
 				CF48196419F7217F00041486 /* EventStructure.pb.m in Sources */,
 				CF48196519F7217F00041486 /* SkillControllerPassive.m in Sources */,
 				CF48196619F7217F00041486 /* EventDungeon.pb.m in Sources */,

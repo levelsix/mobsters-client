@@ -7,6 +7,7 @@
 //
 
 #import "MiniEventDetailsView.h"
+#import "MiniEventTierPrizeView.h"
 #import "NibUtils.h"
 
 @implementation MiniEventDetailsView
@@ -43,29 +44,29 @@
   self.eventInfoName.gradientEndColor   = [UIColor colorWithHexString:@"DCF8FF"];
   self.eventInfoName.shadowColor  = [UIColor colorWithWhite:.25 alpha:1.f];
   self.eventInfoName.shadowOffset = CGSizeMake(0, 1);
-  self.eventInfoName.shadowBlur = 1.2f;
+  self.eventInfoName.shadowBlur   = 1.2f;
   
   self.eventInfoDesc.shadowColor  = [UIColor colorWithWhite:.6 alpha:1.f];
   self.eventInfoDesc.shadowOffset = CGSizeMake(0, .5);
-  self.eventInfoDesc.shadowBlur = 1.2f;
+  self.eventInfoDesc.shadowBlur   = 1.2f;
   
   self.eventInfoEndsIn.shadowColor  = [UIColor colorWithWhite:.6 alpha:1.f];
   self.eventInfoEndsIn.shadowOffset = CGSizeMake(0, .5);
-  self.eventInfoEndsIn.shadowBlur = 1.2f;
+  self.eventInfoEndsIn.shadowBlur   = 1.2f;
   
   self.eventInfoTimeLeft.shadowColor  = [UIColor colorWithWhite:.25 alpha:1.f];
   self.eventInfoTimeLeft.shadowOffset = CGSizeMake(0, .5);
-  self.eventInfoTimeLeft.shadowBlur = 1.2f;
+  self.eventInfoTimeLeft.shadowBlur   = 1.2f;
   
   self.eventInfoMyPoints.shadowColor  = [UIColor colorWithWhite:.6 alpha:1.f];
   self.eventInfoMyPoints.shadowOffset = CGSizeMake(0, .5);
-  self.eventInfoMyPoints.shadowBlur = 1.2f;
+  self.eventInfoMyPoints.shadowBlur   = 1.2f;
   
   self.eventInfoPointsEearned.gradientStartColor = [UIColor colorWithHexString:@"CAF45A"];
   self.eventInfoPointsEearned.gradientEndColor   = [UIColor colorWithHexString:@"AEEE3A"];
   self.eventInfoPointsEearned.shadowColor  = [UIColor colorWithWhite:.25 alpha:1.f];
   self.eventInfoPointsEearned.shadowOffset = CGSizeMake(0, 1);
-  self.eventInfoPointsEearned.shadowBlur = 1.2f;
+  self.eventInfoPointsEearned.shadowBlur   = 1.2f;
   
   [self.tier1IndicatorLabel sizeToFit];
   [self.tier2IndicatorLabel sizeToFit];
@@ -81,6 +82,10 @@
     tierCheckmark.frame = CGRectMake(self.tier1IndicatorLabel.originX - 12, self.tier1IndicatorLabel.centerY - 3, 10, 8);
     [self insertSubview:tierCheckmark belowSubview:self.tier1IndicatorLabel];
   }
+  
+  [self.tier1PrizeView updateForTier:1 checked:YES];
+  [self.tier2PrizeView updateForTier:2 checked:NO];
+  [self.tier3PrizeView updateForTier:3 checked:NO];
 }
 
 - (void) updateForMiniEvent
