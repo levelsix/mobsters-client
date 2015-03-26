@@ -37,6 +37,17 @@
 
 #pragma mark - Overrides
 
+- (BOOL)cureStatusWithAntidote:(BattleItemType)antidoteType execute:(BOOL)execute
+{
+  if ([self isActive] && antidoteType == BattleItemTypePoisonAntidote)
+  {
+    if (execute)
+      [self endDurationNow];
+    return YES;
+  }
+  return NO;
+}
+
 - (NSSet*) sideEffects
 {
   return [NSSet setWithObjects:@(SideEffectTypeNerfPoison), nil];

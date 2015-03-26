@@ -85,6 +85,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS_HEADER(SkillManager);
 - (void) flushPersistentSkills;
 - (__weak NewBattleLayer*) battleLayer;
 - (void) playDamageLogos;
+- (BOOL) useAntidote:(BattleItemType)antidoteType execute:(BOOL)execute;
 
 
 @end

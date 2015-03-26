@@ -2935,7 +2935,8 @@
       
     case BattleItemTypeChillAntidote:
     case BattleItemTypePoisonAntidote:
-#warning for rob: perform action (remove chill/poison)
+      [self useSkillAntidote:bip];
+      
       break;
   }
   
@@ -3019,7 +3020,7 @@
       
     case BattleItemTypeChillAntidote:
     case BattleItemTypePoisonAntidote:
-#warning for rob: check whether this item is valid or not, i.e. toon is poisoned/chilled
+      return [skillManager useAntidote:bip.battleItemType execute:NO];
       return NO;
   }
 }
@@ -3051,6 +3052,12 @@
 
 - (void) usePutty:(BattleItemProto *)bip {
   [self.orbLayer allowPuttyForSingleTurn];
+}
+
+- (void) useSkillAntidote:(BattleItemProto *)bip {
+  [self moveBegan];
+  [skillManager useAntidote:bip.battleItemType execute:YES];
+  [self moveComplete];
 }
 
 #pragma mark - Open Shop
