@@ -29,7 +29,6 @@ message SendGroupChatRequestProto {
 	optional GroupChatScope scope = 2 [default = CLAN];
 	optional string chatMessage = 3;
 	optional int64 clientTime = 4;
-	optional TranslateLanguages globalLanguage = 5; 
 }
 
 message SendGroupChatResponseProto {
@@ -65,7 +64,6 @@ message PrivateChatPostResponseProto {
 	 optional MinimumUserProto sender = 1;
      optional PrivateChatPostStatus status = 2;
 	 optional PrivateChatPostProto post = 3;
-	 optional PrivateChatDefaultLanguageProto translationSetting = 4;
 	
      enum PrivateChatPostStatus {
      	SUCCESS = 1;
@@ -86,7 +84,6 @@ message RetrievePrivateChatPostsRequestProto {
 	//if this is not set then return most recent ones
 	//switch to UUIDs makes this obsolete; consider date
 	optional int32 beforePrivateChatId = 3 [deprecated = true];
-	optional TranslateLanguages language = 4;
 	
 }
 
@@ -109,18 +106,17 @@ message RetrievePrivateChatPostsResponseProto {
 
 message TranslateSelectMessagesRequestProto {
 	optional MinimumUserProto sender = 1; //person receiving msgs
-	optional ChatType chatType = 2;
-	optional string otherUserUuid = 3;
-	optional TranslateLanguages language = 4;
-	repeated PrivateChatPostProto messagesToBeTranslated = 5;
-	optional bool translateOn = 6;
+	optional string otherUserUuid = 2;
+	optional TranslateLanguages language = 3;
+	repeated PrivateChatPostProto messagesToBeTranslated = 4;
 
 }
 
 message TranslateSelectMessagesResponseProto {
 	optional MinimumUserProto sender = 1;
-	repeated PrivateChatPostProto messagesTranslated = 2;
-	optional TranslateSelectMessagesStatus status = 3;
+	repeated string originalMessages = 2;
+	repeated TranslatedTextProto messagesTranslated = 3;
+	optional TranslateSelectMessagesStatus status = 4;
 
 	enum TranslateSelectMessagesStatus {
 		FAIL_OTHER = 1;

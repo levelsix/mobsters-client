@@ -33,7 +33,6 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [EventDungeonRoot registerAllExtensions:registry];
     [EventInAppPurchaseRoot registerAllExtensions:registry];
     [EventItemRoot registerAllExtensions:registry];
-    [EventMiniEventRoot registerAllExtensions:registry];
     [EventMiniJobRoot registerAllExtensions:registry];
     [EventMonsterRoot registerAllExtensions:registry];
     [EventPvpRoot registerAllExtensions:registry];
@@ -47,13 +46,11 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [EventUserRoot registerAllExtensions:registry];
     [InAppPurchaseRoot registerAllExtensions:registry];
     [ItemRoot registerAllExtensions:registry];
-    [MiniEventRoot registerAllExtensions:registry];
     [MiniJobConfigRoot registerAllExtensions:registry];
     [MonsterStuffRoot registerAllExtensions:registry];
     [PrerequisiteRoot registerAllExtensions:registry];
     [QuestRoot registerAllExtensions:registry];
     [ResearchRoot registerAllExtensions:registry];
-    [RewardRoot registerAllExtensions:registry];
     [SharedEnumConfigRoot registerAllExtensions:registry];
     [SkillRoot registerAllExtensions:registry];
     [StaticDataRoot registerAllExtensions:registry];
@@ -175,9 +172,6 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCCreateBattleItemEvent:
     case EventProtocolRequestCDiscardBattleItemEvent:
     case EventProtocolRequestCCompleteBattleItemEvent:
-    case EventProtocolRequestCRedeemMiniEventRewardEvent:
-    case EventProtocolRequestCRetrieveMiniEventEvent:
-    case EventProtocolRequestCUpdateMiniEventEvent:
     case EventProtocolRequestCTranslateSelectMessagesEvent:
       return YES;
     default:
@@ -300,9 +294,6 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSCreateBattleItemEvent:
     case EventProtocolResponseSDiscardBattleItemEvent:
     case EventProtocolResponseSCompleteBattleItemEvent:
-    case EventProtocolResponseSRedeemMiniEventRewardEvent:
-    case EventProtocolResponseSRetrieveMiniEventEvent:
-    case EventProtocolResponseSUpdateMiniEventEvent:
     case EventProtocolResponseSTranslateSelectMessagesEvent:
       return YES;
     default:
