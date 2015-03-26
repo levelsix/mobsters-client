@@ -1405,6 +1405,9 @@
 		633CCB541AA675B500C6649F /* scrollbars@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 633CCB2E1AA675B500C6649F /* scrollbars@2x.png */; };
 		633CCB551AA675B500C6649F /* scrollbars@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 633CCB2E1AA675B500C6649F /* scrollbars@2x.png */; };
 		633CCB561AA675B500C6649F /* scrollbars@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 633CCB2E1AA675B500C6649F /* scrollbars@2x.png */; };
+		632C3E971AC3867E0096FCFF /* StructureController.m in Sources */ = {isa = PBXBuildFile; fileRef = 632C3E961AC3867E0096FCFF /* StructureController.m */; };
+		632C3E981AC3867E0096FCFF /* StructureController.m in Sources */ = {isa = PBXBuildFile; fileRef = 632C3E961AC3867E0096FCFF /* StructureController.m */; };
+		632C3E991AC3867E0096FCFF /* StructureController.m in Sources */ = {isa = PBXBuildFile; fileRef = 632C3E961AC3867E0096FCFF /* StructureController.m */; };
 		634174681A843521006DA494 /* avengebutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 634174581A843521006DA494 /* avengebutton@2x.png */; };
 		634174691A843521006DA494 /* avengebutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 634174581A843521006DA494 /* avengebutton@2x.png */; };
 		6341746A1A843521006DA494 /* avengebutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 634174581A843521006DA494 /* avengebutton@2x.png */; };
@@ -7969,6 +7972,9 @@
 		633CCB2A1AA675B500C6649F /* researchlinebox@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "researchlinebox@2x.png"; sourceTree = "<group>"; };
 		633CCB2B1AA675B500C6649F /* researchmissingrequirements@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "researchmissingrequirements@2x.png"; sourceTree = "<group>"; };
 		633CCB2E1AA675B500C6649F /* scrollbars@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "scrollbars@2x.png"; sourceTree = "<group>"; };
+		632C3E951AC3867E0096FCFF /* StructureController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StructureController.h; sourceTree = "<group>"; };
+		632C3E961AC3867E0096FCFF /* StructureController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StructureController.m; sourceTree = "<group>"; };
+		632C3E9C1AC38F9A0096FCFF /* GameTypeProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameTypeProtocol.h; sourceTree = "<group>"; };
 		634174581A843521006DA494 /* avengebutton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "avengebutton@2x.png"; sourceTree = "<group>"; };
 		634174591A843521006DA494 /* greenchatcorner@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greenchatcorner@2x.png"; sourceTree = "<group>"; };
 		6341745A1A843521006DA494 /* greenchatdivider@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greenchatdivider@2x.png"; sourceTree = "<group>"; };
@@ -13431,6 +13437,23 @@
 				633CCB2E1AA675B500C6649F /* scrollbars@2x.png */,
 			);
 			path = Research;
+		632C3E8E1AC383A50096FCFF /* Structure */ = {
+			isa = PBXGroup;
+			children = (
+				CF7063F8183EF991005B30A1 /* StaticStructure.h */,
+				CF7063F9183EF991005B30A1 /* StaticStructure.m */,
+				632C3E951AC3867E0096FCFF /* StructureController.h */,
+				632C3E961AC3867E0096FCFF /* StructureController.m */,
+			);
+			name = Structure;
+			sourceTree = "<group>";
+		};
+		632C3E9A1AC38EB50096FCFF /* GameType */ = {
+			isa = PBXGroup;
+			children = (
+				632C3E9C1AC38F9A0096FCFF /* GameTypeProtocol.h */,
+			);
+			name = GameType;
 			sourceTree = "<group>";
 		};
 		634174571A843521006DA494 /* New Private Messages */ = {
@@ -14385,6 +14408,8 @@
 				29927E611AAE1B3A00418683 /* Battle Items */,
 				298708311AC3414F002BFF2E /* Research */,
 				2987083E1AC3418E002BFF2E /* IAP */,
+				632C3E9A1AC38EB50096FCFF /* GameType */,
+				632C3E8E1AC383A50096FCFF /* Structure */,
 				298051271A2EC74100806253 /* Healing */,
 				CFA9F7C91A0D9CEB00EBE77D /* Items */,
 				CF812F0A19E7479700D91157 /* Clan Help */,
@@ -14398,6 +14423,10 @@
 				CF1265481538ACC400E0C1AD /* UserData.m */,
 				CF7063F8183EF991005B30A1 /* StaticStructure.h */,
 				CF7063F9183EF991005B30A1 /* StaticStructure.m */,
+				CFF7407E1818EE25009DE4A4 /* QuestUtil.h */,
+				CFF7407F1818EE25009DE4A4 /* QuestUtil.m */,
+				CF6574F1190F2AE500ABF1F4 /* AchievementUtil.h */,
+				CF6574F2190F2AE500ABF1F4 /* AchievementUtil.m */,
 				CFC04D53188FAF8200F2DB59 /* PersistentEventProto+Time.h */,
 				CFC04D54188FAF8200F2DB59 /* PersistentEventProto+Time.m */,
 				CFFF9A5C18BEB9B80036EEC3 /* ClanRaidProto+EasyAccess.h */,
@@ -24822,6 +24851,7 @@
 				CF0CED4B196F452900ECD301 /* OpenUDID.m in Sources */,
 				CFA9F7D21A0DA90600EBE77D /* ItemObject.m in Sources */,
 				CF0CED4C196F452900ECD301 /* BattleSpeechBubble.m in Sources */,
+				632C3E981AC3867E0096FCFF /* StructureController.m in Sources */,
 				CF0CED4D196F452900ECD301 /* ChatCell.m in Sources */,
 				CF0CED4E196F452900ECD301 /* EnhanceChooserViewController.m in Sources */,
 				CF0CED4F196F452900ECD301 /* Chat.pb.m in Sources */,
@@ -25089,6 +25119,7 @@
 				CF864DD0193E802300DE0D7A /* MessageComposerView.m in Sources */,
 				CF7063FA183EF991005B30A1 /* StaticStructure.m in Sources */,
 				DA07606019B129EC00E43E5A /* SkillManager.m in Sources */,
+				632C3E971AC3867E0096FCFF /* StructureController.m in Sources */,
 				CFF5DC05194FCA160019EB2B /* ProfileViews.m in Sources */,
 				CF6574BE1909CAF200ABF1F4 /* MonsterStuff.pb.m in Sources */,
 				9B0E6E5D1A77087000118210 /* SkillBlindingLight.m in Sources */,
@@ -25559,6 +25590,7 @@
 				633CCB091AA5208100C6649F /* ResearchDetailViewController.m in Sources */,
 				CFE11F8E1A141C040094F797 /* amqp_table.c in Sources */,
 				CF4818F119F7217F00041486 /* OpenUDID.m in Sources */,
+				632C3E991AC3867E0096FCFF /* StructureController.m in Sources */,
 				CFA9F7D31A0DA90600EBE77D /* ItemObject.m in Sources */,
 				CF4818F219F7217F00041486 /* BattleSpeechBubble.m in Sources */,
 				CF4818F319F7217F00041486 /* ChatCell.m in Sources */,

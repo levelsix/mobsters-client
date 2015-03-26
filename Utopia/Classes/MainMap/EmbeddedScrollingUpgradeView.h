@@ -9,8 +9,12 @@
 #import "NibUtils.h"
 #import "UpgradeViewController.h"
 
+@interface ResearchPrereqView : UpgradePrereqView
+
+@end
+
 @interface EmbeddedPrereqView : UIView
-@property (nonatomic, retain) IBOutlet UpgradePrereqView *prereqView;
+@property (nonatomic, retain) IBOutlet ResearchPrereqView *prereqView;
 @end
 
 @interface DetailsProgressBarView : UIView

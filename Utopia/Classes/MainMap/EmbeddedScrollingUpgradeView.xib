@@ -208,7 +208,7 @@
             <rect key="frame" x="0.0" y="0.0" width="235" height="21"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" id="9a7-ql-hw5" customClass="UpgradePrereqView">
+                <view contentMode="scaleToFill" id="9a7-ql-hw5" customClass="ResearchPrereqView">
                     <rect key="frame" x="0.0" y="0.0" width="235" height="21"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" red="0.52682557399999996" green="0.005127211865" blue="0.033727087160000002" alpha="0.75" colorSpace="calibratedRGB"/>

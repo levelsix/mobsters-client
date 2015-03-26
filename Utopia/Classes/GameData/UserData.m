@@ -757,12 +757,7 @@
 }
 
 - (id<StaticStructure>) maxStaticStruct {
-  GameState *gs = [GameState sharedGameState];
-  id<StaticStructure> ss = self.staticStruct;
-  while (ss.structInfo.successorStructId) {
-    ss = [gs structWithId:ss.structInfo.successorStructId];
-  }
-  return ss;
+  return self.staticStruct.structInfo.maxStaticStruct;
 }
 
 - (NSArray *) allStaticStructs {

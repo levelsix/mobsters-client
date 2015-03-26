@@ -7,8 +7,9 @@
 //
 
 #import "Protocols.pb.h"
+#import "GameTypeProtocol.h"
 
-@protocol StaticStructure <NSObject>
+@protocol StaticStructure <GameTypeProto>
 
 - (StructureInfoProto *) structInfo;
 
@@ -52,6 +53,16 @@
 
 @interface BattleItemFactoryProto (StaticStructureImpl) <StaticStructure>
 
+@end
+
+@interface StructureInfoProto (StaticStructure)
+
+- (id<StaticStructure>) maxStaticStruct;
+- (float) barPercentWithNumerator:(float)num Denominator:(float)denom useSqrt:(BOOL)useSqrt usePow:(BOOL)usePow;
+- (int) numPrereqs;
+- (BOOL) prereqCompleteForIndex:(int)index;
+- (PrereqProto *) prereqForIndex:(int)index;
+  
 @end
 
 
