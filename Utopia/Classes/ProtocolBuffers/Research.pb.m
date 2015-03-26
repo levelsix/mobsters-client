@@ -24,27 +24,24 @@ static PBExtensionRegistry* extensionRegistry = nil;
 BOOL ResearchTypeIsValidValue(ResearchType value) {
   switch (value) {
     case ResearchTypeNoResearch:
-    case ResearchTypeCost:
-    case ResearchTypeSpeed:
-    case ResearchTypeIncreaseQueueSize:
-    case ResearchTypeIncreaseNumCanBuild:
+    case ResearchTypeHealingCost:
+    case ResearchTypeHealingSpeed:
+    case ResearchTypeEnhanceCost:
     case ResearchTypeXpBonus:
-    case ResearchTypeIncreaseConstructionTime:
-    case ResearchTypeIncreaseCashProduction:
-    case ResearchTypeIncreaseOilProduction:
-    case ResearchTypeIncreaseGemProduction:
-    case ResearchTypeIncreaseAttack:
-    case ResearchTypeIncreaseHp:
-    case ResearchTypeMinorPotion:
-    case ResearchTypeUnlockChillAntidote:
-    case ResearchTypeUnlockPoisonAntidote:
-    case ResearchTypeUnlockLollipopHammer:
-    case ResearchTypeUnlockPutty:
-    case ResearchTypeUnlockShuffle:
-    case ResearchTypeUnlockClouds:
-    case ResearchTypeUnlockLocks:
-    case ResearchTypeUnlockHoles:
-    case ResearchTypeUnlockVines:
+    case ResearchTypeDecreaseEnhanceTime:
+    case ResearchTypeAttackIncrease:
+    case ResearchTypeHpIncrease:
+    case ResearchTypeSpeedIncrease:
+    case ResearchTypeIncreaseHospitalQueue:
+    case ResearchTypeIncreaseEnhanceQueue:
+    case ResearchTypeNumberOfHospitals:
+    case ResearchTypeIncreaseConstructionSpeed:
+    case ResearchTypeItemProductionSpeed:
+    case ResearchTypeItemProductionCost:
+    case ResearchTypeResourceProduction:
+    case ResearchTypeResourceStorage:
+    case ResearchTypeUnlockItem:
+    case ResearchTypeUnlockObstacle:
       return YES;
     default:
       return NO;
@@ -80,6 +77,7 @@ BOOL ResearchDomainIsValidValue(ResearchDomain value) {
 @property int32_t level;
 @property Float32 priority;
 @property int32_t tier;
+@property int32_t strength;
 @end
 
 @implementation ResearchProto
@@ -184,6 +182,13 @@ BOOL ResearchDomainIsValidValue(ResearchDomain value) {
   hasTier_ = !!value_;
 }
 @synthesize tier;
+- (BOOL) hasStrength {
+  return !!hasStrength_;
+}
+- (void) setHasStrength:(BOOL) value_ {
+  hasStrength_ = !!value_;
+}
+@synthesize strength;
 - (id) init {
   if ((self = [super init])) {
     self.researchId = 0;
@@ -200,6 +205,7 @@ BOOL ResearchDomainIsValidValue(ResearchDomain value) {
     self.level = 0;
     self.priority = 0;
     self.tier = 0;
+    self.strength = 0;
   }
   return self;
 }
@@ -270,6 +276,9 @@ static ResearchProto* defaultResearchProtoInstance = nil;
   if (self.hasTier) {
     [output writeInt32:15 value:self.tier];
   }
+  if (self.hasStrength) {
+    [output writeInt32:16 value:self.strength];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -323,6 +332,9 @@ static ResearchProto* defaultResearchProtoInstance = nil;
   }
   if (self.hasTier) {
     size_ += computeInt32Size(15, self.tier);
+  }
+  if (self.hasStrength) {
+    size_ += computeInt32Size(16, self.strength);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -407,6 +419,9 @@ static ResearchProto* defaultResearchProtoInstance = nil;
   if (self.hasTier) {
     [output appendFormat:@"%@%@: %@\n", indent, @"tier", [NSNumber numberWithInteger:self.tier]];
   }
+  if (self.hasStrength) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"strength", [NSNumber numberWithInteger:self.strength]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -447,6 +462,8 @@ static ResearchProto* defaultResearchProtoInstance = nil;
       (!self.hasPriority || self.priority == otherMessage.priority) &&
       self.hasTier == otherMessage.hasTier &&
       (!self.hasTier || self.tier == otherMessage.tier) &&
+      self.hasStrength == otherMessage.hasStrength &&
+      (!self.hasStrength || self.strength == otherMessage.strength) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -495,6 +512,9 @@ static ResearchProto* defaultResearchProtoInstance = nil;
   }
   if (self.hasTier) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.tier] hash];
+  }
+  if (self.hasStrength) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.strength] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -587,6 +607,9 @@ static ResearchProto* defaultResearchProtoInstance = nil;
   }
   if (other.hasTier) {
     [self setTier:other.tier];
+  }
+  if (other.hasStrength) {
+    [self setStrength:other.strength];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -684,6 +707,10 @@ static ResearchProto* defaultResearchProtoInstance = nil;
       }
       case 120: {
         [self setTier:[input readInt32]];
+        break;
+      }
+      case 128: {
+        [self setStrength:[input readInt32]];
         break;
       }
     }
@@ -935,6 +962,22 @@ static ResearchProto* defaultResearchProtoInstance = nil;
 - (ResearchProto_Builder*) clearTier {
   result.hasTier = NO;
   result.tier = 0;
+  return self;
+}
+- (BOOL) hasStrength {
+  return result.hasStrength;
+}
+- (int32_t) strength {
+  return result.strength;
+}
+- (ResearchProto_Builder*) setStrength:(int32_t) value {
+  result.hasStrength = YES;
+  result.strength = value;
+  return self;
+}
+- (ResearchProto_Builder*) clearStrength {
+  result.hasStrength = NO;
+  result.strength = 0;
   return self;
 }
 @end

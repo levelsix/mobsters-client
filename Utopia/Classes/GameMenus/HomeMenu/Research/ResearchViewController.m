@@ -14,15 +14,13 @@
 #import "GameState.h"
 #import "GameViewController.h"
 
-#define TOTAL_DOMAINS 4
-
 @implementation ResearchViewController
 
 - (void) viewDidLoad {
   [super viewDidLoad];
   
   self.titleImageName = @"researchcentermenuheader.png";
-  self.title = @"RESEARCH LAB";
+  self.title = @"RESEARCH";
 }
 
 - (IBAction)helpButtonClicked:(id)sender {
@@ -36,41 +34,50 @@
 
 #pragma mark - BarUpkeep
 
--(void)viewWillAppear:(BOOL)animated {
+- (void) viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
+  
   GameState *gs = [GameState sharedGameState];
   UserResearch *curResearch = [gs.researchUtil currentResearch];
   _curResearch = curResearch;
-  if(curResearch && !_curResearchUp) {
-  [Globals imageNamed:curResearch.research.iconImgName withView:self.researchIcon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+  
+  if (curResearch && !_curResearchUp) {
+    [Globals imageNamed:curResearch.research.iconImgName withView:self.researchIcon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+    
     CGPoint position = self.selectFieldView.center;
     [self.selectFieldView removeFromSuperview];
     [self.view addSubview:self.curReseaerchBar];
     self.curReseaerchBar.center = position;
+    
     _curResearchUp = YES;
+    
     [self updateLabels];
+    
   } else if (!curResearch && _curResearchUp) {
     CGPoint position = self.curReseaerchBar.center;
+    
     [self.curReseaerchBar removeFromSuperview];
     [self.view addSubview:self.selectFieldView];
     self.selectFieldView.center = position;
+    
     _curResearchUp = NO;
+    
     [self updateLabels];
   }
 }
 
--(void)updateLabels {
-  if(_waitingForServer) {
-    int timeLeft = _curResearch.endTime.timeIntervalSinceNow;
+- (void) updateLabels {
+  int timeLeft = _curResearch.tentativeCompletionDate.timeIntervalSinceNow;
+  if (_waitingForServer) {
     self.curTimeRemaining.text = [[Globals convertTimeToShortString:timeLeft] uppercaseString];
     return;
   }
-  if(!_curResearchUp) {return;}
+  
+  if (!_curResearchUp) {return;}
   
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
-  int timeLeft = _curResearch.endTime.timeIntervalSinceNow;
   int speedupCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
   BOOL canHelp = [gs canAskForClanHelp];
   
@@ -136,13 +143,13 @@
   
   ResearchDomain domain = (ResearchDomain)indexPath.row+2; //add 2 to avoid 0 and NO_DOMAIN
   [cell updateForDomain:domain];
-  cell.line.hidden = indexPath.row == TOTAL_DOMAINS -1;
   
   return cell;
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return TOTAL_DOMAINS;//it looks like there is no way to just count how many enums there are
+  // Put the last domain here and subtract 2 to discount 0 and NoDomain
+  return ResearchDomainTrapsAndObstacles - 2;
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -158,7 +165,7 @@
     _curResearch = [[GameState sharedGameState].researchUtil currentResearch];
   }
   Globals *gl = [Globals sharedGlobals];
-  int timeLeft = _curResearch.endTime.timeIntervalSinceNow;
+  int timeLeft = _curResearch.tentativeCompletionDate.timeIntervalSinceNow;
   int speedupCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
   
   if(speedupCost > 0) {
@@ -214,7 +221,7 @@
     [self.itemSelectViewController closeClicked:nil];
   }
   
-  int timeLeft = _curResearch.endTime.timeIntervalSinceNow;
+  int timeLeft = _curResearch.tentativeCompletionDate.timeIntervalSinceNow;
   int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
   
   if (gs.gems < goldCost) {
@@ -243,17 +250,15 @@
       
       [self updateLabels];
     }
-    int timeLeft = _curResearch.endTime.timeIntervalSinceNow;
+    int timeLeft = _curResearch.tentativeCompletionDate.timeIntervalSinceNow;
     if (timeLeft > 0) {
-      [_curResearch updateEndTime];
       [viewController reloadDataAnimated:YES];
     }
   }
 }
 
 - (int) numGemsForTotalSpeedup {
-  [_curResearch updateEndTime];
-  int timeLeft = _curResearch.endTime.timeIntervalSinceNow;
+  int timeLeft = _curResearch.tentativeCompletionDate.timeIntervalSinceNow;
   return [[Globals sharedGlobals] calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
 }
 
@@ -263,8 +268,7 @@
 }
 
 - (int) timeLeftForSpeedup {
-  [_curResearch updateEndTime];
-  return _curResearch.endTime.timeIntervalSinceNow;
+  return _curResearch.tentativeCompletionDate.timeIntervalSinceNow;
 }
 
 - (int) totalSecondsRequired {
@@ -293,17 +297,21 @@
       break;
     case ResearchDomainLevelup:
       self.categoryTitle.text = @"Level Up";
+      self.categoryIcon.image =[Globals imageNamed:@"researchresources.png"];
       break;
     case ResearchDomainResources:
       self.categoryTitle.text = @"Resources";
       self.categoryIcon.image =[Globals imageNamed:@"researchresources.png"];
       break;
-      
-    case ResearchDomainNoDomain:
-      self.categoryTitle.text = @"No Domain";
+    case ResearchDomainItems:
+      self.categoryTitle.text = @"Items";
+      self.categoryIcon.image =[Globals imageNamed:@"researchresources.png"];
       break;
+    case ResearchDomainTrapsAndObstacles:
+      self.categoryTitle.text = @"Obstacles";
+      self.categoryIcon.image =[Globals imageNamed:@"researchresources.png"];
       
-      default:
+    default:
       self.categoryTitle.text = [NSString stringWithFormat:@"Had a problem loading domain type %d",domain];
       break;
   }

@@ -6,6 +6,8 @@
 #import "User.pb.h"
 // @@protoc_insertion_point(imports)
 
+@class ChatTranslationsProto;
+@class ChatTranslationsProto_Builder;
 @class ColorProto;
 @class ColorProto_Builder;
 @class DefaultLanguagesProto;

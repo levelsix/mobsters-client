@@ -67,7 +67,7 @@
     TaskMapElementProto *elem = [gs mapElementWithTaskId:self.prereqGameEntityId];
     return [NSString stringWithFormat:@"Defeat Level %d", elem.mapElementId];
   } else if (self.prereqGameType == GameTypeResearch) {
-    ResearchProto *research = [gs.staticResearch objectForKey:@(self.prereqGameEntityId)];
+    ResearchProto *research = [gs researchWithId:self.prereqGameEntityId];
     NSString *lvl = [NSString stringWithFormat:@"Rank %d", research.level];
     return [NSString stringWithFormat:@"%@ %@",research.name, lvl];
   }

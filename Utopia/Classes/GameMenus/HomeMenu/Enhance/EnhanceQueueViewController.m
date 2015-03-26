@@ -148,7 +148,10 @@
 - (int) maxQueueSize {
   GameState *gs = [GameState sharedGameState];
   LabProto *lab = (LabProto *)gs.myLaboratory.staticStruct;
-  return lab.queueSize;
+  
+  int researchFactor = [gs.researchUtil amountBenefitForType:ResearchTypeIncreaseEnhanceQueue];
+  
+  return lab.queueSize+researchFactor;
 }
 
 - (UserEnhancement *) currentEnhancement {

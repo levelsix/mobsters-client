@@ -54,7 +54,7 @@
     BattleItemProto *bip = [gs battleItemWithId:self.staticDataId];
     return [NSString stringWithFormat:@" create a %@", bip.name];
   } else if (self.helpType == GameActionTypePerformingResearch) {
-    ResearchProto *rp = [gs.staticResearch objectForKey:@(self.staticDataId)];
+    ResearchProto *rp = [gs researchWithId:self.staticDataId];
     return [NSString stringWithFormat:@" research %@",rp.name];
   }
   return @"!";

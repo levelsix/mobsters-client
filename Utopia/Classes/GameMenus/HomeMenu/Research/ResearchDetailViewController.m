@@ -41,7 +41,7 @@
   _userResearch = userResearch;
   GameState *gs = [GameState sharedGameState];
   if((self = [super init])){
-    ResearchProto *research = [gs.staticResearch objectForKey:@(userResearch.researchId)];
+    ResearchProto *research = [gs researchWithId:userResearch.researchId];
     [self.view updateWithResearch:userResearch];
     self.title = [NSString stringWithFormat:@"%@ Ranks", research.name];
   }

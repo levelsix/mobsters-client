@@ -264,21 +264,25 @@
   if((self = [super init])){
     switch (domain) {
       case ResearchDomainBattle:
-        self.titleImageName = @"researchbattle.png";
         self.title = @"Battle Research";
         break;
       case ResearchDomainResources:
-        self.titleImageName = @"researchresources.png";
         self.title = @"Resource Research";
         break;
       case ResearchDomainRestorative:
-        self.titleImageName = @"researchtoons.png";
-        self.title = @"Restorarion Research";
+        self.title = @"Restorative Research";
         break;
       case ResearchDomainLevelup:
         self.title = @"Level Up Research";
-      default:
-        self.title = @"Research";
+        break;
+      case ResearchDomainItems:
+        self.title = @"Items Research";
+        break;
+      case ResearchDomainTrapsAndObstacles:
+        self.title = @"Obstacles Research";
+        break;
+      case ResearchDomainNoDomain:
+        self.title = nil;
         break;
     }
   }

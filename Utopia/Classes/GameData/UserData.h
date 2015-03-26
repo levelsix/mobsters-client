@@ -12,6 +12,7 @@
 #import "ItemObject.h"
 #import "HospitalQueue.h"
 #import "BattleItemUtil.h"
+#import "ResearchUtil.h"
 
 @class ForgeAttempt;
 @class MSDate;
@@ -182,6 +183,7 @@
 - (NSArray *) incompletePrerequisites;
 - (BOOL) satisfiesAllPrerequisites;
 
+- (float) productionRate;
 - (int) numResourcesAvailable;
 
 - (MSDate *) buildCompleteDate;
@@ -360,20 +362,4 @@ typedef enum {
 
 - (NSDictionary *) damageDealtPerUserMonsterUuid;
 
-@end
-
-@interface UserResearch : NSObject
-
-@property (nonatomic, retain) NSString *userResearchUuid;
-@property (nonatomic, assign) int researchId;
-@property (nonatomic, assign) BOOL complete;
-@property (nonatomic, retain) MSDate *endTime;
-@property (nonatomic, retain) ResearchProto *research;
-@property (nonatomic, retain) MSDate *timeStarted;
-+ (id) userResearchWithProto:(UserResearchProto *)proto;
-+ (id) userResearchWithResearch:(ResearchProto *)proto;
-- (id) initWithResearch:(ResearchProto *)proto;
-- (void) updateForUserResearch:(UserResearch *)UserResearch;
-- (BOOL) isResearching;
-- (void) updateEndTime;
 @end

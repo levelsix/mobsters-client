@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "PopupSubViewController.h"
 #import "SpeedupItemsFiller.h"
+#import "ResearchUtil.h"
 
 @interface ResearchViewController : PopupSubViewController <SpeedupItemsFillerDelegate>{
   UserResearch *_curResearch;

@@ -389,6 +389,8 @@
 + (BOOL) shouldShowFatKidDungeon;
 
 // Formulas
+- (float) convertToOverallPercentFromPercentDecrease:(float)perc;
+
 - (int) calculateGemSpeedupCostForTimeLeft:(int)timeLeft allowFreeSpeedup:(BOOL)free;
 - (int) calculateGemConversionForResourceType:(ResourceType)type amount:(int)amount;
 - (int) calculateTotalResourcesForResourceType:(ResourceType)type itemIdsToQuantity:(NSDictionary *)itemIdsToQuantity;
@@ -396,6 +398,9 @@
 - (int) calculateTeamCostForTeam:(NSArray *)team;
 - (BOOL) currentBattleReadyTeamHasCostFor:(UserMonster *)um;
 - (int) evoChamberLevelToEvolveMonster:(int)monsterId;
+
+- (int) calculateSecondsToCreateBattleItem:(BattleItemProto *)bip;
+- (int) calculateCostToCreateBattleItem:(BattleItemProto *)bip;
 
 - (BOOL) isPrerequisiteComplete:(PrereqProto *)prereq;
 - (NSArray *) incompletePrereqsForStructId:(int)structId;

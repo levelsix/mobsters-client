@@ -281,7 +281,11 @@ static BOOL isAnimating = NO;
 
 - (int) maxQueueSize {
   HospitalProto *hp = (HospitalProto *)[self currentHospital].staticStruct;
-  return hp.queueSize;
+  
+  GameState *gs = [GameState sharedGameState];
+  int researchFactor = [gs.researchUtil amountBenefitForType:ResearchTypeIncreaseHospitalQueue];
+  
+  return hp.queueSize+researchFactor;
 }
 
 - (BOOL) userMonsterIsAvailable:(UserMonster *)um {

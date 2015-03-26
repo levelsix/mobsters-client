@@ -264,11 +264,12 @@
 }
 
 - (void) updateLabels {
+  int timeLeft = _userResearch.tentativeCompletionDate.timeIntervalSinceNow;
   if(_waitingForServer) {
-    int timeLeft = _userResearch.endTime.timeIntervalSinceNow;
     self.view.timeLeftLabel.text = [[Globals convertTimeToShortString:timeLeft] uppercaseString];
     return;
   }
+  
   if(_userResearch.complete) {
     self.view.oilButtonView.hidden = YES;
     self.view.cashButtonView.hidden = YES;
@@ -279,10 +280,9 @@
     self.view.bottomBarTitle.text = @"Research Complete!";
     return;
   }
-  [_userResearch updateEndTime];
+  
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
-  int timeLeft = _userResearch.endTime.timeIntervalSinceNow;
   int speedupCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
   
   BOOL canHelp = [gs canAskForClanHelp];
@@ -333,7 +333,7 @@
 
 - (IBAction)finishNowClicked:(id)sender {
   Globals *gl = [Globals sharedGlobals];
-  int timeLeft = _userResearch.endTime.timeIntervalSinceNow;
+  int timeLeft = _userResearch.tentativeCompletionDate.timeIntervalSinceNow;
   int speedupCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
   
   if(speedupCost > 0) {
@@ -397,7 +397,7 @@
     [self.itemSelectViewController closeClicked:nil];
   }
   
-  int timeLeft = _userResearch.endTime.timeIntervalSinceNow;
+  int timeLeft = _userResearch.tentativeCompletionDate.timeIntervalSinceNow;
   int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
   
   if (gs.gems < goldCost) {
@@ -428,18 +428,16 @@
       
       [self updateLabels];
     }
-    [_userResearch updateEndTime];
-    int timeLeft = _userResearch.endTime.timeIntervalSinceNow;
+    
+    int timeLeft = _userResearch.tentativeCompletionDate.timeIntervalSinceNow;
     if (timeLeft > 0) {
-      [_userResearch updateEndTime];
       [viewController reloadDataAnimated:YES];
     }
   }
 }
 
 - (int) numGemsForTotalSpeedup {
-  [_userResearch updateEndTime];
-  int timeLeft = _userResearch.endTime.timeIntervalSinceNow;
+  int timeLeft = _userResearch.tentativeCompletionDate.timeIntervalSinceNow;
   return [[Globals sharedGlobals] calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
 }
 
@@ -450,8 +448,7 @@
 }
 
 - (int) timeLeftForSpeedup {
-  [_userResearch updateEndTime];
-  return _userResearch.endTime.timeIntervalSinceNow;
+  return _userResearch.tentativeCompletionDate.timeIntervalSinceNow;
 }
 
 - (int) totalSecondsRequired {

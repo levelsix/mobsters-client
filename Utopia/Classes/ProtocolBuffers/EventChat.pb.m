@@ -2340,7 +2340,6 @@ BOOL PrivateChatPostResponseProto_PrivateChatPostStatusIsValidValue(PrivateChatP
 @property (strong) MinimumUserProto* sender;
 @property (strong) NSString* otherUserUuid;
 @property int32_t beforePrivateChatId;
-@property TranslateLanguages language;
 @end
 
 @implementation RetrievePrivateChatPostsRequestProto
@@ -2366,19 +2365,11 @@ BOOL PrivateChatPostResponseProto_PrivateChatPostStatusIsValidValue(PrivateChatP
   hasBeforePrivateChatId_ = !!value_;
 }
 @synthesize beforePrivateChatId;
-- (BOOL) hasLanguage {
-  return !!hasLanguage_;
-}
-- (void) setHasLanguage:(BOOL) value_ {
-  hasLanguage_ = !!value_;
-}
-@synthesize language;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.otherUserUuid = @"";
     self.beforePrivateChatId = 0;
-    self.language = TranslateLanguagesArabic;
   }
   return self;
 }
@@ -2407,9 +2398,6 @@ static RetrievePrivateChatPostsRequestProto* defaultRetrievePrivateChatPostsRequ
   if (self.hasBeforePrivateChatId) {
     [output writeInt32:3 value:self.beforePrivateChatId];
   }
-  if (self.hasLanguage) {
-    [output writeEnum:4 value:self.language];
-  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -2427,9 +2415,6 @@ static RetrievePrivateChatPostsRequestProto* defaultRetrievePrivateChatPostsRequ
   }
   if (self.hasBeforePrivateChatId) {
     size_ += computeInt32Size(3, self.beforePrivateChatId);
-  }
-  if (self.hasLanguage) {
-    size_ += computeEnumSize(4, self.language);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -2478,9 +2463,6 @@ static RetrievePrivateChatPostsRequestProto* defaultRetrievePrivateChatPostsRequ
   if (self.hasBeforePrivateChatId) {
     [output appendFormat:@"%@%@: %@\n", indent, @"beforePrivateChatId", [NSNumber numberWithInteger:self.beforePrivateChatId]];
   }
-  if (self.hasLanguage) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"language", [NSNumber numberWithInteger:self.language]];
-  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -2498,8 +2480,6 @@ static RetrievePrivateChatPostsRequestProto* defaultRetrievePrivateChatPostsRequ
       (!self.hasOtherUserUuid || [self.otherUserUuid isEqual:otherMessage.otherUserUuid]) &&
       self.hasBeforePrivateChatId == otherMessage.hasBeforePrivateChatId &&
       (!self.hasBeforePrivateChatId || self.beforePrivateChatId == otherMessage.beforePrivateChatId) &&
-      self.hasLanguage == otherMessage.hasLanguage &&
-      (!self.hasLanguage || self.language == otherMessage.language) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -2512,9 +2492,6 @@ static RetrievePrivateChatPostsRequestProto* defaultRetrievePrivateChatPostsRequ
   }
   if (self.hasBeforePrivateChatId) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.beforePrivateChatId] hash];
-  }
-  if (self.hasLanguage) {
-    hashCode = hashCode * 31 + self.language;
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -2568,9 +2545,6 @@ static RetrievePrivateChatPostsRequestProto* defaultRetrievePrivateChatPostsRequ
   if (other.hasBeforePrivateChatId) {
     [self setBeforePrivateChatId:other.beforePrivateChatId];
   }
-  if (other.hasLanguage) {
-    [self setLanguage:other.language];
-  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -2607,15 +2581,6 @@ static RetrievePrivateChatPostsRequestProto* defaultRetrievePrivateChatPostsRequ
       }
       case 24: {
         [self setBeforePrivateChatId:[input readInt32]];
-        break;
-      }
-      case 32: {
-        TranslateLanguages value = (TranslateLanguages)[input readEnum];
-        if (TranslateLanguagesIsValidValue(value)) {
-          [self setLanguage:value];
-        } else {
-          [unknownFields mergeVarintField:4 value:value];
-        }
         break;
       }
     }
@@ -2681,22 +2646,6 @@ static RetrievePrivateChatPostsRequestProto* defaultRetrievePrivateChatPostsRequ
 - (RetrievePrivateChatPostsRequestProto_Builder*) clearBeforePrivateChatId {
   result.hasBeforePrivateChatId = NO;
   result.beforePrivateChatId = 0;
-  return self;
-}
-- (BOOL) hasLanguage {
-  return result.hasLanguage;
-}
-- (TranslateLanguages) language {
-  return result.language;
-}
-- (RetrievePrivateChatPostsRequestProto_Builder*) setLanguage:(TranslateLanguages) value {
-  result.hasLanguage = YES;
-  result.language = value;
-  return self;
-}
-- (RetrievePrivateChatPostsRequestProto_Builder*) clearLanguageList {
-  result.hasLanguage = NO;
-  result.language = TranslateLanguagesArabic;
   return self;
 }
 @end
@@ -3139,7 +3088,6 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 
 @interface TranslateSelectMessagesRequestProto ()
 @property (strong) MinimumUserProto* sender;
-@property ChatType chatType;
 @property (strong) NSString* otherUserUuid;
 @property TranslateLanguages language;
 @property (strong) NSMutableArray * mutableMessagesToBeTranslatedList;
@@ -3154,13 +3102,6 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
   hasSender_ = !!value_;
 }
 @synthesize sender;
-- (BOOL) hasChatType {
-  return !!hasChatType_;
-}
-- (void) setHasChatType:(BOOL) value_ {
-  hasChatType_ = !!value_;
-}
-@synthesize chatType;
 - (BOOL) hasOtherUserUuid {
   return !!hasOtherUserUuid_;
 }
@@ -3180,7 +3121,6 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.chatType = ChatTypeGlobalChat;
     self.otherUserUuid = @"";
     self.language = TranslateLanguagesArabic;
   }
@@ -3211,17 +3151,14 @@ static TranslateSelectMessagesRequestProto* defaultTranslateSelectMessagesReques
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  if (self.hasChatType) {
-    [output writeEnum:2 value:self.chatType];
-  }
   if (self.hasOtherUserUuid) {
-    [output writeString:3 value:self.otherUserUuid];
+    [output writeString:2 value:self.otherUserUuid];
   }
   if (self.hasLanguage) {
-    [output writeEnum:4 value:self.language];
+    [output writeEnum:3 value:self.language];
   }
   [self.messagesToBeTranslatedList enumerateObjectsUsingBlock:^(PrivateChatPostProto *element, NSUInteger idx, BOOL *stop) {
-    [output writeMessage:5 value:element];
+    [output writeMessage:4 value:element];
   }];
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -3235,17 +3172,14 @@ static TranslateSelectMessagesRequestProto* defaultTranslateSelectMessagesReques
   if (self.hasSender) {
     size_ += computeMessageSize(1, self.sender);
   }
-  if (self.hasChatType) {
-    size_ += computeEnumSize(2, self.chatType);
-  }
   if (self.hasOtherUserUuid) {
-    size_ += computeStringSize(3, self.otherUserUuid);
+    size_ += computeStringSize(2, self.otherUserUuid);
   }
   if (self.hasLanguage) {
-    size_ += computeEnumSize(4, self.language);
+    size_ += computeEnumSize(3, self.language);
   }
   [self.messagesToBeTranslatedList enumerateObjectsUsingBlock:^(PrivateChatPostProto *element, NSUInteger idx, BOOL *stop) {
-    size_ += computeMessageSize(5, element);
+    size_ += computeMessageSize(4, element);
   }];
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -3288,9 +3222,6 @@ static TranslateSelectMessagesRequestProto* defaultTranslateSelectMessagesReques
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
-  if (self.hasChatType) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"chatType", [NSNumber numberWithInteger:self.chatType]];
-  }
   if (self.hasOtherUserUuid) {
     [output appendFormat:@"%@%@: %@\n", indent, @"otherUserUuid", self.otherUserUuid];
   }
@@ -3316,8 +3247,6 @@ static TranslateSelectMessagesRequestProto* defaultTranslateSelectMessagesReques
   return
       self.hasSender == otherMessage.hasSender &&
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
-      self.hasChatType == otherMessage.hasChatType &&
-      (!self.hasChatType || self.chatType == otherMessage.chatType) &&
       self.hasOtherUserUuid == otherMessage.hasOtherUserUuid &&
       (!self.hasOtherUserUuid || [self.otherUserUuid isEqual:otherMessage.otherUserUuid]) &&
       self.hasLanguage == otherMessage.hasLanguage &&
@@ -3329,9 +3258,6 @@ static TranslateSelectMessagesRequestProto* defaultTranslateSelectMessagesReques
   __block NSUInteger hashCode = 7;
   if (self.hasSender) {
     hashCode = hashCode * 31 + [self.sender hash];
-  }
-  if (self.hasChatType) {
-    hashCode = hashCode * 31 + self.chatType;
   }
   if (self.hasOtherUserUuid) {
     hashCode = hashCode * 31 + [self.otherUserUuid hash];
@@ -3388,9 +3314,6 @@ static TranslateSelectMessagesRequestProto* defaultTranslateSelectMessagesReques
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.hasChatType) {
-    [self setChatType:other.chatType];
-  }
   if (other.hasOtherUserUuid) {
     [self setOtherUserUuid:other.otherUserUuid];
   }
@@ -3434,29 +3357,20 @@ static TranslateSelectMessagesRequestProto* defaultTranslateSelectMessagesReques
         [self setSender:[subBuilder buildPartial]];
         break;
       }
-      case 16: {
-        ChatType value = (ChatType)[input readEnum];
-        if (ChatTypeIsValidValue(value)) {
-          [self setChatType:value];
-        } else {
-          [unknownFields mergeVarintField:2 value:value];
-        }
-        break;
-      }
-      case 26: {
+      case 18: {
         [self setOtherUserUuid:[input readString]];
         break;
       }
-      case 32: {
+      case 24: {
         TranslateLanguages value = (TranslateLanguages)[input readEnum];
         if (TranslateLanguagesIsValidValue(value)) {
           [self setLanguage:value];
         } else {
-          [unknownFields mergeVarintField:4 value:value];
+          [unknownFields mergeVarintField:3 value:value];
         }
         break;
       }
-      case 42: {
+      case 34: {
         PrivateChatPostProto_Builder* subBuilder = [PrivateChatPostProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addMessagesToBeTranslated:[subBuilder buildPartial]];
@@ -3493,22 +3407,6 @@ static TranslateSelectMessagesRequestProto* defaultTranslateSelectMessagesReques
 - (TranslateSelectMessagesRequestProto_Builder*) clearSender {
   result.hasSender = NO;
   result.sender = [MinimumUserProto defaultInstance];
-  return self;
-}
-- (BOOL) hasChatType {
-  return result.hasChatType;
-}
-- (ChatType) chatType {
-  return result.chatType;
-}
-- (TranslateSelectMessagesRequestProto_Builder*) setChatType:(ChatType) value {
-  result.hasChatType = YES;
-  result.chatType = value;
-  return self;
-}
-- (TranslateSelectMessagesRequestProto_Builder*) clearChatTypeList {
-  result.hasChatType = NO;
-  result.chatType = ChatTypeGlobalChat;
   return self;
 }
 - (BOOL) hasOtherUserUuid {
@@ -3571,6 +3469,7 @@ static TranslateSelectMessagesRequestProto* defaultTranslateSelectMessagesReques
 
 @interface TranslateSelectMessagesResponseProto ()
 @property (strong) MinimumUserProto* sender;
+@property (strong) NSMutableArray * mutableOriginalMessagesList;
 @property (strong) NSMutableArray * mutableMessagesTranslatedList;
 @property TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatus status;
 @end
@@ -3584,6 +3483,8 @@ static TranslateSelectMessagesRequestProto* defaultTranslateSelectMessagesReques
   hasSender_ = !!value_;
 }
 @synthesize sender;
+@synthesize mutableOriginalMessagesList;
+@dynamic originalMessagesList;
 @synthesize mutableMessagesTranslatedList;
 @dynamic messagesTranslatedList;
 - (BOOL) hasStatus {
@@ -3612,10 +3513,16 @@ static TranslateSelectMessagesResponseProto* defaultTranslateSelectMessagesRespo
 - (TranslateSelectMessagesResponseProto*) defaultInstance {
   return defaultTranslateSelectMessagesResponseProtoInstance;
 }
+- (NSArray *)originalMessagesList {
+  return mutableOriginalMessagesList;
+}
+- (NSString*)originalMessagesAtIndex:(NSUInteger)index {
+  return [mutableOriginalMessagesList objectAtIndex:index];
+}
 - (NSArray *)messagesTranslatedList {
   return mutableMessagesTranslatedList;
 }
-- (PrivateChatPostProto*)messagesTranslatedAtIndex:(NSUInteger)index {
+- (TranslatedTextProto*)messagesTranslatedAtIndex:(NSUInteger)index {
   return [mutableMessagesTranslatedList objectAtIndex:index];
 }
 - (BOOL) isInitialized {
@@ -3625,11 +3532,14 @@ static TranslateSelectMessagesResponseProto* defaultTranslateSelectMessagesRespo
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  [self.messagesTranslatedList enumerateObjectsUsingBlock:^(PrivateChatPostProto *element, NSUInteger idx, BOOL *stop) {
-    [output writeMessage:2 value:element];
+  [self.originalMessagesList enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+    [output writeString:2 value:element];
+  }];
+  [self.messagesTranslatedList enumerateObjectsUsingBlock:^(TranslatedTextProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:3 value:element];
   }];
   if (self.hasStatus) {
-    [output writeEnum:3 value:self.status];
+    [output writeEnum:4 value:self.status];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -3643,11 +3553,20 @@ static TranslateSelectMessagesResponseProto* defaultTranslateSelectMessagesRespo
   if (self.hasSender) {
     size_ += computeMessageSize(1, self.sender);
   }
-  [self.messagesTranslatedList enumerateObjectsUsingBlock:^(PrivateChatPostProto *element, NSUInteger idx, BOOL *stop) {
-    size_ += computeMessageSize(2, element);
+  {
+    __block SInt32 dataSize = 0;
+    const NSUInteger count = self.originalMessagesList.count;
+    [self.originalMessagesList enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+      dataSize += computeStringSizeNoTag(element);
+    }];
+    size_ += dataSize;
+    size_ += (SInt32)(1 * count);
+  }
+  [self.messagesTranslatedList enumerateObjectsUsingBlock:^(TranslatedTextProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(3, element);
   }];
   if (self.hasStatus) {
-    size_ += computeEnumSize(3, self.status);
+    size_ += computeEnumSize(4, self.status);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -3690,7 +3609,10 @@ static TranslateSelectMessagesResponseProto* defaultTranslateSelectMessagesRespo
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
-  [self.messagesTranslatedList enumerateObjectsUsingBlock:^(PrivateChatPostProto *element, NSUInteger idx, BOOL *stop) {
+  [self.originalMessagesList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"originalMessages", obj];
+  }];
+  [self.messagesTranslatedList enumerateObjectsUsingBlock:^(TranslatedTextProto *element, NSUInteger idx, BOOL *stop) {
     [output appendFormat:@"%@%@ {\n", indent, @"messagesTranslated"];
     [element writeDescriptionTo:output
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
@@ -3712,6 +3634,7 @@ static TranslateSelectMessagesResponseProto* defaultTranslateSelectMessagesRespo
   return
       self.hasSender == otherMessage.hasSender &&
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
+      [self.originalMessagesList isEqualToArray:otherMessage.originalMessagesList] &&
       [self.messagesTranslatedList isEqualToArray:otherMessage.messagesTranslatedList] &&
       self.hasStatus == otherMessage.hasStatus &&
       (!self.hasStatus || self.status == otherMessage.status) &&
@@ -3722,7 +3645,10 @@ static TranslateSelectMessagesResponseProto* defaultTranslateSelectMessagesRespo
   if (self.hasSender) {
     hashCode = hashCode * 31 + [self.sender hash];
   }
-  [self.messagesTranslatedList enumerateObjectsUsingBlock:^(PrivateChatPostProto *element, NSUInteger idx, BOOL *stop) {
+  [self.originalMessagesList enumerateObjectsUsingBlock:^(id element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  [self.messagesTranslatedList enumerateObjectsUsingBlock:^(TranslatedTextProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
   if (self.hasStatus) {
@@ -3784,6 +3710,13 @@ BOOL TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusIsValidVa
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
+  if (other.mutableOriginalMessagesList.count > 0) {
+    if (result.mutableOriginalMessagesList == nil) {
+      result.mutableOriginalMessagesList = [[NSMutableArray alloc] initWithArray:other.mutableOriginalMessagesList];
+    } else {
+      [result.mutableOriginalMessagesList addObjectsFromArray:other.mutableOriginalMessagesList];
+    }
+  }
   if (other.mutableMessagesTranslatedList.count > 0) {
     if (result.mutableMessagesTranslatedList == nil) {
       result.mutableMessagesTranslatedList = [[NSMutableArray alloc] initWithArray:other.mutableMessagesTranslatedList];
@@ -3825,17 +3758,21 @@ BOOL TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusIsValidVa
         break;
       }
       case 18: {
-        PrivateChatPostProto_Builder* subBuilder = [PrivateChatPostProto builder];
+        [self addOriginalMessages:[input readString]];
+        break;
+      }
+      case 26: {
+        TranslatedTextProto_Builder* subBuilder = [TranslatedTextProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addMessagesTranslated:[subBuilder buildPartial]];
         break;
       }
-      case 24: {
+      case 32: {
         TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatus value = (TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatus)[input readEnum];
         if (TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
-          [unknownFields mergeVarintField:3 value:value];
+          [unknownFields mergeVarintField:4 value:value];
         }
         break;
       }
@@ -3872,13 +3809,37 @@ BOOL TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusIsValidVa
   result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
+- (NSMutableArray *)originalMessagesList {
+  return result.mutableOriginalMessagesList;
+}
+- (NSString*)originalMessagesAtIndex:(NSUInteger)index {
+  return [result originalMessagesAtIndex:index];
+}
+- (TranslateSelectMessagesResponseProto_Builder *)addOriginalMessages:(NSString*)value {
+  if (result.mutableOriginalMessagesList == nil) {
+    result.mutableOriginalMessagesList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableOriginalMessagesList addObject:value];
+  return self;
+}
+- (TranslateSelectMessagesResponseProto_Builder *)addAllOriginalMessages:(NSArray *)array {
+  if (result.mutableOriginalMessagesList == nil) {
+    result.mutableOriginalMessagesList = [NSMutableArray array];
+  }
+  [result.mutableOriginalMessagesList addObjectsFromArray:array];
+  return self;
+}
+- (TranslateSelectMessagesResponseProto_Builder *)clearOriginalMessages {
+  result.mutableOriginalMessagesList = nil;
+  return self;
+}
 - (NSMutableArray *)messagesTranslatedList {
   return result.mutableMessagesTranslatedList;
 }
-- (PrivateChatPostProto*)messagesTranslatedAtIndex:(NSUInteger)index {
+- (TranslatedTextProto*)messagesTranslatedAtIndex:(NSUInteger)index {
   return [result messagesTranslatedAtIndex:index];
 }
-- (TranslateSelectMessagesResponseProto_Builder *)addMessagesTranslated:(PrivateChatPostProto*)value {
+- (TranslateSelectMessagesResponseProto_Builder *)addMessagesTranslated:(TranslatedTextProto*)value {
   if (result.mutableMessagesTranslatedList == nil) {
     result.mutableMessagesTranslatedList = [[NSMutableArray alloc]init];
   }

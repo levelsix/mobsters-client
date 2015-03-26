@@ -2,7 +2,6 @@
 
 #import "ProtocolBuffers.h"
 
-#import "SharedEnumConfig.pb.h"
 #import "Structure.pb.h"
 // @@protoc_insertion_point(imports)
 
@@ -71,8 +70,14 @@
 #endif
 
 typedef NS_ENUM(SInt32, BattleItemType) {
-  BattleItemTypeAntidote = 1,
-  BattleItemTypeHammer = 2,
+  BattleItemTypeMinorPotion = 1,
+  BattleItemTypeChillAntidote = 2,
+  BattleItemTypePoisonAntidote = 3,
+  BattleItemTypeOrbHammer = 4,
+  BattleItemTypeHandSwap = 5,
+  BattleItemTypeBoardShuffle = 6,
+  BattleItemTypePutty = 7,
+  BattleItemTypeNone = 8,
 };
 
 BOOL BattleItemTypeIsValidValue(BattleItemType value);
@@ -175,6 +180,7 @@ BOOL BattleItemCategoryIsValidValue(BattleItemCategory value);
   BOOL hasPriority_:1;
   BOOL hasMinutesToCreate_:1;
   BOOL hasInBattleGemCost_:1;
+  BOOL hasAmount_:1;
   BOOL hasName_:1;
   BOOL hasImgName_:1;
   BOOL hasDescription_:1;
@@ -187,6 +193,7 @@ BOOL BattleItemCategoryIsValidValue(BattleItemCategory value);
   int32_t priority;
   int32_t minutesToCreate;
   int32_t inBattleGemCost;
+  int32_t amount;
   NSString* name;
   NSString* imgName;
   NSString* description;
@@ -206,6 +213,7 @@ BOOL BattleItemCategoryIsValidValue(BattleItemCategory value);
 - (BOOL) hasPriority;
 - (BOOL) hasMinutesToCreate;
 - (BOOL) hasInBattleGemCost;
+- (BOOL) hasAmount;
 @property (readonly) int32_t battleItemId;
 @property (readonly, strong) NSString* name;
 @property (readonly, strong) NSString* imgName;
@@ -218,6 +226,7 @@ BOOL BattleItemCategoryIsValidValue(BattleItemCategory value);
 @property (readonly) int32_t priority;
 @property (readonly) int32_t minutesToCreate;
 @property (readonly) int32_t inBattleGemCost;
+@property (readonly) int32_t amount;
 
 + (BattleItemProto*) defaultInstance;
 - (BattleItemProto*) defaultInstance;
@@ -313,6 +322,11 @@ BOOL BattleItemCategoryIsValidValue(BattleItemCategory value);
 - (int32_t) inBattleGemCost;
 - (BattleItemProto_Builder*) setInBattleGemCost:(int32_t) value;
 - (BattleItemProto_Builder*) clearInBattleGemCost;
+
+- (BOOL) hasAmount;
+- (int32_t) amount;
+- (BattleItemProto_Builder*) setAmount:(int32_t) value;
+- (BattleItemProto_Builder*) clearAmount;
 @end
 
 @interface BattleItemQueueForUserProto : PBGeneratedMessage {

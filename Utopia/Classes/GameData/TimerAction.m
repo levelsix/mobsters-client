@@ -453,7 +453,7 @@
     self.title = ur.research.name;
     self.normalProgressBarColor = TimerProgressBarColorGreen;
     self.allowsFreeSpeedup = YES;
-    self.completionDate = self.userResearch.endTime;
+    self.completionDate = self.userResearch.tentativeCompletionDate;
     self.totalSeconds = ur.research.durationMin*60;
   }
   return self;

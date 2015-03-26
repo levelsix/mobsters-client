@@ -1617,6 +1617,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 #pragma mark - Formulas
 
+// This formula is used to allow for diminishing returns on perc research
+// Formula: 1.f-(perc/(perc+1)), We only get closer to 100%, never reach it.
+- (float) convertToOverallPercentFromPercentDecrease:(float)perc {
+  return 1.f-(perc/(perc+1.f));
+}
+
 - (int) calculateGemSpeedupCostForTimeLeft:(int)timeLeft allowFreeSpeedup:(BOOL)free {
   // 5 mins are free
   if (free && timeLeft < self.maxMinutesForFreeSpeedUp*60) {
@@ -1905,7 +1911,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   float costToFullyHeal = min.costToFullyHeal+(max.costToFullyHeal-min.costToFullyHeal)*powf((um.level-1)/(float)(max.lvl-1), max.costToFullyHealExponent);
   int maxHealth = [self calculateMaxHealthForMonster:um];
   float baseCost = costToFullyHeal * (maxHealth-um.curHealth)/maxHealth;
-  return baseCost;
+  
+  GameState *gs = [GameState sharedGameState];
+  float perc = [gs.researchUtil percentageBenefitForType:ResearchTypeHealingCost element:mp.monsterElement rarity:mp.quality];
+  float researchFactor = [self convertToOverallPercentFromPercentDecrease:perc];
+  
+  float finalCost = baseCost*researchFactor;
+  
+  return finalCost;
 }
 
 - (float) calculateBaseSecondsToHealMonster:(UserMonster *)um {
@@ -1915,7 +1928,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   float secsToFullyHeal = min.secsToFullyHeal+(max.secsToFullyHeal-min.secsToFullyHeal)*powf((um.level-1)/(float)(max.lvl-1), max.secsToFullyHealExponent);
   int maxHealth = [self calculateMaxHealthForMonster:um];
   float baseSecs = secsToFullyHeal * (maxHealth-um.curHealth)/maxHealth;
-  return baseSecs;
+  
+  GameState *gs = [GameState sharedGameState];
+  float perc = [gs.researchUtil percentageBenefitForType:ResearchTypeHealingSpeed element:mp.monsterElement rarity:mp.quality];
+  float researchFactor = [self convertToOverallPercentFromPercentDecrease:perc];
+  
+  float finalSecs = baseSecs*researchFactor;
+  
+  return finalSecs;
 }
 
 - (int) calculateOilCostForNewMonsterWithEnhancement:(UserEnhancement *)ue feeder:(EnhancementItem *)feeder {
@@ -1929,7 +1949,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   MonsterLevelInfoProto *max = [mp.lvlInfoList lastObject];
   float oilCost = min.enhanceCostPerFeeder+(max.enhanceCostPerFeeder-min.enhanceCostPerFeeder)*powf((curLevel-1)/(float)(max.lvl-1), max.enhanceCostExponent);
   
-  return oilCost;
+  GameState *gs = [GameState sharedGameState];
+  float perc = [gs.researchUtil percentageBenefitForType:ResearchTypeEnhanceCost element:mp.monsterElement rarity:mp.quality];
+  float researchFactor = [self convertToOverallPercentFromPercentDecrease:perc];
+  
+  float finalCost = oilCost*researchFactor;
+  
+  return finalCost;
   
   // Old Formula..
   //return self.oilPerMonsterLevel*(ue.baseMonster.userMonster.level+additionalLevel);
@@ -1952,10 +1978,16 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   float secsToEnhancePerFeeder = min.secsToEnhancePerFeeder+(max.secsToEnhancePerFeeder-min.secsToEnhancePerFeeder)*powf((um.level-1)/(float)(max.lvl-1), max.secsToEnhancePerFeederExponent);
   secsToEnhancePerFeeder = MAX(1, secsToEnhancePerFeeder);
   
+  GameState *gs = [GameState sharedGameState];
+  float perc = [gs.researchUtil percentageBenefitForType:ResearchTypeEnhanceCost element:mp.monsterElement rarity:mp.quality];
+  float researchFactor = [self convertToOverallPercentFromPercentDecrease:perc];
+  
+  float finalSecs = secsToEnhancePerFeeder*researchFactor;
+  
   // Use base feeder exp instead so that time isn't affected by multipliers
   //int expGain = [self calculateExperienceIncrease:baseMonster feeder:feeder];
   //int expGain = feeder.userMonster.feederExp;
-  return roundf(secsToEnhancePerFeeder);
+  return roundf(finalSecs);
 }
 
 - (int) calculateExperienceIncrease:(UserEnhancement *)ue {
@@ -1972,9 +2004,16 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   LabProto *lab = (LabProto *)[[gs myLaboratory] staticStruct];
   UserMonster *base = baseMonster.userMonster;
   UserMonster *um = feeder.userMonster;
+  MonsterProto *baseMp = base.staticMonster;
   float multiplier1 = lab.pointsMultiplier ?: 1;
-  float multiplier2 = base.staticMonster.monsterElement == um.staticMonster.monsterElement ? 1.5 : 1;
-  return um.feederExp*multiplier1*multiplier2;
+  float multiplier2 = baseMp.monsterElement == baseMp.monsterElement ? 1.5 : 1;
+  float exp = um.feederExp*multiplier1*multiplier2;
+  
+  float researchFactor = 1.f+[gs.researchUtil percentageBenefitForType:ResearchTypeXpBonus element:baseMp.monsterElement rarity:baseMp.quality];
+  
+  float finalExp = exp*researchFactor;
+  
+  return roundf(finalExp);
 }
 
 - (float) calculateLevelForMonster:(int)monsterId experience:(float)experience {
@@ -2127,8 +2166,29 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return ecp.structInfo.level;
 }
 
+#warning implement after merge
+- (int) calculateSecondsToCreateBattleItem:(BattleItemProto *)bip {
+  float baseSecs = bip.minutesToCreate*60;
+  
+  GameState *gs = [GameState sharedGameState];
+  float perc = [gs.researchUtil percentageBenefitForType:ResearchTypeItemProductionSpeed];
+  float researchFactor = [self convertToOverallPercentFromPercentDecrease:perc];
+  
+  return roundf(baseSecs*researchFactor);
+}
+
+- (int) calculateCostToCreateBattleItem:(BattleItemProto *)bip {
+  float baseCost = bip.createCost*60;
+  
+  GameState *gs = [GameState sharedGameState];
+  float perc = [gs.researchUtil percentageBenefitForType:ResearchTypeItemProductionCost resType:bip.createResourceType];
+  float researchFactor = [self convertToOverallPercentFromPercentDecrease:perc];
+  
+  return roundf(baseCost*researchFactor);
+}
+
 - (BOOL) isPrerequisiteComplete:(PrereqProto *)prereq {
-  if (!self.ignorePrerequisites || YES) {
+  if (!self.ignorePrerequisites) {
     GameState *gs = [GameState sharedGameState];
     int quantity = 0;
     
@@ -2142,7 +2202,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     } else if (prereq.prereqGameType == GameTypeTask) {
       quantity = [gs isTaskCompleted:prereq.prereqGameEntityId];
     } else if (prereq.prereqGameType == GameTypeResearch) {
-      ResearchProto *rp = gs.staticResearch[@(prereq.prereqGameEntityId)];
+      ResearchProto *rp = [gs researchWithId:prereq.prereqGameEntityId];
       quantity = [gs.researchUtil prerequisiteFullfilledForResearch:rp];
     }
     

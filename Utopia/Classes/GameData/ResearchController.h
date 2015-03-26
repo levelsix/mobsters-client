@@ -23,5 +23,9 @@
 
 @interface ResearchPercentController : ResearchController
 @end
+
 @interface ResearchUnitController : ResearchController
+@end
+
+@interface ResearchUnlockController : ResearchController
 @end

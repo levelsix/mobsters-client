@@ -10,6 +10,7 @@
 
 #import "MSDate.h"
 #import "UserData.h"
+#import "ResearchUtil.h"
 
 typedef enum {
   TimerProgressBarColorYellow = 1,

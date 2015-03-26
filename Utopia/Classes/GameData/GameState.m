@@ -45,7 +45,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _staticPrerequisites = [[NSMutableDictionary alloc] init];
     _staticBoards = [[NSMutableDictionary alloc] init];
     _staticBattleItems = [[NSMutableDictionary alloc] init];
-    _staticResearch = [[NSMutableDictionary alloc] init];
+    _staticResearches = [[NSMutableDictionary alloc] init];
     _eventCooldownTimes = [[NSMutableDictionary alloc] init];
     _notifications = [[NSMutableArray alloc] init];
     _myStructs = [[NSMutableArray alloc] init];
@@ -221,6 +221,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     return nil;
   }
   return [self getStaticDataFrom:_staticStructs withId:structId];
+}
+
+- (ResearchProto *) researchWithId:(int)researchId {
+  if (researchId == 0) {
+    [Globals popupMessage:@"Attempted to access research 0"];
+    return nil;
+  }
+  return [self getStaticDataFrom:_staticResearches withId:researchId];
 }
 
 - (MonsterProto *) monsterWithId:(int)monsterId {
@@ -775,7 +783,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (NSArray *) allStaticResearchForDomain:(ResearchDomain)domain {
   NSMutableArray *ar = [[NSMutableArray alloc] init];
-  for(ResearchProto *rp in self.staticResearch.allValues) {
+  for(ResearchProto *rp in self.staticResearches.allValues) {
     if(rp.researchDomain == domain) {
       [ar addObject:rp];
     }
@@ -1257,7 +1265,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [self.staticBoards removeAllObjects];
   [self addToStaticBoards:proto.boardsList];
   
-  [self.staticResearch removeAllObjects];
+  [self.staticResearches removeAllObjects];
   [self addToStaticResearch:proto.researchList];
   
   self.persistentEvents = proto.persistentEventsList;
@@ -1347,7 +1355,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (void) addToStaticResearch:(NSArray *)arr {
   for (ResearchProto *r in arr) {
-    [self.staticResearch setObject:r forKey:@(r.researchId)];
+    [self.staticResearches setObject:r forKey:@(r.researchId)];
   }
 }
 
@@ -1498,35 +1506,31 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 - (int) maxCash {
   int maxCash = ((TownHallProto *)self.myTownHall.staticStruct).resourceCapacity;
   for (UserStruct *us in self.myStructs) {
-    ResourceStorageProto *rgp = (ResourceStorageProto *)us.staticStruct;
+    ResourceStorageProto *rgp = (ResourceStorageProto *)us.staticStructForCurrentConstructionLevel;
     StructureInfoProto *fsp = [rgp structInfo];
     if (fsp.structType == StructureInfoProto_StructTypeResourceStorage && rgp.resourceType == ResourceTypeCash) {
-      if (us.isComplete) {
-        maxCash += rgp.capacity;
-      } else {
-        ResourceStorageProto *prev = (ResourceStorageProto *)us.staticStructForPrevLevel;
-        maxCash += prev.capacity;
-      }
+      maxCash += rgp.capacity;
     }
   }
-  return maxCash;
+  
+  float researchFactor = 1.f+[self.researchUtil percentageBenefitForType:ResearchTypeResourceStorage resType:ResourceTypeCash];
+  
+  return maxCash*researchFactor;
 }
 
 - (int) maxOil {
   int maxOil = ((TownHallProto *)self.myTownHall.staticStruct).resourceCapacity;
   for (UserStruct *us in self.myStructs) {
-    ResourceStorageProto *rgp = (ResourceStorageProto *)us.staticStruct;
+    ResourceStorageProto *rgp = (ResourceStorageProto *)us.staticStructForCurrentConstructionLevel;
     StructureInfoProto *fsp = [rgp structInfo];
     if (fsp.structType == StructureInfoProto_StructTypeResourceStorage && rgp.resourceType == ResourceTypeOil) {
-      if (us.isComplete) {
-        maxOil += rgp.capacity;
-      } else {
-        ResourceStorageProto *prev = (ResourceStorageProto *)us.staticStructForPrevLevel;
-        maxOil += prev.capacity;
-      }
+      maxOil += rgp.capacity;
     }
   }
-  return maxOil;
+  
+  float researchFactor = 1.f+[self.researchUtil percentageBenefitForType:ResearchTypeResourceStorage resType:ResourceTypeOil];
+  
+  return maxOil*researchFactor;
 }
 
 - (int) maxTeamCost {
@@ -1889,12 +1893,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 - (void) beginResearchTimer {
   [self stopResearchTimer];
   UserResearch *researchForTimer = [self.researchUtil researchForTimer];
-  [researchForTimer updateEndTime];
+  
   if (researchForTimer) {
-    if ([researchForTimer.endTime timeIntervalSinceNow] <= 0) {
+    if ([researchForTimer.tentativeCompletionDate timeIntervalSinceNow] <= 0) {
       [self researchWaitTimeComplete];
     } else {
-      _researchTimer = [NSTimer timerWithTimeInterval:researchForTimer.endTime.timeIntervalSinceNow target:self selector:@selector(researchWaitTimeComplete) userInfo:nil repeats:NO];
+      _researchTimer = [NSTimer timerWithTimeInterval:researchForTimer.tentativeCompletionDate.timeIntervalSinceNow target:self selector:@selector(researchWaitTimeComplete) userInfo:nil repeats:NO];
       [[NSRunLoop mainRunLoop] addTimer:_researchTimer forMode:NSRunLoopCommonModes];
     }
   }
@@ -1902,7 +1906,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (void) researchWaitTimeComplete {
   UserResearch *ur = [self.researchUtil researchForTimer];
-  if (ur && [ur.endTime timeIntervalSinceNow] <= 0) {
+  if (ur && [ur.tentativeCompletionDate timeIntervalSinceNow] <= 0) {
     
     [[OutgoingEventController sharedOutgoingEventController] finishResearch:ur gemsSpent:0 delegate:self];
     [[NSNotificationCenter defaultCenter] postNotificationName:RESEARCH_WAIT_COMPLETE_NOTIFICATION object:nil];

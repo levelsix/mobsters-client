@@ -150,7 +150,7 @@
 @property (nonatomic, retain) NSMutableDictionary *staticPvpBoardObstacles;
 @property (nonatomic, retain) NSMutableArray* myPvpBoardObstacles;
 
-@property (nonatomic, retain) NSMutableDictionary *staticResearch;
+@property (nonatomic, retain) NSMutableDictionary *staticResearches;
 
 @property (nonatomic, retain) UserEnhancement *userEnhancement;
 @property (nonatomic, retain) UserEvolution *userEvolution;
@@ -186,7 +186,7 @@
 - (PersistentEventProto *) nextEventWithType:(PersistentEventProto_EventType)type;
 - (MonsterBattleDialogueProto *) battleDialogueForMonsterId:(int)monsterId type:(MonsterBattleDialogueProto_DialogueType)type;
 - (BoardLayoutProto *) boardWithId:(int)boardId;
-- (BattleItemProto *) battleItemWithId:(int)battleItemId;
+- (ResearchProto *) researchWithId:(int)researchId;
 
 - (void) unlockAllTasks;
 - (BOOL) isTaskUnlocked:(int)taskId;

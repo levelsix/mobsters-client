@@ -71,15 +71,24 @@
 
 typedef NS_ENUM(SInt32, ResearchType) {
   ResearchTypeNoResearch = 1,
-  ResearchTypeCost = 2,
-  ResearchTypeSpeed = 3,
-  ResearchTypeIncreaseQueueSize = 4,
-  ResearchTypeIncreaseNumCanBuild = 5,
-  ResearchTypeXpBonus = 6,
-  ResearchTypeIncreaseCashProduction = 7,
-  ResearchTypeIncreaseOilProduction = 8,
-  ResearchTypeIncreaseAttack = 9,
-  ResearchTypeIncreaseHp = 10,
+  ResearchTypeHealingCost = 2,
+  ResearchTypeHealingSpeed = 3,
+  ResearchTypeEnhanceCost = 4,
+  ResearchTypeXpBonus = 5,
+  ResearchTypeDecreaseEnhanceTime = 6,
+  ResearchTypeAttackIncrease = 7,
+  ResearchTypeHpIncrease = 8,
+  ResearchTypeSpeedIncrease = 9,
+  ResearchTypeIncreaseHospitalQueue = 10,
+  ResearchTypeIncreaseEnhanceQueue = 11,
+  ResearchTypeNumberOfHospitals = 12,
+  ResearchTypeIncreaseConstructionSpeed = 13,
+  ResearchTypeItemProductionSpeed = 14,
+  ResearchTypeItemProductionCost = 15,
+  ResearchTypeResourceProduction = 16,
+  ResearchTypeResourceStorage = 17,
+  ResearchTypeUnlockItem = 18,
+  ResearchTypeUnlockObstacle = 19,
 };
 
 BOOL ResearchTypeIsValidValue(ResearchType value);
@@ -90,6 +99,8 @@ typedef NS_ENUM(SInt32, ResearchDomain) {
   ResearchDomainLevelup = 3,
   ResearchDomainResources = 4,
   ResearchDomainBattle = 5,
+  ResearchDomainItems = 6,
+  ResearchDomainTrapsAndObstacles = 7,
 };
 
 BOOL ResearchDomainIsValidValue(ResearchDomain value);
@@ -111,6 +122,7 @@ BOOL ResearchDomainIsValidValue(ResearchDomain value);
   BOOL hasCostAmt_:1;
   BOOL hasLevel_:1;
   BOOL hasTier_:1;
+  BOOL hasStrength_:1;
   BOOL hasIconImgName_:1;
   BOOL hasName_:1;
   BOOL hasDesc_:1;
@@ -125,6 +137,7 @@ BOOL ResearchDomainIsValidValue(ResearchDomain value);
   int32_t costAmt;
   int32_t level;
   int32_t tier;
+  int32_t strength;
   NSString* iconImgName;
   NSString* name;
   NSString* desc;
@@ -147,6 +160,7 @@ BOOL ResearchDomainIsValidValue(ResearchDomain value);
 - (BOOL) hasLevel;
 - (BOOL) hasPriority;
 - (BOOL) hasTier;
+- (BOOL) hasStrength;
 @property (readonly) int32_t researchId;
 @property (readonly) ResearchType researchType;
 @property (readonly) ResearchDomain researchDomain;
@@ -162,6 +176,7 @@ BOOL ResearchDomainIsValidValue(ResearchDomain value);
 @property (readonly) int32_t level;
 @property (readonly) Float32 priority;
 @property (readonly) int32_t tier;
+@property (readonly) int32_t strength;
 - (ResearchPropertyProto*)propertiesAtIndex:(NSUInteger)index;
 
 + (ResearchProto*) defaultInstance;
@@ -274,6 +289,11 @@ BOOL ResearchDomainIsValidValue(ResearchDomain value);
 - (int32_t) tier;
 - (ResearchProto_Builder*) setTier:(int32_t) value;
 - (ResearchProto_Builder*) clearTier;
+
+- (BOOL) hasStrength;
+- (int32_t) strength;
+- (ResearchProto_Builder*) setStrength:(int32_t) value;
+- (ResearchProto_Builder*) clearStrength;
 @end
 
 @interface ResearchPropertyProto : PBGeneratedMessage {

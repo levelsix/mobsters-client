@@ -297,7 +297,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
     
     if (amountCollected > 0) {
-      ms -= (int)((numRes-amountCollected)/gen.productionRate*3600*1000);
+      ms -= (int)((numRes-amountCollected)/userStruct.productionRate*3600*1000);
       
       int tag = [sc retrieveCurrencyFromStruct:userStruct.userStructUuid time:ms amountCollected:amountCollected];
       userStruct.lastRetrieved = [MSDate dateWithTimeIntervalSince1970:ms/1000.0];
@@ -1714,7 +1714,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   bldr.itemId = itemId;
   bldr.timeOfEntry = [self getCurrentMilliseconds];
   
-  if (!ur.endTime) {
+  if (ur.complete) {
     [Globals popupMessage:@"Trying to speedup invalid Research."];
   } else {
     [self tradeItemForSpeedup:@[bldr.build]];
@@ -3393,7 +3393,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
   UserResearch *newUserResearch = [[UserResearch alloc] initWithResearch:userResearch.research];
   newUserResearch.timeStarted = [MSDate date];
-  [newUserResearch updateEndTime];
   
   newUserResearch.userResearchUuid = userResearch.userResearchUuid;
   [gs.researchUtil startResearch:newUserResearch];

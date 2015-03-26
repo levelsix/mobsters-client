@@ -1583,15 +1583,15 @@
     numRes = RESOURCE_GEN_MIN_AMT;
   }
   
+  UserStruct *us = mb.userStruct;
   NSTimer *timer = nil;
   // Set timer for when building has x resources
-  if ([mb.userStruct numResourcesAvailable] >= numRes) {
+  if ([us numResourcesAvailable] >= numRes) {
     timer = [NSTimer timerWithTimeInterval:10.f target:self selector:@selector(waitForIncomeComplete:) userInfo:mb repeats:NO];
   } else {
-    ResourceGeneratorProto *rg = (ResourceGeneratorProto *)mb.userStruct.staticStruct;
-    int secs = numRes/rg.productionRate*3600;
+    int secs = numRes/us.productionRate*3600;
     
-    MSDate *date = [mb.userStruct.lastRetrieved dateByAddingTimeInterval:secs];
+    MSDate *date = [us.lastRetrieved dateByAddingTimeInterval:secs];
     
     timer = [NSTimer timerWithTimeInterval:date.timeIntervalSinceNow target:self selector:@selector(waitForIncomeComplete:) userInfo:mb repeats:NO];
   }

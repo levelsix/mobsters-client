@@ -1,9 +1,8 @@
 //
-//  RWTCookie.m
-//  CookieCrunch
+//  Utopia
 //
-//  Created by Matthijs on 25-02-14.
-//  Copyright (c) 2014 Razeware LLC. All rights reserved.
+//  Created by Ashwin Kamath on 2/12/12.
+//  Copyright (c) 2012 LVL6. All rights reserved.
 //
 
 #import "BattleOrb.h"

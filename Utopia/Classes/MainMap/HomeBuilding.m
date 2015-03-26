@@ -1261,7 +1261,7 @@
     return [super isFreeSpeedup];
   } else {
     Globals *gl = [Globals sharedGlobals];
-    NSTimeInterval timeLeft = _userResearch.endTime.timeIntervalSinceNow;
+    NSTimeInterval timeLeft = _userResearch.tentativeCompletionDate.timeIntervalSinceNow;
     int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
     return gemCost == 0;
   }
@@ -1269,9 +1269,12 @@
 
 - (void) displayProgressBar {
   [super displayProgressBar];
-  MiniResearchViewSprite *spr = [MiniResearchViewSprite spriteWithResearchProto:_userResearch.research];
-  [self.progressBar addChild:spr];
-  spr.position = ccp(-spr.contentSize.width/2-4.f, self.progressBar.contentSize.height/2+1.f);
+  
+  if (_userResearch) {
+    MiniResearchViewSprite *spr = [MiniResearchViewSprite spriteWithResearchProto:_userResearch.research];
+    [self.progressBar addChild:spr];
+    spr.position = ccp(-spr.contentSize.width/2-4.f, self.progressBar.contentSize.height/2+1.f);
+  }
 }
 
 - (NSString *) progressBarPrefix {
@@ -1295,7 +1298,7 @@
     // Check the prefix
     NSString *prefix = [self progressBarPrefix];
     if ([bar.prefix isEqualToString:prefix]) {
-      NSTimeInterval time = _userResearch.endTime.timeIntervalSinceNow;
+      NSTimeInterval time = _userResearch.tentativeCompletionDate.timeIntervalSinceNow;
       NSTimeInterval totalSecs = _userResearch.research.durationMin * 60;
       [self.progressBar updateForSecsLeft:time totalSecs:totalSecs];
       

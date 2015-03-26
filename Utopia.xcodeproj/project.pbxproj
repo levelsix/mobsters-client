@@ -338,6 +338,12 @@
 		2987082B1AC24CD7002BFF2E /* buildingcreateitems@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2987082A1AC24CD7002BFF2E /* buildingcreateitems@2x.png */; };
 		2987082C1AC24CD7002BFF2E /* buildingcreateitems@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2987082A1AC24CD7002BFF2E /* buildingcreateitems@2x.png */; };
 		2987082D1AC24CD7002BFF2E /* buildingcreateitems@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2987082A1AC24CD7002BFF2E /* buildingcreateitems@2x.png */; };
+		298708371AC3415D002BFF2E /* ResearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 298708341AC3415D002BFF2E /* ResearchController.m */; };
+		298708381AC3415D002BFF2E /* ResearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 298708341AC3415D002BFF2E /* ResearchController.m */; };
+		298708391AC3415D002BFF2E /* ResearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 298708341AC3415D002BFF2E /* ResearchController.m */; };
+		2987083A1AC3415D002BFF2E /* ResearchUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 298708361AC3415D002BFF2E /* ResearchUtil.m */; };
+		2987083B1AC3415D002BFF2E /* ResearchUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 298708361AC3415D002BFF2E /* ResearchUtil.m */; };
+		2987083C1AC3415D002BFF2E /* ResearchUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 298708361AC3415D002BFF2E /* ResearchUtil.m */; };
 		2991FBF21A800693009BB1D8 /* ChatTeamDonateView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2991FBF11A800693009BB1D8 /* ChatTeamDonateView.xib */; };
 		2991FBF31A800693009BB1D8 /* ChatTeamDonateView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2991FBF11A800693009BB1D8 /* ChatTeamDonateView.xib */; };
 		2991FBF41A800693009BB1D8 /* ChatTeamDonateView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2991FBF11A800693009BB1D8 /* ChatTeamDonateView.xib */; };
@@ -1426,12 +1432,6 @@
 		636C3E5B1AA7DDB100B02980 /* ResearchPrereqView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 636C3E5A1AA7DDB100B02980 /* ResearchPrereqView.xib */; };
 		636C3E5C1AA7DDB100B02980 /* ResearchPrereqView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 636C3E5A1AA7DDB100B02980 /* ResearchPrereqView.xib */; };
 		636C3E5D1AA7DDB100B02980 /* ResearchPrereqView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 636C3E5A1AA7DDB100B02980 /* ResearchPrereqView.xib */; };
-		636C3E621AA808C900B02980 /* ResearchUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 636C3E611AA808C900B02980 /* ResearchUtil.m */; };
-		636C3E631AA808C900B02980 /* ResearchUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 636C3E611AA808C900B02980 /* ResearchUtil.m */; };
-		636C3E641AA808C900B02980 /* ResearchUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 636C3E611AA808C900B02980 /* ResearchUtil.m */; };
-		636C3E671AA942E800B02980 /* ResearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 636C3E661AA942E800B02980 /* ResearchController.m */; };
-		636C3E681AA942E800B02980 /* ResearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 636C3E661AA942E800B02980 /* ResearchController.m */; };
-		636C3E691AA942E800B02980 /* ResearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 636C3E661AA942E800B02980 /* ResearchController.m */; };
 		636C3E761AAA865400B02980 /* blueresearchcircle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 636C3E6B1AAA865400B02980 /* blueresearchcircle@2x.png */; };
 		636C3E771AAA865400B02980 /* blueresearchcircle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 636C3E6B1AAA865400B02980 /* blueresearchcircle@2x.png */; };
 		636C3E781AAA865400B02980 /* blueresearchcircle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 636C3E6B1AAA865400B02980 /* blueresearchcircle@2x.png */; };
@@ -7271,6 +7271,10 @@
 		2985E6351A3313340041ABF4 /* ChatBattleHistoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatBattleHistoryView.xib; sourceTree = "<group>"; };
 		298708131AC09F67002BFF2E /* itemdialoguebubble4@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "itemdialoguebubble4@2x.png"; sourceTree = "<group>"; };
 		2987082A1AC24CD7002BFF2E /* buildingcreateitems@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buildingcreateitems@2x.png"; sourceTree = "<group>"; };
+		298708331AC3415D002BFF2E /* ResearchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResearchController.h; sourceTree = "<group>"; };
+		298708341AC3415D002BFF2E /* ResearchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResearchController.m; sourceTree = "<group>"; };
+		298708351AC3415D002BFF2E /* ResearchUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResearchUtil.h; sourceTree = "<group>"; };
+		298708361AC3415D002BFF2E /* ResearchUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResearchUtil.m; sourceTree = "<group>"; };
 		2991FBF11A800693009BB1D8 /* ChatTeamDonateView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatTeamDonateView.xib; sourceTree = "<group>"; };
 		2991FBF71A800AFD009BB1D8 /* PopoverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopoverViewController.h; sourceTree = "<group>"; };
 		2991FBF81A800AFD009BB1D8 /* PopoverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopoverViewController.m; sourceTree = "<group>"; };
@@ -7686,10 +7690,6 @@
 		634174661A843521006DA494 /* revengebutton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "revengebutton@2x.png"; sourceTree = "<group>"; };
 		634174671A843521006DA494 /* revengecheckbox@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "revengecheckbox@2x.png"; sourceTree = "<group>"; };
 		636C3E5A1AA7DDB100B02980 /* ResearchPrereqView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ResearchPrereqView.xib; sourceTree = "<group>"; };
-		636C3E601AA808C900B02980 /* ResearchUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ResearchUtil.h; path = HomeMenu/Research/Utils/ResearchUtil.h; sourceTree = "<group>"; };
-		636C3E611AA808C900B02980 /* ResearchUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ResearchUtil.m; path = HomeMenu/Research/Utils/ResearchUtil.m; sourceTree = "<group>"; };
-		636C3E651AA942E800B02980 /* ResearchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ResearchController.h; path = HomeMenu/Research/Utils/ResearchController.h; sourceTree = "<group>"; };
-		636C3E661AA942E800B02980 /* ResearchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ResearchController.m; path = HomeMenu/Research/Utils/ResearchController.m; sourceTree = "<group>"; };
 		636C3E6B1AAA865400B02980 /* blueresearchcircle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "blueresearchcircle@2x.png"; path = "New/blueresearchcircle@2x.png"; sourceTree = "<group>"; };
 		636C3E6C1AAA865400B02980 /* canresearchclickedborder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "canresearchclickedborder@2x.png"; path = "New/canresearchclickedborder@2x.png"; sourceTree = "<group>"; };
 		636C3E6D1AAA865400B02980 /* cantresearchtapped@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "cantresearchtapped@2x.png"; path = "New/cantresearchtapped@2x.png"; sourceTree = "<group>"; };
@@ -8232,8 +8232,8 @@
 		CF1265891538ACC400E0C1AD /* CoinBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoinBar.m; sourceTree = "<group>"; };
 		CF12658A1538ACC400E0C1AD /* NibUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NibUtils.h; sourceTree = "<group>"; };
 		CF12658B1538ACC400E0C1AD /* NibUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = NibUtils.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		CF12659F1538ACC400E0C1AD /* IAPHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAPHelper.h; sourceTree = "<group>"; };
-		CF1265A01538ACC400E0C1AD /* IAPHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IAPHelper.m; sourceTree = "<group>"; };
+		CF12659F1538ACC400E0C1AD /* IAPHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IAPHelper.h; path = ../InAppPurchases/IAPHelper.h; sourceTree = "<group>"; };
+		CF1265A01538ACC400E0C1AD /* IAPHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IAPHelper.m; path = ../InAppPurchases/IAPHelper.m; sourceTree = "<group>"; };
 		CF1265CF1538ACC400E0C1AD /* IncomingEventController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IncomingEventController.h; sourceTree = "<group>"; };
 		CF1265D01538ACC400E0C1AD /* IncomingEventController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = IncomingEventController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		CF1265D11538ACC400E0C1AD /* OutgoingEventController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OutgoingEventController.h; sourceTree = "<group>"; };
@@ -12299,6 +12299,41 @@
 			path = "Chat requests";
 			sourceTree = "<group>";
 		};
+		298708311AC3414F002BFF2E /* Research */ = {
+			isa = PBXGroup;
+			children = (
+				298708331AC3415D002BFF2E /* ResearchController.h */,
+				298708341AC3415D002BFF2E /* ResearchController.m */,
+				298708351AC3415D002BFF2E /* ResearchUtil.h */,
+				298708361AC3415D002BFF2E /* ResearchUtil.m */,
+			);
+			name = Research;
+			sourceTree = "<group>";
+		};
+		2987083D1AC34168002BFF2E /* Achievements/Quests */ = {
+			isa = PBXGroup;
+			children = (
+				CF65743C19086B6600ABF1F4 /* FullQuestProto+JobAccess.h */,
+				CF65743D19086B6600ABF1F4 /* FullQuestProto+JobAccess.m */,
+				CFF7407E1818EE25009DE4A4 /* QuestUtil.h */,
+				CFF7407F1818EE25009DE4A4 /* QuestUtil.m */,
+				CF6574F1190F2AE500ABF1F4 /* AchievementUtil.h */,
+				CF6574F2190F2AE500ABF1F4 /* AchievementUtil.m */,
+			);
+			name = Achievements/Quests;
+			sourceTree = "<group>";
+		};
+		2987083E1AC3418E002BFF2E /* IAP */ = {
+			isa = PBXGroup;
+			children = (
+				CF29E91E196131C200B40DA4 /* InAppPurchaseData.h */,
+				CF29E91F196131C200B40DA4 /* InAppPurchaseData.m */,
+				CF12659F1538ACC400E0C1AD /* IAPHelper.h */,
+				CF1265A01538ACC400E0C1AD /* IAPHelper.m */,
+			);
+			name = IAP;
+			sourceTree = "<group>";
+		};
 		2991FBF61A800ABF009BB1D8 /* PopoverMenu */ = {
 			isa = PBXGroup;
 			children = (
@@ -12972,17 +13007,6 @@
 			path = "New Private Messages";
 			sourceTree = "<group>";
 		};
-		636C3E5F1AA8072F00B02980 /* Utils */ = {
-			isa = PBXGroup;
-			children = (
-				636C3E601AA808C900B02980 /* ResearchUtil.h */,
-				636C3E611AA808C900B02980 /* ResearchUtil.m */,
-				636C3E651AA942E800B02980 /* ResearchController.h */,
-				636C3E661AA942E800B02980 /* ResearchController.m */,
-			);
-			name = Utils;
-			sourceTree = "<group>";
-		};
 		636C3E6A1AAA862300B02980 /* New */ = {
 			isa = PBXGroup;
 			children = (
@@ -13106,7 +13130,6 @@
 		63BC3F351AA1314200E144BF /* Research */ = {
 			isa = PBXGroup;
 			children = (
-				636C3E5F1AA8072F00B02980 /* Utils */,
 				633CCADA1AA139E900C6649F /* ResearchViewController.h */,
 				633CCADB1AA139E900C6649F /* ResearchViewController.m */,
 				633CCAD51AA139B200C6649F /* ResearchCategoryCell.xib */,
@@ -13707,7 +13730,6 @@
 				CF12653D1538ACC400E0C1AD /* Downloader */,
 				CF1265401538ACC400E0C1AD /* Game Data */,
 				CF1265491538ACC400E0C1AD /* Game Menus */,
-				CF12659E1538ACC400E0C1AD /* In App Purchases */,
 				CF4DB8AB1807DA1E00062258 /* Main Map */,
 				CF4DB9651808AE9100062258 /* Protocol Buffers */,
 				CF1265CE1538ACC400E0C1AD /* Socket Communication */,
@@ -13756,20 +13778,19 @@
 			isa = PBXGroup;
 			children = (
 				29927E611AAE1B3A00418683 /* Battle Items */,
+				298708311AC3414F002BFF2E /* Research */,
+				2987083E1AC3418E002BFF2E /* IAP */,
 				298051271A2EC74100806253 /* Healing */,
 				CFA9F7C91A0D9CEB00EBE77D /* Items */,
 				CF812F0A19E7479700D91157 /* Clan Help */,
 				CFA8B1AA19EB789400CF6BFD /* Chat */,
+				2987083D1AC34168002BFF2E /* Achievements/Quests */,
 				CF1265411538ACC400E0C1AD /* GameState.h */,
 				CF1265421538ACC400E0C1AD /* GameState.m */,
 				CF1265431538ACC400E0C1AD /* Globals.h */,
 				CF1265441538ACC400E0C1AD /* Globals.m */,
 				CF1265471538ACC400E0C1AD /* UserData.h */,
 				CF1265481538ACC400E0C1AD /* UserData.m */,
-				CFF7407E1818EE25009DE4A4 /* QuestUtil.h */,
-				CFF7407F1818EE25009DE4A4 /* QuestUtil.m */,
-				CF6574F1190F2AE500ABF1F4 /* AchievementUtil.h */,
-				CF6574F2190F2AE500ABF1F4 /* AchievementUtil.m */,
 				CF7063F8183EF991005B30A1 /* StaticStructure.h */,
 				CF7063F9183EF991005B30A1 /* StaticStructure.m */,
 				CFC04D53188FAF8200F2DB59 /* PersistentEventProto+Time.h */,
@@ -13780,10 +13801,6 @@
 				CFFF6B1018DB2044003A320C /* MSDate.m */,
 				CF40CFDC18DF9DCB0034A721 /* UnreadNotifications.h */,
 				CF40CFDD18DF9DCB0034A721 /* UnreadNotifications.m */,
-				CF65743C19086B6600ABF1F4 /* FullQuestProto+JobAccess.h */,
-				CF65743D19086B6600ABF1F4 /* FullQuestProto+JobAccess.m */,
-				CF29E91E196131C200B40DA4 /* InAppPurchaseData.h */,
-				CF29E91F196131C200B40DA4 /* InAppPurchaseData.m */,
 				CF0CDEB019E5103C006A5ECB /* TimerAction.h */,
 				CF0CDEB119E5103C006A5ECB /* TimerAction.m */,
 			);
@@ -13868,16 +13885,6 @@
 				2965486A1A8193A00080B195 /* UIView+Superview.m */,
 			);
 			path = Miscellaneous;
-			sourceTree = "<group>";
-		};
-		CF12659E1538ACC400E0C1AD /* In App Purchases */ = {
-			isa = PBXGroup;
-			children = (
-				CF12659F1538ACC400E0C1AD /* IAPHelper.h */,
-				CF1265A01538ACC400E0C1AD /* IAPHelper.m */,
-			);
-			name = "In App Purchases";
-			path = InAppPurchases;
 			sourceTree = "<group>";
 		};
 		CF1265CE1538ACC400E0C1AD /* Socket Communication */ = {
@@ -23858,7 +23865,6 @@
 				CF0CED1A196F452900ECD301 /* GenericPopupController.m in Sources */,
 				9BC9F3461A8C1420009DC3D5 /* SkillSideEffectBuff.m in Sources */,
 				CF0CED1B196F452900ECD301 /* QuestCompleteLayer.m in Sources */,
-				636C3E631AA808C900B02980 /* ResearchUtil.m in Sources */,
 				CF0CED1C196F452900ECD301 /* EventStaticData.pb.m in Sources */,
 				9BDA8B5E1A3A894B00C7AC27 /* SkillHeadshot.m in Sources */,
 				CF0CED1D196F452900ECD301 /* CoinBar.m in Sources */,
@@ -24081,8 +24087,10 @@
 				29804FF31A258EC100806253 /* SecretGiftViewController.m in Sources */,
 				CF0CEDBF196F452900ECD301 /* ODIN.m in Sources */,
 				DA0FC58C19B688A500393BF4 /* TileSprite.m in Sources */,
+				298708381AC3415D002BFF2E /* ResearchController.m in Sources */,
 				CF0CEDC0196F452900ECD301 /* GameState.m in Sources */,
 				DA07605F19B129EC00E43E5A /* SkillController.m in Sources */,
+				2987083B1AC3415D002BFF2E /* ResearchUtil.m in Sources */,
 				DA58F52219AE8B9D00D025BC /* UIView+Coordinates.m in Sources */,
 				CF0CEDC5196F452900ECD301 /* BuildingViewController.m in Sources */,
 				CF48259B19F729D000041486 /* PPEmitterView.m in Sources */,
@@ -24239,7 +24247,6 @@
 				CFBB379D18F4853900FD6C8C /* QuestCompleteLayer.m in Sources */,
 				29927E651AAE1B6D00418683 /* BattleItemQueue.m in Sources */,
 				CFE11F6B1A141C040094F797 /* amqp_api.c in Sources */,
-				636C3E671AA942E800B02980 /* ResearchController.m in Sources */,
 				29804F391A241C1800806253 /* ClanRewardsViewController.m in Sources */,
 				DA0FC57219B64E6800393BF4 /* OrbSprite.m in Sources */,
 				DA07606219B129EC00E43E5A /* SkillQuickAttack.m in Sources */,
@@ -24314,7 +24321,6 @@
 				CFEF25D618C9DFC400FB867A /* MSWindow.m in Sources */,
 				CF20F04B180E142B005551B5 /* AttackMapViewController.m in Sources */,
 				9B41AF591A81ABD600529879 /* SkillRightHook.m in Sources */,
-				636C3E621AA808C900B02980 /* ResearchUtil.m in Sources */,
 				9BB948591A674935006EE920 /* NewGachaTicker.m in Sources */,
 				DA075FB719AFEA3500E43E5A /* Skill.pb.m in Sources */,
 				CFA729501A0B2A3500FF6031 /* DailyEventViewController.m in Sources */,
@@ -24441,6 +24447,7 @@
 				DA0FC58219B65B0200393BF4 /* SkillControllerPassive.m in Sources */,
 				CF7F27D3165B36D000D967DC /* AMQPConnectionThread.m in Sources */,
 				CF6574BA1909CAF200ABF1F4 /* EventStructure.pb.m in Sources */,
+				298708371AC3415D002BFF2E /* ResearchController.m in Sources */,
 				CF6574B21909CAF200ABF1F4 /* EventDungeon.pb.m in Sources */,
 				CF6574A61909CAF200ABF1F4 /* AchievementStuff.pb.m in Sources */,
 				6B3BC16D1A8BC68E00E0D457 /* SkillPoisonSkewer.m in Sources */,
@@ -24511,6 +24518,7 @@
 				CF6574B31909CAF200ABF1F4 /* EventInAppPurchase.pb.m in Sources */,
 				CFF3907C1828BB810010A3BE /* RequestsViewController.m in Sources */,
 				CF52D0AD17EA3E7D00A067A6 /* BattleViews.m in Sources */,
+				2987083A1AC3415D002BFF2E /* ResearchUtil.m in Sources */,
 				CF29E9121960E85100B40DA4 /* BuildingViews.m in Sources */,
 				CF63F78217EC168D00FEBAA9 /* CCSoundAnimation.m in Sources */,
 				DA58F51019AE6C5200D025BC /* UIColor+HexColor.m in Sources */,
@@ -24595,7 +24603,6 @@
 				CF4818C119F7217F00041486 /* GenericPopupController.m in Sources */,
 				9BC9F3471A8C1420009DC3D5 /* SkillSideEffectBuff.m in Sources */,
 				CF4818C219F7217F00041486 /* QuestCompleteLayer.m in Sources */,
-				636C3E641AA808C900B02980 /* ResearchUtil.m in Sources */,
 				CF4818C319F7217F00041486 /* EventStaticData.pb.m in Sources */,
 				9BDA8B5F1A3A894B00C7AC27 /* SkillHeadshot.m in Sources */,
 				CF4818C419F7217F00041486 /* CoinBar.m in Sources */,
@@ -24817,8 +24824,10 @@
 				29804FF41A258EC100806253 /* SecretGiftViewController.m in Sources */,
 				CF48196E19F7217F00041486 /* ODIN.m in Sources */,
 				CF48196F19F7217F00041486 /* TileSprite.m in Sources */,
+				298708391AC3415D002BFF2E /* ResearchController.m in Sources */,
 				CF48197019F7217F00041486 /* GameState.m in Sources */,
 				CF48197119F7217F00041486 /* SkillController.m in Sources */,
+				2987083C1AC3415D002BFF2E /* ResearchUtil.m in Sources */,
 				CF48197219F7217F00041486 /* UIView+Coordinates.m in Sources */,
 				CF48197319F7217F00041486 /* BuildingViewController.m in Sources */,
 				CF48259C19F729D000041486 /* PPEmitterView.m in Sources */,

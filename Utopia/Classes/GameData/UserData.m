@@ -838,12 +838,16 @@
 - (MSDate *) buildCompleteDate {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
-  int seconds = self.staticStruct.structInfo.minutesToBuild*60;
+  float seconds = self.staticStruct.structInfo.minutesToBuild*60;
+  
+  float perc = [gs.researchUtil percentageBenefitForType:ResearchTypeIncreaseConstructionSpeed];
+  float researchFactor = [gl convertToOverallPercentFromPercentDecrease:perc];
+  seconds = seconds*researchFactor;
   
   // Account for clan helps
   int numHelps = [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeUpgradeStruct userDataUuid:self.userStructUuid];
   if (numHelps > 0) {
-    int secsToDockPerHelp = MAX(gl.buildingClanHelpConstants.amountRemovedPerHelp*60, roundf(seconds*gl.buildingClanHelpConstants.percentRemovedPerHelp));
+    float secsToDockPerHelp = MAX(gl.buildingClanHelpConstants.amountRemovedPerHelp*60, roundf(seconds*gl.buildingClanHelpConstants.percentRemovedPerHelp));
     seconds -= numHelps*secsToDockPerHelp;
   }
   
@@ -860,14 +864,36 @@
   return [self.buildCompleteDate timeIntervalSinceNow];
 }
 
+- (float) productionRate {
+  ResourceGeneratorProto *gen = (ResourceGeneratorProto *)self.staticStructForCurrentConstructionLevel;
+  if ([gen isKindOfClass:[ResourceGeneratorProto class]]) {
+    float base = gen.productionRate;
+    
+    GameState *gs = [GameState sharedGameState];
+    float researchFactor = 1.f+[gs.researchUtil percentageBenefitForType:ResearchTypeResourceProduction resType:gen.resourceType];
+    
+    return base*researchFactor;
+  } else if ([gen isKindOfClass:[MoneyTreeProto class]]) {
+    MoneyTreeProto *mtp = (MoneyTreeProto *)gen;
+    
+    float base = mtp.productionRate;
+    
+    GameState *gs = [GameState sharedGameState];
+    float researchFactor = 1.f+[gs.researchUtil percentageBenefitForType:ResearchTypeResourceProduction resType:ResourceTypeGems];
+    
+    return base*researchFactor;
+  }
+  return 0.f;
+}
+
 - (int) numResourcesAvailable {
   ResourceGeneratorProto *gen = (ResourceGeneratorProto *)self.staticStruct;
   if ([gen isKindOfClass:[ResourceGeneratorProto class]]) {
     float secs = -[self.lastRetrieved timeIntervalSinceNow];
-    int numRes = roundf(gen.productionRate/3600.f*secs);
+    int numRes = roundf(self.productionRate/3600.f*secs);
     return MIN(numRes, gen.capacity);
     
-  } else if([gen isKindOfClass:[MoneyTreeProto class]]) {
+  } else if ([gen isKindOfClass:[MoneyTreeProto class]]) {
     float timeSinceEndDate = -[self timeTillExpiry];
     float timeSinceLastRetrieved = -[self.lastRetrieved timeIntervalSinceNow];
     float secs = 0;
@@ -878,7 +904,7 @@
     } else {
       secs = timeSinceLastRetrieved;
     }
-    int numRes = roundf(gen.productionRate/3600.f*secs);
+    int numRes = roundf(self.productionRate/3600.f*secs);
     return MIN(numRes, gen.capacity);
   }
   return 0;
@@ -1552,84 +1578,6 @@
 
 - (NSUInteger) hash {
   return self.userMiniJobUuid.hash;
-}
-
-@end
-
-@implementation UserResearch
-+ (id) userResearchWithProto:(UserResearchProto *)proto {
-  return [[UserResearch alloc] initWithProto:proto];
-}
-
-+ (id) userResearchWithResearch:(ResearchProto *)proto {
-  GameState *gs = [GameState sharedGameState];
-  
-  UserResearch *userResearch = [gs.researchUtil userResearchForProto:proto];
-  if(userResearch) {
-    return userResearch;
-  }
-  
-  return [[UserResearch alloc] initWithResearch:proto];
-}
-
-- (id) initWithResearch:(ResearchProto *)proto {
-  self.userResearchUuid = nil;
-  self.researchId = proto.researchId;
-  self.complete = NO;
-  self.research = proto;
-  self.timeStarted = nil;
-  self.endTime = [self tentativeCompletionDate];
-  return self;
-}
-
-- (id) initWithProto:(UserResearchProto *)proto {
-  GameState *gs = [GameState sharedGameState];
-  self.userResearchUuid = proto.userResearchUuid;
-  self.researchId = proto.researchId;
-  self.complete = proto.complete;
-  self.research = [gs.staticResearch objectForKey:@(self.researchId)];
-  self.timeStarted = [MSDate dateWithTimeIntervalSince1970:proto.timePurchased / 1000.];
-  self.endTime = [self tentativeCompletionDate];
-  return self;
-}
-
-- (MSDate *)tentativeCompletionDate {
-  GameState *gs = [GameState sharedGameState];
-  Globals *gl = [Globals sharedGlobals];
-  
-  int seconds = self.research.durationMin * 60;
-  
-  // Account for clan helps
-  int numHelps = [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypePerformingResearch userDataUuid:self.userResearchUuid];
-  if (numHelps > 0) {
-    int secsToDockPerHelp = MAX(gl.researchClanHelpConstants.amountRemovedPerHelp*60, roundf(seconds*gl.researchClanHelpConstants.percentRemovedPerHelp));
-    seconds -= numHelps*secsToDockPerHelp;
-  }
-  
-  // Account for speedups
-  int speedupMins = [gs.itemUtil getSpeedupMinutesForType:GameActionTypePerformingResearch userDataUuid:self.userResearchUuid earliestDate:self.timeStarted];
-  if (speedupMins > 0) {
-    seconds -= speedupMins*60;
-  }
-  
-  return [self.timeStarted dateByAddingTimeInterval:seconds];
-}
-
--(void)updateForUserResearch:(UserResearch *)userResearch {
-  self.userResearchUuid = self.userResearchUuid ? self.userResearchUuid : userResearch.userResearchUuid;
-  self.researchId = userResearch.researchId;
-  self.complete = userResearch.complete;
-  self.research = userResearch.research;
-  self.timeStarted = userResearch.timeStarted;
-  self.endTime = [self tentativeCompletionDate];
-}
-
-- (BOOL)isResearching {
-  return !self.complete && self.timeStarted && self.endTime && self.endTime.timeIntervalSinceNow > 0;
-}
-
-- (void) updateEndTime {
-  self.endTime = [self tentativeCompletionDate];
 }
 
 @end

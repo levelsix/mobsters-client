@@ -13,7 +13,6 @@ static PBExtensionRegistry* extensionRegistry = nil;
   if (self == [BattleItemRoot class]) {
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
-    [SharedEnumConfigRoot registerAllExtensions:registry];
     [StructureRoot registerAllExtensions:registry];
     extensionRegistry = registry;
   }
@@ -24,8 +23,14 @@ static PBExtensionRegistry* extensionRegistry = nil;
 
 BOOL BattleItemTypeIsValidValue(BattleItemType value) {
   switch (value) {
-    case BattleItemTypeAntidote:
-    case BattleItemTypeHammer:
+    case BattleItemTypeMinorPotion:
+    case BattleItemTypeChillAntidote:
+    case BattleItemTypePoisonAntidote:
+    case BattleItemTypeOrbHammer:
+    case BattleItemTypeHandSwap:
+    case BattleItemTypeBoardShuffle:
+    case BattleItemTypePutty:
+    case BattleItemTypeNone:
       return YES;
     default:
       return NO;
@@ -391,6 +396,7 @@ static UserBattleItemProto* defaultUserBattleItemProtoInstance = nil;
 @property int32_t priority;
 @property int32_t minutesToCreate;
 @property int32_t inBattleGemCost;
+@property int32_t amount;
 @end
 
 @implementation BattleItemProto
@@ -479,12 +485,19 @@ static UserBattleItemProto* defaultUserBattleItemProtoInstance = nil;
   hasInBattleGemCost_ = !!value_;
 }
 @synthesize inBattleGemCost;
+- (BOOL) hasAmount {
+  return !!hasAmount_;
+}
+- (void) setHasAmount:(BOOL) value_ {
+  hasAmount_ = !!value_;
+}
+@synthesize amount;
 - (id) init {
   if ((self = [super init])) {
     self.battleItemId = 0;
     self.name = @"";
     self.imgName = @"";
-    self.battleItemType = BattleItemTypeAntidote;
+    self.battleItemType = BattleItemTypeMinorPotion;
     self.battleItemCategory = BattleItemCategoryPotion;
     self.createResourceType = ResourceTypeNoResource;
     self.createCost = 0;
@@ -493,6 +506,7 @@ static UserBattleItemProto* defaultUserBattleItemProtoInstance = nil;
     self.priority = 0;
     self.minutesToCreate = 0;
     self.inBattleGemCost = 0;
+    self.amount = 0;
   }
   return self;
 }
@@ -548,6 +562,9 @@ static BattleItemProto* defaultBattleItemProtoInstance = nil;
   if (self.hasInBattleGemCost) {
     [output writeInt32:13 value:self.inBattleGemCost];
   }
+  if (self.hasAmount) {
+    [output writeInt32:14 value:self.amount];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -592,6 +609,9 @@ static BattleItemProto* defaultBattleItemProtoInstance = nil;
   }
   if (self.hasInBattleGemCost) {
     size_ += computeInt32Size(13, self.inBattleGemCost);
+  }
+  if (self.hasAmount) {
+    size_ += computeInt32Size(14, self.amount);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -664,6 +684,9 @@ static BattleItemProto* defaultBattleItemProtoInstance = nil;
   if (self.hasInBattleGemCost) {
     [output appendFormat:@"%@%@: %@\n", indent, @"inBattleGemCost", [NSNumber numberWithInteger:self.inBattleGemCost]];
   }
+  if (self.hasAmount) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"amount", [NSNumber numberWithInteger:self.amount]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -699,6 +722,8 @@ static BattleItemProto* defaultBattleItemProtoInstance = nil;
       (!self.hasMinutesToCreate || self.minutesToCreate == otherMessage.minutesToCreate) &&
       self.hasInBattleGemCost == otherMessage.hasInBattleGemCost &&
       (!self.hasInBattleGemCost || self.inBattleGemCost == otherMessage.inBattleGemCost) &&
+      self.hasAmount == otherMessage.hasAmount &&
+      (!self.hasAmount || self.amount == otherMessage.amount) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -738,6 +763,9 @@ static BattleItemProto* defaultBattleItemProtoInstance = nil;
   }
   if (self.hasInBattleGemCost) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.inBattleGemCost] hash];
+  }
+  if (self.hasAmount) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.amount] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -817,6 +845,9 @@ static BattleItemProto* defaultBattleItemProtoInstance = nil;
   }
   if (other.hasInBattleGemCost) {
     [self setInBattleGemCost:other.inBattleGemCost];
+  }
+  if (other.hasAmount) {
+    [self setAmount:other.amount];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -902,6 +933,10 @@ static BattleItemProto* defaultBattleItemProtoInstance = nil;
         [self setInBattleGemCost:[input readInt32]];
         break;
       }
+      case 112: {
+        [self setAmount:[input readInt32]];
+        break;
+      }
     }
   }
 }
@@ -966,7 +1001,7 @@ static BattleItemProto* defaultBattleItemProtoInstance = nil;
 }
 - (BattleItemProto_Builder*) clearBattleItemTypeList {
   result.hasBattleItemType = NO;
-  result.battleItemType = BattleItemTypeAntidote;
+  result.battleItemType = BattleItemTypeMinorPotion;
   return self;
 }
 - (BOOL) hasBattleItemCategory {
@@ -1095,6 +1130,22 @@ static BattleItemProto* defaultBattleItemProtoInstance = nil;
 - (BattleItemProto_Builder*) clearInBattleGemCost {
   result.hasInBattleGemCost = NO;
   result.inBattleGemCost = 0;
+  return self;
+}
+- (BOOL) hasAmount {
+  return result.hasAmount;
+}
+- (int32_t) amount {
+  return result.amount;
+}
+- (BattleItemProto_Builder*) setAmount:(int32_t) value {
+  result.hasAmount = YES;
+  result.amount = value;
+  return self;
+}
+- (BattleItemProto_Builder*) clearAmount {
+  result.hasAmount = NO;
+  result.amount = 0;
   return self;
 }
 @end
