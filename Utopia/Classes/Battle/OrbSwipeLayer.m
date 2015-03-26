@@ -382,6 +382,11 @@
   }
 }
 
+- (void) destroyVines:(BattleOrb *)orb {
+#warning Temp animation to go with Rob's temp art
+  [self destroyLock:orb];
+}
+
 - (void) cloudPoof:(BattleOrb *)orb {
   OrbSprite *orbLayer = [self spriteForOrb:orb];
   
@@ -402,6 +407,8 @@
   } else if (orb.changeType == OrbChangeTypeCloudDecremented) {
     [self cloudPoof:orb];
     [self decrementCloud:orb];
+  } else if (orb.changeType == OrbChangeTypeVineRemoved) {
+    [self destroyVines:orb];
   }
   
   // Set orb sprite's change type to none so it doesnt happen again

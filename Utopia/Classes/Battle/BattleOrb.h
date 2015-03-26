@@ -49,7 +49,8 @@ typedef enum {
   OrbChangeTypeDestroyed,
   OrbChangeTypePowerupCreated,
   OrbChangeTypeLockRemoved,
-  OrbChangeTypeCloudDecremented
+  OrbChangeTypeCloudDecremented,
+  OrbChangeTypeVineRemoved
 } OrbChangeType;
 
 @interface BattleOrb : NSObject
@@ -61,6 +62,7 @@ typedef enum {
 @property (assign, nonatomic) PowerupType powerupType;
 
 @property (assign, nonatomic) BOOL isLocked;
+@property (assign, nonatomic) BOOL isVines;
 
 // Special orb variables
 @property (assign, nonatomic) NSInteger turnCounter;

@@ -68,7 +68,10 @@
   }
   
   if (_orb.isLocked) {
-    [self loadLockElements];
+    if (_orb.isVines)
+      [self loadVinesElements];
+    else
+      [self loadLockElements];
   }
 }
 
@@ -193,6 +196,15 @@
   [self addChild:_lockedSpriteLeft];
   _lockedSpriteRight = [CCSprite spriteWithImageNamed:[resPrefix stringByAppendingString:@"lockedorbright.png"]];
   [self addChild:_lockedSpriteRight];
+}
+
+- (void) loadVinesElements {
+  
+#warning Replace this with real vines art!
+  //Rob's Temporary programmer art: Make a lock and color it green
+  [self loadLockElements];
+  _lockedSpriteLeft.color = [CCColor greenColor];
+  _lockedSpriteRight.color = [CCColor greenColor];
 }
 
 #define LOCK_REMOVE_TIME .2
