@@ -11,6 +11,7 @@
 #import "UserData.h"
 #import "TopBarViewcontroller.h"
 
+@class EmbeddedScrollingUpgradeView;
 @class UpgradePrereqView;
 
 @protocol UpgradePrereqDelegate <NSObject>
@@ -52,16 +53,16 @@
 @property (nonatomic, assign) IBOutlet UILabel *readyLabel;
 @property (nonatomic, assign) IBOutlet UILabel *readySubLabel;
 
-@property (nonatomic, assign) IBOutlet UIView *statBarView1;
-@property (nonatomic, assign) IBOutlet UILabel *statNameLabel1;
-@property (nonatomic, assign) IBOutlet UILabel *statDescriptionLabel1;
-@property (nonatomic, assign) IBOutlet SplitImageProgressBar *statNewBar1;
-@property (nonatomic, assign) IBOutlet SplitImageProgressBar *statCurrentBar1;
-@property (nonatomic, assign) IBOutlet UIView *statBarView2;
-@property (nonatomic, assign) IBOutlet UILabel *statNameLabel2;
-@property (nonatomic, assign) IBOutlet UILabel *statDescriptionLabel2;
-@property (nonatomic, assign) IBOutlet SplitImageProgressBar *statNewBar2;
-@property (nonatomic, assign) IBOutlet SplitImageProgressBar *statCurrentBar2;
+//@property (nonatomic, assign) IBOutlet UIView *statBarView1;
+//@property (nonatomic, assign) IBOutlet UILabel *statNameLabel1;
+//@property (nonatomic, assign) IBOutlet UILabel *statDescriptionLabel1;
+//@property (nonatomic, assign) IBOutlet SplitImageProgressBar *statNewBar1;
+//@property (nonatomic, assign) IBOutlet SplitImageProgressBar *statCurrentBar1;
+//@property (nonatomic, assign) IBOutlet UIView *statBarView2;
+//@property (nonatomic, assign) IBOutlet UILabel *statNameLabel2;
+//@property (nonatomic, assign) IBOutlet UILabel *statDescriptionLabel2;
+//@property (nonatomic, assign) IBOutlet SplitImageProgressBar *statNewBar2;
+//@property (nonatomic, assign) IBOutlet SplitImageProgressBar *statCurrentBar2;
 
 @property (nonatomic, assign) IBOutlet UIView *cityHallUnlocksView;
 @property (nonatomic, assign) IBOutlet UILabel *cityHallUnlocksLabel;
@@ -71,7 +72,9 @@
 @property (nonatomic, assign) IBOutlet UILabel *nibUnlocksLabel;
 @property (nonatomic, assign) IBOutlet UIImageView *nibUnlocksStructIcon;
 
-@property (nonatomic, retain) IBOutletCollection(UpgradePrereqView) NSArray *prereqViews;
+@property (nonatomic, assign) IBOutlet EmbeddedScrollingUpgradeView *embeddedScrollView;
+
+//@property (nonatomic, retain) IBOutletCollection(UpgradePrereqView) NSArray *prereqViews;
 
 @end
 

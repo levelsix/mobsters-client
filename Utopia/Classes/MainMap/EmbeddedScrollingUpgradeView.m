@@ -11,40 +11,22 @@
 #import "GameState.h"
 #import "Globals.h"
 
-#define NIB_TITLE_BAR 1
-#define NIB_STRENGTH_DETAILS 2
-#define NIB_DETAILS 3
-#define NIB_PREREQ 4
-
 #define REQUIREMENTS_TITLE @"REQUIREMENTS"
 #define IMPROVEMENTS_TITLE @"IMPROVEMENTS"
 #define STRENGTH_TITLE @"STRENGTH"
 
 #define VIEW_BUFFER 10
 
-@implementation ResearchPrereqView
 
-- (void) updateForPrereq:(PrereqProto *)pre isComplete:(BOOL)isComplete {
-  
-  if(pre.gameType == GameTypeStructure) {
-//    [super updateForPrereq:pre isComplete:isComplete];
-    return;
-  }
-  
-  self.prereqLabel.text = [pre prereqString];
+
+@implementation DetailsPrereqView
+
+- (void) updateForPrereq:(PrereqProto *)prereq isComplete:(BOOL)isComplete allowGo:(BOOL)allowGo{
+  self.prereqLabel.text = [prereq prereqString];
   
   self.checkIcon.highlighted = !isComplete;
   self.prereqLabel.highlighted = !isComplete;
-  self.goButtonView.hidden = YES;
-}
-
-@end
-
-@implementation EmbeddedPrereqView
-
-- (void) updateForPrereq:(PrereqProto *)prereq isComplete:(BOOL)isComplete {
-  [self.prereqView loadNib];
-  [self.prereqView updateForPrereq:prereq isComplete:isComplete];
+  self.goButtonView.hidden = isComplete && !allowGo;
 }
 
 @end
@@ -60,7 +42,7 @@
 
 @end
 
-@implementation UpgradeTitleBarView
+@implementation DetailsTitleBarView
 
 - (void) updateWithTitle:(NSString *) title{
   self.title.text = title;
@@ -68,7 +50,7 @@
 
 @end
 
-@implementation StrengthDetailsView
+@implementation DetailsStrengthView
 
 - (void) updateWithStrenght:(int)strength {
   self.strengthLabel.text = [NSString stringWithFormat:@"+%d",strength];
@@ -93,7 +75,7 @@
     [self addToScrollViewWithView:newestView];
     
     for(PrereqProto *pp in prereqs) {
-      newestView = [self makePrereqViewWithPrereq:pp];
+      newestView = [self makePrereqViewWithPrereq:pp allowGo:NO];
       [self addToScrollViewWithView:newestView];
     }
     
@@ -109,7 +91,6 @@
 }
 
 - (void) updateForBuildingUpgrade:(UserStruct *)userStruct {
-  GameState *gs = [GameState sharedGameState];
   id<StaticStructure> staticStruct = userStruct.staticStruct;
   
   _curY = 0.f;
@@ -123,7 +104,7 @@
     [self addToScrollViewWithView:newestView];
     
     for(int i = 0; i < staticStruct.numPrereqs; i++) {
-      newestView = [self makePrereqViewWithPrereq:[staticStruct prereqForIndex:i]];
+      newestView = [self makePrereqViewWithPrereq:[staticStruct prereqForIndex:i] allowGo:YES];
       [self addToScrollViewWithView:newestView];
     }
   }
@@ -141,30 +122,30 @@
   newestView = [self makeTitleWithTitle:STRENGTH_TITLE];
   [self addToScrollViewWithView:newestView];
   
-  newestView = [self makeStrengthDetailsViewWithStrength:strength];
+  newestView = [self makeStrengthDetailsViewWithStrength:[staticStruct structInfo].strength];
 }
 
-- (EmbeddedPrereqView *) makePrereqViewWithPrereq:(PrereqProto *)prereq {
-  EmbeddedPrereqView *epv = [[NSBundle mainBundle] loadNibNamed:@"EmbeddedScrollingUpgradeView" owner:nil options:nil][NIB_PREREQ];
+- (DetailsPrereqView *) makePrereqViewWithPrereq:(PrereqProto *)prereq allowGo:(BOOL)allowGo{
+  DetailsPrereqView *epv = [[NSBundle mainBundle] loadNibNamed:@"DetailsPrereqView" owner:nil options:nil][0];
   BOOL isComplete = [[Globals sharedGlobals] isPrerequisiteComplete:prereq];
-  [epv updateForPrereq:prereq isComplete:isComplete];
+  [epv updateForPrereq:prereq isComplete:isComplete allowGo:allowGo];
   return epv;
 }
 
-- (UpgradeTitleBarView *) makeTitleWithTitle:(NSString *)title {
-  UpgradeTitleBarView *utbv = [[NSBundle mainBundle] loadNibNamed:@"EmbeddedScrollingUpgradeView" owner:nil options:nil][NIB_TITLE_BAR];
+- (DetailsTitleBarView *) makeTitleWithTitle:(NSString *)title {
+  DetailsTitleBarView *utbv = [[NSBundle mainBundle] loadNibNamed:@"DetailsTitleBarView" owner:nil options:nil][0];
   [utbv updateWithTitle:title];
   return utbv;
 }
 
 - (DetailsProgressBarView *) makeDetailsProgressBarViewWithDetailName:(NSString *) name description:(NSString *)description curAmount:(float)curAmount nextAmount:(float)nextAmount {
-  DetailsProgressBarView *dpbv = [[NSBundle mainBundle] loadNibNamed:@"EmbeddedScrollingUpgradeView" owner:nil options:nil][NIB_DETAILS];
+  DetailsProgressBarView *dpbv = [[NSBundle mainBundle] loadNibNamed:@"DetailsProgressBarView" owner:nil options:nil][0];
   [dpbv updateWithDetailName:name description:description curAmount:curAmount nextAmount:nextAmount];
   return dpbv;
 }
 
-- (StrengthDetailsView *) makeStrengthDetailsViewWithStrength:(int)strength {
-  StrengthDetailsView *sdv = [[NSBundle mainBundle] loadNibNamed:@"EmbeddedScrollingUpgradeView" owner:nil options:nil][NIB_STRENGTH_DETAILS];
+- (DetailsStrengthView *) makeStrengthDetailsViewWithStrength:(int)strength {
+  DetailsStrengthView *sdv = [[NSBundle mainBundle] loadNibNamed:@"DetailsStrengthView" owner:nil options:nil][0];
   [sdv updateWithStrenght:strength];
   return sdv;
 }

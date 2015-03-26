@@ -9,32 +9,38 @@
 #import "NibUtils.h"
 #import "UpgradeViewController.h"
 
-@interface ResearchPrereqView : UpgradePrereqView
+@protocol EmbeddedDelegate <NSObject>
+
+- (void) goClicked:(id)sender;
 
 @end
 
-@interface EmbeddedPrereqView : UIView
-@property (nonatomic, retain) IBOutlet ResearchPrereqView *prereqView;
+@interface DetailsPrereqView : UIView
+@property (nonatomic, assign) IBOutlet UIImageView *checkIcon;
+@property (nonatomic, assign) IBOutlet UILabel *prereqLabel;
+@property (nonatomic, assign) IBOutlet UIView *goButtonView;
+
+@property (nonatomic, assign) IBOutlet id<EmbeddedDelegate> delegate;
 @end
 
 @interface DetailsProgressBarView : UIView
-@property (nonatomic, retain) IBOutlet NiceFontLabel9 *detailName;
-@property (nonatomic, retain) IBOutlet NiceFontLabel9 *increaseDescription;
-@property (nonatomic, retain) IBOutlet NiceFontButton9 *detailButton;
+@property (nonatomic, assign) IBOutlet NiceFontLabel9 *detailName;
+@property (nonatomic, assign) IBOutlet NiceFontLabel9 *increaseDescription;
+@property (nonatomic, assign) IBOutlet NiceFontButton9 *detailButton;
 
-@property (nonatomic, retain) IBOutlet SplitImageProgressBar *frontBar;
-@property (nonatomic, retain) IBOutlet SplitImageProgressBar *backBar;
-
-@end
-
-@interface UpgradeTitleBarView : UIView
-
-@property (nonatomic, retain) IBOutlet UILabel *title;
+@property (nonatomic, assign) IBOutlet SplitImageProgressBar *frontBar;
+@property (nonatomic, assign) IBOutlet SplitImageProgressBar *backBar;
 
 @end
 
-@interface StrengthDetailsView : UIView
-@property (nonatomic, retain) IBOutlet UILabel *strengthLabel;
+@interface DetailsTitleBarView : UIView
+
+@property (nonatomic, assign) IBOutlet UILabel *title;
+
+@end
+
+@interface DetailsStrengthView : UIView
+@property (nonatomic, assign) IBOutlet UILabel *strengthLabel;
 
 @end
 
@@ -42,7 +48,9 @@
   float _curY;
 }
 
-@property (nonatomic, retain) IBOutlet UIView *view;
-@property (nonatomic, retain) IBOutlet UIScrollView *scrollView;
+@property (nonatomic, assign) IBOutlet UIView *view;
+@property (nonatomic, assign) IBOutlet UIScrollView *scrollView;
+
+- (void) updateForBuildingUpgrade:(UserStruct *)userStruct;
 
 @end

@@ -170,15 +170,15 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="upgradestarbg.png" id="fNe-hY-reM">
-                                            <rect key="frame" x="15" y="33" width="115" height="110"/>
+                                            <rect key="frame" x="31" y="33" width="115" height="110"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" id="hvv-hH-huU" customClass="ShrinkOnlyImageView">
-                                            <rect key="frame" x="31" y="44" width="83" height="85"/>
+                                            <rect key="frame" x="47" y="44" width="83" height="85"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Cash Vault" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="mXG-L4-I5B" customClass="NiceFontLabel9">
-                                            <rect key="frame" x="17" y="18" width="111" height="23"/>
+                                            <rect key="frame" x="33" y="18" width="111" height="23"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <color key="textColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.23529411759999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -187,7 +187,7 @@
                                             <size key="shadowOffset" width="0.0" height="1"/>
                                         </label>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="UPGRADE TIME:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="Jy5-12-hUg" customClass="NiceFontLabel9">
-                                            <rect key="frame" x="25" y="130" width="94" height="21"/>
+                                            <rect key="frame" x="41" y="130" width="94" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="8"/>
                                             <color key="textColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.23529411759999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -196,7 +196,7 @@
                                             <size key="shadowOffset" width="0.0" height="1"/>
                                         </label>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="2 hours" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="e4j-Wk-JAb" customClass="NiceFontLabel8">
-                                            <rect key="frame" x="24" y="144" width="96" height="21"/>
+                                            <rect key="frame" x="40" y="144" width="96" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <color key="textColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.23529411759999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -205,7 +205,7 @@
                                             <size key="shadowOffset" width="0.0" height="1"/>
                                         </label>
                                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popuplinevertical.png" id="pvA-kc-6J7">
-                                            <rect key="frame" x="145" y="10" width="1" height="175"/>
+                                            <rect key="frame" x="185" y="10" width="1" height="175"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
                                         <view contentMode="scaleToFill" id="M4F-Td-Cfl" customClass="EmbeddedScrollingUpgradeView">
@@ -225,29 +225,17 @@
                                         <outlet property="cityHallUnlocksLabel" destination="GrB-Ww-Tke" id="zkE-pt-yml"/>
                                         <outlet property="cityHallUnlocksScrollView" destination="q9E-zO-B3f" id="JoW-mG-JMy"/>
                                         <outlet property="cityHallUnlocksView" destination="6pe-ft-Bon" id="uoh-r5-XVz"/>
+                                        <outlet property="embeddedScrollView" destination="M4F-Td-Cfl" id="ztF-6q-VJe"/>
                                         <outlet property="nameLabel" destination="mXG-L4-I5B" id="MSe-sp-A1A"/>
                                         <outlet property="oilButton" destination="B17-4X-ajw" id="tLo-GY-U8s"/>
                                         <outlet property="oilButtonView" destination="bGN-sa-6Ne" id="TsZ-9X-3ld"/>
                                         <outlet property="oilIcon" destination="6FM-By-N9J" id="lsi-oG-MuL"/>
                                         <outlet property="readyLabel" destination="KGS-UW-Pze" id="RIi-Ak-9Eu"/>
                                         <outlet property="readySubLabel" destination="YTO-aP-p8S" id="gDb-jX-7gf"/>
-                                        <outlet property="statBarView1" destination="e9B-UF-IY2" id="Zli-Be-nGp"/>
-                                        <outlet property="statBarView2" destination="UnE-dx-8Mc" id="6wv-uc-9Ft"/>
-                                        <outlet property="statCurrentBar1" destination="Lyn-Ba-DsY" id="GDj-Eg-cbE"/>
-                                        <outlet property="statCurrentBar2" destination="Fky-qR-mc9" id="ohE-dY-9fI"/>
-                                        <outlet property="statDescriptionLabel1" destination="1RM-iP-bEc" id="81o-r1-lym"/>
-                                        <outlet property="statDescriptionLabel2" destination="Re8-H8-Z3n" id="2Gn-Ol-Da0"/>
-                                        <outlet property="statNameLabel1" destination="gjx-Tl-exE" id="nvU-eF-TWE"/>
-                                        <outlet property="statNameLabel2" destination="zAe-43-vE1" id="7vU-B1-JnB"/>
-                                        <outlet property="statNewBar1" destination="pSB-6b-1lv" id="ekK-cm-Zqw"/>
-                                        <outlet property="statNewBar2" destination="BcN-Cv-96B" id="dLd-V7-evH"/>
                                         <outlet property="structIcon" destination="hvv-hH-huU" id="MDP-LE-kem"/>
                                         <outlet property="upgradeCashLabel" destination="sRe-Fd-YpM" id="O5B-FP-aIj"/>
                                         <outlet property="upgradeOilLabel" destination="85z-vl-R6v" id="cti-TE-NzB"/>
                                         <outlet property="upgradeTimeLabel" destination="e4j-Wk-JAb" id="wKY-z0-mOb"/>
-                                        <outletCollection property="prereqViews" destination="Xcp-aV-Jxw" id="8fP-7M-OlU"/>
-                                        <outletCollection property="prereqViews" destination="wyd-co-IpV" id="gvD-Xf-LBT"/>
-                                        <outletCollection property="prereqViews" destination="qwP-k1-Quc" id="HWk-2h-laJ"/>
                                     </connections>
                                 </view>
                             </subviews>
@@ -319,213 +307,6 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="962.5" y="483"/>
         </view>
-        <view contentMode="scaleToFill" id="FS0-29-lIf">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-            <subviews>
-                <view contentMode="scaleToFill" id="KgX-8F-prK" userLabel="Stats View">
-                    <rect key="frame" x="47" y="236" width="225" height="96"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <subviews>
-                        <view contentMode="scaleToFill" id="e9B-UF-IY2" userLabel="Stat Bar View 1">
-                            <rect key="frame" x="19" y="8" width="181" height="31"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <subviews>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="upgradebarbg.png" id="hNL-nl-g51">
-                                    <rect key="frame" x="64" y="19" width="117" height="12"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </imageView>
-                                <view contentMode="scaleToFill" id="pSB-6b-1lv" customClass="SplitImageProgressBar">
-                                    <rect key="frame" x="64" y="19" width="117" height="12"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                    <subviews>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="upgradebarnewmiddle.png" id="bJ4-hR-FZt">
-                                            <rect key="frame" x="4" y="0.0" width="93" height="12"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                        </imageView>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="upgradebarnewcap.png" id="z18-jv-p1o">
-                                            <rect key="frame" x="0.0" y="0.0" width="4" height="12"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        </imageView>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="upgradebarnewcap.png" id="iZr-wQ-eTG" customClass="FlipImageView">
-                                            <rect key="frame" x="96" y="0.0" width="4" height="12"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                        </imageView>
-                                    </subviews>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    <connections>
-                                        <outlet property="leftCap" destination="z18-jv-p1o" id="gfZ-ji-mes"/>
-                                        <outlet property="middleBar" destination="bJ4-hR-FZt" id="bZn-Dd-kNQ"/>
-                                        <outlet property="rightCap" destination="iZr-wQ-eTG" id="MAO-9r-ZO8"/>
-                                    </connections>
-                                </view>
-                                <view contentMode="scaleToFill" id="Lyn-Ba-DsY" customClass="SplitImageProgressBar">
-                                    <rect key="frame" x="64" y="19" width="117" height="12"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                    <subviews>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="upgradebarcurrentmiddle.png" id="g2e-y7-8lu">
-                                            <rect key="frame" x="4" y="0.0" width="63" height="12"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                        </imageView>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="upgradebarcurrentcap.png" id="7xK-PZ-Xdi">
-                                            <rect key="frame" x="0.0" y="0.0" width="4" height="12"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        </imageView>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="upgradebarcurrentcap.png" id="0N4-iD-aft" customClass="FlipImageView">
-                                            <rect key="frame" x="66" y="0.0" width="4" height="12"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                        </imageView>
-                                    </subviews>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    <connections>
-                                        <outlet property="leftCap" destination="7xK-PZ-Xdi" id="MGc-ng-GnO"/>
-                                        <outlet property="middleBar" destination="g2e-y7-8lu" id="Exe-o9-O6B"/>
-                                        <outlet property="rightCap" destination="0N4-iD-aft" id="l0U-rE-Eec"/>
-                                    </connections>
-                                </view>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="$1000 + $1923" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="1RM-iP-bEc" customClass="NiceFontLabel9">
-                                    <rect key="frame" x="65" y="-2" width="117" height="21"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                    <color key="textColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.23529411759999999" alpha="1" colorSpace="calibratedRGB"/>
-                                    <nil key="highlightedColor"/>
-                                    <color key="shadowColor" red="1" green="1" blue="1" alpha="0.75" colorSpace="calibratedRGB"/>
-                                    <size key="shadowOffset" width="0.0" height="1"/>
-                                </label>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Capacity:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="gjx-Tl-exE" customClass="NiceFontLabel9">
-                                    <rect key="frame" x="0.0" y="-2" width="60" height="21"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                    <color key="textColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.23529411759999999" alpha="1" colorSpace="calibratedRGB"/>
-                                    <nil key="highlightedColor"/>
-                                    <color key="shadowColor" red="1" green="1" blue="1" alpha="0.75" colorSpace="calibratedRGB"/>
-                                    <size key="shadowOffset" width="0.0" height="1"/>
-                                </label>
-                            </subviews>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        </view>
-                        <view contentMode="scaleToFill" id="UnE-dx-8Mc" userLabel="Stat Bar View 2">
-                            <rect key="frame" x="19" y="47" width="181" height="36"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <subviews>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="$1000 + $1923" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="Re8-H8-Z3n" customClass="NiceFontLabel9">
-                                    <rect key="frame" x="65" y="2" width="117" height="21"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                    <color key="textColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.23529411759999999" alpha="1" colorSpace="calibratedRGB"/>
-                                    <nil key="highlightedColor"/>
-                                    <color key="shadowColor" red="1" green="1" blue="1" alpha="0.75" colorSpace="calibratedRGB"/>
-                                    <size key="shadowOffset" width="0.0" height="1"/>
-                                </label>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Capacity:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="zAe-43-vE1" customClass="NiceFontLabel9">
-                                    <rect key="frame" x="0.0" y="2" width="60" height="21"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                    <color key="textColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.23529411759999999" alpha="1" colorSpace="calibratedRGB"/>
-                                    <nil key="highlightedColor"/>
-                                    <color key="shadowColor" red="1" green="1" blue="1" alpha="0.75" colorSpace="calibratedRGB"/>
-                                    <size key="shadowOffset" width="0.0" height="1"/>
-                                </label>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="upgradebarbg.png" id="uNh-Bm-GcN">
-                                    <rect key="frame" x="64" y="24" width="117" height="12"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                                </imageView>
-                                <view contentMode="scaleToFill" id="BcN-Cv-96B" customClass="SplitImageProgressBar">
-                                    <rect key="frame" x="64" y="24" width="117" height="12"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                                    <subviews>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="upgradebarnewmiddle.png" id="21f-Wn-N85">
-                                            <rect key="frame" x="4" y="0.0" width="93" height="12"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                        </imageView>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="upgradebarnewcap.png" id="Ivr-ev-hng">
-                                            <rect key="frame" x="0.0" y="0.0" width="4" height="12"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        </imageView>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="upgradebarnewcap.png" id="oSW-FK-4eh" customClass="FlipImageView">
-                                            <rect key="frame" x="96" y="0.0" width="4" height="12"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                        </imageView>
-                                    </subviews>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    <connections>
-                                        <outlet property="leftCap" destination="Ivr-ev-hng" id="H71-5x-0nd"/>
-                                        <outlet property="middleBar" destination="21f-Wn-N85" id="8pm-um-SKy"/>
-                                        <outlet property="rightCap" destination="oSW-FK-4eh" id="USU-vw-zq3"/>
-                                    </connections>
-                                </view>
-                                <view contentMode="scaleToFill" id="Fky-qR-mc9" customClass="SplitImageProgressBar">
-                                    <rect key="frame" x="64" y="24" width="117" height="12"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                                    <subviews>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="upgradebarcurrentmiddle.png" id="3L5-iI-NBn">
-                                            <rect key="frame" x="4" y="0.0" width="63" height="12"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                        </imageView>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="upgradebarcurrentcap.png" id="B7w-cc-8rM">
-                                            <rect key="frame" x="0.0" y="0.0" width="4" height="12"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        </imageView>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="upgradebarcurrentcap.png" id="5aV-NO-ccz" customClass="FlipImageView">
-                                            <rect key="frame" x="66" y="0.0" width="4" height="12"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                        </imageView>
-                                    </subviews>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    <connections>
-                                        <outlet property="leftCap" destination="B7w-cc-8rM" id="t9b-3t-hir"/>
-                                        <outlet property="middleBar" destination="3L5-iI-NBn" id="zJg-KA-y6f"/>
-                                        <outlet property="rightCap" destination="5aV-NO-ccz" id="HYB-fU-dbl"/>
-                                    </connections>
-                                </view>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popupline.png" id="EyT-zI-Wp3">
-                                    <rect key="frame" x="65" y="0.0" width="117" height="1"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </imageView>
-                            </subviews>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        </view>
-                    </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                </view>
-                <view contentMode="scaleToFill" id="Wfl-Xv-7l3" userLabel="Prereq View">
-                    <rect key="frame" x="47" y="360" width="225" height="85"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <subviews>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popupline.png" id="JSt-Bq-aHY">
-                            <rect key="frame" x="19" y="0.0" width="181" height="1"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
-                        <view contentMode="scaleToFill" id="wyd-co-IpV" customClass="UpgradePrereqView">
-                            <rect key="frame" x="19" y="8" width="181" height="21"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            <color key="backgroundColor" red="0.52682557399999996" green="0.005127211865" blue="0.033727087160000002" alpha="0.75" colorSpace="calibratedRGB"/>
-                            <connections>
-                                <outlet property="delegate" destination="-1" id="8ko-KQ-RJf"/>
-                            </connections>
-                        </view>
-                        <view contentMode="scaleToFill" id="Xcp-aV-Jxw" customClass="UpgradePrereqView">
-                            <rect key="frame" x="19" y="32" width="181" height="21"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            <color key="backgroundColor" red="0.52682557399999996" green="0.005127211865" blue="0.033727087160000002" alpha="0.75" colorSpace="calibratedRGB"/>
-                            <connections>
-                                <outlet property="delegate" destination="-1" id="FMu-1n-QAh"/>
-                            </connections>
-                        </view>
-                        <view contentMode="scaleToFill" id="qwP-k1-Quc" customClass="UpgradePrereqView">
-                            <rect key="frame" x="19" y="56" width="181" height="21"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            <color key="backgroundColor" red="0.52682557399999996" green="0.005127211865" blue="0.033727087160000002" alpha="0.75" colorSpace="calibratedRGB"/>
-                            <connections>
-                                <outlet property="delegate" destination="-1" id="Ctj-1H-7iU"/>
-                            </connections>
-                        </view>
-                    </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                </view>
-            </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-        </view>
     </objects>
     <resources>
         <image name="closepopupx.png" width="25" height="26"/>
@@ -534,14 +315,8 @@
         <image name="homemenutop.png" width="1" height="57"/>
         <image name="moneystack.png" width="31" height="30"/>
         <image name="oilicon.png" width="25" height="30"/>
-        <image name="popupline.png" width="1" height="1"/>
         <image name="popuplinevertical.png" width="1" height="1"/>
         <image name="readyforupgradebigcheck.png" width="23" height="26"/>
-        <image name="upgradebarbg.png" width="117" height="12"/>
-        <image name="upgradebarcurrentcap.png" width="3" height="12"/>
-        <image name="upgradebarcurrentmiddle.png" width="1" height="12"/>
-        <image name="upgradebarnewcap.png" width="3" height="12"/>
-        <image name="upgradebarnewmiddle.png" width="1" height="12"/>
         <image name="upgradepopupbottomred.png" width="363" height="58"/>
         <image name="upgradestarbg.png" width="115" height="110"/>
         <image name="woopsalertsign.png" width="31" height="29"/>
