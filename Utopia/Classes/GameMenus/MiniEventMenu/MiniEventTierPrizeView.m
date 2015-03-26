@@ -36,22 +36,17 @@ static NSString* kTierTitleLabelColors[3] = { @"B56C16", @"535758", @"8F6200" };
 
 - (NSInteger) numberOfSectionsInTableView:(UITableView*)tableView
 {
-  // Return the number of sections.
   return 1;
 }
 
 - (NSInteger) tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section
 {
-  // Return the number of rows in the section.
   return 3;
 }
 
 - (UITableViewCell*) tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath
 {
   MiniEventTierPrizeCell* cell = [tableView dequeueReusableCellWithIdentifier:@"ReusableTierPrizeCell" forIndexPath:indexPath];
-
-  // Configure the cell...
-  
   return cell;
 }
 
