@@ -379,8 +379,9 @@
   int numFreeSpins = [gs numberOfFreeSpinsForBoosterPack:self.boosterPack.boosterPackId];
   if (gs.gems < self.boosterPack.gemPrice && !isDailySpin && !numFreeSpins) {
     [GenericPopupController displayNotEnoughGemsView];
-  } else if (gs.myMonsters.count > gs.maxInventorySlots) {
-    [GenericPopupController displayConfirmationWithDescription:[NSString stringWithFormat:@"Uh oh, your residences are full. Sell some %@s to free up space.", MONSTER_NAME] title:@"Residences Full" okayButton:@"Sell" cancelButton:@"Cancel" target:self selector:@selector(manageTeam)];
+    // Don't stop them from spinning due to residences anymore. Unnecessary friction..
+//  } else if (gs.myMonsters.count > gs.maxInventorySlots) {
+//    [GenericPopupController displayConfirmationWithDescription:[NSString stringWithFormat:@"Uh oh, your residences are full. Sell some %@s to free up space.", MONSTER_NAME] title:@"Residences Full" okayButton:@"Sell" cancelButton:@"Cancel" target:self selector:@selector(manageTeam)];
   } else {
     _lastSpinWasFree = isDailySpin;
     
