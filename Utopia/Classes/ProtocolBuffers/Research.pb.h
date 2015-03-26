@@ -125,6 +125,7 @@ BOOL ResearchDomainIsValidValue(ResearchDomain value);
   BOOL hasCostAmt_:1;
   BOOL hasLevel_:1;
   BOOL hasTier_:1;
+  BOOL hasStrength_:1;
   BOOL hasIconImgName_:1;
   BOOL hasName_:1;
   BOOL hasDesc_:1;
@@ -139,6 +140,7 @@ BOOL ResearchDomainIsValidValue(ResearchDomain value);
   int32_t costAmt;
   int32_t level;
   int32_t tier;
+  int32_t strength;
   NSString* iconImgName;
   NSString* name;
   NSString* desc;
@@ -161,6 +163,7 @@ BOOL ResearchDomainIsValidValue(ResearchDomain value);
 - (BOOL) hasLevel;
 - (BOOL) hasPriority;
 - (BOOL) hasTier;
+- (BOOL) hasStrength;
 @property (readonly) int32_t researchId;
 @property (readonly) ResearchType researchType;
 @property (readonly) ResearchDomain researchDomain;
@@ -176,6 +179,7 @@ BOOL ResearchDomainIsValidValue(ResearchDomain value);
 @property (readonly) int32_t level;
 @property (readonly) Float32 priority;
 @property (readonly) int32_t tier;
+@property (readonly) int32_t strength;
 - (ResearchPropertyProto*)propertiesAtIndex:(NSUInteger)index;
 
 + (ResearchProto*) defaultInstance;
@@ -288,6 +292,11 @@ BOOL ResearchDomainIsValidValue(ResearchDomain value);
 - (int32_t) tier;
 - (ResearchProto_Builder*) setTier:(int32_t) value;
 - (ResearchProto_Builder*) clearTier;
+
+- (BOOL) hasStrength;
+- (int32_t) strength;
+- (ResearchProto_Builder*) setStrength:(int32_t) value;
+- (ResearchProto_Builder*) clearStrength;
 @end
 
 @interface ResearchPropertyProto : PBGeneratedMessage {
