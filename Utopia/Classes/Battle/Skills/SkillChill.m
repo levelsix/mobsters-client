@@ -65,6 +65,7 @@
     if (execute)
     {
       [self endDurationNow];
+      self.battleLayer.movesLeft += _turnsSkipped;
     }
     return YES;
   }
