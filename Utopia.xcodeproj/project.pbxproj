@@ -1420,6 +1420,12 @@
 		632C3EAA1AC4C5B20096FCFF /* DetailsPrereqView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 632C3EA91AC4C5B20096FCFF /* DetailsPrereqView.xib */; };
 		632C3EAB1AC4C5B20096FCFF /* DetailsPrereqView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 632C3EA91AC4C5B20096FCFF /* DetailsPrereqView.xib */; };
 		632C3EAC1AC4C5B20096FCFF /* DetailsPrereqView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 632C3EA91AC4C5B20096FCFF /* DetailsPrereqView.xib */; };
+		632C3EB91AC622290096FCFF /* DetailViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 632C3EB71AC622290096FCFF /* DetailViewCell.xib */; };
+		632C3EBA1AC622290096FCFF /* DetailViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 632C3EB71AC622290096FCFF /* DetailViewCell.xib */; };
+		632C3EBB1AC622290096FCFF /* DetailViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 632C3EB71AC622290096FCFF /* DetailViewCell.xib */; };
+		632C3EBC1AC622290096FCFF /* DetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 632C3EB81AC622290096FCFF /* DetailViewController.xib */; };
+		632C3EBD1AC622290096FCFF /* DetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 632C3EB81AC622290096FCFF /* DetailViewController.xib */; };
+		632C3EBE1AC622290096FCFF /* DetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 632C3EB81AC622290096FCFF /* DetailViewController.xib */; };
 		634174681A843521006DA494 /* avengebutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 634174581A843521006DA494 /* avengebutton@2x.png */; };
 		634174691A843521006DA494 /* avengebutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 634174581A843521006DA494 /* avengebutton@2x.png */; };
 		6341746A1A843521006DA494 /* avengebutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 634174581A843521006DA494 /* avengebutton@2x.png */; };
@@ -7991,6 +7997,8 @@
 		632C3EA11AC4C4650096FCFF /* DetailsStrengthView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailsStrengthView.xib; sourceTree = "<group>"; };
 		632C3EA51AC4C48F0096FCFF /* DetailsProgressBarView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailsProgressBarView.xib; sourceTree = "<group>"; };
 		632C3EA91AC4C5B20096FCFF /* DetailsPrereqView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailsPrereqView.xib; sourceTree = "<group>"; };
+		632C3EB71AC622290096FCFF /* DetailViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailViewCell.xib; sourceTree = "<group>"; };
+		632C3EB81AC622290096FCFF /* DetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailViewController.xib; sourceTree = "<group>"; };
 		634174581A843521006DA494 /* avengebutton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "avengebutton@2x.png"; sourceTree = "<group>"; };
 		634174591A843521006DA494 /* greenchatcorner@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greenchatcorner@2x.png"; sourceTree = "<group>"; };
 		6341745A1A843521006DA494 /* greenchatdivider@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greenchatdivider@2x.png"; sourceTree = "<group>"; };
@@ -13472,6 +13480,15 @@
 			name = GameType;
 			sourceTree = "<group>";
 		};
+		632C3EB51AC621C80096FCFF /* DetailsView */ = {
+			isa = PBXGroup;
+			children = (
+				632C3EB71AC622290096FCFF /* DetailViewCell.xib */,
+				632C3EB81AC622290096FCFF /* DetailViewController.xib */,
+			);
+			name = DetailsView;
+			sourceTree = "<group>";
+		};
 		634174571A843521006DA494 /* New Private Messages */ = {
 			isa = PBXGroup;
 			children = (
@@ -13808,6 +13825,7 @@
 		63CDCF691AC2525600A00DB6 /* ScrollingUpgrade */ = {
 			isa = PBXGroup;
 			children = (
+				632C3EB51AC621C80096FCFF /* DetailsView */,
 				63CDCF6A1AC253EE00A00DB6 /* EmbeddedScrollingUpgradeView.h */,
 				63CDCF6B1AC253EE00A00DB6 /* EmbeddedScrollingUpgradeView.m */,
 				63CDCF6F1AC2540F00A00DB6 /* EmbeddedScrollingUpgradeView.xib */,
@@ -19137,6 +19155,7 @@
 				29AF1C671A43AB1100E8E457 /* borderroundeddark@2x.png in Resources */,
 				CF0CF205196F452900ECD301 /* buildingenhance@2x.png in Resources */,
 				CF6A651919D25DA50002E05D /* 6boardgoo@2x.png in Resources */,
+				632C3EBD1AC622290096FCFF /* DetailViewController.xib in Resources */,
 				2985E5C71A30044E0041ABF4 /* bubbleright.png in Resources */,
 				CF0CF208196F452900ECD301 /* championprofribbon@2x.png in Resources */,
 				299AA3911A7856AA00A2D806 /* earthsideways-9@2x.png in Resources */,
@@ -19203,6 +19222,7 @@
 				CF0CF261196F452900ECD301 /* cashmiddle@2x.png in Resources */,
 				CFA8FF3419F899B200F9908C /* readyforupgradebigcheck@2x.png in Resources */,
 				299AA4111A786BB000A2D806 /* 6nightbomb-9@2x.png in Resources */,
+				632C3EBA1AC622290096FCFF /* DetailViewCell.xib in Resources */,
 				DA86923619C7C64500320A74 /* activeskillarrow@2x.png in Resources */,
 				CF6A64D819D24F030002E05D /* 6fireupdown@2x.png in Resources */,
 				9BDA8C001A5B432900C7AC27 /* gooniegrabinactivetab@2x.png in Resources */,
@@ -20505,6 +20525,7 @@
 				CF126D4E1538ACCA00E0C1AD /* GenericPopupController.xib in Resources */,
 				CF06B61D193699FC008BF892 /* sellblue@2x.png in Resources */,
 				CF6F1A03181518C900CFF2B9 /* rewardlabel@2x.png in Resources */,
+				632C3EB91AC622290096FCFF /* DetailViewCell.xib in Resources */,
 				CFFC50FD19C4C57700BDAA62 /* notendcappurple@2x.png in Resources */,
 				63CDCF661AC2347700A00DB6 /* strengthicon@2x.png in Resources */,
 				298050601A265EE800806253 /* 16gbhud@2x.png in Resources */,
@@ -22012,6 +22033,7 @@
 				CF010F3D19DDFBDD00DAD527 /* 6thebasicgrab@2x.png in Resources */,
 				CFCD0ED11953F07400EDC233 /* minusteam@2x.png in Resources */,
 				299AA3D81A7856AA00A2D806 /* rockorb-9@2x.png in Resources */,
+				632C3EBC1AC622290096FCFF /* DetailViewController.xib in Resources */,
 				CFC97182182C74E500FF1D83 /* lightpointsfont@2x.png in Resources */,
 				CFF64705195E14D500C43641 /* EvolveChooserViewController.xib in Resources */,
 				CF62931B180D22F600C6C196 /* vaultgems@2x.png in Resources */,
@@ -22584,6 +22606,7 @@
 				6B51468C1AA1487100B2844A /* 6firelsorb-9@2x.png in Resources */,
 				CF4819E619F7217F00041486 /* rewardlabel@2x.png in Resources */,
 				CF4819EA19F7217F00041486 /* upgrade@2x.png in Resources */,
+				632C3EBB1AC622290096FCFF /* DetailViewCell.xib in Resources */,
 				CF4819EB19F7217F00041486 /* evolveequals.png in Resources */,
 				CF4819EC19F7217F00041486 /* battlesupertag@2x.png in Resources */,
 				CF4819ED19F7217F00041486 /* scievobox@2x.png in Resources */,
@@ -24200,6 +24223,7 @@
 				9BDA8B9C1A3B8E1700C7AC27 /* rockheadshot@2x.png in Resources */,
 				6B1EAA631ACF5DCC00E0B642 /* VinesLeft@2x.tps in Resources */,
 				3E72FC861A69CC8E00CC04E8 /* chathelpallbutton@2x.png in Resources */,
+				632C3EBE1AC622290096FCFF /* DetailViewController.xib in Resources */,
 				CF48236519F7217F00041486 /* gachalegendtag@2x.png in Resources */,
 				299AA3921A7856AA00A2D806 /* earthsideways-9@2x.png in Resources */,
 				6B1EA9DC1ACF5DCC00E0B642 /* VinesMain01.png in Resources */,
