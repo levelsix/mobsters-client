@@ -249,7 +249,7 @@
       break;
       
     case SpecialOrbTypeBullet:
-      return [NSString stringWithFormat:@"%@bulletorb%@.png", resPrefix, suffix];
+      return [NSString stringWithFormat:@"%@hellfireorb%@.png", resPrefix, suffix];
       break;
       
     case SpecialOrbTypeSword:
