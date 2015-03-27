@@ -2160,6 +2160,15 @@
 		9B2EFCC71AC3A593005B7B83 /* tabpressedstate@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B2EFCC31AC3A593005B7B83 /* tabpressedstate@2x.png */; };
 		9B2EFCC81AC3A593005B7B83 /* tabpressedstate@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B2EFCC31AC3A593005B7B83 /* tabpressedstate@2x.png */; };
 		9B2EFCC91AC3A593005B7B83 /* tabpressedstate@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B2EFCC31AC3A593005B7B83 /* tabpressedstate@2x.png */; };
+		9B2EFCE71AC4AEF5005B7B83 /* EventMiniEvent.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B2EFCE21AC4AEF5005B7B83 /* EventMiniEvent.pb.m */; };
+		9B2EFCE81AC4AEF5005B7B83 /* EventMiniEvent.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B2EFCE21AC4AEF5005B7B83 /* EventMiniEvent.pb.m */; };
+		9B2EFCE91AC4AEF5005B7B83 /* EventMiniEvent.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B2EFCE21AC4AEF5005B7B83 /* EventMiniEvent.pb.m */; };
+		9B2EFCEA1AC4AEF5005B7B83 /* MiniEvent.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B2EFCE41AC4AEF5005B7B83 /* MiniEvent.pb.m */; };
+		9B2EFCEB1AC4AEF5005B7B83 /* MiniEvent.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B2EFCE41AC4AEF5005B7B83 /* MiniEvent.pb.m */; };
+		9B2EFCEC1AC4AEF5005B7B83 /* MiniEvent.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B2EFCE41AC4AEF5005B7B83 /* MiniEvent.pb.m */; };
+		9B2EFCED1AC4AEF5005B7B83 /* Reward.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B2EFCE61AC4AEF5005B7B83 /* Reward.pb.m */; };
+		9B2EFCEE1AC4AEF5005B7B83 /* Reward.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B2EFCE61AC4AEF5005B7B83 /* Reward.pb.m */; };
+		9B2EFCEF1AC4AEF5005B7B83 /* Reward.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B2EFCE61AC4AEF5005B7B83 /* Reward.pb.m */; };
 		9B41AE811A7824AA00529879 /* SkillKnockout.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B41AE801A7824AA00529879 /* SkillKnockout.m */; };
 		9B41AE821A7824AA00529879 /* SkillKnockout.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B41AE801A7824AA00529879 /* SkillKnockout.m */; };
 		9B41AE831A7824AA00529879 /* SkillKnockout.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B41AE801A7824AA00529879 /* SkillKnockout.m */; };
@@ -8433,6 +8442,17 @@
 		9B2EFCBB1AC39544005B7B83 /* MiniEventPointsActionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MiniEventPointsActionCell.xib; sourceTree = "<group>"; };
 		9B2EFCC21AC3A593005B7B83 /* tabactivestate@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tabactivestate@2x.png"; sourceTree = "<group>"; };
 		9B2EFCC31AC3A593005B7B83 /* tabpressedstate@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tabpressedstate@2x.png"; sourceTree = "<group>"; };
+		9B2EFCCC1AC4AEC9005B7B83 /* BattleItem.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = BattleItem.proto; sourceTree = "<group>"; };
+		9B2EFCCD1AC4AEC9005B7B83 /* EventBattleItem.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = EventBattleItem.proto; sourceTree = "<group>"; };
+		9B2EFCCE1AC4AEC9005B7B83 /* EventMiniEvent.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = EventMiniEvent.proto; sourceTree = "<group>"; };
+		9B2EFCCF1AC4AEC9005B7B83 /* MiniEvent.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MiniEvent.proto; sourceTree = "<group>"; };
+		9B2EFCD01AC4AEC9005B7B83 /* Reward.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Reward.proto; sourceTree = "<group>"; };
+		9B2EFCE11AC4AEF5005B7B83 /* EventMiniEvent.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventMiniEvent.pb.h; sourceTree = "<group>"; };
+		9B2EFCE21AC4AEF5005B7B83 /* EventMiniEvent.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventMiniEvent.pb.m; sourceTree = "<group>"; };
+		9B2EFCE31AC4AEF5005B7B83 /* MiniEvent.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiniEvent.pb.h; sourceTree = "<group>"; };
+		9B2EFCE41AC4AEF5005B7B83 /* MiniEvent.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MiniEvent.pb.m; sourceTree = "<group>"; };
+		9B2EFCE51AC4AEF5005B7B83 /* Reward.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reward.pb.h; sourceTree = "<group>"; };
+		9B2EFCE61AC4AEF5005B7B83 /* Reward.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reward.pb.m; sourceTree = "<group>"; };
 		9B41AE7F1A7824AA00529879 /* SkillKnockout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillKnockout.h; sourceTree = "<group>"; };
 		9B41AE801A7824AA00529879 /* SkillKnockout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillKnockout.m; sourceTree = "<group>"; };
 		9B41AE851A78573300529879 /* SkillShallowGrave.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillShallowGrave.h; sourceTree = "<group>"; };
@@ -15705,13 +15725,19 @@
 				29A38D4B1ACCCCF6006F3CBF /* MiniEvent.pb.m */,
 				29A38D4C1ACCCCF6006F3CBF /* Reward.pb.h */,
 				29A38D4D1ACCCCF6006F3CBF /* Reward.pb.m */,
+				CF6574771909CAF100ABF1F4 /* Proto files */,
+				9B2EFCE11AC4AEF5005B7B83 /* EventMiniEvent.pb.h */,
+				9B2EFCE21AC4AEF5005B7B83 /* EventMiniEvent.pb.m */,
+				9B2EFCE31AC4AEF5005B7B83 /* MiniEvent.pb.h */,
+				9B2EFCE41AC4AEF5005B7B83 /* MiniEvent.pb.m */,
+				9B2EFCE51AC4AEF5005B7B83 /* Reward.pb.h */,
+				9B2EFCE61AC4AEF5005B7B83 /* Reward.pb.m */,
 				29AF48901AAA87800034927C /* BattleItem.pb.h */,
 				29AF48911AAA87800034927C /* BattleItem.pb.m */,
 				29AF48921AAA87800034927C /* EventBattleItem.pb.h */,
 				29AF48931AAA87800034927C /* EventBattleItem.pb.m */,
 				63B0452A1A9D7CD600C74F0C /* EventResearch.pb.h */,
 				63B0452B1A9D7CD600C74F0C /* EventResearch.pb.m */,
-				CF6574771909CAF100ABF1F4 /* Proto files */,
 				3E1A0C001A645B4B00DF00AD /* Board.pb.h */,
 				3E1A0C011A645B4B00DF00AD /* Board.pb.m */,
 				3E1A0C021A645B4B00DF00AD /* Research.pb.h */,
@@ -15958,6 +15984,11 @@
 			children = (
 				29AF48F51AAA94DD0034927C /* BattleItem.proto */,
 				29AF48F61AAA94DD0034927C /* EventBattleItem.proto */,
+				9B2EFCCC1AC4AEC9005B7B83 /* BattleItem.proto */,
+				9B2EFCCD1AC4AEC9005B7B83 /* EventBattleItem.proto */,
+				9B2EFCCE1AC4AEC9005B7B83 /* EventMiniEvent.proto */,
+				9B2EFCCF1AC4AEC9005B7B83 /* MiniEvent.proto */,
+				9B2EFCD01AC4AEC9005B7B83 /* Reward.proto */,
 				297DE2351A9D7D7500692D80 /* EventResearch.proto */,
 				29A2FC521A4E36F700FF93B6 /* Board.proto */,
 				9BDA8C651A6366DA00C7AC27 /* Research.proto */,
@@ -25238,6 +25269,7 @@
 				CF0CED27196F452900ECD301 /* Structure.pb.m in Sources */,
 				CF0CED28196F452900ECD301 /* OutgoingEventController.m in Sources */,
 				CF0CED29196F452900ECD301 /* SocketCommunication.m in Sources */,
+				9B2EFCE81AC4AEF5005B7B83 /* EventMiniEvent.pb.m in Sources */,
 				9B8CA6121A3798C00060BE8F /* SkillCritAndEvade.m in Sources */,
 				CF0CED2A196F452900ECD301 /* AnimatedSprite.m in Sources */,
 				DA0FC58719B65F2A00393BF4 /* SkillJelly.m in Sources */,
@@ -25365,6 +25397,7 @@
 				295FA2B41A1B44A7006B79F3 /* ResourceItemsFiller.m in Sources */,
 				CF7CFE2119A55A68009338A2 /* BattleChain.m in Sources */,
 				633CCADE1AA139E900C6649F /* ResearchViewController.m in Sources */,
+				9B2EFCEE1AC4AEF5005B7B83 /* Reward.pb.m in Sources */,
 				CF7CFE2319A55A68009338A2 /* BattleOrb.m in Sources */,
 				291721121ACF82040093F100 /* DetailViewController.m in Sources */,
 				CF0CED7C196F452900ECD301 /* AchievementUtil.m in Sources */,
@@ -25382,6 +25415,7 @@
 				CF0CED87196F452900ECD301 /* FacebookSpammer.m in Sources */,
 				9B41AF811A830BB300529879 /* SkillFlameBreak.m in Sources */,
 				CF0CED88196F452900ECD301 /* MapBotView.m in Sources */,
+				9B2EFCEB1AC4AEF5005B7B83 /* MiniEvent.pb.m in Sources */,
 				CF42519819ABDB7400964547 /* TutorialBattleLayout.m in Sources */,
 				DA5E3FFB19D0CB3F001F28CE /* SkillRoidRage.m in Sources */,
 				29A38D551ACCCCF6006F3CBF /* Reward.pb.m in Sources */,
@@ -25565,6 +25599,7 @@
 				CF6574DF1909CAF200ABF1F4 /* Protocols.pb.m in Sources */,
 				CF40CFDE18DF9DCB0034A721 /* UnreadNotifications.m in Sources */,
 				CFFD311E18503E880091E315 /* UpgradeViewController.m in Sources */,
+				9B2EFCE71AC4AEF5005B7B83 /* EventMiniEvent.pb.m in Sources */,
 				CF864DD0193E802300DE0D7A /* MessageComposerView.m in Sources */,
 				CF7063FA183EF991005B30A1 /* StaticStructure.m in Sources */,
 				DA07606019B129EC00E43E5A /* SkillManager.m in Sources */,
@@ -25572,6 +25607,7 @@
 				CF6574BE1909CAF200ABF1F4 /* MonsterStuff.pb.m in Sources */,
 				9B0E6E5D1A77087000118210 /* SkillBlindingLight.m in Sources */,
 				CF7064C31845E4C7005B30A1 /* OneLineNotificationViewController.m in Sources */,
+				9B2EFCED1AC4AEF5005B7B83 /* Reward.pb.m in Sources */,
 				6BCBD8751A797E63002C584F /* SkillHammerTime.m in Sources */,
 				6B3BC1751A8BE3CD00E0D457 /* SkillPoisonFire.m in Sources */,
 				CF126D341538ACCA00E0C1AD /* Downloader.m in Sources */,
@@ -25718,6 +25754,7 @@
 				CF29E91D19612CA000B40DA4 /* FundsViews.m in Sources */,
 				9BDA8BDF1A43837D00C7AC27 /* NewGachaFocusScrollView.m in Sources */,
 				CF00865C19CBAC02002F6149 /* NSString+Sizing.m in Sources */,
+				9B2EFCEA1AC4AEF5005B7B83 /* MiniEvent.pb.m in Sources */,
 				3E383D7C1A76F77400BAC962 /* SkillSkewer.m in Sources */,
 				CFA8B1AD19EB789F00CF6BFD /* ChatObject.m in Sources */,
 				29A38D511ACCCCF6006F3CBF /* MiniEvent.pb.m in Sources */,
@@ -25989,6 +26026,7 @@
 				CF4825B419F7549300041486 /* Prerequisite.pb.m in Sources */,
 				CF4818CC19F7217F00041486 /* Structure.pb.m in Sources */,
 				CF4818CD19F7217F00041486 /* OutgoingEventController.m in Sources */,
+				9B2EFCE91AC4AEF5005B7B83 /* EventMiniEvent.pb.m in Sources */,
 				CF4818CE19F7217F00041486 /* SocketCommunication.m in Sources */,
 				6B8CD58C1A9BB45C000DAAB8 /* SkillControllerSpecialOrb.m in Sources */,
 				9B8CA6131A3798C00060BE8F /* SkillCritAndEvade.m in Sources */,
@@ -26115,6 +26153,7 @@
 				CF48192419F7217F00041486 /* ClanHelpUtil.m in Sources */,
 				CF48192519F7217F00041486 /* NSObject+PerformBlockAfterDelay.m in Sources */,
 				295FA2B51A1B44A7006B79F3 /* ResourceItemsFiller.m in Sources */,
+				9B2EFCEF1AC4AEF5005B7B83 /* Reward.pb.m in Sources */,
 				CF48192619F7217F00041486 /* BattleChain.m in Sources */,
 				CF48192719F7217F00041486 /* BattleOrb.m in Sources */,
 				291721131ACF82040093F100 /* DetailViewController.m in Sources */,
@@ -26133,6 +26172,7 @@
 				CF48193119F7217F00041486 /* FacebookSpammer.m in Sources */,
 				9B41AF821A830BB300529879 /* SkillFlameBreak.m in Sources */,
 				CF48193219F7217F00041486 /* MapBotView.m in Sources */,
+				9B2EFCEC1AC4AEF5005B7B83 /* MiniEvent.pb.m in Sources */,
 				CF48193319F7217F00041486 /* TutorialBattleLayout.m in Sources */,
 				CF48193419F7217F00041486 /* SkillRoidRage.m in Sources */,
 				29A38D561ACCCCF6006F3CBF /* Reward.pb.m in Sources */,
