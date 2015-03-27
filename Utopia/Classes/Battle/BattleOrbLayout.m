@@ -281,7 +281,7 @@
           [set addObject:orb];
         }
         
-        if ([self hasChainAtColumn:i row:j] || (j == 0 && [self orbIsBottomFeeder:orb])) {
+        if ([self hasChainAtColumn:i row:j] || ([self isBottomRowForColumn:i row:j] && [self orbIsBottomFeeder:orb])) {
           foundMatch = YES;
         }
       }
@@ -301,6 +301,21 @@
   while ([self.possibleSwaps count] == 0 || foundMatch);
   
   return set;
+}
+
+- (BOOL) isBottomRowForColumn:(int)column row:(int)row
+{
+  BattleTile *currTile = [self tileAtColumn:column row:row];
+  if (row == 0) return !currTile.isHole;
+  if (currTile.isHole)
+    return NO;
+  for (int i = row-1; i >= 0; i--)
+  {
+    currTile = [self tileAtColumn:column row:i];
+    if (!currTile.isHole)
+      return NO;
+  }
+  return YES;
 }
 
 - (OrbColor) generateRandomOrbColor {
@@ -1608,7 +1623,10 @@
   NSMutableSet *set = [NSMutableSet set];
   
   for (int i = 0; i < _numColumns; i++) {
-    BattleOrb *orb = [self orbAtColumn:i row:0];
+    int row = 0;
+    for (BattleTile *tile = [self tileAtColumn:i row:row]; tile && tile.isHole && tile.canPassThrough; tile = [self tileAtColumn:i row:++row]) {}
+    
+    BattleOrb *orb = [self orbAtColumn:i row:row];
     if ([self orbIsBottomFeeder:orb]) {
       
       [self addPoint:ccp(i, 0) forOrb:orb withOrbPaths:orbPaths];
