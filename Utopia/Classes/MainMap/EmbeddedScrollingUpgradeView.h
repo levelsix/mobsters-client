@@ -7,18 +7,17 @@
 //
 
 #import "NibUtils.h"
-#import "UpgradeViewController.h"
 
 @protocol EmbeddedDelegate <NSObject>
 
-- (void) goClicked:(id)sender;
+- (void) goClicked:(int)prereqId;
 
 @end
 
 @interface DetailsPrereqView : UIView
 @property (nonatomic, assign) IBOutlet UIImageView *checkIcon;
 @property (nonatomic, assign) IBOutlet UILabel *prereqLabel;
-@property (nonatomic, assign) IBOutlet UIView *goButtonView;
+@property (nonatomic, assign) IBOutlet UIButton *goButton;
 
 @property (nonatomic, assign) IBOutlet id<EmbeddedDelegate> delegate;
 @end
@@ -27,6 +26,7 @@
 @property (nonatomic, assign) IBOutlet NiceFontLabel9 *detailName;
 @property (nonatomic, assign) IBOutlet NiceFontLabel9 *increaseDescription;
 @property (nonatomic, assign) IBOutlet NiceFontButton9 *detailButton;
+@property (nonatomic, assign) IBOutlet UIView *buttonView;
 
 @property (nonatomic, assign) IBOutlet SplitImageProgressBar *frontBar;
 @property (nonatomic, assign) IBOutlet SplitImageProgressBar *backBar;
@@ -44,13 +44,16 @@
 
 @end
 
-@interface EmbeddedScrollingUpgradeView : EmbeddedNibView {
+@interface EmbeddedScrollingUpgradeView : EmbeddedNibView <EmbeddedDelegate>{
   float _curY;
 }
 
 @property (nonatomic, assign) IBOutlet UIView *view;
 @property (nonatomic, assign) IBOutlet UIScrollView *scrollView;
+@property (nonatomic, assign) IBOutlet UIView *contentView;
 
-- (void) updateForBuildingUpgrade:(UserStruct *)userStruct;
+@property (nonatomic, assign) IBOutlet id<EmbeddedDelegate> delegate;
+
+- (void) updateForGameTypeProto:(id<GameTypeProto>)gameProto;
 
 @end

@@ -13,10 +13,12 @@
 - (int) numBars;
 - (NSString *) statNameForIndex:(int)index;
 - (NSString *) statSuffixForIndex:(int)index;
+- (NSString *) statChangeForIndex:(int)index;
 
 - (float) curBarPercentForIndex:(int)index;
 - (float) nextBarPercentForIndex:(int)index;
 
+- (int) strength;
 - (int) numPrereqs;
 - (BOOL) prereqCompleteForIndex:(int)index;
 - (PrereqProto *) prereqForIndex:(int)index;

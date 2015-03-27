@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
@@ -8,34 +8,41 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="lyC-vz-vUB" customClass="DetailsProgressBarView">
-            <rect key="frame" x="0.0" y="0.0" width="235" height="28"/>
+            <rect key="frame" x="0.0" y="0.0" width="235" height="32"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vLI-AD-JpY" userLabel="StatBarView">
+                <view contentMode="scaleToFill" id="vLI-AD-JpY" userLabel="StatBarView">
                     <rect key="frame" x="3" y="0.0" width="229" height="28"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Capacity:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="r1y-cu-Vsp" customClass="NiceFontLabel9">
-                            <rect key="frame" x="0.0" y="-6" width="60" height="21"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                            <color key="textColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.23529411759999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Capacity:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="r1y-cu-Vsp" customClass="NiceFontLabel9">
+                            <rect key="frame" x="13" y="-6" width="60" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                            <color key="textColor" red="0.2627450980392157" green="0.2627450980392157" blue="0.2627450980392157" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="1" green="1" blue="1" alpha="0.75" colorSpace="calibratedRGB"/>
                             <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="upgradebarbg.png" translatesAutoresizingMaskIntoConstraints="NO" id="1cr-WW-VNM">
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="upgradebarbg.png" id="1cr-WW-VNM">
                             <rect key="frame" x="80" y="16" width="128" height="12"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </imageView>
-                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9JW-Jz-o48" customClass="SplitImageProgressBar">
+                        <view contentMode="scaleToFill" id="9JW-Jz-o48" customClass="SplitImageProgressBar">
                             <rect key="frame" x="80" y="16" width="128" height="12"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="upgradebarnewmiddle.png" translatesAutoresizingMaskIntoConstraints="NO" id="dtb-us-Nqy">
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="upgradebarnewmiddle.png" id="dtb-us-Nqy">
                                     <rect key="frame" x="4" y="0.0" width="104" height="12"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 </imageView>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" fixedFrame="YES" image="upgradebarnewcap.png" translatesAutoresizingMaskIntoConstraints="NO" id="EW2-5c-m59">
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="upgradebarnewcap.png" id="EW2-5c-m59">
                                     <rect key="frame" x="0.0" y="0.0" width="4" height="12"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 </imageView>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" fixedFrame="YES" image="upgradebarnewcap.png" translatesAutoresizingMaskIntoConstraints="NO" id="dsE-5q-u1I" customClass="FlipImageView">
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="upgradebarnewcap.png" id="dsE-5q-u1I" customClass="FlipImageView">
                                     <rect key="frame" x="107" y="0.0" width="4" height="12"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 </imageView>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -45,17 +52,21 @@
                                 <outlet property="rightCap" destination="dsE-5q-u1I" id="QGX-71-qba"/>
                             </connections>
                         </view>
-                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="A9j-Vg-ENk" customClass="SplitImageProgressBar">
+                        <view contentMode="scaleToFill" id="A9j-Vg-ENk" customClass="SplitImageProgressBar">
                             <rect key="frame" x="80" y="16" width="128" height="12"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="upgradebarcurrentmiddle.png" translatesAutoresizingMaskIntoConstraints="NO" id="5lK-YB-LjC">
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="upgradebarcurrentmiddle.png" id="5lK-YB-LjC">
                                     <rect key="frame" x="4" y="0.0" width="74" height="12"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 </imageView>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" fixedFrame="YES" image="upgradebarcurrentcap.png" translatesAutoresizingMaskIntoConstraints="NO" id="fdp-DJ-xGu">
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="upgradebarcurrentcap.png" id="fdp-DJ-xGu">
                                     <rect key="frame" x="0.0" y="0.0" width="4" height="12"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 </imageView>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" fixedFrame="YES" image="upgradebarcurrentcap.png" translatesAutoresizingMaskIntoConstraints="NO" id="G1z-Kx-B0b" customClass="FlipImageView">
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="upgradebarcurrentcap.png" id="G1z-Kx-B0b" customClass="FlipImageView">
                                     <rect key="frame" x="77" y="0.0" width="4" height="12"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 </imageView>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -65,20 +76,23 @@
                                 <outlet property="rightCap" destination="G1z-Kx-B0b" id="yus-l9-IFQ"/>
                             </connections>
                         </view>
-                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YRp-EJ-7HR" userLabel="DetailView">
+                        <view contentMode="scaleToFill" id="YRp-EJ-7HR" userLabel="DetailView">
                             <rect key="frame" x="163" y="-4" width="55" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vSN-qe-LuP" userLabel="GreyBar">
+                                <view contentMode="scaleToFill" id="vSN-qe-LuP" userLabel="GreyBar">
                                     <rect key="frame" x="1" y="6" width="1" height="8"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" red="0.60784313729999995" green="0.60784313729999995" blue="0.60784313729999995" alpha="1" colorSpace="calibratedRGB"/>
                                 </view>
-                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="lUK-oP-vWa" customClass="NiceFontButton9">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="clip" id="lUK-oP-vWa" customClass="NiceFontButton9">
                                     <rect key="frame" x="8" y="2" width="60" height="15"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
                                     <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <size key="titleShadowOffset" width="0.0" height="1"/>
                                     <state key="normal" title="Details »">
-                                        <color key="titleColor" red="0.0" green="0.52549019610000003" blue="0.86274509799999999" alpha="1" colorSpace="deviceRGB"/>
+                                        <color key="titleColor" red="0.074509803921568626" green="0.45882352941176469" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                                     </state>
                                     <state key="selected">
                                         <color key="titleColor" red="0.31764705879999999" green="0.66274509800000003" blue="0.75686274509999996" alpha="1" colorSpace="deviceRGB"/>
@@ -89,10 +103,11 @@
                                 </button>
                             </subviews>
                         </view>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="2% Increase" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="2no-oF-i1m" customClass="NiceFontLabel9">
-                            <rect key="frame" x="81" y="-6" width="77" height="21"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                            <color key="textColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.23529411759999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="2% Increase" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="2no-oF-i1m" customClass="NiceFontLabel9">
+                            <rect key="frame" x="81" y="-6" width="97" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                            <color key="textColor" red="0.027450980392156862" green="0.15294117647058825" blue="0.14901960784313725" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="1" green="1" blue="1" alpha="0.75" colorSpace="calibratedRGB"/>
                             <size key="shadowOffset" width="0.0" height="1"/>
@@ -106,6 +121,7 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="backBar" destination="9JW-Jz-o48" id="RN0-99-RCO"/>
+                <outlet property="buttonView" destination="YRp-EJ-7HR" id="7XP-9y-L9E"/>
                 <outlet property="detailButton" destination="lUK-oP-vWa" id="8L4-To-wPV"/>
                 <outlet property="detailName" destination="r1y-cu-Vsp" id="KeS-Ef-zuf"/>
                 <outlet property="frontBar" destination="A9j-Vg-ENk" id="reX-gS-2mu"/>
@@ -121,4 +137,9 @@
         <image name="upgradebarnewcap.png" width="3" height="12"/>
         <image name="upgradebarnewmiddle.png" width="1" height="12"/>
     </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
 </document>

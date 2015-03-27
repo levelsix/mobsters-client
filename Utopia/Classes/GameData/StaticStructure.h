@@ -39,6 +39,10 @@
 
 @end
 
+@interface EvoChamberProto (StaticsStructureImpl) <StaticStructure>
+
+@end
+
 @interface MiniJobCenterProto (StaticStructureImpl) <StaticStructure>
 
 @end
@@ -55,6 +59,14 @@
 
 @end
 
+@interface ClanHouseProto (StaticStructureImpl) <StaticStructure>
+
+@end
+
+@interface TeamCenterProto (StaticStructureImpl) <StaticStructure>
+
+@end
+
 @interface StructureInfoProto (StaticStructure)
 
 - (id<StaticStructure>) maxStaticStruct;
@@ -62,6 +74,7 @@
 - (int) numPrereqs;
 - (BOOL) prereqCompleteForIndex:(int)index;
 - (PrereqProto *) prereqForIndex:(int)index;
+- (NSString *) statChangeStringWith:(float)curStat nextStat:(float)nextStat suffix:(NSString *)suffix;
   
 @end
 

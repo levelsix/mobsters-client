@@ -34,7 +34,6 @@
 
 - (void) awakeFromNib {
 //  [self.statBarView1.superview addSubview:self.cityHallUnlocksView];
-  [self.embeddedScrollView loadNib];
 }
 
 - (void) loadForUserStruct:(UserStruct *)us {
@@ -95,7 +94,7 @@
   
   if (nextSS.structInfo.structType != StructureInfoProto_StructTypeTownHall) {
     self.cityHallUnlocksView.hidden = YES;
-    [self.embeddedScrollView updateForBuildingUpgrade:us];
+    [self.embeddedScrollView updateForGameTypeProto:us.staticStruct];
   } else {
     [self loadCityHallUnlocksViewForUserStruct:us];
   }
@@ -230,6 +229,8 @@
   if (level == 0) self.titleLabel.text = [NSString stringWithFormat:@"Fix %@?", self.userStruct.staticStruct.structInfo.name];
   
   [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
+  
+  self.upgradeView.embeddedScrollView.delegate = self;
 }
 
 #pragma mark - IBActions
@@ -242,7 +243,7 @@
   }
 }
 
-- (void) goClicked:(UpgradePrereqView *)pre {
+//- (void) goClicked:(UpgradePrereqView *)pre {
 //  NSArray *prereqs = [self.userStruct allPrerequisites];
 //  NSInteger i = [self.upgradeView.prereqViews indexOfObject:pre];
 //  
@@ -258,6 +259,27 @@
 //      }
 //    }
 //  }
+//}
+
+- (void) goClicked:(int)prereqId {
+  NSArray *prereqs = [self.userStruct allPrerequisites];
+  
+  
+  PrereqProto *pp;
+  for (PrereqProto *nextPp in prereqs) {
+    if(nextPp.prereqId == prereqId) {
+      pp = nextPp;
+    }
+  }
+
+  GameViewController *gvc = [GameViewController baseController];
+  if (pp.prereqGameType == GameTypeStructure) {
+    BOOL success = [gvc pointArrowToUpgradeForStructId:pp.prereqGameEntityId quantity:pp.quantity];
+
+    if (success) {
+      [self closeClicked:nil];
+    }
+  }
 }
 
 - (IBAction) closeClicked:(id)sender {

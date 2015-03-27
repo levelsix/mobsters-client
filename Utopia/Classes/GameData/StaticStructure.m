@@ -32,6 +32,19 @@
   }
 }
 
+- (NSString *) statChangeForIndex:(int)index {
+  GameState *gs = [GameState sharedGameState];
+  ResourceGeneratorProto *nextStruct;
+  if (self.structInfo.successorStructId) {
+    nextStruct = (ResourceGeneratorProto *)[gs structWithId:self.structInfo.successorStructId];
+  }
+  if(!index) {
+    return [self.structInfo statChangeStringWith:self.productionRate nextStat:nextStruct.productionRate suffix:[self statSuffixForIndex:index]];
+  } else {
+    return [self.structInfo statChangeStringWith:self.capacity nextStat:nextStruct.capacity suffix:[self statSuffixForIndex:index]];
+  }
+}
+
 - (float) curBarPercentForIndex:(int)index {
   float result = 0.f;
   
@@ -75,6 +88,10 @@
   return [self.structInfo prereqCompleteForIndex:index];
 }
 
+- (int) strength {
+  return self.structInfo.strength;
+}
+
 @end
 
 @implementation ResourceStorageProto (StaticStructureImpl)
@@ -89,6 +106,15 @@
 
 - (NSString *) statSuffixForIndex:(int)index {
   return @"";
+}
+
+- (NSString *) statChangeForIndex:(int)index {
+  GameState *gs = [GameState sharedGameState];
+  ResourceStorageProto *nextStruct;
+  if (self.structInfo.successorStructId) {
+    nextStruct = (ResourceStorageProto *)[gs structWithId:self.structInfo.successorStructId];
+  }
+  return [self.structInfo statChangeStringWith:self.capacity nextStat:nextStruct.capacity suffix:[self statSuffixForIndex:index]];
 }
 
 - (float) curBarPercentForIndex:(int)index {
@@ -121,6 +147,10 @@
   return [self.structInfo prereqCompleteForIndex:index];
 }
 
+- (int) strength {
+  return self.structInfo.strength;
+}
+
 @end
 
 @implementation HospitalProto (StaticStructureImpl)
@@ -142,6 +172,19 @@
     return @"";
   } else {
     return @"%";
+  }
+}
+
+- (NSString *) statChangeForIndex:(int)index {
+  GameState *gs = [GameState sharedGameState];
+  HospitalProto *nextStruct;
+  if (self.structInfo.successorStructId) {
+    nextStruct = (HospitalProto *)[gs structWithId:self.structInfo.successorStructId];
+  }
+  if(!index) {
+    return [self.structInfo statChangeStringWith:self.queueSize nextStat:nextStruct.queueSize suffix:[self statSuffixForIndex:index]];
+  } else {
+    return [self.structInfo statChangeStringWith:self.secsToFullyHealMultiplier*100 nextStat:nextStruct.secsToFullyHealMultiplier*100 suffix:[self statSuffixForIndex:index]];
   }
 }
 
@@ -188,6 +231,10 @@
   return [self.structInfo prereqCompleteForIndex:index];
 }
 
+- (int) strength {
+  return self.structInfo.strength;
+}
+
 @end
 
 @implementation ResidenceProto (StaticStructureImpl)
@@ -202,6 +249,15 @@
 
 - (NSString *) statSuffixForIndex:(int)index {
   return @"";
+}
+
+- (NSString *) statChangeForIndex:(int)index {
+  GameState *gs = [GameState sharedGameState];
+  ResidenceProto *nextStruct;
+  if (self.structInfo.successorStructId) {
+    nextStruct = (ResidenceProto *)[gs structWithId:self.structInfo.successorStructId];
+  }
+  return [self.structInfo statChangeStringWith:self.numMonsterSlots nextStat:nextStruct.numMonsterSlots suffix:[self statSuffixForIndex:index]];
 }
 
 - (float) curBarPercentForIndex:(int)index {
@@ -234,6 +290,10 @@
   return [self.structInfo prereqCompleteForIndex:index];
 }
 
+- (int) strength {
+  return self.structInfo.strength;
+}
+
 @end
 
 @implementation TownHallProto (StaticStructureImpl)
@@ -241,6 +301,7 @@
 - (int) numBars { return 0; }
 - (NSString *) statNameForIndex:(int)index { return @""; }
 - (NSString *) statSuffixForIndex:(int)index { return @""; }
+- (NSString *) statChangeForIndex:(int)index { return @""; }
 - (float) curBarPercentForIndex:(int)index {return 0.f; }
 - (float) nextBarPercentForIndex:(int)index {return 0.f; }
 
@@ -254,6 +315,10 @@
 
 - (BOOL) prereqCompleteForIndex:(int)index {
   return [self.structInfo prereqCompleteForIndex:index];
+}
+
+- (int) strength {
+  return self.structInfo.strength;
 }
 
 @end
@@ -277,6 +342,19 @@
     return @"";
   } else {
     return @"%";
+  }
+}
+
+- (NSString *) statChangeForIndex:(int)index {
+  GameState *gs = [GameState sharedGameState];
+  LabProto *nextStruct;
+  if (self.structInfo.successorStructId) {
+    nextStruct = (LabProto *)[gs structWithId:self.structInfo.successorStructId];
+  }
+  if(!index) {
+    return [self.structInfo statChangeStringWith:self.queueSize nextStat:nextStruct.queueSize suffix:[self statSuffixForIndex:index]];
+  } else {
+    return [self.structInfo statChangeStringWith:self.pointsMultiplier*100 nextStat:nextStruct.pointsMultiplier*100 suffix:[self statSuffixForIndex:index]];
   }
 }
 
@@ -323,6 +401,81 @@
   return [self.structInfo prereqCompleteForIndex:index];
 }
 
+- (int) strength {
+  return self.structInfo.strength;
+}
+
+@end
+
+@implementation EvoChamberProto (StaticStructureImpl)
+
+- (int) numBars {
+  return 1;
+}
+
+- (NSString *) statNameForIndex:(int)index {
+  GameState *gs = [GameState sharedGameState];
+  
+  EvoChamberProto *nextStruct;
+  if (self.structInfo.successorStructId) {
+    nextStruct = (EvoChamberProto *)[gs structWithId:self.structInfo.successorStructId];
+  }
+  
+  return [NSString stringWithFormat:@"%@ Evo %d:", [Globals stringForRarity:nextStruct.qualityUnlocked], nextStruct.evoTierUnlocked];
+}
+
+- (NSString *) statSuffixForIndex:(int)index {
+  return @"";
+}
+
+- (NSString *) statChangeForIndex:(int)index {
+  GameState *gs = [GameState sharedGameState];
+  EvoChamberProto *nextStruct;
+  if (self.structInfo.successorStructId) {
+    nextStruct = (EvoChamberProto *)[gs structWithId:self.structInfo.successorStructId];
+  }
+  return [self.structInfo statChangeStringWith:self.structInfo.level nextStat:nextStruct.structInfo.level suffix:[self statSuffixForIndex:index]];
+}
+
+- (float) curBarPercentForIndex:(int)index {
+  float result = 0.f;
+  
+  EvoChamberProto *maxStruct = (EvoChamberProto *)self.structInfo.maxStaticStruct;
+  result = [self.structInfo barPercentWithNumerator:self.structInfo.level Denominator:maxStruct.structInfo.level useSqrt:NO usePow:NO];
+  
+  
+  return result;
+}
+
+- (float) nextBarPercentForIndex:(int)index {
+  GameState *gs = [GameState sharedGameState];
+  float result = 0.f;
+  
+  EvoChamberProto *maxStruct = (EvoChamberProto *)self.structInfo.maxStaticStruct;
+  if (self.structInfo.successorStructId) {
+    EvoChamberProto *nextStruct = (EvoChamberProto *)[gs structWithId:self.structInfo.successorStructId];
+      result = [self.structInfo barPercentWithNumerator:nextStruct.structInfo.level Denominator:maxStruct.structInfo.level useSqrt:NO usePow:NO];
+  }
+  
+  return result;
+}
+
+- (int) numPrereqs {
+  return [self.structInfo numPrereqs];
+}
+
+- (PrereqProto *) prereqForIndex:(int)index {
+  return [self.structInfo prereqForIndex:index];
+}
+
+- (BOOL) prereqCompleteForIndex:(int)index {
+  return [self.structInfo prereqCompleteForIndex:index];
+}
+
+- (int) strength {
+  return self.structInfo.strength;
+}
+
 @end
 
 @implementation MiniJobCenterProto (StaticStructureImpl)
@@ -337,6 +490,15 @@
 
 - (NSString *) statSuffixForIndex:(int)index {
   return @"";
+}
+
+- (NSString *) statChangeForIndex:(int)index {
+  GameState *gs = [GameState sharedGameState];
+  MiniJobCenterProto *nextStruct;
+  if (self.structInfo.successorStructId) {
+    nextStruct = (MiniJobCenterProto *)[gs structWithId:self.structInfo.successorStructId];
+  }
+  return [self.structInfo statChangeStringWith:self.structInfo.level nextStat:nextStruct.structInfo.level suffix:[self statSuffixForIndex:index]];
 }
 
 - (float) curBarPercentForIndex:(int)index {
@@ -369,6 +531,10 @@
   return [self.structInfo prereqCompleteForIndex:index];
 }
 
+- (int) strength {
+  return self.structInfo.strength;
+}
+
 @end
 
 @implementation MoneyTreeProto (StaticStructureImpl)
@@ -390,6 +556,19 @@
     return @" Per Day";
   } else {
     return @"";
+  }
+}
+
+- (NSString *) statChangeForIndex:(int)index {
+  GameState *gs = [GameState sharedGameState];
+  MoneyTreeProto *nextStruct;
+  if (self.structInfo.successorStructId) {
+    nextStruct = (MoneyTreeProto *)[gs structWithId:self.structInfo.successorStructId];
+  }
+  if(!index) {
+    return [self.structInfo statChangeStringWith:self.productionRate*24 nextStat:nextStruct.productionRate*24 suffix:[self statSuffixForIndex:index]];
+  } else {
+    return [self.structInfo statChangeStringWith:self.capacity nextStat:nextStruct.capacity suffix:[self statSuffixForIndex:index]];
   }
 }
 
@@ -436,6 +615,10 @@
   return [self.structInfo prereqCompleteForIndex:index];
 }
 
+- (int) strength {
+  return self.structInfo.strength;
+}
+
 @end
 
 @implementation PvpBoardHouseProto (StaticStructureImpl)
@@ -450,6 +633,15 @@
 
 - (NSString *) statSuffixForIndex:(int)index {
   return @"";
+}
+
+- (NSString *) statChangeForIndex:(int)index {
+  GameState *gs = [GameState sharedGameState];
+  PvpBoardHouseProto *nextStruct;
+  if (self.structInfo.successorStructId) {
+    nextStruct = (PvpBoardHouseProto *)[gs structWithId:self.structInfo.successorStructId];
+  }
+  return [self.structInfo statChangeStringWith:self.pvpBoardPowerLimit nextStat:nextStruct.pvpBoardPowerLimit suffix:[self statSuffixForIndex:index]];
 }
 
 - (float) curBarPercentForIndex:(int)index {
@@ -482,6 +674,10 @@
   return [self.structInfo prereqCompleteForIndex:index];
 }
 
+- (int) strength {
+  return self.structInfo.strength;
+}
+
 @end
 
 @implementation BattleItemFactoryProto (StaticStructureImpl)
@@ -496,6 +692,15 @@
 
 - (NSString *) statSuffixForIndex:(int)index {
   return @"";
+}
+
+- (NSString *) statChangeForIndex:(int)index {
+  GameState *gs = [GameState sharedGameState];
+  BattleItemFactoryProto *nextStruct;
+  if (self.structInfo.successorStructId) {
+    nextStruct = (BattleItemFactoryProto *)[gs structWithId:self.structInfo.successorStructId];
+  }
+  return [self.structInfo statChangeStringWith:self.powerLimit nextStat:nextStruct.powerLimit suffix:[self statSuffixForIndex:index]];
 }
 
 - (float) curBarPercentForIndex:(int)index {
@@ -528,6 +733,144 @@
   return [self.structInfo prereqCompleteForIndex:index];
 }
 
+- (int) strength {
+  return self.structInfo.strength;
+}
+
+@end
+
+@implementation ClanHouseProto (StaticStructureImpl)
+
+- (int) numBars {
+  return 2;
+}
+
+- (NSString *) statNameForIndex:(int)index {
+  if(!index) {
+    return @"Help Limit:";
+  } else {
+    return @"Donate Pwer:";
+  }
+}
+
+- (NSString *) statSuffixForIndex:(int)index {
+  return @"";
+}
+
+- (NSString *) statChangeForIndex:(int)index {
+  GameState *gs = [GameState sharedGameState];
+  ClanHouseProto *nextStruct;
+  if (self.structInfo.successorStructId) {
+    nextStruct = (ClanHouseProto *)[gs structWithId:self.structInfo.successorStructId];
+  }
+  if (!index) {
+    return [self.structInfo statChangeStringWith:self.maxHelpersPerSolicitation nextStat:nextStruct.maxHelpersPerSolicitation suffix:[self statSuffixForIndex:index]];
+  } else {
+    return [self.structInfo statChangeStringWith:self.teamDonationPowerLimit nextStat:nextStruct.teamDonationPowerLimit suffix:[self statSuffixForIndex:index]];
+  }
+}
+
+- (float) curBarPercentForIndex:(int)index {
+  ClanHouseProto *maxStruct = (ClanHouseProto *)self.structInfo.maxStaticStruct;
+  if (!index) {
+    return [self.structInfo barPercentWithNumerator:self.maxHelpersPerSolicitation Denominator:maxStruct.maxHelpersPerSolicitation useSqrt:NO usePow:NO];
+  } else {
+    return [self.structInfo barPercentWithNumerator:self.teamDonationPowerLimit Denominator:maxStruct.teamDonationPowerLimit useSqrt:NO usePow:NO];
+  }
+}
+
+- (float) nextBarPercentForIndex:(int)index {
+  GameState *gs = [GameState sharedGameState];
+  float result = 0.f;
+  
+  ClanHouseProto *maxStruct = (ClanHouseProto *)self.structInfo.maxStaticStruct;
+  if (self.structInfo.successorStructId) {
+    ClanHouseProto *nextStruct = (ClanHouseProto *)[gs structWithId:self.structInfo.successorStructId];
+    if(!index) {
+      return [self.structInfo barPercentWithNumerator:nextStruct.maxHelpersPerSolicitation Denominator:maxStruct.maxHelpersPerSolicitation useSqrt:NO usePow:NO];
+    } else {
+      return [self.structInfo barPercentWithNumerator:nextStruct.teamDonationPowerLimit Denominator:maxStruct.teamDonationPowerLimit useSqrt:NO usePow:NO];
+    }
+  }
+  
+  return result;
+}
+
+- (int) numPrereqs {
+  return [self.structInfo numPrereqs];
+}
+
+- (PrereqProto *) prereqForIndex:(int)index {
+  return [self.structInfo prereqForIndex:index];
+}
+
+- (BOOL) prereqCompleteForIndex:(int)index {
+  return [self.structInfo prereqCompleteForIndex:index];
+}
+
+- (int) strength {
+  return self.structInfo.strength;
+}
+
+@end
+
+@implementation TeamCenterProto (StaticStructureImpl)
+
+- (int) numBars {
+  return 1;
+}
+
+- (NSString *) statNameForIndex:(int)index {
+  return @"Power Limit:";
+}
+
+- (NSString *) statSuffixForIndex:(int)index {
+  return @"";
+}
+
+- (NSString *) statChangeForIndex:(int)index {
+  GameState *gs = [GameState sharedGameState];
+  TeamCenterProto *nextStruct;
+  if (self.structInfo.successorStructId) {
+    nextStruct = (TeamCenterProto *)[gs structWithId:self.structInfo.successorStructId];
+  }
+  return [self.structInfo statChangeStringWith:self.teamCostLimit nextStat:nextStruct.teamCostLimit suffix:[self statSuffixForIndex:index]];
+}
+
+- (float) curBarPercentForIndex:(int)index {
+  TeamCenterProto *maxStruct = (TeamCenterProto *)self.structInfo.maxStaticStruct;
+  return [self.structInfo barPercentWithNumerator:self.teamCostLimit Denominator:maxStruct.teamCostLimit useSqrt:NO usePow:NO];
+}
+
+- (float) nextBarPercentForIndex:(int)index {
+  GameState *gs = [GameState sharedGameState];
+  float result = 0.f;
+  
+  TeamCenterProto *maxStruct = (TeamCenterProto *)self.structInfo.maxStaticStruct;
+  if (self.structInfo.successorStructId) {
+    TeamCenterProto *nextStruct = (TeamCenterProto *)[gs structWithId:self.structInfo.successorStructId];
+    return [self.structInfo barPercentWithNumerator:nextStruct.teamCostLimit Denominator:maxStruct.teamCostLimit useSqrt:NO usePow:NO];
+  }
+  
+  return result;
+}
+
+- (int) numPrereqs {
+  return [self.structInfo numPrereqs];
+}
+
+- (PrereqProto *) prereqForIndex:(int)index {
+  return [self.structInfo prereqForIndex:index];
+}
+
+- (BOOL) prereqCompleteForIndex:(int)index {
+  return [self.structInfo prereqCompleteForIndex:index];
+}
+
+- (int) strength {
+  return self.structInfo.strength;
+}
+
 @end
 
 @implementation  StructureInfoProto (StaticStructure)
@@ -541,7 +884,7 @@
   return ss;
 }
 
-//could be static
+// these could all be static probably
 - (float) barPercentWithNumerator:(float)num Denominator:(float)denom useSqrt:(BOOL)useSqrt usePow:(BOOL)usePow {
   float sqrtVal = 0.75;
   float sqPowVal = 1.5;
@@ -568,6 +911,14 @@
   Globals *gl = [Globals sharedGlobals];
   PrereqProto *prereq = [self prereqForIndex:index];
   return [gl isPrerequisiteComplete:prereq];
+}
+
+- (NSString *) statChangeStringWith:(float)curStat nextStat:(float)nextStat suffix:(NSString *)suffix{
+  if(nextStat) {
+    return [NSString stringWithFormat:@"%@ + %@%@", [Globals commafyNumber:curStat], [Globals commafyNumber:nextStat - curStat], suffix];
+  } else {
+    return [NSString stringWithFormat:@"%@%@", [Globals commafyNumber:curStat], suffix];
+  }
 }
 
 @end

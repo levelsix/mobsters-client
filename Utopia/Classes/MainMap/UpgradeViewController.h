@@ -10,15 +10,16 @@
 #import "NibUtils.h"
 #import "UserData.h"
 #import "TopBarViewcontroller.h"
+#import "EmbeddedScrollingUpgradeView.h"
 
 @class EmbeddedScrollingUpgradeView;
 @class UpgradePrereqView;
 
-@protocol UpgradePrereqDelegate <NSObject>
-
-- (void) goClicked:(UpgradePrereqView *)pre;
-
-@end
+//@protocol UpgradePrereqDelegate <NSObject>
+//
+//- (void) goClicked:(UpgradePrereqView *)pre;
+//
+//@end
 
 @interface UpgradePrereqView : EmbeddedNibView
 
@@ -28,7 +29,7 @@
 @property (nonatomic, retain) IBOutlet UILabel *prereqLabel;
 @property (nonatomic, retain) IBOutlet UIView *goButtonView;
 
-@property (nonatomic, assign) IBOutlet id<UpgradePrereqDelegate> delegate;
+@property (nonatomic, assign) IBOutlet id<EmbeddedDelegate> delegate;
 
 @end
 
@@ -85,7 +86,7 @@
 
 @end
 
-@interface UpgradeViewController : UIViewController <TabBarDelegate, UpgradePrereqDelegate>
+@interface UpgradeViewController : UIViewController <TabBarDelegate, EmbeddedDelegate>
 
 @property (nonatomic, assign) IBOutlet UILabel *titleLabel;
 
