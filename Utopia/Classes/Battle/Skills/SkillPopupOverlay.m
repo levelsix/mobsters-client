@@ -130,7 +130,7 @@ typedef void (^ShakeAnimCompletionBlock)(void);
   
   [nameLabel setText:[topText uppercaseString]];
   [bottomLabel setText:[bottomtext uppercaseString]];
-  [topLabel setText:[NSString stringWithFormat:@"%iX", stacks]];
+  [topLabel setText:[NSString stringWithFormat:@"%ix", stacks]];
   
   ////////////////
   // Animations //
