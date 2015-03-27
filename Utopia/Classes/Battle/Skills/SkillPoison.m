@@ -112,6 +112,12 @@
   return YES;
 }
 
+- (BOOL) onDurationEnd
+{
+  [self removeSpecialOrbs];
+  return [super onDurationEnd];
+}
+
 - (void) onFinishPoisonDamage
 {
   _tempDamageDealt = 0;
