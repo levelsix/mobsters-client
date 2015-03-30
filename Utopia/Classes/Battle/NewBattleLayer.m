@@ -969,7 +969,6 @@
 
 - (void) doMyAttackAnimation {
   
-  [skillManager playDamageLogos];
   
   // Changing damage with a skill
   NSInteger scoreModifier = _myDamageDealtUnmodified > 0 ? 1 : 0; // used to make current score not 0 if damage was modified to 0 by skillManager
@@ -1023,6 +1022,8 @@
   } else {
     [self beginNextTurn];
   }
+  
+  [skillManager playDamageLogos];
 }
 
 - (void) dealMyDamage {
