@@ -126,6 +126,7 @@
   {
     if (execute)
       [self initialSequence];
+    [self.battleLayer.orbLayer toggleArrows:YES];
     return YES;
   }
   
@@ -283,6 +284,8 @@
         [orbSprite reloadSprite:YES];
       }
     }
+  
+  [self.battleLayer.orbLayer toggleArrows:NO];
 }
 
 #pragma mark - Serialization
