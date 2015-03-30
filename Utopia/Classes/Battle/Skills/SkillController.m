@@ -269,7 +269,7 @@
 {
   [self performAfterDelay:self.opponentSprite.animationType == MonsterProto_AnimationTypeMelee ? .5 : 0 block:^{
     
-    [self showSkillPopupAilmentOverlay:@"POISONED" bottomText:[NSString stringWithFormat:@"%i POISON DMG", [self poisonDamage]]];
+    [self showSkillPopupAilmentOverlay:@"POISONED" bottomText:[NSString stringWithFormat:@"%i POISON DMG", [self poisonDamage]] priority:0];
     
     if (self.belongsToPlayer)
     {
@@ -458,6 +458,7 @@
 - (void) showCurrentSkillPopup
 {
   if (!_currentSkillPopup) return;
+  if (_popupOverlay) return;
   
   // Create overlay
   UIView *parentView = self.battleLayer.hudView;
@@ -475,7 +476,6 @@
      if (_popupOverlay == tempPopup)
      {
        [self hideSkillPopupOverlayInternal];
-       _popupOverlay = nil;
      }
    }];
   
@@ -544,6 +544,8 @@
     
     _currentSkillPopup = _currentSkillPopup.next;
     
+    _popupOverlay = nil;
+    
     if (!_currentSkillPopup){
       if (_callbackBlockForPopup)
       {
@@ -553,6 +555,7 @@
     }
     else
       [self showCurrentSkillPopup];
+    
   };
   
   // Hide overlay
@@ -622,14 +625,19 @@
 
 - (void) showSkillPopupAilmentOverlay:(NSString*)topText bottomText:(NSString*)bottomText
 {
-  [self showSkillPopupAilmentOverlay:NO topText:topText bottomText:bottomText withCompletion:^{}];
+  [self showSkillPopupAilmentOverlay:NO topText:topText bottomText:bottomText priority:1 withCompletion:^{}];
 }
 
-- (void) showSkillPopupAilmentOverlay:(BOOL)jumpFirst topText:(NSString*)topText bottomText:(NSString*)bottomText withCompletion:(SkillPopupBlock)completion
+- (void) showSkillPopupAilmentOverlay:(NSString *)topText bottomText:(NSString *)bottomText priority:(int)priority
+{
+  [self showSkillPopupAilmentOverlay:NO topText:topText bottomText:bottomText priority:priority withCompletion:^{}];
+}
+
+- (void) showSkillPopupAilmentOverlay:(BOOL)jumpFirst topText:(NSString*)topText bottomText:(NSString*)bottomText priority:(int)priority withCompletion:(SkillPopupBlock)completion
 {
   SkillPopupData *data = [SkillPopupData initWithData:!self.belongsToPlayer characterImage:self.opponentPlayer.characterImage topText:topText bottomText:bottomText mini:YES stacks:_stacks completion:completion];
   
-  data.priority = 1;
+  data.priority = priority;
   
   SkillController *opponentSkillController = self.belongsToPlayer ? ([skillManager enemySkillControler]) : ([skillManager playerSkillControler]);
   if (opponentSkillController)
