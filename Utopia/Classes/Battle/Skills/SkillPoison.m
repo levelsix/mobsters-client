@@ -31,6 +31,11 @@
 
 #pragma mark - Overrides
 
+- (BOOL)shouldPersist
+{
+  return NO;
+}
+
 - (BOOL) generateSpecialOrb:(BattleOrb *)orb atColumn:(int)column row:(int)row
 {
   if ([self isActive] && orb.orbColor == self.orbColor)
@@ -50,11 +55,6 @@
 - (TickTrigger)tickTrigger
 {
   return TickTriggerAfterOpponentTurn;
-}
-
-- (BOOL) shouldPersist
-{
-  return ([self specialsOnBoardCount:SpecialOrbTypePoison]) || [super shouldPersist];
 }
 
 - (void) orbDestroyed:(OrbColor)color special:(SpecialOrbType)type
