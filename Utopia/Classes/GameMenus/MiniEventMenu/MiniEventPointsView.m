@@ -9,6 +9,7 @@
 #import "MiniEventPointsView.h"
 #import "MiniEventPointsActionCell.h"
 #import "NibUtils.h"
+#import "Globals.h"
 
 @implementation MiniEventPointsView
 
@@ -46,6 +47,10 @@
   self.eventInfoTimeLeft.shadowOffset = CGSizeMake(0, .5);
   self.eventInfoTimeLeft.shadowBlur   = 1.2f;
   
+  self.eventInfoEventEnded.shadowColor  = [[UIColor colorWithHexString:@"BAF2FF"] colorWithAlphaComponent:.85f];
+  self.eventInfoEventEnded.shadowOffset = CGSizeMake(0, .5);
+  self.eventInfoEventEnded.shadowBlur   = 1.2f;
+  
   self.eventInfoMyPoints.shadowColor  = [UIColor colorWithWhite:.6 alpha:1.f];
   self.eventInfoMyPoints.shadowOffset = CGSizeMake(0, .5);
   self.eventInfoMyPoints.shadowBlur   = 1.2f;
@@ -56,14 +61,38 @@
   self.eventInfoPointsEearned.shadowOffset = CGSizeMake(0, 1);
   self.eventInfoPointsEearned.shadowBlur   = 1.2f;
   
-  self.eventActionsList.contentInset = UIEdgeInsetsMake(4, 0, 0, 0);
+  self.eventActionList.contentInset = UIEdgeInsetsMake(4, 0, 0, 0);
   
-  [self.eventActionsList registerNib:[UINib nibWithNibName:@"MiniEventPointsActionCell" bundle:nil] forCellReuseIdentifier:@"ReusablePointsActionCell"];
+  [self.eventActionList registerNib:[UINib nibWithNibName:@"MiniEventPointsActionCell" bundle:nil] forCellReuseIdentifier:@"ReusablePointsActionCell"];
 }
 
-- (void) updateForMiniEvent
+- (void) updateForUserMiniEvent:(UserMiniEventProto*)userMiniEvent
 {
+  MiniEventProto* miniEvent = userMiniEvent.miniEvent;
   
+  MSDate* eventEndTime = [MSDate dateWithTimeIntervalSince1970:userMiniEvent.miniEvent.miniEventEndTime / 1000.f];
+  MSDate* now = [MSDate date];
+  if ([now compare:eventEndTime] != NSOrderedAscending)
+  {
+    // Event already ended
+    self.eventInfoTimerBackground.hidden = YES;
+    self.eventInfoTimeLeft.hidden = YES;
+    self.eventInfoEventEnded.hidden = NO;
+  }
+  else
+  {
+    const NSTimeInterval timeLeft = [eventEndTime timeIntervalSinceDate:now];
+    self.eventInfoTimeLeft.text = [[Globals convertTimeToShortString:timeLeft] uppercaseString];
+    
+    // TODO - Kick off a timer to update time left
+  }
+  
+  const int pointsEarned = userMiniEvent.ptsEarned;
+  self.eventInfoPointsEearned.text = [Globals commafyNumber:pointsEarned];
+  
+  _actionList = [miniEvent.goalsList mutableCopy];
+  
+  [self.eventActionList reloadData];
 }
 
 #pragma mark - Table view data source
@@ -75,12 +104,13 @@
 
 - (NSInteger) tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section
 {
-  return 5;
+  return _actionList.count;
 }
 
 - (UITableViewCell*) tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath
 {
   MiniEventPointsActionCell* cell = [tableView dequeueReusableCellWithIdentifier:@"ReusablePointsActionCell" forIndexPath:indexPath];
+  [cell updateForAction:[_actionList objectAtIndex:indexPath.row]];
   return cell;
 }
 

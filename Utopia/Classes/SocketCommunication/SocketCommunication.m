@@ -1643,6 +1643,13 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCDiscardBattleItemEvent flush:NO queueUp:YES];
 }
 
+- (int) sendRetrieveMiniEventRequestProtoMessage {
+  RetrieveMiniEventRequestProto* req = [[[RetrieveMiniEventRequestProto builder]
+                                             setSender:_sender] build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCRetrieveMiniEventEvent];
+}
+
 #pragma mark - Batch/Flush events
 
 - (int) retrieveCurrencyFromStruct:(NSString *)userStructUuid time:(uint64_t)time amountCollected:(int)amountCollected {

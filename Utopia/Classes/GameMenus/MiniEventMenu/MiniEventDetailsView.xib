@@ -167,6 +167,13 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
+                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="EVENT ENDED!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Y9r-sS-2si" customClass="NiceFontLabel9B">
+                    <rect key="frame" x="166" y="55" width="75" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                    <color key="textColor" red="0.89411764705882357" green="0.015686274509803921" blue="0.015686274509803921" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <nil key="simulatedStatusBarMetrics"/>
@@ -176,11 +183,13 @@
                 <outlet property="eventInfoBackground" destination="8ac-fq-aEd" id="yOu-hs-WHg"/>
                 <outlet property="eventInfoDesc" destination="tRQ-w4-PMw" id="wwo-m0-7Zc"/>
                 <outlet property="eventInfoEndsIn" destination="8o7-08-KHv" id="1Ti-dT-r7r"/>
+                <outlet property="eventInfoEventEnded" destination="Y9r-sS-2si" id="wOT-1h-xCz"/>
                 <outlet property="eventInfoImage" destination="7B5-rb-WQB" id="t02-Hc-M6o"/>
                 <outlet property="eventInfoMyPoints" destination="BnD-bN-bPY" id="Pet-nv-vFd"/>
                 <outlet property="eventInfoName" destination="TYz-jB-CoB" id="Bvv-6x-b8E"/>
                 <outlet property="eventInfoPointsEearned" destination="iuk-4e-P7y" id="yac-el-Efa"/>
                 <outlet property="eventInfoTimeLeft" destination="CwK-ud-lxx" id="vyS-4r-x7x"/>
+                <outlet property="eventInfoTimerBackground" destination="UV1-dg-Sdg" id="r2Y-m7-bPd"/>
                 <outlet property="pointCounterLabel" destination="v5S-Nj-IRg" id="RVY-BX-JEY"/>
                 <outlet property="pointCounterView" destination="B02-z5-ESZ" id="CFz-ZY-eOF"/>
                 <outlet property="pointsProgressBar" destination="EIf-0U-BHI" id="HXr-9x-81o"/>

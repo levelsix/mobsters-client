@@ -8,9 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+@class MiniEventGoalProto;
+
 @interface MiniEventPointsActionCell : UITableViewCell
 
 @property (nonatomic, retain) IBOutlet UILabel* actionName;
 @property (nonatomic, retain) IBOutlet UILabel* actionPoints;
+
+- (void) updateForAction:(MiniEventGoalProto*)goalProto;
 
 @end

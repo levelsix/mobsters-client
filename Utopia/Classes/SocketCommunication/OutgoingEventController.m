@@ -3551,4 +3551,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
+#pragma mark - Mini Event
+
+- (void) retrieveUserMiniEventWithDelegate:(id)delegate {
+  int tag = [[SocketCommunication sharedSocketCommunication] sendRetrieveMiniEventRequestProtoMessage];
+  [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
+}
+
 @end

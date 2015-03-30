@@ -152,6 +152,8 @@
 
 @property (nonatomic, retain) NSMutableDictionary *staticResearches;
 
+@property (nonatomic, retain) NSMutableDictionary *staticRewards;
+
 @property (nonatomic, retain) UserEnhancement *userEnhancement;
 @property (nonatomic, retain) UserEvolution *userEvolution;
 
