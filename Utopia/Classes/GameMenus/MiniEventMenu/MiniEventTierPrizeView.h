@@ -9,6 +9,9 @@
 #import "NibUtils.h"
 
 @interface MiniEventTierPrizeView : EmbeddedNibView <UITableViewDataSource>
+{
+  NSMutableArray* _prizeList;
+}
 
 @property (nonatomic, retain) IBOutlet UIImageView* tierBackground;
 @property (nonatomic, retain) IBOutlet THLabel*     tierTitle;
@@ -16,6 +19,6 @@
 @property (nonatomic, retain) IBOutlet UIImageView* tierCheckmark;
 @property (nonatomic, retain) IBOutlet UITableView* tierPrizeList;
 
-- (void) updateForTier:(int)tier checked:(BOOL)checked;
+- (void) updateForTier:(int)tier completed:(BOOL)completed prizeList:(NSArray*)prizeList;
 
 @end
