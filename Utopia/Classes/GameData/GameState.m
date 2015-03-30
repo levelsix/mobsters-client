@@ -1303,6 +1303,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   for (PvpBoardObstacleProto* pvpBoardObstacleProto in proto.pvpBoardObstacleProtosList)
     [self.staticPvpBoardObstacles setObject:pvpBoardObstacleProto forKey:[NSNumber numberWithInteger:pvpBoardObstacleProto.pvpBoardId]];
   
+  self.staticRewards = [NSMutableDictionary dictionary];
+  for (RewardProto* rewardProto in proto.rewardList)
+    [self.staticRewards setObject:rewardProto forKey:[NSNumber numberWithInteger:rewardProto.rewardId]];
+  
   if (self.connected) {
     [[NSNotificationCenter defaultCenter] postNotificationName:STATIC_DATA_UPDATED_NOTIFICATION object:nil];
   }

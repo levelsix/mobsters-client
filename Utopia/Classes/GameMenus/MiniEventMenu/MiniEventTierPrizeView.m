@@ -8,6 +8,7 @@
 
 #import "MiniEventTierPrizeView.h"
 #import "MiniEventTierPrizeCell.h"
+#import "GameState.h"
 
 static NSString* kTierTitleLabelColors[3] = { @"B56C16", @"535758", @"8F6200" };
 
@@ -24,12 +25,23 @@ static NSString* kTierTitleLabelColors[3] = { @"B56C16", @"535758", @"8F6200" };
   [self.tierPrizeList registerNib:[UINib nibWithNibName:@"MiniEventTierPrizeCell" bundle:nil] forCellReuseIdentifier:@"ReusableTierPrizeCell"];
 }
 
-- (void) updateForTier:(int)tier checked:(BOOL)checked
+- (void) updateForTier:(int)tier completed:(BOOL)completed prizeList:(NSArray*)prizeList
 {
   self.tierBackground.image = [UIImage imageNamed:[NSString stringWithFormat:@"tier%dbg.png", tier]];
   self.tierTitle.text = [NSString stringWithFormat:@"TIER %d PRIZE", tier];
   self.tierTitle.textColor = [UIColor colorWithHexString:kTierTitleLabelColors[tier - 1]];
-  self.tierCheckmark.hidden = !checked;
+  self.tierCheckmark.hidden = !completed;
+  
+  _prizeList = [NSMutableArray array];
+  
+  GameState* gs = [GameState sharedGameState];
+  for (MiniEventTierRewardProto* prize in prizeList)
+  {
+    RewardProto* reward = [gs.staticRewards objectForKey:@(prize.rewardId)];
+    if (reward) [_prizeList addObject:reward];
+  }
+  
+  [self.tierPrizeList reloadData];
 }
 
 #pragma mark - Table view data source
@@ -41,12 +53,15 @@ static NSString* kTierTitleLabelColors[3] = { @"B56C16", @"535758", @"8F6200" };
 
 - (NSInteger) tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section
 {
-  return 3;
+  return _prizeList.count;
 }
 
 - (UITableViewCell*) tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath
 {
   MiniEventTierPrizeCell* cell = [tableView dequeueReusableCellWithIdentifier:@"ReusableTierPrizeCell" forIndexPath:indexPath];
+  if (![cell updateForReward:(RewardProto*)[_prizeList objectAtIndex:indexPath.row]])
+    return [[UITableViewCell alloc] init];
+  
   return cell;
 }
 

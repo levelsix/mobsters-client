@@ -9,6 +9,7 @@
 #import "MiniEventViewController.h"
 #import "MiniEventDetailsView.h"
 #import "MiniEventPointsView.h"
+#import "MiniEventManager.h"
 #import "Globals.h"
 
 @interface MiniEventViewController ()
@@ -58,10 +59,20 @@
   self.detailsView = [[NSBundle mainBundle] loadNibNamed:@"MiniEventDetailsView" owner:self options:nil][0];
   self.pointsView  = [[NSBundle mainBundle] loadNibNamed:@"MiniEventPointsView" owner:self options:nil][0];
   
-  [self.detailsView updateForMiniEvent];
-  [self.pointsView updateForMiniEvent];
-  
   [self button1Clicked:self];
+  
+  UserMiniEventProto* userMiniEvent = [MiniEventManager sharedInstance].currentUserMiniEvent;
+  if (userMiniEvent)
+  {
+    [self.detailsView updateForUserMiniEvent:userMiniEvent];
+    [self.pointsView updateForUserMiniEvent:userMiniEvent];
+  }
+  else
+  {
+    // This case shouldn't happen since the UI will be inaccessible if
+    // no user mini event is present. But as a fail safe, it would be
+    // nice to display a prompt to the user and close this view
+  }
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -89,6 +100,9 @@
   // Load mini event details view
   [self.containerView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
   [self.containerView addSubview:self.detailsView];
+  
+  if ([self.pointsView  respondsToSelector:@selector(miniEventViewWillDisappear)]) [self.pointsView miniEventViewWillDisappear];
+  if ([self.detailsView respondsToSelector:@selector(miniEventViewWillAppear)]) [self.detailsView miniEventViewWillAppear];
 }
 
 - (void) button2Clicked:(id)sender
@@ -101,6 +115,9 @@
   // Load mini event points view
   [self.containerView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
   [self.containerView addSubview:self.pointsView];
+  
+  if ([self.detailsView respondsToSelector:@selector(miniEventViewWillDisappear)]) [self.detailsView miniEventViewWillDisappear];
+  if ([self.pointsView  respondsToSelector:@selector(miniEventViewWillAppear)]) [self.pointsView miniEventViewWillAppear];
 }
 
 @end

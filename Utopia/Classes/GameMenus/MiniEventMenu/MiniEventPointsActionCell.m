@@ -7,12 +7,14 @@
 //
 
 #import "MiniEventPointsActionCell.h"
+#import "Globals.h"
 
 @implementation MiniEventPointsActionCell
 
-- (void) awakeFromNib
+- (void) updateForAction:(MiniEventGoalProto*)goalProto
 {
-  [super awakeFromNib];
+  self.actionName.text = goalProto.goalDesc;
+  self.actionPoints.text = [[Globals commafyNumber:goalProto.pointsGained] stringByAppendingString:@" Points"];
 }
 
 @end

@@ -234,6 +234,8 @@
 - (int) sendCompleteBattleItemMessage:(NSArray *)completedBiqfus isSpeedup:(BOOL)isSpeedup gemCost:(int)gemCost;
 - (int) sendDiscardBattleItemMessage:(NSArray *)battleItemIds;
 
+- (int) sendRetrieveMiniEventRequestProtoMessage;
+
 - (void) flush;
 - (void) pauseFlushTimer;
 - (void) resumeFlushTimer;

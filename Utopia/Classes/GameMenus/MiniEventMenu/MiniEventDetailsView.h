@@ -14,6 +14,9 @@
 @class MiniEventTierPrizeView;
 
 @interface MiniEventDetailsView : UIView <MiniEventInfoViewProtocol>
+{
+  BOOL _allTiersCompleted;
+}
 
 @property (nonatomic, retain) IBOutlet UIImageView* eventInfoBackground;
 @property (nonatomic, retain) IBOutlet UIImageView* eventInfoImage;
@@ -21,6 +24,8 @@
 @property (nonatomic, retain) IBOutlet THLabel* eventInfoDesc;
 @property (nonatomic, retain) IBOutlet THLabel* eventInfoEndsIn;
 @property (nonatomic, retain) IBOutlet THLabel* eventInfoTimeLeft;
+@property (nonatomic, retain) IBOutlet UIImageView* eventInfoTimerBackground;
+@property (nonatomic, retain) IBOutlet THLabel* eventInfoEventEnded;
 @property (nonatomic, retain) IBOutlet THLabel* eventInfoMyPoints;
 @property (nonatomic, retain) IBOutlet THLabel* eventInfoPointsEearned;
 @property (nonatomic, retain) IBOutlet UIImageView* progressBarBackground;

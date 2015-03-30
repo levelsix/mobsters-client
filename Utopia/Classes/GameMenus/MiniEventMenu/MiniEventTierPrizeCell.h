@@ -8,10 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+@class RewardProto;
+
 @interface MiniEventTierPrizeCell : UITableViewCell
 
 @property (nonatomic, retain) IBOutlet UIImageView* prizeIcon;
 @property (nonatomic, retain) IBOutlet UILabel* prizeName;
 @property (nonatomic, retain) IBOutlet UILabel* prizeCount;
+
+- (BOOL) updateForReward:(RewardProto*)rewardProto;
 
 @end
