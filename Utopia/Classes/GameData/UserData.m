@@ -51,6 +51,7 @@
   if ((self = [super init])){
     self.monsterId = proto.monsterId;
     self.level = proto.monsterLvl;
+    self.teamSlot = proto.teamSlotNum;
     
     self.offensiveSkillId = proto.offensiveSkillId;
     self.defensiveSkillId = proto.defensiveSkillId;
