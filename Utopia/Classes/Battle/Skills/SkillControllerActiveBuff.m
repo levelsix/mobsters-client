@@ -55,26 +55,10 @@
   
   if ([self isActive])
   {
-    if (([self tickTrigger] == TickTriggerAfterUserTurn &&
-        ((self.belongsToPlayer && (trigger == SkillTriggerPointEndOfPlayerTurn || trigger == SkillTriggerPointEnemyDefeated))
-         || (!self.belongsToPlayer && (trigger == SkillTriggerPointEndOfEnemyTurn || trigger == SkillTriggerPointPlayerMobDefeated))))
-      ||([self tickTrigger] == TickTriggerAfterOpponentTurn &&
-        ((!self.belongsToPlayer && (trigger == SkillTriggerPointEndOfPlayerTurn || trigger == SkillTriggerPointEnemyDefeated)) ||
-         (self.belongsToPlayer && (trigger == SkillTriggerPointEndOfEnemyTurn || trigger == SkillTriggerPointPlayerMobDefeated)))))
-    {
-      if (execute)
-      {
-        BOOL holdSkillTrigger = [self tickDuration];
-        if (!holdSkillTrigger)
-          [self skillTriggerFinished];
-      }
-      return YES;
-    }
-    
     //End skills when the user dies
     if ([self expiresOnDeath] && ([self affectsOwner] &&
-      ((self.belongsToPlayer && trigger == SkillTriggerPointPlayerMobDefeated) ||
-       (!self.belongsToPlayer && trigger == SkillTriggerPointEnemyDefeated))))
+                                  ((self.belongsToPlayer && trigger == SkillTriggerPointPlayerMobDefeated) ||
+                                   (!self.belongsToPlayer && trigger == SkillTriggerPointEnemyDefeated))))
     {
       if (execute)
       {
@@ -86,8 +70,8 @@
     
     //End skills on opponents when opponents are defeated
     if ([self expiresOnDeath] && (![self affectsOwner] &&
-         ((self.belongsToPlayer && trigger == SkillTriggerPointEnemyDefeated) ||
-         (!self.belongsToPlayer && trigger == SkillTriggerPointPlayerMobDefeated))))
+                                  ((self.belongsToPlayer && trigger == SkillTriggerPointEnemyDefeated) ||
+                                   (!self.belongsToPlayer && trigger == SkillTriggerPointPlayerMobDefeated))))
     {
       if (execute)
       {
@@ -99,6 +83,22 @@
       return YES;
     }
     
+    if (self.userPlayer.curHealth > 0 &&
+        (([self tickTrigger] == TickTriggerAfterUserTurn &&
+        ((self.belongsToPlayer && (trigger == SkillTriggerPointEndOfPlayerTurn || trigger == SkillTriggerPointEnemyDefeated))
+         || (!self.belongsToPlayer && (trigger == SkillTriggerPointEndOfEnemyTurn || trigger == SkillTriggerPointPlayerMobDefeated))))
+      ||([self tickTrigger] == TickTriggerAfterOpponentTurn &&
+        ((!self.belongsToPlayer && (trigger == SkillTriggerPointEndOfPlayerTurn || trigger == SkillTriggerPointEnemyDefeated)) ||
+         (self.belongsToPlayer && (trigger == SkillTriggerPointEndOfEnemyTurn || trigger == SkillTriggerPointPlayerMobDefeated))))))
+    {
+      if (execute)
+      {
+        BOOL holdSkillTrigger = [self tickDuration];
+        if (!holdSkillTrigger)
+          [self skillTriggerFinished];
+      }
+      return YES;
+    }
   }
   
   //When mobsters are changed/swapped, check to see if this skill should reapply
