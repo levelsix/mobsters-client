@@ -60,6 +60,7 @@
 {
   [self endDurationNow];
   [self resetOrbCounter];
+  [super onAllSpecialsDestroyed];
 }
 
 - (void) restoreVisualsIfNeeded

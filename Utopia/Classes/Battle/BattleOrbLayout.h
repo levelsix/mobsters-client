@@ -19,6 +19,8 @@
 #define PASSABLE_HOLE @"PASSABLE_HOLE"
 #define TILE_TYPE @"TILE_TYPE"
 #define INITIAL_SKILL @"INITIAL_SKILL"
+#define BOTTOM_FALL @"BOTTOM_FALL"
+#define NOT_BOTTOM_FALL @"NOT_BOTTOM_FALL"
 
 #define ORB_COLOR @"ORB_COLOR"
 #define ORB_POWERUP @"ORB_POWERUP"
@@ -140,5 +142,7 @@
 - (NSSet *)detectBottomFeeders:(NSMutableArray *)orbPaths;
 
 - (BattleOrb *) findOrbWithColorPreference:(OrbColor)orbColor isInitialSkill:(BOOL)isInitialSkill;
+
+- (NSArray *)getBottomFeederTiles;
 
 @end

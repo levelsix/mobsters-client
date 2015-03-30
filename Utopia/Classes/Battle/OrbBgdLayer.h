@@ -29,6 +29,7 @@ static const float darknessForTilesAnimDuration = 0.3f;
 
 - (void) updateTile:(BattleTile*)tile;
 - (void) updateTile:(BattleTile*)tile keepLit:(BOOL)keepLit withTarget:(id)target andCallback:(SEL)callback;
+- (void) updateArrowForTile:(BattleTile*)tile arrow:(BOOL)arrow;
 
 - (void) turnTheLightsOn;
 - (void) turnTheLightsOff;

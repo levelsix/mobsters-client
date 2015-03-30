@@ -79,6 +79,7 @@
 - (void)onAllSpecialsDestroyed
 {
   [self resetOrbCounter];
+  [super onAllSpecialsDestroyed];
 }
 
 - (BOOL)activate

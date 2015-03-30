@@ -24,8 +24,12 @@ typedef enum {
 @property (nonatomic, strong, readonly) CCSprite* sprite;
 @property (nonatomic, assign, readonly) TileDepth depth;
 
+@property (nonatomic, strong, readonly) CCSprite* arrow;
+
 + (TileSprite*) tileSpriteWithTile:(BattleTile*)tile depth:(TileDepth)depth;
 
 - (void) updateSprite;
+
+- (void) updateArrowSprite:(BOOL)arrowsOn;
 
 @end
