@@ -889,10 +889,8 @@
               return;
             }
             
-            [skillManager playDamageLogos];
-            
-            // If the enemy's confused, he will deal damage to himself. Instead of the usual flow, show
-            // the popup above his head, followed by flinch animation and showing the damage label
+            // If the enemy's confused, they will deal damage to themself. Instead of the usual flow, show
+            // the popup above their head, followed by flinch animation and showing the damage label
             if (self.enemyPlayerObject.isConfused)
             {
               self.enemyPlayerObject.isConfused = NO;
@@ -915,6 +913,7 @@
                                         nil]];
             }
             else
+            {
               [self.currentEnemy performNearAttackAnimationWithEnemy:self.myPlayer
                                                         shouldReturn:YES
                                                          shouldEvade:[skillManager playerWillEvade:YES]
@@ -923,6 +922,10 @@
                                                               target:self
                                                             selector:@selector(dealEnemyDamage)
                                                       animCompletion:nil];
+            }
+            
+            
+            [skillManager playDamageLogos];
           }];
         }
       }

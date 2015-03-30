@@ -57,6 +57,7 @@
 - (void)onAllSpecialsDestroyed
 {
   [self resetOrbCounter];
+  [super onAllSpecialsDestroyed];
 }
 
 - (BOOL)skillOffCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute

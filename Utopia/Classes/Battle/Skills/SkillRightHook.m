@@ -69,6 +69,7 @@
 - (void)onAllSpecialsDestroyed
 {
   [self resetOrbCounter];
+  [super onAllSpecialsDestroyed];
 }
 
 - (void)showQuickAttackMiniLogo

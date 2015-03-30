@@ -29,9 +29,11 @@ typedef enum {
 
 @property (assign, nonatomic) BOOL canSpawnOrbs;
 
+@property (assign, nonatomic) BOOL bottomFallsOut;
+
 @property (assign, nonatomic) BOOL shouldSpawnInitialSkill;
 
--(id) initWithColumn:(NSInteger)column row:(NSInteger)row typeTop:(TileType)typeTop typeBottom:(TileType)typeBottom isHole:(BOOL)isHole canPassThrough:(BOOL)canPassThrough canSpawnOrbs:(BOOL)canSpawnOrbs shouldSpawnInitialSkill:(BOOL)shouldSpawnInitialSkill;
+-(id) initWithColumn:(NSInteger)column row:(NSInteger)row typeTop:(TileType)typeTop typeBottom:(TileType)typeBottom isHole:(BOOL)isHole canPassThrough:(BOOL)canPassThrough canSpawnOrbs:(BOOL)canSpawnOrbs shouldSpawnInitialSkill:(BOOL)shouldSpawnInitialSkill bottomFallsOut:(BOOL)bottomFallsOut;
 
 // Checks
 - (BOOL) allowsDamage;
