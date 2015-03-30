@@ -783,10 +783,12 @@
   
   // Need to do this in case a monster came out of healing while user was in the middle of a dungeon
   NSArray *savedMyTeam = [stateDict objectForKey:MY_TEAM_KEY];
+  GameState *gs = [GameState sharedGameState];
   if (savedMyTeam.count) {
     NSMutableArray *newTeam = [NSMutableArray array];
     for (NSDictionary *dict in savedMyTeam) {
       BattlePlayer *bp = [[BattlePlayer alloc] init];
+      bp.researchUtil = gs.researchUtil;
       [bp deserialize:dict];
       [newTeam addObject:bp];
     }

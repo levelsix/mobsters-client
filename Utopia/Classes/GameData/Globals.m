@@ -1596,7 +1596,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 + (NSArray *) convertCurrentTeamToArray:(UserCurrentMonsterTeamProto *)team {
   NSMutableArray *arr = [NSMutableArray array];
   for (FullUserMonsterProto *m in team.currentTeamList) {
-    [arr addObject:[UserMonster userMonsterWithProto:m]];
+    [arr addObject:[UserMonster userMonsterWithProto:m researchUtil:nil]];
   }
   return arr;
 }
@@ -1837,18 +1837,20 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return index < phrases.count && index >= 0 ? [phrases objectAtIndex:index] : @"";
 }
 
-- (int) calculateTotalDamageForMonster:(UserMonster *)um {
-  int fire = [self calculateElementalDamageForMonster:um element:ElementFire];
-  int water = [self calculateElementalDamageForMonster:um element:ElementWater];
-  int earth = [self calculateElementalDamageForMonster:um element:ElementEarth];
-  int light = [self calculateElementalDamageForMonster:um element:ElementLight];
-  int night = [self calculateElementalDamageForMonster:um element:ElementDark];
-  int rock = [self calculateElementalDamageForMonster:um element:ElementRock];
+#pragma mark Monsters
+
+- (int) calculateBaseTotalDamageForMonster:(UserMonster *)um {
+  int fire = [self calculateBaseElementalDamageForMonster:um element:ElementFire];
+  int water = [self calculateBaseElementalDamageForMonster:um element:ElementWater];
+  int earth = [self calculateBaseElementalDamageForMonster:um element:ElementEarth];
+  int light = [self calculateBaseElementalDamageForMonster:um element:ElementLight];
+  int night = [self calculateBaseElementalDamageForMonster:um element:ElementDark];
+  int rock = [self calculateBaseElementalDamageForMonster:um element:ElementRock];
   
   return fire+water+earth+light+night+rock;
 }
 
-- (int) calculateElementalDamageForMonster:(UserMonster *)um element:(Element)element {
+- (int) calculateBaseElementalDamageForMonster:(UserMonster *)um element:(Element)element {
   MonsterProto *mp = um.staticMonster;
   MonsterLevelInfoProto *min = [mp.lvlInfoList firstObject];
   MonsterLevelInfoProto *max = [mp.lvlInfoList lastObject];
@@ -1884,26 +1886,139 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       break;
   }
   
-  return base+(final-base)*powf((um.level-1)/(float)(max.lvl-1), max.dmgExponentBase);
+  return roundf(base+(final-base)*powf((um.level-1)/(float)(max.lvl-1), max.dmgExponentBase));
+}
+
+- (int) calculateTotalDamageForMonster:(UserMonster *)um {
+  int base = [self calculateBaseTotalDamageForMonster:um];
+  
+  MonsterProto *mp = um.staticMonster;
+  float researchFactor = 1.f+[um.researchUtil percentageBenefitForType:ResearchTypeAttackIncrease element:mp.monsterElement rarity:mp.quality];
+  
+  return roundf(base*researchFactor);
+}
+
+- (int) calculateElementalDamageForMonster:(UserMonster *)um element:(Element)element {
+  // This is complicated. First we need to apply regular percentages and then add in the leftover so that the total dmg looks like it got updated.
+  int totalDamage = [self calculateTotalDamageForMonster:um];
+  int mod = ElementRock-ElementFire;
+  Element mainElement = um.staticMonster.monsterElement;
+  Element badElement = [Globals elementForNotVeryEffective:mainElement];
+  
+  int baseFire = [self calculateBaseElementalDamageForMonster:um element:ElementFire];
+  int baseWater = [self calculateBaseElementalDamageForMonster:um element:ElementWater];
+  int baseEarth = [self calculateBaseElementalDamageForMonster:um element:ElementEarth];
+  int baseLight = [self calculateBaseElementalDamageForMonster:um element:ElementLight];
+  int baseNight = [self calculateBaseElementalDamageForMonster:um element:ElementDark];
+  int baseRock = [self calculateBaseElementalDamageForMonster:um element:ElementRock];
+  
+  MonsterProto *mp = um.staticMonster;
+  double researchFactor = 1.f+[um.researchUtil percentageBenefitForType:ResearchTypeAttackIncrease element:mp.monsterElement rarity:mp.quality];
+  
+  double realFire = baseFire*researchFactor;
+  double realWater = baseWater*researchFactor;
+  double realEarth = baseEarth*researchFactor;
+  double realLight = baseLight*researchFactor;
+  double realNight = baseNight*researchFactor;
+  double realRock = baseRock*researchFactor;
+  
+  // This is how much dmg will need to be added to some column or the other
+  int dmgDiff = totalDamage - (floorf(realFire)+floorf(realEarth)+floorf(realWater)+floorf(realLight)+floorf(realNight)+floorf(realRock));
+  
+  NSMutableDictionary *dmgs = [NSMutableDictionary dictionary];
+  dmgs[@(ElementFire)] = @(realFire);
+  dmgs[@(ElementWater)] = @(realWater);
+  dmgs[@(ElementEarth)] = @(realEarth);
+  dmgs[@(ElementLight)] = @(realLight);
+  dmgs[@(ElementDark)] = @(realNight);
+  dmgs[@(ElementRock)] = @(realRock);
+  
+  if (dmgDiff > 0) {
+    NSArray *elems = @[@(ElementFire), @(ElementWater), @(ElementEarth), @(ElementLight), @(ElementDark), @(ElementRock)];
+    
+    elems = [elems sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+      Element elem1 = (Element)[obj1 integerValue];
+      Element elem2 = (Element)[obj2 integerValue];
+      
+      double dmg1 = [dmgs[obj1] doubleValue];
+      double dmg2 = [dmgs[obj2] doubleValue];
+      
+      // Comparison will be to see which dmgs are closer to the next digit, ties will be determined by element
+      double decimal1 = dmg1-floorf(dmg1);
+      double decimal2 = dmg2-floorf(dmg2);
+      
+      if (ABS(decimal1-decimal2) > 0.01) {
+        return [@(decimal2) compare:@(decimal1)];
+      } else {
+        if (elem1 == mainElement || elem2 == badElement) {
+          return NSOrderedAscending;
+        } else if (elem2 == mainElement || elem1 == badElement) {
+          return NSOrderedDescending;
+        } else if (elem1 == ElementRock || elem2 == ElementRock) {
+          return [@(elem1) compare:@(elem2)];
+        } else {
+          // Calculate how far away the element is and prioritize closer elements.
+          int diff1 = MIN((ElementRock-elem1+mainElement-ElementFire+1) % mod, (ElementRock-mainElement+elem1-ElementFire+1) % mod);
+          int diff2 = MIN((ElementRock-elem2+mainElement-ElementFire+1) % mod, (ElementRock-mainElement+elem2-ElementFire+1) % mod);
+          
+          if (diff1 != diff2) {
+            return [@(diff1) compare:@(diff2)];
+          } else {
+            // Default to lower number
+            return [@(elem1) compare:@(elem2)];
+          }
+        }
+      }
+    }];
+    
+    for (int i = 0; i < dmgDiff; i++) {
+      Element elem = (Element)[elems[(i % mod)] integerValue];
+      
+      double val = [dmgs[@(elem)] doubleValue];
+      dmgs[@(elem)] = @(val+1);
+    }
+  }
+  
+  return floorf([dmgs[@(element)] doubleValue]);
+}
+
+- (int) calculateBaseMaxHealthForMonster:(UserMonster *)um {
+  MonsterProto *mp = um.staticMonster;
+  MonsterLevelInfoProto *min = [mp.lvlInfoList firstObject];
+  MonsterLevelInfoProto *max = [mp.lvlInfoList lastObject];
+  return roundf(min.hp+(max.hp-min.hp)*powf((um.level-1)/(float)(max.lvl-1), max.hpExponentBase));
 }
 
 - (int) calculateMaxHealthForMonster:(UserMonster *)um {
+  int base = [self calculateBaseMaxHealthForMonster:um];
+  
+  MonsterProto *mp = um.staticMonster;
+  float researchFactor = 1.f+[um.researchUtil percentageBenefitForType:ResearchTypeHpIncrease element:mp.monsterElement rarity:mp.quality];
+  
+  return base*researchFactor;
+}
+
+- (int) calculateBaseSpeedForMonster:(UserMonster *)um {
   MonsterProto *mp = um.staticMonster;
   MonsterLevelInfoProto *min = [mp.lvlInfoList firstObject];
   MonsterLevelInfoProto *max = [mp.lvlInfoList lastObject];
-  return min.hp+(max.hp-min.hp)*powf((um.level-1)/(float)(max.lvl-1), max.hpExponentBase);
+  return roundf(min.speed+(max.speed-min.speed)*powf((um.level-1)/(float)(max.lvl-1), 1));
 }
 
 - (int) calculateSpeedForMonster:(UserMonster *)um {
+  int base = [self calculateBaseSpeedForMonster:um];
+  
   MonsterProto *mp = um.staticMonster;
-  MonsterLevelInfoProto *min = [mp.lvlInfoList firstObject];
-  MonsterLevelInfoProto *max = [mp.lvlInfoList lastObject];
-  return min.speed+(max.speed-min.speed)*powf((um.level-1)/(float)(max.lvl-1), 1);
+  int amtIncrease = [um.researchUtil amountBenefitForType:ResearchTypeSpeedIncrease element:mp.monsterElement rarity:mp.quality];
+  
+  return base+amtIncrease;
 }
 
 - (int) calculateCostToHealMonster:(UserMonster *)um {
   // Old formula
   //return ceilf(([self calculateMaxHealthForMonster:um]-um.curHealth)*self.cashPerHealthPoint);
+  
+  GameState *gs = [GameState sharedGameState];
   
   MonsterProto *mp = um.staticMonster;
   MonsterLevelInfoProto *min = [mp.lvlInfoList firstObject];
@@ -1912,7 +2027,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   int maxHealth = [self calculateMaxHealthForMonster:um];
   float baseCost = costToFullyHeal * (maxHealth-um.curHealth)/maxHealth;
   
-  GameState *gs = [GameState sharedGameState];
   float perc = [gs.researchUtil percentageBenefitForType:ResearchTypeHealingCost element:mp.monsterElement rarity:mp.quality];
   float researchFactor = [self convertToOverallPercentFromPercentDecrease:perc];
   
@@ -1922,6 +2036,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 - (float) calculateBaseSecondsToHealMonster:(UserMonster *)um {
+  GameState *gs = [GameState sharedGameState];
+  
   MonsterProto *mp = um.staticMonster;
   MonsterLevelInfoProto *min = [mp.lvlInfoList firstObject];
   MonsterLevelInfoProto *max = [mp.lvlInfoList lastObject];
@@ -1929,7 +2045,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   int maxHealth = [self calculateMaxHealthForMonster:um];
   float baseSecs = secsToFullyHeal * (maxHealth-um.curHealth)/maxHealth;
   
-  GameState *gs = [GameState sharedGameState];
   float perc = [gs.researchUtil percentageBenefitForType:ResearchTypeHealingSpeed element:mp.monsterElement rarity:mp.quality];
   float researchFactor = [self convertToOverallPercentFromPercentDecrease:perc];
   

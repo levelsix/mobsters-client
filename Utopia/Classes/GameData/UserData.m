@@ -10,6 +10,7 @@
 #import "GameState.h"
 #import "Globals.h"
 #import "OutgoingEventController.h"
+#import "ResearchUtil.h"
 
 @implementation MonsterProto (Name)
 
@@ -21,7 +22,7 @@
 
 @implementation UserMonster
 
-- (id) initWithMonsterProto:(FullUserMonsterProto *)proto {
+- (id) initWithMonsterProto:(FullUserMonsterProto *)proto researchUtil:(ResearchUtil *)researchUtil {
   if ((self = [super init])) {
     self.userUuid = proto.userUuid;
     self.monsterId = proto.monsterId;
@@ -36,21 +37,25 @@
     self.isProtected = proto.isRestrictd;
     self.offensiveSkillId = proto.offensiveSkillId;
     self.defensiveSkillId = proto.defensiveSkillId;
+    
+    self.researchUtil = researchUtil;
   }
   return self;
 }
 
-+ (id) userMonsterWithProto:(FullUserMonsterProto *)proto {
-  return [[self alloc] initWithMonsterProto:proto];
++ (id) userMonsterWithProto:(FullUserMonsterProto *)proto researchUtil:(ResearchUtil *)researchUtil {
+  return [[self alloc] initWithMonsterProto:proto researchUtil:researchUtil];
 }
 
-- (id) initWithMinMonsterProto:(MinimumUserMonsterProto *)proto {
+- (id) initWithMinMonsterProto:(MinimumUserMonsterProto *)proto researchUtil:(ResearchUtil *)researchUtil {
   if ((self = [super init])){
     self.monsterId = proto.monsterId;
     self.level = proto.monsterLvl;
     
     self.offensiveSkillId = proto.offensiveSkillId;
     self.defensiveSkillId = proto.defensiveSkillId;
+    
+    self.researchUtil = researchUtil;
     
     Globals *gl = [Globals sharedGlobals];
     self.curHealth = [gl calculateMaxHealthForMonster:self];
@@ -59,8 +64,8 @@
   return self;
 }
 
-+ (id) userMonsterWithMinProto:(MinimumUserMonsterProto *)proto {
-  return [[self alloc] initWithMinMonsterProto:proto];
++ (id) userMonsterWithMinProto:(MinimumUserMonsterProto *)proto researchUtil:(ResearchUtil *)researchUtil {
+  return [[self alloc] initWithMinMonsterProto:proto researchUtil:researchUtil];
 }
 
 - (id) initWithTaskStageMonsterProto:(TaskStageMonsterProto *)proto {
@@ -79,7 +84,7 @@
   return [[self alloc] initWithTaskStageMonsterProto:proto];
 }
 
-- (id) initWithMonsterSnapshotProto:(UserMonsterSnapshotProto *)proto {
+- (id) initWithMonsterSnapshotProto:(UserMonsterSnapshotProto *)proto researchUtil:(ResearchUtil *)researchUtil {
   if ((self = [super init])){
     self.userMonsterUuid  = proto.monsterForUserUuid;
     self.monsterId = proto.monsterId;
@@ -89,12 +94,14 @@
     self.offensiveSkillId = proto.offensiveSkillId;
     self.defensiveSkillId = proto.defensiveSkillId;
     self.isComplete = YES;
+    
+    self.researchUtil = researchUtil;
   }
   return self;
 }
 
-+ (id) userMonsterWithMonsterSnapshotProto:(UserMonsterSnapshotProto *)proto {
-  return [[self alloc] initWithMonsterSnapshotProto:proto];
++ (id) userMonsterWithMonsterSnapshotProto:(UserMonsterSnapshotProto *)proto researchUtil:(ResearchUtil *)researchUtil {
+  return [[self alloc] initWithMonsterSnapshotProto:proto researchUtil:researchUtil];
 }
 
 - (BOOL) isHealing {
@@ -323,7 +330,7 @@
 }
 
 - (id) copy {
-  return [[UserMonster alloc] initWithMonsterProto:[self convertToProto]];
+  return [[UserMonster alloc] initWithMonsterProto:[self convertToProto] researchUtil:self.researchUtil];
 }
 
 - (FullUserMonsterProto *) convertToProto {

@@ -159,7 +159,7 @@
                     <rect key="frame" x="365" y="15" width="20" height="20"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </activityIndicatorView>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="researchbattle.png" id="3ua-X8-yBv">
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="researchbattle.png" id="3ua-X8-yBv">
                     <rect key="frame" x="20" y="2" width="46" height="46"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>

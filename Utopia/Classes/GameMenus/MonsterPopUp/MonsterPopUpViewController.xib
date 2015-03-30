@@ -25,7 +25,7 @@
                 <outlet property="elementView" destination="T8K-Qe-jH5" id="FwJ-ME-kfc"/>
                 <outlet property="enhanceLabel" destination="zpm-ZY-brI" id="4gi-7r-jb9"/>
                 <outlet property="fireView" destination="26B-fs-soA" id="qwG-Ns-2Ye"/>
-                <outlet property="hpLabel" destination="6Ur-90-cac" id="Egi-GL-T02"/>
+                <outlet property="hpLabel" destination="7AK-r1-Db2" id="A0K-XV-qGm"/>
                 <outlet property="infoButton" destination="kZD-LJ-85N" id="UTS-pw-RVb"/>
                 <outlet property="lightView" destination="Scu-Td-DFA" id="AGs-5A-oH9"/>
                 <outlet property="mainView" destination="6Gz-F2-H7P" id="2c5-VU-ExR"/>
@@ -39,7 +39,6 @@
                 <outlet property="offensiveSkillName" destination="5n9-mT-Trb" id="20J-F8-Wrb"/>
                 <outlet property="offensiveSkillType" destination="xFe-J0-1vC" id="g62-be-ESL"/>
                 <outlet property="powerLabel" destination="yUi-yM-9bu" id="7tD-Vw-faI"/>
-                <outlet property="progressBar" destination="PMK-Op-P5A" id="aoz-ae-bvD"/>
                 <outlet property="protectedButton" destination="j2O-jp-6fS" id="EUb-FR-EXO"/>
                 <outlet property="rarityTag" destination="M2r-hx-neZ" id="7ee-sK-sN8"/>
                 <outlet property="rockView" destination="eRb-l0-Hoh" id="wCi-CZ-shD"/>
@@ -365,30 +364,14 @@
                                                     <nil key="highlightedColor"/>
                                                     <size key="shadowOffset" width="0.0" height="1"/>
                                                 </label>
-                                                <view contentMode="scaleToFill" id="A1q-ZU-WeX">
-                                                    <rect key="frame" x="73" y="6" width="87" height="11"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="5" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="7AK-r1-Db2" customClass="NiceFontLabel9R">
+                                                    <rect key="frame" x="73" y="-2" width="108" height="27"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <subviews>
-                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="menuteamhealthbarbg.png" id="lvj-tQ-8qF">
-                                                            <rect key="frame" x="0.0" y="0.0" width="87" height="11"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        </imageView>
-                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="menuteamhealthbar.png" id="PMK-Op-P5A" customClass="ProgressBar">
-                                                            <rect key="frame" x="0.0" y="0.0" width="87" height="11"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        </imageView>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="226/420" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="7" id="6Ur-90-cac" customClass="NiceFontLabel8B">
-                                                            <rect key="frame" x="7" y="-5" width="73" height="18"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="9"/>
-                                                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                                            <nil key="highlightedColor"/>
-                                                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
-                                                            <size key="shadowOffset" width="0.0" height="1"/>
-                                                        </label>
-                                                    </subviews>
-                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                </view>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                                    <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                                </label>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
@@ -494,7 +477,7 @@
                                                     <size key="shadowOffset" width="0.0" height="1"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="500,000" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="XSC-nx-og0" customClass="NiceFontLabel9R">
-                                                    <rect key="frame" x="73" y="-2" width="50" height="27"/>
+                                                    <rect key="frame" x="73" y="-2" width="73" height="27"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
@@ -502,8 +485,8 @@
                                                     <nil key="highlightedColor"/>
                                                     <size key="shadowOffset" width="0.0" height="1"/>
                                                 </label>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" id="kZD-LJ-85N" customClass="NiceFontButton9R">
-                                                    <rect key="frame" x="124" y="-2" width="74" height="27"/>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" id="kZD-LJ-85N" customClass="NiceFontButton9R">
+                                                    <rect key="frame" x="137" y="-2" width="56" height="27"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                     <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -800,8 +783,6 @@
         <image name="closepopupx.png" width="25" height="26"/>
         <image name="detailshadow.png" width="66" height="31"/>
         <image name="lockedinactive.png" width="20" height="21"/>
-        <image name="menuteamhealthbar.png" width="87" height="11"/>
-        <image name="menuteamhealthbarbg.png" width="87" height="11"/>
         <image name="noskillcircle.png" width="30" height="30"/>
         <image name="popupheadercap.png" width="5" height="39"/>
         <image name="popupheadermiddle.png" width="1" height="39"/>

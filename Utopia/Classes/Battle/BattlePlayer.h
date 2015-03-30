@@ -58,6 +58,8 @@
 
 @property (nonatomic, retain) DialogueProto *dialogue;
 
+@property (nonatomic, retain) ResearchUtil *researchUtil;
+
 + (id) playerWithMonster:(UserMonster *)monster;
 + (id) playerWithMonster:(UserMonster *)monster dmgMultiplier:(float)dmgMultiplier monsterType:(TaskStageMonsterProto_MonsterType)monsterType;
 + (id) playerWithClanRaidStageMonster:(ClanRaidStageMonsterProto *)monster curHealth:(int)curHealth;

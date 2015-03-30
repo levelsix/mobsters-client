@@ -10,15 +10,20 @@
 #import "Research.pb.h"
 
 @protocol ResearchProtocol <NSObject>
--(NSString *)longImprovementString;
--(NSString *)shortImprovementString;
+- (NSString *) longImprovementString;
+- (NSString *) shortImprovementString;
+
+- (float) curPercent;
+- (float) nextPercent;
+
 @end
 
 @interface ResearchController : NSObject <ResearchProtocol> {
   ResearchProto *_research;
 }
-+(id)researchControllerWithProto:(ResearchProto *)proto;
--(id)initWithProto:(ResearchProto *)proto;
++ (id) researchControllerWithProto:(ResearchProto *)proto;
+- (id) initWithProto:(ResearchProto *)proto;
+
 @end
 
 @interface ResearchPercentController : ResearchController

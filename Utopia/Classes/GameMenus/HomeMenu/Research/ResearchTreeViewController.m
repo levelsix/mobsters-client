@@ -18,15 +18,15 @@
 #define RED_BOT_COLOR @"FFE4E6"
 #define BLUE_BOT_COLOR @"c9f7ff"
 
-@implementation researchSelectionBarView
+@implementation ResearchSelectionBarView
 
--(void)updateForProto:(UserResearch *)userResearch {
+- (void) updateForProto:(UserResearch *)userResearch {
   _userResearch = userResearch;
   ResearchProto *proto = userResearch.research;
   BOOL isAvailable = [userResearch.research prereqsComplete];
   
   [Globals imageNamed:userResearch.research.iconImgName withView:self.selectionIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-  int curRank = userResearch.complete ? _userResearch.research.level : _userResearch.research.level - 1;
+  int curRank = userResearch.researchForBenefitLevel.level;
   self.rankTotal.text = [NSString stringWithFormat:@"%d/%@", curRank, @([proto fullResearchFamily].count)];
   self.rankTotal.shadowBlur = 0.5f;
   self.selectionTitle.text = [NSString stringWithFormat:@" %@", proto.name];
@@ -77,9 +77,10 @@
   [rtvc barClickedWithResearch:_userResearch];
 }
 
--(void)updateSelf {
+- (void) updateSelf {
   if(_userResearch) {
-    [self updateForProto:[[GameState sharedGameState].researchUtil currentRankForResearch:_userResearch.research]];
+    GameState *gs = [GameState sharedGameState];
+    [self updateForProto:[gs.researchUtil currentRankForResearch:_userResearch.research]];
   }
 }
 
@@ -135,7 +136,7 @@
   _userResearch = userResearch;
   
   self.researchNameLabel.text = research.name;
-  int curRank = userResearch.complete ? research.level : research.level - 1;
+  int curRank = userResearch.researchForBenefitLevel.level;
   self.rankCountLabel.text = [NSString stringWithFormat:@"%d/%@", curRank, @([research fullResearchFamily].count)];
   self.researchNameLabel.height = [self.researchNameLabel.text getSizeWithFont:self.researchNameLabel.font
                                                              constrainedToSize:CGSizeMake(self.researchNameLabel.width, MAXFLOAT)].height;
@@ -257,39 +258,46 @@
 
 @implementation ResearchTreeViewController
 
--(id)initWithDomain:(ResearchDomain)domain {
+- (id) initWithDomain:(ResearchDomain)domain {
   _selectFieldViewUp = YES;
   _barAnimating = NO;
   
-  if((self = [super init])){
-    switch (domain) {
-      case ResearchDomainBattle:
-        self.title = @"Battle Research";
-        break;
-      case ResearchDomainResources:
-        self.title = @"Resource Research";
-        break;
-      case ResearchDomainRestorative:
-        self.title = @"Restorative Research";
-        break;
-      case ResearchDomainLevelup:
-        self.title = @"Level Up Research";
-        break;
-      case ResearchDomainItems:
-        self.title = @"Items Research";
-        break;
-      case ResearchDomainTrapsAndObstacles:
-        self.title = @"Obstacles Research";
-        break;
-      case ResearchDomainNoDomain:
-        self.title = nil;
-        break;
-    }
+  if ((self = [super init])){
+    _domain = domain;
   }
-
-  [self createResearchButtonViewsForDomain:domain];
   
   return self;
+}
+
+- (void) viewDidLoad {
+  [super viewDidLoad];
+  
+  switch (_domain) {
+    case ResearchDomainBattle:
+      self.title = @"Battle Research";
+      break;
+    case ResearchDomainResources:
+      self.title = @"Resource Research";
+      break;
+    case ResearchDomainRestorative:
+      self.title = @"Restorative Research";
+      break;
+    case ResearchDomainLevelup:
+      self.title = @"Level Up Research";
+      break;
+    case ResearchDomainItems:
+      self.title = @"Items Research";
+      break;
+    case ResearchDomainTrapsAndObstacles:
+      self.title = @"Obstacles Research";
+      break;
+    case ResearchDomainNoDomain:
+      self.title = nil;
+      break;
+  }
+  
+  [self createResearchButtonViewsForDomain:_domain];
+  
 }
 
 - (void) createResearchButtonViewsForDomain:(ResearchDomain)domain
@@ -299,8 +307,8 @@
   ResearchTreeView* treeView = (ResearchTreeView*)self.view;
   _researchButtons = [NSMutableArray array];
   
-  NSMutableDictionary* tieredResearches = [NSMutableDictionary dictionary];
-  for (ResearchProto* research in staticResearches)
+  NSMutableDictionary *tieredResearches = [NSMutableDictionary dictionary];
+  for (ResearchProto *research in staticResearches)
     if (research.level == 1)
     {
       if (![tieredResearches objectForKey:@( research.tier )])
@@ -360,11 +368,7 @@
   [Globals alignSubviewsToPixelsBoundaries:treeView.mainView];
 }
 
--(void)viewDidLoad {
-  self.titleImageName = @"researchtoons.png";
-}
-
--(void)researchButtonClickWithResearch:(UserResearch *)userResearch sender:(id)sender {
+- (void) researchButtonClickWithResearch:(UserResearch *)userResearch sender:(id)sender {
   
   ResearchButtonView *clicked = (ResearchButtonView *)sender;
   if (clicked != _lastClicked) {
@@ -403,7 +407,7 @@
   
 }
 
--(IBAction)deselectTree:(id)sender {
+- (IBAction) deselectTree:(id)sender {
   [_lastClicked deselect];
   [_researchButtons makeObjectsPerformSelector:@selector(fullOpacity)];
   
@@ -423,7 +427,7 @@
   _lastClicked = nil;
 }
 
--(void)barClickedWithResearch:(UserResearch *)research{
+- (void) barClickedWithResearch:(UserResearch *)research{
   ResearchInfoViewController *rivc = [[ResearchInfoViewController alloc] initWithResearch:research];
   [self.parentViewController pushViewController:rivc animated:YES];
   
@@ -441,7 +445,7 @@
 
 #pragma mark - UIScrollView Delegate Methods
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+- (void) scrollViewDidScroll:(UIScrollView *)scrollView {
   if(_barAnimating || _curBarView) {
     return;
   }

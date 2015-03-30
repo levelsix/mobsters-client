@@ -418,8 +418,12 @@
 - (NSString *) expansionPhraseForExpandSpot:(CGPoint)pt;
 
 // Monster formulas
+- (int) calculateBaseTotalDamageForMonster:(UserMonster *)um;
+- (int) calculateBaseElementalDamageForMonster:(UserMonster *)um element:(Element)element;
 - (int) calculateTotalDamageForMonster:(UserMonster *)um;
 - (int) calculateElementalDamageForMonster:(UserMonster *)um element:(Element)element;
+- (int) calculateBaseMaxHealthForMonster:(UserMonster *)um;
+- (int) calculateBaseSpeedForMonster:(UserMonster *)um;
 - (int) calculateMaxHealthForMonster:(UserMonster *)um;
 - (int) calculateSpeedForMonster:(UserMonster *)um;
 - (int) calculateCostToHealMonster:(UserMonster *)um;

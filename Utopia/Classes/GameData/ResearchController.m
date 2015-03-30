@@ -13,7 +13,7 @@
 
 @implementation ResearchController
 
-+(id)researchControllerWithProto:(ResearchProto *)proto {
++ (id) researchControllerWithProto:(ResearchProto *)proto {
   switch (proto.researchType) {
     case ResearchTypeHealingCost:
     case ResearchTypeHealingSpeed:
@@ -45,15 +45,17 @@
   return nil;
 }
 
--(id)initWithProto:(ResearchProto *)proto {
+- (id) initWithProto:(ResearchProto *)proto {
   if ((self = [super init])) {
     _research = proto;
   }
   return self;
 }
 
--(NSString *)longImprovementString{return @"";}
--(NSString *)shortImprovementString{return @"";}
+- (NSString *) longImprovementString{ return @""; }
+- (NSString *) shortImprovementString{ return @""; }
+- (float) curPercent { return 0.f; };
+- (float) nextPercent { return 0.f; };
 
 @end
 
@@ -69,6 +71,18 @@
 
 - (NSString *) shortImprovementString {
   return [NSString stringWithFormat:@"+%@%%", [Globals commafyNumber:roundf([self percentBenefit]*100)]];
+}
+
+- (float) curPercent {
+  float curVal = [_research percentage];
+  float maxVal = [[_research maxLevelResearch] percentage];
+  return curVal/maxVal;
+}
+
+- (float) nextPercent {
+  float nextVal = [[_research successorResearch] percentage];
+  float maxVal = [[_research maxLevelResearch] percentage];
+  return nextVal/maxVal;
 }
 
 @end
@@ -87,6 +101,18 @@
   return [NSString stringWithFormat:@"+%@", [Globals commafyNumber:[self amountBenefit]]];
 }
 
+- (float) curPercent {
+  float curVal = [_research amountIncrease];
+  float maxVal = [[_research maxLevelResearch] amountIncrease];
+  return curVal/maxVal;
+}
+
+- (float) nextPercent {
+  float nextVal = [[_research successorResearch] amountIncrease];
+  float maxVal = [[_research maxLevelResearch] amountIncrease];
+  return nextVal/maxVal;
+}
+
 @end
 
 @implementation ResearchUnlockController
@@ -101,6 +127,14 @@
                                              
 - (NSString *) shortImprovementString {
   return [NSString stringWithFormat:@"Unlock %@", [self unlockedName]];
+}
+
+- (float) curPercent {
+  return 0.f;
+}
+
+- (float) nextPercent {
+  return 1.f;
 }
 
 @end

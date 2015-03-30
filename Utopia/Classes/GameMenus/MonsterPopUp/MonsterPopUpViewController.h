@@ -17,8 +17,6 @@
 @property (nonatomic, strong) IBOutlet UILabel *statLabel;
 @property (nonatomic, strong) IBOutlet UILabel *elementLabel;
 
-- (void) updateStatsWithElementType:(Element)element andDamage:(int)damage;
-
 @end
 
 @interface MonsterPopUpViewController : UIViewController {

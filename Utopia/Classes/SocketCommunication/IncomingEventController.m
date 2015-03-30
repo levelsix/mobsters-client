@@ -431,6 +431,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs.myAchievements removeAllObjects];
     [gs addToMyAchievements:proto.userAchievementsList];
     
+    // Make sure researchUtil happens before monsters or else the monsters will not have any research benefits
+    gs.itemUtil = [[ItemUtil alloc] initWithItemProtos:proto.userItemsList itemUsageProtos:proto.itemsInUseList];
+    gs.researchUtil = [[ResearchUtil alloc] initWithResearches:proto.userResearchsList];
+    gs.mySecretGifts = [proto.giftsList mutableCopy];
+    
     //    [Globals asyncDownloadBundles];
     [gs.myMonsters removeAllObjects];
     [gs addToMyMonsters:proto.usersMonstersList];
@@ -459,10 +464,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     [gs.myMiniJobs removeAllObjects];
     [gs addToMiniJobs:proto.userMiniJobProtosList isNew:NO];
-    
-    gs.itemUtil = [[ItemUtil alloc] initWithItemProtos:proto.userItemsList itemUsageProtos:proto.itemsInUseList];
-    gs.researchUtil = [[ResearchUtil alloc] initWithResearches:proto.userResearchsList];
-    gs.mySecretGifts = [proto.giftsList mutableCopy];
     
     [gs beginResearchTimer];
     

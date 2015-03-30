@@ -13,7 +13,7 @@
 -(void)researchButtonClickWithResearch:(UserResearch *)userResearch sender:(id)sender;
 @end
 
-@interface researchSelectionBarView : TouchableSubviewsView {
+@interface ResearchSelectionBarView : TouchableSubviewsView {
   UserResearch *_userResearch;
 }
 
@@ -64,7 +64,7 @@
 @interface ResearchTreeViewController : PopupSubViewController <TreeDelegate>{
   ResearchButtonView *_lastClicked;
   NSMutableArray *_researchButtons;
-  researchSelectionBarView *_curBarView;
+  ResearchSelectionBarView *_curBarView;
   ResearchDomain _domain;
   CGSize _contentSize;
   BOOL _selectFieldViewUp;
@@ -76,7 +76,7 @@
 -(void)barClickedWithResearch:(UserResearch *)research;
 
 @property (nonatomic, assign) IBOutlet UIButton *bgButton;
-@property (nonatomic, assign) IBOutlet researchSelectionBarView *selectFieldView;
+@property (nonatomic, assign) IBOutlet ResearchSelectionBarView *selectFieldView;
 @end
 
 @interface ResearchTreeView : UIView

@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "Research.pb.h"
-#import "UserData.h"
+#import "MSDate.h"
 
 @interface UserResearch : NSObject
 
@@ -58,10 +58,7 @@
 - (ResearchProto *)predecessorResearch;
 - (ResearchProto *)maxLevelResearch;
 - (ResearchProto *)minLevelResearch;
-- (ResearchPropertyProto *)firstProperty;
-- (float)researchBenefit;
 - (NSArray *)fullResearchFamily;
-- (NSString *)simpleValue;
 - (BOOL)prereqsComplete;
 
 - (Element) element;

@@ -312,7 +312,7 @@
       self.categoryIcon.image =[Globals imageNamed:@"researchresources.png"];
       
     default:
-      self.categoryTitle.text = [NSString stringWithFormat:@"Had a problem loading domain type %d",domain];
+      self.categoryTitle.text = [NSString stringWithFormat:@"Had a problem loading domain type %d", (int)domain];
       break;
   }
   

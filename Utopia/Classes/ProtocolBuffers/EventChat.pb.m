@@ -2340,6 +2340,7 @@ BOOL PrivateChatPostResponseProto_PrivateChatPostStatusIsValidValue(PrivateChatP
 @property (strong) MinimumUserProto* sender;
 @property (strong) NSString* otherUserUuid;
 @property int32_t beforePrivateChatId;
+@property TranslateLanguages language;
 @end
 
 @implementation RetrievePrivateChatPostsRequestProto
@@ -2365,11 +2366,19 @@ BOOL PrivateChatPostResponseProto_PrivateChatPostStatusIsValidValue(PrivateChatP
   hasBeforePrivateChatId_ = !!value_;
 }
 @synthesize beforePrivateChatId;
+- (BOOL) hasLanguage {
+  return !!hasLanguage_;
+}
+- (void) setHasLanguage:(BOOL) value_ {
+  hasLanguage_ = !!value_;
+}
+@synthesize language;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.otherUserUuid = @"";
     self.beforePrivateChatId = 0;
+    self.language = TranslateLanguagesArabic;
   }
   return self;
 }
@@ -2398,6 +2407,9 @@ static RetrievePrivateChatPostsRequestProto* defaultRetrievePrivateChatPostsRequ
   if (self.hasBeforePrivateChatId) {
     [output writeInt32:3 value:self.beforePrivateChatId];
   }
+  if (self.hasLanguage) {
+    [output writeEnum:4 value:self.language];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -2415,6 +2427,9 @@ static RetrievePrivateChatPostsRequestProto* defaultRetrievePrivateChatPostsRequ
   }
   if (self.hasBeforePrivateChatId) {
     size_ += computeInt32Size(3, self.beforePrivateChatId);
+  }
+  if (self.hasLanguage) {
+    size_ += computeEnumSize(4, self.language);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -2463,6 +2478,9 @@ static RetrievePrivateChatPostsRequestProto* defaultRetrievePrivateChatPostsRequ
   if (self.hasBeforePrivateChatId) {
     [output appendFormat:@"%@%@: %@\n", indent, @"beforePrivateChatId", [NSNumber numberWithInteger:self.beforePrivateChatId]];
   }
+  if (self.hasLanguage) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"language", [NSNumber numberWithInteger:self.language]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -2480,6 +2498,8 @@ static RetrievePrivateChatPostsRequestProto* defaultRetrievePrivateChatPostsRequ
       (!self.hasOtherUserUuid || [self.otherUserUuid isEqual:otherMessage.otherUserUuid]) &&
       self.hasBeforePrivateChatId == otherMessage.hasBeforePrivateChatId &&
       (!self.hasBeforePrivateChatId || self.beforePrivateChatId == otherMessage.beforePrivateChatId) &&
+      self.hasLanguage == otherMessage.hasLanguage &&
+      (!self.hasLanguage || self.language == otherMessage.language) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -2492,6 +2512,9 @@ static RetrievePrivateChatPostsRequestProto* defaultRetrievePrivateChatPostsRequ
   }
   if (self.hasBeforePrivateChatId) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.beforePrivateChatId] hash];
+  }
+  if (self.hasLanguage) {
+    hashCode = hashCode * 31 + self.language;
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -2545,6 +2568,9 @@ static RetrievePrivateChatPostsRequestProto* defaultRetrievePrivateChatPostsRequ
   if (other.hasBeforePrivateChatId) {
     [self setBeforePrivateChatId:other.beforePrivateChatId];
   }
+  if (other.hasLanguage) {
+    [self setLanguage:other.language];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -2581,6 +2607,15 @@ static RetrievePrivateChatPostsRequestProto* defaultRetrievePrivateChatPostsRequ
       }
       case 24: {
         [self setBeforePrivateChatId:[input readInt32]];
+        break;
+      }
+      case 32: {
+        TranslateLanguages value = (TranslateLanguages)[input readEnum];
+        if (TranslateLanguagesIsValidValue(value)) {
+          [self setLanguage:value];
+        } else {
+          [unknownFields mergeVarintField:4 value:value];
+        }
         break;
       }
     }
@@ -2646,6 +2681,22 @@ static RetrievePrivateChatPostsRequestProto* defaultRetrievePrivateChatPostsRequ
 - (RetrievePrivateChatPostsRequestProto_Builder*) clearBeforePrivateChatId {
   result.hasBeforePrivateChatId = NO;
   result.beforePrivateChatId = 0;
+  return self;
+}
+- (BOOL) hasLanguage {
+  return result.hasLanguage;
+}
+- (TranslateLanguages) language {
+  return result.language;
+}
+- (RetrievePrivateChatPostsRequestProto_Builder*) setLanguage:(TranslateLanguages) value {
+  result.hasLanguage = YES;
+  result.language = value;
+  return self;
+}
+- (RetrievePrivateChatPostsRequestProto_Builder*) clearLanguageList {
+  result.hasLanguage = NO;
+  result.language = TranslateLanguagesArabic;
   return self;
 }
 @end

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ResearchInfoViewController">
@@ -252,7 +252,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" id="o29-tA-AlS" customClass="ShrinkOnlyImageView">
-                            <rect key="frame" x="38" y="30" width="83" height="85"/>
+                            <rect key="frame" x="36" y="30" width="85" height="85"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </imageView>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Cash Vault" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="TQz-pw-1Vn" customClass="NiceFontLabel9">
@@ -378,7 +378,7 @@
                                         <color key="titleColor" red="0.066666666669999999" green="0.36078431370000003" blue="0.59215686270000001" alpha="1" colorSpace="deviceRGB"/>
                                     </state>
                                     <connections>
-                                        <action selector="DetailsClicked:" destination="-1" eventType="touchUpInside" id="xhx-f8-neF"/>
+                                        <action selector="detailsClicked:" destination="-1" eventType="touchUpInside" id="m7k-JB-gPM"/>
                                     </connections>
                                 </button>
                             </subviews>
@@ -416,11 +416,11 @@
                 <outlet property="finishFreeLabel" destination="Y6j-fD-byt" id="z5b-02-X0X"/>
                 <outlet property="finishSpeedupIcon" destination="VWg-r8-r6D" id="XeQ-43-PJK"/>
                 <outlet property="helpButtonView" destination="lrg-eZ-8Xi" id="0MP-nJ-r5J"/>
+                <outlet property="improvementLabel" destination="335-Oq-AS2" id="9UB-TE-BEl"/>
                 <outlet property="oilButton" destination="Lte-tt-Kt6" id="oAN-U4-x2X"/>
                 <outlet property="oilButtonLabel" destination="EyH-si-K9l" id="U5v-Rg-sBI"/>
                 <outlet property="oilButtonView" destination="fNx-v5-2mz" id="hCb-bN-x0i"/>
                 <outlet property="oilIcon" destination="1WS-Nr-rdr" id="2wP-Yt-2Ig"/>
-                <outlet property="percentIncreseLabel" destination="335-Oq-AS2" id="l9c-Z1-OtV"/>
                 <outlet property="prereqViewA" destination="j0P-G2-Aog" id="5G3-yD-CB3"/>
                 <outlet property="prereqViewB" destination="izd-Qr-p9g" id="ZtB-Ng-N0d"/>
                 <outlet property="prereqViewC" destination="VUx-9c-hFj" id="R0z-21-MCt"/>

@@ -34,7 +34,7 @@
   UserResearch *_userResearch;
 }
 
-- (id) initWithResearchResearch:(UserResearch *)userResearch;
+- (id) initWithUserResearch:(UserResearch *)userResearch;
 
 @property (nonatomic, assign) IBOutlet ResearchDetailView *view;
 

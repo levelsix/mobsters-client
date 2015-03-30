@@ -16,14 +16,33 @@
 
 #define LOCK_MOBSTER_DEFAULTS_KEY @"LockMobsterConfirmation"
 
+NSMutableAttributedString *attributedStringWithResearchChange(int total, int base) {
+  NSString *str1 = [NSString stringWithFormat:@"%@", [Globals commafyNumber:total]];
+  NSString *str2 = @"", *str3 = @"", *str4 = @"";
+  
+  if (total != base) {
+    str2 = [NSString stringWithFormat:@" (%@ ", [Globals commafyNumber:base]];
+    str3 = [NSString stringWithFormat:@"+ %@", [Globals commafyNumber:total-base]];
+    str4 = @")";
+  }
+  
+  NSString *totalStr = [NSString stringWithFormat:@"%@%@%@%@", str1, str2, str3, str4];
+  NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:totalStr];
+  
+  [attr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"71b803"] range:NSMakeRange(str1.length+str2.length, str3.length)];
+  
+  return attr;
+}
+
 @implementation ElementDisplayView
 
-- (void) updateStatsWithElementType:(Element)element andDamage:(int)damage {
+- (void) updateStatsWithElementType:(Element)element damage:(int)damage baseDmage:(int)baseDamage {
   NSString *name = [Globals imageNameForElement:element suffix:@"orb.png"];
   [Globals imageNamed:name withView:self.elementIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-  self.statLabel.text = [Globals commafyNumber:damage];
   self.elementLabel.text = [Globals stringForElement:element];
   self.elementLabel.textColor = [Globals colorForElementOnLightBackground:element];
+  
+  self.statLabel.attributedText = attributedStringWithResearchChange(damage, baseDamage);
 }
 
 @end
@@ -83,29 +102,38 @@
   self.avatarButton.enabled = self.monster.monsterId != gs.avatarMonsterId;
   [self updateProtectedButton];
   
-  self.attackLabel.text = [NSString stringWithFormat:@"%@  ", [Globals commafyNumber:[gl calculateTotalDamageForMonster:self.monster]]];
-  self.speedLabel.text = [Globals commafyNumber:[gl calculateSpeedForMonster:self.monster]];
-  CGSize size = [self.attackLabel.text getSizeWithFont:self.attackLabel.font];
-  self.infoButton.center = CGPointMake(self.attackLabel.frame.origin.x+size.width+self.infoButton.frame.size.width/2, self.infoButton.center.y);
+  int atk = [gl calculateTotalDamageForMonster:self.monster];
+  int baseAtk = [gl calculateBaseTotalDamageForMonster:self.monster];
+  self.attackLabel.attributedText = attributedStringWithResearchChange(atk, baseAtk);
+  
+  int speed = [gl calculateSpeedForMonster:self.monster];
+  int baseSpeed = [gl calculateBaseSpeedForMonster:self.monster];
+  self.speedLabel.attributedText = attributedStringWithResearchChange(speed, baseSpeed);
   
   int maxHealth = [gl calculateMaxHealthForMonster:self.monster];
-  self.hpLabel.text = [NSString stringWithFormat:@"%@/%@", [Globals commafyNumber:self.monster.curHealth], [Globals commafyNumber:maxHealth]];
+  int baseHealth = [gl calculateBaseMaxHealthForMonster:self.monster];
+  self.hpLabel.attributedText = attributedStringWithResearchChange(maxHealth, baseHealth);
+  
   self.progressBar.percentage = ((float)self.monster.curHealth)/maxHealth;
   
   self.powerLabel.text = [Globals commafyNumber:[self.monster teamCost]];
   
-  Element elem = ElementFire;
-  [self.fireView updateStatsWithElementType:elem andDamage:[gl calculateElementalDamageForMonster:self.monster element:elem]];
-  elem = ElementWater;
-  [self.waterView updateStatsWithElementType:elem andDamage:[gl calculateElementalDamageForMonster:self.monster element:elem]];
-  elem = ElementEarth;
-  [self.earthView updateStatsWithElementType:elem andDamage:[gl calculateElementalDamageForMonster:self.monster element:elem]];
-  elem = ElementLight;
-  [self.lightView updateStatsWithElementType:elem andDamage:[gl calculateElementalDamageForMonster:self.monster element:elem]];
-  elem = ElementDark;
-  [self.nightView updateStatsWithElementType:elem andDamage:[gl calculateElementalDamageForMonster:self.monster element:elem]];
-  elem = ElementRock;
-  [self.rockView updateStatsWithElementType:elem andDamage:[gl calculateElementalDamageForMonster:self.monster element:elem]];
+  // Individual Elements
+  NSDictionary *dict = @{@(ElementFire):self.fireView,
+                         @(ElementWater):self.waterView,
+                         @(ElementEarth):self.earthView,
+                         @(ElementLight):self.lightView,
+                         @(ElementDark):self.nightView,
+                         @(ElementRock):self.rockView };
+  
+  for (Element elem = ElementFire; elem <= ElementRock; elem++) {
+    ElementDisplayView *elemView = dict[@(elem)];
+    
+    int dmg = [gl calculateElementalDamageForMonster:self.monster element:elem];
+    int baseDmg = [gl calculateBaseElementalDamageForMonster:self.monster element:elem];
+    
+    [elemView updateStatsWithElementType:elem damage:dmg baseDmage:baseDmg];
+  }
   
   self.elementLabel.text = [Globals stringForElement:proto.monsterElement];
   self.elementLabel.textColor = [Globals colorForElementOnLightBackground:proto.monsterElement];

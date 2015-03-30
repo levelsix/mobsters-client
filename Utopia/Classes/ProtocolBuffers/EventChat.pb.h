@@ -608,16 +608,20 @@ BOOL TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusIsValidVa
   BOOL hasBeforePrivateChatId_:1;
   BOOL hasOtherUserUuid_:1;
   BOOL hasSender_:1;
+  BOOL hasLanguage_:1;
   int32_t beforePrivateChatId;
   NSString* otherUserUuid;
   MinimumUserProto* sender;
+  TranslateLanguages language;
 }
 - (BOOL) hasSender;
 - (BOOL) hasOtherUserUuid;
 - (BOOL) hasBeforePrivateChatId;
+- (BOOL) hasLanguage;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly, strong) NSString* otherUserUuid;
 @property (readonly) int32_t beforePrivateChatId;
+@property (readonly) TranslateLanguages language;
 
 + (RetrievePrivateChatPostsRequestProto*) defaultInstance;
 - (RetrievePrivateChatPostsRequestProto*) defaultInstance;
@@ -670,6 +674,11 @@ BOOL TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusIsValidVa
 - (int32_t) beforePrivateChatId;
 - (RetrievePrivateChatPostsRequestProto_Builder*) setBeforePrivateChatId:(int32_t) value;
 - (RetrievePrivateChatPostsRequestProto_Builder*) clearBeforePrivateChatId;
+
+- (BOOL) hasLanguage;
+- (TranslateLanguages) language;
+- (RetrievePrivateChatPostsRequestProto_Builder*) setLanguage:(TranslateLanguages) value;
+- (RetrievePrivateChatPostsRequestProto_Builder*) clearLanguageList;
 @end
 
 @interface RetrievePrivateChatPostsResponseProto : PBGeneratedMessage {

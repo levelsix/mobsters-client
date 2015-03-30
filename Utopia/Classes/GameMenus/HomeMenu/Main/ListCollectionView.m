@@ -117,8 +117,9 @@
     self.enhancePercentLabel.text = [NSString stringWithFormat:@"%d%%", (int)floorf(curPerc*100)];
   }
   
-  self.healthLabel.text = [NSString stringWithFormat:@"%@/%@", [Globals commafyNumber:um.curHealth], [Globals commafyNumber:[gl calculateMaxHealthForMonster:um]]];
-  self.healthBar.percentage = um.curHealth/(float)[gl calculateMaxHealthForMonster:um];
+  int maxHealth = [gl calculateMaxHealthForMonster:um];
+  self.healthLabel.text = [NSString stringWithFormat:@"%@/%@", [Globals commafyNumber:um.curHealth], [Globals commafyNumber:maxHealth]];
+  self.healthBar.percentage = um.curHealth/(float)maxHealth;
   
   // For selling
   self.lockIcon.hidden = !um.isProtected;

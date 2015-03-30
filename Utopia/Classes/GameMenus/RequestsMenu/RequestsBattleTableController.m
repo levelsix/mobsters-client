@@ -116,7 +116,7 @@
   
   NSMutableArray *monsters = [NSMutableArray array];
   for (PvpMonsterProto *mon in cell.battleHistory.attackersMonstersList) {
-    UserMonster *um = [UserMonster userMonsterWithMinProto:mon.defenderMonster];
+    UserMonster *um = [UserMonster userMonsterWithMinProto:mon.defenderMonster researchUtil:nil];
     um.teamSlot = (int)[cell.battleHistory.attackersMonstersList indexOfObject:mon]+1;
     [monsters addObject:um];
   }

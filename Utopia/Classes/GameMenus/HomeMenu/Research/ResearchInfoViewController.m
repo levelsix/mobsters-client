@@ -41,7 +41,7 @@
 
 @implementation ResearchInfoView
 
--(void)updateWithResearch:(UserResearch *)userResearch {
+- (void) updateWithResearch:(UserResearch *)userResearch {
   self.bottomBarDescription.text = DEFAULT_DESCRIPTION;
   self.bottomBarTitle.text = DEFAULT_TITLE;
   
@@ -52,10 +52,10 @@
   ResearchController *rc = [ResearchController researchControllerWithProto:research];
   
   //for now we assume only a single property for each research
-  self.percentIncreseLabel.text = [rc longImprovementString];
-  CGSize size = [self.percentIncreseLabel.text getSizeWithFont:self.percentIncreseLabel.font];
+  self.improvementLabel.text = [rc longImprovementString];
+  CGSize size = [self.improvementLabel.text getSizeWithFont:self.improvementLabel.font];
   int offsetFromBar = 5;
-  self.detailView.center = CGPointMake(self.percentIncreseLabel.frame.origin.x+size.width+(self.detailView.frame.size.width/2) + offsetFromBar, self.percentIncreseLabel.center.y);
+  self.detailView.center = CGPointMake(self.improvementLabel.frame.origin.x+size.width+(self.detailView.frame.size.width/2) + offsetFromBar, self.improvementLabel.center.y);
   
   [Globals imageNamed:research.iconImgName withView:self.researchImage greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
   self.researchName.text = research.name;
@@ -97,15 +97,8 @@
     self.bottomBarTitle.text = RESEARCHING_TITLE;
   }
   
-  float maxPercent = (1.f + ([[research maxLevelResearch] firstProperty].researchValue / 100.f));
-  float curPercent;
-  if([research predecessorResearch]) {
-    curPercent = (1.f + ([[research predecessorResearch] firstProperty].researchValue / 100.f)) / maxPercent;
-  } else {
-    curPercent = 1.f / maxPercent;
-  }
-  
-  float nextPercent = (1.f + ([research firstProperty].researchValue / 100.f)) / maxPercent;
+  float curPercent = [rc curPercent];
+  float nextPercent = [rc nextPercent];
   
   [self.topPercentBar setPercentage:curPercent];
   [self.botPercentBar setPercentage:nextPercent];
@@ -155,8 +148,11 @@
 @implementation ResearchInfoViewController
 
 - (void) viewDidLoad {
-  self.title = @"info view";
+  [super viewDidLoad];
+  
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateUserResearch) name:RESEARCH_CHANGED_NOTIFICATION object:nil];
+  
+  [self.view updateWithResearch:_userResearch];
 }
 
 - (void) updateUserResearch {
@@ -164,27 +160,26 @@
     GameState *gs = [GameState sharedGameState];
     _userResearch = [gs.researchUtil currentRankForResearch:_userResearch.research];
     [self.view updateWithResearch:_userResearch];
-    self.title = [NSString stringWithFormat:@"Research to Rank %d",_userResearch.research.level];
+    self.title = [NSString stringWithFormat:@"Research to Rank %d",_userResearch.research.successorResearch.level];
   }
 }
 
-- (id)initWithResearch:(UserResearch *)userResearch {
-  if((self = [super init])) {
-    [self.view updateWithResearch:userResearch];
-    self.title = [NSString stringWithFormat:@"Research to Rank %d",userResearch.research.level];
+- (id) initWithResearch:(UserResearch *)userResearch {
+  if ((self = [super init])) {
     _userResearch = userResearch;
+    self.title = [NSString stringWithFormat:@"Research to Rank %d",_userResearch.research.successorResearch.level];
   }
   
   return self;
 }
 
-- (IBAction)DetailsClicked:(id)sender {
-  ResearchDetailViewController *rdvc = [[ResearchDetailViewController alloc] initWithResearchResearch:_userResearch];
+- (IBAction) detailsClicked:(id)sender {
+  ResearchDetailViewController *rdvc = [[ResearchDetailViewController alloc] initWithUserResearch:_userResearch];
   [self.parentViewController pushViewController:rdvc animated:YES];
 }
 
-- (IBAction)clickResearchStart:(id)sender {
-  if(!self.view.activityIndicator.hidden) {return;}
+- (IBAction) clickResearchStart:(id)sender {
+  if (!self.view.activityIndicator.hidden) {return;}
   
   GameState *gs = [GameState sharedGameState];
   

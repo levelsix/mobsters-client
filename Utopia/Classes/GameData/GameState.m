@@ -404,7 +404,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (void) addToMyMonsters:(NSArray *)monsters {
   for (FullUserMonsterProto *mon in monsters) {
-    UserMonster *um = [UserMonster userMonsterWithProto:mon];
+    UserMonster *um = [UserMonster userMonsterWithProto:mon researchUtil:self.researchUtil];
     NSInteger index = [self.myMonsters indexOfObject:um];
     if (index != NSNotFound) {
       [self.myMonsters replaceObjectAtIndex:index withObject:um];

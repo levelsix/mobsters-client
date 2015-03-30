@@ -42,7 +42,7 @@
                         <outlet property="delegate" destination="-1" id="6mW-8F-Cxd"/>
                     </connections>
                 </scrollView>
-                <view contentMode="scaleToFill" id="u2P-QN-Bbv" customClass="researchSelectionBarView">
+                <view contentMode="scaleToFill" id="u2P-QN-Bbv" customClass="ResearchSelectionBarView">
                     <rect key="frame" x="0.0" y="181" width="430" height="51"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <subviews>
@@ -51,7 +51,7 @@
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
-                        <view clipsSubviews="YES" contentMode="scaleToFill" id="9d6-cX-Nwj" userLabel="InnerView" customClass="researchSelectionBarView">
+                        <view clipsSubviews="YES" contentMode="scaleToFill" id="9d6-cX-Nwj" userLabel="InnerView" customClass="ResearchSelectionBarView">
                             <rect key="frame" x="3" y="1" width="424" height="50"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>

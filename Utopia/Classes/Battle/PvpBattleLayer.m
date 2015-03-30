@@ -618,10 +618,12 @@
     NSMutableSet *skillSideEffects = [NSMutableSet set];
     NSMutableArray *enemyTeam = [NSMutableArray array];
     
+    
     PvpProto *enemy = self.defendersList[_curQueueNum];
+    ResearchUtil *ru = [[ResearchUtil alloc] initWithResearches:enemy.userResearchList];
     int num = 0;
     for (PvpMonsterProto *mon in enemy.defenderMonstersList) {
-      UserMonster *um = [UserMonster userMonsterWithMinProto:mon.defenderMonster];
+      UserMonster *um = [UserMonster userMonsterWithMinProto:mon.defenderMonster researchUtil:ru];
       um.userUuid = [NSString stringWithFormat:@"%i",num++];
       BattlePlayer *bp = [BattlePlayer playerWithMonster:um];
       [enemyTeam addObject:bp];
