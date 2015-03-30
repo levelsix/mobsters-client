@@ -634,6 +634,10 @@
       [skillSideEffects addObjectsFromArray:[Globals skillSideEffectProtosForBattlePlayer:bp enemy:YES]];
     }
     
+    [enemyTeam sortUsingComparator:^NSComparisonResult(BattlePlayer *obj1, BattlePlayer *obj2) {
+      return [@(obj1.slotNum) compare:@(obj2.slotNum)];
+    }];
+    
     if (enemy.hasCmtd) {
       UserMonster *um = enemy.cmtd.donatedMonster;
       if (um) {

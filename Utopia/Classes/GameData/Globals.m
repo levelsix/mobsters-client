@@ -1598,6 +1598,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   for (FullUserMonsterProto *m in team.currentTeamList) {
     [arr addObject:[UserMonster userMonsterWithProto:m researchUtil:nil]];
   }
+  
+  [arr sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+    return [@([obj1 teamSlot]) compare:@([obj2 teamSlot])];
+  }];
+  
   return arr;
 }
 
