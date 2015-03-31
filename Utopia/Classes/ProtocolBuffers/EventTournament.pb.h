@@ -6,8 +6,6 @@
 #import "User.pb.h"
 // @@protoc_insertion_point(imports)
 
-@class ChatTranslationsProto;
-@class ChatTranslationsProto_Builder;
 @class ColorProto;
 @class ColorProto_Builder;
 @class DefaultLanguagesProto;
@@ -42,8 +40,6 @@
 @class TournamentEventProto_Builder;
 @class TournamentEventRewardProto;
 @class TournamentEventRewardProto_Builder;
-@class TranslatedTextProto;
-@class TranslatedTextProto_Builder;
 @class UserFacebookInviteForSlotProto;
 @class UserFacebookInviteForSlotProto_Builder;
 @class UserPvpLeagueProto;

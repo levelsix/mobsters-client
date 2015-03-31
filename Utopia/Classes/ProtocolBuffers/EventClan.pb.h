@@ -44,8 +44,6 @@
 @class ChangeClanSettingsRequestProto_Builder;
 @class ChangeClanSettingsResponseProto;
 @class ChangeClanSettingsResponseProto_Builder;
-@class ChatTranslationsProto;
-@class ChatTranslationsProto_Builder;
 @class ClanDataProto;
 @class ClanDataProto_Builder;
 @class ClanHelpNoticeProto;
@@ -198,10 +196,6 @@
 @class RequestJoinClanResponseProto_Builder;
 @class ResearchHouseProto;
 @class ResearchHouseProto_Builder;
-@class ResearchPropertyProto;
-@class ResearchPropertyProto_Builder;
-@class ResearchProto;
-@class ResearchProto_Builder;
 @class ResidenceProto;
 @class ResidenceProto_Builder;
 @class ResourceGeneratorProto;
@@ -238,8 +232,6 @@
 @class TransferClanOwnershipRequestProto_Builder;
 @class TransferClanOwnershipResponseProto;
 @class TransferClanOwnershipResponseProto_Builder;
-@class TranslatedTextProto;
-@class TranslatedTextProto_Builder;
 @class TutorialStructProto;
 @class TutorialStructProto_Builder;
 @class UserCurrentMonsterTeamProto;
@@ -266,8 +258,6 @@
 @class UserPvpBoardObstacleProto_Builder;
 @class UserPvpLeagueProto;
 @class UserPvpLeagueProto_Builder;
-@class UserResearchProto;
-@class UserResearchProto_Builder;
 @class VoidTeamDonationSolicitationRequestProto;
 @class VoidTeamDonationSolicitationRequestProto_Builder;
 @class VoidTeamDonationSolicitationResponseProto;

@@ -3788,7 +3788,6 @@ static UserPersistentEventProto* defaultUserPersistentEventProtoInstance = nil;
 @property int32_t charImgHorizPixelOffset;
 @property Float32 charImgScaleFactor;
 @property BOOL isFake;
-@property int32_t strength;
 @end
 
 @implementation TaskMapElementProto
@@ -3915,13 +3914,6 @@ static UserPersistentEventProto* defaultUserPersistentEventProtoInstance = nil;
 - (void) setIsFake:(BOOL) value_ {
   isFake_ = !!value_;
 }
-- (BOOL) hasStrength {
-  return !!hasStrength_;
-}
-- (void) setHasStrength:(BOOL) value_ {
-  hasStrength_ = !!value_;
-}
-@synthesize strength;
 - (id) init {
   if ((self = [super init])) {
     self.mapElementId = 0;
@@ -3940,7 +3932,6 @@ static UserPersistentEventProto* defaultUserPersistentEventProtoInstance = nil;
     self.charImgHorizPixelOffset = 0;
     self.charImgScaleFactor = 0;
     self.isFake = NO;
-    self.strength = 0;
   }
   return self;
 }
@@ -4008,9 +3999,6 @@ static TaskMapElementProto* defaultTaskMapElementProtoInstance = nil;
   if (self.hasIsFake) {
     [output writeBool:16 value:self.isFake];
   }
-  if (self.hasStrength) {
-    [output writeInt32:17 value:self.strength];
-  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -4067,9 +4055,6 @@ static TaskMapElementProto* defaultTaskMapElementProtoInstance = nil;
   }
   if (self.hasIsFake) {
     size_ += computeBoolSize(16, self.isFake);
-  }
-  if (self.hasStrength) {
-    size_ += computeInt32Size(17, self.strength);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -4154,9 +4139,6 @@ static TaskMapElementProto* defaultTaskMapElementProtoInstance = nil;
   if (self.hasIsFake) {
     [output appendFormat:@"%@%@: %@\n", indent, @"isFake", [NSNumber numberWithBool:self.isFake]];
   }
-  if (self.hasStrength) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"strength", [NSNumber numberWithInteger:self.strength]];
-  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -4200,8 +4182,6 @@ static TaskMapElementProto* defaultTaskMapElementProtoInstance = nil;
       (!self.hasCharImgScaleFactor || self.charImgScaleFactor == otherMessage.charImgScaleFactor) &&
       self.hasIsFake == otherMessage.hasIsFake &&
       (!self.hasIsFake || self.isFake == otherMessage.isFake) &&
-      self.hasStrength == otherMessage.hasStrength &&
-      (!self.hasStrength || self.strength == otherMessage.strength) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -4253,9 +4233,6 @@ static TaskMapElementProto* defaultTaskMapElementProtoInstance = nil;
   }
   if (self.hasIsFake) {
     hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.isFake] hash];
-  }
-  if (self.hasStrength) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.strength] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -4348,9 +4325,6 @@ static TaskMapElementProto* defaultTaskMapElementProtoInstance = nil;
   if (other.hasIsFake) {
     [self setIsFake:other.isFake];
   }
-  if (other.hasStrength) {
-    [self setStrength:other.strength];
-  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -4439,10 +4413,6 @@ static TaskMapElementProto* defaultTaskMapElementProtoInstance = nil;
       }
       case 128: {
         [self setIsFake:[input readBool]];
-        break;
-      }
-      case 136: {
-        [self setStrength:[input readInt32]];
         break;
       }
     }
@@ -4702,22 +4672,6 @@ static TaskMapElementProto* defaultTaskMapElementProtoInstance = nil;
 - (TaskMapElementProto_Builder*) clearIsFake {
   result.hasIsFake = NO;
   result.isFake = NO;
-  return self;
-}
-- (BOOL) hasStrength {
-  return result.hasStrength;
-}
-- (int32_t) strength {
-  return result.strength;
-}
-- (TaskMapElementProto_Builder*) setStrength:(int32_t) value {
-  result.hasStrength = YES;
-  result.strength = value;
-  return self;
-}
-- (TaskMapElementProto_Builder*) clearStrength {
-  result.hasStrength = NO;
-  result.strength = 0;
   return self;
 }
 @end

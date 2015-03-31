@@ -1,7 +1,6 @@
 //BAD!!! DON'T START NAMES WITH NEW OR COPY
 
 import "MonsterStuff.proto";
-import "Research.proto";
 import "Structure.proto";
 import "User.proto";
 
@@ -51,8 +50,6 @@ message PvpProto {
 	
 	//will be empty/not-set if fake player
 	repeated UserPvpBoardObstacleProto userBoardObstacles = 10;
-	
-	repeated UserResearchProto userResearch = 11;
 }
 
 message PvpMonsterProto {
