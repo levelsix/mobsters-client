@@ -24,14 +24,14 @@ static PBExtensionRegistry* extensionRegistry = nil;
 BOOL ResearchTypeIsValidValue(ResearchType value) {
   switch (value) {
     case ResearchTypeNoResearch:
-    case ResearchTypeHpIncrease:
-    case ResearchTypeAttackIncrease:
-    case ResearchTypeSpeedIncrease:
     case ResearchTypeHealingCost:
     case ResearchTypeHealingSpeed:
     case ResearchTypeEnhanceCost:
-    case ResearchTypeDecreaseEnhanceTime:
     case ResearchTypeXpBonus:
+    case ResearchTypeDecreaseEnhanceTime:
+    case ResearchTypeAttackIncrease:
+    case ResearchTypeHpIncrease:
+    case ResearchTypeSpeedIncrease:
     case ResearchTypeIncreaseHospitalQueue:
     case ResearchTypeIncreaseEnhanceQueue:
     case ResearchTypeNumberOfHospitals:
@@ -50,10 +50,10 @@ BOOL ResearchTypeIsValidValue(ResearchType value) {
 BOOL ResearchDomainIsValidValue(ResearchDomain value) {
   switch (value) {
     case ResearchDomainNoDomain:
-    case ResearchDomainHealing:
-    case ResearchDomainEnhancing:
-    case ResearchDomainBattle:
+    case ResearchDomainRestorative:
+    case ResearchDomainLevelup:
     case ResearchDomainResources:
+    case ResearchDomainBattle:
     case ResearchDomainItems:
     case ResearchDomainTrapsAndObstacles:
       return YES;
