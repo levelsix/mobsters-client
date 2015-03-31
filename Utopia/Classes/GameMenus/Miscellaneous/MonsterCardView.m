@@ -223,6 +223,15 @@ static UIImage *img = nil;
   }
 }
 
+- (void) removeAllSideEffectIcons
+{
+  for (UIImageView* sideEffect in [_sideEffectSymbols allValues]) {
+    [sideEffect.superview setHidden:YES];
+    [sideEffect removeFromSuperview];
+  }
+  [_sideEffectSymbols removeAllObjects];
+}
+
 @end
 
 @implementation CircleMonsterView

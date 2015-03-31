@@ -113,6 +113,7 @@ static NSString* const kSkillMiniLogoImageNameSuffix = @"minilogo.png";
 - (BOOL) shouldSpawnRibbon;
 - (BOOL) shouldPersist;
 - (NSSet*) sideEffects;
+- (BOOL) targetsPlayer:(BattlePlayer*)player;
 
 // Reusable poison effects
 @property (readonly) int poisonDamage;
