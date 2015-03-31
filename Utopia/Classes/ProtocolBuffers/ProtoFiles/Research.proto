@@ -62,7 +62,6 @@ message ResearchPropertyProto {
 
 enum ResearchType {
 	NO_RESEARCH = 1;
-<<<<<<< HEAD
 	HP_INCREASE = 2;
  	ATTACK_INCREASE = 3;
  	SPEED_INCREASE = 4;
@@ -71,16 +70,6 @@ enum ResearchType {
  	ENHANCE_COST = 7;
  	DECREASE_ENHANCE_TIME = 8;
     XP_BONUS = 9;
-=======
-	HEALING_COST = 2;
-	HEALING_SPEED = 3;
-	ENHANCE_COST = 4;
-	XP_BONUS = 5;
-	DECREASE_ENHANCE_TIME = 6;
-	ATTACK_INCREASE = 7;
-	HP_INCREASE = 8;
-	SPEED_INCREASE = 9;
->>>>>>> proto updates
 	INCREASE_HOSPITAL_QUEUE = 10;
 	INCREASE_ENHANCE_QUEUE = 11;
 	NUMBER_OF_HOSPITALS = 12;
@@ -96,17 +85,10 @@ enum ResearchType {
 
 enum ResearchDomain {
 	NO_DOMAIN = 1;
-<<<<<<< HEAD
-	HEALING = 2;
-	ENHANCING = 3;
-	BATTLE = 4;
-	RESOURCES = 5;
-=======
 	RESTORATIVE = 2;
 	LEVELUP = 3;
 	RESOURCES = 4;
 	BATTLE = 5;
->>>>>>> proto updates
 	ITEMS = 6;
 	TRAPS_AND_OBSTACLES = 7;
 	

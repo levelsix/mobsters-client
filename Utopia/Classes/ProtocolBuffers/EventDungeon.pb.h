@@ -15,8 +15,6 @@
 @class BeginDungeonRequestProto_Builder;
 @class BeginDungeonResponseProto;
 @class BeginDungeonResponseProto_Builder;
-@class ChatTranslationsProto;
-@class ChatTranslationsProto_Builder;
 @class ClanHouseProto;
 @class ClanHouseProto_Builder;
 @class ClanMemberTeamDonationProto;
