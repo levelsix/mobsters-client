@@ -456,7 +456,6 @@ BOOL AchievementProto_AchievementTypeIsValidValue(AchievementProto_AchievementTy
     case AchievementProto_AchievementTypeJoinClan:
     case AchievementProto_AchievementTypeSolicitHelp:
     case AchievementProto_AchievementTypeGiveHelp:
-    case AchievementProto_AchievementTypeRequestToon:
       return YES;
     default:
       return NO;

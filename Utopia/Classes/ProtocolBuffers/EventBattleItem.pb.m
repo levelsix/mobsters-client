@@ -1642,7 +1642,7 @@ BOOL CompleteBattleItemResponseProto_CompleteBattleItemStatusIsValidValue(Comple
 
 @interface DiscardBattleItemRequestProto ()
 @property (strong) MinimumUserProto* sender;
-@property (strong) PBAppendableArray * mutableDiscardedBattleItemIdsList;
+@property (strong) NSMutableArray * mutableDiscardedBattleItemsList;
 @end
 
 @implementation DiscardBattleItemRequestProto
@@ -1654,8 +1654,8 @@ BOOL CompleteBattleItemResponseProto_CompleteBattleItemStatusIsValidValue(Comple
   hasSender_ = !!value_;
 }
 @synthesize sender;
-@synthesize mutableDiscardedBattleItemIdsList;
-@dynamic discardedBattleItemIdsList;
+@synthesize mutableDiscardedBattleItemsList;
+@dynamic discardedBattleItemsList;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
@@ -1674,11 +1674,11 @@ static DiscardBattleItemRequestProto* defaultDiscardBattleItemRequestProtoInstan
 - (DiscardBattleItemRequestProto*) defaultInstance {
   return defaultDiscardBattleItemRequestProtoInstance;
 }
-- (PBArray *)discardedBattleItemIdsList {
-  return mutableDiscardedBattleItemIdsList;
+- (NSArray *)discardedBattleItemsList {
+  return mutableDiscardedBattleItemsList;
 }
-- (int32_t)discardedBattleItemIdsAtIndex:(NSUInteger)index {
-  return [mutableDiscardedBattleItemIdsList int32AtIndex:index];
+- (UserBattleItemProto*)discardedBattleItemsAtIndex:(NSUInteger)index {
+  return [mutableDiscardedBattleItemsList objectAtIndex:index];
 }
 - (BOOL) isInitialized {
   return YES;
@@ -1687,13 +1687,9 @@ static DiscardBattleItemRequestProto* defaultDiscardBattleItemRequestProtoInstan
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  const NSUInteger discardedBattleItemIdsListCount = self.discardedBattleItemIdsList.count;
-  if (discardedBattleItemIdsListCount > 0) {
-    const int32_t *values = (const int32_t *)self.discardedBattleItemIdsList.data;
-    for (NSUInteger i = 0; i < discardedBattleItemIdsListCount; ++i) {
-      [output writeInt32:2 value:values[i]];
-    }
-  }
+  [self.discardedBattleItemsList enumerateObjectsUsingBlock:^(UserBattleItemProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:2 value:element];
+  }];
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -1706,16 +1702,9 @@ static DiscardBattleItemRequestProto* defaultDiscardBattleItemRequestProtoInstan
   if (self.hasSender) {
     size_ += computeMessageSize(1, self.sender);
   }
-  {
-    __block SInt32 dataSize = 0;
-    const NSUInteger count = self.discardedBattleItemIdsList.count;
-    const int32_t *values = (const int32_t *)self.discardedBattleItemIdsList.data;
-    for (NSUInteger i = 0; i < count; ++i) {
-      dataSize += computeInt32SizeNoTag(values[i]);
-    }
-    size_ += dataSize;
-    size_ += (SInt32)(1 * count);
-  }
+  [self.discardedBattleItemsList enumerateObjectsUsingBlock:^(UserBattleItemProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(2, element);
+  }];
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
   return size_;
@@ -1757,8 +1746,11 @@ static DiscardBattleItemRequestProto* defaultDiscardBattleItemRequestProtoInstan
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
-  [self.discardedBattleItemIdsList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"discardedBattleItemIds", obj];
+  [self.discardedBattleItemsList enumerateObjectsUsingBlock:^(UserBattleItemProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"discardedBattleItems"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
   }];
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -1773,7 +1765,7 @@ static DiscardBattleItemRequestProto* defaultDiscardBattleItemRequestProtoInstan
   return
       self.hasSender == otherMessage.hasSender &&
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
-      [self.discardedBattleItemIdsList isEqualToArray:otherMessage.discardedBattleItemIdsList] &&
+      [self.discardedBattleItemsList isEqualToArray:otherMessage.discardedBattleItemsList] &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -1781,8 +1773,8 @@ static DiscardBattleItemRequestProto* defaultDiscardBattleItemRequestProtoInstan
   if (self.hasSender) {
     hashCode = hashCode * 31 + [self.sender hash];
   }
-  [self.discardedBattleItemIdsList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-    hashCode = hashCode * 31 + [obj longValue];
+  [self.discardedBattleItemsList enumerateObjectsUsingBlock:^(UserBattleItemProto *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
   }];
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -1830,11 +1822,11 @@ static DiscardBattleItemRequestProto* defaultDiscardBattleItemRequestProtoInstan
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.mutableDiscardedBattleItemIdsList.count > 0) {
-    if (result.mutableDiscardedBattleItemIdsList == nil) {
-      result.mutableDiscardedBattleItemIdsList = [other.mutableDiscardedBattleItemIdsList copy];
+  if (other.mutableDiscardedBattleItemsList.count > 0) {
+    if (result.mutableDiscardedBattleItemsList == nil) {
+      result.mutableDiscardedBattleItemsList = [[NSMutableArray alloc] initWithArray:other.mutableDiscardedBattleItemsList];
     } else {
-      [result.mutableDiscardedBattleItemIdsList appendArray:other.mutableDiscardedBattleItemIdsList];
+      [result.mutableDiscardedBattleItemsList addObjectsFromArray:other.mutableDiscardedBattleItemsList];
     }
   }
   [self mergeUnknownFields:other.unknownFields];
@@ -1867,8 +1859,10 @@ static DiscardBattleItemRequestProto* defaultDiscardBattleItemRequestProtoInstan
         [self setSender:[subBuilder buildPartial]];
         break;
       }
-      case 16: {
-        [self addDiscardedBattleItemIds:[input readInt32]];
+      case 18: {
+        UserBattleItemProto_Builder* subBuilder = [UserBattleItemProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addDiscardedBattleItems:[subBuilder buildPartial]];
         break;
       }
     }
@@ -1904,32 +1898,28 @@ static DiscardBattleItemRequestProto* defaultDiscardBattleItemRequestProtoInstan
   result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
-- (PBAppendableArray *)discardedBattleItemIdsList {
-  return result.mutableDiscardedBattleItemIdsList;
+- (NSMutableArray *)discardedBattleItemsList {
+  return result.mutableDiscardedBattleItemsList;
 }
-- (int32_t)discardedBattleItemIdsAtIndex:(NSUInteger)index {
-  return [result discardedBattleItemIdsAtIndex:index];
+- (UserBattleItemProto*)discardedBattleItemsAtIndex:(NSUInteger)index {
+  return [result discardedBattleItemsAtIndex:index];
 }
-- (DiscardBattleItemRequestProto_Builder *)addDiscardedBattleItemIds:(int32_t)value {
-  if (result.mutableDiscardedBattleItemIdsList == nil) {
-    result.mutableDiscardedBattleItemIdsList = [PBAppendableArray arrayWithValueType:PBArrayValueTypeInt32];
+- (DiscardBattleItemRequestProto_Builder *)addDiscardedBattleItems:(UserBattleItemProto*)value {
+  if (result.mutableDiscardedBattleItemsList == nil) {
+    result.mutableDiscardedBattleItemsList = [[NSMutableArray alloc]init];
   }
-  [result.mutableDiscardedBattleItemIdsList addInt32:value];
+  [result.mutableDiscardedBattleItemsList addObject:value];
   return self;
 }
-- (DiscardBattleItemRequestProto_Builder *)addAllDiscardedBattleItemIds:(NSArray *)array {
-  if (result.mutableDiscardedBattleItemIdsList == nil) {
-    result.mutableDiscardedBattleItemIdsList = [PBAppendableArray arrayWithValueType:PBArrayValueTypeInt32];
+- (DiscardBattleItemRequestProto_Builder *)addAllDiscardedBattleItems:(NSArray *)array {
+  if (result.mutableDiscardedBattleItemsList == nil) {
+    result.mutableDiscardedBattleItemsList = [NSMutableArray array];
   }
-  [result.mutableDiscardedBattleItemIdsList appendArray:[PBArray arrayWithArray:array valueType:PBArrayValueTypeInt32]];
+  [result.mutableDiscardedBattleItemsList addObjectsFromArray:array];
   return self;
 }
-- (DiscardBattleItemRequestProto_Builder *)setDiscardedBattleItemIdsValues:(const int32_t *)values count:(NSUInteger)count {
-  result.mutableDiscardedBattleItemIdsList = [PBAppendableArray arrayWithValues:values count:count valueType:PBArrayValueTypeInt32];
-  return self;
-}
-- (DiscardBattleItemRequestProto_Builder *)clearDiscardedBattleItemIds {
-  result.mutableDiscardedBattleItemIdsList = nil;
+- (DiscardBattleItemRequestProto_Builder *)clearDiscardedBattleItems {
+  result.mutableDiscardedBattleItemsList = nil;
   return self;
 }
 @end

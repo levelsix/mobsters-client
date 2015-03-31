@@ -3,7 +3,6 @@
 
 import "Battle.proto";
 import "MonsterStuff.proto";
-//import "Research.proto";
 import "Structure.proto";
 import "User.proto";
 

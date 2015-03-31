@@ -334,7 +334,6 @@ static UserItemProto* defaultUserItemProtoInstance = nil;
 @property int32_t amount;
 @property Float32 secretGiftChance;
 @property BOOL alwaysDisplayToUser;
-@property GameType gameType;
 @property (strong) NSString* shortName;
 @end
 
@@ -401,13 +400,6 @@ static UserItemProto* defaultUserItemProtoInstance = nil;
 - (void) setAlwaysDisplayToUser:(BOOL) value_ {
   alwaysDisplayToUser_ = !!value_;
 }
-- (BOOL) hasGameType {
-  return !!hasGameType_;
-}
-- (void) setHasGameType:(BOOL) value_ {
-  hasGameType_ = !!value_;
-}
-@synthesize gameType;
 - (BOOL) hasShortName {
   return !!hasShortName_;
 }
@@ -425,7 +417,6 @@ static UserItemProto* defaultUserItemProtoInstance = nil;
     self.amount = 0;
     self.secretGiftChance = 0;
     self.alwaysDisplayToUser = NO;
-    self.gameType = GameTypeNoType;
     self.shortName = @"";
   }
   return self;
@@ -470,11 +461,8 @@ static ItemProto* defaultItemProtoInstance = nil;
   if (self.hasAlwaysDisplayToUser) {
     [output writeBool:8 value:self.alwaysDisplayToUser];
   }
-  if (self.hasGameType) {
-    [output writeEnum:9 value:self.gameType];
-  }
   if (self.hasShortName) {
-    [output writeString:10 value:self.shortName];
+    [output writeString:9 value:self.shortName];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -509,11 +497,8 @@ static ItemProto* defaultItemProtoInstance = nil;
   if (self.hasAlwaysDisplayToUser) {
     size_ += computeBoolSize(8, self.alwaysDisplayToUser);
   }
-  if (self.hasGameType) {
-    size_ += computeEnumSize(9, self.gameType);
-  }
   if (self.hasShortName) {
-    size_ += computeStringSize(10, self.shortName);
+    size_ += computeStringSize(9, self.shortName);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -574,9 +559,6 @@ static ItemProto* defaultItemProtoInstance = nil;
   if (self.hasAlwaysDisplayToUser) {
     [output appendFormat:@"%@%@: %@\n", indent, @"alwaysDisplayToUser", [NSNumber numberWithBool:self.alwaysDisplayToUser]];
   }
-  if (self.hasGameType) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"gameType", [NSNumber numberWithInteger:self.gameType]];
-  }
   if (self.hasShortName) {
     [output appendFormat:@"%@%@: %@\n", indent, @"shortName", self.shortName];
   }
@@ -607,8 +589,6 @@ static ItemProto* defaultItemProtoInstance = nil;
       (!self.hasSecretGiftChance || self.secretGiftChance == otherMessage.secretGiftChance) &&
       self.hasAlwaysDisplayToUser == otherMessage.hasAlwaysDisplayToUser &&
       (!self.hasAlwaysDisplayToUser || self.alwaysDisplayToUser == otherMessage.alwaysDisplayToUser) &&
-      self.hasGameType == otherMessage.hasGameType &&
-      (!self.hasGameType || self.gameType == otherMessage.gameType) &&
       self.hasShortName == otherMessage.hasShortName &&
       (!self.hasShortName || [self.shortName isEqual:otherMessage.shortName]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
@@ -638,9 +618,6 @@ static ItemProto* defaultItemProtoInstance = nil;
   }
   if (self.hasAlwaysDisplayToUser) {
     hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.alwaysDisplayToUser] hash];
-  }
-  if (self.hasGameType) {
-    hashCode = hashCode * 31 + self.gameType;
   }
   if (self.hasShortName) {
     hashCode = hashCode * 31 + [self.shortName hash];
@@ -712,9 +689,6 @@ static ItemProto* defaultItemProtoInstance = nil;
   if (other.hasAlwaysDisplayToUser) {
     [self setAlwaysDisplayToUser:other.alwaysDisplayToUser];
   }
-  if (other.hasGameType) {
-    [self setGameType:other.gameType];
-  }
   if (other.hasShortName) {
     [self setShortName:other.shortName];
   }
@@ -776,16 +750,7 @@ static ItemProto* defaultItemProtoInstance = nil;
         [self setAlwaysDisplayToUser:[input readBool]];
         break;
       }
-      case 72: {
-        GameType value = (GameType)[input readEnum];
-        if (GameTypeIsValidValue(value)) {
-          [self setGameType:value];
-        } else {
-          [unknownFields mergeVarintField:9 value:value];
-        }
-        break;
-      }
-      case 82: {
+      case 74: {
         [self setShortName:[input readString]];
         break;
       }
@@ -918,22 +883,6 @@ static ItemProto* defaultItemProtoInstance = nil;
 - (ItemProto_Builder*) clearAlwaysDisplayToUser {
   result.hasAlwaysDisplayToUser = NO;
   result.alwaysDisplayToUser = NO;
-  return self;
-}
-- (BOOL) hasGameType {
-  return result.hasGameType;
-}
-- (GameType) gameType {
-  return result.gameType;
-}
-- (ItemProto_Builder*) setGameType:(GameType) value {
-  result.hasGameType = YES;
-  result.gameType = value;
-  return self;
-}
-- (ItemProto_Builder*) clearGameTypeList {
-  result.hasGameType = NO;
-  result.gameType = GameTypeNoType;
   return self;
 }
 - (BOOL) hasShortName {
