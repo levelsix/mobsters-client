@@ -1,6 +1,10 @@
 //ALL REQUEST PROTOS SHOULD INCLUDE A MinimumUserProto AS optional that represents which client sent it/triggered it 
 //DO NO START PROPERTY METHODS WITH THE WORDS NEW OR COPY
 
+<<<<<<< HEAD
+=======
+//import "SharedEnumConfig.proto";
+>>>>>>> proto updates
 import "Structure.proto";
 
 package com.lvl6.proto;
