@@ -359,6 +359,17 @@
     [self scheduleNotificationWithText:[NSString stringWithFormat:@"%@ has finished enhancing.", gs.userEnhancement.baseMonster.userMonster.staticMonster.displayName] badge:1 date:gs.userEnhancement.expectedEndTime];
   }
   
+  UserResearch *curResearch = gs.researchUtil.currentResearch;
+  if (curResearch) {
+    ResearchProto *rp = curResearch.research;
+    [self scheduleNotificationWithText:[NSString stringWithFormat:@"%@%@ has finished researching.", rp.name, rp.predId || rp.succId ? [NSString stringWithFormat:@" Rank %d", rp.level] : @""] badge:1 date:curResearch.tentativeCompletionDate];
+  }
+  
+  BattleItemQueue *biq = gs.battleItemUtil.battleItemQueue;
+  if (biq.queueObjects.count) {
+    [self scheduleNotificationWithText:@"Your Items have finished creating." badge:1 date:biq.queueEndTime];
+  }
+  
   for (UserMiniJob *miniJob in gs.myMiniJobs) {
     if (miniJob.timeStarted && !miniJob.timeCompleted) {
       [self scheduleNotificationWithText:[NSString stringWithFormat:@"Your %@s have come back from their mini job %@.", MONSTER_NAME, miniJob.miniJob.name] badge:1 date:miniJob.tentativeCompletionDate];
