@@ -426,7 +426,6 @@ BOOL UserMonsterSnapshotProto_SnapshotTypeIsValidValue(UserMonsterSnapshotProto_
   BOOL hasEnhanceCostExponent_:1;
   BOOL hasSecsToEnhancePerFeeder_:1;
   BOOL hasSecsToEnhancePerFeederExponent_:1;
-  BOOL hasStrengthExponent_:1;
   BOOL hasLvl_:1;
   BOOL hasHp_:1;
   BOOL hasCurLvlRequiredExp_:1;
@@ -437,7 +436,6 @@ BOOL UserMonsterSnapshotProto_SnapshotTypeIsValidValue(UserMonsterSnapshotProto_
   BOOL hasCostToFullyHeal_:1;
   BOOL hasSecsToFullyHeal_:1;
   BOOL hasEnhanceCostPerFeeder_:1;
-  BOOL hasStrength_:1;
   BOOL hasFireDmg_:1;
   BOOL hasGrassDmg_:1;
   BOOL hasWaterDmg_:1;
@@ -453,7 +451,6 @@ BOOL UserMonsterSnapshotProto_SnapshotTypeIsValidValue(UserMonsterSnapshotProto_
   Float32 enhanceCostExponent;
   Float32 secsToEnhancePerFeeder;
   Float32 secsToEnhancePerFeederExponent;
-  Float32 strengthExponent;
   int32_t lvl;
   int32_t hp;
   int32_t curLvlRequiredExp;
@@ -464,7 +461,6 @@ BOOL UserMonsterSnapshotProto_SnapshotTypeIsValidValue(UserMonsterSnapshotProto_
   int32_t costToFullyHeal;
   int32_t secsToFullyHeal;
   int32_t enhanceCostPerFeeder;
-  int32_t strength;
   int32_t fireDmg;
   int32_t grassDmg;
   int32_t waterDmg;
@@ -497,8 +493,6 @@ BOOL UserMonsterSnapshotProto_SnapshotTypeIsValidValue(UserMonsterSnapshotProto_
 - (BOOL) hasEnhanceCostExponent;
 - (BOOL) hasSecsToEnhancePerFeeder;
 - (BOOL) hasSecsToEnhancePerFeederExponent;
-- (BOOL) hasStrength;
-- (BOOL) hasStrengthExponent;
 @property (readonly) int32_t lvl;
 @property (readonly) int32_t hp;
 @property (readonly) int32_t curLvlRequiredExp;
@@ -524,8 +518,6 @@ BOOL UserMonsterSnapshotProto_SnapshotTypeIsValidValue(UserMonsterSnapshotProto_
 @property (readonly) Float32 enhanceCostExponent;
 @property (readonly) Float32 secsToEnhancePerFeeder;
 @property (readonly) Float32 secsToEnhancePerFeederExponent;
-@property (readonly) int32_t strength;
-@property (readonly) Float32 strengthExponent;
 
 + (MonsterLevelInfoProto*) defaultInstance;
 - (MonsterLevelInfoProto*) defaultInstance;
@@ -686,16 +678,6 @@ BOOL UserMonsterSnapshotProto_SnapshotTypeIsValidValue(UserMonsterSnapshotProto_
 - (Float32) secsToEnhancePerFeederExponent;
 - (MonsterLevelInfoProto_Builder*) setSecsToEnhancePerFeederExponent:(Float32) value;
 - (MonsterLevelInfoProto_Builder*) clearSecsToEnhancePerFeederExponent;
-
-- (BOOL) hasStrength;
-- (int32_t) strength;
-- (MonsterLevelInfoProto_Builder*) setStrength:(int32_t) value;
-- (MonsterLevelInfoProto_Builder*) clearStrength;
-
-- (BOOL) hasStrengthExponent;
-- (Float32) strengthExponent;
-- (MonsterLevelInfoProto_Builder*) setStrengthExponent:(Float32) value;
-- (MonsterLevelInfoProto_Builder*) clearStrengthExponent;
 @end
 
 @interface FullUserMonsterProto : PBGeneratedMessage {
@@ -861,23 +843,19 @@ BOOL UserMonsterSnapshotProto_SnapshotTypeIsValidValue(UserMonsterSnapshotProto_
   BOOL hasMonsterLvl_:1;
   BOOL hasOffensiveSkillId_:1;
   BOOL hasDefensiveSkillId_:1;
-  BOOL hasTeamSlotNum_:1;
   int32_t monsterId;
   int32_t monsterLvl;
   int32_t offensiveSkillId;
   int32_t defensiveSkillId;
-  int32_t teamSlotNum;
 }
 - (BOOL) hasMonsterId;
 - (BOOL) hasMonsterLvl;
 - (BOOL) hasOffensiveSkillId;
 - (BOOL) hasDefensiveSkillId;
-- (BOOL) hasTeamSlotNum;
 @property (readonly) int32_t monsterId;
 @property (readonly) int32_t monsterLvl;
 @property (readonly) int32_t offensiveSkillId;
 @property (readonly) int32_t defensiveSkillId;
-@property (readonly) int32_t teamSlotNum;
 
 + (MinimumUserMonsterProto*) defaultInstance;
 - (MinimumUserMonsterProto*) defaultInstance;
@@ -933,11 +911,6 @@ BOOL UserMonsterSnapshotProto_SnapshotTypeIsValidValue(UserMonsterSnapshotProto_
 - (int32_t) defensiveSkillId;
 - (MinimumUserMonsterProto_Builder*) setDefensiveSkillId:(int32_t) value;
 - (MinimumUserMonsterProto_Builder*) clearDefensiveSkillId;
-
-- (BOOL) hasTeamSlotNum;
-- (int32_t) teamSlotNum;
-- (MinimumUserMonsterProto_Builder*) setTeamSlotNum:(int32_t) value;
-- (MinimumUserMonsterProto_Builder*) clearTeamSlotNum;
 @end
 
 @interface UserMonsterHealingProto : PBGeneratedMessage {

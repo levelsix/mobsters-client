@@ -120,7 +120,6 @@ BOOL ItemTypeIsValidValue(ItemType value);
   BOOL hasImgName_:1;
   BOOL hasShortName_:1;
   BOOL hasItemType_:1;
-  BOOL hasGameActionType_:1;
   BOOL alwaysDisplayToUser_:1;
   Float32 secretGiftChance;
   int32_t itemId;
@@ -130,7 +129,6 @@ BOOL ItemTypeIsValidValue(ItemType value);
   NSString* imgName;
   NSString* shortName;
   ItemType itemType;
-  GameActionType gameActionType;
 }
 - (BOOL) hasItemId;
 - (BOOL) hasName;
@@ -140,7 +138,6 @@ BOOL ItemTypeIsValidValue(ItemType value);
 - (BOOL) hasAmount;
 - (BOOL) hasSecretGiftChance;
 - (BOOL) hasAlwaysDisplayToUser;
-- (BOOL) hasGameActionType;
 - (BOOL) hasShortName;
 @property (readonly) int32_t itemId;
 @property (readonly, strong) NSString* name;
@@ -150,7 +147,6 @@ BOOL ItemTypeIsValidValue(ItemType value);
 @property (readonly) int32_t amount;
 @property (readonly) Float32 secretGiftChance;
 - (BOOL) alwaysDisplayToUser;
-@property (readonly) GameActionType gameActionType;
 @property (readonly, strong) NSString* shortName;
 
 + (ItemProto*) defaultInstance;
@@ -227,11 +223,6 @@ BOOL ItemTypeIsValidValue(ItemType value);
 - (BOOL) alwaysDisplayToUser;
 - (ItemProto_Builder*) setAlwaysDisplayToUser:(BOOL) value;
 - (ItemProto_Builder*) clearAlwaysDisplayToUser;
-
-- (BOOL) hasGameActionType;
-- (GameActionType) gameActionType;
-- (ItemProto_Builder*) setGameActionType:(GameActionType) value;
-- (ItemProto_Builder*) clearGameActionTypeList;
 
 - (BOOL) hasShortName;
 - (NSString*) shortName;

@@ -136,8 +136,6 @@
 @class ChangeClanSettingsRequestProto_Builder;
 @class ChangeClanSettingsResponseProto;
 @class ChangeClanSettingsResponseProto_Builder;
-@class ChatTranslationsProto;
-@class ChatTranslationsProto_Builder;
 @class CityElementProto;
 @class CityElementProto_Builder;
 @class CityExpansionCostProto;
@@ -590,12 +588,6 @@
 @class ReviveInDungeonResponseProto_Builder;
 @class RewardProto;
 @class RewardProto_Builder;
-@class SalesDisplayItemProto;
-@class SalesDisplayItemProto_Builder;
-@class SalesItemProto;
-@class SalesItemProto_Builder;
-@class SalesPackageProto;
-@class SalesPackageProto_Builder;
 @class SellUserMonsterRequestProto;
 @class SellUserMonsterRequestProto_Builder;
 @class SellUserMonsterResponseProto;
@@ -724,12 +716,6 @@
 @class TransferClanOwnershipRequestProto_Builder;
 @class TransferClanOwnershipResponseProto;
 @class TransferClanOwnershipResponseProto_Builder;
-@class TranslateSelectMessagesRequestProto;
-@class TranslateSelectMessagesRequestProto_Builder;
-@class TranslateSelectMessagesResponseProto;
-@class TranslateSelectMessagesResponseProto_Builder;
-@class TranslatedTextProto;
-@class TranslatedTextProto_Builder;
 @class TutorialStructProto;
 @class TutorialStructProto_Builder;
 @class UnrestrictUserMonsterRequestProto;
@@ -754,10 +740,6 @@
 @class UpdateUserCurrencyRequestProto_Builder;
 @class UpdateUserCurrencyResponseProto;
 @class UpdateUserCurrencyResponseProto_Builder;
-@class UpdateUserStrengthRequestProto;
-@class UpdateUserStrengthRequestProto_Builder;
-@class UpdateUserStrengthResponseProto;
-@class UpdateUserStrengthResponseProto_Builder;
 @class UpgradeNormStructureRequestProto;
 @class UpgradeNormStructureRequestProto_Builder;
 @class UpgradeNormStructureResponseProto;
@@ -943,8 +925,6 @@ typedef NS_ENUM(SInt32, EventProtocolRequest) {
   EventProtocolRequestCRedeemMiniEventRewardEvent = 207,
   EventProtocolRequestCRetrieveMiniEventEvent = 208,
   EventProtocolRequestCUpdateMiniEventEvent = 209,
-  EventProtocolRequestCTranslateSelectMessagesEvent = 210,
-  EventProtocolRequestCUpdateUserStrengthEvent = 211,
 };
 
 BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value);
@@ -1067,8 +1047,6 @@ typedef NS_ENUM(SInt32, EventProtocolResponse) {
   EventProtocolResponseSRedeemMiniEventRewardEvent = 207,
   EventProtocolResponseSRetrieveMiniEventEvent = 208,
   EventProtocolResponseSUpdateMiniEventEvent = 209,
-  EventProtocolResponseSTranslateSelectMessagesEvent = 210,
-  EventProtocolResponseSUpdateUserStrengthEvent = 211,
 };
 
 BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value);

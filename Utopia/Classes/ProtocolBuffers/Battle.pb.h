@@ -3,7 +3,6 @@
 #import "ProtocolBuffers.h"
 
 #import "MonsterStuff.pb.h"
-#import "Research.pb.h"
 #import "Structure.pb.h"
 #import "User.pb.h"
 // @@protoc_insertion_point(imports)
@@ -74,10 +73,6 @@
 @class PvpUserClanAvengeProto_Builder;
 @class ResearchHouseProto;
 @class ResearchHouseProto_Builder;
-@class ResearchPropertyProto;
-@class ResearchPropertyProto_Builder;
-@class ResearchProto;
-@class ResearchProto_Builder;
 @class ResidenceProto;
 @class ResidenceProto_Builder;
 @class ResourceGeneratorProto;
@@ -118,8 +113,6 @@
 @class UserPvpBoardObstacleProto_Builder;
 @class UserPvpLeagueProto;
 @class UserPvpLeagueProto_Builder;
-@class UserResearchProto;
-@class UserResearchProto_Builder;
 #ifndef __has_feature
   #define __has_feature(x) 0 // Compatibility with non-clang compilers.
 #endif // __has_feature
@@ -165,7 +158,6 @@ BOOL BattleResultIsValidValue(BattleResult value);
   ClanMemberTeamDonationProto* cmtd;
   NSMutableArray * mutableDefenderMonstersList;
   NSMutableArray * mutableUserBoardObstaclesList;
-  NSMutableArray * mutableUserResearchList;
 }
 - (BOOL) hasDefender;
 - (BOOL) hasProspectiveCashWinnings;
@@ -183,10 +175,8 @@ BOOL BattleResultIsValidValue(BattleResult value);
 @property (readonly, strong) ClanMemberTeamDonationProto* cmtd;
 @property (readonly) int32_t monsterIdDropped;
 @property (readonly, strong) NSArray * userBoardObstaclesList;
-@property (readonly, strong) NSArray * userResearchList;
 - (PvpMonsterProto*)defenderMonstersAtIndex:(NSUInteger)index;
 - (UserPvpBoardObstacleProto*)userBoardObstaclesAtIndex:(NSUInteger)index;
-- (UserResearchProto*)userResearchAtIndex:(NSUInteger)index;
 
 + (PvpProto*) defaultInstance;
 - (PvpProto*) defaultInstance;
@@ -275,12 +265,6 @@ BOOL BattleResultIsValidValue(BattleResult value);
 - (PvpProto_Builder *)addUserBoardObstacles:(UserPvpBoardObstacleProto*)value;
 - (PvpProto_Builder *)addAllUserBoardObstacles:(NSArray *)array;
 - (PvpProto_Builder *)clearUserBoardObstacles;
-
-- (NSMutableArray *)userResearchList;
-- (UserResearchProto*)userResearchAtIndex:(NSUInteger)index;
-- (PvpProto_Builder *)addUserResearch:(UserResearchProto*)value;
-- (PvpProto_Builder *)addAllUserResearch:(NSArray *)array;
-- (PvpProto_Builder *)clearUserResearch;
 @end
 
 @interface PvpMonsterProto : PBGeneratedMessage {

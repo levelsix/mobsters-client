@@ -14,7 +14,6 @@ static PBExtensionRegistry* extensionRegistry = nil;
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
     [MonsterStuffRoot registerAllExtensions:registry];
-    [ResearchRoot registerAllExtensions:registry];
     [StructureRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
     extensionRegistry = registry;
@@ -44,7 +43,6 @@ BOOL BattleResultIsValidValue(BattleResult value) {
 @property (strong) ClanMemberTeamDonationProto* cmtd;
 @property int32_t monsterIdDropped;
 @property (strong) NSMutableArray * mutableUserBoardObstaclesList;
-@property (strong) NSMutableArray * mutableUserResearchList;
 @end
 
 @implementation PvpProto
@@ -102,8 +100,6 @@ BOOL BattleResultIsValidValue(BattleResult value) {
 @synthesize monsterIdDropped;
 @synthesize mutableUserBoardObstaclesList;
 @dynamic userBoardObstaclesList;
-@synthesize mutableUserResearchList;
-@dynamic userResearchList;
 - (id) init {
   if ((self = [super init])) {
     self.defender = [MinimumUserProtoWithLevel defaultInstance];
@@ -140,12 +136,6 @@ static PvpProto* defaultPvpProtoInstance = nil;
 - (UserPvpBoardObstacleProto*)userBoardObstaclesAtIndex:(NSUInteger)index {
   return [mutableUserBoardObstaclesList objectAtIndex:index];
 }
-- (NSArray *)userResearchList {
-  return mutableUserResearchList;
-}
-- (UserResearchProto*)userResearchAtIndex:(NSUInteger)index {
-  return [mutableUserResearchList objectAtIndex:index];
-}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -176,9 +166,6 @@ static PvpProto* defaultPvpProtoInstance = nil;
   }
   [self.userBoardObstaclesList enumerateObjectsUsingBlock:^(UserPvpBoardObstacleProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:10 value:element];
-  }];
-  [self.userResearchList enumerateObjectsUsingBlock:^(UserResearchProto *element, NSUInteger idx, BOOL *stop) {
-    [output writeMessage:11 value:element];
   }];
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -215,9 +202,6 @@ static PvpProto* defaultPvpProtoInstance = nil;
   }
   [self.userBoardObstaclesList enumerateObjectsUsingBlock:^(UserPvpBoardObstacleProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(10, element);
-  }];
-  [self.userResearchList enumerateObjectsUsingBlock:^(UserResearchProto *element, NSUInteger idx, BOOL *stop) {
-    size_ += computeMessageSize(11, element);
   }];
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -296,12 +280,6 @@ static PvpProto* defaultPvpProtoInstance = nil;
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }];
-  [self.userResearchList enumerateObjectsUsingBlock:^(UserResearchProto *element, NSUInteger idx, BOOL *stop) {
-    [output appendFormat:@"%@%@ {\n", indent, @"userResearch"];
-    [element writeDescriptionTo:output
-                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
-    [output appendFormat:@"%@}\n", indent];
-  }];
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -329,7 +307,6 @@ static PvpProto* defaultPvpProtoInstance = nil;
       self.hasMonsterIdDropped == otherMessage.hasMonsterIdDropped &&
       (!self.hasMonsterIdDropped || self.monsterIdDropped == otherMessage.monsterIdDropped) &&
       [self.userBoardObstaclesList isEqualToArray:otherMessage.userBoardObstaclesList] &&
-      [self.userResearchList isEqualToArray:otherMessage.userResearchList] &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -359,9 +336,6 @@ static PvpProto* defaultPvpProtoInstance = nil;
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.monsterIdDropped] hash];
   }
   [self.userBoardObstaclesList enumerateObjectsUsingBlock:^(UserPvpBoardObstacleProto *element, NSUInteger idx, BOOL *stop) {
-    hashCode = hashCode * 31 + [element hash];
-  }];
-  [self.userResearchList enumerateObjectsUsingBlock:^(UserResearchProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
   hashCode = hashCode * 31 + [self.unknownFields hash];
@@ -442,13 +416,6 @@ static PvpProto* defaultPvpProtoInstance = nil;
       [result.mutableUserBoardObstaclesList addObjectsFromArray:other.mutableUserBoardObstaclesList];
     }
   }
-  if (other.mutableUserResearchList.count > 0) {
-    if (result.mutableUserResearchList == nil) {
-      result.mutableUserResearchList = [[NSMutableArray alloc] initWithArray:other.mutableUserResearchList];
-    } else {
-      [result.mutableUserResearchList addObjectsFromArray:other.mutableUserResearchList];
-    }
-  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -523,12 +490,6 @@ static PvpProto* defaultPvpProtoInstance = nil;
         UserPvpBoardObstacleProto_Builder* subBuilder = [UserPvpBoardObstacleProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addUserBoardObstacles:[subBuilder buildPartial]];
-        break;
-      }
-      case 90: {
-        UserResearchProto_Builder* subBuilder = [UserResearchProto builder];
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self addUserResearch:[subBuilder buildPartial]];
         break;
       }
     }
@@ -734,30 +695,6 @@ static PvpProto* defaultPvpProtoInstance = nil;
 }
 - (PvpProto_Builder *)clearUserBoardObstacles {
   result.mutableUserBoardObstaclesList = nil;
-  return self;
-}
-- (NSMutableArray *)userResearchList {
-  return result.mutableUserResearchList;
-}
-- (UserResearchProto*)userResearchAtIndex:(NSUInteger)index {
-  return [result userResearchAtIndex:index];
-}
-- (PvpProto_Builder *)addUserResearch:(UserResearchProto*)value {
-  if (result.mutableUserResearchList == nil) {
-    result.mutableUserResearchList = [[NSMutableArray alloc]init];
-  }
-  [result.mutableUserResearchList addObject:value];
-  return self;
-}
-- (PvpProto_Builder *)addAllUserResearch:(NSArray *)array {
-  if (result.mutableUserResearchList == nil) {
-    result.mutableUserResearchList = [NSMutableArray array];
-  }
-  [result.mutableUserResearchList addObjectsFromArray:array];
-  return self;
-}
-- (PvpProto_Builder *)clearUserResearch {
-  result.mutableUserResearchList = nil;
   return self;
 }
 @end

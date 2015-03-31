@@ -76,8 +76,6 @@ typedef NS_ENUM(SInt32, GameType) {
   GameTypeResearch = 3,
   GameTypeSkill = 4,
   GameTypeTask = 5,
-  GameTypeBattleItem = 6,
-  GameTypeBoardObstacle = 7,
 };
 
 BOOL GameTypeIsValidValue(GameType value);
