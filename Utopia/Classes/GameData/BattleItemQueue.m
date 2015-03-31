@@ -31,7 +31,8 @@
 }
 
 - (int) totalSecondsToComplete {
-  return self.staticBattleItem.minutesToCreate*60;
+  Globals *gl = [Globals sharedGlobals];
+  return [gl calculateSecondsToCreateBattleItem:self.staticBattleItem];
 }
 
 - (MSDate *) expectedEndTime {

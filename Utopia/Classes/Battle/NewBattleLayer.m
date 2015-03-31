@@ -2877,6 +2877,7 @@
       case BattleItemTypeBoardShuffle:
       case BattleItemTypeHandSwap:
       case BattleItemTypeOrbHammer:
+      case BattleItemTypeNone:
         // Should always be valid
         break;
     }
@@ -2940,6 +2941,7 @@
       
     case BattleItemTypeChillAntidote:
     case BattleItemTypePoisonAntidote:
+    case BattleItemTypeNone:
 #warning for rob: perform action (remove chill/poison)
       break;
   }
@@ -3024,6 +3026,7 @@
       
     case BattleItemTypeChillAntidote:
     case BattleItemTypePoisonAntidote:
+    case BattleItemTypeNone:
 #warning for rob: check whether this item is valid or not, i.e. toon is poisoned/chilled
       return NO;
   }

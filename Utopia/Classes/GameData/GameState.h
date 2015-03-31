@@ -186,6 +186,7 @@
 - (PersistentEventProto *) nextEventWithType:(PersistentEventProto_EventType)type;
 - (MonsterBattleDialogueProto *) battleDialogueForMonsterId:(int)monsterId type:(MonsterBattleDialogueProto_DialogueType)type;
 - (BoardLayoutProto *) boardWithId:(int)boardId;
+- (BattleItemProto *) battleItemWithId:(int)battleItemId;
 - (ResearchProto *) researchWithId:(int)researchId;
 
 - (void) unlockAllTasks;

@@ -13,16 +13,24 @@
 
 @implementation ItemFactoryCardCell
 
-- (void) updateForListObject:(BattleItemProto *)bip {
-  [Globals imageNamed:bip.imgName withView:self.itemIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+- (void) updateForListObject:(BattleItemProto *)bip greyscale:(BOOL)greyscale {
+  Globals *gl = [Globals sharedGlobals];
+  
+  [Globals imageNamed:bip.imgName withView:self.itemIcon greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  self.bgdIcon.highlighted = greyscale;
   
   self.nameLabel.text = bip.name;
   
-  self.costLabel.text = [@" " stringByAppendingString:[Globals commafyNumber:bip.createCost]];
+  self.costLabel.text = [@" " stringByAppendingString:[Globals commafyNumber:[gl calculateCostToCreateBattleItem:bip]]];
   self.cashIcon.hidden = bip.createResourceType != ResourceTypeCash;
   self.oilIcon.hidden = bip.createResourceType != ResourceTypeOil;
   
   [Globals adjustViewForCentering:self.costLabel.superview withLabel:self.costLabel];
+  
+  [Globals imageNamed:@"infoi.png" withView:self.infoButton greyscale:greyscale indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+  
+  self.statusLabel.hidden = !greyscale;
+  self.cashIcon.superview.hidden = greyscale;
 }
 
 @end

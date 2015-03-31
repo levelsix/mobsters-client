@@ -222,13 +222,57 @@
 
 #pragma mark - MonsterListView delegate
 
+- (void) listView:(ListCollectionView *)listView updateCell:(ItemFactoryCardCell *)cell forIndexPath:(NSIndexPath *)ip listObject:(BattleItemProto *)listObject {
+  if (listView == self.listView) {
+    GameState *gs = [GameState sharedGameState];
+    BattleItemFactoryProto *factory = (BattleItemFactoryProto *)gs.myBattleItemFactory.staticStructForCurrentConstructionLevel;
+    int totalPower = self.battleItemUtil.totalPowerAmount;
+    int powerLimit = factory.powerLimit;
+    BOOL lowEnoughPower = listObject.powerAmount+totalPower <= powerLimit;
+    BOOL isLocked = ![listObject satisfiesAllPrerequisites];
+    BOOL greyscale = isLocked || !lowEnoughPower;
+    
+    [cell updateForListObject:listObject greyscale:greyscale];
+    
+    if (isLocked) {
+      cell.statusLabel.text = @"Locked";
+    } else if (!lowEnoughPower) {
+      NSString *str1 = @"Power: ";
+      NSString *str2 = [Globals commafyNumber:listObject.powerAmount];
+      NSMutableAttributedString *as = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@%@", str1, str2]];
+      [as addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"ff9494"] range:NSMakeRange(str1.length, str2.length)];
+      
+      cell.statusLabel.attributedText = as;
+    }
+  } else {
+    // Queue view
+    [cell updateForListObject:listObject];
+  }
+}
+
 - (void) listView:(ListCollectionView *)listView cardClickedAtIndexPath:(NSIndexPath *)indexPath {
   BattleItemProto *bip = self.itemList[indexPath.row];
-  [self addBattleItemToQueue:bip indexPath:indexPath];
+  
+  GameState *gs = [GameState sharedGameState];
+  BattleItemFactoryProto *factory = (BattleItemFactoryProto *)gs.myBattleItemFactory.staticStructForCurrentConstructionLevel;
+  int totalPower = self.battleItemUtil.totalPowerAmount;
+  int powerLimit = factory.powerLimit;
+  BOOL lowEnoughPower = bip.powerAmount+totalPower <= powerLimit;
+  BOOL isLocked = ![bip satisfiesAllPrerequisites];
+  
+  if (isLocked) {
+    PrereqProto *pre = [bip.incompletePrerequisites firstObject];
+    [Globals addAlertNotification:[NSString stringWithFormat:@"Research %@ to unlock this Item!", [pre prereqString]]];
+  } else if (!lowEnoughPower) {
+    [Globals addAlertNotification:[NSString stringWithFormat:@"You need a higher Power Limit to add %@. Upgrade your %@!", bip.name, factory.structInfo.name]];
+  } else {
+    [self addBattleItemToQueue:bip indexPath:indexPath];
+  }
 }
 
 - (void) addBattleItemToQueue:(BattleItemProto *)bip indexPath:(NSIndexPath*)indexPath {
   GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
   
   // Check if item is below power limit
   BattleItemFactoryProto *factory = (BattleItemFactoryProto *)gs.myBattleItemFactory.staticStructForCurrentConstructionLevel;
@@ -239,7 +283,7 @@
     return;
   }
   
-  int cost = bip.createCost;
+  int cost = [gl calculateCostToCreateBattleItem:bip];
   int curAmount = bip.createResourceType == ResourceTypeCash ? gs.cash : gs.oil;
   if (cost > curAmount) {
     _tempBattleItem = bip;
@@ -314,7 +358,7 @@
   
   BOOL allowGems = [itemIdsToQuantity[@0] boolValue];
   
-  int cost = _tempBattleItem.createCost;
+  int cost = [gl calculateCostToCreateBattleItem:_tempBattleItem];
   ResourceType resType = _tempBattleItem.createResourceType;
   
   int curAmount = [gl calculateTotalResourcesForResourceType:resType itemIdsToQuantity:itemIdsToQuantity];
@@ -359,7 +403,7 @@
   
   if (cardCell && queueCell) {
     [self.queueCell updateForListObject:item];
-    [self.cardCell updateForListObject:bip];
+    [self.cardCell updateForListObject:bip greyscale:NO];
     
     [self.view addSubview:self.queueCell];
     [self.view insertSubview:self.cardCell belowSubview:self.queueView];
@@ -402,7 +446,7 @@
     
     if (cardCell && queueCell) {
       [self.queueCell updateForListObject:item];
-      [self.cardCell updateForListObject:bip];
+      [self.cardCell updateForListObject:bip greyscale:NO];
       
       [self.view addSubview:self.queueCell];
       [self.view insertSubview:self.cardCell belowSubview:self.queueView];

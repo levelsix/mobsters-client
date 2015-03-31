@@ -10,6 +10,39 @@
 
 #import "GameState.h"
 
+@implementation BattleItemProto (Prereqs)
+
+- (NSArray *) allPrerequisites {
+  GameState *gs = [GameState sharedGameState];
+  NSArray *arr = [gs prerequisitesForGameType:GameTypeBattleItem gameEntityId:self.battleItemId];
+  
+  arr = [arr sortedArrayUsingComparator:^NSComparisonResult(PrereqProto *obj1, PrereqProto *obj2) {
+    return [@(obj1.prereqId) compare:@(obj2.prereqId)];
+  }];
+  
+  return arr;
+}
+
+- (NSArray *) incompletePrerequisites {
+  NSMutableArray *arr = [NSMutableArray array];
+  NSArray *allPrereqs = [self allPrerequisites];
+  Globals *gl = [Globals sharedGlobals];
+  
+  for (PrereqProto *pp in allPrereqs) {
+    if (![gl isPrerequisiteComplete:pp]) {
+      [arr addObject:pp];
+    }
+  }
+  
+  return arr;
+}
+
+- (BOOL) satisfiesAllPrerequisites {
+  return [self incompletePrerequisites].count == 0;
+}
+
+@end
+
 @implementation UserBattleItem
 
 - (id) initWithProto:(UserBattleItemProto *)bip {

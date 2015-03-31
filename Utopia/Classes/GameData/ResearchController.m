@@ -116,8 +116,18 @@
 @end
 
 @implementation ResearchUnlockController
-#warning implement once we merge
+
 - (NSString *) unlockedName {
+  GameState *gs = [GameState sharedGameState];
+  
+  if (_research.researchType == ResearchTypeUnlockItem) {
+    BattleItemProto *bip = [gs battleItemWithId:_research.staticDataId];
+    return bip.name;
+  } else {
+    PvpBoardObstacleProto *bop = gs.staticPvpBoardObstacles[@(_research.staticDataId)];
+    return bop.name;
+  }
+  
   return @"Item";
 }
 

@@ -9,6 +9,7 @@
 #import "BuildingViews.h"
 
 #import "Globals.h"
+#import "GameState.h"
 
 #import "IAPHelper.h"
 
@@ -49,16 +50,30 @@
   NSMutableArray *incomplete = [[gl incompletePrereqsForStructId:structInfo.structId] mutableCopy];
   
   // Create a new prereq for th level
-  if (cur >= max && nextThp) {
-    PrereqProto_Builder *pre = [PrereqProto builder];
-    pre.quantity = 1;
-    pre.prereqGameType = GameTypeStructure;
-    pre.prereqGameEntityId = nextThp.structInfo.structId;
-    [incomplete addObject:pre.build];
+  if (cur >= max) {
+    if (nextThp) {
+      PrereqProto_Builder *pre = [PrereqProto builder];
+      pre.quantity = 1;
+      pre.prereqGameType = GameTypeStructure;
+      pre.prereqGameEntityId = nextThp.structInfo.structId;
+      [incomplete addObject:pre.build];
+    } else {
+      // Find the appropriate research
+      ResearchProto *staticRes = [gl calculateNextResearchForQuantityIncreaseForStructId:structInfo.structId];
+      
+      if (staticRes) {
+        PrereqProto_Builder *pre = [PrereqProto builder];
+        pre.quantity = 1;
+        pre.prereqGameType = GameTypeResearch;
+        pre.prereqGameEntityId = staticRes.researchId;
+        [incomplete addObject:pre.build];
+      }
+    }
   }
   
   if (incomplete.count) {
-    self.lockedLabel.text = [NSString stringWithFormat:@"Requires %@", [[incomplete firstObject] prereqString]];
+    PrereqProto *pre = [incomplete firstObject];
+    self.lockedLabel.text = [NSString stringWithFormat:@"%@ %@", pre.prereqGameType == GameTypeResearch ? @"Research\n" : @"Requires", [pre prereqString]];
     self.lockedLabel.textColor = [UIColor colorWithRed:254/255.f green:2/255.f blue:0.f alpha:1.f];
     greyscale = YES;
   }

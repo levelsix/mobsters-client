@@ -410,6 +410,7 @@
 - (int) calculateMaxQuantityOfStructId:(int)structId;
 - (int) calculateMaxQuantityOfStructId:(int)structId withTownHall:(TownHallProto *)thp;
 - (TownHallProto *) calculateNextTownHallForQuantityIncreaseForStructId:(int)structId;
+- (ResearchProto *) calculateNextResearchForQuantityIncreaseForStructId:(int)structId;
 - (int) calculateNumberOfUnpurchasedStructs;
 - (int) calculateCurrentQuantityOfStructId:(int)structId structs:(NSArray *)structs;
 

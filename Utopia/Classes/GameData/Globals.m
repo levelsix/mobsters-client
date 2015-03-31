@@ -1715,8 +1715,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   id<StaticStructure> ss = [gs structWithId:structId];
   
   switch (ss.structInfo.structType) {
+      // Hospital now uses research
     case StructureInfoProto_StructTypeHospital:
-      return thp.numHospitals;
+      return 1+[gs.researchUtil amountBenefitForType:ResearchTypeNumberOfHospitals];
       break;
       
     case StructureInfoProto_StructTypeResidence:
@@ -1798,6 +1799,31 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     }
   }
   return nil;
+}
+
+- (ResearchProto *) calculateNextResearchForQuantityIncreaseForStructId:(int)structId {
+  GameState *gs = [GameState sharedGameState];
+  StructureInfoProto *structInfo = [[gs structWithId:structId] structInfo];
+  
+  ResearchType resType = 0;
+  if (structInfo.structType == StructureInfoProto_StructTypeHospital) {
+    resType = ResearchTypeNumberOfHospitals;
+  }
+  
+  // Find the appropriate research
+  ResearchProto *staticRes = nil;
+  if (resType) {
+    for (ResearchProto *rp in gs.staticResearches.allValues) {
+      if (rp.researchType == resType &&                                                                   // Same Type
+          ![gs.researchUtil prerequisiteFullfilledForResearch:rp] &&                                      // This research isn't complete
+          (!rp.predId || [gs.researchUtil prerequisiteFullfilledForResearch:rp.predecessorResearch]) &&   // It's pred is complete or has no pred
+          (!staticRes || rp.tier < staticRes.tier)) {                                                     // It's the lowest tier
+        staticRes = rp;
+      }
+    }
+  }
+  
+  return staticRes;
 }
 
 - (int) calculateCurrentQuantityOfStructId:(int)structId structs:(NSArray *)structs {
@@ -2286,7 +2312,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return ecp.structInfo.level;
 }
 
-#warning implement after merge
 - (int) calculateSecondsToCreateBattleItem:(BattleItemProto *)bip {
   float baseSecs = bip.minutesToCreate*60;
   
@@ -2298,7 +2323,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 - (int) calculateCostToCreateBattleItem:(BattleItemProto *)bip {
-  float baseCost = bip.createCost*60;
+  float baseCost = bip.createCost;
   
   GameState *gs = [GameState sharedGameState];
   float perc = [gs.researchUtil percentageBenefitForType:ResearchTypeItemProductionCost resType:bip.createResourceType];

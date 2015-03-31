@@ -160,14 +160,14 @@
     GameState *gs = [GameState sharedGameState];
     _userResearch = [gs.researchUtil currentRankForResearch:_userResearch.research];
     [self.view updateWithResearch:_userResearch];
-    self.title = [NSString stringWithFormat:@"Research to Rank %d",_userResearch.research.successorResearch.level];
+    self.title = [NSString stringWithFormat:@"Research to Rank %d",_userResearch.research.level];
   }
 }
 
 - (id) initWithResearch:(UserResearch *)userResearch {
   if ((self = [super init])) {
     _userResearch = userResearch;
-    self.title = [NSString stringWithFormat:@"Research to Rank %d",_userResearch.research.successorResearch.level];
+    self.title = [NSString stringWithFormat:@"Research to Rank %d",_userResearch.research.level];
   }
   
   return self;

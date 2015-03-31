@@ -10,6 +10,14 @@
 
 #import "BattleItemQueue.h"
 
+@interface BattleItemProto (Prereqs)
+
+- (NSArray *) allPrerequisites;
+- (NSArray *) incompletePrerequisites;
+- (BOOL) satisfiesAllPrerequisites;
+
+@end
+
 @interface UserBattleItem : NSObject
 
 @property (nonatomic, assign) int battleItemId;

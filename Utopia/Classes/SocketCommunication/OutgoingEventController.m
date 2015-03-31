@@ -2651,7 +2651,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
   
-  int cost = bi.createCost;
+  int cost = [gl calculateCostToCreateBattleItem:bi];
   int curAmount = bi.createResourceType == ResourceTypeCash ? gs.cash : gs.oil;
   if (!useGems && curAmount < cost) {
     [Globals popupMessage:@"Trying to create battle item without enough resources."];
@@ -2687,10 +2687,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 - (BOOL) removeBattleQueueObject:(BattleItemQueueObject *)item fromQueue:(BattleItemQueue *)biq {
   GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
   
   BattleItemProto *bi = item.staticBattleItem;
   
-  int cost = bi.createCost;
+  int cost = [gl calculateCostToCreateBattleItem:bi];
   int curAmount = bi.createResourceType == ResourceTypeCash ? gs.cash : gs.oil;
   int max = bi.createResourceType == ResourceTypeCash ? gs.maxCash : gs.maxOil;
   if (![biq.queueObjects containsObject:item]) {

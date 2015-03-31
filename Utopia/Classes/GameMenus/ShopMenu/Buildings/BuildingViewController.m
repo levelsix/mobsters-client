@@ -228,7 +228,12 @@
     if (nextThp) {
       [Globals addAlertNotification:[NSString stringWithFormat:@"Upgrade %@ to level %d to build more!", thp.structInfo.name, nextThp.structInfo.level]];
     } else {
-      [Globals addAlertNotification:@"You have already reached the max number of this building."];
+      ResearchProto *staticRes = [gl calculateNextResearchForQuantityIncreaseForStructId:fsp.structId];
+      if (staticRes) {
+        [Globals addAlertNotification:[NSString stringWithFormat:@"Research %@ to build more!", staticRes.name]];
+      } else {
+        [Globals addAlertNotification:@"You have already reached the max number of this building."];
+      }
     }
   } else {
     [self buildingPurchased:fsp.structId];
