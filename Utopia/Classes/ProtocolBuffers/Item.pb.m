@@ -28,7 +28,6 @@ BOOL ItemTypeIsValidValue(ItemType value) {
     case ItemTypeItemCash:
     case ItemTypeSpeedUp:
     case ItemTypeBuilder:
-    case ItemTypeRefreshMiniJob:
       return YES;
     default:
       return NO;
@@ -335,9 +334,7 @@ static UserItemProto* defaultUserItemProtoInstance = nil;
 @property int32_t amount;
 @property Float32 secretGiftChance;
 @property BOOL alwaysDisplayToUser;
-@property GameActionType gameActionType;
-@property (strong) NSString* shortName;
-@property Quality quality;
+@property GameType gameType;
 @end
 
 @implementation ItemProto
@@ -403,27 +400,13 @@ static UserItemProto* defaultUserItemProtoInstance = nil;
 - (void) setAlwaysDisplayToUser:(BOOL) value_ {
   alwaysDisplayToUser_ = !!value_;
 }
-- (BOOL) hasGameActionType {
-  return !!hasGameActionType_;
+- (BOOL) hasGameType {
+  return !!hasGameType_;
 }
-- (void) setHasGameActionType:(BOOL) value_ {
-  hasGameActionType_ = !!value_;
+- (void) setHasGameType:(BOOL) value_ {
+  hasGameType_ = !!value_;
 }
-@synthesize gameActionType;
-- (BOOL) hasShortName {
-  return !!hasShortName_;
-}
-- (void) setHasShortName:(BOOL) value_ {
-  hasShortName_ = !!value_;
-}
-@synthesize shortName;
-- (BOOL) hasQuality {
-  return !!hasQuality_;
-}
-- (void) setHasQuality:(BOOL) value_ {
-  hasQuality_ = !!value_;
-}
-@synthesize quality;
+@synthesize gameType;
 - (id) init {
   if ((self = [super init])) {
     self.itemId = 0;
@@ -434,9 +417,7 @@ static UserItemProto* defaultUserItemProtoInstance = nil;
     self.amount = 0;
     self.secretGiftChance = 0;
     self.alwaysDisplayToUser = NO;
-    self.gameActionType = GameActionTypeNoHelp;
-    self.shortName = @"";
-    self.quality = QualityNoQuality;
+    self.gameType = GameTypeNoType;
   }
   return self;
 }
@@ -480,14 +461,8 @@ static ItemProto* defaultItemProtoInstance = nil;
   if (self.hasAlwaysDisplayToUser) {
     [output writeBool:8 value:self.alwaysDisplayToUser];
   }
-  if (self.hasGameActionType) {
-    [output writeEnum:9 value:self.gameActionType];
-  }
-  if (self.hasShortName) {
-    [output writeString:10 value:self.shortName];
-  }
-  if (self.hasQuality) {
-    [output writeEnum:11 value:self.quality];
+  if (self.hasGameType) {
+    [output writeEnum:9 value:self.gameType];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -522,14 +497,8 @@ static ItemProto* defaultItemProtoInstance = nil;
   if (self.hasAlwaysDisplayToUser) {
     size_ += computeBoolSize(8, self.alwaysDisplayToUser);
   }
-  if (self.hasGameActionType) {
-    size_ += computeEnumSize(9, self.gameActionType);
-  }
-  if (self.hasShortName) {
-    size_ += computeStringSize(10, self.shortName);
-  }
-  if (self.hasQuality) {
-    size_ += computeEnumSize(11, self.quality);
+  if (self.hasGameType) {
+    size_ += computeEnumSize(9, self.gameType);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -590,14 +559,8 @@ static ItemProto* defaultItemProtoInstance = nil;
   if (self.hasAlwaysDisplayToUser) {
     [output appendFormat:@"%@%@: %@\n", indent, @"alwaysDisplayToUser", [NSNumber numberWithBool:self.alwaysDisplayToUser]];
   }
-  if (self.hasGameActionType) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"gameActionType", [NSNumber numberWithInteger:self.gameActionType]];
-  }
-  if (self.hasShortName) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"shortName", self.shortName];
-  }
-  if (self.hasQuality) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"quality", [NSNumber numberWithInteger:self.quality]];
+  if (self.hasGameType) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"gameType", [NSNumber numberWithInteger:self.gameType]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -626,12 +589,8 @@ static ItemProto* defaultItemProtoInstance = nil;
       (!self.hasSecretGiftChance || self.secretGiftChance == otherMessage.secretGiftChance) &&
       self.hasAlwaysDisplayToUser == otherMessage.hasAlwaysDisplayToUser &&
       (!self.hasAlwaysDisplayToUser || self.alwaysDisplayToUser == otherMessage.alwaysDisplayToUser) &&
-      self.hasGameActionType == otherMessage.hasGameActionType &&
-      (!self.hasGameActionType || self.gameActionType == otherMessage.gameActionType) &&
-      self.hasShortName == otherMessage.hasShortName &&
-      (!self.hasShortName || [self.shortName isEqual:otherMessage.shortName]) &&
-      self.hasQuality == otherMessage.hasQuality &&
-      (!self.hasQuality || self.quality == otherMessage.quality) &&
+      self.hasGameType == otherMessage.hasGameType &&
+      (!self.hasGameType || self.gameType == otherMessage.gameType) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -660,14 +619,8 @@ static ItemProto* defaultItemProtoInstance = nil;
   if (self.hasAlwaysDisplayToUser) {
     hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.alwaysDisplayToUser] hash];
   }
-  if (self.hasGameActionType) {
-    hashCode = hashCode * 31 + self.gameActionType;
-  }
-  if (self.hasShortName) {
-    hashCode = hashCode * 31 + [self.shortName hash];
-  }
-  if (self.hasQuality) {
-    hashCode = hashCode * 31 + self.quality;
+  if (self.hasGameType) {
+    hashCode = hashCode * 31 + self.gameType;
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -736,14 +689,8 @@ static ItemProto* defaultItemProtoInstance = nil;
   if (other.hasAlwaysDisplayToUser) {
     [self setAlwaysDisplayToUser:other.alwaysDisplayToUser];
   }
-  if (other.hasGameActionType) {
-    [self setGameActionType:other.gameActionType];
-  }
-  if (other.hasShortName) {
-    [self setShortName:other.shortName];
-  }
-  if (other.hasQuality) {
-    [self setQuality:other.quality];
+  if (other.hasGameType) {
+    [self setGameType:other.gameType];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -804,24 +751,11 @@ static ItemProto* defaultItemProtoInstance = nil;
         break;
       }
       case 72: {
-        GameActionType value = (GameActionType)[input readEnum];
-        if (GameActionTypeIsValidValue(value)) {
-          [self setGameActionType:value];
+        GameType value = (GameType)[input readEnum];
+        if (GameTypeIsValidValue(value)) {
+          [self setGameType:value];
         } else {
           [unknownFields mergeVarintField:9 value:value];
-        }
-        break;
-      }
-      case 82: {
-        [self setShortName:[input readString]];
-        break;
-      }
-      case 88: {
-        Quality value = (Quality)[input readEnum];
-        if (QualityIsValidValue(value)) {
-          [self setQuality:value];
-        } else {
-          [unknownFields mergeVarintField:11 value:value];
         }
         break;
       }
@@ -956,52 +890,20 @@ static ItemProto* defaultItemProtoInstance = nil;
   result.alwaysDisplayToUser = NO;
   return self;
 }
-- (BOOL) hasGameActionType {
-  return result.hasGameActionType;
+- (BOOL) hasGameType {
+  return result.hasGameType;
 }
-- (GameActionType) gameActionType {
-  return result.gameActionType;
+- (GameType) gameType {
+  return result.gameType;
 }
-- (ItemProto_Builder*) setGameActionType:(GameActionType) value {
-  result.hasGameActionType = YES;
-  result.gameActionType = value;
+- (ItemProto_Builder*) setGameType:(GameType) value {
+  result.hasGameType = YES;
+  result.gameType = value;
   return self;
 }
-- (ItemProto_Builder*) clearGameActionTypeList {
-  result.hasGameActionType = NO;
-  result.gameActionType = GameActionTypeNoHelp;
-  return self;
-}
-- (BOOL) hasShortName {
-  return result.hasShortName;
-}
-- (NSString*) shortName {
-  return result.shortName;
-}
-- (ItemProto_Builder*) setShortName:(NSString*) value {
-  result.hasShortName = YES;
-  result.shortName = value;
-  return self;
-}
-- (ItemProto_Builder*) clearShortName {
-  result.hasShortName = NO;
-  result.shortName = @"";
-  return self;
-}
-- (BOOL) hasQuality {
-  return result.hasQuality;
-}
-- (Quality) quality {
-  return result.quality;
-}
-- (ItemProto_Builder*) setQuality:(Quality) value {
-  result.hasQuality = YES;
-  result.quality = value;
-  return self;
-}
-- (ItemProto_Builder*) clearQualityList {
-  result.hasQuality = NO;
-  result.quality = QualityNoQuality;
+- (ItemProto_Builder*) clearGameTypeList {
+  result.hasGameType = NO;
+  result.gameType = GameTypeNoType;
   return self;
 }
 @end
@@ -1821,252 +1723,6 @@ static UserItemSecretGiftProto* defaultUserItemSecretGiftProtoInstance = nil;
 - (UserItemSecretGiftProto_Builder*) clearCreateTime {
   result.hasCreateTime = NO;
   result.createTime = 0L;
-  return self;
-}
-@end
-
-@interface ItemGemPriceProto ()
-@property int32_t itemId;
-@property int32_t gemPrice;
-@end
-
-@implementation ItemGemPriceProto
-
-- (BOOL) hasItemId {
-  return !!hasItemId_;
-}
-- (void) setHasItemId:(BOOL) value_ {
-  hasItemId_ = !!value_;
-}
-@synthesize itemId;
-- (BOOL) hasGemPrice {
-  return !!hasGemPrice_;
-}
-- (void) setHasGemPrice:(BOOL) value_ {
-  hasGemPrice_ = !!value_;
-}
-@synthesize gemPrice;
-- (id) init {
-  if ((self = [super init])) {
-    self.itemId = 0;
-    self.gemPrice = 0;
-  }
-  return self;
-}
-static ItemGemPriceProto* defaultItemGemPriceProtoInstance = nil;
-+ (void) initialize {
-  if (self == [ItemGemPriceProto class]) {
-    defaultItemGemPriceProtoInstance = [[ItemGemPriceProto alloc] init];
-  }
-}
-+ (ItemGemPriceProto*) defaultInstance {
-  return defaultItemGemPriceProtoInstance;
-}
-- (ItemGemPriceProto*) defaultInstance {
-  return defaultItemGemPriceProtoInstance;
-}
-- (BOOL) isInitialized {
-  return YES;
-}
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasItemId) {
-    [output writeInt32:1 value:self.itemId];
-  }
-  if (self.hasGemPrice) {
-    [output writeInt32:2 value:self.gemPrice];
-  }
-  [self.unknownFields writeToCodedOutputStream:output];
-}
-- (SInt32) serializedSize {
-  __block SInt32 size_ = memoizedSerializedSize;
-  if (size_ != -1) {
-    return size_;
-  }
-
-  size_ = 0;
-  if (self.hasItemId) {
-    size_ += computeInt32Size(1, self.itemId);
-  }
-  if (self.hasGemPrice) {
-    size_ += computeInt32Size(2, self.gemPrice);
-  }
-  size_ += self.unknownFields.serializedSize;
-  memoizedSerializedSize = size_;
-  return size_;
-}
-+ (ItemGemPriceProto*) parseFromData:(NSData*) data {
-  return (ItemGemPriceProto*)[[[ItemGemPriceProto builder] mergeFromData:data] build];
-}
-+ (ItemGemPriceProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (ItemGemPriceProto*)[[[ItemGemPriceProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
-}
-+ (ItemGemPriceProto*) parseFromInputStream:(NSInputStream*) input {
-  return (ItemGemPriceProto*)[[[ItemGemPriceProto builder] mergeFromInputStream:input] build];
-}
-+ (ItemGemPriceProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (ItemGemPriceProto*)[[[ItemGemPriceProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (ItemGemPriceProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (ItemGemPriceProto*)[[[ItemGemPriceProto builder] mergeFromCodedInputStream:input] build];
-}
-+ (ItemGemPriceProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (ItemGemPriceProto*)[[[ItemGemPriceProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (ItemGemPriceProto_Builder*) builder {
-  return [[ItemGemPriceProto_Builder alloc] init];
-}
-+ (ItemGemPriceProto_Builder*) builderWithPrototype:(ItemGemPriceProto*) prototype {
-  return [[ItemGemPriceProto builder] mergeFrom:prototype];
-}
-- (ItemGemPriceProto_Builder*) builder {
-  return [ItemGemPriceProto builder];
-}
-- (ItemGemPriceProto_Builder*) toBuilder {
-  return [ItemGemPriceProto builderWithPrototype:self];
-}
-- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
-  if (self.hasItemId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"itemId", [NSNumber numberWithInteger:self.itemId]];
-  }
-  if (self.hasGemPrice) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"gemPrice", [NSNumber numberWithInteger:self.gemPrice]];
-  }
-  [self.unknownFields writeDescriptionTo:output withIndent:indent];
-}
-- (BOOL) isEqual:(id)other {
-  if (other == self) {
-    return YES;
-  }
-  if (![other isKindOfClass:[ItemGemPriceProto class]]) {
-    return NO;
-  }
-  ItemGemPriceProto *otherMessage = other;
-  return
-      self.hasItemId == otherMessage.hasItemId &&
-      (!self.hasItemId || self.itemId == otherMessage.itemId) &&
-      self.hasGemPrice == otherMessage.hasGemPrice &&
-      (!self.hasGemPrice || self.gemPrice == otherMessage.gemPrice) &&
-      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
-}
-- (NSUInteger) hash {
-  __block NSUInteger hashCode = 7;
-  if (self.hasItemId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.itemId] hash];
-  }
-  if (self.hasGemPrice) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.gemPrice] hash];
-  }
-  hashCode = hashCode * 31 + [self.unknownFields hash];
-  return hashCode;
-}
-@end
-
-@interface ItemGemPriceProto_Builder()
-@property (strong) ItemGemPriceProto* result;
-@end
-
-@implementation ItemGemPriceProto_Builder
-@synthesize result;
-- (id) init {
-  if ((self = [super init])) {
-    self.result = [[ItemGemPriceProto alloc] init];
-  }
-  return self;
-}
-- (PBGeneratedMessage*) internalGetResult {
-  return result;
-}
-- (ItemGemPriceProto_Builder*) clear {
-  self.result = [[ItemGemPriceProto alloc] init];
-  return self;
-}
-- (ItemGemPriceProto_Builder*) clone {
-  return [ItemGemPriceProto builderWithPrototype:result];
-}
-- (ItemGemPriceProto*) defaultInstance {
-  return [ItemGemPriceProto defaultInstance];
-}
-- (ItemGemPriceProto*) build {
-  [self checkInitialized];
-  return [self buildPartial];
-}
-- (ItemGemPriceProto*) buildPartial {
-  ItemGemPriceProto* returnMe = result;
-  self.result = nil;
-  return returnMe;
-}
-- (ItemGemPriceProto_Builder*) mergeFrom:(ItemGemPriceProto*) other {
-  if (other == [ItemGemPriceProto defaultInstance]) {
-    return self;
-  }
-  if (other.hasItemId) {
-    [self setItemId:other.itemId];
-  }
-  if (other.hasGemPrice) {
-    [self setGemPrice:other.gemPrice];
-  }
-  [self mergeUnknownFields:other.unknownFields];
-  return self;
-}
-- (ItemGemPriceProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
-  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
-}
-- (ItemGemPriceProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
-  while (YES) {
-    SInt32 tag = [input readTag];
-    switch (tag) {
-      case 0:
-        [self setUnknownFields:[unknownFields build]];
-        return self;
-      default: {
-        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
-          [self setUnknownFields:[unknownFields build]];
-          return self;
-        }
-        break;
-      }
-      case 8: {
-        [self setItemId:[input readInt32]];
-        break;
-      }
-      case 16: {
-        [self setGemPrice:[input readInt32]];
-        break;
-      }
-    }
-  }
-}
-- (BOOL) hasItemId {
-  return result.hasItemId;
-}
-- (int32_t) itemId {
-  return result.itemId;
-}
-- (ItemGemPriceProto_Builder*) setItemId:(int32_t) value {
-  result.hasItemId = YES;
-  result.itemId = value;
-  return self;
-}
-- (ItemGemPriceProto_Builder*) clearItemId {
-  result.hasItemId = NO;
-  result.itemId = 0;
-  return self;
-}
-- (BOOL) hasGemPrice {
-  return result.hasGemPrice;
-}
-- (int32_t) gemPrice {
-  return result.gemPrice;
-}
-- (ItemGemPriceProto_Builder*) setGemPrice:(int32_t) value {
-  result.hasGemPrice = YES;
-  result.gemPrice = value;
-  return self;
-}
-- (ItemGemPriceProto_Builder*) clearGemPrice {
-  result.hasGemPrice = NO;
-  result.gemPrice = 0;
   return self;
 }
 @end
