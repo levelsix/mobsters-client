@@ -82,6 +82,7 @@
 
 - (void) displaySideEffectIcon:(NSString*)icon withKey:(NSString*)key;
 - (void) removeSideEffectIconWithKey:(NSString*)key;
+- (void) removeAllSideEffectIcons;
 
 @end
 

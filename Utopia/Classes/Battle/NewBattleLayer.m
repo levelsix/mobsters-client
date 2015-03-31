@@ -2567,8 +2567,9 @@
   [self.hudView removeDeployView];
   [self displayLootCounter:YES];
   BOOL isSwap = self.myPlayer != nil;
-  [self.myPlayer removeAllSkillSideEffects];
   if (bp && ![bp.userMonsterUuid isEqualToString:self.myPlayerObject.userMonsterUuid]) {
+    
+    [self.myPlayer removeAllSkillSideEffects];
     self.myPlayerObject = bp;
     
     if (bp.isClanMonster) {

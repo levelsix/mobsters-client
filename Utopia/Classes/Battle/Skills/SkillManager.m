@@ -12,6 +12,8 @@
 #import "SkillCakeDrop.h"
 #import "SkillBombs.h"
 #import "SkillControllerActive.h"
+#import "BattleHudView.h"
+#import "SkillSideEffect.h"
 
 @implementation SkillManager
 
@@ -662,6 +664,50 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   {
     [skill showCurrentSkillPopup];
   }
+}
+
+- (void)addSideEffectsToMonsterView:(MiniMonsterView *)monsterView forPlayer:(BattlePlayer *)player {
+  if ([_playerSkillController targetsPlayer:player])
+    [self addSideEffectsToMonsterView:monsterView fromSkill:_playerSkillController];
+  
+  if ([_enemySkillController targetsPlayer:player])
+    [self addSideEffectsToMonsterView:monsterView fromSkill:_enemySkillController];
+  
+  for (SkillController *skill in _persistentSkillControllers)
+    if ([skill targetsPlayer:player])
+      [self addSideEffectsToMonsterView:monsterView fromSkill:skill];
+}
+
+- (void)addSideEffectsToMonsterView:(MiniMonsterView *)monsterView fromSkill:(SkillController *)skill {
+  for (NSNumber *number in [skill sideEffects])
+  {
+    SideEffectType type = [number intValue];
+    SkillSideEffectProto *proto = [Globals protoForSkillSideEffectType:type];
+    if (proto) {
+      SkillSideEffect *side = [SkillSideEffect sideEffectWithProto:proto invokingSkill:skill.skillId];
+      if (side) {
+        [monsterView displaySideEffectIcon:side.iconImageName withKey:side.name];
+      }
+    }
+    
+  }
+}
+
+- (NSSet*)sideEffectsOnPlayer:(BattlePlayer *)player {
+  NSMutableSet *sides = [NSMutableSet set];
+  
+  if ([_playerSkillController targetsPlayer:player])
+    [sides unionSet:[_playerSkillController sideEffects]];
+  
+  if ([_enemySkillController targetsPlayer:player])
+    [sides unionSet:[_enemySkillController sideEffects]];
+  
+  for (SkillController *controller in _persistentSkillControllers)
+    if ([controller targetsPlayer:player])
+      [sides unionSet:[controller sideEffects]];
+  
+  return sides;
+  
 }
 
 #pragma mark - Specials

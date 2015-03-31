@@ -9,6 +9,7 @@
 #import "SynthesizeSingleton.h"
 #import "SkillController.h"
 #import "SkillBattleIndicatorView.h"
+#import "BattleHudView.h"
 
 #define skillManager [SkillManager sharedInstance]
 
@@ -85,6 +86,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS_HEADER(SkillManager);
 - (void) flushPersistentSkills;
 - (__weak NewBattleLayer*) battleLayer;
 - (void) playDamageLogos;
+
+- (void) addSideEffectsToMonsterView:(MiniMonsterView*)monsterView forPlayer:(BattlePlayer*)player;
+- (NSSet*) sideEffectsOnPlayer:(BattlePlayer*)player;
 
 
 @end

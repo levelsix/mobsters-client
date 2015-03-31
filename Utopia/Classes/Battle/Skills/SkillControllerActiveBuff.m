@@ -237,6 +237,11 @@
   }
 }
 
+- (BOOL)targetsPlayer:(BattlePlayer *)player
+{
+  return [_targets objectForKey:player.userMonsterUuid] != nil;
+}
+
 - (NSString*) currentTargetId
 {
   if ([self affectsOwner])

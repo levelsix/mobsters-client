@@ -257,6 +257,11 @@
   return [NSSet set];
 }
 
+- (BOOL)targetsPlayer:(BattlePlayer *)player
+{
+  return NO;
+}
+
 - (void) restoreVisualsIfNeeded
 {
 }
