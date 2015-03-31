@@ -133,8 +133,6 @@
 @class ChangeClanSettingsRequestProto_Builder;
 @class ChangeClanSettingsResponseProto;
 @class ChangeClanSettingsResponseProto_Builder;
-@class ChatTranslationsProto;
-@class ChatTranslationsProto_Builder;
 @class CityElementProto;
 @class CityElementProto_Builder;
 @class CityExpansionCostProto;
@@ -891,6 +889,7 @@ typedef NS_ENUM(SInt32, EventProtocolRequest) {
   EventProtocolRequestCCreateBattleItemEvent = 204,
   EventProtocolRequestCDiscardBattleItemEvent = 205,
   EventProtocolRequestCCompleteBattleItemEvent = 206,
+  EventProtocolRequestCTranslateSelectMessagesEvent = 207,
 };
 
 BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value);
@@ -1010,6 +1009,7 @@ typedef NS_ENUM(SInt32, EventProtocolResponse) {
   EventProtocolResponseSCreateBattleItemEvent = 204,
   EventProtocolResponseSDiscardBattleItemEvent = 205,
   EventProtocolResponseSCompleteBattleItemEvent = 206,
+  EventProtocolResponseSTranslateSelectMessagesEvent = 207,
 };
 
 BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value);

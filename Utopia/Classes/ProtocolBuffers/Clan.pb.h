@@ -12,8 +12,6 @@
 
 @class BattleItemFactoryProto;
 @class BattleItemFactoryProto_Builder;
-@class ChatTranslationsProto;
-@class ChatTranslationsProto_Builder;
 @class ClanDataProto;
 @class ClanDataProto_Builder;
 @class ClanHelpNoticeProto;
@@ -122,6 +120,10 @@
 @class PvpUserClanAvengeProto_Builder;
 @class ResearchHouseProto;
 @class ResearchHouseProto_Builder;
+@class ResearchPropertyProto;
+@class ResearchPropertyProto_Builder;
+@class ResearchProto;
+@class ResearchProto_Builder;
 @class ResidenceProto;
 @class ResidenceProto_Builder;
 @class ResourceGeneratorProto;
@@ -164,6 +166,8 @@
 @class UserPvpBoardObstacleProto_Builder;
 @class UserPvpLeagueProto;
 @class UserPvpLeagueProto_Builder;
+@class UserResearchProto;
+@class UserResearchProto_Builder;
 #ifndef __has_feature
   #define __has_feature(x) 0 // Compatibility with non-clang compilers.
 #endif // __has_feature

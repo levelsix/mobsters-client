@@ -10,8 +10,6 @@
 
 @class BattleItemFactoryProto;
 @class BattleItemFactoryProto_Builder;
-@class ChatTranslationsProto;
-@class ChatTranslationsProto_Builder;
 @class ClanHouseProto;
 @class ClanHouseProto_Builder;
 @class ClanMemberTeamDonationProto;

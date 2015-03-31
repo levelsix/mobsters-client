@@ -45,9 +45,10 @@ message SendGroupChatResponseProto {
 
 message ReceivedGroupChatResponseProto {
 	optional MinimumUserProtoWithLevel sender = 1;
-	optional string chatMessage = 2;
-	optional GroupChatScope scope = 3 [default = CLAN];
-	optional bool isAdmin = 4;
+	optional GroupChatScope scope = 2 [default = CLAN];
+	optional GroupChatMessageProto message = 3;
+	optional string chatMessage = 4 [deprecated = true];
+	optional bool isAdmin = 5 [deprecated = true];
 }
 
 //------------------------------------------------------------------------------------
@@ -83,6 +84,7 @@ message RetrievePrivateChatPostsRequestProto {
 	//if this is not set then return most recent ones
 	//switch to UUIDs makes this obsolete; consider date
 	optional int32 beforePrivateChatId = 3 [deprecated = true];
+	optional TranslateLanguages language = 4;
 	
 }
 
@@ -105,21 +107,22 @@ message RetrievePrivateChatPostsResponseProto {
 
 message TranslateSelectMessagesRequestProto {
 	optional MinimumUserProto sender = 1; //person receiving msgs
-	optional string otherUserUuid = 2;
-	optional TranslateLanguages language = 3;
-	repeated PrivateChatPostRequestProto messagesToBeTranslated = 4;
+	optional ChatType chatType = 2;
+	optional string otherUserUuid = 3;
+	optional TranslateLanguages language = 4;
+	repeated PrivateChatPostProto messagesToBeTranslated = 5;
 
 }
 
 message TranslateSelectMessagesResponseProto {
 	optional MinimumUserProto sender = 1;
-	optional string originalMessage = 2;
-	repeated TranslatedTextProto messagesTranslated = 3;
-	optional TranslateSelectMessagesStatus status = 4;
+	repeated PrivateChatPostProto messagesTranslated = 2;
+	optional TranslateSelectMessagesStatus status = 3;
 
 	enum TranslateSelectMessagesStatus {
 		FAIL_OTHER = 1;
-		SUCCESS = 2;
+		FAIL_NOT_VALID_LANGUAGE = 2;
+		SUCCESS = 3;
 	}
 }
 

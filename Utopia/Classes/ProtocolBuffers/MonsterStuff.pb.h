@@ -861,19 +861,23 @@ BOOL UserMonsterSnapshotProto_SnapshotTypeIsValidValue(UserMonsterSnapshotProto_
   BOOL hasMonsterLvl_:1;
   BOOL hasOffensiveSkillId_:1;
   BOOL hasDefensiveSkillId_:1;
+  BOOL hasTeamSlotNum_:1;
   int32_t monsterId;
   int32_t monsterLvl;
   int32_t offensiveSkillId;
   int32_t defensiveSkillId;
+  int32_t teamSlotNum;
 }
 - (BOOL) hasMonsterId;
 - (BOOL) hasMonsterLvl;
 - (BOOL) hasOffensiveSkillId;
 - (BOOL) hasDefensiveSkillId;
+- (BOOL) hasTeamSlotNum;
 @property (readonly) int32_t monsterId;
 @property (readonly) int32_t monsterLvl;
 @property (readonly) int32_t offensiveSkillId;
 @property (readonly) int32_t defensiveSkillId;
+@property (readonly) int32_t teamSlotNum;
 
 + (MinimumUserMonsterProto*) defaultInstance;
 - (MinimumUserMonsterProto*) defaultInstance;
@@ -929,6 +933,11 @@ BOOL UserMonsterSnapshotProto_SnapshotTypeIsValidValue(UserMonsterSnapshotProto_
 - (int32_t) defensiveSkillId;
 - (MinimumUserMonsterProto_Builder*) setDefensiveSkillId:(int32_t) value;
 - (MinimumUserMonsterProto_Builder*) clearDefensiveSkillId;
+
+- (BOOL) hasTeamSlotNum;
+- (int32_t) teamSlotNum;
+- (MinimumUserMonsterProto_Builder*) setTeamSlotNum:(int32_t) value;
+- (MinimumUserMonsterProto_Builder*) clearTeamSlotNum;
 @end
 
 @interface UserMonsterHealingProto : PBGeneratedMessage {

@@ -24,27 +24,24 @@ static PBExtensionRegistry* extensionRegistry = nil;
 BOOL ResearchTypeIsValidValue(ResearchType value) {
   switch (value) {
     case ResearchTypeNoResearch:
-    case ResearchTypeCost:
-    case ResearchTypeSpeed:
-    case ResearchTypeIncreaseQueueSize:
-    case ResearchTypeIncreaseNumCanBuild:
+    case ResearchTypeHpIncrease:
+    case ResearchTypeAttackIncrease:
+    case ResearchTypeSpeedIncrease:
+    case ResearchTypeHealingCost:
+    case ResearchTypeHealingSpeed:
+    case ResearchTypeEnhanceCost:
+    case ResearchTypeDecreaseEnhanceTime:
     case ResearchTypeXpBonus:
-    case ResearchTypeIncreaseConstructionTime:
-    case ResearchTypeIncreaseCashProduction:
-    case ResearchTypeIncreaseOilProduction:
-    case ResearchTypeIncreaseGemProduction:
-    case ResearchTypeIncreaseAttack:
-    case ResearchTypeIncreaseHp:
-    case ResearchTypeMinorPotion:
-    case ResearchTypeUnlockChillAntidote:
-    case ResearchTypeUnlockPoisonAntidote:
-    case ResearchTypeUnlockLollipopHammer:
-    case ResearchTypeUnlockPutty:
-    case ResearchTypeUnlockShuffle:
-    case ResearchTypeUnlockClouds:
-    case ResearchTypeUnlockLocks:
-    case ResearchTypeUnlockHoles:
-    case ResearchTypeUnlockVines:
+    case ResearchTypeIncreaseHospitalQueue:
+    case ResearchTypeIncreaseEnhanceQueue:
+    case ResearchTypeNumberOfHospitals:
+    case ResearchTypeIncreaseConstructionSpeed:
+    case ResearchTypeItemProductionSpeed:
+    case ResearchTypeItemProductionCost:
+    case ResearchTypeResourceProduction:
+    case ResearchTypeResourceStorage:
+    case ResearchTypeUnlockItem:
+    case ResearchTypeUnlockObstacle:
       return YES;
     default:
       return NO;

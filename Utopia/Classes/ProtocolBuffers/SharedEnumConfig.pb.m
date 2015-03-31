@@ -89,6 +89,8 @@ BOOL GameTypeIsValidValue(GameType value) {
     case GameTypeResearch:
     case GameTypeSkill:
     case GameTypeTask:
+    case GameTypeBattleItem:
+    case GameTypeBoardObstacle:
       return YES;
     default:
       return NO;
