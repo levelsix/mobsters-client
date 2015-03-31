@@ -71,9 +71,8 @@
 
 - (id<StaticStructure>) maxStaticStruct;
 - (float) barPercentWithNumerator:(float)num Denominator:(float)denom useSqrt:(BOOL)useSqrt usePow:(BOOL)usePow;
-- (int) numPrereqs;
-- (BOOL) prereqCompleteForIndex:(int)index;
-- (PrereqProto *) prereqForIndex:(int)index;
+- (NSArray *) prereqs;
+- (NSString *) statChangeWith:(float)curStat prevStat:(float)prevStat suffix:(NSString *)suffix;
 - (NSString *) statChangeStringWith:(float)curStat nextStat:(float)nextStat suffix:(NSString *)suffix;
   
 @end

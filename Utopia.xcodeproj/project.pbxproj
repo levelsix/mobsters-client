@@ -1426,6 +1426,9 @@
 		632C3EBC1AC622290096FCFF /* DetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 632C3EB81AC622290096FCFF /* DetailViewController.xib */; };
 		632C3EBD1AC622290096FCFF /* DetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 632C3EB81AC622290096FCFF /* DetailViewController.xib */; };
 		632C3EBE1AC622290096FCFF /* DetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 632C3EB81AC622290096FCFF /* DetailViewController.xib */; };
+		632C3EC51AC623000096FCFF /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 632C3EC41AC623000096FCFF /* DetailViewController.m */; };
+		632C3EC61AC623000096FCFF /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 632C3EC41AC623000096FCFF /* DetailViewController.m */; };
+		632C3EC71AC623000096FCFF /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 632C3EC41AC623000096FCFF /* DetailViewController.m */; };
 		634174681A843521006DA494 /* avengebutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 634174581A843521006DA494 /* avengebutton@2x.png */; };
 		634174691A843521006DA494 /* avengebutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 634174581A843521006DA494 /* avengebutton@2x.png */; };
 		6341746A1A843521006DA494 /* avengebutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 634174581A843521006DA494 /* avengebutton@2x.png */; };
@@ -7999,6 +8002,8 @@
 		632C3EA91AC4C5B20096FCFF /* DetailsPrereqView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailsPrereqView.xib; sourceTree = "<group>"; };
 		632C3EB71AC622290096FCFF /* DetailViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailViewCell.xib; sourceTree = "<group>"; };
 		632C3EB81AC622290096FCFF /* DetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailViewController.xib; sourceTree = "<group>"; };
+		632C3EC31AC623000096FCFF /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
+		632C3EC41AC623000096FCFF /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		634174581A843521006DA494 /* avengebutton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "avengebutton@2x.png"; sourceTree = "<group>"; };
 		634174591A843521006DA494 /* greenchatcorner@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greenchatcorner@2x.png"; sourceTree = "<group>"; };
 		6341745A1A843521006DA494 /* greenchatdivider@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greenchatdivider@2x.png"; sourceTree = "<group>"; };
@@ -13483,6 +13488,8 @@
 		632C3EB51AC621C80096FCFF /* DetailsView */ = {
 			isa = PBXGroup;
 			children = (
+				632C3EC31AC623000096FCFF /* DetailViewController.h */,
+				632C3EC41AC623000096FCFF /* DetailViewController.m */,
 				632C3EB71AC622290096FCFF /* DetailViewCell.xib */,
 				632C3EB81AC622290096FCFF /* DetailViewController.xib */,
 			);
@@ -25041,6 +25048,7 @@
 				9BB9485A1A674935006EE920 /* NewGachaTicker.m in Sources */,
 				CFA9F7CD1A0DA0F900EBE77D /* ItemUtil.m in Sources */,
 				9BB5AF9A1AA7B6AA002076E3 /* BoardDesignerObstacleView.m in Sources */,
+				632C3EC61AC623000096FCFF /* DetailViewController.m in Sources */,
 				CF0CEDB2196F452900ECD301 /* RewardsView.m in Sources */,
 				CF0CEDB3196F452900ECD301 /* EnhanceQueueViewController.m in Sources */,
 				CF0CEDB4196F452900ECD301 /* AMQPConnectionThread.m in Sources */,
@@ -25175,6 +25183,7 @@
 				CFFD311E18503E880091E315 /* UpgradeViewController.m in Sources */,
 				CF864DD0193E802300DE0D7A /* MessageComposerView.m in Sources */,
 				CF7063FA183EF991005B30A1 /* StaticStructure.m in Sources */,
+				632C3EC51AC623000096FCFF /* DetailViewController.m in Sources */,
 				DA07606019B129EC00E43E5A /* SkillManager.m in Sources */,
 				632C3E971AC3867E0096FCFF /* StructureController.m in Sources */,
 				CFF5DC05194FCA160019EB2B /* ProfileViews.m in Sources */,
@@ -25780,6 +25789,7 @@
 				CF48195C19F7217F00041486 /* EventReferral.pb.m in Sources */,
 				9BB9485B1A674935006EE920 /* NewGachaTicker.m in Sources */,
 				CFA9F7CE1A0DA0F900EBE77D /* ItemUtil.m in Sources */,
+				632C3EC71AC623000096FCFF /* DetailViewController.m in Sources */,
 				9BB5AF9B1AA7B6AA002076E3 /* BoardDesignerObstacleView.m in Sources */,
 				CF48196119F7217F00041486 /* RewardsView.m in Sources */,
 				CF48196219F7217F00041486 /* EnhanceQueueViewController.m in Sources */,

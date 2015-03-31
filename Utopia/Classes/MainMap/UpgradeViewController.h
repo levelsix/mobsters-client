@@ -66,8 +66,8 @@
 //@property (nonatomic, assign) IBOutlet SplitImageProgressBar *statCurrentBar2;
 
 @property (nonatomic, assign) IBOutlet UIView *cityHallUnlocksView;
-@property (nonatomic, assign) IBOutlet UILabel *cityHallUnlocksLabel;
-@property (nonatomic, assign) IBOutlet UIScrollView *cityHallUnlocksScrollView;
+//@property (nonatomic, assign) IBOutlet UILabel *cityHallUnlocksLabel;
+//@property (nonatomic, assign) IBOutlet UIScrollView *cityHallUnlocksScrollView;
 @property (nonatomic, retain) IBOutlet UIView *nibUnlocksView;
 @property (nonatomic, assign) IBOutlet UIImageView *nibUnlocksLabelBgd;
 @property (nonatomic, assign) IBOutlet UILabel *nibUnlocksLabel;

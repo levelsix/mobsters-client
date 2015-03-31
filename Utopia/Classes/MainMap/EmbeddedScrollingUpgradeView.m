@@ -14,9 +14,10 @@
 #define REQUIREMENTS_TITLE @"REQUIREMENTS"
 #define IMPROVEMENTS_TITLE @"IMPROVEMENTS"
 #define STRENGTH_TITLE @"STRENGTH"
+#define UNLOCKS_TITLE @"UNLOCKS"
 
-#define VIEW_BUFFER 5
-
+#define VIEW_BUFFER 10
+#define START_BUFFER 27
 
 
 @implementation DetailsPrereqView
@@ -41,13 +42,18 @@
 @implementation DetailsProgressBarView
 
 - (void) updateWithDetailName:(NSString *) name description:(NSString *)description curAmount:(float)curAmount nextAmount:(float)nextAmount {
-  self.detailName.text = name;
+  self.detailName.text = [NSString stringWithFormat:@"%@:",name];
   self.increaseDescription.text = description;
   self.backBar.percentage = nextAmount;
   self.frontBar.percentage = curAmount;
   
   CGSize textSize = [self.increaseDescription.text getSizeWithFont:self.increaseDescription.font];
   self.buttonView.origin =  CGPointMake(self.increaseDescription.origin.x + textSize.width + 3, self.buttonView.origin.y);
+}
+
+- (IBAction)detailsClicked:(id)sender {
+  DetailsProgressBarView *dpbv = [self getAncestorInViewHierarchyOfType:[DetailsProgressBarView class]];
+  [self.delegate detailsClicked:(int)dpbv.tag];
 }
 
 @end
@@ -65,8 +71,8 @@
 
 @implementation DetailsStrengthView
 
-- (void) updateWithStrenght:(int)strength {
-  self.strengthLabel.text = [NSString stringWithFormat:@"+%d",strength];
+- (void) updateWithStrenght:(int)strength showPlus:(BOOL)showPlus{
+  self.strengthLabel.text = [NSString stringWithFormat:@"%@%d",showPlus ? @"+":@"",strength];
 }
 
 @end
@@ -79,22 +85,69 @@
   _curY += newView.height + VIEW_BUFFER;
 }
 
-- (void) updateForGameTypeProto:(id<GameTypeProto>)gameProto {
-//  id<StaticStructure> staticStruct = userStruct.staticStruct;
+- (void) updateForTownHall:(id<GameTypeProto>)gameProto {
+  _curY = START_BUFFER;
   
-  _curY = VIEW_BUFFER*3;
   for (UIView *subview in self.contentView.subviews) {
     [subview removeFromSuperview];
   }
   
   UIView *newestView;
   
-  if (gameProto.numPrereqs > 0) {
+  NSArray *prereqs = [gameProto prereqs];
+  
+  if (prereqs.count > 0) {
     newestView = [self makeTitleWithTitle:REQUIREMENTS_TITLE];
     [self addToScrollViewWithView:newestView];
     
-    for(int i = 0; i < gameProto.numPrereqs; i++) {
-      newestView = [self makePrereqViewWithPrereq:[gameProto prereqForIndex:i]];
+    for(int i = 0; i < prereqs.count; i++) {
+      newestView = [self makePrereqViewWithPrereq:prereqs[i]];
+      [self addToScrollViewWithView:newestView];
+    }
+  }
+  
+  newestView = [self makeTitleWithTitle:UNLOCKS_TITLE];
+  [self addToScrollViewWithView:newestView];
+  
+  if (self.townHallUnlocksView) {
+    [self addToScrollViewWithView:self.townHallUnlocksView];
+    
+    //special case, this view should be centered
+    CGPoint center = self.townHallUnlocksView.center;
+    center.x = self.scrollView.width /2.f;
+    self.townHallUnlocksView.center = center;
+  }
+  
+  newestView = [self makeTitleWithTitle:STRENGTH_TITLE];
+  [self addToScrollViewWithView:newestView];
+  
+  newestView = [self makeStrengthDetailsViewWithStrength:gameProto.strength showPlus:!!gameProto.successor];
+  [self addToScrollViewWithView:newestView];
+  
+  _curY += 21;
+  
+  self.contentView.size = CGSizeMake(self.contentView.size.width, _curY);
+  self.scrollView.contentSize = self.contentView.frame.size;
+}
+
+- (void) updateForGameTypeProto:(id<GameTypeProto>)gameProto {
+//  id<StaticStructure> staticStruct = userStruct.staticStruct;
+  
+  _curY = START_BUFFER;
+  for (UIView *subview in self.contentView.subviews) {
+    [subview removeFromSuperview];
+  }
+  
+  UIView *newestView;
+  
+  NSArray *prereqs = [gameProto prereqs];
+  
+  if (prereqs.count > 0) {
+    newestView = [self makeTitleWithTitle:REQUIREMENTS_TITLE];
+    [self addToScrollViewWithView:newestView];
+    
+    for(int i = 0; i < prereqs.count; i++) {
+      newestView = [self makePrereqViewWithPrereq:prereqs[i]];
       [self addToScrollViewWithView:newestView];
     }
   }
@@ -104,9 +157,10 @@
     [self addToScrollViewWithView:newestView];
     for (int i = 0; i < [gameProto numBars]; i++) {
       newestView = [self makeDetailsProgressBarViewWithDetailName:[gameProto statNameForIndex:i]
-                                                      description:[gameProto statChangeForIndex:i]
+                                                      description:[gameProto longStatChangeForIndex:i]
                                                         curAmount:[gameProto curBarPercentForIndex:i]
                                                        nextAmount:[gameProto nextBarPercentForIndex:i]];
+      newestView.tag = i;
       [self addToScrollViewWithView:newestView];
     }
   }
@@ -114,10 +168,10 @@
   newestView = [self makeTitleWithTitle:STRENGTH_TITLE];
   [self addToScrollViewWithView:newestView];
   
-  newestView = [self makeStrengthDetailsViewWithStrength:[gameProto strength]];
+  newestView = [self makeStrengthDetailsViewWithStrength:[gameProto strength] showPlus:!!gameProto.successor];
   [self addToScrollViewWithView:newestView];
   
-  _curY += VIEW_BUFFER * 2;
+  _curY += 21;
   
   self.contentView.size = CGSizeMake(self.contentView.size.width, _curY);
   self.scrollView.contentSize = self.contentView.frame.size;
@@ -140,17 +194,22 @@
 - (DetailsProgressBarView *) makeDetailsProgressBarViewWithDetailName:(NSString *) name description:(NSString *)description curAmount:(float)curAmount nextAmount:(float)nextAmount {
   DetailsProgressBarView *dpbv = [[NSBundle mainBundle] loadNibNamed:@"DetailsProgressBarView" owner:nil options:nil][0];
   [dpbv updateWithDetailName:name description:description curAmount:curAmount nextAmount:nextAmount];
+  dpbv.delegate = self;
   return dpbv;
 }
 
-- (DetailsStrengthView *) makeStrengthDetailsViewWithStrength:(int)strength {
+- (DetailsStrengthView *) makeStrengthDetailsViewWithStrength:(int)strength showPlus:(BOOL)showPlus{
   DetailsStrengthView *sdv = [[NSBundle mainBundle] loadNibNamed:@"DetailsStrengthView" owner:nil options:nil][0];
-  [sdv updateWithStrenght:strength];
+  [sdv updateWithStrenght:strength showPlus:showPlus];
   return sdv;
 }
 
 - (void) goClicked:(int)prereqId {
   [self.delegate goClicked:prereqId];
+}
+
+- (void) detailsClicked:(int)index {
+  [self.delegate detailsClicked:index];
 }
 
 @end

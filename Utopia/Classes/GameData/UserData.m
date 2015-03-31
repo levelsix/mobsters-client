@@ -761,15 +761,7 @@
 }
 
 - (NSArray *) allStaticStructs {
-  GameState *gs = [GameState sharedGameState];
-  NSMutableArray *arr = [NSMutableArray array];
-  int curId = self.baseStructId;
-  while (curId) {
-    id<StaticStructure> ss = [gs structWithId:curId];
-    [arr addObject:ss];
-    curId = ss.structInfo.successorStructId;
-  }
-  return arr;
+  return self.staticStruct.fullFamilyList;
 }
 
 - (id<StaticStructure>) staticStructForFbLevel {
@@ -935,14 +927,7 @@
 #pragma mark - Prerequisites
 
 - (NSArray *) allPrerequisites {
-  GameState *gs = [GameState sharedGameState];
-  NSArray *arr = [gs prerequisitesForGameType:GameTypeStructure gameEntityId:self.staticStruct.structInfo.successorStructId];
-  
-  arr = [arr sortedArrayUsingComparator:^NSComparisonResult(PrereqProto *obj1, PrereqProto *obj2) {
-    return [@(obj1.prereqId) compare:@(obj2.prereqId)];
-  }];
-  
-  return arr;
+  return self.staticStruct.structInfo.prereqs;
 }
 
 - (NSArray *) incompletePrerequisites {

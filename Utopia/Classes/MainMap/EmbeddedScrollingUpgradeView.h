@@ -7,10 +7,12 @@
 //
 
 #import "NibUtils.h"
+#import "DetailViewController.h"
 
 @protocol EmbeddedDelegate <NSObject>
 
 - (void) goClicked:(int)prereqId;
+- (void) detailsClicked:(int)index;
 
 @end
 
@@ -30,6 +32,8 @@
 
 @property (nonatomic, assign) IBOutlet SplitImageProgressBar *frontBar;
 @property (nonatomic, assign) IBOutlet SplitImageProgressBar *backBar;
+
+@property (nonatomic, assign) IBOutlet id<EmbeddedDelegate> delegate;
 
 @end
 
@@ -52,8 +56,11 @@
 @property (nonatomic, assign) IBOutlet UIScrollView *scrollView;
 @property (nonatomic, assign) IBOutlet UIView *contentView;
 
+@property (nonatomic, retain) UIView *townHallUnlocksView;
+
 @property (nonatomic, assign) IBOutlet id<EmbeddedDelegate> delegate;
 
 - (void) updateForGameTypeProto:(id<GameTypeProto>)gameProto;
+- (void) updateForTownHall:(id<GameTypeProto>)gameProto;
 
 @end

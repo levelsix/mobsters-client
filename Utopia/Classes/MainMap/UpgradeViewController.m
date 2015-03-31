@@ -25,7 +25,7 @@
 }
 
 - (IBAction)goClicked:(id)sender {
-  [self.delegate goClicked:self];
+  //[self.delegate goClicked:self];
 }
 
 @end
@@ -97,6 +97,8 @@
     [self.embeddedScrollView updateForGameTypeProto:us.staticStruct];
   } else {
     [self loadCityHallUnlocksViewForUserStruct:us];
+    self.embeddedScrollView.townHallUnlocksView = self.cityHallUnlocksView;
+    [self.embeddedScrollView updateForTownHall:us.staticStruct];
   }
 }
 
@@ -146,14 +148,14 @@
 }
 
 #define UNLOCK_VIEW_SPACING 7
-#define NUM_PER_ROW 4
+#define NUM_PER_ROW 5
 
 - (void) loadCityHallUnlocksViewForUserStruct:(UserStruct *)us {
   Globals *gl = [Globals sharedGlobals];
   TownHallProto *curSS = (TownHallProto *)us.staticStruct;
   TownHallProto *nextSS = (TownHallProto *)us.staticStructForNextLevel;
   
-  self.cityHallUnlocksLabel.text = [NSString stringWithFormat:@"Level %d %@ Unlocks", curSS.structInfo.level+1, curSS.structInfo.name];
+//  self.cityHallUnlocksLabel.text = [NSString stringWithFormat:@"Level %d %@ Unlocks", curSS.structInfo.level+1, curSS.structInfo.name];
   
   // Find new buildings, then find buildings that increase in quantity, then level
   NSMutableArray *unlockViews = [NSMutableArray array];
@@ -185,12 +187,12 @@
     float y = (i/NUM_PER_ROW)*(v.frame.size.height+UNLOCK_VIEW_SPACING)+v.frame.size.height/2;
     v.center = ccp(x, y);
     
-    [self.cityHallUnlocksScrollView addSubview:v];
+    [self.cityHallUnlocksView addSubview:v];
     
     maxY = y+v.frame.size.height/2+UNLOCK_VIEW_SPACING;
   }
   
-  self.cityHallUnlocksScrollView.contentSize = CGSizeMake(self.cityHallUnlocksScrollView.frame.size.width, maxY);
+  self.cityHallUnlocksView.size = CGSizeMake(self.cityHallUnlocksView.frame.size.width, maxY);
 }
 
 - (UIView *) unlockViewWithImageName:(NSString *)imgName text:(NSString *)text useBigTextBgd:(BOOL)bigTextBgd {
@@ -280,6 +282,16 @@
       [self closeClicked:nil];
     }
   }
+}
+
+- (void) detailsClicked:(int)index {
+  DetailViewController *dvc = [[DetailViewController alloc] initWithGameTypeProto:_userStruct.staticStruct index:index imageNamed:_userStruct.staticStruct.structInfo.imgName columnName:@"LVL"];
+  
+  self.upgradeView.hidden = YES;
+  [self.upgradeView.superview addSubview:dvc.view];
+  dvc.view.frame = self.upgradeView.frame;
+  
+  [self addChildViewController:dvc];
 }
 
 - (IBAction) closeClicked:(id)sender {

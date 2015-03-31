@@ -13,14 +13,20 @@
 - (int) numBars;
 - (NSString *) statNameForIndex:(int)index;
 - (NSString *) statSuffixForIndex:(int)index;
-- (NSString *) statChangeForIndex:(int)index;
+- (NSString *) shortStatChangeForIndex:(int)index;
+- (NSString *) longStatChangeForIndex:(int)index;
 
 - (float) curBarPercentForIndex:(int)index;
 - (float) nextBarPercentForIndex:(int)index;
 
 - (int) strength;
-- (int) numPrereqs;
-- (BOOL) prereqCompleteForIndex:(int)index;
-- (PrereqProto *) prereqForIndex:(int)index;
+- (NSArray *) prereqs;
+
+- (int) rank;
+- (int) totalRanks;
+- (NSString *) name;
+- (id<GameTypeProto>) predecessor;
+- (id<GameTypeProto>) successor;
+- (NSArray *) fullFamilyList;
 
 @end

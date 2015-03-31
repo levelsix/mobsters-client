@@ -8,15 +8,29 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="bQS-k9-BXR" customClass="DetailsPrereqView">
-            <rect key="frame" x="0.0" y="0.0" width="235" height="20"/>
+            <rect key="frame" x="0.0" y="0.0" width="260" height="20"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="center" image="requirementmet.png" highlightedImage="requirementfailed.png" id="nZn-sy-mzV">
-                    <rect key="frame" x="2" y="6" width="10" height="8"/>
+                    <rect key="frame" x="1" y="6" width="10" height="8"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Requires:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="FZT-eu-hnB" customClass="NiceFontLabel9">
+                    <rect key="frame" x="15" y="0.0" width="50" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                    <color key="textColor" red="0.2627450980392157" green="0.2627450980392157" blue="0.2627450980392157" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="highlightedColor" red="0.8980392814" green="0.0039215688589999999" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LVL 2 Command Center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="MVd-Sc-7Sg" customClass="NiceFontLabel9">
+                    <rect key="frame" x="92" y="0.0" width="135" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                    <color key="textColor" red="0.33725490196078434" green="0.62352941176470589" blue="0.16078431372549021" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="highlightedColor" red="0.8980392814" green="0.0039215688589999999" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
+                </label>
                 <view contentMode="scaleToFill" id="TDo-eK-Z8h">
-                    <rect key="frame" x="199" y="-1" width="31" height="22"/>
+                    <rect key="frame" x="229" y="-1" width="31" height="22"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="usB-rd-fs5" customClass="GeneralButton">
@@ -31,7 +45,7 @@
                         </button>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="GO" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="d8p-Am-U9z" customClass="NiceFontLabel12">
                             <rect key="frame" x="1" y="0.0" width="29" height="21"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="8"/>
                             <color key="textColor" red="0.23921568630000001" green="0.44705882349999998" blue="0.0039215686269999999" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
@@ -41,20 +55,6 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Requires" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="FZT-eu-hnB" customClass="NiceFontLabel9">
-                    <rect key="frame" x="15" y="0.0" width="50" height="21"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
-                    <color key="textColor" red="0.2627450980392157" green="0.2627450980392157" blue="0.2627450980392157" alpha="1" colorSpace="calibratedRGB"/>
-                    <color key="highlightedColor" red="0.8980392814" green="0.0039215688589999999" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
-                </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LVL 2 Command Center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="MVd-Sc-7Sg" customClass="NiceFontLabel9">
-                    <rect key="frame" x="73" y="0.0" width="118" height="21"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
-                    <color key="textColor" red="0.33725490196078434" green="0.62352941176470589" blue="0.16078431372549021" alpha="1" colorSpace="calibratedRGB"/>
-                    <color key="highlightedColor" red="0.8980392814" green="0.0039215688589999999" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
-                </label>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <nil key="simulatedStatusBarMetrics"/>
@@ -64,7 +64,7 @@
                 <outlet property="goButton" destination="usB-rd-fs5" id="j4p-hf-jDZ"/>
                 <outlet property="prereqLabel" destination="MVd-Sc-7Sg" id="6ng-vj-yhk"/>
             </connections>
-            <point key="canvasLocation" x="906.5" y="658"/>
+            <point key="canvasLocation" x="383" y="410"/>
         </view>
     </objects>
     <resources>
