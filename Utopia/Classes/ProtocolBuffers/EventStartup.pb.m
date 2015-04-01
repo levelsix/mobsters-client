@@ -3063,6 +3063,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property int32_t taskIdOfFirstSkill;
 @property int32_t minsToResolicitTeamDonation;
 @property (strong) NSMutableArray * mutableFileDownloadProtoList;
+@property int32_t taskIdForUpgradeTutorial;
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -3332,6 +3333,13 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @synthesize minsToResolicitTeamDonation;
 @synthesize mutableFileDownloadProtoList;
 @dynamic fileDownloadProtoList;
+- (BOOL) hasTaskIdForUpgradeTutorial {
+  return !!hasTaskIdForUpgradeTutorial_;
+}
+- (void) setHasTaskIdForUpgradeTutorial:(BOOL) value_ {
+  hasTaskIdForUpgradeTutorial_ = !!value_;
+}
+@synthesize taskIdForUpgradeTutorial;
 - (id) init {
   if ((self = [super init])) {
     self.maxLevelForUser = 0;
@@ -3368,6 +3376,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.displayRarity = NO;
     self.taskIdOfFirstSkill = 0;
     self.minsToResolicitTeamDonation = 0;
+    self.taskIdForUpgradeTutorial = 0;
   }
   return self;
 }
@@ -3543,6 +3552,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   [self.fileDownloadProtoList enumerateObjectsUsingBlock:^(StartupResponseProto_StartupConstants_FileDownloadConstantProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:40 value:element];
   }];
+  if (self.hasTaskIdForUpgradeTutorial) {
+    [output writeInt32:41 value:self.taskIdForUpgradeTutorial];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -3672,6 +3684,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   [self.fileDownloadProtoList enumerateObjectsUsingBlock:^(StartupResponseProto_StartupConstants_FileDownloadConstantProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(40, element);
   }];
+  if (self.hasTaskIdForUpgradeTutorial) {
+    size_ += computeInt32Size(41, self.taskIdForUpgradeTutorial);
+  }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
   return size_;
@@ -3872,6 +3887,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }];
+  if (self.hasTaskIdForUpgradeTutorial) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"taskIdForUpgradeTutorial", [NSNumber numberWithInteger:self.taskIdForUpgradeTutorial]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -3957,6 +3975,8 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
       self.hasMinsToResolicitTeamDonation == otherMessage.hasMinsToResolicitTeamDonation &&
       (!self.hasMinsToResolicitTeamDonation || self.minsToResolicitTeamDonation == otherMessage.minsToResolicitTeamDonation) &&
       [self.fileDownloadProtoList isEqualToArray:otherMessage.fileDownloadProtoList] &&
+      self.hasTaskIdForUpgradeTutorial == otherMessage.hasTaskIdForUpgradeTutorial &&
+      (!self.hasTaskIdForUpgradeTutorial || self.taskIdForUpgradeTutorial == otherMessage.taskIdForUpgradeTutorial) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -4081,6 +4101,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   [self.fileDownloadProtoList enumerateObjectsUsingBlock:^(StartupResponseProto_StartupConstants_FileDownloadConstantProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
+  if (self.hasTaskIdForUpgradeTutorial) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.taskIdForUpgradeTutorial] hash];
+  }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
@@ -8638,6 +8661,9 @@ static StartupResponseProto_StartupConstants_FileDownloadConstantProto* defaultS
       [result.mutableFileDownloadProtoList addObjectsFromArray:other.mutableFileDownloadProtoList];
     }
   }
+  if (other.hasTaskIdForUpgradeTutorial) {
+    [self setTaskIdForUpgradeTutorial:other.taskIdForUpgradeTutorial];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -8874,6 +8900,10 @@ static StartupResponseProto_StartupConstants_FileDownloadConstantProto* defaultS
         StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder* subBuilder = [StartupResponseProto_StartupConstants_FileDownloadConstantProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addFileDownloadProto:[subBuilder buildPartial]];
+        break;
+      }
+      case 328: {
+        [self setTaskIdForUpgradeTutorial:[input readInt32]];
         break;
       }
     }
@@ -9691,6 +9721,22 @@ static StartupResponseProto_StartupConstants_FileDownloadConstantProto* defaultS
 }
 - (StartupResponseProto_StartupConstants_Builder *)clearFileDownloadProto {
   result.mutableFileDownloadProtoList = nil;
+  return self;
+}
+- (BOOL) hasTaskIdForUpgradeTutorial {
+  return result.hasTaskIdForUpgradeTutorial;
+}
+- (int32_t) taskIdForUpgradeTutorial {
+  return result.taskIdForUpgradeTutorial;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setTaskIdForUpgradeTutorial:(int32_t) value {
+  result.hasTaskIdForUpgradeTutorial = YES;
+  result.taskIdForUpgradeTutorial = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearTaskIdForUpgradeTutorial {
+  result.hasTaskIdForUpgradeTutorial = NO;
+  result.taskIdForUpgradeTutorial = 0;
   return self;
 }
 @end

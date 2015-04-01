@@ -457,12 +457,12 @@ BOOL DiscardBattleItemResponseProto_DiscardBattleItemStatusIsValidValue(DiscardB
 @private
   BOOL hasSender_:1;
   MinimumUserProto* sender;
-  NSMutableArray * mutableDiscardedBattleItemsList;
+  PBAppendableArray * mutableDiscardedBattleItemIdsList;
 }
 - (BOOL) hasSender;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly, strong) NSArray * discardedBattleItemsList;
-- (UserBattleItemProto*)discardedBattleItemsAtIndex:(NSUInteger)index;
+@property (readonly, strong) PBArray * discardedBattleItemIdsList;
+- (int32_t)discardedBattleItemIdsAtIndex:(NSUInteger)index;
 
 + (DiscardBattleItemRequestProto*) defaultInstance;
 - (DiscardBattleItemRequestProto*) defaultInstance;
@@ -506,11 +506,12 @@ BOOL DiscardBattleItemResponseProto_DiscardBattleItemStatusIsValidValue(DiscardB
 - (DiscardBattleItemRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (DiscardBattleItemRequestProto_Builder*) clearSender;
 
-- (NSMutableArray *)discardedBattleItemsList;
-- (UserBattleItemProto*)discardedBattleItemsAtIndex:(NSUInteger)index;
-- (DiscardBattleItemRequestProto_Builder *)addDiscardedBattleItems:(UserBattleItemProto*)value;
-- (DiscardBattleItemRequestProto_Builder *)addAllDiscardedBattleItems:(NSArray *)array;
-- (DiscardBattleItemRequestProto_Builder *)clearDiscardedBattleItems;
+- (PBAppendableArray *)discardedBattleItemIdsList;
+- (int32_t)discardedBattleItemIdsAtIndex:(NSUInteger)index;
+- (DiscardBattleItemRequestProto_Builder *)addDiscardedBattleItemIds:(int32_t)value;
+- (DiscardBattleItemRequestProto_Builder *)addAllDiscardedBattleItemIds:(NSArray *)array;
+- (DiscardBattleItemRequestProto_Builder *)setDiscardedBattleItemIdsValues:(const int32_t *)values count:(NSUInteger)count;
+- (DiscardBattleItemRequestProto_Builder *)clearDiscardedBattleItemIds;
 @end
 
 @interface DiscardBattleItemResponseProto : PBGeneratedMessage {
