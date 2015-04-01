@@ -11,6 +11,8 @@
                 <outlet property="clanBadgeIcon" destination="3lP-rt-9fe" id="oSz-Rp-Nzt"/>
                 <outlet property="clanChatView" destination="eIq-PW-faH" id="g9Q-fA-2og"/>
                 <outlet property="containerView" destination="Han-uB-4S1" id="K3P-u1-WDi"/>
+                <outlet property="flagButton" destination="Vdu-ZQ-C7L" id="6Zd-6V-LAr"/>
+                <outlet property="flagCheckImage" destination="fc9-8o-SgO" id="Dfe-nG-H7s"/>
                 <outlet property="globalChatView" destination="Han-uB-4S1" id="ruG-60-cRk"/>
                 <outlet property="mainView" destination="K57-Ib-b86" id="VRJ-AI-xwm"/>
                 <outlet property="popoverView" destination="pfc-Vl-jbC" id="I2S-un-lXq"/>
@@ -126,21 +128,44 @@
                                             <rect key="frame" x="0.0" y="0.0" width="56" height="29"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="maptaskdonebg.png" id="N5B-65-lMB">
-                                            <rect key="frame" x="35" y="7" width="15" height="15"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </imageView>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="maptaskdonecheck.png" id="fc9-8o-SgO">
-                                            <rect key="frame" x="32" y="6" width="20" height="18"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </imageView>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Vdu-ZQ-C7L">
-                                            <rect key="frame" x="5" y="5" width="25" height="19"/>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Vdu-ZQ-C7L" userLabel="FlagButton">
+                                            <rect key="frame" x="4" y="5" width="25" height="19"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" image="englishflag.png">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
+                                            <connections>
+                                                <action selector="topFlagClicked:" destination="-1" eventType="touchUpInside" id="sBD-J7-kJ5"/>
+                                            </connections>
                                         </button>
+                                        <view contentMode="scaleToFill" id="MMR-ed-IeX" userLabel="CheckBoxView">
+                                            <rect key="frame" x="34" y="6" width="20" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <subviews>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="maptaskdonebg.png" id="N5B-65-lMB">
+                                                    <rect key="frame" x="2" y="2" width="15" height="15"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </imageView>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="maptaskdonecheck.png" id="fc9-8o-SgO">
+                                                    <rect key="frame" x="0.0" y="0.0" width="20" height="18"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </imageView>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Y11-W2-ldw" userLabel="CheckButton">
+                                                    <rect key="frame" x="0.0" y="0.0" width="20" height="18"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <state key="normal">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="topCheckClicked:" destination="-1" eventType="touchUpInside" id="RAV-hI-xIg"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                        </view>
+                                        <activityIndicatorView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="white" id="jwA-aR-Otm">
+                                            <rect key="frame" x="33" y="5" width="20" height="20"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                        </activityIndicatorView>
                                     </subviews>
                                 </view>
                                 <view contentMode="scaleToFill" id="eXa-Ou-uhP" customClass="ButtonTabBar">
@@ -452,6 +477,7 @@
                                         <outlet property="bottomView" destination="fck-TC-Vtx" id="CQc-ok-KBM"/>
                                         <outlet property="chatTable" destination="vgn-HL-6qP" id="71L-NH-loh"/>
                                         <outlet property="delegate" destination="-1" id="GTe-MS-11N"/>
+                                        <outlet property="languageSelectorView" destination="jo8-Ux-jma" id="458-UI-qSZ"/>
                                         <outlet property="monsterView" destination="BJg-MG-dmm" id="0kA-B3-Qsz"/>
                                         <outlet property="popoverView" destination="pfc-Vl-jbC" id="k5Z-Vv-oNE"/>
                                         <outlet property="textField" destination="Wp2-ML-0ur" id="WLz-dx-7wL"/>
@@ -1055,6 +1081,7 @@
                 <outlet property="defensiveLogTabButton" destination="V7I-ZQ-HVP" id="0Do-Dd-lS4"/>
                 <outlet property="delegate" destination="-1" id="1RT-nK-bbr"/>
                 <outlet property="emptyListLabel" destination="TP2-Wx-Cu3" id="ifT-2U-XpL"/>
+                <outlet property="languageSelectorView" destination="jo8-Ux-jma" id="1po-hS-fGI"/>
                 <outlet property="listTable" destination="91u-54-NEq" id="nTs-hY-bsJ"/>
                 <outlet property="monsterView" destination="71V-gC-Y3m" id="xwc-PP-nFZ"/>
                 <outlet property="offensiveLogTabButton" destination="JdZ-dN-w3T" id="0P3-8n-w5w"/>
@@ -1205,6 +1232,16 @@
                             <rect key="frame" x="0.0" y="0.0" width="226" height="1"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="EXA-6v-Sxf" userLabel="CheckMarkButton">
+                            <rect key="frame" x="4" y="5" width="20" height="18"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="checkMarkClicked:" destination="jo8-Ux-jma" eventType="touchUpInside" id="61L-y8-Ksf"/>
+                            </connections>
+                        </button>
                     </subviews>
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GLOBAL CHAT LANGUAGE PREFERENCE:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="HHp-De-Ie7">
@@ -1224,6 +1261,9 @@
                             <state key="normal" image="englishflag.png">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
+                            <connections>
+                                <action selector="flagClicked:" destination="jo8-Ux-jma" eventType="touchUpInside" id="WJj-l4-xRj"/>
+                            </connections>
                         </button>
                         <button opaque="NO" alpha="0.39999999999999963" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="H3T-HR-xnB" userLabel="arabic">
                             <rect key="frame" x="93" y="9" width="31" height="21"/>
@@ -1231,6 +1271,9 @@
                             <state key="normal" image="flag2.png">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
+                            <connections>
+                                <action selector="flagClicked:" destination="jo8-Ux-jma" eventType="touchUpInside" id="a51-5Y-xcD"/>
+                            </connections>
                         </button>
                         <button opaque="NO" alpha="0.39999999999999963" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="YQX-f9-Elu" userLabel="vietnamese">
                             <rect key="frame" x="171" y="9" width="31" height="21"/>
@@ -1238,6 +1281,9 @@
                             <state key="normal" image="flag3.png">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
+                            <connections>
+                                <action selector="flagClicked:" destination="jo8-Ux-jma" eventType="touchUpInside" id="OaH-JC-6ly"/>
+                            </connections>
                         </button>
                         <button opaque="NO" alpha="0.39999999999999963" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="UY0-qo-5Yq" userLabel="french">
                             <rect key="frame" x="132" y="9" width="31" height="21"/>
@@ -1245,6 +1291,9 @@
                             <state key="normal" image="flag4.png">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
+                            <connections>
+                                <action selector="flagClicked:" destination="jo8-Ux-jma" eventType="touchUpInside" id="0l2-Bc-fLs"/>
+                            </connections>
                         </button>
                         <button opaque="NO" alpha="0.39999999999999963" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="L5a-1c-rwI" userLabel="chinese">
                             <rect key="frame" x="54" y="9" width="31" height="21"/>
@@ -1252,6 +1301,9 @@
                             <state key="normal" image="flag5.png">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
+                            <connections>
+                                <action selector="flagClicked:" destination="jo8-Ux-jma" eventType="touchUpInside" id="8Bi-zV-CBP"/>
+                            </connections>
                         </button>
                         <button opaque="NO" alpha="0.39999999999999963" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Uig-GS-sC0" userLabel="swedish">
                             <rect key="frame" x="210" y="9" width="31" height="21"/>
@@ -1259,6 +1311,9 @@
                             <state key="normal" image="flag6.png">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
+                            <connections>
+                                <action selector="flagClicked:" destination="jo8-Ux-jma" eventType="touchUpInside" id="EcQ-EW-G3I"/>
+                            </connections>
                         </button>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="activelanguageflag.png" id="tlE-VE-eqg">
                             <rect key="frame" x="12" y="7" width="36" height="26"/>
@@ -1271,6 +1326,8 @@
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
+                <outlet property="checkMark" destination="2bX-V9-Cds" id="bEJ-cX-4te"/>
+                <outlet property="selectBox" destination="tlE-VE-eqg" id="esK-48-rPv"/>
                 <outletCollection property="flagButtons" destination="gmu-Ok-EcM" id="Yqw-tx-Mol"/>
                 <outletCollection property="flagButtons" destination="H3T-HR-xnB" id="zGh-W7-eCk"/>
                 <outletCollection property="flagButtons" destination="YQX-f9-Elu" id="JH0-0z-W0G"/>

@@ -27,7 +27,7 @@
 
 @end
 
-@interface ChatViewController : UIViewController <TabBarDelegate, UITextFieldDelegate, TeamDonateMonstersFillerDelegate> {
+@interface ChatViewController : UIViewController <TabBarDelegate, UITextFieldDelegate, TeamDonateMonstersFillerDelegate, ChatViewDelegate> {
   BOOL _passedThreshold;
   
   NSString *_muteUserUuid;
@@ -50,6 +50,9 @@
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
 @property (nonatomic, retain) IBOutlet ChatPopoverView *popoverView;
+
+@property (weak, nonatomic) IBOutlet UIButton *flagButton;
+@property (weak, nonatomic) IBOutlet UIImageView *flagCheckImage;
 
 @property (nonatomic, retain) NSTimer *updateTimer;
 
