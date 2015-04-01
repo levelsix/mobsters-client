@@ -326,18 +326,14 @@ BOOL RedeemMiniEventRewardResponseProto_RedeemMiniEventRewardStatusIsValidValue(
 @interface UpdateMiniEventResponseProto : PBGeneratedMessage {
 @private
   BOOL hasSender_:1;
-  BOOL hasUpdatedUserMiniEvent_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  UserMiniEventProto* updatedUserMiniEvent;
   UpdateMiniEventResponseProto_UpdateMiniEventStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-- (BOOL) hasUpdatedUserMiniEvent;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) UpdateMiniEventResponseProto_UpdateMiniEventStatus status;
-@property (readonly, strong) UserMiniEventProto* updatedUserMiniEvent;
 
 + (UpdateMiniEventResponseProto*) defaultInstance;
 - (UpdateMiniEventResponseProto*) defaultInstance;
@@ -385,13 +381,6 @@ BOOL RedeemMiniEventRewardResponseProto_RedeemMiniEventRewardStatusIsValidValue(
 - (UpdateMiniEventResponseProto_UpdateMiniEventStatus) status;
 - (UpdateMiniEventResponseProto_Builder*) setStatus:(UpdateMiniEventResponseProto_UpdateMiniEventStatus) value;
 - (UpdateMiniEventResponseProto_Builder*) clearStatusList;
-
-- (BOOL) hasUpdatedUserMiniEvent;
-- (UserMiniEventProto*) updatedUserMiniEvent;
-- (UpdateMiniEventResponseProto_Builder*) setUpdatedUserMiniEvent:(UserMiniEventProto*) value;
-- (UpdateMiniEventResponseProto_Builder*) setUpdatedUserMiniEvent_Builder:(UserMiniEventProto_Builder*) builderForValue;
-- (UpdateMiniEventResponseProto_Builder*) mergeUpdatedUserMiniEvent:(UserMiniEventProto*) value;
-- (UpdateMiniEventResponseProto_Builder*) clearUpdatedUserMiniEvent;
 @end
 
 @interface RedeemMiniEventRewardRequestProto : PBGeneratedMessage {

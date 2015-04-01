@@ -70,7 +70,7 @@
 #endif
 
 typedef NS_ENUM(SInt32, BattleItemType) {
-  BattleItemTypeMinorPotion = 1,
+  BattleItemTypeHealingPotion = 1,
   BattleItemTypeChillAntidote = 2,
   BattleItemTypePoisonAntidote = 3,
   BattleItemTypeOrbHammer = 4,

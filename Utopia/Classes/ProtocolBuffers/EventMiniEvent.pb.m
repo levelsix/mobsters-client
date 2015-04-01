@@ -882,7 +882,6 @@ static UpdateMiniEventRequestProto* defaultUpdateMiniEventRequestProtoInstance =
 @interface UpdateMiniEventResponseProto ()
 @property (strong) MinimumUserProto* sender;
 @property UpdateMiniEventResponseProto_UpdateMiniEventStatus status;
-@property (strong) UserMiniEventProto* updatedUserMiniEvent;
 @end
 
 @implementation UpdateMiniEventResponseProto
@@ -901,18 +900,10 @@ static UpdateMiniEventRequestProto* defaultUpdateMiniEventRequestProtoInstance =
   hasStatus_ = !!value_;
 }
 @synthesize status;
-- (BOOL) hasUpdatedUserMiniEvent {
-  return !!hasUpdatedUserMiniEvent_;
-}
-- (void) setHasUpdatedUserMiniEvent:(BOOL) value_ {
-  hasUpdatedUserMiniEvent_ = !!value_;
-}
-@synthesize updatedUserMiniEvent;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.status = UpdateMiniEventResponseProto_UpdateMiniEventStatusSuccess;
-    self.updatedUserMiniEvent = [UserMiniEventProto defaultInstance];
   }
   return self;
 }
@@ -938,9 +929,6 @@ static UpdateMiniEventResponseProto* defaultUpdateMiniEventResponseProtoInstance
   if (self.hasStatus) {
     [output writeEnum:2 value:self.status];
   }
-  if (self.hasUpdatedUserMiniEvent) {
-    [output writeMessage:3 value:self.updatedUserMiniEvent];
-  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -955,9 +943,6 @@ static UpdateMiniEventResponseProto* defaultUpdateMiniEventResponseProtoInstance
   }
   if (self.hasStatus) {
     size_ += computeEnumSize(2, self.status);
-  }
-  if (self.hasUpdatedUserMiniEvent) {
-    size_ += computeMessageSize(3, self.updatedUserMiniEvent);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -1003,12 +988,6 @@ static UpdateMiniEventResponseProto* defaultUpdateMiniEventResponseProtoInstance
   if (self.hasStatus) {
     [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
-  if (self.hasUpdatedUserMiniEvent) {
-    [output appendFormat:@"%@%@ {\n", indent, @"updatedUserMiniEvent"];
-    [self.updatedUserMiniEvent writeDescriptionTo:output
-                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
-    [output appendFormat:@"%@}\n", indent];
-  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -1024,8 +1003,6 @@ static UpdateMiniEventResponseProto* defaultUpdateMiniEventResponseProtoInstance
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
       self.hasStatus == otherMessage.hasStatus &&
       (!self.hasStatus || self.status == otherMessage.status) &&
-      self.hasUpdatedUserMiniEvent == otherMessage.hasUpdatedUserMiniEvent &&
-      (!self.hasUpdatedUserMiniEvent || [self.updatedUserMiniEvent isEqual:otherMessage.updatedUserMiniEvent]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -1035,9 +1012,6 @@ static UpdateMiniEventResponseProto* defaultUpdateMiniEventResponseProtoInstance
   }
   if (self.hasStatus) {
     hashCode = hashCode * 31 + self.status;
-  }
-  if (self.hasUpdatedUserMiniEvent) {
-    hashCode = hashCode * 31 + [self.updatedUserMiniEvent hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -1097,9 +1071,6 @@ BOOL UpdateMiniEventResponseProto_UpdateMiniEventStatusIsValidValue(UpdateMiniEv
   if (other.hasStatus) {
     [self setStatus:other.status];
   }
-  if (other.hasUpdatedUserMiniEvent) {
-    [self mergeUpdatedUserMiniEvent:other.updatedUserMiniEvent];
-  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -1137,15 +1108,6 @@ BOOL UpdateMiniEventResponseProto_UpdateMiniEventStatusIsValidValue(UpdateMiniEv
         } else {
           [unknownFields mergeVarintField:2 value:value];
         }
-        break;
-      }
-      case 26: {
-        UserMiniEventProto_Builder* subBuilder = [UserMiniEventProto builder];
-        if (self.hasUpdatedUserMiniEvent) {
-          [subBuilder mergeFrom:self.updatedUserMiniEvent];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setUpdatedUserMiniEvent:[subBuilder buildPartial]];
         break;
       }
     }
@@ -1195,36 +1157,6 @@ BOOL UpdateMiniEventResponseProto_UpdateMiniEventStatusIsValidValue(UpdateMiniEv
 - (UpdateMiniEventResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = UpdateMiniEventResponseProto_UpdateMiniEventStatusSuccess;
-  return self;
-}
-- (BOOL) hasUpdatedUserMiniEvent {
-  return result.hasUpdatedUserMiniEvent;
-}
-- (UserMiniEventProto*) updatedUserMiniEvent {
-  return result.updatedUserMiniEvent;
-}
-- (UpdateMiniEventResponseProto_Builder*) setUpdatedUserMiniEvent:(UserMiniEventProto*) value {
-  result.hasUpdatedUserMiniEvent = YES;
-  result.updatedUserMiniEvent = value;
-  return self;
-}
-- (UpdateMiniEventResponseProto_Builder*) setUpdatedUserMiniEvent_Builder:(UserMiniEventProto_Builder*) builderForValue {
-  return [self setUpdatedUserMiniEvent:[builderForValue build]];
-}
-- (UpdateMiniEventResponseProto_Builder*) mergeUpdatedUserMiniEvent:(UserMiniEventProto*) value {
-  if (result.hasUpdatedUserMiniEvent &&
-      result.updatedUserMiniEvent != [UserMiniEventProto defaultInstance]) {
-    result.updatedUserMiniEvent =
-      [[[UserMiniEventProto builderWithPrototype:result.updatedUserMiniEvent] mergeFrom:value] buildPartial];
-  } else {
-    result.updatedUserMiniEvent = value;
-  }
-  result.hasUpdatedUserMiniEvent = YES;
-  return self;
-}
-- (UpdateMiniEventResponseProto_Builder*) clearUpdatedUserMiniEvent {
-  result.hasUpdatedUserMiniEvent = NO;
-  result.updatedUserMiniEvent = [UserMiniEventProto defaultInstance];
   return self;
 }
 @end
