@@ -261,6 +261,7 @@
   self.globalChatView.hidden = NO;
   self.clanChatView.hidden = YES;
   self.privateChatView.hidden = YES;
+  self.flagButton.superview.hidden = NO;
   [self.popoverView close];
   [self.monsterSelectViewController closeClicked:nil];
   
@@ -276,6 +277,7 @@
   self.globalChatView.hidden = YES;
   self.clanChatView.hidden = NO;
   self.privateChatView.hidden = YES;
+  self.flagButton.superview.hidden = YES;
   [self.popoverView close];
   [self.monsterSelectViewController closeClicked:nil];
   
@@ -293,6 +295,7 @@
   self.globalChatView.hidden = YES;
   self.clanChatView.hidden = YES;
   self.privateChatView.hidden = NO;
+  self.flagButton.superview.hidden = NO;
   [self.popoverView close];
   [self.monsterSelectViewController closeClicked:nil];
   

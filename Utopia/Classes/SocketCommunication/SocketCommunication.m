@@ -984,12 +984,13 @@ static NSString *udid = nil;
 }
 
 - (int) sendTranslateSelectMessages:(NSString *)otherUserUuid language:(TranslateLanguages)language messages:(NSArray *)messages chatType:(ChatType)chatType{
-  TranslateSelectMessagesRequestProto *req = [[[[[[TranslateSelectMessagesRequestProto builder]
-                                                  setSender:_sender]
-                                                 setOtherUserUuid:otherUserUuid]
-                                                setLanguage:language]
-                                               addAllMessagesToBeTranslated:messages]
-                                              setChatType:chatType];
+  TranslateSelectMessagesRequestProto *req = [[[[[[[TranslateSelectMessagesRequestProto builder]
+                                                   setSender:_sender]
+                                                  setOtherUserUuid:otherUserUuid]
+                                                 setLanguage:language]
+                                                addAllMessagesToBeTranslated:messages]
+                                               setChatType:chatType]
+                                              build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCTranslateSelectMessagesEvent];
 }
