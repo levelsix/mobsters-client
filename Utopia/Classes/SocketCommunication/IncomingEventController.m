@@ -516,9 +516,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     gs.myPvpBoardObstacles = [proto.userPvpBoardObstaclesList mutableCopy];
 
-    if (proto.hasUserMiniEvent) {
-      [[MiniEventManager sharedInstance] handleUserMiniEventReceivedOnStartup:proto.userMiniEvent];
-    }
+    [[MiniEventManager sharedInstance] handleUserMiniEventReceivedOnStartup:proto.hasUserMiniEvent ? proto.userMiniEvent : nil];
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     if([defaults boolForKey:[Globals userConfimredPushNotificationsKey]]) {

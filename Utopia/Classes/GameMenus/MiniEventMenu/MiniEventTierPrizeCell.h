@@ -12,10 +12,11 @@
 
 @interface MiniEventTierPrizeCell : UITableViewCell
 
+@property (nonatomic, retain) IBOutlet UIView* containerView;
 @property (nonatomic, retain) IBOutlet UIImageView* prizeIcon;
 @property (nonatomic, retain) IBOutlet UILabel* prizeName;
 @property (nonatomic, retain) IBOutlet UILabel* prizeCount;
 
-- (BOOL) updateForReward:(RewardProto*)rewardProto;
+- (BOOL) updateForReward:(RewardProto*)rewardProto useItemShortName:(BOOL)useItemShortName;
 
 @end
