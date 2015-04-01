@@ -156,6 +156,8 @@
 @property (nonatomic, retain) UserEnhancement *userEnhancement;
 @property (nonatomic, retain) UserEvolution *userEvolution;
 
+@property (nonatomic, assign) TranslateLanguages globalLanguage;
+
 + (GameState *) sharedGameState;
 + (void) purgeSingleton;
 

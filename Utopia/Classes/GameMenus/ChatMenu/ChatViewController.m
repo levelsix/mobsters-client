@@ -526,4 +526,36 @@
   self.teamDonateMonstersFiller = nil;
 }
 
+#pragma mark - Language Selector
+
+- (IBAction)topFlagClicked:(id)sender {
+  UIButton *buttonClicked = (UIButton *)sender;
+  CGPoint openPoint = CGPointMake(buttonClicked.center.x, buttonClicked.center.y + (buttonClicked.size.height/2.f));
+  
+  if(!self.globalChatView.hidden) {
+    self.globalChatView.languageSelectorView.delegate = self.globalChatView;
+    [self.globalChatView.languageSelectorView openAtPoint:openPoint];
+  } else if(!self.privateChatView.hidden) {
+    self.privateChatView.languageSelectorView.delegate = self.privateChatView;
+    [self.privateChatView.languageSelectorView openAtPoint:openPoint];
+  }
+}
+
+- (IBAction)topCheckClicked:(id)sender {
+  if(self.flagCheckImage.hidden) {
+    self.flagCheckImage.hidden = NO;
+    //activate translations in the correct chatView
+  } else {
+    self.flagCheckImage.hidden = YES;
+  }
+}
+
+- (void) lockLanguageButtonWithFlag:(NSString *)flagImageName {
+  
+}
+
+- (void) unlockLanguageButton {
+  
+}
+
 @end
