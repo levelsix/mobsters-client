@@ -107,6 +107,8 @@
 @class TeamCenterProto_Builder;
 @class TownHallProto;
 @class TownHallProto_Builder;
+@class TranslatedTextProto;
+@class TranslatedTextProto_Builder;
 @class TutorialStructProto;
 @class TutorialStructProto_Builder;
 @class UserCurrentMonsterTeamProto;
@@ -961,6 +963,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
   BOOL hasOilReward_:1;
   BOOL hasCharImgVertPixelOffset_:1;
   BOOL hasCharImgHorizPixelOffset_:1;
+  BOOL hasStrength_:1;
   BOOL hasBossImgName_:1;
   BOOL hasSectionName_:1;
   BOOL hasCharacterImgName_:1;
@@ -977,6 +980,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
   int32_t oilReward;
   int32_t charImgVertPixelOffset;
   int32_t charImgHorizPixelOffset;
+  int32_t strength;
   NSString* bossImgName;
   NSString* sectionName;
   NSString* characterImgName;
@@ -998,6 +1002,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (BOOL) hasCharImgHorizPixelOffset;
 - (BOOL) hasCharImgScaleFactor;
 - (BOOL) hasIsFake;
+- (BOOL) hasStrength;
 @property (readonly) int32_t mapElementId;
 @property (readonly) int32_t taskId;
 @property (readonly) int32_t xPos;
@@ -1014,6 +1019,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 @property (readonly) int32_t charImgHorizPixelOffset;
 @property (readonly) Float32 charImgScaleFactor;
 - (BOOL) isFake;
+@property (readonly) int32_t strength;
 
 + (TaskMapElementProto*) defaultInstance;
 - (TaskMapElementProto*) defaultInstance;
@@ -1129,6 +1135,11 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (BOOL) isFake;
 - (TaskMapElementProto_Builder*) setIsFake:(BOOL) value;
 - (TaskMapElementProto_Builder*) clearIsFake;
+
+- (BOOL) hasStrength;
+- (int32_t) strength;
+- (TaskMapElementProto_Builder*) setStrength:(int32_t) value;
+- (TaskMapElementProto_Builder*) clearStrength;
 @end
 
 

@@ -714,6 +714,12 @@
 @class TransferClanOwnershipRequestProto_Builder;
 @class TransferClanOwnershipResponseProto;
 @class TransferClanOwnershipResponseProto_Builder;
+@class TranslateSelectMessagesRequestProto;
+@class TranslateSelectMessagesRequestProto_Builder;
+@class TranslateSelectMessagesResponseProto;
+@class TranslateSelectMessagesResponseProto_Builder;
+@class TranslatedTextProto;
+@class TranslatedTextProto_Builder;
 @class TutorialStructProto;
 @class TutorialStructProto_Builder;
 @class UnrestrictUserMonsterRequestProto;
@@ -923,6 +929,7 @@ typedef NS_ENUM(SInt32, EventProtocolRequest) {
   EventProtocolRequestCRedeemMiniEventRewardEvent = 207,
   EventProtocolRequestCRetrieveMiniEventEvent = 208,
   EventProtocolRequestCUpdateMiniEventEvent = 209,
+  EventProtocolRequestCTranslateSelectMessagesEvent = 210,
 };
 
 BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value);
@@ -1045,6 +1052,7 @@ typedef NS_ENUM(SInt32, EventProtocolResponse) {
   EventProtocolResponseSRedeemMiniEventRewardEvent = 207,
   EventProtocolResponseSRetrieveMiniEventEvent = 208,
   EventProtocolResponseSUpdateMiniEventEvent = 209,
+  EventProtocolResponseSTranslateSelectMessagesEvent = 210,
 };
 
 BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value);
