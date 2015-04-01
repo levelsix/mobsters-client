@@ -448,10 +448,10 @@
                                         <outlet property="bgdIcon" destination="Aty-OC-3g4" id="YdP-ae-yRc"/>
                                         <outlet property="evoBadge" destination="A0G-6E-h9g" id="nQx-aW-uyb"/>
                                         <outlet property="monsterIcon" destination="kWO-Mf-t9Q" id="Ymr-MT-Imt"/>
-                                        <outletCollection property="sideEffectViews" destination="0h7-0F-QeE" id="dba-gv-SXn"/>
-                                        <outletCollection property="sideEffectViews" destination="wvl-Ae-9qp" id="cz2-Sl-M9p"/>
-                                        <outletCollection property="sideEffectViews" destination="mD1-eG-WWZ" id="lms-QX-LGi"/>
-                                        <outletCollection property="sideEffectViews" destination="wcE-yn-EaA" id="5hd-Pr-pWr"/>
+                                        <outletCollection property="sideEffectViews" destination="0h7-0F-QeE" id="s4v-Dn-w7a"/>
+                                        <outletCollection property="sideEffectViews" destination="wvl-Ae-9qp" id="Nzw-ni-nQz"/>
+                                        <outletCollection property="sideEffectViews" destination="mD1-eG-WWZ" id="uvB-qC-z5g"/>
+                                        <outletCollection property="sideEffectViews" destination="wcE-yn-EaA" id="9CC-iG-Ug6"/>
                                     </connections>
                                 </view>
                             </subviews>
