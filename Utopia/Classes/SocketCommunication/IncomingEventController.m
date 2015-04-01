@@ -517,6 +517,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     for (PrivateChatPostProto *pcpp in proto.pcppList) {
       [gs addPrivateChat:pcpp];
     }
+    
+    gs.globalLanguage = proto.userDefaultLanguages.globalDefaultLanguage;
+    for(PrivateChatDefaultLanguageProto *pcdl in proto.userDefaultLanguages.privateDefaultLanguageList) {
+      [gs.privateChatLanguages setObject:pcdl.privateChatPostUuid forKey:@(pcdl.defaultLanguage)];
+    }
+    
     [gs updateClanData:proto.clanData];
     
     gs.battleHistory = [proto.recentNbattlesList mutableCopy];

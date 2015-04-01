@@ -181,7 +181,7 @@
     
     for (ChatCell *cell in self.chatTable.visibleCells) {
       id<ChatObject> co = self.chats[[self.chatTable indexPathForCell:cell].row];
-      [co updateInChatCell:cell showsClanTag:[self showsClanTag]];
+      [co updateInChatCell:cell showsClanTag:[self showsClanTag] language:];
     }
     
     if (self.chatTable.contentOffset.y > self.chatTable.contentSize.height-self.chatTable.frame.size.height-100) {
@@ -356,7 +356,7 @@
 
 - (void) handleTranslateSelectMessagesResponseProto:(FullEvent *)fe {
   TranslateSelectMessagesResponseProto *proto = (TranslateSelectMessagesResponseProto *)fe;
-  
+  [self.chatTable reloadData];
   [self.delegate unlockLanguageButton];
 }
 
