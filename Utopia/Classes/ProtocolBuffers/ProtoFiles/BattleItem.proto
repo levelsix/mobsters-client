@@ -1,10 +1,6 @@
 //ALL REQUEST PROTOS SHOULD INCLUDE A MinimumUserProto AS optional that represents which client sent it/triggered it 
 //DO NO START PROPERTY METHODS WITH THE WORDS NEW OR COPY
 
-<<<<<<< HEAD
-=======
-//import "SharedEnumConfig.proto";
->>>>>>> proto updates
 import "Structure.proto";
 
 package com.lvl6.proto;
@@ -44,7 +40,7 @@ message BattleItemProto {
 //------------------------------------------------------------------------------------------
 
 enum BattleItemType {
-	HEALING_POTION = 1;
+	MINOR_POTION = 1;
 	CHILL_ANTIDOTE = 2;
 	POISON_ANTIDOTE = 3;
 	ORB_HAMMER = 4;

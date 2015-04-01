@@ -6,10 +6,10 @@
 #import "User.pb.h"
 // @@protoc_insertion_point(imports)
 
+@class ChatTranslationsProto;
+@class ChatTranslationsProto_Builder;
 @class ColorProto;
 @class ColorProto_Builder;
-@class DefaultLanguagesProto;
-@class DefaultLanguagesProto_Builder;
 @class FullUserProto;
 @class FullUserProto_Builder;
 @class GeneralNotificationResponseProto;
@@ -26,8 +26,6 @@
 @class MinimumUserProtoWithMaxResources;
 @class MinimumUserProtoWithMaxResources_Builder;
 @class MinimumUserProto_Builder;
-@class PrivateChatDefaultLanguageProto;
-@class PrivateChatDefaultLanguageProto_Builder;
 @class PrivateChatPostProto;
 @class PrivateChatPostProto_Builder;
 @class PrivateChatPostRequestProto;
@@ -774,20 +772,16 @@ BOOL TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusIsValidVa
 @private
   BOOL hasOtherUserUuid_:1;
   BOOL hasSender_:1;
-  BOOL hasChatType_:1;
   BOOL hasLanguage_:1;
   NSString* otherUserUuid;
   MinimumUserProto* sender;
-  ChatType chatType;
   TranslateLanguages language;
   NSMutableArray * mutableMessagesToBeTranslatedList;
 }
 - (BOOL) hasSender;
-- (BOOL) hasChatType;
 - (BOOL) hasOtherUserUuid;
 - (BOOL) hasLanguage;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) ChatType chatType;
 @property (readonly, strong) NSString* otherUserUuid;
 @property (readonly) TranslateLanguages language;
 @property (readonly, strong) NSArray * messagesToBeTranslatedList;
@@ -835,11 +829,6 @@ BOOL TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusIsValidVa
 - (TranslateSelectMessagesRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (TranslateSelectMessagesRequestProto_Builder*) clearSender;
 
-- (BOOL) hasChatType;
-- (ChatType) chatType;
-- (TranslateSelectMessagesRequestProto_Builder*) setChatType:(ChatType) value;
-- (TranslateSelectMessagesRequestProto_Builder*) clearChatTypeList;
-
 - (BOOL) hasOtherUserUuid;
 - (NSString*) otherUserUuid;
 - (TranslateSelectMessagesRequestProto_Builder*) setOtherUserUuid:(NSString*) value;
@@ -863,14 +852,17 @@ BOOL TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusIsValidVa
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
   TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatus status;
+  NSMutableArray * mutableOriginalMessagesList;
   NSMutableArray * mutableMessagesTranslatedList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) NSArray * originalMessagesList;
 @property (readonly, strong) NSArray * messagesTranslatedList;
 @property (readonly) TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatus status;
-- (PrivateChatPostProto*)messagesTranslatedAtIndex:(NSUInteger)index;
+- (NSString*)originalMessagesAtIndex:(NSUInteger)index;
+- (TranslatedTextProto*)messagesTranslatedAtIndex:(NSUInteger)index;
 
 + (TranslateSelectMessagesResponseProto*) defaultInstance;
 - (TranslateSelectMessagesResponseProto*) defaultInstance;
@@ -914,9 +906,15 @@ BOOL TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusIsValidVa
 - (TranslateSelectMessagesResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (TranslateSelectMessagesResponseProto_Builder*) clearSender;
 
+- (NSMutableArray *)originalMessagesList;
+- (NSString*)originalMessagesAtIndex:(NSUInteger)index;
+- (TranslateSelectMessagesResponseProto_Builder *)addOriginalMessages:(NSString*)value;
+- (TranslateSelectMessagesResponseProto_Builder *)addAllOriginalMessages:(NSArray *)array;
+- (TranslateSelectMessagesResponseProto_Builder *)clearOriginalMessages;
+
 - (NSMutableArray *)messagesTranslatedList;
-- (PrivateChatPostProto*)messagesTranslatedAtIndex:(NSUInteger)index;
-- (TranslateSelectMessagesResponseProto_Builder *)addMessagesTranslated:(PrivateChatPostProto*)value;
+- (TranslatedTextProto*)messagesTranslatedAtIndex:(NSUInteger)index;
+- (TranslateSelectMessagesResponseProto_Builder *)addMessagesTranslated:(TranslatedTextProto*)value;
 - (TranslateSelectMessagesResponseProto_Builder *)addAllMessagesTranslated:(NSArray *)array;
 - (TranslateSelectMessagesResponseProto_Builder *)clearMessagesTranslated;
 

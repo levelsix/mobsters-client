@@ -23,7 +23,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 
 BOOL BattleItemTypeIsValidValue(BattleItemType value) {
   switch (value) {
-    case BattleItemTypeHealingPotion:
+    case BattleItemTypeMinorPotion:
     case BattleItemTypeChillAntidote:
     case BattleItemTypePoisonAntidote:
     case BattleItemTypeOrbHammer:
@@ -497,7 +497,7 @@ static UserBattleItemProto* defaultUserBattleItemProtoInstance = nil;
     self.battleItemId = 0;
     self.name = @"";
     self.imgName = @"";
-    self.battleItemType = BattleItemTypeHealingPotion;
+    self.battleItemType = BattleItemTypeMinorPotion;
     self.battleItemCategory = BattleItemCategoryPotion;
     self.createResourceType = ResourceTypeNoResource;
     self.createCost = 0;
@@ -1001,7 +1001,7 @@ static BattleItemProto* defaultBattleItemProtoInstance = nil;
 }
 - (BattleItemProto_Builder*) clearBattleItemTypeList {
   result.hasBattleItemType = NO;
-  result.battleItemType = BattleItemTypeHealingPotion;
+  result.battleItemType = BattleItemTypeMinorPotion;
   return self;
 }
 - (BOOL) hasBattleItemCategory {

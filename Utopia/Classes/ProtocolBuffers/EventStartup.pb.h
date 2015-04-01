@@ -11,6 +11,7 @@
 #import "Clan.pb.h"
 #import "InAppPurchase.pb.h"
 #import "Item.pb.h"
+#import "MiniEvent.pb.h"
 #import "MiniJobConfig.pb.h"
 #import "MonsterStuff.pb.h"
 #import "Quest.pb.h"
@@ -40,6 +41,8 @@
 @class BoosterItemProto_Builder;
 @class BoosterPackProto;
 @class BoosterPackProto_Builder;
+@class ChatTranslationsProto;
+@class ChatTranslationsProto_Builder;
 @class CityElementProto;
 @class CityElementProto_Builder;
 @class CityExpansionCostProto;
@@ -70,8 +73,6 @@
 @class ColorProto_Builder;
 @class CoordinateProto;
 @class CoordinateProto_Builder;
-@class DefaultLanguagesProto;
-@class DefaultLanguagesProto_Builder;
 @class DialogueProto;
 @class DialogueProto_Builder;
 @class DialogueProto_SpeechSegmentProto;
@@ -112,6 +113,16 @@
 @class ItemProto_Builder;
 @class LabProto;
 @class LabProto_Builder;
+@class MiniEventForPlayerLevelProto;
+@class MiniEventForPlayerLevelProto_Builder;
+@class MiniEventGoalProto;
+@class MiniEventGoalProto_Builder;
+@class MiniEventLeaderboardRewardProto;
+@class MiniEventLeaderboardRewardProto_Builder;
+@class MiniEventProto;
+@class MiniEventProto_Builder;
+@class MiniEventTierRewardProto;
+@class MiniEventTierRewardProto_Builder;
 @class MiniJobCenterProto;
 @class MiniJobCenterProto_Builder;
 @class MiniJobProto;
@@ -162,8 +173,6 @@
 @class PersistentEventProto_Builder;
 @class PrereqProto;
 @class PrereqProto_Builder;
-@class PrivateChatDefaultLanguageProto;
-@class PrivateChatDefaultLanguageProto_Builder;
 @class PrivateChatPostProto;
 @class PrivateChatPostProto_Builder;
 @class PvpBoardHouseProto;
@@ -198,6 +207,8 @@
 @class ResourceGeneratorProto_Builder;
 @class ResourceStorageProto;
 @class ResourceStorageProto_Builder;
+@class RewardProto;
+@class RewardProto_Builder;
 @class SkillPropertyProto;
 @class SkillPropertyProto_Builder;
 @class SkillProto;
@@ -284,6 +295,10 @@
 @class UserItemSecretGiftProto_Builder;
 @class UserItemUsageProto;
 @class UserItemUsageProto_Builder;
+@class UserMiniEventGoalProto;
+@class UserMiniEventGoalProto_Builder;
+@class UserMiniEventProto;
+@class UserMiniEventProto_Builder;
 @class UserMiniJobProto;
 @class UserMiniJobProto_Builder;
 @class UserMonsterCurrentExpProto;
@@ -308,6 +323,8 @@
 @class UserQuestJobProto_Builder;
 @class UserResearchProto;
 @class UserResearchProto_Builder;
+@class UserRewardProto;
+@class UserRewardProto_Builder;
 @class UserTaskCompletedProto;
 @class UserTaskCompletedProto_Builder;
 #ifndef __has_feature
@@ -543,7 +560,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   BOOL hasReviewPageConfirmationMessage_:1;
   BOOL hasReviewPageUrl_:1;
   BOOL hasAppStoreUrl_:1;
-  BOOL hasUserDefaultLanguages_:1;
+  BOOL hasUserMiniEvent_:1;
   BOOL hasStaticDataStuffProto_:1;
   BOOL hasClanData_:1;
   BOOL hasCurTask_:1;
@@ -561,7 +578,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   NSString* reviewPageConfirmationMessage;
   NSString* reviewPageUrl;
   NSString* appStoreUrl;
-  DefaultLanguagesProto* userDefaultLanguages;
+  UserMiniEventProto* userMiniEvent;
   StaticDataProto* staticDataStuffProto;
   ClanDataProto* clanData;
   MinimumUserTaskProto* curTask;
@@ -624,7 +641,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasCurRaidClanInfo;
 - (BOOL) hasCurTask;
 - (BOOL) hasClanData;
-- (BOOL) hasUserDefaultLanguages;
+- (BOOL) hasUserMiniEvent;
 @property (readonly) int64_t serverTimeMillis;
 @property (readonly, strong) FullUserProto* sender;
 @property (readonly) StartupResponseProto_StartupStatus startupStatus;
@@ -675,7 +692,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @property (readonly, strong) NSArray * battleItemQueueList;
 @property (readonly, strong) NSArray * battleItemList;
 @property (readonly, strong) NSArray * userResearchsList;
-@property (readonly, strong) DefaultLanguagesProto* userDefaultLanguages;
+@property (readonly, strong) UserMiniEventProto* userMiniEvent;
 - (FullUserQuestProto*)userQuestsAtIndex:(NSUInteger)index;
 - (int32_t)redeemedQuestIdsAtIndex:(NSUInteger)index;
 - (FullUserClanProto*)userClanInfoAtIndex:(NSUInteger)index;
@@ -2772,12 +2789,12 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_Builder *)addAllUserResearchs:(NSArray *)array;
 - (StartupResponseProto_Builder *)clearUserResearchs;
 
-- (BOOL) hasUserDefaultLanguages;
-- (DefaultLanguagesProto*) userDefaultLanguages;
-- (StartupResponseProto_Builder*) setUserDefaultLanguages:(DefaultLanguagesProto*) value;
-- (StartupResponseProto_Builder*) setUserDefaultLanguages_Builder:(DefaultLanguagesProto_Builder*) builderForValue;
-- (StartupResponseProto_Builder*) mergeUserDefaultLanguages:(DefaultLanguagesProto*) value;
-- (StartupResponseProto_Builder*) clearUserDefaultLanguages;
+- (BOOL) hasUserMiniEvent;
+- (UserMiniEventProto*) userMiniEvent;
+- (StartupResponseProto_Builder*) setUserMiniEvent:(UserMiniEventProto*) value;
+- (StartupResponseProto_Builder*) setUserMiniEvent_Builder:(UserMiniEventProto_Builder*) builderForValue;
+- (StartupResponseProto_Builder*) mergeUserMiniEvent:(UserMiniEventProto*) value;
+- (StartupResponseProto_Builder*) clearUserMiniEvent;
 @end
 
 @interface ForceLogoutResponseProto : PBGeneratedMessage {
