@@ -9,12 +9,13 @@
 #import <Foundation/Foundation.h>
 #import "SynthesizeSingleton.h"
 #import "Protocols.pb.h"
+#import "UserData.h"
 
 @protocol MiniEventInfoViewProtocol <NSObject>
 
 @required
 
-- (void) updateForUserMiniEvent:(UserMiniEventProto*)userMiniEvent;
+- (void) updateForUserMiniEvent:(UserMiniEvent*)userMiniEvent;
 
 @optional
 
@@ -24,14 +25,12 @@
 @end
 
 @interface MiniEventManager : NSObject
-{
-  
-}
 
-@property (nonatomic, strong, readonly) UserMiniEventProto* currentUserMiniEvent; // Might be nil, in case of no active user mini event
+@property (nonatomic, strong, readonly) UserMiniEvent* currentUserMiniEvent; // Might be nil, in case of no active user mini event
 
 SYNTHESIZE_SINGLETON_FOR_CLASS_HEADER(MiniEventManager)
 
 - (void) handleUserMiniEventReceivedOnStartup:(UserMiniEventProto*)userMiniEvent;
+- (void) handleUserProgressOnMiniEventGoal:(MiniEventGoalProto_MiniEventGoalType)goalType withAmount:(int32_t)amount;
 
 @end

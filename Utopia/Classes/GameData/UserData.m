@@ -1576,3 +1576,91 @@
 }
 
 @end
+
+@implementation UserMiniEventGoal
+
+- (instancetype) initWithProto:(MiniEventGoalProto*)proto
+{
+  self = [super init];
+  if (self)
+  {
+    self.userUuid = [GameState sharedGameState].userUuid;
+    self.miniEventGoalId = proto.miniEventGoalId;
+    self.goalAmt = proto.goalAmt;
+    self.pointsGained = proto.pointsGained;
+    self.progress = 0; // Will be set and updated by owner class
+  }
+  return self;
+}
+
++ (instancetype) userMiniEventGoalWithProto:(MiniEventGoalProto*)proto
+{
+  return [[UserMiniEventGoal alloc] initWithProto:proto];
+}
+
+- (UserMiniEventGoalProto*) convertToProto
+{
+  return [[[[[UserMiniEventGoalProto builder]
+             setUserUuid:self.userUuid]
+            setMiniEventGoalId:self.miniEventGoalId]
+           setProgress:self.progress] build];
+}
+
+@end
+
+@implementation UserMiniEvent
+
+- (instancetype) initWithProto:(UserMiniEventProto*)proto
+{
+  self = [super init];
+  if (self)
+  {
+    self.miniEventId = proto.miniEventId;
+    self.userUuid = proto.userUuid;
+    self.userLvl = proto.userLvl;
+    self.tierOneRedeemed = proto.tierOneRedeemed;
+    self.tierTwoRedeemed = proto.tierTwoRedeemed;
+    self.tierThreeRedeemed = proto.tierThreeRedeemed;
+    self.miniEvent = proto.miniEvent;
+
+    self.miniEventGoals = [NSMutableDictionary dictionary];
+    // All goals for this mini event
+    for (MiniEventGoalProto* goalProto in proto.miniEvent.goalsList)
+      [self.miniEventGoals setObject:[UserMiniEventGoal userMiniEventGoalWithProto:goalProto] forKey:@(goalProto.miniEventGoalId)];
+    // All goals on which the user has made some progress
+    for (UserMiniEventGoalProto* userGoalProto in proto.goalsList)
+      [(UserMiniEventGoal*)[self.miniEventGoals objectForKey:@(userGoalProto.miniEventGoalId)] setProgress:userGoalProto.progress];
+    
+    self.pointsEarned = 0;
+    // Calculate total points earned based on user goals' progress
+    for (UserMiniEventGoal* userGoal in [self.miniEventGoals allValues])
+      self.pointsEarned += ((userGoal.progress - userGoal.progress % userGoal.goalAmt) / userGoal.goalAmt) * userGoal.pointsGained;
+  }
+  return self;
+}
+
++ (instancetype) userMiniEventWithProto:(UserMiniEventProto*)proto
+{
+  return [[UserMiniEvent alloc] initWithProto:proto];
+}
+
+- (UserMiniEventProto*) convertToProto
+{
+  NSMutableArray* goalsList = [NSMutableArray array];
+  // All goals on which the user has made some progress
+  for (UserMiniEventGoal* userGoal in [self.miniEventGoals allValues])
+    if (userGoal.progress > 0)
+      [goalsList addObject:[userGoal convertToProto]];
+  
+  return [[[[[[[[[[UserMiniEventProto builder]
+                  setMiniEventId:self.miniEventId]
+                 setUserUuid:self.userUuid]
+                setUserLvl:self.userLvl]
+               setTierOneRedeemed:self.tierOneRedeemed]
+              setTierTwoRedeemed:self.tierTwoRedeemed]
+             setTierThreeRedeemed:self.tierThreeRedeemed]
+            setMiniEvent:self.miniEvent]
+           addAllGoals:[NSArray arrayWithArray:goalsList]] build];
+}
+
+@end

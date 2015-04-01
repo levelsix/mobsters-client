@@ -3558,4 +3558,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
 }
 
+- (void) updateUserMiniEvent:(UserMiniEventGoal *)updatedUserMiniEventGoal shouldFlush:(BOOL)shouldFlush {
+  [[SocketCommunication sharedSocketCommunication] updateUserMiniEventMessage:updatedUserMiniEventGoal];
+  
+  if (shouldFlush) {
+    [[SocketCommunication sharedSocketCommunication] flush];
+  }
+}
+
 @end

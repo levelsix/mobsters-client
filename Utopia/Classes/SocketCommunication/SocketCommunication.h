@@ -49,6 +49,8 @@
   BOOL _pauseFlushTimer;
   
   NSData *_latestTaskClientState;
+  
+  NSMutableDictionary *_updatedUserMiniEventGoals;
 }
 
 @property (nonatomic, retain) GenericPopupController *popupController;
@@ -234,6 +236,7 @@
 - (int) sendDiscardBattleItemMessage:(NSArray *)battleItemIds;
 
 - (int) sendRetrieveMiniEventRequestProtoMessage;
+- (int) updateUserMiniEventMessage:(UserMiniEventGoal *)userMiniEventGoal;
 
 - (void) flush;
 - (void) pauseFlushTimer;

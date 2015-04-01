@@ -162,6 +162,7 @@
 - (void) redeemMiniJob:(UserMiniJob *)userMiniJob delegate:(id)delegate;
 
 - (void) retrieveUserMiniEventWithDelegate:(id)delegate;
+- (void) updateUserMiniEvent:(UserMiniEventGoal *)updatedUserMiniEventGoal shouldFlush:(BOOL)shouldFlush;
 
 - (void) tradeItemForSpeedup:(int)itemId userStruct:(UserStruct *)us;
 - (void) tradeItemForSpeedup:(int)itemId userObstacle:(UserObstacle *)uo;

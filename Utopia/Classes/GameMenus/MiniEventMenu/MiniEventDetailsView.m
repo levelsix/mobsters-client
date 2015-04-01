@@ -84,7 +84,7 @@ static const float kTierPointsProgressBarExtendBy = 1.1f;
   self.tier3IndicatorLabel.centerX = self.tier3IndicatorArrow.centerX;
 }
 
-- (void) updateForUserMiniEvent:(UserMiniEventProto*)userMiniEvent
+- (void) updateForUserMiniEvent:(UserMiniEvent*)userMiniEvent
 {
   MiniEventProto* miniEvent = userMiniEvent.miniEvent;
   
@@ -110,7 +110,7 @@ static const float kTierPointsProgressBarExtendBy = 1.1f;
   
   [Globals imageNamed:miniEvent.img withView:self.eventInfoImage greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
   
-  const int pointsEarned = userMiniEvent.ptsEarned;
+  const int pointsEarned = userMiniEvent.pointsEarned;
   const int maxPoints    = miniEvent.lvlEntered.tierThreeMinPts * kTierPointsProgressBarExtendBy;
   const int tier1Points  = miniEvent.lvlEntered.tierOneMinPts;
   const int tier2Points  = miniEvent.lvlEntered.tierTwoMinPts;
