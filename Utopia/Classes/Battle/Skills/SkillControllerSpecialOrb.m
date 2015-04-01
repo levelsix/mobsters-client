@@ -173,7 +173,9 @@
     {
       if (n == count - 1)
         if (target && selector)
-          SUPPRESS_PERFORM_SELECTOR_LEAK_WARNING([target performSelector:selector withObject:nil];);
+          [self performAfterDelay:.5f block:^{
+            SUPPRESS_PERFORM_SELECTOR_LEAK_WARNING([target performSelector:selector withObject:nil];);
+          }];
       continue;
     }
     
