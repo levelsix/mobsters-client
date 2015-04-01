@@ -22,11 +22,9 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [ClanRoot registerAllExtensions:registry];
     [InAppPurchaseRoot registerAllExtensions:registry];
     [ItemRoot registerAllExtensions:registry];
-    [MiniEventRoot registerAllExtensions:registry];
     [MiniJobConfigRoot registerAllExtensions:registry];
     [MonsterStuffRoot registerAllExtensions:registry];
     [QuestRoot registerAllExtensions:registry];
-    [SalesRoot registerAllExtensions:registry];
     [ResearchRoot registerAllExtensions:registry];
     [SharedEnumConfigRoot registerAllExtensions:registry];
     [StaticDataRoot registerAllExtensions:registry];
@@ -983,8 +981,6 @@ static StartupRequestProto_VersionNumberProto* defaultStartupRequestProto_Versio
 @property (strong) NSMutableArray * mutableBattleItemQueueList;
 @property (strong) NSMutableArray * mutableBattleItemList;
 @property (strong) NSMutableArray * mutableUserResearchsList;
-@property (strong) NSMutableArray * mutableSalesPackagesList;
-@property (strong) UserMiniEventProto* userMiniEvent;
 @property (strong) DefaultLanguagesProto* userDefaultLanguages;
 @end
 
@@ -1180,15 +1176,6 @@ static StartupRequestProto_VersionNumberProto* defaultStartupRequestProto_Versio
 @dynamic battleItemList;
 @synthesize mutableUserResearchsList;
 @dynamic userResearchsList;
-@synthesize mutableSalesPackagesList;
-@dynamic salesPackagesList;
-- (BOOL) hasUserMiniEvent {
-  return !!hasUserMiniEvent_;
-}
-- (void) setHasUserMiniEvent:(BOOL) value_ {
-  hasUserMiniEvent_ = !!value_;
-}
-@synthesize userMiniEvent;
 - (BOOL) hasUserDefaultLanguages {
   return !!hasUserDefaultLanguages_;
 }
@@ -1215,7 +1202,6 @@ static StartupRequestProto_VersionNumberProto* defaultStartupRequestProto_Versio
     self.curRaidClanInfo = [PersistentClanEventClanInfoProto defaultInstance];
     self.curTask = [MinimumUserTaskProto defaultInstance];
     self.clanData = [ClanDataProto defaultInstance];
-    self.userMiniEvent = [UserMiniEventProto defaultInstance];
     self.userDefaultLanguages = [DefaultLanguagesProto defaultInstance];
   }
   return self;
@@ -1430,12 +1416,6 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
 - (UserResearchProto*)userResearchsAtIndex:(NSUInteger)index {
   return [mutableUserResearchsList objectAtIndex:index];
 }
-- (NSArray *)salesPackagesList {
-  return mutableSalesPackagesList;
-}
-- (SalesPackageProto*)salesPackagesAtIndex:(NSUInteger)index {
-  return [mutableSalesPackagesList objectAtIndex:index];
-}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -1602,14 +1582,8 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   [self.userResearchsList enumerateObjectsUsingBlock:^(UserResearchProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:50 value:element];
   }];
-  [self.salesPackagesList enumerateObjectsUsingBlock:^(SalesPackageProto *element, NSUInteger idx, BOOL *stop) {
-    [output writeMessage:51 value:element];
-  }];
-  if (self.hasUserMiniEvent) {
-    [output writeMessage:52 value:self.userMiniEvent];
-  }
   if (self.hasUserDefaultLanguages) {
-    [output writeMessage:53 value:self.userDefaultLanguages];
+    [output writeMessage:51 value:self.userDefaultLanguages];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -1797,14 +1771,8 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   [self.userResearchsList enumerateObjectsUsingBlock:^(UserResearchProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(50, element);
   }];
-  [self.salesPackagesList enumerateObjectsUsingBlock:^(SalesPackageProto *element, NSUInteger idx, BOOL *stop) {
-    size_ += computeMessageSize(51, element);
-  }];
-  if (self.hasUserMiniEvent) {
-    size_ += computeMessageSize(52, self.userMiniEvent);
-  }
   if (self.hasUserDefaultLanguages) {
-    size_ += computeMessageSize(53, self.userDefaultLanguages);
+    size_ += computeMessageSize(51, self.userDefaultLanguages);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -2105,18 +2073,6 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }];
-  [self.salesPackagesList enumerateObjectsUsingBlock:^(SalesPackageProto *element, NSUInteger idx, BOOL *stop) {
-    [output appendFormat:@"%@%@ {\n", indent, @"salesPackages"];
-    [element writeDescriptionTo:output
-                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
-    [output appendFormat:@"%@}\n", indent];
-  }];
-  if (self.hasUserMiniEvent) {
-    [output appendFormat:@"%@%@ {\n", indent, @"userMiniEvent"];
-    [self.userMiniEvent writeDescriptionTo:output
-                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
-    [output appendFormat:@"%@}\n", indent];
-  }
   if (self.hasUserDefaultLanguages) {
     [output appendFormat:@"%@%@ {\n", indent, @"userDefaultLanguages"];
     [self.userDefaultLanguages writeDescriptionTo:output
@@ -2201,9 +2157,6 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
       [self.battleItemQueueList isEqualToArray:otherMessage.battleItemQueueList] &&
       [self.battleItemList isEqualToArray:otherMessage.battleItemList] &&
       [self.userResearchsList isEqualToArray:otherMessage.userResearchsList] &&
-      [self.salesPackagesList isEqualToArray:otherMessage.salesPackagesList] &&
-      self.hasUserMiniEvent == otherMessage.hasUserMiniEvent &&
-      (!self.hasUserMiniEvent || [self.userMiniEvent isEqual:otherMessage.userMiniEvent]) &&
       self.hasUserDefaultLanguages == otherMessage.hasUserDefaultLanguages &&
       (!self.hasUserDefaultLanguages || [self.userDefaultLanguages isEqual:otherMessage.userDefaultLanguages]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
@@ -2360,12 +2313,6 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   [self.userResearchsList enumerateObjectsUsingBlock:^(UserResearchProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
-  [self.salesPackagesList enumerateObjectsUsingBlock:^(SalesPackageProto *element, NSUInteger idx, BOOL *stop) {
-    hashCode = hashCode * 31 + [element hash];
-  }];
-  if (self.hasUserMiniEvent) {
-    hashCode = hashCode * 31 + [self.userMiniEvent hash];
-  }
   if (self.hasUserDefaultLanguages) {
     hashCode = hashCode * 31 + [self.userDefaultLanguages hash];
   }
@@ -11025,16 +10972,6 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
       [result.mutableUserResearchsList addObjectsFromArray:other.mutableUserResearchsList];
     }
   }
-  if (other.mutableSalesPackagesList.count > 0) {
-    if (result.mutableSalesPackagesList == nil) {
-      result.mutableSalesPackagesList = [[NSMutableArray alloc] initWithArray:other.mutableSalesPackagesList];
-    } else {
-      [result.mutableSalesPackagesList addObjectsFromArray:other.mutableSalesPackagesList];
-    }
-  }
-  if (other.hasUserMiniEvent) {
-    [self mergeUserMiniEvent:other.userMiniEvent];
-  }
   if (other.hasUserDefaultLanguages) {
     [self mergeUserDefaultLanguages:other.userDefaultLanguages];
   }
@@ -11373,21 +11310,6 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
         break;
       }
       case 410: {
-        SalesPackageProto_Builder* subBuilder = [SalesPackageProto builder];
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self addSalesPackages:[subBuilder buildPartial]];
-        break;
-      }
-      case 418: {
-        UserMiniEventProto_Builder* subBuilder = [UserMiniEventProto builder];
-        if (self.hasUserMiniEvent) {
-          [subBuilder mergeFrom:self.userMiniEvent];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setUserMiniEvent:[subBuilder buildPartial]];
-        break;
-      }
-      case 426: {
         DefaultLanguagesProto_Builder* subBuilder = [DefaultLanguagesProto builder];
         if (self.hasUserDefaultLanguages) {
           [subBuilder mergeFrom:self.userDefaultLanguages];
@@ -12599,60 +12521,6 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
 }
 - (StartupResponseProto_Builder *)clearUserResearchs {
   result.mutableUserResearchsList = nil;
-  return self;
-}
-- (NSMutableArray *)salesPackagesList {
-  return result.mutableSalesPackagesList;
-}
-- (SalesPackageProto*)salesPackagesAtIndex:(NSUInteger)index {
-  return [result salesPackagesAtIndex:index];
-}
-- (StartupResponseProto_Builder *)addSalesPackages:(SalesPackageProto*)value {
-  if (result.mutableSalesPackagesList == nil) {
-    result.mutableSalesPackagesList = [[NSMutableArray alloc]init];
-  }
-  [result.mutableSalesPackagesList addObject:value];
-  return self;
-}
-- (StartupResponseProto_Builder *)addAllSalesPackages:(NSArray *)array {
-  if (result.mutableSalesPackagesList == nil) {
-    result.mutableSalesPackagesList = [NSMutableArray array];
-  }
-  [result.mutableSalesPackagesList addObjectsFromArray:array];
-  return self;
-}
-- (StartupResponseProto_Builder *)clearSalesPackages {
-  result.mutableSalesPackagesList = nil;
-  return self;
-}
-- (BOOL) hasUserMiniEvent {
-  return result.hasUserMiniEvent;
-}
-- (UserMiniEventProto*) userMiniEvent {
-  return result.userMiniEvent;
-}
-- (StartupResponseProto_Builder*) setUserMiniEvent:(UserMiniEventProto*) value {
-  result.hasUserMiniEvent = YES;
-  result.userMiniEvent = value;
-  return self;
-}
-- (StartupResponseProto_Builder*) setUserMiniEvent_Builder:(UserMiniEventProto_Builder*) builderForValue {
-  return [self setUserMiniEvent:[builderForValue build]];
-}
-- (StartupResponseProto_Builder*) mergeUserMiniEvent:(UserMiniEventProto*) value {
-  if (result.hasUserMiniEvent &&
-      result.userMiniEvent != [UserMiniEventProto defaultInstance]) {
-    result.userMiniEvent =
-      [[[UserMiniEventProto builderWithPrototype:result.userMiniEvent] mergeFrom:value] buildPartial];
-  } else {
-    result.userMiniEvent = value;
-  }
-  result.hasUserMiniEvent = YES;
-  return self;
-}
-- (StartupResponseProto_Builder*) clearUserMiniEvent {
-  result.hasUserMiniEvent = NO;
-  result.userMiniEvent = [UserMiniEventProto defaultInstance];
   return self;
 }
 - (BOOL) hasUserDefaultLanguages {

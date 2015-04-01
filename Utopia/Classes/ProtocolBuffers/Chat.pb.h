@@ -7,6 +7,8 @@
 
 @class ColorProto;
 @class ColorProto_Builder;
+@class DefaultLanguagesProto;
+@class DefaultLanguagesProto_Builder;
 @class FullUserProto;
 @class FullUserProto_Builder;
 @class GroupChatMessageProto;
@@ -21,6 +23,8 @@
 @class MinimumUserProtoWithMaxResources;
 @class MinimumUserProtoWithMaxResources_Builder;
 @class MinimumUserProto_Builder;
+@class PrivateChatDefaultLanguageProto;
+@class PrivateChatDefaultLanguageProto_Builder;
 @class PrivateChatPostProto;
 @class PrivateChatPostProto_Builder;
 @class StaticUserLevelInfoProto;
@@ -394,6 +398,122 @@ BOOL TranslateLanguagesIsValidValue(TranslateLanguages value);
 - (NSString*) text;
 - (TranslatedTextProto_Builder*) setText:(NSString*) value;
 - (TranslatedTextProto_Builder*) clearText;
+@end
+
+@interface DefaultLanguagesProto : PBGeneratedMessage {
+@private
+  BOOL hasGlobalDefaultLanguage_:1;
+  TranslateLanguages globalDefaultLanguage;
+  NSMutableArray * mutablePrivateDefaultLanguageList;
+}
+- (BOOL) hasGlobalDefaultLanguage;
+@property (readonly) TranslateLanguages globalDefaultLanguage;
+@property (readonly, strong) NSArray * privateDefaultLanguageList;
+- (PrivateChatDefaultLanguageProto*)privateDefaultLanguageAtIndex:(NSUInteger)index;
+
++ (DefaultLanguagesProto*) defaultInstance;
+- (DefaultLanguagesProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (DefaultLanguagesProto_Builder*) builder;
++ (DefaultLanguagesProto_Builder*) builder;
++ (DefaultLanguagesProto_Builder*) builderWithPrototype:(DefaultLanguagesProto*) prototype;
+- (DefaultLanguagesProto_Builder*) toBuilder;
+
++ (DefaultLanguagesProto*) parseFromData:(NSData*) data;
++ (DefaultLanguagesProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (DefaultLanguagesProto*) parseFromInputStream:(NSInputStream*) input;
++ (DefaultLanguagesProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (DefaultLanguagesProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (DefaultLanguagesProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface DefaultLanguagesProto_Builder : PBGeneratedMessageBuilder {
+@private
+  DefaultLanguagesProto* result;
+}
+
+- (DefaultLanguagesProto*) defaultInstance;
+
+- (DefaultLanguagesProto_Builder*) clear;
+- (DefaultLanguagesProto_Builder*) clone;
+
+- (DefaultLanguagesProto*) build;
+- (DefaultLanguagesProto*) buildPartial;
+
+- (DefaultLanguagesProto_Builder*) mergeFrom:(DefaultLanguagesProto*) other;
+- (DefaultLanguagesProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (DefaultLanguagesProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasGlobalDefaultLanguage;
+- (TranslateLanguages) globalDefaultLanguage;
+- (DefaultLanguagesProto_Builder*) setGlobalDefaultLanguage:(TranslateLanguages) value;
+- (DefaultLanguagesProto_Builder*) clearGlobalDefaultLanguageList;
+
+- (NSMutableArray *)privateDefaultLanguageList;
+- (PrivateChatDefaultLanguageProto*)privateDefaultLanguageAtIndex:(NSUInteger)index;
+- (DefaultLanguagesProto_Builder *)addPrivateDefaultLanguage:(PrivateChatDefaultLanguageProto*)value;
+- (DefaultLanguagesProto_Builder *)addAllPrivateDefaultLanguage:(NSArray *)array;
+- (DefaultLanguagesProto_Builder *)clearPrivateDefaultLanguage;
+@end
+
+@interface PrivateChatDefaultLanguageProto : PBGeneratedMessage {
+@private
+  BOOL hasPrivateChatPostUuid_:1;
+  BOOL hasDefaultLanguage_:1;
+  NSString* privateChatPostUuid;
+  TranslateLanguages defaultLanguage;
+}
+- (BOOL) hasPrivateChatPostUuid;
+- (BOOL) hasDefaultLanguage;
+@property (readonly, strong) NSString* privateChatPostUuid;
+@property (readonly) TranslateLanguages defaultLanguage;
+
++ (PrivateChatDefaultLanguageProto*) defaultInstance;
+- (PrivateChatDefaultLanguageProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (PrivateChatDefaultLanguageProto_Builder*) builder;
++ (PrivateChatDefaultLanguageProto_Builder*) builder;
++ (PrivateChatDefaultLanguageProto_Builder*) builderWithPrototype:(PrivateChatDefaultLanguageProto*) prototype;
+- (PrivateChatDefaultLanguageProto_Builder*) toBuilder;
+
++ (PrivateChatDefaultLanguageProto*) parseFromData:(NSData*) data;
++ (PrivateChatDefaultLanguageProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PrivateChatDefaultLanguageProto*) parseFromInputStream:(NSInputStream*) input;
++ (PrivateChatDefaultLanguageProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PrivateChatDefaultLanguageProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (PrivateChatDefaultLanguageProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface PrivateChatDefaultLanguageProto_Builder : PBGeneratedMessageBuilder {
+@private
+  PrivateChatDefaultLanguageProto* result;
+}
+
+- (PrivateChatDefaultLanguageProto*) defaultInstance;
+
+- (PrivateChatDefaultLanguageProto_Builder*) clear;
+- (PrivateChatDefaultLanguageProto_Builder*) clone;
+
+- (PrivateChatDefaultLanguageProto*) build;
+- (PrivateChatDefaultLanguageProto*) buildPartial;
+
+- (PrivateChatDefaultLanguageProto_Builder*) mergeFrom:(PrivateChatDefaultLanguageProto*) other;
+- (PrivateChatDefaultLanguageProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (PrivateChatDefaultLanguageProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasPrivateChatPostUuid;
+- (NSString*) privateChatPostUuid;
+- (PrivateChatDefaultLanguageProto_Builder*) setPrivateChatPostUuid:(NSString*) value;
+- (PrivateChatDefaultLanguageProto_Builder*) clearPrivateChatPostUuid;
+
+- (BOOL) hasDefaultLanguage;
+- (TranslateLanguages) defaultLanguage;
+- (PrivateChatDefaultLanguageProto_Builder*) setDefaultLanguage:(TranslateLanguages) value;
+- (PrivateChatDefaultLanguageProto_Builder*) clearDefaultLanguageList;
 @end
 
 
