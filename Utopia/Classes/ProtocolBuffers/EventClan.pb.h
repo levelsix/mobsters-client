@@ -44,8 +44,6 @@
 @class ChangeClanSettingsRequestProto_Builder;
 @class ChangeClanSettingsResponseProto;
 @class ChangeClanSettingsResponseProto_Builder;
-@class ChatTranslationsProto;
-@class ChatTranslationsProto_Builder;
 @class ClanDataProto;
 @class ClanDataProto_Builder;
 @class ClanHelpNoticeProto;
@@ -76,6 +74,8 @@
 @class CreateClanRequestProto_Builder;
 @class CreateClanResponseProto;
 @class CreateClanResponseProto_Builder;
+@class DefaultLanguagesProto;
+@class DefaultLanguagesProto_Builder;
 @class EndClanAvengingRequestProto;
 @class EndClanAvengingRequestProto_Builder;
 @class EndClanAvengingResponseProto;
@@ -162,6 +162,8 @@
 @class PersistentClanEventUserInfoProto_Builder;
 @class PersistentClanEventUserRewardProto;
 @class PersistentClanEventUserRewardProto_Builder;
+@class PrivateChatDefaultLanguageProto;
+@class PrivateChatDefaultLanguageProto_Builder;
 @class PrivateChatPostProto;
 @class PrivateChatPostProto_Builder;
 @class PromoteDemoteClanMemberRequestProto;
