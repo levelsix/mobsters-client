@@ -11,7 +11,7 @@
 
 @implementation MiniEventTierPrizeCell
 
-- (BOOL) updateForReward:(RewardProto*)rewardProto
+- (BOOL) updateForReward:(RewardProto*)rewardProto useItemShortName:(BOOL)useItemShortName
 {
   GameState* gs = [GameState sharedGameState];
   
@@ -25,7 +25,7 @@
     {
       ItemProto* item = [gs.staticItems objectForKey:@(rewardProto.staticDataId)];
       if (!item) return NO;
-      name  = item.hasShortName ? item.shortName : item.name;
+      name  = (useItemShortName && item.hasShortName) ? item.shortName : item.name;
       icon  = item.imgName;
       count = [NSString stringWithFormat:@"x%d", rewardProto.amt];
     }

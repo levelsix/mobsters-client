@@ -12,12 +12,14 @@
 @class THLabel;
 @class SplitImageProgressBar;
 @class MiniEventTierPrizeView;
+@class MiniEventCollectRewardView;
 
 @interface MiniEventDetailsView : UIView <MiniEventInfoViewProtocol>
 {
   BOOL _allTiersCompleted;
 }
 
+@property (nonatomic, retain) IBOutlet UIView* eventInfoView;
 @property (nonatomic, retain) IBOutlet UIImageView* eventInfoBackground;
 @property (nonatomic, retain) IBOutlet UIImageView* eventInfoImage;
 @property (nonatomic, retain) IBOutlet THLabel* eventInfoName;
@@ -41,5 +43,7 @@
 @property (nonatomic, retain) IBOutlet MiniEventTierPrizeView* tier1PrizeView;
 @property (nonatomic, retain) IBOutlet MiniEventTierPrizeView* tier2PrizeView;
 @property (nonatomic, retain) IBOutlet MiniEventTierPrizeView* tier3PrizeView;
+
+@property (nonatomic, retain) MiniEventCollectRewardView* collectRewardView;
 
 @end

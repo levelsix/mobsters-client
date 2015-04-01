@@ -2187,6 +2187,12 @@
 		9B2EFCED1AC4AEF5005B7B83 /* Reward.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B2EFCE61AC4AEF5005B7B83 /* Reward.pb.m */; };
 		9B2EFCEE1AC4AEF5005B7B83 /* Reward.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B2EFCE61AC4AEF5005B7B83 /* Reward.pb.m */; };
 		9B2EFCEF1AC4AEF5005B7B83 /* Reward.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B2EFCE61AC4AEF5005B7B83 /* Reward.pb.m */; };
+		9B2EFD8A1ACC7716005B7B83 /* MiniEventCollectRewardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B2EFD891ACC7716005B7B83 /* MiniEventCollectRewardView.m */; };
+		9B2EFD8B1ACC7716005B7B83 /* MiniEventCollectRewardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B2EFD891ACC7716005B7B83 /* MiniEventCollectRewardView.m */; };
+		9B2EFD8C1ACC7716005B7B83 /* MiniEventCollectRewardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B2EFD891ACC7716005B7B83 /* MiniEventCollectRewardView.m */; };
+		9B2EFD8F1ACC79AC005B7B83 /* MiniEventCollectRewardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B2EFD8E1ACC79AC005B7B83 /* MiniEventCollectRewardView.xib */; };
+		9B2EFD901ACC79AC005B7B83 /* MiniEventCollectRewardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B2EFD8E1ACC79AC005B7B83 /* MiniEventCollectRewardView.xib */; };
+		9B2EFD911ACC79AC005B7B83 /* MiniEventCollectRewardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B2EFD8E1ACC79AC005B7B83 /* MiniEventCollectRewardView.xib */; };
 		9B41AE811A7824AA00529879 /* SkillKnockout.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B41AE801A7824AA00529879 /* SkillKnockout.m */; };
 		9B41AE821A7824AA00529879 /* SkillKnockout.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B41AE801A7824AA00529879 /* SkillKnockout.m */; };
 		9B41AE831A7824AA00529879 /* SkillKnockout.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B41AE801A7824AA00529879 /* SkillKnockout.m */; };
@@ -8486,6 +8492,9 @@
 		9B2EFCE41AC4AEF5005B7B83 /* MiniEvent.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MiniEvent.pb.m; sourceTree = "<group>"; };
 		9B2EFCE51AC4AEF5005B7B83 /* Reward.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reward.pb.h; sourceTree = "<group>"; };
 		9B2EFCE61AC4AEF5005B7B83 /* Reward.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reward.pb.m; sourceTree = "<group>"; };
+		9B2EFD881ACC7716005B7B83 /* MiniEventCollectRewardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiniEventCollectRewardView.h; sourceTree = "<group>"; };
+		9B2EFD891ACC7716005B7B83 /* MiniEventCollectRewardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MiniEventCollectRewardView.m; sourceTree = "<group>"; };
+		9B2EFD8E1ACC79AC005B7B83 /* MiniEventCollectRewardView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MiniEventCollectRewardView.xib; sourceTree = "<group>"; };
 		9B41AE7F1A7824AA00529879 /* SkillKnockout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillKnockout.h; sourceTree = "<group>"; };
 		9B41AE801A7824AA00529879 /* SkillKnockout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillKnockout.m; sourceTree = "<group>"; };
 		9B41AE851A78573300529879 /* SkillShallowGrave.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillShallowGrave.h; sourceTree = "<group>"; };
@@ -14215,6 +14224,9 @@
 				9BD473991AC373BC00EBBFB2 /* MiniEventTierPrizeCell.h */,
 				9BD4739A1AC373BC00EBBFB2 /* MiniEventTierPrizeCell.m */,
 				9BD4739B1AC373BC00EBBFB2 /* MiniEventTierPrizeCell.xib */,
+				9B2EFD881ACC7716005B7B83 /* MiniEventCollectRewardView.h */,
+				9B2EFD891ACC7716005B7B83 /* MiniEventCollectRewardView.m */,
+				9B2EFD8E1ACC79AC005B7B83 /* MiniEventCollectRewardView.xib */,
 				9BC189271AC1EF7E001B8E88 /* MiniEventPointsView.h */,
 				9BC189281AC1EF7E001B8E88 /* MiniEventPointsView.m */,
 				9BC1891E1AC1E792001B8E88 /* MiniEventPointsView.xib */,
@@ -20605,6 +20617,7 @@
 				CF0CF6EC196F452900ECD301 /* EvolveDetailsViewController.xib in Resources */,
 				CF0CF6ED196F452900ECD301 /* arrow@2x.png in Resources */,
 				296548791A81C4070080B195 /* deploymiddle@2x.png in Resources */,
+				9B2EFD901ACC79AC005B7B83 /* MiniEventCollectRewardView.xib in Resources */,
 				CF0CF6EE196F452900ECD301 /* manageteammenuheader@2x.png in Resources */,
 				CF5BD67D19C925EE006C4B4C /* rankupspinner@2x.png in Resources */,
 				2948F5A71AB79FA900DF08C2 /* itemsquareverysmallgrey@2x.png in Resources */,
@@ -21943,6 +21956,7 @@
 				CF54943918C6AF8A001E7D32 /* TutorialBattle2Layout.txt in Resources */,
 				CF6890301912E7B500FF1F71 /* attackbarcapmj@2x.png in Resources */,
 				CFB250991859B9C300BE0C05 /* closebattle@2x.png in Resources */,
+				9B2EFD8F1ACC79AC005B7B83 /* MiniEventCollectRewardView.xib in Resources */,
 				29DCD0431A8D8514003176FD /* fallinggems20@2x.png in Resources */,
 				2981337D1AB7C6D900CA5658 /* ifitemsquareverysmall@2x.png in Resources */,
 				CFDEA541199C34D800445F3C /* lockedinactive@2x.png in Resources */,
@@ -23928,6 +23942,7 @@
 				CF481F5219F7217F00041486 /* ProfileViewController.xib in Resources */,
 				CF481F5319F7217F00041486 /* MenuHealingCenterT1@2x.png in Resources */,
 				299AA3051A7856AA00A2D806 /* 6cloud1-9@2x.png in Resources */,
+				9B2EFD911ACC79AC005B7B83 /* MiniEventCollectRewardView.xib in Resources */,
 				CF481F5419F7217F00041486 /* helpredbubble1@2x.png in Resources */,
 				29804F831A241F4A00806253 /* freegemslabel@2x.png in Resources */,
 				CF481F5519F7217F00041486 /* pier_0@2x.png in Resources */,
@@ -25421,6 +25436,7 @@
 				CF0CED5A196F452900ECD301 /* EvolveChooserViewController.m in Sources */,
 				CF812EE119E676E200D91157 /* ClanHelpViewController.m in Sources */,
 				9B41AF5A1A81ABD600529879 /* SkillRightHook.m in Sources */,
+				9B2EFD8B1ACC7716005B7B83 /* MiniEventCollectRewardView.m in Sources */,
 				CF0CED5B196F452900ECD301 /* NSObject+SBJSON.m in Sources */,
 				CF0CED5C196F452900ECD301 /* Building.m in Sources */,
 				CF0CED5E196F452900ECD301 /* AttackMapViews.m in Sources */,
@@ -25683,6 +25699,7 @@
 				CF7063FA183EF991005B30A1 /* StaticStructure.m in Sources */,
 				DA07606019B129EC00E43E5A /* SkillManager.m in Sources */,
 				CFF5DC05194FCA160019EB2B /* ProfileViews.m in Sources */,
+				9B2EFD8A1ACC7716005B7B83 /* MiniEventCollectRewardView.m in Sources */,
 				CF6574BE1909CAF200ABF1F4 /* MonsterStuff.pb.m in Sources */,
 				9B0E6E5D1A77087000118210 /* SkillBlindingLight.m in Sources */,
 				CF7064C31845E4C7005B30A1 /* OneLineNotificationViewController.m in Sources */,
@@ -26186,6 +26203,7 @@
 				CF4818FC19F7217F00041486 /* FullEvent.m in Sources */,
 				CF4818FD19F7217F00041486 /* SharedEnumConfig.pb.m in Sources */,
 				CF4818FE19F7217F00041486 /* EvolveChooserViewController.m in Sources */,
+				9B2EFD8C1ACC7716005B7B83 /* MiniEventCollectRewardView.m in Sources */,
 				CF4818FF19F7217F00041486 /* ClanHelpViewController.m in Sources */,
 				9B41AF5B1A81ABD600529879 /* SkillRightHook.m in Sources */,
 				CF48190019F7217F00041486 /* NSObject+SBJSON.m in Sources */,

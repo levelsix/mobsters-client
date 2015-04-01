@@ -59,7 +59,7 @@ static NSString* kTierTitleLabelColors[3] = { @"B56C16", @"535758", @"8F6200" };
 - (UITableViewCell*) tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath
 {
   MiniEventTierPrizeCell* cell = [tableView dequeueReusableCellWithIdentifier:@"ReusableTierPrizeCell" forIndexPath:indexPath];
-  if (![cell updateForReward:(RewardProto*)[_prizeList objectAtIndex:indexPath.row]])
+  if (![cell updateForReward:(RewardProto*)[_prizeList objectAtIndex:indexPath.row] useItemShortName:YES])
     return [[UITableViewCell alloc] init];
   
   return cell;

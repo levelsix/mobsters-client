@@ -8,6 +8,7 @@
 
 #import "MiniEventDetailsView.h"
 #import "MiniEventTierPrizeView.h"
+#import "MiniEventCollectRewardView.h"
 #import "NibUtils.h"
 #import "Globals.h"
 
@@ -22,25 +23,25 @@ static const float kTierPointsProgressBarExtendBy = 1.1f;
   UIImageView* backgroundLeftCap = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"eventblueheadercap.png"]];
   {
     backgroundLeftCap.frame = CGRectMake(self.eventInfoBackground.originX - 7, self.eventInfoBackground.originY, 7, self.eventInfoBackground.height);
-    [self insertSubview:backgroundLeftCap belowSubview:self.eventInfoBackground];
+    [self.eventInfoView insertSubview:backgroundLeftCap belowSubview:self.eventInfoBackground];
   }
   UIImageView* backgroundRightCap = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"eventblueheadercap.png"]];
   {
     backgroundRightCap.frame = CGRectMake(self.eventInfoBackground.originX + self.eventInfoBackground.width, self.eventInfoBackground.originY, 7, self.eventInfoBackground.height);
     backgroundRightCap.layer.transform = CATransform3DMakeScale(-1, 1, 1);
-    [self insertSubview:backgroundRightCap belowSubview:self.eventInfoBackground];
+    [self.eventInfoView insertSubview:backgroundRightCap belowSubview:self.eventInfoBackground];
   }
   
   UIImageView* progressBarLeftCap = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"eventcounterbgcap.png"]];
   {
     progressBarLeftCap.frame = CGRectMake(self.progressBarBackground.originX - 5, self.progressBarBackground.originY, 5, self.progressBarBackground.height);
-    [self insertSubview:progressBarLeftCap belowSubview:self.progressBarBackground];
+    [self.eventInfoView insertSubview:progressBarLeftCap belowSubview:self.progressBarBackground];
   }
   UIImageView* progressBarRightCap = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"eventcounterbgcap.png"]];
   {
     progressBarRightCap.frame = CGRectMake(self.progressBarBackground.originX + self.progressBarBackground.width, self.progressBarBackground.originY, 5, self.progressBarBackground.height);
     progressBarRightCap.layer.transform = CATransform3DMakeScale(-1, 1, 1);
-    [self insertSubview:progressBarRightCap belowSubview:self.progressBarBackground];
+    [self.eventInfoView insertSubview:progressBarRightCap belowSubview:self.progressBarBackground];
   }
   
   self.eventInfoName.gradientStartColor = [UIColor whiteColor];
@@ -74,14 +75,6 @@ static const float kTierPointsProgressBarExtendBy = 1.1f;
   self.eventInfoPointsEearned.shadowColor  = [UIColor colorWithWhite:.25 alpha:1.f];
   self.eventInfoPointsEearned.shadowOffset = CGSizeMake(0, 1);
   self.eventInfoPointsEearned.shadowBlur   = 1.2f;
-  
-  [self.tier1IndicatorLabel sizeToFit];
-  [self.tier2IndicatorLabel sizeToFit];
-  [self.tier3IndicatorLabel sizeToFit];
-  
-  self.tier1IndicatorLabel.centerX = self.tier1IndicatorArrow.centerX;
-  self.tier2IndicatorLabel.centerX = self.tier2IndicatorArrow.centerX;
-  self.tier3IndicatorLabel.centerX = self.tier3IndicatorArrow.centerX;
 }
 
 - (void) updateForUserMiniEvent:(UserMiniEvent*)userMiniEvent
@@ -122,6 +115,10 @@ static const float kTierPointsProgressBarExtendBy = 1.1f;
   self.tier1IndicatorLabel.text = [NSString stringWithFormat:@"Tier 1 / %@", [Globals commafyNumber:tier1Points]];
   self.tier2IndicatorLabel.text = [NSString stringWithFormat:@"Tier 2 / %@", [Globals commafyNumber:tier2Points]];
   self.tier3IndicatorLabel.text = [NSString stringWithFormat:@"Tier 3 / %@", [Globals commafyNumber:tier3Points]];
+  
+  [self.tier1IndicatorLabel sizeToFit];
+  [self.tier2IndicatorLabel sizeToFit];
+  [self.tier3IndicatorLabel sizeToFit];
   
   const float tier1IndicatorPos = self.pointsProgressBar.originX + self.pointsProgressBar.width * ((float)tier1Points / (float)maxPoints);
   const float tier2IndicatorPos = self.pointsProgressBar.originX + self.pointsProgressBar.width * ((float)tier2Points / (float)maxPoints);
@@ -164,13 +161,13 @@ static const float kTierPointsProgressBarExtendBy = 1.1f;
   [self.tier2PrizeView updateForTier:2 completed:tier2Completed prizeList:tier2Prizes];
   [self.tier3PrizeView updateForTier:3 completed:tier3Completed prizeList:tier3Prizes];
   
-  if (self.pointCounterView.superview == self)
+  if (self.pointCounterView.superview == self.eventInfoView)
   {
     // pointCounterView needs to stick out of its container view, but having
     // rounded corners on one of its parents requires clipping to bounds.
     // It will therefore be added to the TouchableSubviewsView as a subview
     UIView* ancestorView = [self getAncestorInViewHierarchyOfType:[TouchableSubviewsView class]];
-    const CGPoint newPosition = [ancestorView convertPoint:self.pointCounterView.origin fromView:self];
+    const CGPoint newPosition = [ancestorView convertPoint:self.pointCounterView.origin fromView:self.eventInfoView];
     [ancestorView addSubview:self.pointCounterView];
     self.pointCounterView.origin = newPosition;
   }
@@ -191,7 +188,7 @@ static const float kTierPointsProgressBarExtendBy = 1.1f;
 
   UIImageView* tierCheckmark = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"requirementmet.png"]];
   tierCheckmark.frame = CGRectMake(tierIndicatorLabel.originX - 12, tierIndicatorLabel.centerY - 4, 10, 8);
-  [self insertSubview:tierCheckmark belowSubview:tierIndicatorLabel];
+  [self.eventInfoView insertSubview:tierCheckmark belowSubview:tierIndicatorLabel];
   
   if (tier == 3)
   {
