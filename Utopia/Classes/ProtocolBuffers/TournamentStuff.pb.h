@@ -36,6 +36,8 @@
 @class TournamentEventProto_Builder;
 @class TournamentEventRewardProto;
 @class TournamentEventRewardProto_Builder;
+@class TranslatedTextProto;
+@class TranslatedTextProto_Builder;
 @class UserFacebookInviteForSlotProto;
 @class UserFacebookInviteForSlotProto_Builder;
 @class UserPvpLeagueProto;

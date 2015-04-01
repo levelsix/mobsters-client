@@ -213,6 +213,8 @@
 @class TeamCenterProto_Builder;
 @class TownHallProto;
 @class TownHallProto_Builder;
+@class TranslatedTextProto;
+@class TranslatedTextProto_Builder;
 @class TutorialStructProto;
 @class TutorialStructProto_Builder;
 @class UserAchievementProto;
