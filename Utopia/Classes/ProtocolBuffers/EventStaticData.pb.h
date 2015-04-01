@@ -23,6 +23,8 @@
 @class BoosterItemProto_Builder;
 @class BoosterPackProto;
 @class BoosterPackProto_Builder;
+@class ChatTranslationsProto;
+@class ChatTranslationsProto_Builder;
 @class CityElementProto;
 @class CityElementProto_Builder;
 @class CityExpansionCostProto;
@@ -53,10 +55,6 @@
 @class ColorProto_Builder;
 @class CoordinateProto;
 @class CoordinateProto_Builder;
-@class CustomMenuProto;
-@class CustomMenuProto_Builder;
-@class DefaultLanguagesProto;
-@class DefaultLanguagesProto_Builder;
 @class DialogueProto;
 @class DialogueProto_Builder;
 @class DialogueProto_SpeechSegmentProto;
@@ -87,8 +85,6 @@
 @class GroupChatMessageProto_Builder;
 @class HospitalProto;
 @class HospitalProto_Builder;
-@class ItemGemPriceProto;
-@class ItemGemPriceProto_Builder;
 @class ItemProto;
 @class ItemProto_Builder;
 @class LabProto;
@@ -141,8 +137,6 @@
 @class PersistentEventProto_Builder;
 @class PrereqProto;
 @class PrereqProto_Builder;
-@class PrivateChatDefaultLanguageProto;
-@class PrivateChatDefaultLanguageProto_Builder;
 @class PrivateChatPostProto;
 @class PrivateChatPostProto_Builder;
 @class PurgeClientStaticDataResponseProto;

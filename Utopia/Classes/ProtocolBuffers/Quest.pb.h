@@ -10,6 +10,8 @@
 
 @class BattleItemFactoryProto;
 @class BattleItemFactoryProto_Builder;
+@class ChatTranslationsProto;
+@class ChatTranslationsProto_Builder;
 @class ClanHouseProto;
 @class ClanHouseProto_Builder;
 @class ClanMemberTeamDonationProto;
@@ -18,8 +20,6 @@
 @class ColorProto_Builder;
 @class CoordinateProto;
 @class CoordinateProto_Builder;
-@class DefaultLanguagesProto;
-@class DefaultLanguagesProto_Builder;
 @class DialogueProto;
 @class DialogueProto_Builder;
 @class DialogueProto_SpeechSegmentProto;
@@ -74,8 +74,6 @@
 @class MonsterProto_Builder;
 @class ObstacleProto;
 @class ObstacleProto_Builder;
-@class PrivateChatDefaultLanguageProto;
-@class PrivateChatDefaultLanguageProto_Builder;
 @class PrivateChatPostProto;
 @class PrivateChatPostProto_Builder;
 @class PvpBoardHouseProto;
