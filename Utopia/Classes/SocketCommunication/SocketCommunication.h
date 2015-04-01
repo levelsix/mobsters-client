@@ -159,6 +159,8 @@
 - (int) sendPrivateChatPostMessage:(NSString *)recipientUuid content:(NSString *)content;
 - (int) sendRetrievePrivateChatPostsMessage:(NSString *)otherUserUuid;
 
+- (int) sendTranslateSelectMessages:(NSString *)otherUserUuid language:(TranslateLanguages)language messages:(NSArray *)messages chatType:(ChatType)chatType;
+
 - (int) sendBeginDungeonMessage:(uint64_t)clientTime taskId:(int)taskId isEvent:(BOOL)isEvent eventId:(int)eventId gems:(int)gems enemyElement:(Element)element shouldForceElem:(BOOL)shouldForceElem alreadyCompletedMiniTutorialTask:(BOOL)alreadyCompletedMiniTutorialTask questIds:(NSArray *)questIds;
 - (int) sendUpdateMonsterHealthMessage:(uint64_t)clientTime monsterHealths:(NSArray *)monsterHealths isForTask:(BOOL)isForTask userTaskUuid:(NSString *)userTaskUuid taskStageId:(int)taskStageId droplessTsfuUuid:(NSString *)droplessTsfuUuid;
 - (int) sendEndDungeonMessage:(NSString *)userTaskUuid userWon:(BOOL)userWon isFirstTimeCompleted:(BOOL)isFirstTimeCompleted droplessTsfuUuids:(NSArray *)droplessTsfuUuids time:(uint64_t)time;

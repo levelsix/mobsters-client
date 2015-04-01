@@ -55,6 +55,8 @@
 #define CLAN_CHAT_VIEWED_NOTIFICATION @"ClanChatViewedNotification"
 #define STRENGTH_CHANGED_NOTIFICATION @"StrengthChangedNotification"
 
+#define GOBAL_CHAT_LANGUAGE_CHANGED @"GlobalChatLanguageChanged"
+
 #define RECEIVED_CLAN_HELP_NOTIFICATION @"ReceivedClanHelpNotification"
 #define CLAN_HELPS_CHANGED_NOTIFICATION @"ClanHelpsChangedNotification"
 #define CLAN_HELP_NOTIFICATION_KEY @"ClanHelpNotificationKey"
@@ -276,6 +278,8 @@
 + (void) imageNamedWithiPhone6Prefix:(NSString *)imageName withView:(UIView *)view greyscale:(BOOL)greyscale indicator: (UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear;
 + (void) imageNamed:(NSString *)imageName toReplaceSprite:(CCSprite *)s;
 + (void) imageNamed:(NSString *)imageName toReplaceSprite:(CCSprite *)s completion:(void(^)(BOOL success))completion;
+
++ (NSString *) flagImageNameForLanguage:(TranslateLanguages)language;
 
 + (UIColor *) colorForRarity:(Quality)rarity;
 + (NSString *) stringForRarity:(Quality)rarity;

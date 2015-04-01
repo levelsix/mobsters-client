@@ -1153,6 +1153,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
 }
 
+- (void) translateSelectMessages:(NSArray *)messages language:(TranslateLanguages)language otherUserUuid:(NSString *)otherUserUuid chatType:(ChatType)chatType delegate:(id)delegate {
+  int tag = [[SocketCommunication sharedSocketCommunication] sendTranslateSelectMessages:otherUserUuid language:language messages:messages chatType:chatType];
+  [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
+}
+
 #pragma mark - Clans
 
 - (void) createClan:(NSString *)clanName tag:(NSString *)clanTag description:(NSString *)description requestOnly:(BOOL)requestOnly iconId:(int)iconId useGems:(BOOL)useGems delegate:(id)delegate {

@@ -991,6 +991,17 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCRetrievePrivateChatPostEvent];
 }
 
+- (int) sendTranslateSelectMessages:(NSString *)otherUserUuid language:(TranslateLanguages)language messages:(NSArray *)messages chatType:(ChatType)chatType{
+  TranslateSelectMessagesRequestProto *req = [[[[[[TranslateSelectMessagesRequestProto builder]
+                                                  setSender:_sender]
+                                                 setOtherUserUuid:otherUserUuid]
+                                                setLanguage:language]
+                                               addAllMessagesToBeTranslated:messages]
+                                              setChatType:chatType];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCTranslateSelectMessagesEvent];
+}
+
 - (int) sendBeginDungeonMessage:(uint64_t)clientTime taskId:(int)taskId isEvent:(BOOL)isEvent eventId:(int)eventId gems:(int)gems enemyElement:(Element)element shouldForceElem:(BOOL)shouldForceElem alreadyCompletedMiniTutorialTask:(BOOL)alreadyCompletedMiniTutorialTask questIds:(NSArray *)questIds {
   BeginDungeonRequestProto *req = [[[[[[[[[[[[BeginDungeonRequestProto builder]
                                              setSender:_sender]
