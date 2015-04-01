@@ -66,7 +66,7 @@
   [self.eventActionList registerNib:[UINib nibWithNibName:@"MiniEventPointsActionCell" bundle:nil] forCellReuseIdentifier:@"ReusablePointsActionCell"];
 }
 
-- (void) updateForUserMiniEvent:(UserMiniEventProto*)userMiniEvent
+- (void) updateForUserMiniEvent:(UserMiniEvent*)userMiniEvent
 {
   MiniEventProto* miniEvent = userMiniEvent.miniEvent;
   
@@ -87,8 +87,7 @@
     // TODO - Kick off a timer to update time left
   }
   
-  const int pointsEarned = userMiniEvent.ptsEarned;
-  self.eventInfoPointsEearned.text = [Globals commafyNumber:pointsEarned];
+  self.eventInfoPointsEearned.text = [Globals commafyNumber:userMiniEvent.pointsEarned];
   
   _actionList = [miniEvent.goalsList mutableCopy];
   

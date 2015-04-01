@@ -163,6 +163,8 @@ static NSString *udid = nil;
     self.queuedMessages = [NSMutableArray array];
     
     self.clanEventDelegates = [NSMutableArray array];
+    
+    _updatedUserMiniEventGoals = [NSMutableDictionary dictionary];
   }
   return self;
 }
@@ -1909,6 +1911,24 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCUpdateClientTaskStateEvent flush:NO queueUp:YES];
 }
 
+- (int) updateUserMiniEventMessage:(UserMiniEventGoal *)updatedUserMiniEventGoal {
+  [self flushAllExceptEventType:EventProtocolRequestCUpdateMiniEventEvent];
+  
+  [_updatedUserMiniEventGoals setObject:[updatedUserMiniEventGoal convertToProto] forKey:@(updatedUserMiniEventGoal.miniEventGoalId)];
+  
+  return _currentTagNum;
+}
+
+- (int) sendUpdateUserMiniEventMessage {
+  UpdateMiniEventRequestProto* req = [[[[UpdateMiniEventRequestProto builder]
+                                        setSender:_sender]
+                                       addAllUpdatedGoals:[_updatedUserMiniEventGoals allValues]]
+                                      build];
+  
+  LNLog(@"Sending updated mini event goals.");
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCUpdateMiniEventEvent flush:NO queueUp:YES];
+}
 
 #pragma mark - Flush
 
@@ -2015,6 +2035,15 @@ static NSString *udid = nil;
       [self sendUpdateClientTaskStateMessage];
       
       _latestTaskClientState = nil;
+      found = YES;
+    }
+  }
+  
+  if (type != EventProtocolRequestCUpdateMiniEventEvent) {
+    if (_updatedUserMiniEventGoals.count) {
+      [self sendUpdateUserMiniEventMessage];
+      
+      [_updatedUserMiniEventGoals removeAllObjects];
       found = YES;
     }
   }
