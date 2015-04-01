@@ -37,6 +37,9 @@
 		292771421A72DBB400E3AB65 /* fightonbubblearrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 292771411A72DBB400E3AB65 /* fightonbubblearrow@2x.png */; };
 		292771431A72DBB400E3AB65 /* fightonbubblearrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 292771411A72DBB400E3AB65 /* fightonbubblearrow@2x.png */; };
 		292771441A72DBB400E3AB65 /* fightonbubblearrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 292771411A72DBB400E3AB65 /* fightonbubblearrow@2x.png */; };
+		293956041ACB57C0002D6554 /* strengthicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 293956031ACB57C0002D6554 /* strengthicon@2x.png */; };
+		293956051ACB57C0002D6554 /* strengthicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 293956031ACB57C0002D6554 /* strengthicon@2x.png */; };
+		293956061ACB57C0002D6554 /* strengthicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 293956031ACB57C0002D6554 /* strengthicon@2x.png */; };
 		2945AB291A929FB700733827 /* youlost@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF5DBA7194D18F20019EB2B /* youlost@2x.png */; };
 		2945AB2A1A929FB700733827 /* revealsep@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BB948E11A6D93DC006EE920 /* revealsep@2x.png */; };
 		2945AB2B1A929FB700733827 /* LevelUpNode.ccbi in Resources */ = {isa = PBXBuildFile; fileRef = CFF4129D19BFC261002672D4 /* LevelUpNode.ccbi */; };
@@ -7124,6 +7127,7 @@
 		292771361A71A52A00E3AB65 /* dialoguebubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dialoguebubble@2x.png"; sourceTree = "<group>"; };
 		292771371A71A52A00E3AB65 /* tutorialbackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tutorialbackground@2x.png"; sourceTree = "<group>"; };
 		292771411A72DBB400E3AB65 /* fightonbubblearrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fightonbubblearrow@2x.png"; sourceTree = "<group>"; };
+		293956031ACB57C0002D6554 /* strengthicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "strengthicon@2x.png"; sourceTree = "<group>"; };
 		2948F53E1AB2720A00DF08C2 /* BattleItemSelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BattleItemSelectViewController.h; sourceTree = "<group>"; };
 		2948F53F1AB2720A00DF08C2 /* BattleItemSelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BattleItemSelectViewController.m; sourceTree = "<group>"; };
 		2948F5401AB2720A00DF08C2 /* BattleItemSelectViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BattleItemSelectViewController.xib; sourceTree = "<group>"; };
@@ -13976,6 +13980,7 @@
 		CF1267741538ACC500E0C1AD /* Utopia Images */ = {
 			isa = PBXGroup;
 			children = (
+				293956031ACB57C0002D6554 /* strengthicon@2x.png */,
 				29AF489F1AAA93DA0034927C /* Items Factory */,
 				2992D7291AA5326B00547B11 /* Gem Mine */,
 				633CCB211AA675B500C6649F /* Research */,
@@ -14794,12 +14799,6 @@
 				63B0452A1A9D7CD600C74F0C /* EventResearch.pb.h */,
 				63B0452B1A9D7CD600C74F0C /* EventResearch.pb.m */,
 				CF6574771909CAF100ABF1F4 /* Proto files */,
-				633CCB5A1AA695F100C6649F /* BattleItem.pb.h */,
-				633CCB5B1AA695F100C6649F /* BattleItem.pb.m */,
-				633CCB5C1AA695F100C6649F /* EventBattleItem.pb.h */,
-				633CCB5D1AA695F100C6649F /* EventBattleItem.pb.m */,
-				297DE2311A9D7D6B00692D80 /* EventResearch.pb.h */,
-				297DE2321A9D7D6B00692D80 /* EventResearch.pb.m */,
 				3E1A0C001A645B4B00DF00AD /* Board.pb.h */,
 				3E1A0C011A645B4B00DF00AD /* Board.pb.m */,
 				3E1A0C021A645B4B00DF00AD /* Research.pb.h */,
@@ -18026,7 +18025,6 @@
 				CF0CEF83196F452900ECD301 /* nightavatar@2x.png in Resources */,
 				CF0CEF85196F452900ECD301 /* menuresourcesactive@2x.png in Resources */,
 				299AA3D31A7856AA00A2D806 /* rockgrenade-9@2x.png in Resources */,
-				CF0CEF86196F452900ECD301 /* lockeddailylab@2x.png in Resources */,
 				633CCAF51AA1502A00C6649F /* ResearchDetailViewController.xib in Resources */,
 				CF0CEF89196F452900ECD301 /* menuactivetab@2x.png in Resources */,
 				CF0CEF8A196F452900ECD301 /* engagearrow@2x.png in Resources */,
@@ -19350,7 +19348,6 @@
 				CF0CF66D196F452900ECD301 /* supershadow@2x.png in Resources */,
 				CF0CF66E196F452900ECD301 /* teamslotopen@2x.png in Resources */,
 				299AA3611A7856AA00A2D806 /* 6rockpoison-9@2x.png in Resources */,
-				298050911A265EE800806253 /* 8gbhud@2x.png in Resources */,
 				633CCB461AA675B500C6649F /* researchgradientline@2x.png in Resources */,
 				9BE513081A9FFD96005F3BF5 /* (null) in Resources */,
 				633CCB4C1AA675B500C6649F /* researchmissingrequirements@2x.png in Resources */,
@@ -19509,6 +19506,7 @@
 				CF0CF718196F452900ECD301 /* xpcap@2x.png in Resources */,
 				CF0CF719196F452900ECD301 /* opponentsbg@2x.png in Resources */,
 				CF0CF71B196F452900ECD301 /* MiniJobsDetailsViewController.xib in Resources */,
+				293956051ACB57C0002D6554 /* strengthicon@2x.png in Resources */,
 				CFA728391A0AE62A00FF6031 /* buildinggethelp@2x.png in Resources */,
 				CF1816E919D386F400EF5729 /* mobsterdescriptionbg@2x.png in Resources */,
 				29AA13A01A33214A004A9F22 /* ChatMonsterView.xib in Resources */,
@@ -20022,7 +20020,6 @@
 				9BB948531A67448F006EE920 /* ticker_big@2x.png in Resources */,
 				CFBB37C118F754D300FD6C8C /* minishadow@2x.png in Resources */,
 				CF010F3519DDE5C400DAD527 /* chatinputcap@2x.png in Resources */,
-				298050901A265EE800806253 /* 8gbhud@2x.png in Resources */,
 				633CCB541AA675B500C6649F /* scrollbars@2x.png in Resources */,
 				CF4825BA19F78FB900041486 /* MiniJobsQueueFooterView.xib in Resources */,
 				299AA4EB1A7872C300A2D806 /* nightorb@2x.png in Resources */,
@@ -20495,6 +20492,7 @@
 				29AF489C1AAA8F820034927C /* buildingeditboard@2x.png in Resources */,
 				CFA793891A0C63ED00DF3407 /* firescientisteventlive@2x.png in Resources */,
 				9B6B78051A8994870080C8E5 /* movescounterbg@2x.png in Resources */,
+				293956041ACB57C0002D6554 /* strengthicon@2x.png in Resources */,
 				CF70651318470051005B30A1 /* cashmiddle@2x.png in Resources */,
 				9BDA8BFF1A5B432900C7AC27 /* gooniegrabinactivetab@2x.png in Resources */,
 				CF1279A818202DE900211623 /* TopBarMonsterView.xib in Resources */,
@@ -20736,7 +20734,6 @@
 				CF7461A9196C0CBE002D6AE6 /* minijobsredbubble4@2x.png in Resources */,
 				29DCD04C1A8D8514003176FD /* fallinggems23@2x.png in Resources */,
 				29AF1C691A43AB1100E8E457 /* borderroundedlight@2x.png in Resources */,
-				CF95203D1939690800A98290 /* waterdailylab@2x.png in Resources */,
 				636C3E981AAA8C0900B02980 /* researchstatusbg@2x.png in Resources */,
 				298051151A2EAC0100806253 /* basicgrabitem@2x.png in Resources */,
 				CFF6464C195A684200C43641 /* EnhanceCardCell.xib in Resources */,
@@ -20804,7 +20801,6 @@
 				CF65ECC519A2B1CC00ABBC77 /* chatedge@2x.png in Resources */,
 				9BB5AFA81AA7FEC7002076E3 /* boardeditorcorner@2x.png in Resources */,
 				CF746184196B9A5F002D6AE6 /* buildingmanage@2x.png in Resources */,
-				9BB949341A6E1197006EE920 /* nightlightsflashlow1@2x.png in Resources */,
 				299AA4221A786BB000A2D806 /* lightbomb-9@2x.png in Resources */,
 				CF6890561912E7B500FF1F71 /* selectmobstersminitaskbg@2x.png in Resources */,
 				29FC5EAE1A89427B00A50FA7 /* builderpackbg@2x.png in Resources */,
@@ -23101,6 +23097,7 @@
 				CF48228719F7217F00041486 /* EvolveChooserViewController.xib in Resources */,
 				CF48228919F7217F00041486 /* chatinputmiddle@2x.png in Resources */,
 				CF48228B19F7217F00041486 /* helpredbubble7@2x.png in Resources */,
+				293956061ACB57C0002D6554 /* strengthicon@2x.png in Resources */,
 				CF48228D19F7217F00041486 /* youlostlost@2x.png in Resources */,
 				29804F341A1EE9DF00806253 /* itemstimerbg@2x.png in Resources */,
 				CF48228F19F7217F00041486 /* vaultgems@2x.png in Resources */,
@@ -23186,7 +23183,6 @@
 				CFA9F7B61A0D8F6300EBE77D /* purpleitemsbutton@2x.png in Resources */,
 				29ABD6CA1A732EF2003A65F4 /* tutorialrocks@2x.png in Resources */,
 				636C3E931AAA865400B02980 /* researchlocked@2x.png in Resources */,
-				298050741A265EE800806253 /* 3gbhud@2x.png in Resources */,
 				CF48230919F7217F00041486 /* epicdot@2x.png in Resources */,
 				2948F5551AB36D8D00DF08C2 /* use_gems.mp3 in Resources */,
 				CF48230A19F7217F00041486 /* profstatsinactive@2x.png in Resources */,
@@ -24079,7 +24075,6 @@
 				6BB5F8651A80571A006515B9 /* TutorialUpgradeViewController.m in Sources */,
 				CF0CEDB8196F452900ECD301 /* DBFBProfilePictureView.m in Sources */,
 				2948F5421AB2720A00DF08C2 /* BattleItemSelectViewController.m in Sources */,
-				636C3E681AA942E800B02980 /* ResearchController.m in Sources */,
 				CF0CEDBA196F452900ECD301 /* User.pb.m in Sources */,
 				CF0CEDBB196F452900ECD301 /* QuestLogViewController.m in Sources */,
 				CF0CEDBC196F452900ECD301 /* MSDate.m in Sources */,
@@ -24816,7 +24811,6 @@
 				6BB5F8661A80571A006515B9 /* TutorialUpgradeViewController.m in Sources */,
 				CF48196819F7217F00041486 /* DBFBProfilePictureView.m in Sources */,
 				2948F5431AB2720A00DF08C2 /* BattleItemSelectViewController.m in Sources */,
-				636C3E691AA942E800B02980 /* ResearchController.m in Sources */,
 				CF48196919F7217F00041486 /* User.pb.m in Sources */,
 				CF48196A19F7217F00041486 /* QuestLogViewController.m in Sources */,
 				CF48196B19F7217F00041486 /* MSDate.m in Sources */,
@@ -25127,8 +25121,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

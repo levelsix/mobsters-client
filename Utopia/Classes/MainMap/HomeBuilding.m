@@ -1271,7 +1271,7 @@
   [super displayProgressBar];
   
   if (_userResearch) {
-    MiniResearchViewSprite *spr = [MiniResearchViewSprite spriteWithResearchProto:_userResearch.research];
+    MiniResearchViewSprite *spr = [MiniResearchViewSprite spriteWithResearchProto:_userResearch.staticResearch];
     [self.progressBar addChild:spr];
     spr.position = ccp(-spr.contentSize.width/2-4.f, self.progressBar.contentSize.height/2+1.f);
   }
@@ -1299,7 +1299,7 @@
     NSString *prefix = [self progressBarPrefix];
     if ([bar.prefix isEqualToString:prefix]) {
       NSTimeInterval time = _userResearch.tentativeCompletionDate.timeIntervalSinceNow;
-      NSTimeInterval totalSecs = _userResearch.research.durationMin * 60;
+      NSTimeInterval totalSecs = _userResearch.staticResearch.durationMin * 60;
       [self.progressBar updateForSecsLeft:time totalSecs:totalSecs];
       
       if ([self isFreeSpeedup]) {

@@ -22,11 +22,11 @@
 
 - (void) updateForProto:(UserResearch *)userResearch {
   _userResearch = userResearch;
-  ResearchProto *proto = userResearch.research;
-  BOOL isAvailable = [userResearch.research prereqsComplete];
+  ResearchProto *proto = userResearch.staticResearch;
+  BOOL isAvailable = [userResearch.staticResearch prereqsComplete];
   
-  [Globals imageNamed:userResearch.research.iconImgName withView:self.selectionIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-  int curRank = userResearch.researchForBenefitLevel.level;
+  [Globals imageNamed:userResearch.staticResearch.iconImgName withView:self.selectionIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  int curRank = userResearch.staticResearchForBenefitLevel.level;
   self.rankTotal.text = [NSString stringWithFormat:@"%d/%@", curRank, @([proto fullResearchFamily].count)];
   self.rankTotal.shadowBlur = 0.5f;
   self.selectionTitle.text = [NSString stringWithFormat:@" %@", proto.name];
@@ -80,7 +80,7 @@
 - (void) updateSelf {
   if(_userResearch) {
     GameState *gs = [GameState sharedGameState];
-    [self updateForProto:[gs.researchUtil currentRankForResearch:_userResearch.research]];
+    [self updateForProto:[gs.researchUtil currentRankForResearch:_userResearch.staticResearch]];
   }
 }
 
@@ -98,7 +98,7 @@
 @implementation ResearchButtonView
 
 - (void) select {
-  BOOL isAvailable = [_userResearch.research prereqsComplete];
+  BOOL isAvailable = [_userResearch.staticResearch prereqsComplete];
   self.bgView.hidden = !isAvailable;
   self.outline.image = isAvailable ? [UIImage imageNamed:AVAILABLE_OUTLINE] : [UIImage imageNamed:UNAVAILABLE_OUTLINE];
   
@@ -114,7 +114,7 @@
 
 - (void) updateSelf {
   GameState *gs = [GameState sharedGameState];
-  [self updateForResearch:[gs.researchUtil currentRankForResearch:_userResearch.research] parentNodes:nil];
+  [self updateForResearch:[gs.researchUtil currentRankForResearch:_userResearch.staticResearch] parentNodes:nil];
 }
 
 - (void) dropOpacity {
@@ -132,18 +132,18 @@
 }
 
 - (void) updateForResearch:(UserResearch *)userResearch parentNodes:(NSSet *)parentNodes {
-  ResearchProto *research = userResearch.research;
+  ResearchProto *research = userResearch.staticResearch;
   _userResearch = userResearch;
   
   self.researchNameLabel.text = research.name;
-  int curRank = userResearch.researchForBenefitLevel.level;
+  int curRank = userResearch.staticResearchForBenefitLevel.level;
   self.rankCountLabel.text = [NSString stringWithFormat:@"%d/%@", curRank, @([research fullResearchFamily].count)];
   self.researchNameLabel.height = [self.researchNameLabel.text getSizeWithFont:self.researchNameLabel.font
                                                              constrainedToSize:CGSizeMake(self.researchNameLabel.width, MAXFLOAT)].height;
   self.rankLabel.originY = CGRectGetMaxY(self.researchNameLabel.frame);
   self.rankCountLabel.originY = self.rankLabel.originY;
   
-  BOOL isAvailable = [_userResearch.research prereqsComplete];
+  BOOL isAvailable = [_userResearch.staticResearch prereqsComplete];
   self.researchNameLabel.textColor = [UIColor colorWithHexString:isAvailable ? @"2AB4E8" : @"555555"];
   self.rankCountLabel.textColor = [UIColor colorWithHexString:isAvailable ? @"333333" : @"999999"];
   self.lockedIcon.hidden = isAvailable;

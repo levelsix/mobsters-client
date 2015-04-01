@@ -3392,7 +3392,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     OilUpdate *ou = [OilUpdate updateWithTag:tag change:-resourceCost];
     [gs addUnrespondedUpdates:ou,gu, nil];
   }
-  UserResearch *newUserResearch = [[UserResearch alloc] initWithResearch:userResearch.research];
+  UserResearch *newUserResearch = [[UserResearch alloc] initWithResearch:userResearch.staticResearch];
   newUserResearch.timeStarted = [MSDate date];
   
   newUserResearch.userResearchUuid = userResearch.userResearchUuid;
@@ -3414,7 +3414,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [gs addUnrespondedUpdate:gu];
   [gs.clanHelpUtil cleanupRogueClanHelps];
   
-  UserResearch *newUserResearch = [[UserResearch alloc] initWithResearch:userResearch.research];
+  UserResearch *newUserResearch = [[UserResearch alloc] initWithResearch:userResearch.staticResearch];
   newUserResearch.complete = YES;
   
   return userResearch;

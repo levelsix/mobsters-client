@@ -24,8 +24,8 @@
 - (BOOL) isResearching;
 - (MSDate *)tentativeCompletionDate;
 
-- (ResearchProto *) research;
-- (ResearchProto *) researchForBenefitLevel;
+- (ResearchProto *) staticResearch;
+- (ResearchProto *) staticResearchForBenefitLevel;
 
 @end
 
@@ -49,6 +49,9 @@
 - (float) percentageBenefitForType:(ResearchType)type resType:(ResourceType)resType;
 - (int) amountBenefitForType:(ResearchType)type element:(Element)element rarity:(Quality)rarity;
 - (int) amountBenefitForType:(ResearchType)type;
+
+- (NSArray *) allUserResearchesForElement:(Element)element rarity:(Quality)rarity;
+- (NSArray *) allResearchProtosForElement:(Element)element rarity:(Quality)rarity;
 
 @end
 

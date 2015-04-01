@@ -44,7 +44,11 @@
 @property (nonatomic, strong) IBOutlet UILabel *elementLabel;
 @property (nonatomic, strong) IBOutlet UILabel *speedLabel;
 @property (nonatomic, strong) IBOutlet UILabel *powerLabel;
+@property (nonatomic, strong) IBOutlet UILabel *strengthLabel;
 @property (nonatomic, strong) IBOutlet UILabel *monsterDescription;
+
+@property (nonatomic, strong) IBOutlet UILabel *noResearchLabel;
+@property (nonatomic, strong) IBOutlet UIScrollView *researchScrollView;
 
 @property (nonatomic, strong) IBOutlet UIButton *avatarButton;
 @property (nonatomic, strong) IBOutlet UIButton *protectedButton;
@@ -74,7 +78,6 @@
 
 - (id)initWithMonsterProto:(UserMonster *)monster;
 - (id)initWithMonsterProto:(UserMonster *)monster allowSell:(BOOL)allowSell;
-- (IBAction)infoClicked:(id)sender;
 - (IBAction)close:(id)sender;
 - (IBAction)backClicked:(id)sender;
 - (IBAction)sellClicked:(id)sender;

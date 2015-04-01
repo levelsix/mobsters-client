@@ -1912,7 +1912,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     [[NSNotificationCenter defaultCenter] postNotificationName:RESEARCH_WAIT_COMPLETE_NOTIFICATION object:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:RESEARCH_CHANGED_NOTIFICATION object:nil];
     
-    [Globals addGreenAlertNotification:[NSString stringWithFormat:@"%@ has finished researching!", ur.research.name] isImmediate:NO];
+    [Globals addGreenAlertNotification:[NSString stringWithFormat:@"%@ has finished researching!", ur.staticResearch.name] isImmediate:NO];
   }
 }
 

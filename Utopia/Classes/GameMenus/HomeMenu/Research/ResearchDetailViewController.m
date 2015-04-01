@@ -23,10 +23,10 @@
 @implementation ResearchDetailView
 
 - (void) updateWithResearch:(UserResearch *)userResearch {
-  self.researchName.text = userResearch.research.name;
-  int curLevel = userResearch.researchForBenefitLevel.level;
-  self.researchRank.text = [NSString stringWithFormat:@"%d/%@",curLevel, @([userResearch.research fullResearchFamily].count)];
-  [Globals imageNamed:userResearch.research.iconImgName withView:self.researchIcon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+  self.researchName.text = userResearch.staticResearch.name;
+  int curLevel = userResearch.staticResearchForBenefitLevel.level;
+  self.researchRank.text = [NSString stringWithFormat:@"%d/%@",curLevel, @([userResearch.staticResearch fullResearchFamily].count)];
+  [Globals imageNamed:userResearch.staticResearch.iconImgName withView:self.researchIcon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
 }
 
 @end
@@ -54,13 +54,13 @@
 #pragma TableView Delegates
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return [_userResearch.research fullResearchFamily].count;
+  return [_userResearch.staticResearch fullResearchFamily].count;
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   GameState *gs = [GameState sharedGameState];
   
-  ResearchProto *research = _userResearch.research;
+  ResearchProto *research = _userResearch.staticResearch;
   NSArray *researchFamily = [research fullResearchFamily];
   research = [researchFamily objectAtIndex:indexPath.row];
   ResearchController *rc = [ResearchController researchControllerWithProto:research];

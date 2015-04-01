@@ -45,7 +45,7 @@
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
-  int seconds = self.research.durationMin * 60;
+  int seconds = self.staticResearch.durationMin * 60;
   
   // Account for clan helps
   int numHelps = [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypePerformingResearch userDataUuid:self.userResearchUuid];
@@ -74,13 +74,13 @@
   return !self.complete && self.timeStarted;
 }
 
-- (ResearchProto *) research {
+- (ResearchProto *) staticResearch {
   GameState *gs = [GameState sharedGameState];
   return [gs researchWithId:self.researchId];
 }
 
-- (ResearchProto *) researchForBenefitLevel {
-  return self.complete ? self.research : self.research.predecessorResearch;
+- (ResearchProto *) staticResearchForBenefitLevel {
+  return self.complete ? self.staticResearch : self.staticResearch.predecessorResearch;
 }
 
 @end
@@ -140,7 +140,7 @@
 
 - (UserResearch *) userResearchForProto:(ResearchProto *)research {
   for (UserResearch *ur in self.userResearches) {
-    if(ur.research.researchId == research.researchId) {
+    if(ur.staticResearch.researchId == research.researchId) {
       return ur;
     }
   }
@@ -150,9 +150,9 @@
 - (BOOL) prerequisiteFullfilledForResearch:(ResearchProto *)research {
   UserResearch *userResearch = [self userResearchForProto:research];
   UserResearch *curRank = [self currentRankForResearch:research];
-  if (curRank.research.level > research.level) {
+  if (curRank.staticResearch.level > research.level) {
     return YES;
-  } else if(curRank.research.level < research.level) {
+  } else if(curRank.staticResearch.level < research.level) {
     return NO;
   }
   if (userResearch) {
@@ -167,7 +167,7 @@
 }
 
 - (UserResearch *) findCurRankForResearch:(UserResearch *) userResearch {
-  ResearchProto *succesorResearch = [userResearch.research successorResearch];
+  ResearchProto *succesorResearch = [userResearch.staticResearch successorResearch];
   if (userResearch.isResearching){
     return userResearch;
   }
@@ -189,7 +189,7 @@
   for (UserResearch *ur in self.userResearches) {
     if ([ur isResearching]) {
       NSString *userDataId = ur.userResearchUuid;
-      [ur updateForUserResearch:[UserResearch userResearchWithResearch:[ur.research predecessorResearch]]];
+      [ur updateForUserResearch:[UserResearch userResearchWithResearch:[ur.staticResearch predecessorResearch]]];
       ur.timeStarted = nil;
       ur.complete = YES;
       ur.userResearchUuid = userDataId;
@@ -205,7 +205,7 @@
   float perc = 0.f;
   
   for (UserResearch *ur in self.userResearches) {
-    ResearchProto *rp = ur.researchForBenefitLevel;
+    ResearchProto *rp = ur.staticResearchForBenefitLevel;
     if (rp.researchType == type &&
         (!rp.hasElement || rp.element == element) &&
         (!rp.hasRarity || rp.rarity == rarity) &&
@@ -233,7 +233,7 @@
   int amt = 0;
   
   for (UserResearch *ur in self.userResearches) {
-    ResearchProto *rp = ur.researchForBenefitLevel;
+    ResearchProto *rp = ur.staticResearchForBenefitLevel;
     if (rp.researchType == type &&
         (!rp.hasElement || rp.element == element) &&
         (!rp.hasRarity || rp.rarity == rarity)) {
@@ -246,6 +246,84 @@
 
 - (int) amountBenefitForType:(ResearchType)type {
   return [self amountBenefitForType:type element:ElementNoElement rarity:QualityNoQuality];
+}
+
+- (BOOL) isMonsterType:(ResearchType)type {
+  // List out all the types so if new ones get added they will not be forgotten here, i.e. no default.
+  
+  switch (type) {
+    case ResearchTypeAttackIncrease:
+    case ResearchTypeSpeedIncrease:
+    case ResearchTypeHpIncrease:
+    case ResearchTypeHealingCost:
+    case ResearchTypeHealingSpeed:
+    case ResearchTypeDecreaseEnhanceTime:
+    case ResearchTypeEnhanceCost:
+    case ResearchTypeXpBonus:
+      return YES;
+      
+    case ResearchTypeIncreaseConstructionSpeed:
+    case ResearchTypeIncreaseEnhanceQueue:
+    case ResearchTypeIncreaseHospitalQueue:
+    case ResearchTypeItemProductionCost:
+    case ResearchTypeItemProductionSpeed:
+    case ResearchTypeNoResearch:
+    case ResearchTypeNumberOfHospitals:
+    case ResearchTypeResourceProduction:
+    case ResearchTypeResourceStorage:
+    case ResearchTypeUnlockItem:
+    case ResearchTypeUnlockObstacle:
+      return NO;
+  }
+  return NO;
+}
+
+- (NSArray *) allUserResearchesForElement:(Element)element rarity:(Quality)rarity {
+  NSMutableArray *arr = [NSMutableArray array];
+  for (UserResearch *ur in self.userResearches) {
+    ResearchProto *rp = ur.staticResearchForBenefitLevel;
+    if ([self isMonsterType:rp.researchType] &&
+        (!rp.hasElement || rp.element == element) &&
+        (!rp.hasRarity || rp.rarity == rarity)) {
+      [arr addObject:ur];
+    }
+  }
+  
+  [arr sortUsingComparator:^NSComparisonResult(UserResearch *ur1, UserResearch *ur2) {
+    ResearchProto *obj1 = ur1.staticResearch;
+    ResearchProto *obj2 = ur2.staticResearch;
+    if (obj1.researchType != obj2.researchType) {
+      return [@(obj1.researchType) compare:@(obj2.researchType)];
+    } else {
+      return [@(obj1.tier) compare:@(obj2.tier)];
+    }
+  }];
+  
+  return arr;
+}
+
+- (NSArray *) allResearchProtosForElement:(Element)element rarity:(Quality)rarity {
+  GameState *gs = [GameState sharedGameState];
+  
+  NSMutableArray *arr = [NSMutableArray array];
+  for (ResearchProto *rp in gs.staticResearches.allValues) {
+    if (!rp.predId &&
+        [self isMonsterType:rp.researchType] &&
+        (!rp.hasElement || rp.element == element) &&
+        (!rp.hasRarity || rp.rarity == rarity)) {
+      [arr addObject:rp];
+    }
+  }
+  
+  [arr sortUsingComparator:^NSComparisonResult(ResearchProto *obj1, ResearchProto *obj2) {
+    if (obj1.researchType != obj2.researchType) {
+      return [@(obj1.researchType) compare:@(obj2.researchType)];
+    } else {
+      return [@(obj1.tier) compare:@(obj2.tier)];
+    }
+  }];
+  
+  return arr;
 }
 
 @end

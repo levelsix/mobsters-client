@@ -42,7 +42,7 @@
   _curResearch = curResearch;
   
   if (curResearch && !_curResearchUp) {
-    [Globals imageNamed:curResearch.research.iconImgName withView:self.researchIcon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+    [Globals imageNamed:curResearch.staticResearch.iconImgName withView:self.researchIcon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
     
     CGPoint position = self.selectFieldView.center;
     [self.selectFieldView removeFromSuperview];
@@ -109,7 +109,7 @@
     self.helpButton.superview.hidden = YES;
     self.curTimeRemaining.superview.hidden = YES;
   }
-  self.curResearchTitle.text = _curResearch.research.name;
+  self.curResearchTitle.text = _curResearch.staticResearch.name;
 }
 
 -(void)waitTimeComplete {
@@ -272,7 +272,7 @@
 }
 
 - (int) totalSecondsRequired {
-  return _curResearch.research.durationMin * 60;
+  return _curResearch.staticResearch.durationMin * 60;
 }
 
 - (NSString *)titleName {

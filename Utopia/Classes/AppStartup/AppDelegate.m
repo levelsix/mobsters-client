@@ -361,7 +361,7 @@
   
   UserResearch *curResearch = gs.researchUtil.currentResearch;
   if (curResearch) {
-    ResearchProto *rp = curResearch.research;
+    ResearchProto *rp = curResearch.staticResearch;
     [self scheduleNotificationWithText:[NSString stringWithFormat:@"%@%@ has finished researching.", rp.name, rp.predId || rp.succId ? [NSString stringWithFormat:@" Rank %d", rp.level] : @""] badge:1 date:curResearch.tentativeCompletionDate];
   }
   
