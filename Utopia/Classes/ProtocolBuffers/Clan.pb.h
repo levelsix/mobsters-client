@@ -12,8 +12,6 @@
 
 @class BattleItemFactoryProto;
 @class BattleItemFactoryProto_Builder;
-@class ChatTranslationsProto;
-@class ChatTranslationsProto_Builder;
 @class ClanDataProto;
 @class ClanDataProto_Builder;
 @class ClanHelpNoticeProto;
@@ -40,6 +38,8 @@
 @class ColorProto_Builder;
 @class CoordinateProto;
 @class CoordinateProto_Builder;
+@class DefaultLanguagesProto;
+@class DefaultLanguagesProto_Builder;
 @class EvoChamberProto;
 @class EvoChamberProto_Builder;
 @class FullClanProto;
@@ -106,6 +106,8 @@
 @class PersistentClanEventUserInfoProto_Builder;
 @class PersistentClanEventUserRewardProto;
 @class PersistentClanEventUserRewardProto_Builder;
+@class PrivateChatDefaultLanguageProto;
+@class PrivateChatDefaultLanguageProto_Builder;
 @class PrivateChatPostProto;
 @class PrivateChatPostProto_Builder;
 @class PvpBoardHouseProto;

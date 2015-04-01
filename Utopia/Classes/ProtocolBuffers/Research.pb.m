@@ -24,14 +24,14 @@ static PBExtensionRegistry* extensionRegistry = nil;
 BOOL ResearchTypeIsValidValue(ResearchType value) {
   switch (value) {
     case ResearchTypeNoResearch:
+    case ResearchTypeHpIncrease:
+    case ResearchTypeAttackIncrease:
+    case ResearchTypeSpeedIncrease:
     case ResearchTypeHealingCost:
     case ResearchTypeHealingSpeed:
     case ResearchTypeEnhanceCost:
-    case ResearchTypeXpBonus:
     case ResearchTypeDecreaseEnhanceTime:
-    case ResearchTypeAttackIncrease:
-    case ResearchTypeHpIncrease:
-    case ResearchTypeSpeedIncrease:
+    case ResearchTypeXpBonus:
     case ResearchTypeIncreaseHospitalQueue:
     case ResearchTypeIncreaseEnhanceQueue:
     case ResearchTypeNumberOfHospitals:

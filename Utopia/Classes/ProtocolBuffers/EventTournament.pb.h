@@ -6,10 +6,10 @@
 #import "User.pb.h"
 // @@protoc_insertion_point(imports)
 
-@class ChatTranslationsProto;
-@class ChatTranslationsProto_Builder;
 @class ColorProto;
 @class ColorProto_Builder;
+@class DefaultLanguagesProto;
+@class DefaultLanguagesProto_Builder;
 @class FullUserProto;
 @class FullUserProto_Builder;
 @class GroupChatMessageProto;
@@ -26,6 +26,8 @@
 @class MinimumUserProtoWithMaxResources;
 @class MinimumUserProtoWithMaxResources_Builder;
 @class MinimumUserProto_Builder;
+@class PrivateChatDefaultLanguageProto;
+@class PrivateChatDefaultLanguageProto_Builder;
 @class PrivateChatPostProto;
 @class PrivateChatPostProto_Builder;
 @class RetrieveTournamentRankingsRequestProto;
