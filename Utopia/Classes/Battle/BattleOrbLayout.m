@@ -1761,7 +1761,8 @@ static const NSInteger maxSearchIterations = 800;
       row = rand() % layout.numRows;
       orb = [layout orbAtColumn:column row:row];
       counter++;
-    } while (([layout willHaveChainAtColumn:column row:row color:orbColor] ||
+    } while ((!orb ||
+              [layout willHaveChainAtColumn:column row:row color:orbColor] ||
               orb.specialOrbType != SpecialOrbTypeNone ||
               orb.powerupType != PowerupTypeNone ||
               orb.isLocked) &&
