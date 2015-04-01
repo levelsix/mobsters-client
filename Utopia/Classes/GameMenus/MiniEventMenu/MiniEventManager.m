@@ -47,18 +47,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(MiniEventManager)
   
   if (userMiniEvent && userMiniEvent.miniEvent)
   {
-    _currentUserMiniEvent = userMiniEvent;
+    _currentUserMiniEvent = [UserMiniEvent userMiniEventWithProto:userMiniEvent];
     
     MSDate* eventEndTime = [MSDate dateWithTimeIntervalSince1970:userMiniEvent.miniEvent.miniEventEndTime / 1000.f];
     MSDate* now = [MSDate date];
     if ([now compare:eventEndTime] != NSOrderedAscending)
     {
       // Event already ended
-      if (userMiniEvent.tierOneRedeemed &&
-          userMiniEvent.tierTwoRedeemed &&
-          userMiniEvent.tierThreeRedeemed)
+      if ((userMiniEvent.tierOneRedeemed   || _currentUserMiniEvent.pointsEarned < userMiniEvent.miniEvent.lvlEntered.tierOneMinPts) &&
+          (userMiniEvent.tierTwoRedeemed   || _currentUserMiniEvent.pointsEarned < userMiniEvent.miniEvent.lvlEntered.tierTwoMinPts) &&
+          (userMiniEvent.tierThreeRedeemed || _currentUserMiniEvent.pointsEarned < userMiniEvent.miniEvent.lvlEntered.tierThreeMinPts))
       {
-        // All tier rewards have been redeemed
+        // All tier rewards that user has accumulated enough points for have already been redeemed
         _currentUserMiniEvent = nil;
       }
     }
@@ -76,6 +76,35 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(MiniEventManager)
   else
   {
     // For now not going to retry the event. Might later decide to retry in timed intervals
+  }
+}
+
+- (void) handleUserProgressOnMiniEventGoal:(MiniEventGoalProto_MiniEventGoalType)goalType withAmount:(int32_t)amount
+{
+  if (_currentUserMiniEvent &&
+      MiniEventGoalProto_MiniEventGoalTypeIsValidValue(goalType) &&
+      amount > 0)
+  {
+    for (MiniEventGoalProto* goalProto in _currentUserMiniEvent.miniEvent.goalsList)
+    {
+      if (goalProto.goalType == goalType)
+      {
+        UserMiniEventGoal* userMiniEventGoal = [_currentUserMiniEvent.miniEventGoals objectForKey:@(goalProto.miniEventGoalId)];
+        userMiniEventGoal.progress += amount;
+        
+        if (userMiniEventGoal.progress >= userMiniEventGoal.goalAmt &&
+            userMiniEventGoal.progress - amount < userMiniEventGoal.goalAmt)
+        {
+          // Current progress led to goal being completed
+          _currentUserMiniEvent.pointsEarned += userMiniEventGoal.pointsGained;
+        }
+        
+        [[OutgoingEventController sharedOutgoingEventController] updateUserMiniEvent:userMiniEventGoal shouldFlush:NO];
+        
+        // There will be no two goals of the same type in a mini event
+        break;
+      }
+    }
   }
 }
 

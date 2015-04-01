@@ -61,7 +61,7 @@
   
   [self button1Clicked:self];
   
-  UserMiniEventProto* userMiniEvent = [MiniEventManager sharedInstance].currentUserMiniEvent;
+  UserMiniEvent* userMiniEvent = [MiniEventManager sharedInstance].currentUserMiniEvent;
   if (userMiniEvent)
   {
     [self.detailsView updateForUserMiniEvent:userMiniEvent];

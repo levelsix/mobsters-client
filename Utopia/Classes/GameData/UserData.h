@@ -365,3 +365,36 @@ typedef enum {
 - (NSDictionary *) damageDealtPerUserMonsterUuid;
 
 @end
+
+@interface UserMiniEventGoal : NSObject
+
+@property (nonatomic, retain) NSString* userUuid;
+@property (nonatomic, assign) int32_t miniEventGoalId;
+@property (nonatomic, assign) int32_t goalAmt;
+@property (nonatomic, assign) int32_t pointsGained;
+@property (nonatomic, assign) int32_t progress;
+
++ (instancetype) userMiniEventGoalWithProto:(MiniEventGoalProto*)proto;
+
+- (UserMiniEventGoalProto*) convertToProto;
+
+@end
+
+@interface UserMiniEvent : NSObject
+
+@property (nonatomic, assign) int32_t miniEventId;
+@property (nonatomic, retain) NSString* userUuid;
+@property (nonatomic, assign) int32_t userLvl;
+@property (nonatomic, assign) BOOL tierOneRedeemed;
+@property (nonatomic, assign) BOOL tierTwoRedeemed;
+@property (nonatomic, assign) BOOL tierThreeRedeemed;
+@property (nonatomic, retain) MiniEventProto* miniEvent;
+
+@property (nonatomic, assign) int32_t pointsEarned;
+@property (nonatomic, retain) NSMutableDictionary* miniEventGoals;
+
++ (instancetype) userMiniEventWithProto:(UserMiniEventProto*)proto;
+
+- (UserMiniEventProto*) convertToProto;
+
+@end
