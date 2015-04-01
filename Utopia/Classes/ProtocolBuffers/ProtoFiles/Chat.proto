@@ -42,16 +42,6 @@ enum GroupChatScope {
 	GLOBAL = 2;
 }
 
-//------------------------------------------------------------------------------------------
-
-message ChatTranslationsProto {
-	optional string chatTranslationId = 1;
-	optional ChatType chatType = 2;
-	optional string chatId = 3;
-	optional TranslateLanguages language = 4;
-	optional string text = 5;
-}
-
 //-------------------------------------------------------------------------------------
 
 enum ChatType {
@@ -63,12 +53,12 @@ enum ChatType {
 
 enum TranslateLanguages {
 	ARABIC = 1;
-	CHINESE_SIMPLIFIED = 2;
-	CHINESE_TRADITIONAL = 3;
-	ENGLISH = 4;
-	FRENCH = 5;
-	GERMAN = 6;
-	SPANISH = 7;
+	ENGLISH = 2;
+	FRENCH = 3;
+	GERMAN = 4;
+	SPANISH = 5;
+	RUSSIAN = 6;
+	NO_TRANSLATION = 7;
 }
 
 //-------------------------------------------------------------------------------------
@@ -78,6 +68,26 @@ message TranslatedTextProto {
 	optional string text = 2;
 
 }
+
+//-------------------------------------------------------------------------------------
+
+message DefaultLanguagesProto {
+	optional TranslateLanguages globalDefaultLanguage = 1;
+	repeated PrivateChatDefaultLanguageProto privateDefaultLanguage = 2;
+
+}
+
+//-------------------------------------------------------------------------------------
+
+message PrivateChatDefaultLanguageProto {
+	optional string recipientUserId = 1;
+	optional string senderUserId = 2;
+	optional TranslateLanguages defaultLanguage = 3;
+
+}
+
+	
+
 
 
 
