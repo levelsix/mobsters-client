@@ -17,6 +17,26 @@ typedef enum {
   PrivateChatModeDefenseLog,
 }PrivateChatViewMode;
 
+@protocol LanguageSelectorProtocol <NSObject>
+
+- (void) flagClicked:(TranslateLanguages)language;
+- (void) translateChecked:(BOOL)checked;
+
+
+@end
+
+@interface ChatLanguageSelector : UIView
+
+@property (nonatomic, assign) id<LanguageSelectorProtocol> delegate;
+@property (nonatomic, retain) IBOutletCollection(UIButton) NSArray *flagButtons;
+@property (nonatomic, assign) IBOutlet UIImageView *selectBox;
+@property (nonatomic, assign) IBOutlet UIImageView *checkMark;
+
+- (void) openAtPoint:(CGPoint)pt;
+- (void) close;
+
+@end
+
 @protocol ChatPopoverDelegate <NSObject>
 
 - (void) profileClicked;
@@ -34,8 +54,6 @@ typedef enum {
 
 @end
 
-
-
 @protocol ChatViewDelegate <NSObject>
 
 - (void) profileClicked:(NSString *)userUuid;
@@ -44,9 +62,12 @@ typedef enum {
 - (void) viewedPrivateChat;
 - (void) hideTopLiveHelp;
 
+- (void) lockLanguageButtonWithFlag:(NSString *)flagImageName;
+- (void) unlockLanguageButton;
+
 @end
 
-@interface ChatView : UIView <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, ChatPopoverDelegate> {
+@interface ChatView : UIView <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, ChatPopoverDelegate, LanguageSelectorProtocol> {
   ChatCell *_testCell;
   
   id<ChatObject> _clickedMsg;
@@ -61,6 +82,7 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet CircleMonsterView *monsterView;
 
 @property (nonatomic, retain) IBOutlet ChatPopoverView *popoverView;
+@property (nonatomic, retain) IBOutlet ChatLanguageSelector *languageSelectorView;
 
 @property (nonatomic, weak) IBOutlet id<ChatViewDelegate> delegate;
 

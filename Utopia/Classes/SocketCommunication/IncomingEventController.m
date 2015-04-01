@@ -360,6 +360,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSUpdateUserStrengthEvent:
       responseClass = [UpdateUserStrengthResponseProto class];
       break;
+    case EventProtocolResponseSTranslateSelectMessagesEvent:
+      responseClass = [TranslateSelectMessagesResponseProto class];
+      break;
     default:
       responseClass = nil;
       break;
@@ -492,6 +495,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs.privateChats removeAllObjects];
     for (GroupChatMessageProto *msg in proto.globalChatsList) {
       ChatMessage *cm = [[ChatMessage alloc] initWithProto:msg];
+      cm.isRead = YES;
       [gs addChatMessage:cm scope:GroupChatScopeGlobal];
     }
     for (PrivateChatPostProto *pcpp in proto.pcppList) {
@@ -2443,6 +2447,18 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   } else {
     [Globals popupMessage:@"Server failed to redeem research."];
     [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleTranslateSelectMessagesResponseProto:(FullEvent *)fe{
+  TranslateSelectMessagesResponseProto *proto = (TranslateSelectMessagesResponseProto *)fe;
+  
+  LNLog(@"Redeem mini job response received with status %d.", (int)proto.status);
+  
+  if(proto.status == TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusSuccess) {
+    
+  } else {
+    [Globals popupMessage:@"server failed to translate messages"];
   }
 }
 

@@ -22,32 +22,49 @@
 
 @implementation ChatMessage
 
-@synthesize message, sender, date, isAdmin;
+@synthesize sender, date, isAdmin, originalLanguage;
 
 - (id) initWithProto:(GroupChatMessageProto *)p {
   if ((self = [super init])) {
-    self.message = p.content;
+    self.originalMessage = p.content;
+    self.originalLanguage = YES;
+    self.translatedTextProtos = p.translatedContentList;
     self.sender = p.sender.minUserProto;
     self.date = [MSDate dateWithTimeIntervalSince1970:p.timeOfChat/1000.];
     self.isAdmin = p.isAdmin;
-    
-    // If being initialized with a proto, it means it didn't just get received right now
-    // So mark it as read..
-    self.isRead = YES;
+    self.revertedTranslation = NO;
   }
   return self;
+}
+
+- (NSString *)message {
+  return self.originalMessage;
 }
 
 - (UIColor *)bottomViewTextColor {
   return [UIColor whiteColor];
 }
 
-- (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag {
-  [chatCell updateForMessage:self.message sender:self.sender date:self.date showsClanTag:showsClanTag];
+- (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag language:(TranslateLanguages)language {
+  NSString *translatedMessage = self.message;
+  
+  for(TranslatedTextProto *ttp in self.translatedTextProtos) {
+    if (ttp.language == language) {
+      translatedMessage = ttp.text;
+      originalLanguage = NO;
+      break;
+    }
+  }
+  
+  if (self.revertedTranslation) {
+    translatedMessage = self.originalMessage;
+  }
+  
+  [chatCell updateForMessage:translatedMessage sender:self.sender date:self.date showsClanTag:showsClanTag];
 }
 
-- (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell {
-  [self updateInChatCell:chatCell showsClanTag:NO];
+- (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell langauge:(TranslateLanguages)language{
+  [self updateInChatCell:chatCell showsClanTag:NO language:language];
   return CGRectGetMaxY(chatCell.msgLabel.frame)+14.f;
 }
 
@@ -111,7 +128,7 @@
 }
 
 - (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell {
-  [self updateInChatCell:chatCell showsClanTag:YES];
+  [self updateInChatCell:chatCell showsClanTag:YES language:TranslateLanguagesEnglish];
   return CGRectGetMaxY(chatCell.currentChatSubview.frame)+14.f;
 }
 
@@ -252,7 +269,7 @@
 }
 
 - (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell {
-  [self updateInChatCell:chatCell showsClanTag:YES];
+  [self updateInChatCell:chatCell showsClanTag:YES language:TranslateLanguagesEnglish];
   return CGRectGetMaxY(chatCell.currentChatSubview.frame)+14.f;
 }
 
@@ -402,7 +419,7 @@
 }
 
 - (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell {
-  [self updateInChatCell:chatCell showsClanTag:YES];
+  [self updateInChatCell:chatCell showsClanTag:YES language:TranslateLanguagesEnglish];
   return CGRectGetMaxY(chatCell.currentChatSubview.frame)+14.f;
 }
 

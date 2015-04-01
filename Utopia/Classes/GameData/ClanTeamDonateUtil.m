@@ -85,8 +85,8 @@
   [chatCell updateForMessage:self.message sender:self.sender date:self.date showsClanTag:showsClanTag allowHighlight:YES chatSubview:v identifier:nibName];
 }
 
-- (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell {
-  [self updateInChatCell:chatCell showsClanTag:YES];
+- (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell language:(TranslateLanguages)language{
+  [self updateInChatCell:chatCell showsClanTag:YES language:language];
   return CGRectGetMaxY(chatCell.currentChatSubview.frame)+14.f;
 }
 
