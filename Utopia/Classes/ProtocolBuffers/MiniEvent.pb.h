@@ -56,7 +56,6 @@ BOOL MiniEventGoalProto_MiniEventGoalTypeIsValidValue(MiniEventGoalProto_MiniEve
   BOOL hasName_:1;
   BOOL hasDesc_:1;
   BOOL hasImg_:1;
-  BOOL hasIcon_:1;
   BOOL hasLvlEntered_:1;
   int64_t miniEventStartTime;
   int64_t miniEventEndTime;
@@ -64,7 +63,6 @@ BOOL MiniEventGoalProto_MiniEventGoalTypeIsValidValue(MiniEventGoalProto_MiniEve
   NSString* name;
   NSString* desc;
   NSString* img;
-  NSString* icon;
   MiniEventForPlayerLevelProto* lvlEntered;
   NSMutableArray * mutableGoalsList;
   NSMutableArray * mutableLeaderboardRewardsList;
@@ -76,7 +74,6 @@ BOOL MiniEventGoalProto_MiniEventGoalTypeIsValidValue(MiniEventGoalProto_MiniEve
 - (BOOL) hasName;
 - (BOOL) hasDesc;
 - (BOOL) hasImg;
-- (BOOL) hasIcon;
 @property (readonly) int32_t miniEventId;
 @property (readonly) int64_t miniEventStartTime;
 @property (readonly) int64_t miniEventEndTime;
@@ -86,7 +83,6 @@ BOOL MiniEventGoalProto_MiniEventGoalTypeIsValidValue(MiniEventGoalProto_MiniEve
 @property (readonly, strong) NSString* name;
 @property (readonly, strong) NSString* desc;
 @property (readonly, strong) NSString* img;
-@property (readonly, strong) NSString* icon;
 - (MiniEventGoalProto*)goalsAtIndex:(NSUInteger)index;
 - (MiniEventLeaderboardRewardProto*)leaderboardRewardsAtIndex:(NSUInteger)index;
 
@@ -173,11 +169,6 @@ BOOL MiniEventGoalProto_MiniEventGoalTypeIsValidValue(MiniEventGoalProto_MiniEve
 - (NSString*) img;
 - (MiniEventProto_Builder*) setImg:(NSString*) value;
 - (MiniEventProto_Builder*) clearImg;
-
-- (BOOL) hasIcon;
-- (NSString*) icon;
-- (MiniEventProto_Builder*) setIcon:(NSString*) value;
-- (MiniEventProto_Builder*) clearIcon;
 @end
 
 @interface MiniEventGoalProto : PBGeneratedMessage {
