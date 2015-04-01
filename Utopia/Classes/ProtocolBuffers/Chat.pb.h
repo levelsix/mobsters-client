@@ -68,6 +68,7 @@ typedef NS_ENUM(SInt32, TranslateLanguages) {
   TranslateLanguagesGerman = 4,
   TranslateLanguagesSpanish = 5,
   TranslateLanguagesRussian = 6,
+  TranslateLanguagesNoTranslation = 7,
 };
 
 BOOL TranslateLanguagesIsValidValue(TranslateLanguages value);
@@ -460,14 +461,18 @@ BOOL TranslateLanguagesIsValidValue(TranslateLanguages value);
 
 @interface PrivateChatDefaultLanguageProto : PBGeneratedMessage {
 @private
-  BOOL hasPrivateChatPostUuid_:1;
+  BOOL hasRecipientUserId_:1;
+  BOOL hasSenderUserId_:1;
   BOOL hasDefaultLanguage_:1;
-  NSString* privateChatPostUuid;
+  NSString* recipientUserId;
+  NSString* senderUserId;
   TranslateLanguages defaultLanguage;
 }
-- (BOOL) hasPrivateChatPostUuid;
+- (BOOL) hasRecipientUserId;
+- (BOOL) hasSenderUserId;
 - (BOOL) hasDefaultLanguage;
-@property (readonly, strong) NSString* privateChatPostUuid;
+@property (readonly, strong) NSString* recipientUserId;
+@property (readonly, strong) NSString* senderUserId;
 @property (readonly) TranslateLanguages defaultLanguage;
 
 + (PrivateChatDefaultLanguageProto*) defaultInstance;
@@ -505,10 +510,15 @@ BOOL TranslateLanguagesIsValidValue(TranslateLanguages value);
 - (PrivateChatDefaultLanguageProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (PrivateChatDefaultLanguageProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasPrivateChatPostUuid;
-- (NSString*) privateChatPostUuid;
-- (PrivateChatDefaultLanguageProto_Builder*) setPrivateChatPostUuid:(NSString*) value;
-- (PrivateChatDefaultLanguageProto_Builder*) clearPrivateChatPostUuid;
+- (BOOL) hasRecipientUserId;
+- (NSString*) recipientUserId;
+- (PrivateChatDefaultLanguageProto_Builder*) setRecipientUserId:(NSString*) value;
+- (PrivateChatDefaultLanguageProto_Builder*) clearRecipientUserId;
+
+- (BOOL) hasSenderUserId;
+- (NSString*) senderUserId;
+- (PrivateChatDefaultLanguageProto_Builder*) setSenderUserId:(NSString*) value;
+- (PrivateChatDefaultLanguageProto_Builder*) clearSenderUserId;
 
 - (BOOL) hasDefaultLanguage;
 - (TranslateLanguages) defaultLanguage;
