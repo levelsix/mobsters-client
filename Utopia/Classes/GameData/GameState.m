@@ -764,23 +764,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 #pragma mark - Research
 
-- (NSString *) stringForDomain:(ResearchDomain)domain {
-  switch (domain) {
-    case ResearchDomainBattle:
-      return @"DomainBattle";
-    case ResearchDomainLevelup:
-      return @"DomainLevelUp";
-    case ResearchDomainResources:
-      return @"DomainResources";
-    case ResearchDomainRestorative:
-      return @"DomainResorative";
-    case ResearchDomainNoDomain:
-      return @"DomainNoDomain";
-    default:
-      return @"DomainNotFound";
-  }
-}
-
 - (NSArray *) allStaticResearchForDomain:(ResearchDomain)domain {
   NSMutableArray *ar = [[NSMutableArray alloc] init];
   for(ResearchProto *rp in self.staticResearches.allValues) {
@@ -1892,7 +1875,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (void) beginResearchTimer {
   [self stopResearchTimer];
-  UserResearch *researchForTimer = [self.researchUtil researchForTimer];
+  UserResearch *researchForTimer = [self.researchUtil currentResearch];
   
   if (researchForTimer) {
     if ([researchForTimer.tentativeCompletionDate timeIntervalSinceNow] <= 0) {
@@ -1905,10 +1888,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (void) researchWaitTimeComplete {
-  UserResearch *ur = [self.researchUtil researchForTimer];
+  UserResearch *ur = [self.researchUtil currentResearch];
   if (ur && [ur.tentativeCompletionDate timeIntervalSinceNow] <= 0) {
     
-    [[OutgoingEventController sharedOutgoingEventController] finishResearch:ur gemsSpent:0 delegate:self];
+    [[OutgoingEventController sharedOutgoingEventController] finishResearch:ur useGems:NO delegate:nil];
+    
     [[NSNotificationCenter defaultCenter] postNotificationName:RESEARCH_WAIT_COMPLETE_NOTIFICATION object:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:RESEARCH_CHANGED_NOTIFICATION object:nil];
     

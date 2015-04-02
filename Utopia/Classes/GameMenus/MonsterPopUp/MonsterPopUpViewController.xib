@@ -594,11 +594,11 @@
             <point key="canvasLocation" x="614" y="676"/>
         </view>
         <view contentMode="scaleToFill" id="SEv-1p-KQq">
-            <rect key="frame" x="0.0" y="0.0" width="223" height="187"/>
+            <rect key="frame" x="0.0" y="0.0" width="223" height="193"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" id="MeF-KU-GzO">
-                    <rect key="frame" x="0.0" y="1" width="223" height="186"/>
+                    <rect key="frame" x="0.0" y="1" width="223" height="192"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" heightSizable="YES"/>
                     <subviews>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popupline.png" id="DAO-oy-yNF">
@@ -625,7 +625,7 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
                 <view contentMode="scaleToFill" id="T8K-Qe-jH5">
-                    <rect key="frame" x="0.0" y="0.0" width="223" height="187"/>
+                    <rect key="frame" x="0.0" y="0.0" width="223" height="193"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
                         <view contentMode="scaleToFill" id="26B-fs-soA" customClass="ElementDisplayView">
@@ -827,7 +827,7 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="916.5" y="384.5"/>
+            <point key="canvasLocation" x="916.5" y="387.5"/>
         </view>
         <view contentMode="scaleToFill" id="x6d-zg-We9">
             <rect key="frame" x="0.0" y="0.0" width="223" height="187"/>

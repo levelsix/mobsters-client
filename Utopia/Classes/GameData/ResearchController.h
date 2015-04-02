@@ -10,8 +10,10 @@
 #import "Research.pb.h"
 
 @protocol ResearchProtocol <NSObject>
+
 - (NSString *) longImprovementString;
 - (NSString *) shortImprovementString;
+- (NSString *) benefitString;
 
 - (float) curPercent;
 - (float) nextPercent;

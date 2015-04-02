@@ -25,6 +25,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [PrerequisiteRoot registerAllExtensions:registry];
     [QuestRoot registerAllExtensions:registry];
     [ResearchRoot registerAllExtensions:registry];
+    [RewardRoot registerAllExtensions:registry];
     [SkillRoot registerAllExtensions:registry];
     [StructureRoot registerAllExtensions:registry];
     [TaskRoot registerAllExtensions:registry];
@@ -77,8 +78,9 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property (strong) NSMutableArray * mutablePrereqsList;
 @property (strong) NSMutableArray * mutableBoardsList;
 @property (strong) NSMutableArray * mutableResearchList;
-@property (strong) NSMutableArray * mutableBattleItemList;
 @property (strong) NSMutableArray * mutablePvpBoardObstacleProtosList;
+@property (strong) NSMutableArray * mutableBattleItemList;
+@property (strong) NSMutableArray * mutableRewardList;
 @end
 
 @implementation StaticDataProto
@@ -173,10 +175,12 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @dynamic boardsList;
 @synthesize mutableResearchList;
 @dynamic researchList;
-@synthesize mutableBattleItemList;
-@dynamic battleItemList;
 @synthesize mutablePvpBoardObstacleProtosList;
 @dynamic pvpBoardObstacleProtosList;
+@synthesize mutableBattleItemList;
+@dynamic battleItemList;
+@synthesize mutableRewardList;
+@dynamic rewardList;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
@@ -424,17 +428,23 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
 - (ResearchProto*)researchAtIndex:(NSUInteger)index {
   return [mutableResearchList objectAtIndex:index];
 }
+- (NSArray *)pvpBoardObstacleProtosList {
+  return mutablePvpBoardObstacleProtosList;
+}
+- (PvpBoardObstacleProto*)pvpBoardObstacleProtosAtIndex:(NSUInteger)index {
+  return [mutablePvpBoardObstacleProtosList objectAtIndex:index];
+}
 - (NSArray *)battleItemList {
   return mutableBattleItemList;
 }
 - (BattleItemProto*)battleItemAtIndex:(NSUInteger)index {
   return [mutableBattleItemList objectAtIndex:index];
 }
-- (NSArray *)pvpBoardObstacleProtosList {
-  return mutablePvpBoardObstacleProtosList;
+- (NSArray *)rewardList {
+  return mutableRewardList;
 }
-- (PvpBoardObstacleProto*)pvpBoardObstacleProtosAtIndex:(NSUInteger)index {
-  return [mutablePvpBoardObstacleProtosList objectAtIndex:index];
+- (RewardProto*)rewardAtIndex:(NSUInteger)index {
+  return [mutableRewardList objectAtIndex:index];
 }
 - (BOOL) isInitialized {
   return YES;
@@ -565,6 +575,9 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   }];
   [self.battleItemList enumerateObjectsUsingBlock:^(BattleItemProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:43 value:element];
+  }];
+  [self.rewardList enumerateObjectsUsingBlock:^(RewardProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:44 value:element];
   }];
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -700,6 +713,9 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   }];
   [self.battleItemList enumerateObjectsUsingBlock:^(BattleItemProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(43, element);
+  }];
+  [self.rewardList enumerateObjectsUsingBlock:^(RewardProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(44, element);
   }];
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -988,6 +1004,12 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }];
+  [self.rewardList enumerateObjectsUsingBlock:^(RewardProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"reward"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -1043,6 +1065,7 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
       [self.allResearchHousesList isEqualToArray:otherMessage.allResearchHousesList] &&
       [self.allBattleItemFactorysList isEqualToArray:otherMessage.allBattleItemFactorysList] &&
       [self.battleItemList isEqualToArray:otherMessage.battleItemList] &&
+      [self.rewardList isEqualToArray:otherMessage.rewardList] &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -1171,6 +1194,9 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
     hashCode = hashCode * 31 + [element hash];
   }];
   [self.battleItemList enumerateObjectsUsingBlock:^(BattleItemProto *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  [self.rewardList enumerateObjectsUsingBlock:^(RewardProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
   hashCode = hashCode * 31 + [self.unknownFields hash];
@@ -1488,6 +1514,13 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
       [result.mutableResearchList addObjectsFromArray:other.mutableResearchList];
     }
   }
+  if (other.mutablePvpBoardObstacleProtosList.count > 0) {
+    if (result.mutablePvpBoardObstacleProtosList == nil) {
+      result.mutablePvpBoardObstacleProtosList = [[NSMutableArray alloc] initWithArray:other.mutablePvpBoardObstacleProtosList];
+    } else {
+      [result.mutablePvpBoardObstacleProtosList addObjectsFromArray:other.mutablePvpBoardObstacleProtosList];
+    }
+  }
   if (other.mutableBattleItemList.count > 0) {
     if (result.mutableBattleItemList == nil) {
       result.mutableBattleItemList = [[NSMutableArray alloc] initWithArray:other.mutableBattleItemList];
@@ -1495,11 +1528,11 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
       [result.mutableBattleItemList addObjectsFromArray:other.mutableBattleItemList];
     }
   }
-  if (other.mutablePvpBoardObstacleProtosList.count > 0) {
-    if (result.mutablePvpBoardObstacleProtosList == nil) {
-      result.mutablePvpBoardObstacleProtosList = [[NSMutableArray alloc] initWithArray:other.mutablePvpBoardObstacleProtosList];
+  if (other.mutableRewardList.count > 0) {
+    if (result.mutableRewardList == nil) {
+      result.mutableRewardList = [[NSMutableArray alloc] initWithArray:other.mutableRewardList];
     } else {
-      [result.mutablePvpBoardObstacleProtosList addObjectsFromArray:other.mutablePvpBoardObstacleProtosList];
+      [result.mutableRewardList addObjectsFromArray:other.mutableRewardList];
     }
   }
   [self mergeUnknownFields:other.unknownFields];
@@ -1779,6 +1812,12 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
         BattleItemProto_Builder* subBuilder = [BattleItemProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addBattleItem:[subBuilder buildPartial]];
+        break;
+      }
+      case 354: {
+        RewardProto_Builder* subBuilder = [RewardProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addReward:[subBuilder buildPartial]];
         break;
       }
     }
@@ -2756,6 +2795,30 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   result.mutableResearchList = nil;
   return self;
 }
+- (NSMutableArray *)pvpBoardObstacleProtosList {
+  return result.mutablePvpBoardObstacleProtosList;
+}
+- (PvpBoardObstacleProto*)pvpBoardObstacleProtosAtIndex:(NSUInteger)index {
+  return [result pvpBoardObstacleProtosAtIndex:index];
+}
+- (StaticDataProto_Builder *)addPvpBoardObstacleProtos:(PvpBoardObstacleProto*)value {
+  if (result.mutablePvpBoardObstacleProtosList == nil) {
+    result.mutablePvpBoardObstacleProtosList = [[NSMutableArray alloc]init];
+  }
+  [result.mutablePvpBoardObstacleProtosList addObject:value];
+  return self;
+}
+- (StaticDataProto_Builder *)addAllPvpBoardObstacleProtos:(NSArray *)array {
+  if (result.mutablePvpBoardObstacleProtosList == nil) {
+    result.mutablePvpBoardObstacleProtosList = [NSMutableArray array];
+  }
+  [result.mutablePvpBoardObstacleProtosList addObjectsFromArray:array];
+  return self;
+}
+- (StaticDataProto_Builder *)clearPvpBoardObstacleProtos {
+  result.mutablePvpBoardObstacleProtosList = nil;
+  return self;
+}
 - (NSMutableArray *)battleItemList {
   return result.mutableBattleItemList;
 }
@@ -2780,28 +2843,28 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   result.mutableBattleItemList = nil;
   return self;
 }
-- (NSMutableArray *)pvpBoardObstacleProtosList {
-  return result.mutablePvpBoardObstacleProtosList;
+- (NSMutableArray *)rewardList {
+  return result.mutableRewardList;
 }
-- (PvpBoardObstacleProto*)pvpBoardObstacleProtosAtIndex:(NSUInteger)index {
-  return [result pvpBoardObstacleProtosAtIndex:index];
+- (RewardProto*)rewardAtIndex:(NSUInteger)index {
+  return [result rewardAtIndex:index];
 }
-- (StaticDataProto_Builder *)addPvpBoardObstacleProtos:(PvpBoardObstacleProto*)value {
-  if (result.mutablePvpBoardObstacleProtosList == nil) {
-    result.mutablePvpBoardObstacleProtosList = [[NSMutableArray alloc]init];
+- (StaticDataProto_Builder *)addReward:(RewardProto*)value {
+  if (result.mutableRewardList == nil) {
+    result.mutableRewardList = [[NSMutableArray alloc]init];
   }
-  [result.mutablePvpBoardObstacleProtosList addObject:value];
+  [result.mutableRewardList addObject:value];
   return self;
 }
-- (StaticDataProto_Builder *)addAllPvpBoardObstacleProtos:(NSArray *)array {
-  if (result.mutablePvpBoardObstacleProtosList == nil) {
-    result.mutablePvpBoardObstacleProtosList = [NSMutableArray array];
+- (StaticDataProto_Builder *)addAllReward:(NSArray *)array {
+  if (result.mutableRewardList == nil) {
+    result.mutableRewardList = [NSMutableArray array];
   }
-  [result.mutablePvpBoardObstacleProtosList addObjectsFromArray:array];
+  [result.mutableRewardList addObjectsFromArray:array];
   return self;
 }
-- (StaticDataProto_Builder *)clearPvpBoardObstacleProtos {
-  result.mutablePvpBoardObstacleProtosList = nil;
+- (StaticDataProto_Builder *)clearReward {
+  result.mutableRewardList = nil;
   return self;
 }
 @end

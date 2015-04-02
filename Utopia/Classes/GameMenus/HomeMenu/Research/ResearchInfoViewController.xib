@@ -255,8 +255,8 @@
                             <rect key="frame" x="36" y="30" width="85" height="85"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </imageView>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Cash Vault" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="TQz-pw-1Vn" customClass="NiceFontLabel9">
-                            <rect key="frame" x="24" y="4" width="111" height="34"/>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Cash Vault" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="TQz-pw-1Vn" customClass="NiceFontLabel9">
+                            <rect key="frame" x="24" y="8" width="111" height="22"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.23529411759999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -285,15 +285,15 @@
                     </subviews>
                 </view>
                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popupline.png" id="JT6-Ls-kLW">
-                    <rect key="frame" x="193" y="78" width="210" height="1"/>
+                    <rect key="frame" x="183" y="78" width="220" height="1"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
                 <view contentMode="scaleToFill" id="Std-ly-cp2" userLabel="StatBarView">
-                    <rect key="frame" x="193" y="30" width="229" height="32"/>
+                    <rect key="frame" x="183" y="30" width="239" height="32"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Capacity:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="KCH-97-Xg6" customClass="NiceFontLabel9">
-                            <rect key="frame" x="0.0" y="-2" width="60" height="21"/>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Healing Speed:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="KCH-97-Xg6" customClass="NiceFontLabel9">
+                            <rect key="frame" x="0.0" y="-2" width="83" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
                             <color key="textColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.23529411759999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -302,11 +302,11 @@
                             <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="upgradebarbg.png" id="6SC-6Q-xqq">
-                            <rect key="frame" x="80" y="20" width="128" height="12"/>
+                            <rect key="frame" x="90" y="20" width="128" height="12"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                         </imageView>
                         <view contentMode="scaleToFill" id="Ozf-P4-Acf" customClass="SplitImageProgressBar">
-                            <rect key="frame" x="80" y="20" width="128" height="12"/>
+                            <rect key="frame" x="90" y="20" width="128" height="12"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                             <subviews>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="upgradebarnewmiddle.png" id="YXq-6b-D0C">
@@ -330,7 +330,7 @@
                             </connections>
                         </view>
                         <view contentMode="scaleToFill" id="Fxm-vk-gPO" customClass="SplitImageProgressBar">
-                            <rect key="frame" x="80" y="20" width="128" height="12"/>
+                            <rect key="frame" x="90" y="20" width="128" height="12"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                             <subviews>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="upgradebarcurrentmiddle.png" id="RXx-NW-zp9">
@@ -354,7 +354,7 @@
                             </connections>
                         </view>
                         <view contentMode="scaleToFill" id="4FD-Bx-B8n" userLabel="DetailView">
-                            <rect key="frame" x="163" y="0.0" width="55" height="21"/>
+                            <rect key="frame" x="173" y="0.0" width="55" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <view contentMode="scaleToFill" id="NQb-RJ-FE2" userLabel="GreyBar">
@@ -384,7 +384,7 @@
                             </subviews>
                         </view>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="2% Increase" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="335-Oq-AS2" customClass="NiceFontLabel9">
-                            <rect key="frame" x="81" y="-2" width="77" height="21"/>
+                            <rect key="frame" x="91" y="-2" width="77" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
                             <color key="textColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.23529411759999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -402,19 +402,18 @@
             <connections>
                 <outlet property="activityIndicator" destination="SYQ-Xi-U8J" id="hn3-fW-bdX"/>
                 <outlet property="botPercentBar" destination="Ozf-P4-Acf" id="j2w-nX-4TO"/>
-                <outlet property="bottomBarDescription" destination="YfJ-6j-IJ1" id="aq8-Db-kbC"/>
+                <outlet property="bottomBarBgd" destination="xjc-Gg-tZO" id="CY8-2T-lng"/>
                 <outlet property="bottomBarIcon" destination="2RJ-g4-2Rf" id="QHS-sv-6i6"/>
-                <outlet property="bottomBarImage" destination="xjc-Gg-tZO" id="v47-T9-330"/>
-                <outlet property="bottomBarTitle" destination="bjr-19-cVq" id="Kjc-Zb-U22"/>
+                <outlet property="bottomDescLabel" destination="YfJ-6j-IJ1" id="pFw-mJ-Smi"/>
+                <outlet property="bottomNameLabel" destination="bjr-19-cVq" id="bGC-Y1-2c1"/>
                 <outlet property="cashButton" destination="Z8w-vm-YkP" id="bwS-mo-fMF"/>
                 <outlet property="cashButtonLabel" destination="xnp-42-xkn" id="VcR-8n-lAF"/>
                 <outlet property="cashButtonView" destination="w78-Cm-p6E" id="rZg-xo-O8Q"/>
                 <outlet property="cashIcon" destination="XLG-5y-vui" id="AwF-ar-uyh"/>
                 <outlet property="detailView" destination="4FD-Bx-B8n" id="CYN-sp-28z"/>
-                <outlet property="finishButton" destination="lya-8k-YVT" id="6uR-Ao-d4V"/>
                 <outlet property="finishButtonView" destination="t2r-b9-Y6n" id="6T5-WW-nqg"/>
-                <outlet property="finishFreeLabel" destination="Y6j-fD-byt" id="z5b-02-X0X"/>
-                <outlet property="finishSpeedupIcon" destination="VWg-r8-r6D" id="XeQ-43-PJK"/>
+                <outlet property="finishLabelsView" destination="FFP-6v-b8i" id="8zm-KK-wX0"/>
+                <outlet property="freeLabel" destination="Y6j-fD-byt" id="Goq-bh-XmV"/>
                 <outlet property="helpButtonView" destination="lrg-eZ-8Xi" id="0MP-nJ-r5J"/>
                 <outlet property="improvementLabel" destination="335-Oq-AS2" id="9UB-TE-BEl"/>
                 <outlet property="oilButton" destination="Lte-tt-Kt6" id="oAN-U4-x2X"/>
@@ -425,10 +424,12 @@
                 <outlet property="prereqViewB" destination="izd-Qr-p9g" id="ZtB-Ng-N0d"/>
                 <outlet property="prereqViewC" destination="VUx-9c-hFj" id="R0z-21-MCt"/>
                 <outlet property="researchCashLabel" destination="xnp-42-xkn" id="1Tf-Ns-Kfs"/>
-                <outlet property="researchImage" destination="o29-tA-AlS" id="JPL-IO-FIl"/>
-                <outlet property="researchName" destination="TQz-pw-1Vn" id="Xok-xe-QlK"/>
+                <outlet property="researchIcon" destination="o29-tA-AlS" id="xpF-qN-6xI"/>
+                <outlet property="researchNameLabel" destination="TQz-pw-1Vn" id="yrY-La-sOk"/>
                 <outlet property="researchOilLabel" destination="EyH-si-K9l" id="Hz4-4I-DPE"/>
                 <outlet property="researchTimeLabel" destination="qVM-Ga-tOT" id="sDV-rZ-HQo"/>
+                <outlet property="researchTypeLabel" destination="KCH-97-Xg6" id="Ae2-72-BY6"/>
+                <outlet property="speedupIcon" destination="VWg-r8-r6D" id="T9P-MG-liy"/>
                 <outlet property="timeLeftLabel" destination="irU-pw-AQV" id="P7b-IU-z5p"/>
                 <outlet property="topPercentBar" destination="Fxm-vk-gPO" id="1TD-tS-ggh"/>
             </connections>

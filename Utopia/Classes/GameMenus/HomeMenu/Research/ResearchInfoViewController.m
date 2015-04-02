@@ -25,7 +25,7 @@
 
 - (void) updateForPrereq:(PrereqProto *)pre isComplete:(BOOL)isComplete {
   
-  if(pre.gameType == GameTypeStructure) {
+  if (pre.gameType == GameTypeStructure) {
     [super updateForPrereq:pre isComplete:isComplete];
     return;
   }
@@ -42,47 +42,63 @@
 @implementation ResearchInfoView
 
 - (void) updateWithResearch:(UserResearch *)userResearch {
-  self.bottomBarDescription.text = DEFAULT_DESCRIPTION;
-  self.bottomBarTitle.text = DEFAULT_TITLE;
+  self.bottomDescLabel.text = DEFAULT_DESCRIPTION;
+  self.bottomNameLabel.text = DEFAULT_TITLE;
   
-  ResearchProto *research = userResearch.staticResearch;
+  ResearchProto *curResearch = userResearch.staticResearchForBenefitLevel;
+  ResearchProto *nextResearch = userResearch.staticResearchForNextLevel;
   
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
-  ResearchController *rc = [ResearchController researchControllerWithProto:research];
+  ResearchController *curRc = [ResearchController researchControllerWithProto:curResearch];
+  ResearchController *nextRc = nextResearch ? [ResearchController researchControllerWithProto:nextResearch] : nil;
   
   //for now we assume only a single property for each research
-  self.improvementLabel.text = [rc longImprovementString];
+  self.researchTypeLabel.text = [[curRc benefitName] stringByAppendingString:@":"];
+  
+  self.improvementLabel.text = nextRc ? [nextRc longImprovementString] : [curRc benefitString];
   CGSize size = [self.improvementLabel.text getSizeWithFont:self.improvementLabel.font];
   int offsetFromBar = 5;
   self.detailView.center = CGPointMake(self.improvementLabel.frame.origin.x+size.width+(self.detailView.frame.size.width/2) + offsetFromBar, self.improvementLabel.center.y);
   
-  [Globals imageNamed:research.iconImgName withView:self.researchImage greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
-  self.researchName.text = research.name;
-  self.researchTimeLabel.text = [[Globals convertTimeToMediumString:research.durationMin*60] uppercaseString];
+  [Globals imageNamed:curResearch.iconImgName withView:self.researchIcon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+  self.researchTimeLabel.text = nextResearch ? [[Globals convertTimeToMediumString:nextResearch.durationMin*60] uppercaseString] : @"N/A";
   
-  NSArray *prereqs = [gs prerequisitesForGameType:GameTypeResearch gameEntityId:research.researchId];
+  {
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.lineSpacing = 4;
+    paragraphStyle.alignment = NSTextAlignmentCenter;
+    
+    NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:curResearch.name attributes:@{NSParagraphStyleAttributeName : paragraphStyle, NSFontAttributeName : self.researchNameLabel.font}];
+    self.researchNameLabel.attributedText = attr;
+    
+    CGRect rect = [attr boundingRectWithSize:CGSizeMake(self.researchNameLabel.width, 9999) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
+    self.researchNameLabel.originY = floorf(CGRectGetMaxY(self.researchNameLabel.frame) - rect.size.height);
+    self.researchNameLabel.height = ceilf(rect.size.height);
+  }
+  
+  NSArray *prereqs = [gs prerequisitesForGameType:GameTypeResearch gameEntityId:nextResearch.researchId];
   
   self.prereqViewA.hidden = prereqs.count < 1;
   self.prereqViewB.hidden = prereqs.count < 2;
   self.prereqViewC.hidden = prereqs.count < 3;
   
   int unfulfilledRequirements = 0;
-  if(!self.prereqViewA.hidden) {
+  if (!self.prereqViewA.hidden) {
     BOOL isComplete = [gl isPrerequisiteComplete:prereqs[0]];
     [self.prereqViewA updateForPrereq:prereqs[0] isComplete:isComplete];
     if (!isComplete) {
       unfulfilledRequirements++;
     }
   }
-  if(!self.prereqViewB.hidden) {
+  if (!self.prereqViewB.hidden) {
     BOOL isComplete = [gl isPrerequisiteComplete:prereqs[0]];
     [self.prereqViewB updateForPrereq:prereqs[1] isComplete:isComplete];
     if (!isComplete) {
       unfulfilledRequirements++;
     }
   }
-  if(!self.prereqViewC.hidden) {
+  if (!self.prereqViewC.hidden) {
     BOOL isComplete = [gl isPrerequisiteComplete:prereqs[0]];
     [self.prereqViewC updateForPrereq:prereqs[2] isComplete:isComplete];
     if (!isComplete) {
@@ -90,33 +106,42 @@
     }
   }
   
-  if(unfulfilledRequirements > 0) {
+  if (unfulfilledRequirements > 0) {
     [self setDisplayForNumMissingRequirements:unfulfilledRequirements];
-  } else if ([userResearch isResearching]) {
-    self.bottomBarDescription.text = RESEARCHING_DESCRIPTION;
-    self.bottomBarTitle.text = RESEARCHING_TITLE;
+  } else if (!userResearch.complete) {
+    self.bottomDescLabel.text = RESEARCHING_DESCRIPTION;
+    self.bottomNameLabel.text = RESEARCHING_TITLE;
   }
   
-  float curPercent = [rc curPercent];
-  float nextPercent = [rc nextPercent];
+  float curPercent = [curRc curPercent];
+  float nextPercent = nextRc ? [nextRc curPercent] : 1.f;
   
   [self.topPercentBar setPercentage:curPercent];
   [self.botPercentBar setPercentage:nextPercent];
   
-  self.oilButtonLabel.text = [NSString stringWithFormat:@"%d", research.costAmt];
-  self.oilButtonView.hidden = research.costType != ResourceTypeOil;
-  self.oilButtonLabel.superview.hidden = NO;
-  self.oilButton.userInteractionEnabled = YES;
-  self.cashButtonLabel.text = [NSString stringWithFormat:@"%d", research.costAmt];
-  self.cashButtonView.hidden = research.costType != ResourceTypeCash;
-  self.cashButtonLabel.superview.hidden = NO;
-  self.cashButton.userInteractionEnabled = YES;
+  if (userResearch.complete && nextResearch) {
+    self.oilButtonLabel.text = [NSString stringWithFormat:@"%d", nextResearch.costAmt];
+    self.oilButtonView.hidden = nextResearch.costType != ResourceTypeOil;
+    self.cashButtonLabel.text = [NSString stringWithFormat:@"%d", nextResearch.costAmt];
+    self.cashButtonView.hidden = nextResearch.costType != ResourceTypeCash;
+    
+    self.oilButton.userInteractionEnabled = YES;
+    self.cashButton.userInteractionEnabled = YES;
+  } else {
+    self.oilButtonView.hidden = YES;
+    self.cashButtonView.hidden = YES;
+    
+    if (!nextResearch) {
+      self.bottomDescLabel.text = @"This research has already been completed";
+      self.bottomNameLabel.text = @"Research Complete!";
+    }
+  }
   
   [Globals adjustViewForCentering:self.researchOilLabel.superview withLabel:self.researchOilLabel];
   [Globals adjustViewForCentering:self.researchCashLabel.superview withLabel:self.researchCashLabel];
 }
 
--(void)setDisplayForNumMissingRequirements:(int)missingRequirements {
+- (void) setDisplayForNumMissingRequirements:(int)missingRequirements {
   UIImage *grey = [Globals imageNamed:@"greymenuoption.png"];
   self.oilButton.userInteractionEnabled = NO;
   self.cashButton.userInteractionEnabled = NO;
@@ -132,46 +157,79 @@
   self.researchOilLabel.textColor = [UIColor colorWithWhite:0.5f alpha:1.f];
   self.researchOilLabel.shadowColor = [UIColor colorWithWhite:1.f alpha:0.25];
   
-  self.bottomBarTitle.text = @"Woops!";
-  self.bottomBarDescription.text = [NSString stringWithFormat:@"You are missing %d requirement%@ to Research.", missingRequirements, missingRequirements == 1 ? @"" : @"s"];
+  self.bottomNameLabel.text = @"Woops!";
+  self.bottomDescLabel.text = [NSString stringWithFormat:@"You are missing %d requirement%@ to Research.", missingRequirements, missingRequirements == 1 ? @"" : @"s"];
   
   self.bottomBarIcon.highlighted = YES;
-  self.bottomBarImage.highlighted = YES;
-  self.bottomBarTitle.highlighted = YES;
-  self.bottomBarDescription.highlighted = YES;
+  self.bottomBarBgd.highlighted = YES;
+  self.bottomNameLabel.highlighted = YES;
+  self.bottomDescLabel.highlighted = YES;
 }
-
-
 
 @end
 
 @implementation ResearchInfoViewController
 
-- (void) viewDidLoad {
-  [super viewDidLoad];
-  
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateUserResearch) name:RESEARCH_CHANGED_NOTIFICATION object:nil];
-  
-  [self.view updateWithResearch:_userResearch];
-}
-
-- (void) updateUserResearch {
-  if(_userResearch) {
-    GameState *gs = [GameState sharedGameState];
-    _userResearch = [gs.researchUtil currentRankForResearch:_userResearch.staticResearch];
-    [self.view updateWithResearch:_userResearch];
-    self.title = [NSString stringWithFormat:@"Research to Rank %d",_userResearch.staticResearch.level];
-  }
-}
-
 - (id) initWithResearch:(UserResearch *)userResearch {
   if ((self = [super init])) {
     _userResearch = userResearch;
-    self.title = [NSString stringWithFormat:@"Research to Rank %d",_userResearch.staticResearch.level];
   }
   
   return self;
 }
+
+- (void) viewWillAppear:(BOOL)animated {
+  [super viewWillAppear:animated];
+  
+  [self waitTimeComplete];
+}
+
+- (void) updateLabels {
+  if (_waitingForServer) {
+    return;
+  }
+  
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  
+  UserResearch *ur = _userResearch;
+  
+  if (!ur.complete) {
+    int timeLeft = ur.tentativeCompletionDate.timeIntervalSinceNow;
+    int speedupCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
+    BOOL canHelp = [gs canAskForClanHelp] && [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypePerformingResearch userDataUuid:ur.userResearchUuid] < 0;
+    
+    self.view.timeLeftLabel.text = [[Globals convertTimeToShortString:timeLeft] uppercaseString];
+    self.view.timeLeftLabel.superview.hidden = NO;
+    
+    self.view.finishButtonView.hidden = NO;
+    
+    if (speedupCost > 0) {
+      self.view.speedupIcon.hidden = NO;
+      self.view.freeLabel.hidden = YES;
+      
+      self.view.helpButtonView.hidden = !canHelp;
+    } else {
+      self.view.speedupIcon.hidden = YES;
+      self.view.freeLabel.hidden = NO;
+      self.view.helpButtonView.hidden = YES;
+    }
+  } else {
+    self.view.finishButtonView.hidden = YES;
+    self.view.helpButtonView.hidden = YES;
+    self.view.timeLeftLabel.superview.hidden = YES;
+  }
+}
+
+- (void) waitTimeComplete {
+  ResearchProto *next = _userResearch.staticResearchForNextLevel;
+  self.title = next ? [NSString stringWithFormat:@"Research to Rank %d", next.level] : [NSString stringWithFormat:@"%@ R%d", _userResearch.staticResearch.name, _userResearch.staticResearch.level];
+  
+  [self.view updateWithResearch:_userResearch];
+  [self updateLabels];
+}
+
+#pragma mark - Bottom View
 
 - (IBAction) detailsClicked:(id)sender {
   ResearchDetailViewController *rdvc = [[ResearchDetailViewController alloc] initWithUserResearch:_userResearch];
@@ -179,18 +237,31 @@
 }
 
 - (IBAction) clickResearchStart:(id)sender {
-  if (!self.view.activityIndicator.hidden) {return;}
-  
-  GameState *gs = [GameState sharedGameState];
-  
-  if ([gs.researchUtil currentResearch]) {
-    [Globals popupMessage:@"Research already in progress"];
+  if (_waitingForServer) {
     return;
   }
   
-  ResearchProto *research = _userResearch.staticResearch;
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
   
-  if ( (research.costType == ResourceTypeCash && gs.cash <= research.costAmt) || (research.costType == ResourceTypeOil && gs.oil <= research.costAmt)) {
+  UserResearch *curRes = [gs.researchUtil currentResearch];
+  if (curRes) {
+    int timeLeft = curRes.tentativeCompletionDate.timeIntervalSinceNow;
+    int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
+    
+    if (gemCost) {
+      NSString *desc = [NSString stringWithFormat:@"You are currently researching %@! Speed it up for %@ gem%@ and start this research?", curRes.staticResearchForBenefitLevel.name, [Globals commafyNumber:gemCost], gemCost == 1 ? @"" : @"s"];
+      [GenericPopupController displayGemConfirmViewWithDescription:desc title:@"Research In Progress" gemCost:gemCost target:self selector:@selector(speedupAndBeginResearch)];
+    } else {
+      [self speedupAndBeginResearch];
+    }
+    return;
+  }
+  
+  ResearchProto *research = _userResearch.staticResearchForNextLevel;
+  
+  if ((research.costType == ResourceTypeCash && gs.cash <= research.costAmt) ||
+      (research.costType == ResourceTypeOil && gs.oil <= research.costAmt)) {
     ItemSelectViewController *svc = [[ItemSelectViewController alloc] init];
     if (svc) {
       ResourceItemsFiller *rif = [[ResourceItemsFiller alloc] initWithResourceType:research.costType requiredAmount:research.costAmt shouldAccumulate:YES];
@@ -208,131 +279,92 @@
       [svc showAnchoredToInvokingView:invokingButton withDirection:ViewAnchoringPreferLeftPlacement inkovingViewImage:invokingButton.currentImage];
     }
   } else {
-    UserResearch *startedResearch = [[OutgoingEventController sharedOutgoingEventController] beginResearch:_userResearch gemsSpent:0 resourceType:research.costType resourceCost:research.costAmt delegate:self];
-    _waitingForServer = YES;
-    if(!startedResearch) {
-      [Globals popupMessage:@"An error occured contacting the server."];
-    } else {
-      self.view.oilButtonLabel.superview.hidden = YES;
-      self.view.cashButtonLabel.superview.hidden = YES;
-      self.view.activityIndicator.hidden = NO;
-      self.view.cashButton.userInteractionEnabled = NO;
-      _userResearch = startedResearch;
-    }
+    [self sendResearchWithItemsDict:nil allowGems:NO];
   }
 }
 
-- (void) beginResearchWithItemsDict:(NSDictionary *)itemIdsToQuantity useGems:(BOOL)useGems {
-  Globals *gl = [Globals sharedGlobals];
+- (void) speedupAndBeginResearch {
   GameState *gs = [GameState sharedGameState];
   
-  UserResearch *startedResearch;
-  ResearchProto *rp = _userResearch.staticResearch;
-  int gems = 0;
-  [[OutgoingEventController sharedOutgoingEventController] tradeItemIdsForResources:itemIdsToQuantity];
-  if(useGems) {
-    int remainingCost = rp.costType == ResourceTypeCash ? rp.costAmt - gs.cash : rp.costAmt - gs.oil;
-    gems = [gl calculateGemConversionForResourceType:_userResearch.staticResearch.costType amount:remainingCost];
-    
-    int playerResource = _userResearch.staticResearch.costType == ResourceTypeCash ? gs.cash : gs.oil;
-    startedResearch = [[OutgoingEventController sharedOutgoingEventController] beginResearch:_userResearch gemsSpent:gems resourceType:_userResearch.staticResearch.costType resourceCost:playerResource delegate:self];
-  } else {
-    startedResearch = [[OutgoingEventController sharedOutgoingEventController] beginResearch:_userResearch gemsSpent:0 resourceType:_userResearch.staticResearch.costType resourceCost:_userResearch.staticResearch.costAmt delegate:self];
+  UserResearch *ur = [gs.researchUtil currentResearch];
+  if (ur) {
+    [self speedupResearch:ur];
   }
-  _waitingForServer = YES;
-  if (startedResearch) {
-    self.view.oilButtonLabel.superview.hidden = YES;
-    self.view.cashButtonLabel.superview.hidden = YES;
-    self.view.activityIndicator.hidden = NO;
-    self.view.cashButton.userInteractionEnabled = NO;
-    _userResearch = startedResearch;
+  
+  [self clickResearchStart:nil];
+}
+
+- (void) researchWithItemsDict:(NSDictionary *)itemIdsToQuantity {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  
+  ResearchProto *rp = _userResearch.staticResearchForNextLevel;
+  
+  BOOL allowGems = [itemIdsToQuantity[@0] boolValue];
+  
+  int cost = rp.costAmt;
+  ResourceType resType = rp.costType;
+  
+  int curAmount = [gl calculateTotalResourcesForResourceType:resType itemIdsToQuantity:itemIdsToQuantity];
+  int gemCost = [gl calculateGemConversionForResourceType:resType amount:cost-curAmount];
+  
+  if (allowGems && gemCost > gs.gems) {
+    [GenericPopupController displayNotEnoughGemsView];
+  } else if (allowGems || cost <= curAmount) {
+    [self sendResearchWithItemsDict:itemIdsToQuantity allowGems:allowGems];
+  }
+}
+
+
+- (void) sendResearchWithItemsDict:(NSDictionary *)itemIdsToQuantity allowGems:(BOOL)allowGems {
+  if (!_waitingForServer) {
+    [[OutgoingEventController sharedOutgoingEventController] tradeItemIdsForResources:itemIdsToQuantity];
+    BOOL success = [[OutgoingEventController sharedOutgoingEventController] beginResearch:_userResearch allowGems:allowGems delegate:self];
+    
+    if (success) {
+      self.view.oilButtonLabel.superview.hidden = YES;
+      self.view.cashButtonLabel.superview.hidden = YES;
+      self.view.activityIndicator.hidden = NO;
+      self.view.oilButton.userInteractionEnabled = NO;
+      self.view.cashButton.userInteractionEnabled = NO;
+      
+      _waitingForServer = YES;
+      
+      [[NSNotificationCenter defaultCenter] postNotificationName:RESEARCH_CHANGED_NOTIFICATION object:self];
+    }
   }
 }
 
 - (void) handlePerformResearchResponseProto:(FullEvent *)fe {
   _waitingForServer = NO;
-  PerformResearchResponseProto *proto = (PerformResearchResponseProto *)fe.event;
-  if(proto.status != PerformResearchResponseProto_PerformResearchStatusSuccess) {
-    
-  }
-  self.view.bottomBarTitle.text = RESEARCHING_TITLE;
-  self.view.bottomBarDescription.text = RESEARCHING_DESCRIPTION;
+  
+  self.view.oilButtonLabel.superview.hidden = NO;
+  self.view.cashButtonLabel.superview.hidden = NO;
+  self.view.activityIndicator.hidden = YES;
+  self.view.oilButton.userInteractionEnabled = YES;
+  self.view.cashButton.userInteractionEnabled = YES;
+  
+  [self waitTimeComplete];
 }
 
-- (void) updateLabels {
-  int timeLeft = _userResearch.tentativeCompletionDate.timeIntervalSinceNow;
-  if(_waitingForServer) {
-    self.view.timeLeftLabel.text = [[Globals convertTimeToShortString:timeLeft] uppercaseString];
-    return;
-  }
-  
-  if(_userResearch.complete) {
-    self.view.oilButtonView.hidden = YES;
-    self.view.cashButtonView.hidden = YES;
-    self.view.finishButtonView.hidden = YES;
-    self.view.helpButtonView.hidden = YES;
-    self.view.timeLeftLabel.superview.hidden = YES;
-    self.view.bottomBarDescription.text = @"This research has already been completed";
-    self.view.bottomBarTitle.text = @"Research Complete!";
-    return;
-  }
-  
-  GameState *gs = [GameState sharedGameState];
-  Globals *gl = [Globals sharedGlobals];
-  int speedupCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
-  
-  BOOL canHelp = [gs canAskForClanHelp];
-  if (canHelp) {
-    canHelp = NO;
-    if ([_userResearch isResearching]) {
-      int helpsRequested = [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypePerformingResearch userDataUuid:_userResearch.userResearchUuid];
-      if (helpsRequested <= 0) {
-        canHelp = YES;
-      }
-    }
-  }
-  
-  if (timeLeft > 0) {
-    self.view.oilButtonView.hidden = YES;
-    self.view.cashButtonView.hidden = YES;
-    self.view.activityIndicator.hidden = YES;
-    self.view.finishButtonView.hidden = NO;
-    
-    self.view.timeLeftLabel.text = [[Globals convertTimeToShortString:timeLeft] uppercaseString];
-    self.view.timeLeftLabel.superview.hidden = NO;
-    if (speedupCost > 0) {
-      self.view.helpButtonView.hidden = !canHelp;
-      self.view.finishSpeedupIcon.hidden = NO;
-      self.view.finishFreeLabel.hidden = YES;
-    } else {
-      self.view.helpButtonView.hidden = YES;
-      self.view.finishSpeedupIcon.hidden = YES;
-      self.view.finishFreeLabel.hidden = NO;
-    }
-  } else {
-    self.view.finishButtonView.hidden = YES;
-    self.view.helpButtonView.hidden = YES;
-    self.view.timeLeftLabel.superview.hidden = YES;
-  }
-}
+#pragma mark Completion
 
--(void) waitTimeComplete {
-  UserResearch *newUserResearch = [UserResearch userResearchWithResearch:_userResearch.staticResearch];
-  newUserResearch.userResearchUuid = _userResearch.userResearchUuid;
-  _userResearch = newUserResearch;
-}
-
-- (IBAction)helpButtonClicked:(id)sender {
+- (IBAction) helpButtonClicked:(id)sender {
   [[OutgoingEventController sharedOutgoingEventController] solicitResearchHelp:_userResearch];
   [self updateLabels];
 }
 
-- (IBAction)finishNowClicked:(id)sender {
+- (IBAction) finishNowClicked:(id)sender {
+  if (_waitingForServer) {
+    return;
+  }
+  
   Globals *gl = [Globals sharedGlobals];
+  
   int timeLeft = _userResearch.tentativeCompletionDate.timeIntervalSinceNow;
   int speedupCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
   
-  if(speedupCost > 0) {
+  if (speedupCost > 0) {
     ItemSelectViewController *svc = [[ItemSelectViewController alloc] init];
     if (svc) {
       SpeedupItemsFiller *sif = [[SpeedupItemsFiller alloc] init];
@@ -370,22 +402,11 @@
       }
     }
   } else {
-    self.view.activityIndicator.hidden = NO;
-    self.view.finishFreeLabel.hidden = YES;
-    _userResearch = [[OutgoingEventController sharedOutgoingEventController] finishResearch:_userResearch gemsSpent:0 delegate:self];
-    _waitingForServer = YES;
+    [self speedupResearch:_userResearch];
   }
 }
 
-- (void) handleFinishPerformingResearchResponseProto:(FullEvent *)fe {
-  self.view.activityIndicator.hidden = YES;
-  NSString *researchUserId = _userResearch.userResearchUuid;
-  _userResearch = [UserResearch userResearchWithResearch:_userResearch.staticResearch];
-  _userResearch.userResearchUuid = researchUserId;
-  _waitingForServer = NO;
-}
-
-- (void) speedupResearchWithGems {
+- (void) speedupResearch:(UserResearch *)ur {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
@@ -393,26 +414,42 @@
     [self.itemSelectViewController closeClicked:nil];
   }
   
-  int timeLeft = _userResearch.tentativeCompletionDate.timeIntervalSinceNow;
+  int timeLeft = ur.tentativeCompletionDate.timeIntervalSinceNow;
   int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
   
   if (gs.gems < goldCost) {
     [GenericPopupController displayNotEnoughGemsView];
   } else {
-    self.view.activityIndicator.hidden = NO;
-    self.view.finishFreeLabel.hidden = YES;
-    _userResearch = [[OutgoingEventController sharedOutgoingEventController] finishResearch:_userResearch gemsSpent:goldCost delegate:self];
-    _waitingForServer = YES;
+    BOOL success = [[OutgoingEventController sharedOutgoingEventController] finishResearch:ur useGems:YES delegate:self];
+    
+    if (success) {
+      self.view.activityIndicator.hidden = NO;
+      self.view.finishLabelsView.hidden = YES;
+      
+      if (ur == _userResearch) {
+        _waitingForServer = YES;
+      }
       
       [[NSNotificationCenter defaultCenter] postNotificationName:RESEARCH_CHANGED_NOTIFICATION object:self];
+    }
   }
+}
+
+- (void) handleFinishPerformingResearchResponseProto:(FullEvent *)fe {
+  self.view.activityIndicator.hidden = YES;
+  
+  self.view.finishLabelsView.hidden = NO;
+  
+  _waitingForServer = NO;
+  
+  [self waitTimeComplete];
 }
 
 #pragma mark - SpeedUpItemFillerDelegate
 
 - (void) speedupItemUsed:(id<ItemObject>)itemObject viewController:(ItemSelectViewController *)viewController {
   if ([itemObject isKindOfClass:[GemsItemObject class]]) {
-    [self speedupResearchWithGems];
+    [self speedupResearch:_userResearch];
   } else if ([itemObject isKindOfClass:[UserItem class]]) {
     // Apply items
     GameState *gs = [GameState sharedGameState];
@@ -448,12 +485,7 @@
 }
 
 - (int) totalSecondsRequired {
-  return _userResearch.staticResearch.durationMin * 60;
-}
-
-- (NSString *)titleName {
-  //not sure where this even goes
-  return @"Item Menu";
+  return _userResearch.staticResearchForNextLevel.durationMin * 60;
 }
 
 - (void) resourceItemsUsed:(NSDictionary *)itemUsages {
@@ -463,8 +495,9 @@
   
   BOOL allowGems = [itemUsages[@0] boolValue];
   
-  int cost = _userResearch.staticResearch.costAmt;
-  ResourceType resType = _userResearch.staticResearch.costType;
+  ResearchProto *rp = _userResearch.staticResearchForNextLevel;
+  int cost = rp.costAmt;
+  ResourceType resType = rp.costType;
   
   int curAmount = [gl calculateTotalResourcesForResourceType:resType itemIdsToQuantity:itemUsages];
   int gemCost = [gl calculateGemConversionForResourceType:resType amount:cost-curAmount];
@@ -472,7 +505,7 @@
   if (allowGems && gemCost > gs.gems) {
     [GenericPopupController displayNotEnoughGemsView];
   } else if (allowGems || cost <= curAmount) {
-    [self beginResearchWithItemsDict:itemUsages useGems:allowGems];
+    [self sendResearchWithItemsDict:itemUsages allowGems:allowGems];
   }
 }
 

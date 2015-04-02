@@ -17,32 +17,29 @@
 @property (nonatomic, assign) BOOL complete;
 @property (nonatomic, retain) MSDate *timeStarted;
 
+// Used for the zero level research if using it
+@property (nonatomic, retain) ResearchProto *fakeResearch;
+
 + (id) userResearchWithProto:(UserResearchProto *)proto;
-+ (id) userResearchWithResearch:(ResearchProto *)proto;
-- (id) initWithResearch:(ResearchProto *)proto;
-- (void) updateForUserResearch:(UserResearch *)UserResearch;
-- (BOOL) isResearching;
 - (MSDate *)tentativeCompletionDate;
 
 - (ResearchProto *) staticResearch;
+- (ResearchProto *) staticResearchForNextLevel;
 - (ResearchProto *) staticResearchForBenefitLevel;
 
 @end
 
-@interface ResearchUtil : NSObject {
-  UserResearch *_curResearch;
-}
+@interface ResearchUtil : NSObject
 
 @property (nonatomic, retain) NSMutableArray *userResearches;
+
 - (id) initWithResearches:(NSArray *)researches;
 
-- (void)startResearch:(UserResearch *)userResearch;
-- (UserResearch *) researchForTimer;
 - (UserResearch *) currentResearch;
 - (UserResearch *) userResearchForProto:(ResearchProto *)research;
-- (BOOL)prerequisiteFullfilledForResearch:(ResearchProto *)research;
-- (UserResearch *)currentRankForResearch:(ResearchProto *) research;
-- (void)cancelCurrentResearch;
+- (BOOL) prerequisiteFullfilledForResearch:(ResearchProto *)research;
+- (UserResearch *) currentRankForResearch:(ResearchProto *) research;
+- (void) cancelCurrentResearch;
 
 - (float) percentageBenefitForType:(ResearchType)type;
 - (float) percentageBenefitForType:(ResearchType)type element:(Element)element rarity:(Quality)rarity;
@@ -61,6 +58,7 @@
 - (ResearchProto *)predecessorResearch;
 - (ResearchProto *)maxLevelResearch;
 - (ResearchProto *)minLevelResearch;
+- (ResearchProto *) fakeRankZeroResearch;
 - (NSArray *)fullResearchFamily;
 - (BOOL)prereqsComplete;
 

@@ -1934,8 +1934,7 @@ static NSString *udid = nil;
   // Combining heal and speedups becuase otherwise speeding up heal queue won't batch either event
   // since it changes heal queue and adds a speedup
   if (type != EventProtocolRequestCHealMonsterEvent &&
-      type != EventProtocolRequestCTradeItemForSpeedUpsEvent &&
-      type != EventProtocolRequestCSolicitClanHelpEvent) {
+      type != EventProtocolRequestCTradeItemForSpeedUpsEvent) {
     if (_healingQueuePotentiallyChanged) {
       int val = [self sendHealMonsterMessage];
       [self reloadHealQueueSnapshot];
@@ -1946,21 +1945,11 @@ static NSString *udid = nil;
       if (val) {
         found = YES;
       }
-      
-      if (_speedupItemUsages.count > 0) {
-        [self sendTradeItemForSpeedUpsMessage];
-        
-        [_speedupItemUsages removeAllObjects];
-        [_speedupUpdatedUserItems removeAllObjects];
-        
-        found = YES;
-      }
     }
   }
   
   if (type != EventProtocolRequestCCreateBattleItemEvent &&
-      type != EventProtocolRequestCTradeItemForSpeedUpsEvent &&
-      type != EventProtocolRequestCSolicitClanHelpEvent) {
+      type != EventProtocolRequestCTradeItemForSpeedUpsEvent) {
     if (_battleItemQueuePotentiallyChanged) {
       int val = [self sendBattleItemQueueMessage];
       [self reloadBattleItemQueueSnapshot];
@@ -1972,15 +1961,19 @@ static NSString *udid = nil;
       if (val) {
         found = YES;
       }
+    }
+  }
+  
+  if (type != EventProtocolRequestCHealMonsterEvent &&
+      type != EventProtocolRequestCCreateBattleItemEvent &&
+      type != EventProtocolRequestCTradeItemForSpeedUpsEvent) {
+    if (_speedupItemUsages.count > 0) {
+      [self sendTradeItemForSpeedUpsMessage];
       
-      if (_speedupItemUsages.count > 0) {
-        [self sendTradeItemForSpeedUpsMessage];
-        
-        [_speedupItemUsages removeAllObjects];
-        [_speedupUpdatedUserItems removeAllObjects];
-        
-        found = YES;
-      }
+      [_speedupItemUsages removeAllObjects];
+      [_speedupUpdatedUserItems removeAllObjects];
+      
+      found = YES;
     }
   }
   

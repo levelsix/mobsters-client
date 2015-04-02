@@ -288,7 +288,7 @@
 //  GameState *gs = [GameState sharedGameState];
   
   MiniResearchViewSprite *s = [MiniMonsterViewSprite node];
-  s.contentSize = CGSizeMake(15, 15);
+  s.contentSize = CGSizeMake(20, 20);
   
 //  NSString *file = [Globals imageNameForElement:mp.monsterElement suffix:@"smallsquare.png"];
 //  CCSprite *bgd = [CCSprite spriteWithImageNamed:file];

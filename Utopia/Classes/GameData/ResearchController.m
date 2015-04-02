@@ -70,11 +70,11 @@
     case ResearchTypeHpIncrease:
       return @"Health Increase";
     case ResearchTypeIncreaseConstructionSpeed:
-      return @"Construction Speed";
+      return @"Build Speed";
     case ResearchTypeItemProductionCost:
-      return @"Item Creation Cost";
+      return @"Item Create Cost";
     case ResearchTypeItemProductionSpeed:
-      return @"Item Creation Speed";
+      return @"Item Create Speed";
     case ResearchTypeResourceProduction:
       return @"Resource Rate";
     case ResearchTypeResourceStorage:
@@ -100,6 +100,7 @@
 
 - (NSString *) longImprovementString{ return @""; }
 - (NSString *) shortImprovementString{ return @""; }
+- (NSString *) benefitString{ return @""; }
 - (float) curPercent { return 0.f; };
 - (float) nextPercent { return 0.f; };
 
@@ -119,16 +120,14 @@
   return [NSString stringWithFormat:@"+%@%%", [Globals commafyNumber:roundf([self percentBenefit]*100)]];
 }
 
+- (NSString *) benefitString {
+  return [NSString stringWithFormat:@"+%@%%", [Globals commafyNumber:roundf([_research percentage]*100)]];
+}
+
 - (float) curPercent {
   float curVal = [_research percentage];
   float maxVal = [[_research maxLevelResearch] percentage];
   return curVal/maxVal;
-}
-
-- (float) nextPercent {
-  float nextVal = [[_research successorResearch] percentage];
-  float maxVal = [[_research maxLevelResearch] percentage];
-  return nextVal/maxVal;
 }
 
 @end
@@ -140,23 +139,21 @@
 }
 
 - (NSString *) longImprovementString {
-  return [NSString stringWithFormat:@"%@ Increase", [Globals commafyNumber:[self amountBenefit]]];
+  return [NSString stringWithFormat:@"+%@ Increase", [Globals commafyNumber:[self amountBenefit]]];
 }
 
 - (NSString *) shortImprovementString {
   return [NSString stringWithFormat:@"+%@", [Globals commafyNumber:[self amountBenefit]]];
 }
 
+- (NSString *) benefitString {
+  return [NSString stringWithFormat:@"+%@", [Globals commafyNumber:[_research amountIncrease]]];
+}
+
 - (float) curPercent {
   float curVal = [_research amountIncrease];
   float maxVal = [[_research maxLevelResearch] amountIncrease];
   return curVal/maxVal;
-}
-
-- (float) nextPercent {
-  float nextVal = [[_research successorResearch] amountIncrease];
-  float maxVal = [[_research maxLevelResearch] amountIncrease];
-  return nextVal/maxVal;
 }
 
 @end
@@ -178,19 +175,19 @@
 }
 
 - (NSString *) longImprovementString {
-  return [NSString stringWithFormat:@"Unlock %@", [self unlockedName]];
+  return [NSString stringWithFormat:@"%@", [self unlockedName]];
 }
                                              
 - (NSString *) shortImprovementString {
   return [NSString stringWithFormat:@"Unlock %@", [self unlockedName]];
 }
 
-- (float) curPercent {
-  return 0.f;
+- (NSString *) benefitString {
+  return [NSString stringWithFormat:@"%@", [self unlockedName]];
 }
 
-- (float) nextPercent {
-  return 1.f;
+- (float) curPercent {
+  return _research.level/(float)[_research maxLevelResearch].level;
 }
 
 @end

@@ -283,6 +283,7 @@
 + (NSString *) stringForTimeSinceNow:(MSDate *)date shortened:(BOOL)shortened;
 + (NSString *) stringForClanStatus:(UserClanStatus)status;
 + (NSString *) stringForResourceType:(ResourceType)res;
++ (NSString *) stringForResearchDomain:(ResearchDomain)domain;
 
 + (NSString *) stringOfCurDate;
 

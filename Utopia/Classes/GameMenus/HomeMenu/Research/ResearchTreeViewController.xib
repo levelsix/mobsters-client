@@ -8,12 +8,14 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ResearchTreeViewController">
             <connections>
                 <outlet property="bgButton" destination="BKc-fj-HaX" id="n6B-qL-AUh"/>
+                <outlet property="contentView" destination="UbZ-fr-3Tk" id="bei-C2-vAU"/>
+                <outlet property="scrollView" destination="HJ5-ll-cNw" id="xhi-QZ-A5a"/>
                 <outlet property="selectFieldView" destination="u2P-QN-Bbv" id="FcW-at-oO2"/>
                 <outlet property="view" destination="JyE-dU-01S" id="8rO-te-bDe"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="JyE-dU-01S" customClass="ResearchTreeView">
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="JyE-dU-01S">
             <rect key="frame" x="0.0" y="0.0" width="430" height="236"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
@@ -86,10 +88,6 @@
             <nil key="simulatedStatusBarMetrics"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <connections>
-                <outlet property="mainView" destination="UbZ-fr-3Tk" id="FrG-fF-2Sp"/>
-                <outlet property="scrollView" destination="HJ5-ll-cNw" id="oye-jt-yaW"/>
-            </connections>
             <point key="canvasLocation" x="920" y="442"/>
         </view>
     </objects>

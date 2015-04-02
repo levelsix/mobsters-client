@@ -14,6 +14,7 @@
 #import "Prerequisite.pb.h"
 #import "Quest.pb.h"
 #import "Research.pb.h"
+#import "Reward.pb.h"
 #import "Skill.pb.h"
 #import "Structure.pb.h"
 #import "Task.pb.h"
@@ -68,6 +69,8 @@
 @class ColorProto_Builder;
 @class CoordinateProto;
 @class CoordinateProto_Builder;
+@class DefaultLanguagesProto;
+@class DefaultLanguagesProto_Builder;
 @class DialogueProto;
 @class DialogueProto_Builder;
 @class DialogueProto_SpeechSegmentProto;
@@ -150,6 +153,8 @@
 @class PersistentEventProto_Builder;
 @class PrereqProto;
 @class PrereqProto_Builder;
+@class PrivateChatDefaultLanguageProto;
+@class PrivateChatDefaultLanguageProto_Builder;
 @class PrivateChatPostProto;
 @class PrivateChatPostProto_Builder;
 @class PvpBoardHouseProto;
@@ -184,6 +189,8 @@
 @class ResourceGeneratorProto_Builder;
 @class ResourceStorageProto;
 @class ResourceStorageProto_Builder;
+@class RewardProto;
+@class RewardProto_Builder;
 @class SkillPropertyProto;
 @class SkillPropertyProto_Builder;
 @class SkillProto;
@@ -252,6 +259,8 @@
 @class UserQuestJobProto_Builder;
 @class UserResearchProto;
 @class UserResearchProto_Builder;
+@class UserRewardProto;
+@class UserRewardProto_Builder;
 @class UserTaskCompletedProto;
 @class UserTaskCompletedProto_Builder;
 #ifndef __has_feature
@@ -317,8 +326,9 @@
   NSMutableArray * mutablePrereqsList;
   NSMutableArray * mutableBoardsList;
   NSMutableArray * mutableResearchList;
-  NSMutableArray * mutableBattleItemList;
   NSMutableArray * mutablePvpBoardObstacleProtosList;
+  NSMutableArray * mutableBattleItemList;
+  NSMutableArray * mutableRewardList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStarterPack;
@@ -362,8 +372,9 @@
 @property (readonly, strong) NSArray * prereqsList;
 @property (readonly, strong) NSArray * boardsList;
 @property (readonly, strong) NSArray * researchList;
-@property (readonly, strong) NSArray * battleItemList;
 @property (readonly, strong) NSArray * pvpBoardObstacleProtosList;
+@property (readonly, strong) NSArray * battleItemList;
+@property (readonly, strong) NSArray * rewardList;
 - (CityExpansionCostProto*)expansionCostsAtIndex:(NSUInteger)index;
 - (FullCityProto*)allCitiesAtIndex:(NSUInteger)index;
 - (FullTaskProto*)allTasksAtIndex:(NSUInteger)index;
@@ -402,8 +413,9 @@
 - (PrereqProto*)prereqsAtIndex:(NSUInteger)index;
 - (BoardLayoutProto*)boardsAtIndex:(NSUInteger)index;
 - (ResearchProto*)researchAtIndex:(NSUInteger)index;
-- (BattleItemProto*)battleItemAtIndex:(NSUInteger)index;
 - (PvpBoardObstacleProto*)pvpBoardObstacleProtosAtIndex:(NSUInteger)index;
+- (BattleItemProto*)battleItemAtIndex:(NSUInteger)index;
+- (RewardProto*)rewardAtIndex:(NSUInteger)index;
 
 + (StaticDataProto*) defaultInstance;
 - (StaticDataProto*) defaultInstance;
@@ -682,17 +694,23 @@
 - (StaticDataProto_Builder *)addAllResearch:(NSArray *)array;
 - (StaticDataProto_Builder *)clearResearch;
 
+- (NSMutableArray *)pvpBoardObstacleProtosList;
+- (PvpBoardObstacleProto*)pvpBoardObstacleProtosAtIndex:(NSUInteger)index;
+- (StaticDataProto_Builder *)addPvpBoardObstacleProtos:(PvpBoardObstacleProto*)value;
+- (StaticDataProto_Builder *)addAllPvpBoardObstacleProtos:(NSArray *)array;
+- (StaticDataProto_Builder *)clearPvpBoardObstacleProtos;
+
 - (NSMutableArray *)battleItemList;
 - (BattleItemProto*)battleItemAtIndex:(NSUInteger)index;
 - (StaticDataProto_Builder *)addBattleItem:(BattleItemProto*)value;
 - (StaticDataProto_Builder *)addAllBattleItem:(NSArray *)array;
 - (StaticDataProto_Builder *)clearBattleItem;
 
-- (NSMutableArray *)pvpBoardObstacleProtosList;
-- (PvpBoardObstacleProto*)pvpBoardObstacleProtosAtIndex:(NSUInteger)index;
-- (StaticDataProto_Builder *)addPvpBoardObstacleProtos:(PvpBoardObstacleProto*)value;
-- (StaticDataProto_Builder *)addAllPvpBoardObstacleProtos:(NSArray *)array;
-- (StaticDataProto_Builder *)clearPvpBoardObstacleProtos;
+- (NSMutableArray *)rewardList;
+- (RewardProto*)rewardAtIndex:(NSUInteger)index;
+- (StaticDataProto_Builder *)addReward:(RewardProto*)value;
+- (StaticDataProto_Builder *)addAllReward:(NSArray *)array;
+- (StaticDataProto_Builder *)clearReward;
 @end
 
 

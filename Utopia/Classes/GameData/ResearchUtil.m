@@ -10,27 +10,9 @@
 #import "GameState.h"
 
 @implementation UserResearch
+
 + (id) userResearchWithProto:(UserResearchProto *)proto {
   return [[UserResearch alloc] initWithProto:proto];
-}
-
-+ (id) userResearchWithResearch:(ResearchProto *)proto {
-  GameState *gs = [GameState sharedGameState];
-  
-  UserResearch *userResearch = [gs.researchUtil userResearchForProto:proto];
-  if(userResearch) {
-    return userResearch;
-  }
-  
-  return [[UserResearch alloc] initWithResearch:proto];
-}
-
-- (id) initWithResearch:(ResearchProto *)proto {
-  self.userResearchUuid = nil;
-  self.researchId = proto.researchId;
-  self.complete = NO;
-  self.timeStarted = nil;
-  return self;
 }
 
 - (id) initWithProto:(UserResearchProto *)proto {
@@ -63,20 +45,13 @@
   return [self.timeStarted dateByAddingTimeInterval:seconds];
 }
 
-- (void) updateForUserResearch:(UserResearch *)userResearch {
-  self.userResearchUuid = self.userResearchUuid ? self.userResearchUuid : userResearch.userResearchUuid;
-  self.researchId = userResearch.researchId;
-  self.complete = userResearch.complete;
-  self.timeStarted = userResearch.timeStarted;
-}
-
-- (BOOL) isResearching {
-  return !self.complete && self.timeStarted;
-}
-
 - (ResearchProto *) staticResearch {
   GameState *gs = [GameState sharedGameState];
-  return [gs researchWithId:self.researchId];
+  return self.fakeResearch ?: [gs researchWithId:self.researchId];
+}
+
+- (ResearchProto *) staticResearchForNextLevel {
+  return self.staticResearchForBenefitLevel.successorResearch;
 }
 
 - (ResearchProto *) staticResearchForBenefitLevel {
@@ -98,40 +73,9 @@
   return self;
 }
 
-- (void) startResearch:(UserResearch *)userResearch {
-  //update existing userResearch if another research of the same id exists
-  for (UserResearch *ur in self.userResearches) {
-    if (ur.userResearchUuid == userResearch.userResearchUuid) {
-      [ur updateForUserResearch:userResearch];
-      return;
-    }
-  }
-  //add the new user research to the list
-  [self.userResearches addObject:userResearch];
-}
-
-- (UserResearch *) researchForTimer {
-  //to be used only for starting the gameState timer
-  //returns potentially expired researches
-  //with the goal of having the timer complete them
-  for (UserResearch *ur in self.userResearches) {
-    if (!ur.complete && ur.timeStarted) {
-      return ur;
-    }
-  }
-  return nil;
-}
-
 - (UserResearch *) currentResearch {
-  if (_curResearch && !_curResearch.complete) {
-    return _curResearch;
-  } else {
-    _curResearch = nil;
-  }
-  
   for (UserResearch *ur in self.userResearches) {
-    if ([ur isResearching]) {
-      _curResearch = ur;
+    if (!ur.complete) {
       return ur;
     }
   }
@@ -140,7 +84,7 @@
 
 - (UserResearch *) userResearchForProto:(ResearchProto *)research {
   for (UserResearch *ur in self.userResearches) {
-    if(ur.staticResearch.researchId == research.researchId) {
+    if (ur.staticResearch.researchId == research.researchId) {
       return ur;
     }
   }
@@ -162,38 +106,27 @@
 }
 
 - (UserResearch *) currentRankForResearch:(ResearchProto *) research {
-  UserResearch *result = [self findCurRankForResearch:[UserResearch userResearchWithResearch:[research minLevelResearch]]];
-  return result ? result : [UserResearch userResearchWithResearch: [research minLevelResearch]];
-}
-
-- (UserResearch *) findCurRankForResearch:(UserResearch *) userResearch {
-  ResearchProto *succesorResearch = [userResearch.staticResearch successorResearch];
-  if (userResearch.isResearching){
-    return userResearch;
-  }
-  if (userResearch.complete) {
-    if (succesorResearch) {
-      UserResearch *nextResearch = [UserResearch userResearchWithResearch:succesorResearch];
-      nextResearch.userResearchUuid = userResearch.userResearchUuid;
-      return nextResearch;
-    } else {
-      return userResearch;
+  for (ResearchProto *rp in research.fullResearchFamily) {
+    UserResearch *ur = [self userResearchForProto:rp];
+    if (ur) {
+      return ur;
     }
-  } else if (succesorResearch) {
-    return [self findCurRankForResearch:[UserResearch userResearchWithResearch:succesorResearch]];
   }
-  return nil;
+  
+  // Create a fake zero level one
+  UserResearch *ur = [[UserResearch alloc] init];
+  ur.fakeResearch = [research fakeRankZeroResearch];
+  ur.complete = YES;
+  
+  return ur;
 }
 
 - (void) cancelCurrentResearch {
   for (UserResearch *ur in self.userResearches) {
-    if ([ur isResearching]) {
-      NSString *userDataId = ur.userResearchUuid;
-      [ur updateForUserResearch:[UserResearch userResearchWithResearch:[ur.staticResearch predecessorResearch]]];
+    if (!ur.complete) {
       ur.timeStarted = nil;
       ur.complete = YES;
-      ur.userResearchUuid = userDataId;
-      _curResearch = nil;
+      ur.researchId = ur.staticResearch.predId;
       return;
     }
   }
@@ -337,7 +270,7 @@
 
 - (ResearchProto *) predecessorResearch {
   GameState *gs = [GameState sharedGameState];
-  return self.predId ? [gs researchWithId:self.predId] : nil;
+  return self.predId ? [gs researchWithId:self.predId] : self.fakeRankZeroResearch;
 }
 
 - (ResearchProto *) maxLevelResearch {
@@ -348,10 +281,42 @@
 }
 
 - (ResearchProto *) minLevelResearch {
-  if(self.predId) {
+  if (self.predId) {
     return [[self predecessorResearch] minLevelResearch];
   }
   return self;
+}
+
+- (NSArray *) fullResearchFamily {
+  NSMutableArray *ar =[[NSMutableArray alloc] init];
+  ResearchProto *research = [self minLevelResearch];
+  [ar addObject:research];
+  
+  while (research.succId) {
+    [ar addObject:[research successorResearch]];
+    research = [research successorResearch];
+  }
+  return ar;
+}
+
+- (ResearchProto *) fakeRankZeroResearch {
+  ResearchProto_Builder *bldr = [ResearchProto builder];
+  bldr.succId = self.minLevelResearch.researchId;
+  bldr.name = self.name;
+  bldr.level = 0;
+  bldr.desc = self.desc;
+  bldr.iconImgName = self.iconImgName;
+  bldr.name = self.name;
+  bldr.priority = self.priority;
+  bldr.tier = self.tier;
+  bldr.researchDomain = self.researchDomain;
+  bldr.researchType = self.researchType;
+  
+  // Make its predId the min one as well so that this guy's minLevelResearch returns the right one.
+  // Hopefully this won't cause other issues..
+  bldr.predId = self.minLevelResearch.researchId;
+  
+  return bldr.build;
 }
 
 #pragma mark - Properties
@@ -423,18 +388,6 @@
 
 - (BOOL) hasStaticDataId {
   return [self hasProperty:@"STATIC_DATA_ID"];
-}
-
-- (NSArray *) fullResearchFamily {
-  NSMutableArray *ar =[[NSMutableArray alloc] init];
-  ResearchProto *research = [self minLevelResearch];
-  [ar addObject:research];
-  
-  while (research.succId) {
-    [ar addObject:[research successorResearch]];
-    research = [research successorResearch];
-  }
-  return ar;
 }
 
 #pragma mark - Prereqs

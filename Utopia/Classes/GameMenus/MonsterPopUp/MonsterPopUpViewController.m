@@ -41,7 +41,7 @@ NSMutableAttributedString *attributedStringWithResearch(ResearchProto *res, BOOL
 
 NSMutableAttributedString *attributedStringWithResearchBenefit(ResearchProto *res, UIFont *font) {
   ResearchController *rc = [ResearchController researchControllerWithProto:res];
-  NSString *totalStr = [NSString stringWithFormat:@"%@: %@", rc.benefitName, rc.shortImprovementString];
+  NSString *totalStr = [NSString stringWithFormat:@"%@: %@", rc.benefitName, rc.benefitString];
   
   NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
   [paragraphStyle setLineSpacing:4];

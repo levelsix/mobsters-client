@@ -221,7 +221,6 @@
 - (NSArray *) allPrivateChats;
 - (NSArray *) allUnreadPrivateChats;
 
-- (NSString *) stringForDomain:(ResearchDomain)domain;
 - (NSArray *) allStaticResearchForDomain:(ResearchDomain)domain;
   
 - (NSArray *) allClanChatObjects;

@@ -47,6 +47,7 @@ BOOL TranslateLanguagesIsValidValue(TranslateLanguages value) {
     case TranslateLanguagesGerman:
     case TranslateLanguagesSpanish:
     case TranslateLanguagesRussian:
+    case TranslateLanguagesNoTranslation:
       return YES;
     default:
       return NO;
@@ -1560,6 +1561,570 @@ static TranslatedTextProto* defaultTranslatedTextProtoInstance = nil;
 - (TranslatedTextProto_Builder*) clearText {
   result.hasText = NO;
   result.text = @"";
+  return self;
+}
+@end
+
+@interface DefaultLanguagesProto ()
+@property TranslateLanguages globalDefaultLanguage;
+@property (strong) NSMutableArray * mutablePrivateDefaultLanguageList;
+@end
+
+@implementation DefaultLanguagesProto
+
+- (BOOL) hasGlobalDefaultLanguage {
+  return !!hasGlobalDefaultLanguage_;
+}
+- (void) setHasGlobalDefaultLanguage:(BOOL) value_ {
+  hasGlobalDefaultLanguage_ = !!value_;
+}
+@synthesize globalDefaultLanguage;
+@synthesize mutablePrivateDefaultLanguageList;
+@dynamic privateDefaultLanguageList;
+- (id) init {
+  if ((self = [super init])) {
+    self.globalDefaultLanguage = TranslateLanguagesArabic;
+  }
+  return self;
+}
+static DefaultLanguagesProto* defaultDefaultLanguagesProtoInstance = nil;
++ (void) initialize {
+  if (self == [DefaultLanguagesProto class]) {
+    defaultDefaultLanguagesProtoInstance = [[DefaultLanguagesProto alloc] init];
+  }
+}
++ (DefaultLanguagesProto*) defaultInstance {
+  return defaultDefaultLanguagesProtoInstance;
+}
+- (DefaultLanguagesProto*) defaultInstance {
+  return defaultDefaultLanguagesProtoInstance;
+}
+- (NSArray *)privateDefaultLanguageList {
+  return mutablePrivateDefaultLanguageList;
+}
+- (PrivateChatDefaultLanguageProto*)privateDefaultLanguageAtIndex:(NSUInteger)index {
+  return [mutablePrivateDefaultLanguageList objectAtIndex:index];
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasGlobalDefaultLanguage) {
+    [output writeEnum:1 value:self.globalDefaultLanguage];
+  }
+  [self.privateDefaultLanguageList enumerateObjectsUsingBlock:^(PrivateChatDefaultLanguageProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:2 value:element];
+  }];
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasGlobalDefaultLanguage) {
+    size_ += computeEnumSize(1, self.globalDefaultLanguage);
+  }
+  [self.privateDefaultLanguageList enumerateObjectsUsingBlock:^(PrivateChatDefaultLanguageProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(2, element);
+  }];
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (DefaultLanguagesProto*) parseFromData:(NSData*) data {
+  return (DefaultLanguagesProto*)[[[DefaultLanguagesProto builder] mergeFromData:data] build];
+}
++ (DefaultLanguagesProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (DefaultLanguagesProto*)[[[DefaultLanguagesProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (DefaultLanguagesProto*) parseFromInputStream:(NSInputStream*) input {
+  return (DefaultLanguagesProto*)[[[DefaultLanguagesProto builder] mergeFromInputStream:input] build];
+}
++ (DefaultLanguagesProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (DefaultLanguagesProto*)[[[DefaultLanguagesProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (DefaultLanguagesProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (DefaultLanguagesProto*)[[[DefaultLanguagesProto builder] mergeFromCodedInputStream:input] build];
+}
++ (DefaultLanguagesProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (DefaultLanguagesProto*)[[[DefaultLanguagesProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (DefaultLanguagesProto_Builder*) builder {
+  return [[DefaultLanguagesProto_Builder alloc] init];
+}
++ (DefaultLanguagesProto_Builder*) builderWithPrototype:(DefaultLanguagesProto*) prototype {
+  return [[DefaultLanguagesProto builder] mergeFrom:prototype];
+}
+- (DefaultLanguagesProto_Builder*) builder {
+  return [DefaultLanguagesProto builder];
+}
+- (DefaultLanguagesProto_Builder*) toBuilder {
+  return [DefaultLanguagesProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasGlobalDefaultLanguage) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"globalDefaultLanguage", [NSNumber numberWithInteger:self.globalDefaultLanguage]];
+  }
+  [self.privateDefaultLanguageList enumerateObjectsUsingBlock:^(PrivateChatDefaultLanguageProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"privateDefaultLanguage"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[DefaultLanguagesProto class]]) {
+    return NO;
+  }
+  DefaultLanguagesProto *otherMessage = other;
+  return
+      self.hasGlobalDefaultLanguage == otherMessage.hasGlobalDefaultLanguage &&
+      (!self.hasGlobalDefaultLanguage || self.globalDefaultLanguage == otherMessage.globalDefaultLanguage) &&
+      [self.privateDefaultLanguageList isEqualToArray:otherMessage.privateDefaultLanguageList] &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasGlobalDefaultLanguage) {
+    hashCode = hashCode * 31 + self.globalDefaultLanguage;
+  }
+  [self.privateDefaultLanguageList enumerateObjectsUsingBlock:^(PrivateChatDefaultLanguageProto *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+@interface DefaultLanguagesProto_Builder()
+@property (strong) DefaultLanguagesProto* result;
+@end
+
+@implementation DefaultLanguagesProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[DefaultLanguagesProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (DefaultLanguagesProto_Builder*) clear {
+  self.result = [[DefaultLanguagesProto alloc] init];
+  return self;
+}
+- (DefaultLanguagesProto_Builder*) clone {
+  return [DefaultLanguagesProto builderWithPrototype:result];
+}
+- (DefaultLanguagesProto*) defaultInstance {
+  return [DefaultLanguagesProto defaultInstance];
+}
+- (DefaultLanguagesProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (DefaultLanguagesProto*) buildPartial {
+  DefaultLanguagesProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (DefaultLanguagesProto_Builder*) mergeFrom:(DefaultLanguagesProto*) other {
+  if (other == [DefaultLanguagesProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasGlobalDefaultLanguage) {
+    [self setGlobalDefaultLanguage:other.globalDefaultLanguage];
+  }
+  if (other.mutablePrivateDefaultLanguageList.count > 0) {
+    if (result.mutablePrivateDefaultLanguageList == nil) {
+      result.mutablePrivateDefaultLanguageList = [[NSMutableArray alloc] initWithArray:other.mutablePrivateDefaultLanguageList];
+    } else {
+      [result.mutablePrivateDefaultLanguageList addObjectsFromArray:other.mutablePrivateDefaultLanguageList];
+    }
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (DefaultLanguagesProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (DefaultLanguagesProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        TranslateLanguages value = (TranslateLanguages)[input readEnum];
+        if (TranslateLanguagesIsValidValue(value)) {
+          [self setGlobalDefaultLanguage:value];
+        } else {
+          [unknownFields mergeVarintField:1 value:value];
+        }
+        break;
+      }
+      case 18: {
+        PrivateChatDefaultLanguageProto_Builder* subBuilder = [PrivateChatDefaultLanguageProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addPrivateDefaultLanguage:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasGlobalDefaultLanguage {
+  return result.hasGlobalDefaultLanguage;
+}
+- (TranslateLanguages) globalDefaultLanguage {
+  return result.globalDefaultLanguage;
+}
+- (DefaultLanguagesProto_Builder*) setGlobalDefaultLanguage:(TranslateLanguages) value {
+  result.hasGlobalDefaultLanguage = YES;
+  result.globalDefaultLanguage = value;
+  return self;
+}
+- (DefaultLanguagesProto_Builder*) clearGlobalDefaultLanguageList {
+  result.hasGlobalDefaultLanguage = NO;
+  result.globalDefaultLanguage = TranslateLanguagesArabic;
+  return self;
+}
+- (NSMutableArray *)privateDefaultLanguageList {
+  return result.mutablePrivateDefaultLanguageList;
+}
+- (PrivateChatDefaultLanguageProto*)privateDefaultLanguageAtIndex:(NSUInteger)index {
+  return [result privateDefaultLanguageAtIndex:index];
+}
+- (DefaultLanguagesProto_Builder *)addPrivateDefaultLanguage:(PrivateChatDefaultLanguageProto*)value {
+  if (result.mutablePrivateDefaultLanguageList == nil) {
+    result.mutablePrivateDefaultLanguageList = [[NSMutableArray alloc]init];
+  }
+  [result.mutablePrivateDefaultLanguageList addObject:value];
+  return self;
+}
+- (DefaultLanguagesProto_Builder *)addAllPrivateDefaultLanguage:(NSArray *)array {
+  if (result.mutablePrivateDefaultLanguageList == nil) {
+    result.mutablePrivateDefaultLanguageList = [NSMutableArray array];
+  }
+  [result.mutablePrivateDefaultLanguageList addObjectsFromArray:array];
+  return self;
+}
+- (DefaultLanguagesProto_Builder *)clearPrivateDefaultLanguage {
+  result.mutablePrivateDefaultLanguageList = nil;
+  return self;
+}
+@end
+
+@interface PrivateChatDefaultLanguageProto ()
+@property (strong) NSString* recipientUserId;
+@property (strong) NSString* senderUserId;
+@property TranslateLanguages defaultLanguage;
+@end
+
+@implementation PrivateChatDefaultLanguageProto
+
+- (BOOL) hasRecipientUserId {
+  return !!hasRecipientUserId_;
+}
+- (void) setHasRecipientUserId:(BOOL) value_ {
+  hasRecipientUserId_ = !!value_;
+}
+@synthesize recipientUserId;
+- (BOOL) hasSenderUserId {
+  return !!hasSenderUserId_;
+}
+- (void) setHasSenderUserId:(BOOL) value_ {
+  hasSenderUserId_ = !!value_;
+}
+@synthesize senderUserId;
+- (BOOL) hasDefaultLanguage {
+  return !!hasDefaultLanguage_;
+}
+- (void) setHasDefaultLanguage:(BOOL) value_ {
+  hasDefaultLanguage_ = !!value_;
+}
+@synthesize defaultLanguage;
+- (id) init {
+  if ((self = [super init])) {
+    self.recipientUserId = @"";
+    self.senderUserId = @"";
+    self.defaultLanguage = TranslateLanguagesArabic;
+  }
+  return self;
+}
+static PrivateChatDefaultLanguageProto* defaultPrivateChatDefaultLanguageProtoInstance = nil;
++ (void) initialize {
+  if (self == [PrivateChatDefaultLanguageProto class]) {
+    defaultPrivateChatDefaultLanguageProtoInstance = [[PrivateChatDefaultLanguageProto alloc] init];
+  }
+}
++ (PrivateChatDefaultLanguageProto*) defaultInstance {
+  return defaultPrivateChatDefaultLanguageProtoInstance;
+}
+- (PrivateChatDefaultLanguageProto*) defaultInstance {
+  return defaultPrivateChatDefaultLanguageProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasRecipientUserId) {
+    [output writeString:1 value:self.recipientUserId];
+  }
+  if (self.hasSenderUserId) {
+    [output writeString:2 value:self.senderUserId];
+  }
+  if (self.hasDefaultLanguage) {
+    [output writeEnum:3 value:self.defaultLanguage];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasRecipientUserId) {
+    size_ += computeStringSize(1, self.recipientUserId);
+  }
+  if (self.hasSenderUserId) {
+    size_ += computeStringSize(2, self.senderUserId);
+  }
+  if (self.hasDefaultLanguage) {
+    size_ += computeEnumSize(3, self.defaultLanguage);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (PrivateChatDefaultLanguageProto*) parseFromData:(NSData*) data {
+  return (PrivateChatDefaultLanguageProto*)[[[PrivateChatDefaultLanguageProto builder] mergeFromData:data] build];
+}
++ (PrivateChatDefaultLanguageProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PrivateChatDefaultLanguageProto*)[[[PrivateChatDefaultLanguageProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (PrivateChatDefaultLanguageProto*) parseFromInputStream:(NSInputStream*) input {
+  return (PrivateChatDefaultLanguageProto*)[[[PrivateChatDefaultLanguageProto builder] mergeFromInputStream:input] build];
+}
++ (PrivateChatDefaultLanguageProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PrivateChatDefaultLanguageProto*)[[[PrivateChatDefaultLanguageProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (PrivateChatDefaultLanguageProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (PrivateChatDefaultLanguageProto*)[[[PrivateChatDefaultLanguageProto builder] mergeFromCodedInputStream:input] build];
+}
++ (PrivateChatDefaultLanguageProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PrivateChatDefaultLanguageProto*)[[[PrivateChatDefaultLanguageProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (PrivateChatDefaultLanguageProto_Builder*) builder {
+  return [[PrivateChatDefaultLanguageProto_Builder alloc] init];
+}
++ (PrivateChatDefaultLanguageProto_Builder*) builderWithPrototype:(PrivateChatDefaultLanguageProto*) prototype {
+  return [[PrivateChatDefaultLanguageProto builder] mergeFrom:prototype];
+}
+- (PrivateChatDefaultLanguageProto_Builder*) builder {
+  return [PrivateChatDefaultLanguageProto builder];
+}
+- (PrivateChatDefaultLanguageProto_Builder*) toBuilder {
+  return [PrivateChatDefaultLanguageProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasRecipientUserId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"recipientUserId", self.recipientUserId];
+  }
+  if (self.hasSenderUserId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"senderUserId", self.senderUserId];
+  }
+  if (self.hasDefaultLanguage) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"defaultLanguage", [NSNumber numberWithInteger:self.defaultLanguage]];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[PrivateChatDefaultLanguageProto class]]) {
+    return NO;
+  }
+  PrivateChatDefaultLanguageProto *otherMessage = other;
+  return
+      self.hasRecipientUserId == otherMessage.hasRecipientUserId &&
+      (!self.hasRecipientUserId || [self.recipientUserId isEqual:otherMessage.recipientUserId]) &&
+      self.hasSenderUserId == otherMessage.hasSenderUserId &&
+      (!self.hasSenderUserId || [self.senderUserId isEqual:otherMessage.senderUserId]) &&
+      self.hasDefaultLanguage == otherMessage.hasDefaultLanguage &&
+      (!self.hasDefaultLanguage || self.defaultLanguage == otherMessage.defaultLanguage) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasRecipientUserId) {
+    hashCode = hashCode * 31 + [self.recipientUserId hash];
+  }
+  if (self.hasSenderUserId) {
+    hashCode = hashCode * 31 + [self.senderUserId hash];
+  }
+  if (self.hasDefaultLanguage) {
+    hashCode = hashCode * 31 + self.defaultLanguage;
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+@interface PrivateChatDefaultLanguageProto_Builder()
+@property (strong) PrivateChatDefaultLanguageProto* result;
+@end
+
+@implementation PrivateChatDefaultLanguageProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[PrivateChatDefaultLanguageProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (PrivateChatDefaultLanguageProto_Builder*) clear {
+  self.result = [[PrivateChatDefaultLanguageProto alloc] init];
+  return self;
+}
+- (PrivateChatDefaultLanguageProto_Builder*) clone {
+  return [PrivateChatDefaultLanguageProto builderWithPrototype:result];
+}
+- (PrivateChatDefaultLanguageProto*) defaultInstance {
+  return [PrivateChatDefaultLanguageProto defaultInstance];
+}
+- (PrivateChatDefaultLanguageProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (PrivateChatDefaultLanguageProto*) buildPartial {
+  PrivateChatDefaultLanguageProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (PrivateChatDefaultLanguageProto_Builder*) mergeFrom:(PrivateChatDefaultLanguageProto*) other {
+  if (other == [PrivateChatDefaultLanguageProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasRecipientUserId) {
+    [self setRecipientUserId:other.recipientUserId];
+  }
+  if (other.hasSenderUserId) {
+    [self setSenderUserId:other.senderUserId];
+  }
+  if (other.hasDefaultLanguage) {
+    [self setDefaultLanguage:other.defaultLanguage];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (PrivateChatDefaultLanguageProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (PrivateChatDefaultLanguageProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        [self setRecipientUserId:[input readString]];
+        break;
+      }
+      case 18: {
+        [self setSenderUserId:[input readString]];
+        break;
+      }
+      case 24: {
+        TranslateLanguages value = (TranslateLanguages)[input readEnum];
+        if (TranslateLanguagesIsValidValue(value)) {
+          [self setDefaultLanguage:value];
+        } else {
+          [unknownFields mergeVarintField:3 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasRecipientUserId {
+  return result.hasRecipientUserId;
+}
+- (NSString*) recipientUserId {
+  return result.recipientUserId;
+}
+- (PrivateChatDefaultLanguageProto_Builder*) setRecipientUserId:(NSString*) value {
+  result.hasRecipientUserId = YES;
+  result.recipientUserId = value;
+  return self;
+}
+- (PrivateChatDefaultLanguageProto_Builder*) clearRecipientUserId {
+  result.hasRecipientUserId = NO;
+  result.recipientUserId = @"";
+  return self;
+}
+- (BOOL) hasSenderUserId {
+  return result.hasSenderUserId;
+}
+- (NSString*) senderUserId {
+  return result.senderUserId;
+}
+- (PrivateChatDefaultLanguageProto_Builder*) setSenderUserId:(NSString*) value {
+  result.hasSenderUserId = YES;
+  result.senderUserId = value;
+  return self;
+}
+- (PrivateChatDefaultLanguageProto_Builder*) clearSenderUserId {
+  result.hasSenderUserId = NO;
+  result.senderUserId = @"";
+  return self;
+}
+- (BOOL) hasDefaultLanguage {
+  return result.hasDefaultLanguage;
+}
+- (TranslateLanguages) defaultLanguage {
+  return result.defaultLanguage;
+}
+- (PrivateChatDefaultLanguageProto_Builder*) setDefaultLanguage:(TranslateLanguages) value {
+  result.hasDefaultLanguage = YES;
+  result.defaultLanguage = value;
+  return self;
+}
+- (PrivateChatDefaultLanguageProto_Builder*) clearDefaultLanguageList {
+  result.hasDefaultLanguage = NO;
+  result.defaultLanguage = TranslateLanguagesArabic;
   return self;
 }
 @end

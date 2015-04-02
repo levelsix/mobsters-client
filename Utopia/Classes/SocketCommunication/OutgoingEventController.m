@@ -2920,8 +2920,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   int timeLeft = gs.userEnhancement.expectedEndTime.timeIntervalSinceNow;
   int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
   
-  if (gs.gems < goldCost) {
-    [Globals popupMessage:@"Trying to speedup enhance queue without enough gold"];
+  if (!useGems && timeLeft > 0) {
+    [Globals popupMessage:@"Trying to finish enhancement before time."];
+  } else if (useGems && gs.gems < goldCost) {
+    [Globals popupMessage:@"Trying to speedup enhance queue without enough gems"];
   } else {
     int tag = [[SocketCommunication sharedSocketCommunication] sendEnhanceWaitCompleteMessage:gs.userEnhancement.baseMonster.userMonsterUuid isSpeedup:goldCost > 0 gemCost:goldCost];
     [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
@@ -3357,67 +3359,91 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 #pragma mark - Researching
 
--(UserResearch *) beginResearch:(UserResearch *)userResearch gemsSpent:(int)gems resourceType:(ResourceType)resourceType resourceCost:(int)resourceCost delegate:(id)delegate{
-  
+- (BOOL) beginResearch:(UserResearch *)userResearch allowGems:(BOOL)allowGems delegate:(id)delegate {
   GameState *gs = [GameState sharedGameState];
-  switch (resourceType) {
-    case ResourceTypeOil:
-      if(gs.oil < resourceCost) {
-        [Globals popupMessage:@"Attempting to start research with not enough oil"];
-        return nil;
-      }
-      break;
-      case ResourceTypeCash:
-      if (gs.cash < resourceCost) {
-        [Globals popupMessage:@"Attempting to start research with not enough cash"];
-        return nil;
-      }
-    default:
-      break;
+  Globals *gl = [Globals sharedGlobals];
+  ResearchProto *rp = userResearch.staticResearch.successorResearch;
+  
+  // Check there are no other cur researches
+  if ([gs.researchUtil currentResearch]) {
+    [Globals popupMessage:@"Attempting to start multiple researches."];
+    return NO;
   }
   
-  if(gs.gems < gems) {
-    return nil;
+  if (!rp) {
+    [Globals popupMessage:@"Attempting to progress max research."];
+    return NO;
   }
   
-  uint64_t ms = [self getCurrentMilliseconds];
-  int tag = [[SocketCommunication sharedSocketCommunication] sendBeginResearchMessage:userResearch.researchId uuid:userResearch.userResearchUuid clientTime:ms gems:gems resourceType:resourceType resourceCost:resourceCost];
-  [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
+  int cost = rp.costAmt;
+  BOOL isOilBuilding = rp.costType == ResourceTypeOil;
+  int curAmount = isOilBuilding ? gs.oil : gs.cash;
+  int gemCost = 0;
   
-  GemsUpdate *gu = [GemsUpdate updateWithTag:tag change:-gems];
-  if(resourceType == ResourceTypeCash) {
-    CashUpdate *cu = [CashUpdate updateWithTag:tag change:-resourceCost];
-    [gs addUnrespondedUpdates:cu,gu, nil];
-  } else if (resourceType == ResourceTypeOil) {
-    OilUpdate *ou = [OilUpdate updateWithTag:tag change:-resourceCost];
-    [gs addUnrespondedUpdates:ou,gu, nil];
+  if (allowGems && cost > curAmount) {
+    gemCost = [gl calculateGemConversionForResourceType:rp.costType amount:cost-curAmount];
+    cost = curAmount;
   }
-  UserResearch *newUserResearch = [[UserResearch alloc] initWithResearch:userResearch.staticResearch];
-  newUserResearch.timeStarted = [MSDate date];
   
-  newUserResearch.userResearchUuid = userResearch.userResearchUuid;
-  [gs.researchUtil startResearch:newUserResearch];
-  [gs beginResearchTimer];
-  
-  return newUserResearch;
+  if (cost > curAmount || gemCost > gs.gems) {
+    [Globals popupMessage:@"Trying to research without enough resources."];
+    
+    return NO;
+  } else {
+    uint64_t ms = [self getCurrentMilliseconds];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendBeginResearchMessage:rp.researchId uuid:userResearch.userResearchUuid clientTime:ms gems:gemCost resourceType:rp.costType resourceCost:cost];
+    [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
+    
+    userResearch.complete = NO;
+    userResearch.researchId = rp.researchId;
+    userResearch.timeStarted = [MSDate dateWithTimeIntervalSince1970:ms/1000.];
+    
+    if (userResearch.fakeResearch) {
+      // First timer
+      [gs.researchUtil.userResearches addObject:userResearch];
+      
+      userResearch.fakeResearch = nil;
+    }
+    
+    FullUserUpdate *su = [(isOilBuilding ? [OilUpdate class] : [CashUpdate class]) updateWithTag:tag change:-cost];
+    GemsUpdate *gu = [GemsUpdate updateWithTag:tag change:-gemCost];
+    [gs addUnrespondedUpdates:su, gu, nil];
+    
+    return YES;
+  }
 }
 
--(UserResearch *) finishResearch:(UserResearch *)userResearch gemsSpent:(int)gems delegate:(id)delegate{
+- (BOOL) finishResearch:(UserResearch *)userResearch useGems:(BOOL)useGems delegate:(id)delegate {
   GameState *gs = [GameState sharedGameState];
-  if(gs.gems < gems) {
-    return nil;
+  Globals *gl = [Globals sharedGlobals];
+  
+  int timeLeft = userResearch.tentativeCompletionDate.timeIntervalSinceNow;
+  int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
+  
+  if (userResearch.complete) {
+    [Globals popupMessage:@"Trying to finish invalid research."];
+  } else if (!useGems && timeLeft > 0) {
+    [Globals popupMessage:@"Trying to finish research before time."];
+  } else if (useGems && gs.gems < goldCost) {
+    [Globals popupMessage:@"Trying to speedup research without enough gems."];
+  } else {
+    int tag = [[SocketCommunication sharedSocketCommunication] sendFinishPerformingResearchRequestProto:userResearch.userResearchUuid gemsSpent:goldCost];
+    [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
+    
+    [gs addUnrespondedUpdate:[GemsUpdate updateWithTag:tag change:-goldCost]];
+    
+    userResearch.complete = YES;
+    
+    [gs stopResearchTimer];
+    
+    [gs.clanHelpUtil cleanupRogueClanHelps];
+    [gs.itemUtil cleanupRogueItemUsages];
+    
+    [Analytics instantFinish:@"researchWait" gemChange:-goldCost gemBalance:gs.gems];
+    
+    return YES;
   }
-  int tag = [[SocketCommunication sharedSocketCommunication] sendFinishPerformingResearchRequestProto:userResearch.userResearchUuid gemsSpent:gems];
-  [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
-  
-  GemsUpdate *gu = [GemsUpdate updateWithTag:tag change:-gems];
-  [gs addUnrespondedUpdate:gu];
-  [gs.clanHelpUtil cleanupRogueClanHelps];
-  
-  UserResearch *newUserResearch = [[UserResearch alloc] initWithResearch:userResearch.staticResearch];
-  newUserResearch.complete = YES;
-  
-  return userResearch;
+  return NO;
 }
 
 #pragma mark - Mini Jobs

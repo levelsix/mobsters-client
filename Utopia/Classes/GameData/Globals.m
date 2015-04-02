@@ -608,6 +608,26 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return nil;
 }
 
++ (NSString *) stringForResearchDomain:(ResearchDomain)domain {
+  switch (domain) {
+    case ResearchDomainBattle:
+      return @"Battle";
+    case ResearchDomainEnhancing:
+      return @"Enhancing";
+    case ResearchDomainResources:
+      return @"Resources";
+    case ResearchDomainHealing:
+      return @"Healing";
+    case ResearchDomainItems:
+      return @"Items";
+    case ResearchDomainTrapsAndObstacles:
+      return @"Obstacles";
+    case ResearchDomainNoDomain:
+      return @"No Domain";
+  }
+  return nil;
+}
+
 + (NSString *) stringOfCurDate {
   MSDate *date = [MSDate date];
   NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
@@ -2330,6 +2350,16 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   float researchFactor = [self convertToOverallPercentFromPercentDecrease:perc];
   
   return roundf(baseCost*researchFactor);
+}
+
+- (int) calculateSecondsToResearch:(ResearchProto *)rp {
+  float baseSecs = rp.durationMin*60;
+  
+  GameState *gs = [GameState sharedGameState];
+  ResearchHouseProto *rhp = (ResearchHouseProto *)[gs myResearchLab].staticStructForCurrentConstructionLevel;
+  float labFactor = 1.f;//[self convertToOverallPercentFromPercentDecrease:rhp.];
+  
+  return roundf(baseSecs*labFactor);
 }
 
 - (BOOL) isPrerequisiteComplete:(PrereqProto *)prereq {

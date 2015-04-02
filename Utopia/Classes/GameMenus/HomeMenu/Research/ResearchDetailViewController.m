@@ -23,10 +23,25 @@
 @implementation ResearchDetailView
 
 - (void) updateWithResearch:(UserResearch *)userResearch {
-  self.researchName.text = userResearch.staticResearch.name;
-  int curLevel = userResearch.staticResearchForBenefitLevel.level;
-  self.researchRank.text = [NSString stringWithFormat:@"%d/%@",curLevel, @([userResearch.staticResearch fullResearchFamily].count)];
-  [Globals imageNamed:userResearch.staticResearch.iconImgName withView:self.researchIcon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+  ResearchProto *rp = userResearch.staticResearchForBenefitLevel;
+  
+  {
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.lineSpacing = 4;
+    paragraphStyle.alignment = NSTextAlignmentCenter;
+    
+    NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:rp.name attributes:@{NSParagraphStyleAttributeName : paragraphStyle, NSFontAttributeName : self.researchNameLabel.font}];
+    self.researchNameLabel.attributedText = attr;
+    
+    CGRect rect = [attr boundingRectWithSize:CGSizeMake(self.researchNameLabel.width, 9999) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
+    self.researchNameLabel.originY = floorf(CGRectGetMaxY(self.researchNameLabel.frame) - rect.size.height);
+    self.researchNameLabel.height = ceilf(rect.size.height);
+  }
+  
+  int curLevel = rp.level;
+  int maxLevel = rp.maxLevelResearch.level;
+  self.researchRank.text = [NSString stringWithFormat:@"%d/%d", curLevel, maxLevel];
+  [Globals imageNamed:rp.iconImgName withView:self.researchIcon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
 }
 
 @end
@@ -41,11 +56,11 @@
   [self.view updateWithResearch:_userResearch];
 }
 
-- (id)initWithUserResearch:(UserResearch *)userResearch {
-  _userResearch = userResearch;
-  GameState *gs = [GameState sharedGameState];
+- (id) initWithUserResearch:(UserResearch *)userResearch {
   if((self = [super init])){
-    ResearchProto *research = [gs researchWithId:userResearch.researchId];
+    _userResearch = userResearch;
+    
+    ResearchProto *research = userResearch.staticResearch;
     self.title = [NSString stringWithFormat:@"%@ Ranks", research.name];
   }
   return self;
@@ -71,7 +86,7 @@
     cell = [[NSBundle mainBundle] loadNibNamed:@"ResearchDetailViewCell" owner:self options:nil][0];
   }
   
-  if (research.researchId == _userResearch.researchId) {
+  if (research.researchId == _userResearch.staticResearchForNextLevel.researchId) {
     cell.bgView.backgroundColor = [UIColor colorWithHexString:@"FFFFDC"];
   } else {
     cell.bgView.backgroundColor = [UIColor clearColor];

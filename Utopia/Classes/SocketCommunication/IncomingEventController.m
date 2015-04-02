@@ -2391,32 +2391,37 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 #pragma mark - Research
 
 - (void) handlePerformResearchResponseProto:(FullEvent *)fe {
-  GameState *gs = [GameState sharedGameState];
   PerformResearchResponseProto *proto = (PerformResearchResponseProto *)fe.event;
-  if(proto.status == PerformResearchResponseProto_PerformResearchStatusSuccess) {
-    [[gs researchUtil] currentResearch].userResearchUuid = proto.userResearchUuid;
-    [gs removeNonFullUserUpdatesForTag:fe.tag];
-    [[NSNotificationCenter defaultCenter] postNotificationName:RESEARCH_CHANGED_NOTIFICATION object:nil];
+  int tag = fe.tag;
+  
+  LNLog(@"Perform research response received with status %d.", (int)proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == PerformResearchResponseProto_PerformResearchStatusSuccess) {
+    [gs.researchUtil currentResearch].userResearchUuid = proto.userResearchUuid;
+    [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to redeem research."];
     
     [gs.researchUtil cancelCurrentResearch];
     
-    [gs removeAndUndoAllUpdatesForTag:fe.tag];
+    [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
 
 - (void) handleFinishPerformingResearchResponseProto:(FullEvent *)fe {
-  GameState *gs = [GameState sharedGameState];
   FinishPerformingResearchResponseProto *proto = (FinishPerformingResearchResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Finish performing research received with status %d.", (int)proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
   if (proto.status == FinishPerformingResearchResponseProto_FinishPerformingResearchStatusSuccess) {
-    [gs.researchUtil researchForTimer].complete = YES;
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:RESEARCH_WAIT_COMPLETE_NOTIFICATION object:nil];
-    [[NSNotificationCenter defaultCenter] postNotificationName:RESEARCH_CHANGED_NOTIFICATION object:nil];
+    [gs removeNonFullUserUpdatesForTag:tag];
   } else {
-    [Globals popupMessage:@"Server failed ro redeem research."];
-    [gs removeAndUndoAllUpdatesForTag:fe.tag];
+    [Globals popupMessage:@"Server failed to redeem research."];
+    [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
 

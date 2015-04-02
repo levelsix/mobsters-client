@@ -464,10 +464,6 @@
   return [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypePerformingResearch userDataUuid:self.userResearch.userResearchUuid] < 0;
 }
 
-- (NSString *) confirmActionString {
-  return [NSString stringWithFormat:@"Would you like to speedup %@'s Research for %d gem%@?" , self.title, [self gemCost], [self gemCost] == 1 ? @"" : @"s"];
-}
-
 - (NSArray *) performSpeedup:(UIView *)sender {
   ResearchViewController *rvc = [[ResearchViewController alloc] init];
   [rvc finishNowClicked:sender];

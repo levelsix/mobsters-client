@@ -37,8 +37,8 @@
                             <color key="shadowColor" red="1" green="1" blue="1" alpha="0.75" colorSpace="calibratedRGB"/>
                             <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Cash Vault" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="q8d-nC-Yan" customClass="NiceFontLabel9">
-                            <rect key="frame" x="24" y="8" width="111" height="23"/>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Cash Vault" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="q8d-nC-Yan" customClass="NiceFontLabel9">
+                            <rect key="frame" x="24" y="8" width="111" height="22"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.23529411759999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -46,7 +46,7 @@
                             <color key="shadowColor" red="1" green="1" blue="1" alpha="0.75" colorSpace="calibratedRGB"/>
                             <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="researchbattle.png" id="opy-Ed-EyL">
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="opy-Ed-EyL">
                             <rect key="frame" x="37" y="33" width="85" height="85"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </imageView>
@@ -89,7 +89,7 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="researchIcon" destination="opy-Ed-EyL" id="nmU-an-At9"/>
-                <outlet property="researchName" destination="q8d-nC-Yan" id="b9e-E7-TPb"/>
+                <outlet property="researchNameLabel" destination="q8d-nC-Yan" id="pSv-4R-KCo"/>
                 <outlet property="researchRank" destination="NmN-pl-8lk" id="P0G-sk-uCh"/>
             </connections>
             <point key="canvasLocation" x="428" y="282"/>
@@ -97,7 +97,6 @@
     </objects>
     <resources>
         <image name="popupline.png" width="1" height="1"/>
-        <image name="researchbattle.png" width="46" height="46"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

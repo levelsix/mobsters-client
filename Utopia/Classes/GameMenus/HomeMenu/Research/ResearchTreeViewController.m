@@ -20,14 +20,14 @@
 
 @implementation ResearchSelectionBarView
 
-- (void) updateForProto:(UserResearch *)userResearch {
-  _userResearch = userResearch;
+- (void) updateForUserResearch:(UserResearch *)userResearch {
   ResearchProto *proto = userResearch.staticResearch;
-  BOOL isAvailable = [userResearch.staticResearch prereqsComplete];
+  BOOL isAvailable = [userResearch.staticResearchForNextLevel prereqsComplete];
   
   [Globals imageNamed:userResearch.staticResearch.iconImgName withView:self.selectionIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   int curRank = userResearch.staticResearchForBenefitLevel.level;
-  self.rankTotal.text = [NSString stringWithFormat:@"%d/%@", curRank, @([proto fullResearchFamily].count)];
+  int maxRank = userResearch.staticResearch.maxLevelResearch.level;
+  self.rankTotal.text = [NSString stringWithFormat:@"%d/%d", curRank, maxRank];
   self.rankTotal.shadowBlur = 0.5f;
   self.selectionTitle.text = [NSString stringWithFormat:@" %@", proto.name];
   self.selectionDescription.text = proto.desc;
@@ -72,16 +72,9 @@
     }
   }];
 }
-- (IBAction)clicked:(id)sender {
-  ResearchTreeViewController *rtvc = (ResearchTreeViewController *)self.delegate;
-  [rtvc barClickedWithResearch:_userResearch];
-}
 
-- (void) updateSelf {
-  if(_userResearch) {
-    GameState *gs = [GameState sharedGameState];
-    [self updateForProto:[gs.researchUtil currentRankForResearch:_userResearch.staticResearch]];
-  }
+- (IBAction) clicked:(id)sender {
+  [self.delegate researchBarClicked:self];
 }
 
 @end
@@ -98,9 +91,8 @@
 @implementation ResearchButtonView
 
 - (void) select {
-  BOOL isAvailable = [_userResearch.staticResearch prereqsComplete];
-  self.bgView.hidden = !isAvailable;
-  self.outline.image = isAvailable ? [UIImage imageNamed:AVAILABLE_OUTLINE] : [UIImage imageNamed:UNAVAILABLE_OUTLINE];
+  self.bgView.hidden = !_isAvailable;
+  self.outline.image = _isAvailable ? [UIImage imageNamed:AVAILABLE_OUTLINE] : [UIImage imageNamed:UNAVAILABLE_OUTLINE];
   
   [self highlightPathToParentNodes:YES needsBlackOutline:NO];
 }
@@ -110,11 +102,6 @@
   self.outline.image = [UIImage imageNamed:LIGHT_GREY_OUTLINE];
   
   [self highlightPathToParentNodes:NO needsBlackOutline:NO];
-}
-
-- (void) updateSelf {
-  GameState *gs = [GameState sharedGameState];
-  [self updateForResearch:[gs.researchUtil currentRankForResearch:_userResearch.staticResearch] parentNodes:nil];
 }
 
 - (void) dropOpacity {
@@ -133,22 +120,22 @@
 
 - (void) updateForResearch:(UserResearch *)userResearch parentNodes:(NSSet *)parentNodes {
   ResearchProto *research = userResearch.staticResearch;
-  _userResearch = userResearch;
   
   self.researchNameLabel.text = research.name;
   int curRank = userResearch.staticResearchForBenefitLevel.level;
-  self.rankCountLabel.text = [NSString stringWithFormat:@"%d/%@", curRank, @([research fullResearchFamily].count)];
+  int maxRank = userResearch.staticResearch.maxLevelResearch.level;
+  self.rankCountLabel.text = [NSString stringWithFormat:@"%d/%d", curRank, maxRank];
   self.researchNameLabel.height = [self.researchNameLabel.text getSizeWithFont:self.researchNameLabel.font
                                                              constrainedToSize:CGSizeMake(self.researchNameLabel.width, MAXFLOAT)].height;
   self.rankLabel.originY = CGRectGetMaxY(self.researchNameLabel.frame);
   self.rankCountLabel.originY = self.rankLabel.originY;
   
-  BOOL isAvailable = [_userResearch.staticResearch prereqsComplete];
-  self.researchNameLabel.textColor = [UIColor colorWithHexString:isAvailable ? @"2AB4E8" : @"555555"];
-  self.rankCountLabel.textColor = [UIColor colorWithHexString:isAvailable ? @"333333" : @"999999"];
-  self.lockedIcon.hidden = isAvailable;
+  _isAvailable = [userResearch.staticResearch prereqsComplete];
+  self.researchNameLabel.textColor = [UIColor colorWithHexString:_isAvailable ? @"2AB4E8" : @"555555"];
+  self.rankCountLabel.textColor = [UIColor colorWithHexString:_isAvailable ? @"333333" : @"999999"];
+  self.lockedIcon.hidden = _isAvailable;
   
-  [Globals imageNamed:research.iconImgName withView:self.researchIcon greyscale:!isAvailable indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:NO];
+  [Globals imageNamed:research.iconImgName withView:self.researchIcon greyscale:!_isAvailable indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:NO];
   
   if (parentNodes)
     [self drawTreeHierarchyToParentNodes:parentNodes];
@@ -251,7 +238,7 @@
 }
 
 - (IBAction) researchSelected:(id)sender {
-  [self.delegate researchButtonClickWithResearch:_userResearch sender:(id) self];
+  [self.delegate researchButtonClicked:self];
 }
 
 @end
@@ -259,10 +246,10 @@
 @implementation ResearchTreeViewController
 
 - (id) initWithDomain:(ResearchDomain)domain {
-  _selectFieldViewUp = YES;
-  _barAnimating = NO;
-  
   if ((self = [super init])){
+    _selectFieldViewUp = YES;
+    _barAnimating = NO;
+    
     _domain = domain;
   }
   
@@ -272,49 +259,54 @@
 - (void) viewDidLoad {
   [super viewDidLoad];
   
-  switch (_domain) {
-    case ResearchDomainBattle:
-      self.title = @"Battle Research";
-      break;
-    case ResearchDomainResources:
-      self.title = @"Resource Research";
-      break;
-    case ResearchDomainRestorative:
-      self.title = @"Restorative Research";
-      break;
-    case ResearchDomainLevelup:
-      self.title = @"Level Up Research";
-      break;
-    case ResearchDomainItems:
-      self.title = @"Items Research";
-      break;
-    case ResearchDomainTrapsAndObstacles:
-      self.title = @"Obstacles Research";
-      break;
-    case ResearchDomainNoDomain:
-      self.title = nil;
-      break;
-  }
+  self.title = [NSString stringWithFormat:@"%@ Research", [Globals stringForResearchDomain:_domain]];
   
   [self createResearchButtonViewsForDomain:_domain];
+}
+
+- (void) viewWillAppear:(BOOL)animated {
+  [super viewWillAppear:animated];
   
+  [self waitTimeComplete];
+}
+
+- (void) waitTimeComplete {
+  for (int i = 0; i < _researchButtons.count && i < _userResearches.count; i++) {
+    ResearchButtonView *rbv = _researchButtons[i];
+    UserResearch *ur = _userResearches[i];
+    
+    // They will use the old parent nodes
+    [rbv updateForResearch:ur parentNodes:nil];
+  }
+  
+  [_curBarView updateForUserResearch:_selectedResearch];
 }
 
 - (void) createResearchButtonViewsForDomain:(ResearchDomain)domain
 {
+  // Clear out previous version if necessary
+  if (_researchButtons) {
+    for (UIView *v in _researchButtons) {
+      [v removeFromSuperview];
+    }
+    _researchButtons = nil;
+    _userResearches = nil;
+  }
+  
   GameState* gs = [GameState sharedGameState];
   NSArray* staticResearches = [gs allStaticResearchForDomain:domain];
-  ResearchTreeView* treeView = (ResearchTreeView*)self.view;
   _researchButtons = [NSMutableArray array];
+  _userResearches = [NSMutableArray array];
   
   NSMutableDictionary *tieredResearches = [NSMutableDictionary dictionary];
-  for (ResearchProto *research in staticResearches)
+  for (ResearchProto *research in staticResearches) {
     if (research.level == 1)
     {
       if (![tieredResearches objectForKey:@( research.tier )])
         [tieredResearches setObject:[NSMutableArray array] forKey:@( research.tier )];
       [(NSMutableArray*)[tieredResearches objectForKey:@( research.tier )] addObject:research];
     }
+  }
   
   const CGSize  kResearchButtonViewSize = CGSizeMake(80.f, 135.f);
   const CGFloat kResearchTreeTopPadding = 0.f;
@@ -333,8 +325,8 @@
     
     TouchableSubviewsView* tierContainer = [[TouchableSubviewsView alloc] initWithFrame:
                                             CGRectMake(0.f, kResearchTreeTopPadding + (tier - 1) * kResearchButtonViewSize.height,
-                                                       treeView.mainView.width, kResearchButtonViewSize.height)];
-    [treeView.mainView insertSubview:tierContainer atIndex:0]; // Insert underneath the tier positioned above
+                                                       self.contentView.width, kResearchButtonViewSize.height)];
+    [self.contentView insertSubview:tierContainer atIndex:0]; // Insert underneath the tier positioned above
     
     for (ResearchProto* research in sortedResearches)
     {
@@ -357,18 +349,19 @@
       }
       
       [_researchButtons addObject:researchButtonView];
+      [_userResearches addObject:userResearch];
       [researchButtonViews setObject:researchButtonView forKey:@( research.researchId )];
     }
   }
   
-  _contentSize = CGSizeMake(treeView.mainView.size.width, tieredResearches.count * kResearchButtonViewSize.height + kResearchTreeBottomPadding);
-  treeView.scrollView.contentSize = _contentSize;
+  _contentSize = CGSizeMake(self.contentView.size.width, tieredResearches.count * kResearchButtonViewSize.height + kResearchTreeBottomPadding);
+  self.scrollView.contentSize = _contentSize;
   
-  [treeView.mainView sendSubviewToBack:self.bgButton];
-  [Globals alignSubviewsToPixelsBoundaries:treeView.mainView];
+  [self.contentView sendSubviewToBack:self.bgButton];
+  [Globals alignSubviewsToPixelsBoundaries:self.contentView];
 }
 
-- (void) researchButtonClickWithResearch:(UserResearch *)userResearch sender:(id)sender {
+- (void) researchButtonClicked:(id)sender {
   
   ResearchButtonView *clicked = (ResearchButtonView *)sender;
   if (clicked != _lastClicked) {
@@ -377,21 +370,24 @@
     [clicked select];
     _lastClicked = clicked;
     
+    // Figure out which research it is
+    NSInteger idx = [_researchButtons indexOfObject:clicked];
+    _selectedResearch = _userResearches[idx];
+    
     UIView *outView = _curBarView;
     [_curBarView animateOut:^{
       [outView removeFromSuperview];
     }];
     _curBarView = [[NSBundle mainBundle] loadNibNamed:@"ResearchSelectionBar" owner:self options:nil][0];
     [self.view addSubview:_curBarView];
-    [_curBarView updateForProto:userResearch];
+    [_curBarView updateForUserResearch:_selectedResearch];
     [_curBarView animateIn:nil];
     _curBarView.delegate = self;
     
-    ResearchTreeView *treeView = (ResearchTreeView *)self.view;
-    treeView.scrollView.contentSize = CGSizeMake(_contentSize.width, _contentSize.height + _curBarView.height);
+    self.scrollView.contentSize = CGSizeMake(_contentSize.width, _contentSize.height + _curBarView.height);
     [UIView animateWithDuration:0.3f animations:^{
-      const CGFloat yOffset = [treeView.mainView convertPoint:_lastClicked.center fromView:_lastClicked.superview].y - treeView.scrollView.contentOffset.y - treeView.height * .5f;
-      treeView.scrollView.contentOffset = CGPointMake(treeView.scrollView.contentOffset.x, clampf(treeView.scrollView.contentOffset.y + yOffset, 0.f, treeView.scrollView.contentSize.height));
+      const CGFloat yOffset = [self.contentView convertPoint:_lastClicked.center fromView:_lastClicked.superview].y - self.scrollView.contentOffset.y - self.view.height * .5f;
+      self.scrollView.contentOffset = CGPointMake(self.scrollView.contentOffset.x, clampf(self.scrollView.contentOffset.y + yOffset, 0.f, self.scrollView.contentSize.height));
     }];
     
     if(_selectFieldViewUp) {
@@ -411,9 +407,8 @@
   [_lastClicked deselect];
   [_researchButtons makeObjectsPerformSelector:@selector(fullOpacity)];
   
-  ResearchTreeView *treeView = (ResearchTreeView *)self.view;
   [UIView animateWithDuration:0.3f animations:^{
-    treeView.scrollView.contentSize = _contentSize;
+    self.scrollView.contentSize = _contentSize;
   }];
   
   UIView *outView = _curBarView;
@@ -422,25 +417,16 @@
   }];
   _curBarView = nil;
   
-  [self scrollViewDidScroll:treeView.scrollView];
+  [self scrollViewDidScroll:self.scrollView];
   
   _lastClicked = nil;
+  _selectedResearch = nil;
 }
 
-- (void) barClickedWithResearch:(UserResearch *)research{
-  ResearchInfoViewController *rivc = [[ResearchInfoViewController alloc] initWithResearch:research];
+- (void) researchBarClicked:(id)sender {
+  ResearchInfoViewController *rivc = [[ResearchInfoViewController alloc] initWithResearch:_selectedResearch];
   [self.parentViewController pushViewController:rivc animated:YES];
   
-}
-
-- (void) viewWillAppear:(BOOL)animated {
-  for (ResearchButtonView *rbv in _researchButtons) {
-    [rbv updateSelf];
-  }
-  if(_curBarView) {
-    [_curBarView updateSelf];
-  }
-//needs code for updating the _curBarBased on the last clicked research
 }
 
 #pragma mark - UIScrollView Delegate Methods
@@ -475,9 +461,3 @@
 }
 
 @end
-
-@implementation ResearchTreeView
-
-@end
-
-

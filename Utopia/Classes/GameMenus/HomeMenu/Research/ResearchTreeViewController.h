@@ -9,35 +9,40 @@
 #import <UIKit/UIKit.h>
 #import "PopupSubViewController.h"
 
-@protocol TreeDelegate <NSObject>
--(void)researchButtonClickWithResearch:(UserResearch *)userResearch sender:(id)sender;
+@protocol ResearchSelectionBarDelegate <NSObject>
+
+- (void) researchBarClicked:(id)sender;
+
 @end
 
-@interface ResearchSelectionBarView : TouchableSubviewsView {
-  UserResearch *_userResearch;
-}
+@interface ResearchSelectionBarView : TouchableSubviewsView
 
 @property (nonatomic, assign) IBOutlet UIImageView *selectionIcon;
 @property (nonatomic, assign) IBOutlet UIImageView *nextArrowButton;
-@property (nonatomic, assign) IBOutlet NiceFontLabel12B *rankTotal;
-@property (nonatomic, assign) IBOutlet NiceFontLabel12T *selectionTitle;
+@property (nonatomic, assign) IBOutlet THLabel *rankTotal;
+@property (nonatomic, assign) IBOutlet THLabel *selectionTitle;
 @property (nonatomic, assign) IBOutlet UILabel *selectionDescription;
 @property (nonatomic, assign) IBOutlet UIButton *barButton;
 
-@property (nonatomic, assign) id delegate;
+@property (nonatomic, assign) id<ResearchSelectionBarDelegate> delegate;
 
--(void)updateForProto:(UserResearch *)userResearch;
--(void)updateSelf;
--(void) animateIn:(dispatch_block_t)completion;
--(void) animateOut:(dispatch_block_t)completion;
+- (void) updateForUserResearch:(UserResearch *)userResearch;
+- (void) animateIn:(dispatch_block_t)completion;
+- (void) animateOut:(dispatch_block_t)completion;
+
+@end
+
+@protocol ResearchTreeDelegate <NSObject>
+
+- (void) researchButtonClicked:(id)sender;
 
 @end
 
 @interface ResearchButtonView : UIView {
-  UserResearch *_userResearch;
-
   NSHashTable  *_parentNodes; // Similar to NSSet, but can hold weak references to its members
   NSMutableSet *_connectionsToParentNodes;
+  
+  BOOL _isAvailable;
 }
 
 @property (nonatomic, assign) IBOutlet UIImageView *researchIcon;
@@ -47,11 +52,10 @@
 @property (nonatomic, assign) IBOutlet UIImageView *outline;
 @property (nonatomic, assign) IBOutlet UIImageView *bgView;
 @property (nonatomic, assign) IBOutlet UIImageView *lockedIcon;
-@property (nonatomic, assign) id<TreeDelegate> delegate;
+@property (nonatomic, assign) id<ResearchTreeDelegate> delegate;
 
 - (IBAction)researchSelected:(id)sender;
 
-- (void)updateSelf;
 - (void)updateForResearch:(UserResearch *)userResearch parentNodes:(NSSet *)parentNodes;
 - (void)highlightPathToParentNodes:(BOOL)highlight needsBlackOutline:(BOOL)needsBlackOutline;
 - (void)select;
@@ -61,26 +65,26 @@
 
 @end
 
-@interface ResearchTreeViewController : PopupSubViewController <TreeDelegate>{
-  ResearchButtonView *_lastClicked;
+@interface ResearchTreeViewController : PopupSubViewController <ResearchTreeDelegate, ResearchSelectionBarDelegate> {
   NSMutableArray *_researchButtons;
+  NSMutableArray *_userResearches;
+  
   ResearchSelectionBarView *_curBarView;
   ResearchDomain _domain;
   CGSize _contentSize;
   BOOL _selectFieldViewUp;
   BOOL _barAnimating;
+  
+  ResearchButtonView *_lastClicked;
+  UserResearch *_selectedResearch;
 }
 
--(id)initWithDomain:(ResearchDomain)domain;
--(void)researchButtonClickWithResearch:(UserResearch *)userResearch sender:(id)sender;
--(void)barClickedWithResearch:(UserResearch *)research;
+@property (nonatomic, assign) IBOutlet UIView *contentView;
+@property (nonatomic, assign) IBOutlet UIScrollView *scrollView;
 
 @property (nonatomic, assign) IBOutlet UIButton *bgButton;
 @property (nonatomic, assign) IBOutlet ResearchSelectionBarView *selectFieldView;
-@end
 
-@interface ResearchTreeView : UIView
-@property (nonatomic, assign) IBOutlet UIView *mainView;
-@property (nonatomic, assign) IBOutlet UIScrollView *scrollView;
+- (id) initWithDomain:(ResearchDomain)domain;
 
 @end
