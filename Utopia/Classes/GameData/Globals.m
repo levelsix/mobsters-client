@@ -1601,17 +1601,17 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 + (NSString *) flagImageNameForLanguage:(TranslateLanguages)language {
   switch (language) {
     case TranslateLanguagesArabic:
-      return @"";
+      return @"flagarabic.png";
     case TranslateLanguagesEnglish:
-      return @"";
+      return @"flagenglish.png";
     case TranslateLanguagesFrench:
-      return @"";
+      return @"flagfrench.png";
     case TranslateLanguagesGerman:
-      return @"";
+      return @"flaggerman.png";
     case TranslateLanguagesRussian:
-      return @"";
+      return @"flagrussian.png";
     case TranslateLanguagesSpanish:
-      return @"";
+      return @"flagspanish.png";
     default:
       return @"";
   }

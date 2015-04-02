@@ -40,13 +40,14 @@
 @interface ChatMessage : NSObject <ChatObject>
 
 @property (nonatomic, retain) MinimumUserProto *sender;
-@property (nonatomic, copy) NSString *message;
+- (NSString *)message;
+- (void)setMessage:(NSString *)message;
 @property (nonatomic, retain) MSDate *date;
 @property (nonatomic, assign) BOOL isAdmin;
 @property (nonatomic, assign) BOOL isRead;
 @property (nonatomic, assign) BOOL originalLanguage;
-@property (nonatomic, assign) NSArray *translatedTextProtos;
-@property (nonatomic, assign) NSString *originalMessage;
+@property (nonatomic, retain) NSArray *translatedTextProtos;
+@property (nonatomic, retain) NSString *originalMessage;
 @property (nonatomic, assign) BOOL revertedTranslation;
 
 - (id) initWithProto:(GroupChatMessageProto *)p;

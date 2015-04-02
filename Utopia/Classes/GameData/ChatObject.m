@@ -43,11 +43,16 @@
   return self.originalMessage;
 }
 
+- (void)setMessage:(NSString *)message {
+  self.originalMessage = message;
+}
+
 - (UIColor *)bottomViewTextColor {
   return [UIColor whiteColor];
 }
 
 - (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag language:(TranslateLanguages)language {
+  GameState *gs = [GameState sharedGameState];
   NSString *translatedMessage = self.message;
   
   for(TranslatedTextProto *ttp in self.translatedTextProtos) {
@@ -58,14 +63,14 @@
     }
   }
   
-  if (self.revertedTranslation) {
+  if (self.revertedTranslation || [self.sender.userUuid isEqualToString:[gs minUser].userUuid]) {
     translatedMessage = self.originalMessage;
   }
   
   [chatCell updateForMessage:translatedMessage sender:self.sender date:self.date showsClanTag:showsClanTag];
 }
 
-- (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell langauge:(TranslateLanguages)language{
+- (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell language:(TranslateLanguages)language{
   [self updateInChatCell:chatCell showsClanTag:NO language:language];
   return CGRectGetMaxY(chatCell.msgLabel.frame)+14.f;
 }
@@ -116,7 +121,7 @@
   return NO;
 }
 
-- (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag {
+- (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag language:(TranslateLanguages)language{
   NSString *nibName = @"ChatBonusSlotRequestView";
   ChatBonusSlotRequestView *v = [chatCell dequeueChatSubview:nibName];
   
@@ -129,7 +134,7 @@
   [chatCell updateForMessage:self.message sender:self.sender date:self.date showsClanTag:showsClanTag allowHighlight:YES chatSubview:v identifier:nibName];
 }
 
-- (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell {
+- (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell language:(TranslateLanguages)language{
   [self updateInChatCell:chatCell showsClanTag:YES language:TranslateLanguagesEnglish];
   return CGRectGetMaxY(chatCell.currentChatSubview.frame)+14.f;
 }
@@ -247,7 +252,7 @@
 }
 
 
-- (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag {
+- (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag language:(TranslateLanguages)language{
   NSString *nibName = @"ChatBattleHistoryView";
   ChatBattleHistoryView *v = [chatCell dequeueChatSubview:nibName];
   
@@ -270,7 +275,7 @@
   return NO;
 }
 
-- (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell {
+- (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell language:(TranslateLanguages)language{
   [self updateInChatCell:chatCell showsClanTag:YES language:TranslateLanguagesEnglish];
   return CGRectGetMaxY(chatCell.currentChatSubview.frame)+14.f;
 }
@@ -403,7 +408,7 @@
 }
 
 
-- (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag {
+- (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag language:(TranslateLanguages)language{
   NSString *nibName = @"ChatClanAvengeView";
   ChatClanAvengeView *v = [chatCell dequeueChatSubview:nibName];
   
@@ -422,7 +427,7 @@
   return ![self isValid];
 }
 
-- (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell {
+- (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell language:(TranslateLanguages)language{
   [self updateInChatCell:chatCell showsClanTag:YES language:TranslateLanguagesEnglish];
   return CGRectGetMaxY(chatCell.currentChatSubview.frame)+14.f;
 }

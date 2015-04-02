@@ -13,6 +13,7 @@
 
 #import "MonsterSelectViewController.h"
 #import "TeamDonateMonstersFiller.h"
+#import "ChatView.h"
 
 @interface ChatMainView : PopupShadowView
 
@@ -51,8 +52,8 @@
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
 @property (nonatomic, retain) IBOutlet ChatPopoverView *popoverView;
 
-@property (weak, nonatomic) IBOutlet UIButton *flagButton;
-@property (weak, nonatomic) IBOutlet UIImageView *flagCheckImage;
+@property (nonatomic, retain) IBOutlet ChatLanguageSelector *languageSelectorView;
+@property (nonatomic, retain) IBOutlet UIButton *flagButton;
 
 @property (nonatomic, retain) NSTimer *updateTimer;
 
