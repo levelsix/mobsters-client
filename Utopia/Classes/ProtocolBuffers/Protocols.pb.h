@@ -191,6 +191,8 @@
 @class CustomizePvpBoardObstacleRequestProto_Builder;
 @class CustomizePvpBoardObstacleResponseProto;
 @class CustomizePvpBoardObstacleResponseProto_Builder;
+@class DefaultLanguagesProto;
+@class DefaultLanguagesProto_Builder;
 @class DestroyMoneyTreeStructureRequestProto;
 @class DestroyMoneyTreeStructureRequestProto_Builder;
 @class DestroyMoneyTreeStructureResponseProto;
@@ -417,6 +419,8 @@
 @class PersistentEventProto_Builder;
 @class PrereqProto;
 @class PrereqProto_Builder;
+@class PrivateChatDefaultLanguageProto;
+@class PrivateChatDefaultLanguageProto_Builder;
 @class PrivateChatPostProto;
 @class PrivateChatPostProto_Builder;
 @class PrivateChatPostRequestProto;
@@ -687,6 +691,12 @@
 @class TransferClanOwnershipRequestProto_Builder;
 @class TransferClanOwnershipResponseProto;
 @class TransferClanOwnershipResponseProto_Builder;
+@class TranslateSelectMessagesRequestProto;
+@class TranslateSelectMessagesRequestProto_Builder;
+@class TranslateSelectMessagesResponseProto;
+@class TranslateSelectMessagesResponseProto_Builder;
+@class TranslatedTextProto;
+@class TranslatedTextProto_Builder;
 @class TutorialStructProto;
 @class TutorialStructProto_Builder;
 @class UnrestrictUserMonsterRequestProto;
@@ -883,6 +893,7 @@ typedef NS_ENUM(SInt32, EventProtocolRequest) {
   EventProtocolRequestCCreateBattleItemEvent = 204,
   EventProtocolRequestCDiscardBattleItemEvent = 205,
   EventProtocolRequestCCompleteBattleItemEvent = 206,
+  EventProtocolRequestCTranslateSelectMessagesEvent = 207,
 };
 
 BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value);
@@ -1002,6 +1013,7 @@ typedef NS_ENUM(SInt32, EventProtocolResponse) {
   EventProtocolResponseSCreateBattleItemEvent = 204,
   EventProtocolResponseSDiscardBattleItemEvent = 205,
   EventProtocolResponseSCompleteBattleItemEvent = 206,
+  EventProtocolResponseSTranslateSelectMessagesEvent = 207,
 };
 
 BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value);

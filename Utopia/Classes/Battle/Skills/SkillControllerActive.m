@@ -8,6 +8,7 @@
 
 #import "SkillControllerActive.h"
 #import "NewBattleLayer.h"
+#import "SkillManager.h"
 
 @implementation SkillControllerActive
 
@@ -34,6 +35,11 @@
 }
 
 - (BOOL) activate
+{
+  return NO;
+}
+
+- (BOOL) doesStack
 {
   return NO;
 }
@@ -69,7 +75,10 @@
         {
           [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
           [self.battleLayer.orbLayer disallowInput];
+          if ([self doesStack])
+            ++_stacks;
           [self showSkillPopupOverlay:YES withCompletion:^(){
+            [skillManager pruneRepeatedSkills:self];
             if ([self doesRefresh])
               [self resetOrbCounter];
             if (![self activate])

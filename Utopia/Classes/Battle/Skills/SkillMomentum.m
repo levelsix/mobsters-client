@@ -37,6 +37,11 @@
 
 #pragma mark - Overrides
 
+- (BOOL)doesStack
+{
+  return YES;
+}
+
 - (BOOL) doesRefresh
 {
   return YES;
@@ -52,8 +57,8 @@
   // If attacker is the skill owner
   if ([self isActive] && player == self.belongsToPlayer)
   {
-    [self showSkillPopupMiniOverlay:[NSString stringWithFormat:@"%.3gX ATK", _currentMultiplier]];
-    return damage * _currentMultiplier;
+    [self enqueueSkillPopupMiniOverlay:[NSString stringWithFormat:@"%.3gX DMG", (_damageMultiplier * _stacks)]];
+    return (damage * _damageMultiplier * _stacks);
   }
   
   return damage;
@@ -81,8 +86,7 @@
 
 - (BOOL) onDurationEnd
 {
-  _currentMultiplier = 1.0;
-  _currentSizeMultiplier = 1.0;
+  _stacks = 0;
   [self resetSpriteSize];
   [self removeVisualEffects];
   return NO;
@@ -99,6 +103,7 @@
 
 - (void) updateOwnerSprite
 {
+  _currentSizeMultiplier = MIN(1 + _sizeMultiplier * _stacks, _sizeCap);
   if (_currentSizeMultiplier == 1.0)
     return;
   BattleSprite* owner = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
@@ -110,10 +115,6 @@
 
 - (void) increaseMultiplier
 {
-  // Increase multiplier
-  _currentMultiplier *= _damageMultiplier;
-  _currentSizeMultiplier = MIN(_currentSizeMultiplier * _sizeMultiplier, _sizeCap);
-  
   // Size player and make him blue
   [self performSelector:@selector(updateOwnerSprite) withObject:nil afterDelay:0.3];
   
@@ -121,31 +122,6 @@
   [self performAfterDelay:0.6 block:^{
     [self skillTriggerFinished:YES];
   }];
-}
-
-#pragma mark - Serialization
-
-- (NSDictionary*) serialize
-{
-  NSMutableDictionary* result = [NSMutableDictionary dictionaryWithDictionary:[super serialize]];
-  [result setObject:@(_currentMultiplier) forKey:@"currentMultiplier"];
-  [result setObject:@(_currentSizeMultiplier) forKey:@"currentSizeMultiplier"];
-  return result;
-}
-
-- (BOOL) deserialize:(NSDictionary*)dict
-{
-  if (! [super deserialize:dict])
-    return NO;
-  
-  NSNumber* damageMultiplier = [dict objectForKey:@"currentMultiplier"];
-  if (damageMultiplier)
-    _currentMultiplier = [damageMultiplier floatValue];
-  NSNumber* sizeMultiplier = [dict objectForKey:@"currentSizeMultiplier"];
-  if (sizeMultiplier)
-    _currentSizeMultiplier = [sizeMultiplier floatValue];
-  
-  return YES;
 }
 
 @end

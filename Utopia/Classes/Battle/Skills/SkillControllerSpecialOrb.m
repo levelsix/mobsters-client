@@ -28,6 +28,18 @@
   return YES;
 }
 
+- (void)restoreVisualsIfNeeded
+{
+  [super restoreVisualsIfNeeded];
+  
+  _orbsSpawned = [self specialsOnBoardCount:[self specialType]];
+  
+  if (![self keepColor] && _orbsSpawned > 0)
+  {
+    [self.battleLayer.orbLayer toggleArrows:YES];
+  }
+}
+
 - (BOOL) skillIsReady
 {
   return [super skillIsReady] && (self.belongsToPlayer || [self doesRefresh] || [self specialsOnBoardCount:[self specialType]]==0);
@@ -68,7 +80,8 @@
 
 - (void)onAllSpecialsDestroyed
 {
-  //Placeholder for children to override
+  if (![self keepColor])
+    [self.battleLayer.orbLayer toggleArrows:NO];
 }
 
 - (BOOL) skillDefCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
@@ -109,6 +122,9 @@
   NSInteger _orbsFinished = [self updateSpecialOrbs];
   if (_orbsFinished)
   {
+    if (!_orbsSpawned && ![self keepColor])
+      [self.battleLayer.orbLayer toggleArrows:NO];
+      
     return [self onSpecialOrbCounterFinish:_orbsFinished];
   }
   return NO;
@@ -176,9 +192,14 @@
       OrbSprite* orbSprite = [self.battleLayer.orbLayer.swipeLayer spriteForOrb:orb];
       [orbSprite reloadSprite:YES];
     }];
+    
+    _orbsSpawned++;
   }
   
   [layout detectPossibleSwaps];
+  
+  if (![self keepColor])
+    [self.battleLayer.orbLayer toggleArrows:YES];
 }
 
 - (void) removeSpecialOrbs
@@ -207,6 +228,9 @@
       }
     }
   }
+  
+  if (![self keepColor])
+    [self.battleLayer.orbLayer toggleArrows:NO];
 }
 
 - (BattleOrb*) pickOrb:(BattleOrbLayout*)layout

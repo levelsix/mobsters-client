@@ -22,6 +22,7 @@
 }
 
 - (id) initWithMonster:(UserMonster *)monster dmgMultiplier:(float)dmgMultiplier monsterType:(TaskStageMonsterProto_MonsterType)monsterType {
+  [self prepareCharacterImage:monster.monsterId];
   if ((self = [super init])) {
     Globals *gl = [Globals sharedGlobals];
     self.minHealth = 0;
@@ -50,6 +51,16 @@
     self.upperBound = 1.*dmgMultiplier;
   }
   return self;
+}
+
+- (void) prepareCharacterImage:(int)monsterId
+{
+  GameState *gs = [GameState sharedGameState];
+  MonsterProto *proto = [gs monsterWithId:monsterId];
+  
+  _characterImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
+  NSString *fileName = [proto.imagePrefix stringByAppendingString:@"Character.png"];
+  [Globals imageNamedWithiPhone6Prefix:fileName withView:_characterImage maskedColor:nil indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
 }
 
 + (id) playerWithClanRaidStageMonster:(ClanRaidStageMonsterProto *)monster curHealth:(int)curHealth {
@@ -340,6 +351,8 @@
     NSData *data = [[NSData alloc] initWithBase64EncodedString:dict[DIALOGUE_KEY] options:0];
     self.dialogue = [DialogueProto parseFromData:data];
   }
+  
+  [self prepareCharacterImage:self.monsterId];
 }
 
 @end

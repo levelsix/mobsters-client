@@ -9,6 +9,12 @@
 #import <cocos2d/cocos2d.h>
 #import "Globals.h"
 
+#define IPHONE_5_TILE_SIZE 36
+#define IPHONE_6_TILE_SIZE 42
+#define IPHONE_6_PLUS_TILE_SIZE 47
+
+
+
 @implementation TileSprite
 
 + (TileSprite*) tileSpriteWithTile:(BattleTile*)tile depth:(TileDepth)depth
@@ -33,6 +39,9 @@
   // Reload sprite
   [self reloadSprite];
   
+  if (tile.bottomFallsOut)
+    [self loadArrowSprite];
+    
   return self;
 }
 
@@ -45,6 +54,12 @@
                               [CCActionEaseIn actionWithAction:[CCActionScaleTo actionWithDuration:tileUpdateAnimDuration scale:0.0]],
                               [CCActionRemove action],
                               nil]];
+  }
+  
+  if (_arrow)
+  {
+    [self removeChild:_arrow cleanup:YES];
+    _arrow = nil;
   }
   
   NSString *resPrefix = [Globals isiPhone6] || [Globals isiPhone6Plus] ? @"6" : @"";
@@ -76,6 +91,17 @@
   }
 }
 
+- (void) loadArrowSprite {
+  if (!_arrow) {
+    _arrow = [CCSprite spriteWithImageNamed:@"bringdownarrow@2x.png"];
+    _arrow.scale = 0.0;
+    [self addChild:_arrow];
+    
+    int tileSize = [Globals isiPhone6] ? IPHONE_6_TILE_SIZE : [Globals isiPhone6Plus] ? IPHONE_6_PLUS_TILE_SIZE : IPHONE_5_TILE_SIZE;
+    _arrow.position = ccp(0, -tileSize/2);
+  }
+}
+
 - (void) updateSprite
 {
   TileType oldType = _tileType;
@@ -86,6 +112,11 @@
   
   if (oldType != _tileType)
     [self reloadSprite];
+}
+
+- (void)updateArrowSprite:(BOOL)arrowsOn {
+  if (_arrow)
+    [_arrow runAction:[CCActionScaleTo actionWithDuration:tileUpdateAnimDuration scale:arrowsOn?1:0]];
 }
 
 @end

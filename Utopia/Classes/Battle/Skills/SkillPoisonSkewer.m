@@ -31,6 +31,11 @@
 
 #pragma mark - Overrides
 
+- (void)showQuickAttackMiniLogo
+{
+  //Don't show the logo b/c skill logo is displaying here
+}
+
 - (BOOL) doesRefresh
 {
   return YES;

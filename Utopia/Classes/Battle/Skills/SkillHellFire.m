@@ -62,6 +62,7 @@
 - (void)onAllSpecialsDestroyed
 {
   [self resetOrbCounter];
+  [super onAllSpecialsDestroyed];
 }
 
 @end

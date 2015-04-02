@@ -17,13 +17,14 @@
 {
   NSString* _imageName;
   CGPoint   _imagePixelOffset;
-  NSString* _iconImageName;
+//  NSString* _iconImageName;
   NSString* _pfxName;
   CCColor*  _pfxColor;
   CGPoint   _pfxPixelOffset;
   SideEffectBlendMode _blendMode;
 }
 
+@property (nonatomic, readonly) NSString* iconImageName;
 @property (nonatomic, readonly) NSString* name;
 @property (nonatomic, readonly) NSString* desc;
 @property (nonatomic, readonly) SideEffectType type;

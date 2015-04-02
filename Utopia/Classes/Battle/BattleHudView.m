@@ -10,6 +10,8 @@
 
 #import "Globals.h"
 #import "GameViewController.h"
+#import "SkillSideEffect.h"
+#import "SkillManager.h"
 
 @implementation BattleElementView
 
@@ -58,6 +60,13 @@
     
     self.emptyView.hidden = YES;
     self.mainView.hidden = NO;
+    
+    [self.monsterView removeAllSideEffectIcons];
+    [skillManager addSideEffectsToMonsterView:self.monsterView forPlayer:bp];
+    
+//    for (NSInteger side in [skillManager sideEffectsOnPlayer:bp]) {
+//      [self.monsterView displaySideEffectIcon:side.imageName withKey:side.name];
+//    }
   }
 }
 

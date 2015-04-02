@@ -31,6 +31,11 @@
 
 #pragma mark - Overrides
 
+- (BOOL)shouldPersist
+{
+  return NO;
+}
+
 - (BOOL) generateSpecialOrb:(BattleOrb *)orb atColumn:(int)column row:(int)row
 {
   if ([self isActive] && orb.orbColor == self.orbColor)
@@ -50,11 +55,6 @@
 - (TickTrigger)tickTrigger
 {
   return TickTriggerAfterOpponentTurn;
-}
-
-- (BOOL) shouldPersist
-{
-  return ([self specialsOnBoardCount:SpecialOrbTypePoison]) || [self isActive];
 }
 
 - (void) orbDestroyed:(OrbColor)color special:(SpecialOrbType)type
@@ -86,7 +86,6 @@
         [self.battleLayer.orbLayer disallowInput];
         [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
         [self dealPoisonDamage];
-        [self showSkillPopupMiniOverlay:[NSString stringWithFormat:@"%i POISON DMG", _tempDamageDealt]];
       }
       return YES;
     }
@@ -113,6 +112,12 @@
   return YES;
 }
 
+- (BOOL) onDurationEnd
+{
+  [self removeSpecialOrbs];
+  return [super onDurationEnd];
+}
+
 - (void) onFinishPoisonDamage
 {
   _tempDamageDealt = 0;
@@ -120,12 +125,6 @@
     [self activate];
   else
     [self skillTriggerFinished];
-}
-
-- (BOOL) onDurationReset
-{
-  [self dealPoisonDamage];
-  return YES;
 }
 
 //Pop this special logic in here.

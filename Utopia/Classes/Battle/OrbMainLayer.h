@@ -49,6 +49,8 @@
 - (void) disallowInput;
 - (void) shuffleWithCompletion:(void(^)())completion;
 
+- (void) toggleArrows:(BOOL)on;
+
 - (id) serialize;
 - (void) deserialize:(NSArray *)arr;
 

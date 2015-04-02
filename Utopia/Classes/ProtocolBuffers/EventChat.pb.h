@@ -8,6 +8,8 @@
 
 @class ColorProto;
 @class ColorProto_Builder;
+@class DefaultLanguagesProto;
+@class DefaultLanguagesProto_Builder;
 @class FullUserProto;
 @class FullUserProto_Builder;
 @class GeneralNotificationResponseProto;
@@ -24,6 +26,8 @@
 @class MinimumUserProtoWithMaxResources;
 @class MinimumUserProtoWithMaxResources_Builder;
 @class MinimumUserProto_Builder;
+@class PrivateChatDefaultLanguageProto;
+@class PrivateChatDefaultLanguageProto_Builder;
 @class PrivateChatPostProto;
 @class PrivateChatPostProto_Builder;
 @class PrivateChatPostRequestProto;
@@ -44,6 +48,12 @@
 @class SendGroupChatResponseProto_Builder;
 @class StaticUserLevelInfoProto;
 @class StaticUserLevelInfoProto_Builder;
+@class TranslateSelectMessagesRequestProto;
+@class TranslateSelectMessagesRequestProto_Builder;
+@class TranslateSelectMessagesResponseProto;
+@class TranslateSelectMessagesResponseProto_Builder;
+@class TranslatedTextProto;
+@class TranslatedTextProto_Builder;
 @class UserFacebookInviteForSlotProto;
 @class UserFacebookInviteForSlotProto_Builder;
 @class UserPvpLeagueProto;
@@ -85,6 +95,14 @@ typedef NS_ENUM(SInt32, RetrievePrivateChatPostsResponseProto_RetrievePrivateCha
 };
 
 BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValidValue(RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatus value);
+
+typedef NS_ENUM(SInt32, TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatus) {
+  TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusFailOther = 1,
+  TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusFailNotValidLanguage = 2,
+  TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusSuccess = 3,
+};
+
+BOOL TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusIsValidValue(TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatus value);
 
 
 @interface EventChatRoot : NSObject {
@@ -363,19 +381,23 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
   BOOL hasIsAdmin_:1;
   BOOL hasChatMessage_:1;
   BOOL hasSender_:1;
+  BOOL hasMessage_:1;
   BOOL hasScope_:1;
   BOOL isAdmin_:1;
   NSString* chatMessage;
   MinimumUserProtoWithLevel* sender;
+  GroupChatMessageProto* message;
   GroupChatScope scope;
 }
 - (BOOL) hasSender;
-- (BOOL) hasChatMessage;
 - (BOOL) hasScope;
+- (BOOL) hasMessage;
+- (BOOL) hasChatMessage;
 - (BOOL) hasIsAdmin;
 @property (readonly, strong) MinimumUserProtoWithLevel* sender;
-@property (readonly, strong) NSString* chatMessage;
 @property (readonly) GroupChatScope scope;
+@property (readonly, strong) GroupChatMessageProto* message;
+@property (readonly, strong) NSString* chatMessage;
 - (BOOL) isAdmin;
 
 + (ReceivedGroupChatResponseProto*) defaultInstance;
@@ -420,15 +442,22 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 - (ReceivedGroupChatResponseProto_Builder*) mergeSender:(MinimumUserProtoWithLevel*) value;
 - (ReceivedGroupChatResponseProto_Builder*) clearSender;
 
-- (BOOL) hasChatMessage;
-- (NSString*) chatMessage;
-- (ReceivedGroupChatResponseProto_Builder*) setChatMessage:(NSString*) value;
-- (ReceivedGroupChatResponseProto_Builder*) clearChatMessage;
-
 - (BOOL) hasScope;
 - (GroupChatScope) scope;
 - (ReceivedGroupChatResponseProto_Builder*) setScope:(GroupChatScope) value;
 - (ReceivedGroupChatResponseProto_Builder*) clearScopeList;
+
+- (BOOL) hasMessage;
+- (GroupChatMessageProto*) message;
+- (ReceivedGroupChatResponseProto_Builder*) setMessage:(GroupChatMessageProto*) value;
+- (ReceivedGroupChatResponseProto_Builder*) setMessage_Builder:(GroupChatMessageProto_Builder*) builderForValue;
+- (ReceivedGroupChatResponseProto_Builder*) mergeMessage:(GroupChatMessageProto*) value;
+- (ReceivedGroupChatResponseProto_Builder*) clearMessage;
+
+- (BOOL) hasChatMessage;
+- (NSString*) chatMessage;
+- (ReceivedGroupChatResponseProto_Builder*) setChatMessage:(NSString*) value;
+- (ReceivedGroupChatResponseProto_Builder*) clearChatMessage;
 
 - (BOOL) hasIsAdmin;
 - (BOOL) isAdmin;
@@ -581,16 +610,20 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
   BOOL hasBeforePrivateChatId_:1;
   BOOL hasOtherUserUuid_:1;
   BOOL hasSender_:1;
+  BOOL hasLanguage_:1;
   int32_t beforePrivateChatId;
   NSString* otherUserUuid;
   MinimumUserProto* sender;
+  TranslateLanguages language;
 }
 - (BOOL) hasSender;
 - (BOOL) hasOtherUserUuid;
 - (BOOL) hasBeforePrivateChatId;
+- (BOOL) hasLanguage;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly, strong) NSString* otherUserUuid;
 @property (readonly) int32_t beforePrivateChatId;
+@property (readonly) TranslateLanguages language;
 
 + (RetrievePrivateChatPostsRequestProto*) defaultInstance;
 - (RetrievePrivateChatPostsRequestProto*) defaultInstance;
@@ -643,6 +676,11 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 - (int32_t) beforePrivateChatId;
 - (RetrievePrivateChatPostsRequestProto_Builder*) setBeforePrivateChatId:(int32_t) value;
 - (RetrievePrivateChatPostsRequestProto_Builder*) clearBeforePrivateChatId;
+
+- (BOOL) hasLanguage;
+- (TranslateLanguages) language;
+- (RetrievePrivateChatPostsRequestProto_Builder*) setLanguage:(TranslateLanguages) value;
+- (RetrievePrivateChatPostsRequestProto_Builder*) clearLanguageList;
 @end
 
 @interface RetrievePrivateChatPostsResponseProto : PBGeneratedMessage {
@@ -730,6 +768,162 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 - (NSString*) otherUserUuid;
 - (RetrievePrivateChatPostsResponseProto_Builder*) setOtherUserUuid:(NSString*) value;
 - (RetrievePrivateChatPostsResponseProto_Builder*) clearOtherUserUuid;
+@end
+
+@interface TranslateSelectMessagesRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasOtherUserUuid_:1;
+  BOOL hasSender_:1;
+  BOOL hasChatType_:1;
+  BOOL hasLanguage_:1;
+  NSString* otherUserUuid;
+  MinimumUserProto* sender;
+  ChatType chatType;
+  TranslateLanguages language;
+  NSMutableArray * mutableMessagesToBeTranslatedList;
+}
+- (BOOL) hasSender;
+- (BOOL) hasChatType;
+- (BOOL) hasOtherUserUuid;
+- (BOOL) hasLanguage;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly) ChatType chatType;
+@property (readonly, strong) NSString* otherUserUuid;
+@property (readonly) TranslateLanguages language;
+@property (readonly, strong) NSArray * messagesToBeTranslatedList;
+- (PrivateChatPostProto*)messagesToBeTranslatedAtIndex:(NSUInteger)index;
+
++ (TranslateSelectMessagesRequestProto*) defaultInstance;
+- (TranslateSelectMessagesRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (TranslateSelectMessagesRequestProto_Builder*) builder;
++ (TranslateSelectMessagesRequestProto_Builder*) builder;
++ (TranslateSelectMessagesRequestProto_Builder*) builderWithPrototype:(TranslateSelectMessagesRequestProto*) prototype;
+- (TranslateSelectMessagesRequestProto_Builder*) toBuilder;
+
++ (TranslateSelectMessagesRequestProto*) parseFromData:(NSData*) data;
++ (TranslateSelectMessagesRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (TranslateSelectMessagesRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (TranslateSelectMessagesRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (TranslateSelectMessagesRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (TranslateSelectMessagesRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface TranslateSelectMessagesRequestProto_Builder : PBGeneratedMessageBuilder {
+@private
+  TranslateSelectMessagesRequestProto* result;
+}
+
+- (TranslateSelectMessagesRequestProto*) defaultInstance;
+
+- (TranslateSelectMessagesRequestProto_Builder*) clear;
+- (TranslateSelectMessagesRequestProto_Builder*) clone;
+
+- (TranslateSelectMessagesRequestProto*) build;
+- (TranslateSelectMessagesRequestProto*) buildPartial;
+
+- (TranslateSelectMessagesRequestProto_Builder*) mergeFrom:(TranslateSelectMessagesRequestProto*) other;
+- (TranslateSelectMessagesRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (TranslateSelectMessagesRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (TranslateSelectMessagesRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (TranslateSelectMessagesRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (TranslateSelectMessagesRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (TranslateSelectMessagesRequestProto_Builder*) clearSender;
+
+- (BOOL) hasChatType;
+- (ChatType) chatType;
+- (TranslateSelectMessagesRequestProto_Builder*) setChatType:(ChatType) value;
+- (TranslateSelectMessagesRequestProto_Builder*) clearChatTypeList;
+
+- (BOOL) hasOtherUserUuid;
+- (NSString*) otherUserUuid;
+- (TranslateSelectMessagesRequestProto_Builder*) setOtherUserUuid:(NSString*) value;
+- (TranslateSelectMessagesRequestProto_Builder*) clearOtherUserUuid;
+
+- (BOOL) hasLanguage;
+- (TranslateLanguages) language;
+- (TranslateSelectMessagesRequestProto_Builder*) setLanguage:(TranslateLanguages) value;
+- (TranslateSelectMessagesRequestProto_Builder*) clearLanguageList;
+
+- (NSMutableArray *)messagesToBeTranslatedList;
+- (PrivateChatPostProto*)messagesToBeTranslatedAtIndex:(NSUInteger)index;
+- (TranslateSelectMessagesRequestProto_Builder *)addMessagesToBeTranslated:(PrivateChatPostProto*)value;
+- (TranslateSelectMessagesRequestProto_Builder *)addAllMessagesToBeTranslated:(NSArray *)array;
+- (TranslateSelectMessagesRequestProto_Builder *)clearMessagesToBeTranslated;
+@end
+
+@interface TranslateSelectMessagesResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatus status;
+  NSMutableArray * mutableMessagesTranslatedList;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) NSArray * messagesTranslatedList;
+@property (readonly) TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatus status;
+- (PrivateChatPostProto*)messagesTranslatedAtIndex:(NSUInteger)index;
+
++ (TranslateSelectMessagesResponseProto*) defaultInstance;
+- (TranslateSelectMessagesResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (TranslateSelectMessagesResponseProto_Builder*) builder;
++ (TranslateSelectMessagesResponseProto_Builder*) builder;
++ (TranslateSelectMessagesResponseProto_Builder*) builderWithPrototype:(TranslateSelectMessagesResponseProto*) prototype;
+- (TranslateSelectMessagesResponseProto_Builder*) toBuilder;
+
++ (TranslateSelectMessagesResponseProto*) parseFromData:(NSData*) data;
++ (TranslateSelectMessagesResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (TranslateSelectMessagesResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (TranslateSelectMessagesResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (TranslateSelectMessagesResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (TranslateSelectMessagesResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface TranslateSelectMessagesResponseProto_Builder : PBGeneratedMessageBuilder {
+@private
+  TranslateSelectMessagesResponseProto* result;
+}
+
+- (TranslateSelectMessagesResponseProto*) defaultInstance;
+
+- (TranslateSelectMessagesResponseProto_Builder*) clear;
+- (TranslateSelectMessagesResponseProto_Builder*) clone;
+
+- (TranslateSelectMessagesResponseProto*) build;
+- (TranslateSelectMessagesResponseProto*) buildPartial;
+
+- (TranslateSelectMessagesResponseProto_Builder*) mergeFrom:(TranslateSelectMessagesResponseProto*) other;
+- (TranslateSelectMessagesResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (TranslateSelectMessagesResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (TranslateSelectMessagesResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (TranslateSelectMessagesResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (TranslateSelectMessagesResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (TranslateSelectMessagesResponseProto_Builder*) clearSender;
+
+- (NSMutableArray *)messagesTranslatedList;
+- (PrivateChatPostProto*)messagesTranslatedAtIndex:(NSUInteger)index;
+- (TranslateSelectMessagesResponseProto_Builder *)addMessagesTranslated:(PrivateChatPostProto*)value;
+- (TranslateSelectMessagesResponseProto_Builder *)addAllMessagesTranslated:(NSArray *)array;
+- (TranslateSelectMessagesResponseProto_Builder *)clearMessagesTranslated;
+
+- (BOOL) hasStatus;
+- (TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatus) status;
+- (TranslateSelectMessagesResponseProto_Builder*) setStatus:(TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatus) value;
+- (TranslateSelectMessagesResponseProto_Builder*) clearStatusList;
 @end
 
 

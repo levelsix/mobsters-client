@@ -3,7 +3,6 @@
 #import "ProtocolBuffers.h"
 
 #import "Battle.pb.h"
-#import "BattleItem.pb.h"
 #import "MonsterStuff.pb.h"
 #import "Structure.pb.h"
 #import "User.pb.h"
@@ -11,10 +10,6 @@
 
 @class BattleItemFactoryProto;
 @class BattleItemFactoryProto_Builder;
-@class BattleItemProto;
-@class BattleItemProto_Builder;
-@class BattleItemQueueForUserProto;
-@class BattleItemQueueForUserProto_Builder;
 @class BeginPvpBattleRequestProto;
 @class BeginPvpBattleRequestProto_Builder;
 @class BeginPvpBattleResponseProto;
@@ -95,6 +90,10 @@
 @class QueueUpResponseProto_Builder;
 @class ResearchHouseProto;
 @class ResearchHouseProto_Builder;
+@class ResearchPropertyProto;
+@class ResearchPropertyProto_Builder;
+@class ResearchProto;
+@class ResearchProto_Builder;
 @class ResidenceProto;
 @class ResidenceProto_Builder;
 @class ResourceGeneratorProto;
@@ -115,8 +114,6 @@
 @class TownHallProto_Builder;
 @class TutorialStructProto;
 @class TutorialStructProto_Builder;
-@class UserBattleItemProto;
-@class UserBattleItemProto_Builder;
 @class UserCurrentMonsterTeamProto;
 @class UserCurrentMonsterTeamProto_Builder;
 @class UserEnhancementItemProto;
@@ -141,6 +138,8 @@
 @class UserPvpBoardObstacleProto_Builder;
 @class UserPvpLeagueProto;
 @class UserPvpLeagueProto_Builder;
+@class UserResearchProto;
+@class UserResearchProto_Builder;
 #ifndef __has_feature
   #define __has_feature(x) 0 // Compatibility with non-clang compilers.
 #endif // __has_feature

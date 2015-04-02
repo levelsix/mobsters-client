@@ -126,6 +126,7 @@
   {
     if (execute)
       [self initialSequence];
+    [self.battleLayer.orbLayer toggleArrows:YES];
     return YES;
   }
   
@@ -202,6 +203,7 @@
 {
 //[self makeSkillOwnerJumpWithTarget:self selector:@selector(startAttackingPlayerPhase2)];
   [self startAttackingPlayerPhase2];
+  [self showSkillPopupMiniOverlay:@"CAKESPLOSION"];
 }
 
 - (void) startAttackingPlayerPhase2
@@ -282,6 +284,8 @@
         [orbSprite reloadSprite:YES];
       }
     }
+  
+  [self.battleLayer.orbLayer toggleArrows:NO];
 }
 
 #pragma mark - Serialization

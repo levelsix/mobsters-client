@@ -19,7 +19,7 @@
   [super setDefaultValues];
   
   _damageMultiplier = 1.f;
-  _logoShown = NO;
+  _tempDamageGained = 0;
 }
 
 - (void) setValue:(float)value forProperty:(NSString*)property
@@ -31,6 +31,20 @@
 }
 
 #pragma mark - Overrides
+
+- (NSSet*) sideEffects
+{
+  return [NSSet setWithObjects:@(SideEffectTypeBuffFlameStrike), nil];
+}
+
+- (void)orbDestroyed:(OrbColor)color special:(SpecialOrbType)type
+{
+  if ([self isActive] && color == OrbColorFire)
+  {
+    _tempDamageGained += self.userPlayer.fireDamage * (_damageMultiplier);
+  }
+  [super orbDestroyed:color special:type];
+}
 
 - (BOOL) generateSpecialOrb:(BattleOrb*)orb atColumn:(int)column row:(int)row
 {
@@ -50,33 +64,34 @@
 
 - (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
 {
-  if ([super skillCalledWithTrigger:trigger execute:execute])
-    return YES;
-  
-  if ([self isActive])
+  //This needs to happen before the super call, since the super call can sometimes stop execution before this
+  if (trigger == SkillTriggerPointPlayerInitialized)
   {
-    if (trigger == SkillTriggerPointEndOfPlayerTurn && self.belongsToPlayer)
+    if ([self isActive])
     {
-      if (execute)
-      {
-        [self tickDuration];
-        [self skillTriggerFinished];
-      }
-      return YES;
+      [self setDamageMultiplierOnFireOrbs:floorf(_damageMultiplier)];
     }
-    
-    if (trigger == SkillTriggerPointPlayerMobDefeated && self.belongsToPlayer)
+    else
     {
-      if (execute)
-      {
-        [self endDurationNow];
-        [self skillTriggerFinished];
-      }
-      return YES;
+      [self setDamageMultiplierOnFireOrbs:1];
     }
   }
   
+  if ([super skillCalledWithTrigger:trigger execute:execute])
+    return YES;
+  
   return NO;
+}
+
+- (NSInteger)modifyDamage:(NSInteger)damage forPlayer:(BOOL)player
+{
+  if (_tempDamageGained && player)
+  {
+    [self enqueueSkillPopupMiniOverlay:[NSString stringWithFormat:@"%i FIRE DAMAGE", _tempDamageGained]];
+    _tempDamageGained = 0;
+  }
+  
+  return [super modifyDamage:damage forPlayer:player];
 }
 
 #pragma mark - Skill logic
@@ -119,6 +134,27 @@
         [orbSprite reloadSprite:YES];
       }
     }
+}
+
+#pragma mark - Serialization
+
+- (NSDictionary*) serialize
+{
+  NSMutableDictionary* result = [NSMutableDictionary dictionaryWithDictionary:[super serialize]];
+  [result setObject:@(_tempDamageGained) forKey:@"damage"];
+  return result;
+}
+
+- (BOOL) deserialize:(NSDictionary*)dict
+{
+  if (! [super deserialize:dict])
+    return NO;
+  
+  NSNumber* damage = [dict objectForKey:@"damage"];
+  if (damage)
+    _tempDamageGained = [damage floatValue];
+  
+  return YES;
 }
 
 @end

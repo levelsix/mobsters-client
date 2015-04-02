@@ -42,7 +42,7 @@ static NSString* const cheatCodesForSkills[] = {
   @"", @"reset", @"cake", @"goo", @"atk", @"bombs", @"shield", @"poison", @"rage", @"momentum", @"toughskin",
   @"critevade", @"shuffle", @"headshot", @"mud", @"lifesteal", @"counterstrike", @"flamestrike", @"confusion",
   @"staticfield", @"blindinglight", @"poisonpowder", @"skewer", @"knockout", @"shallowgrave", @"hammertime",
-  @"bloodrage", @"takeaim", @"hellfire", @"energize", @"righthook", @"curse", @"insurance", @"flamebreak", @"pskew", @"pfire"};
+  @"bloodrage", @"takeaim", @"hellfire", @"energize", @"righthook", @"curse", @"insurance", @"flamebreak", @"pskew", @"pfire", @"chill"};
 
 static NSString* const kSkillIconImageNameSuffix = @"icon.png";
 static NSString* const kSkillLogoImageNameSuffix = @"logo.png";
@@ -57,13 +57,14 @@ static NSString* const kSkillMiniLogoImageNameSuffix = @"minilogo.png";
   SkillControllerBlock  _callbackBlock;
   NSDictionary*         _callbackParams;
   SkillPopupBlock       _callbackBlockForPopup;
-  UIImageView*          _characterImage;
   SkillPopupOverlay*    _popupOverlay;
   NSString*             _popupBottomText;
+  SkillPopupData*       _currentSkillPopup;
   
   SkillTriggerPoint     _currentTrigger;
   BOOL                  _executedInitialAction;
   BOOL                  _skillActivated;
+  int                   _stacks;
 }
 
 @property (readonly) SkillType            skillType;
@@ -81,6 +82,8 @@ static NSString* const kSkillMiniLogoImageNameSuffix = @"minilogo.png";
 @property (nonatomic) BattlePlayer  *opponentPlayer;
 @property (nonatomic) BattleSprite  *userSprite;
 @property (nonatomic) BattleSprite  *opponentSprite;
+
+@property (weak, nonatomic) NSString        *ownerUdid;
 
 @property (assign, nonatomic) BOOL          belongsToPlayer;
 
@@ -110,6 +113,7 @@ static NSString* const kSkillMiniLogoImageNameSuffix = @"minilogo.png";
 - (BOOL) shouldSpawnRibbon;
 - (BOOL) shouldPersist;
 - (NSSet*) sideEffects;
+- (BOOL) targetsPlayer:(BattlePlayer*)player;
 
 // Reusable poison effects
 @property (readonly) int poisonDamage;
@@ -127,7 +131,17 @@ static NSString* const kSkillMiniLogoImageNameSuffix = @"minilogo.png";
 - (void) showSkillPopupOverlay:(BOOL)jumpFirst withCompletion:(SkillPopupBlock)completion;
 - (void) showSkillPopupMiniOverlay:(NSString*)bottomText;
 - (void) showSkillPopupMiniOverlay:(BOOL)jumpFirst bottomText:(NSString*)bottomText withCompletion:(SkillPopupBlock)completion;
+- (void) showSkillPopupAilmentOverlay:(NSString*)topText bottomText:(NSString*)bottomText;
+- (void) showSkillPopupAilmentOverlay:(NSString*)topText bottomText:(NSString*)bottomText priority:(int)priority;
+- (void) showSkillPopupAilmentOverlay:(BOOL)jumpFirst topText:(NSString*)topText bottomText:(NSString*)bottomText priority:(int)priority withCompletion:(SkillPopupBlock)completion;
 - (void) makeSkillOwnerJumpWithTarget:(id)target selector:(SEL)completion;
+- (void) enqueueSkillPopup:(SkillPopupData*)skillPopupData;
+- (int) skillStacks;
+
+- (void) enqueueSkillPopupMiniOverlay:(NSString*)bottomText;
+- (void) enqueueSkillPopupAilmentOverlay:(NSString*)topText bottomText:(NSString*)bottomText;
+- (void) enqueueSkillPopupAilmentOverlay:(NSString*)topText bottomText:(NSString*)bottomText priority:(int)priority;
+- (void) showCurrentSkillPopup;
 
 // Serialization
 - (NSDictionary*) serialize;

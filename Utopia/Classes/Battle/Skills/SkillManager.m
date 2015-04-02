@@ -12,6 +12,8 @@
 #import "SkillCakeDrop.h"
 #import "SkillBombs.h"
 #import "SkillControllerActive.h"
+#import "BattleHudView.h"
+#import "SkillSideEffect.h"
 
 @implementation SkillManager
 
@@ -81,7 +83,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
       _playerSkillType = playerSkillProto.type;
       _playerColor = (OrbColor)_player.element;
       _playerSkillActivation = playerSkillProto.activationType;
-      _playerSkillController = [SkillController skillWithProto:playerSkillProto andMobsterColor:_playerColor];
+      for (SkillController* skillController in _persistentSkillControllers) {
+        if (skillController.ownerUdid == _player.userMonsterUuid)
+        {
+          _playerSkillController = skillController;
+        }
+      }
+      if (!_playerSkillController)
+        _playerSkillController = [SkillController skillWithProto:playerSkillProto andMobsterColor:_playerColor];
+      else
+        [_persistentSkillControllers removeObject:_playerSkillController];
     }
   }
   
@@ -89,8 +100,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   if (_playerSkillController && _playerSkillSerializedState)
   {
     [_playerSkillController deserialize:_playerSkillSerializedState];
-    _playerSkillSerializedState = nil;
   }
+  _playerSkillSerializedState = nil;
 }
 
 - (void) updateEnemySkill
@@ -135,7 +146,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
       _enemySkillType = enemySkillProto.type;
       _enemyColor = (OrbColor)_enemy.element;
       _enemySkillActivation = enemySkillProto.activationType;
-      _enemySkillController = [SkillController skillWithProto:enemySkillProto andMobsterColor:_enemyColor];
+      for (SkillController* skillController in _persistentSkillControllers) {
+        if (skillController.ownerUdid == _enemy.userMonsterUuid)
+        {
+          _enemySkillController = skillController;
+        }
+      }
+      if (!_enemySkillController)
+        _enemySkillController = [SkillController skillWithProto:enemySkillProto andMobsterColor:_enemyColor];
+      else
+        [_persistentSkillControllers removeObject:_enemySkillController];
     }
   }
   
@@ -143,8 +163,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   if (_enemySkillController && _enemySkillSerializedState)
   {
     [_enemySkillController deserialize:_enemySkillSerializedState];
-    _enemySkillSerializedState = nil;
   }
+  _enemySkillSerializedState = nil;
+
 }
 
 - (void) updateReferences
@@ -153,9 +174,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   _playerSprite = _battleLayer.myPlayer;
   
   if (_enemySkillController)
+  {
     [self setDataForController:_enemySkillController];
+    _enemySkillController.ownerUdid = _enemy.userMonsterUuid;
+  }
   if (_playerSkillController)
+  {
     [self setDataForController:_playerSkillController];
+    _playerSkillController.ownerUdid = _player.userMonsterUuid;
+  }
   
   for (SkillController *perSkill in _persistentSkillControllers) {
     [self setDataForController:perSkill];
@@ -337,17 +364,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   
   // Sequencing player and enemy skills in case both should be triggered
   SkillControllerBlock sequenceBlock = ^(BOOL triggered, id params) {
-    if (triggered)
-    {
-      [self pruneRepeatedSkills:_playerSkillController];
-    }
     BOOL enemySkillTriggered = FALSE;
     if (_enemy.curHealth > 0 || trigger == SkillTriggerPointEnemyDefeated)  // Call if still alive or cleanup trigger
       if (_enemySkillController && shouldTriggerEnemySkill)
       {
         [_enemySkillController triggerSkill:trigger withCompletion:^(BOOL triggered, id params) {
-          if (triggered)
-            [self pruneRepeatedSkills:_enemySkillController];
           [self triggerPersistentSkills:_persistentSkillControllers index:0 trigger:trigger triggered:triggered completion:completion params:params];
         }];
         enemySkillTriggered = TRUE;
@@ -362,8 +383,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
     [_playerSkillController triggerSkill:trigger withCompletion:sequenceBlock];
   else if (_enemySkillController && shouldTriggerEnemySkill)
     [_enemySkillController triggerSkill:trigger withCompletion:^(BOOL triggered, id params) {
-      if (triggered)
-        [self pruneRepeatedSkills:_enemySkillController];
       [self triggerPersistentSkills:_persistentSkillControllers index:0 trigger:trigger triggered:triggered completion:completion params:params];
     }];
   else
@@ -405,7 +424,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
     skill = (SkillController*)_persistentSkillControllers[i];
     if ([skill class] == [sameAsSkill class]
         && skill.belongsToPlayer == sameAsSkill.belongsToPlayer) {
-      [_persistentSkillControllers removeObjectAtIndex:(NSUInteger)i];
+      //[_persistentSkillControllers removeObjectAtIndex:(NSUInteger)i];
+      [[_persistentSkillControllers objectAtIndex:(NSUInteger)i] endDurationNow];
     }
   }
 }
@@ -628,6 +648,66 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
 - (__weak NewBattleLayer*) battleLayer
 {
   return _battleLayer;
+}
+
+- (void) playDamageLogos
+{
+  if (_playerSkillController)
+  {
+    [_playerSkillController showCurrentSkillPopup];
+  }
+  if (_enemySkillController)
+  {
+    [_enemySkillController showCurrentSkillPopup];
+  }
+  for (SkillController *skill in _persistentSkillControllers)
+  {
+    [skill showCurrentSkillPopup];
+  }
+}
+
+- (void)addSideEffectsToMonsterView:(MiniMonsterView *)monsterView forPlayer:(BattlePlayer *)player {
+  if ([_playerSkillController targetsPlayer:player])
+    [self addSideEffectsToMonsterView:monsterView fromSkill:_playerSkillController];
+  
+  if ([_enemySkillController targetsPlayer:player])
+    [self addSideEffectsToMonsterView:monsterView fromSkill:_enemySkillController];
+  
+  for (SkillController *skill in _persistentSkillControllers)
+    if ([skill targetsPlayer:player])
+      [self addSideEffectsToMonsterView:monsterView fromSkill:skill];
+}
+
+- (void)addSideEffectsToMonsterView:(MiniMonsterView *)monsterView fromSkill:(SkillController *)skill {
+  for (NSNumber *number in [skill sideEffects])
+  {
+    SideEffectType type = [number intValue];
+    SkillSideEffectProto *proto = [Globals protoForSkillSideEffectType:type];
+    if (proto) {
+      SkillSideEffect *side = [SkillSideEffect sideEffectWithProto:proto invokingSkill:skill.skillId];
+      if (side) {
+        [monsterView displaySideEffectIcon:side.iconImageName withKey:side.name];
+      }
+    }
+    
+  }
+}
+
+- (NSSet*)sideEffectsOnPlayer:(BattlePlayer *)player {
+  NSMutableSet *sides = [NSMutableSet set];
+  
+  if ([_playerSkillController targetsPlayer:player])
+    [sides unionSet:[_playerSkillController sideEffects]];
+  
+  if ([_enemySkillController targetsPlayer:player])
+    [sides unionSet:[_enemySkillController sideEffects]];
+  
+  for (SkillController *controller in _persistentSkillControllers)
+    if ([controller targetsPlayer:player])
+      [sides unionSet:[controller sideEffects]];
+  
+  return sides;
+  
 }
 
 #pragma mark - Specials

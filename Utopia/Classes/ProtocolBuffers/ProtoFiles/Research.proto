@@ -43,6 +43,7 @@ message ResearchProto {
 	optional int32 level = 13;
 	optional float priority = 14;
 	optional int32 tier = 15;
+	optional int32 strength = 16;
 	
 }
 
@@ -61,15 +62,24 @@ message ResearchPropertyProto {
 
 enum ResearchType {
 	NO_RESEARCH = 1;
-	COST = 2;
-	SPEED = 3;
-	INCREASE_QUEUE_SIZE = 4;
-	INCREASE_NUM_CAN_BUILD = 5;
-	XP_BONUS = 6;
-	INCREASE_CASH_PRODUCTION = 7;
-	INCREASE_OIL_PRODUCTION = 8;
-	INCREASE_ATTACK = 9;
-	INCREASE_HP = 10;
+	HP_INCREASE = 2;
+ 	ATTACK_INCREASE = 3;
+ 	SPEED_INCREASE = 4;
+    HEALING_COST = 5;
+    HEALING_SPEED = 6;
+ 	ENHANCE_COST = 7;
+ 	DECREASE_ENHANCE_TIME = 8;
+    XP_BONUS = 9;
+	INCREASE_HOSPITAL_QUEUE = 10;
+	INCREASE_ENHANCE_QUEUE = 11;
+	NUMBER_OF_HOSPITALS = 12;
+	INCREASE_CONSTRUCTION_SPEED = 13;
+	ITEM_PRODUCTION_SPEED = 14;
+	ITEM_PRODUCTION_COST = 15;
+	RESOURCE_PRODUCTION = 16;
+	RESOURCE_STORAGE = 17;
+	UNLOCK_ITEM = 18;
+	UNLOCK_OBSTACLE = 19;
 }
 
 enum ResearchDomain {
@@ -78,6 +88,8 @@ enum ResearchDomain {
 	LEVELUP = 3;
 	RESOURCES = 4;
 	BATTLE = 5;
+	ITEMS = 6;
+	TRAPS_AND_OBSTACLES = 7;
 	
 }
 

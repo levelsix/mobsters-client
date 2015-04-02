@@ -287,6 +287,14 @@
   [self.delegate reshuffleWithPrompt:@"Shuffling..."];
 }
 
+- (void)toggleArrows:(BOOL)on
+{
+  NSArray *tiles = [self.layout getBottomFeederTiles];
+  for (BattleTile *tile in tiles) {
+    [self.bgdLayer updateArrowForTile:tile arrow:on];
+  }
+}
+
 #pragma mark - Allowing input
 
 - (void) pulseValidMove {

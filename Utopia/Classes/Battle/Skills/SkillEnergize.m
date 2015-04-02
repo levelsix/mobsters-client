@@ -56,9 +56,23 @@
   return YES;
 }
 
+- (BOOL)doesStack
+{
+  return self.belongsToPlayer;
+}
+
 - (BOOL)keepColor
 {
   return NO;
+}
+
+- (int)skillStacks
+{
+  if (self.belongsToPlayer)
+  {
+    return [super skillStacks];
+  }
+  return 0;
 }
 
 - (NSInteger) modifyDamage:(NSInteger)damage forPlayer:(BOOL)player
@@ -68,6 +82,8 @@
     if (player == self.belongsToPlayer)
     {
       SkillLogStart(@"Energize -- Multiplying damage by %.2f", _curAttackMultiplier);
+      
+      [self enqueueSkillPopupMiniOverlay:[NSString stringWithFormat:@"%.3gX DMG", _curAttackMultiplier]];
       
       return damage * _curAttackMultiplier;
     }
@@ -80,6 +96,9 @@
 {
   _curSpeedMultiplier += _speedIncrease * numOrbs;
   _curAttackMultiplier += _attackIncrease * numOrbs;
+  _stacks += numOrbs;
+  
+  [self showSkillPopupMiniOverlay:[NSString stringWithFormat:@"+%.3gX ATK / +%.3gX SPD", (_attackIncrease * numOrbs), (_speedIncrease * numOrbs)]];
   
   [self updateSkillOwnerSpeed];
   
@@ -154,11 +173,6 @@
                                                     playerB:self.enemy.speed
                                                    andOrder:ScheduleFirstTurnRandom];
   [self.battleLayer setShouldDisplayNewSchedule:YES];
-}
-
-- (void) showAttackMultiplier
-{
-  [self showSkillPopupMiniOverlay:[NSString stringWithFormat:@"%.3gX ATK", _curAttackMultiplier]];
 }
 
 #pragma mark - Serialization

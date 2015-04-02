@@ -56,6 +56,7 @@
 - (void)onAllSpecialsDestroyed
 {
   [self resetOrbCounter];
+  [super onAllSpecialsDestroyed];
 }
 
 - (BOOL) activate
@@ -75,6 +76,18 @@
 }
 
 #pragma mark - Skill logic
+
+- (void)showQuickAttackMiniLogo
+{
+  if (self.opponentPlayer.curHealth > _enemyHealthThreshold)
+  {
+    [super showQuickAttackMiniLogo];
+  }
+  else
+  {
+    [self showSkillPopupMiniOverlay:@"EXECUTED"];
+  }
+}
 
 - (void)quickAttackDealDamage
 {

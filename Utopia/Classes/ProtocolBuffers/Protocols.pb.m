@@ -172,6 +172,7 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCCreateBattleItemEvent:
     case EventProtocolRequestCDiscardBattleItemEvent:
     case EventProtocolRequestCCompleteBattleItemEvent:
+    case EventProtocolRequestCTranslateSelectMessagesEvent:
       return YES;
     default:
       return NO;
@@ -293,6 +294,7 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSCreateBattleItemEvent:
     case EventProtocolResponseSDiscardBattleItemEvent:
     case EventProtocolResponseSCompleteBattleItemEvent:
+    case EventProtocolResponseSTranslateSelectMessagesEvent:
       return YES;
     default:
       return NO;
