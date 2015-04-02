@@ -22,6 +22,7 @@
 #import "EventDungeon.pb.h"
 #import "EventInAppPurchase.pb.h"
 #import "EventItem.pb.h"
+#import "EventMiniEvent.pb.h"
 #import "EventMiniJob.pb.h"
 #import "EventMonster.pb.h"
 #import "EventPvp.pb.h"
@@ -35,11 +36,13 @@
 #import "EventUser.pb.h"
 #import "InAppPurchase.pb.h"
 #import "Item.pb.h"
+#import "MiniEvent.pb.h"
 #import "MiniJobConfig.pb.h"
 #import "MonsterStuff.pb.h"
 #import "Prerequisite.pb.h"
 #import "Quest.pb.h"
 #import "Research.pb.h"
+#import "Reward.pb.h"
 #import "SharedEnumConfig.pb.h"
 #import "Skill.pb.h"
 #import "StaticData.pb.h"
@@ -133,8 +136,6 @@
 @class ChangeClanSettingsRequestProto_Builder;
 @class ChangeClanSettingsResponseProto;
 @class ChangeClanSettingsResponseProto_Builder;
-@class ChatTranslationsProto;
-@class ChatTranslationsProto_Builder;
 @class CityElementProto;
 @class CityElementProto_Builder;
 @class CityExpansionCostProto;
@@ -193,6 +194,8 @@
 @class CustomizePvpBoardObstacleRequestProto_Builder;
 @class CustomizePvpBoardObstacleResponseProto;
 @class CustomizePvpBoardObstacleResponseProto_Builder;
+@class DefaultLanguagesProto;
+@class DefaultLanguagesProto_Builder;
 @class DestroyMoneyTreeStructureRequestProto;
 @class DestroyMoneyTreeStructureRequestProto_Builder;
 @class DestroyMoneyTreeStructureResponseProto;
@@ -351,6 +354,16 @@
 @class LoadPlayerCityResponseProto_Builder;
 @class LogoutRequestProto;
 @class LogoutRequestProto_Builder;
+@class MiniEventForPlayerLevelProto;
+@class MiniEventForPlayerLevelProto_Builder;
+@class MiniEventGoalProto;
+@class MiniEventGoalProto_Builder;
+@class MiniEventLeaderboardRewardProto;
+@class MiniEventLeaderboardRewardProto_Builder;
+@class MiniEventProto;
+@class MiniEventProto_Builder;
+@class MiniEventTierRewardProto;
+@class MiniEventTierRewardProto_Builder;
 @class MiniJobCenterProto;
 @class MiniJobCenterProto_Builder;
 @class MiniJobProto;
@@ -419,6 +432,8 @@
 @class PersistentEventProto_Builder;
 @class PrereqProto;
 @class PrereqProto_Builder;
+@class PrivateChatDefaultLanguageProto;
+@class PrivateChatDefaultLanguageProto_Builder;
 @class PrivateChatPostProto;
 @class PrivateChatPostProto_Builder;
 @class PrivateChatPostRequestProto;
@@ -487,6 +502,10 @@
 @class RecordClanRaidStatsRequestProto_Builder;
 @class RecordClanRaidStatsResponseProto;
 @class RecordClanRaidStatsResponseProto_Builder;
+@class RedeemMiniEventRewardRequestProto;
+@class RedeemMiniEventRewardRequestProto_Builder;
+@class RedeemMiniEventRewardResponseProto;
+@class RedeemMiniEventRewardResponseProto_Builder;
 @class RedeemMiniJobRequestProto;
 @class RedeemMiniJobRequestProto_Builder;
 @class RedeemMiniJobResponseProto;
@@ -541,6 +560,10 @@
 @class RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder;
 @class RetrieveCurrencyFromNormStructureResponseProto;
 @class RetrieveCurrencyFromNormStructureResponseProto_Builder;
+@class RetrieveMiniEventRequestProto;
+@class RetrieveMiniEventRequestProto_Builder;
+@class RetrieveMiniEventResponseProto;
+@class RetrieveMiniEventResponseProto_Builder;
 @class RetrievePrivateChatPostsRequestProto;
 @class RetrievePrivateChatPostsRequestProto_Builder;
 @class RetrievePrivateChatPostsResponseProto;
@@ -561,6 +584,8 @@
 @class ReviveInDungeonRequestProto_Builder;
 @class ReviveInDungeonResponseProto;
 @class ReviveInDungeonResponseProto_Builder;
+@class RewardProto;
+@class RewardProto_Builder;
 @class SellUserMonsterRequestProto;
 @class SellUserMonsterRequestProto_Builder;
 @class SellUserMonsterResponseProto;
@@ -707,6 +732,10 @@
 @class UpdateClientTaskStateResponseProto_Builder;
 @class UpdateClientUserResponseProto;
 @class UpdateClientUserResponseProto_Builder;
+@class UpdateMiniEventRequestProto;
+@class UpdateMiniEventRequestProto_Builder;
+@class UpdateMiniEventResponseProto;
+@class UpdateMiniEventResponseProto_Builder;
 @class UpdateMonsterHealthRequestProto;
 @class UpdateMonsterHealthRequestProto_Builder;
 @class UpdateMonsterHealthResponseProto;
@@ -743,6 +772,10 @@
 @class UserItemSecretGiftProto_Builder;
 @class UserItemUsageProto;
 @class UserItemUsageProto_Builder;
+@class UserMiniEventGoalProto;
+@class UserMiniEventGoalProto_Builder;
+@class UserMiniEventProto;
+@class UserMiniEventProto_Builder;
 @class UserMiniJobProto;
 @class UserMiniJobProto_Builder;
 @class UserMonsterCurrentExpProto;
@@ -767,6 +800,8 @@
 @class UserQuestJobProto_Builder;
 @class UserResearchProto;
 @class UserResearchProto_Builder;
+@class UserRewardProto;
+@class UserRewardProto_Builder;
 @class UserTaskCompletedProto;
 @class UserTaskCompletedProto_Builder;
 @class VoidTeamDonationSolicitationRequestProto;
@@ -891,6 +926,10 @@ typedef NS_ENUM(SInt32, EventProtocolRequest) {
   EventProtocolRequestCCreateBattleItemEvent = 204,
   EventProtocolRequestCDiscardBattleItemEvent = 205,
   EventProtocolRequestCCompleteBattleItemEvent = 206,
+  EventProtocolRequestCRedeemMiniEventRewardEvent = 207,
+  EventProtocolRequestCRetrieveMiniEventEvent = 208,
+  EventProtocolRequestCUpdateMiniEventEvent = 209,
+  EventProtocolRequestCTranslateSelectMessagesEvent = 210,
 };
 
 BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value);
@@ -1010,6 +1049,10 @@ typedef NS_ENUM(SInt32, EventProtocolResponse) {
   EventProtocolResponseSCreateBattleItemEvent = 204,
   EventProtocolResponseSDiscardBattleItemEvent = 205,
   EventProtocolResponseSCompleteBattleItemEvent = 206,
+  EventProtocolResponseSRedeemMiniEventRewardEvent = 207,
+  EventProtocolResponseSRetrieveMiniEventEvent = 208,
+  EventProtocolResponseSUpdateMiniEventEvent = 209,
+  EventProtocolResponseSTranslateSelectMessagesEvent = 210,
 };
 
 BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value);

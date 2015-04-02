@@ -44,8 +44,6 @@
 @class ChangeClanSettingsRequestProto_Builder;
 @class ChangeClanSettingsResponseProto;
 @class ChangeClanSettingsResponseProto_Builder;
-@class ChatTranslationsProto;
-@class ChatTranslationsProto_Builder;
 @class ClanDataProto;
 @class ClanDataProto_Builder;
 @class ClanHelpNoticeProto;
@@ -76,6 +74,8 @@
 @class CreateClanRequestProto_Builder;
 @class CreateClanResponseProto;
 @class CreateClanResponseProto_Builder;
+@class DefaultLanguagesProto;
+@class DefaultLanguagesProto_Builder;
 @class EndClanAvengingRequestProto;
 @class EndClanAvengingRequestProto_Builder;
 @class EndClanAvengingResponseProto;
@@ -162,6 +162,8 @@
 @class PersistentClanEventUserInfoProto_Builder;
 @class PersistentClanEventUserRewardProto;
 @class PersistentClanEventUserRewardProto_Builder;
+@class PrivateChatDefaultLanguageProto;
+@class PrivateChatDefaultLanguageProto_Builder;
 @class PrivateChatPostProto;
 @class PrivateChatPostProto_Builder;
 @class PromoteDemoteClanMemberRequestProto;
@@ -194,6 +196,10 @@
 @class RequestJoinClanResponseProto_Builder;
 @class ResearchHouseProto;
 @class ResearchHouseProto_Builder;
+@class ResearchPropertyProto;
+@class ResearchPropertyProto_Builder;
+@class ResearchProto;
+@class ResearchProto_Builder;
 @class ResidenceProto;
 @class ResidenceProto_Builder;
 @class ResourceGeneratorProto;
@@ -258,6 +264,8 @@
 @class UserPvpBoardObstacleProto_Builder;
 @class UserPvpLeagueProto;
 @class UserPvpLeagueProto_Builder;
+@class UserResearchProto;
+@class UserResearchProto_Builder;
 @class VoidTeamDonationSolicitationRequestProto;
 @class VoidTeamDonationSolicitationRequestProto_Builder;
 @class VoidTeamDonationSolicitationResponseProto;

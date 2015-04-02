@@ -2,7 +2,6 @@
 
 #import "ProtocolBuffers.h"
 
-#import "SharedEnumConfig.pb.h"
 #import "Structure.pb.h"
 // @@protoc_insertion_point(imports)
 
