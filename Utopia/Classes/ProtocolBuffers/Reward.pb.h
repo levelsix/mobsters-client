@@ -180,18 +180,18 @@ BOOL RewardProto_RewardTypeIsValidValue(RewardProto_RewardType value);
   int32_t gems;
   int32_t cash;
   int32_t oil;
-  NSMutableArray * mutableUpdatedOrNewList;
+  NSMutableArray * mutableUpdatedOrNewMonstersList;
   NSMutableArray * mutableUpdatedUserItemsList;
 }
 - (BOOL) hasGems;
 - (BOOL) hasCash;
 - (BOOL) hasOil;
-@property (readonly, strong) NSArray * updatedOrNewList;
+@property (readonly, strong) NSArray * updatedOrNewMonstersList;
 @property (readonly, strong) NSArray * updatedUserItemsList;
 @property (readonly) int32_t gems;
 @property (readonly) int32_t cash;
 @property (readonly) int32_t oil;
-- (FullUserMonsterProto*)updatedOrNewAtIndex:(NSUInteger)index;
+- (FullUserMonsterProto*)updatedOrNewMonstersAtIndex:(NSUInteger)index;
 - (UserItemProto*)updatedUserItemsAtIndex:(NSUInteger)index;
 
 + (UserRewardProto*) defaultInstance;
@@ -229,11 +229,11 @@ BOOL RewardProto_RewardTypeIsValidValue(RewardProto_RewardType value);
 - (UserRewardProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (UserRewardProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (NSMutableArray *)updatedOrNewList;
-- (FullUserMonsterProto*)updatedOrNewAtIndex:(NSUInteger)index;
-- (UserRewardProto_Builder *)addUpdatedOrNew:(FullUserMonsterProto*)value;
-- (UserRewardProto_Builder *)addAllUpdatedOrNew:(NSArray *)array;
-- (UserRewardProto_Builder *)clearUpdatedOrNew;
+- (NSMutableArray *)updatedOrNewMonstersList;
+- (FullUserMonsterProto*)updatedOrNewMonstersAtIndex:(NSUInteger)index;
+- (UserRewardProto_Builder *)addUpdatedOrNewMonsters:(FullUserMonsterProto*)value;
+- (UserRewardProto_Builder *)addAllUpdatedOrNewMonsters:(NSArray *)array;
+- (UserRewardProto_Builder *)clearUpdatedOrNewMonsters;
 
 - (NSMutableArray *)updatedUserItemsList;
 - (UserItemProto*)updatedUserItemsAtIndex:(NSUInteger)index;
