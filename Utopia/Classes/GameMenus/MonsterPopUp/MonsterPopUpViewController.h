@@ -11,6 +11,15 @@
 #import "UserData.h"
 #import "NibUtils.h"
 
+@interface MonsterPopUpResearchView : UIView
+
+@property (nonatomic, retain) IBOutlet UIImageView *researchIcon;
+@property (nonatomic, retain) IBOutlet UILabel *topLabel;
+@property (nonatomic, retain) IBOutlet UILabel *botLabel;
+@property (nonatomic, retain) IBOutlet UIImageView *dividerLine;
+
+@end
+
 @interface ElementDisplayView : UIView
 
 @property (nonatomic, strong) IBOutlet UIImageView *elementIcon;
@@ -29,6 +38,8 @@
 @property (nonatomic, strong) IBOutlet UIView *descriptionView;
 @property (nonatomic, strong) IBOutlet UIView *backButtonView;
 @property (nonatomic, strong) IBOutlet UIView *elementView;
+@property (nonatomic, strong) IBOutlet UIView *researchInfoView;
+@property (nonatomic, strong) IBOutlet UIScrollView *researchInfoScrollView;
 
 @property (nonatomic, strong) IBOutlet ElementDisplayView *fireView;
 @property (nonatomic, strong) IBOutlet ElementDisplayView *waterView;

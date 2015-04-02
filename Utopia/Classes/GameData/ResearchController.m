@@ -52,6 +52,52 @@
   return self;
 }
 
+- (NSString *) benefitName {
+  
+  switch (_research.researchType) {
+    case ResearchTypeHealingCost:
+      return @"Healing Cost";
+    case ResearchTypeHealingSpeed:
+      return @"Healing Speed";
+    case ResearchTypeEnhanceCost:
+      return @"Enhance Cost";
+    case ResearchTypeDecreaseEnhanceTime:
+      return @"Enhance Speed";
+    case ResearchTypeXpBonus:
+      return @"Xp Bonus";
+    case ResearchTypeAttackIncrease:
+      return @"Attack Increase";
+    case ResearchTypeHpIncrease:
+      return @"Health Increase";
+    case ResearchTypeIncreaseConstructionSpeed:
+      return @"Construction Speed";
+    case ResearchTypeItemProductionCost:
+      return @"Item Creation Cost";
+    case ResearchTypeItemProductionSpeed:
+      return @"Item Creation Speed";
+    case ResearchTypeResourceProduction:
+      return @"Resource Rate";
+    case ResearchTypeResourceStorage:
+      return @"Storage Limit";
+      
+    case ResearchTypeSpeedIncrease:
+      return @"Speed Increase";
+    case ResearchTypeIncreaseEnhanceQueue:
+    case ResearchTypeIncreaseHospitalQueue:
+      return @"Queue Size";
+    case ResearchTypeNumberOfHospitals:
+      return @"Num Hospitals";
+      
+    case ResearchTypeUnlockItem:
+      return @"Unlock Item";
+    case ResearchTypeUnlockObstacle:
+      return @"Unlock Obstacle";
+      
+    case ResearchTypeNoResearch:
+      return nil;
+  }
+}
+
 - (NSString *) longImprovementString{ return @""; }
 - (NSString *) shortImprovementString{ return @""; }
 - (float) curPercent { return 0.f; };

@@ -13,8 +13,43 @@
 #import "QuestUtil.h"
 #import "GenericPopupController.h"
 #import "SkillController.h"
+#import "ResearchController.h"
 
 #define LOCK_MOBSTER_DEFAULTS_KEY @"LockMobsterConfirmation"
+
+NSMutableAttributedString *attributedStringWithResearch(ResearchProto *res, BOOL isActive, UIFont *font) {
+  NSString *str1 = res.name;
+  NSString *str2 = [NSString stringWithFormat:@" R%d", isActive ? res.level : 0];
+  
+  NSString *totalStr = [NSString stringWithFormat:@"%@%@", str1, str2];
+  
+  NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+  paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
+  [paragraphStyle setLineSpacing:4];
+  
+  NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:totalStr attributes:@{NSParagraphStyleAttributeName : paragraphStyle, NSFontAttributeName:font}];
+  
+  if (isActive) {
+    [attr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithWhite:51/255.f alpha:1.f] range:NSMakeRange(0, str1.length)];
+    [attr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"71b803"] range:NSMakeRange(str1.length, str2.length)];
+  } else {
+    [attr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithWhite:135/255.f alpha:1.f] range:NSMakeRange(0, totalStr.length)];
+  }
+  
+  return attr;
+}
+
+NSMutableAttributedString *attributedStringWithResearchBenefit(ResearchProto *res, UIFont *font) {
+  ResearchController *rc = [ResearchController researchControllerWithProto:res];
+  NSString *totalStr = [NSString stringWithFormat:@"%@: %@", rc.benefitName, rc.shortImprovementString];
+  
+  NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+  [paragraphStyle setLineSpacing:4];
+  
+  NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:totalStr attributes:@{NSParagraphStyleAttributeName : paragraphStyle, NSFontAttributeName:font}];
+  
+  return attr;
+}
 
 NSMutableAttributedString *attributedStringWithResearchChange(int total, int base) {
   NSString *str1 = [NSString stringWithFormat:@"%@", [Globals commafyNumber:total]];
@@ -33,6 +68,42 @@ NSMutableAttributedString *attributedStringWithResearchChange(int total, int bas
   
   return attr;
 }
+
+@implementation MonsterPopUpResearchView
+
+- (void) updateForActiveResearch:(ResearchProto *)rp {
+  [Globals imageNamed:rp.iconImgName withView:self.researchIcon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+  
+  self.topLabel.attributedText = attributedStringWithResearch(rp, YES, self.topLabel.font);
+  
+  // For some reason having foreground color makes the 1 liner labels have extra height so ask for attr string in inactive state so there's no color
+  CGRect rect = [attributedStringWithResearch(rp, NO, self.topLabel.font) boundingRectWithSize:CGSizeMake(self.topLabel.width, 9999) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
+  self.topLabel.height = ceilf(rect.size.height);
+  
+  self.botLabel.attributedText = attributedStringWithResearchBenefit(rp, self.botLabel.font);
+  
+  rect = [self.botLabel.attributedText boundingRectWithSize:CGSizeMake(self.botLabel.width, 9999) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
+  self.botLabel.originY = CGRectGetMaxY(self.topLabel.frame)+7.f;
+  self.botLabel.height = ceilf(rect.size.height);
+  
+  self.height = CGRectGetMaxY(self.botLabel.frame)+11.f;
+}
+
+
+- (void) updateForNonActiveResearch:(ResearchProto *)rp {
+  [Globals imageNamed:rp.iconImgName withView:self.researchIcon greyscale:YES indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+  
+  self.botLabel.hidden = YES;
+  
+  self.topLabel.attributedText = attributedStringWithResearch(rp, NO, self.topLabel.font);
+  
+  CGRect rect = [self.topLabel.attributedText boundingRectWithSize:CGSizeMake(self.topLabel.width, 9999) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
+  self.topLabel.height = ceilf(rect.size.height);
+  
+  self.height = CGRectGetMaxY(self.topLabel.frame)+11.f;
+}
+
+@end
 
 @implementation ElementDisplayView
 
@@ -66,7 +137,6 @@ NSMutableAttributedString *attributedStringWithResearchChange(int total, int bas
 - (void)viewDidLoad
 {
   [super viewDidLoad];
-  [self updateMonster];
   
   self.backButtonView.hidden = YES;
   
@@ -85,7 +155,12 @@ NSMutableAttributedString *attributedStringWithResearchChange(int total, int bas
     float newHeight = 339.f;//self.view.height-36.f; // Keep the 6+ same size as 6
     self.mainView.size = CGSizeMake(roundf(newHeight*aspectRatio), newHeight);
     self.mainView.center = ccp(self.view.width/2, self.view.height/2);
+    
+    // Adjust the view so that
+    self.researchInfoView.frame = self.descriptionView.frame;
   }
+  
+  [self updateMonster];
 }
 
 - (void) updateMonster {
@@ -154,21 +229,19 @@ NSMutableAttributedString *attributedStringWithResearchChange(int total, int bas
   ResearchUtil *ru = self.monster.researchUtil;
   
   NSArray *userResearches = [ru allUserResearchesForElement:mp.monsterElement rarity:mp.quality];
-  NSArray *staticResearches = [ru allResearchProtosForElement:mp.monsterElement rarity:mp.quality];
+  NSMutableArray *staticResearches = [[ru allResearchProtosForElement:mp.monsterElement rarity:mp.quality] mutableCopy];
   
   self.noResearchLabel.hidden = userResearches.count > 0;
   
-  float maxX = -3;
+  float maxX = 0;
   for (UserResearch *ur in userResearches) {
     ResearchProto *rp = ur.staticResearch;
     
     UIImageView *iv = [[UIImageView alloc] init];
     iv.contentMode = UIViewContentModeScaleAspectFit;
-    iv.size = CGSizeMake(18, 18);
+    iv.size = CGSizeMake(25, 25);
     iv.centerY = self.researchScrollView.height/2;
-    iv.originX = maxX+3;
-    
-    iv.backgroundColor = [UIColor blueColor];
+    iv.originX = maxX ;
     
     [self.researchScrollView addSubview:iv];
     
@@ -178,6 +251,44 @@ NSMutableAttributedString *attributedStringWithResearchChange(int total, int bas
   }
   
   self.researchScrollView.contentSize = CGSizeMake(maxX, self.researchScrollView.height);
+  
+  // Update the research info view
+  float maxY = 20.f;
+  MonsterPopUpResearchView *lastRv = nil;
+  for (UserResearch *ur in userResearches) {
+    ResearchProto *rp = ur.staticResearch;
+    
+    MonsterPopUpResearchView *rv = [[NSBundle mainBundle] loadNibNamed:@"MonsterPopUpResearchView" owner:self options:nil][0];
+    rv.width = self.researchInfoView.width;
+    rv.originY = maxY;
+    
+    [rv updateForActiveResearch:rp];
+    
+    maxY += rv.height;
+    
+    [self.researchInfoScrollView addSubview:rv];
+    
+    lastRv = rv;
+    
+    [staticResearches removeObject:[rp minLevelResearch]];
+  }
+  
+  for (ResearchProto *rp in staticResearches) {
+    MonsterPopUpResearchView *rv = [[NSBundle mainBundle] loadNibNamed:@"MonsterPopUpResearchView" owner:self options:nil][0];
+    rv.width = self.researchInfoView.width;
+    rv.originY = maxY;
+    
+    [rv updateForNonActiveResearch:rp];
+    
+    maxY += rv.height;
+    
+    [self.researchInfoScrollView addSubview:rv];
+    
+    lastRv = rv;
+  }
+  
+  lastRv.dividerLine.hidden = YES;
+  self.researchInfoScrollView.contentSize = CGSizeMake(self.researchInfoScrollView.width, maxY);
 }
 
 - (void) updateSkillData:(BOOL)offensive
@@ -282,16 +393,16 @@ NSMutableAttributedString *attributedStringWithResearchChange(int total, int bas
 
 static int descriptionWidthChange = 50;
 
-- (IBAction)attackInfoClicked:(id)sender {
-  [self.container addSubview:self.elementView];
-  self.elementView.frame = self.descriptionView.frame;
-  self.elementView.center = CGPointMake(self.descriptionView.center.x+self.elementView.frame.size.height, self.descriptionView.center.y);
+- (void) pushContentView:(UIView *)contentView labelText:(NSString *)labelText {
+  [self.container addSubview:contentView];
+  contentView.frame = self.descriptionView.frame;
+  contentView.center = CGPointMake(self.descriptionView.center.x+contentView.frame.size.height, self.descriptionView.center.y);
   self.backButtonView.hidden = NO;
   
   CGPoint mainViewCenter = self.descriptionView.center;
   [UIView animateWithDuration:0.3f animations:^{
     self.descriptionView.center = CGPointMake(self.descriptionView.center.x-self.descriptionView.frame.size.width, self.descriptionView.center.y);
-    self.elementView.center = mainViewCenter;
+    contentView.center = mainViewCenter;
     self.backButtonView.alpha = 1.f;
     self.skillView.alpha = 0.f;
     self.monsterDescription.originX -= descriptionWidthChange/2;
@@ -307,20 +418,25 @@ static int descriptionWidthChange = 50;
   animation.type = kCATransitionFade;
   animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
   [self.monsterDescription.layer addAnimation:animation forKey:@"changeTextTransition"];
-  [self setDescriptionLabelString:@"Attack numbers represent the damage done by each orb destroyed in battle."];
+  [self setDescriptionLabelString:labelText];
+}
+
+- (IBAction)attackInfoClicked:(id)sender {
+  [self pushContentView:self.elementView labelText:@"Attack numbers represent the damage done by each orb destroyed in battle."];
 }
 
 - (IBAction)researchInfoClicked:(id)sender {
-  
+  [self pushContentView:self.researchInfoView labelText:[NSString stringWithFormat:@"This %@ is affected by the above Research.", MONSTER_NAME]];
 }
 
 - (IBAction)backClicked:(id)sender {
-  CGPoint mainViewCenter = self.elementView.center;
+  CGPoint mainViewCenter = ccp(self.descriptionView.superview.width/2, self.descriptionView.superview.height/2);
   self.descriptionView.hidden = NO;
   
   [UIView animateWithDuration:0.3f animations:^{
     self.descriptionView.center = mainViewCenter;
     self.elementView.center = CGPointMake(self.elementView.center.x+self.elementView.frame.size.width, self.elementView.center.y);
+    self.researchInfoView.center = CGPointMake(self.researchInfoView.center.x+self.researchInfoView.frame.size.width, self.researchInfoView.center.y);
     self.backButtonView.alpha = 0.f;
     self.buttonsContainer.alpha = 1.f;
     self.skillView.alpha = 1.f;
@@ -328,6 +444,7 @@ static int descriptionWidthChange = 50;
     self.monsterDescription.width -= descriptionWidthChange;
   } completion:^(BOOL finished) {
     [self.elementView removeFromSuperview];
+    [self.researchInfoView removeFromSuperview];
     self.backButtonView.hidden = YES;
     self.skillView.userInteractionEnabled = YES;
   }];

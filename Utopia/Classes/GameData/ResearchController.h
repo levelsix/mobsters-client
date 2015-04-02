@@ -23,6 +23,7 @@
 }
 + (id) researchControllerWithProto:(ResearchProto *)proto;
 - (id) initWithProto:(ResearchProto *)proto;
+- (NSString *) benefitName;
 
 @end
 

@@ -1076,6 +1076,9 @@
 		29C3CA801A955BD0005407E9 /* use_oil.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 29C3CA6A1A955BD0005407E9 /* use_oil.mp3 */; };
 		29C3CA811A955BD0005407E9 /* use_oil.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 29C3CA6A1A955BD0005407E9 /* use_oil.mp3 */; };
 		29C3CA821A955BD0005407E9 /* use_oil.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 29C3CA6A1A955BD0005407E9 /* use_oil.mp3 */; };
+		29C4822A1ACB92C100170422 /* MonsterPopUpResearchView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29C482291ACB92C100170422 /* MonsterPopUpResearchView.xib */; };
+		29C4822B1ACB92C100170422 /* MonsterPopUpResearchView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29C482291ACB92C100170422 /* MonsterPopUpResearchView.xib */; };
+		29C4822C1ACB92C100170422 /* MonsterPopUpResearchView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29C482291ACB92C100170422 /* MonsterPopUpResearchView.xib */; };
 		29DCCF941A8A9D6B003176FD /* TutorialEnhanceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29DCCF931A8A9D6B003176FD /* TutorialEnhanceController.m */; };
 		29DCCF951A8A9D6B003176FD /* TutorialEnhanceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29DCCF931A8A9D6B003176FD /* TutorialEnhanceController.m */; };
 		29DCCF961A8A9D6B003176FD /* TutorialEnhanceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29DCCF931A8A9D6B003176FD /* TutorialEnhanceController.m */; };
@@ -7538,6 +7541,7 @@
 		29C3CA6A1A955BD0005407E9 /* use_oil.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = use_oil.mp3; sourceTree = "<group>"; };
 		29C3CA861A956B6C005407E9 /* ToonSquad-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "ToonSquad-Info.plist"; path = "Utopia/ToonSquad-Info.plist"; sourceTree = SOURCE_ROOT; };
 		29C3CA871A956B78005407E9 /* TangoToonSquad-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "TangoToonSquad-Info.plist"; path = "Utopia/TangoToonSquad-Info.plist"; sourceTree = SOURCE_ROOT; };
+		29C482291ACB92C100170422 /* MonsterPopUpResearchView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MonsterPopUpResearchView.xib; sourceTree = "<group>"; };
 		29DCCF921A8A9D6B003176FD /* TutorialEnhanceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialEnhanceController.h; sourceTree = "<group>"; };
 		29DCCF931A8A9D6B003176FD /* TutorialEnhanceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialEnhanceController.m; sourceTree = "<group>"; };
 		29DCCFA81A8AA114003176FD /* TutorialEnhanceChooserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialEnhanceChooserViewController.h; sourceTree = "<group>"; };
@@ -16291,6 +16295,7 @@
 				CFCE56E018137C9000494F8C /* MonsterPopUpViewController.h */,
 				CFCE56E118137C9000494F8C /* MonsterPopUpViewController.m */,
 				CFCE56E218137C9000494F8C /* MonsterPopUpViewController.xib */,
+				29C482291ACB92C100170422 /* MonsterPopUpResearchView.xib */,
 			);
 			path = MonsterPopUp;
 			sourceTree = "<group>";
@@ -18573,6 +18578,7 @@
 				CF0CF2A8196F452900ECD301 /* rewardsbg@2x.png in Resources */,
 				CFF2A60119709C4800269084 /* dectree2@2x.png in Resources */,
 				CF0CF2AB196F452900ECD301 /* TeamSlotView.xib in Resources */,
+				29C4822B1ACB92C100170422 /* MonsterPopUpResearchView.xib in Resources */,
 				299AA3B51A7856AA00A2D806 /* lightpoison-9@2x.png in Resources */,
 				CF0CF2B1196F452900ECD301 /* enhancebottompressed@2x.png in Resources */,
 				636C3E8C1AAA865400B02980 /* lightresearchcorner@2x.png in Resources */,
@@ -21153,6 +21159,7 @@
 				CFFF9A4018BEB67D0036EEC3 /* stagecomplete@2x.png in Resources */,
 				CFF2A65C1974997A00269084 /* pvpplatinumribbon@2x.png in Resources */,
 				CFF5DBBD194D18F20019EB2B /* youwonitemborder@2x.png in Resources */,
+				29C4822A1ACB92C100170422 /* MonsterPopUpResearchView.xib in Resources */,
 				2998001C1A970F050014DFC9 /* Zark1T1Card@2x.png in Resources */,
 				299AA3AE1A7856AA00A2D806 /* lightheadshot-9@2x.png in Resources */,
 				CF2A4AE01901B8F500B2D7D7 /* achievementsiconactive@2x.png in Resources */,
@@ -23654,6 +23661,7 @@
 				299AA3021A7856AA00A2D806 /* 6allcocktail-9@2x.png in Resources */,
 				CF48254219F7217F00041486 /* legendfound@2x.png in Resources */,
 				CF48254319F7217F00041486 /* fullhospitalarrow@2x.png in Resources */,
+				29C4822C1ACB92C100170422 /* MonsterPopUpResearchView.xib in Resources */,
 				2985E6381A3313340041ABF4 /* ChatBattleHistoryView.xib in Resources */,
 				CF48254619F7217F00041486 /* 6earthorb@2x.png in Resources */,
 				29DCD0421A8D8514003176FD /* fallinggems19@2x.png in Resources */,

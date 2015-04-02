@@ -450,11 +450,11 @@
   if ((self = [super init])) {
     self.userResearch = ur;
     
-    self.title = ur.research.name;
+    self.title = ur.staticResearch.name;
     self.normalProgressBarColor = TimerProgressBarColorGreen;
     self.allowsFreeSpeedup = YES;
     self.completionDate = self.userResearch.tentativeCompletionDate;
-    self.totalSeconds = ur.research.durationMin*60;
+    self.totalSeconds = ur.staticResearch.durationMin*60;
   }
   return self;
 }

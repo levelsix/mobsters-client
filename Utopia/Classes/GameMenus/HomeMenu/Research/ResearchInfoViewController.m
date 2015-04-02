@@ -45,7 +45,7 @@
   self.bottomBarDescription.text = DEFAULT_DESCRIPTION;
   self.bottomBarTitle.text = DEFAULT_TITLE;
   
-  ResearchProto *research = userResearch.research;
+  ResearchProto *research = userResearch.staticResearch;
   
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
@@ -158,16 +158,16 @@
 - (void) updateUserResearch {
   if(_userResearch) {
     GameState *gs = [GameState sharedGameState];
-    _userResearch = [gs.researchUtil currentRankForResearch:_userResearch.research];
+    _userResearch = [gs.researchUtil currentRankForResearch:_userResearch.staticResearch];
     [self.view updateWithResearch:_userResearch];
-    self.title = [NSString stringWithFormat:@"Research to Rank %d",_userResearch.research.level];
+    self.title = [NSString stringWithFormat:@"Research to Rank %d",_userResearch.staticResearch.level];
   }
 }
 
 - (id) initWithResearch:(UserResearch *)userResearch {
   if ((self = [super init])) {
     _userResearch = userResearch;
-    self.title = [NSString stringWithFormat:@"Research to Rank %d",_userResearch.research.level];
+    self.title = [NSString stringWithFormat:@"Research to Rank %d",_userResearch.staticResearch.level];
   }
   
   return self;
@@ -188,7 +188,7 @@
     return;
   }
   
-  ResearchProto *research = _userResearch.research;
+  ResearchProto *research = _userResearch.staticResearch;
   
   if ( (research.costType == ResourceTypeCash && gs.cash <= research.costAmt) || (research.costType == ResourceTypeOil && gs.oil <= research.costAmt)) {
     ItemSelectViewController *svc = [[ItemSelectViewController alloc] init];
@@ -227,16 +227,17 @@
   GameState *gs = [GameState sharedGameState];
   
   UserResearch *startedResearch;
+  ResearchProto *rp = _userResearch.staticResearch;
   int gems = 0;
   [[OutgoingEventController sharedOutgoingEventController] tradeItemIdsForResources:itemIdsToQuantity];
   if(useGems) {
-    int remainingCost = _userResearch.research.costType == ResourceTypeCash ? _userResearch.research.costAmt - gs.cash : _userResearch.research.costAmt - gs.oil;
-    gems = [gl calculateGemConversionForResourceType:_userResearch.research.costType amount:remainingCost];
+    int remainingCost = rp.costType == ResourceTypeCash ? rp.costAmt - gs.cash : rp.costAmt - gs.oil;
+    gems = [gl calculateGemConversionForResourceType:_userResearch.staticResearch.costType amount:remainingCost];
     
-    int playerResource = _userResearch.research.costType == ResourceTypeCash ? gs.cash : gs.oil;
-    startedResearch = [[OutgoingEventController sharedOutgoingEventController] beginResearch:_userResearch gemsSpent:gems resourceType:_userResearch.research.costType resourceCost:playerResource delegate:self];
+    int playerResource = _userResearch.staticResearch.costType == ResourceTypeCash ? gs.cash : gs.oil;
+    startedResearch = [[OutgoingEventController sharedOutgoingEventController] beginResearch:_userResearch gemsSpent:gems resourceType:_userResearch.staticResearch.costType resourceCost:playerResource delegate:self];
   } else {
-    startedResearch = [[OutgoingEventController sharedOutgoingEventController] beginResearch:_userResearch gemsSpent:0 resourceType:_userResearch.research.costType resourceCost:_userResearch.research.costAmt delegate:self];
+    startedResearch = [[OutgoingEventController sharedOutgoingEventController] beginResearch:_userResearch gemsSpent:0 resourceType:_userResearch.staticResearch.costType resourceCost:_userResearch.staticResearch.costAmt delegate:self];
   }
   _waitingForServer = YES;
   if (startedResearch) {
@@ -316,7 +317,7 @@
 }
 
 -(void) waitTimeComplete {
-  UserResearch *newUserResearch = [UserResearch userResearchWithResearch:_userResearch.research];
+  UserResearch *newUserResearch = [UserResearch userResearchWithResearch:_userResearch.staticResearch];
   newUserResearch.userResearchUuid = _userResearch.userResearchUuid;
   _userResearch = newUserResearch;
 }
@@ -379,7 +380,7 @@
 - (void) handleFinishPerformingResearchResponseProto:(FullEvent *)fe {
   self.view.activityIndicator.hidden = YES;
   NSString *researchUserId = _userResearch.userResearchUuid;
-  _userResearch = [UserResearch userResearchWithResearch:_userResearch.research];
+  _userResearch = [UserResearch userResearchWithResearch:_userResearch.staticResearch];
   _userResearch.userResearchUuid = researchUserId;
   _waitingForServer = NO;
 }
@@ -447,7 +448,7 @@
 }
 
 - (int) totalSecondsRequired {
-  return _userResearch.research.durationMin * 60;
+  return _userResearch.staticResearch.durationMin * 60;
 }
 
 - (NSString *)titleName {
@@ -462,8 +463,8 @@
   
   BOOL allowGems = [itemUsages[@0] boolValue];
   
-  int cost = _userResearch.research.costAmt;
-  ResourceType resType = _userResearch.research.costType;
+  int cost = _userResearch.staticResearch.costAmt;
+  ResourceType resType = _userResearch.staticResearch.costType;
   
   int curAmount = [gl calculateTotalResourcesForResourceType:resType itemIdsToQuantity:itemUsages];
   int gemCost = [gl calculateGemConversionForResourceType:resType amount:cost-curAmount];
