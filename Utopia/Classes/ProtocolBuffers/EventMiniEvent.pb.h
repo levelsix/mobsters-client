@@ -464,17 +464,18 @@ BOOL RedeemMiniEventRewardResponseProto_RedeemMiniEventRewardStatusIsValidValue(
 @interface RedeemMiniEventRewardResponseProto : PBGeneratedMessage {
 @private
   BOOL hasSender_:1;
+  BOOL hasRewards_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
+  UserRewardProto* rewards;
   RedeemMiniEventRewardResponseProto_RedeemMiniEventRewardStatus status;
-  NSMutableArray * mutableRewardsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
+- (BOOL) hasRewards;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) RedeemMiniEventRewardResponseProto_RedeemMiniEventRewardStatus status;
-@property (readonly, strong) NSArray * rewardsList;
-- (RewardProto*)rewardsAtIndex:(NSUInteger)index;
+@property (readonly, strong) UserRewardProto* rewards;
 
 + (RedeemMiniEventRewardResponseProto*) defaultInstance;
 - (RedeemMiniEventRewardResponseProto*) defaultInstance;
@@ -523,11 +524,12 @@ BOOL RedeemMiniEventRewardResponseProto_RedeemMiniEventRewardStatusIsValidValue(
 - (RedeemMiniEventRewardResponseProto_Builder*) setStatus:(RedeemMiniEventRewardResponseProto_RedeemMiniEventRewardStatus) value;
 - (RedeemMiniEventRewardResponseProto_Builder*) clearStatusList;
 
-- (NSMutableArray *)rewardsList;
-- (RewardProto*)rewardsAtIndex:(NSUInteger)index;
-- (RedeemMiniEventRewardResponseProto_Builder *)addRewards:(RewardProto*)value;
-- (RedeemMiniEventRewardResponseProto_Builder *)addAllRewards:(NSArray *)array;
-- (RedeemMiniEventRewardResponseProto_Builder *)clearRewards;
+- (BOOL) hasRewards;
+- (UserRewardProto*) rewards;
+- (RedeemMiniEventRewardResponseProto_Builder*) setRewards:(UserRewardProto*) value;
+- (RedeemMiniEventRewardResponseProto_Builder*) setRewards_Builder:(UserRewardProto_Builder*) builderForValue;
+- (RedeemMiniEventRewardResponseProto_Builder*) mergeRewards:(UserRewardProto*) value;
+- (RedeemMiniEventRewardResponseProto_Builder*) clearRewards;
 @end
 
 
