@@ -25,6 +25,7 @@
 #import "GameCenterDelegate.h"
 #import "FacebookDelegate.h"
 #import "UnreadNotifications.h"
+#import "ChatView.h"
 
 #define QUEST_REDEEM_KIIP_REWARD @"quest_redeem"
 
@@ -502,9 +503,17 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [gs addPrivateChat:pcpp];
     }
     
+    if(proto.userDefaultLanguages.globalDefaultLanguage == TranslateLanguagesNoTranslation) {
+      NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+      if (![def objectForKey:GLOBAL_LANGUAGE_PREFERENCES]) {
+        //if there is no saved language just set english
+        [def setObject:@(TranslateLanguagesEnglish) forKey:GLOBAL_LANGUAGE_PREFERENCES];
+      }
+    }
+    
     gs.globalLanguage = proto.userDefaultLanguages.globalDefaultLanguage;
     for(PrivateChatDefaultLanguageProto *pcdl in proto.userDefaultLanguages.privateDefaultLanguageList) {
-      [gs.privateChatLanguages setObject:pcdl.privateChatPostUuid forKey:@(pcdl.defaultLanguage)];
+      [gs.privateChatLanguages setObject:@(pcdl.defaultLanguage) forKey:pcdl.senderUserId];
     }
     
     [gs updateClanData:proto.clanData];
@@ -2457,7 +2466,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 }
 
 - (void) handleTranslateSelectMessagesResponseProto:(FullEvent *)fe{
-  TranslateSelectMessagesResponseProto *proto = (TranslateSelectMessagesResponseProto *)fe;
+  TranslateSelectMessagesResponseProto *proto = (TranslateSelectMessagesResponseProto *)fe.event;
   
   LNLog(@"Redeem mini job response received with status %d.", (int)proto.status);
   
