@@ -1652,6 +1652,16 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCRetrieveMiniEventEvent];
 }
 
+- (int) sendRedeemMiniEventRewardRequestProtoMessage:(RedeemMiniEventRewardRequestProto_RewardTier)tierRedeemed miniEventForPlayerLevelId:(int32_t)mefplId clientTime:(uint64_t)clientTime {
+  RedeemMiniEventRewardRequestProto* req = [[[[[[RedeemMiniEventRewardRequestProto builder]
+                                                setSender:[self senderWithMaxResources]]
+                                               setTierRedeemed:tierRedeemed]
+                                              setMefplId:mefplId]
+                                             setClientTime:clientTime] build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCRedeemMiniEventRewardEvent];
+}
+
 #pragma mark - Batch/Flush events
 
 - (int) retrieveCurrencyFromStruct:(NSString *)userStructUuid time:(uint64_t)time amountCollected:(int)amountCollected {

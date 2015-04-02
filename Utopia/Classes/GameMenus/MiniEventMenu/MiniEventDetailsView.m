@@ -8,11 +8,11 @@
 
 #import "MiniEventDetailsView.h"
 #import "MiniEventTierPrizeView.h"
-#import "MiniEventCollectRewardView.h"
 #import "NibUtils.h"
 #import "Globals.h"
 
 static const float kTierPointsProgressBarExtendBy = 1.1f;
+static const float kCollectRewardViewSlideAnimationDuration = .5f;
 
 @implementation MiniEventDetailsView
 
@@ -75,6 +75,8 @@ static const float kTierPointsProgressBarExtendBy = 1.1f;
   self.eventInfoPointsEearned.shadowColor  = [UIColor colorWithWhite:.25 alpha:1.f];
   self.eventInfoPointsEearned.shadowOffset = CGSizeMake(0, 1);
   self.eventInfoPointsEearned.shadowBlur   = 1.2f;
+  
+  self.collectRewardView = nil;
 }
 
 - (void) updateForUserMiniEvent:(UserMiniEvent*)userMiniEvent
@@ -132,34 +134,37 @@ static const float kTierPointsProgressBarExtendBy = 1.1f;
   
   self.pointsProgressBar.percentage = (float)pointsEarned / (float)maxPoints;
   
-  const bool tier1Completed = (pointsEarned >= tier1Points);
-  const bool tier2Completed = (pointsEarned >= tier2Points);
-  const bool tier3Completed = (pointsEarned >= tier3Points);
+  _tier1Completed = (pointsEarned >= tier1Points);
+  _tier2Completed = (pointsEarned >= tier2Points);
+  _tier3Completed = (pointsEarned >= tier3Points);
   
-  _allTiersCompleted = tier1Completed && tier2Completed && tier3Completed;
+  if (_tier1Completed) [self markTierAsComplete:1];
+  if (_tier2Completed) [self markTierAsComplete:2];
+  if (_tier3Completed) [self markTierAsComplete:3];
   
-  if (tier1Completed) [self markTierAsComplete:1];
-  if (tier2Completed) [self markTierAsComplete:2];
-  if (tier3Completed) [self markTierAsComplete:3];
+  _tierPrizes = [NSMutableArray arrayWithObjects:[NSMutableArray array], [NSMutableArray array], [NSMutableArray array], nil];
+  for (MiniEventTierRewardProto* tierPrize in miniEvent.lvlEntered.rewardsList)
+    [_tierPrizes[tierPrize.tierLvl - 1] addObject:tierPrize];
   
-  NSArray* allTierPrizes = miniEvent.lvlEntered.rewardsList;
-  NSMutableArray* tier1Prizes = [NSMutableArray array];
-  NSMutableArray* tier2Prizes = [NSMutableArray array];
-  NSMutableArray* tier3Prizes = [NSMutableArray array];
-  for (MiniEventTierRewardProto* tierPrize in allTierPrizes)
+  [self.tier1PrizeView updateForTier:1 completed:_tier1Completed prizeList:_tierPrizes[0]];
+  [self.tier2PrizeView updateForTier:2 completed:_tier2Completed prizeList:_tierPrizes[1]];
+  [self.tier3PrizeView updateForTier:3 completed:_tier3Completed prizeList:_tierPrizes[2]];
+  
+  _tier1Redeemed = userMiniEvent.tierOneRedeemed;
+  _tier2Redeemed = userMiniEvent.tierTwoRedeemed;
+  _tier3Redeemed = userMiniEvent.tierThreeRedeemed;
+  
+  int lowestTierWithUnredeemedReward = 0;
+  if      (_tier1Completed && !_tier1Redeemed) lowestTierWithUnredeemedReward = 1;
+  else if (_tier2Completed && !_tier2Redeemed) lowestTierWithUnredeemedReward = 2;
+  else if (_tier3Completed && !_tier3Redeemed) lowestTierWithUnredeemedReward = 3;
+  
+  if (lowestTierWithUnredeemedReward > 0)
   {
-    switch (tierPrize.tierLvl)
-    {
-      case 1: [tier1Prizes addObject:tierPrize]; break;
-      case 2: [tier2Prizes addObject:tierPrize]; break;
-      case 3: [tier3Prizes addObject:tierPrize]; break;
-      default: break;
-    }
+    [self displayCollectRewardViewForTier:lowestTierWithUnredeemedReward
+                                prizeList:_tierPrizes[lowestTierWithUnredeemedReward - 1]
+                                  animate:NO];
   }
-  
-  [self.tier1PrizeView updateForTier:1 completed:tier1Completed prizeList:tier1Prizes];
-  [self.tier2PrizeView updateForTier:2 completed:tier2Completed prizeList:tier2Prizes];
-  [self.tier3PrizeView updateForTier:3 completed:tier3Completed prizeList:tier3Prizes];
   
   if (self.pointCounterView.superview == self.eventInfoView)
   {
@@ -197,9 +202,76 @@ static const float kTierPointsProgressBarExtendBy = 1.1f;
   }
 }
 
+- (void) displayCollectRewardViewForTier:(int)tier prizeList:(NSArray*)prizeList animate:(BOOL)animate
+{
+  if (animate)
+  {
+    UIView* viewToAnimateIn, *viewToAnimateOut;
+    if (tier == 0)
+    {
+      self.eventInfoView.hidden = NO;
+      self.eventInfoView.originX = self.width;
+      
+      viewToAnimateIn  = self.eventInfoView;
+      viewToAnimateOut = self.collectRewardView;
+    }
+    else
+    {
+      MiniEventCollectRewardView* collectRewardView = [[NSBundle mainBundle] loadNibNamed:@"MiniEventCollectRewardView" owner:self options:nil][0];
+      [collectRewardView setDelegate:self];
+      [collectRewardView setOriginX:self.width];
+      [collectRewardView updateForTier:tier prizeList:prizeList];
+      [self insertSubview:collectRewardView aboveSubview:self.eventInfoView];
+      
+      viewToAnimateIn  = collectRewardView;
+      viewToAnimateOut = self.collectRewardView;
+    }
+    
+    [UIView animateWithDuration:kCollectRewardViewSlideAnimationDuration animations:
+     ^{
+       viewToAnimateIn.originX  -= self.width;
+       viewToAnimateOut.originX -= self.width;
+     } completion:^(BOOL finished)
+     {
+       self.collectRewardView = [viewToAnimateIn isKindOfClass:[MiniEventCollectRewardView class]] ? (MiniEventCollectRewardView*)viewToAnimateIn : nil;
+       [self miniEventViewWillAppear];
+       [viewToAnimateOut removeFromSuperview];
+     }];
+  }
+  else
+  {
+    self.collectRewardView = [[NSBundle mainBundle] loadNibNamed:@"MiniEventCollectRewardView" owner:self options:nil][0];
+    [self.collectRewardView setDelegate:self];
+    [self.collectRewardView updateForTier:tier prizeList:prizeList];
+    [self insertSubview:self.collectRewardView aboveSubview:self.eventInfoView];
+    
+    self.eventInfoView.hidden = YES;
+    self.pointCounterView.hidden = YES;
+  }
+}
+
+- (void) rewardCollectedForTier:(int)tier
+{
+  switch (tier)
+  {
+    case 1: _tier1Redeemed = YES; break;
+    case 2: _tier2Redeemed = YES; break;
+    case 3: _tier3Redeemed = YES; break;
+    default: break;
+  }
+  
+  int nextTierWithUnredeemedReward = 0;
+  if (tier == 1 && _tier2Completed && !_tier2Redeemed) nextTierWithUnredeemedReward = 2;
+  if (tier == 2 && _tier3Completed && !_tier3Redeemed) nextTierWithUnredeemedReward = 3;
+
+  [self displayCollectRewardViewForTier:nextTierWithUnredeemedReward
+                              prizeList:nextTierWithUnredeemedReward > 0 ? _tierPrizes[nextTierWithUnredeemedReward - 1] : nil
+                                animate:YES];
+}
+
 - (void) miniEventViewWillAppear
 {
-  if (!_allTiersCompleted) self.pointCounterView.hidden = NO;
+  if (self.collectRewardView == nil && !_tier3Completed) self.pointCounterView.hidden = NO;
 }
 
 - (void) miniEventViewWillDisappear

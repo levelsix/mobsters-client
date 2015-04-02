@@ -32,5 +32,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS_HEADER(MiniEventManager)
 
 - (void) handleUserMiniEventReceivedOnStartup:(UserMiniEventProto*)userMiniEvent;
 - (void) handleUserProgressOnMiniEventGoal:(MiniEventGoalProto_MiniEventGoalType)goalType withAmount:(int32_t)amount;
+- (void) handleRedeemMiniEventRewardInitiatedByUserWithDelegate:(id)delegate tierRedeemed:(RedeemMiniEventRewardRequestProto_RewardTier)tierRedeemed;
+- (void) handleRedeemMiniEventRewards:(UserRewardProto*)rewards;
 
 @end

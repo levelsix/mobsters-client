@@ -3566,4 +3566,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
+- (void) redeemMiniEventRewardWithDelegate:(id)delegate tierRedeemed:(RedeemMiniEventRewardRequestProto_RewardTier)tierRedeemed miniEventForPlayerLevelId:(int32_t)mefplId {
+  int tag = [[SocketCommunication sharedSocketCommunication] sendRedeemMiniEventRewardRequestProtoMessage:tierRedeemed miniEventForPlayerLevelId:mefplId clientTime:[self getCurrentMilliseconds]];
+  [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
+}
+
 @end

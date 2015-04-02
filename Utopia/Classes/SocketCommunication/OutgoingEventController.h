@@ -163,6 +163,7 @@
 
 - (void) retrieveUserMiniEventWithDelegate:(id)delegate;
 - (void) updateUserMiniEvent:(UserMiniEventGoal *)updatedUserMiniEventGoal shouldFlush:(BOOL)shouldFlush;
+- (void) redeemMiniEventRewardWithDelegate:(id)delegate tierRedeemed:(RedeemMiniEventRewardRequestProto_RewardTier)tierRedeemed miniEventForPlayerLevelId:(int32_t)mefplId;
 
 - (void) tradeItemForSpeedup:(int)itemId userStruct:(UserStruct *)us;
 - (void) tradeItemForSpeedup:(int)itemId userObstacle:(UserObstacle *)uo;
