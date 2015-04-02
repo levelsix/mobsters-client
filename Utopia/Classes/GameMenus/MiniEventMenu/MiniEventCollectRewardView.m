@@ -8,6 +8,7 @@
 
 #import "MiniEventCollectRewardView.h"
 #import "MiniEventTierPrizeCell.h"
+#import "MiniEventManager.h"
 #import "GameState.h"
 #import "NibUtils.h"
 
@@ -36,6 +37,7 @@
 {
   self.rewardReadyLabel.text = [NSString stringWithFormat:@"Your Tier %d Reward is Ready!", tier];
   
+  _rewardTier = tier;
   _prizeList = [NSMutableArray array];
   
   GameState* gs = [GameState sharedGameState];
@@ -46,6 +48,37 @@
   }
   
   [self.tierPrizeList reloadData];
+}
+
+- (void) collectButtonTapped:(id)sender
+{
+  [self.collectRewardButton setEnabled:NO];
+  [self.collectRewardLabel setHidden:YES];
+  [self.collectRewardSpinner setHidden:NO];
+  [self.collectRewardSpinner startAnimating];
+  
+  [[MiniEventManager sharedInstance] handleRedeemMiniEventRewardInitiatedByUserWithDelegate:self
+                                                                               tierRedeemed:(RedeemMiniEventRewardRequestProto_RewardTier)_rewardTier];
+}
+
+- (void) handleRedeemMiniEventRewardResponseProto:(FullEvent*)fe
+{
+  RedeemMiniEventRewardResponseProto *proto = (RedeemMiniEventRewardResponseProto *)fe.event;
+  
+  if (proto.status == RedeemMiniEventRewardResponseProto_RedeemMiniEventRewardStatusSuccess)
+  {
+    [[MiniEventManager sharedInstance] handleRedeemMiniEventRewards:proto.rewards];
+    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(rewardCollectedForTier:)])
+    {
+      [self.delegate rewardCollectedForTier:_rewardTier];
+    }
+  }
+  
+  [self.collectRewardSpinner stopAnimating];
+  [self.collectRewardSpinner setHidden:YES];
+  [self.collectRewardLabel setHidden:NO];
+  [self.collectRewardButton setEnabled:YES];
 }
 
 #pragma mark - Table view data source

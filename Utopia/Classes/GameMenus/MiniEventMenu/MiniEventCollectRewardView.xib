@@ -44,23 +44,19 @@
                             <state key="normal" backgroundImage="greenmenuoption.png">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
+                            <connections>
+                                <action selector="collectButtonTapped:" destination="iN0-l3-epB" eventType="touchUpInside" id="Orf-7A-JpA"/>
+                            </connections>
                         </button>
-                        <view userInteractionEnabled="NO" contentMode="scaleToFill" id="gLg-DR-Cah">
-                            <rect key="frame" x="0.0" y="0.0" width="80" height="40"/>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="COLLECT" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="bDe-tS-L0E" customClass="NiceFontLabel12">
+                            <rect key="frame" x="8" y="7" width="64" height="24"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <subviews>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="COLLECT" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="bDe-tS-L0E" customClass="NiceFontLabel12">
-                                    <rect key="frame" x="8" y="7" width="64" height="24"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
-                                    <color key="textColor" red="0.23921568630000001" green="0.44705882349999998" blue="0.0039215686269999999" alpha="1" colorSpace="calibratedRGB"/>
-                                    <nil key="highlightedColor"/>
-                                    <color key="shadowColor" red="0.99215686270000003" green="1" blue="0.37254901959999998" alpha="0.75" colorSpace="calibratedRGB"/>
-                                    <size key="shadowOffset" width="0.0" height="1"/>
-                                </label>
-                            </subviews>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        </view>
+                            <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                            <color key="textColor" red="0.23921568630000001" green="0.44705882349999998" blue="0.0039215686269999999" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" red="0.99215686270000003" green="1" blue="0.37254901959999998" alpha="0.75" colorSpace="calibratedRGB"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
                         <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="white" id="Vam-io-1tu">
                             <rect key="frame" x="30" y="9" width="20" height="20"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -82,6 +78,9 @@
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
+                <outlet property="collectRewardButton" destination="Jwr-32-q0u" id="l34-Lm-aHz"/>
+                <outlet property="collectRewardLabel" destination="bDe-tS-L0E" id="vzF-iH-E0L"/>
+                <outlet property="collectRewardSpinner" destination="Vam-io-1tu" id="2qE-R4-1ML"/>
                 <outlet property="rewardReadyBackground" destination="eSp-rT-oKG" id="pr4-VF-BWD"/>
                 <outlet property="rewardReadyLabel" destination="1SS-Vz-Kmn" id="arC-hM-h57"/>
                 <outlet property="tierPrizeList" destination="h5H-dy-Jg4" id="UKY-OO-uXL"/>
