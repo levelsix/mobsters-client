@@ -1171,7 +1171,7 @@ static const CGSize FIXED_SIZE = {568, 384};
   
   UserStruct *lab = gs.myLaboratory;
   
-  if ([gs isTaskCompleted:[Globals sharedGlobals].taskIdOfFirstSkill] && ![gs hasUpgradedBuilding])
+  if ([gs isTaskCompleted:[Globals sharedGlobals].taskIdForUpgradeTutorial] && ![gs hasUpgradedBuilding])
   {
     self.miniTutController = [[TutorialBuildingUpgradeController alloc] initWithMyTeam:nil gameViewController:self];
     self.miniTutController.delegate = self;

@@ -58,6 +58,7 @@ typedef NS_ENUM(SInt32, SkillType) {
   SkillTypeFlameBreak = 33,
   SkillTypePoisonSkewer = 34,
   SkillTypePoisonFire = 35,
+  SkillTypeChill = 36,
 };
 
 BOOL SkillTypeIsValidValue(SkillType value);
@@ -90,6 +91,8 @@ typedef NS_ENUM(SInt32, SideEffectType) {
   SideEffectTypeBuffEnergize = 17,
   SideEffectTypeBuffInsurance = 18,
   SideEffectTypeBuffHammerTime = 19,
+  SideEffectTypeBuffTakeAim = 20,
+  SideEffectTypeNerfChill = 21,
 };
 
 BOOL SideEffectTypeIsValidValue(SideEffectType value);

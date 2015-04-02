@@ -160,6 +160,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.displayRarity = constants.displayRarity;
   
   self.taskIdOfFirstSkill = constants.taskIdOfFirstSkill;
+  self.taskIdForUpgradeTutorial = constants.taskIdForUpgradeTutorial;
   
   for (StartupResponseProto_StartupConstants_ClanHelpConstants *c in constants.clanHelpConstantsList) {
     if (c.helpType == GameActionTypeHeal) {
