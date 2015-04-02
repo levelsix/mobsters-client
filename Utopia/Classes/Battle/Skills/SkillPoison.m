@@ -31,6 +31,35 @@
 
 #pragma mark - Overrides
 
+- (NSSet *)sideEffects
+{
+  return [NSSet setWithObjects:@(SideEffectTypeNerfPoisonIcon), nil];
+}
+
+//Poison has a weird exception where it technically affects the owner, since it's a special orb
+//skill, but we want it to apply to the opponent on the schedule, since it really affects the player.
+//As such, the skill gets its own custom add and remove effects code
+- (void)addVisualEffects:(BOOL)finishSkillTrigger
+{
+  for (NSNumber *sideEff in [self sideEffects])
+  {
+    SideEffectType sideType = [sideEff intValue];
+    [self addSkillSideEffectToOpponent:sideType turnsAffected:self.turnsLeft turnsAreSkillOwners:YES];
+  }
+  
+  if (finishSkillTrigger)
+    [self skillTriggerFinished:YES];
+}
+
+- (void)removeVisualEffects
+{
+  for (NSNumber *sideEff in [self sideEffects])
+  {
+    SideEffectType sideType = [sideEff intValue];
+    [self removeSkillSideEffectFromOpponent:sideType];
+  }
+}
+
 - (BOOL)shouldPersist
 {
   return NO;
