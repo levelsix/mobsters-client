@@ -90,6 +90,8 @@
     _skillSideEffects = [NSMutableArray array];
     
     self.userInteractionEnabled = YES;
+    
+    [self prepareCharacterImage:prefix];
   }
   return self;
 }
@@ -841,6 +843,13 @@
   [self.nameLabel setScale:1.0/scale];
   if (self.movesCounter)
     [self.movesCounter setScale:1.0/scale];
+}
+
+- (void) prepareCharacterImage:(NSString*)prefix
+{
+  _characterImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
+  NSString *fileName = [prefix stringByAppendingString:@"Character.png"];
+  [Globals imageNamedWithiPhone6Prefix:fileName withView:_characterImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
 }
 
 @end

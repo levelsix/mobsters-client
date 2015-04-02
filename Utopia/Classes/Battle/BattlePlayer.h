@@ -56,8 +56,6 @@
 @property (nonatomic, assign) BOOL isStunned;
 @property (nonatomic, assign) BOOL isCursed;
 
-@property (nonatomic, retain) UIImageView* characterImage;
-
 @property (nonatomic, retain) DialogueProto *dialogue;
 
 + (id) playerWithMonster:(UserMonster *)monster;
