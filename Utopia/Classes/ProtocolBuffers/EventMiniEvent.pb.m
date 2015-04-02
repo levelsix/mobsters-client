@@ -1539,7 +1539,7 @@ BOOL RedeemMiniEventRewardRequestProto_RewardTierIsValidValue(RedeemMiniEventRew
 @interface RedeemMiniEventRewardResponseProto ()
 @property (strong) MinimumUserProto* sender;
 @property RedeemMiniEventRewardResponseProto_RedeemMiniEventRewardStatus status;
-@property (strong) NSMutableArray * mutableRewardsList;
+@property (strong) UserRewardProto* rewards;
 @end
 
 @implementation RedeemMiniEventRewardResponseProto
@@ -1558,12 +1558,18 @@ BOOL RedeemMiniEventRewardRequestProto_RewardTierIsValidValue(RedeemMiniEventRew
   hasStatus_ = !!value_;
 }
 @synthesize status;
-@synthesize mutableRewardsList;
-@dynamic rewardsList;
+- (BOOL) hasRewards {
+  return !!hasRewards_;
+}
+- (void) setHasRewards:(BOOL) value_ {
+  hasRewards_ = !!value_;
+}
+@synthesize rewards;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.status = RedeemMiniEventRewardResponseProto_RedeemMiniEventRewardStatusFailOther;
+    self.rewards = [UserRewardProto defaultInstance];
   }
   return self;
 }
@@ -1579,12 +1585,6 @@ static RedeemMiniEventRewardResponseProto* defaultRedeemMiniEventRewardResponseP
 - (RedeemMiniEventRewardResponseProto*) defaultInstance {
   return defaultRedeemMiniEventRewardResponseProtoInstance;
 }
-- (NSArray *)rewardsList {
-  return mutableRewardsList;
-}
-- (RewardProto*)rewardsAtIndex:(NSUInteger)index {
-  return [mutableRewardsList objectAtIndex:index];
-}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -1595,9 +1595,9 @@ static RedeemMiniEventRewardResponseProto* defaultRedeemMiniEventRewardResponseP
   if (self.hasStatus) {
     [output writeEnum:2 value:self.status];
   }
-  [self.rewardsList enumerateObjectsUsingBlock:^(RewardProto *element, NSUInteger idx, BOOL *stop) {
-    [output writeMessage:3 value:element];
-  }];
+  if (self.hasRewards) {
+    [output writeMessage:3 value:self.rewards];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -1613,9 +1613,9 @@ static RedeemMiniEventRewardResponseProto* defaultRedeemMiniEventRewardResponseP
   if (self.hasStatus) {
     size_ += computeEnumSize(2, self.status);
   }
-  [self.rewardsList enumerateObjectsUsingBlock:^(RewardProto *element, NSUInteger idx, BOOL *stop) {
-    size_ += computeMessageSize(3, element);
-  }];
+  if (self.hasRewards) {
+    size_ += computeMessageSize(3, self.rewards);
+  }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
   return size_;
@@ -1660,12 +1660,12 @@ static RedeemMiniEventRewardResponseProto* defaultRedeemMiniEventRewardResponseP
   if (self.hasStatus) {
     [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
-  [self.rewardsList enumerateObjectsUsingBlock:^(RewardProto *element, NSUInteger idx, BOOL *stop) {
+  if (self.hasRewards) {
     [output appendFormat:@"%@%@ {\n", indent, @"rewards"];
-    [element writeDescriptionTo:output
-                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [self.rewards writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
-  }];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -1681,7 +1681,8 @@ static RedeemMiniEventRewardResponseProto* defaultRedeemMiniEventRewardResponseP
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
       self.hasStatus == otherMessage.hasStatus &&
       (!self.hasStatus || self.status == otherMessage.status) &&
-      [self.rewardsList isEqualToArray:otherMessage.rewardsList] &&
+      self.hasRewards == otherMessage.hasRewards &&
+      (!self.hasRewards || [self.rewards isEqual:otherMessage.rewards]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -1692,9 +1693,9 @@ static RedeemMiniEventRewardResponseProto* defaultRedeemMiniEventRewardResponseP
   if (self.hasStatus) {
     hashCode = hashCode * 31 + self.status;
   }
-  [self.rewardsList enumerateObjectsUsingBlock:^(RewardProto *element, NSUInteger idx, BOOL *stop) {
-    hashCode = hashCode * 31 + [element hash];
-  }];
+  if (self.hasRewards) {
+    hashCode = hashCode * 31 + [self.rewards hash];
+  }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
@@ -1753,12 +1754,8 @@ BOOL RedeemMiniEventRewardResponseProto_RedeemMiniEventRewardStatusIsValidValue(
   if (other.hasStatus) {
     [self setStatus:other.status];
   }
-  if (other.mutableRewardsList.count > 0) {
-    if (result.mutableRewardsList == nil) {
-      result.mutableRewardsList = [[NSMutableArray alloc] initWithArray:other.mutableRewardsList];
-    } else {
-      [result.mutableRewardsList addObjectsFromArray:other.mutableRewardsList];
-    }
+  if (other.hasRewards) {
+    [self mergeRewards:other.rewards];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -1800,9 +1797,12 @@ BOOL RedeemMiniEventRewardResponseProto_RedeemMiniEventRewardStatusIsValidValue(
         break;
       }
       case 26: {
-        RewardProto_Builder* subBuilder = [RewardProto builder];
+        UserRewardProto_Builder* subBuilder = [UserRewardProto builder];
+        if (self.hasRewards) {
+          [subBuilder mergeFrom:self.rewards];
+        }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self addRewards:[subBuilder buildPartial]];
+        [self setRewards:[subBuilder buildPartial]];
         break;
       }
     }
@@ -1854,28 +1854,34 @@ BOOL RedeemMiniEventRewardResponseProto_RedeemMiniEventRewardStatusIsValidValue(
   result.status = RedeemMiniEventRewardResponseProto_RedeemMiniEventRewardStatusFailOther;
   return self;
 }
-- (NSMutableArray *)rewardsList {
-  return result.mutableRewardsList;
+- (BOOL) hasRewards {
+  return result.hasRewards;
 }
-- (RewardProto*)rewardsAtIndex:(NSUInteger)index {
-  return [result rewardsAtIndex:index];
+- (UserRewardProto*) rewards {
+  return result.rewards;
 }
-- (RedeemMiniEventRewardResponseProto_Builder *)addRewards:(RewardProto*)value {
-  if (result.mutableRewardsList == nil) {
-    result.mutableRewardsList = [[NSMutableArray alloc]init];
-  }
-  [result.mutableRewardsList addObject:value];
+- (RedeemMiniEventRewardResponseProto_Builder*) setRewards:(UserRewardProto*) value {
+  result.hasRewards = YES;
+  result.rewards = value;
   return self;
 }
-- (RedeemMiniEventRewardResponseProto_Builder *)addAllRewards:(NSArray *)array {
-  if (result.mutableRewardsList == nil) {
-    result.mutableRewardsList = [NSMutableArray array];
+- (RedeemMiniEventRewardResponseProto_Builder*) setRewards_Builder:(UserRewardProto_Builder*) builderForValue {
+  return [self setRewards:[builderForValue build]];
+}
+- (RedeemMiniEventRewardResponseProto_Builder*) mergeRewards:(UserRewardProto*) value {
+  if (result.hasRewards &&
+      result.rewards != [UserRewardProto defaultInstance]) {
+    result.rewards =
+      [[[UserRewardProto builderWithPrototype:result.rewards] mergeFrom:value] buildPartial];
+  } else {
+    result.rewards = value;
   }
-  [result.mutableRewardsList addObjectsFromArray:array];
+  result.hasRewards = YES;
   return self;
 }
-- (RedeemMiniEventRewardResponseProto_Builder *)clearRewards {
-  result.mutableRewardsList = nil;
+- (RedeemMiniEventRewardResponseProto_Builder*) clearRewards {
+  result.hasRewards = NO;
+  result.rewards = [UserRewardProto defaultInstance];
   return self;
 }
 @end
