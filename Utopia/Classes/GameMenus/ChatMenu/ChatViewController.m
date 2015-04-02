@@ -84,7 +84,9 @@
   [self updateClanBadge];
   
   [self.view addSubview:self.popoverView];
+  [self.view addSubview:self.languageSelectorView];
   self.popoverView.hidden = YES;
+  self.languageSelectorView.hidden = YES;
   
   [self reloadTablesAnimated:NO];
   
@@ -98,6 +100,7 @@
 
 - (void) viewDidAppear:(BOOL)animated {
   [super viewDidAppear:animated];
+  GameState *gs = [GameState sharedGameState];
   
   self.view.hidden = NO;
   self.mainView.center = ccp(self.view.frame.size.width/2, self.view.frame.size.height*3/2);
@@ -108,6 +111,9 @@
     
     [[CCDirector sharedDirector] pause];
   }];
+  
+  //set flag icon to saved flag
+  [self.globalChatView.flagButton setImage:[Globals imageNamed:[Globals flagImageNameForLanguage:gs.globalLanguage]] forState:UIControlStateNormal];
   
   [SoundEngine chatOpened];
 }
@@ -295,7 +301,7 @@
   self.globalChatView.hidden = YES;
   self.clanChatView.hidden = YES;
   self.privateChatView.hidden = NO;
-  self.flagButton.superview.hidden = NO;
+  self.flagButton.superview.hidden = YES;
   [self.popoverView close];
   [self.monsterSelectViewController closeClicked:nil];
   
@@ -362,6 +368,8 @@
 - (void) viewedPrivateChat {
   [self updateBadges];
   
+  self.flagButton.superview.hidden = NO;
+  
   GameState *gs = [GameState sharedGameState];
   [self.privateChatView updateForPrivateChatList:[gs allPrivateChats]];
   
@@ -403,6 +411,7 @@
   [UIView commitAnimations];
   
   [self.popoverView close];
+  [self.languageSelectorView close];
   
   _isEditing = YES;
 }
@@ -429,6 +438,7 @@
   [UIView commitAnimations];
   
   [self.popoverView close];
+  [self.languageSelectorView close];
 }
 
 - (void) editingStopped {
@@ -527,38 +537,6 @@
   self.clanChatView.allowAutoScroll = YES;
   self.monsterSelectViewController = nil;
   self.teamDonateMonstersFiller = nil;
-}
-
-#pragma mark - Language Selector
-
-- (IBAction)topFlagClicked:(id)sender {
-  UIButton *buttonClicked = (UIButton *)sender;
-  CGPoint openPoint = CGPointMake(buttonClicked.center.x, buttonClicked.center.y + (buttonClicked.size.height/2.f));
-  
-  if(!self.globalChatView.hidden) {
-    self.globalChatView.languageSelectorView.delegate = self.globalChatView;
-    [self.globalChatView.languageSelectorView openAtPoint:openPoint];
-  } else if(!self.privateChatView.hidden) {
-    self.privateChatView.languageSelectorView.delegate = self.privateChatView;
-    [self.privateChatView.languageSelectorView openAtPoint:openPoint];
-  }
-}
-
-- (IBAction)topCheckClicked:(id)sender {
-  if(self.flagCheckImage.hidden) {
-    self.flagCheckImage.hidden = NO;
-    //activate translations in the correct chatView
-  } else {
-    self.flagCheckImage.hidden = YES;
-  }
-}
-
-- (void) lockLanguageButtonWithFlag:(NSString *)flagImageName {
-  
-}
-
-- (void) unlockLanguageButton {
-  
 }
 
 @end

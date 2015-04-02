@@ -71,7 +71,7 @@
   return [[self clanChatPrivateChat] markAsRead];
 }
 
-- (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag {
+- (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag language:(TranslateLanguages)language{
   
   NSString *nibName = @"ChatTeamDonateView";
   ChatTeamDonateView *v = [chatCell dequeueChatSubview:nibName];
