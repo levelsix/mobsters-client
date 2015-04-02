@@ -154,6 +154,8 @@
 // If there are no available places for a vine, nothing will be spawned
 - (BattleOrb*) pickOrbForVine;
 
+- (BattleOrb*)vineAdjacentToOrb:(BattleOrb*)orb;
+
 - (NSArray *)getBottomFeederTiles;
 
 @end

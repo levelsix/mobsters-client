@@ -383,8 +383,18 @@
 }
 
 - (void) destroyVines:(BattleOrb *)orb {
-#warning Temp animation to go with Rob's temp art
-  [self destroyLock:orb];
+  
+  OrbSprite *orbLayer = [self spriteForOrb:orb];
+  
+  if (orbLayer) {
+    [orbLayer removeVineElements];
+    
+    CCParticleSystem *q = [CCParticleSystem particleWithFile:@"vinebreak@2x.plist"];
+    [self addChild:q z:100];
+    q.scale = .4f;
+    q.position = orbLayer.position;
+    q.autoRemoveOnFinish = YES;
+  }
 }
 
 - (void) cloudPoof:(BattleOrb *)orb {

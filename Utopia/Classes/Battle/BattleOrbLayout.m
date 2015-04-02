@@ -1848,6 +1848,45 @@ static const NSInteger maxSearchIterations = 800;
   return orb;
 }
 
+- (BattleOrb*)vineAdjacentToOrb:(BattleOrb*)orb
+{
+  BattleOrb *other;
+  
+  if (orb.row > 0) {
+    other = [self orbAtColumn:orb.column row:orb.row-1];
+    if (other && other.isVines) {
+      other.vineGrowDirection = @"Up";
+      return other;
+    }
+  }
+  
+  if (orb.row < _numRows-1) {
+    other = [self orbAtColumn:orb.column row:orb.row+1];
+    if (other && other.isVines) {
+      other.vineGrowDirection = @"Down";
+      return other;
+    }
+  }
+  
+  if (orb.column > 0) {
+    other = [self orbAtColumn:orb.column-1 row:orb.row];
+    if (other && other.isVines) {
+      other.vineGrowDirection = @"Right";
+      return other;
+    }
+  }
+  
+  if (orb.column < _numRows-1) {
+    other = [self orbAtColumn:orb.column+1 row:orb.row];
+    if (other && other.isVines) {
+      other.vineGrowDirection = @"Left";
+      return other;
+    }
+  }
+  
+  return nil;
+}
+
 - (BOOL) doesAdjacentSpaceHaveVines:(NSInteger)row column:(NSInteger)column
 {
   BattleOrb *orb;

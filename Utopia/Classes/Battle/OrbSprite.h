@@ -22,6 +22,8 @@ static const float orbUpdateAnimDuration = 0.3f;
   CCSprite* _lockedSpriteLeft;
   CCSprite* _lockedSpriteRight;
   
+  CCSprite* _vinesSprite;
+  
   NSString *_suffix;
 }
 
@@ -41,5 +43,9 @@ static const float orbUpdateAnimDuration = 0.3f;
 
 - (void) resetOrbSpriteScale;
 - (void) removeLockElementsWithBlock:(dispatch_block_t)completion;
+- (void) removeVineElements;
+
+- (void) playVineExpansion:(NSString*)directionString withCompletion:(void(^)())withCompletion;
+
 
 @end

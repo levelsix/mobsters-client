@@ -2363,11 +2363,14 @@
   if (self.orbLayer.layout.numVines && self.orbLayer.layout.numVines == self.orbLayer.layout.lastNumVines)
   {
     BattleOrb *orb = [self.orbLayer.layout pickOrbForVine];
-    if (orb)
+    BattleOrb *other = [self.orbLayer.layout vineAdjacentToOrb:orb];
+    if (orb && other)
     {
       orb.isVines = YES;
       orb.isLocked = YES;
-      [[self.orbLayer.swipeLayer spriteForOrb:orb] reloadSprite:NO];
+      [[self.orbLayer.swipeLayer spriteForOrb:other] playVineExpansion:other.vineGrowDirection withCompletion:^{
+        [[self.orbLayer.swipeLayer spriteForOrb:orb] reloadSprite:NO];
+      }];
     }
   }
   self.orbLayer.layout.lastNumVines = self.orbLayer.layout.numVines;

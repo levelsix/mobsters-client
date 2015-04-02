@@ -71,6 +71,8 @@ typedef enum {
 
 @property (assign, nonatomic) NSInteger cloudCounter;
 
+@property (assign, nonatomic) NSString *vineGrowDirection;
+
 // Keeping state of orb
 // This is used for 2 purposes:
 // a) Swipe layer uses this value to figure out what happened to this orb
