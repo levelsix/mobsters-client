@@ -51,10 +51,10 @@ BOOL ResearchTypeIsValidValue(ResearchType value) {
 BOOL ResearchDomainIsValidValue(ResearchDomain value) {
   switch (value) {
     case ResearchDomainNoDomain:
-    case ResearchDomainRestorative:
-    case ResearchDomainLevelup:
-    case ResearchDomainResources:
+    case ResearchDomainHealing:
+    case ResearchDomainEnhancing:
     case ResearchDomainBattle:
+    case ResearchDomainResources:
     case ResearchDomainItems:
     case ResearchDomainTrapsAndObstacles:
       return YES;

@@ -106,10 +106,10 @@ BOOL ResearchTypeIsValidValue(ResearchType value);
 
 typedef NS_ENUM(SInt32, ResearchDomain) {
   ResearchDomainNoDomain = 1,
-  ResearchDomainRestorative = 2,
-  ResearchDomainLevelup = 3,
-  ResearchDomainResources = 4,
-  ResearchDomainBattle = 5,
+  ResearchDomainHealing = 2,
+  ResearchDomainEnhancing = 3,
+  ResearchDomainBattle = 4,
+  ResearchDomainResources = 5,
   ResearchDomainItems = 6,
   ResearchDomainTrapsAndObstacles = 7,
 };

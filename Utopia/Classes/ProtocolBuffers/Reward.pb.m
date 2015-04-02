@@ -379,7 +379,7 @@ BOOL RewardProto_RewardTypeIsValidValue(RewardProto_RewardType value) {
 @end
 
 @interface UserRewardProto ()
-@property (strong) NSMutableArray * mutableUpdatedOrNewList;
+@property (strong) NSMutableArray * mutableUpdatedOrNewMonstersList;
 @property (strong) NSMutableArray * mutableUpdatedUserItemsList;
 @property int32_t gems;
 @property int32_t cash;
@@ -388,8 +388,8 @@ BOOL RewardProto_RewardTypeIsValidValue(RewardProto_RewardType value) {
 
 @implementation UserRewardProto
 
-@synthesize mutableUpdatedOrNewList;
-@dynamic updatedOrNewList;
+@synthesize mutableUpdatedOrNewMonstersList;
+@dynamic updatedOrNewMonstersList;
 @synthesize mutableUpdatedUserItemsList;
 @dynamic updatedUserItemsList;
 - (BOOL) hasGems {
@@ -433,11 +433,11 @@ static UserRewardProto* defaultUserRewardProtoInstance = nil;
 - (UserRewardProto*) defaultInstance {
   return defaultUserRewardProtoInstance;
 }
-- (NSArray *)updatedOrNewList {
-  return mutableUpdatedOrNewList;
+- (NSArray *)updatedOrNewMonstersList {
+  return mutableUpdatedOrNewMonstersList;
 }
-- (FullUserMonsterProto*)updatedOrNewAtIndex:(NSUInteger)index {
-  return [mutableUpdatedOrNewList objectAtIndex:index];
+- (FullUserMonsterProto*)updatedOrNewMonstersAtIndex:(NSUInteger)index {
+  return [mutableUpdatedOrNewMonstersList objectAtIndex:index];
 }
 - (NSArray *)updatedUserItemsList {
   return mutableUpdatedUserItemsList;
@@ -449,7 +449,7 @@ static UserRewardProto* defaultUserRewardProtoInstance = nil;
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  [self.updatedOrNewList enumerateObjectsUsingBlock:^(FullUserMonsterProto *element, NSUInteger idx, BOOL *stop) {
+  [self.updatedOrNewMonstersList enumerateObjectsUsingBlock:^(FullUserMonsterProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:1 value:element];
   }];
   [self.updatedUserItemsList enumerateObjectsUsingBlock:^(UserItemProto *element, NSUInteger idx, BOOL *stop) {
@@ -473,7 +473,7 @@ static UserRewardProto* defaultUserRewardProtoInstance = nil;
   }
 
   size_ = 0;
-  [self.updatedOrNewList enumerateObjectsUsingBlock:^(FullUserMonsterProto *element, NSUInteger idx, BOOL *stop) {
+  [self.updatedOrNewMonstersList enumerateObjectsUsingBlock:^(FullUserMonsterProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(1, element);
   }];
   [self.updatedUserItemsList enumerateObjectsUsingBlock:^(UserItemProto *element, NSUInteger idx, BOOL *stop) {
@@ -523,8 +523,8 @@ static UserRewardProto* defaultUserRewardProtoInstance = nil;
   return [UserRewardProto builderWithPrototype:self];
 }
 - (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
-  [self.updatedOrNewList enumerateObjectsUsingBlock:^(FullUserMonsterProto *element, NSUInteger idx, BOOL *stop) {
-    [output appendFormat:@"%@%@ {\n", indent, @"updatedOrNew"];
+  [self.updatedOrNewMonstersList enumerateObjectsUsingBlock:^(FullUserMonsterProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"updatedOrNewMonsters"];
     [element writeDescriptionTo:output
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
@@ -555,7 +555,7 @@ static UserRewardProto* defaultUserRewardProtoInstance = nil;
   }
   UserRewardProto *otherMessage = other;
   return
-      [self.updatedOrNewList isEqualToArray:otherMessage.updatedOrNewList] &&
+      [self.updatedOrNewMonstersList isEqualToArray:otherMessage.updatedOrNewMonstersList] &&
       [self.updatedUserItemsList isEqualToArray:otherMessage.updatedUserItemsList] &&
       self.hasGems == otherMessage.hasGems &&
       (!self.hasGems || self.gems == otherMessage.gems) &&
@@ -567,7 +567,7 @@ static UserRewardProto* defaultUserRewardProtoInstance = nil;
 }
 - (NSUInteger) hash {
   __block NSUInteger hashCode = 7;
-  [self.updatedOrNewList enumerateObjectsUsingBlock:^(FullUserMonsterProto *element, NSUInteger idx, BOOL *stop) {
+  [self.updatedOrNewMonstersList enumerateObjectsUsingBlock:^(FullUserMonsterProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
   [self.updatedUserItemsList enumerateObjectsUsingBlock:^(UserItemProto *element, NSUInteger idx, BOOL *stop) {
@@ -625,11 +625,11 @@ static UserRewardProto* defaultUserRewardProtoInstance = nil;
   if (other == [UserRewardProto defaultInstance]) {
     return self;
   }
-  if (other.mutableUpdatedOrNewList.count > 0) {
-    if (result.mutableUpdatedOrNewList == nil) {
-      result.mutableUpdatedOrNewList = [[NSMutableArray alloc] initWithArray:other.mutableUpdatedOrNewList];
+  if (other.mutableUpdatedOrNewMonstersList.count > 0) {
+    if (result.mutableUpdatedOrNewMonstersList == nil) {
+      result.mutableUpdatedOrNewMonstersList = [[NSMutableArray alloc] initWithArray:other.mutableUpdatedOrNewMonstersList];
     } else {
-      [result.mutableUpdatedOrNewList addObjectsFromArray:other.mutableUpdatedOrNewList];
+      [result.mutableUpdatedOrNewMonstersList addObjectsFromArray:other.mutableUpdatedOrNewMonstersList];
     }
   }
   if (other.mutableUpdatedUserItemsList.count > 0) {
@@ -672,7 +672,7 @@ static UserRewardProto* defaultUserRewardProtoInstance = nil;
       case 10: {
         FullUserMonsterProto_Builder* subBuilder = [FullUserMonsterProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self addUpdatedOrNew:[subBuilder buildPartial]];
+        [self addUpdatedOrNewMonsters:[subBuilder buildPartial]];
         break;
       }
       case 18: {
@@ -696,28 +696,28 @@ static UserRewardProto* defaultUserRewardProtoInstance = nil;
     }
   }
 }
-- (NSMutableArray *)updatedOrNewList {
-  return result.mutableUpdatedOrNewList;
+- (NSMutableArray *)updatedOrNewMonstersList {
+  return result.mutableUpdatedOrNewMonstersList;
 }
-- (FullUserMonsterProto*)updatedOrNewAtIndex:(NSUInteger)index {
-  return [result updatedOrNewAtIndex:index];
+- (FullUserMonsterProto*)updatedOrNewMonstersAtIndex:(NSUInteger)index {
+  return [result updatedOrNewMonstersAtIndex:index];
 }
-- (UserRewardProto_Builder *)addUpdatedOrNew:(FullUserMonsterProto*)value {
-  if (result.mutableUpdatedOrNewList == nil) {
-    result.mutableUpdatedOrNewList = [[NSMutableArray alloc]init];
+- (UserRewardProto_Builder *)addUpdatedOrNewMonsters:(FullUserMonsterProto*)value {
+  if (result.mutableUpdatedOrNewMonstersList == nil) {
+    result.mutableUpdatedOrNewMonstersList = [[NSMutableArray alloc]init];
   }
-  [result.mutableUpdatedOrNewList addObject:value];
+  [result.mutableUpdatedOrNewMonstersList addObject:value];
   return self;
 }
-- (UserRewardProto_Builder *)addAllUpdatedOrNew:(NSArray *)array {
-  if (result.mutableUpdatedOrNewList == nil) {
-    result.mutableUpdatedOrNewList = [NSMutableArray array];
+- (UserRewardProto_Builder *)addAllUpdatedOrNewMonsters:(NSArray *)array {
+  if (result.mutableUpdatedOrNewMonstersList == nil) {
+    result.mutableUpdatedOrNewMonstersList = [NSMutableArray array];
   }
-  [result.mutableUpdatedOrNewList addObjectsFromArray:array];
+  [result.mutableUpdatedOrNewMonstersList addObjectsFromArray:array];
   return self;
 }
-- (UserRewardProto_Builder *)clearUpdatedOrNew {
-  result.mutableUpdatedOrNewList = nil;
+- (UserRewardProto_Builder *)clearUpdatedOrNewMonsters {
+  result.mutableUpdatedOrNewMonstersList = nil;
   return self;
 }
 - (NSMutableArray *)updatedUserItemsList {

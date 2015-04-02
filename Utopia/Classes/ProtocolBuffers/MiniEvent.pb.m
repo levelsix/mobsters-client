@@ -30,6 +30,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property (strong) NSString* name;
 @property (strong) NSString* desc;
 @property (strong) NSString* img;
+@property (strong) NSString* icon;
 @end
 
 @implementation MiniEventProto
@@ -87,6 +88,13 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasImg_ = !!value_;
 }
 @synthesize img;
+- (BOOL) hasIcon {
+  return !!hasIcon_;
+}
+- (void) setHasIcon:(BOOL) value_ {
+  hasIcon_ = !!value_;
+}
+@synthesize icon;
 - (id) init {
   if ((self = [super init])) {
     self.miniEventId = 0;
@@ -96,6 +104,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     self.name = @"";
     self.desc = @"";
     self.img = @"";
+    self.icon = @"";
   }
   return self;
 }
@@ -154,6 +163,9 @@ static MiniEventProto* defaultMiniEventProtoInstance = nil;
   if (self.hasImg) {
     [output writeString:9 value:self.img];
   }
+  if (self.hasIcon) {
+    [output writeString:10 value:self.icon];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -189,6 +201,9 @@ static MiniEventProto* defaultMiniEventProtoInstance = nil;
   }
   if (self.hasImg) {
     size_ += computeStringSize(9, self.img);
+  }
+  if (self.hasIcon) {
+    size_ += computeStringSize(10, self.icon);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -261,6 +276,9 @@ static MiniEventProto* defaultMiniEventProtoInstance = nil;
   if (self.hasImg) {
     [output appendFormat:@"%@%@: %@\n", indent, @"img", self.img];
   }
+  if (self.hasIcon) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"icon", self.icon];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -288,6 +306,8 @@ static MiniEventProto* defaultMiniEventProtoInstance = nil;
       (!self.hasDesc || [self.desc isEqual:otherMessage.desc]) &&
       self.hasImg == otherMessage.hasImg &&
       (!self.hasImg || [self.img isEqual:otherMessage.img]) &&
+      self.hasIcon == otherMessage.hasIcon &&
+      (!self.hasIcon || [self.icon isEqual:otherMessage.icon]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -318,6 +338,9 @@ static MiniEventProto* defaultMiniEventProtoInstance = nil;
   }
   if (self.hasImg) {
     hashCode = hashCode * 31 + [self.img hash];
+  }
+  if (self.hasIcon) {
+    hashCode = hashCode * 31 + [self.icon hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -397,6 +420,9 @@ static MiniEventProto* defaultMiniEventProtoInstance = nil;
   if (other.hasImg) {
     [self setImg:other.img];
   }
+  if (other.hasIcon) {
+    [self setIcon:other.icon];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -461,6 +487,10 @@ static MiniEventProto* defaultMiniEventProtoInstance = nil;
       }
       case 74: {
         [self setImg:[input readString]];
+        break;
+      }
+      case 82: {
+        [self setIcon:[input readString]];
         break;
       }
     }
@@ -638,6 +668,22 @@ static MiniEventProto* defaultMiniEventProtoInstance = nil;
 - (MiniEventProto_Builder*) clearImg {
   result.hasImg = NO;
   result.img = @"";
+  return self;
+}
+- (BOOL) hasIcon {
+  return result.hasIcon;
+}
+- (NSString*) icon {
+  return result.icon;
+}
+- (MiniEventProto_Builder*) setIcon:(NSString*) value {
+  result.hasIcon = YES;
+  result.icon = value;
+  return self;
+}
+- (MiniEventProto_Builder*) clearIcon {
+  result.hasIcon = NO;
+  result.icon = @"";
   return self;
 }
 @end
