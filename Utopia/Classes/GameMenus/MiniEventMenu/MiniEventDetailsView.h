@@ -8,15 +8,23 @@
 
 #import <UIKit/UIKit.h>
 #import "MiniEventManager.h"
+#import "MiniEventCollectRewardView.h"
 
 @class THLabel;
 @class SplitImageProgressBar;
 @class MiniEventTierPrizeView;
-@class MiniEventCollectRewardView;
 
-@interface MiniEventDetailsView : UIView <MiniEventInfoViewProtocol>
+@interface MiniEventDetailsView : UIView <MiniEventInfoViewProtocol, MiniEventCollectRewardCallbackDelegate>
 {
-  BOOL _allTiersCompleted;
+  NSMutableArray* _tierPrizes;
+  
+  BOOL _tier1Completed;
+  BOOL _tier2Completed;
+  BOOL _tier3Completed;
+  
+  BOOL _tier1Redeemed;
+  BOOL _tier2Redeemed;
+  BOOL _tier3Redeemed;
 }
 
 @property (nonatomic, retain) IBOutlet UIView* eventInfoView;

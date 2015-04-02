@@ -238,6 +238,7 @@
 
 - (int) sendRetrieveMiniEventRequestProtoMessage;
 - (int) updateUserMiniEventMessage:(UserMiniEventGoal *)userMiniEventGoal;
+- (int) sendRedeemMiniEventRewardRequestProtoMessage:(RedeemMiniEventRewardRequestProto_RewardTier)tierRedeemed miniEventForPlayerLevelId:(int32_t)mefplId clientTime:(uint64_t)clientTime;
 
 - (void) flush;
 - (void) pauseFlushTimer;

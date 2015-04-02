@@ -8,6 +8,7 @@
 
 #import "MiniEventManager.h"
 #import "OutgoingEventController.h"
+#import "GameState.h"
 #import "Globals.h"
 
 @interface MiniEventManager (Private)
@@ -105,6 +106,37 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(MiniEventManager)
         break;
       }
     }
+  }
+}
+
+- (void) handleRedeemMiniEventRewardInitiatedByUserWithDelegate:(id)delegate tierRedeemed:(RedeemMiniEventRewardRequestProto_RewardTier)tierRedeemed
+{
+  if (_currentUserMiniEvent &&
+      RedeemMiniEventRewardRequestProto_RewardTierIsValidValue(tierRedeemed))
+  {
+    [[OutgoingEventController sharedOutgoingEventController] redeemMiniEventRewardWithDelegate:delegate
+                                                                                  tierRedeemed:tierRedeemed
+                                                                     miniEventForPlayerLevelId:_currentUserMiniEvent.miniEvent.lvlEntered.mefplId];
+  }
+}
+
+- (void) handleRedeemMiniEventRewards:(UserRewardProto*)rewards
+{
+  GameState* gs = [GameState sharedGameState];
+  
+  if (rewards.updatedOrNewMonstersList)
+  {
+    [gs addToMyMonsters:rewards.updatedOrNewMonstersList];
+  }
+  
+  if (rewards.updatedUserItemsList)
+  {
+    [gs.itemUtil addToMyItems:rewards.updatedUserItemsList];
+  }
+  
+  if (rewards.hasGems || rewards.hasCash || rewards.hasOil)
+  {
+    // Gems, oil, and cash are updated through UpdateUserClientResponseEvent. Don't need to do anything here
   }
 }
 
