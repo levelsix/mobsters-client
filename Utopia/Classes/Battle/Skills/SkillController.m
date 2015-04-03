@@ -663,6 +663,29 @@
   }
 }
 
+- (void) showAntidotePopupOverlay:(BattleItemProto*)antidote bottomText:(NSString*)bottomText
+{
+  UIImageView *antidoteImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
+  [Globals imageNamed:antidote.imgName withView:antidoteImageView greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+  
+  SkillPopupData *data = [SkillPopupData initWithData:!self.belongsToPlayer characterImage:antidoteImageView topText:antidote.name bottomText:bottomText mini:YES stacks:0 completion:^{}];
+  
+  data.priority = 2;
+  
+  SkillController *opponentSkillController = self.belongsToPlayer ? ([skillManager enemySkillControler]) : ([skillManager playerSkillControler]);
+  if (opponentSkillController)
+  {
+    [opponentSkillController enqueueSkillPopup:data withCompletion:^{}];
+    [opponentSkillController showCurrentSkillPopup];
+  }
+  else
+  {
+    _callbackBlockForPopup = nil;
+    [self enqueueSkillPopup:data];
+    [self showCurrentSkillPopup];
+  }
+}
+
 - (void) makeSkillOwnerJumpWithTarget:(id)target selector:(SEL)completion
 {
   if (_belongsToPlayer)

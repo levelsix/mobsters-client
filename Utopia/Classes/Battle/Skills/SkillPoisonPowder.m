@@ -38,7 +38,10 @@
   if ([self isActive] && antidote.battleItemType == BattleItemTypePoisonAntidote)
   {
     if (execute)
+    {
       [self endDurationNow];
+      [self showAntidotePopupOverlay:antidote bottomText:@"Poison Removed"];
+    }
     return YES;
   }
   return NO;
