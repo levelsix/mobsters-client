@@ -928,8 +928,8 @@
   TranslateLanguages displayLanguage = TranslateLanguagesNoTranslation;
   if(_chatMode == PrivateChatModeAllMessages) {
     PrivateChatPostProto *pcpp = self.displayedChatList[indexPath.row];
-    if (![pcpp.recipient.minUserProto.userUuid isEqualToString:[gs minUser].userUuid] && [self translationEnabledForUser:self.curUserUuid]) {
-      displayLanguage = [self LanguageForUser:pcpp.recipient.minUserProto.userUuid];
+    if (![pcpp.poster.minUserProto.userUuid isEqualToString:[gs minUser].userUuid] && [self translationEnabledForUser:pcpp.poster.minUserProto.userUuid]) {
+      displayLanguage = [self LanguageForUser:pcpp.poster.minUserProto.userUuid];
     }
   }
   
