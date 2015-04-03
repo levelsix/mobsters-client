@@ -58,9 +58,9 @@
   return damage;
 }
 
-- (BOOL)cureStatusWithAntidote:(BattleItemType)antidoteType execute:(BOOL)execute
+- (BOOL) cureStatusWithAntidote:(BattleItemProto*)antidote execute:(BOOL)execute
 {
-  if ([self isActive] && antidoteType == BattleItemTypeChillAntidote)
+  if ([self isActive] && antidote.battleItemType == BattleItemTypeChillAntidote)
   {
     if (execute)
     {

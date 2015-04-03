@@ -37,9 +37,9 @@
 
 #pragma mark - Overrides
 
-- (BOOL)cureStatusWithAntidote:(BattleItemType)antidoteType execute:(BOOL)execute
+- (BOOL)cureStatusWithAntidote:(BattleItemProto*)antidote execute:(BOOL)execute
 {
-  if ([self isActive] && antidoteType == BattleItemTypePoisonAntidote)
+  if ([self isActive] && antidote.battleItemType == BattleItemTypePoisonAntidote)
   {
     if (execute)
       [self endDurationNow];

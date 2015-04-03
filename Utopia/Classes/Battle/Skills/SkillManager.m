@@ -710,17 +710,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   
 }
 
-- (BOOL)useAntidote:(BattleItemType)antidoteType execute:(BOOL)execute
+- (BOOL)useAntidote:(BattleItemProto*)antidote execute:(BOOL)execute
 {
   BOOL temp = false;
   
   if (_enemySkillController) {
-    temp = [_enemySkillController cureStatusWithAntidote:antidoteType execute:execute];
+    temp = [_enemySkillController cureStatusWithAntidote:antidote execute:execute];
   }
   
   for (SkillController *skill in _persistentSkillControllers){
     if (!skill.belongsToPlayer){
-      temp = [skill cureStatusWithAntidote:antidoteType execute:execute] || temp;
+      temp = [skill cureStatusWithAntidote:antidote execute:execute] || temp;
     }
   }
   

@@ -128,7 +128,7 @@ static NSString* const kSkillMiniLogoImageNameSuffix = @"minilogo.png";
 - (void) onFinishQuickAttack;
 
 // Item stuff
-- (BOOL) cureStatusWithAntidote:(BattleItemType)antidoteType execute:(BOOL)execute;
+- (BOOL) cureStatusWithAntidote:(BattleItemProto*)antidote execute:(BOOL)execute;
 
 // To be called by inherited skills to show the overlay
 - (void) showSkillPopupOverlay:(BOOL)jumpFirst withCompletion:(SkillPopupBlock)completion;

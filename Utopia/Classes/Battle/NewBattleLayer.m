@@ -3046,7 +3046,7 @@
       
     case BattleItemTypeChillAntidote:
     case BattleItemTypePoisonAntidote:
-      return [skillManager useAntidote:bip.battleItemType execute:NO];
+      return [skillManager useAntidote:bip execute:NO];
 
     case BattleItemTypeNone:
       return NO;
@@ -3084,7 +3084,7 @@
 
 - (void) useSkillAntidote:(BattleItemProto *)bip {
   [self moveBegan];
-  [skillManager useAntidote:bip.battleItemType execute:YES];
+  [skillManager useAntidote:bip execute:YES];
   [self moveComplete];
 }
 

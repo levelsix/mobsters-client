@@ -378,7 +378,7 @@
   [self skillTriggerFinished];
 }
 
-- (BOOL) cureStatusWithAntidote:(BattleItemType)antidoteType execute:(BOOL)execute
+- (BOOL) cureStatusWithAntidote:(BattleItemProto*)antidote execute:(BOOL)execute
 {
   return NO;
 }
