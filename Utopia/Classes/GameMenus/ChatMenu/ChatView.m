@@ -366,54 +366,18 @@
   self.chatTable.dataSource = nil;
 }
 
-@end
+#pragma mark - language
 
-@implementation GlobalChatView
-
-- (void) awakeFromNib {
-  [super awakeFromNib];
+- (TranslateLanguages) LanguageForUser:(NSString *) userUuid {
   GameState *gs = [GameState sharedGameState];
-  _curLanguage = gs.globalLanguage;
-  
-  if(_curLanguage == TranslateLanguagesNoTranslation) {
-    NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
-    
-    NSString *flagImage = [Globals flagImageNameForLanguage:(TranslateLanguages)[def integerForKey:GLOBAL_LANGUAGE_PREFERENCES]];
-    [Globals imageNamed:flagImage withView:self.flagButton greyscale:YES indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
-    
-    self.flagCheckImage.hidden = YES;
-  } else {
-    [self.flagButton setImage:[Globals imageNamed:[Globals flagImageNameForLanguage:_curLanguage]] forState:UIControlStateNormal];
-  }
+  NSNumber *savedNumber = [gs.privateChatLanguages valueForKey:userUuid];
+  return (TranslateLanguages)savedNumber.intValue;
 }
 
-- (IBAction)sendChatClicked:(id)sender {
-  if (self.textField.text.length > 0) {
-    [[OutgoingEventController sharedOutgoingEventController] sendGroupChat:GroupChatScopeGlobal message:self.textField.text];
-  }
-  [super sendChatClicked:sender];
-}
-
-#pragma mark - language selector delegate
-
-- (IBAction)topFlagClicked:(id)sender {
+- (BOOL) translationEnabledForUser:(NSString *) userUuid {
   GameState *gs = [GameState sharedGameState];
-  
-  UIButton *buttonClicked = (UIButton *)sender;
-  CGPoint openPoint = CGPointMake(buttonClicked.center.x, buttonClicked.center.y + (buttonClicked.size.height/2.f));
-  CGPoint pt = [self.languageSelectorView.superview convertPoint:openPoint fromView:buttonClicked.superview];
-  //  pt.x += self.languageSelectorView.layer.anchorPoint.x*self.languageSelectorView.frame.size.width;
-  
-  self.languageSelectorView.delegate = self;
-  
-  TranslateLanguages cur;
-  if (gs.globalLanguage != TranslateLanguagesNoTranslation) {
-    cur = _curLanguage;
-  } else {
-    NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
-    cur = (TranslateLanguages)[def integerForKey:GLOBAL_LANGUAGE_PREFERENCES];
-  }
-  [self.languageSelectorView openAtPoint:pt markChecked:!self.flagCheckImage.hidden curLanguage:cur];
+  NSNumber *savedNumber = [gs.privateTranslationOn valueForKey:userUuid];
+  return savedNumber.boolValue;
 }
 
 - (IBAction)topCheckClicked:(id)sender {
@@ -436,50 +400,66 @@
   self.flagCheckImage.superview.hidden = NO;
 }
 
+@end
+
+@implementation GlobalChatView
+
+- (void) awakeFromNib {
+  [super awakeFromNib];
+  GameState *gs = [GameState sharedGameState];
+  _curLanguage = gs.globalTranslationOn ? gs.globalLanguage : TranslateLanguagesNoTranslation;
+  [self.flagButton setImage:[Globals imageNamed:[Globals flagImageNameForLanguage:gs.globalLanguage]] forState:UIControlStateNormal];
+  self.flagCheckImage.hidden = !gs.globalTranslationOn;
+}
+
+- (IBAction)sendChatClicked:(id)sender {
+  if (self.textField.text.length > 0) {
+    [[OutgoingEventController sharedOutgoingEventController] sendGroupChat:GroupChatScopeGlobal message:self.textField.text];
+  }
+  [super sendChatClicked:sender];
+}
+
+#pragma mark - language selector delegate
+
+- (IBAction)topFlagClicked:(id)sender {
+  GameState *gs = [GameState sharedGameState];
+  
+  UIButton *buttonClicked = (UIButton *)sender;
+  CGPoint openPoint = CGPointMake(buttonClicked.center.x, buttonClicked.center.y + (buttonClicked.size.height/2.f));
+  CGPoint pt = [self.languageSelectorView.superview convertPoint:openPoint fromView:buttonClicked.superview];
+  //  pt.x += self.languageSelectorView.layer.anchorPoint.x*self.languageSelectorView.frame.size.width;
+  
+  self.languageSelectorView.delegate = self;
+  [self.languageSelectorView openAtPoint:pt markChecked:gs.globalTranslationOn curLanguage:gs.globalLanguage];
+}
+
 - (void) flagClicked:(TranslateLanguages)language {
   GameState *gs = [GameState sharedGameState];
   
   NSArray *emptyArray = [[NSArray alloc] init];
-  [[OutgoingEventController sharedOutgoingEventController] translateSelectMessages:emptyArray language:language otherUserUuid:nil chatType:ChatTypeGlobalChat delegate:self];
+  [[OutgoingEventController sharedOutgoingEventController] translateSelectMessages:emptyArray language:language otherUserUuid:nil chatType:ChatTypeGlobalChat translateOn:YES delegate:self];
   
   [self lockLanguageButtonWithFlag:[Globals flagImageNameForLanguage:language]];
   gs.globalLanguage = language;
   
-  NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
-  [def setInteger:(NSInteger)language forKey:GLOBAL_LANGUAGE_PREFERENCES];
-  
   self.flagCheckImage.hidden = NO;
+  gs.globalTranslationOn = YES;
 }
 
 - (void) translateChecked:(BOOL)checked {
   GameState *gs = [GameState sharedGameState];
-  NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
   
   self.flagCheckImage.hidden = !checked;
-  
-  [self lockLanguageButtonWithFlag:[Globals flagImageNameForLanguage:(TranslateLanguages)[def integerForKey:GLOBAL_LANGUAGE_PREFERENCES]]];
-  
-  if(checked) {
-    gs.globalLanguage = (TranslateLanguages)[def integerForKey:GLOBAL_LANGUAGE_PREFERENCES];
-  } else {
-    //this if is redundant but I want to be sure.
-    if(_curLanguage != TranslateLanguagesNoTranslation) {
-      [def setInteger:(NSInteger)_curLanguage forKey:GLOBAL_LANGUAGE_PREFERENCES];
-      
-      NSString *flagImage = [Globals flagImageNameForLanguage:_curLanguage];
-      [Globals imageNamed:flagImage withView:self.flagButton greyscale:YES indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
-    }
-    gs.globalLanguage = TranslateLanguagesNoTranslation;
-  }
+  gs.globalTranslationOn = checked;
   
   NSArray *emptyArray = [[NSArray alloc] init];
-  [[OutgoingEventController sharedOutgoingEventController] translateSelectMessages:emptyArray language:gs.globalLanguage otherUserUuid:nil chatType:ChatTypeGlobalChat delegate:self];
+  [[OutgoingEventController sharedOutgoingEventController] translateSelectMessages:emptyArray language:gs.globalLanguage otherUserUuid:nil chatType:ChatTypeGlobalChat translateOn:checked delegate:self];
 }
 
 - (void) handleTranslateSelectMessagesResponseProto:(FullEvent *)fe {
   GameState *gs = [GameState sharedGameState];
   
-  _curLanguage = gs.globalLanguage;
+  _curLanguage = gs.globalTranslationOn ? gs.globalLanguage : TranslateLanguagesNoTranslation;
   [self.chatTable reloadData];
   [self unlockLanguageButton];
 }
@@ -704,7 +684,7 @@
       [self loadConversationViewAnimated:animated];
       self.curUserUuid = userUuid;
       _isLoading = YES;
-      _curLanguage = [self getLanguageWithUser:userUuid];
+      _curLanguage = [self initLanguageWithUser:userUuid];
       [self.chatTable reloadData];
       self.titleLabel.text = name;
     } else {
@@ -715,27 +695,14 @@
   }
 }
 
-- (TranslateLanguages) getLanguageWithUser:(NSString *)otherUserUuid {
-  GameState *gs = [GameState sharedGameState];
-  TranslateLanguages language;
+- (TranslateLanguages) initLanguageWithUser:(NSString *)otherUserUuid {
+  BOOL translateOn = [self translationEnabledForUser:otherUserUuid];
+  TranslateLanguages language = translateOn ? [self LanguageForUser:otherUserUuid] : TranslateLanguagesNoTranslation;
   
-  NSNumber *savedNumber = [gs.privateChatLanguages valueForKey:otherUserUuid];
-  language = (TranslateLanguages)savedNumber.integerValue;
+  [self.flagButton setImage:[Globals imageNamed:[Globals flagImageNameForLanguage:[self LanguageForUser:self.curUserUuid]]] forState:UIControlStateNormal];
+  [self.languageSelectorView updateForLanguage:language markChecked:translateOn];
   
-  if(!language || language == TranslateLanguagesNoTranslation) {
-    NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
-    
-    TranslateLanguages globalSavedLanguage = (TranslateLanguages)[def integerForKey:GLOBAL_LANGUAGE_PREFERENCES];
-    [def setInteger:(int)globalSavedLanguage forKey:PRIVATE_LANGUAGE_PREFERENCES];
-    
-    [self.flagButton setImage:[Globals imageNamed:[Globals flagImageNameForLanguage:globalSavedLanguage]] forState:UIControlStateNormal];
-    [self.languageSelectorView updateForLanguage:globalSavedLanguage markChecked:NO];
-    self.flagCheckImage.hidden = YES;
-  } else {
-    [self.flagButton setImage:[Globals imageNamed:[Globals flagImageNameForLanguage:language]] forState:UIControlStateNormal];
-    [self.languageSelectorView updateForLanguage:language markChecked:YES];
-    self.flagCheckImage.hidden = NO;
-  }
+  self.flagCheckImage.hidden = !translateOn;
   
   return language;
 }
@@ -958,16 +925,15 @@
     }
   }
   
-  TranslateLanguages savedPlayerLanguage = TranslateLanguagesNoTranslation;
+  TranslateLanguages displayLanguage = TranslateLanguagesNoTranslation;
   if(_chatMode == PrivateChatModeAllMessages) {
     PrivateChatPostProto *pcpp = self.displayedChatList[indexPath.row];
-    if (![pcpp.sender.userUuid isEqualToString:[gs minUser].userUuid]) {
-      NSNumber *savedNumber = [gs.privateChatLanguages valueForKey:pcpp.sender.userUuid];
-      savedPlayerLanguage = (TranslateLanguages)savedNumber.integerValue;
+    if (![pcpp.recipient.minUserProto.userUuid isEqualToString:[gs minUser].userUuid] && [self translationEnabledForUser:self.curUserUuid]) {
+      displayLanguage = [self LanguageForUser:pcpp.recipient.minUserProto.userUuid];
     }
   }
   
-  [cell updateForPrivateChat:self.displayedChatList[indexPath.row] language:_curLanguage];
+  [cell updateForPrivateChat:self.displayedChatList[indexPath.row] language:displayLanguage];
   
   return cell;
 }
@@ -1006,35 +972,7 @@
   //  pt.x += self.languageSelectorView.layer.anchorPoint.x*self.languageSelectorView.frame.size.width;
   
   self.languageSelectorView.delegate = self;
-  
-  TranslateLanguages cur;
-  if (_curLanguage != TranslateLanguagesNoTranslation) {
-    cur = _curLanguage;
-  } else {
-    NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
-    cur = (TranslateLanguages)[def integerForKey:PRIVATE_LANGUAGE_PREFERENCES];
-  }
-  [self.languageSelectorView openAtPoint:pt markChecked:!self.flagCheckImage.hidden curLanguage:cur];
-}
-
-- (IBAction)topCheckClicked:(id)sender {
-  self.flagCheckImage.hidden = !self.flagCheckImage.hidden;
-  [self translateChecked:!self.flagCheckImage.hidden];
-}
-
-- (void) lockLanguageButtonWithFlag:(NSString *)flagImageName {
-  [self.flagButton setImage:[Globals imageNamed:flagImageName] forState:UIControlStateNormal];
-  self.flagButton.userInteractionEnabled = NO;
-  
-  self.flagSpinner.hidden = NO;
-  
-  self.flagCheckImage.superview.hidden = YES;
-}
-
-- (void) unlockLanguageButton {
-  self.flagButton.userInteractionEnabled = YES;
-  self.flagSpinner.hidden = YES;
-  self.flagCheckImage.superview.hidden = NO;
+  [self.languageSelectorView openAtPoint:pt markChecked:!self.flagCheckImage.hidden curLanguage:[self LanguageForUser:self.curUserUuid]];
 }
 
 - (NSArray *)getMessagesInNeedOfTranslationWithLanguage:(TranslateLanguages)language {
@@ -1077,42 +1015,36 @@
   GameState *gs = [GameState sharedGameState];
   
   NSArray *untranslatedMessages = [self privateChatPostsForMessages:[self getMessagesInNeedOfTranslationWithLanguage:language]];
-  [[OutgoingEventController sharedOutgoingEventController] translateSelectMessages:untranslatedMessages language:language otherUserUuid:self.curUserUuid chatType:ChatTypePrivateChat delegate:self];
+  [[OutgoingEventController sharedOutgoingEventController] translateSelectMessages:untranslatedMessages language:language otherUserUuid:self.curUserUuid chatType:ChatTypePrivateChat translateOn:YES delegate:self];
   
   [self lockLanguageButtonWithFlag:[Globals flagImageNameForLanguage:language]];
   [gs.privateChatLanguages setValue:@(language) forKey:self.curUserUuid];
   
   self.flagCheckImage.hidden = NO;
+  [gs.privateTranslationOn setValue:@(YES) forKey:self.curUserUuid];
 }
 
 - (void) translateChecked:(BOOL)checked {
   GameState *gs = [GameState sharedGameState];
-  NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
   
   self.flagCheckImage.hidden = !checked;
+  [gs.privateTranslationOn setValue:@(checked) forKey:self.curUserUuid];
+  
+  TranslateLanguages savedLanguage = [self LanguageForUser:self.curUserUuid];
+  [gs.privateChatLanguages setValue:@(savedLanguage) forKey:self.curUserUuid];
   
   if(checked) {
-    TranslateLanguages savedLanguage = (TranslateLanguages)[def integerForKey:PRIVATE_LANGUAGE_PREFERENCES];
-    [gs.privateChatLanguages setValue:@(savedLanguage) forKey:self.curUserUuid];
-    
     NSArray *untranslatedMessages = [self privateChatPostsForMessages:[self getMessagesInNeedOfTranslationWithLanguage:savedLanguage]];
-    [[OutgoingEventController sharedOutgoingEventController] translateSelectMessages:untranslatedMessages language:savedLanguage otherUserUuid:self.curUserUuid chatType:ChatTypePrivateChat delegate:self];
+    [[OutgoingEventController sharedOutgoingEventController] translateSelectMessages:untranslatedMessages language:savedLanguage otherUserUuid:self.curUserUuid chatType:ChatTypePrivateChat translateOn:checked delegate:self];
   } else {
-    if(_curLanguage != TranslateLanguagesNoTranslation) {
-      [def setInteger:(NSInteger)_curLanguage forKey:PRIVATE_LANGUAGE_PREFERENCES];
-    }
-    [gs.privateChatLanguages setValue:@(TranslateLanguagesNoTranslation) forKey:self.curUserUuid];
-    
     NSArray *empty = [[NSArray alloc] init];
-    [[OutgoingEventController sharedOutgoingEventController] translateSelectMessages:empty language:TranslateLanguagesNoTranslation otherUserUuid:self.curUserUuid chatType:ChatTypePrivateChat delegate:self];
+    [[OutgoingEventController sharedOutgoingEventController] translateSelectMessages:empty language:savedLanguage otherUserUuid:self.curUserUuid chatType:ChatTypePrivateChat translateOn:checked delegate:self];
   }
   
-  NSNumber *savedNumber = [gs.privateChatLanguages valueForKey:self.curUserUuid];
-  [self lockLanguageButtonWithFlag:[Globals flagImageNameForLanguage:checked ? (TranslateLanguages)savedNumber.integerValue : _curLanguage]];
+  [self lockLanguageButtonWithFlag:[Globals flagImageNameForLanguage:[self LanguageForUser:self.curUserUuid]]];
 }
 
 - (void) handleTranslateSelectMessagesResponseProto:(FullEvent *)fe {
-  GameState *gs = [GameState sharedGameState];
   TranslateSelectMessagesResponseProto *tsmrp = (TranslateSelectMessagesResponseProto *)fe.event;
   
   for (PrivateChatPostProto *pcpp in tsmrp.messagesTranslatedList) {
@@ -1124,7 +1056,7 @@
     }
   }
   
-  _curLanguage = gs.globalLanguage;
+  _curLanguage = [self translationEnabledForUser:self.curUserUuid] ? [self LanguageForUser:self.curUserUuid] : TranslateLanguagesNoTranslation;
   
   [self.chatTable reloadData];
   [self unlockLanguageButton];
