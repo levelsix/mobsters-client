@@ -64,15 +64,23 @@
   UserMiniEvent* userMiniEvent = [MiniEventManager sharedInstance].currentUserMiniEvent;
   if (userMiniEvent)
   {
-    [self.detailsView updateForUserMiniEvent:userMiniEvent];
-    [self.pointsView updateForUserMiniEvent:userMiniEvent];
+    [self.detailsView initializeWithUserMiniEvent:userMiniEvent];
+    [self.pointsView  initializeWithUserMiniEvent:userMiniEvent];
+    
+    // Start a timer to update time remaining in event info
+    self.eventUpdateTimeLeftTimer = [NSTimer timerWithTimeInterval:1.f
+                                                            target:self
+                                                          selector:@selector(updateTimeLeftForEvent:)
+                                                          userInfo:[NSDictionary dictionaryWithObject:userMiniEvent forKey:@"UserMiniEvent"]
+                                                           repeats:YES];
+    [[NSRunLoop mainRunLoop] addTimer:self.eventUpdateTimeLeftTimer forMode:NSRunLoopCommonModes];
   }
   else
   {
-    // This case shouldn't happen since the UI will be inaccessible if
-    // no user mini event is present. But as a fail safe, it would be
-    // nice to display a prompt to the user and close this view
+    // This case shouldn't happen since the UI will be inaccessible if no active user mini event is present
   }
+  
+  [[MiniEventManager sharedInstance] setMiniEventViewController:self];
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -80,6 +88,19 @@
   [super viewWillAppear:animated];
   
   [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
+}
+
+- (void) viewWillDisappear:(BOOL)animated
+{
+  [super viewWillDisappear:animated];
+  
+  if (self.eventUpdateTimeLeftTimer)
+  {
+    [self.eventUpdateTimeLeftTimer invalidate];
+    self.eventUpdateTimeLeftTimer = nil;
+  }
+  
+  [[MiniEventManager sharedInstance] setMiniEventViewController:nil];
 }
 
 - (IBAction) closeClicked:(id)sender
@@ -118,6 +139,25 @@
   
   if ([self.detailsView respondsToSelector:@selector(miniEventViewWillDisappear)]) [self.detailsView miniEventViewWillDisappear];
   if ([self.pointsView  respondsToSelector:@selector(miniEventViewWillAppear)]) [self.pointsView miniEventViewWillAppear];
+}
+
+- (void) miniEventUpdated:(UserMiniEvent*)userMiniEvent
+{
+  if (userMiniEvent)
+  {
+    // Current active mini event has been been updated, due to user completing goals and making progress on points earned
+    
+    [self.detailsView updateForUserMiniEvent:userMiniEvent];
+    [self.pointsView  updateForUserMiniEvent:userMiniEvent];
+  }
+}
+
+- (void) updateTimeLeftForEvent:(NSTimer*)timer
+{
+  UserMiniEvent* userMiniEvent = [timer.userInfo objectForKey:@"UserMiniEvent"];
+  
+  [self.detailsView updateTimeLeftForEvent:userMiniEvent];
+  [self.pointsView  updateTimeLeftForEvent:userMiniEvent];
 }
 
 @end

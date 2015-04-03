@@ -22,15 +22,16 @@ static NSString* kTierTitleLabelColors[3] = { @"B56C16", @"535758", @"8F6200" };
   self.tierTitle.shadowOffset = CGSizeMake(0, 1);
   self.tierTitle.shadowBlur   = 1.2f;
   
+  self.tierCheckmark.hidden = YES;
+  
   [self.tierPrizeList registerNib:[UINib nibWithNibName:@"MiniEventTierPrizeCell" bundle:nil] forCellReuseIdentifier:@"ReusableTierPrizeCell"];
 }
 
-- (void) updateForTier:(int)tier completed:(BOOL)completed prizeList:(NSArray*)prizeList
+- (void) updateForTier:(int)tier prizeList:(NSArray*)prizeList
 {
   self.tierBackground.image = [UIImage imageNamed:[NSString stringWithFormat:@"tier%dbg.png", tier]];
   self.tierTitle.text = [NSString stringWithFormat:@"TIER %d PRIZE", tier];
   self.tierTitle.textColor = [UIColor colorWithHexString:kTierTitleLabelColors[tier - 1]];
-  self.tierCheckmark.hidden = !completed;
   
   _prizeList = [NSMutableArray array];
   

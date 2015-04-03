@@ -66,32 +66,37 @@
   [self.eventActionList registerNib:[UINib nibWithNibName:@"MiniEventPointsActionCell" bundle:nil] forCellReuseIdentifier:@"ReusablePointsActionCell"];
 }
 
+- (void) initializeWithUserMiniEvent:(UserMiniEvent*)userMiniEvent
+{
+  [self updateTimeLeftForEvent:userMiniEvent];
+  
+  self.eventInfoPointsEearned.text = [Globals commafyNumber:userMiniEvent.pointsEarned];
+  
+  _actionList = [userMiniEvent.miniEvent.goalsList mutableCopy];
+  
+  [self.eventActionList reloadData];
+}
+
 - (void) updateForUserMiniEvent:(UserMiniEvent*)userMiniEvent
 {
-  MiniEventProto* miniEvent = userMiniEvent.miniEvent;
-  
-  MSDate* eventEndTime = [MSDate dateWithTimeIntervalSince1970:userMiniEvent.miniEvent.miniEventEndTime / 1000.f];
-  MSDate* now = [MSDate date];
-  if ([now compare:eventEndTime] != NSOrderedAscending)
+  self.eventInfoPointsEearned.text = [Globals commafyNumber:userMiniEvent.pointsEarned];
+}
+
+- (void) updateTimeLeftForEvent:(UserMiniEvent*)userMiniEvent
+{
+  if ([userMiniEvent eventHasEnded])
   {
-    // Event already ended
     self.eventInfoTimerBackground.hidden = YES;
     self.eventInfoTimeLeft.hidden = YES;
     self.eventInfoEventEnded.hidden = NO;
   }
   else
   {
+    MSDate* eventEndTime = [MSDate dateWithTimeIntervalSince1970:userMiniEvent.miniEvent.miniEventEndTime / 1000.f];
+    MSDate* now = [MSDate date];
     const NSTimeInterval timeLeft = [eventEndTime timeIntervalSinceDate:now];
     self.eventInfoTimeLeft.text = [[Globals convertTimeToShortString:timeLeft] uppercaseString];
-    
-    // TODO - Kick off a timer to update time left
   }
-  
-  self.eventInfoPointsEearned.text = [Globals commafyNumber:userMiniEvent.pointsEarned];
-  
-  _actionList = [miniEvent.goalsList mutableCopy];
-  
-  [self.eventActionList reloadData];
 }
 
 #pragma mark - Table view data source

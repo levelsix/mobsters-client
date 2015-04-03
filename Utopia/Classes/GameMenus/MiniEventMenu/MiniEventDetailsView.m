@@ -12,6 +12,7 @@
 #import "Globals.h"
 
 static const float kTierPointsProgressBarExtendBy = 1.1f;
+static const float kTierPointsProgressBarUpdateAnimationDuration = .5f;
 static const float kCollectRewardViewSlideAnimationDuration = .5f;
 
 @implementation MiniEventDetailsView
@@ -79,29 +80,14 @@ static const float kCollectRewardViewSlideAnimationDuration = .5f;
   self.collectRewardView = nil;
 }
 
-- (void) updateForUserMiniEvent:(UserMiniEvent*)userMiniEvent
+- (void) initializeWithUserMiniEvent:(UserMiniEvent*)userMiniEvent
 {
   MiniEventProto* miniEvent = userMiniEvent.miniEvent;
   
   self.eventInfoName.text = [miniEvent.name uppercaseString];
   self.eventInfoDesc.text = miniEvent.desc;
   
-  MSDate* eventEndTime = [MSDate dateWithTimeIntervalSince1970:userMiniEvent.miniEvent.miniEventEndTime / 1000.f];
-  MSDate* now = [MSDate date];
-  if ([now compare:eventEndTime] != NSOrderedAscending)
-  {
-    // Event already ended
-    self.eventInfoTimerBackground.hidden = YES;
-    self.eventInfoTimeLeft.hidden = YES;
-    self.eventInfoEventEnded.hidden = NO;
-  }
-  else
-  {
-    const NSTimeInterval timeLeft = [eventEndTime timeIntervalSinceDate:now];
-    self.eventInfoTimeLeft.text = [[Globals convertTimeToShortString:timeLeft] uppercaseString];
-    
-    // TODO - Kick off a timer to update time left
-  }
+  [self updateTimeLeftForEvent:userMiniEvent];
   
   [Globals imageNamed:miniEvent.img withView:self.eventInfoImage greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
   
@@ -130,10 +116,6 @@ static const float kCollectRewardViewSlideAnimationDuration = .5f;
   self.tier2IndicatorLabel.centerX = self.tier2IndicatorArrow.centerX = tier2IndicatorPos;
   self.tier3IndicatorLabel.centerX = self.tier3IndicatorArrow.centerX = tier3IndicatorPos;
   
-  self.pointCounterView.centerX = self.pointsProgressBar.originX + self.pointsProgressBar.width * ((float)pointsEarned / (float)maxPoints);
-  
-  self.pointsProgressBar.percentage = (float)pointsEarned / (float)maxPoints;
-  
   _tier1Completed = (pointsEarned >= tier1Points);
   _tier2Completed = (pointsEarned >= tier2Points);
   _tier3Completed = (pointsEarned >= tier3Points);
@@ -142,13 +124,24 @@ static const float kCollectRewardViewSlideAnimationDuration = .5f;
   if (_tier2Completed) [self markTierAsComplete:2];
   if (_tier3Completed) [self markTierAsComplete:3];
   
+  if (_tier3Completed)
+  {
+    self.pointsProgressBar.percentage = 1.f;
+    self.pointCounterView.hidden = YES;
+  }
+  else
+  {
+    self.pointsProgressBar.percentage = (float)pointsEarned / (float)maxPoints;
+    self.pointCounterView.centerX = self.pointsProgressBar.originX + self.pointsProgressBar.width * ((float)pointsEarned / (float)maxPoints);
+  }
+  
   _tierPrizes = [NSMutableArray arrayWithObjects:[NSMutableArray array], [NSMutableArray array], [NSMutableArray array], nil];
   for (MiniEventTierRewardProto* tierPrize in miniEvent.lvlEntered.rewardsList)
     [_tierPrizes[tierPrize.tierLvl - 1] addObject:tierPrize];
   
-  [self.tier1PrizeView updateForTier:1 completed:_tier1Completed prizeList:_tierPrizes[0]];
-  [self.tier2PrizeView updateForTier:2 completed:_tier2Completed prizeList:_tierPrizes[1]];
-  [self.tier3PrizeView updateForTier:3 completed:_tier3Completed prizeList:_tierPrizes[2]];
+  [self.tier1PrizeView updateForTier:1 prizeList:_tierPrizes[0]];
+  [self.tier2PrizeView updateForTier:2 prizeList:_tierPrizes[1]];
+  [self.tier3PrizeView updateForTier:3 prizeList:_tierPrizes[2]];
   
   _tier1Redeemed = userMiniEvent.tierOneRedeemed;
   _tier2Redeemed = userMiniEvent.tierTwoRedeemed;
@@ -161,45 +154,89 @@ static const float kCollectRewardViewSlideAnimationDuration = .5f;
   
   if (lowestTierWithUnredeemedReward > 0)
   {
-    [self displayCollectRewardViewForTier:lowestTierWithUnredeemedReward
-                                prizeList:_tierPrizes[lowestTierWithUnredeemedReward - 1]
-                                  animate:NO];
+    [self displayCollectRewardViewForTier:lowestTierWithUnredeemedReward prizeList:_tierPrizes[lowestTierWithUnredeemedReward - 1] animate:NO];
   }
   
-  if (self.pointCounterView.superview == self.eventInfoView)
+  // pointCounterView needs to stick out of its container view, but having
+  // rounded corners on one of its parents requires clipping to bounds.
+  // It will therefore be added to the TouchableSubviewsView as a subview
+  UIView* ancestorView = [self getAncestorInViewHierarchyOfType:[TouchableSubviewsView class]];
+  const CGPoint newPosition = [ancestorView convertPoint:self.pointCounterView.origin fromView:self.eventInfoView];
+  [ancestorView addSubview:self.pointCounterView];
+  self.pointCounterView.origin = newPosition;
+}
+
+- (void) updateForUserMiniEvent:(UserMiniEvent*)userMiniEvent
+{
+  MiniEventProto* miniEvent = userMiniEvent.miniEvent;
+  
+  const int pointsEarned = userMiniEvent.pointsEarned;
+  const int maxPoints    = miniEvent.lvlEntered.tierThreeMinPts * kTierPointsProgressBarExtendBy;
+  const int tier1Points  = miniEvent.lvlEntered.tierOneMinPts;
+  const int tier2Points  = miniEvent.lvlEntered.tierTwoMinPts;
+  const int tier3Points  = miniEvent.lvlEntered.tierThreeMinPts;
+  
+  self.eventInfoPointsEearned.text = [Globals commafyNumber:pointsEarned];
+  self.pointCounterLabel.text = [Globals commafyNumber:pointsEarned];
+  
+  BOOL tier1Completed = (pointsEarned >= tier1Points);
+  BOOL tier2Completed = (pointsEarned >= tier2Points);
+  BOOL tier3Completed = (pointsEarned >= tier3Points);
+  
+  if (tier1Completed && !_tier1Completed) [self markTierAsComplete:1];
+  if (tier2Completed && !_tier2Completed) [self markTierAsComplete:2];
+  if (tier3Completed && !_tier3Completed) [self markTierAsComplete:3];
+  
+  if (tier3Completed && !_tier3Completed)
   {
-    // pointCounterView needs to stick out of its container view, but having
-    // rounded corners on one of its parents requires clipping to bounds.
-    // It will therefore be added to the TouchableSubviewsView as a subview
-    UIView* ancestorView = [self getAncestorInViewHierarchyOfType:[TouchableSubviewsView class]];
-    const CGPoint newPosition = [ancestorView convertPoint:self.pointCounterView.origin fromView:self.eventInfoView];
-    [ancestorView addSubview:self.pointCounterView];
-    self.pointCounterView.origin = newPosition;
+    [self.pointsProgressBar animateToPercentage:1.f duration:kTierPointsProgressBarUpdateAnimationDuration completion:nil];
+    [self.pointCounterView setHidden:YES];
+  }
+  else if (!tier3Completed)
+  {
+    [self.pointsProgressBar animateToPercentage:(float)pointsEarned / (float)maxPoints duration:kTierPointsProgressBarUpdateAnimationDuration completion:nil];
+    [UIView animateWithDuration:kTierPointsProgressBarUpdateAnimationDuration animations:^{
+      self.pointCounterView.centerX = self.pointsProgressBar.originX + self.pointsProgressBar.width * ((float)pointsEarned / (float)maxPoints);
+    }];
+  }
+  
+  _tier1Completed = tier1Completed;
+  _tier2Completed = tier2Completed;
+  _tier3Completed = tier3Completed;
+  
+  if (self.collectRewardView == nil)
+  {
+    int lowestTierWithUnredeemedReward = 0;
+    if      (_tier1Completed && !_tier1Redeemed) lowestTierWithUnredeemedReward = 1;
+    else if (_tier2Completed && !_tier2Redeemed) lowestTierWithUnredeemedReward = 2;
+    else if (_tier3Completed && !_tier3Redeemed) lowestTierWithUnredeemedReward = 3;
+    
+    if (lowestTierWithUnredeemedReward > 0)
+    {
+      [self displayCollectRewardViewForTier:lowestTierWithUnredeemedReward prizeList:_tierPrizes[lowestTierWithUnredeemedReward - 1] animate:YES];
+    }
   }
 }
 
 - (void) markTierAsComplete:(int)tier
 {
   UILabel* tierIndicatorLabel = nil;
+  MiniEventTierPrizeView* tierPrizeView = nil;
+  
   switch (tier)
   {
-    case 1: tierIndicatorLabel = self.tier1IndicatorLabel; break;
-    case 2: tierIndicatorLabel = self.tier2IndicatorLabel; break;
-    case 3: tierIndicatorLabel = self.tier3IndicatorLabel; break;
+    case 1: tierIndicatorLabel = self.tier1IndicatorLabel; tierPrizeView = self.tier1PrizeView; break;
+    case 2: tierIndicatorLabel = self.tier2IndicatorLabel; tierPrizeView = self.tier2PrizeView; break;
+    case 3: tierIndicatorLabel = self.tier3IndicatorLabel; tierPrizeView = self.tier3PrizeView; break;
     default: return;
   }
   
   tierIndicatorLabel.textColor = [UIColor colorWithHexString:@"469D00"];
+  tierPrizeView.tierCheckmark.hidden = NO;
 
   UIImageView* tierCheckmark = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"requirementmet.png"]];
   tierCheckmark.frame = CGRectMake(tierIndicatorLabel.originX - 12, tierIndicatorLabel.centerY - 4, 10, 8);
   [self.eventInfoView insertSubview:tierCheckmark belowSubview:tierIndicatorLabel];
-  
-  if (tier == 3)
-  {
-    self.pointsProgressBar.percentage = 1.f;
-    self.pointCounterView.hidden = YES;
-  }
 }
 
 - (void) displayCollectRewardViewForTier:(int)tier prizeList:(NSArray*)prizeList animate:(BOOL)animate
@@ -218,13 +255,16 @@ static const float kCollectRewardViewSlideAnimationDuration = .5f;
     else
     {
       MiniEventCollectRewardView* collectRewardView = [[NSBundle mainBundle] loadNibNamed:@"MiniEventCollectRewardView" owner:self options:nil][0];
-      [collectRewardView setDelegate:self];
-      [collectRewardView setOriginX:self.width];
-      [collectRewardView updateForTier:tier prizeList:prizeList];
-      [self insertSubview:collectRewardView aboveSubview:self.eventInfoView];
+      {
+        [collectRewardView setDelegate:self];
+        [collectRewardView setOriginX:self.width];
+        [collectRewardView updateForTier:tier prizeList:prizeList];
+        [self insertSubview:collectRewardView aboveSubview:self.eventInfoView];
+      }
       
       viewToAnimateIn  = collectRewardView;
-      viewToAnimateOut = self.collectRewardView;
+      viewToAnimateOut = self.collectRewardView == nil ? self.eventInfoView : self.collectRewardView;
+      if (self.collectRewardView == nil) self.pointCounterView.hidden = YES;
     }
     
     [UIView animateWithDuration:kCollectRewardViewSlideAnimationDuration animations:
@@ -234,16 +274,18 @@ static const float kCollectRewardViewSlideAnimationDuration = .5f;
      } completion:^(BOOL finished)
      {
        self.collectRewardView = [viewToAnimateIn isKindOfClass:[MiniEventCollectRewardView class]] ? (MiniEventCollectRewardView*)viewToAnimateIn : nil;
+       if ([viewToAnimateOut isKindOfClass:[MiniEventCollectRewardView class]]) [viewToAnimateOut removeFromSuperview];
        [self miniEventViewWillAppear];
-       [viewToAnimateOut removeFromSuperview];
      }];
   }
   else
   {
     self.collectRewardView = [[NSBundle mainBundle] loadNibNamed:@"MiniEventCollectRewardView" owner:self options:nil][0];
-    [self.collectRewardView setDelegate:self];
-    [self.collectRewardView updateForTier:tier prizeList:prizeList];
-    [self insertSubview:self.collectRewardView aboveSubview:self.eventInfoView];
+    {
+      [self.collectRewardView setDelegate:self];
+      [self.collectRewardView updateForTier:tier prizeList:prizeList];
+      [self insertSubview:self.collectRewardView aboveSubview:self.eventInfoView];
+    }
     
     self.eventInfoView.hidden = YES;
     self.pointCounterView.hidden = YES;
@@ -267,6 +309,24 @@ static const float kCollectRewardViewSlideAnimationDuration = .5f;
   [self displayCollectRewardViewForTier:nextTierWithUnredeemedReward
                               prizeList:nextTierWithUnredeemedReward > 0 ? _tierPrizes[nextTierWithUnredeemedReward - 1] : nil
                                 animate:YES];
+}
+
+- (void) updateTimeLeftForEvent:(UserMiniEvent*)userMiniEvent
+{
+  if ([userMiniEvent eventHasEnded])
+  {
+    // Event has ended
+    self.eventInfoTimerBackground.hidden = YES;
+    self.eventInfoTimeLeft.hidden = YES;
+    self.eventInfoEventEnded.hidden = NO;
+  }
+  else
+  {
+    MSDate* eventEndTime = [MSDate dateWithTimeIntervalSince1970:userMiniEvent.miniEvent.miniEventEndTime / 1000.f];
+    MSDate* now = [MSDate date];
+    const NSTimeInterval timeLeft = [eventEndTime timeIntervalSinceDate:now];
+    self.eventInfoTimeLeft.text = [[Globals convertTimeToShortString:timeLeft] uppercaseString];
+  }
 }
 
 - (void) miniEventViewWillAppear

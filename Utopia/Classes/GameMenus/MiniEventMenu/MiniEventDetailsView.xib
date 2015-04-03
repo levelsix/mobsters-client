@@ -74,6 +74,13 @@
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="EVENT ENDED!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Y9r-sS-2si" customClass="NiceFontLabel9B">
+                            <rect key="frame" x="166" y="55" width="75" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                            <color key="textColor" red="0.89411764705882357" green="0.015686274509803921" blue="0.015686274509803921" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mypointsbg.png" id="Vxg-u6-qW3">
                             <rect key="frame" x="354" y="23" width="76" height="48"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -171,13 +178,6 @@
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
-                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="EVENT ENDED!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Y9r-sS-2si" customClass="NiceFontLabel9B">
-                            <rect key="frame" x="166" y="55" width="75" height="21"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                            <color key="textColor" red="0.89411764705882357" green="0.015686274509803921" blue="0.015686274509803921" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>

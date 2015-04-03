@@ -11,6 +11,7 @@
 
 @class MiniEventDetailsView;
 @class MiniEventPointsView;
+@class UserMiniEvent;
 
 @interface MiniEventViewController : UIViewController <TabBarDelegate>
 {
@@ -29,6 +30,10 @@
 @property (nonatomic, retain) MiniEventDetailsView* detailsView;
 @property (nonatomic, retain) MiniEventPointsView* pointsView;
 
+@property (nonatomic, retain) NSTimer* eventUpdateTimeLeftTimer;
+
 - (IBAction) closeClicked:(id)sender;
+
+- (void) miniEventUpdated:(UserMiniEvent*)userMiniEvent;
 
 @end
