@@ -114,7 +114,7 @@
   [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (IBAction)closeClicked:(id)sender {
+- (IBAction) closeClicked:(id)sender {
   [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
     [self.view removeFromSuperview];
     [self removeFromParentViewController];

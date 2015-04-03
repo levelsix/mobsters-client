@@ -56,6 +56,4 @@
 @property (nonatomic, retain) IBOutlet UILabel *titleLabel;
 @property (nonatomic, retain) IBOutlet UIImageView *titleDiamond;
 
-- (void) handleAchievementRedeemResponseProto:(FullEvent *)fe;
-
 @end
