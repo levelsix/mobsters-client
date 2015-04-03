@@ -1733,6 +1733,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusSuccess) {
+    // Gems, oil, and cash are updated through UpdateUserClientResponseEvent. Don't do anything here
     if (proto.updatedOrNewList.count) {
       [gs addToMyMonsters:proto.updatedOrNewList];
     }
