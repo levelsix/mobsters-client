@@ -204,7 +204,7 @@
   
   [_lockedSpriteLeft runAction:
    [CCActionSequence actions:
-    fadeOut, [CCActionRemove action], nil]]		;
+    fadeOut, [CCActionRemove action], nil]];
 }
 
 - (void) loadDamageMultiplierElements
