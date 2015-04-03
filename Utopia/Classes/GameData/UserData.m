@@ -1672,6 +1672,20 @@
   return [[UserMiniEvent alloc] initWithProto:proto];
 }
 
+- (BOOL) eventHasEnded
+{
+  MSDate* eventEndTime = [MSDate dateWithTimeIntervalSince1970:self.miniEvent.miniEventEndTime / 1000.f];
+  MSDate* now = [MSDate date];
+  return ([now compare:eventEndTime] != NSOrderedAscending);
+}
+
+- (BOOL) allCompletedTiersHaveBeenRedeemed
+{
+  return ((self.tierOneRedeemed   || self.pointsEarned < self.miniEvent.lvlEntered.tierOneMinPts) &&
+          (self.tierTwoRedeemed   || self.pointsEarned < self.miniEvent.lvlEntered.tierTwoMinPts) &&
+          (self.tierThreeRedeemed || self.pointsEarned < self.miniEvent.lvlEntered.tierThreeMinPts));
+}
+
 - (UserMiniEventProto*) convertToProto
 {
   NSMutableArray* goalsList = [NSMutableArray array];
