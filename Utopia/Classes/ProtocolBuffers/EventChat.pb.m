@@ -587,6 +587,7 @@ static GeneralNotificationResponseProto* defaultGeneralNotificationResponseProto
 @property GroupChatScope scope;
 @property (strong) NSString* chatMessage;
 @property int64_t clientTime;
+@property TranslateLanguages globalLanguage;
 @end
 
 @implementation SendGroupChatRequestProto
@@ -619,12 +620,20 @@ static GeneralNotificationResponseProto* defaultGeneralNotificationResponseProto
   hasClientTime_ = !!value_;
 }
 @synthesize clientTime;
+- (BOOL) hasGlobalLanguage {
+  return !!hasGlobalLanguage_;
+}
+- (void) setHasGlobalLanguage:(BOOL) value_ {
+  hasGlobalLanguage_ = !!value_;
+}
+@synthesize globalLanguage;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.scope = GroupChatScopeClan;
     self.chatMessage = @"";
     self.clientTime = 0L;
+    self.globalLanguage = TranslateLanguagesArabic;
   }
   return self;
 }
@@ -656,6 +665,9 @@ static SendGroupChatRequestProto* defaultSendGroupChatRequestProtoInstance = nil
   if (self.hasClientTime) {
     [output writeInt64:4 value:self.clientTime];
   }
+  if (self.hasGlobalLanguage) {
+    [output writeEnum:5 value:self.globalLanguage];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -676,6 +688,9 @@ static SendGroupChatRequestProto* defaultSendGroupChatRequestProtoInstance = nil
   }
   if (self.hasClientTime) {
     size_ += computeInt64Size(4, self.clientTime);
+  }
+  if (self.hasGlobalLanguage) {
+    size_ += computeEnumSize(5, self.globalLanguage);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -727,6 +742,9 @@ static SendGroupChatRequestProto* defaultSendGroupChatRequestProtoInstance = nil
   if (self.hasClientTime) {
     [output appendFormat:@"%@%@: %@\n", indent, @"clientTime", [NSNumber numberWithLongLong:self.clientTime]];
   }
+  if (self.hasGlobalLanguage) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"globalLanguage", [NSNumber numberWithInteger:self.globalLanguage]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -746,6 +764,8 @@ static SendGroupChatRequestProto* defaultSendGroupChatRequestProtoInstance = nil
       (!self.hasChatMessage || [self.chatMessage isEqual:otherMessage.chatMessage]) &&
       self.hasClientTime == otherMessage.hasClientTime &&
       (!self.hasClientTime || self.clientTime == otherMessage.clientTime) &&
+      self.hasGlobalLanguage == otherMessage.hasGlobalLanguage &&
+      (!self.hasGlobalLanguage || self.globalLanguage == otherMessage.globalLanguage) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -761,6 +781,9 @@ static SendGroupChatRequestProto* defaultSendGroupChatRequestProtoInstance = nil
   }
   if (self.hasClientTime) {
     hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.clientTime] hash];
+  }
+  if (self.hasGlobalLanguage) {
+    hashCode = hashCode * 31 + self.globalLanguage;
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -817,6 +840,9 @@ static SendGroupChatRequestProto* defaultSendGroupChatRequestProtoInstance = nil
   if (other.hasClientTime) {
     [self setClientTime:other.clientTime];
   }
+  if (other.hasGlobalLanguage) {
+    [self setGlobalLanguage:other.globalLanguage];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -862,6 +888,15 @@ static SendGroupChatRequestProto* defaultSendGroupChatRequestProtoInstance = nil
       }
       case 32: {
         [self setClientTime:[input readInt64]];
+        break;
+      }
+      case 40: {
+        TranslateLanguages value = (TranslateLanguages)[input readEnum];
+        if (TranslateLanguagesIsValidValue(value)) {
+          [self setGlobalLanguage:value];
+        } else {
+          [unknownFields mergeVarintField:5 value:value];
+        }
         break;
       }
     }
@@ -943,6 +978,22 @@ static SendGroupChatRequestProto* defaultSendGroupChatRequestProtoInstance = nil
 - (SendGroupChatRequestProto_Builder*) clearClientTime {
   result.hasClientTime = NO;
   result.clientTime = 0L;
+  return self;
+}
+- (BOOL) hasGlobalLanguage {
+  return result.hasGlobalLanguage;
+}
+- (TranslateLanguages) globalLanguage {
+  return result.globalLanguage;
+}
+- (SendGroupChatRequestProto_Builder*) setGlobalLanguage:(TranslateLanguages) value {
+  result.hasGlobalLanguage = YES;
+  result.globalLanguage = value;
+  return self;
+}
+- (SendGroupChatRequestProto_Builder*) clearGlobalLanguageList {
+  result.hasGlobalLanguage = NO;
+  result.globalLanguage = TranslateLanguagesArabic;
   return self;
 }
 @end
