@@ -36,11 +36,6 @@
 
 #pragma mark - Overrides
 
-- (BOOL) shouldPersist
-{
-  return [self isActive];
-}
-
 - (BOOL) affectsOwner
 {
   return NO;
@@ -84,6 +79,7 @@
 - (void)onAllSpecialsDestroyed
 {
   [self resetOrbCounter];
+  [super onAllSpecialsDestroyed];
 }
 
 - (BOOL)activate
@@ -95,6 +91,11 @@
     return YES;
   }
   return [super activate];
+}
+
+- (void)showQuickAttackMiniLogo
+{
+  [self showSkillPopupMiniOverlay:[NSString stringWithFormat:@"%i DMG + %i TURNS / STUNNED", _damage, _stunTurns]];
 }
 
 - (BOOL)onSpecialOrbCounterFinish:(NSInteger)numOrbs

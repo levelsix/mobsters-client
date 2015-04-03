@@ -821,6 +821,7 @@
     
     if (self.myPlayerObject.isStunned)
     {
+      [[skillManager enemySkillControler] showSkillPopupAilmentOverlay:@"STUNNED" bottomText:@"TURN LOST"];
       [self endMyTurnAfterDelay:1.5f];
       return;
     }
@@ -881,17 +882,20 @@
             // If the enemy's stunned, short the attack function
             if (self.enemyPlayerObject.isStunned)
             {
+              [[skillManager playerSkillControler] showSkillPopupAilmentOverlay:@"STUNNED" bottomText:@"TURN LOST"];
               [self performAfterDelay:1.5 block:^{
                 [self endEnemyTurn];
               }];
               return;
             }
             
-            // If the enemy's confused, he will deal damage to himself. Instead of the usual flow, show
-            // the popup above his head, followed by flinch animation and showing the damage label
+            // If the enemy's confused, they will deal damage to themself. Instead of the usual flow, show
+            // the popup above their head, followed by flinch animation and showing the damage label
             if (self.enemyPlayerObject.isConfused)
             {
               self.enemyPlayerObject.isConfused = NO;
+              
+              [[skillManager playerSkillControler] enqueueSkillPopupAilmentOverlay:@"CONFUSED" bottomText:[NSString stringWithFormat:@"%i DMG TO SELF", _enemyDamageDealt]];
               
               CCSprite* confusedPopup = [CCSprite spriteWithImageNamed:@"confusionbubble.png"];
               [confusedPopup setAnchorPoint:CGPointMake(.5f, 0.f)];
@@ -909,6 +913,7 @@
                                         nil]];
             }
             else
+            {
               [self.currentEnemy performNearAttackAnimationWithEnemy:self.myPlayer
                                                         shouldReturn:YES
                                                          shouldEvade:[skillManager playerWillEvade:YES]
@@ -917,6 +922,10 @@
                                                               target:self
                                                             selector:@selector(dealEnemyDamage)
                                                       animCompletion:nil];
+            }
+            
+            
+            [skillManager playDamageLogos];
           }];
         }
       }
@@ -943,6 +952,11 @@
 }
 
 - (void) myTurnEnded {
+  
+  _myDamageDealt = _myDamageDealt*[self damageMultiplierIsEnemyAttacker:NO];
+  _myDamageDealtUnmodified = _myDamageDealt;
+  _myDamageDealt = (int)[skillManager modifyDamage:_myDamageDealt forPlayer:YES];
+  
   [self showHighScoreWord];
   [self.orbLayer disallowInput];
   [self.orbLayer.bgdLayer turnTheLightsOff];
@@ -955,16 +969,13 @@
 
 - (void) doMyAttackAnimation {
   
-  _myDamageDealt = _myDamageDealt*[self damageMultiplierIsEnemyAttacker:NO];
-  _myDamageDealtUnmodified = _myDamageDealt;
   
   // Changing damage with a skill
-  NSInteger scoreModifier = _myDamageDealt > 0 ? 1 : 0; // used to make current score not 0 if damage was modified to 0 by skillManager
-  _myDamageDealt = (int)[skillManager modifyDamage:_myDamageDealt forPlayer:YES];
+  NSInteger scoreModifier = _myDamageDealtUnmodified > 0 ? 1 : 0; // used to make current score not 0 if damage was modified to 0 by skillManager
   if (_myDamageDealt > 0)
     scoreModifier = 0;
   
-  int currentScore = (float)(_myDamageDealt + scoreModifier)/(float)[self.myPlayerObject totalAttackPower]*100.f;
+  int currentScore = (float)(_myDamageDealtUnmodified + scoreModifier)/(float)[self.myPlayerObject totalAttackPower]*100.f;
   
   if (currentScore > 0) {
   
@@ -973,6 +984,8 @@
     if (self.myPlayerObject.isConfused)
     {
       self.myPlayerObject.isConfused = NO;
+      
+      [[skillManager enemySkillControler] enqueueSkillPopupAilmentOverlay:@"CONFUSED" bottomText:[NSString stringWithFormat:@"%i DMG TO SELF", _myDamageDealt]];
       
       CCSprite* confusedPopup = [CCSprite spriteWithImageNamed:@"confusionbubble.png"];
       [confusedPopup setAnchorPoint:CGPointMake(.5f, 0.f)];
@@ -991,12 +1004,12 @@
     }
     else
     {
-#if !TARGET_IPHONE_SIMULATOR
+//#if !TARGET_IPHONE_SIMULATOR
       if (currentScore > MAKEITRAIN_SCORE) {
         [self.myPlayer restoreStandingFrame];
         [self spawnPlaneWithTarget:nil selector:nil];
       }
-#endif
+//#endif
       float strength = MIN(1, currentScore/(float)STRENGTH_FOR_MAX_SHOTS);
       [self.myPlayer performFarAttackAnimationWithStrength:strength
                                                shouldEvade:[skillManager playerWillEvade:NO]
@@ -1009,6 +1022,8 @@
   } else {
     [self beginNextTurn];
   }
+  
+  [skillManager playDamageLogos];
 }
 
 - (void) dealMyDamage {
@@ -1110,7 +1125,7 @@
   else
   {
     const float updateDuration = MIN(abs(initialDamage - modifiedDamage) * .07f, 1.75f);
-    const int   updateRepeatCount = ceilf(updateDuration / .05f);
+    const int   updateRepeatCount = ceilf(updateDuration / .07f);
     const float updateDamageIncrement = (initialDamage - modifiedDamage) / (float)updateRepeatCount;
     
     __block float damage = initialDamage;
@@ -1872,7 +1887,7 @@
   CCSprite *phrase = nil;
   NSString *phraseFile = nil;
   BOOL isMakeItRain = NO;
-  int currentScore = _myDamageDealt*[self damageMultiplierIsEnemyAttacker:NO]/(float)[self.myPlayerObject totalAttackPower]*100.f;
+  int currentScore = _myDamageDealtUnmodified*[self damageMultiplierIsEnemyAttacker:NO]/(float)[self.myPlayerObject totalAttackPower]*100.f;
   if (currentScore > MAKEITRAIN_SCORE) {
     isMakeItRain = YES;
   } else if (currentScore > HAMMERTIME_SCORE) {
@@ -2553,6 +2568,8 @@
   [self displayLootCounter:YES];
   BOOL isSwap = self.myPlayer != nil;
   if (bp && ![bp.userMonsterUuid isEqualToString:self.myPlayerObject.userMonsterUuid]) {
+    
+    [self.myPlayer removeAllSkillSideEffects];
     self.myPlayerObject = bp;
     
     if (bp.isClanMonster) {
@@ -2563,12 +2580,13 @@
       }
     }
     
-    [self createScheduleWithSwap:isSwap];
     
     if (isSwap) {
       [self makeMyPlayerWalkOutWithBlock:nil];
       [self.hudView removeButtons];
     }
+    
+    [self createScheduleWithSwap:isSwap];
     
     [self createNextMyPlayerSprite];
     

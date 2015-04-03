@@ -34,11 +34,6 @@
 
 #pragma mark - Overrides
 
-- (BOOL) shouldPersist
-{
-  return _stunTurnsLeft > 0;
-}
-
 - (NSSet*) sideEffects
 {
   return [NSSet setWithObjects:@(SideEffectTypeBuffHammerTime), @(SideEffectTypeNerfStun), nil];
@@ -95,6 +90,19 @@
   }
   
   return NO;
+}
+
+- (void)addVisualEffects:(BOOL)finishSkillTrigger
+{
+  [self addSkillSideEffectToSkillOwner:SideEffectTypeBuffHammerTime turnsAffected:self.turnsLeft turnsAreSkillOwners:[self tickTrigger] == TickTriggerAfterUserTurn];
+
+  if (finishSkillTrigger)
+    [self skillTriggerFinished:YES];
+}
+
+- (void)removeVisualEffects
+{
+  [self removeSkillSideEffectFromSkillOwner:SideEffectTypeBuffHammerTime];
 }
 
 - (void) stunOpponent

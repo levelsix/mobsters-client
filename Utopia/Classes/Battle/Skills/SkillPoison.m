@@ -31,6 +31,40 @@
 
 #pragma mark - Overrides
 
+- (NSSet *)sideEffects
+{
+  return [NSSet setWithObjects:@(SideEffectTypeNerfPoisonIcon), nil];
+}
+
+//Poison has a weird exception where it technically affects the owner, since it's a special orb
+//skill, but we want it to apply to the opponent on the schedule, since it really affects the player.
+//As such, the skill gets its own custom add and remove effects code
+- (void)addVisualEffects:(BOOL)finishSkillTrigger
+{
+  for (NSNumber *sideEff in [self sideEffects])
+  {
+    SideEffectType sideType = [sideEff intValue];
+    [self addSkillSideEffectToOpponent:sideType turnsAffected:self.turnsLeft turnsAreSkillOwners:YES];
+  }
+  
+  if (finishSkillTrigger)
+    [self skillTriggerFinished:YES];
+}
+
+- (void)removeVisualEffects
+{
+  for (NSNumber *sideEff in [self sideEffects])
+  {
+    SideEffectType sideType = [sideEff intValue];
+    [self removeSkillSideEffectFromOpponent:sideType];
+  }
+}
+
+- (BOOL)shouldPersist
+{
+  return NO;
+}
+
 - (BOOL) generateSpecialOrb:(BattleOrb *)orb atColumn:(int)column row:(int)row
 {
   if ([self isActive] && orb.orbColor == self.orbColor)
@@ -50,11 +84,6 @@
 - (TickTrigger)tickTrigger
 {
   return TickTriggerAfterOpponentTurn;
-}
-
-- (BOOL) shouldPersist
-{
-  return ([self specialsOnBoardCount:SpecialOrbTypePoison]) || [self isActive];
 }
 
 - (void) orbDestroyed:(OrbColor)color special:(SpecialOrbType)type
@@ -86,7 +115,6 @@
         [self.battleLayer.orbLayer disallowInput];
         [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
         [self dealPoisonDamage];
-        [self showSkillPopupMiniOverlay:[NSString stringWithFormat:@"%i POISON DMG", _tempDamageDealt]];
       }
       return YES;
     }
@@ -113,6 +141,12 @@
   return YES;
 }
 
+- (BOOL) onDurationEnd
+{
+  [self removeSpecialOrbs];
+  return [super onDurationEnd];
+}
+
 - (void) onFinishPoisonDamage
 {
   _tempDamageDealt = 0;
@@ -120,12 +154,6 @@
     [self activate];
   else
     [self skillTriggerFinished];
-}
-
-- (BOOL) onDurationReset
-{
-  [self dealPoisonDamage];
-  return YES;
 }
 
 //Pop this special logic in here.

@@ -56,6 +56,8 @@
 
 @property (nonatomic, readonly) NSMutableArray* skillSideEffects;
 
+@property (nonatomic, retain) UIImageView* characterImageView;
+
 - (void) addSkillSideEffect:(SideEffectType)type forSkill:(NSInteger)skillId turnsAffected:(NSInteger)numTurns
    turnsAreSideEffectOwners:(BOOL)turnsAreSideEffectOwners toPlayer:(BOOL)player;
 - (void) resetAfftectedTurnsCount:(NSInteger)numTurns forSkillSideEffect:(SideEffectType)type;

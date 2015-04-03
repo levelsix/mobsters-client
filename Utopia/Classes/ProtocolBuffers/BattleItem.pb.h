@@ -2,7 +2,6 @@
 
 #import "ProtocolBuffers.h"
 
-#import "SharedEnumConfig.pb.h"
 #import "Structure.pb.h"
 // @@protoc_insertion_point(imports)
 
@@ -77,6 +76,8 @@ typedef NS_ENUM(SInt32, BattleItemType) {
   BattleItemTypeOrbHammer = 4,
   BattleItemTypeHandSwap = 5,
   BattleItemTypeBoardShuffle = 6,
+  BattleItemTypePutty = 7,
+  BattleItemTypeNone = 8,
 };
 
 BOOL BattleItemTypeIsValidValue(BattleItemType value);

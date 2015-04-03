@@ -1,0 +1,92 @@
+//ALL REQUEST PROTOS SHOULD INCLUDE A MinimumUserProto AS optional that represents which client sent it/triggered it 
+//DO NO START PROPERTY METHODS WITH THE WORDS NEW OR COPY
+
+import "MiniEvent.proto";
+import "Reward.proto";
+import "User.proto";
+
+package com.lvl6.proto;
+
+option java_outer_classname = "EventMiniEventProto";
+//DO NOT USE ID AS THE NAME OF A PROPERTY IN ANY PROTO
+
+//------------------------------------------------------------------------------------------
+//updates the user's current MiniEvent, creates one if nonexistent, or returns user's current MiniEvent
+message RetrieveMiniEventRequestProto {
+	optional MinimumUserProto sender = 1;
+	
+	//false means:
+	//a) user has no MiniEvent, then a new one will be created (if possible)
+	//b) user has a MiniEvent, then information about this MiniEvent is returned
+	//true means:
+	//a) user has no MiniEvent, then a new one will be created (if possible)
+	//b) user has a MiniEvent
+	//	1) user didn't redeem all possible rewards, then FAIL_OTHER is returned and no other info is returned
+	//	2) user redeemed all possible rewards
+	//		i) user's MiniEvent equals currently active MiniEvent, then information about this MiniEvent is returned
+	//		ii) user's MiniEvent doesn't equal currently active MiniEvent,
+	//			one) there is no active MiniEvent, then no MiniEvent info is returned
+	//			two) there is an active MiniEvent, then a new one will be created	 
+	optional bool replaceExistingUserMiniEvent = 2;
+}
+
+message RetrieveMiniEventResponseProto {
+	optional MinimumUserProto sender = 1;
+	optional UserMiniEventProto userMiniEvent = 2;
+	
+	optional RetrieveMiniEventStatus status = 3;
+	
+	enum RetrieveMiniEventStatus {
+		SUCCESS = 1;
+		FAIL_OTHER = 2;
+	}
+}
+
+//------------------------------------------------------------------------------------------
+message UpdateMiniEventRequestProto {
+	optional MinimumUserProto sender = 1;
+	repeated UserMiniEventGoalProto updatedGoals = 2;
+}
+
+message UpdateMiniEventResponseProto {
+	optional MinimumUserProto sender = 1;
+	optional UpdateMiniEventStatus status = 2;
+	
+	enum UpdateMiniEventStatus {
+		SUCCESS = 1;
+		FAIL_OTHER = 2;
+	}
+}
+
+//------------------------------------------------------------------------------------------
+
+message RedeemMiniEventRewardRequestProto {
+	optional MinimumUserProtoWithMaxResources sender = 1;
+	
+	//the tier that is being redeemed
+	optional RewardTier tierRedeemed = 2;
+	//MiniEventForPlayerLevelProto.mefplId
+	optional int32 mefplId = 3;
+	
+	optional int64 clientTime = 4;
+	
+	enum RewardTier {
+		TIER_ONE = 1;
+		TIER_TWO = 2;
+		TIER_THREE = 3;
+	}
+}
+																						//DONE
+message RedeemMiniEventRewardResponseProto {
+     optional MinimumUserProto sender = 1;
+     optional RedeemMiniEventRewardStatus status = 2 [default = FAIL_OTHER];
+     optional UserRewardProto rewards = 3;
+     
+
+     enum RedeemMiniEventRewardStatus {
+     	SUCCESS = 1;
+     	FAIL_OTHER = 2;
+     }
+}
+
+//------------------------------------------------------------------------------------------

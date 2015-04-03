@@ -43,10 +43,6 @@
   return NO;
 }
 
-- (BOOL) shouldPersist {
-  return [self isActive];
-}
-
 - (NSSet*) sideEffects
 {
   return [NSSet setWithObjects:@(SideEffectTypeNerfPoison), nil];

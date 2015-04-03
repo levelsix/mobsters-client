@@ -280,6 +280,10 @@
   }
 }
 
+- (void)updateArrowForTile:(BattleTile *)tile arrow:(BOOL)arrow{
+  [[self spriteForTile:tile depth:TileDepthTop] updateArrowSprite:arrow];
+}
+
 - (void) turnTheLightsOn
 {
   [self turnTheLights:YES instantly:NO];

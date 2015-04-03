@@ -170,6 +170,7 @@
   TileType typeTop = TileTypeNormal;
   TileType typeBottom = TileTypeNormal;
   BOOL shouldSpawnInitialSkill = NO;
+  BOOL bottomFallsOut = row == 0;
   
   for (BoardPropertyProto *prop in properties) {
     if ([prop.name isEqualToString:SPAWN_TILE]) {
@@ -186,10 +187,14 @@
       typeBottom = prop.value;
     } else if ([prop.name isEqualToString:INITIAL_SKILL]) {
       shouldSpawnInitialSkill = YES;
+    } else if ([prop.name isEqualToString:BOTTOM_FALL]) {
+      bottomFallsOut = YES;
+    } else if ([prop.name isEqualToString:NOT_BOTTOM_FALL]){
+      bottomFallsOut = NO;
     }
   }
-  
-  _tiles[column][row] = [[BattleTile alloc] initWithColumn:column row:row typeTop:typeTop typeBottom:typeBottom isHole:isHole canPassThrough:canPassThrough canSpawnOrbs:canSpawnOrbs shouldSpawnInitialSkill:shouldSpawnInitialSkill];
+
+  _tiles[column][row] = [[BattleTile alloc] initWithColumn:column row:row typeTop:typeTop typeBottom:typeBottom isHole:isHole canPassThrough:canPassThrough canSpawnOrbs:canSpawnOrbs shouldSpawnInitialSkill:shouldSpawnInitialSkill bottomFallsOut:bottomFallsOut];
 }
 
 - (void) dealloc {
@@ -281,7 +286,7 @@
           [set addObject:orb];
         }
         
-        if ([self hasChainAtColumn:i row:j] || (j == 0 && [self orbIsBottomFeeder:orb])) {
+        if ([self hasChainAtColumn:i row:j] || ([self isBottomRowForColumn:i row:j] && [self orbIsBottomFeeder:orb])) {
           foundMatch = YES;
         }
       }
@@ -301,6 +306,21 @@
   while ([self.possibleSwaps count] == 0 || foundMatch);
   
   return set;
+}
+
+- (BOOL) isBottomRowForColumn:(int)column row:(int)row
+{
+  BattleTile *currTile = [self tileAtColumn:column row:row];
+  if (row == 0) return !currTile.isHole;
+  if (currTile.isHole)
+    return NO;
+  for (int i = row-1; i >= 0; i--)
+  {
+    currTile = [self tileAtColumn:column row:i];
+    if (!currTile.isHole)
+      return NO;
+  }
+  return YES;
 }
 
 - (OrbColor) generateRandomOrbColor {
@@ -1608,14 +1628,20 @@
   NSMutableSet *set = [NSMutableSet set];
   
   for (int i = 0; i < _numColumns; i++) {
-    BattleOrb *orb = [self orbAtColumn:i row:0];
-    if ([self orbIsBottomFeeder:orb]) {
-      
-      [self addPoint:ccp(i, 0) forOrb:orb withOrbPaths:orbPaths];
-      
-      [set addObject:orb];
-      orb.changeType = OrbChangeTypeDestroyed;
-      [self setOrb:nil column:i row:0];
+    for (int j = 0; j < _numRows; j++) {
+      BattleTile *tile = [self tileAtColumn:i row:j];
+      if (tile.bottomFallsOut)
+      {
+        BattleOrb *orb = [self orbAtColumn:i row:j];
+        if ([self orbIsBottomFeeder:orb]) {
+          
+          [self addPoint:ccp(i, 0) forOrb:orb withOrbPaths:orbPaths];
+          
+          [set addObject:orb];
+          orb.changeType = OrbChangeTypeDestroyed;
+          [self setOrb:nil column:i row:0];
+        }
+      }
     }
   }
   
@@ -1735,7 +1761,8 @@ static const NSInteger maxSearchIterations = 800;
       row = rand() % layout.numRows;
       orb = [layout orbAtColumn:column row:row];
       counter++;
-    } while (([layout willHaveChainAtColumn:column row:row color:orbColor] ||
+    } while ((!orb ||
+              [layout willHaveChainAtColumn:column row:row color:orbColor] ||
               orb.specialOrbType != SpecialOrbTypeNone ||
               orb.powerupType != PowerupTypeNone ||
               orb.isLocked) &&
@@ -1790,6 +1817,20 @@ static const NSInteger maxSearchIterations = 800;
   }
   
   return str;
+}
+
+- (NSArray *)getBottomFeederTiles
+{
+  NSMutableArray *tiles = [NSMutableArray array];
+  BattleTile *currTile;
+  for (int i = 0; i < _numRows; i++) {
+    for (int j =0 ; j < _numColumns; j++) {
+      currTile = [self tileAtColumn:j row:i];
+      if (currTile.bottomFallsOut)
+          [tiles addObject:currTile];
+    }
+  }
+  return tiles;
 }
 
 @end

@@ -24,6 +24,41 @@
 
 typedef void (^ShakeAnimCompletionBlock)(void);
 
+@implementation SkillPopupData
+
++ (instancetype)initWithData:(BOOL)player characterImage:(UIImageView *)characterImage topText:(NSString *)topText bottomText:(NSString *)bottomText mini:(BOOL)mini stacks:(int)stacks completion:(SkillPopupBlock)completion
+{
+  SkillPopupData *data = [SkillPopupData alloc];
+  data.player = player;
+  data.characterImage = characterImage;
+  data.topText = topText;
+  data.bottomText = bottomText;
+  data.miniPopup = mini;
+  data.skillCompletion = completion;
+  data.stacks = stacks;
+  data.priority = 0;
+  return data;
+}
+
+- (void)enqueue:(SkillPopupData*)other
+{
+  if (!self.next)
+  {
+    self.next = other;
+  }
+  else if (self.next.priority < other.priority)
+  {
+    other.next = self.next;
+    self.next = other;
+  }
+  else
+  {
+    [self.next enqueue:other];
+  }
+}
+
+@end
+
 @implementation SkillPopupOverlay
 
 - (id)initWithCoder:(NSCoder *)aDecoder
@@ -37,8 +72,8 @@ typedef void (^ShakeAnimCompletionBlock)(void);
   return self;
 }
 
-- (void) animateForSkill:(NSInteger)skillId forPlayer:(BOOL)player withImage:(UIImage*)characterImage bottomText:(NSString*)bottomText
-                orbColor:(OrbColor)orbColor miniPopup:(BOOL)mini withCompletion:(SkillPopupBlock)completion
+- (void) animate:(BOOL)player withImage:(UIImage*)characterImage topText:(NSString*)topText bottomText:(NSString*)bottomtext
+       miniPopup:(BOOL)mini stacks:(int)stacks withCompletion:(SkillPopupBlock)completion
 {
   ////////////
   // Layout //
@@ -67,7 +102,7 @@ typedef void (^ShakeAnimCompletionBlock)(void);
   THLabel* bottomLabel = player ? _skillBottomLabelPlayer : _skillBottomLabelEnemy;
   
   [mainView setHidden:NO];
-  [topLabel setHidden:YES]; // Haven't figured out what we wanna use this label for yet
+  [topLabel setHidden:stacks <= 1];
   
   nameLabel.gradientStartColor = [UIColor whiteColor];
   nameLabel.gradientEndColor = [UIColor colorWithHexString:@"E4E4E4"];
@@ -93,14 +128,9 @@ typedef void (^ShakeAnimCompletionBlock)(void);
   
   [playerImage setImage:characterImage];
   
-  /* No longer using colored rocks
-  [rocksImage setImage:[UIImage imageNamed:[Globals imageNameForElement:(Element)orbColor suffix:@"rocks.png"]]];
-   */
-  
-  SkillProto* playerSkillProto = [[GameState sharedGameState].staticSkills objectForKey:[NSNumber numberWithInteger:skillId]];
-  [nameLabel setText:[playerSkillProto.name uppercaseString]];
-  if (!bottomText || [bottomText isEqualToString:@""]) [bottomLabel setText:(player ? playerSkillProto.shortOffDesc : playerSkillProto.shortDefDesc)];
-  else [bottomLabel setText:bottomText];
+  [nameLabel setText:[topText uppercaseString]];
+  [bottomLabel setText:[bottomtext uppercaseString]];
+  [topLabel setText:[NSString stringWithFormat:@"%ix", stacks]];
   
   ////////////////
   // Animations //
@@ -141,6 +171,11 @@ typedef void (^ShakeAnimCompletionBlock)(void);
   }];
   
   [self setAlpha:1.f];
+}
+
+- (void) quickHide:(BOOL)player
+{
+  [self removeFromSuperview];
 }
 
 - (void) hideWithCompletion:(SkillPopupBlock)completion forPlayer:(BOOL)player

@@ -42,8 +42,9 @@
 {
   if ([self isActive] && self.belongsToPlayer != player)
   {
+    NSInteger unmodifiedDamage = damage;
     damage *= _damageTakenMultiplier;
-    [self showSkillPopupMiniOverlay:[NSString stringWithFormat:@"%.3gX ATK", _damageTakenMultiplier]];
+    [self enqueueSkillPopupMiniOverlay:[NSString stringWithFormat:@"%li DMG BLOCKED", (unmodifiedDamage - damage)]];
   }
   
   return damage;

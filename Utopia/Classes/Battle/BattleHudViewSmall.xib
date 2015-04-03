@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NewBattleLayer">
@@ -213,6 +213,22 @@
                                             <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
+                                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="turnmovesbg.png" id="zYZ-GE-pO8" userLabel="Side Effect 1">
+                                            <rect key="frame" x="4" y="4" width="15" height="16"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        </imageView>
+                                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="turnmovesbg.png" id="iOW-x6-Ahn" userLabel="Side Effect 2">
+                                            <rect key="frame" x="23" y="4" width="15" height="16"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        </imageView>
+                                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="turnmovesbg.png" id="b3l-cf-5pj" userLabel="Side Effect 3">
+                                            <rect key="frame" x="4" y="22" width="15" height="16"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        </imageView>
+                                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="turnmovesbg.png" id="MLG-Aw-xjV" userLabel="Side Effect 4">
+                                            <rect key="frame" x="23" y="22" width="15" height="16"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        </imageView>
                                         <view userInteractionEnabled="NO" contentMode="scaleToFill" id="YGp-eg-If4" userLabel="Health View">
                                             <rect key="frame" x="2" y="28" width="44" height="16"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -297,6 +313,10 @@
                                         <outlet property="bgdIcon" destination="SPc-Fc-eyr" id="qhp-te-6ot"/>
                                         <outlet property="evoBadge" destination="haQ-j5-6zh" id="l7Z-Oh-YMg"/>
                                         <outlet property="monsterIcon" destination="yYT-r2-d8t" id="uem-Fh-enx"/>
+                                        <outletCollection property="sideEffectViews" destination="zYZ-GE-pO8" id="7h1-dg-OdS"/>
+                                        <outletCollection property="sideEffectViews" destination="iOW-x6-Ahn" id="hQk-hh-jAk"/>
+                                        <outletCollection property="sideEffectViews" destination="b3l-cf-5pj" id="YdK-gG-8Rm"/>
+                                        <outletCollection property="sideEffectViews" destination="MLG-Aw-xjV" id="zDe-ni-d1b"/>
                                     </connections>
                                 </view>
                             </subviews>
@@ -328,6 +348,22 @@
                                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="WjA-uq-A0l">
                                             <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                        </imageView>
+                                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="turnmovesbg.png" id="V25-Ac-BWB" userLabel="Side Effect 1">
+                                            <rect key="frame" x="4" y="4" width="15" height="16"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        </imageView>
+                                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="turnmovesbg.png" id="7Go-Hq-nuw" userLabel="Side Effect 2">
+                                            <rect key="frame" x="23" y="4" width="15" height="16"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        </imageView>
+                                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="turnmovesbg.png" id="0JT-m9-lPW" userLabel="Side Effect 3">
+                                            <rect key="frame" x="4" y="22" width="15" height="16"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        </imageView>
+                                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="turnmovesbg.png" id="6Lu-B3-rFD" userLabel="Side Effect 4">
+                                            <rect key="frame" x="23" y="22" width="15" height="16"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
                                         <view userInteractionEnabled="NO" contentMode="scaleToFill" id="I7j-GN-Cnx" userLabel="Health View">
                                             <rect key="frame" x="2" y="28" width="44" height="16"/>
@@ -413,6 +449,10 @@
                                         <outlet property="bgdIcon" destination="0Rm-A8-dZh" id="xyk-Sw-jnW"/>
                                         <outlet property="evoBadge" destination="iuv-Wo-DhC" id="tkj-Ug-LJV"/>
                                         <outlet property="monsterIcon" destination="WjA-uq-A0l" id="9I4-Zh-m4M"/>
+                                        <outletCollection property="sideEffectViews" destination="V25-Ac-BWB" id="py1-HL-hul"/>
+                                        <outletCollection property="sideEffectViews" destination="7Go-Hq-nuw" id="oxM-FI-jTt"/>
+                                        <outletCollection property="sideEffectViews" destination="0JT-m9-lPW" id="lzD-lY-4Ep"/>
+                                        <outletCollection property="sideEffectViews" destination="6Lu-B3-rFD" id="bHK-tS-Vg9"/>
                                     </connections>
                                 </view>
                             </subviews>
@@ -444,6 +484,22 @@
                                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="qKY-lR-hPA">
                                             <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                        </imageView>
+                                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="turnmovesbg.png" id="i3b-7P-t5t" userLabel="Side Effect 1">
+                                            <rect key="frame" x="4" y="4" width="15" height="16"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        </imageView>
+                                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="turnmovesbg.png" id="jWV-lt-dUk" userLabel="Side Effect 2">
+                                            <rect key="frame" x="23" y="4" width="15" height="16"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        </imageView>
+                                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="turnmovesbg.png" id="4DE-WY-Avf" userLabel="Side Effect 3">
+                                            <rect key="frame" x="4" y="22" width="15" height="16"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        </imageView>
+                                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="turnmovesbg.png" id="WYO-ix-3gk" userLabel="Side Effect 4">
+                                            <rect key="frame" x="23" y="22" width="15" height="16"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
                                         <view userInteractionEnabled="NO" contentMode="scaleToFill" id="Des-r0-rar" userLabel="Health View">
                                             <rect key="frame" x="2" y="28" width="44" height="16"/>
@@ -529,6 +585,10 @@
                                         <outlet property="bgdIcon" destination="wEt-wp-bdS" id="I4e-Db-okz"/>
                                         <outlet property="evoBadge" destination="Ytd-l7-1vG" id="jfD-al-dkP"/>
                                         <outlet property="monsterIcon" destination="qKY-lR-hPA" id="XeR-YV-gYz"/>
+                                        <outletCollection property="sideEffectViews" destination="i3b-7P-t5t" id="5Yz-Bb-TBi"/>
+                                        <outletCollection property="sideEffectViews" destination="jWV-lt-dUk" id="CBg-5t-rMQ"/>
+                                        <outletCollection property="sideEffectViews" destination="4DE-WY-Avf" id="NeT-rw-Qy4"/>
+                                        <outletCollection property="sideEffectViews" destination="WYO-ix-3gk" id="o1w-ki-FVS"/>
                                     </connections>
                                 </view>
                             </subviews>
@@ -560,6 +620,22 @@
                                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="Tfo-ez-UAh">
                                             <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                        </imageView>
+                                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="turnmovesbg.png" id="t8y-Rd-RKi" userLabel="Side Effect 1">
+                                            <rect key="frame" x="4" y="4" width="15" height="16"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        </imageView>
+                                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="turnmovesbg.png" id="RAv-rB-FpB" userLabel="Side Effect 2">
+                                            <rect key="frame" x="23" y="4" width="15" height="16"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        </imageView>
+                                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="turnmovesbg.png" id="OuZ-ql-UYZ" userLabel="Side Effect 3">
+                                            <rect key="frame" x="4" y="22" width="15" height="16"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        </imageView>
+                                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="turnmovesbg.png" id="qSZ-vx-VJl" userLabel="Side Effect 4">
+                                            <rect key="frame" x="23" y="22" width="15" height="16"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
                                         <view userInteractionEnabled="NO" contentMode="scaleToFill" id="xVL-sr-udA" userLabel="Health View">
                                             <rect key="frame" x="2" y="28" width="44" height="16"/>
@@ -645,6 +721,10 @@
                                         <outlet property="bgdIcon" destination="vQQ-PL-K3b" id="gmD-L3-kYq"/>
                                         <outlet property="evoBadge" destination="WO2-vI-hFI" id="eui-3l-fF1"/>
                                         <outlet property="monsterIcon" destination="Tfo-ez-UAh" id="b1a-By-twb"/>
+                                        <outletCollection property="sideEffectViews" destination="t8y-Rd-RKi" id="eZ1-kj-kJc"/>
+                                        <outletCollection property="sideEffectViews" destination="RAv-rB-FpB" id="QkH-qg-FYx"/>
+                                        <outletCollection property="sideEffectViews" destination="OuZ-ql-UYZ" id="0dC-qD-AGY"/>
+                                        <outletCollection property="sideEffectViews" destination="qSZ-vx-VJl" id="qBB-XO-Tzv"/>
                                     </connections>
                                 </view>
                             </subviews>
@@ -808,6 +888,7 @@
         <image name="swapbutton.png" width="50" height="46"/>
         <image name="teamhealthbarcap.png" width="3" height="8"/>
         <image name="teamhealthbarmiddle.png" width="1" height="8"/>
+        <image name="turnmovesbg.png" width="15" height="16"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

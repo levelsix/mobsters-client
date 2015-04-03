@@ -53,6 +53,8 @@
 @class ColorProto_Builder;
 @class CoordinateProto;
 @class CoordinateProto_Builder;
+@class DefaultLanguagesProto;
+@class DefaultLanguagesProto_Builder;
 @class DialogueProto;
 @class DialogueProto_Builder;
 @class DialogueProto_SpeechSegmentProto;
@@ -135,6 +137,8 @@
 @class PersistentEventProto_Builder;
 @class PrereqProto;
 @class PrereqProto_Builder;
+@class PrivateChatDefaultLanguageProto;
+@class PrivateChatDefaultLanguageProto_Builder;
 @class PrivateChatPostProto;
 @class PrivateChatPostProto_Builder;
 @class PurgeClientStaticDataResponseProto;
@@ -171,6 +175,8 @@
 @class ResourceGeneratorProto_Builder;
 @class ResourceStorageProto;
 @class ResourceStorageProto_Builder;
+@class RewardProto;
+@class RewardProto_Builder;
 @class SkillPropertyProto;
 @class SkillPropertyProto_Builder;
 @class SkillProto;
@@ -193,6 +199,8 @@
 @class TeamCenterProto_Builder;
 @class TownHallProto;
 @class TownHallProto_Builder;
+@class TranslatedTextProto;
+@class TranslatedTextProto_Builder;
 @class TutorialStructProto;
 @class TutorialStructProto_Builder;
 @class UserAchievementProto;
@@ -237,6 +245,8 @@
 @class UserQuestJobProto_Builder;
 @class UserResearchProto;
 @class UserResearchProto_Builder;
+@class UserRewardProto;
+@class UserRewardProto_Builder;
 @class UserTaskCompletedProto;
 @class UserTaskCompletedProto_Builder;
 #ifndef __has_feature

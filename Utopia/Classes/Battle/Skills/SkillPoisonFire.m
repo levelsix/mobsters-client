@@ -74,9 +74,14 @@
   return YES;
 }
 
+- (void)showQuickAttackMiniLogo
+{
+  [self showSkillPopupMiniOverlay:[NSString stringWithFormat:@"%ld DMG & POISONED", (long)self.quickAttackDamage]];
+}
+
 - (int) poisonDamage
 {
-  int damage = MAX(_poisonDamage, _poisonPercent * self.opponentPlayer.maxHealth) * _poisonStacks;
+  int damage = (int)(MAX(_poisonDamage, _poisonPercent * self.opponentPlayer.maxHealth) * _poisonStacks);
   
   //Hide this here to make sure that the stacks get saved until
   //poison damage is calculated, since the skill will tick out of duration
@@ -90,7 +95,7 @@
 - (int) quickAttackDamage
 {
   if (self.belongsToPlayer) return _initialDamage;
-  return _initialDamage * _quickAttackStacks;
+  return (int)(_initialDamage * _quickAttackStacks);
 }
 
 - (BOOL) doesRefresh

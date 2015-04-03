@@ -96,7 +96,7 @@
         {
           damage = 0;
           _missed = YES;
-          [self showDodged:YES];
+          [self showDodged:YES damage:0];
           SkillLogStart(@"Crit and Evade -- Skill caused a miss");
         }
         else
@@ -119,9 +119,9 @@
         float rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
         if (rand < _evadeChance)
         {
+          [self showDodged:NO damage:damage];
           damage = 0;
           _evaded = YES;
-          [self showDodged:NO];
           SkillLogStart(@"Crit and Evade -- Skill caused an evade");
         }
       }
@@ -131,18 +131,13 @@
   return damage;
 }
 
-- (BOOL) ticksOnPlayerTurn
-{
-  return self.belongsToPlayer == (_missChance > 0 || _critChance > 0);
-}
-
 -(void)showCriticalHit
 {
-  [self showSkillPopupMiniOverlay:[NSString stringWithFormat:@"%.3gX ATK", _critMultiplier]];
+  [self enqueueSkillPopupMiniOverlay:[NSString stringWithFormat:@"%.3gX DMG", _critMultiplier]];
 }
 
--(void)showDodged:(BOOL)missed
+-(void)showDodged:(BOOL)missed damage:(NSInteger)damage
 {
-  [self showSkillPopupMiniOverlay:missed ? @"MISSED" : @"EVADED"];
+  [self enqueueSkillPopupMiniOverlay:missed ? @"MISS" : [NSString stringWithFormat:@"%i DAMAGE EVADED", damage]];
 }
 @end

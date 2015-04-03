@@ -118,7 +118,9 @@ BOOL ItemTypeIsValidValue(ItemType value);
   BOOL hasAmount_:1;
   BOOL hasName_:1;
   BOOL hasImgName_:1;
+  BOOL hasShortName_:1;
   BOOL hasItemType_:1;
+  BOOL hasGameType_:1;
   BOOL alwaysDisplayToUser_:1;
   Float32 secretGiftChance;
   int32_t itemId;
@@ -126,7 +128,9 @@ BOOL ItemTypeIsValidValue(ItemType value);
   int32_t amount;
   NSString* name;
   NSString* imgName;
+  NSString* shortName;
   ItemType itemType;
+  GameType gameType;
 }
 - (BOOL) hasItemId;
 - (BOOL) hasName;
@@ -136,6 +140,8 @@ BOOL ItemTypeIsValidValue(ItemType value);
 - (BOOL) hasAmount;
 - (BOOL) hasSecretGiftChance;
 - (BOOL) hasAlwaysDisplayToUser;
+- (BOOL) hasGameType;
+- (BOOL) hasShortName;
 @property (readonly) int32_t itemId;
 @property (readonly, strong) NSString* name;
 @property (readonly, strong) NSString* imgName;
@@ -144,6 +150,8 @@ BOOL ItemTypeIsValidValue(ItemType value);
 @property (readonly) int32_t amount;
 @property (readonly) Float32 secretGiftChance;
 - (BOOL) alwaysDisplayToUser;
+@property (readonly) GameType gameType;
+@property (readonly, strong) NSString* shortName;
 
 + (ItemProto*) defaultInstance;
 - (ItemProto*) defaultInstance;
@@ -219,6 +227,16 @@ BOOL ItemTypeIsValidValue(ItemType value);
 - (BOOL) alwaysDisplayToUser;
 - (ItemProto_Builder*) setAlwaysDisplayToUser:(BOOL) value;
 - (ItemProto_Builder*) clearAlwaysDisplayToUser;
+
+- (BOOL) hasGameType;
+- (GameType) gameType;
+- (ItemProto_Builder*) setGameType:(GameType) value;
+- (ItemProto_Builder*) clearGameTypeList;
+
+- (BOOL) hasShortName;
+- (NSString*) shortName;
+- (ItemProto_Builder*) setShortName:(NSString*) value;
+- (ItemProto_Builder*) clearShortName;
 @end
 
 @interface UserItemUsageProto : PBGeneratedMessage {

@@ -14,7 +14,7 @@
   float _damageMultiplier;
   
   // Temp
-  BOOL _logoShown;
+  int _tempDamageGained;
 }
 
 @end
