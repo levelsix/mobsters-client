@@ -97,7 +97,7 @@ static TangoProfileEntry *profileEntry = nil;
   TangoSession *session = [TangoSession sharedSession];
   if (session.isInitialized || [TangoSession sessionInitialize]) {
     [TangoTools validateReceipt:transaction.transactionReceipt forProduct:transaction.payment.productIdentifier withHandler:^(enum ValidationStatus status, NSError *error) {
-      LNLog(@"Tango validate purchase: Status %d, Error %@", status, error);
+      NSLog(@"Tango validate purchase: Status %d, Error %@", status, error);
     }];
   };
 }
@@ -105,7 +105,7 @@ static TangoProfileEntry *profileEntry = nil;
 
 + (BOOL) handleOpenURL:(NSURL *)url sourceApplication:(NSString *)requester {
 #ifdef TANGO_ENABLED
-  LNLog(@"application:openURL: %@ sourceApplication: %@, url: %@", url.absoluteString, requester, url);
+  NSLog(@"application:openURL: %@ sourceApplication: %@, url: %@", url.absoluteString, requester, url);
   
   void (^showAlert)(NSString *title, NSString *message) = ^(NSString *title, NSString *message) {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:message delegate:nil
@@ -116,7 +116,7 @@ static TangoProfileEntry *profileEntry = nil;
   TangoHandleURLResult *resultData = [TangoSession.sharedSession handleURL:url withSourceApp:requester];
   switch(resultData.type) {
     case TangoHandleURLResultTypeError: {
-      LNLog(@"TangoSDK HandleURL: reported an error.");
+      NSLog(@"TangoSDK HandleURL: reported an error.");
       showAlert(@"Error", @"The URL could not be parsed.");
       return YES;
       break;
@@ -126,7 +126,7 @@ static TangoProfileEntry *profileEntry = nil;
       return YES;
       break;
     case TangoHandleURLResultTypeEventGiftMessageReceived: {
-      LNLog(@"gift received: %@", resultData.sdkParameters);
+      NSLog(@"gift received: %@", resultData.sdkParameters);
       NSString *giftType = resultData.sdkParameters[kTangoHandleUrlResultGiftTypeKey];
       NSString *giftId = resultData.sdkParameters[kTangoHandleUrlResultGiftIdKey];
       NSString *msg = [NSString stringWithFormat:@"You have received a gift. Type = %@, id = %@",
@@ -138,7 +138,7 @@ static TangoProfileEntry *profileEntry = nil;
     case TangoHandleURLResultTypeSharedDataReceived: {
       NSString *msg = [NSString stringWithFormat:@"Shared data received:\nsdkParameters = %@\nuserParameters = %@",
                        resultData.sdkParameters, resultData.userParameters];
-      LNLog(@"%@", msg);
+      NSLog(@"%@", msg);
       showAlert(@"Shared Data", msg);
       return YES;
       break;
@@ -146,7 +146,7 @@ static TangoProfileEntry *profileEntry = nil;
     case TangoHandleURLResultTypeUnknownAction: {
       NSString *msg = [NSString stringWithFormat:@"Unknown action received in URL: \"%@\"",
                        resultData.sdkParameters[kTangoHandleUrlResultUserUrlKey]];
-      LNLog(@"%@", msg);
+      NSLog(@"%@", msg);
       showAlert(@"Unknown Action", msg);
       return YES;
       break;

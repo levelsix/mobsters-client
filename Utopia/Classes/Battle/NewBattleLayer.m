@@ -2983,7 +2983,7 @@
     [[OutgoingEventController sharedOutgoingEventController] updateUserCurrencyWithCashSpent:0 oilSpent:0 gemsSpent:bip.inBattleGemCost reason:[NSString stringWithFormat:@"Purchased %@ in battle.", bip.name]];
   }
   
-  if (self.dialogueViewController) {
+  if (self.dialogueViewController) { 
     [self.dialogueViewController animateNext];
   }
 }
