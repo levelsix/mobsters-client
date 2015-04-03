@@ -23,8 +23,8 @@
 
 @implementation AttackAlertCell
 
-- (void) updateForBattleHistory:(PvpHistoryProto *)php {
-  [super updateForPrivateChat:php];
+- (void) updateForBattleHistory:(PvpHistoryProto *)php language:(TranslateLanguages)language{
+  [super updateForPrivateChat:php language:language];
   
   self.msgLabel.textColor = php.userWon ? [UIColor colorWithHexString:GREEN] : [UIColor colorWithHexString:RED];
 }
@@ -106,7 +106,7 @@
   
   PvpHistoryProto *php = _curDefenses[indexPath.row];
   
-  [cell updateForBattleHistory:php];
+  [cell updateForBattleHistory:php language:TranslateLanguagesNoTranslation];
   cell.backgroundColor = [UIColor clearColor];
   
   return cell;

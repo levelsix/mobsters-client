@@ -1579,6 +1579,25 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
 }
 
++ (NSString *) languageNameForLanguage:(TranslateLanguages)language {
+  switch (language) {
+    case TranslateLanguagesArabic:
+      return @"Arabic";
+    case TranslateLanguagesEnglish:
+      return @"English";
+    case TranslateLanguagesFrench:
+      return @"French";
+    case TranslateLanguagesGerman:
+      return @"German";
+    case TranslateLanguagesRussian:
+      return @"Russian";
+    case TranslateLanguagesSpanish:
+      return @"Spanish";
+    default:
+      return @"";
+  }
+}
+
 + (NSString*) getDoubleResolutionImage:(NSString*)path useiPhone6Prefix:(BOOL)iPhone6Prefix {
   if ([path rangeOfString:@"http"].location != NSNotFound) {
     return path;

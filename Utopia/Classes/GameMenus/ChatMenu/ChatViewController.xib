@@ -131,6 +131,9 @@
                                                             <state key="normal">
                                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>
+                                                            <connections>
+                                                                <action selector="topCheckClicked:" destination="EYy-Nb-xNZ" eventType="touchUpInside" id="tN9-01-sYm"/>
+                                                            </connections>
                                                         </button>
                                                     </subviews>
                                                 </view>
@@ -144,6 +147,9 @@
                                                     <state key="normal" image="flagenglish.png">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
+                                                    <connections>
+                                                        <action selector="topFlagClicked:" destination="EYy-Nb-xNZ" eventType="touchUpInside" id="pCb-YZ-JjQ"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                         </view>
@@ -1375,6 +1381,8 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="checkMark" destination="2bX-V9-Cds" id="bEJ-cX-4te"/>
+                <outlet property="descriptionLabel" destination="Car-Eq-vjK" id="VKN-mh-AdB"/>
+                <outlet property="rightBgEdge" destination="S2r-KY-4el" id="TDg-2o-w7O"/>
                 <outlet property="selectBox" destination="tlE-VE-eqg" id="esK-48-rPv"/>
                 <outletCollection property="flagButtons" destination="gmu-Ok-EcM" id="Yqw-tx-Mol"/>
                 <outletCollection property="flagButtons" destination="H3T-HR-xnB" id="zGh-W7-eCk"/>

@@ -60,7 +60,7 @@
 
 @property (nonatomic, strong) id<ChatObject> privateChat;
 
-- (void) updateForPrivateChat:(id<ChatObject>)privateChat;
+- (void) updateForPrivateChat:(id<ChatObject>)privateChat language:(TranslateLanguages)language;
 
 @end
 
@@ -77,7 +77,7 @@
 @property (nonatomic, retain) IBOutlet UIImageView *revengeCheck;
 
 @property (nonatomic, retain) IBOutlet UIView *selectedSubViewBackGround;
-- (void) updateForPrivateChat:(id<ChatObject>)privateChat;
+- (void) updateForPrivateChat:(id<ChatObject>)privateChat language:(TranslateLanguages)language;
 
 @end
 

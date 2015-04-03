@@ -505,15 +505,16 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     if(proto.userDefaultLanguages.globalDefaultLanguage == TranslateLanguagesNoTranslation) {
       NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
-      if (![def objectForKey:GLOBAL_LANGUAGE_PREFERENCES]) {
+      if (![def integerForKey:GLOBAL_LANGUAGE_PREFERENCES]) {
         //if there is no saved language just set english
-        [def setObject:@(TranslateLanguagesEnglish) forKey:GLOBAL_LANGUAGE_PREFERENCES];
+        [def setInteger:(int)TranslateLanguagesEnglish forKey:GLOBAL_LANGUAGE_PREFERENCES];
       }
     }
     
+    [gs.privateChatLanguages removeAllObjects];
     gs.globalLanguage = proto.userDefaultLanguages.globalDefaultLanguage;
-    for(PrivateChatDefaultLanguageProto *pcdl in proto.userDefaultLanguages.privateDefaultLanguageList) {
-      [gs.privateChatLanguages setObject:@(pcdl.defaultLanguage) forKey:pcdl.senderUserId];
+    for (PrivateChatDefaultLanguageProto *pcdl in proto.userDefaultLanguages.privateDefaultLanguageList) {
+      [gs.privateChatLanguages setValue:@(pcdl.defaultLanguage) forKey:pcdl.senderUserId];
     }
     
     [gs updateClanData:proto.clanData];
@@ -1089,7 +1090,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   // Chats sent from this user will be faked.
   GameState *gs = [GameState sharedGameState];
   if (![proto.sender.minUserProto.userUuid isEqualToString:gs.userUuid]) {
-    [gs addChatMessage:proto.sender message:proto.chatMessage scope:proto.scope isAdmin:proto. isAdmin];
+    [gs addChatMessageWithProto:proto.message scope:proto.scope];
     
     Globals *gl = [Globals sharedGlobals];
     if (![gl isUserUuidMuted:proto.sender.minUserProto.userUuid]) {
@@ -2468,7 +2469,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleTranslateSelectMessagesResponseProto:(FullEvent *)fe{
   TranslateSelectMessagesResponseProto *proto = (TranslateSelectMessagesResponseProto *)fe.event;
   
-  LNLog(@"Redeem mini job response received with status %d.", (int)proto.status);
+  LNLog(@"translate select messages response received with status %d.", (int)proto.status);
   
   if(proto.status == TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusSuccess) {
     
