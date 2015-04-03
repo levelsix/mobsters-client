@@ -13,6 +13,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
   if (self == [BattleItemRoot class]) {
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
+    [SharedEnumConfigRoot registerAllExtensions:registry];
     [StructureRoot registerAllExtensions:registry];
     extensionRegistry = registry;
   }
@@ -29,8 +30,6 @@ BOOL BattleItemTypeIsValidValue(BattleItemType value) {
     case BattleItemTypeOrbHammer:
     case BattleItemTypeHandSwap:
     case BattleItemTypeBoardShuffle:
-    case BattleItemTypePutty:
-    case BattleItemTypeNone:
       return YES;
     default:
       return NO;

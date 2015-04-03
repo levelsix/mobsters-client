@@ -51,6 +51,7 @@
   
   id _buttonSender;
 }
+@property (nonatomic, assign) BOOL showArrowOnRequestToon;
 
 @property (nonatomic, retain) NSMutableArray *buildableData;
 
@@ -76,6 +77,7 @@
 - (void) pointArrowOnSellMobsters;
 - (void) pointArrowOnUpgradeResidence;
 - (void) pointArrowOnHospital;
+- (void) pointArrowOnClanHQ;
 - (void) pointArrowOnBuilding:(HomeBuilding *)b config:(MapBotViewButtonConfig)config;
 
 - (BOOL) speedUpBuildingQueueUp:(BOOL)queueUp;

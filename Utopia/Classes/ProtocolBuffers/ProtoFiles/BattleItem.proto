@@ -1,6 +1,7 @@
 //ALL REQUEST PROTOS SHOULD INCLUDE A MinimumUserProto AS optional that represents which client sent it/triggered it 
 //DO NO START PROPERTY METHODS WITH THE WORDS NEW OR COPY
 
+import "SharedEnumConfig.proto";
 import "Structure.proto";
 
 package com.lvl6.proto;
@@ -46,8 +47,6 @@ enum BattleItemType {
 	ORB_HAMMER = 4;
 	HAND_SWAP = 5;
 	BOARD_SHUFFLE = 6;
-	PUTTY = 7;
-	NONE = 8;
 	
 }
 

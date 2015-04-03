@@ -56,6 +56,7 @@
   int _clickedSlot;
   int _openedSlot;
   BOOL _showsClanDonateToonView;
+  BOOL _showRequestToonArrow;
   
   BOOL _useGemsForDonate;
 }
@@ -82,7 +83,7 @@
 
 @property (nonatomic, retain) ItemSelectViewController *itemSelectViewController;
 @property (nonatomic, retain) SpeedupItemsFiller *speedupItemsFiller;
-
+- (id) initShowArrowOnRequestToon:(BOOL) showArrow;
 - (UserMonster *) monsterForSlot:(NSInteger)slot;
 
 - (void) speedupClicked:(UserMonster *)um invokingView:(UIView*)sender indexPath:(NSIndexPath*)indexPath;

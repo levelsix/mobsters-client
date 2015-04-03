@@ -890,6 +890,21 @@
   }
 }
 
+- (void) pointArrowOnClanHQ {
+  HomeBuilding *b = nil;
+  NSArray *arr = [self childrenOfClassType:[ClanHouseBuilding class]];
+  for (HomeBuilding *x in arr) {
+    if (!b || (x.userStruct.isComplete > b.userStruct.isComplete) ||
+        (x.userStruct.isComplete == b.userStruct.isComplete && x.userStruct.staticStruct.structInfo.level < b.userStruct.staticStruct.structInfo.level)) {
+      b = x;
+    }
+  }
+  
+  if (b) {
+    [self pointArrowOnBuilding:b config:MapBotViewButtonJoinClan];
+  }
+}
+
 - (void) pointArrowOnBuilding:(HomeBuilding *)b config:(MapBotViewButtonConfig)config {
   [_arrowBuilding removeArrowAnimated:YES];
   
@@ -1732,7 +1747,8 @@
       break;
       
     case StructureInfoProto_StructTypeTeamCenter:
-      hvc = [[HomeViewController alloc] initWithTeam];
+        hvc = [[HomeViewController alloc] initWithTeamShowRequestArrow:self.showArrowOnRequestToon];
+        self.showArrowOnRequestToon = NO;
       break;
       
     case StructureInfoProto_StructTypeEvo:

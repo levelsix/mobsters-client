@@ -40,9 +40,10 @@
   return self;
 }
 
-- (id) initWithTeam {
+- (id) initWithTeamShowRequestArrow:(BOOL)showArrow {
   if ((self = [super init])) {
     _initViewControllerClass = [TeamViewController class];
+    _showArrowOnRequestToon = showArrow;
   }
   return self;
 }
@@ -110,7 +111,7 @@
 - (void) loadMainViewControllers {
   SellViewController *sell = [[SellViewController alloc] init];
   HealViewController *heal = [[HealViewController alloc] initWithUserStructUuid:_initHospitalUserStructUuid];
-  TeamViewController *team = [[TeamViewController alloc] init];
+  TeamViewController *team = [[TeamViewController alloc] initShowArrowOnRequestToon:_showArrowOnRequestToon];
   EvolveChooserViewController *evo = [[EvolveChooserViewController alloc] init];
   EnhanceChooserViewController *enhance = [[EnhanceChooserViewController alloc] init];
   MiniJobsListViewController *miniJobs = [[MiniJobsListViewController alloc] init];

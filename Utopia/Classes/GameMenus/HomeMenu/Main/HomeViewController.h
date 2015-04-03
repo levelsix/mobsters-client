@@ -25,6 +25,7 @@
 @interface HomeViewController : PopupNavViewController {
   Class _initViewControllerClass;
   NSString *_initHospitalUserStructUuid;
+  BOOL _showArrowOnRequestToon;
   int _currentIndex;
 }
 
@@ -38,7 +39,7 @@
 
 - (id) initWithSell;
 - (id) initWithHeal:(NSString *)hospitalUserStructUuid;
-- (id) initWithTeam;
+- (id) initWithTeamShowRequestArrow:(BOOL)showArrow;
 - (id) initWithEnhance;
 - (id) initWithEvolve;
 - (id) initWithMiniJobs;

@@ -212,6 +212,10 @@
   return [self incrementAllAchievementsWithType:AchievementProto_AchievementTypeGiveHelp byAmount:numTimes];
 }
 
++ (NSSet *) requestedToon {
+  return [self incrementAllAchievementsWithType:AchievementProto_AchievementTypeRequestToon byAmount:1];
+}
+
 + (NSSet *) checkAchievementsForBattleCompleteWithOrbCounts:(int[])orbCounts powerupCounts:(int[])powerupCounts comboCount:(int)comboCount damageTaken:(int)damageTaken {
   NSMutableSet *changed = [NSMutableSet set];
   [changed unionSet:[self destroyOrbs:orbCounts]];
@@ -284,6 +288,10 @@
 
 + (void) checkGaveClanHelp:(int)clanHelp {
   [self sendAchievements:[self gaveClanHelp:clanHelp]];
+}
+
++ (void) checkRequestedToon {
+  [self sendAchievements:[self requestedToon]];
 }
 
 @end

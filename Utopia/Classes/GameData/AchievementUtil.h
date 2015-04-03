@@ -35,5 +35,6 @@
 + (void) checkClanJoined;
 + (void) checkSolicitedClanHelp;
 + (void) checkGaveClanHelp:(int)clanHelp;
++ (void) checkRequestedToon;
 
 @end

@@ -12,40 +12,80 @@
 
 #import "Globals.h"
 #import "GameState.h"
+#import "GameViewController.h"
 
 #import "OutgoingEventController.h"
+
+#define GREEN_BG @"ECFBD4"
+#define GREY_TEXT @"C3C3C3"
+
+#define GREEN_GRADIENT @"C5F285"
+#define GREEN_STROKE @"2F5008"
+
+#define PURPLE_TEXT @"9100DE"
+#define DARK_GREY_TEXT @"333333"
 
 @implementation ClanRewardsQuestView
 
 - (void) updateForUserAchievement:(UserAchievement *)ua achievement:(AchievementProto *)ap {
-  self.numberIcon.image = [Globals imageNamed:[NSString stringWithFormat:@"squadreward%d.png", ap.lvl]];
-  self.nameLabel.text = ap.name;
-  
-  [Globals imageNamed:ap.description withView:self.descriptionIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-  
   self.progressView.hidden = YES;
   self.checkView.hidden = YES;
   self.completeView.hidden = YES;
   self.collectView.hidden = YES;
-  self.rewardView.hidden = YES;
+  self.diamondIcon.superview.hidden = YES;
+  self.goButtonLabel.superview.hidden = YES;
+  
+  self.nameLabel.textColor = [UIColor colorWithHexString:DARK_GREY_TEXT];
+  self.gemsLabel.textColor = [UIColor colorWithHexString:PURPLE_TEXT];
+  
+  if(!self.greyScale && !ua.isComplete) {
+    //    self.backgroundColor =[UIColor colorWithHexString:GREEN_BG];
+    self.goButtonLabel.superview.hidden = NO;
+    
+    self.goButtonLabel.gradientStartColor = [UIColor whiteColor];
+    self.goButtonLabel.gradientEndColor = [UIColor colorWithHexString:GREEN_GRADIENT];
+    self.goButtonLabel.strokeColor = [UIColor colorWithHexString:GREEN_STROKE];
+    self.goButtonLabel.strokeSize = 1.f;
+    
+    self.diamondIcon.alpha = 1.f;
+    self.descriptionIcon.alpha = 1.f;
+  } else if(self.greyScale) {
+    self.nameLabel.textColor = [UIColor colorWithHexString:GREY_TEXT];
+    self.gemsLabel.textColor = [UIColor colorWithHexString:GREY_TEXT];
+    
+    self.diamondIcon.alpha = .5f;
+    self.descriptionIcon.alpha = .5f;
+  }
+  
+  NSString *numberImage = [NSString stringWithFormat:@"%@squadreward%d.png", self.greyScale ? @"grey" : @"green", ap.lvl];
+  self.numberIcon.image = [Globals imageNamed:numberImage];
+  self.nameLabel.text = ap.name;
+  
+  self.circleImage.image = self.greyScale ? [Globals imageNamed:@"lightsquadrewardcircle.png"] : [Globals imageNamed:@"darksquadrewardcircle.png"];
+  [Globals imageNamed:ap.description withView:self.descriptionIcon greyscale:self.greyScale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:@"diamond.png" withView:self.diamondIcon greyscale:self.greyScale indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+  [Globals imageNamed:[NSString stringWithFormat:@"srrewardbg%@.png",self.greyScale ? @"bw":@""] withView:self.rewardBg greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
   
   if (!ua.isComplete) {
     self.progressLabel.text = [NSString stringWithFormat:@"%d/%d", ua.progress, ap.quantity];
-    self.gemsLabel.text = [NSString stringWithFormat:@"%d GEMS", ap.gemReward];
+    self.gemsLabel.text = [NSString stringWithFormat:@"%d", ap.gemReward];
     
-    self.progressView.hidden = NO;
-    self.rewardView.hidden = NO;
-  } else if (!ua.isRedeemed) {
+    //    self.progressView.hidden = self.greyScale;
+    self.diamondIcon.superview.hidden = NO;
     self.checkView.hidden = NO;
+  } else if (!ua.isRedeemed) {
     self.collectView.hidden = NO;
   } else {
-    self.checkView.hidden = NO;
     self.completeView.hidden = NO;
   }
 }
 
 - (IBAction)collectClicked:(id)sender {
   [self.delegate collectClicked:self];
+}
+
+- (IBAction)goClicked:(id)sender {
+  [self.delegate goClicked:self];
 }
 
 @end
@@ -74,7 +114,7 @@
   [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (IBAction)closeClicked:(id)sender {
+- (IBAction) closeClicked:(id)sender {
   [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
     [self.view removeFromSuperview];
     [self removeFromParentViewController];
@@ -85,13 +125,30 @@
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   NSArray *arr = gl.clanRewardAchievementIds;
-  
-  for (int i = 0; i < self.questViews.count && i < arr.count; i++) {
+  ClanRewardsQuestView *curActive;
+  for (int i = 0; i < arr.count; i++) {
     int achievementId = [arr[i] intValue];
-    ClanRewardsQuestView *questView = self.questViews[i];
     
     UserAchievement *ua = gs.myAchievements[@(achievementId)];
     AchievementProto *ap = [gs achievementWithId:achievementId];
+    ClanRewardsQuestView *questView = self.questViews[i];
+    
+    if (!ua.isRedeemed && !curActive) {
+      curActive = questView;
+      
+      self.titleLabel.text = [NSString stringWithFormat:@"%@ TO EARN FREE", [ap.name uppercaseString]];
+      
+      CGSize size = [self.titleLabel.text getSizeWithFont:self.titleLabel.font];
+      self.titleDiamond.center = CGPointMake(self.titleLabel.center.x+(size.width/2)+(self.titleDiamond.frame.size.width/2), self.titleLabel.center.y);
+      
+      CGPoint arrowLocation = CGPointMake((questView.size.width/2) + (questView.size.width * i) , self.squadRewardArrow.center.y);
+      self.squadRewardArrow.center = arrowLocation;
+      
+      questView.greyScale = NO;
+      
+    } else if(!ua.isComplete || ua.isRedeemed) {
+      questView.greyScale = YES;
+    }
     
     [questView updateForUserAchievement:ua achievement:ap];
   }
@@ -111,6 +168,31 @@
     [Globals addPurpleAlertNotification:[NSString stringWithFormat:@"You collected %d Gems for completing %@!", ap.gemReward, ap.name] isImmediate:YES];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:ACHIEVEMENTS_CHANGED_NOTIFICATION object:self];
+    
+    [self reload];
+  }
+}
+
+- (void) goClicked:(id)sender {
+  NSInteger idx = [self.questViews indexOfObject:sender];
+  
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  if (idx != NSNotFound && idx < gl.clanRewardAchievementIds.count) {
+    int achievementId = [gl.clanRewardAchievementIds[idx] intValue];
+    AchievementProto *ap = [gs achievementWithId:achievementId];
+    
+    GameViewController *gvc = [GameViewController baseController];
+    
+    if (ap.achievementType == AchievementProto_AchievementTypeUpgradeBuilding) {
+      [gvc arrowToStructInShopWithId:1100];
+    } else if (ap.achievementType == AchievementProto_AchievementTypeJoinClan) {
+      [gvc arrowToOpenClanMenu];
+    } else if (ap.achievementType == AchievementProto_AchievementTypeRequestToon) {
+      [gvc arrowToRequestToon];
+    }
+    
+    [self closeClicked:sender];
   }
 }
 
