@@ -36,6 +36,8 @@ typedef enum {
 @property (nonatomic, retain) IBOutletCollection(UIButton) NSArray *flagButtons;
 @property (nonatomic, assign) IBOutlet UIImageView *selectBox;
 @property (nonatomic, assign) IBOutlet UIImageView *checkMark;
+@property (nonatomic, assign) IBOutlet UIImageView *rightBgEdge;
+@property (nonatomic, assign) IBOutlet UILabel *descriptionLabel;
 
 - (void) updateForLanguage:(TranslateLanguages)language markChecked:(BOOL)markChecked;
 - (void) openAtPoint:(CGPoint)pt markChecked:(BOOL)markChecked curLanguage:(TranslateLanguages)curLanguage;

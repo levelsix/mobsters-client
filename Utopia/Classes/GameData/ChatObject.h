@@ -46,11 +46,14 @@
 @property (nonatomic, assign) BOOL isAdmin;
 @property (nonatomic, assign) BOOL isRead;
 @property (nonatomic, assign) BOOL originalLanguage;
-@property (nonatomic, retain) NSArray *translatedTextProtos;
+@property (nonatomic, retain) NSMutableArray *translatedTextProtos;
 @property (nonatomic, retain) NSString *originalMessage;
 @property (nonatomic, assign) BOOL revertedTranslation;
+@property (nonatomic, retain) NSString *postUuid;
+@property (nonatomic, assign) int64_t timeOfPost;
 
 - (id) initWithProto:(GroupChatMessageProto *)p;
+- (PrivateChatPostProto *)makePrivateChatPostProto;
 
 @end
 

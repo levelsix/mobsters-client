@@ -70,6 +70,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _inProgressIncompleteQuests = [[NSMutableDictionary alloc] init];
     
     _privateChats = [[NSMutableArray alloc] init];
+    _privateChatLanguages = [[NSMutableDictionary alloc] init];
     
     _unrespondedUpdates = [[NSMutableArray alloc] init];
     
@@ -662,6 +663,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   } else {
     un.hasBeenViewed = YES;
   }
+}
+
+- (void) addChatMessageWithProto:(GroupChatMessageProto *)groupChatMessageProto scope:(GroupChatScope)scope{
+  ChatMessage *cm = [[ChatMessage alloc] initWithProto:groupChatMessageProto];
+  [self addChatMessage:cm scope:scope];
 }
 
 - (void) addChatMessage:(MinimumUserProtoWithLevel *)sender message:(NSString *)msg scope:(GroupChatScope)scope isAdmin:(BOOL)isAdmin {
