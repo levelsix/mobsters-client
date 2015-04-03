@@ -138,6 +138,6 @@
 
 -(void)showDodged:(BOOL)missed damage:(NSInteger)damage
 {
-  [self enqueueSkillPopupMiniOverlay:missed ? @"MISS" : [NSString stringWithFormat:@"%i DAMAGE EVADED", damage]];
+  [self enqueueSkillPopupMiniOverlay:missed ? @"MISS" : [NSString stringWithFormat:@"%i DAMAGE EVADED", (int)damage]];
 }
 @end
