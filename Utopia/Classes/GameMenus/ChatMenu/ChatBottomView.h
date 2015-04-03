@@ -25,7 +25,7 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UILabel *msgLabel;
 @property (nonatomic, retain) IBOutlet UIImageView *dotIcon;
 
-- (void) updateForChatMessage:(id<ChatObject>)cm shouldShowDot:(BOOL)showDot;
+- (void) updateForChatMessage:(id<ChatObject>)cm shouldShowDot:(BOOL)showDot scope:(ChatScope)scope;
 
 @end
 

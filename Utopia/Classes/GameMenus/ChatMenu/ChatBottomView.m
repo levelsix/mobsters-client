@@ -9,6 +9,7 @@
 #import "ChatBottomView.h"
 #import "cocos2d.h"
 #import "Globals.h"
+#import "GameState.h"
 
 #define NUM_ROWS_DISPLAYED 2
 
@@ -18,10 +19,39 @@
   self.monsterView.transform = CGAffineTransformMakeScale(0.45, 0.45);
 }
 
-- (void) updateForChatMessage:(id<ChatObject>)cm shouldShowDot:(BOOL)showDot {
+- (void) updateForChatMessage:(id<ChatObject>)cm shouldShowDot:(BOOL)showDot scope:(ChatScope)scope{
+  GameState *gs = [GameState sharedGameState];
   [self.monsterView updateForMonsterId:cm.sender.avatarMonsterId];
   self.nameLabel.text = [NSString stringWithFormat:@"%@%@: ", showDot ? @"    " : @"", cm.sender.name];
-  self.msgLabel.text = cm.message;
+  
+  TranslateLanguages displayLanguage = TranslateLanguagesNoTranslation;
+  
+  if (scope == ChatScopeGlobal) {
+    displayLanguage = gs.globalTranslationOn ? gs.globalLanguage : TranslateLanguagesNoTranslation;
+  } else if (scope == ChatScopePrivate) {
+#warning I'm not sure that this userUuid is the Id i think it is
+    NSNumber *savedTranslateOnNumber = [gs.privateTranslationOn valueForKey:cm.sender.userUuid];
+    NSNumber *savedTranslateLanguageNumber = [gs.privateChatLanguages valueForKey:cm.sender.userUuid];
+    
+    TranslateLanguages savedLanguage = (TranslateLanguages)savedTranslateLanguageNumber.integerValue;
+    BOOL savedTranslateOn = savedTranslateOnNumber.boolValue;
+
+    displayLanguage = savedTranslateOn ? savedLanguage : TranslateLanguagesNoTranslation;
+  }
+  
+  if (displayLanguage == TranslateLanguagesNoTranslation) {
+    self.msgLabel.text = cm.message;
+  } else if ([cm isKindOfClass:[ChatMessage class]]){
+    ChatMessage *cMessage = (ChatMessage *)cm;
+    for (TranslatedTextProto *ttp in cMessage.translatedTextProtos) {
+      if (ttp.language == displayLanguage) {
+        self.msgLabel.text = cm.message;
+      }
+    }
+  } else {
+    self.msgLabel.text = cm.message;
+  }
+  
   self.dotIcon.hidden = !showDot;
   
   self.msgLabel.textColor = [cm bottomViewTextColor];
@@ -150,7 +180,7 @@
 - (ChatBottomLineView *) getLineViewForLineNum:(int)lineNum {
   id<ChatObject> cm = [self.delegate chatMessageForLineNum:lineNum scope:_chatScope];
   ChatBottomLineView *lv = [self getUnusedLineView];
-  [lv updateForChatMessage:cm shouldShowDot:[self.delegate shouldShowUnreadDotForLineNum:lineNum scope:_chatScope]];
+  [lv updateForChatMessage:cm shouldShowDot:[self.delegate shouldShowUnreadDotForLineNum:lineNum scope:_chatScope] scope:_chatScope];
   [self.lineViewContainer addSubview:lv];
   return lv;
 }
