@@ -28,13 +28,28 @@
   if ((self = [super init])) {
     self.originalMessage = p.content;
     self.originalLanguage = YES;
-    self.translatedTextProtos = p.translatedContentList;
+    self.translatedTextProtos = [NSMutableArray arrayWithArray:p.translatedContentList];
     self.sender = p.sender.minUserProto;
     self.date = [MSDate dateWithTimeIntervalSince1970:p.timeOfChat/1000.];
     self.isAdmin = p.isAdmin;
     self.revertedTranslation = NO;
+    self.postUuid = p.chatUuid;
+    self.timeOfPost = p.timeOfChat;
   }
   return self;
+}
+
+- (PrivateChatPostProto *)makePrivateChatPostProto {
+  GameState *gs = [GameState sharedGameState];
+  
+  PrivateChatPostProto *pcpp = [[[[[[[PrivateChatPostProto builder]
+                                     setPrivateChatPostUuid:self.postUuid]
+                                    setPoster:nil]
+                                   setRecipient:[gs minUserWithLevel]]
+                                  setTimeOfPost:self.timeOfPost]
+                                 setContent:self.originalMessage]
+                                build];
+  return pcpp;
 }
 
 - (NSString *)message {

@@ -210,6 +210,7 @@
 - (void) addToInProgressIncompleteQuests:(NSArray *)quests;
 - (void) addNotification:(UserNotification *)un;
 - (void) addToMiniJobs:(NSArray *)miniJobs isNew:(BOOL)isNew;
+- (void) addChatMessageWithProto:(GroupChatMessageProto *)groupChatMessageProto scope:(GroupChatScope)scope;
 - (void) addChatMessage:(MinimumUserProtoWithLevel *)sender message:(NSString *)msg scope:(GroupChatScope)scope isAdmin:(BOOL)isAdmin;
 - (void) addChatMessage:(ChatMessage *)cm scope:(GroupChatScope) scope;
 - (void) addPrivateChat:(PrivateChatPostProto *)post;

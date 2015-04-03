@@ -194,7 +194,7 @@ static float buttonInitialWidth = 159.f;
 
 @implementation PrivateChatListCell
 
-- (void) updateForPrivateChat:(id<ChatObject>)pcpp {
+- (void) updateForPrivateChat:(id<ChatObject>)pcpp language:(TranslateLanguages)language{
   self.privateChat = pcpp;
   
   self.msgLabel.text = [pcpp message];
@@ -208,8 +208,8 @@ static float buttonInitialWidth = 159.f;
 
 @implementation PrivateChatAttackLogCell : PrivateChatListCell
 
-- (void) updateForPrivateChat:(id<ChatObject>)privateChat {
-  [super updateForPrivateChat:privateChat];
+- (void) updateForPrivateChat:(id<ChatObject>)privateChat language:(TranslateLanguages)language{
+  [super updateForPrivateChat:privateChat language:language];
   
   PvpHistoryProto *php = (PvpHistoryProto*)privateChat;
   self.msgLabel.text = [NSString stringWithFormat:@"Your %@ %@",php.userIsAttacker ? @"Offense" : @"Defense", php.userWon ? @"Won" : @"Lost" ];

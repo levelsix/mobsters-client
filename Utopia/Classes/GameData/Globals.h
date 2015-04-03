@@ -272,6 +272,7 @@
 + (void) imageNamed:(NSString *)imageName toReplaceSprite:(CCSprite *)s completion:(void(^)(BOOL success))completion;
 
 + (NSString *) flagImageNameForLanguage:(TranslateLanguages)language;
++ (NSString *) languageNameForLanguage:(TranslateLanguages)language;
 
 + (UIColor *) colorForRarity:(Quality)rarity;
 + (NSString *) stringForRarity:(Quality)rarity;
