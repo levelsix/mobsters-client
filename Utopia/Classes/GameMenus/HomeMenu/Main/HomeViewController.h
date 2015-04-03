@@ -43,6 +43,7 @@
 - (id) initWithEvolve;
 - (id) initWithMiniJobs;
 - (id) initWithBattleItemFactory;
+- (id) initWithResearchLab;
 
 - (void) loadMainViewControllers;
 

@@ -15,6 +15,8 @@
 #import "ChatObject.h"
 #import "ItemUtil.h"
 #import "ClanTeamDonateUtil.h"
+#import "BattleItemUtil.h"
+#import "ResearchUtil.h"
 
 @interface GameState : NSObject {
   NSTimer *_enhanceTimer;
@@ -23,6 +25,8 @@
   NSTimer *_combineTimer;
   NSTimer *_miniJobTimer;
   NSTimer *_avengeTimer;
+  NSTimer *_battleItemTimer;
+  NSTimer *_researchTimer;
 }
 
 @property (nonatomic, assign) BOOL isTutorial;
@@ -74,6 +78,7 @@
 @property (nonatomic, retain) NSMutableDictionary *staticObstacles;
 @property (nonatomic, retain) NSMutableDictionary *staticPrerequisites;
 @property (nonatomic, retain) NSMutableDictionary *staticBoards;
+@property (nonatomic, retain) NSMutableDictionary *staticBattleItems;
 @property (nonatomic, retain) NSArray *persistentEvents;
 @property (nonatomic, retain) NSMutableDictionary *eventCooldownTimes;
 @property (nonatomic, retain) NSArray *staticClanIcons;
@@ -100,8 +105,11 @@
 @property (nonatomic, retain) NSMutableArray *mySecretGifts;
 
 @property (nonatomic, retain) ItemUtil *itemUtil;
+@property (nonatomic, retain) ResearchUtil *researchUtil;
 
 @property (nonatomic, retain) NSMutableDictionary *monsterHealingQueues;
+
+@property (nonatomic, retain) BattleItemUtil *battleItemUtil;
 
 @property (nonatomic, retain) NSMutableDictionary *inProgressCompleteQuests;
 @property (nonatomic, retain) NSMutableDictionary *inProgressIncompleteQuests;
@@ -142,6 +150,8 @@
 @property (nonatomic, retain) NSMutableDictionary *staticPvpBoardObstacles;
 @property (nonatomic, retain) NSMutableArray* myPvpBoardObstacles;
 
+@property (nonatomic, retain) NSMutableDictionary *staticResearches;
+
 @property (nonatomic, retain) UserEnhancement *userEnhancement;
 @property (nonatomic, retain) UserEvolution *userEvolution;
 
@@ -176,6 +186,8 @@
 - (PersistentEventProto *) nextEventWithType:(PersistentEventProto_EventType)type;
 - (MonsterBattleDialogueProto *) battleDialogueForMonsterId:(int)monsterId type:(MonsterBattleDialogueProto_DialogueType)type;
 - (BoardLayoutProto *) boardWithId:(int)boardId;
+- (BattleItemProto *) battleItemWithId:(int)battleItemId;
+- (ResearchProto *) researchWithId:(int)researchId;
 
 - (void) unlockAllTasks;
 - (BOOL) isTaskUnlocked:(int)taskId;
@@ -208,6 +220,9 @@
 - (NSArray *) allUnreadDefenseHistorySinceLastLogin;
 - (NSArray *) allPrivateChats;
 - (NSArray *) allUnreadPrivateChats;
+
+- (NSArray *) allStaticResearchForDomain:(ResearchDomain)domain;
+  
 - (NSArray *) allClanChatObjects;
 - (void) updateClanData:(ClanDataProto *)clanData;
 - (void) addClanAvengings:(NSArray *)protos;
@@ -238,6 +253,8 @@
 - (UserStruct *) myMiniJobCenter;
 - (UserStruct *) myClanHouse;
 - (UserStruct *) myPvpBoardHouse;
+- (UserStruct *) myBattleItemFactory;
+- (UserStruct *) myResearchLab;
 - (NSArray *) allHospitals;
 - (NSArray *) myValidHospitals;
 - (int) maxHospitalQueueSize;
@@ -273,11 +290,17 @@
 - (void) beginHealingTimer;
 - (void) stopHealingTimer;
 
+- (void) beginBattleItemTimer;
+- (void) stopBattleItemTimer;
+
 - (void) beginEnhanceTimer;
 - (void) stopEnhanceTimer;
 
 - (void) beginEvolutionTimer;
 - (void) stopEvolutionTimer;
+
+- (void) beginResearchTimer;
+- (void) stopResearchTimer;
 
 - (void) beginCombineTimer;
 - (void) stopCombineTimer;

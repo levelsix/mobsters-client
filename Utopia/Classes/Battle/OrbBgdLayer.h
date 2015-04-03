@@ -17,15 +17,20 @@ static const float darknessForTilesAnimDuration = 0.3f;
   __weak BattleOrbLayout* _layout;
   CGSize _gridSize;
   
+  CCNode* _tilesLayerMain;
   CCNode* _tilesLayerBottom;
   CCNode* _tilesLayerTop;
   CCNode* _tilesLayerDarkness;
+  
+  CCNode *_borderNode;
 }
 
 - (id) initWithGridSize:(CGSize)gridSize layout:(BattleOrbLayout *)layout;
 
 // In case we want a bgd without the border (i.e. the clipping node stencil)
 - (void) assembleBorder;
+
+- (void) updateForPuttyWithTile:(BattleTile *)tile;
 
 - (void) updateTile:(BattleTile*)tile;
 - (void) updateTile:(BattleTile*)tile keepLit:(BOOL)keepLit withTarget:(id)target andCallback:(SEL)callback;
@@ -34,5 +39,7 @@ static const float darknessForTilesAnimDuration = 0.3f;
 - (void) turnTheLightsOn;
 - (void) turnTheLightsOff;
 - (void) turnTheLights:(BOOL)on instantly:(BOOL)instantly;
+
+- (void) reloadTiles;
 
 @end

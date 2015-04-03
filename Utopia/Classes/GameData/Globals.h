@@ -38,6 +38,8 @@
 #define ENHANCE_MONSTER_NOTIFICATION @"EnhanceMonsterNotification"
 #define EVOLUTION_WAIT_COMPLETE_NOTIFICATION @"EvolutionWaitCompleteNotification"
 #define EVOLUTION_CHANGED_NOTIFICATION @"EvolutionChangedNotification"
+#define RESEARCH_WAIT_COMPLETE_NOTIFICATION @"ResearchWaitCompleteNotification"
+#define RESEARCH_CHANGED_NOTIFICATION @"ResearchChangedNotification"
 #define COMBINE_WAIT_COMPLETE_NOTIFICATION @"CombineWaitCompleteNotification"
 #define MINI_JOB_CHANGED_NOTIFICATION @"MiniJobWaitCompleteNotification"
 #define MONSTER_SOLD_COMPLETE_NOTIFICATION @"MonsterSoldNotification"
@@ -82,6 +84,10 @@
 #define ITEM_SELECT_OPENED_NOTIFICATION @"ItemSelectOpenedNotification"
 #define ITEM_SELECT_CLOSED_NOTIFICATION @"ItemSelectClosedNotification"
 #define ITEMS_CHANGED_NOTIFICATION @"ItemsChangedNotification"
+
+#define BATTLE_ITEM_QUEUE_CHANGED_NOTIFICATION @"BattleItemQueueChangedNotification"
+#define BATTLE_ITEM_REMOVED_NOTIFICATION @"BattleItemRemovedNotification"
+#define BATTLE_ITEM_WAIT_COMPLETE_NOTIFICATION @"BattleItemWaitCompleteNotification"
 
 #define MY_CLAN_MEMBERS_LIST_KEY @"MyMembersList"
 #define CLAN_RAID_ATTACK_KEY @"ClanRaidAttackKey"
@@ -166,6 +172,7 @@
 @property (nonatomic, assign) int minsToResolicitTeamDonation;
 
 @property (nonatomic, assign) BOOL ignorePrerequisites;
+@property (nonatomic, assign) BOOL ignoreTeamCheck;
 
 // Monster Constants
 @property (nonatomic, assign) int maxTeamSize;
@@ -199,6 +206,8 @@
 @property (nonatomic, retain) StartupResponseProto_StartupConstants_ClanHelpConstants *miniJobClanHelpConstants;
 @property (nonatomic, retain) StartupResponseProto_StartupConstants_ClanHelpConstants *buildingClanHelpConstants;
 @property (nonatomic, retain) StartupResponseProto_StartupConstants_ClanHelpConstants *enhanceClanHelpConstants;
+@property (nonatomic, retain) StartupResponseProto_StartupConstants_ClanHelpConstants *battleItemClanHelpConstants;
+@property (nonatomic, retain) StartupResponseProto_StartupConstants_ClanHelpConstants *researchClanHelpConstants;
 
 // Tournament Constants
 @property (nonatomic, assign) int tournamentWinsWeight;
@@ -274,6 +283,7 @@
 + (NSString *) stringForTimeSinceNow:(MSDate *)date shortened:(BOOL)shortened;
 + (NSString *) stringForClanStatus:(UserClanStatus)status;
 + (NSString *) stringForResourceType:(ResourceType)res;
++ (NSString *) stringForResearchDomain:(ResearchDomain)domain;
 
 + (NSString *) stringOfCurDate;
 
@@ -364,7 +374,7 @@
 + (void) animateCCArrow:(CCNode *)arrow atAngle:(float)angle;
 
 + (void) animateStartView:(UIView *)startView toEndView:(UIView *)endView fakeStartView:(UIView *)fakeStart fakeEndView:(UIView *)fakeEnd;
-+ (void) animateStartView:(UIView *)startView toEndView:(UIView *)endView fakeStartView:(UIView *)fakeStart fakeEndView:(UIView *)fakeEnd completion:(dispatch_block_t)completion;
++ (void) animateStartView:(UIView *)startView toEndView:(UIView *)endView fakeStartView:(UIView *)fakeStart fakeEndView:(UIView *)fakeEnd hideStartView:(BOOL)hideStartView hideEndView:(BOOL)hideEndView completion:(dispatch_block_t)completion;
 
 - (BOOL) validateUserName:(NSString *)name;
 
@@ -380,6 +390,8 @@
 + (BOOL) shouldShowFatKidDungeon;
 
 // Formulas
+- (float) convertToOverallPercentFromPercentDecrease:(float)perc;
+
 - (int) calculateGemSpeedupCostForTimeLeft:(int)timeLeft allowFreeSpeedup:(BOOL)free;
 - (int) calculateGemConversionForResourceType:(ResourceType)type amount:(int)amount;
 - (int) calculateTotalResourcesForResourceType:(ResourceType)type itemIdsToQuantity:(NSDictionary *)itemIdsToQuantity;
@@ -387,6 +399,9 @@
 - (int) calculateTeamCostForTeam:(NSArray *)team;
 - (BOOL) currentBattleReadyTeamHasCostFor:(UserMonster *)um;
 - (int) evoChamberLevelToEvolveMonster:(int)monsterId;
+
+- (int) calculateSecondsToCreateBattleItem:(BattleItemProto *)bip;
+- (int) calculateCostToCreateBattleItem:(BattleItemProto *)bip;
 
 - (BOOL) isPrerequisiteComplete:(PrereqProto *)prereq;
 - (NSArray *) incompletePrereqsForStructId:(int)structId;
@@ -396,6 +411,7 @@
 - (int) calculateMaxQuantityOfStructId:(int)structId;
 - (int) calculateMaxQuantityOfStructId:(int)structId withTownHall:(TownHallProto *)thp;
 - (TownHallProto *) calculateNextTownHallForQuantityIncreaseForStructId:(int)structId;
+- (ResearchProto *) calculateNextResearchForQuantityIncreaseForStructId:(int)structId;
 - (int) calculateNumberOfUnpurchasedStructs;
 - (int) calculateCurrentQuantityOfStructId:(int)structId structs:(NSArray *)structs;
 
@@ -404,8 +420,12 @@
 - (NSString *) expansionPhraseForExpandSpot:(CGPoint)pt;
 
 // Monster formulas
+- (int) calculateBaseTotalDamageForMonster:(UserMonster *)um;
+- (int) calculateBaseElementalDamageForMonster:(UserMonster *)um element:(Element)element;
 - (int) calculateTotalDamageForMonster:(UserMonster *)um;
 - (int) calculateElementalDamageForMonster:(UserMonster *)um element:(Element)element;
+- (int) calculateBaseMaxHealthForMonster:(UserMonster *)um;
+- (int) calculateBaseSpeedForMonster:(UserMonster *)um;
 - (int) calculateMaxHealthForMonster:(UserMonster *)um;
 - (int) calculateSpeedForMonster:(UserMonster *)um;
 - (int) calculateCostToHealMonster:(UserMonster *)um;

@@ -297,7 +297,8 @@ typedef struct {
 	formatFlags = flags & PVR_TEXTURE_FLAG_TYPE_MASK;
 	BOOL flipped = flags & kPVR2TextureFlagVerticalFlip;
 	if( flipped )
-		CCLOGWARN(@"cocos2d: WARNING: Image is flipped. Regenerate it using PVRTexTool");
+    // LVL6 - commented this log.. super annoying since all our pvrs are flipped
+		//CCLOGWARN(@"cocos2d: WARNING: Image is flipped. Regenerate it using PVRTexTool");
 
 	if( ! [configuration supportsNPOT] &&
 	   ( header->width != CCNextPOT(header->width) || header->height != CCNextPOT(header->height ) ) ) {

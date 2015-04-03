@@ -7,7 +7,49 @@
 //
 
 #import "BoardDesignerObstacleView.h"
+#import "GameState.h"
 #import "Globals.h"
+
+@interface PvpBoardObstacleProto (Prereqs)
+
+- (NSArray *) allPrerequisites;
+- (NSArray *) incompletePrerequisites;
+- (BOOL) satisfiesAllPrerequisites;
+
+@end
+
+@implementation PvpBoardObstacleProto (Prereqs)
+
+- (NSArray *) allPrerequisites {
+  GameState *gs = [GameState sharedGameState];
+  NSArray *arr = [gs prerequisitesForGameType:GameTypeBoardObstacle gameEntityId:self.pvpBoardId];
+  
+  arr = [arr sortedArrayUsingComparator:^NSComparisonResult(PrereqProto *obj1, PrereqProto *obj2) {
+    return [@(obj1.prereqId) compare:@(obj2.prereqId)];
+  }];
+  
+  return arr;
+}
+
+- (NSArray *) incompletePrerequisites {
+  NSMutableArray *arr = [NSMutableArray array];
+  NSArray *allPrereqs = [self allPrerequisites];
+  Globals *gl = [Globals sharedGlobals];
+  
+  for (PrereqProto *pp in allPrereqs) {
+    if (![gl isPrerequisiteComplete:pp]) {
+      [arr addObject:pp];
+    }
+  }
+  
+  return arr;
+}
+
+- (BOOL) satisfiesAllPrerequisites {
+  return [self incompletePrerequisites].count == 0;
+}
+
+@end
 
 @implementation BoardDesignerObstacleView
 
@@ -46,7 +88,7 @@
   _isEnabled = YES;
   _isLocked = NO;
   
-  if (!proto.initiallyAvailable)
+  if (!proto.initiallyAvailable && ![proto satisfiesAllPrerequisites])
     [self lockObstacle];
 }
 

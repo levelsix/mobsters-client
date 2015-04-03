@@ -34,6 +34,7 @@
 // it will call this swipe handler. This is how it communicates back to the
 // ViewController that a swap needs to take place. You can also use a delegate
 // for this.
+@property (copy, nonatomic) void (^tapDownHandler)(BattleOrb *orb, BattleTile *tile);
 @property (copy, nonatomic) void (^swipeHandler)(BattleSwap *swap);
 @property (copy, nonatomic) void (^orbDestroyedHandler)(BattleOrb *orb);
 @property (copy, nonatomic) void (^chainFiredHandler)(BattleChain *chain);

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DialogueViewController">
@@ -14,6 +14,11 @@
                 <outlet property="fbButtonLabel" destination="7kN-L6-PtZ" id="Rk7-02-Jh2"/>
                 <outlet property="fbButtonSpinner" destination="UfP-LC-P0I" id="kFc-gH-0C4"/>
                 <outlet property="fbButtonView" destination="MHn-y0-mmA" id="tDm-ca-u3x"/>
+                <outlet property="itemIcon" destination="LEH-Py-KKr" id="szP-Ol-pj6"/>
+                <outlet property="itemInstructionLabel" destination="U8j-me-Q5e" id="ryq-ph-0ha"/>
+                <outlet property="itemNameLabel" destination="mY9-S2-nxE" id="pay-O0-Nus"/>
+                <outlet property="itemSpeechBubble" destination="mkP-qB-uEF" id="2pJ-xo-JjN"/>
+                <outlet property="itemSpeechBubbleImage" destination="qHF-O9-oi4" id="2QH-iF-RwR"/>
                 <outlet property="leftImageView" destination="qhg-jh-w6v" id="bmp-ss-98Q"/>
                 <outlet property="speakerLabel" destination="UnO-id-wSF" id="WqH-xW-MqI"/>
                 <outlet property="speechBubble" destination="AlM-Ns-QkQ" id="fAv-XX-OGt"/>
@@ -141,6 +146,57 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
+                <view contentMode="scaleToFill" id="mkP-qB-uEF">
+                    <rect key="frame" x="112" y="34" width="201" height="60"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <subviews>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="itemdialoguebubble.png" highlightedImage="itemdialoguebubble4.png" id="qHF-O9-oi4">
+                            <rect key="frame" x="0.0" y="0.0" width="201" height="60"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                        <view contentMode="scaleToFill" id="OuC-wt-RkJ">
+                            <rect key="frame" x="14" y="0.0" width="187" height="60"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <view contentMode="scaleToFill" id="KQK-T2-SaO">
+                                    <rect key="frame" x="9" y="8" width="42" height="42"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="ifitemsquaresmall.png" id="l2u-Sd-2za">
+                                            <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </imageView>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="LEH-Py-KKr">
+                                            <rect key="frame" x="7" y="6" width="29" height="29"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </imageView>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Tap an orb to destroy it." lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="U8j-me-Q5e" customClass="NiceFontLabel5">
+                                    <rect key="frame" x="60" y="25" width="115" height="26"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                    <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="deviceRGB"/>
+                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="shadowColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Orb Hammer" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="mY9-S2-nxE" customClass="NiceFontLabel12">
+                                    <rect key="frame" x="60" y="4" width="115" height="32"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                    <color key="textColor" red="0.0" green="0.49803921569999998" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <nil key="highlightedColor"/>
+                                    <color key="shadowColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <nil key="simulatedStatusBarMetrics"/>
@@ -156,6 +212,9 @@
         <image name="dialoguebubble.png" width="211" height="100"/>
         <image name="fightonbubblearrow.png" width="10" height="14"/>
         <image name="fightonbubblebutton.png" width="102" height="49"/>
+        <image name="ifitemsquaresmall.png" width="42" height="42"/>
+        <image name="itemdialoguebubble.png" width="200" height="60"/>
+        <image name="itemdialoguebubble4.png" width="122" height="60"/>
         <image name="tutorialrocks.png" width="222" height="71"/>
         <image name="tutorialtrees.png" width="225" height="128"/>
     </resources>

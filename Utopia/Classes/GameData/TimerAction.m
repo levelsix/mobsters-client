@@ -18,6 +18,8 @@
 #import "EvolveDetailsViewController.h"
 #import "EnhanceQueueViewController.h"
 #import "TeamViewController.h"
+#import "ItemFactoryViewController.h"
+#import "ResearchViewController.h"
 
 @implementation TimerAction
 
@@ -39,24 +41,7 @@
 }
 
 - (NSArray *) speedupClicked:(UIView *)sender {
-  GameState *gs = [GameState sharedGameState];
-  int gemCost = [self gemCost];
-  NSString *confirm = [self confirmActionString];
-  // Disabled since the item select popup will show up
-  if (false && [self gemCost] > gs.gems) {
-    [GenericPopupController displayNotEnoughGemsView];
-  }
-  else if (false && gemCost && confirm) {
-    [GenericPopupController displayGemConfirmViewWithDescription:confirm title:@"Speedup?" gemCost:gemCost target:self selector:@selector(performSpeedup:)];
-  }
-  else {
-    return [self performSpeedup:sender];
-  }
-  return nil;
-}
-
-- (NSString *) confirmActionString {
-  return nil;
+  return [self performSpeedup:sender];
 }
 
 - (BOOL) canGetHelp {
@@ -215,10 +200,6 @@
   return NO;
 }
 
-- (NSString *) confirmActionString {
-  return [NSString stringWithFormat:@"Would you like to speedup your hospital queue for %d gem%@?" , [self gemCost], [self gemCost] == 1 ? @"" : @"s"];
-}
-
 - (NSArray *) performSpeedup:(UIView *)sender {
   HealViewController *hvc = [[HealViewController alloc] init];
   hvc.fakeHospitalQueue = self.hospitalQueue;
@@ -243,6 +224,54 @@
 
 @end
 
+@implementation BattleItemTimerAction
+
+- (id) initWithBattleItemQueue:(BattleItemQueue *)biq {
+  if ((self = [super init])) {
+    self.title = @"Creating Items";
+    self.normalProgressBarColor = TimerProgressBarColorGreen;
+    self.allowsFreeSpeedup = YES;
+    self.completionDate = biq.queueEndTime;
+    self.totalSeconds = biq.totalTimeForQueue;
+    self.battleItemQueue = biq;
+  }
+  return self;
+}
+
+- (BOOL) canGetHelp {
+  GameState *gs = [GameState sharedGameState];
+  //  for (BattleItemQueueObject *hi in self.battleItemQueue.queueObjects) {
+  if (self.battleItemQueue.queueObjects.count) {
+    BattleItemQueueObject *hi = self.battleItemQueue.queueObjects[0];
+    if ([gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeCreateBattleItem userDataUuid:hi.battleItemQueueUuid] < 0) {
+      return YES;
+    }
+  }
+  return NO;
+}
+
+- (NSArray *) performSpeedup:(UIView *)sender {
+  ItemFactoryViewController *hvc = [[ItemFactoryViewController alloc] init];
+  [hvc speedupButtonClicked:sender];
+  
+  return @[hvc];
+}
+
+- (void) performHelp {
+  ItemFactoryViewController *hvc = [[ItemFactoryViewController alloc] init];
+  [hvc getHelpClicked:nil];
+}
+
+- (BOOL) isEqual:(id)object {
+  return [self class] == [object class];
+}
+
+- (NSUInteger) hash {
+  return 9203;
+}
+
+@end
+
 @implementation EnhancementTimerAction
 
 - (id) initWithEnhancement:(UserEnhancement *)ue {
@@ -261,10 +290,6 @@
 - (BOOL) canGetHelp {
   GameState *gs = [GameState sharedGameState];
   return [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeEnhanceTime userDataUuid:self.userEnhancement.baseMonster.userMonsterUuid] < 0;
-}
-
-- (NSString *) confirmActionString {
-  return [NSString stringWithFormat:@"Would you like to speedup %@'s enhancement for %d gem%@?" , self.title, [self gemCost], [self gemCost] == 1 ? @"" : @"s"];
 }
 
 - (NSArray *) performSpeedup:(UIView *)sender {
@@ -307,10 +332,6 @@
 - (BOOL) canGetHelp {
   GameState *gs = [GameState sharedGameState];
   return [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeMiniJob userDataUuid:self.miniJob.userMiniJobUuid] < 0;
-}
-
-- (NSString *) confirmActionString {
-  return [NSString stringWithFormat:@"Would you like to speedup your %@ for %d gem%@?" , self.title, [self gemCost], [self gemCost] == 1 ? @"" : @"s"];
 }
 
 - (NSArray *) performSpeedup:(UIView *)sender {
@@ -360,10 +381,6 @@
   return [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeEvolve userDataUuid:self.userEvo.userMonsterUuid1] < 0;
 }
 
-- (NSString *) confirmActionString {
-  return [NSString stringWithFormat:@"Would you like to speedup %@'s evolution for %d gem%@?" , self.title, [self gemCost], [self gemCost] == 1 ? @"" : @"s"];
-}
-
 - (NSArray *) performSpeedup:(UIView *)sender {
   EvolveDetailsViewController *evc = [[EvolveDetailsViewController alloc] initWithCurrentEvolution];
   [evc speedupClicked:sender];
@@ -406,10 +423,6 @@
   return NO;
 }
 
-- (NSString *) confirmActionString {
-  return [NSString stringWithFormat:@"Would you like to speedup combining %@'s for %d gem%@?" , self.title, [self gemCost], [self gemCost] == 1 ? @"" : @"s"];
-}
-
 - (NSArray *) performSpeedup:(UIView *)sender {
   TeamViewController *tvc = [[TeamViewController alloc] init];
   [tvc speedupClicked:self.userMonster invokingView:sender indexPath:nil];
@@ -427,6 +440,48 @@
 
 - (NSUInteger) hash {
   return (NSUInteger)self.userMonster.userMonsterUuid.hash;
+}
+
+@end
+
+@implementation ResearchTimerAction
+
+- (id) initWithResearch:(UserResearch *)ur {
+  if ((self = [super init])) {
+    self.userResearch = ur;
+    
+    self.title = ur.staticResearch.name;
+    self.normalProgressBarColor = TimerProgressBarColorGreen;
+    self.allowsFreeSpeedup = YES;
+    self.completionDate = self.userResearch.tentativeCompletionDate;
+    self.totalSeconds = ur.staticResearch.durationMin*60;
+  }
+  return self;
+}
+
+- (BOOL) canGetHelp {
+  GameState *gs = [GameState sharedGameState];
+  return [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypePerformingResearch userDataUuid:self.userResearch.userResearchUuid] < 0;
+}
+
+- (NSArray *) performSpeedup:(UIView *)sender {
+  ResearchViewController *rvc = [[ResearchViewController alloc] init];
+  [rvc finishNowClicked:sender];
+  
+  return @[rvc];
+}
+
+- (void) performHelp {
+  ResearchViewController *rvc = [[ResearchViewController alloc] init];
+  [rvc helpButtonClicked:nil];
+}
+
+- (BOOL) isEqual:(id)object {
+  return [self class] == [object class] && [self.userResearch.userResearchUuid isEqualToString:[object userResearch].userResearchUuid];
+}
+
+- (NSUInteger) hash {
+  return (NSUInteger)self.userResearch.userResearchUuid.hash;
 }
 
 @end

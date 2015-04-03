@@ -55,6 +55,12 @@
   return button;
 }
 
++ (id) researchButton {
+  MapBotViewButton *button = [self button];
+  [button updateWithImageName:@"buildingresearch.png" actionText:@"Research" config:MapBotViewButtonResearch];
+  return button;
+}
+
 + (id) teamButton {
   MapBotViewButton *button = [self button];
   [button updateWithImageName:@"buildingmanage.png" actionText:@"Manage Team" config:MapBotViewButtonTeam];
@@ -87,7 +93,7 @@
 
 + (id) itemFactoryButton {
   MapBotViewButton *button = [self button];
-  [button updateWithImageName:@"buildingsquad.png" actionText:@"Create Items" config:MapBotViewButtonItemFactory];
+  [button updateWithImageName:@"buildingcreateitems.png" actionText:@"Create Items" config:MapBotViewButtonItemFactory];
   return button;
 }
 

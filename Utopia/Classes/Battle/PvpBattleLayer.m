@@ -76,7 +76,6 @@
 - (void) onExitTransitionDidStart {
   [super onExitTransitionDidStart];
   [self removeCloseButton];
-  [self.itemSelectViewController closeClicked:nil];
 }
 
 #pragma mark - Close Button
@@ -269,7 +268,7 @@
       ResourceItemsFiller *rif = [[ResourceItemsFiller alloc] initWithResourceType:ResourceTypeCash requiredAmount:thp.pvpQueueCashCost shouldAccumulate:YES];
       rif.delegate = self;
       svc.delegate = rif;
-      self.itemSelectViewController = svc;
+      self.popoverViewController = svc;
       self.resourceItemsFiller = rif;
       
       GameViewController *gvc = [GameViewController baseController];
@@ -619,10 +618,12 @@
     NSMutableSet *skillSideEffects = [NSMutableSet set];
     NSMutableArray *enemyTeam = [NSMutableArray array];
     
+    
     PvpProto *enemy = self.defendersList[_curQueueNum];
+    ResearchUtil *ru = [[ResearchUtil alloc] initWithResearches:enemy.userResearchList];
     int num = 0;
     for (PvpMonsterProto *mon in enemy.defenderMonstersList) {
-      UserMonster *um = [UserMonster userMonsterWithMinProto:mon.defenderMonster];
+      UserMonster *um = [UserMonster userMonsterWithMinProto:mon.defenderMonster researchUtil:ru];
       um.userUuid = [NSString stringWithFormat:@"%i",num++];
       BattlePlayer *bp = [BattlePlayer playerWithMonster:um];
       [enemyTeam addObject:bp];
@@ -632,6 +633,10 @@
       }
       [skillSideEffects addObjectsFromArray:[Globals skillSideEffectProtosForBattlePlayer:bp enemy:YES]];
     }
+    
+    [enemyTeam sortUsingComparator:^NSComparisonResult(BattlePlayer *obj1, BattlePlayer *obj2) {
+      return [@(obj1.slotNum) compare:@(obj2.slotNum)];
+    }];
     
     if (enemy.hasCmtd) {
       UserMonster *um = enemy.cmtd.donatedMonster;
@@ -835,7 +840,7 @@
 }
 
 - (void) itemSelectClosed:(id)viewController {
-  self.itemSelectViewController = nil;
+  self.popoverViewController = nil;
   self.resourceItemsFiller = nil;
 }
 

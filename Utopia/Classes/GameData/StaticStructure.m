@@ -66,6 +66,10 @@
   } else if (self.prereqGameType == GameTypeTask) {
     TaskMapElementProto *elem = [gs mapElementWithTaskId:self.prereqGameEntityId];
     return [NSString stringWithFormat:@"Defeat Level %d", elem.mapElementId];
+  } else if (self.prereqGameType == GameTypeResearch) {
+    ResearchProto *research = [gs researchWithId:self.prereqGameEntityId];
+    NSString *lvl = research.predId || research.succId ? [NSString stringWithFormat:@"Rank %d", research.level] : @"";
+    return [NSString stringWithFormat:@"%@ %@",research.name, lvl];
   }
   return nil;
 }

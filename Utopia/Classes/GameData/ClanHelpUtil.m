@@ -221,6 +221,19 @@
         UserEnhancement *ue = gs.userEnhancement;
         
         isValid = [ue.baseMonster.userMonsterUuid isEqualToString:ch.userDataUuid];
+      } else if (ch.helpType == GameActionTypeCreateBattleItem) {
+        BattleItemQueueObject *biq = nil;
+        for (BattleItemQueueObject *item in gs.battleItemUtil.battleItemQueue.queueObjects) {
+          if ([item.battleItemQueueUuid isEqualToString:ch.userDataUuid]) {
+            biq = item;
+          }
+        }
+        
+        isValid = !!biq;
+      } else if (ch.helpType == GameActionTypePerformingResearch) {
+        UserResearch *ur = [gs.researchUtil currentResearch];
+        
+        isValid = ur.researchId == ch.staticDataId;
       }
       
       if (!isValid) {

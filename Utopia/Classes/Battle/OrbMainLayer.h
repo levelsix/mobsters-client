@@ -33,6 +33,11 @@
 
 @property (nonatomic, retain) OrbSwipeLayer *swipeLayer;
 @property (nonatomic, retain) OrbBgdLayer *bgdLayer;
+@property (nonatomic, retain) OrbBgdLayer *clipBgdLayer;
+
+@property (nonatomic, assign) BOOL allowFreeMove;
+@property (nonatomic, assign) BOOL allowOrbHammer;
+@property (nonatomic, assign) BOOL allowPutty;
 
 @property (nonatomic, assign) id<OrbMainLayerDelegate> delegate;
 
@@ -48,6 +53,16 @@
 - (void) allowInput;
 - (void) disallowInput;
 - (void) shuffleWithCompletion:(void(^)())completion;
+- (void) shuffleWithoutEnforcementAndCheckMatches;
+
+- (void) allowFreeMoveForSingleTurn;
+- (void) cancelFreeMove;
+
+- (void) allowOrbHammerForSingleTurn;
+- (void) cancelOrbHammer;
+
+- (void) allowPuttyForSingleTurn;
+- (void) cancelPutty;
 
 - (void) toggleArrows:(BOOL)on;
 

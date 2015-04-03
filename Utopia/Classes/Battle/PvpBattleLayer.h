@@ -50,7 +50,6 @@
 
 @property (nonatomic, retain) NSDictionary *itemUsagesForQueue;
 
-@property (nonatomic, retain) ItemSelectViewController *itemSelectViewController;
 @property (nonatomic, retain) ResourceItemsFiller *resourceItemsFiller;
 
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize pvpHistoryForRevenge:(PvpHistoryProto *)hist;

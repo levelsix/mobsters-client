@@ -58,6 +58,20 @@
   return damage;
 }
 
+- (BOOL)cureStatusWithAntidote:(BattleItemType)antidoteType execute:(BOOL)execute
+{
+  if ([self isActive] && antidoteType == BattleItemTypeChillAntidote)
+  {
+    if (execute)
+    {
+      [self endDurationNow];
+      self.battleLayer.movesLeft += _turnsSkipped;
+    }
+    return YES;
+  }
+  return NO;
+}
+
 #pragma mark Skill Logic
 
 - (BOOL)activate

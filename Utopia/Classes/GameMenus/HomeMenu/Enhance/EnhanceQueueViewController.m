@@ -148,7 +148,10 @@
 - (int) maxQueueSize {
   GameState *gs = [GameState sharedGameState];
   LabProto *lab = (LabProto *)gs.myLaboratory.staticStruct;
-  return lab.queueSize;
+  
+  int researchFactor = [gs.researchUtil amountBenefitForType:ResearchTypeIncreaseEnhanceQueue];
+  
+  return lab.queueSize+researchFactor;
 }
 
 - (UserEnhancement *) currentEnhancement {
@@ -286,16 +289,11 @@
     self.finishButtonView.hidden = NO;
     
     if (speedupCost > 0) {
-      self.gemCostLabel.text = [Globals commafyNumber:speedupCost];
-      [Globals adjustViewForCentering:self.gemCostLabel.superview withLabel:self.gemCostLabel];
-      
-      self.gemCostLabel.superview.hidden = NO;
       self.speedupIcon.hidden = NO;
       self.freeLabel.hidden = YES;
       
       self.helpButtonView.hidden = !canHelp;
     } else {
-      self.gemCostLabel.superview.hidden = YES;
       self.speedupIcon.hidden = YES;
       self.freeLabel.hidden = NO;
       self.helpButtonView.hidden = YES;

@@ -11,8 +11,9 @@
 #import "StaticStructure.h"
 #import "ItemObject.h"
 #import "HospitalQueue.h"
+#import "BattleItemUtil.h"
+#import "ResearchUtil.h"
 
-@class ForgeAttempt;
 @class MSDate;
 
 @interface MonsterProto (Name)
@@ -37,12 +38,14 @@
 @property (nonatomic, assign) int offensiveSkillId;
 @property (nonatomic, assign) int defensiveSkillId;
 
+@property (nonatomic, retain) ResearchUtil *researchUtil;
+
 @property (nonatomic, assign) BOOL isClanMonster;
 
-+ (id) userMonsterWithProto:(FullUserMonsterProto *)proto;
-+ (id) userMonsterWithMinProto:(MinimumUserMonsterProto *)proto;
++ (id) userMonsterWithProto:(FullUserMonsterProto *)proto researchUtil:(ResearchUtil *)researchUtil;
++ (id) userMonsterWithMinProto:(MinimumUserMonsterProto *)proto researchUtil:(ResearchUtil *)researchUtil;
 + (id) userMonsterWithTaskStageMonsterProto:(TaskStageMonsterProto *)proto;
-+ (id) userMonsterWithMonsterSnapshotProto:(UserMonsterSnapshotProto *)proto;
++ (id) userMonsterWithMonsterSnapshotProto:(UserMonsterSnapshotProto *)proto researchUtil:(ResearchUtil *)researchUtil;
 - (BOOL) isHealing;
 - (BOOL) isEnhancing;
 - (BOOL) isEvolving;
@@ -181,6 +184,7 @@
 - (NSArray *) incompletePrerequisites;
 - (BOOL) satisfiesAllPrerequisites;
 
+- (float) productionRate;
 - (int) numResourcesAvailable;
 
 - (MSDate *) buildCompleteDate;

@@ -342,6 +342,21 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSCustomizePvpBoardObstacleEvent:
       responseClass = [CustomizePvpBoardObstacleResponseProto class];
       break;
+    case EventProtocolResponseSCreateBattleItemEvent:
+      responseClass = [CreateBattleItemResponseProto class];
+      break;
+    case EventProtocolResponseSCompleteBattleItemEvent:
+      responseClass = [CompleteBattleItemResponseProto class];
+      break;
+    case EventProtocolResponseSDiscardBattleItemEvent:
+      responseClass = [DiscardBattleItemResponseProto class];
+      break;
+    case EventProtocolResponseSPerformResearchEvent:
+      responseClass = [PerformResearchResponseProto class];
+      break;
+    case EventProtocolResponseSFinishPerformingResearchEvent:
+      responseClass = [FinishPerformingResearchResponseProto class];
+      break;
     default:
       responseClass = nil;
       break;
@@ -416,6 +431,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs.myAchievements removeAllObjects];
     [gs addToMyAchievements:proto.userAchievementsList];
     
+    // Make sure researchUtil happens before monsters or else the monsters will not have any research benefits
+    gs.itemUtil = [[ItemUtil alloc] initWithItemProtos:proto.userItemsList itemUsageProtos:proto.itemsInUseList];
+    gs.researchUtil = [[ResearchUtil alloc] initWithResearches:proto.userResearchsList];
+    gs.mySecretGifts = [proto.giftsList mutableCopy];
+    
     //    [Globals asyncDownloadBundles];
     [gs.myMonsters removeAllObjects];
     [gs addToMyMonsters:proto.usersMonstersList];
@@ -436,13 +456,16 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       gs.userEvolution = nil;
     }
     
+    gs.battleItemUtil = [[BattleItemUtil alloc] init];
+    [gs.battleItemUtil updateWithQueueProtos:proto.battleItemQueueList itemProtos:proto.battleItemList];
+    [gs beginBattleItemTimer];
+    
     [gs addToCompleteTasks:proto.completedTasksList];
     
     [gs.myMiniJobs removeAllObjects];
     [gs addToMiniJobs:proto.userMiniJobProtosList isNew:NO];
     
-    gs.itemUtil = [[ItemUtil alloc] initWithItemProtos:proto.userItemsList itemUsageProtos:proto.itemsInUseList];
-    gs.mySecretGifts = [proto.giftsList mutableCopy];
+    [gs beginResearchTimer];
     
     [gs.fbUnacceptedRequestsFromFriends removeAllObjects];
     [gs.fbAcceptedRequestsFromMe removeAllObjects];
@@ -779,6 +802,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [gs beginHealingTimer];
       [gs beginMiniJobTimerShowFreeSpeedupImmediately:YES];
       [gs beginEnhanceTimer];
+      [gs beginResearchTimer];
       
       [gs removeNonFullUserUpdatesForTag:tag];
       
@@ -1026,7 +1050,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   // Chats sent from this user will be faked.
   GameState *gs = [GameState sharedGameState];
   if (![proto.sender.minUserProto.userUuid isEqualToString:gs.userUuid]) {
-    [gs addChatMessage:proto.sender message:proto.chatMessage scope:proto.scope isAdmin:proto.isAdmin];
+    [gs addChatMessage:proto.sender message:proto.chatMessage scope:proto.scope isAdmin:proto. isAdmin];
     
     Globals *gl = [Globals sharedGlobals];
     if (![gl isUserUuidMuted:proto.sender.minUserProto.userUuid]) {
@@ -1709,6 +1733,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusSuccess) {
+    // Gems, oil, and cash are updated through UpdateUserClientResponseEvent. Don't do anything here
     if (proto.updatedOrNewList.count) {
       [gs addToMyMonsters:proto.updatedOrNewList];
     }
@@ -1903,6 +1928,55 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to handle heal monster."];
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+#pragma mark - Battle Item
+
+- (void) handleCreateBattleItemResponseProto:(FullEvent *)fe {
+  CreateBattleItemResponseProto *proto = (CreateBattleItemResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Create battle response received with status %d.", (int)proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == CreateBattleItemResponseProto_CreateBattleItemStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to alter battle item queue."];
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleCompleteBattleItemResponseProto:(FullEvent *)fe {
+  CompleteBattleItemResponseProto *proto = (CompleteBattleItemResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Complete battle response received with status %d.", (int)proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == CompleteBattleItemResponseProto_CompleteBattleItemStatusSuccess) {
+    [gs.battleItemUtil addToMyItems:proto.ubiUpdatedList];
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to complete battle item."];
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleDiscardBattleItemResponseProto:(FullEvent *)fe {
+  DiscardBattleItemResponseProto *proto = (DiscardBattleItemResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Discard battle response received with status %d.", (int)proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == DiscardBattleItemResponseProto_DiscardBattleItemStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to discard battle item."];
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
@@ -2311,6 +2385,43 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   } else {
     [Globals popupMessage:@"Server failed to redeem mini job."];
     
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+#pragma mark - Research
+
+- (void) handlePerformResearchResponseProto:(FullEvent *)fe {
+  PerformResearchResponseProto *proto = (PerformResearchResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Perform research response received with status %d.", (int)proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == PerformResearchResponseProto_PerformResearchStatusSuccess) {
+    [gs.researchUtil currentResearch].userResearchUuid = proto.userResearchUuid;
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to redeem research."];
+    
+    [gs.researchUtil cancelCurrentResearch];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleFinishPerformingResearchResponseProto:(FullEvent *)fe {
+  FinishPerformingResearchResponseProto *proto = (FinishPerformingResearchResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Finish performing research received with status %d.", (int)proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == FinishPerformingResearchResponseProto_FinishPerformingResearchStatusSuccess) {
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to redeem research."];
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }

@@ -281,7 +281,11 @@ static BOOL isAnimating = NO;
 
 - (int) maxQueueSize {
   HospitalProto *hp = (HospitalProto *)[self currentHospital].staticStruct;
-  return hp.queueSize;
+  
+  GameState *gs = [GameState sharedGameState];
+  int researchFactor = [gs.researchUtil amountBenefitForType:ResearchTypeIncreaseHospitalQueue];
+  
+  return hp.queueSize+researchFactor;
 }
 
 - (BOOL) userMonsterIsAvailable:(UserMonster *)um {
@@ -693,6 +697,7 @@ static BOOL isAnimating = NO;
   
   [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] postNotificationName:HEAL_QUEUE_CHANGED_NOTIFICATION object:self];
+  [[NSNotificationCenter defaultCenter] postNotificationName:HEAL_WAIT_COMPLETE_NOTIFICATION object:self];
   
   _waitingForResponse = NO;
 }

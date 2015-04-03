@@ -34,6 +34,11 @@
   int _healingQueueCashChange;
   int _healingQueueGemCost;
   
+  BOOL _battleItemQueuePotentiallyChanged;
+  int _battleItemQueueCashChange;
+  int _battleItemQueueOilChange;
+  int _battleItemQueueGemCost;
+  
   NSMutableArray *_speedupItemUsages;
   NSMutableArray *_speedupUpdatedUserItems;
   
@@ -57,7 +62,7 @@
 @property (nonatomic, assign) uint64_t lastClientTime;
 
 @property (nonatomic, retain) NSArray *healingQueueSnapshot;
-@property (nonatomic, retain) UserEnhancement *enhancementSnapshot;
+@property (nonatomic, retain) NSArray *battleItemQueueSnapshot;
 
 @property (nonatomic, retain) NSMutableDictionary *tagDelegates;
 @property (nonatomic, retain) NSMutableArray *clanEventDelegates;
@@ -110,6 +115,9 @@
 
 - (int) sendAchievementProgressMessage:(NSArray *)userAchievements clientTime:(uint64_t)clientTime;
 - (int) sendAchievementRedeemMessage:(int)achievementId clientTime:(uint64_t)clientTime;
+
+- (int) sendBeginResearchMessage:(int)researchId uuid:(NSString*)uuid clientTime:(uint64_t)clientTime gems:(int)gems resourceType:(ResourceType)resourceType resourceCost:(int)resourceCost;
+- (int) sendFinishPerformingResearchRequestProto:(NSString *)uuid gemsSpent:(int)gemsSpent;
 
 - (int) sendRetrieveUsersForUserUuids:(NSArray *)userUuids includeCurMonsterTeam:(BOOL)includeCurMonsterTeam;
 
@@ -218,6 +226,12 @@
 - (int) sendRetrieveUserMonsterTeamMessage:(NSArray *)userUuids;
 
 - (int) sendCustomizePvpBoardObstacleMessage:(NSArray *)removeUpboIds nuOrUpdatedObstacles:(NSArray *)nuOrUpdatedObstacles;
+
+- (int) setBattleItemQueueDirtyWithCoinChange:(int)coinChange oilChange:(int)oilChange gemCost:(int)gemCost;
+- (void) reloadBattleItemQueueSnapshot;
+- (int) sendBattleItemQueueMessage;
+- (int) sendCompleteBattleItemMessage:(NSArray *)completedBiqfus isSpeedup:(BOOL)isSpeedup gemCost:(int)gemCost;
+- (int) sendDiscardBattleItemMessage:(NSArray *)battleItemIds;
 
 - (void) flush;
 - (void) pauseFlushTimer;

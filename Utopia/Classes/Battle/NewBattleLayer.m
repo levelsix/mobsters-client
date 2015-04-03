@@ -20,6 +20,9 @@
 #import "DestroyedOrb.h"
 #import "SkillManager.h"
 #import "MonsterPopUpViewController.h"
+#import "BattleItemSelectViewController.h"
+#import "ClientProperties.h"
+#import "ShopViewController.h"
 
 // Disable for this file
 #pragma clang diagnostic push
@@ -251,6 +254,7 @@
   
   [self.hudView removeFromSuperview];
   [self.forcedSkillView removeFromSuperview];
+  [self.popoverViewController closeClicked:nil];
 }
 
 - (BattlePlayer *) firstMyPlayer {
@@ -575,7 +579,7 @@
 
 - (void) moveToNextEnemyWithPlayerFirst:(BOOL)playerHitsFirst {
   _dungeonPlayerHitsFirst = playerHitsFirst;
-  [self.hudView removeButtons];
+  [self removeButtons];
   
   if (_lootSprite) {
     [self pickUpLoot];
@@ -831,6 +835,7 @@
     [skillManager enableSkillButton:YES];
     
     [self.hudView prepareForMyTurn];
+    [self updateItemsBadge];
     
     [self performAfterDelay:0.5 block:^{
       [self.hudView.battleScheduleView bounceLastView];
@@ -847,7 +852,7 @@
 }
 
 - (void) beginEnemyTurn:(float)delay {
-  [self.hudView removeButtons];
+  [self removeButtons];
   
   // Bounce if needed
   BOOL needToBounce = YES;
@@ -960,7 +965,7 @@
   [self showHighScoreWord];
   [self.orbLayer disallowInput];
   [self.orbLayer.bgdLayer turnTheLightsOff];
-  [self.hudView removeButtons];
+  [self removeButtons];
 }
 
 - (void) showHighScoreWord {
@@ -2032,7 +2037,7 @@
     self.myPlayer = nil;
     self.myPlayerObject = nil;
     [self.orbLayer disallowInput];
-    [self.hudView removeButtons];
+    [self removeButtons];
   }
 }
 
@@ -2045,7 +2050,7 @@
   
   _wonBattle = won;
   
-  [self.hudView removeButtons];
+  [self removeButtons];
   [self.hudView removeBattleScheduleView];
   [self.hudView hideSkillPopup:nil];
   self.hudView.bottomView.hidden = YES;
@@ -2170,6 +2175,15 @@
   [self updateHealthBars];
   [self.hudView removeSwapButtonAnimated:YES];
   [skillManager enableSkillButton:NO];
+  
+  UserBattleItem *item = _selectedBattleItem;
+  BattleItemProto *bip = item.staticBattleItem;
+  if ((self.orbLayer.allowFreeMove && bip.battleItemType == BattleItemTypeHandSwap) ||
+      (self.orbLayer.allowOrbHammer && bip.battleItemType == BattleItemTypeOrbHammer) ||
+      (self.orbLayer.allowPutty && bip.battleItemType == BattleItemTypePutty)) {
+    [self deductBattleItem:bip];
+    _selectedBattleItem = nil;
+  }
 }
 
 - (void) newComboFound {
@@ -2434,8 +2448,8 @@
   const CGPoint orbLayerPosition = ccp(self.contentSize.width-self.orbLayer.contentSize.width/2-ORB_LAYER_DIST_FROM_SIDE, self.orbLayer.position.y);
   [self.orbLayer runAction:[CCActionEaseOut actionWithAction:[CCActionMoveTo actionWithDuration:0.4f position:orbLayerPosition] rate:3]];
 
-  self.lootBgd.position = ccp(orbLayerPosition.x-self.orbLayer.contentSize.width/2-self.lootBgd.contentSize.width/2 - 17,
-                              self.lootBgd.contentSize.height/2+ORB_LAYER_DIST_FROM_SIDE);
+  self.lootBgd.position = ccp(self.lootBgd.contentSize.width/2 + 10,
+                              self.lootBgd.contentSize.height/2+ORB_LAYER_DIST_FROM_SIDE+self.hudView.swapView.height+7);
   [self displayLootCounter:YES];
   
   [SoundEngine puzzleOrbsSlideIn];
@@ -2495,7 +2509,10 @@
   self.hudView.bottomView.originY = self.hudView.bottomView.superview.height-self.hudView.bottomView.height-bottomDist;
   self.hudView.swapView.originY = self.hudView.swapView.superview.height-self.hudView.swapView.height-bottomDist;
   
-  self.hudView.bottomView.centerX = BOTTOM_CENTER_X;
+  self.hudView.itemsView.originY = self.hudView.itemsView.superview.height-self.hudView.itemsView.height-bottomDist;
+  self.hudView.itemsView.originX = self.hudView.itemsView.superview.width-self.hudView.itemsView.width-self.orbLayer.contentSize.width-ORB_LAYER_DIST_FROM_SIDE-8;
+  
+  self.hudView.bottomView.centerX = self.hudView.swapView.width+(self.hudView.itemsView.originX-self.hudView.swapView.width)/2;
   
   UIImage *img = [Globals imageNamed:@"6movesqueuebgwide.png"];
   if (BOTTOM_CENTER_X*2 >= img.size.width) {
@@ -2516,6 +2533,43 @@
     [self.hudView.deployView showClanSlot];
   } else {
     [self.hudView.deployView hideClanSlot];
+  }
+}
+
+- (void) removeButtons {
+  [self.hudView removeButtons];
+  [self.popoverViewController closeClicked:nil];
+}
+
+- (void) itemsClicked:(id)sender {
+  if (!self.orbLayer.swipeLayer.userInteractionEnabled) {
+    return;
+  }
+  
+  BOOL showFooter = !self.allowBattleItemPurchase;
+  BattleItemSelectViewController *svc = [[BattleItemSelectViewController alloc] initWithShowUseButton:YES showFooterView:showFooter showItemFactory:YES];
+  if (svc) {
+    svc.delegate = self;
+    self.popoverViewController = svc;
+    
+    GameViewController *gvc = [GameViewController baseController];
+    svc.view.frame = gvc.view.bounds;
+    [gvc addChildViewController:svc];
+    [gvc.view addSubview:svc.view];
+    
+    if (sender == nil)
+    {
+      [svc showCenteredOnScreen];
+    }
+    else
+    {
+      if ([sender isKindOfClass:[UIButton class]])
+      {
+        [svc showAnchoredToInvokingView:self.hudView.itemsButton.superview
+                          withDirection:ViewAnchoringPreferTopPlacement
+                      inkovingViewImage:[Globals maskImage:[Globals snapShotView:self.hudView.itemsButton.superview] withColor:[UIColor whiteColor]]];
+      }
+    }
   }
 }
 
@@ -2583,7 +2637,7 @@
     
     if (isSwap) {
       [self makeMyPlayerWalkOutWithBlock:nil];
-      [self.hudView removeButtons];
+      [self removeButtons];
     }
     
     [self createScheduleWithSwap:isSwap];
@@ -2646,7 +2700,9 @@
   if (!_isExiting) {
     _isExiting = YES;
     
-    [self.hudView removeButtons];
+    [self removeButtons];
+    
+    [self.popoverViewController closeClicked:nil];
     
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     [dict addEntriesFromDictionary:[self battleCompleteValues]];
@@ -2732,6 +2788,300 @@
 
 - (IBAction)sendButtonClicked:(id)sender {
   // Do nothing
+}
+
+#pragma mark - Battle Item Select Delegate
+
+- (void) updateItemsBadge {
+  GameState *gs = [GameState sharedGameState];
+  int quantity = 0;
+  
+  for (UserBattleItem *ubi in gs.battleItemUtil.battleItems) {
+    quantity += ubi.quantity;
+  }
+  
+  self.hudView.itemsBadge.badgeNum = quantity;
+}
+
+- (NSArray *) reloadBattleItemsArray {
+  GameState *gs = [GameState sharedGameState];
+  NSMutableArray *arr = [NSMutableArray array];
+  
+  BattleItemUtil *bi = gs.battleItemUtil;
+  for (BattleItemProto *bip in gs.staticBattleItems.allValues) {
+    UserBattleItem *ubi = [bi getUserBattleItemForBattleItemId:bip.battleItemId];
+    
+    if (!ubi) {
+      ubi = [[UserBattleItem alloc] init];
+      ubi.battleItemId = bip.battleItemId;
+    }
+    
+    if (ubi.quantity > 0 || self.allowBattleItemPurchase) {
+      [arr addObject:ubi];
+    }
+  }
+  
+  [arr sortUsingComparator:^NSComparisonResult(UserBattleItem *obj1, UserBattleItem *obj2) {
+    BOOL isValid1 = [self battleItemIsValid:obj1];
+    BOOL isValid2 = [self battleItemIsValid:obj2];
+    BOOL hasQuant1 = obj1.quantity > 0;
+    BOOL hasQuant2 = obj2.quantity > 0;
+    
+    if (isValid1 != isValid2) {
+      return [@(isValid2) compare:@(isValid1)];
+    } else if (hasQuant1 != hasQuant2) {
+      return [@(hasQuant2) compare:@(hasQuant1)];
+    } else {
+      return [@(obj1.staticBattleItem.priority) compare:@(obj2.staticBattleItem.priority)];
+    }
+  }];
+  
+  return arr;
+}
+
+- (void) battleItemSelected:(UserBattleItem *)item viewController:(BattleItemSelectViewController *)viewController {
+  if (!self.orbLayer.swipeLayer.userInteractionEnabled) {
+    [self.popoverViewController closeClicked:nil];
+    return;
+  }
+  
+  BattleItemProto *bip = item.staticBattleItem;
+  if ([self battleItemIsValid:item]) {
+    _selectedBattleItem = item;
+    if (item.quantity > 0) {
+      [self useSelectedBattleItem];
+    } else {
+      NSString *desc = [NSString stringWithFormat:@"Would you like to purchase a %@ for %d Gems?", bip.name, bip.inBattleGemCost];
+      NSString *title = [NSString stringWithFormat:@"Purchase %@?", bip.name];
+      [GenericPopupController displayGemConfirmViewWithDescription:desc title:title gemCost:bip.inBattleGemCost target:self selector:@selector(checkUserHasGemsToPurchaseItem)];
+    }
+  } else {
+    NSString *str = nil;
+    switch (bip.battleItemType) {
+      case BattleItemTypePoisonAntidote:
+        str = [NSString stringWithFormat:@"Your %@ must be Poisoned to use this Antidote.", MONSTER_NAME];
+        break;
+        
+      case BattleItemTypeChillAntidote:
+        str = [NSString stringWithFormat:@"Your %@ must be Chilled to use this Antidote.", MONSTER_NAME];
+        break;
+        
+      case BattleItemTypeHealingPotion:
+        str = [NSString stringWithFormat:@"Your %@ is already at full health.", MONSTER_NAME];
+        break;
+        
+      case BattleItemTypePutty:
+        str = [NSString stringWithFormat:@"There are no holes to use %@ on.", bip.name];
+        break;
+        
+      case BattleItemTypeBoardShuffle:
+      case BattleItemTypeHandSwap:
+      case BattleItemTypeOrbHammer:
+      case BattleItemTypeNone:
+        // Should always be valid
+        break;
+    }
+    
+    if (str) {
+      [Globals addAlertNotification:str];
+    }
+  }
+}
+
+- (void) checkUserHasGemsToPurchaseItem {
+  if (!self.orbLayer.swipeLayer.userInteractionEnabled) {
+    [self.popoverViewController closeClicked:nil];
+    return;
+  }
+  
+  GameState *gs = [GameState sharedGameState];
+  UserBattleItem *item = _selectedBattleItem;
+  BattleItemProto *bip = item.staticBattleItem;
+  
+  if (bip.inBattleGemCost > gs.gems) {
+    [GenericPopupController displayNotEnoughGemsViewWithTarget:self selector:@selector(openGemShop)];
+  } else {
+    [self useSelectedBattleItem];
+  }
+}
+
+- (void) useSelectedBattleItem {
+  if (!self.orbLayer.swipeLayer.userInteractionEnabled) {
+    [self.popoverViewController closeClicked:nil];
+    return;
+  }
+  
+  UserBattleItem *item = _selectedBattleItem;
+  BattleItemProto *bip = item.staticBattleItem;
+  
+  NSString *instruction = nil;
+  switch (bip.battleItemType) {
+    case BattleItemTypeHealingPotion:
+      [self useHealthPotion:bip];
+      break;
+      
+    case BattleItemTypeBoardShuffle:
+      [self useBoardShuffle:bip];
+      break;
+      
+    case BattleItemTypeHandSwap:
+      [self useHandSwap:bip];
+      instruction = @"Swipe any two orbs to swap.";
+      break;
+      
+    case BattleItemTypeOrbHammer:
+      [self useOrbHammer:bip];
+      instruction = @"Tap an orb to destroy it.";
+      break;
+      
+    case BattleItemTypePutty:
+      [self usePutty:bip];
+      instruction = @"Tap a hole to fill it in.";
+      break;
+      
+    case BattleItemTypeChillAntidote:
+    case BattleItemTypePoisonAntidote:
+      [self useSkillAntidote:bip];
+      break;
+
+	case BattleItemTypeNone:
+      break;
+  }
+  
+  // The ones that aren't done immediately get deducted in moveBegan
+  if (!instruction) {
+    [self deductBattleItem:bip];
+    _selectedBattleItem = nil;
+  } else {
+    DialogueViewController *dvc = [[DialogueViewController alloc] initWithBattleItemName:bip instruction:instruction];
+    dvc.delegate = self;
+    GameViewController *gvc = [GameViewController baseController];
+    [gvc addChildViewController:dvc];
+    dvc.view.frame = gvc.view.bounds;
+    
+    // If the dialogue view controller gets finished, cancel the battle items.
+    // Cover everything that's to the left of the board instead of whole screen
+    dvc.view.width -= (self.orbLayer.contentSize.width+ORB_LAYER_DIST_FROM_SIDE);
+    [gvc.view addSubview:dvc.view];
+    
+    self.dialogueViewController = dvc;
+  }
+  
+  [self.popoverViewController closeClicked:nil];
+}
+
+- (void) deductBattleItem:(BattleItemProto *)bip {
+  GameState *gs = [GameState sharedGameState];
+  UserBattleItem *ubi = [gs.battleItemUtil getUserBattleItemForBattleItemId:bip.battleItemId];
+  if (ubi.quantity > 0) {
+    [[OutgoingEventController sharedOutgoingEventController] removeBattleItems:@[@(bip.battleItemId)]];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:BATTLE_ITEM_REMOVED_NOTIFICATION object:nil];
+    
+    [self updateItemsBadge];
+  } else {
+    [[OutgoingEventController sharedOutgoingEventController] updateUserCurrencyWithCashSpent:0 oilSpent:0 gemsSpent:bip.inBattleGemCost reason:[NSString stringWithFormat:@"Purchased %@ in battle.", bip.name]];
+  }
+  
+  if (self.dialogueViewController) {
+    [self.dialogueViewController animateNext];
+  }
+}
+
+- (void) dialogueViewControllerFinished:(DialogueViewController *)dvc {
+  [self cancelBattleItems];
+}
+
+- (void) cancelBattleItems {
+  [self.orbLayer cancelFreeMove];
+  [self.orbLayer cancelOrbHammer];
+  [self.orbLayer cancelPutty];
+  
+  self.dialogueViewController = nil;
+}
+
+- (BOOL) battleItemIsValid:(UserBattleItem *)item {
+  BattleItemProto *bip = item.staticBattleItem;
+  switch (bip.battleItemType) {
+    case BattleItemTypeBoardShuffle:
+    case BattleItemTypeHandSwap:
+    case BattleItemTypeOrbHammer:
+      return YES;
+      
+    case BattleItemTypePutty:
+    {
+      // Check all the tiles for holes
+      for (int i = 0; i < self.orbLayer.layout.numColumns; i++) {
+        for (int j = 0; j < self.orbLayer.layout.numRows; j++) {
+          BattleTile *tile = [self.orbLayer.layout tileAtColumn:i row:j];
+          if (tile.isHole) {
+            return YES;
+          }
+        }
+      }
+      
+      return NO;
+    }
+      
+    case BattleItemTypeHealingPotion:
+      return self.myPlayerObject.curHealth < self.myPlayerObject.maxHealth;
+      
+    case BattleItemTypeChillAntidote:
+    case BattleItemTypePoisonAntidote:
+      return [skillManager useAntidote:bip.battleItemType execute:NO];
+
+    case BattleItemTypeNone:
+      return NO;
+  }
+}
+
+- (void) battleItemSelectClosed:(id)viewController {
+  self.popoverViewController = nil;
+}
+
+#pragma mark Using Battle Items
+
+- (void) useHealthPotion:(BattleItemProto *)bip {
+  [self moveBegan];
+  [self healForAmount:bip.amount enemyIsHealed:NO withTarget:self andSelector:@selector(moveComplete)];
+  [self sendServerUpdatedValuesVerifyDamageDealt:NO];
+}
+
+- (void) useBoardShuffle:(BattleItemProto *)bip {
+  [self moveBegan];
+  [self.orbLayer shuffleWithoutEnforcementAndCheckMatches];
+}
+
+- (void) useHandSwap:(BattleItemProto *)bip {
+  [self.orbLayer allowFreeMoveForSingleTurn];
+}
+
+- (void) useOrbHammer:(BattleItemProto *)bip {
+  [self.orbLayer allowOrbHammerForSingleTurn];
+}
+
+- (void) usePutty:(BattleItemProto *)bip {
+  [self.orbLayer allowPuttyForSingleTurn];
+}
+
+- (void) useSkillAntidote:(BattleItemProto *)bip {
+  [self moveBegan];
+  [skillManager useAntidote:bip.battleItemType execute:YES];
+  [self moveComplete];
+}
+
+#pragma mark - Open Shop
+
+- (void) openGemShop {
+  GameViewController *gvc = [GameViewController baseController];
+  ShopViewController *svc = [[ShopViewController alloc] init];
+  
+  [svc displayInParentViewController:gvc];
+  [svc openFundsShop];
+  
+  svc.mainView.originY += (svc.tabBar.superview.height-svc.tabBar.originY);
+  
+  [self.popoverViewController closeClicked:nil];
 }
 
 @end

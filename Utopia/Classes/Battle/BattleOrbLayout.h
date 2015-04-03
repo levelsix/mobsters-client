@@ -1,8 +1,8 @@
 //
-//  BattleLevel.h
+//  Utopia
 //
-//  Created by Matthijs on 26-02-14.
-//  Copyright (c) 2014 Razeware LLC. All rights reserved.
+//  Created by Ashwin Kamath on 2/12/12.
+//  Copyright (c) 2012 LVL6. All rights reserved.
 //
 
 #import "BattleOrb.h"
@@ -75,7 +75,7 @@
 - (NSSet *)createInitialOrbs;
 
 // Can be called to rearrange the current board
-- (NSSet *)shuffle;
+- (NSSet *) shuffleEnforceNoMatches:(BOOL)enforceNoMatches;
 
 - (BattleOrbPath *) orbPathForOrb:(BattleOrb *)orb withOrbPaths:(NSArray *)orbPaths;
 - (void) addPoint:(CGPoint)pt forOrb:(BattleOrb *)orb withOrbPaths:(NSMutableArray *)orbPaths;
@@ -90,6 +90,8 @@
 - (void)performSwap:(BattleSwap *)swap;
 
 - (void) resetOrbChangeTypes;
+
+- (NSSet *) createChainForRemovedOrb:(BattleOrb *)orb;
 
 // Determines whether the suggested swap is a valid one, i.e. it results in at
 // least one new chain of 3 or more orbs of the same type.

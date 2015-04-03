@@ -209,6 +209,9 @@
       case BuildingBubbleTypeRenew:
         imgName = [NSString stringWithFormat:@"renewbubble.png"];
         break;
+      case BuildingBubbleTypeCreate:
+        imgName = [NSString stringWithFormat:@"createbubble.png"];
+        break;
         
       default:
         break;
@@ -248,26 +251,57 @@
 
 @implementation MiniMonsterViewSprite
 
-+ (id) spriteWIthMonsterId:(int)monsterId {
++ (id) spriteWithMonsterId:(int)monsterId {
   GameState *gs = [GameState sharedGameState];
   MonsterProto *mp = [gs monsterWithId:monsterId];
+  NSString *file = [mp.imagePrefix stringByAppendingString:@"Card.png"];
+  return [self spriteWithElement:mp.monsterElement imageName:file];
+}
+
++ (id) spriteWithElement:(Element)elem imageName:(NSString *)imgName {
   
   MiniMonsterViewSprite *s = [MiniMonsterViewSprite node];
   s.contentSize = CGSizeMake(15, 15);
   
-  NSString *file = [Globals imageNameForElement:mp.monsterElement suffix:@"smallsquare.png"];
+  NSString *file = [Globals imageNameForElement:elem suffix:@"smallsquare.png"];
   CCSprite *bgd = [CCSprite spriteWithImageNamed:file];
   bgd.scale = s.contentSize.height/bgd.contentSize.height;
   
-  file = [mp.imagePrefix stringByAppendingString:@"Card.png"];
   CCSprite *thumb = [CCSprite node];
-  [Globals imageNamed:file toReplaceSprite:thumb completion:^(BOOL success) {
+  [Globals imageNamed:imgName toReplaceSprite:thumb completion:^(BOOL success) {
     thumb.scale = s.contentSize.height/thumb.contentSize.height;
   }];
   
   [s addChild:bgd];
   [s addChild:thumb];
   bgd.position = ccp(s.contentSize.width/2, s.contentSize.height/2);
+  thumb.position = ccp(s.contentSize.width/2, s.contentSize.height/2);
+  
+  return s;
+}
+
+@end
+
+@implementation MiniResearchViewSprite
+
++ (id) spriteWithResearchProto:(ResearchProto *)proto {
+//  GameState *gs = [GameState sharedGameState];
+  
+  MiniResearchViewSprite *s = [MiniMonsterViewSprite node];
+  s.contentSize = CGSizeMake(20, 20);
+  
+//  NSString *file = [Globals imageNameForElement:mp.monsterElement suffix:@"smallsquare.png"];
+//  CCSprite *bgd = [CCSprite spriteWithImageNamed:file];
+//  bgd.scale = s.contentSize.height/bgd.contentSize.height;
+  
+  CCSprite *thumb = [CCSprite node];
+  [Globals imageNamed:proto.iconImgName toReplaceSprite:thumb completion:^(BOOL success) {
+    thumb.scale = s.contentSize.height/thumb.contentSize.height;
+  }];
+  
+//  [s addChild:bgd];
+  [s addChild:thumb];
+//  bgd.position = ccp(s.contentSize.width/2, s.contentSize.height/2);
   thumb.position = ccp(s.contentSize.width/2, s.contentSize.height/2);
   
   return s;

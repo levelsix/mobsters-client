@@ -506,6 +506,29 @@
   }
 }
 
+- (void) reloadItemFactory {
+  GameState *gs = [GameState sharedGameState];
+  
+  for (CCSprite *spr in [self childrenOfClassType:[ItemFactoryBuilding class]]) {
+    ItemFactoryBuilding *ifb = (ItemFactoryBuilding *)spr;
+    BattleItemQueue *hq = gs.battleItemUtil.battleItemQueue;
+    BattleItemQueueObject *item = [hq.queueObjects firstObject];
+    
+    if (item) {
+      [ifb beginAnimatingWithBattleItemQueueObject:item];
+      
+      [ifb setBubbleType:BuildingBubbleTypeNone];
+    } else {
+      [ifb stopAnimating];
+      
+      BattleItemFactoryProto *bif = (BattleItemFactoryProto *)ifb.userStruct.staticStruct;
+      int quantity = [gs.battleItemUtil totalPowerAmount];
+      BOOL showBubble = quantity < bif.powerLimit;
+      [ifb setBubbleType:showBubble ? BuildingBubbleTypeCreate : BuildingBubbleTypeNone];
+    }
+  }
+}
+
 - (void) reloadMiniJobCenter {
   GameState *gs = [GameState sharedGameState];
   UserStruct *mjc = [gs myMiniJobCenter];
@@ -705,6 +728,17 @@
       }
     }
   }
+  
+  BOOL researchInProgress = [gs.researchUtil currentResearch] != nil;
+  for (ResearchBuilding *b in [self childrenOfClassType:[ResearchBuilding class]]) {
+    if(researchInProgress) {
+      b.userResearch = [gs.researchUtil currentResearch];
+      [b displayProgressBar];
+    } else {
+      b.userResearch = nil;
+      [b removeProgressBar];
+    }
+  }
 }
 
 - (void) reloadMoneyTree:(NSTimer *)timer {
@@ -731,6 +765,7 @@
   [self reloadTeamCenter];
   [self reloadClanHouse];
   [self reloadMoneyTree:nil];
+  [self reloadItemFactory];
   
   // In case there's a purch building
   [_purchBuilding setBubbleType:BuildingBubbleTypeNone];
@@ -1087,6 +1122,10 @@
             [buttonViews addObject:[MapBotViewButton evolveButton]];
             break;
             
+          case StructureInfoProto_StructTypeResearchHouse:
+            [buttonViews addObject:[MapBotViewButton researchButton]];
+            break;
+            
           case StructureInfoProto_StructTypeLab:
             [buttonViews addObject:[MapBotViewButton enhanceButton]];
             break;
@@ -1173,6 +1212,7 @@
     case MapBotViewButtonJoinClan:
     case MapBotViewButtonPvpBoard:
     case MapBotViewButtonItemFactory:
+    case MapBotViewButtonResearch:
       [self enterClicked:button];
       break;
       
@@ -1543,15 +1583,15 @@
     numRes = RESOURCE_GEN_MIN_AMT;
   }
   
+  UserStruct *us = mb.userStruct;
   NSTimer *timer = nil;
   // Set timer for when building has x resources
-  if ([mb.userStruct numResourcesAvailable] >= numRes) {
+  if ([us numResourcesAvailable] >= numRes) {
     timer = [NSTimer timerWithTimeInterval:10.f target:self selector:@selector(waitForIncomeComplete:) userInfo:mb repeats:NO];
   } else {
-    ResourceGeneratorProto *rg = (ResourceGeneratorProto *)mb.userStruct.staticStruct;
-    int secs = numRes/rg.productionRate*3600;
+    int secs = numRes/us.productionRate*3600;
     
-    MSDate *date = [mb.userStruct.lastRetrieved dateByAddingTimeInterval:secs];
+    MSDate *date = [us.lastRetrieved dateByAddingTimeInterval:secs];
     
     timer = [NSTimer timerWithTimeInterval:date.timeIntervalSinceNow target:self selector:@selector(waitForIncomeComplete:) userInfo:mb repeats:NO];
   }
@@ -1718,6 +1758,10 @@
       
       self.currentViewController = bdvc;
     }
+      break;
+      
+    case StructureInfoProto_StructTypeResearchHouse:
+      hvc = [[HomeViewController alloc] initWithResearchLab];
       break;
       
     case StructureInfoProto_StructTypeClan:
@@ -2575,6 +2619,8 @@
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadRetrievableIcons) name:GAMESTATE_UPDATE_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadHospitals) name:HEAL_QUEUE_CHANGED_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupTeamSprites) name:HEAL_QUEUE_CHANGED_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadItemFactory) name:BATTLE_ITEM_QUEUE_CHANGED_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadItemFactory) name:BATTLE_ITEM_REMOVED_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTimerForHealingDidJustQueueUp) name:HEAL_QUEUE_CHANGED_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadMiniJobCenter) name:MINI_JOB_CHANGED_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTeamCenter) name:MY_TEAM_CHANGED_NOTIFICATION object:nil];
@@ -2587,6 +2633,7 @@
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadBubblesOnMiscBuildings) name:EVOLUTION_CHANGED_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadBubblesOnMiscBuildings) name:MONSTER_SOLD_COMPLETE_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadBubblesOnMiscBuildings) name:FB_INCREASE_SLOTS_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadBubblesOnMiscBuildings) name:RESEARCH_CHANGED_NOTIFICATION object:nil];
   
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(beginTimers) name:STATIC_DATA_UPDATED_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadAllBubbles) name:STATIC_DATA_UPDATED_NOTIFICATION object:nil];

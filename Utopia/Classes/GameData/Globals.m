@@ -51,6 +51,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     
 #ifdef DEBUG
     //self.ignorePrerequisites = YES;
+    self.ignoreTeamCheck = YES;
 #endif
   }
   return self;
@@ -173,6 +174,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       self.miniJobClanHelpConstants = c;
     } else if (c.helpType == GameActionTypeEnhanceTime) {
       self.enhanceClanHelpConstants = c;
+    } else if (c.helpType == GameActionTypeCreateBattleItem) {
+      self.battleItemClanHelpConstants = c;
+    } else if (c.helpType == GameActionTypePerformingResearch) {
+      self.researchClanHelpConstants = c;
     }
   }
   
@@ -599,6 +604,26 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       
     default:
       break;
+  }
+  return nil;
+}
+
++ (NSString *) stringForResearchDomain:(ResearchDomain)domain {
+  switch (domain) {
+    case ResearchDomainBattle:
+      return @"Battle";
+    case ResearchDomainEnhancing:
+      return @"Enhancing";
+    case ResearchDomainResources:
+      return @"Resources";
+    case ResearchDomainHealing:
+      return @"Healing";
+    case ResearchDomainItems:
+      return @"Items";
+    case ResearchDomainTrapsAndObstacles:
+      return @"Obstacles";
+    case ResearchDomainNoDomain:
+      return @"No Domain";
   }
   return nil;
 }
@@ -1591,8 +1616,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 + (NSArray *) convertCurrentTeamToArray:(UserCurrentMonsterTeamProto *)team {
   NSMutableArray *arr = [NSMutableArray array];
   for (FullUserMonsterProto *m in team.currentTeamList) {
-    [arr addObject:[UserMonster userMonsterWithProto:m]];
+    [arr addObject:[UserMonster userMonsterWithProto:m researchUtil:nil]];
   }
+  
+  [arr sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+    return [@([obj1 teamSlot]) compare:@([obj2 teamSlot])];
+  }];
+  
   return arr;
 }
 
@@ -1611,6 +1641,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 #pragma mark - Formulas
+
+// This formula is used to allow for diminishing returns on perc research
+// Formula: 1.f-(perc/(perc+1)), We only get closer to 100%, never reach it.
+- (float) convertToOverallPercentFromPercentDecrease:(float)perc {
+  return 1.f-(perc/(perc+1.f));
+}
 
 - (int) calculateGemSpeedupCostForTimeLeft:(int)timeLeft allowFreeSpeedup:(BOOL)free {
   // 5 mins are free
@@ -1699,8 +1735,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   id<StaticStructure> ss = [gs structWithId:structId];
   
   switch (ss.structInfo.structType) {
+      // Hospital now uses research
     case StructureInfoProto_StructTypeHospital:
-      return thp.numHospitals;
+      return 1+[gs.researchUtil amountBenefitForType:ResearchTypeNumberOfHospitals];
       break;
       
     case StructureInfoProto_StructTypeResidence:
@@ -1748,7 +1785,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   int num = 0;
   for (id<StaticStructure> s in gs.staticStructs.allValues) {
     StructureInfoProto *structInfo = [s structInfo];
-    if (!structInfo.predecessorStructId) {
+    if (!structInfo.predecessorStructId && structInfo.structType != StructureInfoProto_StructTypeMoneyTree) {
       int cur = [gl calculateCurrentQuantityOfStructId:structInfo.structId structs:gs.myStructs];
       int max = [gl calculateMaxQuantityOfStructId:structInfo.structId];
       
@@ -1782,6 +1819,31 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     }
   }
   return nil;
+}
+
+- (ResearchProto *) calculateNextResearchForQuantityIncreaseForStructId:(int)structId {
+  GameState *gs = [GameState sharedGameState];
+  StructureInfoProto *structInfo = [[gs structWithId:structId] structInfo];
+  
+  ResearchType resType = 0;
+  if (structInfo.structType == StructureInfoProto_StructTypeHospital) {
+    resType = ResearchTypeNumberOfHospitals;
+  }
+  
+  // Find the appropriate research
+  ResearchProto *staticRes = nil;
+  if (resType) {
+    for (ResearchProto *rp in gs.staticResearches.allValues) {
+      if (rp.researchType == resType &&                                                                   // Same Type
+          ![gs.researchUtil prerequisiteFullfilledForResearch:rp] &&                                      // This research isn't complete
+          (!rp.predId || [gs.researchUtil prerequisiteFullfilledForResearch:rp.predecessorResearch]) &&   // It's pred is complete or has no pred
+          (!staticRes || rp.tier < staticRes.tier)) {                                                     // It's the lowest tier
+        staticRes = rp;
+      }
+    }
+  }
+  
+  return staticRes;
 }
 
 - (int) calculateCurrentQuantityOfStructId:(int)structId structs:(NSArray *)structs {
@@ -1826,18 +1888,20 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return index < phrases.count && index >= 0 ? [phrases objectAtIndex:index] : @"";
 }
 
-- (int) calculateTotalDamageForMonster:(UserMonster *)um {
-  int fire = [self calculateElementalDamageForMonster:um element:ElementFire];
-  int water = [self calculateElementalDamageForMonster:um element:ElementWater];
-  int earth = [self calculateElementalDamageForMonster:um element:ElementEarth];
-  int light = [self calculateElementalDamageForMonster:um element:ElementLight];
-  int night = [self calculateElementalDamageForMonster:um element:ElementDark];
-  int rock = [self calculateElementalDamageForMonster:um element:ElementRock];
+#pragma mark Monsters
+
+- (int) calculateBaseTotalDamageForMonster:(UserMonster *)um {
+  int fire = [self calculateBaseElementalDamageForMonster:um element:ElementFire];
+  int water = [self calculateBaseElementalDamageForMonster:um element:ElementWater];
+  int earth = [self calculateBaseElementalDamageForMonster:um element:ElementEarth];
+  int light = [self calculateBaseElementalDamageForMonster:um element:ElementLight];
+  int night = [self calculateBaseElementalDamageForMonster:um element:ElementDark];
+  int rock = [self calculateBaseElementalDamageForMonster:um element:ElementRock];
   
   return fire+water+earth+light+night+rock;
 }
 
-- (int) calculateElementalDamageForMonster:(UserMonster *)um element:(Element)element {
+- (int) calculateBaseElementalDamageForMonster:(UserMonster *)um element:(Element)element {
   MonsterProto *mp = um.staticMonster;
   MonsterLevelInfoProto *min = [mp.lvlInfoList firstObject];
   MonsterLevelInfoProto *max = [mp.lvlInfoList lastObject];
@@ -1873,26 +1937,139 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       break;
   }
   
-  return base+(final-base)*powf((um.level-1)/(float)(max.lvl-1), max.dmgExponentBase);
+  return roundf(base+(final-base)*powf((um.level-1)/(float)(max.lvl-1), max.dmgExponentBase));
+}
+
+- (int) calculateTotalDamageForMonster:(UserMonster *)um {
+  int base = [self calculateBaseTotalDamageForMonster:um];
+  
+  MonsterProto *mp = um.staticMonster;
+  float researchFactor = 1.f+[um.researchUtil percentageBenefitForType:ResearchTypeAttackIncrease element:mp.monsterElement rarity:mp.quality];
+  
+  return roundf(base*researchFactor);
+}
+
+- (int) calculateElementalDamageForMonster:(UserMonster *)um element:(Element)element {
+  // This is complicated. First we need to apply regular percentages and then add in the leftover so that the total dmg looks like it got updated.
+  int totalDamage = [self calculateTotalDamageForMonster:um];
+  int mod = ElementRock-ElementFire;
+  Element mainElement = um.staticMonster.monsterElement;
+  Element badElement = [Globals elementForNotVeryEffective:mainElement];
+  
+  int baseFire = [self calculateBaseElementalDamageForMonster:um element:ElementFire];
+  int baseWater = [self calculateBaseElementalDamageForMonster:um element:ElementWater];
+  int baseEarth = [self calculateBaseElementalDamageForMonster:um element:ElementEarth];
+  int baseLight = [self calculateBaseElementalDamageForMonster:um element:ElementLight];
+  int baseNight = [self calculateBaseElementalDamageForMonster:um element:ElementDark];
+  int baseRock = [self calculateBaseElementalDamageForMonster:um element:ElementRock];
+  
+  MonsterProto *mp = um.staticMonster;
+  double researchFactor = 1.f+[um.researchUtil percentageBenefitForType:ResearchTypeAttackIncrease element:mp.monsterElement rarity:mp.quality];
+  
+  double realFire = baseFire*researchFactor;
+  double realWater = baseWater*researchFactor;
+  double realEarth = baseEarth*researchFactor;
+  double realLight = baseLight*researchFactor;
+  double realNight = baseNight*researchFactor;
+  double realRock = baseRock*researchFactor;
+  
+  // This is how much dmg will need to be added to some column or the other
+  int dmgDiff = totalDamage - (floorf(realFire)+floorf(realEarth)+floorf(realWater)+floorf(realLight)+floorf(realNight)+floorf(realRock));
+  
+  NSMutableDictionary *dmgs = [NSMutableDictionary dictionary];
+  dmgs[@(ElementFire)] = @(realFire);
+  dmgs[@(ElementWater)] = @(realWater);
+  dmgs[@(ElementEarth)] = @(realEarth);
+  dmgs[@(ElementLight)] = @(realLight);
+  dmgs[@(ElementDark)] = @(realNight);
+  dmgs[@(ElementRock)] = @(realRock);
+  
+  if (dmgDiff > 0) {
+    NSArray *elems = @[@(ElementFire), @(ElementWater), @(ElementEarth), @(ElementLight), @(ElementDark), @(ElementRock)];
+    
+    elems = [elems sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+      Element elem1 = (Element)[obj1 integerValue];
+      Element elem2 = (Element)[obj2 integerValue];
+      
+      double dmg1 = [dmgs[obj1] doubleValue];
+      double dmg2 = [dmgs[obj2] doubleValue];
+      
+      // Comparison will be to see which dmgs are closer to the next digit, ties will be determined by element
+      double decimal1 = dmg1-floorf(dmg1);
+      double decimal2 = dmg2-floorf(dmg2);
+      
+      if (ABS(decimal1-decimal2) > 0.01) {
+        return [@(decimal2) compare:@(decimal1)];
+      } else {
+        if (elem1 == mainElement || elem2 == badElement) {
+          return NSOrderedAscending;
+        } else if (elem2 == mainElement || elem1 == badElement) {
+          return NSOrderedDescending;
+        } else if (elem1 == ElementRock || elem2 == ElementRock) {
+          return [@(elem1) compare:@(elem2)];
+        } else {
+          // Calculate how far away the element is and prioritize closer elements.
+          int diff1 = MIN((ElementRock-elem1+mainElement-ElementFire+1) % mod, (ElementRock-mainElement+elem1-ElementFire+1) % mod);
+          int diff2 = MIN((ElementRock-elem2+mainElement-ElementFire+1) % mod, (ElementRock-mainElement+elem2-ElementFire+1) % mod);
+          
+          if (diff1 != diff2) {
+            return [@(diff1) compare:@(diff2)];
+          } else {
+            // Default to lower number
+            return [@(elem1) compare:@(elem2)];
+          }
+        }
+      }
+    }];
+    
+    for (int i = 0; i < dmgDiff; i++) {
+      Element elem = (Element)[elems[(i % mod)] integerValue];
+      
+      double val = [dmgs[@(elem)] doubleValue];
+      dmgs[@(elem)] = @(val+1);
+    }
+  }
+  
+  return floorf([dmgs[@(element)] doubleValue]);
+}
+
+- (int) calculateBaseMaxHealthForMonster:(UserMonster *)um {
+  MonsterProto *mp = um.staticMonster;
+  MonsterLevelInfoProto *min = [mp.lvlInfoList firstObject];
+  MonsterLevelInfoProto *max = [mp.lvlInfoList lastObject];
+  return roundf(min.hp+(max.hp-min.hp)*powf((um.level-1)/(float)(max.lvl-1), max.hpExponentBase));
 }
 
 - (int) calculateMaxHealthForMonster:(UserMonster *)um {
+  int base = [self calculateBaseMaxHealthForMonster:um];
+  
+  MonsterProto *mp = um.staticMonster;
+  float researchFactor = 1.f+[um.researchUtil percentageBenefitForType:ResearchTypeHpIncrease element:mp.monsterElement rarity:mp.quality];
+  
+  return base*researchFactor;
+}
+
+- (int) calculateBaseSpeedForMonster:(UserMonster *)um {
   MonsterProto *mp = um.staticMonster;
   MonsterLevelInfoProto *min = [mp.lvlInfoList firstObject];
   MonsterLevelInfoProto *max = [mp.lvlInfoList lastObject];
-  return min.hp+(max.hp-min.hp)*powf((um.level-1)/(float)(max.lvl-1), max.hpExponentBase);
+  return roundf(min.speed+(max.speed-min.speed)*powf((um.level-1)/(float)(max.lvl-1), 1));
 }
 
 - (int) calculateSpeedForMonster:(UserMonster *)um {
+  int base = [self calculateBaseSpeedForMonster:um];
+  
   MonsterProto *mp = um.staticMonster;
-  MonsterLevelInfoProto *min = [mp.lvlInfoList firstObject];
-  MonsterLevelInfoProto *max = [mp.lvlInfoList lastObject];
-  return min.speed+(max.speed-min.speed)*powf((um.level-1)/(float)(max.lvl-1), 1);
+  int amtIncrease = [um.researchUtil amountBenefitForType:ResearchTypeSpeedIncrease element:mp.monsterElement rarity:mp.quality];
+  
+  return base+amtIncrease;
 }
 
 - (int) calculateCostToHealMonster:(UserMonster *)um {
   // Old formula
   //return ceilf(([self calculateMaxHealthForMonster:um]-um.curHealth)*self.cashPerHealthPoint);
+  
+  GameState *gs = [GameState sharedGameState];
   
   MonsterProto *mp = um.staticMonster;
   MonsterLevelInfoProto *min = [mp.lvlInfoList firstObject];
@@ -1900,17 +2077,31 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   float costToFullyHeal = min.costToFullyHeal+(max.costToFullyHeal-min.costToFullyHeal)*powf((um.level-1)/(float)(max.lvl-1), max.costToFullyHealExponent);
   int maxHealth = [self calculateMaxHealthForMonster:um];
   float baseCost = costToFullyHeal * (maxHealth-um.curHealth)/maxHealth;
-  return baseCost;
+  
+  float perc = [gs.researchUtil percentageBenefitForType:ResearchTypeHealingCost element:mp.monsterElement rarity:mp.quality];
+  float researchFactor = [self convertToOverallPercentFromPercentDecrease:perc];
+  
+  float finalCost = baseCost*researchFactor;
+  
+  return finalCost;
 }
 
 - (float) calculateBaseSecondsToHealMonster:(UserMonster *)um {
+  GameState *gs = [GameState sharedGameState];
+  
   MonsterProto *mp = um.staticMonster;
   MonsterLevelInfoProto *min = [mp.lvlInfoList firstObject];
   MonsterLevelInfoProto *max = [mp.lvlInfoList lastObject];
   float secsToFullyHeal = min.secsToFullyHeal+(max.secsToFullyHeal-min.secsToFullyHeal)*powf((um.level-1)/(float)(max.lvl-1), max.secsToFullyHealExponent);
   int maxHealth = [self calculateMaxHealthForMonster:um];
   float baseSecs = secsToFullyHeal * (maxHealth-um.curHealth)/maxHealth;
-  return baseSecs;
+  
+  float perc = [gs.researchUtil percentageBenefitForType:ResearchTypeHealingSpeed element:mp.monsterElement rarity:mp.quality];
+  float researchFactor = [self convertToOverallPercentFromPercentDecrease:perc];
+  
+  float finalSecs = baseSecs*researchFactor;
+  
+  return finalSecs;
 }
 
 - (int) calculateOilCostForNewMonsterWithEnhancement:(UserEnhancement *)ue feeder:(EnhancementItem *)feeder {
@@ -1924,7 +2115,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   MonsterLevelInfoProto *max = [mp.lvlInfoList lastObject];
   float oilCost = min.enhanceCostPerFeeder+(max.enhanceCostPerFeeder-min.enhanceCostPerFeeder)*powf((curLevel-1)/(float)(max.lvl-1), max.enhanceCostExponent);
   
-  return oilCost;
+  GameState *gs = [GameState sharedGameState];
+  float perc = [gs.researchUtil percentageBenefitForType:ResearchTypeEnhanceCost element:mp.monsterElement rarity:mp.quality];
+  float researchFactor = [self convertToOverallPercentFromPercentDecrease:perc];
+  
+  float finalCost = oilCost*researchFactor;
+  
+  return finalCost;
   
   // Old Formula..
   //return self.oilPerMonsterLevel*(ue.baseMonster.userMonster.level+additionalLevel);
@@ -1947,10 +2144,16 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   float secsToEnhancePerFeeder = min.secsToEnhancePerFeeder+(max.secsToEnhancePerFeeder-min.secsToEnhancePerFeeder)*powf((um.level-1)/(float)(max.lvl-1), max.secsToEnhancePerFeederExponent);
   secsToEnhancePerFeeder = MAX(1, secsToEnhancePerFeeder);
   
+  GameState *gs = [GameState sharedGameState];
+  float perc = [gs.researchUtil percentageBenefitForType:ResearchTypeEnhanceCost element:mp.monsterElement rarity:mp.quality];
+  float researchFactor = [self convertToOverallPercentFromPercentDecrease:perc];
+  
+  float finalSecs = secsToEnhancePerFeeder*researchFactor;
+  
   // Use base feeder exp instead so that time isn't affected by multipliers
   //int expGain = [self calculateExperienceIncrease:baseMonster feeder:feeder];
   //int expGain = feeder.userMonster.feederExp;
-  return roundf(secsToEnhancePerFeeder);
+  return roundf(finalSecs);
 }
 
 - (int) calculateExperienceIncrease:(UserEnhancement *)ue {
@@ -1967,9 +2170,16 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   LabProto *lab = (LabProto *)[[gs myLaboratory] staticStruct];
   UserMonster *base = baseMonster.userMonster;
   UserMonster *um = feeder.userMonster;
+  MonsterProto *baseMp = base.staticMonster;
   float multiplier1 = lab.pointsMultiplier ?: 1;
-  float multiplier2 = base.staticMonster.monsterElement == um.staticMonster.monsterElement ? 1.5 : 1;
-  return um.feederExp*multiplier1*multiplier2;
+  float multiplier2 = baseMp.monsterElement == baseMp.monsterElement ? 1.5 : 1;
+  float exp = um.feederExp*multiplier1*multiplier2;
+  
+  float researchFactor = 1.f+[gs.researchUtil percentageBenefitForType:ResearchTypeXpBonus element:baseMp.monsterElement rarity:baseMp.quality];
+  
+  float finalExp = exp*researchFactor;
+  
+  return roundf(finalExp);
 }
 
 - (float) calculateLevelForMonster:(int)monsterId experience:(float)experience {
@@ -2122,6 +2332,36 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return ecp.structInfo.level;
 }
 
+- (int) calculateSecondsToCreateBattleItem:(BattleItemProto *)bip {
+  float baseSecs = bip.minutesToCreate*60;
+  
+  GameState *gs = [GameState sharedGameState];
+  float perc = [gs.researchUtil percentageBenefitForType:ResearchTypeItemProductionSpeed];
+  float researchFactor = [self convertToOverallPercentFromPercentDecrease:perc];
+  
+  return roundf(baseSecs*researchFactor);
+}
+
+- (int) calculateCostToCreateBattleItem:(BattleItemProto *)bip {
+  float baseCost = bip.createCost;
+  
+  GameState *gs = [GameState sharedGameState];
+  float perc = [gs.researchUtil percentageBenefitForType:ResearchTypeItemProductionCost resType:bip.createResourceType];
+  float researchFactor = [self convertToOverallPercentFromPercentDecrease:perc];
+  
+  return roundf(baseCost*researchFactor);
+}
+
+- (int) calculateSecondsToResearch:(ResearchProto *)rp {
+  float baseSecs = rp.durationMin*60;
+  
+  GameState *gs = [GameState sharedGameState];
+  ResearchHouseProto *rhp = (ResearchHouseProto *)[gs myResearchLab].staticStructForCurrentConstructionLevel;
+  float labFactor = 1.f;//[self convertToOverallPercentFromPercentDecrease:rhp.];
+  
+  return roundf(baseSecs*labFactor);
+}
+
 - (BOOL) isPrerequisiteComplete:(PrereqProto *)prereq {
   if (!self.ignorePrerequisites) {
     GameState *gs = [GameState sharedGameState];
@@ -2136,6 +2376,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       }
     } else if (prereq.prereqGameType == GameTypeTask) {
       quantity = [gs isTaskCompleted:prereq.prereqGameEntityId];
+    } else if (prereq.prereqGameType == GameTypeResearch) {
+      ResearchProto *rp = [gs researchWithId:prereq.prereqGameEntityId];
+      quantity = [gs.researchUtil prerequisiteFullfilledForResearch:rp];
     }
     
     return quantity >= prereq.quantity;
@@ -2591,14 +2834,24 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 + (BOOL) checkEnteringDungeonWithTarget:(id)target noTeamSelector:(SEL)noTeamSelector inventoryFullSelector:(SEL)inventoryFullSelector {
-#ifdef DEBUG
-  return YES;
-#else
-  // Check that team is valid
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
-  NSArray *myTeam = [gs allBattleAvailableMonstersOnTeamWithClanSlot:NO];
   NSArray *fullTeam = [gs allBattleAvailableMonstersOnTeamWithClanSlot:YES];
+  
+  if (gl.ignoreTeamCheck) {
+    if (fullTeam.count > 0) {
+      return YES;
+    } else {
+      NSString *description = [NSString stringWithFormat:@"You have no %@s on your team. Manage your team now.", MONSTER_NAME];
+      [Globals addAlertNotification:description];
+      [target performSelector:noTeamSelector];
+      
+      return NO;
+    }
+  }
+  
+  // Check that team is valid
+  NSArray *myTeam = [gs allBattleAvailableMonstersOnTeamWithClanSlot:NO];
   BOOL hasValidTeam = NO;
   BOOL hasDeadMonster = NO;
   for (UserMonster *um in fullTeam) {
@@ -2648,11 +2901,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
   
   return YES;
-#endif
 }
 #pragma clang diagnostic pop
 
-+ (void) animateStartView:(UIView *)startView toEndView:(UIView *)endView fakeStartView:(UIView *)fakeStart fakeEndView:(UIView *)fakeEnd completion:(dispatch_block_t)completion {
++ (void) animateStartView:(UIView *)startView toEndView:(UIView *)endView fakeStartView:(UIView *)fakeStart fakeEndView:(UIView *)fakeEnd hideStartView:(BOOL)hideStartView hideEndView:(BOOL)hideEndView completion:(dispatch_block_t)completion {
   fakeStart.center = [fakeStart.superview convertPoint:startView.center fromView:startView.superview];
   fakeEnd.center = fakeStart.center;
   fakeStart.alpha = 1.f;
@@ -2660,8 +2912,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   fakeStart.transform = CGAffineTransformIdentity;
   fakeEnd.transform = CGAffineTransformIdentity;
   
-  startView.hidden = YES;
-  endView.hidden = YES;
+  if (hideStartView) startView.hidden = YES;
+  if (hideEndView) endView.hidden = YES;
   [UIView animateWithDuration:0.3f animations:^{
     fakeEnd.alpha = 1.f;
     fakeEnd.center = [fakeEnd.superview convertPoint:endView.center fromView:endView.superview];
@@ -2681,13 +2933,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       completion();
     }
     
-    startView.hidden = NO;
-    endView.hidden = NO;
+    if (hideStartView) startView.hidden = NO;
+    if (hideEndView) endView.hidden = NO;
   }];
 }
 
 + (void) animateStartView:(UIView *)startView toEndView:(UIView *)endView fakeStartView:(UIView *)fakeStart fakeEndView:(UIView *)fakeEnd {
-  [self animateStartView:startView toEndView:endView fakeStartView:fakeStart fakeEndView:fakeEnd completion:nil];
+  [self animateStartView:startView toEndView:endView fakeStartView:fakeStart fakeEndView:fakeEnd hideStartView:YES hideEndView:YES completion:nil];
 }
 
 + (NSString *) getRandomTipFromFile:(NSString *)file {

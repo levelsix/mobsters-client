@@ -66,7 +66,6 @@ static UIImage *img = nil;
   
   GameState *gs = [GameState sharedGameState];
   MonsterProto *mp = [gs monsterWithId:um.monsterId];
-  self.monster = um;
   
   NSString *fileName = [mp.imagePrefix stringByAppendingString:@"Card.png"];
   [Globals imageNamed:fileName withView:self.monsterIcon greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
@@ -97,8 +96,6 @@ static UIImage *img = nil;
 }
 
 - (void) updateForNoMonsterWithLabel:(NSString *)str {
-  self.monster = nil;
-  
   self.nameLabel.text = str;
   
   self.mainView.hidden = YES;
@@ -167,13 +164,20 @@ static UIImage *img = nil;
   [_sideEffectSymbols removeAllObjects];
 }
 
+
 - (void) updateForElement:(Element)element imgPrefix:(NSString *)imgPrefix greyscale:(BOOL)greyscale {
   NSString *file = [imgPrefix stringByAppendingString:@"Card.png"];
+  [self updateForElement:element imgName:file greyscale:greyscale];
+}
+
+- (void) updateForElement:(Element)element imgName:(NSString *)file greyscale:(BOOL)greyscale {
   [Globals imageNamed:file withView:self.monsterIcon greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
-  NSString *suffix = self.bgdIcon.frame.size.width > 45 ? @"mediumsquare.png" : @"smallsquare.png";
-  file = !greyscale ? [Globals imageNameForElement:element suffix:suffix] : [@"grey" stringByAppendingString:suffix];
-  [Globals imageNamed:file withView:self.bgdIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  if (element != ElementNoElement) {
+    NSString *suffix = self.bgdIcon.frame.size.width > 45 ? @"mediumsquare.png" : @"smallsquare.png";
+    file = !greyscale ? [Globals imageNameForElement:element suffix:suffix] : [@"grey" stringByAppendingString:suffix];
+    [Globals imageNamed:file withView:self.bgdIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  }
 }
 
 - (void) displaySideEffectIcon:(NSString*)icon withKey:(NSString*)key

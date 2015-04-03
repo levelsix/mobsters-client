@@ -309,7 +309,7 @@
     else if (fsp.structType == StructureInfoProto_StructTypeResourceGenerator) {
       ResourceGeneratorProto *rgp = (ResourceGeneratorProto *)[gs structWithId:us.structId];
       
-      float secsTillFull = rgp.capacity/rgp.productionRate*3600.f;
+      float secsTillFull = rgp.capacity/us.productionRate*3600.f;
       MSDate *finishDate = [us.lastRetrieved dateByAddingTimeInterval:secsTillFull];
       // Check when it will be full
       if (finishDate.timeIntervalSinceNow > 0) {
@@ -357,6 +357,17 @@
   
   if (gs.userEnhancement && !gs.userEnhancement.isComplete) {
     [self scheduleNotificationWithText:[NSString stringWithFormat:@"%@ has finished enhancing.", gs.userEnhancement.baseMonster.userMonster.staticMonster.displayName] badge:1 date:gs.userEnhancement.expectedEndTime];
+  }
+  
+  UserResearch *curResearch = gs.researchUtil.currentResearch;
+  if (curResearch) {
+    ResearchProto *rp = curResearch.staticResearch;
+    [self scheduleNotificationWithText:[NSString stringWithFormat:@"%@%@ has finished researching.", rp.name, rp.predId || rp.succId ? [NSString stringWithFormat:@" Rank %d", rp.level] : @""] badge:1 date:curResearch.tentativeCompletionDate];
+  }
+  
+  BattleItemQueue *biq = gs.battleItemUtil.battleItemQueue;
+  if (biq.queueObjects.count) {
+    [self scheduleNotificationWithText:@"Your Items have finished creating." badge:1 date:biq.queueEndTime];
   }
   
   for (UserMiniJob *miniJob in gs.myMiniJobs) {

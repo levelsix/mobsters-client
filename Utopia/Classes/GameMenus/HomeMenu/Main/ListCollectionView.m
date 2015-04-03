@@ -45,7 +45,28 @@
 @implementation MonsterQueueCell
 
 - (void) updateForListObject:(UserMonster *)um {
-  [self.monsterView updateForMonsterId:um.monsterId];
+  if ([um isKindOfClass:[BattleItemQueueObject class]]) {
+    [self updateForBattleItemQueueObject:(BattleItemQueueObject *)um];
+  } else {
+    [self.monsterView updateForMonsterId:um.monsterId];
+    
+    self.botLabel.hidden = YES;
+    self.timerView.hidden = YES;
+    self.minusButton.hidden = NO;
+    self.checkView.hidden = YES;
+  }
+}
+
+- (void) updateForBattleItemQueueObject:(BattleItemQueueObject *)obj {
+  BattleItemProto *bip = obj.staticBattleItem;
+  [self.monsterView updateForElement:ElementNoElement imgName:bip.imgName greyscale:NO];
+  
+  [Globals imageNamed:@"ifitemsquaresmall.png" withView:self.monsterView.bgdIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  
+  // Make the icon a bit smaller so that the images aren't stretched to the edge
+  CGPoint center = self.monsterView.monsterIcon.center;
+  self.monsterView.monsterIcon.size = CGSizeMake(36, 36);
+  self.monsterView.monsterIcon.center = center;
   
   self.botLabel.hidden = YES;
   self.timerView.hidden = YES;
@@ -96,8 +117,9 @@
     self.enhancePercentLabel.text = [NSString stringWithFormat:@"%d%%", (int)floorf(curPerc*100)];
   }
   
-  self.healthLabel.text = [NSString stringWithFormat:@"%@/%@", [Globals commafyNumber:um.curHealth], [Globals commafyNumber:[gl calculateMaxHealthForMonster:um]]];
-  self.healthBar.percentage = um.curHealth/(float)[gl calculateMaxHealthForMonster:um];
+  int maxHealth = [gl calculateMaxHealthForMonster:um];
+  self.healthLabel.text = [NSString stringWithFormat:@"%@/%@", [Globals commafyNumber:um.curHealth], [Globals commafyNumber:maxHealth]];
+  self.healthBar.percentage = um.curHealth/(float)maxHealth;
   
   // For selling
   self.lockIcon.hidden = !um.isProtected;

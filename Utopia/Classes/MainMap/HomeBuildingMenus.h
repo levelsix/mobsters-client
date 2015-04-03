@@ -65,6 +65,7 @@ typedef enum {
   BuildingBubbleTypeScientist,
   BuildingBubbleTypeLocked,
   BuildingBubbleTypeRenew,
+  BuildingBubbleTypeCreate,
 } BuildingBubbleType;
 
 @interface BuildingBubble : CCNode {
@@ -87,6 +88,13 @@ typedef enum {
 
 @interface MiniMonsterViewSprite : CCSprite
 
-+ (id) spriteWIthMonsterId:(int)monsterId;
++ (id) spriteWithMonsterId:(int)monsterId;
++ (id) spriteWithElement:(Element)elem imageName:(NSString *)imgName;
+
+@end
+
+@interface MiniResearchViewSprite : CCSprite
+
++ (id) spriteWithResearchProto:(ResearchProto *)proto;
 
 @end

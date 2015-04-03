@@ -10,6 +10,7 @@
 
 #import "MSDate.h"
 #import "UserData.h"
+#import "ResearchUtil.h"
 
 typedef enum {
   TimerProgressBarColorYellow = 1,
@@ -45,7 +46,6 @@ typedef enum {
 // Used in case squad doesn't exist so button can go away
 @property (nonatomic, assign) BOOL hasAskedForClanHelp;
 
-- (NSString *) confirmActionString;
 - (NSArray *) performSpeedup:(UIView *)sender;
 - (void) performHelp;
 
@@ -72,6 +72,14 @@ typedef enum {
 @property (nonatomic, retain) HospitalQueue *hospitalQueue;
 
 - (id) initWithHospitalQueue:(HospitalQueue *)hq;
+
+@end
+
+@interface BattleItemTimerAction : TimerAction
+
+@property (nonatomic, retain) BattleItemQueue *battleItemQueue;
+
+- (id) initWithBattleItemQueue:(BattleItemQueue *)biq;
 
 @end
 
@@ -104,5 +112,13 @@ typedef enum {
 @property (nonatomic, retain) UserMonster *userMonster;
 
 - (id) initWithUserMonster:(UserMonster *)um;
+
+@end
+
+@interface ResearchTimerAction : TimerAction
+
+@property (nonatomic, retain) UserResearch *userResearch;
+
+- (id) initWithResearch:(UserResearch *)ur;
 
 @end

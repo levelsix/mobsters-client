@@ -81,6 +81,14 @@
       buildingClass = [MoneyTreeBuilding class];
       break;
       
+    case StructureInfoProto_StructTypeBattleItemFactory:
+      buildingClass = [ItemFactoryBuilding class];
+      break;
+      
+    case StructureInfoProto_StructTypeResearchHouse:
+      buildingClass = [ResearchBuilding class];
+      break;
+      
     default:
       buildingClass = [HomeBuilding class];
       break;
@@ -144,7 +152,11 @@
     
     CCSprite *frame = (CCSprite *)[self getChildByName:CONSTR_FRAME_TAG recursively:YES];
     [frame stopActionByTag:BOUNCE_ACTION_TAG];
-    [frame runAction:[self.buildingSprite getActionByTag:BOUNCE_ACTION_TAG].copy];
+    
+    CCAction *action = [self.buildingSprite getActionByTag:BOUNCE_ACTION_TAG];
+    if (action) {
+      [frame runAction:action.copy];
+    }
     
     return ret;
   } else {
@@ -877,7 +889,7 @@
   [super displayProgressBar];
   
   if (_healingItem) {
-    MiniMonsterViewSprite *spr = [MiniMonsterViewSprite spriteWIthMonsterId:_healingItem.userMonster.monsterId];
+    MiniMonsterViewSprite *spr = [MiniMonsterViewSprite spriteWithMonsterId:_healingItem.userMonster.monsterId];
     [self.progressBar addChild:spr];
     spr.position = ccp(-spr.contentSize.width/2-4.f, self.progressBar.contentSize.height/2+1.f);
   }
@@ -950,6 +962,119 @@
 
 @end
 
+@implementation ItemFactoryBuilding
+
+- (void) setupBuildingSprite:(NSString *)fileName {
+  fileName = fileName.stringByDeletingPathExtension;
+  
+  [self.buildingSprite removeFromParent];
+  self.buildingSprite = nil;
+  
+  NSString *spritesheetName = [NSString stringWithFormat:@"%@.plist", fileName];
+  [Globals checkAndLoadSpriteSheet:spritesheetName completion:^(BOOL success) {
+    if (success) {
+      [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:spritesheetName];
+      
+      self.buildingSprite = [CCSprite spriteWithImageNamed:[NSString stringWithFormat:@"%@Base00.png", fileName]];
+      [self addChild:self.buildingSprite];
+      
+      CCAnimation *anim = [CCAnimation animationWithSpritePrefix:[NSString stringWithFormat:@"%@Roof", fileName] delay:0.1];
+      [anim repeatFrames:NSMakeRange(0,1) numTimes:5];
+      self.spriteAnimation = anim;
+      
+      if (anim.frames.count) {
+        self.animSprite = [CCSprite spriteWithSpriteFrame:[anim.frames[0] spriteFrame]];
+        self.animSprite.position = ccp(self.buildingSprite.contentSize.width/2, self.buildingSprite.contentSize.height/2);
+        [self.buildingSprite addChild:self.animSprite z:2];
+      }
+      
+      [self adjustBuildingSprite];
+      
+      if (_battleItemQueueObject) {
+        [self beginAnimatingWithBattleItemQueueObject:_battleItemQueueObject];
+      }
+    }
+  }];
+}
+
+- (void) beginAnimatingWithBattleItemQueueObject:(BattleItemQueueObject *)hi {
+  [self stopAnimating];
+  
+  [self.animSprite runAction:[CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:self.spriteAnimation]]];
+  
+  _battleItemQueueObject = hi;
+  if (hi) {
+    [self displayProgressBar];
+    
+    MiniMonsterViewSprite *spr = [MiniMonsterViewSprite spriteWithElement:ElementWater imageName:_battleItemQueueObject.staticBattleItem.imgName];
+    [self.progressBar addChild:spr];
+    spr.position = ccp(-spr.contentSize.width/2-4.f, self.progressBar.contentSize.height/2+1.f);
+  }
+}
+
+- (void) stopAnimating {
+  [self.animSprite stopAllActions];
+  
+  if (self.spriteAnimation.frames.count) {
+    [self.animSprite setSpriteFrame:[self.spriteAnimation.frames[0] spriteFrame]];
+  }
+  
+  if (!self.isConstructing) {
+    [self removeProgressBar];
+  }
+  _battleItemQueueObject = nil;
+}
+
+- (BOOL) isFreeSpeedup {
+  if (_battleItemQueueObject) {
+    // Check the entire healing queue to see if it can be sped up for free
+    GameState *gs = [GameState sharedGameState];
+    Globals *gl = [Globals sharedGlobals];
+    BattleItemQueue *hq = gs.battleItemUtil.battleItemQueue;
+    int timeLeft = hq.queueEndTime.timeIntervalSinceNow;
+    int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
+    return gemCost == 0;
+  } else {
+    return [super isFreeSpeedup];
+  }
+}
+
+- (NSString *) progressBarPrefix {
+  if (_battleItemQueueObject) {
+    if (![self isFreeSpeedup]) {
+      return @"obtimergreen";
+    } else {
+      return @"obtimerpurple";
+    }
+  } else {
+    return [super progressBarPrefix];
+  }
+}
+
+- (void) updateProgressBar {
+  if (_battleItemQueueObject) {
+    UpgradeProgressBar *bar = self.progressBar;
+    
+    // Check the prefix
+    NSString *prefix = [self progressBarPrefix];
+    if ([bar.prefix isEqualToString:prefix]) {
+      NSTimeInterval time = _battleItemQueueObject.expectedEndTime.timeIntervalSinceNow;
+      [bar updateTimeLabel:time];
+      [bar updateForPercentage:1.f-time/_battleItemQueueObject.totalSecondsToComplete];
+      
+      if ([self isFreeSpeedup]) {
+        [self.progressBar animateFreeLabel];
+      }
+    } else {
+      [self displayProgressBar];
+    }
+  } else {
+    [super updateProgressBar];
+  }
+}
+
+@end
+
 @implementation TownHallBuilding
 
 @end
@@ -993,7 +1118,7 @@
     [self displayProgressBar];
     
     EnhancementItem *ei = ue.baseMonster;
-    MiniMonsterViewSprite *spr = [MiniMonsterViewSprite spriteWIthMonsterId:ei.userMonster.monsterId];
+    MiniMonsterViewSprite *spr = [MiniMonsterViewSprite spriteWithMonsterId:ei.userMonster.monsterId];
     [self.progressBar addChild:spr];
     spr.position = ccp(-spr.contentSize.width/2-4.f, self.progressBar.contentSize.height/2+1.f);
   }
@@ -1066,7 +1191,7 @@
   if (ue) {
     [self displayProgressBar];
     
-    MiniMonsterViewSprite *spr = [MiniMonsterViewSprite spriteWIthMonsterId:_evolution.evoItem.userMonster1.monsterId];
+    MiniMonsterViewSprite *spr = [MiniMonsterViewSprite spriteWithMonsterId:_evolution.evoItem.userMonster1.monsterId];
     [self.progressBar addChild:spr];
     spr.position = ccp(-spr.contentSize.width/2-4.f, self.progressBar.contentSize.height/2+1.f);
   }
@@ -1116,6 +1241,65 @@
     if ([bar.prefix isEqualToString:prefix]) {
       NSTimeInterval time = _evolution.endTime.timeIntervalSinceNow;
       NSTimeInterval totalSecs = [_evolution.endTime timeIntervalSinceDate:_evolution.startTime];
+      [self.progressBar updateForSecsLeft:time totalSecs:totalSecs];
+      
+      if ([self isFreeSpeedup]) {
+        [self.progressBar animateFreeLabel];
+      }
+    } else {
+      [self displayProgressBar];
+    }
+  }
+}
+
+@end
+
+@implementation ResearchBuilding
+
+- (BOOL) isFreeSpeedup {
+  if (self.isConstructing) {
+    return [super isFreeSpeedup];
+  } else {
+    Globals *gl = [Globals sharedGlobals];
+    NSTimeInterval timeLeft = _userResearch.tentativeCompletionDate.timeIntervalSinceNow;
+    int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
+    return gemCost == 0;
+  }
+}
+
+- (void) displayProgressBar {
+  [super displayProgressBar];
+  
+  if (_userResearch) {
+    MiniResearchViewSprite *spr = [MiniResearchViewSprite spriteWithResearchProto:_userResearch.staticResearch];
+    [self.progressBar addChild:spr];
+    spr.position = ccp(-spr.contentSize.width/2-2.f, self.progressBar.contentSize.height/2+1.f);
+  }
+}
+
+- (NSString *) progressBarPrefix {
+  if (self.isConstructing) {
+    return [super progressBarPrefix];
+  } else {
+    if (![self isFreeSpeedup]) {
+      return @"obtimergreen";
+    } else {
+      return @"obtimerpurple";
+    }
+  }
+}
+
+- (void) updateProgressBar {
+  if (self.isConstructing) {
+    [super updateProgressBar];
+  } else {
+    UpgradeProgressBar *bar = self.progressBar;
+    
+    // Check the prefix
+    NSString *prefix = [self progressBarPrefix];
+    if ([bar.prefix isEqualToString:prefix]) {
+      NSTimeInterval time = _userResearch.tentativeCompletionDate.timeIntervalSinceNow;
+      NSTimeInterval totalSecs = _userResearch.staticResearch.durationMin * 60;
       [self.progressBar updateForSecsLeft:time totalSecs:totalSecs];
       
       if ([self isFreeSpeedup]) {

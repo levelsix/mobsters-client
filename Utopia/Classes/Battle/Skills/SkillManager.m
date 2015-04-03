@@ -710,6 +710,23 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   
 }
 
+- (BOOL)useAntidote:(BattleItemType)antidoteType execute:(BOOL)execute
+{
+  BOOL temp = false;
+  
+  if (_enemySkillController) {
+    temp = [_enemySkillController cureStatusWithAntidote:antidoteType execute:execute];
+  }
+  
+  for (SkillController *skill in _persistentSkillControllers){
+    if (!skill.belongsToPlayer){
+      temp = [skill cureStatusWithAntidote:antidoteType execute:execute] || temp;
+    }
+  }
+  
+  return temp;
+}
+
 #pragma mark - Specials
 
 - (BOOL) cakeKidSchedule

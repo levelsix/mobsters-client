@@ -19,7 +19,7 @@
   MonsterProto *mp = [gs monsterWithId:um.monsterId];
   
   [self.monsterView updateForMonsterId:um.monsterId];
-  self.nameLabel.text = mp.monsterName;
+  self.nameLabel.text = mp.displayName;
   self.levelLabel.text = [NSString stringWithFormat:@"LEVEL %d", um.level];
 }
 
@@ -60,8 +60,8 @@
   [Globals imageNamedWithiPhone6Prefix:fileName withView:self.monsterIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   [Globals imageNamed:[Globals imageNameForElement:proto.monsterElement suffix:@"orb.png"] withView:self.elementIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
-  self.attackLabel.text = [Globals commafyNumber:[gl calculateTotalDamageForMonster:um]];
-  self.hpLabel.text = [Globals commafyNumber:[gl calculateMaxHealthForMonster:um]];
+  self.attackLabel.text = [Globals commafyNumber:[gl calculateBaseTotalDamageForMonster:um]];
+  self.hpLabel.text = [Globals commafyNumber:[gl calculateBaseMaxHealthForMonster:um]];
   self.speedLabel.text = [Globals commafyNumber:um.speed];
 }
 

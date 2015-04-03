@@ -201,6 +201,8 @@
   self.bottomView.hidden = YES;
   self.elementButton.hidden = YES;
   self.battleScheduleView.hidden = YES;
+  self.forfeitButtonView.hidden = YES;
+  self.itemsView.alpha = 0.f;
   
   self.elementView.center = ccp(CGRectGetMaxX(self.elementButton.frame), self.elementView.center.y);
   
@@ -224,12 +226,14 @@
   self.forfeitButtonView.hidden = YES;
   self.elementButton.hidden = YES;
   [self.elementView close];
+  [self disableItemsView];
 }
 
 - (void) prepareForMyTurn {
   [self displaySwapButton];
   self.forfeitButtonView.hidden = NO;
   self.elementButton.hidden = NO;
+  [self enableItemsView];
 }
 
 #define ANIMATION_TIME 0.4f
@@ -282,12 +286,28 @@
   }
 }
 
+- (void) enableItemsView {
+  [UIView animateWithDuration:0.3f animations:^{
+    self.itemsView.alpha = 1.f;
+  }];
+}
+
+- (void) disableItemsView {
+  [UIView animateWithDuration:0.3f animations:^{
+    self.itemsView.alpha = 0.f;
+  }];
+}
+
 - (IBAction)elementButtonClicked:(id)sender {
   if ([self.battleLayerDelegate respondsToSelector:@selector(elementButtonClicked)]) {
     [self.battleLayerDelegate elementButtonClicked];
   } else {
     [self.elementView open];
   }
+}
+
+- (IBAction)itemsClicked:(id)sender {
+  [self.battleLayerDelegate itemsClicked:sender];
 }
 
 - (void) displayBattleScheduleView {

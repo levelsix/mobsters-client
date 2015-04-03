@@ -120,11 +120,13 @@
   [self updateQuestBadge];
   [self updateFreeGemsView];
   
+  // Add observer so that we know when the item was collected
   [center addObserver:self selector:@selector(updateSecretGiftView) name:ITEMS_CHANGED_NOTIFICATION object:nil];
   [self updateSecretGiftView];
   
   [center addObserver:self selector:@selector(updateShopBadge) name:STRUCT_PURCHASED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(updateShopBadge) name:STRUCT_COMPLETE_NOTIFICATION object:nil];
+  // For gacha items
   [center addObserver:self selector:@selector(updateShopBadge) name:ITEMS_CHANGED_NOTIFICATION object:nil];
   // If updateShopBadge returns YES, we need to animate it in viewDidAppear so set it to visible or not based on that.
   if ([self updateShopBadge]) {
@@ -156,6 +158,7 @@
   
   [center addObserver:self selector:@selector(updateBuildersLabel) name:STRUCT_PURCHASED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(updateBuildersLabel) name:STRUCT_COMPLETE_NOTIFICATION object:nil];
+  // For builder items
   [center addObserver:self selector:@selector(updateBuildersLabel) name:ITEMS_CHANGED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(updateBuildersLabel) name:OBSTACLE_REMOVAL_BEGAN_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(updateBuildersLabel) name:OBSTACLE_COMPLETE_NOTIFICATION object:nil];
@@ -499,25 +502,34 @@
     NSString *staticImgName = [NSString stringWithFormat:@"1gbhud.png"];
     UIImage *staticImg = [Globals imageNamed:staticImgName];
     
-    NSMutableArray *frames = [NSMutableArray array];
-    for (int a = 0; a < numTimesToLoop; a++) {
-      for (int i = 1; i <= numFrames; i++) {
-        NSString *imgName = [NSString stringWithFormat:@"%dgbhud.png", i];
-        UIImage *img = [Globals imageNamed:imgName];
-        [frames addObject:img];
+    NSMutableArray *frameNames = [NSMutableArray array];
+    for (int i = 2; i <= numFrames; i++) {
+      NSString *imgName = [NSString stringWithFormat:@"%dgbhud.png", i];
+      [frameNames addObject:imgName];
+    }
+    
+    [Globals checkAndLoadFiles:frameNames completion:^(BOOL success) {
+      
+      NSMutableArray *frames = [NSMutableArray array];
+      for (int a = 0; a < numTimesToLoop; a++) {
+        for (int i = 1; i <= numFrames; i++) {
+          NSString *imgName = [NSString stringWithFormat:@"%dgbhud.png", i];
+          UIImage *img = [Globals imageNamed:imgName];
+          [frames addObject:img];
+        }
+        
+        for (int i = 0; i < numFramesShortPause; i++) {
+          [frames addObject:staticImg];
+        }
       }
       
-      for (int i = 0; i < numFramesShortPause; i++) {
+      // 30 frames per second
+      for (int i = 0; i < numFramesLongPause; i++) {
         [frames addObject:staticImg];
       }
-    }
-    
-    // 30 frames per second
-    for (int i = 0; i < numFramesLongPause; i++) {
-      [frames addObject:staticImg];
-    }
-    
-    self.secretGiftIcon.animationImages = frames;
+      
+      self.secretGiftIcon.animationImages = frames;
+    }];
   }
 }
 

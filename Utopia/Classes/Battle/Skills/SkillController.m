@@ -378,6 +378,11 @@
   [self skillTriggerFinished];
 }
 
+- (BOOL) cureStatusWithAntidote:(BattleItemType)antidoteType execute:(BOOL)execute
+{
+  return NO;
+}
+
 #pragma mark - UI
 
 - (void)enqueueSkillPopup:(SkillPopupData *)skillPopupData withCompletion:(SkillPopupBlock)completion

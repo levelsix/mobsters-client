@@ -44,6 +44,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _staticAchievements = [[NSMutableDictionary alloc] init];
     _staticPrerequisites = [[NSMutableDictionary alloc] init];
     _staticBoards = [[NSMutableDictionary alloc] init];
+    _staticBattleItems = [[NSMutableDictionary alloc] init];
+    _staticResearches = [[NSMutableDictionary alloc] init];
     _eventCooldownTimes = [[NSMutableDictionary alloc] init];
     _notifications = [[NSMutableArray alloc] init];
     _myStructs = [[NSMutableArray alloc] init];
@@ -221,6 +223,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return [self getStaticDataFrom:_staticStructs withId:structId];
 }
 
+- (ResearchProto *) researchWithId:(int)researchId {
+  if (researchId == 0) {
+    [Globals popupMessage:@"Attempted to access research 0"];
+    return nil;
+  }
+  return [self getStaticDataFrom:_staticResearches withId:researchId];
+}
+
 - (MonsterProto *) monsterWithId:(int)monsterId {
   if (monsterId == 0) {
     [Globals popupMessage:@"Attempted to access monster 0"];
@@ -301,6 +311,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     return [self getStaticDataFrom:_staticBoards withId:boardId];
   }
   return nil;
+}
+
+- (BattleItemProto *) battleItemWithId:(int)battleItemId {
+  if (battleItemId == 0) {
+    [Globals popupMessage:@"Attempted to access battle item 0"];
+    return nil;
+  }
+  return [self getStaticDataFrom:_staticBattleItems withId:battleItemId];
 }
 
 - (ObstacleProto *) obstacleWithId:(int)obstacleId {
@@ -386,7 +404,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (void) addToMyMonsters:(NSArray *)monsters {
   for (FullUserMonsterProto *mon in monsters) {
-    UserMonster *um = [UserMonster userMonsterWithProto:mon];
+    UserMonster *um = [UserMonster userMonsterWithProto:mon researchUtil:self.researchUtil];
     NSInteger index = [self.myMonsters indexOfObject:um];
     if (index != NSNotFound) {
       [self.myMonsters replaceObjectAtIndex:index withObject:um];
@@ -718,9 +736,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   NSMutableArray *arr = [self.privateChats mutableCopy];
   
   // Overwrite battle history first since fb requests will never be considered "read"
-//  for (PvpHistoryProto *php in self.battleHistory) {
-//    [self overwriteChatObjectInArray:arr chatObject:php];
-//  }
+  //  for (PvpHistoryProto *php in self.battleHistory) {
+  //    [self overwriteChatObjectInArray:arr chatObject:php];
+  //  }
   
   for (RequestFromFriend *req in self.fbUnacceptedRequestsFromFriends) {
     [self overwriteChatObjectInArray:arr chatObject:req];
@@ -743,6 +761,20 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
   return unread;
 }
+
+#pragma mark - Research
+
+- (NSArray *) allStaticResearchForDomain:(ResearchDomain)domain {
+  NSMutableArray *ar = [[NSMutableArray alloc] init];
+  for(ResearchProto *rp in self.staticResearches.allValues) {
+    if(rp.researchDomain == domain) {
+      [ar addObject:rp];
+    }
+  }
+  return ar;
+}
+
+#pragma mark
 
 - (NSArray *) allClanChatObjects {
   NSMutableArray *arr = [self.clanChatMessages mutableCopy];
@@ -1046,6 +1078,24 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return nil;
 }
 
+- (UserStruct *) myBattleItemFactory {
+  for (UserStruct *us in self.myStructs) {
+    if (us.staticStruct.structInfo.structType == StructureInfoProto_StructTypeBattleItemFactory) {
+      return us;
+    }
+  }
+  return nil;
+}
+
+- (UserStruct *) myResearchLab {
+  for (UserStruct *us in self.myStructs) {
+    if (us.staticStruct.structInfo.structType == StructureInfoProto_StructTypeResearchHouse) {
+      return us;
+    }
+  }
+  return nil;
+}
+
 - (NSArray *) allHospitals {
   NSMutableArray *allHospitals = [NSMutableArray array];
   for (UserStruct *us in self.myStructs) {
@@ -1127,6 +1177,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return 1+quantity;
 }
 
+#pragma mark - Static Data
+
 - (void) updateStaticData:(StaticDataProto *)proto {
   // Add these before updating user or else UI will update incorrectly
   [self addToStaticLevelInfos:proto.slipList];
@@ -1166,8 +1218,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [self addToStaticStructs:proto.allBattleItemFactorysList];
   [self addToStaticStructs:proto.allPvpBoardHousesList];
   
+  [self addToStaticStructs:proto.allResearchHousesList];
+  
   [self.staticItems removeAllObjects];
   [self addToStaticItems:proto.itemsList];
+  
+  [self.staticBattleItems removeAllObjects];
+  [self addToStaticBattleItems:proto.battleItemList];
   
   [self.staticObstacles removeAllObjects];
   [self addToStaticObstacles:proto.obstaclesList];
@@ -1190,6 +1247,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   
   [self.staticBoards removeAllObjects];
   [self addToStaticBoards:proto.boardsList];
+  
+  [self.staticResearches removeAllObjects];
+  [self addToStaticResearch:proto.researchList];
   
   self.persistentEvents = proto.persistentEventsList;
   self.persistentClanEvents = proto.persistentClanEventsList;
@@ -1264,9 +1324,21 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
 }
 
+- (void) addToStaticBattleItems:(NSArray *)arr {
+  for (BattleItemProto *p in arr) {
+    [self.staticBattleItems setObject:p forKey:@(p.battleItemId)];
+  }
+}
+
 - (void) addToStaticAchievements:(NSArray *)arr {
   for (AchievementProto *p in arr) {
     [self.staticAchievements setObject:p forKey:@(p.achievementId)];
+  }
+}
+
+- (void) addToStaticResearch:(NSArray *)arr {
+  for (ResearchProto *r in arr) {
+    [self.staticResearches setObject:r forKey:@(r.researchId)];
   }
 }
 
@@ -1417,35 +1489,31 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 - (int) maxCash {
   int maxCash = ((TownHallProto *)self.myTownHall.staticStruct).resourceCapacity;
   for (UserStruct *us in self.myStructs) {
-    ResourceStorageProto *rgp = (ResourceStorageProto *)us.staticStruct;
+    ResourceStorageProto *rgp = (ResourceStorageProto *)us.staticStructForCurrentConstructionLevel;
     StructureInfoProto *fsp = [rgp structInfo];
     if (fsp.structType == StructureInfoProto_StructTypeResourceStorage && rgp.resourceType == ResourceTypeCash) {
-      if (us.isComplete) {
-        maxCash += rgp.capacity;
-      } else {
-        ResourceStorageProto *prev = (ResourceStorageProto *)us.staticStructForPrevLevel;
-        maxCash += prev.capacity;
-      }
+      maxCash += rgp.capacity;
     }
   }
-  return maxCash;
+  
+  float researchFactor = 1.f+[self.researchUtil percentageBenefitForType:ResearchTypeResourceStorage resType:ResourceTypeCash];
+  
+  return maxCash*researchFactor;
 }
 
 - (int) maxOil {
   int maxOil = ((TownHallProto *)self.myTownHall.staticStruct).resourceCapacity;
   for (UserStruct *us in self.myStructs) {
-    ResourceStorageProto *rgp = (ResourceStorageProto *)us.staticStruct;
+    ResourceStorageProto *rgp = (ResourceStorageProto *)us.staticStructForCurrentConstructionLevel;
     StructureInfoProto *fsp = [rgp structInfo];
     if (fsp.structType == StructureInfoProto_StructTypeResourceStorage && rgp.resourceType == ResourceTypeOil) {
-      if (us.isComplete) {
-        maxOil += rgp.capacity;
-      } else {
-        ResourceStorageProto *prev = (ResourceStorageProto *)us.staticStructForPrevLevel;
-        maxOil += prev.capacity;
-      }
+      maxOil += rgp.capacity;
     }
   }
-  return maxOil;
+  
+  float researchFactor = 1.f+[self.researchUtil percentageBenefitForType:ResearchTypeResourceStorage resType:ResourceTypeOil];
+  
+  return maxOil*researchFactor;
 }
 
 - (int) maxTeamCost {
@@ -1638,6 +1706,84 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
 }
 
+#pragma mark Battle Item Timer
+
+- (void) beginBattleItemTimer {
+  [self stopBattleItemTimer];
+  
+  BOOL queueWait = NO;
+  MSDate *earliest = nil;
+  BattleItemQueue *biq = self.battleItemUtil.battleItemQueue;
+  
+  Globals *gl = [Globals sharedGlobals];
+  if (!biq.hasShownFreeSpeedup) {
+    earliest = [biq.queueEndTime dateByAddingTimeInterval:-gl.maxMinutesForFreeSpeedUp*60];
+  }
+  
+  for (BattleItemQueueObject *item in biq.queueObjects) {
+    MSDate *endTime = item.expectedEndTime;
+    if (endTime && [endTime timeIntervalSinceNow] <= 0) {
+      queueWait = YES;
+      break;
+    } else {
+      if (!earliest || [earliest compare:item.expectedEndTime] == NSOrderedDescending) {
+        earliest = item.expectedEndTime;
+      }
+    }
+  }
+  
+  if (queueWait) {
+    [self battleItemWaitTimeComplete];
+  } else if (earliest) {
+    _battleItemTimer = [NSTimer timerWithTimeInterval:earliest.timeIntervalSinceNow target:self selector:@selector(battleItemWaitTimeComplete) userInfo:nil repeats:NO];
+    [[NSRunLoop mainRunLoop] addTimer:_battleItemTimer forMode:NSRunLoopCommonModes];
+  }
+}
+
+- (void) battleItemWaitTimeComplete {
+  Globals *gl = [Globals sharedGlobals];
+  BattleItemQueue *biq = self.battleItemUtil.battleItemQueue;
+  
+  NSMutableArray *arr = [NSMutableArray array];
+  for (BattleItemQueueObject *item in biq.queueObjects) {
+      MSDate *endTime = item.expectedEndTime;
+      if (endTime && [endTime timeIntervalSinceNow] <= 0) {
+        [arr addObject:item];
+      }
+  }
+  
+  if (arr.count > 0) {
+    [biq updateElapsedTimesWithCompletedObjects:arr];
+    
+    [[OutgoingEventController sharedOutgoingEventController] battleItemQueueWaitTimeComplete:arr fromQueue:biq];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:BATTLE_ITEM_WAIT_COMPLETE_NOTIFICATION object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:BATTLE_ITEM_QUEUE_CHANGED_NOTIFICATION object:nil];
+    [self beginBattleItemTimer];
+    
+    if (arr.count > 1) {
+      [Globals addGreenAlertNotification:[NSString stringWithFormat:@"%d Items have finished creating!", (int)arr.count] isImmediate:NO];
+    } else {
+      BattleItemQueueObject *item = arr[0];
+      [Globals addGreenAlertNotification:[NSString stringWithFormat:@"%@ has finished creating!", item.staticBattleItem.name] isImmediate:NO];
+    }
+  } else if (!biq.hasShownFreeSpeedup && biq.queueEndTime.timeIntervalSinceNow < gl.maxMinutesForFreeSpeedUp*60) {
+    NSString *desc = [NSString stringWithFormat:@"Item queue time is below %d minutes. Free speedup available!", gl.maxMinutesForFreeSpeedUp];
+    [Globals addPurpleAlertNotification:desc isImmediate:NO];
+    
+    biq.hasShownFreeSpeedup = YES;
+    
+    [self beginBattleItemTimer];
+  }
+}
+
+- (void) stopBattleItemTimer {
+  if (_battleItemTimer) {
+    [_battleItemTimer invalidate];
+    _battleItemTimer = nil;
+  }
+}
+
 #pragma mark Enhance Timer
 
 - (void) beginEnhanceTimer {
@@ -1722,6 +1868,44 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   if (_evolutionTimer) {
     [_evolutionTimer invalidate];
     _evolutionTimer = nil;
+  }
+}
+
+#pragma mark ResearchTimer
+
+- (void) beginResearchTimer {
+  [self stopResearchTimer];
+  UserResearch *researchForTimer = [self.researchUtil currentResearch];
+  
+  if (researchForTimer) {
+    if ([researchForTimer.tentativeCompletionDate timeIntervalSinceNow] <= 0) {
+      [self researchWaitTimeComplete];
+    } else {
+      _researchTimer = [NSTimer timerWithTimeInterval:researchForTimer.tentativeCompletionDate.timeIntervalSinceNow target:self selector:@selector(researchWaitTimeComplete) userInfo:nil repeats:NO];
+      [[NSRunLoop mainRunLoop] addTimer:_researchTimer forMode:NSRunLoopCommonModes];
+    }
+  }
+}
+
+- (void) researchWaitTimeComplete {
+  UserResearch *ur = [self.researchUtil currentResearch];
+  if (ur && [ur.tentativeCompletionDate timeIntervalSinceNow] <= 0) {
+    
+    [[OutgoingEventController sharedOutgoingEventController] finishResearch:ur useGems:NO delegate:nil];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:RESEARCH_WAIT_COMPLETE_NOTIFICATION object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:RESEARCH_CHANGED_NOTIFICATION object:nil];
+    
+    [Globals addGreenAlertNotification:[NSString stringWithFormat:@"%@ has finished researching!", ur.staticResearch.name] isImmediate:NO];
+  }
+}
+
+
+
+- (void) stopResearchTimer {
+  if (_researchTimer) {
+    [_researchTimer invalidate];
+    _researchTimer = nil;
   }
 }
 
@@ -1989,6 +2173,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     [self beginMiniJobTimer];
   } else if (ch.helpType == GameActionTypeEnhanceTime) {
     [self beginEnhanceTimer];
+  } else if (ch.helpType == GameActionTypeCreateBattleItem) {
+    [self.battleItemUtil.battleItemQueue readjustQueueObjects];
+    [self beginBattleItemTimer];
+  } else if (ch.helpType == GameActionTypePerformingResearch) {
+    [self beginResearchTimer];
   }
 }
 
@@ -2006,6 +2195,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     [self beginEnhanceTimer];
   } else if (ch.actionType == GameActionTypeCombineMonster) {
     [self beginCombineTimer];
+  } else if (ch.actionType == GameActionTypeCreateBattleItem) {
+    [self beginBattleItemTimer];
+  } else if (ch.actionType == GameActionTypePerformingResearch) {
+    [self beginResearchTimer];
   }
 }
 

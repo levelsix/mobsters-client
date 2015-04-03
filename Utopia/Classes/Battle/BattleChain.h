@@ -7,6 +7,7 @@ typedef NS_ENUM(NSUInteger, ChainType) {
   ChainTypeRainbowLine,
   ChainTypeRainbowExplosion,
   ChainTypeDoubleRainbow,
+  ChainTypeOrbHammer,
   
   // For clouds
   ChainTypeAdjacent

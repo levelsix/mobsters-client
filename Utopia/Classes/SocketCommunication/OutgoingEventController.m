@@ -297,7 +297,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
     
     if (amountCollected > 0) {
-      ms -= (int)((numRes-amountCollected)/gen.productionRate*3600*1000);
+      ms -= (int)((numRes-amountCollected)/userStruct.productionRate*3600*1000);
       
       int tag = [sc retrieveCurrencyFromStruct:userStruct.userStructUuid time:ms amountCollected:amountCollected];
       userStruct.lastRetrieved = [MSDate dateWithTimeIntervalSince1970:ms/1000.0];
@@ -1373,6 +1373,43 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
+- (void) solicitBattleItemHelp:(BattleItemQueue *)biq {
+  GameState *gs = [GameState sharedGameState];
+  
+  NSMutableArray *arr = [NSMutableArray array];
+  
+  //  for (UserMonsterHealingItem *hi in hq.healingItems) {
+  if (biq.queueObjects.count) {
+    BattleItemQueueObject *hi = biq.queueObjects[0];
+    
+    ClanHelpNoticeProto_Builder *notice = [ClanHelpNoticeProto builder];
+    notice.helpType = GameActionTypeCreateBattleItem;
+    notice.userDataUuid = hi.battleItemQueueUuid;
+    notice.staticDataId = hi.battleItemId;
+    
+    if ([gs.clanHelpUtil getNumClanHelpsForType:notice.helpType userDataUuid:notice.userDataUuid] < 0) {
+      [arr addObject:notice.build];
+    }
+  }
+  
+  if (arr.count) {
+    [self solicitClanHelp:arr];
+  }
+}
+
+- (void) solicitResearchHelp:(UserResearch *)userResearch {
+  GameState *gs = [GameState sharedGameState];
+  
+  ClanHelpNoticeProto_Builder *notice = [ClanHelpNoticeProto builder];
+  notice.HelpType = GameActionTypePerformingResearch;
+  notice.userDataUuid = userResearch.userResearchUuid;
+  notice.staticDataId = userResearch.researchId;
+  
+  if ([gs.clanHelpUtil getNumClanHelpsForType:notice.helpType userDataUuid:notice.userDataUuid] < 0) {
+    [self solicitClanHelp:@[notice.build]];
+  }
+}
+
 - (void) solicitHealHelp:(HospitalQueue *)hq {
   GameState *gs = [GameState sharedGameState];
   
@@ -1667,6 +1704,23 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
+- (void) tradeItemForSpeedup:(int)itemId userResearch:(UserResearch *)ur {
+  GameState *gs = [GameState sharedGameState];
+  
+  UserItemUsageProto_Builder *bldr = [UserItemUsageProto builder];
+  bldr.userUuid = gs.userUuid;
+  bldr.actionType = GameActionTypePerformingResearch;
+  bldr.userDataUuid = ur.userResearchUuid;
+  bldr.itemId = itemId;
+  bldr.timeOfEntry = [self getCurrentMilliseconds];
+  
+  if (ur.complete) {
+    [Globals popupMessage:@"Trying to speedup invalid Research."];
+  } else {
+    [self tradeItemForSpeedup:@[bldr.build]];
+  }
+}
+
 - (void) tradeItemForSpeedup:(int)itemId healingQueue:(HospitalQueue *)hq {
   GameState *gs = [GameState sharedGameState];
   
@@ -1692,6 +1746,32 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       [hq saveHealthProgressesFromIndex:0 withDate:[MSDate dateWithTimeIntervalSinceNow:speedupMins*60]];
       [hq readjustAllMonsterHealingProtos];
       [gs beginHealingTimer];
+    }
+  }
+}
+
+- (void) tradeItemForSpeedup:(int)itemId battleItemQueue:(BattleItemQueue *)biq {
+  GameState *gs = [GameState sharedGameState];
+  
+  BattleItemQueueObject *item = [biq.queueObjects firstObject];
+  
+  UserItemUsageProto_Builder *bldr = [UserItemUsageProto builder];
+  bldr.userUuid = gs.userUuid;
+  bldr.actionType = GameActionTypeCreateBattleItem;
+  bldr.userDataUuid = item.battleItemQueueUuid;
+  bldr.itemId = itemId;
+  bldr.timeOfEntry = [self getCurrentMilliseconds];
+  
+  if (item) {
+    [self tradeItemForSpeedup:@[bldr.build]];
+    
+    // Move back first item's start time by the number of minutes
+    ItemProto *ip = [gs itemForId:itemId];
+    if (ip.itemType == ItemTypeSpeedUp) {
+      int speedupMins = ip.amount;
+      item.expectedStartTime = [item.expectedStartTime dateByAddingTimeInterval:-speedupMins*60];
+      [biq readjustQueueObjects];
+      [gs beginBattleItemTimer];
     }
   }
 }
@@ -2517,6 +2597,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     // Remove after to let the queue update to not be affected
     [hq.healingItems removeAllObjects];
     hq.queueEndTime = nil;
+    hq.hasShownFreeHealingQueueSpeedup = YES;
     [[SocketCommunication sharedSocketCommunication] reloadHealQueueSnapshot];
     [gs beginHealingTimer];
     
@@ -2562,6 +2643,161 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   [gs.clanHelpUtil cleanupRogueClanHelps];
   [gs.itemUtil cleanupRogueItemUsages];
+}
+
+#pragma mark - Battle Items
+
+- (BOOL) addBattleItem:(BattleItemProto *)bi toBattleItemQueue:(BattleItemQueue *)biq useGems:(BOOL)useGems {
+  Globals *gl = [Globals sharedGlobals];
+  GameState *gs = [GameState sharedGameState];
+  
+  int cost = [gl calculateCostToCreateBattleItem:bi];
+  int curAmount = bi.createResourceType == ResourceTypeCash ? gs.cash : gs.oil;
+  if (!useGems && curAmount < cost) {
+    [Globals popupMessage:@"Trying to create battle item without enough resources."];
+  } else {
+    int gemCost = 0;
+    if (useGems && curAmount < cost) {
+      gemCost = [gl calculateGemConversionForResourceType:bi.createResourceType amount:cost-curAmount];
+      cost = curAmount;
+    }
+    
+    BattleItemQueueObject *last = [biq.queueObjects lastObject];
+    BattleItemQueueObject *item = [[BattleItemQueueObject alloc] init];
+    item.userUuid = gs.userUuid;
+    item.battleItemId = bi.battleItemId;
+    item.priority = last.priority+1;
+    
+    [biq addToEndOfQueue:item];
+    
+    [gs beginBattleItemTimer];
+    
+    int cashChange = bi.createResourceType == ResourceTypeCash ? -cost : 0;
+    int oilChange = bi.createResourceType == ResourceTypeOil ? -cost : 0;
+    int tag = [[SocketCommunication sharedSocketCommunication] setBattleItemQueueDirtyWithCoinChange:cashChange oilChange:oilChange gemCost:gemCost];
+    CashUpdate *su = [CashUpdate updateWithTag:tag change:cashChange];
+    OilUpdate *ou = [OilUpdate updateWithTag:tag change:oilChange];
+    GemsUpdate *gu = [GemsUpdate updateWithTag:tag change:-gemCost];
+    [gs addUnrespondedUpdates:su, ou, gu, nil];
+    
+    return YES;
+  }
+  return NO;
+}
+
+- (BOOL) removeBattleQueueObject:(BattleItemQueueObject *)item fromQueue:(BattleItemQueue *)biq {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  
+  BattleItemProto *bi = item.staticBattleItem;
+  
+  int cost = [gl calculateCostToCreateBattleItem:bi];
+  int curAmount = bi.createResourceType == ResourceTypeCash ? gs.cash : gs.oil;
+  int max = bi.createResourceType == ResourceTypeCash ? gs.maxCash : gs.maxOil;
+  if (![biq.queueObjects containsObject:item]) {
+    [Globals popupMessage:@"This item is not in the battle item queue."];
+  } else {
+    [biq removeFromQueue:item];
+    
+    [gs beginBattleItemTimer];
+    
+    cost = MIN(cost, MAX(0, max-curAmount));
+    
+    int cashChange = bi.createResourceType == ResourceTypeCash ? cost : 0;
+    int oilChange = bi.createResourceType == ResourceTypeOil ? cost : 0;
+    int tag = [[SocketCommunication sharedSocketCommunication] setBattleItemQueueDirtyWithCoinChange:cashChange oilChange:oilChange gemCost:0];
+    CashUpdate *su = [CashUpdate updateWithTag:tag change:cashChange];
+    OilUpdate *ou = [OilUpdate updateWithTag:tag change:oilChange];
+    [gs addUnrespondedUpdates:su, ou, nil];
+    
+    [gs.clanHelpUtil cleanupRogueClanHelps];
+    [gs.itemUtil cleanupRogueItemUsages];
+    
+    return YES;
+  }
+  return NO;
+}
+
+- (BOOL) speedupBattleItemQueue:(BattleItemQueue *)biq delegate:(id)delegate {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  
+  int timeLeft = biq.queueEndTime.timeIntervalSinceNow;
+  int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
+  
+  if (gs.gems < goldCost) {
+    [Globals popupMessage:@"Trying to speedup battle item queue without enough gold"];
+  } else {
+    NSMutableArray *arr = [NSMutableArray array];
+    for (BattleItemQueueObject *item in biq.queueObjects) {
+      [arr addObject:[item convertToProto]];
+      
+      [gs.battleItemUtil incrementBattleItemId:item.battleItemId quantity:1];
+    }
+    
+    int tag = [[SocketCommunication sharedSocketCommunication] sendCompleteBattleItemMessage:arr isSpeedup:YES gemCost:goldCost];
+    [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
+    [gs addUnrespondedUpdate:[GemsUpdate updateWithTag:tag change:-goldCost]];
+    
+    // Remove after to let the queue update to not be affected
+    [biq.queueObjects removeAllObjects];
+    biq.queueEndTime = nil;
+    biq.hasShownFreeSpeedup = YES;
+    [[SocketCommunication sharedSocketCommunication] reloadBattleItemQueueSnapshot];
+    [gs beginHealingTimer];
+    
+    [gs.clanHelpUtil cleanupRogueClanHelps];
+    [gs.itemUtil cleanupRogueItemUsages];
+    
+    [Analytics instantFinish:@"battleItemWait" gemChange:-goldCost gemBalance:gs.gems];
+    
+    return YES;
+  }
+  return NO;
+}
+
+- (void) battleItemQueueWaitTimeComplete:(NSArray *)battleItemQueueObjects fromQueue:(BattleItemQueue *)biq {
+  GameState *gs = [GameState sharedGameState];
+  
+  NSMutableArray *arr = [NSMutableArray array];
+  for (BattleItemQueueObject *item in battleItemQueueObjects) {
+    if ([item.expectedEndTime timeIntervalSinceNow] > 0) {
+      [Globals popupMessage:@"Trying to finish healing item before time."];
+    } else {
+      [arr addObject:[item convertToProto]];
+      
+      [gs.battleItemUtil incrementBattleItemId:item.battleItemId quantity:1];
+    }
+  }
+  
+  [[SocketCommunication sharedSocketCommunication] sendCompleteBattleItemMessage:arr isSpeedup:NO gemCost:0];
+  
+  // Remove after to let the queue update to not be affected
+  [biq.queueObjects removeObjectsInArray:battleItemQueueObjects];
+  
+  [[SocketCommunication sharedSocketCommunication] reloadBattleItemQueueSnapshot];
+  
+  [gs.clanHelpUtil cleanupRogueClanHelps];
+  [gs.itemUtil cleanupRogueItemUsages];
+}
+
+- (void) removeBattleItems:(NSArray *)battleItemIds {
+  GameState *gs = [GameState sharedGameState];
+  
+  for (NSNumber *num in battleItemIds) {
+    int battleItemId = num.intValue;
+    
+    UserBattleItem *ubi = [gs.battleItemUtil getUserBattleItemForBattleItemId:battleItemId];
+    
+    if (ubi.quantity <= 0) {
+      [Globals popupMessage:@"Trying to remove battle item without any quantity."];
+      return;
+    } else {
+      ubi.quantity--;
+    }
+  }
+  
+  [[SocketCommunication sharedSocketCommunication] sendDiscardBattleItemMessage:battleItemIds];
 }
 
 #pragma mark - Selling monsters
@@ -2684,8 +2920,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   int timeLeft = gs.userEnhancement.expectedEndTime.timeIntervalSinceNow;
   int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
   
-  if (gs.gems < goldCost) {
-    [Globals popupMessage:@"Trying to speedup enhance queue without enough gold"];
+  if (!useGems && timeLeft > 0) {
+    [Globals popupMessage:@"Trying to finish enhancement before time."];
+  } else if (useGems && gs.gems < goldCost) {
+    [Globals popupMessage:@"Trying to speedup enhance queue without enough gems"];
   } else {
     int tag = [[SocketCommunication sharedSocketCommunication] sendEnhanceWaitCompleteMessage:gs.userEnhancement.baseMonster.userMonsterUuid isSpeedup:goldCost > 0 gemCost:goldCost];
     [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
@@ -3117,6 +3355,95 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   OilUpdate *ou = [OilUpdate updateWithTag:tag change:-oilSpent];
   GemsUpdate *gu = [GemsUpdate updateWithTag:tag change:-gemsSpent];
   [gs addUnrespondedUpdates:su, ou, gu, nil];
+}
+
+#pragma mark - Researching
+
+- (BOOL) beginResearch:(UserResearch *)userResearch allowGems:(BOOL)allowGems delegate:(id)delegate {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  ResearchProto *rp = userResearch.staticResearch.successorResearch;
+  
+  // Check there are no other cur researches
+  if ([gs.researchUtil currentResearch]) {
+    [Globals popupMessage:@"Attempting to start multiple researches."];
+    return NO;
+  }
+  
+  if (!rp) {
+    [Globals popupMessage:@"Attempting to progress max research."];
+    return NO;
+  }
+  
+  int cost = rp.costAmt;
+  BOOL isOilBuilding = rp.costType == ResourceTypeOil;
+  int curAmount = isOilBuilding ? gs.oil : gs.cash;
+  int gemCost = 0;
+  
+  if (allowGems && cost > curAmount) {
+    gemCost = [gl calculateGemConversionForResourceType:rp.costType amount:cost-curAmount];
+    cost = curAmount;
+  }
+  
+  if (cost > curAmount || gemCost > gs.gems) {
+    [Globals popupMessage:@"Trying to research without enough resources."];
+    
+    return NO;
+  } else {
+    uint64_t ms = [self getCurrentMilliseconds];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendBeginResearchMessage:rp.researchId uuid:userResearch.userResearchUuid clientTime:ms gems:gemCost resourceType:rp.costType resourceCost:cost];
+    [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
+    
+    userResearch.complete = NO;
+    userResearch.researchId = rp.researchId;
+    userResearch.timeStarted = [MSDate dateWithTimeIntervalSince1970:ms/1000.];
+    
+    if (userResearch.fakeResearch) {
+      // First timer
+      [gs.researchUtil.userResearches addObject:userResearch];
+      
+      userResearch.fakeResearch = nil;
+    }
+    
+    FullUserUpdate *su = [(isOilBuilding ? [OilUpdate class] : [CashUpdate class]) updateWithTag:tag change:-cost];
+    GemsUpdate *gu = [GemsUpdate updateWithTag:tag change:-gemCost];
+    [gs addUnrespondedUpdates:su, gu, nil];
+    
+    return YES;
+  }
+}
+
+- (BOOL) finishResearch:(UserResearch *)userResearch useGems:(BOOL)useGems delegate:(id)delegate {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  
+  int timeLeft = userResearch.tentativeCompletionDate.timeIntervalSinceNow;
+  int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
+  
+  if (userResearch.complete) {
+    [Globals popupMessage:@"Trying to finish invalid research."];
+  } else if (!useGems && timeLeft > 0) {
+    [Globals popupMessage:@"Trying to finish research before time."];
+  } else if (useGems && gs.gems < goldCost) {
+    [Globals popupMessage:@"Trying to speedup research without enough gems."];
+  } else {
+    int tag = [[SocketCommunication sharedSocketCommunication] sendFinishPerformingResearchRequestProto:userResearch.userResearchUuid gemsSpent:goldCost];
+    [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
+    
+    [gs addUnrespondedUpdate:[GemsUpdate updateWithTag:tag change:-goldCost]];
+    
+    userResearch.complete = YES;
+    
+    [gs stopResearchTimer];
+    
+    [gs.clanHelpUtil cleanupRogueClanHelps];
+    [gs.itemUtil cleanupRogueItemUsages];
+    
+    [Analytics instantFinish:@"researchWait" gemChange:-goldCost gemBalance:gs.gems];
+    
+    return YES;
+  }
+  return NO;
 }
 
 #pragma mark - Mini Jobs

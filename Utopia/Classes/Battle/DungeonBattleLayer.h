@@ -19,7 +19,7 @@
 #define BATTLE_DEFEATED_DIALOGUE_KEY @"BattleDefeatedDialogue"
 static const int SHOW_PLAYER_SKILL_BUTTON_DIALOGUE_INDEX = 1;
 
-@interface DungeonBattleLayer : NewBattleLayer <DialogueViewControllerDelegate> {
+@interface DungeonBattleLayer : NewBattleLayer {
   
   BOOL _receivedEndDungeonResponse;
   BOOL _waitingForEndDungeonResponse;
@@ -37,6 +37,8 @@ static const int SHOW_PLAYER_SKILL_BUTTON_DIALOGUE_INDEX = 1;
   BOOL _isFirstTime;
   
   NSString *_resumedUserMonsterUuid;
+  
+  BOOL _isDisplayingEnemyDialogue;
 }
 
 @property (nonatomic, retain) NSString *dungeonType;

@@ -1,9 +1,8 @@
 //
-//  BattleLevel.m
-//  OrbCrunch
+//  Utopia
 //
-//  Created by Matthijs on 26-02-14.
-//  Copyright (c) 2014 Razeware LLC. All rights reserved.
+//  Created by Ashwin Kamath on 2/12/12.
+//  Copyright (c) 2012 LVL6. All rights reserved.
 //
 
 #import "BattleOrbLayout.h"
@@ -11,6 +10,8 @@
 #import "Globals.h"
 #import "BattleOrbPath.h"
 #import "GameState.h"
+#import "ClientProperties.h"
+
 #import "BoardLayoutProto+Properties.h"
 
 // Make this 1 to allow user to swap wherever they want
@@ -232,12 +233,16 @@
 
 #pragma mark - Game Setup
 
-- (NSSet *) shuffle {
+- (NSSet *) shuffleEnforceNoMatches:(BOOL)enforceNoMatches {
   NSMutableSet *set;
   
   BOOL foundMatch;
   
+  int numTimes = 0;
+  
   do {
+    numTimes++;
+    
     set = [NSMutableSet set];
     
     // Put all orbs in an array, shuffle, and put them back
@@ -250,7 +255,6 @@
         
         if (orb) {
           if (orb.specialOrbType != SpecialOrbTypeNone ||
-              orb.powerupType != PowerupTypeNone ||
               ![orb isMovable])
             continue;
           
@@ -272,7 +276,6 @@
         
         if (orb) {
           if (orb.specialOrbType != SpecialOrbTypeNone ||
-              orb.powerupType != PowerupTypeNone ||
               ![orb isMovable])
             continue;
           
@@ -303,7 +306,7 @@
     
     // If there are no possible moves, then keep trying again until there are.
   }
-  while ([self.possibleSwaps count] == 0 || foundMatch);
+  while (([self.possibleSwaps count] == 0 || (enforceNoMatches && foundMatch)) && numTimes < 1000);
   
   return set;
 }
@@ -663,6 +666,18 @@
   }
 }
 
+- (NSSet *) createChainForRemovedOrb:(BattleOrb *)orb {
+  BattleChain *chain = [[BattleChain alloc] init];
+  chain.chainType = ChainTypeOrbHammer;
+  [chain addOrb:orb];
+  
+  NSSet *set = [NSSet setWithObject:chain];
+  
+  [self removeOrbs:set];
+  
+  return set;
+}
+
 #pragma mark - Detecting Matches
 
 - (NSSet *) removeMatches {
@@ -787,13 +802,7 @@
 }
 
 - (BOOL) orbCanBeRemoved:(BattleOrb *)orb {
-  return (orb.specialOrbType != SpecialOrbTypeCake &&
-          orb.specialOrbType != SpecialOrbTypeGrave &&
-          orb.specialOrbType != SpecialOrbTypeBullet &&
-          orb.specialOrbType != SpecialOrbTypeSword &&
-          orb.specialOrbType != SpecialOrbTypeBullet &&
-          orb.specialOrbType != SpecialOrbTypePoisonFire &&
-          orb.specialOrbType != SpecialOrbTypeBattery);
+  return ![self orbIsBottomFeeder:orb];
 }
 
 - (BOOL) orbIsBottomFeeder:(BattleOrb *)orb {
@@ -801,7 +810,6 @@
           orb.specialOrbType == SpecialOrbTypeGrave ||
           orb.specialOrbType == SpecialOrbTypeBullet ||
           orb.specialOrbType == SpecialOrbTypeSword ||
-          orb.specialOrbType == SpecialOrbTypeBullet ||
           orb.specialOrbType == SpecialOrbTypePoisonFire ||
           orb.specialOrbType == SpecialOrbTypeBattery);
 }
@@ -1220,7 +1228,7 @@
 - (void) changeOrb:(BattleOrb *)orb fromPowerupInitiatorOrb:(BattleOrb *)powerupOrb {
   
   // Give rainbow orbs the color of the chain creator
-  if (orb.powerupType == PowerupTypeAllOfOneColor) {
+  if (orb.powerupType == PowerupTypeAllOfOneColor && orb.orbColor == OrbColorNone) {
     // Choose a color of an orb that
     int rand;
     BOOL foundColor = NO;
@@ -1307,9 +1315,7 @@
   for (BattleChain *chain in chains) {
     for (BattleOrb *orb in chain.orbs) {
       if (orb.changeType == OrbChangeTypeDestroyed && orb.powerupType) {
-        if (chain.powerupInitiatorOrb) {
-          [self changeOrb:orb fromPowerupInitiatorOrb:chain.powerupInitiatorOrb];
-        }
+        [self changeOrb:orb fromPowerupInitiatorOrb:chain.powerupInitiatorOrb];
         
         [powerupOrbs addObject:orb];
         [usedPowerupOrbs addObject:orb];

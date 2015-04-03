@@ -11,13 +11,20 @@
 #import "UserData.h"
 #import "NibUtils.h"
 
+@interface MonsterPopUpResearchView : UIView
+
+@property (nonatomic, retain) IBOutlet UIImageView *researchIcon;
+@property (nonatomic, retain) IBOutlet UILabel *topLabel;
+@property (nonatomic, retain) IBOutlet UILabel *botLabel;
+@property (nonatomic, retain) IBOutlet UIImageView *dividerLine;
+
+@end
+
 @interface ElementDisplayView : UIView
 
 @property (nonatomic, strong) IBOutlet UIImageView *elementIcon;
 @property (nonatomic, strong) IBOutlet UILabel *statLabel;
 @property (nonatomic, strong) IBOutlet UILabel *elementLabel;
-
-- (void) updateStatsWithElementType:(Element)element andDamage:(int)damage;
 
 @end
 
@@ -31,6 +38,8 @@
 @property (nonatomic, strong) IBOutlet UIView *descriptionView;
 @property (nonatomic, strong) IBOutlet UIView *backButtonView;
 @property (nonatomic, strong) IBOutlet UIView *elementView;
+@property (nonatomic, strong) IBOutlet UIView *researchInfoView;
+@property (nonatomic, strong) IBOutlet UIScrollView *researchInfoScrollView;
 
 @property (nonatomic, strong) IBOutlet ElementDisplayView *fireView;
 @property (nonatomic, strong) IBOutlet ElementDisplayView *waterView;
@@ -46,7 +55,11 @@
 @property (nonatomic, strong) IBOutlet UILabel *elementLabel;
 @property (nonatomic, strong) IBOutlet UILabel *speedLabel;
 @property (nonatomic, strong) IBOutlet UILabel *powerLabel;
+@property (nonatomic, strong) IBOutlet UILabel *strengthLabel;
 @property (nonatomic, strong) IBOutlet UILabel *monsterDescription;
+
+@property (nonatomic, strong) IBOutlet UILabel *noResearchLabel;
+@property (nonatomic, strong) IBOutlet UIScrollView *researchScrollView;
 
 @property (nonatomic, strong) IBOutlet UIButton *avatarButton;
 @property (nonatomic, strong) IBOutlet UIButton *protectedButton;
@@ -76,7 +89,6 @@
 
 - (id)initWithMonsterProto:(UserMonster *)monster;
 - (id)initWithMonsterProto:(UserMonster *)monster allowSell:(BOOL)allowSell;
-- (IBAction)infoClicked:(id)sender;
 - (IBAction)close:(id)sender;
 - (IBAction)backClicked:(id)sender;
 - (IBAction)sellClicked:(id)sender;

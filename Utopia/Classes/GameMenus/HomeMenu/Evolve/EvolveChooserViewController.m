@@ -87,7 +87,7 @@
 
 #pragma mark - Current enhancement
 
-- (IBAction)bottomBarClicked:(id)sender {
+- (IBAction) bottomBarClicked:(id)sender {
   EvolveDetailsViewController *eqvc = [[EvolveDetailsViewController alloc] initWithCurrentEvolution];
   [self.parentViewController pushViewController:eqvc animated:YES];
 }

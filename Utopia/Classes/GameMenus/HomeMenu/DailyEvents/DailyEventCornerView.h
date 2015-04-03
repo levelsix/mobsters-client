@@ -10,7 +10,7 @@
 
 #import "NibUtils.h"
 #import "Protocols.pb.h"
-
+//ElementFire = 1, ElementEarth = 2,ElementWater = 3,ElementLight = 4,ElementDark = 5,ElementRock = 6,
 static NSString* const BottomGradientColor[] = {@"", @"ffdada", @"ceffe0", @"c9f7ff", @"ffffd8", @"e2dbff", @"e0e0e0"};
 static NSString* const NameStrokeColor[] = {@"", @"e0181a", @"008530", @"1086de", @"d55a00", @"6a3bff", @"424242"};
 static NSString* const TimeTopColor[] = {@"", @"e11819", @"379d0d", @"066dee", @"ff8e00", @"542fff", @"565656"};

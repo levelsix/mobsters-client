@@ -1133,7 +1133,7 @@ static NSString *udid = nil;
                                           setReason:reason]
                                          build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCUpdateUserCurrencyEvent];
+  return [self sendData:req withMessageType:EventProtocolRequestCUpdateUserCurrencyEvent flush:NO queueUp:NO];
 }
 
 - (int) sendBeginPvpBattleMessage:(PvpProto *)enemy senderElo:(int)elo isRevenge:(BOOL)isRevenge previousBattleTime:(uint64_t)previousBattleTime clientTime:(uint64_t)clientTime {
@@ -1258,6 +1258,30 @@ static NSString *udid = nil;
                                         build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCAchievementRedeemEvent];
+}
+
+- (int) sendBeginResearchMessage:(int)researchId uuid:(NSString*)uuid clientTime:(uint64_t)clientTime gems:(int)gems resourceType:(ResourceType)resourceType resourceCost:(int)resourceCost{
+  PerformResearchRequestProto *req = [[[[[[[[[PerformResearchRequestProto builder]
+                                             setSender:_sender]
+                                            setResearchId:researchId]
+                                           setUserResearchUuid:uuid]
+                                          setClientTime:clientTime]
+                                         setGemsCost:gems]
+                                        setResourceCost:resourceCost]
+                                       setResourceType:resourceType]
+                                      build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCPerformResearchEvent];
+}
+
+- (int) sendFinishPerformingResearchRequestProto:(NSString *)uuid gemsSpent:(int)gemsSpent {
+  FinishPerformingResearchRequestProto *req = [[[[[FinishPerformingResearchRequestProto builder]
+                                                 setSender:_sender]
+                                                setUserResearchUuid:uuid]
+                                               setGemsCost:gemsSpent]
+                                               build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCFinishPerformingResearchEvent];
 }
 
 - (int) sendSpawnMiniJobMessage:(int)numToSpawn clientTime:(uint64_t)clientTime structId:(int)structId {
@@ -1599,6 +1623,26 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCCustomizePvpBoardObstacleEvent];
 }
 
+- (int) sendCompleteBattleItemMessage:(NSArray *)completedBiqfus isSpeedup:(BOOL)isSpeedup gemCost:(int)gemCost {
+  CompleteBattleItemRequestProto *req = [[[[[[CompleteBattleItemRequestProto builder]
+                                            setSender:_sender]
+                                           addAllBiqfuCompleted:completedBiqfus]
+                                          setIsSpeedup:isSpeedup]
+                                         setGemsForSpeedup:gemCost]
+                                         build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCCompleteBattleItemEvent];
+}
+
+- (int) sendDiscardBattleItemMessage:(NSArray *)battleItemIds {
+  DiscardBattleItemRequestProto *req = [[[[DiscardBattleItemRequestProto builder]
+                                          setSender:_sender]
+                                         addAllDiscardedBattleItemIds:battleItemIds]
+                                        build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCDiscardBattleItemEvent flush:NO queueUp:YES];
+}
+
 #pragma mark - Batch/Flush events
 
 - (int) retrieveCurrencyFromStruct:(NSString *)userStructUuid time:(uint64_t)time amountCollected:(int)amountCollected {
@@ -1753,6 +1797,77 @@ static NSString *udid = nil;
   }
 }
 
+
+
+- (int) setBattleItemQueueDirtyWithCoinChange:(int)coinChange oilChange:(int)oilChange gemCost:(int)gemCost {
+  [self flushAllExceptEventType:EventProtocolRequestCCreateBattleItemEvent];
+  _battleItemQueueCashChange += coinChange;
+  _battleItemQueueOilChange += oilChange;
+  _battleItemQueueGemCost += gemCost;
+  _battleItemQueuePotentiallyChanged = YES;
+  return _currentTagNum;
+}
+
+- (void) reloadBattleItemQueueSnapshot {
+  GameState *gs = [GameState sharedGameState];
+  self.battleItemQueueSnapshot = [gs.battleItemUtil.battleItemQueue.queueObjects clone];
+}
+
+- (int) sendBattleItemQueueMessage {
+  GameState *gs = [GameState sharedGameState];
+  NSMutableSet *old = [NSMutableSet setWithArray:self.battleItemQueueSnapshot];
+  NSMutableSet *cur = [NSMutableSet setWithArray:gs.battleItemUtil.battleItemQueue.queueObjects];
+  
+  NSMutableSet *added = cur.mutableCopy;
+  [added minusSet:old];
+  
+  NSMutableSet *removed = old.mutableCopy;
+  [removed minusSet:cur];
+  
+  NSMutableSet *modifiedOld = old.mutableCopy;
+  [modifiedOld intersectSet:cur];
+  
+  NSMutableSet *modifiedCur = cur.mutableCopy;
+  [modifiedCur intersectSet:old];
+  
+  NSMutableSet *changed = [NSMutableSet set];
+  for (BattleItemQueueObject *itemOld in modifiedOld) {
+    BattleItemQueueObject *itemNew = [modifiedCur member:itemOld];
+    if (![[itemOld convertToProto].data isEqual:[itemNew convertToProto].data]) {
+      [changed addObject:itemNew];
+    }
+  }
+  
+  if (added.count || removed.count || changed.count || _battleItemQueueCashChange || _battleItemQueueOilChange || _battleItemQueueGemCost) {
+    CreateBattleItemRequestProto_Builder *bldr = [[CreateBattleItemRequestProto builder] setSender:[self senderWithMaxResources]];
+    
+    for (BattleItemQueueObject *item in added) {
+      [bldr addBiqfuNew:[item convertToProto]];
+    }
+    
+    for (BattleItemQueueObject *item in removed) {
+      [bldr addBiqfuDelete:[item convertToProto]];
+    }
+    
+    for (BattleItemQueueObject *item in changed) {
+      [bldr addBiqfuUpdate:[item convertToProto]];
+    }
+    
+    [bldr setCashChange:_battleItemQueueCashChange];
+    [bldr setOilChange:_battleItemQueueOilChange];
+    [bldr setGemCostForCreating:_battleItemQueueGemCost];
+    
+    LNLog(@"Sending battle item queue update with %d adds, %d removals, and %d updates.",  (int)added.count,  (int)removed.count,  (int)changed.count);
+    LNLog(@"Cash change: %@, oil change: %@, gemCost: %d", [Globals commafyNumber:_battleItemQueueCashChange], [Globals commafyNumber:_battleItemQueueOilChange], _battleItemQueueGemCost);
+    
+    return [self sendData:bldr.build withMessageType:EventProtocolRequestCCreateBattleItemEvent flush:NO queueUp:YES];
+  } else {
+    return 0;
+  }
+}
+
+
+
 - (int) updateClientTaskStateMessage:(NSData *)data {
   [self flushAllExceptEventType:EventProtocolRequestCUpdateClientTaskStateEvent];
   
@@ -1819,8 +1934,7 @@ static NSString *udid = nil;
   // Combining heal and speedups becuase otherwise speeding up heal queue won't batch either event
   // since it changes heal queue and adds a speedup
   if (type != EventProtocolRequestCHealMonsterEvent &&
-      type != EventProtocolRequestCTradeItemForSpeedUpsEvent &&
-      type != EventProtocolRequestCSolicitClanHelpEvent) {
+      type != EventProtocolRequestCTradeItemForSpeedUpsEvent) {
     if (_healingQueuePotentiallyChanged) {
       int val = [self sendHealMonsterMessage];
       [self reloadHealQueueSnapshot];
@@ -1832,7 +1946,27 @@ static NSString *udid = nil;
         found = YES;
       }
     }
-    
+  }
+  
+  if (type != EventProtocolRequestCCreateBattleItemEvent &&
+      type != EventProtocolRequestCTradeItemForSpeedUpsEvent) {
+    if (_battleItemQueuePotentiallyChanged) {
+      int val = [self sendBattleItemQueueMessage];
+      [self reloadBattleItemQueueSnapshot];
+      _battleItemQueuePotentiallyChanged = NO;
+      _battleItemQueueGemCost = 0;
+      _battleItemQueueCashChange = 0;
+      _battleItemQueueOilChange = 0;
+      
+      if (val) {
+        found = YES;
+      }
+    }
+  }
+  
+  if (type != EventProtocolRequestCHealMonsterEvent &&
+      type != EventProtocolRequestCCreateBattleItemEvent &&
+      type != EventProtocolRequestCTradeItemForSpeedUpsEvent) {
     if (_speedupItemUsages.count > 0) {
       [self sendTradeItemForSpeedUpsMessage];
       

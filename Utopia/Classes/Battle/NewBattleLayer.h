@@ -17,6 +17,8 @@
 #import "BattleHudView.h"
 #import "SkillBattleIndicatorView.h"
 #import "DialogueViewController.h"
+#import "BattleItemSelectViewController.h"
+#import "ClientProperties.h"
 
 #define SkillLogStart(...) //NSLogYellow(__VA_ARGS__)
 #define SkillLogEnd(triggered, ...) //if (triggered) { NSLogGreen(__VA_ARGS__); } else { NSLogYellow(__VA_ARGS__); }
@@ -72,7 +74,7 @@
 
 @end
 
-@interface NewBattleLayer : CCNode <OrbMainLayerDelegate, BattleBgdLayerDelegate, BattleScheduleViewDelegate, BattleLayerSkillPopupDelegate> {
+@interface NewBattleLayer : CCNode <OrbMainLayerDelegate, BattleBgdLayerDelegate, BattleScheduleViewDelegate, BattleLayerSkillPopupDelegate, BattleItemSelectDelegate, DialogueViewControllerDelegate> {
   int _orbCount;
   int _comboCount;
   int _movesLeft;
@@ -121,6 +123,8 @@
   BOOL _dungeonPlayerHitsFirst;
   
   BOOL _movesLeftHidden;
+  
+  UserBattleItem *_selectedBattleItem;
 }
 
 @property (nonatomic, retain) CCSprite* movesLeftContainer;
@@ -164,6 +168,11 @@
 
 @property (nonatomic, assign) int movesLeft;
 @property (nonatomic, assign) BOOL shouldDisplayNewSchedule;
+
+@property (nonatomic, assign) BOOL allowBattleItemPurchase;
+@property (nonatomic, retain) PopoverViewController *popoverViewController;
+
+@property (nonatomic, retain) DialogueViewController *dialogueViewController;
 
 // Used for skills that render the drop invalid (e.g. cake kid)
 @property (nonatomic, retain) NSMutableArray *droplessStageNums;
@@ -267,5 +276,7 @@
 - (BOOL) isFirstEnemy;
 
 - (void) forceSkillClickOver:(DialogueViewController *)dvc;
+
+- (void) openGemShop;
 
 @end

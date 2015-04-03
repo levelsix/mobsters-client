@@ -10,6 +10,7 @@
 
 #import "Globals.h"
 #import "Protocols.pb.h"
+#import "ClientProperties.h"
 
 #ifdef DEBUG_BATTLE_MODE
 #define OrbLog(...) LNLog(__VA_ARGS__)
@@ -49,6 +50,7 @@
     stencil.anchorPoint = ccp(0, 0);
     [self.bgdLayer addChild:clip z:2];
     [clip addChild:self.swipeLayer];
+    self.clipBgdLayer = stencil;
     
     self.contentSize = self.bgdLayer.contentSize;
     self.bgdLayer.position = ccp(self.bgdLayer.contentSize.width/2, self.bgdLayer.contentSize.height/2);
@@ -61,6 +63,12 @@
     };
     
     self.swipeLayer.swipeHandler = block;
+    
+    block = ^(BattleOrb *orb, BattleTile *tile) {
+      [self tapDownOnOrb:orb tile:tile];
+    };
+    
+    self.swipeLayer.tapDownHandler = block;
     
     block = ^(BattleOrb *orb) {
       [self.delegate orbKilled:orb];
@@ -94,20 +102,50 @@
   [self.swipeLayer addSpritesForOrbs:newOrbs];
 }
 
+- (void) tapDownOnOrb:(BattleOrb *)orb tile:(BattleTile *)tile {
+  if (self.allowOrbHammer && [self.layout orbCanBeRemoved:orb]) {
+    [self disallowInput];
+    [self.delegate moveBegan];
+    [self handleMatches:nil isFreeSwap:NO destroyedOrb:orb];
+    
+    self.allowOrbHammer = NO;
+  } else if (self.allowPutty && tile.isHole) {
+    tile.isHole = NO;
+    [self.bgdLayer updateForPuttyWithTile:tile];
+    [self.clipBgdLayer updateForPuttyWithTile:tile];
+    
+    [self disallowInput];
+    [self.delegate moveBegan];
+    // Say is free swap is true so that it will update
+    [self handleMatches:nil isFreeSwap:YES destroyedOrb:nil];
+    
+    self.allowPutty = NO;
+  }
+}
+
 - (void) checkSwap:(BattleSwap *)swap {
+  if (self.allowOrbHammer) {
+    return;
+  }
   
   // While orbs are being matched and new orbs fall down to fill up
   // the holes, we don't want the player to tap on anything.
   [self disallowInput];
   
-  if ([self.layout isPossibleSwap:swap]) {
+  if ([self.layout isPossibleSwap:swap] ||
+      (self.allowFreeMove && [swap.orbA isMovable] && [swap.orbB isMovable])) {
     [self.delegate moveBegan];
     
     [self.layout performSwap:swap];
+    
+    // Don't allow powerup matches if the free swap was used to prevent powerup matches from exploding.
+    // This means you can move rainbows and such around without exploding them.
+    BOOL isFreeSwap = self.allowFreeMove;
     [self.swipeLayer animateSwap:swap completion:^{
-      [self handleMatches:swap];
+      [self handleMatches:swap isFreeSwap:isFreeSwap destroyedOrb:nil];
     }];
     
+    self.allowFreeMove = NO;
   } else if ([swap.orbA isMovable] && [swap.orbB isMovable]) {
     [self.swipeLayer animateInvalidSwap:swap completion:^{
       // Recalculate the possible swaps in case of incomplete swap detection..
@@ -119,7 +157,11 @@
   }
 }
 
-- (void) handleMatches:(BattleSwap *)initialSwap {
+- (void) handleMatches {
+  [self handleMatches:nil isFreeSwap:NO destroyedOrb:nil];
+}
+
+- (void) handleMatches:(BattleSwap *)initialSwap isFreeSwap:(BOOL)isFreeSwap destroyedOrb:(BattleOrb *)destroyedOrb {
   
   // This is the main loop that removes any matching orbs and fills up the
   // holes with new orbs. While this happens, the user cannot interact with
@@ -132,7 +174,14 @@
   [self.layout resetOrbChangeTypes];
   
   NSSet *chains = nil;
-  if (initialSwap && [self.layout isPowerupMatch:initialSwap.orbA otherOrb:initialSwap.orbB]) {
+  
+  if (destroyedOrb) {
+    chains = [self.layout createChainForRemovedOrb:destroyedOrb];
+    
+    OrbLog(@"Destroying orb with chains %@", chains);
+    OrbLog(@"Layout: %@", self.layout);
+  }
+  else if (!isFreeSwap && initialSwap && [self.layout isPowerupMatch:initialSwap.orbA otherOrb:initialSwap.orbB]) {
     chains = [self.layout performPowerupMatchWithSwap:initialSwap];
     
     OrbLog(@"Found powerup match with chains %@", chains);
@@ -146,13 +195,13 @@
     OrbLog(@"Layout: %@", self.layout);
     
     // If there are no more matches, then the move is complete.
-    if ([chains count] == 0) {
+    if (!isFreeSwap && [chains count] == 0) {
       NSSet *swaps = [self.layout detectPossibleSwaps];
       
       OrbLog(@"Turn ending.. Detecting swaps: %@", swaps);
       
       if (!swaps.count) {
-        NSSet *newOrbs = [self.layout shuffle];
+        NSSet *newOrbs = [self.layout shuffleEnforceNoMatches:YES];
         
         OrbLog(@"No swaps found.. Shuffling.");
         OrbLog(@"Layout: %@", self.layout);
@@ -261,7 +310,7 @@
       
       foundChange = fillHoles || diagFillHoles || foundNewColumns || newBottomFeeders.count;
       
-      iteration++; 
+      iteration++;
     } while (foundChange);
     
     OrbLog(@"Falling orbs: %@", orbPaths);
@@ -276,15 +325,47 @@
       
       // Keep repeating this cycle until there are no more matches.
       // Don't require swap here because these matches are organic.
-      [self handleMatches:nil];
+      [self handleMatches];
     }];
   }];
 }
 
 - (void) shuffleWithCompletion:(void(^)())completion
 {
-  [self.swipeLayer animateShuffle:[self.layout shuffle] completion:completion];
+  [self.swipeLayer animateShuffle:[self.layout shuffleEnforceNoMatches:YES] completion:completion];
   [self.delegate reshuffleWithPrompt:@"Shuffling..."];
+}
+
+- (void) shuffleWithoutEnforcementAndCheckMatches
+{
+  [self disallowInput];
+  [self.swipeLayer animateShuffle:[self.layout shuffleEnforceNoMatches:NO] completion:^{
+    [self handleMatches];
+  }];
+}
+
+- (void) allowFreeMoveForSingleTurn {
+  self.allowFreeMove = YES;
+}
+
+- (void) cancelFreeMove {
+  self.allowFreeMove = NO;
+}
+
+- (void) allowOrbHammerForSingleTurn {
+  self.allowOrbHammer = YES;
+}
+
+- (void) cancelOrbHammer {
+  self.allowOrbHammer = NO;
+}
+
+- (void) allowPuttyForSingleTurn {
+  self.allowPutty = YES;
+}
+
+- (void) cancelPutty {
+  self.allowPutty = NO;
 }
 
 - (void)toggleArrows:(BOOL)on
@@ -342,8 +423,7 @@
 #define ORB_KEY @"OrbKey"
 #define POSITION_X_KEY @"PositionXKey"
 #define POSITION_Y_KEY @"PositionYKey"
-#define TILE_TOP_KEY @"TileTopKey"
-#define TILE_BOTTOM_KEY @"TileBottomKey"
+#define TILE_KEY @"TileKey"
 
 - (id) serialize {
   NSMutableArray *arr = [NSMutableArray array];
@@ -357,17 +437,16 @@
       
       if (orb) {
         [gemInfo setObject:orb.serialize forKey:ORB_KEY];
-        
-        // Tile info
-        BattleTile *tile = [self.layout tileAtColumn:i row:j];
-        [gemInfo setObject:@(tile.typeTop) forKey:TILE_TOP_KEY];
-        [gemInfo setObject:@(tile.typeBottom) forKey:TILE_BOTTOM_KEY];
-        
-        [gemInfo setObject:@(orb.column) forKey:POSITION_X_KEY];
-        [gemInfo setObject:@(orb.row) forKey:POSITION_Y_KEY];
-        
-        [arr addObject:gemInfo];
       }
+      
+      [gemInfo setObject:@(i) forKey:POSITION_X_KEY];
+      [gemInfo setObject:@(j) forKey:POSITION_Y_KEY];
+      
+      // Tile info
+      BattleTile *tile = [self.layout tileAtColumn:i row:j];
+      [gemInfo setObject:tile.serialize forKey:TILE_KEY];
+      
+      [arr addObject:gemInfo];
     }
   }
   return arr;
@@ -381,27 +460,31 @@
     int x = (int)[[gemInfo objectForKey:POSITION_X_KEY] integerValue];
     int y = (int)[[gemInfo objectForKey:POSITION_Y_KEY] integerValue];
     
-    BattleOrb *orb = [[BattleOrb alloc] init];
-    orb.powerupType = PowerupTypeNone;
-    orb.orbColor = OrbColorRock;
-    orb.specialOrbType = SpecialOrbTypeNone;
-    orb.column = x;
-    orb.row = y;
-    orb.damageMultiplier = 1;
-    [orb deserialize:orbData];
+    if (orbData) {
+      BattleOrb *orb = [[BattleOrb alloc] init];
+      orb.powerupType = PowerupTypeNone;
+      orb.orbColor = OrbColorRock;
+      orb.specialOrbType = SpecialOrbTypeNone;
+      orb.column = x;
+      orb.row = y;
+      orb.damageMultiplier = 1;
+      [orb deserialize:orbData];
+      
+      [set addObject:orb];
+    }
     
     // Tile info
     BattleTile* tile = [self.layout tileAtColumn:x row:y];
-    tile.typeTop = (int)[[gemInfo objectForKey:TILE_TOP_KEY] integerValue];
-    tile.typeBottom = (int)[[gemInfo objectForKey:TILE_BOTTOM_KEY] integerValue];
-    [self.bgdLayer updateTile:tile];
-    
-    [set addObject:orb];
+    NSDictionary *tileData = [gemInfo objectForKey:TILE_KEY];
+    [tile deserialize:tileData];
   }
   
   [self.swipeLayer removeAllOrbSprites];
   [self.layout restoreLayoutWithOrbs:set];
   [self.swipeLayer addSpritesForOrbs:set];
+  
+  [self.bgdLayer reloadTiles];
+  [self.clipBgdLayer reloadTiles];
 }
 
 @end

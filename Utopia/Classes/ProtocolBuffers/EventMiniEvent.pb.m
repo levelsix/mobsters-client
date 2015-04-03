@@ -25,7 +25,6 @@ static PBExtensionRegistry* extensionRegistry = nil;
 
 @interface RetrieveMiniEventRequestProto ()
 @property (strong) MinimumUserProto* sender;
-@property BOOL replaceExistingUserMiniEvent;
 @end
 
 @implementation RetrieveMiniEventRequestProto
@@ -37,22 +36,9 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasSender_ = !!value_;
 }
 @synthesize sender;
-- (BOOL) hasReplaceExistingUserMiniEvent {
-  return !!hasReplaceExistingUserMiniEvent_;
-}
-- (void) setHasReplaceExistingUserMiniEvent:(BOOL) value_ {
-  hasReplaceExistingUserMiniEvent_ = !!value_;
-}
-- (BOOL) replaceExistingUserMiniEvent {
-  return !!replaceExistingUserMiniEvent_;
-}
-- (void) setReplaceExistingUserMiniEvent:(BOOL) value_ {
-  replaceExistingUserMiniEvent_ = !!value_;
-}
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.replaceExistingUserMiniEvent = NO;
   }
   return self;
 }
@@ -75,9 +61,6 @@ static RetrieveMiniEventRequestProto* defaultRetrieveMiniEventRequestProtoInstan
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  if (self.hasReplaceExistingUserMiniEvent) {
-    [output writeBool:2 value:self.replaceExistingUserMiniEvent];
-  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -89,9 +72,6 @@ static RetrieveMiniEventRequestProto* defaultRetrieveMiniEventRequestProtoInstan
   size_ = 0;
   if (self.hasSender) {
     size_ += computeMessageSize(1, self.sender);
-  }
-  if (self.hasReplaceExistingUserMiniEvent) {
-    size_ += computeBoolSize(2, self.replaceExistingUserMiniEvent);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -134,9 +114,6 @@ static RetrieveMiniEventRequestProto* defaultRetrieveMiniEventRequestProtoInstan
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
-  if (self.hasReplaceExistingUserMiniEvent) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"replaceExistingUserMiniEvent", [NSNumber numberWithBool:self.replaceExistingUserMiniEvent]];
-  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -150,17 +127,12 @@ static RetrieveMiniEventRequestProto* defaultRetrieveMiniEventRequestProtoInstan
   return
       self.hasSender == otherMessage.hasSender &&
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
-      self.hasReplaceExistingUserMiniEvent == otherMessage.hasReplaceExistingUserMiniEvent &&
-      (!self.hasReplaceExistingUserMiniEvent || self.replaceExistingUserMiniEvent == otherMessage.replaceExistingUserMiniEvent) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
   __block NSUInteger hashCode = 7;
   if (self.hasSender) {
     hashCode = hashCode * 31 + [self.sender hash];
-  }
-  if (self.hasReplaceExistingUserMiniEvent) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.replaceExistingUserMiniEvent] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -208,9 +180,6 @@ static RetrieveMiniEventRequestProto* defaultRetrieveMiniEventRequestProtoInstan
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.hasReplaceExistingUserMiniEvent) {
-    [self setReplaceExistingUserMiniEvent:other.replaceExistingUserMiniEvent];
-  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -239,10 +208,6 @@ static RetrieveMiniEventRequestProto* defaultRetrieveMiniEventRequestProtoInstan
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setSender:[subBuilder buildPartial]];
-        break;
-      }
-      case 16: {
-        [self setReplaceExistingUserMiniEvent:[input readBool]];
         break;
       }
     }
@@ -276,22 +241,6 @@ static RetrieveMiniEventRequestProto* defaultRetrieveMiniEventRequestProtoInstan
 - (RetrieveMiniEventRequestProto_Builder*) clearSender {
   result.hasSender = NO;
   result.sender = [MinimumUserProto defaultInstance];
-  return self;
-}
-- (BOOL) hasReplaceExistingUserMiniEvent {
-  return result.hasReplaceExistingUserMiniEvent;
-}
-- (BOOL) replaceExistingUserMiniEvent {
-  return result.replaceExistingUserMiniEvent;
-}
-- (RetrieveMiniEventRequestProto_Builder*) setReplaceExistingUserMiniEvent:(BOOL) value {
-  result.hasReplaceExistingUserMiniEvent = YES;
-  result.replaceExistingUserMiniEvent = value;
-  return self;
-}
-- (RetrieveMiniEventRequestProto_Builder*) clearReplaceExistingUserMiniEvent {
-  result.hasReplaceExistingUserMiniEvent = NO;
-  result.replaceExistingUserMiniEvent = NO;
   return self;
 }
 @end

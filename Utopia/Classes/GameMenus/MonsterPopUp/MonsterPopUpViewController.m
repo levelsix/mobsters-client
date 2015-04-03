@@ -13,17 +13,107 @@
 #import "QuestUtil.h"
 #import "GenericPopupController.h"
 #import "SkillController.h"
+#import "ResearchController.h"
 
 #define LOCK_MOBSTER_DEFAULTS_KEY @"LockMobsterConfirmation"
 
+NSMutableAttributedString *attributedStringWithResearch(ResearchProto *res, BOOL isActive, UIFont *font) {
+  NSString *str1 = res.name;
+  NSString *str2 = [NSString stringWithFormat:@" R%d", isActive ? res.level : 0];
+  
+  NSString *totalStr = [NSString stringWithFormat:@"%@%@", str1, str2];
+  
+  NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+  paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
+  [paragraphStyle setLineSpacing:4];
+  
+  NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:totalStr attributes:@{NSParagraphStyleAttributeName : paragraphStyle, NSFontAttributeName:font}];
+  
+  if (isActive) {
+    [attr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithWhite:51/255.f alpha:1.f] range:NSMakeRange(0, str1.length)];
+    [attr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"71b803"] range:NSMakeRange(str1.length, str2.length)];
+  } else {
+    [attr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithWhite:135/255.f alpha:1.f] range:NSMakeRange(0, totalStr.length)];
+  }
+  
+  return attr;
+}
+
+NSMutableAttributedString *attributedStringWithResearchBenefit(ResearchProto *res, UIFont *font) {
+  ResearchController *rc = [ResearchController researchControllerWithProto:res];
+  NSString *totalStr = [NSString stringWithFormat:@"%@: %@", rc.benefitName, rc.benefitString];
+  
+  NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+  [paragraphStyle setLineSpacing:4];
+  
+  NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:totalStr attributes:@{NSParagraphStyleAttributeName : paragraphStyle, NSFontAttributeName:font}];
+  
+  return attr;
+}
+
+NSMutableAttributedString *attributedStringWithResearchChange(int total, int base) {
+  NSString *str1 = [NSString stringWithFormat:@"%@", [Globals commafyNumber:total]];
+  NSString *str2 = @"", *str3 = @"", *str4 = @"";
+  
+  if (total != base) {
+    str2 = [NSString stringWithFormat:@" (%@ ", [Globals commafyNumber:base]];
+    str3 = [NSString stringWithFormat:@"+ %@", [Globals commafyNumber:total-base]];
+    str4 = @")";
+  }
+  
+  NSString *totalStr = [NSString stringWithFormat:@"%@%@%@%@", str1, str2, str3, str4];
+  NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:totalStr];
+  
+  [attr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"71b803"] range:NSMakeRange(str1.length+str2.length, str3.length)];
+  
+  return attr;
+}
+
+@implementation MonsterPopUpResearchView
+
+- (void) updateForActiveResearch:(ResearchProto *)rp {
+  [Globals imageNamed:rp.iconImgName withView:self.researchIcon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+  
+  self.topLabel.attributedText = attributedStringWithResearch(rp, YES, self.topLabel.font);
+  
+  // For some reason having foreground color makes the 1 liner labels have extra height so ask for attr string in inactive state so there's no color
+  CGRect rect = [attributedStringWithResearch(rp, NO, self.topLabel.font) boundingRectWithSize:CGSizeMake(self.topLabel.width, 9999) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
+  self.topLabel.height = ceilf(rect.size.height);
+  
+  self.botLabel.attributedText = attributedStringWithResearchBenefit(rp, self.botLabel.font);
+  
+  rect = [self.botLabel.attributedText boundingRectWithSize:CGSizeMake(self.botLabel.width, 9999) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
+  self.botLabel.originY = CGRectGetMaxY(self.topLabel.frame)+7.f;
+  self.botLabel.height = ceilf(rect.size.height);
+  
+  self.height = CGRectGetMaxY(self.botLabel.frame)+11.f;
+}
+
+
+- (void) updateForNonActiveResearch:(ResearchProto *)rp {
+  [Globals imageNamed:rp.iconImgName withView:self.researchIcon greyscale:YES indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+  
+  self.botLabel.hidden = YES;
+  
+  self.topLabel.attributedText = attributedStringWithResearch(rp, NO, self.topLabel.font);
+  
+  CGRect rect = [self.topLabel.attributedText boundingRectWithSize:CGSizeMake(self.topLabel.width, 9999) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
+  self.topLabel.height = ceilf(rect.size.height);
+  
+  self.height = CGRectGetMaxY(self.topLabel.frame)+11.f;
+}
+
+@end
+
 @implementation ElementDisplayView
 
-- (void) updateStatsWithElementType:(Element)element andDamage:(int)damage {
+- (void) updateStatsWithElementType:(Element)element damage:(int)damage baseDmage:(int)baseDamage {
   NSString *name = [Globals imageNameForElement:element suffix:@"orb.png"];
   [Globals imageNamed:name withView:self.elementIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-  self.statLabel.text = [Globals commafyNumber:damage];
   self.elementLabel.text = [Globals stringForElement:element];
   self.elementLabel.textColor = [Globals colorForElementOnLightBackground:element];
+  
+  self.statLabel.attributedText = attributedStringWithResearchChange(damage, baseDamage);
 }
 
 @end
@@ -47,7 +137,6 @@
 - (void)viewDidLoad
 {
   [super viewDidLoad];
-  [self updateMonster];
   
   self.backButtonView.hidden = YES;
   
@@ -66,55 +155,140 @@
     float newHeight = 339.f;//self.view.height-36.f; // Keep the 6+ same size as 6
     self.mainView.size = CGSizeMake(roundf(newHeight*aspectRatio), newHeight);
     self.mainView.center = ccp(self.view.width/2, self.view.height/2);
+    
+    // Adjust the view so that
+    self.researchInfoView.frame = self.descriptionView.frame;
   }
+  
+  [self updateMonster];
 }
 
 - (void) updateMonster {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
-  MonsterProto *proto = [gs monsterWithId:self.monster.monsterId];
-  self.monsterNameLabel.text = proto.displayName;
-  self.enhanceLabel.text = [NSString stringWithFormat:@"%d  (Max. %d)", self.monster.level, proto.maxLevel];
+  UserMonster *um = self.monster;
+  MonsterProto *mp = [gs monsterWithId:um.monsterId];
+  self.monsterNameLabel.text = [NSString stringWithFormat:@"%@ (L%d/%d)", mp.monsterName, um.level, mp.maxLevel];
+  self.enhanceLabel.text = [NSString stringWithFormat:@"%d  (Max. %d)", um.level, mp.maxLevel];
   [self updateSkillData:YES];
   
-  self.rarityTag.image = [Globals imageNamed:[@"battle" stringByAppendingString:[Globals imageNameForRarity:proto.quality suffix:@"tag.png"]]];
+  self.rarityTag.image = [Globals imageNamed:[@"battle" stringByAppendingString:[Globals imageNameForRarity:mp.quality suffix:@"tag.png"]]];
   
-  self.buttonsContainer.hidden = ![self.monster.userUuid isEqualToString:gs.userUuid];
-  self.avatarButton.enabled = self.monster.monsterId != gs.avatarMonsterId;
+  self.buttonsContainer.hidden = ![um.userUuid isEqualToString:gs.userUuid];
+  self.avatarButton.enabled = um.monsterId != gs.avatarMonsterId;
   [self updateProtectedButton];
   
-  self.attackLabel.text = [NSString stringWithFormat:@"%@  ", [Globals commafyNumber:[gl calculateTotalDamageForMonster:self.monster]]];
-  self.speedLabel.text = [Globals commafyNumber:[gl calculateSpeedForMonster:self.monster]];
-  CGSize size = [self.attackLabel.text getSizeWithFont:self.attackLabel.font];
-  self.infoButton.center = CGPointMake(self.attackLabel.frame.origin.x+size.width+self.infoButton.frame.size.width/2, self.infoButton.center.y);
+  int atk = [gl calculateTotalDamageForMonster:um];
+  int baseAtk = [gl calculateBaseTotalDamageForMonster:um];
+  self.attackLabel.attributedText = attributedStringWithResearchChange(atk, baseAtk);
   
-  int maxHealth = [gl calculateMaxHealthForMonster:self.monster];
-  self.hpLabel.text = [NSString stringWithFormat:@"%@/%@", [Globals commafyNumber:self.monster.curHealth], [Globals commafyNumber:maxHealth]];
-  self.progressBar.percentage = ((float)self.monster.curHealth)/maxHealth;
+  int speed = [gl calculateSpeedForMonster:um];
+  int baseSpeed = [gl calculateBaseSpeedForMonster:um];
+  self.speedLabel.attributedText = attributedStringWithResearchChange(speed, baseSpeed);
   
-  self.powerLabel.text = [Globals commafyNumber:[self.monster teamCost]];
+  int maxHealth = [gl calculateMaxHealthForMonster:um];
+  int baseHealth = [gl calculateBaseMaxHealthForMonster:um];
+  self.hpLabel.attributedText = attributedStringWithResearchChange(maxHealth, baseHealth);
   
-  Element elem = ElementFire;
-  [self.fireView updateStatsWithElementType:elem andDamage:[gl calculateElementalDamageForMonster:self.monster element:elem]];
-  elem = ElementWater;
-  [self.waterView updateStatsWithElementType:elem andDamage:[gl calculateElementalDamageForMonster:self.monster element:elem]];
-  elem = ElementEarth;
-  [self.earthView updateStatsWithElementType:elem andDamage:[gl calculateElementalDamageForMonster:self.monster element:elem]];
-  elem = ElementLight;
-  [self.lightView updateStatsWithElementType:elem andDamage:[gl calculateElementalDamageForMonster:self.monster element:elem]];
-  elem = ElementDark;
-  [self.nightView updateStatsWithElementType:elem andDamage:[gl calculateElementalDamageForMonster:self.monster element:elem]];
-  elem = ElementRock;
-  [self.rockView updateStatsWithElementType:elem andDamage:[gl calculateElementalDamageForMonster:self.monster element:elem]];
+  self.progressBar.percentage = ((float)um.curHealth)/maxHealth;
   
-  self.elementLabel.text = [Globals stringForElement:proto.monsterElement];
-  self.elementLabel.textColor = [Globals colorForElementOnLightBackground:proto.monsterElement];
+  self.powerLabel.text = [NSString stringWithFormat:@"%@ Power", [Globals commafyNumber:[um teamCost]]];
+  self.powerLabel.superview.originX = self.rarityTag.originX+self.rarityTag.image.size.width+2.f;
   
-  NSString *fileName = [proto.imagePrefix stringByAppendingString:@"Character.png"];
+  // Individual Elements
+  NSDictionary *dict = @{@(ElementFire):self.fireView,
+                         @(ElementWater):self.waterView,
+                         @(ElementEarth):self.earthView,
+                         @(ElementLight):self.lightView,
+                         @(ElementDark):self.nightView,
+                         @(ElementRock):self.rockView };
+  
+  for (Element elem = ElementFire; elem <= ElementRock; elem++) {
+    ElementDisplayView *elemView = dict[@(elem)];
+    
+    int dmg = [gl calculateElementalDamageForMonster:um element:elem];
+    int baseDmg = [gl calculateBaseElementalDamageForMonster:um element:elem];
+    
+    [elemView updateStatsWithElementType:elem damage:dmg baseDmage:baseDmg];
+  }
+  
+  self.elementLabel.text = [Globals stringForElement:mp.monsterElement];
+  self.elementLabel.textColor = [Globals colorForElementOnLightBackground:mp.monsterElement];
+  
+  NSString *fileName = [mp.imagePrefix stringByAppendingString:@"Character.png"];
   [Globals imageNamedWithiPhone6Prefix:fileName withView:self.monsterImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
   
-  self.elementType.image = [Globals imageNamed:[Globals imageNameForElement:proto.monsterElement suffix:@"orb.png"]];
+  self.elementType.image = [Globals imageNamed:[Globals imageNameForElement:mp.monsterElement suffix:@"orb.png"]];
   [Globals adjustViewForCentering:self.monsterNameLabel.superview withLabel:self.monsterNameLabel];
+  
+  [self updateResearchScrollView];
+}
+
+- (void) updateResearchScrollView {
+  MonsterProto *mp = self.monster.staticMonster;
+  ResearchUtil *ru = self.monster.researchUtil;
+  
+  NSArray *userResearches = [ru allUserResearchesForElement:mp.monsterElement rarity:mp.quality];
+  NSMutableArray *staticResearches = [[ru allResearchProtosForElement:mp.monsterElement rarity:mp.quality] mutableCopy];
+  
+  self.noResearchLabel.hidden = userResearches.count > 0;
+  
+  float maxX = 0;
+  for (UserResearch *ur in userResearches) {
+    ResearchProto *rp = ur.staticResearch;
+    
+    UIImageView *iv = [[UIImageView alloc] init];
+    iv.contentMode = UIViewContentModeScaleAspectFit;
+    iv.size = CGSizeMake(25, 25);
+    iv.centerY = self.researchScrollView.height/2;
+    iv.originX = maxX ;
+    
+    [self.researchScrollView addSubview:iv];
+    
+    [Globals imageNamed:rp.iconImgName withView:iv greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+    
+    maxX = iv.originX+iv.width;
+  }
+  
+  self.researchScrollView.contentSize = CGSizeMake(maxX, self.researchScrollView.height);
+  
+  // Update the research info view
+  float maxY = 20.f;
+  MonsterPopUpResearchView *lastRv = nil;
+  for (UserResearch *ur in userResearches) {
+    ResearchProto *rp = ur.staticResearch;
+    
+    MonsterPopUpResearchView *rv = [[NSBundle mainBundle] loadNibNamed:@"MonsterPopUpResearchView" owner:self options:nil][0];
+    rv.width = self.researchInfoView.width;
+    rv.originY = maxY;
+    
+    [rv updateForActiveResearch:rp];
+    
+    maxY += rv.height;
+    
+    [self.researchInfoScrollView addSubview:rv];
+    
+    lastRv = rv;
+    
+    [staticResearches removeObject:[rp minLevelResearch]];
+  }
+  
+  for (ResearchProto *rp in staticResearches) {
+    MonsterPopUpResearchView *rv = [[NSBundle mainBundle] loadNibNamed:@"MonsterPopUpResearchView" owner:self options:nil][0];
+    rv.width = self.researchInfoView.width;
+    rv.originY = maxY;
+    
+    [rv updateForNonActiveResearch:rp];
+    
+    maxY += rv.height;
+    
+    [self.researchInfoScrollView addSubview:rv];
+    
+    lastRv = rv;
+  }
+  
+  lastRv.dividerLine.hidden = YES;
+  self.researchInfoScrollView.contentSize = CGSizeMake(self.researchInfoScrollView.width, maxY);
 }
 
 - (void) updateSkillData:(BOOL)offensive
@@ -219,16 +393,16 @@
 
 static int descriptionWidthChange = 50;
 
-- (IBAction)infoClicked:(id)sender {
-  [self.container addSubview:self.elementView];
-  self.elementView.frame = self.descriptionView.frame;
-  self.elementView.center = CGPointMake(self.descriptionView.center.x+self.elementView.frame.size.height, self.descriptionView.center.y);
+- (void) pushContentView:(UIView *)contentView labelText:(NSString *)labelText {
+  [self.container addSubview:contentView];
+  contentView.frame = self.descriptionView.frame;
+  contentView.center = CGPointMake(self.descriptionView.center.x+contentView.frame.size.height, self.descriptionView.center.y);
   self.backButtonView.hidden = NO;
   
   CGPoint mainViewCenter = self.descriptionView.center;
   [UIView animateWithDuration:0.3f animations:^{
     self.descriptionView.center = CGPointMake(self.descriptionView.center.x-self.descriptionView.frame.size.width, self.descriptionView.center.y);
-    self.elementView.center = mainViewCenter;
+    contentView.center = mainViewCenter;
     self.backButtonView.alpha = 1.f;
     self.skillView.alpha = 0.f;
     self.monsterDescription.originX -= descriptionWidthChange/2;
@@ -244,16 +418,25 @@ static int descriptionWidthChange = 50;
   animation.type = kCATransitionFade;
   animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
   [self.monsterDescription.layer addAnimation:animation forKey:@"changeTextTransition"];
-  [self setDescriptionLabelString:@"Attack numbers represent the damage done by each orb destroyed in battle."];
+  [self setDescriptionLabelString:labelText];
+}
+
+- (IBAction)attackInfoClicked:(id)sender {
+  [self pushContentView:self.elementView labelText:@"Attack numbers represent the damage done by each orb destroyed in battle."];
+}
+
+- (IBAction)researchInfoClicked:(id)sender {
+  [self pushContentView:self.researchInfoView labelText:[NSString stringWithFormat:@"This %@ is affected by the above Research.", MONSTER_NAME]];
 }
 
 - (IBAction)backClicked:(id)sender {
-  CGPoint mainViewCenter = self.elementView.center;
+  CGPoint mainViewCenter = ccp(self.descriptionView.superview.width/2, self.descriptionView.superview.height/2);
   self.descriptionView.hidden = NO;
   
   [UIView animateWithDuration:0.3f animations:^{
     self.descriptionView.center = mainViewCenter;
     self.elementView.center = CGPointMake(self.elementView.center.x+self.elementView.frame.size.width, self.elementView.center.y);
+    self.researchInfoView.center = CGPointMake(self.researchInfoView.center.x+self.researchInfoView.frame.size.width, self.researchInfoView.center.y);
     self.backButtonView.alpha = 0.f;
     self.buttonsContainer.alpha = 1.f;
     self.skillView.alpha = 1.f;
@@ -261,6 +444,7 @@ static int descriptionWidthChange = 50;
     self.monsterDescription.width -= descriptionWidthChange;
   } completion:^(BOOL finished) {
     [self.elementView removeFromSuperview];
+    [self.researchInfoView removeFromSuperview];
     self.backButtonView.hidden = YES;
     self.skillView.userInteractionEnabled = YES;
   }];

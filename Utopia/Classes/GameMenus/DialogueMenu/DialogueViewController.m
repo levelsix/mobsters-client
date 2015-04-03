@@ -10,6 +10,7 @@
 #import <cocos2d.h>
 #import "CAKeyframeAnimation+AHEasing.h"
 #import "Globals.h"
+#import "GameState.h"
 #import "SoundEngine.h"
 
 @implementation DialogueView
@@ -39,7 +40,14 @@
     self.dialogue = dialogue;
     _useSmallBubble = NO;//smallBubble;
     _buttonText = buttonText;
-    self.view.hidden = YES;
+  }
+  return self;
+}
+
+- (id) initWithBattleItemName:(BattleItemProto *)bip instruction:(NSString *)str {
+  if ((self = [super init])) {
+    _battleItem = bip;
+    _battleItemInstruction = str;
   }
   return self;
 }
@@ -75,14 +83,81 @@
     self.buttonView.hidden = YES;
   }
   self.fbButtonView.hidden = YES;
+  
+  if (_battleItem) {
+    
+    DialogueProto_SpeechSegmentProto_Builder *bldr = [DialogueProto_SpeechSegmentProto builder];
+    bldr.isLeftSide = YES;
+    bldr.speaker = _battleItem.name;
+    bldr.speakerText = _battleItemInstruction;
+    
+    [Globals imageNamed:_battleItem.imgName withView:self.itemIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+    
+    self.dialogue = [[[DialogueProto builder] addSpeechSegment:bldr.build] build];
+    
+    self.itemSpeechBubble.centerY = self.speechBubble.centerY;
+    
+    // Different rocks and leaves
+    {
+      for (UIView *sv in self.bottomGradient.subviews) {
+        [sv removeFromSuperview];
+      }
+      
+      UIImageView *img = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"minileaves.png"]];
+      [self.bottomGradient addSubview:img];
+      img.originY = self.bottomGradient.height-img.height+10.f;
+      img.originX = -42;
+      
+      img = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"minirocks.png"]];
+      [self.bottomGradient addSubview:img];
+      img.originY = self.bottomGradient.height-img.height+10.f;
+      img.originX = -42;
+      
+      self.leftImageView.image = [Globals imageNamed:@"girl2.png"];
+      self.leftImageView.originX = 3.f;
+      
+      if ([Globals isSmallestiPhone]) {
+        self.itemSpeechBubbleImage.highlighted = YES;
+        
+        self.itemSpeechBubble.width = self.itemSpeechBubbleImage.highlightedImage.size.width;
+        
+        self.itemIcon.superview.hidden = YES;
+        
+        self.itemNameLabel.originX = self.itemIcon.superview.originX+3.f;
+        self.itemNameLabel.originY -= 6.f;
+        self.itemInstructionLabel.originY -= 3.f;
+        self.itemInstructionLabel.originX = self.itemNameLabel.originX;
+        self.itemInstructionLabel.width = self.itemInstructionLabel.superview.width-2*self.itemInstructionLabel.originX;
+        
+        self.itemSpeechBubble.centerX = 106.f;
+        self.itemSpeechBubble.centerY = self.itemSpeechBubble.superview.height-35.f;
+      } else {
+        self.itemSpeechBubble.centerX = 162.f;
+        self.itemSpeechBubble.centerY = self.itemSpeechBubble.superview.height-39.f;
+      }
+    }
+    
+    self.speechBubble.hidden = YES;
+    
+    self.speechBubble = self.itemSpeechBubble;
+    self.speakerLabel = self.itemNameLabel;
+    self.dialogueLabel = self.itemInstructionLabel;
+    
+    self.speechBubble.layer.anchorPoint = ccp(0.f, 0.4917);
+  } else {
+    self.itemSpeechBubble.hidden = YES;
+    
+    self.speechBubble.layer.anchorPoint = ccp(0.f, 0.41758);
+  }
+  
+  self.speechBubble.center = ccpAdd(self.speechBubble.center, ccp(-self.speechBubble.frame.size.width/2,
+                                                                  -self.speechBubble.frame.size.height*(0.5-self.speechBubble.layer.anchorPoint.y)));
+  
+  self.view.hidden = YES;
 }
 
 - (void) viewDidAppear:(BOOL)animated {
   [super viewDidAppear:animated];
-  
-  self.speechBubble.layer.anchorPoint = ccp(0.f, 0.41758);
-  self.speechBubble.center = ccpAdd(self.speechBubble.center, ccp(-self.speechBubble.frame.size.width/2,
-                                                                  -self.speechBubble.frame.size.height*(0.5-self.speechBubble.layer.anchorPoint.y)));
   
   self.bottomGradient.alpha = 0.f;
   
@@ -92,7 +167,7 @@
 - (void) setDialogueLabelText:(NSString *)text {
   NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
   [paragraphStyle setLineSpacing:2.6];
-  [paragraphStyle setAlignment:NSTextAlignmentCenter];
+  [paragraphStyle setAlignment:self.dialogueLabel.textAlignment];
   [paragraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
   NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:text attributes:@{NSParagraphStyleAttributeName: paragraphStyle}];
   self.dialogueLabel.attributedText = attributedString;
@@ -115,7 +190,7 @@
           [self.delegate dialogueViewController:self willDisplaySpeechAtIndex:thisIndex];
         }
         
-        if (![oldSS.speakerImage isEqualToString:curSS.speakerImage]) {
+        if (curSS.hasSpeakerImage && ![oldSS.speakerImage isEqualToString:curSS.speakerImage]) {
           NSString *img = [curSS.speakerImage stringByAppendingString:@"Big.png"];
           UIColor *color = self.blackOutSpeakers ? [UIColor colorWithWhite:0.f alpha:1.f] : nil;
           [Globals imageNamed:img withView:self.leftImageView maskedColor:color indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
@@ -131,9 +206,11 @@
           [self.delegate dialogueViewController:self willDisplaySpeechAtIndex:thisIndex];
         }
         
-        NSString *img = [curSS.speakerImage stringByAppendingString:@"Big.png"];
-        UIColor *color = self.blackOutSpeakers ? [UIColor colorWithWhite:0.f alpha:1.f] : nil;
-        [Globals imageNamed:img withView:self.leftImageView maskedColor:color indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+        if (curSS.hasSpeakerImage) {
+          NSString *img = [curSS.speakerImage stringByAppendingString:@"Big.png"];
+          UIColor *color = self.blackOutSpeakers ? [UIColor colorWithWhite:0.f alpha:1.f] : nil;
+          [Globals imageNamed:img withView:self.leftImageView maskedColor:color indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+        }
         
         self.speakerLabel.text = curSS.speaker;
         [self setDialogueLabelText:curSS.speakerText];
@@ -327,7 +404,7 @@
 - (void) continueAndRevealSpeakers {
   self.leftImageView.alpha = 0.f;
   [UIView animateWithDuration:.3f animations:^{
-     self.view.alpha = 1.f;
+    self.view.alpha = 1.f;
   }];
   [self animateNext];
   self.paused = NO;
