@@ -1836,6 +1836,7 @@ static DefaultLanguagesProto* defaultDefaultLanguagesProtoInstance = nil;
 @property (strong) NSString* recipientUserId;
 @property (strong) NSString* senderUserId;
 @property TranslateLanguages defaultLanguage;
+@property BOOL translateOn;
 @end
 
 @implementation PrivateChatDefaultLanguageProto
@@ -1861,11 +1862,24 @@ static DefaultLanguagesProto* defaultDefaultLanguagesProtoInstance = nil;
   hasDefaultLanguage_ = !!value_;
 }
 @synthesize defaultLanguage;
+- (BOOL) hasTranslateOn {
+  return !!hasTranslateOn_;
+}
+- (void) setHasTranslateOn:(BOOL) value_ {
+  hasTranslateOn_ = !!value_;
+}
+- (BOOL) translateOn {
+  return !!translateOn_;
+}
+- (void) setTranslateOn:(BOOL) value_ {
+  translateOn_ = !!value_;
+}
 - (id) init {
   if ((self = [super init])) {
     self.recipientUserId = @"";
     self.senderUserId = @"";
     self.defaultLanguage = TranslateLanguagesArabic;
+    self.translateOn = NO;
   }
   return self;
 }
@@ -1894,6 +1908,9 @@ static PrivateChatDefaultLanguageProto* defaultPrivateChatDefaultLanguageProtoIn
   if (self.hasDefaultLanguage) {
     [output writeEnum:3 value:self.defaultLanguage];
   }
+  if (self.hasTranslateOn) {
+    [output writeBool:4 value:self.translateOn];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -1911,6 +1928,9 @@ static PrivateChatDefaultLanguageProto* defaultPrivateChatDefaultLanguageProtoIn
   }
   if (self.hasDefaultLanguage) {
     size_ += computeEnumSize(3, self.defaultLanguage);
+  }
+  if (self.hasTranslateOn) {
+    size_ += computeBoolSize(4, self.translateOn);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -1956,6 +1976,9 @@ static PrivateChatDefaultLanguageProto* defaultPrivateChatDefaultLanguageProtoIn
   if (self.hasDefaultLanguage) {
     [output appendFormat:@"%@%@: %@\n", indent, @"defaultLanguage", [NSNumber numberWithInteger:self.defaultLanguage]];
   }
+  if (self.hasTranslateOn) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"translateOn", [NSNumber numberWithBool:self.translateOn]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -1973,6 +1996,8 @@ static PrivateChatDefaultLanguageProto* defaultPrivateChatDefaultLanguageProtoIn
       (!self.hasSenderUserId || [self.senderUserId isEqual:otherMessage.senderUserId]) &&
       self.hasDefaultLanguage == otherMessage.hasDefaultLanguage &&
       (!self.hasDefaultLanguage || self.defaultLanguage == otherMessage.defaultLanguage) &&
+      self.hasTranslateOn == otherMessage.hasTranslateOn &&
+      (!self.hasTranslateOn || self.translateOn == otherMessage.translateOn) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -1985,6 +2010,9 @@ static PrivateChatDefaultLanguageProto* defaultPrivateChatDefaultLanguageProtoIn
   }
   if (self.hasDefaultLanguage) {
     hashCode = hashCode * 31 + self.defaultLanguage;
+  }
+  if (self.hasTranslateOn) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.translateOn] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -2038,6 +2066,9 @@ static PrivateChatDefaultLanguageProto* defaultPrivateChatDefaultLanguageProtoIn
   if (other.hasDefaultLanguage) {
     [self setDefaultLanguage:other.defaultLanguage];
   }
+  if (other.hasTranslateOn) {
+    [self setTranslateOn:other.translateOn];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -2074,6 +2105,10 @@ static PrivateChatDefaultLanguageProto* defaultPrivateChatDefaultLanguageProtoIn
         } else {
           [unknownFields mergeVarintField:3 value:value];
         }
+        break;
+      }
+      case 32: {
+        [self setTranslateOn:[input readBool]];
         break;
       }
     }
@@ -2125,6 +2160,22 @@ static PrivateChatDefaultLanguageProto* defaultPrivateChatDefaultLanguageProtoIn
 - (PrivateChatDefaultLanguageProto_Builder*) clearDefaultLanguageList {
   result.hasDefaultLanguage = NO;
   result.defaultLanguage = TranslateLanguagesArabic;
+  return self;
+}
+- (BOOL) hasTranslateOn {
+  return result.hasTranslateOn;
+}
+- (BOOL) translateOn {
+  return result.translateOn;
+}
+- (PrivateChatDefaultLanguageProto_Builder*) setTranslateOn:(BOOL) value {
+  result.hasTranslateOn = YES;
+  result.translateOn = value;
+  return self;
+}
+- (PrivateChatDefaultLanguageProto_Builder*) clearTranslateOn {
+  result.hasTranslateOn = NO;
+  result.translateOn = NO;
   return self;
 }
 @end
