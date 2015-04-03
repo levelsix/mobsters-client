@@ -1619,7 +1619,7 @@ static TranslatedTextProto* defaultTranslatedTextProtoInstance = nil;
 @interface DefaultLanguagesProto ()
 @property TranslateLanguages globalDefaultLanguage;
 @property (strong) NSMutableArray * mutablePrivateDefaultLanguageList;
-@property BOOL translateOn;
+@property BOOL globalTranslateOn;
 @end
 
 @implementation DefaultLanguagesProto
@@ -1633,22 +1633,22 @@ static TranslatedTextProto* defaultTranslatedTextProtoInstance = nil;
 @synthesize globalDefaultLanguage;
 @synthesize mutablePrivateDefaultLanguageList;
 @dynamic privateDefaultLanguageList;
-- (BOOL) hasTranslateOn {
-  return !!hasTranslateOn_;
+- (BOOL) hasGlobalTranslateOn {
+  return !!hasGlobalTranslateOn_;
 }
-- (void) setHasTranslateOn:(BOOL) value_ {
-  hasTranslateOn_ = !!value_;
+- (void) setHasGlobalTranslateOn:(BOOL) value_ {
+  hasGlobalTranslateOn_ = !!value_;
 }
-- (BOOL) translateOn {
-  return !!translateOn_;
+- (BOOL) globalTranslateOn {
+  return !!globalTranslateOn_;
 }
-- (void) setTranslateOn:(BOOL) value_ {
-  translateOn_ = !!value_;
+- (void) setGlobalTranslateOn:(BOOL) value_ {
+  globalTranslateOn_ = !!value_;
 }
 - (id) init {
   if ((self = [super init])) {
     self.globalDefaultLanguage = TranslateLanguagesArabic;
-    self.translateOn = NO;
+    self.globalTranslateOn = NO;
   }
   return self;
 }
@@ -1680,8 +1680,8 @@ static DefaultLanguagesProto* defaultDefaultLanguagesProtoInstance = nil;
   [self.privateDefaultLanguageList enumerateObjectsUsingBlock:^(PrivateChatDefaultLanguageProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:2 value:element];
   }];
-  if (self.hasTranslateOn) {
-    [output writeBool:3 value:self.translateOn];
+  if (self.hasGlobalTranslateOn) {
+    [output writeBool:3 value:self.globalTranslateOn];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -1698,8 +1698,8 @@ static DefaultLanguagesProto* defaultDefaultLanguagesProtoInstance = nil;
   [self.privateDefaultLanguageList enumerateObjectsUsingBlock:^(PrivateChatDefaultLanguageProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(2, element);
   }];
-  if (self.hasTranslateOn) {
-    size_ += computeBoolSize(3, self.translateOn);
+  if (self.hasGlobalTranslateOn) {
+    size_ += computeBoolSize(3, self.globalTranslateOn);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -1745,8 +1745,8 @@ static DefaultLanguagesProto* defaultDefaultLanguagesProtoInstance = nil;
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }];
-  if (self.hasTranslateOn) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"translateOn", [NSNumber numberWithBool:self.translateOn]];
+  if (self.hasGlobalTranslateOn) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"globalTranslateOn", [NSNumber numberWithBool:self.globalTranslateOn]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -1762,8 +1762,8 @@ static DefaultLanguagesProto* defaultDefaultLanguagesProtoInstance = nil;
       self.hasGlobalDefaultLanguage == otherMessage.hasGlobalDefaultLanguage &&
       (!self.hasGlobalDefaultLanguage || self.globalDefaultLanguage == otherMessage.globalDefaultLanguage) &&
       [self.privateDefaultLanguageList isEqualToArray:otherMessage.privateDefaultLanguageList] &&
-      self.hasTranslateOn == otherMessage.hasTranslateOn &&
-      (!self.hasTranslateOn || self.translateOn == otherMessage.translateOn) &&
+      self.hasGlobalTranslateOn == otherMessage.hasGlobalTranslateOn &&
+      (!self.hasGlobalTranslateOn || self.globalTranslateOn == otherMessage.globalTranslateOn) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -1774,8 +1774,8 @@ static DefaultLanguagesProto* defaultDefaultLanguagesProtoInstance = nil;
   [self.privateDefaultLanguageList enumerateObjectsUsingBlock:^(PrivateChatDefaultLanguageProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
-  if (self.hasTranslateOn) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.translateOn] hash];
+  if (self.hasGlobalTranslateOn) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.globalTranslateOn] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -1830,8 +1830,8 @@ static DefaultLanguagesProto* defaultDefaultLanguagesProtoInstance = nil;
       [result.mutablePrivateDefaultLanguageList addObjectsFromArray:other.mutablePrivateDefaultLanguageList];
     }
   }
-  if (other.hasTranslateOn) {
-    [self setTranslateOn:other.translateOn];
+  if (other.hasGlobalTranslateOn) {
+    [self setGlobalTranslateOn:other.globalTranslateOn];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -1870,7 +1870,7 @@ static DefaultLanguagesProto* defaultDefaultLanguagesProtoInstance = nil;
         break;
       }
       case 24: {
-        [self setTranslateOn:[input readBool]];
+        [self setGlobalTranslateOn:[input readBool]];
         break;
       }
     }
@@ -1916,20 +1916,20 @@ static DefaultLanguagesProto* defaultDefaultLanguagesProtoInstance = nil;
   result.mutablePrivateDefaultLanguageList = nil;
   return self;
 }
-- (BOOL) hasTranslateOn {
-  return result.hasTranslateOn;
+- (BOOL) hasGlobalTranslateOn {
+  return result.hasGlobalTranslateOn;
 }
-- (BOOL) translateOn {
-  return result.translateOn;
+- (BOOL) globalTranslateOn {
+  return result.globalTranslateOn;
 }
-- (DefaultLanguagesProto_Builder*) setTranslateOn:(BOOL) value {
-  result.hasTranslateOn = YES;
-  result.translateOn = value;
+- (DefaultLanguagesProto_Builder*) setGlobalTranslateOn:(BOOL) value {
+  result.hasGlobalTranslateOn = YES;
+  result.globalTranslateOn = value;
   return self;
 }
-- (DefaultLanguagesProto_Builder*) clearTranslateOn {
-  result.hasTranslateOn = NO;
-  result.translateOn = NO;
+- (DefaultLanguagesProto_Builder*) clearGlobalTranslateOn {
+  result.hasGlobalTranslateOn = NO;
+  result.globalTranslateOn = NO;
   return self;
 }
 @end
