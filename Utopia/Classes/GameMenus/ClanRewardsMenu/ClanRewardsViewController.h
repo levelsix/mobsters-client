@@ -11,12 +11,6 @@
 #import "NibUtils.h"
 #import "FullEvent.h"
 
-typedef enum {
-  QuestTypeBuildHQ = 0,
-  QuestTypeJoinClan,
-  QuestTypeRequestToon,
-} QuestType;
-
 @protocol ClanRewardsQuestDelegate <NSObject>
 
 - (void) collectClicked:(id)sender;
@@ -47,8 +41,6 @@ typedef enum {
 
 @property (nonatomic, assign) IBOutlet id<ClanRewardsQuestDelegate> delegate;
 
-@property (nonatomic, assign) QuestType questType;
-
 @end
 
 @interface ClanRewardsViewController : UIViewController <ClanRewardsQuestDelegate>
@@ -63,6 +55,7 @@ typedef enum {
 
 @property (nonatomic, retain) IBOutlet UILabel *titleLabel;
 @property (nonatomic, retain) IBOutlet UIImageView *titleDiamond;
+
 - (void) handleAchievementRedeemResponseProto:(FullEvent *)fe;
 
 @end

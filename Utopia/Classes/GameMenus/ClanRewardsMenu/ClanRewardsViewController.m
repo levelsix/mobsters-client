@@ -39,7 +39,7 @@
   self.gemsLabel.textColor = [UIColor colorWithHexString:PURPLE_TEXT];
   
   if(!self.greyScale && !ua.isComplete) {
-//    self.backgroundColor =[UIColor colorWithHexString:GREEN_BG];
+    //    self.backgroundColor =[UIColor colorWithHexString:GREEN_BG];
     self.goButtonLabel.superview.hidden = NO;
     
     self.goButtonLabel.gradientStartColor = [UIColor whiteColor];
@@ -70,7 +70,7 @@
     self.progressLabel.text = [NSString stringWithFormat:@"%d/%d", ua.progress, ap.quantity];
     self.gemsLabel.text = [NSString stringWithFormat:@"%d", ap.gemReward];
     
-//    self.progressView.hidden = self.greyScale;
+    //    self.progressView.hidden = self.greyScale;
     self.diamondIcon.superview.hidden = NO;
     self.checkView.hidden = NO;
   } else if (!ua.isRedeemed) {
@@ -132,25 +132,29 @@
     UserAchievement *ua = gs.myAchievements[@(achievementId)];
     AchievementProto *ap = [gs achievementWithId:achievementId];
     ClanRewardsQuestView *questView = self.questViews[i];
-    questView.questType = i;
     
     if (!ua.isRedeemed && !curActive) {
       curActive = questView;
+      
       self.titleLabel.text = [NSString stringWithFormat:@"%@ TO EARN FREE", [ap.name uppercaseString]];
+      
       CGSize size = [self.titleLabel.text getSizeWithFont:self.titleLabel.font];
       self.titleDiamond.center = CGPointMake(self.titleLabel.center.x+(size.width/2)+(self.titleDiamond.frame.size.width/2), self.titleLabel.center.y);
+      
       CGPoint arrowLocation = CGPointMake((questView.size.width/2) + (questView.size.width * i) , self.squadRewardArrow.center.y);
       self.squadRewardArrow.center = arrowLocation;
+      
       questView.greyScale = NO;
+      
     } else if(!ua.isComplete || ua.isRedeemed) {
       questView.greyScale = YES;
     }
+    
     [questView updateForUserAchievement:ua achievement:ap];
   }
 }
 
 - (void) collectClicked:(id)sender {
-  [self reload];
   NSInteger idx = [self.questViews indexOfObject:sender];
   
   GameState *gs = [GameState sharedGameState];
@@ -159,31 +163,35 @@
     int achievementId = [gl.clanRewardAchievementIds[idx] intValue];
     AchievementProto *ap = [gs achievementWithId:achievementId];
     
-    [[OutgoingEventController sharedOutgoingEventController] redeemAchievement:achievementId delegate:self];
+    [[OutgoingEventController sharedOutgoingEventController] redeemAchievement:achievementId delegate:nil];
     
     [Globals addPurpleAlertNotification:[NSString stringWithFormat:@"You collected %d Gems for completing %@!", ap.gemReward, ap.name] isImmediate:YES];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:ACHIEVEMENTS_CHANGED_NOTIFICATION object:self];
+    
+    [self reload];
   }
 }
 
-- (void) handleAchievementRedeemResponseProto:(FullEvent *)fe {
-//  [self reload];
-}
-
 - (void) goClicked:(id)sender {
-  ClanRewardsQuestView *sentView = (ClanRewardsQuestView *)sender;
-  if(sentView.questType == QuestTypeBuildHQ) {
+  NSInteger idx = [self.questViews indexOfObject:sender];
+  
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  if (idx != NSNotFound && idx < gl.clanRewardAchievementIds.count) {
+    int achievementId = [gl.clanRewardAchievementIds[idx] intValue];
+    AchievementProto *ap = [gs achievementWithId:achievementId];
+    
     GameViewController *gvc = [GameViewController baseController];
-    [gvc arrowToStructInShopWithId:1100];
-    [self closeClicked:sender];
-  } else if(sentView.questType == QuestTypeJoinClan) {
-    GameViewController *gvc = [GameViewController baseController];
-    [gvc arrowToOpenClanMenu];
-    [self closeClicked:sender];
-  } else if(sentView.questType == QuestTypeRequestToon) {
-    GameViewController *gvc = [GameViewController baseController];
-    [gvc arrowToRequestToon];
+    
+    if (ap.achievementType == AchievementProto_AchievementTypeUpgradeBuilding) {
+      [gvc arrowToStructInShopWithId:1100];
+    } else if (ap.achievementType == AchievementProto_AchievementTypeJoinClan) {
+      [gvc arrowToOpenClanMenu];
+    } else if (ap.achievementType == AchievementProto_AchievementTypeRequestToon) {
+      [gvc arrowToRequestToon];
+    }
+    
     [self closeClicked:sender];
   }
 }
