@@ -244,19 +244,23 @@ BOOL TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusIsValidVa
   BOOL hasChatMessage_:1;
   BOOL hasSender_:1;
   BOOL hasScope_:1;
+  BOOL hasGlobalLanguage_:1;
   int64_t clientTime;
   NSString* chatMessage;
   MinimumUserProto* sender;
   GroupChatScope scope;
+  TranslateLanguages globalLanguage;
 }
 - (BOOL) hasSender;
 - (BOOL) hasScope;
 - (BOOL) hasChatMessage;
 - (BOOL) hasClientTime;
+- (BOOL) hasGlobalLanguage;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) GroupChatScope scope;
 @property (readonly, strong) NSString* chatMessage;
 @property (readonly) int64_t clientTime;
+@property (readonly) TranslateLanguages globalLanguage;
 
 + (SendGroupChatRequestProto*) defaultInstance;
 - (SendGroupChatRequestProto*) defaultInstance;
@@ -314,6 +318,11 @@ BOOL TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusIsValidVa
 - (int64_t) clientTime;
 - (SendGroupChatRequestProto_Builder*) setClientTime:(int64_t) value;
 - (SendGroupChatRequestProto_Builder*) clearClientTime;
+
+- (BOOL) hasGlobalLanguage;
+- (TranslateLanguages) globalLanguage;
+- (SendGroupChatRequestProto_Builder*) setGlobalLanguage:(TranslateLanguages) value;
+- (SendGroupChatRequestProto_Builder*) clearGlobalLanguageList;
 @end
 
 @interface SendGroupChatResponseProto : PBGeneratedMessage {
