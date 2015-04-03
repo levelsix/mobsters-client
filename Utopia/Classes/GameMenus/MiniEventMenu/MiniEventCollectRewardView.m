@@ -57,8 +57,7 @@
   [self.collectRewardSpinner setHidden:NO];
   [self.collectRewardSpinner startAnimating];
   
-  [[MiniEventManager sharedInstance] handleRedeemMiniEventRewardInitiatedByUserWithDelegate:self
-                                                                               tierRedeemed:(RedeemMiniEventRewardRequestProto_RewardTier)_rewardTier];
+  [[MiniEventManager sharedInstance] handleRedeemMiniEventRewardInitiatedByUserWithDelegate:self tierRedeemed:(RedeemMiniEventRewardRequestProto_RewardTier)_rewardTier];
 }
 
 - (void) handleRedeemMiniEventRewardResponseProto:(FullEvent*)fe
@@ -67,7 +66,7 @@
   
   if (proto.status == RedeemMiniEventRewardResponseProto_RedeemMiniEventRewardStatusSuccess)
   {
-    [[MiniEventManager sharedInstance] handleRedeemMiniEventRewards:proto.rewards];
+    [[MiniEventManager sharedInstance] handleRedeemMiniEventRewards:proto.rewards tierRedeemed:(RedeemMiniEventRewardRequestProto_RewardTier)_rewardTier];
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(rewardCollectedForTier:)])
     {

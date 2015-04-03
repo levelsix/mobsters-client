@@ -19,6 +19,6 @@
 @property (nonatomic, retain) IBOutlet UIImageView* tierCheckmark;
 @property (nonatomic, retain) IBOutlet UITableView* tierPrizeList;
 
-- (void) updateForTier:(int)tier completed:(BOOL)completed prizeList:(NSArray*)prizeList;
+- (void) updateForTier:(int)tier prizeList:(NSArray*)prizeList;
 
 @end

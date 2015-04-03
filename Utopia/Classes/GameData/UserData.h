@@ -394,6 +394,8 @@ typedef enum {
 
 + (instancetype) userMiniEventWithProto:(UserMiniEventProto*)proto;
 
+- (BOOL) eventHasEnded;
+- (BOOL) allCompletedTiersHaveBeenRedeemed;
 - (UserMiniEventProto*) convertToProto;
 
 @end
