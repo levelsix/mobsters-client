@@ -412,17 +412,17 @@ BOOL TranslateLanguagesIsValidValue(TranslateLanguages value);
 
 @interface DefaultLanguagesProto : PBGeneratedMessage {
 @private
-  BOOL hasTranslateOn_:1;
+  BOOL hasGlobalTranslateOn_:1;
   BOOL hasGlobalDefaultLanguage_:1;
-  BOOL translateOn_:1;
+  BOOL globalTranslateOn_:1;
   TranslateLanguages globalDefaultLanguage;
   NSMutableArray * mutablePrivateDefaultLanguageList;
 }
 - (BOOL) hasGlobalDefaultLanguage;
-- (BOOL) hasTranslateOn;
+- (BOOL) hasGlobalTranslateOn;
 @property (readonly) TranslateLanguages globalDefaultLanguage;
 @property (readonly, strong) NSArray * privateDefaultLanguageList;
-- (BOOL) translateOn;
+- (BOOL) globalTranslateOn;
 - (PrivateChatDefaultLanguageProto*)privateDefaultLanguageAtIndex:(NSUInteger)index;
 
 + (DefaultLanguagesProto*) defaultInstance;
@@ -471,10 +471,10 @@ BOOL TranslateLanguagesIsValidValue(TranslateLanguages value);
 - (DefaultLanguagesProto_Builder *)addAllPrivateDefaultLanguage:(NSArray *)array;
 - (DefaultLanguagesProto_Builder *)clearPrivateDefaultLanguage;
 
-- (BOOL) hasTranslateOn;
-- (BOOL) translateOn;
-- (DefaultLanguagesProto_Builder*) setTranslateOn:(BOOL) value;
-- (DefaultLanguagesProto_Builder*) clearTranslateOn;
+- (BOOL) hasGlobalTranslateOn;
+- (BOOL) globalTranslateOn;
+- (DefaultLanguagesProto_Builder*) setGlobalTranslateOn:(BOOL) value;
+- (DefaultLanguagesProto_Builder*) clearGlobalTranslateOn;
 @end
 
 @interface PrivateChatDefaultLanguageProto : PBGeneratedMessage {
