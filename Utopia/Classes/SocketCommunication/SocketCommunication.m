@@ -974,22 +974,24 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCPrivateChatPostEvent];
 }
 
-- (int) sendRetrievePrivateChatPostsMessage:(NSString *)otherUserUuid {
-  RetrievePrivateChatPostsRequestProto *req = [[[[RetrievePrivateChatPostsRequestProto builder]
-                                                 setOtherUserUuid:otherUserUuid]
-                                                setSender:_sender]
+- (int) sendRetrievePrivateChatPostsMessage:(NSString *)otherUserUuid language:(TranslateLanguages)language{
+  RetrievePrivateChatPostsRequestProto *req = [[[[[RetrievePrivateChatPostsRequestProto builder]
+                                                  setOtherUserUuid:otherUserUuid]
+                                                 setSender:_sender]
+                                                setLanguage:language]
                                                build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCRetrievePrivateChatPostEvent];
 }
 
-- (int) sendTranslateSelectMessages:(NSString *)otherUserUuid language:(TranslateLanguages)language messages:(NSArray *)messages chatType:(ChatType)chatType{
-  TranslateSelectMessagesRequestProto *req = [[[[[[[TranslateSelectMessagesRequestProto builder]
-                                                   setSender:_sender]
-                                                  setOtherUserUuid:otherUserUuid]
-                                                 setLanguage:language]
-                                                addAllMessagesToBeTranslated:messages]
-                                               setChatType:chatType]
+- (int) sendTranslateSelectMessages:(NSString *)otherUserUuid language:(TranslateLanguages)language messages:(NSArray *)messages chatType:(ChatType)chatType translateOn:(BOOL)translateOn {
+  TranslateSelectMessagesRequestProto *req = [[[[[[[[TranslateSelectMessagesRequestProto builder]
+                                                    setSender:_sender]
+                                                   setOtherUserUuid:otherUserUuid]
+                                                  setLanguage:language]
+                                                 addAllMessagesToBeTranslated:messages]
+                                                setChatType:chatType]
+                                               setTranslateOn:translateOn]
                                               build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCTranslateSelectMessagesEvent];

@@ -157,7 +157,9 @@
 @property (nonatomic, retain) UserEvolution *userEvolution;
 
 @property (nonatomic, assign) TranslateLanguages globalLanguage;
+@property (nonatomic, assign) BOOL globalTranslationOn;
 @property (nonatomic, retain) NSMutableDictionary *privateChatLanguages;
+@property (nonatomic, retain) NSMutableDictionary *privateTranslationOn;
 
 + (GameState *) sharedGameState;
 + (void) purgeSingleton;

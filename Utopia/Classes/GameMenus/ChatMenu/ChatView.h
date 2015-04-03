@@ -11,8 +11,8 @@
 #import "ChatCell.h"
 #import "ClanHelp.h"
 
-#define GLOBAL_LANGUAGE_PREFERENCES @"GlobalLanguagePreferences"
-#define PRIVATE_LANGUAGE_PREFERENCES @"PrivateLanguagePreferences"
+//#define GLOBAL_LANGUAGE_PREFERENCES @"GlobalLanguagePreferences"
+//#define PRIVATE_LANGUAGE_PREFERENCES @"PrivateLanguagePreferences"
 
 typedef enum {
   PrivateChatModeAllMessages = 1,
@@ -102,6 +102,10 @@ typedef enum {
 
 @property (nonatomic, assign) BOOL allowAutoScroll;
 
+@property (nonatomic, retain) IBOutlet UIButton *flagButton;
+@property (nonatomic, retain) IBOutlet UIImageView *flagCheckImage;
+@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *flagSpinner;
+
 - (void) updateForChats:(NSArray *)chats animated:(BOOL)animated;
 
 - (IBAction)sendChatClicked:(id)sender;
@@ -109,10 +113,6 @@ typedef enum {
 @end
 
 @interface GlobalChatView : ChatView
-
-@property (nonatomic, retain) IBOutlet UIButton *flagButton;
-@property (nonatomic, retain) IBOutlet UIImageView *flagCheckImage;
-@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *flagSpinner;
 
 @end
 
@@ -169,10 +169,6 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UIButton *defensiveLogTabButton;
 @property (nonatomic, retain) IBOutlet UIButton *offensiveLogTabButton;
 @property (nonatomic, retain) IBOutlet UILabel *unreadDefenseLog;
-
-@property (nonatomic, retain) IBOutlet UIButton *flagButton;
-@property (nonatomic, retain) IBOutlet UIImageView *flagCheckImage;
-@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *flagSpinner;
 
 - (void) addPrivateChat:(PrivateChatPostProto *)pcpp;
 - (void) updateForPrivateChatList:(NSArray *)privateChats;
