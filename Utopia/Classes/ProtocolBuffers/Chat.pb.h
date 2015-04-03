@@ -87,26 +87,25 @@ BOOL TranslateLanguagesIsValidValue(TranslateLanguages value);
   BOOL hasContent_:1;
   BOOL hasPoster_:1;
   BOOL hasRecipient_:1;
-  BOOL hasTranslatedContent_:1;
   int64_t timeOfPost;
   NSString* privateChatPostUuid;
   NSString* content;
   MinimumUserProtoWithLevel* poster;
   MinimumUserProtoWithLevel* recipient;
-  TranslatedTextProto* translatedContent;
+  NSMutableArray * mutableTranslatedContentList;
 }
 - (BOOL) hasPrivateChatPostUuid;
 - (BOOL) hasPoster;
 - (BOOL) hasRecipient;
 - (BOOL) hasTimeOfPost;
 - (BOOL) hasContent;
-- (BOOL) hasTranslatedContent;
 @property (readonly, strong) NSString* privateChatPostUuid;
 @property (readonly, strong) MinimumUserProtoWithLevel* poster;
 @property (readonly, strong) MinimumUserProtoWithLevel* recipient;
 @property (readonly) int64_t timeOfPost;
 @property (readonly, strong) NSString* content;
-@property (readonly, strong) TranslatedTextProto* translatedContent;
+@property (readonly, strong) NSArray * translatedContentList;
+- (TranslatedTextProto*)translatedContentAtIndex:(NSUInteger)index;
 
 + (PrivateChatPostProto*) defaultInstance;
 - (PrivateChatPostProto*) defaultInstance;
@@ -172,12 +171,11 @@ BOOL TranslateLanguagesIsValidValue(TranslateLanguages value);
 - (PrivateChatPostProto_Builder*) setContent:(NSString*) value;
 - (PrivateChatPostProto_Builder*) clearContent;
 
-- (BOOL) hasTranslatedContent;
-- (TranslatedTextProto*) translatedContent;
-- (PrivateChatPostProto_Builder*) setTranslatedContent:(TranslatedTextProto*) value;
-- (PrivateChatPostProto_Builder*) setTranslatedContent_Builder:(TranslatedTextProto_Builder*) builderForValue;
-- (PrivateChatPostProto_Builder*) mergeTranslatedContent:(TranslatedTextProto*) value;
-- (PrivateChatPostProto_Builder*) clearTranslatedContent;
+- (NSMutableArray *)translatedContentList;
+- (TranslatedTextProto*)translatedContentAtIndex:(NSUInteger)index;
+- (PrivateChatPostProto_Builder *)addTranslatedContent:(TranslatedTextProto*)value;
+- (PrivateChatPostProto_Builder *)addAllTranslatedContent:(NSArray *)array;
+- (PrivateChatPostProto_Builder *)clearTranslatedContent;
 @end
 
 @interface ColorProto : PBGeneratedMessage {
