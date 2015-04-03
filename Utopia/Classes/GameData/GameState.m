@@ -71,6 +71,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     
     _privateChats = [[NSMutableArray alloc] init];
     _privateChatLanguages = [[NSMutableDictionary alloc] init];
+    _privateTranslationOn = [[NSMutableDictionary alloc] init];
     
     _unrespondedUpdates = [[NSMutableArray alloc] init];
     

@@ -195,9 +195,14 @@ static float buttonInitialWidth = 159.f;
 @implementation PrivateChatListCell
 
 - (void) updateForPrivateChat:(id<ChatObject>)pcpp language:(TranslateLanguages)language{
-  self.privateChat = pcpp;
+  if(language != TranslateLanguagesNoTranslation) {
+    PrivateChatPostProto *postProto = (PrivateChatPostProto *)pcpp;
+    self.msgLabel.text = postProto.translatedContent.text;
+  } else {
+    self.msgLabel.text = [pcpp message];
+  }
   
-  self.msgLabel.text = [pcpp message];
+  self.privateChat = pcpp;
   self.timeLabel.text = [Globals stringForTimeSinceNow:[pcpp date] shortened:NO];
   self.nameLabel.text = pcpp.otherUser.name;
   self.unreadIcon.hidden = [pcpp isRead];

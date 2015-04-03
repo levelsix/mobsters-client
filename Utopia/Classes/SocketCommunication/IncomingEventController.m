@@ -519,18 +519,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [gs addPrivateChat:pcpp];
     }
     
-    if(proto.userDefaultLanguages.globalDefaultLanguage == TranslateLanguagesNoTranslation) {
-      NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
-      if (![def integerForKey:GLOBAL_LANGUAGE_PREFERENCES]) {
-        //if there is no saved language just set english
-        [def setInteger:(int)TranslateLanguagesEnglish forKey:GLOBAL_LANGUAGE_PREFERENCES];
-      }
-    }
-    
     [gs.privateChatLanguages removeAllObjects];
     gs.globalLanguage = proto.userDefaultLanguages.globalDefaultLanguage;
+    gs.globalTranslationOn = proto.userDefaultLanguages.globalTranslateOn;
     for (PrivateChatDefaultLanguageProto *pcdl in proto.userDefaultLanguages.privateDefaultLanguageList) {
       [gs.privateChatLanguages setValue:@(pcdl.defaultLanguage) forKey:pcdl.senderUserId];
+      [gs.privateTranslationOn setValue:@(pcdl.translateOn) forKey:pcdl.senderUserId];
     }
     
     [gs updateClanData:proto.clanData];
@@ -1150,6 +1144,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     GameState *gs = [GameState sharedGameState];
     [gs addPrivateChat:proto.post];
     //add here
+    //okay I will
+    if (![gs.privateChatLanguages valueForKey:proto.post.poster.minUserProto.userUuid]) {
+      [gs.privateChatLanguages setValue:@(proto.translationSetting.defaultLanguage) forKey:proto.post.poster.minUserProto.userUuid];
+      [gs.privateTranslationOn setValue:@(proto.translationSetting.translateOn) forKey:proto.post.poster.minUserProto.userUuid];
+    }
     
     [[NSNotificationCenter defaultCenter] postNotificationName:PRIVATE_CHAT_RECEIVED_NOTIFICATION object:nil userInfo:
      [NSDictionary dictionaryWithObject:proto.post forKey:[NSString stringWithFormat:PRIVATE_CHAT_DEFAULTS_KEY, proto.post.otherUser.userUuid]]];

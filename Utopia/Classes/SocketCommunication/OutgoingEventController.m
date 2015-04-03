@@ -1149,12 +1149,16 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 }
 
 - (void) retrievePrivateChatPosts:(NSString *)otherUserUuid delegate:(id)delegate {
-  int tag = [[SocketCommunication sharedSocketCommunication] sendRetrievePrivateChatPostsMessage:otherUserUuid];
+  GameState *gs  = [GameState sharedGameState];
+  
+  NSNumber *savedLanguageNumber = [gs.privateChatLanguages valueForKey:otherUserUuid];
+  
+  int tag = [[SocketCommunication sharedSocketCommunication] sendRetrievePrivateChatPostsMessage:otherUserUuid language:(TranslateLanguages)savedLanguageNumber.integerValue];
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
 }
 
-- (void) translateSelectMessages:(NSArray *)messages language:(TranslateLanguages)language otherUserUuid:(NSString *)otherUserUuid chatType:(ChatType)chatType delegate:(id)delegate {
-  int tag = [[SocketCommunication sharedSocketCommunication] sendTranslateSelectMessages:otherUserUuid language:language messages:messages chatType:chatType];
+- (void) translateSelectMessages:(NSArray *)messages language:(TranslateLanguages)language otherUserUuid:(NSString *)otherUserUuid chatType:(ChatType)chatType translateOn:(BOOL)translateOn delegate:(id)delegate {
+  int tag = [[SocketCommunication sharedSocketCommunication] sendTranslateSelectMessages:otherUserUuid language:language messages:messages chatType:chatType translateOn:translateOn];
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
 }
 

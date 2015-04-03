@@ -93,7 +93,7 @@
 - (void) privateChatPost:(NSString *)recipientUuid content:(NSString *)content;
 - (void) retrievePrivateChatPosts:(NSString *)otherUserUuid delegate:(id)delegate;
 
-- (void) translateSelectMessages:(NSArray *)messages language:(TranslateLanguages)language otherUserUuid:(NSString *)otherUserUuid chatType:(ChatType)chatType delegate:(id)delegate;
+- (void) translateSelectMessages:(NSArray *)messages language:(TranslateLanguages)language otherUserUuid:(NSString *)otherUserUuid chatType:(ChatType)chatType translateOn:(BOOL)translateOn delegate:(id)delegate;
 
 - (void) setAvatarMonster:(int)avatarMonsterId;
 - (void) setDefendingMessage:(NSString *)defendingMessage;
