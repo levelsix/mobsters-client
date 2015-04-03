@@ -461,9 +461,11 @@ BOOL TranslateLanguagesIsValidValue(TranslateLanguages value);
 
 @interface PrivateChatDefaultLanguageProto : PBGeneratedMessage {
 @private
+  BOOL hasTranslateOn_:1;
   BOOL hasRecipientUserId_:1;
   BOOL hasSenderUserId_:1;
   BOOL hasDefaultLanguage_:1;
+  BOOL translateOn_:1;
   NSString* recipientUserId;
   NSString* senderUserId;
   TranslateLanguages defaultLanguage;
@@ -471,9 +473,11 @@ BOOL TranslateLanguagesIsValidValue(TranslateLanguages value);
 - (BOOL) hasRecipientUserId;
 - (BOOL) hasSenderUserId;
 - (BOOL) hasDefaultLanguage;
+- (BOOL) hasTranslateOn;
 @property (readonly, strong) NSString* recipientUserId;
 @property (readonly, strong) NSString* senderUserId;
 @property (readonly) TranslateLanguages defaultLanguage;
+- (BOOL) translateOn;
 
 + (PrivateChatDefaultLanguageProto*) defaultInstance;
 - (PrivateChatDefaultLanguageProto*) defaultInstance;
@@ -524,6 +528,11 @@ BOOL TranslateLanguagesIsValidValue(TranslateLanguages value);
 - (TranslateLanguages) defaultLanguage;
 - (PrivateChatDefaultLanguageProto_Builder*) setDefaultLanguage:(TranslateLanguages) value;
 - (PrivateChatDefaultLanguageProto_Builder*) clearDefaultLanguageList;
+
+- (BOOL) hasTranslateOn;
+- (BOOL) translateOn;
+- (PrivateChatDefaultLanguageProto_Builder*) setTranslateOn:(BOOL) value;
+- (PrivateChatDefaultLanguageProto_Builder*) clearTranslateOn;
 @end
 
 
