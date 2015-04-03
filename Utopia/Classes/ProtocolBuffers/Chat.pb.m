@@ -59,7 +59,7 @@ BOOL TranslateLanguagesIsValidValue(TranslateLanguages value) {
 @property (strong) MinimumUserProtoWithLevel* recipient;
 @property int64_t timeOfPost;
 @property (strong) NSString* content;
-@property (strong) TranslatedTextProto* translatedContent;
+@property (strong) NSMutableArray * mutableTranslatedContentList;
 @end
 
 @implementation PrivateChatPostProto
@@ -99,13 +99,8 @@ BOOL TranslateLanguagesIsValidValue(TranslateLanguages value) {
   hasContent_ = !!value_;
 }
 @synthesize content;
-- (BOOL) hasTranslatedContent {
-  return !!hasTranslatedContent_;
-}
-- (void) setHasTranslatedContent:(BOOL) value_ {
-  hasTranslatedContent_ = !!value_;
-}
-@synthesize translatedContent;
+@synthesize mutableTranslatedContentList;
+@dynamic translatedContentList;
 - (id) init {
   if ((self = [super init])) {
     self.privateChatPostUuid = @"";
@@ -113,7 +108,6 @@ BOOL TranslateLanguagesIsValidValue(TranslateLanguages value) {
     self.recipient = [MinimumUserProtoWithLevel defaultInstance];
     self.timeOfPost = 0L;
     self.content = @"";
-    self.translatedContent = [TranslatedTextProto defaultInstance];
   }
   return self;
 }
@@ -128,6 +122,12 @@ static PrivateChatPostProto* defaultPrivateChatPostProtoInstance = nil;
 }
 - (PrivateChatPostProto*) defaultInstance {
   return defaultPrivateChatPostProtoInstance;
+}
+- (NSArray *)translatedContentList {
+  return mutableTranslatedContentList;
+}
+- (TranslatedTextProto*)translatedContentAtIndex:(NSUInteger)index {
+  return [mutableTranslatedContentList objectAtIndex:index];
 }
 - (BOOL) isInitialized {
   return YES;
@@ -148,9 +148,9 @@ static PrivateChatPostProto* defaultPrivateChatPostProtoInstance = nil;
   if (self.hasContent) {
     [output writeString:5 value:self.content];
   }
-  if (self.hasTranslatedContent) {
-    [output writeMessage:6 value:self.translatedContent];
-  }
+  [self.translatedContentList enumerateObjectsUsingBlock:^(TranslatedTextProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:6 value:element];
+  }];
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -175,9 +175,9 @@ static PrivateChatPostProto* defaultPrivateChatPostProtoInstance = nil;
   if (self.hasContent) {
     size_ += computeStringSize(5, self.content);
   }
-  if (self.hasTranslatedContent) {
-    size_ += computeMessageSize(6, self.translatedContent);
-  }
+  [self.translatedContentList enumerateObjectsUsingBlock:^(TranslatedTextProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(6, element);
+  }];
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
   return size_;
@@ -234,12 +234,12 @@ static PrivateChatPostProto* defaultPrivateChatPostProtoInstance = nil;
   if (self.hasContent) {
     [output appendFormat:@"%@%@: %@\n", indent, @"content", self.content];
   }
-  if (self.hasTranslatedContent) {
+  [self.translatedContentList enumerateObjectsUsingBlock:^(TranslatedTextProto *element, NSUInteger idx, BOOL *stop) {
     [output appendFormat:@"%@%@ {\n", indent, @"translatedContent"];
-    [self.translatedContent writeDescriptionTo:output
-                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
-  }
+  }];
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -261,8 +261,7 @@ static PrivateChatPostProto* defaultPrivateChatPostProtoInstance = nil;
       (!self.hasTimeOfPost || self.timeOfPost == otherMessage.timeOfPost) &&
       self.hasContent == otherMessage.hasContent &&
       (!self.hasContent || [self.content isEqual:otherMessage.content]) &&
-      self.hasTranslatedContent == otherMessage.hasTranslatedContent &&
-      (!self.hasTranslatedContent || [self.translatedContent isEqual:otherMessage.translatedContent]) &&
+      [self.translatedContentList isEqualToArray:otherMessage.translatedContentList] &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -282,9 +281,9 @@ static PrivateChatPostProto* defaultPrivateChatPostProtoInstance = nil;
   if (self.hasContent) {
     hashCode = hashCode * 31 + [self.content hash];
   }
-  if (self.hasTranslatedContent) {
-    hashCode = hashCode * 31 + [self.translatedContent hash];
-  }
+  [self.translatedContentList enumerateObjectsUsingBlock:^(TranslatedTextProto *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
@@ -343,8 +342,12 @@ static PrivateChatPostProto* defaultPrivateChatPostProtoInstance = nil;
   if (other.hasContent) {
     [self setContent:other.content];
   }
-  if (other.hasTranslatedContent) {
-    [self mergeTranslatedContent:other.translatedContent];
+  if (other.mutableTranslatedContentList.count > 0) {
+    if (result.mutableTranslatedContentList == nil) {
+      result.mutableTranslatedContentList = [[NSMutableArray alloc] initWithArray:other.mutableTranslatedContentList];
+    } else {
+      [result.mutableTranslatedContentList addObjectsFromArray:other.mutableTranslatedContentList];
+    }
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -399,11 +402,8 @@ static PrivateChatPostProto* defaultPrivateChatPostProtoInstance = nil;
       }
       case 50: {
         TranslatedTextProto_Builder* subBuilder = [TranslatedTextProto builder];
-        if (self.hasTranslatedContent) {
-          [subBuilder mergeFrom:self.translatedContent];
-        }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setTranslatedContent:[subBuilder buildPartial]];
+        [self addTranslatedContent:[subBuilder buildPartial]];
         break;
       }
     }
@@ -517,34 +517,28 @@ static PrivateChatPostProto* defaultPrivateChatPostProtoInstance = nil;
   result.content = @"";
   return self;
 }
-- (BOOL) hasTranslatedContent {
-  return result.hasTranslatedContent;
+- (NSMutableArray *)translatedContentList {
+  return result.mutableTranslatedContentList;
 }
-- (TranslatedTextProto*) translatedContent {
-  return result.translatedContent;
+- (TranslatedTextProto*)translatedContentAtIndex:(NSUInteger)index {
+  return [result translatedContentAtIndex:index];
 }
-- (PrivateChatPostProto_Builder*) setTranslatedContent:(TranslatedTextProto*) value {
-  result.hasTranslatedContent = YES;
-  result.translatedContent = value;
-  return self;
-}
-- (PrivateChatPostProto_Builder*) setTranslatedContent_Builder:(TranslatedTextProto_Builder*) builderForValue {
-  return [self setTranslatedContent:[builderForValue build]];
-}
-- (PrivateChatPostProto_Builder*) mergeTranslatedContent:(TranslatedTextProto*) value {
-  if (result.hasTranslatedContent &&
-      result.translatedContent != [TranslatedTextProto defaultInstance]) {
-    result.translatedContent =
-      [[[TranslatedTextProto builderWithPrototype:result.translatedContent] mergeFrom:value] buildPartial];
-  } else {
-    result.translatedContent = value;
+- (PrivateChatPostProto_Builder *)addTranslatedContent:(TranslatedTextProto*)value {
+  if (result.mutableTranslatedContentList == nil) {
+    result.mutableTranslatedContentList = [[NSMutableArray alloc]init];
   }
-  result.hasTranslatedContent = YES;
+  [result.mutableTranslatedContentList addObject:value];
   return self;
 }
-- (PrivateChatPostProto_Builder*) clearTranslatedContent {
-  result.hasTranslatedContent = NO;
-  result.translatedContent = [TranslatedTextProto defaultInstance];
+- (PrivateChatPostProto_Builder *)addAllTranslatedContent:(NSArray *)array {
+  if (result.mutableTranslatedContentList == nil) {
+    result.mutableTranslatedContentList = [NSMutableArray array];
+  }
+  [result.mutableTranslatedContentList addObjectsFromArray:array];
+  return self;
+}
+- (PrivateChatPostProto_Builder *)clearTranslatedContent {
+  result.mutableTranslatedContentList = nil;
   return self;
 }
 @end
