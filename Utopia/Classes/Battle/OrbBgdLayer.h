@@ -42,4 +42,6 @@ static const float darknessForTilesAnimDuration = 0.3f;
 
 - (void) reloadTiles;
 
+- (void) playVineExpansion:(NSString*)directionString onTile:(BattleTile*)tile withCompletion:(void(^)())withCompletion;
+
 @end

@@ -382,6 +382,21 @@
   }
 }
 
+- (void) destroyVines:(BattleOrb *)orb {
+  
+  OrbSprite *orbLayer = [self spriteForOrb:orb];
+  
+  if (orbLayer) {
+    [orbLayer removeVineElements];
+    
+    CCParticleSystem *q = [CCParticleSystem particleWithFile:@"vinebreak@2x.plist"];
+    [self addChild:q z:100];
+    q.scale = .4f;
+    q.position = orbLayer.position;
+    q.autoRemoveOnFinish = YES;
+  }
+}
+
 - (void) cloudPoof:(BattleOrb *)orb {
   OrbSprite *orbLayer = [self spriteForOrb:orb];
   
@@ -402,6 +417,8 @@
   } else if (orb.changeType == OrbChangeTypeCloudDecremented) {
     [self cloudPoof:orb];
     [self decrementCloud:orb];
+  } else if (orb.changeType == OrbChangeTypeVineRemoved) {
+    [self destroyVines:orb];
   }
   
   // Set orb sprite's change type to none so it doesnt happen again
