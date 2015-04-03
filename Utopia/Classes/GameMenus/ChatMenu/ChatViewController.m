@@ -368,8 +368,6 @@
 - (void) viewedPrivateChat {
   [self updateBadges];
   
-  self.flagButton.superview.hidden = NO;
-  
   GameState *gs = [GameState sharedGameState];
   [self.privateChatView updateForPrivateChatList:[gs allPrivateChats]];
   
