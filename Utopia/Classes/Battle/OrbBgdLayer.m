@@ -11,6 +11,7 @@
 #import "TileSprite.h"
 #import "NibUtils.h"
 #import "Globals.h"
+#import "CCAnimation+SpriteLoading.h"
 
 #define IPHONE_5_TILE_SIZE 36
 #define IPHONE_6_TILE_SIZE 42
@@ -360,6 +361,25 @@
       BattleTile* tile = [_layout tileAtColumn:col row:row];
       [self turnTheLightForTile:tile on:on instantly:instantly];
     }
+}
+
+- (void) playVineExpansion:(NSString*)directionString onTile:(BattleTile*)tile withCompletion:(void(^)())withCompletion {
+  //Make sure that animation is in cache
+  [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"Vines%@.plist", directionString]];
+  
+  CCSprite *vineArm = [CCSprite node];
+  [[self spriteForTile:tile depth:TileDepthTop] addChild:vineArm z:1.f];
+  CCAnimation *anim = [CCAnimation animationWithSpritePrefix:[NSString stringWithFormat:@"Vines%@", directionString] delay:.05f];
+  
+  [vineArm runAction:[CCActionSequence actions:
+                      [CCActionAnimate actionWithAnimation:anim],
+                      [CCActionCallBlock actionWithBlock:^{
+                          withCompletion();
+                        }],
+                      [CCActionDelay actionWithDuration:.5f],
+                      [CCActionAnimate actionWithAnimation:anim.reversedAnimation],
+                      [CCActionRemove action],
+                      nil]];
 }
 
 @end

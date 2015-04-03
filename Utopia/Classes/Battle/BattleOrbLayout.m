@@ -461,10 +461,6 @@
     } else if ([prop.name isEqualToString:ORB_LOCKED]) {
       orb.isLocked = YES;
       shouldCreate = YES;
-      
-#warning Temp code to turn all locks into vines for testing
-      orb.isVines = YES;
-      _numVines++;
     } else if ([prop.name isEqualToString:ORB_VINES]) {
       orb.isLocked = YES;
       orb.isVines = YES;

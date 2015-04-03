@@ -2368,7 +2368,9 @@
     {
       orb.isVines = YES;
       orb.isLocked = YES;
-      [[self.orbLayer.swipeLayer spriteForOrb:other] playVineExpansion:other.vineGrowDirection withCompletion:^{
+      BattleTile* originTile = [self.orbLayer.layout tileAtColumn:other.column row:other.row];
+      
+      [self.orbLayer.bgdLayer playVineExpansion:other.vineGrowDirection onTile:originTile withCompletion:^{
         [[self.orbLayer.swipeLayer spriteForOrb:orb] reloadSprite:NO];
       }];
     }
