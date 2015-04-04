@@ -2025,6 +2025,9 @@
 		6BA24E091A7AEA6E00BEF920 /* SkillTakeAim.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA24E081A7AEA6E00BEF920 /* SkillTakeAim.m */; };
 		6BA24E0A1A7AEA6E00BEF920 /* SkillTakeAim.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA24E081A7AEA6E00BEF920 /* SkillTakeAim.m */; };
 		6BA24E0B1A7AEA6E00BEF920 /* SkillTakeAim.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA24E081A7AEA6E00BEF920 /* SkillTakeAim.m */; };
+		6BAD471E1ACF445700966D85 /* poisonantidote.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6BAD471D1ACF445700966D85 /* poisonantidote.plist */; };
+		6BAD47201ACF446300966D85 /* poisonantidote.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6BAD471D1ACF445700966D85 /* poisonantidote.plist */; };
+		6BAD47211ACF446400966D85 /* poisonantidote.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6BAD471D1ACF445700966D85 /* poisonantidote.plist */; };
 		6BB26BC61A78190C0014342B /* SkillPoisonPowder.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB26BC51A78190C0014342B /* SkillPoisonPowder.m */; };
 		6BB26BC71A78190C0014342B /* SkillPoisonPowder.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB26BC51A78190C0014342B /* SkillPoisonPowder.m */; };
 		6BB26BC81A78190C0014342B /* SkillPoisonPowder.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB26BC51A78190C0014342B /* SkillPoisonPowder.m */; };
@@ -8192,6 +8195,7 @@
 		6BA24DF21A7A9ECF00BEF920 /* SkillBloodRage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillBloodRage.m; sourceTree = "<group>"; };
 		6BA24E061A7AEA6100BEF920 /* SkillTakeAim.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SkillTakeAim.h; sourceTree = "<group>"; };
 		6BA24E081A7AEA6E00BEF920 /* SkillTakeAim.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillTakeAim.m; sourceTree = "<group>"; };
+		6BAD471D1ACF445700966D85 /* poisonantidote.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = poisonantidote.plist; sourceTree = "<group>"; };
 		6BB26BC41A7818FB0014342B /* SkillPoisonPowder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillPoisonPowder.h; sourceTree = "<group>"; };
 		6BB26BC51A78190C0014342B /* SkillPoisonPowder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillPoisonPowder.m; sourceTree = "<group>"; };
 		6BB5F85B1A800935006515B9 /* TutorialBuildingUpgradeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialBuildingUpgradeController.h; sourceTree = "<group>"; };
@@ -17970,6 +17974,7 @@
 		DA07606919B12A2000E43E5A /* Skills Images */ = {
 			isa = PBXGroup;
 			children = (
+				6BAD471D1ACF445700966D85 /* poisonantidote.plist */,
 				6B2DA9A61AC9C0B2000B37A8 /* bringdownarrow@2x.png */,
 				DA86922219C76CFA00320A74 /* skilltail.plist */,
 				DA88EB3519B7E224005EE827 /* skillactive.plist */,
@@ -18722,6 +18727,7 @@
 				9BDA8C4E1A5F6DAB00C7AC27 /* grabgemslabel@2x.png in Resources */,
 				CF0CF047196F452900ECD301 /* legenddot@2x.png in Resources */,
 				CFA728AC1A0B037900FF6031 /* lighteventbigbg@2x.png in Resources */,
+				6BAD47201ACF446300966D85 /* poisonantidote.plist in Resources */,
 				29AE75AF1A6F36E000264070 /* Kim1T1AttackNF@2x.plist in Resources */,
 				CF0CF049196F452900ECD301 /* 4x4dark@2x.png in Resources */,
 				CF0CF04A196F452900ECD301 /* ultradot@2x.png in Resources */,
@@ -21341,6 +21347,7 @@
 				CF951F6D19394E3400A98290 /* emptyslot@2x.png in Resources */,
 				29DCCFD21A8C3310003176FD /* fallinggems01@2x.png in Resources */,
 				CF7064E51846D58E005B30A1 /* home@2x.tmx in Resources */,
+				6BAD471E1ACF445700966D85 /* poisonantidote.plist in Resources */,
 				634174681A843521006DA494 /* avengebutton@2x.png in Resources */,
 				CFF786C618E1045C00413E78 /* activeraid@2x.png in Resources */,
 				CFE9D34D194A714F00BD930E /* gachaultraball@2x.png in Resources */,
@@ -23661,6 +23668,7 @@
 				2992D7B91AA5326B00547B11 /* gemminebg@2x.png in Resources */,
 				CF48213319F7217F00041486 /* sfx_firework_02.mp3 in Resources */,
 				CF48213419F7217F00041486 /* 2splashbg@2x.png in Resources */,
+				6BAD47211ACF446400966D85 /* poisonantidote.plist in Resources */,
 				CFA9F7981A0D8F6300EBE77D /* greenitemsbutton@2x.png in Resources */,
 				CF48213719F7217F00041486 /* eventsinactive@2x.png in Resources */,
 				CF48213819F7217F00041486 /* questlines@2x.png in Resources */,

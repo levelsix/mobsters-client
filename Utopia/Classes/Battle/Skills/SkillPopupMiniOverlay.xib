@@ -27,6 +27,10 @@
                             <rect key="frame" x="-73" y="65" width="220" height="195"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="dUN-lp-191" userLabel="Item Image">
+                            <rect key="frame" x="16" y="159" width="70" height="60"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                        </imageView>
                         <view contentMode="scaleToFill" id="oQA-Aj-Dce" userLabel="Skill">
                             <rect key="frame" x="85" y="148" width="300" height="71"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
@@ -73,6 +77,10 @@
                             <rect key="frame" x="263" y="65" width="220" height="195"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="71i-Tn-Wq4" userLabel="Item Image">
+                            <rect key="frame" x="328" y="136" width="82" height="87"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                        </imageView>
                         <view contentMode="scaleToFill" id="xKg-J5-h8d" userLabel="Skill">
                             <rect key="frame" x="25" y="148" width="300" height="71"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
@@ -112,6 +120,8 @@
                 <outlet property="_avatarPlayer" destination="XOF-Jy-miL" id="jdZ-9O-0MH"/>
                 <outlet property="_imageEnemy" destination="PmX-mw-UZk" id="Xj2-nb-v2F"/>
                 <outlet property="_imagePlayer" destination="0KA-xH-FJl" id="Ytv-zN-Zr0"/>
+                <outlet property="_itemImageEnemy" destination="71i-Tn-Wq4" id="Z2k-wm-SEt"/>
+                <outlet property="_itemImagePlayer" destination="dUN-lp-191" id="SR9-yo-MeO"/>
                 <outlet property="_leavesImageEnemy" destination="zJL-oP-bsm" id="6cq-KP-cof"/>
                 <outlet property="_leavesImagePlayer" destination="qRQ-Rl-ymv" id="fEv-kc-sMN"/>
                 <outlet property="_rocksImageEnemy" destination="JZ7-Xt-SdZ" id="fyh-Hp-TUp"/>

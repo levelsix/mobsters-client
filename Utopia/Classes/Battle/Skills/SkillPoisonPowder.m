@@ -40,6 +40,9 @@
     if (execute)
     {
       [self endDurationNow];
+      [self performAfterDelay:.25f block:^{
+        [self.opponentSprite playStatusAntidoteEffect];
+      }];
       [self showAntidotePopupOverlay:antidote bottomText:@"Poison Removed"];
     }
     return YES;

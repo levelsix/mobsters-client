@@ -66,6 +66,7 @@
     {
       [self endDurationNow];
       [self showAntidotePopupOverlay:antidote bottomText:@"Chill Removed"];
+      [self.opponentSprite playStatusAntidoteEffect];
       self.battleLayer.movesLeft += _turnsSkipped;
     }
     return YES;
