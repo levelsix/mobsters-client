@@ -27,7 +27,7 @@
 - (id) initWithProto:(GroupChatMessageProto *)p {
   if ((self = [super init])) {
     self.originalMessage = p.content;
-    self.originalLanguage = YES;
+    self.originalLanguage = p.contentLanguage;
     self.translatedTextProtos = [NSMutableArray arrayWithArray:p.translatedContentList];
     self.sender = p.sender.minUserProto;
     self.date = [MSDate dateWithTimeIntervalSince1970:p.timeOfChat/1000.];
@@ -66,30 +66,49 @@
 
 - (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag language:(TranslateLanguages)language {
   GameState *gs = [GameState sharedGameState];
-  NSString *translatedMessage = self.message;
+  NSString *translatedMessage = self.originalMessage;
+  
+  //this if for determining if the revert translation should show
+  TranslateLanguages translationLanguage = TranslateLanguagesNoTranslation;
   
   for(TranslatedTextProto *ttp in self.translatedTextProtos) {
     if (ttp.language == language) {
       translatedMessage = ttp.text;
-      originalLanguage = NO;
+      translationLanguage = language;
       break;
     }
   }
   
-  if (self.revertedTranslation || [self.sender.userUuid isEqualToString:[gs minUser].userUuid]) {
+  if (self.revertedTranslation || self.originalLanguage == language || [self.sender.userUuid isEqualToString:[gs minUser].userUuid]) {
     translatedMessage = self.originalMessage;
+    translationLanguage = TranslateLanguagesNoTranslation;
   }
   
-  [chatCell updateForMessage:translatedMessage sender:self.sender date:self.date showsClanTag:showsClanTag];
+  [chatCell updateForMessage:translatedMessage showsClanTag:showsClanTag translatedTo:translationLanguage chatMessage:self];
 }
 
 - (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell language:(TranslateLanguages)language{
+  GameState *gs = [GameState sharedGameState];
+  
   [self updateInChatCell:chatCell showsClanTag:NO language:language];
-  return CGRectGetMaxY(chatCell.msgLabel.frame)+14.f;
+  float translationSpace = 0.f;
+  
+  if (self.originalLanguage != language && ![self.sender.userUuid isEqualToString:[gs minUser].userUuid]) {
+    translationSpace = 20.f;
+  }
+  
+  return CGRectGetMaxY(chatCell.msgLabel.frame)+14.f+translationSpace;
 }
 
 - (void) markAsRead {
   self.isRead = YES;
+}
+
+- (IBAction) untranslateClicked:(UIButton *)sender {
+  self.revertedTranslation = !self.revertedTranslation;
+  
+  ChatCell *chatCell = (ChatCell *)[sender getAncestorInViewHierarchyOfType:[ChatCell class]];
+  [self updateInChatCell:chatCell showsClanTag: language:];
 }
 
 @end

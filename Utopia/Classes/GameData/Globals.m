@@ -1605,6 +1605,25 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
 }
 
++ (NSString *) translationDescriptionWith:(TranslateLanguages)language{
+  switch (language) {
+    case TranslateLanguagesArabic:
+      return @"Translated to Arabic";
+    case TranslateLanguagesEnglish:
+      return @"Translated to English";
+    case TranslateLanguagesFrench:
+      return @"Translated to French";
+    case TranslateLanguagesGerman:
+      return @"Translated to German";
+    case TranslateLanguagesRussian:
+      return @"Translated to Russian";
+    case TranslateLanguagesSpanish:
+      return @"Translated to Spanish";
+    default:
+      return @"";
+  }
+}
+
 + (NSString*) getDoubleResolutionImage:(NSString*)path useiPhone6Prefix:(BOOL)iPhone6Prefix {
   if ([path rangeOfString:@"http"].location != NSNotFound) {
     return path;

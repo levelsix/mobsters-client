@@ -41,9 +41,9 @@
   
   if (displayLanguage == TranslateLanguagesNoTranslation) {
     self.msgLabel.text = cm.message;
-  } else if ([cm isKindOfClass:[ChatMessage class]]){
-    ChatMessage *cMessage = (ChatMessage *)cm;
-    for (TranslatedTextProto *ttp in cMessage.translatedTextProtos) {
+  } else if ([cm isKindOfClass:[PrivateChatPostProto class]]){
+    PrivateChatPostProto *pcpp = (PrivateChatPostProto *)cm;
+    for (TranslatedTextProto *ttp in pcpp.translatedContentList) {
       if (ttp.language == displayLanguage) {
         self.msgLabel.text = cm.message;
       }
