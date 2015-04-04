@@ -87,11 +87,13 @@ BOOL TranslateLanguagesIsValidValue(TranslateLanguages value);
   BOOL hasContent_:1;
   BOOL hasPoster_:1;
   BOOL hasRecipient_:1;
+  BOOL hasOriginalContentLanguage_:1;
   int64_t timeOfPost;
   NSString* privateChatPostUuid;
   NSString* content;
   MinimumUserProtoWithLevel* poster;
   MinimumUserProtoWithLevel* recipient;
+  TranslateLanguages originalContentLanguage;
   NSMutableArray * mutableTranslatedContentList;
 }
 - (BOOL) hasPrivateChatPostUuid;
@@ -99,11 +101,13 @@ BOOL TranslateLanguagesIsValidValue(TranslateLanguages value);
 - (BOOL) hasRecipient;
 - (BOOL) hasTimeOfPost;
 - (BOOL) hasContent;
+- (BOOL) hasOriginalContentLanguage;
 @property (readonly, strong) NSString* privateChatPostUuid;
 @property (readonly, strong) MinimumUserProtoWithLevel* poster;
 @property (readonly, strong) MinimumUserProtoWithLevel* recipient;
 @property (readonly) int64_t timeOfPost;
 @property (readonly, strong) NSString* content;
+@property (readonly) TranslateLanguages originalContentLanguage;
 @property (readonly, strong) NSArray * translatedContentList;
 - (TranslatedTextProto*)translatedContentAtIndex:(NSUInteger)index;
 
@@ -170,6 +174,11 @@ BOOL TranslateLanguagesIsValidValue(TranslateLanguages value);
 - (NSString*) content;
 - (PrivateChatPostProto_Builder*) setContent:(NSString*) value;
 - (PrivateChatPostProto_Builder*) clearContent;
+
+- (BOOL) hasOriginalContentLanguage;
+- (TranslateLanguages) originalContentLanguage;
+- (PrivateChatPostProto_Builder*) setOriginalContentLanguage:(TranslateLanguages) value;
+- (PrivateChatPostProto_Builder*) clearOriginalContentLanguageList;
 
 - (NSMutableArray *)translatedContentList;
 - (TranslatedTextProto*)translatedContentAtIndex:(NSUInteger)index;
