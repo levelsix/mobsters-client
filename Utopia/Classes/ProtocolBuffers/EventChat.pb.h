@@ -554,27 +554,27 @@ BOOL TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusIsValidVa
 
 @interface PrivateChatPostResponseProto : PBGeneratedMessage {
 @private
-  BOOL hasTranslationRequired_:1;
   BOOL hasSender_:1;
   BOOL hasPost_:1;
   BOOL hasTranslationSetting_:1;
   BOOL hasStatus_:1;
-  BOOL translationRequired_:1;
+  BOOL hasOriginalContentLanguage_:1;
   MinimumUserProto* sender;
   PrivateChatPostProto* post;
   PrivateChatDefaultLanguageProto* translationSetting;
   PrivateChatPostResponseProto_PrivateChatPostStatus status;
+  TranslateLanguages originalContentLanguage;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 - (BOOL) hasPost;
 - (BOOL) hasTranslationSetting;
-- (BOOL) hasTranslationRequired;
+- (BOOL) hasOriginalContentLanguage;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) PrivateChatPostResponseProto_PrivateChatPostStatus status;
 @property (readonly, strong) PrivateChatPostProto* post;
 @property (readonly, strong) PrivateChatDefaultLanguageProto* translationSetting;
-- (BOOL) translationRequired;
+@property (readonly) TranslateLanguages originalContentLanguage;
 
 + (PrivateChatPostResponseProto*) defaultInstance;
 - (PrivateChatPostResponseProto*) defaultInstance;
@@ -637,10 +637,10 @@ BOOL TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusIsValidVa
 - (PrivateChatPostResponseProto_Builder*) mergeTranslationSetting:(PrivateChatDefaultLanguageProto*) value;
 - (PrivateChatPostResponseProto_Builder*) clearTranslationSetting;
 
-- (BOOL) hasTranslationRequired;
-- (BOOL) translationRequired;
-- (PrivateChatPostResponseProto_Builder*) setTranslationRequired:(BOOL) value;
-- (PrivateChatPostResponseProto_Builder*) clearTranslationRequired;
+- (BOOL) hasOriginalContentLanguage;
+- (TranslateLanguages) originalContentLanguage;
+- (PrivateChatPostResponseProto_Builder*) setOriginalContentLanguage:(TranslateLanguages) value;
+- (PrivateChatPostResponseProto_Builder*) clearOriginalContentLanguageList;
 @end
 
 @interface RetrievePrivateChatPostsRequestProto : PBGeneratedMessage {
