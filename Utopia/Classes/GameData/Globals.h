@@ -55,7 +55,7 @@
 #define CLAN_CHAT_VIEWED_NOTIFICATION @"ClanChatViewedNotification"
 #define STRENGTH_CHANGED_NOTIFICATION @"StrengthChangedNotification"
 
-#define GOBAL_CHAT_LANGUAGE_CHANGED @"GlobalChatLanguageChanged"
+#define CHAT_LANGUAGE_CHANGED @"ChatLanguageChanged"
 
 #define RECEIVED_CLAN_HELP_NOTIFICATION @"ReceivedClanHelpNotification"
 #define CLAN_HELPS_CHANGED_NOTIFICATION @"ClanHelpsChangedNotification"

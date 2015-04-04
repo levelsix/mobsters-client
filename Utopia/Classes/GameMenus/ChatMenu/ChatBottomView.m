@@ -29,7 +29,6 @@
   if (scope == ChatScopeGlobal) {
     displayLanguage = gs.globalTranslationOn ? gs.globalLanguage : TranslateLanguagesNoTranslation;
   } else if (scope == ChatScopePrivate) {
-#warning I'm not sure that this userUuid is the Id i think it is
     NSNumber *savedTranslateOnNumber = [gs.privateTranslationOn valueForKey:cm.sender.userUuid];
     NSNumber *savedTranslateLanguageNumber = [gs.privateChatLanguages valueForKey:cm.sender.userUuid];
     
@@ -41,11 +40,18 @@
   
   if (displayLanguage == TranslateLanguagesNoTranslation) {
     self.msgLabel.text = cm.message;
+    
   } else if ([cm isKindOfClass:[PrivateChatPostProto class]]){
     PrivateChatPostProto *pcpp = (PrivateChatPostProto *)cm;
-    for (TranslatedTextProto *ttp in pcpp.translatedContentList) {
-      if (ttp.language == displayLanguage) {
-        self.msgLabel.text = cm.message;
+    
+    if(displayLanguage == pcpp.originalContentLanguage) {
+      self.msgLabel.text = cm.message;
+      
+    } else {
+      for (TranslatedTextProto *ttp in pcpp.translatedContentList) {
+        if (ttp.language == displayLanguage) {
+          self.msgLabel.text = ttp.text;
+        }
       }
     }
   } else {
