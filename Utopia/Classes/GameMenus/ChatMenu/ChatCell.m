@@ -50,10 +50,6 @@ static float buttonInitialWidth = 159.f;
 }
 
 - (void) updateForMessage:(NSString *)message showsClanTag:(BOOL)showsClanTag translatedTo:(TranslateLanguages)translatedTo chatMessage:(ChatMessage *)chatMessage {
-  
-  [self.untranslateButton removeTarget:nil action:NULL forControlEvents:UIControlEventTouchUpInside];
-  [self.untranslateButton addTarget:chatMessage action:@selector(untranslateClicked:) forControlEvents:UIControlEventTouchUpInside];
-  
   [self updateForMessage:message sender:chatMessage.sender date:chatMessage.date showsClanTag:showsClanTag allowHighlight:YES chatSubview:nil identifier:nil translatedTo:translatedTo untranslate:chatMessage.revertedTranslation];
 }
 
@@ -121,7 +117,7 @@ static float buttonInitialWidth = 159.f;
   self.msgLabel.width = self.mainView.width-66.f;
   
   //translation tag and button
-  self.translationDescription.superview.hidden = translatedTo == TranslateLanguagesNoTranslation;
+  self.translationDescription.superview.hidden = translatedTo == TranslateLanguagesNoTranslation && !untranslate;
   if (untranslate) {
     self.translationDescription.text = @"Untranslated";
   } else {

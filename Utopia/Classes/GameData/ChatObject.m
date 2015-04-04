@@ -93,7 +93,7 @@
   [self updateInChatCell:chatCell showsClanTag:NO language:language];
   float translationSpace = 0.f;
   
-  if (self.originalLanguage != language && ![self.sender.userUuid isEqualToString:[gs minUser].userUuid]) {
+  if ((language != TranslateLanguagesNoTranslation || self.revertedTranslation) && ![self.sender.userUuid isEqualToString:gs.userUuid] && language != self.originalLanguage) {
     translationSpace = 20.f;
   }
   
@@ -102,13 +102,6 @@
 
 - (void) markAsRead {
   self.isRead = YES;
-}
-
-- (IBAction) untranslateClicked:(UIButton *)sender {
-  self.revertedTranslation = !self.revertedTranslation;
-  
-  ChatCell *chatCell = (ChatCell *)[sender getAncestorInViewHierarchyOfType:[ChatCell class]];
-  [self updateInChatCell:chatCell showsClanTag: language:];
 }
 
 @end
