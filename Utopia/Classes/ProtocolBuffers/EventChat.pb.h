@@ -558,23 +558,19 @@ BOOL TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusIsValidVa
   BOOL hasPost_:1;
   BOOL hasTranslationSetting_:1;
   BOOL hasStatus_:1;
-  BOOL hasOriginalContentLanguage_:1;
   MinimumUserProto* sender;
   PrivateChatPostProto* post;
   PrivateChatDefaultLanguageProto* translationSetting;
   PrivateChatPostResponseProto_PrivateChatPostStatus status;
-  TranslateLanguages originalContentLanguage;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 - (BOOL) hasPost;
 - (BOOL) hasTranslationSetting;
-- (BOOL) hasOriginalContentLanguage;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) PrivateChatPostResponseProto_PrivateChatPostStatus status;
 @property (readonly, strong) PrivateChatPostProto* post;
 @property (readonly, strong) PrivateChatDefaultLanguageProto* translationSetting;
-@property (readonly) TranslateLanguages originalContentLanguage;
 
 + (PrivateChatPostResponseProto*) defaultInstance;
 - (PrivateChatPostResponseProto*) defaultInstance;
@@ -636,11 +632,6 @@ BOOL TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusIsValidVa
 - (PrivateChatPostResponseProto_Builder*) setTranslationSetting_Builder:(PrivateChatDefaultLanguageProto_Builder*) builderForValue;
 - (PrivateChatPostResponseProto_Builder*) mergeTranslationSetting:(PrivateChatDefaultLanguageProto*) value;
 - (PrivateChatPostResponseProto_Builder*) clearTranslationSetting;
-
-- (BOOL) hasOriginalContentLanguage;
-- (TranslateLanguages) originalContentLanguage;
-- (PrivateChatPostResponseProto_Builder*) setOriginalContentLanguage:(TranslateLanguages) value;
-- (PrivateChatPostResponseProto_Builder*) clearOriginalContentLanguageList;
 @end
 
 @interface RetrievePrivateChatPostsRequestProto : PBGeneratedMessage {

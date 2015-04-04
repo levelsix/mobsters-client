@@ -59,6 +59,7 @@ BOOL TranslateLanguagesIsValidValue(TranslateLanguages value) {
 @property (strong) MinimumUserProtoWithLevel* recipient;
 @property int64_t timeOfPost;
 @property (strong) NSString* content;
+@property TranslateLanguages originalContentLanguage;
 @property (strong) NSMutableArray * mutableTranslatedContentList;
 @end
 
@@ -99,6 +100,13 @@ BOOL TranslateLanguagesIsValidValue(TranslateLanguages value) {
   hasContent_ = !!value_;
 }
 @synthesize content;
+- (BOOL) hasOriginalContentLanguage {
+  return !!hasOriginalContentLanguage_;
+}
+- (void) setHasOriginalContentLanguage:(BOOL) value_ {
+  hasOriginalContentLanguage_ = !!value_;
+}
+@synthesize originalContentLanguage;
 @synthesize mutableTranslatedContentList;
 @dynamic translatedContentList;
 - (id) init {
@@ -108,6 +116,7 @@ BOOL TranslateLanguagesIsValidValue(TranslateLanguages value) {
     self.recipient = [MinimumUserProtoWithLevel defaultInstance];
     self.timeOfPost = 0L;
     self.content = @"";
+    self.originalContentLanguage = TranslateLanguagesArabic;
   }
   return self;
 }
@@ -151,6 +160,9 @@ static PrivateChatPostProto* defaultPrivateChatPostProtoInstance = nil;
   [self.translatedContentList enumerateObjectsUsingBlock:^(TranslatedTextProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:6 value:element];
   }];
+  if (self.hasOriginalContentLanguage) {
+    [output writeEnum:7 value:self.originalContentLanguage];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -178,6 +190,9 @@ static PrivateChatPostProto* defaultPrivateChatPostProtoInstance = nil;
   [self.translatedContentList enumerateObjectsUsingBlock:^(TranslatedTextProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(6, element);
   }];
+  if (self.hasOriginalContentLanguage) {
+    size_ += computeEnumSize(7, self.originalContentLanguage);
+  }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
   return size_;
@@ -240,6 +255,9 @@ static PrivateChatPostProto* defaultPrivateChatPostProtoInstance = nil;
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }];
+  if (self.hasOriginalContentLanguage) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"originalContentLanguage", [NSNumber numberWithInteger:self.originalContentLanguage]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -262,6 +280,8 @@ static PrivateChatPostProto* defaultPrivateChatPostProtoInstance = nil;
       self.hasContent == otherMessage.hasContent &&
       (!self.hasContent || [self.content isEqual:otherMessage.content]) &&
       [self.translatedContentList isEqualToArray:otherMessage.translatedContentList] &&
+      self.hasOriginalContentLanguage == otherMessage.hasOriginalContentLanguage &&
+      (!self.hasOriginalContentLanguage || self.originalContentLanguage == otherMessage.originalContentLanguage) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -284,6 +304,9 @@ static PrivateChatPostProto* defaultPrivateChatPostProtoInstance = nil;
   [self.translatedContentList enumerateObjectsUsingBlock:^(TranslatedTextProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
+  if (self.hasOriginalContentLanguage) {
+    hashCode = hashCode * 31 + self.originalContentLanguage;
+  }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
@@ -341,6 +364,9 @@ static PrivateChatPostProto* defaultPrivateChatPostProtoInstance = nil;
   }
   if (other.hasContent) {
     [self setContent:other.content];
+  }
+  if (other.hasOriginalContentLanguage) {
+    [self setOriginalContentLanguage:other.originalContentLanguage];
   }
   if (other.mutableTranslatedContentList.count > 0) {
     if (result.mutableTranslatedContentList == nil) {
@@ -404,6 +430,15 @@ static PrivateChatPostProto* defaultPrivateChatPostProtoInstance = nil;
         TranslatedTextProto_Builder* subBuilder = [TranslatedTextProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addTranslatedContent:[subBuilder buildPartial]];
+        break;
+      }
+      case 56: {
+        TranslateLanguages value = (TranslateLanguages)[input readEnum];
+        if (TranslateLanguagesIsValidValue(value)) {
+          [self setOriginalContentLanguage:value];
+        } else {
+          [unknownFields mergeVarintField:7 value:value];
+        }
         break;
       }
     }
@@ -515,6 +550,22 @@ static PrivateChatPostProto* defaultPrivateChatPostProtoInstance = nil;
 - (PrivateChatPostProto_Builder*) clearContent {
   result.hasContent = NO;
   result.content = @"";
+  return self;
+}
+- (BOOL) hasOriginalContentLanguage {
+  return result.hasOriginalContentLanguage;
+}
+- (TranslateLanguages) originalContentLanguage {
+  return result.originalContentLanguage;
+}
+- (PrivateChatPostProto_Builder*) setOriginalContentLanguage:(TranslateLanguages) value {
+  result.hasOriginalContentLanguage = YES;
+  result.originalContentLanguage = value;
+  return self;
+}
+- (PrivateChatPostProto_Builder*) clearOriginalContentLanguageList {
+  result.hasOriginalContentLanguage = NO;
+  result.originalContentLanguage = TranslateLanguagesArabic;
   return self;
 }
 - (NSMutableArray *)translatedContentList {
