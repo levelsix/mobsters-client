@@ -58,18 +58,20 @@
   return damage;
 }
 
-- (BOOL)cureStatusWithAntidote:(BattleItemType)antidoteType execute:(BOOL)execute
+- (BattleItemType)antidoteType
 {
-  if ([self isActive] && antidoteType == BattleItemTypeChillAntidote)
-  {
-    if (execute)
-    {
-      [self endDurationNow];
-      self.battleLayer.movesLeft += _turnsSkipped;
-    }
-    return YES;
-  }
-  return NO;
+  return BattleItemTypeChillAntidote;
+}
+
+- (void)onCureStatus
+{
+  self.battleLayer.movesLeft += _turnsSkipped;
+  [super onCureStatus];
+}
+
+- (NSString *)cureBottomText
+{
+  return @"Poison Removed";
 }
 
 #pragma mark Skill Logic

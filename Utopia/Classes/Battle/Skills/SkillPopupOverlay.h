@@ -21,6 +21,7 @@ typedef void(^SkillPopupBlock)();
 @property (nonatomic, retain) NSString *topText;
 @property (nonatomic, retain) NSString *bottomText;
 @property (nonatomic, assign) BOOL miniPopup;
+@property (nonatomic, assign) BOOL item;
 @property (nonatomic, retain) SkillPopupData *next;
 @property (nonatomic, assign) float priority;
 @property (nonatomic, assign) SkillPopupBlock skillCompletion;
@@ -28,6 +29,7 @@ typedef void(^SkillPopupBlock)();
 
 + (instancetype) initWithData:(BOOL)player characterImage:(UIImageView*)characterImage topText:(NSString*)topText bottomText:(NSString*)bottomText
                          mini:(BOOL)mini stacks:(int)stacks completion:(SkillPopupBlock)completion;
+
 - (void) enqueue:(SkillPopupData*)other;
 @end
 
@@ -45,6 +47,9 @@ typedef void(^SkillPopupBlock)();
   __weak IBOutlet UIImageView *_leavesImagePlayer;
   __weak IBOutlet UIImageView *_leavesImageEnemy;
   
+  __weak IBOutlet UIImageView *_itemImagePlayer;
+  __weak IBOutlet UIImageView *_itemImageEnemy;
+  
   __weak IBOutlet UIView *_skillPlayer;
   __weak IBOutlet UIView *_skillEnemy;
   
@@ -59,7 +64,7 @@ typedef void(^SkillPopupBlock)();
 }
 
 - (void) animate:(BOOL)player withImage:(UIImage*)characterImage topText:(NSString*)topText bottomText:(NSString*)bottomtext
-       miniPopup:(BOOL)mini stacks:(int)stacks withCompletion:(SkillPopupBlock)completion;
+       miniPopup:(BOOL)mini item:(BOOL)item stacks:(int)stacks withCompletion:(SkillPopupBlock)completion;
 - (void) quickHide:(BOOL)player;
 - (void) hideWithCompletion:(SkillPopupBlock)completion forPlayer:(BOOL)player;
 

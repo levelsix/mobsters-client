@@ -1904,6 +1904,9 @@
 		6B1EAA811ACF5DD600E0B642 /* vinebreak@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B1EAA801ACF5DD600E0B642 /* vinebreak@2x.plist */; };
 		6B1EAA821ACF5DD600E0B642 /* vinebreak@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B1EAA801ACF5DD600E0B642 /* vinebreak@2x.plist */; };
 		6B1EAA831ACF5DD600E0B642 /* vinebreak@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B1EAA801ACF5DD600E0B642 /* vinebreak@2x.plist */; };
+		6B1EAAAA1ACF827900E0B642 /* conditionremoved7.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B1EAAA91ACF827900E0B642 /* conditionremoved7.plist */; };
+		6B1EAAAB1ACF827900E0B642 /* conditionremoved7.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B1EAAA91ACF827900E0B642 /* conditionremoved7.plist */; };
+		6B1EAAAC1ACF827900E0B642 /* conditionremoved7.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B1EAAA91ACF827900E0B642 /* conditionremoved7.plist */; };
 		6B2DA9A71AC9C0B2000B37A8 /* bringdownarrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B2DA9A61AC9C0B2000B37A8 /* bringdownarrow@2x.png */; };
 		6B2DA9A81AC9C0B2000B37A8 /* bringdownarrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B2DA9A61AC9C0B2000B37A8 /* bringdownarrow@2x.png */; };
 		6B2DA9A91AC9C0B2000B37A8 /* bringdownarrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B2DA9A61AC9C0B2000B37A8 /* bringdownarrow@2x.png */; };
@@ -8145,6 +8148,7 @@
 		6B1EA99C1ACF5DCB00E0B642 /* VinesUp@2x.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "VinesUp@2x.pvr.ccz"; sourceTree = "<group>"; };
 		6B1EA99D1ACF5DCB00E0B642 /* VinesUp@2x.tps */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "VinesUp@2x.tps"; sourceTree = "<group>"; };
 		6B1EAA801ACF5DD600E0B642 /* vinebreak@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "vinebreak@2x.plist"; sourceTree = "<group>"; };
+		6B1EAAA91ACF827900E0B642 /* conditionremoved7.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = conditionremoved7.plist; sourceTree = "<group>"; };
 		6B2DA9A61AC9C0B2000B37A8 /* bringdownarrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bringdownarrow@2x.png"; sourceTree = "<group>"; };
 		6B3BC16A1A8BC67E00E0D457 /* SkillPoisonSkewer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SkillPoisonSkewer.h; sourceTree = "<group>"; };
 		6B3BC16C1A8BC68E00E0D457 /* SkillPoisonSkewer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillPoisonSkewer.m; sourceTree = "<group>"; };
@@ -17970,6 +17974,7 @@
 		DA07606919B12A2000E43E5A /* Skills Images */ = {
 			isa = PBXGroup;
 			children = (
+				6B1EAAA91ACF827900E0B642 /* conditionremoved7.plist */,
 				6B2DA9A61AC9C0B2000B37A8 /* bringdownarrow@2x.png */,
 				DA86922219C76CFA00320A74 /* skilltail.plist */,
 				DA88EB3519B7E224005EE827 /* skillactive.plist */,
@@ -19946,6 +19951,7 @@
 				29AE75CA1A6F36E000264070 /* MilitaryGirl0T1AttackNF@2x.pvr.ccz in Resources */,
 				CF0CF658196F452900ECD301 /* bigsquarebottom@2x.png in Resources */,
 				CF6CA6B119DA2AA40075C98C /* findamatchtext@2x.png in Resources */,
+				6B1EAAAB1ACF827900E0B642 /* conditionremoved7.plist in Resources */,
 				CFF9DD7919B861F200CA9A8E /* lightenhancebg@2x.png in Resources */,
 				CF6A650819D252D00002E05D /* 6lightgrenade@2x.png in Resources */,
 				6B5146941AA1487100B2844A /* 6lightlsorb@2x.png in Resources */,
@@ -21044,6 +21050,7 @@
 				CFE7CD481819FC3300930847 /* earthbar@2x.png in Resources */,
 				CFCD0ED31953F07400EDC233 /* rareband@2x.png in Resources */,
 				CFCD0EE91953F07400EDC233 /* lightmediumsquare@2x.png in Resources */,
+				6B1EAAAA1ACF827900E0B642 /* conditionremoved7.plist in Resources */,
 				CFF64695195A6A0B00C43641 /* superdot@2x.png in Resources */,
 				29AF48BC1AAA93DA0034927C /* itembagbottommiddle@2x.png in Resources */,
 				CFF7874918E28FE200413E78 /* hirelockedslot@2x.png in Resources */,
@@ -22784,6 +22791,7 @@
 				29DCD0511A8D8514003176FD /* fallinggems24@2x.png in Resources */,
 				CF481BF919F7217F00041486 /* goldprofribbon@2x.png in Resources */,
 				299AA4EA1A7872C300A2D806 /* nightgrenade@2x.png in Resources */,
+				6B1EAAAC1ACF827900E0B642 /* conditionremoved7.plist in Resources */,
 				63C57EB01A66282700ED406E /* gradientnightdailylab@2x.png in Resources */,
 				6B1EAA001ACF5DCC00E0B642 /* VinesMain13.png in Resources */,
 				9B2389FC1A363EE800FA3743 /* earthskilldescription@2x.png in Resources */,

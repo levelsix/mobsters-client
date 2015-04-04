@@ -378,9 +378,24 @@
   [self skillTriggerFinished];
 }
 
-- (BOOL) cureStatusWithAntidote:(BattleItemType)antidoteType execute:(BOOL)execute
+- (BattleItemType)antidoteType
+{
+  return BattleItemTypeNone;
+}
+
+- (BOOL) cureStatusWithAntidote:(BattleItemProto*)antidote execute:(BOOL)execute
 {
   return NO;
+}
+
+- (void)onCureStatus
+{
+  //Placeholder
+}
+
+- (NSString *)cureBottomText
+{
+  return @"";
 }
 
 #pragma mark - UI
@@ -447,24 +462,6 @@
   return [self processSkillDescription:desc];
 }
 
-- (void) showSkillPopupOverlayInternal
-{
-  SkillProto* skillProto = [[GameState sharedGameState].staticSkills objectForKey:[NSNumber numberWithInteger:_skillId]];
-  _popupBottomText = [self processedSkillDescription];
-  [self showSkillPopupOverlayInternal:NO topText:skillProto.name onUser:YES];
-}
-
-- (void) showSkillPopupMiniOverlayInternal
-{
-  SkillProto* skillProto = [[GameState sharedGameState].staticSkills objectForKey:[NSNumber numberWithInteger:_skillId]];
-  [self showSkillPopupOverlayInternal:YES topText:skillProto.name onUser:YES];
-}
-
-- (void) showSkillAilmentOverlayInternal:(NSString*)ailmentName
-{
-  [self showSkillPopupOverlayInternal:YES topText:ailmentName onUser:NO];
-}
-
 - (void) showCurrentSkillPopup
 {
   if (!_currentSkillPopup) return;
@@ -480,7 +477,7 @@
   SkillPopupOverlay *tempPopup = _popupOverlay;
   
   [_popupOverlay animate:_currentSkillPopup.player withImage:_currentSkillPopup.characterImage.image topText:_currentSkillPopup.topText
-              bottomText:_currentSkillPopup.bottomText miniPopup:_currentSkillPopup.miniPopup stacks:_currentSkillPopup.stacks withCompletion:
+              bottomText:_currentSkillPopup.bottomText miniPopup:_currentSkillPopup.miniPopup item:_currentSkillPopup.item stacks:_currentSkillPopup.stacks withCompletion:
    ^{
      // Hide popup and call block, if it hasn't been hidden yet
      if (_popupOverlay == tempPopup)
@@ -489,44 +486,6 @@
      }
    }];
   
-  // Hide pieces of battle hud
-  if (self.belongsToPlayer)
-  {
-    [UIView animateWithDuration:0.1 animations:^{
-      self.battleLayer.hudView.bottomView.alpha = 0.0;
-    } completion:^(BOOL finished) {
-      self.battleLayer.hudView.bottomView.hidden = YES;
-    }];
-  }
-}
-
-- (void) showSkillPopupOverlayInternal:(BOOL)mini topText:(NSString*)topText onUser:(BOOL)onUser
-{
-  // Create overlay
-  UIView *parentView = self.battleLayer.hudView;
-  _popupOverlay = [[[NSBundle mainBundle] loadNibNamed:mini ? @"SkillPopupMiniOverlay" : @"SkillPopupOverlay" owner:self options:nil] objectAtIndex:0];
-  [_popupOverlay setBounds:parentView.bounds];
-  [_popupOverlay setOrigin:CGPointMake((parentView.width - _popupOverlay.width)/2, (parentView.height - _popupOverlay.height)/2)];
-  /*
-  if (mini && !_belongsToPlayer)
-  {
-    // Move enemy's mini overlay to the left of the puzzle board
-    [_popupOverlay setOriginX:_popupOverlay.originX - (self.battleLayer.contentSize.width - (self.battleLayer.lootBgd.position.x +
-                                                                                             self.battleLayer.lootBgd.contentSize.width))];
-  }
-   */
-  [parentView addSubview:_popupOverlay];
-  [_popupOverlay animate:(_belongsToPlayer == onUser) withImage:(onUser ? self.userSprite.characterImageView.image : self.opponentSprite.characterImageView.image) topText:topText
-                      bottomText:_popupBottomText miniPopup:mini stacks:0 withCompletion:
-   ^{
-     // Hide popup and call block
-     if (_popupOverlay)
-     {
-       [self hideSkillPopupOverlayInternal];
-       _popupOverlay = nil;
-     }
-   }];
-
   // Hide pieces of battle hud
   if (self.belongsToPlayer)
   {
@@ -658,6 +617,30 @@
   else
   {
     _callbackBlockForPopup = completion;
+    [self enqueueSkillPopup:data];
+    [self showCurrentSkillPopup];
+  }
+}
+
+- (void) showAntidotePopupOverlay:(BattleItemProto*)antidote bottomText:(NSString*)bottomText
+{
+  UIImageView *antidoteImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
+  [Globals imageNamed:antidote.imgName withView:antidoteImageView greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+  
+  SkillPopupData *data = [SkillPopupData initWithData:!self.belongsToPlayer characterImage:antidoteImageView topText:antidote.name bottomText:bottomText mini:YES stacks:0 completion:^{}];
+  
+  data.item = YES;
+  data.priority = 2;
+  
+  SkillController *opponentSkillController = self.belongsToPlayer ? ([skillManager enemySkillControler]) : ([skillManager playerSkillControler]);
+  if (opponentSkillController)
+  {
+    [opponentSkillController enqueueSkillPopup:data withCompletion:^{}];
+    [opponentSkillController showCurrentSkillPopup];
+  }
+  else
+  {
+    _callbackBlockForPopup = nil;
     [self enqueueSkillPopup:data];
     [self showCurrentSkillPopup];
   }

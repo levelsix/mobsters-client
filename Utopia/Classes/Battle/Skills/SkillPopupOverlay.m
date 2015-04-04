@@ -37,6 +37,7 @@ typedef void (^ShakeAnimCompletionBlock)(void);
   data.skillCompletion = completion;
   data.stacks = stacks;
   data.priority = 0;
+  data.item = NO;
   return data;
 }
 
@@ -73,7 +74,7 @@ typedef void (^ShakeAnimCompletionBlock)(void);
 }
 
 - (void) animate:(BOOL)player withImage:(UIImage*)characterImage topText:(NSString*)topText bottomText:(NSString*)bottomtext
-       miniPopup:(BOOL)mini stacks:(int)stacks withCompletion:(SkillPopupBlock)completion
+       miniPopup:(BOOL)mini item:(BOOL)item stacks:(int)stacks withCompletion:(SkillPopupBlock)completion
 {
   ////////////
   // Layout //
@@ -85,16 +86,20 @@ typedef void (^ShakeAnimCompletionBlock)(void);
   [_imagePlayer setTransform:CGAffineTransformMakeScale(-1.f, 1.f)];
   [_rocksImageEnemy setTransform:CGAffineTransformMakeScale(-1.f, 1.f)];
   [_leavesImageEnemy setTransform:CGAffineTransformMakeScale(-1.f, 1.f)];
+  [_itemImageEnemy setTransform:CGAffineTransformMakeScale(-1.f, 1.f)];
+  
   [Globals setAnchorPoint:CGPointMake(0.f, .5f) onView:_skillPlayer];
   [Globals setAnchorPoint:CGPointMake(1.f, .5f) onView:_skillEnemy];
+  
   [_rocksImagePlayer setOrigin:CGPointMake(_rocksImagePlayer.origin.x - viewShakeRadius, _rocksImagePlayer.origin.y + viewShakeRadius)];
   [_leavesImagePlayer setOrigin:CGPointMake(_leavesImagePlayer.origin.x - viewShakeRadius, _leavesImagePlayer.origin.y + viewShakeRadius)];
+  
   [_rocksImageEnemy setOrigin:CGPointMake(_rocksImageEnemy.origin.x + viewShakeRadius, _rocksImageEnemy.origin.y + viewShakeRadius)];
   [_leavesImageEnemy setOrigin:CGPointMake(_leavesImageEnemy.origin.x + viewShakeRadius, _leavesImageEnemy.origin.y + viewShakeRadius)];
   
   UIView* mainView = player ? _avatarPlayer : _avatarEnemy;
   UIView* skillView = player ? _skillPlayer : _skillEnemy;
-  UIImageView* playerImage = player ? _imagePlayer : _imageEnemy;
+  UIImageView* playerImage = item ? (player ? _itemImagePlayer : _itemImageEnemy) : (player ? _imagePlayer : _imageEnemy);
   UIImageView* rocksImage = player ? _rocksImagePlayer : _rocksImageEnemy;
   UIImageView* leavesImage = player ? _leavesImagePlayer : _leavesImageEnemy;
   THLabel* nameLabel = player ? _skillNameLabelPlayer : _skillNameLabelEnemy;
@@ -131,6 +136,9 @@ typedef void (^ShakeAnimCompletionBlock)(void);
   [nameLabel setText:[topText uppercaseString]];
   [bottomLabel setText:[bottomtext uppercaseString]];
   [topLabel setText:[NSString stringWithFormat:@"%ix", stacks]];
+  
+  if (item)
+    self.originX = -20;
   
   ////////////////
   // Animations //
@@ -182,6 +190,7 @@ typedef void (^ShakeAnimCompletionBlock)(void);
 {
   UIView* skillView = player ? _skillPlayer : _skillEnemy;
   UIImageView* playerImage = player ? _imagePlayer : _imageEnemy;
+  UIImageView* itemImage = player ? _itemImagePlayer : _itemImageEnemy;
   UIImageView* rocksImage = player ? _rocksImagePlayer : _rocksImageEnemy;
   UIImageView* leavesImage = player ? _leavesImagePlayer : _leavesImageEnemy;
   
@@ -193,6 +202,11 @@ typedef void (^ShakeAnimCompletionBlock)(void);
   [UIView animateWithDuration:.1f delay:.03f options:UIViewAnimationOptionCurveEaseIn animations:^{
     [playerImage setOrigin:CGPointMake(playerImage.origin.x, playerImage.origin.y + 150.f)];
     [playerImage setAlpha:0.f];
+  } completion:nil];
+  
+  [UIView animateWithDuration:.1f delay:.03f options:UIViewAnimationOptionCurveEaseIn animations:^{
+    [itemImage setOrigin:CGPointMake(itemImage.origin.x, itemImage.origin.y + 150.f)];
+    [itemImage setAlpha:0.f];
   } completion:nil];
   
   [UIView animateWithDuration:.1f delay:.06f options:UIViewAnimationOptionCurveEaseIn animations:^{

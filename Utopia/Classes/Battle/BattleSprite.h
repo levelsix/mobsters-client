@@ -95,4 +95,6 @@
 - (void) jumpNumTimes:(int)numTimes timePerJump:(float)dur height:(float)height completionTarget:(id)target selector:(SEL)completion;
 - (void) jumpLeftAndBack:(BOOL)left delay:(float)delay duration:(float)duration distance:(float)distance height:(float)height;
 
+- (void) playStatusAntidoteEffect;
+
 @end

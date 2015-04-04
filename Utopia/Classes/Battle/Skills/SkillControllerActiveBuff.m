@@ -265,6 +265,31 @@
     [_targets setObject:@(turnsLeft) forKey:[self currentTargetId]];
 }
 
+- (void)onCureStatus
+{
+  [self endDurationNow];
+}
+
+- (BOOL)cureStatusWithAntidote:(BattleItemProto*)antidote execute:(BOOL)execute
+{
+  if ([self isActive] && antidote.battleItemType == [self antidoteType])
+  {
+    if (execute)
+    {
+      [self performAfterDelay:.8f block:^{
+        [self.opponentSprite playStatusAntidoteEffect];
+        [self performAfterDelay:.9f block:^{
+          [self onCureStatus];
+          [self.battleLayer moveComplete];
+        }];
+      }];
+      [self showAntidotePopupOverlay:antidote bottomText:[self cureBottomText]];
+    }
+    return YES;
+  }
+  return NO;
+}
+
 #pragma mark - Serialization
 
 - (NSDictionary*) serialize

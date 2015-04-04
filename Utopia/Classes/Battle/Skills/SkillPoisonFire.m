@@ -37,15 +37,14 @@
 
 #pragma mark - Overrides
 
-- (BOOL)cureStatusWithAntidote:(BattleItemType)antidoteType execute:(BOOL)execute
+- (BattleItemType)antidoteType
 {
-  if ([self isActive] && antidoteType == BattleItemTypePoisonAntidote)
-  {
-    if (execute)
-      [self endDurationNow];
-    return YES;
-  }
-  return NO;
+  return BattleItemTypePoisonAntidote;
+}
+
+- (NSString *)cureBottomText
+{
+  return @"Poison Removed";
 }
 
 - (NSSet*) sideEffects

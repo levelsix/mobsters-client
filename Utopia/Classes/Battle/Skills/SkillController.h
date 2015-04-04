@@ -128,7 +128,10 @@ static NSString* const kSkillMiniLogoImageNameSuffix = @"minilogo.png";
 - (void) onFinishQuickAttack;
 
 // Item stuff
-- (BOOL) cureStatusWithAntidote:(BattleItemType)antidoteType execute:(BOOL)execute;
+- (BattleItemType) antidoteType;
+- (BOOL) cureStatusWithAntidote:(BattleItemProto*)antidote execute:(BOOL)execute;
+- (void) onCureStatus;
+- (NSString*) cureBottomText;
 
 // To be called by inherited skills to show the overlay
 - (void) showSkillPopupOverlay:(BOOL)jumpFirst withCompletion:(SkillPopupBlock)completion;
@@ -137,6 +140,7 @@ static NSString* const kSkillMiniLogoImageNameSuffix = @"minilogo.png";
 - (void) showSkillPopupAilmentOverlay:(NSString*)topText bottomText:(NSString*)bottomText;
 - (void) showSkillPopupAilmentOverlay:(NSString*)topText bottomText:(NSString*)bottomText priority:(int)priority;
 - (void) showSkillPopupAilmentOverlay:(BOOL)jumpFirst topText:(NSString*)topText bottomText:(NSString*)bottomText priority:(int)priority withCompletion:(SkillPopupBlock)completion;
+- (void) showAntidotePopupOverlay:(BattleItemProto*)antidote bottomText:(NSString*)bottomText;
 - (void) makeSkillOwnerJumpWithTarget:(id)target selector:(SEL)completion;
 - (void) enqueueSkillPopup:(SkillPopupData*)skillPopupData;
 - (int) skillStacks;
