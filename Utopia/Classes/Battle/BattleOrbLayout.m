@@ -354,6 +354,8 @@
   
   BOOL redo;
   
+  _numVines = 0;
+  
   do {
     redo = NO;
     
@@ -415,6 +417,8 @@
   }
   while (redo || ![self detectPossibleSwaps].count);
   
+  _lastNumVines = _numVines;
+  
   return set;
 }
 
@@ -457,6 +461,11 @@
     } else if ([prop.name isEqualToString:ORB_LOCKED]) {
       orb.isLocked = YES;
       shouldCreate = YES;
+    } else if ([prop.name isEqualToString:ORB_VINES]) {
+      orb.isLocked = YES;
+      orb.isVines = YES;
+      shouldCreate = YES;
+      _numVines++;
     }
   }
   
@@ -787,7 +796,14 @@
         if (!orb.changeType) {
           if (orb.isLocked) {
             orb.isLocked = NO;
-            orb.changeType = OrbChangeTypeLockRemoved;
+            if (orb.isVines) {
+              orb.changeType = OrbChangeTypeVineRemoved;
+              orb.isVines = NO;
+              _numVines--;
+            }
+            else {
+              orb.changeType = OrbChangeTypeLockRemoved;
+            }
           } else if (orb.specialOrbType == SpecialOrbTypeCloud && orb.cloudCounter > 1) {
             orb.cloudCounter--;
             orb.changeType = OrbChangeTypeCloudDecremented;
@@ -1776,6 +1792,130 @@ static const NSInteger maxSearchIterations = 800;
   }
   
   return counter == maxSearchIterations ? nil : orb;
+}
+
+- (BattleOrb*)pickOrbForVine
+{
+  BattleTile *tile;
+  BattleOrb *orb;
+  
+  NSMutableArray *possibleOrbs = [[NSMutableArray alloc] init];
+  
+  //Build up list of all possible locations for vines
+  //First, we attempt this w/o any specials
+  for (NSInteger row = 0; row < _numRows; row++) {
+    for (NSInteger column = 0; column < _numColumns; column++) {
+      tile = [self tileAtColumn:column row:row];
+      if (!tile.isHole)
+      {
+        orb = [self orbAtColumn:column row:row];
+        if (orb && orb.specialOrbType == SpecialOrbTypeNone && !orb.isLocked)
+          if ([self doesAdjacentSpaceHaveVines:row column:column])
+            [possibleOrbs addObject:orb];
+      }
+    }
+  }
+  
+  //If the first search yieled no orbs, try again, but allow for specials that aren't locks,
+  //clouds, or vines
+  if (![possibleOrbs count])
+  {
+    for (NSInteger row = 0; row < _numRows; row++) {
+      for (NSInteger column = 0; column < _numColumns; column++) {
+        tile = [self tileAtColumn:column row:row];
+        if (!tile.isHole)
+        {
+          orb = [self orbAtColumn:column row:row];
+          if (orb && orb.specialOrbType == SpecialOrbTypeCloud
+              && !orb.isLocked)
+            if ([self doesAdjacentSpaceHaveVines:row column:column])
+              [possibleOrbs addObject:orb];
+        }
+      }
+    }
+  }
+  
+  orb = nil;
+  if ([possibleOrbs count])
+  {
+    orb = [possibleOrbs objectAtIndex:(rand() % [possibleOrbs count])];
+    _numVines++;
+  }
+  return orb;
+}
+
+- (BattleOrb*)vineAdjacentToOrb:(BattleOrb*)orb
+{
+  BattleOrb *other;
+  
+  if (orb.row > 0) {
+    other = [self orbAtColumn:orb.column row:orb.row-1];
+    if (other && other.isVines) {
+      other.vineGrowDirection = @"Up";
+      return other;
+    }
+  }
+  
+  if (orb.row < _numRows-1) {
+    other = [self orbAtColumn:orb.column row:orb.row+1];
+    if (other && other.isVines) {
+      other.vineGrowDirection = @"Down";
+      return other;
+    }
+  }
+  
+  if (orb.column > 0) {
+    other = [self orbAtColumn:orb.column-1 row:orb.row];
+    if (other && other.isVines) {
+      other.vineGrowDirection = @"Right";
+      return other;
+    }
+  }
+  
+  if (orb.column < _numRows-1) {
+    other = [self orbAtColumn:orb.column+1 row:orb.row];
+    if (other && other.isVines) {
+      other.vineGrowDirection = @"Left";
+      return other;
+    }
+  }
+  
+  return nil;
+}
+
+- (BOOL) doesAdjacentSpaceHaveVines:(NSInteger)row column:(NSInteger)column
+{
+  BattleOrb *orb;
+  
+  if (row > 0)
+  {
+    orb = [self orbAtColumn:column row:row-1];
+    if (orb && orb.isVines)
+      return YES;
+  }
+  
+  if (row < _numRows-1)
+  {
+    orb = [self orbAtColumn:column row:row+1];
+    if (orb && orb.isVines)
+      return YES;
+  }
+  
+  if (column > 0)
+  {
+    orb = [self orbAtColumn:column-1 row:row];
+    if (orb && orb.isVines)
+      return YES;
+  }
+  
+  if (column < _numColumns-1)
+  {
+    orb = [self orbAtColumn:column+1 row:row];
+    if (orb && orb.isVines)
+      return YES;
+  }
+  
+  return NO;
 }
 
 #pragma mark - Description

@@ -26,6 +26,7 @@
 #define ORB_POWERUP @"ORB_POWERUP"
 #define ORB_SPECIAL @"ORB_SPECIAL"
 #define ORB_LOCKED @"ORB_LOCKED"
+#define ORB_VINES @"ORB_VINES"
 #define ORB_EMPTY @"ORB_EMPTY"
 
 @interface BattleOrbLayout : NSObject {
@@ -47,6 +48,9 @@
 @property (nonatomic, readonly) int numColumns;
 @property (nonatomic, readonly) int numRows;
 @property (nonatomic, readonly) int numColors;
+
+@property (nonatomic, readonly) int numVines;
+@property (nonatomic, assign) int lastNumVines;
 
 @property (nonatomic, retain) NSDictionary *specialOrbPercentages;
 
@@ -144,6 +148,13 @@
 - (NSSet *)detectBottomFeeders:(NSMutableArray *)orbPaths;
 
 - (BattleOrb *) findOrbWithColorPreference:(OrbColor)orbColor isInitialSkill:(BOOL)isInitialSkill;
+
+// PRECONDITION: The player went through a move without clearing any vines.
+// Spawns a vine somewhere on the board adjacent to another vine
+// If there are no available places for a vine, nothing will be spawned
+- (BattleOrb*) pickOrbForVine;
+
+- (BattleOrb*)vineAdjacentToOrb:(BattleOrb*)orb;
 
 - (NSArray *)getBottomFeederTiles;
 

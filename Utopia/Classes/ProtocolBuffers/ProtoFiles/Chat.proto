@@ -13,7 +13,7 @@ message PrivateChatPostProto {
 	optional MinimumUserProtoWithLevel recipient = 3;
 	optional int64 timeOfPost = 4;
 	optional string content = 5;
-	optional TranslatedTextProto translatedContent = 6; 
+	repeated TranslatedTextProto translatedContent = 6; 
 }
 
 //------------------------------------------------------------------------------------------
@@ -29,6 +29,7 @@ message ColorProto {
 message GroupChatMessageProto {
 	optional MinimumUserProtoWithLevel sender = 1;
 	optional int64 timeOfChat = 2;
+	optional TranslateLanguages contentLanguage = 7;  //the language of original content
 	optional string content = 3;
 	repeated TranslatedTextProto translatedContent = 4;
 	optional bool isAdmin = 5;
@@ -74,6 +75,7 @@ message TranslatedTextProto {
 message DefaultLanguagesProto {
 	optional TranslateLanguages globalDefaultLanguage = 1;
 	repeated PrivateChatDefaultLanguageProto privateDefaultLanguage = 2;
+	optional bool globalTranslateOn = 3;
 
 }
 
@@ -83,7 +85,7 @@ message PrivateChatDefaultLanguageProto {
 	optional string recipientUserId = 1;
 	optional string senderUserId = 2;
 	optional TranslateLanguages defaultLanguage = 3;
-
+	optional bool translateOn = 4;
 }
 
 	

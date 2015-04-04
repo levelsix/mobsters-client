@@ -7,6 +7,9 @@
 
 #import "OrbSprite.h"
 #import "Globals.h"
+#import "CCFileUtils.h"
+#import "cocos2d.h"
+#import "CCAnimation+SpriteLoading.h"
 
 @implementation OrbSprite
 
@@ -68,7 +71,10 @@
   }
   
   if (_orb.isLocked) {
-    [self loadLockElements];
+    if (_orb.isVines)
+      [self loadVinesElements];
+    else
+      [self loadLockElements];
   }
 }
 
@@ -195,6 +201,38 @@
   [self addChild:_lockedSpriteRight];
 }
 
+- (void) loadVinesElements {
+  
+  [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"VinesMain@2x.plist"];
+  _vinesSprite = [CCSprite spriteWithImageNamed:@"VinesMain01.png"];
+  [self addChild:_vinesSprite];
+  
+  if ([Globals isiPhone5orSmaller])
+    _vinesSprite.scale = .85f;
+  
+  [_vinesSprite runAction:[CCActionAnimate actionWithAnimation:[CCAnimation animationWithSpritePrefix:@"VinesMain" delay:.05f]]];
+  
+}
+
+- (void) playVineExpansion:(NSString*)directionString withCompletion:(void(^)())withCompletion {
+  //Make sure that animation is in cache
+  [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"Vines%@.plist", directionString]];
+  
+  CCSprite *vineArm = [CCSprite node];
+  [self addChild:vineArm z:1.f];
+  CCAnimation *anim = [CCAnimation animationWithSpritePrefix:[NSString stringWithFormat:@"Vines%@", directionString] delay:.05f];
+  
+  [vineArm runAction:[CCActionSequence actions:
+                      [CCActionAnimate actionWithAnimation:anim],
+                      [CCActionCallBlock actionWithBlock:^{
+                          withCompletion();
+                        }],
+                      [CCActionDelay actionWithDuration:.5f],
+                      [CCActionAnimate actionWithAnimation:anim.reversedAnimation],
+                      [CCActionRemove action],
+                      nil]];
+}
+
 #define LOCK_REMOVE_TIME .2
 #define LOCK_REMOVE_MOVE_UP_PORTION .15
 
@@ -215,6 +253,16 @@
   [_lockedSpriteLeft runAction:
    [CCActionSequence actions:
     fadeOut, [CCActionRemove action], nil]];
+}
+
+- (void) removeVineElements {
+  
+  CCActionEaseInOut *fadeOut = [CCActionEaseInOut actionWithAction:[CCActionFadeOut actionWithDuration:LOCK_REMOVE_TIME]];
+  
+  [_vinesSprite runAction:
+   [CCActionSequence actions:
+    fadeOut, [CCActionRemove action], nil]];
+  
 }
 
 - (void) loadDamageMultiplierElements

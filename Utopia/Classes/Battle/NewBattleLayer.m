@@ -2359,6 +2359,24 @@
   
   [self updateHealthBars];
   
+  //Check vines
+  if (self.orbLayer.layout.numVines && self.orbLayer.layout.numVines == self.orbLayer.layout.lastNumVines)
+  {
+    BattleOrb *orb = [self.orbLayer.layout pickOrbForVine];
+    BattleOrb *other = [self.orbLayer.layout vineAdjacentToOrb:orb];
+    if (orb && other)
+    {
+      orb.isVines = YES;
+      orb.isLocked = YES;
+      BattleTile* originTile = [self.orbLayer.layout tileAtColumn:other.column row:other.row];
+      
+      [self.orbLayer.bgdLayer playVineExpansion:other.vineGrowDirection onTile:originTile withCompletion:^{
+        [[self.orbLayer.swipeLayer spriteForOrb:orb] reloadSprite:NO];
+      }];
+    }
+  }
+  self.orbLayer.layout.lastNumVines = self.orbLayer.layout.numVines;
+  
   // Trigger skills for move made by the player
   SkillLogStart(@"TRIGGER STARTED: end of player move");
   [skillManager triggerSkills:SkillTriggerPointEndOfPlayerMove withCompletion:^(BOOL triggered, id params) {

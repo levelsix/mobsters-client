@@ -29,6 +29,7 @@ message SendGroupChatRequestProto {
 	optional GroupChatScope scope = 2 [default = CLAN];
 	optional string chatMessage = 3;
 	optional int64 clientTime = 4;
+	optional TranslateLanguages globalLanguage = 5; 
 }
 
 message SendGroupChatResponseProto {
@@ -64,6 +65,7 @@ message PrivateChatPostResponseProto {
 	 optional MinimumUserProto sender = 1;
      optional PrivateChatPostStatus status = 2;
 	 optional PrivateChatPostProto post = 3;
+	 optional PrivateChatDefaultLanguageProto translationSetting = 4;
 	
      enum PrivateChatPostStatus {
      	SUCCESS = 1;
@@ -111,6 +113,7 @@ message TranslateSelectMessagesRequestProto {
 	optional string otherUserUuid = 3;
 	optional TranslateLanguages language = 4;
 	repeated PrivateChatPostProto messagesToBeTranslated = 5;
+	optional bool translateOn = 6;
 
 }
 

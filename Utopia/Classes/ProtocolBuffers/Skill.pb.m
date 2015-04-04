@@ -96,6 +96,8 @@ BOOL SideEffectTypeIsValidValue(SideEffectType value) {
     case SideEffectTypeBuffHammerTime:
     case SideEffectTypeBuffTakeAim:
     case SideEffectTypeNerfChill:
+    case SideEffectTypeBuffFlameStrike:
+    case SideEffectTypeNerfPoisonIcon:
       return YES;
     default:
       return NO;

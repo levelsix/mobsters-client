@@ -56,6 +56,7 @@
 #define BOMB_DAMAGE       @"BombDamage"
 #define CLOUD_COUNTER     @"CloudCounter"
 #define LOCKED_KEY        @"LockedKey"
+#define VINES_KEY         @"VinesKey"
 #define DAMAGE_MULTIPLIER @"DamageMultiplier"
 
 - (NSDictionary*) serialize
@@ -68,6 +69,7 @@
   [info setObject:@(_bombDamage) forKey:BOMB_DAMAGE];
   [info setObject:@(_cloudCounter) forKey:CLOUD_COUNTER];
   [info setObject:@(_isLocked) forKey:LOCKED_KEY];
+  [info setObject:@(_isVines) forKey:VINES_KEY];
   [info setObject:@(_damageMultiplier) forKey:DAMAGE_MULTIPLIER];
   return info;
 }
@@ -81,6 +83,7 @@
   NSNumber* bombDamage = [dic objectForKey:BOMB_DAMAGE];
   NSNumber* cloudCounter = [dic objectForKey:CLOUD_COUNTER];
   NSNumber* isLocked = [dic objectForKey:LOCKED_KEY];
+  NSNumber* isVines = [dic objectForKey:VINES_KEY];
   NSNumber* damageMultiplier = [dic objectForKey:DAMAGE_MULTIPLIER];
   
   if (powerupType)
@@ -97,6 +100,8 @@
     _cloudCounter = [cloudCounter integerValue];
   if (isLocked)
     _isLocked = [isLocked boolValue];
+  if (isVines)
+    _isVines = [isVines boolValue];
   if (damageMultiplier)
     _damageMultiplier = [damageMultiplier integerValue];
 }
