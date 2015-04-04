@@ -45,12 +45,14 @@
 @property (nonatomic, retain) MSDate *date;
 @property (nonatomic, assign) BOOL isAdmin;
 @property (nonatomic, assign) BOOL isRead;
-@property (nonatomic, assign) BOOL originalLanguage;
+@property (nonatomic, assign) TranslateLanguages originalLanguage;
 @property (nonatomic, retain) NSMutableArray *translatedTextProtos;
 @property (nonatomic, retain) NSString *originalMessage;
 @property (nonatomic, assign) BOOL revertedTranslation;
 @property (nonatomic, retain) NSString *postUuid;
 @property (nonatomic, assign) int64_t timeOfPost;
+
+- (IBAction) untranslateClicked:(UIButton *)sender;
 
 - (id) initWithProto:(GroupChatMessageProto *)p;
 - (PrivateChatPostProto *)makePrivateChatPostProto;

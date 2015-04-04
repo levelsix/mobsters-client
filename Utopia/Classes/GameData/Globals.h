@@ -281,6 +281,7 @@
 
 + (NSString *) flagImageNameForLanguage:(TranslateLanguages)language;
 + (NSString *) languageNameForLanguage:(TranslateLanguages)language;
++ (NSString *) translationDescriptionWith:(TranslateLanguages)language;
 
 + (UIColor *) colorForRarity:(Quality)rarity;
 + (NSString *) stringForRarity:(Quality)rarity;
