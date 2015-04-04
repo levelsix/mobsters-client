@@ -282,16 +282,6 @@
   }
 }
 
-#pragma mark - Language selector delegate
-
-- (void) flagClicked:(TranslateLanguages)language {
-  
-}
-
-- (void) translateChecked:(BOOL)checked {
-  
-}
-
 #pragma mark - TextField delegate methods
 
 - (BOOL) textFieldShouldReturn:(UITextField *)textField {
@@ -366,6 +356,16 @@
   self.chatTable.dataSource = nil;
 }
 
+#pragma mark - Language selector delegate
+
+- (void) flagClicked:(TranslateLanguages)language {
+  
+}
+
+- (void) translateChecked:(BOOL)checked {
+  
+}
+
 #pragma mark - language
 
 - (TranslateLanguages) LanguageForUser:(NSString *) userUuid {
@@ -398,6 +398,19 @@
   self.flagButton.userInteractionEnabled = YES;
   self.flagSpinner.hidden = YES;
   self.flagCheckImage.superview.hidden = NO;
+  
+  [[NSNotificationCenter defaultCenter] postNotificationName:CHAT_LANGUAGE_CHANGED object:nil];
+}
+
+- (IBAction)untranslateClicked:(id)sender {
+  ChatCell *chatCell = (ChatCell *)[sender getAncestorInViewHierarchyOfType:[ChatCell class]];
+  NSIndexPath *ip = [self.chatTable indexPathForCell:chatCell];
+  ChatMessage *chatMessage = self.chats[ip.row];
+  
+  chatMessage.revertedTranslation = !chatMessage.revertedTranslation;
+  
+  [chatMessage updateInChatCell:chatCell showsClanTag:[self showsClanTag] language:_curLanguage];
+  [self.chatTable reloadRowsAtIndexPaths:[NSArray arrayWithObject:ip] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 @end
@@ -757,6 +770,7 @@
     cm.sender = post.poster.minUserProto;
     cm.date = [MSDate dateWithTimeIntervalSince1970:post.timeOfPost/1000.];
     cm.message = post.content;
+    cm.originalLanguage = post.originalContentLanguage;
     [cm.translatedTextProtos addObjectsFromArray:post.translatedContentList];
     [self addChatMessage:cm];
     
@@ -927,7 +941,8 @@
   if(_chatMode == PrivateChatModeAllMessages) {
     PrivateChatPostProto *pcpp = self.displayedChatList[indexPath.row];
     if (![pcpp.poster.minUserProto.userUuid isEqualToString:[gs minUser].userUuid] && [self translationEnabledForUser:pcpp.poster.minUserProto.userUuid]) {
-      displayLanguage = [self LanguageForUser:pcpp.poster.minUserProto.userUuid];
+      TranslateLanguages savedLanguage = [self LanguageForUser:pcpp.poster.minUserProto.userUuid];
+      displayLanguage = savedLanguage == pcpp.originalContentLanguage ? TranslateLanguagesNoTranslation : savedLanguage;
     }
   }
   

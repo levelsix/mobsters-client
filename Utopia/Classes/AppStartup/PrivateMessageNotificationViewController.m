@@ -97,13 +97,15 @@
         ChatMessage *cm = [messages firstObject];
         _messageFromSingleUser = cm;
         
+        PrivateChatPostProto *pcpp = [messages firstObject];
+        
         NSNumber *savedLanguage = [gs.privateChatLanguages valueForKey:cm.sender.userUuid];
         NSNumber *savedTranslationOn = [gs.privateTranslationOn valueForKey:cm.sender.userUuid];
         TranslateLanguages languageToDisplay = savedTranslationOn.boolValue ? (TranslateLanguages)savedLanguage.integerValue : TranslateLanguagesNoTranslation;
         
         NSString *displayMessage = cm.message;
         if (languageToDisplay != TranslateLanguagesNoTranslation) {
-          for (TranslatedTextProto *ttp in cm.translatedTextProtos) {
+          for (TranslatedTextProto *ttp in pcpp.translatedContentList) {
             if (ttp.language == languageToDisplay) {
               displayMessage = ttp.text;
               break;
