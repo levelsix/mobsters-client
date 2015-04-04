@@ -3085,7 +3085,6 @@
 - (void) useSkillAntidote:(BattleItemProto *)bip {
   [self moveBegan];
   [skillManager useAntidote:bip execute:YES];
-  [self moveComplete];
 }
 
 #pragma mark - Open Shop

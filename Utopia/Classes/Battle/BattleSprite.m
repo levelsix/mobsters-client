@@ -854,13 +854,14 @@
 
 - (void) playStatusAntidoteEffect
 {
-  NSString *path = [[CCFileUtils sharedFileUtils] fullPathFromRelativePath:@"poisonantidote.plist"];
+  NSString *path = [[CCFileUtils sharedFileUtils] fullPathFromRelativePath:@"conditionremoved7.plist"];
   NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithContentsOfFile:path];
   
   CCParticleSystem *q = [[CCParticleSystem alloc] initWithDictionary:dict];
   q.autoRemoveOnFinish = YES;
+  q.scale = .5;
   q.position = ccpAdd(self.position, ccp(0, self.contentSize.height/2-5));
-  [self.parent addChild:q];
+  [self.parent addChild:q z:1];
 }
 
 @end

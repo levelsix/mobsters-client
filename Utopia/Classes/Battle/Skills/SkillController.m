@@ -378,9 +378,24 @@
   [self skillTriggerFinished];
 }
 
+- (BattleItemType)antidoteType
+{
+  return BattleItemTypeNone;
+}
+
 - (BOOL) cureStatusWithAntidote:(BattleItemProto*)antidote execute:(BOOL)execute
 {
   return NO;
+}
+
+- (void)onCureStatus
+{
+  //Placeholder
+}
+
+- (NSString *)cureBottomText
+{
+  return @"";
 }
 
 #pragma mark - UI
