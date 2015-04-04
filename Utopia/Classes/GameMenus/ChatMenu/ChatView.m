@@ -757,9 +757,7 @@
     cm.sender = post.poster.minUserProto;
     cm.date = [MSDate dateWithTimeIntervalSince1970:post.timeOfPost/1000.];
     cm.message = post.content;
-    if (post.translatedContent) {
-      [cm.translatedTextProtos addObject:post.translatedContent];
-    }
+    [cm.translatedTextProtos addObjectsFromArray:post.translatedContentList];
     [self addChatMessage:cm];
     
     if (!post.hasPrivateChatPostUuid) {
@@ -1050,7 +1048,7 @@
   for (PrivateChatPostProto *pcpp in tsmrp.messagesTranslatedList) {
     for (ChatMessage *message in self.chats) {
       if ([message.postUuid isEqualToString:pcpp.privateChatPostUuid]) {
-        [message.translatedTextProtos addObject:pcpp.translatedContent];
+        [message.translatedTextProtos addObjectsFromArray:pcpp.translatedContentList];
         break;
       }
     }

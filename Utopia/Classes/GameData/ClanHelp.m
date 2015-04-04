@@ -181,7 +181,6 @@
 }
 
 - (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag {
-  
   NSString *nibName = @"ChatClanHelpView";
   ChatClanHelpView *v = [chatCell dequeueChatSubview:nibName];
   

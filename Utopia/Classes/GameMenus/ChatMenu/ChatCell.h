@@ -36,12 +36,16 @@
 // This is used for the popover to align correctly
 @property (nonatomic, retain) IBOutlet UIView *bubbleAlignView;
 
+@property (nonatomic, retain) IBOutlet UILabel *translationDescription;
+@property (nonatomic, retain) IBOutlet UIButton *untranslateButton;
+
 @property (nonatomic, retain) IBOutlet UIView *currentChatSubview;
 
 @property (nonatomic, retain) NSMutableDictionary *chatSubviews;
 
-- (void) updateForMessage:(NSString *)message sender:(MinimumUserProto *)sender date:(MSDate *)date showsClanTag:(BOOL)showsClanTag;
+- (void) updateForMessage:(NSString *)message showsClanTag:(BOOL)showsClanTag translatedTo:(TranslateLanguages)translatedTo chatMessage:(ChatMessage *)chatMessage;
 - (void) updateForMessage:(NSString *)message sender:(MinimumUserProto *)sender date:(MSDate *)date showsClanTag:(BOOL)showsClanTag allowHighlight:(BOOL)allowHighlight chatSubview:(UIView *)view identifier:(NSString *)identifier;
+- (void) updateForMessage:(NSString *)message sender:(MinimumUserProto *)sender date:(MSDate *)date showsClanTag:(BOOL)showsClanTag allowHighlight:(BOOL)allowHighlight chatSubview:(UIView *)view identifier:(NSString *)identifier translatedTo:(TranslateLanguages)translatedTo untranslate:(BOOL)untranslate;
 
 - (void) updateBubbleImagesWithPrefix:(NSString *)prefix;
 
