@@ -17,6 +17,7 @@
 #import "CAKeyframeAnimation+AHEasing.h"
 #import "Downloader.h"
 #import "DBFBProfilePictureView.h"
+#import "SoundEngine.h"
 
 #import "TangoDelegate.h"
 
@@ -350,6 +351,8 @@
     
     [self cityClicked:tIcon];
   }];
+  
+  [SoundEngine nextTask];
 }
 
 #pragma mark - IBActions

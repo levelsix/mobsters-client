@@ -121,8 +121,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(SoundEngine);
   }
 }
 
-+ (void) dialogueBoxOpen {
-  [[SoundEngine sharedSoundEngine] playEffect:@"sfx_dialogue_box.mp3"];
++ (void) dialogueBoxOpenIsGood:(BOOL)good {
+  [[SoundEngine sharedSoundEngine] playEffect:good ? @"pop_in_good.mp3" : @"pop_in_bad.mp3"];
 }
 
 + (void) spriteJump {
@@ -147,6 +147,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(SoundEngine);
 
 + (void) enhanceFlying {
   [[SoundEngine sharedSoundEngine] playEffect:@"sfx_firework_02.mp3"];
+}
+
++ (void) nextTask {
+  [[SoundEngine sharedSoundEngine] playEffect:@"next_task.mp3"];
 }
 
 + (void) chatOpened {
@@ -176,15 +180,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(SoundEngine);
 }
 
 + (void) secretGiftClicked {
-  [[SoundEngine sharedSoundEngine] playEffect:@"secret_gift_collected.mp3"];
+  [[SoundEngine sharedSoundEngine] playEffect:@"secret_gift_opened.mp3"];
 }
 
 + (void) secretGiftCollectClicked {
-  [[SoundEngine sharedSoundEngine] playEffect:@"secret_gift_collecteddd.mp3"];
+  [[SoundEngine sharedSoundEngine] playEffect:@"secret_gift_collected.mp3"];
 }
 
 + (void) itemSelectUseGems {
-  [[SoundEngine sharedSoundEngine] playEffect:@"use_gems.mp3"];
+  [[SoundEngine sharedSoundEngine] playEffect:@"use_gems2.mp3"];
 }
 
 + (void) itemSelectUseOil {
@@ -334,6 +338,18 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(SoundEngine);
 
 + (void) puzzleRocketCreate {
   [[SoundEngine sharedSoundEngine] playEffect:@"rocket_create.mp3"];
+}
+
++ (void) puzzleSkillActivated {
+  [[SoundEngine sharedSoundEngine] playEffect:@"skill_activated.mp3"];
+}
+
++ (void) puzzleBreakCloud {
+  [[SoundEngine sharedSoundEngine] playEffect:@"break_cloud.mp3"];
+}
+
++ (void) puzzleBreakLock {
+  [[SoundEngine sharedSoundEngine] playEffect:@"break_lock.mp3"];
 }
 
 @end

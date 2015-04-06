@@ -366,6 +366,8 @@
     q.scale = .4f;
     q.position = orbLayer.position;
     q.autoRemoveOnFinish = YES;
+    
+    [SoundEngine puzzleBreakLock];
   }
 }
 
@@ -405,6 +407,8 @@
   q.scale = .4f;
   q.position = orbLayer.position;
   q.autoRemoveOnFinish = YES;
+  
+  [SoundEngine puzzleBreakCloud];
 }
 
 - (void) performOrbChange:(BattleOrb *)orb chains:(NSSet *)chains fromPowerup:(PowerupType)powerup {
