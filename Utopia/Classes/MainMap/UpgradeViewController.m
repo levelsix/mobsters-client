@@ -227,10 +227,8 @@
   
   int level = self.userStruct.staticStruct.structInfo.level;
   int maxLevel = self.userStruct.maxLevel;
-  self.titleLabel.text = level != maxLevel ? [NSString stringWithFormat:@"Upgrade to Level %d?", level+1] : @"Building at Max";
-  if (level == 0) self.titleLabel.text = [NSString stringWithFormat:@"Fix %@?", self.userStruct.staticStruct.structInfo.name];
-  
-  [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
+  self.title = level != maxLevel ? [NSString stringWithFormat:@"Upgrade to Level %d?", level+1] : @"Building at Max";
+  if (level == 0) self.title = [NSString stringWithFormat:@"Fix %@?", self.userStruct.staticStruct.structInfo.name];
   
   self.upgradeView.embeddedScrollView.delegate = self;
 }
@@ -287,23 +285,7 @@
 - (void) detailsClicked:(int)index {
   DetailViewController *dvc = [[DetailViewController alloc] initWithGameTypeProto:_userStruct.staticStruct index:index imageNamed:_userStruct.staticStruct.structInfo.imgName columnName:@"LVL"];
   
-  self.upgradeView.hidden = YES;
-  [self.upgradeView.superview addSubview:dvc.view];
-  dvc.view.frame = self.upgradeView.frame;
-  
-  [self addChildViewController:dvc];
-}
-
-- (IBAction) closeClicked:(id)sender {
-  // Check that no other animations are happenings
-  if (self.mainView.layer.animationKeys.count == 0) {
-    [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
-      [self.view removeFromSuperview];
-      [self removeFromParentViewController];
-    }];
-    
-    [self.delegate upgradeViewControllerClosed];
-  }
+  [self.parentViewController pushViewController:dvc animated:YES];
 }
 
 @end

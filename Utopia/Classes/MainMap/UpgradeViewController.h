@@ -11,6 +11,7 @@
 #import "UserData.h"
 #import "TopBarViewcontroller.h"
 #import "EmbeddedScrollingUpgradeView.h"
+#import "PopupNavViewController.h"
 
 @class EmbeddedScrollingUpgradeView;
 @class UpgradePrereqView;
@@ -82,18 +83,12 @@
 @protocol UpgradeViewControllerDelegate <NSObject>
 
 - (void) bigUpgradeClicked:(id)sender;
-- (void) upgradeViewControllerClosed;
 
 @end
 
-@interface UpgradeViewController : UIViewController <TabBarDelegate, EmbeddedDelegate>
-
-@property (nonatomic, assign) IBOutlet UILabel *titleLabel;
+@interface UpgradeViewController : PopupSubViewController <TabBarDelegate, EmbeddedDelegate>
 
 @property (nonatomic, retain) IBOutlet UpgradeBuildingMenu *upgradeView;
-
-@property (nonatomic, retain) IBOutlet UIView *mainView;
-@property (nonatomic, retain) IBOutlet UIView *bgdView;
 
 @property (nonatomic, retain) UserStruct *userStruct;
 

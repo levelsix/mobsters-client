@@ -71,14 +71,14 @@
 
 typedef NS_ENUM(SInt32, ResearchType) {
   ResearchTypeNoResearch = 1,
-  ResearchTypeHealingCost = 2,
-  ResearchTypeHealingSpeed = 3,
-  ResearchTypeEnhanceCost = 4,
-  ResearchTypeXpBonus = 5,
-  ResearchTypeDecreaseEnhanceTime = 6,
-  ResearchTypeAttackIncrease = 7,
-  ResearchTypeHpIncrease = 8,
-  ResearchTypeSpeedIncrease = 9,
+  ResearchTypeHpIncrease = 2,
+  ResearchTypeAttackIncrease = 3,
+  ResearchTypeSpeedIncrease = 4,
+  ResearchTypeHealingCost = 5,
+  ResearchTypeHealingSpeed = 6,
+  ResearchTypeEnhanceCost = 7,
+  ResearchTypeDecreaseEnhanceTime = 8,
+  ResearchTypeXpBonus = 9,
   ResearchTypeIncreaseHospitalQueue = 10,
   ResearchTypeIncreaseEnhanceQueue = 11,
   ResearchTypeNumberOfHospitals = 12,
@@ -95,10 +95,10 @@ BOOL ResearchTypeIsValidValue(ResearchType value);
 
 typedef NS_ENUM(SInt32, ResearchDomain) {
   ResearchDomainNoDomain = 1,
-  ResearchDomainRestorative = 2,
-  ResearchDomainLevelup = 3,
-  ResearchDomainResources = 4,
-  ResearchDomainBattle = 5,
+  ResearchDomainHealing = 2,
+  ResearchDomainEnhancing = 3,
+  ResearchDomainBattle = 4,
+  ResearchDomainResources = 5,
   ResearchDomainItems = 6,
   ResearchDomainTrapsAndObstacles = 7,
 };

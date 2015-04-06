@@ -2065,6 +2065,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return base+amtIncrease;
 }
 
+- (int) calculateStrengthForMonster:(UserMonster *)um {
+  MonsterProto *mp = um.staticMonster;
+  MonsterLevelInfoProto *min = [mp.lvlInfoList firstObject];
+  MonsterLevelInfoProto *max = [mp.lvlInfoList lastObject];
+  return roundf(min.strength+(max.strength-min.strength)*powf((um.level-1)/(float)(max.lvl-1), max.strengthExponent));
+}
+
 - (int) calculateCostToHealMonster:(UserMonster *)um {
   // Old formula
   //return ceilf(([self calculateMaxHealthForMonster:um]-um.curHealth)*self.cashPerHealthPoint);

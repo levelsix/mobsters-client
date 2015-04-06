@@ -321,19 +321,20 @@
   int curAttk = [gl calculateTotalDamageForMonster:um];
   int curHp = [gl calculateMaxHealthForMonster:um];
   int curSpeed = [gl calculateSpeedForMonster:um];
+  int curStrength = [gl calculateStrengthForMonster:um];
   
   um.level = MIN(curLevel+1, maxLevel);
   int newAttk = [gl calculateTotalDamageForMonster:um];
   int newHp = [gl calculateMaxHealthForMonster:um];
   int newSpeed = [gl calculateSpeedForMonster:um];
+  int newStrength = [gl calculateStrengthForMonster:um];
   
   um.level = origLevel;
   
   self.attackLabel.text = [NSString stringWithFormat:@"%@%@", [Globals commafyNumber:curAttk], newAttk > curAttk ? [NSString stringWithFormat:@" + %@", [Globals commafyNumber:newAttk-curAttk]] : @""];
   self.healthLabel.text = [NSString stringWithFormat:@"%@%@", [Globals commafyNumber:curHp], newHp > curHp ? [NSString stringWithFormat:@" + %@", [Globals commafyNumber:newHp-curHp]] : @""];
   self.speedLabel.text = [NSString stringWithFormat:@"%@%@", [Globals commafyNumber:curSpeed], newSpeed > curSpeed ? [NSString stringWithFormat:@" + %@", [Globals commafyNumber:newSpeed-curSpeed]] : @""];
-#warning Ashwin fix
-  self.strengthLabel.text = [NSString stringWithFormat:@"+%d", 999];
+  self.strengthLabel.text = [NSString stringWithFormat:@"%@%@", [Globals commafyNumber:curStrength], newStrength > curStrength ? [NSString stringWithFormat:@" + %@", [Globals commafyNumber:newStrength-curStrength]] : @""];
 }
 
 - (void) updateTimeWithCell:(MonsterQueueCell *)cell {

@@ -38,7 +38,7 @@
   if (self.structInfo.predecessorStructId) {
     nextStruct = (ResourceGeneratorProto *)[gs structWithId:self.structInfo.predecessorStructId];
   }
-  if(!index) {
+  if (!index) {
     return [self.structInfo statChangeWith:self.productionRate prevStat:nextStruct.productionRate suffix:[self statSuffixForIndex:index]];
   } else {
     return [self.structInfo statChangeWith:self.capacity prevStat:nextStruct.capacity suffix:[self statSuffixForIndex:index]];
@@ -51,7 +51,7 @@
   if (self.structInfo.successorStructId) {
     nextStruct = (ResourceGeneratorProto *)[gs structWithId:self.structInfo.successorStructId];
   }
-  if(!index) {
+  if (!index) {
     return [self.structInfo statChangeStringWith:self.productionRate nextStat:nextStruct.productionRate suffix:[self statSuffixForIndex:index]];
   } else {
     return [self.structInfo statChangeStringWith:self.capacity nextStat:nextStruct.capacity suffix:[self statSuffixForIndex:index]];
@@ -62,7 +62,7 @@
   float result = 0.f;
   
   ResourceGeneratorProto *maxStruct = (ResourceGeneratorProto *)self.structInfo.maxStaticStruct;
-  if(!index) {
+  if (!index) {
     result = [self.structInfo barPercentWithNumerator:self.productionRate Denominator:maxStruct.productionRate useSqrt:NO usePow:NO];
   } else {
     result = [self.structInfo barPercentWithNumerator:self.capacity Denominator:maxStruct.capacity useSqrt:NO usePow:NO];
@@ -79,7 +79,7 @@
   ResourceGeneratorProto *maxStruct = (ResourceGeneratorProto *)self.structInfo.maxStaticStruct;
   if (self.structInfo.successorStructId) {
     ResourceGeneratorProto *nextStruct = (ResourceGeneratorProto *)[gs structWithId:self.structInfo.successorStructId];
-    if(!index) {
+    if (!index) {
       result = [self.structInfo barPercentWithNumerator:nextStruct.productionRate Denominator:maxStruct.productionRate useSqrt:NO usePow:NO];
     } else {
       result = [self.structInfo barPercentWithNumerator:nextStruct.capacity Denominator:maxStruct.capacity useSqrt:NO usePow:NO];
@@ -92,7 +92,7 @@
 - (int) strength {
   GameState *gs = [GameState sharedGameState];
   
-  if(self.structInfo.successorStructId) {
+  if (self.structInfo.successorStructId) {
     id<StaticStructure> successor = [gs structWithId:self.structInfo.successorStructId];
     return successor.structInfo.strength - self.structInfo.strength;
   } else {
@@ -127,7 +127,7 @@
 
 - (id<GameTypeProto>) successor{
   GameState *gs = [GameState sharedGameState];
-  if(self.structInfo.successorStructId) {
+  if (self.structInfo.successorStructId) {
     return [gs structWithId:self.structInfo.successorStructId];
   } else {
     return nil;
@@ -203,7 +203,7 @@
 - (int) strength {
   GameState *gs = [GameState sharedGameState];
   
-  if(self.structInfo.successorStructId) {
+  if (self.structInfo.successorStructId) {
     id<StaticStructure> successor = [gs structWithId:self.structInfo.successorStructId];
     return successor.structInfo.strength - self.structInfo.strength;
   } else {
@@ -238,7 +238,7 @@
 
 - (id<GameTypeProto>) successor{
   GameState *gs = [GameState sharedGameState];
-  if(self.structInfo.successorStructId) {
+  if (self.structInfo.successorStructId) {
     return [gs structWithId:self.structInfo.successorStructId];
   } else {
     return nil;
@@ -268,7 +268,7 @@
 }
 
 - (NSString *) statNameForIndex:(int)index {
-  if(!index) {
+  if (!index) {
     return @"Queue Size";
   } else {
     return @"Heal Speed";
@@ -276,7 +276,7 @@
 }
 
 - (NSString *) statSuffixForIndex:(int)index {
-  if(!index) {
+  if (!index) {
     return @"";
   } else {
     return @"%";
@@ -289,7 +289,7 @@
   if (self.structInfo.predecessorStructId) {
     nextStruct = (HospitalProto *)[gs structWithId:self.structInfo.predecessorStructId];
   }
-  if(!index) {
+  if (!index) {
     return [self.structInfo statChangeWith:self.queueSize prevStat:nextStruct.queueSize suffix:[self statSuffixForIndex:index]];
   } else {
     return [self.structInfo statChangeWith:self.secsToFullyHealMultiplier*100 prevStat:nextStruct.secsToFullyHealMultiplier*100 suffix:[self statSuffixForIndex:index]];
@@ -302,7 +302,7 @@
   if (self.structInfo.successorStructId) {
     nextStruct = (HospitalProto *)[gs structWithId:self.structInfo.successorStructId];
   }
-  if(!index) {
+  if (!index) {
     return [self.structInfo statChangeStringWith:self.queueSize nextStat:nextStruct.queueSize suffix:[self statSuffixForIndex:index]];
   } else {
     return [self.structInfo statChangeStringWith:self.secsToFullyHealMultiplier*100 nextStat:nextStruct.secsToFullyHealMultiplier*100 suffix:[self statSuffixForIndex:index]];
@@ -313,7 +313,7 @@
   float result = 0.f;
   
   HospitalProto *maxStruct = (HospitalProto *)self.structInfo.maxStaticStruct;
-  if(!index) {
+  if (!index) {
     result = [self.structInfo barPercentWithNumerator:self.queueSize Denominator:maxStruct.queueSize useSqrt:NO usePow:NO];
   } else {
     result = [self.structInfo barPercentWithNumerator:self.secsToFullyHealMultiplier*100 Denominator:maxStruct.secsToFullyHealMultiplier*100 useSqrt:NO usePow:NO];
@@ -330,7 +330,7 @@
   HospitalProto *maxStruct = (HospitalProto *)self.structInfo.maxStaticStruct;
   if (self.structInfo.successorStructId) {
     HospitalProto *nextStruct = (HospitalProto *)[gs structWithId:self.structInfo.successorStructId];
-    if(!index) {
+    if (!index) {
       result = [self.structInfo barPercentWithNumerator:nextStruct.queueSize Denominator:maxStruct.queueSize useSqrt:NO usePow:NO];
     } else {
       result = [self.structInfo barPercentWithNumerator:nextStruct.secsToFullyHealMultiplier*100 Denominator:maxStruct.secsToFullyHealMultiplier*100 useSqrt:NO usePow:NO];
@@ -343,7 +343,7 @@
 - (int) strength {
   GameState *gs = [GameState sharedGameState];
   
-  if(self.structInfo.successorStructId) {
+  if (self.structInfo.successorStructId) {
     id<StaticStructure> successor = [gs structWithId:self.structInfo.successorStructId];
     return successor.structInfo.strength - self.structInfo.strength;
   } else {
@@ -378,7 +378,7 @@
 
 - (id<GameTypeProto>) successor{
   GameState *gs = [GameState sharedGameState];
-  if(self.structInfo.successorStructId) {
+  if (self.structInfo.successorStructId) {
     return [gs structWithId:self.structInfo.successorStructId];
   } else {
     return nil;
@@ -454,7 +454,7 @@
 - (int) strength {
   GameState *gs = [GameState sharedGameState];
   
-  if(self.structInfo.successorStructId) {
+  if (self.structInfo.successorStructId) {
     id<StaticStructure> successor = [gs structWithId:self.structInfo.successorStructId];
     return successor.structInfo.strength - self.structInfo.strength;
   } else {
@@ -489,7 +489,7 @@
 
 - (id<GameTypeProto>) successor{
   GameState *gs = [GameState sharedGameState];
-  if(self.structInfo.successorStructId) {
+  if (self.structInfo.successorStructId) {
     return [gs structWithId:self.structInfo.successorStructId];
   } else {
     return nil;
@@ -525,7 +525,7 @@
 - (int) strength {
   GameState *gs = [GameState sharedGameState];
   
-  if(self.structInfo.successorStructId) {
+  if (self.structInfo.successorStructId) {
     id<StaticStructure> successor = [gs structWithId:self.structInfo.successorStructId];
     return successor.structInfo.strength - self.structInfo.strength;
   } else {
@@ -560,7 +560,7 @@
 
 - (id<GameTypeProto>) successor{
   GameState *gs = [GameState sharedGameState];
-  if(self.structInfo.successorStructId) {
+  if (self.structInfo.successorStructId) {
     return [gs structWithId:self.structInfo.successorStructId];
   } else {
     return nil;
@@ -590,7 +590,7 @@
 }
 
 - (NSString *) statNameForIndex:(int)index {
-  if(!index) {
+  if (!index) {
     return @"Queue Size";
   } else {
     return @"Multiplier";
@@ -611,7 +611,7 @@
   if (self.structInfo.predecessorStructId) {
     nextStruct = (LabProto *)[gs structWithId:self.structInfo.predecessorStructId];
   }
-  if(!index) {
+  if (!index) {
     return [self.structInfo statChangeWith:self.queueSize prevStat:nextStruct.queueSize suffix:[self statSuffixForIndex:index]];
   } else {
     return [self.structInfo statChangeWith:self.pointsMultiplier*100 prevStat:nextStruct.pointsMultiplier*100 suffix:[self statSuffixForIndex:index]];
@@ -624,7 +624,7 @@
   if (self.structInfo.successorStructId) {
     nextStruct = (LabProto *)[gs structWithId:self.structInfo.successorStructId];
   }
-  if(!index) {
+  if (!index) {
     return [self.structInfo statChangeStringWith:self.queueSize nextStat:nextStruct.queueSize suffix:[self statSuffixForIndex:index]];
   } else {
     return [self.structInfo statChangeStringWith:self.pointsMultiplier*100 nextStat:nextStruct.pointsMultiplier*100 suffix:[self statSuffixForIndex:index]];
@@ -635,7 +635,7 @@
   float result = 0.f;
   
   LabProto *maxStruct = (LabProto *)self.structInfo.maxStaticStruct;
-  if(!index) {
+  if (!index) {
     result = [self.structInfo barPercentWithNumerator:self.queueSize Denominator:maxStruct.queueSize useSqrt:NO usePow:NO];
   } else {
     result = [self.structInfo barPercentWithNumerator:self.pointsMultiplier*100 Denominator:maxStruct.pointsMultiplier*100 useSqrt:NO usePow:NO];
@@ -652,7 +652,7 @@
   LabProto *maxStruct = (LabProto *)self.structInfo.maxStaticStruct;
   if (self.structInfo.successorStructId) {
     LabProto *nextStruct = (LabProto *)[gs structWithId:self.structInfo.successorStructId];
-    if(!index) {
+    if (!index) {
       result = [self.structInfo barPercentWithNumerator:nextStruct.queueSize Denominator:maxStruct.queueSize useSqrt:NO usePow:NO];
     } else {
       result = [self.structInfo barPercentWithNumerator:nextStruct.pointsMultiplier*100 Denominator:maxStruct.pointsMultiplier*100 useSqrt:NO usePow:NO];
@@ -665,7 +665,7 @@
 - (int) strength {
   GameState *gs = [GameState sharedGameState];
   
-  if(self.structInfo.successorStructId) {
+  if (self.structInfo.successorStructId) {
     id<StaticStructure> successor = [gs structWithId:self.structInfo.successorStructId];
     return successor.structInfo.strength - self.structInfo.strength;
   } else {
@@ -700,7 +700,7 @@
 
 - (id<GameTypeProto>) successor{
   GameState *gs = [GameState sharedGameState];
-  if(self.structInfo.successorStructId) {
+  if (self.structInfo.successorStructId) {
     return [gs structWithId:self.structInfo.successorStructId];
   } else {
     return nil;
@@ -788,7 +788,7 @@
 - (int) strength {
   GameState *gs = [GameState sharedGameState];
   
-  if(self.structInfo.successorStructId) {
+  if (self.structInfo.successorStructId) {
     id<StaticStructure> successor = [gs structWithId:self.structInfo.successorStructId];
     return successor.structInfo.strength - self.structInfo.strength;
   } else {
@@ -823,7 +823,7 @@
 
 - (id<GameTypeProto>) successor{
   GameState *gs = [GameState sharedGameState];
-  if(self.structInfo.successorStructId) {
+  if (self.structInfo.successorStructId) {
     return [gs structWithId:self.structInfo.successorStructId];
   } else {
     return nil;
@@ -899,7 +899,7 @@
 - (int) strength {
   GameState *gs = [GameState sharedGameState];
   
-  if(self.structInfo.successorStructId) {
+  if (self.structInfo.successorStructId) {
     id<StaticStructure> successor = [gs structWithId:self.structInfo.successorStructId];
     return successor.structInfo.strength - self.structInfo.strength;
   } else {
@@ -934,7 +934,7 @@
 
 - (id<GameTypeProto>) successor{
   GameState *gs = [GameState sharedGameState];
-  if(self.structInfo.successorStructId) {
+  if (self.structInfo.successorStructId) {
     return [gs structWithId:self.structInfo.successorStructId];
   } else {
     return nil;
@@ -964,7 +964,7 @@
 }
 
 - (NSString *) statNameForIndex:(int)index {
-  if(!index) {
+  if (!index) {
     return @"Rate";
   } else {
     return @"Capacity";
@@ -985,7 +985,7 @@
   if (self.structInfo.predecessorStructId) {
     nextStruct = (MoneyTreeProto *)[gs structWithId:self.structInfo.predecessorStructId];
   }
-  if(!index) {
+  if (!index) {
     return [self.structInfo statChangeWith:self.productionRate*24 prevStat:nextStruct.productionRate*24 suffix:[self statSuffixForIndex:index]];
   } else {
     return [self.structInfo statChangeWith:self.capacity prevStat:nextStruct.capacity suffix:[self statSuffixForIndex:index]];
@@ -998,7 +998,7 @@
   if (self.structInfo.successorStructId) {
     nextStruct = (MoneyTreeProto *)[gs structWithId:self.structInfo.successorStructId];
   }
-  if(!index) {
+  if (!index) {
     return [self.structInfo statChangeStringWith:self.productionRate*24 nextStat:nextStruct.productionRate*24 suffix:[self statSuffixForIndex:index]];
   } else {
     return [self.structInfo statChangeStringWith:self.capacity nextStat:nextStruct.capacity suffix:[self statSuffixForIndex:index]];
@@ -1009,7 +1009,7 @@
   float result = 0.f;
   
   MoneyTreeProto *maxStruct = (MoneyTreeProto *)self.structInfo.maxStaticStruct;
-  if(!index) {
+  if (!index) {
     result = [self.structInfo barPercentWithNumerator:self.productionRate*24 Denominator:maxStruct.productionRate*24 useSqrt:NO usePow:NO];
   } else {
     result = [self.structInfo barPercentWithNumerator:self.capacity Denominator:maxStruct.capacity useSqrt:NO usePow:NO];
@@ -1026,7 +1026,7 @@
   MoneyTreeProto *maxStruct = (MoneyTreeProto *)self.structInfo.maxStaticStruct;
   if (self.structInfo.successorStructId) {
     MoneyTreeProto *nextStruct = (MoneyTreeProto *)[gs structWithId:self.structInfo.successorStructId];
-    if(!index) {
+    if (!index) {
       result = [self.structInfo barPercentWithNumerator:nextStruct.productionRate*24 Denominator:maxStruct.productionRate*24 useSqrt:NO usePow:NO];
     } else {
       result = [self.structInfo barPercentWithNumerator:nextStruct.capacity Denominator:maxStruct.capacity useSqrt:NO usePow:NO];
@@ -1039,7 +1039,7 @@
 - (int) strength {
   GameState *gs = [GameState sharedGameState];
   
-  if(self.structInfo.successorStructId) {
+  if (self.structInfo.successorStructId) {
     id<StaticStructure> successor = [gs structWithId:self.structInfo.successorStructId];
     return successor.structInfo.strength - self.structInfo.strength;
   } else {
@@ -1074,7 +1074,7 @@
 
 - (id<GameTypeProto>) successor{
   GameState *gs = [GameState sharedGameState];
-  if(self.structInfo.successorStructId) {
+  if (self.structInfo.successorStructId) {
     return [gs structWithId:self.structInfo.successorStructId];
   } else {
     return nil;
@@ -1150,7 +1150,7 @@
 - (int) strength {
   GameState *gs = [GameState sharedGameState];
   
-  if(self.structInfo.successorStructId) {
+  if (self.structInfo.successorStructId) {
     id<StaticStructure> successor = [gs structWithId:self.structInfo.successorStructId];
     return successor.structInfo.strength - self.structInfo.strength;
   } else {
@@ -1185,7 +1185,7 @@
 
 - (id<GameTypeProto>) successor{
   GameState *gs = [GameState sharedGameState];
-  if(self.structInfo.successorStructId) {
+  if (self.structInfo.successorStructId) {
     return [gs structWithId:self.structInfo.successorStructId];
   } else {
     return nil;
@@ -1261,7 +1261,7 @@
 - (int) strength {
   GameState *gs = [GameState sharedGameState];
   
-  if(self.structInfo.successorStructId) {
+  if (self.structInfo.successorStructId) {
     id<StaticStructure> successor = [gs structWithId:self.structInfo.successorStructId];
     return successor.structInfo.strength - self.structInfo.strength;
   } else {
@@ -1296,7 +1296,7 @@
 
 - (id<GameTypeProto>) successor{
   GameState *gs = [GameState sharedGameState];
-  if(self.structInfo.successorStructId) {
+  if (self.structInfo.successorStructId) {
     return [gs structWithId:self.structInfo.successorStructId];
   } else {
     return nil;
@@ -1326,7 +1326,7 @@
 }
 
 - (NSString *) statNameForIndex:(int)index {
-  if(!index) {
+  if (!index) {
     return @"Help Limit";
   } else {
     return @"Donate Pwer";
@@ -1379,7 +1379,7 @@
   ClanHouseProto *maxStruct = (ClanHouseProto *)self.structInfo.maxStaticStruct;
   if (self.structInfo.successorStructId) {
     ClanHouseProto *nextStruct = (ClanHouseProto *)[gs structWithId:self.structInfo.successorStructId];
-    if(!index) {
+    if (!index) {
       return [self.structInfo barPercentWithNumerator:nextStruct.maxHelpersPerSolicitation Denominator:maxStruct.maxHelpersPerSolicitation useSqrt:NO usePow:NO];
     } else {
       return [self.structInfo barPercentWithNumerator:nextStruct.teamDonationPowerLimit Denominator:maxStruct.teamDonationPowerLimit useSqrt:NO usePow:NO];
@@ -1392,7 +1392,7 @@
 - (int) strength {
   GameState *gs = [GameState sharedGameState];
   
-  if(self.structInfo.successorStructId) {
+  if (self.structInfo.successorStructId) {
     id<StaticStructure> successor = [gs structWithId:self.structInfo.successorStructId];
     return successor.structInfo.strength - self.structInfo.strength;
   } else {
@@ -1427,7 +1427,7 @@
 
 - (id<GameTypeProto>) successor{
   GameState *gs = [GameState sharedGameState];
-  if(self.structInfo.successorStructId) {
+  if (self.structInfo.successorStructId) {
     return [gs structWithId:self.structInfo.successorStructId];
   } else {
     return nil;
@@ -1503,7 +1503,7 @@
 - (int) strength {
   GameState *gs = [GameState sharedGameState];
   
-  if(self.structInfo.successorStructId) {
+  if (self.structInfo.successorStructId) {
     id<StaticStructure> successor = [gs structWithId:self.structInfo.successorStructId];
     return successor.structInfo.strength - self.structInfo.strength;
   } else {
@@ -1538,7 +1538,118 @@
 
 - (id<GameTypeProto>) successor{
   GameState *gs = [GameState sharedGameState];
-  if(self.structInfo.successorStructId) {
+  if (self.structInfo.successorStructId) {
+    return [gs structWithId:self.structInfo.successorStructId];
+  } else {
+    return nil;
+  }
+}
+
+- (NSArray *) fullFamilyList {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  
+  NSMutableArray *arr = [NSMutableArray array];
+  int curId = [gl baseStructIdForStructId:self.structInfo.structId];
+  while (curId) {
+    id<StaticStructure> ss = [gs structWithId:curId];
+    [arr addObject:ss];
+    curId = ss.structInfo.successorStructId;
+  }
+  return arr;
+}
+
+@end
+
+@implementation ResearchHouseProto (StaticStructureImpl)
+
+- (int) numBars {
+  return 1;
+}
+
+- (NSString *) statNameForIndex:(int)index {
+  return @"Research Speed";
+}
+
+- (NSString *) statSuffixForIndex:(int)index {
+  return @"%";
+}
+
+- (NSString *) shortStatChangeForIndex:(int)index {
+  GameState *gs = [GameState sharedGameState];
+  ResearchHouseProto *nextStruct;
+  if (self.structInfo.predecessorStructId) {
+    nextStruct = (ResearchHouseProto *)[gs structWithId:self.structInfo.predecessorStructId];
+  }
+  return [self.structInfo statChangeWith:self.researchSpeedMultiplier*100 prevStat:nextStruct.researchSpeedMultiplier*100 suffix:[self statSuffixForIndex:index]];
+}
+
+- (NSString *) longStatChangeForIndex:(int)index {
+  GameState *gs = [GameState sharedGameState];
+  ResearchHouseProto *nextStruct;
+  if (self.structInfo.successorStructId) {
+    nextStruct = (ResearchHouseProto *)[gs structWithId:self.structInfo.successorStructId];
+  }
+  return [self.structInfo statChangeStringWith:self.researchSpeedMultiplier*100 nextStat:nextStruct.researchSpeedMultiplier*100 suffix:[self statSuffixForIndex:index]];
+}
+
+- (float) curBarPercentForIndex:(int)index {
+  ResearchHouseProto *maxStruct = (ResearchHouseProto *)self.structInfo.maxStaticStruct;
+  return [self.structInfo barPercentWithNumerator:self.researchSpeedMultiplier*100 Denominator:maxStruct.researchSpeedMultiplier*100 useSqrt:NO usePow:NO];
+}
+
+- (float) nextBarPercentForIndex:(int)index {
+  GameState *gs = [GameState sharedGameState];
+  float result = 0.f;
+  
+  ResearchHouseProto *maxStruct = (ResearchHouseProto *)self.structInfo.maxStaticStruct;
+  if (self.structInfo.successorStructId) {
+    ResearchHouseProto *nextStruct = (ResearchHouseProto *)[gs structWithId:self.structInfo.successorStructId];
+    return [self.structInfo barPercentWithNumerator:nextStruct.researchSpeedMultiplier*100 Denominator:maxStruct.researchSpeedMultiplier*100 useSqrt:NO usePow:NO];
+  }
+  
+  return result;
+}
+
+- (int) strength {
+  GameState *gs = [GameState sharedGameState];
+  
+  if (self.structInfo.successorStructId) {
+    id<StaticStructure> successor = [gs structWithId:self.structInfo.successorStructId];
+    return successor.structInfo.strength - self.structInfo.strength;
+  } else {
+    return self.structInfo.strength;
+  }
+}
+
+- (NSArray *) prereqs {
+  return self.structInfo.prereqs;
+}
+
+- (int) rank {
+  return self.structInfo.level;
+}
+
+- (int) totalRanks {
+  return self.structInfo.maxStaticStruct.structInfo.level;
+}
+
+- (NSString *) name {
+  return self.structInfo.name;
+}
+
+- (id<GameTypeProto>) predecessor {
+  GameState *gs = [GameState sharedGameState];
+  if (self.structInfo.predecessorStructId) {
+    return [gs structWithId:self.structInfo.predecessorStructId];
+  } else {
+    return nil;
+  }
+}
+
+- (id<GameTypeProto>) successor{
+  GameState *gs = [GameState sharedGameState];
+  if (self.structInfo.successorStructId) {
     return [gs structWithId:self.structInfo.successorStructId];
   } else {
     return nil;
@@ -1597,15 +1708,15 @@
 }
 
 - (NSString *) statChangeWith:(float)curStat prevStat:(float)prevStat suffix:(NSString *)suffix{
-  if(prevStat) {
+  if (prevStat) {
     return [NSString stringWithFormat:@"+%@%@", [Globals commafyNumber: curStat - prevStat], suffix];
   } else {
-    return @"+ NONE";
+    return [NSString stringWithFormat:@"+%@", [Globals commafyNumber:curStat]];
   }
 }
 
 - (NSString *) statChangeStringWith:(float)curStat nextStat:(float)nextStat suffix:(NSString *)suffix{
-  if(nextStat) {
+  if (nextStat) {
     return [NSString stringWithFormat:@"%@ + %@%@", [Globals commafyNumber:curStat], [Globals commafyNumber:nextStat - curStat], suffix];
   } else {
     return [NSString stringWithFormat:@"%@%@", [Globals commafyNumber:curStat], suffix];

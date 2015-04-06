@@ -11,7 +11,7 @@
 
 @implementation DetailViewCell
 
--(void)updateWithRank:(NSString *)rank description:(NSString *)description showCheckMark:(BOOL)show {
+- (void)updateWithRank:(NSString *)rank description:(NSString *)description showCheckMark:(BOOL)show {
   self.rankLabel.text = rank;
   self.improvementLabel.text = description;
   self.checkMark.hidden = !show;
@@ -21,7 +21,7 @@
 
 @implementation DetailView
 
--(void) updateWithGameTypeProto:(id<GameTypeProto>)protocol index:(int)index imageNamed:(NSString *)imageName{
+- (void) updateWithGameTypeProto:(id<GameTypeProto>)protocol index:(int)index imageNamed:(NSString *)imageName{
   self.Name.text = protocol.name;
   int curLevel = protocol.rank;
   self.Rank.text = [NSString stringWithFormat:@"%d/%d",curLevel, protocol.totalRanks];
@@ -48,7 +48,7 @@
   return self;
 }
 
--(void)viewDidAppear:(BOOL)animated {
+- (void) viewDidAppear:(BOOL)animated {
   [super viewDidAppear:animated];
   self.title = [NSString stringWithFormat:@"%@ Details", [_gameTypeProto statNameForIndex:_index]];
   self.columnNameLabel.text = _columnName;

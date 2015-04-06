@@ -67,6 +67,10 @@
 
 @end
 
+@interface ResearchHouseProto (StaticStructureImpl) <StaticStructure>
+
+@end
+
 @interface StructureInfoProto (StaticStructure)
 
 - (id<StaticStructure>) maxStaticStruct;

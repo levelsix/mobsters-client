@@ -2049,9 +2049,15 @@
   
   if (!self.currentViewController) {
     if (!isHire) {
+      HomeViewController *hvc = [[HomeViewController alloc] init];
+      hvc.delegate = self;
+      
       UpgradeViewController *up = [[UpgradeViewController alloc] initWithUserStruct:us];
       up.delegate = self;
-      uvc = up;
+      
+      [hvc pushViewController:up animated:NO];
+      
+      uvc = hvc;
     } else {
       HireViewController *hvc = [[HireViewController alloc] initWithUserStruct:us];
       hvc.delegate = self;

@@ -428,6 +428,7 @@
 - (int) calculateBaseSpeedForMonster:(UserMonster *)um;
 - (int) calculateMaxHealthForMonster:(UserMonster *)um;
 - (int) calculateSpeedForMonster:(UserMonster *)um;
+- (int) calculateStrengthForMonster:(UserMonster *)um;
 - (int) calculateCostToHealMonster:(UserMonster *)um;
 - (float) calculateBaseSecondsToHealMonster:(UserMonster *)um;
 - (float) calculateDamageMultiplierForAttackElement:(Element)aElement defenseElement:(Element)dElement;

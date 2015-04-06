@@ -88,12 +88,15 @@
 - (void) viewDidLoad {
   [super viewDidLoad];
   
-  [self loadMainViewControllers];
+  // Basically if this doesn't have an _initViewControllerClass assume its going to just be used a generic nav
+  if (_initViewControllerClass) {
+    [self loadMainViewControllers];
+  }
   
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadEnhanceViewController) name:ENHANCE_MONSTER_NOTIFICATION object:nil];
   [self reloadEnhanceViewController];
   
-  PopupSubViewController *vc = self.mainViewControllers[0];
+  PopupSubViewController *vc = [self.mainViewControllers firstObject];
   if (_initViewControllerClass) {
     for (PopupSubViewController *mvc in self.mainViewControllers) {
       if ([mvc isKindOfClass:_initViewControllerClass]) {
@@ -101,8 +104,11 @@
       }
     }
   }
-  _currentIndex = (int)[self.mainViewControllers indexOfObject:vc];
-  [self replaceRootWithViewController:vc fromRight:NO animated:NO];
+  
+  if (vc) {
+    _currentIndex = (int)[self.mainViewControllers indexOfObject:vc];
+    [self replaceRootWithViewController:vc fromRight:NO animated:NO];
+  }
   
   self.containerView.superview.layer.cornerRadius = 5.f;
   self.containerView.superview.clipsToBounds = YES;
