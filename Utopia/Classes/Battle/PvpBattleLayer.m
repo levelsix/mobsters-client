@@ -624,7 +624,7 @@
     int num = 0;
     for (PvpMonsterProto *mon in enemy.defenderMonstersList) {
       UserMonster *um = [UserMonster userMonsterWithMinProto:mon.defenderMonster researchUtil:ru];
-      um.userUuid = [NSString stringWithFormat:@"%i",num++];
+      um.userMonsterUuid = [NSString stringWithFormat:@"%i",num++];
       BattlePlayer *bp = [BattlePlayer playerWithMonster:um];
       [enemyTeam addObject:bp];
       
