@@ -55,20 +55,7 @@
 @property (nonatomic, assign) IBOutlet UILabel *readyLabel;
 @property (nonatomic, assign) IBOutlet UILabel *readySubLabel;
 
-//@property (nonatomic, assign) IBOutlet UIView *statBarView1;
-//@property (nonatomic, assign) IBOutlet UILabel *statNameLabel1;
-//@property (nonatomic, assign) IBOutlet UILabel *statDescriptionLabel1;
-//@property (nonatomic, assign) IBOutlet SplitImageProgressBar *statNewBar1;
-//@property (nonatomic, assign) IBOutlet SplitImageProgressBar *statCurrentBar1;
-//@property (nonatomic, assign) IBOutlet UIView *statBarView2;
-//@property (nonatomic, assign) IBOutlet UILabel *statNameLabel2;
-//@property (nonatomic, assign) IBOutlet UILabel *statDescriptionLabel2;
-//@property (nonatomic, assign) IBOutlet SplitImageProgressBar *statNewBar2;
-//@property (nonatomic, assign) IBOutlet SplitImageProgressBar *statCurrentBar2;
-
 @property (nonatomic, assign) IBOutlet UIView *cityHallUnlocksView;
-//@property (nonatomic, assign) IBOutlet UILabel *cityHallUnlocksLabel;
-//@property (nonatomic, assign) IBOutlet UIScrollView *cityHallUnlocksScrollView;
 @property (nonatomic, retain) IBOutlet UIView *nibUnlocksView;
 @property (nonatomic, assign) IBOutlet UIImageView *nibUnlocksLabelBgd;
 @property (nonatomic, assign) IBOutlet UILabel *nibUnlocksLabel;

@@ -17,17 +17,17 @@
 @property (nonatomic, assign) IBOutlet UILabel *rankLabel;
 @property (nonatomic, assign) IBOutlet UILabel *improvementLabel;
 
--(void)updateWithRank:(NSString *)rank description:(NSString *)description showCheckMark:(BOOL)show;
+- (void) updateWithRank:(NSString *)rank description:(NSString *)description showCheckMark:(BOOL)show;
 
 @end
 
 @interface DetailView : UIView
-@property (nonatomic, assign) IBOutlet UILabel *Name;
-@property (nonatomic, assign) IBOutlet UILabel *Rank;
-@property (nonatomic, assign) IBOutlet UIImageView *Icon;
 
+@property (nonatomic, assign) IBOutlet UILabel *nameLabel;
+@property (nonatomic, assign) IBOutlet UILabel *rankLabel;
+@property (nonatomic, assign) IBOutlet UIImageView *icon;
 
--(void) updateWithGameTypeProto:(id<GameTypeProtocol>)gameTypeProto index:(int)index imageNamed:(NSString *)imageName;
+- (void) updateWithGameTypeProto:(id<GameTypeProtocol>)gameTypeProto index:(int)index imageNamed:(NSString *)imageName;
 
 @end
 

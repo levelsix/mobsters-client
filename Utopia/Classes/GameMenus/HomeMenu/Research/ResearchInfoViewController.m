@@ -11,6 +11,8 @@
 #import "OutgoingEventController.h"
 #import "GenericPopupController.h"
 
+#import "DetailViewController.h"
+
 #import "Globals.h"
 #import "GameState.h"
 #import "GameViewController.h"
@@ -48,18 +50,9 @@
   ResearchProto *curResearch = userResearch.staticResearchForBenefitLevel;
   ResearchProto *nextResearch = userResearch.staticResearchForNextLevel;
   
-  GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
-  ResearchController *curRc = [ResearchController researchControllerWithProto:curResearch];
-  ResearchController *nextRc = nextResearch ? [ResearchController researchControllerWithProto:nextResearch] : nil;
   
-  //for now we assume only a single property for each research
-  self.researchTypeLabel.text = [[curRc benefitName] stringByAppendingString:@":"];
-  
-  self.improvementLabel.text = nextRc ? [nextRc longImprovementString] : [curRc benefitString];
-  CGSize size = [self.improvementLabel.text getSizeWithFont:self.improvementLabel.font];
-  int offsetFromBar = 5;
-  self.detailView.center = CGPointMake(self.improvementLabel.frame.origin.x+size.width+(self.detailView.frame.size.width/2) + offsetFromBar, self.improvementLabel.center.y);
+  [self.embeddedScrollView updateForGameTypeProto:curResearch];
   
   [Globals imageNamed:curResearch.iconImgName withView:self.researchIcon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
   self.researchTimeLabel.text = nextResearch ? [[Globals convertTimeToMediumString:[gl calculateSecondsToResearch:nextResearch]] uppercaseString] : @"N/A";
@@ -77,47 +70,13 @@
     self.researchNameLabel.height = ceilf(rect.size.height);
   }
   
-  NSArray *prereqs = [gs prerequisitesForGameType:GameTypeResearch gameEntityId:nextResearch.researchId];
-  
-  self.prereqViewA.hidden = prereqs.count < 1;
-  self.prereqViewB.hidden = prereqs.count < 2;
-  self.prereqViewC.hidden = prereqs.count < 3;
-  
-  int unfulfilledRequirements = 0;
-  if (!self.prereqViewA.hidden) {
-    BOOL isComplete = [gl isPrerequisiteComplete:prereqs[0]];
-    [self.prereqViewA updateForPrereq:prereqs[0] isComplete:isComplete];
-    if (!isComplete) {
-      unfulfilledRequirements++;
-    }
-  }
-  if (!self.prereqViewB.hidden) {
-    BOOL isComplete = [gl isPrerequisiteComplete:prereqs[0]];
-    [self.prereqViewB updateForPrereq:prereqs[1] isComplete:isComplete];
-    if (!isComplete) {
-      unfulfilledRequirements++;
-    }
-  }
-  if (!self.prereqViewC.hidden) {
-    BOOL isComplete = [gl isPrerequisiteComplete:prereqs[0]];
-    [self.prereqViewC updateForPrereq:prereqs[2] isComplete:isComplete];
-    if (!isComplete) {
-      unfulfilledRequirements++;
-    }
-  }
-  
-  if (unfulfilledRequirements > 0) {
-    [self setDisplayForNumMissingRequirements:unfulfilledRequirements];
+  int numIncomplete = [curResearch numIncompletePrereqs];
+  if (numIncomplete > 0) {
+    [self setDisplayForNumMissingRequirements:numIncomplete];
   } else if (!userResearch.complete) {
     self.bottomDescLabel.text = RESEARCHING_DESCRIPTION;
     self.bottomNameLabel.text = RESEARCHING_TITLE;
   }
-  
-  float curPercent = [curRc curPercent];
-  float nextPercent = nextRc ? [nextRc curPercent] : 1.f;
-  
-  [self.topPercentBar setPercentage:curPercent];
-  [self.botPercentBar setPercentage:nextPercent];
   
   if (userResearch.complete && nextResearch) {
     self.oilButtonLabel.text = [NSString stringWithFormat:@"%d", nextResearch.costAmt];
@@ -223,7 +182,7 @@
 
 - (void) waitTimeComplete {
   ResearchProto *next = _userResearch.staticResearchForNextLevel;
-  self.title = next ? [NSString stringWithFormat:@"Research to Rank %d", next.level] : [NSString stringWithFormat:@"%@ R%d", _userResearch.staticResearch.name, _userResearch.staticResearch.level];
+  self.title = next ? [NSString stringWithFormat:@"Research to Rank %d", next.level] : [NSString stringWithFormat:@"%@ is at Max", _userResearch.staticResearch.name];
   
   [self.view updateWithResearch:_userResearch];
   [self updateLabels];
@@ -232,7 +191,9 @@
 #pragma mark - Bottom View
 
 - (IBAction) detailsClicked:(id)sender {
-  ResearchDetailViewController *rdvc = [[ResearchDetailViewController alloc] initWithUserResearch:_userResearch];
+  ResearchProto *rp = _userResearch.staticResearchForBenefitLevel;
+  DetailViewController *rdvc = [[DetailViewController alloc] initWithGameTypeProto:rp index:0 imageNamed:rp.iconImgName];
+  
   [self.parentViewController pushViewController:rdvc animated:YES];
 }
 

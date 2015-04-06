@@ -18,7 +18,7 @@
 
 - (float) barPercentForIndex:(int)index;
 
-- (int) strength;
+- (int) strengthGain;
 - (NSArray *) prereqs;
 
 - (int) rank;

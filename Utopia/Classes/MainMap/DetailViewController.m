@@ -22,10 +22,23 @@
 @implementation DetailView
 
 - (void) updateWithGameTypeProto:(id<GameTypeProtocol>)protocol index:(int)index imageNamed:(NSString *)imageName{
-  self.Name.text = protocol.name;
+  
+  {
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.lineSpacing = 4;
+    paragraphStyle.alignment = NSTextAlignmentCenter;
+    
+    NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:protocol.name attributes:@{NSParagraphStyleAttributeName : paragraphStyle, NSFontAttributeName : self.nameLabel.font}];
+    self.nameLabel.attributedText = attr;
+    
+    CGRect rect = [attr boundingRectWithSize:CGSizeMake(self.nameLabel.width, 9999) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
+    self.nameLabel.originY = floorf(CGRectGetMaxY(self.nameLabel.frame) - rect.size.height);
+    self.nameLabel.height = ceilf(rect.size.height);
+  }
+  
   int curLevel = protocol.rank;
-  self.Rank.text = [NSString stringWithFormat:@"%d/%d",curLevel, protocol.totalRanks];
-  [Globals imageNamed:imageName withView:self.Icon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+  self.rankLabel.text = [NSString stringWithFormat:@"%d/%d",curLevel, protocol.totalRanks];
+  [Globals imageNamed:imageName withView:self.icon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
 }
 
 @end
@@ -36,20 +49,19 @@
   return [self initWithGameTypeProto:gameTypeProto index:index imageNamed:imageName columnName:@"LVL"];
 }
 
-- (id) initWithGameTypeProto:(id<GameTypeProtocol>)gameTypeProto index:(int)index imageNamed:(NSString *)imageName columnName:(NSString *)columnName{
-  _gameTypeProto = gameTypeProto;
-  _index = index;
-  _imageName = imageName;
-  _columnName = columnName;
-  
-  if((self = [super init])){
-    self.title = [NSString stringWithFormat:@"%@ Ranks", [gameTypeProto statNameForIndex:index]];
+- (id) initWithGameTypeProto:(id<GameTypeProtocol>)gameTypeProto index:(int)index imageNamed:(NSString *)imageName columnName:(NSString *)columnName {
+  if ((self = [super init])){
+    _gameTypeProto = gameTypeProto;
+    _index = index;
+    _imageName = imageName;
+    _columnName = columnName;
   }
   return self;
 }
 
-- (void) viewDidAppear:(BOOL)animated {
-  [super viewDidAppear:animated];
+- (void) viewWillAppear:(BOOL)animated {
+  [super viewWillAppear:animated];
+  
   self.title = [NSString stringWithFormat:@"%@ Details", [_gameTypeProto statNameForIndex:_index]];
   self.columnNameLabel.text = _columnName;
   [self.view updateWithGameTypeProto:_gameTypeProto index:_index imageNamed:_imageName];
@@ -66,7 +78,7 @@
     cell = [[NSBundle mainBundle] loadNibNamed:@"DetailViewCell" owner:self options:nil][0];
   }
   
-  if ([protocol rank] == [_gameTypeProto rank]) {
+  if ([protocol rank] == [[_gameTypeProto successor] rank]) {
     cell.bgView.backgroundColor = [UIColor colorWithHexString:@"FFFFDC"];
   } else {
     cell.bgView.backgroundColor = [UIColor clearColor];

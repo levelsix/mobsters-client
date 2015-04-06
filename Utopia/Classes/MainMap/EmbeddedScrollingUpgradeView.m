@@ -121,7 +121,7 @@
   newestView = [self makeTitleWithTitle:STRENGTH_TITLE];
   [self addToScrollViewWithView:newestView];
   
-  newestView = [self makeStrengthDetailsViewWithStrength:gameProto.strength showPlus:!!gameProto.successor];
+  newestView = [self makeStrengthDetailsViewWithStrength:gameProto.strengthGain showPlus:!!gameProto.successor];
   [self addToScrollViewWithView:newestView];
   
   _curY += 21;
@@ -173,7 +173,7 @@
   newestView = [self makeTitleWithTitle:STRENGTH_TITLE];
   [self addToScrollViewWithView:newestView];
   
-  newestView = [self makeStrengthDetailsViewWithStrength:[gameProto strength] showPlus:!!gameProto.successor];
+  newestView = [self makeStrengthDetailsViewWithStrength:[gameProto strengthGain] showPlus:!!gameProto.successor];
   [self addToScrollViewWithView:newestView];
   
   _curY += 21;

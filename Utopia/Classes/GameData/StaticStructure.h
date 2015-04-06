@@ -20,6 +20,8 @@
 - (float) statValueForIndex:(int)index;
 
 @optional
+- (NSString *) statChangeStringForIndex:(int)index;
+
 - (BOOL) usePowForIndex:(int)index;
 - (BOOL) useSqrtForIndex:(int)index;
 

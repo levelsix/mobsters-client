@@ -166,14 +166,11 @@
 }
 
 - (NSString *) statNameForIndex:(int)index {
-  GameState *gs = [GameState sharedGameState];
-  
-  EvoChamberProto *nextStruct;
-  if (self.structInfo.successorStructId) {
-    nextStruct = (EvoChamberProto *)[gs structWithId:self.structInfo.successorStructId];
-  }
-  
-  return [NSString stringWithFormat:@"%@ Evo %d", [Globals stringForRarity:nextStruct.qualityUnlocked], nextStruct.evoTierUnlocked];
+  return @"Unlocks";
+}
+
+- (NSString *) statChangeStringForIndex:(int)index {
+  return [NSString stringWithFormat:@"%@ Evo %d", [Globals stringForRarity:self.qualityUnlocked], self.evoTierUnlocked];
 }
 
 - (NSString *) statSuffixForIndex:(int)index {
@@ -365,7 +362,7 @@
   if (prevStat) {
     return [NSString stringWithFormat:@"+%@%@", [Globals commafyNumber: curStat - prevStat], suffix];
   } else {
-    return [NSString stringWithFormat:@"+%@", [Globals commafyNumber:curStat]];
+    return [NSString stringWithFormat:@"+%@%@", [Globals commafyNumber:curStat], suffix];
   }
 }
 
@@ -414,20 +411,25 @@
 }
 
 - (int) numBars {
-  return 1;
+  return [self.staticStruct numBars];
 }
 
 - (NSString *) statNameForIndex:(int)index {
-  return @"Power Limit";
+  return [self.staticStruct statNameForIndex:index];
 }
 
 - (NSString *) statSuffixForIndex:(int)index {
-  return @"";
+  return [self.staticStruct statSuffixForIndex:index];
 }
 
 - (NSString *) shortStatChangeForIndex:(int)index {
   id<StaticStructure> curStruct = [self staticStruct];
   id<StaticStructure> prevStruct = [(StructureInfoProto *)[self predecessor] staticStruct];
+  
+  // Use cur since we want what is being unlocked by this
+  if ([curStruct respondsToSelector:@selector(statChangeStringForIndex:)]) {
+    return [curStruct statChangeStringForIndex:index];
+  }
   
   float curValue = [curStruct statValueForIndex:index];
   float nextValue = [prevStruct statValueForIndex:index];
@@ -437,6 +439,11 @@
 - (NSString *) longStatChangeForIndex:(int)index {
   id<StaticStructure> curStruct = [self staticStruct];
   id<StaticStructure> nextStruct = [(StructureInfoProto *)[self successor] staticStruct];
+  
+  // Use next since we want what is going to be unlocked
+  if ([nextStruct respondsToSelector:@selector(statChangeStringForIndex:)]) {
+    return [nextStruct statChangeStringForIndex:index];
+  }
   
   float curValue = [curStruct statValueForIndex:index];
   float nextValue = [nextStruct statValueForIndex:index];
@@ -456,7 +463,7 @@
   return [self barPercentWithNumerator:curValue denominator:maxValue useSqrt:useSqrt usePow:usePow];
 }
 
-- (int) strength {
+- (int) strengthGain {
   StructureInfoProto *successor = [self successor];
   if (successor) {
     return successor.strength - self.strength;
@@ -492,7 +499,12 @@
   int curId = [gl baseStructIdForStructId:self.structId];
   while (curId) {
     StructureInfoProto *ss = [[gs structWithId:curId] structInfo];
-    [arr addObject:ss];
+    
+    // Don't do the level 0 ones since those are fixing the building
+    if (ss.level > 0) {
+      [arr addObject:ss];
+    }
+    
     curId = ss.successorStructId;
   }
   
@@ -515,13 +527,16 @@
     NSString *name = [NSString stringWithFormat:@"%@%@", sip.name, self.quantity == 1 ? @"" : @"s"];
     
     return [NSString stringWithFormat:@"%@%@%@", quant, lvl, name];
+    
   } else if (self.prereqGameType == GameTypeTask) {
     TaskMapElementProto *elem = [gs mapElementWithTaskId:self.prereqGameEntityId];
     return [NSString stringWithFormat:@"Defeat Level %d", elem.mapElementId];
+    
   } else if (self.prereqGameType == GameTypeResearch) {
     ResearchProto *research = [gs researchWithId:self.prereqGameEntityId];
     NSString *lvl = research.predId || research.succId ? [NSString stringWithFormat:@"Rank %d", research.level] : @"";
     return [NSString stringWithFormat:@"%@ %@",research.name, lvl];
+    
   }
   return nil;
 }

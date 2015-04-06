@@ -2045,7 +2045,6 @@
 - (void) loadUpgradeViewControllerForIsHire:(BOOL)isHire {
   UserStruct *us = ((HomeBuilding *)self.selected).userStruct;
   GameViewController *gvc = [GameViewController baseController];
-  UIViewController *uvc;
   
   if (!self.currentViewController) {
     if (!isHire) {
@@ -2055,19 +2054,21 @@
       UpgradeViewController *up = [[UpgradeViewController alloc] initWithUserStruct:us];
       up.delegate = self;
       
+      [gvc.topBarViewController displayHomeViewController:hvc];
+      
       [hvc pushViewController:up animated:NO];
       
-      uvc = hvc;
+      self.currentViewController = hvc;
     } else {
       HireViewController *hvc = [[HireViewController alloc] initWithUserStruct:us];
       hvc.delegate = self;
-      uvc = hvc;
+      
+      [gvc addChildViewController:hvc];
+      hvc.view.frame = gvc.view.bounds;
+      [gvc.view addSubview:hvc.view];
+      
+      self.currentViewController = hvc;
     }
-    
-    [gvc addChildViewController:uvc];
-    uvc.view.frame = gvc.view.bounds;
-    [gvc.view addSubview:uvc.view];
-    self.currentViewController = uvc;
   }
 }
 

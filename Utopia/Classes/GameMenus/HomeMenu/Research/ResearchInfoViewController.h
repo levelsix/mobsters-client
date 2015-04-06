@@ -8,17 +8,17 @@
 
 #import <UIKit/UIKit.h>
 #import "PopupSubViewController.h"
-#import "ResearchDetailViewController.h"
 #import "UpgradeViewController.h"
 #import "SpeedupItemsFiller.h"
+#import "EmbeddedScrollingUpgradeView.h"
 
 #import "FullEvent.h"
+
 @interface ResearchPrereqView : UpgradePrereqView
 
 @end
 
 @interface ResearchInfoView : UIView
-
 
 @property (nonatomic, retain) IBOutlet UILabel *freeLabel;
 @property (nonatomic, retain) IBOutlet UIImageView *speedupIcon;
@@ -45,21 +45,13 @@
 @property (nonatomic, assign) IBOutlet UILabel *researchOilLabel;
 @property (nonatomic, assign) IBOutlet UIActivityIndicatorView *activityIndicator;
 
-@property (nonatomic, assign) IBOutlet ResearchPrereqView *prereqViewA;
-@property (nonatomic, assign) IBOutlet ResearchPrereqView *prereqViewB;
-@property (nonatomic, assign) IBOutlet ResearchPrereqView *prereqViewC;
-
 @property (nonatomic, assign) IBOutlet ShrinkOnlyImageView *researchIcon;
 @property (nonatomic, assign) IBOutlet UILabel *researchNameLabel;
 @property (nonatomic, assign) IBOutlet UILabel *researchTimeLabel;
 
-@property (nonatomic, assign) IBOutlet UILabel *researchTypeLabel;
-@property (nonatomic, assign) IBOutlet UILabel *improvementLabel;
-@property (nonatomic, assign) IBOutlet UIView *detailView;
-@property (nonatomic, assign) IBOutlet SplitImageProgressBar *topPercentBar;
-@property (nonatomic, assign) IBOutlet SplitImageProgressBar *botPercentBar;
-
 @property (nonatomic, assign) IBOutlet UILabel *timeLeftLabel;
+
+@property (nonatomic, assign) IBOutlet EmbeddedScrollingUpgradeView *embeddedScrollView;
 
 @end
 

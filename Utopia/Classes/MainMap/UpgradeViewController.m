@@ -243,24 +243,6 @@
   }
 }
 
-//- (void) goClicked:(UpgradePrereqView *)pre {
-//  NSArray *prereqs = [self.userStruct allPrerequisites];
-//  NSInteger i = [self.upgradeView.prereqViews indexOfObject:pre];
-//  
-//  if (i != NSNotFound && i < prereqs.count) {
-//    PrereqProto *pp = prereqs[i];
-//    
-//    GameViewController *gvc = [GameViewController baseController];
-//    if (pp.prereqGameType == GameTypeStructure) {
-//      BOOL success = [gvc pointArrowToUpgradeForStructId:pp.prereqGameEntityId quantity:pp.quantity];
-//      
-//      if (success) {
-//        [self closeClicked:nil];
-//      }
-//    }
-//  }
-//}
-
 - (void) goClicked:(int)prereqId {
   NSArray *prereqs = [self.userStruct allPrerequisites];
   

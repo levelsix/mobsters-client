@@ -101,9 +101,9 @@
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
-                <outlet property="Icon" destination="gsT-bW-Xky" id="iA7-YI-99J"/>
-                <outlet property="Name" destination="1PM-22-eIp" id="OQw-6B-5Q7"/>
-                <outlet property="Rank" destination="Ihf-pW-JrL" id="SuO-kj-VqO"/>
+                <outlet property="icon" destination="gsT-bW-Xky" id="KBa-NX-8KK"/>
+                <outlet property="nameLabel" destination="1PM-22-eIp" id="s6j-4R-rNo"/>
+                <outlet property="rankLabel" destination="Ihf-pW-JrL" id="rOe-vA-5p6"/>
             </connections>
             <point key="canvasLocation" x="428" y="282"/>
         </view>
