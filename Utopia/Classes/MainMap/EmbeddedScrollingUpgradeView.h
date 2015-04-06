@@ -17,11 +17,13 @@
 @end
 
 @interface DetailsPrereqView : UIView
+
 @property (nonatomic, assign) IBOutlet UIImageView *checkIcon;
 @property (nonatomic, assign) IBOutlet UILabel *prereqLabel;
 @property (nonatomic, assign) IBOutlet UIButton *goButton;
 
 @property (nonatomic, assign) IBOutlet id<EmbeddedDelegate> delegate;
+
 @end
 
 @interface DetailsProgressBarView : UIView

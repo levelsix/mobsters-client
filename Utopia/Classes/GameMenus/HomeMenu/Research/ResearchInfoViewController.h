@@ -55,7 +55,7 @@
 
 @end
 
-@interface ResearchInfoViewController : PopupSubViewController <SpeedupItemsFillerDelegate, ResourceItemsFillerDelegate> {
+@interface ResearchInfoViewController : PopupSubViewController <SpeedupItemsFillerDelegate, ResourceItemsFillerDelegate, EmbeddedDelegate> {
   UserResearch *_userResearch;
   BOOL _waitingForServer;
 }

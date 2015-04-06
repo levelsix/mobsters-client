@@ -190,11 +190,31 @@
 
 #pragma mark - Bottom View
 
-- (IBAction) detailsClicked:(id)sender {
+- (IBAction) detailsClicked:(int)index {
   ResearchProto *rp = _userResearch.staticResearchForBenefitLevel;
-  DetailViewController *rdvc = [[DetailViewController alloc] initWithGameTypeProto:rp index:0 imageNamed:rp.iconImgName];
+  DetailViewController *rdvc = [[DetailViewController alloc] initWithGameTypeProto:rp index:index imageNamed:rp.iconImgName];
   
   [self.parentViewController pushViewController:rdvc animated:YES];
+}
+
+- (void) goClicked:(int)prereqId {
+  NSArray *prereqs = [_userResearch.staticResearchForBenefitLevel prereqs];
+  
+  PrereqProto *pp;
+  for (PrereqProto *nextPp in prereqs) {
+    if(nextPp.prereqId == prereqId) {
+      pp = nextPp;
+    }
+  }
+  
+  GameViewController *gvc = [GameViewController baseController];
+  if (pp.prereqGameType == GameTypeStructure) {
+    BOOL success = [gvc pointArrowToUpgradeForStructId:pp.prereqGameEntityId quantity:pp.quantity];
+    
+    if (success) {
+      [self.parentViewController close];
+    }
+  }
 }
 
 - (IBAction) clickResearchStart:(id)sender {

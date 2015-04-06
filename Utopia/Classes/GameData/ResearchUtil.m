@@ -345,7 +345,7 @@
 }
 
 - (NSString *) longStatChangeForIndex:(int)index {
-  ResearchController *rc = [self researchController];
+  ResearchController *rc = self.succId ? [[self successorResearch] researchController] : [self researchController];
   return [rc longImprovementString];
 }
 
@@ -365,7 +365,13 @@
 
 - (NSArray *) prereqs {
   GameState *gs = [GameState sharedGameState];
-  return [gs prerequisitesForGameType:GameTypeResearch gameEntityId:self.researchId];
+  NSArray *arr = [gs prerequisitesForGameType:GameTypeResearch gameEntityId:self.predId];
+  
+  arr = [arr sortedArrayUsingComparator:^NSComparisonResult(PrereqProto *obj1, PrereqProto *obj2) {
+    return [@(obj1.prereqId) compare:@(obj2.prereqId)];
+  }];
+  
+  return arr;
 }
 
 - (int) rank {

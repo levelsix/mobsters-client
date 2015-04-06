@@ -22,12 +22,12 @@
 
 @implementation DetailsPrereqView
 
-- (void) updateForPrereq:(PrereqProto *)prereq isComplete:(BOOL)isComplete allowGo:(BOOL)allowGo{
+- (void) updateForPrereq:(PrereqProto *)prereq isComplete:(BOOL)isComplete allowGo:(BOOL)allowGo {
   self.prereqLabel.text = [prereq prereqString];
   
   self.checkIcon.highlighted = !isComplete;
   self.prereqLabel.highlighted = !isComplete;
-  self.goButton.superview.hidden = isComplete && allowGo;
+  self.goButton.superview.hidden = isComplete || !allowGo;
   
   self.goButton.tag = prereq.prereqId;
 }
