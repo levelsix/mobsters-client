@@ -25,10 +25,6 @@
   [Globals createUIArrowForView:self.upgradeView.cashButtonView atAngle:M_PI * .5f];
 }
 
-- (void) close {
-  [super closeClicked:nil];
-}
-
 - (void) closeClicked:(id)sender {
   //Do nothing
 }

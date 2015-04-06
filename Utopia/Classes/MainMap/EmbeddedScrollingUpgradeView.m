@@ -85,7 +85,7 @@
   _curY += newView.height + VIEW_BUFFER;
 }
 
-- (void) updateForTownHall:(id<GameTypeProto>)gameProto {
+- (void) updateForTownHall:(id<GameTypeProtocol>)gameProto {
   _curY = START_BUFFER;
   
   for (UIView *subview in self.contentView.subviews) {
@@ -130,7 +130,7 @@
   self.scrollView.contentSize = self.contentView.frame.size;
 }
 
-- (void) updateForGameTypeProto:(id<GameTypeProto>)gameProto {
+- (void) updateForGameTypeProto:(id<GameTypeProtocol>)gameProto {
 //  id<StaticStructure> staticStruct = userStruct.staticStruct;
   
   _curY = START_BUFFER;
@@ -155,11 +155,16 @@
   if ([gameProto numBars] > 0) {
     newestView = [self makeTitleWithTitle:IMPROVEMENTS_TITLE];
     [self addToScrollViewWithView:newestView];
+    
     for (int i = 0; i < [gameProto numBars]; i++) {
+      
+      float curPerc = [gameProto barPercentForIndex:i];
+      float nextPerc = [gameProto.successor barPercentForIndex:i];
+      
       newestView = [self makeDetailsProgressBarViewWithDetailName:[gameProto statNameForIndex:i]
                                                       description:[gameProto longStatChangeForIndex:i]
-                                                        curAmount:[gameProto curBarPercentForIndex:i]
-                                                       nextAmount:[gameProto nextBarPercentForIndex:i]];
+                                                        curAmount:curPerc
+                                                       nextAmount:nextPerc];
       newestView.tag = i;
       [self addToScrollViewWithView:newestView];
     }

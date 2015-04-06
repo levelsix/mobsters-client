@@ -27,7 +27,7 @@
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
-  int seconds = self.staticResearch.durationMin * 60;
+  int seconds = [gl calculateSecondsToResearch:self.staticResearch];
   
   // Account for clan helps
   int numHelps = [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypePerformingResearch userDataUuid:self.userResearchUuid];

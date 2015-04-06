@@ -60,7 +60,7 @@
 
 @property (nonatomic, assign) IBOutlet id<EmbeddedDelegate> delegate;
 
-- (void) updateForGameTypeProto:(id<GameTypeProto>)gameProto;
-- (void) updateForTownHall:(id<GameTypeProto>)gameProto;
+- (void) updateForGameTypeProto:(id<GameTypeProtocol>)gameProto;
+- (void) updateForTownHall:(id<GameTypeProtocol>)gameProto;
 
 @end

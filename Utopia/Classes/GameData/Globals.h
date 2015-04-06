@@ -403,6 +403,8 @@
 - (int) calculateSecondsToCreateBattleItem:(BattleItemProto *)bip;
 - (int) calculateCostToCreateBattleItem:(BattleItemProto *)bip;
 
+- (int) calculateSecondsToResearch:(ResearchProto *)rp;
+
 - (BOOL) isPrerequisiteComplete:(PrereqProto *)prereq;
 - (NSArray *) incompletePrereqsForStructId:(int)structId;
 - (BOOL) satisfiesPrereqsForStructId:(int)structId;

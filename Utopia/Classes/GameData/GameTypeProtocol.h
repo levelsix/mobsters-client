@@ -8,7 +8,7 @@
 
 #import "Protocols.pb.h"
 
-@protocol GameTypeProto <NSObject>
+@protocol GameTypeProtocol <NSObject>
 
 - (int) numBars;
 - (NSString *) statNameForIndex:(int)index;
@@ -16,8 +16,7 @@
 - (NSString *) shortStatChangeForIndex:(int)index;
 - (NSString *) longStatChangeForIndex:(int)index;
 
-- (float) curBarPercentForIndex:(int)index;
-- (float) nextBarPercentForIndex:(int)index;
+- (float) barPercentForIndex:(int)index;
 
 - (int) strength;
 - (NSArray *) prereqs;
@@ -25,8 +24,8 @@
 - (int) rank;
 - (int) totalRanks;
 - (NSString *) name;
-- (id<GameTypeProto>) predecessor;
-- (id<GameTypeProto>) successor;
+- (id<GameTypeProtocol>) predecessor;
+- (id<GameTypeProtocol>) successor;
 - (NSArray *) fullFamilyList;
 
 @end

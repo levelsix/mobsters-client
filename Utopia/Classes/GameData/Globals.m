@@ -2364,7 +2364,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   
   GameState *gs = [GameState sharedGameState];
   ResearchHouseProto *rhp = (ResearchHouseProto *)[gs myResearchLab].staticStructForCurrentConstructionLevel;
-  float labFactor = 1.f;//[self convertToOverallPercentFromPercentDecrease:rhp.];
+  float labFactor = [self convertToOverallPercentFromPercentDecrease:rhp.researchSpeedMultiplier];
   
   return roundf(baseSecs*labFactor);
 }

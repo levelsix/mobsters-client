@@ -10,6 +10,4 @@
 
 @interface TutorialUpgradeViewController : UpgradeViewController
 
-- (void) close;
-
 @end

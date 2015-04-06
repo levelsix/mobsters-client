@@ -9,9 +9,19 @@
 #import "Protocols.pb.h"
 #import "GameTypeProtocol.h"
 
-@protocol StaticStructure <GameTypeProto>
+@protocol StaticStructure <NSObject>
 
 - (StructureInfoProto *) structInfo;
+
+- (int) numBars;
+- (NSString *) statNameForIndex:(int)index;
+- (NSString *) statSuffixForIndex:(int)index;
+
+- (float) statValueForIndex:(int)index;
+
+@optional
+- (BOOL) usePowForIndex:(int)index;
+- (BOOL) useSqrtForIndex:(int)index;
 
 @end
 
@@ -71,10 +81,14 @@
 
 @end
 
-@interface StructureInfoProto (StaticStructure)
+@interface StructureInfoProto (StaticStructure) <GameTypeProtocol>
 
-- (id<StaticStructure>) maxStaticStruct;
-- (float) barPercentWithNumerator:(float)num Denominator:(float)denom useSqrt:(BOOL)useSqrt usePow:(BOOL)usePow;
+- (id<StaticStructure>) staticStruct;
+- (StructureInfoProto *) predecessor;
+- (StructureInfoProto *) successor;
+- (StructureInfoProto *) maxStructInfo;
+
+- (float) barPercentWithNumerator:(float)num denominator:(float)denom useSqrt:(BOOL)useSqrt usePow:(BOOL)usePow;
 - (NSArray *) prereqs;
 - (NSString *) statChangeWith:(float)curStat prevStat:(float)prevStat suffix:(NSString *)suffix;
 - (NSString *) statChangeStringWith:(float)curStat nextStat:(float)nextStat suffix:(NSString *)suffix;

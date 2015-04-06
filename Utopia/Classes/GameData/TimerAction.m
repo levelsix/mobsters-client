@@ -454,7 +454,9 @@
     self.normalProgressBarColor = TimerProgressBarColorGreen;
     self.allowsFreeSpeedup = YES;
     self.completionDate = self.userResearch.tentativeCompletionDate;
-    self.totalSeconds = ur.staticResearch.durationMin*60;
+    
+    Globals *gl = [Globals sharedGlobals];
+    self.totalSeconds = [gl calculateSecondsToResearch:ur.staticResearch];
   }
   return self;
 }

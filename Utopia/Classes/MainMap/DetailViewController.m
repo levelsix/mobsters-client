@@ -21,7 +21,7 @@
 
 @implementation DetailView
 
-- (void) updateWithGameTypeProto:(id<GameTypeProto>)protocol index:(int)index imageNamed:(NSString *)imageName{
+- (void) updateWithGameTypeProto:(id<GameTypeProtocol>)protocol index:(int)index imageNamed:(NSString *)imageName{
   self.Name.text = protocol.name;
   int curLevel = protocol.rank;
   self.Rank.text = [NSString stringWithFormat:@"%d/%d",curLevel, protocol.totalRanks];
@@ -32,11 +32,11 @@
 
 @implementation DetailViewController
 
-- (id) initWithGameTypeProto:(id<GameTypeProto>)gameTypeProto index:(int)index imageNamed:(NSString *)imageName{
+- (id) initWithGameTypeProto:(id<GameTypeProtocol>)gameTypeProto index:(int)index imageNamed:(NSString *)imageName{
   return [self initWithGameTypeProto:gameTypeProto index:index imageNamed:imageName columnName:@"LVL"];
 }
 
-- (id) initWithGameTypeProto:(id<GameTypeProto>)gameTypeProto index:(int)index imageNamed:(NSString *)imageName columnName:(NSString *)columnName{
+- (id) initWithGameTypeProto:(id<GameTypeProtocol>)gameTypeProto index:(int)index imageNamed:(NSString *)imageName columnName:(NSString *)columnName{
   _gameTypeProto = gameTypeProto;
   _index = index;
   _imageName = imageName;
@@ -58,7 +58,7 @@
 #pragma TableView Delegates
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  id<GameTypeProto> protocol = [_gameTypeProto fullFamilyList][indexPath.row];
+  id<GameTypeProtocol> protocol = [_gameTypeProto fullFamilyList][indexPath.row];
   
   DetailViewCell *cell;
   cell = [tableView dequeueReusableCellWithIdentifier:@"DetailViewCell"];

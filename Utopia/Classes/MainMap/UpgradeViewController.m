@@ -94,11 +94,11 @@
   
   if (nextSS.structInfo.structType != StructureInfoProto_StructTypeTownHall) {
     self.cityHallUnlocksView.hidden = YES;
-    [self.embeddedScrollView updateForGameTypeProto:us.staticStruct];
+    [self.embeddedScrollView updateForGameTypeProto:us.staticStruct.structInfo];
   } else {
     [self loadCityHallUnlocksViewForUserStruct:us];
     self.embeddedScrollView.townHallUnlocksView = self.cityHallUnlocksView;
-    [self.embeddedScrollView updateForTownHall:us.staticStruct];
+    [self.embeddedScrollView updateForTownHall:us.staticStruct.structInfo];
   }
 }
 
@@ -277,13 +277,13 @@
     BOOL success = [gvc pointArrowToUpgradeForStructId:pp.prereqGameEntityId quantity:pp.quantity];
 
     if (success) {
-      [self closeClicked:nil];
+      [self.parentViewController close];
     }
   }
 }
 
 - (void) detailsClicked:(int)index {
-  DetailViewController *dvc = [[DetailViewController alloc] initWithGameTypeProto:_userStruct.staticStruct index:index imageNamed:_userStruct.staticStruct.structInfo.imgName columnName:@"LVL"];
+  DetailViewController *dvc = [[DetailViewController alloc] initWithGameTypeProto:_userStruct.staticStruct.structInfo index:index imageNamed:_userStruct.staticStruct.structInfo.imgName columnName:@"LVL"];
   
   [self.parentViewController pushViewController:dvc animated:YES];
 }

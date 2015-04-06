@@ -757,11 +757,18 @@
 }
 
 - (id<StaticStructure>) maxStaticStruct {
-  return self.staticStruct.structInfo.maxStaticStruct;
+  return self.staticStruct.structInfo.maxStructInfo.staticStruct;
 }
 
 - (NSArray *) allStaticStructs {
-  return self.staticStruct.fullFamilyList;
+  NSArray *arr = self.staticStruct.structInfo.fullFamilyList;
+  NSMutableArray *ss = [NSMutableArray array];
+  
+  for (StructureInfoProto *sip in arr) {
+    [ss addObject:sip.staticStruct];
+  }
+  
+  return ss;
 }
 
 - (id<StaticStructure>) staticStructForFbLevel {

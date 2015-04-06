@@ -96,6 +96,4 @@
 
 - (id) initWithUserStruct:(UserStruct *)us;
 
-- (void) closeClicked:(id)sender;
-
 @end

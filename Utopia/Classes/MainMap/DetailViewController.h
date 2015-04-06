@@ -27,12 +27,12 @@
 @property (nonatomic, assign) IBOutlet UIImageView *Icon;
 
 
--(void) updateWithGameTypeProto:(id<GameTypeProto>)gameTypeProto index:(int)index imageNamed:(NSString *)imageName;
+-(void) updateWithGameTypeProto:(id<GameTypeProtocol>)gameTypeProto index:(int)index imageNamed:(NSString *)imageName;
 
 @end
 
 @interface DetailViewController : PopupSubViewController {
-  id<GameTypeProto> _gameTypeProto;
+  id<GameTypeProtocol> _gameTypeProto;
   int _index;
   NSString *_imageName;
   NSString *_columnName;
@@ -41,8 +41,8 @@
 @property (nonatomic, assign) IBOutlet UITableView *tableView;
 @property (nonatomic, assign) IBOutlet NiceFontLabel10 *columnNameLabel;
 
-- (id) initWithGameTypeProto:(id<GameTypeProto>)gameTypeProto index:(int)index imageNamed:(NSString *)imageName;
-- (id) initWithGameTypeProto:(id<GameTypeProto>)gameTypeProto index:(int)index imageNamed:(NSString *)imageName columnName:(NSString *)columnName;
+- (id) initWithGameTypeProto:(id<GameTypeProtocol>)gameTypeProto index:(int)index imageNamed:(NSString *)imageName;
+- (id) initWithGameTypeProto:(id<GameTypeProtocol>)gameTypeProto index:(int)index imageNamed:(NSString *)imageName columnName:(NSString *)columnName;
 
 @property (nonatomic, assign) IBOutlet DetailView *view;
 

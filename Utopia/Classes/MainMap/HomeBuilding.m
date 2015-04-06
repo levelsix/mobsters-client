@@ -1298,8 +1298,10 @@
     // Check the prefix
     NSString *prefix = [self progressBarPrefix];
     if ([bar.prefix isEqualToString:prefix]) {
+      Globals *gl = [Globals sharedGlobals];
+      
       NSTimeInterval time = _userResearch.tentativeCompletionDate.timeIntervalSinceNow;
-      NSTimeInterval totalSecs = _userResearch.staticResearch.durationMin * 60;
+      NSTimeInterval totalSecs = [gl calculateSecondsToResearch:_userResearch.staticResearch];
       [self.progressBar updateForSecsLeft:time totalSecs:totalSecs];
       
       if ([self isFreeSpeedup]) {

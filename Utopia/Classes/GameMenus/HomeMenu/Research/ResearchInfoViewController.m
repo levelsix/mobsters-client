@@ -62,7 +62,7 @@
   self.detailView.center = CGPointMake(self.improvementLabel.frame.origin.x+size.width+(self.detailView.frame.size.width/2) + offsetFromBar, self.improvementLabel.center.y);
   
   [Globals imageNamed:curResearch.iconImgName withView:self.researchIcon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
-  self.researchTimeLabel.text = nextResearch ? [[Globals convertTimeToMediumString:nextResearch.durationMin*60] uppercaseString] : @"N/A";
+  self.researchTimeLabel.text = nextResearch ? [[Globals convertTimeToMediumString:[gl calculateSecondsToResearch:nextResearch]] uppercaseString] : @"N/A";
   
   {
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
@@ -485,7 +485,8 @@
 }
 
 - (int) totalSecondsRequired {
-  return _userResearch.staticResearchForNextLevel.durationMin * 60;
+  Globals *gl = [Globals sharedGlobals];
+  return [gl calculateSecondsToResearch:_userResearch.staticResearchForNextLevel];
 }
 
 - (void) resourceItemsUsed:(NSDictionary *)itemUsages {
