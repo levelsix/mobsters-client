@@ -7,10 +7,23 @@
 //
 
 #import "Protocols.pb.h"
+#import "GameTypeProtocol.h"
 
 @protocol StaticStructure <NSObject>
 
 - (StructureInfoProto *) structInfo;
+
+- (int) numBars;
+- (NSString *) statNameForIndex:(int)index;
+- (NSString *) statSuffixForIndex:(int)index;
+
+- (float) statValueForIndex:(int)index;
+
+@optional
+- (NSString *) statChangeStringForIndex:(int)index;
+
+- (BOOL) usePowForIndex:(int)index;
+- (BOOL) useSqrtForIndex:(int)index;
 
 @end
 
@@ -38,6 +51,10 @@
 
 @end
 
+@interface EvoChamberProto (StaticsStructureImpl) <StaticStructure>
+
+@end
+
 @interface MiniJobCenterProto (StaticStructureImpl) <StaticStructure>
 
 @end
@@ -52,6 +69,32 @@
 
 @interface BattleItemFactoryProto (StaticStructureImpl) <StaticStructure>
 
+@end
+
+@interface ClanHouseProto (StaticStructureImpl) <StaticStructure>
+
+@end
+
+@interface TeamCenterProto (StaticStructureImpl) <StaticStructure>
+
+@end
+
+@interface ResearchHouseProto (StaticStructureImpl) <StaticStructure>
+
+@end
+
+@interface StructureInfoProto (StaticStructure) <GameTypeProtocol>
+
+- (id<StaticStructure>) staticStruct;
+- (StructureInfoProto *) predecessor;
+- (StructureInfoProto *) successor;
+- (StructureInfoProto *) maxStructInfo;
+
+- (float) barPercentWithNumerator:(float)num denominator:(float)denom useSqrt:(BOOL)useSqrt usePow:(BOOL)usePow;
+- (NSArray *) prereqs;
+- (NSString *) statChangeWith:(float)curStat prevStat:(float)prevStat suffix:(NSString *)suffix;
+- (NSString *) statChangeStringWith:(float)curStat nextStat:(float)nextStat suffix:(NSString *)suffix;
+  
 @end
 
 

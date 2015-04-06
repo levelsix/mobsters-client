@@ -403,6 +403,8 @@
 - (int) calculateSecondsToCreateBattleItem:(BattleItemProto *)bip;
 - (int) calculateCostToCreateBattleItem:(BattleItemProto *)bip;
 
+- (int) calculateSecondsToResearch:(ResearchProto *)rp;
+
 - (BOOL) isPrerequisiteComplete:(PrereqProto *)prereq;
 - (NSArray *) incompletePrereqsForStructId:(int)structId;
 - (BOOL) satisfiesPrereqsForStructId:(int)structId;
@@ -428,6 +430,7 @@
 - (int) calculateBaseSpeedForMonster:(UserMonster *)um;
 - (int) calculateMaxHealthForMonster:(UserMonster *)um;
 - (int) calculateSpeedForMonster:(UserMonster *)um;
+- (int) calculateStrengthForMonster:(UserMonster *)um;
 - (int) calculateCostToHealMonster:(UserMonster *)um;
 - (float) calculateBaseSecondsToHealMonster:(UserMonster *)um;
 - (float) calculateDamageMultiplierForAttackElement:(Element)aElement defenseElement:(Element)dElement;

@@ -97,7 +97,7 @@
 }
 
 - (void) beginFinishPhase {
-  [self.upgradeViewController close];
+  [self.upgradeViewController.parentViewController close];
   
   
   NSArray *dialogue = @[[NSString stringWithFormat:@"Keep on upgrading your buildings to get better, harder, faster, and stronger!"]];

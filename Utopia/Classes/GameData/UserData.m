@@ -757,24 +757,18 @@
 }
 
 - (id<StaticStructure>) maxStaticStruct {
-  GameState *gs = [GameState sharedGameState];
-  id<StaticStructure> ss = self.staticStruct;
-  while (ss.structInfo.successorStructId) {
-    ss = [gs structWithId:ss.structInfo.successorStructId];
-  }
-  return ss;
+  return self.staticStruct.structInfo.maxStructInfo.staticStruct;
 }
 
 - (NSArray *) allStaticStructs {
-  GameState *gs = [GameState sharedGameState];
-  NSMutableArray *arr = [NSMutableArray array];
-  int curId = self.baseStructId;
-  while (curId) {
-    id<StaticStructure> ss = [gs structWithId:curId];
-    [arr addObject:ss];
-    curId = ss.structInfo.successorStructId;
+  NSArray *arr = self.staticStruct.structInfo.fullFamilyList;
+  NSMutableArray *ss = [NSMutableArray array];
+  
+  for (StructureInfoProto *sip in arr) {
+    [ss addObject:sip.staticStruct];
   }
-  return arr;
+  
+  return ss;
 }
 
 - (id<StaticStructure>) staticStructForFbLevel {
@@ -940,14 +934,7 @@
 #pragma mark - Prerequisites
 
 - (NSArray *) allPrerequisites {
-  GameState *gs = [GameState sharedGameState];
-  NSArray *arr = [gs prerequisitesForGameType:GameTypeStructure gameEntityId:self.staticStruct.structInfo.successorStructId];
-  
-  arr = [arr sortedArrayUsingComparator:^NSComparisonResult(PrereqProto *obj1, PrereqProto *obj2) {
-    return [@(obj1.prereqId) compare:@(obj2.prereqId)];
-  }];
-  
-  return arr;
+  return self.staticStruct.structInfo.prereqs;
 }
 
 - (NSArray *) incompletePrerequisites {

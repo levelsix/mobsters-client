@@ -98,10 +98,26 @@
 }
 
 - (void) updateButtonConfiguration {
-  self.oilCostLabel.text = [Globals commafyNumber:self.evoItem.userMonster1.staticMonster.evolutionCost];
+  Globals *gl = [Globals sharedGlobals];
+  MonsterProto *mp = self.evoItem.userMonster1.staticMonster;
+  
+  self.oilCostLabel.text = [Globals commafyNumber:mp.evolutionCost];
   [Globals adjustViewForCentering:self.oilCostLabel.superview withLabel:self.oilCostLabel];
   
-  self.timeLabel.text = [Globals convertTimeToLongString:self.evoItem.userMonster1.staticMonster.minutesToEvolve*60];
+  self.timeLabel.text = [Globals convertTimeToLongString:mp.minutesToEvolve*60];
+  
+  UserMonster *um = [[UserMonster alloc] init];
+  um.monsterId = mp.evolutionMonsterId;
+  um.level = 1;
+  
+  int evoStrength = [gl calculateStrengthForMonster:um];
+  
+  um.monsterId = mp.monsterId;
+  um.level = mp.maxLevel;
+  
+  int newStrength = [gl calculateStrengthForMonster:um];
+  
+  self.strengthLabel.text = [NSString stringWithFormat:@"+%d", evoStrength-newStrength];
   
   [self.greyscaleView removeFromSuperview];
   if (![self.evoItem isReadyForEvolution]) {

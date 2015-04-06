@@ -36,7 +36,7 @@ typedef enum {
 - (void) playMissionMapMusic;
 - (void) playBattleMusic;
 
-+ (void) dialogueBoxOpen;
++ (void) dialogueBoxOpenIsGood:(BOOL)good;
 + (void) spriteJump;
 + (void) tutorialBoatScene;
 
@@ -47,6 +47,7 @@ typedef enum {
 + (void) chatOpened;
 + (void) chatClosed;
 
++ (void) nextTask;
 + (void) enhanceFlying;
 
 + (void) helpRequested;
@@ -94,6 +95,9 @@ typedef enum {
 + (void) puzzleYouLose;
 + (void) puzzleRainbowCreate;
 + (void) puzzleGrenadeCreate;
-+ (void) puzzleRocketCreate;;
++ (void) puzzleRocketCreate;
++ (void) puzzleSkillActivated;
++ (void) puzzleBreakCloud;
++ (void) puzzleBreakLock;
 
 @end

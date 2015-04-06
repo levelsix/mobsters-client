@@ -58,6 +58,8 @@ message PrivateChatPostRequestProto {
 	optional MinimumUserProto sender = 1;
 	optional string recipientUuid = 2;
 	optional string content = 3;
+	optional TranslateLanguages contentLanguage = 4;
+
 }
 
 																						//DONE

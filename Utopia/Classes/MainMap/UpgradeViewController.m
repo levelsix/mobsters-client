@@ -12,6 +12,7 @@
 #import "OutgoingEventController.h"
 #import "GenericPopupController.h"
 #import "GameViewController.h"
+#import "EmbeddedScrollingUpgradeView.h"
 
 @implementation UpgradePrereqView
 
@@ -24,7 +25,7 @@
 }
 
 - (IBAction)goClicked:(id)sender {
-  [self.delegate goClicked:self];
+  //[self.delegate goClicked:self];
 }
 
 @end
@@ -32,12 +33,10 @@
 @implementation UpgradeBuildingMenu
 
 - (void) awakeFromNib {
-  [self.statBarView1.superview addSubview:self.cityHallUnlocksView];
+//  [self.statBarView1.superview addSubview:self.cityHallUnlocksView];
 }
 
 - (void) loadForUserStruct:(UserStruct *)us {
-  Globals *gl = [Globals sharedGlobals];
-  
   if (us == nil) {
     return;
   }
@@ -62,21 +61,6 @@
   [Globals adjustViewForCentering:self.upgradeCashLabel.superview withLabel:self.upgradeCashLabel];
   self.oilButtonView.hidden = !isOil;
   self.cashButtonView.hidden = isOil;
-  
-  // Town hall too low
-  
-  NSArray *allPrereqs = [us allPrerequisites];
-  for (int i = 0; i < self.prereqViews.count; i++) {
-    UpgradePrereqView *preView = self.prereqViews[i];
-    
-    if (i < allPrereqs.count) {
-      PrereqProto *pre = allPrereqs[i];
-      BOOL isComplete = [gl isPrerequisiteComplete:pre];
-      [preView updateForPrereq:pre isComplete:isComplete];
-    } else {
-      preView.hidden = YES;
-    }
-  }
   
   if (curSS == nextSS) {
     self.readyLabel.text = @"Building at Max";
@@ -109,12 +93,12 @@
   }
   
   if (nextSS.structInfo.structType != StructureInfoProto_StructTypeTownHall) {
-    [self loadStatBarsForUserStruct:us];
     self.cityHallUnlocksView.hidden = YES;
+    [self.embeddedScrollView updateForGameTypeProto:us.staticStruct.structInfo];
   } else {
     [self loadCityHallUnlocksViewForUserStruct:us];
-    [self.statBarView1 removeFromSuperview];
-    [self.statBarView2 removeFromSuperview];
+    self.embeddedScrollView.townHallUnlocksView = self.cityHallUnlocksView;
+    [self.embeddedScrollView updateForTownHall:us.staticStruct.structInfo];
   }
 }
 
@@ -164,14 +148,14 @@
 }
 
 #define UNLOCK_VIEW_SPACING 7
-#define NUM_PER_ROW 4
+#define NUM_PER_ROW 5
 
 - (void) loadCityHallUnlocksViewForUserStruct:(UserStruct *)us {
   Globals *gl = [Globals sharedGlobals];
   TownHallProto *curSS = (TownHallProto *)us.staticStruct;
   TownHallProto *nextSS = (TownHallProto *)us.staticStructForNextLevel;
   
-  self.cityHallUnlocksLabel.text = [NSString stringWithFormat:@"Level %d %@ Unlocks", curSS.structInfo.level+1, curSS.structInfo.name];
+//  self.cityHallUnlocksLabel.text = [NSString stringWithFormat:@"Level %d %@ Unlocks", curSS.structInfo.level+1, curSS.structInfo.name];
   
   // Find new buildings, then find buildings that increase in quantity, then level
   NSMutableArray *unlockViews = [NSMutableArray array];
@@ -203,12 +187,12 @@
     float y = (i/NUM_PER_ROW)*(v.frame.size.height+UNLOCK_VIEW_SPACING)+v.frame.size.height/2;
     v.center = ccp(x, y);
     
-    [self.cityHallUnlocksScrollView addSubview:v];
+    [self.cityHallUnlocksView addSubview:v];
     
     maxY = y+v.frame.size.height/2+UNLOCK_VIEW_SPACING;
   }
   
-  self.cityHallUnlocksScrollView.contentSize = CGSizeMake(self.cityHallUnlocksScrollView.frame.size.width, maxY);
+  self.cityHallUnlocksView.size = CGSizeMake(self.cityHallUnlocksView.frame.size.width, maxY);
 }
 
 - (UIView *) unlockViewWithImageName:(NSString *)imgName text:(NSString *)text useBigTextBgd:(BOOL)bigTextBgd {
@@ -222,242 +206,6 @@
   self.nibUnlocksLabel.center = ccp(self.nibUnlocksLabelBgd.frame.origin.x+img.size.width/2, self.nibUnlocksLabel.center.y);
   
   return self.nibUnlocksView;
-}
-
-- (void) loadStatBarsForUserStruct:(UserStruct *)us {
-  id<StaticStructure> curSS = us.staticStruct;
-  id<StaticStructure> nextSS = us.staticStructForNextLevel;
-  id<StaticStructure> maxSS = us.maxStaticStruct;
-  if (curSS == maxSS) {
-    nextSS = maxSS;
-  }
-  
-  // The stat bars
-  StructureInfoProto_StructType structType = nextSS.structInfo.structType;
-  BOOL requiresTwoBars = NO;
-  BOOL showsCashSymbol1 = NO, showsCashSymbol2 = NO;
-  BOOL useSqrt1 = NO, useSqrt2 = NO;
-  BOOL usePow1 = NO, usePow2 = NO;
-  float curStat1 = 0, newStat1 = 0, maxStat1 = 0;
-  float curStat2 = 0, newStat2 = 0, maxStat2 = 0;
-  NSString *statName1 = nil, *statName2 = nil;
-  NSString *statString1 = nil, *statString2 = nil;
-  NSString *suffix1 = @"", *suffix2 = @"";
-  if (structType == StructureInfoProto_StructTypeResourceGenerator) {
-    ResourceGeneratorProto *cur = (ResourceGeneratorProto *)curSS;
-    ResourceGeneratorProto *next = (ResourceGeneratorProto *)nextSS;
-    ResourceGeneratorProto *max = (ResourceGeneratorProto *)maxSS;
-    
-    requiresTwoBars = YES;
-    
-    curStat1 = cur.productionRate;
-    newStat1 = next.productionRate;
-    maxStat1 = max.productionRate;
-    statName1 = @"Rate:";
-    suffix1 = @" Per Hour";
-    
-    curStat2 = cur.capacity;
-    newStat2 = next.capacity;
-    maxStat2 = max.capacity;
-    statName2 = @"Capacity:";
-    
-    useSqrt2 = YES;
-    showsCashSymbol1 = showsCashSymbol2 = (cur.resourceType == ResourceTypeCash);
-  } else if (structType == StructureInfoProto_StructTypeMoneyTree) {
-    MoneyTreeProto *cur = (MoneyTreeProto *)curSS;
-    MoneyTreeProto *next = (MoneyTreeProto *)nextSS;
-    MoneyTreeProto *max = (MoneyTreeProto *)maxSS;
-    
-    requiresTwoBars = YES;
-    
-    curStat1 = roundf(cur.productionRate*24);
-    newStat1 = roundf(next.productionRate*24);
-    maxStat1 = roundf(max.productionRate*24);
-    statName1 = @"Rate:";
-    suffix1 = @" Per Day";
-    
-    curStat2 = cur.capacity;
-    newStat2 = next.capacity;
-    maxStat2 = max.capacity;
-    statName2 = @"Capacity:";
-  } else if (structType == StructureInfoProto_StructTypeResourceStorage) {
-    ResourceStorageProto *cur = (ResourceStorageProto *)curSS;
-    ResourceStorageProto *next = (ResourceStorageProto *)nextSS;
-    ResourceStorageProto *max = (ResourceStorageProto *)maxSS;
-    
-    curStat1 = cur.capacity;
-    newStat1 = next.capacity;
-    maxStat1 = max.capacity;
-    statName1 = @"Capacity:";
-    
-    useSqrt1 = YES;
-    showsCashSymbol1 = (cur.resourceType == ResourceTypeCash);
-  } else if (structType == StructureInfoProto_StructTypeHospital) {
-    HospitalProto *cur = (HospitalProto *)curSS;
-    HospitalProto *next = (HospitalProto *)nextSS;
-    HospitalProto *max = (HospitalProto *)maxSS;
-    
-    requiresTwoBars = YES;
-    
-    curStat1 = cur.queueSize;
-    newStat1 = next.queueSize;
-    maxStat1 = max.queueSize;
-    statName1 = @"Queue Size:";
-    
-    curStat2 = roundf(cur.secsToFullyHealMultiplier*100);
-    newStat2 = roundf(next.secsToFullyHealMultiplier*100);
-    maxStat2 = roundf(max.secsToFullyHealMultiplier*100);
-    statName2 = @"Heal Speed:";
-    suffix2 = @"%";
-  } else if (structType == StructureInfoProto_StructTypeLab) {
-    LabProto *cur = (LabProto *)curSS;
-    LabProto *next = (LabProto *)nextSS;
-    LabProto *max = (LabProto *)maxSS;
-    
-    curStat1 = cur.queueSize;
-    newStat1 = next.queueSize;
-    maxStat1 = max.queueSize;
-    statName1 = @"Queue Size:";
-    
-    requiresTwoBars = YES;
-    
-    curStat2 = roundf(cur.pointsMultiplier*100);
-    newStat2 = roundf(next.pointsMultiplier*100);
-    maxStat2 = roundf(max.pointsMultiplier*100);
-    statName2 = @"Multiplier:";
-    suffix2 = @"%";
-//    curStat2 = cur.pointsPerSecond;
-//    newStat2 = next.pointsPerSecond;
-//    maxStat2 = max.pointsPerSecond;
-//    statName2 = @"Rate:";
-//    suffix2 = @" Xp Per Sec";
-  } else if (structType == StructureInfoProto_StructTypeResidence) {
-    ResidenceProto *cur = (ResidenceProto *)curSS;
-    ResidenceProto *next = (ResidenceProto *)nextSS;
-    ResidenceProto *max = (ResidenceProto *)maxSS;
-    
-    curStat1 = cur.numMonsterSlots;
-    newStat1 = next.numMonsterSlots;
-    maxStat1 = max.numMonsterSlots;
-    statName1 = @"Slots:";
-  } else if (structType == StructureInfoProto_StructTypeMiniJob) {
-    MiniJobCenterProto *cur = (MiniJobCenterProto *)curSS;
-    MiniJobCenterProto *next = (MiniJobCenterProto *)nextSS;
-    MiniJobCenterProto *max = (MiniJobCenterProto *)maxSS;
-    
-    curStat1 = cur.structInfo.level;
-    newStat1 = next.structInfo.level;
-    maxStat1 = max.structInfo.level;
-    
-    statName1 = @"Reward Tier:";
-  } else if (structType == StructureInfoProto_StructTypeTeamCenter) {
-    TeamCenterProto *cur = (TeamCenterProto *)curSS;
-    TeamCenterProto *next = (TeamCenterProto *)nextSS;
-    TeamCenterProto *max = (TeamCenterProto *)maxSS;
-    
-    curStat1 = cur.teamCostLimit;
-    newStat1 = next.teamCostLimit;
-    maxStat1 = max.teamCostLimit;
-    
-    statName1 = @"Power Limit:";
-  } else if (structType == StructureInfoProto_StructTypeClan) {
-    ClanHouseProto *cur = (ClanHouseProto *)curSS;
-    ClanHouseProto *next = (ClanHouseProto *)nextSS;
-    ClanHouseProto *max = (ClanHouseProto *)maxSS;
-    
-    curStat1 = cur.maxHelpersPerSolicitation;
-    newStat1 = next.maxHelpersPerSolicitation;
-    maxStat1 = max.maxHelpersPerSolicitation;
-    
-    statName1 = @"Help Limit:";
-    
-    requiresTwoBars = YES;
-    
-    curStat2 = cur.teamDonationPowerLimit;
-    newStat2 = next.teamDonationPowerLimit;
-    maxStat2 = max.teamDonationPowerLimit;
-    
-    statName2 = @"Donate Pwr:";
-  } else if (structType == StructureInfoProto_StructTypeEvo) {
-    EvoChamberProto *cur = (EvoChamberProto *)curSS;
-    EvoChamberProto *next = (EvoChamberProto *)nextSS;
-    EvoChamberProto *max = (EvoChamberProto *)maxSS;
-    
-    curStat1 = cur.structInfo.level;
-    newStat1 = next.structInfo.level;
-    maxStat1 = max.structInfo.level;
-    
-    statString1 = [NSString stringWithFormat:@"%@ Evo %d", [Globals stringForRarity:next.qualityUnlocked], next.evoTierUnlocked];
-    
-    statName1 = @"Unlocks:";
-  } else if (structType == StructureInfoProto_StructTypePvpBoard) {
-    PvpBoardHouseProto *cur = (PvpBoardHouseProto *)curSS;
-    PvpBoardHouseProto *next = (PvpBoardHouseProto *)nextSS;
-    PvpBoardHouseProto *max = (PvpBoardHouseProto *)maxSS;
-    
-    curStat1 = cur.pvpBoardPowerLimit;
-    newStat1 = next.pvpBoardPowerLimit;
-    maxStat1 = max.pvpBoardPowerLimit;
-    
-    statName1 = @"Power Limit:";
-  } else if (structType == StructureInfoProto_StructTypeBattleItemFactory) {
-    BattleItemFactoryProto *cur = (BattleItemFactoryProto *)curSS;
-    BattleItemFactoryProto *next = (BattleItemFactoryProto *)nextSS;
-    BattleItemFactoryProto *max = (BattleItemFactoryProto *)maxSS;
-    
-    curStat1 = cur.powerLimit;
-    newStat1 = next.powerLimit;
-    maxStat1 = max.powerLimit;
-    
-    statName1 = @"Power Limit:";
-  } else if (structType == StructureInfoProto_StructTypeResearchHouse) {
-    ResearchHouseProto *cur = (ResearchHouseProto *)curSS;
-    ResearchHouseProto *next = (ResearchHouseProto *)nextSS;
-    ResearchHouseProto *max = (ResearchHouseProto *)maxSS;
-    
-    curStat1 = cur.structInfo.structId;
-    newStat1 = next.structInfo.structId;
-    maxStat1 = max.structInfo.structId;
-    
-    statName1   = @"Struct Id:";
-  }
-  
-  NSString *dollarSign = showsCashSymbol1 ? @"$" : @"";
-  NSString *increase = newStat1 > curStat1 ? [NSString stringWithFormat:@" + %@%@", dollarSign, [Globals commafyNumber:newStat1-curStat1]] : @"";
-  self.statNameLabel1.text = statName1;
-  self.statDescriptionLabel1.text = statString1 ?: [NSString stringWithFormat:@"%@%@%@%@", dollarSign, [Globals commafyNumber:curStat1], increase, suffix1];
-  
-  float sqrtVal = 0.75;
-  float sqPowVal = 1.5;
-  
-  float powVal = useSqrt1 ? sqrtVal : usePow1 ? sqPowVal : 1;
-  if (powVal) {
-    self.statNewBar1.percentage = powf(newStat1/maxStat1, powVal);
-    self.statCurrentBar1.percentage = powf(curStat1/maxStat1, powVal);
-  } else {
-    self.statNewBar1.percentage = newStat1/maxStat1;
-    self.statCurrentBar1.percentage = curStat1/maxStat1;
-  }
-  
-  if (requiresTwoBars) {
-    dollarSign = showsCashSymbol2 ? @"$" : @"";
-    increase = newStat2 > curStat2 ? [NSString stringWithFormat:@" + %@%@", dollarSign, [Globals commafyNumber:newStat2-curStat2]] : @"";
-    self.statNameLabel2.text = statName2;
-    self.statDescriptionLabel2.text = statString2 ?: [NSString stringWithFormat:@"%@%@%@%@", dollarSign, [Globals commafyNumber:curStat2], increase, suffix2];
-    
-    powVal = useSqrt2 ? sqrtVal : usePow2 ? sqPowVal : 1;
-    if (powVal) {
-      self.statNewBar2.percentage = powf(newStat2/maxStat2, powVal);
-      self.statCurrentBar2.percentage = powf(curStat2/maxStat2, powVal);
-    } else {
-      self.statNewBar2.percentage = newStat2/maxStat2;
-      self.statCurrentBar2.percentage = curStat2/maxStat2;
-    }
-    
-    self.statBarView2.hidden = NO;
-  } else {
-    self.statBarView2.hidden = YES;
-  }
 }
 
 @end
@@ -479,10 +227,10 @@
   
   int level = self.userStruct.staticStruct.structInfo.level;
   int maxLevel = self.userStruct.maxLevel;
-  self.titleLabel.text = level != maxLevel ? [NSString stringWithFormat:@"Upgrade to Level %d?", level+1] : @"Building at Max";
-  if (level == 0) self.titleLabel.text = [NSString stringWithFormat:@"Fix %@?", self.userStruct.staticStruct.structInfo.name];
+  self.title = level != maxLevel ? [NSString stringWithFormat:@"Upgrade to Level %d?", level+1] : @"Building at Max";
+  if (level == 0) self.title = [NSString stringWithFormat:@"Fix %@?", self.userStruct.staticStruct.structInfo.name];
   
-  [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
+  self.upgradeView.embeddedScrollView.delegate = self;
 }
 
 #pragma mark - IBActions
@@ -495,35 +243,31 @@
   }
 }
 
-- (void) goClicked:(UpgradePrereqView *)pre {
+- (void) goClicked:(int)prereqId {
   NSArray *prereqs = [self.userStruct allPrerequisites];
-  NSInteger i = [self.upgradeView.prereqViews indexOfObject:pre];
   
-  if (i != NSNotFound && i < prereqs.count) {
-    PrereqProto *pp = prereqs[i];
-    
-    GameViewController *gvc = [GameViewController baseController];
-    if (pp.prereqGameType == GameTypeStructure) {
-      BOOL success = [gvc pointArrowToUpgradeForStructId:pp.prereqGameEntityId quantity:pp.quantity];
-      
-      if (success) {
-        [self closeClicked:nil];
-      }
+  
+  PrereqProto *pp;
+  for (PrereqProto *nextPp in prereqs) {
+    if(nextPp.prereqId == prereqId) {
+      pp = nextPp;
     }
   }
-  
+
+  GameViewController *gvc = [GameViewController baseController];
+  if (pp.prereqGameType == GameTypeStructure) {
+    BOOL success = [gvc pointArrowToUpgradeForStructId:pp.prereqGameEntityId quantity:pp.quantity];
+
+    if (success) {
+      [self.parentViewController close];
+    }
+  }
 }
 
-- (IBAction) closeClicked:(id)sender {
-  // Check that no other animations are happenings
-  if (self.mainView.layer.animationKeys.count == 0) {
-    [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
-      [self.view removeFromSuperview];
-      [self removeFromParentViewController];
-    }];
-    
-    [self.delegate upgradeViewControllerClosed];
-  }
+- (void) detailsClicked:(int)index {
+  DetailViewController *dvc = [[DetailViewController alloc] initWithGameTypeProto:_userStruct.staticStruct.structInfo index:index imageNamed:_userStruct.staticStruct.structInfo.imgName columnName:@"LVL"];
+  
+  [self.parentViewController pushViewController:dvc animated:YES];
 }
 
 @end

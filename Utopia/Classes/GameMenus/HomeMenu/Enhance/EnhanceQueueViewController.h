@@ -46,6 +46,7 @@
 
 @property (nonatomic, retain) IBOutlet UIImageView *monsterImageView;
 @property (nonatomic, retain) IBOutlet UILabel *attackLabel;
+@property (nonatomic, retain) IBOutlet UILabel *strengthLabel;
 @property (nonatomic, retain) IBOutlet UILabel *healthLabel;
 @property (nonatomic, retain) IBOutlet UILabel *speedLabel;
 @property (nonatomic, retain) IBOutlet UILabel *afterEnhanceLevelLabel;

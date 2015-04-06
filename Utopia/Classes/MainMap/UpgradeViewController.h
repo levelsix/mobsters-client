@@ -10,14 +10,17 @@
 #import "NibUtils.h"
 #import "UserData.h"
 #import "TopBarViewcontroller.h"
+#import "EmbeddedScrollingUpgradeView.h"
+#import "PopupNavViewController.h"
 
+@class EmbeddedScrollingUpgradeView;
 @class UpgradePrereqView;
 
-@protocol UpgradePrereqDelegate <NSObject>
-
-- (void) goClicked:(UpgradePrereqView *)pre;
-
-@end
+//@protocol UpgradePrereqDelegate <NSObject>
+//
+//- (void) goClicked:(UpgradePrereqView *)pre;
+//
+//@end
 
 @interface UpgradePrereqView : EmbeddedNibView
 
@@ -27,7 +30,7 @@
 @property (nonatomic, retain) IBOutlet UILabel *prereqLabel;
 @property (nonatomic, retain) IBOutlet UIView *goButtonView;
 
-@property (nonatomic, assign) IBOutlet id<UpgradePrereqDelegate> delegate;
+@property (nonatomic, assign) IBOutlet id<EmbeddedDelegate> delegate;
 
 @end
 
@@ -52,51 +55,32 @@
 @property (nonatomic, assign) IBOutlet UILabel *readyLabel;
 @property (nonatomic, assign) IBOutlet UILabel *readySubLabel;
 
-@property (nonatomic, assign) IBOutlet UIView *statBarView1;
-@property (nonatomic, assign) IBOutlet UILabel *statNameLabel1;
-@property (nonatomic, assign) IBOutlet UILabel *statDescriptionLabel1;
-@property (nonatomic, assign) IBOutlet SplitImageProgressBar *statNewBar1;
-@property (nonatomic, assign) IBOutlet SplitImageProgressBar *statCurrentBar1;
-@property (nonatomic, assign) IBOutlet UIView *statBarView2;
-@property (nonatomic, assign) IBOutlet UILabel *statNameLabel2;
-@property (nonatomic, assign) IBOutlet UILabel *statDescriptionLabel2;
-@property (nonatomic, assign) IBOutlet SplitImageProgressBar *statNewBar2;
-@property (nonatomic, assign) IBOutlet SplitImageProgressBar *statCurrentBar2;
-
 @property (nonatomic, assign) IBOutlet UIView *cityHallUnlocksView;
-@property (nonatomic, assign) IBOutlet UILabel *cityHallUnlocksLabel;
-@property (nonatomic, assign) IBOutlet UIScrollView *cityHallUnlocksScrollView;
 @property (nonatomic, retain) IBOutlet UIView *nibUnlocksView;
 @property (nonatomic, assign) IBOutlet UIImageView *nibUnlocksLabelBgd;
 @property (nonatomic, assign) IBOutlet UILabel *nibUnlocksLabel;
 @property (nonatomic, assign) IBOutlet UIImageView *nibUnlocksStructIcon;
 
-@property (nonatomic, retain) IBOutletCollection(UpgradePrereqView) NSArray *prereqViews;
+@property (nonatomic, assign) IBOutlet EmbeddedScrollingUpgradeView *embeddedScrollView;
+
+//@property (nonatomic, retain) IBOutletCollection(UpgradePrereqView) NSArray *prereqViews;
 
 @end
 
 @protocol UpgradeViewControllerDelegate <NSObject>
 
 - (void) bigUpgradeClicked:(id)sender;
-- (void) upgradeViewControllerClosed;
 
 @end
 
-@interface UpgradeViewController : UIViewController <TabBarDelegate, UpgradePrereqDelegate>
-
-@property (nonatomic, assign) IBOutlet UILabel *titleLabel;
+@interface UpgradeViewController : PopupSubViewController <TabBarDelegate, EmbeddedDelegate>
 
 @property (nonatomic, retain) IBOutlet UpgradeBuildingMenu *upgradeView;
-
-@property (nonatomic, retain) IBOutlet UIView *mainView;
-@property (nonatomic, retain) IBOutlet UIView *bgdView;
 
 @property (nonatomic, retain) UserStruct *userStruct;
 
 @property (nonatomic, assign) id<UpgradeViewControllerDelegate> delegate;
 
 - (id) initWithUserStruct:(UserStruct *)us;
-
-- (void) closeClicked:(id)sender;
 
 @end

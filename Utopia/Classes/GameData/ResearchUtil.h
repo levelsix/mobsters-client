@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "Research.pb.h"
 #import "MSDate.h"
+#import "GameTypeProtocol.h"
 
 @interface UserResearch : NSObject
 
@@ -52,7 +53,7 @@
 
 @end
 
-@interface ResearchProto (prereqObject)
+@interface ResearchProto (PrereqObject) <GameTypeProtocol>
 
 - (ResearchProto *)successorResearch;
 - (ResearchProto *)predecessorResearch;
@@ -60,7 +61,9 @@
 - (ResearchProto *)minLevelResearch;
 - (ResearchProto *) fakeRankZeroResearch;
 - (NSArray *)fullResearchFamily;
+
 - (BOOL)prereqsComplete;
+- (int) numIncompletePrereqs;
 
 - (Element) element;
 - (Quality) rarity;

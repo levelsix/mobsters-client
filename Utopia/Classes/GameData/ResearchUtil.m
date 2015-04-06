@@ -8,6 +8,7 @@
 
 #import "ResearchUtil.h"
 #import "GameState.h"
+#import "ResearchController.h"
 
 @implementation UserResearch
 
@@ -27,7 +28,7 @@
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
-  int seconds = self.staticResearch.durationMin * 60;
+  int seconds = [gl calculateSecondsToResearch:self.staticResearch];
   
   // Account for clan helps
   int numHelps = [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypePerformingResearch userDataUuid:self.userResearchUuid];
@@ -261,7 +262,7 @@
 
 @end
 
-@implementation ResearchProto (prereqObject)
+@implementation ResearchProto (PrereqObject)
 
 - (ResearchProto *) successorResearch {
   GameState *gs = [GameState sharedGameState];
@@ -317,6 +318,80 @@
   bldr.predId = self.minLevelResearch.researchId;
   
   return bldr.build;
+}
+
+#pragma mark - Game Type Protocol
+
+- (ResearchController *) researchController {
+  return [ResearchController researchControllerWithProto:self];
+}
+
+- (int) numBars {
+  return 1;
+}
+
+- (NSString *) statNameForIndex:(int)index {
+  ResearchController *rc = [self researchController];
+  return [rc benefitName];
+}
+
+- (NSString *) statSuffixForIndex:(int)index {
+  return @"";
+}
+
+- (NSString *) shortStatChangeForIndex:(int)index {
+  ResearchController *rc = [self researchController];
+  return [rc shortImprovementString];
+}
+
+- (NSString *) longStatChangeForIndex:(int)index {
+  ResearchController *rc = self.succId ? [[self successorResearch] researchController] : [self researchController];
+  return [rc longImprovementString];
+}
+
+- (float) barPercentForIndex:(int)index {
+  ResearchController *rc = [self researchController];
+  return [rc curPercent];
+}
+
+- (int) strengthGain {
+  ResearchProto *successor = [self successorResearch];
+  if (successor) {
+    return successor.strength - self.strength;
+  } else {
+    return self.strength;
+  }
+}
+
+- (NSArray *) prereqs {
+  GameState *gs = [GameState sharedGameState];
+  NSArray *arr = [gs prerequisitesForGameType:GameTypeResearch gameEntityId:self.predId];
+  
+  arr = [arr sortedArrayUsingComparator:^NSComparisonResult(PrereqProto *obj1, PrereqProto *obj2) {
+    return [@(obj1.prereqId) compare:@(obj2.prereqId)];
+  }];
+  
+  return arr;
+}
+
+- (int) rank {
+  return self.level;
+}
+
+- (int) totalRanks {
+  return self.maxLevelResearch.level;
+}
+
+- (id<GameTypeProtocol>) predecessor {
+  return [self predecessorResearch];
+}
+
+- (id<GameTypeProtocol>) successor {
+  return [self successorResearch];
+}
+
+- (NSArray *) fullFamilyList {
+  return [self fullResearchFamily];
 }
 
 #pragma mark - Properties
@@ -393,15 +468,18 @@
 #pragma mark - Prereqs
 
 - (BOOL) prereqsComplete {
-  GameState *gs = [GameState sharedGameState];
+  return [self numIncompletePrereqs] == 0;
+}
+
+- (int) numIncompletePrereqs {
   Globals *gl = [Globals sharedGlobals];
-  NSArray *prereqs = [gs prerequisitesForGameType:GameTypeResearch gameEntityId:self.researchId];
-  for (PrereqProto *pp in prereqs) {
+  int num = 0;
+  for (PrereqProto *pp in [self prereqs]) {
     if(![gl isPrerequisiteComplete:pp]) {
-      return NO;
+      num++;
     }
   }
-  return YES;
+  return num;
 }
 
 @end

@@ -97,6 +97,7 @@
     [NSException raise:@"AMQPConnectionException" format:@"Unable to create socket"];
   }
 }
+
 - (void)loginAsUser:(NSString*)username withPassword:(NSString*)password onVHost:(NSString*)vhost
 {
 	amqp_rpc_reply_t reply = amqp_login(connection, [vhost UTF8String], 0, 32768, 0, AMQP_SASL_METHOD_PLAIN, [username UTF8String], [password UTF8String]);

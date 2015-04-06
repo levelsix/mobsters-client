@@ -252,7 +252,8 @@
 }
 
 - (int) totalSecondsRequired {
-  return self.curResearch.staticResearch.durationMin * 60;
+  Globals *gl = [Globals sharedGlobals];
+  return [gl calculateSecondsToResearch:self.curResearch.staticResearch];
 }
 
 

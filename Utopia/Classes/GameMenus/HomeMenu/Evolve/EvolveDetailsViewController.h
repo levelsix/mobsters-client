@@ -23,6 +23,7 @@
 
 @property (nonatomic, retain) IBOutlet UILabel *descriptionLabel;
 @property (nonatomic, retain) IBOutlet UILabel *timeLabel;
+@property (nonatomic, retain) IBOutlet UILabel *strengthLabel;
 @property (nonatomic, retain) IBOutlet UILabel *oilCostLabel;
 @property (nonatomic, retain) IBOutlet UILabel *gemCostLabel;
 @property (nonatomic, retain) IBOutlet UILabel *freeLabel;
