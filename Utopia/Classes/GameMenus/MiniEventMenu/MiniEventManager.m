@@ -80,14 +80,24 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(MiniEventManager)
       {
         [self startEventScheduledEventEndTimer];
       }
+      
+      [[NSNotificationCenter defaultCenter] postNotificationName:MINI_EVENT_IS_AVAILABLE_NOTIFICATION object:nil];
     }
   }
 }
 
 - (void) retrieveNewUserMiniEvent
 {
-  // Ask the server for a new mini event, if any
-  [[OutgoingEventController sharedOutgoingEventController] retrieveUserMiniEventWithDelegate:self];
+  GameState* gs = [GameState sharedGameState];
+  if (gs.connected && !gs.isTutorial && gs.userUuid && ![gs.userUuid isEqualToString:@""])
+  {
+    // Ask the server for a new mini event, if any
+    [[OutgoingEventController sharedOutgoingEventController] retrieveUserMiniEventWithDelegate:self];
+  }
+  else
+  {
+    [self startEventRetrievalTimer];
+  }
 }
 
 - (void) handleRetrieveMiniEventResponseProto:(FullEvent*)fe
@@ -115,16 +125,25 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(MiniEventManager)
     // Event has ended and all tier rewards that user has accumulated enough points for have already been redeemed
     _currentUserMiniEvent = nil;
     
+    [[NSNotificationCenter defaultCenter] postNotificationName:MINI_EVENT_IS_UAVAILABLE_NOTIFICATION object:nil];
+    
     [self retrieveNewUserMiniEvent];
+  }
+  else
+  {
+    [[NSNotificationCenter defaultCenter] postNotificationName:MINI_EVENT_HAS_ENDED_NOTIFICATION object:nil];
   }
 }
 
 - (void) startEventRetrievalTimer
 {
-  // Retry to retrieve a new mini event on timed intervals
-  _miniEventRetrievalTimer = [NSTimer timerWithTimeInterval:kNewMiniEventRetrievalTimeInterval target:self
-                                                   selector:@selector(retrieveNewUserMiniEvent) userInfo:nil repeats:YES];
-  [[NSRunLoop mainRunLoop] addTimer:_miniEventRetrievalTimer forMode:NSRunLoopCommonModes];
+  if (_miniEventRetrievalTimer == nil)
+  {
+    // Retry to retrieve a new mini event on timed intervals
+    _miniEventRetrievalTimer = [NSTimer timerWithTimeInterval:kNewMiniEventRetrievalTimeInterval target:self
+                                                     selector:@selector(retrieveNewUserMiniEvent) userInfo:nil repeats:YES];
+    [[NSRunLoop mainRunLoop] addTimer:_miniEventRetrievalTimer forMode:NSRunLoopCommonModes];
+  }
 }
 
 - (void) stopEventRetrievalTimer
@@ -138,13 +157,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(MiniEventManager)
 
 - (void) startEventScheduledEventEndTimer
 {
-  // Kick off a timer for the expected end time of the current active mini event
-  MSDate* eventEndTime = [MSDate dateWithTimeIntervalSince1970:_currentUserMiniEvent.miniEvent.miniEventEndTime / 1000.f];
-  MSDate* now = [MSDate date];
-  const NSTimeInterval secondsTillEventScheduledEnd = [eventEndTime timeIntervalSinceDate:now];
-  _miniEventScheduledEventEndTimer = [NSTimer timerWithTimeInterval:secondsTillEventScheduledEnd target:self
-                                                           selector:@selector(currentActiveMiniEventEnded) userInfo:nil repeats:NO];
-  [[NSRunLoop mainRunLoop] addTimer:_miniEventScheduledEventEndTimer forMode:NSRunLoopCommonModes];
+  if (_miniEventScheduledEventEndTimer == nil)
+  {
+    // Kick off a timer for the expected end time of the current active mini event
+    const NSTimeInterval timeLeft = [_currentUserMiniEvent secondsTillEventEndTime];
+    _miniEventScheduledEventEndTimer = [NSTimer timerWithTimeInterval:timeLeft target:self
+                                                             selector:@selector(currentActiveMiniEventEnded) userInfo:nil repeats:NO];
+    [[NSRunLoop mainRunLoop] addTimer:_miniEventScheduledEventEndTimer forMode:NSRunLoopCommonModes];
+  }
 }
 
 - (void) stopEventScheduledEventEndTimer
@@ -219,6 +239,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(MiniEventManager)
           {
             [self.miniEventViewController miniEventUpdated:_currentUserMiniEvent];
           }
+          
+          if ([_currentUserMiniEvent completedTiersWithUnredeemedRewards] > 0)
+          {
+            [[NSNotificationCenter defaultCenter] postNotificationName:MINI_EVENT_TIER_REWARD_AVAILABLE_OR_REDEEMED_NOTIFICATION object:nil];
+          }
         }
         
         [[OutgoingEventController sharedOutgoingEventController] updateUserMiniEvent:userMiniEventGoal shouldFlush:NO];
@@ -276,7 +301,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(MiniEventManager)
     // Event has ended and all tier rewards that user has accumulated enough points for have already been redeemed
     _currentUserMiniEvent = nil;
     
+    [[NSNotificationCenter defaultCenter] postNotificationName:MINI_EVENT_IS_UAVAILABLE_NOTIFICATION object:nil];
+    
     [self retrieveNewUserMiniEvent];
+  }
+  else
+  {
+    [[NSNotificationCenter defaultCenter] postNotificationName:MINI_EVENT_TIER_REWARD_AVAILABLE_OR_REDEEMED_NOTIFICATION object:nil];
   }
 }
 

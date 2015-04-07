@@ -86,6 +86,12 @@
 @property (nonatomic, retain) IBOutlet UIImageView *secretGiftIcon;
 @property (nonatomic, retain) IBOutlet UILabel *secretGiftLabel;
 
+@property (nonatomic, retain) IBOutlet UIView* miniEventView;
+@property (nonatomic, retain) IBOutlet UIImageView* miniEventIcon;
+@property (nonatomic, retain) IBOutlet UILabel* miniEventLabel;
+@property (nonatomic, retain) IBOutlet UILabel* miniEventTimeLabel;
+@property (nonatomic, retain) IBOutlet BadgeIcon* miniEventBadge;
+
 @property (nonatomic, retain) IBOutlet BadgeIcon *questBadge;
 @property (nonatomic, retain) IBOutlet BadgeIcon *mailBadge;
 @property (nonatomic, retain) IBOutlet BadgeIcon *attackBadge;
