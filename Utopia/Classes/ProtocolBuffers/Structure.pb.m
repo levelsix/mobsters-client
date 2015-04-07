@@ -2389,6 +2389,7 @@ static MoneyTreeProto* defaultMoneyTreeProtoInstance = nil;
 
 @interface ResearchHouseProto ()
 @property (strong) StructureInfoProto* structInfo;
+@property Float32 researchSpeedMultiplier;
 @end
 
 @implementation ResearchHouseProto
@@ -2400,9 +2401,17 @@ static MoneyTreeProto* defaultMoneyTreeProtoInstance = nil;
   hasStructInfo_ = !!value_;
 }
 @synthesize structInfo;
+- (BOOL) hasResearchSpeedMultiplier {
+  return !!hasResearchSpeedMultiplier_;
+}
+- (void) setHasResearchSpeedMultiplier:(BOOL) value_ {
+  hasResearchSpeedMultiplier_ = !!value_;
+}
+@synthesize researchSpeedMultiplier;
 - (id) init {
   if ((self = [super init])) {
     self.structInfo = [StructureInfoProto defaultInstance];
+    self.researchSpeedMultiplier = 0;
   }
   return self;
 }
@@ -2425,6 +2434,9 @@ static ResearchHouseProto* defaultResearchHouseProtoInstance = nil;
   if (self.hasStructInfo) {
     [output writeMessage:1 value:self.structInfo];
   }
+  if (self.hasResearchSpeedMultiplier) {
+    [output writeFloat:2 value:self.researchSpeedMultiplier];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -2436,6 +2448,9 @@ static ResearchHouseProto* defaultResearchHouseProtoInstance = nil;
   size_ = 0;
   if (self.hasStructInfo) {
     size_ += computeMessageSize(1, self.structInfo);
+  }
+  if (self.hasResearchSpeedMultiplier) {
+    size_ += computeFloatSize(2, self.researchSpeedMultiplier);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -2478,6 +2493,9 @@ static ResearchHouseProto* defaultResearchHouseProtoInstance = nil;
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
+  if (self.hasResearchSpeedMultiplier) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"researchSpeedMultiplier", [NSNumber numberWithFloat:self.researchSpeedMultiplier]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -2491,12 +2509,17 @@ static ResearchHouseProto* defaultResearchHouseProtoInstance = nil;
   return
       self.hasStructInfo == otherMessage.hasStructInfo &&
       (!self.hasStructInfo || [self.structInfo isEqual:otherMessage.structInfo]) &&
+      self.hasResearchSpeedMultiplier == otherMessage.hasResearchSpeedMultiplier &&
+      (!self.hasResearchSpeedMultiplier || self.researchSpeedMultiplier == otherMessage.researchSpeedMultiplier) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
   __block NSUInteger hashCode = 7;
   if (self.hasStructInfo) {
     hashCode = hashCode * 31 + [self.structInfo hash];
+  }
+  if (self.hasResearchSpeedMultiplier) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithFloat:self.researchSpeedMultiplier] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -2544,6 +2567,9 @@ static ResearchHouseProto* defaultResearchHouseProtoInstance = nil;
   if (other.hasStructInfo) {
     [self mergeStructInfo:other.structInfo];
   }
+  if (other.hasResearchSpeedMultiplier) {
+    [self setResearchSpeedMultiplier:other.researchSpeedMultiplier];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -2572,6 +2598,10 @@ static ResearchHouseProto* defaultResearchHouseProtoInstance = nil;
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setStructInfo:[subBuilder buildPartial]];
+        break;
+      }
+      case 21: {
+        [self setResearchSpeedMultiplier:[input readFloat]];
         break;
       }
     }
@@ -2605,6 +2635,22 @@ static ResearchHouseProto* defaultResearchHouseProtoInstance = nil;
 - (ResearchHouseProto_Builder*) clearStructInfo {
   result.hasStructInfo = NO;
   result.structInfo = [StructureInfoProto defaultInstance];
+  return self;
+}
+- (BOOL) hasResearchSpeedMultiplier {
+  return result.hasResearchSpeedMultiplier;
+}
+- (Float32) researchSpeedMultiplier {
+  return result.researchSpeedMultiplier;
+}
+- (ResearchHouseProto_Builder*) setResearchSpeedMultiplier:(Float32) value {
+  result.hasResearchSpeedMultiplier = YES;
+  result.researchSpeedMultiplier = value;
+  return self;
+}
+- (ResearchHouseProto_Builder*) clearResearchSpeedMultiplier {
+  result.hasResearchSpeedMultiplier = NO;
+  result.researchSpeedMultiplier = 0;
   return self;
 }
 @end
