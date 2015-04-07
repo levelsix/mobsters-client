@@ -52,8 +52,6 @@
 @property (nonatomic, retain) NSString *postUuid;
 @property (nonatomic, assign) int64_t timeOfPost;
 
-- (IBAction) untranslateClicked:(UIButton *)sender;
-
 - (id) initWithProto:(GroupChatMessageProto *)p;
 - (PrivateChatPostProto *)makePrivateChatPostProto;
 
