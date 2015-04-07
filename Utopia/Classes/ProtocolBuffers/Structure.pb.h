@@ -610,11 +610,15 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 
 @interface ResearchHouseProto : PBGeneratedMessage {
 @private
+  BOOL hasResearchSpeedMultiplier_:1;
   BOOL hasStructInfo_:1;
+  Float32 researchSpeedMultiplier;
   StructureInfoProto* structInfo;
 }
 - (BOOL) hasStructInfo;
+- (BOOL) hasResearchSpeedMultiplier;
 @property (readonly, strong) StructureInfoProto* structInfo;
+@property (readonly) Float32 researchSpeedMultiplier;
 
 + (ResearchHouseProto*) defaultInstance;
 - (ResearchHouseProto*) defaultInstance;
@@ -657,6 +661,11 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (ResearchHouseProto_Builder*) setStructInfo_Builder:(StructureInfoProto_Builder*) builderForValue;
 - (ResearchHouseProto_Builder*) mergeStructInfo:(StructureInfoProto*) value;
 - (ResearchHouseProto_Builder*) clearStructInfo;
+
+- (BOOL) hasResearchSpeedMultiplier;
+- (Float32) researchSpeedMultiplier;
+- (ResearchHouseProto_Builder*) setResearchSpeedMultiplier:(Float32) value;
+- (ResearchHouseProto_Builder*) clearResearchSpeedMultiplier;
 @end
 
 @interface HospitalProto : PBGeneratedMessage {
