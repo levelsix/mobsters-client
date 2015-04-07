@@ -3574,11 +3574,19 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 #pragma mark - Mini Event
 
 - (void) retrieveUserMiniEventWithDelegate:(id)delegate {
+  GameState* gs = [GameState sharedGameState];
+  if (!gs.connected || gs.isTutorial || !gs.userUuid || [gs.userUuid isEqualToString:@""])
+    return;
+  
   int tag = [[SocketCommunication sharedSocketCommunication] sendRetrieveMiniEventRequestProtoMessage];
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
 }
 
 - (void) updateUserMiniEvent:(UserMiniEventGoal *)updatedUserMiniEventGoal shouldFlush:(BOOL)shouldFlush {
+  GameState* gs = [GameState sharedGameState];
+  if (!gs.connected || gs.isTutorial || !gs.userUuid || [gs.userUuid isEqualToString:@""])
+    return;
+  
   [[SocketCommunication sharedSocketCommunication] updateUserMiniEventMessage:updatedUserMiniEventGoal];
   
   if (shouldFlush) {
@@ -3587,6 +3595,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 }
 
 - (void) redeemMiniEventRewardWithDelegate:(id)delegate tierRedeemed:(RedeemMiniEventRewardRequestProto_RewardTier)tierRedeemed miniEventForPlayerLevelId:(int32_t)mefplId {
+  GameState* gs = [GameState sharedGameState];
+  if (!gs.connected || gs.isTutorial || !gs.userUuid || [gs.userUuid isEqualToString:@""])
+    return;
+  
   int tag = [[SocketCommunication sharedSocketCommunication] sendRedeemMiniEventRewardRequestProtoMessage:tierRedeemed miniEventForPlayerLevelId:mefplId clientTime:[self getCurrentMilliseconds]];
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
 }
