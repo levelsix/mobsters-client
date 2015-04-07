@@ -20,6 +20,9 @@
                     <rect key="frame" x="158" y="-9" width="260" height="184"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="1" green="0.875" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="xwE-dC-z3o"/>
+                    </connections>
                 </view>
                 <view contentMode="scaleToFill" id="6pg-7r-gYw" userLabel="Button Container View">
                     <rect key="frame" x="3" y="173" width="424" height="60"/>
@@ -190,6 +193,7 @@
                 <outlet property="cashButtonView" destination="vei-JO-UJp" id="Yxs-1x-U3b"/>
                 <outlet property="cashIcon" destination="cGP-78-QX6" id="5Zk-ct-pRN"/>
                 <outlet property="checkIcon" destination="Beh-cl-Zlf" id="tRC-y2-SIL"/>
+                <outlet property="cityHallUnlocksView" destination="6pe-ft-Bon" id="FrE-7N-evJ"/>
                 <outlet property="embeddedScrollView" destination="M4F-Td-Cfl" id="ztF-6q-VJe"/>
                 <outlet property="nameLabel" destination="mXG-L4-I5B" id="MSe-sp-A1A"/>
                 <outlet property="oilButton" destination="B17-4X-ajw" id="tLo-GY-U8s"/>

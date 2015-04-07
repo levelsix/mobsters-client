@@ -18,12 +18,13 @@ typedef enum {
   TutorialBuildingUpgradeStepFinish
 } TutorialBuildingUpgradeStep;
 
-@interface TutorialBuildingUpgradeController : MiniTutorialController <DialogueViewControllerDelegate, TutorialHomeMapDelegate, UpgradeViewControllerDelegate>
+@interface TutorialBuildingUpgradeController : MiniTutorialController <DialogueViewControllerDelegate, TutorialHomeMapDelegate, UpgradeViewControllerDelegate, HomeViewControllerDelegate>
 
 @property (nonatomic, assign) TutorialBuildingUpgradeStep currentStep;
 
 @property (nonatomic, retain) TutorialHomeMap *homeMap;
 
+@property (nonatomic, retain) TutorialHomeViewController *homeViewController;
 @property (nonatomic, retain) TutorialUpgradeViewController *upgradeViewController;
 
 @property (nonatomic, assign) UserStruct *userStruct;

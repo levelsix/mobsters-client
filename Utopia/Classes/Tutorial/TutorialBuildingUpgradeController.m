@@ -73,9 +73,11 @@
   self.upgradeViewController = [[TutorialUpgradeViewController alloc] initWithUserStruct:self.userStruct];
   self.upgradeViewController.delegate = self;
   
-  [self.gameViewController addChildViewController:self.upgradeViewController];
-  self.upgradeViewController.view.frame = self.gameViewController.view.bounds;
-  [self.gameViewController.view addSubview:self.upgradeViewController.view];
+  self.homeViewController = [[TutorialHomeViewController alloc] initWithSubViewController:self.upgradeViewController];
+  self.homeViewController.delegate = self;
+  
+  [self.homeViewController displayInParentViewController:self.gameViewController];
+  self.homeViewController.mainView.centerY = self.homeViewController.view.height/2;
   
   [self.gameViewController.view bringSubviewToFront:self.dialogueViewController.view];
 }
@@ -97,8 +99,7 @@
 }
 
 - (void) beginFinishPhase {
-  [self.upgradeViewController.parentViewController close];
-  
+  [self.homeViewController close];
   
   NSArray *dialogue = @[[NSString stringWithFormat:@"Keep on upgrading your buildings to get better, harder, faster, and stronger!"]];
   [self displayDialogue:dialogue];
@@ -114,12 +115,16 @@
   [self beginUpgradePhase];
 }
 
-- (void) upgradeViewControllerClosed{
-  //Do nothing
+- (void) upgradeViewControllerClosed {
+  // Do nothing
+}
+
+- (void) homeViewControllerClosed {
+  // Do nothing
 }
 
 - (void) buildingWasSpedUp:(int)gemsSpent{
-  //Nada
+  // Nada
 }
 
 - (void) bigUpgradeClicked:(id)sender {

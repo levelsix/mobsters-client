@@ -229,8 +229,6 @@
   int maxLevel = self.userStruct.maxLevel;
   self.title = level != maxLevel ? [NSString stringWithFormat:@"Upgrade to Level %d?", level+1] : @"Building at Max";
   if (level == 0) self.title = [NSString stringWithFormat:@"Fix %@?", self.userStruct.staticStruct.structInfo.name];
-  
-  self.upgradeView.embeddedScrollView.delegate = self;
 }
 
 #pragma mark - IBActions

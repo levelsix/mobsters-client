@@ -2138,7 +2138,7 @@
             [svc showAnchoredToInvokingView:invokingButton withDirection:ViewAnchoringPreferTopPlacement inkovingViewImage:invokingButton.currentImage];
           }
           if (self.currentViewController != nil &&
-              [self.currentViewController isKindOfClass:[UpgradeViewController class]] &&
+              [self.currentViewController isKindOfClass:[HomeViewController class]] &&
               [sender isKindOfClass:[UIButton class]]) // Upgrading a building
           {
             UIButton* invokingButton = (UIButton*)sender;
