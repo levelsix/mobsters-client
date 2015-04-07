@@ -236,6 +236,9 @@
 - (void) addClanAvengings:(NSArray *)protos;
 - (void) removeClanAvengings:(NSArray *)avengeIds;
 
+- (TranslateLanguages) languageForUser:(NSString *)userUuid;
+- (BOOL) translateOnForUser:(NSString *)userUuid;
+
 - (void) addInventorySlotsRequests:(NSArray *)invites;
 - (NSArray *) acceptedFbRequestsForUserStructUuid:(NSString *)userStructUuid fbStructLevel:(int)level;
 - (NSSet *) facebookIdsAlreadyUsed;

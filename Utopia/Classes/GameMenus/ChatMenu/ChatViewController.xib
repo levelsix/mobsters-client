@@ -176,16 +176,6 @@
                                             <rect key="frame" x="0.0" y="0.0" width="56" height="29"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Vdu-ZQ-C7L" userLabel="FlagButton">
-                                            <rect key="frame" x="4" y="5" width="25" height="19"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" image="flagenglish.png">
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <connections>
-                                                <action selector="topFlagClicked:" destination="Han-uB-4S1" eventType="touchUpInside" id="7gU-um-WMc"/>
-                                            </connections>
-                                        </button>
                                         <view contentMode="scaleToFill" id="MMR-ed-IeX" userLabel="CheckBoxView">
                                             <rect key="frame" x="34" y="6" width="20" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -214,6 +204,16 @@
                                             <rect key="frame" x="33" y="5" width="20" height="20"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         </activityIndicatorView>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Vdu-ZQ-C7L" userLabel="FlagButton">
+                                            <rect key="frame" x="4" y="5" width="25" height="19"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal" image="flagenglish.png">
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="topFlagClicked:" destination="Han-uB-4S1" eventType="touchUpInside" id="7gU-um-WMc"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                 </view>
                                 <view contentMode="scaleToFill" id="eXa-Ou-uhP" customClass="ButtonTabBar">
@@ -527,7 +527,7 @@
                                         <outlet property="delegate" destination="-1" id="GTe-MS-11N"/>
                                         <outlet property="flagButton" destination="Vdu-ZQ-C7L" id="ZOT-sw-jTv"/>
                                         <outlet property="flagCheckImage" destination="fc9-8o-SgO" id="grA-i2-SWI"/>
-                                        <outlet property="flagSpinner" destination="jwA-aR-Otm" id="5r0-B6-y1f"/>
+                                        <outlet property="flagSpinner" destination="jwA-aR-Otm" id="swD-Ik-ikU"/>
                                         <outlet property="languageSelectorView" destination="jo8-Ux-jma" id="458-UI-qSZ"/>
                                         <outlet property="monsterView" destination="BJg-MG-dmm" id="0kA-B3-Qsz"/>
                                         <outlet property="popoverView" destination="pfc-Vl-jbC" id="k5Z-Vv-oNE"/>

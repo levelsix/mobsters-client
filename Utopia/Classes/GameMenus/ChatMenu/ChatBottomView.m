@@ -29,11 +29,9 @@
   if (scope == ChatScopeGlobal) {
     displayLanguage = gs.globalTranslationOn ? gs.globalLanguage : TranslateLanguagesNoTranslation;
   } else if (scope == ChatScopePrivate) {
-    NSNumber *savedTranslateOnNumber = [gs.privateTranslationOn valueForKey:cm.sender.userUuid];
-    NSNumber *savedTranslateLanguageNumber = [gs.privateChatLanguages valueForKey:cm.sender.userUuid];
     
-    TranslateLanguages savedLanguage = (TranslateLanguages)savedTranslateLanguageNumber.integerValue;
-    BOOL savedTranslateOn = savedTranslateOnNumber.boolValue;
+    TranslateLanguages savedLanguage = [gs languageForUser:cm.sender.userUuid];
+    BOOL savedTranslateOn = [gs translateOnForUser:cm.sender.userUuid];
 
     displayLanguage = savedTranslateOn ? savedLanguage : TranslateLanguagesNoTranslation;
   }
