@@ -2373,6 +2373,8 @@
       [self.orbLayer.bgdLayer playVineExpansion:other.vineGrowDirection onTile:originTile withCompletion:^{
         [[self.orbLayer.swipeLayer spriteForOrb:orb] reloadSprite:NO];
       }];
+      
+      [self.orbLayer.layout detectPossibleSwaps];
     }
   }
   self.orbLayer.layout.lastNumVines = self.orbLayer.layout.numVines;
