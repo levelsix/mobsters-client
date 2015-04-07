@@ -176,6 +176,7 @@
   bldr.poster = [gs minUserWithLevel];
   bldr.recipient = [[[MinimumUserProtoWithLevel builder] setMinUserProto:[self sender]] build];
   bldr.timeOfPost = [[MSDate date] timeIntervalSince1970]*1000.;
+  bldr.originalContentLanguage = [gs languageForUser:bldr.recipient.minUserProto.userUuid];
   PrivateChatPostProto *pcpp = [bldr build];
   return pcpp;
 }
@@ -186,7 +187,7 @@
   PrivateChatPostProto *pcpp = [self privateChat];
   
   // Send a private message as if you just accepted the hire
-  [[OutgoingEventController sharedOutgoingEventController] privateChatPost:self.invite.inviter.minUserProto.userUuid content:pcpp.content];
+  [[OutgoingEventController sharedOutgoingEventController] privateChatPost:self.invite.inviter.minUserProto.userUuid content:pcpp.content originalLanguage:pcpp.originalContentLanguage];
   
   NSString *key = [NSString stringWithFormat:PRIVATE_CHAT_DEFAULTS_KEY, pcpp.recipient.minUserProto.userUuid];
   [[NSNotificationCenter defaultCenter] postNotificationName:PRIVATE_CHAT_RECEIVED_NOTIFICATION object:self userInfo:@{key : pcpp}];

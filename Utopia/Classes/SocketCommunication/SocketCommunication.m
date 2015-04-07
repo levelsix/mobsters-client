@@ -795,12 +795,13 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCEarnFreeDiamondsEvent];
 }
 
-- (int) sendGroupChatMessage:(GroupChatScope)scope message:(NSString *)msg clientTime:(uint64_t)clientTime {
-  SendGroupChatRequestProto *req = [[[[[[SendGroupChatRequestProto builder]
-                                        setScope:scope]
-                                       setChatMessage:msg]
-                                      setSender:_sender]
-                                     setClientTime:clientTime]
+- (int) sendGroupChatMessage:(GroupChatScope)scope message:(NSString *)msg clientTime:(uint64_t)clientTime globalLanguage:(TranslateLanguages)globalLanguage{
+  SendGroupChatRequestProto *req = [[[[[[[SendGroupChatRequestProto builder]
+                                         setScope:scope]
+                                        setChatMessage:msg]
+                                       setSender:_sender]
+                                      setClientTime:clientTime]
+                                     setGlobalLanguage:globalLanguage]
                                     build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCSendGroupChatEvent];
@@ -972,11 +973,12 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCTradeItemForBoosterEvent];
 }
 
-- (int) sendPrivateChatPostMessage:(NSString *)recipientUuid content:(NSString *)content {
-  PrivateChatPostRequestProto *req = [[[[[PrivateChatPostRequestProto builder]
-                                         setSender:_sender]
-                                        setRecipientUuid:recipientUuid]
-                                       setContent:content]
+- (int) sendPrivateChatPostMessage:(NSString *)recipientUuid content:(NSString *)content originalLanguage:(TranslateLanguages)originalLanguage{
+  PrivateChatPostRequestProto *req = [[[[[[PrivateChatPostRequestProto builder]
+                                          setSender:_sender]
+                                         setRecipientUuid:recipientUuid]
+                                        setContent:content]
+                                       setContentLanguage:originalLanguage]
                                       build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCPrivateChatPostEvent];

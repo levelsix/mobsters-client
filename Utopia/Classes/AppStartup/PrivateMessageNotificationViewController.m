@@ -99,9 +99,7 @@
         
         PrivateChatPostProto *pcpp = [messages firstObject];
         
-        NSNumber *savedLanguage = [gs.privateChatLanguages valueForKey:cm.sender.userUuid];
-        NSNumber *savedTranslationOn = [gs.privateTranslationOn valueForKey:cm.sender.userUuid];
-        TranslateLanguages languageToDisplay = savedTranslationOn.boolValue ? (TranslateLanguages)savedLanguage.integerValue : TranslateLanguagesNoTranslation;
+        TranslateLanguages languageToDisplay = [gs translateOnForUser:cm.sender.userUuid] ? [gs languageForUser:cm.sender.userUuid] : TranslateLanguagesNoTranslation;
         
         NSString *displayMessage = cm.message;
         if (languageToDisplay != TranslateLanguagesNoTranslation) {

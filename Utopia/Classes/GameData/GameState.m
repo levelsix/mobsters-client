@@ -915,6 +915,20 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [self.rareBoosterPurchases insertObject:bp atIndex:0];
 }
 
+#pragma mark - language
+
+- (TranslateLanguages) languageForUser:(NSString *)userUuid {
+  GameState *gs = [GameState sharedGameState];
+  NSNumber *savedNumber = [gs.privateChatLanguages valueForKey:userUuid];
+  return (TranslateLanguages)savedNumber.intValue;
+}
+
+- (BOOL) translateOnForUser:(NSString *)userUuid {
+  GameState *gs = [GameState sharedGameState];
+  NSNumber *savedNumber = [gs.privateTranslationOn valueForKey:userUuid];
+  return savedNumber.boolValue;
+}
+
 #pragma mark - Healing
 
 - (void) addAllMonsterHealingProtos:(NSArray *)items {
