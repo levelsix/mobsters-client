@@ -29,6 +29,8 @@
 
 @end
 
+@class SpriteAnimationImageView;
+
 @interface TopBarViewController : UIViewController <NumTransitionLabelDelegate, ChatBottomViewDelegate, ResourceItemsFillerDelegate> {
   CGPoint _originalProgressCenter;
   
@@ -84,7 +86,7 @@
 @property (nonatomic, retain) IBOutlet UILabel *secretGiftLabel;
 
 @property (nonatomic, retain) IBOutlet UIView* miniEventView;
-@property (nonatomic, retain) IBOutlet UIImageView* miniEventIcon;
+@property (nonatomic, retain) IBOutlet SpriteAnimationImageView* miniEventIcon;
 @property (nonatomic, retain) IBOutlet UILabel* miniEventLabel;
 @property (nonatomic, retain) IBOutlet UILabel* miniEventTimeLabel;
 @property (nonatomic, retain) IBOutlet BadgeIcon* miniEventBadge;
