@@ -33,6 +33,7 @@
 #import "GenericPopoverViewController.h"
 #import "MiniEventManager.h"
 #import "MiniEventViewController.h"
+#import "SpriteAnimationImageView.h"
 
 @implementation TopBarMonsterView
 
@@ -694,7 +695,7 @@
   UserMiniEvent* userMiniEvent = [MiniEventManager sharedInstance].currentUserMiniEvent;
   if (userMiniEvent && self.freeGemsView.hidden)
   {
-    [Globals imageNamed:userMiniEvent.miniEvent.icon withView:self.miniEventIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+    [self.miniEventIcon setSprite:userMiniEvent.miniEvent.icon];
     
     const int numberOfTiersWithUnredeemedRewards = [userMiniEvent completedTiersWithUnredeemedRewards];
     self.miniEventBadge.badgeNum = numberOfTiersWithUnredeemedRewards;
