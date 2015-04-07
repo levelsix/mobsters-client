@@ -127,7 +127,7 @@
 
 - (int) sendEarnFreeDiamondsFBConnectMessageClientTime:(uint64_t)time;
 
-- (int) sendGroupChatMessage:(GroupChatScope)scope message:(NSString *)msg clientTime:(uint64_t)clientTime;
+- (int) sendGroupChatMessage:(GroupChatScope)scope message:(NSString *)msg clientTime:(uint64_t)clientTime globalLanguage:(TranslateLanguages)globalLanguage;
 
 - (int) sendCreateClanMessage:(NSString *)clanName tag:(NSString *)tag description:(NSString *)description requestOnly:(BOOL)requestOnly iconId:(int)iconId cashChange:(int)cashChange gemsSpent:(int)gemsSpent;
 - (int) sendLeaveClanMessage;
@@ -154,7 +154,7 @@
 - (int) sendPurchaseBoosterPackMessage:(int)boosterPackId isFree:(BOOL)free clientTime:(uint64_t)clientTime;
 - (int) sendTradeItemForBoosterMessage:(int)itemId clientTime:(uint64_t)clientTime;
 
-- (int) sendPrivateChatPostMessage:(NSString *)recipientUuid content:(NSString *)content;
+- (int) sendPrivateChatPostMessage:(NSString *)recipientUuid content:(NSString *)content originalLanguage:(TranslateLanguages)originalLanguage;
 - (int) sendRetrievePrivateChatPostsMessage:(NSString *)otherUserUuid language:(TranslateLanguages)language;
 
 - (int) sendTranslateSelectMessages:(NSString *)otherUserUuid language:(TranslateLanguages)language messages:(NSArray *)messages chatType:(ChatType)chatType translateOn:(BOOL)translateOn;

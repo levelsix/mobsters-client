@@ -106,7 +106,7 @@
   // Send a private chat if avenge
   if (_clanAvenging) {
     NSString *msg = [NSString stringWithFormat:@"I have successfully avenged you and defeated %@.", _clanAvenging.attacker.minUserProto.name];
-    [[OutgoingEventController sharedOutgoingEventController] privateChatPost:_clanAvenging.defender.userUuid content:msg];
+    [[OutgoingEventController sharedOutgoingEventController] privateChatPost:_clanAvenging.defender.userUuid content:msg originalLanguage:TranslateLanguagesEnglish];
   }
 }
 
@@ -120,7 +120,7 @@
   // Send a private chat if avenge
   if (_clanAvenging) {
     NSString *msg = [NSString stringWithFormat:@"I have attacked %@ but was unable to avenge you.", _clanAvenging.attacker.minUserProto.name];
-    [[OutgoingEventController sharedOutgoingEventController] privateChatPost:_clanAvenging.defender.userUuid content:msg];
+    [[OutgoingEventController sharedOutgoingEventController] privateChatPost:_clanAvenging.defender.userUuid content:msg originalLanguage:TranslateLanguagesEnglish];
   }
 }
 
@@ -212,12 +212,20 @@
 }
 
 - (void) sendButtonClicked:(id)sender {
+  GameState *gs = [GameState sharedGameState];
+  
   UITextField *tf = self.endView.msgTextField;
   if (tf.text.length) {
     PvpProto *pvp = self.defendersList[_curQueueNum];
     
     if (pvp.defender.minUserProto.hasUserUuid && pvp.defender.minUserProto.userUuid.length > 0) {
-      [[OutgoingEventController sharedOutgoingEventController] privateChatPost:pvp.defender.minUserProto.userUuid content:tf.text];
+      TranslateLanguages originalLanguage;
+      if ([gs languageForUser:pvp.defender.minUserProto.userUuid]) {
+        originalLanguage = [gs languageForUser:pvp.defender.minUserProto.userUuid];
+      } else {
+        originalLanguage = gs.globalLanguage;
+      }
+      [[OutgoingEventController sharedOutgoingEventController] privateChatPost:pvp.defender.minUserProto.userUuid content:tf.text originalLanguage:originalLanguage];
     }
     
     tf.text = nil;

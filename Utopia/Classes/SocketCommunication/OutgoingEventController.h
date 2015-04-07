@@ -90,7 +90,7 @@
 - (void) purchaseBoosterPack:(int)boosterPackId isFree:(BOOL)free delegate:(id)delegate;
 - (void) tradeItemForFreeBoosterPack:(int)boosterPackId delegate:(id)delegate;
 
-- (void) privateChatPost:(NSString *)recipientUuid content:(NSString *)content;
+- (void) privateChatPost:(NSString *)recipientUuid content:(NSString *)content originalLanguage:(TranslateLanguages)originalLanguage;
 - (void) retrievePrivateChatPosts:(NSString *)otherUserUuid delegate:(id)delegate;
 
 - (void) translateSelectMessages:(NSArray *)messages language:(TranslateLanguages)language otherUserUuid:(NSString *)otherUserUuid chatType:(ChatType)chatType translateOn:(BOOL)translateOn delegate:(id)delegate;
