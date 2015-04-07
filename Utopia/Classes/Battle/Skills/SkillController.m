@@ -8,6 +8,7 @@
 #import "NewBattleLayer.h"
 #import "GameViewController.h"
 #import "GameState.h"
+#import "SkillProtoHelper.h"
 #import "SkillManager.h"
 #import "SkillQuickAttack.h"
 #import "SkillJelly.h"
@@ -450,16 +451,11 @@
   return skillProto.name;
 }
 
-- (NSString*) processSkillDescription:(NSString*)desc
-{
-  return desc;
-}
-
 - (NSString*) processedSkillDescription
 {
   SkillProto* skillProto = [[GameState sharedGameState].staticSkills objectForKey:[NSNumber numberWithInteger:_skillId]];
-  NSString* desc = self.belongsToPlayer ? skillProto.shortOffDesc : skillProto.shortDefDesc;
-  return [self processSkillDescription:desc];
+  
+  return self.belongsToPlayer ? [SkillProtoHelper offShortDescForSkill:skillProto] : [SkillProtoHelper defShortDescForSkill:skillProto];
 }
 
 - (void) showCurrentSkillPopup

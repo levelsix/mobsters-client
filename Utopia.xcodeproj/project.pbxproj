@@ -1973,6 +1973,9 @@
 		6B1EAAAA1ACF827900E0B642 /* conditionremoved7.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B1EAAA91ACF827900E0B642 /* conditionremoved7.plist */; };
 		6B1EAAAB1ACF827900E0B642 /* conditionremoved7.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B1EAAA91ACF827900E0B642 /* conditionremoved7.plist */; };
 		6B1EAAAC1ACF827900E0B642 /* conditionremoved7.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B1EAAA91ACF827900E0B642 /* conditionremoved7.plist */; };
+		6B1EAABB1AD42A7A00E0B642 /* SkillProtoHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B1EAABA1AD42A7A00E0B642 /* SkillProtoHelper.m */; };
+		6B1EAABC1AD42A7A00E0B642 /* SkillProtoHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B1EAABA1AD42A7A00E0B642 /* SkillProtoHelper.m */; };
+		6B1EAABD1AD42A7A00E0B642 /* SkillProtoHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B1EAABA1AD42A7A00E0B642 /* SkillProtoHelper.m */; };
 		6B2DA9A71AC9C0B2000B37A8 /* bringdownarrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B2DA9A61AC9C0B2000B37A8 /* bringdownarrow@2x.png */; };
 		6B2DA9A81AC9C0B2000B37A8 /* bringdownarrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B2DA9A61AC9C0B2000B37A8 /* bringdownarrow@2x.png */; };
 		6B2DA9A91AC9C0B2000B37A8 /* bringdownarrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B2DA9A61AC9C0B2000B37A8 /* bringdownarrow@2x.png */; };
@@ -8238,6 +8241,8 @@
 		6B1EA99D1ACF5DCB00E0B642 /* VinesUp@2x.tps */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "VinesUp@2x.tps"; sourceTree = "<group>"; };
 		6B1EAA801ACF5DD600E0B642 /* vinebreak@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "vinebreak@2x.plist"; sourceTree = "<group>"; };
 		6B1EAAA91ACF827900E0B642 /* conditionremoved7.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = conditionremoved7.plist; sourceTree = "<group>"; };
+		6B1EAAB91AD42A6B00E0B642 /* SkillProtoHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillProtoHelper.h; sourceTree = "<group>"; };
+		6B1EAABA1AD42A7A00E0B642 /* SkillProtoHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillProtoHelper.m; sourceTree = "<group>"; };
 		6B2DA9A61AC9C0B2000B37A8 /* bringdownarrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bringdownarrow@2x.png"; sourceTree = "<group>"; };
 		6B3BC16A1A8BC67E00E0D457 /* SkillPoisonSkewer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SkillPoisonSkewer.h; sourceTree = "<group>"; };
 		6B3BC16C1A8BC68E00E0D457 /* SkillPoisonSkewer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillPoisonSkewer.m; sourceTree = "<group>"; };
@@ -13856,6 +13861,15 @@
 			path = Up;
 			sourceTree = "<group>";
 		};
+		6B1EAAB71AD42A5600E0B642 /* Skills */ = {
+			isa = PBXGroup;
+			children = (
+				6B1EAAB91AD42A6B00E0B642 /* SkillProtoHelper.h */,
+				6B1EAABA1AD42A7A00E0B642 /* SkillProtoHelper.m */,
+			);
+			name = Skills;
+			sourceTree = "<group>";
+		};
 		6BB5F85D1A80093D006515B9 /* Upgrades */ = {
 			isa = PBXGroup;
 			children = (
@@ -14462,6 +14476,7 @@
 		CF1265401538ACC400E0C1AD /* Game Data */ = {
 			isa = PBXGroup;
 			children = (
+				6B1EAAB71AD42A5600E0B642 /* Skills */,
 				291721301ACF82400093F100 /* GameType */,
 				29927E611AAE1B3A00418683 /* Battle Items */,
 				298708311AC3414F002BFF2E /* Research */,
@@ -24887,6 +24902,7 @@
 				CF0CED1C196F452900ECD301 /* EventStaticData.pb.m in Sources */,
 				9BDA8B5E1A3A894B00C7AC27 /* SkillHeadshot.m in Sources */,
 				CF0CED1D196F452900ECD301 /* CoinBar.m in Sources */,
+				6B1EAABC1AD42A7A00E0B642 /* SkillProtoHelper.m in Sources */,
 				2991FBFA1A800AFE009BB1D8 /* PopoverViewController.m in Sources */,
 				CF0CED1E196F452900ECD301 /* NibUtils.m in Sources */,
 				3EEADB781A7005C70096A652 /* SkillCounterStrike.m in Sources */,
@@ -25507,6 +25523,7 @@
 				9B8CA6111A3798C00060BE8F /* SkillCritAndEvade.m in Sources */,
 				CF7CFE2619A55A68009338A2 /* BattleSwap.m in Sources */,
 				CF0AC60018A1F6E600140628 /* PvpBattleLayer.m in Sources */,
+				6B1EAABB1AD42A7A00E0B642 /* SkillProtoHelper.m in Sources */,
 				DA88EB3E19B93542005EE827 /* SkillPopupOverlay.m in Sources */,
 				CFE11F8F1A141C040094F797 /* amqp_tcp_socket.c in Sources */,
 				CFBF032117C596890082A9BF /* ClanCreateViewController.m in Sources */,
@@ -25628,6 +25645,7 @@
 				CF4818C219F7217F00041486 /* QuestCompleteLayer.m in Sources */,
 				CF4818C319F7217F00041486 /* EventStaticData.pb.m in Sources */,
 				9BDA8B5F1A3A894B00C7AC27 /* SkillHeadshot.m in Sources */,
+				6B1EAABD1AD42A7A00E0B642 /* SkillProtoHelper.m in Sources */,
 				CF4818C419F7217F00041486 /* CoinBar.m in Sources */,
 				2991FBFB1A800AFE009BB1D8 /* PopoverViewController.m in Sources */,
 				CF4818C519F7217F00041486 /* NibUtils.m in Sources */,

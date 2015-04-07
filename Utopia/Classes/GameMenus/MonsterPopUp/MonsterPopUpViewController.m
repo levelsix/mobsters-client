@@ -14,6 +14,7 @@
 #import "GenericPopupController.h"
 #import "SkillController.h"
 #import "ResearchController.h"
+#import "SkillProtoHelper.h"
 
 #define LOCK_MOBSTER_DEFAULTS_KEY @"LockMobsterConfirmation"
 
@@ -327,7 +328,7 @@ NSMutableAttributedString *attributedStringWithResearchChange(int total, int bas
       self.offensiveSkillName.text = skillProto.name;
       if (offensive)
       {
-        [self setDescriptionLabelString:skillProto.offDesc];
+        [self setDescriptionLabelString:[SkillProtoHelper offDescForSkill:skillProto]];
         self.offensiveSkillName.textColor = [UIColor colorWithHexString:@"1a85e3"];
       }
       else
@@ -358,7 +359,7 @@ NSMutableAttributedString *attributedStringWithResearchChange(int total, int bas
       self.defensiveSkillName.text = skillProto.name;
       if (! offensive)
       {
-        [self setDescriptionLabelString:skillProto.defDesc];
+        [self setDescriptionLabelString:[SkillProtoHelper defDescForSkill:skillProto]];
         self.defensiveSkillName.textColor = [UIColor colorWithHexString:@"1a85e3"];
       }
       else
