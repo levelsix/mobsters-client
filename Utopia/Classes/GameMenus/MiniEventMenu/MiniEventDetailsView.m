@@ -322,9 +322,7 @@ static const float kCollectRewardViewSlideAnimationDuration = .5f;
   }
   else
   {
-    MSDate* eventEndTime = [MSDate dateWithTimeIntervalSince1970:userMiniEvent.miniEvent.miniEventEndTime / 1000.f];
-    MSDate* now = [MSDate date];
-    const NSTimeInterval timeLeft = [eventEndTime timeIntervalSinceDate:now];
+    const NSTimeInterval timeLeft = [userMiniEvent secondsTillEventEndTime];
     self.eventInfoTimeLeft.text = [[Globals convertTimeToShortString:timeLeft] uppercaseString];
   }
 }

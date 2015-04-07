@@ -1651,6 +1651,22 @@
   return ([now compare:eventEndTime] != NSOrderedAscending);
 }
 
+- (NSTimeInterval) secondsTillEventEndTime
+{
+  MSDate* eventEndTime = [MSDate dateWithTimeIntervalSince1970:self.miniEvent.miniEventEndTime / 1000.f];
+  MSDate* now = [MSDate date];
+  return [eventEndTime timeIntervalSinceDate:now];
+}
+
+- (int) completedTiersWithUnredeemedRewards
+{
+  int unredeemedTiers = 0;
+  if (self.pointsEarned >= self.miniEvent.lvlEntered.tierOneMinPts   && !self.tierOneRedeemed)   ++unredeemedTiers;
+  if (self.pointsEarned >= self.miniEvent.lvlEntered.tierTwoMinPts   && !self.tierTwoRedeemed)   ++unredeemedTiers;
+  if (self.pointsEarned >= self.miniEvent.lvlEntered.tierThreeMinPts && !self.tierThreeRedeemed) ++unredeemedTiers;
+  return unredeemedTiers;
+}
+
 - (BOOL) allCompletedTiersHaveBeenRedeemed
 {
   return ((self.tierOneRedeemed   || self.pointsEarned < self.miniEvent.lvlEntered.tierOneMinPts) &&

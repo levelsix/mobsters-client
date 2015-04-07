@@ -30,6 +30,8 @@
 #import "AttackedAlertViewController.h"
 #import "SocketCommunication.h"
 #import "SoundEngine.h"
+#import "MiniEventManager.h"
+#import "MiniEventViewController.h"
 
 @implementation TopBarMonsterView
 
@@ -163,6 +165,12 @@
   [center addObserver:self selector:@selector(updateBuildersLabel) name:OBSTACLE_REMOVAL_BEGAN_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(updateBuildersLabel) name:OBSTACLE_COMPLETE_NOTIFICATION object:nil];
   [self updateBuildersLabel];
+  
+  [center addObserver:self selector:@selector(updateMiniEventView) name:MINI_EVENT_IS_AVAILABLE_NOTIFICATION object:nil];
+  [center addObserver:self selector:@selector(updateMiniEventView) name:MINI_EVENT_TIER_REWARD_AVAILABLE_OR_REDEEMED_NOTIFICATION object:nil];
+  [center addObserver:self selector:@selector(stopFadingMiniEventLabels) name:MINI_EVENT_HAS_ENDED_NOTIFICATION object:nil];
+  [center addObserver:self selector:@selector(updateMiniEventView) name:MINI_EVENT_IS_UAVAILABLE_NOTIFICATION object:nil];
+  [self updateMiniEventView];
   
   [self.updateTimer invalidate];
   self.updateTimer = [NSTimer timerWithTimeInterval:1.f target:self selector:@selector(updateLabels) userInfo:nil repeats:YES];
@@ -466,6 +474,8 @@
     fullRotation.repeatCount = 50000;
     [self.freeGemsSpinner.layer addAnimation:fullRotation forKey:@"360"];
   }
+  
+  [self updateMiniEventView];
 }
 
 - (void) updateSecretGiftView {
@@ -572,6 +582,16 @@
   } else {
     self.saleTimeLabel.text = @"SALE!";
   }
+
+  if (!self.miniEventView.hidden)
+  {
+    UserMiniEvent* userMiniEvent = [MiniEventManager sharedInstance].currentUserMiniEvent;
+    if (userMiniEvent && ![userMiniEvent eventHasEnded])
+    {
+      const NSTimeInterval timeLeft = [userMiniEvent secondsTillEventEndTime];
+      self.miniEventTimeLabel.text = [[Globals convertTimeToShortString:timeLeft] uppercaseString];
+    }
+  }
 }
 
 - (void) showPrivateChatNotification:(NSNotification *)notification {
@@ -647,6 +667,59 @@
     
     self.saleView.hidden = YES;
   }
+  
+  self.miniEventView.centerX = self.shopView.centerX;
+  self.miniEventView.originY = CGRectGetMaxY(self.freeGemsView.frame) - self.miniEventView.height;
+}
+
+- (void) updateMiniEventView {
+  UserMiniEvent* userMiniEvent = [MiniEventManager sharedInstance].currentUserMiniEvent;
+  if (userMiniEvent && self.freeGemsView.hidden)
+  {
+    [Globals imageNamed:userMiniEvent.miniEvent.icon withView:self.miniEventIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+    
+    const int numberOfTiersWithUnredeemedRewards = [userMiniEvent completedTiersWithUnredeemedRewards];
+    self.miniEventBadge.badgeNum = numberOfTiersWithUnredeemedRewards;
+    
+    [self updateLabels];
+    
+    if (![userMiniEvent eventHasEnded] && self.miniEventView.hidden)
+    {
+      [self startFadingMiniEventLabels];
+    }
+    
+    self.miniEventView.hidden = NO;
+  }
+  else
+  {
+    [self stopFadingMiniEventLabels];
+    
+    self.miniEventView.hidden = YES;
+  }
+}
+
+- (void) startFadingMiniEventLabels
+{
+  [self stopFadingMiniEventLabels];
+  [self performSelector:@selector(fadeMiniEventLabels) withObject:nil afterDelay:6.f];
+}
+
+- (void) stopFadingMiniEventLabels
+{
+  [self.miniEventLabel.layer removeAllAnimations];
+  [self.miniEventTimeLabel.layer removeAllAnimations];
+  
+  self.miniEventLabel.alpha = 1.f;
+  self.miniEventTimeLabel.alpha = 0.f;
+}
+
+- (void) fadeMiniEventLabels {
+  [UIView animateWithDuration:1.f animations:^{
+    self.miniEventLabel.alpha = 1.f - self.miniEventLabel.alpha;
+    self.miniEventTimeLabel.alpha = 1.f - self.miniEventTimeLabel.alpha;
+  } completion:^(BOOL finished) {
+    [self performSelector:@selector(fadeMiniEventLabels) withObject:nil afterDelay:6.f];
+  }];
 }
 
 - (void) performFallingGemsAnimation {
@@ -910,6 +983,14 @@
   [gvc addChildViewController:rvc];
   rvc.view.frame = gvc.view.bounds;
   [gvc.view addSubview:rvc.view];
+}
+
+- (IBAction)miniEventClicked:(id)sender {
+  GameViewController *gvc = (GameViewController *)self.parentViewController;
+  MiniEventViewController *mevc = [[MiniEventViewController alloc] init];
+  [gvc addChildViewController:mevc];
+  [mevc.view setFrame:gvc.view.bounds];
+  [gvc.view addSubview:mevc.view];
 }
 
 - (IBAction)secretGiftClicked:(id)sender {

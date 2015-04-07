@@ -89,6 +89,11 @@
 #define BATTLE_ITEM_REMOVED_NOTIFICATION @"BattleItemRemovedNotification"
 #define BATTLE_ITEM_WAIT_COMPLETE_NOTIFICATION @"BattleItemWaitCompleteNotification"
 
+#define MINI_EVENT_IS_AVAILABLE_NOTIFICATION @"MiniEventIsAvailableNotification"
+#define MINI_EVENT_TIER_REWARD_AVAILABLE_OR_REDEEMED_NOTIFICATION @"MiniEventTierRewardAvailableOrRedeemedNotification"
+#define MINI_EVENT_HAS_ENDED_NOTIFICATION @"MiniEventHasEndedNotification"
+#define MINI_EVENT_IS_UAVAILABLE_NOTIFICATION @"MiniEventIsUnavailableNotification"
+
 #define MY_CLAN_MEMBERS_LIST_KEY @"MyMembersList"
 #define CLAN_RAID_ATTACK_KEY @"ClanRaidAttackKey"
 #define MUTED_PLAYERS_KEY @"MutedPlayersKey"

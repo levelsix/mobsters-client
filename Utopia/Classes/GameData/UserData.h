@@ -395,6 +395,8 @@ typedef enum {
 + (instancetype) userMiniEventWithProto:(UserMiniEventProto*)proto;
 
 - (BOOL) eventHasEnded;
+- (NSTimeInterval) secondsTillEventEndTime;
+- (int) completedTiersWithUnredeemedRewards;
 - (BOOL) allCompletedTiersHaveBeenRedeemed;
 - (UserMiniEventProto*) convertToProto;
 
