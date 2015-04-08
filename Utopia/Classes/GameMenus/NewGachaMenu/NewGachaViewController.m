@@ -305,6 +305,8 @@
 
 - (void) button1Clicked:(id)sender {
   if (!_isSpinning) {
+    [self hideSkillPopup:self];
+    
     [self.navBar clickButton:1];
     
     [self updateForBoosterPack:self.badBoosterPack];
@@ -315,6 +317,8 @@
 
 - (void) button2Clicked:(id)sender {
   if (!_isSpinning) {
+    [self hideSkillPopup:self];
+    
     [self.navBar clickButton:2];
     
     [self updateForBoosterPack:self.goodBoosterPack];
