@@ -43,11 +43,14 @@
   
   [userItems sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
     if ([obj1 isKindOfClass:[UserItem class]] && [obj2 isKindOfClass:[UserItem class]]) {
-#warning needs to put specialized stuff up top
       BOOL anyOwned1 = [obj1 numOwned] > 0 || [self.usedItems containsObject:@([obj1 itemId])];
       BOOL anyOwned2 = [obj2 numOwned] > 0 || [self.usedItems containsObject:@([obj2 itemId])];
       
-      if (anyOwned1 != anyOwned2) {
+      GameActionType gameAction1 = [obj1 gameActionType];
+      GameActionType gameAction2 = [obj2 gameActionType];
+      if (gameAction1 != gameAction2) {
+        return gameAction1 != GameActionTypeNoHelp ? NSOrderedAscending : NSOrderedDescending;
+      } else if (anyOwned1 != anyOwned2) {
         return [@(anyOwned2) compare:@(anyOwned1)];
       } else {
         ItemProto *ip1 = [gs itemForId:[obj1 itemId]];

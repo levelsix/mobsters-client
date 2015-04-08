@@ -18,7 +18,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" id="Pzo-bx-mhD">
-                        <rect key="frame" x="0.0" y="0.0" width="241" height="51"/>
+                        <rect key="frame" x="0.0" y="0.0" width="482" height="102"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="itemsquarebg.png" id="L1I-E6-joV">
@@ -38,7 +38,7 @@
                                 <size key="shadowOffset" width="0.0" height="1"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="24 Hour Speedup" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="9LT-3N-ULB" customClass="NiceFontLabel10">
-                                <rect key="frame" x="54" y="7" width="108" height="21"/>
+                                <rect key="frame" x="54" y="7" width="119" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                 <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -131,7 +131,7 @@
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="timerevolve.png" id="2Cx-K5-ZlN">
-                                <rect key="frame" x="11" y="13" width="13" height="14"/>
+                                <rect key="frame" x="12" y="13" width="13" height="14"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
                         </subviews>
