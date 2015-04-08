@@ -516,6 +516,7 @@
   um2.level = 15;
   um2.curHealth = [gl calculateMaxHealthForMonster:um2];
   um2.teamSlot = 2;
+  
   NSArray *myMons = [NSArray arrayWithObjects:um1, um2, nil];
   if ((self = [super initWithMyUserMonsters:myMons puzzleIsOnLeft:NO gridSize:CGSizeMake(6, 6)])) {
     self.constants = constants;
@@ -543,6 +544,7 @@
   [self.hudView.bottomView removeFromSuperview];
   [self.hudView.elementButton removeFromSuperview];
   [self.hudView.elementView removeFromSuperview];
+  [self.hudView.itemsView removeFromSuperview];
 }
 
 - (void) sendServerUpdatedValuesVerifyDamageDealt:(BOOL)verify {
