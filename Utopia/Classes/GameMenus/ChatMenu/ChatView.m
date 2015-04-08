@@ -1004,7 +1004,7 @@
   BOOL needsTranslation;
   for (ChatMessage *message in self.chats){
     needsTranslation = YES;
-    if ([message.sender.userUuid isEqualToString:[gs minUser].userUuid]) {
+    if ([message.sender.userUuid isEqualToString:[gs minUser].userUuid] || ![message isKindOfClass:[ChatMessage class]]) {
       continue;
     }
     
