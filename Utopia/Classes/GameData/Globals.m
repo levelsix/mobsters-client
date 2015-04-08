@@ -24,6 +24,7 @@
 #import "HospitalQueueSimulator.h"
 #import "OneLineNotificationViewController.h"
 #import "PrivateMessageNotificationViewController.h"
+#import "MiniEventGoalNotificationViewController.h"
 
 #define FONT_LABEL_OFFSET 1.f
 #define SHAKE_DURATION 0.05f
@@ -2500,6 +2501,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     PrivateMessageNotificationViewController *pmn = [[PrivateMessageNotificationViewController alloc] initWithMessages:messages isImmediate:NO];
     [gvc.notificationController addNotification:pmn];
   }
+}
+
++ (void) addMiniEventGoalNotification:(NSString *)msg image:(NSString *)img {
+  GameViewController *gvc = [GameViewController baseController];
+  MiniEventGoalNotificationViewController *megn = [[MiniEventGoalNotificationViewController alloc] initWithNotificationString:msg image:img isImmediate:NO];
+  [gvc.notificationController addNotification:megn];
 }
 
 #pragma mark - Bounce View

@@ -1617,6 +1617,8 @@
     self.goalAmt = proto.goalAmt;
     self.pointsGained = proto.pointsGained;
     self.progress = 0; // Will be set and updated by owner class
+    self.goalDesc = proto.goalDesc;
+    self.actionDescription = proto.actionDescription;
   }
   return self;
 }

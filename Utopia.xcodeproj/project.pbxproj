@@ -2807,6 +2807,15 @@
 		9BCAA1B41AD5FB770059CEDA /* researchinggreencircle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BCAA1B31AD5FB770059CEDA /* researchinggreencircle@2x.png */; };
 		9BCAA1B51AD5FB770059CEDA /* researchinggreencircle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BCAA1B31AD5FB770059CEDA /* researchinggreencircle@2x.png */; };
 		9BCAA1B61AD5FB770059CEDA /* researchinggreencircle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BCAA1B31AD5FB770059CEDA /* researchinggreencircle@2x.png */; };
+		9BCAA1961AD491E20059CEDA /* MiniEventGoalNotificationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BCAA1931AD491E20059CEDA /* MiniEventGoalNotificationView.xib */; };
+		9BCAA1971AD491E20059CEDA /* MiniEventGoalNotificationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BCAA1931AD491E20059CEDA /* MiniEventGoalNotificationView.xib */; };
+		9BCAA1981AD491E20059CEDA /* MiniEventGoalNotificationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BCAA1931AD491E20059CEDA /* MiniEventGoalNotificationView.xib */; };
+		9BCAA1991AD491E20059CEDA /* MiniEventGoalNotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BCAA1951AD491E20059CEDA /* MiniEventGoalNotificationViewController.m */; };
+		9BCAA19A1AD491E20059CEDA /* MiniEventGoalNotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BCAA1951AD491E20059CEDA /* MiniEventGoalNotificationViewController.m */; };
+		9BCAA19B1AD491E20059CEDA /* MiniEventGoalNotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BCAA1951AD491E20059CEDA /* MiniEventGoalNotificationViewController.m */; };
+		9BCAA19E1AD4A5D50059CEDA /* Sales.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BCAA19D1AD4A5D50059CEDA /* Sales.pb.m */; };
+		9BCAA19F1AD4A5D50059CEDA /* Sales.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BCAA19D1AD4A5D50059CEDA /* Sales.pb.m */; };
+		9BCAA1A01AD4A5D50059CEDA /* Sales.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BCAA19D1AD4A5D50059CEDA /* Sales.pb.m */; };
 		9BD4738D1AC3681800EBBFB2 /* MiniEventTierPrizeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BD4738C1AC3681800EBBFB2 /* MiniEventTierPrizeView.m */; };
 		9BD4738E1AC3681800EBBFB2 /* MiniEventTierPrizeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BD4738C1AC3681800EBBFB2 /* MiniEventTierPrizeView.m */; };
 		9BD4738F1AC3681800EBBFB2 /* MiniEventTierPrizeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BD4738C1AC3681800EBBFB2 /* MiniEventTierPrizeView.m */; };
@@ -8844,6 +8853,12 @@
 		9BC9F3D81A95561B009DC3D5 /* turnmovesbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "turnmovesbg@2x.png"; sourceTree = "<group>"; };
 		9BCA5FFB1ABA2E9B0087FB41 /* researchitemgradient@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "researchitemgradient@2x.png"; sourceTree = "<group>"; };
 		9BCAA1B31AD5FB770059CEDA /* researchinggreencircle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "researchinggreencircle@2x.png"; sourceTree = "<group>"; };
+		9BCAA1931AD491E20059CEDA /* MiniEventGoalNotificationView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MiniEventGoalNotificationView.xib; sourceTree = "<group>"; };
+		9BCAA1941AD491E20059CEDA /* MiniEventGoalNotificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = MiniEventGoalNotificationViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		9BCAA1951AD491E20059CEDA /* MiniEventGoalNotificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MiniEventGoalNotificationViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		9BCAA19C1AD4A5D50059CEDA /* Sales.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sales.pb.h; sourceTree = "<group>"; };
+		9BCAA19D1AD4A5D50059CEDA /* Sales.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sales.pb.m; sourceTree = "<group>"; };
+		9BCAA1A11AD4A5F10059CEDA /* Sales.proto */ = {isa = PBXFileReference; lastKnownFileType = text; path = Sales.proto; sourceTree = "<group>"; };
 		9BD4738B1AC3681800EBBFB2 /* MiniEventTierPrizeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiniEventTierPrizeView.h; sourceTree = "<group>"; };
 		9BD4738C1AC3681800EBBFB2 /* MiniEventTierPrizeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MiniEventTierPrizeView.m; sourceTree = "<group>"; };
 		9BD473911AC3684500EBBFB2 /* MiniEventTierPrizeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MiniEventTierPrizeView.xib; sourceTree = "<group>"; };
@@ -16057,6 +16072,8 @@
 				29A38D4C1ACCCCF6006F3CBF /* Reward.pb.h */,
 				29A38D4D1ACCCCF6006F3CBF /* Reward.pb.m */,
 				CF6574771909CAF100ABF1F4 /* Proto files */,
+				9BCAA19C1AD4A5D50059CEDA /* Sales.pb.h */,
+				9BCAA19D1AD4A5D50059CEDA /* Sales.pb.m */,
 				9B2EFCE11AC4AEF5005B7B83 /* EventMiniEvent.pb.h */,
 				9B2EFCE21AC4AEF5005B7B83 /* EventMiniEvent.pb.m */,
 				9B2EFCE31AC4AEF5005B7B83 /* MiniEvent.pb.h */,
@@ -16196,6 +16213,9 @@
 				2917217A1AD4B74E0093F100 /* StrengthChangeView.h */,
 				2917217B1AD4B74E0093F100 /* StrengthChangeView.m */,
 				2917217F1AD4B75E0093F100 /* StrengthChangeView.xib */,
+				9BCAA1931AD491E20059CEDA /* MiniEventGoalNotificationView.xib */,
+				9BCAA1941AD491E20059CEDA /* MiniEventGoalNotificationViewController.h */,
+				9BCAA1951AD491E20059CEDA /* MiniEventGoalNotificationViewController.m */,
 			);
 			name = Notifications;
 			sourceTree = "<group>";
@@ -16323,6 +16343,7 @@
 				291721671AD4B2CC0093F100 /* Sales.proto */,
 				29AF48F51AAA94DD0034927C /* BattleItem.proto */,
 				29AF48F61AAA94DD0034927C /* EventBattleItem.proto */,
+				9BCAA1A11AD4A5F10059CEDA /* Sales.proto */,
 				9B2EFCCC1AC4AEC9005B7B83 /* BattleItem.proto */,
 				9B2EFCCD1AC4AEC9005B7B83 /* EventBattleItem.proto */,
 				9B2EFCCE1AC4AEC9005B7B83 /* EventMiniEvent.proto */,
@@ -20090,6 +20111,7 @@
 				299AA35E1A7856AA00A2D806 /* 6rockorb-9@2x.png in Resources */,
 				CF0CF356196F452900ECD301 /* sfx_arial_bomb_drop.mp3 in Resources */,
 				CF0CF359196F452900ECD301 /* tasknumberbg@2x.png in Resources */,
+				9BCAA1971AD491E20059CEDA /* MiniEventGoalNotificationView.xib in Resources */,
 				299AA3BE1A7856AA00A2D806 /* lockedorb-9@2x.png in Resources */,
 				9B7AAB311AC0CDE300CA387F /* eventearnpointsactive@2x.png in Resources */,
 				CF65ECC219A2B1CC00ABBC77 /* activechatline@2x.png in Resources */,
@@ -21243,6 +21265,7 @@
 				CF29E99E1962C9E900B40DA4 /* battlesupertag@2x.png in Resources */,
 				CFF64728195E586900C43641 /* scievobox@2x.png in Resources */,
 				CFF5DBF6194F90720019EB2B /* profstatsactive@2x.png in Resources */,
+				9BCAA1961AD491E20059CEDA /* MiniEventGoalNotificationView.xib in Resources */,
 				CFF7876518E28FE200413E78 /* upgradeinactivetab@2x.png in Resources */,
 				3E6F09AA1A6F0DBF006F2FF5 /* evobadge2@2x.png in Resources */,
 				29A38D6F1ACCD85B006F3CBF /* itemsresearchgroup@2x.png in Resources */,
@@ -23648,6 +23671,7 @@
 				29804F891A241F4A00806253 /* gemsspinner@2x.png in Resources */,
 				9B7AAB381AC0CDE300CA387F /* eventeventactive@2x.png in Resources */,
 				9BC9F39B1A8EB9C5009DC3D5 /* Titillium-Black.otf in Resources */,
+				9BCAA1981AD491E20059CEDA /* MiniEventGoalNotificationView.xib in Resources */,
 				CF481B9819F7217F00041486 /* minishadow@2x.png in Resources */,
 				291721261ACF82110093F100 /* DetailsStrengthView.xib in Resources */,
 				2992D7D11AA5326B00547B11 /* thegemminelogo@2x.png in Resources */,
@@ -25671,6 +25695,7 @@
 				CF0CED0A196F452900ECD301 /* Downloader.m in Sources */,
 				29DCCFAB1A8AA114003176FD /* TutorialEnhanceChooserViewController.m in Sources */,
 				CF0CED0B196F452900ECD301 /* HomeMap.m in Sources */,
+				9BCAA19A1AD491E20059CEDA /* MiniEventGoalNotificationViewController.m in Sources */,
 				CF0CED0C196F452900ECD301 /* LoadingViewController.m in Sources */,
 				DA075FBD19AFEA4200E43E5A /* Skill.pb.m in Sources */,
 				CF0CED0D196F452900ECD301 /* Globals.m in Sources */,
@@ -25893,6 +25918,7 @@
 				CF0CED99196F452900ECD301 /* FacebookDelegate.m in Sources */,
 				CF0CED9A196F452900ECD301 /* CAKeyframeAnimation+AHEasing.m in Sources */,
 				CFA8B1AE19EB789F00CF6BFD /* ChatObject.m in Sources */,
+				9BCAA19F1AD4A5D50059CEDA /* Sales.pb.m in Sources */,
 				CF0CED9B196F452900ECD301 /* SettingsSubViewController.m in Sources */,
 				DA88EB3F19B93542005EE827 /* SkillPopupOverlay.m in Sources */,
 				9B9BA8081A73367B001B7D04 /* SkillLifeSteal.m in Sources */,
@@ -26124,6 +26150,7 @@
 				CFCD0E6E1953EFE500EDC233 /* PopupNavViewController.m in Sources */,
 				CF126D831538ACCA00E0C1AD /* IncomingEventController.m in Sources */,
 				CF6574E21909CAF200ABF1F4 /* Structure.pb.m in Sources */,
+				9BCAA1991AD491E20059CEDA /* MiniEventGoalNotificationViewController.m in Sources */,
 				CF126D841538ACCA00E0C1AD /* OutgoingEventController.m in Sources */,
 				291721111ACF82040093F100 /* DetailViewController.m in Sources */,
 				CF126D851538ACCA00E0C1AD /* SocketCommunication.m in Sources */,
@@ -26297,6 +26324,7 @@
 				CF023CB61992ED9E0082FE61 /* BattleSchedule.m in Sources */,
 				63B044C11A8BE86F00C74F0C /* RequestPushNotificationViewController.m in Sources */,
 				CF15BA8616572A8400A51F85 /* AMQPQueue.m in Sources */,
+				9BCAA19E1AD4A5D50059CEDA /* Sales.pb.m in Sources */,
 				CF746134196A0D73002D6AE6 /* TutorialBuildingViewController.m in Sources */,
 				CFE11F6E1A141C040094F797 /* amqp_connection.c in Sources */,
 				CFA9F7D11A0DA90600EBE77D /* ItemObject.m in Sources */,
@@ -26451,6 +26479,7 @@
 				CF4818AD19F7217F00041486 /* OneLineNotificationViewController.m in Sources */,
 				CF4818AE19F7217F00041486 /* Downloader.m in Sources */,
 				29DCCFAC1A8AA114003176FD /* TutorialEnhanceChooserViewController.m in Sources */,
+				9BCAA19B1AD491E20059CEDA /* MiniEventGoalNotificationViewController.m in Sources */,
 				CF4818AF19F7217F00041486 /* HomeMap.m in Sources */,
 				CF4818B019F7217F00041486 /* LoadingViewController.m in Sources */,
 				CF4818B119F7217F00041486 /* Skill.pb.m in Sources */,
@@ -26673,6 +26702,7 @@
 				CF48194419F7217F00041486 /* AMQPObject.m in Sources */,
 				CF48194519F7217F00041486 /* FacebookDelegate.m in Sources */,
 				CF48194619F7217F00041486 /* CAKeyframeAnimation+AHEasing.m in Sources */,
+				9BCAA1A01AD4A5D50059CEDA /* Sales.pb.m in Sources */,
 				CF48194719F7217F00041486 /* ChatObject.m in Sources */,
 				CF48194819F7217F00041486 /* SettingsSubViewController.m in Sources */,
 				CF48194919F7217F00041486 /* SkillPopupOverlay.m in Sources */,

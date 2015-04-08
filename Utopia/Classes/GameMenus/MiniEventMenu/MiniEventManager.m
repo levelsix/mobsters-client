@@ -233,12 +233,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(MiniEventManager)
           // Current progress led to goal being completed
         
           const int numTimesGoalCompleted = numTimesGoalCompletedAfterProgress - numTimesGoalCompletedBeforeProgress;
-          _currentUserMiniEvent.pointsEarned += userMiniEventGoal.pointsGained * numTimesGoalCompleted;
+          const int32_t pointsGained = userMiniEventGoal.pointsGained * numTimesGoalCompleted;
+          _currentUserMiniEvent.pointsEarned += pointsGained;
           
           if (self.miniEventViewController)
           {
             [self.miniEventViewController miniEventUpdated:_currentUserMiniEvent];
           }
+          
+          [Globals addMiniEventGoalNotification:[NSString stringWithFormat:@"%@: %d Points Earned!", userMiniEventGoal.actionDescription, pointsGained]
+                                          image:_currentUserMiniEvent.miniEvent.img];
           
           if ([_currentUserMiniEvent completedTiersWithUnredeemedRewards] > 0)
           {
@@ -277,37 +281,39 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(MiniEventManager)
       case RedeemMiniEventRewardRequestProto_RewardTierTierTwo:   _currentUserMiniEvent.tierTwoRedeemed   = YES; break;
       case RedeemMiniEventRewardRequestProto_RewardTierTierThree: _currentUserMiniEvent.tierThreeRedeemed = YES; break;
     }
-  }
   
-  GameState* gs = [GameState sharedGameState];
-  
-  if (rewards.updatedOrNewMonstersList)
-  {
-    [gs addToMyMonsters:rewards.updatedOrNewMonstersList];
-  }
-  
-  if (rewards.updatedUserItemsList)
-  {
-    [gs.itemUtil addToMyItems:rewards.updatedUserItemsList];
-  }
-  
-  if (rewards.hasGems || rewards.hasCash || rewards.hasOil)
-  {
-    // Gems, oil, and cash are updated through UpdateUserClientResponseEvent. Don't need to do anything here
-  }
-  
-  if ([_currentUserMiniEvent eventHasEnded] && [_currentUserMiniEvent allCompletedTiersHaveBeenRedeemed])
-  {
-    // Event has ended and all tier rewards that user has accumulated enough points for have already been redeemed
-    _currentUserMiniEvent = nil;
+    GameState* gs = [GameState sharedGameState];
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:MINI_EVENT_IS_UAVAILABLE_NOTIFICATION object:nil];
+    if (rewards.updatedOrNewMonstersList)
+    {
+      [gs addToMyMonsters:rewards.updatedOrNewMonstersList];
+    }
     
-    [self retrieveNewUserMiniEvent];
-  }
-  else
-  {
-    [[NSNotificationCenter defaultCenter] postNotificationName:MINI_EVENT_TIER_REWARD_AVAILABLE_OR_REDEEMED_NOTIFICATION object:nil];
+    if (rewards.updatedUserItemsList)
+    {
+      [gs.itemUtil addToMyItems:rewards.updatedUserItemsList];
+    }
+    
+    if (rewards.hasGems || rewards.hasCash || rewards.hasOil)
+    {
+      // Gems, oil, and cash are updated through UpdateUserClientResponseEvent. Don't need to do anything here
+    }
+    
+    [Globals addPurpleAlertNotification:[NSString stringWithFormat:@"You collected your Tier %d reward!", (int)tierRedeemed] isImmediate:YES];
+    
+    if ([_currentUserMiniEvent eventHasEnded] && [_currentUserMiniEvent allCompletedTiersHaveBeenRedeemed])
+    {
+      // Event has ended and all tier rewards that user has accumulated enough points for have already been redeemed
+      _currentUserMiniEvent = nil;
+      
+      [[NSNotificationCenter defaultCenter] postNotificationName:MINI_EVENT_IS_UAVAILABLE_NOTIFICATION object:nil];
+      
+      [self retrieveNewUserMiniEvent];
+    }
+    else
+    {
+      [[NSNotificationCenter defaultCenter] postNotificationName:MINI_EVENT_TIER_REWARD_AVAILABLE_OR_REDEEMED_NOTIFICATION object:nil];
+    }
   }
 }
 
