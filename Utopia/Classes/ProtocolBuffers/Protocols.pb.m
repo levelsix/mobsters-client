@@ -179,6 +179,7 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCRetrieveMiniEventEvent:
     case EventProtocolRequestCUpdateMiniEventEvent:
     case EventProtocolRequestCTranslateSelectMessagesEvent:
+    case EventProtocolRequestCUpdateUserStrengthEvent:
       return YES;
     default:
       return NO;
@@ -304,6 +305,7 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSRetrieveMiniEventEvent:
     case EventProtocolResponseSUpdateMiniEventEvent:
     case EventProtocolResponseSTranslateSelectMessagesEvent:
+    case EventProtocolResponseSUpdateUserStrengthEvent:
       return YES;
     default:
       return NO;
