@@ -846,10 +846,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 - (void) setAvatarMonster:(int)avatarMonsterId {
   GameState *gs = [GameState sharedGameState];
   if (gs.avatarMonsterId != avatarMonsterId) {
-    [[SocketCommunication sharedSocketCommunication] sendSetAvatarMonsterMessage:avatarMonsterId];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendSetAvatarMonsterMessage:avatarMonsterId];
     
     gs.avatarMonsterId = avatarMonsterId;
     [[SocketCommunication sharedSocketCommunication] rebuildSender];
+    
+    [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
   }
 }
 
@@ -884,6 +886,16 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [[SocketCommunication sharedSocketCommunication] sendUnrestrictUserMonsterMessage:@[userMonsterUuid]];
     
     um.isProtected = NO;
+  }
+}
+
+- (void) updateUserStrength:(uint64_t)newStrength {
+  GameState *gs = [GameState sharedGameState];
+  
+  if (newStrength > 0) {
+    [[SocketCommunication sharedSocketCommunication] sendUpdateUserStrengthMessage:newStrength];
+    
+    gs.totalStrength = newStrength;
   }
 }
 

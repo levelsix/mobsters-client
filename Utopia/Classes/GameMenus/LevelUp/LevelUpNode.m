@@ -39,7 +39,7 @@
 }
 
 - (NotificationPriority) priority {
-  return NotificationPriorityFullScreen;
+  return NotificationPriorityRegular;
 }
 
 - (NotificationLocationType) locationType {

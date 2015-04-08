@@ -134,7 +134,7 @@
 }
 
 - (NotificationPriority) priority {
-  return NotificationPriorityFullScreen;
+  return NotificationPriorityRegular;
 }
 
 - (void) animateWithCompletionBlock:(dispatch_block_t)completion {

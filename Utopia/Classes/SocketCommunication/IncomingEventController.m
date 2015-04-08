@@ -357,6 +357,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSFinishPerformingResearchEvent:
       responseClass = [FinishPerformingResearchResponseProto class];
       break;
+    case EventProtocolResponseSUpdateUserStrengthEvent:
+      responseClass = [UpdateUserStrengthResponseProto class];
+      break;
     default:
       responseClass = nil;
       break;
@@ -810,6 +813,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [gs.itemUtil cleanupRogueItemUsages];
       
       [gs checkMaxResourceCapacities];
+      [gs recalculateStrength];
       
       // Check for unresponded in app purchases
       NSString *key = IAP_DEFAULTS_KEY;
@@ -1021,6 +1025,22 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to set defending message."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleUpdateUserStrengthResponseProto:(FullEvent *)fe {
+  UpdateUserStrengthResponseProto *proto = (UpdateUserStrengthResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Update user strength response received with status %d.", (int)proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == UpdateUserStrengthResponseProto_UpdateUserStrengthStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to update user strength message."];
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }

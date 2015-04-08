@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
@@ -10,6 +10,7 @@
                 <outlet property="addBuilderButton" destination="Qdr-Hm-gBb" id="nrl-c8-RYD"/>
                 <outlet property="attackBadge" destination="VqM-qO-adt" id="Pcr-Ao-uep"/>
                 <outlet property="attackView" destination="gka-1y-nrl" id="Cl8-sy-cSY"/>
+                <outlet property="avatarMonsterView" destination="rYR-ZG-yVz" id="f6k-s3-XP8"/>
                 <outlet property="buildersLabel" destination="qxc-ET-oIe" id="pfO-O8-sR1"/>
                 <outlet property="cashBar" destination="dTR-Is-M9C" id="gt7-UU-n4c"/>
                 <outlet property="cashBgd" destination="fcT-IN-fsB" id="7cM-58-3aO"/>
@@ -17,19 +18,15 @@
                 <outlet property="cashMaxLabel" destination="iqp-4b-ToE" id="tdF-Wb-PLa"/>
                 <outlet property="cashView" destination="VpU-1c-UPu" id="nez-z3-p5U"/>
                 <outlet property="coinBarsView" destination="myw-qd-Tq0" id="qBG-nK-BA4"/>
-                <outlet property="expBar" destination="Yvk-Lo-cNi" id="sEJ-mn-lic"/>
                 <outlet property="expBgd" destination="x8b-eE-lJh" id="fLK-6T-A7T"/>
-                <outlet property="expLabel" destination="jBk-ZB-O11" id="8zs-ST-LMK"/>
                 <outlet property="expView" destination="qAj-Vx-LTt" id="FLf-3u-8Io"/>
                 <outlet property="freeGemsBadge" destination="iFW-g9-gLo" id="4VJ-tr-Kja"/>
                 <outlet property="freeGemsSpinner" destination="rXv-EN-27y" id="aUJ-UR-m0w"/>
                 <outlet property="freeGemsView" destination="R4r-CQ-wtp" id="G8r-Np-eNH"/>
                 <outlet property="gemsLabel" destination="KKx-uR-59O" id="oQz-wG-ryh"/>
                 <outlet property="gemsView" destination="2Q7-bV-IcA" id="m1w-bG-R7I"/>
-                <outlet property="levelLabel" destination="z9g-Pu-hrw" id="YhS-Up-92A"/>
                 <outlet property="mailBadge" destination="GM0-8Q-nYL" id="YkU-Nl-lXa"/>
                 <outlet property="mainView" destination="1" id="6El-eA-cCl"/>
-                <outlet property="nameLabel" destination="E1z-6T-4sm" id="6N4-Fu-9Er"/>
                 <outlet property="oilBar" destination="WDm-AP-aFk" id="qfW-2a-gHd"/>
                 <outlet property="oilBgd" destination="xLo-g2-HWr" id="8rk-Ga-HcB"/>
                 <outlet property="oilLabel" destination="wSx-RL-WsB" id="SUB-ad-QPr"/>
@@ -49,6 +46,7 @@
                 <outlet property="shopBadge" destination="nl4-HM-Qok" id="oLQ-QZ-Lat"/>
                 <outlet property="shopBadgeImage" destination="Ttb-Rz-x1x" id="YKg-Hh-fMt"/>
                 <outlet property="shopView" destination="Oj8-iv-fNA" id="LlZ-Qp-CWe"/>
+                <outlet property="strengthLabel" destination="jBk-ZB-O11" id="KYe-RN-9SG"/>
                 <outlet property="timerHeaderLabel" destination="daR-2a-K6x" id="8oF-Dn-AXv"/>
                 <outlet property="timerViewController" destination="cCx-u4-cvb" id="vfP-Ka-RKN"/>
                 <outlet property="timersView" destination="F5P-y2-Qxn" id="5zg-8d-aHh"/>
@@ -343,7 +341,7 @@
                                     <rect key="frame" x="4" y="11" width="118" height="18"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 </imageView>
-                                <view contentMode="scaleToFill" id="Yvk-Lo-cNi" customClass="SplitImageProgressBar">
+                                <view hidden="YES" contentMode="scaleToFill" id="Yvk-Lo-cNi" customClass="SplitImageProgressBar">
                                     <rect key="frame" x="4" y="11" width="118" height="18"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                     <subviews>
@@ -367,8 +365,8 @@
                                         <outlet property="rightCap" destination="ox0-Df-kQg" id="Chs-mR-tc8"/>
                                     </connections>
                                 </view>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="745/868" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="jBk-ZB-O11" customClass="NumTransitionLabel">
-                                    <rect key="frame" x="34" y="7" width="74" height="21"/>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="18,225" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="jBk-ZB-O11" customClass="NumTransitionLabel">
+                                    <rect key="frame" x="34" y="8" width="74" height="21"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -379,31 +377,7 @@
                                         <outlet property="transitionDelegate" destination="-1" id="ec1-kq-j2l"/>
                                     </connections>
                                 </label>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="brI-SK-kHP" customClass="GeneralButton">
-                                    <rect key="frame" x="1" y="6" width="30" height="30"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                    <state key="normal" image="levelicon.png">
-                                        <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                    </state>
-                                    <state key="highlighted">
-                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    </state>
-                                    <connections>
-                                        <action selector="profileClicked:" destination="-1" eventType="touchUpInside" id="FZg-VF-JdF"/>
-                                    </connections>
-                                </button>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="12" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="z9g-Pu-hrw" customClass="NiceFontLabel12">
-                                    <rect key="frame" x="3" y="10" width="26" height="21"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                    <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
-                                    <nil key="highlightedColor"/>
-                                    <color key="shadowColor" red="1" green="0.78823529411764703" blue="0.32156862745098036" alpha="0.75" colorSpace="calibratedRGB"/>
-                                    <size key="shadowOffset" width="0.0" height="1"/>
-                                </label>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Meep" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="E1z-6T-4sm" customClass="NiceFontLabel8B">
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Strength" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="E1z-6T-4sm" customClass="NiceFontLabel8B">
                                     <rect key="frame" x="33" y="-7" width="86" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="8"/>
@@ -412,6 +386,36 @@
                                     <color key="shadowColor" white="0.0" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
                                     <size key="shadowOffset" width="0.0" height="1"/>
                                 </label>
+                                <view contentMode="scaleToFill" id="rYR-ZG-yVz" customClass="CircleMonsterView">
+                                    <rect key="frame" x="0.0" y="4" width="30" height="30"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <subviews>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="nightavatar.png" id="4xW-XU-mCQ">
+                                            <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        </imageView>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="7YN-SX-Bmy">
+                                            <rect key="frame" x="1" y="2" width="28" height="28"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        </imageView>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Jeh-7n-Tmi" customClass="MaskedButton">
+                                            <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal">
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="profileClicked:" destination="-1" eventType="touchUpInside" id="HGa-t0-QH9"/>
+                                                <outlet property="baseImage" destination="4xW-XU-mCQ" id="YEh-gc-Lct"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <connections>
+                                        <outlet property="bgdIcon" destination="4xW-XU-mCQ" id="s20-yX-3Gj"/>
+                                        <outlet property="monsterIcon" destination="7YN-SX-Bmy" id="1s4-Zn-i3A"/>
+                                    </connections>
+                                </view>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
@@ -858,11 +862,11 @@
         <image name="gemsspinner.png" width="64" height="64"/>
         <image name="homescreentimer.png" width="44" height="15"/>
         <image name="jobsbutton.png" width="44" height="46"/>
-        <image name="levelicon.png" width="30" height="30"/>
         <image name="levelxpbglong.png" width="118" height="18"/>
         <image name="mailbutton.png" width="44" height="42"/>
         <image name="moneystack.png" width="31" height="30"/>
         <image name="moretimerarrow.png" width="7" height="5"/>
+        <image name="nightavatar.png" width="30" height="30"/>
         <image name="oilcap.png" width="4" height="18"/>
         <image name="oilicon.png" width="25" height="30"/>
         <image name="oilmiddle.png" width="1" height="18"/>

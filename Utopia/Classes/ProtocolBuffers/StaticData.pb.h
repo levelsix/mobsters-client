@@ -14,6 +14,7 @@
 #import "Prerequisite.pb.h"
 #import "Quest.pb.h"
 #import "Research.pb.h"
+#import "Sales.pb.h"
 #import "Reward.pb.h"
 #import "Skill.pb.h"
 #import "Structure.pb.h"
@@ -191,6 +192,12 @@
 @class ResourceStorageProto_Builder;
 @class RewardProto;
 @class RewardProto_Builder;
+@class SalesDisplayItemProto;
+@class SalesDisplayItemProto_Builder;
+@class SalesItemProto;
+@class SalesItemProto_Builder;
+@class SalesPackageProto;
+@class SalesPackageProto_Builder;
 @class SkillPropertyProto;
 @class SkillPropertyProto_Builder;
 @class SkillProto;
@@ -326,8 +333,9 @@
   NSMutableArray * mutablePrereqsList;
   NSMutableArray * mutableBoardsList;
   NSMutableArray * mutableResearchList;
-  NSMutableArray * mutablePvpBoardObstacleProtosList;
   NSMutableArray * mutableBattleItemList;
+  NSMutableArray * mutableSalesPackageList;
+  NSMutableArray * mutablePvpBoardObstacleProtosList;
   NSMutableArray * mutableRewardList;
 }
 - (BOOL) hasSender;
@@ -372,8 +380,9 @@
 @property (readonly, strong) NSArray * prereqsList;
 @property (readonly, strong) NSArray * boardsList;
 @property (readonly, strong) NSArray * researchList;
-@property (readonly, strong) NSArray * pvpBoardObstacleProtosList;
 @property (readonly, strong) NSArray * battleItemList;
+@property (readonly, strong) NSArray * salesPackageList;
+@property (readonly, strong) NSArray * pvpBoardObstacleProtosList;
 @property (readonly, strong) NSArray * rewardList;
 - (CityExpansionCostProto*)expansionCostsAtIndex:(NSUInteger)index;
 - (FullCityProto*)allCitiesAtIndex:(NSUInteger)index;
@@ -413,8 +422,9 @@
 - (PrereqProto*)prereqsAtIndex:(NSUInteger)index;
 - (BoardLayoutProto*)boardsAtIndex:(NSUInteger)index;
 - (ResearchProto*)researchAtIndex:(NSUInteger)index;
-- (PvpBoardObstacleProto*)pvpBoardObstacleProtosAtIndex:(NSUInteger)index;
 - (BattleItemProto*)battleItemAtIndex:(NSUInteger)index;
+- (SalesPackageProto*)salesPackageAtIndex:(NSUInteger)index;
+- (PvpBoardObstacleProto*)pvpBoardObstacleProtosAtIndex:(NSUInteger)index;
 - (RewardProto*)rewardAtIndex:(NSUInteger)index;
 
 + (StaticDataProto*) defaultInstance;
@@ -694,17 +704,23 @@
 - (StaticDataProto_Builder *)addAllResearch:(NSArray *)array;
 - (StaticDataProto_Builder *)clearResearch;
 
-- (NSMutableArray *)pvpBoardObstacleProtosList;
-- (PvpBoardObstacleProto*)pvpBoardObstacleProtosAtIndex:(NSUInteger)index;
-- (StaticDataProto_Builder *)addPvpBoardObstacleProtos:(PvpBoardObstacleProto*)value;
-- (StaticDataProto_Builder *)addAllPvpBoardObstacleProtos:(NSArray *)array;
-- (StaticDataProto_Builder *)clearPvpBoardObstacleProtos;
-
 - (NSMutableArray *)battleItemList;
 - (BattleItemProto*)battleItemAtIndex:(NSUInteger)index;
 - (StaticDataProto_Builder *)addBattleItem:(BattleItemProto*)value;
 - (StaticDataProto_Builder *)addAllBattleItem:(NSArray *)array;
 - (StaticDataProto_Builder *)clearBattleItem;
+
+- (NSMutableArray *)salesPackageList;
+- (SalesPackageProto*)salesPackageAtIndex:(NSUInteger)index;
+- (StaticDataProto_Builder *)addSalesPackage:(SalesPackageProto*)value;
+- (StaticDataProto_Builder *)addAllSalesPackage:(NSArray *)array;
+- (StaticDataProto_Builder *)clearSalesPackage;
+
+- (NSMutableArray *)pvpBoardObstacleProtosList;
+- (PvpBoardObstacleProto*)pvpBoardObstacleProtosAtIndex:(NSUInteger)index;
+- (StaticDataProto_Builder *)addPvpBoardObstacleProtos:(PvpBoardObstacleProto*)value;
+- (StaticDataProto_Builder *)addAllPvpBoardObstacleProtos:(NSArray *)array;
+- (StaticDataProto_Builder *)clearPvpBoardObstacleProtos;
 
 - (NSMutableArray *)rewardList;
 - (RewardProto*)rewardAtIndex:(NSUInteger)index;

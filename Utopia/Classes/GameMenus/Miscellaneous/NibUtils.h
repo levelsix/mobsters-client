@@ -518,7 +518,7 @@ typedef enum {
 
 @protocol NumTransitionLabelDelegate <NSObject>
 
-- (void) updateLabel:(NumTransitionLabel *)label forNumber:(int)number;
+- (void) updateLabel:(NumTransitionLabel *)label forNumber:(uint64_t)number;
 
 @optional
 - (void) labelReachedGoalNum:(UILabel *)label;
@@ -530,11 +530,11 @@ typedef enum {
 @property (nonatomic, weak) IBOutlet id<NumTransitionLabelDelegate> transitionDelegate;
 @property (nonatomic, strong) NSTimer *timer;
 
-@property (nonatomic, readonly) int currentNum;
-@property (nonatomic, readonly) int goalNum;
+@property (nonatomic, readonly) uint64_t currentNum;
+@property (nonatomic, readonly) uint64_t goalNum;
 
-- (void) instaMoveToNum:(int)num;
-- (void) transitionToNum:(int)num;
+- (void) instaMoveToNum:(uint64_t)num;
+- (void) transitionToNum:(uint64_t)num;
 
 @end
 
@@ -617,7 +617,7 @@ typedef enum {
 
 @interface EmbeddedNibView : UIView
 
-- (void) loadNib;
+- (CGRect) loadNib;
 
 @end
 

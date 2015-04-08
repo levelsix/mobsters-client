@@ -1643,6 +1643,15 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCDiscardBattleItemEvent flush:NO queueUp:YES];
 }
 
+- (int) sendUpdateUserStrengthMessage:(uint64_t)newStrength {
+  UpdateUserStrengthRequestProto *req = [[[[UpdateUserStrengthRequestProto builder]
+                                           setSender:_sender]
+                                          setUpdatedStrength:newStrength]
+                                         build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCUpdateUserStrengthEvent flush:NO queueUp:YES];
+}
+
 #pragma mark - Batch/Flush events
 
 - (int) retrieveCurrencyFromStruct:(NSString *)userStructUuid time:(uint64_t)time amountCollected:(int)amountCollected {

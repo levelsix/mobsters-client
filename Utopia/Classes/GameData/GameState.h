@@ -56,6 +56,7 @@
 @property (nonatomic, retain) MSDate *lastSecretGiftCollectTime;
 @property (nonatomic, retain) NSString *pvpDefendingMessage;
 @property (nonatomic, retain) MSDate *lastTeamDonateSolicitationTime;
+@property (nonatomic, assign) uint64_t totalStrength;
 
 @property (nonatomic, assign) BOOL hasBeatenFirstBoss;
 @property (nonatomic, assign) int firstBossTaskId;
@@ -163,6 +164,7 @@
 - (FullUserProto *) convertToFullUserProto;
 - (void) updateUser:(FullUserProto *)user timestamp:(uint64_t)time;
 - (void) checkMaxResourceCapacities;
+- (void) recalculateStrength;
 
 - (id) getStaticDataFrom:(NSDictionary *)dict withId:(int)itemId;
 - (id<StaticStructure>) structWithId:(int)structId;

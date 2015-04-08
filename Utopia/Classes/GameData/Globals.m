@@ -878,7 +878,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return @"userConfimredPushNotificationsKey";
 }
 
-+ (NSString *) cashStringForNumber:(int)n {
++ (NSString *) cashStringForNumber:(int64_t)n {
   return [NSString stringWithFormat:@"$%@", [self commafyNumber:n]];
 }
 
@@ -2066,6 +2066,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 - (int) calculateStrengthForMonster:(UserMonster *)um {
+  if (!um.isComplete) {
+    return 0;
+  }
+  
   MonsterProto *mp = um.staticMonster;
   MonsterLevelInfoProto *min = [mp.lvlInfoList firstObject];
   MonsterLevelInfoProto *max = [mp.lvlInfoList lastObject];
@@ -2090,7 +2094,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   
   float finalCost = baseCost*researchFactor;
   
-  return finalCost;
+  return MAX(finalCost, 1);
 }
 
 - (float) calculateBaseSecondsToHealMonster:(UserMonster *)um {
@@ -2108,7 +2112,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   
   float finalSecs = baseSecs*researchFactor;
   
-  return finalSecs;
+  return MAX(finalSecs, 1);
 }
 
 - (int) calculateOilCostForNewMonsterWithEnhancement:(UserEnhancement *)ue feeder:(EnhancementItem *)feeder {
@@ -2128,7 +2132,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   
   float finalCost = oilCost*researchFactor;
   
-  return finalCost;
+  return MAX(finalCost, 1);
   
   // Old Formula..
   //return self.oilPerMonsterLevel*(ue.baseMonster.userMonster.level+additionalLevel);
@@ -2160,7 +2164,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   // Use base feeder exp instead so that time isn't affected by multipliers
   //int expGain = [self calculateExperienceIncrease:baseMonster feeder:feeder];
   //int expGain = feeder.userMonster.feederExp;
-  return roundf(finalSecs);
+  return MAX(roundf(finalSecs), 1);
 }
 
 - (int) calculateExperienceIncrease:(UserEnhancement *)ue {
@@ -2186,7 +2190,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   
   float finalExp = exp*researchFactor;
   
-  return roundf(finalExp);
+  return MAX(roundf(finalExp), 1);
 }
 
 - (float) calculateLevelForMonster:(int)monsterId experience:(float)experience {

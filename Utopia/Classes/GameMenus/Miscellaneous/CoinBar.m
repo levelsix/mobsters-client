@@ -47,7 +47,7 @@
   }
 }
 
-- (void) updateLabel:(NumTransitionLabel *)label forNumber:(int)number {
+- (void) updateLabel:(NumTransitionLabel *)label forNumber:(uint64_t)number {
   if (label == self.cashLabel) {
     label.text = [Globals cashStringForNumber:number];
   } else {

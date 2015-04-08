@@ -51,6 +51,7 @@
 #define PRIVATE_CHAT_RECEIVED_NOTIFICATION @"PrivateChatReceivedNotification"
 #define PRIVATE_CHAT_VIEWED_NOTIFICATION @"PrivateChatViewedNotification"
 #define CLAN_CHAT_VIEWED_NOTIFICATION @"ClanChatViewedNotification"
+#define STRENGTH_CHANGED_NOTIFICATION @"StrengthChangedNotification"
 
 #define RECEIVED_CLAN_HELP_NOTIFICATION @"ReceivedClanHelpNotification"
 #define CLAN_HELPS_CHANGED_NOTIFICATION @"ClanHelpsChangedNotification"
@@ -303,7 +304,7 @@
 + (void) adjustFontSizeForSize:(int)size CCLabelTTFs:(CCLabelTTF *)field1, ... NS_REQUIRES_NIL_TERMINATION;
 
 + (NSString *) userConfimredPushNotificationsKey;
-+ (NSString *) cashStringForNumber:(int)n;
++ (NSString *) cashStringForNumber:(int64_t)n;
 + (NSString *) commafyNumber:(float)n;
 + (NSString *) shortenNumber:(int)num;
 + (NSString *) qualifierStringForNumber:(int)rank;

@@ -30,6 +30,7 @@
 #import "AttackedAlertViewController.h"
 #import "SocketCommunication.h"
 #import "SoundEngine.h"
+#import "StrengthChangeView.h"
 
 @implementation TopBarMonsterView
 
@@ -102,6 +103,7 @@
   
   NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
   [center addObserver:self selector:@selector(gameStateUpdated) name:GAMESTATE_UPDATE_NOTIFICATION object:nil];
+  [center addObserver:self selector:@selector(gameStateUpdated) name:STRENGTH_CHANGED_NOTIFICATION object:nil];
   [self gameStateUpdated];
   
   [center addObserver:self selector:@selector(updateMonsterViews) name:MY_TEAM_CHANGED_NOTIFICATION object:nil];
@@ -972,11 +974,24 @@
     [self.expLabel instaMoveToNum:gs.currentExpForLevel];
   }
   
+  if (self.strengthLabel.goalNum == 0) {
+    // First time logging in
+    [self.strengthLabel instaMoveToNum:gs.totalStrength];
+  } else if (self.strengthLabel.goalNum != gs.totalStrength) {
+    StrengthChangeView *scv = [[StrengthChangeView alloc] initWithStrengthChange:gs.totalStrength-(int64_t)self.strengthLabel.goalNum];
+    GameViewController *gvc = [GameViewController baseController];
+    [gvc.notificationController addNotification:scv];
+    
+    [self.strengthLabel transitionToNum:gs.totalStrength];
+  }
+  
   self.nameLabel.text = gs.name;
   self.levelLabel.text = [Globals commafyNumber:gs.level];
   
   self.cashMaxLabel.text = [NSString stringWithFormat:@"Max: %@", [Globals cashStringForNumber:[gs maxCash]]];
   self.oilMaxLabel.text = [NSString stringWithFormat:@"Max: %@", [Globals commafyNumber:[gs maxOil]]];
+  
+  [self.avatarMonsterView updateForMonsterId:gs.avatarMonsterId];
   
   if (gs.clan) {
     ClanIconProto *icon = [gs clanIconWithId:gs.clan.clanIconId];
@@ -1006,7 +1021,7 @@
 
 #pragma mark NumTransitionLabelDelegate methods
 
-- (void) updateLabel:(NumTransitionLabel *)label forNumber:(int)number {
+- (void) updateLabel:(NumTransitionLabel *)label forNumber:(uint64_t)number {
   GameState *gs = [GameState sharedGameState];
   if (label == self.expLabel) {
     label.text = [NSString stringWithFormat:@"%@/%@", [Globals commafyNumber:number], [Globals commafyNumber:gs.expDeltaNeededForNextLevel]];
@@ -1018,6 +1033,8 @@
     label.text = [Globals commafyNumber:number];
     self.oilBar.percentage = number/(float)gs.maxOil;
   } else if (label == self.gemsLabel) {
+    label.text = [Globals commafyNumber:number];
+  } else if (label == self.strengthLabel) {
     label.text = [Globals commafyNumber:number];
   }
 }

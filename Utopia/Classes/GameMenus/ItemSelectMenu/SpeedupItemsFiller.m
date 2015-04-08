@@ -15,6 +15,7 @@
 - (id) init {
   if ((self = [super init])) {
     self.usedItems = [NSMutableSet set];
+    
   }
   return self;
 }

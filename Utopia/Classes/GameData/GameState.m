@@ -113,6 +113,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.lastSecretGiftCollectTime = user.hasLastSecretGiftCollectTime ? [MSDate dateWithTimeIntervalSince1970:user.lastSecretGiftCollectTime/1000.0] : nil;
   self.pvpDefendingMessage = user.pvpDefendingMessage;
   self.lastTeamDonateSolicitationTime = user.hasLastTeamDonationSolicitation ? [MSDate dateWithTimeIntervalSince1970:user.lastTeamDonationSolicitation/1000.] : nil;
+  self.totalStrength = user.totalStrength;
   
   self.lastLogoutTime = [MSDate dateWithTimeIntervalSince1970:user.lastLogoutTime/1000.0];
   self.lastLoginTimeNum = user.lastLoginTime;
@@ -129,6 +130,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
   
   [self checkMaxResourceCapacities];
+  [self recalculateStrength];
   
   [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
 }
@@ -153,6 +155,34 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
       LNLog(@"Cash change: %d, Oil change: %d", cashChange, oilChange);
       [[OutgoingEventController sharedOutgoingEventController] updateUserCurrencyWithCashSpent:-cashChange oilSpent:-oilChange gemsSpent:0 reason:@"resources over max"];
     }
+  }
+}
+
+- (void) recalculateStrength {
+  Globals *gl = [Globals sharedGlobals];
+  
+  uint64_t strength = 0;
+  
+  if (!self.myStructs) {
+    return;
+  }
+  
+  for (UserStruct *us in self.myStructs) {
+    strength += us.staticStructForCurrentConstructionLevel.structInfo.strength;
+  }
+  
+  for (UserResearch *ur in self.researchUtil.userResearches) {
+    strength += ur.staticResearchForBenefitLevel.strength;
+  }
+  
+  for (UserMonster *um in self.myMonsters) {
+    strength += [gl calculateStrengthForMonster:um];
+  }
+  
+  if (self.totalStrength != strength) {
+    [[OutgoingEventController sharedOutgoingEventController] updateUserStrength:strength];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:STRENGTH_CHANGED_NOTIFICATION object:nil];
   }
 }
 
@@ -187,6 +217,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   fup.lastSecretGiftCollectTime = self.lastSecretGiftCollectTime.timeIntervalSince1970*1000.;
   fup.pvpDefendingMessage = self.pvpDefendingMessage;
   fup.lastTeamDonationSolicitation = self.lastTeamDonateSolicitationTime.timeIntervalSince1970*1000.;
+  fup.totalStrength = self.totalStrength;
   
   return [fup build];
 }

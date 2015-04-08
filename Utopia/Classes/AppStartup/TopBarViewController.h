@@ -47,10 +47,12 @@
 @property (nonatomic, assign) IBOutlet NumTransitionLabel *cashLabel;
 @property (nonatomic, assign) IBOutlet NumTransitionLabel *oilLabel;
 @property (nonatomic, assign) IBOutlet NumTransitionLabel *gemsLabel;
+@property (nonatomic, assign) IBOutlet NumTransitionLabel *strengthLabel;
 @property (nonatomic, assign) IBOutlet UILabel *cashMaxLabel;
 @property (nonatomic, assign) IBOutlet UILabel *oilMaxLabel;
 @property (nonatomic, assign) IBOutlet UIImageView *clanIcon;
 @property (nonatomic, assign) IBOutlet UIImageView *clanShieldIcon;
+@property (nonatomic, assign) IBOutlet CircleMonsterView *avatarMonsterView;
 
 @property (nonatomic, assign) IBOutlet UILabel *shieldLabel;
 @property (nonatomic, retain) NSTimer *updateTimer;

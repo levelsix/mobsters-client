@@ -21,7 +21,7 @@ typedef enum {
   // Added to the front of the list
   NotificationPriorityFirst,
   
-  NotificationPriorityFullScreen,
+  // Added to the back of the list
   NotificationPriorityRegular
 } NotificationPriority;
 
