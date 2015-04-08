@@ -15,6 +15,7 @@
 - (id) initWithStrengthChange:(int64_t)str {
   if ((self = [super init])) {
     self.strengthChangeLabel.text = [(str > 0 ? @"+" : @"") stringByAppendingString:[Globals commafyNumber:str]];
+    self.strengthChangeLabel.highlighted = str < 0;
     
     CGSize size = [self.strengthChangeLabel.text getSizeWithFont:self.strengthChangeLabel.font];
     float oldDiff = self.width-CGRectGetMaxX(self.strengthChangeLabel.frame);
@@ -38,10 +39,10 @@
   TopBarViewController *tvc = [[GameViewController baseController] topBarViewController];
   [tvc.view addSubview:self];
   self.originX = tvc.expView.originX;
-  self.originY = CGRectGetMaxY(tvc.expView.frame);
+  self.originY = CGRectGetMaxY(tvc.expView.frame)-8.f;
   
   [Globals bounceView:self fadeInBgdView:nil anchorPoint:ccp((61.f/self.width), 0.f) completion:^(BOOL success) {
-    //[self performSelector:@selector(end) withObject:nil afterDelay:5.f];
+    [self performSelector:@selector(end) withObject:nil afterDelay:3.f];
   }];
 }
 
@@ -60,4 +61,5 @@
   [NSObject cancelPreviousPerformRequestsWithTarget:self];
   [self end];
 }
+
 @end

@@ -1886,7 +1886,9 @@ void undoDelayOnScrollViewHierarchy(UIView *v) {
 
 - (id) init {
   if ((self = [super init])) {
+    self.autoresizesSubviews = NO;
     self.frame = [self loadNib];
+    self.autoresizesSubviews = YES;
   }
   return self;
 }
