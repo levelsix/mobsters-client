@@ -2546,6 +2546,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
+#pragma mark - Translation
+
 - (void) handleTranslateSelectMessagesResponseProto:(FullEvent *)fe{
   TranslateSelectMessagesResponseProto *proto = (TranslateSelectMessagesResponseProto *)fe.event;
   
