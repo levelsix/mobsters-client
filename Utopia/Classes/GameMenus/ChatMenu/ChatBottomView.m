@@ -52,6 +52,20 @@
         }
       }
     }
+  } else if ([cm isKindOfClass:[ChatMessage class]]) {
+    ChatMessage *chatM = (ChatMessage *)cm;
+    
+    if (displayLanguage == chatM.originalLanguage) {
+      self.msgLabel.text = chatM.originalMessage;
+      
+    } else {
+      for (TranslatedTextProto *ttp in chatM.translatedTextProtos) {
+        if (ttp.language == displayLanguage) {
+          self.msgLabel.text = ttp.text;
+        }
+      }
+    }
+    
   } else {
     self.msgLabel.text = cm.message;
   }
