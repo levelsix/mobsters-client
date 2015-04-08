@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
@@ -377,10 +377,10 @@
                                         <outlet property="bgdIcon" destination="8Zf-El-30A" id="cu9-FX-qAw"/>
                                         <outlet property="evoBadge" destination="pmz-Eh-EKn" id="KSN-E5-lW0"/>
                                         <outlet property="monsterIcon" destination="nTB-DM-kQU" id="fs7-h2-xFe"/>
-                                        <outletCollection property="sideEffectViews" destination="1gC-vS-0co" id="aky-eT-juP"/>
-                                        <outletCollection property="sideEffectViews" destination="Hg0-MU-tKo" id="uKd-NI-p09"/>
-                                        <outletCollection property="sideEffectViews" destination="zFH-j4-lYN" id="epM-JK-wIp"/>
-                                        <outletCollection property="sideEffectViews" destination="VYD-hA-fGI" id="T7v-Ue-hHg"/>
+                                        <outlet property="sideEffectView1" destination="1gC-vS-0co" id="hi6-fV-p8O"/>
+                                        <outlet property="sideEffectView2" destination="Hg0-MU-tKo" id="tJc-ZV-pGq"/>
+                                        <outlet property="sideEffectView3" destination="zFH-j4-lYN" id="a9p-F6-s7R"/>
+                                        <outlet property="sideEffectView4" destination="VYD-hA-fGI" id="eeS-YA-BEZ"/>
                                     </connections>
                                 </view>
                             </subviews>
@@ -513,10 +513,10 @@
                                         <outlet property="bgdIcon" destination="Aty-OC-3g4" id="YdP-ae-yRc"/>
                                         <outlet property="evoBadge" destination="A0G-6E-h9g" id="nQx-aW-uyb"/>
                                         <outlet property="monsterIcon" destination="kWO-Mf-t9Q" id="Ymr-MT-Imt"/>
-                                        <outletCollection property="sideEffectViews" destination="0h7-0F-QeE" id="s4v-Dn-w7a"/>
-                                        <outletCollection property="sideEffectViews" destination="wvl-Ae-9qp" id="Nzw-ni-nQz"/>
-                                        <outletCollection property="sideEffectViews" destination="mD1-eG-WWZ" id="uvB-qC-z5g"/>
-                                        <outletCollection property="sideEffectViews" destination="wcE-yn-EaA" id="9CC-iG-Ug6"/>
+                                        <outlet property="sideEffectView1" destination="0h7-0F-QeE" id="Tzk-NA-nLx"/>
+                                        <outlet property="sideEffectView2" destination="wvl-Ae-9qp" id="9p0-z2-JjR"/>
+                                        <outlet property="sideEffectView3" destination="mD1-eG-WWZ" id="Nrv-vh-dIr"/>
+                                        <outlet property="sideEffectView4" destination="wcE-yn-EaA" id="vkV-Em-iqK"/>
                                     </connections>
                                 </view>
                             </subviews>
@@ -649,10 +649,10 @@
                                         <outlet property="bgdIcon" destination="yGH-1c-XuM" id="5Ta-8W-cua"/>
                                         <outlet property="evoBadge" destination="ubx-FN-wUy" id="hr6-S7-jqt"/>
                                         <outlet property="monsterIcon" destination="cKY-i2-l42" id="1XD-7l-SWT"/>
-                                        <outletCollection property="sideEffectViews" destination="NFd-Zk-K7l" id="WVH-oE-8LA"/>
-                                        <outletCollection property="sideEffectViews" destination="400-eD-5Vn" id="TEj-Zw-uy6"/>
-                                        <outletCollection property="sideEffectViews" destination="b9D-fE-Rs0" id="4w3-Eu-GHt"/>
-                                        <outletCollection property="sideEffectViews" destination="Bl5-Q5-eXp" id="hge-uV-jkg"/>
+                                        <outlet property="sideEffectView1" destination="NFd-Zk-K7l" id="2HU-C8-ZlD"/>
+                                        <outlet property="sideEffectView2" destination="400-eD-5Vn" id="2Aj-41-Z3v"/>
+                                        <outlet property="sideEffectView3" destination="b9D-fE-Rs0" id="qFe-eA-TGa"/>
+                                        <outlet property="sideEffectView4" destination="Bl5-Q5-eXp" id="CFg-4P-Nj4"/>
                                     </connections>
                                 </view>
                             </subviews>
@@ -785,10 +785,10 @@
                                         <outlet property="bgdIcon" destination="iG9-tV-7Xs" id="8fb-Vv-5dM"/>
                                         <outlet property="evoBadge" destination="vje-SD-ZVr" id="uor-E0-iFN"/>
                                         <outlet property="monsterIcon" destination="5R3-tU-auK" id="lp5-nB-xHN"/>
-                                        <outletCollection property="sideEffectViews" destination="qnH-0p-brp" id="hpo-i1-QrS"/>
-                                        <outletCollection property="sideEffectViews" destination="54O-Wh-gKG" id="exh-qY-DtD"/>
-                                        <outletCollection property="sideEffectViews" destination="Pul-qP-8ZZ" id="ATg-d0-6gM"/>
-                                        <outletCollection property="sideEffectViews" destination="qGl-du-mlZ" id="gtW-nr-yxa"/>
+                                        <outlet property="sideEffectView1" destination="qnH-0p-brp" id="cFg-yF-NFk"/>
+                                        <outlet property="sideEffectView2" destination="54O-Wh-gKG" id="u5l-hv-FCG"/>
+                                        <outlet property="sideEffectView3" destination="Pul-qP-8ZZ" id="gbj-nN-g8m"/>
+                                        <outlet property="sideEffectView4" destination="qGl-du-mlZ" id="1wq-4u-Yh2"/>
                                     </connections>
                                 </view>
                             </subviews>
@@ -827,7 +827,7 @@
                 <outletCollection property="cardViews" destination="poR-KN-pwl" id="Joh-kb-NfN"/>
                 <outletCollection property="cardViews" destination="vOx-HX-eoA" id="e2o-Rl-tbQ"/>
             </connections>
-            <point key="canvasLocation" x="653.5" y="809.5"/>
+            <point key="canvasLocation" x="853.5" y="811.5"/>
         </view>
         <view alpha="0.0" contentMode="scaleToFill" id="JNg-DH-1f5" userLabel="SkillTutorialView">
             <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>

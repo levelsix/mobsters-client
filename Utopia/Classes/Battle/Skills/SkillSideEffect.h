@@ -17,7 +17,6 @@
 {
   NSString* _imageName;
   CGPoint   _imagePixelOffset;
-//  NSString* _iconImageName;
   NSString* _pfxName;
   CCColor*  _pfxColor;
   CGPoint   _pfxPixelOffset;

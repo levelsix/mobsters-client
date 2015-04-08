@@ -138,6 +138,17 @@ static UIImage *img = nil;
 
 @implementation MiniMonsterView
 
+- (void) awakeFromNib {
+  // Make sure side effect views are stored in the proper order
+  NSMutableArray* sideEffectViews = [NSMutableArray array];
+  if (self.sideEffectView1) [sideEffectViews addObject:self.sideEffectView1];
+  if (self.sideEffectView2) [sideEffectViews addObject:self.sideEffectView2];
+  if (self.sideEffectView3) [sideEffectViews addObject:self.sideEffectView3];
+  if (self.sideEffectView4) [sideEffectViews addObject:self.sideEffectView4];
+  
+  _sideEffectViews = [NSArray arrayWithArray:sideEffectViews];
+}
+
 - (void) updateForMonsterId:(int)monsterId {
   [self updateForMonsterId:monsterId greyscale:NO];
 }
@@ -156,14 +167,14 @@ static UIImage *img = nil;
   }
   self.monsterId = monsterId;
   
-  for (UIView* view in self.sideEffectViews)
+  for (int i = 0; i < _sideEffectViews.count; ++i)
   {
-    [[view viewWithTag:7910] removeFromSuperview];
-    [view setHidden:YES];
+    UIView* sideEffectView = _sideEffectViews[i];
+    [[sideEffectView viewWithTag:7910] removeFromSuperview];
+    [sideEffectView setHidden:YES];
   }
   [_sideEffectSymbols removeAllObjects];
 }
-
 
 - (void) updateForElement:(Element)element imgPrefix:(NSString *)imgPrefix greyscale:(BOOL)greyscale {
   NSString *file = [imgPrefix stringByAppendingString:@"Card.png"];
@@ -187,16 +198,17 @@ static UIImage *img = nil;
   if ([_sideEffectSymbols objectForKey:key])
     [self removeSideEffectIconWithKey:key];
   
-  for (UIView* view in self.sideEffectViews)
+  for (int i = 0; i < _sideEffectViews.count; ++i)
   {
-    if ([view viewWithTag:7910] == nil)
+    UIView* sideEffectView = _sideEffectViews[i];
+    if ([sideEffectView viewWithTag:7910] == nil)
     {
       UIImageView* sideEffectSymbol = [[UIImageView alloc] initWithImage:[Globals imageNamed:icon]];
       [sideEffectSymbol setFrame:CGRectMake(1.f, 1.f, 13.f, 14.f)];
       [sideEffectSymbol setContentMode:UIViewContentModeScaleAspectFit];
       [sideEffectSymbol setTag:7910];
-      [view addSubview:sideEffectSymbol];
-      [view setHidden:NO];
+      [sideEffectView addSubview:sideEffectSymbol];
+      [sideEffectView setHidden:NO];
       
       /*
       // Add spinning animation

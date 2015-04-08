@@ -65,11 +65,17 @@
 @end
 
 @interface MiniMonsterView : UIView
+{
+  NSArray* _sideEffectViews;
+}
 
 @property (nonatomic, retain) IBOutlet UIImageView *monsterIcon;
 @property (nonatomic, retain) IBOutlet UIImageView *bgdIcon;
 @property (nonatomic, retain) IBOutlet EvoBadge *evoBadge;
-@property (nonatomic, retain) IBOutletCollection(UIView) NSArray* sideEffectViews;
+@property (nonatomic, retain) IBOutlet UIView* sideEffectView1; // Top left
+@property (nonatomic, retain) IBOutlet UIView* sideEffectView2; // Top right
+@property (nonatomic, retain) IBOutlet UIView* sideEffectView3; // Bottom left
+@property (nonatomic, retain) IBOutlet UIView* sideEffectView4; // Bottom right
 
 @property (nonatomic, assign) int monsterId;
 @property (nonatomic, assign) BOOL belongsToPlayer; // Set and used only by BattleScheduleView
