@@ -33,6 +33,8 @@
 @property (nonatomic, retain) IBOutlet UIView *useButtonView;
 @property (nonatomic, retain) IBOutlet UIView *gemsButtonView;
 
+@property (nonatomic, retain) IBOutlet UIImageView *gameActionTypeIcon;
+
 - (void) updateForItemObject:(id<ItemObject>)itemObject;
 - (void) updateForTime:(id<ItemObject>)itemObject;
 

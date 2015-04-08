@@ -2243,12 +2243,23 @@
   
   // Might come from timer action or from bottom view
   Building *hb = nil;
+  GameActionType gameActionType = 0;
   if ([building isKindOfClass:[UserStruct class]]) {
+    
     hb = (Building *)[self getChildByName:STRUCT_TAG([building userStructUuid]) recursively:NO];
+    //timerView for building upgrades
+    gameActionType = GameActionTypeUpgradeStruct;
   } else if ([building isKindOfClass:[UserObstacle class]]) {
+    //timerView for removing obstacles
     hb = (Building *)[self getChildByName:STRUCT_TAG([building userObstacleUuid]) recursively:NO];
+    gameActionType = GameActionTypeRemoveObstacle;
   } else {
     hb = (Building *)self.selected;
+    if ([hb isKindOfClass:[HomeBuilding class]]) {
+      gameActionType = GameActionTypeUpgradeStruct;
+    } else {
+      gameActionType = GameActionTypeRemoveObstacle;
+    }
   }
   
   if (hb) {
@@ -2263,7 +2274,7 @@
       if (!self.currentViewController) {
         ItemSelectViewController *svc = [[ItemSelectViewController alloc] init];
         if (svc) {
-          SpeedupItemsFiller *sif = [[SpeedupItemsFiller alloc] init];
+          SpeedupItemsFiller *sif = [[SpeedupItemsFiller alloc] initWithGameActionType:gameActionType];
           sif.delegate = self;
           svc.delegate = sif;
           self.speedupItemsFiller = sif;

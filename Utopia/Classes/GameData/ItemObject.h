@@ -25,6 +25,7 @@
 - (NSString *) iconImageName;
 - (NSString *) iconText;
 
+- (GameActionType) gameActionType;
 @end
 
 
