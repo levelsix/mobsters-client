@@ -427,10 +427,11 @@ static const int kBoardMarginLeft = 10;
       else
       {
         for (BoardDesignerObstacleView* obstacleView in _obstacleViews)
-          if (obstacleView.isEnabled && !obstacleView.isLocked)
+        {
+          CGPoint localPoint = [self.view convertPoint:point toView:obstacleView.obstacleImageView];
+          if ([obstacleView.obstacleImageView pointInside:localPoint withEvent:nil])
           {
-            CGPoint localPoint = [self.view convertPoint:point toView:obstacleView.obstacleImageView];
-            if ([obstacleView.obstacleImageView pointInside:localPoint withEvent:nil])
+            if (obstacleView.isEnabled && !obstacleView.isLocked)
             {
               // Begin dragging an obstacle that is enabled and unlocked out of the scroll view
               
@@ -444,10 +445,18 @@ static const int kBoardMarginLeft = 10;
               
               // Valid drag gesture detected; disable scrolling
               [self.obstaclesScrollView setScrollEnabled:NO];
-              
-              break;
             }
+            else
+            {
+              NSString* obstacleName = obstacleView.obstacleProto.name;
+              [Globals addAlertNotification:obstacleView.isLocked ?
+               [NSString stringWithFormat:@"Research %@s to unlock.", obstacleName] :
+               [NSString stringWithFormat:@"You don't have enough Power to place a %@.", obstacleName] isImmediate:YES];
+            }
+            
+            break;
           }
+        }
       }
       
       if (_draggedObstacle)

@@ -94,7 +94,7 @@
 
 - (void) disableObstacle
 {
-  if (self.isEnabled)
+  if (self.isEnabled && !self.isLocked)
   {
     [Globals imageNamed:_obstacleImage withView:self.obstacleImageView maskedColor:[UIColor colorWithWhite:.85f alpha:1.f] indicator:0 clearImageDuringDownload:NO];
     [self.obstacleNameLabel setTextColor:[UIColor colorWithHexString:@"B2B2B2"]];
@@ -107,7 +107,7 @@
 
 - (void) enableObstacle
 {
-  if (!self.isEnabled)
+  if (!self.isEnabled && !self.isLocked)
   {
     [self.obstacleImageView setImage:[UIImage imageNamed:_obstacleImage]];
     [self.obstacleNameLabel setTextColor:[UIColor colorWithHexString:@"00C2FF"]];
