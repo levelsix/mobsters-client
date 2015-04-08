@@ -163,7 +163,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   
   uint64_t strength = 0;
   
-  if (!self.myStructs) {
+  if (!self.myStructs.count) {
     return;
   }
   
