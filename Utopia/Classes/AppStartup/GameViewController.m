@@ -1231,7 +1231,8 @@ static const CGSize FIXED_SIZE = {568, 384};
       [self.notificationController performSelector:@selector(resumeNotifications) withObject:nil afterDelay:duration+0.1];
     }
   } else if (!dp) {
-    [self showTopBarDuration:duration completion:^{
+    // Add 0.1 since it seems to fade in faster than cocos2d layer..
+    [self showTopBarDuration:duration+0.1 completion:^{
       if (!self.miniTutController) {
         [self checkQuests];
         [self.notificationController resumeNotifications];

@@ -62,8 +62,6 @@
   
   self.view.hidden = YES;
   
-  [[CCDirector sharedDirector] pause];
-  
   [Analytics openChat];
   
   // Increase
@@ -107,6 +105,8 @@
   [UIView animateWithDuration:0.18f animations:^{
     self.mainView.center = ccp(self.view.frame.size.width/2, self.view.frame.size.height/2);
     self.bgdView.alpha = 1.f;
+    
+    [[CCDirector sharedDirector] pause];
   }];
   
   [SoundEngine chatOpened];
