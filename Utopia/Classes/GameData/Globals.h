@@ -327,6 +327,7 @@
 + (void) addOrangeAlertNotification:(NSString *)msg isImmediate:(BOOL)isImmediate;
 + (void) addBlueAlertNotification:(NSString *)msg;
 + (void) addPrivateMessageNotification:(NSArray *)messages;
++ (void) addMiniEventGoalNotification:(NSString *)msg image:(NSString *)img;
 
 + (void) bounceView:(UIView *)view;
 + (void) bounceView:(UIView *)view fromScale:(float)fScale toScale:(float)tScale duration:(float)duration;
