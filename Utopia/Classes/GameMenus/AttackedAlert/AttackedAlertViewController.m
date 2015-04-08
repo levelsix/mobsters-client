@@ -54,13 +54,17 @@
   for( PvpHistoryProto *pvp in _curDefenses) {
     _oilLost += pvp.defenderOilChange;
     _cashLost += pvp.defenderCashChange;
-    int change = pvp.defenderBefore.rank - pvp.defenderAfter.rank;
+    int change = pvp.defenderAfter.rank - pvp.defenderBefore.rank;
     _rankLost += change;
   }
   
   _oilLabel.text = [NSString stringWithFormat:@"%d", _oilLost];
   _cashLabel.text = [NSString stringWithFormat:@"%d", _cashLost];
-  _rankLabel.text = [NSString stringWithFormat:@"%d", _rankLost];
+  _rankLabel.text = [NSString stringWithFormat:@"%s%d", _rankLost > 0 ? "+" : "", _rankLost];
+  
+  PvpLeagueProto *league = [gs leagueForId:gs.pvpLeague.leagueId];
+  NSString *icon = [league.imgPrefix stringByAppendingString:@"icon.png"];
+  [Globals imageNamed:icon withView:self.rankIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
 }
 
 - (IBAction)clickedClose:(id)sender {
