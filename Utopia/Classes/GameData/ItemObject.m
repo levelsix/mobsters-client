@@ -88,6 +88,10 @@
   return nil;
 }
 
+- (GameActionType)gameActionType {
+  return self.staticItem.gameActionType;
+}
+
 @end
 
 @implementation UserItemUsage
@@ -175,6 +179,10 @@
 
 - (NSString *) iconText {
   return nil;
+}
+
+- (GameActionType)gameActionType {
+  return GameActionTypeNoHelp;
 }
 
 @end

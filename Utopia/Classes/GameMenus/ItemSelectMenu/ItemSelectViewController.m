@@ -74,6 +74,37 @@
     self.gemsButtonView.hidden = YES;
     self.useButtonView.hidden = NO;
   }
+  
+  self.gameActionTypeIcon.hidden = NO;
+  switch ([itemObject gameActionType]) {
+    case GameActionTypeCreateBattleItem:
+      self.gameActionTypeIcon.image = [Globals imageNamed:@"timercreateitems.png"];
+      break;
+    case GameActionTypeEnhanceTime:
+      self.gameActionTypeIcon.image = [Globals imageNamed:@"timerenhance.png"];
+      break;
+    case GameActionTypeEvolve:
+      self.gameActionTypeIcon.image = [Globals imageNamed:@"timerevolve.png"];
+      break;
+    case GameActionTypeHeal:
+      self.gameActionTypeIcon.image = [Globals imageNamed:@"timerheal.png"];
+      break;
+    case GameActionTypeMiniJob:
+      self.gameActionTypeIcon.image = [Globals imageNamed:@"timerminijobs.png"];
+      break;
+    case GameActionTypeRemoveObstacle:
+      self.gameActionTypeIcon.image = [Globals imageNamed:@"timerremove.png"];
+      break;
+    case GameActionTypePerformingResearch:
+      self.gameActionTypeIcon.image = [Globals imageNamed:@"timerresearch.png"];
+      break;
+    case GameActionTypeUpgradeStruct:
+      self.gameActionTypeIcon.image = [Globals imageNamed:@"timerupgrade.png"];
+      break;
+    default:
+      self.gameActionTypeIcon.hidden = YES;
+      break;
+  }
 }
 
 - (void) updateForTime:(id<ItemObject>)itemObject {

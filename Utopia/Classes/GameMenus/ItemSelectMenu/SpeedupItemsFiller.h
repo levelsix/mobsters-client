@@ -20,7 +20,11 @@
 
 @end
 
-@interface SpeedupItemsFiller : NSObject <ItemSelectDelegate, GemsItemDelegate>
+@interface SpeedupItemsFiller : NSObject <ItemSelectDelegate, GemsItemDelegate> {
+  GameActionType _gameActionType;
+}
+
+- (id) initWithGameActionType:(GameActionType)gameActionType;
 
 @property (nonatomic, retain) NSMutableSet *usedItems;
 

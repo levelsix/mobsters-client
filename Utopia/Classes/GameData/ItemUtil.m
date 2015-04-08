@@ -87,13 +87,17 @@
 }
 
 - (NSArray *) getItemsForType:(ItemType)type staticDataId:(int)staticDataId {
+  return [self getItemsForType:type staticDataId:staticDataId gameActionType:GameActionTypeNoHelp];
+}
+
+- (NSArray *) getItemsForType:(ItemType)type staticDataId:(int)staticDataId gameActionType:(GameActionType)gameActionType {
   NSMutableArray *arr = [NSMutableArray array];
   
   GameState *gs = [GameState sharedGameState];
   for (UserItem *ui in self.myItems) {
     ItemProto *ip = [gs itemForId:ui.itemId];
     
-    if (ip.itemType == type && (!staticDataId || ip.staticDataId == staticDataId)) {
+    if (ip.itemType == type && (!staticDataId || ip.staticDataId == staticDataId) && (ui.gameActionType == GameActionTypeNoHelp || ui.gameActionType == gameActionType)) {
       [arr addObject:ui];
     }
   }

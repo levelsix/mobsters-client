@@ -12,24 +12,25 @@
 
 @implementation SpeedupItemsFiller
 
-- (id) init {
+- (id) initWithGameActionType:(GameActionType)gameActionType {
   if ((self = [super init])) {
     self.usedItems = [NSMutableSet set];
-    
+    _gameActionType = gameActionType;
   }
   return self;
 }
 
 - (NSArray *) reloadItemsArray {
   GameState *gs = [GameState sharedGameState];
-  NSMutableArray *userItems = [[gs.itemUtil getItemsForType:ItemTypeSpeedUp staticDataId:0] mutableCopy];
+  NSMutableArray *userItems = [[gs.itemUtil getItemsForType:ItemTypeSpeedUp staticDataId:0 gameActionType:_gameActionType] mutableCopy];
   
   for (ItemProto *ip in gs.staticItems.allValues) {
     if (ip.itemType == ItemTypeSpeedUp) {
       UserItem *ui = [[UserItem alloc] init];
       ui.itemId = ip.itemId;
       
-      if (![userItems containsObject:ui] && (ip.alwaysDisplayToUser || [self.usedItems containsObject:@(ui.itemId)])) {
+      if ((![userItems containsObject:ui] && (ip.alwaysDisplayToUser || [self.usedItems containsObject:@(ui.itemId)])) &&
+          (ui.gameActionType == GameActionTypeNoHelp || ui.gameActionType == _gameActionType)) {
         [userItems addObject:ui];
       }
     }
@@ -42,6 +43,7 @@
   
   [userItems sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
     if ([obj1 isKindOfClass:[UserItem class]] && [obj2 isKindOfClass:[UserItem class]]) {
+#warning needs to put specialized stuff up top
       BOOL anyOwned1 = [obj1 numOwned] > 0 || [self.usedItems containsObject:@([obj1 itemId])];
       BOOL anyOwned2 = [obj2 numOwned] > 0 || [self.usedItems containsObject:@([obj2 itemId])];
       
