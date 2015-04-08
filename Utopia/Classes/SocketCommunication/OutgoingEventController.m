@@ -3421,6 +3421,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     GemsUpdate *gu = [GemsUpdate updateWithTag:tag change:-gemCost];
     [gs addUnrespondedUpdates:su, gu, nil];
     
+    [gs beginResearchTimer];
+    
     return YES;
   }
 }
