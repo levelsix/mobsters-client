@@ -84,6 +84,7 @@
   
   self.winsLabel.text = [Globals commafyNumber:user.pvpLeagueInfo.battlesWon];
   self.levelLabel.text = [NSString stringWithFormat:@"%d", user.level];
+  self.strengthLabel.text = [Globals commafyNumber:user.totalStrength];
   
   if (user.hasClan) {
     [self.clanButton setTitle:user.clan.name forState:UIControlStateNormal];

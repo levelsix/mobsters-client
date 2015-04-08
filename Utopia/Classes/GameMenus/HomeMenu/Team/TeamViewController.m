@@ -161,7 +161,6 @@
   self.cardCell.cardContainer.monsterCardView.infoButton.hidden = NO;
   
   self.teamCell = [[TeamSlotView alloc] init];
-  [self.teamCell loadNib];
   [self.teamCell.rightView removeFromSuperview];
   self.teamCell.frame = CGRectMake(0, 0, self.teamCell.leftView.frame.size.width, self.teamCell.leftView.frame.size.height);
   

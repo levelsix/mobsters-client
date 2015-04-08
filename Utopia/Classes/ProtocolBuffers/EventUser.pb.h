@@ -109,6 +109,10 @@
 @class UpdateUserCurrencyRequestProto_Builder;
 @class UpdateUserCurrencyResponseProto;
 @class UpdateUserCurrencyResponseProto_Builder;
+@class UpdateUserStrengthRequestProto;
+@class UpdateUserStrengthRequestProto_Builder;
+@class UpdateUserStrengthResponseProto;
+@class UpdateUserStrengthResponseProto_Builder;
 @class UserCreateRequestProto;
 @class UserCreateRequestProto_Builder;
 @class UserCreateResponseProto;
@@ -206,6 +210,13 @@ typedef NS_ENUM(SInt32, UpdateClientTaskStateResponseProto_UpdateClientTaskState
 };
 
 BOOL UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatusIsValidValue(UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatus value);
+
+typedef NS_ENUM(SInt32, UpdateUserStrengthResponseProto_UpdateUserStrengthStatus) {
+  UpdateUserStrengthResponseProto_UpdateUserStrengthStatusSuccess = 1,
+  UpdateUserStrengthResponseProto_UpdateUserStrengthStatusFailOther = 2,
+};
+
+BOOL UpdateUserStrengthResponseProto_UpdateUserStrengthStatusIsValidValue(UpdateUserStrengthResponseProto_UpdateUserStrengthStatus value);
 
 
 @interface EventUserRoot : NSObject {
@@ -1461,6 +1472,126 @@ BOOL UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatusIsValidValue(
 - (UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatus) status;
 - (UpdateClientTaskStateResponseProto_Builder*) setStatus:(UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatus) value;
 - (UpdateClientTaskStateResponseProto_Builder*) clearStatusList;
+@end
+
+@interface UpdateUserStrengthRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasUpdatedStrength_:1;
+  BOOL hasSender_:1;
+  int64_t updatedStrength;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+- (BOOL) hasUpdatedStrength;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly) int64_t updatedStrength;
+
++ (UpdateUserStrengthRequestProto*) defaultInstance;
+- (UpdateUserStrengthRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (UpdateUserStrengthRequestProto_Builder*) builder;
++ (UpdateUserStrengthRequestProto_Builder*) builder;
++ (UpdateUserStrengthRequestProto_Builder*) builderWithPrototype:(UpdateUserStrengthRequestProto*) prototype;
+- (UpdateUserStrengthRequestProto_Builder*) toBuilder;
+
++ (UpdateUserStrengthRequestProto*) parseFromData:(NSData*) data;
++ (UpdateUserStrengthRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UpdateUserStrengthRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (UpdateUserStrengthRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UpdateUserStrengthRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (UpdateUserStrengthRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface UpdateUserStrengthRequestProto_Builder : PBGeneratedMessageBuilder {
+@private
+  UpdateUserStrengthRequestProto* result;
+}
+
+- (UpdateUserStrengthRequestProto*) defaultInstance;
+
+- (UpdateUserStrengthRequestProto_Builder*) clear;
+- (UpdateUserStrengthRequestProto_Builder*) clone;
+
+- (UpdateUserStrengthRequestProto*) build;
+- (UpdateUserStrengthRequestProto*) buildPartial;
+
+- (UpdateUserStrengthRequestProto_Builder*) mergeFrom:(UpdateUserStrengthRequestProto*) other;
+- (UpdateUserStrengthRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (UpdateUserStrengthRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (UpdateUserStrengthRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (UpdateUserStrengthRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (UpdateUserStrengthRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (UpdateUserStrengthRequestProto_Builder*) clearSender;
+
+- (BOOL) hasUpdatedStrength;
+- (int64_t) updatedStrength;
+- (UpdateUserStrengthRequestProto_Builder*) setUpdatedStrength:(int64_t) value;
+- (UpdateUserStrengthRequestProto_Builder*) clearUpdatedStrength;
+@end
+
+@interface UpdateUserStrengthResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  UpdateUserStrengthResponseProto_UpdateUserStrengthStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly) UpdateUserStrengthResponseProto_UpdateUserStrengthStatus status;
+
++ (UpdateUserStrengthResponseProto*) defaultInstance;
+- (UpdateUserStrengthResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (UpdateUserStrengthResponseProto_Builder*) builder;
++ (UpdateUserStrengthResponseProto_Builder*) builder;
++ (UpdateUserStrengthResponseProto_Builder*) builderWithPrototype:(UpdateUserStrengthResponseProto*) prototype;
+- (UpdateUserStrengthResponseProto_Builder*) toBuilder;
+
++ (UpdateUserStrengthResponseProto*) parseFromData:(NSData*) data;
++ (UpdateUserStrengthResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UpdateUserStrengthResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (UpdateUserStrengthResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UpdateUserStrengthResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (UpdateUserStrengthResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface UpdateUserStrengthResponseProto_Builder : PBGeneratedMessageBuilder {
+@private
+  UpdateUserStrengthResponseProto* result;
+}
+
+- (UpdateUserStrengthResponseProto*) defaultInstance;
+
+- (UpdateUserStrengthResponseProto_Builder*) clear;
+- (UpdateUserStrengthResponseProto_Builder*) clone;
+
+- (UpdateUserStrengthResponseProto*) build;
+- (UpdateUserStrengthResponseProto*) buildPartial;
+
+- (UpdateUserStrengthResponseProto_Builder*) mergeFrom:(UpdateUserStrengthResponseProto*) other;
+- (UpdateUserStrengthResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (UpdateUserStrengthResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (UpdateUserStrengthResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (UpdateUserStrengthResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (UpdateUserStrengthResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (UpdateUserStrengthResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (UpdateUserStrengthResponseProto_UpdateUserStrengthStatus) status;
+- (UpdateUserStrengthResponseProto_Builder*) setStatus:(UpdateUserStrengthResponseProto_UpdateUserStrengthStatus) value;
+- (UpdateUserStrengthResponseProto_Builder*) clearStatusList;
 @end
 
 

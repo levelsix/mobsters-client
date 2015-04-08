@@ -44,6 +44,7 @@
 @property (nonatomic, strong) IBOutlet UIButton *clanButton;
 @property (nonatomic, strong) IBOutlet UIImageView *shieldIcon;
 @property (nonatomic, strong) IBOutlet UILabel *levelLabel;
+@property (nonatomic, strong) IBOutlet UILabel *strengthLabel;
 @property (nonatomic, strong) IBOutlet UILabel *winsLabel;
 
 @property (nonatomic, strong) IBOutlet LeagueView *leagueView;

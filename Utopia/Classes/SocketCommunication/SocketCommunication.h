@@ -205,6 +205,7 @@
 - (int) sendSetDefendingMsgMessage:(NSString *)newMsg;
 - (int) sendRestrictUserMonsterMessage:(NSArray *)userMonsterUuids;
 - (int) sendUnrestrictUserMonsterMessage:(NSArray *)userMonsterUuids;
+- (int) sendUpdateUserStrengthMessage:(uint64_t)newStrength;
 
 - (int) sendDevRequestProto:(DevRequest)request staticDataId:(int)staticDataId quantity:(int)quantity;
 

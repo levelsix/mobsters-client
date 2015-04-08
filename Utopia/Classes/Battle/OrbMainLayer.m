@@ -474,9 +474,11 @@
     }
     
     // Tile info
-    BattleTile* tile = [self.layout tileAtColumn:x row:y];
-    NSDictionary *tileData = [gemInfo objectForKey:TILE_KEY];
-    [tile deserialize:tileData];
+    if (x < self.layout.numColumns && y < self.layout.numRows) {
+      BattleTile* tile = [self.layout tileAtColumn:x row:y];
+      NSDictionary *tileData = [gemInfo objectForKey:TILE_KEY];
+      [tile deserialize:tileData];
+    }
   }
   
   [self.swipeLayer removeAllOrbSprites];

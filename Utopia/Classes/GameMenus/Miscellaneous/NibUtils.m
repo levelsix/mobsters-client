@@ -1449,13 +1449,13 @@ void undoDelayOnScrollViewHierarchy(UIView *v) {
 
 @implementation NumTransitionLabel
 
-- (void) instaMoveToNum:(int)num {
+- (void) instaMoveToNum:(uint64_t)num {
   _currentNum = num;
   _goalNum = num;
   [self.transitionDelegate updateLabel:self forNumber:_currentNum];
 }
 
-- (void) transitionToNum:(int)num {
+- (void) transitionToNum:(uint64_t)num {
   if (num != _currentNum) {
     _goalNum = num;
     if (!self.timer) {
@@ -1473,8 +1473,8 @@ void undoDelayOnScrollViewHierarchy(UIView *v) {
 
 - (void) moveToNextNum {
   if (_currentNum != _goalNum) {
-    int diff = _goalNum - _currentNum;
-    int change = 0;
+    int64_t diff = _goalNum - _currentNum;
+    int64_t change = 0;
     if (diff > 0) {
       change = MAX((int)(0.08*diff), 1.f);
     } else if (diff < 0) {
@@ -1884,6 +1884,15 @@ void undoDelayOnScrollViewHierarchy(UIView *v) {
 
 @implementation EmbeddedNibView
 
+- (id) init {
+  if ((self = [super init])) {
+    self.autoresizesSubviews = NO;
+    self.frame = [self loadNib];
+    self.autoresizesSubviews = YES;
+  }
+  return self;
+}
+
 - (id) initWithCoder:(NSCoder *)aDecoder {
   if ((self = [super initWithCoder:aDecoder])) {
     [self loadNib];
@@ -1891,7 +1900,7 @@ void undoDelayOnScrollViewHierarchy(UIView *v) {
   return self;
 }
 
-- (void) loadNib {
+- (CGRect) loadNib {
   UIView *oldContainer = [[NSBundle mainBundle] loadNibNamed:NSStringFromClass([self class]) owner:self options:nil][0];
   
   for (UIView *v in oldContainer.subviews) {
@@ -1899,6 +1908,8 @@ void undoDelayOnScrollViewHierarchy(UIView *v) {
   }
   
   self.backgroundColor = [UIColor clearColor];
+  
+  return oldContainer.frame;
 }
 
 @end

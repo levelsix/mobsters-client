@@ -131,7 +131,7 @@
   if (gs.myEvoChamber.isComplete || gs.myEvoChamber.staticStruct.structInfo.level > 1) [arr addObject:evo];
   if ((gs.myMiniJobCenter.isComplete && gs.myMiniJobCenter.staticStruct.structInfo.level > 0) || gs.myMiniJobCenter.staticStruct.structInfo.level > 1) [arr addObject:miniJobs];
   if (gs.myBattleItemFactory.isComplete || gs.myBattleItemFactory.staticStruct.structInfo.level > 1) [arr addObject:itemFactory];
-  if (gs.myResearchLab.isComplete && gs.myResearchLab.staticStruct.structInfo.level > 0) [arr addObject:research];
+  if (gs.myResearchLab.isComplete || gs.myResearchLab.staticStruct.structInfo.level > 1) [arr addObject:research];
   self.mainViewControllers = arr;
 }
 

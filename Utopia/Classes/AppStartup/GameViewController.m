@@ -1481,7 +1481,9 @@ static const CGSize FIXED_SIZE = {568, 384};
     if (gs.connected && !gs.isTutorial && gs.level < gl.maxLevelForUser && gs.level > 0 && gs.experience >= [gs expNeededForLevel:gs.level+1]) {
       int prevLevel = gs.level;
       [[OutgoingEventController sharedOutgoingEventController] levelUp];
-      [self spawnLevelUp];
+      
+      // Since level is no longer surfaced to the user, don't pop up anything
+      //[self spawnLevelUp];
       
       if (gl.levelToShowRateUsPopup && gs.level > gl.levelToShowRateUsPopup) {
         [Globals checkRateUsPopup];

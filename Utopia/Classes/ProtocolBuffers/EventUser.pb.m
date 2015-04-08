@@ -5881,5 +5881,555 @@ BOOL UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatusIsValidValue(
 }
 @end
 
+@interface UpdateUserStrengthRequestProto ()
+@property (strong) MinimumUserProto* sender;
+@property int64_t updatedStrength;
+@end
+
+@implementation UpdateUserStrengthRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value_ {
+  hasSender_ = !!value_;
+}
+@synthesize sender;
+- (BOOL) hasUpdatedStrength {
+  return !!hasUpdatedStrength_;
+}
+- (void) setHasUpdatedStrength:(BOOL) value_ {
+  hasUpdatedStrength_ = !!value_;
+}
+@synthesize updatedStrength;
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.updatedStrength = 0L;
+  }
+  return self;
+}
+static UpdateUserStrengthRequestProto* defaultUpdateUserStrengthRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [UpdateUserStrengthRequestProto class]) {
+    defaultUpdateUserStrengthRequestProtoInstance = [[UpdateUserStrengthRequestProto alloc] init];
+  }
+}
++ (UpdateUserStrengthRequestProto*) defaultInstance {
+  return defaultUpdateUserStrengthRequestProtoInstance;
+}
+- (UpdateUserStrengthRequestProto*) defaultInstance {
+  return defaultUpdateUserStrengthRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasUpdatedStrength) {
+    [output writeInt64:2 value:self.updatedStrength];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasSender) {
+    size_ += computeMessageSize(1, self.sender);
+  }
+  if (self.hasUpdatedStrength) {
+    size_ += computeInt64Size(2, self.updatedStrength);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (UpdateUserStrengthRequestProto*) parseFromData:(NSData*) data {
+  return (UpdateUserStrengthRequestProto*)[[[UpdateUserStrengthRequestProto builder] mergeFromData:data] build];
+}
++ (UpdateUserStrengthRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UpdateUserStrengthRequestProto*)[[[UpdateUserStrengthRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (UpdateUserStrengthRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (UpdateUserStrengthRequestProto*)[[[UpdateUserStrengthRequestProto builder] mergeFromInputStream:input] build];
+}
++ (UpdateUserStrengthRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UpdateUserStrengthRequestProto*)[[[UpdateUserStrengthRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (UpdateUserStrengthRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (UpdateUserStrengthRequestProto*)[[[UpdateUserStrengthRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (UpdateUserStrengthRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UpdateUserStrengthRequestProto*)[[[UpdateUserStrengthRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (UpdateUserStrengthRequestProto_Builder*) builder {
+  return [[UpdateUserStrengthRequestProto_Builder alloc] init];
+}
++ (UpdateUserStrengthRequestProto_Builder*) builderWithPrototype:(UpdateUserStrengthRequestProto*) prototype {
+  return [[UpdateUserStrengthRequestProto builder] mergeFrom:prototype];
+}
+- (UpdateUserStrengthRequestProto_Builder*) builder {
+  return [UpdateUserStrengthRequestProto builder];
+}
+- (UpdateUserStrengthRequestProto_Builder*) toBuilder {
+  return [UpdateUserStrengthRequestProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasSender) {
+    [output appendFormat:@"%@%@ {\n", indent, @"sender"];
+    [self.sender writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  if (self.hasUpdatedStrength) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"updatedStrength", [NSNumber numberWithLongLong:self.updatedStrength]];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[UpdateUserStrengthRequestProto class]]) {
+    return NO;
+  }
+  UpdateUserStrengthRequestProto *otherMessage = other;
+  return
+      self.hasSender == otherMessage.hasSender &&
+      (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
+      self.hasUpdatedStrength == otherMessage.hasUpdatedStrength &&
+      (!self.hasUpdatedStrength || self.updatedStrength == otherMessage.updatedStrength) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasSender) {
+    hashCode = hashCode * 31 + [self.sender hash];
+  }
+  if (self.hasUpdatedStrength) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.updatedStrength] hash];
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+@interface UpdateUserStrengthRequestProto_Builder()
+@property (strong) UpdateUserStrengthRequestProto* result;
+@end
+
+@implementation UpdateUserStrengthRequestProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[UpdateUserStrengthRequestProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (UpdateUserStrengthRequestProto_Builder*) clear {
+  self.result = [[UpdateUserStrengthRequestProto alloc] init];
+  return self;
+}
+- (UpdateUserStrengthRequestProto_Builder*) clone {
+  return [UpdateUserStrengthRequestProto builderWithPrototype:result];
+}
+- (UpdateUserStrengthRequestProto*) defaultInstance {
+  return [UpdateUserStrengthRequestProto defaultInstance];
+}
+- (UpdateUserStrengthRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (UpdateUserStrengthRequestProto*) buildPartial {
+  UpdateUserStrengthRequestProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (UpdateUserStrengthRequestProto_Builder*) mergeFrom:(UpdateUserStrengthRequestProto*) other {
+  if (other == [UpdateUserStrengthRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasUpdatedStrength) {
+    [self setUpdatedStrength:other.updatedStrength];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (UpdateUserStrengthRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (UpdateUserStrengthRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setUpdatedStrength:[input readInt64]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (UpdateUserStrengthRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (UpdateUserStrengthRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (UpdateUserStrengthRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (UpdateUserStrengthRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasUpdatedStrength {
+  return result.hasUpdatedStrength;
+}
+- (int64_t) updatedStrength {
+  return result.updatedStrength;
+}
+- (UpdateUserStrengthRequestProto_Builder*) setUpdatedStrength:(int64_t) value {
+  result.hasUpdatedStrength = YES;
+  result.updatedStrength = value;
+  return self;
+}
+- (UpdateUserStrengthRequestProto_Builder*) clearUpdatedStrength {
+  result.hasUpdatedStrength = NO;
+  result.updatedStrength = 0L;
+  return self;
+}
+@end
+
+@interface UpdateUserStrengthResponseProto ()
+@property (strong) MinimumUserProto* sender;
+@property UpdateUserStrengthResponseProto_UpdateUserStrengthStatus status;
+@end
+
+@implementation UpdateUserStrengthResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value_ {
+  hasSender_ = !!value_;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value_ {
+  hasStatus_ = !!value_;
+}
+@synthesize status;
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = UpdateUserStrengthResponseProto_UpdateUserStrengthStatusSuccess;
+  }
+  return self;
+}
+static UpdateUserStrengthResponseProto* defaultUpdateUserStrengthResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [UpdateUserStrengthResponseProto class]) {
+    defaultUpdateUserStrengthResponseProtoInstance = [[UpdateUserStrengthResponseProto alloc] init];
+  }
+}
++ (UpdateUserStrengthResponseProto*) defaultInstance {
+  return defaultUpdateUserStrengthResponseProtoInstance;
+}
+- (UpdateUserStrengthResponseProto*) defaultInstance {
+  return defaultUpdateUserStrengthResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasSender) {
+    size_ += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size_ += computeEnumSize(2, self.status);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (UpdateUserStrengthResponseProto*) parseFromData:(NSData*) data {
+  return (UpdateUserStrengthResponseProto*)[[[UpdateUserStrengthResponseProto builder] mergeFromData:data] build];
+}
++ (UpdateUserStrengthResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UpdateUserStrengthResponseProto*)[[[UpdateUserStrengthResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (UpdateUserStrengthResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (UpdateUserStrengthResponseProto*)[[[UpdateUserStrengthResponseProto builder] mergeFromInputStream:input] build];
+}
++ (UpdateUserStrengthResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UpdateUserStrengthResponseProto*)[[[UpdateUserStrengthResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (UpdateUserStrengthResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (UpdateUserStrengthResponseProto*)[[[UpdateUserStrengthResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (UpdateUserStrengthResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UpdateUserStrengthResponseProto*)[[[UpdateUserStrengthResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (UpdateUserStrengthResponseProto_Builder*) builder {
+  return [[UpdateUserStrengthResponseProto_Builder alloc] init];
+}
++ (UpdateUserStrengthResponseProto_Builder*) builderWithPrototype:(UpdateUserStrengthResponseProto*) prototype {
+  return [[UpdateUserStrengthResponseProto builder] mergeFrom:prototype];
+}
+- (UpdateUserStrengthResponseProto_Builder*) builder {
+  return [UpdateUserStrengthResponseProto builder];
+}
+- (UpdateUserStrengthResponseProto_Builder*) toBuilder {
+  return [UpdateUserStrengthResponseProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasSender) {
+    [output appendFormat:@"%@%@ {\n", indent, @"sender"];
+    [self.sender writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  if (self.hasStatus) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[UpdateUserStrengthResponseProto class]]) {
+    return NO;
+  }
+  UpdateUserStrengthResponseProto *otherMessage = other;
+  return
+      self.hasSender == otherMessage.hasSender &&
+      (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
+      self.hasStatus == otherMessage.hasStatus &&
+      (!self.hasStatus || self.status == otherMessage.status) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasSender) {
+    hashCode = hashCode * 31 + [self.sender hash];
+  }
+  if (self.hasStatus) {
+    hashCode = hashCode * 31 + self.status;
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+BOOL UpdateUserStrengthResponseProto_UpdateUserStrengthStatusIsValidValue(UpdateUserStrengthResponseProto_UpdateUserStrengthStatus value) {
+  switch (value) {
+    case UpdateUserStrengthResponseProto_UpdateUserStrengthStatusSuccess:
+    case UpdateUserStrengthResponseProto_UpdateUserStrengthStatusFailOther:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface UpdateUserStrengthResponseProto_Builder()
+@property (strong) UpdateUserStrengthResponseProto* result;
+@end
+
+@implementation UpdateUserStrengthResponseProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[UpdateUserStrengthResponseProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (UpdateUserStrengthResponseProto_Builder*) clear {
+  self.result = [[UpdateUserStrengthResponseProto alloc] init];
+  return self;
+}
+- (UpdateUserStrengthResponseProto_Builder*) clone {
+  return [UpdateUserStrengthResponseProto builderWithPrototype:result];
+}
+- (UpdateUserStrengthResponseProto*) defaultInstance {
+  return [UpdateUserStrengthResponseProto defaultInstance];
+}
+- (UpdateUserStrengthResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (UpdateUserStrengthResponseProto*) buildPartial {
+  UpdateUserStrengthResponseProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (UpdateUserStrengthResponseProto_Builder*) mergeFrom:(UpdateUserStrengthResponseProto*) other {
+  if (other == [UpdateUserStrengthResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (UpdateUserStrengthResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (UpdateUserStrengthResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        UpdateUserStrengthResponseProto_UpdateUserStrengthStatus value = (UpdateUserStrengthResponseProto_UpdateUserStrengthStatus)[input readEnum];
+        if (UpdateUserStrengthResponseProto_UpdateUserStrengthStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (UpdateUserStrengthResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (UpdateUserStrengthResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (UpdateUserStrengthResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (UpdateUserStrengthResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (UpdateUserStrengthResponseProto_UpdateUserStrengthStatus) status {
+  return result.status;
+}
+- (UpdateUserStrengthResponseProto_Builder*) setStatus:(UpdateUserStrengthResponseProto_UpdateUserStrengthStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (UpdateUserStrengthResponseProto_Builder*) clearStatusList {
+  result.hasStatus = NO;
+  result.status = UpdateUserStrengthResponseProto_UpdateUserStrengthStatusSuccess;
+  return self;
+}
+@end
+
 
 // @@protoc_insertion_point(global_scope)

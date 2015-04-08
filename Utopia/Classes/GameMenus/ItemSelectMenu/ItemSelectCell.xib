@@ -18,7 +18,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" id="Pzo-bx-mhD">
-                        <rect key="frame" x="0.0" y="0.0" width="2169" height="460"/>
+                        <rect key="frame" x="0.0" y="0.0" width="2410" height="511"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="itemsquarebg.png" id="L1I-E6-joV">
