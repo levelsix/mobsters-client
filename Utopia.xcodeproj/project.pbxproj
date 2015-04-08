@@ -1844,6 +1844,12 @@
 		63CDCF481AC0F6A500A00DB6 /* greycomplete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CDCF471AC0F6A500A00DB6 /* greycomplete@2x.png */; };
 		63CDCF491AC0F6A500A00DB6 /* greycomplete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CDCF471AC0F6A500A00DB6 /* greycomplete@2x.png */; };
 		63CDCF4A1AC0F6A500A00DB6 /* greycomplete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CDCF471AC0F6A500A00DB6 /* greycomplete@2x.png */; };
+		63CA0AAE1AD4B74F00E92774 /* Sales.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 63CA0AAD1AD4B74F00E92774 /* Sales.pb.m */; };
+		63CA0AAF1AD4B74F00E92774 /* Sales.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 63CA0AAD1AD4B74F00E92774 /* Sales.pb.m */; };
+		63CA0AB01AD4B74F00E92774 /* Sales.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 63CA0AAD1AD4B74F00E92774 /* Sales.pb.m */; };
+		63CA0AB31AD4B75D00E92774 /* Sales.proto in Resources */ = {isa = PBXBuildFile; fileRef = 63CA0AB21AD4B75D00E92774 /* Sales.proto */; };
+		63CA0AB41AD4B75D00E92774 /* Sales.proto in Resources */ = {isa = PBXBuildFile; fileRef = 63CA0AB21AD4B75D00E92774 /* Sales.proto */; };
+		63CA0AB51AD4B75D00E92774 /* Sales.proto in Resources */ = {isa = PBXBuildFile; fileRef = 63CA0AB21AD4B75D00E92774 /* Sales.proto */; };
 		6B0783F91A828468005CDFCF /* SkillCurse.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0783F81A828468005CDFCF /* SkillCurse.m */; };
 		6B0783FA1A828468005CDFCF /* SkillCurse.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0783F81A828468005CDFCF /* SkillCurse.m */; };
 		6B0783FB1A828468005CDFCF /* SkillCurse.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0783F81A828468005CDFCF /* SkillCurse.m */; };
@@ -8456,6 +8462,9 @@
 		63CDCF191ABB897600A00DB6 /* srrewardbgbw@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "srrewardbgbw@2x.png"; sourceTree = "<group>"; };
 		63CDCF3F1AC0F13F00A00DB6 /* greysquadrewardcheck@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greysquadrewardcheck@2x.png"; sourceTree = "<group>"; };
 		63CDCF471AC0F6A500A00DB6 /* greycomplete@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greycomplete@2x.png"; sourceTree = "<group>"; };
+		63CA0AAC1AD4B74F00E92774 /* Sales.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sales.pb.h; sourceTree = "<group>"; };
+		63CA0AAD1AD4B74F00E92774 /* Sales.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sales.pb.m; sourceTree = "<group>"; };
+		63CA0AB21AD4B75D00E92774 /* Sales.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Sales.proto; sourceTree = "<group>"; };
 		686F8D3F1B86BD06C7EE6627 /* Pods.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.appstore.xcconfig; path = "Pods/Target Support Files/Pods/Pods.appstore.xcconfig"; sourceTree = "<group>"; };
 		6B0783F61A82845B005CDFCF /* SkillCurse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillCurse.h; sourceTree = "<group>"; };
 		6B0783F81A828468005CDFCF /* SkillCurse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillCurse.m; sourceTree = "<group>"; };
@@ -16096,6 +16105,8 @@
 				29A38D4B1ACCCCF6006F3CBF /* MiniEvent.pb.m */,
 				29A38D4C1ACCCCF6006F3CBF /* Reward.pb.h */,
 				29A38D4D1ACCCCF6006F3CBF /* Reward.pb.m */,
+				63CA0AAC1AD4B74F00E92774 /* Sales.pb.h */,
+				63CA0AAD1AD4B74F00E92774 /* Sales.pb.m */,
 				632C3F0B1ACC85960096FCFF /* EventMiniEvent.pb.h */,
 				632C3F0C1ACC85960096FCFF /* EventMiniEvent.pb.m */,
 				632C3F0D1ACC85960096FCFF /* MiniEvent.pb.h */,
@@ -16372,6 +16383,7 @@
 				291721671AD4B2CC0093F100 /* Sales.proto */,
 				29AF48F51AAA94DD0034927C /* BattleItem.proto */,
 				29AF48F61AAA94DD0034927C /* EventBattleItem.proto */,
+				63CA0AB21AD4B75D00E92774 /* Sales.proto */,
 				632C3F1A1ACC85A00096FCFF /* BattleItem.proto */,
 				632C3F1B1ACC85A00096FCFF /* EventBattleItem.proto */,
 				632C3F1C1ACC85A00096FCFF /* EventMiniEvent.proto */,
@@ -20309,6 +20321,7 @@
 				636C3E951AAA865400B02980 /* tapforresearchdetails@2x.png in Resources */,
 				CF0CF3FB196F452900ECD301 /* sfx_attack_button.mp3 in Resources */,
 				29C3CA811A955BD0005407E9 /* use_oil.mp3 in Resources */,
+				63CA0AB41AD4B75D00E92774 /* Sales.proto in Resources */,
 				CF0CF3FD196F452900ECD301 /* clanbrowseactiveicon2@2x.png in Resources */,
 				9B41AF241A7C331100529879 /* 6bulletorb@2x.png in Resources */,
 				CF0CF3FF196F452900ECD301 /* hiremobsquadinactive@2x.png in Resources */,
@@ -21970,6 +21983,7 @@
 				CFEE89CD18EC00C100047CA4 /* healingcap@2x.png in Resources */,
 				299AA3D51A7856AA00A2D806 /* rockheadshot-9@2x.png in Resources */,
 				CF864E1D193E8F3000DE0D7A /* createclanbox4@2x.png in Resources */,
+				63CA0AB31AD4B75D00E92774 /* Sales.proto in Resources */,
 				CF812EF419E67D4E00D91157 /* clanhelpbarbg@2x.png in Resources */,
 				299AA3961A7856AA00A2D806 /* firegrenade-9@2x.png in Resources */,
 				6B1EAA371ACF5DCC00E0B642 /* VinesUp02.png in Resources */,
@@ -23535,6 +23549,7 @@
 				297DE2411A9E89C100692D80 /* teambubble1green@2x.png in Resources */,
 				6B5146BC1AA1487100B2844A /* waterlsorb-9@2x.png in Resources */,
 				CF481A9219F7217F00041486 /* FBFriendCell.xib in Resources */,
+				63CA0AB51AD4B75D00E92774 /* Sales.proto in Resources */,
 				299AA36B1A7856AA00A2D806 /* 6watergrenade-9@2x.png in Resources */,
 				CFA728BF1A0B037900FF6031 /* nighteventbigbgcap@2x.png in Resources */,
 				CF481A9419F7217F00041486 /* clandetailgradient@2x.png in Resources */,
@@ -25888,6 +25903,7 @@
 				CF0CED7B196F452900ECD301 /* TutorialTopBarViewController.m in Sources */,
 				CF413C411977494500848AF5 /* AppDelegate.m in Sources */,
 				29A2FC5C1A4EB8D000FF93B6 /* BoardLayoutProto+Properties.m in Sources */,
+				63CA0AAF1AD4B74F00E92774 /* Sales.pb.m in Sources */,
 				CF812F0E19E747AB00D91157 /* ClanHelpUtil.m in Sources */,
 				DA88EB3B19B90250005EE827 /* NSObject+PerformBlockAfterDelay.m in Sources */,
 				295FA2B41A1B44A7006B79F3 /* ResourceItemsFiller.m in Sources */,
@@ -26356,6 +26372,7 @@
 				CFA9F77A1A0D8D8900EBE77D /* ItemSelectViewController.m in Sources */,
 				CF68907519145DC300FF1F71 /* EventMiniJob.pb.m in Sources */,
 				3E1A0C041A645B4B00DF00AD /* Board.pb.m in Sources */,
+				63CA0AAE1AD4B74F00E92774 /* Sales.pb.m in Sources */,
 				CFF5DBA0194BD8CE0019EB2B /* MiniJobsCompleteViewController.m in Sources */,
 				631BF3B31A6DDAEC0091253B /* PrivateMessageNotificationViewController.m in Sources */,
 				CF6574E01909CAF200ABF1F4 /* Quest.pb.m in Sources */,
@@ -26677,6 +26694,7 @@
 				CF48192219F7217F00041486 /* TutorialTopBarViewController.m in Sources */,
 				29927E6C1AAE1BCE00418683 /* BattleItemUtil.m in Sources */,
 				CF48192319F7217F00041486 /* AppDelegate.m in Sources */,
+				63CA0AB01AD4B74F00E92774 /* Sales.pb.m in Sources */,
 				29A2FC5D1A4EB8D000FF93B6 /* BoardLayoutProto+Properties.m in Sources */,
 				CF48192419F7217F00041486 /* ClanHelpUtil.m in Sources */,
 				CF48192519F7217F00041486 /* NSObject+PerformBlockAfterDelay.m in Sources */,
