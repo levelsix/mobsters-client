@@ -228,8 +228,8 @@ NSMutableAttributedString *attributedStringWithResearchChange(int total, int bas
   MonsterProto *mp = self.monster.staticMonster;
   ResearchUtil *ru = self.monster.researchUtil;
   
-  NSArray *userResearches = [ru allUserResearchesForElement:mp.monsterElement rarity:mp.quality];
-  NSMutableArray *staticResearches = [[ru allResearchProtosForElement:mp.monsterElement rarity:mp.quality] mutableCopy];
+  NSArray *userResearches = [ru allUserResearchesForElement:mp.monsterElement evoTier:mp.evolutionLevel];
+  NSMutableArray *staticResearches = [[ru allResearchProtosForElement:mp.monsterElement evoTier:mp.evolutionLevel] mutableCopy];
   
   self.noResearchLabel.hidden = userResearches.count > 0;
   

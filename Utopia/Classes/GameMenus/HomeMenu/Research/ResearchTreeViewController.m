@@ -22,7 +22,7 @@
 
 - (void) updateForUserResearch:(UserResearch *)userResearch {
   ResearchProto *proto = userResearch.staticResearch;
-  BOOL isAvailable = [userResearch.staticResearchForNextLevel prereqsComplete];
+  BOOL isAvailable = [proto prereqsComplete];
   
   [Globals imageNamed:userResearch.staticResearch.iconImgName withView:self.selectionIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   int curRank = userResearch.staticResearchForBenefitLevel.level;
