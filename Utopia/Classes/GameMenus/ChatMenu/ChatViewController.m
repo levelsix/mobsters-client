@@ -102,7 +102,6 @@
 
 - (void) viewDidAppear:(BOOL)animated {
   [super viewDidAppear:animated];
-  GameState *gs = [GameState sharedGameState];
   
   self.view.hidden = NO;
   self.mainView.center = ccp(self.view.frame.size.width/2, self.view.frame.size.height*3/2);
@@ -111,9 +110,6 @@
     self.mainView.center = ccp(self.view.frame.size.width/2, self.view.frame.size.height/2);
     self.bgdView.alpha = 1.f;
   }];
-  
-  //set flag icon to saved flag
-  [self.globalChatView.flagButton setImage:[Globals imageNamed:[Globals flagImageNameForLanguage:gs.globalLanguage]] forState:UIControlStateNormal];
   
   [SoundEngine chatOpened];
 }
