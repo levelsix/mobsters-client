@@ -30,7 +30,7 @@
 - (void) animateIn:(dispatch_block_t)completion {
   CGPoint pt = self.center;
   self.center = ccp(self.center.x, -self.frame.size.height/2);
-  [UIView animateWithDuration:0.3f animations:^{
+  [UIView animateWithDuration:0.2f animations:^{
     self.center = pt;
   } completion:^(BOOL finished) {
     if (completion) {
@@ -40,7 +40,7 @@
 }
 
 - (void) animateOut:(dispatch_block_t)completion {
-  [UIView animateWithDuration:0.3f animations:^{
+  [UIView animateWithDuration:0.2f animations:^{
     self.center = ccp(self.center.x, -self.frame.size.height/2);
   } completion:^(BOOL finished) {
     [self removeFromSuperview];
@@ -90,7 +90,7 @@
   _completion = completion;
   
   [self.notificationView animateIn:^{
-    [self performSelector:@selector(end) withObject:nil afterDelay:30.f];
+    [self performSelector:@selector(end) withObject:nil afterDelay:2.f];
   }];
   
   // TODO - Play a sound effect
