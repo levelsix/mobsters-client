@@ -164,7 +164,7 @@
     GameState *gs = [GameState sharedGameState];
     TaskMapElementProto *elem = [gs mapElementWithTaskId:pre.prereqGameEntityId];
     FullTaskProto *ftp = [gs taskWithId:elem.taskId];
-    [Globals addAlertNotification:[NSString stringWithFormat:@"Defeat Single Player level %d \"%@\" to unlock the %@.", elem.mapElementId, ftp.name, fsp.name]];
+    [Globals addAlertNotification:[NSString stringWithFormat:@"Defeat Single Player Level %d \"%@\" to unlock the %@.", elem.mapElementId, ftp.name, fsp.name]];
     
     [SoundEngine generalButtonClick];
     
