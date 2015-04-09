@@ -25,11 +25,18 @@ typedef enum {
 - (void) flagClicked:(TranslateLanguages)language;
 - (void) translateChecked:(BOOL)checked;
 
+- (void) setLanguageSettingsForLanguage:(TranslateLanguages)language markChecked:(BOOL)markChecked;
+
 
 @end
 
 @interface ChatLanguageSelector : UIView {
   BOOL _closing;
+  
+  TranslateLanguages _originalLanguage;
+  TranslateLanguages _curLanguage;
+  BOOL _originalyChecked;
+  BOOL _curChecked;
 }
 
 @property (nonatomic, assign) id<LanguageSelectorProtocol> delegate;
