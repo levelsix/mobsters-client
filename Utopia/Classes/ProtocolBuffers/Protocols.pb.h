@@ -518,6 +518,10 @@
 @class RedeemSecretGiftResponseProto_Builder;
 @class ReferralCodeUsedResponseProto;
 @class ReferralCodeUsedResponseProto_Builder;
+@class RefreshMiniJobRequestProto;
+@class RefreshMiniJobRequestProto_Builder;
+@class RefreshMiniJobResponseProto;
+@class RefreshMiniJobResponseProto_Builder;
 @class RemoveMonsterFromBattleTeamRequestProto;
 @class RemoveMonsterFromBattleTeamRequestProto_Builder;
 @class RemoveMonsterFromBattleTeamResponseProto;
@@ -943,6 +947,7 @@ typedef NS_ENUM(SInt32, EventProtocolRequest) {
   EventProtocolRequestCUpdateMiniEventEvent = 209,
   EventProtocolRequestCTranslateSelectMessagesEvent = 210,
   EventProtocolRequestCUpdateUserStrengthEvent = 211,
+  EventProtocolRequestCRefreshMiniJobEvent = 212,
 };
 
 BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value);
@@ -1067,6 +1072,7 @@ typedef NS_ENUM(SInt32, EventProtocolResponse) {
   EventProtocolResponseSUpdateMiniEventEvent = 209,
   EventProtocolResponseSTranslateSelectMessagesEvent = 210,
   EventProtocolResponseSUpdateUserStrengthEvent = 211,
+  EventProtocolResponseSRefreshMiniJobEvent = 212,
 };
 
 BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value);
