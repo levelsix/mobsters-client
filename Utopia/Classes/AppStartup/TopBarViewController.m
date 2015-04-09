@@ -457,7 +457,7 @@
 //  BOOL availBuilding = YES; // Should always show
   
   self.freeGemsBadge.badgeNum = badgeNum;
-  self.freeGemsView.hidden = !availAchievement || !availBuilding;
+  self.freeGemsView.hidden = YES;//!availAchievement || !availBuilding;
   
   if (!self.freeGemsView.hidden && self.freeGemsSpinner.layer.animationKeys.count == 0) {
     CABasicAnimation *fullRotation;
@@ -468,6 +468,8 @@
     fullRotation.repeatCount = 50000;
     [self.freeGemsSpinner.layer addAnimation:fullRotation forKey:@"360"];
   }
+  
+  [self updateTimersViewSize];
 }
 
 - (void) updateSecretGiftView {
@@ -595,6 +597,24 @@
   }
 }
 
+- (void) updateTimersViewSize {
+  BOOL showingSale = !self.saleView.hidden;
+  BOOL showingFreeGems = !self.freeGemsView.hidden;
+  
+  float topY;
+  
+  if (showingFreeGems) {
+    topY = self.freeGemsView.originY;
+  } else if (showingSale) {
+    topY = self.saleView.originY;
+  } else {
+    topY = self.shopView.originY;
+  }
+  
+  self.timersView.height = topY-self.timersView.originY;
+  
+}
+
 - (void) updateBuildersLabel {
   GameState *gs = [GameState sharedGameState];
   
@@ -628,14 +648,12 @@
   BOOL showSaleView = gs.numBeginnerSalesPurchased == 0 && gl.starterPackIapPackage;
   
   if (showSaleView) {
-    self.saleView.hidden = NO;
+    self.saleView.hidden = YES;
     
     self.saleView.centerX = self.shopView.centerX;
     self.saleView.originY = self.shopView.originY-self.saleView.height;
     
     self.freeGemsView.originY = self.saleView.originY-self.freeGemsView.height;
-    
-    self.timersView.height = self.freeGemsView.originY-self.timersView.originY;
     
     if (!_isAnimatingFallingGems) {
       self.saleMultiplierIcon.hidden = YES;
@@ -645,10 +663,10 @@
   } else {
     self.freeGemsView.originY = self.shopView.originY-self.freeGemsView.height;
     
-    self.timersView.height = self.freeGemsView.originY-self.timersView.originY;
-    
     self.saleView.hidden = YES;
   }
+  
+  [self updateTimersViewSize];
 }
 
 - (void) performFallingGemsAnimation {
