@@ -61,6 +61,7 @@ typedef enum {
 @property (assign, nonatomic) SpecialOrbType specialOrbType;
 @property (assign, nonatomic) PowerupType powerupType;
 
+// Look at double powerup, need to put special cases for these
 @property (assign, nonatomic) BOOL isLocked;
 @property (assign, nonatomic) BOOL isVines;
 

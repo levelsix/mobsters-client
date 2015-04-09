@@ -105,7 +105,7 @@
 }
 
 - (void) addSceneAtBasePosition:(CGPoint)pos {
-  CCSprite *left1 = [CCSprite spriteWithImageNamed:[self.prefix stringByAppendingString:@"scene.png"]];
+  CCSprite *left1 = [CCSprite spriteWithImageNamed:[self.prefix stringByAppendingString:@"scene.jpg"]];
   
   left1.position = ccp(pos.x+left1.contentSize.width/2, pos.y+left1.contentSize.height/2);
   

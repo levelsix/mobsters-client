@@ -38,7 +38,7 @@
   self.totalTimeLabel.text = [[Globals convertTimeToMediumString:umj.durationSeconds] uppercaseString];
   
   NSArray *rewards = [Reward createRewardsForMiniJob:mjp];
-  if (rewards.count > 2) rewards = [rewards subarrayWithRange:NSMakeRange(0, 2)];
+  if (rewards.count > 3) rewards = [rewards subarrayWithRange:NSMakeRange(0, 3)];
   
   for (UIView *v in [self.rewardsView.subviews copy]) {
     [v removeFromSuperview];
