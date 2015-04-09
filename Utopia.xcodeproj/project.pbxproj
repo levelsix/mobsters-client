@@ -118,6 +118,15 @@
 		294035651AD7310B00B759A4 /* researchbubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 294035641AD7310B00B759A4 /* researchbubble@2x.png */; };
 		294035661AD7310B00B759A4 /* researchbubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 294035641AD7310B00B759A4 /* researchbubble@2x.png */; };
 		294035671AD7310B00B759A4 /* researchbubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 294035641AD7310B00B759A4 /* researchbubble@2x.png */; };
+		2940356C1AD73B3500B759A4 /* cashitemicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 294035691AD73B3500B759A4 /* cashitemicon@2x.png */; };
+		2940356D1AD73B3500B759A4 /* cashitemicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 294035691AD73B3500B759A4 /* cashitemicon@2x.png */; };
+		2940356E1AD73B3500B759A4 /* cashitemicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 294035691AD73B3500B759A4 /* cashitemicon@2x.png */; };
+		2940356F1AD73B3500B759A4 /* gemitemicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2940356A1AD73B3500B759A4 /* gemitemicon@2x.png */; };
+		294035701AD73B3500B759A4 /* gemitemicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2940356A1AD73B3500B759A4 /* gemitemicon@2x.png */; };
+		294035711AD73B3500B759A4 /* gemitemicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2940356A1AD73B3500B759A4 /* gemitemicon@2x.png */; };
+		294035721AD73B3500B759A4 /* oilitemicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2940356B1AD73B3500B759A4 /* oilitemicon@2x.png */; };
+		294035731AD73B3500B759A4 /* oilitemicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2940356B1AD73B3500B759A4 /* oilitemicon@2x.png */; };
+		294035741AD73B3500B759A4 /* oilitemicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2940356B1AD73B3500B759A4 /* oilitemicon@2x.png */; };
 		2945AB291A929FB700733827 /* youlost@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF5DBA7194D18F20019EB2B /* youlost@2x.png */; };
 		2945AB2A1A929FB700733827 /* revealsep@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BB948E11A6D93DC006EE920 /* revealsep@2x.png */; };
 		2945AB2B1A929FB700733827 /* LevelUpNode.ccbi in Resources */ = {isa = PBXBuildFile; fileRef = CFF4129D19BFC261002672D4 /* LevelUpNode.ccbi */; };
@@ -7484,6 +7493,9 @@
 		292771371A71A52A00E3AB65 /* tutorialbackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tutorialbackground@2x.png"; sourceTree = "<group>"; };
 		292771411A72DBB400E3AB65 /* fightonbubblearrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fightonbubblearrow@2x.png"; sourceTree = "<group>"; };
 		294035641AD7310B00B759A4 /* researchbubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "researchbubble@2x.png"; sourceTree = "<group>"; };
+		294035691AD73B3500B759A4 /* cashitemicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cashitemicon@2x.png"; sourceTree = "<group>"; };
+		2940356A1AD73B3500B759A4 /* gemitemicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gemitemicon@2x.png"; sourceTree = "<group>"; };
+		2940356B1AD73B3500B759A4 /* oilitemicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "oilitemicon@2x.png"; sourceTree = "<group>"; };
 		2948F53E1AB2720A00DF08C2 /* BattleItemSelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BattleItemSelectViewController.h; sourceTree = "<group>"; };
 		2948F53F1AB2720A00DF08C2 /* BattleItemSelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BattleItemSelectViewController.m; sourceTree = "<group>"; };
 		2948F5401AB2720A00DF08C2 /* BattleItemSelectViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BattleItemSelectViewController.xib; sourceTree = "<group>"; };
@@ -17059,6 +17071,9 @@
 		CFE7CCA21819FC3300930847 /* Home screen */ = {
 			isa = PBXGroup;
 			children = (
+				294035691AD73B3500B759A4 /* cashitemicon@2x.png */,
+				2940356A1AD73B3500B759A4 /* gemitemicon@2x.png */,
+				2940356B1AD73B3500B759A4 /* oilitemicon@2x.png */,
 				CF413C2619761A0500848AF5 /* 3x3buildingframe@2x.png */,
 				CF413C2819761A0500848AF5 /* 4x4buildingframe@2x.png */,
 				CFBB379F18F49D3200FD6C8C /* oilicon@2x.png */,
@@ -18594,6 +18609,7 @@
 				CF0CEE9B196F452900ECD301 /* buildingcap@2x.png in Resources */,
 				CF0CEE9E196F452900ECD301 /* ComboFire4.plist in Resources */,
 				CF0CEE9F196F452900ECD301 /* menutopbar@2x.png in Resources */,
+				294035731AD73B3500B759A4 /* oilitemicon@2x.png in Resources */,
 				CF0CEEA2196F452900ECD301 /* lightbigavatar@2x.png in Resources */,
 				298051251A2EAE0500806253 /* QueueHealingCenterT3@2x.png in Resources */,
 				CF0CEEA5196F452900ECD301 /* mjdone@2x.png in Resources */,
@@ -18748,6 +18764,7 @@
 				CF0CEF8D196F452900ECD301 /* oilicon@2x.png in Resources */,
 				9B41AF881A841D7500529879 /* 6swordorb@2x.png in Resources */,
 				CF0CEF8E196F452900ECD301 /* cashbar@2x.png in Resources */,
+				2940356D1AD73B3500B759A4 /* cashitemicon@2x.png in Resources */,
 				6B1EAA051ACF5DCC00E0B642 /* VinesMain15.png in Resources */,
 				2992D7E41AA561E600547B11 /* renewbubble@2x.png in Resources */,
 				CFFC50FA19C4C57700BDAA62 /* notendcapgreen@2x.png in Resources */,
@@ -19141,6 +19158,7 @@
 				9BC535881A845C0500E49F4D /* watercounterbg@2x.png in Resources */,
 				CF0CF1D1196F452900ECD301 /* Aller_BdIt.ttf in Resources */,
 				CF3737A219E3767600CB16E3 /* obtimergreencap@2x.png in Resources */,
+				294035701AD73B3500B759A4 /* gemitemicon@2x.png in Resources */,
 				CF0CF1D4196F452900ECD301 /* waterbar@2x.png in Resources */,
 				29AF48D51AAA93DA0034927C /* itembaginfobaredge@2x.png in Resources */,
 				CF0CF1D7196F452900ECD301 /* greenmenuoption@2x.png in Resources */,
@@ -21348,6 +21366,7 @@
 				CF629303180D22F600C6C196 /* casegems@2x.png in Resources */,
 				CFE7CD101819FC3300930847 /* arrowup@2x.png in Resources */,
 				CF2A4B2D1905BF8600B2D7D7 /* whitebackbutton@2x.png in Resources */,
+				294035721AD73B3500B759A4 /* oilitemicon@2x.png in Resources */,
 				CFF646BB195A7CD100C43641 /* EnhanceSmallCardCell.xib in Resources */,
 				297D7E671A9EBD080057F4E6 /* use_speedup.mp3 in Resources */,
 				CFC4D27918D7BD03004681FD /* mus_mobsquad_battle.mp3 in Resources */,
@@ -21561,6 +21580,7 @@
 				CF54943918C6AF8A001E7D32 /* TutorialBattle2Layout.txt in Resources */,
 				CF6890301912E7B500FF1F71 /* attackbarcapmj@2x.png in Resources */,
 				CFB250991859B9C300BE0C05 /* closebattle@2x.png in Resources */,
+				2940356F1AD73B3500B759A4 /* gemitemicon@2x.png in Resources */,
 				29DCD0431A8D8514003176FD /* fallinggems20@2x.png in Resources */,
 				2981337D1AB7C6D900CA5658 /* ifitemsquareverysmall@2x.png in Resources */,
 				CFDEA541199C34D800445F3C /* lockedinactive@2x.png in Resources */,
@@ -21627,6 +21647,7 @@
 				299AA4F41A7872C300A2D806 /* rockgrenade@2x.png in Resources */,
 				CFDEA53D199C34D800445F3C /* lockedactive@2x.png in Resources */,
 				CFA7938F1A0C63ED00DF3407 /* lightcakeeventlive@2x.png in Resources */,
+				2940356C1AD73B3500B759A4 /* cashitemicon@2x.png in Resources */,
 				29DCCFB31A8ACCBB003176FD /* TribalGirl1T1Big@2x.png in Resources */,
 				9BCA5FFC1ABA2E9B0087FB41 /* researchitemgradient@2x.png in Resources */,
 				2948F5531AB36D8D00DF08C2 /* use_gems.mp3 in Resources */,
@@ -22677,6 +22698,7 @@
 				CF481A2319F7217F00041486 /* activeheart@2x.png in Resources */,
 				63B045071A92B9C600C74F0C /* AttackedAlertViewController.xib in Resources */,
 				CF481A2519F7217F00041486 /* MonsterQueueCell.xib in Resources */,
+				2940356E1AD73B3500B759A4 /* cashitemicon@2x.png in Resources */,
 				CF481A2619F7217F00041486 /* MenuOilStorageT1@2x.png in Resources */,
 				CF481A2A19F7217F00041486 /* runawaybgwide@2x.png in Resources */,
 				CF481A2E19F7217F00041486 /* 6rocksideways@2x.png in Resources */,
@@ -24533,6 +24555,7 @@
 				299AA3711A7856AA00A2D806 /* 6waterorb-9@2x.png in Resources */,
 				9B41AF791A82DA7E00529879 /* menuultimategrab@2x.png in Resources */,
 				2945AB2B1A929FB700733827 /* LevelUpNode.ccbi in Resources */,
+				294035711AD73B3500B759A4 /* gemitemicon@2x.png in Resources */,
 				2945AB291A929FB700733827 /* youlost@2x.png in Resources */,
 				299AA3321A7856AA00A2D806 /* 6lightgrenade-9@2x.png in Resources */,
 				9BC9F32C1A8B05B3009DC3D5 /* 6energizeorb-9@2x.png in Resources */,
@@ -24667,6 +24690,7 @@
 				299AA3021A7856AA00A2D806 /* 6allcocktail-9@2x.png in Resources */,
 				CF48254219F7217F00041486 /* legendfound@2x.png in Resources */,
 				CF48254319F7217F00041486 /* fullhospitalarrow@2x.png in Resources */,
+				294035741AD73B3500B759A4 /* oilitemicon@2x.png in Resources */,
 				29C4822C1ACB92C100170422 /* MonsterPopUpResearchView.xib in Resources */,
 				2985E6381A3313340041ABF4 /* ChatBattleHistoryView.xib in Resources */,
 				CF48254619F7217F00041486 /* 6earthorb@2x.png in Resources */,
