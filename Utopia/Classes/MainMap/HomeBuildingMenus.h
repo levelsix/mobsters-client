@@ -66,6 +66,7 @@ typedef enum {
   BuildingBubbleTypeLocked,
   BuildingBubbleTypeRenew,
   BuildingBubbleTypeCreate,
+  BuildingBubbleTypeResearch,
 } BuildingBubbleType;
 
 @interface BuildingBubble : CCNode {

@@ -212,8 +212,11 @@
       case BuildingBubbleTypeCreate:
         imgName = [NSString stringWithFormat:@"createbubble.png"];
         break;
+      case BuildingBubbleTypeResearch:
+        imgName = [NSString stringWithFormat:@"researchbubble.png"];
+        break;
         
-      default:
+      case BuildingBubbleTypeNone:
         break;
     }
     

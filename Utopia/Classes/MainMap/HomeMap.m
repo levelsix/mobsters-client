@@ -734,9 +734,13 @@
     if(researchInProgress) {
       b.userResearch = [gs.researchUtil currentResearch];
       [b displayProgressBar];
+      
+      [b setBubbleType:BuildingBubbleTypeNone];
     } else {
       b.userResearch = nil;
       [b removeProgressBar];
+      
+      [b setBubbleType:BuildingBubbleTypeResearch];
     }
   }
 }
