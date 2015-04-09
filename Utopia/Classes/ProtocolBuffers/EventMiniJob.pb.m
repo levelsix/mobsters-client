@@ -15,6 +15,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [self registerAllExtensions:registry];
     [MiniJobConfigRoot registerAllExtensions:registry];
     [MonsterStuffRoot registerAllExtensions:registry];
+    [SharedEnumConfigRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
     extensionRegistry = registry;
   }
@@ -2806,6 +2807,872 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
 - (RedeemMiniJobResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = RedeemMiniJobResponseProto_RedeemMiniJobStatusSuccess;
+  return self;
+}
+@end
+
+@interface RefreshMiniJobRequestProto ()
+@property (strong) MinimumUserProto* sender;
+@property (strong) NSMutableArray * mutableDeleteUserMiniJobIdsList;
+@property int32_t itemId;
+@property int32_t numToSpawn;
+@property int32_t gemsSpent;
+@property Quality minQualitySpawned;
+@property int64_t clientTime;
+@end
+
+@implementation RefreshMiniJobRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value_ {
+  hasSender_ = !!value_;
+}
+@synthesize sender;
+@synthesize mutableDeleteUserMiniJobIdsList;
+@dynamic deleteUserMiniJobIdsList;
+- (BOOL) hasItemId {
+  return !!hasItemId_;
+}
+- (void) setHasItemId:(BOOL) value_ {
+  hasItemId_ = !!value_;
+}
+@synthesize itemId;
+- (BOOL) hasNumToSpawn {
+  return !!hasNumToSpawn_;
+}
+- (void) setHasNumToSpawn:(BOOL) value_ {
+  hasNumToSpawn_ = !!value_;
+}
+@synthesize numToSpawn;
+- (BOOL) hasGemsSpent {
+  return !!hasGemsSpent_;
+}
+- (void) setHasGemsSpent:(BOOL) value_ {
+  hasGemsSpent_ = !!value_;
+}
+@synthesize gemsSpent;
+- (BOOL) hasMinQualitySpawned {
+  return !!hasMinQualitySpawned_;
+}
+- (void) setHasMinQualitySpawned:(BOOL) value_ {
+  hasMinQualitySpawned_ = !!value_;
+}
+@synthesize minQualitySpawned;
+- (BOOL) hasClientTime {
+  return !!hasClientTime_;
+}
+- (void) setHasClientTime:(BOOL) value_ {
+  hasClientTime_ = !!value_;
+}
+@synthesize clientTime;
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.itemId = 0;
+    self.numToSpawn = 0;
+    self.gemsSpent = 0;
+    self.minQualitySpawned = QualityNoQuality;
+    self.clientTime = 0L;
+  }
+  return self;
+}
+static RefreshMiniJobRequestProto* defaultRefreshMiniJobRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [RefreshMiniJobRequestProto class]) {
+    defaultRefreshMiniJobRequestProtoInstance = [[RefreshMiniJobRequestProto alloc] init];
+  }
+}
++ (RefreshMiniJobRequestProto*) defaultInstance {
+  return defaultRefreshMiniJobRequestProtoInstance;
+}
+- (RefreshMiniJobRequestProto*) defaultInstance {
+  return defaultRefreshMiniJobRequestProtoInstance;
+}
+- (NSArray *)deleteUserMiniJobIdsList {
+  return mutableDeleteUserMiniJobIdsList;
+}
+- (NSString*)deleteUserMiniJobIdsAtIndex:(NSUInteger)index {
+  return [mutableDeleteUserMiniJobIdsList objectAtIndex:index];
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  [self.deleteUserMiniJobIdsList enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+    [output writeString:2 value:element];
+  }];
+  if (self.hasItemId) {
+    [output writeInt32:3 value:self.itemId];
+  }
+  if (self.hasNumToSpawn) {
+    [output writeInt32:4 value:self.numToSpawn];
+  }
+  if (self.hasGemsSpent) {
+    [output writeInt32:5 value:self.gemsSpent];
+  }
+  if (self.hasMinQualitySpawned) {
+    [output writeEnum:6 value:self.minQualitySpawned];
+  }
+  if (self.hasClientTime) {
+    [output writeInt64:7 value:self.clientTime];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasSender) {
+    size_ += computeMessageSize(1, self.sender);
+  }
+  {
+    __block SInt32 dataSize = 0;
+    const NSUInteger count = self.deleteUserMiniJobIdsList.count;
+    [self.deleteUserMiniJobIdsList enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+      dataSize += computeStringSizeNoTag(element);
+    }];
+    size_ += dataSize;
+    size_ += (SInt32)(1 * count);
+  }
+  if (self.hasItemId) {
+    size_ += computeInt32Size(3, self.itemId);
+  }
+  if (self.hasNumToSpawn) {
+    size_ += computeInt32Size(4, self.numToSpawn);
+  }
+  if (self.hasGemsSpent) {
+    size_ += computeInt32Size(5, self.gemsSpent);
+  }
+  if (self.hasMinQualitySpawned) {
+    size_ += computeEnumSize(6, self.minQualitySpawned);
+  }
+  if (self.hasClientTime) {
+    size_ += computeInt64Size(7, self.clientTime);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (RefreshMiniJobRequestProto*) parseFromData:(NSData*) data {
+  return (RefreshMiniJobRequestProto*)[[[RefreshMiniJobRequestProto builder] mergeFromData:data] build];
+}
++ (RefreshMiniJobRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RefreshMiniJobRequestProto*)[[[RefreshMiniJobRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (RefreshMiniJobRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (RefreshMiniJobRequestProto*)[[[RefreshMiniJobRequestProto builder] mergeFromInputStream:input] build];
+}
++ (RefreshMiniJobRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RefreshMiniJobRequestProto*)[[[RefreshMiniJobRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RefreshMiniJobRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (RefreshMiniJobRequestProto*)[[[RefreshMiniJobRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (RefreshMiniJobRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RefreshMiniJobRequestProto*)[[[RefreshMiniJobRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RefreshMiniJobRequestProto_Builder*) builder {
+  return [[RefreshMiniJobRequestProto_Builder alloc] init];
+}
++ (RefreshMiniJobRequestProto_Builder*) builderWithPrototype:(RefreshMiniJobRequestProto*) prototype {
+  return [[RefreshMiniJobRequestProto builder] mergeFrom:prototype];
+}
+- (RefreshMiniJobRequestProto_Builder*) builder {
+  return [RefreshMiniJobRequestProto builder];
+}
+- (RefreshMiniJobRequestProto_Builder*) toBuilder {
+  return [RefreshMiniJobRequestProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasSender) {
+    [output appendFormat:@"%@%@ {\n", indent, @"sender"];
+    [self.sender writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  [self.deleteUserMiniJobIdsList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"deleteUserMiniJobIds", obj];
+  }];
+  if (self.hasItemId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"itemId", [NSNumber numberWithInteger:self.itemId]];
+  }
+  if (self.hasNumToSpawn) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"numToSpawn", [NSNumber numberWithInteger:self.numToSpawn]];
+  }
+  if (self.hasGemsSpent) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"gemsSpent", [NSNumber numberWithInteger:self.gemsSpent]];
+  }
+  if (self.hasMinQualitySpawned) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"minQualitySpawned", [NSNumber numberWithInteger:self.minQualitySpawned]];
+  }
+  if (self.hasClientTime) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"clientTime", [NSNumber numberWithLongLong:self.clientTime]];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[RefreshMiniJobRequestProto class]]) {
+    return NO;
+  }
+  RefreshMiniJobRequestProto *otherMessage = other;
+  return
+      self.hasSender == otherMessage.hasSender &&
+      (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
+      [self.deleteUserMiniJobIdsList isEqualToArray:otherMessage.deleteUserMiniJobIdsList] &&
+      self.hasItemId == otherMessage.hasItemId &&
+      (!self.hasItemId || self.itemId == otherMessage.itemId) &&
+      self.hasNumToSpawn == otherMessage.hasNumToSpawn &&
+      (!self.hasNumToSpawn || self.numToSpawn == otherMessage.numToSpawn) &&
+      self.hasGemsSpent == otherMessage.hasGemsSpent &&
+      (!self.hasGemsSpent || self.gemsSpent == otherMessage.gemsSpent) &&
+      self.hasMinQualitySpawned == otherMessage.hasMinQualitySpawned &&
+      (!self.hasMinQualitySpawned || self.minQualitySpawned == otherMessage.minQualitySpawned) &&
+      self.hasClientTime == otherMessage.hasClientTime &&
+      (!self.hasClientTime || self.clientTime == otherMessage.clientTime) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasSender) {
+    hashCode = hashCode * 31 + [self.sender hash];
+  }
+  [self.deleteUserMiniJobIdsList enumerateObjectsUsingBlock:^(id element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  if (self.hasItemId) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.itemId] hash];
+  }
+  if (self.hasNumToSpawn) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.numToSpawn] hash];
+  }
+  if (self.hasGemsSpent) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.gemsSpent] hash];
+  }
+  if (self.hasMinQualitySpawned) {
+    hashCode = hashCode * 31 + self.minQualitySpawned;
+  }
+  if (self.hasClientTime) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.clientTime] hash];
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+@interface RefreshMiniJobRequestProto_Builder()
+@property (strong) RefreshMiniJobRequestProto* result;
+@end
+
+@implementation RefreshMiniJobRequestProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[RefreshMiniJobRequestProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (RefreshMiniJobRequestProto_Builder*) clear {
+  self.result = [[RefreshMiniJobRequestProto alloc] init];
+  return self;
+}
+- (RefreshMiniJobRequestProto_Builder*) clone {
+  return [RefreshMiniJobRequestProto builderWithPrototype:result];
+}
+- (RefreshMiniJobRequestProto*) defaultInstance {
+  return [RefreshMiniJobRequestProto defaultInstance];
+}
+- (RefreshMiniJobRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (RefreshMiniJobRequestProto*) buildPartial {
+  RefreshMiniJobRequestProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (RefreshMiniJobRequestProto_Builder*) mergeFrom:(RefreshMiniJobRequestProto*) other {
+  if (other == [RefreshMiniJobRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.mutableDeleteUserMiniJobIdsList.count > 0) {
+    if (result.mutableDeleteUserMiniJobIdsList == nil) {
+      result.mutableDeleteUserMiniJobIdsList = [[NSMutableArray alloc] initWithArray:other.mutableDeleteUserMiniJobIdsList];
+    } else {
+      [result.mutableDeleteUserMiniJobIdsList addObjectsFromArray:other.mutableDeleteUserMiniJobIdsList];
+    }
+  }
+  if (other.hasItemId) {
+    [self setItemId:other.itemId];
+  }
+  if (other.hasNumToSpawn) {
+    [self setNumToSpawn:other.numToSpawn];
+  }
+  if (other.hasGemsSpent) {
+    [self setGemsSpent:other.gemsSpent];
+  }
+  if (other.hasMinQualitySpawned) {
+    [self setMinQualitySpawned:other.minQualitySpawned];
+  }
+  if (other.hasClientTime) {
+    [self setClientTime:other.clientTime];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (RefreshMiniJobRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (RefreshMiniJobRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        [self addDeleteUserMiniJobIds:[input readString]];
+        break;
+      }
+      case 24: {
+        [self setItemId:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setNumToSpawn:[input readInt32]];
+        break;
+      }
+      case 40: {
+        [self setGemsSpent:[input readInt32]];
+        break;
+      }
+      case 48: {
+        Quality value = (Quality)[input readEnum];
+        if (QualityIsValidValue(value)) {
+          [self setMinQualitySpawned:value];
+        } else {
+          [unknownFields mergeVarintField:6 value:value];
+        }
+        break;
+      }
+      case 56: {
+        [self setClientTime:[input readInt64]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (RefreshMiniJobRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (RefreshMiniJobRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (RefreshMiniJobRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (RefreshMiniJobRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (NSMutableArray *)deleteUserMiniJobIdsList {
+  return result.mutableDeleteUserMiniJobIdsList;
+}
+- (NSString*)deleteUserMiniJobIdsAtIndex:(NSUInteger)index {
+  return [result deleteUserMiniJobIdsAtIndex:index];
+}
+- (RefreshMiniJobRequestProto_Builder *)addDeleteUserMiniJobIds:(NSString*)value {
+  if (result.mutableDeleteUserMiniJobIdsList == nil) {
+    result.mutableDeleteUserMiniJobIdsList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableDeleteUserMiniJobIdsList addObject:value];
+  return self;
+}
+- (RefreshMiniJobRequestProto_Builder *)addAllDeleteUserMiniJobIds:(NSArray *)array {
+  if (result.mutableDeleteUserMiniJobIdsList == nil) {
+    result.mutableDeleteUserMiniJobIdsList = [NSMutableArray array];
+  }
+  [result.mutableDeleteUserMiniJobIdsList addObjectsFromArray:array];
+  return self;
+}
+- (RefreshMiniJobRequestProto_Builder *)clearDeleteUserMiniJobIds {
+  result.mutableDeleteUserMiniJobIdsList = nil;
+  return self;
+}
+- (BOOL) hasItemId {
+  return result.hasItemId;
+}
+- (int32_t) itemId {
+  return result.itemId;
+}
+- (RefreshMiniJobRequestProto_Builder*) setItemId:(int32_t) value {
+  result.hasItemId = YES;
+  result.itemId = value;
+  return self;
+}
+- (RefreshMiniJobRequestProto_Builder*) clearItemId {
+  result.hasItemId = NO;
+  result.itemId = 0;
+  return self;
+}
+- (BOOL) hasNumToSpawn {
+  return result.hasNumToSpawn;
+}
+- (int32_t) numToSpawn {
+  return result.numToSpawn;
+}
+- (RefreshMiniJobRequestProto_Builder*) setNumToSpawn:(int32_t) value {
+  result.hasNumToSpawn = YES;
+  result.numToSpawn = value;
+  return self;
+}
+- (RefreshMiniJobRequestProto_Builder*) clearNumToSpawn {
+  result.hasNumToSpawn = NO;
+  result.numToSpawn = 0;
+  return self;
+}
+- (BOOL) hasGemsSpent {
+  return result.hasGemsSpent;
+}
+- (int32_t) gemsSpent {
+  return result.gemsSpent;
+}
+- (RefreshMiniJobRequestProto_Builder*) setGemsSpent:(int32_t) value {
+  result.hasGemsSpent = YES;
+  result.gemsSpent = value;
+  return self;
+}
+- (RefreshMiniJobRequestProto_Builder*) clearGemsSpent {
+  result.hasGemsSpent = NO;
+  result.gemsSpent = 0;
+  return self;
+}
+- (BOOL) hasMinQualitySpawned {
+  return result.hasMinQualitySpawned;
+}
+- (Quality) minQualitySpawned {
+  return result.minQualitySpawned;
+}
+- (RefreshMiniJobRequestProto_Builder*) setMinQualitySpawned:(Quality) value {
+  result.hasMinQualitySpawned = YES;
+  result.minQualitySpawned = value;
+  return self;
+}
+- (RefreshMiniJobRequestProto_Builder*) clearMinQualitySpawnedList {
+  result.hasMinQualitySpawned = NO;
+  result.minQualitySpawned = QualityNoQuality;
+  return self;
+}
+- (BOOL) hasClientTime {
+  return result.hasClientTime;
+}
+- (int64_t) clientTime {
+  return result.clientTime;
+}
+- (RefreshMiniJobRequestProto_Builder*) setClientTime:(int64_t) value {
+  result.hasClientTime = YES;
+  result.clientTime = value;
+  return self;
+}
+- (RefreshMiniJobRequestProto_Builder*) clearClientTime {
+  result.hasClientTime = NO;
+  result.clientTime = 0L;
+  return self;
+}
+@end
+
+@interface RefreshMiniJobResponseProto ()
+@property (strong) MinimumUserProto* sender;
+@property (strong) NSMutableArray * mutableMiniJobsList;
+@property RefreshMiniJobResponseProto_RefreshMiniJobStatus status;
+@end
+
+@implementation RefreshMiniJobResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value_ {
+  hasSender_ = !!value_;
+}
+@synthesize sender;
+@synthesize mutableMiniJobsList;
+@dynamic miniJobsList;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value_ {
+  hasStatus_ = !!value_;
+}
+@synthesize status;
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = RefreshMiniJobResponseProto_RefreshMiniJobStatusSuccess;
+  }
+  return self;
+}
+static RefreshMiniJobResponseProto* defaultRefreshMiniJobResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [RefreshMiniJobResponseProto class]) {
+    defaultRefreshMiniJobResponseProtoInstance = [[RefreshMiniJobResponseProto alloc] init];
+  }
+}
++ (RefreshMiniJobResponseProto*) defaultInstance {
+  return defaultRefreshMiniJobResponseProtoInstance;
+}
+- (RefreshMiniJobResponseProto*) defaultInstance {
+  return defaultRefreshMiniJobResponseProtoInstance;
+}
+- (NSArray *)miniJobsList {
+  return mutableMiniJobsList;
+}
+- (UserMiniJobProto*)miniJobsAtIndex:(NSUInteger)index {
+  return [mutableMiniJobsList objectAtIndex:index];
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  [self.miniJobsList enumerateObjectsUsingBlock:^(UserMiniJobProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:2 value:element];
+  }];
+  if (self.hasStatus) {
+    [output writeEnum:3 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasSender) {
+    size_ += computeMessageSize(1, self.sender);
+  }
+  [self.miniJobsList enumerateObjectsUsingBlock:^(UserMiniJobProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(2, element);
+  }];
+  if (self.hasStatus) {
+    size_ += computeEnumSize(3, self.status);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (RefreshMiniJobResponseProto*) parseFromData:(NSData*) data {
+  return (RefreshMiniJobResponseProto*)[[[RefreshMiniJobResponseProto builder] mergeFromData:data] build];
+}
++ (RefreshMiniJobResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RefreshMiniJobResponseProto*)[[[RefreshMiniJobResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (RefreshMiniJobResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (RefreshMiniJobResponseProto*)[[[RefreshMiniJobResponseProto builder] mergeFromInputStream:input] build];
+}
++ (RefreshMiniJobResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RefreshMiniJobResponseProto*)[[[RefreshMiniJobResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RefreshMiniJobResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (RefreshMiniJobResponseProto*)[[[RefreshMiniJobResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (RefreshMiniJobResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RefreshMiniJobResponseProto*)[[[RefreshMiniJobResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RefreshMiniJobResponseProto_Builder*) builder {
+  return [[RefreshMiniJobResponseProto_Builder alloc] init];
+}
++ (RefreshMiniJobResponseProto_Builder*) builderWithPrototype:(RefreshMiniJobResponseProto*) prototype {
+  return [[RefreshMiniJobResponseProto builder] mergeFrom:prototype];
+}
+- (RefreshMiniJobResponseProto_Builder*) builder {
+  return [RefreshMiniJobResponseProto builder];
+}
+- (RefreshMiniJobResponseProto_Builder*) toBuilder {
+  return [RefreshMiniJobResponseProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasSender) {
+    [output appendFormat:@"%@%@ {\n", indent, @"sender"];
+    [self.sender writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  [self.miniJobsList enumerateObjectsUsingBlock:^(UserMiniJobProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"miniJobs"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
+  if (self.hasStatus) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[RefreshMiniJobResponseProto class]]) {
+    return NO;
+  }
+  RefreshMiniJobResponseProto *otherMessage = other;
+  return
+      self.hasSender == otherMessage.hasSender &&
+      (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
+      [self.miniJobsList isEqualToArray:otherMessage.miniJobsList] &&
+      self.hasStatus == otherMessage.hasStatus &&
+      (!self.hasStatus || self.status == otherMessage.status) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasSender) {
+    hashCode = hashCode * 31 + [self.sender hash];
+  }
+  [self.miniJobsList enumerateObjectsUsingBlock:^(UserMiniJobProto *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  if (self.hasStatus) {
+    hashCode = hashCode * 31 + self.status;
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+BOOL RefreshMiniJobResponseProto_RefreshMiniJobStatusIsValidValue(RefreshMiniJobResponseProto_RefreshMiniJobStatus value) {
+  switch (value) {
+    case RefreshMiniJobResponseProto_RefreshMiniJobStatusSuccess:
+    case RefreshMiniJobResponseProto_RefreshMiniJobStatusFailInsufficientGems:
+    case RefreshMiniJobResponseProto_RefreshMiniJobStatusFailInsufficientItems:
+    case RefreshMiniJobResponseProto_RefreshMiniJobStatusFailOther:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface RefreshMiniJobResponseProto_Builder()
+@property (strong) RefreshMiniJobResponseProto* result;
+@end
+
+@implementation RefreshMiniJobResponseProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[RefreshMiniJobResponseProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (RefreshMiniJobResponseProto_Builder*) clear {
+  self.result = [[RefreshMiniJobResponseProto alloc] init];
+  return self;
+}
+- (RefreshMiniJobResponseProto_Builder*) clone {
+  return [RefreshMiniJobResponseProto builderWithPrototype:result];
+}
+- (RefreshMiniJobResponseProto*) defaultInstance {
+  return [RefreshMiniJobResponseProto defaultInstance];
+}
+- (RefreshMiniJobResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (RefreshMiniJobResponseProto*) buildPartial {
+  RefreshMiniJobResponseProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (RefreshMiniJobResponseProto_Builder*) mergeFrom:(RefreshMiniJobResponseProto*) other {
+  if (other == [RefreshMiniJobResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.mutableMiniJobsList.count > 0) {
+    if (result.mutableMiniJobsList == nil) {
+      result.mutableMiniJobsList = [[NSMutableArray alloc] initWithArray:other.mutableMiniJobsList];
+    } else {
+      [result.mutableMiniJobsList addObjectsFromArray:other.mutableMiniJobsList];
+    }
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (RefreshMiniJobResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (RefreshMiniJobResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        UserMiniJobProto_Builder* subBuilder = [UserMiniJobProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addMiniJobs:[subBuilder buildPartial]];
+        break;
+      }
+      case 24: {
+        RefreshMiniJobResponseProto_RefreshMiniJobStatus value = (RefreshMiniJobResponseProto_RefreshMiniJobStatus)[input readEnum];
+        if (RefreshMiniJobResponseProto_RefreshMiniJobStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:3 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (RefreshMiniJobResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (RefreshMiniJobResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (RefreshMiniJobResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (RefreshMiniJobResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (NSMutableArray *)miniJobsList {
+  return result.mutableMiniJobsList;
+}
+- (UserMiniJobProto*)miniJobsAtIndex:(NSUInteger)index {
+  return [result miniJobsAtIndex:index];
+}
+- (RefreshMiniJobResponseProto_Builder *)addMiniJobs:(UserMiniJobProto*)value {
+  if (result.mutableMiniJobsList == nil) {
+    result.mutableMiniJobsList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableMiniJobsList addObject:value];
+  return self;
+}
+- (RefreshMiniJobResponseProto_Builder *)addAllMiniJobs:(NSArray *)array {
+  if (result.mutableMiniJobsList == nil) {
+    result.mutableMiniJobsList = [NSMutableArray array];
+  }
+  [result.mutableMiniJobsList addObjectsFromArray:array];
+  return self;
+}
+- (RefreshMiniJobResponseProto_Builder *)clearMiniJobs {
+  result.mutableMiniJobsList = nil;
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (RefreshMiniJobResponseProto_RefreshMiniJobStatus) status {
+  return result.status;
+}
+- (RefreshMiniJobResponseProto_Builder*) setStatus:(RefreshMiniJobResponseProto_RefreshMiniJobStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (RefreshMiniJobResponseProto_Builder*) clearStatusList {
+  result.hasStatus = NO;
+  result.status = RefreshMiniJobResponseProto_RefreshMiniJobStatusSuccess;
   return self;
 }
 @end

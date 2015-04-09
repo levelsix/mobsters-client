@@ -31,6 +31,7 @@ typedef NS_ENUM(SInt32, ItemType) {
   ItemTypeItemCash = 3,
   ItemTypeSpeedUp = 4,
   ItemTypeBuilder = 5,
+  ItemTypeRefreshMiniJob = 6,
 };
 
 BOOL ItemTypeIsValidValue(ItemType value);
@@ -121,6 +122,7 @@ BOOL ItemTypeIsValidValue(ItemType value);
   BOOL hasShortName_:1;
   BOOL hasItemType_:1;
   BOOL hasGameActionType_:1;
+  BOOL hasQuality_:1;
   BOOL alwaysDisplayToUser_:1;
   Float32 secretGiftChance;
   int32_t itemId;
@@ -131,6 +133,7 @@ BOOL ItemTypeIsValidValue(ItemType value);
   NSString* shortName;
   ItemType itemType;
   GameActionType gameActionType;
+  Quality quality;
 }
 - (BOOL) hasItemId;
 - (BOOL) hasName;
@@ -142,6 +145,7 @@ BOOL ItemTypeIsValidValue(ItemType value);
 - (BOOL) hasAlwaysDisplayToUser;
 - (BOOL) hasGameActionType;
 - (BOOL) hasShortName;
+- (BOOL) hasQuality;
 @property (readonly) int32_t itemId;
 @property (readonly, strong) NSString* name;
 @property (readonly, strong) NSString* imgName;
@@ -152,6 +156,7 @@ BOOL ItemTypeIsValidValue(ItemType value);
 - (BOOL) alwaysDisplayToUser;
 @property (readonly) GameActionType gameActionType;
 @property (readonly, strong) NSString* shortName;
+@property (readonly) Quality quality;
 
 + (ItemProto*) defaultInstance;
 - (ItemProto*) defaultInstance;
@@ -237,6 +242,11 @@ BOOL ItemTypeIsValidValue(ItemType value);
 - (NSString*) shortName;
 - (ItemProto_Builder*) setShortName:(NSString*) value;
 - (ItemProto_Builder*) clearShortName;
+
+- (BOOL) hasQuality;
+- (Quality) quality;
+- (ItemProto_Builder*) setQuality:(Quality) value;
+- (ItemProto_Builder*) clearQualityList;
 @end
 
 @interface UserItemUsageProto : PBGeneratedMessage {
