@@ -12,6 +12,7 @@ pod 'Adjust', :git => 'git://github.com/adjust/ios_sdk.git', :tag => 'v4.0.2'
 pod 'Kamcord'
 pod 'ChartboostSDK'
 pod 'SocketRocket'
+pod 'TransitionKit', '~> 2.0.0'
 
 #pod 'Lookback', :configurations => ['Debug', 'Release']
 #pod 'LookbackSafe', :configurations => ['App Store']

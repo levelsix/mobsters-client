@@ -30,6 +30,7 @@ PODS:
   - ProtocolBuffers (1.9.2)
   - Reachability (3.2)
   - SocketRocket (0.2.0)
+  - TransitionKit (2.0.0)
   - UIImage+BlurredFrame (0.0.4)
 
 DEPENDENCIES:
@@ -44,6 +45,7 @@ DEPENDENCIES:
   - ProtocolBuffers (= 1.9.2)
   - Reachability
   - SocketRocket
+  - TransitionKit (~> 2.0.0)
   - UIImage+BlurredFrame
 
 EXTERNAL SOURCES:
@@ -57,7 +59,7 @@ CHECKOUT OPTIONS:
     :tag: v4.0.2
 
 SPEC CHECKSUMS:
-  Adjust: c7337fc450d35b0024072066d9278ff5e99cde67
+  Adjust: 62a0db081664460cd2d7e65fbb0f670c0278e944
   AFNetworking: 41d45d2c14219af0fa5addf3cfd433a002c13c9f
   Amplitude-iOS: 09a0cc0d6d137f5c27dc1a8ca0da212f37da6bd1
   ChartboostSDK: f4a056c38382a377b2de3946aa3a0c917a5fd7a0
@@ -68,6 +70,7 @@ SPEC CHECKSUMS:
   ProtocolBuffers: f3ea199412832b2ff70bbbb4288e0f70cf4ba757
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   SocketRocket: 54a4ac2f354c4e8c51ef5dcd4a13bc556d4f2b7c
+  TransitionKit: c150629869b0eab9d270f914aad2d1a088a8c19d
   UIImage+BlurredFrame: ad2f7195c6947ea3117c7d202f75a51958d5061a
 
-COCOAPODS: 0.35.0
+COCOAPODS: 0.37.2

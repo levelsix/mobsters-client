@@ -1,0 +1,89 @@
+PODS:
+  - Adjust (4.0.2)
+  - AFNetworking (2.4.1):
+    - AFNetworking/NSURLConnection (= 2.4.1)
+    - AFNetworking/NSURLSession (= 2.4.1)
+    - AFNetworking/Reachability (= 2.4.1)
+    - AFNetworking/Security (= 2.4.1)
+    - AFNetworking/Serialization (= 2.4.1)
+    - AFNetworking/UIKit (= 2.4.1)
+  - AFNetworking/NSURLConnection (2.4.1):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/NSURLSession (2.4.1):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (2.4.1)
+  - AFNetworking/Security (2.4.1)
+  - AFNetworking/Serialization (2.4.1)
+  - AFNetworking/UIKit (2.4.1):
+    - AFNetworking/NSURLConnection
+    - AFNetworking/NSURLSession
+  - Amplitude-iOS (2.2.0)
+  - ChartboostSDK (5.0.3)
+  - GPUImage (0.1.6)
+  - Kamcord (1.8.8)
+  - NRTouchPoints (0.1.0)
+  - OpenSSL (1.0.109)
+  - ProtocolBuffers (1.9.2)
+  - Reachability (3.2)
+<<<<<<< HEAD
+  - SocketRocket (0.2.0)
+=======
+  - TransitionKit (2.0.0)
+>>>>>>> Added TransitionKit to pods
+  - UIImage+BlurredFrame (0.0.4)
+
+DEPENDENCIES:
+  - Adjust (from `git://github.com/adjust/ios_sdk.git`, tag `v4.0.2`)
+  - AFNetworking (~> 2.0)
+  - Amplitude-iOS (~> 2.1)
+  - ChartboostSDK
+  - GPUImage
+  - Kamcord
+  - NRTouchPoints
+  - OpenSSL
+  - ProtocolBuffers (= 1.9.2)
+  - Reachability
+<<<<<<< HEAD
+  - SocketRocket
+=======
+  - TransitionKit (~> 2.0.0)
+>>>>>>> Added TransitionKit to pods
+  - UIImage+BlurredFrame
+
+EXTERNAL SOURCES:
+  Adjust:
+    :git: git://github.com/adjust/ios_sdk.git
+    :tag: v4.0.2
+
+CHECKOUT OPTIONS:
+  Adjust:
+    :git: git://github.com/adjust/ios_sdk.git
+    :tag: v4.0.2
+
+SPEC CHECKSUMS:
+<<<<<<< HEAD
+  Adjust: c7337fc450d35b0024072066d9278ff5e99cde67
+=======
+  Adjust: 62a0db081664460cd2d7e65fbb0f670c0278e944
+>>>>>>> Added TransitionKit to pods
+  AFNetworking: 41d45d2c14219af0fa5addf3cfd433a002c13c9f
+  Amplitude-iOS: 09a0cc0d6d137f5c27dc1a8ca0da212f37da6bd1
+  ChartboostSDK: f4a056c38382a377b2de3946aa3a0c917a5fd7a0
+  GPUImage: 4675ce4a5370ca92fcea8623b2a08b8f0c51b940
+  Kamcord: 0b6898a2f80529564cb1d6cab65ce943137e3e40
+  NRTouchPoints: e516cbf22a1b727d149cd5a916602bf1678a4958
+  OpenSSL: 330c34f9ab6e2819dc80f3a2da961e0bc8f1be19
+  ProtocolBuffers: f3ea199412832b2ff70bbbb4288e0f70cf4ba757
+  Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
+<<<<<<< HEAD
+  SocketRocket: 54a4ac2f354c4e8c51ef5dcd4a13bc556d4f2b7c
+=======
+  TransitionKit: c150629869b0eab9d270f914aad2d1a088a8c19d
+>>>>>>> Added TransitionKit to pods
+  UIImage+BlurredFrame: ad2f7195c6947ea3117c7d202f75a51958d5061a
+
+COCOAPODS: 0.36.3
