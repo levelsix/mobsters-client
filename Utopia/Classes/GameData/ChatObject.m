@@ -95,7 +95,7 @@
   [self updateInChatCell:chatCell showsClanTag:NO language:language];
   float translationSpace = 0.f;
   
-  if ((language != TranslateLanguagesNoTranslation || self.revertedTranslation) && ![self.sender.userUuid isEqualToString:gs.userUuid] && language != self.originalLanguage) {
+  if (language && (language != TranslateLanguagesNoTranslation || self.revertedTranslation) && ![self.sender.userUuid isEqualToString:gs.userUuid] && language != self.originalLanguage) {
     translationSpace = 20.f;
   }
   
