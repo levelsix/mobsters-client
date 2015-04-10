@@ -36,38 +36,33 @@
     displayLanguage = savedTranslateOn ? savedLanguage : TranslateLanguagesNoTranslation;
   }
   
-  if (displayLanguage == TranslateLanguagesNoTranslation) {
-    self.msgLabel.text = cm.message;
+  self.msgLabel.text = cm.message;
+  
+  if (displayLanguage != TranslateLanguagesNoTranslation) {
     
-  } else if ([cm isKindOfClass:[PrivateChatPostProto class]]){
-    PrivateChatPostProto *pcpp = (PrivateChatPostProto *)cm;
-    
-    if(displayLanguage == pcpp.originalContentLanguage) {
-      self.msgLabel.text = cm.message;
+    if ([cm isKindOfClass:[PrivateChatPostProto class]]){
+      PrivateChatPostProto *pcpp = (PrivateChatPostProto *)cm;
       
-    } else {
-      for (TranslatedTextProto *ttp in pcpp.translatedContentList) {
-        if (ttp.language == displayLanguage) {
-          self.msgLabel.text = ttp.text;
+      if(displayLanguage != pcpp.originalContentLanguage) {
+        for (TranslatedTextProto *ttp in pcpp.translatedContentList) {
+          if (ttp.language == displayLanguage) {
+            self.msgLabel.text = ttp.text;
+            break;
+          }
+        }
+      }
+    } else if ([cm isKindOfClass:[ChatMessage class]]) {
+      ChatMessage *chatM = (ChatMessage *)cm;
+        
+      if (displayLanguage != chatM.originalLanguage) {
+        for (TranslatedTextProto *ttp in chatM.translatedTextProtos) {
+          if (ttp.language == displayLanguage) {
+            self.msgLabel.text = ttp.text;
+            break;
+          }
         }
       }
     }
-  } else if ([cm isKindOfClass:[ChatMessage class]]) {
-    ChatMessage *chatM = (ChatMessage *)cm;
-    
-    if (displayLanguage == chatM.originalLanguage) {
-      self.msgLabel.text = chatM.originalMessage;
-      
-    } else {
-      for (TranslatedTextProto *ttp in chatM.translatedTextProtos) {
-        if (ttp.language == displayLanguage) {
-          self.msgLabel.text = ttp.text;
-        }
-      }
-    }
-    
-  } else {
-    self.msgLabel.text = cm.message;
   }
   
   self.dotIcon.hidden = !showDot;

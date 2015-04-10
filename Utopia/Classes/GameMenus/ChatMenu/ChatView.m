@@ -128,6 +128,7 @@
   if (!self.hidden && !_closing) {
     if (![self pointInside:[self convertPoint:point fromView:self] withEvent:event]) {
       [self close];
+      return nil;
     }
   }
   return [super hitTest:point withEvent:event];
@@ -355,7 +356,6 @@
       [self displayPopoverOverCell:cell];
     }
   } else {
-    [self.popoverView close];
     [self.languageSelectorView close];
   }
 }
@@ -779,16 +779,14 @@
     
     [self.delegate viewedPrivateChat];
     
-//    this is now sent by the server, or WILL be when Byron is done
-    
-//    Globals *gl = [Globals sharedGlobals];
-//    if (arr.count == 0 && [proto.otherUserUuid isEqualToString:gl.adminChatUser.userUuid]) {
-//      GroupChatMessageProto_Builder *p = [GroupChatMessageProto builder];
-//      p.sender = [[[MinimumUserProtoWithLevel builder] setMinUserProto:gl.adminChatUser] build];
-//      p.content = @"Hey there! I'll be with you shortly. What can I help you with today?";
-//      p.timeOfChat = [[MSDate date] timeIntervalSince1970]*1000;
-//      [arr addObject:[[ChatMessage alloc] initWithProto:p.build]];
-//    }
+    Globals *gl = [Globals sharedGlobals];
+    if (arr.count == 0 && [proto.otherUserUuid isEqualToString:gl.adminChatUser.userUuid]) {
+      GroupChatMessageProto_Builder *p = [GroupChatMessageProto builder];
+      p.sender = [[[MinimumUserProtoWithLevel builder] setMinUserProto:gl.adminChatUser] build];
+      p.content = @"Hey there! I'll be with you shortly. What can I help you with today?";
+      p.timeOfChat = [[MSDate date] timeIntervalSince1970]*1000;
+      [arr addObject:[[ChatMessage alloc] initWithProto:p.build]];
+    }
     
     self.baseChats = arr;
     [self updateForChats:arr animated:NO];
@@ -1078,7 +1076,7 @@
   [gs.privateTranslationOn setValue:@(markChecked) forKey:self.curUserUuid];
   
   NSArray *untranslatedMessages = [self privateChatPostsForMessages:[self getMessagesInNeedOfTranslationWithLanguage:language]];
-  [[OutgoingEventController sharedOutgoingEventController] translateSelectMessages:untranslatedMessages language:language otherUserUuid:nil chatType:ChatTypeGlobalChat translateOn:markChecked delegate:self];
+  [[OutgoingEventController sharedOutgoingEventController] translateSelectMessages:untranslatedMessages language:language otherUserUuid:self.curUserUuid chatType:ChatTypePrivateChat translateOn:markChecked delegate:self];
   
   [self lockLanguageButtonWithFlag:[Globals flagImageNameForLanguage:language] greyScale:!markChecked];
   self.flagCheckImage.hidden = !markChecked;
@@ -1123,8 +1121,10 @@
   TranslateSelectMessagesResponseProto *tsmrp = (TranslateSelectMessagesResponseProto *)fe.event;
   
   for (PrivateChatPostProto *pcpp in tsmrp.messagesTranslatedList) {
+    [gs addPrivateChat:pcpp];
+    
     for (ChatMessage *message in self.chats) {
-      if ([message.postUuid isEqualToString:pcpp.privateChatPostUuid]) {
+      if ([message isKindOfClass:[ChatMessage class]] && [message.postUuid isEqualToString:pcpp.privateChatPostUuid]) {
         [message.translatedTextProtos addObjectsFromArray:pcpp.translatedContentList];
         break;
       }
