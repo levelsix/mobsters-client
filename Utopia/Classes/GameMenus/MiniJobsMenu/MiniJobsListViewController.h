@@ -13,6 +13,7 @@
 #import "MiniJobsDetailsViewController.h"
 #import "MiniJobsCompleteViewController.h"
 #import "SpeedupItemsFiller.h"
+#import "MiniJobRefreshItemsFiller.h"
 
 @interface MiniJobsListCell : UITableViewCell
 
@@ -51,7 +52,7 @@
 
 @end
 
-@interface MiniJobsListViewController : PopupSubViewController <UITableViewDelegate, UITableViewDataSource, MiniJobsDetailsDelegate, MiniJobsCompleteDelegate, SpeedupItemsFillerDelegate> {
+@interface MiniJobsListViewController : PopupSubViewController <UITableViewDelegate, UITableViewDataSource, MiniJobsDetailsDelegate, MiniJobsCompleteDelegate, SpeedupItemsFillerDelegate, RefreshItemsFillerDelegate> {
   MiniJobsListCell *_selectedCell;
   BOOL _itemSelectClosedProgrammatically;
   BOOL _isBeginningJob;

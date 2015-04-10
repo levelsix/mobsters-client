@@ -632,4 +632,33 @@
   [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:self];
 }
 
+#pragma mark - Refresh Items
+
+- (IBAction)refreshClicked:(id)sender {
+  ItemSelectViewController *svc = [[ItemSelectViewController alloc] init];
+  if (svc) {
+    MiniJobRefreshItemsFiller *rif = [[MiniJobRefreshItemsFiller alloc] init];
+    rif.delegate = self;
+    svc.delegate = rif;
+    self.itemSelectViewController = svc;
+    
+    GameViewController *gvc = [GameViewController baseController];
+    svc.view.frame = gvc.view.bounds;
+    [gvc addChildViewController:svc];
+    [gvc.view addSubview:svc.view];
+    
+    if (sender == nil)
+    {
+      [svc showCenteredOnScreen];
+    }
+    else
+    {
+      UIButton* invokingButton = (UIButton*)sender;
+      [svc showAnchoredToInvokingView:invokingButton
+                        withDirection:ViewAnchoringPreferLeftPlacement
+                    inkovingViewImage:[invokingButton backgroundImageForState:invokingButton.state]];
+    }
+  }
+}
+
 @end

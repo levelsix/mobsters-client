@@ -7,7 +7,20 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ItemSelectViewController.h"
 
-@interface MiniJobRefreshItemsFiller : NSObject
+@protocol RefreshItemsFillerDelegate <NSObject>
+
+- (void) itemSelectClosed:(id)viewController;
+@optional
+- (void) refreshItemUsed:(id<ItemObject>)itemObject viewController:(ItemSelectViewController *)viewController;
+
+@end
+
+@interface MiniJobRefreshItemsFiller : NSObject <ItemSelectDelegate, GemsItemDelegate>
+
+@property (nonatomic, retain) NSMutableDictionary *usedItems;
+
+@property (nonatomic, assign) id<RefreshItemsFillerDelegate> delegate;
 
 @end
