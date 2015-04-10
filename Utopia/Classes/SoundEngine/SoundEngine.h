@@ -36,7 +36,9 @@ typedef enum {
 - (void) playMissionMapMusic;
 - (void) playBattleMusic;
 
-+ (void) dialogueBoxOpenIsGood:(BOOL)good;
++ (void) tutorialFirstGoodDialogue;
++ (void) tutorialFirstBadDialogue;
++ (void) dialogueBoxOpen;
 + (void) spriteJump;
 + (void) tutorialBoatScene;
 

@@ -121,8 +121,16 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(SoundEngine);
   }
 }
 
-+ (void) dialogueBoxOpenIsGood:(BOOL)good {
-  [[SoundEngine sharedSoundEngine] playEffect:good ? @"pop_in_good.mp3" : @"pop_in_bad.mp3"];
++ (void) tutorialFirstGoodDialogue {
+  [[SoundEngine sharedSoundEngine] playEffect:@"pop_in_good.mp3"];
+}
+
++ (void) tutorialFirstBadDialogue {
+  [[SoundEngine sharedSoundEngine] playEffect:@"pop_in_bad.mp3"];
+}
+
++ (void) dialogueBoxOpen {
+  [[SoundEngine sharedSoundEngine] playEffect:@"sfx_dialogue_box.mp3"];
 }
 
 + (void) spriteJump {
