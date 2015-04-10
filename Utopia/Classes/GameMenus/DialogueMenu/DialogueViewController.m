@@ -367,8 +367,7 @@
     self.speechBubble.alpha = 1.f;
   }];
   
-  BOOL isGood = CGAffineTransformIsIdentity(self.view.transform);
-  [SoundEngine dialogueBoxOpenIsGood:isGood];
+  [SoundEngine dialogueBoxOpen];
 }
 
 - (void) animationDidStop:(CAAnimation *)anim finished:(BOOL)flag {

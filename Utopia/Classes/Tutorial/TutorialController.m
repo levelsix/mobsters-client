@@ -491,6 +491,8 @@ static int timesCloseClicked = 0;
   
   [self.homeMap centerOnGuide];
   
+  [SoundEngine tutorialFirstGoodDialogue];
+  
   self.currentStep = TutorialStepGuideGreeting;
 }
 
@@ -503,6 +505,8 @@ static int timesCloseClicked = 0;
 - (void) beginEnemyBossThreatPhase {
   NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemyBoss3), @"What's up, peasants? Nice island. I will be taking it now."];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
+  
+  [SoundEngine tutorialFirstBadDialogue];
   
   self.currentStep = TutorialStepEnemyBossThreat;
 }
