@@ -788,4 +788,11 @@
   return [SkillController specialTilesOnBoardCount:type layout:self.battleLayer.orbLayer.layout];
 }
 
+- (BOOL)sameAsActiveSkill
+{
+  SkillController *activeSkill = self.belongsToPlayer ? skillManager.playerSkillControler : skillManager.enemySkillControler;
+  if (!activeSkill || self == activeSkill) return NO;
+  return [activeSkill isKindOfClass:[activeSkill class]];
+}
+
 @end
