@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1514" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
@@ -55,6 +55,29 @@
                                         <rect key="frame" x="22" y="0.0" width="226" height="113"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     </imageView>
+                                    <view contentMode="scaleToFill" id="eOt-Pr-CAc" userLabel="TranslationButton">
+                                        <rect key="frame" x="19" y="87" width="226" height="14"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Translated to Russian" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="poo-wy-AuX" customClass="NiceFontLabel17">
+                                                <rect key="frame" x="22" y="0.0" width="107" height="14"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                                <color key="textColor" red="0.41960784313725491" green="0.41960784313725491" blue="0.41960784313725491" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="kVR-aV-8sy">
+                                                <rect key="frame" x="0.0" y="-4" width="14" height="22"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <state key="normal" image="translatedfrom.png">
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="untranslateClicked:" destination="-1" eventType="touchUpInside" id="NPt-LU-1Fg"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
@@ -118,6 +141,8 @@
                 <outlet property="msgLabel" destination="Juf-fn-qu5" id="Cwk-cg-WvX"/>
                 <outlet property="nameLabel" destination="hlT-50-Pb5" id="fM5-7b-SFf"/>
                 <outlet property="timeLabel" destination="aq2-YW-FPt" id="thu-Ns-wDZ"/>
+                <outlet property="translationDescription" destination="poo-wy-AuX" id="5oG-JX-uYk"/>
+                <outlet property="untranslateButton" destination="kVR-aV-8sy" id="DVP-WE-Rw5"/>
             </connections>
             <point key="canvasLocation" x="454.5" y="435"/>
         </tableViewCell>
@@ -132,6 +157,7 @@
         <image name="greychattail.png" width="23" height="17"/>
         <image name="greywhite3.png" width="2" height="2"/>
         <image name="nightavatar.png" width="30" height="30"/>
+        <image name="translatedfrom.png" width="14" height="14"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

@@ -1116,7 +1116,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
         msg = @"Unaccepted code.";
       }
     } else {
-      [[SocketCommunication sharedSocketCommunication] sendGroupChatMessage:scope message:msg clientTime:[self getCurrentMilliseconds]];
+      [[SocketCommunication sharedSocketCommunication] sendGroupChatMessage:scope message:msg clientTime:[self getCurrentMilliseconds] globalLanguage:gs.globalLanguage];
     }
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.35f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
@@ -1132,17 +1132,24 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [[SocketCommunication sharedSocketCommunication] sendDevRequestProto:req staticDataId:staticDataId quantity:quantity];
 }
 
-- (void) privateChatPost:(NSString *)recipientUuid content:(NSString *)content {
+- (void) privateChatPost:(NSString *)recipientUuid content:(NSString *)content originalLanguage:(TranslateLanguages)originalLanguage{
   GameState *gs = [GameState sharedGameState];
   if ([recipientUuid isEqualToString:gs.userUuid]) {
     [Globals popupMessage:@"You are not allowed to send private chats to yourself."];
   } else {
-    [[SocketCommunication sharedSocketCommunication] sendPrivateChatPostMessage:recipientUuid content:content];
+    [[SocketCommunication sharedSocketCommunication] sendPrivateChatPostMessage:recipientUuid content:content originalLanguage:originalLanguage];
   }
 }
 
 - (void) retrievePrivateChatPosts:(NSString *)otherUserUuid delegate:(id)delegate {
-  int tag = [[SocketCommunication sharedSocketCommunication] sendRetrievePrivateChatPostsMessage:otherUserUuid];
+  GameState *gs  = [GameState sharedGameState];
+  
+  int tag = [[SocketCommunication sharedSocketCommunication] sendRetrievePrivateChatPostsMessage:otherUserUuid language:[gs languageForUser:otherUserUuid]];
+  [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
+}
+
+- (void) translateSelectMessages:(NSArray *)messages language:(TranslateLanguages)language otherUserUuid:(NSString *)otherUserUuid chatType:(ChatType)chatType translateOn:(BOOL)translateOn delegate:(id)delegate {
+  int tag = [[SocketCommunication sharedSocketCommunication] sendTranslateSelectMessages:otherUserUuid language:language messages:messages chatType:chatType translateOn:translateOn];
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
 }
 

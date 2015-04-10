@@ -184,6 +184,8 @@
   [center addObserver:self selector:@selector(updateClanChatBadge) name:CLAN_CHAT_VIEWED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(privateChatViewed) name:PRIVATE_CHAT_VIEWED_NOTIFICATION object:nil];
   
+  [center addObserver:self selector:@selector(reloadChatViewAnimated) name:CHAT_LANGUAGE_CHANGED object:nil];
+  
   [center addObserver:self selector:@selector(showPrivateChatNotification:) name:PRIVATE_CHAT_RECEIVED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(showNewBattleHistory:) name:NEW_BATTLE_HISTORY_NOTIFICATION object:nil];
   [self.chatBottomView reloadData];

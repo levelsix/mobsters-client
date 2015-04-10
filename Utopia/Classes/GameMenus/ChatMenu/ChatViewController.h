@@ -13,6 +13,7 @@
 
 #import "MonsterSelectViewController.h"
 #import "TeamDonateMonstersFiller.h"
+#import "ChatView.h"
 
 @interface ChatMainView : PopupShadowView
 
@@ -27,7 +28,7 @@
 
 @end
 
-@interface ChatViewController : UIViewController <TabBarDelegate, UITextFieldDelegate, TeamDonateMonstersFillerDelegate> {
+@interface ChatViewController : UIViewController <TabBarDelegate, UITextFieldDelegate, TeamDonateMonstersFillerDelegate, ChatViewDelegate> {
   BOOL _passedThreshold;
   
   NSString *_muteUserUuid;
@@ -50,6 +51,9 @@
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
 @property (nonatomic, retain) IBOutlet ChatPopoverView *popoverView;
+
+@property (nonatomic, retain) IBOutlet ChatLanguageSelector *languageSelectorView;
+@property (nonatomic, retain) IBOutlet UIButton *flagButton;
 
 @property (nonatomic, retain) NSTimer *updateTimer;
 

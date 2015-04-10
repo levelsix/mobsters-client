@@ -71,7 +71,7 @@
   return [[self clanChatPrivateChat] markAsRead];
 }
 
-- (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag {
+- (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag language:(TranslateLanguages)language{
   
   NSString *nibName = @"ChatTeamDonateView";
   ChatTeamDonateView *v = [chatCell dequeueChatSubview:nibName];
@@ -85,8 +85,8 @@
   [chatCell updateForMessage:self.message sender:self.sender date:self.date showsClanTag:showsClanTag allowHighlight:YES chatSubview:v identifier:nibName];
 }
 
-- (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell {
-  [self updateInChatCell:chatCell showsClanTag:YES];
+- (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell language:(TranslateLanguages)language{
+  [self updateInChatCell:chatCell showsClanTag:YES language:language];
   return CGRectGetMaxY(chatCell.currentChatSubview.frame)+14.f;
 }
 
