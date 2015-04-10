@@ -1914,18 +1914,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     } else {
       _researchTimer = [NSTimer timerWithTimeInterval:researchForTimer.tentativeCompletionDate.timeIntervalSinceNow target:self selector:@selector(researchWaitTimeComplete) userInfo:nil repeats:NO];
       [[NSRunLoop mainRunLoop] addTimer:_researchTimer forMode:NSRunLoopCommonModes];
-      
-      NSLog(@"TIMER STARTED %f", researchForTimer.tentativeCompletionDate.timeIntervalSinceNow);
     }
   }
 }
 
 - (void) researchWaitTimeComplete {
   UserResearch *ur = [self.researchUtil currentResearch];
-  NSLog(@"TIMER FIRED1: %f", [ur.tentativeCompletionDate timeIntervalSinceNow]);
   if (ur && [ur.tentativeCompletionDate timeIntervalSinceNow] <= TIMER_EPSILON) {
-    
-    NSLog(@"TIMER FIRED2");
     
     [[OutgoingEventController sharedOutgoingEventController] finishResearch:ur useGems:NO delegate:nil];
     
