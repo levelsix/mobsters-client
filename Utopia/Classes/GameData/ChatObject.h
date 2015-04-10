@@ -43,6 +43,7 @@
 - (NSString *)message;
 - (void)setMessage:(NSString *)message;
 @property (nonatomic, retain) MSDate *date;
+@property (nonatomic, retain) MinimumUserProtoWithLevel *originalPoster;
 @property (nonatomic, assign) BOOL isAdmin;
 @property (nonatomic, assign) BOOL isRead;
 @property (nonatomic, assign) TranslateLanguages originalLanguage;

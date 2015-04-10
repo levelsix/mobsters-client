@@ -212,11 +212,12 @@ static float buttonInitialWidth = 159.f;
 @implementation PrivateChatListCell
 
 - (void) updateForPrivateChat:(id<ChatObject>)pcpp language:(TranslateLanguages)language{
+  PrivateChatPostProto *postProto = (PrivateChatPostProto *)pcpp;
   if(language != TranslateLanguagesNoTranslation) {
-    PrivateChatPostProto *postProto = (PrivateChatPostProto *)pcpp;
     for (TranslatedTextProto *ttp in postProto.translatedContentList) {
       if(ttp.language == language) {
         self.msgLabel.text = ttp.text;
+        break;
       }
     }
   } else {
