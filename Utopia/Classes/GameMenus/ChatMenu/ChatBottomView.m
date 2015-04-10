@@ -25,17 +25,18 @@
   self.nameLabel.text = [NSString stringWithFormat:@"%@%@: ", showDot ? @"    " : @"", cm.sender.name];
   
   TranslateLanguages displayLanguage = TranslateLanguagesNoTranslation;
-  
-  if (scope == ChatScopeGlobal) {
-    displayLanguage = gs.globalTranslationOn ? gs.globalLanguage : TranslateLanguagesNoTranslation;
-  } else if (scope == ChatScopePrivate) {
-    
-    TranslateLanguages savedLanguage = [gs languageForUser:cm.sender.userUuid];
-    BOOL savedTranslateOn = [gs translateOnForUser:cm.sender.userUuid];
+  if (![cm.sender.userUuid isEqualToString:gs.minUser.userUuid]) {
+    if (scope == ChatScopeGlobal) {
+        displayLanguage = gs.globalTranslationOn ? gs.globalLanguage : TranslateLanguagesNoTranslation;
+    } else if (scope == ChatScopePrivate) {
+      
+      TranslateLanguages savedLanguage = [gs languageForUser:cm.sender.userUuid];
+      BOOL savedTranslateOn = [gs translateOnForUser:cm.sender.userUuid];
 
-    displayLanguage = savedTranslateOn ? savedLanguage : TranslateLanguagesNoTranslation;
+      displayLanguage = savedTranslateOn ? savedLanguage : TranslateLanguagesNoTranslation;
+    }
   }
-  
+
   self.msgLabel.text = cm.message;
   
   if (displayLanguage != TranslateLanguagesNoTranslation) {
