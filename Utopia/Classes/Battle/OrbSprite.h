@@ -43,7 +43,7 @@ static const float orbUpdateAnimDuration = 0.3f;
 
 - (void) resetOrbSpriteScale;
 - (void) removeLockElementsWithBlock:(dispatch_block_t)completion;
-- (void) removeVineElements;
+- (void) removeVineElementsWithBlock:(dispatch_block_t)completion;
 
 - (void) playVineExpansion:(NSString*)directionString withCompletion:(void(^)())withCompletion;
 

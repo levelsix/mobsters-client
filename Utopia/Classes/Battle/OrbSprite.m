@@ -255,14 +255,22 @@
     fadeOut, [CCActionRemove action], nil]];
 }
 
-- (void) removeVineElements {
+- (void) removeVineElementsWithBlock:(dispatch_block_t)completion {
+  
   
   CCActionEaseInOut *fadeOut = [CCActionEaseInOut actionWithAction:[CCActionFadeOut actionWithDuration:LOCK_REMOVE_TIME]];
   
   [_vinesSprite runAction:
    [CCActionSequence actions:
-    fadeOut, [CCActionRemove action], nil]];
+    fadeOut,
+    [CCActionCallBlock actionWithBlock:
+     ^{
+       if (completion) {
+         completion();
+       }
+     }], [CCActionRemove action], nil]];
   
+  _vinesSprite = nil;
 }
 
 - (void) loadDamageMultiplierElements
