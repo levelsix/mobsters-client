@@ -37,7 +37,7 @@
   _completion = completion;
   
   TopBarViewController *tvc = [[GameViewController baseController] topBarViewController];
-  [tvc.view addSubview:self];
+  [tvc.view insertSubview:self aboveSubview:tvc.expView];
   self.originX = tvc.expView.originX;
   self.originY = CGRectGetMaxY(tvc.expView.frame)-8.f;
   

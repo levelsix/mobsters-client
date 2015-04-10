@@ -84,6 +84,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
 - (void) asyncDownloadFile:(NSString *)imageName completion:(void (^)(BOOL success))completed {
   // Get an image from the URL below
   dispatch_async(_asyncQueue, ^{
+
     BOOL success = !![self downloadFile:imageName];
     dispatch_async(dispatch_get_main_queue(), ^(void) {
       if (completed) {

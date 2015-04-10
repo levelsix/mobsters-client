@@ -151,6 +151,7 @@
   
   UIColor *greenColor = [UIColor colorWithRed:48/255.f green:144/255.f blue:0.f alpha:1.f];
   UIColor *redColor = [UIColor colorWithRed:219/255.f green:1/255.f blue:0.f alpha:1.f];
+  UIFont *boldFont = [UIFont fontWithName:@"GothamBlack" size:self.descriptionLabel.font.pointSize];
   
   MonsterProto *mp = self.evoItem.userMonster1.staticMonster;
   MonsterProto *cata = self.evoItem.userMonster1.staticEvolutionCatalystMonster;
@@ -164,20 +165,20 @@
     self.descriptionLabel.highlightedTextColor = greenColor;
   } else {
     UIColor *color;
-    NSString *str = [NSString stringWithFormat:@"To create %@, you need to combine a ", evo.monsterName];
+    NSString *str = [NSString stringWithFormat:@"To Evolve, you need a "];
     NSAttributedString *attr = [[NSAttributedString alloc] initWithString:str];
     [strs addObject:attr];
     
     str = [NSString stringWithFormat:@"%@ L%d", mp.monsterName, mp.maxLevel];
     color = self.evoItem.userMonster1.level >= mp.maxLevel ? greenColor : redColor;
-    attr = [[NSAttributedString alloc] initWithString:str attributes:@{NSForegroundColorAttributeName: color}];
+    attr = [[NSAttributedString alloc] initWithString:str attributes:@{NSForegroundColorAttributeName: color, NSFontAttributeName: boldFont}];
     [strs addObject:attr];
     
     attr = [[NSAttributedString alloc] initWithString:@", another "];
     [strs addObject:attr];
     
     color = self.evoItem.userMonster2 ? greenColor : redColor;
-    attr = [[NSAttributedString alloc] initWithString:mp.monsterName attributes:@{NSForegroundColorAttributeName: color}];
+    attr = [[NSAttributedString alloc] initWithString:mp.monsterName attributes:@{NSForegroundColorAttributeName: color, NSFontAttributeName: boldFont}];
     [strs addObject:attr];
     
     attr = [[NSAttributedString alloc] initWithString:@", and a "];
@@ -185,7 +186,7 @@
     
     color = self.evoItem.catalystMonster ? greenColor : redColor;
     str = [NSString stringWithFormat:@"%@ (Evo %d)", cata.monsterName, cata.evolutionLevel];
-    attr = [[NSAttributedString alloc] initWithString:str attributes:@{NSForegroundColorAttributeName: color}];
+    attr = [[NSAttributedString alloc] initWithString:str attributes:@{NSForegroundColorAttributeName: color, NSFontAttributeName: boldFont}];
     [strs addObject:attr];
     
     attr = [[NSAttributedString alloc] initWithString:@"."];
@@ -195,6 +196,10 @@
     for (NSAttributedString *s in strs) {
       [labelText appendAttributedString:s];
     }
+    
+    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
+    style.lineSpacing = 2.f;
+    [labelText addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0, labelText.string.length)];
     
     self.descriptionLabel.attributedText = labelText;
   }

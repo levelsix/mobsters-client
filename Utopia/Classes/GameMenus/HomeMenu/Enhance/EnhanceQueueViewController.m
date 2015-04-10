@@ -316,6 +316,7 @@
   int origLevel = um.level;
   int curLevel = origLevel;
   int maxLevel = um.staticMonster.maxLevel;
+  BOOL isAtMax = origLevel == maxLevel;
   
   um.level = curLevel;
   int curAttk = [gl calculateTotalDamageForMonster:um];
@@ -334,7 +335,7 @@
   self.attackLabel.text = [NSString stringWithFormat:@"%@%@", [Globals commafyNumber:curAttk], newAttk > curAttk ? [NSString stringWithFormat:@" + %@", [Globals commafyNumber:newAttk-curAttk]] : @""];
   self.healthLabel.text = [NSString stringWithFormat:@"%@%@", [Globals commafyNumber:curHp], newHp > curHp ? [NSString stringWithFormat:@" + %@", [Globals commafyNumber:newHp-curHp]] : @""];
   self.speedLabel.text = [NSString stringWithFormat:@"%@%@", [Globals commafyNumber:curSpeed], newSpeed > curSpeed ? [NSString stringWithFormat:@" + %@", [Globals commafyNumber:newSpeed-curSpeed]] : @""];
-  self.strengthLabel.text = [NSString stringWithFormat:@"%@%@", [Globals commafyNumber:curStrength], newStrength > curStrength ? [NSString stringWithFormat:@" + %@", [Globals commafyNumber:newStrength-curStrength]] : @""];
+  self.strengthLabel.text = !isAtMax ? [NSString stringWithFormat:@"+%@", [Globals commafyNumber:newStrength-curStrength]] : [NSString stringWithFormat:@"%@", [Globals commafyNumber:curStrength]];
 }
 
 - (void) updateTimeWithCell:(MonsterQueueCell *)cell {
@@ -603,7 +604,8 @@
       Quality q = [rarities[0] intValue];
       int num = [qualDict[@(q)] intValue];
       
-      rStr = [NSString stringWithFormat:@"a%@ %@ %@%@", q == QualityUltra || q == QualityEpic ? @"n" : @"", [Globals stringForRarity:q], MONSTER_NAME, num == 1 ? @"" : @"s"];
+      NSString *article = [NSString stringWithFormat:@"a%@ ", q == QualityUltra || q == QualityEpic ? @"n" : @""];
+      rStr = [NSString stringWithFormat:@"%@%@ %@%@", num == 1 ? article : @"", [Globals stringForRarity:q], MONSTER_NAME, num == 1 ? @"" : @"s"];
     } else {
       NSMutableString *mut = [NSMutableString string];
       

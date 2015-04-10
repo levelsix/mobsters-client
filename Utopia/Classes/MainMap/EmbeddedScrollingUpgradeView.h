@@ -20,6 +20,7 @@
 
 @property (nonatomic, assign) IBOutlet UIImageView *checkIcon;
 @property (nonatomic, assign) IBOutlet UILabel *prereqLabel;
+@property (nonatomic, assign) IBOutlet UILabel *requiresLabel;
 @property (nonatomic, assign) IBOutlet UIButton *goButton;
 
 @property (nonatomic, assign) IBOutlet id<EmbeddedDelegate> delegate;

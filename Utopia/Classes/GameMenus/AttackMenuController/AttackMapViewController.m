@@ -152,7 +152,7 @@
     NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
     int lastNum = (int)[def integerForKey:MAP_SECTION_NUM_KEY];
     if (lastNum != gl.mapNumberOfSections) {
-      NSString *imgName = [NSString stringWithFormat:@"%@%d.png", gl.mapSectionImagePrefix, lastNum];
+      NSString *imgName = [NSString stringWithFormat:@"%@%d.jpg", gl.mapSectionImagePrefix, lastNum];
       imgName = [Globals getDoubleResolutionImage:imgName useiPhone6Prefix:YES];
       [[Downloader sharedDownloader] deleteFile:imgName];
       
@@ -169,7 +169,7 @@
   for (int i = section-1; i <= section+1; i++) {
     // Make sure it doesn't already exist
     if (i > 0 && i <= gl.mapNumberOfSections && ![self.mapSegmentContainer viewWithTag:i+MAP_SECTION_TAG_BASE]) {
-      NSString *imgName = [NSString stringWithFormat:@"%@%d.png", gl.mapSectionImagePrefix, i];
+      NSString *imgName = [NSString stringWithFormat:@"%@%d.jpg", gl.mapSectionImagePrefix, i];
       
       CGRect frame = CGRectZero;
       frame.size.width = self.mapScrollView.frame.size.width;

@@ -214,8 +214,6 @@
 
   self.gemCostView.originX = (self.spinView.centerX - self.spinView.originX) + 5;
   self.gemCostView.originY = (self.spinView.height - self.gemCostView.height) * .5f - 5;
-  
-  self.topBar.gemIcon.transform = CGAffineTransformMakeScale(-1.f, 1.f);
 }
 
 - (void) loadBoosterPacks {

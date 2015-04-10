@@ -30,6 +30,13 @@
   self.goButton.superview.hidden = isComplete || !allowGo;
   
   self.goButton.tag = prereq.prereqId;
+  
+  // Extend the prereqLabel if there is no go button
+  if (prereq.gameType == GameTypeResearch) {
+    self.requiresLabel.hidden = YES;
+    self.prereqLabel.originX = self.requiresLabel.originX;
+    self.prereqLabel.width = CGRectGetMaxX(self.goButton.superview.frame)-self.prereqLabel.originX;
+  }
 }
 
 - (IBAction)goClicked:(id)sender {
