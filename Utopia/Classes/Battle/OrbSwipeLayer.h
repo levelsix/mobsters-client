@@ -46,6 +46,7 @@
 - (OrbSprite*) spriteForOrb:(BattleOrb*)orb;
 - (void) removeAllOrbSprites;
 - (void) destroyLock:(BattleOrb *)orb;
+- (void) destroyVines:(BattleOrb *)orb;
 
 - (BOOL) isTrackingTouch;
 - (CCColor *) colorForSparkle:(OrbColor)color;

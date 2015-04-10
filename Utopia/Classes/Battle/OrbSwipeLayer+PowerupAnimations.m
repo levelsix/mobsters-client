@@ -346,7 +346,10 @@
       [self createOrbSpriteForOrb:orb];
       
       if (orb.isLocked) {
-        [self destroyLock:orb];
+        if (orb.isVines)
+          [self destroyVines:orb];
+        else
+          [self destroyLock:orb];
       }
       
       [seq addObject:[CCActionDelay actionWithDuration:0.2]];
