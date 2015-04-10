@@ -39,7 +39,7 @@
   self.cashIcon.hidden = structInfo.buildResourceType != ResourceTypeCash;
   self.oilIcon.hidden = structInfo.buildResourceType != ResourceTypeOil;
   
-  self.timeLabel.text = [Globals convertTimeToShortString:structInfo.minutesToBuild*60];
+  self.timeLabel.text = [Globals convertTimeToShortString:[gl calculateSecondsToBuild:structInfo]];
   
   int cur = [gl calculateCurrentQuantityOfStructId:structInfo.structId structs:structs];
   int max = [gl calculateMaxQuantityOfStructId:structInfo.structId withTownHall:thp];

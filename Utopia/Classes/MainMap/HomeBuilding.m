@@ -427,8 +427,9 @@
   if (_percentage || [n.prefix isEqualToString:prefix]) {
     UpgradeProgressBar *bar = (UpgradeProgressBar *)n;
     
+    Globals *gl = [Globals sharedGlobals];
     NSTimeInterval time = self.userStruct.timeLeftForBuildComplete;
-    int totalTime = self.userStruct.staticStruct.structInfo.minutesToBuild*60;
+    int totalTime = [gl calculateSecondsToBuild:self.userStruct.staticStruct.structInfo];
     
     if (_percentage) {
       time = totalTime*(1.f-_percentage);

@@ -2512,8 +2512,9 @@
 
 - (int) totalSecondsRequired {
   if ([_speedupBuilding isKindOfClass:[HomeBuilding class]]) {
+    Globals *gl = [Globals sharedGlobals];
     HomeBuilding *hb = (HomeBuilding *)_speedupBuilding;
-    return hb.userStruct.staticStruct.structInfo.minutesToBuild*60;
+    return [gl calculateSecondsToBuild:hb.userStruct.staticStruct.structInfo];
   } else if ([_speedupBuilding isKindOfClass:[ObstacleSprite class]]) {
     ObstacleSprite *os = (ObstacleSprite *)_speedupBuilding;
     return os.obstacle.staticObstacle.secondsToRemove;

@@ -96,13 +96,14 @@
 
 - (id) initWithUserStruct:(UserStruct *)us {
   if ((self = [super init])) {
+    Globals *gl = [Globals sharedGlobals];
     self.userStruct = us;
     
     self.title = self.userStruct.staticStruct.structInfo.name;
     self.normalProgressBarColor = TimerProgressBarColorYellow;
     self.allowsFreeSpeedup = YES;
     self.completionDate = self.userStruct.buildCompleteDate;
-    self.totalSeconds = self.userStruct.staticStruct.structInfo.minutesToBuild*60;
+    self.totalSeconds = [gl calculateSecondsToBuild:us.staticStruct.structInfo];
   }
   return self;
 }

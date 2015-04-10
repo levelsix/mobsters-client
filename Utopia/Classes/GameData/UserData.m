@@ -840,11 +840,7 @@
 - (MSDate *) buildCompleteDate {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
-  float seconds = self.staticStruct.structInfo.minutesToBuild*60;
-  
-  float perc = [gs.researchUtil percentageBenefitForType:ResearchTypeIncreaseConstructionSpeed];
-  float researchFactor = [gl convertToOverallPercentFromPercentDecrease:perc];
-  seconds = seconds*researchFactor;
+  float seconds = [gl calculateSecondsToBuild:self.staticStruct.structInfo];
   
   // Account for clan helps
   int numHelps = [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeUpgradeStruct userDataUuid:self.userStructUuid];

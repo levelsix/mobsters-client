@@ -2156,7 +2156,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   secsToEnhancePerFeeder = MAX(1, secsToEnhancePerFeeder);
   
   GameState *gs = [GameState sharedGameState];
-  float perc = [gs.researchUtil percentageBenefitForType:ResearchTypeEnhanceCost element:mp.monsterElement evoTier:mp.evolutionLevel];
+  float perc = [gs.researchUtil percentageBenefitForType:ResearchTypeDecreaseEnhanceTime element:mp.monsterElement evoTier:mp.evolutionLevel];
   float researchFactor = [self convertToOverallPercentFromPercentDecrease:perc];
   
   float finalSecs = secsToEnhancePerFeeder*researchFactor;
@@ -2373,6 +2373,16 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   float labFactor = [self convertToOverallPercentFromPercentDecrease:rhp.researchSpeedMultiplier];
   
   return roundf(baseSecs*labFactor);
+}
+
+- (int) calculateSecondsToBuild:(StructureInfoProto *)fsp {
+  float baseSecs = fsp.minutesToBuild*60;
+  
+  GameState *gs = [GameState sharedGameState];
+  float perc = [gs.researchUtil percentageBenefitForType:ResearchTypeIncreaseConstructionSpeed];
+  float researchFactor = [self convertToOverallPercentFromPercentDecrease:perc];
+  
+  return roundf(baseSecs*researchFactor);
 }
 
 - (BOOL) isPrerequisiteComplete:(PrereqProto *)prereq {

@@ -405,6 +405,7 @@
 - (int) calculateCostToCreateBattleItem:(BattleItemProto *)bip;
 
 - (int) calculateSecondsToResearch:(ResearchProto *)rp;
+- (int) calculateSecondsToBuild:(StructureInfoProto *)fsp;
 
 - (BOOL) isPrerequisiteComplete:(PrereqProto *)prereq;
 - (NSArray *) incompletePrereqsForStructId:(int)structId;
