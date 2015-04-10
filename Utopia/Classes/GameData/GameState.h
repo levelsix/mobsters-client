@@ -18,6 +18,8 @@
 #import "BattleItemUtil.h"
 #import "ResearchUtil.h"
 
+#define TIMER_EPSILON 0.01
+
 @interface GameState : NSObject {
   NSTimer *_enhanceTimer;
   NSTimer *_evolutionTimer;

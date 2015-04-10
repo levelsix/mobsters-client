@@ -1670,7 +1670,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   for (HospitalQueue *hq in self.monsterHealingQueues.allValues) {
     for (UserMonsterHealingItem *item in hq.healingItems) {
       MSDate *endTime = item.endTime;
-      if (endTime && [endTime timeIntervalSinceNow] <= 0) {
+      if (endTime && [endTime timeIntervalSinceNow] <= TIMER_EPSILON) {
         healWait = YES;
         break;
       } else {
@@ -1695,7 +1695,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   for (HospitalQueue *hq in self.monsterHealingQueues.allValues) {
     for (UserMonsterHealingItem *item in hq.healingItems) {
       MSDate *endTime = item.endTime;
-      if (endTime && [endTime timeIntervalSinceNow] <= 0) {
+      if (endTime && [endTime timeIntervalSinceNow] <= TIMER_EPSILON) {
         [arr addObject:item];
         [changedHqs addObject:hq];
       }
@@ -1753,7 +1753,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   
   for (BattleItemQueueObject *item in biq.queueObjects) {
     MSDate *endTime = item.expectedEndTime;
-    if (endTime && [endTime timeIntervalSinceNow] <= 0) {
+    if (endTime && [endTime timeIntervalSinceNow] <= TIMER_EPSILON) {
       queueWait = YES;
       break;
     } else {
@@ -1778,7 +1778,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   NSMutableArray *arr = [NSMutableArray array];
   for (BattleItemQueueObject *item in biq.queueObjects) {
       MSDate *endTime = item.expectedEndTime;
-      if (endTime && [endTime timeIntervalSinceNow] <= 0) {
+      if (endTime && [endTime timeIntervalSinceNow] <= TIMER_EPSILON) {
         [arr addObject:item];
       }
   }
@@ -1827,7 +1827,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     if (!ue.hasShownFreeSpeedup && ue.totalSeconds > gl.maxMinutesForFreeSpeedUp*60) {
       time = [time dateByAddingTimeInterval:-gl.maxMinutesForFreeSpeedUp*60];
     }
-    if ([time timeIntervalSinceNow] <= 0) {
+    if ([time timeIntervalSinceNow] <= TIMER_EPSILON) {
       [self enhancingWaitTimeComplete];
     } else {
       _enhanceTimer = [NSTimer timerWithTimeInterval:time.timeIntervalSinceNow target:self selector:@selector(enhancingWaitTimeComplete) userInfo:nil repeats:NO];
@@ -1841,7 +1841,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   UserEnhancement *ue = self.userEnhancement;
   if (ue && !ue.isComplete) {
     int timeLeft = [self.userEnhancement.expectedEndTime timeIntervalSinceNow];
-    if (timeLeft <= 0) {
+    if (timeLeft <= TIMER_EPSILON) {
       [[OutgoingEventController sharedOutgoingEventController] enhanceWaitComplete:NO delegate:nil];
       [[NSNotificationCenter defaultCenter] postNotificationName:ENHANCE_MONSTER_NOTIFICATION object:nil];
       
@@ -1872,7 +1872,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [self stopEvolutionTimer];
   
   if (self.userEvolution) {
-    if ([self.userEvolution.endTime timeIntervalSinceNow] <= 0) {
+    if ([self.userEvolution.endTime timeIntervalSinceNow] <= TIMER_EPSILON) {
       [self evolutionWaitTimeComplete];
     } else {
       _evolutionTimer = [NSTimer timerWithTimeInterval:self.userEvolution.endTime.timeIntervalSinceNow target:self selector:@selector(evolutionWaitTimeComplete) userInfo:nil repeats:NO];
@@ -1882,7 +1882,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (void) evolutionWaitTimeComplete {
-  if (self.userEvolution && [self.userEvolution.endTime timeIntervalSinceNow] < 0) {
+  if (self.userEvolution && [self.userEvolution.endTime timeIntervalSinceNow] < TIMER_EPSILON) {
     UserMonster *um = self.userEvolution.evoItem.userMonster1;
     
     [[OutgoingEventController sharedOutgoingEventController] finishEvolutionWithGems:NO withDelegate:nil];
@@ -1909,18 +1909,23 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   UserResearch *researchForTimer = [self.researchUtil currentResearch];
   
   if (researchForTimer) {
-    if ([researchForTimer.tentativeCompletionDate timeIntervalSinceNow] <= 0) {
+    if ([researchForTimer.tentativeCompletionDate timeIntervalSinceNow] <= TIMER_EPSILON) {
       [self researchWaitTimeComplete];
     } else {
       _researchTimer = [NSTimer timerWithTimeInterval:researchForTimer.tentativeCompletionDate.timeIntervalSinceNow target:self selector:@selector(researchWaitTimeComplete) userInfo:nil repeats:NO];
       [[NSRunLoop mainRunLoop] addTimer:_researchTimer forMode:NSRunLoopCommonModes];
+      
+      NSLog(@"TIMER STARTED %f", researchForTimer.tentativeCompletionDate.timeIntervalSinceNow);
     }
   }
 }
 
 - (void) researchWaitTimeComplete {
   UserResearch *ur = [self.researchUtil currentResearch];
-  if (ur && [ur.tentativeCompletionDate timeIntervalSinceNow] <= 0) {
+  NSLog(@"TIMER FIRED1: %f", [ur.tentativeCompletionDate timeIntervalSinceNow]);
+  if (ur && [ur.tentativeCompletionDate timeIntervalSinceNow] <= TIMER_EPSILON) {
+    
+    NSLog(@"TIMER FIRED2");
     
     [[OutgoingEventController sharedOutgoingEventController] finishResearch:ur useGems:NO delegate:nil];
     
@@ -1948,7 +1953,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   NSTimeInterval lowestTimeLeft = 0;
   for (UserMonster *um in self.myMonsters) {
     if ([um isCombining]) {
-      if (um.timeLeftForCombining <= 0) {
+      if (um.timeLeftForCombining <= TIMER_EPSILON) {
         [self combiningWaitTimeComplete];
         return;
       } else {
@@ -1967,7 +1972,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 - (void) combiningWaitTimeComplete {
   NSMutableArray *arr = [NSMutableArray array];
   for (UserMonster *um in self.myMonsters) {
-    if ([um isCombining] && um.timeLeftForCombining <= 0) {
+    if ([um isCombining] && um.timeLeftForCombining <= TIMER_EPSILON) {
       [arr addObject:um.userMonsterUuid];
     }
   }
@@ -2016,7 +2021,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
       MSDate *freeSpeedupTime = [finishTime dateByAddingTimeInterval:-gl.maxMinutesForFreeSpeedUp*60];
       if (!umj.hasShownFreeSpeedup &&
           // If it's less than 5 mins only show the popup if free speedup parameter is yes
-          (freeSpeedup || (!freeSpeedup && freeSpeedupTime.timeIntervalSinceNow > 0))
+          (freeSpeedup || (!freeSpeedup && freeSpeedupTime.timeIntervalSinceNow > TIMER_EPSILON))
           && freeSpeedupTime.timeIntervalSinceNow < time.timeIntervalSinceNow) {
         time = freeSpeedupTime;
       } else if (finishTime.timeIntervalSinceNow < time.timeIntervalSinceNow) {
@@ -2026,7 +2031,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
   
   if (mjc && fsp.hoursBetweenJobGeneration) {
-    if ([time timeIntervalSinceNow] <= 0) {
+    if ([time timeIntervalSinceNow] <= TIMER_EPSILON) {
       [self miniJobWaitTimeComplete];
     } else {
       _miniJobTimer = [NSTimer timerWithTimeInterval:time.timeIntervalSinceNow target:self selector:@selector(miniJobWaitTimeComplete) userInfo:nil repeats:NO];
@@ -2040,7 +2045,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   for (UserMiniJob *umj in self.myMiniJobs) {
     if (umj.timeStarted && !umj.timeCompleted) {
       MSDate *finishTime = umj.tentativeCompletionDate;
-      if (finishTime.timeIntervalSinceNow <= 0) {
+      if (finishTime.timeIntervalSinceNow <= TIMER_EPSILON) {
         [[OutgoingEventController sharedOutgoingEventController] completeMiniJob:umj isSpeedup:NO gemCost:0 delegate:nil];
         
         NSString *msg = [NSString stringWithFormat:@"Your %@s have returned from their mini job. Collect your loot at the %@ now.", MONSTER_NAME, self.myMiniJobCenter.staticStruct.structInfo.name];
@@ -2054,7 +2059,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   UserStruct *mjc = [self myMiniJobCenter];
   MiniJobCenterProto *fsp = (MiniJobCenterProto *)mjc.staticStruct;
   MSDate *spawnTime = [self.lastMiniJobSpawnTime dateByAddingTimeInterval:fsp.hoursBetweenJobGeneration*60*60];
-  if (spawnTime.timeIntervalSinceNow <= 0) {
+  if (spawnTime.timeIntervalSinceNow <= TIMER_EPSILON) {
     // Must still do this even if numToSpawn == 0 because otherwise it won't update the timer
     
     int numToSpawn = MAX(0, fsp.generatedJobLimit-(int)self.myMiniJobs.count);
@@ -2095,7 +2100,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     if ([ca.defender.userUuid isEqualToString:self.userUuid]) {
       MSDate *date = [ca.avengeRequestTime dateByAddingTimeInterval:gl.beginAvengingTimeLimitMins*60];
       
-      if (date.timeIntervalSinceNow <= 0) {
+      if (date.timeIntervalSinceNow <= TIMER_EPSILON) {
         [self avengeWaitTimeComplete];
         return;
       } else {
@@ -2117,7 +2122,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     if ([ca.defender.userUuid isEqualToString:self.userUuid]) {
       MSDate *date = [ca.avengeRequestTime dateByAddingTimeInterval:gl.beginAvengingTimeLimitMins*60];
       
-      if (date.timeIntervalSinceNow <= 0) {
+      if (date.timeIntervalSinceNow <= TIMER_EPSILON) {
         [expired addObject:ca.clanAvengeUuid];
         [self.clanAvengings removeObject:ca];
       }

@@ -2629,7 +2629,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   NSMutableArray *arr = [NSMutableArray array];
   for (UserMonsterHealingItem *item in healingItems) {
-    if ([item.endTime timeIntervalSinceNow] > 0) {
+    if ([item.endTime timeIntervalSinceNow] > TIMER_EPSILON) {
       [Globals popupMessage:@"Trying to finish healing item before time."];
     } else {
       UserMonster *um = [gs myMonsterWithUserMonsterUuid:item.userMonsterUuid];
@@ -2773,8 +2773,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   NSMutableArray *arr = [NSMutableArray array];
   for (BattleItemQueueObject *item in battleItemQueueObjects) {
-    if ([item.expectedEndTime timeIntervalSinceNow] > 0) {
-      [Globals popupMessage:@"Trying to finish healing item before time."];
+    if ([item.expectedEndTime timeIntervalSinceNow] > TIMER_EPSILON) {
+      [Globals popupMessage:@"Trying to finish battle item before time."];
     } else {
       [arr addObject:[item convertToProto]];
       
@@ -2932,7 +2932,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   int timeLeft = gs.userEnhancement.expectedEndTime.timeIntervalSinceNow;
   int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
   
-  if (!useGems && timeLeft > 0) {
+  if (!useGems && timeLeft > TIMER_EPSILON) {
     [Globals popupMessage:@"Trying to finish enhancement before time."];
   } else if (useGems && gs.gems < goldCost) {
     [Globals popupMessage:@"Trying to speedup enhance queue without enough gems"];
