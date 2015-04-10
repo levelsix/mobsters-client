@@ -36,6 +36,7 @@
     self.revertedTranslation = NO;
     self.postUuid = p.chatUuid;
     self.timeOfPost = p.timeOfChat;
+    self.isRead = YES;
   }
   return self;
 }
