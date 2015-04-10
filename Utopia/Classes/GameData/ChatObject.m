@@ -29,7 +29,7 @@
     self.originalMessage = p.content;
     self.originalLanguage = p.contentLanguage;
     self.translatedTextProtos = [NSMutableArray arrayWithArray:p.translatedContentList];
-    self.sender = p.sender.minUserProto;
+    self.originalPoster = p.sender;
     self.date = [MSDate dateWithTimeIntervalSince1970:p.timeOfChat/1000.];
     self.isAdmin = p.isAdmin;
     self.revertedTranslation = NO;
@@ -39,12 +39,16 @@
   return self;
 }
 
+- (MinimumUserProto *) sender {
+  return self.originalPoster.minUserProto;
+}
+
 - (PrivateChatPostProto *)makePrivateChatPostProto {
   GameState *gs = [GameState sharedGameState];
   
   PrivateChatPostProto *pcpp = [[[[[[[PrivateChatPostProto builder]
                                      setPrivateChatPostUuid:self.postUuid]
-                                    setPoster:nil]
+                                    setPoster:self.originalPoster]
                                    setRecipient:[gs minUserWithLevel]]
                                   setTimeOfPost:self.timeOfPost]
                                  setContent:self.originalMessage]

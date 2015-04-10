@@ -405,7 +405,6 @@
   [UIView commitAnimations];
   
   [self.popoverView close];
-  [self.languageSelectorView close];
   
   _isEditing = YES;
 }
@@ -432,7 +431,6 @@
   [UIView commitAnimations];
   
   [self.popoverView close];
-  [self.languageSelectorView close];
 }
 
 - (void) editingStopped {
