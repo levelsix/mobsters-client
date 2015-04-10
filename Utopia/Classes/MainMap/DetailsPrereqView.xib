@@ -63,6 +63,7 @@
                 <outlet property="checkIcon" destination="nZn-sy-mzV" id="OuU-Qk-0gD"/>
                 <outlet property="goButton" destination="usB-rd-fs5" id="j4p-hf-jDZ"/>
                 <outlet property="prereqLabel" destination="MVd-Sc-7Sg" id="6ng-vj-yhk"/>
+                <outlet property="requiresLabel" destination="FZT-eu-hnB" id="kfV-WB-FkW"/>
             </connections>
             <point key="canvasLocation" x="383" y="410"/>
         </view>

@@ -58,7 +58,7 @@
   }
   
   NSArray *rewards = [Reward createRewardsForMiniJob:miniJob.miniJob];
-  if (rewards.count > 2) rewards = [rewards subarrayWithRange:NSMakeRange(0, 2)];
+  if (rewards.count > 3) rewards = [rewards subarrayWithRange:NSMakeRange(0, 3)];
   
   for (int i = 0; i < rewards.count; i++) {
     [[NSBundle mainBundle] loadNibNamed:@"MiniJobsRewardView" owner:self options:nil];

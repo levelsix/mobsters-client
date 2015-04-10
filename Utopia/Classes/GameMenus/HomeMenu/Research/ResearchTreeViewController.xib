@@ -45,7 +45,7 @@
                     </connections>
                 </scrollView>
                 <view contentMode="scaleToFill" id="u2P-QN-Bbv" customClass="ResearchSelectionBarView">
-                    <rect key="frame" x="0.0" y="181" width="430" height="51"/>
+                    <rect key="frame" x="0.0" y="182" width="430" height="51"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <subviews>
                         <view contentMode="scaleToFill" id="nfT-TT-Jhd" userLabel="BGView">
@@ -70,7 +70,7 @@
                                     <rect key="frame" x="63" y="9" width="62" height="47"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Select a Field of Research" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="C8Q-Sc-sy3" customClass="NiceFontLabel12">
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Tap a Research Item" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="C8Q-Sc-sy3" customClass="NiceFontLabel12">
                                     <rect key="frame" x="45" y="19" width="334" height="31"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="11"/>

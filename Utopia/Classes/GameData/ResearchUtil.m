@@ -63,7 +63,6 @@
 
 @implementation ResearchUtil
 
-
 - (id) initWithResearches:(NSArray *)researches {
   if((self = [super init])) {
     self.userResearches = [NSMutableArray array];
@@ -135,14 +134,14 @@
 
 #pragma mark - Hooks
 
-- (float) percentageBenefitForType:(ResearchType)type element:(Element)element rarity:(Quality)rarity resType:(ResourceType)resType {
+- (float) percentageBenefitForType:(ResearchType)type element:(Element)element evoTier:(int)evoTier resType:(ResourceType)resType {
   float perc = 0.f;
   
   for (UserResearch *ur in self.userResearches) {
     ResearchProto *rp = ur.staticResearchForBenefitLevel;
     if (rp.researchType == type &&
         (!rp.hasElement || rp.element == element) &&
-        (!rp.hasRarity || rp.rarity == rarity) &&
+        (!rp.hasEvoTier || rp.evoTier == evoTier) &&
         (!rp.hasResourceType || rp.resourceType == resType)) {
       perc += rp.percentage;
     }
@@ -152,25 +151,25 @@
 }
 
 - (float) percentageBenefitForType:(ResearchType)type {
-  return [self percentageBenefitForType:type element:ElementNoElement rarity:QualityNoQuality resType:ResourceTypeNoResource];
+  return [self percentageBenefitForType:type element:ElementNoElement evoTier:0 resType:ResourceTypeNoResource];
 }
 
-- (float) percentageBenefitForType:(ResearchType)type element:(Element)element rarity:(Quality)rarity {
-  return [self percentageBenefitForType:type element:element rarity:rarity resType:ResourceTypeNoResource];
+- (float) percentageBenefitForType:(ResearchType)type element:(Element)element evoTier:(int)evoTier {
+  return [self percentageBenefitForType:type element:element evoTier:evoTier resType:ResourceTypeNoResource];
 }
 
 - (float) percentageBenefitForType:(ResearchType)type resType:(ResourceType)resType {
-  return [self percentageBenefitForType:type element:ElementNoElement rarity:QualityNoQuality resType:resType];
+  return [self percentageBenefitForType:type element:ElementNoElement evoTier:0 resType:resType];
 }
 
-- (int) amountBenefitForType:(ResearchType)type element:(Element)element rarity:(Quality)rarity {
+- (int) amountBenefitForType:(ResearchType)type element:(Element)element evoTier:(int)evoTier {
   int amt = 0;
   
   for (UserResearch *ur in self.userResearches) {
     ResearchProto *rp = ur.staticResearchForBenefitLevel;
     if (rp.researchType == type &&
         (!rp.hasElement || rp.element == element) &&
-        (!rp.hasRarity || rp.rarity == rarity)) {
+        (!rp.hasEvoTier || rp.evoTier == evoTier)) {
       amt += rp.amountIncrease;
     }
   }
@@ -179,7 +178,7 @@
 }
 
 - (int) amountBenefitForType:(ResearchType)type {
-  return [self amountBenefitForType:type element:ElementNoElement rarity:QualityNoQuality];
+  return [self amountBenefitForType:type element:ElementNoElement evoTier:0];
 }
 
 - (BOOL) isMonsterType:(ResearchType)type {
@@ -212,13 +211,13 @@
   return NO;
 }
 
-- (NSArray *) allUserResearchesForElement:(Element)element rarity:(Quality)rarity {
+- (NSArray *) allUserResearchesForElement:(Element)element evoTier:(int)evoTier {
   NSMutableArray *arr = [NSMutableArray array];
   for (UserResearch *ur in self.userResearches) {
     ResearchProto *rp = ur.staticResearchForBenefitLevel;
     if ([self isMonsterType:rp.researchType] &&
         (!rp.hasElement || rp.element == element) &&
-        (!rp.hasRarity || rp.rarity == rarity)) {
+        (!rp.hasEvoTier || rp.evoTier == evoTier)) {
       [arr addObject:ur];
     }
   }
@@ -236,7 +235,7 @@
   return arr;
 }
 
-- (NSArray *) allResearchProtosForElement:(Element)element rarity:(Quality)rarity {
+- (NSArray *) allResearchProtosForElement:(Element)element evoTier:(int)evoTier {
   GameState *gs = [GameState sharedGameState];
   
   NSMutableArray *arr = [NSMutableArray array];
@@ -244,7 +243,7 @@
     if (!rp.predId &&
         [self isMonsterType:rp.researchType] &&
         (!rp.hasElement || rp.element == element) &&
-        (!rp.hasRarity || rp.rarity == rarity)) {
+        (!rp.hasEvoTier || rp.evoTier == evoTier)) {
       [arr addObject:rp];
     }
   }
@@ -365,7 +364,7 @@
 
 - (NSArray *) prereqs {
   GameState *gs = [GameState sharedGameState];
-  NSArray *arr = [gs prerequisitesForGameType:GameTypeResearch gameEntityId:self.predId];
+  NSArray *arr = [gs prerequisitesForGameType:GameTypeResearch gameEntityId:self.succId];
   
   arr = [arr sortedArrayUsingComparator:^NSComparisonResult(PrereqProto *obj1, PrereqProto *obj2) {
     return [@(obj1.prereqId) compare:@(obj2.prereqId)];
@@ -419,8 +418,8 @@
   return (Element)val;
 }
 
-- (Quality) rarity {
-  int val = [self valueForProperty:@"RARITY"];
+- (int) evoTier {
+  int val = [self valueForProperty:@"EVO_TIER"];
   return (Quality)val;
 }
 
@@ -445,8 +444,8 @@
   return [self hasProperty:@"ELEMENT"];
 }
 
-- (BOOL) hasRarity {
-  return [self hasProperty:@"RARITY"];
+- (BOOL) hasEvoTier {
+  return [self hasProperty:@"EVO_TIER"];
 }
 
 - (BOOL) hasResourceType {

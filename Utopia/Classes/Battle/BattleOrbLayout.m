@@ -821,6 +821,10 @@
   return ![self orbIsBottomFeeder:orb];
 }
 
+- (BOOL) orbPowerupShouldBeRemoved:(BattleOrb *)orb {
+  return !orb.isVines && !orb.isLocked;
+}
+
 - (BOOL) orbIsBottomFeeder:(BattleOrb *)orb {
   return (orb.specialOrbType == SpecialOrbTypeCake ||
           orb.specialOrbType == SpecialOrbTypeGrave ||
@@ -1086,7 +1090,14 @@
     for (int j = 0; j < _numRows; j++) {
       BattleOrb *orb = [self orbAtColumn:i row:j];
       if ([self orbCanBeRemoved:orb]) {
-        orb.powerupType = PowerupTypeNone;
+        // Can't do this anymore because it prevents locked powerups from having powerup type.
+        // Gonna make the assumption that the orb powerup won't actually go off since there are
+        // no orbs to blow up.
+        
+        if ([self orbPowerupShouldBeRemoved:orb]) {
+          orb.powerupType = PowerupTypeNone;
+        }
+        
         [chain addOrb:orb];
       }
     }

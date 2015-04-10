@@ -18,7 +18,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" id="Pzo-bx-mhD">
-                        <rect key="frame" x="0.0" y="0.0" width="2410" height="511"/>
+                        <rect key="frame" x="0.0" y="0.0" width="2892" height="614"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="itemsquarebg.png" id="L1I-E6-joV">
@@ -117,7 +117,7 @@
                                                 <size key="shadowOffset" width="0.0" height="1"/>
                                             </label>
                                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" image="diamond.png" id="bn5-Jg-Yn5">
-                                                <rect key="frame" x="0.0" y="2" width="14" height="14"/>
+                                                <rect key="frame" x="-1" y="1" width="15" height="15"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </imageView>
                                         </subviews>
@@ -152,7 +152,7 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="diamond.png" width="29" height="27"/>
+        <image name="diamond.png" width="28" height="28"/>
         <image name="greenitemsbutton.png" width="52" height="30"/>
         <image name="itemsquarebg.png" width="38" height="38"/>
         <image name="popupline.png" width="1" height="1"/>

@@ -35,6 +35,8 @@
   
   UserEnhancement *_currentEnhancement;
   
+  id _buttonSender;
+  
   BOOL _waitingForResponse;
 }
 

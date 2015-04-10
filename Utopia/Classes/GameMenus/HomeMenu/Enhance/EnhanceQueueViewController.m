@@ -316,6 +316,7 @@
   int origLevel = um.level;
   int curLevel = origLevel;
   int maxLevel = um.staticMonster.maxLevel;
+  BOOL isAtMax = origLevel == maxLevel;
   
   um.level = curLevel;
   int curAttk = [gl calculateTotalDamageForMonster:um];
@@ -334,7 +335,7 @@
   self.attackLabel.text = [NSString stringWithFormat:@"%@%@", [Globals commafyNumber:curAttk], newAttk > curAttk ? [NSString stringWithFormat:@" + %@", [Globals commafyNumber:newAttk-curAttk]] : @""];
   self.healthLabel.text = [NSString stringWithFormat:@"%@%@", [Globals commafyNumber:curHp], newHp > curHp ? [NSString stringWithFormat:@" + %@", [Globals commafyNumber:newHp-curHp]] : @""];
   self.speedLabel.text = [NSString stringWithFormat:@"%@%@", [Globals commafyNumber:curSpeed], newSpeed > curSpeed ? [NSString stringWithFormat:@" + %@", [Globals commafyNumber:newSpeed-curSpeed]] : @""];
-  self.strengthLabel.text = [NSString stringWithFormat:@"%@%@", [Globals commafyNumber:curStrength], newStrength > curStrength ? [NSString stringWithFormat:@" + %@", [Globals commafyNumber:newStrength-curStrength]] : @""];
+  self.strengthLabel.text = !isAtMax ? [NSString stringWithFormat:@"+%@", [Globals commafyNumber:newStrength-curStrength]] : [NSString stringWithFormat:@"%@", [Globals commafyNumber:curStrength]];
 }
 
 - (void) updateTimeWithCell:(MonsterQueueCell *)cell {
@@ -479,15 +480,10 @@
   if (self.currentEnhancement.feeders.count >= self.maxQueueSize) {
     [Globals addAlertNotification:@"The laboratory queue is already full!"];
   } else {
-    Quality qual = _confirmUserMonster.staticMonster.quality;
-    
     // Disabled for enhance tutorial
     NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
     if (![def boolForKey:ENHANCE_FIRST_TIME_DEFAULTS_KEY]) {
       NSString *str = [NSString stringWithFormat:@"You will lose this %@ by sacrificing it for enhancement. Continue?", MONSTER_NAME];
-      [GenericPopupController displayConfirmationWithDescription:str title:[NSString stringWithFormat:@"Sacrifice %@?", MONSTER_NAME] okayButton:@"Sacrifice" cancelButton:@"Cancel" target:self selector:@selector(allowAddToQueue)];
-    } else if (qual >= QualityRare) {
-      NSString *str = [NSString stringWithFormat:@"You are about to sacrifice a %@ %@. Continue?", [Globals stringForRarity:qual], MONSTER_NAME];
       [GenericPopupController displayConfirmationWithDescription:str title:[NSString stringWithFormat:@"Sacrifice %@?", MONSTER_NAME] okayButton:@"Sacrifice" cancelButton:@"Cancel" target:self selector:@selector(allowAddToQueue)];
     } else {
       [self allowAddToQueue];
@@ -583,7 +579,60 @@
 
 #pragma mark - Sending Enhancement
 
+
+
 - (IBAction) enhanceButtonClicked:(id)sender {
+  _buttonSender = sender;
+  
+  NSMutableDictionary *qualDict = [NSMutableDictionary dictionary];
+  
+  for (EnhancementItem *ei in self.currentEnhancement.feeders) {
+    Quality qual = ei.userMonster.staticMonster.quality;
+    
+    if (qual >= QualityRare) {
+      NSNumber *num = qualDict[@(qual)];
+      qualDict[@(qual)] = @([num intValue]+1);
+    }
+  }
+  
+  NSArray *rarities = [[qualDict allKeys] sortedArrayUsingSelector:@selector(compare:)];
+  
+  NSString *rStr = @"";
+  
+  if (rarities.count > 0) {
+    if (rarities.count == 1) {
+      Quality q = [rarities[0] intValue];
+      int num = [qualDict[@(q)] intValue];
+      
+      NSString *article = [NSString stringWithFormat:@"a%@ ", q == QualityUltra || q == QualityEpic ? @"n" : @""];
+      rStr = [NSString stringWithFormat:@"%@%@ %@%@", num == 1 ? article : @"", [Globals stringForRarity:q], MONSTER_NAME, num == 1 ? @"" : @"s"];
+    } else {
+      NSMutableString *mut = [NSMutableString string];
+      
+      if (rarities.count == 2) {
+        Quality q = [rarities[0] intValue];
+        [mut appendFormat:@"%@ ", [Globals stringForRarity:q]];
+      } else {
+        for (int i = 0; i < rarities.count-1; i++) {
+          Quality q = [rarities[i] intValue];
+          [mut appendFormat:@"%@, ", [Globals stringForRarity:q]];
+        }
+      }
+      
+      Quality q = [rarities.lastObject intValue];
+      [mut appendFormat:@"and %@ %@s", [Globals stringForRarity:q], MONSTER_NAME];
+      
+      rStr = mut;
+    }
+    
+    NSString *str = [NSString stringWithFormat:@"You are about to sacrifice %@. Continue?", rStr];
+    [GenericPopupController displayConfirmationWithDescription:str title:[NSString stringWithFormat:@"Sacrifice %@?", MONSTER_NAME] okayButton:@"Sacrifice" cancelButton:@"Cancel" target:self selector:@selector(enhanceConfirmed)];
+  } else {
+    [self enhanceConfirmed];
+  }
+}
+
+- (void) enhanceConfirmed {
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
   
@@ -603,15 +652,15 @@
       [gvc addChildViewController:svc];
       [gvc.view addSubview:svc.view];
       
-      if (sender == nil)
+      if (_buttonSender == nil)
       {
         [svc showCenteredOnScreen];
       }
       else
       {
-        if ([sender isKindOfClass:[UIButton class]]) // Enhance mobster
+        if ([_buttonSender isKindOfClass:[UIButton class]]) // Enhance mobster
         {
-          UIButton* invokingButton = (UIButton*)sender;
+          UIButton* invokingButton = (UIButton*)_buttonSender;
           [svc showAnchoredToInvokingView:invokingButton withDirection:ViewAnchoringPreferLeftPlacement inkovingViewImage:invokingButton.currentImage];
         }
       }
@@ -619,6 +668,8 @@
   } else {
     [self sendEnhanceWithItemsDict:nil allowGems:NO];
   }
+  
+  _buttonSender = nil;
 }
 
 - (void) enhanceWithItemsDict:(NSDictionary *)itemIdsToQuantity {

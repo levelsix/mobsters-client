@@ -22,7 +22,7 @@
 
 - (void) updateForUserResearch:(UserResearch *)userResearch {
   ResearchProto *proto = userResearch.staticResearch;
-  BOOL isAvailable = [userResearch.staticResearchForNextLevel prereqsComplete];
+  BOOL isAvailable = [proto prereqsComplete];
   
   [Globals imageNamed:userResearch.staticResearch.iconImgName withView:self.selectionIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   int curRank = userResearch.staticResearchForBenefitLevel.level;
@@ -129,6 +129,7 @@
                                                              constrainedToSize:CGSizeMake(self.researchNameLabel.width, MAXFLOAT)].height;
   self.rankLabel.originY = CGRectGetMaxY(self.researchNameLabel.frame);
   self.rankCountLabel.originY = self.rankLabel.originY;
+  self.researchingTimeLeftLabel.originY = self.rankLabel.originY;
   
   _isAvailable = [userResearch.staticResearch prereqsComplete];
   self.researchNameLabel.textColor = [UIColor colorWithHexString:_isAvailable ? @"2AB4E8" : @"555555"];
@@ -137,8 +138,43 @@
   
   [Globals imageNamed:research.iconImgName withView:self.researchIcon greyscale:!_isAvailable indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:NO];
   
+  if (!userResearch.complete)
+  {
+    self.rankLabel.hidden = YES;
+    self.rankCountLabel.hidden = YES;
+    self.researchingCircle.hidden = NO;
+    self.researchingTimeLeftLabel.hidden = NO;
+    
+    [self updateTimeLeftLabelForResearch:userResearch];
+    
+    CABasicAnimation* spinAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
+    spinAnimation.fromValue = @(0.f);
+    spinAnimation.toValue = @(-M_PI * 2.f);
+    spinAnimation.duration = 2.f;
+    spinAnimation.repeatCount = INFINITY;
+    [self.researchingCircle.layer addAnimation:spinAnimation forKey:@"ResearchingCircleSpinAnimation"];
+  }
+  else
+  {
+    [self.researchingCircle.layer removeAllAnimations];
+    
+    self.rankLabel.hidden = NO;
+    self.rankCountLabel.hidden = NO;
+    self.researchingTimeLeftLabel.hidden = YES;
+    self.researchingCircle.hidden = YES;
+  }
+  
   if (parentNodes)
     [self drawTreeHierarchyToParentNodes:parentNodes];
+}
+
+- (void) updateTimeLeftLabelForResearch:(UserResearch *)userResearch
+{
+  if (!self.researchingTimeLeftLabel.hidden)
+  {
+    const NSTimeInterval timeLeft = [[userResearch tentativeCompletionDate] timeIntervalSinceNow];
+    self.researchingTimeLeftLabel.text = [[Globals convertTimeToShortString:timeLeft] uppercaseString];
+  }
 }
 
 - (void) drawTreeHierarchyToParentNodes:(NSSet *)parentNodes
@@ -270,6 +306,16 @@
   [self waitTimeComplete];
 }
 
+- (void) updateLabels {
+  for (int i = 0; i < _researchButtons.count && i < _userResearches.count; i++) {
+    ResearchButtonView *rbv = _researchButtons[i];
+    UserResearch *ur = _userResearches[i];
+    
+    if (!ur.complete)
+      [rbv updateTimeLeftLabelForResearch:ur];
+  }
+}
+
 - (void) waitTimeComplete {
   for (int i = 0; i < _researchButtons.count && i < _userResearches.count; i++) {
     ResearchButtonView *rbv = _researchButtons[i];
@@ -357,6 +403,9 @@
   _contentSize = CGSizeMake(self.contentView.size.width, tieredResearches.count * kResearchButtonViewSize.height + kResearchTreeBottomPadding);
   self.scrollView.contentSize = _contentSize;
   
+  self.contentView.height = _contentSize.height;
+  self.bgButton.height = _contentSize.height;
+  
   [self.contentView sendSubviewToBack:self.bgButton];
   [Globals alignSubviewsToPixelsBoundaries:self.contentView];
 }
@@ -386,8 +435,8 @@
     
     self.scrollView.contentSize = CGSizeMake(_contentSize.width, _contentSize.height + _curBarView.height);
     [UIView animateWithDuration:0.3f animations:^{
-      const CGFloat yOffset = [self.contentView convertPoint:_lastClicked.center fromView:_lastClicked.superview].y - self.scrollView.contentOffset.y - self.view.height * .5f;
-      self.scrollView.contentOffset = CGPointMake(self.scrollView.contentOffset.x, clampf(self.scrollView.contentOffset.y + yOffset, 0.f, self.scrollView.contentSize.height));
+      const CGFloat yOffset = [self.contentView convertPoint:_lastClicked.center fromView:_lastClicked.superview].y - self.scrollView.contentOffset.y - (self.view.height - _curBarView.height) * .5f;
+      self.scrollView.contentOffset = CGPointMake(self.scrollView.contentOffset.x, clampf(self.scrollView.contentOffset.y + yOffset, 0.f, self.scrollView.contentSize.height - self.scrollView.height));
     }];
     
     if(_selectFieldViewUp) {

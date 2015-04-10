@@ -214,8 +214,6 @@
 
   self.gemCostView.originX = (self.spinView.centerX - self.spinView.originX) + 5;
   self.gemCostView.originY = (self.spinView.height - self.gemCostView.height) * .5f - 5;
-  
-  self.topBar.gemIcon.transform = CGAffineTransformMakeScale(-1.f, 1.f);
 }
 
 - (void) loadBoosterPacks {
@@ -307,6 +305,8 @@
 
 - (void) button1Clicked:(id)sender {
   if (!_isSpinning) {
+    [self hideSkillPopup:self];
+    
     [self.navBar clickButton:1];
     
     [self updateForBoosterPack:self.badBoosterPack];
@@ -317,6 +317,8 @@
 
 - (void) button2Clicked:(id)sender {
   if (!_isSpinning) {
+    [self hideSkillPopup:self];
+    
     [self.navBar clickButton:2];
     
     [self updateForBoosterPack:self.goodBoosterPack];
@@ -441,7 +443,10 @@
       }
       
       const NSString* elementStr = [[Globals stringForElement:mp.monsterElement] lowercaseString];
-      NSArray* assetsToDownload = @[ [elementStr stringByAppendingString:@"grbackground.png"] ];
+      NSArray* assetsToDownload = @[ [elementStr stringByAppendingString:@"grbackground.jpg"],
+                                     [elementStr stringByAppendingString:@"grbigflash1.png"],
+                                     [elementStr stringByAppendingString:@"grglow2glowblend.png"],
+                                     [elementStr stringByAppendingString:@"lightsflashlow1.png"] ];
       [Globals checkAndLoadFiles:assetsToDownload completion:^(BOOL success) {
         if (success) {
           [self.prizeView preloadWithMonsterId:self.prize.monsterId];

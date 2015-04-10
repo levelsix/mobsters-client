@@ -31,9 +31,12 @@
   int quantity = 0;
   if (reward.type == RewardTypeMonster) {
     MonsterProto *mp = [gs monsterWithId:reward.monsterId];
-    imgName = [Globals imageNameForRarity:mp.quality suffix:@"piece.png"];
-    labelName = [Globals stringForRarity:mp.quality];
-    color = [Globals colorForRarity:mp.quality];
+//    imgName = [Globals imageNameForRarity:mp.quality suffix:@"piece.png"];
+//    labelName = [Globals stringForRarity:mp.quality];
+//    color = [Globals colorForRarity:mp.quality];
+    useItemView = YES;
+    
+    imgName = [mp.imagePrefix  stringByAppendingString:@"Card.png"];
   } else if (reward.type == RewardTypeSilver) {
     imgName = @"moneystack.png";
     labelName = [Globals commafyNumber:reward.silverAmount];

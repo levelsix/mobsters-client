@@ -250,7 +250,7 @@
       // These are the moved ones
       NSInteger oldIdx = [oldArray indexOfObject:ta];
       
-      // Transfer hasAskedFroClanHelp value
+      // Transfer hasAskedForClanHelp value
       TimerAction *oldTa = oldArray[oldIdx];
       ta.hasAskedForClanHelp = oldTa.hasAskedForClanHelp;
       
@@ -320,12 +320,22 @@
 - (void) adjustViewForOpenCloseAnimated:(BOOL)animated {
   float heightDiff = (self.mainView.height-self.scrollView.superview.height);
   
+  int closedCellsShown = MINIMIZED_CELLS_SHOWN;
+  float cellHeight = [(UIView *)[self.timerCells firstObject] height];
+  float maxHeight = self.view.height-heightDiff;
+  
+  // This is for iPhone 4 where 2 cells is too big when also displaying free gems and sale
+  // We are basically finding the highest number of cells that can be displayed in the given space.
+  while (maxHeight < (closedCellsShown*(cellHeight+CELL_SPACING))) {
+    closedCellsShown--;
+  }
+  
   self.scrollView.scrollEnabled = self.isOpen;
   
-  self.openLabel.text = self.isOpen ? @"Close" : [NSString stringWithFormat:@"%d More", (int)self.timerCells.count-MINIMIZED_CELLS_SHOWN];
+  self.openLabel.text = self.isOpen ? @"Close" : [NSString stringWithFormat:@"%d More", (int)self.timerCells.count-closedCellsShown];
   
   dispatch_block_t block = ^{
-    BOOL moreRows = self.timerCells.count > MINIMIZED_CELLS_SHOWN;
+    BOOL moreRows = self.timerCells.count > closedCellsShown;
     self.bottomBgdView.highlighted = !moreRows;
     self.openButtonView.hidden = !moreRows;
     
@@ -339,7 +349,7 @@
     } else {
       TimerCell *cell = nil;
       if (moreRows) {
-        cell = self.timerCells[MINIMIZED_CELLS_SHOWN-1];
+        cell = self.timerCells[closedCellsShown-1];
         self.scrollView.contentOffset = ccp(0,0);
       } else {
         cell = [self.timerCells lastObject];

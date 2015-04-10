@@ -1944,7 +1944,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   int base = [self calculateBaseTotalDamageForMonster:um];
   
   MonsterProto *mp = um.staticMonster;
-  float researchFactor = 1.f+[um.researchUtil percentageBenefitForType:ResearchTypeAttackIncrease element:mp.monsterElement rarity:mp.quality];
+  float researchFactor = 1.f+[um.researchUtil percentageBenefitForType:ResearchTypeAttackIncrease element:mp.monsterElement evoTier:mp.evolutionLevel];
   
   return roundf(base*researchFactor);
 }
@@ -1964,7 +1964,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   int baseRock = [self calculateBaseElementalDamageForMonster:um element:ElementRock];
   
   MonsterProto *mp = um.staticMonster;
-  double researchFactor = 1.f+[um.researchUtil percentageBenefitForType:ResearchTypeAttackIncrease element:mp.monsterElement rarity:mp.quality];
+  double researchFactor = 1.f+[um.researchUtil percentageBenefitForType:ResearchTypeAttackIncrease element:mp.monsterElement evoTier:mp.evolutionLevel];
   
   double realFire = baseFire*researchFactor;
   double realWater = baseWater*researchFactor;
@@ -2044,7 +2044,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   int base = [self calculateBaseMaxHealthForMonster:um];
   
   MonsterProto *mp = um.staticMonster;
-  float researchFactor = 1.f+[um.researchUtil percentageBenefitForType:ResearchTypeHpIncrease element:mp.monsterElement rarity:mp.quality];
+  float researchFactor = 1.f+[um.researchUtil percentageBenefitForType:ResearchTypeHpIncrease element:mp.monsterElement evoTier:mp.evolutionLevel];
   
   return base*researchFactor;
 }
@@ -2060,7 +2060,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   int base = [self calculateBaseSpeedForMonster:um];
   
   MonsterProto *mp = um.staticMonster;
-  int amtIncrease = [um.researchUtil amountBenefitForType:ResearchTypeSpeedIncrease element:mp.monsterElement rarity:mp.quality];
+  int amtIncrease = [um.researchUtil amountBenefitForType:ResearchTypeSpeedIncrease element:mp.monsterElement evoTier:mp.evolutionLevel];
   
   return base+amtIncrease;
 }
@@ -2089,7 +2089,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   int maxHealth = [self calculateMaxHealthForMonster:um];
   float baseCost = costToFullyHeal * (maxHealth-um.curHealth)/maxHealth;
   
-  float perc = [gs.researchUtil percentageBenefitForType:ResearchTypeHealingCost element:mp.monsterElement rarity:mp.quality];
+  float perc = [gs.researchUtil percentageBenefitForType:ResearchTypeHealingCost element:mp.monsterElement evoTier:mp.evolutionLevel];
   float researchFactor = [self convertToOverallPercentFromPercentDecrease:perc];
   
   float finalCost = baseCost*researchFactor;
@@ -2107,7 +2107,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   int maxHealth = [self calculateMaxHealthForMonster:um];
   float baseSecs = secsToFullyHeal * (maxHealth-um.curHealth)/maxHealth;
   
-  float perc = [gs.researchUtil percentageBenefitForType:ResearchTypeHealingSpeed element:mp.monsterElement rarity:mp.quality];
+  float perc = [gs.researchUtil percentageBenefitForType:ResearchTypeHealingSpeed element:mp.monsterElement evoTier:mp.evolutionLevel];
   float researchFactor = [self convertToOverallPercentFromPercentDecrease:perc];
   
   float finalSecs = baseSecs*researchFactor;
@@ -2127,7 +2127,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   float oilCost = min.enhanceCostPerFeeder+(max.enhanceCostPerFeeder-min.enhanceCostPerFeeder)*powf((curLevel-1)/(float)(max.lvl-1), max.enhanceCostExponent);
   
   GameState *gs = [GameState sharedGameState];
-  float perc = [gs.researchUtil percentageBenefitForType:ResearchTypeEnhanceCost element:mp.monsterElement rarity:mp.quality];
+  float perc = [gs.researchUtil percentageBenefitForType:ResearchTypeEnhanceCost element:mp.monsterElement evoTier:mp.evolutionLevel];
   float researchFactor = [self convertToOverallPercentFromPercentDecrease:perc];
   
   float finalCost = oilCost*researchFactor;
@@ -2156,7 +2156,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   secsToEnhancePerFeeder = MAX(1, secsToEnhancePerFeeder);
   
   GameState *gs = [GameState sharedGameState];
-  float perc = [gs.researchUtil percentageBenefitForType:ResearchTypeEnhanceCost element:mp.monsterElement rarity:mp.quality];
+  float perc = [gs.researchUtil percentageBenefitForType:ResearchTypeEnhanceCost element:mp.monsterElement evoTier:mp.evolutionLevel];
   float researchFactor = [self convertToOverallPercentFromPercentDecrease:perc];
   
   float finalSecs = secsToEnhancePerFeeder*researchFactor;
@@ -2179,14 +2179,16 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 - (int) calculateExperienceIncrease:(EnhancementItem *)baseMonster feeder:(EnhancementItem *)feeder {
   GameState *gs = [GameState sharedGameState];
   LabProto *lab = (LabProto *)[[gs myLaboratory] staticStruct];
+  
   UserMonster *base = baseMonster.userMonster;
   UserMonster *um = feeder.userMonster;
   MonsterProto *baseMp = base.staticMonster;
+  
   float multiplier1 = lab.pointsMultiplier ?: 1;
   float multiplier2 = baseMp.monsterElement == baseMp.monsterElement ? 1.5 : 1;
   float exp = um.feederExp*multiplier1*multiplier2;
   
-  float researchFactor = 1.f+[gs.researchUtil percentageBenefitForType:ResearchTypeXpBonus element:baseMp.monsterElement rarity:baseMp.quality];
+  float researchFactor = 1.f+[gs.researchUtil percentageBenefitForType:ResearchTypeXpBonus element:baseMp.monsterElement evoTier:baseMp.evolutionLevel];
   
   float finalExp = exp*researchFactor;
   

@@ -43,13 +43,13 @@
 - (void) cancelCurrentResearch;
 
 - (float) percentageBenefitForType:(ResearchType)type;
-- (float) percentageBenefitForType:(ResearchType)type element:(Element)element rarity:(Quality)rarity;
+- (float) percentageBenefitForType:(ResearchType)type element:(Element)element evoTier:(int)evoTier;
 - (float) percentageBenefitForType:(ResearchType)type resType:(ResourceType)resType;
-- (int) amountBenefitForType:(ResearchType)type element:(Element)element rarity:(Quality)rarity;
+- (int) amountBenefitForType:(ResearchType)type element:(Element)element evoTier:(int)evoTier;
 - (int) amountBenefitForType:(ResearchType)type;
 
-- (NSArray *) allUserResearchesForElement:(Element)element rarity:(Quality)rarity;
-- (NSArray *) allResearchProtosForElement:(Element)element rarity:(Quality)rarity;
+- (NSArray *) allUserResearchesForElement:(Element)element evoTier:(int)evoTier;
+- (NSArray *) allResearchProtosForElement:(Element)element evoTier:(int)evoTier;
 
 @end
 
@@ -66,13 +66,13 @@
 - (int) numIncompletePrereqs;
 
 - (Element) element;
-- (Quality) rarity;
+- (int) evoTier;
 - (ResourceType) resourceType;
 - (float) percentage;
 - (int) amountIncrease;
 - (int) staticDataId;
 - (BOOL) hasElement;
-- (BOOL) hasRarity;
+- (BOOL) hasEvoTier;
 - (BOOL) hasResourceType;
 - (BOOL) hasPercentage;
 - (BOOL) hasAmountIncrease;

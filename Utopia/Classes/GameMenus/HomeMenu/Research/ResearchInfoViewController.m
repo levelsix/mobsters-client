@@ -222,6 +222,11 @@
     return;
   }
   
+  if (![_userResearch.staticResearch prereqsComplete]) {
+    [Globals addAlertNotification:@"You have not yet met the requirements to research."];
+    return;
+  }
+  
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   

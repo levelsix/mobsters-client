@@ -135,7 +135,8 @@
 - (BOOL) select {
   // Check if prereqs contain task
   Globals *gl = [Globals sharedGlobals];
-  NSArray *incomplete = [gl incompletePrereqsForStructId:self.userStruct.staticStructForNextLevel.structInfo.structId];
+  StructureInfoProto *fsp = self.userStruct.staticStructForNextLevel.structInfo;
+  NSArray *incomplete = [gl incompletePrereqsForStructId:fsp.structId];
   
   PrereqProto *pre = nil;
   for (PrereqProto *p in incomplete) {
@@ -162,7 +163,8 @@
   } else {
     GameState *gs = [GameState sharedGameState];
     TaskMapElementProto *elem = [gs mapElementWithTaskId:pre.prereqGameEntityId];
-    [Globals addAlertNotification:[NSString stringWithFormat:@"This building is locked until you defeat Level %d.", elem.mapElementId]];
+    FullTaskProto *ftp = [gs taskWithId:elem.taskId];
+    [Globals addAlertNotification:[NSString stringWithFormat:@"Defeat Single Player Level %d \"%@\" to unlock the %@.", elem.mapElementId, ftp.name, fsp.name]];
     
     [SoundEngine generalButtonClick];
     

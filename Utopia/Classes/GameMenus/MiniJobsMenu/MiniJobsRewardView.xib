@@ -50,19 +50,19 @@
             </connections>
         </view>
         <view contentMode="scaleToFill" id="ocg-Xe-8V7" userLabel="ItemView">
-            <rect key="frame" x="0.0" y="0.0" width="40" height="46"/>
+            <rect key="frame" x="0.0" y="0.0" width="41" height="47"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" id="XkR-zp-yf6">
-                    <rect key="frame" x="0.0" y="2" width="41" height="41"/>
+                    <rect key="frame" x="0.0" y="2" width="42" height="42"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="giftitembg.png" id="z3X-37-NSb">
-                            <rect key="frame" x="0.0" y="0.0" width="41" height="41"/>
+                            <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="speedupitemicon.png" id="smk-ex-sgL" customClass="ShrinkOnlyImageView">
-                            <rect key="frame" x="0.0" y="-1" width="41" height="41"/>
+                            <rect key="frame" x="2" y="2" width="38" height="38"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="1H" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="2cO-U6-7z2" customClass="NiceFontLabel8T">
