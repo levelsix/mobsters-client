@@ -443,7 +443,10 @@
       }
       
       const NSString* elementStr = [[Globals stringForElement:mp.monsterElement] lowercaseString];
-      NSArray* assetsToDownload = @[ [elementStr stringByAppendingString:@"grbackground.png"] ];
+      NSArray* assetsToDownload = @[ [elementStr stringByAppendingString:@"grbackground.jpg"],
+                                     [elementStr stringByAppendingString:@"grbigflash1.png"],
+                                     [elementStr stringByAppendingString:@"grglow2glowblend.png"],
+                                     [elementStr stringByAppendingString:@"lightsflashlow1.png"] ];
       [Globals checkAndLoadFiles:assetsToDownload completion:^(BOOL success) {
         if (success) {
           [self.prizeView preloadWithMonsterId:self.prize.monsterId];

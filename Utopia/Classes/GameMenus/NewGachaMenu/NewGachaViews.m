@@ -61,18 +61,6 @@ typedef void (^RevealAnimCompletionBlock)(void);
   self.statsContainerView.layer.anchorPoint = CGPointMake(.25f, .5f);
   self.statsContainerView.originX -= self.statsContainerView.width * .25f;
   
-  /*
-  // Preload element-specific images
-  for (Element element = ElementFire; element < ElementRock; ++element)
-  {
-    const NSString* elementStr = [[Globals stringForElement:element] lowercaseString];
-    [Globals imageNamed:[elementStr stringByAppendingString:@"grbackground.png"]];
-    [Globals imageNamed:[elementStr stringByAppendingString:@"grbigflash1.png"]];
-    [Globals imageNamed:[elementStr stringByAppendingString:@"grglow2glowblend.png"]];
-    [Globals imageNamed:[elementStr stringByAppendingString:@"grlightsflashlow1.png"]];
-  }
-   */
-  
   const CGFloat deviceScale = [Globals screenSize].width / 667.f;
   UIEffectDesignerView* effectView = [UIEffectDesignerView effectWithFile:@"NewGachaSmoke.ped"];
   [effectView setFrame:CGRectMake(140.f * deviceScale, 250.f * deviceScale, 100.f * deviceScale, 20.f * deviceScale)];
@@ -95,7 +83,7 @@ typedef void (^RevealAnimCompletionBlock)(void);
   
   const NSString* elementStr = [[Globals stringForElement:proto.monsterElement] lowercaseString];
   {
-    self.background.image = [Globals imageNamed:[elementStr stringByAppendingString:@"grbackground.png"]];
+    self.background.image = [Globals imageNamed:[elementStr stringByAppendingString:@"grbackground.jpg"]];
     self.elementbigFlash.image = [Globals imageNamed:[elementStr stringByAppendingString:@"grbigflash1.png"]];
     self.elementGlow.image = [Globals imageNamed:[elementStr stringByAppendingString:@"grglow2glowblend.png"]];
     self.elementLightsFlash.image = [Globals imageNamed:[elementStr stringByAppendingString:@"lightsflashlow1.png"]];
