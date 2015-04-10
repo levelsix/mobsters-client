@@ -10,7 +10,7 @@
 #import "Skill.pb.h"
 
 
-@interface SkillProtoHelper
+@interface SkillProtoHelper : NSObject
 
 + (NSString*) offDescForSkill:(SkillProto*)skill;
 + (NSString*) offShortDescForSkill:(SkillProto*)skill;

@@ -338,7 +338,7 @@
 }
 
 - (float) statValueForIndex:(int)index {
-  return self.researchSpeedMultiplier*100;
+  return roundf(self.researchSpeedMultiplier*100);
 }
 
 @end
