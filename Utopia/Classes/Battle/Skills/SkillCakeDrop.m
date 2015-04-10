@@ -8,6 +8,7 @@
 
 #import "SkillCakeDrop.h"
 #import "NewBattleLayer.h"
+#import "SoundEngine.h"
 
 @implementation SkillCakeDrop
 
@@ -159,6 +160,7 @@
 // Jumping and showing overlay
 - (void) initialSequence
 {
+  [SoundEngine puzzleSkillActivated];
   [self showSkillPopupOverlay:YES withCompletion:^{
     [self performSelector:@selector(initialSequence2) withObject:nil afterDelay:0.5];
   }];

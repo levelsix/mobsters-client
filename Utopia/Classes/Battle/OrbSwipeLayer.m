@@ -389,7 +389,11 @@
   OrbSprite *orbLayer = [self spriteForOrb:orb];
   
   if (orbLayer) {
-    [orbLayer removeVineElements];
+    _numOrbsStillAnimating++;
+    [orbLayer removeVineElementsWithBlock:^{
+      _numOrbsStillAnimating--;
+      [self checkIfAllOrbsAndPowerupsAreDone];
+    }];
     
     CCParticleSystem *q = [CCParticleSystem particleWithFile:@"vinebreak@2x.plist"];
     [self addChild:q z:100];

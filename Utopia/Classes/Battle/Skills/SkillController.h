@@ -171,4 +171,9 @@ static NSString* const kSkillMiniLogoImageNameSuffix = @"minilogo.png";
 - (NSInteger) specialsOnBoardCount:(SpecialOrbType)type;
 - (NSInteger) specialTilesOnBoardCount:(TileType)type;
 
+
+///Returns true if this skill is not the active character's skill, but it shares a type with the active character's skill (on the same side).
+///This is used for things like special orb skills not double-ticking their orbs.
+- (BOOL) sameAsActiveSkill;
+
 @end
