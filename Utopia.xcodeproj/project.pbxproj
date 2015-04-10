@@ -2161,6 +2161,12 @@
 		6BA24E091A7AEA6E00BEF920 /* SkillTakeAim.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA24E081A7AEA6E00BEF920 /* SkillTakeAim.m */; };
 		6BA24E0A1A7AEA6E00BEF920 /* SkillTakeAim.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA24E081A7AEA6E00BEF920 /* SkillTakeAim.m */; };
 		6BA24E0B1A7AEA6E00BEF920 /* SkillTakeAim.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA24E081A7AEA6E00BEF920 /* SkillTakeAim.m */; };
+		6BA2BD071AD732A30010AA03 /* BattleState.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA2BD061AD732A30010AA03 /* BattleState.m */; };
+		6BA2BD081AD732A30010AA03 /* BattleState.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA2BD061AD732A30010AA03 /* BattleState.m */; };
+		6BA2BD091AD732A30010AA03 /* BattleState.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA2BD061AD732A30010AA03 /* BattleState.m */; };
+		6BA2BD0D1AD732C30010AA03 /* BattleStateMachine.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA2BD0C1AD732C30010AA03 /* BattleStateMachine.m */; };
+		6BA2BD0E1AD732C30010AA03 /* BattleStateMachine.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA2BD0C1AD732C30010AA03 /* BattleStateMachine.m */; };
+		6BA2BD0F1AD732C30010AA03 /* BattleStateMachine.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA2BD0C1AD732C30010AA03 /* BattleStateMachine.m */; };
 		6BB26BC61A78190C0014342B /* SkillPoisonPowder.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB26BC51A78190C0014342B /* SkillPoisonPowder.m */; };
 		6BB26BC71A78190C0014342B /* SkillPoisonPowder.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB26BC51A78190C0014342B /* SkillPoisonPowder.m */; };
 		6BB26BC81A78190C0014342B /* SkillPoisonPowder.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB26BC51A78190C0014342B /* SkillPoisonPowder.m */; };
@@ -7880,6 +7886,10 @@
 		6BA24DF21A7A9ECF00BEF920 /* SkillBloodRage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillBloodRage.m; sourceTree = "<group>"; };
 		6BA24E061A7AEA6100BEF920 /* SkillTakeAim.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SkillTakeAim.h; sourceTree = "<group>"; };
 		6BA24E081A7AEA6E00BEF920 /* SkillTakeAim.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillTakeAim.m; sourceTree = "<group>"; };
+		6BA2BD061AD732A30010AA03 /* BattleState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BattleState.m; sourceTree = "<group>"; };
+		6BA2BD0A1AD732AD0010AA03 /* BattleState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BattleState.h; sourceTree = "<group>"; };
+		6BA2BD0B1AD732B80010AA03 /* BattleStateMachine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BattleStateMachine.h; sourceTree = "<group>"; };
+		6BA2BD0C1AD732C30010AA03 /* BattleStateMachine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BattleStateMachine.m; sourceTree = "<group>"; };
 		6BB26BC41A7818FB0014342B /* SkillPoisonPowder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillPoisonPowder.h; sourceTree = "<group>"; };
 		6BB26BC51A78190C0014342B /* SkillPoisonPowder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillPoisonPowder.m; sourceTree = "<group>"; };
 		6BB5F85B1A800935006515B9 /* TutorialBuildingUpgradeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialBuildingUpgradeController.h; sourceTree = "<group>"; };
@@ -13501,6 +13511,15 @@
 				6B1EAABA1AD42A7A00E0B642 /* SkillProtoHelper.m */,
 			);
 			name = Skills;
+		6BA2BD041AD732730010AA03 /* StateMachine */ = {
+			isa = PBXGroup;
+			children = (
+				6BA2BD0A1AD732AD0010AA03 /* BattleState.h */,
+				6BA2BD061AD732A30010AA03 /* BattleState.m */,
+				6BA2BD0B1AD732B80010AA03 /* BattleStateMachine.h */,
+				6BA2BD0C1AD732C30010AA03 /* BattleStateMachine.m */,
+			);
+			name = StateMachine;
 			sourceTree = "<group>";
 		};
 		6B3656571B079656009BB2DA /* Credits */ = {
@@ -16817,6 +16836,7 @@
 		CFF1D64A17DFC2F500874339 /* Battle */ = {
 			isa = PBXGroup;
 			children = (
+				6BA2BD041AD732730010AA03 /* StateMachine */,
 				CF7CFE1419A55A2B009338A2 /* BaseBattleLayer */,
 				CFFEB1B618370479007C4BA3 /* CCAnimation Extensions */,
 				CFFEB1B518370463007C4BA3 /* BattleViews */,
@@ -23928,6 +23948,7 @@
 				2991FBFA1A800AFE009BB1D8 /* PopoverViewController.m in Sources */,
 				CF0CED1E196F452900ECD301 /* NibUtils.m in Sources */,
 				3EEADB781A7005C70096A652 /* SkillCounterStrike.m in Sources */,
+				6BA2BD081AD732A30010AA03 /* BattleState.m in Sources */,
 				CF0CED1F196F452900ECD301 /* TimingFunctionTableView.m in Sources */,
 				CF0CED20196F452900ECD301 /* IAPHelper.m in Sources */,
 				CF0CED22196F452900ECD301 /* HomeBuildingMenus.m in Sources */,
@@ -24093,6 +24114,7 @@
 				DA5E3FFB19D0CB3F001F28CE /* SkillRoidRage.m in Sources */,
 				CF0CED8A196F452900ECD301 /* HomeViewController.m in Sources */,
 				9B41AEB61A7C114D00529879 /* SkillHellFire.m in Sources */,
+				6BA2BD0E1AD732C30010AA03 /* BattleStateMachine.m in Sources */,
 				CF0CED8C196F452900ECD301 /* ClanRaidProto+EasyAccess.m in Sources */,
 				CF0CED8E196F452900ECD301 /* MiniTutorialController.m in Sources */,
 				CF42538019AD76EF00964547 /* OrbMainLayer.m in Sources */,
@@ -24488,11 +24510,13 @@
 				CF6574AD1909CAF200ABF1F4 /* EventApns.pb.m in Sources */,
 				CFF646EB195D229400C43641 /* TeamViewController.m in Sources */,
 				9B9BA8071A73367B001B7D04 /* SkillLifeSteal.m in Sources */,
+				6BA2BD0D1AD732C30010AA03 /* BattleStateMachine.m in Sources */,
 				CF29E920196131C200B40DA4 /* InAppPurchaseData.m in Sources */,
 				CF65743E19086B6600ABF1F4 /* FullQuestProto+JobAccess.m in Sources */,
 				291A71EC1AEEEBDF00514D80 /* ReconnectViewController.m in Sources */,
 				29927E6A1AAE1BCE00418683 /* BattleItemUtil.m in Sources */,
 				CFEF25BA18C9849000FB867A /* FacebookDelegate.m in Sources */,
+				6BA2BD071AD732A30010AA03 /* BattleState.m in Sources */,
 				9B9BA8041A73367B001B7D04 /* SkillFlameStrike.m in Sources */,
 				CFFEB1781834C2FD007C4BA3 /* CAKeyframeAnimation+AHEasing.m in Sources */,
 				CF29EA641965102800B40DA4 /* SettingsSubViewController.m in Sources */,
@@ -24689,6 +24713,7 @@
 				CF4818C419F7217F00041486 /* CoinBar.m in Sources */,
 				2991FBFB1A800AFE009BB1D8 /* PopoverViewController.m in Sources */,
 				CF4818C519F7217F00041486 /* NibUtils.m in Sources */,
+				6BA2BD091AD732A30010AA03 /* BattleState.m in Sources */,
 				3EEADB791A7005C70096A652 /* SkillCounterStrike.m in Sources */,
 				CF4818C619F7217F00041486 /* TimingFunctionTableView.m in Sources */,
 				CF4818C719F7217F00041486 /* IAPHelper.m in Sources */,
@@ -24854,6 +24879,8 @@
 				CF48193419F7217F00041486 /* SkillRoidRage.m in Sources */,
 				29C0D23F1A9C20E5005A4EC0 /* FundsViewController.m in Sources */,
 				CF48193619F7217F00041486 /* HomeViewController.m in Sources */,
+				CF48193719F7217F00041486 /* AMQPConsumer.m in Sources */,
+				6BA2BD0F1AD732C30010AA03 /* BattleStateMachine.m in Sources */,
 				9B41AEB71A7C114D00529879 /* SkillHellFire.m in Sources */,
 				CF48193819F7217F00041486 /* ClanRaidProto+EasyAccess.m in Sources */,
 				CF48193A19F7217F00041486 /* MiniTutorialController.m in Sources */,
