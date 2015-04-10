@@ -59,7 +59,7 @@
 - (IBAction)researchSelected:(id)sender;
 
 - (void)updateForResearch:(UserResearch *)userResearch parentNodes:(NSSet *)parentNodes;
-- (void)highlightPathToParentNodes:(BOOL)highlight needsBlackOutline:(BOOL)needsBlackOutline;
+- (void)highlightPathToParentNodes:(BOOL)highlight needsBlackOutline:(BOOL)needsBlackOutline ignoreNodes:(NSMutableArray *)ignoreNodes;
 - (void)select;
 - (void)deselect;
 - (void)dropOpacity;
