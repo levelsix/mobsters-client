@@ -20,6 +20,7 @@
 #import "GameViewController.h"
 #import "SecretGiftViewController.h"
 #import "SoundEngine.h"
+#import "SkillProtoHelper.h"
 
 @implementation NewGachaViewController
 
@@ -694,7 +695,7 @@
   }
   
   [self.skillPopup displayWithSkillName:skill.name
-                            description:skill.offDesc
+                            description:[SkillProtoHelper offDescForSkill:skill]
                            counterLabel:nil
                          orbDescription:orbDesc
                         backgroundImage:bgName

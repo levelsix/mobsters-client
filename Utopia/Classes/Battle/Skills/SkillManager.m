@@ -14,6 +14,7 @@
 #import "SkillControllerActive.h"
 #import "BattleHudView.h"
 #import "SkillSideEffect.h"
+#import "SkillProtoHelper.h"
 
 @implementation SkillManager
 
@@ -615,9 +616,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   NSString *orbImage = nil, *orbCount = nil, *orbDesc = nil, *description = nil;
   
   if (controller == _playerSkillController) {
-    description = proto.offDesc;
+    description = [SkillProtoHelper offDescForSkill:proto];
   } else if (controller == _enemySkillController) {
-    description = proto.defDesc;
+    description = [SkillProtoHelper defDescForSkill:proto];
   }
   
   /*
