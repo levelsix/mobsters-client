@@ -98,7 +98,7 @@
   float translationSpace = 0.f;
   
   if (language && (language != TranslateLanguagesNoTranslation || self.revertedTranslation) && ![self.sender.userUuid isEqualToString:gs.userUuid] && language != self.originalLanguage) {
-    translationSpace = 20.f;
+    translationSpace = 14.f;
   }
   
   return CGRectGetMaxY(chatCell.msgLabel.frame)+14.f+translationSpace;

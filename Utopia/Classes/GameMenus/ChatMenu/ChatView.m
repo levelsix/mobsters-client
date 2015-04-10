@@ -356,7 +356,7 @@
       [self displayPopoverOverCell:cell];
     }
   } else {
-    [self.languageSelectorView close];
+    [self.popoverView close];
   }
 }
 

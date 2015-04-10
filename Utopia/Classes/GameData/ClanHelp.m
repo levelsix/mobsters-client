@@ -395,7 +395,7 @@
   return [UIColor colorWithHexString:@"ffe400"];
 }
 
-- (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag {
+- (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag language:(TranslateLanguages)language{
   NSString *nibName = @"ChatClanHelpView";
   ChatClanHelpView *v = [chatCell dequeueChatSubview:nibName];
   
