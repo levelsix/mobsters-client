@@ -2522,6 +2522,9 @@
 		9BCA5FFC1ABA2E9B0087FB41 /* researchitemgradient@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BCA5FFB1ABA2E9B0087FB41 /* researchitemgradient@2x.png */; };
 		9BCA5FFD1ABA2E9B0087FB41 /* researchitemgradient@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BCA5FFB1ABA2E9B0087FB41 /* researchitemgradient@2x.png */; };
 		9BCA5FFE1ABA2E9B0087FB41 /* researchitemgradient@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BCA5FFB1ABA2E9B0087FB41 /* researchitemgradient@2x.png */; };
+		9BCAA1B41AD5FB770059CEDA /* researchinggreencircle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BCAA1B31AD5FB770059CEDA /* researchinggreencircle@2x.png */; };
+		9BCAA1B51AD5FB770059CEDA /* researchinggreencircle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BCAA1B31AD5FB770059CEDA /* researchinggreencircle@2x.png */; };
+		9BCAA1B61AD5FB770059CEDA /* researchinggreencircle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BCAA1B31AD5FB770059CEDA /* researchinggreencircle@2x.png */; };
 		9BDA8B3E1A3945F600C7AC27 /* evasionminilogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8B3D1A3945F600C7AC27 /* evasionminilogo@2x.png */; };
 		9BDA8B3F1A3945F600C7AC27 /* evasionminilogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8B3D1A3945F600C7AC27 /* evasionminilogo@2x.png */; };
 		9BDA8B401A3945F600C7AC27 /* evasionminilogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8B3D1A3945F600C7AC27 /* evasionminilogo@2x.png */; };
@@ -8454,6 +8457,7 @@
 		9BC9F3A91A928392009DC3D5 /* greyrocks@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greyrocks@2x.png"; sourceTree = "<group>"; };
 		9BC9F3D81A95561B009DC3D5 /* turnmovesbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "turnmovesbg@2x.png"; sourceTree = "<group>"; };
 		9BCA5FFB1ABA2E9B0087FB41 /* researchitemgradient@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "researchitemgradient@2x.png"; sourceTree = "<group>"; };
+		9BCAA1B31AD5FB770059CEDA /* researchinggreencircle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "researchinggreencircle@2x.png"; sourceTree = "<group>"; };
 		9BDA8B3D1A3945F600C7AC27 /* evasionminilogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "evasionminilogo@2x.png"; sourceTree = "<group>"; };
 		9BDA8B461A3A481300C7AC27 /* SkillShuffle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillShuffle.h; sourceTree = "<group>"; };
 		9BDA8B471A3A481300C7AC27 /* SkillShuffle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillShuffle.m; sourceTree = "<group>"; };
@@ -13563,6 +13567,7 @@
 				636C3E721AAA865400B02980 /* lightresearchcorner@2x.png */,
 				636C3E741AAA865400B02980 /* researchlocked@2x.png */,
 				9BCA5FFB1ABA2E9B0087FB41 /* researchitemgradient@2x.png */,
+				9BCAA1B31AD5FB770059CEDA /* researchinggreencircle@2x.png */,
 				636C3E971AAA8C0900B02980 /* researchstatusbg@2x.png */,
 				636C3E751AAA865400B02980 /* tapforresearchdetails@2x.png */,
 			);
@@ -20349,6 +20354,7 @@
 				29AE75D91A6F36E000264070 /* TribalGuy0T1AttackNF@2x.plist in Resources */,
 				CF0CF759196F452900ECD301 /* wavefont.fnt in Resources */,
 				CFA7280D1A0AD0CC00FF6031 /* adminchatbar@2x.png in Resources */,
+				9BCAA1B51AD5FB770059CEDA /* researchinggreencircle@2x.png in Resources */,
 				9B41AEBB1A7C190100529879 /* graveorb-9@2x.png in Resources */,
 				9BDA8B9E1A3B8E1700C7AC27 /* waterheadshot@2x.png in Resources */,
 				CF0CF760196F452900ECD301 /* menuinactivetab@2x.png in Resources */,
@@ -22333,6 +22339,7 @@
 				CFF5DC1B194FDD390019EB2B /* bronzeprofribbon@2x.png in Resources */,
 				CFE7CD981819FC3300930847 /* mobstericon@2x.png in Resources */,
 				CFF1D77B17DFE9C400874339 /* shadow@2x.png in Resources */,
+				9BCAA1B41AD5FB770059CEDA /* researchinggreencircle@2x.png in Resources */,
 				CFF1D78E17E101C900874339 /* ballin@2x.png in Resources */,
 				299AA3EA1A7856AA00A2D806 /* waterorb-9@2x.png in Resources */,
 				CFF1D79217E101C900874339 /* canttouchthis@2x.png in Resources */,
@@ -22650,6 +22657,7 @@
 				298051261A2EAE0500806253 /* QueueHealingCenterT3@2x.png in Resources */,
 				CF4819F519F7217F00041486 /* upgradeinactivetab@2x.png in Resources */,
 				CFA728DD1A0B037900FF6031 /* eartheventtag@2x.png in Resources */,
+				9BCAA1B61AD5FB770059CEDA /* researchinggreencircle@2x.png in Resources */,
 				CF4819FB19F7217F00041486 /* pvpresourcesbar@2x.png in Resources */,
 				CF4819FC19F7217F00041486 /* currentamountbarmiddle@2x.png in Resources */,
 				CF4819FD19F7217F00041486 /* runawaybg@2x.png in Resources */,

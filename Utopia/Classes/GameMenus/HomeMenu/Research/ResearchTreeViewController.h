@@ -52,6 +52,8 @@
 @property (nonatomic, assign) IBOutlet UIImageView *outline;
 @property (nonatomic, assign) IBOutlet UIImageView *bgView;
 @property (nonatomic, assign) IBOutlet UIImageView *lockedIcon;
+@property (nonatomic, assign) IBOutlet UILabel *researchingTimeLeftLabel;
+@property (nonatomic, assign) IBOutlet UIImageView *researchingCircle;
 @property (nonatomic, assign) id<ResearchTreeDelegate> delegate;
 
 - (IBAction)researchSelected:(id)sender;
@@ -62,6 +64,7 @@
 - (void)deselect;
 - (void)dropOpacity;
 - (void)fullOpacity;
+- (void)updateTimeLeftLabelForResearch:(UserResearch *)userResearch;
 
 @end
 
