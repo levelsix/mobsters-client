@@ -1798,9 +1798,6 @@
 		63CA0AF71AD5B8BB00E92774 /* translateselectflagbutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CA0ACF1AD5B8BB00E92774 /* translateselectflagbutton@2x.png */; };
 		63CA0AF81AD5B8BB00E92774 /* translateselectflagbutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CA0ACF1AD5B8BB00E92774 /* translateselectflagbutton@2x.png */; };
 		63CA0AF91AD5B8BB00E92774 /* translateselectflagbutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CA0ACF1AD5B8BB00E92774 /* translateselectflagbutton@2x.png */; };
-		63CA0AFC1AD5B93200E92774 /* Sales.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 63CA0AFB1AD5B93200E92774 /* Sales.pb.m */; };
-		63CA0AFD1AD5B93200E92774 /* Sales.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 63CA0AFB1AD5B93200E92774 /* Sales.pb.m */; };
-		63CA0AFE1AD5B93200E92774 /* Sales.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 63CA0AFB1AD5B93200E92774 /* Sales.pb.m */; };
 		63CA0B011AD5B95300E92774 /* EventMiniEvent.proto in Resources */ = {isa = PBXBuildFile; fileRef = 63CA0AFF1AD5B95300E92774 /* EventMiniEvent.proto */; };
 		63CA0B021AD5B95300E92774 /* EventMiniEvent.proto in Resources */ = {isa = PBXBuildFile; fileRef = 63CA0AFF1AD5B95300E92774 /* EventMiniEvent.proto */; };
 		63CA0B031AD5B95300E92774 /* EventMiniEvent.proto in Resources */ = {isa = PBXBuildFile; fileRef = 63CA0AFF1AD5B95300E92774 /* EventMiniEvent.proto */; };
@@ -1832,6 +1829,9 @@
 		63CDCF481AC0F6A500A00DB6 /* greycomplete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CDCF471AC0F6A500A00DB6 /* greycomplete@2x.png */; };
 		63CDCF491AC0F6A500A00DB6 /* greycomplete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CDCF471AC0F6A500A00DB6 /* greycomplete@2x.png */; };
 		63CDCF4A1AC0F6A500A00DB6 /* greycomplete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CDCF471AC0F6A500A00DB6 /* greycomplete@2x.png */; };
+		63CE45EB1AD8564400C5D8C5 /* Reward.proto in Resources */ = {isa = PBXBuildFile; fileRef = 63CE45EA1AD8564400C5D8C5 /* Reward.proto */; };
+		63CE45EC1AD8564400C5D8C5 /* Reward.proto in Resources */ = {isa = PBXBuildFile; fileRef = 63CE45EA1AD8564400C5D8C5 /* Reward.proto */; };
+		63CE45ED1AD8564400C5D8C5 /* Reward.proto in Resources */ = {isa = PBXBuildFile; fileRef = 63CE45EA1AD8564400C5D8C5 /* Reward.proto */; };
 		6B0783F91A828468005CDFCF /* SkillCurse.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0783F81A828468005CDFCF /* SkillCurse.m */; };
 		6B0783FA1A828468005CDFCF /* SkillCurse.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0783F81A828468005CDFCF /* SkillCurse.m */; };
 		6B0783FB1A828468005CDFCF /* SkillCurse.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0783F81A828468005CDFCF /* SkillCurse.m */; };
@@ -8415,8 +8415,6 @@
 		63CA0ACD1AD5B8BB00E92774 /* Screen Shot 2015-03-25 at 10.37.30 AM.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Screen Shot 2015-03-25 at 10.37.30 AM.png"; path = "ChatTranslator/Screen Shot 2015-03-25 at 10.37.30 AM.png"; sourceTree = "<group>"; };
 		63CA0ACE1AD5B8BB00E92774 /* translatedfrom@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "translatedfrom@2x.png"; path = "ChatTranslator/translatedfrom@2x.png"; sourceTree = "<group>"; };
 		63CA0ACF1AD5B8BB00E92774 /* translateselectflagbutton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "translateselectflagbutton@2x.png"; path = "ChatTranslator/translateselectflagbutton@2x.png"; sourceTree = "<group>"; };
-		63CA0AFA1AD5B93200E92774 /* Sales.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sales.pb.h; sourceTree = "<group>"; };
-		63CA0AFB1AD5B93200E92774 /* Sales.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sales.pb.m; sourceTree = "<group>"; };
 		63CA0AFF1AD5B95300E92774 /* EventMiniEvent.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = EventMiniEvent.proto; sourceTree = "<group>"; };
 		63CA0B001AD5B95300E92774 /* MiniEvent.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MiniEvent.proto; sourceTree = "<group>"; };
 		63CDCEFA1AB8EBF400A00DB6 /* buildingresearch@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buildingresearch@2x.png"; sourceTree = "<group>"; };
@@ -8438,6 +8436,7 @@
 		63CDCF191ABB897600A00DB6 /* srrewardbgbw@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "srrewardbgbw@2x.png"; sourceTree = "<group>"; };
 		63CDCF3F1AC0F13F00A00DB6 /* greysquadrewardcheck@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greysquadrewardcheck@2x.png"; sourceTree = "<group>"; };
 		63CDCF471AC0F6A500A00DB6 /* greycomplete@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greycomplete@2x.png"; sourceTree = "<group>"; };
+		63CE45EA1AD8564400C5D8C5 /* Reward.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Reward.proto; sourceTree = "<group>"; };
 		686F8D3F1B86BD06C7EE6627 /* Pods.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.appstore.xcconfig; path = "Pods/Target Support Files/Pods/Pods.appstore.xcconfig"; sourceTree = "<group>"; };
 		6B0783F61A82845B005CDFCF /* SkillCurse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillCurse.h; sourceTree = "<group>"; };
 		6B0783F81A828468005CDFCF /* SkillCurse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillCurse.m; sourceTree = "<group>"; };
@@ -16076,8 +16075,6 @@
 				9B2EFCE61AC4AEF5005B7B83 /* Reward.pb.m */,
 				291721611AD4B2BD0093F100 /* Sales.pb.h */,
 				291721621AD4B2BD0093F100 /* Sales.pb.m */,
-				63CA0AFA1AD5B93200E92774 /* Sales.pb.h */,
-				63CA0AFB1AD5B93200E92774 /* Sales.pb.m */,
 				29A38D481ACCCCF6006F3CBF /* EventMiniEvent.pb.h */,
 				29A38D491ACCCCF6006F3CBF /* EventMiniEvent.pb.m */,
 				29A38D4A1ACCCCF6006F3CBF /* MiniEvent.pb.h */,
@@ -16351,6 +16348,7 @@
 				29ACC2C91ADD017D00B728B9 /* EventMiniEvent.proto */,
 				29ACC2CA1ADD017D00B728B9 /* MiniEvent.proto */,
 				29ACC2CB1ADD017D00B728B9 /* Reward.proto */,
+				63CE45EA1AD8564400C5D8C5 /* Reward.proto */,
 				291721671AD4B2CC0093F100 /* Sales.proto */,
 				63CA0AFF1AD5B95300E92774 /* EventMiniEvent.proto */,
 				63CA0B001AD5B95300E92774 /* MiniEvent.proto */,
@@ -19544,6 +19542,7 @@
 				CF0CF07E196F452900ECD301 /* enhancebubble@2x.png in Resources */,
 				CF0CF087196F452900ECD301 /* mycity@2x.png in Resources */,
 				9B41AF681A81B41300529879 /* 6fireglove@2x.png in Resources */,
+				63CE45EC1AD8564400C5D8C5 /* Reward.proto in Resources */,
 				CFA7938A1A0C63ED00DF3407 /* firescientisteventlive@2x.png in Resources */,
 				634174811A843521006DA494 /* messagegreendivider@2x.png in Resources */,
 				CFA8B1B119EB8C2F00CF6BFD /* ChatClanHelpView.xib in Resources */,
@@ -21611,6 +21610,7 @@
 				CF746182196B9A5F002D6AE6 /* buildinginfo@2x.png in Resources */,
 				299AA3421A7856AA00A2D806 /* 6lockedorb-9@2x.png in Resources */,
 				29AE75D81A6F36E000264070 /* TribalGuy0T1AttackNF@2x.plist in Resources */,
+				63CE45EB1AD8564400C5D8C5 /* Reward.proto in Resources */,
 				CF6A650919D252D00002E05D /* 6nightgrenade@2x.png in Resources */,
 				CF29E9F51964BD0500B40DA4 /* healredbubble3@2x.png in Resources */,
 				CF2A4B3F1905FBC600B2D7D7 /* RequestsFacebookHeader.xib in Resources */,
@@ -24030,6 +24030,7 @@
 				CF481DCE19F7217F00041486 /* earthpointsfont@2x.png in Resources */,
 				9B41AEAE1A79817500529879 /* 6graveorb@2x.png in Resources */,
 				CF481DD119F7217F00041486 /* greyband@2x.png in Resources */,
+				63CE45ED1AD8564400C5D8C5 /* Reward.proto in Resources */,
 				299AA5081A7872C300A2D806 /* watersideways@2x.png in Resources */,
 				299AA4FF1A7872C300A2D806 /* rockupdown@2x.png in Resources */,
 				CF481DD319F7217F00041486 /* goldribbon@2x.png in Resources */,
@@ -25995,7 +25996,6 @@
 				CF0CEDD7196F452900ECD301 /* NewBattleLayer.m in Sources */,
 				CF9F41B119AAB521002EBF03 /* DestroyedOrb.m in Sources */,
 				291721641AD4B2BD0093F100 /* Sales.pb.m in Sources */,
-				63CA0AFD1AD5B93200E92774 /* Sales.pb.m in Sources */,
 				CF0CEDD8196F452900ECD301 /* TutorialFacebookViewController.m in Sources */,
 				CF0CEDD9196F452900ECD301 /* Task.pb.m in Sources */,
 				CF0CEDDA196F452900ECD301 /* TutorialNameViewController.m in Sources */,
@@ -26345,7 +26345,6 @@
 				CF6574B21909CAF200ABF1F4 /* EventDungeon.pb.m in Sources */,
 				CF6574A61909CAF200ABF1F4 /* AchievementStuff.pb.m in Sources */,
 				291721631AD4B2BD0093F100 /* Sales.pb.m in Sources */,
-				63CA0AFC1AD5B93200E92774 /* Sales.pb.m in Sources */,
 				6B3BC16D1A8BC68E00E0D457 /* SkillPoisonSkewer.m in Sources */,
 				CF48259A19F729D000041486 /* PPEmitterView.m in Sources */,
 				CFF3913C182A10CD0010A3BE /* DBFBProfilePictureView.m in Sources */,
@@ -26783,7 +26782,6 @@
 				CF48198819F7217F00041486 /* NewBattleLayer.m in Sources */,
 				CF48198919F7217F00041486 /* DestroyedOrb.m in Sources */,
 				291721651AD4B2BD0093F100 /* Sales.pb.m in Sources */,
-				63CA0AFE1AD5B93200E92774 /* Sales.pb.m in Sources */,
 				CF48198A19F7217F00041486 /* TutorialFacebookViewController.m in Sources */,
 				CF48198B19F7217F00041486 /* Task.pb.m in Sources */,
 				CF48198C19F7217F00041486 /* TutorialNameViewController.m in Sources */,
