@@ -56,6 +56,11 @@ static BOOL _instanceOpened = NO;
 
 - (void) showAnchoredToInvokingView:(UIView*)invokingView withDirection:(ViewAnchoringDirection)direction inkovingViewImage:(UIImage*)invokingViewImage
 {
+  [self showAnchoredToInvokingView:invokingView withDirection:direction inkovingViewImage:invokingViewImage preserveHeight:NO];
+}
+
+- (void) showAnchoredToInvokingView:(UIView*)invokingView withDirection:(ViewAnchoringDirection)direction inkovingViewImage:(UIImage*)invokingViewImage preserveHeight:(BOOL)preserveHeight
+{
   if (invokingView != nil && direction != ViewAnchoringDirectionNone)
   {
     _centeredOnScreen = NO;
@@ -78,7 +83,7 @@ static BOOL _instanceOpened = NO;
     {
       case ViewAnchoringPreferTopPlacement:
       {
-        viewTargetHeight = invokingViewAbsolutePosition.y - screenPadding; // Fill up available vertical space
+        if (!preserveHeight) viewTargetHeight = invokingViewAbsolutePosition.y - screenPadding; // Fill up available vertical space
         viewTargetX = invokingViewAbsolutePosition.x - (self.mainView.frame.size.width - invokingView.frame.size.width) * .5f;
         viewTargetY = invokingViewAbsolutePosition.y - viewTargetHeight;
         
@@ -98,7 +103,7 @@ static BOOL _instanceOpened = NO;
         
       case ViewAnchoringPreferBottomPlacement:
       {
-        viewTargetHeight = windowSize.height - (invokingViewAbsolutePosition.y + invokingView.frame.size.height) - screenPadding; // Fill up available vertical space
+        if (!preserveHeight) viewTargetHeight = windowSize.height - (invokingViewAbsolutePosition.y + invokingView.frame.size.height) - screenPadding; // Fill up available vertical space
         viewTargetX = invokingViewAbsolutePosition.x - (self.mainView.frame.size.width - invokingView.frame.size.width) * .5f;
         viewTargetY = invokingViewAbsolutePosition.y + invokingView.frame.size.height;
         
@@ -118,7 +123,7 @@ static BOOL _instanceOpened = NO;
         
       case ViewAnchoringPreferLeftPlacement:
       {
-        viewTargetHeight = windowSize.height - screenPadding * 2.f; // Fill up available vertical space
+        if (!preserveHeight) viewTargetHeight = windowSize.height - screenPadding * 2.f; // Fill up available vertical space
         viewTargetX = invokingViewAbsolutePosition.x - self.mainView.frame.size.width;
         viewTargetY = screenPadding;
         
@@ -142,7 +147,7 @@ static BOOL _instanceOpened = NO;
         
       case ViewAnchoringPreferRightPlacement:
       {
-        viewTargetHeight = windowSize.height - screenPadding * 2.f; // Fill up available vertical space
+        if (!preserveHeight) viewTargetHeight = windowSize.height - screenPadding * 2.f; // Fill up available vertical space
         viewTargetX = invokingViewAbsolutePosition.x + invokingView.frame.size.width;
         viewTargetY = screenPadding;
         

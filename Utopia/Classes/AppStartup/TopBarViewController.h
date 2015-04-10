@@ -48,6 +48,7 @@
 @property (nonatomic, assign) IBOutlet NumTransitionLabel *oilLabel;
 @property (nonatomic, assign) IBOutlet NumTransitionLabel *gemsLabel;
 @property (nonatomic, assign) IBOutlet NumTransitionLabel *strengthLabel;
+@property (nonatomic, assign) IBOutlet UIImageView *strengthIcon;
 @property (nonatomic, assign) IBOutlet UILabel *cashMaxLabel;
 @property (nonatomic, assign) IBOutlet UILabel *oilMaxLabel;
 @property (nonatomic, assign) IBOutlet UIImageView *clanIcon;
