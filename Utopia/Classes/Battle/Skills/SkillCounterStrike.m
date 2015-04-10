@@ -38,6 +38,11 @@
   return _damage;
 }
 
+- (TickTrigger)tickTrigger
+{
+  return TickTriggerAfterOpponentTurn;
+}
+
 - (NSSet*) sideEffects
 {
   return [NSSet setWithObjects:@(SideEffectTypeBuffCounterStrike), nil];
