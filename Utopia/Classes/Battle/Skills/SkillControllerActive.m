@@ -9,6 +9,7 @@
 #import "SkillControllerActive.h"
 #import "NewBattleLayer.h"
 #import "SkillManager.h"
+#import "SoundEngine.h"
 
 @implementation SkillControllerActive
 
@@ -75,6 +76,7 @@
         {
           [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
           [self.battleLayer.orbLayer disallowInput];
+          [SoundEngine puzzleSkillActivated];
           if ([self doesStack])
             ++_stacks;
           [self showSkillPopupOverlay:YES withCompletion:^(){
