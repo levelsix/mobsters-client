@@ -32,6 +32,7 @@ typedef enum
 
 - (void) showCenteredOnScreen;
 - (void) showAnchoredToInvokingView:(UIView*)invokingView withDirection:(ViewAnchoringDirection)direction inkovingViewImage:(UIImage*)invokingViewImage;
+- (void) showAnchoredToInvokingView:(UIView*)invokingView withDirection:(ViewAnchoringDirection)direction inkovingViewImage:(UIImage*)invokingViewImage preserveHeight:(BOOL)preserveHeight;
 - (IBAction)closeClicked:(id)sender;
 
 @end

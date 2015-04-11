@@ -31,6 +31,7 @@
 #import "SocketCommunication.h"
 #import "SoundEngine.h"
 #import "StrengthChangeView.h"
+#import "GenericPopoverViewController.h"
 
 @implementation TopBarMonsterView
 
@@ -971,6 +972,21 @@
       sgvc.view.frame = gvc.view.bounds;
       [gvc.view addSubview:sgvc.view];
     }
+  }
+}
+
+- (IBAction)strengthClicked:(id)sender {
+  NSString* popoverText = [[[NSString stringWithFormat:@"Strength shows overall progression in %@. ", GAME_NAME]
+                            stringByAppendingString:@"The higher the number, the stronger the player.\n\n"]
+                           stringByAppendingString:[NSString stringWithFormat:@"It moves up and down based on your %@s, Buildings, and Research.", MONSTER_NAME]];
+  GenericPopoverViewController *popover = [[GenericPopoverViewController alloc] initWithWidth:240.f title:@"Strength" body:popoverText];
+  if (popover) {
+    GameViewController *gvc = (GameViewController *)self.parentViewController;
+    [popover.view setFrame:gvc.view.bounds];
+    [gvc addChildViewController:popover];
+    [gvc.view addSubview:popover.view];
+    
+    [popover showAnchoredToInvokingView:self.strengthIcon withDirection:ViewAnchoringPreferBottomPlacement inkovingViewImage:nil preserveHeight:YES];
   }
 }
 

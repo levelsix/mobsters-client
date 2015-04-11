@@ -345,6 +345,8 @@ static const int kBoardMarginLeft = 10;
     int32_t powerAvailable = _powerLimit - powerUsed;
     if (_dragOriginatedFromBoard) powerAvailable += _draggedObstacle.powerAmt;
     
+    NSMutableDictionary* tilesWithExtraPowerCost = [NSMutableDictionary dictionary];
+    
     for (int row = 0; row < _boardSize.height; ++row)
       for (int col = 0; col < _boardSize.width; ++col)
       {
@@ -367,10 +369,20 @@ static const int kBoardMarginLeft = 10;
             extraPowerCost -= [self extraPowerCostForAdjacentObstacleCount:adjacentObstacleCountRight];
             
             const int adjacencyBasedPowerCost = _draggedObstacle.powerAmt + extraPowerCost;
-            [tile showExtraPowerCost:adjacencyBasedPowerCost available:powerAvailable >= adjacencyBasedPowerCost];
+            // BoardDesignerTile class does not conform to NSCopying protocol and hence cannot
+            // be used as a key in an NSDictionary. Storing the pointer in an NSValue lets us
+            // reconstruct the instance later while setting it as a key in our NSDictionary
+            [tilesWithExtraPowerCost setObject:@(adjacencyBasedPowerCost) forKey:[NSValue valueWithNonretainedObject:tile]];
           }
         }
       }
+    
+    for (NSValue* key in tilesWithExtraPowerCost)
+    {
+      BoardDesignerTile* tile = [key nonretainedObjectValue]; // Reconstruct the BoardDesignerTile instance
+      const int adjacencyBasedPowerCost = [[tilesWithExtraPowerCost objectForKey:key] intValue];
+      [tile showExtraPowerCost:adjacencyBasedPowerCost available:powerAvailable >= adjacencyBasedPowerCost];
+    }
   }
 }
 
