@@ -43,7 +43,7 @@
 
 @property (nonatomic, retain) NSMutableDictionary *chatSubviews;
 
-- (void) updateForMessage:(NSString *)message showsClanTag:(BOOL)showsClanTag translatedTo:(TranslateLanguages)translatedTo chatMessage:(ChatMessage *)chatMessage;
+- (void) updateForMessage:(NSString *)message showsClanTag:(BOOL)showsClanTag translatedTo:(TranslateLanguages)translatedTo chatMessage:(ChatMessage *)chatMessage showTranslateButton:(BOOL)showTranslateButton;
 - (void) updateForMessage:(NSString *)message sender:(MinimumUserProto *)sender date:(MSDate *)date showsClanTag:(BOOL)showsClanTag allowHighlight:(BOOL)allowHighlight chatSubview:(UIView *)view identifier:(NSString *)identifier;
 - (void) updateForMessage:(NSString *)message sender:(MinimumUserProto *)sender date:(MSDate *)date showsClanTag:(BOOL)showsClanTag allowHighlight:(BOOL)allowHighlight chatSubview:(UIView *)view identifier:(NSString *)identifier translatedTo:(TranslateLanguages)translatedTo untranslate:(BOOL)untranslate;
 

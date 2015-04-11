@@ -1651,7 +1651,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     case TranslateLanguagesSpanish:
       return @"Translated to Spanish";
     default:
-      return @"";
+      return @"No Translation Available";
   }
 }
 
