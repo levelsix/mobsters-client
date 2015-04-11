@@ -661,4 +661,8 @@
   }
 }
 
+- (void) refreshItemUsed:(id<ItemObject>)itemObject viewController:(ItemSelectViewController *)viewController {
+  
+}
+
 @end

@@ -22,18 +22,6 @@
   [self.delegate itemSelectClosed:viewController];
 }
 
-- (TimerProgressBarColor) progressBarColor {
-  return TimerProgressBarColorGreen;
-}
-
-- (float) progressBarPercent {
-  return 1.f;
-}
-
-- (NSString *) progressBarText {
-  return @"no one should see this";
-}
-
 - (int) numGems {
   //gems item not used
   return 999;
