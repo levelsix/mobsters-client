@@ -353,11 +353,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(SoundEngine);
 }
 
 + (void) puzzleBreakCloud {
-  [[SoundEngine sharedSoundEngine] playEffect:@"break_cloud.mp3"];
+  //[[SoundEngine sharedSoundEngine] playEffect:@"break_cloud.mp3"];
 }
 
 + (void) puzzleBreakLock {
-  [[SoundEngine sharedSoundEngine] playEffect:@"break_lock.mp3"];
+  //[[SoundEngine sharedSoundEngine] playEffect:@"break_lock.mp3"];
 }
 
 @end
