@@ -406,17 +406,17 @@
                                     <rect key="frame" x="0.0" y="4" width="30" height="30"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <subviews>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="avatardropshadow.png" id="jmy-zO-zlu">
-                                            <rect key="frame" x="-1" y="-1" width="34" height="34"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </imageView>
                                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="nightavatar.png" id="4xW-XU-mCQ">
                                             <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         </imageView>
                                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="7YN-SX-Bmy">
-                                            <rect key="frame" x="1" y="2" width="28" height="28"/>
+                                            <rect key="frame" x="1" y="1" width="28" height="28"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        </imageView>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="avatarring.png" id="jmy-zO-zlu">
+                                            <rect key="frame" x="-1" y="-1" width="32" height="32"/>
+                                            <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Jeh-7n-Tmi" customClass="MaskedButton">
                                             <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
@@ -871,7 +871,7 @@
         <image name="1gbhud.png" width="45" height="51"/>
         <image name="addgems.png" width="24" height="24"/>
         <image name="attackbutton.png" width="72" height="68"/>
-        <image name="avatardropshadow.png" width="34" height="34"/>
+        <image name="avatarring.png" width="32" height="32"/>
         <image name="badgeicon.png" width="18" height="18"/>
         <image name="cashcap.png" width="4" height="18"/>
         <image name="cashmiddle.png" width="1" height="18"/>
