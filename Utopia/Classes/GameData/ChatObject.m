@@ -73,10 +73,14 @@
   //this if for determining if the revert translation should show
   TranslateLanguages translationLanguage = TranslateLanguagesNoTranslation;
   
+  //remove this bool once Byron finishes Admin chat
+  BOOL noTranslation = YES;
+  
   for(TranslatedTextProto *ttp in self.translatedTextProtos) {
     if (ttp.language == language) {
       translatedMessage = ttp.text;
       translationLanguage = language;
+      noTranslation = NO;
       break;
     }
   }
@@ -84,9 +88,11 @@
   if (self.revertedTranslation || self.originalLanguage == language || [self.sender.userUuid isEqualToString:[gs minUser].userUuid]) {
     translatedMessage = self.originalMessage;
     translationLanguage = TranslateLanguagesNoTranslation;
+    noTranslation = NO;
   }
   
-  [chatCell updateForMessage:translatedMessage showsClanTag:showsClanTag translatedTo:translationLanguage chatMessage:self];
+  BOOL showButton = !noTranslation && language && language != TranslateLanguagesNoTranslation && language != self.originalLanguage && ![self.sender.userUuid isEqualToString:gs.userUuid];
+  [chatCell updateForMessage:translatedMessage showsClanTag:showsClanTag translatedTo:translationLanguage chatMessage:self showTranslateButton:showButton];
 }
 
 - (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell language:(TranslateLanguages)language{
@@ -95,7 +101,8 @@
   [self updateInChatCell:chatCell showsClanTag:NO language:language];
   float translationSpace = 0.f;
   
-  if (language && (language != TranslateLanguagesNoTranslation || self.revertedTranslation) && ![self.sender.userUuid isEqualToString:gs.userUuid] && language != self.originalLanguage) {
+//  if (language && (language != TranslateLanguagesNoTranslation || self.revertedTranslation) && ![self.sender.userUuid isEqualToString:gs.userUuid] && language != self.originalLanguage) {
+  if (language && language != TranslateLanguagesNoTranslation && language != self.originalLanguage && ![self.sender.userUuid isEqualToString:gs.userUuid]) {
     translationSpace = 14.f;
   }
   
