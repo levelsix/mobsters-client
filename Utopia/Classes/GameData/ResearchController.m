@@ -56,42 +56,75 @@
   
   switch (_research.researchType) {
     case ResearchTypeHealingCost:
-      return @"Healing Cost";
+      return @"Cash Discount";
     case ResearchTypeHealingSpeed:
       return @"Healing Speed";
     case ResearchTypeEnhanceCost:
-      return @"Enhance Cost";
+      return @"Oil Discount";
     case ResearchTypeDecreaseEnhanceTime:
       return @"Enhance Speed";
     case ResearchTypeXpBonus:
-      return @"Xp Bonus";
+      return @"Enhance Xp";
     case ResearchTypeAttackIncrease:
-      return @"Attack Increase";
+      return @"Attack";
     case ResearchTypeHpIncrease:
-      return @"Health Increase";
+      return @"HP";
     case ResearchTypeIncreaseConstructionSpeed:
-      return @"Build Speed";
+      return @"Builder Speed";
     case ResearchTypeItemProductionCost:
-      return @"Item Create Cost";
+      return @"Cost Discount";
     case ResearchTypeItemProductionSpeed:
-      return @"Item Create Speed";
+      return @"Creation Speed";
     case ResearchTypeResourceProduction:
-      return @"Resource Rate";
+      return @"Production";
     case ResearchTypeResourceStorage:
-      return @"Storage Limit";
+      return [NSString stringWithFormat:@"%@ Storage", _research.resourceType == ResourceTypeCash ? @"Cash" : @"Oil"];
       
     case ResearchTypeSpeedIncrease:
-      return @"Speed Increase";
+      return @"Speed";
     case ResearchTypeIncreaseEnhanceQueue:
     case ResearchTypeIncreaseHospitalQueue:
-      return @"Queue Size";
+      return @"Bonus Slots";
     case ResearchTypeNumberOfHospitals:
-      return @"Num Hospitals";
+      return @"Bonus Hospitals";
       
     case ResearchTypeUnlockItem:
-      return @"Unlock Item";
     case ResearchTypeUnlockObstacle:
-      return @"Unlock Obstacle";
+      return @"Unlocks";
+      
+    case ResearchTypeNoResearch:
+      return nil;
+  }
+}
+
+- (NSString *) suffix {
+  
+  switch (_research.researchType) {
+    case ResearchTypeHealingCost:
+    case ResearchTypeHealingSpeed:
+    case ResearchTypeEnhanceCost:
+    case ResearchTypeDecreaseEnhanceTime:
+    case ResearchTypeIncreaseConstructionSpeed:
+    case ResearchTypeResourceProduction:
+    case ResearchTypeItemProductionCost:
+    case ResearchTypeItemProductionSpeed:
+      return @"Boost";
+      
+    case ResearchTypeXpBonus:
+    case ResearchTypeAttackIncrease:
+    case ResearchTypeHpIncrease:
+    case ResearchTypeResourceStorage:
+      return @"Increase";
+      
+    case ResearchTypeSpeedIncrease:
+      return @"Bonus Speed";
+      
+    case ResearchTypeIncreaseEnhanceQueue:
+    case ResearchTypeIncreaseHospitalQueue:
+    case ResearchTypeNumberOfHospitals:
+    case ResearchTypeUnlockItem:
+    case ResearchTypeUnlockObstacle:
+      return @"";
       
     case ResearchTypeNoResearch:
       return nil;
@@ -108,20 +141,30 @@
 
 @implementation ResearchPercentController
 
+- (float) prevBenefit {
+  return [[_research predecessorResearch] percentage];
+}
+
 - (float) percentBenefit {
   return [_research percentage] - [[_research predecessorResearch] percentage];
 }
 
+- (float) makePercent:(float)val {
+  return roundf(val*1000)/10.f;
+}
+
 - (NSString *) longImprovementString {
-  return [NSString stringWithFormat:@"%@%% Increase", [Globals commafyNumber:roundf([self percentBenefit]*100)]];
+  float prevBenefit = [self prevBenefit];
+  NSString *pre = prevBenefit > 0 ? [NSString stringWithFormat:@"%@%% ", [Globals commafyNumber:[self makePercent:prevBenefit]]] : @"";
+  return [NSString stringWithFormat:@"%@ + %@%% %@", pre, [Globals commafyNumber:[self makePercent:[self percentBenefit]]], [self suffix]];
 }
 
 - (NSString *) shortImprovementString {
-  return [NSString stringWithFormat:@"+%@%%", [Globals commafyNumber:roundf([self percentBenefit]*100)]];
+  return [NSString stringWithFormat:@"+%@%%", [Globals commafyNumber:[self makePercent:[self percentBenefit]]]];
 }
 
 - (NSString *) benefitString {
-  return [NSString stringWithFormat:@"+%@%%", [Globals commafyNumber:roundf([_research percentage]*100)]];
+  return [NSString stringWithFormat:@"+%@%%", [Globals commafyNumber:[self makePercent:[_research percentage] ]]];
 }
 
 - (float) curPercent {
@@ -134,12 +177,18 @@
 
 @implementation ResearchUnitController
 
+- (float) prevBenefit {
+  return [[_research predecessorResearch] amountIncrease];
+}
+
 - (int) amountBenefit {
   return [_research amountIncrease] - [[_research predecessorResearch] amountIncrease];
 }
 
 - (NSString *) longImprovementString {
-  return [NSString stringWithFormat:@"+%@ Increase", [Globals commafyNumber:[self amountBenefit]]];
+  float prevBenefit = [self prevBenefit];
+  NSString *pre = prevBenefit > 0 ? [NSString stringWithFormat:@"%@ ", [Globals commafyNumber:prevBenefit]] : @"";
+  return [NSString stringWithFormat:@"%@ + %@ %@", pre, [Globals commafyNumber:[self amountBenefit]], [self suffix]];
 }
 
 - (NSString *) shortImprovementString {

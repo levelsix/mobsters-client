@@ -904,7 +904,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   NSString *toRet = s.length > 0 ? [pre stringByAppendingString:s] : @"0";
   
   if (r > 0) {
-    toRet = [toRet stringByAppendingString:[[NSString stringWithFormat:@"%.2f", r] substringFromIndex:1]];
+    NSString *str = [[NSString stringWithFormat:@"%.2f", r] substringFromIndex:1];
+    
+    // Take off 0's at the end
+    while (str.length > 0 && ([str characterAtIndex:str.length-1] == '0' || [str characterAtIndex:str.length-1] == '1')) {
+      str = [str substringToIndex:str.length-1];
+    }
+    
+    toRet = [toRet stringByAppendingString:str];
   }
   
   return toRet;

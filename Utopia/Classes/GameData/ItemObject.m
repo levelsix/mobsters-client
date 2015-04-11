@@ -170,7 +170,7 @@
 }
 
 - (NSString *) iconImageName {
-  return @"gemitemicon.png";
+  return @"diamond.png";
 }
 
 - (NSString *) iconText {
