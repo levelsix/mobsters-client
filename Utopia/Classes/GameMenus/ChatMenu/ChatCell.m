@@ -49,11 +49,15 @@ static float buttonInitialWidth = 159.f;
   _initialMsgLabelWidth = self.msgLabel.width;
 }
 
-- (void) updateForMessage:(NSString *)message sender:(MinimumUserProto *)sender date:(MSDate *)date showsClanTag:(BOOL)showsClanTag {
-  [self updateForMessage:message sender:sender date:date showsClanTag:showsClanTag allowHighlight:YES chatSubview:nil identifier:nil];
+- (void) updateForMessage:(NSString *)message showsClanTag:(BOOL)showsClanTag translatedTo:(TranslateLanguages)translatedTo chatMessage:(ChatMessage *)chatMessage {
+  [self updateForMessage:message sender:chatMessage.sender date:chatMessage.date showsClanTag:showsClanTag allowHighlight:YES chatSubview:nil identifier:nil translatedTo:translatedTo untranslate:chatMessage.revertedTranslation];
 }
 
 - (void) updateForMessage:(NSString *)message sender:(MinimumUserProto *)sender date:(MSDate *)date showsClanTag:(BOOL)showsClanTag allowHighlight:(BOOL)allowHighlight chatSubview:(UIView *)view identifier:(NSString *)identifier {
+  [self updateForMessage:message sender:sender date:date showsClanTag:showsClanTag allowHighlight:allowHighlight chatSubview:view identifier:identifier translatedTo:TranslateLanguagesNoTranslation untranslate:NO];
+}
+
+- (void) updateForMessage:(NSString *)message sender:(MinimumUserProto *)sender date:(MSDate *)date showsClanTag:(BOOL)showsClanTag allowHighlight:(BOOL)allowHighlight chatSubview:(UIView *)view identifier:(NSString *)identifier translatedTo:(TranslateLanguages)translatedTo untranslate:(BOOL)untranslate{
   GameState *gs = [GameState sharedGameState];
   
   self.msgLabel.text = message;
@@ -111,6 +115,19 @@ static float buttonInitialWidth = 159.f;
   }
   
   self.msgLabel.width = self.mainView.width-66.f;
+  
+  //translation tag and button
+  self.translationDescription.superview.hidden = translatedTo == TranslateLanguagesNoTranslation && !untranslate;
+  if (untranslate) {
+    self.translationDescription.text = @"Untranslated";
+  } else {
+    self.translationDescription.text = [Globals translationDescriptionWith:translatedTo];
+  }
+  
+  if (!self.translationDescription.superview.hidden) {
+    CGSize size = [self.translationDescription.text getSizeWithFont:self.translationDescription.font];
+    self.mainView.width = MAX(self.mainView.width, size.width + 77.f + 14.f);//77 is the spacing on the left // 14 is right padding
+  }
 
   BOOL shouldHighlight;
   if ([sender.userUuid isEqualToString:gs.userUuid]) {
@@ -194,10 +211,20 @@ static float buttonInitialWidth = 159.f;
 
 @implementation PrivateChatListCell
 
-- (void) updateForPrivateChat:(id<ChatObject>)pcpp {
-  self.privateChat = pcpp;
+- (void) updateForPrivateChat:(id<ChatObject>)pcpp language:(TranslateLanguages)language{
+  PrivateChatPostProto *postProto = (PrivateChatPostProto *)pcpp;
+  if(language != TranslateLanguagesNoTranslation) {
+    for (TranslatedTextProto *ttp in postProto.translatedContentList) {
+      if(ttp.language == language) {
+        self.msgLabel.text = ttp.text;
+        break;
+      }
+    }
+  } else {
+    self.msgLabel.text = [pcpp message];
+  }
   
-  self.msgLabel.text = [pcpp message];
+  self.privateChat = pcpp;
   self.timeLabel.text = [Globals stringForTimeSinceNow:[pcpp date] shortened:NO];
   self.nameLabel.text = pcpp.otherUser.name;
   self.unreadIcon.hidden = [pcpp isRead];
@@ -208,8 +235,8 @@ static float buttonInitialWidth = 159.f;
 
 @implementation PrivateChatAttackLogCell : PrivateChatListCell
 
-- (void) updateForPrivateChat:(id<ChatObject>)privateChat {
-  [super updateForPrivateChat:privateChat];
+- (void) updateForPrivateChat:(id<ChatObject>)privateChat language:(TranslateLanguages)language{
+  [super updateForPrivateChat:privateChat language:language];
   
   PvpHistoryProto *php = (PvpHistoryProto*)privateChat;
   self.msgLabel.text = [NSString stringWithFormat:@"Your %@ %@",php.userIsAttacker ? @"Offense" : @"Defense", php.userWon ? @"Won" : @"Lost" ];

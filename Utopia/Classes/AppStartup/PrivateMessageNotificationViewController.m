@@ -69,6 +69,8 @@
 @implementation PrivateMessageNotificationViewController
 
 - (id) initWithMessages:(NSArray*)allMessages isImmediate:(BOOL)isImmediate {
+  GameState *gs = [GameState sharedGameState];
+  
   _avatarOffSet = FIRST_AVATAR_OFFSET;
   if ((self = [super init])) {
     [[NSBundle mainBundle] loadNibNamed:@"PrivateMessageNotificationView" owner:self options:nil];
@@ -94,7 +96,22 @@
       } else {
         ChatMessage *cm = [messages firstObject];
         _messageFromSingleUser = cm;
-        [self.notificationView updateWithString:cm.sender.name description:cm.message color:[UIColor colorWithHexString:@"FFFFFF"]];
+        
+        PrivateChatPostProto *pcpp = [messages firstObject];
+        
+        TranslateLanguages languageToDisplay = [gs translateOnForUser:cm.sender.userUuid] ? [gs languageForUser:cm.sender.userUuid] : TranslateLanguagesNoTranslation;
+        
+        NSString *displayMessage = cm.message;
+        if (languageToDisplay != TranslateLanguagesNoTranslation) {
+          for (TranslatedTextProto *ttp in pcpp.translatedContentList) {
+            if (ttp.language == languageToDisplay) {
+              displayMessage = ttp.text;
+              break;
+            }
+          }
+        }
+        
+        [self.notificationView updateWithString:cm.sender.name description:displayMessage color:[UIColor colorWithHexString:@"FFFFFF"]];
         
         //pass anything through owner because there are no outlets
         [self addAvatarWithMonsterId:cm.sender.avatarMonsterId];
