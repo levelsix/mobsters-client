@@ -62,11 +62,41 @@
 }
 
 - (NSString *) buttonText {
-  return @"Use";
+  int hardCodedTempAmount = 69;
+  
+  switch (self.staticItem.itemType) {
+      
+    case ItemTypeRefreshMiniJob:
+      return [NSString stringWithFormat:@"%d",hardCodedTempAmount];
+      
+    case ItemTypeItemCash:
+    case ItemTypeItemOil:
+    case ItemTypeSpeedUp:
+    case ItemTypeBoosterPack:
+    case ItemTypeBuilder:
+      return @"USE";
+      
+    default:
+      return @"USE";
+  }
 }
 
 - (BOOL) useGemsButton {
-  return NO;
+  switch (self.staticItem.itemType) {
+      
+    case ItemTypeRefreshMiniJob:
+      return self.isValid;
+      
+    case ItemTypeItemCash:
+    case ItemTypeItemOil:
+    case ItemTypeSpeedUp:
+    case ItemTypeBoosterPack:
+    case ItemTypeBuilder:
+      return NO;
+      
+    default:
+      return NO;
+  }
 }
 
 - (BOOL) showFreeLabel {

@@ -12,7 +12,6 @@
 @protocol RefreshItemsFillerDelegate <NSObject>
 
 - (void) itemSelectClosed:(id)viewController;
-@optional
 - (void) refreshItemUsed:(id<ItemObject>)itemObject viewController:(ItemSelectViewController *)viewController;
 
 @end

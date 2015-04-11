@@ -126,6 +126,11 @@
 
 @implementation ItemSelectViewController
 
+- (void) viewDidLoad {
+  [super viewDidLoad];
+  [self.progressBarView removeFromSuperview];
+}
+
 - (void) viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
   
@@ -150,7 +155,9 @@
 - (void) updateLabels {
   self.titleLabel.text = [self.delegate titleName];
   
-  [self updateProgressBar];
+  if ([self.delegate respondsToSelector:@selector(progressBarText)]) {
+    [self updateProgressBar];
+  }
   
   for (ItemSelectCell *cell in self.itemsTable.visibleCells) {
     id<ItemObject> io = self.items[[self.itemsTable indexPathForCell:cell].row];
@@ -194,7 +201,9 @@
   
   self.titleLabel.text = [self.delegate titleName];
   
-  [self updateProgressBar];
+  if ([self.delegate respondsToSelector:@selector(progressBarText)]) {
+    [self updateProgressBar];
+  }
 }
 
 - (void) updateProgressBar {
@@ -267,8 +276,20 @@
   return cell;
 }
 
+- (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+  if ([self.delegate respondsToSelector:@selector(progressBarText)]) {
+    return self.progressBarView.height;
+  } else {
+    return 0.f;
+  }
+}
+
 - (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-  return self.progressBarView;
+  if ([self.delegate respondsToSelector:@selector(progressBarText)]) {
+    return self.progressBarView;
+  } else {
+    return nil;
+  }
 }
 
 - (IBAction) cellButtonClicked:(UIView *)sender {
