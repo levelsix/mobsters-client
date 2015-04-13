@@ -12,9 +12,23 @@
 
 @implementation MiniJobRefreshItemsFiller
 
-- (void) itemSelected:(id<ItemObject>)item viewController:(id)viewController {
-  if ([self.delegate respondsToSelector:@selector(refreshItemUsed:viewController:)]) {
-    [self.delegate refreshItemUsed:item viewController:viewController];
+- (id) init {
+  if ((self = [super init])) {
+    self.usedItems = [NSMutableSet set];
+    
+  }
+  return self;
+}
+
+- (void) itemSelected:(id<ItemObject>)io viewController:(id)viewController {
+  if (![io isKindOfClass:[UserItem class]] || [io numOwned] > 0) {
+    if ([io isKindOfClass:[UserItem class]]) {
+      [self.usedItems addObject:@([(UserItem *)io itemId])];
+    }
+    [self.delegate refreshItemUsed:io viewController:viewController];
+  } else {
+    UserItem *ui = (UserItem *)io;
+    [Globals addAlertNotification:[NSString stringWithFormat:@"You don't own any %@s.", ui.name]];
   }
 }
 
@@ -33,35 +47,28 @@
 
 - (NSArray *) reloadItemsArray {
   GameState *gs = [GameState sharedGameState];
+  NSMutableArray *userItems = [[gs.itemUtil getItemsForType:ItemTypeSpeedUp staticDataId:0] mutableCopy];
   
-  NSMutableArray *realItems = [[gs.itemUtil getItemsForType:ItemTypeRefreshMiniJob staticDataId:0] mutableCopy];
-  NSMutableArray *userItems = [NSMutableArray array];
   for (ItemProto *ip in gs.staticItems.allValues) {
-    if (ip.itemType == ItemTypeRefreshMiniJob) {
+    if (ip.itemType == ItemTypeSpeedUp) {
       UserItem *ui = [[UserItem alloc] init];
       ui.itemId = ip.itemId;
       
-      int numUsed = [self.usedItems[@(ui.itemId)] intValue];
-      
-      NSInteger idx = [realItems indexOfObject:ui];
-      if (idx != NSNotFound) {
-        UserItem *realItem = [realItems objectAtIndex:idx];
-
-        ui.quantity = realItem.quantity;
-      }
-      
-      if (ip.alwaysDisplayToUser || ui.quantity > 0 || numUsed) {
+      if (![userItems containsObject:ui] && (ip.alwaysDisplayToUser || [self.usedItems containsObject:@(ui.itemId)])) {
         [userItems addObject:ui];
       }
     }
   }
   
+  // Add a gems item object.. maybe
+  GemsItemObject *gio = [[GemsItemObject alloc] init];
+  gio.delegate = self;
+  [userItems addObject:gio];
+  
   [userItems sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
     if ([obj1 isKindOfClass:[UserItem class]] && [obj2 isKindOfClass:[UserItem class]]) {
-      // Put items that were used at the top of the list too so that it doesn't look weird flying down
-      // And to prevent misclicking if you're using them fast
-      BOOL anyOwned1 = [obj1 numOwned] > 0 || self.usedItems[@([obj1 itemId])];
-      BOOL anyOwned2 = [obj2 numOwned] > 0 || self.usedItems[@([obj2 itemId])];
+      BOOL anyOwned1 = [obj1 numOwned] > 0 || [self.usedItems containsObject:@([obj1 itemId])];
+      BOOL anyOwned2 = [obj2 numOwned] > 0 || [self.usedItems containsObject:@([obj2 itemId])];
       
       if (anyOwned1 != anyOwned2) {
         return [@(anyOwned2) compare:@(anyOwned1)];

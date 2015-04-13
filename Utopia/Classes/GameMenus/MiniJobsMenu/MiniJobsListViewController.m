@@ -253,6 +253,13 @@
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   int ct = (int)self.miniJobsList.count;
   self.noMoreJobsLabel.hidden = ct > 0;
+  
+  if (_waitingOnRefreshResponse) {
+    self.noMoreJobsLabel.text = @"Loading Minijobs...";
+  } else {
+    self.noMoreJobsLabel.text = @"You have no more Mini Jobs.";
+  }
+  
   return ct;
 }
 
@@ -662,7 +669,31 @@
 }
 
 - (void) refreshItemUsed:(id<ItemObject>)itemObject viewController:(ItemSelectViewController *)viewController {
+  GameState *gs = [GameState sharedGameState];
   
+  Quality itemQuality = QualityCommon;
+  
+  //put in a server event here
+  
+  _waitingOnRefreshResponse = YES;
+  [viewController closeClicked:nil];
+  [self.miniJobsList removeAllObjects];
+  [self.listTable reloadData];
+  
+  self.refreshButtonLabel.hidden = YES;
+  self.refreshButtonSpinner.hidden = NO;
+}
+
+- (void) handleRefreshResponse:(FullEvent *)fe {
+  GameState *gs = [GameState sharedGameState];
+  
+  _waitingOnRefreshResponse = NO;
+  //the gamestate miniJobs should be updated in the response in incomingEventController
+  //if there's an error it will just reload the old minijobs
+  [self reloadMiniJobsArray];
+  
+  self.refreshButtonLabel.hidden = NO;
+  self.refreshButtonSpinner.hidden = YES;
 }
 
 @end

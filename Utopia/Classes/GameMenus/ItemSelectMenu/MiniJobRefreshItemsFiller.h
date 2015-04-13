@@ -18,7 +18,7 @@
 
 @interface MiniJobRefreshItemsFiller : NSObject <ItemSelectDelegate, GemsItemDelegate>
 
-@property (nonatomic, retain) NSMutableDictionary *usedItems;
+@property (nonatomic, retain) NSMutableSet *usedItems;
 
 @property (nonatomic, assign) id<RefreshItemsFillerDelegate> delegate;
 
