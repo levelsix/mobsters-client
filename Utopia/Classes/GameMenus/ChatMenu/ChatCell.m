@@ -620,3 +620,33 @@ static float buttonInitialWidth = 159.f;
 }
 
 @end
+
+@implementation ChatSquadGift
+
+- (void) awakeFromNib {
+  [super awakeFromNib];
+  self.openedView.frame = self.unOpenedView.frame;
+  [self.unOpenedView.superview addSubview:self.openedView];
+  
+}
+
+- (void) updateForSquadGift {
+  
+  Quality giftRarity = QualityCommon;
+  int expireTime;
+  
+  NSString *name = @"gift name";
+  NSString *imageName = @"squadGift.png";
+  NSString *giftPoolName = @"Gold Gift";
+  
+  self.giftRarityLabel.text = [NSString stringWithFormat:@"%@ Gift", [Globals stringForRarity:giftRarity]];
+  self.giftNameLabel.text = name;
+  self.giftPoolLabel.text = giftPoolName;
+  
+  self.expireTimeLabel.text = [Globals convertTimeToShortString:expireTime withAllDenominations:YES];
+  
+  [Globals imageNamed:imageName withView:self.giftImage greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+  
+}
+
+@end
