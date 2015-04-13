@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ClanRewardsQuestView">
@@ -40,23 +40,23 @@
                     <size key="shadowOffset" width="0.0" height="1"/>
                 </label>
                 <view contentMode="scaleToFill" id="PdW-Nk-3hC" userLabel="Middle View">
-                    <rect key="frame" x="29" y="75" width="84" height="86"/>
+                    <rect key="frame" x="17" y="64" width="106" height="109"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <imageView multipleTouchEnabled="YES" contentMode="center" image="darksquadrewardcircle.png" id="bV6-Lf-ArO">
-                            <rect key="frame" x="0.0" y="0.0" width="84" height="84"/>
+                            <rect key="frame" x="12" y="11" width="84" height="84"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="squadrewardrequest.png" id="BKy-23-ysD" customClass="ShrinkOnlyImageView">
-                            <rect key="frame" x="4" y="4" width="76" height="76"/>
+                            <rect key="frame" x="16" y="15" width="76" height="76"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="greysquadrewardcheck.png" id="Owm-xA-jrx">
-                            <rect key="frame" x="57" y="62" width="25" height="24"/>
+                            <rect key="frame" x="69" y="73" width="25" height="24"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
                         <view contentMode="scaleToFill" id="Ojf-hq-v6k">
-                            <rect key="frame" x="57" y="62" width="25" height="24"/>
+                            <rect key="frame" x="69" y="73" width="25" height="24"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="squadrewardsprogress.png" id="pVz-Ke-lCF">
@@ -74,7 +74,7 @@
                             </subviews>
                         </view>
                         <view contentMode="scaleToFill" id="BU1-KB-DUu" userLabel="GoButtonView">
-                            <rect key="frame" x="55" y="59" width="39" height="39"/>
+                            <rect key="frame" x="67" y="70" width="39" height="39"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Gb1-aR-2dE">
@@ -170,7 +170,7 @@
     </objects>
     <resources>
         <image name="darksquadrewardcircle.png" width="85" height="85"/>
-        <image name="diamond.png" width="29" height="27"/>
+        <image name="diamond.png" width="28" height="28"/>
         <image name="greenmenuoption.png" width="80" height="40"/>
         <image name="greensquadreward1.png" width="29" height="29"/>
         <image name="greycomplete.png" width="78" height="33"/>

@@ -458,7 +458,7 @@
 //  BOOL availBuilding = YES; // Should always show
   
   self.freeGemsBadge.badgeNum = badgeNum;
-  self.freeGemsView.hidden = YES;//!availAchievement || !availBuilding;
+  self.freeGemsView.hidden = !availAchievement || !availBuilding;
   
   if (!self.freeGemsView.hidden && self.freeGemsSpinner.layer.animationKeys.count == 0) {
     CABasicAnimation *fullRotation;
@@ -649,7 +649,7 @@
   BOOL showSaleView = gs.numBeginnerSalesPurchased == 0 && gl.starterPackIapPackage;
   
   if (showSaleView) {
-    self.saleView.hidden = YES;
+    self.saleView.hidden = NO;
     
     self.saleView.centerX = self.shopView.centerX;
     self.saleView.originY = self.shopView.originY-self.saleView.height;
