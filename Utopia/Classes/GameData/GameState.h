@@ -168,6 +168,8 @@
 @property (nonatomic, retain) NSMutableDictionary *privateChatLanguages;
 @property (nonatomic, retain) NSMutableDictionary *privateTranslationOn;
 
+@property (nonatomic, retain) NSMutableArray *squadGifts;
+
 + (GameState *) sharedGameState;
 + (void) purgeSingleton;
 
