@@ -862,6 +862,21 @@
   return [self.buildCompleteDate timeIntervalSinceNow];
 }
 
+- (int) storageCapacity {
+  ResourceStorageProto *rgp = (ResourceStorageProto *)self.staticStructForCurrentConstructionLevel;
+  
+  if ([rgp isKindOfClass:[ResourceStorageProto class]]) {
+    int baseStorage = rgp.capacity;
+    
+    GameState *gs = [GameState sharedGameState];
+    float researchFactor = 1.f+[gs.researchUtil percentageBenefitForType:ResearchTypeResourceStorage resType:rgp.resourceType];
+    
+    return roundf(baseStorage*researchFactor);
+  }
+  
+  return 0;
+}
+
 - (float) productionRate {
   ResourceGeneratorProto *gen = (ResourceGeneratorProto *)self.staticStructForCurrentConstructionLevel;
   if ([gen isKindOfClass:[ResourceGeneratorProto class]]) {
@@ -870,7 +885,7 @@
     GameState *gs = [GameState sharedGameState];
     float researchFactor = 1.f+[gs.researchUtil percentageBenefitForType:ResearchTypeResourceProduction resType:gen.resourceType];
     
-    return base*researchFactor;
+    return roundf(base*researchFactor);
   } else if ([gen isKindOfClass:[MoneyTreeProto class]]) {
     MoneyTreeProto *mtp = (MoneyTreeProto *)gen;
     
@@ -879,7 +894,7 @@
     GameState *gs = [GameState sharedGameState];
     float researchFactor = 1.f+[gs.researchUtil percentageBenefitForType:ResearchTypeResourceProduction resType:ResourceTypeGems];
     
-    return base*researchFactor;
+    return roundf(base*researchFactor);
   }
   return 0.f;
 }

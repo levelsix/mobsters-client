@@ -22,6 +22,8 @@
 @optional
 - (NSString *) statChangeStringForIndex:(int)index;
 
+- (float) statValueWithResearchBonusForIndex:(int)index;
+
 - (BOOL) usePowForIndex:(int)index;
 - (BOOL) useSqrtForIndex:(int)index;
 

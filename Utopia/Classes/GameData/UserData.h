@@ -184,6 +184,7 @@
 - (NSArray *) incompletePrerequisites;
 - (BOOL) satisfiesAllPrerequisites;
 
+- (int) storageCapacity;
 - (float) productionRate;
 - (int) numResourcesAvailable;
 
