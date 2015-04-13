@@ -58,6 +58,8 @@
   BOOL _isBeginningJob;
   
   BOOL _beganSomeJob;
+  
+  BOOL _waitingOnRefreshResponse;
 }
 
 @property (nonatomic, retain) IBOutlet UIView *headerView;
@@ -78,6 +80,9 @@
 
 @property (nonatomic, retain) MiniJobsDetailsViewController *detailsViewController;
 @property (nonatomic, retain) MiniJobsCompleteViewController *completeViewController;
+
+@property (nonatomic, retain) UILabel *refreshButtonLabel;
+@property (nonatomic, retain) UIActivityIndicatorView *refreshButtonSpinner;
 
 - (void) reloadTableAnimated:(BOOL)animated;
 

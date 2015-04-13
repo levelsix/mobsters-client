@@ -3565,4 +3565,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
+- (void) refreshMiniJobs:(Quality)jobQuality delegate:(id)delegate {
+  
+//  int tag = [[SocketCommunication sharedSocketCommunication] sendBUTTS];
+//  [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
+  
+}
+
 @end
