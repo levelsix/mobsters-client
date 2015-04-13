@@ -220,8 +220,8 @@
     <resources>
         <image name="enhancebottom.png" width="424" height="60"/>
         <image name="greenmenuoption.png" width="80" height="40"/>
-        <image name="moneystack.png" width="31" height="30"/>
-        <image name="oilicon.png" width="25" height="30"/>
+        <image name="moneystack.png" width="29" height="25"/>
+        <image name="oilicon.png" width="21" height="26"/>
         <image name="readyforupgradebigcheck.png" width="23" height="26"/>
         <image name="upgradepopupbottomred.png" width="363" height="58"/>
         <image name="upgradestarbg.png" width="115" height="110"/>

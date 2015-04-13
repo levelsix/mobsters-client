@@ -54,7 +54,7 @@
   self.backBar.percentage = nextAmount;
   self.frontBar.percentage = curAmount;
   
-  CGSize textSize = [self.increaseDescription.text getSizeWithFont:self.increaseDescription.font];
+  CGSize textSize = [self.increaseDescription.text getSizeWithFont:self.increaseDescription.font constrainedToSize:self.increaseDescription.size];
   self.buttonView.origin =  CGPointMake(self.increaseDescription.origin.x + textSize.width + 3, self.buttonView.origin.y);
 }
 
@@ -93,51 +93,14 @@
 }
 
 - (void) updateForTownHall:(id<GameTypeProtocol>)gameProto {
-  _curY = START_BUFFER;
-  
-  for (UIView *subview in self.contentView.subviews) {
-    [subview removeFromSuperview];
-  }
-  
-  UIView *newestView;
-  
-  NSArray *prereqs = [gameProto prereqs];
-  
-  if (prereqs.count > 0) {
-    newestView = [self makeTitleWithTitle:REQUIREMENTS_TITLE];
-    [self addToScrollViewWithView:newestView];
-    
-    for(int i = 0; i < prereqs.count; i++) {
-      newestView = [self makePrereqViewWithPrereq:prereqs[i]];
-      [self addToScrollViewWithView:newestView];
-    }
-  }
-  
-  newestView = [self makeTitleWithTitle:UNLOCKS_TITLE];
-  [self addToScrollViewWithView:newestView];
-  
-  if (self.townHallUnlocksView) {
-    [self addToScrollViewWithView:self.townHallUnlocksView];
-    
-    //special case, this view should be centered
-    CGPoint center = self.townHallUnlocksView.center;
-    center.x = self.scrollView.width /2.f;
-    self.townHallUnlocksView.center = center;
-  }
-  
-  newestView = [self makeTitleWithTitle:STRENGTH_TITLE];
-  [self addToScrollViewWithView:newestView];
-  
-  newestView = [self makeStrengthDetailsViewWithStrength:gameProto.strengthGain showPlus:!!gameProto.successor];
-  [self addToScrollViewWithView:newestView];
-  
-  _curY += 21;
-  
-  self.contentView.size = CGSizeMake(self.contentView.size.width, _curY);
-  self.scrollView.contentSize = self.contentView.frame.size;
+  [self updateForGameTypeProto:gameProto showTownHallUnlocksView:YES];
 }
 
 - (void) updateForGameTypeProto:(id<GameTypeProtocol>)gameProto {
+  [self updateForGameTypeProto:gameProto showTownHallUnlocksView:NO];
+}
+
+- (void) updateForGameTypeProto:(id<GameTypeProtocol>)gameProto showTownHallUnlocksView:(BOOL)showTownHallUnlocksView {
 //  id<StaticStructure> staticStruct = userStruct.staticStruct;
   
   _curY = START_BUFFER;
@@ -157,6 +120,15 @@
       newestView = [self makePrereqViewWithPrereq:prereqs[i]];
       [self addToScrollViewWithView:newestView];
     }
+  }
+  
+  if (showTownHallUnlocksView && self.townHallUnlocksView) {
+    [self addToScrollViewWithView:self.townHallUnlocksView];
+    
+    //special case, this view should be centered
+    CGPoint center = self.townHallUnlocksView.center;
+    center.x = self.scrollView.width /2.f;
+    self.townHallUnlocksView.center = center;
   }
   
   if ([gameProto numBars] > 0) {

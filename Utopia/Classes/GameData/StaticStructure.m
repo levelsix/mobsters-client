@@ -9,6 +9,7 @@
 #import "StaticStructure.h"
 #import "Protocols.pb.h"
 #import "GameState.h"
+#import "UserData.h"
 
 @implementation ResourceGeneratorProto (StaticStructureImpl)
 
@@ -40,6 +41,60 @@
   }
 }
 
+- (float) statValueWithResearchBonusForIndex:(int)index {
+  if (!index) {
+    UserStruct *us = [[UserStruct alloc] init];
+    us.structId = self.structInfo.structId;
+    us.isComplete = YES;
+    return us.productionRate;
+  } else {
+    return self.capacity;
+  }
+}
+
+@end
+
+@implementation MoneyTreeProto (StaticStructureImpl)
+
+- (int) numBars {
+  return 2;
+}
+
+- (NSString *) statNameForIndex:(int)index {
+  if (!index) {
+    return @"Rate";
+  } else {
+    return @"Capacity";
+  }
+}
+
+- (NSString *) statSuffixForIndex:(int)index {
+  if (!index) {
+    return @" Per Day";
+  } else {
+    return @"";
+  }
+}
+
+- (float) statValueForIndex:(int)index {
+  if (!index) {
+    return self.productionRate*24;
+  } else {
+    return self.capacity;
+  }
+}
+
+- (float) statValueWithResearchBonusForIndex:(int)index {
+  if (!index) {
+    UserStruct *us = [[UserStruct alloc] init];
+    us.structId = self.structInfo.structId;
+    us.isComplete = YES;
+    return us.productionRate*24;
+  } else {
+    return self.capacity;
+  }
+}
+
 @end
 
 @implementation ResourceStorageProto (StaticStructureImpl)
@@ -58,6 +113,13 @@
 
 - (float) statValueForIndex:(int)index {
   return self.capacity;
+}
+
+- (float) statValueWithResearchBonusForIndex:(int)index {
+  UserStruct *us = [[UserStruct alloc] init];
+  us.structId = self.structInfo.structId;
+  us.isComplete = YES;
+  return us.storageCapacity;
 }
 
 - (BOOL) useSqrtForIndex:(int)index {
@@ -120,10 +182,21 @@
 
 @implementation TownHallProto (StaticStructureImpl)
 
-- (int) numBars { return 0; }
-- (NSString *) statNameForIndex:(int)index { return @""; }
-- (NSString *) statSuffixForIndex:(int)index { return @""; }
-- (float) statValueForIndex:(int)index { return 0.f; }
+- (int) numBars {
+  return 1;
+}
+
+- (NSString *) statNameForIndex:(int)index {
+  return @"Res. Capacity";
+}
+
+- (NSString *) statSuffixForIndex:(int)index {
+  return @"";
+}
+
+- (float) statValueForIndex:(int)index {
+  return self.resourceCapacity;
+}
 
 @end
 
@@ -199,38 +272,6 @@
 
 - (float) statValueForIndex:(int)index {
   return self.structInfo.level;
-}
-
-@end
-
-@implementation MoneyTreeProto (StaticStructureImpl)
-
-- (int) numBars {
-  return 2;
-}
-
-- (NSString *) statNameForIndex:(int)index {
-  if (!index) {
-    return @"Rate";
-  } else {
-    return @"Capacity";
-  }
-}
-
-- (NSString *) statSuffixForIndex:(int)index {
-  if (!index) {
-    return @" Per Day";
-  } else {
-    return @"";
-  }
-}
-
-- (float) statValueForIndex:(int)index {
-  if (!index) {
-    return self.productionRate*24;
-  } else {
-    return self.capacity;
-  }
 }
 
 @end
@@ -445,8 +486,8 @@
     return [nextStruct statChangeStringForIndex:index];
   }
   
-  float curValue = [curStruct statValueForIndex:index];
-  float nextValue = [nextStruct statValueForIndex:index];
+  float curValue = [curStruct respondsToSelector:@selector(statValueWithResearchBonusForIndex:)] ? [curStruct statValueWithResearchBonusForIndex:index] : [curStruct statValueForIndex:index];
+  float nextValue = [nextStruct respondsToSelector:@selector(statValueWithResearchBonusForIndex:)] ? [nextStruct statValueWithResearchBonusForIndex:index] : [nextStruct statValueForIndex:index];
   return [self statChangeStringWith:curValue nextStat:nextValue suffix:[self statSuffixForIndex:index]];
 }
 

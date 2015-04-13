@@ -1523,13 +1523,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     ResourceStorageProto *rgp = (ResourceStorageProto *)us.staticStructForCurrentConstructionLevel;
     StructureInfoProto *fsp = [rgp structInfo];
     if (fsp.structType == StructureInfoProto_StructTypeResourceStorage && rgp.resourceType == ResourceTypeCash) {
-      maxCash += rgp.capacity;
+      maxCash += us.storageCapacity;
     }
   }
   
-  float researchFactor = 1.f+[self.researchUtil percentageBenefitForType:ResearchTypeResourceStorage resType:ResourceTypeCash];
-  
-  return maxCash*researchFactor;
+  return maxCash;
 }
 
 - (int) maxOil {
@@ -1538,13 +1536,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     ResourceStorageProto *rgp = (ResourceStorageProto *)us.staticStructForCurrentConstructionLevel;
     StructureInfoProto *fsp = [rgp structInfo];
     if (fsp.structType == StructureInfoProto_StructTypeResourceStorage && rgp.resourceType == ResourceTypeOil) {
-      maxOil += rgp.capacity;
+      maxOil += us.storageCapacity;
     }
   }
   
-  float researchFactor = 1.f+[self.researchUtil percentageBenefitForType:ResearchTypeResourceStorage resType:ResourceTypeOil];
-  
-  return maxOil*researchFactor;
+  return maxOil;
 }
 
 - (int) maxTeamCost {

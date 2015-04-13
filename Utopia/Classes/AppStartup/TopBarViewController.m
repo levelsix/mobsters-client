@@ -105,6 +105,7 @@
   NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
   [center addObserver:self selector:@selector(gameStateUpdated) name:GAMESTATE_UPDATE_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(gameStateUpdated) name:STRENGTH_CHANGED_NOTIFICATION object:nil];
+  [center addObserver:self selector:@selector(gameStateUpdated) name:RESEARCH_CHANGED_NOTIFICATION object:nil];
   [self gameStateUpdated];
   
   [center addObserver:self selector:@selector(updateMonsterViews) name:MY_TEAM_CHANGED_NOTIFICATION object:nil];
@@ -458,7 +459,7 @@
 //  BOOL availBuilding = YES; // Should always show
   
   self.freeGemsBadge.badgeNum = badgeNum;
-  self.freeGemsView.hidden = YES;//!availAchievement || !availBuilding;
+  self.freeGemsView.hidden = !availAchievement || !availBuilding;
   
   if (!self.freeGemsView.hidden && self.freeGemsSpinner.layer.animationKeys.count == 0) {
     CABasicAnimation *fullRotation;
@@ -649,7 +650,7 @@
   BOOL showSaleView = gs.numBeginnerSalesPurchased == 0 && gl.starterPackIapPackage;
   
   if (showSaleView) {
-    self.saleView.hidden = YES;
+    self.saleView.hidden = NO;
     
     self.saleView.centerX = self.shopView.centerX;
     self.saleView.originY = self.shopView.originY-self.saleView.height;
