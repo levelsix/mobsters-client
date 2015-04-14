@@ -668,12 +668,27 @@
   }
 }
 
-- (void) refreshItemUsed:(id<ItemObject>)itemObject viewController:(ItemSelectViewController *)viewController {
+- (void) refreshItemUsed:(id<ItemObject>)itemObject viewController:(ItemSelectViewController *)viewController gems:(int)gems{
   GameState *gs = [GameState sharedGameState];
   
+  int itemId = 0;
   Quality itemQuality = QualityCommon;
   
-  //put in a server event here
+  if ([itemObject isKindOfClass:[UserItem class]]) {
+    UserItem *item = (UserItem *)itemObject;
+    itemId = item.itemId;
+    itemQuality = item.quality;
+  }
+  
+  NSMutableArray *arr = [[NSMutableArray alloc] init];
+  for(UserMiniJob *umj in gs.myMiniJobs) {
+    int timeLeft = umj.tentativeCompletionDate.timeIntervalSinceNow;
+    if (timeLeft > 0) {
+      [arr addObject:umj.miniJob];
+    }
+  }
+  
+  [[OutgoingEventController sharedOutgoingEventController] refreshMiniJobs:arr itemId:itemId gemsSpent:gems quality:itemObject.quality delegate:self];
   
   _waitingOnRefreshResponse = YES;
   [viewController closeClicked:nil];
@@ -685,10 +700,8 @@
 }
 
 - (void) handleRefreshResponse:(FullEvent *)fe {
-  GameState *gs = [GameState sharedGameState];
-  
   _waitingOnRefreshResponse = NO;
-  //the gamestate miniJobs should be updated in the response in incomingEventController
+  
   //if there's an error it will just reload the old minijobs
   [self reloadMiniJobsArray];
   

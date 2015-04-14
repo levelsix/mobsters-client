@@ -161,6 +161,7 @@
 - (void) beginMiniJob:(UserMiniJob *)userMiniJob userMonsterUuids:(NSArray *)userMonsterUuids delegate:(id)delegate;
 - (void) completeMiniJob:(UserMiniJob *)userMiniJob isSpeedup:(BOOL)isSpeedup gemCost:(int)gemCost delegate:(id)delegate;
 - (void) redeemMiniJob:(UserMiniJob *)userMiniJob delegate:(id)delegate;
+- (void) refreshMiniJobs:(NSArray *)jobs itemId:(int)itemId gemsSpent:(int)gemsSpent quality:(Quality)quality delegate:(id)delegate;
 
 - (void) retrieveUserMiniEventWithDelegate:(id)delegate;
 - (void) updateUserMiniEvent:(UserMiniEventGoal *)updatedUserMiniEventGoal shouldFlush:(BOOL)shouldFlush;

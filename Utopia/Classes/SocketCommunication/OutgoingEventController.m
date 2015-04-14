@@ -3574,10 +3574,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
-- (void) refreshMiniJobs:(Quality)jobQuality delegate:(id)delegate {
+- (void) refreshMiniJobs:(NSArray *)jobs itemId:(int)itemId gemsSpent:(int)gemsSpent quality:(Quality)quality delegate:(id)delegate {
+  GameState *gs = [GameState sharedGameState];
   
-//  int tag = [[SocketCommunication sharedSocketCommunication] sendBUTTS];
-//  [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
+  MiniJobCenterProto *miniJobCenter = (MiniJobCenterProto *)gs.myMiniJobCenter;
+  
+  int tag = [[SocketCommunication sharedSocketCommunication] sendRefreshMiniJobMessage:jobs itemId:itemId numToSpawn:(int)miniJobCenter.generatedJobLimit gemsSpent:gemsSpent quality:quality clientTime:[self getCurrentMilliseconds] structId:gs.myMiniJobCenter.structId];
+  [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
   
 }
 

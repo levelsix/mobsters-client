@@ -12,7 +12,7 @@
 @protocol RefreshItemsFillerDelegate <NSObject>
 
 - (void) itemSelectClosed:(id)viewController;
-- (void) refreshItemUsed:(id<ItemObject>)itemObject viewController:(ItemSelectViewController *)viewController;
+- (void) refreshItemUsed:(id<ItemObject>)itemObject viewController:(ItemSelectViewController *)viewController gems:(int)gems;
 
 @end
 
