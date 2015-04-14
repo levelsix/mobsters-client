@@ -182,8 +182,9 @@
 
 @implementation TownHallProto (StaticStructureImpl)
 
+// Don't show any bars for town hall
 - (int) numBars {
-  return 1;
+  return 0;
 }
 
 - (NSString *) statNameForIndex:(int)index {

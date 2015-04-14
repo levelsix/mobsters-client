@@ -111,8 +111,6 @@
   // Crashlytics
   [Crashlytics startWithAPIKey:@"5001803420c4d8732cf317109988902188f28beb"];
   
-  [self removeLocalNotifications];
-  
   [[CCDirector sharedDirector] pause];
   
   [ChartboostDelegate setUpChartboost];
@@ -228,7 +226,7 @@
   // Let the device know we want to receive push notifications
   if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]) {
     [app registerUserNotificationSettings:
-     [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeSound categories:nil]];
+     [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeSound|UIUserNotificationTypeBadge categories:nil]];
     
     [app registerForRemoteNotifications];
   } else {
