@@ -5,6 +5,8 @@
 #import "SharedEnumConfig.pb.h"
 // @@protoc_insertion_point(imports)
 
+@class ItemGemPriceProto;
+@class ItemGemPriceProto_Builder;
 @class ItemProto;
 @class ItemProto_Builder;
 @class UserItemProto;
@@ -426,6 +428,64 @@ BOOL ItemTypeIsValidValue(ItemType value);
 - (int64_t) createTime;
 - (UserItemSecretGiftProto_Builder*) setCreateTime:(int64_t) value;
 - (UserItemSecretGiftProto_Builder*) clearCreateTime;
+@end
+
+@interface ItemGemPriceProto : PBGeneratedMessage {
+@private
+  BOOL hasItemId_:1;
+  BOOL hasGemPrice_:1;
+  int32_t itemId;
+  int32_t gemPrice;
+}
+- (BOOL) hasItemId;
+- (BOOL) hasGemPrice;
+@property (readonly) int32_t itemId;
+@property (readonly) int32_t gemPrice;
+
++ (ItemGemPriceProto*) defaultInstance;
+- (ItemGemPriceProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (ItemGemPriceProto_Builder*) builder;
++ (ItemGemPriceProto_Builder*) builder;
++ (ItemGemPriceProto_Builder*) builderWithPrototype:(ItemGemPriceProto*) prototype;
+- (ItemGemPriceProto_Builder*) toBuilder;
+
++ (ItemGemPriceProto*) parseFromData:(NSData*) data;
++ (ItemGemPriceProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ItemGemPriceProto*) parseFromInputStream:(NSInputStream*) input;
++ (ItemGemPriceProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ItemGemPriceProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (ItemGemPriceProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface ItemGemPriceProto_Builder : PBGeneratedMessageBuilder {
+@private
+  ItemGemPriceProto* result;
+}
+
+- (ItemGemPriceProto*) defaultInstance;
+
+- (ItemGemPriceProto_Builder*) clear;
+- (ItemGemPriceProto_Builder*) clone;
+
+- (ItemGemPriceProto*) build;
+- (ItemGemPriceProto*) buildPartial;
+
+- (ItemGemPriceProto_Builder*) mergeFrom:(ItemGemPriceProto*) other;
+- (ItemGemPriceProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (ItemGemPriceProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasItemId;
+- (int32_t) itemId;
+- (ItemGemPriceProto_Builder*) setItemId:(int32_t) value;
+- (ItemGemPriceProto_Builder*) clearItemId;
+
+- (BOOL) hasGemPrice;
+- (int32_t) gemPrice;
+- (ItemGemPriceProto_Builder*) setGemPrice:(int32_t) value;
+- (ItemGemPriceProto_Builder*) clearGemPrice;
 @end
 
 
