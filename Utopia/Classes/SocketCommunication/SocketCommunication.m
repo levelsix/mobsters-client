@@ -1337,7 +1337,7 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCRedeemMiniJobEvent];
 }
 
-- (int) sendRefreshMiniJobMessage:(NSArray *)replacedMiniJobs itemId:(int)itemId numToSpawn:(int)numToSpawn gemsSpent:(int)gemsSpent quality:(Quality)quality clientTime:(uint64_t)clientTime structId:(int)structId {
+- (int) sendRefreshMiniJobMessage:(NSArray *)replacedMiniJobs itemId:(int32_t)itemId numToSpawn:(int32_t)numToSpawn gemsSpent:(int32_t)gemsSpent quality:(Quality)quality clientTime:(uint64_t)clientTime structId:(int32_t)structId {
   RefreshMiniJobRequestProto *req = [[[[[[[[[[RefreshMiniJobRequestProto builder]
                                              setSender:_sender]
                                             addAllDeleteUserMiniJobIds:replacedMiniJobs]

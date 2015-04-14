@@ -25,8 +25,7 @@
     if ([io isKindOfClass:[UserItem class]]) {
       [self.usedItems addObject:@([(UserItem *)io itemId])];
     }
-#warning set gems
-    [self.delegate refreshItemUsed:io viewController:viewController gems:0];
+    [self.delegate refreshItemUsed:io viewController:viewController];
   } else {
     UserItem *ui = (UserItem *)io;
     [Globals addAlertNotification:[NSString stringWithFormat:@"You don't own any %@s.", ui.name]];

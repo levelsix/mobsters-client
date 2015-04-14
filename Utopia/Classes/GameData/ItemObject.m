@@ -126,6 +126,10 @@
   return self.staticItem.gameActionType;
 }
 
+- (Quality) quality {
+  return [self staticItem].quality;
+}
+
 @end
 
 @implementation UserItemUsage

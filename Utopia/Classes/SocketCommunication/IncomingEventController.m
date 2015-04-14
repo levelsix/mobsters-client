@@ -2464,13 +2464,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleRefreshMiniJobResponseProto:(FullEvent *)fe {
   GameState *gs = [GameState sharedGameState];
   RefreshMiniJobResponseProto *proto = (RefreshMiniJobResponseProto *)fe.event;
-  
+  int tag = fe.tag;
   LNLog(@"Finish refreshing miniJobs with status %d.", (int)proto.status);
   
   if(proto.status == RefreshMiniJobResponseProto_RefreshMiniJobStatusSuccess) {
     gs.myMiniJobs = [NSMutableArray arrayWithArray:proto.miniJobsList];
   } else {
     [Globals popupMessage:@"Server failed to redeem miniJob refresh."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
   }
   
 }
