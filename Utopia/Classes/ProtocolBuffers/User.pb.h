@@ -532,12 +532,12 @@
   BOOL hasIsAdmin_:1;
   BOOL hasHasReceivedfbReward_:1;
   BOOL hasSalesValue_:1;
+  BOOL hasTotalStrength_:1;
   BOOL hasLastTeamDonationSolicitation_:1;
-  BOOL hasSalesLastPurchaseTime_:1;
   BOOL hasLastSecretGiftCollectTime_:1;
   BOOL hasLastFreeBoosterPackTime_:1;
   BOOL hasLastMiniJobSpawnedTime_:1;
-  BOOL hasTotalStrength_:1;
+  BOOL hasSalesLastPurchaseTime_:1;
   BOOL hasLastWallPostNotificationTime_:1;
   BOOL hasLastObstacleSpawnedTime_:1;
   BOOL hasLastLoginTime_:1;
@@ -576,12 +576,12 @@
   BOOL isAdmin_:1;
   BOOL hasReceivedfbReward_:1;
   Float32 salesValue;
+  int64_t totalStrength;
   int64_t lastTeamDonationSolicitation;
-  int64_t salesLastPurchaseTime;
   int64_t lastSecretGiftCollectTime;
   int64_t lastFreeBoosterPackTime;
   int64_t lastMiniJobSpawnedTime;
-  int64_t totalStrength;
+  int64_t salesLastPurchaseTime;
   int64_t lastWallPostNotificationTime;
   int64_t lastObstacleSpawnedTime;
   int64_t lastLoginTime;
@@ -647,9 +647,9 @@
 - (BOOL) hasLastSecretGiftCollectTime;
 - (BOOL) hasPvpDefendingMessage;
 - (BOOL) hasLastTeamDonationSolicitation;
+- (BOOL) hasTotalStrength;
 - (BOOL) hasSalesValue;
 - (BOOL) hasSalesLastPurchaseTime;
-- (BOOL) hasTotalStrength;
 - (BOOL) hasUdidForHistory;
 - (BOOL) hasDeviceToken;
 - (BOOL) hasNumBadges;
@@ -691,9 +691,9 @@
 @property (readonly) int64_t lastSecretGiftCollectTime;
 @property (readonly, strong) NSString* pvpDefendingMessage;
 @property (readonly) int64_t lastTeamDonationSolicitation;
+@property (readonly) int64_t totalStrength;
 @property (readonly) Float32 salesValue;
 @property (readonly) int64_t salesLastPurchaseTime;
-@property (readonly) int64_t totalStrength;
 @property (readonly, strong) NSString* udidForHistory;
 @property (readonly, strong) NSString* deviceToken;
 @property (readonly) int32_t numBadges;
@@ -899,6 +899,11 @@
 - (FullUserProto_Builder*) setLastTeamDonationSolicitation:(int64_t) value;
 - (FullUserProto_Builder*) clearLastTeamDonationSolicitation;
 
+- (BOOL) hasTotalStrength;
+- (int64_t) totalStrength;
+- (FullUserProto_Builder*) setTotalStrength:(int64_t) value;
+- (FullUserProto_Builder*) clearTotalStrength;
+
 - (BOOL) hasSalesValue;
 - (Float32) salesValue;
 - (FullUserProto_Builder*) setSalesValue:(Float32) value;
@@ -908,11 +913,6 @@
 - (int64_t) salesLastPurchaseTime;
 - (FullUserProto_Builder*) setSalesLastPurchaseTime:(int64_t) value;
 - (FullUserProto_Builder*) clearSalesLastPurchaseTime;
-
-- (BOOL) hasTotalStrength;
-- (int64_t) totalStrength;
-- (FullUserProto_Builder*) setTotalStrength:(int64_t) value;
-- (FullUserProto_Builder*) clearTotalStrength;
 
 - (BOOL) hasUdidForHistory;
 - (NSString*) udidForHistory;

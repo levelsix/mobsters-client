@@ -2287,9 +2287,9 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
 @property int64_t lastSecretGiftCollectTime;
 @property (strong) NSString* pvpDefendingMessage;
 @property int64_t lastTeamDonationSolicitation;
+@property int64_t totalStrength;
 @property Float32 salesValue;
 @property int64_t salesLastPurchaseTime;
-@property int64_t totalStrength;
 @property (strong) NSString* udidForHistory;
 @property (strong) NSString* deviceToken;
 @property int32_t numBadges;
@@ -2536,6 +2536,13 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
   hasLastTeamDonationSolicitation_ = !!value_;
 }
 @synthesize lastTeamDonationSolicitation;
+- (BOOL) hasTotalStrength {
+  return !!hasTotalStrength_;
+}
+- (void) setHasTotalStrength:(BOOL) value_ {
+  hasTotalStrength_ = !!value_;
+}
+@synthesize totalStrength;
 - (BOOL) hasSalesValue {
   return !!hasSalesValue_;
 }
@@ -2550,13 +2557,6 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
   hasSalesLastPurchaseTime_ = !!value_;
 }
 @synthesize salesLastPurchaseTime;
-- (BOOL) hasTotalStrength {
-  return !!hasTotalStrength_;
-}
-- (void) setHasTotalStrength:(BOOL) value_ {
-  hasTotalStrength_ = !!value_;
-}
-@synthesize totalStrength;
 - (BOOL) hasUdidForHistory {
   return !!hasUdidForHistory_;
 }
@@ -2665,9 +2665,9 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
     self.lastSecretGiftCollectTime = 0L;
     self.pvpDefendingMessage = @"";
     self.lastTeamDonationSolicitation = 0L;
+    self.totalStrength = 0L;
     self.salesValue = 0;
     self.salesLastPurchaseTime = 0L;
-    self.totalStrength = 0L;
     self.udidForHistory = @"";
     self.deviceToken = @"";
     self.numBadges = 0;
@@ -3514,14 +3514,14 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (other.hasLastTeamDonationSolicitation) {
     [self setLastTeamDonationSolicitation:other.lastTeamDonationSolicitation];
   }
+  if (other.hasTotalStrength) {
+    [self setTotalStrength:other.totalStrength];
+  }
   if (other.hasSalesValue) {
     [self setSalesValue:other.salesValue];
   }
   if (other.hasSalesLastPurchaseTime) {
     [self setSalesLastPurchaseTime:other.salesLastPurchaseTime];
-  }
-  if (other.hasTotalStrength) {
-    [self setTotalStrength:other.totalStrength];
   }
   if (other.hasUdidForHistory) {
     [self setUdidForHistory:other.udidForHistory];
@@ -4287,6 +4287,22 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   result.lastTeamDonationSolicitation = 0L;
   return self;
 }
+- (BOOL) hasTotalStrength {
+  return result.hasTotalStrength;
+}
+- (int64_t) totalStrength {
+  return result.totalStrength;
+}
+- (FullUserProto_Builder*) setTotalStrength:(int64_t) value {
+  result.hasTotalStrength = YES;
+  result.totalStrength = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearTotalStrength {
+  result.hasTotalStrength = NO;
+  result.totalStrength = 0L;
+  return self;
+}
 - (BOOL) hasSalesValue {
   return result.hasSalesValue;
 }
@@ -4317,22 +4333,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 - (FullUserProto_Builder*) clearSalesLastPurchaseTime {
   result.hasSalesLastPurchaseTime = NO;
   result.salesLastPurchaseTime = 0L;
-  return self;
-}
-- (BOOL) hasTotalStrength {
-  return result.hasTotalStrength;
-}
-- (int64_t) totalStrength {
-  return result.totalStrength;
-}
-- (FullUserProto_Builder*) setTotalStrength:(int64_t) value {
-  result.hasTotalStrength = YES;
-  result.totalStrength = value;
-  return self;
-}
-- (FullUserProto_Builder*) clearTotalStrength {
-  result.hasTotalStrength = NO;
-  result.totalStrength = 0L;
   return self;
 }
 - (BOOL) hasUdidForHistory {

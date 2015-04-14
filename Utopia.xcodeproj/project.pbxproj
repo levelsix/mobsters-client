@@ -95,9 +95,6 @@
 		2917214F1AD24B210093F100 /* use_gems2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 291721391AD24B210093F100 /* use_gems2.mp3 */; };
 		291721501AD24B210093F100 /* use_gems2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 291721391AD24B210093F100 /* use_gems2.mp3 */; };
 		291721511AD24B210093F100 /* use_gems2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 291721391AD24B210093F100 /* use_gems2.mp3 */; };
-		291721631AD4B2BD0093F100 /* Sales.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 291721621AD4B2BD0093F100 /* Sales.pb.m */; };
-		291721641AD4B2BD0093F100 /* Sales.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 291721621AD4B2BD0093F100 /* Sales.pb.m */; };
-		291721651AD4B2BD0093F100 /* Sales.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 291721621AD4B2BD0093F100 /* Sales.pb.m */; };
 		2917217C1AD4B74E0093F100 /* StrengthChangeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2917217B1AD4B74E0093F100 /* StrengthChangeView.m */; };
 		2917217D1AD4B74E0093F100 /* StrengthChangeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2917217B1AD4B74E0093F100 /* StrengthChangeView.m */; };
 		2917217E1AD4B74E0093F100 /* StrengthChangeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2917217B1AD4B74E0093F100 /* StrengthChangeView.m */; };
@@ -2663,9 +2660,6 @@
 		9BCA5FFC1ABA2E9B0087FB41 /* researchitemgradient@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BCA5FFB1ABA2E9B0087FB41 /* researchitemgradient@2x.png */; };
 		9BCA5FFD1ABA2E9B0087FB41 /* researchitemgradient@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BCA5FFB1ABA2E9B0087FB41 /* researchitemgradient@2x.png */; };
 		9BCA5FFE1ABA2E9B0087FB41 /* researchitemgradient@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BCA5FFB1ABA2E9B0087FB41 /* researchitemgradient@2x.png */; };
-		9BCAA1B41AD5FB770059CEDA /* researchinggreencircle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BCAA1B31AD5FB770059CEDA /* researchinggreencircle@2x.png */; };
-		9BCAA1B51AD5FB770059CEDA /* researchinggreencircle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BCAA1B31AD5FB770059CEDA /* researchinggreencircle@2x.png */; };
-		9BCAA1B61AD5FB770059CEDA /* researchinggreencircle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BCAA1B31AD5FB770059CEDA /* researchinggreencircle@2x.png */; };
 		9BCAA1961AD491E20059CEDA /* MiniEventGoalNotificationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BCAA1931AD491E20059CEDA /* MiniEventGoalNotificationView.xib */; };
 		9BCAA1971AD491E20059CEDA /* MiniEventGoalNotificationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BCAA1931AD491E20059CEDA /* MiniEventGoalNotificationView.xib */; };
 		9BCAA1981AD491E20059CEDA /* MiniEventGoalNotificationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BCAA1931AD491E20059CEDA /* MiniEventGoalNotificationView.xib */; };
@@ -2675,6 +2669,9 @@
 		9BCAA19E1AD4A5D50059CEDA /* Sales.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BCAA19D1AD4A5D50059CEDA /* Sales.pb.m */; };
 		9BCAA19F1AD4A5D50059CEDA /* Sales.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BCAA19D1AD4A5D50059CEDA /* Sales.pb.m */; };
 		9BCAA1A01AD4A5D50059CEDA /* Sales.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BCAA19D1AD4A5D50059CEDA /* Sales.pb.m */; };
+		9BCAA1B41AD5FB770059CEDA /* researchinggreencircle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BCAA1B31AD5FB770059CEDA /* researchinggreencircle@2x.png */; };
+		9BCAA1B51AD5FB770059CEDA /* researchinggreencircle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BCAA1B31AD5FB770059CEDA /* researchinggreencircle@2x.png */; };
+		9BCAA1B61AD5FB770059CEDA /* researchinggreencircle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BCAA1B31AD5FB770059CEDA /* researchinggreencircle@2x.png */; };
 		9BD4738D1AC3681800EBBFB2 /* MiniEventTierPrizeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BD4738C1AC3681800EBBFB2 /* MiniEventTierPrizeView.m */; };
 		9BD4738E1AC3681800EBBFB2 /* MiniEventTierPrizeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BD4738C1AC3681800EBBFB2 /* MiniEventTierPrizeView.m */; };
 		9BD4738F1AC3681800EBBFB2 /* MiniEventTierPrizeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BD4738C1AC3681800EBBFB2 /* MiniEventTierPrizeView.m */; };
@@ -7639,9 +7636,6 @@
 		291721371AD24B210093F100 /* secret_gift_opened.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = secret_gift_opened.mp3; sourceTree = "<group>"; };
 		291721381AD24B210093F100 /* skill_activated.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = skill_activated.mp3; sourceTree = "<group>"; };
 		291721391AD24B210093F100 /* use_gems2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = use_gems2.mp3; sourceTree = "<group>"; };
-		291721611AD4B2BD0093F100 /* Sales.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sales.pb.h; sourceTree = "<group>"; };
-		291721621AD4B2BD0093F100 /* Sales.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sales.pb.m; sourceTree = "<group>"; };
-		291721671AD4B2CC0093F100 /* Sales.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Sales.proto; sourceTree = "<group>"; };
 		2917217A1AD4B74E0093F100 /* StrengthChangeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StrengthChangeView.h; sourceTree = "<group>"; };
 		2917217B1AD4B74E0093F100 /* StrengthChangeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StrengthChangeView.m; sourceTree = "<group>"; };
 		2917217F1AD4B75E0093F100 /* StrengthChangeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StrengthChangeView.xib; sourceTree = "<group>"; };
@@ -8682,13 +8676,13 @@
 		9BC9F3A91A928392009DC3D5 /* greyrocks@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greyrocks@2x.png"; sourceTree = "<group>"; };
 		9BC9F3D81A95561B009DC3D5 /* turnmovesbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "turnmovesbg@2x.png"; sourceTree = "<group>"; };
 		9BCA5FFB1ABA2E9B0087FB41 /* researchitemgradient@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "researchitemgradient@2x.png"; sourceTree = "<group>"; };
-		9BCAA1B31AD5FB770059CEDA /* researchinggreencircle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "researchinggreencircle@2x.png"; sourceTree = "<group>"; };
 		9BCAA1931AD491E20059CEDA /* MiniEventGoalNotificationView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MiniEventGoalNotificationView.xib; sourceTree = "<group>"; };
 		9BCAA1941AD491E20059CEDA /* MiniEventGoalNotificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = MiniEventGoalNotificationViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		9BCAA1951AD491E20059CEDA /* MiniEventGoalNotificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MiniEventGoalNotificationViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		9BCAA19C1AD4A5D50059CEDA /* Sales.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sales.pb.h; sourceTree = "<group>"; };
 		9BCAA19D1AD4A5D50059CEDA /* Sales.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sales.pb.m; sourceTree = "<group>"; };
 		9BCAA1A11AD4A5F10059CEDA /* Sales.proto */ = {isa = PBXFileReference; lastKnownFileType = text; path = Sales.proto; sourceTree = "<group>"; };
+		9BCAA1B31AD5FB770059CEDA /* researchinggreencircle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "researchinggreencircle@2x.png"; sourceTree = "<group>"; };
 		9BD4738B1AC3681800EBBFB2 /* MiniEventTierPrizeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiniEventTierPrizeView.h; sourceTree = "<group>"; };
 		9BD4738C1AC3681800EBBFB2 /* MiniEventTierPrizeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MiniEventTierPrizeView.m; sourceTree = "<group>"; };
 		9BD473911AC3684500EBBFB2 /* MiniEventTierPrizeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MiniEventTierPrizeView.xib; sourceTree = "<group>"; };
@@ -15821,15 +15815,6 @@
 			isa = PBXGroup;
 			children = (
 				CF6574771909CAF100ABF1F4 /* Proto files */,
-				291721611AD4B2BD0093F100 /* Sales.pb.h */,
-				291721621AD4B2BD0093F100 /* Sales.pb.m */,
-				29A38D481ACCCCF6006F3CBF /* EventMiniEvent.pb.h */,
-				29A38D491ACCCCF6006F3CBF /* EventMiniEvent.pb.m */,
-				29A38D4A1ACCCCF6006F3CBF /* MiniEvent.pb.h */,
-				29A38D4B1ACCCCF6006F3CBF /* MiniEvent.pb.m */,
-				29A38D4C1ACCCCF6006F3CBF /* Reward.pb.h */,
-				29A38D4D1ACCCCF6006F3CBF /* Reward.pb.m */,
-				CF6574771909CAF100ABF1F4 /* Proto files */,
 				9BCAA19C1AD4A5D50059CEDA /* Sales.pb.h */,
 				9BCAA19D1AD4A5D50059CEDA /* Sales.pb.m */,
 				9B2EFCE11AC4AEF5005B7B83 /* EventMiniEvent.pb.h */,
@@ -16094,9 +16079,6 @@
 		CF6574771909CAF100ABF1F4 /* Proto files */ = {
 			isa = PBXGroup;
 			children = (
-				291721671AD4B2CC0093F100 /* Sales.proto */,
-				29AF48F51AAA94DD0034927C /* BattleItem.proto */,
-				29AF48F61AAA94DD0034927C /* EventBattleItem.proto */,
 				9BCAA1A11AD4A5F10059CEDA /* Sales.proto */,
 				9B2EFCCC1AC4AEC9005B7B83 /* BattleItem.proto */,
 				9B2EFCCD1AC4AEC9005B7B83 /* EventBattleItem.proto */,
@@ -18791,7 +18773,7 @@
 		CF1256391538A94D00E0C1AD /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0610;
+				LastUpgradeCheck = 0620;
 				ORGANIZATIONNAME = LVL6;
 				TargetAttributes = {
 					CF0CECF2196F452900ECD301 = {
@@ -25630,7 +25612,6 @@
 				CF0CEDD6196F452900ECD301 /* EvolveDetailsViews.m in Sources */,
 				CF0CEDD7196F452900ECD301 /* NewBattleLayer.m in Sources */,
 				CF9F41B119AAB521002EBF03 /* DestroyedOrb.m in Sources */,
-				291721641AD4B2BD0093F100 /* Sales.pb.m in Sources */,
 				CF0CEDD8196F452900ECD301 /* TutorialFacebookViewController.m in Sources */,
 				CF0CEDD9196F452900ECD301 /* Task.pb.m in Sources */,
 				CF0CEDDA196F452900ECD301 /* TutorialNameViewController.m in Sources */,
@@ -25972,7 +25953,6 @@
 				298708371AC3415D002BFF2E /* ResearchController.m in Sources */,
 				CF6574B21909CAF200ABF1F4 /* EventDungeon.pb.m in Sources */,
 				CF6574A61909CAF200ABF1F4 /* AchievementStuff.pb.m in Sources */,
-				291721631AD4B2BD0093F100 /* Sales.pb.m in Sources */,
 				6B3BC16D1A8BC68E00E0D457 /* SkillPoisonSkewer.m in Sources */,
 				CF48259A19F729D000041486 /* PPEmitterView.m in Sources */,
 				CFF3913C182A10CD0010A3BE /* DBFBProfilePictureView.m in Sources */,
@@ -26405,7 +26385,6 @@
 				CF48198719F7217F00041486 /* EvolveDetailsViews.m in Sources */,
 				CF48198819F7217F00041486 /* NewBattleLayer.m in Sources */,
 				CF48198919F7217F00041486 /* DestroyedOrb.m in Sources */,
-				291721651AD4B2BD0093F100 /* Sales.pb.m in Sources */,
 				CF48198A19F7217F00041486 /* TutorialFacebookViewController.m in Sources */,
 				CF48198B19F7217F00041486 /* Task.pb.m in Sources */,
 				CF48198C19F7217F00041486 /* TutorialNameViewController.m in Sources */,
