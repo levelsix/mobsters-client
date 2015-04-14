@@ -84,7 +84,9 @@
   [self updateClanBadge];
   
   [self.view addSubview:self.popoverView];
+  [self.view addSubview:self.languageSelectorView];
   self.popoverView.hidden = YES;
+  self.languageSelectorView.hidden = YES;
   
   [self reloadTablesAnimated:NO];
   
@@ -261,6 +263,7 @@
   self.globalChatView.hidden = NO;
   self.clanChatView.hidden = YES;
   self.privateChatView.hidden = YES;
+  self.flagButton.superview.hidden = NO;
   [self.popoverView close];
   [self.monsterSelectViewController closeClicked:nil];
   
@@ -276,6 +279,7 @@
   self.globalChatView.hidden = YES;
   self.clanChatView.hidden = NO;
   self.privateChatView.hidden = YES;
+  self.flagButton.superview.hidden = YES;
   [self.popoverView close];
   [self.monsterSelectViewController closeClicked:nil];
   
@@ -293,6 +297,7 @@
   self.globalChatView.hidden = YES;
   self.clanChatView.hidden = YES;
   self.privateChatView.hidden = NO;
+  self.flagButton.superview.hidden = YES;
   [self.popoverView close];
   [self.monsterSelectViewController closeClicked:nil];
   
