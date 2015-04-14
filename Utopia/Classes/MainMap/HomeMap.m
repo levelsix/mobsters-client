@@ -25,6 +25,7 @@
 #import "PersistentEventProto+Time.h"
 #import "SpeedupItemsFiller.h"
 #import "IAPHelper.h"
+#import "MiniEventManager.h"
 
 #define FAR_LEFT_EXPANSION_START 58
 #define FAR_RIGHT_EXPANSION_START 58
@@ -1643,6 +1644,7 @@
       
       [QuestUtil checkAllStructQuests];
       [AchievementUtil checkBuildingUpgrade:mb.userStruct.structId];
+      [[MiniEventManager sharedInstance] checkBuildStrength:mb.userStruct.structId];
       
       // Max cash/oil may have changed
       [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
@@ -2366,6 +2368,7 @@
           
           [QuestUtil checkAllStructQuests];
           [AchievementUtil checkBuildingUpgrade:us.structId];
+          [[MiniEventManager sharedInstance] checkBuildStrength:us.structId];
           
           _isSpeedingUp = NO;
         };

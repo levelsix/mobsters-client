@@ -209,56 +209,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(MiniEventManager)
   }
 }
 
-- (void) handleUserProgressOnMiniEventGoal:(MiniEventGoalProto_MiniEventGoalType)goalType withAmount:(int32_t)amount
-{
-  if (_currentUserMiniEvent &&
-      ![_currentUserMiniEvent eventHasEnded] &&
-      MiniEventGoalProto_MiniEventGoalTypeIsValidValue(goalType) &&
-      amount > 0)
-  {
-    for (MiniEventGoalProto* goalProto in _currentUserMiniEvent.miniEvent.goalsList)
-    {
-      if (goalProto.goalType == goalType)
-      {
-        UserMiniEventGoal* userMiniEventGoal = [_currentUserMiniEvent.miniEventGoals objectForKey:@(goalProto.miniEventGoalId)];
-        userMiniEventGoal.progress += amount;
-        
-        const int newProgress = userMiniEventGoal.progress;
-        const int oldProgress = userMiniEventGoal.progress - amount;
-        const int numTimesGoalCompletedAfterProgress  = (newProgress - newProgress % userMiniEventGoal.goalAmt) / userMiniEventGoal.goalAmt;
-        const int numTimesGoalCompletedBeforeProgress = (oldProgress - oldProgress % userMiniEventGoal.goalAmt) / userMiniEventGoal.goalAmt;
-        
-        if (numTimesGoalCompletedAfterProgress > numTimesGoalCompletedBeforeProgress)
-        {
-          // Current progress led to goal being completed
-        
-          const int numTimesGoalCompleted = numTimesGoalCompletedAfterProgress - numTimesGoalCompletedBeforeProgress;
-          const int32_t pointsGained = userMiniEventGoal.pointsGained * numTimesGoalCompleted;
-          _currentUserMiniEvent.pointsEarned += pointsGained;
-          
-          if (self.miniEventViewController)
-          {
-            [self.miniEventViewController miniEventUpdated:_currentUserMiniEvent];
-          }
-          
-          [Globals addMiniEventGoalNotification:[NSString stringWithFormat:@"%@: %d Points Earned!", userMiniEventGoal.actionDescription, pointsGained]
-                                          image:_currentUserMiniEvent.miniEvent.img];
-          
-          if ([_currentUserMiniEvent completedTiersWithUnredeemedRewards] > 0)
-          {
-            [[NSNotificationCenter defaultCenter] postNotificationName:MINI_EVENT_TIER_REWARD_AVAILABLE_OR_REDEEMED_NOTIFICATION object:nil];
-          }
-        }
-        
-        [[OutgoingEventController sharedOutgoingEventController] updateUserMiniEvent:userMiniEventGoal shouldFlush:NO];
-        
-        // There will be no two goals of the same type in a mini event
-        break;
-      }
-    }
-  }
-}
-
 - (void) handleRedeemMiniEventRewardInitiatedByUserWithDelegate:(id)delegate tierRedeemed:(RedeemMiniEventRewardRequestProto_RewardTier)tierRedeemed
 {
   if (_currentUserMiniEvent &&
@@ -314,6 +264,101 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(MiniEventManager)
     {
       [[NSNotificationCenter defaultCenter] postNotificationName:MINI_EVENT_TIER_REWARD_AVAILABLE_OR_REDEEMED_NOTIFICATION object:nil];
     }
+  }
+}
+
+#pragma mark - Progress
+
+- (void) handleUserProgressOnMiniEventGoal:(MiniEventGoalProto_MiniEventGoalType)goalType withAmount:(int32_t)amount
+{
+  if (_currentUserMiniEvent &&
+      ![_currentUserMiniEvent eventHasEnded] &&
+      MiniEventGoalProto_MiniEventGoalTypeIsValidValue(goalType) &&
+      amount > 0)
+  {
+    for (MiniEventGoalProto* goalProto in _currentUserMiniEvent.miniEvent.goalsList)
+    {
+      if (goalProto.goalType == goalType)
+      {
+        UserMiniEventGoal* userMiniEventGoal = [_currentUserMiniEvent.miniEventGoals objectForKey:@(goalProto.miniEventGoalId)];
+        userMiniEventGoal.progress += amount;
+        
+        const int newProgress = userMiniEventGoal.progress;
+        const int oldProgress = userMiniEventGoal.progress - amount;
+        const int numTimesGoalCompletedAfterProgress  = (newProgress - newProgress % userMiniEventGoal.goalAmt) / userMiniEventGoal.goalAmt;
+        const int numTimesGoalCompletedBeforeProgress = (oldProgress - oldProgress % userMiniEventGoal.goalAmt) / userMiniEventGoal.goalAmt;
+        
+        if (numTimesGoalCompletedAfterProgress > numTimesGoalCompletedBeforeProgress)
+        {
+          // Current progress led to goal being completed
+          
+          const int numTimesGoalCompleted = numTimesGoalCompletedAfterProgress - numTimesGoalCompletedBeforeProgress;
+          const int32_t pointsGained = userMiniEventGoal.pointsGained * numTimesGoalCompleted;
+          _currentUserMiniEvent.pointsEarned += pointsGained;
+          
+          if (self.miniEventViewController)
+          {
+            [self.miniEventViewController miniEventUpdated:_currentUserMiniEvent];
+          }
+          
+          [Globals addMiniEventGoalNotification:[NSString stringWithFormat:@"%@: %d Points Earned!", userMiniEventGoal.actionDescription, pointsGained]
+                                          image:_currentUserMiniEvent.miniEvent.img];
+          
+          if ([_currentUserMiniEvent completedTiersWithUnredeemedRewards] > 0)
+          {
+            [[NSNotificationCenter defaultCenter] postNotificationName:MINI_EVENT_TIER_REWARD_AVAILABLE_OR_REDEEMED_NOTIFICATION object:nil];
+          }
+        }
+        
+        [[OutgoingEventController sharedOutgoingEventController] updateUserMiniEvent:userMiniEventGoal shouldFlush:NO];
+        
+        // There will be no two goals of the same type in a mini event
+        break;
+      }
+    }
+  }
+}
+
+- (void) checkBuildStrength:(int)structId {
+  GameState *gs = [GameState sharedGameState];
+  id<StaticStructure> ss = [gs structWithId:structId];
+  StructureInfoProto *sip = [ss structInfo];
+  
+  [self handleUserProgressOnMiniEventGoal:MiniEventGoalProto_MiniEventGoalTypeGainBuildingStrength withAmount:sip.strengthGainForCurrentLevel];
+}
+
+- (void) checkResearchStrength:(int)researchId {
+  GameState *gs = [GameState sharedGameState];
+  ResearchProto *rp = [gs researchWithId:researchId];
+  
+  [self handleUserProgressOnMiniEventGoal:MiniEventGoalProto_MiniEventGoalTypeGainBuildingStrength withAmount:rp.strengthGainForCurrentLevel];
+}
+
+- (void) checkEnhanceXp:(int)expGained baseMonsterRarity:(Quality)quality {
+  MiniEventGoalProto_MiniEventGoalType type = 0;
+  switch (quality) {
+    case QualityCommon:
+      type = MiniEventGoalProto_MiniEventGoalTypeEnhanceCommon;
+      break;
+    case QualityRare:
+      type = MiniEventGoalProto_MiniEventGoalTypeEnhanceRare;
+      break;
+    case QualitySuper:
+      type = MiniEventGoalProto_MiniEventGoalTypeEnhanceSuper;
+      break;
+    case QualityUltra:
+      type = MiniEventGoalProto_MiniEventGoalTypeEnhanceUltra;
+      break;
+    case QualityEpic:
+      type = MiniEventGoalProto_MiniEventGoalTypeEnhanceEpic;
+      break;
+      
+    default:
+      break;
+  }
+  
+  if (type) {
+    [self handleUserProgressOnMiniEventGoal:type withAmount:expGained];
   }
 }
 

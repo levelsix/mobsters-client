@@ -22,6 +22,7 @@
 #import "PersistentEventProto+Time.h"
 #import "AchievementUtil.h"
 #import "StaticStructure.h"
+#import "MiniEventManager.h"
 
 #define TagLog(...) //LNLog(__VA_ARGS__)
 
@@ -1929,6 +1930,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     [[NSNotificationCenter defaultCenter] postNotificationName:RESEARCH_CHANGED_NOTIFICATION object:nil];
     
     [Globals addGreenAlertNotification:[NSString stringWithFormat:@"%@ has finished researching!", ur.staticResearch.name] isImmediate:NO];
+    
+    [[MiniEventManager sharedInstance] checkResearchStrength:ur.researchId];
   }
 }
 
