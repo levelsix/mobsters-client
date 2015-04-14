@@ -7865,6 +7865,9 @@
 		29ABD6C71A732EF2003A65F4 /* tutorialtrees@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tutorialtrees@2x.png"; sourceTree = "<group>"; };
 		29ACC2031AD75FE900B728B9 /* 1mapsection1@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "1mapsection1@2x.jpg"; sourceTree = "<group>"; };
 		29ACC2041AD75FE900B728B9 /* 1mapsection2@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "1mapsection2@2x.jpg"; sourceTree = "<group>"; };
+		29ACC2C91ADD017D00B728B9 /* EventMiniEvent.proto */ = {isa = PBXFileReference; lastKnownFileType = text; path = EventMiniEvent.proto; sourceTree = "<group>"; };
+		29ACC2CA1ADD017D00B728B9 /* MiniEvent.proto */ = {isa = PBXFileReference; lastKnownFileType = text; path = MiniEvent.proto; sourceTree = "<group>"; };
+		29ACC2CB1ADD017D00B728B9 /* Reward.proto */ = {isa = PBXFileReference; lastKnownFileType = text; path = Reward.proto; sourceTree = "<group>"; };
 		29AD76561A39316100430F0E /* 1slot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "1slot@2x.png"; sourceTree = "<group>"; };
 		29AD76571A39316100430F0E /* 12slot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "12slot@2x.png"; sourceTree = "<group>"; };
 		29AD76581A39316100430F0E /* 123slot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "123slot@2x.png"; sourceTree = "<group>"; };
@@ -15801,6 +15804,9 @@
 		CF6574771909CAF100ABF1F4 /* Proto files */ = {
 			isa = PBXGroup;
 			children = (
+				29ACC2C91ADD017D00B728B9 /* EventMiniEvent.proto */,
+				29ACC2CA1ADD017D00B728B9 /* MiniEvent.proto */,
+				29ACC2CB1ADD017D00B728B9 /* Reward.proto */,
 				291721671AD4B2CC0093F100 /* Sales.proto */,
 				29AF48F51AAA94DD0034927C /* BattleItem.proto */,
 				29AF48F61AAA94DD0034927C /* EventBattleItem.proto */,
