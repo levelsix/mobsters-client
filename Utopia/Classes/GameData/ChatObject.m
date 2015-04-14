@@ -22,33 +22,91 @@
 
 @implementation ChatMessage
 
-@synthesize message, sender, date, isAdmin;
+@synthesize sender, date, isAdmin, originalLanguage;
 
 - (id) initWithProto:(GroupChatMessageProto *)p {
   if ((self = [super init])) {
-    self.message = p.content;
+    self.originalMessage = p.content;
+    self.originalLanguage = p.contentLanguage;
+    self.translatedTextProtos = [NSMutableArray arrayWithArray:p.translatedContentList];
     self.sender = p.sender.minUserProto;
+    self.originalPoster = p.sender;
     self.date = [MSDate dateWithTimeIntervalSince1970:p.timeOfChat/1000.];
     self.isAdmin = p.isAdmin;
-    
-    // If being initialized with a proto, it means it didn't just get received right now
-    // So mark it as read..
+    self.revertedTranslation = NO;
+    self.postUuid = p.chatUuid;
+    self.timeOfPost = p.timeOfChat;
     self.isRead = YES;
   }
   return self;
+}
+
+- (PrivateChatPostProto *)makePrivateChatPostProto {
+  GameState *gs = [GameState sharedGameState];
+  
+  PrivateChatPostProto *pcpp = [[[[[[[PrivateChatPostProto builder]
+                                     setPrivateChatPostUuid:self.postUuid]
+                                    setPoster:self.originalPoster]
+                                   setRecipient:[gs minUserWithLevel]]
+                                  setTimeOfPost:self.timeOfPost]
+                                 setContent:self.originalMessage]
+                                build];
+  return pcpp;
+}
+
+- (NSString *)message {
+  return self.originalMessage;
+}
+
+- (void)setMessage:(NSString *)message {
+  self.originalMessage = message;
 }
 
 - (UIColor *)bottomViewTextColor {
   return [UIColor whiteColor];
 }
 
-- (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag {
-  [chatCell updateForMessage:self.message sender:self.sender date:self.date showsClanTag:showsClanTag];
+- (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag language:(TranslateLanguages)language {
+  GameState *gs = [GameState sharedGameState];
+  NSString *translatedMessage = self.originalMessage;
+  
+  //this if for determining if the revert translation should show
+  TranslateLanguages translationLanguage = TranslateLanguagesNoTranslation;
+  
+  //remove this bool once Byron finishes Admin chat
+  BOOL noTranslation = YES;
+  
+  for(TranslatedTextProto *ttp in self.translatedTextProtos) {
+    if (ttp.language == language) {
+      translatedMessage = ttp.text;
+      translationLanguage = language;
+      noTranslation = NO;
+      break;
+    }
+  }
+  
+  if (self.revertedTranslation || self.originalLanguage == language || [self.sender.userUuid isEqualToString:[gs minUser].userUuid]) {
+    translatedMessage = self.originalMessage;
+    translationLanguage = TranslateLanguagesNoTranslation;
+    noTranslation = NO;
+  }
+  
+  BOOL showButton = !noTranslation && language && language != TranslateLanguagesNoTranslation && language != self.originalLanguage && ![self.sender.userUuid isEqualToString:gs.userUuid];
+  [chatCell updateForMessage:translatedMessage showsClanTag:showsClanTag translatedTo:translationLanguage chatMessage:self showTranslateButton:showButton];
 }
 
-- (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell {
-  [self updateInChatCell:chatCell showsClanTag:NO];
-  return CGRectGetMaxY(chatCell.msgLabel.frame)+14.f;
+- (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell language:(TranslateLanguages)language{
+  GameState *gs = [GameState sharedGameState];
+  
+  [self updateInChatCell:chatCell showsClanTag:NO language:language];
+  float translationSpace = 0.f;
+  
+//  if (language && (language != TranslateLanguagesNoTranslation || self.revertedTranslation) && ![self.sender.userUuid isEqualToString:gs.userUuid] && language != self.originalLanguage) {
+  if (language && language != TranslateLanguagesNoTranslation && language != self.originalLanguage && ![self.sender.userUuid isEqualToString:gs.userUuid]) {
+    translationSpace = 14.f;
+  }
+  
+  return CGRectGetMaxY(chatCell.msgLabel.frame)+14.f+translationSpace;
 }
 
 - (void) markAsRead {
@@ -97,7 +155,7 @@
   return NO;
 }
 
-- (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag {
+- (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag language:(TranslateLanguages)language{
   NSString *nibName = @"ChatBonusSlotRequestView";
   ChatBonusSlotRequestView *v = [chatCell dequeueChatSubview:nibName];
   
@@ -110,8 +168,8 @@
   [chatCell updateForMessage:self.message sender:self.sender date:self.date showsClanTag:showsClanTag allowHighlight:YES chatSubview:v identifier:nibName];
 }
 
-- (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell {
-  [self updateInChatCell:chatCell showsClanTag:YES];
+- (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell language:(TranslateLanguages)language{
+  [self updateInChatCell:chatCell showsClanTag:YES language:TranslateLanguagesEnglish];
   return CGRectGetMaxY(chatCell.currentChatSubview.frame)+14.f;
 }
 
@@ -125,6 +183,7 @@
   bldr.poster = [gs minUserWithLevel];
   bldr.recipient = [[[MinimumUserProtoWithLevel builder] setMinUserProto:[self sender]] build];
   bldr.timeOfPost = [[MSDate date] timeIntervalSince1970]*1000.;
+  bldr.originalContentLanguage = [gs languageForUser:bldr.recipient.minUserProto.userUuid];
   PrivateChatPostProto *pcpp = [bldr build];
   return pcpp;
 }
@@ -135,7 +194,7 @@
   PrivateChatPostProto *pcpp = [self privateChat];
   
   // Send a private message as if you just accepted the hire
-  [[OutgoingEventController sharedOutgoingEventController] privateChatPost:self.invite.inviter.minUserProto.userUuid content:pcpp.content];
+  [[OutgoingEventController sharedOutgoingEventController] privateChatPost:self.invite.inviter.minUserProto.userUuid content:pcpp.content originalLanguage:pcpp.originalContentLanguage];
   
   NSString *key = [NSString stringWithFormat:PRIVATE_CHAT_DEFAULTS_KEY, pcpp.recipient.minUserProto.userUuid];
   [[NSNotificationCenter defaultCenter] postNotificationName:PRIVATE_CHAT_RECEIVED_NOTIFICATION object:self userInfo:@{key : pcpp}];
@@ -228,7 +287,7 @@
 }
 
 
-- (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag {
+- (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag language:(TranslateLanguages)language{
   NSString *nibName = @"ChatBattleHistoryView";
   ChatBattleHistoryView *v = [chatCell dequeueChatSubview:nibName];
   
@@ -251,8 +310,8 @@
   return NO;
 }
 
-- (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell {
-  [self updateInChatCell:chatCell showsClanTag:YES];
+- (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell language:(TranslateLanguages)language{
+  [self updateInChatCell:chatCell showsClanTag:YES language:TranslateLanguagesEnglish];
   return CGRectGetMaxY(chatCell.currentChatSubview.frame)+14.f;
 }
 
@@ -382,7 +441,7 @@
 }
 
 
-- (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag {
+- (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag language:(TranslateLanguages)language{
   NSString *nibName = @"ChatClanAvengeView";
   ChatClanAvengeView *v = [chatCell dequeueChatSubview:nibName];
   
@@ -401,8 +460,8 @@
   return ![self isValid];
 }
 
-- (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell {
-  [self updateInChatCell:chatCell showsClanTag:YES];
+- (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell language:(TranslateLanguages)language{
+  [self updateInChatCell:chatCell showsClanTag:YES language:TranslateLanguagesEnglish];
   return CGRectGetMaxY(chatCell.currentChatSubview.frame)+14.f;
 }
 

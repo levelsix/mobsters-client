@@ -1762,7 +1762,7 @@ static ReceivedGroupChatResponseProto* defaultReceivedGroupChatResponseProtoInst
     self.sender = [MinimumUserProto defaultInstance];
     self.recipientUuid = @"";
     self.content = @"";
-    self.contentLanguage = TranslateLanguagesArabic;
+    self.contentLanguage = TranslateLanguagesEnglish;
   }
   return self;
 }
@@ -2080,7 +2080,7 @@ static PrivateChatPostRequestProto* defaultPrivateChatPostRequestProtoInstance =
 }
 - (PrivateChatPostRequestProto_Builder*) clearContentLanguageList {
   result.hasContentLanguage = NO;
-  result.contentLanguage = TranslateLanguagesArabic;
+  result.contentLanguage = TranslateLanguagesEnglish;
   return self;
 }
 @end

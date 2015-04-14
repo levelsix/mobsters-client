@@ -68,6 +68,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _inProgressIncompleteQuests = [[NSMutableDictionary alloc] init];
     
     _privateChats = [[NSMutableArray alloc] init];
+    _privateChatLanguages = [[NSMutableDictionary alloc] init];
+    _privateTranslationOn = [[NSMutableDictionary alloc] init];
     
     _unrespondedUpdates = [[NSMutableArray alloc] init];
     
@@ -660,6 +662,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
 }
 
+- (void) addChatMessageWithProto:(GroupChatMessageProto *)groupChatMessageProto scope:(GroupChatScope)scope{
+  ChatMessage *cm = [[ChatMessage alloc] initWithProto:groupChatMessageProto];
+  [self addChatMessage:cm scope:scope];
+}
+
 - (void) addChatMessage:(MinimumUserProtoWithLevel *)sender message:(NSString *)msg scope:(GroupChatScope)scope isAdmin:(BOOL)isAdmin {
   ChatMessage *cm = [[ChatMessage alloc] init];
   cm.sender = sender.minUserProto;
@@ -902,6 +909,20 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (void) addBoosterPurchase:(RareBoosterPurchaseProto *)bp {
   [self.rareBoosterPurchases insertObject:bp atIndex:0];
+}
+
+#pragma mark - language
+
+- (TranslateLanguages) languageForUser:(NSString *)userUuid {
+  GameState *gs = [GameState sharedGameState];
+  NSNumber *savedNumber = [gs.privateChatLanguages valueForKey:userUuid];
+  return (TranslateLanguages)savedNumber.intValue;
+}
+
+- (BOOL) translateOnForUser:(NSString *)userUuid {
+  GameState *gs = [GameState sharedGameState];
+  NSNumber *savedNumber = [gs.privateTranslationOn valueForKey:userUuid];
+  return savedNumber.boolValue;
 }
 
 #pragma mark - Healing
