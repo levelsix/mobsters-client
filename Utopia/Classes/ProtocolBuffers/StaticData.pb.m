@@ -25,7 +25,6 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [PrerequisiteRoot registerAllExtensions:registry];
     [QuestRoot registerAllExtensions:registry];
     [ResearchRoot registerAllExtensions:registry];
-    [SalesRoot registerAllExtensions:registry];
     [RewardRoot registerAllExtensions:registry];
     [SkillRoot registerAllExtensions:registry];
     [StructureRoot registerAllExtensions:registry];
@@ -79,9 +78,8 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property (strong) NSMutableArray * mutablePrereqsList;
 @property (strong) NSMutableArray * mutableBoardsList;
 @property (strong) NSMutableArray * mutableResearchList;
-@property (strong) NSMutableArray * mutableBattleItemList;
-@property (strong) NSMutableArray * mutableSalesPackageList;
 @property (strong) NSMutableArray * mutablePvpBoardObstacleProtosList;
+@property (strong) NSMutableArray * mutableBattleItemList;
 @property (strong) NSMutableArray * mutableRewardList;
 @end
 
@@ -177,12 +175,10 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @dynamic boardsList;
 @synthesize mutableResearchList;
 @dynamic researchList;
-@synthesize mutableBattleItemList;
-@dynamic battleItemList;
-@synthesize mutableSalesPackageList;
-@dynamic salesPackageList;
 @synthesize mutablePvpBoardObstacleProtosList;
 @dynamic pvpBoardObstacleProtosList;
+@synthesize mutableBattleItemList;
+@dynamic battleItemList;
 @synthesize mutableRewardList;
 @dynamic rewardList;
 - (id) init {
@@ -432,23 +428,17 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
 - (ResearchProto*)researchAtIndex:(NSUInteger)index {
   return [mutableResearchList objectAtIndex:index];
 }
-- (NSArray *)battleItemList {
-  return mutableBattleItemList;
-}
-- (BattleItemProto*)battleItemAtIndex:(NSUInteger)index {
-  return [mutableBattleItemList objectAtIndex:index];
-}
-- (NSArray *)salesPackageList {
-  return mutableSalesPackageList;
-}
-- (SalesPackageProto*)salesPackageAtIndex:(NSUInteger)index {
-  return [mutableSalesPackageList objectAtIndex:index];
-}
 - (NSArray *)pvpBoardObstacleProtosList {
   return mutablePvpBoardObstacleProtosList;
 }
 - (PvpBoardObstacleProto*)pvpBoardObstacleProtosAtIndex:(NSUInteger)index {
   return [mutablePvpBoardObstacleProtosList objectAtIndex:index];
+}
+- (NSArray *)battleItemList {
+  return mutableBattleItemList;
+}
+- (BattleItemProto*)battleItemAtIndex:(NSUInteger)index {
+  return [mutableBattleItemList objectAtIndex:index];
 }
 - (NSArray *)rewardList {
   return mutableRewardList;
@@ -586,11 +576,8 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   [self.battleItemList enumerateObjectsUsingBlock:^(BattleItemProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:43 value:element];
   }];
-  [self.salesPackageList enumerateObjectsUsingBlock:^(SalesPackageProto *element, NSUInteger idx, BOOL *stop) {
-    [output writeMessage:44 value:element];
-  }];
   [self.rewardList enumerateObjectsUsingBlock:^(RewardProto *element, NSUInteger idx, BOOL *stop) {
-    [output writeMessage:45 value:element];
+    [output writeMessage:44 value:element];
   }];
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -727,11 +714,8 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   [self.battleItemList enumerateObjectsUsingBlock:^(BattleItemProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(43, element);
   }];
-  [self.salesPackageList enumerateObjectsUsingBlock:^(SalesPackageProto *element, NSUInteger idx, BOOL *stop) {
-    size_ += computeMessageSize(44, element);
-  }];
   [self.rewardList enumerateObjectsUsingBlock:^(RewardProto *element, NSUInteger idx, BOOL *stop) {
-    size_ += computeMessageSize(45, element);
+    size_ += computeMessageSize(44, element);
   }];
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -1020,12 +1004,6 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }];
-  [self.salesPackageList enumerateObjectsUsingBlock:^(SalesPackageProto *element, NSUInteger idx, BOOL *stop) {
-    [output appendFormat:@"%@%@ {\n", indent, @"salesPackage"];
-    [element writeDescriptionTo:output
-                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
-    [output appendFormat:@"%@}\n", indent];
-  }];
   [self.rewardList enumerateObjectsUsingBlock:^(RewardProto *element, NSUInteger idx, BOOL *stop) {
     [output appendFormat:@"%@%@ {\n", indent, @"reward"];
     [element writeDescriptionTo:output
@@ -1087,7 +1065,6 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
       [self.allResearchHousesList isEqualToArray:otherMessage.allResearchHousesList] &&
       [self.allBattleItemFactorysList isEqualToArray:otherMessage.allBattleItemFactorysList] &&
       [self.battleItemList isEqualToArray:otherMessage.battleItemList] &&
-      [self.salesPackageList isEqualToArray:otherMessage.salesPackageList] &&
       [self.rewardList isEqualToArray:otherMessage.rewardList] &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
@@ -1217,9 +1194,6 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
     hashCode = hashCode * 31 + [element hash];
   }];
   [self.battleItemList enumerateObjectsUsingBlock:^(BattleItemProto *element, NSUInteger idx, BOOL *stop) {
-    hashCode = hashCode * 31 + [element hash];
-  }];
-  [self.salesPackageList enumerateObjectsUsingBlock:^(SalesPackageProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
   [self.rewardList enumerateObjectsUsingBlock:^(RewardProto *element, NSUInteger idx, BOOL *stop) {
@@ -1540,25 +1514,18 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
       [result.mutableResearchList addObjectsFromArray:other.mutableResearchList];
     }
   }
-  if (other.mutableBattleItemList.count > 0) {
-    if (result.mutableBattleItemList == nil) {
-      result.mutableBattleItemList = [[NSMutableArray alloc] initWithArray:other.mutableBattleItemList];
-    } else {
-      [result.mutableBattleItemList addObjectsFromArray:other.mutableBattleItemList];
-    }
-  }
-  if (other.mutableSalesPackageList.count > 0) {
-    if (result.mutableSalesPackageList == nil) {
-      result.mutableSalesPackageList = [[NSMutableArray alloc] initWithArray:other.mutableSalesPackageList];
-    } else {
-      [result.mutableSalesPackageList addObjectsFromArray:other.mutableSalesPackageList];
-    }
-  }
   if (other.mutablePvpBoardObstacleProtosList.count > 0) {
     if (result.mutablePvpBoardObstacleProtosList == nil) {
       result.mutablePvpBoardObstacleProtosList = [[NSMutableArray alloc] initWithArray:other.mutablePvpBoardObstacleProtosList];
     } else {
       [result.mutablePvpBoardObstacleProtosList addObjectsFromArray:other.mutablePvpBoardObstacleProtosList];
+    }
+  }
+  if (other.mutableBattleItemList.count > 0) {
+    if (result.mutableBattleItemList == nil) {
+      result.mutableBattleItemList = [[NSMutableArray alloc] initWithArray:other.mutableBattleItemList];
+    } else {
+      [result.mutableBattleItemList addObjectsFromArray:other.mutableBattleItemList];
     }
   }
   if (other.mutableRewardList.count > 0) {
@@ -1848,12 +1815,6 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
         break;
       }
       case 354: {
-        SalesPackageProto_Builder* subBuilder = [SalesPackageProto builder];
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self addSalesPackage:[subBuilder buildPartial]];
-        break;
-      }
-      case 362: {
         RewardProto_Builder* subBuilder = [RewardProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addReward:[subBuilder buildPartial]];
@@ -2834,54 +2795,6 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   result.mutableResearchList = nil;
   return self;
 }
-- (NSMutableArray *)battleItemList {
-  return result.mutableBattleItemList;
-}
-- (BattleItemProto*)battleItemAtIndex:(NSUInteger)index {
-  return [result battleItemAtIndex:index];
-}
-- (StaticDataProto_Builder *)addBattleItem:(BattleItemProto*)value {
-  if (result.mutableBattleItemList == nil) {
-    result.mutableBattleItemList = [[NSMutableArray alloc]init];
-  }
-  [result.mutableBattleItemList addObject:value];
-  return self;
-}
-- (StaticDataProto_Builder *)addAllBattleItem:(NSArray *)array {
-  if (result.mutableBattleItemList == nil) {
-    result.mutableBattleItemList = [NSMutableArray array];
-  }
-  [result.mutableBattleItemList addObjectsFromArray:array];
-  return self;
-}
-- (StaticDataProto_Builder *)clearBattleItem {
-  result.mutableBattleItemList = nil;
-  return self;
-}
-- (NSMutableArray *)salesPackageList {
-  return result.mutableSalesPackageList;
-}
-- (SalesPackageProto*)salesPackageAtIndex:(NSUInteger)index {
-  return [result salesPackageAtIndex:index];
-}
-- (StaticDataProto_Builder *)addSalesPackage:(SalesPackageProto*)value {
-  if (result.mutableSalesPackageList == nil) {
-    result.mutableSalesPackageList = [[NSMutableArray alloc]init];
-  }
-  [result.mutableSalesPackageList addObject:value];
-  return self;
-}
-- (StaticDataProto_Builder *)addAllSalesPackage:(NSArray *)array {
-  if (result.mutableSalesPackageList == nil) {
-    result.mutableSalesPackageList = [NSMutableArray array];
-  }
-  [result.mutableSalesPackageList addObjectsFromArray:array];
-  return self;
-}
-- (StaticDataProto_Builder *)clearSalesPackage {
-  result.mutableSalesPackageList = nil;
-  return self;
-}
 - (NSMutableArray *)pvpBoardObstacleProtosList {
   return result.mutablePvpBoardObstacleProtosList;
 }
@@ -2904,6 +2817,30 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
 }
 - (StaticDataProto_Builder *)clearPvpBoardObstacleProtos {
   result.mutablePvpBoardObstacleProtosList = nil;
+  return self;
+}
+- (NSMutableArray *)battleItemList {
+  return result.mutableBattleItemList;
+}
+- (BattleItemProto*)battleItemAtIndex:(NSUInteger)index {
+  return [result battleItemAtIndex:index];
+}
+- (StaticDataProto_Builder *)addBattleItem:(BattleItemProto*)value {
+  if (result.mutableBattleItemList == nil) {
+    result.mutableBattleItemList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableBattleItemList addObject:value];
+  return self;
+}
+- (StaticDataProto_Builder *)addAllBattleItem:(NSArray *)array {
+  if (result.mutableBattleItemList == nil) {
+    result.mutableBattleItemList = [NSMutableArray array];
+  }
+  [result.mutableBattleItemList addObjectsFromArray:array];
+  return self;
+}
+- (StaticDataProto_Builder *)clearBattleItem {
+  result.mutableBattleItemList = nil;
   return self;
 }
 - (NSMutableArray *)rewardList {

@@ -42,6 +42,7 @@ BOOL ResearchTypeIsValidValue(ResearchType value) {
     case ResearchTypeResourceStorage:
     case ResearchTypeUnlockItem:
     case ResearchTypeUnlockObstacle:
+    case ResearchTypeResourceGeneratorStorage:
       return YES;
     default:
       return NO;

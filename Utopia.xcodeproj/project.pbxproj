@@ -26181,7 +26181,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7531CD67E149A97B795B119A /* Pods.debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = Lala;
+				ASSETCATALOG_COMPILER_APPICON_NAME = Chicken;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -26261,7 +26261,7 @@
 			baseConfigurationReference = 5FB7F2BC73293F6A4DC1C816 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ALTERNATE_OWNER = "$(USER)";
-				ASSETCATALOG_COMPILER_APPICON_NAME = Lala;
+				ASSETCATALOG_COMPILER_APPICON_NAME = Chicken;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -26342,7 +26342,7 @@
 			baseConfigurationReference = 686F8D3F1B86BD06C7EE6627 /* Pods.appstore.xcconfig */;
 			buildSettings = {
 				ALTERNATE_OWNER = "$(USER)";
-				ASSETCATALOG_COMPILER_APPICON_NAME = Lala;
+				ASSETCATALOG_COMPILER_APPICON_NAME = Chicken;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -26630,7 +26630,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7531CD67E149A97B795B119A /* Pods.debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = Lala;
+				ASSETCATALOG_COMPILER_APPICON_NAME = Chicken;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -26712,7 +26712,7 @@
 			baseConfigurationReference = 5FB7F2BC73293F6A4DC1C816 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ALTERNATE_OWNER = "$(USER)";
-				ASSETCATALOG_COMPILER_APPICON_NAME = Lala;
+				ASSETCATALOG_COMPILER_APPICON_NAME = Chicken;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -26794,7 +26794,7 @@
 			baseConfigurationReference = 686F8D3F1B86BD06C7EE6627 /* Pods.appstore.xcconfig */;
 			buildSettings = {
 				ALTERNATE_OWNER = "$(USER)";
-				ASSETCATALOG_COMPILER_APPICON_NAME = Lala;
+				ASSETCATALOG_COMPILER_APPICON_NAME = Chicken;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;

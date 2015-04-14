@@ -187,14 +187,12 @@ BOOL MiniEventGoalProto_MiniEventGoalTypeIsValidValue(MiniEventGoalProto_MiniEve
   BOOL hasGoalAmt_:1;
   BOOL hasPointsGained_:1;
   BOOL hasGoalDesc_:1;
-  BOOL hasActionDescription_:1;
   BOOL hasGoalType_:1;
   int32_t miniEventGoalId;
   int32_t miniEventId;
   int32_t goalAmt;
   int32_t pointsGained;
   NSString* goalDesc;
-  NSString* actionDescription;
   MiniEventGoalProto_MiniEventGoalType goalType;
 }
 - (BOOL) hasMiniEventGoalId;
@@ -203,14 +201,12 @@ BOOL MiniEventGoalProto_MiniEventGoalTypeIsValidValue(MiniEventGoalProto_MiniEve
 - (BOOL) hasGoalAmt;
 - (BOOL) hasGoalDesc;
 - (BOOL) hasPointsGained;
-- (BOOL) hasActionDescription;
 @property (readonly) int32_t miniEventGoalId;
 @property (readonly) int32_t miniEventId;
 @property (readonly) MiniEventGoalProto_MiniEventGoalType goalType;
 @property (readonly) int32_t goalAmt;
 @property (readonly, strong) NSString* goalDesc;
 @property (readonly) int32_t pointsGained;
-@property (readonly, strong) NSString* actionDescription;
 
 + (MiniEventGoalProto*) defaultInstance;
 - (MiniEventGoalProto*) defaultInstance;
@@ -276,11 +272,6 @@ BOOL MiniEventGoalProto_MiniEventGoalTypeIsValidValue(MiniEventGoalProto_MiniEve
 - (int32_t) pointsGained;
 - (MiniEventGoalProto_Builder*) setPointsGained:(int32_t) value;
 - (MiniEventGoalProto_Builder*) clearPointsGained;
-
-- (BOOL) hasActionDescription;
-- (NSString*) actionDescription;
-- (MiniEventGoalProto_Builder*) setActionDescription:(NSString*) value;
-- (MiniEventGoalProto_Builder*) clearActionDescription;
 @end
 
 @interface MiniEventForPlayerLevelProto : PBGeneratedMessage {

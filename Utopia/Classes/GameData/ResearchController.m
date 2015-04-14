@@ -27,6 +27,7 @@
     case ResearchTypeItemProductionSpeed:
     case ResearchTypeResourceProduction:
     case ResearchTypeResourceStorage:
+    case ResearchTypeResourceGeneratorStorage:
       return [[ResearchPercentController alloc] initWithProto:proto];
       
     case ResearchTypeSpeedIncrease:
@@ -78,6 +79,7 @@
     case ResearchTypeResourceProduction:
       return @"Production";
     case ResearchTypeResourceStorage:
+    case ResearchTypeResourceGeneratorStorage:
       return [NSString stringWithFormat:@"%@ Storage", _research.resourceType == ResourceTypeCash ? @"Cash" : @"Oil"];
       
     case ResearchTypeSpeedIncrease:
@@ -114,6 +116,7 @@
     case ResearchTypeAttackIncrease:
     case ResearchTypeHpIncrease:
     case ResearchTypeResourceStorage:
+    case ResearchTypeResourceGeneratorStorage:
       return @"Increase";
       
     case ResearchTypeSpeedIncrease:

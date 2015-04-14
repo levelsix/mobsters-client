@@ -206,6 +206,7 @@
     case ResearchTypeResourceStorage:
     case ResearchTypeUnlockItem:
     case ResearchTypeUnlockObstacle:
+    case ResearchTypeResourceGeneratorStorage:
       return NO;
   }
   return NO;

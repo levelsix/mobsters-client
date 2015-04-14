@@ -307,7 +307,7 @@
     else if (fsp.structType == StructureInfoProto_StructTypeResourceGenerator) {
       ResourceGeneratorProto *rgp = (ResourceGeneratorProto *)[gs structWithId:us.structId];
       
-      float secsTillFull = rgp.capacity/us.productionRate*3600.f;
+      float secsTillFull = us.storageCapacity/us.productionRate*3600.f;
       MSDate *finishDate = [us.lastRetrieved dateByAddingTimeInterval:secsTillFull];
       // Check when it will be full
       if (finishDate.timeIntervalSinceNow > 0) {
@@ -322,6 +322,14 @@
             cashStr = fsp.name;
           }
         }
+      }
+    } else if (fsp.structType == StructureInfoProto_StructTypeMoneyTree) {
+      if (!us.isExpired) {
+        float secsTillFull = us.storageCapacity/us.productionRate*3600.f;
+        MSDate *finishDate = [us.lastRetrieved dateByAddingTimeInterval:secsTillFull];
+        
+        NSString *text = [NSString stringWithFormat:@"Your %@ just filled up. Collect it now!", fsp.name];
+        [self scheduleNotificationWithText:text badge:1 date:finishDate];
       }
     }
   }

@@ -557,20 +557,24 @@ BOOL TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusIsValidVa
   BOOL hasSender_:1;
   BOOL hasPost_:1;
   BOOL hasTranslationSetting_:1;
+  BOOL hasAdminMessage_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
   PrivateChatPostProto* post;
   PrivateChatDefaultLanguageProto* translationSetting;
+  GroupChatMessageProto* adminMessage;
   PrivateChatPostResponseProto_PrivateChatPostStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 - (BOOL) hasPost;
 - (BOOL) hasTranslationSetting;
+- (BOOL) hasAdminMessage;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) PrivateChatPostResponseProto_PrivateChatPostStatus status;
 @property (readonly, strong) PrivateChatPostProto* post;
 @property (readonly, strong) PrivateChatDefaultLanguageProto* translationSetting;
+@property (readonly, strong) GroupChatMessageProto* adminMessage;
 
 + (PrivateChatPostResponseProto*) defaultInstance;
 - (PrivateChatPostResponseProto*) defaultInstance;
@@ -632,6 +636,13 @@ BOOL TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusIsValidVa
 - (PrivateChatPostResponseProto_Builder*) setTranslationSetting_Builder:(PrivateChatDefaultLanguageProto_Builder*) builderForValue;
 - (PrivateChatPostResponseProto_Builder*) mergeTranslationSetting:(PrivateChatDefaultLanguageProto*) value;
 - (PrivateChatPostResponseProto_Builder*) clearTranslationSetting;
+
+- (BOOL) hasAdminMessage;
+- (GroupChatMessageProto*) adminMessage;
+- (PrivateChatPostResponseProto_Builder*) setAdminMessage:(GroupChatMessageProto*) value;
+- (PrivateChatPostResponseProto_Builder*) setAdminMessage_Builder:(GroupChatMessageProto_Builder*) builderForValue;
+- (PrivateChatPostResponseProto_Builder*) mergeAdminMessage:(GroupChatMessageProto*) value;
+- (PrivateChatPostResponseProto_Builder*) clearAdminMessage;
 @end
 
 @interface RetrievePrivateChatPostsRequestProto : PBGeneratedMessage {

@@ -32,7 +32,6 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property (strong) NSString* localcurrency;
 @property (strong) NSString* locale;
 @property (strong) NSString* ipaddr;
-@property (strong) NSString* uuid;
 @end
 
 @implementation InAppPurchaseRequestProto
@@ -79,13 +78,6 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasIpaddr_ = !!value_;
 }
 @synthesize ipaddr;
-- (BOOL) hasUuid {
-  return !!hasUuid_;
-}
-- (void) setHasUuid:(BOOL) value_ {
-  hasUuid_ = !!value_;
-}
-@synthesize uuid;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
@@ -94,7 +86,6 @@ static PBExtensionRegistry* extensionRegistry = nil;
     self.localcurrency = @"";
     self.locale = @"";
     self.ipaddr = @"";
-    self.uuid = @"";
   }
   return self;
 }
@@ -132,9 +123,6 @@ static InAppPurchaseRequestProto* defaultInAppPurchaseRequestProtoInstance = nil
   if (self.hasIpaddr) {
     [output writeString:6 value:self.ipaddr];
   }
-  if (self.hasUuid) {
-    [output writeString:7 value:self.uuid];
-  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -161,9 +149,6 @@ static InAppPurchaseRequestProto* defaultInAppPurchaseRequestProtoInstance = nil
   }
   if (self.hasIpaddr) {
     size_ += computeStringSize(6, self.ipaddr);
-  }
-  if (self.hasUuid) {
-    size_ += computeStringSize(7, self.uuid);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -221,9 +206,6 @@ static InAppPurchaseRequestProto* defaultInAppPurchaseRequestProtoInstance = nil
   if (self.hasIpaddr) {
     [output appendFormat:@"%@%@: %@\n", indent, @"ipaddr", self.ipaddr];
   }
-  if (self.hasUuid) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"uuid", self.uuid];
-  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -247,8 +229,6 @@ static InAppPurchaseRequestProto* defaultInAppPurchaseRequestProtoInstance = nil
       (!self.hasLocale || [self.locale isEqual:otherMessage.locale]) &&
       self.hasIpaddr == otherMessage.hasIpaddr &&
       (!self.hasIpaddr || [self.ipaddr isEqual:otherMessage.ipaddr]) &&
-      self.hasUuid == otherMessage.hasUuid &&
-      (!self.hasUuid || [self.uuid isEqual:otherMessage.uuid]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -270,9 +250,6 @@ static InAppPurchaseRequestProto* defaultInAppPurchaseRequestProtoInstance = nil
   }
   if (self.hasIpaddr) {
     hashCode = hashCode * 31 + [self.ipaddr hash];
-  }
-  if (self.hasUuid) {
-    hashCode = hashCode * 31 + [self.uuid hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -335,9 +312,6 @@ static InAppPurchaseRequestProto* defaultInAppPurchaseRequestProtoInstance = nil
   if (other.hasIpaddr) {
     [self setIpaddr:other.ipaddr];
   }
-  if (other.hasUuid) {
-    [self setUuid:other.uuid];
-  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -386,10 +360,6 @@ static InAppPurchaseRequestProto* defaultInAppPurchaseRequestProtoInstance = nil
       }
       case 50: {
         [self setIpaddr:[input readString]];
-        break;
-      }
-      case 58: {
-        [self setUuid:[input readString]];
         break;
       }
     }
@@ -503,22 +473,6 @@ static InAppPurchaseRequestProto* defaultInAppPurchaseRequestProtoInstance = nil
 - (InAppPurchaseRequestProto_Builder*) clearIpaddr {
   result.hasIpaddr = NO;
   result.ipaddr = @"";
-  return self;
-}
-- (BOOL) hasUuid {
-  return result.hasUuid;
-}
-- (NSString*) uuid {
-  return result.uuid;
-}
-- (InAppPurchaseRequestProto_Builder*) setUuid:(NSString*) value {
-  result.hasUuid = YES;
-  result.uuid = value;
-  return self;
-}
-- (InAppPurchaseRequestProto_Builder*) clearUuid {
-  result.hasUuid = NO;
-  result.uuid = @"";
   return self;
 }
 @end

@@ -863,13 +863,30 @@
 }
 
 - (int) storageCapacity {
-  ResourceStorageProto *rgp = (ResourceStorageProto *)self.staticStructForCurrentConstructionLevel;
+  id<StaticStructure> ss = self.staticStructForCurrentConstructionLevel;
   
-  if ([rgp isKindOfClass:[ResourceStorageProto class]]) {
+  if ([ss isKindOfClass:[ResourceStorageProto class]]) {
+    ResourceStorageProto *rgp = (ResourceStorageProto *)ss;
     int baseStorage = rgp.capacity;
     
     GameState *gs = [GameState sharedGameState];
     float researchFactor = 1.f+[gs.researchUtil percentageBenefitForType:ResearchTypeResourceStorage resType:rgp.resourceType];
+    
+    return roundf(baseStorage*researchFactor);
+  } else if ([ss isKindOfClass:[ResourceGeneratorProto class]]) {
+    ResourceGeneratorProto *rgp = (ResourceGeneratorProto *)ss;
+    int baseStorage = rgp.capacity;
+    
+    GameState *gs = [GameState sharedGameState];
+    float researchFactor = 1.f+[gs.researchUtil percentageBenefitForType:ResearchTypeResourceGeneratorStorage resType:rgp.resourceType];
+    
+    return roundf(baseStorage*researchFactor);
+  } else if ([ss isKindOfClass:[MoneyTreeProto class]]) {
+    MoneyTreeProto *rgp = (MoneyTreeProto *)ss;
+    int baseStorage = rgp.capacity;
+    
+    GameState *gs = [GameState sharedGameState];
+    float researchFactor = 1.f+[gs.researchUtil percentageBenefitForType:ResearchTypeResourceGeneratorStorage resType:ResourceTypeGems];
     
     return roundf(baseStorage*researchFactor);
   }
@@ -904,7 +921,7 @@
   if ([gen isKindOfClass:[ResourceGeneratorProto class]]) {
     float secs = -[self.lastRetrieved timeIntervalSinceNow];
     int numRes = roundf(self.productionRate/3600.f*secs);
-    return MIN(numRes, gen.capacity);
+    return MIN(numRes, self.storageCapacity);
     
   } else if ([gen isKindOfClass:[MoneyTreeProto class]]) {
     float timeSinceEndDate = -[self timeTillExpiry];
@@ -918,7 +935,7 @@
       secs = timeSinceLastRetrieved;
     }
     int numRes = roundf(self.productionRate/3600.f*secs);
-    return MIN(numRes, gen.capacity);
+    return MIN(numRes, self.storageCapacity);
   }
   return 0;
 }

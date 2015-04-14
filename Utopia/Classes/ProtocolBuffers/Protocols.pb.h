@@ -586,12 +586,6 @@
 @class ReviveInDungeonResponseProto_Builder;
 @class RewardProto;
 @class RewardProto_Builder;
-@class SalesDisplayItemProto;
-@class SalesDisplayItemProto_Builder;
-@class SalesItemProto;
-@class SalesItemProto_Builder;
-@class SalesPackageProto;
-@class SalesPackageProto_Builder;
 @class SellUserMonsterRequestProto;
 @class SellUserMonsterRequestProto_Builder;
 @class SellUserMonsterResponseProto;
