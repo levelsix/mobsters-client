@@ -43,7 +43,7 @@
                 </view>
                 <view contentMode="scaleToFill" id="ecc-tt-Kij" userLabel="Select Field View">
                     <rect key="frame" x="3" y="193" width="424" height="50"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="sellbarbg.png" id="Ov4-5Y-DfC">
                             <rect key="frame" x="0.0" y="0.0" width="424" height="50"/>
@@ -72,7 +72,7 @@
         </view>
         <view contentMode="scaleToFill" id="1rB-Td-rvz" userLabel="Bottom Bar">
             <rect key="frame" x="0.0" y="0.0" width="424" height="50"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="sellbarbg.png" id="jyc-YH-ief">
                     <rect key="frame" x="0.0" y="0.0" width="424" height="50"/>
