@@ -942,11 +942,6 @@ static MiniEventGoalProto* defaultMiniEventGoalProtoInstance = nil;
 BOOL MiniEventGoalProto_MiniEventGoalTypeIsValidValue(MiniEventGoalProto_MiniEventGoalType value) {
   switch (value) {
     case MiniEventGoalProto_MiniEventGoalTypeNoGoal:
-    case MiniEventGoalProto_MiniEventGoalTypeHealHp:
-    case MiniEventGoalProto_MiniEventGoalTypeEnhanceToonXp:
-    case MiniEventGoalProto_MiniEventGoalTypeUseCashUpgradingBuilding:
-    case MiniEventGoalProto_MiniEventGoalTypeUseOilUpgradingBuilding:
-    case MiniEventGoalProto_MiniEventGoalTypeCaptureScientist:
     case MiniEventGoalProto_MiniEventGoalTypeGainBuildingStrength:
     case MiniEventGoalProto_MiniEventGoalTypeGainResearchStrength:
     case MiniEventGoalProto_MiniEventGoalTypeSpinBasicGrab:
