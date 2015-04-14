@@ -1020,6 +1020,9 @@
 		29ACC3571ADDA54600B728B9 /* salevalueshadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29ACC2F61ADDA54600B728B9 /* salevalueshadow@2x.png */; };
 		29ACC3581ADDA54600B728B9 /* salevalueshadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29ACC2F61ADDA54600B728B9 /* salevalueshadow@2x.png */; };
 		29ACC3591ADDA54600B728B9 /* salevalueshadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29ACC2F61ADDA54600B728B9 /* salevalueshadow@2x.png */; };
+		29ACC2581ADCE4F200B728B9 /* MiniEventManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 29ACC2571ADCE4F200B728B9 /* MiniEventManager.m */; };
+		29ACC2591ADCE4F200B728B9 /* MiniEventManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 29ACC2571ADCE4F200B728B9 /* MiniEventManager.m */; };
+		29ACC25A1ADCE4F200B728B9 /* MiniEventManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 29ACC2571ADCE4F200B728B9 /* MiniEventManager.m */; };
 		29AD76591A39316100430F0E /* 1slot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29AD76561A39316100430F0E /* 1slot@2x.png */; };
 		29AD765A1A39316100430F0E /* 1slot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29AD76561A39316100430F0E /* 1slot@2x.png */; };
 		29AD765B1A39316100430F0E /* 1slot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29AD76561A39316100430F0E /* 1slot@2x.png */; };
@@ -2388,9 +2391,6 @@
 		9B41AF951A841DDA00529879 /* swordorb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B41AF941A841DDA00529879 /* swordorb@2x.png */; };
 		9B41AF961A841DDA00529879 /* swordorb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B41AF941A841DDA00529879 /* swordorb@2x.png */; };
 		9B41AF971A841DDA00529879 /* swordorb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B41AF941A841DDA00529879 /* swordorb@2x.png */; };
-		9B45F22E1AC22D550000E0F5 /* MiniEventManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B45F22D1AC22D550000E0F5 /* MiniEventManager.m */; };
-		9B45F22F1AC22D550000E0F5 /* MiniEventManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B45F22D1AC22D550000E0F5 /* MiniEventManager.m */; };
-		9B45F2301AC22D550000E0F5 /* MiniEventManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B45F22D1AC22D550000E0F5 /* MiniEventManager.m */; };
 		9B6B77CD1A858B1A0080C8E5 /* 1moveslabel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B6B77C11A858B1A0080C8E5 /* 1moveslabel@2x.png */; };
 		9B6B77CE1A858B1A0080C8E5 /* 1moveslabel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B6B77C11A858B1A0080C8E5 /* 1moveslabel@2x.png */; };
 		9B6B77CF1A858B1A0080C8E5 /* 1moveslabel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B6B77C11A858B1A0080C8E5 /* 1moveslabel@2x.png */; };
@@ -8111,6 +8111,8 @@
 		29ACC2F41ADDA54600B728B9 /* saletimerbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "saletimerbg@2x.png"; sourceTree = "<group>"; };
 		29ACC2F51ADDA54600B728B9 /* saletimerredicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "saletimerredicon@2x.png"; sourceTree = "<group>"; };
 		29ACC2F61ADDA54600B728B9 /* salevalueshadow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "salevalueshadow@2x.png"; sourceTree = "<group>"; };
+		29ACC2561ADCE4F200B728B9 /* MiniEventManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiniEventManager.h; sourceTree = "<group>"; };
+		29ACC2571ADCE4F200B728B9 /* MiniEventManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MiniEventManager.m; sourceTree = "<group>"; };
 		29AD76561A39316100430F0E /* 1slot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "1slot@2x.png"; sourceTree = "<group>"; };
 		29AD76571A39316100430F0E /* 12slot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "12slot@2x.png"; sourceTree = "<group>"; };
 		29AD76581A39316100430F0E /* 123slot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "123slot@2x.png"; sourceTree = "<group>"; };
@@ -8678,8 +8680,6 @@
 		9B41AF8B1A841D9300529879 /* 6swordorb-9@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "6swordorb-9@2x.png"; sourceTree = "<group>"; };
 		9B41AF8F1A841DA500529879 /* swordorb-9@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "swordorb-9@2x.png"; sourceTree = "<group>"; };
 		9B41AF941A841DDA00529879 /* swordorb@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "swordorb@2x.png"; sourceTree = "<group>"; };
-		9B45F22C1AC22D550000E0F5 /* MiniEventManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiniEventManager.h; sourceTree = "<group>"; };
-		9B45F22D1AC22D550000E0F5 /* MiniEventManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MiniEventManager.m; sourceTree = "<group>"; };
 		9B6B77C11A858B1A0080C8E5 /* 1moveslabel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "1moveslabel@2x.png"; sourceTree = "<group>"; };
 		9B6B77C21A858B1A0080C8E5 /* 2moveslabel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "2moveslabel@2x.png"; sourceTree = "<group>"; };
 		9B6B77C31A858B1A0080C8E5 /* 3moveslabel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "3moveslabel@2x.png"; sourceTree = "<group>"; };
@@ -13605,6 +13605,69 @@
 				29AD90B01ADDEEFF00D3A781 /* vaultgems@2x.png */,
 			);
 			path = Packages;
+		29ACC24E1ADCE46000B728B9 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				9B7AAAF51AC0A24900CA387F /* MiniEventViewController.h */,
+				9B7AAAF61AC0A24900CA387F /* MiniEventViewController.m */,
+				9B7AAAF71AC0A24900CA387F /* MiniEventView.xib */,
+			);
+			name = Main;
+			sourceTree = "<group>";
+		};
+		29ACC2501ADCE46C00B728B9 /* Prizes */ = {
+			isa = PBXGroup;
+			children = (
+				9BD4738B1AC3681800EBBFB2 /* MiniEventTierPrizeView.h */,
+				9BD4738C1AC3681800EBBFB2 /* MiniEventTierPrizeView.m */,
+				9BD473911AC3684500EBBFB2 /* MiniEventTierPrizeView.xib */,
+				9BD473991AC373BC00EBBFB2 /* MiniEventTierPrizeCell.h */,
+				9BD4739A1AC373BC00EBBFB2 /* MiniEventTierPrizeCell.m */,
+				9BD4739B1AC373BC00EBBFB2 /* MiniEventTierPrizeCell.xib */,
+			);
+			name = Prizes;
+			sourceTree = "<group>";
+		};
+		29ACC2511ADCE47800B728B9 /* Collect */ = {
+			isa = PBXGroup;
+			children = (
+				9B2EFD881ACC7716005B7B83 /* MiniEventCollectRewardView.h */,
+				9B2EFD891ACC7716005B7B83 /* MiniEventCollectRewardView.m */,
+				9B2EFD8E1ACC79AC005B7B83 /* MiniEventCollectRewardView.xib */,
+			);
+			name = Collect;
+			sourceTree = "<group>";
+		};
+		29ACC2521ADCE48900B728B9 /* Points */ = {
+			isa = PBXGroup;
+			children = (
+				9BC189271AC1EF7E001B8E88 /* MiniEventPointsView.h */,
+				9BC189281AC1EF7E001B8E88 /* MiniEventPointsView.m */,
+				9BC1891E1AC1E792001B8E88 /* MiniEventPointsView.xib */,
+				9B2EFCB91AC39544005B7B83 /* MiniEventPointsActionCell.h */,
+				9B2EFCBA1AC39544005B7B83 /* MiniEventPointsActionCell.m */,
+				9B2EFCBB1AC39544005B7B83 /* MiniEventPointsActionCell.xib */,
+			);
+			name = Points;
+			sourceTree = "<group>";
+		};
+		29ACC2541ADCE4A900B728B9 /* Details */ = {
+			isa = PBXGroup;
+			children = (
+				9BC189221AC1EF6A001B8E88 /* MiniEventDetailsView.h */,
+				9BC189231AC1EF6A001B8E88 /* MiniEventDetailsView.m */,
+				9BC189191AC1E734001B8E88 /* MiniEventDetailsView.xib */,
+			);
+			name = Details;
+			sourceTree = "<group>";
+		};
+		29ACC2551ADCE4B800B728B9 /* Mini Events */ = {
+			isa = PBXGroup;
+			children = (
+				29ACC2561ADCE4F200B728B9 /* MiniEventManager.h */,
+				29ACC2571ADCE4F200B728B9 /* MiniEventManager.m */,
+			);
+			name = "Mini Events";
 			sourceTree = "<group>";
 		};
 		29AE75521A6F36E000264070 /* Poses */ = {
@@ -14468,31 +14531,11 @@
 		9B7AAAF31AC0A22200CA387F /* MiniEventMenu */ = {
 			isa = PBXGroup;
 			children = (
-				9B7AAAF51AC0A24900CA387F /* MiniEventViewController.h */,
-				9B7AAAF61AC0A24900CA387F /* MiniEventViewController.m */,
-				9B7AAAF71AC0A24900CA387F /* MiniEventView.xib */,
-				9BC189221AC1EF6A001B8E88 /* MiniEventDetailsView.h */,
-				9BC189231AC1EF6A001B8E88 /* MiniEventDetailsView.m */,
-				9BC189191AC1E734001B8E88 /* MiniEventDetailsView.xib */,
-				9BD4738B1AC3681800EBBFB2 /* MiniEventTierPrizeView.h */,
-				9BD4738C1AC3681800EBBFB2 /* MiniEventTierPrizeView.m */,
-				9BD473911AC3684500EBBFB2 /* MiniEventTierPrizeView.xib */,
-				9BD473991AC373BC00EBBFB2 /* MiniEventTierPrizeCell.h */,
-				9BD4739A1AC373BC00EBBFB2 /* MiniEventTierPrizeCell.m */,
-				9BD4739B1AC373BC00EBBFB2 /* MiniEventTierPrizeCell.xib */,
-				9B2EFD881ACC7716005B7B83 /* MiniEventCollectRewardView.h */,
-				9B2EFD891ACC7716005B7B83 /* MiniEventCollectRewardView.m */,
-				9B2EFD8E1ACC79AC005B7B83 /* MiniEventCollectRewardView.xib */,
-				9BC189271AC1EF7E001B8E88 /* MiniEventPointsView.h */,
-				9BC189281AC1EF7E001B8E88 /* MiniEventPointsView.m */,
-				9BC1891E1AC1E792001B8E88 /* MiniEventPointsView.xib */,
-				9B2EFCB91AC39544005B7B83 /* MiniEventPointsActionCell.h */,
-				9B2EFCBA1AC39544005B7B83 /* MiniEventPointsActionCell.m */,
-				9B2EFCBB1AC39544005B7B83 /* MiniEventPointsActionCell.xib */,
-				9B45F22C1AC22D550000E0F5 /* MiniEventManager.h */,
-				9B45F22D1AC22D550000E0F5 /* MiniEventManager.m */,
-				9B2EFDC91AD36CF3005B7B83 /* SpriteAnimationImageView.h */,
-				9B2EFDCA1AD36CF3005B7B83 /* SpriteAnimationImageView.m */,
+				29ACC2511ADCE47800B728B9 /* Collect */,
+				29ACC2541ADCE4A900B728B9 /* Details */,
+				29ACC24E1ADCE46000B728B9 /* Main */,
+				29ACC2521ADCE48900B728B9 /* Points */,
+				29ACC2501ADCE46C00B728B9 /* Prizes */,
 			);
 			path = MiniEventMenu;
 			sourceTree = "<group>";
@@ -15035,6 +15078,7 @@
 		CF1265401538ACC400E0C1AD /* Game Data */ = {
 			isa = PBXGroup;
 			children = (
+				29ACC2551ADCE4B800B728B9 /* Mini Events */,
 				6B1EAAB71AD42A5600E0B642 /* Skills */,
 				291721301ACF82400093F100 /* GameType */,
 				29927E611AAE1B3A00418683 /* Battle Items */,
@@ -15118,31 +15162,33 @@
 		CF1265871538ACC400E0C1AD /* Miscellaneous */ = {
 			isa = PBXGroup;
 			children = (
+				631BF3B41A6DF0480091253B /* CircleMonsterView.xib */,
 				CF1265881538ACC400E0C1AD /* CoinBar.h */,
 				CF1265891538ACC400E0C1AD /* CoinBar.m */,
-				CF12658A1538ACC400E0C1AD /* NibUtils.h */,
-				CF12658B1538ACC400E0C1AD /* NibUtils.m */,
+				DA86921C19C75D5A00320A74 /* ColoredLogs.h */,
+				DA0FC55419B15A6C00393BF4 /* CustomAssert.h */,
+				CF023CB819935D2C0082FE61 /* MiniMonsterView.xib */,
 				CFADDB3317D00ED000B1FF3C /* MonsterCardView.h */,
 				CFADDB3417D00ED000B1FF3C /* MonsterCardView.m */,
 				CFADDB3717D00EF300B1FF3C /* MonsterCardView.xib */,
-				CF023CB819935D2C0082FE61 /* MiniMonsterView.xib */,
-				CFF740681817D3D2009DE4A4 /* RewardsView.h */,
-				CFF740691817D3D2009DE4A4 /* RewardsView.m */,
 				CFFEB1661834A80A007C4BA3 /* MonsterTeamSlotView.h */,
 				CFFEB1671834A80A007C4BA3 /* MonsterTeamSlotView.m */,
 				CFFEB16A1834A82C007C4BA3 /* MonsterTeamSlotView.xib */,
-				DA0FC58819B6616800393BF4 /* UIDefinitions.h */,
-				DA58F50E19AE6C5200D025BC /* UIColor+HexColor.h */,
-				DA58F50F19AE6C5200D025BC /* UIColor+HexColor.m */,
-				DA58F51F19AE8B9D00D025BC /* UIView+Coordinates.h */,
-				DA58F52019AE8B9D00D025BC /* UIView+Coordinates.m */,
+				CF12658A1538ACC400E0C1AD /* NibUtils.h */,
+				CF12658B1538ACC400E0C1AD /* NibUtils.m */,
 				DA88EB3819B90250005EE827 /* NSObject+PerformBlockAfterDelay.h */,
 				DA88EB3919B90250005EE827 /* NSObject+PerformBlockAfterDelay.m */,
-				DA0FC55419B15A6C00393BF4 /* CustomAssert.h */,
-				DA86921C19C75D5A00320A74 /* ColoredLogs.h */,
 				CF00865A19CBAC02002F6149 /* NSString+Sizing.h */,
 				CF00865B19CBAC02002F6149 /* NSString+Sizing.m */,
-				631BF3B41A6DF0480091253B /* CircleMonsterView.xib */,
+				CFF740681817D3D2009DE4A4 /* RewardsView.h */,
+				CFF740691817D3D2009DE4A4 /* RewardsView.m */,
+				9B2EFDC91AD36CF3005B7B83 /* SpriteAnimationImageView.h */,
+				9B2EFDCA1AD36CF3005B7B83 /* SpriteAnimationImageView.m */,
+				DA58F50E19AE6C5200D025BC /* UIColor+HexColor.h */,
+				DA58F50F19AE6C5200D025BC /* UIColor+HexColor.m */,
+				DA0FC58819B6616800393BF4 /* UIDefinitions.h */,
+				DA58F51F19AE8B9D00D025BC /* UIView+Coordinates.h */,
+				DA58F52019AE8B9D00D025BC /* UIView+Coordinates.m */,
 				296548691A8193A00080B195 /* UIView+Superview.h */,
 				2965486A1A8193A00080B195 /* UIView+Superview.m */,
 			);
@@ -25636,7 +25682,6 @@
 				9B41AE881A78573300529879 /* SkillShallowGrave.m in Sources */,
 				CF0CED03196F452900ECD301 /* UnreadNotifications.m in Sources */,
 				295FA2AF1A1B44A4006B79F3 /* SpeedupItemsFiller.m in Sources */,
-				9B45F22F1AC22D550000E0F5 /* MiniEventManager.m in Sources */,
 				CF0CED04196F452900ECD301 /* UpgradeViewController.m in Sources */,
 				CF0CED05196F452900ECD301 /* MessageComposerView.m in Sources */,
 				CF0CED06196F452900ECD301 /* StaticStructure.m in Sources */,
@@ -25920,6 +25965,7 @@
 				CF0CEDC0196F452900ECD301 /* GameState.m in Sources */,
 				DA07605F19B129EC00E43E5A /* SkillController.m in Sources */,
 				2987083B1AC3415D002BFF2E /* ResearchUtil.m in Sources */,
+				29ACC2591ADCE4F200B728B9 /* MiniEventManager.m in Sources */,
 				DA58F52219AE8B9D00D025BC /* UIView+Coordinates.m in Sources */,
 				CF0CEDC5196F452900ECD301 /* BuildingViewController.m in Sources */,
 				CF48259B19F729D000041486 /* PPEmitterView.m in Sources */,
@@ -26010,7 +26056,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9B45F22E1AC22D550000E0F5 /* MiniEventManager.m in Sources */,
 				63B045021A92B9C600C74F0C /* AttackedAlertViewController.m in Sources */,
 				CF023CBD19935D8F0082FE61 /* BattleScheduleView.m in Sources */,
 				9B41AE811A7824AA00529879 /* SkillKnockout.m in Sources */,
@@ -26180,6 +26225,7 @@
 				CF4DB8DC1807DA1F00062258 /* Building.m in Sources */,
 				CFBB36C218EE2B9400FD6C8C /* AttackMapViews.m in Sources */,
 				CF6574AE1909CAF200ABF1F4 /* EventBoosterPack.pb.m in Sources */,
+				29ACC2581ADCE4F200B728B9 /* MiniEventManager.m in Sources */,
 				CF689C1A15C3B89400F2E50E /* NSString+SBJSON.m in Sources */,
 				CF29EA5F1965100E00B40DA4 /* FAQViewController.m in Sources */,
 				CF30278E18BFFD8E009D2D25 /* ClanRaidLeaderboardViewController.m in Sources */,
@@ -26417,7 +26463,6 @@
 				CF4818A619F7217F00041486 /* Protocols.pb.m in Sources */,
 				9B41AE891A78573300529879 /* SkillShallowGrave.m in Sources */,
 				CF4818A719F7217F00041486 /* UnreadNotifications.m in Sources */,
-				9B45F2301AC22D550000E0F5 /* MiniEventManager.m in Sources */,
 				295FA2B31A1B44A4006B79F3 /* SpeedupItemsFiller.m in Sources */,
 				CF4818A819F7217F00041486 /* UpgradeViewController.m in Sources */,
 				CF4818A919F7217F00041486 /* MessageComposerView.m in Sources */,
@@ -26701,6 +26746,7 @@
 				CF48197019F7217F00041486 /* GameState.m in Sources */,
 				CF48197119F7217F00041486 /* SkillController.m in Sources */,
 				2987083C1AC3415D002BFF2E /* ResearchUtil.m in Sources */,
+				29ACC25A1ADCE4F200B728B9 /* MiniEventManager.m in Sources */,
 				CF48197219F7217F00041486 /* UIView+Coordinates.m in Sources */,
 				CF48197319F7217F00041486 /* BuildingViewController.m in Sources */,
 				CF48259C19F729D000041486 /* PPEmitterView.m in Sources */,
