@@ -67,7 +67,11 @@
   switch (self.staticItem.itemType) {
       
     case ItemTypeRefreshMiniJob:
-      return [NSString stringWithFormat:@"%d",hardCodedTempAmount];
+      if (self.useGemsButton) {
+        return [NSString stringWithFormat:@"%d",hardCodedTempAmount];
+      } else {
+        return @"USE";
+      }
       
     case ItemTypeItemCash:
     case ItemTypeItemOil:
@@ -85,7 +89,7 @@
   switch (self.staticItem.itemType) {
       
     case ItemTypeRefreshMiniJob:
-      return self.isValid;
+      return !self.isValid;
       
     case ItemTypeItemCash:
     case ItemTypeItemOil:

@@ -200,6 +200,7 @@
 - (int) sendBeginMiniJobMessage:(NSString *)userMiniJobUuid userMonsterUuids:(NSArray *)userMonsterUuids clientTime:(uint64_t)clientTime;
 - (int) sendCompleteMiniJobMessage:(NSString *)userMiniJobUuid isSpeedUp:(BOOL)isSpeedUp gemCost:(int)gemCost clientTime:(uint64_t)clientTime;
 - (int) sendRedeemMiniJobMessage:(NSString *)userMiniJobUuid clientTime:(uint64_t)clientTime monsterHealths:(NSArray *)monsterHealths;
+- (int) sendRefreshMiniJobMessage:(NSArray *)replacedMiniJobs itemId:(int)itemId numToSpawn:(int)numToSpawn gemsSpent:(int)gemsSpent quality:(Quality)quality clientTime:(uint64_t)clientTime structId:(int)structId;
 
 - (int) sendSetAvatarMonsterMessage:(int)avatarMonsterId;
 - (int) sendSetDefendingMsgMessage:(NSString *)newMsg;

@@ -1329,6 +1329,21 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCRedeemMiniJobEvent];
 }
 
+- (int) sendRefreshMiniJobMessage:(NSArray *)replacedMiniJobs itemId:(int)itemId numToSpawn:(int)numToSpawn gemsSpent:(int)gemsSpent quality:(Quality)quality clientTime:(uint64_t)clientTime structId:(int)structId {
+  RefreshMiniJobRequestProto *req = [[[[[[[[[[RefreshMiniJobRequestProto builder]
+                                             setSender:_sender]
+                                            addAllDeleteUserMiniJobIds:replacedMiniJobs]
+                                           setItemId:itemId]
+                                          setNumToSpawn:numToSpawn]
+                                         setGemsSpent:gemsSpent]
+                                        setMinQualitySpawned:quality]
+                                       setClientTime:clientTime]
+                                      setStructId:structId]
+                                     build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCRefreshMiniJobEvent];
+}
+
 - (int) sendSetAvatarMonsterMessage:(int)avatarMonsterId {
   SetAvatarMonsterRequestProto *req = [[[[SetAvatarMonsterRequestProto builder]
                                          setSender:_sender]

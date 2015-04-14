@@ -25,7 +25,8 @@
     if ([io isKindOfClass:[UserItem class]]) {
       [self.usedItems addObject:@([(UserItem *)io itemId])];
     }
-    [self.delegate refreshItemUsed:io viewController:viewController];
+#warning set gems
+    [self.delegate refreshItemUsed:io viewController:viewController gems:0];
   } else {
     UserItem *ui = (UserItem *)io;
     [Globals addAlertNotification:[NSString stringWithFormat:@"You don't own any %@s.", ui.name]];
@@ -47,10 +48,10 @@
 
 - (NSArray *) reloadItemsArray {
   GameState *gs = [GameState sharedGameState];
-  NSMutableArray *userItems = [[gs.itemUtil getItemsForType:ItemTypeSpeedUp staticDataId:0] mutableCopy];
+  NSMutableArray *userItems = [[gs.itemUtil getItemsForType:ItemTypeRefreshMiniJob staticDataId:0] mutableCopy];
   
   for (ItemProto *ip in gs.staticItems.allValues) {
-    if (ip.itemType == ItemTypeSpeedUp) {
+    if (ip.itemType == ItemTypeRefreshMiniJob) {
       UserItem *ui = [[UserItem alloc] init];
       ui.itemId = ip.itemId;
       
