@@ -18,6 +18,7 @@
 #import "AchievementUtil.h"
 #import "OutgoingEventController.h"
 #import "SocketCommunication.h"
+#import "MiniEventManager.h"
 
 #define LAST_TEAM_DONATE_MSG_KEY @"LastTeamDonateMsgKey2"
 

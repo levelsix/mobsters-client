@@ -21,6 +21,7 @@
 #import "SecretGiftViewController.h"
 #import "SoundEngine.h"
 #import "SkillProtoHelper.h"
+#import "MiniEventManager.h"
 
 @implementation NewGachaViewController
 
@@ -456,9 +457,12 @@
         [tlv stop];
       }];
     }
-    else
+    else {
       [self completeGachaSpinWithKnownPrize:prize];
-  }else {
+    }
+    
+    [[MiniEventManager sharedInstance] checkBoosterPack:self.boosterPack.boosterPackId];
+  } else {
     _isSpinning = NO;
   }
   
