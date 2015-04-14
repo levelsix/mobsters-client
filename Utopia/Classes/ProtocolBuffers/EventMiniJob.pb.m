@@ -2819,6 +2819,7 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
 @property int32_t gemsSpent;
 @property Quality minQualitySpawned;
 @property int64_t clientTime;
+@property int32_t structId;
 @end
 
 @implementation RefreshMiniJobRequestProto
@@ -2867,6 +2868,13 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
   hasClientTime_ = !!value_;
 }
 @synthesize clientTime;
+- (BOOL) hasStructId {
+  return !!hasStructId_;
+}
+- (void) setHasStructId:(BOOL) value_ {
+  hasStructId_ = !!value_;
+}
+@synthesize structId;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
@@ -2875,6 +2883,7 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
     self.gemsSpent = 0;
     self.minQualitySpawned = QualityNoQuality;
     self.clientTime = 0L;
+    self.structId = 0;
   }
   return self;
 }
@@ -2921,6 +2930,9 @@ static RefreshMiniJobRequestProto* defaultRefreshMiniJobRequestProtoInstance = n
   if (self.hasClientTime) {
     [output writeInt64:7 value:self.clientTime];
   }
+  if (self.hasStructId) {
+    [output writeInt32:8 value:self.structId];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -2956,6 +2968,9 @@ static RefreshMiniJobRequestProto* defaultRefreshMiniJobRequestProtoInstance = n
   }
   if (self.hasClientTime) {
     size_ += computeInt64Size(7, self.clientTime);
+  }
+  if (self.hasStructId) {
+    size_ += computeInt32Size(8, self.structId);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -3016,6 +3031,9 @@ static RefreshMiniJobRequestProto* defaultRefreshMiniJobRequestProtoInstance = n
   if (self.hasClientTime) {
     [output appendFormat:@"%@%@: %@\n", indent, @"clientTime", [NSNumber numberWithLongLong:self.clientTime]];
   }
+  if (self.hasStructId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"structId", [NSNumber numberWithInteger:self.structId]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -3040,6 +3058,8 @@ static RefreshMiniJobRequestProto* defaultRefreshMiniJobRequestProtoInstance = n
       (!self.hasMinQualitySpawned || self.minQualitySpawned == otherMessage.minQualitySpawned) &&
       self.hasClientTime == otherMessage.hasClientTime &&
       (!self.hasClientTime || self.clientTime == otherMessage.clientTime) &&
+      self.hasStructId == otherMessage.hasStructId &&
+      (!self.hasStructId || self.structId == otherMessage.structId) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -3064,6 +3084,9 @@ static RefreshMiniJobRequestProto* defaultRefreshMiniJobRequestProtoInstance = n
   }
   if (self.hasClientTime) {
     hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.clientTime] hash];
+  }
+  if (self.hasStructId) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.structId] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -3133,6 +3156,9 @@ static RefreshMiniJobRequestProto* defaultRefreshMiniJobRequestProtoInstance = n
   if (other.hasClientTime) {
     [self setClientTime:other.clientTime];
   }
+  if (other.hasStructId) {
+    [self setStructId:other.structId];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -3190,6 +3216,10 @@ static RefreshMiniJobRequestProto* defaultRefreshMiniJobRequestProtoInstance = n
       }
       case 56: {
         [self setClientTime:[input readInt64]];
+        break;
+      }
+      case 64: {
+        [self setStructId:[input readInt32]];
         break;
       }
     }
@@ -3327,6 +3357,22 @@ static RefreshMiniJobRequestProto* defaultRefreshMiniJobRequestProtoInstance = n
 - (RefreshMiniJobRequestProto_Builder*) clearClientTime {
   result.hasClientTime = NO;
   result.clientTime = 0L;
+  return self;
+}
+- (BOOL) hasStructId {
+  return result.hasStructId;
+}
+- (int32_t) structId {
+  return result.structId;
+}
+- (RefreshMiniJobRequestProto_Builder*) setStructId:(int32_t) value {
+  result.hasStructId = YES;
+  result.structId = value;
+  return self;
+}
+- (RefreshMiniJobRequestProto_Builder*) clearStructId {
+  result.hasStructId = NO;
+  result.structId = 0;
   return self;
 }
 @end

@@ -774,12 +774,14 @@ BOOL RefreshMiniJobResponseProto_RefreshMiniJobStatusIsValidValue(RefreshMiniJob
   BOOL hasItemId_:1;
   BOOL hasNumToSpawn_:1;
   BOOL hasGemsSpent_:1;
+  BOOL hasStructId_:1;
   BOOL hasSender_:1;
   BOOL hasMinQualitySpawned_:1;
   int64_t clientTime;
   int32_t itemId;
   int32_t numToSpawn;
   int32_t gemsSpent;
+  int32_t structId;
   MinimumUserProto* sender;
   Quality minQualitySpawned;
   NSMutableArray * mutableDeleteUserMiniJobIdsList;
@@ -790,6 +792,7 @@ BOOL RefreshMiniJobResponseProto_RefreshMiniJobStatusIsValidValue(RefreshMiniJob
 - (BOOL) hasGemsSpent;
 - (BOOL) hasMinQualitySpawned;
 - (BOOL) hasClientTime;
+- (BOOL) hasStructId;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly, strong) NSArray * deleteUserMiniJobIdsList;
 @property (readonly) int32_t itemId;
@@ -797,6 +800,7 @@ BOOL RefreshMiniJobResponseProto_RefreshMiniJobStatusIsValidValue(RefreshMiniJob
 @property (readonly) int32_t gemsSpent;
 @property (readonly) Quality minQualitySpawned;
 @property (readonly) int64_t clientTime;
+@property (readonly) int32_t structId;
 - (NSString*)deleteUserMiniJobIdsAtIndex:(NSUInteger)index;
 
 + (RefreshMiniJobRequestProto*) defaultInstance;
@@ -871,6 +875,11 @@ BOOL RefreshMiniJobResponseProto_RefreshMiniJobStatusIsValidValue(RefreshMiniJob
 - (int64_t) clientTime;
 - (RefreshMiniJobRequestProto_Builder*) setClientTime:(int64_t) value;
 - (RefreshMiniJobRequestProto_Builder*) clearClientTime;
+
+- (BOOL) hasStructId;
+- (int32_t) structId;
+- (RefreshMiniJobRequestProto_Builder*) setStructId:(int32_t) value;
+- (RefreshMiniJobRequestProto_Builder*) clearStructId;
 @end
 
 @interface RefreshMiniJobResponseProto : PBGeneratedMessage {
