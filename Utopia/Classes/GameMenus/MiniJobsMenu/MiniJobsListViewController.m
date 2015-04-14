@@ -668,10 +668,11 @@
   }
 }
 
-- (void) refreshItemUsed:(id<ItemObject>)itemObject viewController:(ItemSelectViewController *)viewController gems:(int)gems{
+- (void) refreshItemUsed:(id<ItemObject>)itemObject viewController:(ItemSelectViewController *)viewController{
   GameState *gs = [GameState sharedGameState];
   
   int itemId = 0;
+  int gems = 0;
   Quality itemQuality = QualityCommon;
   
   if ([itemObject isKindOfClass:[UserItem class]]) {
@@ -683,7 +684,8 @@
   NSMutableArray *arr = [[NSMutableArray alloc] init];
   for(UserMiniJob *umj in gs.myMiniJobs) {
     int timeLeft = umj.tentativeCompletionDate.timeIntervalSinceNow;
-    if (timeLeft > 0) {
+#warning verify best way to check if miniJobs are complete
+    if (timeLeft >= 0) {
       [arr addObject:umj.miniJob];
     }
   }
