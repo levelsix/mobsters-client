@@ -247,8 +247,8 @@
   
   ResearchProto *research = _userResearch.staticResearchForNextLevel;
   
-  if ((research.costType == ResourceTypeCash && gs.cash <= research.costAmt) ||
-      (research.costType == ResourceTypeOil && gs.oil <= research.costAmt)) {
+  if ((research.costType == ResourceTypeCash && gs.cash < research.costAmt) ||
+      (research.costType == ResourceTypeOil && gs.oil < research.costAmt)) {
     ItemSelectViewController *svc = [[ItemSelectViewController alloc] init];
     if (svc) {
       ResourceItemsFiller *rif = [[ResourceItemsFiller alloc] initWithResourceType:research.costType requiredAmount:research.costAmt shouldAccumulate:YES];
