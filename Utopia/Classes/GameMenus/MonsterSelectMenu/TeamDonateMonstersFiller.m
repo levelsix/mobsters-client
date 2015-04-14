@@ -11,6 +11,7 @@
 #import "GameState.h"
 
 #import "OutgoingEventController.h"
+#import "MiniEventManager.h"
 
 @implementation TeamDonateMonsterSelectCell
 
@@ -123,6 +124,8 @@
       [Globals addAlertNotification:@"This donation request has already been fulfilled."];
     } else {
       [[OutgoingEventController sharedOutgoingEventController] fulfillClanTeamDonation:um solicitation:self.donation];
+      
+      [[MiniEventManager sharedInstance] checkClanDonate];
       
       [self.delegate monsterChosen];
     }

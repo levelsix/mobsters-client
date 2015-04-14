@@ -362,4 +362,75 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(MiniEventManager)
   }
 }
 
+- (void) checkPvpCaughtMonster:(Quality)quality {
+  MiniEventGoalProto_MiniEventGoalType type = 0;
+  switch (quality) {
+    case QualityCommon:
+      type = MiniEventGoalProto_MiniEventGoalTypePvpCatchCommon;
+      break;
+    case QualityRare:
+      type = MiniEventGoalProto_MiniEventGoalTypePvpCatchRare;
+      break;
+    case QualitySuper:
+      type = MiniEventGoalProto_MiniEventGoalTypePvpCatchSuper;
+      break;
+    case QualityUltra:
+      type = MiniEventGoalProto_MiniEventGoalTypePvpCatchUltra;
+      break;
+    case QualityEpic:
+      type = MiniEventGoalProto_MiniEventGoalTypePvpCatchEpic;
+      break;
+      
+    default:
+      break;
+  }
+  
+  if (type) {
+    [self handleUserProgressOnMiniEventGoal:type withAmount:1];
+  }
+}
+
+- (void) checkPvpResourceWinningsWithCash:(int)cash oil:(int)oil {
+  [self handleUserProgressOnMiniEventGoal:MiniEventGoalProto_MiniEventGoalTypeStealCash withAmount:cash];
+  [self handleUserProgressOnMiniEventGoal:MiniEventGoalProto_MiniEventGoalTypeStealOil withAmount:oil];
+}
+
+- (void) checkRevengeWin {
+  [self handleUserProgressOnMiniEventGoal:MiniEventGoalProto_MiniEventGoalTypeBattleRevengeWin withAmount:1];
+}
+
+- (void) checkAvengeWin {
+  [self handleUserProgressOnMiniEventGoal:MiniEventGoalProto_MiniEventGoalTypeBattleAvengeWin withAmount:1];
+}
+
+- (void) checkAvengeRequest {
+  [self handleUserProgressOnMiniEventGoal:MiniEventGoalProto_MiniEventGoalTypeBattleAvengeRequest withAmount:1];
+}
+
+- (void) checkClanHelp:(int)amount {
+  [self handleUserProgressOnMiniEventGoal:MiniEventGoalProto_MiniEventGoalTypeClanHelp withAmount:amount];
+}
+
+- (void) checkClanDonate {
+  [self handleUserProgressOnMiniEventGoal:MiniEventGoalProto_MiniEventGoalTypeClanDonate withAmount:1];
+}
+
+- (void) checkBoosterPack:(int)boosterPackId {
+  GameState *gs = [GameState sharedGameState];
+  
+  
+  for (int i = 0; i < gs.boosterPacks.count; i++) {
+    BoosterPackProto *bpp = gs.boosterPacks[i];
+    
+    if (bpp.boosterPackId == boosterPackId) {
+      // Right now, basic grab is index 0, ultimate grab is index 1..
+      if (i == 0) {
+        [self handleUserProgressOnMiniEventGoal:MiniEventGoalProto_MiniEventGoalTypeSpinBasicGrab withAmount:1];
+      } else if (i == 1) {
+        [self handleUserProgressOnMiniEventGoal:MiniEventGoalProto_MiniEventGoalTypeSpinUltimateGrab withAmount:1];
+      }
+    }
+  }
+}
+
 @end

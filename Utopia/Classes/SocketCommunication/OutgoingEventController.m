@@ -22,6 +22,7 @@
 #import "FullQuestProto+JobAccess.h"
 #import "FacebookDelegate.h"
 #import "SkillManager.h"
+#import "MiniEventManager.h"
 
 #define CODE_PREFIX @"#~#"
 #define PURGE_CODE @"purgecache"
@@ -1449,7 +1450,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 - (void) giveClanHelp:(NSArray *)clanHelpIds {
   [[SocketCommunication sharedSocketCommunication] sendGiveClanHelpMessage:clanHelpIds];
   
-  [AchievementUtil checkGaveClanHelp:(int)clanHelpIds.count];
+  int numHelps = (int)clanHelpIds.count;
+  [AchievementUtil checkGaveClanHelp:numHelps];
+  [[MiniEventManager sharedInstance] checkClanHelp:numHelps];
 }
 
 - (void) endClanHelp:(NSArray *)clanHelpIds {

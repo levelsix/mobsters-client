@@ -953,8 +953,9 @@ BOOL MiniEventGoalProto_MiniEventGoalTypeIsValidValue(MiniEventGoalProto_MiniEve
     case MiniEventGoalProto_MiniEventGoalTypeEnhanceEpic:
     case MiniEventGoalProto_MiniEventGoalTypeClanHelp:
     case MiniEventGoalProto_MiniEventGoalTypeClanDonate:
-    case MiniEventGoalProto_MiniEventGoalTypeBattleAvenge:
-    case MiniEventGoalProto_MiniEventGoalTypeBattleRevenge:
+    case MiniEventGoalProto_MiniEventGoalTypeBattleAvengeRequest:
+    case MiniEventGoalProto_MiniEventGoalTypeBattleAvengeWin:
+    case MiniEventGoalProto_MiniEventGoalTypeBattleRevengeWin:
     case MiniEventGoalProto_MiniEventGoalTypeStealCash:
     case MiniEventGoalProto_MiniEventGoalTypeStealOil:
     case MiniEventGoalProto_MiniEventGoalTypePvpCatchCommon:

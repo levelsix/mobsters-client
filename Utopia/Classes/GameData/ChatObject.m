@@ -20,6 +20,8 @@
 #import "GameViewController.h"
 #import "ProfileViewController.h"
 
+#import "MiniEventManager.h"
+
 @implementation ChatMessage
 
 @synthesize message, sender, date, isAdmin;
@@ -290,6 +292,8 @@
     if (!found) {
       [[OutgoingEventController sharedOutgoingEventController] beginClanAvenge:self];
       clanAvenged_ = YES;
+      
+      [[MiniEventManager sharedInstance] checkAvengeRequest];
       
       [sender.superview setHidden:YES];
       ChatBattleHistoryView *historyView = [sender getAncestorInViewHierarchyOfType:[ChatBattleHistoryView class]];
