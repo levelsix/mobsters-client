@@ -10,6 +10,7 @@
 #import "ResearchTreeViewController.h"
 #import "OutgoingEventController.h"
 #import "GenericPopupController.h"
+#import "MiniEventManager.h"
 
 #import "GameState.h"
 #import "GameViewController.h"
@@ -198,6 +199,8 @@
     _waitingForServer = YES;
     
     [[NSNotificationCenter defaultCenter] postNotificationName:RESEARCH_CHANGED_NOTIFICATION object:self];
+    
+    [[MiniEventManager sharedInstance] checkResearchStrength:ur.researchId];
   }
 }
 

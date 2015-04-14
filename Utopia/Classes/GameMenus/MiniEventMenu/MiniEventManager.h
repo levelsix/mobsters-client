@@ -44,4 +44,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS_HEADER(MiniEventManager)
 - (void) handleRedeemMiniEventRewardInitiatedByUserWithDelegate:(id)delegate tierRedeemed:(RedeemMiniEventRewardRequestProto_RewardTier)tierRedeemed;
 - (void) handleRedeemMiniEventRewards:(UserRewardProto*)rewards tierRedeemed:(RedeemMiniEventRewardRequestProto_RewardTier)tierRedeemed;
 
+- (void) checkBuildStrength:(int)structId;
+- (void) checkResearchStrength:(int)researchId;
+- (void) checkEnhanceXp:(int)expGained baseMonsterRarity:(Quality)quality;
+
 @end

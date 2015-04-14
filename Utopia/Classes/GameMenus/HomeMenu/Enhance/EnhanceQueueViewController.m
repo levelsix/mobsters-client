@@ -15,6 +15,7 @@
 #import "MonsterPopUpViewController.h"
 #import "GameViewController.h"
 #import "EnhanceQueueViewController+Animations.h"
+#import "MiniEventManager.h"
 
 #import "DailyEventViewController.h"
 
@@ -899,6 +900,8 @@
       self.buttonSpinner.hidden = NO;
       
       _waitingForResponse = YES;
+      
+      [[MiniEventManager sharedInstance] checkEnhanceXp:pointsEnhanced baseMonsterRarity:baseUm.staticMonster.quality];
     }
   }
 }

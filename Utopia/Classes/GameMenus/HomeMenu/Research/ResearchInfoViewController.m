@@ -10,6 +10,7 @@
 #import "ResearchController.h"
 #import "OutgoingEventController.h"
 #import "GenericPopupController.h"
+#import "MiniEventManager.h"
 
 #import "DetailViewController.h"
 
@@ -417,6 +418,8 @@
       }
       
       [[NSNotificationCenter defaultCenter] postNotificationName:RESEARCH_CHANGED_NOTIFICATION object:self];
+      
+      [[MiniEventManager sharedInstance] checkResearchStrength:ur.researchId];
     }
   }
 }

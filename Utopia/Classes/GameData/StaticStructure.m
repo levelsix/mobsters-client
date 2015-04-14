@@ -504,13 +504,18 @@
   return [self barPercentWithNumerator:curValue denominator:maxValue useSqrt:useSqrt usePow:usePow];
 }
 
-- (int) strengthGain {
+- (int) strengthGainForNextLevel {
   StructureInfoProto *successor = [self successor];
   if (successor) {
     return successor.strength - self.strength;
   } else {
     return self.strength;
   }
+}
+
+- (int) strengthGainForCurrentLevel {
+  StructureInfoProto *predecessor = [self predecessor];
+  return self.strength - predecessor.strength;
 }
 
 - (NSArray *) prereqs {
