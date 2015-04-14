@@ -1825,5 +1825,251 @@ static UserItemSecretGiftProto* defaultUserItemSecretGiftProtoInstance = nil;
 }
 @end
 
+@interface ItemGemPriceProto ()
+@property int32_t itemId;
+@property int32_t gemPrice;
+@end
+
+@implementation ItemGemPriceProto
+
+- (BOOL) hasItemId {
+  return !!hasItemId_;
+}
+- (void) setHasItemId:(BOOL) value_ {
+  hasItemId_ = !!value_;
+}
+@synthesize itemId;
+- (BOOL) hasGemPrice {
+  return !!hasGemPrice_;
+}
+- (void) setHasGemPrice:(BOOL) value_ {
+  hasGemPrice_ = !!value_;
+}
+@synthesize gemPrice;
+- (id) init {
+  if ((self = [super init])) {
+    self.itemId = 0;
+    self.gemPrice = 0;
+  }
+  return self;
+}
+static ItemGemPriceProto* defaultItemGemPriceProtoInstance = nil;
++ (void) initialize {
+  if (self == [ItemGemPriceProto class]) {
+    defaultItemGemPriceProtoInstance = [[ItemGemPriceProto alloc] init];
+  }
+}
++ (ItemGemPriceProto*) defaultInstance {
+  return defaultItemGemPriceProtoInstance;
+}
+- (ItemGemPriceProto*) defaultInstance {
+  return defaultItemGemPriceProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasItemId) {
+    [output writeInt32:1 value:self.itemId];
+  }
+  if (self.hasGemPrice) {
+    [output writeInt32:2 value:self.gemPrice];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasItemId) {
+    size_ += computeInt32Size(1, self.itemId);
+  }
+  if (self.hasGemPrice) {
+    size_ += computeInt32Size(2, self.gemPrice);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (ItemGemPriceProto*) parseFromData:(NSData*) data {
+  return (ItemGemPriceProto*)[[[ItemGemPriceProto builder] mergeFromData:data] build];
+}
++ (ItemGemPriceProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ItemGemPriceProto*)[[[ItemGemPriceProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (ItemGemPriceProto*) parseFromInputStream:(NSInputStream*) input {
+  return (ItemGemPriceProto*)[[[ItemGemPriceProto builder] mergeFromInputStream:input] build];
+}
++ (ItemGemPriceProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ItemGemPriceProto*)[[[ItemGemPriceProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ItemGemPriceProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (ItemGemPriceProto*)[[[ItemGemPriceProto builder] mergeFromCodedInputStream:input] build];
+}
++ (ItemGemPriceProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ItemGemPriceProto*)[[[ItemGemPriceProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ItemGemPriceProto_Builder*) builder {
+  return [[ItemGemPriceProto_Builder alloc] init];
+}
++ (ItemGemPriceProto_Builder*) builderWithPrototype:(ItemGemPriceProto*) prototype {
+  return [[ItemGemPriceProto builder] mergeFrom:prototype];
+}
+- (ItemGemPriceProto_Builder*) builder {
+  return [ItemGemPriceProto builder];
+}
+- (ItemGemPriceProto_Builder*) toBuilder {
+  return [ItemGemPriceProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasItemId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"itemId", [NSNumber numberWithInteger:self.itemId]];
+  }
+  if (self.hasGemPrice) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"gemPrice", [NSNumber numberWithInteger:self.gemPrice]];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[ItemGemPriceProto class]]) {
+    return NO;
+  }
+  ItemGemPriceProto *otherMessage = other;
+  return
+      self.hasItemId == otherMessage.hasItemId &&
+      (!self.hasItemId || self.itemId == otherMessage.itemId) &&
+      self.hasGemPrice == otherMessage.hasGemPrice &&
+      (!self.hasGemPrice || self.gemPrice == otherMessage.gemPrice) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasItemId) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.itemId] hash];
+  }
+  if (self.hasGemPrice) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.gemPrice] hash];
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+@interface ItemGemPriceProto_Builder()
+@property (strong) ItemGemPriceProto* result;
+@end
+
+@implementation ItemGemPriceProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[ItemGemPriceProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (ItemGemPriceProto_Builder*) clear {
+  self.result = [[ItemGemPriceProto alloc] init];
+  return self;
+}
+- (ItemGemPriceProto_Builder*) clone {
+  return [ItemGemPriceProto builderWithPrototype:result];
+}
+- (ItemGemPriceProto*) defaultInstance {
+  return [ItemGemPriceProto defaultInstance];
+}
+- (ItemGemPriceProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (ItemGemPriceProto*) buildPartial {
+  ItemGemPriceProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (ItemGemPriceProto_Builder*) mergeFrom:(ItemGemPriceProto*) other {
+  if (other == [ItemGemPriceProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasItemId) {
+    [self setItemId:other.itemId];
+  }
+  if (other.hasGemPrice) {
+    [self setGemPrice:other.gemPrice];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (ItemGemPriceProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (ItemGemPriceProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setItemId:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setGemPrice:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasItemId {
+  return result.hasItemId;
+}
+- (int32_t) itemId {
+  return result.itemId;
+}
+- (ItemGemPriceProto_Builder*) setItemId:(int32_t) value {
+  result.hasItemId = YES;
+  result.itemId = value;
+  return self;
+}
+- (ItemGemPriceProto_Builder*) clearItemId {
+  result.hasItemId = NO;
+  result.itemId = 0;
+  return self;
+}
+- (BOOL) hasGemPrice {
+  return result.hasGemPrice;
+}
+- (int32_t) gemPrice {
+  return result.gemPrice;
+}
+- (ItemGemPriceProto_Builder*) setGemPrice:(int32_t) value {
+  result.hasGemPrice = YES;
+  result.gemPrice = value;
+  return self;
+}
+- (ItemGemPriceProto_Builder*) clearGemPrice {
+  result.hasGemPrice = NO;
+  result.gemPrice = 0;
+  return self;
+}
+@end
+
 
 // @@protoc_insertion_point(global_scope)

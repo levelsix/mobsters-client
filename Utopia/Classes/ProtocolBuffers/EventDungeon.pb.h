@@ -51,6 +51,8 @@
 @class GroupChatMessageProto_Builder;
 @class HospitalProto;
 @class HospitalProto_Builder;
+@class ItemGemPriceProto;
+@class ItemGemPriceProto_Builder;
 @class ItemProto;
 @class ItemProto_Builder;
 @class LabProto;

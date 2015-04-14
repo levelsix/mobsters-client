@@ -2,6 +2,7 @@
 
 #import "ProtocolBuffers.h"
 
+#import "Item.pb.h"
 #import "SharedEnumConfig.pb.h"
 // @@protoc_insertion_point(imports)
 
@@ -17,6 +18,10 @@
 @class FullUserStructureProto_Builder;
 @class HospitalProto;
 @class HospitalProto_Builder;
+@class ItemGemPriceProto;
+@class ItemGemPriceProto_Builder;
+@class ItemProto;
+@class ItemProto_Builder;
 @class LabProto;
 @class LabProto_Builder;
 @class MiniJobCenterProto;
@@ -47,6 +52,12 @@
 @class TownHallProto_Builder;
 @class TutorialStructProto;
 @class TutorialStructProto_Builder;
+@class UserItemProto;
+@class UserItemProto_Builder;
+@class UserItemSecretGiftProto;
+@class UserItemSecretGiftProto_Builder;
+@class UserItemUsageProto;
+@class UserItemUsageProto_Builder;
 @class UserObstacleProto;
 @class UserObstacleProto_Builder;
 @class UserPvpBoardObstacleProto;
@@ -1067,6 +1078,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
   int32_t generatedJobLimit;
   int32_t hoursBetweenJobGeneration;
   StructureInfoProto* structInfo;
+  NSMutableArray * mutableRefreshMiniJobItemPricesList;
 }
 - (BOOL) hasStructInfo;
 - (BOOL) hasGeneratedJobLimit;
@@ -1074,6 +1086,8 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 @property (readonly, strong) StructureInfoProto* structInfo;
 @property (readonly) int32_t generatedJobLimit;
 @property (readonly) int32_t hoursBetweenJobGeneration;
+@property (readonly, strong) NSArray * refreshMiniJobItemPricesList;
+- (ItemGemPriceProto*)refreshMiniJobItemPricesAtIndex:(NSUInteger)index;
 
 + (MiniJobCenterProto*) defaultInstance;
 - (MiniJobCenterProto*) defaultInstance;
@@ -1126,6 +1140,12 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (int32_t) hoursBetweenJobGeneration;
 - (MiniJobCenterProto_Builder*) setHoursBetweenJobGeneration:(int32_t) value;
 - (MiniJobCenterProto_Builder*) clearHoursBetweenJobGeneration;
+
+- (NSMutableArray *)refreshMiniJobItemPricesList;
+- (ItemGemPriceProto*)refreshMiniJobItemPricesAtIndex:(NSUInteger)index;
+- (MiniJobCenterProto_Builder *)addRefreshMiniJobItemPrices:(ItemGemPriceProto*)value;
+- (MiniJobCenterProto_Builder *)addAllRefreshMiniJobItemPrices:(NSArray *)array;
+- (MiniJobCenterProto_Builder *)clearRefreshMiniJobItemPrices;
 @end
 
 @interface FullUserStructureProto : PBGeneratedMessage {
