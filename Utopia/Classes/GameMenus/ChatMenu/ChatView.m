@@ -812,6 +812,7 @@
     cm.date = [MSDate dateWithTimeIntervalSince1970:post.timeOfPost/1000.];
     cm.message = post.content;
     cm.originalLanguage = post.originalContentLanguage;
+    cm.translatedTextProtos = [[NSMutableArray alloc] init];
     [cm.translatedTextProtos addObjectsFromArray:post.translatedContentList];
     [self addChatMessage:cm];
     
