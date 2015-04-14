@@ -1460,6 +1460,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   
   TagLog(@"Added %@ for tag %d", NSStringFromClass([up class]), up.tag);
   
+  [self recalculateStrength];
+  
   if ([up isKindOfClass:[FullUserUpdate class]]) {
     [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
   }

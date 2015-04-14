@@ -3444,9 +3444,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     int tag = [[SocketCommunication sharedSocketCommunication] sendFinishPerformingResearchRequestProto:userResearch.userResearchUuid gemsSpent:goldCost];
     [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
     
-    [gs addUnrespondedUpdate:[GemsUpdate updateWithTag:tag change:-goldCost]];
-    
     userResearch.complete = YES;
+    
+    [gs addUnrespondedUpdate:[GemsUpdate updateWithTag:tag change:-goldCost]];
     
     [gs stopResearchTimer];
     
