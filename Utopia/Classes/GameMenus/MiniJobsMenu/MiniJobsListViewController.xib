@@ -10,6 +10,8 @@
                 <outlet property="headerView" destination="MwW-rg-xMr" id="dq2-cW-7up"/>
                 <outlet property="listTable" destination="eC6-9C-elJ" id="O1t-rk-QjA"/>
                 <outlet property="noMoreJobsLabel" destination="Kbd-LX-d2I" id="3sQ-Ek-f6g"/>
+                <outlet property="refreshButtonLabel" destination="iAL-7k-e6C" id="YfZ-I8-PIu"/>
+                <outlet property="refreshButtonSpinner" destination="kB2-ec-OEi" id="M4y-kg-50P"/>
                 <outlet property="returnsInLabel" destination="luB-Ji-gnR" id="4nR-Rk-cor"/>
                 <outlet property="spawnTimeLabel" destination="Mys-YF-dVL" id="2nc-QX-mf4"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>

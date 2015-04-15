@@ -372,6 +372,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       break;
     case EventProtocolResponseSRefreshMiniJobEvent:
       responseClass = [RefreshMiniJobResponseProto class];
+      break;
     default:
       responseClass = nil;
       break;
@@ -2468,7 +2469,18 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Finish refreshing miniJobs with status %d.", (int)proto.status);
   
   if(proto.status == RefreshMiniJobResponseProto_RefreshMiniJobStatusSuccess) {
-    gs.myMiniJobs = [NSMutableArray arrayWithArray:proto.miniJobsList];
+    
+    NSMutableArray *newJobsList = [NSMutableArray arrayWithArray:proto.miniJobsList];
+    NSMutableArray *savedJobsList = [[NSMutableArray alloc] init];
+    for(UserMiniJob *umj in gs.myMiniJobs) {
+      if (umj.timeStarted) {
+        [savedJobsList addObject:umj];
+      }
+    }
+    
+    [gs.myMiniJobs removeAllObjects];
+    [gs addToMiniJobs:newJobsList isNew:YES];
+    [gs.myMiniJobs addObjectsFromArray:savedJobsList];
   } else {
     [Globals popupMessage:@"Server failed to redeem miniJob refresh."];
     

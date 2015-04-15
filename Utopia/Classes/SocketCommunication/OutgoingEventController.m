@@ -3574,7 +3574,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
-- (void) refreshMiniJobs:(NSArray *)jobs itemId:(int)itemId gemsSpent:(int)gemsSpent quality:(Quality)quality delegate:(id)delegate {
+- (void) refreshMiniJobs:(NSArray *)jobsIds itemId:(int)itemId gemsSpent:(int)gemsSpent quality:(Quality)quality numToSpawn:(int)numToSpawn delegate:(id)delegate {
   GameState *gs = [GameState sharedGameState];
   
   MiniJobCenterProto *miniJobCenter = (MiniJobCenterProto *)gs.myMiniJobCenter.staticStruct;
@@ -3586,7 +3586,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     return;
   }
   
-  int tag = [[SocketCommunication sharedSocketCommunication] sendRefreshMiniJobMessage:jobs itemId:itemId numToSpawn:miniJobCenter.generatedJobLimit gemsSpent:gemsSpent quality:quality clientTime:[self getCurrentMilliseconds] structId:miniJobCenter.structInfo.structId];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendRefreshMiniJobMessage:jobsIds itemId:itemId numToSpawn:numToSpawn gemsSpent:gemsSpent quality:quality clientTime:[self getCurrentMilliseconds] structId:miniJobCenter.structInfo.structId];
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
   
   GemsUpdate *gu = [GemsUpdate updateWithTag:tag change:-gemsSpent];

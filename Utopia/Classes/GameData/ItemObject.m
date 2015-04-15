@@ -62,13 +62,11 @@
 }
 
 - (NSString *) buttonText {
-  int hardCodedTempAmount = 69;
-  
   switch (self.staticItem.itemType) {
       
     case ItemTypeRefreshMiniJob:
       if (self.useGemsButton) {
-        return [NSString stringWithFormat:@"%d",hardCodedTempAmount];
+        return [NSString stringWithFormat:@"%d",[self costToPurchase]];
       } else {
         return @"USE";
       }
@@ -78,9 +76,6 @@
     case ItemTypeSpeedUp:
     case ItemTypeBoosterPack:
     case ItemTypeBuilder:
-      return @"USE";
-      
-    default:
       return @"USE";
   }
 }
@@ -96,9 +91,6 @@
     case ItemTypeSpeedUp:
     case ItemTypeBoosterPack:
     case ItemTypeBuilder:
-      return NO;
-      
-    default:
       return NO;
   }
 }
@@ -128,6 +120,24 @@
 
 - (Quality) quality {
   return [self staticItem].quality;
+}
+
+- (int) costToPurchase {
+  GameState *gs = [GameState sharedGameState];
+  
+  MiniJobCenterProto *miniJobCenter = (MiniJobCenterProto *)gs.myMiniJobCenter.staticStruct;
+  
+  switch (self.staticItem.itemType) {
+    case ItemTypeRefreshMiniJob:
+      return [miniJobCenter itemGemPriceForItemId:self.staticItem.itemId];
+      
+    case ItemTypeItemCash:
+    case ItemTypeItemOil:
+    case ItemTypeSpeedUp:
+    case ItemTypeBoosterPack:
+    case ItemTypeBuilder:
+      return 0;
+  }
 }
 
 @end
@@ -221,6 +231,19 @@
 
 - (GameActionType)gameActionType {
   return GameActionTypeNoHelp;
+}
+
+@end
+
+@implementation MiniJobCenterProto (ItemPrices)
+
+- (int) itemGemPriceForItemId:(int)itemId {
+  for (ItemGemPriceProto *igpp in self.refreshMiniJobItemPricesList) {
+    if (igpp.itemId == itemId) {
+      return igpp.gemPrice;
+    }
+  }
+  return 0;
 }
 
 @end
