@@ -21,6 +21,8 @@
 
 @property (nonatomic, retain) IBOutlet UIImageView *cellBgd;
 
+- (void) updateForDisplayItem:(SalesDisplayItemProto *)display isSpecial:(BOOL)isSpecial;
+
 @end
 
 @interface SalePackageViewController : PopupSubViewController {

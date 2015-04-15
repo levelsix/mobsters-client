@@ -33,6 +33,8 @@
 #define SHAKE_DEFAULTS_KEY @"ShakeDefaultsKey"
 
 #define IAP_SUCCESS_NOTIFICATION @"IapSuccessNotification"
+#define IAP_RESPONSE_KEY @"IapResponseKey"
+
 #define HEAL_WAIT_COMPLETE_NOTIFICATION @"HealWaitCompleteNotification"
 #define HEAL_QUEUE_CHANGED_NOTIFICATION @"MonsterQueueChangedNotification"
 #define ENHANCE_MONSTER_NOTIFICATION @"EnhanceMonsterNotification"

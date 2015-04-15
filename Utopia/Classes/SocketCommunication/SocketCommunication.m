@@ -49,12 +49,16 @@ static NSString *udid = nil;
   NSURL *url = [[NSURL alloc] initWithString:@"http://checkip.dyndns.com/"];
   NSString *contents = [NSString stringWithContentsOfURL:url encoding:NSStringEncodingConversionAllowLossy error:nil];
   NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"\\d+\\.\\d+\\.\\d+\\.\\d+" options:NSRegularExpressionCaseInsensitive error:nil];
-  NSRange rangeOfFirstMatch = [regex rangeOfFirstMatchInString:contents options:0 range:NSMakeRange(0, [contents length])];
-  if (!NSEqualRanges(rangeOfFirstMatch, NSMakeRange(NSNotFound, 0))) {
-    NSString *substringForFirstMatch = [contents substringWithRange:rangeOfFirstMatch];
-    LNLog(@"IP Address: %@", substringForFirstMatch);
-    return substringForFirstMatch;
+  
+  if (contents) {
+    NSRange rangeOfFirstMatch = [regex rangeOfFirstMatchInString:contents options:0 range:NSMakeRange(0, [contents length])];
+    if (!NSEqualRanges(rangeOfFirstMatch, NSMakeRange(NSNotFound, 0))) {
+      NSString *substringForFirstMatch = [contents substringWithRange:rangeOfFirstMatch];
+      LNLog(@"IP Address: %@", substringForFirstMatch);
+      return substringForFirstMatch;
+    }
   }
+  
   return nil;
 }
 
@@ -597,15 +601,17 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCLogoutEvent];
 }
 
-- (int) sendInAppPurchaseMessage:(NSString *)receipt product:(SKProduct *)product {
-  InAppPurchaseRequestProto *req = [[[[[[[[InAppPurchaseRequestProto builder]
-                                          setReceipt:receipt]
-                                         setLocalcents:[NSString stringWithFormat:@"%d", (int)(product.price.doubleValue*100.)]]
-                                        setLocalcurrency:[product.priceLocale objectForKey:NSLocaleCurrencyCode]]
-                                       setLocale:[product.priceLocale objectForKey:NSLocaleCountryCode]]
-                                      setSender:_sender]
-                                     setIpaddr:[self getIPAddress]]
+- (int) sendInAppPurchaseMessage:(NSString *)receipt product:(SKProduct *)product saleUuid:(NSString *)saleUuid {
+  InAppPurchaseRequestProto *req = [[[[[[[[[InAppPurchaseRequestProto builder]
+                                           setReceipt:receipt]
+                                          setLocalcents:[NSString stringWithFormat:@"%d", (int)(product.price.doubleValue*100.)]]
+                                         setLocalcurrency:[product.priceLocale objectForKey:NSLocaleCurrencyCode]]
+                                        setLocale:[product.priceLocale objectForKey:NSLocaleCountryCode]]
+                                       setSender:_sender]
+                                      setIpaddr:[self getIPAddress]]
+                                     setUuid:saleUuid]
                                     build];
+  
   return [self sendData:req withMessageType:EventProtocolRequestCInAppPurchaseEvent];
 }
 
@@ -1276,9 +1282,9 @@ static NSString *udid = nil;
 
 - (int) sendFinishPerformingResearchRequestProto:(NSString *)uuid gemsSpent:(int)gemsSpent {
   FinishPerformingResearchRequestProto *req = [[[[[FinishPerformingResearchRequestProto builder]
-                                                 setSender:_sender]
-                                                setUserResearchUuid:uuid]
-                                               setGemsCost:gemsSpent]
+                                                  setSender:_sender]
+                                                 setUserResearchUuid:uuid]
+                                                setGemsCost:gemsSpent]
                                                build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCFinishPerformingResearchEvent];
@@ -1625,10 +1631,10 @@ static NSString *udid = nil;
 
 - (int) sendCompleteBattleItemMessage:(NSArray *)completedBiqfus isSpeedup:(BOOL)isSpeedup gemCost:(int)gemCost {
   CompleteBattleItemRequestProto *req = [[[[[[CompleteBattleItemRequestProto builder]
-                                            setSender:_sender]
-                                           addAllBiqfuCompleted:completedBiqfus]
-                                          setIsSpeedup:isSpeedup]
-                                         setGemsForSpeedup:gemCost]
+                                             setSender:_sender]
+                                            addAllBiqfuCompleted:completedBiqfus]
+                                           setIsSpeedup:isSpeedup]
+                                          setGemsForSpeedup:gemCost]
                                          build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCCompleteBattleItemEvent];

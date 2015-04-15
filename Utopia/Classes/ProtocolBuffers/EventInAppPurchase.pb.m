@@ -536,6 +536,7 @@ static InAppPurchaseRequestProto* defaultInAppPurchaseRequestProtoInstance = nil
 @property (strong) NSMutableArray * mutableUpdatedUserItemsList;
 @property (strong) NSMutableArray * mutableUpdatedMoneyTreeList;
 @property (strong) SalesPackageProto* successorSalesPackage;
+@property (strong) SalesPackageProto* purchasedSalesPackage;
 @end
 
 @implementation InAppPurchaseResponseProto
@@ -602,6 +603,13 @@ static InAppPurchaseRequestProto* defaultInAppPurchaseRequestProtoInstance = nil
   hasSuccessorSalesPackage_ = !!value_;
 }
 @synthesize successorSalesPackage;
+- (BOOL) hasPurchasedSalesPackage {
+  return !!hasPurchasedSalesPackage_;
+}
+- (void) setHasPurchasedSalesPackage:(BOOL) value_ {
+  hasPurchasedSalesPackage_ = !!value_;
+}
+@synthesize purchasedSalesPackage;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
@@ -612,6 +620,7 @@ static InAppPurchaseRequestProto* defaultInAppPurchaseRequestProtoInstance = nil
     self.packagePrice = 0;
     self.receipt = @"";
     self.successorSalesPackage = [SalesPackageProto defaultInstance];
+    self.purchasedSalesPackage = [SalesPackageProto defaultInstance];
   }
   return self;
 }
@@ -682,6 +691,9 @@ static InAppPurchaseResponseProto* defaultInAppPurchaseResponseProtoInstance = n
   if (self.hasSuccessorSalesPackage) {
     [output writeMessage:11 value:self.successorSalesPackage];
   }
+  if (self.hasPurchasedSalesPackage) {
+    [output writeMessage:12 value:self.purchasedSalesPackage];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -723,6 +735,9 @@ static InAppPurchaseResponseProto* defaultInAppPurchaseResponseProtoInstance = n
   }];
   if (self.hasSuccessorSalesPackage) {
     size_ += computeMessageSize(11, self.successorSalesPackage);
+  }
+  if (self.hasPurchasedSalesPackage) {
+    size_ += computeMessageSize(12, self.purchasedSalesPackage);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -807,6 +822,12 @@ static InAppPurchaseResponseProto* defaultInAppPurchaseResponseProtoInstance = n
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
+  if (self.hasPurchasedSalesPackage) {
+    [output appendFormat:@"%@%@ {\n", indent, @"purchasedSalesPackage"];
+    [self.purchasedSalesPackage writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -837,6 +858,8 @@ static InAppPurchaseResponseProto* defaultInAppPurchaseResponseProtoInstance = n
       [self.updatedMoneyTreeList isEqualToArray:otherMessage.updatedMoneyTreeList] &&
       self.hasSuccessorSalesPackage == otherMessage.hasSuccessorSalesPackage &&
       (!self.hasSuccessorSalesPackage || [self.successorSalesPackage isEqual:otherMessage.successorSalesPackage]) &&
+      self.hasPurchasedSalesPackage == otherMessage.hasPurchasedSalesPackage &&
+      (!self.hasPurchasedSalesPackage || [self.purchasedSalesPackage isEqual:otherMessage.purchasedSalesPackage]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -873,6 +896,9 @@ static InAppPurchaseResponseProto* defaultInAppPurchaseResponseProtoInstance = n
   }];
   if (self.hasSuccessorSalesPackage) {
     hashCode = hashCode * 31 + [self.successorSalesPackage hash];
+  }
+  if (self.hasPurchasedSalesPackage) {
+    hashCode = hashCode * 31 + [self.purchasedSalesPackage hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -972,6 +998,9 @@ BOOL InAppPurchaseResponseProto_InAppPurchaseStatusIsValidValue(InAppPurchaseRes
   if (other.hasSuccessorSalesPackage) {
     [self mergeSuccessorSalesPackage:other.successorSalesPackage];
   }
+  if (other.hasPurchasedSalesPackage) {
+    [self mergePurchasedSalesPackage:other.purchasedSalesPackage];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -1056,6 +1085,15 @@ BOOL InAppPurchaseResponseProto_InAppPurchaseStatusIsValidValue(InAppPurchaseRes
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setSuccessorSalesPackage:[subBuilder buildPartial]];
+        break;
+      }
+      case 98: {
+        SalesPackageProto_Builder* subBuilder = [SalesPackageProto builder];
+        if (self.hasPurchasedSalesPackage) {
+          [subBuilder mergeFrom:self.purchasedSalesPackage];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setPurchasedSalesPackage:[subBuilder buildPartial]];
         break;
       }
     }
@@ -1287,6 +1325,36 @@ BOOL InAppPurchaseResponseProto_InAppPurchaseStatusIsValidValue(InAppPurchaseRes
 - (InAppPurchaseResponseProto_Builder*) clearSuccessorSalesPackage {
   result.hasSuccessorSalesPackage = NO;
   result.successorSalesPackage = [SalesPackageProto defaultInstance];
+  return self;
+}
+- (BOOL) hasPurchasedSalesPackage {
+  return result.hasPurchasedSalesPackage;
+}
+- (SalesPackageProto*) purchasedSalesPackage {
+  return result.purchasedSalesPackage;
+}
+- (InAppPurchaseResponseProto_Builder*) setPurchasedSalesPackage:(SalesPackageProto*) value {
+  result.hasPurchasedSalesPackage = YES;
+  result.purchasedSalesPackage = value;
+  return self;
+}
+- (InAppPurchaseResponseProto_Builder*) setPurchasedSalesPackage_Builder:(SalesPackageProto_Builder*) builderForValue {
+  return [self setPurchasedSalesPackage:[builderForValue build]];
+}
+- (InAppPurchaseResponseProto_Builder*) mergePurchasedSalesPackage:(SalesPackageProto*) value {
+  if (result.hasPurchasedSalesPackage &&
+      result.purchasedSalesPackage != [SalesPackageProto defaultInstance]) {
+    result.purchasedSalesPackage =
+      [[[SalesPackageProto builderWithPrototype:result.purchasedSalesPackage] mergeFrom:value] buildPartial];
+  } else {
+    result.purchasedSalesPackage = value;
+  }
+  result.hasPurchasedSalesPackage = YES;
+  return self;
+}
+- (InAppPurchaseResponseProto_Builder*) clearPurchasedSalesPackage {
+  result.hasPurchasedSalesPackage = NO;
+  result.purchasedSalesPackage = [SalesPackageProto defaultInstance];
   return self;
 }
 @end

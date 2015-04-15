@@ -719,10 +719,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 #pragma mark - IAP
 
-- (void) inAppPurchase:(NSString *)receipt goldAmt:(int)gold silverAmt:(int)silver product:(SKProduct *)product delegate:(id)delegate {
+- (void) inAppPurchase:(NSString *)receipt goldAmt:(int)gold silverAmt:(int)silver product:(SKProduct *)product saleUuid:(NSString *)saleUuid delegate:(id)delegate {
+  // Do this since we save it as an empty string if its nil, so we don't want to pass to the server..
+  saleUuid = [saleUuid isEqualToString:@""] ? nil : saleUuid;
+  
   GameState *gs = [GameState sharedGameState];
   if (gs.connected) {
-    int tag = [[SocketCommunication sharedSocketCommunication] sendInAppPurchaseMessage:receipt product:product];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendInAppPurchaseMessage:receipt product:product saleUuid:saleUuid];
     [gs addUnrespondedUpdates:[GemsUpdate updateWithTag:tag change:gold], [CashUpdate updateWithTag:tag change:silver], nil];
     [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
     
@@ -738,6 +741,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   NSArray *arr = [defaults arrayForKey:key];
   NSMutableArray *mut = arr ? [arr mutableCopy] : [NSMutableArray array];
   [mut addObject:receipt];
+  [mut addObject:saleUuid ?: @""];
   [defaults setObject:mut forKey:IAP_DEFAULTS_KEY];
   [defaults synchronize];
 }

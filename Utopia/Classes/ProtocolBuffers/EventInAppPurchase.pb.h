@@ -294,6 +294,7 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
   BOOL hasReceipt_:1;
   BOOL hasSender_:1;
   BOOL hasSuccessorSalesPackage_:1;
+  BOOL hasPurchasedSalesPackage_:1;
   BOOL hasStatus_:1;
   Float64 packagePrice;
   int32_t diamondsGained;
@@ -302,6 +303,7 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
   NSString* receipt;
   MinimumUserProto* sender;
   SalesPackageProto* successorSalesPackage;
+  SalesPackageProto* purchasedSalesPackage;
   InAppPurchaseResponseProto_InAppPurchaseStatus status;
   NSMutableArray * mutableUpdatedOrNewList;
   NSMutableArray * mutableUpdatedUserItemsList;
@@ -315,6 +317,7 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 - (BOOL) hasPackagePrice;
 - (BOOL) hasReceipt;
 - (BOOL) hasSuccessorSalesPackage;
+- (BOOL) hasPurchasedSalesPackage;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) InAppPurchaseResponseProto_InAppPurchaseStatus status;
 @property (readonly) int32_t diamondsGained;
@@ -326,6 +329,7 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 @property (readonly, strong) NSArray * updatedUserItemsList;
 @property (readonly, strong) NSArray * updatedMoneyTreeList;
 @property (readonly, strong) SalesPackageProto* successorSalesPackage;
+@property (readonly, strong) SalesPackageProto* purchasedSalesPackage;
 - (FullUserMonsterProto*)updatedOrNewAtIndex:(NSUInteger)index;
 - (UserItemProto*)updatedUserItemsAtIndex:(NSUInteger)index;
 - (FullUserStructureProto*)updatedMoneyTreeAtIndex:(NSUInteger)index;
@@ -426,6 +430,13 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 - (InAppPurchaseResponseProto_Builder*) setSuccessorSalesPackage_Builder:(SalesPackageProto_Builder*) builderForValue;
 - (InAppPurchaseResponseProto_Builder*) mergeSuccessorSalesPackage:(SalesPackageProto*) value;
 - (InAppPurchaseResponseProto_Builder*) clearSuccessorSalesPackage;
+
+- (BOOL) hasPurchasedSalesPackage;
+- (SalesPackageProto*) purchasedSalesPackage;
+- (InAppPurchaseResponseProto_Builder*) setPurchasedSalesPackage:(SalesPackageProto*) value;
+- (InAppPurchaseResponseProto_Builder*) setPurchasedSalesPackage_Builder:(SalesPackageProto_Builder*) builderForValue;
+- (InAppPurchaseResponseProto_Builder*) mergePurchasedSalesPackage:(SalesPackageProto*) value;
+- (InAppPurchaseResponseProto_Builder*) clearPurchasedSalesPackage;
 @end
 
 @interface EarnFreeDiamondsRequestProto : PBGeneratedMessage {

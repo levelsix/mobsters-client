@@ -93,7 +93,7 @@
 - (int) sendStartupMessageWithFacebookId:(NSString *)facebookId isFreshRestart:(BOOL)isFreshRestart clientTime:(uint64_t)clientTime;
 - (int) sendLogoutMessage;
 
-- (int) sendInAppPurchaseMessage:(NSString *)receipt product:(SKProduct *)product;
+- (int) sendInAppPurchaseMessage:(NSString *)receipt product:(SKProduct *)product saleUuid:(NSString *)saleUuid;
 - (int) sendExchangeGemsForResourcesMessage:(int)gems resources:(int)resources resType:(ResourceType)resType clientTime:(uint64_t)clientTime;
 
 // Norm Struct messages

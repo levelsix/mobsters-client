@@ -590,13 +590,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
   NSMutableArray *arr = [[defaults arrayForKey:key] mutableCopy];
   NSInteger origCount = arr.count;
-  NSString *x = nil;
-  for (NSString *str in arr) {
-    if ([str isEqualToString:proto.receipt]) {
-      x = str;
-    }
+  
+  NSInteger idx = [arr indexOfObject:proto.receipt];
+  
+  if (idx != NSNotFound) {
+    // Remove the receipt and then the uuid
+    [arr removeObjectAtIndex:idx];
+    [arr removeObjectAtIndex:idx];
   }
-  if (x) [arr removeObject:x];
+  
   if (arr.count < origCount) {
     [defaults setObject:arr forKey:IAP_DEFAULTS_KEY];
     [defaults synchronize];
@@ -614,8 +616,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     }
     [gs removeAndUndoAllUpdatesForTag:tag];
   } else {
-    // Post notification so all UI with that bar can update
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:IAP_SUCCESS_NOTIFICATION object:nil]];
     [gs removeNonFullUserUpdatesForTag:tag];
     
     InAppPurchasePackageProto *pkg = [gl starterPackIapPackage];
@@ -634,6 +634,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     if (proto.updatedMoneyTreeList) {
       [gs addToMyStructs:proto.updatedMoneyTreeList];
     }
+    
+    // Post notification so all UI with that bar can update
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:IAP_SUCCESS_NOTIFICATION object:nil userInfo:@{IAP_RESPONSE_KEY : proto}]];
     
     SKPaymentTransaction *lastTransaction = iap.lastTransaction;
     SKProduct *prod = [iap.products objectForKey:lastTransaction.payment.productIdentifier];
@@ -823,9 +826,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
       NSArray *arr = [defaults arrayForKey:key];
       [defaults removeObjectForKey:key];
-      for (NSString *receipt in arr) {
+      for (int i = 0; i+1 < arr.count; i++) {
+        NSString *receipt = arr[i];
+        NSString *uuid = arr[i+1];
+        
         LNLog(@"Sending over unresponded receipt.");
-        [[OutgoingEventController sharedOutgoingEventController] inAppPurchase:receipt goldAmt:0 silverAmt:0 product:nil delegate:nil];
+        [[OutgoingEventController sharedOutgoingEventController] inAppPurchase:receipt goldAmt:0 silverAmt:0 product:nil saleUuid:uuid delegate:nil];
       }
     }
   } else if (proto.status == LoadPlayerCityResponseProto_LoadPlayerCityStatusFailNoSuchPlayer) {

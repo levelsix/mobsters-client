@@ -114,8 +114,8 @@
 - (void) checkViewsForCurrentPosition {
   CGFloat width = self.scrollView.width;
   float curIdx = self.scrollView.contentOffset.x/width;
-  int leftIdx = floorf(curIdx-self.view.width/width/2);
-  int rightIdx = floorf(curIdx+self.view.width/width/2);
+  int leftIdx = floorf(curIdx-self.scrollView.originX/width);
+  int rightIdx = floorf(curIdx+(self.view.width-self.scrollView.originX)/width);
   
   for (int i = leftIdx; i <= rightIdx; i++) {
     if (i >= 0 && i < self.viewControllers.count) {

@@ -1230,6 +1230,12 @@
 		29AEB7971ADE9D7500F983EA /* SalePackageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29AEB7961ADE9D7500F983EA /* SalePackageCell.xib */; };
 		29AEB7981ADE9D7500F983EA /* SalePackageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29AEB7961ADE9D7500F983EA /* SalePackageCell.xib */; };
 		29AEB7991ADE9D7500F983EA /* SalePackageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29AEB7961ADE9D7500F983EA /* SalePackageCell.xib */; };
+		29AEB7A81ADEBAFD00F983EA /* SalePurchasedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29AEB7A61ADEBAFD00F983EA /* SalePurchasedViewController.m */; };
+		29AEB7A91ADEBAFD00F983EA /* SalePurchasedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29AEB7A61ADEBAFD00F983EA /* SalePurchasedViewController.m */; };
+		29AEB7AA1ADEBAFD00F983EA /* SalePurchasedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29AEB7A61ADEBAFD00F983EA /* SalePurchasedViewController.m */; };
+		29AEB7AB1ADEBAFD00F983EA /* SalePurchasedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29AEB7A71ADEBAFD00F983EA /* SalePurchasedViewController.xib */; };
+		29AEB7AC1ADEBAFD00F983EA /* SalePurchasedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29AEB7A71ADEBAFD00F983EA /* SalePurchasedViewController.xib */; };
+		29AEB7AD1ADEBAFD00F983EA /* SalePurchasedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29AEB7A71ADEBAFD00F983EA /* SalePurchasedViewController.xib */; };
 		29AF1C661A43AB1100E8E457 /* borderroundeddark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29AF1C641A43AB1100E8E457 /* borderroundeddark@2x.png */; };
 		29AF1C671A43AB1100E8E457 /* borderroundeddark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29AF1C641A43AB1100E8E457 /* borderroundeddark@2x.png */; };
 		29AF1C681A43AB1100E8E457 /* borderroundeddark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29AF1C641A43AB1100E8E457 /* borderroundeddark@2x.png */; };
@@ -8065,6 +8071,9 @@
 		29AEB77E1ADE95D300F983EA /* orangeyellow1salebadge@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "orangeyellow1salebadge@2x.png"; sourceTree = "<group>"; };
 		29AEB77F1ADE95D300F983EA /* saleenhanceguy@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "saleenhanceguy@2x.png"; sourceTree = "<group>"; };
 		29AEB7961ADE9D7500F983EA /* SalePackageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SalePackageCell.xib; sourceTree = "<group>"; };
+		29AEB7A51ADEBAFD00F983EA /* SalePurchasedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SalePurchasedViewController.h; sourceTree = "<group>"; };
+		29AEB7A61ADEBAFD00F983EA /* SalePurchasedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SalePurchasedViewController.m; sourceTree = "<group>"; };
+		29AEB7A71ADEBAFD00F983EA /* SalePurchasedViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SalePurchasedViewController.xib; sourceTree = "<group>"; };
 		29AF1C641A43AB1100E8E457 /* borderroundeddark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "borderroundeddark@2x.png"; sourceTree = "<group>"; };
 		29AF1C651A43AB1100E8E457 /* borderroundedlight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "borderroundedlight@2x.png"; sourceTree = "<group>"; };
 		29AF1C6D1A443A2A00E8E457 /* BattleOrbPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BattleOrbPath.h; sourceTree = "<group>"; };
@@ -13383,6 +13392,7 @@
 				29AD909D1ADDE77100D3A781 /* Main */,
 				29AD908B1ADDE52700D3A781 /* Gem Packages */,
 				291639B31ADE06F8002E3048 /* Sale Package */,
+				29AEB7A41ADEBAF300F983EA /* Purchased */,
 			);
 			path = Sales;
 			sourceTree = "<group>";
@@ -13493,6 +13503,16 @@
 				29AEB77F1ADE95D300F983EA /* saleenhanceguy@2x.png */,
 			);
 			path = "Enhance Sale";
+			sourceTree = "<group>";
+		};
+		29AEB7A41ADEBAF300F983EA /* Purchased */ = {
+			isa = PBXGroup;
+			children = (
+				29AEB7A51ADEBAFD00F983EA /* SalePurchasedViewController.h */,
+				29AEB7A61ADEBAFD00F983EA /* SalePurchasedViewController.m */,
+				29AEB7A71ADEBAFD00F983EA /* SalePurchasedViewController.xib */,
+			);
+			name = Purchased;
 			sourceTree = "<group>";
 		};
 		29AF489F1AAA93DA0034927C /* Items Factory */ = {
@@ -20718,6 +20738,7 @@
 				CF0CF766196F452900ECD301 /* HealCardCell.xib in Resources */,
 				CF0CF76A196F452900ECD301 /* airplane@2x.png in Resources */,
 				CF0CF76C196F452900ECD301 /* addfunds@2x.png in Resources */,
+				29AEB7AC1ADEBAFD00F983EA /* SalePurchasedViewController.xib in Resources */,
 				CF0CF76D196F452900ECD301 /* sfx_dialogue_box.mp3 in Resources */,
 				CF0CF76E196F452900ECD301 /* sfx_machine_gun_attack.mp3 in Resources */,
 				29DCD00F1A8C3D8B003176FD /* saleunlitbg@2x.png in Resources */,
@@ -21014,6 +21035,7 @@
 				CF48189519F71D2900041486 /* LaboratoryT0@2x.png in Resources */,
 				CFC97190182C89AA00FF1D83 /* ComboFire4.plist in Resources */,
 				CF06B5FE193699FC008BF892 /* menutopbar@2x.png in Resources */,
+				29AEB7AB1ADEBAFD00F983EA /* SalePurchasedViewController.xib in Resources */,
 				CF6A64D519D24F030002E05D /* 6firesideways@2x.png in Resources */,
 				CFF5DBE8194F90720019EB2B /* lightbigavatar@2x.png in Resources */,
 				CF145B3E1922F84800AD1D5A /* mjdone@2x.png in Resources */,
@@ -23688,6 +23710,7 @@
 				CF481E0319F7217F00041486 /* obtimergreencap@2x.png in Resources */,
 				CF481E0419F7217F00041486 /* waterbar@2x.png in Resources */,
 				CF481E0719F7217F00041486 /* greenmenuoption@2x.png in Resources */,
+				29AEB7AD1ADEBAFD00F983EA /* SalePurchasedViewController.xib in Resources */,
 				CF481E0919F7217F00041486 /* platinumleaguebg@2x.png in Resources */,
 				9BB5AF801AA695F6002076E3 /* obstaclespowerbarbgmiddle@2x.png in Resources */,
 				CF481E0A19F7217F00041486 /* upgradebarcurrentcap@2x.png in Resources */,
@@ -25310,6 +25333,7 @@
 				CF0CED11196F452900ECD301 /* CAKeyFrameAnimation+Jumping.m in Sources */,
 				CF0CED12196F452900ECD301 /* InAppPurchase.pb.m in Sources */,
 				CF0CED13196F452900ECD301 /* ListCollectionView.m in Sources */,
+				29AEB7A91ADEBAFD00F983EA /* SalePurchasedViewController.m in Sources */,
 				CF5BD68519C926EF006C4B4C /* SkillBombs.m in Sources */,
 				CF0CED14196F452900ECD301 /* UserData.m in Sources */,
 				CF0CED15196F452900ECD301 /* MiniJobsDetailsViewController.m in Sources */,
@@ -25886,6 +25910,7 @@
 				9BDA8B5D1A3A894B00C7AC27 /* SkillHeadshot.m in Sources */,
 				CF6574E91909CEBC00ABF1F4 /* AchievementsViewController.m in Sources */,
 				CF6574AD1909CAF200ABF1F4 /* EventApns.pb.m in Sources */,
+				29AEB7A81ADEBAFD00F983EA /* SalePurchasedViewController.m in Sources */,
 				CFF646EB195D229400C43641 /* TeamViewController.m in Sources */,
 				9B9BA8071A73367B001B7D04 /* SkillLifeSteal.m in Sources */,
 				CF29E920196131C200B40DA4 /* InAppPurchaseData.m in Sources */,
@@ -26063,6 +26088,7 @@
 				CF4818B619F7217F00041486 /* HealViewController.m in Sources */,
 				CF4818B719F7217F00041486 /* CAKeyFrameAnimation+Jumping.m in Sources */,
 				CF4818B819F7217F00041486 /* InAppPurchase.pb.m in Sources */,
+				29AEB7AA1ADEBAFD00F983EA /* SalePurchasedViewController.m in Sources */,
 				CF4818B919F7217F00041486 /* ListCollectionView.m in Sources */,
 				CF4818BA19F7217F00041486 /* SkillBombs.m in Sources */,
 				CF4818BB19F7217F00041486 /* UserData.m in Sources */,
