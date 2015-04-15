@@ -4,8 +4,11 @@
 
 #import "SharedEnumConfig.pb.h"
 #import "User.pb.h"
+#import "CustomMenu.pb.h"
 // @@protoc_insertion_point(imports)
 
+@class CustomMenuProto;
+@class CustomMenuProto_Builder;
 @class FullUserProto;
 @class FullUserProto_Builder;
 @class MinimumClanProto;
@@ -53,27 +56,30 @@
 @private
   BOOL hasPrice_:1;
   BOOL hasSalesPackageId_:1;
-  BOOL hasSalesPackageName_:1;
+  BOOL hasSalesProductId_:1;
   BOOL hasUuid_:1;
   int64_t price;
   int32_t salesPackageId;
-  NSString* salesPackageName;
+  NSString* salesProductId;
   NSString* uuid;
   NSMutableArray * mutableSipList;
   NSMutableArray * mutableSdipList;
+  NSMutableArray * mutableCmpList;
 }
 - (BOOL) hasSalesPackageId;
-- (BOOL) hasSalesPackageName;
+- (BOOL) hasSalesProductId;
 - (BOOL) hasPrice;
 - (BOOL) hasUuid;
 @property (readonly) int32_t salesPackageId;
-@property (readonly, strong) NSString* salesPackageName;
+@property (readonly, strong) NSString* salesProductId;
 @property (readonly) int64_t price;
 @property (readonly, strong) NSString* uuid;
 @property (readonly, strong) NSArray * sipList;
 @property (readonly, strong) NSArray * sdipList;
+@property (readonly, strong) NSArray * cmpList;
 - (SalesItemProto*)sipAtIndex:(NSUInteger)index;
 - (SalesDisplayItemProto*)sdipAtIndex:(NSUInteger)index;
+- (CustomMenuProto*)cmpAtIndex:(NSUInteger)index;
 
 + (SalesPackageProto*) defaultInstance;
 - (SalesPackageProto*) defaultInstance;
@@ -115,10 +121,10 @@
 - (SalesPackageProto_Builder*) setSalesPackageId:(int32_t) value;
 - (SalesPackageProto_Builder*) clearSalesPackageId;
 
-- (BOOL) hasSalesPackageName;
-- (NSString*) salesPackageName;
-- (SalesPackageProto_Builder*) setSalesPackageName:(NSString*) value;
-- (SalesPackageProto_Builder*) clearSalesPackageName;
+- (BOOL) hasSalesProductId;
+- (NSString*) salesProductId;
+- (SalesPackageProto_Builder*) setSalesProductId:(NSString*) value;
+- (SalesPackageProto_Builder*) clearSalesProductId;
 
 - (BOOL) hasPrice;
 - (int64_t) price;
@@ -141,6 +147,12 @@
 - (SalesPackageProto_Builder *)addSdip:(SalesDisplayItemProto*)value;
 - (SalesPackageProto_Builder *)addAllSdip:(NSArray *)array;
 - (SalesPackageProto_Builder *)clearSdip;
+
+- (NSMutableArray *)cmpList;
+- (CustomMenuProto*)cmpAtIndex:(NSUInteger)index;
+- (SalesPackageProto_Builder *)addCmp:(CustomMenuProto*)value;
+- (SalesPackageProto_Builder *)addAllCmp:(NSArray *)array;
+- (SalesPackageProto_Builder *)clearCmp;
 @end
 
 @interface SalesItemProto : PBGeneratedMessage {

@@ -75,7 +75,7 @@
     if (pkg.iapPackageType == InAppPurchasePackageProto_InAppPurchasePackageTypeGems) {
       SKProduct *prod = iap.products[pkg.iapPackageId];
       if (prod) {
-        [packages addObject:[InAppPurchaseData createWithProduct:prod]];
+        [packages addObject:[InAppPurchaseData createWithProduct:prod saleUuid:nil]];
       }
     }
   }

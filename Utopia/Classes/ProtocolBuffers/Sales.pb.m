@@ -15,6 +15,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [self registerAllExtensions:registry];
     [SharedEnumConfigRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
+    [CustomMenuRoot registerAllExtensions:registry];
     extensionRegistry = registry;
   }
 }
@@ -24,11 +25,12 @@ static PBExtensionRegistry* extensionRegistry = nil;
 
 @interface SalesPackageProto ()
 @property int32_t salesPackageId;
-@property (strong) NSString* salesPackageName;
+@property (strong) NSString* salesProductId;
 @property int64_t price;
 @property (strong) NSString* uuid;
 @property (strong) NSMutableArray * mutableSipList;
 @property (strong) NSMutableArray * mutableSdipList;
+@property (strong) NSMutableArray * mutableCmpList;
 @end
 
 @implementation SalesPackageProto
@@ -40,13 +42,13 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasSalesPackageId_ = !!value_;
 }
 @synthesize salesPackageId;
-- (BOOL) hasSalesPackageName {
-  return !!hasSalesPackageName_;
+- (BOOL) hasSalesProductId {
+  return !!hasSalesProductId_;
 }
-- (void) setHasSalesPackageName:(BOOL) value_ {
-  hasSalesPackageName_ = !!value_;
+- (void) setHasSalesProductId:(BOOL) value_ {
+  hasSalesProductId_ = !!value_;
 }
-@synthesize salesPackageName;
+@synthesize salesProductId;
 - (BOOL) hasPrice {
   return !!hasPrice_;
 }
@@ -65,10 +67,12 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @dynamic sipList;
 @synthesize mutableSdipList;
 @dynamic sdipList;
+@synthesize mutableCmpList;
+@dynamic cmpList;
 - (id) init {
   if ((self = [super init])) {
     self.salesPackageId = 0;
-    self.salesPackageName = @"";
+    self.salesProductId = @"";
     self.price = 0L;
     self.uuid = @"";
   }
@@ -98,6 +102,12 @@ static SalesPackageProto* defaultSalesPackageProtoInstance = nil;
 - (SalesDisplayItemProto*)sdipAtIndex:(NSUInteger)index {
   return [mutableSdipList objectAtIndex:index];
 }
+- (NSArray *)cmpList {
+  return mutableCmpList;
+}
+- (CustomMenuProto*)cmpAtIndex:(NSUInteger)index {
+  return [mutableCmpList objectAtIndex:index];
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -105,8 +115,8 @@ static SalesPackageProto* defaultSalesPackageProtoInstance = nil;
   if (self.hasSalesPackageId) {
     [output writeInt32:1 value:self.salesPackageId];
   }
-  if (self.hasSalesPackageName) {
-    [output writeString:2 value:self.salesPackageName];
+  if (self.hasSalesProductId) {
+    [output writeString:2 value:self.salesProductId];
   }
   if (self.hasPrice) {
     [output writeInt64:3 value:self.price];
@@ -120,6 +130,9 @@ static SalesPackageProto* defaultSalesPackageProtoInstance = nil;
   [self.sdipList enumerateObjectsUsingBlock:^(SalesDisplayItemProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:6 value:element];
   }];
+  [self.cmpList enumerateObjectsUsingBlock:^(CustomMenuProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:7 value:element];
+  }];
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -132,8 +145,8 @@ static SalesPackageProto* defaultSalesPackageProtoInstance = nil;
   if (self.hasSalesPackageId) {
     size_ += computeInt32Size(1, self.salesPackageId);
   }
-  if (self.hasSalesPackageName) {
-    size_ += computeStringSize(2, self.salesPackageName);
+  if (self.hasSalesProductId) {
+    size_ += computeStringSize(2, self.salesProductId);
   }
   if (self.hasPrice) {
     size_ += computeInt64Size(3, self.price);
@@ -146,6 +159,9 @@ static SalesPackageProto* defaultSalesPackageProtoInstance = nil;
   }];
   [self.sdipList enumerateObjectsUsingBlock:^(SalesDisplayItemProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(6, element);
+  }];
+  [self.cmpList enumerateObjectsUsingBlock:^(CustomMenuProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(7, element);
   }];
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -185,8 +201,8 @@ static SalesPackageProto* defaultSalesPackageProtoInstance = nil;
   if (self.hasSalesPackageId) {
     [output appendFormat:@"%@%@: %@\n", indent, @"salesPackageId", [NSNumber numberWithInteger:self.salesPackageId]];
   }
-  if (self.hasSalesPackageName) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"salesPackageName", self.salesPackageName];
+  if (self.hasSalesProductId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"salesProductId", self.salesProductId];
   }
   if (self.hasPrice) {
     [output appendFormat:@"%@%@: %@\n", indent, @"price", [NSNumber numberWithLongLong:self.price]];
@@ -206,6 +222,12 @@ static SalesPackageProto* defaultSalesPackageProtoInstance = nil;
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }];
+  [self.cmpList enumerateObjectsUsingBlock:^(CustomMenuProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"cmp"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -219,14 +241,15 @@ static SalesPackageProto* defaultSalesPackageProtoInstance = nil;
   return
       self.hasSalesPackageId == otherMessage.hasSalesPackageId &&
       (!self.hasSalesPackageId || self.salesPackageId == otherMessage.salesPackageId) &&
-      self.hasSalesPackageName == otherMessage.hasSalesPackageName &&
-      (!self.hasSalesPackageName || [self.salesPackageName isEqual:otherMessage.salesPackageName]) &&
+      self.hasSalesProductId == otherMessage.hasSalesProductId &&
+      (!self.hasSalesProductId || [self.salesProductId isEqual:otherMessage.salesProductId]) &&
       self.hasPrice == otherMessage.hasPrice &&
       (!self.hasPrice || self.price == otherMessage.price) &&
       self.hasUuid == otherMessage.hasUuid &&
       (!self.hasUuid || [self.uuid isEqual:otherMessage.uuid]) &&
       [self.sipList isEqualToArray:otherMessage.sipList] &&
       [self.sdipList isEqualToArray:otherMessage.sdipList] &&
+      [self.cmpList isEqualToArray:otherMessage.cmpList] &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -234,8 +257,8 @@ static SalesPackageProto* defaultSalesPackageProtoInstance = nil;
   if (self.hasSalesPackageId) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.salesPackageId] hash];
   }
-  if (self.hasSalesPackageName) {
-    hashCode = hashCode * 31 + [self.salesPackageName hash];
+  if (self.hasSalesProductId) {
+    hashCode = hashCode * 31 + [self.salesProductId hash];
   }
   if (self.hasPrice) {
     hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.price] hash];
@@ -247,6 +270,9 @@ static SalesPackageProto* defaultSalesPackageProtoInstance = nil;
     hashCode = hashCode * 31 + [element hash];
   }];
   [self.sdipList enumerateObjectsUsingBlock:^(SalesDisplayItemProto *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  [self.cmpList enumerateObjectsUsingBlock:^(CustomMenuProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
   hashCode = hashCode * 31 + [self.unknownFields hash];
@@ -295,8 +321,8 @@ static SalesPackageProto* defaultSalesPackageProtoInstance = nil;
   if (other.hasSalesPackageId) {
     [self setSalesPackageId:other.salesPackageId];
   }
-  if (other.hasSalesPackageName) {
-    [self setSalesPackageName:other.salesPackageName];
+  if (other.hasSalesProductId) {
+    [self setSalesProductId:other.salesProductId];
   }
   if (other.hasPrice) {
     [self setPrice:other.price];
@@ -316,6 +342,13 @@ static SalesPackageProto* defaultSalesPackageProtoInstance = nil;
       result.mutableSdipList = [[NSMutableArray alloc] initWithArray:other.mutableSdipList];
     } else {
       [result.mutableSdipList addObjectsFromArray:other.mutableSdipList];
+    }
+  }
+  if (other.mutableCmpList.count > 0) {
+    if (result.mutableCmpList == nil) {
+      result.mutableCmpList = [[NSMutableArray alloc] initWithArray:other.mutableCmpList];
+    } else {
+      [result.mutableCmpList addObjectsFromArray:other.mutableCmpList];
     }
   }
   [self mergeUnknownFields:other.unknownFields];
@@ -344,7 +377,7 @@ static SalesPackageProto* defaultSalesPackageProtoInstance = nil;
         break;
       }
       case 18: {
-        [self setSalesPackageName:[input readString]];
+        [self setSalesProductId:[input readString]];
         break;
       }
       case 24: {
@@ -367,6 +400,12 @@ static SalesPackageProto* defaultSalesPackageProtoInstance = nil;
         [self addSdip:[subBuilder buildPartial]];
         break;
       }
+      case 58: {
+        CustomMenuProto_Builder* subBuilder = [CustomMenuProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addCmp:[subBuilder buildPartial]];
+        break;
+      }
     }
   }
 }
@@ -386,20 +425,20 @@ static SalesPackageProto* defaultSalesPackageProtoInstance = nil;
   result.salesPackageId = 0;
   return self;
 }
-- (BOOL) hasSalesPackageName {
-  return result.hasSalesPackageName;
+- (BOOL) hasSalesProductId {
+  return result.hasSalesProductId;
 }
-- (NSString*) salesPackageName {
-  return result.salesPackageName;
+- (NSString*) salesProductId {
+  return result.salesProductId;
 }
-- (SalesPackageProto_Builder*) setSalesPackageName:(NSString*) value {
-  result.hasSalesPackageName = YES;
-  result.salesPackageName = value;
+- (SalesPackageProto_Builder*) setSalesProductId:(NSString*) value {
+  result.hasSalesProductId = YES;
+  result.salesProductId = value;
   return self;
 }
-- (SalesPackageProto_Builder*) clearSalesPackageName {
-  result.hasSalesPackageName = NO;
-  result.salesPackageName = @"";
+- (SalesPackageProto_Builder*) clearSalesProductId {
+  result.hasSalesProductId = NO;
+  result.salesProductId = @"";
   return self;
 }
 - (BOOL) hasPrice {
@@ -480,6 +519,30 @@ static SalesPackageProto* defaultSalesPackageProtoInstance = nil;
 }
 - (SalesPackageProto_Builder *)clearSdip {
   result.mutableSdipList = nil;
+  return self;
+}
+- (NSMutableArray *)cmpList {
+  return result.mutableCmpList;
+}
+- (CustomMenuProto*)cmpAtIndex:(NSUInteger)index {
+  return [result cmpAtIndex:index];
+}
+- (SalesPackageProto_Builder *)addCmp:(CustomMenuProto*)value {
+  if (result.mutableCmpList == nil) {
+    result.mutableCmpList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableCmpList addObject:value];
+  return self;
+}
+- (SalesPackageProto_Builder *)addAllCmp:(NSArray *)array {
+  if (result.mutableCmpList == nil) {
+    result.mutableCmpList = [NSMutableArray array];
+  }
+  [result.mutableCmpList addObjectsFromArray:array];
+  return self;
+}
+- (SalesPackageProto_Builder *)clearCmp {
+  result.mutableCmpList = nil;
   return self;
 }
 @end

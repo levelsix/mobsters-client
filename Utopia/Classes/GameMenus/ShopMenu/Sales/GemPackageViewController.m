@@ -8,30 +8,96 @@
 
 #import "GemPackageViewController.h"
 
-@interface GemPackageViewController ()
+#import "GameState.h"
+#import "Globals.h"
+#import "IAPHelper.h"
+
+@implementation GemPackageCell
+
+- (void) updateForPackageInfo:(id<InAppPurchaseData>)package {
+  self.nameLabel.text = package.primaryTitle;
+  
+  self.gemLabel.text = [Globals commafyNumber:package.amountGained];
+  
+  if (package.moneyPrice) {
+    self.priceLabel.text = package.moneyPrice;
+  }
+  
+  [Globals imageNamed:package.rewardPicName withView:self.packageIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+}
 
 @end
 
 @implementation GemPackageViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+- (void) viewDidLoad {
+  [super viewDidLoad];
+  
+  self.containerView.layer.cornerRadius = self.containerView.superview.layer.cornerRadius;
+  
+  UIView *v = [[UIView alloc] initWithFrame:self.containerView.superview.frame];
+  v.backgroundColor = DARKEN_VIEW_COLOR;
+  v.tag = DARKEN_VIEW_TAG;
+  v.layer.cornerRadius = self.containerView.layer.cornerRadius;
+  [self.view addSubview:v];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void) viewWillAppear:(BOOL)animated {
+  [super viewWillAppear:animated];
+  
+  [self reloadTable];
 }
 
-/*
-#pragma mark - Navigation
+#pragma mark - Reloading list view
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void) reloadTable {
+  [self reloadPackagesArray];
+  [self.packagesTable reloadData];
 }
-*/
+
+- (void) reloadPackagesArray {
+  NSMutableArray *packages = [NSMutableArray array];
+  
+  Globals *gl = [Globals sharedGlobals];
+  IAPHelper *iap = [IAPHelper sharedIAPHelper];
+  for (InAppPurchasePackageProto *pkg in gl.iapPackages) {
+    if (pkg.iapPackageType == InAppPurchasePackageProto_InAppPurchasePackageTypeGems) {
+      SKProduct *prod = iap.products[pkg.iapPackageId];
+      if (prod) {
+        [packages addObject:[InAppPurchaseData createWithProduct:prod saleUuid:nil]];
+      }
+    }
+  }
+  
+  self.packages = packages;
+}
+
+#pragma mark - Table view delegate
+
+- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+  return self.packages.count;
+}
+
+- (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+  GemPackageCell *cell = [tableView dequeueReusableCellWithIdentifier:@"GemPackageCell"];
+  if (!cell) {
+    cell = [[NSBundle mainBundle] loadNibNamed:@"GemPackageCell" owner:self options:nil][0];
+  }
+  
+  id<InAppPurchaseData> iap = self.packages[indexPath.row];
+  [cell updateForPackageInfo:iap];
+  
+  return cell;
+}
+
+- (IBAction) cellClicked:(id)sender {
+  UITableViewCell *cell = [sender getAncestorInViewHierarchyOfType:[UITableViewCell class]];
+  NSIndexPath *ip = [self.packagesTable indexPathForCell:cell];
+  
+  if (ip.row >= 0 && ip.row < self.packages.count) {
+    id<InAppPurchaseData> iap = self.packages[ip.row];
+    [self.delegate iapClicked:iap];
+  }
+}
 
 @end

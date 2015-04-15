@@ -62,6 +62,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _monsterHealingQueues = [[NSMutableDictionary alloc] init];
     _clanAvengings = [[NSMutableArray alloc] init];
     _completedTaskData = [[NSMutableDictionary alloc] init];
+    _mySales = [[NSMutableArray alloc] init];
     
     _availableQuests = [[NSMutableDictionary alloc] init];
     _inProgressCompleteQuests = [[NSMutableDictionary alloc] init];

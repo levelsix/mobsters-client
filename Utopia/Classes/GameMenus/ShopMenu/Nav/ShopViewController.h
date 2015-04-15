@@ -12,12 +12,14 @@
 #import "BuildingViewController.h"
 #import "FundsViewController.h"
 #import "GachaChooserViewController.h"
+#import "SalesViewController.h"
 
 @interface ShopViewController : PopupNavViewController <TabBarDelegate> 
 
 @property (nonatomic, retain) BuildingViewController *buildingViewController;
 @property (nonatomic, retain) FundsViewController *fundsViewController;
 @property (nonatomic, retain) GachaChooserViewController *gachaViewController;
+@property (nonatomic, retain) SalesViewController *salesViewController;
 
 @property (nonatomic, retain) IBOutlet ButtonTabBar *tabBar;
 @property (nonatomic, retain) IBOutlet BadgeIcon *buildingsBadge;

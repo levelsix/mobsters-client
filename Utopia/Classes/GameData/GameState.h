@@ -106,6 +106,7 @@
 @property (nonatomic, retain) NSMutableDictionary *myAchievements;
 @property (nonatomic, retain) NSMutableArray *myMiniJobs;
 @property (nonatomic, retain) NSMutableArray *mySecretGifts;
+@property (nonatomic, retain) NSMutableArray *mySales;
 
 @property (nonatomic, retain) ItemUtil *itemUtil;
 @property (nonatomic, retain) ResearchUtil *researchUtil;

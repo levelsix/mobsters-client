@@ -5,52 +5,45 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FundsViewController">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SalesViewController">
             <connections>
-                <outlet property="listView" destination="qDU-Wp-fG4" id="dIl-eN-uPM"/>
-                <outlet property="loadingView" destination="TtZ-yX-5Tf" id="GxH-kw-dW2"/>
-                <outlet property="view" destination="qDU-Wp-fG4" id="wlK-bV-0HX"/>
+                <outlet property="loadingView" destination="3mx-Fc-khN" id="3ZA-BD-krR"/>
+                <outlet property="scrollView" destination="bkS-8i-Ysb" id="Y8r-fK-1xt"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="qDU-Wp-fG4" customClass="ListCollectionView">
-            <rect key="frame" x="0.0" y="0.0" width="568" height="188"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT" customClass="SalesView">
+            <rect key="frame" x="0.0" y="0.0" width="568" height="270"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="none" id="ERv-6m-CRJ" customClass="CancellableCollectionView">
-                    <rect key="frame" x="0.0" y="0.0" width="568" height="188"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                    <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="9" minimumInteritemSpacing="10" id="JoM-V7-zfJ">
-                        <size key="itemSize" width="125" height="180"/>
-                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                        <inset key="sectionInset" minX="12" minY="0.0" maxX="12" maxY="0.0"/>
-                    </collectionViewFlowLayout>
-                    <cells/>
+                <scrollView multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" id="bkS-8i-Ysb" customClass="SalesScrollView">
+                    <rect key="frame" x="79" y="0.0" width="410" height="270"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <connections>
-                        <outlet property="dataSource" destination="qDU-Wp-fG4" id="cmV-08-jfM"/>
-                        <outlet property="delegate" destination="qDU-Wp-fG4" id="9tb-BO-DTJ"/>
+                        <outlet property="delegate" destination="-1" id="mEA-s9-9Vh"/>
                     </connections>
-                </collectionView>
+                </scrollView>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <nil key="simulatedStatusBarMetrics"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
-                <outlet property="collectionView" destination="ERv-6m-CRJ" id="Vyo-Xg-0Fc"/>
-                <outlet property="delegate" destination="-1" id="U0b-qX-ahw"/>
+                <outlet property="scrollView" destination="bkS-8i-Ysb" id="C5g-df-A9G"/>
             </connections>
+            <point key="canvasLocation" x="668" y="690"/>
         </view>
-        <view contentMode="scaleToFill" id="TtZ-yX-5Tf" customClass="LoadingView">
+        <view contentMode="scaleToFill" id="3mx-Fc-khN" customClass="LoadingView">
             <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" id="8hW-Pn-XS0">
+                <view contentMode="scaleToFill" id="z2S-eI-ohC">
                     <rect key="frame" x="238" y="111" width="92" height="97"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" style="whiteLarge" id="g8N-Tg-zRv">
+                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" style="whiteLarge" id="YIO-nh-wp7">
                             <rect key="frame" x="28" y="30" width="37" height="37"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </activityIndicatorView>
@@ -62,8 +55,8 @@
             <nil key="simulatedStatusBarMetrics"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
             <connections>
-                <outlet property="actIndView" destination="g8N-Tg-zRv" id="z4b-NE-TNy"/>
-                <outlet property="darkView" destination="8hW-Pn-XS0" id="myF-vp-jg7"/>
+                <outlet property="actIndView" destination="YIO-nh-wp7" id="tbD-PT-aaj"/>
+                <outlet property="darkView" destination="z2S-eI-ohC" id="d8d-NC-5tm"/>
             </connections>
         </view>
     </objects>

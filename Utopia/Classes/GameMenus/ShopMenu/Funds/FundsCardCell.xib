@@ -164,7 +164,7 @@ enough space!</string>
     </objects>
     <resources>
         <image name="activedividerline.png" width="91" height="1"/>
-        <image name="casegems.png" width="120" height="76"/>
+        <image name="casegems.png" width="37" height="33"/>
         <image name="diamond.png" width="28" height="28"/>
         <image name="menusquareactive.png" width="125" height="130"/>
         <image name="menusquareactivepressed.png" width="125" height="130"/>

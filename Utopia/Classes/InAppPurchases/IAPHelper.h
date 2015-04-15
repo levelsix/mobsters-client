@@ -14,7 +14,7 @@
 
 + (IAPHelper *) sharedIAPHelper;
 - (void) requestProducts;
-- (void) buyProductIdentifier:(SKProduct *)product withDelegate:(id)delegate;
+- (void) buyProductIdentifier:(SKProduct *)product saleUuid:(NSString *)saleUuid withDelegate:(id)delegate;
 - (NSString *) priceForProduct:(SKProduct *)product;
 - (NSString *) base64forData:(NSData *)theData;
 - (SKProduct *) productForIdentifier:(NSString *)productId;

@@ -3,6 +3,7 @@
 //import "MonsterStuff.proto";
 import "SharedEnumConfig.proto";
 import "User.proto";
+import "CustomMenu.proto";
 
 package com.lvl6.proto;
 
@@ -14,11 +15,12 @@ option java_outer_classname = "SalesProto";
 
 message SalesPackageProto {
 	optional int32 salesPackageId = 1;
-	optional string salesPackageName = 2;
+	optional string salesProductId = 2;
 	optional int64 price = 3;
 	optional string uuid = 4;
 	repeated SalesItemProto sip = 5;
 	repeated SalesDisplayItemProto sdip = 6;
+	repeated CustomMenuProto cmp = 7;
 }
 
 //------------------------------------------------------------------------------------------

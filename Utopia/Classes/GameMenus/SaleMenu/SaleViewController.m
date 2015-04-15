@@ -15,7 +15,7 @@
 
 @implementation SaleViewCell
 
-- (void) updateForDisplayItem:(BoosterDisplayItemProto *)display isSpecial:(BOOL)isSpecial {
+- (void) updateForDisplayItem:(SalesDisplayItemProto *)display isSpecial:(BOOL)isSpecial {
   GameState *gs = [GameState sharedGameState];
   NSString *imgName = nil;
   if (display.gemReward) {
@@ -159,7 +159,7 @@ static NSString *nibName = @"SaleViewCell";
 
 - (IBAction)buyClicked:(id)sender {
   [self.loadingView display:self.view];
-  [[IAPHelper sharedIAPHelper] buyProductIdentifier:self.product withDelegate:self];
+  [[IAPHelper sharedIAPHelper] buyProductIdentifier:self.product saleUuid:nil withDelegate:self];
 }
 
 - (void) handleInAppPurchaseResponseProto:(FullEvent *)fe {

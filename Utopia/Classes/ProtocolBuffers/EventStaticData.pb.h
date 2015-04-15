@@ -53,6 +53,8 @@
 @class ColorProto_Builder;
 @class CoordinateProto;
 @class CoordinateProto_Builder;
+@class CustomMenuProto;
+@class CustomMenuProto_Builder;
 @class DefaultLanguagesProto;
 @class DefaultLanguagesProto_Builder;
 @class DialogueProto;
@@ -177,6 +179,12 @@
 @class ResourceStorageProto_Builder;
 @class RewardProto;
 @class RewardProto_Builder;
+@class SalesDisplayItemProto;
+@class SalesDisplayItemProto_Builder;
+@class SalesItemProto;
+@class SalesItemProto_Builder;
+@class SalesPackageProto;
+@class SalesPackageProto_Builder;
 @class SkillPropertyProto;
 @class SkillPropertyProto_Builder;
 @class SkillProto;

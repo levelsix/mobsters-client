@@ -5,6 +5,7 @@
 #import "InAppPurchase.pb.h"
 #import "Item.pb.h"
 #import "MonsterStuff.pb.h"
+#import "Sales.pb.h"
 #import "Structure.pb.h"
 #import "User.pb.h"
 // @@protoc_insertion_point(imports)
@@ -17,6 +18,8 @@
 @class ClanMemberTeamDonationProto_Builder;
 @class CoordinateProto;
 @class CoordinateProto_Builder;
+@class CustomMenuProto;
+@class CustomMenuProto_Builder;
 @class EarnFreeDiamondsRequestProto;
 @class EarnFreeDiamondsRequestProto_Builder;
 @class EarnFreeDiamondsResponseProto;
@@ -87,6 +90,12 @@
 @class ResourceGeneratorProto_Builder;
 @class ResourceStorageProto;
 @class ResourceStorageProto_Builder;
+@class SalesDisplayItemProto;
+@class SalesDisplayItemProto_Builder;
+@class SalesItemProto;
+@class SalesItemProto_Builder;
+@class SalesPackageProto;
+@class SalesPackageProto_Builder;
 @class StaticUserLevelInfoProto;
 @class StaticUserLevelInfoProto_Builder;
 @class StructureInfoProto;
@@ -178,12 +187,14 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
   BOOL hasLocalcurrency_:1;
   BOOL hasLocale_:1;
   BOOL hasIpaddr_:1;
+  BOOL hasUuid_:1;
   BOOL hasSender_:1;
   NSString* receipt;
   NSString* localcents;
   NSString* localcurrency;
   NSString* locale;
   NSString* ipaddr;
+  NSString* uuid;
   MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
@@ -192,12 +203,14 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 - (BOOL) hasLocalcurrency;
 - (BOOL) hasLocale;
 - (BOOL) hasIpaddr;
+- (BOOL) hasUuid;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly, strong) NSString* receipt;
 @property (readonly, strong) NSString* localcents;
 @property (readonly, strong) NSString* localcurrency;
 @property (readonly, strong) NSString* locale;
 @property (readonly, strong) NSString* ipaddr;
+@property (readonly, strong) NSString* uuid;
 
 + (InAppPurchaseRequestProto*) defaultInstance;
 - (InAppPurchaseRequestProto*) defaultInstance;
@@ -265,6 +278,11 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 - (NSString*) ipaddr;
 - (InAppPurchaseRequestProto_Builder*) setIpaddr:(NSString*) value;
 - (InAppPurchaseRequestProto_Builder*) clearIpaddr;
+
+- (BOOL) hasUuid;
+- (NSString*) uuid;
+- (InAppPurchaseRequestProto_Builder*) setUuid:(NSString*) value;
+- (InAppPurchaseRequestProto_Builder*) clearUuid;
 @end
 
 @interface InAppPurchaseResponseProto : PBGeneratedMessage {
@@ -275,6 +293,7 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
   BOOL hasPackageName_:1;
   BOOL hasReceipt_:1;
   BOOL hasSender_:1;
+  BOOL hasSuccessorSalesPackage_:1;
   BOOL hasStatus_:1;
   Float64 packagePrice;
   int32_t diamondsGained;
@@ -282,6 +301,7 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
   NSString* packageName;
   NSString* receipt;
   MinimumUserProto* sender;
+  SalesPackageProto* successorSalesPackage;
   InAppPurchaseResponseProto_InAppPurchaseStatus status;
   NSMutableArray * mutableUpdatedOrNewList;
   NSMutableArray * mutableUpdatedUserItemsList;
@@ -294,6 +314,7 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 - (BOOL) hasPackageName;
 - (BOOL) hasPackagePrice;
 - (BOOL) hasReceipt;
+- (BOOL) hasSuccessorSalesPackage;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) InAppPurchaseResponseProto_InAppPurchaseStatus status;
 @property (readonly) int32_t diamondsGained;
@@ -304,6 +325,7 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 @property (readonly, strong) NSArray * updatedOrNewList;
 @property (readonly, strong) NSArray * updatedUserItemsList;
 @property (readonly, strong) NSArray * updatedMoneyTreeList;
+@property (readonly, strong) SalesPackageProto* successorSalesPackage;
 - (FullUserMonsterProto*)updatedOrNewAtIndex:(NSUInteger)index;
 - (UserItemProto*)updatedUserItemsAtIndex:(NSUInteger)index;
 - (FullUserStructureProto*)updatedMoneyTreeAtIndex:(NSUInteger)index;
@@ -397,6 +419,13 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 - (InAppPurchaseResponseProto_Builder *)addUpdatedMoneyTree:(FullUserStructureProto*)value;
 - (InAppPurchaseResponseProto_Builder *)addAllUpdatedMoneyTree:(NSArray *)array;
 - (InAppPurchaseResponseProto_Builder *)clearUpdatedMoneyTree;
+
+- (BOOL) hasSuccessorSalesPackage;
+- (SalesPackageProto*) successorSalesPackage;
+- (InAppPurchaseResponseProto_Builder*) setSuccessorSalesPackage:(SalesPackageProto*) value;
+- (InAppPurchaseResponseProto_Builder*) setSuccessorSalesPackage_Builder:(SalesPackageProto_Builder*) builderForValue;
+- (InAppPurchaseResponseProto_Builder*) mergeSuccessorSalesPackage:(SalesPackageProto*) value;
+- (InAppPurchaseResponseProto_Builder*) clearSuccessorSalesPackage;
 @end
 
 @interface EarnFreeDiamondsRequestProto : PBGeneratedMessage {

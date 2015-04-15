@@ -446,6 +446,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs.monsterHealingQueues removeAllObjects];
     [gs addAllMonsterHealingProtos:proto.monstersHealingList];
     
+    [gs.mySales removeAllObjects];
+    [gs.mySales addObjectsFromArray:proto.salesPackagesList];
+    
     if (proto.hasEnhancements) {
       [gs addEnhancementProto:proto.enhancements];
     } else {

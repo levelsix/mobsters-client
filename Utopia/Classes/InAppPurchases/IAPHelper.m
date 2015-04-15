@@ -162,7 +162,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
   }
 }
 
-- (void)buyProductIdentifier:(SKProduct *)product withDelegate:(id)delegate {
+- (void)buyProductIdentifier:(SKProduct *)product saleUuid:(NSString *)saleUuid withDelegate:(id)delegate {
   _purchaseDelegate = delegate;
   
   if (!product) {

@@ -20,14 +20,14 @@
 
 - (BOOL) makePurchaseWithDelegate:(id)delegate {
   if (_product) {
-    [[IAPHelper sharedIAPHelper] buyProductIdentifier:_product withDelegate:delegate];
+    [[IAPHelper sharedIAPHelper] buyProductIdentifier:_product saleUuid:_saleUuid withDelegate:delegate];
     return YES;
   }
   return NO;
 }
 
 #pragma mark  Create/Destroy
-- (id) initWithProduct:(SKProduct *)product {
+- (id) initWithProduct:(SKProduct *)product saleUuid:(NSString *)su {
   if ((self = [super init])) {
     _product  = product;
     
@@ -40,12 +40,14 @@
     InAppPurchasePackageProto *p = [gl packageForProductId:_product.productIdentifier];
     rewardPicName = p.imageName;
     amountGained = p.currencyAmount;
+    
+    _saleUuid = su;
   }
   return self;
 }
 
-+ (id<InAppPurchaseData>) createWithProduct:(SKProduct *)product {
-  InAppPurchaseData *offer = [[InAppPurchaseData alloc] initWithProduct:product];
++ (id<InAppPurchaseData>) createWithProduct:(SKProduct *)product saleUuid:(NSString *)su {
+  InAppPurchaseData *offer = [[InAppPurchaseData alloc] initWithProduct:product saleUuid:su];
   return offer;
 }
 

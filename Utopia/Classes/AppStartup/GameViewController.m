@@ -668,7 +668,7 @@ static const CGSize FIXED_SIZE = {568, 384};
     SKProduct *prod = [iap productForIdentifier:mtp.iapProductId];
     
     if (prod) {
-      [iap buyProductIdentifier:prod withDelegate:self];
+      [iap buyProductIdentifier:prod saleUuid:nil withDelegate:self];
     }
     
     self.loadingView = [[NSBundle mainBundle] loadNibNamed:@"LoadingSpinnerView" owner:self options:nil][0];

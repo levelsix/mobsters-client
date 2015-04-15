@@ -15,6 +15,7 @@
 #import "MiniJobConfig.pb.h"
 #import "MonsterStuff.pb.h"
 #import "Quest.pb.h"
+#import "Sales.pb.h"
 #import "Research.pb.h"
 #import "SharedEnumConfig.pb.h"
 #import "StaticData.pb.h"
@@ -71,6 +72,8 @@
 @class ColorProto_Builder;
 @class CoordinateProto;
 @class CoordinateProto_Builder;
+@class CustomMenuProto;
+@class CustomMenuProto_Builder;
 @class DefaultLanguagesProto;
 @class DefaultLanguagesProto_Builder;
 @class DialogueProto;
@@ -211,6 +214,12 @@
 @class ResourceStorageProto_Builder;
 @class RewardProto;
 @class RewardProto_Builder;
+@class SalesDisplayItemProto;
+@class SalesDisplayItemProto_Builder;
+@class SalesItemProto;
+@class SalesItemProto_Builder;
+@class SalesPackageProto;
+@class SalesPackageProto_Builder;
 @class SkillPropertyProto;
 @class SkillPropertyProto_Builder;
 @class SkillProto;
@@ -562,10 +571,10 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   BOOL hasAppStoreUrl_:1;
   BOOL hasReviewPageUrl_:1;
   BOOL hasReviewPageConfirmationMessage_:1;
-  BOOL hasUserMiniEvent_:1;
+  BOOL hasUserDefaultLanguages_:1;
   BOOL hasStartupConstants_:1;
   BOOL hasTutorialConstants_:1;
-  BOOL hasUserDefaultLanguages_:1;
+  BOOL hasUserMiniEvent_:1;
   BOOL hasClanData_:1;
   BOOL hasCurTask_:1;
   BOOL hasCurRaidClanInfo_:1;
@@ -581,10 +590,10 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   NSString* appStoreUrl;
   NSString* reviewPageUrl;
   NSString* reviewPageConfirmationMessage;
-  UserMiniEventProto* userMiniEvent;
+  DefaultLanguagesProto* userDefaultLanguages;
   StartupResponseProto_StartupConstants* startupConstants;
   StartupResponseProto_TutorialConstants* tutorialConstants;
-  DefaultLanguagesProto* userDefaultLanguages;
+  UserMiniEventProto* userMiniEvent;
   ClanDataProto* clanData;
   MinimumUserTaskProto* curTask;
   PersistentClanEventClanInfoProto* curRaidClanInfo;
@@ -602,8 +611,8 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   NSMutableArray * mutableAttackNotificationsList;
   NSMutableArray * mutableRareBoosterPurchasesList;
   NSMutableArray * mutableMonstersHealingList;
+  NSMutableArray * mutableInvitesToMeForSlotsList;
   NSMutableArray * mutableUsersMonstersList;
-  NSMutableArray * mutableInvitesFromMeForSlotsList;
   NSMutableArray * mutableCompletedTasksList;
   NSMutableArray * mutablePcppList;
   NSMutableArray * mutableUserEventsList;
@@ -625,8 +634,9 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   NSMutableArray * mutableBattleItemQueueList;
   NSMutableArray * mutableBattleItemList;
   NSMutableArray * mutableUserResearchsList;
+  NSMutableArray * mutableSalesPackagesList;
   NSMutableArray * mutableUserQuestsList;
-  NSMutableArray * mutableInvitesToMeForSlotsList;
+  NSMutableArray * mutableInvitesFromMeForSlotsList;
 }
 - (BOOL) hasServerTimeMillis;
 - (BOOL) hasSender;
@@ -645,8 +655,8 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasCurRaidClanInfo;
 - (BOOL) hasCurTask;
 - (BOOL) hasClanData;
-- (BOOL) hasUserDefaultLanguages;
 - (BOOL) hasUserMiniEvent;
+- (BOOL) hasUserDefaultLanguages;
 @property (readonly) int64_t serverTimeMillis;
 @property (readonly, strong) FullUserProto* sender;
 @property (readonly) StartupResponseProto_StartupStatus startupStatus;
@@ -697,8 +707,9 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @property (readonly, strong) NSArray * battleItemQueueList;
 @property (readonly, strong) NSArray * battleItemList;
 @property (readonly, strong) NSArray * userResearchsList;
-@property (readonly, strong) DefaultLanguagesProto* userDefaultLanguages;
+@property (readonly, strong) NSArray * salesPackagesList;
 @property (readonly, strong) UserMiniEventProto* userMiniEvent;
+@property (readonly, strong) DefaultLanguagesProto* userDefaultLanguages;
 - (FullUserQuestProto*)userQuestsAtIndex:(NSUInteger)index;
 - (int32_t)redeemedQuestIdsAtIndex:(NSUInteger)index;
 - (FullUserClanProto*)userClanInfoAtIndex:(NSUInteger)index;
@@ -732,6 +743,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BattleItemQueueForUserProto*)battleItemQueueAtIndex:(NSUInteger)index;
 - (UserBattleItemProto*)battleItemAtIndex:(NSUInteger)index;
 - (UserResearchProto*)userResearchsAtIndex:(NSUInteger)index;
+- (SalesPackageProto*)salesPackagesAtIndex:(NSUInteger)index;
 
 + (StartupResponseProto*) defaultInstance;
 - (StartupResponseProto*) defaultInstance;
@@ -2795,12 +2807,11 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_Builder *)addAllUserResearchs:(NSArray *)array;
 - (StartupResponseProto_Builder *)clearUserResearchs;
 
-- (BOOL) hasUserDefaultLanguages;
-- (DefaultLanguagesProto*) userDefaultLanguages;
-- (StartupResponseProto_Builder*) setUserDefaultLanguages:(DefaultLanguagesProto*) value;
-- (StartupResponseProto_Builder*) setUserDefaultLanguages_Builder:(DefaultLanguagesProto_Builder*) builderForValue;
-- (StartupResponseProto_Builder*) mergeUserDefaultLanguages:(DefaultLanguagesProto*) value;
-- (StartupResponseProto_Builder*) clearUserDefaultLanguages;
+- (NSMutableArray *)salesPackagesList;
+- (SalesPackageProto*)salesPackagesAtIndex:(NSUInteger)index;
+- (StartupResponseProto_Builder *)addSalesPackages:(SalesPackageProto*)value;
+- (StartupResponseProto_Builder *)addAllSalesPackages:(NSArray *)array;
+- (StartupResponseProto_Builder *)clearSalesPackages;
 
 - (BOOL) hasUserMiniEvent;
 - (UserMiniEventProto*) userMiniEvent;
@@ -2808,6 +2819,13 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_Builder*) setUserMiniEvent_Builder:(UserMiniEventProto_Builder*) builderForValue;
 - (StartupResponseProto_Builder*) mergeUserMiniEvent:(UserMiniEventProto*) value;
 - (StartupResponseProto_Builder*) clearUserMiniEvent;
+
+- (BOOL) hasUserDefaultLanguages;
+- (DefaultLanguagesProto*) userDefaultLanguages;
+- (StartupResponseProto_Builder*) setUserDefaultLanguages:(DefaultLanguagesProto*) value;
+- (StartupResponseProto_Builder*) setUserDefaultLanguages_Builder:(DefaultLanguagesProto_Builder*) builderForValue;
+- (StartupResponseProto_Builder*) mergeUserDefaultLanguages:(DefaultLanguagesProto*) value;
+- (StartupResponseProto_Builder*) clearUserDefaultLanguages;
 @end
 
 @interface ForceLogoutResponseProto : PBGeneratedMessage {

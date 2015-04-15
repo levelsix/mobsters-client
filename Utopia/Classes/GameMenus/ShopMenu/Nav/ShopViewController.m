@@ -46,6 +46,7 @@
   self.buildingViewController = [[BuildingViewController alloc] init];
   self.fundsViewController = [[FundsViewController alloc] init];
   self.gachaViewController = [[GachaChooserViewController alloc] init];
+  self.salesViewController = [[SalesViewController alloc] init];
   
   self.buildingViewController.delegate = [GameViewController baseController];
 }
@@ -117,6 +118,16 @@
 
 #pragma mark - TabBar delegate
 
+- (void) adjustContainerViewForSubViewController:(UIViewController *)uvc {
+  self.containerView.originY = CGRectGetMaxY(self.containerView.frame)-uvc.view.height;
+  self.containerView.height = uvc.view.height;
+}
+
+- (void) replaceRootWithViewController:(PopupSubViewController *)viewController {
+  [self adjustContainerViewForSubViewController:viewController];
+  [super replaceRootWithViewController:viewController];
+}
+
 - (void) button1Clicked:(id)sender {
   [self replaceRootWithViewController:self.buildingViewController];
   
@@ -124,7 +135,7 @@
 }
 
 - (void) button2Clicked:(id)sender {
-  [self replaceRootWithViewController:self.fundsViewController];
+  [self replaceRootWithViewController:self.salesViewController];
   
   [self.tabBar clickButton:2];
 }
