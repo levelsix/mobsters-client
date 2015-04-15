@@ -48,7 +48,10 @@
     us.isComplete = YES;
     return us.productionRate;
   } else {
-    return self.capacity;
+    UserStruct *us = [[UserStruct alloc] init];
+    us.structId = self.structInfo.structId;
+    us.isComplete = YES;
+    return us.storageCapacity;
   }
 }
 
@@ -80,7 +83,10 @@
   if (!index) {
     return self.productionRate*24;
   } else {
-    return self.capacity;
+    UserStruct *us = [[UserStruct alloc] init];
+    us.structId = self.structInfo.structId;
+    us.isComplete = YES;
+    return us.storageCapacity;
   }
 }
 
