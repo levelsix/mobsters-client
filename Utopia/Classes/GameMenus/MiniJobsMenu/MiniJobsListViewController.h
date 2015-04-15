@@ -81,8 +81,8 @@
 @property (nonatomic, retain) MiniJobsDetailsViewController *detailsViewController;
 @property (nonatomic, retain) MiniJobsCompleteViewController *completeViewController;
 
-@property (nonatomic, retain) UILabel *refreshButtonLabel;
-@property (nonatomic, retain) UIActivityIndicatorView *refreshButtonSpinner;
+@property (nonatomic, retain) IBOutlet UILabel *refreshButtonLabel;
+@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *refreshButtonSpinner;
 
 - (void) reloadTableAnimated:(BOOL)animated;
 

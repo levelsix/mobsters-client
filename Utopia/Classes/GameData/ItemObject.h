@@ -32,7 +32,9 @@
 @end
 
 
-@interface UserItem : NSObject <ItemObject>
+@interface UserItem : NSObject <ItemObject> {
+  int _costToPurchase;
+}
 
 @property (nonatomic, retain) NSString *userUuid;
 @property (nonatomic, assign) int itemId;
@@ -70,5 +72,11 @@
 @interface GemsItemObject : NSObject <ItemObject>
 
 @property (nonatomic, assign) id<GemsItemDelegate> delegate;
+
+@end
+
+@interface MiniJobCenterProto (ItemPrices)
+
+- (int) itemGemPriceForItemId:(int)itemId;
 
 @end

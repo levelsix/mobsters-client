@@ -670,6 +670,7 @@
 
 - (void) refreshItemUsed:(id<ItemObject>)itemObject viewController:(ItemSelectViewController *)viewController{
   GameState *gs = [GameState sharedGameState];
+  MiniJobCenterProto *miniJobCenter = (MiniJobCenterProto *)gs.myMiniJobCenter.staticStruct;
   
   int itemId = 0;
   int gems = 0;
@@ -677,20 +678,27 @@
   
   if ([itemObject isKindOfClass:[UserItem class]]) {
     UserItem *item = (UserItem *)itemObject;
-    itemId = item.itemId;
+    
+    if (item.quantity > 0) {
+      itemId = item.itemId;
+    } else {
+      gems = [miniJobCenter itemGemPriceForItemId:item.staticItem.itemId];;
+    }
+
     itemQuality = item.quality;
   }
   
+  int jobsSaved = 0;
   NSMutableArray *arr = [[NSMutableArray alloc] init];
   for(UserMiniJob *umj in gs.myMiniJobs) {
-    int timeLeft = umj.tentativeCompletionDate.timeIntervalSinceNow;
-#warning verify best way to check if miniJobs are complete
-    if (timeLeft >= 0) {
-      [arr addObject:umj.miniJob];
+    if (!umj.timeStarted) {
+      [arr addObject:umj.userMiniJobUuid];
+    } else {
+      jobsSaved ++;
     }
   }
   
-  [[OutgoingEventController sharedOutgoingEventController] refreshMiniJobs:arr itemId:itemId gemsSpent:gems quality:itemObject.quality delegate:self];
+  [[OutgoingEventController sharedOutgoingEventController] refreshMiniJobs:arr itemId:itemId gemsSpent:gems quality:itemObject.quality numToSpawn:(miniJobCenter.generatedJobLimit - jobsSaved) delegate:self];
   
   _waitingOnRefreshResponse = YES;
   [viewController closeClicked:nil];
@@ -701,11 +709,12 @@
   self.refreshButtonSpinner.hidden = NO;
 }
 
-- (void) handleRefreshResponse:(FullEvent *)fe {
+- (void) handleRefreshMiniJobResponseProto:(FullEvent *)fe {
   _waitingOnRefreshResponse = NO;
   
   //if there's an error it will just reload the old minijobs
   [self reloadMiniJobsArray];
+  [self reloadTableAnimated:NO];
   
   self.refreshButtonLabel.hidden = NO;
   self.refreshButtonSpinner.hidden = YES;

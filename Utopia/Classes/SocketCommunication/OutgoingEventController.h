@@ -161,7 +161,7 @@
 - (void) beginMiniJob:(UserMiniJob *)userMiniJob userMonsterUuids:(NSArray *)userMonsterUuids delegate:(id)delegate;
 - (void) completeMiniJob:(UserMiniJob *)userMiniJob isSpeedup:(BOOL)isSpeedup gemCost:(int)gemCost delegate:(id)delegate;
 - (void) redeemMiniJob:(UserMiniJob *)userMiniJob delegate:(id)delegate;
-- (void) refreshMiniJobs:(NSArray *)jobs itemId:(int)itemId gemsSpent:(int)gemsSpent quality:(Quality)quality delegate:(id)delegate;
+- (void) refreshMiniJobs:(NSArray *)jobsIds itemId:(int)itemId gemsSpent:(int)gemsSpent quality:(Quality)quality numToSpawn:(int)numToSpawn delegate:(id)delegate;
 
 - (void) tradeItemForSpeedup:(int)itemId userStruct:(UserStruct *)us;
 - (void) tradeItemForSpeedup:(int)itemId userObstacle:(UserObstacle *)uo;

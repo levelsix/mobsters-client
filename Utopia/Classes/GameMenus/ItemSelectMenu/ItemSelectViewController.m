@@ -31,7 +31,7 @@
   
   self.nameLabel.text = [itemObject name];
   self.nameLabel.highlighted = !available;
-  
+  		
   NSString *str1 = @"Owned: ";
   NSString *str2 = [Globals commafyNumber:[itemObject numOwned]];
   NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:[str1 stringByAppendingString:str2]];
