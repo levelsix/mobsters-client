@@ -558,7 +558,14 @@
                                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="8vK-vV-g9M" customClass="SpriteAnimationImageView">
                                             <rect key="frame" x="-5" y="-6" width="63" height="57"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <connections>
+                                                <outlet property="spinner" destination="TB6-OJ-G8W" id="cYr-aj-dI7"/>
+                                            </connections>
                                         </imageView>
+                                        <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" id="TB6-OJ-G8W">
+                                            <rect key="frame" x="17" y="27" width="20" height="20"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        </activityIndicatorView>
                                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="timereventtickerbg.png" id="lDe-cg-bPQ">
                                             <rect key="frame" x="0.0" y="51" width="54" height="15"/>
                                             <autoresizingMask key="autoresizingMask"/>

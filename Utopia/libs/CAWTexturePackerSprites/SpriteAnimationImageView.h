@@ -13,7 +13,7 @@
   NSString* _spriteName;
 }
 
-@property (nonatomic, retain) UIActivityIndicatorView* spinner;
+@property (nonatomic, retain) IBOutlet UIActivityIndicatorView* spinner;
 
 - (void) setSprite:(NSString*)spriteName;
 
