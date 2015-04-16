@@ -2471,16 +2471,16 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   if(proto.status == RefreshMiniJobResponseProto_RefreshMiniJobStatusSuccess) {
     
     NSMutableArray *newJobsList = [NSMutableArray arrayWithArray:proto.miniJobsList];
-    NSMutableArray *savedJobsList = [[NSMutableArray alloc] init];
-    for(UserMiniJob *umj in gs.myMiniJobs) {
-      if (umj.timeStarted) {
-        [savedJobsList addObject:umj];
+    
+    for (int i = 0; i < gs.myMiniJobs.count; i++) {
+      UserMiniJob *umj = gs.myMiniJobs[i];
+      if(!umj.timeStarted) {
+        [gs.myMiniJobs removeObjectAtIndex:i];
+        i--;
       }
     }
     
-    [gs.myMiniJobs removeAllObjects];
     [gs addToMiniJobs:newJobsList isNew:YES];
-    [gs.myMiniJobs addObjectsFromArray:savedJobsList];
   } else {
     [Globals popupMessage:@"Server failed to redeem miniJob refresh."];
     
