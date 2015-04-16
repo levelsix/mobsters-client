@@ -200,12 +200,24 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   for (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto *aso in constants.animatedSpriteOffsetsList) {
     [self.animatingSpriteOffsets setObject:aso.offSet forKey:aso.imageName];
   }
-  
-  [Globals backgroundDownloadFiles:constants.fileDownloadProtoList];
 }
 
 + (void) backgroundDownloadFiles:(NSArray *)fileNames {
   NSMutableArray *toDownload = [NSMutableArray array];
+  
+  GameState *gs = [GameState sharedGameState];
+  for (SalesPackageProto *spp in gs.mySales) {
+    for (CustomMenuProto *cmp in spp.cmpList) {
+      if (![Globals isFileDownloaded:cmp.imageName useiPhone6Prefix:NO]) {
+        NSString *fileName = [self getDoubleResolutionImage:cmp.imageName useiPhone6Prefix:NO];
+        
+        BgdFileDownload *bgd = [[BgdFileDownload alloc] init];
+        bgd.fileName = fileName;
+        bgd.onlyUseWifi = NO;
+        [toDownload addObject:bgd];
+      }
+    }
+  }
   
   for (StartupResponseProto_StartupConstants_FileDownloadConstantProto *f in fileNames) {
     NSString *fileName = [self getDoubleResolutionImage:f.fileName useiPhone6Prefix:f.useIphone6Prefix];

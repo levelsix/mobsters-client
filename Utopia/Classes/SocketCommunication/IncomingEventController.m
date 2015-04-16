@@ -561,6 +561,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     // Need to create new player
   }
   
+  [Globals backgroundDownloadFiles:proto.startupConstants.fileDownloadProtoList];
+  
   [gs removeNonFullUserUpdatesForTag:tag];
 }
 

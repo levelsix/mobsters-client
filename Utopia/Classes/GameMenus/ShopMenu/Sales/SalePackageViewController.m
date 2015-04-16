@@ -117,6 +117,11 @@ static NSString *nibName = @"SalePackageCell";
   }];
   
   BOOL success = [Globals checkAndLoadFiles:arr completion:^(BOOL success) {
+    [self.loadingView removeFromSuperview];
+    self.loadingView = nil;
+    
+    self.containerView.hidden = NO;
+    
     if (success) {
       for (int i = 0; i < cmps.count; i++) {
         CustomMenuProto *cmp = cmps[i];
@@ -148,13 +153,9 @@ static NSString *nibName = @"SalePackageCell";
       UIImage *img = [Globals maskImage:[Globals snapShotView:self.containerView] withColor:DARKEN_VIEW_COLOR];
       UIView *v = [[UIImageView alloc] initWithImage:img];
       v.tag = DARKEN_VIEW_TAG;
+      v.alpha = 0.f;
       [self.containerView addSubview:v];
     }
-    
-    [self.loadingView removeFromSuperview];
-    self.loadingView = nil;
-    
-    self.containerView.hidden = NO;
   }];
   
   if (!success) {
