@@ -10,6 +10,7 @@
 #import "Chat.pb.h"
 #import "City.pb.h"
 #import "Clan.pb.h"
+#import "ClanGifts.pb.h"
 #import "Dev.pb.h"
 #import "EventAchievement.pb.h"
 #import "EventApns.pb.h"
@@ -142,6 +143,8 @@
 @class CityExpansionCostProto_Builder;
 @class ClanDataProto;
 @class ClanDataProto_Builder;
+@class ClanGiftProto;
+@class ClanGiftProto_Builder;
 @class ClanHelpNoticeProto;
 @class ClanHelpNoticeProto_Builder;
 @class ClanHelpProto;
@@ -162,6 +165,14 @@
 @class ClanRaidStageProto_Builder;
 @class ClanRaidStageRewardProto;
 @class ClanRaidStageRewardProto_Builder;
+@class ClearExpiredClanGiftsRequestProto;
+@class ClearExpiredClanGiftsRequestProto_Builder;
+@class ClearExpiredClanGiftsResponseProto;
+@class ClearExpiredClanGiftsResponseProto_Builder;
+@class CollectClanGiftsRequestProto;
+@class CollectClanGiftsRequestProto_Builder;
+@class CollectClanGiftsResponseProto;
+@class CollectClanGiftsResponseProto_Builder;
 @class CollectMonsterEnhancementRequestProto;
 @class CollectMonsterEnhancementRequestProto_Builder;
 @class CollectMonsterEnhancementResponseProto;
@@ -190,8 +201,6 @@
 @class CreateClanRequestProto_Builder;
 @class CreateClanResponseProto;
 @class CreateClanResponseProto_Builder;
-@class CustomMenuProto;
-@class CustomMenuProto_Builder;
 @class CustomizePvpBoardObstacleRequestProto;
 @class CustomizePvpBoardObstacleRequestProto_Builder;
 @class CustomizePvpBoardObstacleResponseProto;
@@ -334,8 +343,6 @@
 @class InviteToClanRequestProto_Builder;
 @class InviteToClanResponseProto;
 @class InviteToClanResponseProto_Builder;
-@class ItemGemPriceProto;
-@class ItemGemPriceProto_Builder;
 @class ItemProto;
 @class ItemProto_Builder;
 @class LabProto;
@@ -520,10 +527,6 @@
 @class RedeemSecretGiftResponseProto_Builder;
 @class ReferralCodeUsedResponseProto;
 @class ReferralCodeUsedResponseProto_Builder;
-@class RefreshMiniJobRequestProto;
-@class RefreshMiniJobRequestProto_Builder;
-@class RefreshMiniJobResponseProto;
-@class RefreshMiniJobResponseProto_Builder;
 @class RemoveMonsterFromBattleTeamRequestProto;
 @class RemoveMonsterFromBattleTeamRequestProto_Builder;
 @class RemoveMonsterFromBattleTeamResponseProto;
@@ -772,6 +775,8 @@
 @class UserBattleItemProto_Builder;
 @class UserCityExpansionDataProto;
 @class UserCityExpansionDataProto_Builder;
+@class UserClanGiftProto;
+@class UserClanGiftProto_Builder;
 @class UserCreateRequestProto;
 @class UserCreateRequestProto_Builder;
 @class UserCreateResponseProto;
@@ -949,7 +954,7 @@ typedef NS_ENUM(SInt32, EventProtocolRequest) {
   EventProtocolRequestCUpdateMiniEventEvent = 209,
   EventProtocolRequestCTranslateSelectMessagesEvent = 210,
   EventProtocolRequestCUpdateUserStrengthEvent = 211,
-  EventProtocolRequestCRefreshMiniJobEvent = 212,
+  EventProtocolRequestCCollectClanGiftsEvent = 212,
 };
 
 BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value);
@@ -1074,7 +1079,7 @@ typedef NS_ENUM(SInt32, EventProtocolResponse) {
   EventProtocolResponseSUpdateMiniEventEvent = 209,
   EventProtocolResponseSTranslateSelectMessagesEvent = 210,
   EventProtocolResponseSUpdateUserStrengthEvent = 211,
-  EventProtocolResponseSRefreshMiniJobEvent = 212,
+  EventProtocolResponseSCollectClanGiftsEvent = 213,
 };
 
 BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value);

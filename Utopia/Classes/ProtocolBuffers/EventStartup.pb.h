@@ -9,6 +9,7 @@
 #import "Chat.pb.h"
 #import "City.pb.h"
 #import "Clan.pb.h"
+#import "ClanGifts.pb.h"
 #import "InAppPurchase.pb.h"
 #import "Item.pb.h"
 #import "MiniEvent.pb.h"
@@ -48,6 +49,8 @@
 @class CityExpansionCostProto_Builder;
 @class ClanDataProto;
 @class ClanDataProto_Builder;
+@class ClanGiftProto;
+@class ClanGiftProto_Builder;
 @class ClanHelpNoticeProto;
 @class ClanHelpNoticeProto_Builder;
 @class ClanHelpProto;
@@ -72,8 +75,6 @@
 @class ColorProto_Builder;
 @class CoordinateProto;
 @class CoordinateProto_Builder;
-@class CustomMenuProto;
-@class CustomMenuProto_Builder;
 @class DefaultLanguagesProto;
 @class DefaultLanguagesProto_Builder;
 @class DialogueProto;
@@ -112,8 +113,6 @@
 @class HospitalProto_Builder;
 @class InAppPurchasePackageProto;
 @class InAppPurchasePackageProto_Builder;
-@class ItemGemPriceProto;
-@class ItemGemPriceProto_Builder;
 @class ItemProto;
 @class ItemProto_Builder;
 @class LabProto;
@@ -294,6 +293,8 @@
 @class UserBattleItemProto_Builder;
 @class UserCityExpansionDataProto;
 @class UserCityExpansionDataProto_Builder;
+@class UserClanGiftProto;
+@class UserClanGiftProto_Builder;
 @class UserCurrentMonsterTeamProto;
 @class UserCurrentMonsterTeamProto_Builder;
 @class UserEnhancementItemProto;
@@ -569,67 +570,67 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @private
   BOOL hasPlayerHasBoughtInAppPurchase_:1;
   BOOL hasServerTimeMillis_:1;
-  BOOL hasKabamNaid_:1;
   BOOL hasAppStoreUrl_:1;
   BOOL hasReviewPageUrl_:1;
   BOOL hasReviewPageConfirmationMessage_:1;
-  BOOL hasUserDefaultLanguages_:1;
+  BOOL hasKabamNaid_:1;
+  BOOL hasSender_:1;
   BOOL hasStartupConstants_:1;
   BOOL hasTutorialConstants_:1;
+  BOOL hasUserDefaultLanguages_:1;
   BOOL hasUserMiniEvent_:1;
   BOOL hasClanData_:1;
   BOOL hasCurTask_:1;
   BOOL hasCurRaidClanInfo_:1;
   BOOL hasStaticDataStuffProto_:1;
-  BOOL hasSender_:1;
   BOOL hasEvolution_:1;
   BOOL hasEnhancements_:1;
-  BOOL hasUpdateStatus_:1;
   BOOL hasStartupStatus_:1;
+  BOOL hasUpdateStatus_:1;
   BOOL playerHasBoughtInAppPurchase_:1;
   int64_t serverTimeMillis;
-  NSString* kabamNaid;
   NSString* appStoreUrl;
   NSString* reviewPageUrl;
   NSString* reviewPageConfirmationMessage;
-  DefaultLanguagesProto* userDefaultLanguages;
+  NSString* kabamNaid;
+  FullUserProto* sender;
   StartupResponseProto_StartupConstants* startupConstants;
   StartupResponseProto_TutorialConstants* tutorialConstants;
+  DefaultLanguagesProto* userDefaultLanguages;
   UserMiniEventProto* userMiniEvent;
   ClanDataProto* clanData;
   MinimumUserTaskProto* curTask;
   PersistentClanEventClanInfoProto* curRaidClanInfo;
   StaticDataProto* staticDataStuffProto;
-  FullUserProto* sender;
   UserMonsterEvolutionProto* evolution;
   UserEnhancementProto* enhancements;
-  StartupResponseProto_UpdateStatus updateStatus;
   StartupResponseProto_StartupStatus startupStatus;
+  StartupResponseProto_UpdateStatus updateStatus;
   PBAppendableArray * mutableRedeemedQuestIdsList;
   PBAppendableArray * mutableCompletedTaskIdsList;
   PBAppendableArray * mutableTaskIdForCurrentCityBossList;
   NSMutableArray * mutableNoticesToPlayersList;
-  NSMutableArray * mutableReferralNotificationsList;
-  NSMutableArray * mutableAttackNotificationsList;
-  NSMutableArray * mutableRareBoosterPurchasesList;
   NSMutableArray * mutableMonstersHealingList;
-  NSMutableArray * mutableInvitesToMeForSlotsList;
   NSMutableArray * mutableUsersMonstersList;
-  NSMutableArray * mutableCompletedTasksList;
+  NSMutableArray * mutableRareBoosterPurchasesList;
   NSMutableArray * mutablePcppList;
-  NSMutableArray * mutableUserEventsList;
+  NSMutableArray * mutableInvitesToMeForSlotsList;
+  NSMutableArray * mutableInvitesFromMeForSlotsList;
   NSMutableArray * mutableClanChatsList;
+  NSMutableArray * mutableGlobalChatsList;
+  NSMutableArray * mutableUserEventsList;
+  NSMutableArray * mutableReferralNotificationsList;
   NSMutableArray * mutableCurRaidClanUserInfoList;
   NSMutableArray * mutableRaidStageHistoryList;
   NSMutableArray * mutableRecentNbattlesList;
-  NSMutableArray * mutableUserClanInfoList;
+  NSMutableArray * mutableAttackNotificationsList;
   NSMutableArray * mutableCurTaskStagesList;
   NSMutableArray * mutableUserAchievementsList;
   NSMutableArray * mutableUserMiniJobProtosList;
   NSMutableArray * mutableUserItemsList;
   NSMutableArray * mutableClanHelpingsList;
   NSMutableArray * mutableClanInvitesList;
-  NSMutableArray * mutableGlobalChatsList;
+  NSMutableArray * mutableCompletedTasksList;
   NSMutableArray * mutableItemsInUseList;
   NSMutableArray * mutableGiftsList;
   NSMutableArray * mutableUserPvpBoardObstaclesList;
@@ -637,8 +638,9 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   NSMutableArray * mutableBattleItemList;
   NSMutableArray * mutableUserResearchsList;
   NSMutableArray * mutableSalesPackagesList;
+  NSMutableArray * mutableUserClanInfoList;
   NSMutableArray * mutableUserQuestsList;
-  NSMutableArray * mutableInvitesFromMeForSlotsList;
+  NSMutableArray * mutableUserClanGiftsList;
 }
 - (BOOL) hasServerTimeMillis;
 - (BOOL) hasSender;
@@ -712,6 +714,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @property (readonly, strong) NSArray * salesPackagesList;
 @property (readonly, strong) UserMiniEventProto* userMiniEvent;
 @property (readonly, strong) DefaultLanguagesProto* userDefaultLanguages;
+@property (readonly, strong) NSArray * userClanGiftsList;
 - (FullUserQuestProto*)userQuestsAtIndex:(NSUInteger)index;
 - (int32_t)redeemedQuestIdsAtIndex:(NSUInteger)index;
 - (FullUserClanProto*)userClanInfoAtIndex:(NSUInteger)index;
@@ -746,6 +749,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (UserBattleItemProto*)battleItemAtIndex:(NSUInteger)index;
 - (UserResearchProto*)userResearchsAtIndex:(NSUInteger)index;
 - (SalesPackageProto*)salesPackagesAtIndex:(NSUInteger)index;
+- (UserClanGiftProto*)userClanGiftsAtIndex:(NSUInteger)index;
 
 + (StartupResponseProto*) defaultInstance;
 - (StartupResponseProto*) defaultInstance;
@@ -2828,6 +2832,12 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_Builder*) setUserDefaultLanguages_Builder:(DefaultLanguagesProto_Builder*) builderForValue;
 - (StartupResponseProto_Builder*) mergeUserDefaultLanguages:(DefaultLanguagesProto*) value;
 - (StartupResponseProto_Builder*) clearUserDefaultLanguages;
+
+- (NSMutableArray *)userClanGiftsList;
+- (UserClanGiftProto*)userClanGiftsAtIndex:(NSUInteger)index;
+- (StartupResponseProto_Builder *)addUserClanGifts:(UserClanGiftProto*)value;
+- (StartupResponseProto_Builder *)addAllUserClanGifts:(NSArray *)array;
+- (StartupResponseProto_Builder *)clearUserClanGifts;
 @end
 
 @interface ForceLogoutResponseProto : PBGeneratedMessage {

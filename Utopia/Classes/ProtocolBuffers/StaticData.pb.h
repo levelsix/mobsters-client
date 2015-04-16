@@ -9,7 +9,7 @@
 #import "BoosterPackStuff.pb.h"
 #import "City.pb.h"
 #import "Clan.pb.h"
-#import "CustomMenu.pb.h"
+#import "ClanGifts.pb.h"
 #import "Item.pb.h"
 #import "MonsterStuff.pb.h"
 #import "Prerequisite.pb.h"
@@ -47,6 +47,8 @@
 @class CityExpansionCostProto_Builder;
 @class ClanDataProto;
 @class ClanDataProto_Builder;
+@class ClanGiftProto;
+@class ClanGiftProto_Builder;
 @class ClanHelpNoticeProto;
 @class ClanHelpNoticeProto_Builder;
 @class ClanHelpProto;
@@ -71,8 +73,6 @@
 @class ColorProto_Builder;
 @class CoordinateProto;
 @class CoordinateProto_Builder;
-@class CustomMenuProto;
-@class CustomMenuProto_Builder;
 @class DefaultLanguagesProto;
 @class DefaultLanguagesProto_Builder;
 @class DialogueProto;
@@ -105,8 +105,6 @@
 @class GroupChatMessageProto_Builder;
 @class HospitalProto;
 @class HospitalProto_Builder;
-@class ItemGemPriceProto;
-@class ItemGemPriceProto_Builder;
 @class ItemProto;
 @class ItemProto_Builder;
 @class LabProto;
@@ -235,6 +233,8 @@
 @class UserBattleItemProto_Builder;
 @class UserCityExpansionDataProto;
 @class UserCityExpansionDataProto_Builder;
+@class UserClanGiftProto;
+@class UserClanGiftProto_Builder;
 @class UserCurrentMonsterTeamProto;
 @class UserCurrentMonsterTeamProto_Builder;
 @class UserEnhancementItemProto;
@@ -339,8 +339,10 @@
   NSMutableArray * mutableBoardsList;
   NSMutableArray * mutableResearchList;
   NSMutableArray * mutableBattleItemList;
+  NSMutableArray * mutableSalesPackageList;
   NSMutableArray * mutablePvpBoardObstacleProtosList;
   NSMutableArray * mutableRewardList;
+  NSMutableArray * mutableClanGiftsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStarterPack;
@@ -385,8 +387,10 @@
 @property (readonly, strong) NSArray * boardsList;
 @property (readonly, strong) NSArray * researchList;
 @property (readonly, strong) NSArray * battleItemList;
+@property (readonly, strong) NSArray * salesPackageList;
 @property (readonly, strong) NSArray * pvpBoardObstacleProtosList;
 @property (readonly, strong) NSArray * rewardList;
+@property (readonly, strong) NSArray * clanGiftsList;
 - (CityExpansionCostProto*)expansionCostsAtIndex:(NSUInteger)index;
 - (FullCityProto*)allCitiesAtIndex:(NSUInteger)index;
 - (FullTaskProto*)allTasksAtIndex:(NSUInteger)index;
@@ -426,8 +430,10 @@
 - (BoardLayoutProto*)boardsAtIndex:(NSUInteger)index;
 - (ResearchProto*)researchAtIndex:(NSUInteger)index;
 - (BattleItemProto*)battleItemAtIndex:(NSUInteger)index;
+- (SalesPackageProto*)salesPackageAtIndex:(NSUInteger)index;
 - (PvpBoardObstacleProto*)pvpBoardObstacleProtosAtIndex:(NSUInteger)index;
 - (RewardProto*)rewardAtIndex:(NSUInteger)index;
+- (ClanGiftProto*)clanGiftsAtIndex:(NSUInteger)index;
 
 + (StaticDataProto*) defaultInstance;
 - (StaticDataProto*) defaultInstance;
@@ -712,6 +718,12 @@
 - (StaticDataProto_Builder *)addAllBattleItem:(NSArray *)array;
 - (StaticDataProto_Builder *)clearBattleItem;
 
+- (NSMutableArray *)salesPackageList;
+- (SalesPackageProto*)salesPackageAtIndex:(NSUInteger)index;
+- (StaticDataProto_Builder *)addSalesPackage:(SalesPackageProto*)value;
+- (StaticDataProto_Builder *)addAllSalesPackage:(NSArray *)array;
+- (StaticDataProto_Builder *)clearSalesPackage;
+
 - (NSMutableArray *)pvpBoardObstacleProtosList;
 - (PvpBoardObstacleProto*)pvpBoardObstacleProtosAtIndex:(NSUInteger)index;
 - (StaticDataProto_Builder *)addPvpBoardObstacleProtos:(PvpBoardObstacleProto*)value;
@@ -723,6 +735,12 @@
 - (StaticDataProto_Builder *)addReward:(RewardProto*)value;
 - (StaticDataProto_Builder *)addAllReward:(NSArray *)array;
 - (StaticDataProto_Builder *)clearReward;
+
+- (NSMutableArray *)clanGiftsList;
+- (ClanGiftProto*)clanGiftsAtIndex:(NSUInteger)index;
+- (StaticDataProto_Builder *)addClanGifts:(ClanGiftProto*)value;
+- (StaticDataProto_Builder *)addAllClanGifts:(NSArray *)array;
+- (StaticDataProto_Builder *)clearClanGifts;
 @end
 
 
