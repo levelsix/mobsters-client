@@ -701,7 +701,7 @@
 
 - (void) spawnNextEnemyTeam {
   int success = YES;
-  if (!_isRevenge) {
+  if (!_isRevenge && !_clanAvenging) {
     BOOL allowGems = [self.itemUsagesForQueue[@0] boolValue];
     [[OutgoingEventController sharedOutgoingEventController] tradeItemIdsForResources:self.itemUsagesForQueue];
     success = [[OutgoingEventController sharedOutgoingEventController] viewNextPvpGuy:allowGems];

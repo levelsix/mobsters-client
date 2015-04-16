@@ -622,11 +622,14 @@
 - (void) updateTimersViewSize {
   BOOL showingSale = !self.saleView.hidden;
   BOOL showingFreeGems = !self.freeGemsView.hidden;
+  BOOL showingMiniEvent = !self.miniEventView.hidden;
   
   float topY;
   
   if (showingFreeGems) {
     topY = self.freeGemsView.originY;
+  } else if (showingMiniEvent) {
+    topY = self.miniEventView.originY;
   } else if (showingSale) {
     topY = self.saleView.originY;
   } else {
