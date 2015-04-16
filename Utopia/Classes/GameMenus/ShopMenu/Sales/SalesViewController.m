@@ -29,6 +29,17 @@
   return YES;
 }
 
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+  CGRect r;
+  r.origin = self.contentOffset;
+  r.size = self.size;
+  
+  if (CGRectContainsPoint(r, point)) {
+    return [super hitTest:point withEvent:event];
+  }
+  return self;
+}
+
 @end
 
 @interface SalesView : UIView
@@ -38,15 +49,6 @@
 @end
 
 @implementation SalesView
-
-- (BOOL) pointInside:(CGPoint)point withEvent:(UIEvent *)event {
-  if (![super pointInside:point withEvent:event]) {
-    return NO;
-  }
-  
-  return [self.scrollView pointInside:[self convertPoint:point toView:self.scrollView] withEvent:event];
-}
-
 
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
   UIView *v = [super hitTest:point withEvent:event];
@@ -68,6 +70,17 @@
   
   [self reloadViewControllers];
   [self scrollViewDidScroll:self.scrollView];
+  
+  UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(checkTap:)];
+  [self.view addGestureRecognizer:tap];
+}
+
+- (void) checkTap:(UITapGestureRecognizer *)tap {
+  CGPoint pt = [tap locationInView:self.view];
+  
+  if (!CGRectContainsPoint(self.scrollView.frame, pt)) {
+    [self.parentViewController close];
+  }
 }
 
 - (void) reloadViewControllers {

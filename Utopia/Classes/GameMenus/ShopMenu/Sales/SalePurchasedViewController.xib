@@ -88,7 +88,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="192" height="162"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
-                                                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="none" rowHeight="29" sectionHeaderHeight="22" sectionFooterHeight="22" id="nE2-za-kON">
+                                                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="29" sectionHeaderHeight="22" sectionFooterHeight="22" id="nE2-za-kON">
                                                     <rect key="frame" x="0.0" y="28" width="192" height="134"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

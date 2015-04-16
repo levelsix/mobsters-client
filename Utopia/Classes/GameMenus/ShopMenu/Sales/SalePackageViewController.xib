@@ -52,7 +52,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="196" height="162"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
-                                                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="none" rowHeight="29" sectionHeaderHeight="22" sectionFooterHeight="22" id="skW-T6-wHd">
+                                                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="29" sectionHeaderHeight="22" sectionFooterHeight="22" id="skW-T6-wHd">
                                                     <rect key="frame" x="0.0" y="28" width="196" height="134"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
