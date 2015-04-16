@@ -8,6 +8,7 @@ import "Board.proto";
 import "BoosterPackStuff.proto";
 import "City.proto";
 import "Clan.proto";
+import "CustomMenu.proto";
 import "Item.proto";
 import "MonsterStuff.proto";
 import "Prerequisite.proto";
@@ -87,7 +88,6 @@ message StaticDataProto {
 	repeated ResearchProto research = 35;
 	
 	repeated BattleItemProto battleItem = 43;
-	repeated SalesPackageProto salesPackage = 44;
 	
 	//repeated PvpBoardHouseProto allPvpBoardHouses = 39; defined above
 	repeated PvpBoardObstacleProto pvpBoardObstacleProtos = 40;
@@ -95,8 +95,7 @@ message StaticDataProto {
 	//repeated ResearchHouseProto allResearchHouses = 41; defined above
 	//repeated BattleItemFactoryProto allBattleItemFactorys = 42; defined above
 	
-	repeated RewardProto reward = 45;
-	
+	repeated RewardProto reward = 45;	
 	
 }
 	

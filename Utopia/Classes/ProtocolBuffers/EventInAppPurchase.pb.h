@@ -5,6 +5,8 @@
 #import "InAppPurchase.pb.h"
 #import "Item.pb.h"
 #import "MonsterStuff.pb.h"
+#import "Reward.pb.h"
+#import "Sales.pb.h"
 #import "Structure.pb.h"
 #import "User.pb.h"
 // @@protoc_insertion_point(imports)
@@ -17,6 +19,8 @@
 @class ClanMemberTeamDonationProto_Builder;
 @class CoordinateProto;
 @class CoordinateProto_Builder;
+@class CustomMenuProto;
+@class CustomMenuProto_Builder;
 @class EarnFreeDiamondsRequestProto;
 @class EarnFreeDiamondsRequestProto_Builder;
 @class EarnFreeDiamondsResponseProto;
@@ -87,6 +91,14 @@
 @class ResourceGeneratorProto_Builder;
 @class ResourceStorageProto;
 @class ResourceStorageProto_Builder;
+@class RewardProto;
+@class RewardProto_Builder;
+@class SalesDisplayItemProto;
+@class SalesDisplayItemProto_Builder;
+@class SalesItemProto;
+@class SalesItemProto_Builder;
+@class SalesPackageProto;
+@class SalesPackageProto_Builder;
 @class StaticUserLevelInfoProto;
 @class StaticUserLevelInfoProto_Builder;
 @class StructureInfoProto;
@@ -127,6 +139,8 @@
 @class UserPvpBoardObstacleProto_Builder;
 @class UserPvpLeagueProto;
 @class UserPvpLeagueProto_Builder;
+@class UserRewardProto;
+@class UserRewardProto_Builder;
 #ifndef __has_feature
   #define __has_feature(x) 0 // Compatibility with non-clang compilers.
 #endif // __has_feature
@@ -284,6 +298,9 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
   BOOL hasPackageName_:1;
   BOOL hasReceipt_:1;
   BOOL hasSender_:1;
+  BOOL hasSuccessorSalesPackage_:1;
+  BOOL hasPurchasedSalesPackage_:1;
+  BOOL hasRewards_:1;
   BOOL hasStatus_:1;
   Float64 packagePrice;
   int32_t diamondsGained;
@@ -291,6 +308,9 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
   NSString* packageName;
   NSString* receipt;
   MinimumUserProto* sender;
+  SalesPackageProto* successorSalesPackage;
+  SalesPackageProto* purchasedSalesPackage;
+  UserRewardProto* rewards;
   InAppPurchaseResponseProto_InAppPurchaseStatus status;
   NSMutableArray * mutableUpdatedOrNewList;
   NSMutableArray * mutableUpdatedUserItemsList;
@@ -303,6 +323,9 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 - (BOOL) hasPackageName;
 - (BOOL) hasPackagePrice;
 - (BOOL) hasReceipt;
+- (BOOL) hasSuccessorSalesPackage;
+- (BOOL) hasPurchasedSalesPackage;
+- (BOOL) hasRewards;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) InAppPurchaseResponseProto_InAppPurchaseStatus status;
 @property (readonly) int32_t diamondsGained;
@@ -313,6 +336,9 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 @property (readonly, strong) NSArray * updatedOrNewList;
 @property (readonly, strong) NSArray * updatedUserItemsList;
 @property (readonly, strong) NSArray * updatedMoneyTreeList;
+@property (readonly, strong) SalesPackageProto* successorSalesPackage;
+@property (readonly, strong) SalesPackageProto* purchasedSalesPackage;
+@property (readonly, strong) UserRewardProto* rewards;
 - (FullUserMonsterProto*)updatedOrNewAtIndex:(NSUInteger)index;
 - (UserItemProto*)updatedUserItemsAtIndex:(NSUInteger)index;
 - (FullUserStructureProto*)updatedMoneyTreeAtIndex:(NSUInteger)index;
@@ -406,6 +432,27 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 - (InAppPurchaseResponseProto_Builder *)addUpdatedMoneyTree:(FullUserStructureProto*)value;
 - (InAppPurchaseResponseProto_Builder *)addAllUpdatedMoneyTree:(NSArray *)array;
 - (InAppPurchaseResponseProto_Builder *)clearUpdatedMoneyTree;
+
+- (BOOL) hasSuccessorSalesPackage;
+- (SalesPackageProto*) successorSalesPackage;
+- (InAppPurchaseResponseProto_Builder*) setSuccessorSalesPackage:(SalesPackageProto*) value;
+- (InAppPurchaseResponseProto_Builder*) setSuccessorSalesPackage_Builder:(SalesPackageProto_Builder*) builderForValue;
+- (InAppPurchaseResponseProto_Builder*) mergeSuccessorSalesPackage:(SalesPackageProto*) value;
+- (InAppPurchaseResponseProto_Builder*) clearSuccessorSalesPackage;
+
+- (BOOL) hasPurchasedSalesPackage;
+- (SalesPackageProto*) purchasedSalesPackage;
+- (InAppPurchaseResponseProto_Builder*) setPurchasedSalesPackage:(SalesPackageProto*) value;
+- (InAppPurchaseResponseProto_Builder*) setPurchasedSalesPackage_Builder:(SalesPackageProto_Builder*) builderForValue;
+- (InAppPurchaseResponseProto_Builder*) mergePurchasedSalesPackage:(SalesPackageProto*) value;
+- (InAppPurchaseResponseProto_Builder*) clearPurchasedSalesPackage;
+
+- (BOOL) hasRewards;
+- (UserRewardProto*) rewards;
+- (InAppPurchaseResponseProto_Builder*) setRewards:(UserRewardProto*) value;
+- (InAppPurchaseResponseProto_Builder*) setRewards_Builder:(UserRewardProto_Builder*) builderForValue;
+- (InAppPurchaseResponseProto_Builder*) mergeRewards:(UserRewardProto*) value;
+- (InAppPurchaseResponseProto_Builder*) clearRewards;
 @end
 
 @interface EarnFreeDiamondsRequestProto : PBGeneratedMessage {

@@ -89,6 +89,7 @@ typedef NS_ENUM(SInt32, ResearchType) {
   ResearchTypeResourceStorage = 17,
   ResearchTypeUnlockItem = 18,
   ResearchTypeUnlockObstacle = 19,
+  ResearchTypeResourceGeneratorStorage = 20,
 };
 
 BOOL ResearchTypeIsValidValue(ResearchType value);

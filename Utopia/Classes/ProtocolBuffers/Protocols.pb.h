@@ -190,6 +190,8 @@
 @class CreateClanRequestProto_Builder;
 @class CreateClanResponseProto;
 @class CreateClanResponseProto_Builder;
+@class CustomMenuProto;
+@class CustomMenuProto_Builder;
 @class CustomizePvpBoardObstacleRequestProto;
 @class CustomizePvpBoardObstacleRequestProto_Builder;
 @class CustomizePvpBoardObstacleResponseProto;

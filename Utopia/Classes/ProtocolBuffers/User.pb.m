@@ -2288,6 +2288,8 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
 @property (strong) NSString* pvpDefendingMessage;
 @property int64_t lastTeamDonationSolicitation;
 @property int64_t totalStrength;
+@property Float32 salesValue;
+@property int64_t salesLastPurchaseTime;
 @property (strong) NSString* udidForHistory;
 @property (strong) NSString* deviceToken;
 @property int32_t numBadges;
@@ -2541,6 +2543,20 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
   hasTotalStrength_ = !!value_;
 }
 @synthesize totalStrength;
+- (BOOL) hasSalesValue {
+  return !!hasSalesValue_;
+}
+- (void) setHasSalesValue:(BOOL) value_ {
+  hasSalesValue_ = !!value_;
+}
+@synthesize salesValue;
+- (BOOL) hasSalesLastPurchaseTime {
+  return !!hasSalesLastPurchaseTime_;
+}
+- (void) setHasSalesLastPurchaseTime:(BOOL) value_ {
+  hasSalesLastPurchaseTime_ = !!value_;
+}
+@synthesize salesLastPurchaseTime;
 - (BOOL) hasUdidForHistory {
   return !!hasUdidForHistory_;
 }
@@ -2650,6 +2666,8 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
     self.pvpDefendingMessage = @"";
     self.lastTeamDonationSolicitation = 0L;
     self.totalStrength = 0L;
+    self.salesValue = 0;
+    self.salesLastPurchaseTime = 0L;
     self.udidForHistory = @"";
     self.deviceToken = @"";
     self.numBadges = 0;
@@ -2802,8 +2820,14 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasLastTeamDonationSolicitation) {
     [output writeInt64:57 value:self.lastTeamDonationSolicitation];
   }
+  if (self.hasSalesValue) {
+    [output writeFloat:58 value:self.salesValue];
+  }
+  if (self.hasSalesLastPurchaseTime) {
+    [output writeInt64:59 value:self.salesLastPurchaseTime];
+  }
   if (self.hasTotalStrength) {
-    [output writeInt64:58 value:self.totalStrength];
+    [output writeInt64:60 value:self.totalStrength];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -2937,8 +2961,14 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasLastTeamDonationSolicitation) {
     size_ += computeInt64Size(57, self.lastTeamDonationSolicitation);
   }
+  if (self.hasSalesValue) {
+    size_ += computeFloatSize(58, self.salesValue);
+  }
+  if (self.hasSalesLastPurchaseTime) {
+    size_ += computeInt64Size(59, self.salesLastPurchaseTime);
+  }
   if (self.hasTotalStrength) {
-    size_ += computeInt64Size(58, self.totalStrength);
+    size_ += computeInt64Size(60, self.totalStrength);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -3104,6 +3134,12 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasLastTeamDonationSolicitation) {
     [output appendFormat:@"%@%@: %@\n", indent, @"lastTeamDonationSolicitation", [NSNumber numberWithLongLong:self.lastTeamDonationSolicitation]];
   }
+  if (self.hasSalesValue) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"salesValue", [NSNumber numberWithFloat:self.salesValue]];
+  }
+  if (self.hasSalesLastPurchaseTime) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"salesLastPurchaseTime", [NSNumber numberWithLongLong:self.salesLastPurchaseTime]];
+  }
   if (self.hasTotalStrength) {
     [output appendFormat:@"%@%@: %@\n", indent, @"totalStrength", [NSNumber numberWithLongLong:self.totalStrength]];
   }
@@ -3200,6 +3236,10 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
       (!self.hasPvpDefendingMessage || [self.pvpDefendingMessage isEqual:otherMessage.pvpDefendingMessage]) &&
       self.hasLastTeamDonationSolicitation == otherMessage.hasLastTeamDonationSolicitation &&
       (!self.hasLastTeamDonationSolicitation || self.lastTeamDonationSolicitation == otherMessage.lastTeamDonationSolicitation) &&
+      self.hasSalesValue == otherMessage.hasSalesValue &&
+      (!self.hasSalesValue || self.salesValue == otherMessage.salesValue) &&
+      self.hasSalesLastPurchaseTime == otherMessage.hasSalesLastPurchaseTime &&
+      (!self.hasSalesLastPurchaseTime || self.salesLastPurchaseTime == otherMessage.salesLastPurchaseTime) &&
       self.hasTotalStrength == otherMessage.hasTotalStrength &&
       (!self.hasTotalStrength || self.totalStrength == otherMessage.totalStrength) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
@@ -3328,6 +3368,12 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (self.hasLastTeamDonationSolicitation) {
     hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.lastTeamDonationSolicitation] hash];
+  }
+  if (self.hasSalesValue) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithFloat:self.salesValue] hash];
+  }
+  if (self.hasSalesLastPurchaseTime) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.salesLastPurchaseTime] hash];
   }
   if (self.hasTotalStrength) {
     hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.totalStrength] hash];
@@ -3470,6 +3516,12 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (other.hasTotalStrength) {
     [self setTotalStrength:other.totalStrength];
+  }
+  if (other.hasSalesValue) {
+    [self setSalesValue:other.salesValue];
+  }
+  if (other.hasSalesLastPurchaseTime) {
+    [self setSalesLastPurchaseTime:other.salesLastPurchaseTime];
   }
   if (other.hasUdidForHistory) {
     [self setUdidForHistory:other.udidForHistory];
@@ -3696,7 +3748,15 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
         [self setLastTeamDonationSolicitation:[input readInt64]];
         break;
       }
-      case 464: {
+      case 469: {
+        [self setSalesValue:[input readFloat]];
+        break;
+      }
+      case 472: {
+        [self setSalesLastPurchaseTime:[input readInt64]];
+        break;
+      }
+      case 480: {
         [self setTotalStrength:[input readInt64]];
         break;
       }
@@ -4241,6 +4301,38 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 - (FullUserProto_Builder*) clearTotalStrength {
   result.hasTotalStrength = NO;
   result.totalStrength = 0L;
+  return self;
+}
+- (BOOL) hasSalesValue {
+  return result.hasSalesValue;
+}
+- (Float32) salesValue {
+  return result.salesValue;
+}
+- (FullUserProto_Builder*) setSalesValue:(Float32) value {
+  result.hasSalesValue = YES;
+  result.salesValue = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearSalesValue {
+  result.hasSalesValue = NO;
+  result.salesValue = 0;
+  return self;
+}
+- (BOOL) hasSalesLastPurchaseTime {
+  return result.hasSalesLastPurchaseTime;
+}
+- (int64_t) salesLastPurchaseTime {
+  return result.salesLastPurchaseTime;
+}
+- (FullUserProto_Builder*) setSalesLastPurchaseTime:(int64_t) value {
+  result.hasSalesLastPurchaseTime = YES;
+  result.salesLastPurchaseTime = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearSalesLastPurchaseTime {
+  result.hasSalesLastPurchaseTime = NO;
+  result.salesLastPurchaseTime = 0L;
   return self;
 }
 - (BOOL) hasUdidForHistory {

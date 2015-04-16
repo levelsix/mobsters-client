@@ -34,6 +34,8 @@ typedef NS_ENUM(SInt32, InAppPurchasePackageProto_InAppPurchasePackageType) {
   InAppPurchasePackageProto_InAppPurchasePackageTypeGems = 1,
   InAppPurchasePackageProto_InAppPurchasePackageTypeStarterPack = 2,
   InAppPurchasePackageProto_InAppPurchasePackageTypeMoneyTree = 3,
+  InAppPurchasePackageProto_InAppPurchasePackageTypeSale = 5,
+  InAppPurchasePackageProto_InAppPurchasePackageTypeBuilderPack = 6,
 };
 
 BOOL InAppPurchasePackageProto_InAppPurchasePackageTypeIsValidValue(InAppPurchasePackageProto_InAppPurchasePackageType value);

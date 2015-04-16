@@ -942,11 +942,27 @@ static MiniEventGoalProto* defaultMiniEventGoalProtoInstance = nil;
 BOOL MiniEventGoalProto_MiniEventGoalTypeIsValidValue(MiniEventGoalProto_MiniEventGoalType value) {
   switch (value) {
     case MiniEventGoalProto_MiniEventGoalTypeNoGoal:
-    case MiniEventGoalProto_MiniEventGoalTypeHealHp:
-    case MiniEventGoalProto_MiniEventGoalTypeEnhanceToonXp:
-    case MiniEventGoalProto_MiniEventGoalTypeUseCashUpgradingBuilding:
-    case MiniEventGoalProto_MiniEventGoalTypeUseOilUpgradingBuilding:
-    case MiniEventGoalProto_MiniEventGoalTypeCaptureScientist:
+    case MiniEventGoalProto_MiniEventGoalTypeGainBuildingStrength:
+    case MiniEventGoalProto_MiniEventGoalTypeGainResearchStrength:
+    case MiniEventGoalProto_MiniEventGoalTypeSpinBasicGrab:
+    case MiniEventGoalProto_MiniEventGoalTypeSpinUltimateGrab:
+    case MiniEventGoalProto_MiniEventGoalTypeEnhanceCommon:
+    case MiniEventGoalProto_MiniEventGoalTypeEnhanceRare:
+    case MiniEventGoalProto_MiniEventGoalTypeEnhanceSuper:
+    case MiniEventGoalProto_MiniEventGoalTypeEnhanceUltra:
+    case MiniEventGoalProto_MiniEventGoalTypeEnhanceEpic:
+    case MiniEventGoalProto_MiniEventGoalTypeClanHelp:
+    case MiniEventGoalProto_MiniEventGoalTypeClanDonate:
+    case MiniEventGoalProto_MiniEventGoalTypeBattleAvengeRequest:
+    case MiniEventGoalProto_MiniEventGoalTypeBattleAvengeWin:
+    case MiniEventGoalProto_MiniEventGoalTypeBattleRevengeWin:
+    case MiniEventGoalProto_MiniEventGoalTypeStealCash:
+    case MiniEventGoalProto_MiniEventGoalTypeStealOil:
+    case MiniEventGoalProto_MiniEventGoalTypePvpCatchCommon:
+    case MiniEventGoalProto_MiniEventGoalTypePvpCatchRare:
+    case MiniEventGoalProto_MiniEventGoalTypePvpCatchSuper:
+    case MiniEventGoalProto_MiniEventGoalTypePvpCatchUltra:
+    case MiniEventGoalProto_MiniEventGoalTypePvpCatchEpic:
       return YES;
     default:
       return NO;

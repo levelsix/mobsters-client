@@ -53,6 +53,8 @@
 @class ColorProto_Builder;
 @class CoordinateProto;
 @class CoordinateProto_Builder;
+@class CustomMenuProto;
+@class CustomMenuProto_Builder;
 @class DefaultLanguagesProto;
 @class DefaultLanguagesProto_Builder;
 @class DialogueProto;

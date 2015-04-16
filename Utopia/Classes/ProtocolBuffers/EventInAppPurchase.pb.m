@@ -16,6 +16,8 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [InAppPurchaseRoot registerAllExtensions:registry];
     [ItemRoot registerAllExtensions:registry];
     [MonsterStuffRoot registerAllExtensions:registry];
+    [RewardRoot registerAllExtensions:registry];
+    [SalesRoot registerAllExtensions:registry];
     [StructureRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
     extensionRegistry = registry;
@@ -534,6 +536,9 @@ static InAppPurchaseRequestProto* defaultInAppPurchaseRequestProtoInstance = nil
 @property (strong) NSMutableArray * mutableUpdatedOrNewList;
 @property (strong) NSMutableArray * mutableUpdatedUserItemsList;
 @property (strong) NSMutableArray * mutableUpdatedMoneyTreeList;
+@property (strong) SalesPackageProto* successorSalesPackage;
+@property (strong) SalesPackageProto* purchasedSalesPackage;
+@property (strong) UserRewardProto* rewards;
 @end
 
 @implementation InAppPurchaseResponseProto
@@ -593,6 +598,27 @@ static InAppPurchaseRequestProto* defaultInAppPurchaseRequestProtoInstance = nil
 @dynamic updatedUserItemsList;
 @synthesize mutableUpdatedMoneyTreeList;
 @dynamic updatedMoneyTreeList;
+- (BOOL) hasSuccessorSalesPackage {
+  return !!hasSuccessorSalesPackage_;
+}
+- (void) setHasSuccessorSalesPackage:(BOOL) value_ {
+  hasSuccessorSalesPackage_ = !!value_;
+}
+@synthesize successorSalesPackage;
+- (BOOL) hasPurchasedSalesPackage {
+  return !!hasPurchasedSalesPackage_;
+}
+- (void) setHasPurchasedSalesPackage:(BOOL) value_ {
+  hasPurchasedSalesPackage_ = !!value_;
+}
+@synthesize purchasedSalesPackage;
+- (BOOL) hasRewards {
+  return !!hasRewards_;
+}
+- (void) setHasRewards:(BOOL) value_ {
+  hasRewards_ = !!value_;
+}
+@synthesize rewards;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
@@ -602,6 +628,9 @@ static InAppPurchaseRequestProto* defaultInAppPurchaseRequestProtoInstance = nil
     self.packageName = @"";
     self.packagePrice = 0;
     self.receipt = @"";
+    self.successorSalesPackage = [SalesPackageProto defaultInstance];
+    self.purchasedSalesPackage = [SalesPackageProto defaultInstance];
+    self.rewards = [UserRewardProto defaultInstance];
   }
   return self;
 }
@@ -669,6 +698,15 @@ static InAppPurchaseResponseProto* defaultInAppPurchaseResponseProtoInstance = n
   [self.updatedMoneyTreeList enumerateObjectsUsingBlock:^(FullUserStructureProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:10 value:element];
   }];
+  if (self.hasSuccessorSalesPackage) {
+    [output writeMessage:11 value:self.successorSalesPackage];
+  }
+  if (self.hasPurchasedSalesPackage) {
+    [output writeMessage:12 value:self.purchasedSalesPackage];
+  }
+  if (self.hasRewards) {
+    [output writeMessage:13 value:self.rewards];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -708,6 +746,15 @@ static InAppPurchaseResponseProto* defaultInAppPurchaseResponseProtoInstance = n
   [self.updatedMoneyTreeList enumerateObjectsUsingBlock:^(FullUserStructureProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(10, element);
   }];
+  if (self.hasSuccessorSalesPackage) {
+    size_ += computeMessageSize(11, self.successorSalesPackage);
+  }
+  if (self.hasPurchasedSalesPackage) {
+    size_ += computeMessageSize(12, self.purchasedSalesPackage);
+  }
+  if (self.hasRewards) {
+    size_ += computeMessageSize(13, self.rewards);
+  }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
   return size_;
@@ -785,6 +832,24 @@ static InAppPurchaseResponseProto* defaultInAppPurchaseResponseProtoInstance = n
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }];
+  if (self.hasSuccessorSalesPackage) {
+    [output appendFormat:@"%@%@ {\n", indent, @"successorSalesPackage"];
+    [self.successorSalesPackage writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  if (self.hasPurchasedSalesPackage) {
+    [output appendFormat:@"%@%@ {\n", indent, @"purchasedSalesPackage"];
+    [self.purchasedSalesPackage writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  if (self.hasRewards) {
+    [output appendFormat:@"%@%@ {\n", indent, @"rewards"];
+    [self.rewards writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -813,6 +878,12 @@ static InAppPurchaseResponseProto* defaultInAppPurchaseResponseProtoInstance = n
       [self.updatedOrNewList isEqualToArray:otherMessage.updatedOrNewList] &&
       [self.updatedUserItemsList isEqualToArray:otherMessage.updatedUserItemsList] &&
       [self.updatedMoneyTreeList isEqualToArray:otherMessage.updatedMoneyTreeList] &&
+      self.hasSuccessorSalesPackage == otherMessage.hasSuccessorSalesPackage &&
+      (!self.hasSuccessorSalesPackage || [self.successorSalesPackage isEqual:otherMessage.successorSalesPackage]) &&
+      self.hasPurchasedSalesPackage == otherMessage.hasPurchasedSalesPackage &&
+      (!self.hasPurchasedSalesPackage || [self.purchasedSalesPackage isEqual:otherMessage.purchasedSalesPackage]) &&
+      self.hasRewards == otherMessage.hasRewards &&
+      (!self.hasRewards || [self.rewards isEqual:otherMessage.rewards]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -847,6 +918,15 @@ static InAppPurchaseResponseProto* defaultInAppPurchaseResponseProtoInstance = n
   [self.updatedMoneyTreeList enumerateObjectsUsingBlock:^(FullUserStructureProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
+  if (self.hasSuccessorSalesPackage) {
+    hashCode = hashCode * 31 + [self.successorSalesPackage hash];
+  }
+  if (self.hasPurchasedSalesPackage) {
+    hashCode = hashCode * 31 + [self.purchasedSalesPackage hash];
+  }
+  if (self.hasRewards) {
+    hashCode = hashCode * 31 + [self.rewards hash];
+  }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
@@ -942,6 +1022,15 @@ BOOL InAppPurchaseResponseProto_InAppPurchaseStatusIsValidValue(InAppPurchaseRes
       [result.mutableUpdatedMoneyTreeList addObjectsFromArray:other.mutableUpdatedMoneyTreeList];
     }
   }
+  if (other.hasSuccessorSalesPackage) {
+    [self mergeSuccessorSalesPackage:other.successorSalesPackage];
+  }
+  if (other.hasPurchasedSalesPackage) {
+    [self mergePurchasedSalesPackage:other.purchasedSalesPackage];
+  }
+  if (other.hasRewards) {
+    [self mergeRewards:other.rewards];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -1017,6 +1106,33 @@ BOOL InAppPurchaseResponseProto_InAppPurchaseStatusIsValidValue(InAppPurchaseRes
         FullUserStructureProto_Builder* subBuilder = [FullUserStructureProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addUpdatedMoneyTree:[subBuilder buildPartial]];
+        break;
+      }
+      case 90: {
+        SalesPackageProto_Builder* subBuilder = [SalesPackageProto builder];
+        if (self.hasSuccessorSalesPackage) {
+          [subBuilder mergeFrom:self.successorSalesPackage];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSuccessorSalesPackage:[subBuilder buildPartial]];
+        break;
+      }
+      case 98: {
+        SalesPackageProto_Builder* subBuilder = [SalesPackageProto builder];
+        if (self.hasPurchasedSalesPackage) {
+          [subBuilder mergeFrom:self.purchasedSalesPackage];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setPurchasedSalesPackage:[subBuilder buildPartial]];
+        break;
+      }
+      case 106: {
+        UserRewardProto_Builder* subBuilder = [UserRewardProto builder];
+        if (self.hasRewards) {
+          [subBuilder mergeFrom:self.rewards];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setRewards:[subBuilder buildPartial]];
         break;
       }
     }
@@ -1218,6 +1334,96 @@ BOOL InAppPurchaseResponseProto_InAppPurchaseStatusIsValidValue(InAppPurchaseRes
 }
 - (InAppPurchaseResponseProto_Builder *)clearUpdatedMoneyTree {
   result.mutableUpdatedMoneyTreeList = nil;
+  return self;
+}
+- (BOOL) hasSuccessorSalesPackage {
+  return result.hasSuccessorSalesPackage;
+}
+- (SalesPackageProto*) successorSalesPackage {
+  return result.successorSalesPackage;
+}
+- (InAppPurchaseResponseProto_Builder*) setSuccessorSalesPackage:(SalesPackageProto*) value {
+  result.hasSuccessorSalesPackage = YES;
+  result.successorSalesPackage = value;
+  return self;
+}
+- (InAppPurchaseResponseProto_Builder*) setSuccessorSalesPackage_Builder:(SalesPackageProto_Builder*) builderForValue {
+  return [self setSuccessorSalesPackage:[builderForValue build]];
+}
+- (InAppPurchaseResponseProto_Builder*) mergeSuccessorSalesPackage:(SalesPackageProto*) value {
+  if (result.hasSuccessorSalesPackage &&
+      result.successorSalesPackage != [SalesPackageProto defaultInstance]) {
+    result.successorSalesPackage =
+      [[[SalesPackageProto builderWithPrototype:result.successorSalesPackage] mergeFrom:value] buildPartial];
+  } else {
+    result.successorSalesPackage = value;
+  }
+  result.hasSuccessorSalesPackage = YES;
+  return self;
+}
+- (InAppPurchaseResponseProto_Builder*) clearSuccessorSalesPackage {
+  result.hasSuccessorSalesPackage = NO;
+  result.successorSalesPackage = [SalesPackageProto defaultInstance];
+  return self;
+}
+- (BOOL) hasPurchasedSalesPackage {
+  return result.hasPurchasedSalesPackage;
+}
+- (SalesPackageProto*) purchasedSalesPackage {
+  return result.purchasedSalesPackage;
+}
+- (InAppPurchaseResponseProto_Builder*) setPurchasedSalesPackage:(SalesPackageProto*) value {
+  result.hasPurchasedSalesPackage = YES;
+  result.purchasedSalesPackage = value;
+  return self;
+}
+- (InAppPurchaseResponseProto_Builder*) setPurchasedSalesPackage_Builder:(SalesPackageProto_Builder*) builderForValue {
+  return [self setPurchasedSalesPackage:[builderForValue build]];
+}
+- (InAppPurchaseResponseProto_Builder*) mergePurchasedSalesPackage:(SalesPackageProto*) value {
+  if (result.hasPurchasedSalesPackage &&
+      result.purchasedSalesPackage != [SalesPackageProto defaultInstance]) {
+    result.purchasedSalesPackage =
+      [[[SalesPackageProto builderWithPrototype:result.purchasedSalesPackage] mergeFrom:value] buildPartial];
+  } else {
+    result.purchasedSalesPackage = value;
+  }
+  result.hasPurchasedSalesPackage = YES;
+  return self;
+}
+- (InAppPurchaseResponseProto_Builder*) clearPurchasedSalesPackage {
+  result.hasPurchasedSalesPackage = NO;
+  result.purchasedSalesPackage = [SalesPackageProto defaultInstance];
+  return self;
+}
+- (BOOL) hasRewards {
+  return result.hasRewards;
+}
+- (UserRewardProto*) rewards {
+  return result.rewards;
+}
+- (InAppPurchaseResponseProto_Builder*) setRewards:(UserRewardProto*) value {
+  result.hasRewards = YES;
+  result.rewards = value;
+  return self;
+}
+- (InAppPurchaseResponseProto_Builder*) setRewards_Builder:(UserRewardProto_Builder*) builderForValue {
+  return [self setRewards:[builderForValue build]];
+}
+- (InAppPurchaseResponseProto_Builder*) mergeRewards:(UserRewardProto*) value {
+  if (result.hasRewards &&
+      result.rewards != [UserRewardProto defaultInstance]) {
+    result.rewards =
+      [[[UserRewardProto builderWithPrototype:result.rewards] mergeFrom:value] buildPartial];
+  } else {
+    result.rewards = value;
+  }
+  result.hasRewards = YES;
+  return self;
+}
+- (InAppPurchaseResponseProto_Builder*) clearRewards {
+  result.hasRewards = NO;
+  result.rewards = [UserRewardProto defaultInstance];
   return self;
 }
 @end
