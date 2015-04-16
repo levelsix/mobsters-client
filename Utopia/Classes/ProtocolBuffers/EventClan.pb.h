@@ -3,8 +3,8 @@
 #import "ProtocolBuffers.h"
 
 #import "Battle.pb.h"
-#import "Chat.pb.h"
 #import "Clan.pb.h"
+#import "ClanGifts.pb.h"
 #import "MonsterStuff.pb.h"
 #import "Reward.pb.h"
 #import "User.pb.h"
@@ -70,6 +70,10 @@
 @class ClanRaidStageProto_Builder;
 @class ClanRaidStageRewardProto;
 @class ClanRaidStageRewardProto_Builder;
+@class ClearExpiredClanGiftsRequestProto;
+@class ClearExpiredClanGiftsRequestProto_Builder;
+@class ClearExpiredClanGiftsResponseProto;
+@class ClearExpiredClanGiftsResponseProto_Builder;
 @class CollectClanGiftsRequestProto;
 @class CollectClanGiftsRequestProto_Builder;
 @class CollectClanGiftsResponseProto;
@@ -84,10 +88,6 @@
 @class CreateClanResponseProto_Builder;
 @class DefaultLanguagesProto;
 @class DefaultLanguagesProto_Builder;
-@class DeleteClanGiftsRequestProto;
-@class DeleteClanGiftsRequestProto_Builder;
-@class DeleteClanGiftsResponseProto;
-@class DeleteClanGiftsResponseProto_Builder;
 @class EndClanAvengingRequestProto;
 @class EndClanAvengingRequestProto_Builder;
 @class EndClanAvengingResponseProto;
@@ -126,8 +126,6 @@
 @class InviteToClanRequestProto_Builder;
 @class InviteToClanResponseProto;
 @class InviteToClanResponseProto_Builder;
-@class ItemGemPriceProto;
-@class ItemGemPriceProto_Builder;
 @class ItemProto;
 @class ItemProto_Builder;
 @class LabProto;
@@ -202,8 +200,6 @@
 @class PvpProto_Builder;
 @class PvpUserClanAvengeProto;
 @class PvpUserClanAvengeProto_Builder;
-@class ReceivedClanGiftResponseProto;
-@class ReceivedClanGiftResponseProto_Builder;
 @class RecordClanRaidStatsRequestProto;
 @class RecordClanRaidStatsRequestProto_Builder;
 @class RecordClanRaidStatsResponseProto;
@@ -248,8 +244,6 @@
 @class StaticUserLevelInfoProto_Builder;
 @class StructureInfoProto;
 @class StructureInfoProto_Builder;
-@class TangoGiftProto;
-@class TangoGiftProto_Builder;
 @class TeamCenterProto;
 @class TeamCenterProto_Builder;
 @class TownHallProto;
@@ -272,8 +266,6 @@
 @class UserEnhancementProto_Builder;
 @class UserFacebookInviteForSlotProto;
 @class UserFacebookInviteForSlotProto_Builder;
-@class UserGiftProto;
-@class UserGiftProto_Builder;
 @class UserItemProto;
 @class UserItemProto_Builder;
 @class UserItemSecretGiftProto;
@@ -300,8 +292,6 @@
 @class UserResearchProto_Builder;
 @class UserRewardProto;
 @class UserRewardProto_Builder;
-@class UserTangoGiftProto;
-@class UserTangoGiftProto_Builder;
 @class VoidTeamDonationSolicitationRequestProto;
 @class VoidTeamDonationSolicitationRequestProto_Builder;
 @class VoidTeamDonationSolicitationResponseProto;
@@ -543,12 +533,12 @@ typedef NS_ENUM(SInt32, CollectClanGiftsResponseProto_CollectClanGiftsStatus) {
 
 BOOL CollectClanGiftsResponseProto_CollectClanGiftsStatusIsValidValue(CollectClanGiftsResponseProto_CollectClanGiftsStatus value);
 
-typedef NS_ENUM(SInt32, DeleteClanGiftsResponseProto_DeleteClanGiftsStatus) {
-  DeleteClanGiftsResponseProto_DeleteClanGiftsStatusSuccess = 1,
-  DeleteClanGiftsResponseProto_DeleteClanGiftsStatusFailOther = 2,
+typedef NS_ENUM(SInt32, ClearExpiredClanGiftsResponseProto_ClearExpiredClanGiftsStatus) {
+  ClearExpiredClanGiftsResponseProto_ClearExpiredClanGiftsStatusSuccess = 1,
+  ClearExpiredClanGiftsResponseProto_ClearExpiredClanGiftsStatusFailOther = 2,
 };
 
-BOOL DeleteClanGiftsResponseProto_DeleteClanGiftsStatusIsValidValue(DeleteClanGiftsResponseProto_DeleteClanGiftsStatus value);
+BOOL ClearExpiredClanGiftsResponseProto_ClearExpiredClanGiftsStatusIsValidValue(ClearExpiredClanGiftsResponseProto_ClearExpiredClanGiftsStatus value);
 
 
 @interface EventClanRoot : NSObject {
@@ -4544,7 +4534,7 @@ BOOL DeleteClanGiftsResponseProto_DeleteClanGiftsStatusIsValidValue(DeleteClanGi
 - (CollectClanGiftsResponseProto_Builder*) clearStatusList;
 @end
 
-@interface DeleteClanGiftsRequestProto : PBGeneratedMessage {
+@interface ClearExpiredClanGiftsRequestProto : PBGeneratedMessage {
 @private
   BOOL hasSender_:1;
   MinimumUserProto* sender;
@@ -4555,182 +4545,113 @@ BOOL DeleteClanGiftsResponseProto_DeleteClanGiftsStatusIsValidValue(DeleteClanGi
 @property (readonly, strong) NSArray * expiredGiftsList;
 - (UserClanGiftProto*)expiredGiftsAtIndex:(NSUInteger)index;
 
-+ (DeleteClanGiftsRequestProto*) defaultInstance;
-- (DeleteClanGiftsRequestProto*) defaultInstance;
++ (ClearExpiredClanGiftsRequestProto*) defaultInstance;
+- (ClearExpiredClanGiftsRequestProto*) defaultInstance;
 
 - (BOOL) isInitialized;
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (DeleteClanGiftsRequestProto_Builder*) builder;
-+ (DeleteClanGiftsRequestProto_Builder*) builder;
-+ (DeleteClanGiftsRequestProto_Builder*) builderWithPrototype:(DeleteClanGiftsRequestProto*) prototype;
-- (DeleteClanGiftsRequestProto_Builder*) toBuilder;
+- (ClearExpiredClanGiftsRequestProto_Builder*) builder;
++ (ClearExpiredClanGiftsRequestProto_Builder*) builder;
++ (ClearExpiredClanGiftsRequestProto_Builder*) builderWithPrototype:(ClearExpiredClanGiftsRequestProto*) prototype;
+- (ClearExpiredClanGiftsRequestProto_Builder*) toBuilder;
 
-+ (DeleteClanGiftsRequestProto*) parseFromData:(NSData*) data;
-+ (DeleteClanGiftsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (DeleteClanGiftsRequestProto*) parseFromInputStream:(NSInputStream*) input;
-+ (DeleteClanGiftsRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (DeleteClanGiftsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (DeleteClanGiftsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ClearExpiredClanGiftsRequestProto*) parseFromData:(NSData*) data;
++ (ClearExpiredClanGiftsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ClearExpiredClanGiftsRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (ClearExpiredClanGiftsRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ClearExpiredClanGiftsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (ClearExpiredClanGiftsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface DeleteClanGiftsRequestProto_Builder : PBGeneratedMessageBuilder {
+@interface ClearExpiredClanGiftsRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
-  DeleteClanGiftsRequestProto* result;
+  ClearExpiredClanGiftsRequestProto* result;
 }
 
-- (DeleteClanGiftsRequestProto*) defaultInstance;
+- (ClearExpiredClanGiftsRequestProto*) defaultInstance;
 
-- (DeleteClanGiftsRequestProto_Builder*) clear;
-- (DeleteClanGiftsRequestProto_Builder*) clone;
+- (ClearExpiredClanGiftsRequestProto_Builder*) clear;
+- (ClearExpiredClanGiftsRequestProto_Builder*) clone;
 
-- (DeleteClanGiftsRequestProto*) build;
-- (DeleteClanGiftsRequestProto*) buildPartial;
+- (ClearExpiredClanGiftsRequestProto*) build;
+- (ClearExpiredClanGiftsRequestProto*) buildPartial;
 
-- (DeleteClanGiftsRequestProto_Builder*) mergeFrom:(DeleteClanGiftsRequestProto*) other;
-- (DeleteClanGiftsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (DeleteClanGiftsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+- (ClearExpiredClanGiftsRequestProto_Builder*) mergeFrom:(ClearExpiredClanGiftsRequestProto*) other;
+- (ClearExpiredClanGiftsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (ClearExpiredClanGiftsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
-- (DeleteClanGiftsRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (DeleteClanGiftsRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
-- (DeleteClanGiftsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
-- (DeleteClanGiftsRequestProto_Builder*) clearSender;
+- (ClearExpiredClanGiftsRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (ClearExpiredClanGiftsRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (ClearExpiredClanGiftsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (ClearExpiredClanGiftsRequestProto_Builder*) clearSender;
 
 - (NSMutableArray *)expiredGiftsList;
 - (UserClanGiftProto*)expiredGiftsAtIndex:(NSUInteger)index;
-- (DeleteClanGiftsRequestProto_Builder *)addExpiredGifts:(UserClanGiftProto*)value;
-- (DeleteClanGiftsRequestProto_Builder *)addAllExpiredGifts:(NSArray *)array;
-- (DeleteClanGiftsRequestProto_Builder *)clearExpiredGifts;
+- (ClearExpiredClanGiftsRequestProto_Builder *)addExpiredGifts:(UserClanGiftProto*)value;
+- (ClearExpiredClanGiftsRequestProto_Builder *)addAllExpiredGifts:(NSArray *)array;
+- (ClearExpiredClanGiftsRequestProto_Builder *)clearExpiredGifts;
 @end
 
-@interface DeleteClanGiftsResponseProto : PBGeneratedMessage {
+@interface ClearExpiredClanGiftsResponseProto : PBGeneratedMessage {
 @private
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  DeleteClanGiftsResponseProto_DeleteClanGiftsStatus status;
+  ClearExpiredClanGiftsResponseProto_ClearExpiredClanGiftsStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) DeleteClanGiftsResponseProto_DeleteClanGiftsStatus status;
+@property (readonly) ClearExpiredClanGiftsResponseProto_ClearExpiredClanGiftsStatus status;
 
-+ (DeleteClanGiftsResponseProto*) defaultInstance;
-- (DeleteClanGiftsResponseProto*) defaultInstance;
++ (ClearExpiredClanGiftsResponseProto*) defaultInstance;
+- (ClearExpiredClanGiftsResponseProto*) defaultInstance;
 
 - (BOOL) isInitialized;
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (DeleteClanGiftsResponseProto_Builder*) builder;
-+ (DeleteClanGiftsResponseProto_Builder*) builder;
-+ (DeleteClanGiftsResponseProto_Builder*) builderWithPrototype:(DeleteClanGiftsResponseProto*) prototype;
-- (DeleteClanGiftsResponseProto_Builder*) toBuilder;
+- (ClearExpiredClanGiftsResponseProto_Builder*) builder;
++ (ClearExpiredClanGiftsResponseProto_Builder*) builder;
++ (ClearExpiredClanGiftsResponseProto_Builder*) builderWithPrototype:(ClearExpiredClanGiftsResponseProto*) prototype;
+- (ClearExpiredClanGiftsResponseProto_Builder*) toBuilder;
 
-+ (DeleteClanGiftsResponseProto*) parseFromData:(NSData*) data;
-+ (DeleteClanGiftsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (DeleteClanGiftsResponseProto*) parseFromInputStream:(NSInputStream*) input;
-+ (DeleteClanGiftsResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (DeleteClanGiftsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (DeleteClanGiftsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ClearExpiredClanGiftsResponseProto*) parseFromData:(NSData*) data;
++ (ClearExpiredClanGiftsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ClearExpiredClanGiftsResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (ClearExpiredClanGiftsResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ClearExpiredClanGiftsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (ClearExpiredClanGiftsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface DeleteClanGiftsResponseProto_Builder : PBGeneratedMessageBuilder {
+@interface ClearExpiredClanGiftsResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
-  DeleteClanGiftsResponseProto* result;
+  ClearExpiredClanGiftsResponseProto* result;
 }
 
-- (DeleteClanGiftsResponseProto*) defaultInstance;
+- (ClearExpiredClanGiftsResponseProto*) defaultInstance;
 
-- (DeleteClanGiftsResponseProto_Builder*) clear;
-- (DeleteClanGiftsResponseProto_Builder*) clone;
+- (ClearExpiredClanGiftsResponseProto_Builder*) clear;
+- (ClearExpiredClanGiftsResponseProto_Builder*) clone;
 
-- (DeleteClanGiftsResponseProto*) build;
-- (DeleteClanGiftsResponseProto*) buildPartial;
+- (ClearExpiredClanGiftsResponseProto*) build;
+- (ClearExpiredClanGiftsResponseProto*) buildPartial;
 
-- (DeleteClanGiftsResponseProto_Builder*) mergeFrom:(DeleteClanGiftsResponseProto*) other;
-- (DeleteClanGiftsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (DeleteClanGiftsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+- (ClearExpiredClanGiftsResponseProto_Builder*) mergeFrom:(ClearExpiredClanGiftsResponseProto*) other;
+- (ClearExpiredClanGiftsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (ClearExpiredClanGiftsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
-- (DeleteClanGiftsResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (DeleteClanGiftsResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
-- (DeleteClanGiftsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
-- (DeleteClanGiftsResponseProto_Builder*) clearSender;
+- (ClearExpiredClanGiftsResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (ClearExpiredClanGiftsResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (ClearExpiredClanGiftsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (ClearExpiredClanGiftsResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (DeleteClanGiftsResponseProto_DeleteClanGiftsStatus) status;
-- (DeleteClanGiftsResponseProto_Builder*) setStatus:(DeleteClanGiftsResponseProto_DeleteClanGiftsStatus) value;
-- (DeleteClanGiftsResponseProto_Builder*) clearStatusList;
-@end
-
-@interface ReceivedClanGiftResponseProto : PBGeneratedMessage {
-@private
-  BOOL hasSender_:1;
-  BOOL hasScope_:1;
-  MinimumUserProto* sender;
-  ChatScope scope;
-  NSMutableArray * mutableUserClanGiftsList;
-}
-- (BOOL) hasSender;
-- (BOOL) hasScope;
-@property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) ChatScope scope;
-@property (readonly, strong) NSArray * userClanGiftsList;
-- (UserClanGiftProto*)userClanGiftsAtIndex:(NSUInteger)index;
-
-+ (ReceivedClanGiftResponseProto*) defaultInstance;
-- (ReceivedClanGiftResponseProto*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (ReceivedClanGiftResponseProto_Builder*) builder;
-+ (ReceivedClanGiftResponseProto_Builder*) builder;
-+ (ReceivedClanGiftResponseProto_Builder*) builderWithPrototype:(ReceivedClanGiftResponseProto*) prototype;
-- (ReceivedClanGiftResponseProto_Builder*) toBuilder;
-
-+ (ReceivedClanGiftResponseProto*) parseFromData:(NSData*) data;
-+ (ReceivedClanGiftResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (ReceivedClanGiftResponseProto*) parseFromInputStream:(NSInputStream*) input;
-+ (ReceivedClanGiftResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (ReceivedClanGiftResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (ReceivedClanGiftResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface ReceivedClanGiftResponseProto_Builder : PBGeneratedMessageBuilder {
-@private
-  ReceivedClanGiftResponseProto* result;
-}
-
-- (ReceivedClanGiftResponseProto*) defaultInstance;
-
-- (ReceivedClanGiftResponseProto_Builder*) clear;
-- (ReceivedClanGiftResponseProto_Builder*) clone;
-
-- (ReceivedClanGiftResponseProto*) build;
-- (ReceivedClanGiftResponseProto*) buildPartial;
-
-- (ReceivedClanGiftResponseProto_Builder*) mergeFrom:(ReceivedClanGiftResponseProto*) other;
-- (ReceivedClanGiftResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (ReceivedClanGiftResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasSender;
-- (MinimumUserProto*) sender;
-- (ReceivedClanGiftResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (ReceivedClanGiftResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
-- (ReceivedClanGiftResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
-- (ReceivedClanGiftResponseProto_Builder*) clearSender;
-
-- (BOOL) hasScope;
-- (ChatScope) scope;
-- (ReceivedClanGiftResponseProto_Builder*) setScope:(ChatScope) value;
-- (ReceivedClanGiftResponseProto_Builder*) clearScopeList;
-
-- (NSMutableArray *)userClanGiftsList;
-- (UserClanGiftProto*)userClanGiftsAtIndex:(NSUInteger)index;
-- (ReceivedClanGiftResponseProto_Builder *)addUserClanGifts:(UserClanGiftProto*)value;
-- (ReceivedClanGiftResponseProto_Builder *)addAllUserClanGifts:(NSArray *)array;
-- (ReceivedClanGiftResponseProto_Builder *)clearUserClanGifts;
+- (ClearExpiredClanGiftsResponseProto_ClearExpiredClanGiftsStatus) status;
+- (ClearExpiredClanGiftsResponseProto_Builder*) setStatus:(ClearExpiredClanGiftsResponseProto_ClearExpiredClanGiftsStatus) value;
+- (ClearExpiredClanGiftsResponseProto_Builder*) clearStatusList;
 @end
 
 

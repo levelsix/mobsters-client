@@ -1,8 +1,8 @@
 //BAD!!! DON'T START NAMES WITH NEW OR COPY
 
 import "Battle.proto";
-import "Chat.proto";
 import "Clan.proto";
+import "ClanGifts.proto";
 import "MonsterStuff.proto";
 import "Reward.proto";
 //import "SharedEnumConfig.proto";
@@ -682,26 +682,18 @@ message CollectClanGiftsResponseProto {
 
 //------------------------------------------------------------------------------------------
 
-message DeleteClanGiftsRequestProto {
+message ClearExpiredClanGiftsRequestProto {
 	optional MinimumUserProto sender = 1;
 	repeated UserClanGiftProto expiredGifts = 2;
 }
 
-message DeleteClanGiftsResponseProto {
+message ClearExpiredClanGiftsResponseProto {
 	optional MinimumUserProto sender = 1;
-	optional DeleteClanGiftsStatus status = 2;
+	optional ClearExpiredClanGiftsStatus status = 2;
 	
-	enum DeleteClanGiftsStatus {
+	enum ClearExpiredClanGiftsStatus {
 		SUCCESS = 1;
 		FAIL_OTHER = 2;
 	}
-}
-
-//------------------------------------------------------------------------------------------
-
-message ReceivedClanGiftResponseProto {
-	optional MinimumUserProto sender = 1;  //person who gave out the gift to everyone
-	optional ChatScope scope = 2 [default = CLAN];
-	repeated UserClanGiftProto userClanGifts = 3;
 }
 
