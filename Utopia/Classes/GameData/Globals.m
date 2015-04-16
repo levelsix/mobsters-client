@@ -77,12 +77,21 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   [[IAPHelper sharedIAPHelper] requestProducts];
 }
 
-- (InAppPurchasePackageProto *) starterPackIapPackage {
+- (SalesPackageProto *) starterPackSale {
+  NSString *packageId = nil;
   for (InAppPurchasePackageProto *pkg in self.iapPackages) {
     if (pkg.iapPackageType == InAppPurchasePackageProto_InAppPurchasePackageTypeStarterPack) {
-      return pkg;
+      packageId = pkg.iapPackageId;
     }
   }
+  
+  GameState *gs = [GameState sharedGameState];
+  for (SalesPackageProto *spp in gs.mySales) {
+    if ([spp.salesProductId isEqualToString:packageId]) {
+      return spp;
+    }
+  }
+  
   return nil;
 }
 

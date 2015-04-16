@@ -47,12 +47,12 @@ static NSString *nibName = @"SaleViewCell";
 
 #pragma mark - Collection View Data Source/Delegate
 
-- (NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   return _sale.sdipList.count;
 }
 
-- (UICollectionViewCell *) collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-  SalePackageCell *cell = [self.bonusItemsCollectionView dequeueReusableCellWithReuseIdentifier:nibName forIndexPath:indexPath];
+- (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+  SalePackageCell *cell = [tableView dequeueReusableCellWithIdentifier:nibName forIndexPath:indexPath];
   
   [cell updateForDisplayItem:_sale.sdipList[indexPath.row] isSpecial:indexPath.row == 0];
   

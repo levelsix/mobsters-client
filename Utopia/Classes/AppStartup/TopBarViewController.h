@@ -133,7 +133,7 @@
 
 - (void) openShop;
 - (void) closeShop;
-- (void) openShopWithFunds;
+- (void) openShopWithFunds:(SalesPackageProto *)spp;
 - (void) openShopWithBuildings:(int)structId;
 - (void) openShopWithGacha;
 - (void) showArrowToStructId:(int)structId;

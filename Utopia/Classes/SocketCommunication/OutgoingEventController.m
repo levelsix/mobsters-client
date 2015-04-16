@@ -899,6 +899,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   if (newStrength > 0) {
     [[SocketCommunication sharedSocketCommunication] sendUpdateUserStrengthMessage:newStrength];
     
+    LNLog(@"Updating total strength to %@", [Globals commafyNumber:newStrength]);
+    
     gs.totalStrength = newStrength;
   }
 }

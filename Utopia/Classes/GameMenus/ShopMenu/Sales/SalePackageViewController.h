@@ -13,7 +13,7 @@
 #import "Protocols.pb.h"
 #import "NibUtils.h"
 
-@interface SalePackageCell : UICollectionViewCell
+@interface SalePackageCell : UITableViewCell
 
 @property (nonatomic, retain) IBOutlet UIImageView *itemIcon;
 @property (nonatomic, retain) IBOutlet UILabel *nameLabel;
@@ -25,7 +25,7 @@
 
 @end
 
-@interface SalePackageViewController : PopupSubViewController {
+@interface SalePackageViewController : PopupSubViewController <UITableViewDataSource> {
   SalesPackageProto *_sale;
   SKProduct *_product;
 }
@@ -39,7 +39,7 @@
 
 @property (nonatomic, retain) IBOutlet UILabel *numItemsLabel;
 
-@property (nonatomic, retain) IBOutlet UICollectionView *bonusItemsCollectionView;
+@property (nonatomic, retain) IBOutlet UITableView *bonusItemsTable;
 
 @property (nonatomic, assign) id<SalesMenuDelegate> delegate;
 

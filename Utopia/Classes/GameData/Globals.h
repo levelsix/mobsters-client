@@ -235,7 +235,7 @@
 
 - (void) updateInAppPurchases;
 - (void) updateConstants:(StartupResponseProto_StartupConstants *)constants;
-- (InAppPurchasePackageProto *) starterPackIapPackage;
+- (SalesPackageProto *) starterPackSale;
 - (InAppPurchasePackageProto *) moneyTreeIapPackage;
 
 + (NSString *) font;

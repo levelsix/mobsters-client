@@ -25,7 +25,6 @@
 #import "OutgoingEventController.h"
 #import "ClanRewardsViewController.h"
 #import "SecretGiftViewController.h"
-#import "SaleViewController.h"
 #import "IAPHelper.h"
 #import "AttackedAlertViewController.h"
 #import "SocketCommunication.h"
@@ -644,10 +643,9 @@
 }
 
 - (void) updateSaleView {
-  GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
-  BOOL showSaleView = gs.numBeginnerSalesPurchased == 0 && gl.starterPackIapPackage;
+  BOOL showSaleView = gl.starterPackSale != nil;
   
   if (showSaleView) {
     self.saleView.hidden = NO;
@@ -962,17 +960,9 @@
   GameState *gs = [GameState sharedGameState];
   
   if (gs.numBeginnerSalesPurchased == 0) {
-    InAppPurchasePackageProto *pkg = [gl starterPackIapPackage];
-    SKProduct *prod = [[IAPHelper sharedIAPHelper] productForIdentifier:pkg.iapPackageId];
+    SalesPackageProto *spp = [gl starterPackSale];
     
-    GameViewController *gvc = (GameViewController *)self.parentViewController;
-    SaleViewController *sgvc = [[SaleViewController alloc] initWithSale:gs.starterPack product:prod];
     
-    if (sgvc) {
-      [gvc addChildViewController:sgvc];
-      sgvc.view.frame = gvc.view.bounds;
-      [gvc.view addSubview:sgvc.view];
-    }
   }
 }
 
@@ -1087,8 +1077,13 @@
   [self.shopViewController close];
 }
 
-- (void) openShopWithFunds {
+- (void) openShopWithFunds:(SalesPackageProto *)spp {
   [self openShop];
+  
+  if (spp) {
+    self.shopViewController.salesViewController.initialSale = spp;
+  }
+  
   [self.shopViewController openFundsShop];
 }
 

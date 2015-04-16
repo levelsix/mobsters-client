@@ -65,14 +65,20 @@
   GameState *gs = [GameState sharedGameState];
   NSMutableArray *arr = [NSMutableArray array];
   
-  for (int i = 0; i < 5; i++) {
-    for (SalesPackageProto *spp in gs.mySales) {
-      SalePackageViewController *spvc = [[SalePackageViewController alloc] initWithSalePackageProto:spp];
-      spvc.delegate = self;
+  for (SalesPackageProto *spp in gs.mySales) {
+    SalePackageViewController *spvc = [[SalePackageViewController alloc] initWithSalePackageProto:spp];
+    spvc.delegate = self;
+    
+    [arr addObject:spvc];
+    
+    [self addChildViewController:spvc];
+    
+    if ([spp.uuid isEqualToString:_initialSale.uuid]) {
+      NSInteger idx = [arr indexOfObject:spvc];
       
-      [arr addObject:spvc];
+      self.scrollView.contentOffset = ccp(idx*self.scrollView.width, 0);
       
-      [self addChildViewController:spvc];
+      _initialSale = nil;
     }
   }
   
@@ -141,7 +147,7 @@
   if (!_allVcsLoaded) {
     [self checkViewsForCurrentPosition];
   }
-
+  
   float curCenter = scrollView.contentOffset.x+scrollView.width/2;
   for (UIView *sv in self.scrollView.subviews) {
     UIView *darken = [sv viewWithTag:DARKEN_VIEW_TAG];

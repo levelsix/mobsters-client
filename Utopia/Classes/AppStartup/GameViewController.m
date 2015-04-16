@@ -1340,13 +1340,13 @@ static const CGSize FIXED_SIZE = {568, 384};
     
     // Gacha
     [self dismissViewControllerAnimated:YES completion:^{
-      [self.topBarViewController openShopWithFunds];
+      [self.topBarViewController openShopWithFunds:nil];
     }];
   } else if (_isInBattle) {
     [self battleComplete:nil];
-    [self.topBarViewController openShopWithFunds];
+    [self.topBarViewController openShopWithFunds:nil];
   } else {
-    [self.topBarViewController openShopWithFunds];
+    [self.topBarViewController openShopWithFunds:nil];
   }
   
   [self removeAllViewControllersWithExceptions:arr];
@@ -1520,7 +1520,8 @@ static const CGSize FIXED_SIZE = {568, 384};
     Globals *gl = [Globals sharedGlobals];
     InAppPurchasePackageProto *iap = [gl packageForProductId:proto.packageName];
     
-    SalesDisplayItemProto *sdip = [[[SalesDisplayItemProto builder] setGemReward:iap.currencyAmount] build];
+    RewardProto *rp = [[[[RewardProto builder] setAmt:iap.currencyAmount] setTyp:RewardProto_RewardTypeGems] build];
+    SalesDisplayItemProto *sdip = [[[SalesDisplayItemProto builder] setReward:rp] build];
     
     SalesPackageProto_Builder *bldr = [SalesPackageProto builder];
     [bldr addSdip:sdip];

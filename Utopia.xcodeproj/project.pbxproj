@@ -1485,12 +1485,6 @@
 		29E00D7B1A79B52D00F34D51 /* opendonatearrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29E00D631A79B52D00F34D51 /* opendonatearrow@2x.png */; };
 		29E00D7C1A79B52D00F34D51 /* opendonatearrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29E00D631A79B52D00F34D51 /* opendonatearrow@2x.png */; };
 		29E00D7D1A79B52D00F34D51 /* opendonatearrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29E00D631A79B52D00F34D51 /* opendonatearrow@2x.png */; };
-		29FC5E891A89422500A50FA7 /* SaleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29FC5E871A89422500A50FA7 /* SaleViewController.m */; };
-		29FC5E8A1A89422500A50FA7 /* SaleViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29FC5E881A89422500A50FA7 /* SaleViewController.xib */; };
-		29FC5E8B1A89422B00A50FA7 /* SaleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29FC5E871A89422500A50FA7 /* SaleViewController.m */; };
-		29FC5E8C1A89422B00A50FA7 /* SaleViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29FC5E881A89422500A50FA7 /* SaleViewController.xib */; };
-		29FC5E8D1A89422B00A50FA7 /* SaleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29FC5E871A89422500A50FA7 /* SaleViewController.m */; };
-		29FC5E8E1A89422B00A50FA7 /* SaleViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29FC5E881A89422500A50FA7 /* SaleViewController.xib */; };
 		29FC5EAB1A89427B00A50FA7 /* 37dollarvaluestamp@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29FC5E901A89427B00A50FA7 /* 37dollarvaluestamp@2x.png */; };
 		29FC5EAC1A89427B00A50FA7 /* 37dollarvaluestamp@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29FC5E901A89427B00A50FA7 /* 37dollarvaluestamp@2x.png */; };
 		29FC5EAD1A89427B00A50FA7 /* 37dollarvaluestamp@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29FC5E901A89427B00A50FA7 /* 37dollarvaluestamp@2x.png */; };
@@ -1518,9 +1512,6 @@
 		29FC5EF01A89427B00A50FA7 /* saleultimategrabicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29FC5EA81A89427B00A50FA7 /* saleultimategrabicon@2x.png */; };
 		29FC5EF11A89427B00A50FA7 /* saleultimategrabicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29FC5EA81A89427B00A50FA7 /* saleultimategrabicon@2x.png */; };
 		29FC5EF21A89427B00A50FA7 /* saleultimategrabicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29FC5EA81A89427B00A50FA7 /* saleultimategrabicon@2x.png */; };
-		29FC5EFA1A8955BB00A50FA7 /* SaleViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29FC5EF91A8955BB00A50FA7 /* SaleViewCell.xib */; };
-		29FC5EFB1A8955BB00A50FA7 /* SaleViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29FC5EF91A8955BB00A50FA7 /* SaleViewCell.xib */; };
-		29FC5EFC1A8955BB00A50FA7 /* SaleViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29FC5EF91A8955BB00A50FA7 /* SaleViewCell.xib */; };
 		29FC5EFD1A89A88A00A50FA7 /* 2splashbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF0CE16E196E552500ECD301 /* 2splashbg@2x.png */; };
 		29FC5EFE1A89A8A000A50FA7 /* gradientearthdailylab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63C57E881A66282700ED406E /* gradientearthdailylab@2x.png */; };
 		29FFD94A1A36E2BD0063C17C /* 4pvpguys@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29FFD9431A36E2BD0063C17C /* 4pvpguys@2x.png */; };
@@ -8165,9 +8156,6 @@
 		29E00D5F1A79B52D00F34D51 /* donateenhancebottombar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "donateenhancebottombar@2x.png"; sourceTree = "<group>"; };
 		29E00D611A79B52D00F34D51 /* fulldonatearro@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fulldonatearro@2x.png"; sourceTree = "<group>"; };
 		29E00D631A79B52D00F34D51 /* opendonatearrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "opendonatearrow@2x.png"; sourceTree = "<group>"; };
-		29FC5E861A89422500A50FA7 /* SaleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SaleViewController.h; sourceTree = "<group>"; };
-		29FC5E871A89422500A50FA7 /* SaleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SaleViewController.m; sourceTree = "<group>"; };
-		29FC5E881A89422500A50FA7 /* SaleViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SaleViewController.xib; sourceTree = "<group>"; };
 		29FC5E901A89427B00A50FA7 /* 37dollarvaluestamp@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37dollarvaluestamp@2x.png"; sourceTree = "<group>"; };
 		29FC5E911A89427B00A50FA7 /* builderpackbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "builderpackbg@2x.png"; sourceTree = "<group>"; };
 		29FC5E921A89427B00A50FA7 /* buysale@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buysale@2x.png"; sourceTree = "<group>"; };
@@ -8177,7 +8165,6 @@
 		29FC5EA61A89427B00A50FA7 /* salespeedupicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "salespeedupicon@2x.png"; sourceTree = "<group>"; };
 		29FC5EA71A89427B00A50FA7 /* saletimericon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "saletimericon@2x.png"; sourceTree = "<group>"; };
 		29FC5EA81A89427B00A50FA7 /* saleultimategrabicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "saleultimategrabicon@2x.png"; sourceTree = "<group>"; };
-		29FC5EF91A8955BB00A50FA7 /* SaleViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SaleViewCell.xib; sourceTree = "<group>"; };
 		29FFD9431A36E2BD0063C17C /* 4pvpguys@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "4pvpguys@2x.png"; sourceTree = "<group>"; };
 		29FFD9441A36E2BD0063C17C /* attackpvpbubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "attackpvpbubble@2x.png"; sourceTree = "<group>"; };
 		29FFD9481A36E2BD0063C17C /* setstatus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "setstatus@2x.png"; sourceTree = "<group>"; };
@@ -13735,17 +13722,6 @@
 			path = "Donate Enhancement";
 			sourceTree = "<group>";
 		};
-		29FC5E851A89416600A50FA7 /* SaleMenu */ = {
-			isa = PBXGroup;
-			children = (
-				29FC5E861A89422500A50FA7 /* SaleViewController.h */,
-				29FC5E871A89422500A50FA7 /* SaleViewController.m */,
-				29FC5E881A89422500A50FA7 /* SaleViewController.xib */,
-				29FC5EF91A8955BB00A50FA7 /* SaleViewCell.xib */,
-			);
-			path = SaleMenu;
-			sourceTree = "<group>";
-		};
 		29FC5E8F1A89427B00A50FA7 /* Builder Starter Pack */ = {
 			isa = PBXGroup;
 			children = (
@@ -14839,7 +14815,6 @@
 				CFCD0EFB1955004800EDC233 /* HomeMenu */,
 				63B044FE1A92B9C600C74F0C /* AttackedAlert */,
 				63B044BC1A8BE79A00C74F0C /* PushNotifications */,
-				29FC5E851A89416600A50FA7 /* SaleMenu */,
 				2991FC061A800D85009BB1D8 /* Popovers */,
 				29AAE5E01A7B0F7300E4F022 /* DonateMsgMenu */,
 				29804FEE1A258A4400806253 /* SecretGiftMenu */,
@@ -19962,7 +19937,6 @@
 				CF65ECC619A2B1CC00ABBC77 /* chatedge@2x.png in Resources */,
 				CF0CF3E4196F452900ECD301 /* inactivedividerline@2x.png in Resources */,
 				CF0CF3E5196F452900ECD301 /* buildingmanage@2x.png in Resources */,
-				29FC5E8C1A89422B00A50FA7 /* SaleViewController.xib in Resources */,
 				CF0CF3E7196F452900ECD301 /* selectmobstersminitaskbg@2x.png in Resources */,
 				9B41AF8D1A841D9300529879 /* 6swordorb-9@2x.png in Resources */,
 				2948F5451AB2720A00DF08C2 /* BattleItemSelectViewController.xib in Resources */,
@@ -20350,7 +20324,6 @@
 				9BDA8C091A5C7BB700C7AC27 /* gooniegrabnavicon@2x.png in Resources */,
 				CF37377319E36B1D00CB16E3 /* youlostlost@2x.png in Resources */,
 				299AA3C11A7856AA00A2D806 /* nightgrenade-9@2x.png in Resources */,
-				29FC5EFB1A8955BB00A50FA7 /* SaleViewCell.xib in Resources */,
 				CF0CF5D0196F452900ECD301 /* SellCardCell.xib in Resources */,
 				2948F5611AB393AD00DF08C2 /* FAQ.3@2x.txt in Resources */,
 				CF0CF5D3196F452900ECD301 /* streak.png in Resources */,
@@ -21498,7 +21471,6 @@
 				CF864E0D193E8F3000DE0D7A /* redsmallbutton@2x.png in Resources */,
 				CFA7935D1A0C342D00DF3407 /* rockeventtag@2x.png in Resources */,
 				297D7E611A9EBD080057F4E6 /* rocket_create.mp3 in Resources */,
-				29FC5E8A1A89422500A50FA7 /* SaleViewController.xib in Resources */,
 				29DCD00B1A8C3D8B003176FD /* salelitbg@2x.png in Resources */,
 				CF5BD67C19C925EE006C4B4C /* rankupspinner@2x.png in Resources */,
 				29AE75A51A6F36E000264070 /* TribalGuy0T1P3TutBig@2x.png in Resources */,
@@ -21804,7 +21776,6 @@
 				29AE75F51A6F414700264070 /* TribalGirl1T1AttackNF@2x.pvr.ccz in Resources */,
 				299AA3541A7856AA00A2D806 /* 6nightupdown-9@2x.png in Resources */,
 				29AE740E1A69BD8600264070 /* lockedorb@2x.png in Resources */,
-				29FC5EFA1A8955BB00A50FA7 /* SaleViewCell.xib in Resources */,
 				29804FF51A258EC100806253 /* SecretGiftViewController.xib in Resources */,
 				CFE9D345194A714F00BD930E /* gachaepicball@2x.png in Resources */,
 				CF62E70815FEC6D500DF850F /* ClanViewController.xib in Resources */,
@@ -24050,7 +24021,6 @@
 				9BDA8B961A3B8E1700C7AC27 /* lightheadshot@2x.png in Resources */,
 				CF481FEB19F7217F00041486 /* chatpopupbg@2x.png in Resources */,
 				2917214E1AD24B210093F100 /* skill_activated.mp3 in Resources */,
-				29FC5E8E1A89422B00A50FA7 /* SaleViewController.xib in Resources */,
 				CF481FF019F7217F00041486 /* TutorialBattle2Layout.txt in Resources */,
 				636C3E7B1AAA865400B02980 /* canresearchclickedborder@2x.png in Resources */,
 				6B1EA9D91ACF5DCC00E0B642 /* VinesLeft10.png in Resources */,
@@ -24762,7 +24732,6 @@
 				2985E5D91A30045D0041ABF4 /* mini7@2x.png in Resources */,
 				6B89A6AD1A941948004C16B6 /* lockedorbleft-9@2x.png in Resources */,
 				29AE758F1A6F36E000264070 /* MilitaryChicken1T1P5TutBig@2x.png in Resources */,
-				29FC5EFC1A8955BB00A50FA7 /* SaleViewCell.xib in Resources */,
 				CF48239119F7217F00041486 /* rocket@2x.png in Resources */,
 				2948F5911AB7635300DF08C2 /* ifitemsquaremedium@2x.png in Resources */,
 				299AA41E1A786BB000A2D806 /* earthbomb-9@2x.png in Resources */,
@@ -25315,7 +25284,6 @@
 				CF0CED04196F452900ECD301 /* UpgradeViewController.m in Sources */,
 				CF0CED05196F452900ECD301 /* MessageComposerView.m in Sources */,
 				CF0CED06196F452900ECD301 /* StaticStructure.m in Sources */,
-				29FC5E8B1A89422B00A50FA7 /* SaleViewController.m in Sources */,
 				CFA729511A0B2A3500FF6031 /* DailyEventViewController.m in Sources */,
 				CF0CED07196F452900ECD301 /* ProfileViews.m in Sources */,
 				CF0CED08196F452900ECD301 /* MonsterStuff.pb.m in Sources */,
@@ -25979,7 +25947,6 @@
 				29AF48941AAA87800034927C /* BattleItem.pb.m in Sources */,
 				CFCD0EF81954D01600EDC233 /* PopupSubViewController.m in Sources */,
 				CF6574A71909CAF200ABF1F4 /* Battle.pb.m in Sources */,
-				29FC5E891A89422500A50FA7 /* SaleViewController.m in Sources */,
 				CFF7408518199478009DE4A4 /* MyTeamSprite.m in Sources */,
 				9B8CA6111A3798C00060BE8F /* SkillCritAndEvade.m in Sources */,
 				CF7CFE2619A55A68009338A2 /* BattleSwap.m in Sources */,
@@ -26071,7 +26038,6 @@
 				CF4818A819F7217F00041486 /* UpgradeViewController.m in Sources */,
 				CF4818A919F7217F00041486 /* MessageComposerView.m in Sources */,
 				CF4818AA19F7217F00041486 /* StaticStructure.m in Sources */,
-				29FC5E8D1A89422B00A50FA7 /* SaleViewController.m in Sources */,
 				CFA729521A0B2A3500FF6031 /* DailyEventViewController.m in Sources */,
 				CF4818AB19F7217F00041486 /* ProfileViews.m in Sources */,
 				CF4818AC19F7217F00041486 /* MonsterStuff.pb.m in Sources */,

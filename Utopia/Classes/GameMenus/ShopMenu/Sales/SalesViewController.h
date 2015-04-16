@@ -15,7 +15,11 @@
 @interface SalesViewController : PopupSubViewController <SalesMenuDelegate> {
   BOOL _isLoading;
   BOOL _allVcsLoaded;
+  
+  SalesPackageProto *_initialSale;
 }
+
+@property (nonatomic, retain) SalesPackageProto *initialSale;
 
 @property (nonatomic, retain) IBOutlet UIScrollView *scrollView;
 

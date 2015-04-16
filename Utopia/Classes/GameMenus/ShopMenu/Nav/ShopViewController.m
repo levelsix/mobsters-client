@@ -40,6 +40,8 @@
       [self button3Clicked:nil];
     }
   }
+  
+  [[CCDirector sharedDirector] pause];
 }
 
 - (void) initializeSubViewControllers {
@@ -59,6 +61,8 @@
   self.fundsViewController = nil;
   self.gachaViewController = nil;
   [self unloadAllControllers];
+  
+  [[CCDirector sharedDirector] resume];
 }
 
 - (BOOL) shouldStopCCDirector {

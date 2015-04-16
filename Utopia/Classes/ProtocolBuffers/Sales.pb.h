@@ -3,16 +3,27 @@
 #import "ProtocolBuffers.h"
 
 #import "SharedEnumConfig.pb.h"
+#import "Reward.pb.h"
 #import "User.pb.h"
 #import "CustomMenu.pb.h"
 // @@protoc_insertion_point(imports)
 
+@class ClanMemberTeamDonationProto;
+@class ClanMemberTeamDonationProto_Builder;
 @class CustomMenuProto;
 @class CustomMenuProto_Builder;
+@class FullUserMonsterProto;
+@class FullUserMonsterProto_Builder;
 @class FullUserProto;
 @class FullUserProto_Builder;
+@class ItemProto;
+@class ItemProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
+@class MinimumUserMonsterProto;
+@class MinimumUserMonsterProto_Builder;
+@class MinimumUserMonsterSellProto;
+@class MinimumUserMonsterSellProto_Builder;
 @class MinimumUserProto;
 @class MinimumUserProtoWithFacebookId;
 @class MinimumUserProtoWithFacebookId_Builder;
@@ -21,6 +32,14 @@
 @class MinimumUserProtoWithMaxResources;
 @class MinimumUserProtoWithMaxResources_Builder;
 @class MinimumUserProto_Builder;
+@class MonsterBattleDialogueProto;
+@class MonsterBattleDialogueProto_Builder;
+@class MonsterLevelInfoProto;
+@class MonsterLevelInfoProto_Builder;
+@class MonsterProto;
+@class MonsterProto_Builder;
+@class RewardProto;
+@class RewardProto_Builder;
 @class SalesDisplayItemProto;
 @class SalesDisplayItemProto_Builder;
 @class SalesItemProto;
@@ -29,10 +48,34 @@
 @class SalesPackageProto_Builder;
 @class StaticUserLevelInfoProto;
 @class StaticUserLevelInfoProto_Builder;
+@class UserCurrentMonsterTeamProto;
+@class UserCurrentMonsterTeamProto_Builder;
+@class UserEnhancementItemProto;
+@class UserEnhancementItemProto_Builder;
+@class UserEnhancementProto;
+@class UserEnhancementProto_Builder;
 @class UserFacebookInviteForSlotProto;
 @class UserFacebookInviteForSlotProto_Builder;
+@class UserItemProto;
+@class UserItemProto_Builder;
+@class UserItemSecretGiftProto;
+@class UserItemSecretGiftProto_Builder;
+@class UserItemUsageProto;
+@class UserItemUsageProto_Builder;
+@class UserMonsterCurrentExpProto;
+@class UserMonsterCurrentExpProto_Builder;
+@class UserMonsterCurrentHealthProto;
+@class UserMonsterCurrentHealthProto_Builder;
+@class UserMonsterEvolutionProto;
+@class UserMonsterEvolutionProto_Builder;
+@class UserMonsterHealingProto;
+@class UserMonsterHealingProto_Builder;
+@class UserMonsterSnapshotProto;
+@class UserMonsterSnapshotProto_Builder;
 @class UserPvpLeagueProto;
 @class UserPvpLeagueProto_Builder;
+@class UserRewardProto;
+@class UserRewardProto_Builder;
 #ifndef __has_feature
   #define __has_feature(x) 0 // Compatibility with non-clang compilers.
 #endif // __has_feature
@@ -55,11 +98,17 @@
 @interface SalesPackageProto : PBGeneratedMessage {
 @private
   BOOL hasPrice_:1;
+  BOOL hasTimeStart_:1;
+  BOOL hasTimeEnd_:1;
   BOOL hasSalesPackageId_:1;
+  BOOL hasSuccId_:1;
   BOOL hasSalesProductId_:1;
   BOOL hasUuid_:1;
   int64_t price;
+  int64_t timeStart;
+  int64_t timeEnd;
   int32_t salesPackageId;
+  int32_t succId;
   NSString* salesProductId;
   NSString* uuid;
   NSMutableArray * mutableSipList;
@@ -70,6 +119,9 @@
 - (BOOL) hasSalesProductId;
 - (BOOL) hasPrice;
 - (BOOL) hasUuid;
+- (BOOL) hasSuccId;
+- (BOOL) hasTimeStart;
+- (BOOL) hasTimeEnd;
 @property (readonly) int32_t salesPackageId;
 @property (readonly, strong) NSString* salesProductId;
 @property (readonly) int64_t price;
@@ -77,6 +129,9 @@
 @property (readonly, strong) NSArray * sipList;
 @property (readonly, strong) NSArray * sdipList;
 @property (readonly, strong) NSArray * cmpList;
+@property (readonly) int32_t succId;
+@property (readonly) int64_t timeStart;
+@property (readonly) int64_t timeEnd;
 - (SalesItemProto*)sipAtIndex:(NSUInteger)index;
 - (SalesDisplayItemProto*)sdipAtIndex:(NSUInteger)index;
 - (CustomMenuProto*)cmpAtIndex:(NSUInteger)index;
@@ -153,39 +208,38 @@
 - (SalesPackageProto_Builder *)addCmp:(CustomMenuProto*)value;
 - (SalesPackageProto_Builder *)addAllCmp:(NSArray *)array;
 - (SalesPackageProto_Builder *)clearCmp;
+
+- (BOOL) hasSuccId;
+- (int32_t) succId;
+- (SalesPackageProto_Builder*) setSuccId:(int32_t) value;
+- (SalesPackageProto_Builder*) clearSuccId;
+
+- (BOOL) hasTimeStart;
+- (int64_t) timeStart;
+- (SalesPackageProto_Builder*) setTimeStart:(int64_t) value;
+- (SalesPackageProto_Builder*) clearTimeStart;
+
+- (BOOL) hasTimeEnd;
+- (int64_t) timeEnd;
+- (SalesPackageProto_Builder*) setTimeEnd:(int64_t) value;
+- (SalesPackageProto_Builder*) clearTimeEnd;
 @end
 
 @interface SalesItemProto : PBGeneratedMessage {
 @private
   BOOL hasSalesItemId_:1;
   BOOL hasSalesPackageId_:1;
-  BOOL hasMonsterId_:1;
-  BOOL hasMonsterQuantity_:1;
-  BOOL hasItemId_:1;
-  BOOL hasItemQuantity_:1;
-  BOOL hasGemReward_:1;
+  BOOL hasReward_:1;
   int32_t salesItemId;
   int32_t salesPackageId;
-  int32_t monsterId;
-  int32_t monsterQuantity;
-  int32_t itemId;
-  int32_t itemQuantity;
-  int32_t gemReward;
+  RewardProto* reward;
 }
 - (BOOL) hasSalesItemId;
 - (BOOL) hasSalesPackageId;
-- (BOOL) hasMonsterId;
-- (BOOL) hasMonsterQuantity;
-- (BOOL) hasItemId;
-- (BOOL) hasItemQuantity;
-- (BOOL) hasGemReward;
+- (BOOL) hasReward;
 @property (readonly) int32_t salesItemId;
 @property (readonly) int32_t salesPackageId;
-@property (readonly) int32_t monsterId;
-@property (readonly) int32_t monsterQuantity;
-@property (readonly) int32_t itemId;
-@property (readonly) int32_t itemQuantity;
-@property (readonly) int32_t gemReward;
+@property (readonly, strong) RewardProto* reward;
 
 + (SalesItemProto*) defaultInstance;
 - (SalesItemProto*) defaultInstance;
@@ -232,63 +286,29 @@
 - (SalesItemProto_Builder*) setSalesPackageId:(int32_t) value;
 - (SalesItemProto_Builder*) clearSalesPackageId;
 
-- (BOOL) hasMonsterId;
-- (int32_t) monsterId;
-- (SalesItemProto_Builder*) setMonsterId:(int32_t) value;
-- (SalesItemProto_Builder*) clearMonsterId;
-
-- (BOOL) hasMonsterQuantity;
-- (int32_t) monsterQuantity;
-- (SalesItemProto_Builder*) setMonsterQuantity:(int32_t) value;
-- (SalesItemProto_Builder*) clearMonsterQuantity;
-
-- (BOOL) hasItemId;
-- (int32_t) itemId;
-- (SalesItemProto_Builder*) setItemId:(int32_t) value;
-- (SalesItemProto_Builder*) clearItemId;
-
-- (BOOL) hasItemQuantity;
-- (int32_t) itemQuantity;
-- (SalesItemProto_Builder*) setItemQuantity:(int32_t) value;
-- (SalesItemProto_Builder*) clearItemQuantity;
-
-- (BOOL) hasGemReward;
-- (int32_t) gemReward;
-- (SalesItemProto_Builder*) setGemReward:(int32_t) value;
-- (SalesItemProto_Builder*) clearGemReward;
+- (BOOL) hasReward;
+- (RewardProto*) reward;
+- (SalesItemProto_Builder*) setReward:(RewardProto*) value;
+- (SalesItemProto_Builder*) setReward_Builder:(RewardProto_Builder*) builderForValue;
+- (SalesItemProto_Builder*) mergeReward:(RewardProto*) value;
+- (SalesItemProto_Builder*) clearReward;
 @end
 
 @interface SalesDisplayItemProto : PBGeneratedMessage {
 @private
   BOOL hasSalesItemId_:1;
   BOOL hasSalesPackageId_:1;
-  BOOL hasMonsterId_:1;
-  BOOL hasMonsterQuantity_:1;
-  BOOL hasItemId_:1;
-  BOOL hasItemQuantity_:1;
-  BOOL hasGemReward_:1;
+  BOOL hasReward_:1;
   int32_t salesItemId;
   int32_t salesPackageId;
-  int32_t monsterId;
-  int32_t monsterQuantity;
-  int32_t itemId;
-  int32_t itemQuantity;
-  int32_t gemReward;
+  RewardProto* reward;
 }
 - (BOOL) hasSalesItemId;
 - (BOOL) hasSalesPackageId;
-- (BOOL) hasMonsterId;
-- (BOOL) hasMonsterQuantity;
-- (BOOL) hasItemId;
-- (BOOL) hasItemQuantity;
-- (BOOL) hasGemReward;
+- (BOOL) hasReward;
 @property (readonly) int32_t salesItemId;
 @property (readonly) int32_t salesPackageId;
-@property (readonly) int32_t monsterId;
-@property (readonly) int32_t monsterQuantity;
-@property (readonly) int32_t itemId;
-@property (readonly) int32_t itemQuantity;
-@property (readonly) int32_t gemReward;
+@property (readonly, strong) RewardProto* reward;
 
 + (SalesDisplayItemProto*) defaultInstance;
 - (SalesDisplayItemProto*) defaultInstance;
@@ -335,30 +355,12 @@
 - (SalesDisplayItemProto_Builder*) setSalesPackageId:(int32_t) value;
 - (SalesDisplayItemProto_Builder*) clearSalesPackageId;
 
-- (BOOL) hasMonsterId;
-- (int32_t) monsterId;
-- (SalesDisplayItemProto_Builder*) setMonsterId:(int32_t) value;
-- (SalesDisplayItemProto_Builder*) clearMonsterId;
-
-- (BOOL) hasMonsterQuantity;
-- (int32_t) monsterQuantity;
-- (SalesDisplayItemProto_Builder*) setMonsterQuantity:(int32_t) value;
-- (SalesDisplayItemProto_Builder*) clearMonsterQuantity;
-
-- (BOOL) hasItemId;
-- (int32_t) itemId;
-- (SalesDisplayItemProto_Builder*) setItemId:(int32_t) value;
-- (SalesDisplayItemProto_Builder*) clearItemId;
-
-- (BOOL) hasItemQuantity;
-- (int32_t) itemQuantity;
-- (SalesDisplayItemProto_Builder*) setItemQuantity:(int32_t) value;
-- (SalesDisplayItemProto_Builder*) clearItemQuantity;
-
-- (BOOL) hasGemReward;
-- (int32_t) gemReward;
-- (SalesDisplayItemProto_Builder*) setGemReward:(int32_t) value;
-- (SalesDisplayItemProto_Builder*) clearGemReward;
+- (BOOL) hasReward;
+- (RewardProto*) reward;
+- (SalesDisplayItemProto_Builder*) setReward:(RewardProto*) value;
+- (SalesDisplayItemProto_Builder*) setReward_Builder:(RewardProto_Builder*) builderForValue;
+- (SalesDisplayItemProto_Builder*) mergeReward:(RewardProto*) value;
+- (SalesDisplayItemProto_Builder*) clearReward;
 @end
 
 

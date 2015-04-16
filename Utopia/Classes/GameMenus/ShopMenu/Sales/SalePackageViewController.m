@@ -18,14 +18,16 @@
 - (void) updateForDisplayItem:(SalesDisplayItemProto *)display isSpecial:(BOOL)isSpecial {
   GameState *gs = [GameState sharedGameState];
   NSString *imgName = nil;
-  if (display.gemReward) {
-    self.nameLabel.text = [NSString stringWithFormat:@"%@ Gems", [Globals commafyNumber:display.gemReward]];
+  RewardProto *reward = display.reward;
+  
+  if (reward.typ == RewardProto_RewardTypeGems) {
+    self.nameLabel.text = [NSString stringWithFormat:@"%@ Gems", [Globals commafyNumber:reward.amt]];
     self.quantityLabel.text = [NSString stringWithFormat:@"x1"];
     imgName = @"diamond.png";
-  } else if (display.itemId && display.itemQuantity) {
-    ItemProto *ip = [gs itemForId:display.itemId];
+  } else if (reward.typ == RewardProto_RewardTypeItem) {
+    ItemProto *ip = [gs itemForId:reward.staticDataId];
     self.nameLabel.text = ip.name;
-    self.quantityLabel.text = [NSString stringWithFormat:@"x%d", display.itemQuantity];
+    self.quantityLabel.text = [NSString stringWithFormat:@"x%d", reward.amt];
     imgName = ip.imgName;
   }
   
@@ -72,15 +74,11 @@ static NSString *nibName = @"SaleViewCell";
   // Have to set it to red in nib so we can see it.
   self.view.backgroundColor = [UIColor clearColor];
   
-  self.timeLeftLabel.strokeColor = [UIColor colorWithHexString:@"c54a00"];
-  self.timeLeftLabel.strokeSize = 1.f;
   self.timeLeftLabel.gradientStartColor = [UIColor whiteColor];
-  self.timeLeftLabel.gradientEndColor = [UIColor colorWithHexString:@"ffe5ba"];
+  self.timeLeftLabel.gradientEndColor = [UIColor colorWithHexString:@"ffd8cc"];
   //  self.timeLeftLabel.shadowColor = [UIColor colorWithHexString:@"aa6b00c0"];
   self.timeLeftLabel.shadowBlur = 0.9f;
   
-  self.endsInLabel.strokeColor = self.timeLeftLabel.strokeColor;
-  self.endsInLabel.strokeSize = self.timeLeftLabel.strokeSize;
   self.endsInLabel.gradientStartColor = self.timeLeftLabel.gradientStartColor;
   self.endsInLabel.gradientEndColor = self.timeLeftLabel.gradientEndColor;
   self.endsInLabel.shadowColor = self.timeLeftLabel.shadowColor;
@@ -97,13 +95,13 @@ static NSString *nibName = @"SaleViewCell";
   self.priceLabel.text = [[IAPHelper sharedIAPHelper] priceForProduct:prod];
   _product = prod;
   
-  [self.bonusItemsCollectionView registerNib:[UINib nibWithNibName:nibName bundle:nil] forCellWithReuseIdentifier:nibName];
+  [self.bonusItemsTable registerNib:[UINib nibWithNibName:nibName bundle:nil] forCellReuseIdentifier:nibName];
   
   self.numItemsLabel.text = [NSString stringWithFormat:@"INCLUDES THESE %d ITEMS!", (int)_sale.sdipList.count];
   
-  self.bonusItemsCollectionView.superview.layer.cornerRadius = 5.f;
-//  self.bonusItemsCollectionView.superview.height += 0.5f;
-//  self.bonusItemsCollectionView.superview.width += 0.5f;
+  self.bonusItemsTable.superview.layer.cornerRadius = 5.f;
+  //  self.bonusItemsCollectionView.superview.height += 0.5f;
+  //  self.bonusItemsCollectionView.superview.width += 0.5f;
   
   [self loadCustomMenuProto:_sale.cmpList];
 }
@@ -190,19 +188,17 @@ static float timePerRotation = 0.08;
   
   if (secsLeft >= 0) {
     self.timeLeftLabel.text = [@" " stringByAppendingString:[Globals convertTimeToShortString:secsLeft withAllDenominations:YES].uppercaseString];
-    
-    //[Globals adjustViewForCentering:self.timeLeftLabel.superview withLabel:self.timeLeftLabel];
   }
 }
 
 #pragma mark - Collection View Data Source/Delegate
 
-- (NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   return _sale.sdipList.count;
 }
 
-- (UICollectionViewCell *) collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-  SalePackageCell *cell = [self.bonusItemsCollectionView dequeueReusableCellWithReuseIdentifier:nibName forIndexPath:indexPath];
+- (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+  SalePackageCell *cell = [tableView dequeueReusableCellWithIdentifier:nibName forIndexPath:indexPath];
   
   [cell updateForDisplayItem:_sale.sdipList[indexPath.row] isSpecial:indexPath.row == 0];
   

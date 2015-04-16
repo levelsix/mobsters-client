@@ -7,49 +7,55 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="LfI-wq-m1T" customClass="SalePackageCell">
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="TaO-xo-Q14" customClass="SalePackageCell">
             <rect key="frame" x="0.0" y="0.0" width="196" height="29"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-            <subviews>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="buildercell.png" id="fcd-QN-qBl">
-                    <rect key="frame" x="0.0" y="0.0" width="196" height="29"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="500 Gems" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Vkv-IV-i1C" customClass="NiceFontLabel9">
-                    <rect key="frame" x="34" y="4" width="116" height="21"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                    <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="x10" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="CPe-H2-bYM" customClass="NiceFontLabel9">
-                    <rect key="frame" x="140" y="4" width="40" height="21"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                    <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="salespeedupicon.png" id="qor-oa-4Rp">
-                    <rect key="frame" x="11" y="8" width="13" height="13"/>
-                    <autoresizingMask key="autoresizingMask"/>
-                </imageView>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popupline.png" id="XdQ-9b-d6H" customClass="VerticalFlipImageView">
-                    <rect key="frame" x="0.0" y="28" width="196" height="1"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                </imageView>
-            </subviews>
-            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-            <nil key="simulatedStatusBarMetrics"/>
-            <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
-            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="TaO-xo-Q14" id="6As-7l-mV0">
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" id="LfI-wq-m1T">
+                        <rect key="frame" x="0.0" y="0.0" width="196" height="29"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="buildercell.png" id="fcd-QN-qBl">
+                                <rect key="frame" x="0.0" y="0.0" width="196" height="29"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="500 Gems" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Vkv-IV-i1C" customClass="NiceFontLabel9">
+                                <rect key="frame" x="34" y="4" width="116" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="x10" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="CPe-H2-bYM" customClass="NiceFontLabel9">
+                                <rect key="frame" x="140" y="4" width="40" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="salespeedupicon.png" id="qor-oa-4Rp">
+                                <rect key="frame" x="11" y="8" width="13" height="13"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                            </imageView>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popupline.png" id="XdQ-9b-d6H" customClass="VerticalFlipImageView">
+                                <rect key="frame" x="0.0" y="28" width="196" height="1"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </view>
+                </subviews>
+            </tableViewCellContentView>
             <connections>
-                <outlet property="cellBgd" destination="fcd-QN-qBl" id="7hO-Ip-j9x"/>
-                <outlet property="itemIcon" destination="qor-oa-4Rp" id="0sl-Rq-h3o"/>
-                <outlet property="nameLabel" destination="Vkv-IV-i1C" id="wHz-3n-HrC"/>
-                <outlet property="quantityLabel" destination="CPe-H2-bYM" id="Xph-lM-nqN"/>
+                <outlet property="cellBgd" destination="fcd-QN-qBl" id="kgF-o4-fvW"/>
+                <outlet property="itemIcon" destination="qor-oa-4Rp" id="GgN-9J-ACn"/>
+                <outlet property="nameLabel" destination="Vkv-IV-i1C" id="oKi-cQ-e2k"/>
+                <outlet property="quantityLabel" destination="CPe-H2-bYM" id="gId-xl-NFC"/>
             </connections>
-            <point key="canvasLocation" x="677" y="334"/>
-        </view>
+            <point key="canvasLocation" x="637" y="480"/>
+        </tableViewCell>
     </objects>
     <resources>
         <image name="buildercell.png" width="1" height="29"/>

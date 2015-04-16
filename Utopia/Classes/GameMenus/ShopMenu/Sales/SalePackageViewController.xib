@@ -7,7 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SalePackageViewController">
             <connections>
-                <outlet property="bonusItemsCollectionView" destination="ppv-zg-qIY" id="2hq-Np-MEN"/>
+                <outlet property="bonusItemsTable" destination="skW-T6-wHd" id="u61-2t-hAg"/>
                 <outlet property="containerView" destination="zxP-vB-ggD" id="7gz-Oq-P7x"/>
                 <outlet property="endsInLabel" destination="hQk-7U-p8s" id="GdK-YX-J8Q"/>
                 <outlet property="infoView" destination="u2f-P5-MXU" id="WNw-P7-meb"/>
@@ -48,6 +48,14 @@
                                             <rect key="frame" x="0.0" y="0.0" width="196" height="162"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
+                                                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="none" rowHeight="29" sectionHeaderHeight="22" sectionFooterHeight="22" id="skW-T6-wHd">
+                                                    <rect key="frame" x="0.0" y="28" width="196" height="134"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <connections>
+                                                        <outlet property="dataSource" destination="-1" id="Jia-Ny-NMe"/>
+                                                    </connections>
+                                                </tableView>
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="barshadow.png" id="Hwg-B3-YKD">
                                                     <rect key="frame" x="0.0" y="28" width="196" height="2"/>
                                                     <autoresizingMask key="autoresizingMask"/>
@@ -63,21 +71,6 @@
                                                     <color key="textColor" red="0.98823529409999999" green="0.0" blue="0.62352941179999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" id="ppv-zg-qIY">
-                                                    <rect key="frame" x="0.0" y="28" width="196" height="134"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="8Kp-8A-LSX">
-                                                        <size key="itemSize" width="196" height="29"/>
-                                                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                    </collectionViewFlowLayout>
-                                                    <connections>
-                                                        <outlet property="dataSource" destination="-1" id="CQe-Me-BDy"/>
-                                                        <outlet property="delegate" destination="-1" id="ABW-UR-pma"/>
-                                                    </connections>
-                                                </collectionView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
@@ -123,21 +116,21 @@
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" 4M 12S" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Bty-6W-jsm" customClass="NiceFontLabel10T">
-                                    <rect key="frame" x="73" y="0.0" width="106" height="21"/>
+                                    <rect key="frame" x="86" y="0.0" width="106" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="9"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <nil key="highlightedColor"/>
-                                    <color key="shadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <color key="shadowColor" red="0.51372549019607838" green="0.074509803921568626" blue="0.0" alpha="0.75" colorSpace="custom" customColorSpace="sRGB"/>
                                     <size key="shadowOffset" width="0.0" height="1"/>
                                 </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ENDS IN: " textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hQk-7U-p8s" customClass="NiceFontLabel10T">
-                                    <rect key="frame" x="-31" y="0.0" width="85" height="21"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SALE ENDS IN:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hQk-7U-p8s" customClass="NiceFontLabel10T">
+                                    <rect key="frame" x="-18" y="0.0" width="85" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="9"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <nil key="highlightedColor"/>
-                                    <color key="shadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <color key="shadowColor" red="0.51372549019607838" green="0.074509803921568626" blue="0.0" alpha="0.75" colorSpace="custom" customColorSpace="sRGB"/>
                                     <size key="shadowOffset" width="0.0" height="1"/>
                                 </label>
                             </subviews>
@@ -151,7 +144,7 @@
             <nil key="simulatedStatusBarMetrics"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="640" y="562"/>
+            <point key="canvasLocation" x="534" y="566"/>
         </view>
     </objects>
     <resources>

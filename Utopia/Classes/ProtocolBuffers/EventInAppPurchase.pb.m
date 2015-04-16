@@ -16,6 +16,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [InAppPurchaseRoot registerAllExtensions:registry];
     [ItemRoot registerAllExtensions:registry];
     [MonsterStuffRoot registerAllExtensions:registry];
+    [RewardRoot registerAllExtensions:registry];
     [SalesRoot registerAllExtensions:registry];
     [StructureRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
@@ -537,6 +538,7 @@ static InAppPurchaseRequestProto* defaultInAppPurchaseRequestProtoInstance = nil
 @property (strong) NSMutableArray * mutableUpdatedMoneyTreeList;
 @property (strong) SalesPackageProto* successorSalesPackage;
 @property (strong) SalesPackageProto* purchasedSalesPackage;
+@property (strong) UserRewardProto* rewards;
 @end
 
 @implementation InAppPurchaseResponseProto
@@ -610,6 +612,13 @@ static InAppPurchaseRequestProto* defaultInAppPurchaseRequestProtoInstance = nil
   hasPurchasedSalesPackage_ = !!value_;
 }
 @synthesize purchasedSalesPackage;
+- (BOOL) hasRewards {
+  return !!hasRewards_;
+}
+- (void) setHasRewards:(BOOL) value_ {
+  hasRewards_ = !!value_;
+}
+@synthesize rewards;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
@@ -621,6 +630,7 @@ static InAppPurchaseRequestProto* defaultInAppPurchaseRequestProtoInstance = nil
     self.receipt = @"";
     self.successorSalesPackage = [SalesPackageProto defaultInstance];
     self.purchasedSalesPackage = [SalesPackageProto defaultInstance];
+    self.rewards = [UserRewardProto defaultInstance];
   }
   return self;
 }
@@ -694,6 +704,9 @@ static InAppPurchaseResponseProto* defaultInAppPurchaseResponseProtoInstance = n
   if (self.hasPurchasedSalesPackage) {
     [output writeMessage:12 value:self.purchasedSalesPackage];
   }
+  if (self.hasRewards) {
+    [output writeMessage:13 value:self.rewards];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -738,6 +751,9 @@ static InAppPurchaseResponseProto* defaultInAppPurchaseResponseProtoInstance = n
   }
   if (self.hasPurchasedSalesPackage) {
     size_ += computeMessageSize(12, self.purchasedSalesPackage);
+  }
+  if (self.hasRewards) {
+    size_ += computeMessageSize(13, self.rewards);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -828,6 +844,12 @@ static InAppPurchaseResponseProto* defaultInAppPurchaseResponseProtoInstance = n
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
+  if (self.hasRewards) {
+    [output appendFormat:@"%@%@ {\n", indent, @"rewards"];
+    [self.rewards writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -860,6 +882,8 @@ static InAppPurchaseResponseProto* defaultInAppPurchaseResponseProtoInstance = n
       (!self.hasSuccessorSalesPackage || [self.successorSalesPackage isEqual:otherMessage.successorSalesPackage]) &&
       self.hasPurchasedSalesPackage == otherMessage.hasPurchasedSalesPackage &&
       (!self.hasPurchasedSalesPackage || [self.purchasedSalesPackage isEqual:otherMessage.purchasedSalesPackage]) &&
+      self.hasRewards == otherMessage.hasRewards &&
+      (!self.hasRewards || [self.rewards isEqual:otherMessage.rewards]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -899,6 +923,9 @@ static InAppPurchaseResponseProto* defaultInAppPurchaseResponseProtoInstance = n
   }
   if (self.hasPurchasedSalesPackage) {
     hashCode = hashCode * 31 + [self.purchasedSalesPackage hash];
+  }
+  if (self.hasRewards) {
+    hashCode = hashCode * 31 + [self.rewards hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -1001,6 +1028,9 @@ BOOL InAppPurchaseResponseProto_InAppPurchaseStatusIsValidValue(InAppPurchaseRes
   if (other.hasPurchasedSalesPackage) {
     [self mergePurchasedSalesPackage:other.purchasedSalesPackage];
   }
+  if (other.hasRewards) {
+    [self mergeRewards:other.rewards];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -1094,6 +1124,15 @@ BOOL InAppPurchaseResponseProto_InAppPurchaseStatusIsValidValue(InAppPurchaseRes
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setPurchasedSalesPackage:[subBuilder buildPartial]];
+        break;
+      }
+      case 106: {
+        UserRewardProto_Builder* subBuilder = [UserRewardProto builder];
+        if (self.hasRewards) {
+          [subBuilder mergeFrom:self.rewards];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setRewards:[subBuilder buildPartial]];
         break;
       }
     }
@@ -1355,6 +1394,36 @@ BOOL InAppPurchaseResponseProto_InAppPurchaseStatusIsValidValue(InAppPurchaseRes
 - (InAppPurchaseResponseProto_Builder*) clearPurchasedSalesPackage {
   result.hasPurchasedSalesPackage = NO;
   result.purchasedSalesPackage = [SalesPackageProto defaultInstance];
+  return self;
+}
+- (BOOL) hasRewards {
+  return result.hasRewards;
+}
+- (UserRewardProto*) rewards {
+  return result.rewards;
+}
+- (InAppPurchaseResponseProto_Builder*) setRewards:(UserRewardProto*) value {
+  result.hasRewards = YES;
+  result.rewards = value;
+  return self;
+}
+- (InAppPurchaseResponseProto_Builder*) setRewards_Builder:(UserRewardProto_Builder*) builderForValue {
+  return [self setRewards:[builderForValue build]];
+}
+- (InAppPurchaseResponseProto_Builder*) mergeRewards:(UserRewardProto*) value {
+  if (result.hasRewards &&
+      result.rewards != [UserRewardProto defaultInstance]) {
+    result.rewards =
+      [[[UserRewardProto builderWithPrototype:result.rewards] mergeFrom:value] buildPartial];
+  } else {
+    result.rewards = value;
+  }
+  result.hasRewards = YES;
+  return self;
+}
+- (InAppPurchaseResponseProto_Builder*) clearRewards {
+  result.hasRewards = NO;
+  result.rewards = [UserRewardProto defaultInstance];
   return self;
 }
 @end

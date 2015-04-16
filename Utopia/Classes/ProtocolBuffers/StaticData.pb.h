@@ -337,10 +337,8 @@
   NSMutableArray * mutableBoardsList;
   NSMutableArray * mutableResearchList;
   NSMutableArray * mutableBattleItemList;
-  NSMutableArray * mutableSalesPackageList;
   NSMutableArray * mutablePvpBoardObstacleProtosList;
   NSMutableArray * mutableRewardList;
-  NSMutableArray * mutableCustomMenuList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStarterPack;
@@ -385,10 +383,8 @@
 @property (readonly, strong) NSArray * boardsList;
 @property (readonly, strong) NSArray * researchList;
 @property (readonly, strong) NSArray * battleItemList;
-@property (readonly, strong) NSArray * salesPackageList;
 @property (readonly, strong) NSArray * pvpBoardObstacleProtosList;
 @property (readonly, strong) NSArray * rewardList;
-@property (readonly, strong) NSArray * customMenuList;
 - (CityExpansionCostProto*)expansionCostsAtIndex:(NSUInteger)index;
 - (FullCityProto*)allCitiesAtIndex:(NSUInteger)index;
 - (FullTaskProto*)allTasksAtIndex:(NSUInteger)index;
@@ -428,10 +424,8 @@
 - (BoardLayoutProto*)boardsAtIndex:(NSUInteger)index;
 - (ResearchProto*)researchAtIndex:(NSUInteger)index;
 - (BattleItemProto*)battleItemAtIndex:(NSUInteger)index;
-- (SalesPackageProto*)salesPackageAtIndex:(NSUInteger)index;
 - (PvpBoardObstacleProto*)pvpBoardObstacleProtosAtIndex:(NSUInteger)index;
 - (RewardProto*)rewardAtIndex:(NSUInteger)index;
-- (CustomMenuProto*)customMenuAtIndex:(NSUInteger)index;
 
 + (StaticDataProto*) defaultInstance;
 - (StaticDataProto*) defaultInstance;
@@ -716,12 +710,6 @@
 - (StaticDataProto_Builder *)addAllBattleItem:(NSArray *)array;
 - (StaticDataProto_Builder *)clearBattleItem;
 
-- (NSMutableArray *)salesPackageList;
-- (SalesPackageProto*)salesPackageAtIndex:(NSUInteger)index;
-- (StaticDataProto_Builder *)addSalesPackage:(SalesPackageProto*)value;
-- (StaticDataProto_Builder *)addAllSalesPackage:(NSArray *)array;
-- (StaticDataProto_Builder *)clearSalesPackage;
-
 - (NSMutableArray *)pvpBoardObstacleProtosList;
 - (PvpBoardObstacleProto*)pvpBoardObstacleProtosAtIndex:(NSUInteger)index;
 - (StaticDataProto_Builder *)addPvpBoardObstacleProtos:(PvpBoardObstacleProto*)value;
@@ -733,12 +721,6 @@
 - (StaticDataProto_Builder *)addReward:(RewardProto*)value;
 - (StaticDataProto_Builder *)addAllReward:(NSArray *)array;
 - (StaticDataProto_Builder *)clearReward;
-
-- (NSMutableArray *)customMenuList;
-- (CustomMenuProto*)customMenuAtIndex:(NSUInteger)index;
-- (StaticDataProto_Builder *)addCustomMenu:(CustomMenuProto*)value;
-- (StaticDataProto_Builder *)addAllCustomMenu:(NSArray *)array;
-- (StaticDataProto_Builder *)clearCustomMenu;
 @end
 
 

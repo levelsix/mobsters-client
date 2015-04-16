@@ -582,7 +582,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   int tag = fe.tag;
   
   GameState *gs = [GameState sharedGameState];
-  Globals *gl = [Globals sharedGlobals];
   
   LNLog(@"In App Purchase response received with status %d.", (int)proto.status);
   
@@ -618,11 +617,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   } else {
     [gs removeNonFullUserUpdatesForTag:tag];
     
-    InAppPurchasePackageProto *pkg = [gl starterPackIapPackage];
-    if ([proto.packageName isEqualToString:pkg.iapPackageId]) {
-      gs.numBeginnerSalesPurchased++;
-    }
-    
     if (proto.updatedOrNewList) {
       [gs addToMyMonsters:proto.updatedOrNewList];
     }
@@ -633,6 +627,27 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     if (proto.updatedMoneyTreeList) {
       [gs addToMyStructs:proto.updatedMoneyTreeList];
+    }
+    
+    // Replace the sales
+    if (proto.hasPurchasedSalesPackage) {
+      SalesPackageProto *spp = proto.purchasedSalesPackage;
+      NSString *uuid = spp.uuid;
+      
+      NSInteger idx = -1;
+      for (SalesPackageProto *s in gs.mySales) {
+        if ([s.uuid isEqualToString:uuid]) {
+          idx = [gs.mySales indexOfObject:s];
+        }
+      }
+      
+      if (idx != -1) {
+        if (proto.hasSuccessorSalesPackage) {
+          [gs.mySales replaceObjectAtIndex:idx withObject:proto.successorSalesPackage];
+        } else {
+          [gs.mySales removeObjectAtIndex:idx];
+        }
+      }
     }
     
     // Post notification so all UI with that bar can update

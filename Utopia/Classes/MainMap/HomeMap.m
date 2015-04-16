@@ -266,6 +266,7 @@
   if (_loading) return;
   self.selected = nil;
   _loading = YES;
+  _waitingForResponse = NO;
   
   [self invalidateAllTimers];
   

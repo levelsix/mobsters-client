@@ -14,6 +14,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
     [SharedEnumConfigRoot registerAllExtensions:registry];
+    [RewardRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
     [CustomMenuRoot registerAllExtensions:registry];
     extensionRegistry = registry;
@@ -31,6 +32,9 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property (strong) NSMutableArray * mutableSipList;
 @property (strong) NSMutableArray * mutableSdipList;
 @property (strong) NSMutableArray * mutableCmpList;
+@property int32_t succId;
+@property int64_t timeStart;
+@property int64_t timeEnd;
 @end
 
 @implementation SalesPackageProto
@@ -69,12 +73,36 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @dynamic sdipList;
 @synthesize mutableCmpList;
 @dynamic cmpList;
+- (BOOL) hasSuccId {
+  return !!hasSuccId_;
+}
+- (void) setHasSuccId:(BOOL) value_ {
+  hasSuccId_ = !!value_;
+}
+@synthesize succId;
+- (BOOL) hasTimeStart {
+  return !!hasTimeStart_;
+}
+- (void) setHasTimeStart:(BOOL) value_ {
+  hasTimeStart_ = !!value_;
+}
+@synthesize timeStart;
+- (BOOL) hasTimeEnd {
+  return !!hasTimeEnd_;
+}
+- (void) setHasTimeEnd:(BOOL) value_ {
+  hasTimeEnd_ = !!value_;
+}
+@synthesize timeEnd;
 - (id) init {
   if ((self = [super init])) {
     self.salesPackageId = 0;
     self.salesProductId = @"";
     self.price = 0L;
     self.uuid = @"";
+    self.succId = 0;
+    self.timeStart = 0L;
+    self.timeEnd = 0L;
   }
   return self;
 }
@@ -133,6 +161,15 @@ static SalesPackageProto* defaultSalesPackageProtoInstance = nil;
   [self.cmpList enumerateObjectsUsingBlock:^(CustomMenuProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:7 value:element];
   }];
+  if (self.hasSuccId) {
+    [output writeInt32:8 value:self.succId];
+  }
+  if (self.hasTimeStart) {
+    [output writeInt64:9 value:self.timeStart];
+  }
+  if (self.hasTimeEnd) {
+    [output writeInt64:10 value:self.timeEnd];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -163,6 +200,15 @@ static SalesPackageProto* defaultSalesPackageProtoInstance = nil;
   [self.cmpList enumerateObjectsUsingBlock:^(CustomMenuProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(7, element);
   }];
+  if (self.hasSuccId) {
+    size_ += computeInt32Size(8, self.succId);
+  }
+  if (self.hasTimeStart) {
+    size_ += computeInt64Size(9, self.timeStart);
+  }
+  if (self.hasTimeEnd) {
+    size_ += computeInt64Size(10, self.timeEnd);
+  }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
   return size_;
@@ -228,6 +274,15 @@ static SalesPackageProto* defaultSalesPackageProtoInstance = nil;
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }];
+  if (self.hasSuccId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"succId", [NSNumber numberWithInteger:self.succId]];
+  }
+  if (self.hasTimeStart) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"timeStart", [NSNumber numberWithLongLong:self.timeStart]];
+  }
+  if (self.hasTimeEnd) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"timeEnd", [NSNumber numberWithLongLong:self.timeEnd]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -250,6 +305,12 @@ static SalesPackageProto* defaultSalesPackageProtoInstance = nil;
       [self.sipList isEqualToArray:otherMessage.sipList] &&
       [self.sdipList isEqualToArray:otherMessage.sdipList] &&
       [self.cmpList isEqualToArray:otherMessage.cmpList] &&
+      self.hasSuccId == otherMessage.hasSuccId &&
+      (!self.hasSuccId || self.succId == otherMessage.succId) &&
+      self.hasTimeStart == otherMessage.hasTimeStart &&
+      (!self.hasTimeStart || self.timeStart == otherMessage.timeStart) &&
+      self.hasTimeEnd == otherMessage.hasTimeEnd &&
+      (!self.hasTimeEnd || self.timeEnd == otherMessage.timeEnd) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -275,6 +336,15 @@ static SalesPackageProto* defaultSalesPackageProtoInstance = nil;
   [self.cmpList enumerateObjectsUsingBlock:^(CustomMenuProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
+  if (self.hasSuccId) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.succId] hash];
+  }
+  if (self.hasTimeStart) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.timeStart] hash];
+  }
+  if (self.hasTimeEnd) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.timeEnd] hash];
+  }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
@@ -351,6 +421,15 @@ static SalesPackageProto* defaultSalesPackageProtoInstance = nil;
       [result.mutableCmpList addObjectsFromArray:other.mutableCmpList];
     }
   }
+  if (other.hasSuccId) {
+    [self setSuccId:other.succId];
+  }
+  if (other.hasTimeStart) {
+    [self setTimeStart:other.timeStart];
+  }
+  if (other.hasTimeEnd) {
+    [self setTimeEnd:other.timeEnd];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -404,6 +483,18 @@ static SalesPackageProto* defaultSalesPackageProtoInstance = nil;
         CustomMenuProto_Builder* subBuilder = [CustomMenuProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addCmp:[subBuilder buildPartial]];
+        break;
+      }
+      case 64: {
+        [self setSuccId:[input readInt32]];
+        break;
+      }
+      case 72: {
+        [self setTimeStart:[input readInt64]];
+        break;
+      }
+      case 80: {
+        [self setTimeEnd:[input readInt64]];
         break;
       }
     }
@@ -545,16 +636,60 @@ static SalesPackageProto* defaultSalesPackageProtoInstance = nil;
   result.mutableCmpList = nil;
   return self;
 }
+- (BOOL) hasSuccId {
+  return result.hasSuccId;
+}
+- (int32_t) succId {
+  return result.succId;
+}
+- (SalesPackageProto_Builder*) setSuccId:(int32_t) value {
+  result.hasSuccId = YES;
+  result.succId = value;
+  return self;
+}
+- (SalesPackageProto_Builder*) clearSuccId {
+  result.hasSuccId = NO;
+  result.succId = 0;
+  return self;
+}
+- (BOOL) hasTimeStart {
+  return result.hasTimeStart;
+}
+- (int64_t) timeStart {
+  return result.timeStart;
+}
+- (SalesPackageProto_Builder*) setTimeStart:(int64_t) value {
+  result.hasTimeStart = YES;
+  result.timeStart = value;
+  return self;
+}
+- (SalesPackageProto_Builder*) clearTimeStart {
+  result.hasTimeStart = NO;
+  result.timeStart = 0L;
+  return self;
+}
+- (BOOL) hasTimeEnd {
+  return result.hasTimeEnd;
+}
+- (int64_t) timeEnd {
+  return result.timeEnd;
+}
+- (SalesPackageProto_Builder*) setTimeEnd:(int64_t) value {
+  result.hasTimeEnd = YES;
+  result.timeEnd = value;
+  return self;
+}
+- (SalesPackageProto_Builder*) clearTimeEnd {
+  result.hasTimeEnd = NO;
+  result.timeEnd = 0L;
+  return self;
+}
 @end
 
 @interface SalesItemProto ()
 @property int32_t salesItemId;
 @property int32_t salesPackageId;
-@property int32_t monsterId;
-@property int32_t monsterQuantity;
-@property int32_t itemId;
-@property int32_t itemQuantity;
-@property int32_t gemReward;
+@property (strong) RewardProto* reward;
 @end
 
 @implementation SalesItemProto
@@ -573,50 +708,18 @@ static SalesPackageProto* defaultSalesPackageProtoInstance = nil;
   hasSalesPackageId_ = !!value_;
 }
 @synthesize salesPackageId;
-- (BOOL) hasMonsterId {
-  return !!hasMonsterId_;
+- (BOOL) hasReward {
+  return !!hasReward_;
 }
-- (void) setHasMonsterId:(BOOL) value_ {
-  hasMonsterId_ = !!value_;
+- (void) setHasReward:(BOOL) value_ {
+  hasReward_ = !!value_;
 }
-@synthesize monsterId;
-- (BOOL) hasMonsterQuantity {
-  return !!hasMonsterQuantity_;
-}
-- (void) setHasMonsterQuantity:(BOOL) value_ {
-  hasMonsterQuantity_ = !!value_;
-}
-@synthesize monsterQuantity;
-- (BOOL) hasItemId {
-  return !!hasItemId_;
-}
-- (void) setHasItemId:(BOOL) value_ {
-  hasItemId_ = !!value_;
-}
-@synthesize itemId;
-- (BOOL) hasItemQuantity {
-  return !!hasItemQuantity_;
-}
-- (void) setHasItemQuantity:(BOOL) value_ {
-  hasItemQuantity_ = !!value_;
-}
-@synthesize itemQuantity;
-- (BOOL) hasGemReward {
-  return !!hasGemReward_;
-}
-- (void) setHasGemReward:(BOOL) value_ {
-  hasGemReward_ = !!value_;
-}
-@synthesize gemReward;
+@synthesize reward;
 - (id) init {
   if ((self = [super init])) {
     self.salesItemId = 0;
     self.salesPackageId = 0;
-    self.monsterId = 0;
-    self.monsterQuantity = 0;
-    self.itemId = 0;
-    self.itemQuantity = 0;
-    self.gemReward = 0;
+    self.reward = [RewardProto defaultInstance];
   }
   return self;
 }
@@ -642,20 +745,8 @@ static SalesItemProto* defaultSalesItemProtoInstance = nil;
   if (self.hasSalesPackageId) {
     [output writeInt32:2 value:self.salesPackageId];
   }
-  if (self.hasMonsterId) {
-    [output writeInt32:3 value:self.monsterId];
-  }
-  if (self.hasMonsterQuantity) {
-    [output writeInt32:4 value:self.monsterQuantity];
-  }
-  if (self.hasItemId) {
-    [output writeInt32:5 value:self.itemId];
-  }
-  if (self.hasItemQuantity) {
-    [output writeInt32:6 value:self.itemQuantity];
-  }
-  if (self.hasGemReward) {
-    [output writeInt32:7 value:self.gemReward];
+  if (self.hasReward) {
+    [output writeMessage:3 value:self.reward];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -672,20 +763,8 @@ static SalesItemProto* defaultSalesItemProtoInstance = nil;
   if (self.hasSalesPackageId) {
     size_ += computeInt32Size(2, self.salesPackageId);
   }
-  if (self.hasMonsterId) {
-    size_ += computeInt32Size(3, self.monsterId);
-  }
-  if (self.hasMonsterQuantity) {
-    size_ += computeInt32Size(4, self.monsterQuantity);
-  }
-  if (self.hasItemId) {
-    size_ += computeInt32Size(5, self.itemId);
-  }
-  if (self.hasItemQuantity) {
-    size_ += computeInt32Size(6, self.itemQuantity);
-  }
-  if (self.hasGemReward) {
-    size_ += computeInt32Size(7, self.gemReward);
+  if (self.hasReward) {
+    size_ += computeMessageSize(3, self.reward);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -728,20 +807,11 @@ static SalesItemProto* defaultSalesItemProtoInstance = nil;
   if (self.hasSalesPackageId) {
     [output appendFormat:@"%@%@: %@\n", indent, @"salesPackageId", [NSNumber numberWithInteger:self.salesPackageId]];
   }
-  if (self.hasMonsterId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"monsterId", [NSNumber numberWithInteger:self.monsterId]];
-  }
-  if (self.hasMonsterQuantity) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"monsterQuantity", [NSNumber numberWithInteger:self.monsterQuantity]];
-  }
-  if (self.hasItemId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"itemId", [NSNumber numberWithInteger:self.itemId]];
-  }
-  if (self.hasItemQuantity) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"itemQuantity", [NSNumber numberWithInteger:self.itemQuantity]];
-  }
-  if (self.hasGemReward) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"gemReward", [NSNumber numberWithInteger:self.gemReward]];
+  if (self.hasReward) {
+    [output appendFormat:@"%@%@ {\n", indent, @"reward"];
+    [self.reward writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -758,16 +828,8 @@ static SalesItemProto* defaultSalesItemProtoInstance = nil;
       (!self.hasSalesItemId || self.salesItemId == otherMessage.salesItemId) &&
       self.hasSalesPackageId == otherMessage.hasSalesPackageId &&
       (!self.hasSalesPackageId || self.salesPackageId == otherMessage.salesPackageId) &&
-      self.hasMonsterId == otherMessage.hasMonsterId &&
-      (!self.hasMonsterId || self.monsterId == otherMessage.monsterId) &&
-      self.hasMonsterQuantity == otherMessage.hasMonsterQuantity &&
-      (!self.hasMonsterQuantity || self.monsterQuantity == otherMessage.monsterQuantity) &&
-      self.hasItemId == otherMessage.hasItemId &&
-      (!self.hasItemId || self.itemId == otherMessage.itemId) &&
-      self.hasItemQuantity == otherMessage.hasItemQuantity &&
-      (!self.hasItemQuantity || self.itemQuantity == otherMessage.itemQuantity) &&
-      self.hasGemReward == otherMessage.hasGemReward &&
-      (!self.hasGemReward || self.gemReward == otherMessage.gemReward) &&
+      self.hasReward == otherMessage.hasReward &&
+      (!self.hasReward || [self.reward isEqual:otherMessage.reward]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -778,20 +840,8 @@ static SalesItemProto* defaultSalesItemProtoInstance = nil;
   if (self.hasSalesPackageId) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.salesPackageId] hash];
   }
-  if (self.hasMonsterId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.monsterId] hash];
-  }
-  if (self.hasMonsterQuantity) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.monsterQuantity] hash];
-  }
-  if (self.hasItemId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.itemId] hash];
-  }
-  if (self.hasItemQuantity) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.itemQuantity] hash];
-  }
-  if (self.hasGemReward) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.gemReward] hash];
+  if (self.hasReward) {
+    hashCode = hashCode * 31 + [self.reward hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -842,20 +892,8 @@ static SalesItemProto* defaultSalesItemProtoInstance = nil;
   if (other.hasSalesPackageId) {
     [self setSalesPackageId:other.salesPackageId];
   }
-  if (other.hasMonsterId) {
-    [self setMonsterId:other.monsterId];
-  }
-  if (other.hasMonsterQuantity) {
-    [self setMonsterQuantity:other.monsterQuantity];
-  }
-  if (other.hasItemId) {
-    [self setItemId:other.itemId];
-  }
-  if (other.hasItemQuantity) {
-    [self setItemQuantity:other.itemQuantity];
-  }
-  if (other.hasGemReward) {
-    [self setGemReward:other.gemReward];
+  if (other.hasReward) {
+    [self mergeReward:other.reward];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -886,24 +924,13 @@ static SalesItemProto* defaultSalesItemProtoInstance = nil;
         [self setSalesPackageId:[input readInt32]];
         break;
       }
-      case 24: {
-        [self setMonsterId:[input readInt32]];
-        break;
-      }
-      case 32: {
-        [self setMonsterQuantity:[input readInt32]];
-        break;
-      }
-      case 40: {
-        [self setItemId:[input readInt32]];
-        break;
-      }
-      case 48: {
-        [self setItemQuantity:[input readInt32]];
-        break;
-      }
-      case 56: {
-        [self setGemReward:[input readInt32]];
+      case 26: {
+        RewardProto_Builder* subBuilder = [RewardProto builder];
+        if (self.hasReward) {
+          [subBuilder mergeFrom:self.reward];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setReward:[subBuilder buildPartial]];
         break;
       }
     }
@@ -941,84 +968,34 @@ static SalesItemProto* defaultSalesItemProtoInstance = nil;
   result.salesPackageId = 0;
   return self;
 }
-- (BOOL) hasMonsterId {
-  return result.hasMonsterId;
+- (BOOL) hasReward {
+  return result.hasReward;
 }
-- (int32_t) monsterId {
-  return result.monsterId;
+- (RewardProto*) reward {
+  return result.reward;
 }
-- (SalesItemProto_Builder*) setMonsterId:(int32_t) value {
-  result.hasMonsterId = YES;
-  result.monsterId = value;
+- (SalesItemProto_Builder*) setReward:(RewardProto*) value {
+  result.hasReward = YES;
+  result.reward = value;
   return self;
 }
-- (SalesItemProto_Builder*) clearMonsterId {
-  result.hasMonsterId = NO;
-  result.monsterId = 0;
+- (SalesItemProto_Builder*) setReward_Builder:(RewardProto_Builder*) builderForValue {
+  return [self setReward:[builderForValue build]];
+}
+- (SalesItemProto_Builder*) mergeReward:(RewardProto*) value {
+  if (result.hasReward &&
+      result.reward != [RewardProto defaultInstance]) {
+    result.reward =
+      [[[RewardProto builderWithPrototype:result.reward] mergeFrom:value] buildPartial];
+  } else {
+    result.reward = value;
+  }
+  result.hasReward = YES;
   return self;
 }
-- (BOOL) hasMonsterQuantity {
-  return result.hasMonsterQuantity;
-}
-- (int32_t) monsterQuantity {
-  return result.monsterQuantity;
-}
-- (SalesItemProto_Builder*) setMonsterQuantity:(int32_t) value {
-  result.hasMonsterQuantity = YES;
-  result.monsterQuantity = value;
-  return self;
-}
-- (SalesItemProto_Builder*) clearMonsterQuantity {
-  result.hasMonsterQuantity = NO;
-  result.monsterQuantity = 0;
-  return self;
-}
-- (BOOL) hasItemId {
-  return result.hasItemId;
-}
-- (int32_t) itemId {
-  return result.itemId;
-}
-- (SalesItemProto_Builder*) setItemId:(int32_t) value {
-  result.hasItemId = YES;
-  result.itemId = value;
-  return self;
-}
-- (SalesItemProto_Builder*) clearItemId {
-  result.hasItemId = NO;
-  result.itemId = 0;
-  return self;
-}
-- (BOOL) hasItemQuantity {
-  return result.hasItemQuantity;
-}
-- (int32_t) itemQuantity {
-  return result.itemQuantity;
-}
-- (SalesItemProto_Builder*) setItemQuantity:(int32_t) value {
-  result.hasItemQuantity = YES;
-  result.itemQuantity = value;
-  return self;
-}
-- (SalesItemProto_Builder*) clearItemQuantity {
-  result.hasItemQuantity = NO;
-  result.itemQuantity = 0;
-  return self;
-}
-- (BOOL) hasGemReward {
-  return result.hasGemReward;
-}
-- (int32_t) gemReward {
-  return result.gemReward;
-}
-- (SalesItemProto_Builder*) setGemReward:(int32_t) value {
-  result.hasGemReward = YES;
-  result.gemReward = value;
-  return self;
-}
-- (SalesItemProto_Builder*) clearGemReward {
-  result.hasGemReward = NO;
-  result.gemReward = 0;
+- (SalesItemProto_Builder*) clearReward {
+  result.hasReward = NO;
+  result.reward = [RewardProto defaultInstance];
   return self;
 }
 @end
@@ -1026,11 +1003,7 @@ static SalesItemProto* defaultSalesItemProtoInstance = nil;
 @interface SalesDisplayItemProto ()
 @property int32_t salesItemId;
 @property int32_t salesPackageId;
-@property int32_t monsterId;
-@property int32_t monsterQuantity;
-@property int32_t itemId;
-@property int32_t itemQuantity;
-@property int32_t gemReward;
+@property (strong) RewardProto* reward;
 @end
 
 @implementation SalesDisplayItemProto
@@ -1049,50 +1022,18 @@ static SalesItemProto* defaultSalesItemProtoInstance = nil;
   hasSalesPackageId_ = !!value_;
 }
 @synthesize salesPackageId;
-- (BOOL) hasMonsterId {
-  return !!hasMonsterId_;
+- (BOOL) hasReward {
+  return !!hasReward_;
 }
-- (void) setHasMonsterId:(BOOL) value_ {
-  hasMonsterId_ = !!value_;
+- (void) setHasReward:(BOOL) value_ {
+  hasReward_ = !!value_;
 }
-@synthesize monsterId;
-- (BOOL) hasMonsterQuantity {
-  return !!hasMonsterQuantity_;
-}
-- (void) setHasMonsterQuantity:(BOOL) value_ {
-  hasMonsterQuantity_ = !!value_;
-}
-@synthesize monsterQuantity;
-- (BOOL) hasItemId {
-  return !!hasItemId_;
-}
-- (void) setHasItemId:(BOOL) value_ {
-  hasItemId_ = !!value_;
-}
-@synthesize itemId;
-- (BOOL) hasItemQuantity {
-  return !!hasItemQuantity_;
-}
-- (void) setHasItemQuantity:(BOOL) value_ {
-  hasItemQuantity_ = !!value_;
-}
-@synthesize itemQuantity;
-- (BOOL) hasGemReward {
-  return !!hasGemReward_;
-}
-- (void) setHasGemReward:(BOOL) value_ {
-  hasGemReward_ = !!value_;
-}
-@synthesize gemReward;
+@synthesize reward;
 - (id) init {
   if ((self = [super init])) {
     self.salesItemId = 0;
     self.salesPackageId = 0;
-    self.monsterId = 0;
-    self.monsterQuantity = 0;
-    self.itemId = 0;
-    self.itemQuantity = 0;
-    self.gemReward = 0;
+    self.reward = [RewardProto defaultInstance];
   }
   return self;
 }
@@ -1118,20 +1059,8 @@ static SalesDisplayItemProto* defaultSalesDisplayItemProtoInstance = nil;
   if (self.hasSalesPackageId) {
     [output writeInt32:2 value:self.salesPackageId];
   }
-  if (self.hasMonsterId) {
-    [output writeInt32:3 value:self.monsterId];
-  }
-  if (self.hasMonsterQuantity) {
-    [output writeInt32:4 value:self.monsterQuantity];
-  }
-  if (self.hasItemId) {
-    [output writeInt32:5 value:self.itemId];
-  }
-  if (self.hasItemQuantity) {
-    [output writeInt32:6 value:self.itemQuantity];
-  }
-  if (self.hasGemReward) {
-    [output writeInt32:7 value:self.gemReward];
+  if (self.hasReward) {
+    [output writeMessage:3 value:self.reward];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -1148,20 +1077,8 @@ static SalesDisplayItemProto* defaultSalesDisplayItemProtoInstance = nil;
   if (self.hasSalesPackageId) {
     size_ += computeInt32Size(2, self.salesPackageId);
   }
-  if (self.hasMonsterId) {
-    size_ += computeInt32Size(3, self.monsterId);
-  }
-  if (self.hasMonsterQuantity) {
-    size_ += computeInt32Size(4, self.monsterQuantity);
-  }
-  if (self.hasItemId) {
-    size_ += computeInt32Size(5, self.itemId);
-  }
-  if (self.hasItemQuantity) {
-    size_ += computeInt32Size(6, self.itemQuantity);
-  }
-  if (self.hasGemReward) {
-    size_ += computeInt32Size(7, self.gemReward);
+  if (self.hasReward) {
+    size_ += computeMessageSize(3, self.reward);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -1204,20 +1121,11 @@ static SalesDisplayItemProto* defaultSalesDisplayItemProtoInstance = nil;
   if (self.hasSalesPackageId) {
     [output appendFormat:@"%@%@: %@\n", indent, @"salesPackageId", [NSNumber numberWithInteger:self.salesPackageId]];
   }
-  if (self.hasMonsterId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"monsterId", [NSNumber numberWithInteger:self.monsterId]];
-  }
-  if (self.hasMonsterQuantity) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"monsterQuantity", [NSNumber numberWithInteger:self.monsterQuantity]];
-  }
-  if (self.hasItemId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"itemId", [NSNumber numberWithInteger:self.itemId]];
-  }
-  if (self.hasItemQuantity) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"itemQuantity", [NSNumber numberWithInteger:self.itemQuantity]];
-  }
-  if (self.hasGemReward) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"gemReward", [NSNumber numberWithInteger:self.gemReward]];
+  if (self.hasReward) {
+    [output appendFormat:@"%@%@ {\n", indent, @"reward"];
+    [self.reward writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -1234,16 +1142,8 @@ static SalesDisplayItemProto* defaultSalesDisplayItemProtoInstance = nil;
       (!self.hasSalesItemId || self.salesItemId == otherMessage.salesItemId) &&
       self.hasSalesPackageId == otherMessage.hasSalesPackageId &&
       (!self.hasSalesPackageId || self.salesPackageId == otherMessage.salesPackageId) &&
-      self.hasMonsterId == otherMessage.hasMonsterId &&
-      (!self.hasMonsterId || self.monsterId == otherMessage.monsterId) &&
-      self.hasMonsterQuantity == otherMessage.hasMonsterQuantity &&
-      (!self.hasMonsterQuantity || self.monsterQuantity == otherMessage.monsterQuantity) &&
-      self.hasItemId == otherMessage.hasItemId &&
-      (!self.hasItemId || self.itemId == otherMessage.itemId) &&
-      self.hasItemQuantity == otherMessage.hasItemQuantity &&
-      (!self.hasItemQuantity || self.itemQuantity == otherMessage.itemQuantity) &&
-      self.hasGemReward == otherMessage.hasGemReward &&
-      (!self.hasGemReward || self.gemReward == otherMessage.gemReward) &&
+      self.hasReward == otherMessage.hasReward &&
+      (!self.hasReward || [self.reward isEqual:otherMessage.reward]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -1254,20 +1154,8 @@ static SalesDisplayItemProto* defaultSalesDisplayItemProtoInstance = nil;
   if (self.hasSalesPackageId) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.salesPackageId] hash];
   }
-  if (self.hasMonsterId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.monsterId] hash];
-  }
-  if (self.hasMonsterQuantity) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.monsterQuantity] hash];
-  }
-  if (self.hasItemId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.itemId] hash];
-  }
-  if (self.hasItemQuantity) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.itemQuantity] hash];
-  }
-  if (self.hasGemReward) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.gemReward] hash];
+  if (self.hasReward) {
+    hashCode = hashCode * 31 + [self.reward hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -1318,20 +1206,8 @@ static SalesDisplayItemProto* defaultSalesDisplayItemProtoInstance = nil;
   if (other.hasSalesPackageId) {
     [self setSalesPackageId:other.salesPackageId];
   }
-  if (other.hasMonsterId) {
-    [self setMonsterId:other.monsterId];
-  }
-  if (other.hasMonsterQuantity) {
-    [self setMonsterQuantity:other.monsterQuantity];
-  }
-  if (other.hasItemId) {
-    [self setItemId:other.itemId];
-  }
-  if (other.hasItemQuantity) {
-    [self setItemQuantity:other.itemQuantity];
-  }
-  if (other.hasGemReward) {
-    [self setGemReward:other.gemReward];
+  if (other.hasReward) {
+    [self mergeReward:other.reward];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -1362,24 +1238,13 @@ static SalesDisplayItemProto* defaultSalesDisplayItemProtoInstance = nil;
         [self setSalesPackageId:[input readInt32]];
         break;
       }
-      case 24: {
-        [self setMonsterId:[input readInt32]];
-        break;
-      }
-      case 32: {
-        [self setMonsterQuantity:[input readInt32]];
-        break;
-      }
-      case 40: {
-        [self setItemId:[input readInt32]];
-        break;
-      }
-      case 48: {
-        [self setItemQuantity:[input readInt32]];
-        break;
-      }
-      case 56: {
-        [self setGemReward:[input readInt32]];
+      case 26: {
+        RewardProto_Builder* subBuilder = [RewardProto builder];
+        if (self.hasReward) {
+          [subBuilder mergeFrom:self.reward];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setReward:[subBuilder buildPartial]];
         break;
       }
     }
@@ -1417,84 +1282,34 @@ static SalesDisplayItemProto* defaultSalesDisplayItemProtoInstance = nil;
   result.salesPackageId = 0;
   return self;
 }
-- (BOOL) hasMonsterId {
-  return result.hasMonsterId;
+- (BOOL) hasReward {
+  return result.hasReward;
 }
-- (int32_t) monsterId {
-  return result.monsterId;
+- (RewardProto*) reward {
+  return result.reward;
 }
-- (SalesDisplayItemProto_Builder*) setMonsterId:(int32_t) value {
-  result.hasMonsterId = YES;
-  result.monsterId = value;
+- (SalesDisplayItemProto_Builder*) setReward:(RewardProto*) value {
+  result.hasReward = YES;
+  result.reward = value;
   return self;
 }
-- (SalesDisplayItemProto_Builder*) clearMonsterId {
-  result.hasMonsterId = NO;
-  result.monsterId = 0;
+- (SalesDisplayItemProto_Builder*) setReward_Builder:(RewardProto_Builder*) builderForValue {
+  return [self setReward:[builderForValue build]];
+}
+- (SalesDisplayItemProto_Builder*) mergeReward:(RewardProto*) value {
+  if (result.hasReward &&
+      result.reward != [RewardProto defaultInstance]) {
+    result.reward =
+      [[[RewardProto builderWithPrototype:result.reward] mergeFrom:value] buildPartial];
+  } else {
+    result.reward = value;
+  }
+  result.hasReward = YES;
   return self;
 }
-- (BOOL) hasMonsterQuantity {
-  return result.hasMonsterQuantity;
-}
-- (int32_t) monsterQuantity {
-  return result.monsterQuantity;
-}
-- (SalesDisplayItemProto_Builder*) setMonsterQuantity:(int32_t) value {
-  result.hasMonsterQuantity = YES;
-  result.monsterQuantity = value;
-  return self;
-}
-- (SalesDisplayItemProto_Builder*) clearMonsterQuantity {
-  result.hasMonsterQuantity = NO;
-  result.monsterQuantity = 0;
-  return self;
-}
-- (BOOL) hasItemId {
-  return result.hasItemId;
-}
-- (int32_t) itemId {
-  return result.itemId;
-}
-- (SalesDisplayItemProto_Builder*) setItemId:(int32_t) value {
-  result.hasItemId = YES;
-  result.itemId = value;
-  return self;
-}
-- (SalesDisplayItemProto_Builder*) clearItemId {
-  result.hasItemId = NO;
-  result.itemId = 0;
-  return self;
-}
-- (BOOL) hasItemQuantity {
-  return result.hasItemQuantity;
-}
-- (int32_t) itemQuantity {
-  return result.itemQuantity;
-}
-- (SalesDisplayItemProto_Builder*) setItemQuantity:(int32_t) value {
-  result.hasItemQuantity = YES;
-  result.itemQuantity = value;
-  return self;
-}
-- (SalesDisplayItemProto_Builder*) clearItemQuantity {
-  result.hasItemQuantity = NO;
-  result.itemQuantity = 0;
-  return self;
-}
-- (BOOL) hasGemReward {
-  return result.hasGemReward;
-}
-- (int32_t) gemReward {
-  return result.gemReward;
-}
-- (SalesDisplayItemProto_Builder*) setGemReward:(int32_t) value {
-  result.hasGemReward = YES;
-  result.gemReward = value;
-  return self;
-}
-- (SalesDisplayItemProto_Builder*) clearGemReward {
-  result.hasGemReward = NO;
-  result.gemReward = 0;
+- (SalesDisplayItemProto_Builder*) clearReward {
+  result.hasReward = NO;
+  result.reward = [RewardProto defaultInstance];
   return self;
 }
 @end
