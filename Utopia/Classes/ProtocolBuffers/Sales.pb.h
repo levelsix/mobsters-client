@@ -16,6 +16,8 @@
 @class FullUserMonsterProto_Builder;
 @class FullUserProto;
 @class FullUserProto_Builder;
+@class ItemGemPriceProto;
+@class ItemGemPriceProto_Builder;
 @class ItemProto;
 @class ItemProto_Builder;
 @class MinimumClanProto;
