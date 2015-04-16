@@ -101,8 +101,8 @@
 - (void) reachedNextScene {
   if (!_hasStarted) {
     if (!_downloadComplete) {
-      [self.myPlayer beginWalking];
-      [self.bgdLayer scrollToNewScene];
+      [self.mainView.myPlayer beginWalking];
+      [self.mainView.bgdLayer scrollToNewScene];
     } else {
       [self moveToNextEnemy];
       _hasStarted = YES;
@@ -214,7 +214,7 @@
   NSInteger idx = self.clanSprites.count;
   if (idx < self.clanMemberAttacks.count) {
     if (_lastOneIsCombinedAttack && idx == self.clanMemberAttacks.count-1) {
-      [self spawnPlaneWithTarget:self selector:@selector(dealPlaneDamage)];
+      [self.mainView spawnPlaneWithTarget:self selector:@selector(dealPlaneDamage)];
     } else {
       ClanMemberAttack *cma = self.clanMemberAttacks[idx];
       [self spawnClanBattleSpriteForClanMemberAttack:cma comeFromTop:_shouldComeFromTop];
@@ -234,7 +234,7 @@
   clanBs.isFacingNear = NO;
   clanBs.healthBgd.visible = NO;
   clanBs.cameFromTop = comeFromTop;
-  [self.bgdContainer addChild:clanBs z:self.myPlayer.zOrder+(comeFromTop?-1:1)];
+  [self.mainView.bgdContainer addChild:clanBs z:self.mainView.myPlayer.zOrder+(comeFromTop?-1:1)];
   
   CCLabelTTF *nameLabel = [CCLabelTTF labelWithString:cma.name fontName:[Globals font] fontSize:12];
   [clanBs addChild:nameLabel];
@@ -246,7 +246,7 @@
   CGPoint ptOffset = POINT_OFFSET_PER_SCENE;
   CGPoint forward = ccpMult(ptOffset, CLAN_SPRITE_FORWARD_MULT);
   CGPoint perp = ccpMult(ccp(-ptOffset.x, ptOffset.y), (comeFromTop?1:-1)*CLAN_SPRITE_PERP_MULT);
-  CGPoint finalPos = ccpAdd(forward, self.myPlayer.position);
+  CGPoint finalPos = ccpAdd(forward, self.mainView.myPlayer.position);
   CGPoint midPos = ccpAdd(perp, finalPos);
   float startX = -clanBs.contentSize.width;
   float xDelta = midPos.x-startX;
@@ -276,7 +276,7 @@
          [clanBs faceFarWithoutUpdate];
        }
        clanBs.sprite.flipX = YES;
-       [clanBs performFarAttackAnimationWithStrength:0.f shouldEvade:NO shouldMiss:NO enemy:self.currentEnemy
+       [clanBs performFarAttackAnimationWithStrength:0.f shouldEvade:NO shouldMiss:NO enemy:self.mainView.currentEnemy
                                               target:self selector:@selector(clanMemberAttacked) animCompletion:nil];
      }],
     nil]];
@@ -295,10 +295,10 @@
   
   float perc = ((float)self.enemyPlayerObject.curHealth)/self.enemyPlayerObject.maxHealth;
   if (perc < PULSE_CONT_THRESH) {
-    [self pulseHealthLabel:YES];
+    [self.mainView pulseHealthLabel:YES];
   } else {
-    [self.currentEnemy.healthLabel stopActionByTag:RED_TINT_TAG];
-    self.currentEnemy.healthLabel.color = [CCColor whiteColor];
+    [self.mainView.currentEnemy.healthLabel stopActionByTag:RED_TINT_TAG];
+    self.mainView.currentEnemy.healthLabel.color = [CCColor whiteColor];
   }
   
   // Make the clan member run out

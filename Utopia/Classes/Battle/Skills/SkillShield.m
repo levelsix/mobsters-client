@@ -224,7 +224,7 @@ static const NSInteger permanentActionTag = 100;
   BattleSprite* owner = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
   NSString *str = [NSString stringWithFormat:@"%d", (int)_shieldHp];
   CCLabelBMFont *damageLabel = [CCLabelBMFont labelWithString:str fntFile:@"shieldfont.fnt"];
-  [self.battleLayer.bgdContainer addChild:damageLabel z:owner.zOrder];
+  [self.battleLayer.mainView.bgdContainer addChild:damageLabel z:owner.zOrder];
   damageLabel.position = ccpAdd(owner.position, ccp(0, owner.contentSize.height));
   damageLabel.scale = 0.01;
   [damageLabel runAction:[CCActionSequence actions:

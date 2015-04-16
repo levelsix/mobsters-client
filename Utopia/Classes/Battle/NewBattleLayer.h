@@ -19,6 +19,8 @@
 #import "DialogueViewController.h"
 #import "BattleItemSelectViewController.h"
 #import "ClientProperties.h"
+#import "BattleMainView.h"
+#import "BattleBgdLayer.h"
 
 #define SkillLogStart(...) //NSLogYellow(__VA_ARGS__)
 #define SkillLogEnd(triggered, ...) //if (triggered) { NSLogGreen(__VA_ARGS__); } else { NSLogYellow(__VA_ARGS__); }
@@ -48,25 +50,11 @@
 #define ENEMY_PLAYER_LOCATION ccpAdd(CENTER_OF_BATTLE, ccp(PLAYER_X_DISTANCE_FROM_CENTER, PLAYER_X_DISTANCE_FROM_CENTER*SLOPE_OF_ROAD))
 #define BGD_LAYER_INIT_POSITION ccp(-440+(CENTER_OF_BATTLE.x-CENTER_OF_BATTLE.y/SLOPE_OF_ROAD), 0)
 
+#define BOTTOM_CENTER_X (self.contentSize.width-self.orbLayer.contentSize.width-ORB_LAYER_DIST_FROM_SIDE)/2
+
+#define DEPLOY_CENTER_X roundf(MAX(BOTTOM_CENTER_X, self.mainView.hudView.deployView.width/2+5.f))
+
 #define PUZZLE_ON_LEFT_BGD_OFFSET (self.contentSize.width-2*CENTER_OF_BATTLE.x)
-
-@protocol BattleBgdLayerDelegate <NSObject>
-
-- (void) reachedNextScene;
-
-@end
-
-@interface BattleBgdLayer : CCNode {
-  CGPoint _curBasePoint;
-}
-
-@property (nonatomic, weak) id<BattleBgdLayerDelegate> delegate;
-@property (nonatomic, retain) NSString *prefix;
-
-- (id) initWithPrefix:(NSString *)prefix;
-- (void) scrollToNewScene;
-
-@end
 
 @protocol BattleLayerDelegate <NSObject>
 
@@ -88,8 +76,6 @@
   BOOL _canPlayNextComboSound;
   BOOL _canPlayNextGemPop;
   
-  BOOL _puzzleIsOnLeft;
-  
   BOOL _wonBattle;
   int _numTimesNotResponded;
   
@@ -110,7 +96,7 @@
   CGSize _gridSize;
   
   BOOL _shouldDisplayNewSchedule;
-  BOOL _displayedWaveNumber;
+//  BOOL _displayedWaveNumber;
   BOOL _reachedNextScene;
   BOOL _firstTurn;
   
@@ -131,27 +117,40 @@
   CCLabelTTF *_noMovesLabel;
 }
 
-@property (nonatomic, retain) CCSprite* movesLeftContainer;
-@property (nonatomic, retain) CCSprite* movesLeftLabel;
-@property (nonatomic, retain) CCSprite* movesLeftCounter;
-@property (nonatomic, retain) CCLabelTTF *lootLabel;
-@property (nonatomic, retain) CCSprite *lootBgd;
-@property (nonatomic, retain) CCSprite *comboBgd;
-@property (nonatomic, retain) CCLabelTTF *comboLabel;
-@property (nonatomic, retain) CCLabelTTF *comboBotLabel;
+@property (readonly) float orbLayerDistFromSide;
+@property (readonly) CGPoint centerOfBattle;
+@property (readonly) float playerXDistanceFromCenter;
+@property (readonly) CGPoint myPlayerLocation;
+@property (readonly) CGPoint enemyLocation;
+@property (readonly) CGPoint bgdLayerInitPosition;
+@property (readonly) float bottomCenterX;
+@property (readonly) float deployCenterX;
+
+@property (readonly) BOOL displayedWaveNumber;
+
+@property (nonatomic, retain) BattleMainView *mainView;
+
+//@property (nonatomic, retain) CCSprite* movesLeftContainer;
+//@property (nonatomic, retain) CCSprite* movesLeftLabel;
+//@property (nonatomic, retain) CCSprite* movesLeftCounter;
+//@property (nonatomic, retain) CCLabelTTF *lootLabel;
+//@property (nonatomic, retain) CCSprite *lootBgd;
+//@property (nonatomic, retain) CCSprite *comboBgd;
+//@property (nonatomic, retain) CCLabelTTF *comboLabel;
+//@property (nonatomic, retain) CCLabelTTF *comboBotLabel;
 
 @property (nonatomic, retain) OrbMainLayer *orbLayer;
 
 // bgdContainer holds the bgdLayer as well as battlesprites and all animations on the ground
-@property (nonatomic, retain) CCNode *bgdContainer;
-@property (nonatomic, retain) BattleBgdLayer *bgdLayer;
-@property (nonatomic, retain) BattleSprite *myPlayer;
-@property (nonatomic, retain) BattleSprite *currentEnemy;
+//@property (nonatomic, retain) CCNode *bgdContainer;
+//@property (nonatomic, retain) BattleBgdLayer *bgdLayer;
+//@property (nonatomic, retain) BattleSprite *myPlayer;
+//@property (nonatomic, retain) BattleSprite *currentEnemy;
 
 @property (nonatomic, retain) BattlePlayer *myPlayerObject;
 @property (nonatomic, retain) BattlePlayer *enemyPlayerObject;
 
-@property (nonatomic, retain) CCSprite *bloodSplatter;
+//@property (nonatomic, retain) CCSprite *bloodSplatter;
 
 @property (nonatomic, retain) NSArray *myTeam;
 @property (nonatomic, retain) NSArray *enemyTeam;
@@ -160,10 +159,9 @@
 
 @property (nonatomic, weak) id<BattleLayerDelegate> delegate;
 
-
 @property (nonatomic, retain) BattleEndView *endView;
 
-@property (nonatomic, retain) IBOutlet BattleHudView *hudView;
+//@property (nonatomic, retain) IBOutlet BattleHudView *hudView;
 
 @property (nonatomic, assign) int enemyDamageDealt; // used by skillManager to set damage dealt by skills like Cake Drop
 
@@ -174,17 +172,17 @@
 @property (nonatomic, assign) BOOL shouldDisplayNewSchedule;
 
 @property (nonatomic, assign) BOOL allowBattleItemPurchase;
-@property (nonatomic, retain) PopoverViewController *popoverViewController;
-
-@property (nonatomic, retain) DialogueViewController *dialogueViewController;
+//@property (nonatomic, retain) PopoverViewController *popoverViewController;
+//
+//@property (nonatomic, retain) DialogueViewController *dialogueViewController;
 
 // Used for skills that render the drop invalid (e.g. cake kid)
 @property (nonatomic, retain) NSMutableArray *droplessStageNums;
 
 // Used for the skill explination
-@property (nonatomic, retain) IBOutlet UIView *forcedSkillView;
-@property (nonatomic, retain) IBOutlet UIButton *forcedSkillButton;
-@property (nonatomic, retain) IBOutlet UIView *forcedSkillInnerView;
+//@property (nonatomic, retain) IBOutlet UIView *forcedSkillView;
+//@property (nonatomic, retain) IBOutlet UIButton *forcedSkillButton;
+//@property (nonatomic, retain) IBOutlet UIView *forcedSkillInnerView;
 
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize;
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize bgdPrefix:(NSString *)bgdPrefix;
@@ -200,12 +198,12 @@
 - (void) beginEnemyTurn:(float)delay;
 - (void) checkIfAnyMovesLeft;
 - (void) currentMyPlayerDied;
-- (void) createNextMyPlayerSprite;
-- (float) makeMyPlayerWalkOutWithBlock:(void (^)(void))completion;
+//- (void) createNextMyPlayerSprite;
+//- (float) makeMyPlayerWalkOutWithBlock:(void (^)(void))completion;
 - (void) makePlayer:(BattleSprite *)player walkInFromEntranceWithSelector:(SEL)selector;
 
 - (void) setMovesLeft:(int)movesLeft animated:(BOOL)animated;
-- (void) mobsterInfoDisplayed:(BOOL)displayed onSprite:(BattleSprite*)sprite;
+//- (void) mobsterInfoDisplayed:(BOOL)displayed onSprite:(BattleSprite*)sprite;
 
 - (void) createScheduleWithSwap:(BOOL)swap;
 - (void) createScheduleWithSwap:(BOOL)swap playerHitsFirst:(BOOL)playerFirst;
@@ -216,18 +214,18 @@
 - (void) dealDamage:(int)damageDone enemyIsAttacker:(BOOL)enemyIsAttacker usingAbility:(BOOL)usingAbility showDamageLabel:(BOOL)showLabel withTarget:(id)target withSelector:(SEL)selector;
 - (void) healForAmount:(int)heal enemyIsHealed:(BOOL)enemyIsHealed withTarget:(id)target andSelector:(SEL)selector;
 - (void) instantSetHealthForEnemy:(BOOL)enemy to:(int)health withTarget:(id)target andSelector:(SEL)selector;
-- (void) spawnPlaneWithTarget:(id)target selector:(SEL)selector;
+//- (void) spawnPlaneWithTarget:(id)target selector:(SEL)selector;
 
 - (void) updateHealthBars;
-- (void) displayWaveNumber;
+//- (void) displayWaveNumber;
 
 - (BOOL) spawnNextEnemy;
 - (BOOL) createNextEnemyObject;
-- (void) createNextEnemySprite;
+//- (void) createNextEnemySprite;
 - (void) triggerSkillForEnemyCreatedWithBlock:(dispatch_block_t)block;
 
 - (CCSprite *) getCurrentEnemyLoot;
-- (void) dropLoot:(CCSprite *)ed;
+//- (void) dropLoot:(CCSprite *)ed;
 - (void) pickUpLoot;
 - (void) moveToNextEnemy;
 - (void) moveToNextEnemyWithPlayerFirst:(BOOL)playerHitsFirst;
@@ -235,9 +233,11 @@
 - (void) youLost;
 - (void) youForfeited;
 - (IBAction)forfeitClicked:(id)sender;
+- (IBAction)cancelDeploy:(id)sender;
+- (IBAction)deployCardClicked:(id)sender;
 - (void) continueConfirmed;
 - (void) exitFinal;
-- (void) shakeScreenWithIntensity:(float)intensity;
+//- (void) shakeScreenWithIntensity:(float)intensity;
 
 - (void) checkMyHealth;
 - (BOOL) checkEnemyHealth;
@@ -245,10 +245,10 @@
 
 - (void) sendServerUpdatedValuesVerifyDamageDealt:(BOOL)verify;
 
-- (void) pulseBloodOnce;
-- (void) pulseBloodContinuously;
-- (void) pulseHealthLabel:(BOOL)isEnemy;
-- (void) stopPulsing;
+//- (void) pulseBloodOnce;
+//- (void) pulseBloodContinuously;
+//- (void) pulseHealthLabel:(BOOL)isEnemy;
+//- (void) stopPulsing;
 
 - (void) displayOrbLayer;
 - (void) removeOrbLayerAnimated:(BOOL)animated withBlock:(void(^)())block;
@@ -258,18 +258,17 @@
 - (IBAction)winExitClicked:(id)sender;
 - (IBAction)shareClicked:(id)sender;
 
+- (BOOL) canSwap;
 
 - (void) displayDeployViewAndIsCancellable:(BOOL)cancel;
 - (void) deployBattleSprite:(BattlePlayer *)bp;
 - (void) triggerSkillForPlayerCreatedWithBlock:(dispatch_block_t)block;
 
-- (void) loadHudView;
-
-- (void) displayEffectivenessForAttackerElement:(Element)atkElement defenderElement:(Element)defElement position:(CGPoint)position;
+//- (void) loadHudView;
 
 - (void) prepareScheduleView;
 
-- (void) blowupBattleSprite:(BattleSprite *)sprite withBlock:(void(^)())block;
+//- (void) blowupBattleSprite:(BattleSprite *)sprite withBlock:(void(^)())block;
 
 - (NSInteger) currentStageNum;
 - (NSInteger) stagesLeft;
@@ -280,6 +279,7 @@
 - (BOOL) isFirstEnemy;
 
 - (void) forceSkillClickOver:(DialogueViewController *)dvc;
+- (IBAction)skillClicked:(id)sender;
 
 - (void) openGemShop;
 

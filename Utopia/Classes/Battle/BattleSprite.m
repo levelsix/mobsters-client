@@ -217,10 +217,10 @@
     [self.rarityTag stopAllActions];
     
     CCActionSequence *seq = [CCActionSequence actions:
-                             [CCActionCallBlock actionWithBlock:^{ if (self.battleLayer) [self.battleLayer mobsterInfoDisplayed:YES onSprite:self]; }],
+                             [CCActionCallBlock actionWithBlock:^{ if (self.battleLayer) [self.battleLayer.mainView mobsterInfoDisplayed:YES onSprite:self]; }],
                              [CCActionFadeTo actionWithDuration:0.3 opacity:1.f],
                              [CCActionDelay actionWithDuration:2.5f],
-                             [CCActionCallBlock actionWithBlock:^{ if (self.battleLayer) [self.battleLayer mobsterInfoDisplayed:NO onSprite:self]; }],
+                             [CCActionCallBlock actionWithBlock:^{ if (self.battleLayer) [self.battleLayer.mainView mobsterInfoDisplayed:NO onSprite:self]; }],
                              [CCActionFadeTo actionWithDuration:0.3 opacity:0.f],
                              nil];
     [self.nameLabel runAction:seq.copy];

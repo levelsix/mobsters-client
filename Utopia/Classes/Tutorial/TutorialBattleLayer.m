@@ -46,7 +46,7 @@
     NSString *effect = @"sfx_muckerburg_hit_luchador.mp3";
     [[SoundEngine sharedSoundEngine] preloadEffect:effect];
     
-    [self.lootBgd removeFromParent];
+    [self.mainView.lootBgd removeFromParent];
   }
   return self;
 }
@@ -61,7 +61,7 @@
     BattleSprite *bs = [[BattleSprite alloc] initWithPrefix:bp.spritePrefix nameString:bp.attrName rarity:bp.rarity animationType:bp.animationType isMySprite:NO verticalOffset:bp.verticalOffset];
     bs.battleLayer = self;
     bs.healthBar.color = [self.orbLayer.swipeLayer colorForSparkle:(OrbColor)bp.element];
-    [self.bgdContainer addChild:bs z:-idx-2];
+    [self.mainView.bgdContainer addChild:bs z:-idx-2];
     
     bs.healthBar.percentage = ((float)bp.curHealth)/bp.maxHealth*100;
     bs.healthLabel.string = [NSString stringWithFormat:@"%@/%@", [Globals commafyNumber:bp.curHealth], [Globals commafyNumber:bp.maxHealth]];
@@ -167,7 +167,7 @@
   BattleSprite *bs1 = self.enemyTeamSprites[ENEMY_INDEX];
   BattleSprite *bs2 = self.enemyTeamSprites[ENEMY_TWO_INDEX];
   
-  [self shakeScreenWithIntensity:1.f];
+  [self.mainView shakeScreenWithIntensity:1.f];
   
   [bs1 restoreStandingFrame:MapDirectionNearLeft];
   [bs2 restoreStandingFrame:MapDirectionNearLeft];
@@ -296,8 +296,8 @@
 
 - (void) moveEnemyToStartLocation {
   self.enemyPlayerObject = self.enemyTeam[ENEMY_INDEX];
-  self.currentEnemy = self.enemyTeamSprites[ENEMY_INDEX];
-  [self moveBattleSprite:self.currentEnemy toEnemyStartLocationAndCallSelector:@selector(enemiesRanOut) isComingFromTop:NO];
+  self.mainView.currentEnemy = self.enemyTeamSprites[ENEMY_INDEX];
+  [self moveBattleSprite:self.mainView.currentEnemy toEnemyStartLocationAndCallSelector:@selector(enemiesRanOut) isComingFromTop:NO];
   _curStage = ENEMY_INDEX;
   [self scheduleOnce:@selector(displayOrbLayer) delay:0.5];
 }
@@ -318,8 +318,8 @@
 - (void) moveEnemyTwoToStartLocation {
   [self walkOutEnemyAtIndex:ENEMY_BOSS_INDEX speedMultiplier:1.f target:nil selector:nil];
   self.enemyPlayerObject = self.enemyTeam[ENEMY_TWO_INDEX];
-  self.currentEnemy = self.enemyTeamSprites[ENEMY_TWO_INDEX];
-  [self moveBattleSprite:self.currentEnemy toEnemyStartLocationAndCallSelector:@selector(enemiesRanOut) isComingFromTop:YES];
+  self.mainView.currentEnemy = self.enemyTeamSprites[ENEMY_TWO_INDEX];
+  [self moveBattleSprite:self.mainView.currentEnemy toEnemyStartLocationAndCallSelector:@selector(enemiesRanOut) isComingFromTop:YES];
   _curStage = ENEMY_TWO_INDEX;
 }
 
@@ -328,7 +328,7 @@
 }
 
 - (void) friendKneel {
-  [self.myPlayer restoreStandingFrame:MapDirectionKneel];
+  [self.mainView.myPlayer restoreStandingFrame:MapDirectionKneel];
 }
 
 
@@ -346,8 +346,7 @@
 
 - (void) moveToNextEnemy {
   if (_curStage < ENEMY_TWO_INDEX) {
-    [self.myPlayer beginWalking];
-    [self.bgdLayer scrollToNewScene];
+    [self.mainView moveToNextEnemy];
     if (_curStage < 0) {
       [self initInitialSetup];
     } else if (_curStage == ENEMY_INDEX) {
@@ -370,7 +369,7 @@
 }
 
 - (void) beginNextTurn {
-  _displayedWaveNumber = YES;
+  self.mainView.displayedWaveNumber = YES;
   _reachedNextScene = YES;
   [super beginNextTurn];
 }
@@ -452,35 +451,35 @@
 - (void) swapToMark {
   _orbCount = 0;
   self.swappableTeamSlot = 2;
-  self.hudView.swapView.hidden = NO;
-  [self.hudView displaySwapButton];
+  self.mainView.hudView.swapView.hidden = NO;
+  [self.mainView.hudView displaySwapButton];
   
   [self runAction:
    [CCActionSequence actions:
     [CCActionDelay actionWithDuration:0.3f],
     [CCActionCallBlock actionWithBlock:
      ^{
-       [Globals createUIArrowForView:self.hudView.swapView atAngle:0];
+       [Globals createUIArrowForView:self.mainView.hudView.swapView atAngle:0];
      }], nil]];
 }
 
 - (void) displayDeployViewAndIsCancellable:(BOOL)cancel {
-  [super displayDeployViewAndIsCancellable:cancel];
+  [self.mainView displayDeployViewAndIsCancellable:cancel];
   
-  [Globals removeUIArrowFromViewRecursively:self.hudView.swapView.superview];
+  [Globals removeUIArrowFromViewRecursively:self.mainView.hudView.swapView.superview];
   
   [self runAction:
    [CCActionSequence actions:
     [CCActionDelay actionWithDuration:0.3f],
     [CCActionCallBlock actionWithBlock:
      ^{
-       BattleDeployCardView *card = self.hudView.deployView.cardViews[1];
+       BattleDeployCardView *card = self.mainView.hudView.deployView.cardViews[1];
        [Globals createUIArrowForView:card.superview atAngle:M_PI_2];
      }], nil]];
 }
 
 - (void) deployBattleSprite:(BattlePlayer *)bp {
-  if (!self.myPlayer || bp.slotNum == self.swappableTeamSlot) {
+  if (!self.mainView.myPlayer || bp.slotNum == self.swappableTeamSlot) {
     [super deployBattleSprite:bp];
     
     // Make sure zark is the next attacker in the schedule. There will only be 2 values so dequeue if he's not.
@@ -489,7 +488,7 @@
     }
     
     [self.delegate swappedToMark];
-    [Globals removeUIArrowFromViewRecursively:self.hudView.deployView];
+    [Globals removeUIArrowFromViewRecursively:self.mainView.hudView.deployView];
   }
 }
 
@@ -539,12 +538,12 @@
 #pragma mark - Overwritten methods
 
 - (void) loadHudView {
-  [super loadHudView];
-  [self.hudView.battleScheduleView removeFromSuperview];
-  [self.hudView.bottomView removeFromSuperview];
-  [self.hudView.elementButton removeFromSuperview];
-  [self.hudView.elementView removeFromSuperview];
-  [self.hudView.itemsView removeFromSuperview];
+  [self.mainView loadHudView];
+  [self.mainView.hudView.battleScheduleView removeFromSuperview];
+  [self.mainView.hudView.bottomView removeFromSuperview];
+  [self.mainView.hudView.elementButton removeFromSuperview];
+  [self.mainView.hudView.elementView removeFromSuperview];
+  [self.mainView.hudView.itemsView removeFromSuperview];
 }
 
 - (void) sendServerUpdatedValuesVerifyDamageDealt:(BOOL)verify {
@@ -556,7 +555,7 @@
 }
 
 - (void) youWon {
-  [self makeMyPlayerWalkOutWithBlock:^{
+  [self.mainView makeMyPlayerWalkOutWithBlock:^{
     [self.delegate battleComplete:nil];
   }];
 }

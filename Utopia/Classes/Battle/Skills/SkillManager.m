@@ -174,8 +174,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
 
 - (void) updateReferences
 {
-  _enemySprite = _battleLayer.currentEnemy;
-  _playerSprite = _battleLayer.myPlayer;
+  _enemySprite = _battleLayer.mainView.currentEnemy;
+  _playerSprite = _battleLayer.mainView.myPlayer;
   
   if (_enemySkillController)
   {
@@ -454,7 +454,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
     if (_skillIndicatorEnemy)
     {
       _skillIndicatorEnemy.position = CGPointMake(_skillIndicatorEnemy.contentSize.width/2 - 10,
-                                                  UI_DEVICE_IS_IPHONE_4 ? 85 : [_battleLayer.orbLayer convertToNodeSpace:[_battleLayer convertToWorldSpace:_battleLayer.currentEnemy.position]].y + 5);
+                                                  UI_DEVICE_IS_IPHONE_4 ? 85 : [_battleLayer.orbLayer convertToNodeSpace:[_battleLayer convertToWorldSpace:_enemySprite.position]].y + 5);
       [_skillIndicatorEnemy update];
       [_battleLayer.orbLayer addChild:_skillIndicatorEnemy z:-10];
       [_skillIndicatorEnemy appear:existedBefore];
@@ -473,7 +473,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
     if (_skillIndicatorPlayer)
     {
       _skillIndicatorPlayer.position = CGPointMake(-_skillIndicatorPlayer.contentSize.width/2 - 10,
-                                                   UI_DEVICE_IS_IPHONE_4 ? 40 : [_battleLayer.orbLayer convertToNodeSpace:[_battleLayer convertToWorldSpace:_battleLayer.myPlayer.position]].y + 5);
+                                                   UI_DEVICE_IS_IPHONE_4 ? 40 : [_battleLayer.orbLayer convertToNodeSpace:[_battleLayer convertToWorldSpace:_playerSprite.position]].y + 5);
       [_skillIndicatorPlayer update];
       [_battleLayer.orbLayer addChild:_skillIndicatorPlayer z:-10];
     }
@@ -685,7 +685,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
     orbDesc = @"PASSIVE";
    */
   
-  [_battleLayer.hudView.skillPopupView displayWithSkillName:proto.name
+  [_battleLayer.mainView.hudView.skillPopupView displayWithSkillName:proto.name
                                                 description:description
                                                counterLabel:orbCount
                                              orbDescription:orbDesc

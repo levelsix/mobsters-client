@@ -316,7 +316,7 @@
       ResourceItemsFiller *rif = [[ResourceItemsFiller alloc] initWithResourceType:ResourceTypeCash requiredAmount:thp.pvpQueueCashCost shouldAccumulate:YES];
       rif.delegate = self;
       svc.delegate = rif;
-      self.popoverViewController = svc;
+      self.mainView.popoverViewController = svc;
       self.resourceItemsFiller = rif;
       
       GameViewController *gvc = [GameViewController baseController];
@@ -386,7 +386,7 @@
   for (BattleSprite *bs in self.enemyTeamSprites) {
     CGPoint startPos = bs.position;
     CGPoint offsetPerScene = POINT_OFFSET_PER_SCENE;
-    float startX = self.contentSize.width+self.myPlayer.contentSize.width;
+    float startX = self.contentSize.width+self.mainView.myPlayer.contentSize.width;
     float xDelta = startPos.x-startX;
     CGPoint endPos = ccp(startX, startPos.y-xDelta*offsetPerScene.y/offsetPerScene.x);
     
@@ -426,15 +426,15 @@
   }
   
   if (self.enemyTeamSprites.count) {
-    self.currentEnemy = [self.enemyTeamSprites firstObject];
+    self.mainView.currentEnemy = [self.enemyTeamSprites firstObject];
     self.enemyPlayerObject = [self.enemyTeam firstObject];
     for (BattleSprite *bs in self.enemyTeamSprites) {
-      if (bs == self.currentEnemy) {
+      if (bs == self.mainView.currentEnemy) {
         continue;
       }
       CGPoint startPos = bs.position;
       CGPoint offsetPerScene = POINT_OFFSET_PER_SCENE;
-      float startX = self.contentSize.width+self.myPlayer.contentSize.width;
+      float startX = self.contentSize.width+self.mainView .myPlayer.contentSize.width;
       float xDelta = startPos.x-startX;
       CGPoint endPos = ccp(startX, startPos.y-xDelta*offsetPerScene.y/offsetPerScene.x);
       
@@ -448,19 +448,19 @@
     self.enemyTeamSprites = nil;
   } else {
     [self spawnNextEnemy];
-    [self.currentEnemy stopAllActions];
-    self.currentEnemy.position = self.statueNode.position;
-    self.currentEnemy.zOrder = self.statueNode.zOrder;
+    [self.mainView.currentEnemy stopAllActions];
+    self.mainView.currentEnemy.position = self.statueNode.position;
+    self.mainView.currentEnemy.zOrder = self.statueNode.zOrder;
   }
   
   self.myPlayerObject = [self.myTeam firstObject];
   BattleSprite *myPlayer = [self.myTeamSprites firstObject];
   self.myTeamSprites = [self.myTeamSprites subarrayWithRange:NSMakeRange(1, self.myTeamSprites.count-1)];
   for (BattleSprite *bs in self.myTeamSprites) {
-    self.myPlayer = bs;
-    [self makeMyPlayerWalkOutWithBlock:nil];
+    self.mainView.myPlayer = bs;
+    [self.mainView makeMyPlayerWalkOutWithBlock:nil];
   }
-  self.myPlayer = myPlayer;
+  self.mainView.myPlayer = myPlayer;
   self.myTeamSprites = nil;
   
   // Have to fake this
@@ -474,9 +474,9 @@
   _hasStarted = YES;
   _firstTurn = YES;
   
-  _displayedWaveNumber = YES;
+  self.mainView.displayedWaveNumber = YES;
   _reachedNextScene = YES;
-  self.hudView.waveNumLabel.text = [NSString stringWithFormat:@"ENEMY %d/%d", _curStage+1, (int)self.enemyTeam.count];
+  self.mainView.hudView.waveNumLabel.text = [NSString stringWithFormat:@"ENEMY %d/%d", _curStage+1, (int)self.enemyTeam.count];
   
   // At this point data for the potential custom PvP board of
   // the enemy is at hand, so we need to recreate the board
@@ -596,7 +596,7 @@
     BattleSprite *bs = [[BattleSprite alloc]  initWithPrefix:bp.spritePrefix nameString:bp.attrName rarity:bp.rarity animationType:bp.animationType isMySprite:YES verticalOffset:bp.verticalOffset];
     bs.battleLayer = self;
     bs.healthBar.color = [self.orbLayer.swipeLayer colorForSparkle:(OrbColor)bp.element];
-    [self.bgdContainer addChild:bs z:idx];
+    [self.mainView.bgdContainer addChild:bs z:idx];
     bs.isFacingNear = NO;
     
     CGPoint finalPos = MY_PLAYER_LOCATION;
@@ -622,7 +622,7 @@
     
     if (idx == 0) {
       // Do this so the enemies calibrating message will pop up over someones head
-      self.myPlayer = bs;
+      self.mainView.myPlayer = bs;
       self.myPlayerObject = bp;
     }
   }
@@ -744,12 +744,10 @@
           finalPos = ccpAdd(finalPos, ccp(-7, 35));
         }
         
-        if (_puzzleIsOnLeft) finalPos = ccpAdd(finalPos, ccp(PUZZLE_ON_LEFT_BGD_OFFSET, 0));
-        
         BattleSprite *bs = [[BattleSprite alloc] initWithPrefix:bp.spritePrefix nameString:bp.attrName rarity:bp.rarity animationType:bp.animationType isMySprite:NO verticalOffset:bp.verticalOffset];
         bs.battleLayer = self;
         bs.healthBar.color = [self.orbLayer.swipeLayer colorForSparkle:(OrbColor)bp.element];
-        [self.bgdContainer addChild:bs z:-idx];
+        [self.mainView.bgdContainer addChild:bs z:-idx];
         bs.isFacingNear = YES;
         
         CGPoint offsetPerScene = POINT_OFFSET_PER_SCENE;
@@ -813,16 +811,16 @@
   // Do this so that blowing up the sprite doesn't do anything bad
   node.contentSize = CGSizeMake(0, statue.contentSize.height*0.5);
   
-  [self.bgdContainer addChild:node];
+  [self.mainView.bgdContainer addChild:node];
   node.position = position;
   node.zOrder = -4;
   
-  statue.position = ccp(0, self.bgdContainer.contentSize.height-position.y+20);
+  statue.position = ccp(0, self.mainView.bgdContainer.contentSize.height-position.y+20);
   [statue runAction:[CCActionSequence actions:
                      [CCActionEaseSineIn actionWithAction:[CCActionMoveTo actionWithDuration:0.3f position:ccp(0,0)]],
                      [CCActionCallBlock actionWithBlock:
                       ^{
-                        [self shakeScreenWithIntensity:1.f];
+                        [self.mainView shakeScreenWithIntensity:1.f];
                       }],
                      [CCActionDelay actionWithDuration:0.2f],
                      [CCActionCallFunc actionWithTarget:self selector:selector], nil]];
@@ -832,7 +830,7 @@
 
 - (void) destroyEnemyStatueWithExplosion:(BOOL)explosion {
   if (explosion) {
-    [self blowupBattleSprite:(BattleSprite *)self.statueNode withBlock:nil];
+    [self.mainView blowupBattleSprite:(BattleSprite *)self.statueNode withBlock:nil];
   } else {
     [self.statueNode runAction:[CCActionSequence actions:
                                 [RecursiveFadeTo actionWithDuration:0.3f opacity:0],
@@ -846,7 +844,7 @@
   if (!self.defendersList) {
     if (_numTimesNotResponded < 5) {
       [self myTeamBeginWalking];
-      [self.bgdLayer scrollToNewScene];
+      [self.mainView.bgdLayer scrollToNewScene];
     } else {
       [self myTeamStopWalking];
       [GenericPopupController displayNotificationViewWithText:@"Sorry, we were unable to find any enemies for you at the moment. Try again later." title:@"No Enemies Found!" okayButton:@"Okay" target:self selector:@selector(exitFinal)];
@@ -855,7 +853,7 @@
     if (!_hasChosenEnemy) {
       if (!_spawnedNewTeam) {
         [self myTeamBeginWalking];
-        [self.bgdLayer scrollToNewScene];
+        [self.mainView.bgdLayer scrollToNewScene];
         
         if (!self.enemyTeam && !_waitingForDownload) {
           [self prepareNextEnemyTeam];
@@ -867,7 +865,7 @@
         }
         
         if (_waitingForDownload && _numTimesNotResponded % 4 == 0) {
-          [self.myPlayer initiateSpeechBubbleWithText:@"Hmm.. Enemies are calibrating."];
+          [self.mainView.myPlayer initiateSpeechBubbleWithText:@"Hmm.. Enemies are calibrating."];
         }
         
       } else {
@@ -879,10 +877,6 @@
   }
 }
 
-- (BattleSprite *) myPlayer {
-  return [super myPlayer];
-}
-
 #pragma mark - Resource Items Filler
 
 - (void) resourceItemsUsed:(NSDictionary *)itemUsages {
@@ -890,7 +884,7 @@
 }
 
 - (void) itemSelectClosed:(id)viewController {
-  self.popoverViewController = nil;
+  self.mainView.popoverViewController = nil;
   self.resourceItemsFiller = nil;
 }
 

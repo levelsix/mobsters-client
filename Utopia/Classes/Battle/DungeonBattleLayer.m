@@ -194,7 +194,7 @@
       [self runawayFailed];
     }
     
-    [self.hudView removeButtons];
+    [self.mainView.hudView removeButtons];
     [self.orbLayer.bgdLayer turnTheLightsOff];
     [self.orbLayer disallowInput];
   }
@@ -206,8 +206,8 @@
     [self youLost];
   }];
   
-  [self makeMyPlayerWalkOutWithBlock:nil];
-  self.myPlayer = nil;
+  [self.mainView makeMyPlayerWalkOutWithBlock:nil];
+  self.mainView.myPlayer = nil;
   self.myPlayerObject = nil;
 }
 
@@ -361,7 +361,7 @@
       }
     }
   }
-  self.lootLabel.string = [Globals commafyNumber:_lootCount];
+  self.mainView.lootLabel.string = [Globals commafyNumber:_lootCount];
   
   @try {
     NSError *error = nil;
@@ -479,7 +479,7 @@
     if (bp.curHealth <= 0) {
       bp = nil;
       self.battleSchedule = nil;
-      [self.hudView.battleScheduleView setBattleSchedule:nil];
+      [self.mainView.hudView.battleScheduleView setBattleSchedule:nil];
     }
   }
   
@@ -519,7 +519,7 @@
 }
 
 - (void) beginNextTurn {
-  if (self.currentEnemy && _displayedWaveNumber && _reachedNextScene && self.enemyPlayerObject.dialogue) {
+  if (self.mainView.currentEnemy && self.mainView.displayedWaveNumber && _reachedNextScene && self.enemyPlayerObject.dialogue) {
     DialogueViewController *dvc = [[DialogueViewController alloc] initWithDialogueProto:self.enemyPlayerObject.dialogue];
     dvc.delegate = self;
     GameViewController *gvc = [GameViewController baseController];
@@ -550,7 +550,7 @@
     [self setMovesLeft:moves animated:NO];
     
     if (_movesLeft < NUM_MOVES_PER_TURN && (!self.myPlayerObject.isChilled || _movesLeft < NUM_MOVES_PER_TURN-1)) {
-      [self.hudView removeSwapButtonAnimated:NO];
+      [self.mainView.hudView removeSwapButtonAnimated:NO];
     }
   } else {
     [super beginMyTurn];
@@ -566,13 +566,13 @@
       _numTimesNotResponded++;
       if (_isDownloading || _numTimesNotResponded < 10) {
         if (_isDownloading && _numTimesNotResponded % 4 == 0) {
-          [self.myPlayer initiateSpeechBubbleWithText:@"Hmm.. Enemies are calibrating."];
+          [self.mainView.myPlayer initiateSpeechBubbleWithText:@"Hmm.. Enemies are calibrating."];
         }
         
-        [self.myPlayer beginWalking];
-        [self.bgdLayer scrollToNewScene];
+        [self.mainView.myPlayer beginWalking];
+        [self.mainView.bgdLayer scrollToNewScene];
       } else {
-        [self.myPlayer stopWalking];
+        [self.mainView.myPlayer stopWalking];
         [GenericPopupController displayNotificationViewWithText:@"The enemies seem to have been scared off. Tap okay to return outside." title:@"Something Went Wrong" okayButton:@"Okay" target:self selector:@selector(exitFinal)];
       }
     } else {
@@ -618,8 +618,8 @@
   if (self.orbLayer.swipeLayer.userInteractionEnabled) {
     [self.orbLayer disallowInput];
     [self.orbLayer.bgdLayer turnTheLightsOff];
-    [self.hudView removeButtons];
-    self.currentEnemy.healthBar.percentage = 0.01f;
+    [self.mainView.hudView removeButtons];
+    self.mainView.currentEnemy.healthBar.percentage = 0.01f;
     [self dealDamage:self.enemyPlayerObject.curHealth enemyIsAttacker:NO usingAbility:NO withTarget:self withSelector:@selector(checkEnemyHealth)];
   }
 }
@@ -781,7 +781,7 @@
   self.battleSchedule = [[BattleSchedule alloc] initWithSequence:schedule currentIndex:curIdx-1];
   _shouldDisplayNewSchedule = YES;
   
-  [self.hudView.battleScheduleView setBattleSchedule:self.battleSchedule];
+  [self.mainView.hudView.battleScheduleView setBattleSchedule:self.battleSchedule];
   
   _resumedUserMonsterUuid = [stateDict objectForKey:MY_USER_MONSTER_ID_KEY];
   

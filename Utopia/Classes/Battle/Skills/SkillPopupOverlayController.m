@@ -26,7 +26,7 @@
   if (_popupOverlay) return;
   
   // Create overlay
-  UIView *parentView = self.battleLayer.hudView;
+  UIView *parentView = self.battleLayer.mainView.hudView;
   _popupOverlay = [[[NSBundle mainBundle] loadNibNamed:_currentSkillPopup.miniPopup ? @"SkillPopupMiniOverlay" : @"SkillPopupOverlay" owner:self options:nil] objectAtIndex:0];
   [_popupOverlay setBounds:parentView.bounds];
   [_popupOverlay setOrigin:CGPointMake((parentView.width - _popupOverlay.width)/2, (parentView.height - _popupOverlay.height)/2)];
@@ -47,9 +47,9 @@
   if (_belongsToPlayer)
   {
     [UIView animateWithDuration:0.1 animations:^{
-      self.battleLayer.hudView.bottomView.alpha = 0.0;
+      self.battleLayer.mainView.hudView.bottomView.alpha = 0.0;
     } completion:^(BOOL finished) {
-      self.battleLayer.hudView.bottomView.hidden = YES;
+      self.battleLayer.mainView.hudView.bottomView.hidden = YES;
     }];
   }
 }
@@ -96,10 +96,10 @@
     
     if (_belongsToPlayer)
     {
-      self.battleLayer.hudView.bottomView.hidden = NO;
-      self.battleLayer.hudView.bottomView.alpha = 0.0;
+      self.battleLayer.mainView.hudView.bottomView.hidden = NO;
+      self.battleLayer.mainView.hudView.bottomView.alpha = 0.0;
       [UIView animateWithDuration:0.1 animations:^{
-        self.battleLayer.hudView.bottomView.alpha = 1.0;
+        self.battleLayer.mainView.hudView.bottomView.alpha = 1.0;
       }];
     }
     

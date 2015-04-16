@@ -254,19 +254,19 @@
   self.player.curHealth = 0.0;
   
   // Remove enemy sprite and destroy all cakes after that
-  [self.battleLayer blowupBattleSprite:self.enemySprite withBlock:^{
+  [self.battleLayer.mainView blowupBattleSprite:self.enemySprite withBlock:^{
     [self destroyAllCakes];
   }];
   
-  [self.battleLayer blowupBattleSprite:self.playerSprite withBlock:^{}];
+  [self.battleLayer.mainView blowupBattleSprite:self.playerSprite withBlock:^{}];
   
   // Deal damage to the enemy and erase him/her
   self.enemy.curHealth = 0.0;
   self.battleLayer.enemyDamageDealt = YES;
   [self.battleLayer updateHealthBars];
   self.battleLayer.enemyPlayerObject = nil;
-  self.battleLayer.currentEnemy = nil;
-  [self.battleLayer.hudView removeBattleScheduleView];
+  self.battleLayer.mainView.currentEnemy = nil;
+  [self.battleLayer.mainView.hudView removeBattleScheduleView];
   
   // Finish the skill execution
   [self skillTriggerFinished];

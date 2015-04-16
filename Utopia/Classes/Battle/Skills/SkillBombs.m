@@ -137,7 +137,7 @@
   
   for (int i = 0; i < bombCount; i++) {
     CCSprite *bomb = [CCSprite spriteWithImageNamed:@"bomb.png"];
-    [self.battleLayer.bgdContainer addChild:bomb];
+    [self.battleLayer.mainView.bgdContainer addChild:bomb];
     bomb.scale = 0.3;
     
     CGPoint endPos = ccpAdd(position, ccp(5,10));
@@ -155,7 +155,7 @@
          CCParticleSystem *q = [CCParticleSystem particleWithFile:@"bombdrop.plist"];
          q.autoRemoveOnFinish = YES;
          q.position = bomb.position;
-         [self.battleLayer.bgdContainer addChild:q];
+         [self.battleLayer.mainView.bgdContainer addChild:q];
          
          [bomb removeFromParentAndCleanup:YES];
          
@@ -166,7 +166,7 @@
          }
          
          if (i == 0) {
-           [self.battleLayer shakeScreenWithIntensity:2.f];
+           [self.battleLayer.mainView shakeScreenWithIntensity:2.f];
          }
          
          [SoundEngine puzzleBoardExplosion];

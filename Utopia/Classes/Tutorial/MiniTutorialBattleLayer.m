@@ -59,8 +59,8 @@
     _allowTurnBegin = NO;
     [super beginMyTurn];
     
-    self.hudView.swapView.hidden = self.swappableTeamSlot == 0;
-    [self.hudView removeSwapButtonAnimated:YES];
+    self.mainView.hudView.swapView.hidden = self.swappableTeamSlot == 0;
+    [self.mainView.hudView removeSwapButtonAnimated:YES];
   }
 }
 
@@ -77,7 +77,7 @@
   if (!_hasStarted) {
     [super reachedNextScene];
   } else {
-    [self.myPlayer stopWalking];
+    [self.mainView.myPlayer stopWalking];
     if ([self.delegate respondsToSelector:@selector(battleLayerReachedEnemy)]) {
       [self.delegate battleLayerReachedEnemy];
     }

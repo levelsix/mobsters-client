@@ -179,14 +179,14 @@
         // Display side effect symbol on turn indicators for the affected turns
         if (turnsAreSideEffectOwners)
         {
-          [[[[skillManager battleLayer] hudView] battleScheduleView] displaySideEffectIcon:_iconImageName
+          [[[[[skillManager battleLayer] mainView] hudView] battleScheduleView] displaySideEffectIcon:_iconImageName
                                                                                    withKey:_name
                                                                   forUpcomingNumberOfTurns:numTurns
                                                                                  forPlayer:player];
         }
         else
         {
-          [[[[skillManager battleLayer] hudView] battleScheduleView] displaySideEffectIcon:_iconImageName
+          [[[[[skillManager battleLayer] mainView] hudView] battleScheduleView] displaySideEffectIcon:_iconImageName
                                                                                    withKey:_name
                                                           forUpcomingNumberOfOpponentTurns:numTurns
                                                                                  forPlayer:player];
@@ -199,7 +199,7 @@
 - (void)removeFromCharacterSprite
 {
   // Remove side effect symbol from turn indicators
-  [[[[skillManager battleLayer] hudView] battleScheduleView] removeSideEffectIconWithKey:_name
+  [[[[[skillManager battleLayer] mainView] hudView] battleScheduleView] removeSideEffectIconWithKey:_name
                                                              onAllUpcomingTurnsForPlayer:_castOnPlayer];
   
   if (_vfx && [_vfx getActionByTag:SIDE_EFFECT_DISPLAY_ACTION_TAG] == nil)
@@ -283,7 +283,7 @@
 - (void)resetAfftectedTurnsCount:(NSInteger)numTurns
 {
   // Display side effect symbol on turn indicators for the affected turns
-  [[[[skillManager battleLayer] hudView] battleScheduleView] displaySideEffectIcon:_iconImageName
+  [[[[[skillManager battleLayer] mainView] hudView] battleScheduleView] displaySideEffectIcon:_iconImageName
                                                                            withKey:_name
                                                           forUpcomingNumberOfTurns:numTurns
                                                                          forPlayer:_castOnPlayer];
