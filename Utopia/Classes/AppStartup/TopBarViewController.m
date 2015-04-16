@@ -89,6 +89,7 @@
   }
   
   self.shopViewController = [[ShopViewController alloc] init];
+  self.shopViewController.delegate = self;
   
   // We have to do this because it seems that the view connection wasnt made when the view was added
   [self.timerViewController viewWillAppear:YES];
@@ -957,12 +958,10 @@
 
 - (IBAction)saleClicked:(id)sender {
   Globals *gl = [Globals sharedGlobals];
-  GameState *gs = [GameState sharedGameState];
   
-  if (gs.numBeginnerSalesPurchased == 0) {
-    SalesPackageProto *spp = [gl starterPackSale];
-    
-    
+  SalesPackageProto *spp = [gl starterPackSale];
+  if (spp) {
+    [self openShopWithFunds:spp];
   }
 }
 
@@ -1069,7 +1068,9 @@
 - (void) openShop {
   if (!self.shopViewController.parentViewController) {
     [self.shopViewController displayInParentViewController:self];
-    [self.mainView insertSubview:self.shopViewController.view belowSubview:self.coinBarsView];
+    
+    // Need to readjust so that it can go above or beneath the bars
+    [self.shopViewController adjustContainerViewForSubViewController:self.shopViewController.topViewController];
   }
 }
 
@@ -1102,6 +1103,14 @@
   _structIdForArrow = structId;
   [Globals removeUIArrowFromViewRecursively:self.view];
   [Globals createUIArrowForView:self.shopView atAngle:M_PI];
+}
+
+- (void) sendShopViewAboveCoinBars:(ShopViewController *)svc {
+  [self.mainView insertSubview:self.shopViewController.view aboveSubview:self.coinBarsView];
+}
+
+- (void) sendShopViewUnderCoinBars:(id)svc {
+  [self.mainView insertSubview:self.shopViewController.view belowSubview:self.coinBarsView];
 }
 
 #pragma mark - Add home view

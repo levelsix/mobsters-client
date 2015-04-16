@@ -38,7 +38,7 @@
   UIView *v = [[UIView alloc] initWithFrame:self.containerView.superview.frame];
   v.backgroundColor = DARKEN_VIEW_COLOR;
   v.tag = DARKEN_VIEW_TAG;
-  v.layer.cornerRadius = self.containerView.layer.cornerRadius;
+  v.layer.cornerRadius = self.containerView.layer.cornerRadius-1;
   [self.view addSubview:v];
 }
 

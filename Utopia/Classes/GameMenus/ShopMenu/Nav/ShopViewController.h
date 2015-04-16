@@ -14,6 +14,13 @@
 #import "GachaChooserViewController.h"
 #import "SalesViewController.h"
 
+@protocol ShopViewDelegate <NSObject>
+
+- (void) sendShopViewUnderCoinBars:(id)svc;
+- (void) sendShopViewAboveCoinBars:(id)svc;
+
+@end
+
 @interface ShopViewController : PopupNavViewController <TabBarDelegate> 
 
 @property (nonatomic, retain) BuildingViewController *buildingViewController;
@@ -25,7 +32,11 @@
 @property (nonatomic, retain) IBOutlet BadgeIcon *buildingsBadge;
 @property (nonatomic, retain) IBOutlet BadgeIcon *gachasBadge;
 
+@property (nonatomic, assign) id<ShopViewDelegate> delegate;
+
 - (void) initializeSubViewControllers;
+
+- (void) adjustContainerViewForSubViewController:(UIViewController *)uvc;
 
 - (void) openBuildingsShop;
 - (void) openFundsShop;

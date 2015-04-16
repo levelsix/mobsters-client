@@ -25,7 +25,8 @@
   if (point.x < 0 || point.x > self.contentSize.width) {
     return NO;
   }
-  return [super pointInside:point withEvent:event];
+  
+  return YES;
 }
 
 @end
@@ -37,6 +38,15 @@
 @end
 
 @implementation SalesView
+
+- (BOOL) pointInside:(CGPoint)point withEvent:(UIEvent *)event {
+  if (![super pointInside:point withEvent:event]) {
+    return NO;
+  }
+  
+  return [self.scrollView pointInside:[self convertPoint:point toView:self.scrollView] withEvent:event];
+}
+
 
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
   UIView *v = [super hitTest:point withEvent:event];
@@ -133,7 +143,7 @@
         uvc.view.centerX = width*(i+0.5);
         uvc.view.originY = self.scrollView.height-uvc.view.height;
         
-        if (i == self.viewControllers.count-1) {
+        if (self.scrollView.subviews.count == self.viewControllers.count) {
           _allVcsLoaded = YES;
         }
       }

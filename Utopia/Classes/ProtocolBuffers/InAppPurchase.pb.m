@@ -219,6 +219,7 @@ BOOL InAppPurchasePackageProto_InAppPurchasePackageTypeIsValidValue(InAppPurchas
     case InAppPurchasePackageProto_InAppPurchasePackageTypeGems:
     case InAppPurchasePackageProto_InAppPurchasePackageTypeStarterPack:
     case InAppPurchasePackageProto_InAppPurchasePackageTypeMoneyTree:
+    case InAppPurchasePackageProto_InAppPurchasePackageTypeSale:
       return YES;
     default:
       return NO;

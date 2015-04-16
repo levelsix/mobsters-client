@@ -125,6 +125,12 @@
 - (void) adjustContainerViewForSubViewController:(UIViewController *)uvc {
   self.containerView.originY = CGRectGetMaxY(self.containerView.frame)-uvc.view.height;
   self.containerView.height = uvc.view.height;
+  
+  if (self.containerView.originY < 45) {
+    [self.delegate sendShopViewAboveCoinBars:self];
+  } else {
+    [self.delegate sendShopViewUnderCoinBars:self];
+  }
 }
 
 - (void) replaceRootWithViewController:(PopupSubViewController *)viewController {

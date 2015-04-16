@@ -29,7 +29,7 @@
 
 @end
 
-@interface TopBarViewController : UIViewController <NumTransitionLabelDelegate, ChatBottomViewDelegate, ResourceItemsFillerDelegate> {
+@interface TopBarViewController : UIViewController <NumTransitionLabelDelegate, ChatBottomViewDelegate, ResourceItemsFillerDelegate, ShopViewDelegate> {
   CGPoint _originalProgressCenter;
   
   int _structIdForArrow;

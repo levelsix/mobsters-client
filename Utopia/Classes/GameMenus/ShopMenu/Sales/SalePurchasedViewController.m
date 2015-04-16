@@ -18,7 +18,7 @@
 
 @implementation SalePurchasedViewController
 
-static NSString *nibName = @"SaleViewCell";
+static NSString *nibName = @"SalePackageCell";
 
 - (id) initWithSalePackageProto:(SalesPackageProto *)spp {
   if ((self = [super init])) {
@@ -30,8 +30,8 @@ static NSString *nibName = @"SaleViewCell";
 - (void) viewDidLoad {
   [super viewDidLoad];
   
-  [self.bonusItemsCollectionView registerNib:[UINib nibWithNibName:nibName bundle:nil] forCellWithReuseIdentifier:nibName];
-  self.bonusItemsCollectionView.superview.layer.cornerRadius = 5.f;
+  [self.bonusItemsTable registerNib:[UINib nibWithNibName:nibName bundle:nil] forCellReuseIdentifier:nibName];
+  self.bonusItemsTable.superview.layer.cornerRadius = 5.f;
   
   self.headerView.layer.cornerRadius = 5.f;
   

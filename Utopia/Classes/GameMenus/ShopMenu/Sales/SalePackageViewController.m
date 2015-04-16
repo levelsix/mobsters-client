@@ -59,7 +59,7 @@
 
 @implementation SalePackageViewController
 
-static NSString *nibName = @"SaleViewCell";
+static NSString *nibName = @"SalePackageCell";
 
 - (id) initWithSalePackageProto:(SalesPackageProto *)spp {
   if ((self = [super init])) {
@@ -116,7 +116,7 @@ static NSString *nibName = @"SaleViewCell";
     return [@(obj1.positionZ) compare:@(obj2.positionZ)];
   }];
   
-  [Globals checkAndLoadFiles:arr completion:^(BOOL success) {
+  BOOL success = [Globals checkAndLoadFiles:arr completion:^(BOOL success) {
     if (success) {
       for (int i = 0; i < cmps.count; i++) {
         CustomMenuProto *cmp = cmps[i];
@@ -150,7 +150,18 @@ static NSString *nibName = @"SaleViewCell";
       v.tag = DARKEN_VIEW_TAG;
       [self.containerView addSubview:v];
     }
+    
+    [self.loadingView removeFromSuperview];
+    self.loadingView = nil;
+    
+    self.containerView.hidden = NO;
   }];
+  
+  if (!success) {
+    self.loadingView = [[NSBundle mainBundle] loadNibNamed:@"SalePackageLoadingView" owner:self options:nil][0];
+    [self.view addSubview:self.loadingView];
+    self.containerView.hidden = YES;
+  }
 }
 
 static float rotationAmt = M_PI/15;

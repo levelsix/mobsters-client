@@ -257,9 +257,9 @@
 + (NSString *) pathToFile:(NSString *)fileName useiPhone6Prefix:(BOOL)prefix;
 + (BOOL) isFileDownloaded:(NSString *)fileName useiPhone6Prefix:(BOOL)prefix;
 + (NSString *) downloadFile:(NSString *)fileName useiPhone6Prefix:(BOOL)prefix;
-+ (void) checkAndLoadFile:(NSString *)fileName useiPhone6Prefix:(BOOL)prefix completion:(void (^)(BOOL success))completion;
-+ (void) checkAndLoadSpriteSheet:(NSString *)fileName completion:(void (^)(BOOL success))completion;
-+ (void) checkAndLoadFiles:(NSArray *)fileNames completion:(void (^)(BOOL success))completion;
++ (BOOL) checkAndLoadFile:(NSString *)fileName useiPhone6Prefix:(BOOL)prefix completion:(void (^)(BOOL success))completion;
++ (BOOL) checkAndLoadSpriteSheet:(NSString *)fileName completion:(void (^)(BOOL success))completion;
++ (BOOL) checkAndLoadFiles:(NSArray *)fileNames completion:(void (^)(BOOL success))completion;
 + (NSBundle *) bundleNamed:(NSString *)bundleName;
 + (NSString*) getDoubleResolutionImage:(NSString*)path useiPhone6Prefix:(BOOL)prefix;
 + (UIImage *) imageNamed:(NSString *)path;
