@@ -11,16 +11,7 @@
 #import "CAWSpriteLayer.h"
 #import "Globals.h"
 
-static const CGFloat kSpinnerPositionOffsetY = 13.f;
-
 @implementation SpriteAnimationImageView
-
-- (void) awakeFromNib
-{
-  [super awakeFromNib];
-  
-  self.spinner = nil;
-}
 
 - (void) setSprite:(NSString*)spriteName
 {
@@ -30,32 +21,54 @@ static const CGFloat kSpinnerPositionOffsetY = 13.f;
     
     if ([spriteName rangeOfString:@".plist"].location == NSNotFound)
     {
+      // Set a static image
       [Globals imageNamed:spriteName withView:self greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
     }
     else
     {
-      [self addSpinner];
+      if (self.spinner) [self.spinner startAnimating];
       
+      // Check for and download assets required for the sprite animation
       [Globals checkAndLoadFile:spriteName useiPhone6Prefix:NO completion:^(BOOL success) {
         if (success)
         {
-          NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:[Globals pathToFile:spriteName useiPhone6Prefix:NO]];
-          NSDictionary *metadata = [dict objectForKey:@"meta"];
-          NSString *texture = [metadata objectForKey:@"image"];
+          NSDictionary* dict = [NSDictionary dictionaryWithContentsOfFile:[Globals pathToFile:spriteName useiPhone6Prefix:NO]];
+          NSDictionary* metadata = [dict objectForKey:@"meta"];
+          NSString* texture = [metadata objectForKey:@"image"];
           [Globals checkAndLoadFile:texture useiPhone6Prefix:NO completion:^(BOOL success) {
-            [self removeSpinner];
+            if (self.spinner) [self.spinner stopAnimating];
             
             if (success)
             {
               [self setImage:nil];
               [self.layer.sublayers makeObjectsPerformSelector:@selector(removeFromSuperlayer)];
               
+              // Set own size equal to size of the biggest frame of the sprite animation
+              NSDictionary* frames = [dict objectForKey:@"frames"];
+              CGFloat maxFrameWidth = 0.f, maxFrameHeight = 0.f;
+              for (NSString* key in frames)
+              {
+                NSDictionary* frame = [frames objectForKey:key];
+                CGFloat frameWidth  = [[frame objectForKey:@"w"] floatValue]; if (frameWidth  > maxFrameWidth)  maxFrameWidth  = frameWidth;
+                CGFloat frameHeight = [[frame objectForKey:@"h"] floatValue]; if (frameHeight > maxFrameHeight) maxFrameHeight = frameHeight;
+              }
+              if (maxFrameWidth > 0.f && maxFrameHeight > 0.f)
+              {
+                maxFrameWidth /= 2.f; maxFrameHeight /= 2.f; // Retina adjustment
+                self.frame = CGRectMake(self.originX - (maxFrameWidth  - self.width) * .5f,
+                                        self.originY - (maxFrameHeight - self.height),
+                                        maxFrameWidth,
+                                        maxFrameHeight);
+              }
+              
+              // Create sprite animation and add it as a sublayer
               NSDictionary* spriteData = [CAWSpriteReader spritesWithContentOfDictionary:dict];
               UIImage* spritesheet = [Globals imageNamed:texture];
               CAWSpriteLayer* spriteLayer = [CAWSpriteLayer layerWithSpriteData:spriteData andImage:spritesheet];
               spriteLayer.animationLayer.showLastFrame = YES;
               [self.layer addSublayer:spriteLayer];
               
+              // Start the sprite animation
               NSString* frameNames = [[spriteName stringByDeletingPathExtension] stringByAppendingString:@"%02d"];
               [self playAnimation:[NSTimer scheduledTimerWithTimeInterval:12.f
                                                                    target:self
@@ -67,7 +80,7 @@ static const CGFloat kSpinnerPositionOffsetY = 13.f;
         }
         else
         {
-          [self removeSpinner];
+          if (self.spinner) [self.spinner stopAnimating];
         }
       }];
     }
@@ -79,27 +92,6 @@ static const CGFloat kSpinnerPositionOffsetY = 13.f;
   NSString* frameNames = [timer.userInfo objectForKey:@"FrameNames"];
   CAWSpriteLayer* spriteLayer = [timer.userInfo objectForKey:@"SpriteLayer"];
   [spriteLayer playAnimation:frameNames withRate:15];
-}
-
-- (void) addSpinner
-{
-  if (!self.spinner)
-  {
-    self.spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-    self.spinner.center = CGPointMake(self.width * .5f, self.height * .5f + kSpinnerPositionOffsetY);
-    [self addSubview:self.spinner];
-    [self.spinner startAnimating];
-  }
-}
-
-- (void) removeSpinner
-{
-  if (self.spinner)
-  {
-    [self.spinner stopAnimating];
-    [self.spinner removeFromSuperview];
-    self.spinner = nil;
-  }
 }
 
 @end
