@@ -3572,7 +3572,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   UserItem *item = [gs.itemUtil getUserItemForItemId:itemId];
   
-  if (!item && item.quantity > 0 && !gemsSpent) {
+  if ((!item || item.quantity <= 0) && !gemsSpent) {
     [Globals popupMessage:@"Trying to refresh mini Job without items or gems"];
     return;
   }
