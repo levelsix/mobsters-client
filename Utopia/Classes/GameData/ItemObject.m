@@ -68,7 +68,7 @@
       if (self.useGemsButton) {
         return [NSString stringWithFormat:@"%d",[self costToPurchase]];
       } else {
-        return @"USE";
+        return @"Use";
       }
       
     case ItemTypeItemCash:
@@ -76,7 +76,7 @@
     case ItemTypeSpeedUp:
     case ItemTypeBoosterPack:
     case ItemTypeBuilder:
-      return @"USE";
+      return @"Use";
   }
 }
 

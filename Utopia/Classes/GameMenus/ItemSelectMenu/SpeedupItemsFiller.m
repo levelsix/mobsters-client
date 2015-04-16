@@ -48,10 +48,11 @@
       
       GameActionType gameAction1 = [obj1 gameActionType];
       GameActionType gameAction2 = [obj2 gameActionType];
-      if (gameAction1 != gameAction2) {
-        return gameAction1 != GameActionTypeNoHelp ? NSOrderedAscending : NSOrderedDescending;
-      } else if (anyOwned1 != anyOwned2) {
+      
+      if (anyOwned1 != anyOwned2) {
         return [@(anyOwned2) compare:@(anyOwned1)];
+      } else if (gameAction1 != gameAction2) {
+          return gameAction1 != GameActionTypeNoHelp ? NSOrderedAscending : NSOrderedDescending;
       } else {
         ItemProto *ip1 = [gs itemForId:[obj1 itemId]];
         ItemProto *ip2 = [gs itemForId:[obj2 itemId]];

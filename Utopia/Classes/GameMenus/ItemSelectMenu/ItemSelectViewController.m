@@ -101,7 +101,10 @@
     case GameActionTypeUpgradeStruct:
       self.gameActionTypeIcon.image = [Globals imageNamed:@"timerupgrade.png"];
       break;
-    default:
+      
+    case GameActionTypeNoHelp:
+    case GameActionTypeCombineMonster:
+    case GameActionTypeEnterPersistentEvent:
       self.gameActionTypeIcon.hidden = YES;
       break;
   }
