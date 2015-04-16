@@ -255,7 +255,7 @@
   self.noMoreJobsLabel.hidden = ct > 0;
   
   if (_waitingOnRefreshResponse) {
-    self.noMoreJobsLabel.text = @"Loading Minijobs...";
+    self.noMoreJobsLabel.text = @"Loading Mini Jobs...";
   } else {
     self.noMoreJobsLabel.text = @"You have no more Mini Jobs.";
   }
