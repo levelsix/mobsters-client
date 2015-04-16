@@ -11,7 +11,16 @@
 #import "CAWSpriteLayer.h"
 #import "Globals.h"
 
+static const CGFloat kSpinnerPositionOffsetY = 13.f;
+
 @implementation SpriteAnimationImageView
+
+- (void) awakeFromNib
+{
+  [super awakeFromNib];
+  
+  self.spinner = nil;
+}
 
 - (void) setSprite:(NSString*)spriteName
 {
@@ -25,6 +34,8 @@
     }
     else
     {
+      [self addSpinner];
+      
       [Globals checkAndLoadFile:spriteName useiPhone6Prefix:NO completion:^(BOOL success) {
         if (success)
         {
@@ -32,6 +43,8 @@
           NSDictionary *metadata = [dict objectForKey:@"meta"];
           NSString *texture = [metadata objectForKey:@"image"];
           [Globals checkAndLoadFile:texture useiPhone6Prefix:NO completion:^(BOOL success) {
+            [self removeSpinner];
+            
             if (success)
             {
               [self setImage:nil];
@@ -52,6 +65,10 @@
             }
           }];
         }
+        else
+        {
+          [self removeSpinner];
+        }
       }];
     }
   }
@@ -62,6 +79,27 @@
   NSString* frameNames = [timer.userInfo objectForKey:@"FrameNames"];
   CAWSpriteLayer* spriteLayer = [timer.userInfo objectForKey:@"SpriteLayer"];
   [spriteLayer playAnimation:frameNames withRate:15];
+}
+
+- (void) addSpinner
+{
+  if (!self.spinner)
+  {
+    self.spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    self.spinner.center = CGPointMake(self.width * .5f, self.height * .5f + kSpinnerPositionOffsetY);
+    [self addSubview:self.spinner];
+    [self.spinner startAnimating];
+  }
+}
+
+- (void) removeSpinner
+{
+  if (self.spinner)
+  {
+    [self.spinner stopAnimating];
+    [self.spinner removeFromSuperview];
+    self.spinner = nil;
+  }
 }
 
 @end
