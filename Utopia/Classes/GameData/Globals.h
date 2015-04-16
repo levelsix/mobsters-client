@@ -475,6 +475,8 @@
 + (void) toggleLogging;
 + (BOOL) isLoggingEnabled;
 
++ (NSString *) imageNameForReward:(RewardProto *) reward;
+
 @end
 
 @interface CCNode (RecursiveOpacity)

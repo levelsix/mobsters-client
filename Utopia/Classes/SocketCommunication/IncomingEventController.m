@@ -377,6 +377,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSRefreshMiniJobEvent:
       responseClass = [RefreshMiniJobResponseProto class];
       break;
+    case EventProtocolResponseSCollectClanGiftsEvent:
+      responseClass = [CollectClanGiftsResponseProto class];
+      break;
     default:
       responseClass = nil;
       break;
@@ -531,9 +534,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     [gs updateClanData:proto.clanData];
     
-    if([proto.recentNbattlesList mutableCopy]) {
+
+    if(proto.recentNbattlesList) {
       gs.battleHistory = [proto.recentNbattlesList mutableCopy];
     }
+
+    [gs.clanGifts addObjectsFromArray:proto.userClanGiftsList];
     
     gs.myPvpBoardObstacles = [proto.userPvpBoardObstaclesList mutableCopy];
 
@@ -1625,6 +1631,22 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [Globals popupMessage:@"Server failed to void team donation."];
     
     [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+#pragma mark - Clan Gifts
+
+- (void) handleCollectClanGiftsResponseProto:(FullEvent *)fe {
+  CollectClanGiftsResponseProto *proto = (CollectClanGiftsResponseProto *)fe.event;
+  
+  LNLog(@"Collect Clan Gifts response received with status %d.", (int)proto.status);
+  
+  if (proto.status == CollectClanGiftsResponseProto_CollectClanGiftsStatusSuccess) {
+    
+    
+    
+  } else {
+    [Globals popupMessage:@"Server failed to redeem clan gift."];
   }
 }
 
