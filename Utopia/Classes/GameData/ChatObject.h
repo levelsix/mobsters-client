@@ -100,3 +100,11 @@
 - (BOOL) canAttack;
 
 @end
+
+@interface UserClanGiftProto (ChatObject) <ChatObject>
+
+- (BOOL) isValid;
+- (long) expireTime;
+- (MSDate *) exprieDate;
+
+@end

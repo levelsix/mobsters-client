@@ -184,12 +184,11 @@
 
 @end
 
-@interface ChatSquadGift : UIView
+@interface ChatSquadGiftView: UIView
 
 @property (nonatomic, retain) IBOutlet UIView *unOpenedView;
 @property (nonatomic, retain) IBOutlet UIView *openedView;
 
-@property (nonatomic, retain) IBOutlet UILabel *giftPoolLabel;
 @property (nonatomic, retain) IBOutlet UILabel *expireTimeLabel;
 @property (nonatomic, retain) IBOutlet UILabel *openLabel;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *openSpinner;
@@ -197,5 +196,8 @@
 @property (nonatomic, retain) IBOutlet UIImageView *giftImage;
 @property (nonatomic, retain) IBOutlet UILabel *giftRarityLabel;
 @property (nonatomic, retain) IBOutlet UILabel *giftNameLabel;
+@property (nonatomic, retain) IBOutlet UILabel *rewardNameLabel;
+
+- (void) updateForClanGift:(UserClanGiftProto *)clanGift;
 
 @end

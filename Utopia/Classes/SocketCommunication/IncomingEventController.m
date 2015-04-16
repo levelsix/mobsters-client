@@ -377,6 +377,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSRefreshMiniJobEvent:
       responseClass = [RefreshMiniJobResponseProto class];
       break;
+    case EventProtocolResponseSCollectClanGiftsEvent:
+      responseClass = [CollectClanGiftsResponseProto class];
+      break;
     default:
       responseClass = nil;
       break;
@@ -528,6 +531,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     }
     
     [gs updateClanData:proto.clanData];
+    
+    [gs.clanGifts addObjectsFromArray:proto.userClanGiftsList];
     
     gs.battleHistory = [proto.recentNbattlesList mutableCopy];
     
@@ -1471,7 +1476,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 
 - (void) handleSolicitClanHelpResponseProto:(FullEvent *)fe {
   SolicitClanHelpResponseProto *proto = (SolicitClanHelpResponseProto *)fe.event;
+<<<<<<< HEAD
   LNLog(@"Solicit clan help response received with status %d.", (int)proto.status);
+=======
+  int tag = fe.tag;
+  LNLog(@"Solicit clan help received with status %d.", (int)proto.status);
+>>>>>>> frame work and first steps with protos
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == SolicitClanHelpResponseProto_SolicitClanHelpStatusSuccess) {
@@ -1621,6 +1631,22 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [Globals popupMessage:@"Server failed to void team donation."];
     
     [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+#pragma mark - Clan Gifts
+
+- (void) handleCollectClanGiftsResponseProto:(FullEvent *)fe {
+  CollectClanGiftsResponseProto *proto = (CollectClanGiftsResponseProto *)fe.event;
+  
+  LNLog(@"Collect Clan Gifts response received with status %d.", (int)proto.status);
+  
+  if (proto.status == CollectClanGiftsResponseProto_CollectClanGiftsStatusSuccess) {
+    
+    
+    
+  } else {
+    [Globals popupMessage:@"Server failed to redeem clan gift."];
   }
 }
 

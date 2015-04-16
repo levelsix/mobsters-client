@@ -46,7 +46,7 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="293" y="601"/>
         </view>
-        <view contentMode="scaleToFill" id="m9P-os-keg" customClass="ChatSquadGift">
+        <view contentMode="scaleToFill" id="m9P-os-keg" customClass="ChatSquadGiftView">
             <rect key="frame" x="0.0" y="6" width="252" height="49"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
@@ -119,13 +119,14 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="expireTimeLabel" destination="qWA-IN-SdU" id="SG2-jm-cwX"/>
-                <outlet property="giftImage" destination="NEx-4Y-sNW" id="TGx-pi-8A3"/>
-                <outlet property="giftNameLabel" destination="XuE-3I-Nde" id="BQH-oH-gGV"/>
+                <outlet property="giftImage" destination="I8p-lN-zJB" id="YkW-KT-Z5n"/>
+                <outlet property="giftNameLabel" destination="AVE-nD-HLq" id="Zzt-Uh-6wO"/>
                 <outlet property="giftPoolLabel" destination="AVE-nD-HLq" id="sXe-jc-fIu"/>
                 <outlet property="giftRarityLabel" destination="Z6u-Nz-Bi4" id="Tve-Ul-zEK"/>
                 <outlet property="openLabel" destination="JEs-lw-PFA" id="Vxw-tL-4Bg"/>
                 <outlet property="openSpinner" destination="jhq-O6-Y85" id="k7X-ru-50Q"/>
                 <outlet property="openedView" destination="r8s-xd-z79" id="8JT-Dp-3Fd"/>
+                <outlet property="rewardNameLabel" destination="XuE-3I-Nde" id="Uyx-gU-Jos"/>
                 <outlet property="unOpenedView" destination="r8s-xd-z79" id="b4L-w4-cDe"/>
             </connections>
             <point key="canvasLocation" x="293" y="707.5"/>
