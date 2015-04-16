@@ -55,6 +55,7 @@
 #import "TutorialEnhanceController.h"
 #import "AttackedAlertViewController.h"
 #import "IAPHelper.h"
+#import "SalePurchasedViewController.h"
 
 #define DEFAULT_PNG_IMAGE_VIEW_TAG 103
 #define KINGDOM_PNG_IMAGE_VIEW_TAG 104
@@ -233,6 +234,7 @@ static const CGSize FIXED_SIZE = {568, 384};
   //[[NSBundle mainBundle] loadNibNamed:@"TravelingLoadingView" owner:self options:nil];
   
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkLevelUp) name:GAMESTATE_UPDATE_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(iapPurchased:) name:IAP_SUCCESS_NOTIFICATION object:nil];
   
   self.completedQuests = [NSMutableArray array];
   self.progressedJobs = [NSMutableArray array];
@@ -668,7 +670,7 @@ static const CGSize FIXED_SIZE = {568, 384};
     SKProduct *prod = [iap productForIdentifier:mtp.iapProductId];
     
     if (prod) {
-      [iap buyProductIdentifier:prod withDelegate:self];
+      [iap buyProductIdentifier:prod saleUuid:nil withDelegate:self];
     }
     
     self.loadingView = [[NSBundle mainBundle] loadNibNamed:@"LoadingSpinnerView" owner:self options:nil][0];
@@ -1338,13 +1340,13 @@ static const CGSize FIXED_SIZE = {568, 384};
     
     // Gacha
     [self dismissViewControllerAnimated:YES completion:^{
-      [self.topBarViewController openShopWithFunds];
+      [self.topBarViewController openShopWithFunds:nil];
     }];
   } else if (_isInBattle) {
     [self battleComplete:nil];
-    [self.topBarViewController openShopWithFunds];
+    [self.topBarViewController openShopWithFunds:nil];
   } else {
-    [self.topBarViewController openShopWithFunds];
+    [self.topBarViewController openShopWithFunds:nil];
   }
   
   [self removeAllViewControllersWithExceptions:arr];
@@ -1502,6 +1504,39 @@ static const CGSize FIXED_SIZE = {568, 384};
   LevelUpNode *levelUp = (LevelUpNode *)[reader load:@"LevelUpNode"];
   reader.animationManager.delegate = levelUp;
   [self.notificationController addNotification:levelUp];
+}
+
+#pragma mark - IAP Purchased
+
+- (void) iapPurchased:(NSNotification *)notif {
+  InAppPurchaseResponseProto *proto = notif.userInfo[IAP_RESPONSE_KEY];
+  SalesPackageProto *sale = nil;
+  
+  if (proto.hasPurchasedSalesPackage) {
+    sale = proto.purchasedSalesPackage;
+    
+  } else if (proto.hasPackageName) {
+    // Create a fake sale object
+    Globals *gl = [Globals sharedGlobals];
+    InAppPurchasePackageProto *iap = [gl packageForProductId:proto.packageName];
+    
+    RewardProto *rp = [[[[RewardProto builder] setAmt:iap.currencyAmount] setTyp:RewardProto_RewardTypeGems] build];
+    SalesDisplayItemProto *sdip = [[[SalesDisplayItemProto builder] setReward:rp] build];
+    
+    SalesPackageProto_Builder *bldr = [SalesPackageProto builder];
+    [bldr addSdip:sdip];
+    
+    sale = bldr.build;
+  }
+  
+  if (sale) {
+    SalePurchasedViewController *spvc = [[SalePurchasedViewController alloc] initWithSalePackageProto:sale];
+    spvc.view.frame = self.view.bounds;
+    [self addChildViewController:spvc];
+    [self.view addSubview:spvc.view];
+    
+    [self.topBarViewController.shopViewController close];
+  }
 }
 
 #pragma mark - Facebook stuff

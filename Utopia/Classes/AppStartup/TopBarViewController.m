@@ -25,13 +25,15 @@
 #import "OutgoingEventController.h"
 #import "ClanRewardsViewController.h"
 #import "SecretGiftViewController.h"
-#import "SaleViewController.h"
 #import "IAPHelper.h"
 #import "AttackedAlertViewController.h"
 #import "SocketCommunication.h"
 #import "SoundEngine.h"
 #import "StrengthChangeView.h"
 #import "GenericPopoverViewController.h"
+#import "MiniEventManager.h"
+#import "MiniEventViewController.h"
+#import "SpriteAnimationImageView.h"
 
 @implementation TopBarMonsterView
 
@@ -90,6 +92,7 @@
   }
   
   self.shopViewController = [[ShopViewController alloc] init];
+  self.shopViewController.delegate = self;
   
   // We have to do this because it seems that the view connection wasnt made when the view was added
   [self.timerViewController viewWillAppear:YES];
@@ -167,6 +170,12 @@
   [center addObserver:self selector:@selector(updateBuildersLabel) name:OBSTACLE_REMOVAL_BEGAN_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(updateBuildersLabel) name:OBSTACLE_COMPLETE_NOTIFICATION object:nil];
   [self updateBuildersLabel];
+  
+  [center addObserver:self selector:@selector(updateMiniEventView) name:MINI_EVENT_IS_AVAILABLE_NOTIFICATION object:nil];
+  [center addObserver:self selector:@selector(updateMiniEventView) name:MINI_EVENT_TIER_REWARD_AVAILABLE_OR_REDEEMED_NOTIFICATION object:nil];
+  [center addObserver:self selector:@selector(stopFadingMiniEventLabels) name:MINI_EVENT_HAS_ENDED_NOTIFICATION object:nil];
+  [center addObserver:self selector:@selector(updateMiniEventView) name:MINI_EVENT_IS_UAVAILABLE_NOTIFICATION object:nil];
+  [self updateMiniEventView];
   
   [self.updateTimer invalidate];
   self.updateTimer = [NSTimer timerWithTimeInterval:1.f target:self selector:@selector(updateLabels) userInfo:nil repeats:YES];
@@ -471,6 +480,7 @@
     [self.freeGemsSpinner.layer addAnimation:fullRotation forKey:@"360"];
   }
   
+  [self updateMiniEventView];
   [self updateTimersViewSize];
 }
 
@@ -578,6 +588,16 @@
   } else {
     self.saleTimeLabel.text = @"SALE!";
   }
+
+  if (!self.miniEventView.hidden)
+  {
+    UserMiniEvent* userMiniEvent = [MiniEventManager sharedInstance].currentUserMiniEvent;
+    if (userMiniEvent && ![userMiniEvent eventHasEnded])
+    {
+      const NSTimeInterval timeLeft = [userMiniEvent secondsTillEventEndTime];
+      self.miniEventTimeLabel.text = [[Globals convertTimeToShortString:timeLeft] uppercaseString];
+    }
+  }
 }
 
 - (void) showPrivateChatNotification:(NSNotification *)notification {
@@ -644,10 +664,9 @@
 }
 
 - (void) updateSaleView {
-  GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
-  BOOL showSaleView = gs.numBeginnerSalesPurchased == 0 && gl.starterPackIapPackage;
+  BOOL showSaleView = gl.starterPackSale != nil;
   
   if (showSaleView) {
     self.saleView.hidden = NO;
@@ -668,7 +687,58 @@
     self.saleView.hidden = YES;
   }
   
-  [self updateTimersViewSize];
+  self.miniEventView.centerX = self.shopView.centerX;
+  self.miniEventView.originY = CGRectGetMaxY(self.freeGemsView.frame) - self.miniEventView.height;
+}
+
+- (void) updateMiniEventView {
+  UserMiniEvent* userMiniEvent = [MiniEventManager sharedInstance].currentUserMiniEvent;
+  if (userMiniEvent && self.freeGemsView.hidden)
+  {
+    [self.miniEventIcon setSprite:userMiniEvent.miniEvent.icon];
+    
+    const int numberOfTiersWithUnredeemedRewards = [userMiniEvent completedTiersWithUnredeemedRewards];
+    self.miniEventBadge.badgeNum = numberOfTiersWithUnredeemedRewards;
+    
+    [self updateLabels];
+    
+    if (![userMiniEvent eventHasEnded] && self.miniEventView.hidden)
+    {
+      [self startFadingMiniEventLabels];
+    }
+    
+    self.miniEventView.hidden = NO;
+  }
+  else
+  {
+    [self stopFadingMiniEventLabels];
+    
+    self.miniEventView.hidden = YES;
+  }
+}
+
+- (void) startFadingMiniEventLabels
+{
+  [self stopFadingMiniEventLabels];
+  [self performSelector:@selector(fadeMiniEventLabels) withObject:nil afterDelay:6.f];
+}
+
+- (void) stopFadingMiniEventLabels
+{
+  [self.miniEventLabel.layer removeAllAnimations];
+  [self.miniEventTimeLabel.layer removeAllAnimations];
+  
+  self.miniEventLabel.alpha = 1.f;
+  self.miniEventTimeLabel.alpha = 0.f;
+}
+
+- (void) fadeMiniEventLabels {
+  [UIView animateWithDuration:1.f animations:^{
+    self.miniEventLabel.alpha = 1.f - self.miniEventLabel.alpha;
+    self.miniEventTimeLabel.alpha = 1.f - self.miniEventTimeLabel.alpha;
+  } completion:^(BOOL finished) {
+    [self performSelector:@selector(fadeMiniEventLabels) withObject:nil afterDelay:6.f];
+  }];
 }
 
 - (void) performFallingGemsAnimation {
@@ -934,6 +1004,14 @@
   [gvc.view addSubview:rvc.view];
 }
 
+- (IBAction)miniEventClicked:(id)sender {
+  GameViewController *gvc = (GameViewController *)self.parentViewController;
+  MiniEventViewController *mevc = [[MiniEventViewController alloc] init];
+  [gvc addChildViewController:mevc];
+  [mevc.view setFrame:gvc.view.bounds];
+  [gvc.view addSubview:mevc.view];
+}
+
 - (IBAction)secretGiftClicked:(id)sender {
   GameState *gs = [GameState sharedGameState];
   MSDate *nextSecretGiftDate = [gs nextSecretGiftOpenDate];
@@ -959,20 +1037,10 @@
 
 - (IBAction)saleClicked:(id)sender {
   Globals *gl = [Globals sharedGlobals];
-  GameState *gs = [GameState sharedGameState];
   
-  if (gs.numBeginnerSalesPurchased == 0) {
-    InAppPurchasePackageProto *pkg = [gl starterPackIapPackage];
-    SKProduct *prod = [[IAPHelper sharedIAPHelper] productForIdentifier:pkg.iapPackageId];
-    
-    GameViewController *gvc = (GameViewController *)self.parentViewController;
-    SaleViewController *sgvc = [[SaleViewController alloc] initWithSale:gs.starterPack product:prod];
-    
-    if (sgvc) {
-      [gvc addChildViewController:sgvc];
-      sgvc.view.frame = gvc.view.bounds;
-      [gvc.view addSubview:sgvc.view];
-    }
+  SalesPackageProto *spp = [gl starterPackSale];
+  if (spp) {
+    [self openShopWithFunds:spp];
   }
 }
 
@@ -1079,7 +1147,9 @@
 - (void) openShop {
   if (!self.shopViewController.parentViewController) {
     [self.shopViewController displayInParentViewController:self];
-    [self.mainView insertSubview:self.shopViewController.view belowSubview:self.coinBarsView];
+    
+    // Need to readjust so that it can go above or beneath the bars
+    [self.shopViewController adjustContainerViewForSubViewController:self.shopViewController.topViewController];
   }
 }
 
@@ -1087,8 +1157,13 @@
   [self.shopViewController close];
 }
 
-- (void) openShopWithFunds {
+- (void) openShopWithFunds:(SalesPackageProto *)spp {
   [self openShop];
+  
+  if (spp) {
+    self.shopViewController.salesViewController.initialSale = spp;
+  }
+  
   [self.shopViewController openFundsShop];
 }
 
@@ -1107,6 +1182,14 @@
   _structIdForArrow = structId;
   [Globals removeUIArrowFromViewRecursively:self.view];
   [Globals createUIArrowForView:self.shopView atAngle:M_PI];
+}
+
+- (void) sendShopViewAboveCoinBars:(ShopViewController *)svc {
+  [self.mainView insertSubview:self.shopViewController.view aboveSubview:self.coinBarsView];
+}
+
+- (void) sendShopViewUnderCoinBars:(id)svc {
+  [self.mainView insertSubview:self.shopViewController.view belowSubview:self.coinBarsView];
 }
 
 #pragma mark - Add home view

@@ -29,7 +29,9 @@
 
 @end
 
-@interface TopBarViewController : UIViewController <NumTransitionLabelDelegate, ChatBottomViewDelegate, ResourceItemsFillerDelegate> {
+@class SpriteAnimationImageView;
+
+@interface TopBarViewController : UIViewController <NumTransitionLabelDelegate, ChatBottomViewDelegate, ResourceItemsFillerDelegate, ShopViewDelegate> {
   CGPoint _originalProgressCenter;
   
   int _structIdForArrow;
@@ -86,6 +88,12 @@
 @property (nonatomic, retain) IBOutlet UIImageView *secretGiftIcon;
 @property (nonatomic, retain) IBOutlet UILabel *secretGiftLabel;
 
+@property (nonatomic, retain) IBOutlet UIView* miniEventView;
+@property (nonatomic, retain) IBOutlet SpriteAnimationImageView* miniEventIcon;
+@property (nonatomic, retain) IBOutlet UILabel* miniEventLabel;
+@property (nonatomic, retain) IBOutlet UILabel* miniEventTimeLabel;
+@property (nonatomic, retain) IBOutlet BadgeIcon* miniEventBadge;
+
 @property (nonatomic, retain) IBOutlet BadgeIcon *questBadge;
 @property (nonatomic, retain) IBOutlet BadgeIcon *mailBadge;
 @property (nonatomic, retain) IBOutlet BadgeIcon *attackBadge;
@@ -133,7 +141,7 @@
 
 - (void) openShop;
 - (void) closeShop;
-- (void) openShopWithFunds;
+- (void) openShopWithFunds:(SalesPackageProto *)spp;
 - (void) openShopWithBuildings:(int)structId;
 - (void) openShopWithGacha;
 - (void) showArrowToStructId:(int)structId;

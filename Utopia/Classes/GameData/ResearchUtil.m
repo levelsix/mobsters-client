@@ -354,13 +354,18 @@
   return [rc curPercent];
 }
 
-- (int) strengthGain {
+- (int) strengthGainForNextLevel {
   ResearchProto *successor = [self successorResearch];
   if (successor) {
     return successor.strength - self.strength;
   } else {
     return self.strength;
   }
+}
+
+- (int) strengthGainForCurrentLevel {
+  ResearchProto *predecessor = [self predecessorResearch];
+  return self.strength - predecessor.strength;
 }
 
 - (NSArray *) prereqs {

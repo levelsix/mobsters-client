@@ -49,12 +49,16 @@ static NSString *udid = nil;
   NSURL *url = [[NSURL alloc] initWithString:@"http://checkip.dyndns.com/"];
   NSString *contents = [NSString stringWithContentsOfURL:url encoding:NSStringEncodingConversionAllowLossy error:nil];
   NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"\\d+\\.\\d+\\.\\d+\\.\\d+" options:NSRegularExpressionCaseInsensitive error:nil];
-  NSRange rangeOfFirstMatch = [regex rangeOfFirstMatchInString:contents options:0 range:NSMakeRange(0, [contents length])];
-  if (!NSEqualRanges(rangeOfFirstMatch, NSMakeRange(NSNotFound, 0))) {
-    NSString *substringForFirstMatch = [contents substringWithRange:rangeOfFirstMatch];
-    LNLog(@"IP Address: %@", substringForFirstMatch);
-    return substringForFirstMatch;
+  
+  if (contents) {
+    NSRange rangeOfFirstMatch = [regex rangeOfFirstMatchInString:contents options:0 range:NSMakeRange(0, [contents length])];
+    if (!NSEqualRanges(rangeOfFirstMatch, NSMakeRange(NSNotFound, 0))) {
+      NSString *substringForFirstMatch = [contents substringWithRange:rangeOfFirstMatch];
+      LNLog(@"IP Address: %@", substringForFirstMatch);
+      return substringForFirstMatch;
+    }
   }
+  
   return nil;
 }
 
@@ -159,6 +163,8 @@ static NSString *udid = nil;
     self.queuedMessages = [NSMutableArray array];
     
     self.clanEventDelegates = [NSMutableArray array];
+    
+    _updatedUserMiniEventGoals = [NSMutableDictionary dictionary];
   }
   return self;
 }
@@ -597,15 +603,17 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCLogoutEvent];
 }
 
-- (int) sendInAppPurchaseMessage:(NSString *)receipt product:(SKProduct *)product {
-  InAppPurchaseRequestProto *req = [[[[[[[[InAppPurchaseRequestProto builder]
-                                          setReceipt:receipt]
-                                         setLocalcents:[NSString stringWithFormat:@"%d", (int)(product.price.doubleValue*100.)]]
-                                        setLocalcurrency:[product.priceLocale objectForKey:NSLocaleCurrencyCode]]
-                                       setLocale:[product.priceLocale objectForKey:NSLocaleCountryCode]]
-                                      setSender:_sender]
-                                     setIpaddr:[self getIPAddress]]
+- (int) sendInAppPurchaseMessage:(NSString *)receipt product:(SKProduct *)product saleUuid:(NSString *)saleUuid {
+  InAppPurchaseRequestProto *req = [[[[[[[[[InAppPurchaseRequestProto builder]
+                                           setReceipt:receipt]
+                                          setLocalcents:[NSString stringWithFormat:@"%d", (int)(product.price.doubleValue*100.)]]
+                                         setLocalcurrency:[product.priceLocale objectForKey:NSLocaleCurrencyCode]]
+                                        setLocale:[product.priceLocale objectForKey:NSLocaleCountryCode]]
+                                       setSender:_sender]
+                                      setIpaddr:[self getIPAddress]]
+                                     setUuid:saleUuid]
                                     build];
+  
   return [self sendData:req withMessageType:EventProtocolRequestCInAppPurchaseEvent];
 }
 
@@ -1276,9 +1284,9 @@ static NSString *udid = nil;
 
 - (int) sendFinishPerformingResearchRequestProto:(NSString *)uuid gemsSpent:(int)gemsSpent {
   FinishPerformingResearchRequestProto *req = [[[[[FinishPerformingResearchRequestProto builder]
-                                                 setSender:_sender]
-                                                setUserResearchUuid:uuid]
-                                               setGemsCost:gemsSpent]
+                                                  setSender:_sender]
+                                                 setUserResearchUuid:uuid]
+                                                setGemsCost:gemsSpent]
                                                build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCFinishPerformingResearchEvent];
@@ -1625,10 +1633,10 @@ static NSString *udid = nil;
 
 - (int) sendCompleteBattleItemMessage:(NSArray *)completedBiqfus isSpeedup:(BOOL)isSpeedup gemCost:(int)gemCost {
   CompleteBattleItemRequestProto *req = [[[[[[CompleteBattleItemRequestProto builder]
-                                            setSender:_sender]
-                                           addAllBiqfuCompleted:completedBiqfus]
-                                          setIsSpeedup:isSpeedup]
-                                         setGemsForSpeedup:gemCost]
+                                             setSender:_sender]
+                                            addAllBiqfuCompleted:completedBiqfus]
+                                           setIsSpeedup:isSpeedup]
+                                          setGemsForSpeedup:gemCost]
                                          build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCCompleteBattleItemEvent];
@@ -1650,6 +1658,23 @@ static NSString *udid = nil;
                                          build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCUpdateUserStrengthEvent flush:NO queueUp:YES];
+}
+
+- (int) sendRetrieveMiniEventRequestProtoMessage {
+  RetrieveMiniEventRequestProto* req = [[[RetrieveMiniEventRequestProto builder]
+                                             setSender:_sender] build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCRetrieveMiniEventEvent];
+}
+
+- (int) sendRedeemMiniEventRewardRequestProtoMessage:(RedeemMiniEventRewardRequestProto_RewardTier)tierRedeemed miniEventForPlayerLevelId:(int32_t)mefplId clientTime:(uint64_t)clientTime {
+  RedeemMiniEventRewardRequestProto* req = [[[[[[RedeemMiniEventRewardRequestProto builder]
+                                                setSender:[self senderWithMaxResources]]
+                                               setTierRedeemed:tierRedeemed]
+                                              setMefplId:mefplId]
+                                             setClientTime:clientTime] build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCRedeemMiniEventRewardEvent];
 }
 
 #pragma mark - Batch/Flush events
@@ -1896,6 +1921,24 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCUpdateClientTaskStateEvent flush:NO queueUp:YES];
 }
 
+- (int) updateUserMiniEventMessage:(UserMiniEventGoal *)updatedUserMiniEventGoal {
+  [self flushAllExceptEventType:EventProtocolRequestCUpdateMiniEventEvent];
+  
+  [_updatedUserMiniEventGoals setObject:[updatedUserMiniEventGoal convertToProto] forKey:@(updatedUserMiniEventGoal.miniEventGoalId)];
+  
+  return _currentTagNum;
+}
+
+- (int) sendUpdateUserMiniEventMessage {
+  UpdateMiniEventRequestProto* req = [[[[UpdateMiniEventRequestProto builder]
+                                        setSender:_sender]
+                                       addAllUpdatedGoals:[_updatedUserMiniEventGoals allValues]]
+                                      build];
+  
+  LNLog(@"Sending updated mini event goals.");
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCUpdateMiniEventEvent flush:NO queueUp:YES];
+}
 
 #pragma mark - Flush
 
@@ -2002,6 +2045,15 @@ static NSString *udid = nil;
       [self sendUpdateClientTaskStateMessage];
       
       _latestTaskClientState = nil;
+      found = YES;
+    }
+  }
+  
+  if (type != EventProtocolRequestCUpdateMiniEventEvent) {
+    if (_updatedUserMiniEventGoals.count) {
+      [self sendUpdateUserMiniEventMessage];
+      
+      [_updatedUserMiniEventGoals removeAllObjects];
       found = YES;
     }
   }

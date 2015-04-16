@@ -24,6 +24,7 @@
 #import "HospitalQueueSimulator.h"
 #import "OneLineNotificationViewController.h"
 #import "PrivateMessageNotificationViewController.h"
+#import "MiniEventGoalNotificationViewController.h"
 
 #define FONT_LABEL_OFFSET 1.f
 #define SHAKE_DURATION 0.05f
@@ -77,12 +78,21 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   [[IAPHelper sharedIAPHelper] requestProducts];
 }
 
-- (InAppPurchasePackageProto *) starterPackIapPackage {
+- (SalesPackageProto *) starterPackSale {
+  NSString *packageId = nil;
   for (InAppPurchasePackageProto *pkg in self.iapPackages) {
     if (pkg.iapPackageType == InAppPurchasePackageProto_InAppPurchasePackageTypeStarterPack) {
-      return pkg;
+      packageId = pkg.iapPackageId;
     }
   }
+  
+  GameState *gs = [GameState sharedGameState];
+  for (SalesPackageProto *spp in gs.mySales) {
+    if ([spp.salesProductId isEqualToString:packageId]) {
+      return spp;
+    }
+  }
+  
   return nil;
 }
 
@@ -190,12 +200,24 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   for (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto *aso in constants.animatedSpriteOffsetsList) {
     [self.animatingSpriteOffsets setObject:aso.offSet forKey:aso.imageName];
   }
-  
-  [Globals backgroundDownloadFiles:constants.fileDownloadProtoList];
 }
 
 + (void) backgroundDownloadFiles:(NSArray *)fileNames {
   NSMutableArray *toDownload = [NSMutableArray array];
+  
+  GameState *gs = [GameState sharedGameState];
+  for (SalesPackageProto *spp in gs.mySales) {
+    for (CustomMenuProto *cmp in spp.cmpList) {
+      if (![Globals isFileDownloaded:cmp.imageName useiPhone6Prefix:NO]) {
+        NSString *fileName = [self getDoubleResolutionImage:cmp.imageName useiPhone6Prefix:NO];
+        
+        BgdFileDownload *bgd = [[BgdFileDownload alloc] init];
+        bgd.fileName = fileName;
+        bgd.onlyUseWifi = NO;
+        [toDownload addObject:bgd];
+      }
+    }
+  }
   
   for (StartupResponseProto_StartupConstants_FileDownloadConstantProto *f in fileNames) {
     NSString *fileName = [self getDoubleResolutionImage:f.fileName useiPhone6Prefix:f.useIphone6Prefix];
@@ -1315,7 +1337,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }];
 }
 
-+ (void) checkAndLoadFiles:(NSArray *)fileNames completion:(void (^)(BOOL success))completion {
++ (BOOL) checkAndLoadFiles:(NSArray *)fileNames completion:(void (^)(BOOL success))completion {
   __block int i = 0;
   __block BOOL finalSuccess = YES;
   for (NSString *fileName in fileNames) {
@@ -1340,26 +1362,32 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   
   if (i == 0) {
     completion(finalSuccess);
+    
+    return YES;
   }
+  
+  return NO;
 }
 
-+ (void) checkAndLoadFile:(NSString *)fileName useiPhone6Prefix:(BOOL)useiPhone6Prefix completion:(void (^)(BOOL success))completion {
++ (BOOL) checkAndLoadFile:(NSString *)fileName useiPhone6Prefix:(BOOL)useiPhone6Prefix completion:(void (^)(BOOL success))completion {
   if ([self isFileDownloaded:fileName useiPhone6Prefix:useiPhone6Prefix]) {
     if (completion) {
       completion(YES);
     }
+    return YES;
   } else {
     NSString *resName = [self getDoubleResolutionImage:fileName useiPhone6Prefix:useiPhone6Prefix];
     [[Downloader sharedDownloader] asyncDownloadFile:resName completion:completion];
+    return NO;
   }
 }
 
-+ (void) checkAndLoadFile:(NSString *)fileName completion:(void (^)(BOOL success))completion {
-  [self checkAndLoadFile:fileName useiPhone6Prefix:NO completion:completion];
++ (BOOL) checkAndLoadFile:(NSString *)fileName completion:(void (^)(BOOL success))completion {
+  return [self checkAndLoadFile:fileName useiPhone6Prefix:NO completion:completion];
 }
 
-+ (void) checkAndLoadSpriteSheet:(NSString *)fileName completion:(void (^)(BOOL success))completion {
-  [self checkAndLoadFile:fileName completion:^(BOOL success) {
++ (BOOL) checkAndLoadSpriteSheet:(NSString *)fileName completion:(void (^)(BOOL success))completion {
+  return [self checkAndLoadFile:fileName completion:^(BOOL success) {
     if (success) {
       NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:[self pathToFile:fileName useiPhone6Prefix:NO]];
       NSDictionary *metadataDict = [dict objectForKey:@"metadata"];
@@ -2485,6 +2513,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     PrivateMessageNotificationViewController *pmn = [[PrivateMessageNotificationViewController alloc] initWithMessages:messages isImmediate:NO];
     [gvc.notificationController addNotification:pmn];
   }
+}
+
++ (void) addMiniEventGoalNotification:(NSString *)msg image:(NSString *)img {
+  GameViewController *gvc = [GameViewController baseController];
+  MiniEventGoalNotificationViewController *megn = [[MiniEventGoalNotificationViewController alloc] initWithNotificationString:msg image:img isImmediate:NO];
+  [gvc.notificationController addNotification:megn];
 }
 
 #pragma mark - Bounce View

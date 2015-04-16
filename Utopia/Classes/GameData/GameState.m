@@ -22,6 +22,7 @@
 #import "PersistentEventProto+Time.h"
 #import "AchievementUtil.h"
 #import "StaticStructure.h"
+#import "MiniEventManager.h"
 
 #define TagLog(...) //LNLog(__VA_ARGS__)
 
@@ -62,6 +63,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _monsterHealingQueues = [[NSMutableDictionary alloc] init];
     _clanAvengings = [[NSMutableArray alloc] init];
     _completedTaskData = [[NSMutableDictionary alloc] init];
+    _mySales = [[NSMutableArray alloc] init];
     
     _availableQuests = [[NSMutableDictionary alloc] init];
     _inProgressCompleteQuests = [[NSMutableDictionary alloc] init];
@@ -1302,6 +1304,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   for (PvpBoardObstacleProto* pvpBoardObstacleProto in proto.pvpBoardObstacleProtosList)
     [self.staticPvpBoardObstacles setObject:pvpBoardObstacleProto forKey:[NSNumber numberWithInteger:pvpBoardObstacleProto.pvpBoardId]];
   
+  self.staticRewards = [NSMutableDictionary dictionary];
+  for (RewardProto* rewardProto in proto.rewardList)
+    [self.staticRewards setObject:rewardProto forKey:[NSNumber numberWithInteger:rewardProto.rewardId]];
+  
   if (self.connected) {
     [[NSNotificationCenter defaultCenter] postNotificationName:STATIC_DATA_UPDATED_NOTIFICATION object:nil];
   }
@@ -1454,6 +1460,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
   
   TagLog(@"Added %@ for tag %d", NSStringFromClass([up class]), up.tag);
+  
+  [self recalculateStrength];
   
   if ([up isKindOfClass:[FullUserUpdate class]]) {
     [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
@@ -1924,6 +1932,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     [[NSNotificationCenter defaultCenter] postNotificationName:RESEARCH_CHANGED_NOTIFICATION object:nil];
     
     [Globals addGreenAlertNotification:[NSString stringWithFormat:@"%@ has finished researching!", ur.staticResearch.name] isImmediate:NO];
+    
+    [[MiniEventManager sharedInstance] checkResearchStrength:ur.researchId];
   }
 }
 

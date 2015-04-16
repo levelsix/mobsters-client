@@ -22,6 +22,7 @@
 #import "FullQuestProto+JobAccess.h"
 #import "FacebookDelegate.h"
 #import "SkillManager.h"
+#import "MiniEventManager.h"
 
 #define CODE_PREFIX @"#~#"
 #define PURGE_CODE @"purgecache"
@@ -719,10 +720,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 #pragma mark - IAP
 
-- (void) inAppPurchase:(NSString *)receipt goldAmt:(int)gold silverAmt:(int)silver product:(SKProduct *)product delegate:(id)delegate {
+- (void) inAppPurchase:(NSString *)receipt goldAmt:(int)gold silverAmt:(int)silver product:(SKProduct *)product saleUuid:(NSString *)saleUuid delegate:(id)delegate {
+  // Do this since we save it as an empty string if its nil, so we don't want to pass to the server..
+  saleUuid = [saleUuid isEqualToString:@""] ? nil : saleUuid;
+  
   GameState *gs = [GameState sharedGameState];
   if (gs.connected) {
-    int tag = [[SocketCommunication sharedSocketCommunication] sendInAppPurchaseMessage:receipt product:product];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendInAppPurchaseMessage:receipt product:product saleUuid:saleUuid];
     [gs addUnrespondedUpdates:[GemsUpdate updateWithTag:tag change:gold], [CashUpdate updateWithTag:tag change:silver], nil];
     [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
     
@@ -738,6 +742,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   NSArray *arr = [defaults arrayForKey:key];
   NSMutableArray *mut = arr ? [arr mutableCopy] : [NSMutableArray array];
   [mut addObject:receipt];
+  [mut addObject:saleUuid ?: @""];
   [defaults setObject:mut forKey:IAP_DEFAULTS_KEY];
   [defaults synchronize];
 }
@@ -894,6 +899,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   if (newStrength > 0) {
     [[SocketCommunication sharedSocketCommunication] sendUpdateUserStrengthMessage:newStrength];
+    
+    LNLog(@"Updating total strength to %@", [Globals commafyNumber:newStrength]);
     
     gs.totalStrength = newStrength;
   }
@@ -1449,7 +1456,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 - (void) giveClanHelp:(NSArray *)clanHelpIds {
   [[SocketCommunication sharedSocketCommunication] sendGiveClanHelpMessage:clanHelpIds];
   
-  [AchievementUtil checkGaveClanHelp:(int)clanHelpIds.count];
+  int numHelps = (int)clanHelpIds.count;
+  [AchievementUtil checkGaveClanHelp:numHelps];
+  [[MiniEventManager sharedInstance] checkClanHelp:numHelps];
 }
 
 - (void) endClanHelp:(NSArray *)clanHelpIds {
@@ -3563,6 +3572,38 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     
     [Analytics redeemMiniJob:userMiniJob.miniJob.miniJobId cashChange:cashChange cashBalance:gs.cash oilChange:oilChange oilBalance:gs.oil];
   }
+}
+
+#pragma mark - Mini Event
+
+- (void) retrieveUserMiniEventWithDelegate:(id)delegate {
+  GameState* gs = [GameState sharedGameState];
+  if (!gs.connected || gs.isTutorial || !gs.userUuid || [gs.userUuid isEqualToString:@""])
+    return;
+  
+  int tag = [[SocketCommunication sharedSocketCommunication] sendRetrieveMiniEventRequestProtoMessage];
+  [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
+}
+
+- (void) updateUserMiniEvent:(UserMiniEventGoal *)updatedUserMiniEventGoal shouldFlush:(BOOL)shouldFlush {
+  GameState* gs = [GameState sharedGameState];
+  if (!gs.connected || gs.isTutorial || !gs.userUuid || [gs.userUuid isEqualToString:@""])
+    return;
+  
+  [[SocketCommunication sharedSocketCommunication] updateUserMiniEventMessage:updatedUserMiniEventGoal];
+  
+  if (shouldFlush) {
+    [[SocketCommunication sharedSocketCommunication] flush];
+  }
+}
+
+- (void) redeemMiniEventRewardWithDelegate:(id)delegate tierRedeemed:(RedeemMiniEventRewardRequestProto_RewardTier)tierRedeemed miniEventForPlayerLevelId:(int32_t)mefplId {
+  GameState* gs = [GameState sharedGameState];
+  if (!gs.connected || gs.isTutorial || !gs.userUuid || [gs.userUuid isEqualToString:@""])
+    return;
+  
+  int tag = [[SocketCommunication sharedSocketCommunication] sendRedeemMiniEventRewardRequestProtoMessage:tierRedeemed miniEventForPlayerLevelId:mefplId clientTime:[self getCurrentMilliseconds]];
+  [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
 }
 
 @end

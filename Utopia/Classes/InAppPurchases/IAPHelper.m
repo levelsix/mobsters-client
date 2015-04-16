@@ -15,6 +15,8 @@
 
 #import "TangoDelegate.h"
 
+#define SALE_UUID_DEFAULTS_KEY(pId) [NSString stringWithFormat:@"saleUuid%@", pId]
+
 @implementation IAPHelper
 
 @synthesize  products = _products;
@@ -118,8 +120,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
   int goldAmt = pkg.currencyAmount;
   SKProduct *prod = [self.products objectForKey:productId];
   
+  NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+  NSString *uuid = [def objectForKey:SALE_UUID_DEFAULTS_KEY(productId)];
+  [def removeObjectForKey:SALE_UUID_DEFAULTS_KEY(productId)];
+  
   self.lastTransaction = transaction;
-  [[OutgoingEventController sharedOutgoingEventController] inAppPurchase:encodedReceipt goldAmt:goldAmt silverAmt:0 product:prod delegate:_purchaseDelegate];
+  [[OutgoingEventController sharedOutgoingEventController] inAppPurchase:encodedReceipt goldAmt:goldAmt silverAmt:0 product:prod saleUuid:uuid delegate:_purchaseDelegate];
   _purchaseDelegate = nil;
   [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
   
@@ -162,7 +168,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
   }
 }
 
-- (void)buyProductIdentifier:(SKProduct *)product withDelegate:(id)delegate {
+- (void)buyProductIdentifier:(SKProduct *)product saleUuid:(NSString *)saleUuid withDelegate:(id)delegate {
   _purchaseDelegate = delegate;
   
   if (!product) {
@@ -176,6 +182,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
     
     SKPayment *payment = [SKPayment paymentWithProduct:product];
     [[SKPaymentQueue defaultQueue] addPayment:payment];
+    
+    NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+    [def setObject:saleUuid forKey:SALE_UUID_DEFAULTS_KEY(product.productIdentifier)];
   }
 }
 

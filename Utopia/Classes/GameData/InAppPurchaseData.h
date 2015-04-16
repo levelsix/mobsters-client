@@ -24,9 +24,10 @@
 
 @interface InAppPurchaseData : NSObject<InAppPurchaseData> {
   SKProduct *_product;
+  NSString *_saleUuid;
 }
 
-+ (id<InAppPurchaseData>) createWithProduct:(SKProduct *)product;
++ (id<InAppPurchaseData>) createWithProduct:(SKProduct *)product saleUuid:(NSString *)su;
 
 @end
 

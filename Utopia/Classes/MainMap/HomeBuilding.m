@@ -1121,9 +1121,12 @@
     [self displayProgressBar];
     
     EnhancementItem *ei = ue.baseMonster;
-    MiniMonsterViewSprite *spr = [MiniMonsterViewSprite spriteWithMonsterId:ei.userMonster.monsterId];
-    [self.progressBar addChild:spr];
-    spr.position = ccp(-spr.contentSize.width/2-4.f, self.progressBar.contentSize.height/2+1.f);
+    int monsterId = ei.userMonster.monsterId;
+    if (monsterId) {
+      MiniMonsterViewSprite *spr = [MiniMonsterViewSprite spriteWithMonsterId:ei.userMonster.monsterId];
+      [self.progressBar addChild:spr];
+      spr.position = ccp(-spr.contentSize.width/2-4.f, self.progressBar.contentSize.height/2+1.f);
+    }
   }
 }
 

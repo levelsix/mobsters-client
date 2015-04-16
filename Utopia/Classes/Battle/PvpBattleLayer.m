@@ -18,6 +18,7 @@
 #import "SoundEngine.h"
 #import "AchievementUtil.h"
 #import "ChartboostDelegate.h"
+#import "MiniEventManager.h"
 
 @implementation PvpBattleLayer
 
@@ -190,9 +191,38 @@
   
   [self checkQuests];
   [self sendAnalytics];
+  [self checkMiniEvents];
   
   if (_waitingForEndPvpResponse) {
     [self exitFinal];
+  }
+}
+
+- (void) checkMiniEvents {
+  if (_wonBattle) {
+    GameState *gs = [GameState sharedGameState];
+    PvpProto *pvp = self.defendersList[_curQueueNum];
+    
+    // Check for caught monsters
+    for (int i = 0; i < pvp.defenderMonstersList.count; i++) {
+      if (![self.droplessStageNums containsObject:@(i)]) {
+        PvpMonsterProto *mon = pvp.defenderMonstersList[i];
+        if (mon.monsterIdDropped > 0) {
+          MonsterProto *mp = [gs monsterWithId:mon.monsterIdDropped];
+          [[MiniEventManager sharedInstance] checkPvpCaughtMonster:mp.quality];
+        }
+      }
+    }
+    
+    [[MiniEventManager sharedInstance] checkPvpResourceWinningsWithCash:pvp.prospectiveCashWinnings oil:pvp.prospectiveOilWinnings];
+    
+    if (_isRevenge) {
+      [[MiniEventManager sharedInstance] checkRevengeWin];
+    }
+    
+    if (_clanAvenging) {
+      [[MiniEventManager sharedInstance] checkAvengeWin];
+    }
   }
 }
 

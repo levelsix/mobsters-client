@@ -49,6 +49,8 @@
   BOOL _pauseFlushTimer;
   
   NSData *_latestTaskClientState;
+  
+  NSMutableDictionary *_updatedUserMiniEventGoals;
 }
 
 @property (nonatomic, retain) GenericPopupController *popupController;
@@ -93,7 +95,7 @@
 - (int) sendStartupMessageWithFacebookId:(NSString *)facebookId isFreshRestart:(BOOL)isFreshRestart clientTime:(uint64_t)clientTime;
 - (int) sendLogoutMessage;
 
-- (int) sendInAppPurchaseMessage:(NSString *)receipt product:(SKProduct *)product;
+- (int) sendInAppPurchaseMessage:(NSString *)receipt product:(SKProduct *)product saleUuid:(NSString *)saleUuid;
 - (int) sendExchangeGemsForResourcesMessage:(int)gems resources:(int)resources resType:(ResourceType)resType clientTime:(uint64_t)clientTime;
 
 // Norm Struct messages
@@ -233,6 +235,10 @@
 - (int) sendBattleItemQueueMessage;
 - (int) sendCompleteBattleItemMessage:(NSArray *)completedBiqfus isSpeedup:(BOOL)isSpeedup gemCost:(int)gemCost;
 - (int) sendDiscardBattleItemMessage:(NSArray *)battleItemIds;
+
+- (int) sendRetrieveMiniEventRequestProtoMessage;
+- (int) updateUserMiniEventMessage:(UserMiniEventGoal *)userMiniEventGoal;
+- (int) sendRedeemMiniEventRewardRequestProtoMessage:(RedeemMiniEventRewardRequestProto_RewardTier)tierRedeemed miniEventForPlayerLevelId:(int32_t)mefplId clientTime:(uint64_t)clientTime;
 
 - (void) flush;
 - (void) pauseFlushTimer;

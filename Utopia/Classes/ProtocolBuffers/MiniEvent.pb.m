@@ -695,6 +695,7 @@ static MiniEventProto* defaultMiniEventProtoInstance = nil;
 @property int32_t goalAmt;
 @property (strong) NSString* goalDesc;
 @property int32_t pointsGained;
+@property (strong) NSString* actionDescription;
 @end
 
 @implementation MiniEventGoalProto
@@ -741,6 +742,13 @@ static MiniEventProto* defaultMiniEventProtoInstance = nil;
   hasPointsGained_ = !!value_;
 }
 @synthesize pointsGained;
+- (BOOL) hasActionDescription {
+  return !!hasActionDescription_;
+}
+- (void) setHasActionDescription:(BOOL) value_ {
+  hasActionDescription_ = !!value_;
+}
+@synthesize actionDescription;
 - (id) init {
   if ((self = [super init])) {
     self.miniEventGoalId = 0;
@@ -749,6 +757,7 @@ static MiniEventProto* defaultMiniEventProtoInstance = nil;
     self.goalAmt = 0;
     self.goalDesc = @"";
     self.pointsGained = 0;
+    self.actionDescription = @"";
   }
   return self;
 }
@@ -786,6 +795,9 @@ static MiniEventGoalProto* defaultMiniEventGoalProtoInstance = nil;
   if (self.hasPointsGained) {
     [output writeInt32:6 value:self.pointsGained];
   }
+  if (self.hasActionDescription) {
+    [output writeString:7 value:self.actionDescription];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -812,6 +824,9 @@ static MiniEventGoalProto* defaultMiniEventGoalProtoInstance = nil;
   }
   if (self.hasPointsGained) {
     size_ += computeInt32Size(6, self.pointsGained);
+  }
+  if (self.hasActionDescription) {
+    size_ += computeStringSize(7, self.actionDescription);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -866,6 +881,9 @@ static MiniEventGoalProto* defaultMiniEventGoalProtoInstance = nil;
   if (self.hasPointsGained) {
     [output appendFormat:@"%@%@: %@\n", indent, @"pointsGained", [NSNumber numberWithInteger:self.pointsGained]];
   }
+  if (self.hasActionDescription) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"actionDescription", self.actionDescription];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -889,6 +907,8 @@ static MiniEventGoalProto* defaultMiniEventGoalProtoInstance = nil;
       (!self.hasGoalDesc || [self.goalDesc isEqual:otherMessage.goalDesc]) &&
       self.hasPointsGained == otherMessage.hasPointsGained &&
       (!self.hasPointsGained || self.pointsGained == otherMessage.pointsGained) &&
+      self.hasActionDescription == otherMessage.hasActionDescription &&
+      (!self.hasActionDescription || [self.actionDescription isEqual:otherMessage.actionDescription]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -911,6 +931,9 @@ static MiniEventGoalProto* defaultMiniEventGoalProtoInstance = nil;
   if (self.hasPointsGained) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.pointsGained] hash];
   }
+  if (self.hasActionDescription) {
+    hashCode = hashCode * 31 + [self.actionDescription hash];
+  }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
@@ -919,11 +942,27 @@ static MiniEventGoalProto* defaultMiniEventGoalProtoInstance = nil;
 BOOL MiniEventGoalProto_MiniEventGoalTypeIsValidValue(MiniEventGoalProto_MiniEventGoalType value) {
   switch (value) {
     case MiniEventGoalProto_MiniEventGoalTypeNoGoal:
-    case MiniEventGoalProto_MiniEventGoalTypeHealHp:
-    case MiniEventGoalProto_MiniEventGoalTypeEnhanceToonXp:
-    case MiniEventGoalProto_MiniEventGoalTypeUseCashUpgradingBuilding:
-    case MiniEventGoalProto_MiniEventGoalTypeUseOilUpgradingBuilding:
-    case MiniEventGoalProto_MiniEventGoalTypeCaptureScientist:
+    case MiniEventGoalProto_MiniEventGoalTypeGainBuildingStrength:
+    case MiniEventGoalProto_MiniEventGoalTypeGainResearchStrength:
+    case MiniEventGoalProto_MiniEventGoalTypeSpinBasicGrab:
+    case MiniEventGoalProto_MiniEventGoalTypeSpinUltimateGrab:
+    case MiniEventGoalProto_MiniEventGoalTypeEnhanceCommon:
+    case MiniEventGoalProto_MiniEventGoalTypeEnhanceRare:
+    case MiniEventGoalProto_MiniEventGoalTypeEnhanceSuper:
+    case MiniEventGoalProto_MiniEventGoalTypeEnhanceUltra:
+    case MiniEventGoalProto_MiniEventGoalTypeEnhanceEpic:
+    case MiniEventGoalProto_MiniEventGoalTypeClanHelp:
+    case MiniEventGoalProto_MiniEventGoalTypeClanDonate:
+    case MiniEventGoalProto_MiniEventGoalTypeBattleAvengeRequest:
+    case MiniEventGoalProto_MiniEventGoalTypeBattleAvengeWin:
+    case MiniEventGoalProto_MiniEventGoalTypeBattleRevengeWin:
+    case MiniEventGoalProto_MiniEventGoalTypeStealCash:
+    case MiniEventGoalProto_MiniEventGoalTypeStealOil:
+    case MiniEventGoalProto_MiniEventGoalTypePvpCatchCommon:
+    case MiniEventGoalProto_MiniEventGoalTypePvpCatchRare:
+    case MiniEventGoalProto_MiniEventGoalTypePvpCatchSuper:
+    case MiniEventGoalProto_MiniEventGoalTypePvpCatchUltra:
+    case MiniEventGoalProto_MiniEventGoalTypePvpCatchEpic:
       return YES;
     default:
       return NO;
@@ -985,6 +1024,9 @@ BOOL MiniEventGoalProto_MiniEventGoalTypeIsValidValue(MiniEventGoalProto_MiniEve
   if (other.hasPointsGained) {
     [self setPointsGained:other.pointsGained];
   }
+  if (other.hasActionDescription) {
+    [self setActionDescription:other.actionDescription];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -1033,6 +1075,10 @@ BOOL MiniEventGoalProto_MiniEventGoalTypeIsValidValue(MiniEventGoalProto_MiniEve
       }
       case 48: {
         [self setPointsGained:[input readInt32]];
+        break;
+      }
+      case 58: {
+        [self setActionDescription:[input readString]];
         break;
       }
     }
@@ -1132,6 +1178,22 @@ BOOL MiniEventGoalProto_MiniEventGoalTypeIsValidValue(MiniEventGoalProto_MiniEve
 - (MiniEventGoalProto_Builder*) clearPointsGained {
   result.hasPointsGained = NO;
   result.pointsGained = 0;
+  return self;
+}
+- (BOOL) hasActionDescription {
+  return result.hasActionDescription;
+}
+- (NSString*) actionDescription {
+  return result.actionDescription;
+}
+- (MiniEventGoalProto_Builder*) setActionDescription:(NSString*) value {
+  result.hasActionDescription = YES;
+  result.actionDescription = value;
+  return self;
+}
+- (MiniEventGoalProto_Builder*) clearActionDescription {
+  result.hasActionDescription = NO;
+  result.actionDescription = @"";
   return self;
 }
 @end

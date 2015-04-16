@@ -25,6 +25,7 @@
 #import "GameCenterDelegate.h"
 #import "FacebookDelegate.h"
 #import "UnreadNotifications.h"
+#import "MiniEventManager.h"
 
 #define QUEST_REDEEM_KIIP_REWARD @"quest_redeem"
 
@@ -360,6 +361,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSUpdateUserStrengthEvent:
       responseClass = [UpdateUserStrengthResponseProto class];
       break;
+    case EventProtocolResponseSRedeemMiniEventRewardEvent:
+      responseClass = [RedeemMiniEventRewardResponseProto class];
+      break;
+    case EventProtocolResponseSRetrieveMiniEventEvent:
+      responseClass = [RetrieveMiniEventResponseProto class];
+      break;
+    case EventProtocolResponseSUpdateMiniEventEvent:
+      responseClass = [UpdateMiniEventResponseProto class];
+      break;
     default:
       responseClass = nil;
       break;
@@ -446,6 +456,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs.monsterHealingQueues removeAllObjects];
     [gs addAllMonsterHealingProtos:proto.monstersHealingList];
     
+    [gs.mySales removeAllObjects];
+    [gs.mySales addObjectsFromArray:proto.salesPackagesList];
+    
     if (proto.hasEnhancements) {
       [gs addEnhancementProto:proto.enhancements];
     } else {
@@ -502,6 +515,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     gs.battleHistory = [proto.recentNbattlesList mutableCopy];
     
     gs.myPvpBoardObstacles = [proto.userPvpBoardObstaclesList mutableCopy];
+
+    [[MiniEventManager sharedInstance] handleUserMiniEventReceivedOnStartup:proto.hasUserMiniEvent ? proto.userMiniEvent : nil];
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     if([defaults boolForKey:[Globals userConfimredPushNotificationsKey]]) {
@@ -546,6 +561,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     // Need to create new player
   }
   
+  [Globals backgroundDownloadFiles:proto.startupConstants.fileDownloadProtoList];
+  
   [gs removeNonFullUserUpdatesForTag:tag];
 }
 
@@ -579,7 +596,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   int tag = fe.tag;
   
   GameState *gs = [GameState sharedGameState];
-  Globals *gl = [Globals sharedGlobals];
   
   LNLog(@"In App Purchase response received with status %d.", (int)proto.status);
   
@@ -587,13 +603,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
   NSMutableArray *arr = [[defaults arrayForKey:key] mutableCopy];
   NSInteger origCount = arr.count;
-  NSString *x = nil;
-  for (NSString *str in arr) {
-    if ([str isEqualToString:proto.receipt]) {
-      x = str;
-    }
+  
+  NSInteger idx = [arr indexOfObject:proto.receipt];
+  
+  if (idx != NSNotFound) {
+    // Remove the receipt and then the uuid
+    [arr removeObjectAtIndex:idx];
+    [arr removeObjectAtIndex:idx];
   }
-  if (x) [arr removeObject:x];
+  
   if (arr.count < origCount) {
     [defaults setObject:arr forKey:IAP_DEFAULTS_KEY];
     [defaults synchronize];
@@ -611,14 +629,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     }
     [gs removeAndUndoAllUpdatesForTag:tag];
   } else {
-    // Post notification so all UI with that bar can update
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:IAP_SUCCESS_NOTIFICATION object:nil]];
     [gs removeNonFullUserUpdatesForTag:tag];
-    
-    InAppPurchasePackageProto *pkg = [gl starterPackIapPackage];
-    if ([proto.packageName isEqualToString:pkg.iapPackageId]) {
-      gs.numBeginnerSalesPurchased++;
-    }
     
     if (proto.updatedOrNewList) {
       [gs addToMyMonsters:proto.updatedOrNewList];
@@ -631,6 +642,30 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     if (proto.updatedMoneyTreeList) {
       [gs addToMyStructs:proto.updatedMoneyTreeList];
     }
+    
+    // Replace the sales
+    if (proto.hasPurchasedSalesPackage) {
+      SalesPackageProto *spp = proto.purchasedSalesPackage;
+      NSString *uuid = spp.uuid;
+      
+      NSInteger idx = -1;
+      for (SalesPackageProto *s in gs.mySales) {
+        if ([s.uuid isEqualToString:uuid]) {
+          idx = [gs.mySales indexOfObject:s];
+        }
+      }
+      
+      if (idx != -1) {
+        if (proto.hasSuccessorSalesPackage) {
+          [gs.mySales replaceObjectAtIndex:idx withObject:proto.successorSalesPackage];
+        } else {
+          [gs.mySales removeObjectAtIndex:idx];
+        }
+      }
+    }
+    
+    // Post notification so all UI with that bar can update
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:IAP_SUCCESS_NOTIFICATION object:nil userInfo:@{IAP_RESPONSE_KEY : proto}]];
     
     SKPaymentTransaction *lastTransaction = iap.lastTransaction;
     SKProduct *prod = [iap.products objectForKey:lastTransaction.payment.productIdentifier];
@@ -820,9 +855,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
       NSArray *arr = [defaults arrayForKey:key];
       [defaults removeObjectForKey:key];
-      for (NSString *receipt in arr) {
+      for (int i = 0; i+1 < arr.count; i++) {
+        NSString *receipt = arr[i];
+        NSString *uuid = arr[i+1];
+        
         LNLog(@"Sending over unresponded receipt.");
-        [[OutgoingEventController sharedOutgoingEventController] inAppPurchase:receipt goldAmt:0 silverAmt:0 product:nil delegate:nil];
+        [[OutgoingEventController sharedOutgoingEventController] inAppPurchase:receipt goldAmt:0 silverAmt:0 product:nil saleUuid:uuid delegate:nil];
       }
     }
   } else if (proto.status == LoadPlayerCityResponseProto_LoadPlayerCityStatusFailNoSuchPlayer) {
@@ -1932,7 +1970,19 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 
 - (void) handleCustomizePvpBoardObstacleResponseProto:(FullEvent *)fe {
   CustomizePvpBoardObstacleResponseProto *proto = (CustomizePvpBoardObstacleResponseProto *)fe.event;
+  int tag = fe.tag;
+  
   LNLog(@"Customize PvP board obstacle response received with status %d.", (int)proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatusSuccess) {
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to customize PvP board obstacle."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
 }
 
 #pragma mark - Healing
@@ -2442,6 +2492,59 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to redeem research."];
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+#pragma mark - Mini Event
+
+- (void) handleRedeemMiniEventRewardResponseProto:(FullEvent *)fe {
+  RedeemMiniEventRewardResponseProto *proto = (RedeemMiniEventRewardResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Redeem mini event reward response received with status %d.", (int)proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == RedeemMiniEventRewardResponseProto_RedeemMiniEventRewardStatusSuccess) {
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to redeem mini event reward."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleRetrieveMiniEventResponseProto:(FullEvent *)fe {
+  RetrieveMiniEventResponseProto *proto = (RetrieveMiniEventResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Retrieve mini event response received with status %d.", (int)proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == RetrieveMiniEventResponseProto_RetrieveMiniEventStatusSuccess) {
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to retrieve mini event."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleUpdateMiniEventResponseProto:(FullEvent *)fe {
+  UpdateMiniEventResponseProto *proto = (UpdateMiniEventResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Update mini event response received with status %d.", (int)proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == UpdateMiniEventResponseProto_UpdateMiniEventStatusSuccess) {
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to update mini event."];
+    
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }

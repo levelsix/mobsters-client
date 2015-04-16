@@ -33,6 +33,8 @@
 #define SHAKE_DEFAULTS_KEY @"ShakeDefaultsKey"
 
 #define IAP_SUCCESS_NOTIFICATION @"IapSuccessNotification"
+#define IAP_RESPONSE_KEY @"IapResponseKey"
+
 #define HEAL_WAIT_COMPLETE_NOTIFICATION @"HealWaitCompleteNotification"
 #define HEAL_QUEUE_CHANGED_NOTIFICATION @"MonsterQueueChangedNotification"
 #define ENHANCE_MONSTER_NOTIFICATION @"EnhanceMonsterNotification"
@@ -89,6 +91,11 @@
 #define BATTLE_ITEM_QUEUE_CHANGED_NOTIFICATION @"BattleItemQueueChangedNotification"
 #define BATTLE_ITEM_REMOVED_NOTIFICATION @"BattleItemRemovedNotification"
 #define BATTLE_ITEM_WAIT_COMPLETE_NOTIFICATION @"BattleItemWaitCompleteNotification"
+
+#define MINI_EVENT_IS_AVAILABLE_NOTIFICATION @"MiniEventIsAvailableNotification"
+#define MINI_EVENT_TIER_REWARD_AVAILABLE_OR_REDEEMED_NOTIFICATION @"MiniEventTierRewardAvailableOrRedeemedNotification"
+#define MINI_EVENT_HAS_ENDED_NOTIFICATION @"MiniEventHasEndedNotification"
+#define MINI_EVENT_IS_UAVAILABLE_NOTIFICATION @"MiniEventIsUnavailableNotification"
 
 #define MY_CLAN_MEMBERS_LIST_KEY @"MyMembersList"
 #define CLAN_RAID_ATTACK_KEY @"ClanRaidAttackKey"
@@ -233,7 +240,7 @@
 
 - (void) updateInAppPurchases;
 - (void) updateConstants:(StartupResponseProto_StartupConstants *)constants;
-- (InAppPurchasePackageProto *) starterPackIapPackage;
+- (SalesPackageProto *) starterPackSale;
 - (InAppPurchasePackageProto *) moneyTreeIapPackage;
 
 + (NSString *) font;
@@ -249,15 +256,16 @@
 + (NSString *) convertTimeToMediumString:(int)secs;
 + (NSString *) convertTimeToSingleLongString:(int)secs;
 
++ (void) backgroundDownloadFiles:(NSArray *)fileNames;
 + (void) downloadAllFilesForSpritePrefixes:(NSArray *)spritePrefixes completion:(void (^)(void))completed;
 + (void) downloadAllAssetsForSkillSideEffects:(NSSet*)skillSideEffects completion:(void (^)(void))completed;
 
 + (NSString *) pathToFile:(NSString *)fileName useiPhone6Prefix:(BOOL)prefix;
 + (BOOL) isFileDownloaded:(NSString *)fileName useiPhone6Prefix:(BOOL)prefix;
 + (NSString *) downloadFile:(NSString *)fileName useiPhone6Prefix:(BOOL)prefix;
-+ (void) checkAndLoadFile:(NSString *)fileName useiPhone6Prefix:(BOOL)prefix completion:(void (^)(BOOL success))completion;
-+ (void) checkAndLoadSpriteSheet:(NSString *)fileName completion:(void (^)(BOOL success))completion;
-+ (void) checkAndLoadFiles:(NSArray *)fileNames completion:(void (^)(BOOL success))completion;
++ (BOOL) checkAndLoadFile:(NSString *)fileName useiPhone6Prefix:(BOOL)prefix completion:(void (^)(BOOL success))completion;
++ (BOOL) checkAndLoadSpriteSheet:(NSString *)fileName completion:(void (^)(BOOL success))completion;
++ (BOOL) checkAndLoadFiles:(NSArray *)fileNames completion:(void (^)(BOOL success))completion;
 + (NSBundle *) bundleNamed:(NSString *)bundleName;
 + (NSString*) getDoubleResolutionImage:(NSString*)path useiPhone6Prefix:(BOOL)prefix;
 + (UIImage *) imageNamed:(NSString *)path;
@@ -322,6 +330,7 @@
 + (void) addOrangeAlertNotification:(NSString *)msg isImmediate:(BOOL)isImmediate;
 + (void) addBlueAlertNotification:(NSString *)msg;
 + (void) addPrivateMessageNotification:(NSArray *)messages;
++ (void) addMiniEventGoalNotification:(NSString *)msg image:(NSString *)img;
 
 + (void) bounceView:(UIView *)view;
 + (void) bounceView:(UIView *)view fromScale:(float)fScale toScale:(float)tScale duration:(float)duration;

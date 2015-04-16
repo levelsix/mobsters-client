@@ -32,11 +32,27 @@
 
 typedef NS_ENUM(SInt32, MiniEventGoalProto_MiniEventGoalType) {
   MiniEventGoalProto_MiniEventGoalTypeNoGoal = 1,
-  MiniEventGoalProto_MiniEventGoalTypeHealHp = 2,
-  MiniEventGoalProto_MiniEventGoalTypeEnhanceToonXp = 3,
-  MiniEventGoalProto_MiniEventGoalTypeUseCashUpgradingBuilding = 4,
-  MiniEventGoalProto_MiniEventGoalTypeUseOilUpgradingBuilding = 5,
-  MiniEventGoalProto_MiniEventGoalTypeCaptureScientist = 6,
+  MiniEventGoalProto_MiniEventGoalTypeGainBuildingStrength = 2,
+  MiniEventGoalProto_MiniEventGoalTypeGainResearchStrength = 3,
+  MiniEventGoalProto_MiniEventGoalTypeSpinBasicGrab = 4,
+  MiniEventGoalProto_MiniEventGoalTypeSpinUltimateGrab = 5,
+  MiniEventGoalProto_MiniEventGoalTypeEnhanceCommon = 6,
+  MiniEventGoalProto_MiniEventGoalTypeEnhanceRare = 7,
+  MiniEventGoalProto_MiniEventGoalTypeEnhanceSuper = 8,
+  MiniEventGoalProto_MiniEventGoalTypeEnhanceUltra = 9,
+  MiniEventGoalProto_MiniEventGoalTypeEnhanceEpic = 10,
+  MiniEventGoalProto_MiniEventGoalTypeClanHelp = 11,
+  MiniEventGoalProto_MiniEventGoalTypeClanDonate = 12,
+  MiniEventGoalProto_MiniEventGoalTypeBattleAvengeRequest = 13,
+  MiniEventGoalProto_MiniEventGoalTypeBattleAvengeWin = 14,
+  MiniEventGoalProto_MiniEventGoalTypeBattleRevengeWin = 15,
+  MiniEventGoalProto_MiniEventGoalTypeStealCash = 16,
+  MiniEventGoalProto_MiniEventGoalTypeStealOil = 17,
+  MiniEventGoalProto_MiniEventGoalTypePvpCatchCommon = 18,
+  MiniEventGoalProto_MiniEventGoalTypePvpCatchRare = 19,
+  MiniEventGoalProto_MiniEventGoalTypePvpCatchSuper = 20,
+  MiniEventGoalProto_MiniEventGoalTypePvpCatchUltra = 21,
+  MiniEventGoalProto_MiniEventGoalTypePvpCatchEpic = 22,
 };
 
 BOOL MiniEventGoalProto_MiniEventGoalTypeIsValidValue(MiniEventGoalProto_MiniEventGoalType value);
@@ -187,12 +203,14 @@ BOOL MiniEventGoalProto_MiniEventGoalTypeIsValidValue(MiniEventGoalProto_MiniEve
   BOOL hasGoalAmt_:1;
   BOOL hasPointsGained_:1;
   BOOL hasGoalDesc_:1;
+  BOOL hasActionDescription_:1;
   BOOL hasGoalType_:1;
   int32_t miniEventGoalId;
   int32_t miniEventId;
   int32_t goalAmt;
   int32_t pointsGained;
   NSString* goalDesc;
+  NSString* actionDescription;
   MiniEventGoalProto_MiniEventGoalType goalType;
 }
 - (BOOL) hasMiniEventGoalId;
@@ -201,12 +219,14 @@ BOOL MiniEventGoalProto_MiniEventGoalTypeIsValidValue(MiniEventGoalProto_MiniEve
 - (BOOL) hasGoalAmt;
 - (BOOL) hasGoalDesc;
 - (BOOL) hasPointsGained;
+- (BOOL) hasActionDescription;
 @property (readonly) int32_t miniEventGoalId;
 @property (readonly) int32_t miniEventId;
 @property (readonly) MiniEventGoalProto_MiniEventGoalType goalType;
 @property (readonly) int32_t goalAmt;
 @property (readonly, strong) NSString* goalDesc;
 @property (readonly) int32_t pointsGained;
+@property (readonly, strong) NSString* actionDescription;
 
 + (MiniEventGoalProto*) defaultInstance;
 - (MiniEventGoalProto*) defaultInstance;
@@ -272,6 +292,11 @@ BOOL MiniEventGoalProto_MiniEventGoalTypeIsValidValue(MiniEventGoalProto_MiniEve
 - (int32_t) pointsGained;
 - (MiniEventGoalProto_Builder*) setPointsGained:(int32_t) value;
 - (MiniEventGoalProto_Builder*) clearPointsGained;
+
+- (BOOL) hasActionDescription;
+- (NSString*) actionDescription;
+- (MiniEventGoalProto_Builder*) setActionDescription:(NSString*) value;
+- (MiniEventGoalProto_Builder*) clearActionDescription;
 @end
 
 @interface MiniEventForPlayerLevelProto : PBGeneratedMessage {
