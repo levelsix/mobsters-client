@@ -14,6 +14,7 @@
                 <outlet property="numItemsLabel" destination="yES-hU-Yfx" id="ME4-8D-pzY"/>
                 <outlet property="priceLabel" destination="PYg-BU-CoS" id="Pe9-AX-Yid"/>
                 <outlet property="timeLeftLabel" destination="Bty-6W-jsm" id="dXD-G5-T03"/>
+                <outlet property="timerIcon" destination="4yb-8H-W1J" id="lY3-Jy-I9v"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>

@@ -195,10 +195,33 @@ static float timePerRotation = 0.08;
 - (void) updateLabels {
   GameState *gs = [GameState sharedGameState];
   
-  int secsLeft = [[gs.lastLogoutTime dateByAddingTimeInterval:24*60*60] timeIntervalSinceNow];
+  int secsLeft;
+  
+  if (_sale.hasTimeEnd) {
+    MSDate *endDate = [MSDate dateWithTimeIntervalSince1970:_sale.timeEnd/1000.];
+    secsLeft = [endDate timeIntervalSinceNow];
+    
+    int mod = 60*60*24;
+    secsLeft = (secsLeft % mod);
+  } else {
+    secsLeft = [gs timeLeftOnStarterSale];
+  }
   
   if (secsLeft >= 0) {
     self.timeLeftLabel.text = [@" " stringByAppendingString:[Globals convertTimeToShortString:secsLeft withAllDenominations:YES].uppercaseString];
+  } else if (self.timerIcon) {
+    [self.timerIcon removeFromSuperview];
+    self.timerIcon = nil;
+    
+    [self.endsInLabel removeFromSuperview];
+    self.endsInLabel = nil;
+    
+    self.timeLeftLabel.centerX = self.timeLeftLabel.superview.width/2;
+    self.timeLeftLabel.originY += 1.f;
+    self.timeLeftLabel.textAlignment = NSTextAlignmentCenter;
+    
+    self.timeLeftLabel.text = @"LIMITED TIME!";
+    self.timeLeftLabel.font = [UIFont fontWithName:self.timeLeftLabel.font.fontName size:self.timeLeftLabel.font.pointSize+3];
   }
 }
 

@@ -35,6 +35,7 @@
 
 @property (nonatomic, retain) IBOutlet UIView *loadingView;
 
+@property (nonatomic, retain) IBOutlet UIView *timerIcon;
 @property (nonatomic, retain) IBOutlet THLabel *endsInLabel;
 @property (nonatomic, retain) IBOutlet THLabel *timeLeftLabel;
 @property (nonatomic, retain) IBOutlet THLabel *priceLabel;
