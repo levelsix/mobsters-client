@@ -113,6 +113,9 @@
   BOOL isTranslated = NO, translationExists = NO;
   NSString *message = [self getContentInLanguage:language isTranslated:&isTranslated translationExists:&translationExists];
   [chatCell updateForMessage:message sender:self.sender date:self.date showsClanTag:showsClanTag translatedTo:language untranslate:self.revertedTranslation showTranslateButton:translationExists];
+
+- (UIColor *) bottomViewTextColor {
+  return [UIColor whiteColor];
 }
 
 - (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell language:(TranslateLanguages)language {
@@ -205,7 +208,7 @@
   return pcpp;
 }
 
-- (IBAction)helpClicked:(id)sender {
+- (IBAction) helpClicked:(id)sender {
   [[OutgoingEventController sharedOutgoingEventController] acceptAndRejectInvitesWithAcceptUuids:@[self.invite.inviteUuid] rejectUuids:nil];
   
   PrivateChatPostProto *pcpp = [self privateChat];
@@ -347,7 +350,7 @@
   return pcpp;
 }
 
-- (IBAction)revengeClicked:(id)sender {
+- (IBAction) revengeClicked:(id)sender {
   if ([Globals checkEnteringDungeon]) {
     GameViewController *gvc = [GameViewController baseController];
     [gvc beginPvpMatchForRevenge:self];
@@ -489,14 +492,14 @@
   return CGRectGetMaxY(chatCell.currentChatSubview.frame)+14.f;
 }
 
-- (IBAction)attackClicked:(id)sender {
+- (IBAction) attackClicked:(id)sender {
   if ([Globals checkEnteringDungeon]) {
     GameViewController *gvc = [GameViewController baseController];
     [gvc beginPvpMatchForAvenge:self];
   }
 }
 
-- (IBAction)profileClicked:(id)sender {
+- (IBAction) profileClicked:(id)sender {
   UIViewController *gvc = [GameViewController baseController];
   ProfileViewController *pvc = [[ProfileViewController alloc] initWithUserUuid:self.attacker.minUserProto.userUuid];
   [gvc addChildViewController:pvc];
@@ -513,3 +516,60 @@
 }
 
 @end
+
+@implementation UserClanGiftProto (ChatObject)
+
+- (MinimumUserProto *) sender {
+  return self.sender;
+}
+
+- (NSString *) message {
+  return @"Sent you a gift.";
+}
+
+- (MSDate *) date {
+  return [MSDate date];
+}
+
+- (UIColor *) bottomViewTextColor {
+  return [UIColor colorWithHexString:@"ff2400"];
+}
+
+- (BOOL) isRead {
+  return NO;
+}
+
+- (void) markAsRead {
+  //i don't even
+}
+
+- (BOOL) isValid {
+  long endMoment = self.timeReceived + (self.clanGift.hoursUntilExpiration * 60 * 60 * 1000);
+  MSDate *endTime = [MSDate dateWithTimeIntervalSince1970:endMoment];
+  
+  return [endTime timeIntervalSinceNow] > 0;
+}
+
+- (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag {
+  NSString *nibName = @"ChatSquadGiftView";
+  ChatSquadGiftView *v = [chatCell dequeueChatSubview:nibName];
+  
+  if (!v) {
+    v = [[NSBundle mainBundle] loadNibNamed:nibName owner:self options:nil][0];
+  }
+  
+  [v updateForClanGift:self];
+  
+  [chatCell updateForMessage:self.message sender:self.sender date:self.date showsClanTag:showsClanTag allowHighlight:YES chatSubview:v identifier:nibName];
+}
+
+- (long) expireTime {
+  return self.timeReceived + (self.clanGift.hoursUntilExpiration * 60 * 60 * 1000);
+}
+
+- (MSDate *) exprieDate {
+  return [MSDate dateWithTimeIntervalSince1970:[self expireTime]];
+}
+
+@end
+

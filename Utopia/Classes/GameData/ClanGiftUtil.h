@@ -10,8 +10,6 @@
 
 @interface UserClanGift : NSObject
 
-//+ (UserClanGift) UserClanGiftForProto
-
 @end
 
 @interface ClanGiftUtil : NSObject

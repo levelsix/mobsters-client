@@ -3241,6 +3241,31 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return [def boolForKey:LOGGING_ENABLED_KEY];
 }
 
++ (NSString *) imageNameForReward:(RewardProto *) reward {
+  GameState *gs = [GameState sharedGameState];
+  
+  ItemProto *staticItem;
+  MonsterProto *staticMonster;
+  
+  switch (reward.typ) {
+    case RewardProto_RewardTypeCash:
+      return @"moneystack.png";
+    case RewardProto_RewardTypeGems:
+      return @"diamond.png";
+    case RewardProto_RewardTypeOil:
+      return @"oilicon.png";
+    case RewardProto_RewardTypeItem:
+      staticItem = [gs itemForId:reward.staticDataId];
+      return staticItem.imgName;
+    case RewardProto_RewardTypeMonster:
+      staticMonster = [gs monsterWithId:reward.staticDataId];
+#warning figure out monster image
+      return @"";
+    case RewardProto_RewardTypeNoReward:
+      return @"";
+  }
+}
+
 @end
 
 @implementation CCNode (RecursiveOpacity)

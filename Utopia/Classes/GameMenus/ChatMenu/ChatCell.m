@@ -621,32 +621,29 @@ static float buttonInitialWidth = 159.f;
 
 @end
 
-@implementation ChatSquadGift
+@implementation ChatSquadGiftView
 
 - (void) awakeFromNib {
   [super awakeFromNib];
   self.openedView.frame = self.unOpenedView.frame;
   [self.unOpenedView.superview addSubview:self.openedView];
-  
 }
 
-- (void) updateForSquadGift {
-  
+- (void) updateForClanGift:(UserClanGiftProto *)clanGift {
   Quality giftRarity = QualityCommon;
-  int expireTime;
+  long expireTime = [clanGift exprieDate].timeIntervalSinceNow;
   
-  NSString *name = @"gift name";
-  NSString *imageName = @"squadGift.png";
-  NSString *giftPoolName = @"Gold Gift";
+  NSString *name = clanGift.clanGift.name;
+  NSString *imageName = @"bigSecretGift.png";
+  
+  NSString *rewardImageName = ;
+  NSString *rewardName = @"toon";
   
   self.giftRarityLabel.text = [NSString stringWithFormat:@"%@ Gift", [Globals stringForRarity:giftRarity]];
   self.giftNameLabel.text = name;
-  self.giftPoolLabel.text = giftPoolName;
-  
-  self.expireTimeLabel.text = [Globals convertTimeToShortString:expireTime withAllDenominations:YES];
+  self.expireTimeLabel.text = [Globals convertTimeToShortString:(int)expireTime withAllDenominations:YES];
   
   [Globals imageNamed:imageName withView:self.giftImage greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
-  
 }
 
 @end
