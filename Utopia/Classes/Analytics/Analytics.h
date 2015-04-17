@@ -25,7 +25,7 @@
 + (void) tutorialFbConfirmSkip;
 + (void) tutorialWaitingOnUserCreate;
 
-+ (void) setUserUuid:(NSString *)userUuid name:(NSString *)name email:(NSString *)email level:(int)level;
++ (void) setUserUuid:(NSString *)userUuid name:(NSString *)name email:(NSString *)email level:(int)level segmentationGroup:(int)group;
 + (void) newAccountCreated;
 + (void) tutorialComplete;
 + (void) appOpen:(int)numTimesOpened;
@@ -39,7 +39,7 @@
 + (void) levelUpWithPrevLevel:(int)prevLevel curLevel:(int)curLevel;
 + (void) connectedToFacebookWithData:(NSDictionary *)fbData;
 + (void) redeemedAchievement:(int)achievementId;
-+ (void) iapWithSKProduct:(id)product forTransacton:(id)transaction amountUS:(float)amountUS;
++ (void) iapWithSKProduct:(id)product forTransacton:(id)transaction amountUS:(float)amountUS uuid:(NSString *)uuid;
 + (void) iapFailedWithSKProduct:(id)product error:(NSString *)error;
 
 + (void) foundMatch:(NSString *)action;

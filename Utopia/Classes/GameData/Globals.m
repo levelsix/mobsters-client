@@ -78,18 +78,21 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   [[IAPHelper sharedIAPHelper] requestProducts];
 }
 
-- (SalesPackageProto *) starterPackSale {
-  NSString *packageId = nil;
+- (SalesPackageProto *) builderPackSale {
+  NSMutableArray *packageIds = [NSMutableArray array];;
   for (InAppPurchasePackageProto *pkg in self.iapPackages) {
-    if (pkg.iapPackageType == InAppPurchasePackageProto_InAppPurchasePackageTypeStarterPack) {
-      packageId = pkg.iapPackageId;
+    if (pkg.iapPackageType == InAppPurchasePackageProto_InAppPurchasePackageTypeBuilderPack ||
+        pkg.iapPackageType == InAppPurchasePackageProto_InAppPurchasePackageTypeStarterBuilderPack) {
+      [packageIds addObject:pkg.iapPackageId];
     }
   }
   
   GameState *gs = [GameState sharedGameState];
   for (SalesPackageProto *spp in gs.mySales) {
-    if ([spp.salesProductId isEqualToString:packageId]) {
-      return spp;
+    for (NSString *packageId in packageIds) {
+      if ([spp.salesProductId isEqualToString:packageId]) {
+        return spp;
+      }
     }
   }
   
@@ -2220,7 +2223,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   MonsterProto *baseMp = base.staticMonster;
   
   float multiplier1 = lab.pointsMultiplier ?: 1;
-  float multiplier2 = baseMp.monsterElement == baseMp.monsterElement ? 1.5 : 1;
+  float multiplier2 = baseMp.monsterElement == um.staticMonster.monsterElement ? 1.5 : 1;
   float exp = um.feederExp*multiplier1*multiplier2;
   
   float researchFactor = 1.f+[gs.researchUtil percentageBenefitForType:ResearchTypeXpBonus element:baseMp.monsterElement evoTier:baseMp.evolutionLevel];

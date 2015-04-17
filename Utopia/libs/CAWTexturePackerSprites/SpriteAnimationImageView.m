@@ -13,7 +13,14 @@
 
 @implementation SpriteAnimationImageView
 
-- (void) setSprite:(NSString*)spriteName
+- (void) awakeFromNib
+{
+  [super awakeFromNib];
+  
+  self.spinner = nil;
+}
+
+- (void) setSprite:(NSString*)spriteName secsBetweenReplay:(float)secsBetweenReplay fps:(float)fps
 {
   if (![spriteName isEqualToString:_spriteName])
   {
@@ -67,13 +74,14 @@
               CAWSpriteLayer* spriteLayer = [CAWSpriteLayer layerWithSpriteData:spriteData andImage:spritesheet];
               spriteLayer.animationLayer.showLastFrame = YES;
               [self.layer addSublayer:spriteLayer];
+              spriteLayer.frame = self.layer.bounds;
               
               // Start the sprite animation
               NSString* frameNames = [[spriteName stringByDeletingPathExtension] stringByAppendingString:@"%02d"];
-              [self playAnimation:[NSTimer scheduledTimerWithTimeInterval:12.f
+              [self playAnimation:[NSTimer scheduledTimerWithTimeInterval:secsBetweenReplay
                                                                    target:self
                                                                  selector:@selector(playAnimation:)
-                                                                 userInfo:@{ @"SpriteLayer" : spriteLayer, @"FrameNames" : frameNames }
+                                                                 userInfo:@{ @"SpriteLayer" : spriteLayer, @"FrameNames" : frameNames, @"FPS" : @(fps) }
                                                                   repeats:YES]];
             }
           }];
@@ -91,7 +99,10 @@
 {
   NSString* frameNames = [timer.userInfo objectForKey:@"FrameNames"];
   CAWSpriteLayer* spriteLayer = [timer.userInfo objectForKey:@"SpriteLayer"];
-  [spriteLayer playAnimation:frameNames withRate:15];
+  float fps = [[timer.userInfo objectForKey:@"FPS"] floatValue];
+  [spriteLayer playAnimation:frameNames withRate:fps];
+  
+  [self.delegate playingAnimation:self];
 }
 
 @end

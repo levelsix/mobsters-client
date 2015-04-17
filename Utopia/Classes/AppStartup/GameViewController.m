@@ -493,7 +493,7 @@ static const CGSize FIXED_SIZE = {568, 384};
       
       // Track analytics
       NSString *email = [[FacebookDelegate sharedFacebookDelegate] myFacebookUser][@"email"];
-      [Analytics setUserUuid:gs.userUuid name:gs.name email:email level:gs.level];
+      [Analytics setUserUuid:gs.userUuid name:gs.name email:email level:gs.level segmentationGroup:gs.userSegmentationGroup];
       [Analytics connectedToServerWithLevel:gs.level gems:gs.gems cash:gs.cash oil:gs.oil];
       [Analytics receivedStartup];
     }

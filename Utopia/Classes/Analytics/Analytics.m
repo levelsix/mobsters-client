@@ -93,7 +93,7 @@ static NSString* urlEncodeString(NSString* nonEncodedString) {
   [Adjust appDidLaunch:[ADJConfig configWithAppToken:ADJUST_APP_TOKEN environment:[self isSandbox] ? ADJEnvironmentSandbox : ADJEnvironmentProduction]];
 }
 
-+ (NSMutableDictionary *) userPropertiesWithName:(NSString *)name level:(int)level {
++ (NSMutableDictionary *) userPropertiesWithName:(NSString *)name level:(int)level segentationGroup:(int)segGroup {
   NSMutableDictionary *dict = [NSMutableDictionary dictionary];
   
   //app_version - we go ahead and set this, but this can be changed if a cutom version is set with adjust_customVersion()
@@ -128,6 +128,8 @@ static NSString* urlEncodeString(NSString* nonEncodedString) {
     [dict setObject:name forKey:@"user_name"];
     
     [dict setObject:[NSString stringWithFormat:@"%d", level] forKey:@"user_level"];
+    
+    [dict setObject:@(segGroup) forKey:@"segmentation_group"];
   }
   
   return dict;
@@ -136,7 +138,7 @@ static NSString* urlEncodeString(NSString* nonEncodedString) {
 + (void) setupAmplitude {
   [amplitudeClass initializeApiKey:AMPLITUDE_KEY];
   
-  [amplitudeClass setUserProperties:[self userPropertiesWithName:nil level:0]];
+  [amplitudeClass setUserProperties:[self userPropertiesWithName:nil level:0 segentationGroup:0]];
 }
 
 + (void) setupTitan {
@@ -236,7 +238,7 @@ static NSString* urlEncodeString(NSString* nonEncodedString) {
 
 #pragma mark - Attribution stuff
 
-+ (void) setUserUuid:(NSString *)userUuid name:(NSString *)name email:(NSString *)email level:(int)level {
++ (void) setUserUuid:(NSString *)userUuid name:(NSString *)name email:(NSString *)email level:(int)level segmentationGroup:(int)group {
   NSString *uid = userUuid;
 #ifdef MOBSTERS
   //  [ScopelyAttributionWrapper mat_setUserInfoForUserId:uid withNameUser:name withEmail:email];
@@ -245,7 +247,7 @@ static NSString* urlEncodeString(NSString* nonEncodedString) {
 #endif
   
   [amplitudeClass setUserId:uid];
-  [amplitudeClass setUserProperties:[self userPropertiesWithName:name level:level]];
+  [amplitudeClass setUserProperties:[self userPropertiesWithName:name level:level segentationGroup:group]];
 }
 
 + (void) newAccountCreated {
@@ -520,7 +522,7 @@ static NSDate *timeSinceLastTutStep = nil;
   //[titanClass trackAchievement:S(achievementId) extraParams:nil];
 }
 
-+ (void) iapWithSKProduct:(SKProduct *)product forTransacton:(SKPaymentTransaction *)transaction amountUS:(float)amountUS {
++ (void) iapWithSKProduct:(SKProduct *)product forTransacton:(SKPaymentTransaction *)transaction amountUS:(float)amountUS uuid:(NSString *)uuid {
   if (!product) return;
 #ifdef MOBSTERS
   //  [ScopelyAttributionWrapper mat_iapWithSKProduct:product forTransacton:transaction];
@@ -532,7 +534,8 @@ static NSDate *timeSinceLastTutStep = nil;
   NSDictionary *dict = @{@"amount_us": @(amountUS),
                          @"amount_local": @(unitPrice),
                          @"local_cur_code": currencyCode,
-                         @"store_sku": product.productIdentifier};
+                         @"store_sku": product.productIdentifier,
+                         @"sale_uuid" : uuid};
   
   [self event:@"iap_purchased" withArgs:dict];
   

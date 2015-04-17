@@ -46,7 +46,7 @@ static NSString *udid = nil;
 
 - (NSString *)getIPAddress
 {
-  NSURL *url = [[NSURL alloc] initWithString:@"http://checkip.dyndns.com/"];
+  NSURL *url = [[NSURL alloc] initWithString:@"http://www.whatismyip.com/m/mobile.asp"];
   NSString *contents = [NSString stringWithContentsOfURL:url encoding:NSStringEncodingConversionAllowLossy error:nil];
   NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"\\d+\\.\\d+\\.\\d+\\.\\d+" options:NSRegularExpressionCaseInsensitive error:nil];
   
@@ -604,13 +604,13 @@ static NSString *udid = nil;
 }
 
 - (int) sendInAppPurchaseMessage:(NSString *)receipt product:(SKProduct *)product saleUuid:(NSString *)saleUuid {
-  InAppPurchaseRequestProto *req = [[[[[[[[[InAppPurchaseRequestProto builder]
+  InAppPurchaseRequestProto *req = [[[[[[[[InAppPurchaseRequestProto builder]
                                            setReceipt:receipt]
                                           setLocalcents:[NSString stringWithFormat:@"%d", (int)(product.price.doubleValue*100.)]]
                                          setLocalcurrency:[product.priceLocale objectForKey:NSLocaleCurrencyCode]]
                                         setLocale:[product.priceLocale objectForKey:NSLocaleCountryCode]]
                                        setSender:_sender]
-                                      setIpaddr:[self getIPAddress]]
+                                      //setIpaddr:[self getIPAddress]]
                                      setUuid:saleUuid]
                                     build];
   

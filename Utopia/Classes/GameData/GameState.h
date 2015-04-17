@@ -59,6 +59,7 @@
 @property (nonatomic, retain) NSString *pvpDefendingMessage;
 @property (nonatomic, retain) MSDate *lastTeamDonateSolicitationTime;
 @property (nonatomic, assign) uint64_t totalStrength;
+@property (nonatomic, assign) int userSegmentationGroup;
 
 @property (nonatomic, assign) BOOL hasBeatenFirstBoss;
 @property (nonatomic, assign) int firstBossTaskId;
@@ -338,7 +339,7 @@
 - (BOOL) hasBeatFirstBoss;
 - (BOOL) hasUpgradedBuilding;
 
-- (NSTimeInterval) timeLeftOnStarterSale;
+- (NSTimeInterval) timeLeftOnSale:(SalesPackageProto *)sale;
 - (NSTimeInterval) timeLeftOnMoneyTree;
 
 @end

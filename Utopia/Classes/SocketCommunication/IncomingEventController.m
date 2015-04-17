@@ -634,11 +634,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   } else {
     [gs removeNonFullUserUpdatesForTag:tag];
     
-    if (proto.updatedOrNewList) {
+    if (proto.rewards.updatedOrNewMonstersList) {
       [gs addToMyMonsters:proto.updatedOrNewList];
     }
     
-    if (proto.updatedUserItemsList) {
+    if (proto.rewards.updatedUserItemsList) {
       [gs.itemUtil addToMyItems:proto.updatedUserItemsList];
     }
     
@@ -672,10 +672,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     SKPaymentTransaction *lastTransaction = iap.lastTransaction;
     SKProduct *prod = [iap.products objectForKey:lastTransaction.payment.productIdentifier];
+    NSString *uuid = proto.purchasedSalesPackage.uuid;
     if (lastTransaction && prod) {
       NSString *encodedReceipt = [iap base64forData:lastTransaction.transactionReceipt];
       if ([encodedReceipt isEqualToString:proto.receipt]) {
-        [Analytics iapWithSKProduct:prod forTransacton:lastTransaction amountUS:proto.packagePrice];
+        [Analytics iapWithSKProduct:prod forTransacton:lastTransaction amountUS:proto.packagePrice uuid:uuid];
       }
     }
   }
