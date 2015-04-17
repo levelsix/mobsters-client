@@ -46,6 +46,7 @@
 @property (nonatomic, retain) IBOutlet UIImageView* gachaBgBottomRight;
 
 @property (nonatomic, retain) IBOutlet UILabel *gemCostLabel;
+@property (nonatomic, retain) IBOutlet UIImageView *gemCostIcon;
 @property (nonatomic, retain) IBOutlet UIView *gemCostView;
 @property (nonatomic, retain) IBOutlet UIView *spinView;
 @property (nonatomic, retain) IBOutlet UIButton *spinButton;
