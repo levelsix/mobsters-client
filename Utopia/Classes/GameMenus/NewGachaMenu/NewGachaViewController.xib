@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7531" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NewGachaViewController">
@@ -12,6 +12,7 @@
                 <outlet property="focusScrollView" destination="EWj-RU-bBZ" id="aj8-94-hkl"/>
                 <outlet property="gachaBgBottomRight" destination="5dH-it-Tso" id="vdl-1C-5Fp"/>
                 <outlet property="gachaBgTopLeft" destination="ZaN-Q1-yTU" id="Bmb-ng-95D"/>
+                <outlet property="gemCostIcon" destination="Qbr-o4-1PT" id="lsS-RA-qFC"/>
                 <outlet property="gemCostLabel" destination="X6C-RO-et1" id="imm-Wz-nuG"/>
                 <outlet property="gemCostView" destination="ogu-T6-vYN" id="HcY-8e-1AX"/>
                 <outlet property="goodBadge" destination="aY6-OZ-OmN" id="oXZ-FF-HrJ"/>
@@ -104,9 +105,10 @@
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="YYO-db-KXt" customClass="GemsButton">
                                     <rect key="frame" x="0.0" y="0.0" width="105" height="44"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                    <state key="normal" image="spinbutton.png">
+                                    <state key="normal" image="minibuttonpurple.png">
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
+                                    <state key="highlighted" image="minibuttonpurplepressed.png"/>
                                     <connections>
                                         <action selector="spinClicked:" destination="-1" eventType="touchUpInside" id="LQq-xt-cZe"/>
                                     </connections>
@@ -120,17 +122,17 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" id="ogu-T6-vYN">
-                                            <rect key="frame" x="43" y="2" width="44" height="22"/>
+                                            <rect key="frame" x="41" y="0.0" width="44" height="22"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                             <subviews>
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="diamond.png" id="Qbr-o4-1PT">
-                                                    <rect key="frame" x="-2" y="3" width="21" height="21"/>
+                                                    <rect key="frame" x="2" y="6" width="16" height="16"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="25" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="X6C-RO-et1" customClass="NiceFontLabel12S">
-                                                    <rect key="frame" x="20" y="3" width="24" height="18"/>
+                                                    <rect key="frame" x="17" y="3" width="24" height="18"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                     <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
@@ -139,10 +141,10 @@
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SPIN!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="s8w-A6-agC" customClass="NiceFontLabel12S">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1 SPIN" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="s8w-A6-agC" customClass="NiceFontLabel12S">
                                             <rect key="frame" x="0.0" y="2" width="89" height="20"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="9"/>
                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                             <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
@@ -884,10 +886,11 @@
         <image name="grlightcircle1.png" width="287" height="184"/>
         <image name="grshadow.png" width="206" height="80"/>
         <image name="lights.png" width="634" height="280"/>
+        <image name="minibuttonpurple.png" width="102" height="41"/>
+        <image name="minibuttonpurplepressed.png" width="102" height="41"/>
         <image name="revealsep.png" width="1" height="2"/>
         <image name="revealskillbg.png" width="40" height="40"/>
         <image name="skilldescriptionline.png" width="186" height="1"/>
-        <image name="spinbutton.png" width="86" height="31"/>
         <image name="ticker_big.png" width="14" height="25"/>
         <image name="whitegrlightcircle2.png" width="263" height="205"/>
     </resources>

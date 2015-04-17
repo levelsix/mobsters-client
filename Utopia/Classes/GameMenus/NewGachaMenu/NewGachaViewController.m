@@ -37,19 +37,23 @@
 
 - (void) setupItems {
   // No longer randomizing, just use the current display items list with db order
-//  NSMutableArray *arr = [NSMutableArray array];
-//  for (int i = 0; i < 20; i++) {
-    NSMutableArray *sub = [NSMutableArray array];
-    for (BoosterDisplayItemProto *item in self.boosterPack.displayItemsList) {
-      // Add it as many times as quantity
-      // Multiply quantity to increase variability
-      for (int j = 0; j < item.quantity; j++) {
-        [sub addObject:item];
-      }
+  /*
+  NSMutableArray *arr = [NSMutableArray array];
+  for (int i = 0; i < 20; i++) {
+   */
+  NSMutableArray *sub = [NSMutableArray array];
+  for (BoosterDisplayItemProto *item in self.boosterPack.displayItemsList) {
+    // Add it as many times as quantity
+    // Multiply quantity to increase variability
+    for (int j = 0; j < item.quantity; j++) {
+      [sub addObject:item];
     }
-//    [sub shuffle];
-//    [arr addObjectsFromArray:sub];
-//  }
+  }
+  /*
+    [sub shuffle];
+    [arr addObjectsFromArray:sub];
+  }
+   */
   self.items = sub;
   
   self.gachaTable.tableView.repeatSize = CGSizeMake(0, TABLE_CELL_WIDTH*self.items.count);
@@ -103,6 +107,8 @@
     gemLabel.originY += 1.f;
   }
   
+  [Globals alignSubviewsToPixelsBoundaries:self.machineImage.superview];
+  
   if (self.boosterPack.boosterPackId == self.badBoosterPack.boosterPackId) {
     [self button1Clicked:nil];
   } else {
@@ -120,39 +126,6 @@
 }
 
 - (void) layoutViews {
-  /*
-  // Account for nav bar
-  float navHeight = self.navigationController.navigationBar.height;
-  
-  // Adjust the right view first by finding size of image and keeping distance from right the same
-  UIView *spinContainer = self.machineImage.superview;
-  CGSize s = self.machineImage.image.size;
-  CGRect oldRect = spinContainer.frame;
-  self.machineImage.size = s;
-  spinContainer.size = s;
-  
-  // Find the approx perc of where spinView used to be and adjust for that
-  self.spinView.superview.center = ccp(spinContainer.width/2, self.spinView.superview.centerY/oldRect.size.height*spinContainer.height);
-  
-  if ([Globals isiPhone6Plus]) {
-    spinContainer.transform = CGAffineTransformMakeScale(1.2, 1.2);
-  }
-  
-  spinContainer.originX = CGRectGetMaxX(oldRect)-spinContainer.width;
-  spinContainer.centerY = (self.tableContainerView.originY+navHeight)/2;
-  
-  
-  // Now use the remaining space for the featured views
-  UIView *featuredContainer = self.focusScrollView.superview;
-  featuredContainer.width = spinContainer.originX+10;
-  featuredContainer.height = self.tableContainerView.originY-navHeight;
-  featuredContainer.originY = navHeight;
-  
-  if ([Globals isSmallestiPhone]) {
-    featuredContainer.originX -= 20.f;
-  }
-   */
-  
   const CGFloat navBarHeight = self.topBar.height;
   const CGFloat deviceScale = [Globals screenSize].width / 667.f;
   
@@ -172,20 +145,6 @@
   UIView *featuredContainer = self.focusScrollView.superview;
   featuredContainer.height = CGRectGetMaxY(featuredContainer.frame) - navBarHeight;
   featuredContainer.originY = navBarHeight;
-
-  CGPoint oldCenter = self.spinButton.center;
-  {
-    [Globals imageNamedWithiPhone6Prefix:@"spinbutton.png" withView:self.spinButton greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:NO];
-
-    CGSize newSize = self.spinButton.imageView.image.size;
-    CGFloat widthRatio = newSize.width / self.spinButton.width;
-    CGFloat heightRatio = newSize.height / self.spinButton.height;
-    self.spinButton.size = newSize;
-    self.spinButton.center = oldCenter;
-    
-    self.spinView.size = CGSizeMake(self.spinView.width * widthRatio, self.spinView.height * heightRatio);
-    self.spinView.center = self.spinButton.center;
-  }
   
   if ([Globals isSmallestiPhone])
   {
@@ -213,9 +172,6 @@
     featuredContainer.originX = leftGradient.originX;
     featuredContainer.width = (542.f * deviceScale) - featuredContainer.originX;
   }
-
-  self.gemCostView.originX = (self.spinView.centerX - self.spinView.originX) + 5;
-  self.gemCostView.originY = (self.spinView.height - self.gemCostView.height) * .5f - 5;
 }
 
 - (void) loadBoosterPacks {
@@ -238,8 +194,6 @@
   self.title = self.boosterPack.boosterPackName;
   
   self.gemCostLabel.text = [NSString stringWithFormat:@" %@ ", [Globals commafyNumber:self.boosterPack.gemPrice]];
-//self.prizeView.gemCostLabel.text = [Globals commafyNumber:self.boosterPack.gemPrice];
-//[Globals adjustViewForCentering:self.gemCostLabel.superview withLabel:self.gemCostLabel];
   
   [self.gachaTable.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:NUM_COLS/2 inSection:0] atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
   
@@ -261,7 +215,43 @@
     self.machineImage.center = oldCenter;
   }
   
+  [self updateSpinButton];
+  
   [Globals alignSubviewsToPixelsBoundaries:self.machineImage.superview];
+}
+
+- (void) updateSpinButton
+{
+  const BOOL regularGrab = (self.boosterPack.boosterPackId == self.badBoosterPack.boosterPackId);
+  
+  const CGPoint spinButtonCenter = self.spinButton.center;
+  [self.spinButton setImage:[Globals imageNamed:regularGrab ? @"bigspinpurple.png" : @"minibuttonpurple.png"] forState:UIControlStateNormal];
+  [self.spinButton setImage:[Globals imageNamed:regularGrab ? @"bigspinpurplepressed.png" : @"minibuttonpurplepressed.png"] forState:UIControlStateHighlighted];
+  self.spinButton.size = self.spinButton.imageView.image.size;
+  self.spinButton.center = spinButtonCenter;
+  
+  const CGSize newSize = self.spinButton.imageView.image.size;
+  const CGFloat widthRatio = newSize.width / self.spinButton.width;
+  const CGFloat heightRatio = newSize.height / self.spinButton.height;
+  self.spinView.size = CGSizeMake(self.spinView.width * widthRatio, self.spinView.height * heightRatio);
+  self.spinView.center = self.spinButton.center;
+  
+  self.gemCostView.originX = (self.spinView.centerX - self.spinView.originX) + (regularGrab ? 7 : 3);
+  self.gemCostView.originY = (self.spinView.height - self.gemCostView.height) * .5f - 14;
+  
+  self.spinView.size = CGSizeMake(self.spinView.width * widthRatio, self.spinView.height * heightRatio);
+  self.spinView.center = self.spinButton.center;
+  
+  self.spinActionLabel.font = [UIFont fontWithName:self.spinActionLabel.font.fontName size:regularGrab ? 13.f : 9.f];
+  self.spinActionLabel.centerY = [self.spinButton.superview convertPoint:self.spinButton.center toView:self.spinActionLabel.superview].y - (regularGrab ? 3 : 2);
+  
+  const CGPoint gemCostIconCenter = self.gemCostIcon.center;
+  self.gemCostIcon.size = regularGrab ? CGSizeMake(22, 22) : CGSizeMake(16, 16);
+  self.gemCostIcon.center = CGPointMake(gemCostIconCenter.x, self.spinActionLabel.center.y + 1);
+  
+  self.gemCostLabel.font = [UIFont fontWithName:self.gemCostLabel.font.fontName size:regularGrab ? 13.f : 9.f];
+  self.gemCostLabel.centerY = self.spinActionLabel.centerY + 1;
+  self.gemCostLabel.originX = CGRectGetMaxX(self.gemCostIcon.frame) - 1;
 }
 
 - (void) updateFreeGachasCounter
@@ -289,12 +279,12 @@
   {
     self.gemCostLabel.superview.hidden = NO;
     self.spinActionLabel.textAlignment = NSTextAlignmentLeft;
-    self.spinActionLabel.text = @" SPIN! ";
+    self.spinActionLabel.text = @" 1 SPIN ";
     
     CGFloat labelTextWidth = [self.spinActionLabel.text getSizeWithFont:self.spinActionLabel.font
                                                       constrainedToSize:self.spinActionLabel.frame.size
                                                           lineBreakMode:self.spinActionLabel.lineBreakMode].width;
-    self.spinActionLabel.originX = (self.spinView.centerX - self.spinView.originX) - labelTextWidth - 5;
+    self.spinActionLabel.originX = (self.spinView.centerX - self.spinView.originX) - labelTextWidth + 3;
   }
   
   int badSpins = [gs numberOfFreeSpinsForBoosterPack:self.badBoosterPack.boosterPackId];
@@ -384,8 +374,11 @@
   if (gs.gems < self.boosterPack.gemPrice && !isDailySpin && !numFreeSpins) {
     [GenericPopupController displayNotEnoughGemsView];
     // Don't stop them from spinning due to residences anymore. Unnecessary friction..
-//  } else if (gs.myMonsters.count > gs.maxInventorySlots) {
-//    [GenericPopupController displayConfirmationWithDescription:[NSString stringWithFormat:@"Uh oh, your residences are full. Sell some %@s to free up space.", MONSTER_NAME] title:@"Residences Full" okayButton:@"Sell" cancelButton:@"Cancel" target:self selector:@selector(manageTeam)];
+    /*
+  } else if (gs.myMonsters.count > gs.maxInventorySlots) {
+    [GenericPopupController displayConfirmationWithDescription:[NSString stringWithFormat:@"Uh oh, your residences are full. Sell some %@s to free up space.", MONSTER_NAME]
+                                                         title:@"Residences Full" okayButton:@"Sell" cancelButton:@"Cancel" target:self selector:@selector(manageTeam)];
+     */
   } else {
     _lastSpinWasFree = isDailySpin;
     
