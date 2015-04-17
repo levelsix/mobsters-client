@@ -46,7 +46,7 @@ static NSString *udid = nil;
 
 - (NSString *)getIPAddress
 {
-  NSURL *url = [[NSURL alloc] initWithString:@"http://www.whatismyip.com/m/mobile.asp"];
+  NSURL *url = [[NSURL alloc] initWithString:@"http://checkip.dyndns.com/"];
   NSString *contents = [NSString stringWithContentsOfURL:url encoding:NSStringEncodingConversionAllowLossy error:nil];
   NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"\\d+\\.\\d+\\.\\d+\\.\\d+" options:NSRegularExpressionCaseInsensitive error:nil];
   

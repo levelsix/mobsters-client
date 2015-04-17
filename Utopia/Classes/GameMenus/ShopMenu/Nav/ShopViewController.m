@@ -12,7 +12,18 @@
 #import "SettingsViewController.h"
 #import "GameState.h"
 
+#import "SalePackageViewController.h"
+
 @implementation ShopViewController
+
+- (id) init {
+  if ((self = [super init])) {
+    // Preload the sales view since it loads slow
+    SalePackageViewController *svc = [[SalePackageViewController alloc] init];
+    [svc view];
+  }
+  return self;
+}
 
 - (void) viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];

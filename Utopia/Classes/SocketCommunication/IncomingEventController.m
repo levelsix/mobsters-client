@@ -635,11 +635,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs removeNonFullUserUpdatesForTag:tag];
     
     if (proto.rewards.updatedOrNewMonstersList) {
-      [gs addToMyMonsters:proto.updatedOrNewList];
+      [gs addToMyMonsters:proto.rewards.updatedOrNewMonstersList];
     }
     
     if (proto.rewards.updatedUserItemsList) {
-      [gs.itemUtil addToMyItems:proto.updatedUserItemsList];
+      [gs.itemUtil addToMyItems:proto.rewards.updatedUserItemsList];
     }
     
     if (proto.updatedMoneyTreeList) {
@@ -2483,7 +2483,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     [gs addToMiniJobs:newJobsList isNew:YES];
   } else {
-    [Globals popupMessage:@"Server failed to redeem miniJob refresh."];
+    [Globals popupMessage:@"Server failed to redeem mini job refresh."];
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
