@@ -111,6 +111,8 @@
   // Crashlytics
   [Crashlytics startWithAPIKey:@"5001803420c4d8732cf317109988902188f28beb"];
   
+  [self removeLocalNotifications];
+  
   [[CCDirector sharedDirector] pause];
   
   [ChartboostDelegate setUpChartboost];
@@ -293,6 +295,8 @@
       return;
     }
   }
+  
+  [self removeLocalNotifications];
   
   MSDate *oilFullDate = nil, *cashFullDate = nil;
   NSString *oilStr = nil, *cashStr = nil;
