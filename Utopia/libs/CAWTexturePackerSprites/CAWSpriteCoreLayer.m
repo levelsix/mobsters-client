@@ -166,8 +166,8 @@
     [CATransaction setValue:[NSNumber numberWithBool:YES]
                      forKey: kCATransactionDisableActions];
 //    self.position = CGPointMake(scale*(tempData.offsetX+tempData.spriteWidth/2.0), scale*(tempData.offsetY+tempData.spriteHeight/2.0));
-    self.anchorPoint = CGPointMake(0.5, 0.f);
-    self.position = CGPointMake(self.superlayer.frame.size.width/2, 0.f);
+    self.anchorPoint = CGPointMake(0.5, 1.f);
+    self.position = CGPointMake(self.superlayer.frame.size.width/2, self.superlayer.frame.size.height);
     self.bounds = CGRectMake(tempData.offsetX*scale, tempData.offsetY*scale, tempData.spriteWidth*scale, tempData.spriteHeight*scale);
     self.contentsRect = CGRectMake(tempData.posX/atlasSize.width, tempData.posY/atlasSize.height, tempData.spriteWidth/atlasSize.width, tempData.spriteHeight/atlasSize.height);
     [CATransaction commit];

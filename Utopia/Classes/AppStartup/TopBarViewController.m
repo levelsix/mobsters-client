@@ -685,8 +685,8 @@
     
     if (!_isAnimatingFallingGems) {
       
-      [self.saleGemsIcon setSprite:spp.animatingIcon secsBetweenReplay:10.f fps:15.f];
       self.saleGemsIcon.delegate = self;
+      [self.saleGemsIcon setSprite:spp.animatingIcon secsBetweenReplay:30.f fps:15.f];
       
       self.saleMultiplierIcon.hidden = YES;
       
@@ -706,6 +706,8 @@
   
   self.miniEventView.centerX = self.shopView.centerX;
   self.miniEventView.originY = CGRectGetMaxY(self.freeGemsView.frame) - self.miniEventView.height;
+  
+  [self updateTimersViewSize];
 }
 
 - (void) playingAnimation:(SpriteAnimationImageView *)animImageView {
@@ -764,6 +766,8 @@
     
     self.miniEventView.hidden = YES;
   }
+  
+  [self updateTimersViewSize];
 }
 
 - (void) startFadingMiniEventLabels

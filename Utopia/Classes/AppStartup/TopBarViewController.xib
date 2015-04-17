@@ -637,7 +637,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="06j-1R-7oK" customClass="SpriteAnimationImageView">
-                                    <rect key="frame" x="-3" y="-13" width="63" height="57"/>
+                                    <rect key="frame" x="-3" y="-8" width="63" height="57"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
                                 <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="center" image="salemultiplier.png" id="yyK-b8-P0P">
