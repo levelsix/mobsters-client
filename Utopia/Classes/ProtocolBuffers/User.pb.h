@@ -534,10 +534,10 @@
   BOOL hasSalesValue_:1;
   BOOL hasTotalStrength_:1;
   BOOL hasLastTeamDonationSolicitation_:1;
+  BOOL hasSalesLastPurchaseTime_:1;
   BOOL hasLastSecretGiftCollectTime_:1;
   BOOL hasLastFreeBoosterPackTime_:1;
   BOOL hasLastMiniJobSpawnedTime_:1;
-  BOOL hasSalesLastPurchaseTime_:1;
   BOOL hasLastWallPostNotificationTime_:1;
   BOOL hasLastObstacleSpawnedTime_:1;
   BOOL hasLastLoginTime_:1;
@@ -551,10 +551,11 @@
   BOOL hasNumReferrals_:1;
   BOOL hasNumBadges_:1;
   BOOL hasAvatarMonsterId_:1;
+  BOOL hasSegmentationGroup_:1;
   BOOL hasTasksCompleted_:1;
   BOOL hasExperience_:1;
-  BOOL hasOil_:1;
   BOOL hasNumClanHelps_:1;
+  BOOL hasOil_:1;
   BOOL hasCash_:1;
   BOOL hasGems_:1;
   BOOL hasLevel_:1;
@@ -578,10 +579,10 @@
   Float32 salesValue;
   int64_t totalStrength;
   int64_t lastTeamDonationSolicitation;
+  int64_t salesLastPurchaseTime;
   int64_t lastSecretGiftCollectTime;
   int64_t lastFreeBoosterPackTime;
   int64_t lastMiniJobSpawnedTime;
-  int64_t salesLastPurchaseTime;
   int64_t lastWallPostNotificationTime;
   int64_t lastObstacleSpawnedTime;
   int64_t lastLoginTime;
@@ -595,10 +596,11 @@
   int32_t numReferrals;
   int32_t numBadges;
   int32_t avatarMonsterId;
+  int32_t segmentationGroup;
   int32_t tasksCompleted;
   int32_t experience;
-  int32_t oil;
   int32_t numClanHelps;
+  int32_t oil;
   int32_t cash;
   int32_t gems;
   int32_t level;
@@ -650,6 +652,7 @@
 - (BOOL) hasTotalStrength;
 - (BOOL) hasSalesValue;
 - (BOOL) hasSalesLastPurchaseTime;
+- (BOOL) hasSegmentationGroup;
 - (BOOL) hasUdidForHistory;
 - (BOOL) hasDeviceToken;
 - (BOOL) hasNumBadges;
@@ -694,6 +697,7 @@
 @property (readonly) int64_t totalStrength;
 @property (readonly) Float32 salesValue;
 @property (readonly) int64_t salesLastPurchaseTime;
+@property (readonly) int32_t segmentationGroup;
 @property (readonly, strong) NSString* udidForHistory;
 @property (readonly, strong) NSString* deviceToken;
 @property (readonly) int32_t numBadges;
@@ -913,6 +917,11 @@
 - (int64_t) salesLastPurchaseTime;
 - (FullUserProto_Builder*) setSalesLastPurchaseTime:(int64_t) value;
 - (FullUserProto_Builder*) clearSalesLastPurchaseTime;
+
+- (BOOL) hasSegmentationGroup;
+- (int32_t) segmentationGroup;
+- (FullUserProto_Builder*) setSegmentationGroup:(int32_t) value;
+- (FullUserProto_Builder*) clearSegmentationGroup;
 
 - (BOOL) hasUdidForHistory;
 - (NSString*) udidForHistory;

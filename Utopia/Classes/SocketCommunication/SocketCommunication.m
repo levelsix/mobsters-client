@@ -604,13 +604,13 @@ static NSString *udid = nil;
 }
 
 - (int) sendInAppPurchaseMessage:(NSString *)receipt product:(SKProduct *)product saleUuid:(NSString *)saleUuid {
-  InAppPurchaseRequestProto *req = [[[[[[[[[InAppPurchaseRequestProto builder]
+  InAppPurchaseRequestProto *req = [[[[[[[[InAppPurchaseRequestProto builder]
                                            setReceipt:receipt]
                                           setLocalcents:[NSString stringWithFormat:@"%d", (int)(product.price.doubleValue*100.)]]
                                          setLocalcurrency:[product.priceLocale objectForKey:NSLocaleCurrencyCode]]
                                         setLocale:[product.priceLocale objectForKey:NSLocaleCountryCode]]
                                        setSender:_sender]
-                                      setIpaddr:[self getIPAddress]]
+                                      //setIpaddr:[self getIPAddress]]
                                      setUuid:saleUuid]
                                     build];
   
@@ -1335,6 +1335,21 @@ static NSString *udid = nil;
                                     build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCRedeemMiniJobEvent];
+}
+
+- (int) sendRefreshMiniJobMessage:(NSArray *)replacedMiniJobs itemId:(int32_t)itemId numToSpawn:(int32_t)numToSpawn gemsSpent:(int32_t)gemsSpent quality:(Quality)quality clientTime:(uint64_t)clientTime structId:(int32_t)structId {
+  RefreshMiniJobRequestProto *req = [[[[[[[[[[RefreshMiniJobRequestProto builder]
+                                             setSender:_sender]
+                                            addAllDeleteUserMiniJobIds:replacedMiniJobs]
+                                           setItemId:itemId]
+                                          setNumToSpawn:numToSpawn]
+                                         setGemsSpent:gemsSpent]
+                                        setMinQualitySpawned:quality]
+                                       setClientTime:clientTime]
+                                      setStructId:structId]
+                                     build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCRefreshMiniJobEvent];
 }
 
 - (int) sendSetAvatarMonsterMessage:(int)avatarMonsterId {

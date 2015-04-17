@@ -35,6 +35,8 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property int32_t succId;
 @property int64_t timeStart;
 @property int64_t timeEnd;
+@property (strong) NSString* animatingIcon;
+@property (strong) NSString* slamIcon;
 @end
 
 @implementation SalesPackageProto
@@ -94,6 +96,20 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasTimeEnd_ = !!value_;
 }
 @synthesize timeEnd;
+- (BOOL) hasAnimatingIcon {
+  return !!hasAnimatingIcon_;
+}
+- (void) setHasAnimatingIcon:(BOOL) value_ {
+  hasAnimatingIcon_ = !!value_;
+}
+@synthesize animatingIcon;
+- (BOOL) hasSlamIcon {
+  return !!hasSlamIcon_;
+}
+- (void) setHasSlamIcon:(BOOL) value_ {
+  hasSlamIcon_ = !!value_;
+}
+@synthesize slamIcon;
 - (id) init {
   if ((self = [super init])) {
     self.salesPackageId = 0;
@@ -103,6 +119,8 @@ static PBExtensionRegistry* extensionRegistry = nil;
     self.succId = 0;
     self.timeStart = 0L;
     self.timeEnd = 0L;
+    self.animatingIcon = @"";
+    self.slamIcon = @"";
   }
   return self;
 }
@@ -170,6 +188,12 @@ static SalesPackageProto* defaultSalesPackageProtoInstance = nil;
   if (self.hasTimeEnd) {
     [output writeInt64:10 value:self.timeEnd];
   }
+  if (self.hasAnimatingIcon) {
+    [output writeString:11 value:self.animatingIcon];
+  }
+  if (self.hasSlamIcon) {
+    [output writeString:12 value:self.slamIcon];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -208,6 +232,12 @@ static SalesPackageProto* defaultSalesPackageProtoInstance = nil;
   }
   if (self.hasTimeEnd) {
     size_ += computeInt64Size(10, self.timeEnd);
+  }
+  if (self.hasAnimatingIcon) {
+    size_ += computeStringSize(11, self.animatingIcon);
+  }
+  if (self.hasSlamIcon) {
+    size_ += computeStringSize(12, self.slamIcon);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -283,6 +313,12 @@ static SalesPackageProto* defaultSalesPackageProtoInstance = nil;
   if (self.hasTimeEnd) {
     [output appendFormat:@"%@%@: %@\n", indent, @"timeEnd", [NSNumber numberWithLongLong:self.timeEnd]];
   }
+  if (self.hasAnimatingIcon) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"animatingIcon", self.animatingIcon];
+  }
+  if (self.hasSlamIcon) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"slamIcon", self.slamIcon];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -311,6 +347,10 @@ static SalesPackageProto* defaultSalesPackageProtoInstance = nil;
       (!self.hasTimeStart || self.timeStart == otherMessage.timeStart) &&
       self.hasTimeEnd == otherMessage.hasTimeEnd &&
       (!self.hasTimeEnd || self.timeEnd == otherMessage.timeEnd) &&
+      self.hasAnimatingIcon == otherMessage.hasAnimatingIcon &&
+      (!self.hasAnimatingIcon || [self.animatingIcon isEqual:otherMessage.animatingIcon]) &&
+      self.hasSlamIcon == otherMessage.hasSlamIcon &&
+      (!self.hasSlamIcon || [self.slamIcon isEqual:otherMessage.slamIcon]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -344,6 +384,12 @@ static SalesPackageProto* defaultSalesPackageProtoInstance = nil;
   }
   if (self.hasTimeEnd) {
     hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.timeEnd] hash];
+  }
+  if (self.hasAnimatingIcon) {
+    hashCode = hashCode * 31 + [self.animatingIcon hash];
+  }
+  if (self.hasSlamIcon) {
+    hashCode = hashCode * 31 + [self.slamIcon hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -430,6 +476,12 @@ static SalesPackageProto* defaultSalesPackageProtoInstance = nil;
   if (other.hasTimeEnd) {
     [self setTimeEnd:other.timeEnd];
   }
+  if (other.hasAnimatingIcon) {
+    [self setAnimatingIcon:other.animatingIcon];
+  }
+  if (other.hasSlamIcon) {
+    [self setSlamIcon:other.slamIcon];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -495,6 +547,14 @@ static SalesPackageProto* defaultSalesPackageProtoInstance = nil;
       }
       case 80: {
         [self setTimeEnd:[input readInt64]];
+        break;
+      }
+      case 90: {
+        [self setAnimatingIcon:[input readString]];
+        break;
+      }
+      case 98: {
+        [self setSlamIcon:[input readString]];
         break;
       }
     }
@@ -682,6 +742,38 @@ static SalesPackageProto* defaultSalesPackageProtoInstance = nil;
 - (SalesPackageProto_Builder*) clearTimeEnd {
   result.hasTimeEnd = NO;
   result.timeEnd = 0L;
+  return self;
+}
+- (BOOL) hasAnimatingIcon {
+  return result.hasAnimatingIcon;
+}
+- (NSString*) animatingIcon {
+  return result.animatingIcon;
+}
+- (SalesPackageProto_Builder*) setAnimatingIcon:(NSString*) value {
+  result.hasAnimatingIcon = YES;
+  result.animatingIcon = value;
+  return self;
+}
+- (SalesPackageProto_Builder*) clearAnimatingIcon {
+  result.hasAnimatingIcon = NO;
+  result.animatingIcon = @"";
+  return self;
+}
+- (BOOL) hasSlamIcon {
+  return result.hasSlamIcon;
+}
+- (NSString*) slamIcon {
+  return result.slamIcon;
+}
+- (SalesPackageProto_Builder*) setSlamIcon:(NSString*) value {
+  result.hasSlamIcon = YES;
+  result.slamIcon = value;
+  return self;
+}
+- (SalesPackageProto_Builder*) clearSlamIcon {
+  result.hasSlamIcon = NO;
+  result.slamIcon = @"";
   return self;
 }
 @end

@@ -31,7 +31,7 @@
   
   self.nameLabel.text = [itemObject name];
   self.nameLabel.highlighted = !available;
-  
+  		
   NSString *str1 = @"Owned: ";
   NSString *str2 = [Globals commafyNumber:[itemObject numOwned]];
   NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:[str1 stringByAppendingString:str2]];
@@ -74,6 +74,40 @@
     self.gemsButtonView.hidden = YES;
     self.useButtonView.hidden = NO;
   }
+  
+  self.gameActionTypeIcon.hidden = NO;
+  switch ([itemObject gameActionType]) {
+    case GameActionTypeCreateBattleItem:
+      self.gameActionTypeIcon.image = [Globals imageNamed:@"timercreateitems.png"];
+      break;
+    case GameActionTypeEnhanceTime:
+      self.gameActionTypeIcon.image = [Globals imageNamed:@"timerenhance.png"];
+      break;
+    case GameActionTypeEvolve:
+      self.gameActionTypeIcon.image = [Globals imageNamed:@"timerevolve.png"];
+      break;
+    case GameActionTypeHeal:
+      self.gameActionTypeIcon.image = [Globals imageNamed:@"timerheal.png"];
+      break;
+    case GameActionTypeMiniJob:
+      self.gameActionTypeIcon.image = [Globals imageNamed:@"timerminijobs.png"];
+      break;
+    case GameActionTypeRemoveObstacle:
+      self.gameActionTypeIcon.image = [Globals imageNamed:@"timerremove.png"];
+      break;
+    case GameActionTypePerformingResearch:
+      self.gameActionTypeIcon.image = [Globals imageNamed:@"timerresearch.png"];
+      break;
+    case GameActionTypeUpgradeStruct:
+      self.gameActionTypeIcon.image = [Globals imageNamed:@"timerupgrade.png"];
+      break;
+      
+    case GameActionTypeNoHelp:
+    case GameActionTypeCombineMonster:
+    case GameActionTypeEnterPersistentEvent:
+      self.gameActionTypeIcon.hidden = YES;
+      break;
+  }
 }
 
 - (void) updateForTime:(id<ItemObject>)itemObject {
@@ -94,6 +128,11 @@
 @end
 
 @implementation ItemSelectViewController
+
+- (void) viewDidLoad {
+  [super viewDidLoad];
+  [self.progressBarView removeFromSuperview];
+}
 
 - (void) viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
@@ -119,7 +158,9 @@
 - (void) updateLabels {
   self.titleLabel.text = [self.delegate titleName];
   
-  [self updateProgressBar];
+  if ([self.delegate respondsToSelector:@selector(progressBarText)]) {
+    [self updateProgressBar];
+  }
   
   for (ItemSelectCell *cell in self.itemsTable.visibleCells) {
     id<ItemObject> io = self.items[[self.itemsTable indexPathForCell:cell].row];
@@ -163,7 +204,9 @@
   
   self.titleLabel.text = [self.delegate titleName];
   
-  [self updateProgressBar];
+  if ([self.delegate respondsToSelector:@selector(progressBarText)]) {
+    [self updateProgressBar];
+  }
 }
 
 - (void) updateProgressBar {
@@ -236,8 +279,20 @@
   return cell;
 }
 
+- (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+  if ([self.delegate respondsToSelector:@selector(progressBarText)]) {
+    return self.progressBarView.height;
+  } else {
+    return 0.f;
+  }
+}
+
 - (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-  return self.progressBarView;
+  if ([self.delegate respondsToSelector:@selector(progressBarText)]) {
+    return self.progressBarView;
+  } else {
+    return nil;
+  }
 }
 
 - (IBAction) cellButtonClicked:(UIView *)sender {

@@ -12,24 +12,25 @@
 
 @implementation SpeedupItemsFiller
 
-- (id) init {
+- (id) initWithGameActionType:(GameActionType)gameActionType {
   if ((self = [super init])) {
     self.usedItems = [NSMutableSet set];
-    
+    _gameActionType = gameActionType;
   }
   return self;
 }
 
 - (NSArray *) reloadItemsArray {
   GameState *gs = [GameState sharedGameState];
-  NSMutableArray *userItems = [[gs.itemUtil getItemsForType:ItemTypeSpeedUp staticDataId:0] mutableCopy];
+  NSMutableArray *userItems = [[gs.itemUtil getItemsForType:ItemTypeSpeedUp staticDataId:0 gameActionType:_gameActionType] mutableCopy];
   
   for (ItemProto *ip in gs.staticItems.allValues) {
     if (ip.itemType == ItemTypeSpeedUp) {
       UserItem *ui = [[UserItem alloc] init];
       ui.itemId = ip.itemId;
       
-      if (![userItems containsObject:ui] && (ip.alwaysDisplayToUser || [self.usedItems containsObject:@(ui.itemId)])) {
+      if ((![userItems containsObject:ui] && (ip.alwaysDisplayToUser || [self.usedItems containsObject:@(ui.itemId)])) &&
+          (ui.gameActionType == GameActionTypeNoHelp || ui.gameActionType == _gameActionType)) {
         [userItems addObject:ui];
       }
     }
@@ -45,8 +46,13 @@
       BOOL anyOwned1 = [obj1 numOwned] > 0 || [self.usedItems containsObject:@([obj1 itemId])];
       BOOL anyOwned2 = [obj2 numOwned] > 0 || [self.usedItems containsObject:@([obj2 itemId])];
       
+      GameActionType gameAction1 = [obj1 gameActionType];
+      GameActionType gameAction2 = [obj2 gameActionType];
+      
       if (anyOwned1 != anyOwned2) {
         return [@(anyOwned2) compare:@(anyOwned1)];
+      } else if (gameAction1 != gameAction2) {
+          return gameAction1 != GameActionTypeNoHelp ? NSOrderedAscending : NSOrderedDescending;
       } else {
         ItemProto *ip1 = [gs itemForId:[obj1 itemId]];
         ItemProto *ip2 = [gs itemForId:[obj2 itemId]];

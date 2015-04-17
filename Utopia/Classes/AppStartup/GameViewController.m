@@ -493,7 +493,7 @@ static const CGSize FIXED_SIZE = {568, 384};
       
       // Track analytics
       NSString *email = [[FacebookDelegate sharedFacebookDelegate] myFacebookUser][@"email"];
-      [Analytics setUserUuid:gs.userUuid name:gs.name email:email level:gs.level];
+      [Analytics setUserUuid:gs.userUuid name:gs.name email:email level:gs.level segmentationGroup:gs.userSegmentationGroup];
       [Analytics connectedToServerWithLevel:gs.level gems:gs.gems cash:gs.cash oil:gs.oil];
       [Analytics receivedStartup];
     }
@@ -1520,13 +1520,15 @@ static const CGSize FIXED_SIZE = {568, 384};
     Globals *gl = [Globals sharedGlobals];
     InAppPurchasePackageProto *iap = [gl packageForProductId:proto.packageName];
     
-    RewardProto *rp = [[[[RewardProto builder] setAmt:iap.currencyAmount] setTyp:RewardProto_RewardTypeGems] build];
-    SalesDisplayItemProto *sdip = [[[SalesDisplayItemProto builder] setReward:rp] build];
-    
-    SalesPackageProto_Builder *bldr = [SalesPackageProto builder];
-    [bldr addSdip:sdip];
-    
-    sale = bldr.build;
+    if (iap.iapPackageType == InAppPurchasePackageProto_InAppPurchasePackageTypeGems) {
+      RewardProto *rp = [[[[RewardProto builder] setAmt:iap.currencyAmount] setTyp:RewardProto_RewardTypeGems] build];
+      SalesDisplayItemProto *sdip = [[[SalesDisplayItemProto builder] setReward:rp] build];
+      
+      SalesPackageProto_Builder *bldr = [SalesPackageProto builder];
+      [bldr addSdip:sdip];
+      
+      sale = bldr.build;
+    }
   }
   
   if (sale) {

@@ -370,6 +370,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSUpdateMiniEventEvent:
       responseClass = [UpdateMiniEventResponseProto class];
       break;
+    case EventProtocolResponseSRefreshMiniJobEvent:
+      responseClass = [RefreshMiniJobResponseProto class];
+      break;
     default:
       responseClass = nil;
       break;
@@ -631,12 +634,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   } else {
     [gs removeNonFullUserUpdatesForTag:tag];
     
-    if (proto.updatedOrNewList) {
-      [gs addToMyMonsters:proto.updatedOrNewList];
+    if (proto.rewards.updatedOrNewMonstersList) {
+      [gs addToMyMonsters:proto.rewards.updatedOrNewMonstersList];
     }
     
-    if (proto.updatedUserItemsList) {
-      [gs.itemUtil addToMyItems:proto.updatedUserItemsList];
+    if (proto.rewards.updatedUserItemsList) {
+      [gs.itemUtil addToMyItems:proto.rewards.updatedUserItemsList];
     }
     
     if (proto.updatedMoneyTreeList) {
@@ -669,10 +672,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     SKPaymentTransaction *lastTransaction = iap.lastTransaction;
     SKProduct *prod = [iap.products objectForKey:lastTransaction.payment.productIdentifier];
+    NSString *uuid = proto.purchasedSalesPackage.uuid;
     if (lastTransaction && prod) {
       NSString *encodedReceipt = [iap base64forData:lastTransaction.transactionReceipt];
       if ([encodedReceipt isEqualToString:proto.receipt]) {
-        [Analytics iapWithSKProduct:prod forTransacton:lastTransaction amountUS:proto.packagePrice];
+        [Analytics iapWithSKProduct:prod forTransacton:lastTransaction amountUS:proto.packagePrice uuid:uuid];
       }
     }
   }
@@ -2457,6 +2461,33 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
+}
+
+- (void) handleRefreshMiniJobResponseProto:(FullEvent *)fe {
+  GameState *gs = [GameState sharedGameState];
+  RefreshMiniJobResponseProto *proto = (RefreshMiniJobResponseProto *)fe.event;
+  int tag = fe.tag;
+  LNLog(@"Finish refreshing miniJobs with status %d.", (int)proto.status);
+  
+  if(proto.status == RefreshMiniJobResponseProto_RefreshMiniJobStatusSuccess) {
+    
+    NSMutableArray *newJobsList = [NSMutableArray arrayWithArray:proto.miniJobsList];
+    
+    for (int i = 0; i < gs.myMiniJobs.count; i++) {
+      UserMiniJob *umj = gs.myMiniJobs[i];
+      if(!umj.timeStarted) {
+        [gs.myMiniJobs removeObjectAtIndex:i];
+        i--;
+      }
+    }
+    
+    [gs addToMiniJobs:newJobsList isNew:YES];
+  } else {
+    [Globals popupMessage:@"Server failed to redeem mini job refresh."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+  
 }
 
 #pragma mark - Research

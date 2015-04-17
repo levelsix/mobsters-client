@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+===================================================================
+
+Sprite sheet file created for UIKit using TexturePacker
+http://www.codeandweb.com/texturepacker
+
+===================================================================
+$TexturePacker:SmartUpdate:b3e17cad92d27c86e5b6d3cce6acfb05:70d91d68ecbd235f536b3d82d89c6128:b7072359e5ca86130eed837db9849376$
+-->
+<plist version="1.0">
+	<dict>
+		<key>frames</key>
+		<dict>
+
+                        <key>fallinggems01</key>
+			<dict>
+				<key>x</key><real>2</real>
+				<key>y</key><real>2</real>
+				<key>w</key><real>90</real>
+				<key>h</key><real>120</real>
+				
+				
+			</dict>
+                        <key>fallinggems02</key>
+			<dict>
+				<key>x</key><real>2</real>
+				<key>y</key><real>124</real>
+				<key>w</key><real>90</real>
+				<key>h</key><real>120</real>
+				
+				
+			</dict>
+                        <key>fallinggems03</key>
+			<dict>
+				<key>x</key><real>94</real>
+				<key>y</key><real>2</real>
+				<key>w</key><real>90</real>
+				<key>h</key><real>120</real>
+				
+				
+			</dict>
+                        <key>fallinggems04</key>
+			<dict>
+				<key>x</key><real>94</real>
+				<key>y</key><real>124</real>
+				<key>w</key><real>90</real>
+				<key>h</key><real>120</real>
+				
+				
+			</dict>
+                        <key>fallinggems05</key>
+			<dict>
+				<key>x</key><real>186</real>
+				<key>y</key><real>2</real>
+				<key>w</key><real>90</real>
+				<key>h</key><real>120</real>
+				
+				
+			</dict>
+                        <key>fallinggems06</key>
+			<dict>
+				<key>x</key><real>186</real>
+				<key>y</key><real>124</real>
+				<key>w</key><real>90</real>
+				<key>h</key><real>120</real>
+				
+				
+			</dict>
+                        <key>fallinggems07</key>
+			<dict>
+				<key>x</key><real>278</real>
+				<key>y</key><real>2</real>
+				<key>w</key><real>90</real>
+				<key>h</key><real>120</real>
+				
+				
+			</dict>
+                        <key>fallinggems08</key>
+			<dict>
+				<key>x</key><real>278</real>
+				<key>y</key><real>124</real>
+				<key>w</key><real>90</real>
+				<key>h</key><real>120</real>
+				
+				
+			</dict>
+                        <key>fallinggems09</key>
+			<dict>
+				<key>x</key><real>370</real>
+				<key>y</key><real>2</real>
+				<key>w</key><real>90</real>
+				<key>h</key><real>120</real>
+				
+				
+			</dict>
+                        <key>fallinggems10</key>
+			<dict>
+				<key>x</key><real>370</real>
+				<key>y</key><real>124</real>
+				<key>w</key><real>90</real>
+				<key>h</key><real>120</real>
+				
+				
+			</dict>
+                        <key>fallinggems11</key>
+			<dict>
+				<key>x</key><real>462</real>
+				<key>y</key><real>2</real>
+				<key>w</key><real>90</real>
+				<key>h</key><real>120</real>
+				
+				
+			</dict>
+                        <key>fallinggems12</key>
+			<dict>
+				<key>x</key><real>462</real>
+				<key>y</key><real>124</real>
+				<key>w</key><real>90</real>
+				<key>h</key><real>120</real>
+				
+				
+			</dict>
+                        <key>fallinggems13</key>
+			<dict>
+				<key>x</key><real>554</real>
+				<key>y</key><real>2</real>
+				<key>w</key><real>90</real>
+				<key>h</key><real>120</real>
+				
+				
+			</dict>
+                        <key>fallinggems14</key>
+			<dict>
+				<key>x</key><real>554</real>
+				<key>y</key><real>124</real>
+				<key>w</key><real>90</real>
+				<key>h</key><real>120</real>
+				
+				
+			</dict>
+                        <key>fallinggems15</key>
+			<dict>
+				<key>x</key><real>646</real>
+				<key>y</key><real>2</real>
+				<key>w</key><real>90</real>
+				<key>h</key><real>120</real>
+				
+				
+			</dict>
+                        <key>fallinggems16</key>
+			<dict>
+				<key>x</key><real>646</real>
+				<key>y</key><real>124</real>
+				<key>w</key><real>90</real>
+				<key>h</key><real>120</real>
+				
+				
+			</dict>
+                        <key>fallinggems17</key>
+			<dict>
+				<key>x</key><real>738</real>
+				<key>y</key><real>2</real>
+				<key>w</key><real>90</real>
+				<key>h</key><real>120</real>
+				
+				
+			</dict>
+                        <key>fallinggems18</key>
+			<dict>
+				<key>x</key><real>738</real>
+				<key>y</key><real>124</real>
+				<key>w</key><real>90</real>
+				<key>h</key><real>120</real>
+				
+				
+			</dict>
+                        <key>fallinggems19</key>
+			<dict>
+				<key>x</key><real>830</real>
+				<key>y</key><real>2</real>
+				<key>w</key><real>90</real>
+				<key>h</key><real>120</real>
+				
+				
+			</dict>
+                        <key>fallinggems20</key>
+			<dict>
+				<key>x</key><real>830</real>
+				<key>y</key><real>124</real>
+				<key>w</key><real>90</real>
+				<key>h</key><real>120</real>
+				
+				
+			</dict>
+                        <key>fallinggems21</key>
+			<dict>
+				<key>x</key><real>922</real>
+				<key>y</key><real>2</real>
+				<key>w</key><real>90</real>
+				<key>h</key><real>120</real>
+				
+				
+			</dict>
+                        <key>fallinggems22</key>
+			<dict>
+				<key>x</key><real>922</real>
+				<key>y</key><real>124</real>
+				<key>w</key><real>90</real>
+				<key>h</key><real>120</real>
+				
+				
+			</dict>
+                        <key>fallinggems23</key>
+			<dict>
+				<key>x</key><real>1014</real>
+				<key>y</key><real>2</real>
+				<key>w</key><real>90</real>
+				<key>h</key><real>120</real>
+				
+				
+			</dict>
+                        <key>fallinggems24</key>
+			<dict>
+				<key>x</key><real>1014</real>
+				<key>y</key><real>124</real>
+				<key>w</key><real>90</real>
+				<key>h</key><real>120</real>
+				
+				
+			</dict>
+                        <key>fallinggems25</key>
+			<dict>
+				<key>x</key><real>1106</real>
+				<key>y</key><real>2</real>
+				<key>w</key><real>90</real>
+				<key>h</key><real>120</real>
+				
+				
+			</dict>
+                        <key>fallinggems26</key>
+			<dict>
+				<key>x</key><real>1106</real>
+				<key>y</key><real>124</real>
+				<key>w</key><real>90</real>
+				<key>h</key><real>120</real>
+				
+				
+			</dict>
+		</dict>
+		<key>meta</key>
+		<dict>
+			<key>image</key>
+			<string>fallinggems@2x.png</string>
+			<key>width</key>
+			<integer>1198</integer>
+			<key>height</key>
+			<integer>246</integer>
+		</dict>
+	</dict>
+</plist>

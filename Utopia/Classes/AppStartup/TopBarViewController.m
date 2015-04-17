@@ -169,6 +169,7 @@
   [center addObserver:self selector:@selector(updateBuildersLabel) name:ITEMS_CHANGED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(updateBuildersLabel) name:OBSTACLE_REMOVAL_BEGAN_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(updateBuildersLabel) name:OBSTACLE_COMPLETE_NOTIFICATION object:nil];
+  [center addObserver:self selector:@selector(updateBuildersLabel) name:IAP_SUCCESS_NOTIFICATION object:nil];
   [self updateBuildersLabel];
   
   [center addObserver:self selector:@selector(updateMiniEventView) name:MINI_EVENT_IS_AVAILABLE_NOTIFICATION object:nil];
@@ -465,7 +466,7 @@
       }
     }
   }
-//  BOOL availBuilding = YES; // Should always show
+  //  BOOL availBuilding = YES; // Should always show
   
   self.freeGemsBadge.badgeNum = badgeNum;
   self.freeGemsView.hidden = !availAchievement || !availBuilding;
@@ -582,13 +583,14 @@
     [self updateSecretGiftView];
   }
   
-  int saleTimeLeft = [gs timeLeftOnStarterSale];
+  SalesPackageProto *spp = [gs.mySales firstObject];
+  int saleTimeLeft = [gs timeLeftOnSale:spp];
   if (saleTimeLeft >= 0) {
     self.saleTimeLabel.text = [[Globals convertTimeToShortString:saleTimeLeft] uppercaseString];
   } else {
     self.saleTimeLabel.text = @"SALE!";
   }
-
+  
   if (!self.miniEventView.hidden)
   {
     UserMiniEvent* userMiniEvent = [MiniEventManager sharedInstance].currentUserMiniEvent;
@@ -642,6 +644,7 @@
 
 - (void) updateBuildersLabel {
   GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
   
   int numConstructing = 0;
   
@@ -661,17 +664,18 @@
   
   self.buildersLabel.text = [NSString stringWithFormat:@"%d/%d", numAvail, totalBuilders];
   
-  self.addBuilderButton.hidden = gs.numBeginnerSalesPurchased > 0;
+  self.addBuilderButton.hidden = ![gl builderPackSale];
   
   [self updateSaleView];
 }
 
+#pragma mark Sale
+
 - (void) updateSaleView {
-  Globals *gl = [Globals sharedGlobals];
+  GameState *gs = [GameState sharedGameState];
+  SalesPackageProto *spp = [gs.mySales firstObject];
   
-  BOOL showSaleView = gl.starterPackSale != nil;
-  
-  if (showSaleView) {
+  if (spp.hasAnimatingIcon) {
     self.saleView.hidden = NO;
     
     self.saleView.centerX = self.shopView.centerX;
@@ -680,8 +684,18 @@
     self.freeGemsView.originY = self.saleView.originY-self.freeGemsView.height;
     
     if (!_isAnimatingFallingGems) {
+      
+      self.saleGemsIcon.delegate = self;
+      [self.saleGemsIcon setSprite:spp.animatingIcon secsBetweenReplay:30.f fps:15.f];
+      
       self.saleMultiplierIcon.hidden = YES;
-      [self performFallingGemsAnimation];
+      
+      
+      self.saleTimeLabel.alpha = 0.f;
+      self.saleLabel.alpha = 1.f;
+      
+      [self fadeSaleLabels];
+      
       _isAnimatingFallingGems = YES;
     }
   } else {
@@ -692,13 +706,47 @@
   
   self.miniEventView.centerX = self.shopView.centerX;
   self.miniEventView.originY = CGRectGetMaxY(self.freeGemsView.frame) - self.miniEventView.height;
+  
+  [self updateTimersViewSize];
 }
+
+- (void) playingAnimation:(SpriteAnimationImageView *)animImageView {
+  [UIView animateWithDuration:0.1f animations:^{
+    self.saleMultiplierIcon.alpha = 0.f;
+  }];
+  
+  [self performSelector:@selector(animateSaleSmashIcon) withObject:nil afterDelay:1.5f];
+}
+
+- (void) animateSaleSmashIcon {
+  float scale = 15.f;
+  self.saleMultiplierIcon.transform = CGAffineTransformMakeScale(scale, scale);
+  self.saleMultiplierIcon.alpha = 0.f;
+  self.saleMultiplierIcon.hidden = NO;
+  [UIView animateWithDuration:0.2f delay:0.f options:UIViewAnimationOptionCurveEaseIn animations:^{
+    self.saleMultiplierIcon.alpha = 1.f;
+    self.saleMultiplierIcon.transform = CGAffineTransformIdentity;
+  } completion:^(BOOL finished) {
+    [Globals shakeView:self.saleView duration:0.4f offset:5.f];
+  }];
+}
+
+- (void) fadeSaleLabels {
+  [UIView animateWithDuration:1.f animations:^{
+    self.saleLabel.alpha = 1.f-self.saleLabel.alpha;
+    self.saleTimeLabel.alpha = 1.f-self.saleTimeLabel.alpha;
+  } completion:^(BOOL finished) {
+    [self performSelector:@selector(fadeSaleLabels) withObject:nil afterDelay:6.f];
+  }];
+}
+
+#pragma mark Mini Event
 
 - (void) updateMiniEventView {
   UserMiniEvent* userMiniEvent = [MiniEventManager sharedInstance].currentUserMiniEvent;
   if (userMiniEvent && self.freeGemsView.hidden)
   {
-    [self.miniEventIcon setSprite:userMiniEvent.miniEvent.icon];
+    [self.miniEventIcon setSprite:userMiniEvent.miniEvent.icon secsBetweenReplay:12.f fps:15.f];
     
     const int numberOfTiersWithUnredeemedRewards = [userMiniEvent completedTiersWithUnredeemedRewards];
     self.miniEventBadge.badgeNum = numberOfTiersWithUnredeemedRewards;
@@ -718,95 +766,39 @@
     
     self.miniEventView.hidden = YES;
   }
+  
+  [self updateTimersViewSize];
 }
 
 - (void) startFadingMiniEventLabels
 {
-  [self stopFadingMiniEventLabels];
+  _toggleMiniEventLabels = YES;
+  
+  self.miniEventLabel.text = @"EVENT!";
+  
   [self performSelector:@selector(fadeMiniEventLabels) withObject:nil afterDelay:6.f];
 }
 
 - (void) stopFadingMiniEventLabels
 {
-  [self.miniEventLabel.layer removeAllAnimations];
-  [self.miniEventTimeLabel.layer removeAllAnimations];
+  _toggleMiniEventLabels = NO;
+  
+  self.miniEventLabel.text = @"ENDED";
   
   self.miniEventLabel.alpha = 1.f;
   self.miniEventTimeLabel.alpha = 0.f;
 }
 
 - (void) fadeMiniEventLabels {
-  [UIView animateWithDuration:1.f animations:^{
-    self.miniEventLabel.alpha = 1.f - self.miniEventLabel.alpha;
-    self.miniEventTimeLabel.alpha = 1.f - self.miniEventTimeLabel.alpha;
-  } completion:^(BOOL finished) {
-    [self performSelector:@selector(fadeMiniEventLabels) withObject:nil afterDelay:6.f];
-  }];
-}
-
-- (void) performFallingGemsAnimation {
-  
-  [self setupFallingGems];
-  
-  [UIView animateWithDuration:0.1f animations:^{
-    self.saleMultiplierIcon.alpha = 0.f;
-  }];
-  
-  [self.saleGemsIcon startAnimating];
-  [self performSelector:@selector(checkGemsAnimationComplete) withObject:nil afterDelay:self.saleGemsIcon.animationDuration];
-}
-
-- (void) checkGemsAnimationComplete {
-  if (!self.saleGemsIcon.isAnimating) {
-    // Animate the multiplier
-    
-    float scale = 15.f;
-    self.saleMultiplierIcon.transform = CGAffineTransformMakeScale(scale, scale);
-    self.saleMultiplierIcon.alpha = 0.f;
-    self.saleMultiplierIcon.hidden = NO;
-    [UIView animateWithDuration:0.2f delay:0.f options:UIViewAnimationOptionCurveEaseIn animations:^{
-      self.saleMultiplierIcon.alpha = 1.f;
-      self.saleMultiplierIcon.transform = CGAffineTransformIdentity;
+  if (_toggleMiniEventLabels)
+  {
+    [UIView animateWithDuration:1.f animations:^{
+      self.miniEventLabel.alpha = 1.f - self.miniEventLabel.alpha;
+      self.miniEventTimeLabel.alpha = 1.f - self.miniEventTimeLabel.alpha;
     } completion:^(BOOL finished) {
-      [Globals shakeView:self.saleView duration:0.4f offset:5.f];
-      [self performSelector:@selector(performFallingGemsAnimation) withObject:nil afterDelay:60.f];
+      [self performSelector:@selector(fadeMiniEventLabels) withObject:nil afterDelay:6.f];
     }];
-  } else {
-    [self performSelector:@selector(checkGemsAnimationComplete) withObject:nil afterDelay:0.1f];
   }
-}
-
-- (void) setupFallingGems {
-  NSMutableArray *imgs = [NSMutableArray array];
-  
-  if (!self.saleGemsIcon.animationImages.count) {
-    for (int i = 1; i <= 26; i++) {
-      NSString *str = [NSString stringWithFormat:@"fallinggems%02d.png", i];
-      UIImage *img = [Globals imageNamed:str];
-      [imgs addObject:img];
-    }
-    
-    self.saleGemsIcon.image = [imgs lastObject];
-    self.saleGemsIcon.animationImages = imgs;
-    
-    self.saleGemsIcon.animationDuration = imgs.count*0.04;
-    self.saleGemsIcon.animationRepeatCount = 1;
-    
-    self.saleTimeLabel.alpha = 0.f;
-    self.saleLabel.alpha = 1.f;
-    [self fadeSaleLabels];
-  }
-}
-
-
-
-- (void) fadeSaleLabels {
-  [UIView animateWithDuration:1.f animations:^{
-    self.saleLabel.alpha = 1.f-self.saleLabel.alpha;
-    self.saleTimeLabel.alpha = 1.f-self.saleTimeLabel.alpha;
-  } completion:^(BOOL finished) {
-    [self performSelector:@selector(fadeSaleLabels) withObject:nil afterDelay:6.f];
-  }];
 }
 
 #pragma mark - Bottom view methods
@@ -1035,13 +1027,18 @@
 }
 
 - (IBAction)builderPlusClicked:(id)sender {
-  [self saleClicked:nil];
+  Globals *gl = [Globals sharedGlobals];
+  
+  SalesPackageProto *spp = [gl builderPackSale];
+  if (spp) {
+    [self openShopWithFunds:spp];
+  }
 }
 
 - (IBAction)saleClicked:(id)sender {
-  Globals *gl = [Globals sharedGlobals];
+  GameState *gs = [GameState sharedGameState];
   
-  SalesPackageProto *spp = [gl starterPackSale];
+  SalesPackageProto *spp = [gs.mySales firstObject];
   if (spp) {
     [self openShopWithFunds:spp];
   }

@@ -33,6 +33,8 @@
 @property (nonatomic, retain) IBOutlet UIView *useButtonView;
 @property (nonatomic, retain) IBOutlet UIView *gemsButtonView;
 
+@property (nonatomic, retain) IBOutlet UIImageView *gameActionTypeIcon;
+
 - (void) updateForItemObject:(id<ItemObject>)itemObject;
 - (void) updateForTime:(id<ItemObject>)itemObject;
 
@@ -47,13 +49,14 @@
 
 - (NSArray *) reloadItemsArray;
 
-- (TimerProgressBarColor) progressBarColor;
-- (NSString *) progressBarText;
-- (float) progressBarPercent;
-
 // So that speedups will auto close when its at the end
 // But the resource bar won't
 - (BOOL) canCloseOnFullBar;
+
+@optional
+- (TimerProgressBarColor) progressBarColor;
+- (NSString *) progressBarText;
+- (float) progressBarPercent;
 
 @end
 
@@ -69,7 +72,7 @@
 
 @property (nonatomic, retain) NSArray *items;
 
-@property (nonatomic, assign) id<ItemSelectDelegate> delegate;
+@property (nonatomic, retain) id<ItemSelectDelegate> delegate;
 
 @property (strong, nonatomic) NSTimer *updateTimer;
 
