@@ -249,9 +249,6 @@
 		2933DCD41ADFA8B2005D7620 /* squadrewardsgoarrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CDCF171ABB897600A00DB6 /* squadrewardsgoarrow@2x.png */; };
 		2933DCD51ADFA8B2005D7620 /* srrewardbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CDCF181ABB897600A00DB6 /* srrewardbg@2x.png */; };
 		2933DCD61ADFA8B2005D7620 /* srrewardbgbw@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CDCF191ABB897600A00DB6 /* srrewardbgbw@2x.png */; };
-		2933DCDD1ADFA92A005D7620 /* CustomMenu.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 2933DCDC1ADFA92A005D7620 /* CustomMenu.pb.m */; };
-		2933DCDE1ADFA92A005D7620 /* CustomMenu.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 2933DCDC1ADFA92A005D7620 /* CustomMenu.pb.m */; };
-		2933DCDF1ADFA92A005D7620 /* CustomMenu.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 2933DCDC1ADFA92A005D7620 /* CustomMenu.pb.m */; };
 		294035651AD7310B00B759A4 /* researchbubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 294035641AD7310B00B759A4 /* researchbubble@2x.png */; };
 		294035661AD7310B00B759A4 /* researchbubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 294035641AD7310B00B759A4 /* researchbubble@2x.png */; };
 		294035671AD7310B00B759A4 /* researchbubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 294035641AD7310B00B759A4 /* researchbubble@2x.png */; };
@@ -7824,8 +7821,6 @@
 		2933DC8E1ADFA836005D7620 /* SalesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SalesViewController.m; sourceTree = "<group>"; };
 		2933DC8F1ADFA836005D7620 /* SalesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SalesViewController.xib; sourceTree = "<group>"; };
 		2933DCD71ADFA922005D7620 /* CustomMenu.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CustomMenu.proto; sourceTree = "<group>"; };
-		2933DCDB1ADFA92A005D7620 /* CustomMenu.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomMenu.pb.h; sourceTree = "<group>"; };
-		2933DCDC1ADFA92A005D7620 /* CustomMenu.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomMenu.pb.m; sourceTree = "<group>"; };
 		294035641AD7310B00B759A4 /* researchbubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "researchbubble@2x.png"; sourceTree = "<group>"; };
 		2948F53E1AB2720A00DF08C2 /* BattleItemSelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BattleItemSelectViewController.h; sourceTree = "<group>"; };
 		2948F53F1AB2720A00DF08C2 /* BattleItemSelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BattleItemSelectViewController.m; sourceTree = "<group>"; };
@@ -16129,8 +16124,6 @@
 		CF4DB9651808AE9100062258 /* Protocol Buffers */ = {
 			isa = PBXGroup;
 			children = (
-				2933DCDB1ADFA92A005D7620 /* CustomMenu.pb.h */,
-				2933DCDC1ADFA92A005D7620 /* CustomMenu.pb.m */,
 				6304B4601AE054A10075D4E9 /* CustomMenu.pb.h */,
 				6304B4611AE054A10075D4E9 /* CustomMenu.pb.m */,
 				CF6574771909CAF100ABF1F4 /* Proto files */,
@@ -16406,12 +16399,6 @@
 				9B2EFCCF1AC4AEC9005B7B83 /* MiniEvent.proto */,
 				9B2EFCD01AC4AEC9005B7B83 /* Reward.proto */,
 				6304B4661AE054B80075D4E9 /* CustomMenu.proto */,
-				29ACC2C91ADD017D00B728B9 /* EventMiniEvent.proto */,
-				29ACC2CA1ADD017D00B728B9 /* MiniEvent.proto */,
-				29ACC2CB1ADD017D00B728B9 /* Reward.proto */,
-				291721671AD4B2CC0093F100 /* Sales.proto */,
-				29AF48F51AAA94DD0034927C /* BattleItem.proto */,
-				29AF48F61AAA94DD0034927C /* EventBattleItem.proto */,
 				297DE2351A9D7D7500692D80 /* EventResearch.proto */,
 				29A2FC521A4E36F700FF93B6 /* Board.proto */,
 				9BDA8C651A6366DA00C7AC27 /* Research.proto */,
@@ -26060,7 +26047,6 @@
 				6304B4631AE054A10075D4E9 /* CustomMenu.pb.m in Sources */,
 				CFA8B1BE19EF5D6600CF6BFD /* ChartboostDelegate.m in Sources */,
 				9B0E6E5E1A77087000118210 /* SkillBlindingLight.m in Sources */,
-				2933DCDE1ADFA92A005D7620 /* CustomMenu.pb.m in Sources */,
 				CF0CEDCD196F452900ECD301 /* MyTeamSprite.m in Sources */,
 				CF0CEDCE196F452900ECD301 /* PvpBattleLayer.m in Sources */,
 				CF0CEDCF196F452900ECD301 /* ClanCreateViewController.m in Sources */,
@@ -26306,7 +26292,6 @@
 				DA173A5019CA4A1F005236C0 /* SkillShield.m in Sources */,
 				CF4DB8DC1807DA1F00062258 /* Building.m in Sources */,
 				CFBB36C218EE2B9400FD6C8C /* AttackMapViews.m in Sources */,
-				2933DCDD1ADFA92A005D7620 /* CustomMenu.pb.m in Sources */,
 				CF6574AE1909CAF200ABF1F4 /* EventBoosterPack.pb.m in Sources */,
 				29ACC2581ADCE4F200B728B9 /* MiniEventManager.m in Sources */,
 				CF689C1A15C3B89400F2E50E /* NSString+SBJSON.m in Sources */,
@@ -26845,7 +26830,6 @@
 				6304B4641AE054A10075D4E9 /* CustomMenu.pb.m in Sources */,
 				CF48197B19F7217F00041486 /* ChartboostDelegate.m in Sources */,
 				9B0E6E5F1A77087000118210 /* SkillBlindingLight.m in Sources */,
-				2933DCDF1ADFA92A005D7620 /* CustomMenu.pb.m in Sources */,
 				CF48197C19F7217F00041486 /* MyTeamSprite.m in Sources */,
 				CF48197D19F7217F00041486 /* PvpBattleLayer.m in Sources */,
 				CF48197E19F7217F00041486 /* ClanCreateViewController.m in Sources */,
