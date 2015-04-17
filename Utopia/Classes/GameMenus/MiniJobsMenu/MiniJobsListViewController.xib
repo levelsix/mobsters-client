@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1514" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
@@ -10,6 +10,8 @@
                 <outlet property="headerView" destination="MwW-rg-xMr" id="dq2-cW-7up"/>
                 <outlet property="listTable" destination="eC6-9C-elJ" id="O1t-rk-QjA"/>
                 <outlet property="noMoreJobsLabel" destination="Kbd-LX-d2I" id="3sQ-Ek-f6g"/>
+                <outlet property="refreshButtonLabel" destination="iAL-7k-e6C" id="YfZ-I8-PIu"/>
+                <outlet property="refreshButtonSpinner" destination="kB2-ec-OEi" id="M4y-kg-50P"/>
                 <outlet property="returnsInLabel" destination="luB-Ji-gnR" id="4nR-Rk-cor"/>
                 <outlet property="spawnTimeLabel" destination="Mys-YF-dVL" id="2nc-QX-mf4"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -84,6 +86,40 @@
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="girl3.png" id="t86-K2-3QE">
+                            <rect key="frame" x="19" y="-21" width="67" height="71"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                        <view contentMode="scaleToFill" id="acD-bm-QOn" userLabel="RefreshView">
+                            <rect key="frame" x="336" y="5" width="80" height="40"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                            <subviews>
+                                <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ORx-e4-TlQ" customClass="GemsButton">
+                                    <rect key="frame" x="0.0" y="0.0" width="80" height="40"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" backgroundImage="purplemenuoption.png">
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="refreshClicked:" destination="-1" eventType="touchUpInside" id="66c-Yo-Nzb"/>
+                                    </connections>
+                                </button>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Refresh" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="iAL-7k-e6C" customClass="NiceFontLabel12B">
+                                    <rect key="frame" x="8" y="8" width="64" height="23"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                    <color key="shadowColor" white="0.0" alpha="0.29999999999999999" colorSpace="calibratedWhite"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
+                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="white" id="kB2-ec-OEi">
+                                    <rect key="frame" x="30" y="10" width="20" height="20"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </activityIndicatorView>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
@@ -134,8 +170,10 @@
         </view>
     </objects>
     <resources>
+        <image name="girl3.png" width="67" height="94"/>
         <image name="newjobstimerbg.png" width="70" height="31"/>
         <image name="popupline.png" width="1" height="1"/>
+        <image name="purplemenuoption.png" width="80" height="40"/>
         <image name="sellbarbg.png" width="424" height="50"/>
         <image name="timerclock.png" width="12" height="12"/>
     </resources>

@@ -253,6 +253,13 @@
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   int ct = (int)self.miniJobsList.count;
   self.noMoreJobsLabel.hidden = ct > 0;
+  
+  if (_waitingOnRefreshResponse) {
+    self.noMoreJobsLabel.text = @"Loading Mini Jobs...";
+  } else {
+    self.noMoreJobsLabel.text = @"You have no more Mini Jobs.";
+  }
+  
   return ct;
 }
 
@@ -381,7 +388,7 @@
     } else {
       ItemSelectViewController *svc = [[ItemSelectViewController alloc] init];
       if (svc) {
-        SpeedupItemsFiller *sif = [[SpeedupItemsFiller alloc] init];
+        SpeedupItemsFiller *sif = [[SpeedupItemsFiller alloc] initWithGameActionType:GameActionTypeMiniJob];
         sif.delegate = self;
         svc.delegate = sif;
         self.speedupItemsFiller = sif;
@@ -630,6 +637,87 @@
   
   [[NSNotificationCenter defaultCenter] postNotificationName:MINI_JOB_CHANGED_NOTIFICATION object:self];
   [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:self];
+}
+
+#pragma mark - Refresh Items
+
+- (IBAction)refreshClicked:(id)sender {
+  ItemSelectViewController *svc = [[ItemSelectViewController alloc] init];
+  if (svc) {
+    MiniJobRefreshItemsFiller *rif = [[MiniJobRefreshItemsFiller alloc] init];
+    rif.delegate = self;
+    svc.delegate = rif;
+    self.itemSelectViewController = svc;
+    
+    GameViewController *gvc = [GameViewController baseController];
+    svc.view.frame = gvc.view.bounds;
+    [gvc addChildViewController:svc];
+    [gvc.view addSubview:svc.view];
+    
+    if (sender == nil)
+    {
+      [svc showCenteredOnScreen];
+    }
+    else
+    {
+      UIButton* invokingButton = (UIButton*)sender;
+      [svc showAnchoredToInvokingView:invokingButton
+                        withDirection:ViewAnchoringPreferLeftPlacement
+                    inkovingViewImage:[invokingButton backgroundImageForState:invokingButton.state]];
+    }
+  }
+}
+
+- (void) refreshItemUsed:(id<ItemObject>)itemObject viewController:(ItemSelectViewController *)viewController{
+  GameState *gs = [GameState sharedGameState];
+  MiniJobCenterProto *miniJobCenter = (MiniJobCenterProto *)gs.myMiniJobCenter.staticStruct;
+  
+  int itemId = 0;
+  int gems = 0;
+  Quality itemQuality = QualityCommon;
+  
+  if ([itemObject isKindOfClass:[UserItem class]]) {
+    UserItem *item = (UserItem *)itemObject;
+    
+    if (item.quantity > 0) {
+      itemId = item.itemId;
+    } else {
+      gems = [miniJobCenter itemGemPriceForItemId:item.staticItem.itemId];;
+    }
+
+    itemQuality = item.quality;
+  }
+  
+  int jobsSaved = 0;
+  NSMutableArray *arr = [[NSMutableArray alloc] init];
+  for(UserMiniJob *umj in gs.myMiniJobs) {
+    if (!umj.timeStarted) {
+      [arr addObject:umj.userMiniJobUuid];
+    } else {
+      jobsSaved ++;
+    }
+  }
+  
+  [[OutgoingEventController sharedOutgoingEventController] refreshMiniJobs:arr itemId:itemId gemsSpent:gems quality:itemObject.quality numToSpawn:(miniJobCenter.generatedJobLimit - jobsSaved) delegate:self];
+  
+  _waitingOnRefreshResponse = YES;
+  [viewController closeClicked:nil];
+  [self.miniJobsList removeAllObjects];
+  [self.listTable reloadData];
+  
+  self.refreshButtonLabel.hidden = YES;
+  self.refreshButtonSpinner.hidden = NO;
+}
+
+- (void) handleRefreshMiniJobResponseProto:(FullEvent *)fe {
+  _waitingOnRefreshResponse = NO;
+  
+  //if there's an error it will just reload the old minijobs
+  [self reloadMiniJobsArray];
+  [self reloadTableAnimated:NO];
+  
+  self.refreshButtonLabel.hidden = NO;
+  self.refreshButtonSpinner.hidden = YES;
 }
 
 @end

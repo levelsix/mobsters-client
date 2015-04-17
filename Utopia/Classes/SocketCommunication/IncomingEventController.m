@@ -370,6 +370,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSUpdateMiniEventEvent:
       responseClass = [UpdateMiniEventResponseProto class];
       break;
+    case EventProtocolResponseSRefreshMiniJobEvent:
+      responseClass = [RefreshMiniJobResponseProto class];
+      break;
     default:
       responseClass = nil;
       break;
@@ -2457,6 +2460,33 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
+}
+
+- (void) handleRefreshMiniJobResponseProto:(FullEvent *)fe {
+  GameState *gs = [GameState sharedGameState];
+  RefreshMiniJobResponseProto *proto = (RefreshMiniJobResponseProto *)fe.event;
+  int tag = fe.tag;
+  LNLog(@"Finish refreshing miniJobs with status %d.", (int)proto.status);
+  
+  if(proto.status == RefreshMiniJobResponseProto_RefreshMiniJobStatusSuccess) {
+    
+    NSMutableArray *newJobsList = [NSMutableArray arrayWithArray:proto.miniJobsList];
+    
+    for (int i = 0; i < gs.myMiniJobs.count; i++) {
+      UserMiniJob *umj = gs.myMiniJobs[i];
+      if(!umj.timeStarted) {
+        [gs.myMiniJobs removeObjectAtIndex:i];
+        i--;
+      }
+    }
+    
+    [gs addToMiniJobs:newJobsList isNew:YES];
+  } else {
+    [Globals popupMessage:@"Server failed to redeem miniJob refresh."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+  
 }
 
 #pragma mark - Research

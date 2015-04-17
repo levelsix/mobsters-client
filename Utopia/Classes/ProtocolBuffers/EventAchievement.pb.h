@@ -30,6 +30,10 @@
 @class FullUserStructureProto_Builder;
 @class HospitalProto;
 @class HospitalProto_Builder;
+@class ItemGemPriceProto;
+@class ItemGemPriceProto_Builder;
+@class ItemProto;
+@class ItemProto_Builder;
 @class LabProto;
 @class LabProto_Builder;
 @class MiniJobCenterProto;
@@ -76,6 +80,12 @@
 @class UserAchievementProto_Builder;
 @class UserFacebookInviteForSlotProto;
 @class UserFacebookInviteForSlotProto_Builder;
+@class UserItemProto;
+@class UserItemProto_Builder;
+@class UserItemSecretGiftProto;
+@class UserItemSecretGiftProto_Builder;
+@class UserItemUsageProto;
+@class UserItemUsageProto_Builder;
 @class UserObstacleProto;
 @class UserObstacleProto_Builder;
 @class UserPvpBoardObstacleProto;

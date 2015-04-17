@@ -4,6 +4,7 @@
 
 #import "MiniJobConfig.pb.h"
 #import "MonsterStuff.pb.h"
+#import "SharedEnumConfig.pb.h"
 #import "User.pb.h"
 // @@protoc_insertion_point(imports)
 
@@ -33,6 +34,10 @@
 @class FullUserStructureProto_Builder;
 @class HospitalProto;
 @class HospitalProto_Builder;
+@class ItemGemPriceProto;
+@class ItemGemPriceProto_Builder;
+@class ItemProto;
+@class ItemProto_Builder;
 @class LabProto;
 @class LabProto_Builder;
 @class MiniJobCenterProto;
@@ -73,6 +78,10 @@
 @class RedeemMiniJobRequestProto_Builder;
 @class RedeemMiniJobResponseProto;
 @class RedeemMiniJobResponseProto_Builder;
+@class RefreshMiniJobRequestProto;
+@class RefreshMiniJobRequestProto_Builder;
+@class RefreshMiniJobResponseProto;
+@class RefreshMiniJobResponseProto_Builder;
 @class ResearchHouseProto;
 @class ResearchHouseProto_Builder;
 @class ResidenceProto;
@@ -103,6 +112,12 @@
 @class UserEnhancementProto_Builder;
 @class UserFacebookInviteForSlotProto;
 @class UserFacebookInviteForSlotProto_Builder;
+@class UserItemProto;
+@class UserItemProto_Builder;
+@class UserItemSecretGiftProto;
+@class UserItemSecretGiftProto_Builder;
+@class UserItemUsageProto;
+@class UserItemUsageProto_Builder;
 @class UserMiniJobProto;
 @class UserMiniJobProto_Builder;
 @class UserMonsterCurrentExpProto;
@@ -165,6 +180,15 @@ typedef NS_ENUM(SInt32, RedeemMiniJobResponseProto_RedeemMiniJobStatus) {
 };
 
 BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobResponseProto_RedeemMiniJobStatus value);
+
+typedef NS_ENUM(SInt32, RefreshMiniJobResponseProto_RefreshMiniJobStatus) {
+  RefreshMiniJobResponseProto_RefreshMiniJobStatusSuccess = 1,
+  RefreshMiniJobResponseProto_RefreshMiniJobStatusFailInsufficientGems = 2,
+  RefreshMiniJobResponseProto_RefreshMiniJobStatusFailInsufficientItems = 3,
+  RefreshMiniJobResponseProto_RefreshMiniJobStatusFailOther = 4,
+};
+
+BOOL RefreshMiniJobResponseProto_RefreshMiniJobStatusIsValidValue(RefreshMiniJobResponseProto_RefreshMiniJobStatus value);
 
 
 @interface EventMiniJobRoot : NSObject {
@@ -752,6 +776,189 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
 - (RedeemMiniJobResponseProto_RedeemMiniJobStatus) status;
 - (RedeemMiniJobResponseProto_Builder*) setStatus:(RedeemMiniJobResponseProto_RedeemMiniJobStatus) value;
 - (RedeemMiniJobResponseProto_Builder*) clearStatusList;
+@end
+
+@interface RefreshMiniJobRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasClientTime_:1;
+  BOOL hasItemId_:1;
+  BOOL hasNumToSpawn_:1;
+  BOOL hasGemsSpent_:1;
+  BOOL hasStructId_:1;
+  BOOL hasSender_:1;
+  BOOL hasMinQualitySpawned_:1;
+  int64_t clientTime;
+  int32_t itemId;
+  int32_t numToSpawn;
+  int32_t gemsSpent;
+  int32_t structId;
+  MinimumUserProto* sender;
+  Quality minQualitySpawned;
+  NSMutableArray * mutableDeleteUserMiniJobIdsList;
+}
+- (BOOL) hasSender;
+- (BOOL) hasItemId;
+- (BOOL) hasNumToSpawn;
+- (BOOL) hasGemsSpent;
+- (BOOL) hasMinQualitySpawned;
+- (BOOL) hasClientTime;
+- (BOOL) hasStructId;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) NSArray * deleteUserMiniJobIdsList;
+@property (readonly) int32_t itemId;
+@property (readonly) int32_t numToSpawn;
+@property (readonly) int32_t gemsSpent;
+@property (readonly) Quality minQualitySpawned;
+@property (readonly) int64_t clientTime;
+@property (readonly) int32_t structId;
+- (NSString*)deleteUserMiniJobIdsAtIndex:(NSUInteger)index;
+
++ (RefreshMiniJobRequestProto*) defaultInstance;
+- (RefreshMiniJobRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (RefreshMiniJobRequestProto_Builder*) builder;
++ (RefreshMiniJobRequestProto_Builder*) builder;
++ (RefreshMiniJobRequestProto_Builder*) builderWithPrototype:(RefreshMiniJobRequestProto*) prototype;
+- (RefreshMiniJobRequestProto_Builder*) toBuilder;
+
++ (RefreshMiniJobRequestProto*) parseFromData:(NSData*) data;
++ (RefreshMiniJobRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RefreshMiniJobRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (RefreshMiniJobRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RefreshMiniJobRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RefreshMiniJobRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface RefreshMiniJobRequestProto_Builder : PBGeneratedMessageBuilder {
+@private
+  RefreshMiniJobRequestProto* result;
+}
+
+- (RefreshMiniJobRequestProto*) defaultInstance;
+
+- (RefreshMiniJobRequestProto_Builder*) clear;
+- (RefreshMiniJobRequestProto_Builder*) clone;
+
+- (RefreshMiniJobRequestProto*) build;
+- (RefreshMiniJobRequestProto*) buildPartial;
+
+- (RefreshMiniJobRequestProto_Builder*) mergeFrom:(RefreshMiniJobRequestProto*) other;
+- (RefreshMiniJobRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RefreshMiniJobRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (RefreshMiniJobRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (RefreshMiniJobRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (RefreshMiniJobRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (RefreshMiniJobRequestProto_Builder*) clearSender;
+
+- (NSMutableArray *)deleteUserMiniJobIdsList;
+- (NSString*)deleteUserMiniJobIdsAtIndex:(NSUInteger)index;
+- (RefreshMiniJobRequestProto_Builder *)addDeleteUserMiniJobIds:(NSString*)value;
+- (RefreshMiniJobRequestProto_Builder *)addAllDeleteUserMiniJobIds:(NSArray *)array;
+- (RefreshMiniJobRequestProto_Builder *)clearDeleteUserMiniJobIds;
+
+- (BOOL) hasItemId;
+- (int32_t) itemId;
+- (RefreshMiniJobRequestProto_Builder*) setItemId:(int32_t) value;
+- (RefreshMiniJobRequestProto_Builder*) clearItemId;
+
+- (BOOL) hasNumToSpawn;
+- (int32_t) numToSpawn;
+- (RefreshMiniJobRequestProto_Builder*) setNumToSpawn:(int32_t) value;
+- (RefreshMiniJobRequestProto_Builder*) clearNumToSpawn;
+
+- (BOOL) hasGemsSpent;
+- (int32_t) gemsSpent;
+- (RefreshMiniJobRequestProto_Builder*) setGemsSpent:(int32_t) value;
+- (RefreshMiniJobRequestProto_Builder*) clearGemsSpent;
+
+- (BOOL) hasMinQualitySpawned;
+- (Quality) minQualitySpawned;
+- (RefreshMiniJobRequestProto_Builder*) setMinQualitySpawned:(Quality) value;
+- (RefreshMiniJobRequestProto_Builder*) clearMinQualitySpawnedList;
+
+- (BOOL) hasClientTime;
+- (int64_t) clientTime;
+- (RefreshMiniJobRequestProto_Builder*) setClientTime:(int64_t) value;
+- (RefreshMiniJobRequestProto_Builder*) clearClientTime;
+
+- (BOOL) hasStructId;
+- (int32_t) structId;
+- (RefreshMiniJobRequestProto_Builder*) setStructId:(int32_t) value;
+- (RefreshMiniJobRequestProto_Builder*) clearStructId;
+@end
+
+@interface RefreshMiniJobResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  RefreshMiniJobResponseProto_RefreshMiniJobStatus status;
+  NSMutableArray * mutableMiniJobsList;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) NSArray * miniJobsList;
+@property (readonly) RefreshMiniJobResponseProto_RefreshMiniJobStatus status;
+- (UserMiniJobProto*)miniJobsAtIndex:(NSUInteger)index;
+
++ (RefreshMiniJobResponseProto*) defaultInstance;
+- (RefreshMiniJobResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (RefreshMiniJobResponseProto_Builder*) builder;
++ (RefreshMiniJobResponseProto_Builder*) builder;
++ (RefreshMiniJobResponseProto_Builder*) builderWithPrototype:(RefreshMiniJobResponseProto*) prototype;
+- (RefreshMiniJobResponseProto_Builder*) toBuilder;
+
++ (RefreshMiniJobResponseProto*) parseFromData:(NSData*) data;
++ (RefreshMiniJobResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RefreshMiniJobResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (RefreshMiniJobResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RefreshMiniJobResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RefreshMiniJobResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface RefreshMiniJobResponseProto_Builder : PBGeneratedMessageBuilder {
+@private
+  RefreshMiniJobResponseProto* result;
+}
+
+- (RefreshMiniJobResponseProto*) defaultInstance;
+
+- (RefreshMiniJobResponseProto_Builder*) clear;
+- (RefreshMiniJobResponseProto_Builder*) clone;
+
+- (RefreshMiniJobResponseProto*) build;
+- (RefreshMiniJobResponseProto*) buildPartial;
+
+- (RefreshMiniJobResponseProto_Builder*) mergeFrom:(RefreshMiniJobResponseProto*) other;
+- (RefreshMiniJobResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RefreshMiniJobResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (RefreshMiniJobResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (RefreshMiniJobResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (RefreshMiniJobResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (RefreshMiniJobResponseProto_Builder*) clearSender;
+
+- (NSMutableArray *)miniJobsList;
+- (UserMiniJobProto*)miniJobsAtIndex:(NSUInteger)index;
+- (RefreshMiniJobResponseProto_Builder *)addMiniJobs:(UserMiniJobProto*)value;
+- (RefreshMiniJobResponseProto_Builder *)addAllMiniJobs:(NSArray *)array;
+- (RefreshMiniJobResponseProto_Builder *)clearMiniJobs;
+
+- (BOOL) hasStatus;
+- (RefreshMiniJobResponseProto_RefreshMiniJobStatus) status;
+- (RefreshMiniJobResponseProto_Builder*) setStatus:(RefreshMiniJobResponseProto_RefreshMiniJobStatus) value;
+- (RefreshMiniJobResponseProto_Builder*) clearStatusList;
 @end
 
 

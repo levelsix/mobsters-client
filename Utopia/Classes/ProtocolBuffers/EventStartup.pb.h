@@ -112,6 +112,8 @@
 @class HospitalProto_Builder;
 @class InAppPurchasePackageProto;
 @class InAppPurchasePackageProto_Builder;
+@class ItemGemPriceProto;
+@class ItemGemPriceProto_Builder;
 @class ItemProto;
 @class ItemProto_Builder;
 @class LabProto;

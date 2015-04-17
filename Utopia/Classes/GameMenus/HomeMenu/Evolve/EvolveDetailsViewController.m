@@ -317,7 +317,7 @@
     } else {
       ItemSelectViewController *svc = [[ItemSelectViewController alloc] init];
       if (svc) {
-        SpeedupItemsFiller *sif = [[SpeedupItemsFiller alloc] init];
+        SpeedupItemsFiller *sif = [[SpeedupItemsFiller alloc] initWithGameActionType:GameActionTypeEvolve];
         sif.delegate = self;
         svc.delegate = sif;
         self.speedupItemsFiller = sif;

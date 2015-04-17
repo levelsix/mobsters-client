@@ -3574,6 +3574,26 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
+- (void) refreshMiniJobs:(NSArray *)jobsIds itemId:(int)itemId gemsSpent:(int)gemsSpent quality:(Quality)quality numToSpawn:(int)numToSpawn delegate:(id)delegate {
+  GameState *gs = [GameState sharedGameState];
+  
+  MiniJobCenterProto *miniJobCenter = (MiniJobCenterProto *)gs.myMiniJobCenter.staticStruct;
+  
+  UserItem *item = [gs.itemUtil getUserItemForItemId:itemId];
+  
+  if ((!item || item.quantity <= 0) && !gemsSpent) {
+    [Globals popupMessage:@"Trying to refresh mini Job without items or gems"];
+    return;
+  }
+  
+  int tag = [[SocketCommunication sharedSocketCommunication] sendRefreshMiniJobMessage:jobsIds itemId:itemId numToSpawn:numToSpawn gemsSpent:gemsSpent quality:quality clientTime:[self getCurrentMilliseconds] structId:miniJobCenter.structInfo.structId];
+  [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
+  
+  GemsUpdate *gu = [GemsUpdate updateWithTag:tag change:-gemsSpent];
+  [gs addUnrespondedUpdates:gu, nil];
+  item.quantity--;
+}
+
 #pragma mark - Mini Event
 
 - (void) retrieveUserMiniEventWithDelegate:(id)delegate {
