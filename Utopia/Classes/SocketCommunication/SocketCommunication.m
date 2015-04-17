@@ -604,13 +604,13 @@ static NSString *udid = nil;
 }
 
 - (int) sendInAppPurchaseMessage:(NSString *)receipt product:(SKProduct *)product saleUuid:(NSString *)saleUuid {
-  InAppPurchaseRequestProto *req = [[[[[[[[[InAppPurchaseRequestProto builder]
+  InAppPurchaseRequestProto *req = [[[[[[[[InAppPurchaseRequestProto builder]
                                            setReceipt:receipt]
                                           setLocalcents:[NSString stringWithFormat:@"%d", (int)(product.price.doubleValue*100.)]]
                                          setLocalcurrency:[product.priceLocale objectForKey:NSLocaleCurrencyCode]]
                                         setLocale:[product.priceLocale objectForKey:NSLocaleCountryCode]]
                                        setSender:_sender]
-                                      setIpaddr:[self getIPAddress]]
+                                      //setIpaddr:[self getIPAddress]]
                                      setUuid:saleUuid]
                                     build];
   

@@ -240,7 +240,7 @@
 
 - (void) updateInAppPurchases;
 - (void) updateConstants:(StartupResponseProto_StartupConstants *)constants;
-- (SalesPackageProto *) starterPackSale;
+- (SalesPackageProto *) builderPackSale;
 - (InAppPurchasePackageProto *) moneyTreeIapPackage;
 
 + (NSString *) font;

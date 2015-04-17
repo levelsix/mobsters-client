@@ -15,6 +15,7 @@
 #import "HomeViewController.h"
 #import "TimerViewController.h"
 #import "ResourceItemsFiller.h"
+#import "SpriteAnimationImageView.h"
 
 @interface TopBarMonsterView : UIView
 
@@ -29,9 +30,7 @@
 
 @end
 
-@class SpriteAnimationImageView;
-
-@interface TopBarViewController : UIViewController <NumTransitionLabelDelegate, ChatBottomViewDelegate, ResourceItemsFillerDelegate, ShopViewDelegate> {
+@interface TopBarViewController : UIViewController <NumTransitionLabelDelegate, ChatBottomViewDelegate, ResourceItemsFillerDelegate, ShopViewDelegate, SpriteAnimationDelegate> {
   CGPoint _originalProgressCenter;
   
   int _structIdForArrow;
@@ -74,8 +73,9 @@
 
 @property (nonatomic, assign) IBOutlet UILabel *buildersLabel;
 @property (nonatomic, assign) IBOutlet UIButton *addBuilderButton;
+
 @property (nonatomic, assign) IBOutlet UIView *saleView;
-@property (nonatomic, assign) IBOutlet UIImageView *saleGemsIcon;
+@property (nonatomic, assign) IBOutlet SpriteAnimationImageView *saleGemsIcon;
 @property (nonatomic, assign) IBOutlet UILabel *saleLabel;
 @property (nonatomic, assign) IBOutlet UILabel *saleTimeLabel;
 @property (nonatomic, assign) IBOutlet UIImageView *saleMultiplierIcon;

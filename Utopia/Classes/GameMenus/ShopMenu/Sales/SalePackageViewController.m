@@ -196,17 +196,7 @@ static float timePerRotation = 0.08;
 - (void) updateLabels {
   GameState *gs = [GameState sharedGameState];
   
-  int secsLeft;
-  
-  if (_sale.hasTimeEnd) {
-    MSDate *endDate = [MSDate dateWithTimeIntervalSince1970:_sale.timeEnd/1000.];
-    secsLeft = [endDate timeIntervalSinceNow];
-    
-    int mod = 60*60*24;
-    secsLeft = (secsLeft % mod);
-  } else {
-    secsLeft = [gs timeLeftOnStarterSale];
-  }
+  int secsLeft = [gs timeLeftOnSale:_sale];
   
   if (secsLeft >= 0) {
     self.timeLeftLabel.text = [@" " stringByAppendingString:[Globals convertTimeToShortString:secsLeft withAllDenominations:YES].uppercaseString];

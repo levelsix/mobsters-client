@@ -116,6 +116,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.pvpDefendingMessage = user.pvpDefendingMessage;
   self.lastTeamDonateSolicitationTime = user.hasLastTeamDonationSolicitation ? [MSDate dateWithTimeIntervalSince1970:user.lastTeamDonationSolicitation/1000.] : nil;
   self.totalStrength = user.totalStrength;
+  self.userSegmentationGroup = user.segmentationGroup;
   
   self.lastLogoutTime = [MSDate dateWithTimeIntervalSince1970:user.lastLogoutTime/1000.0];
   self.lastLoginTimeNum = user.lastLoginTime;
@@ -220,6 +221,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   fup.pvpDefendingMessage = self.pvpDefendingMessage;
   fup.lastTeamDonationSolicitation = self.lastTeamDonateSolicitationTime.timeIntervalSince1970*1000.;
   fup.totalStrength = self.totalStrength;
+  fup.segmentationGroup = self.userSegmentationGroup;
   
   return [fup build];
 }
@@ -2276,22 +2278,36 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return NO;
 }
 
-- (NSTimeInterval) timeLeftOnStarterSale {
-  int secsSinceStart = -self.createTime.timeIntervalSinceNow;
-  int mod = 60*60*24;
-  int days = secsSinceStart/mod;
-  int secsForToday = mod - (secsSinceStart % mod);
-  secsForToday = MIN(secsForToday, mod-1);
+- (NSTimeInterval) timeLeftOnSale:(SalesPackageProto *)sale {
   
-  if (days < 5 && secsForToday >= 0) {
-    return secsForToday;
+  if (sale.hasTimeEnd) {
+    int secsLeft;
+    MSDate *endDate = [MSDate dateWithTimeIntervalSince1970:sale.timeEnd/1000.];
+    secsLeft = [endDate timeIntervalSinceNow];
+    
+    int mod = 60*60*24;
+    secsLeft = (secsLeft % mod);
+    
+    return secsLeft;
   } else {
-    return -1;
+    int secsSinceStart = -self.createTime.timeIntervalSinceNow;
+    int mod = 60*60*24;
+    int days = secsSinceStart/mod;
+    int secsForToday = mod - (secsSinceStart % mod);
+    secsForToday = MIN(secsForToday, mod-1);
+    
+    if (days < 5 && secsForToday >= 0) {
+      return secsForToday;
+    } else {
+      return -1;
+    }
   }
+  
 }
 
 - (NSTimeInterval) timeLeftOnMoneyTree {
-  return self.timeLeftOnStarterSale;
+  // Will give the starter pack time
+  return [self timeLeftOnSale:nil];
 }
 
 @end
