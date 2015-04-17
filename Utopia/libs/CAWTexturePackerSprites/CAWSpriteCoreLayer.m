@@ -152,7 +152,7 @@
     if(scale == -1.0)
     {
         if ([[UIScreen mainScreen] respondsToSelector:@selector(displayLinkWithTarget:selector:)] &&
-            ([UIScreen mainScreen].scale == 2.0))
+            ([UIScreen mainScreen].scale >= 2.0))
         {
             scale = 0.5;
         }
