@@ -13,13 +13,6 @@
 
 @implementation SpriteAnimationImageView
 
-- (void) awakeFromNib
-{
-  [super awakeFromNib];
-  
-  self.spinner = nil;
-}
-
 - (void) setSprite:(NSString*)spriteName secsBetweenReplay:(float)secsBetweenReplay fps:(float)fps
 {
   if (![spriteName isEqualToString:_spriteName])
@@ -99,10 +92,13 @@
 {
   NSString* frameNames = [timer.userInfo objectForKey:@"FrameNames"];
   CAWSpriteLayer* spriteLayer = [timer.userInfo objectForKey:@"SpriteLayer"];
-  float fps = [[timer.userInfo objectForKey:@"FPS"] floatValue];
+  const float fps = [[timer.userInfo objectForKey:@"FPS"] floatValue];
   [spriteLayer playAnimation:frameNames withRate:fps];
   
-  [self.delegate playingAnimation:self];
+  if (self.delegate && [self.delegate respondsToSelector:@selector(playingAnimation:)])
+  {
+    [self.delegate playingAnimation:self];
+  }
 }
 
 @end

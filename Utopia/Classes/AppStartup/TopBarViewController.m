@@ -772,26 +772,33 @@
 
 - (void) startFadingMiniEventLabels
 {
-  [self stopFadingMiniEventLabels];
+  _toggleMiniEventLabels = YES;
+  
+  self.miniEventLabel.text = @"EVENT!";
+  
   [self performSelector:@selector(fadeMiniEventLabels) withObject:nil afterDelay:6.f];
 }
 
 - (void) stopFadingMiniEventLabels
 {
-  [self.miniEventLabel.layer removeAllAnimations];
-  [self.miniEventTimeLabel.layer removeAllAnimations];
+  _toggleMiniEventLabels = NO;
+  
+  self.miniEventLabel.text = @"ENDED";
   
   self.miniEventLabel.alpha = 1.f;
   self.miniEventTimeLabel.alpha = 0.f;
 }
 
 - (void) fadeMiniEventLabels {
-  [UIView animateWithDuration:1.f animations:^{
-    self.miniEventLabel.alpha = 1.f - self.miniEventLabel.alpha;
-    self.miniEventTimeLabel.alpha = 1.f - self.miniEventTimeLabel.alpha;
-  } completion:^(BOOL finished) {
-    [self performSelector:@selector(fadeMiniEventLabels) withObject:nil afterDelay:6.f];
-  }];
+  if (_toggleMiniEventLabels)
+  {
+    [UIView animateWithDuration:1.f animations:^{
+      self.miniEventLabel.alpha = 1.f - self.miniEventLabel.alpha;
+      self.miniEventTimeLabel.alpha = 1.f - self.miniEventTimeLabel.alpha;
+    } completion:^(BOOL finished) {
+      [self performSelector:@selector(fadeMiniEventLabels) withObject:nil afterDelay:6.f];
+    }];
+  }
 }
 
 #pragma mark - Bottom view methods
