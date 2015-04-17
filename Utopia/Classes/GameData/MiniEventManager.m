@@ -104,7 +104,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(MiniEventManager)
 {
   RetrieveMiniEventResponseProto* proto = (RetrieveMiniEventResponseProto*)fe.event;
 
-  if (proto.status == RetrieveMiniEventResponseProto_RetrieveMiniEventStatusSuccess)
+  if (proto.status == RetrieveMiniEventResponseProto_RetrieveMiniEventStatusSuccess &&
+      proto.hasUserMiniEvent)
   {
     [self updateLocalUserMiniEvent:proto.userMiniEvent];
   }
@@ -336,6 +337,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(MiniEventManager)
 
 - (void) checkEnhanceXp:(int)expGained baseMonsterRarity:(Quality)quality {
   MiniEventGoalProto_MiniEventGoalType type = 0;
+  
   switch (quality) {
     case QualityCommon:
       type = MiniEventGoalProto_MiniEventGoalTypeEnhanceCommon;
@@ -364,6 +366,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(MiniEventManager)
 
 - (void) checkPvpCaughtMonster:(Quality)quality {
   MiniEventGoalProto_MiniEventGoalType type = 0;
+  
   switch (quality) {
     case QualityCommon:
       type = MiniEventGoalProto_MiniEventGoalTypePvpCatchCommon;
@@ -418,12 +421,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(MiniEventManager)
 - (void) checkBoosterPack:(int)boosterPackId {
   GameState *gs = [GameState sharedGameState];
   
-  
   for (int i = 0; i < gs.boosterPacks.count; i++) {
     BoosterPackProto *bpp = gs.boosterPacks[i];
     
     if (bpp.boosterPackId == boosterPackId) {
-      // Right now, basic grab is index 0, ultimate grab is index 1..
+      // Right now, Basic Grab is index 0 and Ultimate Grab is index 1
       if (i == 0) {
         [self handleUserProgressOnMiniEventGoal:MiniEventGoalProto_MiniEventGoalTypeSpinBasicGrab withAmount:1];
       } else if (i == 1) {

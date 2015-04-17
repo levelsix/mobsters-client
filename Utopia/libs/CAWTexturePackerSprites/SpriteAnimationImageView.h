@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol SpriteAnimationDelegate <NSObject>
+@protocol SpriteAnimationImageViewDelegate <NSObject>
 
 - (void) playingAnimation:(id)animImageView;
 
@@ -21,7 +21,7 @@
 
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView* spinner;
 
-@property (nonatomic, assign) id<SpriteAnimationDelegate> delegate;
+@property (nonatomic, assign) id<SpriteAnimationImageViewDelegate> delegate;
 
 - (void) setSprite:(NSString*)spriteName secsBetweenReplay:(float)secsBetweenReplay fps:(float)fps;
 

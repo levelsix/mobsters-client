@@ -30,12 +30,13 @@
 
 @end
 
-@interface TopBarViewController : UIViewController <NumTransitionLabelDelegate, ChatBottomViewDelegate, ResourceItemsFillerDelegate, ShopViewDelegate, SpriteAnimationDelegate> {
+@interface TopBarViewController : UIViewController <NumTransitionLabelDelegate, ChatBottomViewDelegate, ResourceItemsFillerDelegate, ShopViewDelegate, SpriteAnimationImageViewDelegate> {
   CGPoint _originalProgressCenter;
   
   int _structIdForArrow;
   
   BOOL _isAnimatingFallingGems;
+  BOOL _toggleMiniEventLabels;
 }
 
 @property (nonatomic, assign) IBOutlet SplitImageProgressBar *expBar;
