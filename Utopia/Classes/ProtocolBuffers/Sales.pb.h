@@ -106,6 +106,8 @@
   BOOL hasSuccId_:1;
   BOOL hasSalesProductId_:1;
   BOOL hasUuid_:1;
+  BOOL hasAnimatingIcon_:1;
+  BOOL hasSlamIcon_:1;
   int64_t price;
   int64_t timeStart;
   int64_t timeEnd;
@@ -113,6 +115,8 @@
   int32_t succId;
   NSString* salesProductId;
   NSString* uuid;
+  NSString* animatingIcon;
+  NSString* slamIcon;
   NSMutableArray * mutableSipList;
   NSMutableArray * mutableSdipList;
   NSMutableArray * mutableCmpList;
@@ -124,6 +128,8 @@
 - (BOOL) hasSuccId;
 - (BOOL) hasTimeStart;
 - (BOOL) hasTimeEnd;
+- (BOOL) hasAnimatingIcon;
+- (BOOL) hasSlamIcon;
 @property (readonly) int32_t salesPackageId;
 @property (readonly, strong) NSString* salesProductId;
 @property (readonly) int64_t price;
@@ -134,6 +140,8 @@
 @property (readonly) int32_t succId;
 @property (readonly) int64_t timeStart;
 @property (readonly) int64_t timeEnd;
+@property (readonly, strong) NSString* animatingIcon;
+@property (readonly, strong) NSString* slamIcon;
 - (SalesItemProto*)sipAtIndex:(NSUInteger)index;
 - (SalesDisplayItemProto*)sdipAtIndex:(NSUInteger)index;
 - (CustomMenuProto*)cmpAtIndex:(NSUInteger)index;
@@ -225,6 +233,16 @@
 - (int64_t) timeEnd;
 - (SalesPackageProto_Builder*) setTimeEnd:(int64_t) value;
 - (SalesPackageProto_Builder*) clearTimeEnd;
+
+- (BOOL) hasAnimatingIcon;
+- (NSString*) animatingIcon;
+- (SalesPackageProto_Builder*) setAnimatingIcon:(NSString*) value;
+- (SalesPackageProto_Builder*) clearAnimatingIcon;
+
+- (BOOL) hasSlamIcon;
+- (NSString*) slamIcon;
+- (SalesPackageProto_Builder*) setSlamIcon:(NSString*) value;
+- (SalesPackageProto_Builder*) clearSlamIcon;
 @end
 
 @interface SalesItemProto : PBGeneratedMessage {

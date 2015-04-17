@@ -2290,6 +2290,7 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
 @property int64_t totalStrength;
 @property Float32 salesValue;
 @property int64_t salesLastPurchaseTime;
+@property int32_t segmentationGroup;
 @property (strong) NSString* udidForHistory;
 @property (strong) NSString* deviceToken;
 @property int32_t numBadges;
@@ -2557,6 +2558,13 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
   hasSalesLastPurchaseTime_ = !!value_;
 }
 @synthesize salesLastPurchaseTime;
+- (BOOL) hasSegmentationGroup {
+  return !!hasSegmentationGroup_;
+}
+- (void) setHasSegmentationGroup:(BOOL) value_ {
+  hasSegmentationGroup_ = !!value_;
+}
+@synthesize segmentationGroup;
 - (BOOL) hasUdidForHistory {
   return !!hasUdidForHistory_;
 }
@@ -2668,6 +2676,7 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
     self.totalStrength = 0L;
     self.salesValue = 0;
     self.salesLastPurchaseTime = 0L;
+    self.segmentationGroup = 0;
     self.udidForHistory = @"";
     self.deviceToken = @"";
     self.numBadges = 0;
@@ -2829,6 +2838,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasTotalStrength) {
     [output writeInt64:60 value:self.totalStrength];
   }
+  if (self.hasSegmentationGroup) {
+    [output writeInt32:500 value:self.segmentationGroup];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -2969,6 +2981,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (self.hasTotalStrength) {
     size_ += computeInt64Size(60, self.totalStrength);
+  }
+  if (self.hasSegmentationGroup) {
+    size_ += computeInt32Size(500, self.segmentationGroup);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -3143,6 +3158,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasTotalStrength) {
     [output appendFormat:@"%@%@: %@\n", indent, @"totalStrength", [NSNumber numberWithLongLong:self.totalStrength]];
   }
+  if (self.hasSegmentationGroup) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"segmentationGroup", [NSNumber numberWithInteger:self.segmentationGroup]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -3242,6 +3260,8 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
       (!self.hasSalesLastPurchaseTime || self.salesLastPurchaseTime == otherMessage.salesLastPurchaseTime) &&
       self.hasTotalStrength == otherMessage.hasTotalStrength &&
       (!self.hasTotalStrength || self.totalStrength == otherMessage.totalStrength) &&
+      self.hasSegmentationGroup == otherMessage.hasSegmentationGroup &&
+      (!self.hasSegmentationGroup || self.segmentationGroup == otherMessage.segmentationGroup) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -3377,6 +3397,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (self.hasTotalStrength) {
     hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.totalStrength] hash];
+  }
+  if (self.hasSegmentationGroup) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.segmentationGroup] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -3522,6 +3545,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (other.hasSalesLastPurchaseTime) {
     [self setSalesLastPurchaseTime:other.salesLastPurchaseTime];
+  }
+  if (other.hasSegmentationGroup) {
+    [self setSegmentationGroup:other.segmentationGroup];
   }
   if (other.hasUdidForHistory) {
     [self setUdidForHistory:other.udidForHistory];
@@ -3758,6 +3784,10 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
       }
       case 480: {
         [self setTotalStrength:[input readInt64]];
+        break;
+      }
+      case 4000: {
+        [self setSegmentationGroup:[input readInt32]];
         break;
       }
     }
@@ -4333,6 +4363,22 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 - (FullUserProto_Builder*) clearSalesLastPurchaseTime {
   result.hasSalesLastPurchaseTime = NO;
   result.salesLastPurchaseTime = 0L;
+  return self;
+}
+- (BOOL) hasSegmentationGroup {
+  return result.hasSegmentationGroup;
+}
+- (int32_t) segmentationGroup {
+  return result.segmentationGroup;
+}
+- (FullUserProto_Builder*) setSegmentationGroup:(int32_t) value {
+  result.hasSegmentationGroup = YES;
+  result.segmentationGroup = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearSegmentationGroup {
+  result.hasSegmentationGroup = NO;
+  result.segmentationGroup = 0;
   return self;
 }
 - (BOOL) hasUdidForHistory {
