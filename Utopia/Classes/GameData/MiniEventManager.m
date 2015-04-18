@@ -16,6 +16,7 @@
 
 - (void) updateLocalUserMiniEvent:(UserMiniEventProto*)userMiniEvent;
 - (void) retrieveNewUserMiniEvent;
+- (BOOL) miniEventDisplayPrerequisitesMet;
 - (void) currentActiveMiniEventEnded;
 - (void) startEventRetrievalTimer;
 - (void) stopEventRetrievalTimer;
@@ -89,7 +90,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(MiniEventManager)
 - (void) retrieveNewUserMiniEvent
 {
   GameState* gs = [GameState sharedGameState];
-  if (gs.connected && !gs.isTutorial && gs.userUuid && ![gs.userUuid isEqualToString:@""])
+  if (gs.connected && !gs.isTutorial && gs.userUuid && ![gs.userUuid isEqualToString:@""] && [self miniEventDisplayPrerequisitesMet])
   {
     // Ask the server for a new mini event, if any
     [[OutgoingEventController sharedOutgoingEventController] retrieveUserMiniEventWithDelegate:self];
@@ -115,6 +116,23 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(MiniEventManager)
   {
     [self startEventRetrievalTimer];
   }
+}
+
+- (BOOL) miniEventDisplayPrerequisitesMet
+{
+  // Check clan reward achievements which are the current
+  // prerequisites for the mini event being displayed
+  for (NSNumber* clanRewardAchievementId in [Globals sharedGlobals].clanRewardAchievementIds)
+  {
+    int achievementId = [clanRewardAchievementId intValue];
+    UserAchievement* userAchievment = [GameState sharedGameState].myAchievements[@(achievementId)];
+    if (!userAchievment.isRedeemed)
+    {
+      return NO;
+    }
+  }
+  
+  return YES;
 }
 
 - (void) currentActiveMiniEventEnded
