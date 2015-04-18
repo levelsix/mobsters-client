@@ -113,6 +113,13 @@ static NSString *nibName = @"SalePackageCell";
   }
   
   cmps = [cmps sortedArrayUsingComparator:^NSComparisonResult(CustomMenuProto *obj1, CustomMenuProto *obj2) {
+    int posZ1 = obj1.positionZ;
+    int posZ2 = obj2.positionZ;
+    
+    // negative numbers need to go in ascending order, positive numbers in decending. i.e. -3 -2 -1 1 2 3 would become -3 -2 -1 3 2 1
+    if (posZ1 > 0 && posZ2 > 0) {
+      return [@(obj2.positionZ) compare:@(obj1.positionZ)];
+    }
     return [@(obj1.positionZ) compare:@(obj2.positionZ)];
   }];
   
@@ -129,15 +136,12 @@ static NSString *nibName = @"SalePackageCell";
         UIImageView *img = [[UIImageView alloc] initWithImage:[Globals imageNamed:cmp.imageName]];
         img.originX = cmp.positionX+self.infoView.originX;
         img.originY = cmp.positionY+self.infoView.originY;
+        img.tag = cmp.positionZ;
         
         if (cmp.positionZ < 0) {
           [self.containerView insertSubview:img belowSubview:self.infoView];
         } else {
           [self.containerView insertSubview:img aboveSubview:self.infoView];
-        }
-        
-        if (cmp.isJiggle) {
-          [self jiggleBadge:img];
         }
         
         // Popup shadow view
@@ -165,32 +169,71 @@ static NSString *nibName = @"SalePackageCell";
   }
 }
 
+- (void) stopAllJiggling {
+  if (_jiggleOn) {
+    for (CustomMenuProto *cmp in _sale.cmpList) {
+      if (cmp.isJiggle) {
+        UIView *v = [self.containerView viewWithTag:cmp.positionZ];
+        [v.layer removeAllAnimations];
+        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(jiggleBadge:) object:v];
+      }
+    }
+    
+    _jiggleOn = NO;
+  }
+}
+
+- (void) startAllJiggling {
+  if (!_jiggleOn) {
+    for (CustomMenuProto *cmp in _sale.cmpList) {
+      if (cmp.isJiggle) {
+        [self jiggleBadge:[self.containerView viewWithTag:cmp.positionZ]];
+      }
+    }
+    
+    _jiggleOn = YES;
+  }
+}
+
 static float rotationAmt = M_PI/15;
 static float timePerRotation = 0.08;
 
 - (void) jiggleBadge:(UIView *)v {
-  v.layer.transform = CATransform3DIdentity;
-  
   // Pause for 0.5 after first wiggle, 2.f for second wiggle, then repeat
   [UIView animateWithDuration:timePerRotation/2 delay:0.f options:UIViewAnimationOptionCurveEaseOut animations:^{
     v.layer.transform = CATransform3DMakeRotation(-rotationAmt, 0, 0, 1);
   } completion:^(BOOL finished) {
-    
-    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
-    // Divide by 2 to account for autoreversing
-    int repeatCt = 3;
-    [animation setDuration:timePerRotation];
-    [animation setRepeatCount:repeatCt];
-    [animation setAutoreverses:YES];
-    [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
-    [animation setFromValue:[NSNumber numberWithFloat:-rotationAmt]];
-    [animation setToValue:[NSNumber numberWithFloat:rotationAmt]];
-    [animation setDelegate:self];
-    //[animation setBeginTime:CACurrentMediaTime()+4.f];
-    [v.layer addAnimation:animation forKey:@"rotation"];
-    
-    [self performSelector:@selector(jiggleBadge:) withObject:v afterDelay:3.f];
+    if (finished) {
+      CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
+      // Divide by 2 to account for autoreversing
+      int repeatCt = 3;
+      [animation setDuration:timePerRotation];
+      [animation setRepeatCount:repeatCt];
+      [animation setAutoreverses:YES];
+      [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+      [animation setFromValue:[NSNumber numberWithFloat:-rotationAmt]];
+      [animation setToValue:[NSNumber numberWithFloat:rotationAmt]];
+      [animation setDelegate:self];
+      [animation setValue:v forKey:@"JiggleView"];
+      //[animation setBeginTime:CACurrentMediaTime()+4.f];
+      [v.layer addAnimation:animation forKey:@"rotation"];
+    } else {
+      v.layer.transform = CATransform3DIdentity;
+    }
   }];
+}
+
+- (void) animationDidStop:(CAAnimation *)anim finished:(BOOL)flag {
+  UIView *v = [anim valueForKey:@"JiggleView"];
+  if (flag) {
+    [UIView animateWithDuration:timePerRotation/2 delay:0.f options:UIViewAnimationOptionCurveEaseIn animations:^{
+      v.layer.transform = CATransform3DIdentity;
+    } completion:^(BOOL finished) {
+      [self performSelector:@selector(jiggleBadge:) withObject:v afterDelay:3.f];
+    }];
+  } else {
+    v.layer.transform = CATransform3DIdentity;
+  }
 }
 
 - (void) updateLabels {
@@ -208,11 +251,9 @@ static float timePerRotation = 0.08;
     self.endsInLabel = nil;
     
     self.timeLeftLabel.centerX = self.timeLeftLabel.superview.width/2;
-    self.timeLeftLabel.originY += 1.f;
     self.timeLeftLabel.textAlignment = NSTextAlignmentCenter;
     
     self.timeLeftLabel.text = @"LIMITED TIME!";
-    self.timeLeftLabel.font = [UIFont fontWithName:self.timeLeftLabel.font.fontName size:self.timeLeftLabel.font.pointSize+3];
   }
 }
 

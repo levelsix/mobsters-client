@@ -12,7 +12,7 @@
 #import "PopupSubViewController.h"
 #import "SalesMenuDelegate.h"
 
-@interface SalesViewController : PopupSubViewController <SalesMenuDelegate> {
+@interface SalesViewController : PopupSubViewController <SalesMenuDelegate, UIScrollViewDelegate> {
   BOOL _isLoading;
   BOOL _allVcsLoaded;
   

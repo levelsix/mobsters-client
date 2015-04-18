@@ -36,6 +36,10 @@ static NSString *nibName = @"SalePackageCell";
   self.headerView.layer.cornerRadius = 5.f;
   
   [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
+  
+  self.shadowView.layer.shadowOpacity = 0.3;
+  self.shadowView.layer.shadowOffset = CGSizeMake(0, 0.5);
+  self.shadowView.layer.shadowRadius = 1.5;
 }
 
 - (IBAction)closeClicked:(id)sender {
@@ -54,7 +58,7 @@ static NSString *nibName = @"SalePackageCell";
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   SalePackageCell *cell = [tableView dequeueReusableCellWithIdentifier:nibName forIndexPath:indexPath];
   
-  [cell updateForDisplayItem:_sale.sdipList[indexPath.row] isSpecial:indexPath.row == 0];
+  [cell updateForDisplayItem:_sale.sdipList[indexPath.row] isSpecial:NO];// indexPath.row == 0];
   
   return cell;
 }

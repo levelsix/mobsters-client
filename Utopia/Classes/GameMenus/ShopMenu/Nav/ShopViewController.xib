@@ -108,8 +108,8 @@
                                             <color key="highlightedColor" red="0.070588235294117646" green="0.47058823529411764" blue="0.96862745098039216" alpha="1" colorSpace="deviceRGB"/>
                                             <size key="shadowOffset" width="0.0" height="1"/>
                                         </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="RESOURCES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="5Mr-bL-2Gs" customClass="NiceFontLabel9">
-                                            <rect key="frame" x="227" y="4" width="70" height="19"/>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GEM PACKS" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="5Mr-bL-2Gs" customClass="NiceFontLabel9">
+                                            <rect key="frame" x="231" y="4" width="70" height="19"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="9"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -140,7 +140,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
                                         <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" image="menuresourcesinactive.png" highlightedImage="menuresourcesactive.png" id="RDO-JE-qva">
-                                            <rect key="frame" x="210" y="7" width="13" height="13"/>
+                                            <rect key="frame" x="214" y="7" width="13" height="13"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
                                         <view contentMode="scaleToFill" id="6mn-09-lhV" userLabel="Badge - Buildings" customClass="BadgeIcon">

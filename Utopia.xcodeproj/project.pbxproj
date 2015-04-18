@@ -166,24 +166,15 @@
 		2933DC6A1ADFA808005D7620 /* saleheaderbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2933DC301ADFA808005D7620 /* saleheaderbg@2x.png */; };
 		2933DC6B1ADFA808005D7620 /* saleheaderbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2933DC301ADFA808005D7620 /* saleheaderbg@2x.png */; };
 		2933DC6C1ADFA808005D7620 /* saleheaderbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2933DC301ADFA808005D7620 /* saleheaderbg@2x.png */; };
-		2933DC6D1ADFA808005D7620 /* saleorangecircle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2933DC311ADFA808005D7620 /* saleorangecircle@2x.png */; };
-		2933DC6E1ADFA808005D7620 /* saleorangecircle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2933DC311ADFA808005D7620 /* saleorangecircle@2x.png */; };
-		2933DC6F1ADFA808005D7620 /* saleorangecircle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2933DC311ADFA808005D7620 /* saleorangecircle@2x.png */; };
 		2933DC701ADFA808005D7620 /* salepackshadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2933DC321ADFA808005D7620 /* salepackshadow@2x.png */; };
 		2933DC711ADFA808005D7620 /* salepackshadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2933DC321ADFA808005D7620 /* salepackshadow@2x.png */; };
 		2933DC721ADFA808005D7620 /* salepackshadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2933DC321ADFA808005D7620 /* salepackshadow@2x.png */; };
-		2933DC731ADFA808005D7620 /* salepurplecircle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2933DC331ADFA808005D7620 /* salepurplecircle@2x.png */; };
-		2933DC741ADFA808005D7620 /* salepurplecircle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2933DC331ADFA808005D7620 /* salepurplecircle@2x.png */; };
-		2933DC751ADFA808005D7620 /* salepurplecircle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2933DC331ADFA808005D7620 /* salepurplecircle@2x.png */; };
 		2933DC761ADFA808005D7620 /* saletimerbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2933DC341ADFA808005D7620 /* saletimerbg@2x.png */; };
 		2933DC771ADFA808005D7620 /* saletimerbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2933DC341ADFA808005D7620 /* saletimerbg@2x.png */; };
 		2933DC781ADFA808005D7620 /* saletimerbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2933DC341ADFA808005D7620 /* saletimerbg@2x.png */; };
 		2933DC791ADFA808005D7620 /* saletimerredicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2933DC351ADFA808005D7620 /* saletimerredicon@2x.png */; };
 		2933DC7A1ADFA808005D7620 /* saletimerredicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2933DC351ADFA808005D7620 /* saletimerredicon@2x.png */; };
 		2933DC7B1ADFA808005D7620 /* saletimerredicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2933DC351ADFA808005D7620 /* saletimerredicon@2x.png */; };
-		2933DC7C1ADFA808005D7620 /* salevalueshadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2933DC361ADFA808005D7620 /* salevalueshadow@2x.png */; };
-		2933DC7D1ADFA808005D7620 /* salevalueshadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2933DC361ADFA808005D7620 /* salevalueshadow@2x.png */; };
-		2933DC7E1ADFA808005D7620 /* salevalueshadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2933DC361ADFA808005D7620 /* salevalueshadow@2x.png */; };
 		2933DC901ADFA836005D7620 /* GemPackageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2933DC801ADFA836005D7620 /* GemPackageCell.xib */; };
 		2933DC911ADFA836005D7620 /* GemPackageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2933DC801ADFA836005D7620 /* GemPackageCell.xib */; };
 		2933DC921ADFA836005D7620 /* GemPackageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2933DC801ADFA836005D7620 /* GemPackageCell.xib */; };
@@ -7720,12 +7711,9 @@
 		2933DC2E1ADFA808005D7620 /* salebuybuttongreen@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "salebuybuttongreen@2x.png"; sourceTree = "<group>"; };
 		2933DC2F1ADFA808005D7620 /* salebuybuttongreenpressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "salebuybuttongreenpressed@2x.png"; sourceTree = "<group>"; };
 		2933DC301ADFA808005D7620 /* saleheaderbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "saleheaderbg@2x.png"; sourceTree = "<group>"; };
-		2933DC311ADFA808005D7620 /* saleorangecircle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "saleorangecircle@2x.png"; sourceTree = "<group>"; };
 		2933DC321ADFA808005D7620 /* salepackshadow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "salepackshadow@2x.png"; sourceTree = "<group>"; };
-		2933DC331ADFA808005D7620 /* salepurplecircle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "salepurplecircle@2x.png"; sourceTree = "<group>"; };
 		2933DC341ADFA808005D7620 /* saletimerbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "saletimerbg@2x.png"; sourceTree = "<group>"; };
 		2933DC351ADFA808005D7620 /* saletimerredicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "saletimerredicon@2x.png"; sourceTree = "<group>"; };
-		2933DC361ADFA808005D7620 /* salevalueshadow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "salevalueshadow@2x.png"; sourceTree = "<group>"; };
 		2933DC801ADFA836005D7620 /* GemPackageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GemPackageCell.xib; sourceTree = "<group>"; };
 		2933DC811ADFA836005D7620 /* GemPackageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GemPackageViewController.h; sourceTree = "<group>"; };
 		2933DC821ADFA836005D7620 /* GemPackageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GemPackageViewController.m; sourceTree = "<group>"; };
@@ -11898,19 +11886,16 @@
 		2933DC1B1ADFA808005D7620 /* Sales Assets */ = {
 			isa = PBXGroup;
 			children = (
-				2933DC1C1ADFA808005D7620 /* buysalebuttonshadow@2x.png */,
-				2933DC1D1ADFA808005D7620 /* featureditem@2x.png */,
-				2933DC1E1ADFA808005D7620 /* Gem Mine */,
-				2933DC231ADFA808005D7620 /* Gem Packages */,
-				2933DC2E1ADFA808005D7620 /* salebuybuttongreen@2x.png */,
-				2933DC2F1ADFA808005D7620 /* salebuybuttongreenpressed@2x.png */,
-				2933DC301ADFA808005D7620 /* saleheaderbg@2x.png */,
-				2933DC311ADFA808005D7620 /* saleorangecircle@2x.png */,
 				2933DC321ADFA808005D7620 /* salepackshadow@2x.png */,
-				2933DC331ADFA808005D7620 /* salepurplecircle@2x.png */,
 				2933DC341ADFA808005D7620 /* saletimerbg@2x.png */,
 				2933DC351ADFA808005D7620 /* saletimerredicon@2x.png */,
-				2933DC361ADFA808005D7620 /* salevalueshadow@2x.png */,
+				2933DC1C1ADFA808005D7620 /* buysalebuttonshadow@2x.png */,
+				2933DC1D1ADFA808005D7620 /* featureditem@2x.png */,
+				2933DC2E1ADFA808005D7620 /* salebuybuttongreen@2x.png */,
+				2933DC2F1ADFA808005D7620 /* salebuybuttongreenpressed@2x.png */,
+				2933DC1E1ADFA808005D7620 /* Gem Mine */,
+				2933DC231ADFA808005D7620 /* Gem Packages */,
+				2933DC301ADFA808005D7620 /* saleheaderbg@2x.png */,
 			);
 			path = "Sales Assets";
 			sourceTree = "<group>";
@@ -19539,7 +19524,6 @@
 				29AE75881A6F36E000264070 /* MilitaryChicken1T1P3TutBig@2x.png in Resources */,
 				9BDA8B891A3B8E1700C7AC27 /* earthheadshot@2x.png in Resources */,
 				CF0CF0EE196F452900ECD301 /* elementtree2@2x.png in Resources */,
-				2933DC6E1ADFA808005D7620 /* saleorangecircle@2x.png in Resources */,
 				CF0CF0EF196F452900ECD301 /* sfx_make_it_rain.mp3 in Resources */,
 				9B7AAB671AC0CDE300CA387F /* tier2counter@2x.png in Resources */,
 				CFA793901A0C63ED00DF3407 /* lightcakeeventlive@2x.png in Resources */,
@@ -19616,7 +19600,6 @@
 				CF0CF163196F452900ECD301 /* sellbubble2@2x.png in Resources */,
 				29DCD0031A8C3D8B003176FD /* barshadow@2x.png in Resources */,
 				CF0CF165196F452900ECD301 /* evolveequals@2x.png in Resources */,
-				2933DC741ADFA808005D7620 /* salepurplecircle@2x.png in Resources */,
 				CFFC50DA19C2D4BA00BDAA62 /* homemapright@2x.jpg in Resources */,
 				9B7AAB6D1AC0CDE300CA387F /* tier3counter@2x.png in Resources */,
 				2991FC041A800D7F009BB1D8 /* MonsterSelectViewController.xib in Resources */,
@@ -20391,7 +20374,6 @@
 				CF0CF518196F452900ECD301 /* Gotham-Book.otf in Resources */,
 				2933DC651ADFA808005D7620 /* salebuybuttongreen@2x.png in Resources */,
 				CF0CF519196F452900ECD301 /* greywhite1@2x.png in Resources */,
-				2933DC7D1ADFA808005D7620 /* salevalueshadow@2x.png in Resources */,
 				CF0CF51A196F452900ECD301 /* earthpointsfont.fnt in Resources */,
 				CF0CF51B196F452900ECD301 /* Gotham-Medium.otf in Resources */,
 				6B1EA9DB1ACF5DCC00E0B642 /* VinesMain01.png in Resources */,
@@ -22113,7 +22095,6 @@
 				29FC5EEA1A89427B00A50FA7 /* salespeedupicon@2x.png in Resources */,
 				CF951F6D19394E3400A98290 /* emptyslot@2x.png in Resources */,
 				CF7064E51846D58E005B30A1 /* home@2x.tmx in Resources */,
-				2933DC731ADFA808005D7620 /* salepurplecircle@2x.png in Resources */,
 				634174681A843521006DA494 /* avengebutton@2x.png in Resources */,
 				CFF786C618E1045C00413E78 /* activeraid@2x.png in Resources */,
 				CFE9D34D194A714F00BD930E /* gachaultraball@2x.png in Resources */,
@@ -23229,7 +23210,6 @@
 				CFF4128E19BFC223002672D4 /* stagecompletecomplete@2x.png in Resources */,
 				CF1279A1181F5F1600211623 /* sell@2x.png in Resources */,
 				CF22F99017F27EDA00DFD79D /* buildingspinner@2x.png in Resources */,
-				2933DC7C1ADFA808005D7620 /* salevalueshadow@2x.png in Resources */,
 				63B7BEFC1A7090EA00C62FB7 /* blackborder@2x.png in Resources */,
 				CF19089318D8319900D6F0E4 /* oilcollected@2x.png in Resources */,
 				9BB948601A685E3B006EE920 /* gachagradientbarleft@2x.png in Resources */,
@@ -23250,7 +23230,6 @@
 				CF0CECED196F450C00ECD301 /* splashguys@2x.png in Resources */,
 				CF023CC9199B3D0F0082FE61 /* BattleHudViewSmall.xib in Resources */,
 				296548851A81C4170080B195 /* earthstatue@2x.png in Resources */,
-				2933DC6D1ADFA808005D7620 /* saleorangecircle@2x.png in Resources */,
 				CFF2A53019709C4800269084 /* TeamCenterT1@2x.pvr.ccz in Resources */,
 				CFF2081217FF4C2000AA6F84 /* itemdurabilitybg@2x.png in Resources */,
 			);
@@ -23861,7 +23840,6 @@
 				CF481DA519F7217F00041486 /* RequestsBattleCell.xib in Resources */,
 				29AE75B61A6F36E000264070 /* Kim1T1RunNF@2x.plist in Resources */,
 				CFA729131A0B037900FF6031 /* nighteventtag@2x.png in Resources */,
-				2933DC751ADFA808005D7620 /* salepurplecircle@2x.png in Resources */,
 				2933DCC71ADFA8B2005D7620 /* activesquadrewardarrow@2x.png in Resources */,
 				CF481DA919F7217F00041486 /* levelupbadge@2x.png in Resources */,
 				9BB948B61A69F8AD006EE920 /* grglow2@2x.png in Resources */,
@@ -23942,7 +23920,6 @@
 				CF48259F19F729D000041486 /* untitled.plist in Resources */,
 				CF481E2919F7217F00041486 /* chatglobalinactive@2x.png in Resources */,
 				CF481E2A19F7217F00041486 /* streak@2x.png in Resources */,
-				2933DC7E1ADFA808005D7620 /* salevalueshadow@2x.png in Resources */,
 				CF481E2B19F7217F00041486 /* 6rockgrenade@2x.png in Resources */,
 				CF481E2C19F7217F00041486 /* upgradecheckbg@2x.png in Resources */,
 				9BB5AFBC1AAFCFF9002076E3 /* boardbuildermenuheader@2x.png in Resources */,
@@ -24795,7 +24772,6 @@
 				299AA4F91A7872C300A2D806 /* rockorb@2x.png in Resources */,
 				296548901A81C4170080B195 /* nightstatue@2x.png in Resources */,
 				CF4822C019F7217F00041486 /* platinumrankbg@2x.png in Resources */,
-				2933DC6F1ADFA808005D7620 /* saleorangecircle@2x.png in Resources */,
 				CF4822C119F7217F00041486 /* sfx_destroy_piece.mp3 in Resources */,
 				CF4822C519F7217F00041486 /* mjnew@2x.png in Resources */,
 				29AF48BB1AAA93DA0034927C /* itembagbottomcorner@2x.png in Resources */,

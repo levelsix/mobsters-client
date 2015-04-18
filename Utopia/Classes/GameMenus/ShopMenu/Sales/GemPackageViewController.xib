@@ -18,7 +18,7 @@
             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="salepackshadow.png" id="tmH-ko-0Ji">
-                    <rect key="frame" x="-8" y="236" width="376" height="9"/>
+                    <rect key="frame" x="-8" y="235" width="376" height="9"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
                 <view contentMode="scaleToFill" id="bVB-ec-gZn" customClass="PopupShadowView">

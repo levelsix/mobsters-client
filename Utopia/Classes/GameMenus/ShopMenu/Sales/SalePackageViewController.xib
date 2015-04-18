@@ -28,7 +28,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" image="salepackshadow.png" id="MH8-48-Wdg">
-                            <rect key="frame" x="12" y="276" width="376" height="9"/>
+                            <rect key="frame" x="12" y="275" width="376" height="9"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
                         <view contentMode="scaleToFill" id="8Yz-2f-tUv" customClass="PopupShadowView">
@@ -41,7 +41,7 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <view contentMode="scaleToFill" id="PLm-Wx-1kw">
-                                    <rect key="frame" x="150" y="14" width="196" height="211"/>
+                                    <rect key="frame" x="150" y="14" width="196" height="217"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" id="aI0-tg-gkc" customClass="PopupShadowView">
@@ -79,6 +79,10 @@
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="buysalebuttonshadow.png" id="7bs-BX-sEl">
+                                            <rect key="frame" x="1" y="193" width="194" height="22"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </imageView>
                                         <view contentMode="scaleToFill" id="jcn-AY-6Kx">
                                             <rect key="frame" x="0.0" y="171" width="196" height="40"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -121,7 +125,7 @@
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" 4M 12S" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Bty-6W-jsm" customClass="NiceFontLabel10T">
-                                    <rect key="frame" x="93" y="0.0" width="106" height="21"/>
+                                    <rect key="frame" x="93" y="-1" width="106" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="9"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -130,7 +134,7 @@
                                     <size key="shadowOffset" width="0.0" height="1"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SALE ENDS IN:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hQk-7U-p8s" customClass="NiceFontLabel10T">
-                                    <rect key="frame" x="-11" y="0.0" width="85" height="21"/>
+                                    <rect key="frame" x="-11" y="-1" width="85" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="9"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -158,6 +162,7 @@
     </objects>
     <resources>
         <image name="barshadow.png" width="1" height="2"/>
+        <image name="buysalebuttonshadow.png" width="194" height="22"/>
         <image name="salebuybuttongreen.png" width="196" height="38"/>
         <image name="salebuybuttongreenpressed.png" width="196" height="38"/>
         <image name="saleheaderbg.png" width="1" height="30"/>

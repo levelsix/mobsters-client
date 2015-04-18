@@ -18,6 +18,8 @@
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
 @property (nonatomic, retain) IBOutlet UIView *headerView;
 
+@property (nonatomic, retain) IBOutlet UIView *shadowView;
+
 @property (nonatomic, retain) IBOutlet UITableView *bonusItemsTable;
 
 - (id) initWithSalePackageProto:(SalesPackageProto *)spp;

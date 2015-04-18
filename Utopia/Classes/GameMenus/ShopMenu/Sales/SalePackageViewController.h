@@ -28,6 +28,8 @@
 @interface SalePackageViewController : PopupSubViewController <UITableViewDataSource> {
   SalesPackageProto *_sale;
   SKProduct *_product;
+  
+  BOOL _jiggleOn;
 }
 
 @property (nonatomic, retain) IBOutlet UIView *infoView;
@@ -47,5 +49,8 @@
 @property (nonatomic, assign) id<SalesMenuDelegate> delegate;
 
 - (id) initWithSalePackageProto:(SalesPackageProto *)spp;
+
+- (void) stopAllJiggling;
+- (void) startAllJiggling;
 
 @end

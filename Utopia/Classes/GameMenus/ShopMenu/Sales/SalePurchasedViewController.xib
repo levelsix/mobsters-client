@@ -11,6 +11,7 @@
                 <outlet property="bonusItemsTable" destination="nE2-za-kON" id="CwE-Zg-g5S"/>
                 <outlet property="headerView" destination="miE-Mi-wgZ" id="hgg-0m-svq"/>
                 <outlet property="mainView" destination="VK6-Kf-5wG" id="Et9-Np-Ji7"/>
+                <outlet property="shadowView" destination="NIl-Fh-BHc" id="gsc-oc-pxF"/>
                 <outlet property="view" destination="PPA-al-tL5" id="aRt-HQ-1uZ"/>
             </connections>
         </placeholder>

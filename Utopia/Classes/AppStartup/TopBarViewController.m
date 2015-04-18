@@ -686,7 +686,7 @@
     if (!_isAnimatingFallingGems) {
       
       self.saleGemsIcon.delegate = self;
-      [self.saleGemsIcon setSprite:spp.animatingIcon secsBetweenReplay:30.f fps:15.f];
+      [self.saleGemsIcon setSprite:spp.animatingIcon secsBetweenReplay:30.f fps:25.f];
       
       self.saleMultiplierIcon.hidden = YES;
       
@@ -715,7 +715,7 @@
     self.saleMultiplierIcon.alpha = 0.f;
   }];
   
-  [self performSelector:@selector(animateSaleSmashIcon) withObject:nil afterDelay:1.5f];
+  [self performSelector:@selector(animateSaleSmashIcon) withObject:nil afterDelay:1.f];
 }
 
 - (void) animateSaleSmashIcon {

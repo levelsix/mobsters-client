@@ -70,6 +70,7 @@
   
   [self reloadViewControllers];
   [self scrollViewDidScroll:self.scrollView];
+  [self scrollViewDidEndDecelerating:self.scrollView];
   
   UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(checkTap:)];
   [self.view addGestureRecognizer:tap];
@@ -184,6 +185,29 @@
       darken.alpha = distFactor;
     }
   }
+}
+
+- (void) stopAllJigglingExceptIdx:(int)idx {
+  for (int i = 0; i < self.viewControllers.count; i++) {
+    SalePackageViewController *vc = self.viewControllers[i];
+    // Gem package vc doesn't have the jiggle method
+    if ([vc isKindOfClass:[SalePackageViewController class]]) {
+      if (idx == i) {
+        [vc startAllJiggling];
+      } else {
+        [vc stopAllJiggling];
+      }
+    }
+  }
+}
+
+- (void) scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+  [self stopAllJigglingExceptIdx:-1];
+}
+
+- (void) scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+  int curIdx = roundf(self.scrollView.contentOffset.x/self.scrollView.width);
+  [self stopAllJigglingExceptIdx:curIdx];
 }
 
 @end
