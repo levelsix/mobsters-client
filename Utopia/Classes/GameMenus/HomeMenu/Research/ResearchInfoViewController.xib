@@ -306,8 +306,8 @@
     </objects>
     <resources>
         <image name="greenmenuoption.png" width="80" height="40"/>
-        <image name="moneystack.png" width="31" height="30"/>
-        <image name="oilicon.png" width="25" height="30"/>
+        <image name="moneystack.png" width="29" height="25"/>
+        <image name="oilicon.png" width="21" height="26"/>
         <image name="orangemenuoption.png" width="80" height="40"/>
         <image name="purplemenuoption.png" width="80" height="40"/>
         <image name="readyforupgradebigcheck.png" width="23" height="26"/>
