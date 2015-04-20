@@ -13,10 +13,11 @@ static PBExtensionRegistry* extensionRegistry = nil;
   if (self == [SalesRoot class]) {
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
-    [SharedEnumConfigRoot registerAllExtensions:registry];
-    [RewardRoot registerAllExtensions:registry];
-    [UserRoot registerAllExtensions:registry];
+    [ChatRoot registerAllExtensions:registry];
     [CustomMenuRoot registerAllExtensions:registry];
+    [RewardRoot registerAllExtensions:registry];
+    [SharedEnumConfigRoot registerAllExtensions:registry];
+    [UserRoot registerAllExtensions:registry];
     extensionRegistry = registry;
   }
 }
@@ -37,6 +38,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property int64_t timeEnd;
 @property (strong) NSString* animatingIcon;
 @property (strong) NSString* slamIcon;
+@property (strong) NSString* titleColor;
 @end
 
 @implementation SalesPackageProto
@@ -110,6 +112,13 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasSlamIcon_ = !!value_;
 }
 @synthesize slamIcon;
+- (BOOL) hasTitleColor {
+  return !!hasTitleColor_;
+}
+- (void) setHasTitleColor:(BOOL) value_ {
+  hasTitleColor_ = !!value_;
+}
+@synthesize titleColor;
 - (id) init {
   if ((self = [super init])) {
     self.salesPackageId = 0;
@@ -121,6 +130,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     self.timeEnd = 0L;
     self.animatingIcon = @"";
     self.slamIcon = @"";
+    self.titleColor = @"";
   }
   return self;
 }
@@ -194,6 +204,9 @@ static SalesPackageProto* defaultSalesPackageProtoInstance = nil;
   if (self.hasSlamIcon) {
     [output writeString:12 value:self.slamIcon];
   }
+  if (self.hasTitleColor) {
+    [output writeString:13 value:self.titleColor];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -238,6 +251,9 @@ static SalesPackageProto* defaultSalesPackageProtoInstance = nil;
   }
   if (self.hasSlamIcon) {
     size_ += computeStringSize(12, self.slamIcon);
+  }
+  if (self.hasTitleColor) {
+    size_ += computeStringSize(13, self.titleColor);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -319,6 +335,9 @@ static SalesPackageProto* defaultSalesPackageProtoInstance = nil;
   if (self.hasSlamIcon) {
     [output appendFormat:@"%@%@: %@\n", indent, @"slamIcon", self.slamIcon];
   }
+  if (self.hasTitleColor) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"titleColor", self.titleColor];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -351,6 +370,8 @@ static SalesPackageProto* defaultSalesPackageProtoInstance = nil;
       (!self.hasAnimatingIcon || [self.animatingIcon isEqual:otherMessage.animatingIcon]) &&
       self.hasSlamIcon == otherMessage.hasSlamIcon &&
       (!self.hasSlamIcon || [self.slamIcon isEqual:otherMessage.slamIcon]) &&
+      self.hasTitleColor == otherMessage.hasTitleColor &&
+      (!self.hasTitleColor || [self.titleColor isEqual:otherMessage.titleColor]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -390,6 +411,9 @@ static SalesPackageProto* defaultSalesPackageProtoInstance = nil;
   }
   if (self.hasSlamIcon) {
     hashCode = hashCode * 31 + [self.slamIcon hash];
+  }
+  if (self.hasTitleColor) {
+    hashCode = hashCode * 31 + [self.titleColor hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -482,6 +506,9 @@ static SalesPackageProto* defaultSalesPackageProtoInstance = nil;
   if (other.hasSlamIcon) {
     [self setSlamIcon:other.slamIcon];
   }
+  if (other.hasTitleColor) {
+    [self setTitleColor:other.titleColor];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -555,6 +582,10 @@ static SalesPackageProto* defaultSalesPackageProtoInstance = nil;
       }
       case 98: {
         [self setSlamIcon:[input readString]];
+        break;
+      }
+      case 106: {
+        [self setTitleColor:[input readString]];
         break;
       }
     }
@@ -774,6 +805,22 @@ static SalesPackageProto* defaultSalesPackageProtoInstance = nil;
 - (SalesPackageProto_Builder*) clearSlamIcon {
   result.hasSlamIcon = NO;
   result.slamIcon = @"";
+  return self;
+}
+- (BOOL) hasTitleColor {
+  return result.hasTitleColor;
+}
+- (NSString*) titleColor {
+  return result.titleColor;
+}
+- (SalesPackageProto_Builder*) setTitleColor:(NSString*) value {
+  result.hasTitleColor = YES;
+  result.titleColor = value;
+  return self;
+}
+- (SalesPackageProto_Builder*) clearTitleColor {
+  result.hasTitleColor = NO;
+  result.titleColor = @"";
   return self;
 }
 @end

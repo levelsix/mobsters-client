@@ -412,6 +412,7 @@
     if (success) {
       self.view.activityIndicator.hidden = NO;
       self.view.finishLabelsView.hidden = YES;
+      self.view.finishButtonView.userInteractionEnabled = NO;
       
       if (ur == _userResearch) {
         _waitingForServer = YES;
@@ -428,6 +429,7 @@
   self.view.activityIndicator.hidden = YES;
   
   self.view.finishLabelsView.hidden = NO;
+  self.view.finishButtonView.userInteractionEnabled = YES;
   
   _waitingForServer = NO;
   

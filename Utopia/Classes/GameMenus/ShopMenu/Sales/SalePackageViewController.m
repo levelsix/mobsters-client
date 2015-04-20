@@ -99,6 +99,10 @@ static NSString *nibName = @"SalePackageCell";
   
   self.numItemsLabel.text = [NSString stringWithFormat:@"INCLUDES THESE %d ITEMS!", (int)_sale.sdipList.count];
   
+  if (_sale.titleColor.length > 0) {
+    self.numItemsLabel.textColor = [UIColor colorWithHexString:_sale.titleColor];
+  }
+  
   self.bonusItemsTable.superview.layer.cornerRadius = 5.f;
   //  self.bonusItemsCollectionView.superview.height += 0.5f;
   //  self.bonusItemsCollectionView.superview.width += 0.5f;

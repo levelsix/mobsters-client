@@ -175,7 +175,7 @@
   [center addObserver:self selector:@selector(updateMiniEventView) name:MINI_EVENT_IS_AVAILABLE_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(updateMiniEventView) name:MINI_EVENT_TIER_REWARD_AVAILABLE_OR_REDEEMED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(stopFadingMiniEventLabels) name:MINI_EVENT_HAS_ENDED_NOTIFICATION object:nil];
-  [center addObserver:self selector:@selector(updateMiniEventView) name:MINI_EVENT_IS_UAVAILABLE_NOTIFICATION object:nil];
+  [center addObserver:self selector:@selector(updateMiniEventView) name:MINI_EVENT_IS_UNAVAILABLE_NOTIFICATION object:nil];
   [self updateMiniEventView];
   
   [self.updateTimer invalidate];

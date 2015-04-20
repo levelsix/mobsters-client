@@ -2,20 +2,27 @@
 
 #import "ProtocolBuffers.h"
 
-#import "SharedEnumConfig.pb.h"
-#import "Reward.pb.h"
-#import "User.pb.h"
+#import "Chat.pb.h"
 #import "CustomMenu.pb.h"
+#import "Reward.pb.h"
+#import "SharedEnumConfig.pb.h"
+#import "User.pb.h"
 // @@protoc_insertion_point(imports)
 
 @class ClanMemberTeamDonationProto;
 @class ClanMemberTeamDonationProto_Builder;
+@class ColorProto;
+@class ColorProto_Builder;
 @class CustomMenuProto;
 @class CustomMenuProto_Builder;
+@class DefaultLanguagesProto;
+@class DefaultLanguagesProto_Builder;
 @class FullUserMonsterProto;
 @class FullUserMonsterProto_Builder;
 @class FullUserProto;
 @class FullUserProto_Builder;
+@class GroupChatMessageProto;
+@class GroupChatMessageProto_Builder;
 @class ItemGemPriceProto;
 @class ItemGemPriceProto_Builder;
 @class ItemProto;
@@ -40,6 +47,10 @@
 @class MonsterLevelInfoProto_Builder;
 @class MonsterProto;
 @class MonsterProto_Builder;
+@class PrivateChatDefaultLanguageProto;
+@class PrivateChatDefaultLanguageProto_Builder;
+@class PrivateChatPostProto;
+@class PrivateChatPostProto_Builder;
 @class RewardProto;
 @class RewardProto_Builder;
 @class SalesDisplayItemProto;
@@ -50,6 +61,8 @@
 @class SalesPackageProto_Builder;
 @class StaticUserLevelInfoProto;
 @class StaticUserLevelInfoProto_Builder;
+@class TranslatedTextProto;
+@class TranslatedTextProto_Builder;
 @class UserCurrentMonsterTeamProto;
 @class UserCurrentMonsterTeamProto_Builder;
 @class UserEnhancementItemProto;
@@ -108,6 +121,7 @@
   BOOL hasUuid_:1;
   BOOL hasAnimatingIcon_:1;
   BOOL hasSlamIcon_:1;
+  BOOL hasTitleColor_:1;
   int64_t price;
   int64_t timeStart;
   int64_t timeEnd;
@@ -117,6 +131,7 @@
   NSString* uuid;
   NSString* animatingIcon;
   NSString* slamIcon;
+  NSString* titleColor;
   NSMutableArray * mutableSipList;
   NSMutableArray * mutableSdipList;
   NSMutableArray * mutableCmpList;
@@ -130,6 +145,7 @@
 - (BOOL) hasTimeEnd;
 - (BOOL) hasAnimatingIcon;
 - (BOOL) hasSlamIcon;
+- (BOOL) hasTitleColor;
 @property (readonly) int32_t salesPackageId;
 @property (readonly, strong) NSString* salesProductId;
 @property (readonly) int64_t price;
@@ -142,6 +158,7 @@
 @property (readonly) int64_t timeEnd;
 @property (readonly, strong) NSString* animatingIcon;
 @property (readonly, strong) NSString* slamIcon;
+@property (readonly, strong) NSString* titleColor;
 - (SalesItemProto*)sipAtIndex:(NSUInteger)index;
 - (SalesDisplayItemProto*)sdipAtIndex:(NSUInteger)index;
 - (CustomMenuProto*)cmpAtIndex:(NSUInteger)index;
@@ -243,6 +260,11 @@
 - (NSString*) slamIcon;
 - (SalesPackageProto_Builder*) setSlamIcon:(NSString*) value;
 - (SalesPackageProto_Builder*) clearSlamIcon;
+
+- (BOOL) hasTitleColor;
+- (NSString*) titleColor;
+- (SalesPackageProto_Builder*) setTitleColor:(NSString*) value;
+- (SalesPackageProto_Builder*) clearTitleColor;
 @end
 
 @interface SalesItemProto : PBGeneratedMessage {

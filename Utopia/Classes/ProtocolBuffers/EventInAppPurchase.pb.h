@@ -17,10 +17,14 @@
 @class ClanHouseProto_Builder;
 @class ClanMemberTeamDonationProto;
 @class ClanMemberTeamDonationProto_Builder;
+@class ColorProto;
+@class ColorProto_Builder;
 @class CoordinateProto;
 @class CoordinateProto_Builder;
 @class CustomMenuProto;
 @class CustomMenuProto_Builder;
+@class DefaultLanguagesProto;
+@class DefaultLanguagesProto_Builder;
 @class EarnFreeDiamondsRequestProto;
 @class EarnFreeDiamondsRequestProto_Builder;
 @class EarnFreeDiamondsResponseProto;
@@ -39,6 +43,8 @@
 @class FullUserStructureProto_Builder;
 @class GoldSaleProto;
 @class GoldSaleProto_Builder;
+@class GroupChatMessageProto;
+@class GroupChatMessageProto_Builder;
 @class HospitalProto;
 @class HospitalProto_Builder;
 @class InAppPurchasePackageProto;
@@ -81,6 +87,10 @@
 @class MonsterProto_Builder;
 @class ObstacleProto;
 @class ObstacleProto_Builder;
+@class PrivateChatDefaultLanguageProto;
+@class PrivateChatDefaultLanguageProto_Builder;
+@class PrivateChatPostProto;
+@class PrivateChatPostProto_Builder;
 @class PvpBoardHouseProto;
 @class PvpBoardHouseProto_Builder;
 @class PvpBoardObstacleProto;
@@ -109,6 +119,8 @@
 @class TeamCenterProto_Builder;
 @class TownHallProto;
 @class TownHallProto_Builder;
+@class TranslatedTextProto;
+@class TranslatedTextProto_Builder;
 @class TutorialStructProto;
 @class TutorialStructProto_Builder;
 @class UserCurrentMonsterTeamProto;

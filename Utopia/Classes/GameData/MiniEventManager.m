@@ -126,7 +126,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(MiniEventManager)
     // Event has ended and all tier rewards that user has accumulated enough points for have already been redeemed
     _currentUserMiniEvent = nil;
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:MINI_EVENT_IS_UAVAILABLE_NOTIFICATION object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:MINI_EVENT_IS_UNAVAILABLE_NOTIFICATION object:nil];
     
     [self retrieveNewUserMiniEvent];
   }
@@ -257,7 +257,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(MiniEventManager)
       // Event has ended and all tier rewards that user has accumulated enough points for have already been redeemed
       _currentUserMiniEvent = nil;
       
-      [[NSNotificationCenter defaultCenter] postNotificationName:MINI_EVENT_IS_UAVAILABLE_NOTIFICATION object:nil];
+      [[NSNotificationCenter defaultCenter] postNotificationName:MINI_EVENT_IS_UNAVAILABLE_NOTIFICATION object:nil];
       
       [self retrieveNewUserMiniEvent];
     }

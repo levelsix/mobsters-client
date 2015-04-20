@@ -598,7 +598,7 @@
                                         <outlet property="spinner" destination="TB6-OJ-G8W" id="cYr-aj-dI7"/>
                                     </connections>
                                 </imageView>
-                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" id="TB6-OJ-G8W">
+                                <activityIndicatorView hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" id="TB6-OJ-G8W">
                                     <rect key="frame" x="17" y="27" width="20" height="20"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 </activityIndicatorView>
@@ -639,7 +639,14 @@
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="06j-1R-7oK" customClass="SpriteAnimationImageView">
                                     <rect key="frame" x="-3" y="-13" width="63" height="57"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <connections>
+                                        <outlet property="spinner" destination="rAU-FF-Sbc" id="gQy-qh-F0K"/>
+                                    </connections>
                                 </imageView>
+                                <activityIndicatorView hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" id="rAU-FF-Sbc">
+                                    <rect key="frame" x="18" y="18" width="20" height="20"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </activityIndicatorView>
                                 <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="center" image="salemultiplier.png" id="yyK-b8-P0P">
                                     <rect key="frame" x="5" y="12" width="46" height="34"/>
                                     <autoresizingMask key="autoresizingMask"/>
