@@ -20,6 +20,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [BoosterPackStuffRoot registerAllExtensions:registry];
     [CityRoot registerAllExtensions:registry];
     [ClanRoot registerAllExtensions:registry];
+    [ClanGiftsRoot registerAllExtensions:registry];
     [CustomMenuRoot registerAllExtensions:registry];
     [ItemRoot registerAllExtensions:registry];
     [MonsterStuffRoot registerAllExtensions:registry];
@@ -83,6 +84,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property (strong) NSMutableArray * mutableBattleItemList;
 @property (strong) NSMutableArray * mutablePvpBoardObstacleProtosList;
 @property (strong) NSMutableArray * mutableRewardList;
+@property (strong) NSMutableArray * mutableClanGiftsList;
 @end
 
 @implementation StaticDataProto
@@ -183,6 +185,8 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @dynamic pvpBoardObstacleProtosList;
 @synthesize mutableRewardList;
 @dynamic rewardList;
+@synthesize mutableClanGiftsList;
+@dynamic clanGiftsList;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
@@ -448,6 +452,12 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
 - (RewardProto*)rewardAtIndex:(NSUInteger)index {
   return [mutableRewardList objectAtIndex:index];
 }
+- (NSArray *)clanGiftsList {
+  return mutableClanGiftsList;
+}
+- (ClanGiftProto*)clanGiftsAtIndex:(NSUInteger)index {
+  return [mutableClanGiftsList objectAtIndex:index];
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -580,6 +590,9 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   }];
   [self.rewardList enumerateObjectsUsingBlock:^(RewardProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:45 value:element];
+  }];
+  [self.clanGiftsList enumerateObjectsUsingBlock:^(ClanGiftProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:46 value:element];
   }];
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -718,6 +731,9 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   }];
   [self.rewardList enumerateObjectsUsingBlock:^(RewardProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(45, element);
+  }];
+  [self.clanGiftsList enumerateObjectsUsingBlock:^(ClanGiftProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(46, element);
   }];
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -1012,6 +1028,12 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }];
+  [self.clanGiftsList enumerateObjectsUsingBlock:^(ClanGiftProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"clanGifts"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -1068,6 +1090,7 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
       [self.allBattleItemFactorysList isEqualToArray:otherMessage.allBattleItemFactorysList] &&
       [self.battleItemList isEqualToArray:otherMessage.battleItemList] &&
       [self.rewardList isEqualToArray:otherMessage.rewardList] &&
+      [self.clanGiftsList isEqualToArray:otherMessage.clanGiftsList] &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -1199,6 +1222,9 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
     hashCode = hashCode * 31 + [element hash];
   }];
   [self.rewardList enumerateObjectsUsingBlock:^(RewardProto *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  [self.clanGiftsList enumerateObjectsUsingBlock:^(ClanGiftProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
   hashCode = hashCode * 31 + [self.unknownFields hash];
@@ -1537,6 +1563,13 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
       [result.mutableRewardList addObjectsFromArray:other.mutableRewardList];
     }
   }
+  if (other.mutableClanGiftsList.count > 0) {
+    if (result.mutableClanGiftsList == nil) {
+      result.mutableClanGiftsList = [[NSMutableArray alloc] initWithArray:other.mutableClanGiftsList];
+    } else {
+      [result.mutableClanGiftsList addObjectsFromArray:other.mutableClanGiftsList];
+    }
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -1820,6 +1853,12 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
         RewardProto_Builder* subBuilder = [RewardProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addReward:[subBuilder buildPartial]];
+        break;
+      }
+      case 370: {
+        ClanGiftProto_Builder* subBuilder = [ClanGiftProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addClanGifts:[subBuilder buildPartial]];
         break;
       }
     }
@@ -2867,6 +2906,30 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
 }
 - (StaticDataProto_Builder *)clearReward {
   result.mutableRewardList = nil;
+  return self;
+}
+- (NSMutableArray *)clanGiftsList {
+  return result.mutableClanGiftsList;
+}
+- (ClanGiftProto*)clanGiftsAtIndex:(NSUInteger)index {
+  return [result clanGiftsAtIndex:index];
+}
+- (StaticDataProto_Builder *)addClanGifts:(ClanGiftProto*)value {
+  if (result.mutableClanGiftsList == nil) {
+    result.mutableClanGiftsList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableClanGiftsList addObject:value];
+  return self;
+}
+- (StaticDataProto_Builder *)addAllClanGifts:(NSArray *)array {
+  if (result.mutableClanGiftsList == nil) {
+    result.mutableClanGiftsList = [NSMutableArray array];
+  }
+  [result.mutableClanGiftsList addObjectsFromArray:array];
+  return self;
+}
+- (StaticDataProto_Builder *)clearClanGifts {
+  result.mutableClanGiftsList = nil;
   return self;
 }
 @end
