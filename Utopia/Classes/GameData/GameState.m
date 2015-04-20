@@ -79,8 +79,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     
     _requestedClans = [[NSMutableArray alloc] init];
     
-    _squadGifts = [[NSMutableArray alloc] init];
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedClanHelpNotification:) name:RECEIVED_CLAN_HELP_NOTIFICATION object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedSpeedupNotification:) name:SPEEDUP_USED_NOTIFICATION object:nil];
   }
@@ -1329,7 +1327,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.staticLeagues = proto.leaguesList;
   
   [self.staticClanGifts removeAllObjects];
-  
+  [self addToStaticClanGifts:proto.clanGiftsList];
   
   self.staticSkills = [NSMutableDictionary dictionary];
   for (SkillProto* skillProto in proto.skillsList)

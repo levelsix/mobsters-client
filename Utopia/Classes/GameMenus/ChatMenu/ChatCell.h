@@ -184,7 +184,7 @@
 
 @end
 
-@interface ChatSquadGiftView: UIView
+@interface ChatClanGiftView: UIView
 
 @property (nonatomic, retain) IBOutlet UIView *unOpenedView;
 @property (nonatomic, retain) IBOutlet UIView *openedView;
@@ -196,8 +196,14 @@
 @property (nonatomic, retain) IBOutlet UIImageView *giftImage;
 @property (nonatomic, retain) IBOutlet UILabel *giftRarityLabel;
 @property (nonatomic, retain) IBOutlet UILabel *giftNameLabel;
+
 @property (nonatomic, retain) IBOutlet UILabel *rewardNameLabel;
+@property (nonatomic, retain) IBOutlet UIImageView *rewardImageView;
+
+@property (nonatomic, retain) IBOutlet UIButton *collectButton;
 
 - (void) updateForClanGift:(UserClanGiftProto *)clanGift;
+
+- (void) updateForExpireDate:(MSDate *)expireDate;
 
 @end

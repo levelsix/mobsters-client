@@ -49,10 +49,12 @@
   [center addObserver:self selector:@selector(reloadTables:) name:CLAN_AVENGINGS_CHANGED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(reloadTables:) name:NEW_BATTLE_HISTORY_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(reloadTables:) name:CLAN_TEAM_DONATIONS_CHANGED_NOTIFICATION object:nil];
+  [center addObserver:self selector:@selector(reloadTables:) name:CLAN_GIFTS_CHANGED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(updateClanBadge) name:CLAN_CHAT_RECEIVED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(updateClanBadge) name:CLAN_HELPS_CHANGED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(updateClanBadge) name:CLAN_AVENGINGS_CHANGED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(updateClanBadge) name:CLAN_TEAM_DONATIONS_CHANGED_NOTIFICATION object:nil];
+
   
   //[center addObserver:self selector:@selector(reloadTables:) name:FB_INVITE_RESPONDED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(reloadTables:) name:NEW_FB_INVITE_NOTIFICATION object:nil];

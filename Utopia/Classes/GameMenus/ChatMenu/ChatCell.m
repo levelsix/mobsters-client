@@ -621,7 +621,7 @@ static float buttonInitialWidth = 159.f;
 
 @end
 
-@implementation ChatSquadGiftView
+@implementation ChatClanGiftView
 
 - (void) awakeFromNib {
   [super awakeFromNib];
@@ -629,21 +629,41 @@ static float buttonInitialWidth = 159.f;
   [self.unOpenedView.superview addSubview:self.openedView];
 }
 
-- (void) updateForClanGift:(UserClanGiftProto *)clanGift {
-  Quality giftRarity = QualityCommon;
-  long expireTime = [clanGift exprieDate].timeIntervalSinceNow;
+- (void) updateForClanGift:(UserClanGiftProto *)userClanGift {
   
-  NSString *name = clanGift.clanGift.name;
-  NSString *imageName = @"bigSecretGift.png";
+  if (userClanGift.isRedeemed) {
+    self.unOpenedView.hidden = YES;
+    self.openedView.hidden = NO;
+  } else {
+    self.openedView.hidden = YES;
+    self.unOpenedView.hidden = NO;
+  }
   
-  NSString *rewardImageName = ;
-  NSString *rewardName = @"toon";
+  Quality giftRarity = userClanGift.clanGift.quality;
+  long expireTime = [userClanGift exprieDate].timeIntervalSinceNow;
+  
+  NSString *name = userClanGift.clanGift.name;
+  NSString *imageName = userClanGift.clanGift.imageName;
+  
+  NSString *rewardImageName = [Globals imageNameForReward:userClanGift.reward];
+  NSString *rewardName = [Globals nameForReward:userClanGift.reward];
   
   self.giftRarityLabel.text = [NSString stringWithFormat:@"%@ Gift", [Globals stringForRarity:giftRarity]];
   self.giftNameLabel.text = name;
   self.expireTimeLabel.text = [Globals convertTimeToShortString:(int)expireTime withAllDenominations:YES];
   
+  self.rewardNameLabel.text = rewardName;
+  
+  [Globals imageNamed:rewardImageName withView:self.rewardImageView greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:NO];
   [Globals imageNamed:imageName withView:self.giftImage greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+  
+  [self.collectButton removeTarget:nil action:NULL forControlEvents:UIControlEventTouchUpInside];
+  [self.collectButton addTarget:userClanGift action:@selector(collectClicked:) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void) updateForExpireDate:(MSDate *)expireDate {
+  long expireTime = expireDate.timeIntervalSinceNow;
+  self.expireTimeLabel.text = [Globals convertTimeToShortString:(int)expireTime withAllDenominations:YES];
 }
 
 @end

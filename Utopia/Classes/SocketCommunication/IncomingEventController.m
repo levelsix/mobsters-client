@@ -380,6 +380,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSCollectClanGiftsEvent:
       responseClass = [CollectClanGiftsResponseProto class];
       break;
+    case EventProtocolResponseSClearExpiredClanGiftsEvent:
+      responseClass = [ClearExpiredClanGiftsResponseProto class];
+      break;
     default:
       responseClass = nil;
       break;
@@ -532,7 +535,18 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     [gs updateClanData:proto.clanData];
     
-    [gs.clanGifts addObjectsFromArray:proto.userClanGiftsList];
+    [gs.clanGifts removeAllObjects];
+    NSMutableArray *expiredGifts = [[NSMutableArray alloc] init];
+    for (UserClanGiftProto *ucgp in proto.userClanGiftsList) {
+      if (ucgp.exprieDate.timeIntervalSinceNow > 0) {
+        [expiredGifts addObject:ucgp];
+      } else {
+        [gs.clanGifts addObject:ucgp];
+      }
+    }
+    if (expiredGifts.count > 0) {
+      [[OutgoingEventController sharedOutgoingEventController] expireClanGifts:expiredGifts];
+    }
     
     gs.battleHistory = [proto.recentNbattlesList mutableCopy];
     
@@ -1638,15 +1652,36 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 
 - (void) handleCollectClanGiftsResponseProto:(FullEvent *)fe {
   CollectClanGiftsResponseProto *proto = (CollectClanGiftsResponseProto *)fe.event;
+  int tag = fe.tag;
   
   LNLog(@"Collect Clan Gifts response received with status %d.", (int)proto.status);
   
+  GameState *gs = [GameState sharedGameState];
   if (proto.status == CollectClanGiftsResponseProto_CollectClanGiftsStatusSuccess) {
+    // Gems, oil, and cash are updated through UpdateUserClientResponseEvent. Don't do anything here
+    if (proto.reward.updatedOrNewMonstersList.count) {
+      [gs addToMyMonsters:proto.reward.updatedOrNewMonstersList];
+    }
     
+    if (proto.reward.updatedUserItemsList) {
+      [gs.itemUtil addToMyItems:proto.reward.updatedUserItemsList];
+    }
+  } else {
+    [Globals popupMessage:@"Server failed to redeem clan gift(s)."];
     
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleClearExpiredClanGiftsResponseProto:(FullEvent *)fe {
+  ClearExpiredClanGiftsResponseProto *proto = (ClearExpiredClanGiftsResponseProto *)fe.event;
+  
+  LNLog(@"Clear Expired Clan Gifts received with status %d.", (int)proto.status);
+  
+  if (proto.status == ClearExpiredClanGiftsResponseProto_ClearExpiredClanGiftsStatusSuccess) {
     
   } else {
-    [Globals popupMessage:@"Server failed to redeem clan gift."];
+    [Globals popupMessage:@"Server fail to clear expired gift(s)."];
   }
 }
 

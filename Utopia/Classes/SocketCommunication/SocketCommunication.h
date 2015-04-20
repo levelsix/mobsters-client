@@ -229,6 +229,9 @@
 - (int) sendFulfillTeamDonationSolicitationMessage:(FullUserMonsterProto *)fump solicitation:(ClanMemberTeamDonationProto *)solicitation clientTime:(uint64_t)clientTime;
 - (int) sendVoidTeamDonationSolicitationMessage:(NSArray *)solicitations;
 
+- (int) sendCollectClanGiftMessage:(NSArray *)userClanGifts;
+- (int) sendClearExpireClanGiftsMessage:(NSArray *)userClanGifts;
+
 - (int) sendRetrieveUserMonsterTeamMessage:(NSArray *)userUuids;
 
 - (int) sendCustomizePvpBoardObstacleMessage:(NSArray *)removeUpboIds nuOrUpdatedObstacles:(NSArray *)nuOrUpdatedObstacles;
