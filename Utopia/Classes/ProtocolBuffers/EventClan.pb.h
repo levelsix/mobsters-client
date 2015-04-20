@@ -126,6 +126,8 @@
 @class InviteToClanRequestProto_Builder;
 @class InviteToClanResponseProto;
 @class InviteToClanResponseProto_Builder;
+@class ItemGemPriceProto;
+@class ItemGemPriceProto_Builder;
 @class ItemProto;
 @class ItemProto_Builder;
 @class LabProto;
