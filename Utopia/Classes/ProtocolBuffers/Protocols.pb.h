@@ -201,6 +201,8 @@
 @class CreateClanRequestProto_Builder;
 @class CreateClanResponseProto;
 @class CreateClanResponseProto_Builder;
+@class CustomMenuProto;
+@class CustomMenuProto_Builder;
 @class CustomizePvpBoardObstacleRequestProto;
 @class CustomizePvpBoardObstacleRequestProto_Builder;
 @class CustomizePvpBoardObstacleResponseProto;
@@ -343,6 +345,8 @@
 @class InviteToClanRequestProto_Builder;
 @class InviteToClanResponseProto;
 @class InviteToClanResponseProto_Builder;
+@class ItemGemPriceProto;
+@class ItemGemPriceProto_Builder;
 @class ItemProto;
 @class ItemProto_Builder;
 @class LabProto;
@@ -527,6 +531,10 @@
 @class RedeemSecretGiftResponseProto_Builder;
 @class ReferralCodeUsedResponseProto;
 @class ReferralCodeUsedResponseProto_Builder;
+@class RefreshMiniJobRequestProto;
+@class RefreshMiniJobRequestProto_Builder;
+@class RefreshMiniJobResponseProto;
+@class RefreshMiniJobResponseProto_Builder;
 @class RemoveMonsterFromBattleTeamRequestProto;
 @class RemoveMonsterFromBattleTeamRequestProto_Builder;
 @class RemoveMonsterFromBattleTeamResponseProto;
@@ -954,7 +962,9 @@ typedef NS_ENUM(SInt32, EventProtocolRequest) {
   EventProtocolRequestCUpdateMiniEventEvent = 209,
   EventProtocolRequestCTranslateSelectMessagesEvent = 210,
   EventProtocolRequestCUpdateUserStrengthEvent = 211,
-  EventProtocolRequestCCollectClanGiftsEvent = 212,
+  EventProtocolRequestCRefreshMiniJobEvent = 212,
+  EventProtocolRequestCCollectClanGiftsEvent = 500,
+  EventProtocolRequestCClearExpiredClanGiftsEvent = 501,
 };
 
 BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value);
@@ -1079,7 +1089,9 @@ typedef NS_ENUM(SInt32, EventProtocolResponse) {
   EventProtocolResponseSUpdateMiniEventEvent = 209,
   EventProtocolResponseSTranslateSelectMessagesEvent = 210,
   EventProtocolResponseSUpdateUserStrengthEvent = 211,
-  EventProtocolResponseSCollectClanGiftsEvent = 213,
+  EventProtocolResponseSRefreshMiniJobEvent = 212,
+  EventProtocolResponseSCollectClanGiftsEvent = 500,
+  EventProtocolResponseSClearExpiredClanGiftsEvent = 501,
 };
 
 BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value);

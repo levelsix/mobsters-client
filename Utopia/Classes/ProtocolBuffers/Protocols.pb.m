@@ -21,6 +21,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [ChatRoot registerAllExtensions:registry];
     [CityRoot registerAllExtensions:registry];
     [ClanRoot registerAllExtensions:registry];
+    [ClanGiftsRoot registerAllExtensions:registry];
     [DevRoot registerAllExtensions:registry];
     [EventAchievementRoot registerAllExtensions:registry];
     [EventApnsRoot registerAllExtensions:registry];
@@ -181,6 +182,8 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCTranslateSelectMessagesEvent:
     case EventProtocolRequestCUpdateUserStrengthEvent:
     case EventProtocolRequestCRefreshMiniJobEvent:
+    case EventProtocolRequestCCollectClanGiftsEvent:
+    case EventProtocolRequestCClearExpiredClanGiftsEvent:
       return YES;
     default:
       return NO;
@@ -308,6 +311,8 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSTranslateSelectMessagesEvent:
     case EventProtocolResponseSUpdateUserStrengthEvent:
     case EventProtocolResponseSRefreshMiniJobEvent:
+    case EventProtocolResponseSCollectClanGiftsEvent:
+    case EventProtocolResponseSClearExpiredClanGiftsEvent:
       return YES;
     default:
       return NO;
