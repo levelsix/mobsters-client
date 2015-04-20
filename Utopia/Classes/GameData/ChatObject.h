@@ -108,5 +108,8 @@
 - (BOOL) isValid;
 - (long) expireTime;
 - (MSDate *) exprieDate;
+- (IBAction)collectClicked:(id)sender;
+
+@property (nonatomic, assign) BOOL isRedeemed;
 
 @end

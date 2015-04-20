@@ -22,6 +22,8 @@
 
 #import "MiniEventManager.h"
 
+static char const * clanGiftRedeemedKey = "clanGiftRedeemedKey";
+
 @implementation ChatMessage
 
 - (id) initWithProto:(GroupChatMessageProto *)p {
@@ -535,24 +537,33 @@
   return [UIColor colorWithHexString:@"ff2400"];
 }
 
+- (PrivateChatPostProto *) clanChatPrivateChat {
+  // This is an easy way to do read msgs for all clan chats (use an id that is shared amongst everything)
+  MinimumUserProto *mup = [[[MinimumUserProto builder] setUserUuid:CLAN_CHAT_PRIVATE_CHAT_USER_ID] build];
+  MinimumUserProtoWithLevel *mupl = [[[MinimumUserProtoWithLevel builder] setMinUserProto:mup] build];
+  PrivateChatPostProto *pcpp = [[[[PrivateChatPostProto builder]
+                                  setRecipient:mupl]
+                                 setTimeOfPost:self.timeReceived]
+                                build];
+  return pcpp;
+}
+
 - (BOOL) isRead {
-  return NO;
+  return self.isValid || [[self clanChatPrivateChat] isRead];
 }
 
 - (void) markAsRead {
-  //i don't even
+  // Do nothing
+  return [[self clanChatPrivateChat] markAsRead];
 }
 
 - (BOOL) isValid {
-  long endMoment = self.timeReceived + (self.clanGift.hoursUntilExpiration * 60 * 60 * 1000);
-  MSDate *endTime = [MSDate dateWithTimeIntervalSince1970:endMoment];
-  
-  return [endTime timeIntervalSinceNow] > 0;
+  return [self.exprieDate timeIntervalSinceNow] > 0;
 }
 
 - (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag {
-  NSString *nibName = @"ChatSquadGiftView";
-  ChatSquadGiftView *v = [chatCell dequeueChatSubview:nibName];
+  NSString *nibName = @"ChatClanGiftView";
+  ChatClanGiftView *v = [chatCell dequeueChatSubview:nibName];
   
   if (!v) {
     v = [[NSBundle mainBundle] loadNibNamed:nibName owner:self options:nil][0];
@@ -569,6 +580,35 @@
 
 - (MSDate *) exprieDate {
   return [MSDate dateWithTimeIntervalSince1970:[self expireTime]];
+}
+
+- (IBAction)collectClicked:(id)sender {
+  [[OutgoingEventController sharedOutgoingEventController] collectClanGift:[NSArray arrayWithObject:self] delegate:nil];
+  
+  [self setIsRedeemed:YES];
+  [[NSNotificationCenter defaultCenter] postNotificationName:CLAN_CHAT_VIEWED_NOTIFICATION object:nil];
+}
+
+- (void) setIsRedeemed:(BOOL)isRedeemed {
+  objc_setAssociatedObject(self, clanGiftRedeemedKey, @(isRedeemed), OBJC_ASSOCIATION_ASSIGN);
+}
+
+- (BOOL) isRedeemed {
+  return (BOOL)objc_getAssociatedObject(self, clanGiftRedeemedKey);
+}
+
+- (BOOL) updateForTimeInChatCell:(ChatCell *)chatCell {
+  ChatClanGiftView *v = (ChatClanGiftView *)chatCell;
+  
+  MSDate *expirationDate = [self exprieDate];
+  if (expirationDate.timeIntervalSinceNow > 0) {
+    //send message to expire gifts
+    return YES;
+  } else {
+    [v updateForExpireDate:expirationDate];
+    return NO;
+  }
+  
 }
 
 @end
