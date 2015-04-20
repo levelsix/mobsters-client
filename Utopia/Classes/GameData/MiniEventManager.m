@@ -350,7 +350,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(MiniEventManager)
   GameState *gs = [GameState sharedGameState];
   ResearchProto *rp = [gs researchWithId:researchId];
   
-  [self handleUserProgressOnMiniEventGoal:MiniEventGoalProto_MiniEventGoalTypeGainBuildingStrength withAmount:rp.strengthGainForCurrentLevel];
+  [self handleUserProgressOnMiniEventGoal:MiniEventGoalProto_MiniEventGoalTypeGainResearchStrength withAmount:rp.strengthGainForCurrentLevel];
 }
 
 - (void) checkEnhanceXp:(int)expGained baseMonsterRarity:(Quality)quality {
