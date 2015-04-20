@@ -3241,6 +3241,35 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return [def boolForKey:LOGGING_ENABLED_KEY];
 }
 
++ (NSString *) nameForReward:(RewardProto *) reward {
+  GameState *gs = [GameState sharedGameState];
+  ItemProto *staticItem;
+  MonsterProto *staticMonster;
+  
+  switch (reward.typ) {
+    case RewardProto_RewardTypeCash:
+      return [NSString stringWithFormat:@"%d Cash",reward.amt];
+    case RewardProto_RewardTypeGems:
+      return [NSString stringWithFormat:@"%d Gems",reward.amt];
+    case RewardProto_RewardTypeOil:
+      return [NSString stringWithFormat:@"%d Oil",reward.amt];
+    case RewardProto_RewardTypeItem:
+      staticItem = [gs itemForId:reward.staticDataId];
+      return [NSString stringWithFormat:@"%d %@",reward.amt, staticItem.shortName];
+    case RewardProto_RewardTypeMonster:
+      staticMonster = [gs monsterWithId:reward.staticDataId];
+      if (reward.amt > 0) {
+        //monster is a full monster and at lvl amt
+        return [NSString stringWithFormat:@"LVL %d %@",reward.amt,staticMonster.shorterName];
+      } else {
+        //this reward is just a piece of a monster
+        return [NSString stringWithFormat:@"%@ Piece",staticMonster.shorterName];
+      }
+    case RewardProto_RewardTypeNoReward:
+      return @"";
+  }
+}
+
 + (NSString *) imageNameForReward:(RewardProto *) reward {
   GameState *gs = [GameState sharedGameState];
   
@@ -3259,8 +3288,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       return staticItem.imgName;
     case RewardProto_RewardTypeMonster:
       staticMonster = [gs monsterWithId:reward.staticDataId];
-#warning figure out monster image
-      return @"";
+      if (reward.amt > 0) {
+        //monster is a full monster and at lvl amt
+      } else {
+        //this reward is just a piece of a monster
+      }
+      
     case RewardProto_RewardTypeNoReward:
       return @"";
   }

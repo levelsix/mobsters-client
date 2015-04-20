@@ -1616,6 +1616,71 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [gs.clanTeamDonateUtil removeClanTeamDonationWithUuids:@[solicitation.donationUuid]];
 }
 
+#pragma mark - Clan Gifts
+
+- (void) collectClanGift:(NSArray *)userClanGifts delegate:(id)delegate{
+  GameState *gs = [GameState sharedGameState];
+  
+  if (userClanGifts.count == 0) {
+    [Globals popupMessage:@"Trying to collect 0 gifts."];
+    return;
+  }
+  for (UserClanGiftProto *ucgp in userClanGifts) {
+    if (ucgp.exprieDate.timeIntervalSinceNow >= 0) {
+      [Globals popupMessage:@"Trying to collect expired gifts."];
+      return;
+    }
+  }
+  
+  int tag = [[SocketCommunication sharedSocketCommunication] sendCollectClanGiftMessage:userClanGifts];
+  [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
+  
+  int gemReward = 0;
+  int cashReward = 0;
+  int oilReward = 0;
+  
+  for (UserClanGiftProto *ucgp in userClanGifts) {
+    
+    switch (ucgp.reward.typ) {
+      case RewardProto_RewardTypeCash:
+        cashReward += ucgp.reward.amt;
+        break;
+      case RewardProto_RewardTypeOil:
+        oilReward += ucgp.reward.amt;
+        break;
+      case RewardProto_RewardTypeGems:
+        gemReward += ucgp.reward.amt;
+        break;
+      case RewardProto_RewardTypeItem:
+      case RewardProto_RewardTypeMonster:
+        //item and monsters are updated on the response
+      case RewardProto_RewardTypeNoReward:
+        break;
+    }
+  }
+  
+  GemsUpdate *gu = [GemsUpdate updateWithTag:tag change:gemReward];
+  CashUpdate *cu = [CashUpdate updateWithTag:tag change:cashReward];
+  OilUpdate *ou = [OilUpdate updateWithTag:tag change:oilReward];
+  
+  [gs addUnrespondedUpdates:gu, cu, ou, nil];
+}
+
+- (void) expireClanGifts:(NSArray *)userClanGifts {
+  if (userClanGifts.count == 0) {
+    [Globals popupMessage:@"Trying to clear 0 expired gifts."];
+    return;
+  }
+  for (UserClanGiftProto *ucgp in userClanGifts) {
+    if (ucgp.exprieDate.timeIntervalSinceNow < 0) {
+      [Globals popupMessage:@"Trying to clear unexpired gifts."];
+      return;
+    }
+  }
+  
+  [[SocketCommunication sharedSocketCommunication] sendClearExpireClanGiftsMessage:userClanGifts];
+}
+
 #pragma mark - Speedups
 
 - (void) tradeItemForSpeedup:(NSArray *)uiups {

@@ -1861,6 +1861,9 @@
 		63C7062C1ADC5A01004E072B /* ChatSquadGiftView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63C7062B1ADC5A01004E072B /* ChatSquadGiftView.xib */; };
 		63C7062D1ADC5A01004E072B /* ChatSquadGiftView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63C7062B1ADC5A01004E072B /* ChatSquadGiftView.xib */; };
 		63C7062E1ADC5A01004E072B /* ChatSquadGiftView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63C7062B1ADC5A01004E072B /* ChatSquadGiftView.xib */; };
+		63C7062C1ADC5A01004E072B /* ChatClanGiftView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63C7062B1ADC5A01004E072B /* ChatClanGiftView.xib */; };
+		63C7062D1ADC5A01004E072B /* ChatClanGiftView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63C7062B1ADC5A01004E072B /* ChatClanGiftView.xib */; };
+		63C7062E1ADC5A01004E072B /* ChatClanGiftView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63C7062B1ADC5A01004E072B /* ChatClanGiftView.xib */; };
 		63C706391ADC7A09004E072B /* ClanGiftUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C706381ADC7A09004E072B /* ClanGiftUtil.m */; };
 		63C7063A1ADC7A09004E072B /* ClanGiftUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C706381ADC7A09004E072B /* ClanGiftUtil.m */; };
 		63C7063B1ADC7A09004E072B /* ClanGiftUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C706381ADC7A09004E072B /* ClanGiftUtil.m */; };
@@ -8571,6 +8574,7 @@
 		63CA30D71AE9CDBF0005175B /* gacha_spin1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = gacha_spin1.mp3; sourceTree = "<group>"; };
 		63C7062B1ADC5A01004E072B /* ChatSquadGift.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatSquadGift.xib; sourceTree = "<group>"; };
 		63C7062B1ADC5A01004E072B /* ChatSquadGiftView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatSquadGiftView.xib; sourceTree = "<group>"; };
+		63C7062B1ADC5A01004E072B /* ChatClanGiftView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatClanGiftView.xib; sourceTree = "<group>"; };
 		63C706371ADC7A09004E072B /* ClanGiftUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClanGiftUtil.h; sourceTree = "<group>"; };
 		63C706381ADC7A09004E072B /* ClanGiftUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClanGiftUtil.m; sourceTree = "<group>"; };
 		63CDCEFA1AB8EBF400A00DB6 /* buildingresearch@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buildingresearch@2x.png"; sourceTree = "<group>"; };
@@ -14150,7 +14154,7 @@
 				29AA139E1A33214A004A9F22 /* ChatMonsterView.xib */,
 				29FFD9621A37E5100063C17C /* ChatClanAvengeView.xib */,
 				2991FBF11A800693009BB1D8 /* ChatTeamDonateView.xib */,
-				63C7062B1ADC5A01004E072B /* ChatSquadGiftView.xib */,
+				63C7062B1ADC5A01004E072B /* ChatClanGiftView.xib */,
 			);
 			name = ChatCell;
 			sourceTree = "<group>";
@@ -20058,7 +20062,7 @@
 				CF0CF1C3196F452900ECD301 /* superdot@2x.png in Resources */,
 				CF0CF1C5196F452900ECD301 /* hirelockedslot@2x.png in Resources */,
 				DAAD3DFD19C8D7E700557698 /* rockbomb@2x.png in Resources */,
-				63C7062D1ADC5A01004E072B /* ChatSquadGiftView.xib in Resources */,
+				63C7062D1ADC5A01004E072B /* ChatClanGiftView.xib in Resources */,
 				2992D7BB1AA5326B00547B11 /* gemminebgpressed@2x.png in Resources */,
 				9BC5359C1A845C1200E49F4D /* miniwater@2x.png in Resources */,
 				CF0CF1C9196F452900ECD301 /* menubottomblue@2x.png in Resources */,
@@ -22011,7 +22015,7 @@
 				CFFF9A4F18BEB67D0036EEC3 /* timerbgcapleft@2x.png in Resources */,
 				9BB948B01A69F463006EE920 /* lights@2x.png in Resources */,
 				CFF9DD8419B861F200CA9A8E /* level@2x.png in Resources */,
-				63C7062C1ADC5A01004E072B /* ChatSquadGiftView.xib in Resources */,
+				63C7062C1ADC5A01004E072B /* ChatClanGiftView.xib in Resources */,
 				63CDCF481AC0F6A500A00DB6 /* greycomplete@2x.png in Resources */,
 				CF32EAFA1960A9DD00A4AEE3 /* BuildingViewController.xib in Resources */,
 				9BB948481A65D37B006EE920 /* basicgrabinactivetabpressed@2x.png in Resources */,
@@ -25499,7 +25503,7 @@
 				6B3656651B07B0D8009BB2DA /* CreditsViewController.xib in Resources */,
 				CF4823AE19F7217F00041486 /* WelcomeView.xib in Resources */,
 				CF4823AF19F7217F00041486 /* TutorialNameViewController.xib in Resources */,
-				63C7062E1ADC5A01004E072B /* ChatSquadGiftView.xib in Resources */,
+				63C7062E1ADC5A01004E072B /* ChatClanGiftView.xib in Resources */,
 				CF4823B219F7217F00041486 /* sellgrey@2x.png in Resources */,
 				634174911A843521006DA494 /* redchattail@2x.png in Resources */,
 				CF4823B519F7217F00041486 /* sellbubble7@2x.png in Resources */,

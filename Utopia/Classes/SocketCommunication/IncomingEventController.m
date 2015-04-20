@@ -378,13 +378,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSRefreshMiniJobEvent:
       responseClass = [RefreshMiniJobResponseProto class];
       break;
-<<<<<<< HEAD
     case EventProtocolResponseSSendTangoGiftEvent:
       responseClass = [SendTangoGiftResponseProto class];
-=======
+      break;
     case EventProtocolResponseSCollectClanGiftsEvent:
       responseClass = [CollectClanGiftsResponseProto class];
->>>>>>> frame work and first steps with protos
+      break;
+    case EventProtocolResponseSClearExpiredClanGiftsEvent:
+      responseClass = [ClearExpiredClanGiftsResponseProto class];
       break;
     default:
       responseClass = nil;
@@ -538,15 +539,26 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [gs.privateTranslationOn setValue:@(pcdl.translateOn) forKey:pcdl.senderUserId];
     }
     
-    [gs updateClanData:proto.clanData];
-    
     if (proto.recentNbattlesList.count) {
       gs.battleHistory = [proto.recentNbattlesList mutableCopy];
     } else {
       gs.battleHistory = [NSMutableArray array];
     }
 
-    [gs.clanGifts addObjectsFromArray:proto.userClanGiftsList];
+    [gs updateClanData:proto.clanData];
+
+    [gs.clanGifts removeAllObjects];
+    NSMutableArray *expiredGifts = [[NSMutableArray alloc] init];
+    for (UserClanGiftProto *ucgp in proto.userClanGiftsList) {
+      if (ucgp.exprieDate.timeIntervalSinceNow > 0) {
+        [expiredGifts addObject:ucgp];
+      } else {
+        [gs.clanGifts addObject:ucgp];
+      }
+    }
+    if (expiredGifts.count > 0) {
+      [[OutgoingEventController sharedOutgoingEventController] expireClanGifts:expiredGifts];
+    }
     
     gs.myPvpBoardObstacles = [proto.userPvpBoardObstaclesList mutableCopy];
 
@@ -1495,12 +1507,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 
 - (void) handleSolicitClanHelpResponseProto:(FullEvent *)fe {
   SolicitClanHelpResponseProto *proto = (SolicitClanHelpResponseProto *)fe.event;
-<<<<<<< HEAD
   LNLog(@"Solicit clan help response received with status %d.", (int)proto.status);
-=======
-  int tag = fe.tag;
-  LNLog(@"Solicit clan help received with status %d.", (int)proto.status);
->>>>>>> frame work and first steps with protos
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == SolicitClanHelpResponseProto_SolicitClanHelpStatusSuccess) {
@@ -1657,15 +1664,36 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 
 - (void) handleCollectClanGiftsResponseProto:(FullEvent *)fe {
   CollectClanGiftsResponseProto *proto = (CollectClanGiftsResponseProto *)fe.event;
+  int tag = fe.tag;
   
   LNLog(@"Collect Clan Gifts response received with status %d.", (int)proto.status);
   
+  GameState *gs = [GameState sharedGameState];
   if (proto.status == CollectClanGiftsResponseProto_CollectClanGiftsStatusSuccess) {
+    // Gems, oil, and cash are updated through UpdateUserClientResponseEvent. Don't do anything here
+    if (proto.reward.updatedOrNewMonstersList.count) {
+      [gs addToMyMonsters:proto.reward.updatedOrNewMonstersList];
+    }
     
+    if (proto.reward.updatedUserItemsList) {
+      [gs.itemUtil addToMyItems:proto.reward.updatedUserItemsList];
+    }
+  } else {
+    [Globals popupMessage:@"Server failed to redeem clan gift(s)."];
     
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleClearExpiredClanGiftsResponseProto:(FullEvent *)fe {
+  ClearExpiredClanGiftsResponseProto *proto = (ClearExpiredClanGiftsResponseProto *)fe.event;
+  
+  LNLog(@"Clear Expired Clan Gifts received with status %d.", (int)proto.status);
+  
+  if (proto.status == ClearExpiredClanGiftsResponseProto_ClearExpiredClanGiftsStatusSuccess) {
     
   } else {
-    [Globals popupMessage:@"Server failed to redeem clan gift."];
+    [Globals popupMessage:@"Server fail to clear expired gift(s)."];
   }
 }
 

@@ -88,6 +88,10 @@
 - (void) invalidateSolicitation:(ClanMemberTeamDonationProto *)solicitation;
 
 - (void) purchaseBoosterPack:(int)boosterPackId isFree:(BOOL)free isMultiSpin:(BOOL)multiSpin gemsSpent:(int)gemsSpent tokensChange:(int)tokensChange delegate:(id)delegate;
+
+- (void) collectClanGift:(NSArray *)userClanGifts delegate:(id)delegate;
+- (void) expireClanGifts:(NSArray *)userClanGifts;
+
 - (void) tradeItemForFreeBoosterPack:(int)boosterPackId delegate:(id)delegate;
 
 - (void) privateChatPost:(NSString *)recipientUuid content:(NSString *)content originalLanguage:(TranslateLanguages)originalLanguage;
