@@ -13,7 +13,7 @@
 
 - (MinimumUserProtoWithLevel *) otherUserWithLevel {
   GameState *gs = [GameState sharedGameState];
-  return [self.recipient.minUserProto.userUuid isEqualToString:gs.userUuid] ? self.poster : self.recipient;
+  return ![self.poster.minUserProto.userUuid isEqualToString:gs.userUuid] ? self.poster : self.recipient;
 }
 
 - (MinimumUserProto *) otherUser {

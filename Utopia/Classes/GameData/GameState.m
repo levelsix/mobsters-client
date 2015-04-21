@@ -673,8 +673,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (void) addChatMessage:(MinimumUserProtoWithLevel *)sender message:(NSString *)msg scope:(GroupChatScope)scope isAdmin:(BOOL)isAdmin {
   ChatMessage *cm = [[ChatMessage alloc] init];
-  cm.sender = sender.minUserProto;
-  cm.message = msg;
+  cm.originalSender = sender;
+  cm.originalMessage = msg;
   cm.date = [MSDate date];
   cm.isAdmin = isAdmin;
   [self addChatMessage:cm scope:scope];

@@ -2546,9 +2546,62 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
+#pragma mark - Mini Event
+
+- (void) handleRedeemMiniEventRewardResponseProto:(FullEvent *)fe {
+  RedeemMiniEventRewardResponseProto *proto = (RedeemMiniEventRewardResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Redeem mini event reward response received with status %d.", (int)proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == RedeemMiniEventRewardResponseProto_RedeemMiniEventRewardStatusSuccess) {
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to redeem mini event reward."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleRetrieveMiniEventResponseProto:(FullEvent *)fe {
+  RetrieveMiniEventResponseProto *proto = (RetrieveMiniEventResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Retrieve mini event response received with status %d.", (int)proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == RetrieveMiniEventResponseProto_RetrieveMiniEventStatusSuccess) {
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to retrieve mini event."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleUpdateMiniEventResponseProto:(FullEvent *)fe {
+  UpdateMiniEventResponseProto *proto = (UpdateMiniEventResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Update mini event response received with status %d.", (int)proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == UpdateMiniEventResponseProto_UpdateMiniEventStatusSuccess) {
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to update mini event."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
 #pragma mark - Translation
 
-- (void) handleTranslateSelectMessagesResponseProto:(FullEvent *)fe{
+- (void) handleTranslateSelectMessagesResponseProto:(FullEvent *)fe {
   TranslateSelectMessagesResponseProto *proto = (TranslateSelectMessagesResponseProto *)fe.event;
   
   LNLog(@"translate select messages response received with status %d.", (int)proto.status);
@@ -2556,7 +2609,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   if(proto.status == TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusSuccess) {
     
   } else {
-    [Globals popupMessage:@"server failed to translate messages"];
+    [Globals popupMessage:@"Server failed to translate messages."];
   }
 }
 

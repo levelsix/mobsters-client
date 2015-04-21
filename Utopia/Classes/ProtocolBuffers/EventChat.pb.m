@@ -2090,6 +2090,7 @@ static PrivateChatPostRequestProto* defaultPrivateChatPostRequestProtoInstance =
 @property PrivateChatPostResponseProto_PrivateChatPostStatus status;
 @property (strong) PrivateChatPostProto* post;
 @property (strong) PrivateChatDefaultLanguageProto* translationSetting;
+@property (strong) GroupChatMessageProto* adminMessage;
 @end
 
 @implementation PrivateChatPostResponseProto
@@ -2122,12 +2123,20 @@ static PrivateChatPostRequestProto* defaultPrivateChatPostRequestProtoInstance =
   hasTranslationSetting_ = !!value_;
 }
 @synthesize translationSetting;
+- (BOOL) hasAdminMessage {
+  return !!hasAdminMessage_;
+}
+- (void) setHasAdminMessage:(BOOL) value_ {
+  hasAdminMessage_ = !!value_;
+}
+@synthesize adminMessage;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.status = PrivateChatPostResponseProto_PrivateChatPostStatusSuccess;
     self.post = [PrivateChatPostProto defaultInstance];
     self.translationSetting = [PrivateChatDefaultLanguageProto defaultInstance];
+    self.adminMessage = [GroupChatMessageProto defaultInstance];
   }
   return self;
 }
@@ -2159,6 +2168,9 @@ static PrivateChatPostResponseProto* defaultPrivateChatPostResponseProtoInstance
   if (self.hasTranslationSetting) {
     [output writeMessage:4 value:self.translationSetting];
   }
+  if (self.hasAdminMessage) {
+    [output writeMessage:5 value:self.adminMessage];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -2179,6 +2191,9 @@ static PrivateChatPostResponseProto* defaultPrivateChatPostResponseProtoInstance
   }
   if (self.hasTranslationSetting) {
     size_ += computeMessageSize(4, self.translationSetting);
+  }
+  if (self.hasAdminMessage) {
+    size_ += computeMessageSize(5, self.adminMessage);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -2236,6 +2251,12 @@ static PrivateChatPostResponseProto* defaultPrivateChatPostResponseProtoInstance
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
+  if (self.hasAdminMessage) {
+    [output appendFormat:@"%@%@ {\n", indent, @"adminMessage"];
+    [self.adminMessage writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -2255,6 +2276,8 @@ static PrivateChatPostResponseProto* defaultPrivateChatPostResponseProtoInstance
       (!self.hasPost || [self.post isEqual:otherMessage.post]) &&
       self.hasTranslationSetting == otherMessage.hasTranslationSetting &&
       (!self.hasTranslationSetting || [self.translationSetting isEqual:otherMessage.translationSetting]) &&
+      self.hasAdminMessage == otherMessage.hasAdminMessage &&
+      (!self.hasAdminMessage || [self.adminMessage isEqual:otherMessage.adminMessage]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -2270,6 +2293,9 @@ static PrivateChatPostResponseProto* defaultPrivateChatPostResponseProtoInstance
   }
   if (self.hasTranslationSetting) {
     hashCode = hashCode * 31 + [self.translationSetting hash];
+  }
+  if (self.hasAdminMessage) {
+    hashCode = hashCode * 31 + [self.adminMessage hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -2338,6 +2364,9 @@ BOOL PrivateChatPostResponseProto_PrivateChatPostStatusIsValidValue(PrivateChatP
   if (other.hasTranslationSetting) {
     [self mergeTranslationSetting:other.translationSetting];
   }
+  if (other.hasAdminMessage) {
+    [self mergeAdminMessage:other.adminMessage];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -2393,6 +2422,15 @@ BOOL PrivateChatPostResponseProto_PrivateChatPostStatusIsValidValue(PrivateChatP
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setTranslationSetting:[subBuilder buildPartial]];
+        break;
+      }
+      case 42: {
+        GroupChatMessageProto_Builder* subBuilder = [GroupChatMessageProto builder];
+        if (self.hasAdminMessage) {
+          [subBuilder mergeFrom:self.adminMessage];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setAdminMessage:[subBuilder buildPartial]];
         break;
       }
     }
@@ -2502,6 +2540,36 @@ BOOL PrivateChatPostResponseProto_PrivateChatPostStatusIsValidValue(PrivateChatP
 - (PrivateChatPostResponseProto_Builder*) clearTranslationSetting {
   result.hasTranslationSetting = NO;
   result.translationSetting = [PrivateChatDefaultLanguageProto defaultInstance];
+  return self;
+}
+- (BOOL) hasAdminMessage {
+  return result.hasAdminMessage;
+}
+- (GroupChatMessageProto*) adminMessage {
+  return result.adminMessage;
+}
+- (PrivateChatPostResponseProto_Builder*) setAdminMessage:(GroupChatMessageProto*) value {
+  result.hasAdminMessage = YES;
+  result.adminMessage = value;
+  return self;
+}
+- (PrivateChatPostResponseProto_Builder*) setAdminMessage_Builder:(GroupChatMessageProto_Builder*) builderForValue {
+  return [self setAdminMessage:[builderForValue build]];
+}
+- (PrivateChatPostResponseProto_Builder*) mergeAdminMessage:(GroupChatMessageProto*) value {
+  if (result.hasAdminMessage &&
+      result.adminMessage != [GroupChatMessageProto defaultInstance]) {
+    result.adminMessage =
+      [[[GroupChatMessageProto builderWithPrototype:result.adminMessage] mergeFrom:value] buildPartial];
+  } else {
+    result.adminMessage = value;
+  }
+  result.hasAdminMessage = YES;
+  return self;
+}
+- (PrivateChatPostResponseProto_Builder*) clearAdminMessage {
+  result.hasAdminMessage = NO;
+  result.adminMessage = [GroupChatMessageProto defaultInstance];
   return self;
 }
 @end

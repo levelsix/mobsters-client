@@ -24,77 +24,95 @@
 
 @implementation ChatMessage
 
-@synthesize sender, date, isAdmin, originalLanguage;
-
 - (id) initWithProto:(GroupChatMessageProto *)p {
   if ((self = [super init])) {
     self.originalMessage = p.content;
     self.originalLanguage = p.contentLanguage;
     self.translatedTextProtos = [NSMutableArray arrayWithArray:p.translatedContentList];
-    self.sender = p.sender.minUserProto;
-    self.originalPoster = p.sender;
+    self.originalSender = p.sender;
     self.date = [MSDate dateWithTimeIntervalSince1970:p.timeOfChat/1000.];
     self.isAdmin = p.isAdmin;
     self.revertedTranslation = NO;
     self.postUuid = p.chatUuid;
-    self.timeOfPost = p.timeOfChat;
     self.isRead = YES;
   }
   return self;
 }
 
-- (PrivateChatPostProto *)makePrivateChatPostProto {
-  GameState *gs = [GameState sharedGameState];
-  
+- (id) initWithPrivateChatPostProto:(PrivateChatPostProto *)p {
+  if ((self = [super init])) {
+    self.originalMessage = p.content;
+    self.originalLanguage = p.originalContentLanguage;
+    self.translatedTextProtos = [NSMutableArray arrayWithArray:p.translatedContentList];
+    self.originalSender = p.poster;
+    self.date = [MSDate dateWithTimeIntervalSince1970:p.timeOfPost/1000.];
+    self.revertedTranslation = NO;
+    self.postUuid = p.privateChatPostUuid;
+  }
+  return self;
+}
+
+- (PrivateChatPostProto *) makePrivateChatPostProto {
   PrivateChatPostProto *pcpp = [[[[[[[PrivateChatPostProto builder]
                                      setPrivateChatPostUuid:self.postUuid]
-                                    setPoster:self.originalPoster]
-                                   setRecipient:[gs minUserWithLevel]]
-                                  setTimeOfPost:self.timeOfPost]
-                                 setContent:self.originalMessage]
+                                    setPoster:self.originalSender]
+                                   setTimeOfPost:self.date.timeIntervalSince1970*1000.]
+                                  setContent:self.originalMessage]
+                                 addAllTranslatedContent:self.translatedTextProtos]
                                 build];
   return pcpp;
 }
 
-- (NSString *)message {
-  return self.originalMessage;
+- (MinimumUserProto *) sender {
+  return self.originalSender.minUserProto;
 }
 
-- (void)setMessage:(NSString *)message {
-  self.originalMessage = message;
+- (NSString *) message {
+  return self.originalMessage;
 }
 
 - (UIColor *)bottomViewTextColor {
   return [UIColor whiteColor];
 }
 
-- (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag language:(TranslateLanguages)language {
-  GameState *gs = [GameState sharedGameState];
-  NSString *translatedMessage = self.originalMessage;
+- (NSString *) getContentInLanguage:(TranslateLanguages)language isTranslated:(BOOL *)isTranslatedPtr translationExists:(BOOL *)translationExistsPtr {
+  BOOL isTranslated = NO;
+  BOOL translationExists = NO;
+  NSString *content = self.originalMessage;
   
-  //this if for determining if the revert translation should show
-  TranslateLanguages translationLanguage = TranslateLanguagesNoTranslation;
-  
-  //remove this bool once Byron finishes Admin chat
-  BOOL noTranslation = YES;
-  
-  for(TranslatedTextProto *ttp in self.translatedTextProtos) {
-    if (ttp.language == language) {
-      translatedMessage = ttp.text;
-      translationLanguage = language;
-      noTranslation = NO;
-      break;
+  // Pretend no translation exists if it is the same as original language
+  if (self.originalLanguage != language) {
+    
+    // Go through list to see if translation exists. Only translate if it wasn't reverted
+    for (TranslatedTextProto *ttp in self.translatedTextProtos) {
+      if (ttp.language == language) {
+        if (!self.revertedTranslation) {
+          content = ttp.text;
+          isTranslated = YES;
+        }
+        
+        translationExists = YES;
+        break;
+      }
     }
   }
   
-  if (self.revertedTranslation || self.originalLanguage == language || [self.sender.userUuid isEqualToString:[gs minUser].userUuid]) {
-    translatedMessage = self.originalMessage;
-    translationLanguage = TranslateLanguagesNoTranslation;
-    noTranslation = NO;
+  // Make sure the pointers actually exist
+  if (isTranslatedPtr) {
+    *isTranslatedPtr = isTranslated;
   }
   
-  BOOL showButton = !noTranslation && language && language != TranslateLanguagesNoTranslation && language != self.originalLanguage && ![self.sender.userUuid isEqualToString:gs.userUuid];
-  [chatCell updateForMessage:translatedMessage showsClanTag:showsClanTag translatedTo:translationLanguage chatMessage:self showTranslateButton:showButton];
+  if (translationExistsPtr) {
+    *translationExistsPtr = translationExists;
+  }
+  
+  return content;
+}
+
+- (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag language:(TranslateLanguages)language {
+  BOOL isTranslated = NO, translationExists = NO;
+  NSString *message = [self getContentInLanguage:language isTranslated:&isTranslated translationExists:&translationExists];
+  [chatCell updateForMessage:message sender:self.sender date:self.date showsClanTag:showsClanTag translatedTo:language untranslate:self.revertedTranslation showTranslateButton:translationExists];
 }
 
 - (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell language:(TranslateLanguages)language{
@@ -103,7 +121,7 @@
   [self updateInChatCell:chatCell showsClanTag:NO language:language];
   float translationSpace = 0.f;
   
-//  if (language && (language != TranslateLanguagesNoTranslation || self.revertedTranslation) && ![self.sender.userUuid isEqualToString:gs.userUuid] && language != self.originalLanguage) {
+  //  if (language && (language != TranslateLanguagesNoTranslation || self.revertedTranslation) && ![self.sender.userUuid isEqualToString:gs.userUuid] && language != self.originalLanguage) {
   if (language && language != TranslateLanguagesNoTranslation && language != self.originalLanguage && ![self.sender.userUuid isEqualToString:gs.userUuid]) {
     translationSpace = 14.f;
   }
@@ -230,6 +248,11 @@
 
 - (BOOL) isRead {
   return !self.isUnread;
+}
+
+- (ChatMessage *) makeChatMessage {
+  ChatMessage *cm = [[ChatMessage alloc] initWithPrivateChatPostProto:self];
+  return cm;
 }
 
 @end

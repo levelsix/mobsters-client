@@ -49,17 +49,16 @@ static float buttonInitialWidth = 159.f;
   _initialMsgLabelWidth = self.msgLabel.width;
 }
 
-- (void) updateForMessage:(NSString *)message showsClanTag:(BOOL)showsClanTag translatedTo:(TranslateLanguages)translatedTo chatMessage:(ChatMessage *)chatMessage showTranslateButton:(BOOL)showTranslateButton{
+- (void) updateForMessage:(NSString *)message sender:(MinimumUserProto *)sender date:(MSDate *)date showsClanTag:(BOOL)showsClanTag translatedTo:(TranslateLanguages)translatedTo untranslate:(BOOL)untranslate showTranslateButton:(BOOL)showTranslateButton {
   self.translationDescription.superview.hidden = !showTranslateButton;
-  
-  [self updateForMessage:message sender:chatMessage.sender date:chatMessage.date showsClanTag:showsClanTag allowHighlight:YES chatSubview:nil identifier:nil translatedTo:translatedTo untranslate:chatMessage.revertedTranslation];
+  [self updateForMessage:message sender:sender date:date showsClanTag:showsClanTag allowHighlight:YES chatSubview:nil identifier:nil translatedTo:translatedTo untranslate:untranslate];
 }
 
 - (void) updateForMessage:(NSString *)message sender:(MinimumUserProto *)sender date:(MSDate *)date showsClanTag:(BOOL)showsClanTag allowHighlight:(BOOL)allowHighlight chatSubview:(UIView *)view identifier:(NSString *)identifier {
   [self updateForMessage:message sender:sender date:date showsClanTag:showsClanTag allowHighlight:allowHighlight chatSubview:view identifier:identifier translatedTo:TranslateLanguagesNoTranslation untranslate:NO];
 }
 
-- (void) updateForMessage:(NSString *)message sender:(MinimumUserProto *)sender date:(MSDate *)date showsClanTag:(BOOL)showsClanTag allowHighlight:(BOOL)allowHighlight chatSubview:(UIView *)view identifier:(NSString *)identifier translatedTo:(TranslateLanguages)translatedTo untranslate:(BOOL)untranslate{
+- (void) updateForMessage:(NSString *)message sender:(MinimumUserProto *)sender date:(MSDate *)date showsClanTag:(BOOL)showsClanTag allowHighlight:(BOOL)allowHighlight chatSubview:(UIView *)view identifier:(NSString *)identifier translatedTo:(TranslateLanguages)translatedTo untranslate:(BOOL)untranslate {
   GameState *gs = [GameState sharedGameState];
   
   self.msgLabel.text = message;

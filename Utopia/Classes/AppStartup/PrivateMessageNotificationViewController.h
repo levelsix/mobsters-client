@@ -30,7 +30,7 @@
   NotificationPriority _priority;
   CGFloat _avatarOffSet;
   CGFloat _avatarViewWidth;
-  ChatMessage *_messageFromSingleUser;
+  id<ChatObject> _messageFromSingleUser;
 }
 
 - (id) initWithMessages:(NSArray *)messages isImmediate:(BOOL)isImmediate;

@@ -39,22 +39,21 @@
 
 @interface ChatMessage : NSObject <ChatObject>
 
-@property (nonatomic, retain) MinimumUserProto *sender;
-- (NSString *)message;
-- (void)setMessage:(NSString *)message;
+@property (nonatomic, retain) MinimumUserProtoWithLevel *originalSender;
 @property (nonatomic, retain) MSDate *date;
-@property (nonatomic, retain) MinimumUserProtoWithLevel *originalPoster;
 @property (nonatomic, assign) BOOL isAdmin;
 @property (nonatomic, assign) BOOL isRead;
 @property (nonatomic, assign) TranslateLanguages originalLanguage;
 @property (nonatomic, retain) NSMutableArray *translatedTextProtos;
 @property (nonatomic, retain) NSString *originalMessage;
 @property (nonatomic, assign) BOOL revertedTranslation;
+
 @property (nonatomic, retain) NSString *postUuid;
-@property (nonatomic, assign) int64_t timeOfPost;
 
 - (id) initWithProto:(GroupChatMessageProto *)p;
-- (PrivateChatPostProto *)makePrivateChatPostProto;
+- (PrivateChatPostProto *) makePrivateChatPostProto;
+
+- (NSString *) getContentInLanguage:(TranslateLanguages)language isTranslated:(BOOL *)isTranslatedPtr translationExists:(BOOL *)translationExistsPtr;
 
 @end
 
@@ -63,6 +62,8 @@
 @end
 
 @interface PrivateChatPostProto (ChatObject) <ChatObject>
+
+- (ChatMessage *) makeChatMessage;
 
 @end
 
