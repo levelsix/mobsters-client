@@ -115,14 +115,11 @@
   [chatCell updateForMessage:message sender:self.sender date:self.date showsClanTag:showsClanTag translatedTo:language untranslate:self.revertedTranslation showTranslateButton:translationExists];
 }
 
-- (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell language:(TranslateLanguages)language{
-  GameState *gs = [GameState sharedGameState];
-  
+- (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell language:(TranslateLanguages)language {
   [self updateInChatCell:chatCell showsClanTag:NO language:language];
   float translationSpace = 0.f;
   
-  //  if (language && (language != TranslateLanguagesNoTranslation || self.revertedTranslation) && ![self.sender.userUuid isEqualToString:gs.userUuid] && language != self.originalLanguage) {
-  if (language && language != TranslateLanguagesNoTranslation && language != self.originalLanguage && ![self.sender.userUuid isEqualToString:gs.userUuid]) {
+  if (!chatCell.translationDescription.superview.hidden) {
     translationSpace = 14.f;
   }
   

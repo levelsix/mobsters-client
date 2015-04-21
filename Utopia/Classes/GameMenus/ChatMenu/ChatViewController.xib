@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1514" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
     </dependencies>
     <objects>
@@ -1239,7 +1238,7 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="-131" y="497.5"/>
         </view>
-        <view contentMode="scaleToFill" id="jo8-Ux-jma" userLabel="LanguageSelect" customClass="ChatLanguageSelector">
+        <view contentMode="scaleToFill" id="jo8-Ux-jma" userLabel="LanguageSelect" customClass="ChatLanguageSelectorView">
             <rect key="frame" x="5" y="0.0" width="256" height="113"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
@@ -1251,7 +1250,7 @@
                     <rect key="frame" x="171" y="0.0" width="18" height="113"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="chattranslatoredge.png" id="S2r-KY-4el">
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="chattranslatoredge.png" id="S2r-KY-4el" customClass="FlipImageView">
                     <rect key="frame" x="248" y="8" width="8" height="105"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>

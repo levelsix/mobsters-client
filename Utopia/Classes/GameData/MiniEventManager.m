@@ -320,7 +320,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(MiniEventManager)
             [self.miniEventViewController miniEventUpdated:_currentUserMiniEvent];
           }
           
-          [Globals addMiniEventGoalNotification:[NSString stringWithFormat:@"%@: %d Points Earned!", userMiniEventGoal.actionDescription, pointsGained]
+          [Globals addMiniEventGoalNotification:[NSString stringWithFormat:@"%@: +%d Points Earned!", userMiniEventGoal.actionDescription, pointsGained]
                                           image:_currentUserMiniEvent.miniEvent.img];
           
           if ([_currentUserMiniEvent completedTiersWithUnredeemedRewards] > 0)

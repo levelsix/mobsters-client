@@ -481,6 +481,9 @@
     fullRotation.duration = 6.f;
     fullRotation.repeatCount = 50000;
     [self.freeGemsSpinner.layer addAnimation:fullRotation forKey:@"360"];
+    
+    self.freeGemsLabel.gradientStartColor = [UIColor whiteColor];
+    self.freeGemsLabel.gradientEndColor = [UIColor colorWithHexString:@"ffdcf6"];
   }
   
   [self updateMiniEventView];

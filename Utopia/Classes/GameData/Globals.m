@@ -232,15 +232,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
   
   // For testing.. Need to open game twice since static monsters won't be set the first time
-//  GameState *gs = [GameState sharedGameState];
-//  for (MonsterProto *mp in gs.staticMonsters.allValues) {
-//    NSString *fileName = [NSString stringWithFormat:@"%@AttackNF.pvr.ccz", mp.imagePrefix];
-//    
-//    BgdFileDownload *bgd = [[BgdFileDownload alloc] init];
-//    bgd.fileName = fileName;
-//    bgd.onlyUseWifi = NO;
-//    [toDownload addObject:bgd];
-//  }
+  //  GameState *gs = [GameState sharedGameState];
+  //  for (MonsterProto *mp in gs.staticMonsters.allValues) {
+  //    NSString *fileName = [NSString stringWithFormat:@"%@AttackNF.pvr.ccz", mp.imagePrefix];
+  //
+  //    BgdFileDownload *bgd = [[BgdFileDownload alloc] init];
+  //    bgd.fileName = fileName;
+  //    bgd.onlyUseWifi = NO;
+  //    [toDownload addObject:bgd];
+  //  }
   
   [[Downloader sharedDownloader] backgroundDownloadFiles:toDownload];
 }
@@ -840,8 +840,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 + (void) adjustFontSizeForSize:(int)size withUIViews:(UIView *)field1, ... {
   va_list params;
-	va_start(params,field1);
-	
+  va_start(params,field1);
+  
   for (UIView *arg = field1; arg != nil; arg = va_arg(params, UIView *))
   {
     [self adjustFontSizeForSize:size withUIView:field1];
@@ -855,9 +855,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 + (void) adjustFontSizeForUIViewsWithDefaultSize:(UIView *)field1, ...
 {
-	va_list params;
-	va_start(params,field1);
-	
+  va_list params;
+  va_start(params,field1);
+  
   for (UIView *arg = field1; arg != nil; arg = va_arg(params, UIView *))
   {
     [self adjustFontSizeForUIViewWithDefaultSize:arg];
@@ -871,9 +871,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 + (void) adjustFontSizeForUILabels:(UILabel *)field1, ...
 {
-	va_list params;
-	va_start(params,field1);
-	
+  va_list params;
+  va_start(params,field1);
+  
   for (UILabel *arg = field1; arg != nil; arg = va_arg(params, UILabel *))
   {
     [self adjustFontSizeForUILabel:arg];
@@ -887,9 +887,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 + (void) adjustFontSizeForSize:(int)size CCLabelTTFs:(CCLabelTTF *)field1, ...
 {
-	va_list params;
-	va_start(params,field1);
-	
+  va_list params;
+  va_start(params,field1);
+  
   for (CCLabelTTF *arg = field1; arg != nil; arg = va_arg(params, CCLabelTTF *))
   {
     [self adjustFontSizeForCCLabelTTF:arg size:size];
@@ -897,7 +897,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   va_end(params);
 }
 
-#pragma mark - 
+#pragma mark -
 
 + (NSString *) userConfimredPushNotificationsKey {
   return @"userConfimredPushNotificationsKey";
@@ -1033,11 +1033,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 + (UIImage *) snapShotView:(UIView *)view {
   UIGraphicsBeginImageContextWithOptions(view.bounds.size, NO, 0.f);
-//  if ([view respondsToSelector:@selector(drawViewHierarchyInRect:afterScreenUpdates:)]) {
-//    [view drawViewHierarchyInRect:view.bounds afterScreenUpdates:YES];
-//  } else {
-    [view.layer renderInContext:UIGraphicsGetCurrentContext()];
-//  }
+  //  if ([view respondsToSelector:@selector(drawViewHierarchyInRect:afterScreenUpdates:)]) {
+  //    [view drawViewHierarchyInRect:view.bounds afterScreenUpdates:YES];
+  //  } else {
+  [view.layer renderInContext:UIGraphicsGetCurrentContext()];
+  //  }
   UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
   UIGraphicsEndImageContext();
   
@@ -1121,16 +1121,16 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     return nil;
   }
   
-	CGRect r = CGRectMake(0, 0, width, height);
-	CGContextTranslateCTM(context, 0.0, r.size.height);
-	CGContextScaleCTM(context, 1.0, -1.0);
-	
+  CGRect r = CGRectMake(0, 0, width, height);
+  CGContextTranslateCTM(context, 0.0, r.size.height);
+  CGContextScaleCTM(context, 1.0, -1.0);
+  
   CGContextSetFillColorWithColor(context, color.CGColor);
   
-	// You can also use the clip rect given to scale the mask image
-	CGContextClipToMask(context, CGRectMake(0.0, 0.0, width, height), alphaImage);
-	// As above, not being careful with bounds since we are clipping.
-	CGContextFillRect(context, r);
+  // You can also use the clip rect given to scale the mask image
+  CGContextClipToMask(context, CGRectMake(0.0, 0.0, width, height), alphaImage);
+  // As above, not being careful with bounds since we are clipping.
+  CGContextFillRect(context, r);
   
   UIImage *theImage = UIGraphicsGetImageFromCurrentImageContext();
   UIGraphicsEndImageContext();
@@ -1612,9 +1612,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       return @"flagrussian.png";
     case TranslateLanguagesSpanish:
       return @"flagspanish.png";
-    default:
-      return @"";
+    case TranslateLanguagesNoTranslation:
+      break;
   }
+  return @"";
 }
 
 + (NSString *) languageNameForLanguage:(TranslateLanguages)language {
@@ -1631,9 +1632,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       return @"Russian";
     case TranslateLanguagesSpanish:
       return @"Spanish";
-    default:
-      return @"";
+    case TranslateLanguagesNoTranslation:
+      break;
   }
+  return @"";
 }
 
 + (NSString *) translationDescriptionWith:(TranslateLanguages)language{
@@ -1650,9 +1652,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       return @"Translated to Russian";
     case TranslateLanguagesSpanish:
       return @"Translated to Spanish";
-    default:
-      return @"No Translation Available";
+    case TranslateLanguagesNoTranslation:
+      break;
   }
+  return @"No Translation Available";
 }
 
 + (NSString*) getDoubleResolutionImage:(NSString*)path useiPhone6Prefix:(BOOL)iPhone6Prefix {
@@ -2296,15 +2299,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   MonsterProto *mp = [gs monsterWithId:monsterId];
   
   // This for loop is basically not being used at the moment..
-//  for (int i = 1; i < mp.lvlInfoList.count; i++) {
-//    MonsterLevelInfoProto *info = mp.lvlInfoList[i];
-//    if (experience < info.curLvlRequiredExp) {
-//      MonsterLevelInfoProto *curInfo = mp.lvlInfoList[i-1];
-//      int expForThisLevel = experience-curInfo.curLvlRequiredExp;
-//      int totalExpTillNextLevel = [mp.lvlInfoList[i] curLvlRequiredExp]-curInfo.curLvlRequiredExp;
-//      return curInfo.lvl+expForThisLevel/(float)totalExpTillNextLevel;
-//    }
-//  }
+  //  for (int i = 1; i < mp.lvlInfoList.count; i++) {
+  //    MonsterLevelInfoProto *info = mp.lvlInfoList[i];
+  //    if (experience < info.curLvlRequiredExp) {
+  //      MonsterLevelInfoProto *curInfo = mp.lvlInfoList[i-1];
+  //      int expForThisLevel = experience-curInfo.curLvlRequiredExp;
+  //      int totalExpTillNextLevel = [mp.lvlInfoList[i] curLvlRequiredExp]-curInfo.curLvlRequiredExp;
+  //      return curInfo.lvl+expForThisLevel/(float)totalExpTillNextLevel;
+  //    }
+  //  }
   
   // Start over..
   float level = 1;
@@ -2649,7 +2652,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   position.y += transformedOffset.y * CGRectGetHeight(view.layer.bounds);
   view.layer.position = position;
   view.layer.anchorPoint = anchorPoint;
-
+  
   [self bounceView:view fadeInBgdView:bgdView completion:completed];
 }
 
@@ -3154,7 +3157,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 -(void) update: (CCTime) t
 {
-	[_target recursivelyApplyOpacity:_fromOpacity + ( _toOpacity - _fromOpacity ) * t];
+  [_target recursivelyApplyOpacity:_fromOpacity + ( _toOpacity - _fromOpacity ) * t];
 }
 
 @end
@@ -3163,12 +3166,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 -(void) update: (CCTime) t
 {
-	CCNode* tn = (CCNode*) _target;
+  CCNode* tn = (CCNode*) _target;
   
-	ccColor4F fc = _from.ccColor4f;
-	ccColor4F tc = _to.ccColor4f;
+  ccColor4F fc = _from.ccColor4f;
+  ccColor4F tc = _to.ccColor4f;
   
-	[tn recursivelyApplyColor:[CCColor colorWithRed:fc.r + (tc.r - fc.r) * t green:fc.g + (tc.g - fc.g) * t blue:fc.b + (tc.b - fc.b) * t alpha:tn.opacity]];
+  [tn recursivelyApplyColor:[CCColor colorWithRed:fc.r + (tc.r - fc.r) * t green:fc.g + (tc.g - fc.g) * t blue:fc.b + (tc.b - fc.b) * t alpha:tn.opacity]];
 }
 
 @end

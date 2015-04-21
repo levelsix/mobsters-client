@@ -191,6 +191,8 @@ NSMutableAttributedString *attributedStringWithResearchChange(int total, int bas
   int baseHealth = [gl calculateBaseMaxHealthForMonster:um];
   self.hpLabel.attributedText = attributedStringWithResearchChange(maxHealth, baseHealth);
   
+  self.strengthLabel.text = [Globals commafyNumber:[gl calculateStrengthForMonster:um]];
+  
   self.progressBar.percentage = ((float)um.curHealth)/maxHealth;
   
   self.powerLabel.text = [NSString stringWithFormat:@"%@ Power", [Globals commafyNumber:[um teamCost]]];

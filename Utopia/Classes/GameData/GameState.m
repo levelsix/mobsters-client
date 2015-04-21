@@ -666,11 +666,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
 }
 
-- (void) addChatMessageWithProto:(GroupChatMessageProto *)groupChatMessageProto scope:(GroupChatScope)scope{
-  ChatMessage *cm = [[ChatMessage alloc] initWithProto:groupChatMessageProto];
-  [self addChatMessage:cm scope:scope];
-}
-
 - (void) addChatMessage:(MinimumUserProtoWithLevel *)sender message:(NSString *)msg scope:(GroupChatScope)scope isAdmin:(BOOL)isAdmin {
   ChatMessage *cm = [[ChatMessage alloc] init];
   cm.originalSender = sender;

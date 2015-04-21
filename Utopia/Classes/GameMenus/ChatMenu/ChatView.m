@@ -17,14 +17,10 @@
 
 #define NOT_SELECTED_ALPHA .4f
 
-@implementation ChatLanguageSelector
+@implementation ChatLanguageSelectorView
 
 - (void) awakeFromNib {
   self.layer.anchorPoint = ccp(0.7031f, 0);
-  UIImage* flippedImage = [UIImage imageWithCGImage:self.rightBgEdge.image.CGImage
-                                              scale:self.rightBgEdge.image.scale
-                                        orientation:UIImageOrientationUpMirrored];
-  self.rightBgEdge.image = flippedImage;
 }
 
 - (void) updateForLanguage:(TranslateLanguages)language markChecked:(BOOL)markChecked {
@@ -808,9 +804,9 @@
     [self.unrespondedChatMessages removeObject:unresponded];
   } else {
     ChatMessage *cm = [[ChatMessage alloc] init];
-    cm.sender = post.poster.minUserProto;
+    cm.originalSender = post.poster;
     cm.date = [MSDate dateWithTimeIntervalSince1970:post.timeOfPost/1000.];
-    cm.message = post.content;
+    cm.originalMessage = post.content;
     cm.originalLanguage = post.originalContentLanguage;
     cm.translatedTextProtos = [[NSMutableArray alloc] init];
     [cm.translatedTextProtos addObjectsFromArray:post.translatedContentList];
@@ -873,8 +869,8 @@
       GameState *gs = [GameState sharedGameState];
       ChatMessage *cm = [ChatMessage new];
       cm.date = [MSDate date];
-      cm.message = msg;
-      cm.sender = gs.minUserWithLevel.minUserProto;
+      cm.originalMessage = msg;
+      cm.originalSender = gs.minUserWithLevel;
       
       [self.unrespondedChatMessages addObject:cm];
       

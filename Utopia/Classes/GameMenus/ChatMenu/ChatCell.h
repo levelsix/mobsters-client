@@ -45,7 +45,7 @@
 
 - (void) updateForMessage:(NSString *)message sender:(MinimumUserProto *)sender date:(MSDate *)date showsClanTag:(BOOL)showsClanTag translatedTo:(TranslateLanguages)translatedTo untranslate:(BOOL)untranslate showTranslateButton:(BOOL)showTranslateButton;
 - (void) updateForMessage:(NSString *)message sender:(MinimumUserProto *)sender date:(MSDate *)date showsClanTag:(BOOL)showsClanTag allowHighlight:(BOOL)allowHighlight chatSubview:(UIView *)view identifier:(NSString *)identifier;
-- (void) updateForMessage:(NSString *)message sender:(MinimumUserProto *)sender date:(MSDate *)date showsClanTag:(BOOL)showsClanTag allowHighlight:(BOOL)allowHighlight chatSubview:(UIView *)view identifier:(NSString *)identifier translatedTo:(TranslateLanguages)translatedTo untranslate:(BOOL)untranslate;
+- (void) updateForMessage:(NSString *)message sender:(MinimumUserProto *)sender date:(MSDate *)date showsClanTag:(BOOL)showsClanTag allowHighlight:(BOOL)allowHighlight chatSubview:(UIView *)view identifier:(NSString *)identifier translatedTo:(TranslateLanguages)translatedTo untranslate:(BOOL)untranslate showTranslateButton:(BOOL)showTranslateButton;
 
 - (void) updateBubbleImagesWithPrefix:(NSString *)prefix;
 
@@ -61,8 +61,6 @@
 @property (nonatomic, retain) IBOutlet UIImageView *unreadIcon;
 
 @property (nonatomic, retain) IBOutlet CircleMonsterView *monsterView;
-
-@property (nonatomic, strong) id<ChatObject> privateChat;
 
 - (void) updateForPrivateChat:(id<ChatObject>)privateChat language:(TranslateLanguages)language;
 

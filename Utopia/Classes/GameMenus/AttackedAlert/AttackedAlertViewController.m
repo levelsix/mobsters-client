@@ -23,7 +23,7 @@
 
 @implementation AttackAlertCell
 
-- (void) updateForBattleHistory:(PvpHistoryProto *)php language:(TranslateLanguages)language{
+- (void) updateForBattleHistory:(PvpHistoryProto *)php language:(TranslateLanguages)language {
   [super updateForPrivateChat:php language:language];
   
   self.msgLabel.textColor = php.userWon ? [UIColor colorWithHexString:GREEN] : [UIColor colorWithHexString:RED];
@@ -35,6 +35,7 @@
 
 - (void) viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
+  
   self.tableContainerView.layer.cornerRadius = 5.f;
   self.tableContainerView.layer.masksToBounds = YES;
   self.resultsContainerView.layer.cornerRadius = 5.f;

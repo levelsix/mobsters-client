@@ -50,15 +50,14 @@ static float buttonInitialWidth = 159.f;
 }
 
 - (void) updateForMessage:(NSString *)message sender:(MinimumUserProto *)sender date:(MSDate *)date showsClanTag:(BOOL)showsClanTag translatedTo:(TranslateLanguages)translatedTo untranslate:(BOOL)untranslate showTranslateButton:(BOOL)showTranslateButton {
-  self.translationDescription.superview.hidden = !showTranslateButton;
-  [self updateForMessage:message sender:sender date:date showsClanTag:showsClanTag allowHighlight:YES chatSubview:nil identifier:nil translatedTo:translatedTo untranslate:untranslate];
+  [self updateForMessage:message sender:sender date:date showsClanTag:showsClanTag allowHighlight:YES chatSubview:nil identifier:nil translatedTo:translatedTo untranslate:untranslate showTranslateButton:showTranslateButton];
 }
 
 - (void) updateForMessage:(NSString *)message sender:(MinimumUserProto *)sender date:(MSDate *)date showsClanTag:(BOOL)showsClanTag allowHighlight:(BOOL)allowHighlight chatSubview:(UIView *)view identifier:(NSString *)identifier {
-  [self updateForMessage:message sender:sender date:date showsClanTag:showsClanTag allowHighlight:allowHighlight chatSubview:view identifier:identifier translatedTo:TranslateLanguagesNoTranslation untranslate:NO];
+  [self updateForMessage:message sender:sender date:date showsClanTag:showsClanTag allowHighlight:allowHighlight chatSubview:view identifier:identifier translatedTo:TranslateLanguagesNoTranslation untranslate:NO showTranslateButton:NO];
 }
 
-- (void) updateForMessage:(NSString *)message sender:(MinimumUserProto *)sender date:(MSDate *)date showsClanTag:(BOOL)showsClanTag allowHighlight:(BOOL)allowHighlight chatSubview:(UIView *)view identifier:(NSString *)identifier translatedTo:(TranslateLanguages)translatedTo untranslate:(BOOL)untranslate {
+- (void) updateForMessage:(NSString *)message sender:(MinimumUserProto *)sender date:(MSDate *)date showsClanTag:(BOOL)showsClanTag allowHighlight:(BOOL)allowHighlight chatSubview:(UIView *)view identifier:(NSString *)identifier translatedTo:(TranslateLanguages)translatedTo untranslate:(BOOL)untranslate showTranslateButton:(BOOL)showTranslateButton {
   GameState *gs = [GameState sharedGameState];
   
   self.msgLabel.text = message;
@@ -117,8 +116,8 @@ static float buttonInitialWidth = 159.f;
   
   self.msgLabel.width = self.mainView.width-66.f;
   
-  //translation tag and button
-//  self.translationDescription.superview.hidden = translatedTo == TranslateLanguagesNoTranslation && !untranslate;
+  // Translation tag and button
+  self.translationDescription.superview.hidden = !showTranslateButton;
   
   if (untranslate) {
     self.translationDescription.text = @"Untranslated";
@@ -128,7 +127,7 @@ static float buttonInitialWidth = 159.f;
   
   if (!self.translationDescription.superview.hidden) {
     CGSize size = [self.translationDescription.text getSizeWithFont:self.translationDescription.font];
-    self.mainView.width = MAX(self.mainView.width, size.width + 77.f + 14.f);//77 is the spacing on the left // 14 is right padding
+    self.mainView.width = MAX(self.mainView.width, size.width + 77.f + 14.f); //77 is the spacing on the left // 14 is right padding
   }
 
   BOOL shouldHighlight;
@@ -213,20 +212,14 @@ static float buttonInitialWidth = 159.f;
 
 @implementation PrivateChatListCell
 
-- (void) updateForPrivateChat:(id<ChatObject>)pcpp language:(TranslateLanguages)language{
+- (void) updateForPrivateChat:(id<ChatObject>)pcpp language:(TranslateLanguages)language {
   PrivateChatPostProto *postProto = (PrivateChatPostProto *)pcpp;
-  if(language != TranslateLanguagesNoTranslation) {
-    for (TranslatedTextProto *ttp in postProto.translatedContentList) {
-      if(ttp.language == language) {
-        self.msgLabel.text = ttp.text;
-        break;
-      }
-    }
+  if (language != TranslateLanguagesNoTranslation && [postProto isKindOfClass:[PrivateChatPostProto class]]) {
+    self.msgLabel.text = [[postProto makeChatMessage] getContentInLanguage:language isTranslated:NULL translationExists:NULL];
   } else {
     self.msgLabel.text = [pcpp message];
   }
   
-  self.privateChat = pcpp;
   self.timeLabel.text = [Globals stringForTimeSinceNow:[pcpp date] shortened:NO];
   self.nameLabel.text = pcpp.otherUser.name;
   self.unreadIcon.hidden = [pcpp isRead];

@@ -11,16 +11,13 @@
 #import "ChatCell.h"
 #import "ClanHelp.h"
 
-//#define GLOBAL_LANGUAGE_PREFERENCES @"GlobalLanguagePreferences"
-//#define PRIVATE_LANGUAGE_PREFERENCES @"PrivateLanguagePreferences"
-
 typedef enum {
   PrivateChatModeAllMessages = 1,
   PrivateChatModeAttackLog,
   PrivateChatModeDefenseLog,
 }PrivateChatViewMode;
 
-@protocol LanguageSelectorProtocol <NSObject>
+@protocol ChatLanguageSelectorDelegate <NSObject>
 
 - (void) flagClicked:(TranslateLanguages)language;
 - (void) translateChecked:(BOOL)checked;
@@ -30,7 +27,7 @@ typedef enum {
 
 @end
 
-@interface ChatLanguageSelector : UIView {
+@interface ChatLanguageSelectorView : UIView {
   BOOL _closing;
   
   TranslateLanguages _originalLanguage;
@@ -39,7 +36,7 @@ typedef enum {
   BOOL _curChecked;
 }
 
-@property (nonatomic, assign) id<LanguageSelectorProtocol> delegate;
+@property (nonatomic, assign) id<ChatLanguageSelectorDelegate> delegate;
 @property (nonatomic, retain) IBOutletCollection(UIButton) NSArray *flagButtons;
 @property (nonatomic, assign) IBOutlet UIImageView *selectBox;
 @property (nonatomic, assign) IBOutlet UIImageView *checkMark;
@@ -77,14 +74,9 @@ typedef enum {
 - (void) viewedPrivateChat;
 - (void) hideTopLiveHelp;
 
-//- (void) lockLanguageButtonWithFlag:(NSString *)flagImageName;
-//- (void) unlockLanguageButton;
-//- (void) setLanguageCheckMark:(BOOL)checked;
-//- (void) hideLanguageButton:(BOOL)hide;
-
 @end
 
-@interface ChatView : UIView <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, ChatPopoverDelegate, LanguageSelectorProtocol> {
+@interface ChatView : UIView <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, ChatPopoverDelegate, ChatLanguageSelectorDelegate> {
   ChatCell *_testCell;
   TranslateLanguages _curLanguage;
   id<ChatObject> _clickedMsg;
@@ -99,7 +91,7 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet CircleMonsterView *monsterView;
 
 @property (nonatomic, retain) IBOutlet ChatPopoverView *popoverView;
-@property (nonatomic, retain) IBOutlet ChatLanguageSelector *languageSelectorView;
+@property (nonatomic, retain) IBOutlet ChatLanguageSelectorView *languageSelectorView;
 
 @property (nonatomic, weak) IBOutlet id<ChatViewDelegate> delegate;
 

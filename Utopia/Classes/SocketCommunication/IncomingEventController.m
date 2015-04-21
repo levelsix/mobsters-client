@@ -1126,7 +1126,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   // Chats sent from this user will be faked.
   GameState *gs = [GameState sharedGameState];
   if (![proto.sender.minUserProto.userUuid isEqualToString:gs.userUuid]) {
-    [gs addChatMessageWithProto:proto.message scope:proto.scope];
+    ChatMessage *cm = [[ChatMessage alloc] initWithProto:proto.message];
+    [gs addChatMessage:cm scope:proto.scope];
     
     Globals *gl = [Globals sharedGlobals];
     if (![gl isUserUuidMuted:proto.sender.minUserProto.userUuid]) {

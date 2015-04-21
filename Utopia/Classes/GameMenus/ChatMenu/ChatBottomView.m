@@ -43,26 +43,10 @@
     
     if ([cm isKindOfClass:[PrivateChatPostProto class]]){
       PrivateChatPostProto *pcpp = (PrivateChatPostProto *)cm;
-      
-      if(displayLanguage != pcpp.originalContentLanguage) {
-        for (TranslatedTextProto *ttp in pcpp.translatedContentList) {
-          if (ttp.language == displayLanguage) {
-            self.msgLabel.text = ttp.text;
-            break;
-          }
-        }
-      }
+      self.msgLabel.text = [[pcpp makeChatMessage] getContentInLanguage:displayLanguage isTranslated:NULL translationExists:NULL];
     } else if ([cm isKindOfClass:[ChatMessage class]]) {
       ChatMessage *chatM = (ChatMessage *)cm;
-        
-      if (displayLanguage != chatM.originalLanguage) {
-        for (TranslatedTextProto *ttp in chatM.translatedTextProtos) {
-          if (ttp.language == displayLanguage) {
-            self.msgLabel.text = ttp.text;
-            break;
-          }
-        }
-      }
+      self.msgLabel.text = [chatM getContentInLanguage:displayLanguage isTranslated:NULL translationExists:NULL];
     }
   }
   
