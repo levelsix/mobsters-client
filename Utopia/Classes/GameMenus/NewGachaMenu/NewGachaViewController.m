@@ -450,7 +450,7 @@
                                      [elementStr stringByAppendingString:@"lightsflashlow1.png"] ];
       [Globals checkAndLoadFiles:assetsToDownload completion:^(BOOL success) {
         if (success) {
-          [self.prizeView preloadWithMonsterId:self.prize.monsterId];
+          [self.prizeView preloadWithMonsterIds:@[ @(self.prize.monsterId) ]];
           [self completeGachaSpinWithKnownPrize:prize];
         }
         [tlv stop];
@@ -623,7 +623,7 @@
    */
   
   if (self.prize.monsterId) {
-    [self.prizeView initializeWithMonsterId:self.prize.monsterId numPuzzlePieces:(int)_numPuzzlePieces];
+    [self.prizeView initializeWithMonsterDescriptors:@[ @{ @"MonsterId" : @(self.prize.monsterId), @"NumPuzzlePieces" : @(_numPuzzlePieces) } ]];
   }
 }
 

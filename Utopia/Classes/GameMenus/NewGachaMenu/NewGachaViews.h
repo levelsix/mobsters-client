@@ -10,17 +10,7 @@
 #import "Protocols.pb.h"
 #import "NibUtils.h"
 
-@interface NewGachaPrizeView : UIView
-{
-  UIImageView *_lightCircleDuplicate;
-  UIImageView *_whiteLightCircleDuplicate;
-  UIImageView *_characterWhite;
-  
-  UIView *_particleEffectView;
-}
-
-@property (nonatomic, retain) IBOutlet UIView* animationContainerView;
-@property (nonatomic, retain) IBOutlet UIView* statsContainerView;
+@interface NewGachaPrizeStatsView : EmbeddedNibView
 
 @property (nonatomic, retain) IBOutlet UIImageView *rarityIcon;
 @property (nonatomic, retain) IBOutlet UIImageView *pieceIcon;
@@ -32,13 +22,36 @@
 @property (nonatomic, retain) IBOutlet UILabel *speedLabel;
 @property (nonatomic, retain) IBOutlet UILabel *powerLabel;
 
-@property (weak, nonatomic) IBOutlet UIImageView* skillsSeparator;
-@property (weak, nonatomic) IBOutlet UIView *offensiveSkillView;
-@property (weak, nonatomic) IBOutlet UIView *defensiveSkillView;
-@property (weak, nonatomic) IBOutlet UIImageView *offensiveSkillIcon;
-@property (weak, nonatomic) IBOutlet UIImageView *defensiveSkillIcon;
-@property (weak, nonatomic) IBOutlet UILabel *offensiveSkillName;
-@property (weak, nonatomic) IBOutlet UILabel *defensiveSkillName;
+@property (nonatomic, retain) IBOutlet UIImageView* skillsSeparator;
+@property (nonatomic, retain) IBOutlet UIView *offensiveSkillView;
+@property (nonatomic, retain) IBOutlet UIView *defensiveSkillView;
+@property (nonatomic, retain) IBOutlet UIImageView *offensiveSkillIcon;
+@property (nonatomic, retain) IBOutlet UIImageView *defensiveSkillIcon;
+@property (nonatomic, retain) IBOutlet UILabel *offensiveSkillName;
+@property (nonatomic, retain) IBOutlet UILabel *defensiveSkillName;
+
+@end
+
+@interface NewGachaPrizeView : UIView
+{
+  NSMutableArray* _characterImageViews;
+  NSMutableArray* _characterStatsViews;
+  
+  NSArray*  _characterDescriptors;
+  NSInteger _currentCharacterIndex;
+  
+  UIImageView *_lightCircleDuplicate;
+  UIImageView *_whiteLightCircleDuplicate;
+  UIImageView *_characterWhite;
+  
+  UIView *_particleEffectView;
+}
+
+@property (nonatomic, retain) IBOutlet UIView* animationContainerView;
+@property (nonatomic, retain) IBOutlet NewGachaPrizeStatsView* statsContainerView;
+
+@property (nonatomic, retain) IBOutlet UIScrollView* contentScrollView;   // Interactable
+@property (nonatomic, retain) IBOutlet UIScrollView* characterScrollView; // Scrolls in sync with contentScrollView
 
 @property (nonatomic, retain) IBOutlet UIImageView* background;
 @property (nonatomic, retain) IBOutlet UIImageView* characterShadow;
@@ -62,8 +75,9 @@
 
 @property (nonatomic, retain) IBOutlet UIButton* closeButton;
 
-- (void) preloadWithMonsterId:(int)monsterId;
-- (void) initializeWithMonsterId:(int)monsterId numPuzzlePieces:(int)numPuzzlePieces;
+- (void) preloadWithMonsterIds:(NSArray*)monsterIds;
+- (void) initializeWithMonsterDescriptors:(NSArray*)monsterDescriptors;
+
 - (void) beginAnimation;
 
 - (IBAction) closeClicked:(id)sender;
