@@ -795,7 +795,7 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCEarnFreeDiamondsEvent];
 }
 
-- (int) sendGroupChatMessage:(GroupChatScope)scope message:(NSString *)msg clientTime:(uint64_t)clientTime globalLanguage:(TranslateLanguages)globalLanguage{
+- (int) sendGroupChatMessage:(ChatScope)scope message:(NSString *)msg clientTime:(uint64_t)clientTime globalLanguage:(TranslateLanguages)globalLanguage{
   SendGroupChatRequestProto *req = [[[[[[[SendGroupChatRequestProto builder]
                                          setScope:scope]
                                         setChatMessage:msg]
@@ -994,7 +994,7 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCRetrievePrivateChatPostEvent];
 }
 
-- (int) sendTranslateSelectMessages:(NSString *)otherUserUuid language:(TranslateLanguages)language messages:(NSArray *)messages chatType:(ChatType)chatType translateOn:(BOOL)translateOn {
+- (int) sendTranslateSelectMessages:(NSString *)otherUserUuid language:(TranslateLanguages)language messages:(NSArray *)messages chatType:(ChatScope)chatType translateOn:(BOOL)translateOn {
   TranslateSelectMessagesRequestProto *req = [[[[[[[[TranslateSelectMessagesRequestProto builder]
                                                     setSender:_sender]
                                                    setOtherUserUuid:otherUserUuid]

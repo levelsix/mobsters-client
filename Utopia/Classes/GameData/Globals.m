@@ -2578,9 +2578,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
 }
 
-+ (void) addMiniEventGoalNotification:(NSString *)msg image:(NSString *)img {
++ (void) addMiniEventGoalNotificationWithGoalString:(NSString *)goalStr pointsStr:(NSString *)pointsStr image:(NSString *)img {
   GameViewController *gvc = [GameViewController baseController];
-  MiniEventGoalNotificationViewController *megn = [[MiniEventGoalNotificationViewController alloc] initWithNotificationString:msg image:img isImmediate:NO];
+  MiniEventGoalNotificationViewController *megn = [[MiniEventGoalNotificationViewController alloc] initWithGoalString:goalStr pointsStr:pointsStr image:img isImmediate:NO];
   [gvc.notificationController addNotification:megn];
 }
 

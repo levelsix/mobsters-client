@@ -23,6 +23,6 @@
 
 @property (nonatomic, retain) IBOutlet MiniEventGoalNotificationView *notificationView;
 
-- (id) initWithNotificationString:(NSString *)str image:(NSString *)img isImmediate:(BOOL)isImmediate;
+- (id) initWithGoalString:(NSString *)goalStr pointsStr:(NSString *)pointsStr image:(NSString *)img isImmediate:(BOOL)isImmediate;
 
 @end

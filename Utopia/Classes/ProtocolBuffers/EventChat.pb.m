@@ -584,7 +584,7 @@ static GeneralNotificationResponseProto* defaultGeneralNotificationResponseProto
 
 @interface SendGroupChatRequestProto ()
 @property (strong) MinimumUserProto* sender;
-@property GroupChatScope scope;
+@property ChatScope scope;
 @property (strong) NSString* chatMessage;
 @property int64_t clientTime;
 @property TranslateLanguages globalLanguage;
@@ -630,7 +630,7 @@ static GeneralNotificationResponseProto* defaultGeneralNotificationResponseProto
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.scope = GroupChatScopeClan;
+    self.scope = ChatScopeClan;
     self.chatMessage = @"";
     self.clientTime = 0L;
     self.globalLanguage = TranslateLanguagesArabic;
@@ -874,8 +874,8 @@ static SendGroupChatRequestProto* defaultSendGroupChatRequestProtoInstance = nil
         break;
       }
       case 16: {
-        GroupChatScope value = (GroupChatScope)[input readEnum];
-        if (GroupChatScopeIsValidValue(value)) {
+        ChatScope value = (ChatScope)[input readEnum];
+        if (ChatScopeIsValidValue(value)) {
           [self setScope:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -935,17 +935,17 @@ static SendGroupChatRequestProto* defaultSendGroupChatRequestProtoInstance = nil
 - (BOOL) hasScope {
   return result.hasScope;
 }
-- (GroupChatScope) scope {
+- (ChatScope) scope {
   return result.scope;
 }
-- (SendGroupChatRequestProto_Builder*) setScope:(GroupChatScope) value {
+- (SendGroupChatRequestProto_Builder*) setScope:(ChatScope) value {
   result.hasScope = YES;
   result.scope = value;
   return self;
 }
 - (SendGroupChatRequestProto_Builder*) clearScopeList {
   result.hasScope = NO;
-  result.scope = GroupChatScopeClan;
+  result.scope = ChatScopeClan;
   return self;
 }
 - (BOOL) hasChatMessage {
@@ -1284,7 +1284,7 @@ BOOL SendGroupChatResponseProto_SendGroupChatStatusIsValidValue(SendGroupChatRes
 
 @interface ReceivedGroupChatResponseProto ()
 @property (strong) MinimumUserProtoWithLevel* sender;
-@property GroupChatScope scope;
+@property ChatScope scope;
 @property (strong) GroupChatMessageProto* message;
 @property (strong) NSString* chatMessage;
 @property BOOL isAdmin;
@@ -1335,7 +1335,7 @@ BOOL SendGroupChatResponseProto_SendGroupChatStatusIsValidValue(SendGroupChatRes
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProtoWithLevel defaultInstance];
-    self.scope = GroupChatScopeClan;
+    self.scope = ChatScopeClan;
     self.message = [GroupChatMessageProto defaultInstance];
     self.chatMessage = @"";
     self.isAdmin = NO;
@@ -1582,8 +1582,8 @@ static ReceivedGroupChatResponseProto* defaultReceivedGroupChatResponseProtoInst
         break;
       }
       case 16: {
-        GroupChatScope value = (GroupChatScope)[input readEnum];
-        if (GroupChatScopeIsValidValue(value)) {
+        ChatScope value = (ChatScope)[input readEnum];
+        if (ChatScopeIsValidValue(value)) {
           [self setScope:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -1643,17 +1643,17 @@ static ReceivedGroupChatResponseProto* defaultReceivedGroupChatResponseProtoInst
 - (BOOL) hasScope {
   return result.hasScope;
 }
-- (GroupChatScope) scope {
+- (ChatScope) scope {
   return result.scope;
 }
-- (ReceivedGroupChatResponseProto_Builder*) setScope:(GroupChatScope) value {
+- (ReceivedGroupChatResponseProto_Builder*) setScope:(ChatScope) value {
   result.hasScope = YES;
   result.scope = value;
   return self;
 }
 - (ReceivedGroupChatResponseProto_Builder*) clearScopeList {
   result.hasScope = NO;
-  result.scope = GroupChatScopeClan;
+  result.scope = ChatScopeClan;
   return self;
 }
 - (BOOL) hasMessage {
@@ -3377,7 +3377,7 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 
 @interface TranslateSelectMessagesRequestProto ()
 @property (strong) MinimumUserProto* sender;
-@property ChatType chatType;
+@property ChatScope chatType;
 @property (strong) NSString* otherUserUuid;
 @property TranslateLanguages language;
 @property (strong) NSMutableArray * mutableMessagesToBeTranslatedList;
@@ -3431,7 +3431,7 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.chatType = ChatTypeGlobalChat;
+    self.chatType = ChatScopeClan;
     self.otherUserUuid = @"";
     self.language = TranslateLanguagesArabic;
     self.translateOn = NO;
@@ -3704,8 +3704,8 @@ static TranslateSelectMessagesRequestProto* defaultTranslateSelectMessagesReques
         break;
       }
       case 16: {
-        ChatType value = (ChatType)[input readEnum];
-        if (ChatTypeIsValidValue(value)) {
+        ChatScope value = (ChatScope)[input readEnum];
+        if (ChatScopeIsValidValue(value)) {
           [self setChatType:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -3771,17 +3771,17 @@ static TranslateSelectMessagesRequestProto* defaultTranslateSelectMessagesReques
 - (BOOL) hasChatType {
   return result.hasChatType;
 }
-- (ChatType) chatType {
+- (ChatScope) chatType {
   return result.chatType;
 }
-- (TranslateSelectMessagesRequestProto_Builder*) setChatType:(ChatType) value {
+- (TranslateSelectMessagesRequestProto_Builder*) setChatType:(ChatScope) value {
   result.hasChatType = YES;
   result.chatType = value;
   return self;
 }
 - (TranslateSelectMessagesRequestProto_Builder*) clearChatTypeList {
   result.hasChatType = NO;
-  result.chatType = ChatTypeGlobalChat;
+  result.chatType = ChatScopeClan;
   return self;
 }
 - (BOOL) hasOtherUserUuid {
@@ -3885,7 +3885,7 @@ static TranslateSelectMessagesRequestProto* defaultTranslateSelectMessagesReques
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusFailOther;
+    self.status = TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusSuccess;
   }
   return self;
 }
@@ -4024,9 +4024,9 @@ static TranslateSelectMessagesResponseProto* defaultTranslateSelectMessagesRespo
 
 BOOL TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusIsValidValue(TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatus value) {
   switch (value) {
+    case TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusSuccess:
     case TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusFailOther:
     case TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusFailNotValidLanguage:
-    case TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusSuccess:
       return YES;
     default:
       return NO;
@@ -4198,7 +4198,7 @@ BOOL TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusIsValidVa
 }
 - (TranslateSelectMessagesResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusFailOther;
+  result.status = TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusSuccess;
   return self;
 }
 @end

@@ -513,7 +513,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     for (GroupChatMessageProto *msg in proto.globalChatsList) {
       ChatMessage *cm = [[ChatMessage alloc] initWithProto:msg];
       cm.isRead = YES;
-      [gs addChatMessage:cm scope:GroupChatScopeGlobal];
+      [gs addChatMessage:cm scope:ChatScopeGlobal];
     }
     for (PrivateChatPostProto *pcpp in proto.pcppList) {
       [gs addPrivateChat:pcpp];
@@ -1131,7 +1131,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     Globals *gl = [Globals sharedGlobals];
     if (![gl isUserUuidMuted:proto.sender.minUserProto.userUuid]) {
-      NSString *key = proto.scope == GroupChatScopeClan ? CLAN_CHAT_RECEIVED_NOTIFICATION : GLOBAL_CHAT_RECEIVED_NOTIFICATION;
+      NSString *key = proto.scope == ChatScopeClan ? CLAN_CHAT_RECEIVED_NOTIFICATION : GLOBAL_CHAT_RECEIVED_NOTIFICATION;
       [[NSNotificationCenter defaultCenter] postNotificationName:key object:nil];
     }
   }
@@ -2605,7 +2605,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleTranslateSelectMessagesResponseProto:(FullEvent *)fe {
   TranslateSelectMessagesResponseProto *proto = (TranslateSelectMessagesResponseProto *)fe.event;
   
-  LNLog(@"translate select messages response received with status %d.", (int)proto.status);
+  LNLog(@"Translate select messages response received with status %d.", (int)proto.status);
   
   if(proto.status == TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusSuccess) {
     

@@ -1762,9 +1762,6 @@
 		63CA0AD91AD5B8BB00E92774 /* chattranslatormiddle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CA0AC51AD5B8BB00E92774 /* chattranslatormiddle@2x.png */; };
 		63CA0ADA1AD5B8BB00E92774 /* chattranslatormiddle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CA0AC51AD5B8BB00E92774 /* chattranslatormiddle@2x.png */; };
 		63CA0ADB1AD5B8BB00E92774 /* chattranslatormiddle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CA0AC51AD5B8BB00E92774 /* chattranslatormiddle@2x.png */; };
-		63CA0ADC1AD5B8BB00E92774 /* donttranslate.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CA0AC61AD5B8BB00E92774 /* donttranslate.png */; };
-		63CA0ADD1AD5B8BB00E92774 /* donttranslate.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CA0AC61AD5B8BB00E92774 /* donttranslate.png */; };
-		63CA0ADE1AD5B8BB00E92774 /* donttranslate.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CA0AC61AD5B8BB00E92774 /* donttranslate.png */; };
 		63CA0ADF1AD5B8BB00E92774 /* flagarabic@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CA0AC71AD5B8BB00E92774 /* flagarabic@2x.png */; };
 		63CA0AE01AD5B8BB00E92774 /* flagarabic@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CA0AC71AD5B8BB00E92774 /* flagarabic@2x.png */; };
 		63CA0AE11AD5B8BB00E92774 /* flagarabic@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CA0AC71AD5B8BB00E92774 /* flagarabic@2x.png */; };
@@ -8399,7 +8396,6 @@
 		63CA0AC31AD5B8BB00E92774 /* chattranslatorarrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "chattranslatorarrow@2x.png"; path = "ChatTranslator/chattranslatorarrow@2x.png"; sourceTree = "<group>"; };
 		63CA0AC41AD5B8BB00E92774 /* chattranslatoredge@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "chattranslatoredge@2x.png"; path = "ChatTranslator/chattranslatoredge@2x.png"; sourceTree = "<group>"; };
 		63CA0AC51AD5B8BB00E92774 /* chattranslatormiddle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "chattranslatormiddle@2x.png"; path = "ChatTranslator/chattranslatormiddle@2x.png"; sourceTree = "<group>"; };
-		63CA0AC61AD5B8BB00E92774 /* donttranslate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = donttranslate.png; path = ChatTranslator/donttranslate.png; sourceTree = "<group>"; };
 		63CA0AC71AD5B8BB00E92774 /* flagarabic@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "flagarabic@2x.png"; path = "ChatTranslator/flagarabic@2x.png"; sourceTree = "<group>"; };
 		63CA0AC81AD5B8BB00E92774 /* flagenglish@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "flagenglish@2x.png"; path = "ChatTranslator/flagenglish@2x.png"; sourceTree = "<group>"; };
 		63CA0AC91AD5B8BB00E92774 /* flagfrench@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "flagfrench@2x.png"; path = "ChatTranslator/flagfrench@2x.png"; sourceTree = "<group>"; };
@@ -14198,7 +14194,6 @@
 				63CA0AC31AD5B8BB00E92774 /* chattranslatorarrow@2x.png */,
 				63CA0AC41AD5B8BB00E92774 /* chattranslatoredge@2x.png */,
 				63CA0AC51AD5B8BB00E92774 /* chattranslatormiddle@2x.png */,
-				63CA0AC61AD5B8BB00E92774 /* donttranslate.png */,
 				63CA0AC71AD5B8BB00E92774 /* flagarabic@2x.png */,
 				63CA0AC81AD5B8BB00E92774 /* flagenglish@2x.png */,
 				63CA0AC91AD5B8BB00E92774 /* flagfrench@2x.png */,
@@ -20084,7 +20079,6 @@
 				9BDA8C361A5DF58500C7AC27 /* spinbutton@2x.png in Resources */,
 				9BC189201AC1E792001B8E88 /* MiniEventPointsView.xib in Resources */,
 				CF0CF34C196F452900ECD301 /* healredbubble6@2x.png in Resources */,
-				63CA0ADD1AD5B8BB00E92774 /* donttranslate.png in Resources */,
 				CF0CF350196F452900ECD301 /* sfx_building_drop.mp3 in Resources */,
 				63C57EA31A66282700ED406E /* gradientlightdailylab@2x.png in Resources */,
 				CF0CF351196F452900ECD301 /* sellbarbg@2x.png in Resources */,
@@ -22423,7 +22417,6 @@
 				CF6CA6AC19DA2AA40075C98C /* findamatchbigpressed@2x.png in Resources */,
 				CFF6471E195E3F5000C43641 /* EvolveDetailsMonsterView.xib in Resources */,
 				2933DC491ADFA808005D7620 /* gempackagebg@2x.png in Resources */,
-				63CA0ADC1AD5B8BB00E92774 /* donttranslate.png in Resources */,
 				CFF7873318E28FE200413E78 /* newtext@2x.png in Resources */,
 				636C3E761AAA865400B02980 /* blueresearchcircle@2x.png in Resources */,
 				2985E5D41A30045D0041ABF4 /* mini7.fnt in Resources */,
@@ -23503,7 +23496,6 @@
 				29AE75C51A6F36E000264070 /* MilitaryChicken1T1RunNF@2x.pvr.ccz in Resources */,
 				CF481AC319F7217F00041486 /* enemystripes@2x.png in Resources */,
 				299AA4D51A7872C300A2D806 /* fireorb@2x.png in Resources */,
-				63CA0ADE1AD5B8BB00E92774 /* donttranslate.png in Resources */,
 				CF481AC419F7217F00041486 /* firepointsfont.fnt in Resources */,
 				CF481AC619F7217F00041486 /* sfx_upgrade_button.mp3 in Resources */,
 				9BDA8C5B1A60B5FB00C7AC27 /* gachaactivedot@2x.png in Resources */,

@@ -97,9 +97,9 @@ typedef NS_ENUM(SInt32, RetrievePrivateChatPostsResponseProto_RetrievePrivateCha
 BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValidValue(RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatus value);
 
 typedef NS_ENUM(SInt32, TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatus) {
-  TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusFailOther = 1,
-  TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusFailNotValidLanguage = 2,
-  TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusSuccess = 3,
+  TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusSuccess = 1,
+  TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusFailOther = 2,
+  TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusFailNotValidLanguage = 3,
 };
 
 BOOL TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusIsValidValue(TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatus value);
@@ -248,7 +248,7 @@ BOOL TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusIsValidVa
   int64_t clientTime;
   NSString* chatMessage;
   MinimumUserProto* sender;
-  GroupChatScope scope;
+  ChatScope scope;
   TranslateLanguages globalLanguage;
 }
 - (BOOL) hasSender;
@@ -257,7 +257,7 @@ BOOL TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusIsValidVa
 - (BOOL) hasClientTime;
 - (BOOL) hasGlobalLanguage;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) GroupChatScope scope;
+@property (readonly) ChatScope scope;
 @property (readonly, strong) NSString* chatMessage;
 @property (readonly) int64_t clientTime;
 @property (readonly) TranslateLanguages globalLanguage;
@@ -305,8 +305,8 @@ BOOL TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusIsValidVa
 - (SendGroupChatRequestProto_Builder*) clearSender;
 
 - (BOOL) hasScope;
-- (GroupChatScope) scope;
-- (SendGroupChatRequestProto_Builder*) setScope:(GroupChatScope) value;
+- (ChatScope) scope;
+- (SendGroupChatRequestProto_Builder*) setScope:(ChatScope) value;
 - (SendGroupChatRequestProto_Builder*) clearScopeList;
 
 - (BOOL) hasChatMessage;
@@ -396,7 +396,7 @@ BOOL TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusIsValidVa
   NSString* chatMessage;
   MinimumUserProtoWithLevel* sender;
   GroupChatMessageProto* message;
-  GroupChatScope scope;
+  ChatScope scope;
 }
 - (BOOL) hasSender;
 - (BOOL) hasScope;
@@ -404,7 +404,7 @@ BOOL TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusIsValidVa
 - (BOOL) hasChatMessage;
 - (BOOL) hasIsAdmin;
 @property (readonly, strong) MinimumUserProtoWithLevel* sender;
-@property (readonly) GroupChatScope scope;
+@property (readonly) ChatScope scope;
 @property (readonly, strong) GroupChatMessageProto* message;
 @property (readonly, strong) NSString* chatMessage;
 - (BOOL) isAdmin;
@@ -452,8 +452,8 @@ BOOL TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusIsValidVa
 - (ReceivedGroupChatResponseProto_Builder*) clearSender;
 
 - (BOOL) hasScope;
-- (GroupChatScope) scope;
-- (ReceivedGroupChatResponseProto_Builder*) setScope:(GroupChatScope) value;
+- (ChatScope) scope;
+- (ReceivedGroupChatResponseProto_Builder*) setScope:(ChatScope) value;
 - (ReceivedGroupChatResponseProto_Builder*) clearScopeList;
 
 - (BOOL) hasMessage;
@@ -820,7 +820,7 @@ BOOL TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusIsValidVa
   BOOL translateOn_:1;
   NSString* otherUserUuid;
   MinimumUserProto* sender;
-  ChatType chatType;
+  ChatScope chatType;
   TranslateLanguages language;
   NSMutableArray * mutableMessagesToBeTranslatedList;
 }
@@ -830,7 +830,7 @@ BOOL TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusIsValidVa
 - (BOOL) hasLanguage;
 - (BOOL) hasTranslateOn;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) ChatType chatType;
+@property (readonly) ChatScope chatType;
 @property (readonly, strong) NSString* otherUserUuid;
 @property (readonly) TranslateLanguages language;
 @property (readonly, strong) NSArray * messagesToBeTranslatedList;
@@ -880,8 +880,8 @@ BOOL TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusIsValidVa
 - (TranslateSelectMessagesRequestProto_Builder*) clearSender;
 
 - (BOOL) hasChatType;
-- (ChatType) chatType;
-- (TranslateSelectMessagesRequestProto_Builder*) setChatType:(ChatType) value;
+- (ChatScope) chatType;
+- (TranslateSelectMessagesRequestProto_Builder*) setChatType:(ChatScope) value;
 - (TranslateSelectMessagesRequestProto_Builder*) clearChatTypeList;
 
 - (BOOL) hasOtherUserUuid;

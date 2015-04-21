@@ -666,7 +666,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
 }
 
-- (void) addChatMessage:(MinimumUserProtoWithLevel *)sender message:(NSString *)msg scope:(GroupChatScope)scope isAdmin:(BOOL)isAdmin {
+- (void) addChatMessage:(MinimumUserProtoWithLevel *)sender message:(NSString *)msg scope:(ChatScope)scope isAdmin:(BOOL)isAdmin {
   ChatMessage *cm = [[ChatMessage alloc] init];
   cm.originalSender = sender;
   cm.originalMessage = msg;
@@ -675,10 +675,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [self addChatMessage:cm scope:scope];
 }
 
-- (void) addChatMessage:(ChatMessage *)cm scope:(GroupChatScope) scope {
+- (void) addChatMessage:(ChatMessage *)cm scope:(ChatScope) scope {
   Globals *gl = [Globals sharedGlobals];
   if (![gl isUserUuidMuted:cm.sender.userUuid]) {
-    if (scope == GroupChatScopeGlobal) {
+    if (scope == ChatScopeGlobal) {
       [self.globalChatMessages addObject:cm];
     } else {
       [self.clanChatMessages addObject:cm];
@@ -880,7 +880,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   
   for (GroupChatMessageProto *msg in clanData.clanChatsList) {
     ChatMessage *cm = [[ChatMessage alloc] initWithProto:msg];
-    [self addChatMessage:cm scope:GroupChatScopeClan];
+    cm.isRead = YES;
+    [self addChatMessage:cm scope:ChatScopeClan];
   }
   
   self.clanHelpUtil = nil;

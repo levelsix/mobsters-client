@@ -34,7 +34,6 @@
     self.isAdmin = p.isAdmin;
     self.revertedTranslation = NO;
     self.postUuid = p.chatUuid;
-    self.isRead = YES;
   }
   return self;
 }

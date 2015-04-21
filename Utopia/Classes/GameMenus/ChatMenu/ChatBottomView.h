@@ -12,12 +12,6 @@
 #import "UserData.h"
 #import "ChatObject.h"
 
-typedef enum {
-  ChatScopeGlobal = 1,
-  ChatScopeClan,
-  ChatScopePrivate
-} ChatScope;
-
 @interface ChatBottomLineView : UIView
 
 @property (nonatomic, retain) IBOutlet CircleMonsterView *monsterView;

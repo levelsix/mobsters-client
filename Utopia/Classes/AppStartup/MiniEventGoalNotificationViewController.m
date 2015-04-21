@@ -14,10 +14,13 @@
 
 @implementation MiniEventGoalNotificationView
 
-- (void) updateForString:(NSString *)str image:(NSString *)img {
+- (void) updateForGoalString:(NSString *)goalStr pointsStr:(NSString *)pointsStr image:(NSString *)img {
   self.layer.cornerRadius = 7.f;
   
-  self.label.text = str;
+  NSString *str = [NSString stringWithFormat:@"%@: %@", goalStr, pointsStr];
+  NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:str];
+  [attr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"a4f100"] range:NSMakeRange(str.length-pointsStr.length, pointsStr.length)];
+  self.label.attributedText = attr;
   
   [Globals imageNamed:img withView:self.icon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
   
@@ -54,10 +57,10 @@
 
 @implementation MiniEventGoalNotificationViewController
 
-- (id) initWithNotificationString:(NSString *)str image:(NSString *)img isImmediate:(BOOL)isImmediate {
+- (id) initWithGoalString:(NSString *)goalStr pointsStr:(NSString *)pointsStr image:(NSString *)img isImmediate:(BOOL)isImmediate {
   if ((self = [super init])) {
     [[NSBundle mainBundle] loadNibNamed:@"MiniEventGoalNotificationView" owner:self options:nil];
-    [self.notificationView updateForString:str image:img];
+    [self.notificationView updateForGoalString:goalStr pointsStr:pointsStr image:img];
     _priority = isImmediate ? NotificationPriorityImmediate : NotificationPriorityRegular;
   }
   return self;

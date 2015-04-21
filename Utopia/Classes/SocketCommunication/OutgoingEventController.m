@@ -908,7 +908,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 #pragma mark - Chat
 
-- (void) sendGroupChat:(GroupChatScope)scope message:(NSString *)msg {
+- (void) sendGroupChat:(ChatScope)scope message:(NSString *)msg {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
@@ -1127,9 +1127,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.35f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-      [gs addChatMessage:gs.minUserWithLevel message:msg scope:scope isAdmin:(scope == GroupChatScopeGlobal ? gs.isAdmin : NO)];
+      [gs addChatMessage:gs.minUserWithLevel message:msg scope:scope isAdmin:(scope == ChatScopeGlobal ? gs.isAdmin : NO)];
       
-      NSString *key = scope == GroupChatScopeClan ? CLAN_CHAT_RECEIVED_NOTIFICATION : GLOBAL_CHAT_RECEIVED_NOTIFICATION;
+      NSString *key = scope == ChatScopeClan ? CLAN_CHAT_RECEIVED_NOTIFICATION : GLOBAL_CHAT_RECEIVED_NOTIFICATION;
       [[NSNotificationCenter defaultCenter] postNotificationName:key object:nil];
     });
   }
@@ -1155,9 +1155,20 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
 }
 
-- (void) translateSelectMessages:(NSArray *)messages language:(TranslateLanguages)language otherUserUuid:(NSString *)otherUserUuid chatType:(ChatType)chatType translateOn:(BOOL)translateOn delegate:(id)delegate {
+- (void) translateSelectMessages:(NSArray *)messages language:(TranslateLanguages)language otherUserUuid:(NSString *)otherUserUuid chatType:(ChatScope)chatType translateOn:(BOOL)translateOn delegate:(id)delegate {
   int tag = [[SocketCommunication sharedSocketCommunication] sendTranslateSelectMessages:otherUserUuid language:language messages:messages chatType:chatType translateOn:translateOn];
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
+  
+  GameState *gs = [GameState sharedGameState];
+  
+  if (chatType == ChatScopeGlobal) {
+    gs.globalLanguage = language;
+    gs.globalTranslationOn = translateOn;
+    
+  } else if (chatType == ChatScopePrivate) {
+    [gs.privateChatLanguages setValue:@(language) forKey:otherUserUuid];
+    [gs.privateTranslationOn setValue:@(translateOn) forKey:otherUserUuid];
+  }
 }
 
 #pragma mark - Clans
