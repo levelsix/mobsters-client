@@ -13,6 +13,9 @@
 
 static const float kTierPointsProgressBarExtendBy = 1.1f;
 static const float kTierPointsProgressBarUpdateAnimationDuration = .5f;
+static const float kTier1FixedDisplayPercentage = 1.f / 3.f;
+static const float kTier2FixedDisplayPercentage = 2.f / 3.f;
+static const float kTier3FixedDisplayPercentage = 1.f;
 static const float kCollectRewardViewSlideAnimationDuration = .5f;
 
 @implementation MiniEventDetailsView
@@ -92,7 +95,7 @@ static const float kCollectRewardViewSlideAnimationDuration = .5f;
   [Globals imageNamed:miniEvent.img withView:self.eventInfoImage greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
   
   const int pointsEarned = userMiniEvent.pointsEarned;
-  const int maxPoints    = miniEvent.lvlEntered.tierThreeMinPts * kTierPointsProgressBarExtendBy;
+//const int maxPoints    = miniEvent.lvlEntered.tierThreeMinPts * kTierPointsProgressBarExtendBy;
   const int tier1Points  = miniEvent.lvlEntered.tierOneMinPts;
   const int tier2Points  = miniEvent.lvlEntered.tierTwoMinPts;
   const int tier3Points  = miniEvent.lvlEntered.tierThreeMinPts;
@@ -108,9 +111,18 @@ static const float kCollectRewardViewSlideAnimationDuration = .5f;
   [self.tier2IndicatorLabel sizeToFit];
   [self.tier3IndicatorLabel sizeToFit];
   
+  /*
+   * 4/21/15 - BN - Tier indicators are displayed at fixed positions,
+   * hence the progress from one tier to the next will be non-linear
+   *
   const float tier1IndicatorPos = self.pointsProgressBar.originX + self.pointsProgressBar.width * ((float)tier1Points / (float)maxPoints);
   const float tier2IndicatorPos = self.pointsProgressBar.originX + self.pointsProgressBar.width * ((float)tier2Points / (float)maxPoints);
   const float tier3IndicatorPos = self.pointsProgressBar.originX + self.pointsProgressBar.width * ((float)tier3Points / (float)maxPoints);
+   */
+  
+  const float tier1IndicatorPos = self.pointsProgressBar.originX + self.pointsProgressBar.width * (kTier1FixedDisplayPercentage / kTierPointsProgressBarExtendBy);
+  const float tier2IndicatorPos = self.pointsProgressBar.originX + self.pointsProgressBar.width * (kTier2FixedDisplayPercentage / kTierPointsProgressBarExtendBy);
+  const float tier3IndicatorPos = self.pointsProgressBar.originX + self.pointsProgressBar.width * (kTier3FixedDisplayPercentage / kTierPointsProgressBarExtendBy);
   
   self.tier1IndicatorLabel.centerX = self.tier1IndicatorArrow.centerX = tier1IndicatorPos;
   self.tier2IndicatorLabel.centerX = self.tier2IndicatorArrow.centerX = tier2IndicatorPos;
@@ -131,8 +143,15 @@ static const float kCollectRewardViewSlideAnimationDuration = .5f;
   }
   else
   {
+    /*
     self.pointsProgressBar.percentage = (float)pointsEarned / (float)maxPoints;
     self.pointCounterView.centerX = self.pointsProgressBar.originX + self.pointsProgressBar.width * ((float)pointsEarned / (float)maxPoints);
+     */
+    
+    const float nonLinearPercentage = [self nonLinearPercentageForPointsEarned:pointsEarned tier1Points:tier1Points tier2Points:tier2Points tier3Points:tier3Points];
+    
+    self.pointsProgressBar.percentage = nonLinearPercentage;
+    self.pointCounterView.centerX = self.pointsProgressBar.originX + self.pointsProgressBar.width * nonLinearPercentage;
   }
   
   _tierPrizes = [NSMutableArray arrayWithObjects:[NSMutableArray array], [NSMutableArray array], [NSMutableArray array], nil];
@@ -166,12 +185,42 @@ static const float kCollectRewardViewSlideAnimationDuration = .5f;
   self.pointCounterView.origin = newPosition;
 }
 
+- (float) nonLinearPercentageForPointsEarned:(int)pointsEarned tier1Points:(int)tier1Points tier2Points:(int)tier2Points tier3Points:(int)tier3Points
+{
+  // Tier indicators are displayed at fixed positions, hence
+  // the progress from one tier to the next will be non-linear
+  
+  float nonLinearPercentage = 0.f;
+  
+  if (pointsEarned < tier1Points)
+  {
+    const float p = (float)pointsEarned / (float)tier1Points;
+    nonLinearPercentage = p * kTier1FixedDisplayPercentage;
+  }
+  else if (pointsEarned < tier2Points)
+  {
+    const float p = (float)(pointsEarned - tier1Points) / (float)(tier2Points - tier1Points);
+    nonLinearPercentage = kTier1FixedDisplayPercentage + p * (kTier2FixedDisplayPercentage - kTier1FixedDisplayPercentage);
+  }
+  else if (pointsEarned < tier3Points)
+  {
+    const float p = (float)(pointsEarned - tier2Points) / (float)(tier3Points - tier2Points);
+    nonLinearPercentage = kTier2FixedDisplayPercentage + p * (kTier3FixedDisplayPercentage - kTier2FixedDisplayPercentage);
+  }
+  else
+  {
+    nonLinearPercentage = 1.f;
+  }
+  
+  return nonLinearPercentage / kTierPointsProgressBarExtendBy;
+}
+
 - (void) updateForUserMiniEvent:(UserMiniEvent*)userMiniEvent
 {
   MiniEventProto* miniEvent = userMiniEvent.miniEvent;
   
   const int pointsEarned = userMiniEvent.pointsEarned;
-  const int maxPoints    = miniEvent.lvlEntered.tierThreeMinPts * kTierPointsProgressBarExtendBy;
+//const int maxPoints    = miniEvent.lvlEntered.tierThreeMinPts * kTierPointsProgressBarExtendBy;
   const int tier1Points  = miniEvent.lvlEntered.tierOneMinPts;
   const int tier2Points  = miniEvent.lvlEntered.tierTwoMinPts;
   const int tier3Points  = miniEvent.lvlEntered.tierThreeMinPts;
@@ -194,9 +243,18 @@ static const float kCollectRewardViewSlideAnimationDuration = .5f;
   }
   else if (!tier3Completed)
   {
+    /*
     [self.pointsProgressBar animateToPercentage:(float)pointsEarned / (float)maxPoints duration:kTierPointsProgressBarUpdateAnimationDuration completion:nil];
     [UIView animateWithDuration:kTierPointsProgressBarUpdateAnimationDuration animations:^{
       self.pointCounterView.centerX = self.pointsProgressBar.originX + self.pointsProgressBar.width * ((float)pointsEarned / (float)maxPoints);
+    }];
+     */
+    
+    const float nonLinearPercentage = [self nonLinearPercentageForPointsEarned:pointsEarned tier1Points:tier1Points tier2Points:tier2Points tier3Points:tier3Points];
+    
+    [self.pointsProgressBar animateToPercentage:nonLinearPercentage duration:kTierPointsProgressBarUpdateAnimationDuration completion:nil];
+    [UIView animateWithDuration:kTierPointsProgressBarUpdateAnimationDuration animations:^{
+      self.pointCounterView.centerX = self.pointsProgressBar.originX + self.pointsProgressBar.width * nonLinearPercentage;
     }];
   }
   
