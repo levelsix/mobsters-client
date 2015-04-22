@@ -965,6 +965,7 @@ typedef NS_ENUM(SInt32, EventProtocolRequest) {
   EventProtocolRequestCRefreshMiniJobEvent = 212,
   EventProtocolRequestCCollectClanGiftsEvent = 500,
   EventProtocolRequestCClearExpiredClanGiftsEvent = 501,
+  EventProtocolRequestCReceivedClanGiftsEvent = 502,
 };
 
 BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value);
@@ -1092,6 +1093,7 @@ typedef NS_ENUM(SInt32, EventProtocolResponse) {
   EventProtocolResponseSRefreshMiniJobEvent = 212,
   EventProtocolResponseSCollectClanGiftsEvent = 500,
   EventProtocolResponseSClearExpiredClanGiftsEvent = 501,
+  EventProtocolResponseSReceivedClanGiftsEvent = 502,
 };
 
 BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value);
