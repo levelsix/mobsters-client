@@ -123,6 +123,9 @@
   }
   
   if (showTownHallUnlocksView && self.townHallUnlocksView) {
+    newestView = [self makeTitleWithTitle:UNLOCKS_TITLE];
+    [self addToScrollViewWithView:newestView];
+    
     [self addToScrollViewWithView:self.townHallUnlocksView];
     
     //special case, this view should be centered
