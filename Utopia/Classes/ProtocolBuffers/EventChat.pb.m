@@ -633,7 +633,7 @@ static GeneralNotificationResponseProto* defaultGeneralNotificationResponseProto
     self.scope = ChatScopeClan;
     self.chatMessage = @"";
     self.clientTime = 0L;
-    self.globalLanguage = TranslateLanguagesArabic;
+    self.globalLanguage = TranslateLanguagesEnglish;
   }
   return self;
 }
@@ -993,7 +993,7 @@ static SendGroupChatRequestProto* defaultSendGroupChatRequestProtoInstance = nil
 }
 - (SendGroupChatRequestProto_Builder*) clearGlobalLanguageList {
   result.hasGlobalLanguage = NO;
-  result.globalLanguage = TranslateLanguagesArabic;
+  result.globalLanguage = TranslateLanguagesEnglish;
   return self;
 }
 @end
@@ -2616,7 +2616,7 @@ BOOL PrivateChatPostResponseProto_PrivateChatPostStatusIsValidValue(PrivateChatP
     self.sender = [MinimumUserProto defaultInstance];
     self.otherUserUuid = @"";
     self.beforePrivateChatId = 0;
-    self.language = TranslateLanguagesArabic;
+    self.language = TranslateLanguagesEnglish;
   }
   return self;
 }
@@ -2934,7 +2934,7 @@ static RetrievePrivateChatPostsRequestProto* defaultRetrievePrivateChatPostsRequ
 }
 - (RetrievePrivateChatPostsRequestProto_Builder*) clearLanguageList {
   result.hasLanguage = NO;
-  result.language = TranslateLanguagesArabic;
+  result.language = TranslateLanguagesEnglish;
   return self;
 }
 @end
@@ -3433,7 +3433,7 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
     self.sender = [MinimumUserProto defaultInstance];
     self.chatType = ChatScopeGlobal;
     self.otherUserUuid = @"";
-    self.language = TranslateLanguagesArabic;
+    self.language = TranslateLanguagesEnglish;
     self.translateOn = NO;
   }
   return self;
@@ -3813,7 +3813,7 @@ static TranslateSelectMessagesRequestProto* defaultTranslateSelectMessagesReques
 }
 - (TranslateSelectMessagesRequestProto_Builder*) clearLanguageList {
   result.hasLanguage = NO;
-  result.language = TranslateLanguagesArabic;
+  result.language = TranslateLanguagesEnglish;
   return self;
 }
 - (NSMutableArray *)messagesToBeTranslatedList {

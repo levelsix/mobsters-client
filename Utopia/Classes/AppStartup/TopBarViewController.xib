@@ -629,65 +629,6 @@
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
-                        <view contentMode="scaleToFill" id="7le-vr-bAt" userLabel="Sale View">
-                            <rect key="frame" x="446" y="186" width="56" height="62"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                            <subviews>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="saleiconbg.png" id="yOJ-l5-wOo">
-                                    <rect key="frame" x="3" y="5" width="50" height="50"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </imageView>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="06j-1R-7oK" customClass="SpriteAnimationImageView">
-                                    <rect key="frame" x="-3" y="-13" width="63" height="57"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <connections>
-                                        <outlet property="spinner" destination="rAU-FF-Sbc" id="gQy-qh-F0K"/>
-                                    </connections>
-                                </imageView>
-                                <activityIndicatorView hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" id="rAU-FF-Sbc">
-                                    <rect key="frame" x="18" y="18" width="20" height="20"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                </activityIndicatorView>
-                                <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="center" image="salemultiplier.png" id="yyK-b8-P0P">
-                                    <rect key="frame" x="5" y="12" width="46" height="34"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </imageView>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="saleoranagebar.png" id="zo7-8P-C0b">
-                                    <rect key="frame" x="0.0" y="41" width="56" height="19"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </imageView>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="SALE!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.15000000596046448" id="bH5-bU-JrS" customClass="NiceFontLabel8">
-                                    <rect key="frame" x="6" y="40" width="43" height="20"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
-                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <nil key="highlightedColor"/>
-                                    <color key="shadowColor" white="0.0" alpha="0.29999999999999999" colorSpace="calibratedWhite"/>
-                                    <size key="shadowOffset" width="0.0" height="1"/>
-                                </label>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="SALE!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.15000000596046448" id="lWw-F7-HNa" customClass="NiceFontLabel8">
-                                    <rect key="frame" x="6" y="40" width="43" height="20"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
-                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <nil key="highlightedColor"/>
-                                    <color key="shadowColor" white="0.0" alpha="0.29999999999999999" colorSpace="calibratedWhite"/>
-                                    <size key="shadowOffset" width="0.0" height="1"/>
-                                </label>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="TT3-i8-9a4" customClass="MaskedButton">
-                                    <rect key="frame" x="0.0" y="0.0" width="56" height="62"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <state key="normal">
-                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                    </state>
-                                    <connections>
-                                        <action selector="saleClicked:" destination="-1" eventType="touchUpInside" id="mr4-fG-0IM"/>
-                                        <outlet property="baseImage" destination="7le-vr-bAt" id="WPg-Jq-Tj8"/>
-                                    </connections>
-                                </button>
-                            </subviews>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        </view>
                         <view contentMode="scaleToFill" id="R4r-CQ-wtp" userLabel="Gem View" customClass="TouchableSubviewsView">
                             <rect key="frame" x="504" y="191" width="56" height="54"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
@@ -758,6 +699,65 @@
                                         <outlet property="badgeLabel" destination="m4P-ba-b5t" id="Wxf-PO-r6Z"/>
                                     </connections>
                                 </view>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
+                        <view contentMode="scaleToFill" id="7le-vr-bAt" userLabel="Sale View">
+                            <rect key="frame" x="446" y="186" width="56" height="62"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                            <subviews>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="saleiconbg.png" id="yOJ-l5-wOo">
+                                    <rect key="frame" x="3" y="5" width="50" height="50"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="06j-1R-7oK" customClass="SpriteAnimationImageView">
+                                    <rect key="frame" x="-3" y="-13" width="63" height="57"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <connections>
+                                        <outlet property="spinner" destination="rAU-FF-Sbc" id="gQy-qh-F0K"/>
+                                    </connections>
+                                </imageView>
+                                <activityIndicatorView hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" id="rAU-FF-Sbc">
+                                    <rect key="frame" x="18" y="18" width="20" height="20"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </activityIndicatorView>
+                                <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="center" image="salemultiplier.png" id="yyK-b8-P0P">
+                                    <rect key="frame" x="5" y="12" width="46" height="34"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="saleoranagebar.png" id="zo7-8P-C0b">
+                                    <rect key="frame" x="0.0" y="41" width="56" height="19"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="SALE!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.15000000596046448" id="bH5-bU-JrS" customClass="NiceFontLabel8">
+                                    <rect key="frame" x="6" y="40" width="43" height="20"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <nil key="highlightedColor"/>
+                                    <color key="shadowColor" white="0.0" alpha="0.29999999999999999" colorSpace="calibratedWhite"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="SALE!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.15000000596046448" id="lWw-F7-HNa" customClass="NiceFontLabel8">
+                                    <rect key="frame" x="6" y="40" width="43" height="20"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <nil key="highlightedColor"/>
+                                    <color key="shadowColor" white="0.0" alpha="0.29999999999999999" colorSpace="calibratedWhite"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="TT3-i8-9a4" customClass="MaskedButton">
+                                    <rect key="frame" x="0.0" y="0.0" width="56" height="62"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal">
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="saleClicked:" destination="-1" eventType="touchUpInside" id="mr4-fG-0IM"/>
+                                        <outlet property="baseImage" destination="7le-vr-bAt" id="WPg-Jq-Tj8"/>
+                                    </connections>
+                                </button>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
