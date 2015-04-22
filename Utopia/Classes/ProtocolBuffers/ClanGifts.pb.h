@@ -159,12 +159,14 @@
 
 @interface UserClanGiftProto : PBGeneratedMessage {
 @private
+  BOOL hasHasBeenCollected_:1;
   BOOL hasTimeReceived_:1;
   BOOL hasUserClanGiftId_:1;
   BOOL hasReceiverUserId_:1;
   BOOL hasGifterUserId_:1;
   BOOL hasClanGift_:1;
   BOOL hasReward_:1;
+  BOOL hasBeenCollected_:1;
   int64_t timeReceived;
   NSString* userClanGiftId;
   NSString* receiverUserId;
@@ -178,12 +180,14 @@
 - (BOOL) hasClanGift;
 - (BOOL) hasTimeReceived;
 - (BOOL) hasReward;
+- (BOOL) hasHasBeenCollected;
 @property (readonly, strong) NSString* userClanGiftId;
 @property (readonly, strong) NSString* receiverUserId;
 @property (readonly, strong) NSString* gifterUserId;
 @property (readonly, strong) ClanGiftProto* clanGift;
 @property (readonly) int64_t timeReceived;
 @property (readonly, strong) RewardProto* reward;
+- (BOOL) hasBeenCollected;
 
 + (UserClanGiftProto*) defaultInstance;
 - (UserClanGiftProto*) defaultInstance;
@@ -253,6 +257,11 @@
 - (UserClanGiftProto_Builder*) setReward_Builder:(RewardProto_Builder*) builderForValue;
 - (UserClanGiftProto_Builder*) mergeReward:(RewardProto*) value;
 - (UserClanGiftProto_Builder*) clearReward;
+
+- (BOOL) hasHasBeenCollected;
+- (BOOL) hasBeenCollected;
+- (UserClanGiftProto_Builder*) setHasBeenCollected:(BOOL) value;
+- (UserClanGiftProto_Builder*) clearHasBeenCollected;
 @end
 
 

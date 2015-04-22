@@ -320,6 +320,7 @@ static ClanGiftProto* defaultClanGiftProtoInstance = nil;
 @property (strong) ClanGiftProto* clanGift;
 @property int64_t timeReceived;
 @property (strong) RewardProto* reward;
+@property BOOL hasBeenCollected;
 @end
 
 @implementation UserClanGiftProto
@@ -366,6 +367,18 @@ static ClanGiftProto* defaultClanGiftProtoInstance = nil;
   hasReward_ = !!value_;
 }
 @synthesize reward;
+- (BOOL) hasHasBeenCollected {
+  return !!hasHasBeenCollected_;
+}
+- (void) setHasHasBeenCollected:(BOOL) value_ {
+  hasHasBeenCollected_ = !!value_;
+}
+- (BOOL) hasBeenCollected {
+  return !!hasBeenCollected_;
+}
+- (void) setHasBeenCollected:(BOOL) value_ {
+  hasBeenCollected_ = !!value_;
+}
 - (id) init {
   if ((self = [super init])) {
     self.userClanGiftId = @"";
@@ -374,6 +387,7 @@ static ClanGiftProto* defaultClanGiftProtoInstance = nil;
     self.clanGift = [ClanGiftProto defaultInstance];
     self.timeReceived = 0L;
     self.reward = [RewardProto defaultInstance];
+    self.hasBeenCollected = NO;
   }
   return self;
 }
@@ -411,6 +425,9 @@ static UserClanGiftProto* defaultUserClanGiftProtoInstance = nil;
   if (self.hasReward) {
     [output writeMessage:6 value:self.reward];
   }
+  if (self.hasHasBeenCollected) {
+    [output writeBool:7 value:self.hasBeenCollected];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -437,6 +454,9 @@ static UserClanGiftProto* defaultUserClanGiftProtoInstance = nil;
   }
   if (self.hasReward) {
     size_ += computeMessageSize(6, self.reward);
+  }
+  if (self.hasHasBeenCollected) {
+    size_ += computeBoolSize(7, self.hasBeenCollected);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -497,6 +517,9 @@ static UserClanGiftProto* defaultUserClanGiftProtoInstance = nil;
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
+  if (self.hasHasBeenCollected) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"hasBeenCollected", [NSNumber numberWithBool:self.hasBeenCollected]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -520,6 +543,8 @@ static UserClanGiftProto* defaultUserClanGiftProtoInstance = nil;
       (!self.hasTimeReceived || self.timeReceived == otherMessage.timeReceived) &&
       self.hasReward == otherMessage.hasReward &&
       (!self.hasReward || [self.reward isEqual:otherMessage.reward]) &&
+      self.hasHasBeenCollected == otherMessage.hasHasBeenCollected &&
+      (!self.hasHasBeenCollected || self.hasBeenCollected == otherMessage.hasBeenCollected) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -541,6 +566,9 @@ static UserClanGiftProto* defaultUserClanGiftProtoInstance = nil;
   }
   if (self.hasReward) {
     hashCode = hashCode * 31 + [self.reward hash];
+  }
+  if (self.hasHasBeenCollected) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.hasBeenCollected] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -603,6 +631,9 @@ static UserClanGiftProto* defaultUserClanGiftProtoInstance = nil;
   if (other.hasReward) {
     [self mergeReward:other.reward];
   }
+  if (other.hasHasBeenCollected) {
+    [self setHasBeenCollected:other.hasBeenCollected];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -656,6 +687,10 @@ static UserClanGiftProto* defaultUserClanGiftProtoInstance = nil;
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setReward:[subBuilder buildPartial]];
+        break;
+      }
+      case 56: {
+        [self setHasBeenCollected:[input readBool]];
         break;
       }
     }
@@ -783,6 +818,22 @@ static UserClanGiftProto* defaultUserClanGiftProtoInstance = nil;
 - (UserClanGiftProto_Builder*) clearReward {
   result.hasReward = NO;
   result.reward = [RewardProto defaultInstance];
+  return self;
+}
+- (BOOL) hasHasBeenCollected {
+  return result.hasHasBeenCollected;
+}
+- (BOOL) hasBeenCollected {
+  return result.hasBeenCollected;
+}
+- (UserClanGiftProto_Builder*) setHasBeenCollected:(BOOL) value {
+  result.hasHasBeenCollected = YES;
+  result.hasBeenCollected = value;
+  return self;
+}
+- (UserClanGiftProto_Builder*) clearHasBeenCollected {
+  result.hasHasBeenCollected = NO;
+  result.hasBeenCollected = NO;
   return self;
 }
 @end

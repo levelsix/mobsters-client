@@ -28,4 +28,5 @@ message UserClanGiftProto {
 	optional ClanGiftProto clanGift = 4;
 	optional int64 timeReceived = 5;
 	optional RewardProto reward = 6;
+	optional bool hasBeenCollected = 7;
 }
