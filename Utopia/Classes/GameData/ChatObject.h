@@ -21,7 +21,6 @@
 - (NSString *)message;
 - (MSDate *)date;
 
-
 - (UIColor *)bottomViewTextColor;
 
 - (BOOL) isRead;
@@ -29,25 +28,32 @@
 
 @optional
 - (MinimumUserProto *)otherUser;
-
-- (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag;
+- (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag language:(TranslateLanguages)language;
+- (BOOL *)originalLanguage;
 
 // If true, requests reload of entire view.. for when it runs out of time
 - (BOOL) updateForTimeInChatCell:(ChatCell *)chatCell;
-- (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell;
+- (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell language:(TranslateLanguages)language;
 
 @end
 
 @interface ChatMessage : NSObject <ChatObject>
 
-@property (nonatomic, retain) MinimumUserProto *sender;
-@property (nonatomic, copy) NSString *message;
+@property (nonatomic, retain) MinimumUserProtoWithLevel *originalSender;
 @property (nonatomic, retain) MSDate *date;
 @property (nonatomic, assign) BOOL isAdmin;
-
 @property (nonatomic, assign) BOOL isRead;
+@property (nonatomic, assign) TranslateLanguages originalLanguage;
+@property (nonatomic, retain) NSMutableArray *translatedTextProtos;
+@property (nonatomic, retain) NSString *originalMessage;
+@property (nonatomic, assign) BOOL revertedTranslation;
+
+@property (nonatomic, retain) NSString *postUuid;
 
 - (id) initWithProto:(GroupChatMessageProto *)p;
+- (PrivateChatPostProto *) makePrivateChatPostProto;
+
+- (NSString *) getContentInLanguage:(TranslateLanguages)language isTranslated:(BOOL *)isTranslatedPtr translationExists:(BOOL *)translationExistsPtr;
 
 @end
 
@@ -56,6 +62,8 @@
 @end
 
 @interface PrivateChatPostProto (ChatObject) <ChatObject>
+
+- (ChatMessage *) makeChatMessage;
 
 @end
 

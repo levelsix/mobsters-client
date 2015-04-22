@@ -17,6 +17,38 @@ typedef enum {
   PrivateChatModeDefenseLog,
 }PrivateChatViewMode;
 
+@protocol ChatLanguageSelectorDelegate <NSObject>
+
+- (void) flagClicked:(TranslateLanguages)language;
+- (void) translateChecked:(BOOL)checked;
+
+- (void) setLanguageSettingsForLanguage:(TranslateLanguages)language markChecked:(BOOL)markChecked;
+
+
+@end
+
+@interface ChatLanguageSelectorView : UIView {
+  BOOL _closing;
+  
+  TranslateLanguages _originalLanguage;
+  TranslateLanguages _curLanguage;
+  BOOL _originalyChecked;
+  BOOL _curChecked;
+}
+
+@property (nonatomic, assign) id<ChatLanguageSelectorDelegate> delegate;
+@property (nonatomic, retain) IBOutletCollection(UIButton) NSArray *flagButtons;
+@property (nonatomic, assign) IBOutlet UIImageView *selectBox;
+@property (nonatomic, assign) IBOutlet UIImageView *checkMark;
+@property (nonatomic, assign) IBOutlet UIImageView *rightBgEdge;
+@property (nonatomic, assign) IBOutlet UILabel *descriptionLabel;
+
+- (void) updateForLanguage:(TranslateLanguages)language markChecked:(BOOL)markChecked;
+- (void) openAtPoint:(CGPoint)pt markChecked:(BOOL)markChecked curLanguage:(TranslateLanguages)curLanguage;
+- (void) close;
+
+@end
+
 @protocol ChatPopoverDelegate <NSObject>
 
 - (void) profileClicked;
@@ -34,8 +66,6 @@ typedef enum {
 
 @end
 
-
-
 @protocol ChatViewDelegate <NSObject>
 
 - (void) profileClicked:(NSString *)userUuid;
@@ -46,9 +76,9 @@ typedef enum {
 
 @end
 
-@interface ChatView : UIView <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, ChatPopoverDelegate> {
+@interface ChatView : UIView <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, ChatPopoverDelegate, ChatLanguageSelectorDelegate> {
   ChatCell *_testCell;
-  
+  TranslateLanguages _curLanguage;
   id<ChatObject> _clickedMsg;
 }
 
@@ -61,6 +91,7 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet CircleMonsterView *monsterView;
 
 @property (nonatomic, retain) IBOutlet ChatPopoverView *popoverView;
+@property (nonatomic, retain) IBOutlet ChatLanguageSelectorView *languageSelectorView;
 
 @property (nonatomic, weak) IBOutlet id<ChatViewDelegate> delegate;
 
@@ -69,6 +100,10 @@ typedef enum {
 @property (nonatomic, assign) CGRect originalBottomViewRect;
 
 @property (nonatomic, assign) BOOL allowAutoScroll;
+
+@property (nonatomic, retain) IBOutlet UIButton *flagButton;
+@property (nonatomic, retain) IBOutlet UIImageView *flagCheckImage;
+@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *flagSpinner;
 
 - (void) updateForChats:(NSArray *)chats animated:(BOOL)animated;
 

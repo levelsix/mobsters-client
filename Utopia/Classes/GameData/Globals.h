@@ -55,6 +55,8 @@
 #define CLAN_CHAT_VIEWED_NOTIFICATION @"ClanChatViewedNotification"
 #define STRENGTH_CHANGED_NOTIFICATION @"StrengthChangedNotification"
 
+#define CHAT_LANGUAGE_CHANGED @"ChatLanguageChanged"
+
 #define RECEIVED_CLAN_HELP_NOTIFICATION @"ReceivedClanHelpNotification"
 #define CLAN_HELPS_CHANGED_NOTIFICATION @"ClanHelpsChangedNotification"
 #define CLAN_HELP_NOTIFICATION_KEY @"ClanHelpNotificationKey"
@@ -277,6 +279,10 @@
 + (void) imageNamed:(NSString *)imageName toReplaceSprite:(CCSprite *)s;
 + (void) imageNamed:(NSString *)imageName toReplaceSprite:(CCSprite *)s completion:(void(^)(BOOL success))completion;
 
++ (NSString *) flagImageNameForLanguage:(TranslateLanguages)language;
++ (NSString *) languageNameForLanguage:(TranslateLanguages)language;
++ (NSString *) translationDescriptionWith:(TranslateLanguages)language;
+
 + (UIColor *) colorForRarity:(Quality)rarity;
 + (NSString *) stringForRarity:(Quality)rarity;
 + (NSString *) shortenedStringForRarity:(Quality)rarity;
@@ -330,7 +336,7 @@
 + (void) addOrangeAlertNotification:(NSString *)msg isImmediate:(BOOL)isImmediate;
 + (void) addBlueAlertNotification:(NSString *)msg;
 + (void) addPrivateMessageNotification:(NSArray *)messages;
-+ (void) addMiniEventGoalNotification:(NSString *)msg image:(NSString *)img;
++ (void) addMiniEventGoalNotificationWithGoalString:(NSString *)goalStr pointsStr:(NSString *)pointsStr image:(NSString *)img;
 
 + (void) bounceView:(UIView *)view;
 + (void) bounceView:(UIView *)view fromScale:(float)fScale toScale:(float)tScale duration:(float)duration;

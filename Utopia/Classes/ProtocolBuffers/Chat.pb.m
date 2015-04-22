@@ -21,19 +21,11 @@ static PBExtensionRegistry* extensionRegistry = nil;
 }
 @end
 
-BOOL GroupChatScopeIsValidValue(GroupChatScope value) {
+BOOL ChatScopeIsValidValue(ChatScope value) {
   switch (value) {
-    case GroupChatScopeClan:
-    case GroupChatScopeGlobal:
-      return YES;
-    default:
-      return NO;
-  }
-}
-BOOL ChatTypeIsValidValue(ChatType value) {
-  switch (value) {
-    case ChatTypeGlobalChat:
-    case ChatTypePrivateChat:
+    case ChatScopeGlobal:
+    case ChatScopeClan:
+    case ChatScopePrivate:
       return YES;
     default:
       return NO;

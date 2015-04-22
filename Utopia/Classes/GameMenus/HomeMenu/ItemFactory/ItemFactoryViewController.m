@@ -692,7 +692,8 @@
 }
 
 - (void) battleItemDiscarded:(UserBattleItem *)item {
-  [self reloadTitleView];
+  // Reload everything
+  [self waitTimeComplete];
 }
 
 - (void) battleItemSelectClosed:(id)viewController {

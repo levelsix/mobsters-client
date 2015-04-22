@@ -12,12 +12,6 @@
 #import "UserData.h"
 #import "ChatObject.h"
 
-typedef enum {
-  ChatScopeGlobal = 1,
-  ChatScopeClan,
-  ChatScopePrivate
-} ChatScope;
-
 @interface ChatBottomLineView : UIView
 
 @property (nonatomic, retain) IBOutlet CircleMonsterView *monsterView;
@@ -25,7 +19,7 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UILabel *msgLabel;
 @property (nonatomic, retain) IBOutlet UIImageView *dotIcon;
 
-- (void) updateForChatMessage:(id<ChatObject>)cm shouldShowDot:(BOOL)showDot;
+- (void) updateForChatMessage:(id<ChatObject>)cm shouldShowDot:(BOOL)showDot scope:(ChatScope)scope;
 
 @end
 

@@ -155,15 +155,23 @@
   
   MonsterProto *mp = self.evoItem.userMonster1.staticMonster;
   MonsterProto *cata = self.evoItem.userMonster1.staticEvolutionCatalystMonster;
-  MonsterProto *evo = self.evoItem.userMonster1.staticEvolutionMonster;
+//  MonsterProto *evo = self.evoItem.userMonster1.staticEvolutionMonster;
   
-  if ([self.evoItem isReadyForEvolution]) {
-    NSString *str = [NSString stringWithFormat:@"You have all the pieces to create %@:\n%@ L%d, another %@, and a %@ (Evo %d).",
-                     evo.monsterName, mp.monsterName, mp.maxLevel, mp.monsterName, cata.monsterName, cata.evolutionLevel];
-    self.descriptionLabel.text = str;
-    self.descriptionLabel.highlighted = YES;
-    self.descriptionLabel.highlightedTextColor = greenColor;
-  } else {
+  NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
+  style.lineSpacing = 2.f;
+  
+//  if ([self.evoItem isReadyForEvolution]) {
+//    
+//    NSString *str = [NSString stringWithFormat:@"You can create %@:%@ L%d, another %@, and a %@ (Evo %d).",
+//                     evo.monsterName, mp.monsterName, mp.maxLevel, mp.monsterName, cata.monsterName, cata.evolutionLevel];
+//    NSMutableAttributedString *labelText = [[NSMutableAttributedString alloc] initWithString:str attributes:@{NSParagraphStyleAttributeName : style}];
+//    self.descriptionLabel.attributedText = labelText;
+//    
+//    self.descriptionLabel.highlighted = YES;
+//    self.descriptionLabel.highlightedTextColor = greenColor;
+//  
+//  } else {
+  
     UIColor *color;
     NSString *str = [NSString stringWithFormat:@"To Evolve, you need a "];
     NSAttributedString *attr = [[NSAttributedString alloc] initWithString:str];
@@ -196,13 +204,11 @@
     for (NSAttributedString *s in strs) {
       [labelText appendAttributedString:s];
     }
-    
-    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
-    style.lineSpacing = 2.f;
     [labelText addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0, labelText.string.length)];
     
     self.descriptionLabel.attributedText = labelText;
-  }
+  
+//  }
 }
 
 #pragma mark - IBActions

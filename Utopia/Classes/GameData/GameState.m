@@ -70,6 +70,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _inProgressIncompleteQuests = [[NSMutableDictionary alloc] init];
     
     _privateChats = [[NSMutableArray alloc] init];
+    _privateChatLanguages = [[NSMutableDictionary alloc] init];
+    _privateTranslationOn = [[NSMutableDictionary alloc] init];
     
     _unrespondedUpdates = [[NSMutableArray alloc] init];
     
@@ -664,19 +666,19 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
 }
 
-- (void) addChatMessage:(MinimumUserProtoWithLevel *)sender message:(NSString *)msg scope:(GroupChatScope)scope isAdmin:(BOOL)isAdmin {
+- (void) addChatMessage:(MinimumUserProtoWithLevel *)sender message:(NSString *)msg scope:(ChatScope)scope isAdmin:(BOOL)isAdmin {
   ChatMessage *cm = [[ChatMessage alloc] init];
-  cm.sender = sender.minUserProto;
-  cm.message = msg;
+  cm.originalSender = sender;
+  cm.originalMessage = msg;
   cm.date = [MSDate date];
   cm.isAdmin = isAdmin;
   [self addChatMessage:cm scope:scope];
 }
 
-- (void) addChatMessage:(ChatMessage *)cm scope:(GroupChatScope) scope {
+- (void) addChatMessage:(ChatMessage *)cm scope:(ChatScope) scope {
   Globals *gl = [Globals sharedGlobals];
   if (![gl isUserUuidMuted:cm.sender.userUuid]) {
-    if (scope == GroupChatScopeGlobal) {
+    if (scope == ChatScopeGlobal) {
       [self.globalChatMessages addObject:cm];
     } else {
       [self.clanChatMessages addObject:cm];
@@ -878,7 +880,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   
   for (GroupChatMessageProto *msg in clanData.clanChatsList) {
     ChatMessage *cm = [[ChatMessage alloc] initWithProto:msg];
-    [self addChatMessage:cm scope:GroupChatScopeClan];
+    cm.isRead = YES;
+    [self addChatMessage:cm scope:ChatScopeClan];
   }
   
   self.clanHelpUtil = nil;
@@ -906,6 +909,20 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (void) addBoosterPurchase:(RareBoosterPurchaseProto *)bp {
   [self.rareBoosterPurchases insertObject:bp atIndex:0];
+}
+
+#pragma mark - language
+
+- (TranslateLanguages) languageForUser:(NSString *)userUuid {
+  GameState *gs = [GameState sharedGameState];
+  NSNumber *savedNumber = [gs.privateChatLanguages valueForKey:userUuid];
+  return (TranslateLanguages)savedNumber.intValue;
+}
+
+- (BOOL) translateOnForUser:(NSString *)userUuid {
+  GameState *gs = [GameState sharedGameState];
+  NSNumber *savedNumber = [gs.privateTranslationOn valueForKey:userUuid];
+  return savedNumber.boolValue;
 }
 
 #pragma mark - Healing

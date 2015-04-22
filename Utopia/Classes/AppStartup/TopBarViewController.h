@@ -83,6 +83,7 @@
 
 @property (nonatomic, retain) IBOutlet UIView *freeGemsView;
 @property (nonatomic, retain) IBOutlet UIView *freeGemsSpinner;
+@property (nonatomic, retain) IBOutlet THLabel *freeGemsLabel;
 
 @property (nonatomic, retain) IBOutlet UIView *secretGiftView;
 @property (nonatomic, retain) IBOutlet UIView *secretGiftTimerView;

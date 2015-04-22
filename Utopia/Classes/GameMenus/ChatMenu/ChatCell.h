@@ -36,12 +36,16 @@
 // This is used for the popover to align correctly
 @property (nonatomic, retain) IBOutlet UIView *bubbleAlignView;
 
+@property (nonatomic, retain) IBOutlet UILabel *translationDescription;
+@property (nonatomic, retain) IBOutlet UIButton *untranslateButton;
+
 @property (nonatomic, retain) IBOutlet UIView *currentChatSubview;
 
 @property (nonatomic, retain) NSMutableDictionary *chatSubviews;
 
-- (void) updateForMessage:(NSString *)message sender:(MinimumUserProto *)sender date:(MSDate *)date showsClanTag:(BOOL)showsClanTag;
+- (void) updateForMessage:(NSString *)message sender:(MinimumUserProto *)sender date:(MSDate *)date showsClanTag:(BOOL)showsClanTag translatedTo:(TranslateLanguages)translatedTo untranslate:(BOOL)untranslate showTranslateButton:(BOOL)showTranslateButton;
 - (void) updateForMessage:(NSString *)message sender:(MinimumUserProto *)sender date:(MSDate *)date showsClanTag:(BOOL)showsClanTag allowHighlight:(BOOL)allowHighlight chatSubview:(UIView *)view identifier:(NSString *)identifier;
+- (void) updateForMessage:(NSString *)message sender:(MinimumUserProto *)sender date:(MSDate *)date showsClanTag:(BOOL)showsClanTag allowHighlight:(BOOL)allowHighlight chatSubview:(UIView *)view identifier:(NSString *)identifier translatedTo:(TranslateLanguages)translatedTo untranslate:(BOOL)untranslate showTranslateButton:(BOOL)showTranslateButton;
 
 - (void) updateBubbleImagesWithPrefix:(NSString *)prefix;
 
@@ -58,9 +62,7 @@
 
 @property (nonatomic, retain) IBOutlet CircleMonsterView *monsterView;
 
-@property (nonatomic, strong) id<ChatObject> privateChat;
-
-- (void) updateForPrivateChat:(id<ChatObject>)privateChat;
+- (void) updateForPrivateChat:(id<ChatObject>)privateChat language:(TranslateLanguages)language;
 
 @end
 
@@ -77,7 +79,7 @@
 @property (nonatomic, retain) IBOutlet UIImageView *revengeCheck;
 
 @property (nonatomic, retain) IBOutlet UIView *selectedSubViewBackGround;
-- (void) updateForPrivateChat:(id<ChatObject>)privateChat;
+- (void) updateForPrivateChat:(id<ChatObject>)privateChat language:(TranslateLanguages)language;
 
 @end
 

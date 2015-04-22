@@ -56,7 +56,7 @@
 - (void) setGameCenterId:(NSString *)gameCenterId;
 - (void) setFacebookId:(NSString *)facebookId email:(NSString *)email otherFbInfo:(NSDictionary *)otherFbInfo delegate:(id)delegate;
 
-- (void) sendGroupChat:(GroupChatScope)scope message:(NSString *)msg;
+- (void) sendGroupChat:(ChatScope)scope message:(NSString *)msg;
 
 - (void) createClan:(NSString *)clanName tag:(NSString *)clanTag description:(NSString *)description requestOnly:(BOOL)requestOnly iconId:(int)iconId useGems:(BOOL)useGems delegate:(id)delegate;
 - (void) leaveClanWithDelegate:(id)delegate;
@@ -90,8 +90,10 @@
 - (void) purchaseBoosterPack:(int)boosterPackId isFree:(BOOL)free delegate:(id)delegate;
 - (void) tradeItemForFreeBoosterPack:(int)boosterPackId delegate:(id)delegate;
 
-- (void) privateChatPost:(NSString *)recipientUuid content:(NSString *)content;
+- (void) privateChatPost:(NSString *)recipientUuid content:(NSString *)content originalLanguage:(TranslateLanguages)originalLanguage;
 - (void) retrievePrivateChatPosts:(NSString *)otherUserUuid delegate:(id)delegate;
+
+- (void) translateSelectMessages:(NSArray *)messages language:(TranslateLanguages)language otherUserUuid:(NSString *)otherUserUuid chatType:(ChatScope)chatType translateOn:(BOOL)translateOn delegate:(id)delegate;
 
 - (void) setAvatarMonster:(int)avatarMonsterId;
 - (void) setDefendingMessage:(NSString *)defendingMessage;

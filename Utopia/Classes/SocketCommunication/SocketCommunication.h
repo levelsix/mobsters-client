@@ -129,7 +129,7 @@
 
 - (int) sendEarnFreeDiamondsFBConnectMessageClientTime:(uint64_t)time;
 
-- (int) sendGroupChatMessage:(GroupChatScope)scope message:(NSString *)msg clientTime:(uint64_t)clientTime;
+- (int) sendGroupChatMessage:(ChatScope)scope message:(NSString *)msg clientTime:(uint64_t)clientTime globalLanguage:(TranslateLanguages)globalLanguage;
 
 - (int) sendCreateClanMessage:(NSString *)clanName tag:(NSString *)tag description:(NSString *)description requestOnly:(BOOL)requestOnly iconId:(int)iconId cashChange:(int)cashChange gemsSpent:(int)gemsSpent;
 - (int) sendLeaveClanMessage;
@@ -156,8 +156,10 @@
 - (int) sendPurchaseBoosterPackMessage:(int)boosterPackId isFree:(BOOL)free clientTime:(uint64_t)clientTime;
 - (int) sendTradeItemForBoosterMessage:(int)itemId clientTime:(uint64_t)clientTime;
 
-- (int) sendPrivateChatPostMessage:(NSString *)recipientUuid content:(NSString *)content;
-- (int) sendRetrievePrivateChatPostsMessage:(NSString *)otherUserUuid;
+- (int) sendPrivateChatPostMessage:(NSString *)recipientUuid content:(NSString *)content originalLanguage:(TranslateLanguages)originalLanguage;
+- (int) sendRetrievePrivateChatPostsMessage:(NSString *)otherUserUuid language:(TranslateLanguages)language;
+
+- (int) sendTranslateSelectMessages:(NSString *)otherUserUuid language:(TranslateLanguages)language messages:(NSArray *)messages chatType:(ChatScope)chatType translateOn:(BOOL)translateOn;
 
 - (int) sendBeginDungeonMessage:(uint64_t)clientTime taskId:(int)taskId isEvent:(BOOL)isEvent eventId:(int)eventId gems:(int)gems enemyElement:(Element)element shouldForceElem:(BOOL)shouldForceElem alreadyCompletedMiniTutorialTask:(BOOL)alreadyCompletedMiniTutorialTask questIds:(NSArray *)questIds;
 - (int) sendUpdateMonsterHealthMessage:(uint64_t)clientTime monsterHealths:(NSArray *)monsterHealths isForTask:(BOOL)isForTask userTaskUuid:(NSString *)userTaskUuid taskStageId:(int)taskStageId droplessTsfuUuid:(NSString *)droplessTsfuUuid;

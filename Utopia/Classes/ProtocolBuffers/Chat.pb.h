@@ -47,19 +47,13 @@
   #endif
 #endif
 
-typedef NS_ENUM(SInt32, GroupChatScope) {
-  GroupChatScopeClan = 1,
-  GroupChatScopeGlobal = 2,
+typedef NS_ENUM(SInt32, ChatScope) {
+  ChatScopeGlobal = 1,
+  ChatScopeClan = 2,
+  ChatScopePrivate = 3,
 };
 
-BOOL GroupChatScopeIsValidValue(GroupChatScope value);
-
-typedef NS_ENUM(SInt32, ChatType) {
-  ChatTypeGlobalChat = 1,
-  ChatTypePrivateChat = 2,
-};
-
-BOOL ChatTypeIsValidValue(ChatType value);
+BOOL ChatScopeIsValidValue(ChatScope value);
 
 typedef NS_ENUM(SInt32, TranslateLanguages) {
   TranslateLanguagesArabic = 1,

@@ -9,6 +9,7 @@
 #import "ChatBottomView.h"
 #import "cocos2d.h"
 #import "Globals.h"
+#import "GameState.h"
 
 #define NUM_ROWS_DISPLAYED 2
 
@@ -18,10 +19,37 @@
   self.monsterView.transform = CGAffineTransformMakeScale(0.45, 0.45);
 }
 
-- (void) updateForChatMessage:(id<ChatObject>)cm shouldShowDot:(BOOL)showDot {
+- (void) updateForChatMessage:(id<ChatObject>)cm shouldShowDot:(BOOL)showDot scope:(ChatScope)scope{
+  GameState *gs = [GameState sharedGameState];
   [self.monsterView updateForMonsterId:cm.sender.avatarMonsterId];
   self.nameLabel.text = [NSString stringWithFormat:@"%@%@: ", showDot ? @"    " : @"", cm.sender.name];
+  
+  TranslateLanguages displayLanguage = TranslateLanguagesNoTranslation;
+  if (![cm.sender.userUuid isEqualToString:gs.minUser.userUuid]) {
+    if (scope == ChatScopeGlobal) {
+        displayLanguage = gs.globalTranslationOn ? gs.globalLanguage : TranslateLanguagesNoTranslation;
+    } else if (scope == ChatScopePrivate) {
+      
+      TranslateLanguages savedLanguage = [gs languageForUser:cm.sender.userUuid];
+      BOOL savedTranslateOn = [gs translateOnForUser:cm.sender.userUuid];
+
+      displayLanguage = savedTranslateOn ? savedLanguage : TranslateLanguagesNoTranslation;
+    }
+  }
+
   self.msgLabel.text = cm.message;
+  
+  if (displayLanguage != TranslateLanguagesNoTranslation) {
+    
+    if ([cm isKindOfClass:[PrivateChatPostProto class]]){
+      PrivateChatPostProto *pcpp = (PrivateChatPostProto *)cm;
+      self.msgLabel.text = [[pcpp makeChatMessage] getContentInLanguage:displayLanguage isTranslated:NULL translationExists:NULL];
+    } else if ([cm isKindOfClass:[ChatMessage class]]) {
+      ChatMessage *chatM = (ChatMessage *)cm;
+      self.msgLabel.text = [chatM getContentInLanguage:displayLanguage isTranslated:NULL translationExists:NULL];
+    }
+  }
+  
   self.dotIcon.hidden = !showDot;
   
   self.msgLabel.textColor = [cm bottomViewTextColor];
@@ -150,7 +178,7 @@
 - (ChatBottomLineView *) getLineViewForLineNum:(int)lineNum {
   id<ChatObject> cm = [self.delegate chatMessageForLineNum:lineNum scope:_chatScope];
   ChatBottomLineView *lv = [self getUnusedLineView];
-  [lv updateForChatMessage:cm shouldShowDot:[self.delegate shouldShowUnreadDotForLineNum:lineNum scope:_chatScope]];
+  [lv updateForChatMessage:cm shouldShowDot:[self.delegate shouldShowUnreadDotForLineNum:lineNum scope:_chatScope] scope:_chatScope];
   [self.lineViewContainer addSubview:lv];
   return lv;
 }

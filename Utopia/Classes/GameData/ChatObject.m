@@ -24,33 +24,106 @@
 
 @implementation ChatMessage
 
-@synthesize message, sender, date, isAdmin;
-
 - (id) initWithProto:(GroupChatMessageProto *)p {
   if ((self = [super init])) {
-    self.message = p.content;
-    self.sender = p.sender.minUserProto;
+    self.originalMessage = p.content;
+    self.originalLanguage = p.contentLanguage;
+    self.translatedTextProtos = [NSMutableArray arrayWithArray:p.translatedContentList];
+    self.originalSender = p.sender;
     self.date = [MSDate dateWithTimeIntervalSince1970:p.timeOfChat/1000.];
     self.isAdmin = p.isAdmin;
-    
-    // If being initialized with a proto, it means it didn't just get received right now
-    // So mark it as read..
-    self.isRead = YES;
+    self.revertedTranslation = NO;
+    self.postUuid = p.chatUuid;
   }
   return self;
+}
+
+- (id) initWithPrivateChatPostProto:(PrivateChatPostProto *)p {
+  if ((self = [super init])) {
+    self.originalMessage = p.content;
+    self.originalLanguage = p.originalContentLanguage;
+    self.translatedTextProtos = [NSMutableArray arrayWithArray:p.translatedContentList];
+    self.originalSender = p.poster;
+    self.date = [MSDate dateWithTimeIntervalSince1970:p.timeOfPost/1000.];
+    self.revertedTranslation = NO;
+    self.postUuid = p.privateChatPostUuid;
+  }
+  return self;
+}
+
+- (PrivateChatPostProto *) makePrivateChatPostProto {
+  PrivateChatPostProto *pcpp = [[[[[[[PrivateChatPostProto builder]
+                                     setPrivateChatPostUuid:self.postUuid]
+                                    setPoster:self.originalSender]
+                                   setTimeOfPost:self.date.timeIntervalSince1970*1000.]
+                                  setContent:self.originalMessage]
+                                 addAllTranslatedContent:self.translatedTextProtos]
+                                build];
+  return pcpp;
+}
+
+- (MinimumUserProto *) sender {
+  return self.originalSender.minUserProto;
+}
+
+- (NSString *) message {
+  return self.originalMessage;
 }
 
 - (UIColor *)bottomViewTextColor {
   return [UIColor whiteColor];
 }
 
-- (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag {
-  [chatCell updateForMessage:self.message sender:self.sender date:self.date showsClanTag:showsClanTag];
+- (NSString *) getContentInLanguage:(TranslateLanguages)language isTranslated:(BOOL *)isTranslatedPtr translationExists:(BOOL *)translationExistsPtr {
+  BOOL isTranslated = NO;
+  BOOL translationExists = NO;
+  NSString *content = self.originalMessage;
+  
+  // Pretend no translation exists if it is the same as original language or if user is the sender
+  GameState *gs = [GameState sharedGameState];
+  if (self.originalLanguage != language && ![self.sender.userUuid isEqualToString:gs.userUuid]) {
+    
+    // Go through list to see if translation exists. Only translate if it wasn't reverted
+    for (TranslatedTextProto *ttp in self.translatedTextProtos) {
+      if (ttp.language == language) {
+        if (!self.revertedTranslation) {
+          content = ttp.text;
+          isTranslated = YES;
+        }
+        
+        translationExists = YES;
+        break;
+      }
+    }
+  }
+  
+  // Make sure the pointers actually exist
+  if (isTranslatedPtr) {
+    *isTranslatedPtr = isTranslated;
+  }
+  
+  if (translationExistsPtr) {
+    *translationExistsPtr = translationExists;
+  }
+  
+  return content;
 }
 
-- (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell {
-  [self updateInChatCell:chatCell showsClanTag:NO];
-  return CGRectGetMaxY(chatCell.msgLabel.frame)+14.f;
+- (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag language:(TranslateLanguages)language {
+  BOOL isTranslated = NO, translationExists = NO;
+  NSString *message = [self getContentInLanguage:language isTranslated:&isTranslated translationExists:&translationExists];
+  [chatCell updateForMessage:message sender:self.sender date:self.date showsClanTag:showsClanTag translatedTo:language untranslate:self.revertedTranslation showTranslateButton:translationExists];
+}
+
+- (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell language:(TranslateLanguages)language {
+  [self updateInChatCell:chatCell showsClanTag:NO language:language];
+  float translationSpace = 0.f;
+  
+  if (!chatCell.translationDescription.superview.hidden) {
+    translationSpace = 14.f;
+  }
+  
+  return CGRectGetMaxY(chatCell.msgLabel.frame)+14.f+translationSpace;
 }
 
 - (void) markAsRead {
@@ -99,7 +172,7 @@
   return NO;
 }
 
-- (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag {
+- (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag language:(TranslateLanguages)language{
   NSString *nibName = @"ChatBonusSlotRequestView";
   ChatBonusSlotRequestView *v = [chatCell dequeueChatSubview:nibName];
   
@@ -112,8 +185,8 @@
   [chatCell updateForMessage:self.message sender:self.sender date:self.date showsClanTag:showsClanTag allowHighlight:YES chatSubview:v identifier:nibName];
 }
 
-- (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell {
-  [self updateInChatCell:chatCell showsClanTag:YES];
+- (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell language:(TranslateLanguages)language{
+  [self updateInChatCell:chatCell showsClanTag:YES language:TranslateLanguagesEnglish];
   return CGRectGetMaxY(chatCell.currentChatSubview.frame)+14.f;
 }
 
@@ -127,6 +200,7 @@
   bldr.poster = [gs minUserWithLevel];
   bldr.recipient = [[[MinimumUserProtoWithLevel builder] setMinUserProto:[self sender]] build];
   bldr.timeOfPost = [[MSDate date] timeIntervalSince1970]*1000.;
+  bldr.originalContentLanguage = [gs languageForUser:bldr.recipient.minUserProto.userUuid];
   PrivateChatPostProto *pcpp = [bldr build];
   return pcpp;
 }
@@ -137,7 +211,7 @@
   PrivateChatPostProto *pcpp = [self privateChat];
   
   // Send a private message as if you just accepted the hire
-  [[OutgoingEventController sharedOutgoingEventController] privateChatPost:self.invite.inviter.minUserProto.userUuid content:pcpp.content];
+  [[OutgoingEventController sharedOutgoingEventController] privateChatPost:self.invite.inviter.minUserProto.userUuid content:pcpp.content originalLanguage:pcpp.originalContentLanguage];
   
   NSString *key = [NSString stringWithFormat:PRIVATE_CHAT_DEFAULTS_KEY, pcpp.recipient.minUserProto.userUuid];
   [[NSNotificationCenter defaultCenter] postNotificationName:PRIVATE_CHAT_RECEIVED_NOTIFICATION object:self userInfo:@{key : pcpp}];
@@ -171,6 +245,11 @@
 
 - (BOOL) isRead {
   return !self.isUnread;
+}
+
+- (ChatMessage *) makeChatMessage {
+  ChatMessage *cm = [[ChatMessage alloc] initWithPrivateChatPostProto:self];
+  return cm;
 }
 
 @end
@@ -230,7 +309,7 @@
 }
 
 
-- (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag {
+- (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag language:(TranslateLanguages)language{
   NSString *nibName = @"ChatBattleHistoryView";
   ChatBattleHistoryView *v = [chatCell dequeueChatSubview:nibName];
   
@@ -253,8 +332,8 @@
   return NO;
 }
 
-- (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell {
-  [self updateInChatCell:chatCell showsClanTag:YES];
+- (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell language:(TranslateLanguages)language{
+  [self updateInChatCell:chatCell showsClanTag:YES language:TranslateLanguagesEnglish];
   return CGRectGetMaxY(chatCell.currentChatSubview.frame)+14.f;
 }
 
@@ -386,7 +465,7 @@
 }
 
 
-- (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag {
+- (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag language:(TranslateLanguages)language{
   NSString *nibName = @"ChatClanAvengeView";
   ChatClanAvengeView *v = [chatCell dequeueChatSubview:nibName];
   
@@ -405,8 +484,8 @@
   return ![self isValid];
 }
 
-- (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell {
-  [self updateInChatCell:chatCell showsClanTag:YES];
+- (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell language:(TranslateLanguages)language{
+  [self updateInChatCell:chatCell showsClanTag:YES language:TranslateLanguagesEnglish];
   return CGRectGetMaxY(chatCell.currentChatSubview.frame)+14.f;
 }
 

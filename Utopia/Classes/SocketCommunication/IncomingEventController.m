@@ -26,6 +26,7 @@
 #import "FacebookDelegate.h"
 #import "UnreadNotifications.h"
 #import "MiniEventManager.h"
+#import "ChatView.h"
 
 #define QUEST_REDEEM_KIIP_REWARD @"quest_redeem"
 
@@ -361,6 +362,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSUpdateUserStrengthEvent:
       responseClass = [UpdateUserStrengthResponseProto class];
       break;
+    case EventProtocolResponseSTranslateSelectMessagesEvent:
+      responseClass = [TranslateSelectMessagesResponseProto class];
+      break;
     case EventProtocolResponseSRedeemMiniEventRewardEvent:
       responseClass = [RedeemMiniEventRewardResponseProto class];
       break;
@@ -508,11 +512,21 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs.privateChats removeAllObjects];
     for (GroupChatMessageProto *msg in proto.globalChatsList) {
       ChatMessage *cm = [[ChatMessage alloc] initWithProto:msg];
-      [gs addChatMessage:cm scope:GroupChatScopeGlobal];
+      cm.isRead = YES;
+      [gs addChatMessage:cm scope:ChatScopeGlobal];
     }
     for (PrivateChatPostProto *pcpp in proto.pcppList) {
       [gs addPrivateChat:pcpp];
     }
+    
+    [gs.privateChatLanguages removeAllObjects];
+    gs.globalLanguage = proto.userDefaultLanguages.globalDefaultLanguage;
+    gs.globalTranslationOn = proto.userDefaultLanguages.globalTranslateOn;
+    for (PrivateChatDefaultLanguageProto *pcdl in proto.userDefaultLanguages.privateDefaultLanguageList) {
+      [gs.privateChatLanguages setValue:@(pcdl.defaultLanguage) forKey:pcdl.senderUserId];
+      [gs.privateTranslationOn setValue:@(pcdl.translateOn) forKey:pcdl.senderUserId];
+    }
+    
     [gs updateClanData:proto.clanData];
     
     gs.battleHistory = [proto.recentNbattlesList mutableCopy];
@@ -1112,11 +1126,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   // Chats sent from this user will be faked.
   GameState *gs = [GameState sharedGameState];
   if (![proto.sender.minUserProto.userUuid isEqualToString:gs.userUuid]) {
-    [gs addChatMessage:proto.sender message:proto.chatMessage scope:proto.scope isAdmin:proto. isAdmin];
+    ChatMessage *cm = [[ChatMessage alloc] initWithProto:proto.message];
+    [gs addChatMessage:cm scope:proto.scope];
     
     Globals *gl = [Globals sharedGlobals];
     if (![gl isUserUuidMuted:proto.sender.minUserProto.userUuid]) {
-      NSString *key = proto.scope == GroupChatScopeClan ? CLAN_CHAT_RECEIVED_NOTIFICATION : GLOBAL_CHAT_RECEIVED_NOTIFICATION;
+      NSString *key = proto.scope == ChatScopeClan ? CLAN_CHAT_RECEIVED_NOTIFICATION : GLOBAL_CHAT_RECEIVED_NOTIFICATION;
       [[NSNotificationCenter defaultCenter] postNotificationName:key object:nil];
     }
   }
@@ -1130,6 +1145,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     GameState *gs = [GameState sharedGameState];
     [gs addPrivateChat:proto.post];
     //add here
+    //okay I will
+    if (![gs.privateChatLanguages valueForKey:proto.post.poster.minUserProto.userUuid]) {
+      [gs.privateChatLanguages setValue:@(proto.translationSetting.defaultLanguage) forKey:proto.post.poster.minUserProto.userUuid];
+      [gs.privateTranslationOn setValue:@(proto.translationSetting.translateOn) forKey:proto.post.poster.minUserProto.userUuid];
+    }
     
     [[NSNotificationCenter defaultCenter] postNotificationName:PRIVATE_CHAT_RECEIVED_NOTIFICATION object:nil userInfo:
      [NSDictionary dictionaryWithObject:proto.post forKey:[NSString stringWithFormat:PRIVATE_CHAT_DEFAULTS_KEY, proto.post.otherUser.userUuid]]];
@@ -2577,6 +2597,20 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [Globals popupMessage:@"Server failed to update mini event."];
     
     [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+#pragma mark - Translation
+
+- (void) handleTranslateSelectMessagesResponseProto:(FullEvent *)fe {
+  TranslateSelectMessagesResponseProto *proto = (TranslateSelectMessagesResponseProto *)fe.event;
+  
+  LNLog(@"Translate select messages response received with status %d.", (int)proto.status);
+  
+  if(proto.status == TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusSuccess) {
+    
+  } else {
+    [Globals popupMessage:@"Server failed to translate messages."];
   }
 }
 
