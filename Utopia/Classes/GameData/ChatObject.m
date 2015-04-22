@@ -79,8 +79,9 @@
   BOOL translationExists = NO;
   NSString *content = self.originalMessage;
   
-  // Pretend no translation exists if it is the same as original language
-  if (self.originalLanguage != language) {
+  // Pretend no translation exists if it is the same as original language or if user is the sender
+  GameState *gs = [GameState sharedGameState];
+  if (self.originalLanguage != language && ![self.sender.userUuid isEqualToString:gs.userUuid]) {
     
     // Go through list to see if translation exists. Only translate if it wasn't reverted
     for (TranslatedTextProto *ttp in self.translatedTextProtos) {

@@ -32,7 +32,7 @@ NSMutableAttributedString *attributedStringWithResearch(ResearchProto *res, BOOL
   
   if (isActive) {
     [attr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithWhite:51/255.f alpha:1.f] range:NSMakeRange(0, str1.length)];
-    [attr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"71b803"] range:NSMakeRange(str1.length, str2.length)];
+    [attr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"457D0D"] range:NSMakeRange(str1.length, str2.length)];
   } else {
     [attr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithWhite:135/255.f alpha:1.f] range:NSMakeRange(0, totalStr.length)];
   }
@@ -65,7 +65,7 @@ NSMutableAttributedString *attributedStringWithResearchChange(int total, int bas
   NSString *totalStr = [NSString stringWithFormat:@"%@%@%@%@", str1, str2, str3, str4];
   NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:totalStr];
   
-  [attr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"71b803"] range:NSMakeRange(str1.length+str2.length, str3.length)];
+  [attr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"457D0D"] range:NSMakeRange(str1.length+str2.length, str3.length)];
   
   return attr;
 }

@@ -48,8 +48,8 @@
 #endif
 
 typedef NS_ENUM(SInt32, ChatScope) {
-  ChatScopeClan = 1,
-  ChatScopeGlobal = 2,
+  ChatScopeGlobal = 1,
+  ChatScopeClan = 2,
   ChatScopePrivate = 3,
 };
 

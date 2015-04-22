@@ -3431,7 +3431,7 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.chatType = ChatScopeClan;
+    self.chatType = ChatScopeGlobal;
     self.otherUserUuid = @"";
     self.language = TranslateLanguagesArabic;
     self.translateOn = NO;
@@ -3781,7 +3781,7 @@ static TranslateSelectMessagesRequestProto* defaultTranslateSelectMessagesReques
 }
 - (TranslateSelectMessagesRequestProto_Builder*) clearChatTypeList {
   result.hasChatType = NO;
-  result.chatType = ChatScopeClan;
+  result.chatType = ChatScopeGlobal;
   return self;
 }
 - (BOOL) hasOtherUserUuid {

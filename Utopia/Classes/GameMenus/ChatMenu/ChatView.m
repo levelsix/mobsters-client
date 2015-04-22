@@ -412,8 +412,8 @@
   
   chatMessage.revertedTranslation = !chatMessage.revertedTranslation;
   
-  [chatMessage updateInChatCell:chatCell showsClanTag:[self showsClanTag] language:_curLanguage];
   [self.chatTable reloadRowsAtIndexPaths:[NSArray arrayWithObject:ip] withRowAnimation:UITableViewRowAnimationAutomatic];
+  [chatMessage updateInChatCell:chatCell showsClanTag:[self showsClanTag] language:_curLanguage];
 }
 
 @end
@@ -1016,7 +1016,7 @@
   
   for (ChatMessage *message in self.chats) {
     BOOL needsTranslation = YES;
-    if ([message.sender.userUuid isEqualToString:gs.userUuid] || ![message isKindOfClass:[ChatMessage class]] || message.originalLanguage == language) {
+    if ([message.sender.userUuid isEqualToString:gs.userUuid] || ![message isKindOfClass:[ChatMessage class]] || message.originalLanguage == language || !message.postUuid.length) {
       continue;
     }
     
