@@ -26,10 +26,11 @@
 - (BOOL) isRead;
 - (void) markAsRead;
 
+
 @optional
-- (MinimumUserProto *)otherUser;
+- (MinimumUserProto *) otherUser;
 - (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag language:(TranslateLanguages)language;
-- (BOOL *)originalLanguage;
+- (TranslateLanguages) originalLanguage;
 
 // If true, requests reload of entire view.. for when it runs out of time
 - (BOOL) updateForTimeInChatCell:(ChatCell *)chatCell;

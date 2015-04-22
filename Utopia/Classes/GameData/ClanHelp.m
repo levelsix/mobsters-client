@@ -180,7 +180,7 @@
   // Do nothing
 }
 
-- (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag {
+- (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag language:(TranslateLanguages)language {
   NSString *nibName = @"ChatClanHelpView";
   ChatClanHelpView *v = [chatCell dequeueChatSubview:nibName];
   
@@ -193,7 +193,7 @@
   [chatCell updateForMessage:self.message sender:self.sender date:self.date showsClanTag:showsClanTag allowHighlight:YES chatSubview:v identifier:nibName];
 }
 
-- (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell language:(TranslateLanguages)language{
+- (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell language:(TranslateLanguages)language {
   [self updateInChatCell:chatCell showsClanTag:YES language:language];
   return CGRectGetMaxY(chatCell.currentChatSubview.frame)+14.f;
 }
