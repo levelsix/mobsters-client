@@ -32,7 +32,7 @@
 
 @end
 
-@interface NewGachaPrizeView : UIView
+@interface NewGachaPrizeView : UIView <UIScrollViewDelegate>
 {
   NSMutableArray* _characterImageViews;
   NSMutableArray* _characterStatsViews;
@@ -45,6 +45,8 @@
   UIImageView *_characterWhite;
   
   UIView *_particleEffectView;
+  
+  BOOL _skippingAnimations;
 }
 
 @property (nonatomic, retain) IBOutlet UIView* animationContainerView;
@@ -52,6 +54,9 @@
 
 @property (nonatomic, retain) IBOutlet UIScrollView* contentScrollView;   // Interactable
 @property (nonatomic, retain) IBOutlet UIScrollView* characterScrollView; // Scrolls in sync with contentScrollView
+
+@property (nonatomic, retain) IBOutlet UIPageControl* contentPageControl;
+@property (nonatomic, retain) IBOutlet UILabel* contentPageLabel;
 
 @property (nonatomic, retain) IBOutlet UIImageView* background;
 @property (nonatomic, retain) IBOutlet UIImageView* characterShadow;
@@ -73,6 +78,9 @@
 @property (nonatomic, retain) IBOutlet UIImageView* lightningBolt7;
 @property (nonatomic, retain) IBOutlet UIImageView* afterGlow;
 
+@property (nonatomic, retain) IBOutlet UIButton* prevButton;
+@property (nonatomic, retain) IBOutlet UIButton* nextButton;
+@property (nonatomic, retain) IBOutlet UIButton* skipAllButton;
 @property (nonatomic, retain) IBOutlet UIButton* closeButton;
 
 - (void) preloadWithMonsterIds:(NSArray*)monsterIds;
@@ -80,6 +88,9 @@
 
 - (void) beginAnimation;
 
+- (IBAction) prevButtonClicked:(id)sender;
+- (IBAction) nextButtonClicked:(id)sender;
+- (IBAction) skipAllClicked:(id)sender;
 - (IBAction) closeClicked:(id)sender;
 
 @end
