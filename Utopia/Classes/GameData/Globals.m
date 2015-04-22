@@ -2864,7 +2864,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 - (BOOL) validateUserName:(NSString *)name {
   // make sure length is okay
   if (name.length < self.minNameLength) {
-    [Globals addAlertNotification:[NSString stringWithFormat:@"Your name must be atleast %d character%@.", self.minNameLength, self.minNameLength == 1 ? @"" : @"s"]];
+    [Globals addAlertNotification:[NSString stringWithFormat:@"Your name must be at least %d character%@.", self.minNameLength, self.minNameLength == 1 ? @"" : @"s"]];
     return NO;
   } else if (name.length > self.maxNameLength) {
     [Globals addAlertNotification:[NSString stringWithFormat:@"Your name must be less than %d characters.", self.maxNameLength]];
