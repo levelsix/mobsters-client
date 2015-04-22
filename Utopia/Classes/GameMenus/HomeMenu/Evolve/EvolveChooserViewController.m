@@ -121,27 +121,29 @@
   NSMutableDictionary *validMonsters = [NSMutableDictionary dictionary];
   NSMutableArray *ready = [NSMutableArray array];
   NSMutableArray *notReady = [NSMutableArray array];
+  NSMutableDictionary *catalysts = [NSMutableDictionary dictionary];
   
   for (UserMonster *um in gs.myMonsters) {
-    if (um.isAvailable && um.staticMonster.evolutionMonsterId) {
-      int monsterId = um.staticMonster.monsterId;
-      NSMutableArray *arr = validMonsters[@(monsterId)];
+    if (um.isAvailable) {
+      NSMutableArray *dicts = [NSMutableArray arrayWithObject:catalysts];
       
-      if (!arr) {
-        arr = [NSMutableArray array];
-        validMonsters[@(monsterId)] = arr;
+      // Only add to valid monsters if it can be evolved. Always add to catas though
+      if (um.staticMonster.evolutionMonsterId) {
+        [dicts addObject:validMonsters];
       }
       
-      [arr addObject:um];
+      for (NSMutableDictionary *dict in dicts) {
+        int monsterId = um.staticMonster.monsterId;
+        NSMutableArray *arr = dict[@(monsterId)];
+        
+        if (!arr) {
+          arr = [NSMutableArray array];
+          dict[@(monsterId)] = arr;
+        }
+        
+        [arr addObject:um];
+      }
     }
-  }
-  
-  NSMutableDictionary *catalyts = [NSMutableDictionary dictionary];
-  for (NSNumber *num in validMonsters) {
-    NSMutableArray *arr = validMonsters[num];
-    [arr sortUsingSelector:@selector(compare:)];
-    
-    catalyts[num] = [arr copy];
   }
   
   // Now go through every array in validMonsters and pair up with highest and lowest monsters (first and last object).
@@ -152,7 +154,7 @@
       UserMonster *cata = nil;
       
       // Go backwards through the cata array since its ordered from highest to lowest
-      NSMutableArray *catas = catalyts[@(um1.staticMonster.evolutionCatalystMonsterId)];
+      NSMutableArray *catas = catalysts[@(um1.staticMonster.evolutionCatalystMonsterId)];
       for (UserMonster *um in catas.reverseObjectEnumerator) {
         if (![um.userMonsterUuid isEqualToString:um1.userMonsterUuid] &&
             ![um.userMonsterUuid isEqualToString:um2.userMonsterUuid]) {
