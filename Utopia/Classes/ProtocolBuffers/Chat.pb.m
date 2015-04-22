@@ -33,11 +33,11 @@ BOOL ChatScopeIsValidValue(ChatScope value) {
 }
 BOOL TranslateLanguagesIsValidValue(TranslateLanguages value) {
   switch (value) {
-    case TranslateLanguagesArabic:
     case TranslateLanguagesEnglish:
     case TranslateLanguagesFrench:
     case TranslateLanguagesGerman:
     case TranslateLanguagesSpanish:
+    case TranslateLanguagesArabic:
     case TranslateLanguagesRussian:
     case TranslateLanguagesNoTranslation:
       return YES;
@@ -108,7 +108,7 @@ BOOL TranslateLanguagesIsValidValue(TranslateLanguages value) {
     self.recipient = [MinimumUserProtoWithLevel defaultInstance];
     self.timeOfPost = 0L;
     self.content = @"";
-    self.originalContentLanguage = TranslateLanguagesArabic;
+    self.originalContentLanguage = TranslateLanguagesEnglish;
   }
   return self;
 }
@@ -557,7 +557,7 @@ static PrivateChatPostProto* defaultPrivateChatPostProtoInstance = nil;
 }
 - (PrivateChatPostProto_Builder*) clearOriginalContentLanguageList {
   result.hasOriginalContentLanguage = NO;
-  result.originalContentLanguage = TranslateLanguagesArabic;
+  result.originalContentLanguage = TranslateLanguagesEnglish;
   return self;
 }
 - (NSMutableArray *)translatedContentList {
@@ -943,7 +943,7 @@ static ColorProto* defaultColorProtoInstance = nil;
   if ((self = [super init])) {
     self.sender = [MinimumUserProtoWithLevel defaultInstance];
     self.timeOfChat = 0L;
-    self.contentLanguage = TranslateLanguagesArabic;
+    self.contentLanguage = TranslateLanguagesEnglish;
     self.content = @"";
     self.isAdmin = NO;
     self.chatUuid = @"";
@@ -1325,7 +1325,7 @@ static GroupChatMessageProto* defaultGroupChatMessageProtoInstance = nil;
 }
 - (GroupChatMessageProto_Builder*) clearContentLanguageList {
   result.hasContentLanguage = NO;
-  result.contentLanguage = TranslateLanguagesArabic;
+  result.contentLanguage = TranslateLanguagesEnglish;
   return self;
 }
 - (BOOL) hasContent {
@@ -1425,7 +1425,7 @@ static GroupChatMessageProto* defaultGroupChatMessageProtoInstance = nil;
 @synthesize text;
 - (id) init {
   if ((self = [super init])) {
-    self.language = TranslateLanguagesArabic;
+    self.language = TranslateLanguagesEnglish;
     self.text = @"";
   }
   return self;
@@ -1632,7 +1632,7 @@ static TranslatedTextProto* defaultTranslatedTextProtoInstance = nil;
 }
 - (TranslatedTextProto_Builder*) clearLanguageList {
   result.hasLanguage = NO;
-  result.language = TranslateLanguagesArabic;
+  result.language = TranslateLanguagesEnglish;
   return self;
 }
 - (BOOL) hasText {
@@ -1684,7 +1684,7 @@ static TranslatedTextProto* defaultTranslatedTextProtoInstance = nil;
 }
 - (id) init {
   if ((self = [super init])) {
-    self.globalDefaultLanguage = TranslateLanguagesArabic;
+    self.globalDefaultLanguage = TranslateLanguagesEnglish;
     self.globalTranslateOn = NO;
   }
   return self;
@@ -1926,7 +1926,7 @@ static DefaultLanguagesProto* defaultDefaultLanguagesProtoInstance = nil;
 }
 - (DefaultLanguagesProto_Builder*) clearGlobalDefaultLanguageList {
   result.hasGlobalDefaultLanguage = NO;
-  result.globalDefaultLanguage = TranslateLanguagesArabic;
+  result.globalDefaultLanguage = TranslateLanguagesEnglish;
   return self;
 }
 - (NSMutableArray *)privateDefaultLanguageList {
@@ -2017,7 +2017,7 @@ static DefaultLanguagesProto* defaultDefaultLanguagesProtoInstance = nil;
   if ((self = [super init])) {
     self.recipientUserId = @"";
     self.senderUserId = @"";
-    self.defaultLanguage = TranslateLanguagesArabic;
+    self.defaultLanguage = TranslateLanguagesEnglish;
     self.translateOn = NO;
   }
   return self;
@@ -2298,7 +2298,7 @@ static PrivateChatDefaultLanguageProto* defaultPrivateChatDefaultLanguageProtoIn
 }
 - (PrivateChatDefaultLanguageProto_Builder*) clearDefaultLanguageList {
   result.hasDefaultLanguage = NO;
-  result.defaultLanguage = TranslateLanguagesArabic;
+  result.defaultLanguage = TranslateLanguagesEnglish;
   return self;
 }
 - (BOOL) hasTranslateOn {

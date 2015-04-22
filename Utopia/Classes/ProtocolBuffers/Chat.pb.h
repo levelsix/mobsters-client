@@ -56,11 +56,11 @@ typedef NS_ENUM(SInt32, ChatScope) {
 BOOL ChatScopeIsValidValue(ChatScope value);
 
 typedef NS_ENUM(SInt32, TranslateLanguages) {
-  TranslateLanguagesArabic = 1,
-  TranslateLanguagesEnglish = 2,
-  TranslateLanguagesFrench = 3,
-  TranslateLanguagesGerman = 4,
-  TranslateLanguagesSpanish = 5,
+  TranslateLanguagesEnglish = 1,
+  TranslateLanguagesFrench = 2,
+  TranslateLanguagesGerman = 3,
+  TranslateLanguagesSpanish = 4,
+  TranslateLanguagesArabic = 5,
   TranslateLanguagesRussian = 6,
   TranslateLanguagesNoTranslation = 7,
 };
