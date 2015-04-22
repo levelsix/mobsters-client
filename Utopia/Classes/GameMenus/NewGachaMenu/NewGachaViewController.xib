@@ -521,7 +521,7 @@
                             <rect key="frame" x="88" y="217" width="206" height="80"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                         </imageView>
-                        <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" id="vGz-OA-v4w" userLabel="Character Scroll View">
+                        <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" id="vGz-OA-v4w" userLabel="Character Scroll View">
                             <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <subviews>
@@ -602,8 +602,8 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
-                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" id="jc7-g8-rCa" userLabel="Content Scroll View">
-                    <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" id="jc7-g8-rCa" userLabel="Content Scroll View">
+                    <rect key="frame" x="0.0" y="0.0" width="667" height="376"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <view contentMode="scaleToFill" id="7iV-Jc-8I6" customClass="NewGachaPrizeStatsView">
@@ -612,7 +612,55 @@
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
                     </subviews>
+                    <connections>
+                        <outlet property="delegate" destination="Kon-Hh-eje" id="SMQ-8I-nYn"/>
+                    </connections>
                 </scrollView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1/1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Nxi-8h-5sD" customClass="NiceFontLabel2">
+                    <rect key="frame" x="208" y="328" width="250" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="1" id="kM9-cf-7KM">
+                    <rect key="frame" x="208" y="337" width="250" height="37"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                </pageControl>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="bBb-5F-ZEJ" userLabel="Previous Button">
+                    <rect key="frame" x="18" y="164" width="47" height="47"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                    <state key="normal" image="gachaallarrow.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <state key="disabled" image="gachaallarrowdisabled.png"/>
+                    <connections>
+                        <action selector="prevButtonClicked:" destination="Kon-Hh-eje" eventType="touchUpInside" id="2Zp-g1-O9N"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="8J4-TD-Egl" userLabel="Next Button">
+                    <rect key="frame" x="602" y="164" width="47" height="47"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                    <state key="normal" image="gachaallarrow.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <state key="disabled" image="gachaallarrowdisabled.png"/>
+                    <connections>
+                        <action selector="nextButtonClicked:" destination="Kon-Hh-eje" eventType="touchUpInside" id="ypH-VN-r2h"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="RSL-Th-WdW" customClass="NiceFontButton2">
+                    <rect key="frame" x="579" y="8" width="80" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                    <state key="normal" title="SKIP ALL">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="0.40000000000000002" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="skipAllClicked:" destination="Kon-Hh-eje" eventType="touchUpInside" id="NeW-sa-DPG"/>
+                    </connections>
+                </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="BCO-Vq-WKh" userLabel="Close Button" customClass="CloseButton">
                     <rect key="frame" x="622" y="0.0" width="45" height="45"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
@@ -636,6 +684,8 @@
                 <outlet property="characterScrollView" destination="vGz-OA-v4w" id="oOb-qG-tcM"/>
                 <outlet property="characterShadow" destination="UHT-5V-yU1" id="khd-yu-OjH"/>
                 <outlet property="closeButton" destination="BCO-Vq-WKh" id="Spp-yJ-Ws5"/>
+                <outlet property="contentPageControl" destination="kM9-cf-7KM" id="FyK-uy-YFF"/>
+                <outlet property="contentPageLabel" destination="Nxi-8h-5sD" id="YFi-yw-duy"/>
                 <outlet property="contentScrollView" destination="jc7-g8-rCa" id="B3b-1o-ltV"/>
                 <outlet property="crystalGlow" destination="Cgl-AX-fM9" id="4t6-tv-lrT"/>
                 <outlet property="elementGlow" destination="9jg-Qv-ser" id="fFu-wS-ecR"/>
@@ -651,6 +701,9 @@
                 <outlet property="lightningBolt6" destination="L00-AN-Wjd" id="A9d-ei-7yP"/>
                 <outlet property="lightningBolt7" destination="H2t-cl-Vfg" id="Rta-cm-2bi"/>
                 <outlet property="lights" destination="17H-aq-e2P" id="zMy-Ep-rYy"/>
+                <outlet property="nextButton" destination="8J4-TD-Egl" id="S5k-vm-XKt"/>
+                <outlet property="prevButton" destination="bBb-5F-ZEJ" id="DGz-uG-xAS"/>
+                <outlet property="skipAllButton" destination="RSL-Th-WdW" id="W4M-xj-QvV"/>
                 <outlet property="statsContainerView" destination="7iV-Jc-8I6" id="RCJ-eB-CaT"/>
                 <outlet property="whiteLightCircle" destination="iIu-iy-lRu" id="IeH-0n-GxI"/>
             </connections>
@@ -667,6 +720,8 @@
         <image name="diamond.png" width="28" height="28"/>
         <image name="earthskilldescription.png" width="219" height="129"/>
         <image name="fireorb.png" width="27" height="34"/>
+        <image name="gachaallarrow.png" width="47" height="47"/>
+        <image name="gachaallarrowdisabled.png" width="47" height="47"/>
         <image name="gachabg.png" width="550" height="375"/>
         <image name="gachagradientsep.png" width="1" height="209"/>
         <image name="gachaheaderbg.png" width="1" height="52"/>

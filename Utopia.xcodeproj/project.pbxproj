@@ -2693,6 +2693,12 @@
 		9BBE36ED1AE5C46F001A0E81 /* NewGachaPrizeStatsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BBE36EC1AE5C46F001A0E81 /* NewGachaPrizeStatsView.xib */; };
 		9BBE36EE1AE5C46F001A0E81 /* NewGachaPrizeStatsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BBE36EC1AE5C46F001A0E81 /* NewGachaPrizeStatsView.xib */; };
 		9BBE36EF1AE5C46F001A0E81 /* NewGachaPrizeStatsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BBE36EC1AE5C46F001A0E81 /* NewGachaPrizeStatsView.xib */; };
+		9BBE36F21AE7275D001A0E81 /* gachaallarrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BBE36F01AE7275D001A0E81 /* gachaallarrow@2x.png */; };
+		9BBE36F31AE7275D001A0E81 /* gachaallarrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BBE36F01AE7275D001A0E81 /* gachaallarrow@2x.png */; };
+		9BBE36F41AE7275D001A0E81 /* gachaallarrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BBE36F01AE7275D001A0E81 /* gachaallarrow@2x.png */; };
+		9BBE36F51AE7275D001A0E81 /* gachaallarrowdisabled@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BBE36F11AE7275D001A0E81 /* gachaallarrowdisabled@2x.png */; };
+		9BBE36F61AE7275D001A0E81 /* gachaallarrowdisabled@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BBE36F11AE7275D001A0E81 /* gachaallarrowdisabled@2x.png */; };
+		9BBE36F71AE7275D001A0E81 /* gachaallarrowdisabled@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BBE36F11AE7275D001A0E81 /* gachaallarrowdisabled@2x.png */; };
 		9BC1891A1AC1E734001B8E88 /* MiniEventDetailsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BC189191AC1E734001B8E88 /* MiniEventDetailsView.xib */; };
 		9BC1891B1AC1E734001B8E88 /* MiniEventDetailsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BC189191AC1E734001B8E88 /* MiniEventDetailsView.xib */; };
 		9BC1891C1AC1E734001B8E88 /* MiniEventDetailsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BC189191AC1E734001B8E88 /* MiniEventDetailsView.xib */; };
@@ -2705,9 +2711,6 @@
 		9BC189291AC1EF7E001B8E88 /* MiniEventPointsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BC189281AC1EF7E001B8E88 /* MiniEventPointsView.m */; };
 		9BC1892A1AC1EF7E001B8E88 /* MiniEventPointsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BC189281AC1EF7E001B8E88 /* MiniEventPointsView.m */; };
 		9BC1892B1AC1EF7E001B8E88 /* MiniEventPointsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BC189281AC1EF7E001B8E88 /* MiniEventPointsView.m */; };
-		9BC37F5D1ADF29E6009571F1 /* arrowovercircle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BC37F541ADF29E6009571F1 /* arrowovercircle@2x.png */; };
-		9BC37F5E1ADF29E6009571F1 /* arrowovercircle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BC37F541ADF29E6009571F1 /* arrowovercircle@2x.png */; };
-		9BC37F5F1ADF29E6009571F1 /* arrowovercircle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BC37F541ADF29E6009571F1 /* arrowovercircle@2x.png */; };
 		9BC37F601ADF29E6009571F1 /* bigspingold@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BC37F551ADF29E6009571F1 /* bigspingold@2x.png */; };
 		9BC37F611ADF29E6009571F1 /* bigspingold@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BC37F551ADF29E6009571F1 /* bigspingold@2x.png */; };
 		9BC37F621ADF29E6009571F1 /* bigspingold@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BC37F551ADF29E6009571F1 /* bigspingold@2x.png */; };
@@ -8809,13 +8812,14 @@
 		9BB949511A6EECDA006EE920 /* NewGachaSmoke.ped */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NewGachaSmoke.ped; sourceTree = "<group>"; };
 		9BB9495C1A6F1AFF006EE920 /* menubasicgrab@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menubasicgrab@2x.png"; sourceTree = "<group>"; };
 		9BBE36EC1AE5C46F001A0E81 /* NewGachaPrizeStatsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewGachaPrizeStatsView.xib; sourceTree = "<group>"; };
+		9BBE36F01AE7275D001A0E81 /* gachaallarrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gachaallarrow@2x.png"; sourceTree = "<group>"; };
+		9BBE36F11AE7275D001A0E81 /* gachaallarrowdisabled@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gachaallarrowdisabled@2x.png"; sourceTree = "<group>"; };
 		9BC189191AC1E734001B8E88 /* MiniEventDetailsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MiniEventDetailsView.xib; sourceTree = "<group>"; };
 		9BC1891E1AC1E792001B8E88 /* MiniEventPointsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MiniEventPointsView.xib; sourceTree = "<group>"; };
 		9BC189221AC1EF6A001B8E88 /* MiniEventDetailsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiniEventDetailsView.h; sourceTree = "<group>"; };
 		9BC189231AC1EF6A001B8E88 /* MiniEventDetailsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MiniEventDetailsView.m; sourceTree = "<group>"; };
 		9BC189271AC1EF7E001B8E88 /* MiniEventPointsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiniEventPointsView.h; sourceTree = "<group>"; };
 		9BC189281AC1EF7E001B8E88 /* MiniEventPointsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MiniEventPointsView.m; sourceTree = "<group>"; };
-		9BC37F541ADF29E6009571F1 /* arrowovercircle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrowovercircle@2x.png"; sourceTree = "<group>"; };
 		9BC37F551ADF29E6009571F1 /* bigspingold@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bigspingold@2x.png"; sourceTree = "<group>"; };
 		9BC37F561ADF29E6009571F1 /* bigspingoldpressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bigspingoldpressed@2x.png"; sourceTree = "<group>"; };
 		9BC37F571ADF29E6009571F1 /* bigspingrey@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bigspingrey@2x.png"; sourceTree = "<group>"; };
@@ -14697,7 +14701,8 @@
 		9BC37F531ADF29E6009571F1 /* 11 Spins */ = {
 			isa = PBXGroup;
 			children = (
-				9BC37F541ADF29E6009571F1 /* arrowovercircle@2x.png */,
+				9BBE36F01AE7275D001A0E81 /* gachaallarrow@2x.png */,
+				9BBE36F11AE7275D001A0E81 /* gachaallarrowdisabled@2x.png */,
 				9BC37F551ADF29E6009571F1 /* bigspingold@2x.png */,
 				9BC37F561ADF29E6009571F1 /* bigspingoldpressed@2x.png */,
 				9BC37F571ADF29E6009571F1 /* bigspingrey@2x.png */,
@@ -19450,6 +19455,7 @@
 				CF0CEF9E196F452900ECD301 /* HealQueueFooterView.xib in Resources */,
 				CF0CEFA0196F452900ECD301 /* UpgradeViewController.xib in Resources */,
 				CF37378619E36BE100CB16E3 /* BattleEndView.ccbi in Resources */,
+				9BBE36F31AE7275D001A0E81 /* gachaallarrow@2x.png in Resources */,
 				29AE75BE1A6F36E000264070 /* MilitaryChicken1T1AttackNF@2x.pvr.ccz in Resources */,
 				CF0CEFA3196F452900ECD301 /* chatactivemiddle@2x.png in Resources */,
 				CF0CEFA5196F452900ECD301 /* xpmiddle@2x.png in Resources */,
@@ -20153,6 +20159,7 @@
 				CF5BD67119C925EE006C4B4C /* congratulationsrankup@2x.png in Resources */,
 				6B1EAA021ACF5DCC00E0B642 /* VinesMain14.png in Resources */,
 				29AA82AF1AA15A50000ADABF /* LoadingSpinnerView.xib in Resources */,
+				9BBE36F61AE7275D001A0E81 /* gachaallarrowdisabled@2x.png in Resources */,
 				296548661A8163F80080B195 /* donatetoonslot@2x.png in Resources */,
 				29FC5EE81A89427B00A50FA7 /* saleoranagebar@2x.png in Resources */,
 				CF65ECCA19A2B1CC00ABBC77 /* chatmiddle@2x.png in Resources */,
@@ -20327,7 +20334,6 @@
 				CF0CF3F0196F452900ECD301 /* opencitypin@2x.png in Resources */,
 				299AA4FB1A7872C300A2D806 /* rocksideways@2x.png in Resources */,
 				CF0CF3F1196F452900ECD301 /* teaminfoi@2x.png in Resources */,
-				9BC37F5E1ADF29E6009571F1 /* arrowovercircle@2x.png in Resources */,
 				CFF2A5FD19709C4800269084 /* decstone@2x.png in Resources */,
 				CF0CF3F2196F452900ECD301 /* EvolveDescriptionHeaderView.xib in Resources */,
 				2992D7BE1AA5326B00547B11 /* gemminetimerbg@2x.png in Resources */,
@@ -21389,6 +21395,7 @@
 				CFF390811828BF890010A3BE /* RequestsFacebookCell.xib in Resources */,
 				CFC9718A182C74E500FF1D83 /* waterpointsfont@2x.png in Resources */,
 				CFF2A52819709C4800269084 /* OilStorageT1@2x.pvr.ccz in Resources */,
+				9BBE36F21AE7275D001A0E81 /* gachaallarrow@2x.png in Resources */,
 				CF010F3919DDE5C400DAD527 /* chatinputmiddle@2x.png in Resources */,
 				CF29EA151964BD0500B40DA4 /* sellbubble9@2x.png in Resources */,
 				9BDA8B781A3B8DC200C7AC27 /* 6rockheadshot@2x.png in Resources */,
@@ -21399,6 +21406,7 @@
 				29AA82AD1AA15A4B000ADABF /* LoadingSpinnerView.xib in Resources */,
 				CF746150196B7006002D6AE6 /* zarkbubble@2x.png in Resources */,
 				CF2A4AC81901B8F500B2D7D7 /* yellowmenuoption@2x.png in Resources */,
+				9BBE36F51AE7275D001A0E81 /* gachaallarrowdisabled@2x.png in Resources */,
 				CF812EE519E67A3C00D91157 /* ClanHelpCell.xib in Resources */,
 				CF06B5D7193699FC008BF892 /* buildtime@2x.png in Resources */,
 				9B6B77D61A858B1A0080C8E5 /* 4moveslabel@2x.png in Resources */,
@@ -22820,7 +22828,6 @@
 				DAAD3DF819C8D7E700557698 /* nightbomb@2x.png in Resources */,
 				CF29E9FF1964BD0500B40DA4 /* healredbubble8@2x.png in Resources */,
 				CF30277E18BF071E009D2D25 /* ClanRaidTeamEnterView.xib in Resources */,
-				9BC37F5D1ADF29E6009571F1 /* arrowovercircle@2x.png in Resources */,
 				636C3E7F1AAA865400B02980 /* darkresearchcircle@2x.png in Resources */,
 				299AA3A81A7856AA00A2D806 /* gootile-9@2x.png in Resources */,
 				CFC45C0B1942955600BBA4A6 /* 3starmachineinactive@2x.png in Resources */,
@@ -23553,6 +23560,7 @@
 				CF481A6D19F7217F00041486 /* menutopbar@2x.png in Resources */,
 				CF481A7019F7217F00041486 /* lightbigavatar@2x.png in Resources */,
 				CF481A7219F7217F00041486 /* mjdone@2x.png in Resources */,
+				9BBE36F41AE7275D001A0E81 /* gachaallarrow@2x.png in Resources */,
 				CF481A7419F7217F00041486 /* inactiveskill@2x.png in Resources */,
 				CF481A7519F7217F00041486 /* gachaepictag@2x.png in Resources */,
 				CF481A7619F7217F00041486 /* questbutton@2x.png in Resources */,
@@ -24501,7 +24509,6 @@
 				CF48202A19F7217F00041486 /* earthpoison@2x.png in Resources */,
 				29AE75A41A6F36E000264070 /* TribalGuy0T1P2TutBig@2x.png in Resources */,
 				9BB9489E1A69EADF006EE920 /* grlightcircle1@2x.png in Resources */,
-				9BC37F5F1ADF29E6009571F1 /* arrowovercircle@2x.png in Resources */,
 				CF48202B19F7217F00041486 /* clanbrowseinactiveicon2@2x.png in Resources */,
 				CF48202C19F7217F00041486 /* diamondleaguebg@2x.png in Resources */,
 				9BDA8B6B1A3B8DC200C7AC27 /* 6earthheadshot@2x.png in Resources */,
@@ -24813,6 +24820,7 @@
 				CF4821B219F7217F00041486 /* KamcordiPhone.storyboardc in Resources */,
 				CF4821B919F7217F00041486 /* lightboardsquare@2x.png in Resources */,
 				CF4821BA19F7217F00041486 /* minijobsredbubble1@2x.png in Resources */,
+				9BBE36F71AE7275D001A0E81 /* gachaallarrowdisabled@2x.png in Resources */,
 				CF4821BB19F7217F00041486 /* Gotham-Book.otf in Resources */,
 				CF4821BC19F7217F00041486 /* greywhite1@2x.png in Resources */,
 				CF4821BD19F7217F00041486 /* earthpointsfont.fnt in Resources */,
