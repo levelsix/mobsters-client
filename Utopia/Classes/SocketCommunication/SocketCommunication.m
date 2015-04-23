@@ -342,20 +342,11 @@ static NSString *udid = nil;
   ep.eventType = type;
   ep.tagNum = tagNum;
   ep.eventBytes = eventData;
-  ep.eventUuid = @"abcd";
+  ep.eventUuid = [[NSUUID UUID] UUIDString];
   NSData *data = [ep build].data;
   
   // Need to reverse bytes for size and type(to account for endianness??)
   uint8_t header[HEADER_SIZE];
-//  header[3] = type & 0xFF;
-//  header[2] = (type & 0xFF00) >> 8;
-//  header[1] = (type & 0xFF0000) >> 16;
-//  header[0] = (type & 0xFF000000) >> 24;
-//  
-//  header[7] = tagNum & 0xFF;
-//  header[6] = (tagNum & 0xFF00) >> 8;
-//  header[5] = (tagNum & 0xFF0000) >> 16;
-//  header[4] = (tagNum & 0xFF000000) >> 24;
   
   NSInteger size = [data length];
   header[3] = size & 0xFF;
