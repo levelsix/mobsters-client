@@ -19,6 +19,7 @@ import "Research.proto";
 import "SharedEnumConfig.proto";
 import "StaticData.proto";
 import "Structure.proto";
+import "Reward.proto";
 import "Task.proto";
 import "User.proto";
 
