@@ -68,10 +68,35 @@
 
 @implementation PrivateMessageNotificationViewController
 
+- (id) initWithClanGifts:(NSArray *)userClanGifts isImmediate:(BOOL)isImmediate {
+  _avatarOffSet = FIRST_AVATAR_OFFSET;
+  
+  if ((self = [super init])) {
+    [[NSBundle mainBundle] loadNibNamed:@"PrivateMessageNotificationView" owner:self options:nil];
+    
+    UserClanGiftProto *ucgp = [userClanGifts firstObject];
+    _messageFromSingleUser = (ChatMessage*)ucgp;
+    
+    if (userClanGifts.count > 1) {
+      [self.notificationView updateWithString:ucgp.otherUser.name description:[NSString stringWithFormat:@"Sent you %d gifts!",(int)userClanGifts.count] color:[UIColor colorWithHexString:GREEN]];
+    } else {
+      [self.notificationView updateWithString:ucgp.otherUser.name description:@"Sent you a gift!" color:[UIColor colorWithHexString:GREEN]];
+    }
+    
+    [self addAvatarWithMonsterId:ucgp.otherUser.avatarMonsterId];
+    
+    [self.notificationView.textView setOrigin:CGPointMake(_avatarOffSet+TEXT_BUFFER_FROM_AVATAR,0.f)];
+    [self.notificationView.textView setWidth: self.view.width-_avatarOffSet+FIRST_AVATAR_OFFSET];
+    
+    _priority = isImmediate ? NotificationPriorityImmediate : NotificationPriorityRegular;
+  }
+  return self;
+}
+
 - (id) initWithMessages:(NSArray *)allMessages isImmediate:(BOOL)isImmediate {
   GameState *gs = [GameState sharedGameState];
-  
   _avatarOffSet = FIRST_AVATAR_OFFSET;
+
   if ((self = [super init])) {
     [[NSBundle mainBundle] loadNibNamed:@"PrivateMessageNotificationView" owner:self options:nil];
     
@@ -91,9 +116,16 @@
         
         NSString *result = [NSString stringWithFormat:@"%@ you in battle", php.userWon ? @"Lost to" : @"Defeated"];
         UIColor *textColor = php.userWon ? [UIColor colorWithHexString:GREEN] : [UIColor colorWithHexString:RED];
+        
         [self.notificationView updateWithString:php.otherUser.name description:result color:textColor];
         [self addAvatarWithMonsterId:php.otherUser.avatarMonsterId];
         
+      } else if ([chat isKindOfClass:[UserClanGiftProto class]]) {
+        UserClanGiftProto *ucgp = [messages firstObject];
+        _messageFromSingleUser = (ChatMessage*)chat;
+        
+        [self.notificationView updateWithString:ucgp.otherUser.name description:@"Sent you a gift!" color:[UIColor colorWithHexString:GREEN]];
+        [self addAvatarWithMonsterId:ucgp.otherUser.avatarMonsterId];
       } else {
         id<ChatObject> co = [messages firstObject];
         _messageFromSingleUser = co;

@@ -197,7 +197,8 @@
   if ([pcpp.otherUser.userUuid isEqualToString:self.privateChatView.curUserUuid]) {
     [self.privateChatView addPrivateChat:pcpp];
   } else if ([notification.name isEqualToString:NEW_FB_INVITE_NOTIFICATION] ||
-             [notification.name isEqualToString:NEW_BATTLE_HISTORY_NOTIFICATION]) {
+             [notification.name isEqualToString:NEW_BATTLE_HISTORY_NOTIFICATION] ||
+             [notification.name isEqualToString:CLAN_GIFTS_CHANGED_NOTIFICATION]) {
     // Reload with baseChats so that the new fb invite gets potentially added.. if possible
     [self.privateChatView updateForChats:self.privateChatView.baseChats animated:YES];
   }

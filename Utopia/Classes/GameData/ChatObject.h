@@ -105,9 +105,8 @@
 
 @interface UserClanGiftProto (ChatObject) <ChatObject>
 
-- (BOOL) isValid;
-- (long) expireTime;
-- (MSDate *) exprieDate;
+- (BOOL) isExpired;
+- (MSDate *) expireDate;
 - (IBAction)collectClicked:(id)sender;
 
 @property (nonatomic, assign) BOOL isRedeemed;

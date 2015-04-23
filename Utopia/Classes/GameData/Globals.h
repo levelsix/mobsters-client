@@ -347,6 +347,7 @@
 + (void) addBlueAlertNotification:(NSString *)msg;
 + (void) addPrivateMessageNotification:(NSArray *)messages;
 + (void) addMiniEventGoalNotificationWithGoalString:(NSString *)goalStr pointsStr:(NSString *)pointsStr image:(NSString *)img;
++ (void) addClanGiftNotification:(NSArray *)userClanGifts;
 
 + (void) bounceView:(UIView *)view;
 + (void) bounceView:(UIView *)view fromScale:(float)fScale toScale:(float)tScale duration:(float)duration;

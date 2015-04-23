@@ -387,6 +387,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSClearExpiredClanGiftsEvent:
       responseClass = [ClearExpiredClanGiftsResponseProto class];
       break;
+    case EventProtocolResponseSReceivedClanGiftsEvent:
+      responseClass = [ReceivedClanGiftResponseProto class];
+      break;
     default:
       responseClass = nil;
       break;
@@ -548,17 +551,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs updateClanData:proto.clanData];
 
     [gs.clanGifts removeAllObjects];
-    NSMutableArray *expiredGifts = [[NSMutableArray alloc] init];
-    for (UserClanGiftProto *ucgp in proto.userClanGiftsList) {
-      if (ucgp.exprieDate.timeIntervalSinceNow > 0) {
-        [expiredGifts addObject:ucgp];
-      } else {
-        [gs.clanGifts addObject:ucgp];
-      }
-    }
-    if (expiredGifts.count > 0) {
-      [[OutgoingEventController sharedOutgoingEventController] expireClanGifts:expiredGifts];
-    }
+    [gs.clanGifts addObjectsFromArray:proto.userClanGiftsList];
     
     gs.myPvpBoardObstacles = [proto.userPvpBoardObstaclesList mutableCopy];
 
@@ -1661,6 +1654,20 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 }
 
 #pragma mark - Clan Gifts
+
+- (void) handleReceivedClanGiftResponseProto:(FullEvent *)fe {
+  ReceivedClanGiftResponseProto *proto = (ReceivedClanGiftResponseProto *)fe.event;
+  
+  GameState *gs = [GameState sharedGameState];
+  if (![proto.sender.userUuid isEqualToString:gs.userUuid]) {
+    LNLog(@"Recieving Clan Gifts");
+    
+    [gs.clanGifts addObjectsFromArray:proto.userClanGiftsList];
+    [Globals addClanGiftNotification:proto.userClanGiftsList];
+    [[NSNotificationCenter defaultCenter] postNotificationName:CLAN_GIFTS_CHANGED_NOTIFICATION object:nil];
+  }
+  
+}
 
 - (void) handleCollectClanGiftsResponseProto:(FullEvent *)fe {
   CollectClanGiftsResponseProto *proto = (CollectClanGiftsResponseProto *)fe.event;
