@@ -815,6 +815,11 @@
     }
   }
   
+  for (UserClanGiftProto *ucgp in gs.clanGifts) {
+    if ([ucgp.gifterUser.userUuid isEqualToString:self.curUserUuid]) {
+      [arr addObject:ucgp];
+    }
+  }
   
   // Check for fb requests
   for (RequestFromFriend *req in gs.fbUnacceptedRequestsFromFriends) {
