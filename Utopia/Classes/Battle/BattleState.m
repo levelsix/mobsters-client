@@ -7,15 +7,85 @@
 //
 
 #import "BattleState.h"
-
+#import "BattleSwap.h"
+#import "BattleOrb.h"
 
 @implementation BattleState
 
 + (instancetype)stateWithName:(NSString *)name andType:(CombatReplayStepType)type
 {
-  BattleState *state = [self stateWithName:name];
+  BattleState *state = [BattleState new];
+  state.name = name;
   state.combatReplayStepType = type;
+  [state setWillEnterStateBlock:^(TKState *state, TKTransition *transition) {
+    [((BattleState*)state) restart];
+  }];
+  
   return state;
+}
+
+- (void) restart {
+  if (!self.combatStepBuilder)
+    self.combatStepBuilder = [CombatReplayStepProto builder];
+  
+  [self.combatStepBuilder clear];
+  self.combatStepBuilder.type = self.combatReplayStepType;
+}
+
+- (void) setIndex:(int)index {
+  [self.combatStepBuilder setStepIndex:index];
+}
+
+#pragma mark Skill recording
+
+- (void) addSkillStepForTriggerPoint:(SkillTriggerPoint)triggerPoint skillId:(int)skillId belongsToPlayer:(BOOL)belongsToPlayer ownerMonsterId:(int)ownerMonsterId {
+  [self.combatStepBuilder addSkills:[[[[[[[CombatReplaySkillStepProto builder]
+                                                     setTriggerPoint:triggerPoint]
+                                                    setSkillId:skillId]
+                                                   setBelongsToPlayer:belongsToPlayer]
+                                                  setOwnerMonsterId:ownerMonsterId]
+                                                 setStepIndex:self.combatStepBuilder.stepIndex]
+                                                build]];
+}
+
+#pragma mark Moves and Item use recording
+
+- (void) addOrbSwap:(BattleSwap*)swap {
+  [self addOrbMoveAt:(uint)swap.orbA.column y1:(uint)swap.orbA.row x2:(uint)swap.orbB.column y2:(uint)swap.orbB.row];
+}
+
+- (void) addOrbMoveAt:(uint)x1 y1:(uint)y1 x2:(uint)x2 y2:(uint)y2 {
+  self.combatStepBuilder.movePos1 = [self combineInts:x1 int2:y1];
+  self.combatStepBuilder.movePos2 = [self combineInts:x2 int2:y2];
+}
+
+- (void) addItemUse:(int)itemId {
+  self.combatStepBuilder.itemId = itemId;
+}
+
+- (void) addItemUse:(int)itemId xPos:(uint)xPos yPos:(uint)yPos {
+  [self addItemUse:itemId];
+  self.combatStepBuilder.movePos1 = [self combineInts:xPos int2:yPos];
+}
+
+- (void) addItemUse:(int)itemId x1:(uint)x1 y1:(uint)y1 x2:(uint)x2 y2:(uint)y2 {
+  [self addItemUse:itemId];
+  [self addOrbMoveAt:x1 y1:y1 x2:x2 y2:y2];
+}
+
+- (void) addDamage:(int)damageDone {
+  self.combatStepBuilder.damage = damageDone;
+}
+
+//Puts the second int into the high 16 bits of the first int and returns.
+//If either int has a value >
+- (uint) combineInts:(uint)int1 int2:(uint)int2 {
+  
+  return ((int1<<24)>>24) | (int2<<16);
+}
+
+- (CombatReplayStepProto*) getStepProto {
+  return [self.combatStepBuilder build];
 }
 
 @end

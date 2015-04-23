@@ -2192,6 +2192,8 @@
 		6BCBD8751A797E63002C584F /* SkillHammerTime.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCBD8741A797E63002C584F /* SkillHammerTime.m */; };
 		6BCBD8761A797E63002C584F /* SkillHammerTime.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCBD8741A797E63002C584F /* SkillHammerTime.m */; };
 		6BCBD8771A797E63002C584F /* SkillHammerTime.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCBD8741A797E63002C584F /* SkillHammerTime.m */; };
+		6BE655921AE57BE80069452A /* Replay.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE655911AE57BE80069452A /* Replay.pb.m */; };
+		6BE655961AE588F00069452A /* CustomMenu.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE655951AE588F00069452A /* CustomMenu.pb.m */; };
 		9B0E6E2C1A73373100118210 /* confusionbubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B0E6E211A73373100118210 /* confusionbubble@2x.png */; };
 		9B0E6E2D1A73373100118210 /* confusionbubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B0E6E211A73373100118210 /* confusionbubble@2x.png */; };
 		9B0E6E2E1A73373100118210 /* confusionbubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B0E6E211A73373100118210 /* confusionbubble@2x.png */; };
@@ -7906,6 +7908,10 @@
 		6BBCBBE11AC5A912006C9D91 /* hellfireorb@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hellfireorb@2x.png"; sourceTree = "<group>"; };
 		6BCBD8721A797E51002C584F /* SkillHammerTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillHammerTime.h; sourceTree = "<group>"; };
 		6BCBD8741A797E63002C584F /* SkillHammerTime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillHammerTime.m; sourceTree = "<group>"; };
+		6BE655901AE57BE80069452A /* Replay.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Replay.pb.h; sourceTree = "<group>"; };
+		6BE655911AE57BE80069452A /* Replay.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Replay.pb.m; sourceTree = "<group>"; };
+		6BE655941AE588F00069452A /* CustomMenu.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomMenu.pb.h; sourceTree = "<group>"; };
+		6BE655951AE588F00069452A /* CustomMenu.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomMenu.pb.m; sourceTree = "<group>"; };
 		7531CD67E149A97B795B119A /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		9B0E6E211A73373100118210 /* confusionbubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "confusionbubble@2x.png"; sourceTree = "<group>"; };
 		9B0E6E241A73373100118210 /* powermove@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "powermove@2x.plist"; sourceTree = "<group>"; };
@@ -15168,6 +15174,13 @@
 				CF6574771909CAF100ABF1F4 /* Proto files */,
 				63959E191B0ABE4400E5E302 /* EventReward.pb.h */,
 				63959E1A1B0ABE4400E5E302 /* EventReward.pb.m */,
+				6304B4601AE054A10075D4E9 /* CustomMenu.pb.h */,
+				6304B4611AE054A10075D4E9 /* CustomMenu.pb.m */,
+				6BE655941AE588F00069452A /* CustomMenu.pb.h */,
+				6BE655951AE588F00069452A /* CustomMenu.pb.m */,
+				6BE655901AE57BE80069452A /* Replay.pb.h */,
+				6BE655911AE57BE80069452A /* Replay.pb.m */,
+				CF6574771909CAF100ABF1F4 /* Proto files */,
 				9BE9F52A1B0AA5AA007E3A2F /* EventLeaderBoard.pb.h */,
 				9BE9F52B1B0AA5AA007E3A2F /* EventLeaderBoard.pb.m */,
 				9BE9F52C1B0AA5AA007E3A2F /* LeaderBoard.pb.h */,
@@ -24382,6 +24395,7 @@
 				CF126E211538ACCA00E0C1AD /* SBDoubleSidedLayer.m in Sources */,
 				CF126E221538ACCA00E0C1AD /* SBGradientOverlayLayer.m in Sources */,
 				29AF1C6F1A443A2A00E8E457 /* BattleOrbPath.m in Sources */,
+				6BE655921AE57BE80069452A /* Replay.pb.m in Sources */,
 				CF126E231538ACCA00E0C1AD /* SBTickerView.m in Sources */,
 				2965486B1A8193A00080B195 /* UIView+Superview.m in Sources */,
 				CFB97D7E19C14173003ABA66 /* EventItem.pb.m in Sources */,
@@ -24539,6 +24553,7 @@
 				CF6F1A23181521FF00CFF2B9 /* QuestDetailsViewController.m in Sources */,
 				CFA9F77A1A0D8D8900EBE77D /* ItemSelectViewController.m in Sources */,
 				CF68907519145DC300FF1F71 /* EventMiniJob.pb.m in Sources */,
+				6BE655961AE588F00069452A /* CustomMenu.pb.m in Sources */,
 				3E1A0C041A645B4B00DF00AD /* Board.pb.m in Sources */,
 				CFF5DBA0194BD8CE0019EB2B /* MiniJobsCompleteViewController.m in Sources */,
 				631BF3B31A6DDAEC0091253B /* PrivateMessageNotificationViewController.m in Sources */,

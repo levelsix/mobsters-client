@@ -542,7 +542,7 @@
     if (_movesLeft <= 0) {
       [self myTurnEnded];
     } else {
-      [super beginMyTurn];
+      [self.battleStateMachine fireEvent:playerMoveEvent userInfo:nil error:nil];
     }
     
     _myDamageDealt = damage;
@@ -576,7 +576,8 @@
         [GenericPopupController displayNotificationViewWithText:@"The enemies seem to have been scared off. Tap okay to return outside." title:@"Something Went Wrong" okayButton:@"Okay" target:self selector:@selector(exitFinal)];
       }
     } else {
-      [self moveToNextEnemy];
+      [self.battleStateMachine fireEvent:loadingCompleteEvent userInfo:nil error:nil];
+//      [self moveToNextEnemy];
       _hasStarted = YES;
     }
   } else {
@@ -649,6 +650,9 @@
 #define ENEMY_TEAM_KEY @"EnemyTeamKey"
 
 #define SKILL_MANAGER_KEY @"BattleSkillManager"
+
+#define BATTLE_STATE_MACHINE_KEY @"BattleStateMachine"
+#define ORB_HISTORY_KEY @"OrbHistory"
 
 - (void) saveCurrentStateWithForceFlush:(BOOL)forceFlush {
   NSDictionary *state = [self serializeState];
@@ -741,6 +745,9 @@
   
   [dict setObject:skillManager.serialize forKey:SKILL_MANAGER_KEY];
   
+  [dict setObject:self.battleStateMachine.serialize forKey:BATTLE_STATE_MACHINE_KEY];
+  [dict setObject:self.orbLayer.layout.serializeOrbHistory forKey:ORB_HISTORY_KEY];
+  
   return dict;
 }
 
@@ -811,6 +818,9 @@
   }
   
   [skillManager deserialize:[stateDict objectForKey:SKILL_MANAGER_KEY]];
+  
+  [self.battleStateMachine deserialize:[stateDict objectForKey:BATTLE_STATE_MACHINE_KEY]];
+  [self.orbLayer.layout deserializeOrbHistory:[stateDict objectForKey:ORB_HISTORY_KEY]];
 }
 
 #pragma mark - Gzip

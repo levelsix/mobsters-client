@@ -14,7 +14,7 @@
 - (void) beginFirstMove {
   [self.orbLayer.bgdLayer turnTheLights:YES instantly:YES];
   _allowTurnBegin = YES;
-  [self beginMyTurn];
+  [self.battleStateMachine fireEvent:playerTurnEvent userInfo:nil error:nil];
 }
 
 - (void) beginSecondMove {
@@ -30,7 +30,7 @@
 - (void) allowMove {
   if (_movesLeft <= 0) {
     _allowTurnBegin = YES;
-    [self beginMyTurn];
+    [self.battleStateMachine fireEvent:playerTurnEvent userInfo:nil error:nil];
   } else {
     [self.orbLayer.bgdLayer turnTheLightsOn];
   }
@@ -57,7 +57,7 @@
 - (void) beginMyTurn {
   if (_allowTurnBegin) {
     _allowTurnBegin = NO;
-    [super beginMyTurn];
+    [self.battleStateMachine fireEvent:playerTurnEvent userInfo:nil error:nil];
     
     self.mainView.hudView.swapView.hidden = self.swappableTeamSlot == 0;
     [self.mainView.hudView removeSwapButtonAnimated:YES];

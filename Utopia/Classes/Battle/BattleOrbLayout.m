@@ -11,6 +11,7 @@
 #import "BattleOrbPath.h"
 #import "GameState.h"
 #import "ClientProperties.h"
+#import "Replay.pb.h"
 
 #import "BoardLayoutProto+Properties.h"
 
@@ -394,6 +395,7 @@
         
         if (orb) {
           [set addObject:orb];
+          [self recordOrb:orb initialOrb:YES];
         }
       }
     }
@@ -417,6 +419,8 @@
               orb = [self createOrbAtColumn:column row:row type:OrbColorRock powerup:PowerupTypeNone special:SpecialOrbTypeNone];
               
               [self generateRandomOrbData:orb atColumn:column row:row];
+              
+              [self recordOrb:orb initialOrb:YES];
             }
             // Can't afford to have a chain in initial set
             while ([self hasChainAtColumn:column row:row]);
@@ -524,6 +528,7 @@
   orb.specialOrbType = special;
   orb.damageMultiplier = 1;
   [self setOrb:orb column:column row:row];
+  NSLog(@"Orb at column: %i, row: %i", (int)column, (int)row);
   return orb;
 }
 
@@ -1672,6 +1677,7 @@
             //} while (newOrbColor == orbColor && special == newSpecial);
             
             [array addObject:orb];
+            [self recordOrb:orb initialOrb:NO];
             
             // Need it to fall from the slot above the spawner tile
             [self setOrb:nil column:orb.column row:orb.row];
@@ -1974,6 +1980,68 @@ static const NSInteger maxSearchIterations = 800;
   }
   
   return NO;
+}
+
+#pragma mark - Recording Orb History
+
+- (void) recordOrb:(BattleOrb*)orb initialOrb:(BOOL)initialOrb {
+  if (!_orbRecords)
+    _orbRecords = [NSMutableDictionary dictionary];
+  
+  if (![_orbRecords objectForKey:@(orb.column)])
+     [_orbRecords setObject:[NSMutableArray array] forKey:@(orb.column)];
+  
+  NSMutableArray *orbsForCol = [_orbRecords objectForKey:@(orb.column)];
+  
+  [orbsForCol addObject:[[[[[[[CombatReplayOrbProto builder]
+                              setSpawnedElement:(Element)orb.orbColor]
+                             setSpawnedCol:(int)orb.column]
+                            setSpawnedRow:initialOrb?(int)orb.row:orbsForCol.count]
+                           setType:(int)orb.specialOrbType]
+                          setInitialOrb:initialOrb]
+                         build]];
+}
+
+- (NSString*) dumpOrbHistory {
+  NSString *str = @"Orb History:";
+  for (NSNumber *num in _orbRecords) {
+    NSArray *arr = [_orbRecords objectForKey:num];
+    for (CombatReplayOrbProto *replayOrb in arr) {
+      str = [str stringByAppendingString:replayOrb.description];
+    }
+  }
+  return str;
+}
+
+- (NSDictionary*) serializeOrbHistory {
+  int col, row;
+  NSMutableDictionary *data = [NSMutableDictionary dictionary];
+  for (NSNumber *num in _orbRecords) {
+    NSArray *arr = [_orbRecords objectForKey:num];
+    col = [num intValue];
+    row = 0;
+    for (CombatReplayOrbProto *replayOrb in arr) {
+      NSString *datastring = [[NSString alloc] initWithData:replayOrb.data encoding:NSUTF8StringEncoding];
+      [data setValue:datastring forKey:[NSString stringWithFormat:@"orbrow%icol%i", row, col]];
+    }
+    [data setValue:@(row) forKey:[NSString stringWithFormat:@"orbrowscol%i", col]];
+  }
+  [data setValue:@(col+1) forKey:@"orbcols"];
+  return data;
+}
+
+- (void) deserializeOrbHistory:(NSDictionary*)data{
+  [_orbRecords removeAllObjects];
+  int cols = [[data valueForKey:@"orbcols"] intValue];
+  for (int i = 0; i < cols; i++) {
+    NSMutableArray *arr = [NSMutableArray array];
+    [_orbRecords setObject:arr forKey:@(i)];
+    int rows = [[data valueForKey:[NSString stringWithFormat:@"orbrowscol%i", i]] intValue];
+    for (int j = 0; j < rows; j++) {
+      NSData *orbData = [[data valueForKey:[NSString stringWithFormat:@"orbrow%icol%i", j, i]] dataUsingEncoding:NSUTF8StringEncoding];
+      [arr addObject:[CombatReplayOrbProto parseFromData:orbData]];
+    }
+  }
 }
 
 #pragma mark - Description

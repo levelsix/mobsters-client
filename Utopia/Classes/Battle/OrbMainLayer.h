@@ -20,6 +20,7 @@
 - (void) orbKilled:(BattleOrb *)orb;
 - (void) powerupCreated:(BattleOrb *)orb;
 - (void) moveComplete;
+- (void) reportSwap:(BattleSwap*)swap;
 - (void) reshuffleWithPrompt:(NSString*)prompt;
 - (void) noPossibleMoves;
 

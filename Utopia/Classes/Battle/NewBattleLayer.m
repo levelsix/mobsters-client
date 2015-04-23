@@ -23,7 +23,7 @@
 #import "BattleItemSelectViewController.h"
 #import "ClientProperties.h"
 #import "ShopViewController.h"
-#import "BattleStateMachine.h"
+#import "Replay.pb.h"
 
 // Disable for this file
 #pragma clang diagnostic push
@@ -33,6 +33,9 @@
 #define CANTTOUCHTHIS_SCORE 540
 #define HAMMERTIME_SCORE 720
 #define MAKEITRAIN_SCORE 900
+
+#define DELAY_KEY @"DELAY"
+#define SWAP_TOON_KEY @"SWAP_TOON"
 
 #define STRENGTH_FOR_MAX_SHOTS MAKEITRAIN_SCORE
 
@@ -132,21 +135,25 @@
     
     [self.mainView loadHudView];
     [self removeOrbLayerAnimated:NO withBlock:nil];
+    
+    [self setupStateMachine];
   }
   return self;
 }
 
 - (void) setupStateMachine {
-  BattleStateMachine *battleStateMachine = [BattleStateMachine new];
+  _battleStateMachine = [BattleStateMachine new];
+  
+  BattleState *initialState = [BattleState stateWithName:@"Initial Load" andType:CombatReplayStepTypeBattleInitialization];
   
   BattleState *spawnEnemyState = [BattleState stateWithName:@"Spawn Enemy" andType:CombatReplayStepTypeSpawnEnemy];
   [spawnEnemyState setDidEnterStateBlock:^(TKState *state, TKTransition *transition) {
-    [self spawnNextEnemy];
+    [self moveToNextEnemy];
   }];
   
   BattleState *playerSwapState = [BattleState stateWithName:@"Swap Player" andType:CombatReplayStepTypePlayerSwap];
   [playerSwapState setDidEnterStateBlock:^(TKState *state, TKTransition *transition) {
-    //[self deployBattleSprite:(BattlePlayer *)];
+    [self deployBattleSprite:transition.userInfo[SWAP_TOON_KEY]];
   }];
   
   BattleState *playerTurn = [BattleState stateWithName:@"Player Turn" andType:CombatReplayStepTypePlayerTurn];
@@ -162,11 +169,12 @@
   BattleState *playerAttack = [BattleState stateWithName:@"Player Attack" andType:CombatReplayStepTypePlayerAttack];
   [playerAttack setDidEnterStateBlock:^(TKState *state, TKTransition *transition) {
     [self doMyAttackAnimation];
+    [self.battleStateMachine.currentBattleState addDamage:_myDamageDealt];
   }];
   
   BattleState *enemyTurn = [BattleState stateWithName:@"Enemy Attack" andType:CombatReplayStepTypeEnemyTurn];
   [enemyTurn setDidEnterStateBlock:^(TKState *state, TKTransition *transition) {
-    [self beginEnemyTurn:0];
+    [self beginEnemyTurn:[transition.userInfo[DELAY_KEY] floatValue]];
   }];
   
   BattleState *playerVictory = [BattleState stateWithName:@"Player Victory" andType:CombatReplayStepTypePlayerVictory];
@@ -179,20 +187,28 @@
     [self currentMyPlayerDied];
   }];
   
-  [battleStateMachine addStates:@[spawnEnemyState, playerSwapState, playerTurn, playerMove, playerAttack, enemyTurn, playerVictory, playerDeath]];
+//  BattleState *playerRevive = [BattleState stateWithName:@"Player Revive" andType:CombatReplayStepTypePlayerRevive];
+//  [playerRevive setDidEnterStateBlock:^(TKState *state, TKTransition *transition) {
+//    [self ]
+//  }]
   
-  TKEvent *nextEnemyEvent = [TKEvent eventWithName:@"Spawn Next Enemy" transitioningFromStates:@[ enemyTurn, playerAttack, playerMove ] toState:spawnEnemyState];
-  TKEvent *playerSwapEvent = [TKEvent eventWithName:@"Do Swap Players" transitioningFromStates:@[playerTurn, playerDeath] toState:playerSwapState];
-  TKEvent *playerTurnEvent = [TKEvent eventWithName:@"Player Turn Start" transitioningFromStates:@[playerSwapState, spawnEnemyState, playerAttack, enemyTurn] toState:playerTurn];
-  TKEvent *playerMoveEvent = [TKEvent eventWithName:@"Player Move Start" transitioningFromStates:@[playerTurn, playerMove] toState:playerMove];
-  TKEvent *playerAttackEvent = [TKEvent eventWithName:@"Player Attack Start" transitioningFromStates:@[playerMove] toState:playerAttack];
-  TKEvent *enemyTurnEvent = [TKEvent eventWithName:@"Enemy Turn Start" transitioningFromStates:@[playerAttack, enemyTurn, spawnEnemyState, playerSwapState] toState:enemyTurn];
-  TKEvent *playerVictoryEvent = [TKEvent eventWithName:@"Player Win Event" transitioningFromStates:@[playerAttack, playerMove, enemyTurn] toState:playerVictory];
-  TKEvent *playerDeathEvent = [TKEvent eventWithName:@"Player Death Event" transitioningFromStates:@[playerAttack, playerMove, enemyTurn] toState:playerDeath];
+  [_battleStateMachine addStates:@[initialState, spawnEnemyState, playerSwapState, playerTurn, playerMove, playerAttack, enemyTurn, playerVictory, playerDeath]];
   
-  [battleStateMachine addEvents:@[nextEnemyEvent, playerSwapEvent, playerTurnEvent, playerMoveEvent, playerAttackEvent, enemyTurnEvent, playerVictoryEvent, playerDeathEvent]];
+  loadingCompleteEvent = [TKEvent eventWithName:@"Loading complete" transitioningFromStates:@[initialState] toState:spawnEnemyState];
+  nextEnemyEvent = [TKEvent eventWithName:@"Spawn Next Enemy" transitioningFromStates:@[ enemyTurn, playerAttack, playerMove ] toState:spawnEnemyState];
+  playerSwapEvent = [TKEvent eventWithName:@"Do Swap Players" transitioningFromStates:@[playerTurn, playerDeath, playerMove] toState:playerSwapState];
+  playerTurnEvent = [TKEvent eventWithName:@"Player Turn Start" transitioningFromStates:@[playerSwapState, spawnEnemyState, playerAttack, enemyTurn] toState:playerTurn];
+  playerMoveEvent = [TKEvent eventWithName:@"Player Move Start" transitioningFromStates:@[playerTurn, playerMove] toState:playerMove];
+  playerAttackEvent = [TKEvent eventWithName:@"Player Attack Start" transitioningFromStates:@[playerTurn, playerMove] toState:playerAttack];
+  enemyTurnEvent = [TKEvent eventWithName:@"Enemy Turn Start" transitioningFromStates:@[playerAttack, enemyTurn, spawnEnemyState, playerSwapState] toState:enemyTurn];
+  playerVictoryEvent = [TKEvent eventWithName:@"Player Win Event" transitioningFromStates:@[playerAttack, playerMove, enemyTurn] toState:playerVictory];
+  playerDeathEvent = [TKEvent eventWithName:@"Player Death Event" transitioningFromStates:@[playerAttack, playerMove, enemyTurn] toState:playerDeath];
   
-  battleStateMachine.initialState = spawnEnemyState;
+  [_battleStateMachine addEvents:@[loadingCompleteEvent, nextEnemyEvent, playerSwapEvent, playerTurnEvent, playerMoveEvent, playerAttackEvent, enemyTurnEvent, playerVictoryEvent, playerDeathEvent]];
+  
+  _battleStateMachine.initialState = initialState;
+  
+  [_battleStateMachine activate];
 }
 
 - (void) initOrbLayer {
@@ -267,6 +283,8 @@
   
   BattlePlayer *bp = [self firstMyPlayer];
   if (bp) {
+    
+//    [_battleStateMachine fireEvent:playerSwapEvent userInfo:@{SWAP_TOON_KEY : bp} error:nil];
     [self deployBattleSprite:bp];
   }
   
@@ -346,9 +364,9 @@
     if (_lootSprite) {
       [self.mainView moveToNextEnemy];
       
-      [self runAction:[CCActionSequence actions:[CCActionDelay actionWithDuration:2.f], [CCActionCallFunc actionWithTarget:self selector:@selector(youWon)], nil]];
+      [self runAction:[CCActionSequence actions:[CCActionDelay actionWithDuration:2.f], [CCActionCallFunc actionWithTarget:self selector:@selector(fireVictoryEvent)], nil]];
     } else {
-      [self youWon];
+      [_battleStateMachine fireEvent:playerVictoryEvent userInfo:nil error:nil];
     }
   }
 }
@@ -503,9 +521,10 @@
   _firstTurn = NO;
   BOOL nextMove = [self.battleSchedule dequeueNextMove];
   if (nextMove) {
-    [self beginMyTurn];
+    [_battleStateMachine fireEvent:playerTurnEvent userInfo:nil error:nil];
   } else {
-    [self beginEnemyTurn:delay];
+    NSNumber *delayN = [NSNumber numberWithFloat:delay];
+    [_battleStateMachine fireEvent:enemyTurnEvent userInfo:@{DELAY_KEY : delayN} error:nil];
   }
 }
 
@@ -547,7 +566,7 @@
       return;
     }
     
-    [self startMyMove];
+    [_battleStateMachine fireEvent:playerMoveEvent userInfo:nil error:nil];
     
     [self.mainView.hudView prepareForMyTurn];
     [self updateItemsBadge];
@@ -598,6 +617,8 @@
             _enemyDamageDealt = _enemyDamageDealt*[self damageMultiplierIsEnemyAttacker:YES];
             _enemyDamageDealtUnmodified = _enemyDamageDealt;
             _enemyDamageDealt = (int)[skillManager modifyDamage:_enemyDamageDealt forPlayer:NO];
+            
+            [self.battleStateMachine.currentBattleState addDamage:_enemyDamageDealt];
             
             // If the enemy's stunned, short the attack function
             if (self.enemyPlayerObject.isStunned)
@@ -652,7 +673,7 @@
     [self myTurnEnded];
   } else {
     _myDamageForThisTurn = 0;
-    [self startMyMove];
+    [_battleStateMachine fireEvent:playerMoveEvent userInfo:nil error:nil];
   }
 }
 
@@ -679,7 +700,7 @@
 }
 
 - (void) showHighScoreWord {
-  [self showHighScoreWordWithTarget:self selector:@selector(doMyAttackAnimation)];
+  [self showHighScoreWordWithTarget:self selector:@selector(firePlayerAttackEvent)];
 }
 
 - (void) doMyAttackAnimation {
@@ -1121,7 +1142,7 @@
 - (void) checkMyHealth {
   [self sendServerUpdatedValuesVerifyDamageDealt:YES];
   if (self.myPlayerObject.curHealth <= 0) {
-    [self currentMyPlayerDied];
+    [_battleStateMachine fireEvent:playerDeathEvent userInfo:nil error:nil];
   } else {
     [self beginNextTurn];
   }
@@ -1164,6 +1185,14 @@
 - (void) showHighScoreWordWithTarget:(id)target selector:(SEL)selector {
   int currentScore = _myDamageDealtUnmodified*[self damageMultiplierIsEnemyAttacker:NO]/(float)[self.myPlayerObject totalAttackPower]*100.f;
   [self.mainView showHighScoreWordWithScore:currentScore target:target selector:selector];
+}
+
+- (void) firePlayerAttackEvent {
+  [_battleStateMachine fireEvent:playerAttackEvent userInfo:nil error:nil];
+}
+
+- (void) fireVictoryEvent {
+  [_battleStateMachine fireEvent:playerVictoryEvent userInfo:nil error:nil];
 }
 
 - (void) spawnRibbonForOrb:(BattleOrb *)orb target:(CGPoint)endPosition baseDuration:(CGFloat)dur skill:(BOOL)skill {
@@ -1258,6 +1287,9 @@
 
 - (void) endBattle:(BOOL)won {
   [CCBReader load:@"BattleEndView" owner:self];
+  
+  NSLog(self.battleStateMachine.description);
+  NSLog([self.orbLayer.layout dumpOrbHistory]);
   
   // Set endView's parent so that the position normalization doesn't get screwed up
   // since we're only adding it to the parent once orb layer gets removed
@@ -1420,6 +1452,10 @@
 
 - (void) powerupCreated:(BattleOrb *)orb {
   _powerupCounts[orb.powerupType]++;
+}
+
+- (void)reportSwap:(BattleSwap *)swap {
+  [self.battleStateMachine.currentBattleState addOrbSwap:swap];
 }
 
 - (void) moveComplete {
@@ -1671,7 +1707,8 @@
   }
   
   if (bp) {
-    [self deployBattleSprite:bp];
+    [_battleStateMachine fireEvent:playerSwapEvent userInfo:@{SWAP_TOON_KEY : bp} error:nil];
+    //[self deployBattleSprite:bp];
   }
 }
 
@@ -2001,6 +2038,7 @@
 }
 
 - (void) deductBattleItem:(BattleItemProto *)bip {
+  [self.battleStateMachine.currentBattleState addItemUse:bip.battleItemId];
   GameState *gs = [GameState sharedGameState];
   UserBattleItem *ubi = [gs.battleItemUtil getUserBattleItemForBattleItemId:bip.battleItemId];
   if (ubi.quantity > 0) {

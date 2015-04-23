@@ -121,7 +121,6 @@
             self.orbCounter = self.orbRequirement;
         }
         [self skillTriggerFinished];
-
       }
       return YES;
     }

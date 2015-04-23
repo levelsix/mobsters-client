@@ -18,6 +18,10 @@
 #import "ShopViewController.h"
 #import "SkillManager.h"
 
+// Disable for this file
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+
 #define COMBO_FIRE_TAG @"ComboFire"
 
 @implementation BattleMainView

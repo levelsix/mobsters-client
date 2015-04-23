@@ -21,7 +21,7 @@
 #import "TKState.h"
 
 @interface TKState ()
-@property (nonatomic, copy, readwrite) NSString *name;
+//@property (nonatomic, copy, readwrite) NSString *name;
 @property (nonatomic, copy) void (^willEnterStateBlock)(TKState *, TKTransition *);
 @property (nonatomic, copy) void (^didEnterStateBlock)(TKState *, TKTransition *);
 @property (nonatomic, copy) void (^willExitStateBlock)(TKState *, TKTransition *);

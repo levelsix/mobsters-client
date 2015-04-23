@@ -52,6 +52,8 @@
 @property (nonatomic, readonly) int numVines;
 @property (nonatomic, assign) int lastNumVines;
 
+@property (nonatomic, readonly) NSMutableDictionary *orbRecords;
+
 @property (nonatomic, retain) NSDictionary *specialOrbPercentages;
 
 - (instancetype) initWithBoardLayout:(BoardLayoutProto *)proto;
@@ -152,11 +154,16 @@
 
 // PRECONDITION: The player went through a move without clearing any vines.
 // Spawns a vine somewhere on the board adjacent to another vine
-// If there are no available places for a vine, nothing will be spawned
+// If there are no available places for a vine, this will return nil
 - (BattleOrb*) pickOrbForVine;
 
 - (BattleOrb*)vineAdjacentToOrb:(BattleOrb*)orb;
 
 - (NSArray *)getBottomFeederTiles;
+
+- (NSString*) dumpOrbHistory;
+- (NSDictionary*) serializeOrbHistory;
+- (void) deserializeOrbHistory:(NSDictionary*)data;
+
 
 @end

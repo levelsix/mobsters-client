@@ -106,6 +106,12 @@
   if (self.allowOrbHammer && orb && [self.layout orbCanBeRemoved:orb]) {
     [self disallowInput];
     [self.delegate moveBegan];
+    
+    //Report move to the state machine as a swap with just one position
+    BattleSwap *swap = [[BattleSwap alloc] init];
+    swap.orbA = orb;
+    [self.delegate reportSwap:swap];
+    
     [self handleMatches:nil isFreeSwap:NO destroyedOrb:orb];
     
     self.allowOrbHammer = NO;
@@ -113,6 +119,11 @@
     tile.isHole = NO;
     [self.bgdLayer updateForPuttyWithTile:tile];
     [self.clipBgdLayer updateForPuttyWithTile:tile];
+    
+    //Report move to the state machine as a swap with just one position
+    BattleSwap *swap = [[BattleSwap alloc] init];
+    swap.orbA = orb;
+    [self.delegate reportSwap:swap];
     
     [self disallowInput];
     [self.delegate moveBegan];
@@ -135,7 +146,7 @@
   if ([self.layout isPossibleSwap:swap] ||
       (self.allowFreeMove && [swap.orbA isMovable] && [swap.orbB isMovable])) {
     [self.delegate moveBegan];
-    
+    [self.delegate reportSwap:swap];
     [self.layout performSwap:swap];
     
     // Don't allow powerup matches if the free swap was used to prevent powerup matches from exploding.

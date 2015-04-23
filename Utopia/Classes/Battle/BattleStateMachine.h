@@ -13,4 +13,11 @@
 
 @property NSMutableArray *pastStates;
 
+@property (nonatomic, readonly, getter = getCurrentBattleState) BattleState *currentBattleState;
+
+- (BattleState*) getCurrentBattleState;
+
+- (NSDictionary*) serialize;
+- (void) deserialize:(NSDictionary*)data;
+
 @end

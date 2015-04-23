@@ -46,7 +46,7 @@
 /**
  The name of the receiver. Cannot be `nil` and must be unique within the state machine that the receiver is added to.
  */
-@property (nonatomic, copy, readonly) NSString *name;
+@property (nonatomic, copy) NSString *name;
 
 ///----------------------------------
 /// @name Configuring Block Callbacks

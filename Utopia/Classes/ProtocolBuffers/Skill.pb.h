@@ -120,6 +120,27 @@ typedef NS_ENUM(SInt32, SideEffectBlendMode) {
 
 BOOL SideEffectBlendModeIsValidValue(SideEffectBlendMode value);
 
+typedef NS_ENUM(SInt32, SkillTriggerPoint) {
+  SkillTriggerPointEnemyInitialized = 1,
+  SkillTriggerPointPlayerInitialized = 2,
+  SkillTriggerPointEnemyAppeared = 3,
+  SkillTriggerPointEnemyDefeated = 4,
+  SkillTriggerPointPlayerMobDefeated = 5,
+  SkillTriggerPointEndOfPlayerMove = 6,
+  SkillTriggerPointStartOfPlayerTurn = 7,
+  SkillTriggerPointStartOfEnemyTurn = 8,
+  SkillTriggerPointEnemyDealsDamage = 9,
+  SkillTriggerPointPlayerDealsDamage = 10,
+  SkillTriggerPointManualActivation = 11,
+  SkillTriggerPointEndOfPlayerTurn = 12,
+  SkillTriggerPointEndOfEnemyTurn = 13,
+  SkillTriggerPointEnemySkillActivated = 14,
+  SkillTriggerPointPlayerSkillActivated = 15,
+  SkillTriggerPointModifyDamage = 16,
+};
+
+BOOL SkillTriggerPointIsValidValue(SkillTriggerPoint value);
+
 
 @interface SkillRoot : NSObject {
 }

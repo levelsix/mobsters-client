@@ -130,6 +130,29 @@ BOOL SideEffectBlendModeIsValidValue(SideEffectBlendMode value) {
       return NO;
   }
 }
+BOOL SkillTriggerPointIsValidValue(SkillTriggerPoint value) {
+  switch (value) {
+    case SkillTriggerPointEnemyInitialized:
+    case SkillTriggerPointPlayerInitialized:
+    case SkillTriggerPointEnemyAppeared:
+    case SkillTriggerPointEnemyDefeated:
+    case SkillTriggerPointPlayerMobDefeated:
+    case SkillTriggerPointEndOfPlayerMove:
+    case SkillTriggerPointStartOfPlayerTurn:
+    case SkillTriggerPointStartOfEnemyTurn:
+    case SkillTriggerPointEnemyDealsDamage:
+    case SkillTriggerPointPlayerDealsDamage:
+    case SkillTriggerPointManualActivation:
+    case SkillTriggerPointEndOfPlayerTurn:
+    case SkillTriggerPointEndOfEnemyTurn:
+    case SkillTriggerPointEnemySkillActivated:
+    case SkillTriggerPointPlayerSkillActivated:
+    case SkillTriggerPointModifyDamage:
+      return YES;
+    default:
+      return NO;
+  }
+}
 @interface SkillProto ()
 @property int32_t skillId;
 @property (strong) NSString* name;

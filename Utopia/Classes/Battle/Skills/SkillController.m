@@ -163,7 +163,11 @@
   _callbackBlock = completion;
   _callbackParams = nil;
   BOOL triggered = [self skillCalledWithTrigger:trigger execute:YES];
-  if (!triggered)
+  if (triggered)
+  {
+    [self.battleLayer.battleStateMachine.currentBattleState addSkillStepForTriggerPoint:trigger skillId:(int)self.skillId belongsToPlayer:self.belongsToPlayer ownerMonsterId:self.userPlayer.monsterId];
+  }
+  else
   {
     _callbackBlock = tempCallbackHolder;
     completion(NO, _callbackParams);
