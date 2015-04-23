@@ -119,8 +119,7 @@
   CCLabelTTF *_noMovesLabel;
   
   @protected TKEvent *loadingCompleteEvent, *nextEnemyEvent, *playerSwapEvent, *playerTurnEvent, *playerMoveEvent,
-    *playerAttackEvent, *enemyTurnEvent, *playerVictoryEvent, *playerDeathEvent;
-  
+    *playerAttackEvent, *enemyTurnEvent, *playerVictoryEvent, *playerDeathEvent, *playerReviveEvent;
 }
 
 @property (readonly) float orbLayerDistFromSide;

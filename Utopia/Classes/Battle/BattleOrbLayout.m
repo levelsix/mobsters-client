@@ -528,7 +528,6 @@
   orb.specialOrbType = special;
   orb.damageMultiplier = 1;
   [self setOrb:orb column:column row:row];
-  NSLog(@"Orb at column: %i, row: %i", (int)column, (int)row);
   return orb;
 }
 
