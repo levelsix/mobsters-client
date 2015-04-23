@@ -265,6 +265,8 @@
 @class EnhancementWaitTimeCompleteRequestProto_Builder;
 @class EnhancementWaitTimeCompleteResponseProto;
 @class EnhancementWaitTimeCompleteResponseProto_Builder;
+@class EventProto;
+@class EventProto_Builder;
 @class EvoChamberProto;
 @class EvoChamberProto_Builder;
 @class EvolutionFinishedRequestProto;
@@ -1142,6 +1144,82 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value);
 }
 + (PBExtensionRegistry*) extensionRegistry;
 + (void) registerAllExtensions:(PBMutableExtensionRegistry*) registry;
+@end
+
+@interface EventProto : PBGeneratedMessage {
+@private
+  BOOL hasEventType_:1;
+  BOOL hasTagNum_:1;
+  BOOL hasEventUuid_:1;
+  BOOL hasEventBytes_:1;
+  int32_t eventType;
+  int32_t tagNum;
+  NSString* eventUuid;
+  NSData* eventBytes;
+}
+- (BOOL) hasEventType;
+- (BOOL) hasTagNum;
+- (BOOL) hasEventUuid;
+- (BOOL) hasEventBytes;
+@property (readonly) int32_t eventType;
+@property (readonly) int32_t tagNum;
+@property (readonly, strong) NSString* eventUuid;
+@property (readonly, strong) NSData* eventBytes;
+
++ (EventProto*) defaultInstance;
+- (EventProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (EventProto_Builder*) builder;
++ (EventProto_Builder*) builder;
++ (EventProto_Builder*) builderWithPrototype:(EventProto*) prototype;
+- (EventProto_Builder*) toBuilder;
+
++ (EventProto*) parseFromData:(NSData*) data;
++ (EventProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (EventProto*) parseFromInputStream:(NSInputStream*) input;
++ (EventProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (EventProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (EventProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface EventProto_Builder : PBGeneratedMessageBuilder {
+@private
+  EventProto* result;
+}
+
+- (EventProto*) defaultInstance;
+
+- (EventProto_Builder*) clear;
+- (EventProto_Builder*) clone;
+
+- (EventProto*) build;
+- (EventProto*) buildPartial;
+
+- (EventProto_Builder*) mergeFrom:(EventProto*) other;
+- (EventProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (EventProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasEventType;
+- (int32_t) eventType;
+- (EventProto_Builder*) setEventType:(int32_t) value;
+- (EventProto_Builder*) clearEventType;
+
+- (BOOL) hasTagNum;
+- (int32_t) tagNum;
+- (EventProto_Builder*) setTagNum:(int32_t) value;
+- (EventProto_Builder*) clearTagNum;
+
+- (BOOL) hasEventUuid;
+- (NSString*) eventUuid;
+- (EventProto_Builder*) setEventUuid:(NSString*) value;
+- (EventProto_Builder*) clearEventUuid;
+
+- (BOOL) hasEventBytes;
+- (NSData*) eventBytes;
+- (EventProto_Builder*) setEventBytes:(NSData*) value;
+- (EventProto_Builder*) clearEventBytes;
 @end
 
 

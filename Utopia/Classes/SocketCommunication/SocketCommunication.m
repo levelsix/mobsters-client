@@ -30,7 +30,7 @@
 
 // Tags for keeping state
 #define READING_HEADER_TAG -1
-#define HEADER_SIZE 12
+#define HEADER_SIZE 4
 
 #define RECONNECT_TIMEOUT 0.5f
 #define NUM_SILENT_RECONNECTS 1
@@ -336,25 +336,32 @@ static NSString *udid = nil;
 
 - (NSData *) serializeEvent:(PBGeneratedMessage *)msg withMessageType:(int)type tagNum:(int)tagNum {
   NSMutableData *messageWithHeader = [NSMutableData data];
-  NSData *data = [msg data];
+  NSData *eventData = [msg data];
+  
+  EventProto_Builder *ep = [EventProto builder];
+  ep.eventType = type;
+  ep.tagNum = tagNum;
+  ep.eventBytes = eventData;
+  ep.eventUuid = @"abcd";
+  NSData *data = [ep build].data;
   
   // Need to reverse bytes for size and type(to account for endianness??)
   uint8_t header[HEADER_SIZE];
-  header[3] = type & 0xFF;
-  header[2] = (type & 0xFF00) >> 8;
-  header[1] = (type & 0xFF0000) >> 16;
-  header[0] = (type & 0xFF000000) >> 24;
-  
-  header[7] = tagNum & 0xFF;
-  header[6] = (tagNum & 0xFF00) >> 8;
-  header[5] = (tagNum & 0xFF0000) >> 16;
-  header[4] = (tagNum & 0xFF000000) >> 24;
+//  header[3] = type & 0xFF;
+//  header[2] = (type & 0xFF00) >> 8;
+//  header[1] = (type & 0xFF0000) >> 16;
+//  header[0] = (type & 0xFF000000) >> 24;
+//  
+//  header[7] = tagNum & 0xFF;
+//  header[6] = (tagNum & 0xFF00) >> 8;
+//  header[5] = (tagNum & 0xFF0000) >> 16;
+//  header[4] = (tagNum & 0xFF000000) >> 24;
   
   NSInteger size = [data length];
-  header[11] = size & 0xFF;
-  header[10] = (size & 0xFF00) >> 8;
-  header[9] = (size & 0xFF0000) >> 16;
-  header[8] = (size & 0xFF000000) >> 24;
+  header[3] = size & 0xFF;
+  header[2] = (size & 0xFF00) >> 8;
+  header[1] = (size & 0xFF0000) >> 16;
+  header[0] = (size & 0xFF000000) >> 24;
   
   [messageWithHeader appendBytes:header length:sizeof(header)];
   [messageWithHeader appendData:data];
@@ -439,17 +446,24 @@ static NSString *udid = nil;
 
 - (void) amqpConsumerThreadReceivedNewMessage:(AMQPMessage *)theMessage {
   NSData *data = theMessage.body;
-  uint8_t *header = (uint8_t *)[data bytes];
-  // Get the next 4 bytes for the payload size
-  int nextMsgType = *(int *)(header);
-  int tag = *(int *)(header+4);
-  //  int size = *(int *)(header+8); // No longer used
-  NSData *payload = [data subdataWithRange:NSMakeRange(HEADER_SIZE, data.length-HEADER_SIZE)];
+  int cursor = 0;
   
-  [self messageReceived:payload withType:nextMsgType tag:tag];
+  while (cursor < data.length) {
+    uint8_t header[HEADER_SIZE];
+    [data getBytes:header range:NSMakeRange(cursor, HEADER_SIZE)];
+    // Get the next 4 bytes for the payload size
+    int size = *(int *)(header); // No longer used
+    NSData *payload = [data subdataWithRange:NSMakeRange(cursor+HEADER_SIZE, size)];
+    
+    EventProto *ep = [EventProto parseFromData:payload];
+    
+    [self messageReceived:ep.eventBytes withType:ep.eventType tag:ep.tagNum];
+    
+    cursor += HEADER_SIZE + size;
+  }
 }
 
--(void) messageReceived:(NSData *)data withType:(EventProtocolResponse)eventType tag:(int)tag {
+- (void) messageReceived:(NSData *)data withType:(EventProtocolResponse)eventType tag:(int)tag {
   IncomingEventController *iec = [IncomingEventController sharedIncomingEventController];
   
   // Get the proto class for this event type
