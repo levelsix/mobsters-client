@@ -1,0 +1,72 @@
+//BAD!!! DON'T START NAMES WITH NEW OR COPY
+
+
+import "MonsterStuff.proto";
+import "Board.proto";
+import "SharedEnumConfig.proto";
+import "Skill.proto";
+
+package com.lvl6.proto;
+
+option java_outer_classname = "ReplayProto";
+
+//------------------------------------------------------------------------------------------
+
+enum CombatReplayStepType {
+  BATTLE_INITIALIZATION = 1;
+  SPAWN_ENEMY = 2;
+  NEXT_TURN = 3;
+  PLAYER_TURN = 4;
+  PLAYER_MOVE = 5;
+  PLAYER_ATTACK = 6;
+  ENEMY_TURN = 7;
+  PLAYER_SWAP = 8;
+  PLAYER_DEATH = 9;
+  PLAYER_REVIVE = 10;
+  ENEMY_DEATH = 11;
+  PLAYER_VICTORY = 12;
+}
+
+message CombatReplayProto {
+	optional string replayUuid = 1;
+	repeated MinimumUserMonsterProto playerTeam = 2;
+	repeated MinimumUserMonsterProto enemyTeam = 3;
+	repeated CombatReplayStepProto steps = 4;
+	optional BoardLayoutProto board = 5;
+	repeated CombatReplayOrbProto orbs = 6;
+	//TODO: Player names? Other metadata needed for replay
+}
+
+message CombatReplayStepProto {
+	optional string replayUuid = 1;
+	optional int32 stepIndex = 2;
+	optional CombatReplayStepType type = 3;
+	optional int32 itemId = 4;
+	optional uint32 movePos1 = 5;
+	optional uint32 movePos2 = 6;
+	optional int32 damage = 7;
+	optional CombatReplayScheduleProto schedule = 8;
+	repeated CombatReplaySkillStepProto skills = 9;
+}
+
+message CombatReplaySkillStepProto {
+	optional string replayUuid = 1;
+	optional int32 stepIndex = 2;
+	optional int32 skillId = 3;
+	optional bool belongsToPlayer = 4;
+	optional int32 ownerMonsterId = 5;
+	optional SkillTriggerPoint triggerPoint = 6;
+}
+
+message CombatReplayScheduleProto {
+	optional int32 totalTurns = 1;
+	repeated int32 playerTurns = 2;
+}
+
+message CombatReplayOrbProto {
+	optional int32 spawnedRow = 1;
+	optional int32 spawnedCol = 2;
+	optional Element spawnedElement = 3;
+    optional bool initialOrb = 4;
+    optional int32 type = 5;
+}
