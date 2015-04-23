@@ -2,7 +2,6 @@
 
 import "Battle.proto";
 import "Clan.proto";
-import "ClanGifts.proto";
 import "MonsterStuff.proto";
 import "Reward.proto";
 //import "SharedEnumConfig.proto";
