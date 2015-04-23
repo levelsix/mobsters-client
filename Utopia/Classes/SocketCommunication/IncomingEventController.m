@@ -1682,7 +1682,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [gs addToMyMonsters:proto.reward.updatedOrNewMonstersList];
     }
     
-    if (proto.reward.updatedUserItemsList) {
+    if (proto.reward.updatedUserItemsList.count) {
       [gs.itemUtil addToMyItems:proto.reward.updatedUserItemsList];
     }
   } else {
