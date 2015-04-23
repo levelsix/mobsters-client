@@ -693,7 +693,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     PrivateChatPostProto *privChat = nil;
     for (PrivateChatPostProto *pcpp in self.privateChats) {
       NSString *otherUserUuid = pcpp.otherUser.userUuid;
-      if ([userUuid isEqualToString:otherUserUuid]) {
+      if ([userUuid isEqualToString:otherUserUuid] && pcpp.timeOfPost >= privChat.timeOfPost) {
         privChat = pcpp;
       }
     }

@@ -888,7 +888,7 @@
   return nil;
 }
 
-- (id <ChatObject>) chatMessageForLineNum:(int)lineNum scope:(ChatScope)scope {
+- (id<ChatObject>) chatMessageForLineNum:(int)lineNum scope:(ChatScope)scope {
   GameState *gs = [GameState sharedGameState];
   if (scope == ChatScopeGlobal) {
     return gs.globalChatMessages[gs.globalChatMessages.count-lineNum-1];

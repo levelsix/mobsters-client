@@ -2607,8 +2607,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   LNLog(@"Translate select messages response received with status %d.", (int)proto.status);
   
-  if(proto.status == TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusSuccess) {
-    
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusSuccess) {
+    for (PrivateChatPostProto *pcpp in proto.messagesTranslatedList) {
+      [gs addPrivateChat:pcpp];
+    }
   } else {
     [Globals popupMessage:@"Server failed to translate messages."];
   }

@@ -1070,8 +1070,6 @@
   TranslateSelectMessagesResponseProto *tsmrp = (TranslateSelectMessagesResponseProto *)fe.event;
   
   for (PrivateChatPostProto *pcpp in tsmrp.messagesTranslatedList) {
-    [gs addPrivateChat:pcpp];
-    
     for (ChatMessage *message in self.chats) {
       if ([message isKindOfClass:[ChatMessage class]] && [message.postUuid isEqualToString:pcpp.privateChatPostUuid]) {
         [message.translatedTextProtos addObjectsFromArray:pcpp.translatedContentList];
