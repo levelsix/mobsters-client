@@ -98,7 +98,8 @@
         PrivateChatPostProto *pcpp = [messages firstObject];
         _messageFromSingleUser = pcpp;
         
-        TranslateLanguages languageToDisplay = [gs translateOnForUser:pcpp.sender.userUuid] ?: TranslateLanguagesNoTranslation;
+        NSString *userUuid = pcpp.sender.userUuid;
+        TranslateLanguages languageToDisplay = [gs translateOnForUser:userUuid] ? [gs languageForUser:userUuid] : TranslateLanguagesNoTranslation;
         
         ChatMessage *cm = [pcpp makeChatMessage];
         
