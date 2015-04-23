@@ -1853,6 +1853,12 @@
 		63CE45EB1AD8564400C5D8C5 /* Reward.proto in Resources */ = {isa = PBXBuildFile; fileRef = 63CE45EA1AD8564400C5D8C5 /* Reward.proto */; };
 		63CE45EC1AD8564400C5D8C5 /* Reward.proto in Resources */ = {isa = PBXBuildFile; fileRef = 63CE45EA1AD8564400C5D8C5 /* Reward.proto */; };
 		63CE45ED1AD8564400C5D8C5 /* Reward.proto in Resources */ = {isa = PBXBuildFile; fileRef = 63CE45EA1AD8564400C5D8C5 /* Reward.proto */; };
+		63CED7061AE5C183001CED41 /* CustomMenu.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 63CED7051AE5C183001CED41 /* CustomMenu.pb.m */; };
+		63CED7071AE5C183001CED41 /* CustomMenu.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 63CED7051AE5C183001CED41 /* CustomMenu.pb.m */; };
+		63CED7081AE5C183001CED41 /* CustomMenu.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 63CED7051AE5C183001CED41 /* CustomMenu.pb.m */; };
+		63CED70B1AE5C190001CED41 /* CustomMenu.proto in Resources */ = {isa = PBXBuildFile; fileRef = 63CED70A1AE5C190001CED41 /* CustomMenu.proto */; };
+		63CED70C1AE5C190001CED41 /* CustomMenu.proto in Resources */ = {isa = PBXBuildFile; fileRef = 63CED70A1AE5C190001CED41 /* CustomMenu.proto */; };
+		63CED70D1AE5C190001CED41 /* CustomMenu.proto in Resources */ = {isa = PBXBuildFile; fileRef = 63CED70A1AE5C190001CED41 /* CustomMenu.proto */; };
 		6B0783F91A828468005CDFCF /* SkillCurse.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0783F81A828468005CDFCF /* SkillCurse.m */; };
 		6B0783FA1A828468005CDFCF /* SkillCurse.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0783F81A828468005CDFCF /* SkillCurse.m */; };
 		6B0783FB1A828468005CDFCF /* SkillCurse.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0783F81A828468005CDFCF /* SkillCurse.m */; };
@@ -8468,6 +8474,9 @@
 		63CDCF3F1AC0F13F00A00DB6 /* greysquadrewardcheck@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greysquadrewardcheck@2x.png"; sourceTree = "<group>"; };
 		63CDCF471AC0F6A500A00DB6 /* greycomplete@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greycomplete@2x.png"; sourceTree = "<group>"; };
 		63CE45EA1AD8564400C5D8C5 /* Reward.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Reward.proto; sourceTree = "<group>"; };
+		63CED7041AE5C183001CED41 /* CustomMenu.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomMenu.pb.h; sourceTree = "<group>"; };
+		63CED7051AE5C183001CED41 /* CustomMenu.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomMenu.pb.m; sourceTree = "<group>"; };
+		63CED70A1AE5C190001CED41 /* CustomMenu.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CustomMenu.proto; sourceTree = "<group>"; };
 		686F8D3F1B86BD06C7EE6627 /* Pods.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.appstore.xcconfig; path = "Pods/Target Support Files/Pods/Pods.appstore.xcconfig"; sourceTree = "<group>"; };
 		6B0783F61A82845B005CDFCF /* SkillCurse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillCurse.h; sourceTree = "<group>"; };
 		6B0783F81A828468005CDFCF /* SkillCurse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillCurse.m; sourceTree = "<group>"; };
@@ -16101,6 +16110,8 @@
 			children = (
 				6304B4601AE054A10075D4E9 /* CustomMenu.pb.h */,
 				6304B4611AE054A10075D4E9 /* CustomMenu.pb.m */,
+				63CED7041AE5C183001CED41 /* CustomMenu.pb.h */,
+				63CED7051AE5C183001CED41 /* CustomMenu.pb.m */,
 				6304B44D1ADF1A990075D4E9 /* ClanGifts.pb.h */,
 				6304B44E1ADF1A990075D4E9 /* ClanGifts.pb.m */,
 				CF6574771909CAF100ABF1F4 /* Proto files */,
@@ -16379,6 +16390,7 @@
 				63CE45EA1AD8564400C5D8C5 /* Reward.proto */,
 				63CA0AFF1AD5B95300E92774 /* EventMiniEvent.proto */,
 				63CA0B001AD5B95300E92774 /* MiniEvent.proto */,
+				63CED70A1AE5C190001CED41 /* CustomMenu.proto */,
 				6304B43C1ADF1A870075D4E9 /* ClanGifts.proto */,
 				6304B43D1ADF1A870075D4E9 /* EventMiniEvent.proto */,
 				6304B43E1ADF1A870075D4E9 /* MiniEvent.proto */,
@@ -20627,6 +20639,7 @@
 				298050A61A265EE800806253 /* secretgiftbluebg@2x.png in Resources */,
 				CF0CF585196F452900ECD301 /* 3starmachineinactive@2x.png in Resources */,
 				CF3737A619E3767600CB16E3 /* obtimergreenmiddle@2x.png in Resources */,
+				63CED70C1AE5C190001CED41 /* CustomMenu.proto in Resources */,
 				2985E5E21A32BA1C0041ABF4 /* ChatBonusSlotRequestView.xib in Resources */,
 				CF0CF588196F452900ECD301 /* speechbubble@2x.png in Resources */,
 				CF0CF589196F452900ECD301 /* newnumber@2x.png in Resources */,
@@ -22525,6 +22538,8 @@
 				299AA3BD1A7856AA00A2D806 /* lockedorb-9@2x.png in Resources */,
 				29AF48C21AAA93DA0034927C /* itembagsidemiddle@2x.png in Resources */,
 				CFDA78E2198C303C0014A8CD /* glowring@2x.png in Resources */,
+				29DCD0341A8D8514003176FD /* fallinggems15@2x.png in Resources */,
+				63CED70B1AE5C190001CED41 /* CustomMenu.proto in Resources */,
 				CFC4D27A18D7BD03004681FD /* mus_mobsquad_gameplay.mp3 in Resources */,
 				9BB5AF911AA79C85002076E3 /* holeobstacle@2x.png in Resources */,
 				9B2389C31A30048D00FA3743 /* itemssidearrow@2x.png in Resources */,
@@ -24193,6 +24208,7 @@
 				CF481E9819F7217F00041486 /* 6earthbomb@2x.png in Resources */,
 				290DFB0D1ABB974600CCE082 /* noelementdailylab@2x.png in Resources */,
 				CF481E9C19F7217F00041486 /* BuildingCardCell.xib in Resources */,
+				63CED70D1AE5C190001CED41 /* CustomMenu.proto in Resources */,
 				CF481EA319F7217F00041486 /* cashmiddle@2x.png in Resources */,
 				CFA8FF3519F899B200F9908C /* readyforupgradebigcheck@2x.png in Resources */,
 				CF481EA519F7217F00041486 /* activeskillarrow@2x.png in Resources */,
@@ -25970,6 +25986,7 @@
 				9BB5AF9A1AA7B6AA002076E3 /* BoardDesignerObstacleView.m in Sources */,
 				CF0CEDB2196F452900ECD301 /* RewardsView.m in Sources */,
 				9BC1892A1AC1EF7E001B8E88 /* MiniEventPointsView.m in Sources */,
+				63CED7071AE5C183001CED41 /* CustomMenu.pb.m in Sources */,
 				CF0CEDB3196F452900ECD301 /* EnhanceQueueViewController.m in Sources */,
 				CF0CEDB4196F452900ECD301 /* AMQPConnectionThread.m in Sources */,
 				29A2FCF21A647EEB00FF93B6 /* OrbFallAction.m in Sources */,
@@ -26402,6 +26419,7 @@
 				CFBF031A17C595F60082A9BF /* ClanBrowseViewController.m in Sources */,
 				CF6574A81909CAF200ABF1F4 /* BoosterPackStuff.pb.m in Sources */,
 				CF9F41A119A6FF2C002EBF03 /* OrbSwipeLayer+PowerupAnimations.m in Sources */,
+				63CED7061AE5C183001CED41 /* CustomMenu.pb.m in Sources */,
 				9B41AEB51A7C114D00529879 /* SkillHellFire.m in Sources */,
 				9B2EFDB31AD35E8B005B7B83 /* CAWSpriteData.m in Sources */,
 				29AF48941AAA87800034927C /* BattleItem.pb.m in Sources */,
@@ -26757,6 +26775,7 @@
 				CFA9F7CE1A0DA0F900EBE77D /* ItemUtil.m in Sources */,
 				9BB5AF9B1AA7B6AA002076E3 /* BoardDesignerObstacleView.m in Sources */,
 				9BC1892B1AC1EF7E001B8E88 /* MiniEventPointsView.m in Sources */,
+				63CED7081AE5C183001CED41 /* CustomMenu.pb.m in Sources */,
 				CF48196119F7217F00041486 /* RewardsView.m in Sources */,
 				CF48196219F7217F00041486 /* EnhanceQueueViewController.m in Sources */,
 				CF48196319F7217F00041486 /* AMQPConnectionThread.m in Sources */,

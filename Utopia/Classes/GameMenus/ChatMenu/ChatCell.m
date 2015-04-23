@@ -639,23 +639,28 @@ static float buttonInitialWidth = 159.f;
     self.unOpenedView.hidden = NO;
   }
   
-  Quality giftRarity = userClanGift.clanGift.quality;
-  long expireTime = [userClanGift exprieDate].timeIntervalSinceNow;
-  
-  NSString *name = userClanGift.clanGift.name;
-  NSString *imageName = userClanGift.clanGift.imageName;
-  
   NSString *rewardImageName = [Globals imageNameForReward:userClanGift.reward];
   NSString *rewardName = [Globals nameForReward:userClanGift.reward];
   
-  self.giftRarityLabel.text = [NSString stringWithFormat:@"%@ Gift", [Globals stringForRarity:giftRarity]];
-  self.giftNameLabel.text = name;
-  self.expireTimeLabel.text = [Globals convertTimeToShortString:(int)expireTime withAllDenominations:YES];
+  self.giftRarityLabel.text = [NSString stringWithFormat:@"%@ Gift", [Globals stringForRarity:userClanGift.clanGift.quality]];
+  self.giftNameLabel.text = userClanGift.clanGift.name;
+  
+  [self updateForExpireDate:userClanGift.expireDate];
   
   self.rewardNameLabel.text = rewardName;
   
-  [Globals imageNamed:rewardImageName withView:self.rewardImageView greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:NO];
-  [Globals imageNamed:imageName withView:self.giftImage greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+  if (userClanGift.reward.typ == RewardProto_RewardTypeMonster) {
+    self.rewardFitImageView.hidden = NO;
+    self.rewardCenterImageView.hidden = YES;
+    
+    [Globals imageNamed:rewardImageName withView:self.rewardFitImageView greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:NO];
+  } else {
+    self.rewardFitImageView.hidden = YES;
+    self.rewardCenterImageView.hidden = NO;
+    
+    [Globals imageNamed:rewardImageName withView:self.rewardCenterImageView greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:NO];
+  }
+  [Globals imageNamed:userClanGift.clanGift.imageName withView:self.giftImage greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
   
   [self.collectButton removeTarget:nil action:NULL forControlEvents:UIControlEventTouchUpInside];
   [self.collectButton addTarget:userClanGift action:@selector(collectClicked:) forControlEvents:UIControlEventTouchUpInside];
@@ -663,7 +668,13 @@ static float buttonInitialWidth = 159.f;
 
 - (void) updateForExpireDate:(MSDate *)expireDate {
   long expireTime = expireDate.timeIntervalSinceNow;
-  self.expireTimeLabel.text = [Globals convertTimeToShortString:(int)expireTime withAllDenominations:YES];
+  if (expireTime <= 0) {
+    self.expireTimeLabel.text = @"Expired";
+    self.collectButton.superview.hidden = YES;
+  } else {
+    self.expireTimeLabel.text = [[Globals convertTimeToShortString:(int)expireTime withAllDenominations:YES] uppercaseString];
+    self.collectButton.superview.hidden = NO;
+  }
 }
 
 @end

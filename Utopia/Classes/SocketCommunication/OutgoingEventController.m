@@ -1613,7 +1613,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     return;
   }
   for (UserClanGiftProto *ucgp in userClanGifts) {
-    if (ucgp.exprieDate.timeIntervalSinceNow >= 0) {
+    if (ucgp.expireDate.timeIntervalSinceNow <= 0) {
       [Globals popupMessage:@"Trying to collect expired gifts."];
       return;
     }
@@ -1659,7 +1659,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     return;
   }
   for (UserClanGiftProto *ucgp in userClanGifts) {
-    if (ucgp.exprieDate.timeIntervalSinceNow < 0) {
+    if (!ucgp.isExpired) {
       [Globals popupMessage:@"Trying to clear unexpired gifts."];
       return;
     }

@@ -47,7 +47,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _staticBoards = [[NSMutableDictionary alloc] init];
     _staticBattleItems = [[NSMutableDictionary alloc] init];
     _staticResearches = [[NSMutableDictionary alloc] init];
-    _staticClanGifts = [[NSMutableDictionary alloc] init];
     _eventCooldownTimes = [[NSMutableDictionary alloc] init];
     _notifications = [[NSMutableArray alloc] init];
     _myStructs = [[NSMutableArray alloc] init];
@@ -344,14 +343,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     return nil;
   }
   return [self getStaticDataFrom:_staticItems withId:itemId];
-}
-
-- (ClanGiftProto *) clanGiftWithId:(int)giftId {
-  if (giftId == 0) {
-    [Globals popupMessage:@"Attempted to access clan gift 0"];
-    return nil;
-  }
-  return [self getStaticDataFrom:_staticClanGifts withId:giftId];
 }
 
 - (BoardLayoutProto *) boardWithId:(int)boardId {
@@ -788,6 +779,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   //    [self overwriteChatObjectInArray:arr chatObject:php];
   //  }
   
+  for (UserClanGiftProto *ucgp in self.clanGifts) {
+    [self overwriteChatObjectInArray:arr chatObject:ucgp];
+  }
+  
   for (RequestFromFriend *req in self.fbUnacceptedRequestsFromFriends) {
     [self overwriteChatObjectInArray:arr chatObject:req];
   }
@@ -849,12 +844,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   for (PvpClanAvenging *ca in self.clanAvengings) {
     if (ca.isValid) {
       [arr addObject:ca];
-    }
-  }
-  
-  for (UserClanGiftProto *ucgp in self.clanGifts) {
-    if (ucgp.isValid) {
-      [arr addObject:ucgp];
     }
   }
   
@@ -1248,6 +1237,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 #pragma mark - Static Data
 
 - (void) updateStaticData:(StaticDataProto *)proto {
+  
   // Add these before updating user or else UI will update incorrectly
   [self addToStaticLevelInfos:proto.slipList];
   
@@ -1326,9 +1316,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   
   self.staticClanIcons = proto.clanIconsList;
   self.staticLeagues = proto.leaguesList;
-  
-  [self.staticClanGifts removeAllObjects];
-  [self addToStaticClanGifts:proto.clanGiftsList];
   
   self.staticSkills = [NSMutableDictionary dictionary];
   for (SkillProto* skillProto in proto.skillsList)
@@ -1414,12 +1401,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 - (void) addToStaticResearch:(NSArray *)arr {
   for (ResearchProto *r in arr) {
     [self.staticResearches setObject:r forKey:@(r.researchId)];
-  }
-}
-
-- (void) addToStaticClanGifts:(NSArray *)arr {
-  for ( ClanGiftProto *p in arr ) {
-    [self.staticClanGifts setObject:p forKey:@(p.clanGiftId)];
   }
 }
 

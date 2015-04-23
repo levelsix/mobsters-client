@@ -2583,6 +2583,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   [gvc.notificationController addNotification:megn];
 }
 
++ (void) addClanGiftNotification:(NSArray *)userClanGifts {
+  GameViewController *gvc = [GameViewController baseController];
+  if(!gvc.chatViewController) {
+    PrivateMessageNotificationViewController *pmn = [[PrivateMessageNotificationViewController alloc] initWithClanGifts:userClanGifts isImmediate:NO];
+    [gvc.notificationController addNotification:pmn];
+  }
+}
+
 #pragma mark - Bounce View
 + (void) bounceView:(UIView *)view fromScale:(float)fScale toScale:(float)tScale duration:(float)duration {
   CATransform3D layerTransform = view.layer.transform;
@@ -3185,15 +3193,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       return [NSString stringWithFormat:@"%d Oil",reward.amt];
     case RewardProto_RewardTypeItem:
       staticItem = [gs itemForId:reward.staticDataId];
-      return [NSString stringWithFormat:@"%d %@",reward.amt, staticItem.shortName];
+      return [NSString stringWithFormat:@"%dx %@%@",reward.amt, staticItem.name, reward.amt>1 ? @"s" : @""];
     case RewardProto_RewardTypeMonster:
       staticMonster = [gs monsterWithId:reward.staticDataId];
       if (reward.amt > 0) {
         //monster is a full monster and at lvl amt
-        return [NSString stringWithFormat:@"LVL %d %@",reward.amt,staticMonster.shorterName];
+        return [NSString stringWithFormat:@"LVL %d %@",reward.amt,staticMonster.monsterName];
       } else {
         //this reward is just a piece of a monster
-        return [NSString stringWithFormat:@"%@ Piece",staticMonster.shorterName];
+        return [NSString stringWithFormat:@"%@ Piece",staticMonster.monsterName];
       }
     case RewardProto_RewardTypeNoReward:
       return @"";
@@ -3218,11 +3226,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       return staticItem.imgName;
     case RewardProto_RewardTypeMonster:
       staticMonster = [gs monsterWithId:reward.staticDataId];
-      if (reward.amt > 0) {
-        //monster is a full monster and at lvl amt
-      } else {
-        //this reward is just a piece of a monster
-      }
+      return [staticMonster.imagePrefix stringByAppendingString:@"Card.png"];
       
     case RewardProto_RewardTypeNoReward:
       return @"";

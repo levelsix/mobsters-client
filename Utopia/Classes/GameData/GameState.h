@@ -90,7 +90,6 @@
 @property (nonatomic, retain) NSArray *staticLeagues;
 @property (nonatomic, retain) NSMutableDictionary *staticAchievements;
 @property (nonatomic, retain) NSArray *staticMapElements;
-@property (nonatomic, retain) NSMutableDictionary *staticClanGifts;
 
 @property (nonatomic, retain) NSArray *persistentClanEvents;
 @property (nonatomic, retain) PersistentClanEventClanInfoProto *curClanRaidInfo;
@@ -206,7 +205,6 @@
 - (BoardLayoutProto *) boardWithId:(int)boardId;
 - (BattleItemProto *) battleItemWithId:(int)battleItemId;
 - (ResearchProto *) researchWithId:(int)researchId;
-- (ClanGiftProto *) clanGiftWithId:(int)giftId;
 
 - (void) unlockAllTasks;
 - (BOOL) isTaskUnlocked:(int)taskId;

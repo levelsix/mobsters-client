@@ -23,6 +23,7 @@
 #import "MiniEventManager.h"
 
 static char const * clanGiftRedeemedKey = "clanGiftRedeemedKey";
+static char const * clanGiftExpiredKey = "clanGiftExpireKey";
 
 @implementation ChatMessage
 
@@ -521,20 +522,32 @@ static char const * clanGiftRedeemedKey = "clanGiftRedeemedKey";
 
 @implementation UserClanGiftProto (ChatObject)
 
-- (MinimumUserProto *) sender {
+- (MinimumUserProto *) otherUser {
   return self.sender;
 }
 
+- (MinimumUserProto *) sender {
+  return self.gifterUser;
+}
+
 - (NSString *) message {
-  return @"Sent you a gift.";
+  return @"Sent you a gift!";
 }
 
 - (MSDate *) date {
-  return [MSDate date];
+  return [MSDate dateWithTimeIntervalSince1970:(self.timeReceived/1000.)];
 }
 
 - (UIColor *) bottomViewTextColor {
-  return [UIColor colorWithHexString:@"ff2400"];
+  //green a4f100
+  //red ff9b9b
+  if (!self.isExpired && !self.isRedeemed) {
+    return [UIColor colorWithHexString:@"A4F100"];
+  } else if (self.isExpired && !self.isRedeemed){
+    return [UIColor colorWithHexString:@"FF9B9B"];
+  } else {
+    return [UIColor whiteColor];
+  }
 }
 
 - (PrivateChatPostProto *) clanChatPrivateChat {
@@ -549,7 +562,7 @@ static char const * clanGiftRedeemedKey = "clanGiftRedeemedKey";
 }
 
 - (BOOL) isRead {
-  return self.isValid || [[self clanChatPrivateChat] isRead];
+  return self.isRedeemed || self.isExpired || [[self clanChatPrivateChat] isRead];
 }
 
 - (void) markAsRead {
@@ -557,8 +570,8 @@ static char const * clanGiftRedeemedKey = "clanGiftRedeemedKey";
   return [[self clanChatPrivateChat] markAsRead];
 }
 
-- (BOOL) isValid {
-  return [self.exprieDate timeIntervalSinceNow] > 0;
+- (BOOL) isExpired {
+  return self.expireDate.timeIntervalSinceNow <= 0;
 }
 
 - (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag {
@@ -574,19 +587,15 @@ static char const * clanGiftRedeemedKey = "clanGiftRedeemedKey";
   [chatCell updateForMessage:self.message sender:self.sender date:self.date showsClanTag:showsClanTag allowHighlight:YES chatSubview:v identifier:nibName];
 }
 
-- (long) expireTime {
-  return self.timeReceived + (self.clanGift.hoursUntilExpiration * 60 * 60 * 1000);
-}
-
-- (MSDate *) exprieDate {
-  return [MSDate dateWithTimeIntervalSince1970:[self expireTime]];
+- (MSDate *) expireDate {
+  long expireTime = (self.timeReceived/1000.) + (self.clanGift.hoursUntilExpiration * 60 * 60);
+  return [MSDate dateWithTimeIntervalSince1970:expireTime];
 }
 
 - (IBAction)collectClicked:(id)sender {
-  [[OutgoingEventController sharedOutgoingEventController] collectClanGift:[NSArray arrayWithObject:self] delegate:nil];
-  
   [self setIsRedeemed:YES];
-  [[NSNotificationCenter defaultCenter] postNotificationName:CLAN_CHAT_VIEWED_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] postNotificationName:CLAN_GIFTS_CHANGED_NOTIFICATION object:nil];
+  [[OutgoingEventController sharedOutgoingEventController] collectClanGift:[NSArray arrayWithObject:self] delegate:nil];
 }
 
 - (void) setIsRedeemed:(BOOL)isRedeemed {
@@ -594,21 +603,18 @@ static char const * clanGiftRedeemedKey = "clanGiftRedeemedKey";
 }
 
 - (BOOL) isRedeemed {
-  return (BOOL)objc_getAssociatedObject(self, clanGiftRedeemedKey);
+  return self.hasBeenCollected || (BOOL)objc_getAssociatedObject(self, clanGiftRedeemedKey);
 }
 
 - (BOOL) updateForTimeInChatCell:(ChatCell *)chatCell {
-  ChatClanGiftView *v = (ChatClanGiftView *)chatCell;
-  
-  MSDate *expirationDate = [self exprieDate];
-  if (expirationDate.timeIntervalSinceNow > 0) {
-    //send message to expire gifts
-    return YES;
-  } else {
-    [v updateForExpireDate:expirationDate];
-    return NO;
-  }
-  
+  ChatClanGiftView *v = (ChatClanGiftView *)chatCell.currentChatSubview;
+  [v updateForExpireDate:self.expireDate];
+  return NO;
+}
+
+- (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell {
+  [self updateInChatCell:chatCell showsClanTag:YES];
+  return CGRectGetMaxY(chatCell.currentChatSubview.frame)+14.f;
 }
 
 @end
