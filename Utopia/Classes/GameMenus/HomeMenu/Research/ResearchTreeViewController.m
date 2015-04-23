@@ -30,7 +30,6 @@
   self.rankTotal.text = [NSString stringWithFormat:@"%d/%d", curRank, maxRank];
   self.rankTotal.shadowBlur = 0.5f;
   self.selectionTitle.text = [NSString stringWithFormat:@" %@", proto.name];
-  self.selectionDescription.text = proto.desc;
   
   self.nextArrowButton.image = [UIImage imageWithCGImage:self.nextArrowButton.image.CGImage
                                                    scale:self.nextArrowButton.image.scale
@@ -43,6 +42,13 @@
   self.selectionTitle.shadowBlur = 0.5f;
   self.selectionTitle.strokeColor = isAvailable ? [UIColor colorWithHexString:BLUE_STROKE] : [UIColor colorWithHexString:RED_STROKE];
   self.selectionTitle.gradientEndColor = isAvailable ? [UIColor colorWithHexString:BLUE_BOT_COLOR] : [UIColor colorWithHexString:RED_BOT_COLOR];
+  
+  NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:proto.desc];
+  NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+  [paragraphStyle setLineSpacing:2];
+  [paragraphStyle setLineBreakMode:NSLineBreakByWordWrapping];
+  [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [proto.desc length])];
+  self.selectionDescription.attributedText = attributedString;
   
   NSString *barBGImage = isAvailable ? @"enhancenextbg.png" : @"researchmissingrequirements.png";
   [self.barButton setImage:[Globals imageNamed:barBGImage] forState:UIControlStateNormal];
@@ -311,6 +317,24 @@ int x = 0;
   [super viewWillAppear:animated];
   
   [self waitTimeComplete];
+  
+  if (_preSelectResearch) {
+    [self selectResearch:_preSelectResearch];
+  }
+}
+
+- (void) selectResearch:(UserResearch *)userResearch {
+  _preSelectResearch = nil;
+  for (int i = 0; i < _researchButtons.count && i < _userResearches.count; i++) {
+    if ([_userResearches[i] isEqual:userResearch]) {
+      [self researchButtonClicked:_researchButtons[i]];
+      return;
+    }
+  }
+  
+  //this gets called when the controller hasn't run viewDidLoad yet
+  //so we save the value till the view loads next and automatically select the button
+  _preSelectResearch = userResearch;
 }
 
 - (void) updateLabels {
