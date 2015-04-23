@@ -2021,8 +2021,9 @@ static const NSInteger maxSearchIterations = 800;
     col = [num intValue];
     row = 0;
     for (CombatReplayOrbProto *replayOrb in arr) {
-      NSString *datastring = [[NSString alloc] initWithData:replayOrb.data encoding:NSUTF8StringEncoding];
-      [data setValue:datastring forKey:[NSString stringWithFormat:@"orbrow%icol%i", row, col]];
+      NSString *datastring = [replayOrb.data base64EncodedStringWithOptions:0];
+//      NSString *datastring = [[NSString alloc] initWithData:replayOrb.data encoding:NSUTF8StringEncoding];
+      [data setValue:datastring forKey:[NSString stringWithFormat:@"orbrow%icol%i", row++, col]];
     }
     [data setValue:@(row) forKey:[NSString stringWithFormat:@"orbrowscol%i", col]];
   }
@@ -2038,7 +2039,7 @@ static const NSInteger maxSearchIterations = 800;
     [_orbRecords setObject:arr forKey:@(i)];
     int rows = [[data valueForKey:[NSString stringWithFormat:@"orbrowscol%i", i]] intValue];
     for (int j = 0; j < rows; j++) {
-      NSData *orbData = [[data valueForKey:[NSString stringWithFormat:@"orbrow%icol%i", j, i]] dataUsingEncoding:NSUTF8StringEncoding];
+      NSData *orbData = [[NSData alloc] initWithBase64EncodedData:[data valueForKey:[NSString stringWithFormat:@"orbrow%icol%i", j, i]] options:0];
       [arr addObject:[CombatReplayOrbProto parseFromData:orbData]];
     }
   }

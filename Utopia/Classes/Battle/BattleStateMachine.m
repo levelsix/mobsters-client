@@ -64,7 +64,7 @@
   NSMutableDictionary *data = [NSMutableDictionary dictionary];
   int i = 0;
   for (CombatReplayStepProto *step in self.pastStates) {
-    NSString *datastring = [[NSString alloc] initWithData:step.data encoding:NSUTF8StringEncoding];
+    NSString *datastring = [step.data base64EncodedStringWithOptions:0];
     if (!datastring)
       NSLog(@"Um what? %@", step.data);
     else
@@ -79,7 +79,7 @@
   self.pastStates = [NSMutableArray array];
   int numSteps = [[data objectForKey:@"numsteps"] intValue];
   for (int i = 0; i < numSteps; i++) {
-    NSData *stepData = [[data objectForKey:[NSString stringWithFormat:@"step%i", i]] dataUsingEncoding:NSUTF8StringEncoding];
+    NSData *stepData =  [[NSData alloc] initWithBase64EncodedData:[data objectForKey:[NSString stringWithFormat:@"step%i", i]] options:0];
     [self.pastStates addObject:[CombatReplayStepProto parseFromData:stepData]];
   }
 }

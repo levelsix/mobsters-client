@@ -2193,7 +2193,6 @@
 		6BCBD8761A797E63002C584F /* SkillHammerTime.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCBD8741A797E63002C584F /* SkillHammerTime.m */; };
 		6BCBD8771A797E63002C584F /* SkillHammerTime.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCBD8741A797E63002C584F /* SkillHammerTime.m */; };
 		6BE655921AE57BE80069452A /* Replay.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE655911AE57BE80069452A /* Replay.pb.m */; };
-		6BE655961AE588F00069452A /* CustomMenu.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE655951AE588F00069452A /* CustomMenu.pb.m */; };
 		9B0E6E2C1A73373100118210 /* confusionbubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B0E6E211A73373100118210 /* confusionbubble@2x.png */; };
 		9B0E6E2D1A73373100118210 /* confusionbubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B0E6E211A73373100118210 /* confusionbubble@2x.png */; };
 		9B0E6E2E1A73373100118210 /* confusionbubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B0E6E211A73373100118210 /* confusionbubble@2x.png */; };
@@ -17961,7 +17960,7 @@
 		CF1256391538A94D00E0C1AD /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0620;
+				LastUpgradeCheck = 0630;
 				ORGANIZATIONNAME = LVL6;
 				TargetAttributes = {
 					CF0CECF2196F452900ECD301 = {
@@ -24553,7 +24552,6 @@
 				CF6F1A23181521FF00CFF2B9 /* QuestDetailsViewController.m in Sources */,
 				CFA9F77A1A0D8D8900EBE77D /* ItemSelectViewController.m in Sources */,
 				CF68907519145DC300FF1F71 /* EventMiniJob.pb.m in Sources */,
-				6BE655961AE588F00069452A /* CustomMenu.pb.m in Sources */,
 				3E1A0C041A645B4B00DF00AD /* Board.pb.m in Sources */,
 				CFF5DBA0194BD8CE0019EB2B /* MiniJobsCompleteViewController.m in Sources */,
 				631BF3B31A6DDAEC0091253B /* PrivateMessageNotificationViewController.m in Sources */,
@@ -25086,6 +25084,7 @@
 				COPY_PHASE_STRIP = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -25431,6 +25430,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -25468,6 +25468,7 @@
 				COPY_PHASE_STRIP = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
