@@ -240,6 +240,26 @@ static NSString *TKQuoteString(NSString *string)
     return YES;
 }
 
+- (void)forceState:(TKState*)state
+{
+  if (! self.isActive) [self activate];
+  TKTransition *transition = [TKTransition transitionForEvent:nil fromState:self.currentState inStateMachine:self userInfo:nil];
+  
+  TKState *oldState = self.currentState;
+  TKState *newState = state;
+    
+  if (oldState.willExitStateBlock) oldState.willExitStateBlock(oldState, transition);
+  if (newState.willEnterStateBlock) newState.willEnterStateBlock(newState, transition);
+  self.currentState = newState;
+  if (oldState.didExitStateBlock) oldState.didExitStateBlock(oldState, transition);
+  if (newState.didEnterStateBlock) newState.didEnterStateBlock(newState, transition);
+  
+  NSMutableDictionary *notificationInfo = [NSMutableDictionary dictionary];
+  [notificationInfo addEntriesFromDictionary:@{ TKStateMachineDidChangeStateOldStateUserInfoKey: oldState,
+                                                TKStateMachineDidChangeStateNewStateUserInfoKey: newState }];
+  [[NSNotificationCenter defaultCenter] postNotificationName:TKStateMachineDidChangeStateNotification object:self userInfo:notificationInfo];
+}
+
 #pragma mark - NSCoding
 
 - (id)initWithCoder:(NSCoder *)aDecoder

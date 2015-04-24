@@ -200,6 +200,15 @@
  */
 - (BOOL)fireEvent:(id)eventOrEventName userInfo:(NSDictionary *)userInfo error:(NSError **)error;
 
+/**
+ Forces a change between two states, without an event or transition. Threre does not need to be a valid transition for this
+ to function. Use only when you need to force a controller into a given state to resume from a save.
+ Hacked in by @rob
+ 
+ @param state A `TKState` object which identifies the state that the controller should force shift to
+ */
+- (void)forceState:(TKState*)state;
+
 @end
 
 ///----------------
