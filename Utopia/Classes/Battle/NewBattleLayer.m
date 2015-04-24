@@ -197,10 +197,10 @@
   loadingCompleteEvent = [TKEvent eventWithName:@"Loading complete" transitioningFromStates:@[initialState] toState:spawnEnemyState];
   nextEnemyEvent = [TKEvent eventWithName:@"Spawn Next Enemy" transitioningFromStates:@[ enemyTurn, playerAttack, playerMove ] toState:spawnEnemyState];
   playerSwapEvent = [TKEvent eventWithName:@"Do Swap Players" transitioningFromStates:@[playerTurn, playerDeath, playerMove, playerRevive] toState:playerSwapState];
-  playerTurnEvent = [TKEvent eventWithName:@"Player Turn Start" transitioningFromStates:@[playerSwapState, spawnEnemyState, playerAttack, enemyTurn] toState:playerTurn];
+  playerTurnEvent = [TKEvent eventWithName:@"Player Turn Start" transitioningFromStates:@[initialState, playerSwapState, spawnEnemyState, playerAttack, enemyTurn] toState:playerTurn];
   playerMoveEvent = [TKEvent eventWithName:@"Player Move Start" transitioningFromStates:@[playerTurn, playerMove] toState:playerMove];
   playerAttackEvent = [TKEvent eventWithName:@"Player Attack Start" transitioningFromStates:@[playerTurn, playerMove] toState:playerAttack];
-  enemyTurnEvent = [TKEvent eventWithName:@"Enemy Turn Start" transitioningFromStates:@[playerAttack, enemyTurn, spawnEnemyState, playerSwapState] toState:enemyTurn];
+  enemyTurnEvent = [TKEvent eventWithName:@"Enemy Turn Start" transitioningFromStates:@[initialState, playerAttack, enemyTurn, spawnEnemyState, playerSwapState] toState:enemyTurn];
   playerVictoryEvent = [TKEvent eventWithName:@"Player Win Event" transitioningFromStates:@[playerAttack, playerMove, enemyTurn] toState:playerVictory];
   playerDeathEvent = [TKEvent eventWithName:@"Player Death Event" transitioningFromStates:@[playerAttack, playerMove, enemyTurn] toState:playerDeath];
   playerReviveEvent = [TKEvent eventWithName:@"Player Revive Event" transitioningFromStates:@[playerDeath] toState:playerRevive];

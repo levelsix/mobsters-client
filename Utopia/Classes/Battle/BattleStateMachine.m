@@ -47,7 +47,7 @@
     [super fireEvent:eventOrEventName userInfo:userInfo error:error];
     return YES;
   }
-  NSLog(@"Transition failed");
+  NSLog(@"Transition failed for event: %@", eventOrEventName);
   return NO;
 }
 
