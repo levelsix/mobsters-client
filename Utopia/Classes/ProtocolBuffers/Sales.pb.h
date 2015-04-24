@@ -9,6 +9,8 @@
 #import "User.pb.h"
 // @@protoc_insertion_point(imports)
 
+@class ClanGiftProto;
+@class ClanGiftProto_Builder;
 @class ClanMemberTeamDonationProto;
 @class ClanMemberTeamDonationProto_Builder;
 @class ColorProto;
@@ -63,6 +65,8 @@
 @class StaticUserLevelInfoProto_Builder;
 @class TranslatedTextProto;
 @class TranslatedTextProto_Builder;
+@class UserClanGiftProto;
+@class UserClanGiftProto_Builder;
 @class UserCurrentMonsterTeamProto;
 @class UserCurrentMonsterTeamProto_Builder;
 @class UserEnhancementItemProto;

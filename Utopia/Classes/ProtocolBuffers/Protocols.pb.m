@@ -21,7 +21,6 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [ChatRoot registerAllExtensions:registry];
     [CityRoot registerAllExtensions:registry];
     [ClanRoot registerAllExtensions:registry];
-    [ClanGiftsRoot registerAllExtensions:registry];
     [DevRoot registerAllExtensions:registry];
     [EventAchievementRoot registerAllExtensions:registry];
     [EventApnsRoot registerAllExtensions:registry];

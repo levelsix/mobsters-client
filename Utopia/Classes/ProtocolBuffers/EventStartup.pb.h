@@ -9,7 +9,6 @@
 #import "Chat.pb.h"
 #import "City.pb.h"
 #import "Clan.pb.h"
-#import "ClanGifts.pb.h"
 #import "InAppPurchase.pb.h"
 #import "Item.pb.h"
 #import "MiniEvent.pb.h"
@@ -21,6 +20,7 @@
 #import "SharedEnumConfig.pb.h"
 #import "StaticData.pb.h"
 #import "Structure.pb.h"
+#import "Reward.pb.h"
 #import "Task.pb.h"
 #import "User.pb.h"
 // @@protoc_insertion_point(imports)
