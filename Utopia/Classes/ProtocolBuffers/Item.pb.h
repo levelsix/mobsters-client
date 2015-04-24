@@ -34,6 +34,7 @@ typedef NS_ENUM(SInt32, ItemType) {
   ItemTypeSpeedUp = 4,
   ItemTypeBuilder = 5,
   ItemTypeRefreshMiniJob = 6,
+  ItemTypeGachaMultiSpin = 7,
 };
 
 BOOL ItemTypeIsValidValue(ItemType value);

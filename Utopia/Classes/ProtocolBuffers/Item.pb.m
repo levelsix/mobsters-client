@@ -29,6 +29,7 @@ BOOL ItemTypeIsValidValue(ItemType value) {
     case ItemTypeSpeedUp:
     case ItemTypeBuilder:
     case ItemTypeRefreshMiniJob:
+    case ItemTypeGachaMultiSpin:
       return YES;
     default:
       return NO;

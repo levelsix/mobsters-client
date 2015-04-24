@@ -3090,6 +3090,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property int32_t minsToResolicitTeamDonation;
 @property (strong) NSMutableArray * mutableFileDownloadProtoList;
 @property int32_t taskIdForUpgradeTutorial;
+@property (strong) StartupResponseProto_StartupConstants_BoosterPackConstantsProto* boosterPackConstantProto;
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -3366,6 +3367,13 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasTaskIdForUpgradeTutorial_ = !!value_;
 }
 @synthesize taskIdForUpgradeTutorial;
+- (BOOL) hasBoosterPackConstantProto {
+  return !!hasBoosterPackConstantProto_;
+}
+- (void) setHasBoosterPackConstantProto:(BOOL) value_ {
+  hasBoosterPackConstantProto_ = !!value_;
+}
+@synthesize boosterPackConstantProto;
 - (id) init {
   if ((self = [super init])) {
     self.maxLevelForUser = 0;
@@ -3403,6 +3411,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.taskIdOfFirstSkill = 0;
     self.minsToResolicitTeamDonation = 0;
     self.taskIdForUpgradeTutorial = 0;
+    self.boosterPackConstantProto = [StartupResponseProto_StartupConstants_BoosterPackConstantsProto defaultInstance];
   }
   return self;
 }
@@ -3581,6 +3590,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasTaskIdForUpgradeTutorial) {
     [output writeInt32:41 value:self.taskIdForUpgradeTutorial];
   }
+  if (self.hasBoosterPackConstantProto) {
+    [output writeMessage:500 value:self.boosterPackConstantProto];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -3712,6 +3724,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }];
   if (self.hasTaskIdForUpgradeTutorial) {
     size_ += computeInt32Size(41, self.taskIdForUpgradeTutorial);
+  }
+  if (self.hasBoosterPackConstantProto) {
+    size_ += computeMessageSize(500, self.boosterPackConstantProto);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -3916,6 +3931,12 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasTaskIdForUpgradeTutorial) {
     [output appendFormat:@"%@%@: %@\n", indent, @"taskIdForUpgradeTutorial", [NSNumber numberWithInteger:self.taskIdForUpgradeTutorial]];
   }
+  if (self.hasBoosterPackConstantProto) {
+    [output appendFormat:@"%@%@ {\n", indent, @"boosterPackConstantProto"];
+    [self.boosterPackConstantProto writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -4003,6 +4024,8 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
       [self.fileDownloadProtoList isEqualToArray:otherMessage.fileDownloadProtoList] &&
       self.hasTaskIdForUpgradeTutorial == otherMessage.hasTaskIdForUpgradeTutorial &&
       (!self.hasTaskIdForUpgradeTutorial || self.taskIdForUpgradeTutorial == otherMessage.taskIdForUpgradeTutorial) &&
+      self.hasBoosterPackConstantProto == otherMessage.hasBoosterPackConstantProto &&
+      (!self.hasBoosterPackConstantProto || [self.boosterPackConstantProto isEqual:otherMessage.boosterPackConstantProto]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -4129,6 +4152,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }];
   if (self.hasTaskIdForUpgradeTutorial) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.taskIdForUpgradeTutorial] hash];
+  }
+  if (self.hasBoosterPackConstantProto) {
+    hashCode = hashCode * 31 + [self.boosterPackConstantProto hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -8505,6 +8531,252 @@ static StartupResponseProto_StartupConstants_FileDownloadConstantProto* defaultS
 }
 @end
 
+@interface StartupResponseProto_StartupConstants_BoosterPackConstantsProto ()
+@property int32_t purchaseAmountRequired;
+@property int32_t numberOfPacksGiven;
+@end
+
+@implementation StartupResponseProto_StartupConstants_BoosterPackConstantsProto
+
+- (BOOL) hasPurchaseAmountRequired {
+  return !!hasPurchaseAmountRequired_;
+}
+- (void) setHasPurchaseAmountRequired:(BOOL) value_ {
+  hasPurchaseAmountRequired_ = !!value_;
+}
+@synthesize purchaseAmountRequired;
+- (BOOL) hasNumberOfPacksGiven {
+  return !!hasNumberOfPacksGiven_;
+}
+- (void) setHasNumberOfPacksGiven:(BOOL) value_ {
+  hasNumberOfPacksGiven_ = !!value_;
+}
+@synthesize numberOfPacksGiven;
+- (id) init {
+  if ((self = [super init])) {
+    self.purchaseAmountRequired = 0;
+    self.numberOfPacksGiven = 0;
+  }
+  return self;
+}
+static StartupResponseProto_StartupConstants_BoosterPackConstantsProto* defaultStartupResponseProto_StartupConstants_BoosterPackConstantsProtoInstance = nil;
++ (void) initialize {
+  if (self == [StartupResponseProto_StartupConstants_BoosterPackConstantsProto class]) {
+    defaultStartupResponseProto_StartupConstants_BoosterPackConstantsProtoInstance = [[StartupResponseProto_StartupConstants_BoosterPackConstantsProto alloc] init];
+  }
+}
++ (StartupResponseProto_StartupConstants_BoosterPackConstantsProto*) defaultInstance {
+  return defaultStartupResponseProto_StartupConstants_BoosterPackConstantsProtoInstance;
+}
+- (StartupResponseProto_StartupConstants_BoosterPackConstantsProto*) defaultInstance {
+  return defaultStartupResponseProto_StartupConstants_BoosterPackConstantsProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasPurchaseAmountRequired) {
+    [output writeInt32:1 value:self.purchaseAmountRequired];
+  }
+  if (self.hasNumberOfPacksGiven) {
+    [output writeInt32:2 value:self.numberOfPacksGiven];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasPurchaseAmountRequired) {
+    size_ += computeInt32Size(1, self.purchaseAmountRequired);
+  }
+  if (self.hasNumberOfPacksGiven) {
+    size_ += computeInt32Size(2, self.numberOfPacksGiven);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (StartupResponseProto_StartupConstants_BoosterPackConstantsProto*) parseFromData:(NSData*) data {
+  return (StartupResponseProto_StartupConstants_BoosterPackConstantsProto*)[[[StartupResponseProto_StartupConstants_BoosterPackConstantsProto builder] mergeFromData:data] build];
+}
++ (StartupResponseProto_StartupConstants_BoosterPackConstantsProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_BoosterPackConstantsProto*)[[[StartupResponseProto_StartupConstants_BoosterPackConstantsProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_BoosterPackConstantsProto*) parseFromInputStream:(NSInputStream*) input {
+  return (StartupResponseProto_StartupConstants_BoosterPackConstantsProto*)[[[StartupResponseProto_StartupConstants_BoosterPackConstantsProto builder] mergeFromInputStream:input] build];
+}
++ (StartupResponseProto_StartupConstants_BoosterPackConstantsProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_BoosterPackConstantsProto*)[[[StartupResponseProto_StartupConstants_BoosterPackConstantsProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_BoosterPackConstantsProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (StartupResponseProto_StartupConstants_BoosterPackConstantsProto*)[[[StartupResponseProto_StartupConstants_BoosterPackConstantsProto builder] mergeFromCodedInputStream:input] build];
+}
++ (StartupResponseProto_StartupConstants_BoosterPackConstantsProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_BoosterPackConstantsProto*)[[[StartupResponseProto_StartupConstants_BoosterPackConstantsProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_BoosterPackConstantsProto_Builder*) builder {
+  return [[StartupResponseProto_StartupConstants_BoosterPackConstantsProto_Builder alloc] init];
+}
++ (StartupResponseProto_StartupConstants_BoosterPackConstantsProto_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_BoosterPackConstantsProto*) prototype {
+  return [[StartupResponseProto_StartupConstants_BoosterPackConstantsProto builder] mergeFrom:prototype];
+}
+- (StartupResponseProto_StartupConstants_BoosterPackConstantsProto_Builder*) builder {
+  return [StartupResponseProto_StartupConstants_BoosterPackConstantsProto builder];
+}
+- (StartupResponseProto_StartupConstants_BoosterPackConstantsProto_Builder*) toBuilder {
+  return [StartupResponseProto_StartupConstants_BoosterPackConstantsProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasPurchaseAmountRequired) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"purchaseAmountRequired", [NSNumber numberWithInteger:self.purchaseAmountRequired]];
+  }
+  if (self.hasNumberOfPacksGiven) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"numberOfPacksGiven", [NSNumber numberWithInteger:self.numberOfPacksGiven]];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[StartupResponseProto_StartupConstants_BoosterPackConstantsProto class]]) {
+    return NO;
+  }
+  StartupResponseProto_StartupConstants_BoosterPackConstantsProto *otherMessage = other;
+  return
+      self.hasPurchaseAmountRequired == otherMessage.hasPurchaseAmountRequired &&
+      (!self.hasPurchaseAmountRequired || self.purchaseAmountRequired == otherMessage.purchaseAmountRequired) &&
+      self.hasNumberOfPacksGiven == otherMessage.hasNumberOfPacksGiven &&
+      (!self.hasNumberOfPacksGiven || self.numberOfPacksGiven == otherMessage.numberOfPacksGiven) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasPurchaseAmountRequired) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.purchaseAmountRequired] hash];
+  }
+  if (self.hasNumberOfPacksGiven) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.numberOfPacksGiven] hash];
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+@interface StartupResponseProto_StartupConstants_BoosterPackConstantsProto_Builder()
+@property (strong) StartupResponseProto_StartupConstants_BoosterPackConstantsProto* result;
+@end
+
+@implementation StartupResponseProto_StartupConstants_BoosterPackConstantsProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[StartupResponseProto_StartupConstants_BoosterPackConstantsProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (StartupResponseProto_StartupConstants_BoosterPackConstantsProto_Builder*) clear {
+  self.result = [[StartupResponseProto_StartupConstants_BoosterPackConstantsProto alloc] init];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_BoosterPackConstantsProto_Builder*) clone {
+  return [StartupResponseProto_StartupConstants_BoosterPackConstantsProto builderWithPrototype:result];
+}
+- (StartupResponseProto_StartupConstants_BoosterPackConstantsProto*) defaultInstance {
+  return [StartupResponseProto_StartupConstants_BoosterPackConstantsProto defaultInstance];
+}
+- (StartupResponseProto_StartupConstants_BoosterPackConstantsProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (StartupResponseProto_StartupConstants_BoosterPackConstantsProto*) buildPartial {
+  StartupResponseProto_StartupConstants_BoosterPackConstantsProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (StartupResponseProto_StartupConstants_BoosterPackConstantsProto_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_BoosterPackConstantsProto*) other {
+  if (other == [StartupResponseProto_StartupConstants_BoosterPackConstantsProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasPurchaseAmountRequired) {
+    [self setPurchaseAmountRequired:other.purchaseAmountRequired];
+  }
+  if (other.hasNumberOfPacksGiven) {
+    [self setNumberOfPacksGiven:other.numberOfPacksGiven];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_BoosterPackConstantsProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (StartupResponseProto_StartupConstants_BoosterPackConstantsProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setPurchaseAmountRequired:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setNumberOfPacksGiven:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasPurchaseAmountRequired {
+  return result.hasPurchaseAmountRequired;
+}
+- (int32_t) purchaseAmountRequired {
+  return result.purchaseAmountRequired;
+}
+- (StartupResponseProto_StartupConstants_BoosterPackConstantsProto_Builder*) setPurchaseAmountRequired:(int32_t) value {
+  result.hasPurchaseAmountRequired = YES;
+  result.purchaseAmountRequired = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_BoosterPackConstantsProto_Builder*) clearPurchaseAmountRequired {
+  result.hasPurchaseAmountRequired = NO;
+  result.purchaseAmountRequired = 0;
+  return self;
+}
+- (BOOL) hasNumberOfPacksGiven {
+  return result.hasNumberOfPacksGiven;
+}
+- (int32_t) numberOfPacksGiven {
+  return result.numberOfPacksGiven;
+}
+- (StartupResponseProto_StartupConstants_BoosterPackConstantsProto_Builder*) setNumberOfPacksGiven:(int32_t) value {
+  result.hasNumberOfPacksGiven = YES;
+  result.numberOfPacksGiven = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_BoosterPackConstantsProto_Builder*) clearNumberOfPacksGiven {
+  result.hasNumberOfPacksGiven = NO;
+  result.numberOfPacksGiven = 0;
+  return self;
+}
+@end
+
 @interface StartupResponseProto_StartupConstants_Builder()
 @property (strong) StartupResponseProto_StartupConstants* result;
 @end
@@ -8689,6 +8961,9 @@ static StartupResponseProto_StartupConstants_FileDownloadConstantProto* defaultS
   }
   if (other.hasTaskIdForUpgradeTutorial) {
     [self setTaskIdForUpgradeTutorial:other.taskIdForUpgradeTutorial];
+  }
+  if (other.hasBoosterPackConstantProto) {
+    [self mergeBoosterPackConstantProto:other.boosterPackConstantProto];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -8930,6 +9205,15 @@ static StartupResponseProto_StartupConstants_FileDownloadConstantProto* defaultS
       }
       case 328: {
         [self setTaskIdForUpgradeTutorial:[input readInt32]];
+        break;
+      }
+      case 4002: {
+        StartupResponseProto_StartupConstants_BoosterPackConstantsProto_Builder* subBuilder = [StartupResponseProto_StartupConstants_BoosterPackConstantsProto builder];
+        if (self.hasBoosterPackConstantProto) {
+          [subBuilder mergeFrom:self.boosterPackConstantProto];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setBoosterPackConstantProto:[subBuilder buildPartial]];
         break;
       }
     }
@@ -9763,6 +10047,36 @@ static StartupResponseProto_StartupConstants_FileDownloadConstantProto* defaultS
 - (StartupResponseProto_StartupConstants_Builder*) clearTaskIdForUpgradeTutorial {
   result.hasTaskIdForUpgradeTutorial = NO;
   result.taskIdForUpgradeTutorial = 0;
+  return self;
+}
+- (BOOL) hasBoosterPackConstantProto {
+  return result.hasBoosterPackConstantProto;
+}
+- (StartupResponseProto_StartupConstants_BoosterPackConstantsProto*) boosterPackConstantProto {
+  return result.boosterPackConstantProto;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setBoosterPackConstantProto:(StartupResponseProto_StartupConstants_BoosterPackConstantsProto*) value {
+  result.hasBoosterPackConstantProto = YES;
+  result.boosterPackConstantProto = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setBoosterPackConstantProto_Builder:(StartupResponseProto_StartupConstants_BoosterPackConstantsProto_Builder*) builderForValue {
+  return [self setBoosterPackConstantProto:[builderForValue build]];
+}
+- (StartupResponseProto_StartupConstants_Builder*) mergeBoosterPackConstantProto:(StartupResponseProto_StartupConstants_BoosterPackConstantsProto*) value {
+  if (result.hasBoosterPackConstantProto &&
+      result.boosterPackConstantProto != [StartupResponseProto_StartupConstants_BoosterPackConstantsProto defaultInstance]) {
+    result.boosterPackConstantProto =
+      [[[StartupResponseProto_StartupConstants_BoosterPackConstantsProto builderWithPrototype:result.boosterPackConstantProto] mergeFrom:value] buildPartial];
+  } else {
+    result.boosterPackConstantProto = value;
+  }
+  result.hasBoosterPackConstantProto = YES;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearBoosterPackConstantProto {
+  result.hasBoosterPackConstantProto = NO;
+  result.boosterPackConstantProto = [StartupResponseProto_StartupConstants_BoosterPackConstantsProto defaultInstance];
   return self;
 }
 @end
