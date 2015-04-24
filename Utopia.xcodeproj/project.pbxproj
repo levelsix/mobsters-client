@@ -1798,6 +1798,9 @@
 		63CA30C81AE8A4A40005175B /* researchbottompressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CA30C71AE8A4A40005175B /* researchbottompressed@2x.png */; };
 		63CA30C91AE8A4A40005175B /* researchbottompressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CA30C71AE8A4A40005175B /* researchbottompressed@2x.png */; };
 		63CA30CA1AE8A4A40005175B /* researchbottompressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CA30C71AE8A4A40005175B /* researchbottompressed@2x.png */; };
+		63CA30D81AE9CDBF0005175B /* gacha_spin1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 63CA30D71AE9CDBF0005175B /* gacha_spin1.mp3 */; };
+		63CA30D91AE9CDBF0005175B /* gacha_spin1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 63CA30D71AE9CDBF0005175B /* gacha_spin1.mp3 */; };
+		63CA30DA1AE9CDBF0005175B /* gacha_spin1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 63CA30D71AE9CDBF0005175B /* gacha_spin1.mp3 */; };
 		63CDCEFB1AB8EBF400A00DB6 /* buildingresearch@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CDCEFA1AB8EBF400A00DB6 /* buildingresearch@2x.png */; };
 		63CDCEFC1AB8EBF400A00DB6 /* buildingresearch@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CDCEFA1AB8EBF400A00DB6 /* buildingresearch@2x.png */; };
 		63CDCEFD1AB8EBF400A00DB6 /* buildingresearch@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CDCEFA1AB8EBF400A00DB6 /* buildingresearch@2x.png */; };
@@ -8409,6 +8412,7 @@
 		63CA0B0B1AD7435100E92774 /* MiniJobRefreshItemsFiller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiniJobRefreshItemsFiller.h; sourceTree = "<group>"; };
 		63CA0B0C1AD7435100E92774 /* MiniJobRefreshItemsFiller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MiniJobRefreshItemsFiller.m; sourceTree = "<group>"; };
 		63CA30C71AE8A4A40005175B /* researchbottompressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "researchbottompressed@2x.png"; sourceTree = "<group>"; };
+		63CA30D71AE9CDBF0005175B /* gacha_spin1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = gacha_spin1.mp3; sourceTree = "<group>"; };
 		63CDCEFA1AB8EBF400A00DB6 /* buildingresearch@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buildingresearch@2x.png"; sourceTree = "<group>"; };
 		63CDCF081ABB897600A00DB6 /* activesquadrewardarrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "activesquadrewardarrow@2x.png"; sourceTree = "<group>"; };
 		63CDCF091ABB897600A00DB6 /* completedsquadrewards@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "completedsquadrewards@2x.png"; sourceTree = "<group>"; };
@@ -17319,6 +17323,7 @@
 			isa = PBXGroup;
 			children = (
 				2905FFD31AF56B1F009F0CF8 /* gacha_spin1.mp3 */,
+				63CA30D71AE9CDBF0005175B /* gacha_spin1.mp3 */,
 				291721321AD24B210093F100 /* break_cloud.mp3 */,
 				291721331AD24B210093F100 /* break_lock.mp3 */,
 				291721341AD24B210093F100 /* next_task.mp3 */,
@@ -19434,6 +19439,7 @@
 				CFDEA536199C34D800445F3C /* avataractive@2x.png in Resources */,
 				9BB948A51A69EF17006EE920 /* grdarkrim@2x.png in Resources */,
 				299AA39A1A7856AA00A2D806 /* fireheadshot-9@2x.png in Resources */,
+				63CA30D91AE9CDBF0005175B /* gacha_spin1.mp3 in Resources */,
 				CF0CF005196F452900ECD301 /* oilcap@2x.png in Resources */,
 				CFA728E21A0B037900FF6031 /* eartheventtimer@2x.png in Resources */,
 				CF0CF00F196F452900ECD301 /* pveshadow@2x.png in Resources */,
@@ -22787,6 +22793,7 @@
 				CFC97169182C5AA400FF1D83 /* streak.png in Resources */,
 				CF2A4B241901B8F500B2D7D7 /* upgradebarnewmiddle@2x.png in Resources */,
 				29A38D6C1ACCD85B006F3CBF /* healingresearchgroup@2x.png in Resources */,
+				63CA30D81AE9CDBF0005175B /* gacha_spin1.mp3 in Resources */,
 				CFEE024817BDC76000F3BB19 /* close1.png in Resources */,
 				CFFCF57E19B163BA007E316D /* settingsconnect@2x.png in Resources */,
 				CF0CE150196D705700ECD301 /* menuclosex@2x.png in Resources */,
@@ -23788,6 +23795,7 @@
 				CF481C8E19F7217F00041486 /* mycity@2x.png in Resources */,
 				CFA7938B1A0C63ED00DF3407 /* firescientisteventlive@2x.png in Resources */,
 				CF481C9119F7217F00041486 /* ChatClanHelpView.xib in Resources */,
+				63CA30DA1AE9CDBF0005175B /* gacha_spin1.mp3 in Resources */,
 				636C3E9E1AAA9EFF00B02980 /* ResearchSelectionBar.xib in Resources */,
 				29DF6C581A731F7900D4D19B /* livehelpgirl@2x.png in Resources */,
 				CF481C9219F7217F00041486 /* timerbgcapleft@2x.png in Resources */,
