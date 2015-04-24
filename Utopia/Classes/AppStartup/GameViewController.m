@@ -259,9 +259,6 @@ static const CGSize FIXED_SIZE = {568, 384};
 
 - (void) removeAllViewControllersWithExceptions:(NSArray *)exceptions {
   if (self.view.superview) {
-//    if ([Kamcord isViewShowing]) {
-//      Kamcord 
-//    }
     
     NSArray *acceptable = @[self.topBarViewController, [CCDirector sharedDirector]];
     if (self.loadingViewController) acceptable = [acceptable arrayByAddingObject:self.loadingViewController];
@@ -285,6 +282,10 @@ static const CGSize FIXED_SIZE = {568, 384};
     
     if (self.presentedViewController && ![acceptable containsObject:self.presentedViewController]) {
       [self dismissViewControllerAnimated:NO completion:nil];
+    }
+    
+    if (self.loadingView) {
+      [self.loadingView stop];
     }
   }
 }
@@ -670,7 +671,8 @@ static const CGSize FIXED_SIZE = {568, 384};
     SKProduct *prod = [iap productForIdentifier:mtp.iapProductId];
     
     if (prod) {
-      [iap buyProductIdentifier:prod saleUuid:nil withDelegate:self];
+      // No need to make self the delegate because we are an observer already
+      [iap buyProductIdentifier:prod saleUuid:nil withDelegate:nil];
     }
     
     self.loadingView = [[NSBundle mainBundle] loadNibNamed:@"LoadingSpinnerView" owner:self options:nil][0];
@@ -678,26 +680,6 @@ static const CGSize FIXED_SIZE = {568, 384};
     
     return YES;
   }
-}
-
-
-- (void) handleInAppPurchaseResponseProto:(FullEvent *)fe {
-  InAppPurchaseResponseProto *proto = (InAppPurchaseResponseProto *)fe.event;
-  
-  if (proto.status == InAppPurchaseResponseProto_InAppPurchaseStatusSuccess) {
-    HomeMap *map = (HomeMap *)self.currentMap;
-    [map refresh];
-    
-    if (proto.updatedMoneyTreeList.count) {
-      FullUserStructureProto *us = [proto.updatedMoneyTreeList firstObject];
-      [map moveToSprite:(CCSprite *)[map getChildByName:STRUCT_TAG(us.userStructUuid) recursively:NO] animated:YES];
-    }
-    
-    [self.topBarViewController closeShop];
-  }
-  
-  [self.loadingView stop];
-  self.loadingView = nil;
 }
 
 - (void) pointArrowOnManageTeam {
@@ -1528,6 +1510,19 @@ static const CGSize FIXED_SIZE = {568, 384};
       [bldr addSdip:sdip];
       
       sale = bldr.build;
+    } else if (iap.iapPackageType == InAppPurchasePackageProto_InAppPurchasePackageTypeMoneyTree) {
+      HomeMap *map = (HomeMap *)self.currentMap;
+      [map refresh];
+      
+      if (proto.updatedMoneyTreeList.count) {
+        FullUserStructureProto *us = [proto.updatedMoneyTreeList firstObject];
+        [map moveToSprite:(CCSprite *)[map getChildByName:STRUCT_TAG(us.userStructUuid) recursively:NO] animated:YES];
+      }
+      
+      [self.topBarViewController closeShop];
+      
+      [self.loadingView stop];
+      self.loadingView = nil;
     }
   }
   

@@ -911,7 +911,7 @@
     GameState *gs = [GameState sharedGameState];
     float researchFactor = 1.f+[gs.researchUtil percentageBenefitForType:ResearchTypeResourceProduction resType:ResourceTypeGems];
     
-    return roundf(base*researchFactor);
+    return base*researchFactor;
   }
   return 0.f;
 }

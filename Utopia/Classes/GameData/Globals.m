@@ -932,7 +932,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     NSString *str = [[NSString stringWithFormat:@"%.2f", r] substringFromIndex:1];
     
     // Take off 0's at the end
-    while (str.length > 0 && ([str characterAtIndex:str.length-1] == '0' || [str characterAtIndex:str.length-1] == '1')) {
+    while (str.length > 0 && ([str characterAtIndex:str.length-1] == '0' || [str characterAtIndex:str.length-1] == '.')) {
       str = [str substringToIndex:str.length-1];
     }
     

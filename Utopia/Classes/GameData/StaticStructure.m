@@ -81,12 +81,9 @@
 
 - (float) statValueForIndex:(int)index {
   if (!index) {
-    return self.productionRate*24;
+    return roundf(self.productionRate*24);
   } else {
-    UserStruct *us = [[UserStruct alloc] init];
-    us.structId = self.structInfo.structId;
-    us.isComplete = YES;
-    return us.storageCapacity;
+    return self.capacity;
   }
 }
 
@@ -97,7 +94,10 @@
     us.isComplete = YES;
     return us.productionRate*24;
   } else {
-    return self.capacity;
+    UserStruct *us = [[UserStruct alloc] init];
+    us.structId = self.structInfo.structId;
+    us.isComplete = YES;
+    return us.storageCapacity;
   }
 }
 
@@ -408,9 +408,9 @@
 
 - (NSString *) statChangeWith:(float)curStat prevStat:(float)prevStat suffix:(NSString *)suffix{
   if (prevStat) {
-    return [NSString stringWithFormat:@"+%@%@", [Globals commafyNumber: curStat - prevStat], suffix];
+    return [NSString stringWithFormat:@"+ %@%@", [Globals commafyNumber: curStat - prevStat], suffix];
   } else {
-    return [NSString stringWithFormat:@"+%@%@", [Globals commafyNumber:curStat], suffix];
+    return [NSString stringWithFormat:@"+ %@%@", [Globals commafyNumber:curStat], suffix];
   }
 }
 
