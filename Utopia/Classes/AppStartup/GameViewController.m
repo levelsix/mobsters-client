@@ -392,6 +392,8 @@ static const CGSize FIXED_SIZE = {568, 384};
   _isFreshRestart = YES;
   [self fadeToLoadingScreenPercentage:PART_1_PERCENT animated:YES];
   [[SocketCommunication sharedSocketCommunication] initNetworkCommunicationWithDelegate:self clearMessages:YES];
+  
+  [Analytics connectStep:ConnectStepInitializeConnection];
 }
 
 - (void) reloadAccountWithStartupResponse:(StartupResponseProto *)startupResponse {
@@ -455,7 +457,7 @@ static const CGSize FIXED_SIZE = {568, 384};
       _isFreshRestart = NO;
     }];
     
-    [Analytics connectedToHost];
+    [Analytics connectStep:ConnectStepAmqpConnected];
   } else if (self.tutController) {
     gs.connected = YES;
     
@@ -496,7 +498,6 @@ static const CGSize FIXED_SIZE = {568, 384};
       NSString *email = [[FacebookDelegate sharedFacebookDelegate] myFacebookUser][@"email"];
       [Analytics setUserUuid:gs.userUuid name:gs.name email:email level:gs.level segmentationGroup:gs.userSegmentationGroup];
       [Analytics connectedToServerWithLevel:gs.level gems:gs.gems cash:gs.cash oil:gs.oil];
-      [Analytics receivedStartup];
     }
   } else if (proto.startupStatus == StartupResponseProto_StartupStatusUserNotInDb) {
     if (!self.tutController) {
@@ -507,6 +508,8 @@ static const CGSize FIXED_SIZE = {568, 384};
     [self fadeToLoadingScreenPercentage:PART_2_PERCENT animated:YES];
     [GenericPopupController displayNotificationViewWithText:@"Sorry, the server is undergoing maintenance right now. Try again?" title:@"Server Maintenance" okayButton:@"Retry" target:self selector:@selector(handleConnectedToHost)];
   }
+  
+  [Analytics connectStep:ConnectStepStartupReceived];
 }
 
 - (void) handleLoadPlayerCityResponseProto:(FullEvent *)fe {
@@ -562,6 +565,9 @@ static const CGSize FIXED_SIZE = {568, 384};
   } else if (self.currentMap.cityId == 0 && [self.currentMap isKindOfClass:[HomeMap class]]) {
     [(HomeMap *)self.currentMap refresh];
   }
+  
+  [Analytics connectStep:ConnectStepLoadPlayerCityReceived];
+  [Analytics connectStep:ConnectStepComplete];
 }
 
 #pragma mark - Tutorial Stuff

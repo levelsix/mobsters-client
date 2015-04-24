@@ -15,6 +15,7 @@
 #import "Amplitude.h"
 #import "TutorialController.h"
 #import "Protocols.pb.h"
+#import "GameViewController.h"
 
 #import <MobileAppTracker/MobileAppTracker.h>
 #import <Adjust.h>
@@ -177,6 +178,26 @@ static NSString* urlEncodeString(NSString* nonEncodedString) {
     
     //[titanClass trackEvent:event type:WBAnalyticEventTypeGame parameters:args];
   }
+}
+
+#pragma mark - Connect steps
+
+static NSDate *timeSinceLastConnectStep = nil;
+
++ (void) connectStep:(int)connectStep {
+  if (connectStep == ConnectStepInitializeConnection) {
+    timeSinceLastConnectStep = nil;
+  }
+  
+  NSDate *now = [NSDate date];
+  double duration = ABS([timeSinceLastConnectStep timeIntervalSinceDate:now]);
+  timeSinceLastTutStep = now;
+  
+  BOOL isComplete = connectStep == ConnectStepComplete;
+  
+  [self event:@"connect_step" withArgs:@{@"step_num": @(connectStep),
+                                         @"duration": @(duration),
+                                         @"is_complete": @(isComplete)}];
 }
 
 #pragma mark - Tutorial stuff
@@ -855,16 +876,6 @@ static NSDate *timeSinceLastTutStep = nil;
 
 + (void) redeemMiniJob:(int)miniJobId cashChange:(int)cashChange cashBalance:(int)cashBalance oilChange:(int)oilChange oilBalance:(int)oilBalance {
   [self gameTransactionWithTransactionType:@"redeem_mini_job" context:nil cashChange:cashChange cashBalance:cashBalance oilChange:oilChange oilBalance:oilBalance gemChange:0 gemBalance:0 extraParams:@{@"id": @(miniJobId)}];
-}
-
-#pragma mark - connection
-
-+ (void) connectedToHost {
-  [self event:@"connected_to_host"];
-}
-
-+ (void) receivedStartup {
-  [self event:@"received_startup"];
 }
 
 @end

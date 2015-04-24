@@ -682,10 +682,12 @@
     [super sendSpeedupBuilding:us queueUp:queueUp];
   }
   
-  [self.delegate buildingWasSpedUp:gemCost];
-  [Globals removeUIArrowFromViewRecursively:self.bottomOptionView];
-  self.bottomOptionView = nil;
-  self.clickableUserStructUuid = nil;
+  if (us.isComplete) {
+    [self.delegate buildingWasSpedUp:gemCost];
+    [Globals removeUIArrowFromViewRecursively:self.bottomOptionView];
+    self.bottomOptionView = nil;
+    self.clickableUserStructUuid = nil;
+  }
 }
 
 - (void) reselectCurrentSelection {

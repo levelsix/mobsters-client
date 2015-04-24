@@ -28,6 +28,14 @@
 
 @class TutorialController;
 
+typedef enum {
+  ConnectStepInitializeConnection = 1,
+  ConnectStepAmqpConnected,
+  ConnectStepStartupReceived,
+  ConnectStepLoadPlayerCityReceived,
+  ConnectStepComplete,
+} ConnectStep;
+
 @interface GameViewController : UIViewController <AttackMapDelegate, BattleLayerDelegate, CCDirectorDownloaderDelegate, DialogueViewControllerDelegate, ClanRaidDetailsDelegate, MiniTutorialDelegate, QuestUtilDelegate, QuestLogDelegate, QuestCompleteDelegate, AchievementUtilDelegate, ChatViewControllerDelegate, ClanViewControllerDelegate, StageCompleteDelegate> {
   int _questIdAfterDialogue;
   

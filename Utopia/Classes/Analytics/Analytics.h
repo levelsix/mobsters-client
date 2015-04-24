@@ -12,6 +12,8 @@
 
 + (void) initAnalytics;
 
++ (void) connectStep:(int)connectStep;
+
 + (void) equipTutorialStep:(int)tutorialStep;
 
 + (void) tutorialFbPopup;
@@ -89,8 +91,5 @@
 + (void) evolveMonster:(int)monsterId oilChange:(int)oilChange oilBalance:(int)oilBalance gemChange:(int)gemChange gemBalance:(int)gemBalance;
 
 + (void) redeemMiniJob:(int)miniJobId cashChange:(int)cashChange cashBalance:(int)cashBalance oilChange:(int)oilChange oilBalance:(int)oilBalance;
-
-+ (void) connectedToHost;
-+ (void) receivedStartup;
 
 @end
