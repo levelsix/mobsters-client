@@ -1048,12 +1048,16 @@
   BattleChain *chain = [[BattleChain alloc] init];
   chain.chainType = ChainTypeRainbowLine;
   
+  [self preseedRandomization];
+  
   for (int i = 0; i < _numColumns; i++) {
     for (int j = 0; j < _numRows; j++) {
       BattleOrb *orb = [self orbAtColumn:i row:j];
       if (orb.orbColor == lineOrb.orbColor) {
-        orb.powerupType = arc4random_uniform(2) ? PowerupTypeHorizontalLine : PowerupTypeVerticalLine;
+        int randy = rand() % 2;
+        orb.powerupType = randy ? PowerupTypeHorizontalLine : PowerupTypeVerticalLine;
         [chain addOrb:orb];
+        NSLog(@"%i", (int)orb.powerupType);
       }
     }
   }
@@ -2091,6 +2095,8 @@ static const NSInteger maxSearchIterations = 800;
   return str;
 }
 
+#pragma mark - Helpers
+
 - (NSArray *)getBottomFeederTiles
 {
   NSMutableArray *tiles = [NSMutableArray array];
@@ -2099,10 +2105,23 @@ static const NSInteger maxSearchIterations = 800;
     for (int j =0 ; j < _numColumns; j++) {
       currTile = [self tileAtColumn:j row:i];
       if (currTile.bottomFallsOut)
-          [tiles addObject:currTile];
+        [tiles addObject:currTile];
     }
   }
   return tiles;
 }
+
+- (void) preseedRandomization
+{
+  // Calculating seed for pseudo-random generation (so upon deserialization pattern will be the same)
+  int seed = 0;
+  for (NSInteger n = 0; n < self.numColumns; n++)
+    for (NSInteger m = 0; m < self.numRows; m++)
+      seed += [self orbAtColumn:n row:m].orbColor;
+  srand(seed);
+  NSLog(@"%i", seed);
+}
+
+
 
 @end
