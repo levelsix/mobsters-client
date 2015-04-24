@@ -191,13 +191,13 @@ static NSDate *timeSinceLastConnectStep = nil;
   
   NSDate *now = [NSDate date];
   double duration = ABS([timeSinceLastConnectStep timeIntervalSinceDate:now]);
-  timeSinceLastTutStep = now;
+  timeSinceLastConnectStep = now;
   
   BOOL isComplete = connectStep == ConnectStepComplete;
   
-  [self event:@"connect_step" withArgs:@{@"step_num": @(connectStep),
-                                         @"duration": @(duration),
-                                         @"is_complete": @(isComplete)}];
+  NSString *event = [NSString stringWithFormat:@"connect_step_%d", connectStep];
+  [self event:event withArgs:@{@"duration": @(duration),
+                               @"is_complete": @(isComplete)}];
 }
 
 #pragma mark - Tutorial stuff

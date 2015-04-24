@@ -141,6 +141,9 @@
   //FacebookDelegate *fd = [FacebookDelegate sharedFacebookDelegate];
   if (_shouldReconnect) {
     [[SocketCommunication sharedSocketCommunication] initNetworkCommunicationWithDelegate:gvc clearMessages:!gs.connected];
+    
+    [Analytics connectStep:ConnectStepInitializeConnection];
+    
     _shouldReconnect = NO;
   }
   
