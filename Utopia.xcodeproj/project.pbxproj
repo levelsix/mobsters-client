@@ -1484,9 +1484,6 @@
 		6304B4491ADF1A870075D4E9 /* Reward.proto in Resources */ = {isa = PBXBuildFile; fileRef = 6304B43F1ADF1A870075D4E9 /* Reward.proto */; };
 		6304B44A1ADF1A870075D4E9 /* Reward.proto in Resources */ = {isa = PBXBuildFile; fileRef = 6304B43F1ADF1A870075D4E9 /* Reward.proto */; };
 		6304B44B1ADF1A870075D4E9 /* Reward.proto in Resources */ = {isa = PBXBuildFile; fileRef = 6304B43F1ADF1A870075D4E9 /* Reward.proto */; };
-		6304B44F1ADF1A990075D4E9 /* ClanGifts.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 6304B44E1ADF1A990075D4E9 /* ClanGifts.pb.m */; };
-		6304B4501ADF1A990075D4E9 /* ClanGifts.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 6304B44E1ADF1A990075D4E9 /* ClanGifts.pb.m */; };
-		6304B4511ADF1A990075D4E9 /* ClanGifts.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 6304B44E1ADF1A990075D4E9 /* ClanGifts.pb.m */; };
 		63135A9A1A76C97D00CC65D1 /* calcellglow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63135A991A76C97D00CC65D1 /* calcellglow@2x.png */; };
 		63135A9B1A76C97D00CC65D1 /* calcellglow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63135A991A76C97D00CC65D1 /* calcellglow@2x.png */; };
 		63135A9C1A76C97D00CC65D1 /* calcellglow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63135A991A76C97D00CC65D1 /* calcellglow@2x.png */; };
@@ -1867,6 +1864,9 @@
 		63C706391ADC7A09004E072B /* ClanGiftUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C706381ADC7A09004E072B /* ClanGiftUtil.m */; };
 		63C7063A1ADC7A09004E072B /* ClanGiftUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C706381ADC7A09004E072B /* ClanGiftUtil.m */; };
 		63C7063B1ADC7A09004E072B /* ClanGiftUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C706381ADC7A09004E072B /* ClanGiftUtil.m */; };
+		63CA30D01AE9CC330005175B /* gacha_spin1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 63CA30CF1AE9CC330005175B /* gacha_spin1.mp3 */; };
+		63CA30D11AE9CC330005175B /* gacha_spin1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 63CA30CF1AE9CC330005175B /* gacha_spin1.mp3 */; };
+		63CA30D21AE9CC330005175B /* gacha_spin1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 63CA30CF1AE9CC330005175B /* gacha_spin1.mp3 */; };
 		63CDCEFB1AB8EBF400A00DB6 /* buildingresearch@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CDCEFA1AB8EBF400A00DB6 /* buildingresearch@2x.png */; };
 		63CDCEFC1AB8EBF400A00DB6 /* buildingresearch@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CDCEFA1AB8EBF400A00DB6 /* buildingresearch@2x.png */; };
 		63CDCEFD1AB8EBF400A00DB6 /* buildingresearch@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CDCEFA1AB8EBF400A00DB6 /* buildingresearch@2x.png */; };
@@ -8432,8 +8432,6 @@
 		6304B43D1ADF1A870075D4E9 /* EventMiniEvent.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = EventMiniEvent.proto; sourceTree = "<group>"; };
 		6304B43E1ADF1A870075D4E9 /* MiniEvent.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MiniEvent.proto; sourceTree = "<group>"; };
 		6304B43F1ADF1A870075D4E9 /* Reward.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Reward.proto; sourceTree = "<group>"; };
-		6304B44D1ADF1A990075D4E9 /* ClanGifts.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClanGifts.pb.h; sourceTree = "<group>"; };
-		6304B44E1ADF1A990075D4E9 /* ClanGifts.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClanGifts.pb.m; sourceTree = "<group>"; };
 		63135A991A76C97D00CC65D1 /* calcellglow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "calcellglow@2x.png"; sourceTree = "<group>"; };
 		631BF3AD1A6DD8000091253B /* PrivateMessageNotificationView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PrivateMessageNotificationView.xib; sourceTree = "<group>"; };
 		631BF3B11A6DDAEC0091253B /* PrivateMessageNotificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrivateMessageNotificationViewController.h; sourceTree = "<group>"; };
@@ -8583,6 +8581,7 @@
 		63C7062B1ADC5A01004E072B /* ChatClanGiftView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatClanGiftView.xib; sourceTree = "<group>"; };
 		63C706371ADC7A09004E072B /* ClanGiftUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClanGiftUtil.h; sourceTree = "<group>"; };
 		63C706381ADC7A09004E072B /* ClanGiftUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClanGiftUtil.m; sourceTree = "<group>"; };
+		63CA30CF1AE9CC330005175B /* gacha_spin1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = gacha_spin1.mp3; sourceTree = "<group>"; };
 		63CDCEFA1AB8EBF400A00DB6 /* buildingresearch@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buildingresearch@2x.png"; sourceTree = "<group>"; };
 		63CDCF081ABB897600A00DB6 /* activesquadrewardarrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "activesquadrewardarrow@2x.png"; sourceTree = "<group>"; };
 		63CDCF091ABB897600A00DB6 /* completedsquadrewards@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "completedsquadrewards@2x.png"; sourceTree = "<group>"; };
@@ -16341,8 +16340,6 @@
 				6304B4611AE054A10075D4E9 /* CustomMenu.pb.m */,
 				63CED7041AE5C183001CED41 /* CustomMenu.pb.h */,
 				63CED7051AE5C183001CED41 /* CustomMenu.pb.m */,
-				6304B44D1ADF1A990075D4E9 /* ClanGifts.pb.h */,
-				6304B44E1ADF1A990075D4E9 /* ClanGifts.pb.m */,
 				CF6574771909CAF100ABF1F4 /* Proto files */,
 				63959E191B0ABE4400E5E302 /* EventReward.pb.h */,
 				63959E1A1B0ABE4400E5E302 /* EventReward.pb.m */,
@@ -16627,7 +16624,6 @@
 				63CA0B001AD5B95300E92774 /* MiniEvent.proto */,
 				9BC37F821ADF517D009571F1 /* CustomMenu.proto */,
 				63CED70A1AE5C190001CED41 /* CustomMenu.proto */,
-				6304B43C1ADF1A870075D4E9 /* ClanGifts.proto */,
 				6304B43D1ADF1A870075D4E9 /* EventMiniEvent.proto */,
 				6304B43E1ADF1A870075D4E9 /* MiniEvent.proto */,
 				6304B43F1ADF1A870075D4E9 /* Reward.proto */,
@@ -17627,6 +17623,7 @@
 			children = (
 				2905FFD31AF56B1F009F0CF8 /* gacha_spin1.mp3 */,
 				63CA30D71AE9CDBF0005175B /* gacha_spin1.mp3 */,
+				63CA30CF1AE9CC330005175B /* gacha_spin1.mp3 */,
 				291721321AD24B210093F100 /* break_cloud.mp3 */,
 				291721331AD24B210093F100 /* break_lock.mp3 */,
 				291721341AD24B210093F100 /* next_task.mp3 */,
@@ -20765,7 +20762,6 @@
 				CF0CF4E4196F452900ECD301 /* sharecheckmark@2x.png in Resources */,
 				CFF2A52719709C4800269084 /* OilStorageT1@2x.plist in Resources */,
 				CF0CF4ED196F452900ECD301 /* lockedcitypin@2x.png in Resources */,
-				6304B4411ADF1A870075D4E9 /* ClanGifts.proto in Resources */,
 				CF0CF4F0196F452900ECD301 /* NRTouchImage@2x.png in Resources */,
 				CF0CF4F1196F452900ECD301 /* sfx_muckerburg_hit_luchador.mp3 in Resources */,
 				CF0CF4F2196F452900ECD301 /* markfree@2x.png in Resources */,
@@ -21004,6 +21000,7 @@
 				CF0CF601196F452900ECD301 /* largebubbleover@2x.png in Resources */,
 				9BC5357F1A845C0500E49F4D /* firecounterbg@2x.png in Resources */,
 				CF0CF605196F452900ECD301 /* letterheader@2x.png in Resources */,
+				63CA30D11AE9CC330005175B /* gacha_spin1.mp3 in Resources */,
 				CF0CF606196F452900ECD301 /* navshelf@2x.png in Resources */,
 				9BDA8B3F1A3945F600C7AC27 /* evasionminilogo@2x.png in Resources */,
 				CF0CF608196F452900ECD301 /* bluechatcorner@2x.png in Resources */,
@@ -23107,6 +23104,7 @@
 				29AE75E11A6F36E000264070 /* TribalGuy0T1RunNF@2x.pvr.ccz in Resources */,
 				DA173A3D19CA4230005236C0 /* forcefieldglow@2x.png in Resources */,
 				CF29EA4E1964F38E00B40DA4 /* settingsinactive@2x.png in Resources */,
+				63CA30D01AE9CC330005175B /* gacha_spin1.mp3 in Resources */,
 				29FC5EAB1A89427B00A50FA7 /* 37dollarvaluestamp@2x.png in Resources */,
 				CF864D6C193E70A800DE0D7A /* inactiveheart@2x.png in Resources */,
 				6BBCBBDA1AC5A8EF006C9D91 /* 6hellfireorb-9@2x.png in Resources */,
@@ -23302,7 +23300,6 @@
 				CF68905C1912E7B500FF1F71 /* timerclock@2x.png in Resources */,
 				CFBB36E818EE526300FD6C8C /* 3x3poles@2x.png in Resources */,
 				CFC4D2A718D7BD04004681FD /* sfx_full_boat_scene.mp3 in Resources */,
-				6304B4401ADF1A870075D4E9 /* ClanGifts.proto in Resources */,
 				CFF1D6DF17DFC43700874339 /* grenade1.plist in Resources */,
 				9B41AF6B1A81B44200529879 /* fireglove-9@2x.png in Resources */,
 				CFC4D27C18D7BD03004681FD /* stg_win.mp3 in Resources */,
@@ -25074,6 +25071,7 @@
 				CF48219219F7217F00041486 /* NRTouchImage@2x.png in Resources */,
 				2933DC4E1ADFA808005D7620 /* gempackagebgpressed@2x.png in Resources */,
 				63CA0A9B1AD37EF600E92774 /* timerminijobs@2x.png in Resources */,
+				63CA30D21AE9CC330005175B /* gacha_spin1.mp3 in Resources */,
 				6B1EAA151ACF5DCC00E0B642 /* VinesMain20.png in Resources */,
 				6B1EAA361ACF5DCC00E0B642 /* VinesUp01.png in Resources */,
 				CF48219319F7217F00041486 /* sfx_muckerburg_hit_luchador.mp3 in Resources */,
@@ -25679,7 +25677,6 @@
 				CF48244619F7217F00041486 /* battleultratag@2x.png in Resources */,
 				6B1EA9E51ACF5DCC00E0B642 /* VinesMain04.png in Resources */,
 				CF48244719F7217F00041486 /* fbcheck@2x.png in Resources */,
-				6304B4421ADF1A870075D4E9 /* ClanGifts.proto in Resources */,
 				CF48244819F7217F00041486 /* nightpoison@2x.png in Resources */,
 				CF48244A19F7217F00041486 /* ClanRaidListViewController.xib in Resources */,
 				CF48244E19F7217F00041486 /* filledstar@2x.png in Resources */,
@@ -26156,7 +26153,6 @@
 				CF0CED43196F452900ECD301 /* OmnipresentViewController.m in Sources */,
 				CFE11F841A141C040094F797 /* amqp_openssl.c in Sources */,
 				CF0CED44196F452900ECD301 /* SoundEngine.m in Sources */,
-				6304B4501ADF1A990075D4E9 /* ClanGifts.pb.m in Sources */,
 				CF0CED45196F452900ECD301 /* HireViewController.m in Sources */,
 				CF0CED46196F452900ECD301 /* StaticData.pb.m in Sources */,
 				CF0CED47196F452900ECD301 /* ClanRaidHealthBar.m in Sources */,
@@ -26483,7 +26479,6 @@
 				CF6574AB1909CAF200ABF1F4 /* Clan.pb.m in Sources */,
 				CF4DB8E41807DA1F00062258 /* GameMap.m in Sources */,
 				CFE11F7D1A141C040094F797 /* amqp_hostcheck.c in Sources */,
-				6304B44F1ADF1A990075D4E9 /* ClanGifts.pb.m in Sources */,
 				CFF646C4195CD1D300C43641 /* HealViewController.m in Sources */,
 				DA5E3FFE19D0CB54001F28CE /* SkillMomentum.m in Sources */,
 				CFFEB17E18358FC0007C4BA3 /* CAKeyFrameAnimation+Jumping.m in Sources */,
@@ -26963,7 +26958,6 @@
 				29AF489A1AAA87890034927C /* EventBattleItem.pb.m in Sources */,
 				3E1A0C091A645B4B00DF00AD /* Research.pb.m in Sources */,
 				CF4818EA19F7217F00041486 /* OmnipresentViewController.m in Sources */,
-				6304B4511ADF1A990075D4E9 /* ClanGifts.pb.m in Sources */,
 				CFE11F851A141C040094F797 /* amqp_openssl.c in Sources */,
 				CF4818EB19F7217F00041486 /* SoundEngine.m in Sources */,
 				CF4818EC19F7217F00041486 /* HireViewController.m in Sources */,
