@@ -59,6 +59,10 @@
   [self forceState:state];
 }
 
+- (void) scheduleRecreated:(NSArray*)schedule startingIndex:(int)startingIndex {
+  [self.currentBattleState scheduleRecreated:schedule startingIndex:startingIndex];
+}
+
 - (NSString *)description
 {
   NSString *str = @"Battle: ";

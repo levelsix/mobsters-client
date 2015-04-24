@@ -84,6 +84,19 @@
   return ((int1<<24)>>24) | (int2<<16);
 }
 
+- (void) scheduleRecreated:(NSArray*)schedule startingIndex:(int)startingIndex {
+  NSMutableArray *playerTurns = [NSMutableArray array];
+  for (int i = 0; i < schedule.count; i++)
+    if ([schedule[i] boolValue])
+        [playerTurns addObject:@(i)];
+  
+  self.combatStepBuilder.schedule = [[[[[CombatReplayScheduleProto builder]
+                                        setTotalTurns:(int)schedule.count]
+                                       addAllPlayerTurns:playerTurns]
+                                      setStartingTurn:startingIndex]
+                                     build];
+}
+
 - (CombatReplayStepProto*) getStepProto {
   return [self.combatStepBuilder build];
 }

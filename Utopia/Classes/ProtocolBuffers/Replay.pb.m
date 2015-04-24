@@ -1613,6 +1613,7 @@ static CombatReplaySkillStepProto* defaultCombatReplaySkillStepProtoInstance = n
 @interface CombatReplayScheduleProto ()
 @property int32_t totalTurns;
 @property (strong) PBAppendableArray * mutablePlayerTurnsList;
+@property int32_t startingTurn;
 @end
 
 @implementation CombatReplayScheduleProto
@@ -1626,9 +1627,17 @@ static CombatReplaySkillStepProto* defaultCombatReplaySkillStepProtoInstance = n
 @synthesize totalTurns;
 @synthesize mutablePlayerTurnsList;
 @dynamic playerTurnsList;
+- (BOOL) hasStartingTurn {
+  return !!hasStartingTurn_;
+}
+- (void) setHasStartingTurn:(BOOL) value_ {
+  hasStartingTurn_ = !!value_;
+}
+@synthesize startingTurn;
 - (id) init {
   if ((self = [super init])) {
     self.totalTurns = 0;
+    self.startingTurn = 0;
   }
   return self;
 }
@@ -1664,6 +1673,9 @@ static CombatReplayScheduleProto* defaultCombatReplayScheduleProtoInstance = nil
       [output writeInt32:2 value:values[i]];
     }
   }
+  if (self.hasStartingTurn) {
+    [output writeInt32:3 value:self.startingTurn];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -1685,6 +1697,9 @@ static CombatReplayScheduleProto* defaultCombatReplayScheduleProtoInstance = nil
     }
     size_ += dataSize;
     size_ += (SInt32)(1 * count);
+  }
+  if (self.hasStartingTurn) {
+    size_ += computeInt32Size(3, self.startingTurn);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -1727,6 +1742,9 @@ static CombatReplayScheduleProto* defaultCombatReplayScheduleProtoInstance = nil
   [self.playerTurnsList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
     [output appendFormat:@"%@%@: %@\n", indent, @"playerTurns", obj];
   }];
+  if (self.hasStartingTurn) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"startingTurn", [NSNumber numberWithInteger:self.startingTurn]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -1741,6 +1759,8 @@ static CombatReplayScheduleProto* defaultCombatReplayScheduleProtoInstance = nil
       self.hasTotalTurns == otherMessage.hasTotalTurns &&
       (!self.hasTotalTurns || self.totalTurns == otherMessage.totalTurns) &&
       [self.playerTurnsList isEqualToArray:otherMessage.playerTurnsList] &&
+      self.hasStartingTurn == otherMessage.hasStartingTurn &&
+      (!self.hasStartingTurn || self.startingTurn == otherMessage.startingTurn) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -1751,6 +1771,9 @@ static CombatReplayScheduleProto* defaultCombatReplayScheduleProtoInstance = nil
   [self.playerTurnsList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [obj longValue];
   }];
+  if (self.hasStartingTurn) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.startingTurn] hash];
+  }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
@@ -1804,6 +1827,9 @@ static CombatReplayScheduleProto* defaultCombatReplayScheduleProtoInstance = nil
       [result.mutablePlayerTurnsList appendArray:other.mutablePlayerTurnsList];
     }
   }
+  if (other.hasStartingTurn) {
+    [self setStartingTurn:other.startingTurn];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -1831,6 +1857,10 @@ static CombatReplayScheduleProto* defaultCombatReplayScheduleProtoInstance = nil
       }
       case 16: {
         [self addPlayerTurns:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setStartingTurn:[input readInt32]];
         break;
       }
     }
@@ -1878,6 +1908,22 @@ static CombatReplayScheduleProto* defaultCombatReplayScheduleProtoInstance = nil
 }
 - (CombatReplayScheduleProto_Builder *)clearPlayerTurns {
   result.mutablePlayerTurnsList = nil;
+  return self;
+}
+- (BOOL) hasStartingTurn {
+  return result.hasStartingTurn;
+}
+- (int32_t) startingTurn {
+  return result.startingTurn;
+}
+- (CombatReplayScheduleProto_Builder*) setStartingTurn:(int32_t) value {
+  result.hasStartingTurn = YES;
+  result.startingTurn = value;
+  return self;
+}
+- (CombatReplayScheduleProto_Builder*) clearStartingTurn {
+  result.hasStartingTurn = NO;
+  result.startingTurn = 0;
   return self;
 }
 @end

@@ -428,12 +428,16 @@ BOOL CombatReplayStepTypeIsValidValue(CombatReplayStepType value);
 @interface CombatReplayScheduleProto : PBGeneratedMessage {
 @private
   BOOL hasTotalTurns_:1;
+  BOOL hasStartingTurn_:1;
   int32_t totalTurns;
+  int32_t startingTurn;
   PBAppendableArray * mutablePlayerTurnsList;
 }
 - (BOOL) hasTotalTurns;
+- (BOOL) hasStartingTurn;
 @property (readonly) int32_t totalTurns;
 @property (readonly, strong) PBArray * playerTurnsList;
+@property (readonly) int32_t startingTurn;
 - (int32_t)playerTurnsAtIndex:(NSUInteger)index;
 
 + (CombatReplayScheduleProto*) defaultInstance;
@@ -482,6 +486,11 @@ BOOL CombatReplayStepTypeIsValidValue(CombatReplayStepType value);
 - (CombatReplayScheduleProto_Builder *)addAllPlayerTurns:(NSArray *)array;
 - (CombatReplayScheduleProto_Builder *)setPlayerTurnsValues:(const int32_t *)values count:(NSUInteger)count;
 - (CombatReplayScheduleProto_Builder *)clearPlayerTurns;
+
+- (BOOL) hasStartingTurn;
+- (int32_t) startingTurn;
+- (CombatReplayScheduleProto_Builder*) setStartingTurn:(int32_t) value;
+- (CombatReplayScheduleProto_Builder*) clearStartingTurn;
 @end
 
 @interface CombatReplayOrbProto : PBGeneratedMessage {

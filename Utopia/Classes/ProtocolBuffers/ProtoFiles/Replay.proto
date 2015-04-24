@@ -61,6 +61,7 @@ message CombatReplaySkillStepProto {
 message CombatReplayScheduleProto {
 	optional int32 totalTurns = 1;
 	repeated int32 playerTurns = 2;
+    optional int32 startingTurn = 3;
 }
 
 message CombatReplayOrbProto {

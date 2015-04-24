@@ -266,7 +266,7 @@
     if ([skillManager cakeKidSchedule])
       order = ScheduleFirstTurnPlayer;
     if (! swap || ! [skillManager cakeKidSchedule]) { // update schedule for all cases except if swap && cakeKidSchedule (for that we just remove one turn)
-      self.battleSchedule = [[BattleSchedule alloc] initWithPlayerA:self.myPlayerObject.speed playerB:self.enemyPlayerObject.speed andOrder:order];
+      self.battleSchedule = [[BattleSchedule alloc] initWithPlayerA:self.myPlayerObject.speed playerB:self.enemyPlayerObject.speed andOrder:order andDelegate:self.battleStateMachine];
     }
     
     _shouldDisplayNewSchedule = YES;

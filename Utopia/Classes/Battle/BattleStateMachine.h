@@ -8,8 +8,9 @@
 
 #import "TransitionKit.h"
 #import "BattleState.h"
+#import "BattleSchedule.h"
 
-@interface BattleStateMachine : TKStateMachine
+@interface BattleStateMachine : TKStateMachine <BattleScheduleDelegate>
 
 @property NSMutableArray *pastStates;
 

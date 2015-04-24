@@ -17,6 +17,12 @@ typedef enum
   ScheduleFirstTurnRandom = 2
 } ScheduleFirstTurn;
 
+@protocol BattleScheduleDelegate <NSObject>
+
+- (void) scheduleRecreated:(NSArray*)schedule startingIndex:(int)startingIndex;
+
+@end
+
 @interface BattleSchedule : NSObject
 
 @property (nonatomic, retain) NSArray *schedule;
@@ -24,8 +30,10 @@ typedef enum
 @property (nonatomic, assign) int currentIndex;
 @property (nonatomic, assign) int numDequeued;
 
+@property (nonatomic, weak) id<BattleScheduleDelegate> delegate;
+
 // Player A should be your character
-- (id) initWithPlayerA:(int)speedA playerB:(int)speedB andOrder:(ScheduleFirstTurn)order;
+- (id) initWithPlayerA:(int)speedA playerB:(int)speedB andOrder:(ScheduleFirstTurn)order andDelegate:(id<BattleScheduleDelegate>)delegate;
 - (id) initWithSequence:(NSArray *)sequence currentIndex:(int)currentIndex;
 
 // YES means player A gets to attack next

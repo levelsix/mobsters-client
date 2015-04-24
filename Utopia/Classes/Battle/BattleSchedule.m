@@ -106,6 +106,8 @@
   
   // Subtract 1 so it will be autoincremented in the next dequeue
   self.currentIndex--;
+  
+  [self.delegate scheduleRecreated:sch startingIndex:self.currentIndex];
 }
 
 - (NSString *) description {
@@ -121,9 +123,9 @@
   return str;
 }
 
-- (id) initWithPlayerA:(int)speedA playerB:(int)speedB andOrder:(ScheduleFirstTurn)order {
+- (id) initWithPlayerA:(int)speedA playerB:(int)speedB andOrder:(ScheduleFirstTurn)order andDelegate:(id<BattleScheduleDelegate>)delegate{
   if ((self = [super init])) {
-    
+    self.delegate = delegate;
     [self createScheduleForPlayerA:speedA playerB:speedB andOrder:order];
   }
   return self;
