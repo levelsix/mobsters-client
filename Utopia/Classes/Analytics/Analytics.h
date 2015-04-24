@@ -71,7 +71,7 @@
 
 + (void) createClan:(NSString *)clanName cashChange:(int)cashChange cashBalance:(int)cashBalance gemChange:(int)gemChange gemBalance:(int)gemBalance;
 
-+ (void) buyGacha:(int)machineId monsterId:(int)monsterId isPiece:(BOOL)isPiece gemChange:(int)gemChange gemBalance:(int)gemBalance;
++ (void) buyGacha:(int)machineId monsterList:(NSArray*)monsterList itemId:(int)itemId itemQuantity:(int)itemQuantity highRoller:(BOOL)highRoller gemChange:(int)gemChange gemBalance:(int)gemBalance;
 
 + (void) enterDungeon:(int)dungeonId gemChange:(int)gemChange gemBalance:(int)gemBalance;
 + (void) endDungeon:(int)dungeonId cashChange:(int)cashChange cashBalance:(int)cashBalance oilChange:(int)oilChange oilBalance:(int)oilBalance;

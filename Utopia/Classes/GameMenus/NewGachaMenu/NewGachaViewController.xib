@@ -12,21 +12,31 @@
                 <outlet property="focusScrollView" destination="EWj-RU-bBZ" id="aj8-94-hkl"/>
                 <outlet property="gachaBgBottomRight" destination="5dH-it-Tso" id="vdl-1C-5Fp"/>
                 <outlet property="gachaBgTopLeft" destination="ZaN-Q1-yTU" id="Bmb-ng-95D"/>
-                <outlet property="gemCostIcon" destination="Qbr-o4-1PT" id="lsS-RA-qFC"/>
-                <outlet property="gemCostLabel" destination="X6C-RO-et1" id="imm-Wz-nuG"/>
-                <outlet property="gemCostView" destination="ogu-T6-vYN" id="HcY-8e-1AX"/>
                 <outlet property="goodBadge" destination="aY6-OZ-OmN" id="oXZ-FF-HrJ"/>
                 <outlet property="logoImage" destination="2Kq-lK-mrn" id="caC-I0-zX7"/>
                 <outlet property="logoSeparatorImage" destination="hGw-oe-RkP" id="ZEX-GS-9DW"/>
                 <outlet property="machineImage" destination="nTg-Vj-Jdh" id="afq-Lb-7qd"/>
+                <outlet property="multiSpinActionLabel" destination="eXt-o8-W3L" id="8bu-QL-wGV"/>
+                <outlet property="multiSpinButton" destination="BT7-xG-bB7" id="yoK-Ea-d8C"/>
+                <outlet property="multiSpinContainer" destination="XJV-Wb-4Gl" id="ahk-K7-b3d"/>
+                <outlet property="multiSpinGemCostIcon" destination="h4q-kv-7B4" id="vi2-cE-tsU"/>
+                <outlet property="multiSpinGemCostLabel" destination="noB-aU-kKx" id="DFU-0t-pPm"/>
+                <outlet property="multiSpinGemCostView" destination="G6U-Hc-IJX" id="K2K-Rx-FYL"/>
+                <outlet property="multiSpinSpinner" destination="cF6-me-sb4" id="mZ1-Rj-iY4"/>
+                <outlet property="multiSpinTapToUnlockLabel" destination="und-0C-cGe" id="nvK-q4-hdD"/>
+                <outlet property="multiSpinView" destination="0yf-bM-bBG" id="zlI-df-pkX"/>
                 <outlet property="navBar" destination="MHE-8y-pOB" id="Aik-Sw-32q"/>
                 <outlet property="prizeView" destination="Kon-Hh-eje" id="N4S-zK-wnS"/>
+                <outlet property="singleSpinActionLabel" destination="s8w-A6-agC" id="dl1-B3-Wli"/>
+                <outlet property="singleSpinButton" destination="YYO-db-KXt" id="aVr-LC-A8P"/>
+                <outlet property="singleSpinContainer" destination="vIR-lU-z16" id="pyu-Cs-Hzf"/>
+                <outlet property="singleSpinGemCostIcon" destination="Qbr-o4-1PT" id="XbG-En-Vz0"/>
+                <outlet property="singleSpinGemCostLabel" destination="X6C-RO-et1" id="mPW-xf-Jtb"/>
+                <outlet property="singleSpinGemCostView" destination="ogu-T6-vYN" id="Irw-3F-xIc"/>
+                <outlet property="singleSpinSpinner" destination="huN-Fb-DR1" id="WpO-0x-Tea"/>
+                <outlet property="singleSpinView" destination="V5u-wm-3RB" id="UKG-FP-Dx7"/>
                 <outlet property="skillPopup" destination="R1D-O9-H9q" id="lS4-n7-cRN"/>
                 <outlet property="skillPopupCloseButton" destination="ANh-ac-PJh" id="i9L-sQ-jhf"/>
-                <outlet property="spinActionLabel" destination="s8w-A6-agC" id="xAT-6D-iV2"/>
-                <outlet property="spinButton" destination="YYO-db-KXt" id="28F-LT-BWq"/>
-                <outlet property="spinView" destination="V5u-wm-3RB" id="nmy-rV-Jwt"/>
-                <outlet property="spinner" destination="huN-Fb-DR1" id="a1C-jJ-l5F"/>
                 <outlet property="tableContainerView" destination="wEM-ra-GYV" id="FSb-4C-1o9"/>
                 <outlet property="ticker" destination="DJT-fB-FWb" id="7fI-7h-QQW"/>
                 <outlet property="topBar" destination="L2P-0l-ua5" id="qqR-r3-ldN"/>
@@ -99,7 +109,7 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         </imageView>
                         <view contentMode="scaleToFill" id="vIR-lU-z16" userLabel="Single Spin">
-                            <rect key="frame" x="19" y="158" width="106" height="41"/>
+                            <rect key="frame" x="19" y="117" width="106" height="41"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
                             <subviews>
                                 <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="YYO-db-KXt" customClass="GemsButton">
@@ -110,7 +120,7 @@
                                     </state>
                                     <state key="highlighted" image="minibuttonpurplepressed.png"/>
                                     <connections>
-                                        <action selector="spinClicked:" destination="-1" eventType="touchUpInside" id="LQq-xt-cZe"/>
+                                        <action selector="singleSpinClicked:" destination="-1" eventType="touchUpInside" id="Qia-yA-WRV"/>
                                     </connections>
                                 </button>
                                 <activityIndicatorView hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="white" id="huN-Fb-DR1">
@@ -148,6 +158,73 @@
                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                             <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                                            <size key="shadowOffset" width="0.0" height="1"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
+                        <view contentMode="scaleToFill" id="XJV-Wb-4Gl" userLabel="Multi Spin">
+                            <rect key="frame" x="0.0" y="158" width="144" height="47"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="BT7-xG-bB7" customClass="GemsButton">
+                                    <rect key="frame" x="0.0" y="0.0" width="144" height="47"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <state key="normal" image="bigspingrey.png">
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <state key="highlighted" image="bigspingreypressed.png"/>
+                                    <connections>
+                                        <action selector="multiSpinClicked:" destination="-1" eventType="touchUpInside" id="AfO-c4-KMw"/>
+                                    </connections>
+                                </button>
+                                <activityIndicatorView hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="white" id="cF6-me-sb4">
+                                    <rect key="frame" x="62" y="12" width="20" height="20"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                </activityIndicatorView>
+                                <view userInteractionEnabled="NO" contentMode="scaleToFill" id="0yf-bM-bBG" userLabel="Spin View">
+                                    <rect key="frame" x="8" y="6" width="128" height="35"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <view contentMode="scaleToFill" id="G6U-Hc-IJX">
+                                            <rect key="frame" x="80" y="12" width="48" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                            <subviews>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="diamond.png" id="h4q-kv-7B4">
+                                                    <rect key="frame" x="0.0" y="2" width="16" height="16"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                                </imageView>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="25" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="noB-aU-kKx" customClass="NiceFontLabel12S">
+                                                    <rect key="frame" x="16" y="0.0" width="32" height="18"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                                    <color key="textColor" red="0.55294117647058827" green="0.55294117647058827" blue="0.55294117647058827" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                    <color key="shadowColor" red="1" green="1" blue="1" alpha="0.75" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TAP TO UNLOCK" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="und-0C-cGe" customClass="NiceFontLabel12">
+                                            <rect key="frame" x="0.0" y="0.0" width="128" height="15"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                                            <color key="textColor" red="0.0" green="0.40000000000000002" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <nil key="highlightedColor"/>
+                                            <color key="shadowColor" white="1" alpha="0.75" colorSpace="calibratedWhite"/>
+                                            <size key="shadowOffset" width="0.0" height="1"/>
+                                        </label>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="11 SPINS!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="eXt-o8-W3L" customClass="NiceFontLabel12S">
+                                            <rect key="frame" x="0.0" y="13" width="128" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                            <color key="textColor" red="0.55294117647058827" green="0.55294117647058827" blue="0.55294117647058827" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <nil key="highlightedColor"/>
+                                            <color key="shadowColor" white="1" alpha="0.75" colorSpace="calibratedWhite"/>
                                             <size key="shadowOffset" width="0.0" height="1"/>
                                         </label>
                                     </subviews>
@@ -717,6 +794,8 @@
         <image name="basicgrablogo.png" width="139" height="166"/>
         <image name="basicgrabnavicon.png" width="28" height="36"/>
         <image name="basicmachine.png" width="161" height="190"/>
+        <image name="bigspingrey.png" width="144" height="47"/>
+        <image name="bigspingreypressed.png" width="144" height="47"/>
         <image name="diamond.png" width="28" height="28"/>
         <image name="earthskilldescription.png" width="219" height="129"/>
         <image name="fireorb.png" width="27" height="34"/>

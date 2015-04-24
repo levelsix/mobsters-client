@@ -90,21 +90,79 @@
   
   [self layoutViews];
   
-  THLabel* spinLabel = (THLabel*)self.spinActionLabel; {
-    spinLabel.strokePosition = THLabelStrokePositionOutside;
-    spinLabel.strokeSize = 1.f;
-    spinLabel.strokeColor = [UIColor colorWithRed:59.f / 255.f green:4.f / 255.f blue:134.f / 255.f alpha:1.f];
-    spinLabel.gradientStartColor = [UIColor whiteColor];
-    spinLabel.gradientEndColor = [UIColor colorWithRed:248.f / 255.f green:191.f / 255.f blue:255.f / 255.f alpha:1.f];
+  THLabel* singleSpinLabel = (THLabel*)self.singleSpinActionLabel; {
+    singleSpinLabel.strokePosition = THLabelStrokePositionOutside;
+    singleSpinLabel.strokeSize = 1.f;
+    singleSpinLabel.strokeColor = [UIColor colorWithRed:59.f / 255.f green:4.f / 255.f blue:134.f / 255.f alpha:1.f];
+    singleSpinLabel.gradientStartColor = [UIColor whiteColor];
+    singleSpinLabel.gradientEndColor = [UIColor colorWithRed:248.f / 255.f green:191.f / 255.f blue:255.f / 255.f alpha:1.f];
   }
   
-  THLabel* gemLabel = (THLabel*)self.gemCostLabel; {
-    gemLabel.strokePosition = THLabelStrokePositionOutside;
-    gemLabel.strokeSize = 1.f;
-    gemLabel.strokeColor = [UIColor colorWithRed:59.f / 255.f green:4.f / 255.f blue:134.f / 255.f alpha:1.f];
-    gemLabel.gradientStartColor = [UIColor whiteColor];
-    gemLabel.gradientEndColor = [UIColor colorWithRed:248.f / 255.f green:191.f / 255.f blue:255.f / 255.f alpha:1.f];
-    gemLabel.originY += 1.f;
+  THLabel* sinlgeSpinGemLabel = (THLabel*)self.singleSpinGemCostLabel; {
+    sinlgeSpinGemLabel.strokePosition = THLabelStrokePositionOutside;
+    sinlgeSpinGemLabel.strokeSize = 1.f;
+    sinlgeSpinGemLabel.strokeColor = [UIColor colorWithRed:59.f / 255.f green:4.f / 255.f blue:134.f / 255.f alpha:1.f];
+    sinlgeSpinGemLabel.gradientStartColor = [UIColor whiteColor];
+    sinlgeSpinGemLabel.gradientEndColor = [UIColor colorWithRed:248.f / 255.f green:191.f / 255.f blue:255.f / 255.f alpha:1.f];
+    sinlgeSpinGemLabel.originY += 1.f;
+  }
+  
+  _isMultiSpinAvailable = [[GameState sharedGameState].itemUtil getItemsForType:ItemTypeGachaMultiSpin].count > 0;
+  {
+    THLabel* multiSpinLabel = (THLabel*)self.multiSpinActionLabel;
+    if (_isMultiSpinAvailable) {
+      multiSpinLabel.strokePosition = THLabelStrokePositionOutside;
+      multiSpinLabel.strokeSize = 1.f;
+      multiSpinLabel.strokeColor = [UIColor colorWithHexString:@"B84A00"];
+      multiSpinLabel.gradientStartColor = [UIColor whiteColor];
+      multiSpinLabel.gradientEndColor = [UIColor colorWithHexString:@"FFF0BA"];
+      multiSpinLabel.shadowColor = [UIColor colorWithHexString:@"B84A00BF"];
+    } else {
+      multiSpinLabel.strokeSize = 0.f;
+    }
+    
+    THLabel* multiSpinGemLabel = (THLabel*)self.multiSpinGemCostLabel;
+    if (_isMultiSpinAvailable) {
+      multiSpinGemLabel.strokePosition = THLabelStrokePositionOutside;
+      multiSpinGemLabel.strokeSize = 1.f;
+      multiSpinGemLabel.strokeColor = [UIColor colorWithHexString:@"B84A00"];
+      multiSpinGemLabel.gradientStartColor = [UIColor whiteColor];
+      multiSpinGemLabel.gradientEndColor = [UIColor colorWithHexString:@"FFF0BA"];
+      multiSpinGemLabel.shadowColor = [UIColor colorWithHexString:@"B84A00BF"];
+      multiSpinGemLabel.originY += 1.f;
+    } else {
+      multiSpinGemLabel.strokeSize = 0.f;
+    }
+    
+    if (_isMultiSpinAvailable) {
+      [self.multiSpinButton setImage:[Globals imageNamed:@"bigspingold.png"] forState:UIControlStateNormal];
+      [self.multiSpinButton setImage:[Globals imageNamed:@"bigspingoldpressed.png"] forState:UIControlStateHighlighted];
+      
+      self.multiSpinTapToUnlockLabel.hidden = YES;
+      
+      self.multiSpinActionLabel.font = [UIFont fontWithName:self.multiSpinActionLabel.font.fontName size:12.f];
+      self.multiSpinActionLabel.centerY = self.multiSpinView.height * .5f - 3;
+      
+      self.multiSpinView.originX += 3;
+      
+      const CGPoint gemCostIconCenter = self.multiSpinGemCostIcon.center;
+      self.multiSpinGemCostIcon.size = CGSizeMake(22, 22);
+      self.multiSpinGemCostIcon.centerX = gemCostIconCenter.x;
+      
+      self.multiSpinGemCostLabel.font = [UIFont fontWithName:self.multiSpinGemCostLabel.font.fontName size:12.f];
+    } else {
+      [Globals imageNamed:@"diamond.png" withView:self.multiSpinGemCostIcon greyscale:YES indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:NO];
+      
+      self.multiSpinTapToUnlockLabel.originY = 11;
+      self.multiSpinActionLabel.originY = self.multiSpinView.height - self.multiSpinActionLabel.height - 15;
+      self.multiSpinGemCostLabel.originY += 1;
+    }
+    
+    self.multiSpinGemCostView.originX = (self.multiSpinView.centerX - self.multiSpinView.originX) + 10;
+    self.multiSpinGemCostView.centerY = self.multiSpinActionLabel.centerY - 2;
+    
+    self.multiSpinGemCostLabel.originX = CGRectGetMaxX(self.multiSpinGemCostIcon.frame);
+    self.multiSpinGemCostIcon.centerY = self.multiSpinGemCostLabel.centerY;
   }
   
   [Globals alignSubviewsToPixelsBoundaries:self.machineImage.superview];
@@ -193,7 +251,8 @@
   
   self.title = self.boosterPack.boosterPackName;
   
-  self.gemCostLabel.text = [NSString stringWithFormat:@" %@ ", [Globals commafyNumber:self.boosterPack.gemPrice]];
+  self.singleSpinGemCostLabel.text = [NSString stringWithFormat:@" %@ ", [Globals commafyNumber:self.boosterPack.gemPrice]];
+  self.multiSpinGemCostLabel.text  = [NSString stringWithFormat:@" %@ ", [Globals commafyNumber:self.boosterPack.gemPrice * [Globals sharedGlobals].boosterPackPurchaseAmountRequired]];
   
   [self.gachaTable.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:NUM_COLS/2 inSection:0] atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
   
@@ -215,43 +274,49 @@
     self.machineImage.center = oldCenter;
   }
   
-  [self updateSpinButton];
+  const BOOL regularGrab = (self.boosterPack.boosterPackId == self.badBoosterPack.boosterPackId);
+  if (regularGrab) {
+    self.multiSpinContainer.hidden = YES;
+    self.singleSpinContainer.centerY = self.multiSpinContainer.centerY;
+  } else {
+    self.multiSpinContainer.hidden = NO;
+    self.singleSpinContainer.centerY = self.multiSpinContainer.centerY - 41;
+  }
+  
+  [self updateSingleSpinButton];
   
   [Globals alignSubviewsToPixelsBoundaries:self.machineImage.superview];
 }
 
-- (void) updateSpinButton
+- (void) updateSingleSpinButton
 {
   const BOOL regularGrab = (self.boosterPack.boosterPackId == self.badBoosterPack.boosterPackId);
   
-  const CGPoint spinButtonCenter = self.spinButton.center;
-  [self.spinButton setImage:[Globals imageNamed:regularGrab ? @"bigspinpurple.png" : @"minibuttonpurple.png"] forState:UIControlStateNormal];
-  [self.spinButton setImage:[Globals imageNamed:regularGrab ? @"bigspinpurplepressed.png" : @"minibuttonpurplepressed.png"] forState:UIControlStateHighlighted];
-  self.spinButton.size = self.spinButton.imageView.image.size;
-  self.spinButton.center = spinButtonCenter;
+  const CGPoint spinButtonCenter = self.singleSpinButton.center;
+  [self.singleSpinButton setImage:[Globals imageNamed:regularGrab ? @"bigspinpurple.png" : @"minibuttonpurple.png"] forState:UIControlStateNormal];
+  [self.singleSpinButton setImage:[Globals imageNamed:regularGrab ? @"bigspinpurplepressed.png" : @"minibuttonpurplepressed.png"] forState:UIControlStateHighlighted];
+  self.singleSpinButton.size = self.singleSpinButton.imageView.image.size;
+  self.singleSpinButton.center = spinButtonCenter;
   
-  const CGSize newSize = self.spinButton.imageView.image.size;
-  const CGFloat widthRatio = newSize.width / self.spinButton.width;
-  const CGFloat heightRatio = newSize.height / self.spinButton.height;
-  self.spinView.size = CGSizeMake(self.spinView.width * widthRatio, self.spinView.height * heightRatio);
-  self.spinView.center = self.spinButton.center;
+  const CGSize newSize = self.singleSpinButton.imageView.image.size;
+  const CGFloat widthRatio = newSize.width / self.singleSpinButton.width;
+  const CGFloat heightRatio = newSize.height / self.singleSpinButton.height;
+  self.singleSpinView.size = CGSizeMake(self.singleSpinView.width * widthRatio, self.singleSpinView.height * heightRatio);
+  self.singleSpinView.center = self.singleSpinButton.center;
   
-  self.gemCostView.originX = (self.spinView.centerX - self.spinView.originX) + (regularGrab ? 7 : 3);
-  self.gemCostView.originY = (self.spinView.height - self.gemCostView.height) * .5f - 14;
+  self.singleSpinGemCostView.originX = (self.singleSpinView.centerX - self.singleSpinView.originX) + (regularGrab ? 7 : 3);
+  self.singleSpinGemCostView.originY = (self.singleSpinView.height - self.singleSpinGemCostView.height) * .5f - 16;
   
-  self.spinView.size = CGSizeMake(self.spinView.width * widthRatio, self.spinView.height * heightRatio);
-  self.spinView.center = self.spinButton.center;
+  self.singleSpinActionLabel.font = [UIFont fontWithName:self.singleSpinActionLabel.font.fontName size:regularGrab ? 13.f : 9.f];
+  self.singleSpinActionLabel.centerY = [self.singleSpinButton.superview convertPoint:self.singleSpinButton.center toView:self.singleSpinActionLabel.superview].y - (regularGrab ? 3 : 2);
   
-  self.spinActionLabel.font = [UIFont fontWithName:self.spinActionLabel.font.fontName size:regularGrab ? 13.f : 9.f];
-  self.spinActionLabel.centerY = [self.spinButton.superview convertPoint:self.spinButton.center toView:self.spinActionLabel.superview].y - (regularGrab ? 3 : 2);
+  const CGPoint gemCostIconCenter = self.singleSpinGemCostIcon.center;
+  self.singleSpinGemCostIcon.size = regularGrab ? CGSizeMake(22, 22) : CGSizeMake(16, 16);
+  self.singleSpinGemCostIcon.center = CGPointMake(gemCostIconCenter.x, self.singleSpinActionLabel.centerY + 1);
   
-  const CGPoint gemCostIconCenter = self.gemCostIcon.center;
-  self.gemCostIcon.size = regularGrab ? CGSizeMake(22, 22) : CGSizeMake(16, 16);
-  self.gemCostIcon.center = CGPointMake(gemCostIconCenter.x, self.spinActionLabel.center.y + 1);
-  
-  self.gemCostLabel.font = [UIFont fontWithName:self.gemCostLabel.font.fontName size:regularGrab ? 13.f : 9.f];
-  self.gemCostLabel.centerY = self.spinActionLabel.centerY + 1;
-  self.gemCostLabel.originX = CGRectGetMaxX(self.gemCostIcon.frame) - 1;
+  self.singleSpinGemCostLabel.font = [UIFont fontWithName:self.singleSpinGemCostLabel.font.fontName size:regularGrab ? 13.f : 9.f];
+  self.singleSpinGemCostLabel.centerY = self.singleSpinActionLabel.centerY + 1;
+  self.singleSpinGemCostLabel.originX = CGRectGetMaxX(self.singleSpinGemCostIcon.frame) - 1;
 }
 
 - (void) updateFreeGachasCounter
@@ -263,29 +328,36 @@
   
   if (_cachedDailySpin && firstPageSelected)
   {
-    self.gemCostLabel.superview.hidden = YES;
-    self.spinActionLabel.textAlignment = NSTextAlignmentCenter;
-    self.spinActionLabel.text = @" DAILY SPIN! ";
-    self.spinActionLabel.originX = 0;
+    self.singleSpinGemCostView.hidden = YES;
+    self.singleSpinActionLabel.textAlignment = NSTextAlignmentCenter;
+    self.singleSpinActionLabel.text = @" DAILY SPIN! ";
+    self.singleSpinActionLabel.originX = 0;
   }
   else if (numFreeSpins)
   {
-    self.gemCostLabel.superview.hidden = YES;
-    self.spinActionLabel.textAlignment = NSTextAlignmentCenter;
-    self.spinActionLabel.text = [NSString stringWithFormat:@" %d FREE SPIN%@! ", numFreeSpins, numFreeSpins > 1 ? @"S" : @""];
-    self.spinActionLabel.originX = 0;
+    self.singleSpinGemCostView.hidden = YES;
+    self.singleSpinActionLabel.textAlignment = NSTextAlignmentCenter;
+    self.singleSpinActionLabel.text = [NSString stringWithFormat:@" %d FREE SPIN%@! ", numFreeSpins, numFreeSpins > 1 ? @"S" : @""];
+    self.singleSpinActionLabel.originX = 0;
   }
   else
   {
-    self.gemCostLabel.superview.hidden = NO;
-    self.spinActionLabel.textAlignment = NSTextAlignmentLeft;
-    self.spinActionLabel.text = @" 1 SPIN ";
+    self.singleSpinGemCostView.hidden = NO;
+    self.singleSpinActionLabel.textAlignment = NSTextAlignmentLeft;
+    self.singleSpinActionLabel.text = @" 1 SPIN ";
     
-    CGFloat labelTextWidth = [self.spinActionLabel.text getSizeWithFont:self.spinActionLabel.font
-                                                      constrainedToSize:self.spinActionLabel.frame.size
-                                                          lineBreakMode:self.spinActionLabel.lineBreakMode].width;
-    self.spinActionLabel.originX = (self.spinView.centerX - self.spinView.originX) - labelTextWidth + 3;
+    CGFloat labelTextWidth = [self.singleSpinActionLabel.text getSizeWithFont:self.singleSpinActionLabel.font
+                                                            constrainedToSize:self.singleSpinActionLabel.frame.size
+                                                                lineBreakMode:self.singleSpinActionLabel.lineBreakMode].width;
+    self.singleSpinActionLabel.originX = (self.singleSpinView.centerX - self.singleSpinView.originX) - labelTextWidth + 3;
   }
+  
+  self.multiSpinActionLabel.text = [NSString stringWithFormat:@" %d SPINS!", [Globals sharedGlobals].boosterPackNumberOfPacksGiven];
+  
+  CGFloat labelTextWidth = [self.multiSpinActionLabel.text getSizeWithFont:self.multiSpinActionLabel.font
+                                                         constrainedToSize:self.multiSpinActionLabel.frame.size
+                                                             lineBreakMode:self.multiSpinActionLabel.lineBreakMode].width;
+  self.multiSpinActionLabel.originX = (self.multiSpinView.centerX - self.multiSpinView.originX) - labelTextWidth + 3;
   
   int badSpins = [gs numberOfFreeSpinsForBoosterPack:self.badBoosterPack.boosterPackId];
   int goodSpins = [gs numberOfFreeSpinsForBoosterPack:self.goodBoosterPack.boosterPackId];
@@ -362,7 +434,7 @@
   return pt;
 }
 
-- (IBAction)spinClicked:(id)sender {
+- (IBAction) singleSpinClicked:(id)sender {
   TimingFunctionTableView *table = self.gachaTable.tableView;
   if (table.isTracking || _isSpinning) {
     return;
@@ -381,21 +453,54 @@
      */
   } else {
     _lastSpinWasFree = isDailySpin;
+    _lastSpinWasMultiSpin = NO;
     
     // Prioritize daily spin
     if (isDailySpin || !numFreeSpins) {
-      [[OutgoingEventController sharedOutgoingEventController] purchaseBoosterPack:self.boosterPack.boosterPackId isFree:isDailySpin delegate:self];
+      [[OutgoingEventController sharedOutgoingEventController] purchaseBoosterPack:self.boosterPack.boosterPackId isFree:isDailySpin isMultiSpin:NO delegate:self];
     } else {
       [[OutgoingEventController sharedOutgoingEventController] tradeItemForFreeBoosterPack:self.boosterPack.boosterPackId delegate:self];
     }
     
     [self.topBar updateLabels];
     
-    self.spinner.hidden = NO;
-    self.spinView.hidden = YES;
+    self.singleSpinSpinner.hidden = NO;
+    self.singleSpinView.hidden = YES;
     
     self.gachaTable.userInteractionEnabled = NO;
     _isSpinning = YES;
+  }
+}
+
+- (IBAction) multiSpinClicked:(id)sender {
+  if (_isMultiSpinAvailable) {
+    TimingFunctionTableView *table = self.gachaTable.tableView;
+    if (table.isTracking || _isSpinning) {
+      return;
+    }
+    
+    GameState *gs = [GameState sharedGameState];
+    Globals *gl = [Globals sharedGlobals];
+    const int32_t boosterPackGemPrice = self.boosterPack.gemPrice * gl.boosterPackPurchaseAmountRequired;
+    if (gs.gems < boosterPackGemPrice) {
+      [GenericPopupController displayNotEnoughGemsView];
+    } else {
+      _lastSpinWasFree = NO;
+      _lastSpinWasMultiSpin = YES;
+      
+      [[OutgoingEventController sharedOutgoingEventController] purchaseBoosterPack:self.boosterPack.boosterPackId isFree:NO isMultiSpin:YES delegate:self];
+      
+      [self.topBar updateLabels];
+      
+      self.multiSpinSpinner.hidden = NO;
+      self.multiSpinView.hidden = YES;
+      
+      self.gachaTable.userInteractionEnabled = NO;
+      _isSpinning = YES;
+    }
+  }
+  else {
+    // TODO - Display a popup that will take the player to Packages screen
   }
 }
 
@@ -406,25 +511,60 @@
   }];
 }
 
-- (void) responseReceivedWithSuccess:(BOOL)success prize:(BoosterItemProto *)prize monsters:(NSArray *)monsters {
+- (void) responseReceivedWithSuccess:(BOOL)success prizes:(NSArray*)prizes monsters:(NSArray*)monsters {
+  _lastSpinPrizes = nil;
+  _lastSpinMonsterDescriptors = nil;
+  
   if (success) {
-    self.prize = prize;
+    _lastSpinPrizes = prizes;
     
     GameState *gs = [GameState sharedGameState];
-    if (self.prize.monsterId) {
-      MonsterProto *mp = [gs monsterWithId:self.prize.monsterId];
-      NSString *fileName = [mp.imagePrefix stringByAppendingString:@"Character.png"];
-      [Globals imageNamedWithiPhone6Prefix:fileName withView:nil greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+    if (prizes.count > 1 || ((BoosterItemProto*)prizes[0]).monsterId) {
+      NSMutableArray* monsterIds = [NSMutableArray array];
+      NSMutableArray* monsterDescriptors = [NSMutableArray array];
+      NSMutableSet*   monsterElements = [NSMutableSet set];
       
-      if (!self.prize.isComplete) {
-        if (monsters.count > 0) {
-          _numPuzzlePieces = [(FullUserMonsterProto *)monsters[0] numPieces];
-        } else {
-          _numPuzzlePieces = 1;
+      for (int i = 0; i < prizes.count; ++i) {
+        BoosterItemProto* prize = prizes[i];
+        if (prize.monsterId) {
+          MonsterProto *mp = [gs monsterWithId:prize.monsterId];
+          NSString *fileName = [mp.imagePrefix stringByAppendingString:@"Character.png"];
+          [Globals imageNamedWithiPhone6Prefix:fileName withView:nil greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+          
+          // In the new UserReward system, we only give away either full monsters or a single piece in each spin
+          int numPuzzlePieces = 0;
+          if (!prize.isComplete) {
+            // Find any puzzle pieces awarded for this monster that have not yet been accounted for
+            int numUnaccountedPiecesForMonster = 0;
+            for (int j = i; j < prizes.count; ++j) {
+              if (((BoosterItemProto*)prizes[j]).monsterId == prize.monsterId)
+                  ++numUnaccountedPiecesForMonster;
+            }
+            
+            // Get the total number of pieces for monsters with this ID
+            int numTotalPiecesForMonster = 0;
+            for (FullUserMonsterProto* monster in monsters) {
+              if (monster.monsterId == prize.monsterId)
+                numTotalPiecesForMonster += monster.numPieces;
+            }
+            
+            // To explain what's going on here -- let's say the player has a certain monster with 2 out of 5 pieces
+            // already in place. Assuming a multi-spin has awarded 4 pieces of the same monster, 4 elements in the
+            // prizes array will be pieces for that monster, and 2 elements in the monsters array will be a monster
+            // of that type; one being complete (5/5) and one that has 1 out of 5 pieces. In the Gacha reveal screen,
+            // the first piece for this monster will show 3/5 progess, the next one 4/5, followed by 5/5 and finally
+            // 1/5, since 4 puzzle pieces have led to the player having two of the same monster, one complete and
+            // one incomplete.
+            numPuzzlePieces = ((numTotalPiecesForMonster - numUnaccountedPiecesForMonster) % mp.numPuzzlePieces) + 1;
+          }
+          
+          [monsterIds addObject:@(prize.monsterId)];
+          [monsterDescriptors addObject:@{ @"MonsterId" : @(prize.monsterId), @"NumPuzzlePieces" : @(numPuzzlePieces) }];
+          [monsterElements addObject:@(mp.monsterElement)];
         }
-      } else {
-        _numPuzzlePieces = 0;
       }
+      
+      _lastSpinMonsterDescriptors = monsterDescriptors;
       
       // If it's immediate, it will just delete the loading view and start the spin
       TravelingLoadingView *tlv = [[NSBundle mainBundle] loadNibNamed:@"TravelingLoadingView" owner:self options:nil][0];
@@ -437,44 +577,79 @@
         [tlv display:self.navigationController.view];
       }
       
-      const NSString* elementStr = [[Globals stringForElement:mp.monsterElement] lowercaseString];
-      NSArray* assetsToDownload = @[ [elementStr stringByAppendingString:@"grbackground.jpg"],
-                                     [elementStr stringByAppendingString:@"grbigflash1.png"],
-                                     [elementStr stringByAppendingString:@"grglow2glowblend.png"],
-                                     [elementStr stringByAppendingString:@"lightsflashlow1.png"] ];
+      NSMutableArray* assetsToDownload = [NSMutableArray array];
+      for (NSNumber* monsterElement in monsterElements) {
+        const NSString* elementStr = [[Globals stringForElement:(Element)[monsterElement intValue]] lowercaseString];
+        [assetsToDownload addObjectsFromArray:@[ [elementStr stringByAppendingString:@"grbackground.jpg"],
+                                                 [elementStr stringByAppendingString:@"grbigflash1.png"],
+                                                 [elementStr stringByAppendingString:@"grglow2glowblend.png"],
+                                                 [elementStr stringByAppendingString:@"lightsflashlow1.png"] ]];
+      }
       [Globals checkAndLoadFiles:assetsToDownload completion:^(BOOL success) {
         if (success) {
-          [self.prizeView preloadWithMonsterIds:@[ @(self.prize.monsterId) ]];
-          [self completeGachaSpinWithKnownPrize:prize];
+          [self.prizeView preloadWithMonsterIds:monsterIds];
+          [self completeGachaSpinWithKnownPrizes:prizes isMultiSpin:prizes.count > 1];
         }
         [tlv stop];
       }];
     }
     else {
-      [self completeGachaSpinWithKnownPrize:prize];
+      [self completeGachaSpinWithKnownPrizes:prizes isMultiSpin:NO];
     }
     
     [[MiniEventManager sharedInstance] checkBoosterPack:self.boosterPack.boosterPackId];
-  } else {
+  }
+  else {
     _isSpinning = NO;
   }
   
-  self.spinner.hidden = YES;
-  self.spinView.hidden = NO;
+  if (_lastSpinWasMultiSpin) {
+    self.multiSpinSpinner.hidden = YES;
+    self.multiSpinView.hidden = NO;
+  }
+  else {
+    self.singleSpinSpinner.hidden = YES;
+    self.singleSpinView.hidden = NO;
+  }
 }
 
-- (void) completeGachaSpinWithKnownPrize:(BoosterItemProto *)prize
+- (void) completeGachaSpinWithKnownPrizes:(NSArray*)prizes isMultiSpin:(BOOL)multiSpin
 {
   GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
   
-  TimingFunctionTableView *table = self.gachaTable.tableView;
-  CGPoint pt = table.contentOffset;
-  pt = [self nearestCellMiddleFromPoint:ccp(pt.x, pt.y+6000) withBoosterItem:prize];
-  float time = (rand() / (float)RAND_MAX) * 2.f + 6.f;
-  [table setContentOffset:pt withTimingFunction:[CAMediaTimingFunction functionWithControlPoints:0.1f :0.8f :0.35f :1.f] duration:time];
+  if (multiSpin) {
+    // TODO - TableView's animation needs to spin out of control, followed by a white flash
+  } else {
+    BoosterItemProto* prize = prizes[0];
+    TimingFunctionTableView *table = self.gachaTable.tableView;
+    CGPoint pt = table.contentOffset;
+    pt = [self nearestCellMiddleFromPoint:ccp(pt.x, pt.y+6000) withBoosterItem:prize];
+    float time = (rand() / (float)RAND_MAX) * 2.f + 6.f;
+    [table setContentOffset:pt withTimingFunction:[CAMediaTimingFunction functionWithControlPoints:0.1f :0.8f :0.35f :1.f] duration:time];
+  }
   
-  int gemChange = self.prize.gemReward-self.boosterPack.gemPrice;
-  [Analytics buyGacha:self.boosterPack.boosterPackId monsterId:self.prize.monsterId isPiece:!self.prize.isComplete gemChange:gemChange gemBalance:gs.gems];
+  const int32_t boosterPackGemPrice = multiSpin ? self.boosterPack.gemPrice * gl.boosterPackPurchaseAmountRequired : self.boosterPack.gemPrice;
+  int32_t prizesGemReward = 0; for (BoosterItemProto* prize in prizes) prizesGemReward += prize.gemReward;
+  int gemChange = prizesGemReward - boosterPackGemPrice;
+  
+  NSMutableArray* monsterList = nil;
+  int itemId = 0, itemQuantity = 0;
+  
+  if (prizes.count > 1 || ((BoosterItemProto*)prizes[0]).monsterId) {
+    monsterList = [NSMutableArray array];
+    for (BoosterItemProto* prize in prizes) {
+      if (prize.monsterId)
+        [monsterList addObject:@{ @"monster_id" : @(prize.monsterId), @"piece" : @(!prize.isComplete) }];
+    }
+  }
+  else if (((BoosterItemProto*)prizes[0]).itemId) {
+    BoosterItemProto* prize = prizes[0];
+    itemId = prize.itemId;
+    itemQuantity = prize.itemQuantity;
+  }
+  
+  [Analytics buyGacha:self.boosterPack.boosterPackId monsterList:monsterList itemId:itemId itemQuantity:itemQuantity highRoller:multiSpin gemChange:gemChange gemBalance:gs.gems];
   
   // Decrement cached daily spin count locally and update UI
   if ( _lastSpinWasFree )
@@ -489,10 +664,10 @@
   PurchaseBoosterPackResponseProto *proto = (PurchaseBoosterPackResponseProto *)fe.event;
   
   BOOL success = proto.status == PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusSuccess;
-  BoosterItemProto *prize = proto.prize;
-  NSArray *monsters = proto.updatedOrNewList;
+  NSArray* prizes = proto.prizeList;
+  NSArray* monsters = proto.reward.updatedOrNewMonstersList;
   
-  [self responseReceivedWithSuccess:success prize:prize monsters:monsters];
+  [self responseReceivedWithSuccess:success prizes:prizes monsters:monsters];
 }
 
 - (void) handleTradeItemForBoosterResponseProto:(FullEvent *)fe {
@@ -502,7 +677,7 @@
   BoosterItemProto *prize = proto.prize;
   NSArray *monsters = proto.updatedOrNewList;
   
-  [self responseReceivedWithSuccess:success prize:prize monsters:monsters];
+  [self responseReceivedWithSuccess:success prizes:@[ prize ] monsters:monsters];
 }
 
 - (IBAction)menuCloseClicked:(id)sender {
@@ -547,9 +722,9 @@
 
 - (void) easyTableViewDidEndScrollingAnimation:(EasyTableView *)easyTableView {
   if (_isSpinning) {
-    if (self.prize.monsterId) {
+    if (_lastSpinPrizes.count > 1 || ((BoosterItemProto*)_lastSpinPrizes[0]).monsterId) {
       [self displayWhiteFlash];
-    } else if (self.prize.itemId) {
+    } else if (((BoosterItemProto*)_lastSpinPrizes[0]).itemId) {
       [self displayItemPrizeView];
     } else {
       self.gachaTable.userInteractionEnabled = YES;
@@ -559,6 +734,7 @@
     }
     
     [SoundEngine stopRepeatingEffect];
+    
     /*
     if (self.prize.monsterId) {
       [self displayWhiteFlash];
@@ -616,13 +792,14 @@
   }
    */
   
-  if (self.prize.monsterId) {
-    [self.prizeView initializeWithMonsterDescriptors:@[ @{ @"MonsterId" : @(self.prize.monsterId), @"NumPuzzlePieces" : @(_numPuzzlePieces) } ]];
+  if (_lastSpinMonsterDescriptors) {
+    [self.prizeView initializeWithMonsterDescriptors:_lastSpinMonsterDescriptors];
   }
 }
 
 - (void) displayItemPrizeView {
-  SecretGiftViewController *svc = [[SecretGiftViewController alloc] initWithBoosterItem:self.prize];
+  BoosterItemProto* prize = _lastSpinPrizes[0];
+  SecretGiftViewController *svc = [[SecretGiftViewController alloc] initWithBoosterItem:prize];
   svc.view.frame = self.navigationController.view.bounds;
   [self.navigationController.view addSubview:svc.view];
   [self.navigationController addChildViewController:svc];

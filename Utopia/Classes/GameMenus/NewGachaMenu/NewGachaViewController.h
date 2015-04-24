@@ -18,13 +18,14 @@
 @interface NewGachaViewController : GenViewController
 <EasyTableViewDelegate, NewGachaFocusScrollViewDelegate, TabBarDelegate, NewGachaFeaturedViewCallbackDelegate, BattleSkillCounterPopupCallbackDelegate> {
   BOOL _isSpinning;
-  
-  NSInteger _curPage;
-  
-  NSInteger _numPuzzlePieces;
+  BOOL _isMultiSpinAvailable;
+
+  NSArray* _lastSpinPrizes;             // List of BoosterItemProtos awarded in the last spin
+  NSArray* _lastSpinMonsterDescriptors; // List of dictionaries containing monster IDs and corresponding number of puzzle pieces awarded in the last spin
   
   NSInteger _cachedDailySpin;
   BOOL      _lastSpinWasFree;
+  BOOL      _lastSpinWasMultiSpin;
   
   NewGachaTicker* _tickerController;
 }
@@ -33,7 +34,6 @@
 @property (nonatomic, retain) BoosterPackProto *badBoosterPack;
 @property (nonatomic, retain) BoosterPackProto *goodBoosterPack;
 @property (nonatomic, retain) NSArray *items;
-@property (nonatomic, retain) BoosterItemProto *prize;
 
 @property (nonatomic, retain) EasyTableView *gachaTable;
 @property (nonatomic, retain) IBOutlet UIView *tableContainerView;
@@ -45,13 +45,24 @@
 @property (nonatomic, retain) IBOutlet UIImageView* gachaBgTopLeft;
 @property (nonatomic, retain) IBOutlet UIImageView* gachaBgBottomRight;
 
-@property (nonatomic, retain) IBOutlet UILabel *gemCostLabel;
-@property (nonatomic, retain) IBOutlet UIImageView *gemCostIcon;
-@property (nonatomic, retain) IBOutlet UIView *gemCostView;
-@property (nonatomic, retain) IBOutlet UIView *spinView;
-@property (nonatomic, retain) IBOutlet UIButton *spinButton;
-@property (weak, nonatomic) IBOutlet UILabel *spinActionLabel;
-@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *spinner;
+@property (nonatomic, retain) IBOutlet UIView *singleSpinContainer;
+@property (nonatomic, retain) IBOutlet UILabel *singleSpinGemCostLabel;
+@property (nonatomic, retain) IBOutlet UIImageView *singleSpinGemCostIcon;
+@property (nonatomic, retain) IBOutlet UIView *singleSpinGemCostView;
+@property (nonatomic, retain) IBOutlet UIView *singleSpinView;
+@property (nonatomic, retain) IBOutlet UIButton *singleSpinButton;
+@property (nonatomic, retain) IBOutlet UILabel *singleSpinActionLabel;
+@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *singleSpinSpinner;
+
+@property (nonatomic, retain) IBOutlet UIView *multiSpinContainer;
+@property (nonatomic, retain) IBOutlet UILabel *multiSpinGemCostLabel;
+@property (nonatomic, retain) IBOutlet UIImageView *multiSpinGemCostIcon;
+@property (nonatomic, retain) IBOutlet UIView *multiSpinGemCostView;
+@property (nonatomic, retain) IBOutlet UIView *multiSpinView;
+@property (nonatomic, retain) IBOutlet UIButton *multiSpinButton;
+@property (nonatomic, retain) IBOutlet UILabel *multiSpinActionLabel;
+@property (nonatomic, retain) IBOutlet UILabel *multiSpinTapToUnlockLabel;
+@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *multiSpinSpinner;
 
 @property (nonatomic, retain) IBOutlet NewGachaItemCell *itemCell;
 @property (nonatomic, retain) IBOutlet NewGachaFeaturedView *featuredView;
@@ -68,6 +79,9 @@
 @property (nonatomic, retain) IBOutlet UIImageView* ticker;
 
 - (id) initWithBoosterPack:(BoosterPackProto *)bpp;
+
+- (IBAction) singleSpinClicked:(id)sender;
+- (IBAction) multiSpinClicked:(id)sender;
 
 - (IBAction) hideSkillPopup:(id)sender;
 

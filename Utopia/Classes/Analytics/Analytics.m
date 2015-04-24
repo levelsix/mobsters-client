@@ -796,16 +796,22 @@ static NSDate *timeSinceLastTutStep = nil;
 }
 
 
-+ (void) buyGacha:(int)machineId monsterId:(int)monsterId isPiece:(BOOL)isPiece gemChange:(int)gemChange gemBalance:(int)gemBalance {
++ (void) buyGacha:(int)machineId monsterList:(NSArray*)monsterList itemId:(int)itemId itemQuantity:(int)itemQuantity highRoller:(BOOL)highRoller gemChange:(int)gemChange gemBalance:(int)gemBalance {
   NSMutableDictionary *params = [NSMutableDictionary dictionary];
   params[@"machine_id"] = @(machineId);
+  params[@"high_roller"] = @(highRoller);
   
-  if (monsterId) {
-    params[@"monster_id"] = @(monsterId);
-    params[@"piece"] = @(isPiece);
+  NSString *context = @"gems";
+  if (monsterList && monsterList.count) {
+    params[@"monster_list"] = monsterList;
+    context = @"monster";
+  }
+  else if (itemId && itemQuantity) {
+    params[@"item_id"] = @(itemId);
+    params[@"item_quantity"] = @(itemQuantity);
+    context = @"item";
   }
   
-  NSString *context = monsterId ? @"monster" : @"gems";
   [self gameTransactionWithTransactionType:@"buy_gacha" context:context cashChange:0 cashBalance:0 oilChange:0 oilBalance:0 gemChange:gemChange gemBalance:gemBalance extraParams:params];
 }
 
