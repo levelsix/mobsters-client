@@ -10,7 +10,6 @@
 #import "Chat.pb.h"
 #import "City.pb.h"
 #import "Clan.pb.h"
-#import "ClanGifts.pb.h"
 #import "Dev.pb.h"
 #import "EventAchievement.pb.h"
 #import "EventApns.pb.h"
@@ -509,6 +508,8 @@
 @class QueueUpResponseProto_Builder;
 @class RareBoosterPurchaseProto;
 @class RareBoosterPurchaseProto_Builder;
+@class ReceivedClanGiftResponseProto;
+@class ReceivedClanGiftResponseProto_Builder;
 @class ReceivedGroupChatResponseProto;
 @class ReceivedGroupChatResponseProto_Builder;
 @class ReceivedRareBoosterPurchaseResponseProto;

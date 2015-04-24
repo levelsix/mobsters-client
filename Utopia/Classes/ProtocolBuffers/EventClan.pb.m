@@ -14,8 +14,8 @@ static PBExtensionRegistry* extensionRegistry = nil;
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
     [BattleRoot registerAllExtensions:registry];
+    [ChatRoot registerAllExtensions:registry];
     [ClanRoot registerAllExtensions:registry];
-    [ClanGiftsRoot registerAllExtensions:registry];
     [MonsterStuffRoot registerAllExtensions:registry];
     [RewardRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
@@ -20184,6 +20184,341 @@ BOOL ClearExpiredClanGiftsResponseProto_ClearExpiredClanGiftsStatusIsValidValue(
 - (ClearExpiredClanGiftsResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = ClearExpiredClanGiftsResponseProto_ClearExpiredClanGiftsStatusSuccess;
+  return self;
+}
+@end
+
+@interface ReceivedClanGiftResponseProto ()
+@property (strong) MinimumUserProto* sender;
+@property ChatScope scope;
+@property (strong) NSMutableArray * mutableUserClanGiftsList;
+@end
+
+@implementation ReceivedClanGiftResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value_ {
+  hasSender_ = !!value_;
+}
+@synthesize sender;
+- (BOOL) hasScope {
+  return !!hasScope_;
+}
+- (void) setHasScope:(BOOL) value_ {
+  hasScope_ = !!value_;
+}
+@synthesize scope;
+@synthesize mutableUserClanGiftsList;
+@dynamic userClanGiftsList;
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.scope = ChatScopeClan;
+  }
+  return self;
+}
+static ReceivedClanGiftResponseProto* defaultReceivedClanGiftResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [ReceivedClanGiftResponseProto class]) {
+    defaultReceivedClanGiftResponseProtoInstance = [[ReceivedClanGiftResponseProto alloc] init];
+  }
+}
++ (ReceivedClanGiftResponseProto*) defaultInstance {
+  return defaultReceivedClanGiftResponseProtoInstance;
+}
+- (ReceivedClanGiftResponseProto*) defaultInstance {
+  return defaultReceivedClanGiftResponseProtoInstance;
+}
+- (NSArray *)userClanGiftsList {
+  return mutableUserClanGiftsList;
+}
+- (UserClanGiftProto*)userClanGiftsAtIndex:(NSUInteger)index {
+  return [mutableUserClanGiftsList objectAtIndex:index];
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasScope) {
+    [output writeEnum:2 value:self.scope];
+  }
+  [self.userClanGiftsList enumerateObjectsUsingBlock:^(UserClanGiftProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:3 value:element];
+  }];
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasSender) {
+    size_ += computeMessageSize(1, self.sender);
+  }
+  if (self.hasScope) {
+    size_ += computeEnumSize(2, self.scope);
+  }
+  [self.userClanGiftsList enumerateObjectsUsingBlock:^(UserClanGiftProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(3, element);
+  }];
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (ReceivedClanGiftResponseProto*) parseFromData:(NSData*) data {
+  return (ReceivedClanGiftResponseProto*)[[[ReceivedClanGiftResponseProto builder] mergeFromData:data] build];
+}
++ (ReceivedClanGiftResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ReceivedClanGiftResponseProto*)[[[ReceivedClanGiftResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (ReceivedClanGiftResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (ReceivedClanGiftResponseProto*)[[[ReceivedClanGiftResponseProto builder] mergeFromInputStream:input] build];
+}
++ (ReceivedClanGiftResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ReceivedClanGiftResponseProto*)[[[ReceivedClanGiftResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ReceivedClanGiftResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (ReceivedClanGiftResponseProto*)[[[ReceivedClanGiftResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (ReceivedClanGiftResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ReceivedClanGiftResponseProto*)[[[ReceivedClanGiftResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ReceivedClanGiftResponseProto_Builder*) builder {
+  return [[ReceivedClanGiftResponseProto_Builder alloc] init];
+}
++ (ReceivedClanGiftResponseProto_Builder*) builderWithPrototype:(ReceivedClanGiftResponseProto*) prototype {
+  return [[ReceivedClanGiftResponseProto builder] mergeFrom:prototype];
+}
+- (ReceivedClanGiftResponseProto_Builder*) builder {
+  return [ReceivedClanGiftResponseProto builder];
+}
+- (ReceivedClanGiftResponseProto_Builder*) toBuilder {
+  return [ReceivedClanGiftResponseProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasSender) {
+    [output appendFormat:@"%@%@ {\n", indent, @"sender"];
+    [self.sender writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  if (self.hasScope) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"scope", [NSNumber numberWithInteger:self.scope]];
+  }
+  [self.userClanGiftsList enumerateObjectsUsingBlock:^(UserClanGiftProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"userClanGifts"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[ReceivedClanGiftResponseProto class]]) {
+    return NO;
+  }
+  ReceivedClanGiftResponseProto *otherMessage = other;
+  return
+      self.hasSender == otherMessage.hasSender &&
+      (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
+      self.hasScope == otherMessage.hasScope &&
+      (!self.hasScope || self.scope == otherMessage.scope) &&
+      [self.userClanGiftsList isEqualToArray:otherMessage.userClanGiftsList] &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasSender) {
+    hashCode = hashCode * 31 + [self.sender hash];
+  }
+  if (self.hasScope) {
+    hashCode = hashCode * 31 + self.scope;
+  }
+  [self.userClanGiftsList enumerateObjectsUsingBlock:^(UserClanGiftProto *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+@interface ReceivedClanGiftResponseProto_Builder()
+@property (strong) ReceivedClanGiftResponseProto* result;
+@end
+
+@implementation ReceivedClanGiftResponseProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[ReceivedClanGiftResponseProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (ReceivedClanGiftResponseProto_Builder*) clear {
+  self.result = [[ReceivedClanGiftResponseProto alloc] init];
+  return self;
+}
+- (ReceivedClanGiftResponseProto_Builder*) clone {
+  return [ReceivedClanGiftResponseProto builderWithPrototype:result];
+}
+- (ReceivedClanGiftResponseProto*) defaultInstance {
+  return [ReceivedClanGiftResponseProto defaultInstance];
+}
+- (ReceivedClanGiftResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (ReceivedClanGiftResponseProto*) buildPartial {
+  ReceivedClanGiftResponseProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (ReceivedClanGiftResponseProto_Builder*) mergeFrom:(ReceivedClanGiftResponseProto*) other {
+  if (other == [ReceivedClanGiftResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasScope) {
+    [self setScope:other.scope];
+  }
+  if (other.mutableUserClanGiftsList.count > 0) {
+    if (result.mutableUserClanGiftsList == nil) {
+      result.mutableUserClanGiftsList = [[NSMutableArray alloc] initWithArray:other.mutableUserClanGiftsList];
+    } else {
+      [result.mutableUserClanGiftsList addObjectsFromArray:other.mutableUserClanGiftsList];
+    }
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (ReceivedClanGiftResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (ReceivedClanGiftResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        ChatScope value = (ChatScope)[input readEnum];
+        if (ChatScopeIsValidValue(value)) {
+          [self setScope:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+      case 26: {
+        UserClanGiftProto_Builder* subBuilder = [UserClanGiftProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addUserClanGifts:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (ReceivedClanGiftResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (ReceivedClanGiftResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (ReceivedClanGiftResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (ReceivedClanGiftResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasScope {
+  return result.hasScope;
+}
+- (ChatScope) scope {
+  return result.scope;
+}
+- (ReceivedClanGiftResponseProto_Builder*) setScope:(ChatScope) value {
+  result.hasScope = YES;
+  result.scope = value;
+  return self;
+}
+- (ReceivedClanGiftResponseProto_Builder*) clearScopeList {
+  result.hasScope = NO;
+  result.scope = ChatScopeClan;
+  return self;
+}
+- (NSMutableArray *)userClanGiftsList {
+  return result.mutableUserClanGiftsList;
+}
+- (UserClanGiftProto*)userClanGiftsAtIndex:(NSUInteger)index {
+  return [result userClanGiftsAtIndex:index];
+}
+- (ReceivedClanGiftResponseProto_Builder *)addUserClanGifts:(UserClanGiftProto*)value {
+  if (result.mutableUserClanGiftsList == nil) {
+    result.mutableUserClanGiftsList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableUserClanGiftsList addObject:value];
+  return self;
+}
+- (ReceivedClanGiftResponseProto_Builder *)addAllUserClanGifts:(NSArray *)array {
+  if (result.mutableUserClanGiftsList == nil) {
+    result.mutableUserClanGiftsList = [NSMutableArray array];
+  }
+  [result.mutableUserClanGiftsList addObjectsFromArray:array];
+  return self;
+}
+- (ReceivedClanGiftResponseProto_Builder *)clearUserClanGifts {
+  result.mutableUserClanGiftsList = nil;
   return self;
 }
 @end

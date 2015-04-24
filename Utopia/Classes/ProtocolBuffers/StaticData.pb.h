@@ -9,7 +9,6 @@
 #import "BoosterPackStuff.pb.h"
 #import "City.pb.h"
 #import "Clan.pb.h"
-#import "ClanGifts.pb.h"
 #import "CustomMenu.pb.h"
 #import "Item.pb.h"
 #import "MonsterStuff.pb.h"
