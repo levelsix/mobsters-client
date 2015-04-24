@@ -2166,19 +2166,6 @@
   [self.mainView.popoverViewController closeClicked:nil];
 }
 
-#pragma mark - Helpers
-
-- (void) preseedRandomization
-{
-  // Calculating seed for pseudo-random generation (so upon deserialization pattern will be the same)
-  int seed = 0;
-  for (NSInteger n = 0; n < self.orbLayer.layout.numColumns; n++)
-    for (NSInteger m = 0; m < self.orbLayer.layout.numRows; m++)
-      seed += [self.orbLayer.layout orbAtColumn:n row:m].orbColor;
-  srand(seed);
-}
 @end
-
-
 
 #pragma clang diagnostic pop

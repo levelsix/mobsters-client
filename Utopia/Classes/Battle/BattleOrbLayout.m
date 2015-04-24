@@ -1905,6 +1905,7 @@ static const NSInteger maxSearchIterations = 800;
   orb = nil;
   if ([possibleOrbs count])
   {
+    [self preseedRandomization];
     orb = [possibleOrbs objectAtIndex:(rand() % [possibleOrbs count])];
     _numVines++;
   }
