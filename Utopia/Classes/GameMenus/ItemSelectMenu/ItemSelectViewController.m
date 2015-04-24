@@ -53,7 +53,9 @@
     self.nameLabel.height = CGRectGetMaxY(self.quantityLabel.frame) - self.nameLabel.originY;
   }
   
-  [Globals imageNamed:[itemObject iconImageName] withView:self.itemIcon greyscale:!available indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  BOOL showGreyScale = !available && itemObject.itemType != ItemTypeRefreshMiniJob;
+  
+  [Globals imageNamed:[itemObject iconImageName] withView:self.itemIcon greyscale:showGreyScale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   self.iconLabel.text = [itemObject iconText];
   self.iconLabel.textColor = available ? _origIconLabelColor : self.nameLabel.highlightedTextColor;
