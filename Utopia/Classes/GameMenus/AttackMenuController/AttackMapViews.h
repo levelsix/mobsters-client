@@ -98,7 +98,7 @@
 @property (nonatomic, retain) IBOutlet UIView *enterView;
 @property (nonatomic, retain) IBOutlet UIView *cooldownView;
 
-@property (nonatomic, assign) IBOutlet id<AttackEventViewDelegate> delegate;
+@property (nonatomic, weak) IBOutlet id<AttackEventViewDelegate> delegate;
 
 @property (nonatomic, assign) int persistentEventId;
 

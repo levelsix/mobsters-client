@@ -32,7 +32,7 @@
 
 @property (nonatomic, strong) IBOutlet RewardView *rewardView;
 
-@property (nonatomic, assign) id<MiniJobsCompleteDelegate> delegate;
+@property (nonatomic, weak) id<MiniJobsCompleteDelegate> delegate;
 
 @property (nonatomic, retain) UserMiniJob *miniJob;
 

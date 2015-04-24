@@ -57,7 +57,7 @@
 @property (nonatomic, assign) BOOL isOpen;
 @property (nonatomic, assign) ChatScope chatScope;
 
-@property (nonatomic, assign) id<ChatBottomViewDelegate> delegate;
+@property (nonatomic, weak) id<ChatBottomViewDelegate> delegate;
 
 - (void) openAnimated:(BOOL)animated;
 - (void) closeAnimated:(BOOL)animated;

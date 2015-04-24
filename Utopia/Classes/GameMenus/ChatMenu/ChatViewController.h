@@ -57,7 +57,7 @@
 
 @property (nonatomic, retain) NSTimer *updateTimer;
 
-@property (nonatomic, assign) id<ChatViewControllerDelegate> delegate;
+@property (nonatomic, weak) id<ChatViewControllerDelegate> delegate;
 
 @property (nonatomic, retain) MonsterSelectViewController *monsterSelectViewController;
 @property (nonatomic, retain) TeamDonateMonstersFiller *teamDonateMonstersFiller;

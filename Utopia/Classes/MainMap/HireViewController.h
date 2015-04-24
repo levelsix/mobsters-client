@@ -100,7 +100,7 @@
 
 @property (nonatomic, retain) UserStruct *userStruct;
 
-@property (nonatomic, assign) id<HireViewDelegate> delegate;
+@property (nonatomic, weak) id<HireViewDelegate> delegate;
 
 - (id) initWithUserStruct:(UserStruct *)us;
 

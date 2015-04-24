@@ -39,7 +39,7 @@
 @property (nonatomic, assign) BOOL allowOrbHammer;
 @property (nonatomic, assign) BOOL allowPutty;
 
-@property (nonatomic, assign) id<OrbMainLayerDelegate> delegate;
+@property (nonatomic, weak) id<OrbMainLayerDelegate> delegate;
 
 - (id) initWithLayoutProto:(BoardLayoutProto *)proto;
 - (id) initWithGridSize:(CGSize)gridSize numColors:(int)numColors;

@@ -29,7 +29,7 @@
 @property (nonatomic, retain) NSMutableArray *reusableViews;
 @property (nonatomic, retain) NSMutableArray *innerViews;
 
-@property (nonatomic, assign) IBOutlet id<NewGachaFocusScrollViewDelegate> delegate;
+@property (nonatomic, weak) IBOutlet id<NewGachaFocusScrollViewDelegate> delegate;
 
 - (void) reloadData;
 

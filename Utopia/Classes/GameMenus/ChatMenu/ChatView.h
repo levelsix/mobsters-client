@@ -36,7 +36,7 @@ typedef enum {
   BOOL _curChecked;
 }
 
-@property (nonatomic, assign) id<ChatLanguageSelectorDelegate> delegate;
+@property (nonatomic, weak) id<ChatLanguageSelectorDelegate> delegate;
 @property (nonatomic, retain) IBOutletCollection(UIButton) NSArray *flagButtons;
 @property (nonatomic, assign) IBOutlet UIImageView *selectBox;
 @property (nonatomic, assign) IBOutlet UIImageView *checkMark;
@@ -59,7 +59,7 @@ typedef enum {
 
 @interface ChatPopoverView : UIView
 
-@property (nonatomic, assign) id<ChatPopoverDelegate> delegate;
+@property (nonatomic, weak) id<ChatPopoverDelegate> delegate;
 
 - (void) openAtPoint:(CGPoint)pt;
 - (void) close;

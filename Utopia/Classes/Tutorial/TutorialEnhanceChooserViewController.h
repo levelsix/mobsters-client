@@ -19,7 +19,7 @@
   BOOL _arrowOverMonsterCreated;
 }
 
-@property (nonatomic, assign) id<TutorialEnhanceChooserDelegate> delegate;
+@property (nonatomic, weak) id<TutorialEnhanceChooserDelegate> delegate;
 
 @property (nonatomic, retain) NSString *clickableUserMonsterUuid;
 

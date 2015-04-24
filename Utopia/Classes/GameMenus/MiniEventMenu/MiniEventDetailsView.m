@@ -83,6 +83,11 @@ static const float kCollectRewardViewSlideAnimationDuration = .5f;
   self.collectRewardView = nil;
 }
 
+- (void) dealloc
+{
+  [self.collectRewardView setDelegate:nil];
+}
+
 - (void) initializeWithUserMiniEvent:(UserMiniEvent*)userMiniEvent
 {
   MiniEventProto* miniEvent = userMiniEvent.miniEvent;

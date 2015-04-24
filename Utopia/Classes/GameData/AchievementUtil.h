@@ -17,7 +17,7 @@
 
 @interface AchievementUtil : NSObject
 
-@property (nonatomic, assign) id<AchievementUtilDelegate> delegate;
+@property (nonatomic, weak) id<AchievementUtilDelegate> delegate;
 
 + (void) setDelegate:(id)delegate;
 

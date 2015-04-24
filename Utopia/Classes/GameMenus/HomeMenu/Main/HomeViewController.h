@@ -35,7 +35,7 @@
 
 @property (nonatomic, retain) NSMutableArray *mainViewControllers;
 
-@property (nonatomic, retain) id<HomeViewControllerDelegate> delegate;
+@property (nonatomic, weak) id<HomeViewControllerDelegate> delegate;
 
 - (id) initWithSell;
 - (id) initWithHeal:(NSString *)hospitalUserStructUuid;

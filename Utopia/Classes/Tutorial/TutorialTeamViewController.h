@@ -24,7 +24,7 @@
 
 @property (nonatomic, retain) NSString *clickableUserMonsterUuid;
 
-@property (nonatomic, assign) id<TutorialTeamDelegate> delegate;
+@property (nonatomic, weak) id<TutorialTeamDelegate> delegate;
 
 - (void) moveToMonster:(NSString *)userMonsterUuid;
 - (void) unequipSlotThree;

@@ -36,7 +36,7 @@
 
 @property (nonatomic, retain) NSArray *monsters;
 
-@property (nonatomic, assign) id<MonsterSelectDelegate> delegate;
+@property (nonatomic, weak) id<MonsterSelectDelegate> delegate;
 
 - (void) reloadDataAnimated:(BOOL)animated;
 - (void) reloadData;

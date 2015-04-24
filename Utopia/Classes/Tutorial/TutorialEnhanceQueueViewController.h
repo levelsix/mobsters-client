@@ -26,7 +26,7 @@
   BOOL _allowFinish;
 }
 
-@property (nonatomic, assign) id<TutorialEnhanceQueueDelegate> delegate;
+@property (nonatomic, weak) id<TutorialEnhanceQueueDelegate> delegate;
 
 @property (nonatomic, retain) NSString *clickableUserMonsterUuid;
 

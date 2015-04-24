@@ -23,7 +23,7 @@
 
 @property (nonatomic, retain) NSString *initialName;
 
-@property (nonatomic, assign) id<TutorialNameDelegate> delegate;
+@property (nonatomic, weak) id<TutorialNameDelegate> delegate;
 
 - (id) initWithName:(NSString *)name;
 - (IBAction)closeClicked:(id)sender;

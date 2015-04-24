@@ -41,7 +41,7 @@
 @property (nonatomic, retain) NSArray *myClanMembersList;
 @property (nonatomic, assign) int canStartRaidStage;
 
-@property (nonatomic, assign) id<ClanViewControllerDelegate> delegate;
+@property (nonatomic, weak) id<ClanViewControllerDelegate> delegate;
 
 - (void) loadForClanUuid:(NSString *)clanUuid;
 

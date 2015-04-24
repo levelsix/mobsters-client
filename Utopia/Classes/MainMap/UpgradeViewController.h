@@ -30,7 +30,7 @@
 @property (nonatomic, retain) IBOutlet UILabel *prereqLabel;
 @property (nonatomic, retain) IBOutlet UIView *goButtonView;
 
-@property (nonatomic, assign) IBOutlet id<EmbeddedDelegate> delegate;
+@property (nonatomic, weak) IBOutlet id<EmbeddedDelegate> delegate;
 
 @end
 
@@ -79,7 +79,7 @@
 
 @property (nonatomic, retain) UserStruct *userStruct;
 
-@property (nonatomic, assign) id<UpgradeViewControllerDelegate> delegate;
+@property (nonatomic, weak) id<UpgradeViewControllerDelegate> delegate;
 
 - (id) initWithUserStruct:(UserStruct *)us;
 

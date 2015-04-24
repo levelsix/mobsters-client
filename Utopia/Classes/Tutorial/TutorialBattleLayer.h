@@ -25,7 +25,7 @@
 
 @property (nonatomic, retain) StartupResponseProto_TutorialConstants *constants;
 
-@property (nonatomic, assign) id<TutorialBattleLayerDelegate> delegate;
+@property (nonatomic, weak) id<TutorialBattleLayerDelegate> delegate;
 
 - (id) initWithConstants:(StartupResponseProto_TutorialConstants *)constants;
 

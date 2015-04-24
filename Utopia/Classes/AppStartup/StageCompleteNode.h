@@ -37,7 +37,7 @@
 @property (nonatomic, retain) CCNode *shareNode;
 @property (nonatomic, retain) CCButton *continueButton;
 
-@property (nonatomic, assign) id<StageCompleteDelegate> delegate;
+@property (nonatomic, weak) id<StageCompleteDelegate> delegate;
 
 - (void) setSectionName:(NSString *)sectionName itemId:(int)itemId;
 

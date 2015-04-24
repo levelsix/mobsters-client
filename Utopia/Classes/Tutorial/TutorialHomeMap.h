@@ -57,7 +57,7 @@
 
 @property (nonatomic, retain) CCSprite *boatSprite;
 
-@property (nonatomic, assign) id<TutorialHomeMapDelegate> delegate;
+@property (nonatomic, weak) id<TutorialHomeMapDelegate> delegate;
 
 @property (nonatomic, retain) NSString *clickableUserStructUuid;
 

@@ -24,7 +24,7 @@
 @property (nonatomic, assign) IBOutlet UILabel *selectionDescription;
 @property (nonatomic, assign) IBOutlet UIButton *barButton;
 
-@property (nonatomic, assign) id<ResearchSelectionBarDelegate> delegate;
+@property (nonatomic, weak) id<ResearchSelectionBarDelegate> delegate;
 
 - (void) updateForUserResearch:(UserResearch *)userResearch;
 - (void) animateIn:(dispatch_block_t)completion;
@@ -54,7 +54,7 @@
 @property (nonatomic, assign) IBOutlet UIImageView *lockedIcon;
 @property (nonatomic, assign) IBOutlet UILabel *researchingTimeLeftLabel;
 @property (nonatomic, assign) IBOutlet UIImageView *researchingCircle;
-@property (nonatomic, assign) id<ResearchTreeDelegate> delegate;
+@property (nonatomic, weak) id<ResearchTreeDelegate> delegate;
 
 - (IBAction)researchSelected:(id)sender;
 

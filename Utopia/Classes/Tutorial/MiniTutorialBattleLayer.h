@@ -26,7 +26,7 @@
 
 @property (nonatomic, retain) TutorialOrbLayer *orbLayer;
 
-@property (nonatomic, assign) id<MiniTutorialBattleLayerDelegate> delegate;
+@property (nonatomic, weak) id<MiniTutorialBattleLayerDelegate> delegate;
 
 @property (nonatomic, assign) int swappableTeamSlot;
 

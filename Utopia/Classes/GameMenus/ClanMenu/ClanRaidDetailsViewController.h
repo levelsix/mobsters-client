@@ -39,7 +39,7 @@
 
 @property (nonatomic, retain) NSTimer *timer;
 
-@property (nonatomic, assign) id<ClanRaidDetailsDelegate> delegate;
+@property (nonatomic, weak) id<ClanRaidDetailsDelegate> delegate;
 
 @property (nonatomic, assign) BOOL canStartRaidStage;
 

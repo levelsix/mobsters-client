@@ -28,6 +28,6 @@
 
 @property (nonatomic, retain) NSMutableSet *usedItems;
 
-@property (nonatomic, assign) id<SpeedupItemsFillerDelegate> delegate;
+@property (nonatomic, weak) id<SpeedupItemsFillerDelegate> delegate;
 
 @end

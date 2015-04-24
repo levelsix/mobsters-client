@@ -44,7 +44,7 @@
 }
 
 @property (nonatomic, readonly) float percentage;
-@property (nonatomic, assign) id<SkillBattleIndicatorViewDelegate> delegate;
+@property (nonatomic, weak) id<SkillBattleIndicatorViewDelegate> delegate;
 
 - (instancetype) initWithSkillController:(SkillController*)skillController enemy:(BOOL)enemy;
 - (void) appear:(BOOL)instantly;

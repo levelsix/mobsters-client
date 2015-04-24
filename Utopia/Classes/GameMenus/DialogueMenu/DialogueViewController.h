@@ -19,7 +19,7 @@
 
 @interface DialogueView : UIView
 
-@property (nonatomic, assign) IBOutlet id<DialogueViewDelegate> delegate;
+@property (nonatomic, weak) IBOutlet id<DialogueViewDelegate> delegate;
 @property (nonatomic, assign) BOOL allowClickThrough;
 
 @end
@@ -71,7 +71,7 @@
 
 @property (nonatomic, retain) DialogueProto *dialogue;
 
-@property (nonatomic, assign) id<DialogueViewControllerDelegate> delegate;
+@property (nonatomic, weak) id<DialogueViewControllerDelegate> delegate;
 
 @property (nonatomic, assign) BOOL blackOutSpeakers;
 @property (nonatomic, assign) BOOL paused;

@@ -23,7 +23,7 @@
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *spinner;
 @property (nonatomic, retain) IBOutlet UILabel *connectLabel;
 
-@property (nonatomic, assign) id<TutorialFacebookDelegate> delegate;
+@property (nonatomic, weak) id<TutorialFacebookDelegate> delegate;
 
 - (void) allowClick;
 - (void) close;

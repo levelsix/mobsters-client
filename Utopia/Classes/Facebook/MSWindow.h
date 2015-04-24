@@ -11,7 +11,7 @@
 
 @interface FacebookWebViewDelegate : NSObject <UIWebViewDelegate>
 
-@property (nonatomic, assign) id<UIWebViewDelegate> realDelegate;
+@property (nonatomic, weak) id<UIWebViewDelegate> realDelegate;
 
 @end
 

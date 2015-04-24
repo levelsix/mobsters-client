@@ -53,7 +53,7 @@ typedef enum {
 
 @property (nonatomic, assign) MapBotViewButtonConfig config;
 
-@property (nonatomic, assign) id<MapBotViewButtonDelegate> delegate;
+@property (nonatomic, weak) id<MapBotViewButtonDelegate> delegate;
 
 + (id) button;
 + (id) sellButton;
@@ -85,7 +85,7 @@ typedef enum {
 
 @interface MapBotView : UIView
 
-@property (nonatomic, assign) IBOutlet id<MapBotViewDelegate> delegate;
+@property (nonatomic, weak) IBOutlet id<MapBotViewDelegate> delegate;
 
 @property (nonatomic, assign) IBOutlet UIView *bgdView;
 @property (nonatomic, retain) IBOutletCollection(UIView) NSArray *animateViews;

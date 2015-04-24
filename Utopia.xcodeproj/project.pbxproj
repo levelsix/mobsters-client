@@ -7720,7 +7720,7 @@
 		291721181ACF82110093F100 /* DetailsProgressBarView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailsProgressBarView.xib; sourceTree = "<group>"; };
 		291721191ACF82110093F100 /* DetailsStrengthView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailsStrengthView.xib; sourceTree = "<group>"; };
 		2917211A1ACF82110093F100 /* DetailsTitleBarView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailsTitleBarView.xib; sourceTree = "<group>"; };
-		2917211B1ACF82110093F100 /* EmbeddedScrollingUpgradeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmbeddedScrollingUpgradeView.h; sourceTree = "<group>"; };
+		2917211B1ACF82110093F100 /* EmbeddedScrollingUpgradeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = EmbeddedScrollingUpgradeView.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		2917211C1ACF82110093F100 /* EmbeddedScrollingUpgradeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmbeddedScrollingUpgradeView.m; sourceTree = "<group>"; };
 		2917211D1ACF82110093F100 /* EmbeddedScrollingUpgradeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EmbeddedScrollingUpgradeView.xib; sourceTree = "<group>"; };
 		291721311ACF824F0093F100 /* GameTypeProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameTypeProtocol.h; sourceTree = "<group>"; };
@@ -7762,7 +7762,7 @@
 		2933DC341ADFA808005D7620 /* saletimerbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "saletimerbg@2x.png"; sourceTree = "<group>"; };
 		2933DC351ADFA808005D7620 /* saletimerredicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "saletimerredicon@2x.png"; sourceTree = "<group>"; };
 		2933DC801ADFA836005D7620 /* GemPackageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GemPackageCell.xib; sourceTree = "<group>"; };
-		2933DC811ADFA836005D7620 /* GemPackageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GemPackageViewController.h; sourceTree = "<group>"; };
+		2933DC811ADFA836005D7620 /* GemPackageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = GemPackageViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		2933DC821ADFA836005D7620 /* GemPackageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GemPackageViewController.m; sourceTree = "<group>"; };
 		2933DC831ADFA836005D7620 /* GemPackageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GemPackageViewController.xib; sourceTree = "<group>"; };
 		2933DC841ADFA836005D7620 /* SalePackageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SalePackageCell.xib; sourceTree = "<group>"; };
@@ -8096,7 +8096,7 @@
 		29AA13AD1A35916E004A9F22 /* battleinputmessage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "battleinputmessage@2x.png"; sourceTree = "<group>"; };
 		29AA13AF1A35916E004A9F22 /* battlesendmessage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "battlesendmessage@2x.png"; sourceTree = "<group>"; };
 		29AA82AC1AA15A4B000ADABF /* LoadingSpinnerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadingSpinnerView.xib; sourceTree = "<group>"; };
-		29AAE5E11A7B0FDB00E4F022 /* DonateMsgViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DonateMsgViewController.h; sourceTree = "<group>"; };
+		29AAE5E11A7B0FDB00E4F022 /* DonateMsgViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = DonateMsgViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		29AAE5E21A7B0FDB00E4F022 /* DonateMsgViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DonateMsgViewController.m; sourceTree = "<group>"; };
 		29AAE5E31A7B0FDB00E4F022 /* DonateMsgViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DonateMsgViewController.xib; sourceTree = "<group>"; };
 		29AAE5EF1A7C389800E4F022 /* ClanTeamDonateUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClanTeamDonateUtil.h; sourceTree = "<group>"; };
@@ -8917,7 +8917,7 @@
 		CF023CB41992ED9E0082FE61 /* BattleSchedule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BattleSchedule.h; sourceTree = "<group>"; };
 		CF023CB51992ED9E0082FE61 /* BattleSchedule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BattleSchedule.m; sourceTree = "<group>"; };
 		CF023CB819935D2C0082FE61 /* MiniMonsterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MiniMonsterView.xib; sourceTree = "<group>"; };
-		CF023CBB19935D8F0082FE61 /* BattleScheduleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BattleScheduleView.h; sourceTree = "<group>"; };
+		CF023CBB19935D8F0082FE61 /* BattleScheduleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = BattleScheduleView.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CF023CBC19935D8F0082FE61 /* BattleScheduleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BattleScheduleView.m; sourceTree = "<group>"; };
 		CF023CBF19959B7E0082FE61 /* BattleHudView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BattleHudView.xib; sourceTree = "<group>"; };
 		CF023CC51995B2AC0082FE61 /* runawaybgwidepressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "runawaybgwidepressed@2x.png"; sourceTree = "<group>"; };
@@ -9148,7 +9148,7 @@
 		CF192976157D9FF100D51C70 /* OtherUpdates.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OtherUpdates.h; sourceTree = "<group>"; };
 		CF192977157D9FF100D51C70 /* OtherUpdates.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OtherUpdates.m; sourceTree = "<group>"; };
 		CF20F045180E142B005551B5 /* AttackMapIconView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AttackMapIconView.xib; sourceTree = "<group>"; };
-		CF20F046180E142B005551B5 /* AttackMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttackMapViewController.h; sourceTree = "<group>"; };
+		CF20F046180E142B005551B5 /* AttackMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = AttackMapViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CF20F047180E142B005551B5 /* AttackMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttackMapViewController.m; sourceTree = "<group>"; };
 		CF20F048180E142B005551B5 /* AttackMapViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AttackMapViewController.xib; sourceTree = "<group>"; };
 		CF20F08F180FB6FE005551B5 /* donebtn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = donebtn.png; path = "Puzzle Images/donebtn.png"; sourceTree = "<group>"; };
@@ -9161,7 +9161,7 @@
 		CF20F108180FCABB005551B5 /* minitimebar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "minitimebar@2x.png"; sourceTree = "<group>"; };
 		CF20F109180FCABB005551B5 /* minitimebg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = minitimebg.png; path = "Monster Menu Images/goonies/minitimebg.png"; sourceTree = "<group>"; };
 		CF20F10A180FCABB005551B5 /* minitimebg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "minitimebg@2x.png"; sourceTree = "<group>"; };
-		CF20F22D180FCDCB005551B5 /* EasyTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyTableView.h; sourceTree = "<group>"; };
+		CF20F22D180FCDCB005551B5 /* EasyTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = EasyTableView.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CF20F22E180FCDCB005551B5 /* EasyTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = EasyTableView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		CF2217DC19C7862C00BFD2FF /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		CF2217F019C787E700BFD2FF /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
@@ -10441,7 +10441,7 @@
 		CFA8FF2B19F899B200F9908C /* woopsalertsign.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = woopsalertsign.png; path = "Upgrade Requirements/woopsalertsign.png"; sourceTree = "<group>"; };
 		CFA8FF2C19F899B200F9908C /* woopsalertsign@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "woopsalertsign@2x.png"; sourceTree = "<group>"; };
 		CFA8FF5D19F9B31B00F9908C /* UpgradePrereqView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UpgradePrereqView.xib; sourceTree = "<group>"; };
-		CFA9F7771A0D8D8900EBE77D /* ItemSelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemSelectViewController.h; sourceTree = "<group>"; };
+		CFA9F7771A0D8D8900EBE77D /* ItemSelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ItemSelectViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CFA9F7781A0D8D8900EBE77D /* ItemSelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ItemSelectViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		CFA9F7791A0D8D8900EBE77D /* ItemSelectViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ItemSelectViewController.xib; sourceTree = "<group>"; };
 		CFA9F7811A0D8F6300EBE77D /* greenitemsbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = greenitemsbutton.png; path = Items/greenitemsbutton.png; sourceTree = "<group>"; };
@@ -10460,7 +10460,7 @@
 		CFA9F7921A0D8F6300EBE77D /* yellowitemsbutton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "yellowitemsbutton@2x.png"; sourceTree = "<group>"; };
 		CFA9F7CA1A0DA0F900EBE77D /* ItemUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemUtil.h; sourceTree = "<group>"; };
 		CFA9F7CB1A0DA0F900EBE77D /* ItemUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemUtil.m; sourceTree = "<group>"; };
-		CFA9F7CF1A0DA90600EBE77D /* ItemObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemObject.h; sourceTree = "<group>"; };
+		CFA9F7CF1A0DA90600EBE77D /* ItemObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ItemObject.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CFA9F7D01A0DA90600EBE77D /* ItemObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemObject.m; sourceTree = "<group>"; };
 		CFA9F7D41A0DB3AF00EBE77D /* ItemSelectCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ItemSelectCell.xib; sourceTree = "<group>"; };
 		CFADDB3317D00ED000B1FF3C /* MonsterCardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MonsterCardView.h; sourceTree = "<group>"; };
@@ -10776,7 +10776,7 @@
 		CFCD0EB31953F07400EDC233 /* ultraband@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ultraband@2x.png"; sourceTree = "<group>"; };
 		CFCD0EF61954D01600EDC233 /* PopupSubViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupSubViewController.h; sourceTree = "<group>"; };
 		CFCD0EF71954D01600EDC233 /* PopupSubViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopupSubViewController.m; sourceTree = "<group>"; };
-		CFCD0EFC195500A700EDC233 /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
+		CFCD0EFC195500A700EDC233 /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = HomeViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CFCD0EFD195500A700EDC233 /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
 		CFCD0EFE195500A700EDC233 /* HomeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HomeViewController.xib; sourceTree = "<group>"; };
 		CFCD0F0B1959051000EDC233 /* sellbarbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sellbarbg.png; path = Sell/sellbarbg.png; sourceTree = "<group>"; };
@@ -11042,7 +11042,7 @@
 		CFEF25D218C9D6F100FB867A /* FacebookSpammer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FacebookSpammer.m; sourceTree = "<group>"; };
 		CFEF25D418C9DFC400FB867A /* MSWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSWindow.h; sourceTree = "<group>"; };
 		CFEF25D518C9DFC400FB867A /* MSWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSWindow.m; sourceTree = "<group>"; };
-		CFEF25D718C9E22B00FB867A /* FBDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBDialog.h; sourceTree = "<group>"; };
+		CFEF25D718C9E22B00FB867A /* FBDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = FBDialog.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CFEF25D918CAB86500FB867A /* GameCenterDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameCenterDelegate.h; sourceTree = "<group>"; };
 		CFEF25DA18CAB86500FB867A /* GameCenterDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameCenterDelegate.m; sourceTree = "<group>"; };
 		CFEF25DC18CAB8B200FB867A /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
@@ -11341,7 +11341,7 @@
 		CFF5DC17194FDD390019EB2B /* platinumprofribbon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "platinumprofribbon@2x.png"; sourceTree = "<group>"; };
 		CFF5DC18194FDD390019EB2B /* silverprofribbon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = silverprofribbon.png; path = Profile/silverprofribbon.png; sourceTree = "<group>"; };
 		CFF5DC19194FDD390019EB2B /* silverprofribbon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "silverprofribbon@2x.png"; sourceTree = "<group>"; };
-		CFF5DC27195143140019EB2B /* HireViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HireViewController.h; sourceTree = "<group>"; };
+		CFF5DC27195143140019EB2B /* HireViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = HireViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CFF5DC28195143140019EB2B /* HireViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HireViewController.m; sourceTree = "<group>"; };
 		CFF5DC29195143140019EB2B /* HireViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HireViewController.xib; sourceTree = "<group>"; };
 		CFF5DC2D19514FA20019EB2B /* 123.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = 123.png; path = Hire/123.png; sourceTree = "<group>"; };
@@ -11366,7 +11366,7 @@
 		CFF6463D195A3EE400C43641 /* EnhanceChooserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EnhanceChooserViewController.h; sourceTree = "<group>"; };
 		CFF6463E195A3EE400C43641 /* EnhanceChooserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EnhanceChooserViewController.m; sourceTree = "<group>"; };
 		CFF6463F195A3EE400C43641 /* EnhanceChooserViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EnhanceChooserViewController.xib; sourceTree = "<group>"; };
-		CFF64648195A578700C43641 /* ListCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListCollectionView.h; sourceTree = "<group>"; };
+		CFF64648195A578700C43641 /* ListCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ListCollectionView.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CFF64649195A578700C43641 /* ListCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ListCollectionView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		CFF6464B195A684200C43641 /* EnhanceCardCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EnhanceCardCell.xib; sourceTree = "<group>"; };
 		CFF6464D195A69A300C43641 /* EnhanceQueueViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EnhanceQueueViewController.h; sourceTree = "<group>"; };
@@ -11421,7 +11421,7 @@
 		CFF64702195E14D500C43641 /* EvolveChooserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EvolveChooserViewController.m; sourceTree = "<group>"; };
 		CFF64703195E14D500C43641 /* EvolveChooserViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EvolveChooserViewController.xib; sourceTree = "<group>"; };
 		CFF64706195E18F200C43641 /* EvolveCardCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EvolveCardCell.xib; sourceTree = "<group>"; };
-		CFF64708195E1DEE00C43641 /* EvolveChooserViews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EvolveChooserViews.h; sourceTree = "<group>"; };
+		CFF64708195E1DEE00C43641 /* EvolveChooserViews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = EvolveChooserViews.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CFF64709195E1DEE00C43641 /* EvolveChooserViews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EvolveChooserViews.m; sourceTree = "<group>"; };
 		CFF6470C195E356700C43641 /* EvolveDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EvolveDetailsViewController.h; sourceTree = "<group>"; };
 		CFF6470D195E356700C43641 /* EvolveDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = EvolveDetailsViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };

@@ -97,7 +97,12 @@ static NSString *nibName = @"SalePackageCell";
   
   [self.bonusItemsTable registerNib:[UINib nibWithNibName:nibName bundle:nil] forCellReuseIdentifier:nibName];
   
-  self.numItemsLabel.text = [NSString stringWithFormat:@"INCLUDES THESE %d ITEMS!", (int)_sale.sdipList.count];
+#ifndef APPSTORE
+  NSString *debugStr = [NSString stringWithFormat:@"#%d: ", _sale.salesPackageId];
+#else
+  NSString *debugStr = @"";
+#endif
+  self.numItemsLabel.text = [NSString stringWithFormat:@"%@INCLUDES THESE %d ITEMS!", debugStr, (int)_sale.sdipList.count];
   
   if (_sale.titleColor.length > 0) {
     self.numItemsLabel.textColor = [UIColor colorWithHexString:_sale.titleColor];

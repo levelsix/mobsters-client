@@ -20,6 +20,6 @@
 
 @property (nonatomic, retain) NSMutableSet *usedItems;
 
-@property (nonatomic, assign) id<RefreshItemsFillerDelegate> delegate;
+@property (nonatomic, weak) id<RefreshItemsFillerDelegate> delegate;
 
 @end

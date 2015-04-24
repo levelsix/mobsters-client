@@ -26,7 +26,7 @@
 @property (nonatomic, retain) IBOutlet UIScrollView *iconsScrollView;
 @property (nonatomic, retain) IBOutlet UIView *selectedView;
 
-@property (nonatomic, assign) IBOutlet id<ClanIconChooserDelegate> delegate;
+@property (nonatomic, weak) IBOutlet id<ClanIconChooserDelegate> delegate;
 
 - (IBAction) close:(id)sender;
 

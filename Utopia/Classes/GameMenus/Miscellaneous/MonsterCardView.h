@@ -47,7 +47,7 @@
 
 @property (nonatomic, retain) IBOutlet EvoBadge *evoBadge;
 
-@property (nonatomic, assign) IBOutlet id<MonsterCardViewDelegate> delegate;
+@property (nonatomic, weak) IBOutlet id<MonsterCardViewDelegate> delegate;
 
 - (void) updateForMonster:(UserMonster *)um;
 - (void) updateForNoMonsterWithLabel:(NSString *)str;

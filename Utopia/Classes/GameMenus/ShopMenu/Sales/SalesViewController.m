@@ -76,6 +76,12 @@
   [self.view addGestureRecognizer:tap];
 }
 
+- (void) viewDidDisappear:(BOOL)animated {
+  [super viewDidDisappear:animated];
+  
+  [self.loadingView stop];
+}
+
 - (void) checkTap:(UITapGestureRecognizer *)tap {
   CGPoint pt = [tap locationInView:self.view];
   

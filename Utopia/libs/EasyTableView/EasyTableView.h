@@ -74,7 +74,7 @@ typedef enum {
 	NSUInteger	_numItems;
 }
 
-@property (nonatomic, unsafe_unretained) id<EasyTableViewDelegate> delegate;
+@property (nonatomic, weak) id<EasyTableViewDelegate> delegate;
 @property (nonatomic, readonly, unsafe_unretained) TimingFunctionTableView *tableView;
 @property (nonatomic, readonly, unsafe_unretained) NSArray *visibleViews;
 @property (nonatomic, assign) NSIndexPath *selectedIndexPath;

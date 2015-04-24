@@ -32,7 +32,7 @@
 @property (nonatomic, retain) IBOutlet BadgeIcon *buildingsBadge;
 @property (nonatomic, retain) IBOutlet BadgeIcon *gachasBadge;
 
-@property (nonatomic, assign) id<ShopViewDelegate> delegate;
+@property (nonatomic, weak) id<ShopViewDelegate> delegate;
 
 - (void) initializeSubViewControllers;
 

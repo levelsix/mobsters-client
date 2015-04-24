@@ -31,7 +31,7 @@
 
 @property (nonatomic, retain) NSArray *myTeam;
 
-@property (nonatomic, assign) id<MiniTutorialDelegate> delegate;
+@property (nonatomic, weak) id<MiniTutorialDelegate> delegate;
 
 + (id) miniTutorialForCityId:(int)cityId assetId:(int)assetId gameViewController:(GameViewController *)gvc;
 

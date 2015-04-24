@@ -45,7 +45,7 @@
 
 @property (nonatomic, retain) UIActivityIndicatorView *loadingSpinner;
 
-@property (nonatomic, assign) id<QuestCompleteDelegate> delegate;
+@property (nonatomic, weak) id<QuestCompleteDelegate> delegate;
 
 - (void) animateForQuest:(FullQuestProto *)fqp completion:(void (^)(void))completion;
 

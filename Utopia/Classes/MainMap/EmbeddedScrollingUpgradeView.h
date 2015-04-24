@@ -23,7 +23,7 @@
 @property (nonatomic, assign) IBOutlet UILabel *requiresLabel;
 @property (nonatomic, assign) IBOutlet UIButton *goButton;
 
-@property (nonatomic, assign) IBOutlet id<EmbeddedDelegate> delegate;
+@property (nonatomic, weak) IBOutlet id<EmbeddedDelegate> delegate;
 
 @end
 
@@ -36,7 +36,7 @@
 @property (nonatomic, assign) IBOutlet SplitImageProgressBar *frontBar;
 @property (nonatomic, assign) IBOutlet SplitImageProgressBar *backBar;
 
-@property (nonatomic, assign) IBOutlet id<EmbeddedDelegate> delegate;
+@property (nonatomic, weak) IBOutlet id<EmbeddedDelegate> delegate;
 
 @end
 
@@ -61,7 +61,7 @@
 
 @property (nonatomic, retain) UIView *townHallUnlocksView;
 
-@property (nonatomic, assign) IBOutlet id<EmbeddedDelegate> delegate;
+@property (nonatomic, weak) IBOutlet id<EmbeddedDelegate> delegate;
 
 - (void) updateForGameTypeProto:(id<GameTypeProtocol>)gameProto;
 - (void) updateForTownHall:(id<GameTypeProtocol>)gameProto;

@@ -18,7 +18,7 @@
 
 @interface TutorialQuestLogViewController : QuestLogViewController
 
-@property (nonatomic, assign) id<TutorialQuestLogDelegate> delegate;
+@property (nonatomic, weak) id<TutorialQuestLogDelegate> delegate;
 
 - (void) arrowOnFirstQuestInList;
 - (void) arrowOnVisit;

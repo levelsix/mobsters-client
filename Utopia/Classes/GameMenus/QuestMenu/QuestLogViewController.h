@@ -40,7 +40,7 @@
 @property (nonatomic, strong) IBOutlet BadgeIcon *questBadge;
 @property (nonatomic, strong) IBOutlet BadgeIcon *achievementBadge;
 
-@property (nonatomic, assign) id<QuestLogDelegate> delegate;
+@property (nonatomic, weak) id<QuestLogDelegate> delegate;
 
 - (IBAction)backClicked:(id)sender;
 - (IBAction)close:(id)sender;

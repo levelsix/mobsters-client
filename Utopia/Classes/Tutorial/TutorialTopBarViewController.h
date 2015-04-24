@@ -25,7 +25,7 @@
   BOOL _allowMobstersClick;
 }
 
-@property (nonatomic, assign) id<TutorialTopBarDelegate> delegate;
+@property (nonatomic, weak) id<TutorialTopBarDelegate> delegate;
 
 - (void) displayCoinBars;
 - (void) displayMenuButton;

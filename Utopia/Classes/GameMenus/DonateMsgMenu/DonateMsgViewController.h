@@ -28,7 +28,7 @@
 
 @property (nonatomic, retain) IBOutlet UITextView *msgTextView;
 
-@property (nonatomic, assign) id<DonateMsgDelegate> delegate;
+@property (nonatomic, weak) id<DonateMsgDelegate> delegate;
 
 - (id) initWithInitialMessage:(NSString *)msg;
 

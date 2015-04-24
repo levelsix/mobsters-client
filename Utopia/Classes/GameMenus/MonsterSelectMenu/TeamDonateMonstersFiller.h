@@ -36,7 +36,7 @@
 
 @property (nonatomic, retain) ClanMemberTeamDonationProto *donation;
 
-@property (nonatomic, assign) id<TeamDonateMonstersFillerDelegate> delegate;
+@property (nonatomic, weak) id<TeamDonateMonstersFillerDelegate> delegate;
 
 - (id) initWithDonation:(ClanMemberTeamDonationProto *)donation;
 

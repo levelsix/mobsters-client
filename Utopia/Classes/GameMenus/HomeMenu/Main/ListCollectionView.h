@@ -22,7 +22,7 @@
 
 @interface ListCollectionViewCell : UICollectionViewCell
 
-@property (nonatomic, assign) id<ListCellDelegate> delegate;
+@property (nonatomic, weak) id<ListCellDelegate> delegate;
 
 - (void) updateForListObject:(id)listObject;
 

@@ -84,7 +84,7 @@ typedef enum {
 
 @property (nonatomic, assign) ClanSetting setting;
 
-@property (nonatomic, assign) IBOutlet id<ClanInfoSettingsDelegate> delegate;
+@property (nonatomic, weak) IBOutlet id<ClanInfoSettingsDelegate> delegate;
 
 - (void) updateForSetting:(ClanSetting)setting;
 

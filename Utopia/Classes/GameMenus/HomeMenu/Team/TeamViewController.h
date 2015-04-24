@@ -45,7 +45,7 @@
 @property (nonatomic, retain) IBOutlet UIView *leftView;
 @property (nonatomic, retain) IBOutlet UIView *rightView;
 
-@property (nonatomic, assign) IBOutlet id<TeamSlotDelegate> delegate;
+@property (nonatomic, weak) IBOutlet id<TeamSlotDelegate> delegate;
 
 @end
 

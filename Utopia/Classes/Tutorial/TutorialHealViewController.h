@@ -34,7 +34,7 @@
 
 @property (nonatomic, assign) uint64_t clickableUserMonsterId;
 
-@property (nonatomic, assign) id<TutorialHealDelegate> delegate;
+@property (nonatomic, weak) id<TutorialHealDelegate> delegate;
 
 - (id) initWithTutorialConstants:(StartupResponseProto_TutorialConstants *)constants damageDealt:(int)damageDealt hospitalHealSpeed:(float)hospSpeed;
 

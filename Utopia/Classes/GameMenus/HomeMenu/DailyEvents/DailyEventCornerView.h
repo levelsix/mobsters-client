@@ -41,7 +41,7 @@ static NSString* const TimeBotColor[] = {@"", @"ee2b2e", @"64c817", @"0aadf5", @
 
 @property (nonatomic, assign) int persistentEventId;
 
-@property (nonatomic, assign) id<DailyEventCornerDelegate> delegate;
+@property (nonatomic, weak) id<DailyEventCornerDelegate> delegate;
 
 - (void) updateForEvo;
 - (void) updateForEnhance;

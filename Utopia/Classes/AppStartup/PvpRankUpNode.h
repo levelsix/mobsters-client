@@ -36,7 +36,7 @@
 @property (nonatomic, retain) CCNode *shareNode;
 @property (nonatomic, retain) CCButton *continueButton;
 
-@property (nonatomic, assign) id<PvpRankUpNodeDelegate> delegate;
+@property (nonatomic, weak) id<PvpRankUpNodeDelegate> delegate;
 
 //- (void) setSectionName:(NSString *)sectionName itemId:(int)itemId;
 

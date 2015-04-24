@@ -38,7 +38,7 @@
 
 @property (nonatomic, retain) UserMonster *monster;
 
-@property (nonatomic, assign) id<MonsterTeamSlotDelegate> delegate;
+@property (nonatomic, weak) id<MonsterTeamSlotDelegate> delegate;
 
 - (void) updateForMyCroniesConfiguration:(UserMonster *)um;
 - (void) updateForEnhanceConfiguration:(UserMonster *)um;

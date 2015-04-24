@@ -97,7 +97,7 @@
 
 @property (nonatomic, assign) CGPoint schedulePosition;
 
-@property (nonatomic, assign) id<BattleLayerSkillPopupDelegate> battleLayerDelegate;
+@property (nonatomic, weak) id<BattleLayerSkillPopupDelegate> battleLayerDelegate;
 
 - (void) displaySwapButton;
 - (void) removeSwapButtonAnimated:(BOOL)animated;

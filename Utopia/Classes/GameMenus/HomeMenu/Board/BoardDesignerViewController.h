@@ -55,7 +55,7 @@
 @property (nonatomic, retain) IBOutlet SplitImageProgressBar* powerProgressBar;
 @property (nonatomic, retain) IBOutlet UIButton* closeButton;
 
-@property (nonatomic, assign) id<BoardDesignerViewControllerDelegate> delegate;
+@property (nonatomic, weak) id<BoardDesignerViewControllerDelegate> delegate;
 
 - (IBAction) closeClicked:(id)sender;
 

@@ -30,7 +30,7 @@
 @property (nonatomic, retain) IBOutlet UILabel *statusLabel;
 @property (nonatomic, retain) IBOutlet UILabel *reqEvoChamberLabel;
 
-@property (nonatomic, assign) id<EvolveCardDelegate> delegate;
+@property (nonatomic, weak) id<EvolveCardDelegate> delegate;
 
 - (void) updateForEvoItem:(EvoItem *)evoItem;
 
@@ -47,7 +47,7 @@
 @property (nonatomic, retain) IBOutlet MiniMonsterView *monsterView;
 @property (nonatomic, retain) IBOutlet THLabel *quantityLabel;
 
-@property (nonatomic, assign) IBOutlet id<EvolveScientistDelegate> delegate;
+@property (nonatomic, weak) IBOutlet id<EvolveScientistDelegate> delegate;
 
 - (IBAction)cardClicked:(id)sender;
 

@@ -114,7 +114,7 @@ typedef enum {
 @property (nonatomic, retain) NSMutableArray *pickedMonsters;
 @property (nonatomic, assign) MiniJobsSortOrder sortOrder;
 
-@property (nonatomic, assign) id<MiniJobsDetailsDelegate> delegate;
+@property (nonatomic, weak) id<MiniJobsDetailsDelegate> delegate;
 
 @property (nonatomic, retain) UserMiniJob *userMiniJob;
 @property (nonatomic, retain) UserMiniJob *activeMiniJob;

@@ -94,7 +94,7 @@
 
 @property (nonatomic, retain) NSArray *battleItems;
 
-@property (nonatomic, assign) id<BattleItemSelectDelegate> delegate;
+@property (nonatomic, weak) id<BattleItemSelectDelegate> delegate;
 
 - (id) initWithShowUseButton:(BOOL)showUseButton showFooterView:(BOOL)showFooterView showItemFactory:(BOOL)showItemFactory;
 - (void) loadInfoViewForBattleItem:(UserBattleItem *)ubi animated:(BOOL)animated;

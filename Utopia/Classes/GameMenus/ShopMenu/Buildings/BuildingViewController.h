@@ -26,7 +26,7 @@
 
 @property (nonatomic, retain) NSArray *staticStructs;
 
-@property (nonatomic, assign) id<BuildingViewDelegate> delegate;
+@property (nonatomic, weak) id<BuildingViewDelegate> delegate;
 
 - (void) displayArrowOverStructId:(int)structId;
 

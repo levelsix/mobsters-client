@@ -257,7 +257,7 @@ typedef enum {
 
 @interface NiceFontTextFieldDelegate : NSObject <UITextFieldDelegate>
 
-@property (nonatomic, assign) id<UITextFieldDelegate> otherDelegate;
+@property (nonatomic, weak) id<UITextFieldDelegate> otherDelegate;
 
 @end
 
@@ -410,7 +410,7 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UIImageView *handle;
 @property (nonatomic, retain) UIImageView *darkHandle;
 
-@property (nonatomic, assign) IBOutlet id<SwitchButtonDelegate> delegate;
+@property (nonatomic, weak) IBOutlet id<SwitchButtonDelegate> delegate;
 
 - (void) turnOn;
 - (void) turnOff;
@@ -466,7 +466,7 @@ typedef enum {
 @property (nonatomic, assign) IBOutlet UILabel *label2;
 @property (nonatomic, assign) IBOutlet UIImageView *bgdImage;
 
-@property (nonatomic, assign) IBOutlet id<TabBarDelegate> delegate;
+@property (nonatomic, weak) IBOutlet id<TabBarDelegate> delegate;
 
 - (void) clickButton:(BarButton)button;
 - (void) unclickButton:(BarButton)button;
@@ -490,7 +490,7 @@ typedef enum {
 @property (nonatomic, retain) UIColor *activeTextColor;
 @property (nonatomic, retain) UIColor *activeShadowColor;
 
-@property (nonatomic, assign) IBOutlet id<TabBarDelegate> delegate;
+@property (nonatomic, weak) IBOutlet id<TabBarDelegate> delegate;
 
 - (UIButton *) getButton:(int)button;
 - (void) clickButton:(int)button;
@@ -551,7 +551,7 @@ typedef enum {
 @property (nonatomic, assign) IBOutlet UILabel *label;
 @property (nonatomic, strong) UIView *underlineView;
 @property (nonatomic, strong) UIButton *button;
-@property (nonatomic, assign) IBOutlet id<UnderlinedLabelDelegate> delegate;
+@property (nonatomic, weak) IBOutlet id<UnderlinedLabelDelegate> delegate;
 
 - (void)setString:(NSString *)string isEnabled:(BOOL)isEnabled;
 

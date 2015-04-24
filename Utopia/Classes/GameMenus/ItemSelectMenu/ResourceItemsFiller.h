@@ -37,6 +37,6 @@
 
 @property (nonatomic, retain) NSMutableDictionary *usedItems;
 
-@property (nonatomic, assign) id<ResourceItemsFillerDelegate> delegate;
+@property (nonatomic, weak) id<ResourceItemsFillerDelegate> delegate;
 
 @end

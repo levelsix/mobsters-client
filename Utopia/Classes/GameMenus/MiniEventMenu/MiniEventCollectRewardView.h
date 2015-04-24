@@ -27,7 +27,7 @@
 @property (nonatomic, retain) IBOutlet UILabel* collectRewardLabel;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView* collectRewardSpinner;
 
-@property (nonatomic, assign) id<MiniEventCollectRewardCallbackDelegate> delegate;
+@property (nonatomic, weak) id<MiniEventCollectRewardCallbackDelegate> delegate;
 
 - (void) updateForTier:(int)tier prizeList:(NSArray*)prizeList;
 

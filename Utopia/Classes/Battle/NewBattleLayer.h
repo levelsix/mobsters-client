@@ -60,7 +60,7 @@
   CGPoint _curBasePoint;
 }
 
-@property (nonatomic, assign) id<BattleBgdLayerDelegate> delegate;
+@property (nonatomic, weak) id<BattleBgdLayerDelegate> delegate;
 @property (nonatomic, retain) NSString *prefix;
 
 - (id) initWithPrefix:(NSString *)prefix;
@@ -154,7 +154,7 @@
 
 @property (nonatomic, retain) BattleSchedule *battleSchedule;
 
-@property (nonatomic, assign) id<BattleLayerDelegate> delegate;
+@property (nonatomic, weak) id<BattleLayerDelegate> delegate;
 
 
 @property (nonatomic, retain) BattleEndView *endView;

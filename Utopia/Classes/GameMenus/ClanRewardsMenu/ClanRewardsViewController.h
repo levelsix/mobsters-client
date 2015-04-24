@@ -39,7 +39,7 @@
 @property (nonatomic, retain) IBOutlet THLabel *goButtonLabel;
 @property (nonatomic, retain) IBOutlet UIImageView *circleImage;
 
-@property (nonatomic, assign) IBOutlet id<ClanRewardsQuestDelegate> delegate;
+@property (nonatomic, weak) IBOutlet id<ClanRewardsQuestDelegate> delegate;
 
 @end
 

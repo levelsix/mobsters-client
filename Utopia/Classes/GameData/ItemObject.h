@@ -71,7 +71,7 @@
 
 @interface GemsItemObject : NSObject <ItemObject>
 
-@property (nonatomic, assign) id<GemsItemDelegate> delegate;
+@property (nonatomic, weak) id<GemsItemDelegate> delegate;
 
 @end
 

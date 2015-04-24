@@ -19,7 +19,7 @@
 
 @interface QuestUtil : NSObject
 
-@property (nonatomic, assign) id<QuestUtilDelegate> delegate;
+@property (nonatomic, weak) id<QuestUtilDelegate> delegate;
 
 + (void) setDelegate:(id)delegate;
 

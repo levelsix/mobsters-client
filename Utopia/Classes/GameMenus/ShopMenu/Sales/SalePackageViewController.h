@@ -46,7 +46,7 @@
 
 @property (nonatomic, retain) IBOutlet UITableView *bonusItemsTable;
 
-@property (nonatomic, assign) id<SalesMenuDelegate> delegate;
+@property (nonatomic, weak) id<SalesMenuDelegate> delegate;
 
 - (id) initWithSalePackageProto:(SalesPackageProto *)spp;
 

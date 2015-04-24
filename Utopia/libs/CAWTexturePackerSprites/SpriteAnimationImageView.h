@@ -21,7 +21,7 @@
 
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView* spinner;
 
-@property (nonatomic, assign) id<SpriteAnimationImageViewDelegate> delegate;
+@property (nonatomic, weak) id<SpriteAnimationImageViewDelegate> delegate;
 
 - (void) setSprite:(NSString*)spriteName secsBetweenReplay:(float)secsBetweenReplay fps:(float)fps;
 
