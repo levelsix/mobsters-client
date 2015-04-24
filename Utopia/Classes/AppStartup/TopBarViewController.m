@@ -173,6 +173,8 @@
   [center addObserver:self selector:@selector(updateBuildersLabel) name:IAP_SUCCESS_NOTIFICATION object:nil];
   [self updateBuildersLabel];
   
+  [center addObserver:self selector:@selector(updateSaleView) name:ACHIEVEMENTS_CHANGED_NOTIFICATION object:nil];
+  
   [center addObserver:self selector:@selector(updateMiniEventView) name:MINI_EVENT_IS_AVAILABLE_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(updateMiniEventView) name:MINI_EVENT_TIER_REWARD_AVAILABLE_OR_REDEEMED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(stopFadingMiniEventLabels) name:MINI_EVENT_HAS_ENDED_NOTIFICATION object:nil];
@@ -679,9 +681,20 @@
 
 - (void) updateSaleView {
   GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
   SalesPackageProto *spp = [gs.mySales firstObject];
   
-  if (spp.hasAnimatingIcon) {
+  NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+  int numOpens = (int)[def integerForKey:APP_OPEN_KEY];
+  
+#warning get Art to server side this
+  int x = 10;
+  
+  UserAchievement *ua = gs.myAchievements[[gl.clanRewardAchievementIds lastObject]];
+  
+  BOOL meetsRequirements = numOpens > 99 || gs.tasksCompleted > x || ua.isRedeemed;
+  
+  if (spp.hasAnimatingIcon && meetsRequirements) {
     self.saleView.hidden = NO;
     
     self.saleView.centerX = self.shopView.centerX;
