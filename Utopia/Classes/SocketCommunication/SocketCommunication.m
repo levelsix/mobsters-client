@@ -954,12 +954,13 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCRetrieveTournamentRankingsEvent];
 }
 
-- (int) sendPurchaseBoosterPackMessage:(int)boosterPackId isFree:(BOOL)free clientTime:(uint64_t)clientTime {
-  PurchaseBoosterPackRequestProto *req = [[[[[[PurchaseBoosterPackRequestProto builder]
-                                              setSender:_sender]
-                                             setBoosterPackId:boosterPackId]
-                                            setDailyFreeBoosterPack:free]
-                                           setClientTime:clientTime]
+- (int) sendPurchaseBoosterPackMessage:(int)boosterPackId isFree:(BOOL)free isMultiSpin:(BOOL)multiSpin clientTime:(uint64_t)clientTime {
+  PurchaseBoosterPackRequestProto *req = [[[[[[[PurchaseBoosterPackRequestProto builder]
+                                               setSender:_sender]
+                                              setBoosterPackId:boosterPackId]
+                                             setDailyFreeBoosterPack:free]
+                                            setClientTime:clientTime]
+                                           setBuyingInBulk:multiSpin]
                                           build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCPurchaseBoosterPackEvent];

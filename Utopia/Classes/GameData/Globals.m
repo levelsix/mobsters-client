@@ -167,6 +167,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.tournamentFleesWeight = constants.touramentConstants.fleesWeight;
   self.tournamentNumHrsToDisplayAfterEnd = constants.touramentConstants.numHoursToShowAfterEventEnd;
   
+  self.boosterPackPurchaseAmountRequired = constants.boosterPackConstantProto.purchaseAmountRequired;
+  self.boosterPackNumberOfPacksGiven = constants.boosterPackConstantProto.numberOfPacksGiven;
+  
   self.speedupConstants = constants.sucpList;
   self.resourceConversionConstants = constants.rccpList;
   

@@ -90,7 +90,7 @@
 - (void) collectClanGift:(NSArray *)userClanGifts delegate:(id)delegate;
 - (void) clearClanGifts:(NSArray *)userClanGifts;
 
-- (void) purchaseBoosterPack:(int)boosterPackId isFree:(BOOL)free delegate:(id)delegate;
+- (void) purchaseBoosterPack:(int)boosterPackId isFree:(BOOL)free isMultiSpin:(BOOL)multiSpin delegate:(id)delegate;
 - (void) tradeItemForFreeBoosterPack:(int)boosterPackId delegate:(id)delegate;
 
 - (void) privateChatPost:(NSString *)recipientUuid content:(NSString *)content originalLanguage:(TranslateLanguages)originalLanguage;
