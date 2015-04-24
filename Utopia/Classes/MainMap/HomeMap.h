@@ -88,6 +88,7 @@
 
 - (NSArray *) reloadObstacles;
 - (void) reloadTeamCenter;
+- (void) reloadUpgradeSigns;
 
 - (void) reselectCurrentSelection;
 

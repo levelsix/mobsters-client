@@ -732,6 +732,9 @@
 
 - (void) reloadUpgradeSigns {
   // Do nothing
+  if (!self.constants) {
+    [super reloadUpgradeSigns];
+  }
 }
 
 - (void) reloadTeamCenter {
