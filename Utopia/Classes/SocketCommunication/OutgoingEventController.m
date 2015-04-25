@@ -1642,6 +1642,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       case RewardProto_RewardTypeMonster:
         //item and monsters are updated on the response
       case RewardProto_RewardTypeNoReward:
+      case RewardProto_RewardTypeClanGift:
+        //byron says the reward type will never be set to typeClanGift
         break;
     }
   }
