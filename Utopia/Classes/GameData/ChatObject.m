@@ -23,7 +23,6 @@
 #import "MiniEventManager.h"
 
 static char const * clanGiftRedeemedKey = "clanGiftRedeemedKey";
-static char const * clanGiftExpiredKey = "clanGiftExpireKey";
 
 @implementation ChatMessage
 
@@ -116,9 +115,6 @@ static char const * clanGiftExpiredKey = "clanGiftExpireKey";
   BOOL isTranslated = NO, translationExists = NO;
   NSString *message = [self getContentInLanguage:language isTranslated:&isTranslated translationExists:&translationExists];
   [chatCell updateForMessage:message sender:self.sender date:self.date showsClanTag:showsClanTag translatedTo:language untranslate:self.revertedTranslation showTranslateButton:translationExists];
-
-- (UIColor *) bottomViewTextColor {
-  return [UIColor whiteColor];
 }
 
 - (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell language:(TranslateLanguages)language {

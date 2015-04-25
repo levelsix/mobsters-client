@@ -3204,6 +3204,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
         return [NSString stringWithFormat:@"%@ Piece",staticMonster.monsterName];
       }
     case RewardProto_RewardTypeNoReward:
+    case RewardProto_RewardTypeClanGift:
       return @"";
   }
 }
@@ -3229,6 +3230,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       return [staticMonster.imagePrefix stringByAppendingString:@"Card.png"];
       
     case RewardProto_RewardTypeNoReward:
+    case RewardProto_RewardTypeClanGift:
       return @"";
   }
 }
