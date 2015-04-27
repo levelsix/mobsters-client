@@ -69,6 +69,8 @@
 
 #define PVP_BATTLE_LAYER_BOARD_SIZE CGSizeMake(9,9)
 
+#define EARLY_TUTORIAL_STAGES_COMPLETE_LIMIT 3
+
 @implementation GameViewController
 
 - (id) init {
@@ -1158,7 +1160,7 @@ static const CGSize FIXED_SIZE = {568, 384};
 - (void) homeViewControllerClosed {
   GameState *gs = [GameState sharedGameState];
   
-  if (YES) {//gs.tasksCompleted < 3) {
+  if (gs.tasksCompleted < EARLY_TUTORIAL_STAGES_COMPLETE_LIMIT) {
     [Globals removeUIArrowFromViewRecursively:self.topBarViewController.attackView];
     [self.topBarViewController showArrowToAttackButton];
   }

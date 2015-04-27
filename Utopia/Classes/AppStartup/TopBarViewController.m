@@ -35,6 +35,8 @@
 #import "MiniEventViewController.h"
 #import "SpriteAnimationImageView.h"
 
+#define EARLY_TUTORIAL_STAGES_COMPLETE_LIMIT 3
+
 @implementation TopBarMonsterView
 
 - (void) awakeFromNib {
@@ -687,12 +689,9 @@
   NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
   int numOpens = (int)[def integerForKey:APP_OPEN_KEY];
   
-#warning get Art to server side this
-  int x = 3;
-  
   UserAchievement *ua = gs.myAchievements[[gl.clanRewardAchievementIds lastObject]];
   
-  BOOL meetsRequirements = numOpens > 1 || gs.tasksCompleted > x || ua.isRedeemed;
+  BOOL meetsRequirements = numOpens > 1 || gs.tasksCompleted > EARLY_TUTORIAL_STAGES_COMPLETE_LIMIT || ua.isRedeemed;
   
   if (spp.hasAnimatingIcon && meetsRequirements) {
     self.saleView.hidden = NO;
