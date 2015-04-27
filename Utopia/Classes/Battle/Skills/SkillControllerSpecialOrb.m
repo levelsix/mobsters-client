@@ -7,7 +7,7 @@
 //
 
 #import "SkillControllerSpecialOrb.h"
-#import "NewBattleLayer.h"
+#import "MainBattleLayer.h"
 
 #define MAX_SEARCH_ITERATIONS 256
 

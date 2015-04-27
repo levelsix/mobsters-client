@@ -6,12 +6,12 @@
 //  Copyright (c) 2014 LVL6. All rights reserved.
 //
 
-#import "NewBattleLayer.h"
+#import "MainBattleLayer.h"
 #import "Protocols.pb.h"
 #import "PersistentEventProto+Time.h"
 #import "ClanRaidHealthBar.h"
 
-@interface ClanRaidBattleLayer : NewBattleLayer {
+@interface ClanRaidBattleLayer : MainBattleLayer {
   BOOL _downloadComplete;
   BOOL _shouldComeFromTop;
   

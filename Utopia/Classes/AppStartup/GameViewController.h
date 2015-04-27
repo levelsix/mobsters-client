@@ -123,8 +123,8 @@ typedef enum {
 - (void) beginPvpMatchForRevenge:(PvpHistoryProto *)history;
 - (void) beginPvpMatchForAvenge:(PvpClanAvenging *)ca;
 
-- (void) crossFadeIntoBattleLayer:(NewBattleLayer *)bl;
-- (void) blackFadeIntoBattleLayer:(NewBattleLayer *)bl;
+- (void) crossFadeIntoBattleLayer:(MainBattleLayer *)bl;
+- (void) blackFadeIntoBattleLayer:(MainBattleLayer *)bl;
 
 - (void) showTopBarDuration:(float)duration completion:(void (^)(void))completion;
 - (void) hideTopBarDuration:(float)duration completion:(void (^)(void))completion;

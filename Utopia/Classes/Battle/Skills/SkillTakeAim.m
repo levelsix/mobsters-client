@@ -8,7 +8,7 @@
 //
 
 #import "SkillTakeAim.h"
-#import "NewBattleLayer.h"
+#import "MainBattleLayer.h"
 #import "SoundEngine.h"
 #import "Globals.h"
 

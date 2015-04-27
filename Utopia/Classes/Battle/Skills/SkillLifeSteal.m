@@ -7,7 +7,7 @@
 //
 
 #import "SkillLifeSteal.h"
-#import "NewBattleLayer.h"
+#import "MainBattleLayer.h"
 #import "SoundEngine.h"
 #import "Globals.h"
 #import "DestroyedOrb.h"

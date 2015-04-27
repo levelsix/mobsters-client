@@ -32,7 +32,7 @@
 
 #pragma mark Initialization
 
-- (id)initWithBgdPrefix:(NSString *)bgdPrefix battleLayer:(NewBattleLayer *)battleLayer{
+- (id)initWithBgdPrefix:(NSString *)bgdPrefix battleLayer:(MainBattleLayer *)battleLayer{
   if ((self = [super init])) {
     self.battleLayer = battleLayer;
     

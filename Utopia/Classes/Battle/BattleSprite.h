@@ -14,7 +14,7 @@
 
 #define MELEE_RUN_SPEED (MY_WALKING_SPEED*2/3.f)
 
-@class NewBattleLayer;
+@class MainBattleLayer;
 
 @interface BattleSprite : CCSprite {
   BOOL _attemptedLoadingRunSpritesheet;
@@ -23,7 +23,7 @@
   BOOL _loadedAtkSpritesheet;
 }
 
-@property (nonatomic, assign) NewBattleLayer* battleLayer;
+@property (nonatomic, assign) MainBattleLayer* battleLayer;
 
 @property (nonatomic, retain) NSString *prefix;
 @property (nonatomic, assign) MonsterProto_AnimationType animationType;

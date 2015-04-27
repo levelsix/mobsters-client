@@ -7,7 +7,7 @@
 //
 
 #import "SkillFlameStrike.h"
-#import "NewBattleLayer.h"
+#import "MainBattleLayer.h"
 #import "Globals.h"
 
 @implementation SkillFlameStrike

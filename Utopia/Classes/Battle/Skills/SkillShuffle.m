@@ -7,7 +7,7 @@
 //
 
 #import "SkillShuffle.h"
-#import "NewBattleLayer.h"
+#import "MainBattleLayer.h"
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *

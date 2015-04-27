@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "BattleBgdLayer.h"
-#import "NewBattleLayer.h"
+#import "MainBattleLayer.h"
 
 @implementation BattleBgdLayer
 

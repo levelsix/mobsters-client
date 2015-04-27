@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 LVL6. All rights reserved.
 //
 
-#import "NewBattleLayer.h"
+#import "MainBattleLayer.h"
 #import "SkillControllerActiveBuff.h"
 #import "SkillManager.h"
 

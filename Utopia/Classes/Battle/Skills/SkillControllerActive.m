@@ -7,7 +7,7 @@
 //
 
 #import "SkillControllerActive.h"
-#import "NewBattleLayer.h"
+#import "MainBattleLayer.h"
 #import "SkillManager.h"
 #import "SoundEngine.h"
 

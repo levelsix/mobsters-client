@@ -15,7 +15,7 @@
 
 typedef void(^SkillControllerBlock)(BOOL triggered, id params);
 
-@class NewBattleLayer;
+@class MainBattleLayer;
 
 // Skill triggers
 //typedef enum {
@@ -72,7 +72,7 @@ static NSString* const kSkillMiniLogoImageNameSuffix = @"minilogo.png";
 @property (readonly) NSInteger            skillId;
 @property (readonly) NSString*            skillImageNamePrefix;
 
-@property (weak, nonatomic) NewBattleLayer  *battleLayer;
+@property (weak, nonatomic) MainBattleLayer  *battleLayer;
 @property (weak, nonatomic) BattlePlayer    *player;
 @property (weak, nonatomic) BattlePlayer    *enemy;
 @property (weak, nonatomic) BattleSprite    *playerSprite;

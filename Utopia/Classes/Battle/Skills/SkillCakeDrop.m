@@ -7,7 +7,7 @@
 //
 
 #import "SkillCakeDrop.h"
-#import "NewBattleLayer.h"
+#import "MainBattleLayer.h"
 #import "SoundEngine.h"
 #import "SkillManager.h"
 

@@ -7,7 +7,7 @@
 //
 
 #import "SkillInsurance.h"
-#import "NewBattleLayer.h"
+#import "MainBattleLayer.h"
 
 @implementation SkillInsurance
 

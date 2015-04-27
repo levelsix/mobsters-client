@@ -8,7 +8,7 @@
 //
 
 #import "SkillBloodRage.h"
-#import "NewBattleLayer.h"
+#import "MainBattleLayer.h"
 
 @implementation SkillBloodRage
 

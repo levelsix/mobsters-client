@@ -6,7 +6,7 @@
 //
 
 #import "SkillShield.h"
-#import "NewBattleLayer.h"
+#import "MainBattleLayer.h"
 #import "NSObject+PerformBlockAfterDelay.h"
 
 @implementation SkillShield

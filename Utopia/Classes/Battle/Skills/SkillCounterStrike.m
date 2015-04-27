@@ -7,7 +7,7 @@
 //
 
 #import "SkillCounterStrike.h"
-#import "NewBattleLayer.h"
+#import "MainBattleLayer.h"
 
 @implementation SkillCounterStrike
 

@@ -7,7 +7,7 @@
 //
 
 #import "SkillHeadshot.h"
-#import "NewBattleLayer.h"
+#import "MainBattleLayer.h"
 #import "SoundEngine.h"
 
 @implementation SkillHeadshot

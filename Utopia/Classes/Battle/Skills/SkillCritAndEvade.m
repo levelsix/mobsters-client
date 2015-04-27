@@ -7,7 +7,7 @@
 //
 
 #import "SkillCritAndEvade.h"
-#import "NewBattleLayer.h"
+#import "MainBattleLayer.h"
 #import "SkillManager.h"
 #import "Globals.h"
 #import "GameState.h"

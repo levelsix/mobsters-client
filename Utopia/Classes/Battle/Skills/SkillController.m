@@ -5,7 +5,7 @@
 //  Copyright (c) 2014 LVL6. All rights reserved.
 //
 
-#import "NewBattleLayer.h"
+#import "MainBattleLayer.h"
 #import "GameViewController.h"
 #import "GameState.h"
 #import "SkillProtoHelper.h"

@@ -8,7 +8,7 @@
 #import "SkillManager.h"
 #import "StaticStructure.h"
 #import "GameState.h"
-#import "NewBattleLayer.h"
+#import "MainBattleLayer.h"
 #import "SkillCakeDrop.h"
 #import "SkillBombs.h"
 #import "SkillControllerActive.h"
@@ -211,7 +211,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
 
 #pragma mark - External calls
 
-- (void) updateBattleLayer:(NewBattleLayer*)battleLayer
+- (void) updateBattleLayer:(MainBattleLayer*)battleLayer
 {
   _battleLayer = battleLayer;
   _playerSkillController = nil;
@@ -711,7 +711,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   [_persistentSkillControllers removeAllObjects];
 }
 
-- (__weak NewBattleLayer*) battleLayer
+- (__weak MainBattleLayer*) battleLayer
 {
   return _battleLayer;
 }

@@ -7,7 +7,7 @@
 //
 
 #import "SkillKnockout.h"
-#import "NewBattleLayer.h"
+#import "MainBattleLayer.h"
 #import "Globals.h"
 
 @implementation SkillKnockout

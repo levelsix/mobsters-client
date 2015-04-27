@@ -60,14 +60,14 @@
 
 @property (nonatomic, retain) DialogueViewController *dialogueViewController;
 
-@property (nonatomic, retain) NewBattleLayer *battleLayer;
+@property (nonatomic, retain) MainBattleLayer *battleLayer;
 
 // Used for the skill explination
 @property (nonatomic, retain) IBOutlet UIView *forcedSkillView;
 @property (nonatomic, retain) IBOutlet UIButton *forcedSkillButton;
 @property (nonatomic, retain) IBOutlet UIView *forcedSkillInnerView;
 
-- (id) initWithBgdPrefix:(NSString*)bgdPrefix battleLayer:(NewBattleLayer*)battleLayer;
+- (id) initWithBgdPrefix:(NSString*)bgdPrefix battleLayer:(MainBattleLayer*)battleLayer;
 
 - (void)createNextMyPlayerSpriteWithBattlePlayer:(BattlePlayer *)battlePlayer;
 - (float)makeMyPlayerWalkOutWithBlock:(void (^)(void))completion;

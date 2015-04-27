@@ -7,7 +7,7 @@
 //
 
 #import "SkillQuickAttack.h"
-#import "NewBattleLayer.h"
+#import "MainBattleLayer.h"
 
 @implementation SkillQuickAttack
 

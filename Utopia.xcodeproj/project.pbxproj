@@ -3182,7 +3182,7 @@
 		CF0CEDD4196F452900ECD301 /* EventStartup.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65746A1909CAF100ABF1F4 /* EventStartup.pb.m */; };
 		CF0CEDD5196F452900ECD301 /* MonsterCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFADDB3417D00ED000B1FF3C /* MonsterCardView.m */; };
 		CF0CEDD6196F452900ECD301 /* EvolveDetailsViews.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF64712195E368800C43641 /* EvolveDetailsViews.m */; };
-		CF0CEDD7196F452900ECD301 /* NewBattleLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF1D77017DFC47700874339 /* NewBattleLayer.m */; };
+		CF0CEDD7196F452900ECD301 /* MainBattleLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF1D77017DFC47700874339 /* MainBattleLayer.m */; };
 		CF0CEDD8196F452900ECD301 /* TutorialFacebookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF513B718C8C432004B0E56 /* TutorialFacebookViewController.m */; };
 		CF0CEDD9196F452900ECD301 /* Task.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574A11909CAF200ABF1F4 /* Task.pb.m */; };
 		CF0CEDDA196F452900ECD301 /* TutorialNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA7502118CAD30000AC66FC /* TutorialNameViewController.m */; };
@@ -4505,7 +4505,7 @@
 		CF48198519F7217F00041486 /* EventStartup.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65746A1909CAF100ABF1F4 /* EventStartup.pb.m */; };
 		CF48198619F7217F00041486 /* MonsterCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFADDB3417D00ED000B1FF3C /* MonsterCardView.m */; };
 		CF48198719F7217F00041486 /* EvolveDetailsViews.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF64712195E368800C43641 /* EvolveDetailsViews.m */; };
-		CF48198819F7217F00041486 /* NewBattleLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF1D77017DFC47700874339 /* NewBattleLayer.m */; };
+		CF48198819F7217F00041486 /* MainBattleLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF1D77017DFC47700874339 /* MainBattleLayer.m */; };
 		CF48198919F7217F00041486 /* DestroyedOrb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF9F41AF19AAB520002EBF03 /* DestroyedOrb.m */; };
 		CF48198A19F7217F00041486 /* TutorialFacebookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF513B718C8C432004B0E56 /* TutorialFacebookViewController.m */; };
 		CF48198B19F7217F00041486 /* Task.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574A11909CAF200ABF1F4 /* Task.pb.m */; };
@@ -6563,6 +6563,8 @@
 		CFF1D73517DFC43700874339 /* sparkle1@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFF1D69117DFC43700874339 /* sparkle1@2x.plist */; };
 		CFF1D73D17DFC43700874339 /* timerbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF1D69517DFC43700874339 /* timerbg@2x.png */; };
 		CFF1D77117DFC47700874339 /* NewBattleLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF1D77017DFC47700874339 /* NewBattleLayer.m */; };
+		CFF1D74117DFC43700874339 /* timeryellow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF1D69717DFC43700874339 /* timeryellow@2x.png */; };
+		CFF1D77117DFC47700874339 /* MainBattleLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF1D77017DFC47700874339 /* MainBattleLayer.m */; };
 		CFF1D77B17DFE9C400874339 /* shadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF1D77817DFE9C300874339 /* shadow@2x.png */; };
 		CFF1D78E17E101C900874339 /* ballin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF1D78117E101C200874339 /* ballin@2x.png */; };
 		CFF1D79217E101C900874339 /* canttouchthis@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF1D78317E101C300874339 /* canttouchthis@2x.png */; };
@@ -10211,6 +10213,9 @@
 		CFF1D69617DFC43700874339 /* timeryellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = timeryellow.png; path = "Puzzle Images/timeryellow.png"; sourceTree = "<group>"; };
 		CFF1D76F17DFC47700874339 /* NewBattleLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewBattleLayer.h; sourceTree = "<group>"; };
 		CFF1D77017DFC47700874339 /* NewBattleLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewBattleLayer.m; sourceTree = "<group>"; };
+		CFF1D69717DFC43700874339 /* timeryellow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "timeryellow@2x.png"; sourceTree = "<group>"; };
+		CFF1D76F17DFC47700874339 /* MainBattleLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainBattleLayer.h; sourceTree = "<group>"; };
+		CFF1D77017DFC47700874339 /* MainBattleLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainBattleLayer.m; sourceTree = "<group>"; };
 		CFF1D77717DFE9C300874339 /* shadow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = shadow.png; path = "Puzzle Images/shadow.png"; sourceTree = "<group>"; };
 		CFF1D77817DFE9C300874339 /* shadow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shadow@2x.png"; sourceTree = "<group>"; };
 		CFF1D78017E101C100874339 /* ballin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ballin.png; path = "Puzzle Images/ballin.png"; sourceTree = "<group>"; };
@@ -13551,6 +13556,19 @@
 			name = Upgrades;
 			sourceTree = "<group>";
 		};
+		6BF5CA531AEED3730096FA30 /* BattleLayers */ = {
+			isa = PBXGroup;
+			children = (
+				CFF1D76F17DFC47700874339 /* MainBattleLayer.h */,
+				CFF1D77017DFC47700874339 /* MainBattleLayer.m */,
+				CFF2080417FE269300AA6F84 /* DungeonBattleLayer.h */,
+				CFF2080517FE269300AA6F84 /* DungeonBattleLayer.m */,
+				CF0AC5FE18A1F6E500140628 /* PvpBattleLayer.h */,
+				CF0AC5FF18A1F6E500140628 /* PvpBattleLayer.m */,
+			);
+			name = BattleLayers;
+			sourceTree = "<group>";
+		};
 		7A2AF416E1B4BB3498E05A47 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -15846,6 +15864,7 @@
 		CF81C96119A573B4002682A2 /* Layers */ = {
 			isa = PBXGroup;
 			children = (
+				6BF5CA531AEED3730096FA30 /* BattleLayers */,
 				CF81C96F19A67224002682A2 /* OrbMainLayer.h */,
 				CF81C97019A67224002682A2 /* OrbMainLayer.m */,
 				CF81C96A19A575EA002682A2 /* OrbSwipeLayer.h */,
@@ -16856,12 +16875,7 @@
 				CF7CFE1419A55A2B009338A2 /* BaseBattleLayer */,
 				CFFEB1B618370479007C4BA3 /* CCAnimation Extensions */,
 				CFFEB1B518370463007C4BA3 /* BattleViews */,
-				CFFF9A1D18BE9E560036EEC3 /* BaseBattleLayerOld */,
-				CFF2080417FE269300AA6F84 /* DungeonBattleLayer.h */,
-				CFF2080517FE269300AA6F84 /* DungeonBattleLayer.m */,
 				CF7461AC196C1475002D6AE6 /* RunawayMiddleView.xib */,
-				CF0AC5FE18A1F6E500140628 /* PvpBattleLayer.h */,
-				CF0AC5FF18A1F6E500140628 /* PvpBattleLayer.m */,
 				CF30277C18BF06D6009D2D25 /* Clan Raid */,
 				DA07605019B129EC00E43E5A /* Skills */,
 			);
@@ -17511,6 +17525,10 @@
 		CFFCF55D19AFD8E0007E316D /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				CFF3905718284BF80010A3BE /* BattleSpeechBubble.h */,
+				CFF3905818284BF80010A3BE /* BattleSpeechBubble.m */,
+				CFF1D7C317E2636400874339 /* BattleSprite.h */,
+				CFF1D7C417E2636400874339 /* BattleSprite.m */,
 				CFE0E6B617E3C05F002ECA84 /* BattlePlayer.h */,
 				CFE0E6B717E3C05F002ECA84 /* BattlePlayer.m */,
 				CF023CB41992ED9E0082FE61 /* BattleSchedule.h */,
@@ -17600,19 +17618,6 @@
 				CF63F78117EC168C00FEBAA9 /* CCSoundAnimation.m */,
 			);
 			name = "CCAnimation Extensions";
-			sourceTree = "<group>";
-		};
-		CFFF9A1D18BE9E560036EEC3 /* BaseBattleLayerOld */ = {
-			isa = PBXGroup;
-			children = (
-				CFF3905718284BF80010A3BE /* BattleSpeechBubble.h */,
-				CFF3905818284BF80010A3BE /* BattleSpeechBubble.m */,
-				CFF1D7C317E2636400874339 /* BattleSprite.h */,
-				CFF1D7C417E2636400874339 /* BattleSprite.m */,
-				CFF1D76F17DFC47700874339 /* NewBattleLayer.h */,
-				CFF1D77017DFC47700874339 /* NewBattleLayer.m */,
-			);
-			name = BaseBattleLayerOld;
 			sourceTree = "<group>";
 		};
 		CFFF9A1E18BEB67D0036EEC3 /* Raid Puzzle */ = {
@@ -24225,7 +24230,7 @@
 				CF0CEDD4196F452900ECD301 /* EventStartup.pb.m in Sources */,
 				CF0CEDD5196F452900ECD301 /* MonsterCardView.m in Sources */,
 				CF0CEDD6196F452900ECD301 /* EvolveDetailsViews.m in Sources */,
-				CF0CEDD7196F452900ECD301 /* NewBattleLayer.m in Sources */,
+				CF0CEDD7196F452900ECD301 /* MainBattleLayer.m in Sources */,
 				CF9F41B119AAB521002EBF03 /* DestroyedOrb.m in Sources */,
 				CF0CEDD8196F452900ECD301 /* TutorialFacebookViewController.m in Sources */,
 				CF0CEDD9196F452900ECD301 /* Task.pb.m in Sources */,
@@ -24616,7 +24621,7 @@
 				63BACAE31A71A816000A641A /* DailyEventScheduleViewController.m in Sources */,
 				CFF64713195E368800C43641 /* EvolveDetailsViews.m in Sources */,
 				29DCCFAF1A8AB444003176FD /* TutorialEnhanceQueueViewController.m in Sources */,
-				CFF1D77117DFC47700874339 /* NewBattleLayer.m in Sources */,
+				CFF1D77117DFC47700874339 /* MainBattleLayer.m in Sources */,
 				9BB9494D1A6EEC8C006EE920 /* UIEffectDesignerView.m in Sources */,
 				CFF513B918C8C432004B0E56 /* TutorialFacebookViewController.m in Sources */,
 				9BA0EEA11AD86D05005F7B80 /* GenericPopoverViewController.m in Sources */,
@@ -24991,7 +24996,7 @@
 				CF48198519F7217F00041486 /* EventStartup.pb.m in Sources */,
 				CF48198619F7217F00041486 /* MonsterCardView.m in Sources */,
 				CF48198719F7217F00041486 /* EvolveDetailsViews.m in Sources */,
-				CF48198819F7217F00041486 /* NewBattleLayer.m in Sources */,
+				CF48198819F7217F00041486 /* MainBattleLayer.m in Sources */,
 				CF48198919F7217F00041486 /* DestroyedOrb.m in Sources */,
 				CF48198A19F7217F00041486 /* TutorialFacebookViewController.m in Sources */,
 				CF48198B19F7217F00041486 /* Task.pb.m in Sources */,

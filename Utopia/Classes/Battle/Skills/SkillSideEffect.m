@@ -14,7 +14,7 @@
 #import "CCAnimation+SpriteLoading.h"
 #import "GameState.h"
 #import "SkillManager.h"
-#import "NewBattleLayer.h"
+#import "MainBattleLayer.h"
 
 #define SIDE_EFFECT_ANIM_DELAY_PER_FRAME  .07f
 #define SIDE_EFFECT_VFX_FADE_DURATION     .25f

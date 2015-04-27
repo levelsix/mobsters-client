@@ -21,7 +21,7 @@
 #import "HomeMap.h"
 #import "MissionMap.h"
 #import "SoundEngine.h"
-#import "NewBattleLayer.h"
+#import "MainBattleLayer.h"
 #import "LoadingViewController.h"
 #import "OutgoingEventController.h"
 #import "TopBarViewController.h"
@@ -1096,7 +1096,7 @@ static const CGSize FIXED_SIZE = {568, 384};
   }
 }
 
-- (void) crossFadeIntoBattleLayer:(NewBattleLayer *)bl {
+- (void) crossFadeIntoBattleLayer:(MainBattleLayer *)bl {
   GameState *gs = [GameState sharedGameState];
   gs.userHasEnteredBattleThisSession = YES;
   float duration = 0.6;
@@ -1118,7 +1118,7 @@ static const CGSize FIXED_SIZE = {568, 384};
   _isInBattle = YES;
 }
 
-- (void) beginBattleLayer:(NewBattleLayer *)bl {
+- (void) beginBattleLayer:(MainBattleLayer *)bl {
   GameState *gs = [GameState sharedGameState];
   gs.userHasEnteredBattleThisSession = YES;
   
@@ -1139,7 +1139,7 @@ static const CGSize FIXED_SIZE = {568, 384};
   _isInBattle = YES;
 }
 
-- (void) blackFadeIntoBattleLayer:(NewBattleLayer *)bl {
+- (void) blackFadeIntoBattleLayer:(MainBattleLayer *)bl {
   GameState *gs = [GameState sharedGameState];
   gs.userHasEnteredBattleThisSession = YES;
   

@@ -8,7 +8,7 @@
 //
 
 #import "SkillHammerTime.h"
-#import "NewBattleLayer.h"
+#import "MainBattleLayer.h"
 #import "Globals.h"
 
 @implementation SkillHammerTime

@@ -9,7 +9,7 @@
 #import "BattlePlayer.h"
 #import "GameState.h"
 #import "Globals.h"
-#import "NewBattleLayer.h"
+#import "MainBattleLayer.h"
 
 @implementation BattlePlayer
 

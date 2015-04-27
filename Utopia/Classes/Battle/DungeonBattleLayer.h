@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 LVL6. All rights reserved.
 //
 
-#import "NewBattleLayer.h"
+#import "MainBattleLayer.h"
 #import "Protocols.pb.h"
 #import "FullEvent.h"
 #import "DialogueViewController.h"
@@ -19,7 +19,7 @@
 #define BATTLE_DEFEATED_DIALOGUE_KEY @"BattleDefeatedDialogue"
 static const int SHOW_PLAYER_SKILL_BUTTON_DIALOGUE_INDEX = 1;
 
-@interface DungeonBattleLayer : NewBattleLayer {
+@interface DungeonBattleLayer : MainBattleLayer {
   
   BOOL _receivedEndDungeonResponse;
   BOOL _waitingForEndDungeonResponse;

@@ -6,7 +6,7 @@
 //  Copyright 2013 __MyCompanyName__. All rights reserved.
 //
 
-#import "NewBattleLayer.h"
+#import "MainBattleLayer.h"
 #import "GameMap.h"
 #import "Globals.h"
 #import "SoundEngine.h"
@@ -41,7 +41,7 @@
 
 #define PUZZLE_BGD_TAG 1456
 
-@implementation NewBattleLayer
+@implementation MainBattleLayer
 
 #pragma mark - Properties
 

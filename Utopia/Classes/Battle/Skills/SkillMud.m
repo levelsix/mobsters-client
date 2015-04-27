@@ -7,7 +7,7 @@
 //
 
 #import "SkillMud.h"
-#import "NewBattleLayer.h"
+#import "MainBattleLayer.h"
 #import "Skill.pb.h"
 
 static const NSInteger kMudOrbsMaxSearchIterations = 1024;

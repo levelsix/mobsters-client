@@ -17,7 +17,7 @@
 @interface SkillManager : NSObject
 {
   // External objects
-  __weak NewBattleLayer* _battleLayer;
+  __weak MainBattleLayer* _battleLayer;
   __weak BattlePlayer*   _player;
   __weak BattlePlayer*   _enemy;
   __weak BattleSprite*   _playerSprite;
@@ -61,7 +61,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS_HEADER(SkillManager);
 @property (assign, nonatomic) NSInteger cheatPlayerSkillId;
 
 // Core external calls
-- (void) updateBattleLayer:(NewBattleLayer*)battleLayer;
+- (void) updateBattleLayer:(MainBattleLayer*)battleLayer;
 - (void) orbDestroyed:(OrbColor)color special:(SpecialOrbType)type;
 - (BOOL) generateSpecialOrb:(BattleOrb*)orb atColumn:(int)column row:(int)row;
 - (NSInteger) modifyDamage:(NSInteger)damage forPlayer:(BOOL)player;
@@ -94,7 +94,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS_HEADER(SkillManager);
 - (void) enqueuePopupData:(SkillPopupData*)data forPlayer:(BOOL)forPlayer;
 - (void) showItemPopupOverlay:(BattleItemProto*)item bottomText:(NSString*)bottomText;
 
-- (__weak NewBattleLayer*) battleLayer;
+- (__weak MainBattleLayer*) battleLayer;
 - (void) playDamageLogos;
 - (BOOL) useAntidote:(BattleItemProto*)antidote execute:(BOOL)execute;
 

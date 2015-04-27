@@ -14,7 +14,7 @@
 #import "SoundEngine.h"
 #import "Downloader.h"
 #import "CCFileUtils.h"
-#import "NewBattleLayer.h"
+#import "MainBattleLayer.h"
 #import "GameState.h"
 #import "SkillSideEffect.h"
 

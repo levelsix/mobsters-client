@@ -7,7 +7,7 @@
 //
 
 #import "SkillChill.h"
-#import "NewBattleLayer.h"
+#import "MainBattleLayer.h"
 
 @implementation SkillChill
 

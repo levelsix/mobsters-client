@@ -7,7 +7,7 @@
 //
 
 #import "SkillJelly.h"
-#import "NewBattleLayer.h"
+#import "MainBattleLayer.h"
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *

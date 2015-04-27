@@ -7,7 +7,7 @@
 //
 
 #import "SkillBombs.h"
-#import "NewBattleLayer.h"
+#import "MainBattleLayer.h"
 #import "Globals.h"
 #import <CCTextureCache.h>
 #import "SoundEngine.h"
