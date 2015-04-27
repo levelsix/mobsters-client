@@ -1021,7 +1021,7 @@
   self.forcedSkillView.frame = gvc.view.bounds;
   [gvc.view addSubview:self.forcedSkillView];
   
-  [skillManager triggerSkills:SkillTriggerPointEnemyAppeared withCompletion:^(BOOL triggered, id params) {
+  [self.battleLayer triggerSkills:SkillTriggerPointEnemyAppeared withCompletion:^(BOOL triggered, id params) {
     SkillBattleIndicatorView *enemyIndicatorView = [skillManager enemySkillIndicatorView];
     CGPoint enemyIndicatorPos = [skillManager enemySkillIndicatorPosition];
     enemyIndicatorPos = ccpAdd(enemyIndicatorPos, ccp(-enemyIndicatorView.contentSize.width, 0));

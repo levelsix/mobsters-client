@@ -393,7 +393,7 @@
 
 - (void) triggerSkillForEnemyCreatedWithBlock:(dispatch_block_t)block {
   SkillLogStart(@"TRIGGER STARTED: enemy initialized");
-  [skillManager triggerSkills:SkillTriggerPointEnemyInitialized withCompletion:^(BOOL triggered, id params) {
+  [self triggerSkills:SkillTriggerPointEnemyInitialized withCompletion:^(BOOL triggered, id params) {
     SkillLogEnd(triggered, @"  Enemy initialized trigger ENDED");
     if (block) {
       block();
@@ -505,7 +505,7 @@
         // Trigger skills when new enemy joins the battle
         SkillLogStart(@"TRIGGER STARTED: enemy appeared");
         ++_enemyCounter;
-        [skillManager triggerSkills:SkillTriggerPointEnemyAppeared withCompletion:^(BOOL triggered, id params) {
+        [self triggerSkills:SkillTriggerPointEnemyAppeared withCompletion:^(BOOL triggered, id params) {
           SkillLogEnd(triggered, @"  Enemy appeared trigger ENDED");
           [self processNextTurn: triggered ? 0.3 : delay]; // Don't wait if we're in the middle of enemy turn (ie skill was triggered and now is his turn)
         }];
@@ -556,7 +556,7 @@
   
   // Skills trigger for enemy turn started
   SkillLogStart(@"TRIGGER STARTED: beginning of player turn");
-  [skillManager triggerSkills:SkillTriggerPointStartOfPlayerTurn withCompletion:^(BOOL triggered, id params) {
+  [self triggerSkills:SkillTriggerPointStartOfPlayerTurn withCompletion:^(BOOL triggered, id params) {
     
     SkillLogEnd(triggered, @"  Beginning of player turn ENDED");
     
@@ -603,7 +603,7 @@
   [self performBlockAfterDelay:delay block:^{
     
     SkillLogStart(@"TRIGGER STARTED: beginning of enemy turn");
-    [skillManager triggerSkills:SkillTriggerPointStartOfEnemyTurn withCompletion:^(BOOL triggered, id params) {
+    [self triggerSkills:SkillTriggerPointStartOfEnemyTurn withCompletion:^(BOOL triggered, id params) {
       
       SkillLogEnd(triggered, @"  Beginning of enemy turn ENDED");
       if (_enemyPlayerObject) // can be set to nil during the skill execution - Cake Drop does that and starts different sequence
@@ -753,7 +753,7 @@
 - (void) dealMyDamage {
   
   SkillLogStart(@"TRIGGER STARTED: deal damage by player");
-  [skillManager triggerSkills:SkillTriggerPointPlayerDealsDamage withCompletion:^(BOOL triggered, id params) {
+  [self triggerSkills:SkillTriggerPointPlayerDealsDamage withCompletion:^(BOOL triggered, id params) {
     
     SkillLogEnd(triggered, @"  Deal damage by player trigger ENDED");
     
@@ -768,7 +768,7 @@
 - (void) dealEnemyDamage {
   
   SkillLogStart(@"TRIGGER STARTED: deal damage by enemy");
-  [skillManager triggerSkills:SkillTriggerPointEnemyDealsDamage withCompletion:^(BOOL triggered, id params) {
+  [self triggerSkills:SkillTriggerPointEnemyDealsDamage withCompletion:^(BOOL triggered, id params) {
     
     SkillLogEnd(triggered, @"  Deal damage by enemy trigger ENDED");
     
@@ -784,7 +784,7 @@
   BOOL playerIsKilled = (self.myPlayerObject.curHealth <= 0.0);
   if (!playerIsKilled){
     SkillLogStart(@"TRIGGER STARTED: enemy turn end");
-    [skillManager triggerSkills:SkillTriggerPointEndOfEnemyTurn withCompletion:^(BOOL triggered, id params) {
+    [self triggerSkills:SkillTriggerPointEndOfEnemyTurn withCompletion:^(BOOL triggered, id params) {
       
       SkillLogEnd(triggered, @"  end of enemy turn trigger ENDED");
       if (![self checkEnemyHealth]){
@@ -798,7 +798,7 @@
 
 - (void) playerDealsDamageToSelf {
   SkillLogStart(@"TRIGGER STARTED: deal damage by player");
-  [skillManager triggerSkills:SkillTriggerPointPlayerDealsDamage withCompletion:^(BOOL triggered, id params) {
+  [self triggerSkills:SkillTriggerPointPlayerDealsDamage withCompletion:^(BOOL triggered, id params) {
     
     SkillLogEnd(triggered, @"  Deal damage by player trigger ENDED");
     
@@ -815,7 +815,7 @@
 
 - (void) enemyDealsDamageToSelf {
   SkillLogStart(@"TRIGGER STARTED: deal damage by enemy");
-  [skillManager triggerSkills:SkillTriggerPointEnemyDealsDamage withCompletion:^(BOOL triggered, id params) {
+  [self triggerSkills:SkillTriggerPointEnemyDealsDamage withCompletion:^(BOOL triggered, id params) {
     
     SkillLogEnd(triggered, @"  Deal damage by enemy trigger ENDED");
     
@@ -1091,7 +1091,7 @@
     
     // Trigger skills for move made by the player
     SkillLogStart(@"TRIGGER STARTED: enemy defeated");
-    [skillManager triggerSkills:SkillTriggerPointEnemyDefeated withCompletion:^(BOOL triggered, id params) {
+    [self triggerSkills:SkillTriggerPointEnemyDefeated withCompletion:^(BOOL triggered, id params) {
       
       SkillLogEnd(triggered, @"  Enemy defeated trigger ENDED");
       
@@ -1121,7 +1121,7 @@
   if (! enemyIsDead)
   {
     SkillLogStart(@"TRIGGER STARTED: player turn ended");
-    [skillManager triggerSkills:SkillTriggerPointEndOfPlayerTurn withCompletion:^(BOOL triggered, id params) {
+    [self triggerSkills:SkillTriggerPointEndOfPlayerTurn withCompletion:^(BOOL triggered, id params) {
       
       SkillLogEnd(triggered, @"  player turn ended trigger ENDED");
       
@@ -1160,7 +1160,7 @@
 
 - (void) currentMyPlayerDied {
   SkillLogStart(@"TRIGGER STARTED: mob defeated");
-  [skillManager triggerSkills:SkillTriggerPointPlayerMobDefeated withCompletion:^(BOOL triggered, id params) {
+  [self triggerSkills:SkillTriggerPointPlayerMobDefeated withCompletion:^(BOOL triggered, id params) {
     SkillLogEnd(triggered, @"  Mob defeated trigger ENDED");
     
     [self setMovesLeft:0 animated:NO];
@@ -1334,6 +1334,16 @@
   }];
 }
 
+#pragma mark - Skill Methods
+
+/*
+ Wrapping this in a centralized call so that it can be overwritten in replay mode
+ in order to have better control over certain skill things
+*/
+- (void) triggerSkills:(SkillTriggerPoint)trigger withCompletion:(SkillControllerBlock)completion {
+  [skillManager triggerSkills:trigger withCompletion:completion];
+}
+
 #pragma mark - Delegate Methods
 
 - (void) moveBegan {
@@ -1479,7 +1489,7 @@
   
   // Trigger skills for move made by the player
   SkillLogStart(@"TRIGGER STARTED: end of player move");
-  [skillManager triggerSkills:SkillTriggerPointEndOfPlayerMove withCompletion:^(BOOL triggered, id params) {
+  [self triggerSkills:SkillTriggerPointEndOfPlayerMove withCompletion:^(BOOL triggered, id params) {
     
     SkillLogEnd(triggered, @"  End of player move ENDED");
     BOOL enemyIsKilled = [self checkEnemyHealth];
@@ -1761,7 +1771,7 @@
   
   // Skills trigger for player appeared
   SkillLogStart(@"TRIGGER STARTED: player initialized");
-  [skillManager triggerSkills:SkillTriggerPointPlayerInitialized withCompletion:^(BOOL triggered, id params) {
+  [self triggerSkills:SkillTriggerPointPlayerInitialized withCompletion:^(BOOL triggered, id params) {
     
     SkillLogEnd(triggered, @"  Player initialized trigger ENDED");
     

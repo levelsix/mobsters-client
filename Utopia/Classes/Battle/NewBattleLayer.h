@@ -211,6 +211,8 @@
 - (void) continueConfirmed;
 - (void) exitFinal;
 
+- (void) triggerSkills:(SkillTriggerPoint)trigger withCompletion:(SkillControllerBlock)completion;
+
 - (void) checkMyHealth;
 - (BOOL) checkEnemyHealth;
 - (void) checkEnemyHealthAndStartNewTurn;
