@@ -688,11 +688,11 @@
   int numOpens = (int)[def integerForKey:APP_OPEN_KEY];
   
 #warning get Art to server side this
-  int x = 10;
+  int x = 3;
   
   UserAchievement *ua = gs.myAchievements[[gl.clanRewardAchievementIds lastObject]];
   
-  BOOL meetsRequirements = numOpens > 99 || gs.tasksCompleted > x || ua.isRedeemed;
+  BOOL meetsRequirements = numOpens > 1 || gs.tasksCompleted > x || ua.isRedeemed;
   
   if (spp.hasAnimatingIcon && meetsRequirements) {
     self.saleView.hidden = NO;
@@ -963,6 +963,7 @@
   if ([Globals checkEnteringDungeon]) {
     GameViewController *gvc = (GameViewController *)self.parentViewController;
     AttackMapViewController *amvc = [[AttackMapViewController alloc] init];
+    [Globals removeUIArrowFromViewRecursively:self.view];
     amvc.delegate = gvc;
     [gvc addChildViewController:amvc];
     amvc.view.frame = gvc.view.bounds;
@@ -1201,6 +1202,10 @@
   _structIdForArrow = structId;
   [Globals removeUIArrowFromViewRecursively:self.view];
   [Globals createUIArrowForView:self.shopView atAngle:M_PI];
+}
+
+- (void) showArrowToAttackButton {
+  [Globals createPulsingUIArrowForView:self.attackView atAngle:M_PI_2];
 }
 
 - (void) sendShopViewAboveCoinBars:(ShopViewController *)svc {

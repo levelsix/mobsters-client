@@ -147,6 +147,7 @@
 - (void) openShopWithBuildings:(int)structId;
 - (void) openShopWithGacha;
 - (void) showArrowToStructId:(int)structId;
+- (void) showArrowToAttackButton;
 
 - (void) displayHomeViewController:(HomeViewController *)hvc;
 

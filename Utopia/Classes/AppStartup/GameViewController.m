@@ -1153,6 +1153,16 @@ static const CGSize FIXED_SIZE = {568, 384};
   
   [self playMapMusic];
 }
+#pragma mark - show Arrow
+
+- (void) homeViewControllerClosed {
+  GameState *gs = [GameState sharedGameState];
+  
+  if (YES) {//gs.tasksCompleted < 3) {
+    [Globals removeUIArrowFromViewRecursively:self.topBarViewController.attackView];
+    [self.topBarViewController showArrowToAttackButton];
+  }
+}
 
 #pragma mark - BattleLayerDelegate methods
 
@@ -1174,6 +1184,8 @@ static const CGSize FIXED_SIZE = {568, 384};
       {
         [(HomeMap *)self.currentMap pointArrowOnHospital];
         break;
+      } else {
+        [self.topBarViewController showArrowToAttackButton];
       }
     }
   }

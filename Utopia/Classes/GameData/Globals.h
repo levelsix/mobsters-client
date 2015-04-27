@@ -383,6 +383,7 @@
 + (NSString *) bazaarQuestGiverName;
 + (NSString *) homeQuestGiverName;
 
++ (void) createPulsingUIArrowForView:(UIView *)view atAngle:(float)angle;
 + (void) animateUIArrow:(UIView *)arrow atAngle:(float)angle;
 + (void) createUIArrowForView:(UIView *)view atAngle:(float)angle;
 + (void) createUIArrowForView:(UIView *)view atAngle:(float)angle inSuperview:(UIView *)sv;
