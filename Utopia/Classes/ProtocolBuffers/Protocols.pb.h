@@ -165,10 +165,6 @@
 @class ClanRaidStageProto_Builder;
 @class ClanRaidStageRewardProto;
 @class ClanRaidStageRewardProto_Builder;
-@class ClearExpiredClanGiftsRequestProto;
-@class ClearExpiredClanGiftsRequestProto_Builder;
-@class ClearExpiredClanGiftsResponseProto;
-@class ClearExpiredClanGiftsResponseProto_Builder;
 @class CollectClanGiftsRequestProto;
 @class CollectClanGiftsRequestProto_Builder;
 @class CollectClanGiftsResponseProto;
@@ -209,6 +205,10 @@
 @class CustomizePvpBoardObstacleResponseProto_Builder;
 @class DefaultLanguagesProto;
 @class DefaultLanguagesProto_Builder;
+@class DeleteClanGiftsRequestProto;
+@class DeleteClanGiftsRequestProto_Builder;
+@class DeleteClanGiftsResponseProto;
+@class DeleteClanGiftsResponseProto_Builder;
 @class DestroyMoneyTreeStructureRequestProto;
 @class DestroyMoneyTreeStructureRequestProto_Builder;
 @class DestroyMoneyTreeStructureResponseProto;
