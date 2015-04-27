@@ -551,7 +551,21 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs updateClanData:proto.clanData];
 
     [gs.clanGifts removeAllObjects];
-    [gs.clanGifts addObjectsFromArray:proto.userClanGiftsList];
+    NSMutableArray *giftsToBeRemoved = [[NSMutableArray alloc] init];
+    for (UserClanGiftProto *ucgp in gs.clanGifts) {
+      if (ucgp.hasBeenCollected) {
+        [giftsToBeRemoved addObject:ucgp];
+        continue;
+      }
+      if (ucgp.isExpired) {
+        [giftsToBeRemoved addObject:ucgp];
+      }
+      [gs.clanGifts addObject:ucgp];
+    }
+    
+    if (giftsToBeRemoved.count > 0) {
+      [[OutgoingEventController sharedOutgoingEventController] clearClanGifts:giftsToBeRemoved];
+    }
     
     gs.myPvpBoardObstacles = [proto.userPvpBoardObstaclesList mutableCopy];
 

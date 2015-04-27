@@ -90,7 +90,7 @@
 - (void) purchaseBoosterPack:(int)boosterPackId isFree:(BOOL)free isMultiSpin:(BOOL)multiSpin gemsSpent:(int)gemsSpent tokensChange:(int)tokensChange delegate:(id)delegate;
 
 - (void) collectClanGift:(NSArray *)userClanGifts delegate:(id)delegate;
-- (void) expireClanGifts:(NSArray *)userClanGifts;
+- (void) clearClanGifts:(NSArray *)userClanGifts;
 
 - (void) tradeItemForFreeBoosterPack:(int)boosterPackId delegate:(id)delegate;
 
