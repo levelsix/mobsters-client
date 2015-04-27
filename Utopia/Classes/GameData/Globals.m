@@ -2893,10 +2893,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
      }
    }];
   
-//  [UIView animateWithDuration:0.3f animations:^{
-//    img.alpha = 1.f;
-//  }];
-  
   UIImageView *light = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"arrowlight.png"]];
   [img addSubview:light];
   
