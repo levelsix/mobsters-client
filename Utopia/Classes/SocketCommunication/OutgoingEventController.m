@@ -1655,13 +1655,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [gs addUnrespondedUpdates:gu, cu, ou, nil];
 }
 
-- (void) expireClanGifts:(NSArray *)userClanGifts {
+- (void) clearClanGifts:(NSArray *)userClanGifts {
   if (userClanGifts.count == 0) {
     [Globals popupMessage:@"Trying to clear 0 expired gifts."];
     return;
   }
   for (UserClanGiftProto *ucgp in userClanGifts) {
-    if (!ucgp.isExpired) {
+    if (!ucgp.isExpired && !ucgp.hasBeenCollected) {
       [Globals popupMessage:@"Trying to clear unexpired gifts."];
       return;
     }
