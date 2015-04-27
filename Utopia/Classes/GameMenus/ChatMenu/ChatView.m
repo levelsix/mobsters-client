@@ -963,10 +963,10 @@
   }
   
   TranslateLanguages displayLanguage = TranslateLanguagesNoTranslation;
-  if(_chatMode == PrivateChatModeAllMessages) {
+  if(_chatMode == PrivateChatModeAllMessages && [self.displayedChatList[indexPath.row] isKindOfClass:[PrivateChatPostProto class]]) {
     PrivateChatPostProto *pcpp = self.displayedChatList[indexPath.row];
-    if (![pcpp.poster.minUserProto.userUuid isEqualToString:gs.userUuid] && [gs translateOnForUser:pcpp.poster.minUserProto.userUuid]) {
-      TranslateLanguages savedLanguage = [gs languageForUser:pcpp.poster.minUserProto.userUuid];
+    if (![pcpp.sender.userUuid isEqualToString:gs.userUuid] && [gs translateOnForUser:pcpp.sender.userUuid]) {
+      TranslateLanguages savedLanguage = [gs languageForUser:pcpp.sender.userUuid];
       displayLanguage = savedLanguage == pcpp.originalContentLanguage ? TranslateLanguagesNoTranslation : savedLanguage;
     }
   }

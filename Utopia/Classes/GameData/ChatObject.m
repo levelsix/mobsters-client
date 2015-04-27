@@ -519,7 +519,7 @@ static char const * clanGiftRedeemedKey = "clanGiftRedeemedKey";
 @implementation UserClanGiftProto (ChatObject)
 
 - (MinimumUserProto *) otherUser {
-  return self.sender;
+  return self.gifterUser;
 }
 
 - (MinimumUserProto *) sender {
@@ -570,7 +570,7 @@ static char const * clanGiftRedeemedKey = "clanGiftRedeemedKey";
   return self.expireDate.timeIntervalSinceNow <= 0;
 }
 
-- (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag {
+- (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag language:(TranslateLanguages)language{
   NSString *nibName = @"ChatClanGiftView";
   ChatClanGiftView *v = [chatCell dequeueChatSubview:nibName];
   
@@ -608,8 +608,8 @@ static char const * clanGiftRedeemedKey = "clanGiftRedeemedKey";
   return NO;
 }
 
-- (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell {
-  [self updateInChatCell:chatCell showsClanTag:YES];
+- (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell language:(TranslateLanguages)language{
+  [self updateInChatCell:chatCell showsClanTag:YES language:language];
   return CGRectGetMaxY(chatCell.currentChatSubview.frame)+14.f;
 }
 
