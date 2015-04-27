@@ -88,7 +88,7 @@
 - (void) invalidateSolicitation:(ClanMemberTeamDonationProto *)solicitation;
 
 - (void) collectClanGift:(NSArray *)userClanGifts delegate:(id)delegate;
-- (void) expireClanGifts:(NSArray *)userClanGifts;
+- (void) clearClanGifts:(NSArray *)userClanGifts;
 
 - (void) purchaseBoosterPack:(int)boosterPackId isFree:(BOOL)free delegate:(id)delegate;
 - (void) tradeItemForFreeBoosterPack:(int)boosterPackId delegate:(id)delegate;
