@@ -2471,6 +2471,8 @@
 
 - (void) homeViewControllerClosed {
   self.currentViewController = nil;
+  GameViewController *gvc = [GameViewController baseController];
+  [gvc homeViewControllerClosed];
 }
 
 - (void) boardDesignerViewControllerClosed {

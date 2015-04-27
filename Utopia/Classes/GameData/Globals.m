@@ -2859,11 +2859,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return ccp(p.x+t*vx, p.y+t*vy);
 }
 
-+ (void) createUIArrowForView:(UIView *)view atAngle:(float)angle {
-  [self createUIArrowForView:view atAngle:angle inSuperview:view.superview];
++ (void) createPulsingUIArrowForView:(UIView *)view atAngle:(float)angle {
+  [self createUIArrowForView:view atAngle:angle inSuperview:view.superview pulseAlpha:YES];
 }
 
-+ (void) createUIArrowForView:(UIView *)view atAngle:(float)angle inSuperview:(UIView *)sv {
++ (void) createUIArrowForView:(UIView *)view atAngle:(float)angle {
+  [self createUIArrowForView:view atAngle:angle inSuperview:view.superview pulseAlpha:NO];
+}
+
++ (void) createUIArrowForView:(UIView *)view atAngle:(float)angle inSuperview:(UIView *)sv pulseAlpha:(BOOL)pulseAlpha {
   UIImageView *img = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"arrow.png"]];
   [sv addSubview:img];
   
@@ -2874,9 +2878,24 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   
   [self animateUIArrow:img atAngle:M_PI+angle];
   img.alpha = 0.f;
-  [UIView animateWithDuration:0.3f animations:^{
+  [UIView animateWithDuration:0.3f delay:pulseAlpha?5.f:0.f options:UIViewAnimationOptionCurveLinear animations:^{
     img.alpha = 1.f;
-  }];
+   } completion:^(BOOL finished) {
+     if (pulseAlpha) {
+       [UIView animateWithDuration:0.3f delay:10.f options:UIViewAnimationOptionOverrideInheritedDuration | UIViewAnimationOptionOverrideInheritedCurve animations:^{
+         img.alpha = 0.f;
+       } completion:^(BOOL finished) {
+         if(finished) {
+           [self removeUIArrowFromViewRecursively:view];
+           [self createPulsingUIArrowForView:view atAngle:angle];
+         }
+       }];
+     }
+   }];
+  
+//  [UIView animateWithDuration:0.3f animations:^{
+//    img.alpha = 1.f;
+//  }];
   
   UIImageView *light = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"arrowlight.png"]];
   [img addSubview:light];
@@ -2889,6 +2908,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 + (void) removeUIArrowFromViewRecursively:(UIView *)view {
   if (view.tag == ARROW_TAG) {
+    [view.layer removeAllAnimations];
     [UIView animateWithDuration:0.3f animations:^{
       view.alpha = 0.f;
     } completion:^(BOOL finished) {

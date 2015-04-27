@@ -129,4 +129,6 @@ typedef enum {
 - (void) invalidateAllTimers;
 - (void) beginAllTimers;
 
+- (void) homeViewControllerClosed;
+
 @end
