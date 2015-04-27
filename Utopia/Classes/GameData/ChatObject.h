@@ -107,7 +107,7 @@
 
 - (BOOL) isExpired;
 - (MSDate *) expireDate;
-- (IBAction)collectClicked:(id)sender;
+- (IBAction) collectClicked:(id)sender;
 
 @property (nonatomic, assign) BOOL isRedeemed;
 
