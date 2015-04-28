@@ -106,7 +106,7 @@ static int sessionId;
 }
 
 - (void) reloadClanMessageQueue {
-  // Changed waitUntilDone to YES because we want 
+  // Changed waitUntilDone to YES because we want
   [self performSelector:@selector(initClanMessageQueue) onThread:self withObject:nil waitUntilDone:YES];
 }
 
@@ -193,20 +193,27 @@ static NSString *routingKey;
 
 - (void) readData {
   if (_connection) {
-    if (amqp_data_available(_connection.internalConnection) || amqp_data_in_buffer(_connection.internalConnection)) {
-      AMQPMessage *message = [_udidConsumer pop];
-      if(message)
-      {
-        [_delegate performSelectorOnMainThread:@selector(amqpConsumerThreadReceivedNewMessage:) withObject:message waitUntilDone:NO];
-      }
+    //    if (amqp_data_available(_connection.internalConnection) || amqp_data_in_buffer(_connection.internalConnection)) {
+    amqp_status_enum status;
+    AMQPMessage *message = [_udidConsumer popWithStatus:&status];
+    if(message)
+    {
+      [_delegate performSelectorOnMainThread:@selector(amqpConsumerThreadReceivedNewMessage:) withObject:message waitUntilDone:NO];
+    } else if (status == AMQP_STATUS_CONNECTION_CLOSED ||
+               status == AMQP_STATUS_SOCKET_CLOSED ||
+               status == AMQP_STATUS_SOCKET_ERROR ||
+               status == AMQP_STATUS_HEARTBEAT_TIMEOUT) {
+      LNLog(@"AMQP Error: %@", [NSString stringWithCString:amqp_error_string2(status) encoding:NSStringEncodingConversionAllowLossy]);
+      [_delegate performSelectorOnMainThread:@selector(amqpDisconnected) withObject:nil waitUntilDone:NO];
     }
+    //    }
   }
 }
 
 - (void)main
 {
   [NSTimer scheduledTimerWithTimeInterval:0.1f target:self selector:@selector(readData) userInfo:nil repeats:YES];
-	
+  
   int i = 0;
   while(!_shouldStop)
   {
@@ -228,7 +235,7 @@ static NSString *routingKey;
     } @catch (NSException *exception) {
       NSLog(@"Exception in AMQP thread: %@", exception);
     }
-	}
+  }
 }
 
 @end

@@ -248,6 +248,18 @@ static NSString *udid = nil;
   [self.connectionThread reloadClanMessageQueue];
 }
 
+- (void) callSelectorOnHostDelegate:(SEL)sel {
+  
+  NSObject *delegate = [self.tagDelegates objectForKey:[NSNumber numberWithInt:CONNECTED_TO_HOST_DELEGATE_TAG]];
+  if (delegate) {
+    if ([delegate respondsToSelector:sel]) {
+      [delegate performSelectorOnMainThread:sel withObject:nil waitUntilDone:NO];
+    }
+  } else {
+    LNLog(@"Unable to find delegate for %@", NSStringFromSelector(sel));
+  }
+}
+
 - (void) connectedToHost {
   LNLog(@"Connected to host \"%@\" on port %d", HOST_NAME, HOST_PORT);
   
@@ -259,15 +271,7 @@ static NSString *udid = nil;
   _canSendRegularEvents = NO;
   _canSendPreDbEvents = YES;
   
-  NSObject *delegate = [self.tagDelegates objectForKey:[NSNumber numberWithInt:CONNECTED_TO_HOST_DELEGATE_TAG]];
-  if (delegate) {
-    SEL selector = @selector(handleConnectedToHost);
-    if ([delegate respondsToSelector:selector]) {
-      [delegate performSelectorOnMainThread:selector withObject:nil waitUntilDone:NO];
-    }
-  } else {
-    LNLog(@"Unable to find delegate for connectedToHost");
-  }
+  [self callSelectorOnHostDelegate:@selector(handleConnectedToHost)];
   
   _flushTimer = [NSTimer timerWithTimeInterval:10.f target:self selector:@selector(timerFlush) userInfo:nil repeats:YES];
   [[NSRunLoop mainRunLoop] addTimer:_flushTimer forMode:NSRunLoopCommonModes];
@@ -295,6 +299,8 @@ static NSString *udid = nil;
 - (void) connectedToUserIdQueue {
   _canSendRegularEvents = YES;
   
+  [self callSelectorOnHostDelegate:@selector(connectedToUserIdQueue)];
+  
   if (_canSendPreDbEvents) {
     for (FullEvent *fe in self.queuedMessages) {
       LNLog(@"2: Sending queued event of type %@.", NSStringFromClass(fe.event.class));
@@ -320,6 +326,8 @@ static NSString *udid = nil;
       LNLog(@"Asking to reconnect..");
       
       if (!self.popupController) {
+        [self callSelectorOnHostDelegate:@selector(unableToConnectToHost:)];
+        
         self.popupController = [GenericPopupController displayNotificationViewWithText:@"Sorry, we are unable to connect to the server. Please try again." title:@"Disconnected!" okayButton:@"Reconnect" target:self selector:@selector(tryReconnect)];
       }
       _numDisconnects = 0;
@@ -328,6 +336,10 @@ static NSString *udid = nil;
       [self tryReconnect];
     }
   }
+}
+
+- (void) amqpDisconnected {
+  [self callSelectorOnHostDelegate:@selector(amqpDisconnected)];
 }
 
 - (BOOL) isPreDbEventType:(EventProtocolRequest)type {

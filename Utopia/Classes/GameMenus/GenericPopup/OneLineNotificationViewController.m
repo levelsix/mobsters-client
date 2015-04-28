@@ -104,11 +104,6 @@
   self.view = view;
 }
 
-- (void) displayView {
-  [super displayView];
-  self.view.frame = self.view.superview.bounds;
-}
-
 - (void) animateWithCompletionBlock:(dispatch_block_t)completion {
   [self displayView];
   

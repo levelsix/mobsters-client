@@ -52,26 +52,29 @@
 @synthesize read;
 @synthesize receivedAt;
 
-+ (AMQPMessage*)messageFromBody:(amqp_bytes_t)theBody withDeliveryProperties:(amqp_basic_deliver_t*)theDeliveryProperties withMessageProperties:(amqp_basic_properties_t*)theMessageProperties receivedAt:(NSDate*)receiveTimestamp
++ (AMQPMessage*)messageFromEnvelope:(amqp_envelope_t *)envelope receivedAt:(NSDate*)receiveTimestamp
 {
-	AMQPMessage *message = [[AMQPMessage alloc] initWithBody:theBody withDeliveryProperties:theDeliveryProperties withMessageProperties:theMessageProperties receivedAt:receiveTimestamp];
+  AMQPMessage *message = [[AMQPMessage alloc] initWithEnvelope:envelope receivedAt:receiveTimestamp];
 	
 	return [message autorelease];
 }
 
-- (id)initWithBody:(amqp_bytes_t)theBody withDeliveryProperties:(amqp_basic_deliver_t*)theDeliveryProperties withMessageProperties:(amqp_basic_properties_t*)theMessageProperties receivedAt:(NSDate*)receiveTimestamp
+- (id)initWithEnvelope:(amqp_envelope_t *)envelope receivedAt:(NSDate*)receiveTimestamp
 {
-	if(!theDeliveryProperties || !theMessageProperties) { return nil; }
+	if(!envelope) { return nil; }
 	
 	if(self = [super init])
 	{
+    amqp_bytes_t theBody = envelope->message.body;
+    amqp_basic_properties_t *theMessageProperties = &envelope->message.properties;
+    
 		body = [[NSData alloc] initWithBytes:theBody.bytes length:theBody.len];
 		
-		consumerTag = AMQP_BYTES_TO_NSSTRING(theDeliveryProperties->consumer_tag);
-		deliveryTag = theDeliveryProperties->delivery_tag;
-		redelivered = theDeliveryProperties->redelivered;
-		exchangeName = AMQP_BYTES_TO_NSSTRING(theDeliveryProperties->exchange);
-		routingKey = AMQP_BYTES_TO_NSSTRING(theDeliveryProperties->routing_key);
+		consumerTag = AMQP_BYTES_TO_NSSTRING(envelope->consumer_tag);
+		deliveryTag = envelope->delivery_tag;
+		redelivered = envelope->redelivered;
+		exchangeName = AMQP_BYTES_TO_NSSTRING(envelope->exchange);
+		routingKey = AMQP_BYTES_TO_NSSTRING(envelope->routing_key);
 		
 		if(theMessageProperties->_flags & AMQP_BASIC_CONTENT_TYPE_FLAG) { contentType = AMQP_BYTES_TO_NSSTRING(theMessageProperties->content_type); } else { contentType = nil; }
 		if(theMessageProperties->_flags & AMQP_BASIC_CONTENT_ENCODING_FLAG) { contentEncoding = AMQP_BYTES_TO_NSSTRING(theMessageProperties->content_encoding); } else { contentEncoding = nil; }

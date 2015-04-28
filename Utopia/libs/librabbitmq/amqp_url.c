@@ -193,7 +193,7 @@ int amqp_parse_url(char *url, struct amqp_connection_info *parsed)
       goto out;
     }
 
-    parsed->port = (int)portnum;
+    parsed->port = portnum;
   }
 
   if (delim == '/') {

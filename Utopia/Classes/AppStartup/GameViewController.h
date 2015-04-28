@@ -25,6 +25,7 @@
 #import "HudNotificationController.h"
 #import "StageCompleteNode.h"
 #import "LoadingViewController.h"
+#import "ReconnectViewController.h"
 
 @class TutorialController;
 
@@ -73,6 +74,8 @@ typedef enum {
 @property (nonatomic, strong) TopBarQuestProgressView *topBarQuestProgressView;
 @property (nonatomic, strong) NSMutableArray *completedQuests;
 @property (nonatomic, strong) NSMutableArray *progressedJobs;
+
+@property (nonatomic, strong) ReconnectViewController *reconnectViewController;
 
 + (id) baseController;
 

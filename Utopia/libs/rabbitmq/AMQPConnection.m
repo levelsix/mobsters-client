@@ -28,6 +28,9 @@
 
 # import "AMQPChannel.h"
 
+#warning change back
+#define HEARTBEAT_SECS 1
+
 @implementation AMQPConnection
 
 @synthesize internalConnection = connection;
@@ -86,7 +89,11 @@
   }
   
   if (socket) {
-    socketFD = amqp_socket_open(socket, [host UTF8String], port);
+    struct timeval tv;
+    tv.tv_sec = HEARTBEAT_SECS;
+    tv.tv_usec = 0;
+    
+    socketFD = amqp_socket_open_noblock(socket, [host UTF8String], port, &tv);
     
     if(socketFD < 0)
     {
@@ -100,7 +107,7 @@
 
 - (void)loginAsUser:(NSString*)username withPassword:(NSString*)password onVHost:(NSString*)vhost
 {
-	amqp_rpc_reply_t reply = amqp_login(connection, [vhost UTF8String], 0, 32768, 0, AMQP_SASL_METHOD_PLAIN, [username UTF8String], [password UTF8String]);
+	amqp_rpc_reply_t reply = amqp_login(connection, [vhost UTF8String], 0, 32768, HEARTBEAT_SECS, AMQP_SASL_METHOD_PLAIN, [username UTF8String], [password UTF8String]);
     
 	if(reply.reply_type != AMQP_RESPONSE_NORMAL)
 	{

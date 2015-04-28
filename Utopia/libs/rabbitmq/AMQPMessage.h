@@ -83,9 +83,9 @@
 @property BOOL read;
 @property (readonly) NSDate *receivedAt;
 
-+ (AMQPMessage*)messageFromBody:(amqp_bytes_t)theBody withDeliveryProperties:(amqp_basic_deliver_t*)theDeliveryProperties withMessageProperties:(amqp_basic_properties_t*)theMessageProperties receivedAt:(NSDate*)receiveTimestamp;
++ (AMQPMessage*)messageFromEnvelope:(amqp_envelope_t *)envelope receivedAt:(NSDate*)receiveTimestamp;
 
-- (id)initWithBody:(amqp_bytes_t)theBody withDeliveryProperties:(amqp_basic_deliver_t*)theDeliveryProperties withMessageProperties:(amqp_basic_properties_t*)theMessageProperties receivedAt:(NSDate*)receiveTimestamp;
+- (id)initWithEnvelope:(amqp_envelope_t *)envelope receivedAt:(NSDate*)receiveTimestamp;
 - (id)initWithAMQPMessage:(AMQPMessage*)theMessage;
 - (void)dealloc;
 

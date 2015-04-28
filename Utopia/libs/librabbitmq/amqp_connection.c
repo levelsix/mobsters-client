@@ -170,6 +170,16 @@ int amqp_get_channel_max(amqp_connection_state_t state)
   return state->channel_max;
 }
 
+int amqp_get_frame_max(amqp_connection_state_t state)
+{
+  return state->frame_max;
+}
+
+int amqp_get_heartbeat(amqp_connection_state_t state)
+{
+  return state->heartbeat;
+}
+
 int amqp_destroy_connection(amqp_connection_state_t state)
 {
   int status = AMQP_STATUS_OK;
@@ -245,7 +255,7 @@ int amqp_handle_input(amqp_connection_state_t state,
   /* do we have target_size data yet? if not, return with the
      expectation that more will arrive */
   if (state->inbound_offset < state->target_size) {
-    return (int)bytes_consumed;
+    return bytes_consumed;
   }
 
   raw_frame = state->inbound_buffer.bytes;
@@ -267,7 +277,7 @@ int amqp_handle_input(amqp_connection_state_t state,
         = amqp_d8(raw_frame, 7);
 
       return_to_idle(state);
-      return (int)bytes_consumed;
+      return bytes_consumed;
     }
 
     /* it's not a protocol header; fall through to process it as a
@@ -305,7 +315,7 @@ int amqp_handle_input(amqp_connection_state_t state,
     /* do we have target_size data yet? if not, return with the
        expectation that more will arrive */
     if (state->inbound_offset < state->target_size) {
-      return (int)bytes_consumed;
+      return bytes_consumed;
     }
 
   }
@@ -380,7 +390,7 @@ int amqp_handle_input(amqp_connection_state_t state,
     }
 
     return_to_idle(state);
-    return (int)bytes_consumed;
+    return bytes_consumed;
   }
 
   default:
@@ -457,7 +467,7 @@ int amqp_send_frame(amqp_connection_state_t state,
     uint8_t frame_end_byte = AMQP_FRAME_END;
     const amqp_bytes_t *body = &frame->payload.body_fragment;
 
-    amqp_e32(out_frame, 3, (int)body->len);
+    amqp_e32(out_frame, 3, body->len);
 
     iov[0].iov_base = out_frame;
     iov[0].iov_len = HEADER_SIZE;
@@ -466,7 +476,7 @@ int amqp_send_frame(amqp_connection_state_t state,
     iov[2].iov_base = &frame_end_byte;
     iov[2].iov_len = FOOTER_SIZE;
 
-    res = (int)amqp_socket_writev(state->socket, iov, 3);
+    res = amqp_socket_writev(state->socket, iov, 3);
   } else {
     size_t out_frame_len;
     amqp_bytes_t encoded;
@@ -512,9 +522,9 @@ int amqp_send_frame(amqp_connection_state_t state,
       return AMQP_STATUS_INVALID_PARAMETER;
     }
 
-    amqp_e32(out_frame, 3, (int)out_frame_len);
+    amqp_e32(out_frame, 3, out_frame_len);
     amqp_e8(out_frame, out_frame_len + HEADER_SIZE, AMQP_FRAME_END);
-    res = (int)amqp_socket_send(state->socket, out_frame,
+    res = amqp_socket_send(state->socket, out_frame,
                            out_frame_len + HEADER_SIZE + FOOTER_SIZE);
   }
 

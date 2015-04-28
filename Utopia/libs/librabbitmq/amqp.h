@@ -38,8 +38,6 @@
 #ifndef AMQP_H
 #define AMQP_H
 
-#import "config.h"
-
 /** \cond HIDE_FROM_DOXYGEN */
 
 #ifdef __cplusplus
@@ -225,9 +223,9 @@ AMQP_BEGIN_DECLS
  */
 
 #define AMQP_VERSION_MAJOR 0
-#define AMQP_VERSION_MINOR 5
-#define AMQP_VERSION_PATCH 3
-#define AMQP_VERSION_IS_RELEASE 0
+#define AMQP_VERSION_MINOR 6
+#define AMQP_VERSION_PATCH 0
+#define AMQP_VERSION_IS_RELEASE 1
 
 
 /**
@@ -658,6 +656,7 @@ typedef struct amqp_socket_t_ amqp_socket_t;
  *
  * \since v0.4.0
  */
+/* NOTE: When updating this enum, update the strings in librabbitmq/amqp_api.c */
 typedef enum amqp_status_enum_
 {
   AMQP_STATUS_OK =                         0x0,     /**< Operation successful */
@@ -700,12 +699,18 @@ typedef enum amqp_status_enum_
                                                         heartbeat */
   AMQP_STATUS_UNEXPECTED_STATE =          -0x0010, /**< Unexpected protocol
                                                         state */
+  AMQP_STATUS_SOCKET_CLOSED =             -0x0011, /**< Underlying socket is
+                                                        closed */
+  AMQP_STATUS_SOCKET_INUSE =              -0x0012, /**< Underlying socket is
+                                                        already open */
+  _AMQP_STATUS_NEXT_VALUE =               -0x0013, /**< Internal value */
 
   AMQP_STATUS_TCP_ERROR =                 -0x0100, /**< A generic TCP error
                                                         occurred */
   AMQP_STATUS_TCP_SOCKETLIB_INIT_ERROR =  -0x0101, /**< An error occurred trying
                                                         to initialize the
                                                         socket library*/
+  _AMQP_STATUS_TCP_NEXT_VALUE =           -0x0102, /**< Internal value */
 
   AMQP_STATUS_SSL_ERROR =                 -0x0200, /**< A generic SSL error
                                                         occurred. */
@@ -715,7 +720,8 @@ typedef enum amqp_status_enum_
                                                         failed */
   AMQP_STATUS_SSL_PEER_VERIFY_FAILED =    -0x0202, /**< SSL validation of peer
                                                         certificate failed. */
-  AMQP_STATUS_SSL_CONNECTION_FAILED =     -0x0203  /**< SSL handshake failed. */
+  AMQP_STATUS_SSL_CONNECTION_FAILED =     -0x0203, /**< SSL handshake failed. */
+  _AMQP_STATUS_SSL_NEXT_VALUE =           -0x0204  /**< Internal value */
 } amqp_status_enum;
 
 /**
@@ -1092,6 +1098,36 @@ int
 AMQP_CALL amqp_get_channel_max(amqp_connection_state_t state);
 
 /**
+ * Get the maximum size of an frame the connection can handle
+ *
+ * The maximum size of an frame is set when connection negotiation takes
+ * place in amqp_login() or amqp_login_with_properties().
+ *
+ * \param [in] state the connection object
+ * \return the maximum size of an frame.
+ *
+ * \since v0.6
+ */
+AMQP_PUBLIC_FUNCTION
+int
+AMQP_CALL amqp_get_frame_max(amqp_connection_state_t state);
+
+/**
+ * Get the number of seconds between heartbeats of the connection
+ *
+ * The number of seconds between heartbeats is set when connection
+ * negotiation takes place in amqp_login() or amqp_login_with_properties().
+ *
+ * \param [in] state the connection object
+ * \return the number of seconds between heartbeats.
+ *
+ * \since v0.6
+ */
+AMQP_PUBLIC_FUNCTION
+int
+AMQP_CALL amqp_get_heartbeat(amqp_connection_state_t state);
+
+/**
  * Destroys an amqp_connection_state_t object
  *
  * Destroys a amqp_connection_state_t object that was created with
@@ -1369,6 +1405,10 @@ AMQP_CALL amqp_send_header(amqp_connection_state_t state);
 AMQP_PUBLIC_FUNCTION
 amqp_boolean_t
 AMQP_CALL amqp_frames_enqueued(amqp_connection_state_t state);
+
+AMQP_PUBLIC_FUNCTION
+amqp_boolean_t
+AMQP_CALL amqp_data_available(amqp_connection_state_t state);
 
 /**
  * Read a single amqp_frame_t
@@ -1804,7 +1844,6 @@ struct amqp_basic_properties_t_;
  * a non-existent exchange) will not be reflected in the return value of this
  * function.
  *
- * in the return value from this function.
  * \param [in] state the connection object
  * \param [in] channel the channel identifier
  * \param [in] exchange the exchange on the broker to publish to
@@ -1965,12 +2004,6 @@ int
 AMQP_CALL amqp_basic_nack(amqp_connection_state_t state, amqp_channel_t channel,
                           uint64_t delivery_tag, amqp_boolean_t multiple,
                           amqp_boolean_t requeue);
-
-// LVL6 Addition
-AMQP_PUBLIC_FUNCTION
-amqp_boolean_t
-AMQP_CALL amqp_data_available(amqp_connection_state_t state);
-
 /**
  * Check to see if there is data left in the receive buffer
  *
