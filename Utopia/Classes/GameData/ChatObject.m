@@ -589,8 +589,12 @@ static char const * clanGiftRedeemedKey = "clanGiftRedeemedKey";
 }
 
 - (IBAction)collectClicked:(id)sender {
+  NSString *alert = [NSString stringWithFormat:@"You just collected %@ from your %@",[Globals nameForReward:self.reward], self.clanGift.name];
+  [Globals addPurpleAlertNotification:alert isImmediate:YES];
+  
   [self setIsRedeemed:YES];
   [[NSNotificationCenter defaultCenter] postNotificationName:CLAN_GIFTS_CHANGED_NOTIFICATION object:nil];
+
   [[OutgoingEventController sharedOutgoingEventController] collectClanGift:[NSArray arrayWithObject:self] delegate:nil];
 }
 

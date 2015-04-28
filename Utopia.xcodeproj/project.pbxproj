@@ -1861,6 +1861,12 @@
 		63CA30E61AEF0C3F0005175B /* ChatClanGiftView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63CA30E51AEF0C3F0005175B /* ChatClanGiftView.xib */; };
 		63CA30E71AEF0C3F0005175B /* ChatClanGiftView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63CA30E51AEF0C3F0005175B /* ChatClanGiftView.xib */; };
 		63CA30E81AEF0C3F0005175B /* ChatClanGiftView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63CA30E51AEF0C3F0005175B /* ChatClanGiftView.xib */; };
+		63CA30ED1AF0130F0005175B /* EmbeddedRewardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63CA30EC1AF0130F0005175B /* EmbeddedRewardView.m */; };
+		63CA30EE1AF0130F0005175B /* EmbeddedRewardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63CA30EC1AF0130F0005175B /* EmbeddedRewardView.m */; };
+		63CA30EF1AF0130F0005175B /* EmbeddedRewardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63CA30EC1AF0130F0005175B /* EmbeddedRewardView.m */; };
+		63CA30F11AF013230005175B /* EmbeddedRewardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63CA30F01AF013230005175B /* EmbeddedRewardView.xib */; };
+		63CA30F21AF013230005175B /* EmbeddedRewardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63CA30F01AF013230005175B /* EmbeddedRewardView.xib */; };
+		63CA30F31AF013230005175B /* EmbeddedRewardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63CA30F01AF013230005175B /* EmbeddedRewardView.xib */; };
 		63CDCEFB1AB8EBF400A00DB6 /* buildingresearch@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CDCEFA1AB8EBF400A00DB6 /* buildingresearch@2x.png */; };
 		63CDCEFC1AB8EBF400A00DB6 /* buildingresearch@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CDCEFA1AB8EBF400A00DB6 /* buildingresearch@2x.png */; };
 		63CDCEFD1AB8EBF400A00DB6 /* buildingresearch@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CDCEFA1AB8EBF400A00DB6 /* buildingresearch@2x.png */; };
@@ -8568,6 +8574,9 @@
 		63C706381ADC7A09004E072B /* ClanGiftUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClanGiftUtil.m; sourceTree = "<group>"; };
 		63CA30CF1AE9CC330005175B /* gacha_spin1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = gacha_spin1.mp3; sourceTree = "<group>"; };
 		63CA30E51AEF0C3F0005175B /* ChatClanGiftView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatClanGiftView.xib; sourceTree = "<group>"; };
+		63CA30EB1AF0130F0005175B /* EmbeddedRewardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmbeddedRewardView.h; sourceTree = "<group>"; };
+		63CA30EC1AF0130F0005175B /* EmbeddedRewardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmbeddedRewardView.m; sourceTree = "<group>"; };
+		63CA30F01AF013230005175B /* EmbeddedRewardView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EmbeddedRewardView.xib; sourceTree = "<group>"; };
 		63CDCEFA1AB8EBF400A00DB6 /* buildingresearch@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buildingresearch@2x.png"; sourceTree = "<group>"; };
 		63CDCF081ABB897600A00DB6 /* activesquadrewardarrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "activesquadrewardarrow@2x.png"; sourceTree = "<group>"; };
 		63CDCF091ABB897600A00DB6 /* completedsquadrewards@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "completedsquadrewards@2x.png"; sourceTree = "<group>"; };
@@ -15414,6 +15423,9 @@
 				DA58F52019AE8B9D00D025BC /* UIView+Coordinates.m */,
 				296548691A8193A00080B195 /* UIView+Superview.h */,
 				2965486A1A8193A00080B195 /* UIView+Superview.m */,
+				63CA30EB1AF0130F0005175B /* EmbeddedRewardView.h */,
+				63CA30EC1AF0130F0005175B /* EmbeddedRewardView.m */,
+				63CA30F01AF013230005175B /* EmbeddedRewardView.xib */,
 			);
 			path = Miscellaneous;
 			sourceTree = "<group>";
@@ -21312,6 +21324,7 @@
 				9BD473A01AC373BC00EBBFB2 /* MiniEventTierPrizeCell.xib in Resources */,
 				CF0CF74E196F452900ECD301 /* battleultratag@2x.png in Resources */,
 				CF0CF74F196F452900ECD301 /* fbcheck@2x.png in Resources */,
+				63CA30F21AF013230005175B /* EmbeddedRewardView.xib in Resources */,
 				4C16FEED19CE03A200F9FC1E /* nightpoison@2x.png in Resources */,
 				CF0CF751196F452900ECD301 /* ClanRaidListViewController.xib in Resources */,
 				299AA3101A7856AA00A2D806 /* 6earthorb-9@2x.png in Resources */,
@@ -21800,6 +21813,7 @@
 				2933DC4F1ADFA808005D7620 /* gempackageheader@2x.png in Resources */,
 				CF32EAE7195FF81900A4AEE3 /* menuactivetab@2x.png in Resources */,
 				298050C31A2E961D00806253 /* shopbutton@3x.png in Resources */,
+				63CA30F11AF013230005175B /* EmbeddedRewardView.xib in Resources */,
 				CF68903E1912E7B500FF1F71 /* engagearrow@2x.png in Resources */,
 				6B89A6A51A941948004C16B6 /* 6lockedorbright-9@2x.png in Resources */,
 				CFBB37A318F49D3200FD6C8C /* oilicon@2x.png in Resources */,
@@ -23727,6 +23741,7 @@
 				CF481A0019F7217F00041486 /* shieldon@2x.png in Resources */,
 				CF481A0119F7217F00041486 /* greywhite3@2x.png in Resources */,
 				CFA728A71A0B037900FF6031 /* fireeventbigbgcap@2x.png in Resources */,
+				63CA30F31AF013230005175B /* EmbeddedRewardView.xib in Resources */,
 				CF481A0519F7217F00041486 /* expand@2x.png in Resources */,
 				29AE75861A6F36E000264070 /* MilitaryChicken1T1P2TutBig@2x.png in Resources */,
 				CF481A0619F7217F00041486 /* lockedmobster@2x.png in Resources */,
@@ -26270,6 +26285,7 @@
 				CF0CEDB3196F452900ECD301 /* EnhanceQueueViewController.m in Sources */,
 				CF0CEDB4196F452900ECD301 /* AMQPConnectionThread.m in Sources */,
 				29A2FCF21A647EEB00FF93B6 /* OrbFallAction.m in Sources */,
+				63CA30EE1AF0130F0005175B /* EmbeddedRewardView.m in Sources */,
 				CF0CEDB5196F452900ECD301 /* EventStructure.pb.m in Sources */,
 				9BD4739D1AC373BC00EBBFB2 /* MiniEventTierPrizeCell.m in Sources */,
 				DA0FC58319B65B0200393BF4 /* SkillControllerPassive.m in Sources */,
@@ -26756,6 +26772,7 @@
 				CFF3907C1828BB810010A3BE /* RequestsViewController.m in Sources */,
 				CF52D0AD17EA3E7D00A067A6 /* BattleViews.m in Sources */,
 				2987083A1AC3415D002BFF2E /* ResearchUtil.m in Sources */,
+				63CA30ED1AF0130F0005175B /* EmbeddedRewardView.m in Sources */,
 				CF29E9121960E85100B40DA4 /* BuildingViews.m in Sources */,
 				CF63F78217EC168D00FEBAA9 /* CCSoundAnimation.m in Sources */,
 				DA58F51019AE6C5200D025BC /* UIColor+HexColor.m in Sources */,
@@ -27071,6 +27088,7 @@
 				CF48196119F7217F00041486 /* RewardsView.m in Sources */,
 				CF48196219F7217F00041486 /* EnhanceQueueViewController.m in Sources */,
 				CF48196319F7217F00041486 /* AMQPConnectionThread.m in Sources */,
+				63CA30EF1AF0130F0005175B /* EmbeddedRewardView.m in Sources */,
 				29A2FCF31A647EEB00FF93B6 /* OrbFallAction.m in Sources */,
 				9BD4739E1AC373BC00EBBFB2 /* MiniEventTierPrizeCell.m in Sources */,
 				CF48196419F7217F00041486 /* EventStructure.pb.m in Sources */,

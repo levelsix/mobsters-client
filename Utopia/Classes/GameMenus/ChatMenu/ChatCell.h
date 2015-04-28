@@ -17,6 +17,7 @@
 #import "MonsterSelectViewController.h"
 #import "TeamDonateMonstersFiller.h"
 #import "RewardsView.h"
+#import "EmbeddedRewardView.h"
 
 @interface ChatCell : UITableViewCell {
   BOOL _bubbleColorChanged;
@@ -197,7 +198,7 @@
 @property (nonatomic, retain) IBOutlet UILabel *giftRarityLabel;
 @property (nonatomic, retain) IBOutlet UILabel *giftNameLabel;
 
-@property (nonatomic, retain) IBOutlet RewardView *rewardView;
+@property (nonatomic, retain) IBOutlet EmbeddedRewardView *embeddedRewardView;
 @property (nonatomic, retain) IBOutlet UILabel *rewardNameLabel;
 @property (nonatomic, retain) IBOutlet UIImageView *rewardFitImageView;
 @property (nonatomic, retain) IBOutlet UIImageView *rewardCenterImageView;
