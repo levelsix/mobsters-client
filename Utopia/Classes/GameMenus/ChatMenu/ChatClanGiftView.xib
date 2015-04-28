@@ -75,14 +75,13 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="collectButton" destination="R37-U9-gjf" id="QO8-nf-TJL"/>
+                <outlet property="embeddedRewardView" destination="Xsc-dx-pey" id="ymL-jY-l1I"/>
                 <outlet property="expireTimeLabel" destination="qWA-IN-SdU" id="SG2-jm-cwX"/>
                 <outlet property="giftImage" destination="I8p-lN-zJB" id="YkW-KT-Z5n"/>
                 <outlet property="giftNameLabel" destination="AVE-nD-HLq" id="Zzt-Uh-6wO"/>
                 <outlet property="giftRarityLabel" destination="Z6u-Nz-Bi4" id="Tve-Ul-zEK"/>
                 <outlet property="openLabel" destination="JEs-lw-PFA" id="Vxw-tL-4Bg"/>
                 <outlet property="openedView" destination="r8s-xd-z79" id="8JT-Dp-3Fd"/>
-                <outlet property="rewardCenterImageView" destination="NEx-4Y-sNW" id="AwV-wj-ndz"/>
-                <outlet property="rewardFitImageView" destination="QIo-BS-ab2" id="Ynw-fC-A0l"/>
                 <outlet property="rewardNameLabel" destination="XuE-3I-Nde" id="Uyx-gU-Jos"/>
                 <outlet property="unOpenedView" destination="sHy-5J-fiQ" id="tj4-95-wXE"/>
             </connections>
@@ -93,14 +92,14 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rare Gift" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Z6u-Nz-Bi4" customClass="NiceFontLabel12">
-                    <rect key="frame" x="49" y="9" width="118" height="21"/>
+                    <rect key="frame" x="49" y="9" width="203" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                     <color key="textColor" red="0.14901960784313725" green="0.14901960784313725" blue="0.14901960784313725" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name of the gift" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="XuE-3I-Nde" customClass="NiceFontLabel9">
-                    <rect key="frame" x="49" y="27" width="118" height="21"/>
+                    <rect key="frame" x="49" y="27" width="203" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                     <color key="textColor" red="0.19215686274509805" green="0.19215686274509805" blue="0.19215686274509805" alpha="1" colorSpace="calibratedRGB"/>
@@ -114,14 +113,19 @@
                             <rect key="frame" x="0.0" y="0.0" width="41" height="41"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </imageView>
-                        <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="NEx-4Y-sNW" userLabel="CenterImage">
+                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="NEx-4Y-sNW" userLabel="CenterImage">
                             <rect key="frame" x="0.0" y="0.0" width="41" height="41"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </imageView>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="QIo-BS-ab2" userLabel="FitImage">
+                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="QIo-BS-ab2" userLabel="FitImage">
                             <rect key="frame" x="0.0" y="1" width="41" height="38"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </imageView>
+                        <view contentMode="scaleToFill" id="Xsc-dx-pey" customClass="EmbeddedRewardView">
+                            <rect key="frame" x="0.0" y="0.0" width="41" height="41"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" red="0.54047683626835319" green="1" blue="0.41967380143701682" alpha="1" colorSpace="calibratedRGB"/>
+                        </view>
                     </subviews>
                 </view>
             </subviews>
