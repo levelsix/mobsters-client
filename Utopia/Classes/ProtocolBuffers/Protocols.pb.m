@@ -183,7 +183,7 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCUpdateUserStrengthEvent:
     case EventProtocolRequestCRefreshMiniJobEvent:
     case EventProtocolRequestCCollectClanGiftsEvent:
-    case EventProtocolRequestCClearExpiredClanGiftsEvent:
+    case EventProtocolRequestCDeleteClanGiftsEvent:
     case EventProtocolRequestCReceivedClanGiftsEvent:
       return YES;
     default:
@@ -313,7 +313,7 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSUpdateUserStrengthEvent:
     case EventProtocolResponseSRefreshMiniJobEvent:
     case EventProtocolResponseSCollectClanGiftsEvent:
-    case EventProtocolResponseSClearExpiredClanGiftsEvent:
+    case EventProtocolResponseSDeleteClanGiftsEvent:
     case EventProtocolResponseSReceivedClanGiftsEvent:
       return YES;
     default:

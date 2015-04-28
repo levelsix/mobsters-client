@@ -1680,7 +1680,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
   }
   
-  [[SocketCommunication sharedSocketCommunication] sendClearExpireClanGiftsMessage:userClanGifts];
+  [[SocketCommunication sharedSocketCommunication] sendDeleteGiftsMessage:userClanGifts];
 }
 
 #pragma mark - Speedups
