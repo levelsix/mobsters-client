@@ -639,10 +639,18 @@ static float buttonInitialWidth = 159.f;
     self.unOpenedView.hidden = NO;
   }
   
+//  RewardView *newView = [[NSBundle mainBundle] loadNibNamed:@"RewardView" owner:self options:nil][0];
+//  [self.rewardView.superview addSubview:newView];
+//  newView.center = self.rewardView.center;
+//  [self.rewardView removeFromSuperview];
+//  self.rewardView = newView;
+//  [self.rewardView loadForReward:[Reward createRewardWithRewardProto:userClanGift.reward]];
+  
   NSString *rewardImageName = [Globals imageNameForReward:userClanGift.reward];
   NSString *rewardName = [Globals nameForReward:userClanGift.reward];
   
-  self.giftRarityLabel.text = [NSString stringWithFormat:@"%@ Gift", [Globals stringForRarity:userClanGift.clanGift.quality]];
+//  self.giftRarityLabel.text = [NSString stringWithFormat:@"%@ Gift", [Globals stringForRarity:userClanGift.clanGift.quality]];
+  self.giftRarityLabel.text = userClanGift.clanGift.name;
   self.giftNameLabel.text = userClanGift.clanGift.name;
   
   [self updateForExpireDate:userClanGift.expireDate];
