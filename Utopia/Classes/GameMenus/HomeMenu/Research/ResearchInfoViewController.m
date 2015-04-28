@@ -80,9 +80,9 @@
   }
   
   if (userResearch.complete && nextResearch) {
-    self.oilButtonLabel.text = [NSString stringWithFormat:@"%d", nextResearch.costAmt];
+    self.oilButtonLabel.text = [Globals commafyNumber:nextResearch.costAmt];
     self.oilButtonView.hidden = nextResearch.costType != ResourceTypeOil;
-    self.cashButtonLabel.text = [NSString stringWithFormat:@"%d", nextResearch.costAmt];
+    self.cashButtonLabel.text = [Globals commafyNumber:nextResearch.costAmt];
     self.cashButtonView.hidden = nextResearch.costType != ResourceTypeCash;
     
     self.oilButton.userInteractionEnabled = YES;
