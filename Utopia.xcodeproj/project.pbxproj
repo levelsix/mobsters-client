@@ -1816,6 +1816,9 @@
 		63CA30D01AE9CC330005175B /* gacha_spin1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 63CA30CF1AE9CC330005175B /* gacha_spin1.mp3 */; };
 		63CA30D11AE9CC330005175B /* gacha_spin1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 63CA30CF1AE9CC330005175B /* gacha_spin1.mp3 */; };
 		63CA30D21AE9CC330005175B /* gacha_spin1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 63CA30CF1AE9CC330005175B /* gacha_spin1.mp3 */; };
+		63CA30E61AEF0C3F0005175B /* ChatClanGiftView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63CA30E51AEF0C3F0005175B /* ChatClanGiftView.xib */; };
+		63CA30E71AEF0C3F0005175B /* ChatClanGiftView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63CA30E51AEF0C3F0005175B /* ChatClanGiftView.xib */; };
+		63CA30E81AEF0C3F0005175B /* ChatClanGiftView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63CA30E51AEF0C3F0005175B /* ChatClanGiftView.xib */; };
 		63CDCEFB1AB8EBF400A00DB6 /* buildingresearch@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CDCEFA1AB8EBF400A00DB6 /* buildingresearch@2x.png */; };
 		63CDCEFC1AB8EBF400A00DB6 /* buildingresearch@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CDCEFA1AB8EBF400A00DB6 /* buildingresearch@2x.png */; };
 		63CDCEFD1AB8EBF400A00DB6 /* buildingresearch@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CDCEFA1AB8EBF400A00DB6 /* buildingresearch@2x.png */; };
@@ -8435,6 +8438,7 @@
 		63C706371ADC7A09004E072B /* ClanGiftUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClanGiftUtil.h; sourceTree = "<group>"; };
 		63C706381ADC7A09004E072B /* ClanGiftUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClanGiftUtil.m; sourceTree = "<group>"; };
 		63CA30CF1AE9CC330005175B /* gacha_spin1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = gacha_spin1.mp3; sourceTree = "<group>"; };
+		63CA30E51AEF0C3F0005175B /* ChatClanGiftView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatClanGiftView.xib; sourceTree = "<group>"; };
 		63CDCEFA1AB8EBF400A00DB6 /* buildingresearch@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buildingresearch@2x.png"; sourceTree = "<group>"; };
 		63CDCF081ABB897600A00DB6 /* activesquadrewardarrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "activesquadrewardarrow@2x.png"; sourceTree = "<group>"; };
 		63CDCF091ABB897600A00DB6 /* completedsquadrewards@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "completedsquadrewards@2x.png"; sourceTree = "<group>"; };
@@ -13974,6 +13978,7 @@
 		29FFD9661A37E5160063C17C /* ChatCell */ = {
 			isa = PBXGroup;
 			children = (
+				63CA30E51AEF0C3F0005175B /* ChatClanGiftView.xib */,
 				63C1AB291A847A0E00F92D8F /* PrivateChatAttackLogCell.xib */,
 				CF3765A4182F06BA00D0A77E /* ChatCell.h */,
 				CF3765A5182F06BA00D0A77E /* ChatCell.m */,
@@ -19503,6 +19508,7 @@
 				9BB5AFA91AA7FEC7002076E3 /* boardeditorcorner@2x.png in Resources */,
 				9BDA8C4E1A5F6DAB00C7AC27 /* grabgemslabel@2x.png in Resources */,
 				CF0CF047196F452900ECD301 /* legenddot@2x.png in Resources */,
+				63CA30E71AEF0C3F0005175B /* ChatClanGiftView.xib in Resources */,
 				CFA728AC1A0B037900FF6031 /* lighteventbigbg@2x.png in Resources */,
 				29AE75AF1A6F36E000264070 /* Kim1T1AttackNF@2x.plist in Resources */,
 				CF0CF049196F452900ECD301 /* 4x4dark@2x.png in Resources */,
@@ -23259,6 +23265,7 @@
 				2948F58F1AB7635300DF08C2 /* ifitemsquaremedium@2x.png in Resources */,
 				298133A81AB80BE400CA5658 /* firedailylab@2x.png in Resources */,
 				9BB9486E1A68A85B006EE920 /* 5basicgrabgachatabactive@2x.png in Resources */,
+				63CA30E61AEF0C3F0005175B /* ChatClanGiftView.xib in Resources */,
 				636C3E821AAA865400B02980 /* darkresearchcorner@2x.png in Resources */,
 				9BC5358F1A845C1200E49F4D /* miniearth@2x.png in Resources */,
 				6B51469F1AA1487100B2844A /* 6waterlsorb@2x.png in Resources */,
@@ -25136,6 +25143,7 @@
 				9BB948ED1A6DF856006EE920 /* whitegrlightcircle2@2x.png in Resources */,
 				9BB9486D1A68A85B006EE920 /* 4basicgrabgachatabactive@2x.png in Resources */,
 				CF4823A319F7217F00041486 /* buildtimeclock@2x.png in Resources */,
+				63CA30E81AEF0C3F0005175B /* ChatClanGiftView.xib in Resources */,
 				CF4823A419F7217F00041486 /* timerbg@2x.png in Resources */,
 				CF4823A819F7217F00041486 /* timeryellow@2x.png in Resources */,
 				CF4823AB19F7217F00041486 /* 6lightpoison@2x.png in Resources */,
