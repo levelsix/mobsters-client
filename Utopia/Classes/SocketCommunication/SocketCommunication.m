@@ -1655,13 +1655,13 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCCollectClanGiftsEvent];
 }
 
-- (int) sendClearExpireClanGiftsMessage:(NSArray *)userClanGifts {
-  ClearExpiredClanGiftsRequestProto *req = [[[[ClearExpiredClanGiftsRequestProto builder]
+- (int) sendDeleteGiftsMessage:(NSArray *)userClanGifts {
+  DeleteClanGiftsRequestProto *req = [[[[DeleteClanGiftsRequestProto builder]
                                               setSender:_sender]
                                              addAllExpiredGifts:userClanGifts]
                                             build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCClearExpiredClanGiftsEvent];
+  return [self sendData:req withMessageType:EventProtocolRequestCDeleteClanGiftsEvent];
 }
 
 - (int) sendRetrieveUserMonsterTeamMessage:(NSArray *)userUuids {

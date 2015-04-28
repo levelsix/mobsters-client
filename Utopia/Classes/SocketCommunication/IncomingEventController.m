@@ -380,8 +380,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSCollectClanGiftsEvent:
       responseClass = [CollectClanGiftsResponseProto class];
       break;
-    case EventProtocolResponseSClearExpiredClanGiftsEvent:
-      responseClass = [ClearExpiredClanGiftsResponseProto class];
+    case EventProtocolResponseSDeleteClanGiftsEvent:
+      responseClass = [DeleteClanGiftsResponseProto class];
       break;
     case EventProtocolResponseSReceivedClanGiftsEvent:
       responseClass = [ReceivedClanGiftResponseProto class];
@@ -546,7 +546,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 
     [gs.clanGifts removeAllObjects];
     NSMutableArray *giftsToBeRemoved = [[NSMutableArray alloc] init];
-    for (UserClanGiftProto *ucgp in gs.clanGifts) {
+    for (UserClanGiftProto *ucgp in proto.userClanGiftsList) {
       if (ucgp.hasBeenCollected) {
         [giftsToBeRemoved addObject:ucgp];
         continue;
@@ -1693,12 +1693,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handleClearExpiredClanGiftsResponseProto:(FullEvent *)fe {
-  ClearExpiredClanGiftsResponseProto *proto = (ClearExpiredClanGiftsResponseProto *)fe.event;
+- (void) handleDeleteClanGiftsResponseProto:(FullEvent *)fe {
+  DeleteClanGiftsResponseProto *proto = (DeleteClanGiftsResponseProto *)fe.event;
   
   LNLog(@"Clear Expired Clan Gifts received with status %d.", (int)proto.status);
   
-  if (proto.status == ClearExpiredClanGiftsResponseProto_ClearExpiredClanGiftsStatusSuccess) {
+  if (proto.status == DeleteClanGiftsResponseProto_DeleteClanGiftsStatusSuccess) {
     
   } else {
     [Globals popupMessage:@"Server fail to clear expired gift(s)."];

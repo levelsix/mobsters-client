@@ -230,7 +230,7 @@
 - (int) sendVoidTeamDonationSolicitationMessage:(NSArray *)solicitations;
 
 - (int) sendCollectClanGiftMessage:(NSArray *)userClanGifts;
-- (int) sendClearExpireClanGiftsMessage:(NSArray *)userClanGifts;
+- (int) sendDeleteGiftsMessage:(NSArray *)userClanGifts;
 
 - (int) sendRetrieveUserMonsterTeamMessage:(NSArray *)userUuids;
 
