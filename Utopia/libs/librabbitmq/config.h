@@ -58,8 +58,7 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #define HAVE_UNISTD_H 1
 
-/* Define to the sub-directory in which libtool stores uninstalled libraries.
-   */
+/* Define to the sub-directory where libtool stores uninstalled libraries. */
 #define LT_OBJDIR ".libs/"
 
 /* Define to 1 for Win32. */
@@ -75,7 +74,7 @@
 #define PACKAGE_NAME "rabbitmq-c"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "rabbitmq-c 0.5.3"
+#define PACKAGE_STRING "rabbitmq-c 0.6.0"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "rabbitmq-c"
@@ -84,7 +83,7 @@
 #define PACKAGE_URL "http://www.rabbitmq.com/"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "0.5.3"
+#define PACKAGE_VERSION "0.6.0"
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
@@ -112,7 +111,7 @@
 
 
 /* Version number of package */
-#define VERSION "0.5.3"
+#define VERSION "0.6.0"
 
 /* Define to 1 if SSL/TLS is enabled. */
 #define WITH_SSL 1

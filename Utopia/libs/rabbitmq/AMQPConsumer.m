@@ -36,101 +36,114 @@
 
 - (id)initForQueue:(AMQPQueue*)theQueue onChannel:(AMQPChannel*)theChannel useAcknowledgements:(BOOL)ack isExclusive:(BOOL)exclusive receiveLocalMessages:(BOOL)local
 {
-	if(self = [super init])
-	{
-		channel = [theChannel retain];
-		queue = [theQueue retain];
-		
-		amqp_basic_consume_ok_t *response = amqp_basic_consume(channel.connection.internalConnection, channel.internalChannel, queue.internalQueue, AMQP_EMPTY_BYTES, !local, !ack, exclusive, AMQP_EMPTY_TABLE);
-		[channel.connection checkLastOperation:@"Failed to start consumer"];
-		
-		consumer = amqp_bytes_malloc_dup(response->consumer_tag);
-	}
-	
-	return self;
+  if(self = [super init])
+  {
+    channel = [theChannel retain];
+    queue = [theQueue retain];
+    
+    amqp_basic_consume_ok_t *response = amqp_basic_consume(channel.connection.internalConnection, channel.internalChannel, queue.internalQueue, AMQP_EMPTY_BYTES, !local, !ack, exclusive, AMQP_EMPTY_TABLE);
+    [channel.connection checkLastOperation:@"Failed to start consumer"];
+    
+    consumer = amqp_bytes_malloc_dup(response->consumer_tag);
+  }
+  
+  return self;
 }
 
 - (void)dealloc
 {
   amqp_basic_cancel(channel.connection.internalConnection, channel.internalChannel, consumer);
-	amqp_bytes_free(consumer);
-	[channel release];
-	[queue release];
-	
-	[super dealloc];
+  amqp_bytes_free(consumer);
+  [channel release];
+  [queue release];
+  
+  [super dealloc];
 }
 
-- (AMQPMessage*)pop
+- (AMQPMessage *) popWithStatus:(amqp_status_enum *)status
 {
-	amqp_frame_t frame;
-	int result = -1;
-	size_t receivedBytes = 0;
-	size_t bodySize = -1;
-	amqp_bytes_t body;
-	amqp_basic_deliver_t *delivery;
-	amqp_basic_properties_t *properties;
-	
-	AMQPMessage *message = nil;
-	
-	amqp_maybe_release_buffers(channel.connection.internalConnection);
-	
-	while(!message)
-	{
-		// a complete message delivery consists of at least three frames:
-		
-		// Frame #1: method frame with method basic.deliver
-		result = amqp_simple_wait_frame(channel.connection.internalConnection, &frame);
-		if(result < 0) {
-      return nil;
-    }
-		
-		if(frame.frame_type != AMQP_FRAME_METHOD || frame.payload.method.id != AMQP_BASIC_DELIVER_METHOD) {
-      continue;
-    }
-		
-		delivery = (amqp_basic_deliver_t*)frame.payload.method.decoded;
-		
-		// Frame #2: header frame containing body size
-		result = amqp_simple_wait_frame(channel.connection.internalConnection, &frame);
-		if(result < 0) {
-      return nil;
-    }
-		
-		if(frame.frame_type != AMQP_FRAME_HEADER)
-		{
-			return nil;
-		}
-		
-		properties = (amqp_basic_properties_t*)frame.payload.properties.decoded;
-		
-		bodySize = (size_t)frame.payload.properties.body_size;
-		receivedBytes = 0;
-		body = amqp_bytes_malloc(bodySize);
-		
-		// Frame #3+: body frames
-		while(receivedBytes < bodySize)
-		{
-			result = amqp_simple_wait_frame(channel.connection.internalConnection, &frame);
-			if(result < 0) {
+  amqp_connection_state_t conn = channel.connection.internalConnection;
+  amqp_frame_t frame;
+  
+  amqp_rpc_reply_t ret;
+  amqp_envelope_t envelope;
+  
+  
+  struct timeval tv;
+  tv.tv_sec = 0;
+  tv.tv_usec = 50000;
+  
+  amqp_maybe_release_buffers(conn);
+  ret = amqp_consume_message(conn, &envelope, &tv, 0);
+  
+  *status = ret.library_error;
+  
+  if (AMQP_RESPONSE_NORMAL != ret.reply_type) {
+    if (AMQP_RESPONSE_LIBRARY_EXCEPTION == ret.reply_type &&
+        AMQP_STATUS_UNEXPECTED_STATE == ret.library_error) {
+      if (AMQP_STATUS_OK != amqp_simple_wait_frame(conn, &frame)) {
         return nil;
       }
-			
-			if(frame.frame_type != AMQP_FRAME_BODY)
-			{
-				return nil;
-			}
-			
-			memcpy(body.bytes+receivedBytes, frame.payload.body_fragment.bytes, frame.payload.body_fragment.len);
-			receivedBytes += frame.payload.body_fragment.len;
-		}
-		
+      
+      if (AMQP_FRAME_METHOD == frame.frame_type) {
+        switch (frame.payload.method.id) {
+          case AMQP_BASIC_ACK_METHOD:
+            /* if we've turned publisher confirms on, and we've published a message
+             * here is a message being confirmed
+             */
+            fprintf(stderr ,"AMQP ACK\n");
+            
+            break;
+          case AMQP_BASIC_RETURN_METHOD:
+            /* if a published message couldn't be routed and the mandatory flag was set
+             * this is what would be returned. The message then needs to be read.
+             */
+          {
+            amqp_message_t message;
+            ret = amqp_read_message(conn, frame.channel, &message, 0);
+            if (AMQP_RESPONSE_NORMAL != ret.reply_type) {
+              return nil;
+            }
+            
+            amqp_destroy_message(&message);
+          }
+            
+            break;
+            
+          case AMQP_CHANNEL_CLOSE_METHOD:
+            /* a channel.close method happens when a channel exception occurs, this
+             * can happen by publishing to an exchange that doesn't exist for example
+             *
+             * In this case you would need to open another channel redeclare any queues
+             * that were declared auto-delete, and restart any consumers that were attached
+             * to the previous channel
+             */
+            fprintf(stderr ,"CHANNEL CLOSED\n");
+            return nil;
+            
+          case AMQP_CONNECTION_CLOSE_METHOD:
+            /* a connection.close method happens when a connection exception occurs,
+             * this can happen by trying to use a channel that isn't open for example.
+             *
+             * In this case the whole connection must be restarted.
+             */
+            fprintf(stderr ,"CONNECTION CLOSED\n");
+            return nil;
+            
+          default:
+            fprintf(stderr ,"An unexpected method was received %d\n", frame.payload.method.id);
+            return nil;
+        }
+      }
+    }
     
-		message = [AMQPMessage messageFromBody:body withDeliveryProperties:delivery withMessageProperties:properties receivedAt:[NSDate date]];
-		
-		amqp_bytes_free(body);
-	}
-	
-	return message;
+  } else {
+    AMQPMessage *message = [AMQPMessage messageFromEnvelope:&envelope receivedAt:[NSDate date]];
+    amqp_destroy_envelope(&envelope);
+    return message;
+  }
+  
+  return nil;
 }
 
 @end

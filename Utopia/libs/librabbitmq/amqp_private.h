@@ -322,8 +322,8 @@ static inline void *amqp_offset(void *data, size_t offset)
 #endif
 
 #ifndef HAVE_HTONLL
-DECLARE_XTOXLL(hton)
-DECLARE_XTOXLL(ntoh)
+//DECLARE_XTOXLL(hton)
+//DECLARE_XTOXLL(ntoh)
 #endif
 
 DECLARE_CODEC_BASE_TYPE(8, (uint8_t), (uint8_t))

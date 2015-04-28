@@ -17,4 +17,6 @@
 - (void) connectedToUserIdQueue;
 - (void) unableToConnectToHost:(NSString *)error;
 
+- (void) amqpDisconnected;
+
 @end

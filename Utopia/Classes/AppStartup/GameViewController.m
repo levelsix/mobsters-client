@@ -373,6 +373,9 @@ static const CGSize FIXED_SIZE = {568, 384};
         [dir resume];
       }
     }
+    
+    [self.reconnectViewController end];
+    self.reconnectViewController = nil;
   } else if (!gs.isTutorial) {
     [self beginAllTimers];
   }
@@ -397,6 +400,26 @@ static const CGSize FIXED_SIZE = {568, 384};
   [[SocketCommunication sharedSocketCommunication] initNetworkCommunicationWithDelegate:self clearMessages:YES];
   
   [Analytics connectStep:ConnectStepInitializeConnection];
+}
+
+- (void) reconnectToServer {
+  [[SocketCommunication sharedSocketCommunication] initNetworkCommunicationWithDelegate:self clearMessages:NO];
+  
+  self.reconnectViewController = [[ReconnectViewController alloc] init];
+  [self.notificationController addNotification:self.reconnectViewController];
+}
+
+- (void) amqpDisconnected {
+  LNLog(@"Disconnected from the server. Reconnecting...");
+  [self reconnectToServer];
+}
+
+- (void) unableToConnectToHost:(id)error {
+  _isFreshRestart = YES;
+  
+  if (!self.loadingViewController) {
+    [self fadeToLoadingScreenPercentage:PART_1_PERCENT animated:YES];
+  }
 }
 
 - (void) reloadAccountWithStartupResponse:(StartupResponseProto *)startupResponse {
@@ -433,7 +456,7 @@ static const CGSize FIXED_SIZE = {568, 384};
 
 - (void) handleConnectedToHost {
   GameState *gs = [GameState sharedGameState];
-  if (!self.tutController && !_isFromFacebook) {
+  if (!self.tutController && !_isFromFacebook && _isFreshRestart) {
     [self progressTo:PART_2_PERCENT animated:YES];
     
     if (_isFreshRestart) {
@@ -465,14 +488,22 @@ static const CGSize FIXED_SIZE = {568, 384};
     gs.connected = YES;
     
     [Analytics connectedToServerWithLevel:gs.level gems:gs.gems cash:gs.cash oil:gs.oil];
-  } else if (_isFromFacebook) {
+  } else if (_isFromFacebook || !_isFreshRestart) {
     gs.connected = YES;
     
     [[SocketCommunication sharedSocketCommunication] initUserIdMessageQueue];
+    
+    
   }
   _isFromFacebook = NO;
 }
 
+- (void) connectedToUserIdQueue {
+  if (self.reconnectViewController) {
+    [self.reconnectViewController end];
+    self.reconnectViewController = nil;
+  }
+}
 
 - (void) handleStartupResponseProto:(FullEvent *)fe {
   [self progressTo:PART_3_PERCENT animated:YES];

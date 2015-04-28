@@ -42,6 +42,6 @@
 - (id)initForQueue:(AMQPQueue*)theQueue onChannel:(AMQPChannel*)theChannel useAcknowledgements:(BOOL)ack isExclusive:(BOOL)exclusive receiveLocalMessages:(BOOL)local;
 - (void)dealloc;
 
-- (AMQPMessage*)pop;
+- (AMQPMessage *) popWithStatus:(amqp_status_enum *)status;
 
 @end
