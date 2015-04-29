@@ -212,7 +212,7 @@ static NSString *udid = nil;
   LNLog(@"Initializing network connection..");
   
   // In case we just came from inactive state
-  _currentTagNum = ABS(arc4random());
+  _currentTagNum = abs(arc4random());
   _shouldReconnect = YES;
   _numDisconnects = 0;
   
@@ -1272,7 +1272,7 @@ static NSString *udid = nil;
     }
     
     self.lastClientTime = clientTime;
-    return _currentTagNum+1;
+    return 0;
   }
 }
 

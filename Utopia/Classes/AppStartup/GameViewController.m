@@ -678,7 +678,7 @@ static const CGSize FIXED_SIZE = {568, 384};
     
     if (prod) {
       // No need to make self the delegate because we are an observer already
-      [iap buyProductIdentifier:prod saleUuid:nil withDelegate:nil];
+      [iap buyProductIdentifier:prod saleUuid:nil withDelegate:self];
     }
     
     self.loadingView = [[NSBundle mainBundle] loadNibNamed:@"LoadingSpinnerView" owner:self options:nil][0];
@@ -686,6 +686,11 @@ static const CGSize FIXED_SIZE = {568, 384};
     
     return YES;
   }
+}
+
+- (void) handleInAppPurchaseResponseProto:(FullEvent *)fe {
+  [self.loadingView stop];
+  self.loadingView = nil;
 }
 
 - (void) pointArrowOnManageTeam {
