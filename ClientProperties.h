@@ -22,14 +22,44 @@
 
 #define UDID [OpenUDID value]
 
+#define CLIENT_BRANCH @"master"
+
 //#define USE_PROD
 //#define USE_STAGING
+//#define USE_LOCAL
 
 //#define FORCE_TUTORIAL TutorialStepGuideGreeting
+//#define FORCE_TUTORIAL TutorialStepEnteredBattle
 
 //#define DEBUG_BATTLE_MODE
 
 #endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -89,6 +119,7 @@
 #define MQ_USERNAME @"lvl6client"
 #define MQ_PASSWORD @"LvL6Pr0dCl!3nT"
 #define MQ_VHOST @"prodmobsters"
+#define SERVER_ID @"prod"
 
 #elif defined(USE_STAGING)
 
@@ -98,14 +129,26 @@
 #define MQ_USERNAME @"lvl6client"
 #define MQ_PASSWORD @"devclient"
 #define MQ_VHOST @"devmobsters"
+#define SERVER_ID @"stage"
 
-#else
+#elif defined(USE_LOCAL)
 
-#define HOST_NAME @"amqpdevmobsters.lvl6.com"
+#define HOST_NAME @"10.0.1.105"
 #define HOST_PORT 5672
 #define USE_SSL 0
 #define MQ_USERNAME @"lvl6client"
 #define MQ_PASSWORD @"devclient"
 #define MQ_VHOST @"devmobsters"
+#define SERVER_ID @"local"
+
+#else
+
+#define HOST_NAME @"54.148.68.13"
+#define HOST_PORT 5672
+#define USE_SSL 0
+#define MQ_USERNAME @"lvl6client"
+#define MQ_PASSWORD @"devclient"
+#define MQ_VHOST @"devmobsters"
+#define SERVER_ID @"dev"
 
 #endif

@@ -18,6 +18,7 @@
 @property (nonatomic, assign) IBOutlet UIImageView *bgdImageView;
 @property (nonatomic, assign) IBOutlet UIImageView *fgdImageView;
 @property (nonatomic, assign) IBOutlet UIView *mainView;
+@property (nonatomic, assign) IBOutlet UILabel *versionLabel;
 
 - (id) initWithPercentage:(float)percentage;
 

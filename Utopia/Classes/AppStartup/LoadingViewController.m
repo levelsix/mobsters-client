@@ -8,6 +8,7 @@
 
 #import "LoadingViewController.h"
 #import "Globals.h"
+#import "ClientProperties.h"
 
 #define SECONDS_PER_PART 5.f
 
@@ -27,6 +28,12 @@
   [super viewDidLoad];
   
   self.loadingBar.percentage = _initPercentage;
+  
+#ifdef DEBUG
+  self.versionLabel.text = [NSString stringWithFormat:@"%@\n%@", CLIENT_BRANCH, SERVER_ID];
+#else
+  [self.versionLabel removeFromSuperview];
+#endif
 }
 
 - (void) viewWillAppear:(BOOL)animated {
