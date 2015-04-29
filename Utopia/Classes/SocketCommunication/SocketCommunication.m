@@ -161,6 +161,7 @@ static NSString *udid = nil;
     self.connectionThread.delegate = self;
     
     self.queuedMessages = [NSMutableArray array];
+    self.unrespondedMessages = [NSMutableArray array];
     
     self.clanEventDelegates = [NSMutableArray array];
     
@@ -238,9 +239,15 @@ static NSString *udid = nil;
   }
   [self setDelegate:delegate forTag:CONNECTED_TO_HOST_DELEGATE_TAG];
   
-  if (clearMessages && self.queuedMessages.count) {
-    LNLog(@"Removing %d queued messages.", (int)self.queuedMessages.count);
-    [self.queuedMessages removeAllObjects];
+  if (clearMessages) {
+    if (self.queuedMessages.count || self.unrespondedMessages.count) {
+      LNLog(@"Removing %d queued messages, %d unresponded messages.", (int)self.queuedMessages.count, (int)self.unrespondedMessages.count);
+      [self.queuedMessages removeAllObjects];
+      [self.unrespondedMessages removeAllObjects];
+    }
+  } else {
+    [self.queuedMessages addObjectsFromArray:self.unrespondedMessages];
+    [self.unrespondedMessages removeAllObjects];
   }
 }
 
@@ -346,7 +353,7 @@ static NSString *udid = nil;
   return type == EventProtocolRequestCStartupEvent || type == EventProtocolRequestCUserCreateEvent;
 }
 
-- (NSData *) serializeEvent:(PBGeneratedMessage *)msg withMessageType:(int)type tagNum:(int)tagNum {
+- (NSData *) serializeEvent:(PBGeneratedMessage *)msg withMessageType:(int)type tagNum:(int)tagNum eventUuid:(NSString *)eventUuid {
   NSMutableData *messageWithHeader = [NSMutableData data];
   NSData *eventData = [msg data];
   
@@ -354,7 +361,7 @@ static NSString *udid = nil;
   ep.eventType = type;
   ep.tagNum = tagNum;
   ep.eventBytes = eventData;
-  ep.eventUuid = [[NSUUID UUID] UUIDString];
+  ep.eventUuid = eventUuid;
   NSData *data = [ep build].data;
   
   // Need to reverse bytes for size and type(to account for endianness??)
@@ -399,8 +406,10 @@ static NSString *udid = nil;
       }
     }
     
-    NSData *messageWithHeader = [self serializeEvent:msg withMessageType:type tagNum:tagNum];
+    NSData *messageWithHeader = [self serializeEvent:msg withMessageType:type tagNum:tagNum eventUuid:fe.eventUuid];
     [mutableData appendData:messageWithHeader];
+    
+    [self.unrespondedMessages addObject:fe];
   }
   
   if (mutableData.length) {
@@ -423,7 +432,8 @@ static NSString *udid = nil;
     _currentTagNum %= RAND_MAX;
   }
   
-  FullEvent *fe = [FullEvent createWithEvent:msg tag:tag requestType:type];
+  NSString *eventUuid = [[NSUUID UUID] UUIDString];
+  FullEvent *fe = [FullEvent createWithEvent:msg tag:tag requestType:type eventUuid:eventUuid];
   if (!queueUp) {
     if (flush && self.queuedMessages.count > 0) {
       NSArray *msgs = [self.queuedMessages arrayByAddingObject:fe];
@@ -460,14 +470,21 @@ static NSString *udid = nil;
     
     EventProto *ep = [EventProto parseFromData:payload];
     
-    [self messageReceived:ep.eventBytes withType:ep.eventType tag:ep.tagNum];
+    [self messageReceived:ep.eventBytes withType:ep.eventType tag:ep.tagNum eventUuid:ep.eventUuid];
     
     cursor += HEADER_SIZE + size;
   }
 }
 
-- (void) messageReceived:(NSData *)data withType:(EventProtocolResponse)eventType tag:(int)tag {
+- (void) messageReceived:(NSData *)data withType:(EventProtocolResponse)eventType tag:(int)tag eventUuid:(NSString *)eventUuid {
   IncomingEventController *iec = [IncomingEventController sharedIncomingEventController];
+  
+  // Delete this eventUuid from unresponded messages
+  for (FullEvent *fe in self.unrespondedMessages.copy) {
+    if ([fe.eventUuid isEqualToString:eventUuid]) {
+      [self.unrespondedMessages removeObject:fe];
+    }
+  }
   
   // Get the proto class for this event type
   Class typeClass = [iec getClassForType:eventType];
@@ -482,7 +499,7 @@ static NSString *udid = nil;
   NSString *selectorStr = [NSString stringWithFormat:@"handle%@:", [typeClass description]];
   SEL handleMethod = NSSelectorFromString(selectorStr);
   if ([iec respondsToSelector:handleMethod]) {
-    FullEvent *fe = [FullEvent createWithEvent:(PBGeneratedMessage *)[typeClass parseFromData:data] tag:tag];
+    FullEvent *fe = [FullEvent createWithEvent:(PBGeneratedMessage *)[typeClass parseFromData:data] tag:tag eventUuid:eventUuid];
     
     [iec performSelector:handleMethod withObject:fe];
     
