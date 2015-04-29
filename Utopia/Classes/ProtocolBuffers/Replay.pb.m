@@ -45,6 +45,8 @@ BOOL CombatReplayStepTypeIsValidValue(CombatReplayStepType value) {
 }
 @interface CombatReplayProto ()
 @property (strong) NSString* replayUuid;
+@property (strong) NSString* groundImgPrefix;
+@property int32_t firstAttackerMonsterId;
 @property (strong) NSMutableArray * mutablePlayerTeamList;
 @property (strong) NSMutableArray * mutableEnemyTeamList;
 @property (strong) NSMutableArray * mutableStepsList;
@@ -61,6 +63,20 @@ BOOL CombatReplayStepTypeIsValidValue(CombatReplayStepType value) {
   hasReplayUuid_ = !!value_;
 }
 @synthesize replayUuid;
+- (BOOL) hasGroundImgPrefix {
+  return !!hasGroundImgPrefix_;
+}
+- (void) setHasGroundImgPrefix:(BOOL) value_ {
+  hasGroundImgPrefix_ = !!value_;
+}
+@synthesize groundImgPrefix;
+- (BOOL) hasFirstAttackerMonsterId {
+  return !!hasFirstAttackerMonsterId_;
+}
+- (void) setHasFirstAttackerMonsterId:(BOOL) value_ {
+  hasFirstAttackerMonsterId_ = !!value_;
+}
+@synthesize firstAttackerMonsterId;
 @synthesize mutablePlayerTeamList;
 @dynamic playerTeamList;
 @synthesize mutableEnemyTeamList;
@@ -79,6 +95,8 @@ BOOL CombatReplayStepTypeIsValidValue(CombatReplayStepType value) {
 - (id) init {
   if ((self = [super init])) {
     self.replayUuid = @"";
+    self.groundImgPrefix = @"";
+    self.firstAttackerMonsterId = 0;
     self.board = [BoardLayoutProto defaultInstance];
   }
   return self;
@@ -126,20 +144,26 @@ static CombatReplayProto* defaultCombatReplayProtoInstance = nil;
   if (self.hasReplayUuid) {
     [output writeString:1 value:self.replayUuid];
   }
+  if (self.hasGroundImgPrefix) {
+    [output writeString:2 value:self.groundImgPrefix];
+  }
+  if (self.hasFirstAttackerMonsterId) {
+    [output writeInt32:3 value:self.firstAttackerMonsterId];
+  }
   [self.playerTeamList enumerateObjectsUsingBlock:^(MinimumUserMonsterProto *element, NSUInteger idx, BOOL *stop) {
-    [output writeMessage:2 value:element];
-  }];
-  [self.enemyTeamList enumerateObjectsUsingBlock:^(MinimumUserMonsterProto *element, NSUInteger idx, BOOL *stop) {
-    [output writeMessage:3 value:element];
-  }];
-  [self.stepsList enumerateObjectsUsingBlock:^(CombatReplayStepProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:4 value:element];
   }];
+  [self.enemyTeamList enumerateObjectsUsingBlock:^(MinimumUserMonsterProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:5 value:element];
+  }];
+  [self.stepsList enumerateObjectsUsingBlock:^(CombatReplayStepProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:6 value:element];
+  }];
   if (self.hasBoard) {
-    [output writeMessage:5 value:self.board];
+    [output writeMessage:7 value:self.board];
   }
   [self.orbsList enumerateObjectsUsingBlock:^(CombatReplayOrbProto *element, NSUInteger idx, BOOL *stop) {
-    [output writeMessage:6 value:element];
+    [output writeMessage:8 value:element];
   }];
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -153,20 +177,26 @@ static CombatReplayProto* defaultCombatReplayProtoInstance = nil;
   if (self.hasReplayUuid) {
     size_ += computeStringSize(1, self.replayUuid);
   }
+  if (self.hasGroundImgPrefix) {
+    size_ += computeStringSize(2, self.groundImgPrefix);
+  }
+  if (self.hasFirstAttackerMonsterId) {
+    size_ += computeInt32Size(3, self.firstAttackerMonsterId);
+  }
   [self.playerTeamList enumerateObjectsUsingBlock:^(MinimumUserMonsterProto *element, NSUInteger idx, BOOL *stop) {
-    size_ += computeMessageSize(2, element);
-  }];
-  [self.enemyTeamList enumerateObjectsUsingBlock:^(MinimumUserMonsterProto *element, NSUInteger idx, BOOL *stop) {
-    size_ += computeMessageSize(3, element);
-  }];
-  [self.stepsList enumerateObjectsUsingBlock:^(CombatReplayStepProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(4, element);
   }];
+  [self.enemyTeamList enumerateObjectsUsingBlock:^(MinimumUserMonsterProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(5, element);
+  }];
+  [self.stepsList enumerateObjectsUsingBlock:^(CombatReplayStepProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(6, element);
+  }];
   if (self.hasBoard) {
-    size_ += computeMessageSize(5, self.board);
+    size_ += computeMessageSize(7, self.board);
   }
   [self.orbsList enumerateObjectsUsingBlock:^(CombatReplayOrbProto *element, NSUInteger idx, BOOL *stop) {
-    size_ += computeMessageSize(6, element);
+    size_ += computeMessageSize(8, element);
   }];
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -205,6 +235,12 @@ static CombatReplayProto* defaultCombatReplayProtoInstance = nil;
 - (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
   if (self.hasReplayUuid) {
     [output appendFormat:@"%@%@: %@\n", indent, @"replayUuid", self.replayUuid];
+  }
+  if (self.hasGroundImgPrefix) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"groundImgPrefix", self.groundImgPrefix];
+  }
+  if (self.hasFirstAttackerMonsterId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"firstAttackerMonsterId", [NSNumber numberWithInteger:self.firstAttackerMonsterId]];
   }
   [self.playerTeamList enumerateObjectsUsingBlock:^(MinimumUserMonsterProto *element, NSUInteger idx, BOOL *stop) {
     [output appendFormat:@"%@%@ {\n", indent, @"playerTeam"];
@@ -249,6 +285,10 @@ static CombatReplayProto* defaultCombatReplayProtoInstance = nil;
   return
       self.hasReplayUuid == otherMessage.hasReplayUuid &&
       (!self.hasReplayUuid || [self.replayUuid isEqual:otherMessage.replayUuid]) &&
+      self.hasGroundImgPrefix == otherMessage.hasGroundImgPrefix &&
+      (!self.hasGroundImgPrefix || [self.groundImgPrefix isEqual:otherMessage.groundImgPrefix]) &&
+      self.hasFirstAttackerMonsterId == otherMessage.hasFirstAttackerMonsterId &&
+      (!self.hasFirstAttackerMonsterId || self.firstAttackerMonsterId == otherMessage.firstAttackerMonsterId) &&
       [self.playerTeamList isEqualToArray:otherMessage.playerTeamList] &&
       [self.enemyTeamList isEqualToArray:otherMessage.enemyTeamList] &&
       [self.stepsList isEqualToArray:otherMessage.stepsList] &&
@@ -261,6 +301,12 @@ static CombatReplayProto* defaultCombatReplayProtoInstance = nil;
   __block NSUInteger hashCode = 7;
   if (self.hasReplayUuid) {
     hashCode = hashCode * 31 + [self.replayUuid hash];
+  }
+  if (self.hasGroundImgPrefix) {
+    hashCode = hashCode * 31 + [self.groundImgPrefix hash];
+  }
+  if (self.hasFirstAttackerMonsterId) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.firstAttackerMonsterId] hash];
   }
   [self.playerTeamList enumerateObjectsUsingBlock:^(MinimumUserMonsterProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
@@ -323,6 +369,12 @@ static CombatReplayProto* defaultCombatReplayProtoInstance = nil;
   if (other.hasReplayUuid) {
     [self setReplayUuid:other.replayUuid];
   }
+  if (other.hasGroundImgPrefix) {
+    [self setGroundImgPrefix:other.groundImgPrefix];
+  }
+  if (other.hasFirstAttackerMonsterId) {
+    [self setFirstAttackerMonsterId:other.firstAttackerMonsterId];
+  }
   if (other.mutablePlayerTeamList.count > 0) {
     if (result.mutablePlayerTeamList == nil) {
       result.mutablePlayerTeamList = [[NSMutableArray alloc] initWithArray:other.mutablePlayerTeamList];
@@ -380,24 +432,32 @@ static CombatReplayProto* defaultCombatReplayProtoInstance = nil;
         break;
       }
       case 18: {
+        [self setGroundImgPrefix:[input readString]];
+        break;
+      }
+      case 24: {
+        [self setFirstAttackerMonsterId:[input readInt32]];
+        break;
+      }
+      case 34: {
         MinimumUserMonsterProto_Builder* subBuilder = [MinimumUserMonsterProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addPlayerTeam:[subBuilder buildPartial]];
         break;
       }
-      case 26: {
+      case 42: {
         MinimumUserMonsterProto_Builder* subBuilder = [MinimumUserMonsterProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addEnemyTeam:[subBuilder buildPartial]];
         break;
       }
-      case 34: {
+      case 50: {
         CombatReplayStepProto_Builder* subBuilder = [CombatReplayStepProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addSteps:[subBuilder buildPartial]];
         break;
       }
-      case 42: {
+      case 58: {
         BoardLayoutProto_Builder* subBuilder = [BoardLayoutProto builder];
         if (self.hasBoard) {
           [subBuilder mergeFrom:self.board];
@@ -406,7 +466,7 @@ static CombatReplayProto* defaultCombatReplayProtoInstance = nil;
         [self setBoard:[subBuilder buildPartial]];
         break;
       }
-      case 50: {
+      case 66: {
         CombatReplayOrbProto_Builder* subBuilder = [CombatReplayOrbProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addOrbs:[subBuilder buildPartial]];
@@ -429,6 +489,38 @@ static CombatReplayProto* defaultCombatReplayProtoInstance = nil;
 - (CombatReplayProto_Builder*) clearReplayUuid {
   result.hasReplayUuid = NO;
   result.replayUuid = @"";
+  return self;
+}
+- (BOOL) hasGroundImgPrefix {
+  return result.hasGroundImgPrefix;
+}
+- (NSString*) groundImgPrefix {
+  return result.groundImgPrefix;
+}
+- (CombatReplayProto_Builder*) setGroundImgPrefix:(NSString*) value {
+  result.hasGroundImgPrefix = YES;
+  result.groundImgPrefix = value;
+  return self;
+}
+- (CombatReplayProto_Builder*) clearGroundImgPrefix {
+  result.hasGroundImgPrefix = NO;
+  result.groundImgPrefix = @"";
+  return self;
+}
+- (BOOL) hasFirstAttackerMonsterId {
+  return result.hasFirstAttackerMonsterId;
+}
+- (int32_t) firstAttackerMonsterId {
+  return result.firstAttackerMonsterId;
+}
+- (CombatReplayProto_Builder*) setFirstAttackerMonsterId:(int32_t) value {
+  result.hasFirstAttackerMonsterId = YES;
+  result.firstAttackerMonsterId = value;
+  return self;
+}
+- (CombatReplayProto_Builder*) clearFirstAttackerMonsterId {
+  result.hasFirstAttackerMonsterId = NO;
+  result.firstAttackerMonsterId = 0;
   return self;
 }
 - (NSMutableArray *)playerTeamList {
@@ -559,8 +651,299 @@ static CombatReplayProto* defaultCombatReplayProtoInstance = nil;
 }
 @end
 
-@interface CombatReplayStepProto ()
+@interface MinimumCombatReplayProto ()
 @property (strong) NSString* replayUuid;
+@property (strong) NSString* groundImgPrefix;
+@property int32_t firstAttackerMonsterId;
+@end
+
+@implementation MinimumCombatReplayProto
+
+- (BOOL) hasReplayUuid {
+  return !!hasReplayUuid_;
+}
+- (void) setHasReplayUuid:(BOOL) value_ {
+  hasReplayUuid_ = !!value_;
+}
+@synthesize replayUuid;
+- (BOOL) hasGroundImgPrefix {
+  return !!hasGroundImgPrefix_;
+}
+- (void) setHasGroundImgPrefix:(BOOL) value_ {
+  hasGroundImgPrefix_ = !!value_;
+}
+@synthesize groundImgPrefix;
+- (BOOL) hasFirstAttackerMonsterId {
+  return !!hasFirstAttackerMonsterId_;
+}
+- (void) setHasFirstAttackerMonsterId:(BOOL) value_ {
+  hasFirstAttackerMonsterId_ = !!value_;
+}
+@synthesize firstAttackerMonsterId;
+- (id) init {
+  if ((self = [super init])) {
+    self.replayUuid = @"";
+    self.groundImgPrefix = @"";
+    self.firstAttackerMonsterId = 0;
+  }
+  return self;
+}
+static MinimumCombatReplayProto* defaultMinimumCombatReplayProtoInstance = nil;
++ (void) initialize {
+  if (self == [MinimumCombatReplayProto class]) {
+    defaultMinimumCombatReplayProtoInstance = [[MinimumCombatReplayProto alloc] init];
+  }
+}
++ (MinimumCombatReplayProto*) defaultInstance {
+  return defaultMinimumCombatReplayProtoInstance;
+}
+- (MinimumCombatReplayProto*) defaultInstance {
+  return defaultMinimumCombatReplayProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasReplayUuid) {
+    [output writeString:1 value:self.replayUuid];
+  }
+  if (self.hasGroundImgPrefix) {
+    [output writeString:2 value:self.groundImgPrefix];
+  }
+  if (self.hasFirstAttackerMonsterId) {
+    [output writeInt32:3 value:self.firstAttackerMonsterId];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasReplayUuid) {
+    size_ += computeStringSize(1, self.replayUuid);
+  }
+  if (self.hasGroundImgPrefix) {
+    size_ += computeStringSize(2, self.groundImgPrefix);
+  }
+  if (self.hasFirstAttackerMonsterId) {
+    size_ += computeInt32Size(3, self.firstAttackerMonsterId);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (MinimumCombatReplayProto*) parseFromData:(NSData*) data {
+  return (MinimumCombatReplayProto*)[[[MinimumCombatReplayProto builder] mergeFromData:data] build];
+}
++ (MinimumCombatReplayProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MinimumCombatReplayProto*)[[[MinimumCombatReplayProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (MinimumCombatReplayProto*) parseFromInputStream:(NSInputStream*) input {
+  return (MinimumCombatReplayProto*)[[[MinimumCombatReplayProto builder] mergeFromInputStream:input] build];
+}
++ (MinimumCombatReplayProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MinimumCombatReplayProto*)[[[MinimumCombatReplayProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MinimumCombatReplayProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (MinimumCombatReplayProto*)[[[MinimumCombatReplayProto builder] mergeFromCodedInputStream:input] build];
+}
++ (MinimumCombatReplayProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MinimumCombatReplayProto*)[[[MinimumCombatReplayProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MinimumCombatReplayProto_Builder*) builder {
+  return [[MinimumCombatReplayProto_Builder alloc] init];
+}
++ (MinimumCombatReplayProto_Builder*) builderWithPrototype:(MinimumCombatReplayProto*) prototype {
+  return [[MinimumCombatReplayProto builder] mergeFrom:prototype];
+}
+- (MinimumCombatReplayProto_Builder*) builder {
+  return [MinimumCombatReplayProto builder];
+}
+- (MinimumCombatReplayProto_Builder*) toBuilder {
+  return [MinimumCombatReplayProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasReplayUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"replayUuid", self.replayUuid];
+  }
+  if (self.hasGroundImgPrefix) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"groundImgPrefix", self.groundImgPrefix];
+  }
+  if (self.hasFirstAttackerMonsterId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"firstAttackerMonsterId", [NSNumber numberWithInteger:self.firstAttackerMonsterId]];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[MinimumCombatReplayProto class]]) {
+    return NO;
+  }
+  MinimumCombatReplayProto *otherMessage = other;
+  return
+      self.hasReplayUuid == otherMessage.hasReplayUuid &&
+      (!self.hasReplayUuid || [self.replayUuid isEqual:otherMessage.replayUuid]) &&
+      self.hasGroundImgPrefix == otherMessage.hasGroundImgPrefix &&
+      (!self.hasGroundImgPrefix || [self.groundImgPrefix isEqual:otherMessage.groundImgPrefix]) &&
+      self.hasFirstAttackerMonsterId == otherMessage.hasFirstAttackerMonsterId &&
+      (!self.hasFirstAttackerMonsterId || self.firstAttackerMonsterId == otherMessage.firstAttackerMonsterId) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasReplayUuid) {
+    hashCode = hashCode * 31 + [self.replayUuid hash];
+  }
+  if (self.hasGroundImgPrefix) {
+    hashCode = hashCode * 31 + [self.groundImgPrefix hash];
+  }
+  if (self.hasFirstAttackerMonsterId) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.firstAttackerMonsterId] hash];
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+@interface MinimumCombatReplayProto_Builder()
+@property (strong) MinimumCombatReplayProto* result;
+@end
+
+@implementation MinimumCombatReplayProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[MinimumCombatReplayProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (MinimumCombatReplayProto_Builder*) clear {
+  self.result = [[MinimumCombatReplayProto alloc] init];
+  return self;
+}
+- (MinimumCombatReplayProto_Builder*) clone {
+  return [MinimumCombatReplayProto builderWithPrototype:result];
+}
+- (MinimumCombatReplayProto*) defaultInstance {
+  return [MinimumCombatReplayProto defaultInstance];
+}
+- (MinimumCombatReplayProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (MinimumCombatReplayProto*) buildPartial {
+  MinimumCombatReplayProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (MinimumCombatReplayProto_Builder*) mergeFrom:(MinimumCombatReplayProto*) other {
+  if (other == [MinimumCombatReplayProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasReplayUuid) {
+    [self setReplayUuid:other.replayUuid];
+  }
+  if (other.hasGroundImgPrefix) {
+    [self setGroundImgPrefix:other.groundImgPrefix];
+  }
+  if (other.hasFirstAttackerMonsterId) {
+    [self setFirstAttackerMonsterId:other.firstAttackerMonsterId];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (MinimumCombatReplayProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (MinimumCombatReplayProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        [self setReplayUuid:[input readString]];
+        break;
+      }
+      case 18: {
+        [self setGroundImgPrefix:[input readString]];
+        break;
+      }
+      case 24: {
+        [self setFirstAttackerMonsterId:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasReplayUuid {
+  return result.hasReplayUuid;
+}
+- (NSString*) replayUuid {
+  return result.replayUuid;
+}
+- (MinimumCombatReplayProto_Builder*) setReplayUuid:(NSString*) value {
+  result.hasReplayUuid = YES;
+  result.replayUuid = value;
+  return self;
+}
+- (MinimumCombatReplayProto_Builder*) clearReplayUuid {
+  result.hasReplayUuid = NO;
+  result.replayUuid = @"";
+  return self;
+}
+- (BOOL) hasGroundImgPrefix {
+  return result.hasGroundImgPrefix;
+}
+- (NSString*) groundImgPrefix {
+  return result.groundImgPrefix;
+}
+- (MinimumCombatReplayProto_Builder*) setGroundImgPrefix:(NSString*) value {
+  result.hasGroundImgPrefix = YES;
+  result.groundImgPrefix = value;
+  return self;
+}
+- (MinimumCombatReplayProto_Builder*) clearGroundImgPrefix {
+  result.hasGroundImgPrefix = NO;
+  result.groundImgPrefix = @"";
+  return self;
+}
+- (BOOL) hasFirstAttackerMonsterId {
+  return result.hasFirstAttackerMonsterId;
+}
+- (int32_t) firstAttackerMonsterId {
+  return result.firstAttackerMonsterId;
+}
+- (MinimumCombatReplayProto_Builder*) setFirstAttackerMonsterId:(int32_t) value {
+  result.hasFirstAttackerMonsterId = YES;
+  result.firstAttackerMonsterId = value;
+  return self;
+}
+- (MinimumCombatReplayProto_Builder*) clearFirstAttackerMonsterId {
+  result.hasFirstAttackerMonsterId = NO;
+  result.firstAttackerMonsterId = 0;
+  return self;
+}
+@end
+
+@interface CombatReplayStepProto ()
 @property int32_t stepIndex;
 @property CombatReplayStepType type;
 @property int32_t itemId;
@@ -573,13 +956,6 @@ static CombatReplayProto* defaultCombatReplayProtoInstance = nil;
 
 @implementation CombatReplayStepProto
 
-- (BOOL) hasReplayUuid {
-  return !!hasReplayUuid_;
-}
-- (void) setHasReplayUuid:(BOOL) value_ {
-  hasReplayUuid_ = !!value_;
-}
-@synthesize replayUuid;
 - (BOOL) hasStepIndex {
   return !!hasStepIndex_;
 }
@@ -633,7 +1009,6 @@ static CombatReplayProto* defaultCombatReplayProtoInstance = nil;
 @dynamic skillsList;
 - (id) init {
   if ((self = [super init])) {
-    self.replayUuid = @"";
     self.stepIndex = 0;
     self.type = CombatReplayStepTypeBattleInitialization;
     self.itemId = 0;
@@ -666,32 +1041,29 @@ static CombatReplayStepProto* defaultCombatReplayStepProtoInstance = nil;
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasReplayUuid) {
-    [output writeString:1 value:self.replayUuid];
-  }
   if (self.hasStepIndex) {
-    [output writeInt32:2 value:self.stepIndex];
+    [output writeInt32:1 value:self.stepIndex];
   }
   if (self.hasType) {
-    [output writeEnum:3 value:self.type];
+    [output writeEnum:2 value:self.type];
   }
   if (self.hasItemId) {
-    [output writeInt32:4 value:self.itemId];
+    [output writeInt32:3 value:self.itemId];
   }
   if (self.hasMovePos1) {
-    [output writeUInt32:5 value:self.movePos1];
+    [output writeUInt32:4 value:self.movePos1];
   }
   if (self.hasMovePos2) {
-    [output writeUInt32:6 value:self.movePos2];
+    [output writeUInt32:5 value:self.movePos2];
   }
   if (self.hasDamage) {
-    [output writeInt32:7 value:self.damage];
+    [output writeInt32:6 value:self.damage];
   }
   if (self.hasSchedule) {
-    [output writeMessage:8 value:self.schedule];
+    [output writeMessage:7 value:self.schedule];
   }
   [self.skillsList enumerateObjectsUsingBlock:^(CombatReplaySkillStepProto *element, NSUInteger idx, BOOL *stop) {
-    [output writeMessage:9 value:element];
+    [output writeMessage:8 value:element];
   }];
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -702,32 +1074,29 @@ static CombatReplayStepProto* defaultCombatReplayStepProtoInstance = nil;
   }
 
   size_ = 0;
-  if (self.hasReplayUuid) {
-    size_ += computeStringSize(1, self.replayUuid);
-  }
   if (self.hasStepIndex) {
-    size_ += computeInt32Size(2, self.stepIndex);
+    size_ += computeInt32Size(1, self.stepIndex);
   }
   if (self.hasType) {
-    size_ += computeEnumSize(3, self.type);
+    size_ += computeEnumSize(2, self.type);
   }
   if (self.hasItemId) {
-    size_ += computeInt32Size(4, self.itemId);
+    size_ += computeInt32Size(3, self.itemId);
   }
   if (self.hasMovePos1) {
-    size_ += computeUInt32Size(5, self.movePos1);
+    size_ += computeUInt32Size(4, self.movePos1);
   }
   if (self.hasMovePos2) {
-    size_ += computeUInt32Size(6, self.movePos2);
+    size_ += computeUInt32Size(5, self.movePos2);
   }
   if (self.hasDamage) {
-    size_ += computeInt32Size(7, self.damage);
+    size_ += computeInt32Size(6, self.damage);
   }
   if (self.hasSchedule) {
-    size_ += computeMessageSize(8, self.schedule);
+    size_ += computeMessageSize(7, self.schedule);
   }
   [self.skillsList enumerateObjectsUsingBlock:^(CombatReplaySkillStepProto *element, NSUInteger idx, BOOL *stop) {
-    size_ += computeMessageSize(9, element);
+    size_ += computeMessageSize(8, element);
   }];
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -764,9 +1133,6 @@ static CombatReplayStepProto* defaultCombatReplayStepProtoInstance = nil;
   return [CombatReplayStepProto builderWithPrototype:self];
 }
 - (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
-  if (self.hasReplayUuid) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"replayUuid", self.replayUuid];
-  }
   if (self.hasStepIndex) {
     [output appendFormat:@"%@%@: %@\n", indent, @"stepIndex", [NSNumber numberWithInteger:self.stepIndex]];
   }
@@ -808,8 +1174,6 @@ static CombatReplayStepProto* defaultCombatReplayStepProtoInstance = nil;
   }
   CombatReplayStepProto *otherMessage = other;
   return
-      self.hasReplayUuid == otherMessage.hasReplayUuid &&
-      (!self.hasReplayUuid || [self.replayUuid isEqual:otherMessage.replayUuid]) &&
       self.hasStepIndex == otherMessage.hasStepIndex &&
       (!self.hasStepIndex || self.stepIndex == otherMessage.stepIndex) &&
       self.hasType == otherMessage.hasType &&
@@ -829,9 +1193,6 @@ static CombatReplayStepProto* defaultCombatReplayStepProtoInstance = nil;
 }
 - (NSUInteger) hash {
   __block NSUInteger hashCode = 7;
-  if (self.hasReplayUuid) {
-    hashCode = hashCode * 31 + [self.replayUuid hash];
-  }
   if (self.hasStepIndex) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.stepIndex] hash];
   }
@@ -899,9 +1260,6 @@ static CombatReplayStepProto* defaultCombatReplayStepProtoInstance = nil;
   if (other == [CombatReplayStepProto defaultInstance]) {
     return self;
   }
-  if (other.hasReplayUuid) {
-    [self setReplayUuid:other.replayUuid];
-  }
   if (other.hasStepIndex) {
     [self setStepIndex:other.stepIndex];
   }
@@ -951,40 +1309,36 @@ static CombatReplayStepProto* defaultCombatReplayStepProtoInstance = nil;
         }
         break;
       }
-      case 10: {
-        [self setReplayUuid:[input readString]];
-        break;
-      }
-      case 16: {
+      case 8: {
         [self setStepIndex:[input readInt32]];
         break;
       }
-      case 24: {
+      case 16: {
         CombatReplayStepType value = (CombatReplayStepType)[input readEnum];
         if (CombatReplayStepTypeIsValidValue(value)) {
           [self setType:value];
         } else {
-          [unknownFields mergeVarintField:3 value:value];
+          [unknownFields mergeVarintField:2 value:value];
         }
         break;
       }
-      case 32: {
+      case 24: {
         [self setItemId:[input readInt32]];
         break;
       }
-      case 40: {
+      case 32: {
         [self setMovePos1:[input readUInt32]];
         break;
       }
-      case 48: {
+      case 40: {
         [self setMovePos2:[input readUInt32]];
         break;
       }
-      case 56: {
+      case 48: {
         [self setDamage:[input readInt32]];
         break;
       }
-      case 66: {
+      case 58: {
         CombatReplayScheduleProto_Builder* subBuilder = [CombatReplayScheduleProto builder];
         if (self.hasSchedule) {
           [subBuilder mergeFrom:self.schedule];
@@ -993,7 +1347,7 @@ static CombatReplayStepProto* defaultCombatReplayStepProtoInstance = nil;
         [self setSchedule:[subBuilder buildPartial]];
         break;
       }
-      case 74: {
+      case 66: {
         CombatReplaySkillStepProto_Builder* subBuilder = [CombatReplaySkillStepProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addSkills:[subBuilder buildPartial]];
@@ -1001,22 +1355,6 @@ static CombatReplayStepProto* defaultCombatReplayStepProtoInstance = nil;
       }
     }
   }
-}
-- (BOOL) hasReplayUuid {
-  return result.hasReplayUuid;
-}
-- (NSString*) replayUuid {
-  return result.replayUuid;
-}
-- (CombatReplayStepProto_Builder*) setReplayUuid:(NSString*) value {
-  result.hasReplayUuid = YES;
-  result.replayUuid = value;
-  return self;
-}
-- (CombatReplayStepProto_Builder*) clearReplayUuid {
-  result.hasReplayUuid = NO;
-  result.replayUuid = @"";
-  return self;
 }
 - (BOOL) hasStepIndex {
   return result.hasStepIndex;
@@ -1171,8 +1509,6 @@ static CombatReplayStepProto* defaultCombatReplayStepProtoInstance = nil;
 @end
 
 @interface CombatReplaySkillStepProto ()
-@property (strong) NSString* replayUuid;
-@property int32_t stepIndex;
 @property int32_t skillId;
 @property BOOL belongsToPlayer;
 @property int32_t ownerMonsterId;
@@ -1181,20 +1517,6 @@ static CombatReplayStepProto* defaultCombatReplayStepProtoInstance = nil;
 
 @implementation CombatReplaySkillStepProto
 
-- (BOOL) hasReplayUuid {
-  return !!hasReplayUuid_;
-}
-- (void) setHasReplayUuid:(BOOL) value_ {
-  hasReplayUuid_ = !!value_;
-}
-@synthesize replayUuid;
-- (BOOL) hasStepIndex {
-  return !!hasStepIndex_;
-}
-- (void) setHasStepIndex:(BOOL) value_ {
-  hasStepIndex_ = !!value_;
-}
-@synthesize stepIndex;
 - (BOOL) hasSkillId {
   return !!hasSkillId_;
 }
@@ -1230,8 +1552,6 @@ static CombatReplayStepProto* defaultCombatReplayStepProtoInstance = nil;
 @synthesize triggerPoint;
 - (id) init {
   if ((self = [super init])) {
-    self.replayUuid = @"";
-    self.stepIndex = 0;
     self.skillId = 0;
     self.belongsToPlayer = NO;
     self.ownerMonsterId = 0;
@@ -1255,23 +1575,17 @@ static CombatReplaySkillStepProto* defaultCombatReplaySkillStepProtoInstance = n
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasReplayUuid) {
-    [output writeString:1 value:self.replayUuid];
-  }
-  if (self.hasStepIndex) {
-    [output writeInt32:2 value:self.stepIndex];
-  }
   if (self.hasSkillId) {
-    [output writeInt32:3 value:self.skillId];
+    [output writeInt32:1 value:self.skillId];
   }
   if (self.hasBelongsToPlayer) {
-    [output writeBool:4 value:self.belongsToPlayer];
+    [output writeBool:2 value:self.belongsToPlayer];
   }
   if (self.hasOwnerMonsterId) {
-    [output writeInt32:5 value:self.ownerMonsterId];
+    [output writeInt32:3 value:self.ownerMonsterId];
   }
   if (self.hasTriggerPoint) {
-    [output writeEnum:6 value:self.triggerPoint];
+    [output writeEnum:4 value:self.triggerPoint];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -1282,23 +1596,17 @@ static CombatReplaySkillStepProto* defaultCombatReplaySkillStepProtoInstance = n
   }
 
   size_ = 0;
-  if (self.hasReplayUuid) {
-    size_ += computeStringSize(1, self.replayUuid);
-  }
-  if (self.hasStepIndex) {
-    size_ += computeInt32Size(2, self.stepIndex);
-  }
   if (self.hasSkillId) {
-    size_ += computeInt32Size(3, self.skillId);
+    size_ += computeInt32Size(1, self.skillId);
   }
   if (self.hasBelongsToPlayer) {
-    size_ += computeBoolSize(4, self.belongsToPlayer);
+    size_ += computeBoolSize(2, self.belongsToPlayer);
   }
   if (self.hasOwnerMonsterId) {
-    size_ += computeInt32Size(5, self.ownerMonsterId);
+    size_ += computeInt32Size(3, self.ownerMonsterId);
   }
   if (self.hasTriggerPoint) {
-    size_ += computeEnumSize(6, self.triggerPoint);
+    size_ += computeEnumSize(4, self.triggerPoint);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -1335,12 +1643,6 @@ static CombatReplaySkillStepProto* defaultCombatReplaySkillStepProtoInstance = n
   return [CombatReplaySkillStepProto builderWithPrototype:self];
 }
 - (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
-  if (self.hasReplayUuid) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"replayUuid", self.replayUuid];
-  }
-  if (self.hasStepIndex) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"stepIndex", [NSNumber numberWithInteger:self.stepIndex]];
-  }
   if (self.hasSkillId) {
     [output appendFormat:@"%@%@: %@\n", indent, @"skillId", [NSNumber numberWithInteger:self.skillId]];
   }
@@ -1364,10 +1666,6 @@ static CombatReplaySkillStepProto* defaultCombatReplaySkillStepProtoInstance = n
   }
   CombatReplaySkillStepProto *otherMessage = other;
   return
-      self.hasReplayUuid == otherMessage.hasReplayUuid &&
-      (!self.hasReplayUuid || [self.replayUuid isEqual:otherMessage.replayUuid]) &&
-      self.hasStepIndex == otherMessage.hasStepIndex &&
-      (!self.hasStepIndex || self.stepIndex == otherMessage.stepIndex) &&
       self.hasSkillId == otherMessage.hasSkillId &&
       (!self.hasSkillId || self.skillId == otherMessage.skillId) &&
       self.hasBelongsToPlayer == otherMessage.hasBelongsToPlayer &&
@@ -1380,12 +1678,6 @@ static CombatReplaySkillStepProto* defaultCombatReplaySkillStepProtoInstance = n
 }
 - (NSUInteger) hash {
   __block NSUInteger hashCode = 7;
-  if (self.hasReplayUuid) {
-    hashCode = hashCode * 31 + [self.replayUuid hash];
-  }
-  if (self.hasStepIndex) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.stepIndex] hash];
-  }
   if (self.hasSkillId) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.skillId] hash];
   }
@@ -1441,12 +1733,6 @@ static CombatReplaySkillStepProto* defaultCombatReplaySkillStepProtoInstance = n
   if (other == [CombatReplaySkillStepProto defaultInstance]) {
     return self;
   }
-  if (other.hasReplayUuid) {
-    [self setReplayUuid:other.replayUuid];
-  }
-  if (other.hasStepIndex) {
-    [self setStepIndex:other.stepIndex];
-  }
   if (other.hasSkillId) {
     [self setSkillId:other.skillId];
   }
@@ -1480,69 +1766,29 @@ static CombatReplaySkillStepProto* defaultCombatReplaySkillStepProtoInstance = n
         }
         break;
       }
-      case 10: {
-        [self setReplayUuid:[input readString]];
-        break;
-      }
-      case 16: {
-        [self setStepIndex:[input readInt32]];
-        break;
-      }
-      case 24: {
+      case 8: {
         [self setSkillId:[input readInt32]];
         break;
       }
-      case 32: {
+      case 16: {
         [self setBelongsToPlayer:[input readBool]];
         break;
       }
-      case 40: {
+      case 24: {
         [self setOwnerMonsterId:[input readInt32]];
         break;
       }
-      case 48: {
+      case 32: {
         SkillTriggerPoint value = (SkillTriggerPoint)[input readEnum];
         if (SkillTriggerPointIsValidValue(value)) {
           [self setTriggerPoint:value];
         } else {
-          [unknownFields mergeVarintField:6 value:value];
+          [unknownFields mergeVarintField:4 value:value];
         }
         break;
       }
     }
   }
-}
-- (BOOL) hasReplayUuid {
-  return result.hasReplayUuid;
-}
-- (NSString*) replayUuid {
-  return result.replayUuid;
-}
-- (CombatReplaySkillStepProto_Builder*) setReplayUuid:(NSString*) value {
-  result.hasReplayUuid = YES;
-  result.replayUuid = value;
-  return self;
-}
-- (CombatReplaySkillStepProto_Builder*) clearReplayUuid {
-  result.hasReplayUuid = NO;
-  result.replayUuid = @"";
-  return self;
-}
-- (BOOL) hasStepIndex {
-  return result.hasStepIndex;
-}
-- (int32_t) stepIndex {
-  return result.stepIndex;
-}
-- (CombatReplaySkillStepProto_Builder*) setStepIndex:(int32_t) value {
-  result.hasStepIndex = YES;
-  result.stepIndex = value;
-  return self;
-}
-- (CombatReplaySkillStepProto_Builder*) clearStepIndex {
-  result.hasStepIndex = NO;
-  result.stepIndex = 0;
-  return self;
 }
 - (BOOL) hasSkillId {
   return result.hasSkillId;
@@ -2318,6 +2564,412 @@ static CombatReplayOrbProto* defaultCombatReplayOrbProtoInstance = nil;
 - (CombatReplayOrbProto_Builder*) clearType {
   result.hasType = NO;
   result.type = 0;
+  return self;
+}
+@end
+
+@interface CombatReplayMonsterSnapshot ()
+@property int32_t monsterId;
+@property int32_t startingHealth;
+@property int32_t maxHealth;
+@property (strong) SkillProto* skillSnapshot;
+@property int32_t level;
+@end
+
+@implementation CombatReplayMonsterSnapshot
+
+- (BOOL) hasMonsterId {
+  return !!hasMonsterId_;
+}
+- (void) setHasMonsterId:(BOOL) value_ {
+  hasMonsterId_ = !!value_;
+}
+@synthesize monsterId;
+- (BOOL) hasStartingHealth {
+  return !!hasStartingHealth_;
+}
+- (void) setHasStartingHealth:(BOOL) value_ {
+  hasStartingHealth_ = !!value_;
+}
+@synthesize startingHealth;
+- (BOOL) hasMaxHealth {
+  return !!hasMaxHealth_;
+}
+- (void) setHasMaxHealth:(BOOL) value_ {
+  hasMaxHealth_ = !!value_;
+}
+@synthesize maxHealth;
+- (BOOL) hasSkillSnapshot {
+  return !!hasSkillSnapshot_;
+}
+- (void) setHasSkillSnapshot:(BOOL) value_ {
+  hasSkillSnapshot_ = !!value_;
+}
+@synthesize skillSnapshot;
+- (BOOL) hasLevel {
+  return !!hasLevel_;
+}
+- (void) setHasLevel:(BOOL) value_ {
+  hasLevel_ = !!value_;
+}
+@synthesize level;
+- (id) init {
+  if ((self = [super init])) {
+    self.monsterId = 0;
+    self.startingHealth = 0;
+    self.maxHealth = 0;
+    self.skillSnapshot = [SkillProto defaultInstance];
+    self.level = 0;
+  }
+  return self;
+}
+static CombatReplayMonsterSnapshot* defaultCombatReplayMonsterSnapshotInstance = nil;
++ (void) initialize {
+  if (self == [CombatReplayMonsterSnapshot class]) {
+    defaultCombatReplayMonsterSnapshotInstance = [[CombatReplayMonsterSnapshot alloc] init];
+  }
+}
++ (CombatReplayMonsterSnapshot*) defaultInstance {
+  return defaultCombatReplayMonsterSnapshotInstance;
+}
+- (CombatReplayMonsterSnapshot*) defaultInstance {
+  return defaultCombatReplayMonsterSnapshotInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasMonsterId) {
+    [output writeInt32:1 value:self.monsterId];
+  }
+  if (self.hasStartingHealth) {
+    [output writeInt32:2 value:self.startingHealth];
+  }
+  if (self.hasMaxHealth) {
+    [output writeInt32:3 value:self.maxHealth];
+  }
+  if (self.hasSkillSnapshot) {
+    [output writeMessage:4 value:self.skillSnapshot];
+  }
+  if (self.hasLevel) {
+    [output writeInt32:5 value:self.level];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasMonsterId) {
+    size_ += computeInt32Size(1, self.monsterId);
+  }
+  if (self.hasStartingHealth) {
+    size_ += computeInt32Size(2, self.startingHealth);
+  }
+  if (self.hasMaxHealth) {
+    size_ += computeInt32Size(3, self.maxHealth);
+  }
+  if (self.hasSkillSnapshot) {
+    size_ += computeMessageSize(4, self.skillSnapshot);
+  }
+  if (self.hasLevel) {
+    size_ += computeInt32Size(5, self.level);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (CombatReplayMonsterSnapshot*) parseFromData:(NSData*) data {
+  return (CombatReplayMonsterSnapshot*)[[[CombatReplayMonsterSnapshot builder] mergeFromData:data] build];
+}
++ (CombatReplayMonsterSnapshot*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CombatReplayMonsterSnapshot*)[[[CombatReplayMonsterSnapshot builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (CombatReplayMonsterSnapshot*) parseFromInputStream:(NSInputStream*) input {
+  return (CombatReplayMonsterSnapshot*)[[[CombatReplayMonsterSnapshot builder] mergeFromInputStream:input] build];
+}
++ (CombatReplayMonsterSnapshot*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CombatReplayMonsterSnapshot*)[[[CombatReplayMonsterSnapshot builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (CombatReplayMonsterSnapshot*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (CombatReplayMonsterSnapshot*)[[[CombatReplayMonsterSnapshot builder] mergeFromCodedInputStream:input] build];
+}
++ (CombatReplayMonsterSnapshot*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CombatReplayMonsterSnapshot*)[[[CombatReplayMonsterSnapshot builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (CombatReplayMonsterSnapshot_Builder*) builder {
+  return [[CombatReplayMonsterSnapshot_Builder alloc] init];
+}
++ (CombatReplayMonsterSnapshot_Builder*) builderWithPrototype:(CombatReplayMonsterSnapshot*) prototype {
+  return [[CombatReplayMonsterSnapshot builder] mergeFrom:prototype];
+}
+- (CombatReplayMonsterSnapshot_Builder*) builder {
+  return [CombatReplayMonsterSnapshot builder];
+}
+- (CombatReplayMonsterSnapshot_Builder*) toBuilder {
+  return [CombatReplayMonsterSnapshot builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasMonsterId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"monsterId", [NSNumber numberWithInteger:self.monsterId]];
+  }
+  if (self.hasStartingHealth) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"startingHealth", [NSNumber numberWithInteger:self.startingHealth]];
+  }
+  if (self.hasMaxHealth) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"maxHealth", [NSNumber numberWithInteger:self.maxHealth]];
+  }
+  if (self.hasSkillSnapshot) {
+    [output appendFormat:@"%@%@ {\n", indent, @"skillSnapshot"];
+    [self.skillSnapshot writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  if (self.hasLevel) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"level", [NSNumber numberWithInteger:self.level]];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[CombatReplayMonsterSnapshot class]]) {
+    return NO;
+  }
+  CombatReplayMonsterSnapshot *otherMessage = other;
+  return
+      self.hasMonsterId == otherMessage.hasMonsterId &&
+      (!self.hasMonsterId || self.monsterId == otherMessage.monsterId) &&
+      self.hasStartingHealth == otherMessage.hasStartingHealth &&
+      (!self.hasStartingHealth || self.startingHealth == otherMessage.startingHealth) &&
+      self.hasMaxHealth == otherMessage.hasMaxHealth &&
+      (!self.hasMaxHealth || self.maxHealth == otherMessage.maxHealth) &&
+      self.hasSkillSnapshot == otherMessage.hasSkillSnapshot &&
+      (!self.hasSkillSnapshot || [self.skillSnapshot isEqual:otherMessage.skillSnapshot]) &&
+      self.hasLevel == otherMessage.hasLevel &&
+      (!self.hasLevel || self.level == otherMessage.level) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasMonsterId) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.monsterId] hash];
+  }
+  if (self.hasStartingHealth) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.startingHealth] hash];
+  }
+  if (self.hasMaxHealth) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.maxHealth] hash];
+  }
+  if (self.hasSkillSnapshot) {
+    hashCode = hashCode * 31 + [self.skillSnapshot hash];
+  }
+  if (self.hasLevel) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.level] hash];
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+@interface CombatReplayMonsterSnapshot_Builder()
+@property (strong) CombatReplayMonsterSnapshot* result;
+@end
+
+@implementation CombatReplayMonsterSnapshot_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[CombatReplayMonsterSnapshot alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (CombatReplayMonsterSnapshot_Builder*) clear {
+  self.result = [[CombatReplayMonsterSnapshot alloc] init];
+  return self;
+}
+- (CombatReplayMonsterSnapshot_Builder*) clone {
+  return [CombatReplayMonsterSnapshot builderWithPrototype:result];
+}
+- (CombatReplayMonsterSnapshot*) defaultInstance {
+  return [CombatReplayMonsterSnapshot defaultInstance];
+}
+- (CombatReplayMonsterSnapshot*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (CombatReplayMonsterSnapshot*) buildPartial {
+  CombatReplayMonsterSnapshot* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (CombatReplayMonsterSnapshot_Builder*) mergeFrom:(CombatReplayMonsterSnapshot*) other {
+  if (other == [CombatReplayMonsterSnapshot defaultInstance]) {
+    return self;
+  }
+  if (other.hasMonsterId) {
+    [self setMonsterId:other.monsterId];
+  }
+  if (other.hasStartingHealth) {
+    [self setStartingHealth:other.startingHealth];
+  }
+  if (other.hasMaxHealth) {
+    [self setMaxHealth:other.maxHealth];
+  }
+  if (other.hasSkillSnapshot) {
+    [self mergeSkillSnapshot:other.skillSnapshot];
+  }
+  if (other.hasLevel) {
+    [self setLevel:other.level];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (CombatReplayMonsterSnapshot_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (CombatReplayMonsterSnapshot_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setMonsterId:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setStartingHealth:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setMaxHealth:[input readInt32]];
+        break;
+      }
+      case 34: {
+        SkillProto_Builder* subBuilder = [SkillProto builder];
+        if (self.hasSkillSnapshot) {
+          [subBuilder mergeFrom:self.skillSnapshot];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSkillSnapshot:[subBuilder buildPartial]];
+        break;
+      }
+      case 40: {
+        [self setLevel:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasMonsterId {
+  return result.hasMonsterId;
+}
+- (int32_t) monsterId {
+  return result.monsterId;
+}
+- (CombatReplayMonsterSnapshot_Builder*) setMonsterId:(int32_t) value {
+  result.hasMonsterId = YES;
+  result.monsterId = value;
+  return self;
+}
+- (CombatReplayMonsterSnapshot_Builder*) clearMonsterId {
+  result.hasMonsterId = NO;
+  result.monsterId = 0;
+  return self;
+}
+- (BOOL) hasStartingHealth {
+  return result.hasStartingHealth;
+}
+- (int32_t) startingHealth {
+  return result.startingHealth;
+}
+- (CombatReplayMonsterSnapshot_Builder*) setStartingHealth:(int32_t) value {
+  result.hasStartingHealth = YES;
+  result.startingHealth = value;
+  return self;
+}
+- (CombatReplayMonsterSnapshot_Builder*) clearStartingHealth {
+  result.hasStartingHealth = NO;
+  result.startingHealth = 0;
+  return self;
+}
+- (BOOL) hasMaxHealth {
+  return result.hasMaxHealth;
+}
+- (int32_t) maxHealth {
+  return result.maxHealth;
+}
+- (CombatReplayMonsterSnapshot_Builder*) setMaxHealth:(int32_t) value {
+  result.hasMaxHealth = YES;
+  result.maxHealth = value;
+  return self;
+}
+- (CombatReplayMonsterSnapshot_Builder*) clearMaxHealth {
+  result.hasMaxHealth = NO;
+  result.maxHealth = 0;
+  return self;
+}
+- (BOOL) hasSkillSnapshot {
+  return result.hasSkillSnapshot;
+}
+- (SkillProto*) skillSnapshot {
+  return result.skillSnapshot;
+}
+- (CombatReplayMonsterSnapshot_Builder*) setSkillSnapshot:(SkillProto*) value {
+  result.hasSkillSnapshot = YES;
+  result.skillSnapshot = value;
+  return self;
+}
+- (CombatReplayMonsterSnapshot_Builder*) setSkillSnapshot_Builder:(SkillProto_Builder*) builderForValue {
+  return [self setSkillSnapshot:[builderForValue build]];
+}
+- (CombatReplayMonsterSnapshot_Builder*) mergeSkillSnapshot:(SkillProto*) value {
+  if (result.hasSkillSnapshot &&
+      result.skillSnapshot != [SkillProto defaultInstance]) {
+    result.skillSnapshot =
+      [[[SkillProto builderWithPrototype:result.skillSnapshot] mergeFrom:value] buildPartial];
+  } else {
+    result.skillSnapshot = value;
+  }
+  result.hasSkillSnapshot = YES;
+  return self;
+}
+- (CombatReplayMonsterSnapshot_Builder*) clearSkillSnapshot {
+  result.hasSkillSnapshot = NO;
+  result.skillSnapshot = [SkillProto defaultInstance];
+  return self;
+}
+- (BOOL) hasLevel {
+  return result.hasLevel;
+}
+- (int32_t) level {
+  return result.level;
+}
+- (CombatReplayMonsterSnapshot_Builder*) setLevel:(int32_t) value {
+  result.hasLevel = YES;
+  result.level = value;
+  return self;
+}
+- (CombatReplayMonsterSnapshot_Builder*) clearLevel {
+  result.hasLevel = NO;
+  result.level = 0;
   return self;
 }
 @end

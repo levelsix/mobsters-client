@@ -52,7 +52,7 @@
 @property (nonatomic, readonly) int numVines;
 @property (nonatomic, assign) int lastNumVines;
 
-@property (nonatomic, readonly) NSMutableDictionary *orbRecords;
+@property (nonatomic, retain) NSMutableDictionary *orbRecords;
 
 @property (nonatomic, retain) NSDictionary *specialOrbPercentages;
 
@@ -79,6 +79,8 @@
 // taps the Shuffle button.
 // Returns a set containing all the new BattleOrb objects.
 - (NSSet *)createInitialOrbs;
+
+- (BattleOrb *) createInitialOrbAtColumn:(int)column row:(int)row layout:(BoardLayoutProto *)proto;
 
 // Can be called to rearrange the current board
 - (NSSet *) shuffleEnforceNoMatches:(BOOL)enforceNoMatches;
@@ -158,6 +160,8 @@
 - (BattleOrb*) pickOrbForVine;
 
 - (BattleOrb*)vineAdjacentToOrb:(BattleOrb*)orb;
+
+- (void) recordOrb:(BattleOrb*)orb initialOrb:(BOOL)initialOrb;
 
 - (NSArray *)getBottomFeederTiles;
 

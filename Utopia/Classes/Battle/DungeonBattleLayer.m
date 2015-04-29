@@ -153,23 +153,6 @@
 
 #pragma mark - Run away
 
-// REMOVING RUN AWAY
-//- (IBAction)forfeitClicked:(id)sender {
-//  // Make sure a move is allowed
-//  if (self.orbLayer.swipeLayer.userInteractionEnabled) {
-//    [[NSBundle mainBundle] loadNibNamed:@"RunawayMiddleView" owner:self options:nil];
-//    self.runawayPercentLabel.text = [NSString stringWithFormat:@"%d%%", (int)([self runAwayChance]*100)];
-//    [GenericPopupController displayNegativeConfirmationWithMiddleView:self.runawayMiddleView
-//                                                                title:@"Run Away?"
-//                                                           okayButton:@"Run Away"
-//                                                         cancelButton:@"Cancel"
-//                                                             okTarget:self
-//                                                           okSelector:@selector(attemptRunaway)
-//                                                         cancelTarget:nil
-//                                                       cancelSelector:nil];
-//  }
-//}
-
 - (float) runAwayChance {
 #ifdef DEBUG
   return 1.f;
@@ -244,6 +227,10 @@
      }],nil]];
 }
 
+- (void) buildReplay {
+  
+}
+
 #pragma mark - Waiting for response
 
 - (IBAction)winExitClicked:(id)sender {
@@ -298,12 +285,14 @@
     NSMutableSet *set = [NSMutableSet set];
     NSMutableSet *skillSideEffects = [NSMutableSet set];
     NSMutableArray *enemyTeam = [NSMutableArray array];
+    NSMutableArray *enemyTeamSnapshots = [NSMutableArray array];
     _isFirstTime = ![gs isTaskCompleted:proto.taskId];
     for (TaskStageProto *tsp in proto.tspList) {
       TaskStageMonsterProto *tsm = [tsp.stageMonstersList objectAtIndex:0];
       UserMonster *um = [UserMonster userMonsterWithTaskStageMonsterProto:tsm];
       BattlePlayer *bp = [BattlePlayer playerWithMonster:um dmgMultiplier:tsm.dmgMultiplier monsterType:tsm.monsterType];
       [enemyTeam addObject:bp];
+      [enemyTeamSnapshots addObject:[self monsterSnapshot:um isOffensive:NO]];
       
       if (_isFirstTime) {
         bp.dialogue = !tsm.hasInitialD ? nil : tsm.initialD;
@@ -317,6 +306,7 @@
       [skillSideEffects addObjectsFromArray:[Globals skillSideEffectProtosForBattlePlayer:bp enemy:YES]];
     }
     self.enemyTeam = enemyTeam;
+    self.enemyTeamSnapshot = enemyTeamSnapshots;
     
     for (BattlePlayer *bp in self.myTeam) {
       if (bp.spritePrefix) {
@@ -647,6 +637,7 @@
 #define SCHEDULE_INDEX_KEY @"BattleScheduleIndexKey"
 #define MY_USER_MONSTER_ID_KEY @"MyUserIdMonsterKey"
 #define MY_TEAM_KEY @"MyTeamKey"
+#define MY_TEAM_SNAPSHOT_KEY @"MyTeamSnapshotKey"
 #define ENEMY_TEAM_KEY @"EnemyTeamKey"
 
 #define SKILL_MANAGER_KEY @"BattleSkillManager"
@@ -716,6 +707,12 @@
     [myTeam addObject:bp.serialize];
   }
   [dict setObject:myTeam forKey:MY_TEAM_KEY];
+  
+  NSMutableArray *myTeamSnapshot = [NSMutableArray array];
+  for (CombatReplayMonsterSnapshot *crms in self.playerTeamSnapshot) {
+    [myTeamSnapshot addObject:[crms.data base64EncodedStringWithOptions:0]];
+  }
+  [dict setObject:myTeamSnapshot forKey:MY_TEAM_SNAPSHOT_KEY];
   
   NSMutableArray *enemyTeam = [NSMutableArray array];
   for (BattlePlayer *bp in self.enemyTeam) {
@@ -804,6 +801,14 @@
       [newTeam addObject:bp];
     }
     self.myTeam = newTeam;
+  }
+  
+  NSArray *savedMyTeamSnapshot = [stateDict objectForKey:MY_TEAM_SNAPSHOT_KEY];
+  if (savedMyTeamSnapshot.count) {
+    NSMutableArray *newTeamSnapshot = [NSMutableArray array];
+    for (NSString *string in savedMyTeamSnapshot) {
+      [newTeamSnapshot addObject:[CombatReplayMonsterSnapshot parseFromData:[[NSData alloc] initWithBase64EncodedString:string options:0]]];
+    }
   }
   
   NSArray *savedEnemyTeam = [stateDict objectForKey:ENEMY_TEAM_KEY];

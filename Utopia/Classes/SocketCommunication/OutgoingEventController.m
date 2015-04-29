@@ -42,6 +42,7 @@
 #define SKILL_CODE @"skill"
 #define LOG_TOGGLE_CODE @"togglelog"
 #define UNLOCK_PREREQS_CODE @"pimpmytown"
+#define REPLAY_CODE @"replay"
 
 #define  LVL6_SHARED_SECRET @"mister8conrad3chan9is1a2very4great5man"
 
@@ -1094,6 +1095,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       } else if ([code isEqualToString:UNLOCK_PREREQS_CODE]) {
         gl.ignorePrerequisites = !gl.ignorePrerequisites;
         msg = [NSString stringWithFormat:@"Prerequisites turned %@.", !gl.ignorePrerequisites ? @"on" : @"off"];
+      } else if ([code isEqualToString:REPLAY_CODE]) {
+        if ([Globals sharedGlobals].lastReplay)
+        {
+#warning Add in forced replay call hurr
+        }
+        else
+          msg = @"No replay found";
       }
 #endif
       

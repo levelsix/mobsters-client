@@ -101,11 +101,14 @@
       _gridSize = gridSize.width ? gridSize : CGSizeMake(9, 9);
     }
     
-    NSMutableArray *arr = [NSMutableArray array];
+    NSMutableArray *myTeam = [NSMutableArray array];
+    NSMutableArray *myTeamSnapshots = [NSMutableArray array];
     for (UserMonster *um in monsters) {
-      [arr addObject:[BattlePlayer playerWithMonster:um]];
+      [myTeam addObject:[BattlePlayer playerWithMonster:um]];
+      [myTeamSnapshots addObject:[self monsterSnapshot:um isOffensive:YES]];
     }
-    self.myTeam = arr;
+    self.myTeam = myTeam;
+    self.playerTeamSnapshot = myTeamSnapshots;
     
     self.contentSize = [CCDirector sharedDirector].viewSize;
     
@@ -139,6 +142,18 @@
     [self setupStateMachine];
   }
   return self;
+}
+
+- (CombatReplayMonsterSnapshot*) monsterSnapshot:(UserMonster*)um isOffensive:(BOOL)isOffensive {
+  Globals *gl = [Globals sharedGlobals];
+  GameState *gs = [GameState sharedGameState];
+  NSNumber *skillNumber = [NSNumber numberWithInteger:isOffensive ? um.offensiveSkillId : um.defensiveSkillId];
+  return [[[[[[[CombatReplayMonsterSnapshot builder]
+               setMonsterId:um.monsterId]
+              setStartingHealth:um.curHealth]
+             setMaxHealth:[gl calculateMaxHealthForMonster:um]]
+            setSkillSnapshot:[gs.staticSkills objectForKey:skillNumber]]
+           setLevel:um.level] build];
 }
 
 - (void) setupStateMachine {
@@ -1292,6 +1307,8 @@
   NSLog(self.battleStateMachine.description);
   NSLog([self.orbLayer.layout dumpOrbHistory]);
   
+  [self buildReplay];
+  
   // Set endView's parent so that the position normalization doesn't get screwed up
   // since we're only adding it to the parent once orb layer gets removed
   self.endView.parent = self;
@@ -1332,6 +1349,21 @@
       [SoundEngine puzzleYouLose];
     }
   }];
+}
+
+- (void) buildReplay {
+  CombatReplayProto *replay = [[[[[[[CombatReplayProto builder]
+                                  setBoard:_layoutProto]
+                                 addAllOrbs:self.orbLayer.layout.orbRecords.allValues]
+                                addAllSteps:self.battleStateMachine.pastStates]
+                               addAllPlayerTeam:self.playerTeamSnapshot]
+                              addAllEnemyTeam:self.enemyTeamSnapshot]
+                             build];
+}
+
+- (void) sendReplay {
+  //Temp stubishly stuff
+  
 }
 
 #pragma mark - Skill Methods

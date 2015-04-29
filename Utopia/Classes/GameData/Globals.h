@@ -14,6 +14,7 @@
 #import "FullEvent.h"
 #import "GenViewController.h"
 #import "StaticStructure.h"
+#import "Replay.pb.h"
 
 #import "MSDate.h"
 
@@ -238,6 +239,9 @@
 @property (nonatomic, retain) NSMutableDictionary *animatingSpriteOffsets;
 
 @property (nonatomic, retain) StartupResponseProto_StartupConstants_DownloadableNibConstants *downloadableNibConstants;
+
+//DEBUG
+@property (nonatomic, retain) CombatReplayProto *lastReplay;
 
 @property (nonatomic, assign) int tangoMaxGemReward;
 @property (nonatomic, assign) int tangoMinGemReward;

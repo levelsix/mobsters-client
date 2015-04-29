@@ -14,6 +14,8 @@
 @class BoardPropertyProto_Builder;
 @class ClanMemberTeamDonationProto;
 @class ClanMemberTeamDonationProto_Builder;
+@class CombatReplayMonsterSnapshot;
+@class CombatReplayMonsterSnapshot_Builder;
 @class CombatReplayOrbProto;
 @class CombatReplayOrbProto_Builder;
 @class CombatReplayProto;
@@ -30,6 +32,8 @@
 @class FullUserProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
+@class MinimumCombatReplayProto;
+@class MinimumCombatReplayProto_Builder;
 @class MinimumUserMonsterProto;
 @class MinimumUserMonsterProto_Builder;
 @class MinimumUserMonsterSellProto;
@@ -114,9 +118,13 @@ BOOL CombatReplayStepTypeIsValidValue(CombatReplayStepType value);
 
 @interface CombatReplayProto : PBGeneratedMessage {
 @private
+  BOOL hasFirstAttackerMonsterId_:1;
   BOOL hasReplayUuid_:1;
+  BOOL hasGroundImgPrefix_:1;
   BOOL hasBoard_:1;
+  int32_t firstAttackerMonsterId;
   NSString* replayUuid;
+  NSString* groundImgPrefix;
   BoardLayoutProto* board;
   NSMutableArray * mutablePlayerTeamList;
   NSMutableArray * mutableEnemyTeamList;
@@ -124,8 +132,12 @@ BOOL CombatReplayStepTypeIsValidValue(CombatReplayStepType value);
   NSMutableArray * mutableOrbsList;
 }
 - (BOOL) hasReplayUuid;
+- (BOOL) hasGroundImgPrefix;
+- (BOOL) hasFirstAttackerMonsterId;
 - (BOOL) hasBoard;
 @property (readonly, strong) NSString* replayUuid;
+@property (readonly, strong) NSString* groundImgPrefix;
+@property (readonly) int32_t firstAttackerMonsterId;
 @property (readonly, strong) NSArray * playerTeamList;
 @property (readonly, strong) NSArray * enemyTeamList;
 @property (readonly, strong) NSArray * stepsList;
@@ -176,6 +188,16 @@ BOOL CombatReplayStepTypeIsValidValue(CombatReplayStepType value);
 - (CombatReplayProto_Builder*) setReplayUuid:(NSString*) value;
 - (CombatReplayProto_Builder*) clearReplayUuid;
 
+- (BOOL) hasGroundImgPrefix;
+- (NSString*) groundImgPrefix;
+- (CombatReplayProto_Builder*) setGroundImgPrefix:(NSString*) value;
+- (CombatReplayProto_Builder*) clearGroundImgPrefix;
+
+- (BOOL) hasFirstAttackerMonsterId;
+- (int32_t) firstAttackerMonsterId;
+- (CombatReplayProto_Builder*) setFirstAttackerMonsterId:(int32_t) value;
+- (CombatReplayProto_Builder*) clearFirstAttackerMonsterId;
+
 - (NSMutableArray *)playerTeamList;
 - (MinimumUserMonsterProto*)playerTeamAtIndex:(NSUInteger)index;
 - (CombatReplayProto_Builder *)addPlayerTeam:(MinimumUserMonsterProto*)value;
@@ -208,12 +230,78 @@ BOOL CombatReplayStepTypeIsValidValue(CombatReplayStepType value);
 - (CombatReplayProto_Builder *)clearOrbs;
 @end
 
+@interface MinimumCombatReplayProto : PBGeneratedMessage {
+@private
+  BOOL hasFirstAttackerMonsterId_:1;
+  BOOL hasReplayUuid_:1;
+  BOOL hasGroundImgPrefix_:1;
+  int32_t firstAttackerMonsterId;
+  NSString* replayUuid;
+  NSString* groundImgPrefix;
+}
+- (BOOL) hasReplayUuid;
+- (BOOL) hasGroundImgPrefix;
+- (BOOL) hasFirstAttackerMonsterId;
+@property (readonly, strong) NSString* replayUuid;
+@property (readonly, strong) NSString* groundImgPrefix;
+@property (readonly) int32_t firstAttackerMonsterId;
+
++ (MinimumCombatReplayProto*) defaultInstance;
+- (MinimumCombatReplayProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (MinimumCombatReplayProto_Builder*) builder;
++ (MinimumCombatReplayProto_Builder*) builder;
++ (MinimumCombatReplayProto_Builder*) builderWithPrototype:(MinimumCombatReplayProto*) prototype;
+- (MinimumCombatReplayProto_Builder*) toBuilder;
+
++ (MinimumCombatReplayProto*) parseFromData:(NSData*) data;
++ (MinimumCombatReplayProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (MinimumCombatReplayProto*) parseFromInputStream:(NSInputStream*) input;
++ (MinimumCombatReplayProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (MinimumCombatReplayProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (MinimumCombatReplayProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface MinimumCombatReplayProto_Builder : PBGeneratedMessageBuilder {
+@private
+  MinimumCombatReplayProto* result;
+}
+
+- (MinimumCombatReplayProto*) defaultInstance;
+
+- (MinimumCombatReplayProto_Builder*) clear;
+- (MinimumCombatReplayProto_Builder*) clone;
+
+- (MinimumCombatReplayProto*) build;
+- (MinimumCombatReplayProto*) buildPartial;
+
+- (MinimumCombatReplayProto_Builder*) mergeFrom:(MinimumCombatReplayProto*) other;
+- (MinimumCombatReplayProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (MinimumCombatReplayProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasReplayUuid;
+- (NSString*) replayUuid;
+- (MinimumCombatReplayProto_Builder*) setReplayUuid:(NSString*) value;
+- (MinimumCombatReplayProto_Builder*) clearReplayUuid;
+
+- (BOOL) hasGroundImgPrefix;
+- (NSString*) groundImgPrefix;
+- (MinimumCombatReplayProto_Builder*) setGroundImgPrefix:(NSString*) value;
+- (MinimumCombatReplayProto_Builder*) clearGroundImgPrefix;
+
+- (BOOL) hasFirstAttackerMonsterId;
+- (int32_t) firstAttackerMonsterId;
+- (MinimumCombatReplayProto_Builder*) setFirstAttackerMonsterId:(int32_t) value;
+- (MinimumCombatReplayProto_Builder*) clearFirstAttackerMonsterId;
+@end
+
 @interface CombatReplayStepProto : PBGeneratedMessage {
 @private
   BOOL hasStepIndex_:1;
   BOOL hasItemId_:1;
   BOOL hasDamage_:1;
-  BOOL hasReplayUuid_:1;
   BOOL hasSchedule_:1;
   BOOL hasMovePos1_:1;
   BOOL hasMovePos2_:1;
@@ -221,14 +309,12 @@ BOOL CombatReplayStepTypeIsValidValue(CombatReplayStepType value);
   int32_t stepIndex;
   int32_t itemId;
   int32_t damage;
-  NSString* replayUuid;
   CombatReplayScheduleProto* schedule;
   uint32_t movePos1;
   uint32_t movePos2;
   CombatReplayStepType type;
   NSMutableArray * mutableSkillsList;
 }
-- (BOOL) hasReplayUuid;
 - (BOOL) hasStepIndex;
 - (BOOL) hasType;
 - (BOOL) hasItemId;
@@ -236,7 +322,6 @@ BOOL CombatReplayStepTypeIsValidValue(CombatReplayStepType value);
 - (BOOL) hasMovePos2;
 - (BOOL) hasDamage;
 - (BOOL) hasSchedule;
-@property (readonly, strong) NSString* replayUuid;
 @property (readonly) int32_t stepIndex;
 @property (readonly) CombatReplayStepType type;
 @property (readonly) int32_t itemId;
@@ -281,11 +366,6 @@ BOOL CombatReplayStepTypeIsValidValue(CombatReplayStepType value);
 - (CombatReplayStepProto_Builder*) mergeFrom:(CombatReplayStepProto*) other;
 - (CombatReplayStepProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (CombatReplayStepProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasReplayUuid;
-- (NSString*) replayUuid;
-- (CombatReplayStepProto_Builder*) setReplayUuid:(NSString*) value;
-- (CombatReplayStepProto_Builder*) clearReplayUuid;
 
 - (BOOL) hasStepIndex;
 - (int32_t) stepIndex;
@@ -334,26 +414,18 @@ BOOL CombatReplayStepTypeIsValidValue(CombatReplayStepType value);
 @interface CombatReplaySkillStepProto : PBGeneratedMessage {
 @private
   BOOL hasBelongsToPlayer_:1;
-  BOOL hasStepIndex_:1;
   BOOL hasSkillId_:1;
   BOOL hasOwnerMonsterId_:1;
-  BOOL hasReplayUuid_:1;
   BOOL hasTriggerPoint_:1;
   BOOL belongsToPlayer_:1;
-  int32_t stepIndex;
   int32_t skillId;
   int32_t ownerMonsterId;
-  NSString* replayUuid;
   SkillTriggerPoint triggerPoint;
 }
-- (BOOL) hasReplayUuid;
-- (BOOL) hasStepIndex;
 - (BOOL) hasSkillId;
 - (BOOL) hasBelongsToPlayer;
 - (BOOL) hasOwnerMonsterId;
 - (BOOL) hasTriggerPoint;
-@property (readonly, strong) NSString* replayUuid;
-@property (readonly) int32_t stepIndex;
 @property (readonly) int32_t skillId;
 - (BOOL) belongsToPlayer;
 @property (readonly) int32_t ownerMonsterId;
@@ -393,16 +465,6 @@ BOOL CombatReplayStepTypeIsValidValue(CombatReplayStepType value);
 - (CombatReplaySkillStepProto_Builder*) mergeFrom:(CombatReplaySkillStepProto*) other;
 - (CombatReplaySkillStepProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (CombatReplaySkillStepProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasReplayUuid;
-- (NSString*) replayUuid;
-- (CombatReplaySkillStepProto_Builder*) setReplayUuid:(NSString*) value;
-- (CombatReplaySkillStepProto_Builder*) clearReplayUuid;
-
-- (BOOL) hasStepIndex;
-- (int32_t) stepIndex;
-- (CombatReplaySkillStepProto_Builder*) setStepIndex:(int32_t) value;
-- (CombatReplaySkillStepProto_Builder*) clearStepIndex;
 
 - (BOOL) hasSkillId;
 - (int32_t) skillId;
@@ -576,6 +638,93 @@ BOOL CombatReplayStepTypeIsValidValue(CombatReplayStepType value);
 - (int32_t) type;
 - (CombatReplayOrbProto_Builder*) setType:(int32_t) value;
 - (CombatReplayOrbProto_Builder*) clearType;
+@end
+
+@interface CombatReplayMonsterSnapshot : PBGeneratedMessage {
+@private
+  BOOL hasMonsterId_:1;
+  BOOL hasStartingHealth_:1;
+  BOOL hasMaxHealth_:1;
+  BOOL hasLevel_:1;
+  BOOL hasSkillSnapshot_:1;
+  int32_t monsterId;
+  int32_t startingHealth;
+  int32_t maxHealth;
+  int32_t level;
+  SkillProto* skillSnapshot;
+}
+- (BOOL) hasMonsterId;
+- (BOOL) hasStartingHealth;
+- (BOOL) hasMaxHealth;
+- (BOOL) hasSkillSnapshot;
+- (BOOL) hasLevel;
+@property (readonly) int32_t monsterId;
+@property (readonly) int32_t startingHealth;
+@property (readonly) int32_t maxHealth;
+@property (readonly, strong) SkillProto* skillSnapshot;
+@property (readonly) int32_t level;
+
++ (CombatReplayMonsterSnapshot*) defaultInstance;
+- (CombatReplayMonsterSnapshot*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (CombatReplayMonsterSnapshot_Builder*) builder;
++ (CombatReplayMonsterSnapshot_Builder*) builder;
++ (CombatReplayMonsterSnapshot_Builder*) builderWithPrototype:(CombatReplayMonsterSnapshot*) prototype;
+- (CombatReplayMonsterSnapshot_Builder*) toBuilder;
+
++ (CombatReplayMonsterSnapshot*) parseFromData:(NSData*) data;
++ (CombatReplayMonsterSnapshot*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (CombatReplayMonsterSnapshot*) parseFromInputStream:(NSInputStream*) input;
++ (CombatReplayMonsterSnapshot*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (CombatReplayMonsterSnapshot*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (CombatReplayMonsterSnapshot*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface CombatReplayMonsterSnapshot_Builder : PBGeneratedMessageBuilder {
+@private
+  CombatReplayMonsterSnapshot* result;
+}
+
+- (CombatReplayMonsterSnapshot*) defaultInstance;
+
+- (CombatReplayMonsterSnapshot_Builder*) clear;
+- (CombatReplayMonsterSnapshot_Builder*) clone;
+
+- (CombatReplayMonsterSnapshot*) build;
+- (CombatReplayMonsterSnapshot*) buildPartial;
+
+- (CombatReplayMonsterSnapshot_Builder*) mergeFrom:(CombatReplayMonsterSnapshot*) other;
+- (CombatReplayMonsterSnapshot_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (CombatReplayMonsterSnapshot_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasMonsterId;
+- (int32_t) monsterId;
+- (CombatReplayMonsterSnapshot_Builder*) setMonsterId:(int32_t) value;
+- (CombatReplayMonsterSnapshot_Builder*) clearMonsterId;
+
+- (BOOL) hasStartingHealth;
+- (int32_t) startingHealth;
+- (CombatReplayMonsterSnapshot_Builder*) setStartingHealth:(int32_t) value;
+- (CombatReplayMonsterSnapshot_Builder*) clearStartingHealth;
+
+- (BOOL) hasMaxHealth;
+- (int32_t) maxHealth;
+- (CombatReplayMonsterSnapshot_Builder*) setMaxHealth:(int32_t) value;
+- (CombatReplayMonsterSnapshot_Builder*) clearMaxHealth;
+
+- (BOOL) hasSkillSnapshot;
+- (SkillProto*) skillSnapshot;
+- (CombatReplayMonsterSnapshot_Builder*) setSkillSnapshot:(SkillProto*) value;
+- (CombatReplayMonsterSnapshot_Builder*) setSkillSnapshot_Builder:(SkillProto_Builder*) builderForValue;
+- (CombatReplayMonsterSnapshot_Builder*) mergeSkillSnapshot:(SkillProto*) value;
+- (CombatReplayMonsterSnapshot_Builder*) clearSkillSnapshot;
+
+- (BOOL) hasLevel;
+- (int32_t) level;
+- (CombatReplayMonsterSnapshot_Builder*) setLevel:(int32_t) value;
+- (CombatReplayMonsterSnapshot_Builder*) clearLevel;
 @end
 
 

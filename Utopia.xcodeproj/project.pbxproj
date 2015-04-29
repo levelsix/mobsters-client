@@ -2193,6 +2193,12 @@
 		6BCBD8761A797E63002C584F /* SkillHammerTime.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCBD8741A797E63002C584F /* SkillHammerTime.m */; };
 		6BCBD8771A797E63002C584F /* SkillHammerTime.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCBD8741A797E63002C584F /* SkillHammerTime.m */; };
 		6BE655921AE57BE80069452A /* Replay.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE655911AE57BE80069452A /* Replay.pb.m */; };
+		6BF5CA571AEED9250096FA30 /* ReplayBattleLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BF5CA561AEED9250096FA30 /* ReplayBattleLayer.m */; };
+		6BF5CA581AEED9250096FA30 /* ReplayBattleLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BF5CA561AEED9250096FA30 /* ReplayBattleLayer.m */; };
+		6BF5CA591AEED9250096FA30 /* ReplayBattleLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BF5CA561AEED9250096FA30 /* ReplayBattleLayer.m */; };
+		6BF5CA681AF035260096FA30 /* ReplayBattleOrbLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BF5CA671AF035260096FA30 /* ReplayBattleOrbLayout.m */; };
+		6BF5CA691AF035260096FA30 /* ReplayBattleOrbLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BF5CA671AF035260096FA30 /* ReplayBattleOrbLayout.m */; };
+		6BF5CA6A1AF035260096FA30 /* ReplayBattleOrbLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BF5CA671AF035260096FA30 /* ReplayBattleOrbLayout.m */; };
 		9B0E6E2C1A73373100118210 /* confusionbubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B0E6E211A73373100118210 /* confusionbubble@2x.png */; };
 		9B0E6E2D1A73373100118210 /* confusionbubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B0E6E211A73373100118210 /* confusionbubble@2x.png */; };
 		9B0E6E2E1A73373100118210 /* confusionbubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B0E6E211A73373100118210 /* confusionbubble@2x.png */; };
@@ -7913,6 +7919,10 @@
 		6BE655911AE57BE80069452A /* Replay.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Replay.pb.m; sourceTree = "<group>"; };
 		6BE655941AE588F00069452A /* CustomMenu.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomMenu.pb.h; sourceTree = "<group>"; };
 		6BE655951AE588F00069452A /* CustomMenu.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomMenu.pb.m; sourceTree = "<group>"; };
+		6BF5CA551AEED9160096FA30 /* ReplayBattleLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReplayBattleLayer.h; sourceTree = "<group>"; };
+		6BF5CA561AEED9250096FA30 /* ReplayBattleLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReplayBattleLayer.m; sourceTree = "<group>"; };
+		6BF5CA661AF0351B0096FA30 /* ReplayBattleOrbLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReplayBattleOrbLayout.h; sourceTree = "<group>"; };
+		6BF5CA671AF035260096FA30 /* ReplayBattleOrbLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReplayBattleOrbLayout.m; sourceTree = "<group>"; };
 		7531CD67E149A97B795B119A /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		9B0E6E211A73373100118210 /* confusionbubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "confusionbubble@2x.png"; sourceTree = "<group>"; };
 		9B0E6E241A73373100118210 /* powermove@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "powermove@2x.plist"; sourceTree = "<group>"; };
@@ -13569,6 +13579,17 @@
 			name = BattleLayers;
 			sourceTree = "<group>";
 		};
+		6BF5CA6B1AF056470096FA30 /* Replay */ = {
+			isa = PBXGroup;
+			children = (
+				6BF5CA551AEED9160096FA30 /* ReplayBattleLayer.h */,
+				6BF5CA561AEED9250096FA30 /* ReplayBattleLayer.m */,
+				6BF5CA661AF0351B0096FA30 /* ReplayBattleOrbLayout.h */,
+				6BF5CA671AF035260096FA30 /* ReplayBattleOrbLayout.m */,
+			);
+			name = Replay;
+			sourceTree = "<group>";
+		};
 		7A2AF416E1B4BB3498E05A47 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -16871,6 +16892,7 @@
 		CFF1D64A17DFC2F500874339 /* Battle */ = {
 			isa = PBXGroup;
 			children = (
+				6BF5CA6B1AF056470096FA30 /* Replay */,
 				6B4FDB911AE9757C00371B1A /* StateMachine */,
 				CF7CFE1419A55A2B009338A2 /* BaseBattleLayer */,
 				CFFEB1B618370479007C4BA3 /* CCAnimation Extensions */,
@@ -23972,6 +23994,7 @@
 				6B1EAABC1AD42A7A00E0B642 /* SkillProtoHelper.m in Sources */,
 				2991FBFA1A800AFE009BB1D8 /* PopoverViewController.m in Sources */,
 				CF0CED1E196F452900ECD301 /* NibUtils.m in Sources */,
+				6BF5CA581AEED9250096FA30 /* ReplayBattleLayer.m in Sources */,
 				3EEADB781A7005C70096A652 /* SkillCounterStrike.m in Sources */,
 				CF0CED1F196F452900ECD301 /* TimingFunctionTableView.m in Sources */,
 				CF0CED20196F452900ECD301 /* IAPHelper.m in Sources */,
@@ -24074,6 +24097,7 @@
 				CF0CED63196F452900ECD301 /* EventUser.pb.m in Sources */,
 				CF0CED64196F452900ECD301 /* FundsViewController.m in Sources */,
 				CF0CED65196F452900ECD301 /* SBJSON.m in Sources */,
+				6BF5CA691AF035260096FA30 /* ReplayBattleOrbLayout.m in Sources */,
 				6B07840F1A8545BB005CDFCF /* SkillControllerActiveBuff.m in Sources */,
 				CF0CED66196F452900ECD301 /* TutorialTouchView.m in Sources */,
 				2917212B1ACF82110093F100 /* EmbeddedScrollingUpgradeView.m in Sources */,
@@ -24520,6 +24544,7 @@
 				CF6A292E18C430E800AD676F /* TutorialController.m in Sources */,
 				CFF6463A195A3A3B00C43641 /* SellViewController.m in Sources */,
 				CF29E929196151CD00B40DA4 /* GachaChooserViewController.m in Sources */,
+				6BF5CA571AEED9250096FA30 /* ReplayBattleLayer.m in Sources */,
 				6BBBBFBF1ABB7BD8006656C7 /* SkillChill.m in Sources */,
 				CFEF25D318C9D6F100FB867A /* FacebookSpammer.m in Sources */,
 				CFE02AE518209CE00016C1E2 /* MapBotView.m in Sources */,
@@ -24608,6 +24633,8 @@
 				CF0AC60018A1F6E600140628 /* PvpBattleLayer.m in Sources */,
 				6B1EAABB1AD42A7A00E0B642 /* SkillProtoHelper.m in Sources */,
 				DA88EB3E19B93542005EE827 /* SkillPopupOverlay.m in Sources */,
+				CFE11F8F1A141C040094F797 /* amqp_tcp_socket.c in Sources */,
+				6BF5CA681AF035260096FA30 /* ReplayBattleOrbLayout.m in Sources */,
 				CFBF032117C596890082A9BF /* ClanCreateViewController.m in Sources */,
 				6BA24DF31A7A9ECF00BEF920 /* SkillBloodRage.m in Sources */,
 				CF4DB8ED1807DA1F00062258 /* MissionMap.m in Sources */,
@@ -24738,6 +24765,7 @@
 				6B1EAABD1AD42A7A00E0B642 /* SkillProtoHelper.m in Sources */,
 				CF4818C419F7217F00041486 /* CoinBar.m in Sources */,
 				2991FBFB1A800AFE009BB1D8 /* PopoverViewController.m in Sources */,
+				6BF5CA591AEED9250096FA30 /* ReplayBattleLayer.m in Sources */,
 				CF4818C519F7217F00041486 /* NibUtils.m in Sources */,
 				3EEADB791A7005C70096A652 /* SkillCounterStrike.m in Sources */,
 				CF4818C619F7217F00041486 /* TimingFunctionTableView.m in Sources */,
@@ -24840,6 +24868,7 @@
 				29AF49031AAA96DD0034927C /* ItemFactoryViewController.m in Sources */,
 				CF48190719F7217F00041486 /* ClanRaidLeaderboardViewController.m in Sources */,
 				CF48190819F7217F00041486 /* EventUser.pb.m in Sources */,
+				6BF5CA6A1AF035260096FA30 /* ReplayBattleOrbLayout.m in Sources */,
 				CF48190A19F7217F00041486 /* SBJSON.m in Sources */,
 				6B0784101A8545BB005CDFCF /* SkillControllerActiveBuff.m in Sources */,
 				2917212C1ACF82110093F100 /* EmbeddedScrollingUpgradeView.m in Sources */,

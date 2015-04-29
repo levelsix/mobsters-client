@@ -164,10 +164,18 @@
 // Used for skills that render the drop invalid (e.g. cake kid)
 @property (nonatomic, retain) NSMutableArray *droplessStageNums;
 
+// Team snapshots used for replays
+@property (nonatomic, retain) NSArray *playerTeamSnapshot;
+@property (nonatomic, retain) NSArray *enemyTeamSnapshot;
+
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize;
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize bgdPrefix:(NSString *)bgdPrefix;
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize bgdPrefix:(NSString *)bgdPrefix layoutProto:(BoardLayoutProto *)layoutProto;
 - (void) initOrbLayer;
+
+- (CombatReplayMonsterSnapshot*) monsterSnapshot:(UserMonster*)um isOffensive:(BOOL)isOffensive;
+
+- (void) setupStateMachine;
 
 - (void) begin;
 - (BattlePlayer *) firstMyPlayer;
@@ -210,6 +218,8 @@
 - (IBAction)deployCardClicked:(id)sender;
 - (void) continueConfirmed;
 - (void) exitFinal;
+
+- (void) buildReplay;
 
 - (void) triggerSkills:(SkillTriggerPoint)trigger withCompletion:(SkillControllerBlock)completion;
 

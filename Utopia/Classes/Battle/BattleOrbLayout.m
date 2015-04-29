@@ -37,60 +37,6 @@
   bldr.height = gridSize.height;
   bldr.orbElements = 111111;
   
-//    BoardPropertyProto_Builder *prop;
-  //
-  //  prop = [BoardPropertyProto builder];
-  //  prop.posX = 4;
-  //  prop.posY = 4
-  //  prop.name = @"PASSABLE_HOLE";
-  //  [bldr addProperties:prop.build];
-  //
-  //  prop = [BoardPropertyProto builder];
-  //  prop.posX = 4;
-  //  prop.posY = 7;
-  //  prop.name = @"NOT_SPAWN_TILE";
-  //  [bldr addProperties:prop.build];
-  //
-  //  for (int i = 0; i < gridSize.width; i++) {
-  //    prop = [BoardPropertyProto builder];
-  //    prop.posX = i;
-  //    prop.posY = 2;
-  //    prop.name = @"ORB_SPECIAL";
-  //    prop.value = SpecialOrbTypeCloud;
-  //    prop.quantity = 2;
-  //    [bldr addProperties:prop.build];
-  //
-  //    prop = [BoardPropertyProto builder];
-  //    prop.posX = i;
-  //    prop.posY = 2;
-  //    prop.name = @"ORB_POWERUP";
-  //    prop.value = PowerupTypeVerticalLine;
-  //    [bldr addProperties:prop.build];
-  //  }
-  //
-  //  for (int i = 0; i < gridSize.width; i++) {
-  //    prop = [BoardPropertyProto builder];
-  //    prop.posX = i;
-  //    prop.posY = 1;
-  //    prop.name = @"ORB_EMPTY";
-  //    prop.value = 5;
-  //    [bldr addProperties:prop.build];
-  //
-  //    prop = [BoardPropertyProto builder];
-  //    prop.posX = i;
-  //    prop.posY = 0;
-  //    prop.name = @"ORB_EMPTY";
-  //    prop.value = 5;
-  //    [bldr addProperties:prop.build];
-  //  }
-  //
-//    prop = [BoardPropertyProto builder];
-//    prop.posX = 4;
-//    prop.posY = 0;
-//    prop.name = INITIAL_SKILL;
-//    prop.value = 1;
-//    [bldr addProperties:prop.build];
-  
   return [self initWithBoardLayout:bldr.build];
 }
 
@@ -2000,7 +1946,7 @@ static const NSInteger maxSearchIterations = 800;
   [orbsForCol addObject:[[[[[[[CombatReplayOrbProto builder]
                               setSpawnedElement:(Element)orb.orbColor]
                              setSpawnedCol:(int)orb.column]
-                            setSpawnedRow:initialOrb?(int)orb.row:orbsForCol.count]
+                            setSpawnedRow:(int)(initialOrb ? orb.row : orbsForCol.count)]
                            setType:(int)orb.specialOrbType]
                           setInitialOrb:initialOrb]
                          build]];

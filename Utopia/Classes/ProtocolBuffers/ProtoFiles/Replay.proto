@@ -29,33 +29,38 @@ enum CombatReplayStepType {
 
 message CombatReplayProto {
 	optional string replayUuid = 1;
-	repeated MinimumUserMonsterProto playerTeam = 2;
-	repeated MinimumUserMonsterProto enemyTeam = 3;
-	repeated CombatReplayStepProto steps = 4;
-	optional BoardLayoutProto board = 5;
-	repeated CombatReplayOrbProto orbs = 6;
+    optional string groundImgPrefix = 2;
+    optional int32 firstAttackerMonsterId = 3;
+	repeated MinimumUserMonsterProto playerTeam = 4;
+	repeated MinimumUserMonsterProto enemyTeam = 5;
+	repeated CombatReplayStepProto steps = 6;
+	optional BoardLayoutProto board = 7;
+	repeated CombatReplayOrbProto orbs = 8;
 	//TODO: Player names? Other metadata needed for replay
 }
 
+message MinimumCombatReplayProto {
+    optional string replayUuid = 1;
+    optional string groundImgPrefix = 2;
+    optional int32 firstAttackerMonsterId = 3;
+}
+
 message CombatReplayStepProto {
-	optional string replayUuid = 1;
-	optional int32 stepIndex = 2;
-	optional CombatReplayStepType type = 3;
-	optional int32 itemId = 4;
-	optional uint32 movePos1 = 5;
-	optional uint32 movePos2 = 6;
-	optional int32 damage = 7;
-	optional CombatReplayScheduleProto schedule = 8;
-	repeated CombatReplaySkillStepProto skills = 9;
+	optional int32 stepIndex = 1;
+	optional CombatReplayStepType type = 2;
+	optional int32 itemId = 3;
+	optional uint32 movePos1 = 4;
+	optional uint32 movePos2 = 5;
+	optional int32 damage = 6;
+	optional CombatReplayScheduleProto schedule = 7;
+	repeated CombatReplaySkillStepProto skills = 8;
 }
 
 message CombatReplaySkillStepProto {
-	optional string replayUuid = 1;
-	optional int32 stepIndex = 2;
-	optional int32 skillId = 3;
-	optional bool belongsToPlayer = 4;
-	optional int32 ownerMonsterId = 5;
-	optional SkillTriggerPoint triggerPoint = 6;
+	optional int32 skillId = 1;
+	optional bool belongsToPlayer = 2;
+	optional int32 ownerMonsterId = 3;
+	optional SkillTriggerPoint triggerPoint = 4;
 }
 
 message CombatReplayScheduleProto {
@@ -70,4 +75,12 @@ message CombatReplayOrbProto {
 	optional Element spawnedElement = 3;
     optional bool initialOrb = 4;
     optional int32 type = 5;
+}
+
+message CombatReplayMonsterSnapshot {
+    optional int32 monsterId = 1;
+    optional int32 startingHealth = 2;
+    optional int32 maxHealth = 3;
+    optional SkillProto skillSnapshot = 4;
+    optional int32 level = 5;
 }

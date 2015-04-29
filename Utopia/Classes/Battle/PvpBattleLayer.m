@@ -667,6 +667,7 @@
     NSMutableSet *set = [NSMutableSet set];
     NSMutableSet *skillSideEffects = [NSMutableSet set];
     NSMutableArray *enemyTeam = [NSMutableArray array];
+    NSMutableArray *enemyTeamSnapshots = [NSMutableArray array];
     
     
     PvpProto *enemy = self.defendersList[_curQueueNum];
@@ -694,6 +695,7 @@
         BattlePlayer *bp = [BattlePlayer playerWithMonster:um];
         bp.isClanMonster = YES;
         [enemyTeam addObject:bp];
+        [enemyTeamSnapshots addObject:[self monsterSnapshot:um isOffensive:NO]];
         
         if (bp.spritePrefix) {
           [set addObject:bp.spritePrefix];
@@ -712,6 +714,7 @@
     _waitingForDownload = YES;
     [Globals downloadAllFilesForSpritePrefixes:set.allObjects completion:^{
       self.enemyTeam = enemyTeam;
+      self.enemyTeamSnapshot = enemyTeamSnapshots;
       [Globals downloadAllAssetsForSkillSideEffects:skillSideEffects completion:^{
         _waitingForDownload = NO;
       }];
