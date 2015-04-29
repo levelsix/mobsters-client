@@ -13,10 +13,11 @@
 
 @property (nonatomic, retain) PBGeneratedMessage *event;
 @property (nonatomic, assign) int tag;
+@property (nonatomic, retain) NSString *eventUuid;
 
 @property (nonatomic, assign) EventProtocolRequest requestType;
 
-+ (id) createWithEvent:(PBGeneratedMessage *)e tag:(int)t;
-+ (id) createWithEvent:(PBGeneratedMessage *)e tag:(int)t requestType:(EventProtocolRequest)requestType;
++ (id) createWithEvent:(PBGeneratedMessage *)e tag:(int)t eventUuid:(NSString *)eventUuid;
++ (id) createWithEvent:(PBGeneratedMessage *)e tag:(int)t requestType:(EventProtocolRequest)requestType eventUuid:(NSString *)eventUuid;
 
 @end

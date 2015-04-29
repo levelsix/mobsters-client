@@ -58,6 +58,7 @@
 @property (nonatomic, retain) AMQPConnectionThread *connectionThread;
 
 @property (nonatomic, retain) NSMutableArray *queuedMessages;
+@property (nonatomic, retain) NSMutableArray *unrespondedMessages;
 
 @property (nonatomic, retain) NSMutableArray *structRetrievals;
 @property (nonatomic, retain) NSMutableDictionary *structRetrievalAchievements;
@@ -83,7 +84,6 @@
 - (void) initNetworkCommunicationWithDelegate:(id)delegate clearMessages:(BOOL)clearMessages;
 - (void) initUserIdMessageQueue;
 - (void) closeDownConnection;
-- (void) messageReceived:(NSData *)buffer withType:(EventProtocolResponse)eventType tag:(int)tag;
 - (void) setDelegate:(id)delegate forTag:(int)tag;
 
 - (void) addClanEventObserver:(id)object;
@@ -159,7 +159,7 @@
 - (int) sendPrivateChatPostMessage:(NSString *)recipientUuid content:(NSString *)content originalLanguage:(TranslateLanguages)originalLanguage;
 - (int) sendRetrievePrivateChatPostsMessage:(NSString *)otherUserUuid language:(TranslateLanguages)language;
 
-- (int) sendTranslateSelectMessages:(NSString *)otherUserUuid language:(TranslateLanguages)language messages:(NSArray *)messages chatType:(ChatScope)chatType translateOn:(BOOL)translateOn;
+- (int) sendTranslateSelectMessages:(NSString *)otherUserUuid language:(TranslateLanguages)language messages:(NSArray *)messages chatType:(ChatScope  )chatType translateOn:(BOOL)translateOn;
 
 - (int) sendBeginDungeonMessage:(uint64_t)clientTime taskId:(int)taskId isEvent:(BOOL)isEvent eventId:(int)eventId gems:(int)gems enemyElement:(Element)element shouldForceElem:(BOOL)shouldForceElem alreadyCompletedMiniTutorialTask:(BOOL)alreadyCompletedMiniTutorialTask questIds:(NSArray *)questIds;
 - (int) sendUpdateMonsterHealthMessage:(uint64_t)clientTime monsterHealths:(NSArray *)monsterHealths isForTask:(BOOL)isForTask userTaskUuid:(NSString *)userTaskUuid taskStageId:(int)taskStageId droplessTsfuUuid:(NSString *)droplessTsfuUuid;

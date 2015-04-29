@@ -430,7 +430,7 @@ static const CGSize FIXED_SIZE = {568, 384};
   self.tutController = nil;
   
   [self fadeToLoadingScreenPercentage:PART_3_PERCENT animated:YES];
-  FullEvent *fe = [FullEvent createWithEvent:startupResponse tag:0];
+  FullEvent *fe = [FullEvent createWithEvent:startupResponse tag:0 eventUuid:nil];
   [[IncomingEventController sharedIncomingEventController] handleStartupResponseProto:fe];
   [self handleStartupResponseProto:fe];
 }
@@ -439,7 +439,7 @@ static const CGSize FIXED_SIZE = {568, 384};
   GameState *gs = [GameState sharedGameState];
   gs.isTutorial = NO;
   
-  FullEvent *fe = [FullEvent createWithEvent:startupResponse tag:0];
+  FullEvent *fe = [FullEvent createWithEvent:startupResponse tag:0 eventUuid:nil];
   [[IncomingEventController sharedIncomingEventController] handleStartupResponseProto:fe];
   [self handleStartupResponseProto:fe];
 }
