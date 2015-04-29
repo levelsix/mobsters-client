@@ -134,7 +134,7 @@ static int sessionId;
     NSTimer *timer = [NSTimer timerWithTimeInterval:delay target:self selector:@selector(timerPostData:) userInfo:data repeats:NO];
     [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
   } else {
-    [self performSelector:@selector(postDataToExchange:) onThread:self withObject:data waitUntilDone:YES];
+    [self performSelector:@selector(postDataToExchange:) onThread:self withObject:data waitUntilDone:NO];
   }
 }
 

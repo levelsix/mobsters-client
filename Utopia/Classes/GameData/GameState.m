@@ -1478,7 +1478,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     [up update];
   }
   
-  TagLog(@"Added %@ for tag %d", NSStringFromClass([up class]), up.tag);
+  NSString *delta = @"";
+  if ([up isKindOfClass:[FullUserUpdate class]]) {
+    delta = [NSString stringWithFormat:@", delta %d", [(FullUserUpdate *)up change]];
+  }
+  TagLog(@"Added %@ for tag %d%@", NSStringFromClass([up class]), up.tag, delta);
   
   [self recalculateStrength];
   
@@ -1513,6 +1517,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   for (id<GameStateUpdate> update in updates) {
     [_unrespondedUpdates removeObject:update];
     TagLog(@"Removed and undid %@ for tag %d", NSStringFromClass([update class]), update.tag);
+    
+    if (update.tag < tag) {
+      LNLog(@"WARNING: Found tag id for value lower than current tag (%@). Cleanup not done right.", NSStringFromClass([update class]));
+    }
   }
 }
 

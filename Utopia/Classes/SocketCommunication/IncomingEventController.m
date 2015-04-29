@@ -760,16 +760,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 
 - (void) handleMoveOrRotateNormStructureResponseProto:(FullEvent *)fe {
   MoveOrRotateNormStructureResponseProto *proto = (MoveOrRotateNormStructureResponseProto *)fe.event;
-  int tag = fe.tag;
   
   LNLog(@"Move norm struct response received with status: %d.", (int)proto.status);
   
-  GameState *gs = [GameState sharedGameState];
   if (proto.status != MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatusSuccess) {
     [Globals popupMessage:@"Server failed to change building location or orientation."];
-    [gs removeAndUndoAllUpdatesForTag:tag];
   } else {
-    [gs removeNonFullUserUpdatesForTag:tag];
   }
 }
 
@@ -1475,7 +1471,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 
 - (void) handleSolicitClanHelpResponseProto:(FullEvent *)fe {
   SolicitClanHelpResponseProto *proto = (SolicitClanHelpResponseProto *)fe.event;
-  int tag = fe.tag;
   LNLog(@"Solicit clan help response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
@@ -1483,8 +1478,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs.clanHelpUtil addClanHelpProtos:proto.helpProtoList fromUser:nil];
   } else {
     [Globals popupMessage:@"Server failed to solicit clan help."];
-    
-    [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
 
@@ -1505,7 +1498,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 
 - (void) handleEndClanHelpResponseProto:(FullEvent *)fe {
   EndClanHelpResponseProto *proto = (EndClanHelpResponseProto *)fe.event;
-  int tag = fe.tag;
   
   LNLog(@"End clan help response received with status %d.", (int)proto.status);
   
@@ -1514,8 +1506,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs.clanHelpUtil removeClanHelpUuids:proto.clanHelpUuidsList];
   } else {
     [Globals popupMessage:@"Server failed to end clan help."];
-    
-    [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
 
@@ -1654,17 +1644,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 
 - (void) handleRemoveUserItemUsedResponseProto:(FullEvent *)fe {
   RemoveUserItemUsedResponseProto *proto = (RemoveUserItemUsedResponseProto *)fe.event;
-  int tag = fe.tag;
   
   LNLog(@"Remove user item usage response received with status %d.", (int)proto.status);
   
-  GameState *gs = [GameState sharedGameState];
   if (proto.status == RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatusSuccess) {
-    [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to remove user item usages."];
-    
-    [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
 
@@ -2381,17 +2366,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 
 - (void) handleAchievementProgressResponseProto:(FullEvent *)fe {
   AchievementProgressResponseProto *proto = (AchievementProgressResponseProto *)fe.event;
-  int tag = fe.tag;
   
   LNLog(@"Achievement progress response received with status %d.", (int)proto.status);
   
-  GameState *gs = [GameState sharedGameState];
   if (proto.status == AchievementProgressResponseProto_AchievementProgressStatusSuccess) {
-    [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to progress achievement."];
-    
-    [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
 
@@ -2568,18 +2548,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 
 - (void) handleRetrieveMiniEventResponseProto:(FullEvent *)fe {
   RetrieveMiniEventResponseProto *proto = (RetrieveMiniEventResponseProto *)fe.event;
-  int tag = fe.tag;
   
   LNLog(@"Retrieve mini event response received with status %d.", (int)proto.status);
   
-  GameState *gs = [GameState sharedGameState];
   if (proto.status == RetrieveMiniEventResponseProto_RetrieveMiniEventStatusSuccess) {
-    
-    [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to retrieve mini event."];
-    
-    [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
 

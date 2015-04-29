@@ -60,7 +60,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 }
 
 - (void) createUserWithName:(NSString *)name facebookId:(NSString *)facebookId email:(NSString *)email otherFbInfo:(NSDictionary *)otherFbInfo structs:(NSArray *)structs cash:(int)cash oil:(int)oil gems:(int)gems delegate:(id)delegate {
-  GameState *gs = [GameState sharedGameState];
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   
   NSString *jsonString = nil;
@@ -79,14 +78,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   int tag = [sc sendUserCreateMessageWithName:name facebookId:facebookId email:email otherFbInfo:jsonString structs:structs cash:cash oil:oil gems:gems];
   [sc setDelegate:delegate forTag:tag];
   
-  [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
-  
   [Analytics userCreateWithCashChange:cash cashBalance:cash oilChange:oil oilBalance:oil gemChange:gems gemBalance:gems];
 }
 
 - (void) startupWithFacebookId:(NSString *)facebookId isFreshRestart:(BOOL)isFreshRestart delegate:(id)delegate {
   int tag = [[SocketCommunication sharedSocketCommunication] sendStartupMessageWithFacebookId:facebookId isFreshRestart:isFreshRestart clientTime:[self getCurrentMilliseconds]];
-  [[GameState sharedGameState] addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
 }
 
@@ -268,8 +264,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   if (!CGPointEqualToPoint(userStruct.coordinates, newCoord)) {
     int tag = [[SocketCommunication sharedSocketCommunication] sendMoveNormStructureMessage:userStruct.userStructUuid x:x y:y];
     userStruct.coordinates = CGPointMake(x, y);
-    
-    [[GameState sharedGameState] addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
   }
 }
 
@@ -390,8 +384,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     int64_t ms = [self getCurrentMilliseconds];
     int tag = [sc sendNormStructBuildsCompleteMessage:@[userStruct.userStructUuid] time:ms];
     [sc setDelegate:delegate forTag:tag];
-    
-    [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
     
     [gs.clanHelpUtil cleanupRogueClanHelps];
     [gs.itemUtil cleanupRogueItemUsages];
@@ -529,10 +521,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 #pragma mark - Loading Cities
 
 - (void) loadPlayerCity:(NSString *)userUuid withDelegate:(id)delegate {
-  GameState *gs = [GameState sharedGameState];
-  
   int tag = [[SocketCommunication sharedSocketCommunication] sendLoadPlayerCityMessage:userUuid];
-  [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
 }
 
@@ -552,8 +541,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   FullQuestProto *fqp = [gs.availableQuests objectForKey:questIdNum];
   
   if (fqp) {
-    int tag = [[SocketCommunication sharedSocketCommunication] sendQuestAcceptMessage:questId];
-    [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
+    [[SocketCommunication sharedSocketCommunication] sendQuestAcceptMessage:questId];
     
     [gs.availableQuests removeObjectForKey:questIdNum];
     [gs.inProgressIncompleteQuests setObject:fqp forKey:questIdNum];
@@ -715,7 +703,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   int tag = [[SocketCommunication sharedSocketCommunication] sendRetrieveUsersForUserUuids:[[NSSet setWithArray:userUuids] allObjects] includeCurMonsterTeam:includeCurMonsterTeam];
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
-  [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }
 
 #pragma mark - IAP
@@ -810,8 +797,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   gs.deviceToken = deviceToken;
   
   int tag = [[SocketCommunication sharedSocketCommunication] sendAPNSMessage:deviceToken];
-  
-  [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }
 
 - (void) setGameCenterId:(NSString *)gameCenterId {
@@ -855,8 +840,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     
     gs.avatarMonsterId = avatarMonsterId;
     [[SocketCommunication sharedSocketCommunication] rebuildSender];
-    
-    [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
   }
 }
 
@@ -1309,9 +1292,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 - (void) retrieveClanInfo:(NSString *)clanName clanUuid:(NSString *)clanUuid grabType:(RetrieveClanInfoRequestProto_ClanInfoGrabType)grabType isForBrowsingList:(BOOL)isForBrowsingList delegate:(id)delegate {
   int tag = [[SocketCommunication sharedSocketCommunication] sendRetrieveClanInfoMessage:clanName clanUuid:clanUuid grabType:grabType isForBrowsingList:isForBrowsingList];
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
-  
-  GameState *gs = [GameState sharedGameState];
-  [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }
 
 #pragma mark Clan Help

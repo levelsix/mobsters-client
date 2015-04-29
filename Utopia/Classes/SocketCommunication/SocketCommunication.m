@@ -212,7 +212,7 @@ static NSString *udid = nil;
   LNLog(@"Initializing network connection..");
   
   // In case we just came from inactive state
-  _currentTagNum = arc4random();
+  _currentTagNum = ABS(arc4random());
   _shouldReconnect = YES;
   _numDisconnects = 0;
   
@@ -403,16 +403,19 @@ static NSString *udid = nil;
   }
 }
 
-- (int) sendData:(PBGeneratedMessage *)msg withMessageType:(int)type flush:(BOOL)flush queueUp:(BOOL)queueUp {
+- (int) sendData:(PBGeneratedMessage *)msg withMessageType:(int)type flush:(BOOL)flush queueUp:(BOOL)queueUp incrementTagNum:(int)inc {
   if (flush) {
     if ([self flushAndQueueUp]) {
       _lastFlushedTime = [NSDate date];
     }
   }
   
-  int tag = _currentTagNum;
-  _currentTagNum++;
-  _currentTagNum %= RAND_MAX;
+  int tag = 0;
+  if (inc) {
+    tag = _currentTagNum;
+    _currentTagNum++;
+    _currentTagNum %= RAND_MAX;
+  }
   
   FullEvent *fe = [FullEvent createWithEvent:msg tag:tag requestType:type];
   if (!queueUp) {
@@ -424,19 +427,18 @@ static NSString *udid = nil;
       [self sendFullEvents:@[fe]];
     }
   } else {
-    FullEvent *fe = [FullEvent createWithEvent:msg tag:tag requestType:type];
     [self.queuedMessages addObject:fe];
   }
   
   return tag;
 }
 
-- (int) sendData:(PBGeneratedMessage *)msg withMessageType:(int)type queueUp:(BOOL)queueUp {
-  return [self sendData:msg withMessageType:type flush:YES queueUp:queueUp];
+- (int) sendData:(PBGeneratedMessage *)msg withMessageType:(int)type queueUp:(BOOL)queueUp incrementTagNum:(int)inc  {
+  return [self sendData:msg withMessageType:type flush:YES queueUp:queueUp incrementTagNum:inc];
 }
 
 - (int) sendData:(PBGeneratedMessage *)msg withMessageType:(int)type {
-  return [self sendData:msg withMessageType:type flush:YES queueUp:NO];
+  return [self sendData:msg withMessageType:type flush:YES queueUp:NO incrementTagNum:YES];
 }
 
 - (void) amqpConsumerThreadReceivedNewMessage:(AMQPMessage *)theMessage {
@@ -652,7 +654,7 @@ static NSString *udid = nil;
     setCurStructCoordinates:[[[[CoordinateProto builder] setX:x] setY:y] build]]
    build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCMoveOrRotateNormStructureEvent queueUp:YES];
+  return [self sendData:req withMessageType:EventProtocolRequestCMoveOrRotateNormStructureEvent queueUp:YES incrementTagNum:NO];
 }
 
 - (int) sendUpgradeNormStructureMessage:(NSString *)userStructUuid time:(uint64_t)curTime resourceType:(ResourceType)type resourceChange:(int)resourceChange gemCost:(int)gemCost queueUp:(BOOL)queueUp {
@@ -665,7 +667,7 @@ static NSString *udid = nil;
                                             setGemsSpent:gemCost]
                                            build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCUpgradeNormStructureEvent queueUp:queueUp];
+  return [self sendData:req withMessageType:EventProtocolRequestCUpgradeNormStructureEvent queueUp:queueUp incrementTagNum:YES];
 }
 
 - (int) sendFinishNormStructBuildWithDiamondsMessage:(NSString *)userStructUuid gemCost:(int)gemCost time:(uint64_t)milliseconds queueUp:(BOOL)queueUp {
@@ -676,7 +678,7 @@ static NSString *udid = nil;
                                                             setTimeOfSpeedup:milliseconds]
                                                            build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCFinishNormStructWaittimeWithDiamondsEvent queueUp:queueUp];
+  return [self sendData:req withMessageType:EventProtocolRequestCFinishNormStructWaittimeWithDiamondsEvent queueUp:queueUp incrementTagNum:YES];
 }
 
 - (int) sendNormStructBuildsCompleteMessage:(NSArray *)userStructUuids time:(uint64_t)curTime {
@@ -1039,7 +1041,7 @@ static NSString *udid = nil;
     }
   }
   
-  return [self sendData:bldr.build withMessageType:EventProtocolRequestCUpdateMonsterHealthEvent queueUp:YES];
+  return [self sendData:bldr.build withMessageType:EventProtocolRequestCUpdateMonsterHealthEvent queueUp:YES incrementTagNum:YES];
 }
 
 - (int) sendEndDungeonMessage:(NSString *)userTaskUuid userWon:(BOOL)userWon isFirstTimeCompleted:(BOOL)isFirstTimeCompleted droplessTsfuUuids:(NSArray *)droplessTsfuUuids time:(uint64_t)time {
@@ -1157,7 +1159,7 @@ static NSString *udid = nil;
                                           setReason:reason]
                                          build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCUpdateUserCurrencyEvent flush:NO queueUp:NO];
+  return [self sendData:req withMessageType:EventProtocolRequestCUpdateUserCurrencyEvent flush:NO queueUp:NO incrementTagNum:YES];
 }
 
 - (int) sendBeginPvpBattleMessage:(PvpProto *)enemy senderElo:(int)elo isRevenge:(BOOL)isRevenge previousBattleTime:(uint64_t)previousBattleTime clientTime:(uint64_t)clientTime {
@@ -1262,7 +1264,7 @@ static NSString *udid = nil;
                                              addAllUapList:userAchievements]
                                             build];
     
-    return [self sendData:req withMessageType:EventProtocolRequestCAchievementProgressEvent queueUp:YES];
+    return [self sendData:req withMessageType:EventProtocolRequestCAchievementProgressEvent queueUp:YES incrementTagNum:NO];
   } else {
     // Use a dictionary so that repeats will be replaced (i.e. 2 retrievals of cash)
     for (UserAchievementProto *uap in userAchievements) {
@@ -1413,7 +1415,7 @@ static NSString *udid = nil;
                                               setTeamSlotNum:teamSlot]
                                              build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCAddMonsterToBattleTeamEvent queueUp:YES];
+  return [self sendData:req withMessageType:EventProtocolRequestCAddMonsterToBattleTeamEvent queueUp:YES incrementTagNum:YES];
 }
 
 - (int) sendRemoveMonsterFromTeam:(NSString *)userMonsterUuid {
@@ -1422,7 +1424,7 @@ static NSString *udid = nil;
                                                    setUserMonsterUuid:userMonsterUuid]
                                                   build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCRemoveMonsterFromBattleTeamEvent queueUp:YES];
+  return [self sendData:req withMessageType:EventProtocolRequestCRemoveMonsterFromBattleTeamEvent queueUp:YES incrementTagNum:YES];
 }
 
 - (int) sendBuyInventorySlotsWithGems:(NSString *)userStructUuid {
@@ -1522,7 +1524,7 @@ static NSString *udid = nil;
                                        addAllNotice:clanHelpNotices]
                                       build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCSolicitClanHelpEvent flush:NO queueUp:NO];
+  return [self sendData:req withMessageType:EventProtocolRequestCSolicitClanHelpEvent flush:NO queueUp:NO incrementTagNum:NO];
 }
 
 - (int) sendGiveClanHelpMessage:(NSArray *)clanHelpUuids {
@@ -1541,7 +1543,7 @@ static NSString *udid = nil;
                                    addAllClanHelpUuids:clanHelpUuids]
                                   build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCEndClanHelpEvent flush:NO queueUp:YES];
+  return [self sendData:req withMessageType:EventProtocolRequestCEndClanHelpEvent flush:NO queueUp:YES incrementTagNum:NO];
 }
 
 - (int) sendRemoveUserItemUsedMessage:(NSArray *)usageUuids {
@@ -1550,7 +1552,7 @@ static NSString *udid = nil;
                                           addAllUserItemUsedUuid:usageUuids]
                                          build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCRemoveUserItemUsedEvent queueUp:YES];
+  return [self sendData:req withMessageType:EventProtocolRequestCRemoveUserItemUsedEvent queueUp:YES incrementTagNum:NO];
 }
 
 - (int) sendTradeItemForResourcesMessage:(NSArray *)itemIdsUsed updatedUserItems:(NSArray *)updatedUserItems clientTime:(uint64_t)clientTime {
@@ -1561,7 +1563,7 @@ static NSString *udid = nil;
                                              setClientTime:clientTime]
                                             build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCTradeItemForResourcesEvent queueUp:YES];
+  return [self sendData:req withMessageType:EventProtocolRequestCTradeItemForResourcesEvent queueUp:YES incrementTagNum:YES];
 }
 
 - (int) sendRedeemSecretGiftMessage:(NSArray *)uisgIds clientTime:(uint64_t)clientTime {
@@ -1641,7 +1643,7 @@ static NSString *udid = nil;
                                                     addAllSolicitations:solicitations]
                                                    build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCVoidTeamDonationSolicitationEvent queueUp:YES];
+  return [self sendData:req withMessageType:EventProtocolRequestCVoidTeamDonationSolicitationEvent queueUp:YES incrementTagNum:YES];
 }
 
 - (int) sendRetrieveUserMonsterTeamMessage:(NSArray *)userUuids {
@@ -1679,7 +1681,7 @@ static NSString *udid = nil;
                                          addAllDiscardedBattleItemIds:battleItemIds]
                                         build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCDiscardBattleItemEvent flush:NO queueUp:YES];
+  return [self sendData:req withMessageType:EventProtocolRequestCDiscardBattleItemEvent flush:NO queueUp:YES incrementTagNum:YES];
 }
 
 - (int) sendUpdateUserStrengthMessage:(uint64_t)newStrength {
@@ -1688,14 +1690,14 @@ static NSString *udid = nil;
                                           setUpdatedStrength:newStrength]
                                          build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCUpdateUserStrengthEvent flush:NO queueUp:YES];
+  return [self sendData:req withMessageType:EventProtocolRequestCUpdateUserStrengthEvent flush:NO queueUp:YES incrementTagNum:YES];
 }
 
 - (int) sendRetrieveMiniEventRequestProtoMessage {
   RetrieveMiniEventRequestProto* req = [[[RetrieveMiniEventRequestProto builder]
                                              setSender:_sender] build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCRetrieveMiniEventEvent];
+  return [self sendData:req withMessageType:EventProtocolRequestCRetrieveMiniEventEvent flush:NO queueUp:YES incrementTagNum:NO];
 }
 
 - (int) sendRedeemMiniEventRewardRequestProtoMessage:(RedeemMiniEventRewardRequestProto_RewardTier)tierRedeemed miniEventForPlayerLevelId:(int32_t)mefplId clientTime:(uint64_t)clientTime {
@@ -1729,7 +1731,7 @@ static NSString *udid = nil;
   
   LNLog(@"Sending retrieve currency message with %d structs.",  (int)self.structRetrievals.count);
   
-  return [self sendData:req withMessageType:EventProtocolRequestCRetrieveCurrencyFromNormStructureEvent flush:NO queueUp:YES];
+  return [self sendData:req withMessageType:EventProtocolRequestCRetrieveCurrencyFromNormStructureEvent flush:NO queueUp:YES incrementTagNum:YES];
 }
 
 
@@ -1759,7 +1761,7 @@ static NSString *udid = nil;
   
   LNLog(@"Sending trade item for speedups message with %d item usages.", (int)_speedupItemUsages.count);
   
-  return [self sendData:req withMessageType:EventProtocolRequestCTradeItemForSpeedUpsEvent flush:NO queueUp:YES];
+  return [self sendData:req withMessageType:EventProtocolRequestCTradeItemForSpeedUpsEvent flush:NO queueUp:YES incrementTagNum:YES];
 }
 
 
@@ -1792,7 +1794,7 @@ static NSString *udid = nil;
   
   LNLog(@"Sending trade item for resources message with %d items.", (int)_resourceItemIdsUsed.count);
   
-  return [self sendData:req withMessageType:EventProtocolRequestCTradeItemForResourcesEvent flush:NO queueUp:YES];
+  return [self sendData:req withMessageType:EventProtocolRequestCTradeItemForResourcesEvent flush:NO queueUp:YES incrementTagNum:YES];
 }
 
 
@@ -1856,7 +1858,7 @@ static NSString *udid = nil;
     LNLog(@"Sending healing queue update with %d adds, %d removals, and %d updates.",  (int)added.count,  (int)removed.count,  (int)changed.count);
     LNLog(@"Cash change: %@, gemCost: %d", [Globals commafyNumber:_healingQueueCashChange], _healingQueueGemCost);
     
-    return [self sendData:bldr.build withMessageType:EventProtocolRequestCHealMonsterEvent flush:NO queueUp:YES];
+    return [self sendData:bldr.build withMessageType:EventProtocolRequestCHealMonsterEvent flush:NO queueUp:YES incrementTagNum:YES];
   } else {
     return 0;
   }
@@ -1925,7 +1927,7 @@ static NSString *udid = nil;
     LNLog(@"Sending battle item queue update with %d adds, %d removals, and %d updates.",  (int)added.count,  (int)removed.count,  (int)changed.count);
     LNLog(@"Cash change: %@, oil change: %@, gemCost: %d", [Globals commafyNumber:_battleItemQueueCashChange], [Globals commafyNumber:_battleItemQueueOilChange], _battleItemQueueGemCost);
     
-    return [self sendData:bldr.build withMessageType:EventProtocolRequestCCreateBattleItemEvent flush:NO queueUp:YES];
+    return [self sendData:bldr.build withMessageType:EventProtocolRequestCCreateBattleItemEvent flush:NO queueUp:YES incrementTagNum:YES];
   } else {
     return 0;
   }
@@ -1949,7 +1951,7 @@ static NSString *udid = nil;
   
   LNLog(@"Sending latest client state.");
   
-  return [self sendData:req withMessageType:EventProtocolRequestCUpdateClientTaskStateEvent flush:NO queueUp:YES];
+  return [self sendData:req withMessageType:EventProtocolRequestCUpdateClientTaskStateEvent flush:NO queueUp:YES incrementTagNum:YES];
 }
 
 - (int) updateUserMiniEventMessage:(UserMiniEventGoal *)updatedUserMiniEventGoal {
@@ -1968,7 +1970,7 @@ static NSString *udid = nil;
   
   LNLog(@"Sending updated mini event goals.");
   
-  return [self sendData:req withMessageType:EventProtocolRequestCUpdateMiniEventEvent flush:NO queueUp:YES];
+  return [self sendData:req withMessageType:EventProtocolRequestCUpdateMiniEventEvent flush:NO queueUp:YES incrementTagNum:YES];
 }
 
 #pragma mark - Flush

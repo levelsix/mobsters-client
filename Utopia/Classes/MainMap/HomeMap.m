@@ -41,7 +41,7 @@
 
 #define PURCHASE_CONFIRM_MENU_TAG @"PurchConfirm"
 
-#define RESOURCE_GEN_MIN_AMT 10
+#define RESOURCE_GEN_MIN_AMT 0.03
 
 @implementation HomeMap
 
@@ -1598,13 +1598,13 @@
 
 - (void) setupIncomeTimerForBuilding:(ResourceGeneratorBuilding *)mb {
   int numRes;
+  UserStruct *us = mb.userStruct;
   if ([mb isKindOfClass:[MoneyTreeBuilding class]]){
     numRes = 1;
   } else {
-    numRes = RESOURCE_GEN_MIN_AMT;
+    numRes = RESOURCE_GEN_MIN_AMT*us.productionRate;
   }
   
-  UserStruct *us = mb.userStruct;
   NSTimer *timer = nil;
   // Set timer for when building has x resources
   if ([us numResourcesAvailable] >= numRes) {

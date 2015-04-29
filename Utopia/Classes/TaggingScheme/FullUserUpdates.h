@@ -14,6 +14,8 @@
   int _change;
 }
 
+@property (nonatomic, assign) int change;
+
 + (id) updateWithTag:(int)t change:(int)change;
 - (id) initWithTag:(int)t change:(int)change;
 
