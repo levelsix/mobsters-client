@@ -87,6 +87,8 @@
 - (void) viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
   
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
+  
   [self reloadData];
   
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(waitTimeComplete) name:HEAL_WAIT_COMPLETE_NOTIFICATION object:nil];

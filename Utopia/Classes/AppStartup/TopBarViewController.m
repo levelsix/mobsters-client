@@ -95,7 +95,8 @@
   self.shopViewController.delegate = self;
   
   // We have to do this because it seems that the view connection wasnt made when the view was added
-  [self.timerViewController viewWillAppear:YES];
+  [self addChildViewController:self.timerViewController];
+//  [self.timerViewController viewWillAppear:YES];
 }
 
 - (void) viewWillAppear:(BOOL)animated {

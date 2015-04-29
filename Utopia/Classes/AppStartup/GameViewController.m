@@ -260,7 +260,7 @@ static const CGSize FIXED_SIZE = {568, 384};
 - (void) removeAllViewControllersWithExceptions:(NSArray *)exceptions {
   if (self.view.superview) {
     
-    NSArray *acceptable = @[self.topBarViewController, [CCDirector sharedDirector]];
+    NSArray *acceptable = @[self.topBarViewController, [CCDirector sharedDirector], self.topBarViewController.timerViewController];
     if (self.loadingViewController) acceptable = [acceptable arrayByAddingObject:self.loadingViewController];
     if (exceptions) acceptable = [acceptable arrayByAddingObjectsFromArray:exceptions];
     
