@@ -262,7 +262,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 - (void) moveNormStruct:(UserStruct *)userStruct atX:(int)x atY:(int)y {
   CGPoint newCoord = CGPointMake(x, y);
   if (!CGPointEqualToPoint(userStruct.coordinates, newCoord)) {
-    int tag = [[SocketCommunication sharedSocketCommunication] sendMoveNormStructureMessage:userStruct.userStructUuid x:x y:y];
+    [[SocketCommunication sharedSocketCommunication] sendMoveNormStructureMessage:userStruct.userStructUuid x:x y:y];
     userStruct.coordinates = CGPointMake(x, y);
   }
 }
@@ -700,7 +700,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 #pragma mark - Retrieving users
 
 - (void) retrieveUsersForUserUuids:(NSArray *)userUuids includeCurMonsterTeam:(BOOL)includeCurMonsterTeam delegate:(id)delegate {
-  GameState *gs = [GameState sharedGameState];
   int tag = [[SocketCommunication sharedSocketCommunication] sendRetrieveUsersForUserUuids:[[NSSet setWithArray:userUuids] allObjects] includeCurMonsterTeam:includeCurMonsterTeam];
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
 }
@@ -796,7 +795,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   gs.deviceToken = deviceToken;
   
-  int tag = [[SocketCommunication sharedSocketCommunication] sendAPNSMessage:deviceToken];
+  [[SocketCommunication sharedSocketCommunication] sendAPNSMessage:deviceToken];
 }
 
 - (void) setGameCenterId:(NSString *)gameCenterId {
@@ -836,7 +835,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 - (void) setAvatarMonster:(int)avatarMonsterId {
   GameState *gs = [GameState sharedGameState];
   if (gs.avatarMonsterId != avatarMonsterId) {
-    int tag = [[SocketCommunication sharedSocketCommunication] sendSetAvatarMonsterMessage:avatarMonsterId];
+    [[SocketCommunication sharedSocketCommunication] sendSetAvatarMonsterMessage:avatarMonsterId];
     
     gs.avatarMonsterId = avatarMonsterId;
     [[SocketCommunication sharedSocketCommunication] rebuildSender];
