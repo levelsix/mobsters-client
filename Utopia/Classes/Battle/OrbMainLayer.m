@@ -103,7 +103,7 @@
 }
 
 - (void) tapDownOnOrb:(BattleOrb *)orb tile:(BattleTile *)tile {
-  if (self.allowOrbHammer && [self.layout orbCanBeRemoved:orb]) {
+  if (self.allowOrbHammer && orb && [self.layout orbCanBeRemoved:orb]) {
     [self disallowInput];
     [self.delegate moveBegan];
     [self handleMatches:nil isFreeSwap:NO destroyedOrb:orb];
@@ -124,7 +124,7 @@
 }
 
 - (void) checkSwap:(BattleSwap *)swap {
-  if (self.allowOrbHammer) {
+  if (self.allowOrbHammer || self.allowPutty) {
     return;
   }
   
