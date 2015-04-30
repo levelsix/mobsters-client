@@ -60,6 +60,7 @@
 @property (nonatomic, retain) MSDate *lastTeamDonateSolicitationTime;
 @property (nonatomic, assign) uint64_t totalStrength;
 @property (nonatomic, assign) int userSegmentationGroup;
+@property (nonatomic, assign) BOOL userHasEnteredBattleThisSession;
 
 @property (nonatomic, assign) BOOL hasBeatenFirstBoss;
 @property (nonatomic, assign) int firstBossTaskId;

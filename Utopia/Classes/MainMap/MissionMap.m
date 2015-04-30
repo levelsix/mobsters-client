@@ -166,7 +166,7 @@
         [ss removeArrowAnimated:NO];
       }
     }
-    [spr displayArrow];
+    [spr displayArrowWithPulsingAlpha:NO];
     
     _assetIdToDisplayArrow = a;
   }
@@ -240,7 +240,7 @@
       }
       
       if (!_assetIdToDisplayArrow && [taskIdsWithArrows containsObject:@(taskId)]) {
-        [asset displayArrow];
+        [asset displayArrowWithPulsingAlpha:NO];
       } else {
         [asset removeArrowAnimated:NO];
       }
@@ -253,7 +253,7 @@
   
   if (_assetIdToDisplayArrow) {
     SelectableSprite *spr = [self assetWithId:_assetIdToDisplayArrow];
-    [spr displayArrow];
+    [spr displayArrowWithPulsingAlpha:NO];
   }
 }
 

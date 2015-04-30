@@ -80,9 +80,13 @@
   [self displayBubble];
 }
 
-- (void) displayArrow {
-  [super displayArrow];
-  [self removeBubble];
+- (void) displayArrowWithPulsingAlpha:(BOOL)pulse {
+  [super displayArrowWithPulsingAlpha:pulse];
+  if(pulse) {
+    [self pulseBubbleAlpha];
+  } else {
+    [self removeBubble];
+  }
 }
 
 - (void) removeArrowAnimated:(BOOL)animated {
@@ -234,6 +238,16 @@
 - (void) removeBubble {
   [_bubble stopAllActions];
   [_bubble runAction:[RecursiveFadeTo actionWithDuration:0.3 opacity:0.f]];
+}
+
+- (void) pulseBubbleAlpha {
+  [_bubble stopAllActions];
+  CCActionDelay *longDelayAction = [CCActionDelay actionWithDuration:5.f];
+  CCActionDelay *shortDelayAction = [CCActionDelay actionWithDuration:3.f];
+  RecursiveFadeTo *fadeOutAction = [RecursiveFadeTo actionWithDuration:0.3f opacity:0.f];
+  RecursiveFadeTo *fadeInAction = [RecursiveFadeTo actionWithDuration:0.3f opacity:1.f];
+  CCActionRepeatForever *a = [CCActionRepeatForever actionWithAction:[CCActionSequence actions:fadeOutAction, shortDelayAction, fadeInAction, longDelayAction, nil]];
+  [_bubble runAction:a];
 }
 
 - (void) displayBubble {

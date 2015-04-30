@@ -696,11 +696,15 @@ static const CGSize FIXED_SIZE = {568, 384};
 }
 
 - (void) pointArrowOnManageTeam {
+  [self pointArrowOnManageTeamWithPulsingAlpha:NO];
+}
+
+- (void) pointArrowOnManageTeamWithPulsingAlpha:(BOOL)pulsing {
   if (self.currentMap.cityId != 0) {
     [self visitCityClicked:0];
   }
   if ([self.currentMap isKindOfClass:[HomeMap class]]) {
-    [(HomeMap *)self.currentMap pointArrowOnManageTeam];
+    [(HomeMap *)self.currentMap pointArrowOnManageTeamWithPulsingAlpha:pulsing];
     
     // Make sure notifications don't get the removed or else the alert message will be killed
     // Some of these may not be view controllers but since we're just comparing objects, it's okay.
@@ -810,7 +814,7 @@ static const CGSize FIXED_SIZE = {568, 384};
 - (void) arrowToRequestToon {
   HomeMap *homeMap = (HomeMap *)self.currentMap;
   homeMap.showArrowOnRequestToon = YES;
-  [homeMap pointArrowOnManageTeam];
+  [homeMap pointArrowOnManageTeamWithPulsingAlpha:NO];
 }
 
 #pragma mark - Moving to other cities
@@ -944,6 +948,7 @@ static const CGSize FIXED_SIZE = {568, 384};
   return mtc != nil;
 }
 
+//legacy
 - (void) enterDungeon:(int)taskId withDelay:(float)delay {
   if (![self miniTutorialControllerForTaskId:taskId]) {
     GameState *gs = [GameState sharedGameState];
@@ -1020,6 +1025,8 @@ static const CGSize FIXED_SIZE = {568, 384};
 }
 
 - (void) crossFadeIntoBattleLayer:(NewBattleLayer *)bl {
+  GameState *gs = [GameState sharedGameState];
+  gs.userHasEnteredBattleThisSession = YES;
   float duration = 0.6;
   
   CCDirector *dir = [CCDirector sharedDirector];
@@ -1040,6 +1047,9 @@ static const CGSize FIXED_SIZE = {568, 384};
 }
 
 - (void) beginBattleLayer:(NewBattleLayer *)bl {
+  GameState *gs = [GameState sharedGameState];
+  gs.userHasEnteredBattleThisSession = YES;
+  
   CCDirector *dir = [CCDirector sharedDirector];
   CCScene *scene = [CCScene node];
   [scene addChild:bl];
@@ -1058,6 +1068,9 @@ static const CGSize FIXED_SIZE = {568, 384};
 }
 
 - (void) blackFadeIntoBattleLayer:(NewBattleLayer *)bl {
+  GameState *gs = [GameState sharedGameState];
+  gs.userHasEnteredBattleThisSession = YES;
+  
   // Must start animation so that the scene is auto switched instead of glitching
   CCScene *scene = [CCScene node];
   [scene addChild:bl];
@@ -1158,11 +1171,46 @@ static const CGSize FIXED_SIZE = {568, 384};
 #pragma mark - show Arrow
 
 - (void) homeViewControllerClosed {
-  GameState *gs = [GameState sharedGameState];
   
-  if (gs.tasksCompleted < EARLY_TUTORIAL_STAGES_COMPLETE_LIMIT) {
-    [Globals removeUIArrowFromViewRecursively:self.topBarViewController.attackView];
-    [self.topBarViewController showArrowToAttackButton];
+}
+
+- (void) showEarlyGameTutorialArrow {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl  = [Globals sharedGlobals];
+  
+  [Globals removeUIArrowFromViewRecursively:self.topBarViewController.attackView];
+  
+  if (gs.tasksCompleted < EARLY_TUTORIAL_STAGES_COMPLETE_LIMIT /*&& gs.userHasEnteredBattleThisSession*/ ) {
+    
+    //first check to see if there are any toons to heal
+    int hurtToons = 0;
+    for (UserMonster *um in [gs allMonstersOnMyTeamWithClanSlot:NO]) {
+      if (um.curHealth < [gl calculateMaxHealthForMonster:um]) {
+        hurtToons++;
+        break;
+      }
+    }
+    
+    if (hurtToons) {
+      [(HomeMap *)self.currentMap pointArrowOnHospitalWithPulsingAlpha:YES];
+      return;
+    }
+    
+    //check if the user can add mobsters to their team
+    NSArray *myTeam = [gs allBattleAvailableMonstersOnTeamWithClanSlot:NO];
+    BOOL hasFullTeam = myTeam.count >= gl.maxTeamSize;
+    BOOL hasAvailMobsters = NO;
+    
+    if (!hasFullTeam && hasAvailMobsters) {
+      [self pointArrowOnManageTeamWithPulsingAlpha:YES];
+      return;
+    }
+    
+    if(!hurtToons) {
+      [self.topBarViewController showArrowToAttackButton];
+      return;
+    }
+    
   }
 }
 
@@ -1181,14 +1229,17 @@ static const CGSize FIXED_SIZE = {568, 384};
   Globals *gl = [Globals sharedGlobals];
   if (![gs hasBeatFirstBoss])
   {
+    int hurtToons = 0;
     for (UserMonster *um in [gs allMonstersOnMyTeamWithClanSlot:NO]) {
-      if (um.curHealth < [gl calculateMaxHealthForMonster:um])
-      {
-        [(HomeMap *)self.currentMap pointArrowOnHospital];
+      if (um.curHealth < [gl calculateMaxHealthForMonster:um]) {
+        [(HomeMap *)self.currentMap pointArrowOnHospitalWithPulsingAlpha:YES];
+        hurtToons++;
         break;
-      } else {
-        [self.topBarViewController showArrowToAttackButton];
       }
+    }
+    
+    if(!hurtToons && gs.tasksCompleted < EARLY_TUTORIAL_STAGES_COMPLETE_LIMIT) {
+      [self.topBarViewController showArrowToAttackButton];
     }
   }
   

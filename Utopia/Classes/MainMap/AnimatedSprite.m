@@ -30,8 +30,8 @@
   return self;
 }
 
-- (void) displayArrow {
-  [super displayArrow];
+- (void) displayArrowWithPulsingAlpha:(BOOL)pulse {
+  [super displayArrowWithPulsingAlpha:pulse];
   self.arrow.position = ccpAdd(self.arrow.position, ccp(0, 10.f));
 }
 
