@@ -53,8 +53,6 @@
   NSMutableDictionary *_updatedUserMiniEventGoals;
 }
 
-@property (nonatomic, retain) GenericPopupController *popupController;
-
 @property (nonatomic, retain) AMQPConnectionThread *connectionThread;
 
 @property (nonatomic, retain) NSMutableArray *queuedMessages;

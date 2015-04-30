@@ -28,8 +28,7 @@
 
 # import "AMQPChannel.h"
 
-#warning change back
-#define HEARTBEAT_SECS 1
+#define HEARTBEAT_SECS 10
 
 @implementation AMQPConnection
 

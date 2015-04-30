@@ -415,11 +415,12 @@ static const CGSize FIXED_SIZE = {568, 384};
 }
 
 - (void) unableToConnectToHost:(id)error {
-  _isFreshRestart = YES;
-  
   if (!self.loadingViewController) {
     [self fadeToLoadingScreenPercentage:PART_1_PERCENT animated:YES];
   }
+  
+  [self removeAllViewControllers];
+  [GenericPopupController displayNotificationViewWithText:@"Sorry, we are unable to connect to the server. Please try again." title:@"Disconnected!" okayButton:@"Reconnect" target:self selector:@selector(doFreshRestart)];
 }
 
 - (void) reloadAccountWithStartupResponse:(StartupResponseProto *)startupResponse {

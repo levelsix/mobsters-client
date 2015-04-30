@@ -1479,11 +1479,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     [up update];
   }
   
-  NSString *delta = @"";
-  if ([up isKindOfClass:[FullUserUpdate class]]) {
-    delta = [NSString stringWithFormat:@", delta %d", [(FullUserUpdate *)up change]];
-  }
-  TagLog(@"Added %@ for tag %d%@", NSStringFromClass([up class]), up.tag, delta);
+  TagLog(@"Added %@ for tag %d%@", NSStringFromClass([up class]), up.tag,
+         [up isKindOfClass:[FullUserUpdate class]] ? [NSString stringWithFormat:@", delta %d", [(FullUserUpdate *)up change] : @"");
   
   [self recalculateStrength];
   

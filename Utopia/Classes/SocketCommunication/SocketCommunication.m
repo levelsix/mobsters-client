@@ -260,7 +260,10 @@ static NSString *udid = nil;
   NSObject *delegate = [self.tagDelegates objectForKey:[NSNumber numberWithInt:CONNECTED_TO_HOST_DELEGATE_TAG]];
   if (delegate) {
     if ([delegate respondsToSelector:sel]) {
-      [delegate performSelectorOnMainThread:sel withObject:nil waitUntilDone:NO];
+      SUPPRESS_PERFORM_SELECTOR_LEAK_WARNING
+      (
+       [delegate performSelector:sel withObject:nil];
+       );
     }
   } else {
     LNLog(@"Unable to find delegate for %@", NSStringFromSelector(sel));
@@ -318,11 +321,6 @@ static NSString *udid = nil;
   }
 }
 
-- (void) tryReconnect {
-  self.popupController = nil;
-  [self tryConnect];
-}
-
 - (void) unableToConnectToHost:(NSString *)error
 {
   LNLog(@"Unable to connect: %@", error);
@@ -332,15 +330,11 @@ static NSString *udid = nil;
     if (_numDisconnects > NUM_SILENT_RECONNECTS) {
       LNLog(@"Asking to reconnect..");
       
-      if (!self.popupController) {
         [self callSelectorOnHostDelegate:@selector(unableToConnectToHost:)];
-        
-        self.popupController = [GenericPopupController displayNotificationViewWithText:@"Sorry, we are unable to connect to the server. Please try again." title:@"Disconnected!" okayButton:@"Reconnect" target:self selector:@selector(tryReconnect)];
-      }
       _numDisconnects = 0;
     } else {
       LNLog(@"Silently reconnecting..");
-      [self tryReconnect];
+      [self tryConnect];
     }
   }
 }
@@ -637,12 +631,12 @@ static NSString *udid = nil;
 
 - (int) sendInAppPurchaseMessage:(NSString *)receipt product:(SKProduct *)product saleUuid:(NSString *)saleUuid {
   InAppPurchaseRequestProto *req = [[[[[[[[InAppPurchaseRequestProto builder]
-                                           setReceipt:receipt]
-                                          setLocalcents:[NSString stringWithFormat:@"%d", (int)(product.price.doubleValue*100.)]]
-                                         setLocalcurrency:[product.priceLocale objectForKey:NSLocaleCurrencyCode]]
-                                        setLocale:[product.priceLocale objectForKey:NSLocaleCountryCode]]
-                                       setSender:_sender]
-                                      //setIpaddr:[self getIPAddress]]
+                                          setReceipt:receipt]
+                                         setLocalcents:[NSString stringWithFormat:@"%d", (int)(product.price.doubleValue*100.)]]
+                                        setLocalcurrency:[product.priceLocale objectForKey:NSLocaleCurrencyCode]]
+                                       setLocale:[product.priceLocale objectForKey:NSLocaleCountryCode]]
+                                      setSender:_sender]
+                                     //setIpaddr:[self getIPAddress]]
                                      setUuid:saleUuid]
                                     build];
   
@@ -1728,7 +1722,7 @@ static NSString *udid = nil;
 
 - (int) sendRetrieveMiniEventRequestProtoMessage {
   RetrieveMiniEventRequestProto* req = [[[RetrieveMiniEventRequestProto builder]
-                                             setSender:_sender] build];
+                                         setSender:_sender] build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCRetrieveMiniEventEvent flush:YES queueUp:YES incrementTagNum:YES];
 }
