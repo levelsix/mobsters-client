@@ -46,6 +46,10 @@
   PvpProto *pvp = self.defendersList[_curQueueNum];
   NSArray *monsterList = pvp.defenderMonstersList;
   
+  monsterList = [monsterList sortedArrayUsingComparator:^NSComparisonResult(PvpMonsterProto *obj1, PvpMonsterProto *obj2) {
+    return [@(obj1.defenderMonster.teamSlotNum) compare:@(obj2.defenderMonster.teamSlotNum)];
+  }];
+  
   if (pvp.hasCmtd) {
     PvpMonsterProto *pmp = [[[PvpMonsterProto builder] setMonsterIdDropped:pvp.monsterIdDropped] build];
     monsterList = [monsterList arrayByAddingObject:pmp];
