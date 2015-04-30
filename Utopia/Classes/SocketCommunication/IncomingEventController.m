@@ -404,6 +404,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
   
+  gs.userHasEnteredBattleThisSession = NO;
+  
   [MSDate setServerTime:proto.serverTimeMillis];
   
   if (gs.isTutorial) {

@@ -1204,6 +1204,7 @@
 }
 
 - (void) showArrowToAttackButton {
+  [Globals removeUIArrowFromViewRecursively:self.attackView.superview];
   [Globals createPulsingUIArrowForView:self.attackView atAngle:M_PI_2];
 }
 

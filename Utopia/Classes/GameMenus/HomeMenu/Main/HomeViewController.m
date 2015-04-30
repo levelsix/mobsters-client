@@ -8,6 +8,7 @@
 
 #import "HomeViewController.h"
 #import "GameState.h"
+#import "GameViewController.h"
 
 #import "SellViewController.h"
 #import "EnhanceChooserViewController.h"
@@ -252,6 +253,7 @@
 - (void) close {
   [super close];
   [self.delegate homeViewControllerClosed];
+  [[GameViewController baseController] showEarlyGameTutorialArrow];
 }
 
 @end

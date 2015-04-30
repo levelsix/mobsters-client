@@ -37,7 +37,7 @@
 - (BOOL) select;
 - (void) unselect;
 
-- (void) displayArrow;
+- (void) displayArrowWithPulsingAlpha:(BOOL)pulse;
 - (void) removeArrowAnimated:(BOOL)animated;
 - (void) displayCheck;
 
@@ -56,7 +56,7 @@
 @property (nonatomic, assign) BOOL isLocked;
 @property (nonatomic, assign) BOOL visible;
 
-- (void) displayArrow;
+- (void) displayArrowWithPulsingAlpha:(BOOL)pulse;
 - (void) removeArrowAnimated:(BOOL)animated;
 - (void) displayCheck;
 

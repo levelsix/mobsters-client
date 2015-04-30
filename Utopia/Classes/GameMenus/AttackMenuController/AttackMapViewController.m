@@ -125,6 +125,7 @@
   } completion:^(BOOL finished) {
     [self.view removeFromSuperview];
     [self removeFromParentViewController];
+    [[GameViewController baseController] showEarlyGameTutorialArrow];
   }];
 }
 

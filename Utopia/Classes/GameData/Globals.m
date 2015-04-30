@@ -51,8 +51,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 #endif
     
 #ifdef DEBUG
-    //self.ignorePrerequisites = YES;
-    self.ignoreTeamCheck = YES;
+    self.ignorePrerequisites = YES;
 #endif
   }
   return self;
@@ -2878,16 +2877,24 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   
   [self animateUIArrow:img atAngle:M_PI+angle];
   img.alpha = 0.f;
-  [UIView animateWithDuration:0.3f delay:pulseAlpha?5.f:0.f options:UIViewAnimationOptionCurveLinear animations:^{
+  [UIView animateWithDuration:0.3f delay:0.f options:UIViewAnimationOptionCurveLinear animations:^{
     img.alpha = 1.f;
    } completion:^(BOOL finished) {
-     if (pulseAlpha) {
-       [UIView animateWithDuration:0.3f delay:10.f options:UIViewAnimationOptionOverrideInheritedDuration | UIViewAnimationOptionOverrideInheritedCurve animations:^{
+     if (pulseAlpha && finished) {
+       [UIView animateWithDuration:0.3f delay:3.f options:UIViewAnimationOptionOverrideInheritedOptions animations:^{
          img.alpha = 0.f;
        } completion:^(BOOL finished) {
          if(finished) {
-           [self removeUIArrowFromViewRecursively:view];
-           [self createPulsingUIArrowForView:view atAngle:angle];
+           [UIView animateWithDuration:0.f delay:5.f options:UIViewAnimationOptionOverrideInheritedOptions animations:^{
+             //this is a hacky way to get the animation to wait 5 seconds before restarting
+             //can't use delayed code blocks because those can't be remotely cancled
+             img.alpha = 0.01f;
+           } completion:^(BOOL finished) {
+             if (finished) {
+               [self removeUIArrowFromViewRecursively:view.superview];
+               [self createPulsingUIArrowForView:view atAngle:angle];
+             }
+           }];
          }
        }];
      }
@@ -2916,7 +2923,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
 }
 
-+ (void) animateCCArrow:(CCNode *)arrow atAngle:(float)angle {
++ (void) animateCCArrow:(CCNode *)arrow atAngle:(float)angle pulseAlpha:(BOOL)pulse {
   arrow.rotation = CC_RADIANS_TO_DEGREES(-M_PI_2-angle);
   
   float scaleX = arrow.scaleX;
@@ -2929,9 +2936,27 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
                                                                     [CCActionMoveTo actionWithDuration:ARROW_ANIMATION_DURATION position:arrow.position],
                                                                     [CCActionScaleTo actionWithDuration:ARROW_ANIMATION_DURATION scaleX:scaleX scaleY:0.9f*scaleY],
                                                                     nil]];
+  
   CCAction *a = [CCActionRepeatForever actionWithAction:[CCActionSequence actions:upAction, downAction, nil]];
-  a.tag = 1953;
+  NSInteger tag = 1953;
+  a.tag = tag;
   [arrow stopActionByTag:a.tag];
+  
+  arrow.opacity = 0.f;
+  if (pulse) {
+    CCActionDelay *longWaitAction = [CCActionDelay actionWithDuration:5.f];
+    CCActionDelay *shortWaitAction = [CCActionDelay actionWithDuration:3.f];
+    CCActionFadeIn *fadeInAction = [CCActionFadeIn actionWithDuration:0.3f];
+    CCActionFadeOut *fadeOutAction = [CCActionFadeOut actionWithDuration:0.3f];
+    CCAction *a = [CCActionRepeatForever actionWithAction:[CCActionSequence actions:fadeInAction, shortWaitAction, fadeOutAction, longWaitAction, nil]];
+    a.tag = tag;
+    [arrow runAction:a];
+  } else {
+    CCActionFadeIn *fadeInAction = [CCActionFadeIn actionWithDuration:0.3f];
+    fadeInAction.tag = tag;
+    [arrow runAction:fadeInAction];
+  }
+  
   [arrow runAction:a];
 }
 
@@ -3029,7 +3054,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (BOOL) checkEnteringDungeon {
-  return [self checkEnteringDungeonWithTarget:[GameViewController baseController] noTeamSelector:@selector(pointArrowOnManageTeam) inventoryFullSelector:@selector(pointArrowOnSellMobsters)];
+  return [self checkEnteringDungeonWithTarget:[GameViewController baseController] noTeamSelector:@selector(pointArrowOnManageTeamWithPulsingAlpha:) inventoryFullSelector:@selector(pointArrowOnSellMobsters)];
 }
 
 #pragma clang diagnostic push

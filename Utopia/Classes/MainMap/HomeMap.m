@@ -842,7 +842,7 @@
   }
 }
 
-- (void) pointArrowOnManageTeam {
+- (void) pointArrowOnManageTeamWithPulsingAlpha:(BOOL)pulsing {
   NSArray *arr = [self childrenOfClassType:[TeamCenterBuilding class]];
   if (arr.count > 0) {
     HomeBuilding *b = arr[0];
@@ -880,7 +880,7 @@
   }
 }
 
-- (void) pointArrowOnHospital {
+- (void) pointArrowOnHospitalWithPulsingAlpha:(BOOL)pulsing {
   HomeBuilding *b = nil;
   NSArray *arr = [self childrenOfClassType:[HospitalBuilding class]];
   for (HomeBuilding *x in arr) {
@@ -892,7 +892,7 @@
   }
   
   if (b) {
-    [self pointArrowOnBuilding:b config:MapBotViewButtonHeal];
+    [self pointArrowOnBuilding:b config:MapBotViewButtonHeal withPulsingAlpha:pulsing];
   }
 }
 
@@ -912,17 +912,23 @@
 }
 
 - (void) pointArrowOnBuilding:(HomeBuilding *)b config:(MapBotViewButtonConfig)config {
+  [self pointArrowOnBuilding:b config:config withPulsingAlpha:NO];
+}
+
+- (void) pointArrowOnBuilding:(HomeBuilding *)b config:(MapBotViewButtonConfig)config withPulsingAlpha:(BOOL)pulsing {
   [_arrowBuilding removeArrowAnimated:YES];
   
   self.selected = nil;
   
-  [b displayArrow];
+  [b displayArrowWithPulsingAlpha:pulsing];
   [self moveToSprite:b animated:YES];
   
   _arrowBuilding = b;
   _arrowButtonConfig = config;
   
-  [self scheduleOnce:@selector(removeArrowOnBuilding) delay:8.f];
+  if (!pulsing) {
+    [self scheduleOnce:@selector(removeArrowOnBuilding) delay:8.f];
+  }
 }
 
 - (void) removeArrowOnBuilding {
@@ -2471,8 +2477,6 @@
 
 - (void) homeViewControllerClosed {
   self.currentViewController = nil;
-  GameViewController *gvc = [GameViewController baseController];
-  [gvc homeViewControllerClosed];
 }
 
 - (void) boardDesignerViewControllerClosed {
