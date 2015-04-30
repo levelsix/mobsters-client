@@ -56,6 +56,7 @@
 #import "AttackedAlertViewController.h"
 #import "IAPHelper.h"
 #import "SalePurchasedViewController.h"
+#import "ReplayBattleLayer.h"
 #import "TangoGiftViewController.h"
 
 #define DEFAULT_PNG_IMAGE_VIEW_TAG 103
@@ -1077,6 +1078,35 @@ static const CGSize FIXED_SIZE = {568, 384};
       }
     }
     
+    [tlv stop];
+  }];
+}
+
+- (void) beginReplay:(CombatReplayProto *)replay {
+  if (_isInBattle) {
+    [self removeAllViewControllers];
+    return;
+  }
+  
+  // If it's immediate, it will just delete the loading view
+  TravelingLoadingView *tlv = [[NSBundle mainBundle] loadNibNamed:@"TravelingLoadingView" owner:self options:nil][0];
+  
+  NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+  [paragraphStyle setLineSpacing:3];
+  [paragraphStyle setAlignment:NSTextAlignmentCenter];
+  NSAttributedString *attr = [[NSAttributedString alloc] initWithString:@"Loading Replay..." attributes:@{NSParagraphStyleAttributeName : paragraphStyle}];
+  tlv.label.attributedText = attr;
+  [tlv display:self.view];
+  
+  // Check if scenes have been dl'ed
+  NSArray *arr = @[[replay.groundImgPrefix stringByAppendingString:@"scene.jpg"]];
+  [Globals checkAndLoadFiles:arr completion:^(BOOL success) {
+    if (success) {
+      ReplayBattleLayer *rpl = [[ReplayBattleLayer alloc] initWithReplay:replay];
+      rpl.delegate = self;
+      
+      [self crossFadeIntoBattleLayer:rpl];
+    }
     [tlv stop];
   }];
 }

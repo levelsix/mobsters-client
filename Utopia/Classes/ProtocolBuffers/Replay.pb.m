@@ -116,13 +116,13 @@ static CombatReplayProto* defaultCombatReplayProtoInstance = nil;
 - (NSArray *)playerTeamList {
   return mutablePlayerTeamList;
 }
-- (MinimumUserMonsterProto*)playerTeamAtIndex:(NSUInteger)index {
+- (CombatReplayMonsterSnapshot*)playerTeamAtIndex:(NSUInteger)index {
   return [mutablePlayerTeamList objectAtIndex:index];
 }
 - (NSArray *)enemyTeamList {
   return mutableEnemyTeamList;
 }
-- (MinimumUserMonsterProto*)enemyTeamAtIndex:(NSUInteger)index {
+- (CombatReplayMonsterSnapshot*)enemyTeamAtIndex:(NSUInteger)index {
   return [mutableEnemyTeamList objectAtIndex:index];
 }
 - (NSArray *)stepsList {
@@ -150,10 +150,10 @@ static CombatReplayProto* defaultCombatReplayProtoInstance = nil;
   if (self.hasFirstAttackerMonsterId) {
     [output writeInt32:3 value:self.firstAttackerMonsterId];
   }
-  [self.playerTeamList enumerateObjectsUsingBlock:^(MinimumUserMonsterProto *element, NSUInteger idx, BOOL *stop) {
+  [self.playerTeamList enumerateObjectsUsingBlock:^(CombatReplayMonsterSnapshot *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:4 value:element];
   }];
-  [self.enemyTeamList enumerateObjectsUsingBlock:^(MinimumUserMonsterProto *element, NSUInteger idx, BOOL *stop) {
+  [self.enemyTeamList enumerateObjectsUsingBlock:^(CombatReplayMonsterSnapshot *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:5 value:element];
   }];
   [self.stepsList enumerateObjectsUsingBlock:^(CombatReplayStepProto *element, NSUInteger idx, BOOL *stop) {
@@ -183,10 +183,10 @@ static CombatReplayProto* defaultCombatReplayProtoInstance = nil;
   if (self.hasFirstAttackerMonsterId) {
     size_ += computeInt32Size(3, self.firstAttackerMonsterId);
   }
-  [self.playerTeamList enumerateObjectsUsingBlock:^(MinimumUserMonsterProto *element, NSUInteger idx, BOOL *stop) {
+  [self.playerTeamList enumerateObjectsUsingBlock:^(CombatReplayMonsterSnapshot *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(4, element);
   }];
-  [self.enemyTeamList enumerateObjectsUsingBlock:^(MinimumUserMonsterProto *element, NSUInteger idx, BOOL *stop) {
+  [self.enemyTeamList enumerateObjectsUsingBlock:^(CombatReplayMonsterSnapshot *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(5, element);
   }];
   [self.stepsList enumerateObjectsUsingBlock:^(CombatReplayStepProto *element, NSUInteger idx, BOOL *stop) {
@@ -242,13 +242,13 @@ static CombatReplayProto* defaultCombatReplayProtoInstance = nil;
   if (self.hasFirstAttackerMonsterId) {
     [output appendFormat:@"%@%@: %@\n", indent, @"firstAttackerMonsterId", [NSNumber numberWithInteger:self.firstAttackerMonsterId]];
   }
-  [self.playerTeamList enumerateObjectsUsingBlock:^(MinimumUserMonsterProto *element, NSUInteger idx, BOOL *stop) {
+  [self.playerTeamList enumerateObjectsUsingBlock:^(CombatReplayMonsterSnapshot *element, NSUInteger idx, BOOL *stop) {
     [output appendFormat:@"%@%@ {\n", indent, @"playerTeam"];
     [element writeDescriptionTo:output
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }];
-  [self.enemyTeamList enumerateObjectsUsingBlock:^(MinimumUserMonsterProto *element, NSUInteger idx, BOOL *stop) {
+  [self.enemyTeamList enumerateObjectsUsingBlock:^(CombatReplayMonsterSnapshot *element, NSUInteger idx, BOOL *stop) {
     [output appendFormat:@"%@%@ {\n", indent, @"enemyTeam"];
     [element writeDescriptionTo:output
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
@@ -308,10 +308,10 @@ static CombatReplayProto* defaultCombatReplayProtoInstance = nil;
   if (self.hasFirstAttackerMonsterId) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.firstAttackerMonsterId] hash];
   }
-  [self.playerTeamList enumerateObjectsUsingBlock:^(MinimumUserMonsterProto *element, NSUInteger idx, BOOL *stop) {
+  [self.playerTeamList enumerateObjectsUsingBlock:^(CombatReplayMonsterSnapshot *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
-  [self.enemyTeamList enumerateObjectsUsingBlock:^(MinimumUserMonsterProto *element, NSUInteger idx, BOOL *stop) {
+  [self.enemyTeamList enumerateObjectsUsingBlock:^(CombatReplayMonsterSnapshot *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
   [self.stepsList enumerateObjectsUsingBlock:^(CombatReplayStepProto *element, NSUInteger idx, BOOL *stop) {
@@ -440,13 +440,13 @@ static CombatReplayProto* defaultCombatReplayProtoInstance = nil;
         break;
       }
       case 34: {
-        MinimumUserMonsterProto_Builder* subBuilder = [MinimumUserMonsterProto builder];
+        CombatReplayMonsterSnapshot_Builder* subBuilder = [CombatReplayMonsterSnapshot builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addPlayerTeam:[subBuilder buildPartial]];
         break;
       }
       case 42: {
-        MinimumUserMonsterProto_Builder* subBuilder = [MinimumUserMonsterProto builder];
+        CombatReplayMonsterSnapshot_Builder* subBuilder = [CombatReplayMonsterSnapshot builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addEnemyTeam:[subBuilder buildPartial]];
         break;
@@ -526,10 +526,10 @@ static CombatReplayProto* defaultCombatReplayProtoInstance = nil;
 - (NSMutableArray *)playerTeamList {
   return result.mutablePlayerTeamList;
 }
-- (MinimumUserMonsterProto*)playerTeamAtIndex:(NSUInteger)index {
+- (CombatReplayMonsterSnapshot*)playerTeamAtIndex:(NSUInteger)index {
   return [result playerTeamAtIndex:index];
 }
-- (CombatReplayProto_Builder *)addPlayerTeam:(MinimumUserMonsterProto*)value {
+- (CombatReplayProto_Builder *)addPlayerTeam:(CombatReplayMonsterSnapshot*)value {
   if (result.mutablePlayerTeamList == nil) {
     result.mutablePlayerTeamList = [[NSMutableArray alloc]init];
   }
@@ -550,10 +550,10 @@ static CombatReplayProto* defaultCombatReplayProtoInstance = nil;
 - (NSMutableArray *)enemyTeamList {
   return result.mutableEnemyTeamList;
 }
-- (MinimumUserMonsterProto*)enemyTeamAtIndex:(NSUInteger)index {
+- (CombatReplayMonsterSnapshot*)enemyTeamAtIndex:(NSUInteger)index {
   return [result enemyTeamAtIndex:index];
 }
-- (CombatReplayProto_Builder *)addEnemyTeam:(MinimumUserMonsterProto*)value {
+- (CombatReplayProto_Builder *)addEnemyTeam:(CombatReplayMonsterSnapshot*)value {
   if (result.mutableEnemyTeamList == nil) {
     result.mutableEnemyTeamList = [[NSMutableArray alloc]init];
   }

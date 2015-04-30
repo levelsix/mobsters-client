@@ -15,12 +15,15 @@
 - (instancetype)initWithBoardLayout:(BoardLayoutProto *)proto andOrbHistory:(NSArray *)orbHistory {
   if (self = [super initWithBoardLayout:proto]) {
     self.orbRecords = [NSMutableDictionary dictionary];
-    for (CombatReplayOrbProto *crop in orbHistory) {
-      if (![self.orbRecords objectForKey:@(crop.spawnedCol)])
-          [self.orbRecords setObject:[NSMutableArray array] forKey:@(crop.spawnedCol)];
-      
-      NSMutableArray *orbsForCol = [self.orbRecords objectForKey:@(crop.spawnedCol)];
-      [orbsForCol addObject:crop];
+    for (NSArray *arr in orbHistory)
+    {
+      for (CombatReplayOrbProto *crop in arr) {
+        if (![self.orbRecords objectForKey:@(crop.spawnedCol)])
+            [self.orbRecords setObject:[NSMutableArray array] forKey:@(crop.spawnedCol)];
+        
+        NSMutableArray *orbsForCol = [self.orbRecords objectForKey:@(crop.spawnedCol)];
+        [orbsForCol addObject:crop];
+      }
     }
   }
   return self;

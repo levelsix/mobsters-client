@@ -18,6 +18,8 @@
 
 - (BattleState*) getCurrentBattleState;
 
+- (void)forceStateWithType:(CombatReplayStepType)stepType;
+
 - (NSDictionary*) serialize;
 - (void) deserialize:(NSDictionary*)data;
 

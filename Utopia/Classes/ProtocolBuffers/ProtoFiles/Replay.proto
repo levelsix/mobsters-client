@@ -31,8 +31,8 @@ message CombatReplayProto {
 	optional string replayUuid = 1;
     optional string groundImgPrefix = 2;
     optional int32 firstAttackerMonsterId = 3;
-	repeated MinimumUserMonsterProto playerTeam = 4;
-	repeated MinimumUserMonsterProto enemyTeam = 5;
+	repeated CombatReplayMonsterSnapshot playerTeam = 4;
+	repeated CombatReplayMonsterSnapshot enemyTeam = 5;
 	repeated CombatReplayStepProto steps = 6;
 	optional BoardLayoutProto board = 7;
 	repeated CombatReplayOrbProto orbs = 8;

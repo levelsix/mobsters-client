@@ -113,7 +113,7 @@
 }
 
 - (void) beginMyTurn {
-  [self.battleStateMachine fireEvent:playerTurnEvent userInfo:nil error:nil];
+  [self fireEvent:playerTurnEvent userInfo:nil error:nil];
   
   _allowClanMembersAttack = YES;
   if (self.clanMemberAttacks.count > 0) {

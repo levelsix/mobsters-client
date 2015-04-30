@@ -112,6 +112,21 @@
   return [[self alloc] initWithMonsterSnapshotProto:proto researchUtil:researchUtil];
 }
 
+- (id) initWithReplayMonsterSnapshotProto:(CombatReplayMonsterSnapshot *)proto {
+  if ((self = [super init])) {
+    self.monsterId = proto.monsterId;
+    self.level = proto.level;
+    self.curHealth = proto.startingHealth;
+    self.offensiveSkillId = self.defensiveSkillId = proto.skillSnapshot.skillId;
+    self.isComplete = YES;
+  }
+  return self;
+}
+
++ (id)userMonsterWithReplayMonsterSnapshotProto:(CombatReplayMonsterSnapshot *)proto {
+  return [[self alloc] initWithReplayMonsterSnapshotProto:proto];
+}
+
 - (BOOL) isHealing {
   GameState *gs = [GameState sharedGameState];
   for (HospitalQueue *hq in gs.monsterHealingQueues.allValues) {

@@ -11,11 +11,18 @@
 
 @interface ReplayBattleLayer : MainBattleLayer {
   
+  BOOL _isDownloading;
+  
   CombatReplayProto *_replay;
+  
+  NSMutableArray *_combatSteps;
   
 }
 
-- (void) initWithReplay:(CombatReplayProto*)replay;
+@property (readonly, getter=getCurrStep) CombatReplayStepProto* currStep;
 
+- (id) initWithReplay:(CombatReplayProto*)replay;
+
+- (CombatReplayStepProto*)getCurrStep;
 
 @end

@@ -55,6 +55,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [MonsterStuffRoot registerAllExtensions:registry];
     [PrerequisiteRoot registerAllExtensions:registry];
     [QuestRoot registerAllExtensions:registry];
+    [ReplayRoot registerAllExtensions:registry];
     [ResearchRoot registerAllExtensions:registry];
     [RewardRoot registerAllExtensions:registry];
     [SharedEnumConfigRoot registerAllExtensions:registry];

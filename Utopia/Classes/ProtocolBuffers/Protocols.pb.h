@@ -44,6 +44,7 @@
 #import "MonsterStuff.pb.h"
 #import "Prerequisite.pb.h"
 #import "Quest.pb.h"
+#import "Replay.pb.h"
 #import "Research.pb.h"
 #import "Reward.pb.h"
 #import "SharedEnumConfig.pb.h"
@@ -183,6 +184,18 @@
 @class CollectMonsterEnhancementResponseProto_Builder;
 @class ColorProto;
 @class ColorProto_Builder;
+@class CombatReplayMonsterSnapshot;
+@class CombatReplayMonsterSnapshot_Builder;
+@class CombatReplayOrbProto;
+@class CombatReplayOrbProto_Builder;
+@class CombatReplayProto;
+@class CombatReplayProto_Builder;
+@class CombatReplayScheduleProto;
+@class CombatReplayScheduleProto_Builder;
+@class CombatReplaySkillStepProto;
+@class CombatReplaySkillStepProto_Builder;
+@class CombatReplayStepProto;
+@class CombatReplayStepProto_Builder;
 @class CombineUserMonsterPiecesRequestProto;
 @class CombineUserMonsterPiecesRequestProto_Builder;
 @class CombineUserMonsterPiecesResponseProto;
@@ -399,6 +412,8 @@
 @class MiniJobProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
+@class MinimumCombatReplayProto;
+@class MinimumCombatReplayProto_Builder;
 @class MinimumObstacleProto;
 @class MinimumObstacleProto_Builder;
 @class MinimumUserMonsterProto;

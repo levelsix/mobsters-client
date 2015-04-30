@@ -23,6 +23,7 @@
 #import "FacebookDelegate.h"
 #import "SkillManager.h"
 #import "MiniEventManager.h"
+#import "ReplayBattleLayer.h"
 #import "TangoDelegate.h"
 
 #define CODE_PREFIX @"#~#"
@@ -1098,7 +1099,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       } else if ([code isEqualToString:REPLAY_CODE]) {
         if ([Globals sharedGlobals].lastReplay)
         {
-#warning Add in forced replay call hurr
+          GameViewController *gvc = [GameViewController baseController];
+          [gvc beginReplay:[Globals sharedGlobals].lastReplay];
+          msg = @"Starting replay...";
         }
         else
           msg = @"No replay found";

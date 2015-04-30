@@ -2161,6 +2161,15 @@
 		6B8E800E1B0187C2009BDDD7 /* SkillPopupOverlayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B8E800D1B0187C2009BDDD7 /* SkillPopupOverlayController.m */; };
 		6B8E800F1B0187C2009BDDD7 /* SkillPopupOverlayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B8E800D1B0187C2009BDDD7 /* SkillPopupOverlayController.m */; };
 		6B8E80101B0187C2009BDDD7 /* SkillPopupOverlayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B8E800D1B0187C2009BDDD7 /* SkillPopupOverlayController.m */; };
+		6B94B98E1AF29C7400E73EC8 /* minijobsredbubble6@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B94B98C1AF29C7400E73EC8 /* minijobsredbubble6@2x.png */; };
+		6B94B98F1AF29C7400E73EC8 /* minijobsredbubble6@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B94B98C1AF29C7400E73EC8 /* minijobsredbubble6@2x.png */; };
+		6B94B9901AF29C7400E73EC8 /* minijobsredbubble6@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B94B98C1AF29C7400E73EC8 /* minijobsredbubble6@2x.png */; };
+		6B94B9911AF29C7400E73EC8 /* minijobsredbubbleexclamation@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B94B98D1AF29C7400E73EC8 /* minijobsredbubbleexclamation@2x.png */; };
+		6B94B9921AF29C7400E73EC8 /* minijobsredbubbleexclamation@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B94B98D1AF29C7400E73EC8 /* minijobsredbubbleexclamation@2x.png */; };
+		6B94B9931AF29C7400E73EC8 /* minijobsredbubbleexclamation@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B94B98D1AF29C7400E73EC8 /* minijobsredbubbleexclamation@2x.png */; };
+		6B94B9961AF2AB2900E73EC8 /* ReplayOrbMainLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B94B9951AF2AB2900E73EC8 /* ReplayOrbMainLayer.m */; };
+		6B94B9971AF2AB2900E73EC8 /* ReplayOrbMainLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B94B9951AF2AB2900E73EC8 /* ReplayOrbMainLayer.m */; };
+		6B94B9981AF2AB2900E73EC8 /* ReplayOrbMainLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B94B9951AF2AB2900E73EC8 /* ReplayOrbMainLayer.m */; };
 		6BA24DF31A7A9ECF00BEF920 /* SkillBloodRage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA24DF21A7A9ECF00BEF920 /* SkillBloodRage.m */; };
 		6BA24E091A7AEA6E00BEF920 /* SkillTakeAim.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA24E081A7AEA6E00BEF920 /* SkillTakeAim.m */; };
 		6BA24E0A1A7AEA6E00BEF920 /* SkillTakeAim.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA24E081A7AEA6E00BEF920 /* SkillTakeAim.m */; };
@@ -7897,6 +7906,10 @@
 		6B8CD5891A9BB45C000DAAB8 /* SkillControllerSpecialOrb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillControllerSpecialOrb.m; sourceTree = "<group>"; };
 		6B8E800B1B0187B0009BDDD7 /* SkillPopupOverlayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillPopupOverlayController.h; sourceTree = "<group>"; };
 		6B8E800D1B0187C2009BDDD7 /* SkillPopupOverlayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillPopupOverlayController.m; sourceTree = "<group>"; };
+		6B94B98C1AF29C7400E73EC8 /* minijobsredbubble6@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "minijobsredbubble6@2x.png"; sourceTree = "<group>"; };
+		6B94B98D1AF29C7400E73EC8 /* minijobsredbubbleexclamation@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "minijobsredbubbleexclamation@2x.png"; sourceTree = "<group>"; };
+		6B94B9941AF2AA9B00E73EC8 /* ReplayOrbMainLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReplayOrbMainLayer.h; sourceTree = "<group>"; };
+		6B94B9951AF2AB2900E73EC8 /* ReplayOrbMainLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReplayOrbMainLayer.m; sourceTree = "<group>"; };
 		6BA24DF01A7A9EC100BEF920 /* SkillBloodRage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillBloodRage.h; sourceTree = "<group>"; };
 		6BA24DF21A7A9ECF00BEF920 /* SkillBloodRage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillBloodRage.m; sourceTree = "<group>"; };
 		6BA24E061A7AEA6100BEF920 /* SkillTakeAim.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SkillTakeAim.h; sourceTree = "<group>"; };
@@ -13586,6 +13599,8 @@
 				6BF5CA561AEED9250096FA30 /* ReplayBattleLayer.m */,
 				6BF5CA661AF0351B0096FA30 /* ReplayBattleOrbLayout.h */,
 				6BF5CA671AF035260096FA30 /* ReplayBattleOrbLayout.m */,
+				6B94B9941AF2AA9B00E73EC8 /* ReplayOrbMainLayer.h */,
+				6B94B9951AF2AB2900E73EC8 /* ReplayOrbMainLayer.m */,
 			);
 			name = Replay;
 			sourceTree = "<group>";
@@ -14749,6 +14764,8 @@
 		CF29E9A31963B3DD00B40DA4 /* Bubbles */ = {
 			isa = PBXGroup;
 			children = (
+				6B94B98C1AF29C7400E73EC8 /* minijobsredbubble6@2x.png */,
+				6B94B98D1AF29C7400E73EC8 /* minijobsredbubbleexclamation@2x.png */,
 				294035641AD7310B00B759A4 /* researchbubble@2x.png */,
 				290DFB1B1ABCDF2700CCE082 /* createbubble@2x.png */,
 				2992D7E21AA561E600547B11 /* renewbubble@2x.png */,
@@ -18212,6 +18229,7 @@
 				CF0CEF1D196F452900ECD301 /* waterpointsfont.fnt in Resources */,
 				6B1EAA321ACF5DCC00E0B642 /* VinesRight10.png in Resources */,
 				CFA7935E1A0C342D00DF3407 /* rockeventtag@2x.png in Resources */,
+				6B94B98F1AF29C7400E73EC8 /* minijobsredbubble6@2x.png in Resources */,
 				6B1EAA4D1ACF5DCC00E0B642 /* VinesUp09.png in Resources */,
 				299AA4051A786BB000A2D806 /* 6cakeorb-9@2x.png in Resources */,
 				29AF48D81AAA93DA0034927C /* itembaginfobarmiddle@2x.png in Resources */,
@@ -18699,6 +18717,8 @@
 				CF0CF204196F452900ECD301 /* elementreeicon@2x.png in Resources */,
 				29AF1C671A43AB1100E8E457 /* borderroundeddark@2x.png in Resources */,
 				CF0CF205196F452900ECD301 /* buildingenhance@2x.png in Resources */,
+				CF6A651919D25DA50002E05D /* 6boardgoo@2x.png in Resources */,
+				6B94B9921AF29C7400E73EC8 /* minijobsredbubbleexclamation@2x.png in Resources */,
 				2985E5C71A30044E0041ABF4 /* bubbleright.png in Resources */,
 				CF0CF208196F452900ECD301 /* championprofribbon@2x.png in Resources */,
 				299AA3911A7856AA00A2D806 /* earthsideways-9@2x.png in Resources */,
@@ -19964,6 +19984,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6B94B98E1AF29C7400E73EC8 /* minijobsredbubble6@2x.png in Resources */,
+				9BDA8BB41A40D87A00C7AC27 /* boardmud@2x.png in Resources */,
 				6B1EA9B91ACF5DCB00E0B642 /* VinesDown10.png in Resources */,
 				CFA8B1B019EB8C2F00CF6BFD /* ChatClanHelpView.xib in Resources */,
 				63CA0A931AD37EF600E92774 /* timerevolve@2x.png in Resources */,
@@ -20464,6 +20486,8 @@
 				CF68905A1912E7B500FF1F71 /* tapchartofill@2x.png in Resources */,
 				29E00D7B1A79B52D00F34D51 /* opendonatearrow@2x.png in Resources */,
 				CFA728BD1A0B037900FF6031 /* nighteventbigbgcap@2x.png in Resources */,
+				CF2A4AE41901B8F500B2D7D7 /* attacksactiveicon@2x.png in Resources */,
+				6B94B9911AF29C7400E73EC8 /* minijobsredbubbleexclamation@2x.png in Resources */,
 				CFFA31F018B3DFF7008B81B9 /* ClanRaidActiveCell.xib in Resources */,
 				9BB948711A68A85B006EE920 /* 6basicgrabgachatabactive@2x.png in Resources */,
 				9B7AAB3C1AC0CDE300CA387F /* eventpointcounter@2x.png in Resources */,
@@ -21939,6 +21963,7 @@
 				CF481A3F19F7217F00041486 /* RequestsFacebookCell.xib in Resources */,
 				6B1EAA271ACF5DCC00E0B642 /* VinesRight06.png in Resources */,
 				29804FC21A241F4A00806253 /* squadrewardsheaderbuilding@2x.png in Resources */,
+				6B94B9931AF29C7400E73EC8 /* minijobsredbubbleexclamation@2x.png in Resources */,
 				CF481A4319F7217F00041486 /* waterpointsfont@2x.png in Resources */,
 				29DCCFB91A8AF4B9003176FD /* Scientist1T1Big@2x.png in Resources */,
 				63959E0E1B0AB37C00E5E302 /* tangogirlgradient@2x.png in Resources */,
@@ -22346,6 +22371,7 @@
 				CFA9F79E1A0D8F6300EBE77D /* greyitemsbutton@2x.png in Resources */,
 				636C3E7E1AAA865400B02980 /* cantresearchtapped@2x.png in Resources */,
 				299AA4C61A7872C300A2D806 /* earthgrenade@2x.png in Resources */,
+				6B94B9901AF29C7400E73EC8 /* minijobsredbubble6@2x.png in Resources */,
 				CF481D0419F7217F00041486 /* dockshadow@2x.png in Resources */,
 				CF481D0519F7217F00041486 /* elementtree2@2x.png in Resources */,
 				CF481D0619F7217F00041486 /* sfx_make_it_rain.mp3 in Resources */,
@@ -24053,6 +24079,7 @@
 				CF0CED41196F452900ECD301 /* MiniTutorialBattleLayer.m in Sources */,
 				CF0CED42196F452900ECD301 /* EventMonster.pb.m in Sources */,
 				29AF48981AAA87880034927C /* EventBattleItem.pb.m in Sources */,
+				6B94B9971AF2AB2900E73EC8 /* ReplayOrbMainLayer.m in Sources */,
 				3E1A0C081A645B4B00DF00AD /* Research.pb.m in Sources */,
 				CF0CED43196F452900ECD301 /* OmnipresentViewController.m in Sources */,
 				CF0CED44196F452900ECD301 /* SoundEngine.m in Sources */,
@@ -24663,6 +24690,7 @@
 				CFF1D7C517E2636500874339 /* BattleSprite.m in Sources */,
 				6BB5F85F1A80095B006515B9 /* TutorialBuildingUpgradeController.m in Sources */,
 				CFF1D7C917E2646000874339 /* CCAnimation+SpriteLoading.m in Sources */,
+				6B94B9961AF2AB2900E73EC8 /* ReplayOrbMainLayer.m in Sources */,
 				9BDA8BE51A43837D00C7AC27 /* NewGachaViewController.m in Sources */,
 				CFE0E6B817E3C060002ECA84 /* BattlePlayer.m in Sources */,
 				6B0784031A828C1C005CDFCF /* SkillInsurance.m in Sources */,
@@ -24824,6 +24852,7 @@
 				CF4818E619F7217F00041486 /* RequestsBattleTableController.m in Sources */,
 				CF4818E719F7217F00041486 /* EventTournament.pb.m in Sources */,
 				CF4818E819F7217F00041486 /* MiniTutorialBattleLayer.m in Sources */,
+				6B94B9981AF2AB2900E73EC8 /* ReplayOrbMainLayer.m in Sources */,
 				CF4818E919F7217F00041486 /* EventMonster.pb.m in Sources */,
 				29AF489A1AAA87890034927C /* EventBattleItem.pb.m in Sources */,
 				3E1A0C091A645B4B00DF00AD /* Research.pb.m in Sources */,

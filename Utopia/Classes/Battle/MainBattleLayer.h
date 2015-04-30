@@ -185,6 +185,7 @@
 - (void) myTurnEnded;
 - (void) beginEnemyTurn:(float)delay;
 - (void) checkIfAnyMovesLeft;
+- (void) startMyMove;
 - (void) currentMyPlayerDied;
 - (void) makePlayer:(BattleSprite *)player walkInFromEntranceWithSelector:(SEL)selector;
 
@@ -218,6 +219,7 @@
 - (IBAction)deployCardClicked:(id)sender;
 - (void) continueConfirmed;
 - (void) exitFinal;
+- (void) fireEvent:(TKEvent*)event userInfo:(NSDictionary *)userInfo error:(NSError *__autoreleasing *)error;
 
 - (void) buildReplay;
 

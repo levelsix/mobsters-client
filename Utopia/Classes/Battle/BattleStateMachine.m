@@ -39,10 +39,10 @@
   BattleState *lastState = self.currentBattleState;
   if ([self canFireEvent:eventOrEventName])
   {
-    if (lastState.combatReplayStepType != CombatReplayStepTypeBattleInitialization) {
+    //if (lastState.combatReplayStepType != CombatReplayStepTypeBattleInitialization) {
       [lastState setIndex:(int)self.pastStates.count];
       [self.pastStates addObject:[lastState getStepProto]];
-    }
+    //}
     NSLog(@"Transitioning from %@ to %@", lastState.name, ((TKEvent*)(eventOrEventName)).destinationState.name);
     [super fireEvent:eventOrEventName userInfo:userInfo error:error];
     return YES;

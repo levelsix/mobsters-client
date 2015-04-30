@@ -143,8 +143,8 @@ BOOL CombatReplayStepTypeIsValidValue(CombatReplayStepType value);
 @property (readonly, strong) NSArray * stepsList;
 @property (readonly, strong) BoardLayoutProto* board;
 @property (readonly, strong) NSArray * orbsList;
-- (MinimumUserMonsterProto*)playerTeamAtIndex:(NSUInteger)index;
-- (MinimumUserMonsterProto*)enemyTeamAtIndex:(NSUInteger)index;
+- (CombatReplayMonsterSnapshot*)playerTeamAtIndex:(NSUInteger)index;
+- (CombatReplayMonsterSnapshot*)enemyTeamAtIndex:(NSUInteger)index;
 - (CombatReplayStepProto*)stepsAtIndex:(NSUInteger)index;
 - (CombatReplayOrbProto*)orbsAtIndex:(NSUInteger)index;
 
@@ -199,14 +199,14 @@ BOOL CombatReplayStepTypeIsValidValue(CombatReplayStepType value);
 - (CombatReplayProto_Builder*) clearFirstAttackerMonsterId;
 
 - (NSMutableArray *)playerTeamList;
-- (MinimumUserMonsterProto*)playerTeamAtIndex:(NSUInteger)index;
-- (CombatReplayProto_Builder *)addPlayerTeam:(MinimumUserMonsterProto*)value;
+- (CombatReplayMonsterSnapshot*)playerTeamAtIndex:(NSUInteger)index;
+- (CombatReplayProto_Builder *)addPlayerTeam:(CombatReplayMonsterSnapshot*)value;
 - (CombatReplayProto_Builder *)addAllPlayerTeam:(NSArray *)array;
 - (CombatReplayProto_Builder *)clearPlayerTeam;
 
 - (NSMutableArray *)enemyTeamList;
-- (MinimumUserMonsterProto*)enemyTeamAtIndex:(NSUInteger)index;
-- (CombatReplayProto_Builder *)addEnemyTeam:(MinimumUserMonsterProto*)value;
+- (CombatReplayMonsterSnapshot*)enemyTeamAtIndex:(NSUInteger)index;
+- (CombatReplayProto_Builder *)addEnemyTeam:(CombatReplayMonsterSnapshot*)value;
 - (CombatReplayProto_Builder *)addAllEnemyTeam:(NSArray *)array;
 - (CombatReplayProto_Builder *)clearEnemyTeam;
 

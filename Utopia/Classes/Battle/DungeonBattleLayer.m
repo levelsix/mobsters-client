@@ -227,10 +227,6 @@
      }],nil]];
 }
 
-- (void) buildReplay {
-  
-}
-
 #pragma mark - Waiting for response
 
 - (IBAction)winExitClicked:(id)sender {
@@ -532,7 +528,7 @@
     if (_movesLeft <= 0) {
       [self myTurnEnded];
     } else {
-      [self.battleStateMachine fireEvent:playerMoveEvent userInfo:nil error:nil];
+      [self fireEvent:playerMoveEvent userInfo:nil error:nil];
     }
     
     _myDamageDealt = damage;
@@ -566,7 +562,7 @@
         [GenericPopupController displayNotificationViewWithText:@"The enemies seem to have been scared off. Tap okay to return outside." title:@"Something Went Wrong" okayButton:@"Okay" target:self selector:@selector(exitFinal)];
       }
     } else {
-      [self.battleStateMachine fireEvent:loadingCompleteEvent userInfo:nil error:nil];
+      [self fireEvent:loadingCompleteEvent userInfo:nil error:nil];
 //      [self moveToNextEnemy];
       _hasStarted = YES;
     }

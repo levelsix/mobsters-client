@@ -47,6 +47,7 @@
 + (id) userMonsterWithMinProto:(MinimumUserMonsterProto *)proto researchUtil:(ResearchUtil *)researchUtil;
 + (id) userMonsterWithTaskStageMonsterProto:(TaskStageMonsterProto *)proto;
 + (id) userMonsterWithMonsterSnapshotProto:(UserMonsterSnapshotProto *)proto researchUtil:(ResearchUtil *)researchUtil;
++ (id) userMonsterWithReplayMonsterSnapshotProto:(CombatReplayMonsterSnapshot *)proto;
 - (BOOL) isHealing;
 - (BOOL) isEnhancing;
 - (BOOL) isEvolving;

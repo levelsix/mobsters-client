@@ -299,8 +299,6 @@
   
   BattlePlayer *bp = [self firstMyPlayer];
   if (bp) {
-    
-//    [_battleStateMachine fireEvent:playerSwapEvent userInfo:@{SWAP_TOON_KEY : bp} error:nil];
     [self deployBattleSprite:bp];
   }
   
@@ -382,7 +380,7 @@
       
       [self runAction:[CCActionSequence actions:[CCActionDelay actionWithDuration:2.f], [CCActionCallFunc actionWithTarget:self selector:@selector(fireVictoryEvent)], nil]];
     } else {
-      [_battleStateMachine fireEvent:playerVictoryEvent userInfo:nil error:nil];
+      [self fireEvent:playerVictoryEvent userInfo:nil error:nil];
     }
   }
 }
@@ -537,10 +535,10 @@
   _firstTurn = NO;
   BOOL nextMove = [self.battleSchedule dequeueNextMove];
   if (nextMove) {
-    [_battleStateMachine fireEvent:playerTurnEvent userInfo:nil error:nil];
+    [self fireEvent:playerTurnEvent userInfo:nil error:nil];
   } else {
     NSNumber *delayN = [NSNumber numberWithFloat:delay];
-    [_battleStateMachine fireEvent:enemyTurnEvent userInfo:@{DELAY_KEY : delayN} error:nil];
+    [self fireEvent:enemyTurnEvent userInfo:@{DELAY_KEY : delayN} error:nil];
   }
 }
 
@@ -582,7 +580,7 @@
       return;
     }
     
-    [_battleStateMachine fireEvent:playerMoveEvent userInfo:nil error:nil];
+    [self fireEvent:playerMoveEvent userInfo:nil error:nil];
     
     [self.mainView.hudView prepareForMyTurn];
     [self updateItemsBadge];
@@ -689,7 +687,7 @@
     [self myTurnEnded];
   } else {
     _myDamageForThisTurn = 0;
-    [_battleStateMachine fireEvent:playerMoveEvent userInfo:nil error:nil];
+    [self fireEvent:playerMoveEvent userInfo:nil error:nil];
   }
 }
 
@@ -1158,7 +1156,7 @@
 - (void) checkMyHealth {
   [self sendServerUpdatedValuesVerifyDamageDealt:YES];
   if (self.myPlayerObject.curHealth <= 0) {
-    [_battleStateMachine fireEvent:playerDeathEvent userInfo:nil error:nil];
+    [self fireEvent:playerDeathEvent userInfo:nil error:nil];
   } else {
     [self beginNextTurn];
   }
@@ -1204,11 +1202,11 @@
 }
 
 - (void) firePlayerAttackEvent {
-  [_battleStateMachine fireEvent:playerAttackEvent userInfo:nil error:nil];
+  [self fireEvent:playerAttackEvent userInfo:nil error:nil];
 }
 
 - (void) fireVictoryEvent {
-  [_battleStateMachine fireEvent:playerVictoryEvent userInfo:nil error:nil];
+  [self fireEvent:playerVictoryEvent userInfo:nil error:nil];
 }
 
 - (void) spawnRibbonForOrb:(BattleOrb *)orb target:(CGPoint)endPosition baseDuration:(CGFloat)dur skill:(BOOL)skill {
@@ -1352,18 +1350,19 @@
 }
 
 - (void) buildReplay {
-  CombatReplayProto *replay = [[[[[[[CombatReplayProto builder]
-                                  setBoard:_layoutProto]
-                                 addAllOrbs:self.orbLayer.layout.orbRecords.allValues]
-                                addAllSteps:self.battleStateMachine.pastStates]
-                               addAllPlayerTeam:self.playerTeamSnapshot]
-                              addAllEnemyTeam:self.enemyTeamSnapshot]
-                             build];
+  CombatReplayProto *replay = [[[[[[[[CombatReplayProto builder]
+                                    setGroundImgPrefix:@"1"]
+                                   setBoard:_layoutProto]
+                                  addAllOrbs:self.orbLayer.layout.orbRecords.allValues]
+                                 addAllSteps:self.battleStateMachine.pastStates]
+                                addAllPlayerTeam:self.playerTeamSnapshot]
+                               addAllEnemyTeam:self.enemyTeamSnapshot]
+                              build];
+  [Globals sharedGlobals].lastReplay = replay;
 }
 
 - (void) sendReplay {
   //Temp stubishly stuff
-  
 }
 
 #pragma mark - Skill Methods
@@ -1750,7 +1749,7 @@
   }
   
   if (bp) {
-    [_battleStateMachine fireEvent:playerSwapEvent userInfo:@{SWAP_TOON_KEY : bp} error:nil];
+    [self fireEvent:playerSwapEvent userInfo:@{SWAP_TOON_KEY : bp} error:nil];
     //[self deployBattleSprite:bp];
   }
 }
@@ -1878,8 +1877,11 @@
 }
 
 - (void) firePlayerReviveEvent {
-  [self.battleStateMachine fireEvent:playerReviveEvent userInfo:nil error:nil];
-  
+  [self fireEvent:playerReviveEvent userInfo:nil error:nil];
+}
+
+- (void)fireEvent:(TKEvent *)event userInfo:(NSDictionary *)userInfo error:(NSError *__autoreleasing *)error{
+  [self.battleStateMachine fireEvent:event userInfo:userInfo error:nil];
 }
 
 - (void) continueConfirmed {
