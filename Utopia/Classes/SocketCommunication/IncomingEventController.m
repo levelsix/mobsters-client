@@ -1497,12 +1497,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 
 - (void) handleSolicitClanHelpResponseProto:(FullEvent *)fe {
   SolicitClanHelpResponseProto *proto = (SolicitClanHelpResponseProto *)fe.event;
-<<<<<<< HEAD
   LNLog(@"Solicit clan help response received with status %d.", (int)proto.status);
-=======
-  int tag = fe.tag;
-  LNLog(@"Solicit clan help received with status %d.", (int)proto.status);
->>>>>>> frame work and first steps with protos
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == SolicitClanHelpResponseProto_SolicitClanHelpStatusSuccess) {
