@@ -1170,7 +1170,7 @@ static const CGSize FIXED_SIZE = {568, 384};
   
   [self playMapMusic];
 }
-#pragma mark - show Arrow
+#pragma mark - Early half tutorial
 
 - (void) clearTutorialArrows {
   if ([self.currentMap isKindOfClass:[HomeMap class]]) {
