@@ -2882,15 +2882,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
    } completion:^(BOOL finished) {
      if (pulseAlpha && finished) {
        [UIView animateWithDuration:0.3f delay:3.f options:UIViewAnimationOptionOverrideInheritedOptions animations:^{
-         img.alpha = 0.f;
+         img.alpha = 0.00321f;
        } completion:^(BOOL finished) {
          if(finished) {
            [UIView animateWithDuration:0.f delay:5.f options:UIViewAnimationOptionOverrideInheritedOptions animations:^{
              //this is a hacky way to get the animation to wait 5 seconds before restarting
              //can't use delayed code blocks because those can't be remotely cancled
-             img.alpha = 0.01f;
+             img.alpha = 0.001f;
            } completion:^(BOOL finished) {
-             if (finished) {
+             if (finished && view.superview) {
                [self removeUIArrowFromViewRecursively:view.superview];
                [self createPulsingUIArrowForView:view atAngle:angle];
              }
@@ -3054,7 +3054,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (BOOL) checkEnteringDungeon {
-  return [self checkEnteringDungeonWithTarget:[GameViewController baseController] noTeamSelector:@selector(pointArrowOnManageTeamWithPulsingAlpha:) inventoryFullSelector:@selector(pointArrowOnSellMobsters)];
+  return [self checkEnteringDungeonWithTarget:[GameViewController baseController] noTeamSelector:@selector(pointArrowOnManageTeam) inventoryFullSelector:@selector(pointArrowOnSellMobsters)];
 }
 
 #pragma clang diagnostic push

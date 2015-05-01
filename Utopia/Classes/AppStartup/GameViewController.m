@@ -696,10 +696,10 @@ static const CGSize FIXED_SIZE = {568, 384};
 }
 
 - (void) pointArrowOnManageTeam {
-  [self pointArrowOnManageTeamWithPulsingAlpha:NO];
+  [self pointArrowOnManageTeamWithPulsingAlpha:NO closeOpenViews:YES];
 }
 
-- (void) pointArrowOnManageTeamWithPulsingAlpha:(BOOL)pulsing {
+- (void) pointArrowOnManageTeamWithPulsingAlpha:(BOOL)pulsing closeOpenViews:(BOOL)closeOpenViews{
   if (self.currentMap.cityId != 0) {
     [self visitCityClicked:0];
   }
@@ -708,7 +708,9 @@ static const CGSize FIXED_SIZE = {568, 384};
     
     // Make sure notifications don't get the removed or else the alert message will be killed
     // Some of these may not be view controllers but since we're just comparing objects, it's okay.
-    [self removeAllViewControllersWithExceptions:self.notificationController.currentNotifications];
+    if (closeOpenViews) {
+      [self removeAllViewControllersWithExceptions:self.notificationController.currentNotifications];
+    }
   }
 }
 
@@ -1170,17 +1172,20 @@ static const CGSize FIXED_SIZE = {568, 384};
 }
 #pragma mark - show Arrow
 
-- (void) homeViewControllerClosed {
-  
+- (void) clearTutorialArrows {
+  if ([self.currentMap isKindOfClass:[HomeMap class]]) {
+    [(HomeMap *)self.currentMap removeArrowOnBuilding];
+  }
+  [Globals removeUIArrowFromViewRecursively:self.topBarViewController.attackView.superview];
 }
 
 - (void) showEarlyGameTutorialArrow {
   GameState *gs = [GameState sharedGameState];
   Globals *gl  = [Globals sharedGlobals];
   
-  [Globals removeUIArrowFromViewRecursively:self.topBarViewController.attackView];
-  
   if (gs.tasksCompleted < EARLY_TUTORIAL_STAGES_COMPLETE_LIMIT /*&& gs.userHasEnteredBattleThisSession*/ ) {
+    [(HomeMap *)self.currentMap removeArrowOnBuilding];
+    [Globals removeUIArrowFromViewRecursively:self.topBarViewController.attackView.superview];
     
     //first check to see if there are any toons to heal
     int hurtToons = 0;
@@ -1201,8 +1206,14 @@ static const CGSize FIXED_SIZE = {568, 384};
     BOOL hasFullTeam = myTeam.count >= gl.maxTeamSize;
     BOOL hasAvailMobsters = NO;
     
+    for (UserMonster *um in gs.myMonsters) {
+      if ([um isAvailable] && !um.teamSlot && um.curHealth > 0 && [gl currentBattleReadyTeamHasCostFor:um]) {
+        hasAvailMobsters = YES;
+      }
+    }
+    
     if (!hasFullTeam && hasAvailMobsters) {
-      [self pointArrowOnManageTeamWithPulsingAlpha:YES];
+      [self pointArrowOnManageTeamWithPulsingAlpha:YES closeOpenViews:NO];
       return;
     }
     

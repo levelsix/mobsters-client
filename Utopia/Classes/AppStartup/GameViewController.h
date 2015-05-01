@@ -91,7 +91,7 @@ typedef enum {
 - (BOOL) buildingPurchased:(int)structId;
 - (void) pointArrowOnSellMobsters;
 - (void) pointArrowOnManageTeam;
-- (void) pointArrowOnManageTeamWithPulsingAlpha:(BOOL)pulsing;
+- (void) pointArrowOnManageTeamWithPulsingAlpha:(BOOL)pulsing closeOpenViews:(BOOL)closeOpenViews;
 - (BOOL) pointArrowToUpgradeForStructId:(int)structId quantity:(int)quantity;
 - (void) arrowToStructInShopWithId:(int)structId;
 - (void) arrowToOpenClanMenu;
@@ -130,6 +130,7 @@ typedef enum {
 - (void) invalidateAllTimers;
 - (void) beginAllTimers;
 
+- (void) clearTutorialArrows;
 - (void) showEarlyGameTutorialArrow;
 
 @end
