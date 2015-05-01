@@ -75,7 +75,6 @@
       [self showCriticalHit];
       damage = damage * _critDamageMultiplier;
     }
-//    [self tickDuration];
   }
   return damage;
 }
