@@ -846,7 +846,7 @@
   NSArray *arr = [self childrenOfClassType:[TeamCenterBuilding class]];
   if (arr.count > 0) {
     HomeBuilding *b = arr[0];
-    [self pointArrowOnBuilding:b config:MapBotViewButtonTeam];
+    [self pointArrowOnBuilding:b config:MapBotViewButtonTeam withPulsingAlpha:pulsing];
   }
 }
 
@@ -923,7 +923,7 @@
   [b displayArrowWithPulsingAlpha:pulsing];
   [self moveToSprite:b animated:YES];
   
-  _arrowBuilding = b;
+  _arrowBuilding = b;	
   _arrowButtonConfig = config;
   
   if (!pulsing) {

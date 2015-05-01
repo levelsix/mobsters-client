@@ -114,4 +114,6 @@
 - (void) constructionComplete:(NSTimer *)timer;
 - (void) waitForIncomeComplete:(NSTimer *)timer;
 
+- (void) removeArrowOnBuilding;
+
 @end

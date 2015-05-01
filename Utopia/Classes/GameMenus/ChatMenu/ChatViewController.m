@@ -96,6 +96,8 @@
   self.updateTimer = [NSTimer timerWithTimeInterval:1.f target:self selector:@selector(updateLabels) userInfo:nil repeats:YES];
   [[NSRunLoop mainRunLoop] addTimer:self.updateTimer forMode:NSRunLoopCommonModes];
   [self updateLabels];
+  
+  [[GameViewController baseController] clearTutorialArrows];
 }
 
 - (void) viewDidAppear:(BOOL)animated {
@@ -131,6 +133,8 @@
   
   [self.updateTimer invalidate];
   self.updateTimer = nil;
+  
+  [[GameViewController baseController] showEarlyGameTutorialArrow];
 }
 
 - (void) updateLabels {
