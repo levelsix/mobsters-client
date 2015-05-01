@@ -22,6 +22,8 @@
   
   _numOrbsToSpawn = 0;
   _lifeStealAmount = 0.f;
+  
+  
 }
 
 - (void) setValue:(float)value forProperty:(NSString*)property
@@ -75,7 +77,7 @@
 
 - (int) calculateLifeStealAmount
 {
-  return [self specialsOnBoardCount:SpecialOrbTypeLifeSteal] * _lifeStealAmount;
+  return MIN([self specialsOnBoardCount:SpecialOrbTypeLifeSteal] * _lifeStealAmount, self.opponentPlayer.curHealth);
 }
 
 - (void) beginLifeSteal
@@ -154,6 +156,8 @@
 
 - (void) dealEnemyDamage
 {
+  _currLifeSteal = [self calculateLifeStealAmount];
+  
   // Flinch
   [self.playerSprite performFarFlinchAnimationWithDelay:0.f];
   
@@ -165,15 +169,13 @@
   
   [self beginLifeStealEffect];
   
-  int damage = [self calculateLifeStealAmount];
-  
   // Deal damage to player
-  [self.battleLayer dealDamage:damage
+  [self.battleLayer dealDamage:(int)_currLifeSteal
                enemyIsAttacker:YES
                   usingAbility:YES
                     withTarget:nil
                   withSelector:nil];
-  [self.battleLayer setEnemyDamageDealt:(int)damage];
+  [self.battleLayer setEnemyDamageDealt:(int)_currLifeSteal];
   [self.battleLayer sendServerUpdatedValuesVerifyDamageDealt:NO];
   
 }
@@ -221,7 +223,7 @@
 
 - (void) healEnemy
 {
-  [self.battleLayer healForAmount:[self calculateLifeStealAmount] enemyIsHealed:YES withTarget:self andSelector:@selector(endLifeSteal)];
+  [self.battleLayer healForAmount:(int)_currLifeSteal enemyIsHealed:YES withTarget:self andSelector:@selector(endLifeSteal)];
 }
 
 - (void) endLifeSteal

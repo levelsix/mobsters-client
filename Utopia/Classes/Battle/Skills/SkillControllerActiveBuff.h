@@ -16,6 +16,8 @@ typedef enum {
 @interface SkillControllerActiveBuff : SkillControllerActive {
   NSMutableDictionary *_targets;
 }
+
+- (BOOL) ticksOnUserDeath;
 - (TickTrigger) tickTrigger;
 - (BOOL) resetDuration;
 - (BOOL) tickDuration;

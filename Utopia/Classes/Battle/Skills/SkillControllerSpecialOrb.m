@@ -161,13 +161,13 @@
   BattleOrbLayout* layout = self.battleLayer.orbLayer.layout;
   BattleOrb* orb;
   
-  if (count == 0)
+  if (count <= 0)
   {
     if (target && selector)
       SUPPRESS_PERFORM_SELECTOR_LEAK_WARNING([target performSelector:selector withObject:nil];);
   }
   
-  for (NSInteger n = 0; n < count; ++n)
+  for (NSInteger n = 0; n < count; n++)
   {
     orb = [self pickOrb:layout];
     
@@ -182,10 +182,7 @@
       continue;
     }
     
-    // Update data
-    orb.specialOrbType = [self specialType];
-    orb.orbColor = [self keepColor] ? self.orbColor : OrbColorNone;
-    orb.turnCounter = _orbSpawnCounter;
+    [self makeSpecialOrb:orb];
     
     // Update tile
     OrbBgdLayer* bgdLayer = self.battleLayer.orbLayer.bgdLayer;
@@ -205,6 +202,13 @@
   
   if (![self keepColor])
     [self.battleLayer.orbLayer toggleArrows:YES];
+}
+
+- (void) makeSpecialOrb:(BattleOrb*)orb
+{
+  orb.specialOrbType = [self specialType];
+  orb.orbColor = [self keepColor] ? self.orbColor : OrbColorNone;
+  orb.turnCounter = _orbSpawnCounter;
 }
 
 - (void) removeSpecialOrbs

@@ -12,6 +12,8 @@
 {
   // Properties
   NSInteger _bombDamage;
+  
+  NSInteger _currDamage;
 }
 
 @end

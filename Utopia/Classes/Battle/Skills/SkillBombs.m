@@ -22,6 +22,8 @@
   
   // Properties
   _bombDamage = 0;
+  
+  _currDamage = 0;
 }
 
 - (void) setValue:(float)value forProperty:(NSString*)property
@@ -55,30 +57,35 @@
   [self.battleLayer.orbLayer disallowInput];
   
   float delay = 1.5 + 0.05*numOrbs;
-  NSInteger totalDamage = numOrbs * _bombDamage;
   
   //Player flinches
   [self.playerSprite performFarFlinchAnimationWithDelay:delay];
   
   //Deal damage
   [self.battleLayer performAfterDelay:delay block:^{
-    self.battleLayer.enemyDamageDealt = (int)totalDamage;
-    [self.battleLayer dealDamage:(int)totalDamage enemyIsAttacker:YES usingAbility:YES withTarget:nil withSelector:nil];
+    self.battleLayer.enemyDamageDealt = (int)_currDamage;
+    [self.battleLayer dealDamage:(int)_currDamage enemyIsAttacker:YES usingAbility:YES withTarget:nil withSelector:nil];
   }];
   
   [self dropBombsOnPlayer:numOrbs];
   
-  [self showSkillPopupMiniOverlay:[NSString stringWithFormat:@"%li DMG", (long)totalDamage]];
+  [self showSkillPopupMiniOverlay:[NSString stringWithFormat:@"%li DMG", (long)_currDamage]];
 
   
   return YES;
+}
+
+- (void)makeSpecialOrb:(BattleOrb *)orb
+{
+  [super makeSpecialOrb:orb];
+  orb.bombDamage = _bombDamage;
 }
 
 - (NSInteger)updateSpecialOrbs
 {
   BattleOrbLayout* layout = self.battleLayer.orbLayer.layout;
   OrbSwipeLayer* layer = self.battleLayer.orbLayer.swipeLayer;
-  NSInteger totalDamage = 0;
+  _currDamage = 0;
   NSInteger bombCount = 0;
   for (NSInteger column = 0; column < layout.numColumns; column++)
     for (NSInteger row = 0; row < layout.numRows; row++)
@@ -107,7 +114,7 @@
               [sprite addChild:blast];
               
               // Count damage and bombs
-              totalDamage += orb.bombDamage;
+              _currDamage += orb.bombDamage;
               bombCount++;
               
               [SoundEngine puzzleBoardExplosion];

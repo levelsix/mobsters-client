@@ -13,6 +13,8 @@
   // Properties (general)
   NSInteger _numOrbsToSpawn;
   float _lifeStealAmount;
+  
+  NSInteger _currLifeSteal;
 }
 
 @end

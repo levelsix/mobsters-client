@@ -34,6 +34,11 @@
   return NO;
 }
 
+- (BOOL)ticksOnUserDeath
+{
+  return YES;
+}
+
 - (TickTrigger)tickTrigger
 {
   return TickTriggerAfterOpponentTurn;

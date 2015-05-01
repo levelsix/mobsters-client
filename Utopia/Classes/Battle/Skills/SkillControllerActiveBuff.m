@@ -83,7 +83,7 @@
       return YES;
     }
     
-    if (self.userPlayer.curHealth > 0 &&
+    if ((self.userPlayer.curHealth > 0 || [self ticksOnUserDeath]) &&
         (([self tickTrigger] == TickTriggerAfterUserTurn &&
         ((self.belongsToPlayer && (trigger == SkillTriggerPointEndOfPlayerTurn || trigger == SkillTriggerPointEnemyDefeated))
          || (!self.belongsToPlayer && (trigger == SkillTriggerPointEndOfEnemyTurn || trigger == SkillTriggerPointPlayerMobDefeated))))
@@ -130,6 +130,11 @@
 }
 
 #pragma mark - Class Functions
+
+- (BOOL) ticksOnUserDeath
+{
+  return NO;
+}
 
 - (TickTrigger) tickTrigger
 {

@@ -30,6 +30,7 @@ typedef enum {
 - (void) onAllSpecialsDestroyed;
 
 - (void) spawnSpecialOrbs:(NSInteger)count withTarget:(id)target andSelector:(SEL)selector;
+- (void) makeSpecialOrb:(BattleOrb*)orb;
 - (void) removeSpecialOrbs;
 - (BOOL) checkSpecialOrbs;
 - (NSInteger) updateSpecialOrbs;

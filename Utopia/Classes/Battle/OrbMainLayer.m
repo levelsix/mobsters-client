@@ -157,6 +157,27 @@
   }
 }
 
+- (void) checkVines {
+  if (self.layout.numVines && self.layout.numVines == self.layout.lastNumVines) {
+    
+    BattleOrb *orb = [self.layout pickOrbForVine];
+    BattleOrb *other = [self.layout vineAdjacentToOrb:orb];
+    if (orb && other)
+    {
+      orb.isVines = YES;
+      orb.isLocked = YES;
+      BattleTile* originTile = [self.layout tileAtColumn:other.column row:other.row];
+      
+      [self.bgdLayer playVineExpansion:other.vineGrowDirection onTile:originTile withCompletion:^{
+        [[self.swipeLayer spriteForOrb:orb] reloadSprite:NO];
+      }];
+      
+      [self.layout detectPossibleSwaps];
+    }
+  }
+  self.layout.lastNumVines = self.layout.numVines;
+}
+
 - (void) handleMatches {
   [self handleMatches:nil isFreeSwap:NO destroyedOrb:nil];
 }
@@ -196,6 +217,9 @@
     
     // If there are no more matches, then the move is complete.
     if (!isFreeSwap && [chains count] == 0) {
+      
+      [self checkVines];
+      
       NSSet *swaps = [self.layout detectPossibleSwaps];
       
       OrbLog(@"Turn ending.. Detecting swaps: %@", swaps);
