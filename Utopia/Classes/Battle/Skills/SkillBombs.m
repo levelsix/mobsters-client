@@ -43,7 +43,7 @@
 
 - (BOOL)shouldPersist
 {
-  return _orbsSpawned > 0;
+  return [self specialsOnBoardCount:[self specialType]] > 0;
 }
 
 - (SpecialOrbType)specialType
