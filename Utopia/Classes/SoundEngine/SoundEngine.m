@@ -184,7 +184,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(SoundEngine);
 + (void) gachaSpinStart {
   SoundEngine *se = [SoundEngine sharedSoundEngine];
   [se.repeatingEffect stop];
-  se.repeatingEffect = [se playEffect:@"gacha_spin.mp3" volume:1.f pitch:1.f pan:0.f loop:YES];
+  se.repeatingEffect = [se playEffect:@"gacha_spin1.mp3" volume:1.f pitch:1.f pan:0.f loop:YES];
 }
 
 + (void) secretGiftClicked {

@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		2636AB3AF3AA4E51B6778221 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E3B014266D6444DCA5AD786C /* libPods.a */; };
+		2905FFD41AF56B1F009F0CF8 /* gacha_spin1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2905FFD31AF56B1F009F0CF8 /* gacha_spin1.mp3 */; };
+		2905FFD51AF56B1F009F0CF8 /* gacha_spin1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2905FFD31AF56B1F009F0CF8 /* gacha_spin1.mp3 */; };
+		2905FFD61AF56B1F009F0CF8 /* gacha_spin1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2905FFD31AF56B1F009F0CF8 /* gacha_spin1.mp3 */; };
 		290A99501AD5FC0F00FA41B2 /* avatardropshadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 290A994F1AD5FC0F00FA41B2 /* avatardropshadow@2x.png */; };
 		290A99511AD5FC0F00FA41B2 /* avatardropshadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 290A994F1AD5FC0F00FA41B2 /* avatardropshadow@2x.png */; };
 		290A99521AD5FC0F00FA41B2 /* avatardropshadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 290A994F1AD5FC0F00FA41B2 /* avatardropshadow@2x.png */; };
@@ -267,9 +270,6 @@
 		2948F5531AB36D8D00DF08C2 /* use_gems.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2948F5521AB36D8D00DF08C2 /* use_gems.mp3 */; };
 		2948F5541AB36D8D00DF08C2 /* use_gems.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2948F5521AB36D8D00DF08C2 /* use_gems.mp3 */; };
 		2948F5551AB36D8D00DF08C2 /* use_gems.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2948F5521AB36D8D00DF08C2 /* use_gems.mp3 */; };
-		2948F5571AB36E7500DF08C2 /* gacha_spin.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2948F5561AB36E7500DF08C2 /* gacha_spin.mp3 */; };
-		2948F5581AB36E7500DF08C2 /* gacha_spin.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2948F5561AB36E7500DF08C2 /* gacha_spin.mp3 */; };
-		2948F5591AB36E7500DF08C2 /* gacha_spin.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2948F5561AB36E7500DF08C2 /* gacha_spin.mp3 */; };
 		2948F5601AB393AD00DF08C2 /* FAQ.3@2x.txt in Resources */ = {isa = PBXBuildFile; fileRef = 2948F55F1AB393AD00DF08C2 /* FAQ.3@2x.txt */; };
 		2948F5611AB393AD00DF08C2 /* FAQ.3@2x.txt in Resources */ = {isa = PBXBuildFile; fileRef = 2948F55F1AB393AD00DF08C2 /* FAQ.3@2x.txt */; };
 		2948F5621AB393AD00DF08C2 /* FAQ.3@2x.txt in Resources */ = {isa = PBXBuildFile; fileRef = 2948F55F1AB393AD00DF08C2 /* FAQ.3@2x.txt */; };
@@ -7700,6 +7700,7 @@
 
 /* Begin PBXFileReference section */
 		1019B1CB8EE4CED7B1E11F70 /* libPods-Mobsters.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Mobsters.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2905FFD31AF56B1F009F0CF8 /* gacha_spin1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = gacha_spin1.mp3; sourceTree = "<group>"; };
 		290A994F1AD5FC0F00FA41B2 /* avatardropshadow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "avatardropshadow@2x.png"; sourceTree = "<group>"; };
 		290A99541AD6FB6600FA41B2 /* 1scene@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "1scene@2x.jpg"; sourceTree = "<group>"; };
 		290DFB0A1ABB974600CCE082 /* noelementdailylab@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "noelementdailylab@2x.png"; sourceTree = "<group>"; };
@@ -7785,7 +7786,6 @@
 		2948F5471AB2731C00DF08C2 /* BattleItemSelectCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BattleItemSelectCell.xib; sourceTree = "<group>"; };
 		2948F54B1AB2836B00DF08C2 /* itemfactorymenuheader@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "itemfactorymenuheader@2x.png"; sourceTree = "<group>"; };
 		2948F5521AB36D8D00DF08C2 /* use_gems.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = use_gems.mp3; sourceTree = "<group>"; };
-		2948F5561AB36E7500DF08C2 /* gacha_spin.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = gacha_spin.mp3; sourceTree = "<group>"; };
 		2948F55F1AB393AD00DF08C2 /* FAQ.3@2x.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "FAQ.3@2x.txt"; sourceTree = "<group>"; };
 		2948F5801AB7634300DF08C2 /* itemsbag@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "itemsbag@2x.png"; sourceTree = "<group>"; };
 		2948F5851AB7635300DF08C2 /* ifitemsquare@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ifitemsquare@2x.png"; sourceTree = "<group>"; };
@@ -17318,6 +17318,7 @@
 		CFC4D24818D7BD03004681FD /* SFX */ = {
 			isa = PBXGroup;
 			children = (
+				2905FFD31AF56B1F009F0CF8 /* gacha_spin1.mp3 */,
 				291721321AD24B210093F100 /* break_cloud.mp3 */,
 				291721331AD24B210093F100 /* break_lock.mp3 */,
 				291721341AD24B210093F100 /* next_task.mp3 */,
@@ -17335,7 +17336,6 @@
 				297D7E571A9EBD080057F4E6 /* use_speedup.mp3 */,
 				29C3CA631A955BCF005407E9 /* free_speedup_available.mp3 */,
 				29C3CA641A955BCF005407E9 /* gacha_reveal.mp3 */,
-				2948F5561AB36E7500DF08C2 /* gacha_spin.mp3 */,
 				29C3CA661A955BCF005407E9 /* push_notification.mp3 */,
 				29C3CA671A955BCF005407E9 /* secret_gift_collected.mp3 */,
 				29C3CA681A955BCF005407E9 /* secret_gift_collecteddd.mp3 */,
@@ -20039,7 +20039,6 @@
 				299AA3A61A7856AA00A2D806 /* fireupdown-9@2x.png in Resources */,
 				CFF2A52319709C4800269084 /* OilDrillT1@2x.plist in Resources */,
 				CF0CF327196F452900ECD301 /* TutorialBattle1Layout.txt in Resources */,
-				2948F5581AB36E7500DF08C2 /* gacha_spin.mp3 in Resources */,
 				CF0CF329196F452900ECD301 /* sfx_points_fly_from_match_03.mp3 in Resources */,
 				CF0CF32A196F452900ECD301 /* popupinactivetab@2x.png in Resources */,
 				CF0CF32D196F452900ECD301 /* fullbubble@2x.png in Resources */,
@@ -20655,6 +20654,7 @@
 				29AE75971A6F36E000264070 /* TribalGirl1T1P2TutBig@2x.png in Resources */,
 				CF0CF5F4196F452900ECD301 /* sfx_points_fly_from_match_01.mp3 in Resources */,
 				CF010F3619DDE5C400DAD527 /* chatinputcap@2x.png in Resources */,
+				2905FFD51AF56B1F009F0CF8 /* gacha_spin1.mp3 in Resources */,
 				CF0CF5F6196F452900ECD301 /* profsenmessagebutton@2x.png in Resources */,
 				CF0CF5F8196F452900ECD301 /* platinumrankbg@2x.png in Resources */,
 				CF0CF5F9196F452900ECD301 /* sfx_destroy_piece.mp3 in Resources */,
@@ -21245,6 +21245,7 @@
 				CFF5DBF6194F90720019EB2B /* profstatsactive@2x.png in Resources */,
 				9BCAA1961AD491E20059CEDA /* MiniEventGoalNotificationView.xib in Resources */,
 				CFF7876518E28FE200413E78 /* upgradeinactivetab@2x.png in Resources */,
+				2905FFD41AF56B1F009F0CF8 /* gacha_spin1.mp3 in Resources */,
 				3E6F09AA1A6F0DBF006F2FF5 /* evobadge2@2x.png in Resources */,
 				29A38D6F1ACCD85B006F3CBF /* itemsresearchgroup@2x.png in Resources */,
 				CFF2A6601974997A00269084 /* pvpresourcesbar@2x.png in Resources */,
@@ -21841,7 +21842,6 @@
 				CF6890641912FD7E00FF1F71 /* minijobsrewardbg@2x.png in Resources */,
 				CF9520671939690800A98290 /* singleplayerheader@2x.png in Resources */,
 				DAAD3DEC19C8D7E700557698 /* earthbomb@2x.png in Resources */,
-				2948F5571AB36E7500DF08C2 /* gacha_spin.mp3 in Resources */,
 				CFFF6AF318DA5F7A003A320C /* RequestsBattleCell.xib in Resources */,
 				CFF786D518E16C2600413E78 /* levelupbadge@2x.png in Resources */,
 				CF19088B18D822C000D6F0E4 /* KC_GTMOAuth2ViewTouch.nib in Resources */,
@@ -23461,7 +23461,6 @@
 				6B1EA9A91ACF5DCB00E0B642 /* VinesDown04.png in Resources */,
 				9BC9F3261A8B05A2009DC3D5 /* 6energizeorb@2x.png in Resources */,
 				9B41AF291A7C333A00529879 /* 6bulletorb-9@2x.png in Resources */,
-				2948F5591AB36E7500DF08C2 /* gacha_spin.mp3 in Resources */,
 				CF481A7919F7217F00041486 /* firepointsfont@2x.png in Resources */,
 				2991FC051A800D7F009BB1D8 /* MonsterSelectViewController.xib in Resources */,
 				CF481A7B19F7217F00041486 /* levelicon@2x.png in Resources */,
@@ -23699,6 +23698,7 @@
 				9BDA8C251A5DE92500C7AC27 /* gooniegrabmachine@2x.png in Resources */,
 				9BFC0C301AA51732009DFE50 /* SkillPopupMiniOverlay.xib in Resources */,
 				29FC5EE31A89427B00A50FA7 /* salegemspile@2x.png in Resources */,
+				2905FFD61AF56B1F009F0CF8 /* gacha_spin1.mp3 in Resources */,
 				9BC9F3DB1A95561B009DC3D5 /* turnmovesbg@2x.png in Resources */,
 				CF481BFF19F7217F00041486 /* healredbubble3@2x.png in Resources */,
 				CF481C0119F7217F00041486 /* RequestsFacebookHeader.xib in Resources */,

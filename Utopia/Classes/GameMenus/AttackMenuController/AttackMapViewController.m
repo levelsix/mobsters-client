@@ -352,7 +352,7 @@
     [self cityClicked:tIcon];
   }];
   
-  [SoundEngine nextTask];
+  [self performAfterDelay:0.61f block:^(void) { [SoundEngine nextTask]; }];
 }
 
 #pragma mark - IBActions
