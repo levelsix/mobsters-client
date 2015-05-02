@@ -108,9 +108,11 @@ static TangoProfileEntry *profileEntry = nil;
   NSLog(@"application:openURL: %@ sourceApplication: %@, url: %@", url.absoluteString, requester, url);
   
   void (^showAlert)(NSString *title, NSString *message) = ^(NSString *title, NSString *message) {
+#ifndef APPSTORE
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:message delegate:nil
                                           cancelButtonTitle:@"Ok" otherButtonTitles:nil];
     [alert show];
+#endif
   };
   
   TangoHandleURLResult *resultData = [TangoSession.sharedSession handleURL:url withSourceApp:requester];
