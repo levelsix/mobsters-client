@@ -1697,7 +1697,7 @@ static NSString *udid = nil;
   RetrieveMiniEventRequestProto* req = [[[RetrieveMiniEventRequestProto builder]
                                              setSender:_sender] build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCRetrieveMiniEventEvent flush:NO queueUp:YES incrementTagNum:NO];
+  return [self sendData:req withMessageType:EventProtocolRequestCRetrieveMiniEventEvent flush:YES queueUp:YES incrementTagNum:YES];
 }
 
 - (int) sendRedeemMiniEventRewardRequestProtoMessage:(RedeemMiniEventRewardRequestProto_RewardTier)tierRedeemed miniEventForPlayerLevelId:(int32_t)mefplId clientTime:(uint64_t)clientTime {
