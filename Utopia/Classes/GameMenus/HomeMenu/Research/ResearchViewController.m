@@ -98,6 +98,7 @@
   
   ResearchTreeViewController *rtvc = [[ResearchTreeViewController alloc] initWithDomain:self.curResearch.staticResearch.researchDomain];
   [self.parentViewController.viewControllers insertObject:rtvc atIndex:self.parentViewController.viewControllers.count-1];
+  [self.parentViewController addChildViewController:rtvc];
   [rtvc selectResearch:self.curResearch];
 }
 
