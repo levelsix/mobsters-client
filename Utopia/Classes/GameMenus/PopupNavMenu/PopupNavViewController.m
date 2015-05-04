@@ -60,7 +60,6 @@
 - (void) viewDidDisappear:(BOOL)animated {
   [super viewDidDisappear:animated];
   
-  [[GameViewController baseController] showEarlyGameTutorialArrow];
 }
 
 - (BOOL) shouldStopCCDirector {

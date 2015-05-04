@@ -87,6 +87,7 @@
   
   if (!CGRectContainsPoint(self.scrollView.frame, pt)) {
     [self.parentViewController close];
+    [[GameViewController baseController] showEarlyGameTutorialArrow];
   }
 }
 

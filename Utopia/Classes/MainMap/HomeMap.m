@@ -918,7 +918,7 @@
 - (void) pointArrowOnBuilding:(HomeBuilding *)b config:(MapBotViewButtonConfig)config withPulsingAlpha:(BOOL)pulsing {
   [_arrowBuilding removeArrowAnimated:YES];
   
-  self.selected = nil;
+//  self.selected = nil;
   
   [b displayArrowWithPulsingAlpha:pulsing];
   [self moveToSprite:b animated:YES];
