@@ -195,6 +195,12 @@
   _tickerController = nil;
 }
 
+- (void) viewDidDisappear:(BOOL)animated {
+  [super viewDidDisappear:animated];
+  
+  [[GameViewController baseController] showEarlyGameTutorialArrow];
+}
+
 - (void) layoutViews {
   const CGFloat navBarHeight = self.topBar.height;
   const CGFloat deviceScale = [Globals screenSize].width / 667.f;

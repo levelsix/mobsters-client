@@ -86,6 +86,12 @@
 
 #pragma mark - View loading
 
+- (void) viewDidDisappear:(BOOL)animated {
+  [super viewDidDisappear:animated];
+  
+  [[GameViewController baseController] showEarlyGameTutorialArrow];
+}
+
 - (void) viewDidLoad {
   [super viewDidLoad];
   

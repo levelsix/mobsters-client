@@ -1174,6 +1174,7 @@
 
 - (void) closeShop {
   [self.shopViewController close];
+  [[GameViewController baseController] showEarlyGameTutorialArrow];
 }
 
 - (void) openShopWithFunds:(SalesPackageProto *)spp {

@@ -69,7 +69,8 @@
 
 #define PVP_BATTLE_LAYER_BOARD_SIZE CGSizeMake(9,9)
 
-#define EARLY_TUTORIAL_STAGES_COMPLETE_LIMIT 3
+#warning don't breath this
+#define EARLY_TUTORIAL_STAGES_COMPLETE_LIMIT 99
 
 @implementation GameViewController
 
@@ -1183,9 +1184,7 @@ static const CGSize FIXED_SIZE = {568, 384};
   GameState *gs = [GameState sharedGameState];
   Globals *gl  = [Globals sharedGlobals];
   
-  if (gs.tasksCompleted < EARLY_TUTORIAL_STAGES_COMPLETE_LIMIT /*&& gs.userHasEnteredBattleThisSession*/ ) {
-    [(HomeMap *)self.currentMap removeArrowOnBuilding];
-    [Globals removeUIArrowFromViewRecursively:self.topBarViewController.attackView.superview];
+  if (![gs hasBeatFirstBoss] /*&& gs.userHasEnteredBattleThisSession*/ ) {
     
     //first check to see if there are any toons to heal
     int hurtToons = 0;
@@ -1197,6 +1196,7 @@ static const CGSize FIXED_SIZE = {568, 384};
     }
     
     if (hurtToons) {
+      [Globals removeUIArrowFromViewRecursively:self.topBarViewController.attackView.superview];
       [(HomeMap *)self.currentMap pointArrowOnHospitalWithPulsingAlpha:YES];
       return;
     }
@@ -1212,12 +1212,15 @@ static const CGSize FIXED_SIZE = {568, 384};
       }
     }
     
-    if (!hasFullTeam && hasAvailMobsters) {
+    if (!hasFullTeam && hasAvailMobsters && gs.tasksCompleted < EARLY_TUTORIAL_STAGES_COMPLETE_LIMIT) {
+      [Globals removeUIArrowFromViewRecursively:self.topBarViewController.attackView.superview];
       [self pointArrowOnManageTeamWithPulsingAlpha:YES closeOpenViews:NO];
       return;
     }
     
-    if(!hurtToons) {
+    if(!hurtToons && gs.tasksCompleted < EARLY_TUTORIAL_STAGES_COMPLETE_LIMIT) {
+      
+      [(HomeMap *)self.currentMap removeArrowOnBuilding];
       [self.topBarViewController showArrowToAttackButton];
       return;
     }
@@ -1238,21 +1241,22 @@ static const CGSize FIXED_SIZE = {568, 384};
   //We want to put an arrow over the hospital to tell the player to head there
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
-  if (![gs hasBeatFirstBoss])
-  {
-    int hurtToons = 0;
-    for (UserMonster *um in [gs allMonstersOnMyTeamWithClanSlot:NO]) {
-      if (um.curHealth < [gl calculateMaxHealthForMonster:um]) {
-        [(HomeMap *)self.currentMap pointArrowOnHospitalWithPulsingAlpha:YES];
-        hurtToons++;
-        break;
-      }
-    }
-    
-    if(!hurtToons && gs.tasksCompleted < EARLY_TUTORIAL_STAGES_COMPLETE_LIMIT) {
-      [self.topBarViewController showArrowToAttackButton];
-    }
-  }
+  
+//  if (![gs hasBeatFirstBoss])
+//  {
+//    int hurtToons = 0;
+//    for (UserMonster *um in [gs allMonstersOnMyTeamWithClanSlot:NO]) {
+//      if (um.curHealth < [gl calculateMaxHealthForMonster:um]) {
+//        [(HomeMap *)self.currentMap pointArrowOnHospitalWithPulsingAlpha:YES];
+//        hurtToons++;
+//        break;
+//      }
+//    }
+//    
+//    if(!hurtToons && gs.tasksCompleted < EARLY_TUTORIAL_STAGES_COMPLETE_LIMIT) {
+//      [self.topBarViewController showArrowToAttackButton];
+//    }
+//  }
   
   _isInBattle = NO;
   
@@ -1307,6 +1311,7 @@ static const CGSize FIXED_SIZE = {568, 384};
       if (!self.miniTutController) {
         [self checkQuests];
         [self.notificationController resumeNotifications];
+        [self showEarlyGameTutorialArrow];
       }
     }];
   }

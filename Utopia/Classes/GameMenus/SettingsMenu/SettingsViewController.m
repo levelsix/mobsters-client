@@ -7,6 +7,7 @@
 //
 
 #import "SettingsViewController.h"
+#import "GameViewController.h"
 
 @implementation SettingsViewController
 
@@ -18,6 +19,12 @@
   self.creditsViewController = [[CreditsViewController alloc] init];
   
   [self button1Clicked:nil];
+}
+
+- (void) viewDidDisappear:(BOOL)animated {
+  [super viewDidDisappear:animated];
+  
+  [[GameViewController baseController] showEarlyGameTutorialArrow];
 }
 
 #pragma mark - TabBar delegate
