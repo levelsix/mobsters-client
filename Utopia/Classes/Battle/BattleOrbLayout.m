@@ -1813,21 +1813,37 @@ static const NSInteger maxSearchIterations = 800;
   NSMutableArray *possibleOrbs = [[NSMutableArray alloc] init];
   
   //Build up list of all possible locations for vines
-  //First, we attempt this w/o any specials
+  //First, we attempt this w/o any specials or powerups
   for (NSInteger row = 0; row < _numRows; row++) {
     for (NSInteger column = 0; column < _numColumns; column++) {
       tile = [self tileAtColumn:column row:row];
       if (!tile.isHole)
       {
         orb = [self orbAtColumn:column row:row];
-        if (orb && orb.specialOrbType == SpecialOrbTypeNone && !orb.isLocked)
+        if (orb && orb.specialOrbType == SpecialOrbTypeNone && !orb.isLocked && orb.powerupType == PowerupTypeNone)
           if ([self doesAdjacentSpaceHaveVines:row column:column])
             [possibleOrbs addObject:orb];
       }
     }
   }
   
-  //If the first search yieled no orbs, try again, but allow for specials that aren't locks,
+  //Second attempt at finding possible orbs allows powered-up orbs
+  if (![possibleOrbs count]) {
+    for (NSInteger row = 0; row < _numRows; row++) {
+      for (NSInteger column = 0; column < _numColumns; column++) {
+        tile = [self tileAtColumn:column row:row];
+        if (!tile.isHole)
+        {
+          orb = [self orbAtColumn:column row:row];
+          if (orb && orb.specialOrbType == SpecialOrbTypeNone && !orb.isLocked)
+            if ([self doesAdjacentSpaceHaveVines:row column:column])
+              [possibleOrbs addObject:orb];
+        }
+      }
+    }
+  }
+  
+  //If still no orbs, try again, but allow for specials that aren't locks,
   //clouds, or vines
   if (![possibleOrbs count])
   {
@@ -1837,7 +1853,7 @@ static const NSInteger maxSearchIterations = 800;
         if (!tile.isHole)
         {
           orb = [self orbAtColumn:column row:row];
-          if (orb && orb.specialOrbType == SpecialOrbTypeCloud
+          if (orb && orb.specialOrbType != SpecialOrbTypeCloud
               && !orb.isLocked)
             if ([self doesAdjacentSpaceHaveVines:row column:column])
               [possibleOrbs addObject:orb];

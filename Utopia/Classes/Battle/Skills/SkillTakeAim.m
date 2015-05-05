@@ -47,6 +47,14 @@
   return YES;
 }
 
+- (BOOL)activate
+{
+  if (self.belongsToPlayer)
+    _stacks++;
+  
+  return [super activate];
+}
+
 - (NSInteger) modifyDamage:(NSInteger)damage forPlayer:(BOOL)player
 {
   _orbsSpawned = (int)[self specialsOnBoardCount:SpecialOrbTypeTakeAim];
@@ -67,7 +75,6 @@
       [self showCriticalHit];
       damage = damage * _critDamageMultiplier;
     }
-    [self tickDuration];
   }
   return damage;
 }

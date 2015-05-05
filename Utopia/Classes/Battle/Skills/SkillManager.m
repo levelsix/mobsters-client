@@ -427,6 +427,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
         && skill.belongsToPlayer == sameAsSkill.belongsToPlayer) {
       //[_persistentSkillControllers removeObjectAtIndex:(NSUInteger)i];
       [[_persistentSkillControllers objectAtIndex:(NSUInteger)i] endDurationNow];
+      [_persistentSkillControllers removeObjectAtIndex:i];
     }
   }
 }
