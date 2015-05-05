@@ -531,7 +531,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     [gs updateClanData:proto.clanData];
     
-    gs.battleHistory = [proto.recentNbattlesList mutableCopy];
+    if([proto.recentNbattlesList mutableCopy]) {
+      gs.battleHistory = [proto.recentNbattlesList mutableCopy];
+    }
     
     gs.myPvpBoardObstacles = [proto.userPvpBoardObstaclesList mutableCopy];
 
@@ -1956,9 +1958,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       
       if (proto.hasBattleThatJustEnded) {
         [gs.battleHistory addObject:proto.battleThatJustEnded];
+        [[NSNotificationCenter defaultCenter] postNotificationName:NEW_BATTLE_HISTORY_NOTIFICATION object:proto.battleThatJustEnded];
       }
-      
-      [[NSNotificationCenter defaultCenter] postNotificationName:NEW_BATTLE_HISTORY_NOTIFICATION object:proto.battleThatJustEnded];
     }
     
     [gs removeNonFullUserUpdatesForTag:tag];
