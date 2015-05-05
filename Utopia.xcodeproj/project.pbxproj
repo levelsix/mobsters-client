@@ -1780,9 +1780,6 @@
 		63CA0AEE1AD5B8BB00E92774 /* flagspanish@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CA0ACC1AD5B8BB00E92774 /* flagspanish@2x.png */; };
 		63CA0AEF1AD5B8BB00E92774 /* flagspanish@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CA0ACC1AD5B8BB00E92774 /* flagspanish@2x.png */; };
 		63CA0AF01AD5B8BB00E92774 /* flagspanish@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CA0ACC1AD5B8BB00E92774 /* flagspanish@2x.png */; };
-		63CA0AF11AD5B8BB00E92774 /* Screen Shot 2015-03-25 at 10.37.30 AM.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CA0ACD1AD5B8BB00E92774 /* Screen Shot 2015-03-25 at 10.37.30 AM.png */; };
-		63CA0AF21AD5B8BB00E92774 /* Screen Shot 2015-03-25 at 10.37.30 AM.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CA0ACD1AD5B8BB00E92774 /* Screen Shot 2015-03-25 at 10.37.30 AM.png */; };
-		63CA0AF31AD5B8BB00E92774 /* Screen Shot 2015-03-25 at 10.37.30 AM.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CA0ACD1AD5B8BB00E92774 /* Screen Shot 2015-03-25 at 10.37.30 AM.png */; };
 		63CA0AF41AD5B8BB00E92774 /* translatedfrom@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CA0ACE1AD5B8BB00E92774 /* translatedfrom@2x.png */; };
 		63CA0AF51AD5B8BB00E92774 /* translatedfrom@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CA0ACE1AD5B8BB00E92774 /* translatedfrom@2x.png */; };
 		63CA0AF61AD5B8BB00E92774 /* translatedfrom@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CA0ACE1AD5B8BB00E92774 /* translatedfrom@2x.png */; };
@@ -8402,7 +8399,6 @@
 		63CA0ACA1AD5B8BB00E92774 /* flaggerman@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "flaggerman@2x.png"; path = "ChatTranslator/flaggerman@2x.png"; sourceTree = "<group>"; };
 		63CA0ACB1AD5B8BB00E92774 /* flagrussian@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "flagrussian@2x.png"; path = "ChatTranslator/flagrussian@2x.png"; sourceTree = "<group>"; };
 		63CA0ACC1AD5B8BB00E92774 /* flagspanish@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "flagspanish@2x.png"; path = "ChatTranslator/flagspanish@2x.png"; sourceTree = "<group>"; };
-		63CA0ACD1AD5B8BB00E92774 /* Screen Shot 2015-03-25 at 10.37.30 AM.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Screen Shot 2015-03-25 at 10.37.30 AM.png"; path = "ChatTranslator/Screen Shot 2015-03-25 at 10.37.30 AM.png"; sourceTree = "<group>"; };
 		63CA0ACE1AD5B8BB00E92774 /* translatedfrom@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "translatedfrom@2x.png"; path = "ChatTranslator/translatedfrom@2x.png"; sourceTree = "<group>"; };
 		63CA0ACF1AD5B8BB00E92774 /* translateselectflagbutton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "translateselectflagbutton@2x.png"; path = "ChatTranslator/translateselectflagbutton@2x.png"; sourceTree = "<group>"; };
 		63CA0AFF1AD5B95300E92774 /* EventMiniEvent.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = EventMiniEvent.proto; sourceTree = "<group>"; };
@@ -14200,7 +14196,6 @@
 				63CA0ACA1AD5B8BB00E92774 /* flaggerman@2x.png */,
 				63CA0ACB1AD5B8BB00E92774 /* flagrussian@2x.png */,
 				63CA0ACC1AD5B8BB00E92774 /* flagspanish@2x.png */,
-				63CA0ACD1AD5B8BB00E92774 /* Screen Shot 2015-03-25 at 10.37.30 AM.png */,
 				63CA0ACE1AD5B8BB00E92774 /* translatedfrom@2x.png */,
 				63CA0ACF1AD5B8BB00E92774 /* translateselectflagbutton@2x.png */,
 			);
@@ -19733,7 +19728,6 @@
 				2985E5CA1A30044E0041ABF4 /* bubbleright@2x.png in Resources */,
 				CF0CF1A9196F452900ECD301 /* earthpointsfont@2x.png in Resources */,
 				CF0CF1AC196F452900ECD301 /* greyband@2x.png in Resources */,
-				63CA0AF21AD5B8BB00E92774 /* Screen Shot 2015-03-25 at 10.37.30 AM.png in Resources */,
 				9BDA8C0D1A5C806D00C7AC27 /* gachaheaderbg@2x.png in Resources */,
 				9BDA8B951A3B8E1700C7AC27 /* lightheadshot@2x.png in Resources */,
 				29AE75DF1A6F36E000264070 /* TribalGuy0T1RunNF@2x.plist in Resources */,
@@ -22136,7 +22130,6 @@
 				CF2A4AF41901B8F500B2D7D7 /* fullachievementstar@2x.png in Resources */,
 				9B238A061A363EE800FA3743 /* waterskilldescription@2x.png in Resources */,
 				CFE7CDCA1819FC3300930847 /* wide@2x.png in Resources */,
-				63CA0AF11AD5B8BB00E92774 /* Screen Shot 2015-03-25 at 10.37.30 AM.png in Resources */,
 				CFDA78EA198C303C0014A8CD /* lockedcity@2x.png in Resources */,
 				29C0D2321A9BFA79005A4EC0 /* ultimategrabitem@2x.png in Resources */,
 				633CCAD61AA139B200C6649F /* ResearchCategoryCell.xib in Resources */,
@@ -25029,7 +25022,6 @@
 				CF48235F19F7217F00041486 /* enhancesquirrel@2x.png in Resources */,
 				291721031ACF7F120093F100 /* strengthaddedmiddlestretch@2x.png in Resources */,
 				299AA3F21A7856AA00A2D806 /* watersideways-9@2x.png in Resources */,
-				63CA0AF31AD5B8BB00E92774 /* Screen Shot 2015-03-25 at 10.37.30 AM.png in Resources */,
 				299AA35F1A7856AA00A2D806 /* 6rockorb-9@2x.png in Resources */,
 				63CA0AE41AD5B8BB00E92774 /* flagenglish@2x.png in Resources */,
 				CF48236019F7217F00041486 /* sfx_firework_01.mp3 in Resources */,
