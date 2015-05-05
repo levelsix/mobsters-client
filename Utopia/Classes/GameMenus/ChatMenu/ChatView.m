@@ -783,13 +783,7 @@
   if (unresponded) {
     [self.unrespondedChatMessages removeObject:unresponded];
   } else {
-    ChatMessage *cm = [[ChatMessage alloc] init];
-    cm.originalSender = post.poster;
-    cm.date = [MSDate dateWithTimeIntervalSince1970:post.timeOfPost/1000.];
-    cm.originalMessage = post.content;
-    cm.originalLanguage = post.originalContentLanguage;
-    cm.translatedTextProtos = [[NSMutableArray alloc] init];
-    [cm.translatedTextProtos addObjectsFromArray:post.translatedContentList];
+    ChatMessage *cm = [[ChatMessage alloc] initWithPrivateChatPostProto:post];
     [self addChatMessage:cm];
     
     if (!post.hasPrivateChatPostUuid) {
@@ -1016,7 +1010,7 @@
   
   for (ChatMessage *message in self.chats) {
     BOOL needsTranslation = YES;
-    if ([message.sender.userUuid isEqualToString:gs.userUuid] || ![message isKindOfClass:[ChatMessage class]] || message.originalLanguage == language || !message.postUuid.length) {
+    if ([message.sender.userUuid isEqualToString:gs.userUuid] || ![message isKindOfClass:[ChatMessage class]] || message.originalLanguage == language /*|| !message.postUuid.length*/) {
       continue;
     }
     
