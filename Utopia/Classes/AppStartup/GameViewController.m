@@ -69,8 +69,7 @@
 
 #define PVP_BATTLE_LAYER_BOARD_SIZE CGSizeMake(9,9)
 
-#warning don't breath this
-#define EARLY_TUTORIAL_STAGES_COMPLETE_LIMIT 99
+#define EARLY_TUTORIAL_STAGES_COMPLETE_LIMIT 3
 
 @implementation GameViewController
 
@@ -1237,26 +1236,7 @@ static const CGSize FIXED_SIZE = {568, 384};
     [(HomeMap *)self.currentMap refresh];
   }
   
-  //If there are hurt toons on the team, and the player hasn't beaten the first boss
-  //We want to put an arrow over the hospital to tell the player to head there
   GameState *gs = [GameState sharedGameState];
-  Globals *gl = [Globals sharedGlobals];
-  
-//  if (![gs hasBeatFirstBoss])
-//  {
-//    int hurtToons = 0;
-//    for (UserMonster *um in [gs allMonstersOnMyTeamWithClanSlot:NO]) {
-//      if (um.curHealth < [gl calculateMaxHealthForMonster:um]) {
-//        [(HomeMap *)self.currentMap pointArrowOnHospitalWithPulsingAlpha:YES];
-//        hurtToons++;
-//        break;
-//      }
-//    }
-//    
-//    if(!hurtToons && gs.tasksCompleted < EARLY_TUTORIAL_STAGES_COMPLETE_LIMIT) {
-//      [self.topBarViewController showArrowToAttackButton];
-//    }
-//  }
   
   _isInBattle = NO;
   
@@ -1311,6 +1291,9 @@ static const CGSize FIXED_SIZE = {568, 384};
       if (!self.miniTutController) {
         [self checkQuests];
         [self.notificationController resumeNotifications];
+        
+        //If there are hurt toons on the team, and the player hasn't beaten the first boss
+        //We want to put an arrow over the hospital to tell the player to head there
         [self showEarlyGameTutorialArrow];
       }
     }];

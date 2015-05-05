@@ -52,6 +52,8 @@
 @property (nonatomic, retain) NSString *postUuid;
 
 - (id) initWithProto:(GroupChatMessageProto *)p;
+- (id) initWithPrivateChatPostProto:(PrivateChatPostProto *)p;
+
 - (PrivateChatPostProto *) makePrivateChatPostProto;
 
 - (NSString *) getContentInLanguage:(TranslateLanguages)language isTranslated:(BOOL *)isTranslatedPtr translationExists:(BOOL *)translationExistsPtr;
