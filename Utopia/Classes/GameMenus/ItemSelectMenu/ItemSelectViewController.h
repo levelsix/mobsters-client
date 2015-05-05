@@ -74,7 +74,7 @@
 
 @property (nonatomic, retain) NSArray *items;
 
-@property (nonatomic, weak) id<ItemSelectDelegate> delegate;
+@property (nonatomic, retain) id<ItemSelectDelegate> delegate;
 
 @property (strong, nonatomic) NSTimer *updateTimer;
 
