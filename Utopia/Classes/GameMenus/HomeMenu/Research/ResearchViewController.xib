@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1514" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
@@ -74,10 +74,17 @@
             <rect key="frame" x="0.0" y="0.0" width="424" height="50"/>
             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="sellbarbg.png" id="jyc-YH-ief">
-                    <rect key="frame" x="0.0" y="0.0" width="424" height="50"/>
-                    <autoresizingMask key="autoresizingMask"/>
-                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="5qQ-Xo-9gh">
+                    <rect key="frame" x="0.0" y="0.0" width="479" height="50"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" title="Button" image="researchbottom.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <state key="highlighted" image="researchbottompressed.png"/>
+                    <connections>
+                        <action selector="curResearchBarClicked:" destination="-1" eventType="touchUpInside" id="pWb-kd-6fa"/>
+                    </connections>
+                </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="RESEARCHING:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="oc6-4H-8yH" customClass="NiceFontLabel12">
                     <rect key="frame" x="59" y="7" width="134" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -93,7 +100,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <view contentMode="scaleToFill" id="WCj-3K-grk" userLabel="Finish View">
-                    <rect key="frame" x="335" y="5" width="80" height="40"/>
+                    <rect key="frame" x="308" y="5" width="80" height="40"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="hxW-Ep-4oA" customClass="GeneralButton">
@@ -130,7 +137,7 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
                 <view contentMode="scaleToFill" id="dDq-0q-4MY" userLabel="Help View">
-                    <rect key="frame" x="335" y="5" width="80" height="40"/>
+                    <rect key="frame" x="308" y="5" width="80" height="40"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ack-Um-PKR" customClass="GeneralButton">
@@ -156,15 +163,15 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
                 <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="white" id="pLi-5N-NP3">
-                    <rect key="frame" x="365" y="15" width="20" height="20"/>
+                    <rect key="frame" x="338" y="15" width="20" height="20"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </activityIndicatorView>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="3ua-X8-yBv">
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" id="3ua-X8-yBv">
                     <rect key="frame" x="5" y="3" width="46" height="46"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
-                <view contentMode="scaleToFill" id="VwL-hO-eqd" userLabel="EndsInView">
-                    <rect key="frame" x="254" y="6" width="80" height="40"/>
+                <view userInteractionEnabled="NO" contentMode="scaleToFill" id="VwL-hO-eqd" userLabel="EndsInView">
+                    <rect key="frame" x="227" y="6" width="80" height="40"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TIME LEFT:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="sMX-VP-FH0" customClass="NiceFontLabel10">
@@ -186,6 +193,10 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="openquestarrow.png" id="NwM-Za-PTE">
+                    <rect key="frame" x="400" y="14" width="13" height="21"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                </imageView>
             </subviews>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
@@ -194,8 +205,11 @@
     </objects>
     <resources>
         <image name="girl2.png" width="62" height="88"/>
+        <image name="openquestarrow.png" width="13" height="21"/>
         <image name="orangemenuoption.png" width="80" height="40"/>
         <image name="purplemenuoption.png" width="80" height="40"/>
+        <image name="researchbottom.png" width="424" height="49"/>
+        <image name="researchbottompressed.png" width="424" height="49"/>
         <image name="sellbarbg.png" width="424" height="50"/>
         <image name="speedupbigicon.png" width="23" height="18"/>
     </resources>

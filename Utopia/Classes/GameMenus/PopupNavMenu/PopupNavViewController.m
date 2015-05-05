@@ -5,9 +5,10 @@
 //  Created by Ashwin Kamath on 6/19/14.
 //  Copyright (c) 2014 LVL6. All rights reserved.
 //
+#import "Globals.h"
+#import "GameViewController.h"
 
 #import "PopupNavViewController.h"
-#import "Globals.h"
 #import "PopupSubViewController.h"
 
 #define ANIMATION_TIME .3f
@@ -34,6 +35,12 @@
   }];
 }
 
+- (void) viewWillAppear:(BOOL)animated {
+  [super viewWillAppear:animated];
+  
+  [[GameViewController baseController] clearTutorialArrows];
+}
+
 - (void) viewDidAppear:(BOOL)animated {
   [super viewDidAppear:animated];
   
@@ -48,6 +55,11 @@
   if ([self shouldStopCCDirector]) {
     [[CCDirector sharedDirector] resume];
   }
+}
+
+- (void) viewDidDisappear:(BOOL)animated {
+  [super viewDidDisappear:animated];
+  
 }
 
 - (BOOL) shouldStopCCDirector {

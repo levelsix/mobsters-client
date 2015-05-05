@@ -64,6 +64,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _clanAvengings = [[NSMutableArray alloc] init];
     _completedTaskData = [[NSMutableDictionary alloc] init];
     _mySales = [[NSMutableArray alloc] init];
+    _battleHistory = [NSMutableArray array];
     
     _availableQuests = [[NSMutableDictionary alloc] init];
     _inProgressCompleteQuests = [[NSMutableDictionary alloc] init];

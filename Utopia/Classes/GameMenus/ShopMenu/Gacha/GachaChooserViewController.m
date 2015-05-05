@@ -86,6 +86,7 @@
   [m pushViewController:gach animated:NO];
   
   [self.parentViewController close];
+  [[GameViewController baseController] showEarlyGameTutorialArrow];
 }
 
 @end
