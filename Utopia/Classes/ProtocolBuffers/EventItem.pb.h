@@ -5,6 +5,7 @@
 #import "BoosterPackStuff.pb.h"
 #import "Item.pb.h"
 #import "MonsterStuff.pb.h"
+#import "Reward.pb.h"
 #import "User.pb.h"
 // @@protoc_insertion_point(imports)
 
@@ -54,6 +55,8 @@
 @class RemoveUserItemUsedRequestProto_Builder;
 @class RemoveUserItemUsedResponseProto;
 @class RemoveUserItemUsedResponseProto_Builder;
+@class RewardProto;
+@class RewardProto_Builder;
 @class StaticUserLevelInfoProto;
 @class StaticUserLevelInfoProto_Builder;
 @class TradeItemForBoosterRequestProto;
@@ -94,6 +97,8 @@
 @class UserMonsterSnapshotProto_Builder;
 @class UserPvpLeagueProto;
 @class UserPvpLeagueProto_Builder;
+@class UserRewardProto;
+@class UserRewardProto_Builder;
 #ifndef __has_feature
   #define __has_feature(x) 0 // Compatibility with non-clang compilers.
 #endif // __has_feature
@@ -223,9 +228,11 @@ BOOL RedeemSecretGiftResponseProto_RedeemSecretGiftStatusIsValidValue(RedeemSecr
 @private
   BOOL hasSender_:1;
   BOOL hasPrize_:1;
+  BOOL hasRewards_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
   BoosterItemProto* prize;
+  UserRewardProto* rewards;
   TradeItemForBoosterResponseProto_TradeItemForBoosterStatus status;
   NSMutableArray * mutableUpdatedOrNewList;
   NSMutableArray * mutableUpdatedUserItemsList;
@@ -233,11 +240,13 @@ BOOL RedeemSecretGiftResponseProto_RedeemSecretGiftStatusIsValidValue(RedeemSecr
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 - (BOOL) hasPrize;
+- (BOOL) hasRewards;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) TradeItemForBoosterResponseProto_TradeItemForBoosterStatus status;
 @property (readonly, strong) NSArray * updatedOrNewList;
 @property (readonly, strong) BoosterItemProto* prize;
 @property (readonly, strong) NSArray * updatedUserItemsList;
+@property (readonly, strong) UserRewardProto* rewards;
 - (FullUserMonsterProto*)updatedOrNewAtIndex:(NSUInteger)index;
 - (UserItemProto*)updatedUserItemsAtIndex:(NSUInteger)index;
 
@@ -306,6 +315,13 @@ BOOL RedeemSecretGiftResponseProto_RedeemSecretGiftStatusIsValidValue(RedeemSecr
 - (TradeItemForBoosterResponseProto_Builder *)addUpdatedUserItems:(UserItemProto*)value;
 - (TradeItemForBoosterResponseProto_Builder *)addAllUpdatedUserItems:(NSArray *)array;
 - (TradeItemForBoosterResponseProto_Builder *)clearUpdatedUserItems;
+
+- (BOOL) hasRewards;
+- (UserRewardProto*) rewards;
+- (TradeItemForBoosterResponseProto_Builder*) setRewards:(UserRewardProto*) value;
+- (TradeItemForBoosterResponseProto_Builder*) setRewards_Builder:(UserRewardProto_Builder*) builderForValue;
+- (TradeItemForBoosterResponseProto_Builder*) mergeRewards:(UserRewardProto*) value;
+- (TradeItemForBoosterResponseProto_Builder*) clearRewards;
 @end
 
 @interface TradeItemForSpeedUpsRequestProto : PBGeneratedMessage {
