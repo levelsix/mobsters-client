@@ -196,6 +196,8 @@
 @implementation BattleHudView
 
 - (void) awakeFromNib {
+  _replayMode = NO;
+  
   self.swapView.hidden = YES;
   self.deployView.hidden = YES;
   self.bottomView.hidden = YES;
@@ -230,10 +232,16 @@
 }
 
 - (void) prepareForMyTurn {
-  [self displaySwapButton];
-  self.forfeitButtonView.hidden = NO;
-  self.elementButton.hidden = NO;
-  [self enableItemsView];
+  if (!_replayMode) {
+    [self displaySwapButton];
+    self.forfeitButtonView.hidden = NO;
+    self.elementButton.hidden = NO;
+    [self enableItemsView];
+  }
+}
+
+- (void) activateReplayMode {
+  _replayMode = YES;
 }
 
 #define ANIMATION_TIME 0.4f

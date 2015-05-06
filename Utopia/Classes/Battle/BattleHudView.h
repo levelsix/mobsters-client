@@ -73,7 +73,9 @@
 
 @end
 
-@interface BattleHudView : TouchableSubviewsView <BattleSkillCounterPopupCallbackDelegate>
+@interface BattleHudView : TouchableSubviewsView <BattleSkillCounterPopupCallbackDelegate> {
+  BOOL _replayMode;
+}
 
 @property (nonatomic, retain) IBOutlet UIView *swapView;
 @property (nonatomic, retain) IBOutlet THLabel *swapLabel;
@@ -111,6 +113,7 @@
 
 - (void) removeButtons;
 - (void) prepareForMyTurn;
+- (void) activateReplayMode;
 
 - (IBAction) hideSkillPopup:(id)sender;
 

@@ -41,6 +41,8 @@
   [self buildEnemyTeam];
   [self downloadAllImages];
   
+  [self.mainView.hudView activateReplayMode];
+  
   return self;
 }
 
