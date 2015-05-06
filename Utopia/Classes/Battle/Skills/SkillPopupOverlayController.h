@@ -8,7 +8,7 @@
 
 #include <Foundation/Foundation.h>
 #include "SkillPopupOverlay.h"
-#include "NewBattleLayer.h"
+#include "MainBattleLayer.h"
 
 @interface SkillPopupOverlayController : NSObject {
   SkillPopupOverlay* _popupOverlay;
@@ -17,7 +17,7 @@
   BOOL _belongsToPlayer;
 }
 
-@property (nonatomic, retain) NewBattleLayer* battleLayer;
+@property (nonatomic, retain) MainBattleLayer* battleLayer;
 
 - (id) initWithBelongsToPlayer:(BOOL)belongsToPlayer;
 - (void) showCurrentSkillPopup;

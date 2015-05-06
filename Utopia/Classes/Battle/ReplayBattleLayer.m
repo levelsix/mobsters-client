@@ -10,9 +10,12 @@
 #import "GameState.h"
 #import "GenericPopupController.h"
 #import "ReplayOrbMainLayer.h"
+#import "CCDirector_Private.h"
 
 #define DELAY_KEY @"DELAY"
 #define SWAP_TOON_KEY @"SWAP_TOON"
+
+#define TIME_SCALE 1.f
 
 @implementation ReplayBattleLayer
 
@@ -42,6 +45,8 @@
   [self downloadAllImages];
   
   [self.mainView.hudView activateReplayMode];
+  
+  [[[CCDirector sharedDirector] scheduler] setTimeScale:TIME_SCALE];
   
   return self;
 }
@@ -143,17 +148,16 @@
   
   BattleState *playerMove = [BattleState stateWithName:@"Player Move" andType:CombatReplayStepTypePlayerMove];
   [playerMove setDidEnterStateBlock:^(TKState *state, TKTransition *transition) {
-    [self performAfterDelay:1 block:^{
+    [self performBlockAfterDelay:1/TIME_SCALE block:^{
       [self startMyMove];
     }];
   }];
   
   BattleState *playerAttack = [BattleState stateWithName:@"Player Attack" andType:CombatReplayStepTypePlayerAttack];
   [playerAttack setDidEnterStateBlock:^(TKState *state, TKTransition *transition) {
-    [self performAfterDelay:1 block:^{
-      _myDamageDealt = self.currStep.damage;
+      _myDamageDealtUnmodified = self.currStep.unmodifiedDamage;
+      _myDamageDealt = self.currStep.modifiedDamage;
       [self doMyAttackAnimation];
-    }];
   }];
   
   BattleState *enemyTurn = [BattleState stateWithName:@"Enemy Attack" andType:CombatReplayStepTypeEnemyTurn];
@@ -265,7 +269,20 @@
 
 #pragma mark - Overrides
 
+- (int)calculateUnmodifiedEnemyDamage {
+  return self.currStep.unmodifiedDamage;
+}
+
+- (int)calculateModifiedEnemyDamage:(int)unmodifiedDamage {
+#warning Need to make sure that minilogos get triggered
+  return self.currStep.modifiedDamage;
+}
+
 - (void)buildReplay {
+  //Do nothing
+}
+
+- (void)sendServerUpdatedValuesVerifyDamageDealt:(BOOL)verify {
   //Do nothing
 }
 

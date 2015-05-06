@@ -949,7 +949,8 @@ static MinimumCombatReplayProto* defaultMinimumCombatReplayProtoInstance = nil;
 @property int32_t itemId;
 @property uint32_t movePos1;
 @property uint32_t movePos2;
-@property int32_t damage;
+@property int32_t modifiedDamage;
+@property int32_t unmodifiedDamage;
 @property (strong) CombatReplayScheduleProto* schedule;
 @property (strong) NSMutableArray * mutableSkillsList;
 @end
@@ -991,13 +992,20 @@ static MinimumCombatReplayProto* defaultMinimumCombatReplayProtoInstance = nil;
   hasMovePos2_ = !!value_;
 }
 @synthesize movePos2;
-- (BOOL) hasDamage {
-  return !!hasDamage_;
+- (BOOL) hasModifiedDamage {
+  return !!hasModifiedDamage_;
 }
-- (void) setHasDamage:(BOOL) value_ {
-  hasDamage_ = !!value_;
+- (void) setHasModifiedDamage:(BOOL) value_ {
+  hasModifiedDamage_ = !!value_;
 }
-@synthesize damage;
+@synthesize modifiedDamage;
+- (BOOL) hasUnmodifiedDamage {
+  return !!hasUnmodifiedDamage_;
+}
+- (void) setHasUnmodifiedDamage:(BOOL) value_ {
+  hasUnmodifiedDamage_ = !!value_;
+}
+@synthesize unmodifiedDamage;
 - (BOOL) hasSchedule {
   return !!hasSchedule_;
 }
@@ -1014,7 +1022,8 @@ static MinimumCombatReplayProto* defaultMinimumCombatReplayProtoInstance = nil;
     self.itemId = 0;
     self.movePos1 = 0;
     self.movePos2 = 0;
-    self.damage = 0;
+    self.modifiedDamage = 0;
+    self.unmodifiedDamage = 0;
     self.schedule = [CombatReplayScheduleProto defaultInstance];
   }
   return self;
@@ -1056,14 +1065,17 @@ static CombatReplayStepProto* defaultCombatReplayStepProtoInstance = nil;
   if (self.hasMovePos2) {
     [output writeUInt32:5 value:self.movePos2];
   }
-  if (self.hasDamage) {
-    [output writeInt32:6 value:self.damage];
+  if (self.hasModifiedDamage) {
+    [output writeInt32:6 value:self.modifiedDamage];
+  }
+  if (self.hasUnmodifiedDamage) {
+    [output writeInt32:7 value:self.unmodifiedDamage];
   }
   if (self.hasSchedule) {
-    [output writeMessage:7 value:self.schedule];
+    [output writeMessage:8 value:self.schedule];
   }
   [self.skillsList enumerateObjectsUsingBlock:^(CombatReplaySkillStepProto *element, NSUInteger idx, BOOL *stop) {
-    [output writeMessage:8 value:element];
+    [output writeMessage:9 value:element];
   }];
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -1089,14 +1101,17 @@ static CombatReplayStepProto* defaultCombatReplayStepProtoInstance = nil;
   if (self.hasMovePos2) {
     size_ += computeUInt32Size(5, self.movePos2);
   }
-  if (self.hasDamage) {
-    size_ += computeInt32Size(6, self.damage);
+  if (self.hasModifiedDamage) {
+    size_ += computeInt32Size(6, self.modifiedDamage);
+  }
+  if (self.hasUnmodifiedDamage) {
+    size_ += computeInt32Size(7, self.unmodifiedDamage);
   }
   if (self.hasSchedule) {
-    size_ += computeMessageSize(7, self.schedule);
+    size_ += computeMessageSize(8, self.schedule);
   }
   [self.skillsList enumerateObjectsUsingBlock:^(CombatReplaySkillStepProto *element, NSUInteger idx, BOOL *stop) {
-    size_ += computeMessageSize(8, element);
+    size_ += computeMessageSize(9, element);
   }];
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -1148,8 +1163,11 @@ static CombatReplayStepProto* defaultCombatReplayStepProtoInstance = nil;
   if (self.hasMovePos2) {
     [output appendFormat:@"%@%@: %@\n", indent, @"movePos2", [NSNumber numberWithInteger:self.movePos2]];
   }
-  if (self.hasDamage) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"damage", [NSNumber numberWithInteger:self.damage]];
+  if (self.hasModifiedDamage) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"modifiedDamage", [NSNumber numberWithInteger:self.modifiedDamage]];
+  }
+  if (self.hasUnmodifiedDamage) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"unmodifiedDamage", [NSNumber numberWithInteger:self.unmodifiedDamage]];
   }
   if (self.hasSchedule) {
     [output appendFormat:@"%@%@ {\n", indent, @"schedule"];
@@ -1184,8 +1202,10 @@ static CombatReplayStepProto* defaultCombatReplayStepProtoInstance = nil;
       (!self.hasMovePos1 || self.movePos1 == otherMessage.movePos1) &&
       self.hasMovePos2 == otherMessage.hasMovePos2 &&
       (!self.hasMovePos2 || self.movePos2 == otherMessage.movePos2) &&
-      self.hasDamage == otherMessage.hasDamage &&
-      (!self.hasDamage || self.damage == otherMessage.damage) &&
+      self.hasModifiedDamage == otherMessage.hasModifiedDamage &&
+      (!self.hasModifiedDamage || self.modifiedDamage == otherMessage.modifiedDamage) &&
+      self.hasUnmodifiedDamage == otherMessage.hasUnmodifiedDamage &&
+      (!self.hasUnmodifiedDamage || self.unmodifiedDamage == otherMessage.unmodifiedDamage) &&
       self.hasSchedule == otherMessage.hasSchedule &&
       (!self.hasSchedule || [self.schedule isEqual:otherMessage.schedule]) &&
       [self.skillsList isEqualToArray:otherMessage.skillsList] &&
@@ -1208,8 +1228,11 @@ static CombatReplayStepProto* defaultCombatReplayStepProtoInstance = nil;
   if (self.hasMovePos2) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.movePos2] hash];
   }
-  if (self.hasDamage) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.damage] hash];
+  if (self.hasModifiedDamage) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.modifiedDamage] hash];
+  }
+  if (self.hasUnmodifiedDamage) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.unmodifiedDamage] hash];
   }
   if (self.hasSchedule) {
     hashCode = hashCode * 31 + [self.schedule hash];
@@ -1275,8 +1298,11 @@ static CombatReplayStepProto* defaultCombatReplayStepProtoInstance = nil;
   if (other.hasMovePos2) {
     [self setMovePos2:other.movePos2];
   }
-  if (other.hasDamage) {
-    [self setDamage:other.damage];
+  if (other.hasModifiedDamage) {
+    [self setModifiedDamage:other.modifiedDamage];
+  }
+  if (other.hasUnmodifiedDamage) {
+    [self setUnmodifiedDamage:other.unmodifiedDamage];
   }
   if (other.hasSchedule) {
     [self mergeSchedule:other.schedule];
@@ -1335,10 +1361,14 @@ static CombatReplayStepProto* defaultCombatReplayStepProtoInstance = nil;
         break;
       }
       case 48: {
-        [self setDamage:[input readInt32]];
+        [self setModifiedDamage:[input readInt32]];
         break;
       }
-      case 58: {
+      case 56: {
+        [self setUnmodifiedDamage:[input readInt32]];
+        break;
+      }
+      case 66: {
         CombatReplayScheduleProto_Builder* subBuilder = [CombatReplayScheduleProto builder];
         if (self.hasSchedule) {
           [subBuilder mergeFrom:self.schedule];
@@ -1347,7 +1377,7 @@ static CombatReplayStepProto* defaultCombatReplayStepProtoInstance = nil;
         [self setSchedule:[subBuilder buildPartial]];
         break;
       }
-      case 66: {
+      case 74: {
         CombatReplaySkillStepProto_Builder* subBuilder = [CombatReplaySkillStepProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addSkills:[subBuilder buildPartial]];
@@ -1436,20 +1466,36 @@ static CombatReplayStepProto* defaultCombatReplayStepProtoInstance = nil;
   result.movePos2 = 0;
   return self;
 }
-- (BOOL) hasDamage {
-  return result.hasDamage;
+- (BOOL) hasModifiedDamage {
+  return result.hasModifiedDamage;
 }
-- (int32_t) damage {
-  return result.damage;
+- (int32_t) modifiedDamage {
+  return result.modifiedDamage;
 }
-- (CombatReplayStepProto_Builder*) setDamage:(int32_t) value {
-  result.hasDamage = YES;
-  result.damage = value;
+- (CombatReplayStepProto_Builder*) setModifiedDamage:(int32_t) value {
+  result.hasModifiedDamage = YES;
+  result.modifiedDamage = value;
   return self;
 }
-- (CombatReplayStepProto_Builder*) clearDamage {
-  result.hasDamage = NO;
-  result.damage = 0;
+- (CombatReplayStepProto_Builder*) clearModifiedDamage {
+  result.hasModifiedDamage = NO;
+  result.modifiedDamage = 0;
+  return self;
+}
+- (BOOL) hasUnmodifiedDamage {
+  return result.hasUnmodifiedDamage;
+}
+- (int32_t) unmodifiedDamage {
+  return result.unmodifiedDamage;
+}
+- (CombatReplayStepProto_Builder*) setUnmodifiedDamage:(int32_t) value {
+  result.hasUnmodifiedDamage = YES;
+  result.unmodifiedDamage = value;
+  return self;
+}
+- (CombatReplayStepProto_Builder*) clearUnmodifiedDamage {
+  result.hasUnmodifiedDamage = NO;
+  result.unmodifiedDamage = 0;
   return self;
 }
 - (BOOL) hasSchedule {

@@ -72,8 +72,9 @@
   [self addOrbMoveAt:x1 y1:y1 x2:x2 y2:y2];
 }
 
-- (void) addDamage:(int)damageDone {
-  self.combatStepBuilder.damage = damageDone;
+- (void) addDamage:(int)damageDone unmodifiedDamage:(int)unmodifiedDamage {
+  self.combatStepBuilder.modifiedDamage = damageDone;
+  self.combatStepBuilder.unmodifiedDamage = unmodifiedDamage;
 }
 
 //Puts the second int into the high 16 bits of the first int and returns.

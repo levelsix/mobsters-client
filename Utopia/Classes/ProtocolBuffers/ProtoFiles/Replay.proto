@@ -51,9 +51,10 @@ message CombatReplayStepProto {
 	optional int32 itemId = 3;
 	optional uint32 movePos1 = 4;
 	optional uint32 movePos2 = 5;
-	optional int32 damage = 6;
-	optional CombatReplayScheduleProto schedule = 7;
-	repeated CombatReplaySkillStepProto skills = 8;
+	optional int32 modifiedDamage = 6;
+  optional int32 unmodifiedDamage = 7;
+	optional CombatReplayScheduleProto schedule = 8;
+	repeated CombatReplaySkillStepProto skills = 9;
 }
 
 message CombatReplaySkillStepProto {

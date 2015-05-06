@@ -184,7 +184,7 @@
   BattleState *playerAttack = [BattleState stateWithName:@"Player Attack" andType:CombatReplayStepTypePlayerAttack];
   [playerAttack setDidEnterStateBlock:^(TKState *state, TKTransition *transition) {
     [self doMyAttackAnimation];
-    [self.battleStateMachine.currentBattleState addDamage:_myDamageDealt];
+    [self.battleStateMachine.currentBattleState addDamage:_myDamageDealt unmodifiedDamage:_myDamageDealtUnmodified];
   }];
   
   BattleState *enemyTurn = [BattleState stateWithName:@"Enemy Attack" andType:CombatReplayStepTypeEnemyTurn];
@@ -597,6 +597,15 @@
   }];
 }
 
+- (int) calculateUnmodifiedEnemyDamage {
+  int enemyDamage = [self.enemyPlayerObject randomDamage];
+  return enemyDamage*[self damageMultiplierIsEnemyAttacker:YES];
+}
+
+- (int) calculateModifiedEnemyDamage:(int)unmodifiedDamage {
+  return (int)[skillManager modifyDamage:unmodifiedDamage forPlayer:NO];
+}
+
 - (void) beginEnemyTurn:(float)delay {
   [self.mainView removeButtons];
   
@@ -625,12 +634,10 @@
           if (needToBounce)
             [self.mainView.hudView.battleScheduleView bounceLastView];
           [self performBlockAfterDelay:0.5 block:^{
-            _enemyDamageDealt = [self.enemyPlayerObject randomDamage];
-            _enemyDamageDealt = _enemyDamageDealt*[self damageMultiplierIsEnemyAttacker:YES];
-            _enemyDamageDealtUnmodified = _enemyDamageDealt;
-            _enemyDamageDealt = (int)[skillManager modifyDamage:_enemyDamageDealt forPlayer:NO];
+            _enemyDamageDealtUnmodified = [self calculateUnmodifiedEnemyDamage];
+            _enemyDamageDealt = [self calculateModifiedEnemyDamage:_enemyDamageDealtUnmodified];
             
-            [self.battleStateMachine.currentBattleState addDamage:_enemyDamageDealt];
+            [self.battleStateMachine.currentBattleState addDamage:_enemyDamageDealt unmodifiedDamage:_enemyDamageDealtUnmodified];
             
             // If the enemy's stunned, short the attack function
             if (self.enemyPlayerObject.isStunned)

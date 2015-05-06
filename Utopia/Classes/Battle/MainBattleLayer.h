@@ -184,6 +184,8 @@
 - (void) endMyTurnAfterDelay:(NSTimeInterval)delay;
 - (void) myTurnEnded;
 - (void) doMyAttackAnimation;
+- (int) calculateUnmodifiedEnemyDamage;
+- (int) calculateModifiedEnemyDamage:(int)unmodifiedDamage;
 - (void) beginEnemyTurn:(float)delay;
 - (void) checkIfAnyMovesLeft;
 - (void) startMyMove;

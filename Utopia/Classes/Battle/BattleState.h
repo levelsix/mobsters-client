@@ -47,7 +47,7 @@
 - (void) addItemUse:(int)itemId xPos:(uint)xPos yPos:(uint)yPos;
 - (void) addItemUse:(int)itemId x1:(uint)x1 y1:(uint)y1 x2:(uint)x2 y2:(uint)y2;
 
-- (void) addDamage:(int)damageDone;
+- (void) addDamage:(int)damageDone unmodifiedDamage:(int)unmodifiedDamage;
 - (void) scheduleRecreated:(NSArray*)schedule startingIndex:(int)startingIndex;
 
 - (CombatReplayStepProto*) getStepProto;
