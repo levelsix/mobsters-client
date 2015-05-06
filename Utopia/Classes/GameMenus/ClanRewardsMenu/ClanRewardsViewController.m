@@ -119,7 +119,9 @@
 - (void) viewDidDisappear:(BOOL)animated {
   [super viewDidDisappear:animated];
   
-  [[GameViewController baseController] showEarlyGameTutorialArrow];
+  if (!_goClicked) {
+    [[GameViewController baseController] showEarlyGameTutorialArrow];
+  }
 }
 
 - (IBAction) closeClicked:(id)sender {
@@ -184,6 +186,8 @@
 - (void) goClicked:(id)sender {
   NSInteger idx = [self.questViews indexOfObject:sender];
   
+  
+  
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   if (idx != NSNotFound && idx < gl.clanRewardAchievementIds.count) {
@@ -200,6 +204,7 @@
       [gvc arrowToRequestToon];
     }
     
+    _goClicked = YES;
     [self closeClicked:sender];
   }
 }
