@@ -69,6 +69,12 @@
   [SoundEngine secretGiftClicked];
 }
 
+- (void) viewDidDisappear:(BOOL)animated {
+  [super viewDidDisappear:animated];
+  
+  [[GameViewController baseController] showEarlyGameTutorialArrow];
+}
+
 - (void) reload {
   UserItem *ui = [[UserItem alloc] init];
   

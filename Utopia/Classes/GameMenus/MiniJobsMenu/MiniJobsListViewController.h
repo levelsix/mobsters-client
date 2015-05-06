@@ -77,6 +77,7 @@
 
 @property (nonatomic, retain) ItemSelectViewController *itemSelectViewController;
 @property (nonatomic, retain) SpeedupItemsFiller *speedupItemsFiller;
+@property (nonatomic, retain) MiniJobRefreshItemsFiller *miniJobRefreshItemsFiller;
 
 @property (nonatomic, retain) MiniJobsDetailsViewController *detailsViewController;
 @property (nonatomic, retain) MiniJobsCompleteViewController *completeViewController;

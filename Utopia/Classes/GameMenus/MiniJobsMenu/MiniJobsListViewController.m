@@ -648,6 +648,7 @@
     rif.delegate = self;
     svc.delegate = rif;
     self.itemSelectViewController = svc;
+    self.miniJobRefreshItemsFiller = rif;
     
     GameViewController *gvc = [GameViewController baseController];
     svc.view.frame = gvc.view.bounds;
