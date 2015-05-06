@@ -15,8 +15,7 @@
 - (instancetype)initWithBoardLayout:(BoardLayoutProto *)proto andOrbHistory:(NSArray *)orbHistory {
   if (self = [super initWithBoardLayout:proto]) {
     self.orbRecords = [NSMutableDictionary dictionary];
-    for (NSArray *arr in orbHistory)
-    {
+    for (NSArray *arr in orbHistory) {
       for (CombatReplayOrbProto *crop in arr) {
         if (![self.orbRecords objectForKey:@(crop.spawnedCol)])
             [self.orbRecords setObject:[NSMutableArray array] forKey:@(crop.spawnedCol)];
@@ -27,6 +26,23 @@
     }
   }
   return self;
+}
+
+- (NSSet *)createInitialOrbs {
+  
+  NSMutableSet *set = [NSMutableSet set];
+  
+  for (int row = 0; row < _numRows; row++) {
+    for (int column = 0; column < _numColumns; column++) {
+      BattleOrb *orb = [self createInitialOrbAtColumn:column row:row layout:_layoutProto];
+      
+      if (orb) {
+        [set addObject:orb];
+      }
+    }
+  }
+  
+  return set;
 }
 
 - (BattleOrb *)createInitialOrbAtColumn:(int)column row:(int)row layout:(BoardLayoutProto *)proto {
@@ -42,7 +58,12 @@
   if (crop) {
     [orbsForCol removeObject:crop];
     orb = [self createOrbFromHistory:crop];
+    NSLog(@"Generated orb %i: %u at column %i", crop.orbId, orb.orbColor, column);
+  } else {
+    NSLog(@"The fuck? Failed to generate orb at column %i...", column);
   }
+  
+  [self setOrb:orb column:column row:row];
   
   return orb;
 }
@@ -52,11 +73,13 @@
   orb.orbColor = (OrbColor)crop.spawnedElement;
   orb.column = crop.spawnedCol;
   orb.row = crop.spawnedRow;
-  orb.powerupType = crop.type;
+  orb.powerupType = crop.power;
+  orb.specialOrbType = crop.special;
   orb.damageMultiplier = 1;
   return orb;
 }
 
+//Make this not random.
 - (void)generateRandomOrbData:(BattleOrb *)orb atColumn:(int)column row:(int)row {
   
   NSMutableArray *orbsForCol = [self.orbRecords objectForKey:@(column)];
@@ -65,7 +88,9 @@
     CombatReplayOrbProto *crop = orbsForCol[0];
     [orbsForCol removeObject:crop];
     orb.orbColor = (OrbColor)crop.spawnedElement;
-    orb.specialOrbType = (SpecialOrbType)crop.type;
+    orb.specialOrbType = (SpecialOrbType)crop.special;
+    orb.powerupType = (PowerupType)crop.power;
+    NSLog(@"Generated orb %i: %u at column %i", crop.orbId, orb.orbColor, column);
   }
   else
     @throw [NSException exceptionWithName:@"No Orbs Exception" reason:@"Not enough orbs in the data to put on the board" userInfo:nil];
@@ -73,6 +98,10 @@
 
 - (void)recordOrb:(BattleOrb *)orb initialOrb:(BOOL)initialOrb {
   //Make sure that this doesn't record anything in replay mode
+}
+
+- (BOOL)isPossibleSwap:(BattleSwap *)swap {
+  return YES;
 }
 
 @end

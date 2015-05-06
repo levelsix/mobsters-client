@@ -16,12 +16,15 @@
 
 @implementation ReplayBattleLayer
 
+#pragma mark - Setup
+
 - (id) initWithReplay:(CombatReplayProto *)replay {
   _replay = replay;
   
   NSMutableArray *myteam = [NSMutableArray array];
   for (CombatReplayMonsterSnapshot *crms in replay.playerTeamList) {
     UserMonster *um = [UserMonster userMonsterWithReplayMonsterSnapshotProto:crms];
+    um.userMonsterUuid = [NSString stringWithFormat:@"%i", myteam.count];
     [myteam addObject:um];
   }
   
@@ -49,11 +52,17 @@
   self.orbLayer = ol;
 }
 
+- (void)begin {
+  [super begin];
+  [self displayOrbLayer];
+}
+
 - (void) buildEnemyTeam {
   
   NSMutableArray *defendingTeam = [NSMutableArray array];
   for (CombatReplayMonsterSnapshot *crms in _replay.enemyTeamList) {
     UserMonster *um = [UserMonster userMonsterWithReplayMonsterSnapshotProto:crms];
+    um.userMonsterUuid = [NSString stringWithFormat:@"%i", defendingTeam.count];
     BattlePlayer *bp = [BattlePlayer playerWithMonster:um];
     [defendingTeam addObject:bp];
   }
@@ -109,45 +118,7 @@
   }
 }
 
-- (void)fireEvent:(TKEvent *)event userInfo:(NSDictionary *)userInfo error:(NSError *__autoreleasing *)error {
-  if ([self.battleStateMachine canFireEvent:event])
-    [self startNextStep];
-}
-
-- (CombatReplayStepProto *)getCurrStep {
-  if (_combatSteps.count)
-    return _combatSteps[0];
-  @throw [NSException exceptionWithName:@"Out of Steps Exception" reason:@"Attempting to grab info from the current step after the list has been exhausted" userInfo:nil];
-  return nil;
-}
-
-- (void)startMyMove {
-  if (self.currStep.hasItemId) {
-#warning Rob -- Item replay starts here
-  } else if (self.currStep.hasMovePos1 && self.currStep.hasMovePos2) {
-    CGPoint pointA = [self splitPosInt:self.getCurrStep.movePos1];
-    CGPoint pointB = [self splitPosInt:self.getCurrStep.movePos2];
-    BattleOrb *orbA = [self.orbLayer.layout orbAtColumn:pointA.x row:pointA.y];
-    BattleOrb *orbB = [self.orbLayer.layout orbAtColumn:pointB.x row:pointB.y];
-    BattleSwap *swap = [[BattleSwap alloc] init];
-    swap.orbA = orbA;
-    swap.orbB = orbB;
-    [self.orbLayer checkSwap:swap];
-  } else {
-    @throw [NSException exceptionWithName:@"Bad Move" reason:@"Not sufficient move data in current step to recreate move" userInfo:nil];
-  }
-}
-
-- (CGPoint) splitPosInt:(uint32_t)pos {
-  return CGPointMake((pos<<24)>>24, pos>>16);
-}
-
-- (void) startNextStep {
-  [_combatSteps removeObjectAtIndex:0];
-  [self.battleStateMachine forceStateWithType:self.currStep.type];
-}
-
-//Override this, so that we can put state transitions where they normally wouldn't be
+//Need to change some of the state machine behavior
 - (void) setupStateMachine {
   self.battleStateMachine = [BattleStateMachine new];
   
@@ -170,14 +141,17 @@
   
   BattleState *playerMove = [BattleState stateWithName:@"Player Move" andType:CombatReplayStepTypePlayerMove];
   [playerMove setDidEnterStateBlock:^(TKState *state, TKTransition *transition) {
-    [self startMyMove];
+    [self performAfterDelay:1 block:^{
+      [self startMyMove];
+    }];
   }];
   
   BattleState *playerAttack = [BattleState stateWithName:@"Player Attack" andType:CombatReplayStepTypePlayerAttack];
   [playerAttack setDidEnterStateBlock:^(TKState *state, TKTransition *transition) {
-//    _myDamageDealt = self.battleStateMachine.currentBattleState
-//    [self doMyAttackAnimation];
-//    [self.battleStateMachine.currentBattleState addDamage:_myDamageDealt];
+    [self performAfterDelay:1 block:^{
+      _myDamageDealt = self.currStep.damage;
+      [self doMyAttackAnimation];
+    }];
   }];
   
   BattleState *enemyTurn = [BattleState stateWithName:@"Enemy Attack" andType:CombatReplayStepTypeEnemyTurn];
@@ -218,7 +192,79 @@
   self.battleStateMachine.initialState = initialState;
   
   [self.battleStateMachine activate];
+  
+}
 
+#pragma mark - State Machine Stepping
+
+- (void)fireEvent:(TKEvent *)event userInfo:(NSDictionary *)userInfo error:(NSError *__autoreleasing *)error {
+  if ([self.battleStateMachine canFireEvent:event])
+    [self startNextStep];
+}
+
+- (CombatReplayStepProto *)getCurrStep {
+  if (_combatSteps.count)
+    return _combatSteps[0];
+  @throw [NSException exceptionWithName:@"Out of Steps Exception" reason:@"Attempting to grab info from the current step after the list has been exhausted" userInfo:nil];
+  return nil;
+}
+
+- (void)startMyMove {
+  if (self.currStep.hasItemId) {
+#warning Rob -- Item replay starts here
+  } else if (self.currStep.hasMovePos1 && self.currStep.hasMovePos2) {
+    CGPoint pointA = [self splitPosInt:self.getCurrStep.movePos1];
+    CGPoint pointB = [self splitPosInt:self.getCurrStep.movePos2];
+    BattleOrb *orbA = [self.orbLayer.layout orbAtColumn:pointA.x row:pointA.y];
+    BattleOrb *orbB = [self.orbLayer.layout orbAtColumn:pointB.x row:pointB.y];
+    BattleSwap *swap = [[BattleSwap alloc] init];
+    swap.orbA = orbA;
+    swap.orbB = orbB;
+    [self.orbLayer checkSwap:swap];
+  } else {
+    @throw [NSException exceptionWithName:@"Bad Move" reason:@"Not sufficient move data in current step to recreate move" userInfo:nil];
+  }
+}
+
+- (CGPoint) splitPosInt:(uint32_t)pos {
+  return CGPointMake((pos<<24)>>24, pos>>16);
+}
+
+- (void) startNextStep {
+  [_combatSteps removeObjectAtIndex:0];
+  [self.battleStateMachine forceStateWithType:self.currStep.type];
+}
+
+- (NSArray*) getCurrStepSchedule {
+  NSMutableArray* arr = [NSMutableArray array];
+  for (int i = 0; i < self.currStep.schedule.totalTurns; i++) {
+    [arr addObject:@(NO)];
+  }
+  
+  for (int i = 0; i < self.currStep.schedule.playerTurnsList.count; i++) {
+    int index = [self.currStep.schedule.playerTurnsList[i] intValue];
+    [arr setObject:@(YES) atIndexedSubscript:index];
+  }
+  
+  return arr;
+}
+
+- (void)createScheduleWithSwap:(BOOL)swap playerHitsFirst:(BOOL)playerFirst {
+  if (self.myPlayerObject && self.enemyPlayerObject) {
+    self.battleSchedule = [[BattleSchedule alloc] initWithSequence:[self getCurrStepSchedule] currentIndex:self.currStep.schedule.startingTurn];
+    _shouldDisplayNewSchedule = YES;
+  } else {
+    [self.mainView.hudView removeBattleScheduleView];
+    self.battleSchedule = nil;
+  }
+  
+  [self.mainView.hudView.battleScheduleView setBattleSchedule:self.battleSchedule];
+}
+
+#pragma mark - Overrides
+
+- (void)buildReplay {
+  //Do nothing
 }
 
 @end

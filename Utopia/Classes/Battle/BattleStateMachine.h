@@ -20,6 +20,8 @@
 
 - (void)forceStateWithType:(CombatReplayStepType)stepType;
 
+- (void)addFinalState;
+
 - (NSDictionary*) serialize;
 - (void) deserialize:(NSDictionary*)data;
 

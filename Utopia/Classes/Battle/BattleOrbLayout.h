@@ -56,6 +56,8 @@
 
 @property (nonatomic, retain) NSDictionary *specialOrbPercentages;
 
+@property (nonatomic, assign) int nextOrbId;
+
 - (instancetype) initWithBoardLayout:(BoardLayoutProto *)proto;
 - (instancetype) initWithGridSize:(CGSize)gridSize numColors:(int)numColors;
 - (instancetype) initWithGridSize:(CGSize)gridSize userBoardObstacles:(NSArray *)userBoardObstacles;
@@ -100,6 +102,8 @@
 - (void) resetOrbChangeTypes;
 
 - (NSSet *) createChainForRemovedOrb:(BattleOrb *)orb;
+
+- (void) setOrb:(BattleOrb *)orb column:(NSInteger)column row:(NSInteger)row;
 
 // Determines whether the suggested swap is a valid one, i.e. it results in at
 // least one new chain of 3 or more orbs of the same type.

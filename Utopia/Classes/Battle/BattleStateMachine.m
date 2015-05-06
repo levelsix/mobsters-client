@@ -63,6 +63,10 @@
   [self.currentBattleState scheduleRecreated:schedule startingIndex:startingIndex];
 }
 
+- (void)addFinalState {
+  [self.pastStates addObject:[self.currentBattleState getStepProto]];
+}
+
 - (NSString *)description
 {
   NSString *str = @"Battle: ";

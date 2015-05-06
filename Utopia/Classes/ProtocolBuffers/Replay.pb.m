@@ -2179,7 +2179,9 @@ static CombatReplayScheduleProto* defaultCombatReplayScheduleProtoInstance = nil
 @property int32_t spawnedCol;
 @property Element spawnedElement;
 @property BOOL initialOrb;
-@property int32_t type;
+@property int32_t special;
+@property int32_t power;
+@property int32_t orbId;
 @end
 
 @implementation CombatReplayOrbProto
@@ -2217,20 +2219,36 @@ static CombatReplayScheduleProto* defaultCombatReplayScheduleProtoInstance = nil
 - (void) setInitialOrb:(BOOL) value_ {
   initialOrb_ = !!value_;
 }
-- (BOOL) hasType {
-  return !!hasType_;
+- (BOOL) hasSpecial {
+  return !!hasSpecial_;
 }
-- (void) setHasType:(BOOL) value_ {
-  hasType_ = !!value_;
+- (void) setHasSpecial:(BOOL) value_ {
+  hasSpecial_ = !!value_;
 }
-@synthesize type;
+@synthesize special;
+- (BOOL) hasPower {
+  return !!hasPower_;
+}
+- (void) setHasPower:(BOOL) value_ {
+  hasPower_ = !!value_;
+}
+@synthesize power;
+- (BOOL) hasOrbId {
+  return !!hasOrbId_;
+}
+- (void) setHasOrbId:(BOOL) value_ {
+  hasOrbId_ = !!value_;
+}
+@synthesize orbId;
 - (id) init {
   if ((self = [super init])) {
     self.spawnedRow = 0;
     self.spawnedCol = 0;
     self.spawnedElement = ElementFire;
     self.initialOrb = NO;
-    self.type = 0;
+    self.special = 0;
+    self.power = 0;
+    self.orbId = 0;
   }
   return self;
 }
@@ -2262,8 +2280,14 @@ static CombatReplayOrbProto* defaultCombatReplayOrbProtoInstance = nil;
   if (self.hasInitialOrb) {
     [output writeBool:4 value:self.initialOrb];
   }
-  if (self.hasType) {
-    [output writeInt32:5 value:self.type];
+  if (self.hasSpecial) {
+    [output writeInt32:5 value:self.special];
+  }
+  if (self.hasPower) {
+    [output writeInt32:6 value:self.power];
+  }
+  if (self.hasOrbId) {
+    [output writeInt32:7 value:self.orbId];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -2286,8 +2310,14 @@ static CombatReplayOrbProto* defaultCombatReplayOrbProtoInstance = nil;
   if (self.hasInitialOrb) {
     size_ += computeBoolSize(4, self.initialOrb);
   }
-  if (self.hasType) {
-    size_ += computeInt32Size(5, self.type);
+  if (self.hasSpecial) {
+    size_ += computeInt32Size(5, self.special);
+  }
+  if (self.hasPower) {
+    size_ += computeInt32Size(6, self.power);
+  }
+  if (self.hasOrbId) {
+    size_ += computeInt32Size(7, self.orbId);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -2336,8 +2366,14 @@ static CombatReplayOrbProto* defaultCombatReplayOrbProtoInstance = nil;
   if (self.hasInitialOrb) {
     [output appendFormat:@"%@%@: %@\n", indent, @"initialOrb", [NSNumber numberWithBool:self.initialOrb]];
   }
-  if (self.hasType) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"type", [NSNumber numberWithInteger:self.type]];
+  if (self.hasSpecial) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"special", [NSNumber numberWithInteger:self.special]];
+  }
+  if (self.hasPower) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"power", [NSNumber numberWithInteger:self.power]];
+  }
+  if (self.hasOrbId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"orbId", [NSNumber numberWithInteger:self.orbId]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -2358,8 +2394,12 @@ static CombatReplayOrbProto* defaultCombatReplayOrbProtoInstance = nil;
       (!self.hasSpawnedElement || self.spawnedElement == otherMessage.spawnedElement) &&
       self.hasInitialOrb == otherMessage.hasInitialOrb &&
       (!self.hasInitialOrb || self.initialOrb == otherMessage.initialOrb) &&
-      self.hasType == otherMessage.hasType &&
-      (!self.hasType || self.type == otherMessage.type) &&
+      self.hasSpecial == otherMessage.hasSpecial &&
+      (!self.hasSpecial || self.special == otherMessage.special) &&
+      self.hasPower == otherMessage.hasPower &&
+      (!self.hasPower || self.power == otherMessage.power) &&
+      self.hasOrbId == otherMessage.hasOrbId &&
+      (!self.hasOrbId || self.orbId == otherMessage.orbId) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -2376,8 +2416,14 @@ static CombatReplayOrbProto* defaultCombatReplayOrbProtoInstance = nil;
   if (self.hasInitialOrb) {
     hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.initialOrb] hash];
   }
-  if (self.hasType) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.type] hash];
+  if (self.hasSpecial) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.special] hash];
+  }
+  if (self.hasPower) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.power] hash];
+  }
+  if (self.hasOrbId) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.orbId] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -2434,8 +2480,14 @@ static CombatReplayOrbProto* defaultCombatReplayOrbProtoInstance = nil;
   if (other.hasInitialOrb) {
     [self setInitialOrb:other.initialOrb];
   }
-  if (other.hasType) {
-    [self setType:other.type];
+  if (other.hasSpecial) {
+    [self setSpecial:other.special];
+  }
+  if (other.hasPower) {
+    [self setPower:other.power];
+  }
+  if (other.hasOrbId) {
+    [self setOrbId:other.orbId];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -2480,7 +2532,15 @@ static CombatReplayOrbProto* defaultCombatReplayOrbProtoInstance = nil;
         break;
       }
       case 40: {
-        [self setType:[input readInt32]];
+        [self setSpecial:[input readInt32]];
+        break;
+      }
+      case 48: {
+        [self setPower:[input readInt32]];
+        break;
+      }
+      case 56: {
+        [self setOrbId:[input readInt32]];
         break;
       }
     }
@@ -2550,20 +2610,52 @@ static CombatReplayOrbProto* defaultCombatReplayOrbProtoInstance = nil;
   result.initialOrb = NO;
   return self;
 }
-- (BOOL) hasType {
-  return result.hasType;
+- (BOOL) hasSpecial {
+  return result.hasSpecial;
 }
-- (int32_t) type {
-  return result.type;
+- (int32_t) special {
+  return result.special;
 }
-- (CombatReplayOrbProto_Builder*) setType:(int32_t) value {
-  result.hasType = YES;
-  result.type = value;
+- (CombatReplayOrbProto_Builder*) setSpecial:(int32_t) value {
+  result.hasSpecial = YES;
+  result.special = value;
   return self;
 }
-- (CombatReplayOrbProto_Builder*) clearType {
-  result.hasType = NO;
-  result.type = 0;
+- (CombatReplayOrbProto_Builder*) clearSpecial {
+  result.hasSpecial = NO;
+  result.special = 0;
+  return self;
+}
+- (BOOL) hasPower {
+  return result.hasPower;
+}
+- (int32_t) power {
+  return result.power;
+}
+- (CombatReplayOrbProto_Builder*) setPower:(int32_t) value {
+  result.hasPower = YES;
+  result.power = value;
+  return self;
+}
+- (CombatReplayOrbProto_Builder*) clearPower {
+  result.hasPower = NO;
+  result.power = 0;
+  return self;
+}
+- (BOOL) hasOrbId {
+  return result.hasOrbId;
+}
+- (int32_t) orbId {
+  return result.orbId;
+}
+- (CombatReplayOrbProto_Builder*) setOrbId:(int32_t) value {
+  result.hasOrbId = YES;
+  result.orbId = value;
+  return self;
+}
+- (CombatReplayOrbProto_Builder*) clearOrbId {
+  result.hasOrbId = NO;
+  result.orbId = 0;
   return self;
 }
 @end

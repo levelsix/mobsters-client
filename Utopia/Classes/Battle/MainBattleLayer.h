@@ -183,6 +183,7 @@
 - (void) beginMyTurn;
 - (void) endMyTurnAfterDelay:(NSTimeInterval)delay;
 - (void) myTurnEnded;
+- (void) doMyAttackAnimation;
 - (void) beginEnemyTurn:(float)delay;
 - (void) checkIfAnyMovesLeft;
 - (void) startMyMove;

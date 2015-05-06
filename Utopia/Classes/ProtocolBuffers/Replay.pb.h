@@ -560,24 +560,32 @@ BOOL CombatReplayStepTypeIsValidValue(CombatReplayStepType value);
   BOOL hasInitialOrb_:1;
   BOOL hasSpawnedRow_:1;
   BOOL hasSpawnedCol_:1;
-  BOOL hasType_:1;
+  BOOL hasSpecial_:1;
+  BOOL hasPower_:1;
+  BOOL hasOrbId_:1;
   BOOL hasSpawnedElement_:1;
   BOOL initialOrb_:1;
   int32_t spawnedRow;
   int32_t spawnedCol;
-  int32_t type;
+  int32_t special;
+  int32_t power;
+  int32_t orbId;
   Element spawnedElement;
 }
 - (BOOL) hasSpawnedRow;
 - (BOOL) hasSpawnedCol;
 - (BOOL) hasSpawnedElement;
 - (BOOL) hasInitialOrb;
-- (BOOL) hasType;
+- (BOOL) hasSpecial;
+- (BOOL) hasPower;
+- (BOOL) hasOrbId;
 @property (readonly) int32_t spawnedRow;
 @property (readonly) int32_t spawnedCol;
 @property (readonly) Element spawnedElement;
 - (BOOL) initialOrb;
-@property (readonly) int32_t type;
+@property (readonly) int32_t special;
+@property (readonly) int32_t power;
+@property (readonly) int32_t orbId;
 
 + (CombatReplayOrbProto*) defaultInstance;
 - (CombatReplayOrbProto*) defaultInstance;
@@ -634,10 +642,20 @@ BOOL CombatReplayStepTypeIsValidValue(CombatReplayStepType value);
 - (CombatReplayOrbProto_Builder*) setInitialOrb:(BOOL) value;
 - (CombatReplayOrbProto_Builder*) clearInitialOrb;
 
-- (BOOL) hasType;
-- (int32_t) type;
-- (CombatReplayOrbProto_Builder*) setType:(int32_t) value;
-- (CombatReplayOrbProto_Builder*) clearType;
+- (BOOL) hasSpecial;
+- (int32_t) special;
+- (CombatReplayOrbProto_Builder*) setSpecial:(int32_t) value;
+- (CombatReplayOrbProto_Builder*) clearSpecial;
+
+- (BOOL) hasPower;
+- (int32_t) power;
+- (CombatReplayOrbProto_Builder*) setPower:(int32_t) value;
+- (CombatReplayOrbProto_Builder*) clearPower;
+
+- (BOOL) hasOrbId;
+- (int32_t) orbId;
+- (CombatReplayOrbProto_Builder*) setOrbId:(int32_t) value;
+- (CombatReplayOrbProto_Builder*) clearOrbId;
 @end
 
 @interface CombatReplayMonsterSnapshot : PBGeneratedMessage {

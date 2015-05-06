@@ -109,6 +109,8 @@
     }
   }
   
+  self.nextOrbId = 0;
+  
   return self;
 }
 
@@ -365,11 +367,11 @@
               orb = [self createOrbAtColumn:column row:row type:OrbColorRock powerup:PowerupTypeNone special:SpecialOrbTypeNone];
               
               [self generateRandomOrbData:orb atColumn:column row:row];
-              
-              [self recordOrb:orb initialOrb:YES];
             }
             // Can't afford to have a chain in initial set
             while ([self hasChainAtColumn:column row:row]);
+            
+            [self recordOrb:orb initialOrb:YES];
             
             // Also add the orb to the set so we can tell our caller about it.
             [set addObject:orb];
@@ -1943,19 +1945,23 @@ static const NSInteger maxSearchIterations = 800;
   
   NSMutableArray *orbsForCol = [_orbRecords objectForKey:@(orb.column)];
   
-  [orbsForCol addObject:[[[[[[[CombatReplayOrbProto builder]
-                              setSpawnedElement:(Element)orb.orbColor]
-                             setSpawnedCol:(int)orb.column]
-                            setSpawnedRow:(int)(initialOrb ? orb.row : orbsForCol.count)]
-                           setType:(int)orb.specialOrbType]
+  [orbsForCol addObject:[[[[[[[[[CombatReplayOrbProto builder]
+                               setSpawnedElement:(Element)orb.orbColor]
+                              setSpawnedCol:(int)orb.column]
+                             setSpawnedRow:(int)(initialOrb ? orb.row : orbsForCol.count)]
+                            setSpecial:(int)orb.specialOrbType]
+                           setPower:(int)orb.powerupType]
                           setInitialOrb:initialOrb]
-                         build]];
+                         setOrbId:self.nextOrbId++]
+                        build]];
+  
+  NSLog(@"Logging orb %i: %@", (self.nextOrbId-1), orb);
 }
 
 - (NSString*) dumpOrbHistory {
   NSString *str = @"Orb History:";
-  for (NSNumber *num in _orbRecords) {
-    NSArray *arr = [_orbRecords objectForKey:num];
+  for (int i = 0; i < _orbRecords.count; i++) {
+    NSArray *arr = [_orbRecords objectForKey:@(i)];
     for (CombatReplayOrbProto *replayOrb in arr) {
       str = [str stringByAppendingString:replayOrb.description];
     }

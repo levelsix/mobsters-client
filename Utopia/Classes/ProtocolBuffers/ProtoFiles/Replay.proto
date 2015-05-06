@@ -66,15 +66,17 @@ message CombatReplaySkillStepProto {
 message CombatReplayScheduleProto {
 	optional int32 totalTurns = 1;
 	repeated int32 playerTurns = 2;
-    optional int32 startingTurn = 3;
+  optional int32 startingTurn = 3;
 }
 
 message CombatReplayOrbProto {
 	optional int32 spawnedRow = 1;
 	optional int32 spawnedCol = 2;
 	optional Element spawnedElement = 3;
-    optional bool initialOrb = 4;
-    optional int32 type = 5;
+  optional bool initialOrb = 4;
+  optional int32 special = 5;
+  optional int32 power = 6;
+  optional int32 orbId = 7;
 }
 
 message CombatReplayMonsterSnapshot {

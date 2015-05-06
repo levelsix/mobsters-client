@@ -216,7 +216,7 @@
   playerMoveEvent = [TKEvent eventWithName:@"Player Move Start" transitioningFromStates:@[playerTurn, playerMove] toState:playerMove];
   playerAttackEvent = [TKEvent eventWithName:@"Player Attack Start" transitioningFromStates:@[playerTurn, playerMove] toState:playerAttack];
   enemyTurnEvent = [TKEvent eventWithName:@"Enemy Turn Start" transitioningFromStates:@[initialState, playerAttack, enemyTurn, spawnEnemyState, playerSwapState] toState:enemyTurn];
-  playerVictoryEvent = [TKEvent eventWithName:@"Player Win Event" transitioningFromStates:@[playerAttack, playerMove, enemyTurn] toState:playerVictory];
+  playerVictoryEvent = [TKEvent eventWithName:@"Player Win Event" transitioningFromStates:@[spawnEnemyState, playerAttack, playerMove, enemyTurn] toState:playerVictory];
   playerDeathEvent = [TKEvent eventWithName:@"Player Death Event" transitioningFromStates:@[playerAttack, playerMove, enemyTurn] toState:playerDeath];
   playerReviveEvent = [TKEvent eventWithName:@"Player Revive Event" transitioningFromStates:@[playerDeath] toState:playerRevive];
   
@@ -301,8 +301,6 @@
   if (bp) {
     [self deployBattleSprite:bp];
   }
-  
-  [Kamcord startRecording];
 }
 
 - (void) setMovesLeft:(int)movesLeft animated:(BOOL)animated
@@ -1303,7 +1301,6 @@
   [CCBReader load:@"BattleEndView" owner:self];
   
   NSLog(self.battleStateMachine.description);
-  NSLog([self.orbLayer.layout dumpOrbHistory]);
   
   [self buildReplay];
   
@@ -1350,6 +1347,7 @@
 }
 
 - (void) buildReplay {
+  [self.battleStateMachine addFinalState];
   CombatReplayProto *replay = [[[[[[[[CombatReplayProto builder]
                                     setGroundImgPrefix:@"1"]
                                    setBoard:_layoutProto]
@@ -1845,9 +1843,6 @@
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     [dict addEntriesFromDictionary:[self battleCompleteValues]];
     [self.delegate battleComplete:dict];
-    
-    // in case it hasnt stopped yet
-    [Kamcord stopRecording];
   }
 }
 
@@ -1856,8 +1851,8 @@
 }
 
 - (IBAction)shareClicked:(id)sender {
-  [Kamcord stopRecording];
-  [Kamcord showView];
+  [self buildReplay];
+  [self exitFinal];
   
   [SoundEngine generalButtonClick];
 }
