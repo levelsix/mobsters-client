@@ -259,7 +259,6 @@
 - (void) close {
   [super close];
   [self.delegate homeViewControllerClosed];
-//  [[GameViewController baseController] showEarlyGameTutorialArrow];
 }
 
 @end

@@ -74,6 +74,22 @@
   [self unloadAllControllers];
   
   [[CCDirector sharedDirector] resume];
+  
+#warning look over here Ashwin!
+  
+  //if the shop just closed because the player is buying building, and the tutorial wants to get the player to heal or manage team, it causes a bug.
+  //so what's happening is the shop closes and creates a fake building that the player can place.
+  //the tutorial points an arrow to any building it needs to (for example the hospital) and moves the camera to the hospital
+  //part of this action is setting the current building selection to nil
+  //setting the current selection to nil deselects the building that was potentially going to get bought and removes it from the map
+  //the result is: you click a building you want to buy.  The menu closes, your building is on the map for a frame or two, then dissapears and your camera is dragged over to the hospital.
+  
+  //easiest way to reproduce:
+  //start a new account (tutorial only present if you haven't beat the first 3 levels)
+  //after you've gone through the whole tutorial remove all toons from your team.
+  //buy a new building from the store.
+  
+  [[GameViewController baseController] showEarlyGameTutorialArrow];
 }
 
 - (BOOL) shouldStopCCDirector {
