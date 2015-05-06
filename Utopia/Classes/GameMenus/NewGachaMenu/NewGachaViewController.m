@@ -36,25 +36,7 @@
 }
 
 - (void) setupItems {
-  // No longer randomizing, just use the current display items list with db order
-  /*
-  NSMutableArray *arr = [NSMutableArray array];
-  for (int i = 0; i < 20; i++) {
-   */
-  NSMutableArray *sub = [NSMutableArray array];
-  for (BoosterDisplayItemProto *item in self.boosterPack.displayItemsList) {
-    // Add it as many times as quantity
-    // Multiply quantity to increase variability
-    for (int j = 0; j < item.quantity; j++) {
-      [sub addObject:item];
-    }
-  }
-  /*
-    [sub shuffle];
-    [arr addObjectsFromArray:sub];
-  }
-   */
-  self.items = sub;
+  self.items = self.boosterPack.displayItemsList;
   
   self.gachaTable.tableView.repeatSize = CGSizeMake(0, TABLE_CELL_WIDTH*self.items.count);
 }
@@ -413,24 +395,12 @@
   int rowIdx = row % self.items.count;
   
   int arrIndex = 0;
-  GameState *gs = [GameState sharedGameState];
   for (int i = 0; i < self.items.count; i++) {
     int j = (rowIdx+i) % self.items.count;
     BoosterDisplayItemProto *disp = self.items[j];
-    if (disp.isMonster && bip.monsterId && disp.isComplete == bip.isComplete) {
-      MonsterProto *mp = [gs monsterWithId:bip.monsterId];
-      if (mp.quality == disp.quality) {
-        arrIndex = j;
-        break;
-      }
-    } else if (disp.itemId && disp.itemId == bip.itemId && disp.itemQuantity == bip.itemQuantity) {
+    if (disp.reward.rewardId == bip.reward.rewardId) {
       arrIndex = j;
       break;
-    } else if (!disp.isMonster && bip.gemReward) {
-      if (bip.gemReward == disp.gemReward) {
-        arrIndex = j;
-        break;
-      }
     }
   }
   
@@ -451,12 +421,6 @@
   int numFreeSpins = [gs numberOfFreeSpinsForBoosterPack:self.boosterPack.boosterPackId];
   if (gs.gems < self.boosterPack.gemPrice && !isDailySpin && !numFreeSpins) {
     [GenericPopupController displayNotEnoughGemsView];
-    // Don't stop them from spinning due to residences anymore. Unnecessary friction..
-    /*
-  } else if (gs.myMonsters.count > gs.maxInventorySlots) {
-    [GenericPopupController displayConfirmationWithDescription:[NSString stringWithFormat:@"Uh oh, your residences are full. Sell some %@s to free up space.", MONSTER_NAME]
-                                                         title:@"Residences Full" okayButton:@"Sell" cancelButton:@"Cancel" target:self selector:@selector(manageTeam)];
-     */
   } else {
     _lastSpinWasFree = isDailySpin;
     _lastSpinWasMultiSpin = NO;
@@ -525,48 +489,52 @@
     _lastSpinPrizes = prizes;
     
     GameState *gs = [GameState sharedGameState];
-    if (prizes.count > 1 || ((BoosterItemProto*)prizes[0]).monsterId) {
+    if (prizes.count > 1 || ((BoosterItemProto*)prizes[0]).reward.typ == RewardProto_RewardTypeMonster) {
       NSMutableArray* monsterIds = [NSMutableArray array];
       NSMutableArray* monsterDescriptors = [NSMutableArray array];
       NSMutableSet*   monsterElements = [NSMutableSet set];
       
       for (int i = 0; i < prizes.count; ++i) {
         BoosterItemProto* prize = prizes[i];
-        if (prize.monsterId) {
-          MonsterProto *mp = [gs monsterWithId:prize.monsterId];
-          NSString *fileName = [mp.imagePrefix stringByAppendingString:@"Character.png"];
-          [Globals imageNamedWithiPhone6Prefix:fileName withView:nil greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
-          
-          // In the new UserReward system, we only give away either full monsters or a single piece in each spin
-          int numPuzzlePieces = 0;
-          if (!prize.isComplete) {
-            // Find any puzzle pieces awarded for this monster that have not yet been accounted for
-            int numUnaccountedPiecesForMonster = 0;
-            for (int j = i; j < prizes.count; ++j) {
-              if (((BoosterItemProto*)prizes[j]).monsterId == prize.monsterId)
-                  ++numUnaccountedPiecesForMonster;
-            }
+        if (prize.reward.typ == RewardProto_RewardTypeMonster) {
+          const int32_t prizeMonsterId = prize.reward.staticDataId;
+          MonsterProto *mp = [gs monsterWithId:prizeMonsterId];
+          if (mp) {
+            NSString *fileName = [mp.imagePrefix stringByAppendingString:@"Character.png"];
+            [Globals imageNamedWithiPhone6Prefix:fileName withView:nil greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
             
-            // Get the total number of pieces for monsters with this ID
-            int numTotalPiecesForMonster = 0;
-            for (FullUserMonsterProto* monster in monsters) {
-              if (monster.monsterId == prize.monsterId)
-                numTotalPiecesForMonster += monster.numPieces;
+            // In the new UserReward system, we only give away either full monsters or a single piece in each spin
+            int numPuzzlePieces = 0;
+            if (prize.reward.amt == 0) { // Only one piece is given
+              // Find any puzzle pieces awarded for this monster that have not yet been accounted for
+              int numUnaccountedPiecesForMonster = 0;
+              for (int j = i; j < prizes.count; ++j) {
+                BoosterItemProto* p = prizes[j];
+                if (p.reward.typ == RewardProto_RewardTypeMonster && p.reward.staticDataId == prizeMonsterId)
+                  numUnaccountedPiecesForMonster += (p.reward.amt == 0) ? 1 : mp.numPuzzlePieces;
+              }
+              
+              // Get the total number of pieces for monsters with this ID
+              int numTotalPiecesForMonster = 0;
+              for (FullUserMonsterProto* monster in monsters) {
+                if (monster.monsterId == prizeMonsterId)
+                  numTotalPiecesForMonster += monster.numPieces;
+              }
+              
+              // To explain what's going on here -- let's say the player has a certain monster with 2 out of 5 pieces
+              // already in place. Assuming a multi-spin has awarded 4 pieces of the same monster, 4 elements in the
+              // prizes array will be pieces for that monster, and 2 elements in the monsters array will be a monster
+              // of that type; one being complete (5/5) and one that has 1 out of 5 pieces. In the Gacha reveal screen,
+              // the first piece for this monster will show 3/5 progess, the next one 4/5, followed by 5/5 and finally
+              // 1/5, since 4 puzzle pieces have led to the player having two of the same monster, one complete and
+              // one incomplete.
+              numPuzzlePieces = ((numTotalPiecesForMonster - numUnaccountedPiecesForMonster) % mp.numPuzzlePieces) + 1;
             }
-            
-            // To explain what's going on here -- let's say the player has a certain monster with 2 out of 5 pieces
-            // already in place. Assuming a multi-spin has awarded 4 pieces of the same monster, 4 elements in the
-            // prizes array will be pieces for that monster, and 2 elements in the monsters array will be a monster
-            // of that type; one being complete (5/5) and one that has 1 out of 5 pieces. In the Gacha reveal screen,
-            // the first piece for this monster will show 3/5 progess, the next one 4/5, followed by 5/5 and finally
-            // 1/5, since 4 puzzle pieces have led to the player having two of the same monster, one complete and
-            // one incomplete.
-            numPuzzlePieces = ((numTotalPiecesForMonster - numUnaccountedPiecesForMonster) % mp.numPuzzlePieces) + 1;
+
+            [monsterIds addObject:@(prizeMonsterId)];
+            [monsterDescriptors addObject:@{ @"MonsterId" : @(prizeMonsterId), @"NumPuzzlePieces" : @(numPuzzlePieces) }];
+            [monsterElements addObject:@(mp.monsterElement)];
           }
-          
-          [monsterIds addObject:@(prize.monsterId)];
-          [monsterDescriptors addObject:@{ @"MonsterId" : @(prize.monsterId), @"NumPuzzlePieces" : @(numPuzzlePieces) }];
-          [monsterElements addObject:@(mp.monsterElement)];
         }
       }
       
@@ -625,7 +593,12 @@
   Globals *gl = [Globals sharedGlobals];
   
   if (multiSpin) {
-    // TODO - TableView's animation needs to spin out of control, followed by a white flash
+    TimingFunctionTableView *table = self.gachaTable.tableView;
+    CGPoint pt = table.contentOffset;
+    pt = [self nearestCellMiddleFromPoint:ccp(pt.x, pt.y+6000)];
+    [table setContentOffset:pt withTimingFunction:[CAMediaTimingFunction functionWithControlPoints:1.f :1.f :.3f :1.f] duration:4.5f];
+    
+    [self performSelector:@selector(endScrollingAndDisplayPrize) withObject:nil afterDelay:3.f];
   } else {
     BoosterItemProto* prize = prizes[0];
     TimingFunctionTableView *table = self.gachaTable.tableView;
@@ -636,23 +609,26 @@
   }
   
   const int32_t boosterPackGemPrice = multiSpin ? self.boosterPack.gemPrice * gl.boosterPackPurchaseAmountRequired : self.boosterPack.gemPrice;
-  int32_t prizesGemReward = 0; for (BoosterItemProto* prize in prizes) prizesGemReward += prize.gemReward;
+  int32_t prizesGemReward = 0;
+  for (BoosterItemProto* prize in prizes)
+    if (prize.reward.typ == RewardProto_RewardTypeGems)
+      prizesGemReward += prize.reward.amt;
   int gemChange = prizesGemReward - boosterPackGemPrice;
   
   NSMutableArray* monsterList = nil;
   int itemId = 0, itemQuantity = 0;
-  
-  if (prizes.count > 1 || ((BoosterItemProto*)prizes[0]).monsterId) {
+
+  if (prizes.count > 1 || ((BoosterItemProto*)prizes[0]).reward.typ == RewardProto_RewardTypeMonster) {
     monsterList = [NSMutableArray array];
     for (BoosterItemProto* prize in prizes) {
-      if (prize.monsterId)
-        [monsterList addObject:@{ @"monster_id" : @(prize.monsterId), @"piece" : @(!prize.isComplete) }];
+      if (prize.reward.typ == RewardProto_RewardTypeMonster)
+        [monsterList addObject:@{ @"monster_id" : @(prize.reward.staticDataId), @"piece" : @(prize.reward.amt == 0) }];
     }
   }
-  else if (((BoosterItemProto*)prizes[0]).itemId) {
+  else if (((BoosterItemProto*)prizes[0]).reward.typ == RewardProto_RewardTypeItem) {
     BoosterItemProto* prize = prizes[0];
-    itemId = prize.itemId;
-    itemQuantity = prize.itemQuantity;
+    itemId = prize.reward.staticDataId;
+    itemQuantity = prize.reward.amt;
   }
   
   [Analytics buyGacha:self.boosterPack.boosterPackId monsterList:monsterList itemId:itemId itemQuantity:itemQuantity highRoller:multiSpin gemChange:gemChange gemBalance:gs.gems];
@@ -727,10 +703,16 @@
 }
 
 - (void) easyTableViewDidEndScrollingAnimation:(EasyTableView *)easyTableView {
+  if (!_lastSpinWasMultiSpin) {
+    [self endScrollingAndDisplayPrize];
+  }
+}
+
+- (void) endScrollingAndDisplayPrize {
   if (_isSpinning) {
-    if (_lastSpinPrizes.count > 1 || ((BoosterItemProto*)_lastSpinPrizes[0]).monsterId) {
+    if (_lastSpinPrizes.count > 1 || ((BoosterItemProto*)_lastSpinPrizes[0]).reward.typ == RewardProto_RewardTypeMonster) {
       [self displayWhiteFlash];
-    } else if (((BoosterItemProto*)_lastSpinPrizes[0]).itemId) {
+    } else if (((BoosterItemProto*)_lastSpinPrizes[0]).reward.typ == RewardProto_RewardTypeItem) {
       [self displayItemPrizeView];
     } else {
       self.gachaTable.userInteractionEnabled = YES;
@@ -740,16 +722,6 @@
     }
     
     [SoundEngine stopRepeatingEffect];
-    
-    /*
-    if (self.prize.monsterId) {
-      [self displayWhiteFlash];
-    } else {
-      [self displayWhiteFlash];
-      self.gachaTable.userInteractionEnabled = YES;
-      _isSpinning = NO;
-    }
-     */
   }
 }
 
@@ -785,18 +757,6 @@
   UIView *parent = self.navigationController.view;
   self.prizeView.frame = parent.bounds;
   [parent addSubview:self.prizeView];
-  
-  /*
-  if (self.prize.monsterId) {
-    if (_numPuzzlePieces > 0) {
-      [self.prizeView animateWithMonsterId:self.prize.monsterId numPuzzlePieces:_numPuzzlePieces];
-    } else {
-      [self.prizeView animateWithMonsterId:self.prize.monsterId];
-    }
-  } else {
-    [self.prizeView animateWithGems:self.prize.gemReward];
-  }
-   */
   
   if (_lastSpinMonsterDescriptors) {
     [self.prizeView initializeWithMonsterDescriptors:_lastSpinMonsterDescriptors];
@@ -847,7 +807,8 @@
     view.delegate = self;
   }
   BoosterItemProto *item = self.boosterPack.specialItemsList[itemNum];
-  [view updateForMonsterId:item.monsterId];
+  const int32_t monsterId = item.reward.staticDataId;
+  [view updateForMonsterId:monsterId];
   return view;
 }
 
