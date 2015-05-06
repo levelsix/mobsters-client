@@ -76,9 +76,9 @@
     // Create a UserItem so we can use ItemObject protocol
     ui.itemId = self.secretGift.itemId;
     ui.quantity = 1;
-  } else {
-    ui.itemId = self.boosterItem.itemId;
-    ui.quantity = self.boosterItem.itemQuantity;
+  } else if (self.boosterItem.reward.typ == RewardProto_RewardTypeItem) {
+    ui.itemId = self.boosterItem.reward.staticDataId;
+    ui.quantity = self.boosterItem.reward.amt;
   }
   
   self.itemNameLabel.text = [NSString stringWithFormat:@"%d x %@", ui.quantity, [[ui name] uppercaseString]];

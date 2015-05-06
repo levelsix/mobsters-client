@@ -750,16 +750,6 @@ typedef void (^RevealAnimCompletionBlock)(void);
     self.imageContainerView.centerX -= 10.f;
   }
   
-  /*
-  UIView *container = self.monsterIcon.superview;
-  container.centerX = self.hpLabel.superview.originX/2+10;
-  
-  if ([Globals isiPhone6Plus]) {
-    container.transform = CGAffineTransformMakeScale(1.2, 1.2);
-    container.centerY -= 20.f;
-  }
-   */
-  
   self.offensiveSkill = nil;
   self.defensiveSkill = nil;
 }
@@ -888,10 +878,6 @@ typedef void (^RevealAnimCompletionBlock)(void);
 @implementation NewGachaItemCell
 
 - (void) awakeFromNib {
-  /*
-  self.icon.layer.anchorPoint = ccp(0.5, 0.75);
-  self.icon.center = ccpAdd(self.icon.center, ccp(0, self.icon.frame.size.height*(self.icon.layer.anchorPoint.y-0.5)));
-   */
   self.iconLabel.strokeSize = 1.5f;
   self.iconLabel.strokeColor = [UIColor colorWithHexString:@"ebebeb"];
   
@@ -900,49 +886,53 @@ typedef void (^RevealAnimCompletionBlock)(void);
 }
 
 - (void) updateForGachaDisplayItem:(BoosterDisplayItemProto *)item {
+  RewardProto* reward = item.reward;
+  
   self.itemView.hidden = YES;
   self.mainView.hidden = NO;
   
   NSString *iconName = nil;
-  if (item.isMonster) {
-    //NSString *bgdImage = [@"gacha" stringByAppendingString:[Globals imageNameForRarity:item.quality suffix:@"bg.png"]];
-    //[Globals imageNamed:bgdImage withView:self.bgdView greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  if (reward.typ == RewardProto_RewardTypeMonster) {
     
-    if (item.isComplete) {
-      iconName = [@"gacha" stringByAppendingString:[Globals imageNameForRarity:item.quality suffix:@"ball.png"]];
-      self.shadowIcon.hidden = NO;
-    } else {
-      iconName = [@"gacha" stringByAppendingString:[Globals imageNameForRarity:item.quality suffix:@"piece.png"]];
-      self.shadowIcon.hidden = YES;
+    GameState *gs = [GameState sharedGameState];
+    MonsterProto *mp = [gs monsterWithId:reward.staticDataId];
+    if (mp) {
+      if (reward.amt > 0) { // Complete monster
+        iconName = [@"gacha" stringByAppendingString:[Globals imageNameForRarity:mp.quality suffix:@"ball.png"]];
+        self.shadowIcon.hidden = NO;
+      } else {
+        iconName = [@"gacha" stringByAppendingString:[Globals imageNameForRarity:mp.quality suffix:@"piece.png"]];
+        self.shadowIcon.hidden = YES;
+      }
+      self.label.text = [[Globals stringForRarity:mp.quality] uppercaseString];
+      self.label.textColor = [Globals colorForRarity:mp.quality];
+      
+      self.diamondIcon.hidden = YES;
+      self.icon.hidden = NO;
     }
-    self.label.text = [[Globals stringForRarity:item.quality] uppercaseString];
-    self.label.textColor = [Globals colorForRarity:item.quality];
-    
-    self.diamondIcon.hidden = YES;
-    self.icon.hidden = NO;
-  } else if (item.itemId) {
+  } else if (reward.typ == RewardProto_RewardTypeItem) {
     
     UserItem *ui = [[UserItem alloc] init];
-    ui.itemId = item.itemId;
+    ui.itemId = reward.staticDataId;
     
     [Globals imageNamed:ui.iconImageName withView:self.itemIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
     
     self.iconLabel.text = ui.iconText;
-    self.itemQuantityLabel.text = [NSString stringWithFormat:@"%dx", item.itemQuantity];
-    self.itemQuantityLabel.superview.hidden = item.itemQuantity <= 1;
+    self.itemQuantityLabel.text = [NSString stringWithFormat:@"%dx", reward.amt];
+    self.itemQuantityLabel.superview.hidden = (reward.amt <= 1);
     
     self.itemView.hidden = NO;
     self.mainView.hidden = YES;
-  } else {
-    //NSString *bgdImage = @"gachagemsbg.png";
-    //[Globals imageNamed:bgdImage withView:self.bgdView greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  } else if (reward.typ == RewardProto_RewardTypeGems) {
     
-    self.label.text = [Globals commafyNumber:item.gemReward];
+    self.label.text = [Globals commafyNumber:reward.amt];
     self.label.textColor = [Globals purplishPinkColor];
     
     self.diamondIcon.hidden = NO;
     self.shadowIcon.hidden = YES;
     self.icon.hidden = YES;
+  } else {
+    // Other reward types unsupported
   }
   [Globals imageNamed:iconName withView:self.icon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
 }
