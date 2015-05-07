@@ -248,6 +248,7 @@
 - (void) updateInAppPurchases;
 - (void) updateConstants:(StartupResponseProto_StartupConstants *)constants;
 - (SalesPackageProto *) builderPackSale;
+- (SalesPackageProto *) highRollerModeSale;
 - (InAppPurchasePackageProto *) moneyTreeIapPackage;
 
 + (NSString *) font;

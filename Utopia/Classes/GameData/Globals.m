@@ -98,6 +98,18 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return nil;
 }
 
+- (SalesPackageProto *) highRollerModeSale {
+  GameState *gs = [GameState sharedGameState];
+  for (SalesPackageProto *spp in gs.mySales) {
+    for (SalesItemProto *sip in spp.sipList) {
+      if (sip.reward.typ == RewardProto_RewardTypeItem && [gs itemForId:sip.reward.staticDataId].itemType == ItemTypeGachaMultiSpin)
+        return spp;
+    }
+  }
+  
+  return nil;
+}
+
 - (InAppPurchasePackageProto *) moneyTreeIapPackage {
   for (InAppPurchasePackageProto *pkg in self.iapPackages) {
     if (pkg.iapPackageType == InAppPurchasePackageProto_InAppPurchasePackageTypeMoneyTree) {

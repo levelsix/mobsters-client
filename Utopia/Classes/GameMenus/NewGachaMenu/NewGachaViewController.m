@@ -443,12 +443,12 @@
 }
 
 - (IBAction) multiSpinClicked:(id)sender {
+  TimingFunctionTableView *table = self.gachaTable.tableView;
+  if (table.isTracking || _isSpinning) {
+    return;
+  }
+  
   if (_isMultiSpinAvailable) {
-    TimingFunctionTableView *table = self.gachaTable.tableView;
-    if (table.isTracking || _isSpinning) {
-      return;
-    }
-    
     GameState *gs = [GameState sharedGameState];
     Globals *gl = [Globals sharedGlobals];
     const int32_t boosterPackGemPrice = self.boosterPack.gemPrice * gl.boosterPackPurchaseAmountRequired;
@@ -470,7 +470,14 @@
     }
   }
   else {
-    // TODO - Display a popup that will take the player to Packages screen
+    // Display a popup that will give players the option to purchase and unlock High Roller mode
+    PurchaseHighRollerModeViewController *phrmvc = [[PurchaseHighRollerModeViewController alloc]
+                                                    initWithHeadline:@"Unlock High Roller"
+                                                    andMessage:@"Purchase a Package that includes \"High Roller Mode\" to unlock!"];
+    [phrmvc setDelegate:self];
+    [self.navigationController addChildViewController:phrmvc];
+    [phrmvc.view setFrame:self.view.bounds];
+    [self.navigationController.view addSubview:phrmvc.view];
   }
 }
 
@@ -503,7 +510,7 @@
             NSString *fileName = [mp.imagePrefix stringByAppendingString:@"Character.png"];
             [Globals imageNamedWithiPhone6Prefix:fileName withView:nil greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
             
-            // In the new UserReward system, we only give away either full monsters or a single piece in each spin
+            // In the new RewardProto system, we only give away either full monsters or a single piece in each spin
             int numPuzzlePieces = 0;
             if (prize.reward.amt == 0) { // Only one piece is given
               // Find any puzzle pieces awarded for this monster that have not yet been accounted for
@@ -673,6 +680,20 @@
   if (!_isSpinning) {
     [super menuBackClicked:sender];
   }
+}
+
+#pragma mark - PurchaseHighRollerModeCallbackDelegate
+
+- (void) toPackagesTapped {
+  [self viewWillDisappear:YES];
+  
+  [self.navigationController.presentingViewController dismissViewControllerAnimated:YES completion:^{
+    GameViewController *gvc = [GameViewController baseController];
+    Globals *gl = [Globals sharedGlobals];
+    
+    SalesPackageProto *spp = [gl highRollerModeSale];
+    [gvc.topBarViewController openShopWithFunds:spp];
+  }];
 }
 
 #pragma mark - EasyTableView methods
