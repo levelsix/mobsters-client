@@ -415,6 +415,8 @@
 - (void) startMatchClicked {
   if (!self.queueNode.userInteractionEnabled) return;
   
+  [self.battleStateMachine forceStateWithType:CombatReplayStepTypeSpawnEnemy withActions:NO];
+  
   PvpProto *pvp = self.defendersList[_curQueueNum];
   [[OutgoingEventController sharedOutgoingEventController] beginPvpBattle:pvp isRevenge:_isRevenge previousBattleTime:_prevBattleStartTime];
   
@@ -678,6 +680,7 @@
       um.userMonsterUuid = [NSString stringWithFormat:@"%i",num++];
       BattlePlayer *bp = [BattlePlayer playerWithMonster:um];
       [enemyTeam addObject:bp];
+      [enemyTeamSnapshots addObject:[self monsterSnapshot:um isOffensive:NO]];
       
       if (bp.spritePrefix) {
         [set addObject:bp.spritePrefix];

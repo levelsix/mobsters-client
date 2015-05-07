@@ -240,19 +240,32 @@ static NSString *TKQuoteString(NSString *string)
     return YES;
 }
 
-- (void)forceState:(TKState*)state
+- (void)forceState:(TKState *)state
+{
+  [self forceState:state withActions:NO];
+}
+
+- (void)forceState:(TKState*)state withActions:(BOOL)withActions
 {
   if (! self.isActive) [self activate];
   TKTransition *transition = [TKTransition transitionForEvent:nil fromState:self.currentState inStateMachine:self userInfo:nil];
   
   TKState *oldState = self.currentState;
   TKState *newState = state;
-    
-  if (oldState.willExitStateBlock) oldState.willExitStateBlock(oldState, transition);
-  if (newState.willEnterStateBlock) newState.willEnterStateBlock(newState, transition);
-  self.currentState = newState;
-  if (oldState.didExitStateBlock) oldState.didExitStateBlock(oldState, transition);
-  if (newState.didEnterStateBlock) newState.didEnterStateBlock(newState, transition);
+  
+  if (withActions)
+  {
+    if (oldState.willExitStateBlock) oldState.willExitStateBlock(oldState, transition);
+    if (newState.willEnterStateBlock) newState.willEnterStateBlock(newState, transition);
+    self.currentState = newState;
+    if (oldState.didExitStateBlock) oldState.didExitStateBlock(oldState, transition);
+    if (newState.didEnterStateBlock) newState.didEnterStateBlock(newState, transition);
+  }
+  else
+  {
+    if (newState.willEnterStateBlock) newState.willEnterStateBlock(newState, transition);
+    self.currentState = newState;
+  }
   
   NSMutableDictionary *notificationInfo = [NSMutableDictionary dictionary];
   [notificationInfo addEntriesFromDictionary:@{ TKStateMachineDidChangeStateOldStateUserInfoKey: oldState,

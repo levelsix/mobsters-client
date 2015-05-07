@@ -39,10 +39,9 @@
   BattleState *lastState = self.currentBattleState;
   if ([self canFireEvent:eventOrEventName])
   {
-    //if (lastState.combatReplayStepType != CombatReplayStepTypeBattleInitialization) {
       [lastState setIndex:(int)self.pastStates.count];
       [self.pastStates addObject:[lastState getStepProto]];
-    //}
+    
     NSLog(@"Transitioning from %@ to %@", lastState.name, ((TKEvent*)(eventOrEventName)).destinationState.name);
     [super fireEvent:eventOrEventName userInfo:userInfo error:error];
     return YES;
@@ -52,11 +51,18 @@
 }
 
 - (void)forceStateWithType:(CombatReplayStepType)stepType {
+  [self forceStateWithType:stepType withActions:YES];
+}
+
+- (void)forceStateWithType:(CombatReplayStepType)stepType withActions:(BOOL)withActions {
+  [self.currentBattleState setIndex:(int)self.pastStates.count];
+  [self.pastStates addObject:[self.currentBattleState getStepProto]];
+  
   BattleState *state;
   for (BattleState *bs in self.states)
     if (bs.combatReplayStepType == stepType)
       state = bs;
-  [self forceState:state];
+  [self forceState:state withActions:withActions];
 }
 
 - (void) scheduleRecreated:(NSArray*)schedule startingIndex:(int)startingIndex {
