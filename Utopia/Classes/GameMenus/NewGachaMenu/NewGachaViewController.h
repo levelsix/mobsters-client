@@ -14,9 +14,11 @@
 #import "NewGachaViews.h"
 #import "BattleHudView.h"
 #import "NewGachaTicker.h"
+#import "PurchaseHighRollerModeViewController.h"
 
-@interface NewGachaViewController : GenViewController
-<EasyTableViewDelegate, NewGachaFocusScrollViewDelegate, TabBarDelegate, NewGachaFeaturedViewCallbackDelegate, BattleSkillCounterPopupCallbackDelegate> {
+@interface NewGachaViewController : GenViewController <EasyTableViewDelegate, NewGachaFocusScrollViewDelegate, TabBarDelegate,
+  NewGachaFeaturedViewCallbackDelegate, BattleSkillCounterPopupCallbackDelegate, PurchaseHighRollerModeCallbackDelegate>
+{
   BOOL _isSpinning;
   BOOL _isMultiSpinAvailable;
 

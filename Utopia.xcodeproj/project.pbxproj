@@ -2699,6 +2699,12 @@
 		9BBE36F51AE7275D001A0E81 /* gachaallarrowdisabled@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BBE36F11AE7275D001A0E81 /* gachaallarrowdisabled@2x.png */; };
 		9BBE36F61AE7275D001A0E81 /* gachaallarrowdisabled@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BBE36F11AE7275D001A0E81 /* gachaallarrowdisabled@2x.png */; };
 		9BBE36F71AE7275D001A0E81 /* gachaallarrowdisabled@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BBE36F11AE7275D001A0E81 /* gachaallarrowdisabled@2x.png */; };
+		9BBE370A1AF9A687001A0E81 /* PurchaseHighRollerModeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BBE37081AF9A687001A0E81 /* PurchaseHighRollerModeViewController.m */; };
+		9BBE370B1AF9A687001A0E81 /* PurchaseHighRollerModeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BBE37081AF9A687001A0E81 /* PurchaseHighRollerModeViewController.m */; };
+		9BBE370C1AF9A687001A0E81 /* PurchaseHighRollerModeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BBE37081AF9A687001A0E81 /* PurchaseHighRollerModeViewController.m */; };
+		9BBE370D1AF9A687001A0E81 /* PurchaseHighRollerModeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BBE37091AF9A687001A0E81 /* PurchaseHighRollerModeViewController.xib */; };
+		9BBE370E1AF9A687001A0E81 /* PurchaseHighRollerModeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BBE37091AF9A687001A0E81 /* PurchaseHighRollerModeViewController.xib */; };
+		9BBE370F1AF9A687001A0E81 /* PurchaseHighRollerModeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BBE37091AF9A687001A0E81 /* PurchaseHighRollerModeViewController.xib */; };
 		9BC1891A1AC1E734001B8E88 /* MiniEventDetailsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BC189191AC1E734001B8E88 /* MiniEventDetailsView.xib */; };
 		9BC1891B1AC1E734001B8E88 /* MiniEventDetailsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BC189191AC1E734001B8E88 /* MiniEventDetailsView.xib */; };
 		9BC1891C1AC1E734001B8E88 /* MiniEventDetailsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BC189191AC1E734001B8E88 /* MiniEventDetailsView.xib */; };
@@ -8814,6 +8820,9 @@
 		9BBE36EC1AE5C46F001A0E81 /* NewGachaPrizeStatsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewGachaPrizeStatsView.xib; sourceTree = "<group>"; };
 		9BBE36F01AE7275D001A0E81 /* gachaallarrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gachaallarrow@2x.png"; sourceTree = "<group>"; };
 		9BBE36F11AE7275D001A0E81 /* gachaallarrowdisabled@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gachaallarrowdisabled@2x.png"; sourceTree = "<group>"; };
+		9BBE37071AF9A687001A0E81 /* PurchaseHighRollerModeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PurchaseHighRollerModeViewController.h; sourceTree = "<group>"; };
+		9BBE37081AF9A687001A0E81 /* PurchaseHighRollerModeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PurchaseHighRollerModeViewController.m; sourceTree = "<group>"; };
+		9BBE37091AF9A687001A0E81 /* PurchaseHighRollerModeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PurchaseHighRollerModeViewController.xib; sourceTree = "<group>"; };
 		9BC189191AC1E734001B8E88 /* MiniEventDetailsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MiniEventDetailsView.xib; sourceTree = "<group>"; };
 		9BC1891E1AC1E792001B8E88 /* MiniEventPointsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MiniEventPointsView.xib; sourceTree = "<group>"; };
 		9BC189221AC1EF6A001B8E88 /* MiniEventDetailsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiniEventDetailsView.h; sourceTree = "<group>"; };
@@ -14698,6 +14707,16 @@
 			path = UIEffectDesignerView;
 			sourceTree = "<group>";
 		};
+		9BBE37061AF9A687001A0E81 /* PurchaseHighRollerMode */ = {
+			isa = PBXGroup;
+			children = (
+				9BBE37071AF9A687001A0E81 /* PurchaseHighRollerModeViewController.h */,
+				9BBE37081AF9A687001A0E81 /* PurchaseHighRollerModeViewController.m */,
+				9BBE37091AF9A687001A0E81 /* PurchaseHighRollerModeViewController.xib */,
+			);
+			path = PurchaseHighRollerMode;
+			sourceTree = "<group>";
+		};
 		9BC37F531ADF29E6009571F1 /* 11 Spins */ = {
 			isa = PBXGroup;
 			children = (
@@ -15164,6 +15183,7 @@
 			children = (
 				9B7AAAF31AC0A22200CA387F /* MiniEventMenu */,
 				63B044FE1A92B9C600C74F0C /* AttackedAlert */,
+				9BBE37061AF9A687001A0E81 /* PurchaseHighRollerMode */,
 				63B044BC1A8BE79A00C74F0C /* PushNotifications */,
 				2991FC061A800D85009BB1D8 /* Popovers */,
 				29AAE5E01A7B0F7300E4F022 /* DonateMsgMenu */,
@@ -16406,7 +16426,6 @@
 				9B2EFCCE1AC4AEC9005B7B83 /* EventMiniEvent.proto */,
 				9B2EFCCF1AC4AEC9005B7B83 /* MiniEvent.proto */,
 				9B2EFCD01AC4AEC9005B7B83 /* Reward.proto */,
-				6304B4661AE054B80075D4E9 /* CustomMenu.proto */,
 				63CE45EA1AD8564400C5D8C5 /* Reward.proto */,
 				63CA0AFF1AD5B95300E92774 /* EventMiniEvent.proto */,
 				63CA0B001AD5B95300E92774 /* MiniEvent.proto */,
@@ -21005,6 +21024,7 @@
 				2948F59C1AB7635300DF08C2 /* itemsquaresmallgrey@2x.png in Resources */,
 				2929C64C1AE6F9090047A7C3 /* freegemsspinner@2x.png in Resources */,
 				CF0CF6EF196F452900ECD301 /* KamcordiPad.storyboardc in Resources */,
+				9BBE370E1AF9A687001A0E81 /* PurchaseHighRollerModeViewController.xib in Resources */,
 				CF0CF6F0196F452900ECD301 /* Gotham-Ultra.otf in Resources */,
 				CF0CF6F1196F452900ECD301 /* healblue@2x.png in Resources */,
 				CF0CF6F4196F452900ECD301 /* connectbg@2x.png in Resources */,
@@ -22988,6 +23008,7 @@
 				CF37378B19E3759100CB16E3 /* winlosegradient@2x.png in Resources */,
 				CFA729051A0B037900FF6031 /* lighteventtimer@2x.png in Resources */,
 				CF06B5D4193699FC008BF892 /* buildingbg@2x.png in Resources */,
+				9BBE370D1AF9A687001A0E81 /* PurchaseHighRollerModeViewController.xib in Resources */,
 				CFBF031C17C595F60082A9BF /* ClanBrowseViewController.xib in Resources */,
 				9BC9F32D1A8B05B3009DC3D5 /* energizeorb-9@2x.png in Resources */,
 				CFBF032317C596890082A9BF /* ClanCreateViewController.xib in Resources */,
@@ -24456,6 +24477,7 @@
 				CF481FDD19F7217F00041486 /* connect@2x.png in Resources */,
 				9B8CA6231A379D400060BE8F /* drunkenbrawlminilogo@2x.png in Resources */,
 				CF481FE119F7217F00041486 /* platinumribbon@2x.png in Resources */,
+				9BBE370F1AF9A687001A0E81 /* PurchaseHighRollerModeViewController.xib in Resources */,
 				CF481FE319F7217F00041486 /* superjob@2x.png in Resources */,
 				CFA793791A0C63ED00DF3407 /* earthcakeeventlive@2x.png in Resources */,
 				CF481FE519F7217F00041486 /* questnumberbg@2x.png in Resources */,
@@ -25762,6 +25784,7 @@
 				CF0CED08196F452900ECD301 /* MonsterStuff.pb.m in Sources */,
 				CF0CED09196F452900ECD301 /* OneLineNotificationViewController.m in Sources */,
 				CF0CED0A196F452900ECD301 /* Downloader.m in Sources */,
+				9BBE370B1AF9A687001A0E81 /* PurchaseHighRollerModeViewController.m in Sources */,
 				29DCCFAB1A8AA114003176FD /* TutorialEnhanceChooserViewController.m in Sources */,
 				CF0CED0B196F452900ECD301 /* HomeMap.m in Sources */,
 				9BCAA19A1AD491E20059CEDA /* MiniEventGoalNotificationViewController.m in Sources */,
@@ -26505,6 +26528,7 @@
 				29804FF21A258EC100806253 /* SecretGiftViewController.m in Sources */,
 				CF7CFE2219A55A68009338A2 /* BattleOrb.m in Sources */,
 				CFFF9A1C18BE72910036EEC3 /* ClanRaidBattleLayer.m in Sources */,
+				9BBE370A1AF9A687001A0E81 /* PurchaseHighRollerModeViewController.m in Sources */,
 				CFFA31F518B3E836008B81B9 /* ClanRaidViews.m in Sources */,
 				CF9AE717180CE5100013DD44 /* GenViewController.m in Sources */,
 				CFF786CE18E16BD700413E78 /* LevelUpNode.m in Sources */,
@@ -26549,6 +26573,7 @@
 				CF4818AB19F7217F00041486 /* ProfileViews.m in Sources */,
 				CF4818AC19F7217F00041486 /* MonsterStuff.pb.m in Sources */,
 				CF4818AD19F7217F00041486 /* OneLineNotificationViewController.m in Sources */,
+				9BBE370C1AF9A687001A0E81 /* PurchaseHighRollerModeViewController.m in Sources */,
 				CF4818AE19F7217F00041486 /* Downloader.m in Sources */,
 				29DCCFAC1A8AA114003176FD /* TutorialEnhanceChooserViewController.m in Sources */,
 				9BCAA19B1AD491E20059CEDA /* MiniEventGoalNotificationViewController.m in Sources */,
