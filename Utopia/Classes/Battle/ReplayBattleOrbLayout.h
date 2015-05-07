@@ -12,5 +12,6 @@
 
 - (instancetype)initWithBoardLayout:(BoardLayoutProto*)proto andOrbHistory:(NSArray*)orbHistory;
 - (instancetype)initWithGridSize:(CGSize)gridSize numColors:(int)numColors andOrbHistory:(NSArray *)orbHistory;
+- (instancetype)initWithGridSize:(CGSize)gridSize userBoardObstacles:(NSArray *)userBoardObstacles andHistory:(NSArray *)orbHistory;
 
 @end

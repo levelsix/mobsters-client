@@ -56,6 +56,8 @@
   
   if (_layoutProto)
     ol = [[ReplayOrbMainLayer alloc] initWithLayoutProto:_replay.board andHistory:_replay.orbsList];
+  else if (_replay.pvpObstaclesList.count)
+    ol = [[ReplayOrbMainLayer alloc] initWithGridSize:CGSizeMake(_replay.boardWidth, _replay.boardHeight) userBoardObstacles:_replay.pvpObstaclesList andHistory:_replay.orbsList];
   else
     ol = [[ReplayOrbMainLayer alloc] initWithGridSize:CGSizeMake(_replay.boardWidth, _replay.boardHeight) numColors:6 andHistory:_replay.orbsList];
   

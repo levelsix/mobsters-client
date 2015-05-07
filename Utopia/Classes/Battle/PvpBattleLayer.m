@@ -84,6 +84,12 @@
   [self removeCloseButton];
 }
 
+- (CombatReplayProto *)createReplayWithBuilder:(CombatReplayProto_Builder *)builder {
+  PvpProto *pvp = self.defendersList[_curQueueNum];
+  [builder addAllPvpObstacles:pvp.userBoardObstaclesList];
+  return [super createReplayWithBuilder:builder];
+}
+
 #pragma mark - Close Button
 
 - (void) createCloseButton {

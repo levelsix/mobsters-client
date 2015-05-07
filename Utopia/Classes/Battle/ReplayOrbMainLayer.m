@@ -22,6 +22,11 @@
   return [self initWithGridSize:gridSize numColors:numColors layout:layout];
 }
 
+- (id)initWithGridSize:(CGSize)gridSize userBoardObstacles:(NSArray *)userBoardObstacles andHistory:(NSArray*)orbHistory {
+  ReplayBattleOrbLayout *layout = [[ReplayBattleOrbLayout alloc] initWithGridSize:gridSize userBoardObstacles:userBoardObstacles andHistory:orbHistory];
+  return [self initWithGridSize:gridSize numColors:layout.numColors layout:layout];
+}
+
 - (void) tapDownOnSpace:(int)x spaceY:(int)y {
   BattleOrb* orb = [self.layout orbAtColumn:x row:y];
   BattleTile* tile = [self.layout tileAtColumn:x row:y];

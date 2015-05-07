@@ -40,6 +40,13 @@
   return self;
 }
 
+- (instancetype)initWithGridSize:(CGSize)gridSize userBoardObstacles:(NSArray *)userBoardObstacles andHistory:(NSArray *)orbHistory {
+  if (self = [super initWithGridSize:gridSize userBoardObstacles:userBoardObstacles]) {
+    [self storeHistory:orbHistory];
+  }
+  return self;
+}
+
 - (NSSet *)createInitialOrbs {
   
   NSMutableSet *set = [NSMutableSet set];

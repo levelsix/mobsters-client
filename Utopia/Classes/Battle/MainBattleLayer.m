@@ -1356,7 +1356,12 @@
 - (void) buildReplay {
   [self.battleStateMachine addFinalState];
   
-  CombatReplayProto_Builder *builder = [CombatReplayProto builder];
+  CombatReplayProto *replay = [self createReplayWithBuilder:[CombatReplayProto builder]];
+  
+  [Globals sharedGlobals].lastReplay = replay;
+}
+
+- (CombatReplayProto*) createReplayWithBuilder:(CombatReplayProto_Builder*)builder {
   
   [builder setGroundImgPrefix:@"1"];
   
@@ -1367,12 +1372,11 @@
     [builder setBoardHeight:_gridSize.height];
   }
   
-  CombatReplayProto *replay = [[[[[builder addAllOrbs:self.orbLayer.layout.orbRecords.allValues]
-                                 addAllSteps:self.battleStateMachine.pastStates]
-                                addAllPlayerTeam:self.playerTeamSnapshot]
-                               addAllEnemyTeam:self.enemyTeamSnapshot]
-                              build];
-  [Globals sharedGlobals].lastReplay = replay;
+  return [[[[[builder addAllOrbs:self.orbLayer.layout.orbRecords.allValues]
+                                  addAllSteps:self.battleStateMachine.pastStates]
+                                 addAllPlayerTeam:self.playerTeamSnapshot]
+                                addAllEnemyTeam:self.enemyTeamSnapshot]
+                               build];
 }
 
 - (void) sendReplay {
