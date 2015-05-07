@@ -36,10 +36,12 @@
 {
   NSMutableArray* _characterImageViews;
   NSMutableArray* _characterStatsViews;
+  NSMutableArray* _characterBackgrounds;
   
   NSArray*  _characterDescriptors;
   NSInteger _currentCharacterIndex;
   
+  UIImageView *_backgroundDuplicate;
   UIImageView *_lightCircleDuplicate;
   UIImageView *_whiteLightCircleDuplicate;
   UIImageView *_characterWhite;

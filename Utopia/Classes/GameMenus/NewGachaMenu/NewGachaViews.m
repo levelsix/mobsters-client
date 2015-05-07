@@ -73,9 +73,10 @@ typedef void (^RevealAnimCompletionBlock)(void);
   [effectView setFrame:CGRectMake(140.f * deviceScale, 250.f * deviceScale, 100.f * deviceScale, 20.f * deviceScale)];
   [effectView.emitter setEmitterSize:CGSizeMake(effectView.width, effectView.height)];
   [effectView.emitter setEmitterPosition:CGPointMake(effectView.emitter.emitterPosition.x - effectView.width * .5f, effectView.emitter.emitterPosition.y)];
-  [self insertSubview:effectView belowSubview:self.closeButton];
+  [self insertSubview:effectView aboveSubview:self.contentScrollView];
   _particleEffectView = effectView;
   
+  _backgroundDuplicate = nil;
   _lightCircleDuplicate = nil;
   _whiteLightCircleDuplicate = nil;
   _characterWhite = nil;
@@ -100,12 +101,10 @@ typedef void (^RevealAnimCompletionBlock)(void);
               clearImageDuringDownload:YES];
   
   const NSString* elementStr = [[Globals stringForElement:proto.monsterElement] lowercaseString];
-  {
-    self.background.image = [Globals imageNamed:[elementStr stringByAppendingString:@"grbackground.jpg"]];
-    self.elementbigFlash.image = [Globals imageNamed:[elementStr stringByAppendingString:@"grbigflash1.png"]];
-    self.elementGlow.image = [Globals imageNamed:[elementStr stringByAppendingString:@"grglow2glowblend.png"]];
-    self.elementLightsFlash.image = [Globals imageNamed:[elementStr stringByAppendingString:@"lightsflashlow1.png"]];
-  }
+  self.background.image = [Globals imageNamed:[elementStr stringByAppendingString:@"grbackground.jpg"]];
+
+  _characterBackgrounds = [NSMutableArray array];
+  [_characterBackgrounds addObject:self.background.image];
   
   //
   // Load the remaining characters (if any) as subviews of characterScrollView
@@ -126,6 +125,9 @@ typedef void (^RevealAnimCompletionBlock)(void);
                              maskedColor:nil
                                indicator:UIActivityIndicatorViewStyleWhite
                 clearImageDuringDownload:YES];
+    
+    const NSString* elementStr = [[Globals stringForElement:proto.monsterElement] lowercaseString];
+    [_characterBackgrounds addObject:[Globals imageNamed:[elementStr stringByAppendingString:@"grbackground.jpg"]]];
     
     [self.characterScrollView addSubview:characterImageView];
     [_characterImageViews addObject:characterImageView];
@@ -348,12 +350,22 @@ typedef void (^RevealAnimCompletionBlock)(void);
   UIImageView* characterImageView = _characterImageViews[_currentCharacterIndex];
   NewGachaPrizeStatsView* characterStatsView = _characterStatsViews[_currentCharacterIndex];
   
+  const int monsterId = [[_characterDescriptors[_currentCharacterIndex] objectForKey:@"MonsterId"] intValue];
+  MonsterProto* proto = [[GameState sharedGameState] monsterWithId:monsterId];
+  const NSString* elementStr = [[Globals stringForElement:proto.monsterElement] lowercaseString];
+  {
+    self.elementbigFlash.image = [Globals imageNamed:[elementStr stringByAppendingString:@"grbigflash1.png"]];
+    self.elementGlow.image = [Globals imageNamed:[elementStr stringByAppendingString:@"grglow2glowblend.png"]];
+    self.elementLightsFlash.image = [Globals imageNamed:[elementStr stringByAppendingString:@"lightsflashlow1.png"]];
+  }
+  self.background.image = _characterBackgrounds[_currentCharacterIndex];
+  
   if (!_lightCircleDuplicate)
   {
      _lightCircleDuplicate = [[UIImageView alloc] initWithFrame:self.lightCircle.frame];
     [_lightCircleDuplicate setImage:self.lightCircle.image];
     [_lightCircleDuplicate setContentMode:self.lightCircle.contentMode];
-    [self insertSubview:_lightCircleDuplicate aboveSubview:self.whiteLightCircle];
+    [self.animationContainerView insertSubview:_lightCircleDuplicate aboveSubview:self.whiteLightCircle];
   }
   
   if (!_whiteLightCircleDuplicate)
@@ -361,14 +373,14 @@ typedef void (^RevealAnimCompletionBlock)(void);
      _whiteLightCircleDuplicate = [[UIImageView alloc] initWithFrame:self.whiteLightCircle.frame];
     [_whiteLightCircleDuplicate setImage:self.whiteLightCircle.image];
     [_whiteLightCircleDuplicate setContentMode:self.whiteLightCircle.contentMode];
-    [self insertSubview:_whiteLightCircleDuplicate aboveSubview:_lightCircleDuplicate];
+    [self.animationContainerView insertSubview:_whiteLightCircleDuplicate aboveSubview:_lightCircleDuplicate];
   }
   
   if (_characterWhite) [_characterWhite removeFromSuperview];
    _characterWhite = [[UIImageView alloc] initWithFrame:self.character.frame];
   [_characterWhite setImage:[Globals maskImage:characterImageView.image withColor:[UIColor whiteColor]]];
   [_characterWhite setContentMode:self.character.contentMode];
-  [self insertSubview:_characterWhite aboveSubview:self.elementLightsFlash];
+  [self.animationContainerView insertSubview:_characterWhite aboveSubview:self.elementLightsFlash];
   
   REVEAL_KEYFRAME_ANIMATION(anim1, @"opacity")
     [anim1 setKeyTimes:@[ @0.f, @(6.f / kRevealAnimFrames), @(13.f / kRevealAnimFrames), @1.0f ]];
@@ -603,6 +615,14 @@ typedef void (^RevealAnimCompletionBlock)(void);
           self.skipAllButton.alpha = 1.f;
         }];
       }
+      
+      if (!_backgroundDuplicate)
+      {
+         _backgroundDuplicate = [[UIImageView alloc] initWithFrame:self.background.frame];
+        [_backgroundDuplicate setAlpha:0.f];
+        [_backgroundDuplicate setContentMode:self.background.contentMode];
+        [self.animationContainerView insertSubview:_backgroundDuplicate aboveSubview:self.background];
+      }
     }
   }
 }
@@ -675,8 +695,11 @@ typedef void (^RevealAnimCompletionBlock)(void);
 
 - (void) scrollViewDidScroll:(UIScrollView*)scrollView
 {
-  // Delegate callback method for contentScrollView
+  // Positive value indicates swiping right (left/previous page coming into view)
+  const CGFloat dx = self.characterScrollView.contentOffset.x - scrollView.contentOffset.x;
   
+  // This is the delegate callback method for contentScrollView that's
+  // user-interactable. Keeping characterScrollView scrolling in sync
   self.characterScrollView.contentOffset = scrollView.contentOffset;
   
   const NSInteger characterCount = _characterDescriptors.count;
@@ -690,6 +713,15 @@ typedef void (^RevealAnimCompletionBlock)(void);
   }
   
   self.contentPageControl.currentPage = currentPage;
+  
+  const float n = clampf(scrollView.contentOffset.x, 0.f, scrollView.contentSize.width - scrollView.width) / scrollView.width;
+  const int p0  = clampf(floorf(n) + (dx > 0.f), 0, characterCount - 1); // Page swiping from
+  const int p1  = clampf(floorf(n) + (dx < 0.f), 0, characterCount - 1); // Page swiping to
+  
+  self.background.image = _characterBackgrounds[p0]; _backgroundDuplicate.image = _characterBackgrounds[p1];
+  
+  const float t = (n - p0) * (p1 - p0);
+  self.background.alpha = 1. - t; _backgroundDuplicate.alpha = t;
 }
 
 - (IBAction) prevButtonClicked:(id)sender
@@ -718,6 +750,7 @@ typedef void (^RevealAnimCompletionBlock)(void);
   } completion:^(BOOL finished) {
     [self removeFromSuperview];
     
+    [_backgroundDuplicate removeFromSuperview]; _backgroundDuplicate = nil;
     [_lightCircleDuplicate removeFromSuperview]; _lightCircleDuplicate = nil;
     [_whiteLightCircleDuplicate removeFromSuperview]; _whiteLightCircleDuplicate = nil;
     [_characterWhite removeFromSuperview]; _characterWhite = nil;
@@ -733,6 +766,9 @@ typedef void (^RevealAnimCompletionBlock)(void);
     [_characterStatsViews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     [_characterStatsViews removeAllObjects];
     _characterStatsViews = nil;
+    
+    [_characterBackgrounds removeAllObjects];
+    _characterBackgrounds = nil;
     
     self.alpha = 1.f;
   }];
