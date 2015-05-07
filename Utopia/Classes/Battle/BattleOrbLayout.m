@@ -219,6 +219,7 @@
     
     set = [NSMutableSet set];
     
+    [self preseedRandomization];
     [array shuffle];
     
     foundMatch = NO;

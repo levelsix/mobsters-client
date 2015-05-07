@@ -58,6 +58,10 @@
   self.combatStepBuilder.movePos2 = [self combineInts:x2 int2:y2];
 }
 
+- (void) addTapAtX:(int)x andY:(int)y {
+  self.combatStepBuilder.movePos1 = [self combineInts:x int2:y];
+}
+
 - (void) addItemUse:(int)itemId {
   self.combatStepBuilder.itemId = itemId;
 }

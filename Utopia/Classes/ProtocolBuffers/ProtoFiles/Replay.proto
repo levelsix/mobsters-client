@@ -5,6 +5,7 @@ import "MonsterStuff.proto";
 import "Board.proto";
 import "SharedEnumConfig.proto";
 import "Skill.proto";
+import "Structure.proto";
 
 package com.lvl6.proto;
 
@@ -36,6 +37,11 @@ message CombatReplayProto {
 	repeated CombatReplayStepProto steps = 6;
 	optional BoardLayoutProto board = 7;
 	repeated CombatReplayOrbProto orbs = 8;
+
+  optional int32 boardWidth = 9;
+  optional int32 boardHeight = 10;
+  repeated PvpBoardObstacleProto pvpObstacles = 11;
+  repeated BoardPropertyProto boardProperties = 12;
 	//TODO: Player names? Other metadata needed for replay
 }
 

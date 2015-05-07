@@ -3301,7 +3301,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     
     // Select a random element between i and end of array to swap with.
     NSInteger nElements = count - i;
-    NSInteger n = (arc4random() % nElements) + i;
+    NSInteger n = (rand() % nElements) + i;
     
     [self exchangeObjectAtIndex:i withObjectAtIndex:n];
   }

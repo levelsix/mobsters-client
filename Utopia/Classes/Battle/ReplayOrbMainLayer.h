@@ -11,5 +11,7 @@
 @interface ReplayOrbMainLayer : OrbMainLayer
 
 - (id) initWithLayoutProto:(BoardLayoutProto *)proto andHistory:(NSArray*)orbHistory;
+- (id)initWithGridSize:(CGSize)gridSize numColors:(int)numColors andHistory:(NSArray *)orbHistory;
+- (void) tapDownOnSpace:(int)x spaceY:(int)y;
 
 @end

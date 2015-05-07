@@ -6,12 +6,17 @@
 #import "Board.pb.h"
 #import "SharedEnumConfig.pb.h"
 #import "Skill.pb.h"
+#import "Structure.pb.h"
 // @@protoc_insertion_point(imports)
 
+@class BattleItemFactoryProto;
+@class BattleItemFactoryProto_Builder;
 @class BoardLayoutProto;
 @class BoardLayoutProto_Builder;
 @class BoardPropertyProto;
 @class BoardPropertyProto_Builder;
+@class ClanHouseProto;
+@class ClanHouseProto_Builder;
 @class ClanMemberTeamDonationProto;
 @class ClanMemberTeamDonationProto_Builder;
 @class CombatReplayMonsterSnapshot;
@@ -26,14 +31,32 @@
 @class CombatReplaySkillStepProto_Builder;
 @class CombatReplayStepProto;
 @class CombatReplayStepProto_Builder;
+@class CoordinateProto;
+@class CoordinateProto_Builder;
+@class EvoChamberProto;
+@class EvoChamberProto_Builder;
 @class FullUserMonsterProto;
 @class FullUserMonsterProto_Builder;
 @class FullUserProto;
 @class FullUserProto_Builder;
+@class FullUserStructureProto;
+@class FullUserStructureProto_Builder;
+@class HospitalProto;
+@class HospitalProto_Builder;
+@class ItemGemPriceProto;
+@class ItemGemPriceProto_Builder;
+@class ItemProto;
+@class ItemProto_Builder;
+@class LabProto;
+@class LabProto_Builder;
+@class MiniJobCenterProto;
+@class MiniJobCenterProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
 @class MinimumCombatReplayProto;
 @class MinimumCombatReplayProto_Builder;
+@class MinimumObstacleProto;
+@class MinimumObstacleProto_Builder;
 @class MinimumUserMonsterProto;
 @class MinimumUserMonsterProto_Builder;
 @class MinimumUserMonsterSellProto;
@@ -46,12 +69,28 @@
 @class MinimumUserProtoWithMaxResources;
 @class MinimumUserProtoWithMaxResources_Builder;
 @class MinimumUserProto_Builder;
+@class MoneyTreeProto;
+@class MoneyTreeProto_Builder;
 @class MonsterBattleDialogueProto;
 @class MonsterBattleDialogueProto_Builder;
 @class MonsterLevelInfoProto;
 @class MonsterLevelInfoProto_Builder;
 @class MonsterProto;
 @class MonsterProto_Builder;
+@class ObstacleProto;
+@class ObstacleProto_Builder;
+@class PvpBoardHouseProto;
+@class PvpBoardHouseProto_Builder;
+@class PvpBoardObstacleProto;
+@class PvpBoardObstacleProto_Builder;
+@class ResearchHouseProto;
+@class ResearchHouseProto_Builder;
+@class ResidenceProto;
+@class ResidenceProto_Builder;
+@class ResourceGeneratorProto;
+@class ResourceGeneratorProto_Builder;
+@class ResourceStorageProto;
+@class ResourceStorageProto_Builder;
 @class SkillPropertyProto;
 @class SkillPropertyProto_Builder;
 @class SkillProto;
@@ -60,6 +99,14 @@
 @class SkillSideEffectProto_Builder;
 @class StaticUserLevelInfoProto;
 @class StaticUserLevelInfoProto_Builder;
+@class StructureInfoProto;
+@class StructureInfoProto_Builder;
+@class TeamCenterProto;
+@class TeamCenterProto_Builder;
+@class TownHallProto;
+@class TownHallProto_Builder;
+@class TutorialStructProto;
+@class TutorialStructProto_Builder;
 @class UserCurrentMonsterTeamProto;
 @class UserCurrentMonsterTeamProto_Builder;
 @class UserEnhancementItemProto;
@@ -68,6 +115,12 @@
 @class UserEnhancementProto_Builder;
 @class UserFacebookInviteForSlotProto;
 @class UserFacebookInviteForSlotProto_Builder;
+@class UserItemProto;
+@class UserItemProto_Builder;
+@class UserItemSecretGiftProto;
+@class UserItemSecretGiftProto_Builder;
+@class UserItemUsageProto;
+@class UserItemUsageProto_Builder;
 @class UserMonsterCurrentExpProto;
 @class UserMonsterCurrentExpProto_Builder;
 @class UserMonsterCurrentHealthProto;
@@ -78,6 +131,10 @@
 @class UserMonsterHealingProto_Builder;
 @class UserMonsterSnapshotProto;
 @class UserMonsterSnapshotProto_Builder;
+@class UserObstacleProto;
+@class UserObstacleProto_Builder;
+@class UserPvpBoardObstacleProto;
+@class UserPvpBoardObstacleProto_Builder;
 @class UserPvpLeagueProto;
 @class UserPvpLeagueProto_Builder;
 #ifndef __has_feature
@@ -119,10 +176,14 @@ BOOL CombatReplayStepTypeIsValidValue(CombatReplayStepType value);
 @interface CombatReplayProto : PBGeneratedMessage {
 @private
   BOOL hasFirstAttackerMonsterId_:1;
+  BOOL hasBoardWidth_:1;
+  BOOL hasBoardHeight_:1;
   BOOL hasReplayUuid_:1;
   BOOL hasGroundImgPrefix_:1;
   BOOL hasBoard_:1;
   int32_t firstAttackerMonsterId;
+  int32_t boardWidth;
+  int32_t boardHeight;
   NSString* replayUuid;
   NSString* groundImgPrefix;
   BoardLayoutProto* board;
@@ -130,11 +191,15 @@ BOOL CombatReplayStepTypeIsValidValue(CombatReplayStepType value);
   NSMutableArray * mutableEnemyTeamList;
   NSMutableArray * mutableStepsList;
   NSMutableArray * mutableOrbsList;
+  NSMutableArray * mutablePvpObstaclesList;
+  NSMutableArray * mutableBoardPropertiesList;
 }
 - (BOOL) hasReplayUuid;
 - (BOOL) hasGroundImgPrefix;
 - (BOOL) hasFirstAttackerMonsterId;
 - (BOOL) hasBoard;
+- (BOOL) hasBoardWidth;
+- (BOOL) hasBoardHeight;
 @property (readonly, strong) NSString* replayUuid;
 @property (readonly, strong) NSString* groundImgPrefix;
 @property (readonly) int32_t firstAttackerMonsterId;
@@ -143,10 +208,16 @@ BOOL CombatReplayStepTypeIsValidValue(CombatReplayStepType value);
 @property (readonly, strong) NSArray * stepsList;
 @property (readonly, strong) BoardLayoutProto* board;
 @property (readonly, strong) NSArray * orbsList;
+@property (readonly) int32_t boardWidth;
+@property (readonly) int32_t boardHeight;
+@property (readonly, strong) NSArray * pvpObstaclesList;
+@property (readonly, strong) NSArray * boardPropertiesList;
 - (CombatReplayMonsterSnapshot*)playerTeamAtIndex:(NSUInteger)index;
 - (CombatReplayMonsterSnapshot*)enemyTeamAtIndex:(NSUInteger)index;
 - (CombatReplayStepProto*)stepsAtIndex:(NSUInteger)index;
 - (CombatReplayOrbProto*)orbsAtIndex:(NSUInteger)index;
+- (PvpBoardObstacleProto*)pvpObstaclesAtIndex:(NSUInteger)index;
+- (BoardPropertyProto*)boardPropertiesAtIndex:(NSUInteger)index;
 
 + (CombatReplayProto*) defaultInstance;
 - (CombatReplayProto*) defaultInstance;
@@ -228,6 +299,28 @@ BOOL CombatReplayStepTypeIsValidValue(CombatReplayStepType value);
 - (CombatReplayProto_Builder *)addOrbs:(CombatReplayOrbProto*)value;
 - (CombatReplayProto_Builder *)addAllOrbs:(NSArray *)array;
 - (CombatReplayProto_Builder *)clearOrbs;
+
+- (BOOL) hasBoardWidth;
+- (int32_t) boardWidth;
+- (CombatReplayProto_Builder*) setBoardWidth:(int32_t) value;
+- (CombatReplayProto_Builder*) clearBoardWidth;
+
+- (BOOL) hasBoardHeight;
+- (int32_t) boardHeight;
+- (CombatReplayProto_Builder*) setBoardHeight:(int32_t) value;
+- (CombatReplayProto_Builder*) clearBoardHeight;
+
+- (NSMutableArray *)pvpObstaclesList;
+- (PvpBoardObstacleProto*)pvpObstaclesAtIndex:(NSUInteger)index;
+- (CombatReplayProto_Builder *)addPvpObstacles:(PvpBoardObstacleProto*)value;
+- (CombatReplayProto_Builder *)addAllPvpObstacles:(NSArray *)array;
+- (CombatReplayProto_Builder *)clearPvpObstacles;
+
+- (NSMutableArray *)boardPropertiesList;
+- (BoardPropertyProto*)boardPropertiesAtIndex:(NSUInteger)index;
+- (CombatReplayProto_Builder *)addBoardProperties:(BoardPropertyProto*)value;
+- (CombatReplayProto_Builder *)addAllBoardProperties:(NSArray *)array;
+- (CombatReplayProto_Builder *)clearBoardProperties;
 @end
 
 @interface MinimumCombatReplayProto : PBGeneratedMessage {

@@ -8,22 +8,34 @@
 
 #import <Foundation/Foundation.h>
 #import "ReplayBattleOrbLayout.h"
+#import "BoardLayoutProto+Properties.h"
 #import "Replay.pb.h"
 
 @implementation ReplayBattleOrbLayout
 
+- (void) storeHistory:(NSArray*)orbHistory {
+  self.orbRecords = [NSMutableDictionary dictionary];
+  for (NSArray *arr in orbHistory) {
+    for (CombatReplayOrbProto *crop in arr) {
+      if (![self.orbRecords objectForKey:@(crop.spawnedCol)])
+        [self.orbRecords setObject:[NSMutableArray array] forKey:@(crop.spawnedCol)];
+      
+      NSMutableArray *orbsForCol = [self.orbRecords objectForKey:@(crop.spawnedCol)];
+      [orbsForCol addObject:crop];
+    }
+  }
+}
+
 - (instancetype)initWithBoardLayout:(BoardLayoutProto *)proto andOrbHistory:(NSArray *)orbHistory {
   if (self = [super initWithBoardLayout:proto]) {
-    self.orbRecords = [NSMutableDictionary dictionary];
-    for (NSArray *arr in orbHistory) {
-      for (CombatReplayOrbProto *crop in arr) {
-        if (![self.orbRecords objectForKey:@(crop.spawnedCol)])
-            [self.orbRecords setObject:[NSMutableArray array] forKey:@(crop.spawnedCol)];
-        
-        NSMutableArray *orbsForCol = [self.orbRecords objectForKey:@(crop.spawnedCol)];
-        [orbsForCol addObject:crop];
-      }
-    }
+    [self storeHistory:orbHistory];
+  }
+  return self;
+}
+
+- (instancetype)initWithGridSize:(CGSize)gridSize numColors:(int)numColors andOrbHistory:(NSArray *)orbHistory {
+  if (self = [super initWithGridSize:gridSize numColors:numColors]) {
+    [self storeHistory:orbHistory];
   }
   return self;
 }
@@ -63,7 +75,18 @@
     NSLog(@"The fuck? Failed to generate orb at column %i...", column);
   }
   
-  [self setOrb:orb column:column row:row];
+  if (orb) {
+    for (BoardPropertyProto *prop in [proto propertiesForColumn:column row:row]) {
+      if ([prop.name isEqualToString:ORB_LOCKED]) {
+        orb.isLocked = YES;
+      } else if ([prop.name isEqualToString:ORB_VINES]) {
+        orb.isLocked = YES;
+        orb.isVines = YES;
+      }
+    }
+    
+    [self setOrb:orb column:column row:row];
+  }
   
   return orb;
 }

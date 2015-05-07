@@ -21,6 +21,7 @@
 - (void) powerupCreated:(BattleOrb *)orb;
 - (void) moveComplete;
 - (void) reportSwap:(BattleSwap*)swap;
+- (void) reportTap:(CGPoint)point;
 - (void) reshuffleWithPrompt:(NSString*)prompt;
 - (void) noPossibleMoves;
 
@@ -49,6 +50,7 @@
 - (id) initWithGridSize:(CGSize)gridSize userBoardObstacles:(NSArray *)userBoardObstacles;
 - (id) initWithGridSize:(CGSize)gridSize numColors:(int)numColors layout:(BattleOrbLayout *)layout;
 
+- (void) tapDownOnOrb:(BattleOrb *)orb tile:(BattleTile *)tile;
 - (void) checkSwap:(BattleSwap *)swap;
 
 - (void) pulseValidMove;

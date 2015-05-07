@@ -10,6 +10,7 @@
 
 @interface ReplayBattleOrbLayout : BattleOrbLayout
 
-- (instancetype) initWithBoardLayout:(BoardLayoutProto*)proto andOrbHistory:(NSArray*)orbHistory;
+- (instancetype)initWithBoardLayout:(BoardLayoutProto*)proto andOrbHistory:(NSArray*)orbHistory;
+- (instancetype)initWithGridSize:(CGSize)gridSize numColors:(int)numColors andOrbHistory:(NSArray *)orbHistory;
 
 @end

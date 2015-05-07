@@ -120,10 +120,7 @@
     [self.bgdLayer updateForPuttyWithTile:tile];
     [self.clipBgdLayer updateForPuttyWithTile:tile];
     
-    //Report move to the state machine as a swap with just one position
-    BattleSwap *swap = [[BattleSwap alloc] init];
-    swap.orbA = orb;
-    [self.delegate reportSwap:swap];
+    [self.delegate reportTap:CGPointMake(tile.column, tile.row)];
     
     [self disallowInput];
     [self.delegate moveBegan];

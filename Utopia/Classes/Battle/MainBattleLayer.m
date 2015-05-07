@@ -1355,10 +1355,19 @@
 
 - (void) buildReplay {
   [self.battleStateMachine addFinalState];
-  CombatReplayProto *replay = [[[[[[[[CombatReplayProto builder]
-                                    setGroundImgPrefix:@"1"]
-                                   setBoard:_layoutProto]
-                                  addAllOrbs:self.orbLayer.layout.orbRecords.allValues]
+  
+  CombatReplayProto_Builder *builder = [CombatReplayProto builder];
+  
+  [builder setGroundImgPrefix:@"1"];
+  
+  if (_layoutProto)
+    [builder setBoard:_layoutProto];
+  else {
+    [builder setBoardWidth:_gridSize.width];
+    [builder setBoardHeight:_gridSize.height];
+  }
+  
+  CombatReplayProto *replay = [[[[[builder addAllOrbs:self.orbLayer.layout.orbRecords.allValues]
                                  addAllSteps:self.battleStateMachine.pastStates]
                                 addAllPlayerTeam:self.playerTeamSnapshot]
                                addAllEnemyTeam:self.enemyTeamSnapshot]
@@ -1503,6 +1512,10 @@
 
 - (void)reportSwap:(BattleSwap *)swap {
   [self.battleStateMachine.currentBattleState addOrbSwap:swap];
+}
+
+- (void)reportTap:(CGPoint)point {
+  [self.battleStateMachine.currentBattleState addTapAtX:point.x andY:point.y];
 }
 
 - (void) moveComplete {

@@ -31,9 +31,9 @@
     [myteam addObject:um];
   }
   
-  CGSize boardSize = CGSizeMake(replay.board.width, replay.board.height);
+  CGSize boardSize = [replay hasBoard] ? CGSizeMake(replay.board.width, replay.board.height) : CGSizeMake(replay.boardWidth, replay.boardHeight);
   
-  if ((self = [super initWithMyUserMonsters:myteam puzzleIsOnLeft:NO gridSize:boardSize bgdPrefix:replay.groundImgPrefix layoutProto:replay.board]))
+  if ((self = [super initWithMyUserMonsters:myteam puzzleIsOnLeft:NO gridSize:boardSize bgdPrefix:replay.groundImgPrefix layoutProto:([replay hasBoard] ? replay.board : nil)]))
   {
     _combatSteps = [NSMutableArray array];
     for (CombatReplayStepProto *crsp in replay.stepsList) {
@@ -52,7 +52,12 @@
 }
 
 - (void)initOrbLayer {
-  ReplayOrbMainLayer *ol = [[ReplayOrbMainLayer alloc] initWithLayoutProto:_replay.board andHistory:_replay.orbsList];
+  ReplayOrbMainLayer *ol;
+  
+  if (_layoutProto)
+    ol = [[ReplayOrbMainLayer alloc] initWithLayoutProto:_replay.board andHistory:_replay.orbsList];
+  else
+    ol = [[ReplayOrbMainLayer alloc] initWithGridSize:CGSizeMake(_replay.boardWidth, _replay.boardHeight) numColors:6 andHistory:_replay.orbsList];
   
   [self addChild:ol z:2];
   ol.delegate = self;
@@ -217,19 +222,23 @@
 
 - (void)startMyMove {
   if (self.currStep.hasItemId) {
-#warning Rob -- Item replay starts here
+    [self useBattleItem];
   } else if (self.currStep.hasMovePos1 && self.currStep.hasMovePos2) {
-    CGPoint pointA = [self splitPosInt:self.getCurrStep.movePos1];
-    CGPoint pointB = [self splitPosInt:self.getCurrStep.movePos2];
-    BattleOrb *orbA = [self.orbLayer.layout orbAtColumn:pointA.x row:pointA.y];
-    BattleOrb *orbB = [self.orbLayer.layout orbAtColumn:pointB.x row:pointB.y];
-    BattleSwap *swap = [[BattleSwap alloc] init];
-    swap.orbA = orbA;
-    swap.orbB = orbB;
-    [self.orbLayer checkSwap:swap];
+    [self doSwapFromCurrStep];
   } else {
     @throw [NSException exceptionWithName:@"Bad Move" reason:@"Not sufficient move data in current step to recreate move" userInfo:nil];
   }
+}
+
+- (void) doSwapFromCurrStep {
+  CGPoint pointA = [self splitPosInt:self.getCurrStep.movePos1];
+  CGPoint pointB = [self splitPosInt:self.getCurrStep.movePos2];
+  BattleOrb *orbA = [self.orbLayer.layout orbAtColumn:pointA.x row:pointA.y];
+  BattleOrb *orbB = [self.orbLayer.layout orbAtColumn:pointB.x row:pointB.y];
+  BattleSwap *swap = [[BattleSwap alloc] init];
+  swap.orbA = orbA;
+  swap.orbB = orbB;
+  [self.orbLayer checkSwap:swap];
 }
 
 - (CGPoint) splitPosInt:(uint32_t)pos {
@@ -265,6 +274,61 @@
   }
   
   [self.mainView.hudView.battleScheduleView setBattleSchedule:self.battleSchedule];
+}
+
+#pragma mark - Items
+
+- (void) useBattleItem {
+  BattleItemProto *bip = [[GameState sharedGameState] battleItemWithId:self.currStep.itemId];
+  
+  switch (bip.battleItemType) {
+    case BattleItemTypeHealingPotion:
+      [self useHealthPotion:bip];
+      break;
+      
+    case BattleItemTypeBoardShuffle:
+      [self useBoardShuffle:bip];
+      break;
+      
+    case BattleItemTypeHandSwap:
+      [self useHandSwap:bip];
+      break;
+      
+    case BattleItemTypeOrbHammer:
+      [self useOrbHammer:bip];
+      break;
+      
+    case BattleItemTypePutty:
+      [self usePutty:bip];
+      break;
+      
+    case BattleItemTypeChillAntidote:
+    case BattleItemTypePoisonAntidote:
+      [self useSkillAntidote:bip];
+      break;
+      
+    case BattleItemTypeNone:
+      break;
+  }
+}
+
+- (void)useHandSwap:(BattleItemProto *)bip {
+#warning Rob: Play custom mini logo
+  [self doSwapFromCurrStep];
+}
+
+- (void)useOrbHammer:(BattleItemProto *)bip {
+#warning Rob: Play custom mini logo
+  CGPoint pointA = [self splitPosInt:self.getCurrStep.movePos1];
+  [self.orbLayer allowOrbHammerForSingleTurn];
+  [(ReplayOrbMainLayer*)self.orbLayer tapDownOnSpace:pointA.x spaceY:pointA.y];
+}
+
+- (void)usePutty:(BattleItemProto *)bip {
+#warning Rob: Play custom mini logo
+  CGPoint pointA = [self splitPosInt:self.getCurrStep.movePos1];
+  [self.orbLayer allowPuttyForSingleTurn];
+  [(ReplayOrbMainLayer*)self.orbLayer tapDownOnSpace:pointA.x spaceY:pointA.y];
 }
 
 #pragma mark - Overrides

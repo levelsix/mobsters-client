@@ -237,6 +237,13 @@
 - (void) displayOrbLayer;
 - (void) removeOrbLayerAnimated:(BOOL)animated withBlock:(void(^)())block;
 
+- (void) useHealthPotion:(BattleItemProto *)bip;
+- (void) useBoardShuffle:(BattleItemProto *)bip;
+- (void) useHandSwap:(BattleItemProto *)bip;
+- (void) useOrbHammer:(BattleItemProto *)bip;
+- (void) usePutty:(BattleItemProto *)bip;
+- (void) useSkillAntidote:(BattleItemProto *)bip;
+
 - (NSDictionary *) battleCompleteValues;
 
 - (IBAction)winExitClicked:(id)sender;

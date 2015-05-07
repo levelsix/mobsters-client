@@ -17,6 +17,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [BoardRoot registerAllExtensions:registry];
     [SharedEnumConfigRoot registerAllExtensions:registry];
     [SkillRoot registerAllExtensions:registry];
+    [StructureRoot registerAllExtensions:registry];
     extensionRegistry = registry;
   }
 }
@@ -52,6 +53,10 @@ BOOL CombatReplayStepTypeIsValidValue(CombatReplayStepType value) {
 @property (strong) NSMutableArray * mutableStepsList;
 @property (strong) BoardLayoutProto* board;
 @property (strong) NSMutableArray * mutableOrbsList;
+@property int32_t boardWidth;
+@property int32_t boardHeight;
+@property (strong) NSMutableArray * mutablePvpObstaclesList;
+@property (strong) NSMutableArray * mutableBoardPropertiesList;
 @end
 
 @implementation CombatReplayProto
@@ -92,12 +97,32 @@ BOOL CombatReplayStepTypeIsValidValue(CombatReplayStepType value) {
 @synthesize board;
 @synthesize mutableOrbsList;
 @dynamic orbsList;
+- (BOOL) hasBoardWidth {
+  return !!hasBoardWidth_;
+}
+- (void) setHasBoardWidth:(BOOL) value_ {
+  hasBoardWidth_ = !!value_;
+}
+@synthesize boardWidth;
+- (BOOL) hasBoardHeight {
+  return !!hasBoardHeight_;
+}
+- (void) setHasBoardHeight:(BOOL) value_ {
+  hasBoardHeight_ = !!value_;
+}
+@synthesize boardHeight;
+@synthesize mutablePvpObstaclesList;
+@dynamic pvpObstaclesList;
+@synthesize mutableBoardPropertiesList;
+@dynamic boardPropertiesList;
 - (id) init {
   if ((self = [super init])) {
     self.replayUuid = @"";
     self.groundImgPrefix = @"";
     self.firstAttackerMonsterId = 0;
     self.board = [BoardLayoutProto defaultInstance];
+    self.boardWidth = 0;
+    self.boardHeight = 0;
   }
   return self;
 }
@@ -137,6 +162,18 @@ static CombatReplayProto* defaultCombatReplayProtoInstance = nil;
 - (CombatReplayOrbProto*)orbsAtIndex:(NSUInteger)index {
   return [mutableOrbsList objectAtIndex:index];
 }
+- (NSArray *)pvpObstaclesList {
+  return mutablePvpObstaclesList;
+}
+- (PvpBoardObstacleProto*)pvpObstaclesAtIndex:(NSUInteger)index {
+  return [mutablePvpObstaclesList objectAtIndex:index];
+}
+- (NSArray *)boardPropertiesList {
+  return mutableBoardPropertiesList;
+}
+- (BoardPropertyProto*)boardPropertiesAtIndex:(NSUInteger)index {
+  return [mutableBoardPropertiesList objectAtIndex:index];
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -164,6 +201,18 @@ static CombatReplayProto* defaultCombatReplayProtoInstance = nil;
   }
   [self.orbsList enumerateObjectsUsingBlock:^(CombatReplayOrbProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:8 value:element];
+  }];
+  if (self.hasBoardWidth) {
+    [output writeInt32:9 value:self.boardWidth];
+  }
+  if (self.hasBoardHeight) {
+    [output writeInt32:10 value:self.boardHeight];
+  }
+  [self.pvpObstaclesList enumerateObjectsUsingBlock:^(PvpBoardObstacleProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:11 value:element];
+  }];
+  [self.boardPropertiesList enumerateObjectsUsingBlock:^(BoardPropertyProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:12 value:element];
   }];
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -197,6 +246,18 @@ static CombatReplayProto* defaultCombatReplayProtoInstance = nil;
   }
   [self.orbsList enumerateObjectsUsingBlock:^(CombatReplayOrbProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(8, element);
+  }];
+  if (self.hasBoardWidth) {
+    size_ += computeInt32Size(9, self.boardWidth);
+  }
+  if (self.hasBoardHeight) {
+    size_ += computeInt32Size(10, self.boardHeight);
+  }
+  [self.pvpObstaclesList enumerateObjectsUsingBlock:^(PvpBoardObstacleProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(11, element);
+  }];
+  [self.boardPropertiesList enumerateObjectsUsingBlock:^(BoardPropertyProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(12, element);
   }];
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -272,6 +333,24 @@ static CombatReplayProto* defaultCombatReplayProtoInstance = nil;
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }];
+  if (self.hasBoardWidth) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"boardWidth", [NSNumber numberWithInteger:self.boardWidth]];
+  }
+  if (self.hasBoardHeight) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"boardHeight", [NSNumber numberWithInteger:self.boardHeight]];
+  }
+  [self.pvpObstaclesList enumerateObjectsUsingBlock:^(PvpBoardObstacleProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"pvpObstacles"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
+  [self.boardPropertiesList enumerateObjectsUsingBlock:^(BoardPropertyProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"boardProperties"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -295,6 +374,12 @@ static CombatReplayProto* defaultCombatReplayProtoInstance = nil;
       self.hasBoard == otherMessage.hasBoard &&
       (!self.hasBoard || [self.board isEqual:otherMessage.board]) &&
       [self.orbsList isEqualToArray:otherMessage.orbsList] &&
+      self.hasBoardWidth == otherMessage.hasBoardWidth &&
+      (!self.hasBoardWidth || self.boardWidth == otherMessage.boardWidth) &&
+      self.hasBoardHeight == otherMessage.hasBoardHeight &&
+      (!self.hasBoardHeight || self.boardHeight == otherMessage.boardHeight) &&
+      [self.pvpObstaclesList isEqualToArray:otherMessage.pvpObstaclesList] &&
+      [self.boardPropertiesList isEqualToArray:otherMessage.boardPropertiesList] &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -321,6 +406,18 @@ static CombatReplayProto* defaultCombatReplayProtoInstance = nil;
     hashCode = hashCode * 31 + [self.board hash];
   }
   [self.orbsList enumerateObjectsUsingBlock:^(CombatReplayOrbProto *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  if (self.hasBoardWidth) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.boardWidth] hash];
+  }
+  if (self.hasBoardHeight) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.boardHeight] hash];
+  }
+  [self.pvpObstaclesList enumerateObjectsUsingBlock:^(PvpBoardObstacleProto *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  [self.boardPropertiesList enumerateObjectsUsingBlock:^(BoardPropertyProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
   hashCode = hashCode * 31 + [self.unknownFields hash];
@@ -406,6 +503,26 @@ static CombatReplayProto* defaultCombatReplayProtoInstance = nil;
       [result.mutableOrbsList addObjectsFromArray:other.mutableOrbsList];
     }
   }
+  if (other.hasBoardWidth) {
+    [self setBoardWidth:other.boardWidth];
+  }
+  if (other.hasBoardHeight) {
+    [self setBoardHeight:other.boardHeight];
+  }
+  if (other.mutablePvpObstaclesList.count > 0) {
+    if (result.mutablePvpObstaclesList == nil) {
+      result.mutablePvpObstaclesList = [[NSMutableArray alloc] initWithArray:other.mutablePvpObstaclesList];
+    } else {
+      [result.mutablePvpObstaclesList addObjectsFromArray:other.mutablePvpObstaclesList];
+    }
+  }
+  if (other.mutableBoardPropertiesList.count > 0) {
+    if (result.mutableBoardPropertiesList == nil) {
+      result.mutableBoardPropertiesList = [[NSMutableArray alloc] initWithArray:other.mutableBoardPropertiesList];
+    } else {
+      [result.mutableBoardPropertiesList addObjectsFromArray:other.mutableBoardPropertiesList];
+    }
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -470,6 +587,26 @@ static CombatReplayProto* defaultCombatReplayProtoInstance = nil;
         CombatReplayOrbProto_Builder* subBuilder = [CombatReplayOrbProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addOrbs:[subBuilder buildPartial]];
+        break;
+      }
+      case 72: {
+        [self setBoardWidth:[input readInt32]];
+        break;
+      }
+      case 80: {
+        [self setBoardHeight:[input readInt32]];
+        break;
+      }
+      case 90: {
+        PvpBoardObstacleProto_Builder* subBuilder = [PvpBoardObstacleProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addPvpObstacles:[subBuilder buildPartial]];
+        break;
+      }
+      case 98: {
+        BoardPropertyProto_Builder* subBuilder = [BoardPropertyProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addBoardProperties:[subBuilder buildPartial]];
         break;
       }
     }
@@ -647,6 +784,86 @@ static CombatReplayProto* defaultCombatReplayProtoInstance = nil;
 }
 - (CombatReplayProto_Builder *)clearOrbs {
   result.mutableOrbsList = nil;
+  return self;
+}
+- (BOOL) hasBoardWidth {
+  return result.hasBoardWidth;
+}
+- (int32_t) boardWidth {
+  return result.boardWidth;
+}
+- (CombatReplayProto_Builder*) setBoardWidth:(int32_t) value {
+  result.hasBoardWidth = YES;
+  result.boardWidth = value;
+  return self;
+}
+- (CombatReplayProto_Builder*) clearBoardWidth {
+  result.hasBoardWidth = NO;
+  result.boardWidth = 0;
+  return self;
+}
+- (BOOL) hasBoardHeight {
+  return result.hasBoardHeight;
+}
+- (int32_t) boardHeight {
+  return result.boardHeight;
+}
+- (CombatReplayProto_Builder*) setBoardHeight:(int32_t) value {
+  result.hasBoardHeight = YES;
+  result.boardHeight = value;
+  return self;
+}
+- (CombatReplayProto_Builder*) clearBoardHeight {
+  result.hasBoardHeight = NO;
+  result.boardHeight = 0;
+  return self;
+}
+- (NSMutableArray *)pvpObstaclesList {
+  return result.mutablePvpObstaclesList;
+}
+- (PvpBoardObstacleProto*)pvpObstaclesAtIndex:(NSUInteger)index {
+  return [result pvpObstaclesAtIndex:index];
+}
+- (CombatReplayProto_Builder *)addPvpObstacles:(PvpBoardObstacleProto*)value {
+  if (result.mutablePvpObstaclesList == nil) {
+    result.mutablePvpObstaclesList = [[NSMutableArray alloc]init];
+  }
+  [result.mutablePvpObstaclesList addObject:value];
+  return self;
+}
+- (CombatReplayProto_Builder *)addAllPvpObstacles:(NSArray *)array {
+  if (result.mutablePvpObstaclesList == nil) {
+    result.mutablePvpObstaclesList = [NSMutableArray array];
+  }
+  [result.mutablePvpObstaclesList addObjectsFromArray:array];
+  return self;
+}
+- (CombatReplayProto_Builder *)clearPvpObstacles {
+  result.mutablePvpObstaclesList = nil;
+  return self;
+}
+- (NSMutableArray *)boardPropertiesList {
+  return result.mutableBoardPropertiesList;
+}
+- (BoardPropertyProto*)boardPropertiesAtIndex:(NSUInteger)index {
+  return [result boardPropertiesAtIndex:index];
+}
+- (CombatReplayProto_Builder *)addBoardProperties:(BoardPropertyProto*)value {
+  if (result.mutableBoardPropertiesList == nil) {
+    result.mutableBoardPropertiesList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableBoardPropertiesList addObject:value];
+  return self;
+}
+- (CombatReplayProto_Builder *)addAllBoardProperties:(NSArray *)array {
+  if (result.mutableBoardPropertiesList == nil) {
+    result.mutableBoardPropertiesList = [NSMutableArray array];
+  }
+  [result.mutableBoardPropertiesList addObjectsFromArray:array];
+  return self;
+}
+- (CombatReplayProto_Builder *)clearBoardProperties {
+  result.mutableBoardPropertiesList = nil;
   return self;
 }
 @end
