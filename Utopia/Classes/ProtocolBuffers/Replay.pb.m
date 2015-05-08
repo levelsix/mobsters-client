@@ -49,7 +49,6 @@ BOOL CombatReplayStepTypeIsValidValue(CombatReplayStepType value) {
 @interface CombatReplayProto ()
 @property (strong) NSString* replayUuid;
 @property (strong) NSString* groundImgPrefix;
-@property int32_t firstAttackerMonsterId;
 @property (strong) NSMutableArray * mutablePlayerTeamList;
 @property (strong) NSMutableArray * mutableEnemyTeamList;
 @property (strong) NSMutableArray * mutableStepsList;
@@ -58,7 +57,8 @@ BOOL CombatReplayStepTypeIsValidValue(CombatReplayStepType value) {
 @property int32_t boardWidth;
 @property int32_t boardHeight;
 @property (strong) NSMutableArray * mutablePvpObstaclesList;
-@property (strong) NSMutableArray * mutableBoardPropertiesList;
+@property int32_t cash;
+@property int32_t oil;
 @end
 
 @implementation CombatReplayProto
@@ -77,13 +77,6 @@ BOOL CombatReplayStepTypeIsValidValue(CombatReplayStepType value) {
   hasGroundImgPrefix_ = !!value_;
 }
 @synthesize groundImgPrefix;
-- (BOOL) hasFirstAttackerMonsterId {
-  return !!hasFirstAttackerMonsterId_;
-}
-- (void) setHasFirstAttackerMonsterId:(BOOL) value_ {
-  hasFirstAttackerMonsterId_ = !!value_;
-}
-@synthesize firstAttackerMonsterId;
 @synthesize mutablePlayerTeamList;
 @dynamic playerTeamList;
 @synthesize mutableEnemyTeamList;
@@ -115,16 +108,29 @@ BOOL CombatReplayStepTypeIsValidValue(CombatReplayStepType value) {
 @synthesize boardHeight;
 @synthesize mutablePvpObstaclesList;
 @dynamic pvpObstaclesList;
-@synthesize mutableBoardPropertiesList;
-@dynamic boardPropertiesList;
+- (BOOL) hasCash {
+  return !!hasCash_;
+}
+- (void) setHasCash:(BOOL) value_ {
+  hasCash_ = !!value_;
+}
+@synthesize cash;
+- (BOOL) hasOil {
+  return !!hasOil_;
+}
+- (void) setHasOil:(BOOL) value_ {
+  hasOil_ = !!value_;
+}
+@synthesize oil;
 - (id) init {
   if ((self = [super init])) {
     self.replayUuid = @"";
     self.groundImgPrefix = @"";
-    self.firstAttackerMonsterId = 0;
     self.board = [BoardLayoutProto defaultInstance];
     self.boardWidth = 0;
     self.boardHeight = 0;
+    self.cash = 0;
+    self.oil = 0;
   }
   return self;
 }
@@ -170,12 +176,6 @@ static CombatReplayProto* defaultCombatReplayProtoInstance = nil;
 - (PvpBoardObstacleProto*)pvpObstaclesAtIndex:(NSUInteger)index {
   return [mutablePvpObstaclesList objectAtIndex:index];
 }
-- (NSArray *)boardPropertiesList {
-  return mutableBoardPropertiesList;
-}
-- (BoardPropertyProto*)boardPropertiesAtIndex:(NSUInteger)index {
-  return [mutableBoardPropertiesList objectAtIndex:index];
-}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -186,36 +186,36 @@ static CombatReplayProto* defaultCombatReplayProtoInstance = nil;
   if (self.hasGroundImgPrefix) {
     [output writeString:2 value:self.groundImgPrefix];
   }
-  if (self.hasFirstAttackerMonsterId) {
-    [output writeInt32:3 value:self.firstAttackerMonsterId];
-  }
   [self.playerTeamList enumerateObjectsUsingBlock:^(CombatReplayMonsterSnapshot *element, NSUInteger idx, BOOL *stop) {
-    [output writeMessage:4 value:element];
+    [output writeMessage:3 value:element];
   }];
   [self.enemyTeamList enumerateObjectsUsingBlock:^(CombatReplayMonsterSnapshot *element, NSUInteger idx, BOOL *stop) {
-    [output writeMessage:5 value:element];
+    [output writeMessage:4 value:element];
   }];
   [self.stepsList enumerateObjectsUsingBlock:^(CombatReplayStepProto *element, NSUInteger idx, BOOL *stop) {
-    [output writeMessage:6 value:element];
+    [output writeMessage:5 value:element];
   }];
   if (self.hasBoard) {
-    [output writeMessage:7 value:self.board];
+    [output writeMessage:6 value:self.board];
   }
   [self.orbsList enumerateObjectsUsingBlock:^(CombatReplayOrbProto *element, NSUInteger idx, BOOL *stop) {
-    [output writeMessage:8 value:element];
+    [output writeMessage:7 value:element];
   }];
   if (self.hasBoardWidth) {
-    [output writeInt32:9 value:self.boardWidth];
+    [output writeInt32:8 value:self.boardWidth];
   }
   if (self.hasBoardHeight) {
-    [output writeInt32:10 value:self.boardHeight];
+    [output writeInt32:9 value:self.boardHeight];
   }
   [self.pvpObstaclesList enumerateObjectsUsingBlock:^(PvpBoardObstacleProto *element, NSUInteger idx, BOOL *stop) {
-    [output writeMessage:11 value:element];
+    [output writeMessage:10 value:element];
   }];
-  [self.boardPropertiesList enumerateObjectsUsingBlock:^(BoardPropertyProto *element, NSUInteger idx, BOOL *stop) {
-    [output writeMessage:12 value:element];
-  }];
+  if (self.hasCash) {
+    [output writeInt32:11 value:self.cash];
+  }
+  if (self.hasOil) {
+    [output writeInt32:12 value:self.oil];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -231,36 +231,36 @@ static CombatReplayProto* defaultCombatReplayProtoInstance = nil;
   if (self.hasGroundImgPrefix) {
     size_ += computeStringSize(2, self.groundImgPrefix);
   }
-  if (self.hasFirstAttackerMonsterId) {
-    size_ += computeInt32Size(3, self.firstAttackerMonsterId);
-  }
   [self.playerTeamList enumerateObjectsUsingBlock:^(CombatReplayMonsterSnapshot *element, NSUInteger idx, BOOL *stop) {
-    size_ += computeMessageSize(4, element);
+    size_ += computeMessageSize(3, element);
   }];
   [self.enemyTeamList enumerateObjectsUsingBlock:^(CombatReplayMonsterSnapshot *element, NSUInteger idx, BOOL *stop) {
-    size_ += computeMessageSize(5, element);
+    size_ += computeMessageSize(4, element);
   }];
   [self.stepsList enumerateObjectsUsingBlock:^(CombatReplayStepProto *element, NSUInteger idx, BOOL *stop) {
-    size_ += computeMessageSize(6, element);
+    size_ += computeMessageSize(5, element);
   }];
   if (self.hasBoard) {
-    size_ += computeMessageSize(7, self.board);
+    size_ += computeMessageSize(6, self.board);
   }
   [self.orbsList enumerateObjectsUsingBlock:^(CombatReplayOrbProto *element, NSUInteger idx, BOOL *stop) {
-    size_ += computeMessageSize(8, element);
+    size_ += computeMessageSize(7, element);
   }];
   if (self.hasBoardWidth) {
-    size_ += computeInt32Size(9, self.boardWidth);
+    size_ += computeInt32Size(8, self.boardWidth);
   }
   if (self.hasBoardHeight) {
-    size_ += computeInt32Size(10, self.boardHeight);
+    size_ += computeInt32Size(9, self.boardHeight);
   }
   [self.pvpObstaclesList enumerateObjectsUsingBlock:^(PvpBoardObstacleProto *element, NSUInteger idx, BOOL *stop) {
-    size_ += computeMessageSize(11, element);
+    size_ += computeMessageSize(10, element);
   }];
-  [self.boardPropertiesList enumerateObjectsUsingBlock:^(BoardPropertyProto *element, NSUInteger idx, BOOL *stop) {
-    size_ += computeMessageSize(12, element);
-  }];
+  if (self.hasCash) {
+    size_ += computeInt32Size(11, self.cash);
+  }
+  if (self.hasOil) {
+    size_ += computeInt32Size(12, self.oil);
+  }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
   return size_;
@@ -301,9 +301,6 @@ static CombatReplayProto* defaultCombatReplayProtoInstance = nil;
   }
   if (self.hasGroundImgPrefix) {
     [output appendFormat:@"%@%@: %@\n", indent, @"groundImgPrefix", self.groundImgPrefix];
-  }
-  if (self.hasFirstAttackerMonsterId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"firstAttackerMonsterId", [NSNumber numberWithInteger:self.firstAttackerMonsterId]];
   }
   [self.playerTeamList enumerateObjectsUsingBlock:^(CombatReplayMonsterSnapshot *element, NSUInteger idx, BOOL *stop) {
     [output appendFormat:@"%@%@ {\n", indent, @"playerTeam"];
@@ -347,12 +344,12 @@ static CombatReplayProto* defaultCombatReplayProtoInstance = nil;
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }];
-  [self.boardPropertiesList enumerateObjectsUsingBlock:^(BoardPropertyProto *element, NSUInteger idx, BOOL *stop) {
-    [output appendFormat:@"%@%@ {\n", indent, @"boardProperties"];
-    [element writeDescriptionTo:output
-                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
-    [output appendFormat:@"%@}\n", indent];
-  }];
+  if (self.hasCash) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"cash", [NSNumber numberWithInteger:self.cash]];
+  }
+  if (self.hasOil) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"oil", [NSNumber numberWithInteger:self.oil]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -368,8 +365,6 @@ static CombatReplayProto* defaultCombatReplayProtoInstance = nil;
       (!self.hasReplayUuid || [self.replayUuid isEqual:otherMessage.replayUuid]) &&
       self.hasGroundImgPrefix == otherMessage.hasGroundImgPrefix &&
       (!self.hasGroundImgPrefix || [self.groundImgPrefix isEqual:otherMessage.groundImgPrefix]) &&
-      self.hasFirstAttackerMonsterId == otherMessage.hasFirstAttackerMonsterId &&
-      (!self.hasFirstAttackerMonsterId || self.firstAttackerMonsterId == otherMessage.firstAttackerMonsterId) &&
       [self.playerTeamList isEqualToArray:otherMessage.playerTeamList] &&
       [self.enemyTeamList isEqualToArray:otherMessage.enemyTeamList] &&
       [self.stepsList isEqualToArray:otherMessage.stepsList] &&
@@ -381,7 +376,10 @@ static CombatReplayProto* defaultCombatReplayProtoInstance = nil;
       self.hasBoardHeight == otherMessage.hasBoardHeight &&
       (!self.hasBoardHeight || self.boardHeight == otherMessage.boardHeight) &&
       [self.pvpObstaclesList isEqualToArray:otherMessage.pvpObstaclesList] &&
-      [self.boardPropertiesList isEqualToArray:otherMessage.boardPropertiesList] &&
+      self.hasCash == otherMessage.hasCash &&
+      (!self.hasCash || self.cash == otherMessage.cash) &&
+      self.hasOil == otherMessage.hasOil &&
+      (!self.hasOil || self.oil == otherMessage.oil) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -391,9 +389,6 @@ static CombatReplayProto* defaultCombatReplayProtoInstance = nil;
   }
   if (self.hasGroundImgPrefix) {
     hashCode = hashCode * 31 + [self.groundImgPrefix hash];
-  }
-  if (self.hasFirstAttackerMonsterId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.firstAttackerMonsterId] hash];
   }
   [self.playerTeamList enumerateObjectsUsingBlock:^(CombatReplayMonsterSnapshot *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
@@ -419,9 +414,12 @@ static CombatReplayProto* defaultCombatReplayProtoInstance = nil;
   [self.pvpObstaclesList enumerateObjectsUsingBlock:^(PvpBoardObstacleProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
-  [self.boardPropertiesList enumerateObjectsUsingBlock:^(BoardPropertyProto *element, NSUInteger idx, BOOL *stop) {
-    hashCode = hashCode * 31 + [element hash];
-  }];
+  if (self.hasCash) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.cash] hash];
+  }
+  if (self.hasOil) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.oil] hash];
+  }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
@@ -471,9 +469,6 @@ static CombatReplayProto* defaultCombatReplayProtoInstance = nil;
   if (other.hasGroundImgPrefix) {
     [self setGroundImgPrefix:other.groundImgPrefix];
   }
-  if (other.hasFirstAttackerMonsterId) {
-    [self setFirstAttackerMonsterId:other.firstAttackerMonsterId];
-  }
   if (other.mutablePlayerTeamList.count > 0) {
     if (result.mutablePlayerTeamList == nil) {
       result.mutablePlayerTeamList = [[NSMutableArray alloc] initWithArray:other.mutablePlayerTeamList];
@@ -518,12 +513,11 @@ static CombatReplayProto* defaultCombatReplayProtoInstance = nil;
       [result.mutablePvpObstaclesList addObjectsFromArray:other.mutablePvpObstaclesList];
     }
   }
-  if (other.mutableBoardPropertiesList.count > 0) {
-    if (result.mutableBoardPropertiesList == nil) {
-      result.mutableBoardPropertiesList = [[NSMutableArray alloc] initWithArray:other.mutableBoardPropertiesList];
-    } else {
-      [result.mutableBoardPropertiesList addObjectsFromArray:other.mutableBoardPropertiesList];
-    }
+  if (other.hasCash) {
+    [self setCash:other.cash];
+  }
+  if (other.hasOil) {
+    [self setOil:other.oil];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -554,29 +548,25 @@ static CombatReplayProto* defaultCombatReplayProtoInstance = nil;
         [self setGroundImgPrefix:[input readString]];
         break;
       }
-      case 24: {
-        [self setFirstAttackerMonsterId:[input readInt32]];
-        break;
-      }
-      case 34: {
+      case 26: {
         CombatReplayMonsterSnapshot_Builder* subBuilder = [CombatReplayMonsterSnapshot builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addPlayerTeam:[subBuilder buildPartial]];
         break;
       }
-      case 42: {
+      case 34: {
         CombatReplayMonsterSnapshot_Builder* subBuilder = [CombatReplayMonsterSnapshot builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addEnemyTeam:[subBuilder buildPartial]];
         break;
       }
-      case 50: {
+      case 42: {
         CombatReplayStepProto_Builder* subBuilder = [CombatReplayStepProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addSteps:[subBuilder buildPartial]];
         break;
       }
-      case 58: {
+      case 50: {
         BoardLayoutProto_Builder* subBuilder = [BoardLayoutProto builder];
         if (self.hasBoard) {
           [subBuilder mergeFrom:self.board];
@@ -585,30 +575,32 @@ static CombatReplayProto* defaultCombatReplayProtoInstance = nil;
         [self setBoard:[subBuilder buildPartial]];
         break;
       }
-      case 66: {
+      case 58: {
         CombatReplayOrbProto_Builder* subBuilder = [CombatReplayOrbProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addOrbs:[subBuilder buildPartial]];
         break;
       }
-      case 72: {
+      case 64: {
         [self setBoardWidth:[input readInt32]];
         break;
       }
-      case 80: {
+      case 72: {
         [self setBoardHeight:[input readInt32]];
         break;
       }
-      case 90: {
+      case 82: {
         PvpBoardObstacleProto_Builder* subBuilder = [PvpBoardObstacleProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addPvpObstacles:[subBuilder buildPartial]];
         break;
       }
-      case 98: {
-        BoardPropertyProto_Builder* subBuilder = [BoardPropertyProto builder];
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self addBoardProperties:[subBuilder buildPartial]];
+      case 88: {
+        [self setCash:[input readInt32]];
+        break;
+      }
+      case 96: {
+        [self setOil:[input readInt32]];
         break;
       }
     }
@@ -644,22 +636,6 @@ static CombatReplayProto* defaultCombatReplayProtoInstance = nil;
 - (CombatReplayProto_Builder*) clearGroundImgPrefix {
   result.hasGroundImgPrefix = NO;
   result.groundImgPrefix = @"";
-  return self;
-}
-- (BOOL) hasFirstAttackerMonsterId {
-  return result.hasFirstAttackerMonsterId;
-}
-- (int32_t) firstAttackerMonsterId {
-  return result.firstAttackerMonsterId;
-}
-- (CombatReplayProto_Builder*) setFirstAttackerMonsterId:(int32_t) value {
-  result.hasFirstAttackerMonsterId = YES;
-  result.firstAttackerMonsterId = value;
-  return self;
-}
-- (CombatReplayProto_Builder*) clearFirstAttackerMonsterId {
-  result.hasFirstAttackerMonsterId = NO;
-  result.firstAttackerMonsterId = 0;
   return self;
 }
 - (NSMutableArray *)playerTeamList {
@@ -844,28 +820,36 @@ static CombatReplayProto* defaultCombatReplayProtoInstance = nil;
   result.mutablePvpObstaclesList = nil;
   return self;
 }
-- (NSMutableArray *)boardPropertiesList {
-  return result.mutableBoardPropertiesList;
+- (BOOL) hasCash {
+  return result.hasCash;
 }
-- (BoardPropertyProto*)boardPropertiesAtIndex:(NSUInteger)index {
-  return [result boardPropertiesAtIndex:index];
+- (int32_t) cash {
+  return result.cash;
 }
-- (CombatReplayProto_Builder *)addBoardProperties:(BoardPropertyProto*)value {
-  if (result.mutableBoardPropertiesList == nil) {
-    result.mutableBoardPropertiesList = [[NSMutableArray alloc]init];
-  }
-  [result.mutableBoardPropertiesList addObject:value];
+- (CombatReplayProto_Builder*) setCash:(int32_t) value {
+  result.hasCash = YES;
+  result.cash = value;
   return self;
 }
-- (CombatReplayProto_Builder *)addAllBoardProperties:(NSArray *)array {
-  if (result.mutableBoardPropertiesList == nil) {
-    result.mutableBoardPropertiesList = [NSMutableArray array];
-  }
-  [result.mutableBoardPropertiesList addObjectsFromArray:array];
+- (CombatReplayProto_Builder*) clearCash {
+  result.hasCash = NO;
+  result.cash = 0;
   return self;
 }
-- (CombatReplayProto_Builder *)clearBoardProperties {
-  result.mutableBoardPropertiesList = nil;
+- (BOOL) hasOil {
+  return result.hasOil;
+}
+- (int32_t) oil {
+  return result.oil;
+}
+- (CombatReplayProto_Builder*) setOil:(int32_t) value {
+  result.hasOil = YES;
+  result.oil = value;
+  return self;
+}
+- (CombatReplayProto_Builder*) clearOil {
+  result.hasOil = NO;
+  result.oil = 0;
   return self;
 }
 @end

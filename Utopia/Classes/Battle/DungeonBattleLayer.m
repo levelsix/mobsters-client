@@ -151,6 +151,40 @@
   [Analytics pveMatchEnd:_wonBattle numEnemiesDefeated:_curStage type:self.dungeonType mobstersUsed:self.myTeam numPiecesGained:numPiecesGained mobsterIdsGained:mobsterIdsGained totalRounds:(int)self.enemyTeam.count dungeonId:self.dungeonInfo.taskId numContinues:_numContinues outcome:outcome];
 }
 
+- (CombatReplayProto *)createReplayWithBuilder:(CombatReplayProto_Builder *)builder {
+  GameState *gs = [GameState sharedGameState];
+  int silverAmount = 0, oilAmount = 0;
+  
+  if (![gs isTaskCompleted:self.dungeonInfo.taskId]) {
+    TaskMapElementProto *elem = nil;
+    for (TaskMapElementProto *e in gs.staticMapElements) {
+      if (e.taskId == self.dungeonInfo.taskId) {
+        elem = e;
+      }
+    }
+    
+    if (elem) {
+      silverAmount += elem.cashReward;
+      oilAmount += elem.oilReward;
+    }
+  }
+  else
+  {
+    //Remainder resources
+    UserTaskCompletedProto *taskCompleteData = [gs.completedTaskData objectForKey:@(self.dungeonInfo.taskId)];
+    
+    silverAmount += taskCompleteData.unclaimedCash;
+    oilAmount += taskCompleteData.unclaimedOil;
+  }
+  
+  if (silverAmount)
+    [builder setCash:silverAmount];
+  if (oilAmount)
+    [builder setOil:oilAmount];
+  
+  return [super createReplayWithBuilder:builder];
+}
+
 #pragma mark - Run away
 
 - (float) runAwayChance {

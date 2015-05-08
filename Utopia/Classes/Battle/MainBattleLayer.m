@@ -390,7 +390,7 @@
     if (_lootSprite) {
       [self.mainView moveToNextEnemy];
       
-      [self runAction:[CCActionSequence actions:[CCActionDelay actionWithDuration:2.f], [CCActionCallFunc actionWithTarget:self selector:@selector(fireVictoryEvent)], nil]];
+      [self runAction:[CCActionSequence actions:[CCActionDelay actionWithDuration:2.f], [CCActionCallFunc actionWithTarget:self selector:@selector(fireWinEvent)], nil]];
     } else {
       [self fireEvent:playerVictoryEvent userInfo:nil error:nil];
     }

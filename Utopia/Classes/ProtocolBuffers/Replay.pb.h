@@ -177,15 +177,17 @@ BOOL CombatReplayStepTypeIsValidValue(CombatReplayStepType value);
 
 @interface CombatReplayProto : PBGeneratedMessage {
 @private
-  BOOL hasFirstAttackerMonsterId_:1;
   BOOL hasBoardWidth_:1;
   BOOL hasBoardHeight_:1;
+  BOOL hasCash_:1;
+  BOOL hasOil_:1;
   BOOL hasReplayUuid_:1;
   BOOL hasGroundImgPrefix_:1;
   BOOL hasBoard_:1;
-  int32_t firstAttackerMonsterId;
   int32_t boardWidth;
   int32_t boardHeight;
+  int32_t cash;
+  int32_t oil;
   NSString* replayUuid;
   NSString* groundImgPrefix;
   BoardLayoutProto* board;
@@ -194,17 +196,16 @@ BOOL CombatReplayStepTypeIsValidValue(CombatReplayStepType value);
   NSMutableArray * mutableStepsList;
   NSMutableArray * mutableOrbsList;
   NSMutableArray * mutablePvpObstaclesList;
-  NSMutableArray * mutableBoardPropertiesList;
 }
 - (BOOL) hasReplayUuid;
 - (BOOL) hasGroundImgPrefix;
-- (BOOL) hasFirstAttackerMonsterId;
 - (BOOL) hasBoard;
 - (BOOL) hasBoardWidth;
 - (BOOL) hasBoardHeight;
+- (BOOL) hasCash;
+- (BOOL) hasOil;
 @property (readonly, strong) NSString* replayUuid;
 @property (readonly, strong) NSString* groundImgPrefix;
-@property (readonly) int32_t firstAttackerMonsterId;
 @property (readonly, strong) NSArray * playerTeamList;
 @property (readonly, strong) NSArray * enemyTeamList;
 @property (readonly, strong) NSArray * stepsList;
@@ -213,13 +214,13 @@ BOOL CombatReplayStepTypeIsValidValue(CombatReplayStepType value);
 @property (readonly) int32_t boardWidth;
 @property (readonly) int32_t boardHeight;
 @property (readonly, strong) NSArray * pvpObstaclesList;
-@property (readonly, strong) NSArray * boardPropertiesList;
+@property (readonly) int32_t cash;
+@property (readonly) int32_t oil;
 - (CombatReplayMonsterSnapshot*)playerTeamAtIndex:(NSUInteger)index;
 - (CombatReplayMonsterSnapshot*)enemyTeamAtIndex:(NSUInteger)index;
 - (CombatReplayStepProto*)stepsAtIndex:(NSUInteger)index;
 - (CombatReplayOrbProto*)orbsAtIndex:(NSUInteger)index;
 - (PvpBoardObstacleProto*)pvpObstaclesAtIndex:(NSUInteger)index;
-- (BoardPropertyProto*)boardPropertiesAtIndex:(NSUInteger)index;
 
 + (CombatReplayProto*) defaultInstance;
 - (CombatReplayProto*) defaultInstance;
@@ -265,11 +266,6 @@ BOOL CombatReplayStepTypeIsValidValue(CombatReplayStepType value);
 - (NSString*) groundImgPrefix;
 - (CombatReplayProto_Builder*) setGroundImgPrefix:(NSString*) value;
 - (CombatReplayProto_Builder*) clearGroundImgPrefix;
-
-- (BOOL) hasFirstAttackerMonsterId;
-- (int32_t) firstAttackerMonsterId;
-- (CombatReplayProto_Builder*) setFirstAttackerMonsterId:(int32_t) value;
-- (CombatReplayProto_Builder*) clearFirstAttackerMonsterId;
 
 - (NSMutableArray *)playerTeamList;
 - (CombatReplayMonsterSnapshot*)playerTeamAtIndex:(NSUInteger)index;
@@ -318,11 +314,15 @@ BOOL CombatReplayStepTypeIsValidValue(CombatReplayStepType value);
 - (CombatReplayProto_Builder *)addAllPvpObstacles:(NSArray *)array;
 - (CombatReplayProto_Builder *)clearPvpObstacles;
 
-- (NSMutableArray *)boardPropertiesList;
-- (BoardPropertyProto*)boardPropertiesAtIndex:(NSUInteger)index;
-- (CombatReplayProto_Builder *)addBoardProperties:(BoardPropertyProto*)value;
-- (CombatReplayProto_Builder *)addAllBoardProperties:(NSArray *)array;
-- (CombatReplayProto_Builder *)clearBoardProperties;
+- (BOOL) hasCash;
+- (int32_t) cash;
+- (CombatReplayProto_Builder*) setCash:(int32_t) value;
+- (CombatReplayProto_Builder*) clearCash;
+
+- (BOOL) hasOil;
+- (int32_t) oil;
+- (CombatReplayProto_Builder*) setOil:(int32_t) value;
+- (CombatReplayProto_Builder*) clearOil;
 @end
 
 @interface MinimumCombatReplayProto : PBGeneratedMessage {
