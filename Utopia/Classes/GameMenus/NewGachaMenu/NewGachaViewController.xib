@@ -110,7 +110,7 @@
                         </imageView>
                         <view contentMode="scaleToFill" id="vIR-lU-z16" userLabel="Single Spin">
                             <rect key="frame" x="19" y="117" width="106" height="41"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="YYO-db-KXt" customClass="GemsButton">
                                     <rect key="frame" x="0.0" y="0.0" width="106" height="41"/>
@@ -168,7 +168,7 @@
                         </view>
                         <view contentMode="scaleToFill" id="XJV-Wb-4Gl" userLabel="Multi Spin">
                             <rect key="frame" x="0.0" y="158" width="144" height="47"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="BT7-xG-bB7" customClass="GemsButton">
                                     <rect key="frame" x="0.0" y="0.0" width="144" height="47"/>

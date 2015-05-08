@@ -135,8 +135,8 @@
     } else {
       [Globals imageNamed:@"diamond.png" withView:self.multiSpinGemCostIcon greyscale:YES indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:NO];
       
-      self.multiSpinTapToUnlockLabel.originY = 11;
-      self.multiSpinActionLabel.originY = self.multiSpinView.height - self.multiSpinActionLabel.height - 15;
+      self.multiSpinTapToUnlockLabel.originY = 0;
+      self.multiSpinActionLabel.originY = self.multiSpinView.height - self.multiSpinActionLabel.height - 5;
       self.multiSpinGemCostLabel.originY += 1;
     }
     
@@ -144,7 +144,7 @@
     self.multiSpinGemCostView.centerY = self.multiSpinActionLabel.centerY - 2;
     
     self.multiSpinGemCostLabel.originX = CGRectGetMaxX(self.multiSpinGemCostIcon.frame);
-    self.multiSpinGemCostIcon.centerY = self.multiSpinGemCostLabel.centerY;
+    self.multiSpinGemCostIcon.centerY = self.multiSpinGemCostLabel.centerY + 1;
   }
   
   [Globals alignSubviewsToPixelsBoundaries:self.machineImage.superview];
@@ -202,6 +202,8 @@
     featuredContainer.width += moveBy + 50.f;
     featuredContainer.originY -= 15.f;
     featuredContainer.height += 15.f;
+    
+    self.machineImage.superview.originX -= 15.f;
   }
   else
   {
@@ -273,7 +275,7 @@
   
   [self updateSingleSpinButton];
   
-  [Globals alignSubviewsToPixelsBoundaries:self.machineImage.superview];
+//[Globals alignSubviewsToPixelsBoundaries:self.machineImage.superview];
 }
 
 - (void) updateSingleSpinButton
@@ -293,9 +295,11 @@
   self.singleSpinView.center = self.singleSpinButton.center;
   
   self.singleSpinGemCostView.originX = (self.singleSpinView.centerX - self.singleSpinView.originX) + (regularGrab ? 7 : 3);
-  self.singleSpinGemCostView.originY = (self.singleSpinView.height - self.singleSpinGemCostView.height) * .5f - 16;
+  self.singleSpinGemCostView.originY = (self.singleSpinView.height - self.singleSpinGemCostView.height) * .5f - 4;
   
   self.singleSpinActionLabel.font = [UIFont fontWithName:self.singleSpinActionLabel.font.fontName size:regularGrab ? 13.f : 9.f];
+  self.singleSpinActionLabel.width = self.singleSpinButton.width;
+  self.singleSpinActionLabel.centerX = self.singleSpinActionLabel.superview.width * .5f;
   self.singleSpinActionLabel.centerY = [self.singleSpinButton.superview convertPoint:self.singleSpinButton.center toView:self.singleSpinActionLabel.superview].y - (regularGrab ? 3 : 2);
   
   const CGPoint gemCostIconCenter = self.singleSpinGemCostIcon.center;
@@ -319,14 +323,12 @@
     self.singleSpinGemCostView.hidden = YES;
     self.singleSpinActionLabel.textAlignment = NSTextAlignmentCenter;
     self.singleSpinActionLabel.text = @" DAILY SPIN! ";
-    self.singleSpinActionLabel.originX = 0;
   }
   else if (numFreeSpins)
   {
     self.singleSpinGemCostView.hidden = YES;
     self.singleSpinActionLabel.textAlignment = NSTextAlignmentCenter;
     self.singleSpinActionLabel.text = [NSString stringWithFormat:@" %d FREE SPIN%@! ", numFreeSpins, numFreeSpins > 1 ? @"S" : @""];
-    self.singleSpinActionLabel.originX = 0;
   }
   else
   {

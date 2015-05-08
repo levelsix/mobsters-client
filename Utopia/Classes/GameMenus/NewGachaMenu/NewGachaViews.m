@@ -49,9 +49,15 @@ typedef void (^RevealAnimCompletionBlock)(void);
 
 - (void) awakeFromNib
 {
-  if ([Globals isiPhone6] || [Globals isiPhone6Plus])
+  _firstTimeLoadingFromNib = YES;
+  
+  if ([Globals isiPhone6])
   {
     // We good
+  }
+  else if ([Globals isiPhone6Plus])
+  {
+    self.statsContainerView.originX += 50.f;
   }
   else if ([Globals isSmallestiPhone])
   {
@@ -59,11 +65,11 @@ typedef void (^RevealAnimCompletionBlock)(void);
     for (UIView* subview in self.animationContainerView.subviews)
       subview.frame = CGRectMake(subview.originX * heightToWidth, subview.originY, subview.width * heightToWidth, subview.height);
     
-    self.statsContainerView.originX += 110.f;
+    self.statsContainerView.originX -= 100.f;
     self.statsContainerView.nameLabel.width -= 30.f;
   }
   else
-    self.statsContainerView.originX += 30.f;
+    self.statsContainerView.originX -= 50.f;
   
   self.statsContainerView.layer.anchorPoint = CGPointMake(.25f, .5f);
   self.statsContainerView.originX -= self.statsContainerView.width * .25f;
@@ -82,6 +88,11 @@ typedef void (^RevealAnimCompletionBlock)(void);
   _lightCircleDuplicate = nil;
   _whiteLightCircleDuplicate = nil;
   _characterWhite = nil;
+}
+
+- (void) didMoveToSuperview
+{
+  _firstTimeLoadingFromNib = NO;
 }
 
 - (void) preloadWithMonsterIds:(NSArray*)monsterIds
@@ -115,11 +126,18 @@ typedef void (^RevealAnimCompletionBlock)(void);
   self.characterScrollView.contentSize = CGSizeMake(self.width * monsterIds.count, self.height);
   self.characterScrollView.contentOffset = CGPointZero;
   
+  const CGFloat wR = _firstTimeLoadingFromNib ? [Globals screenSize].width  / 667.f : 1.f;
+  const CGFloat hR = _firstTimeLoadingFromNib ? [Globals screenSize].height / 375.f : 1.f;
+  const CGRect adjustedFrame = CGRectMake(self.character.frame.origin.x * wR,
+                                          self.character.frame.origin.y * hR,
+                                          self.character.size.width  * wR,
+                                          self.character.size.height * hR);
+  
   for (int i = 1; i < monsterIds.count; ++i)
   {
-    UIImageView* characterImageView = [[UIImageView alloc] initWithFrame:self.character.frame];
+    UIImageView* characterImageView = [[UIImageView alloc] initWithFrame:adjustedFrame];
     characterImageView.contentMode = self.character.contentMode;
-    characterImageView.originX += self.width * i;
+    characterImageView.originX += (self.width * wR) * i;
     
     MonsterProto *proto = [gs monsterWithId:[monsterIds[i] intValue]];
     [Globals imageNamedWithiPhone6Prefix:[proto.imagePrefix stringByAppendingString:@"Character.png"]
