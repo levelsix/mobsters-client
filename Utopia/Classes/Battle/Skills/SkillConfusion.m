@@ -54,8 +54,7 @@
     if ([self isActive])
     {
       // Chance of player hitting self
-      float rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
-      if (rand < _chanceToHitSelf)
+      if ([self randomWithChance:_chanceToHitSelf])
       {
         SkillLogStart(@"Confusion -- Skill caused player to hit himself");
         
@@ -80,8 +79,7 @@
       if (execute)
       {
         // Chance of enemy hitting self
-        float rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
-        if (rand < _chanceToHitSelf)
+        if ([self randomWithChance:_chanceToHitSelf])
         {
           SkillLogStart(@"Confusion -- Skill caused enemy to hit himself");
           

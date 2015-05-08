@@ -166,6 +166,8 @@ static NSString* const kSkillMiniLogoImageNameSuffix = @"minilogo.png";
 
 // Helpers
 - (void) preseedRandomization;
+- (float) getRandomValue;
+- (BOOL) randomWithChance:(float)chance;
 + (NSInteger) specialsOnBoardCount:(SpecialOrbType)type layout:(BattleOrbLayout*)layout;
 + (NSInteger) specialTilesOnBoardCount:(TileType)type layout:(BattleOrbLayout*)layout;
 - (NSInteger) specialsOnBoardCount:(SpecialOrbType)type;

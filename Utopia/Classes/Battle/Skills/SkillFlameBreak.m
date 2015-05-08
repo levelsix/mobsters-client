@@ -116,7 +116,8 @@
 
 - (void) calculateValues
 {
-  _damage = arc4random_uniform((int)_maxDamage - 1) +1;
+  float random = [self getRandomValue];
+  _damage = ((int)(random * (_maxDamage - 1))) + 1;
   _stunTurns = _maxStunTurns - (floorf(_maxStunTurns * ((float)_damage / _maxDamage)));
 }
 

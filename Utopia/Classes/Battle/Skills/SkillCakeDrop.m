@@ -109,8 +109,7 @@
     return NO;
   
   NSInteger cakesOnBoard = [self specialsOnBoardCount:SpecialOrbTypeCake];
-  float rand = ((float) (arc4random() % ((unsigned)RAND_MAX + 1)) / RAND_MAX);
-  if ((rand < _cakeChance && cakesOnBoard < _maxCakes) || cakesOnBoard < _minCakes)
+  if (cakesOnBoard < _minCakes || (cakesOnBoard < _maxCakes && [self randomWithChance:_cakeChance]))
   {
     orb.specialOrbType = SpecialOrbTypeCake;
     orb.orbColor = OrbColorNone;

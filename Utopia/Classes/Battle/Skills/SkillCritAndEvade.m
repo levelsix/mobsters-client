@@ -91,8 +91,7 @@
       if (_missChance > 0 || _critChance > 0)
       {
         // Chance of missing
-        float rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
-        if (rand < _missChance)
+        if ([self randomWithChance:_missChance])
         {
           damage = 0;
           _missed = YES;
@@ -102,8 +101,7 @@
         else
         {
           // Chance of critical hit
-          float rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
-          if (rand < _critChance)
+          if ([self randomWithChance:_critChance])
           {
             damage *= _critMultiplier;
             [self showCriticalHit];
@@ -116,8 +114,7 @@
       if (_evadeChance)
       {
         // Chance of evading
-        float rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
-        if (rand < _evadeChance)
+        if ([self randomWithChance:_evadeChance])
         {
           [self showDodged:NO damage:damage];
           damage = 0;

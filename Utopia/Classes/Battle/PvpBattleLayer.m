@@ -87,8 +87,8 @@
 - (CombatReplayProto *)createReplayWithBuilder:(CombatReplayProto_Builder *)builder {
   PvpProto *pvp = self.defendersList[_curQueueNum];
   [builder addAllPvpObstacles:pvp.userBoardObstaclesList];
-  [builder setCash:pvp.prospectiveCashWinnings];
-  [builder setOil:pvp.prospectiveOilWinnings];
+  [builder setCash:pvp.prospectiveCashStolenFromStorage + pvp.cashWinnings];
+  [builder setOil:pvp.prospectiveOilStolenFromStorage + pvp.oilWinnings];
   return [super createReplayWithBuilder:builder];
 }
 

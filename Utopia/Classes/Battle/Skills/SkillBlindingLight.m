@@ -68,8 +68,7 @@
     if ([self isActive])
     {
       // Chance of missing
-      float rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
-      if (rand < _missChance)
+      if ([self randomWithChance:_missChance])
       {
         damage = 0;
         _missed = YES;

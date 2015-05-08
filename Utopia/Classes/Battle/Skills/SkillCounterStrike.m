@@ -54,9 +54,7 @@
   {
     if ((trigger == SkillTriggerPointEndOfEnemyTurn && self.belongsToPlayer)
         || (trigger == SkillTriggerPointEndOfPlayerTurn && !self.belongsToPlayer)){
-      if (execute){
-        float rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
-        if (rand < _chance){
+      if (execute){        if ([self randomWithChance:_chance]) {
           [self performBlockAfterDelay:self.opponentSprite.animationType == MonsterProto_AnimationTypeMelee ? .5 : 0 block:^{
             [self dealQuickAttack];
             [self tickDuration];

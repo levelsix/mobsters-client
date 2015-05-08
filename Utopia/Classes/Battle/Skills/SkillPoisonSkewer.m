@@ -73,8 +73,7 @@
 
 - (BOOL) doesPoison
 {
-  float rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
-  return rand < _poisonChance;
+  return [self randomWithChance:_poisonChance];
 }
 
 @end

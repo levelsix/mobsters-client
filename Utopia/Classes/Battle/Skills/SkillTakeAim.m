@@ -60,8 +60,7 @@
   _orbsSpawned = (int)[self specialsOnBoardCount:SpecialOrbTypeTakeAim];
   if (!player && !self.belongsToPlayer && _orbsSpawned && !self.userPlayer.isStunned)
   {
-    float rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
-    if (rand < _orbsSpawned * _critChancePerOrb)
+    if ([self randomWithChance:_orbsPerSpawn * _critChancePerOrb])
     {
       [self showCriticalHit];
       damage = damage * _critDamageMultiplier;
@@ -69,8 +68,7 @@
   }
   else if (player && self.belongsToPlayer && [self isActive] && !self.userPlayer.isStunned)
   {
-    float rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
-    if (rand < (_playerCritChance * _stacks))
+    if ([self randomWithChance:_playerCritChance * _stacks])
     {
       [self showCriticalHit];
       damage = damage * _critDamageMultiplier;

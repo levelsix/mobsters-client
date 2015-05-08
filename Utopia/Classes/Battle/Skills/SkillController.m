@@ -597,6 +597,18 @@
   srand(seed);
 }
 
+#define	RAND_MAX	0x7fffffff
+- (float) getRandomValue
+{
+  [self preseedRandomization];
+  return rand()/((float)RAND_MAX);
+}
+
+- (BOOL) randomWithChance:(float)chance
+{
+  return [self getRandomValue] < chance;
+}
+
 + (NSInteger) specialsOnBoardCount:(SpecialOrbType)type layout:(BattleOrbLayout*)layout
 {
   NSInteger result = 0;

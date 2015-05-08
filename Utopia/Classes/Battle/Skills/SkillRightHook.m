@@ -90,8 +90,7 @@
     if ([self isActive])
     {
       // Chance of player hitting self
-      float rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
-      if (rand < _targetChanceToHitSelf)
+      if ([self randomWithChance:_targetChanceToHitSelf])
       {
         // Tell NewBattleLayer that enemy will be confused on his next turn
         self.player.isConfused = YES;
@@ -114,8 +113,7 @@
       if (execute)
       {
         // Chance of enemy hitting self
-        float rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
-        if (rand < _targetChanceToHitSelf)
+        if ([self randomWithChance:_targetChanceToHitSelf])
         {
           // Tell NewBattleLayer that enemy will be confused on his next turn
           self.enemy.isConfused = YES;

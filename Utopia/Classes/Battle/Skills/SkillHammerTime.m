@@ -80,8 +80,8 @@
     {
       if (execute)
       {
-        float rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
-        if (rand < _chance){
+        if ([self randomWithChance:_chance])
+        {
           [self stunOpponent];
         }
       }
