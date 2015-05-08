@@ -145,7 +145,13 @@
   
   BattleState *playerSwapState = [BattleState stateWithName:@"Swap Player" andType:CombatReplayStepTypePlayerSwap];
   [playerSwapState setDidEnterStateBlock:^(TKState *state, TKTransition *transition) {
-    [self deployBattleSprite:transition.userInfo[SWAP_TOON_KEY]];
+    BattlePlayer* bp;
+    for (BattlePlayer *b in self.myTeam)
+      if (b.slotNum == self.currStep.swapIndex)
+        bp = b;
+        
+    if (bp)
+      [self deployBattleSprite:bp];
   }];
   
   BattleState *playerTurn = [BattleState stateWithName:@"Player Turn" andType:CombatReplayStepTypePlayerTurn];

@@ -66,6 +66,10 @@
   self.combatStepBuilder.vinePos = [self combineInts:x int2:y];
 }
 
+- (void) addToonSwap:(int)swapIndex {
+  self.combatStepBuilder.swapIndex = swapIndex;
+}
+
 - (void) addItemUse:(int)itemId {
   self.combatStepBuilder.itemId = itemId;
 }

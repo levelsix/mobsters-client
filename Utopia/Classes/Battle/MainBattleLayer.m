@@ -148,12 +148,14 @@
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
   NSNumber *skillNumber = [NSNumber numberWithInteger:isOffensive ? um.offensiveSkillId : um.defensiveSkillId];
-  return [[[[[[[CombatReplayMonsterSnapshot builder]
-               setMonsterId:um.monsterId]
-              setStartingHealth:um.curHealth]
-             setMaxHealth:[gl calculateMaxHealthForMonster:um]]
-            setSkillSnapshot:[gs.staticSkills objectForKey:skillNumber]]
-           setLevel:um.level] build];
+  
+  return [[[[[[[[CombatReplayMonsterSnapshot builder]
+                setMonsterId:um.monsterId]
+               setStartingHealth:um.curHealth]
+              setMaxHealth:[gl calculateMaxHealthForMonster:um]]
+             setSkillSnapshot:[gs.staticSkills objectForKey:skillNumber]]
+            setLevel:um.level]
+           setSlotNum:um.teamSlot] build];
 }
 
 - (void) setupStateMachine {
@@ -1784,6 +1786,7 @@
   
   if (bp) {
     [self fireEvent:playerSwapEvent userInfo:@{SWAP_TOON_KEY : bp} error:nil];
+    [self.battleStateMachine.currentBattleState addToonSwap:bp.slotNum];
     //[self deployBattleSprite:bp];
   }
 }

@@ -94,4 +94,5 @@ message CombatReplayMonsterSnapshot {
     optional int32 maxHealth = 3;
     optional SkillProto skillSnapshot = 4;
     optional int32 level = 5;
+    optional int32 slotNum = 6;
 }

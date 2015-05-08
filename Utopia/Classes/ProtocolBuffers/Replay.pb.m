@@ -3021,6 +3021,7 @@ static CombatReplayOrbProto* defaultCombatReplayOrbProtoInstance = nil;
 @property int32_t maxHealth;
 @property (strong) SkillProto* skillSnapshot;
 @property int32_t level;
+@property int32_t slotNum;
 @end
 
 @implementation CombatReplayMonsterSnapshot
@@ -3060,6 +3061,13 @@ static CombatReplayOrbProto* defaultCombatReplayOrbProtoInstance = nil;
   hasLevel_ = !!value_;
 }
 @synthesize level;
+- (BOOL) hasSlotNum {
+  return !!hasSlotNum_;
+}
+- (void) setHasSlotNum:(BOOL) value_ {
+  hasSlotNum_ = !!value_;
+}
+@synthesize slotNum;
 - (id) init {
   if ((self = [super init])) {
     self.monsterId = 0;
@@ -3067,6 +3075,7 @@ static CombatReplayOrbProto* defaultCombatReplayOrbProtoInstance = nil;
     self.maxHealth = 0;
     self.skillSnapshot = [SkillProto defaultInstance];
     self.level = 0;
+    self.slotNum = 0;
   }
   return self;
 }
@@ -3101,6 +3110,9 @@ static CombatReplayMonsterSnapshot* defaultCombatReplayMonsterSnapshotInstance =
   if (self.hasLevel) {
     [output writeInt32:5 value:self.level];
   }
+  if (self.hasSlotNum) {
+    [output writeInt32:6 value:self.slotNum];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -3124,6 +3136,9 @@ static CombatReplayMonsterSnapshot* defaultCombatReplayMonsterSnapshotInstance =
   }
   if (self.hasLevel) {
     size_ += computeInt32Size(5, self.level);
+  }
+  if (self.hasSlotNum) {
+    size_ += computeInt32Size(6, self.slotNum);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -3178,6 +3193,9 @@ static CombatReplayMonsterSnapshot* defaultCombatReplayMonsterSnapshotInstance =
   if (self.hasLevel) {
     [output appendFormat:@"%@%@: %@\n", indent, @"level", [NSNumber numberWithInteger:self.level]];
   }
+  if (self.hasSlotNum) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"slotNum", [NSNumber numberWithInteger:self.slotNum]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -3199,6 +3217,8 @@ static CombatReplayMonsterSnapshot* defaultCombatReplayMonsterSnapshotInstance =
       (!self.hasSkillSnapshot || [self.skillSnapshot isEqual:otherMessage.skillSnapshot]) &&
       self.hasLevel == otherMessage.hasLevel &&
       (!self.hasLevel || self.level == otherMessage.level) &&
+      self.hasSlotNum == otherMessage.hasSlotNum &&
+      (!self.hasSlotNum || self.slotNum == otherMessage.slotNum) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -3217,6 +3237,9 @@ static CombatReplayMonsterSnapshot* defaultCombatReplayMonsterSnapshotInstance =
   }
   if (self.hasLevel) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.level] hash];
+  }
+  if (self.hasSlotNum) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.slotNum] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -3276,6 +3299,9 @@ static CombatReplayMonsterSnapshot* defaultCombatReplayMonsterSnapshotInstance =
   if (other.hasLevel) {
     [self setLevel:other.level];
   }
+  if (other.hasSlotNum) {
+    [self setSlotNum:other.slotNum];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -3320,6 +3346,10 @@ static CombatReplayMonsterSnapshot* defaultCombatReplayMonsterSnapshotInstance =
       }
       case 40: {
         [self setLevel:[input readInt32]];
+        break;
+      }
+      case 48: {
+        [self setSlotNum:[input readInt32]];
         break;
       }
     }
@@ -3417,6 +3447,22 @@ static CombatReplayMonsterSnapshot* defaultCombatReplayMonsterSnapshotInstance =
 - (CombatReplayMonsterSnapshot_Builder*) clearLevel {
   result.hasLevel = NO;
   result.level = 0;
+  return self;
+}
+- (BOOL) hasSlotNum {
+  return result.hasSlotNum;
+}
+- (int32_t) slotNum {
+  return result.slotNum;
+}
+- (CombatReplayMonsterSnapshot_Builder*) setSlotNum:(int32_t) value {
+  result.hasSlotNum = YES;
+  result.slotNum = value;
+  return self;
+}
+- (CombatReplayMonsterSnapshot_Builder*) clearSlotNum {
+  result.hasSlotNum = NO;
+  result.slotNum = 0;
   return self;
 }
 @end

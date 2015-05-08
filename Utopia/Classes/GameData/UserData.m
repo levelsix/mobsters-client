@@ -119,6 +119,7 @@
     self.curHealth = proto.startingHealth;
     self.offensiveSkillId = self.defensiveSkillId = proto.skillSnapshot.skillId;
     self.isComplete = YES;
+    self.teamSlot = proto.slotNum;
   }
   return self;
 }

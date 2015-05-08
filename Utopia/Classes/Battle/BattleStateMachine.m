@@ -34,13 +34,25 @@
   [self.currentBattleState restart];
 }
 
+- (void) storeState:(BattleState*)state {
+  [state setIndex:(int)self.pastStates.count];
+  
+  CombatReplayStepProto *proto = [state getStepProto];
+  
+  //We we perform a swap, it pushes a Move step onto the stack that we don't actually want to keep recorded
+  if (proto.type == CombatReplayStepTypePlayerMove && ![proto hasMovePos1] && ![proto hasItemId])
+    return;
+  
+  [self.pastStates addObject:proto];
+  
+}
+
 - (BOOL)fireEvent:(id)eventOrEventName userInfo:(NSDictionary *)userInfo error:(NSError *__autoreleasing *)error
 {
   BattleState *lastState = self.currentBattleState;
   if ([self canFireEvent:eventOrEventName])
   {
-      [lastState setIndex:(int)self.pastStates.count];
-      [self.pastStates addObject:[lastState getStepProto]];
+    [self storeState:lastState];
     
     NSLog(@"Transitioning from %@ to %@", lastState.name, ((TKEvent*)(eventOrEventName)).destinationState.name);
     [super fireEvent:eventOrEventName userInfo:userInfo error:error];
@@ -55,8 +67,7 @@
 }
 
 - (void)forceStateWithType:(CombatReplayStepType)stepType withActions:(BOOL)withActions {
-  [self.currentBattleState setIndex:(int)self.pastStates.count];
-  [self.pastStates addObject:[self.currentBattleState getStepProto]];
+  [self storeState:self.currentBattleState];
   
   BattleState *state;
   for (BattleState *bs in self.states)
