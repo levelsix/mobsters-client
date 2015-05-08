@@ -1522,6 +1522,18 @@
   [self.battleStateMachine.currentBattleState addTapAtX:point.x andY:point.y];
 }
 
+- (void)reportVine:(CGPoint)position {
+  [self.battleStateMachine.currentBattleState addVineAtX:position.x andY:position.y];
+}
+
+- (BOOL)hasVinePos {
+  return NO;
+}
+
+- (CGPoint)getVinePos {
+  return CGPointZero;
+}
+
 - (void) moveComplete {
   /*
    * 12/16/14 - BN - This check means if a turn results in no damage (e.g. because of

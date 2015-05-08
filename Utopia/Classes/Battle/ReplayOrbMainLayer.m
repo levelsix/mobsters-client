@@ -33,4 +33,12 @@
   [self tapDownOnOrb:orb tile:tile];
 }
 
+- (void)checkVines {
+  if ([self.delegate hasVinePos]) {
+    CGPoint vinePos = [self.delegate getVinePos];
+    BattleOrb *orb = [self.layout orbAtColumn:vinePos.x row:vinePos.y];
+    [self spawnVinesOnOrb:orb];
+  }
+}
+
 @end

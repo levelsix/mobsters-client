@@ -43,6 +43,7 @@
 - (void) addOrbSwap:(BattleSwap*)swap;
 - (void) addOrbMoveAt:(uint)x1 y1:(uint)y1 x2:(uint)x2 y2:(uint)y2;
 - (void) addTapAtX:(int)x andY:(int)y;
+- (void) addVineAtX:(int)x andY:(int)y;
 
 - (void) addItemUse:(int)itemId;
 - (void) addItemUse:(int)itemId xPos:(uint)xPos yPos:(uint)yPos;

@@ -61,6 +61,8 @@ message CombatReplayStepProto {
   optional int32 unmodifiedDamage = 7;
 	optional CombatReplayScheduleProto schedule = 8;
 	repeated CombatReplaySkillStepProto skills = 9;
+  optional int32 swapIndex = 10;
+  optional uint32 vinePos = 11;
 }
 
 message CombatReplaySkillStepProto {

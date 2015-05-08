@@ -396,17 +396,21 @@ BOOL CombatReplayStepTypeIsValidValue(CombatReplayStepType value);
   BOOL hasItemId_:1;
   BOOL hasModifiedDamage_:1;
   BOOL hasUnmodifiedDamage_:1;
+  BOOL hasSwapIndex_:1;
   BOOL hasSchedule_:1;
   BOOL hasMovePos1_:1;
   BOOL hasMovePos2_:1;
+  BOOL hasVinePos_:1;
   BOOL hasType_:1;
   int32_t stepIndex;
   int32_t itemId;
   int32_t modifiedDamage;
   int32_t unmodifiedDamage;
+  int32_t swapIndex;
   CombatReplayScheduleProto* schedule;
   uint32_t movePos1;
   uint32_t movePos2;
+  uint32_t vinePos;
   CombatReplayStepType type;
   NSMutableArray * mutableSkillsList;
 }
@@ -418,6 +422,8 @@ BOOL CombatReplayStepTypeIsValidValue(CombatReplayStepType value);
 - (BOOL) hasModifiedDamage;
 - (BOOL) hasUnmodifiedDamage;
 - (BOOL) hasSchedule;
+- (BOOL) hasSwapIndex;
+- (BOOL) hasVinePos;
 @property (readonly) int32_t stepIndex;
 @property (readonly) CombatReplayStepType type;
 @property (readonly) int32_t itemId;
@@ -427,6 +433,8 @@ BOOL CombatReplayStepTypeIsValidValue(CombatReplayStepType value);
 @property (readonly) int32_t unmodifiedDamage;
 @property (readonly, strong) CombatReplayScheduleProto* schedule;
 @property (readonly, strong) NSArray * skillsList;
+@property (readonly) int32_t swapIndex;
+@property (readonly) uint32_t vinePos;
 - (CombatReplaySkillStepProto*)skillsAtIndex:(NSUInteger)index;
 
 + (CombatReplayStepProto*) defaultInstance;
@@ -511,6 +519,16 @@ BOOL CombatReplayStepTypeIsValidValue(CombatReplayStepType value);
 - (CombatReplayStepProto_Builder *)addSkills:(CombatReplaySkillStepProto*)value;
 - (CombatReplayStepProto_Builder *)addAllSkills:(NSArray *)array;
 - (CombatReplayStepProto_Builder *)clearSkills;
+
+- (BOOL) hasSwapIndex;
+- (int32_t) swapIndex;
+- (CombatReplayStepProto_Builder*) setSwapIndex:(int32_t) value;
+- (CombatReplayStepProto_Builder*) clearSwapIndex;
+
+- (BOOL) hasVinePos;
+- (uint32_t) vinePos;
+- (CombatReplayStepProto_Builder*) setVinePos:(uint32_t) value;
+- (CombatReplayStepProto_Builder*) clearVinePos;
 @end
 
 @interface CombatReplaySkillStepProto : PBGeneratedMessage {

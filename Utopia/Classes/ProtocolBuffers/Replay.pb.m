@@ -1170,6 +1170,8 @@ static MinimumCombatReplayProto* defaultMinimumCombatReplayProtoInstance = nil;
 @property int32_t unmodifiedDamage;
 @property (strong) CombatReplayScheduleProto* schedule;
 @property (strong) NSMutableArray * mutableSkillsList;
+@property int32_t swapIndex;
+@property uint32_t vinePos;
 @end
 
 @implementation CombatReplayStepProto
@@ -1232,6 +1234,20 @@ static MinimumCombatReplayProto* defaultMinimumCombatReplayProtoInstance = nil;
 @synthesize schedule;
 @synthesize mutableSkillsList;
 @dynamic skillsList;
+- (BOOL) hasSwapIndex {
+  return !!hasSwapIndex_;
+}
+- (void) setHasSwapIndex:(BOOL) value_ {
+  hasSwapIndex_ = !!value_;
+}
+@synthesize swapIndex;
+- (BOOL) hasVinePos {
+  return !!hasVinePos_;
+}
+- (void) setHasVinePos:(BOOL) value_ {
+  hasVinePos_ = !!value_;
+}
+@synthesize vinePos;
 - (id) init {
   if ((self = [super init])) {
     self.stepIndex = 0;
@@ -1242,6 +1258,8 @@ static MinimumCombatReplayProto* defaultMinimumCombatReplayProtoInstance = nil;
     self.modifiedDamage = 0;
     self.unmodifiedDamage = 0;
     self.schedule = [CombatReplayScheduleProto defaultInstance];
+    self.swapIndex = 0;
+    self.vinePos = 0;
   }
   return self;
 }
@@ -1294,6 +1312,12 @@ static CombatReplayStepProto* defaultCombatReplayStepProtoInstance = nil;
   [self.skillsList enumerateObjectsUsingBlock:^(CombatReplaySkillStepProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:9 value:element];
   }];
+  if (self.hasSwapIndex) {
+    [output writeInt32:10 value:self.swapIndex];
+  }
+  if (self.hasVinePos) {
+    [output writeUInt32:11 value:self.vinePos];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -1330,6 +1354,12 @@ static CombatReplayStepProto* defaultCombatReplayStepProtoInstance = nil;
   [self.skillsList enumerateObjectsUsingBlock:^(CombatReplaySkillStepProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(9, element);
   }];
+  if (self.hasSwapIndex) {
+    size_ += computeInt32Size(10, self.swapIndex);
+  }
+  if (self.hasVinePos) {
+    size_ += computeUInt32Size(11, self.vinePos);
+  }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
   return size_;
@@ -1398,6 +1428,12 @@ static CombatReplayStepProto* defaultCombatReplayStepProtoInstance = nil;
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }];
+  if (self.hasSwapIndex) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"swapIndex", [NSNumber numberWithInteger:self.swapIndex]];
+  }
+  if (self.hasVinePos) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"vinePos", [NSNumber numberWithInteger:self.vinePos]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -1426,6 +1462,10 @@ static CombatReplayStepProto* defaultCombatReplayStepProtoInstance = nil;
       self.hasSchedule == otherMessage.hasSchedule &&
       (!self.hasSchedule || [self.schedule isEqual:otherMessage.schedule]) &&
       [self.skillsList isEqualToArray:otherMessage.skillsList] &&
+      self.hasSwapIndex == otherMessage.hasSwapIndex &&
+      (!self.hasSwapIndex || self.swapIndex == otherMessage.swapIndex) &&
+      self.hasVinePos == otherMessage.hasVinePos &&
+      (!self.hasVinePos || self.vinePos == otherMessage.vinePos) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -1457,6 +1497,12 @@ static CombatReplayStepProto* defaultCombatReplayStepProtoInstance = nil;
   [self.skillsList enumerateObjectsUsingBlock:^(CombatReplaySkillStepProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
+  if (self.hasSwapIndex) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.swapIndex] hash];
+  }
+  if (self.hasVinePos) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.vinePos] hash];
+  }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
@@ -1531,6 +1577,12 @@ static CombatReplayStepProto* defaultCombatReplayStepProtoInstance = nil;
       [result.mutableSkillsList addObjectsFromArray:other.mutableSkillsList];
     }
   }
+  if (other.hasSwapIndex) {
+    [self setSwapIndex:other.swapIndex];
+  }
+  if (other.hasVinePos) {
+    [self setVinePos:other.vinePos];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -1598,6 +1650,14 @@ static CombatReplayStepProto* defaultCombatReplayStepProtoInstance = nil;
         CombatReplaySkillStepProto_Builder* subBuilder = [CombatReplaySkillStepProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addSkills:[subBuilder buildPartial]];
+        break;
+      }
+      case 80: {
+        [self setSwapIndex:[input readInt32]];
+        break;
+      }
+      case 88: {
+        [self setVinePos:[input readUInt32]];
         break;
       }
     }
@@ -1767,6 +1827,38 @@ static CombatReplayStepProto* defaultCombatReplayStepProtoInstance = nil;
 }
 - (CombatReplayStepProto_Builder *)clearSkills {
   result.mutableSkillsList = nil;
+  return self;
+}
+- (BOOL) hasSwapIndex {
+  return result.hasSwapIndex;
+}
+- (int32_t) swapIndex {
+  return result.swapIndex;
+}
+- (CombatReplayStepProto_Builder*) setSwapIndex:(int32_t) value {
+  result.hasSwapIndex = YES;
+  result.swapIndex = value;
+  return self;
+}
+- (CombatReplayStepProto_Builder*) clearSwapIndex {
+  result.hasSwapIndex = NO;
+  result.swapIndex = 0;
+  return self;
+}
+- (BOOL) hasVinePos {
+  return result.hasVinePos;
+}
+- (uint32_t) vinePos {
+  return result.vinePos;
+}
+- (CombatReplayStepProto_Builder*) setVinePos:(uint32_t) value {
+  result.hasVinePos = YES;
+  result.vinePos = value;
+  return self;
+}
+- (CombatReplayStepProto_Builder*) clearVinePos {
+  result.hasVinePos = NO;
+  result.vinePos = 0;
   return self;
 }
 @end

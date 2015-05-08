@@ -278,6 +278,16 @@
   [self.mainView.hudView.battleScheduleView setBattleSchedule:self.battleSchedule];
 }
 
+#pragma mark - Vines
+
+- (BOOL)hasVinePos {
+  return self.currStep.hasVinePos;
+}
+
+- (CGPoint)getVinePos {
+  return [self splitPosInt:self.currStep.vinePos];
+}
+
 #pragma mark - Items
 
 - (void) useBattleItem {

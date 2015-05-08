@@ -22,6 +22,9 @@
 - (void) moveComplete;
 - (void) reportSwap:(BattleSwap*)swap;
 - (void) reportTap:(CGPoint)point;
+- (void) reportVine:(CGPoint)position;
+- (BOOL) hasVinePos;
+- (CGPoint) getVinePos;
 - (void) reshuffleWithPrompt:(NSString*)prompt;
 - (void) noPossibleMoves;
 
@@ -52,6 +55,8 @@
 
 - (void) tapDownOnOrb:(BattleOrb *)orb tile:(BattleTile *)tile;
 - (void) checkSwap:(BattleSwap *)swap;
+- (void) checkVines;
+- (void) spawnVinesOnOrb:(BattleOrb*)orb;
 
 - (void) pulseValidMove;
 - (void) schedulePulse;

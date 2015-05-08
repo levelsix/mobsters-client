@@ -169,21 +169,28 @@
   if (self.layout.numVines && self.layout.numVines == self.layout.lastNumVines) {
     
     BattleOrb *orb = [self.layout pickOrbForVine];
-    BattleOrb *other = [self.layout vineAdjacentToOrb:orb];
-    if (orb && other)
-    {
-      orb.isVines = YES;
-      orb.isLocked = YES;
-      BattleTile* originTile = [self.layout tileAtColumn:other.column row:other.row];
-      
-      [self.bgdLayer playVineExpansion:other.vineGrowDirection onTile:originTile withCompletion:^{
-        [[self.swipeLayer spriteForOrb:orb] reloadSprite:NO];
-      }];
-      
-      [self.layout detectPossibleSwaps];
-    }
+    [self spawnVinesOnOrb:orb];
+    [self.delegate reportVine:CGPointMake(orb.column, orb.row)];
   }
   self.layout.lastNumVines = self.layout.numVines;
+}
+
+- (void) spawnVinesOnOrb:(BattleOrb*)orb {
+  BattleOrb *other = [self.layout vineAdjacentToOrb:orb];
+  if (orb && other)
+  {
+    orb.isVines = YES;
+    orb.isLocked = YES;
+    BattleTile* originTile = [self.layout tileAtColumn:other.column row:other.row];
+    
+    [self.bgdLayer playVineExpansion:other.vineGrowDirection onTile:originTile withCompletion:^{
+      [[self.swipeLayer spriteForOrb:orb] reloadSprite:NO];
+    }];
+    
+    
+    
+    [self.layout detectPossibleSwaps];
+  }
 }
 
 - (void) handleMatches {

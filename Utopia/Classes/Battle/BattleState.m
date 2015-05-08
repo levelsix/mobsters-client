@@ -62,6 +62,10 @@
   self.combatStepBuilder.movePos1 = [self combineInts:x int2:y];
 }
 
+- (void) addVineAtX:(int)x andY:(int)y {
+  self.combatStepBuilder.vinePos = [self combineInts:x int2:y];
+}
+
 - (void) addItemUse:(int)itemId {
   self.combatStepBuilder.itemId = itemId;
 }
