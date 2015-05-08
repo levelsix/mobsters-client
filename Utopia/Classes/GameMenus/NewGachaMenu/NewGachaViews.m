@@ -13,10 +13,12 @@
 #import "CAKeyframeAnimation+AHEasing.h"
 #import "SkillController.h"
 #import "UIEffectDesignerView.h"
+#import "SoundEngine.h"
 
 static const CGFloat kRevealAnimDuration = 1.f;         // Seconds
 static const CGFloat kRevealAnimFrames = 20.f;          // Frames
 static const CGFloat kRevealDelayInBetweenAnims = .2f;  // Seconds
+static const CGFloat kSoundEffectAnimHeadStart = .8f;   // Seconds
 
 static const CGFloat kStatsScaleAnimStartingScale = 8.f;
 static const CGFloat kStatsScaleAnimDuration = .4f;   // Seconds
@@ -541,6 +543,17 @@ typedef void (^RevealAnimCompletionBlock)(void);
       [self restartOrEndAnimation];
     }];
   }];
+  
+  // Play the Gacha reveal SFX for the next character (if any) with a head start
+  _startedNextRevealSoundEffect = NO;
+  const NSTimeInterval t = (kRevealAnimDuration + kStatsScaleAnimDuration + kScreenShakeAnimDuration) + kRevealDelayInBetweenAnims - kSoundEffectAnimHeadStart;
+  [self performAfterDelay:t block:^{
+    if (!_skippingAnimations && _currentCharacterIndex < _characterDescriptors.count - 1)
+    {
+      _startedNextRevealSoundEffect = YES;
+      [SoundEngine gachaReveal];
+    }
+  }];
 }
 
 - (void) restartOrEndAnimation
@@ -741,6 +754,9 @@ typedef void (^RevealAnimCompletionBlock)(void);
   for (UIView* view in _characterStatsViews) view.hidden = NO;
   
   _skippingAnimations = YES;
+  
+  // Umm... not sure why this doesn't actually stop the sound effect
+  if (_startedNextRevealSoundEffect) [SoundEngine stopLastPlayedEffect];
 }
 
 - (IBAction) closeClicked:(id)sender

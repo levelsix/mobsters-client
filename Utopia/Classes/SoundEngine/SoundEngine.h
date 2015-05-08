@@ -23,6 +23,7 @@ typedef enum {
 
 @property (nonatomic, retain) id<ALSoundSource> repeatingEffect;
 @property (nonatomic, retain) id<ALSoundSource> ambientNoise;
+@property (nonatomic, retain) id<ALSoundSource> lastPlayedEffect;
 
 + (SoundEngine *)sharedSoundEngine;
 
@@ -30,7 +31,9 @@ typedef enum {
 - (void) resumeBackgroundMusic;
 - (id<ALSoundSource>) playEffect:(NSString *)effect;
 - (void) preloadEffect:(NSString *)effect;
+
 + (void) stopRepeatingEffect;
++ (void) stopLastPlayedEffect;
 
 - (void) playHomeMapMusic;
 - (void) playMissionMapMusic;
