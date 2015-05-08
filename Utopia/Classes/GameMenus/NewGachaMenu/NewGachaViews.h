@@ -48,6 +48,7 @@
   
   UIView *_particleEffectView;
   
+  BOOL _firstTimeLoadingFromNib;
   BOOL _skippingAnimations;
   BOOL _startedNextRevealSoundEffect;
 }
