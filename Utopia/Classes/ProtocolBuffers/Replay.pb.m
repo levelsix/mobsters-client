@@ -39,6 +39,8 @@ BOOL CombatReplayStepTypeIsValidValue(CombatReplayStepType value) {
     case CombatReplayStepTypePlayerRevive:
     case CombatReplayStepTypeEnemyDeath:
     case CombatReplayStepTypePlayerVictory:
+    case CombatReplayStepTypePlayerRun:
+    case CombatReplayStepTypePlayerLose:
       return YES;
     default:
       return NO;

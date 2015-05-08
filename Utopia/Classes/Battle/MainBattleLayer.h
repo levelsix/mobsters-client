@@ -119,7 +119,7 @@
   CCLabelTTF *_noMovesLabel;
   
   @protected TKEvent *loadingCompleteEvent, *nextEnemyEvent, *playerSwapEvent, *playerTurnEvent, *playerMoveEvent,
-    *playerAttackEvent, *enemyTurnEvent, *playerVictoryEvent, *playerDeathEvent, *playerReviveEvent;
+  *playerAttackEvent, *enemyTurnEvent, *playerVictoryEvent, *playerDeathEvent, *playerReviveEvent, *playerRunEvent, *playerLoseEvent;
 }
 
 @property (readonly) float orbLayerDistFromSide;
@@ -217,11 +217,15 @@
 - (void) youWon;
 - (void) youLost;
 - (void) youForfeited;
+- (void) forfeit;
 - (IBAction)forfeitClicked:(id)sender;
 - (IBAction)cancelDeploy:(id)sender;
 - (IBAction)deployCardClicked:(id)sender;
 - (void) continueConfirmed;
 - (void) exitFinal;
+
+- (void) fireWinEvent;
+- (void) fireLoseEvent;
 - (void) fireEvent:(TKEvent*)event userInfo:(NSDictionary *)userInfo error:(NSError *__autoreleasing *)error;
 
 - (void) buildReplay;

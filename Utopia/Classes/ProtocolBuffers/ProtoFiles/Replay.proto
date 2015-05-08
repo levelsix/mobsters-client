@@ -26,6 +26,8 @@ enum CombatReplayStepType {
   PLAYER_REVIVE = 10;
   ENEMY_DEATH = 11;
   PLAYER_VICTORY = 12;
+  PLAYER_RUN = 13;
+  PLAYER_LOSE = 14;
 }
 
 message CombatReplayProto {

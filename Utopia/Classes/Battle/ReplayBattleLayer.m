@@ -193,7 +193,17 @@
     [self continueConfirmed];
   }];
   
-  [self.battleStateMachine addStates:@[initialState, spawnEnemyState, playerSwapState, playerTurn, playerMove, playerAttack, enemyTurn, playerVictory, playerDeath, playerRevive]];
+  BattleState *playerRun = [BattleState stateWithName:@"Player Run" andType:CombatReplayStepTypePlayerRun];
+  [playerRun setDidEnterStateBlock:^(TKState *state, TKTransition *transition) {
+    [self youForfeited];
+  }];
+  
+  BattleState *playerLose = [BattleState stateWithName:@"Player Lose" andType:CombatReplayStepTypePlayerLose];
+  [playerLose setDidEnterStateBlock:^(TKState *state, TKTransition *transition) {
+    [self youLost];
+  }];
+  
+  [self.battleStateMachine addStates:@[initialState, spawnEnemyState, playerSwapState, playerTurn, playerMove, playerAttack, enemyTurn, playerVictory, playerDeath, playerRevive, playerRun, playerLose]];
   
   loadingCompleteEvent = [TKEvent eventWithName:@"Loading complete" transitioningFromStates:@[initialState] toState:spawnEnemyState];
   nextEnemyEvent = [TKEvent eventWithName:@"Spawn Next Enemy" transitioningFromStates:@[ enemyTurn, playerAttack, playerMove ] toState:spawnEnemyState];
@@ -205,8 +215,10 @@
   playerVictoryEvent = [TKEvent eventWithName:@"Player Win Event" transitioningFromStates:@[playerAttack, playerMove, enemyTurn] toState:playerVictory];
   playerDeathEvent = [TKEvent eventWithName:@"Player Death Event" transitioningFromStates:@[playerAttack, playerMove, enemyTurn] toState:playerDeath];
   playerReviveEvent = [TKEvent eventWithName:@"Player Revive Event" transitioningFromStates:@[playerDeath] toState:playerRevive];
+  playerRunEvent = [TKEvent eventWithName:@"Player Run Event" transitioningFromStates:@[playerTurn, playerMove] toState:playerRun];
+  playerLoseEvent = [TKEvent eventWithName:@"Player Lose Event" transitioningFromStates:@[playerRun, playerDeath] toState:playerLose];
   
-  [self.battleStateMachine addEvents:@[loadingCompleteEvent, nextEnemyEvent, playerSwapEvent, playerTurnEvent, playerMoveEvent, playerAttackEvent, enemyTurnEvent, playerVictoryEvent, playerDeathEvent, playerReviveEvent]];
+  [self.battleStateMachine addEvents:@[loadingCompleteEvent, nextEnemyEvent, playerSwapEvent, playerTurnEvent, playerMoveEvent, playerAttackEvent, enemyTurnEvent, playerVictoryEvent, playerDeathEvent, playerReviveEvent, playerRunEvent, playerLoseEvent]];
   
   self.battleStateMachine.initialState = initialState;
   
@@ -358,6 +370,10 @@
 - (int)calculateModifiedEnemyDamage:(int)unmodifiedDamage {
 #warning Need to make sure that minilogos get triggered
   return self.currStep.modifiedDamage;
+}
+
+- (void)youForfeited {
+  [self forfeit];
 }
 
 - (void)buildReplay {

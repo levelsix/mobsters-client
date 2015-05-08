@@ -280,12 +280,12 @@
   {
     // You only get the win if you beat at least one stage in the match
     if ([self.battleLayer playerMobstersLeft] > 0) {
-      [self.battleLayer youWon];
+      [self.battleLayer fireWinEvent];
     }
     else
     {
       self.battleLayer.shouldShowContinueButton = NO;
-      [self.battleLayer youLost];
+      [self.battleLayer fireLoseEvent];
     }
   }
   else {

@@ -209,7 +209,17 @@
     [self continueConfirmed];
   }];
   
-  [_battleStateMachine addStates:@[initialState, spawnEnemyState, playerSwapState, playerTurn, playerMove, playerAttack, enemyTurn, playerVictory, playerDeath, playerRevive]];
+  BattleState *playerRun = [BattleState stateWithName:@"Player Run" andType:CombatReplayStepTypePlayerRun];
+  [playerRun setDidEnterStateBlock:^(TKState *state, TKTransition *transition) {
+    [self youForfeited];
+  }];
+  
+  BattleState *playerLose = [BattleState stateWithName:@"Player Lose" andType:CombatReplayStepTypePlayerLose];
+  [playerLose setDidEnterStateBlock:^(TKState *state, TKTransition *transition) {
+    [self youLost];
+  }];
+  
+  [_battleStateMachine addStates:@[initialState, spawnEnemyState, playerSwapState, playerTurn, playerMove, playerAttack, enemyTurn, playerVictory, playerDeath, playerRevive, playerRun, playerLose]];
   
   loadingCompleteEvent = [TKEvent eventWithName:@"Loading complete" transitioningFromStates:@[initialState] toState:spawnEnemyState];
   nextEnemyEvent = [TKEvent eventWithName:@"Spawn Next Enemy" transitioningFromStates:@[enemyTurn, playerAttack, playerMove ] toState:spawnEnemyState];
@@ -221,8 +231,10 @@
   playerVictoryEvent = [TKEvent eventWithName:@"Player Win Event" transitioningFromStates:@[spawnEnemyState, playerAttack, playerMove, enemyTurn] toState:playerVictory];
   playerDeathEvent = [TKEvent eventWithName:@"Player Death Event" transitioningFromStates:@[playerAttack, playerMove, enemyTurn] toState:playerDeath];
   playerReviveEvent = [TKEvent eventWithName:@"Player Revive Event" transitioningFromStates:@[playerDeath] toState:playerRevive];
+  playerRunEvent = [TKEvent eventWithName:@"Player Run Event" transitioningFromStates:@[playerTurn, playerMove] toState:playerRun];
+  playerLoseEvent = [TKEvent eventWithName:@"Player Lose Event" transitioningFromStates:@[playerRun, playerDeath] toState:playerLose];
   
-  [_battleStateMachine addEvents:@[loadingCompleteEvent, nextEnemyEvent, playerSwapEvent, playerTurnEvent, playerMoveEvent, playerAttackEvent, enemyTurnEvent, playerVictoryEvent, playerDeathEvent, playerReviveEvent]];
+  [_battleStateMachine addEvents:@[loadingCompleteEvent, nextEnemyEvent, playerSwapEvent, playerTurnEvent, playerMoveEvent, playerAttackEvent, enemyTurnEvent, playerVictoryEvent, playerDeathEvent, playerReviveEvent, playerRunEvent, playerLoseEvent]];
   
   _battleStateMachine.initialState = initialState;
   
@@ -1194,7 +1206,7 @@
     }
     else
     {
-      [self youLost];
+      [self fireEvent:playerLoseEvent userInfo:nil error:nil];
     }
   }];
 }
@@ -1206,14 +1218,6 @@
 - (void) showHighScoreWordWithTarget:(id)target selector:(SEL)selector {
   int currentScore = _myDamageDealtUnmodified*[self damageMultiplierIsEnemyAttacker:NO]/(float)[self.myPlayerObject totalAttackPower]*100.f;
   [self.mainView showHighScoreWordWithScore:currentScore target:target selector:selector];
-}
-
-- (void) firePlayerAttackEvent {
-  [self fireEvent:playerAttackEvent userInfo:nil error:nil];
-}
-
-- (void) fireVictoryEvent {
-  [self fireEvent:playerVictoryEvent userInfo:nil error:nil];
 }
 
 - (void) spawnRibbonForOrb:(BattleOrb *)orb target:(CGPoint)endPosition baseDuration:(CGFloat)dur skill:(BOOL)skill {
@@ -1296,20 +1300,24 @@
 - (void) youForfeited {
   // Make sure you can actually make a move
   if (self.orbLayer.swipeLayer.userInteractionEnabled) {
-    [self.mainView makeMyPlayerWalkOutWithBlock:^{
-      [self youLost];
-    }];
-    self.mainView.myPlayer = nil;
-    self.myPlayerObject = nil;
-    [self.orbLayer disallowInput];
-    [self.mainView removeButtons];
+    [self forfeit];
   }
+}
+
+- (void) forfeit {
+  [self.mainView makeMyPlayerWalkOutWithBlock:^{
+    [self fireEvent:playerLoseEvent userInfo:nil error:nil];
+  }];
+  self.mainView.myPlayer = nil;
+  self.myPlayerObject = nil;
+  [self.orbLayer disallowInput];
+  [self.mainView removeButtons];
 }
 
 - (void) endBattle:(BOOL)won {
   [CCBReader load:@"BattleEndView" owner:self];
   
-  NSLog(self.battleStateMachine.description);
+  //NSLog(self.battleStateMachine.description);
   
   [self buildReplay];
   
@@ -1859,7 +1867,7 @@
                                                             okayButton:@"Forfeit"
                                                           cancelButton:@"Cancel"
                                                               okTarget:self
-                                                            okSelector:@selector(youForfeited)
+                                                            okSelector:@selector(fireForfietEvent)
                                                           cancelTarget:nil
                                                         cancelSelector:nil];
   }
@@ -1910,8 +1918,24 @@
   [SoundEngine generalButtonClick];
 }
 
+- (void) firePlayerAttackEvent {
+  [self fireEvent:playerAttackEvent userInfo:nil error:nil];
+}
+
 - (void) firePlayerReviveEvent {
   [self fireEvent:playerReviveEvent userInfo:nil error:nil];
+}
+
+- (void) fireForfietEvent {
+  [self fireEvent:playerRunEvent userInfo:nil error:nil];
+}
+
+- (void) fireWinEvent {
+  [self fireEvent:playerVictoryEvent userInfo:nil error:nil];
+}
+
+- (void) fireLoseEvent {
+  [self fireEvent:playerLoseEvent userInfo:nil error:nil];
 }
 
 - (void)fireEvent:(TKEvent *)event userInfo:(NSDictionary *)userInfo error:(NSError *__autoreleasing *)error{

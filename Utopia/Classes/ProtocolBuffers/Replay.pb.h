@@ -162,6 +162,8 @@ typedef NS_ENUM(SInt32, CombatReplayStepType) {
   CombatReplayStepTypePlayerRevive = 10,
   CombatReplayStepTypeEnemyDeath = 11,
   CombatReplayStepTypePlayerVictory = 12,
+  CombatReplayStepTypePlayerRun = 13,
+  CombatReplayStepTypePlayerLose = 14,
 };
 
 BOOL CombatReplayStepTypeIsValidValue(CombatReplayStepType value);

@@ -186,7 +186,7 @@
 - (void) runawaySuccess {
   _didRunaway = YES;
   [self animateImageLabel:@"runawaysuccess.png" completion:^{
-    [self youLost];
+    [self fireEvent:playerLoseEvent userInfo:nil error:nil];
   }];
   
   [self.mainView makeMyPlayerWalkOutWithBlock:nil];
@@ -481,7 +481,7 @@
   if (self.myPlayerObject) {
     [self displayOrbLayer];
   } else {
-    [self youLost];
+    [self fireEvent:playerLoseEvent userInfo:nil error:nil];
   }
 }
 
