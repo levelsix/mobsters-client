@@ -50,6 +50,4 @@
 @property (nonatomic, retain) IBOutlet UIView *containerView;
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 
-@property (nonatomic, retain) id<LeaderBoardObject> personalRankInfo;
-
 @end

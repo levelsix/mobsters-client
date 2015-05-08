@@ -1422,6 +1422,15 @@
 		631BF3AE1A6DD8000091253B /* PrivateMessageNotificationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 631BF3AD1A6DD8000091253B /* PrivateMessageNotificationView.xib */; };
 		631BF3B31A6DDAEC0091253B /* PrivateMessageNotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 631BF3B21A6DDAEC0091253B /* PrivateMessageNotificationViewController.m */; };
 		631BF3B51A6DF0480091253B /* CircleMonsterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 631BF3B41A6DF0480091253B /* CircleMonsterView.xib */; };
+		63205B451AFC3C77002B8C10 /* LeaderBoardCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63205B411AFC3C77002B8C10 /* LeaderBoardCell.xib */; };
+		63205B461AFC3C77002B8C10 /* LeaderBoardCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63205B411AFC3C77002B8C10 /* LeaderBoardCell.xib */; };
+		63205B471AFC3C77002B8C10 /* LeaderBoardCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63205B411AFC3C77002B8C10 /* LeaderBoardCell.xib */; };
+		63205B481AFC3C77002B8C10 /* LeaderBoardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63205B431AFC3C77002B8C10 /* LeaderBoardViewController.m */; };
+		63205B491AFC3C77002B8C10 /* LeaderBoardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63205B431AFC3C77002B8C10 /* LeaderBoardViewController.m */; };
+		63205B4A1AFC3C77002B8C10 /* LeaderBoardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63205B431AFC3C77002B8C10 /* LeaderBoardViewController.m */; };
+		63205B4B1AFC3C77002B8C10 /* LeaderBoardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63205B441AFC3C77002B8C10 /* LeaderBoardViewController.xib */; };
+		63205B4C1AFC3C77002B8C10 /* LeaderBoardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63205B441AFC3C77002B8C10 /* LeaderBoardViewController.xib */; };
+		63205B4D1AFC3C77002B8C10 /* LeaderBoardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63205B441AFC3C77002B8C10 /* LeaderBoardViewController.xib */; };
 		633CCAD61AA139B200C6649F /* ResearchCategoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 633CCAD51AA139B200C6649F /* ResearchCategoryCell.xib */; };
 		633CCAD71AA139B200C6649F /* ResearchCategoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 633CCAD51AA139B200C6649F /* ResearchCategoryCell.xib */; };
 		633CCAD81AA139B200C6649F /* ResearchCategoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 633CCAD51AA139B200C6649F /* ResearchCategoryCell.xib */; };
@@ -1691,12 +1700,6 @@
 		63C1AB2A1A847A0E00F92D8F /* PrivateChatAttackLogCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63C1AB291A847A0E00F92D8F /* PrivateChatAttackLogCell.xib */; };
 		63C1AB2B1A847A0E00F92D8F /* PrivateChatAttackLogCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63C1AB291A847A0E00F92D8F /* PrivateChatAttackLogCell.xib */; };
 		63C1AB2C1A847A0E00F92D8F /* PrivateChatAttackLogCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63C1AB291A847A0E00F92D8F /* PrivateChatAttackLogCell.xib */; };
-		63C240D91AF9D32400F11D2A /* leaderBoardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C240D81AF9D32400F11D2A /* leaderBoardViewController.m */; };
-		63C240DA1AF9D32400F11D2A /* leaderBoardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C240D81AF9D32400F11D2A /* leaderBoardViewController.m */; };
-		63C240DB1AF9D32400F11D2A /* leaderBoardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C240D81AF9D32400F11D2A /* leaderBoardViewController.m */; };
-		63C240DD1AF9D34100F11D2A /* leaderBoardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63C240DC1AF9D34100F11D2A /* leaderBoardViewController.xib */; };
-		63C240DE1AF9D34100F11D2A /* leaderBoardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63C240DC1AF9D34100F11D2A /* leaderBoardViewController.xib */; };
-		63C240DF1AF9D34100F11D2A /* leaderBoardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63C240DC1AF9D34100F11D2A /* leaderBoardViewController.xib */; };
 		63C57E971A66282700ED406E /* gradientearthdailylab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63C57E881A66282700ED406E /* gradientearthdailylab@2x.png */; };
 		63C57E981A66282700ED406E /* gradientearthdailylab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63C57E881A66282700ED406E /* gradientearthdailylab@2x.png */; };
 		63C57E9C1A66282700ED406E /* gradientfiredailylab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63C57E8A1A66282700ED406E /* gradientfiredailylab@2x.png */; };
@@ -7597,6 +7600,10 @@
 		631BF3B11A6DDAEC0091253B /* PrivateMessageNotificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrivateMessageNotificationViewController.h; sourceTree = "<group>"; };
 		631BF3B21A6DDAEC0091253B /* PrivateMessageNotificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrivateMessageNotificationViewController.m; sourceTree = "<group>"; };
 		631BF3B41A6DF0480091253B /* CircleMonsterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CircleMonsterView.xib; sourceTree = "<group>"; };
+		63205B411AFC3C77002B8C10 /* LeaderBoardCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LeaderBoardCell.xib; path = LeaderBoard/LeaderBoardCell.xib; sourceTree = "<group>"; };
+		63205B421AFC3C77002B8C10 /* LeaderBoardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LeaderBoardViewController.h; path = LeaderBoard/LeaderBoardViewController.h; sourceTree = "<group>"; };
+		63205B431AFC3C77002B8C10 /* LeaderBoardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LeaderBoardViewController.m; path = LeaderBoard/LeaderBoardViewController.m; sourceTree = "<group>"; };
+		63205B441AFC3C77002B8C10 /* LeaderBoardViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LeaderBoardViewController.xib; path = LeaderBoard/LeaderBoardViewController.xib; sourceTree = "<group>"; };
 		633CCAD51AA139B200C6649F /* ResearchCategoryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ResearchCategoryCell.xib; path = HomeMenu/Research/ResearchCategoryCell.xib; sourceTree = "<group>"; };
 		633CCADA1AA139E900C6649F /* ResearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ResearchViewController.h; path = HomeMenu/Research/ResearchViewController.h; sourceTree = "<group>"; };
 		633CCADB1AA139E900C6649F /* ResearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ResearchViewController.m; path = HomeMenu/Research/ResearchViewController.m; sourceTree = "<group>"; };
@@ -7697,9 +7704,6 @@
 		63BACAFB1A71B7C2000A641A /* viewscheduleicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "viewscheduleicon@2x.png"; sourceTree = "<group>"; };
 		63BACB111A71C6E5000A641A /* EventScheduleDayView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EventScheduleDayView.xib; sourceTree = "<group>"; };
 		63C1AB291A847A0E00F92D8F /* PrivateChatAttackLogCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PrivateChatAttackLogCell.xib; sourceTree = "<group>"; };
-		63C240D71AF9D32400F11D2A /* leaderBoardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = leaderBoardViewController.h; sourceTree = "<group>"; };
-		63C240D81AF9D32400F11D2A /* leaderBoardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = leaderBoardViewController.m; sourceTree = "<group>"; };
-		63C240DC1AF9D34100F11D2A /* leaderBoardViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = leaderBoardViewController.xib; sourceTree = "<group>"; };
 		63C57E871A66282700ED406E /* gradientearthdailylab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gradientearthdailylab.png; sourceTree = "<group>"; };
 		63C57E881A66282700ED406E /* gradientearthdailylab@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gradientearthdailylab@2x.png"; sourceTree = "<group>"; };
 		63C57E891A66282700ED406E /* gradientfiredailylab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gradientfiredailylab.png; sourceTree = "<group>"; };
@@ -13320,9 +13324,10 @@
 		63C240D51AF9D2B800F11D2A /* LeaderBoard */ = {
 			isa = PBXGroup;
 			children = (
-				63C240D71AF9D32400F11D2A /* leaderBoardViewController.h */,
-				63C240D81AF9D32400F11D2A /* leaderBoardViewController.m */,
-				63C240DC1AF9D34100F11D2A /* leaderBoardViewController.xib */,
+				63205B411AFC3C77002B8C10 /* LeaderBoardCell.xib */,
+				63205B421AFC3C77002B8C10 /* LeaderBoardViewController.h */,
+				63205B431AFC3C77002B8C10 /* LeaderBoardViewController.m */,
+				63205B441AFC3C77002B8C10 /* LeaderBoardViewController.xib */,
 			);
 			name = LeaderBoard;
 			sourceTree = "<group>";
@@ -18218,7 +18223,6 @@
 				CF0CEF66196F452900ECD301 /* timerbgmiddlemobster@2x.png in Resources */,
 				9B41AF911A841DA500529879 /* swordorb-9@2x.png in Resources */,
 				CF0CEF67196F452900ECD301 /* splashguyswide@2x.png in Resources */,
-				63C240DE1AF9D34100F11D2A /* leaderBoardViewController.xib in Resources */,
 				CF0CEF6A196F452900ECD301 /* buildingbar@2x.png in Resources */,
 				9BB5AFAC1AA7FEC7002076E3 /* boardeditorcornerdark@2x.png in Resources */,
 				CF0CDE7319E4FC20006A5ECB /* buildingsquad@2x.png in Resources */,
@@ -18763,6 +18767,7 @@
 				6B1EA9C01ACF5DCB00E0B642 /* VinesLeft02.png in Resources */,
 				298133AC1AB80BE400CA5658 /* lightdailylab@2x.png in Resources */,
 				29DCD0061A8C3D8B003176FD /* salebuildericon@2x.png in Resources */,
+				63205B461AFC3C77002B8C10 /* LeaderBoardCell.xib in Resources */,
 				CF0CF29C196F452900ECD301 /* evolveplus@2x.png in Resources */,
 				CF0CF29D196F452900ECD301 /* gachaultrapiece@2x.png in Resources */,
 				CF0CF29E196F452900ECD301 /* sharecheckbox@2x.png in Resources */,
@@ -19469,6 +19474,8 @@
 				CF0CF635196F452900ECD301 /* fixbubble1@2x.png in Resources */,
 				63AB75571A79D17400CFC2B4 /* jobsbutton@2x.png in Resources */,
 				CFA9F7B51A0D8F6300EBE77D /* purpleitemsbutton@2x.png in Resources */,
+				63205B4C1AFC3C77002B8C10 /* LeaderBoardViewController.xib in Resources */,
+				CF0CF638196F452900ECD301 /* epicdot@2x.png in Resources */,
 				636C3E921AAA865400B02980 /* researchlocked@2x.png in Resources */,
 				CF0CF639196F452900ECD301 /* profstatsinactive@2x.png in Resources */,
 				6B1EAA0B1ACF5DCC00E0B642 /* VinesMain17.png in Resources */,
@@ -21015,6 +21022,7 @@
 				29AF48E01AAA93DA0034927C /* itemsnavbarbottom@2x.png in Resources */,
 				CFF5DC8319514FA50019EB2B /* hiringlocked@2x.png in Resources */,
 				9BB5AF8E1AA79C85002076E3 /* cloudobstacle@2x.png in Resources */,
+				63205B4B1AFC3C77002B8C10 /* LeaderBoardViewController.xib in Resources */,
 				CF40D02C18DFCC6C0034A721 /* goldicon@2x.png in Resources */,
 				CFF7874318E28FE200413E78 /* friendmask@2x.png in Resources */,
 				CFF5DBA5194BDACA0019EB2B /* damagedealtbg@2x.png in Resources */,
@@ -21227,7 +21235,6 @@
 				9BB948CF1A69FC2F006EE920 /* grlb4@2x.png in Resources */,
 				CF70650F18470051005B30A1 /* cashcap@2x.png in Resources */,
 				CF812EFC19E67D4E00D91157 /* clanshelpinactive@2x.png in Resources */,
-				63C240DD1AF9D34100F11D2A /* leaderBoardViewController.xib in Resources */,
 				CF29E9F71964BD0500B40DA4 /* healredbubble4@2x.png in Resources */,
 				29AE75E71A6F36E000264070 /* Zark1T1AttackNF@2x.pvr.ccz in Resources */,
 				CFDA78F6198C303C0014A8CD /* openlight@2x.png in Resources */,
@@ -21823,6 +21830,7 @@
 				CF06B607193699FC008BF892 /* fullhospitalarrow@2x.png in Resources */,
 				29804FC61A241F4A00806253 /* squadrewardsprogress@2x.png in Resources */,
 				CF3765A2182F03B400D0A77E /* ChatCell.xib in Resources */,
+				63205B451AFC3C77002B8C10 /* LeaderBoardCell.xib in Resources */,
 				CF864E25193E8F3000DE0D7A /* clanscreateinactive@2x.png in Resources */,
 				9B7AAB271AC0CDE300CA387F /* eventcounterbgmiddle@2x.png in Resources */,
 				CF864E1F193E8F3000DE0D7A /* clansbrowseactive@2x.png in Resources */,
@@ -22749,6 +22757,7 @@
 				CF481FF819F7217F00041486 /* closebattle@2x.png in Resources */,
 				634174851A843521006DA494 /* messagereddivider@2x.png in Resources */,
 				CF481FFA19F7217F00041486 /* myteambg@2x.png in Resources */,
+				63205B4D1AFC3C77002B8C10 /* LeaderBoardViewController.xib in Resources */,
 				6B1EAA751ACF5DCC00E0B642 /* VinesRight@2x.tps in Resources */,
 				9BDA8B8D1A3B8E1700C7AC27 /* fireheadshot@2x.png in Resources */,
 				29DCD0251A8D7505003176FD /* buildercell@2x.png in Resources */,
@@ -23382,7 +23391,6 @@
 				CF48238919F7217F00041486 /* limitededitionbg@2x.png in Resources */,
 				CF48238A19F7217F00041486 /* ring@2x.png in Resources */,
 				CF48238B19F7217F00041486 /* joinbubble1@2x.png in Resources */,
-				63C240DF1AF9D34100F11D2A /* leaderBoardViewController.xib in Resources */,
 				2992D7C51AA5326B00547B11 /* gemready@2x.png in Resources */,
 				CF48238C19F7217F00041486 /* helpredbubble6@2x.png in Resources */,
 				2985E5D91A30045D0041ABF4 /* mini7@2x.png in Resources */,
@@ -23590,6 +23598,7 @@
 				29AE75BF1A6F36E000264070 /* MilitaryChicken1T1AttackNF@2x.pvr.ccz in Resources */,
 				CF48247119F7217F00041486 /* platinumbig@2x.png in Resources */,
 				29FFD94F1A36E2BD0063C17C /* attackpvpbubble@2x.png in Resources */,
+				63205B471AFC3C77002B8C10 /* LeaderBoardCell.xib in Resources */,
 				CF48247419F7217F00041486 /* bomb@2x.png in Resources */,
 				29AE75D41A6F36E000264070 /* TribalGirl1T1RunNF@2x.plist in Resources */,
 				CF48247819F7217F00041486 /* 6nightorb@2x.png in Resources */,
@@ -23938,7 +23947,6 @@
 				6BA24E0A1A7AEA6E00BEF920 /* SkillTakeAim.m in Sources */,
 				CF0CED18196F452900ECD301 /* MapSprite.m in Sources */,
 				6B0783FA1A828468005CDFCF /* SkillCurse.m in Sources */,
-				63C240DA1AF9D32400F11D2A /* leaderBoardViewController.m in Sources */,
 				9B2389D71A314B8400FA3743 /* SkillThickSkin.m in Sources */,
 				CF0CED19196F452900ECD301 /* EasyTableView.m in Sources */,
 				9B9BA8021A73367B001B7D04 /* SkillConfusion.m in Sources */,
@@ -24109,6 +24117,7 @@
 				CF0CED81196F452900ECD301 /* TutorialHomeMap.m in Sources */,
 				CF0CED82196F452900ECD301 /* TutorialController.m in Sources */,
 				CF60466319BF9E59003D91F8 /* StageCompleteNode.m in Sources */,
+				63205B491AFC3C77002B8C10 /* LeaderBoardViewController.m in Sources */,
 				CF0CED83196F452900ECD301 /* SellViewController.m in Sources */,
 				29AAE5E51A7B0FDB00E4F022 /* DonateMsgViewController.m in Sources */,
 				CF0CED86196F452900ECD301 /* GachaChooserViewController.m in Sources */,
@@ -24279,7 +24288,6 @@
 				CFFEB1B9183704DA007C4BA3 /* OrbBgdLayer.m in Sources */,
 				6B8CD5851A9BAE20000DAAB8 /* SkillControllerSplitOffDef.m in Sources */,
 				2933DCA51ADFA836005D7620 /* SalePurchasedViewController.m in Sources */,
-				63C240D91AF9D32400F11D2A /* leaderBoardViewController.m in Sources */,
 				CF126D171538ACCA00E0C1AD /* Analytics.m in Sources */,
 				CF6574B11909CAF200ABF1F4 /* EventClan.pb.m in Sources */,
 				29DCCFAA1A8AA114003176FD /* TutorialEnhanceChooserViewController.m in Sources */,
@@ -24309,6 +24317,7 @@
 				9B0E6E5D1A77087000118210 /* SkillBlindingLight.m in Sources */,
 				CF7064C31845E4C7005B30A1 /* OneLineNotificationViewController.m in Sources */,
 				9B2EFCED1AC4AEF5005B7B83 /* Reward.pb.m in Sources */,
+				63205B481AFC3C77002B8C10 /* LeaderBoardViewController.m in Sources */,
 				9B2EFDB91AD35E8B005B7B83 /* CAWSpriteReader.m in Sources */,
 				6BCBD8751A797E63002C584F /* SkillHammerTime.m in Sources */,
 				6B3BC1751A8BE3CD00E0D457 /* SkillPoisonFire.m in Sources */,
@@ -24701,7 +24710,6 @@
 				CF4818BD19F7217F00041486 /* TutorialTeamViewController.m in Sources */,
 				6BA24E0B1A7AEA6E00BEF920 /* SkillTakeAim.m in Sources */,
 				CF4818BF19F7217F00041486 /* MapSprite.m in Sources */,
-				63C240DB1AF9D32400F11D2A /* leaderBoardViewController.m in Sources */,
 				6B0783FB1A828468005CDFCF /* SkillCurse.m in Sources */,
 				9B2389D81A314B8400FA3743 /* SkillThickSkin.m in Sources */,
 				CF4818C019F7217F00041486 /* EasyTableView.m in Sources */,
@@ -24872,6 +24880,7 @@
 				CF48192A19F7217F00041486 /* SettingsViewController.m in Sources */,
 				CF48192B19F7217F00041486 /* TutorialHomeMap.m in Sources */,
 				CF48192C19F7217F00041486 /* TutorialController.m in Sources */,
+				63205B4A1AFC3C77002B8C10 /* LeaderBoardViewController.m in Sources */,
 				CF48192D19F7217F00041486 /* StageCompleteNode.m in Sources */,
 				CF48192E19F7217F00041486 /* SellViewController.m in Sources */,
 				29AAE5E61A7B0FDB00E4F022 /* DonateMsgViewController.m in Sources */,
