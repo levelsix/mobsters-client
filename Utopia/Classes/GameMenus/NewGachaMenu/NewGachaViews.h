@@ -49,6 +49,7 @@
   UIView *_particleEffectView;
   
   BOOL _skippingAnimations;
+  BOOL _startedNextRevealSoundEffect;
 }
 
 @property (nonatomic, retain) IBOutlet UIView* animationContainerView;
