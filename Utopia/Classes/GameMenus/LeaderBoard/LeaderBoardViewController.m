@@ -9,10 +9,6 @@
 
 #import "LeaderBoardViewController.h"
 
-@implementation LeaderBoardHeaderView
-
-@end
-
 @implementation LeaderBoardViewCell
 
 - (void)updateWithRank:(int)rank score:(int)score userName:(NSString *)userName scoreIcon:(NSString *)scoreIcon {
@@ -65,6 +61,22 @@
   
   self.scoreLabel.text = _scoreName;
 }
+
+//- (void) viewDidLoad {
+//  [super viewDidLoad];
+//  
+//  // Initialize the refresh control.
+//  self.refreshControl = [[UIRefreshControl alloc] init];
+//  self.refreshControl.backgroundColor = [UIColor purpleColor];
+//  self.refreshControl.tintColor = [UIColor whiteColor];
+//  [self.refreshControl addTarget:self.self
+//                          action:@selector(reloadData)
+//                forControlEvents:UIControlEventValueChanged];
+//}
+//
+//- (void) reloadData {
+////  [self.refreshControl endRefreshing];
+//}
 
 #pragma mark - Table View Delegate Methods
 
