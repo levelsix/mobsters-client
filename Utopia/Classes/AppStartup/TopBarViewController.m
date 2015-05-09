@@ -1031,14 +1031,6 @@
   [gvc.view addSubview:mevc.view];
 }
 
-- (void) openLeaderBoard {
-  GameViewController *gvc = (GameViewController *)self.parentViewController;
-  LeaderBoardViewController *lbvc = [[LeaderBoardViewController alloc] initStrengthLeaderBoard];
-  [gvc addChildViewController:lbvc];
-  [lbvc.view setFrame:gvc.view.bounds];
-  [gvc.view addSubview:lbvc.view];
-}
-
 - (IBAction)secretGiftClicked:(id)sender {
   GameState *gs = [GameState sharedGameState];
   MSDate *nextSecretGiftDate = [gs nextSecretGiftOpenDate];
@@ -1047,7 +1039,6 @@
   if (nextSecretGiftDate) {
     if (nextSecretGiftDate.timeIntervalSinceNow > 0) {
       [Globals addAlertNotification:@"Your Secret Gift is not yet available."];
-      [self  openLeaderBoard];
       [SoundEngine generalButtonClick];
     } else {
       SecretGiftViewController *sgvc = [[SecretGiftViewController alloc] initWithSecretGift:[gs nextSecretGift]];

@@ -26,6 +26,8 @@
 #import "SpeedupItemsFiller.h"
 #import "IAPHelper.h"
 #import "MiniEventManager.h"
+#import "LeaderBoardBuilding.h"
+#import "LeaderBoardViewController.h"
 
 #define FAR_LEFT_EXPANSION_START 58
 #define FAR_RIGHT_EXPANSION_START 58
@@ -48,7 +50,7 @@
 @synthesize redGid, greenGid;
 
 - (id) init {
-  self = [self initWithFile:@"home.tmx"];
+  self = [self initWithFile:@"maptest.tmx"];
   return self;
 }
 
@@ -104,16 +106,16 @@
     
     [self moveToCenterAnimated:NO];
     
-    CCSprite *map = [CCSprite spriteWithImageNamed:@"homemapleft.jpg"];
+    CCSprite *map = [CCSprite spriteWithImageNamed:@"homemapbig.jpg"];
     [self addChild:map z:-1000];
     
     
-    CCSprite *map2 = [CCSprite spriteWithImageNamed:@"homemapright.jpg"];
-    [map addChild:map2];
-    map2.position = ccp(map.contentSize.width+map2.contentSize.width/2, map.contentSize.height/2);
-    map.contentSize = CGSizeMake(map.contentSize.width+map2.contentSize.width, map.contentSize.height);
+//    CCSprite *map2 = [CCSprite spriteWithImageNamed:@"homemapright.jpg"];
+//    [map addChild:map2];
+//    map2.position = ccp(map.contentSize.width+map2.contentSize.width/2, map.contentSize.height/2);
+//    map.contentSize = CGSizeMake(map.contentSize.width+map2.contentSize.width, map.contentSize.height);
     
-    map.position = ccp(map.contentSize.width/2-30, map.contentSize.height/2-48);
+    map.position = ccp(map.contentSize.width/2-30, map.contentSize.height/2-50);
     
     [self beginMapAnimations];
     
@@ -272,7 +274,12 @@
   [self invalidateAllTimers];
   
   NSMutableArray *arr = [NSMutableArray array];
+
   [arr addObjectsFromArray:[self refreshForExpansion]];
+  
+  LeaderBoardBuilding *leaderBoardBuilding = [[LeaderBoardBuilding alloc] initWithFile:@"leaderboardbuilding.png" location:CGRectMake(41, 17, 2, 2) map:self];
+  [self addChild:leaderBoardBuilding z:0 name:@"leaderBoard?"];
+  [arr addObject:leaderBoardBuilding];
   
   [self setupTeamSprites];
   [arr addObjectsFromArray:self.myTeamSprites];
@@ -761,6 +768,12 @@
   [_timers removeObject:timer];
 }
 
+- (void) reloadLeaderBoard {
+  for (LeaderBoardBuilding *lbb in [self childrenOfClassType:[LeaderBoardBuilding class]]) {
+    [lbb reloadCharacterSprites];
+  }
+}
+
 - (void) reloadAllBubbles {
   [self reloadHospitals];
   [self reloadStorages];
@@ -770,6 +783,7 @@
   [self reloadClanHouse];
   [self reloadMoneyTree:nil];
   [self reloadItemFactory];
+  [self reloadLeaderBoard];
   
   // In case there's a purch building
   [_purchBuilding setBubbleType:BuildingBubbleTypeNone];
@@ -1062,6 +1076,9 @@
     _canMove = NO;
     
     self.bottomOptionView = self.buildBotView;
+  } else if ([self.selected isKindOfClass:[LeaderBoardBuilding class]]) {
+    self.bottomOptionView = self.buildBotView;
+    _canMove = NO;
   } else {
     // Remove any arrows
     self.bottomOptionView = nil;
@@ -1207,6 +1224,10 @@
       int timeLeft = [self timeLeftForConstructionBuildingOrObstacle:self.selected];
       [buttonViews addObject:[MapBotViewButton speedupButtonWithGemCost:[gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:NO]]];
     }
+  } else if ([self.selected isKindOfClass:[LeaderBoardBuilding class]]) {
+    self.buildingNameLabel.text = @"Leaderboard";
+    
+    [buttonViews addObject:[MapBotViewButton leaderBoardButton]];
   }
   
   for (MapBotViewButton *b in buttonViews) {
@@ -1268,8 +1289,8 @@
       [self getHelpClicked:button];
       break;
       
-    default:
-      break;
+    case MapBotViewButtonLeaderBoard:
+      [self openLeaderBoard:button];
   }
   
   [self removeArrowOnBuilding];
@@ -2571,6 +2592,16 @@
   }
   self.speedupItemsFiller = nil;
   self.resourceItemsFiller = nil;
+}
+
+#pragma mark - LeaderBoard
+
+- (void) openLeaderBoard:(id)sender {
+  GameViewController *gvc = [GameViewController baseController];
+  LeaderBoardViewController *lbvc = [[LeaderBoardViewController alloc] initStrengthLeaderBoard];
+  [gvc addChildViewController:lbvc];
+  [lbvc.view setFrame:gvc.view.bounds];
+  [gvc.view addSubview:lbvc.view];
 }
 
 #pragma mark - Response Events

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="isometric" width="38" height="38" tilewidth="68" tileheight="52">
+ <tileset firstgid="1" name="tiles@2x" tilewidth="68" tileheight="52">
+  <image source="tiles@2x.png" width="136" height="52"/>
+ </tileset>
+ <layer name="MetaLayer" width="38" height="38">
+  <data encoding="base64" compression="zlib">
+   eJztzrEJAAAIwDD1/6P1AWdBEujeCAAAAAAAvsjrgUVNDRc0AAQ=
+  </data>
+ </layer>
+ <layer name="Buildable" width="38" height="38">
+  <data encoding="base64" compression="zlib">
+   eJztzsEJACAMALG6/9IuoCAt0j5ycP9EKNMaMhcXV7+Hi4uLK+uaYrvFxfXL1W06ubo9XFxcXFxcE+aqufTWBqA+BHs=
+  </data>
+ </layer>
+ <layer name="Walkable" width="38" height="38">
+  <data encoding="base64" compression="zlib">
+   eJztzqENADAMBLFk/6VLC4r7ieSTzK+rqgEA+OYu/bLta9Lbhq/0y+sr/QEAQNYB6noFkg==
+  </data>
+ </layer>
+</map>
