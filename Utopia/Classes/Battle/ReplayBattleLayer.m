@@ -11,6 +11,7 @@
 #import "GenericPopupController.h"
 #import "ReplayOrbMainLayer.h"
 #import "CCDirector_Private.h"
+#import "SkillManager.h"
 
 #define DELAY_KEY @"DELAY"
 #define SWAP_TOON_KEY @"SWAP_TOON"
@@ -27,7 +28,7 @@
   NSMutableArray *myteam = [NSMutableArray array];
   for (CombatReplayMonsterSnapshot *crms in replay.playerTeamList) {
     UserMonster *um = [UserMonster userMonsterWithReplayMonsterSnapshotProto:crms];
-    um.userMonsterUuid = [NSString stringWithFormat:@"%i", myteam.count];
+    um.userMonsterUuid = [NSString stringWithFormat:@"%lu", (unsigned long)myteam.count];
     [myteam addObject:um];
   }
   
@@ -76,9 +77,10 @@
   NSMutableArray *defendingTeam = [NSMutableArray array];
   for (CombatReplayMonsterSnapshot *crms in _replay.enemyTeamList) {
     UserMonster *um = [UserMonster userMonsterWithReplayMonsterSnapshotProto:crms];
-    um.userMonsterUuid = [NSString stringWithFormat:@"%i", defendingTeam.count];
+    um.userMonsterUuid = [NSString stringWithFormat:@"%lu", (unsigned long)defendingTeam.count];
     BattlePlayer *bp = [BattlePlayer playerWithMonster:um];
     [defendingTeam addObject:bp];
+    bp.slotNum = (int)defendingTeam.count;
   }
   self.enemyTeam = defendingTeam;
   
@@ -368,13 +370,25 @@
 }
 
 - (int)calculateModifiedEnemyDamage:(int)unmodifiedDamage {
-#warning Need to make sure that minilogos get triggered
+  [skillManager modifyDamage:unmodifiedDamage forPlayer:NO];
   return self.currStep.modifiedDamage;
 }
 
 - (void)youForfeited {
   [self forfeit];
 }
+
+- (void) youWon {
+  [super youWon];
+  [self.endView updateForRewards:[Reward createRewardsForReplay:_replay tillStage:(int)_replay.enemyTeamList.count droplessStageNums:self.droplessStageNums attackerVictory:YES] isWin:YES allowsContinue:NO continueCost:0];
+}
+
+- (void) youLost {
+  [super youLost];
+  [self.endView updateForRewards:[Reward createRewardsForReplay:_replay tillStage:self.enemyPlayerObject.slotNum droplessStageNums:self.droplessStageNums attackerVictory:NO] isWin:NO allowsContinue:NO continueCost:0];
+}
+
+
 
 - (void)buildReplay {
   //Do nothing

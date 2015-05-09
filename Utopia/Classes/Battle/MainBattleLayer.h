@@ -174,6 +174,7 @@
 - (void) initOrbLayer;
 
 - (CombatReplayMonsterSnapshot*) monsterSnapshot:(UserMonster*)um isOffensive:(BOOL)isOffensive;
+- (CombatReplayMonsterSnapshot*) monsterSnapshot:(UserMonster *)um isOffensive:(BOOL)isOffensive loot:(int)loot;
 
 - (void) setupStateMachine;
 

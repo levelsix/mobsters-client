@@ -145,11 +145,16 @@
 }
 
 - (CombatReplayMonsterSnapshot*) monsterSnapshot:(UserMonster*)um isOffensive:(BOOL)isOffensive {
+  return [self monsterSnapshot:um isOffensive:isOffensive loot:0];
+}
+
+- (CombatReplayMonsterSnapshot*) monsterSnapshot:(UserMonster *)um isOffensive:(BOOL)isOffensive loot:(int)loot {
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
   NSNumber *skillNumber = [NSNumber numberWithInteger:isOffensive ? um.offensiveSkillId : um.defensiveSkillId];
   
-  return [[[[[[[[CombatReplayMonsterSnapshot builder]
+  return [[[[[[[[[CombatReplayMonsterSnapshot builder]
+                 setDroppedLoot:loot]
                 setMonsterId:um.monsterId]
                setStartingHealth:um.curHealth]
               setMaxHealth:[gl calculateMaxHealthForMonster:um]]

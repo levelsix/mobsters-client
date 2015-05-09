@@ -3008,6 +3008,7 @@ static CombatReplayOrbProto* defaultCombatReplayOrbProtoInstance = nil;
 @property (strong) SkillProto* skillSnapshot;
 @property int32_t level;
 @property int32_t slotNum;
+@property int32_t droppedLoot;
 @end
 
 @implementation CombatReplayMonsterSnapshot
@@ -3054,6 +3055,13 @@ static CombatReplayOrbProto* defaultCombatReplayOrbProtoInstance = nil;
   hasSlotNum_ = !!value_;
 }
 @synthesize slotNum;
+- (BOOL) hasDroppedLoot {
+  return !!hasDroppedLoot_;
+}
+- (void) setHasDroppedLoot:(BOOL) value_ {
+  hasDroppedLoot_ = !!value_;
+}
+@synthesize droppedLoot;
 - (id) init {
   if ((self = [super init])) {
     self.monsterId = 0;
@@ -3062,6 +3070,7 @@ static CombatReplayOrbProto* defaultCombatReplayOrbProtoInstance = nil;
     self.skillSnapshot = [SkillProto defaultInstance];
     self.level = 0;
     self.slotNum = 0;
+    self.droppedLoot = 0;
   }
   return self;
 }
@@ -3099,6 +3108,9 @@ static CombatReplayMonsterSnapshot* defaultCombatReplayMonsterSnapshotInstance =
   if (self.hasSlotNum) {
     [output writeInt32:6 value:self.slotNum];
   }
+  if (self.hasDroppedLoot) {
+    [output writeInt32:7 value:self.droppedLoot];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -3125,6 +3137,9 @@ static CombatReplayMonsterSnapshot* defaultCombatReplayMonsterSnapshotInstance =
   }
   if (self.hasSlotNum) {
     size_ += computeInt32Size(6, self.slotNum);
+  }
+  if (self.hasDroppedLoot) {
+    size_ += computeInt32Size(7, self.droppedLoot);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -3182,6 +3197,9 @@ static CombatReplayMonsterSnapshot* defaultCombatReplayMonsterSnapshotInstance =
   if (self.hasSlotNum) {
     [output appendFormat:@"%@%@: %@\n", indent, @"slotNum", [NSNumber numberWithInteger:self.slotNum]];
   }
+  if (self.hasDroppedLoot) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"droppedLoot", [NSNumber numberWithInteger:self.droppedLoot]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -3205,6 +3223,8 @@ static CombatReplayMonsterSnapshot* defaultCombatReplayMonsterSnapshotInstance =
       (!self.hasLevel || self.level == otherMessage.level) &&
       self.hasSlotNum == otherMessage.hasSlotNum &&
       (!self.hasSlotNum || self.slotNum == otherMessage.slotNum) &&
+      self.hasDroppedLoot == otherMessage.hasDroppedLoot &&
+      (!self.hasDroppedLoot || self.droppedLoot == otherMessage.droppedLoot) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -3226,6 +3246,9 @@ static CombatReplayMonsterSnapshot* defaultCombatReplayMonsterSnapshotInstance =
   }
   if (self.hasSlotNum) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.slotNum] hash];
+  }
+  if (self.hasDroppedLoot) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.droppedLoot] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -3288,6 +3311,9 @@ static CombatReplayMonsterSnapshot* defaultCombatReplayMonsterSnapshotInstance =
   if (other.hasSlotNum) {
     [self setSlotNum:other.slotNum];
   }
+  if (other.hasDroppedLoot) {
+    [self setDroppedLoot:other.droppedLoot];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -3336,6 +3362,10 @@ static CombatReplayMonsterSnapshot* defaultCombatReplayMonsterSnapshotInstance =
       }
       case 48: {
         [self setSlotNum:[input readInt32]];
+        break;
+      }
+      case 56: {
+        [self setDroppedLoot:[input readInt32]];
         break;
       }
     }
@@ -3449,6 +3479,22 @@ static CombatReplayMonsterSnapshot* defaultCombatReplayMonsterSnapshotInstance =
 - (CombatReplayMonsterSnapshot_Builder*) clearSlotNum {
   result.hasSlotNum = NO;
   result.slotNum = 0;
+  return self;
+}
+- (BOOL) hasDroppedLoot {
+  return result.hasDroppedLoot;
+}
+- (int32_t) droppedLoot {
+  return result.droppedLoot;
+}
+- (CombatReplayMonsterSnapshot_Builder*) setDroppedLoot:(int32_t) value {
+  result.hasDroppedLoot = YES;
+  result.droppedLoot = value;
+  return self;
+}
+- (CombatReplayMonsterSnapshot_Builder*) clearDroppedLoot {
+  result.hasDroppedLoot = NO;
+  result.droppedLoot = 0;
   return self;
 }
 @end

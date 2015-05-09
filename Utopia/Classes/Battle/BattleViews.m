@@ -89,7 +89,6 @@
     self.stickerHead.spriteFrame = [CCSpriteFrame frameWithImageNamed:@"loststickerhead.png"];
   }
   
-  
   // Add a clipping node for the rewards bg so that it can fall
   
   CCSprite *stencil = [CCSprite spriteWithSpriteFrame:self.rewardsBgd.spriteFrame];

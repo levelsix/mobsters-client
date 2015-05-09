@@ -98,4 +98,5 @@ message CombatReplayMonsterSnapshot {
     optional SkillProto skillSnapshot = 4;
     optional int32 level = 5;
     optional int32 slotNum = 6;
+    optional int32 droppedLoot = 7;
 }

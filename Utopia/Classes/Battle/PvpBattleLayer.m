@@ -688,7 +688,7 @@
       um.userMonsterUuid = [NSString stringWithFormat:@"%i",num++];
       BattlePlayer *bp = [BattlePlayer playerWithMonster:um];
       [enemyTeam addObject:bp];
-      [enemyTeamSnapshots addObject:[self monsterSnapshot:um isOffensive:NO]];
+      [enemyTeamSnapshots addObject:[self monsterSnapshot:um isOffensive:NO loot:mon.monsterIdDropped]];
       
       if (bp.spritePrefix) {
         [set addObject:bp.spritePrefix];
@@ -706,7 +706,7 @@
         BattlePlayer *bp = [BattlePlayer playerWithMonster:um];
         bp.isClanMonster = YES;
         [enemyTeam addObject:bp];
-        [enemyTeamSnapshots addObject:[self monsterSnapshot:um isOffensive:NO]];
+        [enemyTeamSnapshots addObject:[self monsterSnapshot:um isOffensive:NO loot:enemy.monsterIdDropped]];
         
         if (bp.spritePrefix) {
           [set addObject:bp.spritePrefix];

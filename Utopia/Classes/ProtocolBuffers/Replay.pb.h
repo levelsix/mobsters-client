@@ -787,12 +787,14 @@ BOOL CombatReplayStepTypeIsValidValue(CombatReplayStepType value);
   BOOL hasMaxHealth_:1;
   BOOL hasLevel_:1;
   BOOL hasSlotNum_:1;
+  BOOL hasDroppedLoot_:1;
   BOOL hasSkillSnapshot_:1;
   int32_t monsterId;
   int32_t startingHealth;
   int32_t maxHealth;
   int32_t level;
   int32_t slotNum;
+  int32_t droppedLoot;
   SkillProto* skillSnapshot;
 }
 - (BOOL) hasMonsterId;
@@ -801,12 +803,14 @@ BOOL CombatReplayStepTypeIsValidValue(CombatReplayStepType value);
 - (BOOL) hasSkillSnapshot;
 - (BOOL) hasLevel;
 - (BOOL) hasSlotNum;
+- (BOOL) hasDroppedLoot;
 @property (readonly) int32_t monsterId;
 @property (readonly) int32_t startingHealth;
 @property (readonly) int32_t maxHealth;
 @property (readonly, strong) SkillProto* skillSnapshot;
 @property (readonly) int32_t level;
 @property (readonly) int32_t slotNum;
+@property (readonly) int32_t droppedLoot;
 
 + (CombatReplayMonsterSnapshot*) defaultInstance;
 - (CombatReplayMonsterSnapshot*) defaultInstance;
@@ -874,6 +878,11 @@ BOOL CombatReplayStepTypeIsValidValue(CombatReplayStepType value);
 - (int32_t) slotNum;
 - (CombatReplayMonsterSnapshot_Builder*) setSlotNum:(int32_t) value;
 - (CombatReplayMonsterSnapshot_Builder*) clearSlotNum;
+
+- (BOOL) hasDroppedLoot;
+- (int32_t) droppedLoot;
+- (CombatReplayMonsterSnapshot_Builder*) setDroppedLoot:(int32_t) value;
+- (CombatReplayMonsterSnapshot_Builder*) clearDroppedLoot;
 @end
 
 
