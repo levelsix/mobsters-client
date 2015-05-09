@@ -89,6 +89,9 @@
       buildingClass = [ResearchBuilding class];
       break;
       
+    case StructureInfoProto_StructTypeNoStruct:
+    
+      
     default:
       buildingClass = [HomeBuilding class];
       break;
