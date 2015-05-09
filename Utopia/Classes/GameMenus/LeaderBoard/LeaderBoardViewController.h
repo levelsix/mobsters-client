@@ -37,9 +37,6 @@
   NSString *_scoreName;
   NSString *_scoreIcon;
 }
-
-- (id) initStrengthLeaderBoard;
-
 @property (nonatomic, retain) NSArray *leaderList;
 
 @property (nonatomic, retain) IBOutlet UIView *yourRankingHeader;
@@ -49,5 +46,7 @@
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
 @property (nonatomic, retain) IBOutlet UIView *containerView;
 @property (nonatomic, retain) IBOutlet UIView *mainView;
+
+- (id) initStrengthLeaderBoard;
 
 @end
