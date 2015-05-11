@@ -198,7 +198,9 @@
     _orbsSpawned++;
   }
   
-  [layout detectPossibleSwaps];
+  if ([layout detectPossibleSwaps].count == 0) {
+    [self.battleLayer.orbLayer shuffleWithCompletion:^{}];
+  }
   
   if (![self keepColor])
     [self.battleLayer.orbLayer toggleArrows:YES];
