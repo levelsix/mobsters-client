@@ -1801,6 +1801,21 @@
 		63CA30F11AF013230005175B /* EmbeddedRewardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63CA30F01AF013230005175B /* EmbeddedRewardView.xib */; };
 		63CA30F21AF013230005175B /* EmbeddedRewardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63CA30F01AF013230005175B /* EmbeddedRewardView.xib */; };
 		63CA30F31AF013230005175B /* EmbeddedRewardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63CA30F01AF013230005175B /* EmbeddedRewardView.xib */; };
+		63CD1C671AFDA6E3001B4537 /* TangoGiftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63CD1C651AFDA6E3001B4537 /* TangoGiftViewController.m */; };
+		63CD1C681AFDA6E3001B4537 /* TangoGiftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63CD1C651AFDA6E3001B4537 /* TangoGiftViewController.m */; };
+		63CD1C691AFDA6E3001B4537 /* TangoGiftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63CD1C651AFDA6E3001B4537 /* TangoGiftViewController.m */; };
+		63CD1C6A1AFDA6E3001B4537 /* TangoGiftViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63CD1C661AFDA6E3001B4537 /* TangoGiftViewController.xib */; };
+		63CD1C6B1AFDA6E3001B4537 /* TangoGiftViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63CD1C661AFDA6E3001B4537 /* TangoGiftViewController.xib */; };
+		63CD1C6C1AFDA6E3001B4537 /* TangoGiftViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63CD1C661AFDA6E3001B4537 /* TangoGiftViewController.xib */; };
+		63CD1C701AFDB397001B4537 /* tangogirlgradient@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CD1C6E1AFDB397001B4537 /* tangogirlgradient@2x.png */; };
+		63CD1C711AFDB397001B4537 /* tangogirlgradient@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CD1C6E1AFDB397001B4537 /* tangogirlgradient@2x.png */; };
+		63CD1C721AFDB397001B4537 /* tangogirlgradient@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CD1C6E1AFDB397001B4537 /* tangogirlgradient@2x.png */; };
+		63CD1C731AFDB397001B4537 /* tangoinvitelogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CD1C6F1AFDB397001B4537 /* tangoinvitelogo@2x.png */; };
+		63CD1C741AFDB397001B4537 /* tangoinvitelogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CD1C6F1AFDB397001B4537 /* tangoinvitelogo@2x.png */; };
+		63CD1C751AFDB397001B4537 /* tangoinvitelogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CD1C6F1AFDB397001B4537 /* tangoinvitelogo@2x.png */; };
+		63CD1C771B01459D001B4537 /* tangoinvitebottom@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CD1C761B01459D001B4537 /* tangoinvitebottom@2x.png */; };
+		63CD1C781B01459D001B4537 /* tangoinvitebottom@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CD1C761B01459D001B4537 /* tangoinvitebottom@2x.png */; };
+		63CD1C791B01459D001B4537 /* tangoinvitebottom@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CD1C761B01459D001B4537 /* tangoinvitebottom@2x.png */; };
 		63CDCEFB1AB8EBF400A00DB6 /* buildingresearch@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CDCEFA1AB8EBF400A00DB6 /* buildingresearch@2x.png */; };
 		63CDCEFC1AB8EBF400A00DB6 /* buildingresearch@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CDCEFA1AB8EBF400A00DB6 /* buildingresearch@2x.png */; };
 		63CDCEFD1AB8EBF400A00DB6 /* buildingresearch@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CDCEFA1AB8EBF400A00DB6 /* buildingresearch@2x.png */; };
@@ -8480,6 +8495,12 @@
 		63CA30EB1AF0130F0005175B /* EmbeddedRewardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmbeddedRewardView.h; sourceTree = "<group>"; };
 		63CA30EC1AF0130F0005175B /* EmbeddedRewardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmbeddedRewardView.m; sourceTree = "<group>"; };
 		63CA30F01AF013230005175B /* EmbeddedRewardView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EmbeddedRewardView.xib; sourceTree = "<group>"; };
+		63CD1C641AFDA6E3001B4537 /* TangoGiftViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TangoGiftViewController.h; path = TangoGifts/TangoGiftViewController.h; sourceTree = "<group>"; };
+		63CD1C651AFDA6E3001B4537 /* TangoGiftViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TangoGiftViewController.m; path = TangoGifts/TangoGiftViewController.m; sourceTree = "<group>"; };
+		63CD1C661AFDA6E3001B4537 /* TangoGiftViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TangoGiftViewController.xib; path = TangoGifts/TangoGiftViewController.xib; sourceTree = "<group>"; };
+		63CD1C6E1AFDB397001B4537 /* tangogirlgradient@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "tangogirlgradient@2x.png"; path = "TangoGifts/tangogirlgradient@2x.png"; sourceTree = "<group>"; };
+		63CD1C6F1AFDB397001B4537 /* tangoinvitelogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "tangoinvitelogo@2x.png"; path = "TangoGifts/tangoinvitelogo@2x.png"; sourceTree = "<group>"; };
+		63CD1C761B01459D001B4537 /* tangoinvitebottom@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "tangoinvitebottom@2x.png"; path = "TangoGifts/tangoinvitebottom@2x.png"; sourceTree = "<group>"; };
 		63CDCEFA1AB8EBF400A00DB6 /* buildingresearch@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buildingresearch@2x.png"; sourceTree = "<group>"; };
 		63CDCF081ABB897600A00DB6 /* activesquadrewardarrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "activesquadrewardarrow@2x.png"; sourceTree = "<group>"; };
 		63CDCF091ABB897600A00DB6 /* completedsquadrewards@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "completedsquadrewards@2x.png"; sourceTree = "<group>"; };
@@ -14304,6 +14325,26 @@
 			name = ChatTranslator;
 			sourceTree = "<group>";
 		};
+		63CD1C621AFDA48C001B4537 /* TangoGifts */ = {
+			isa = PBXGroup;
+			children = (
+				63CD1C641AFDA6E3001B4537 /* TangoGiftViewController.h */,
+				63CD1C651AFDA6E3001B4537 /* TangoGiftViewController.m */,
+				63CD1C661AFDA6E3001B4537 /* TangoGiftViewController.xib */,
+			);
+			name = TangoGifts;
+			sourceTree = "<group>";
+		};
+		63CD1C6D1AFDB367001B4537 /* TangoGifts */ = {
+			isa = PBXGroup;
+			children = (
+				63CD1C761B01459D001B4537 /* tangoinvitebottom@2x.png */,
+				63CD1C6E1AFDB397001B4537 /* tangogirlgradient@2x.png */,
+				63CD1C6F1AFDB397001B4537 /* tangoinvitelogo@2x.png */,
+			);
+			name = TangoGifts;
+			sourceTree = "<group>";
+		};
 		63CDCF071ABB897600A00DB6 /* SquadRewards2 */ = {
 			isa = PBXGroup;
 			children = (
@@ -15208,6 +15249,7 @@
 		CF1265491538ACC400E0C1AD /* Game Menus */ = {
 			isa = PBXGroup;
 			children = (
+				63CD1C621AFDA48C001B4537 /* TangoGifts */,
 				9B7AAAF31AC0A22200CA387F /* MiniEventMenu */,
 				63B044FE1A92B9C600C74F0C /* AttackedAlert */,
 				9BBE37061AF9A687001A0E81 /* PurchaseHighRollerMode */,
@@ -15382,6 +15424,7 @@
 		CF1267741538ACC500E0C1AD /* Utopia Images */ = {
 			isa = PBXGroup;
 			children = (
+				63CD1C6D1AFDB367001B4537 /* TangoGifts */,
 				2933DC1B1ADFA808005D7620 /* Sales Assets */,
 				63CA0AC01AD5B8A200E92774 /* ChatTranslator */,
 				291720F61ACF7F120093F100 /* Strength */,
@@ -19748,6 +19791,7 @@
 				6B5146971AA1487100B2844A /* 6nightlsorb-9@2x.png in Resources */,
 				CF0CF0E0196F452900ECD301 /* diamondicon@2x.png in Resources */,
 				DAAD3DE919C8D7E700557698 /* bombparticle.plist in Resources */,
+				63CD1C6B1AFDA6E3001B4537 /* TangoGiftViewController.xib in Resources */,
 				CF0CF0E1196F452900ECD301 /* menutopbarresourcebg@2x.png in Resources */,
 				CF6A64F219D24F030002E05D /* 6waterorb@2x.png in Resources */,
 				9BB5AFBB1AAFCFF9002076E3 /* boardbuildermenuheader@2x.png in Resources */,
@@ -20062,6 +20106,7 @@
 				299AA3161A7856AA00A2D806 /* 6earthsideways-9@2x.png in Resources */,
 				9B6B781A1A8ABF1D0080C8E5 /* earthfryingpan@2x.png in Resources */,
 				CFF2A6231970C81200269084 /* battledonegreen@2x.png in Resources */,
+				63CD1C741AFDB397001B4537 /* tangoinvitelogo@2x.png in Resources */,
 				CF0CF297196F452900ECD301 /* levelnumber@2x.png in Resources */,
 				CF413C3019761A0600848AF5 /* 4x4buildingframe@2x.png in Resources */,
 				297D7E5C1A9EBD080057F4E6 /* grenade_create.mp3 in Resources */,
@@ -20421,6 +20466,7 @@
 				CF0CF400196F452900ECD301 /* purplepressed@2x.png in Resources */,
 				6B5146911AA1487100B2844A /* 6lightlsorb-9@2x.png in Resources */,
 				CF0CF403196F452900ECD301 /* watermediumsquare@2x.png in Resources */,
+				63CD1C781B01459D001B4537 /* tangoinvitebottom@2x.png in Resources */,
 				299AA42C1A786BB000A2D806 /* waterbomb-9@2x.png in Resources */,
 				DAAD3DF919C8D7E700557698 /* nightbomb@2x.png in Resources */,
 				9B6B78161A8ABEE70080C8E5 /* earthfryingpan-9@2x.png in Resources */,
@@ -20512,6 +20558,7 @@
 				CF0CF473196F452900ECD301 /* minidivider@2x.png in Resources */,
 				CFA728A01A0B037900FF6031 /* fireeventbigbg@2x.png in Resources */,
 				CF0CF476196F452900ECD301 /* bigsquareempty@2x.png in Resources */,
+				63CD1C711AFDB397001B4537 /* tangogirlgradient@2x.png in Resources */,
 				CF0CF477196F452900ECD301 /* EvolveHeaderView.xib in Resources */,
 				CF0CF479196F452900ECD301 /* fullfriendmask@2x.png in Resources */,
 				9BDA8C241A5DE92500C7AC27 /* gooniegrabmachine@2x.png in Resources */,
@@ -22637,6 +22684,7 @@
 				CF2A4B021901B8F500B2D7D7 /* questgobutton@2x.png in Resources */,
 				CFBB37A518F49D3200FD6C8C /* oilupgradebutton@2x.png in Resources */,
 				CFF2C93D193FD71F00F28D9E /* chatclaninactive@2x.png in Resources */,
+				63CD1C701AFDB397001B4537 /* tangogirlgradient@2x.png in Resources */,
 				CFA729291A0B037900FF6031 /* watereventtimer@2x.png in Resources */,
 				9B41AF2F1A7C336900529879 /* bulletorb@2x.png in Resources */,
 				2985E6141A330DB00041ABF4 /* pinkchatcorner@2x.png in Resources */,
@@ -22826,6 +22874,7 @@
 				CFDA78F6198C303C0014A8CD /* openlight@2x.png in Resources */,
 				CF3765B018319E0F00D0A77E /* shield@2x.png in Resources */,
 				CFF5DC7D19514FA50019EB2B /* hired@2x.png in Resources */,
+				63CD1C771B01459D001B4537 /* tangoinvitebottom@2x.png in Resources */,
 				CFCD0EB71953F07400EDC233 /* commonband@2x.png in Resources */,
 				CFEE89E918EC388000047CA4 /* goldbig@2x.png in Resources */,
 				9BD473921AC3684500EBBFB2 /* MiniEventTierPrizeView.xib in Resources */,
@@ -23102,6 +23151,7 @@
 				CFBB36E818EE526300FD6C8C /* 3x3poles@2x.png in Resources */,
 				CFC4D2A718D7BD04004681FD /* sfx_full_boat_scene.mp3 in Resources */,
 				CFF1D6DF17DFC43700874339 /* grenade1.plist in Resources */,
+				63CD1C731AFDB397001B4537 /* tangoinvitelogo@2x.png in Resources */,
 				9B41AF6B1A81B44200529879 /* fireglove-9@2x.png in Resources */,
 				CFC4D27C18D7BD03004681FD /* stg_win.mp3 in Resources */,
 				63CA0AD31AD5B8BB00E92774 /* chattranslatorarrow@2x.png in Resources */,
@@ -23307,6 +23357,7 @@
 				CFE0E6B017E3C002002ECA84 /* filledstar@2x.png in Resources */,
 				6B1EAA611ACF5DCC00E0B642 /* VinesLeft@2x.tps in Resources */,
 				29927EAA1AAF9D1700418683 /* ItemFactoryCardCell.xib in Resources */,
+				63CD1C6A1AFDA6E3001B4537 /* TangoGiftViewController.xib in Resources */,
 				CFE0E6B417E3C002002ECA84 /* innerstar@2x.png in Resources */,
 				9BDA8B9D1A3B8E1700C7AC27 /* waterheadshot@2x.png in Resources */,
 				CFE0E6BD17E3F6BD002ECA84 /* wavefont.fnt in Resources */,
@@ -23642,6 +23693,7 @@
 				CF481A7F19F7217F00041486 /* bronzeribbon@2x.png in Resources */,
 				2965487D1A81C4070080B195 /* deploysep@2x.png in Resources */,
 				CF481A8619F7217F00041486 /* nextgradient@2x.png in Resources */,
+				63CD1C751AFDB397001B4537 /* tangoinvitelogo@2x.png in Resources */,
 				2948F5941AB7635300DF08C2 /* ifitemsquaresmall@2x.png in Resources */,
 				299AA3B91A7856AA00A2D806 /* lightsideways-9@2x.png in Resources */,
 				CF481A8819F7217F00041486 /* upgradepopupbottom@2x.png in Resources */,
@@ -24973,6 +25025,7 @@
 				CF48221F19F7217F00041486 /* GothamMedium-Italic.otf in Resources */,
 				6B1EAA2A1ACF5DCC00E0B642 /* VinesRight07.png in Resources */,
 				CFA7291F1A0B037900FF6031 /* watereventbg@2x.png in Resources */,
+				63CD1C721AFDB397001B4537 /* tangogirlgradient@2x.png in Resources */,
 				CF48222019F7217F00041486 /* gachasupertag@2x.png in Resources */,
 				CF48222219F7217F00041486 /* oilcollected.fnt in Resources */,
 				CF48222319F7217F00041486 /* detailshadow@2x.png in Resources */,
@@ -25205,6 +25258,7 @@
 				9BDA8B7A1A3B8DC200C7AC27 /* 6rockheadshot@2x.png in Resources */,
 				CF48235019F7217F00041486 /* hireallfriendsinactive@2x.png in Resources */,
 				CF48235119F7217F00041486 /* lightbluemenuoption@2x.png in Resources */,
+				63CD1C6C1AFDA6E3001B4537 /* TangoGiftViewController.xib in Resources */,
 				6B5146BF1AA1487100B2844A /* waterlsorb@2x.png in Resources */,
 				CF48235219F7217F00041486 /* timerclock@2x.png in Resources */,
 				CF48235519F7217F00041486 /* 3x3poles@2x.png in Resources */,
@@ -25610,6 +25664,7 @@
 				CF48250319F7217F00041486 /* helped@2x.png in Resources */,
 				CF48250519F7217F00041486 /* blacksquareoverlay@2x.png in Resources */,
 				2991FC0A1A8012F8009BB1D8 /* TeamDonateMonsterSelectCell.xib in Resources */,
+				63CD1C791B01459D001B4537 /* tangoinvitebottom@2x.png in Resources */,
 				CFA728FB1A0B037900FF6031 /* lighteventbg@2x.png in Resources */,
 				6B1EA9A61ACF5DCB00E0B642 /* VinesDown03.png in Resources */,
 				6B1EA9EB1ACF5DCC00E0B642 /* VinesMain06.png in Resources */,
@@ -25912,6 +25967,7 @@
 				9B7AAAF91AC0A24900CA387F /* MiniEventViewController.m in Sources */,
 				CF0CED35196F452900ECD301 /* UIView+SBExtras.m in Sources */,
 				6BB26BC71A78190C0014342B /* SkillPoisonPowder.m in Sources */,
+				63CD1C681AFDA6E3001B4537 /* TangoGiftViewController.m in Sources */,
 				2933DCA61ADFA836005D7620 /* SalePurchasedViewController.m in Sources */,
 				29DCCF951A8A9D6B003176FD /* TutorialEnhanceController.m in Sources */,
 				CF0CED36196F452900ECD301 /* main.m in Sources */,
@@ -26226,6 +26282,7 @@
 				29AAE5E41A7B0FDB00E4F022 /* DonateMsgViewController.m in Sources */,
 				CF7372A918CB7CE900EE2CBC /* TutorialAttackMapViewController.m in Sources */,
 				CFFCF55519AFAEC9007E316D /* BattleHudView.m in Sources */,
+				63CD1C671AFDA6E3001B4537 /* TangoGiftViewController.m in Sources */,
 				CFC371311884C2BC000348D8 /* HospitalQueueSimulator.m in Sources */,
 				CF6574DF1909CAF200ABF1F4 /* Protocols.pb.m in Sources */,
 				CF40CFDE18DF9DCB0034A721 /* UnreadNotifications.m in Sources */,
@@ -26707,6 +26764,7 @@
 				9B7AAAFA1AC0A24900CA387F /* MiniEventViewController.m in Sources */,
 				CF4818DC19F7217F00041486 /* UIColor+HexColor.m in Sources */,
 				CF4818DD19F7217F00041486 /* ClanRaidDetailsViewController.m in Sources */,
+				63CD1C691AFDA6E3001B4537 /* TangoGiftViewController.m in Sources */,
 				2933DCA71ADFA836005D7620 /* SalePurchasedViewController.m in Sources */,
 				CF4818DE19F7217F00041486 /* UIView+SBExtras.m in Sources */,
 				6BB26BC81A78190C0014342B /* SkillPoisonPowder.m in Sources */,

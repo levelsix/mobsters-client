@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1514" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HireViewController">
@@ -550,7 +550,7 @@
                 <outletCollection property="hiredFriendViews" destination="c5g-pv-Wqn" id="wCR-jE-VKK"/>
                 <outletCollection property="hiredFriendViews" destination="Lbs-o3-wxE" id="zY4-GV-adC"/>
             </connections>
-            <point key="canvasLocation" x="270" y="426"/>
+            <point key="canvasLocation" x="330" y="731"/>
         </view>
         <view contentMode="scaleToFill" id="stV-bc-bx1" userLabel="Already Hired View">
             <rect key="frame" x="0.0" y="0.0" width="364" height="238"/>
@@ -647,12 +647,13 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="766" y="436"/>
         </view>
     </objects>
     <resources>
         <image name="123slot.png" width="181" height="110"/>
         <image name="closepopupx.png" width="25" height="26"/>
-        <image name="diamond.png" width="29" height="27"/>
+        <image name="diamond.png" width="28" height="28"/>
         <image name="facebookmenuoption.png" width="79" height="40"/>
         <image name="greensmallbutton.png" width="68" height="30"/>
         <image name="hireallfriendsactive.png" width="12" height="10"/>
