@@ -71,7 +71,20 @@
 - (void)onCureStatus
 {
   self.battleLayer.movesLeft += _turnsSkipped;
+  self.opponentPlayer.isChilled = NO;
   [super onCureStatus];
+}
+
+- (BOOL)onDurationEnd
+{
+  self.opponentPlayer.isChilled = NO;
+  return [super onDurationEnd];
+}
+
+- (void)restoreVisualsIfNeeded
+{
+  self.opponentPlayer.isChilled = [self isActive];
+  return [super restoreVisualsIfNeeded];
 }
 
 - (NSString *)cureBottomText
@@ -83,6 +96,7 @@
 
 - (BOOL)activate
 {
+  self.opponentPlayer.isChilled = YES;
   if (!self.belongsToPlayer)
   {
     [self.battleLayer setMovesLeft:MAX(self.battleLayer.movesLeft - _turnsSkipped, 0) animated:YES];
