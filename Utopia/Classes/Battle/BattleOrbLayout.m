@@ -1984,7 +1984,7 @@ static const NSInteger maxSearchIterations = 800;
     }
     [data setValue:@(row) forKey:[NSString stringWithFormat:@"orbrowscol%i", col]];
   }
-  [data setValue:@(col+1) forKey:@"orbcols"];
+  [data setValue:@(_orbRecords.count) forKey:@"orbcols"];
   return data;
 }
 

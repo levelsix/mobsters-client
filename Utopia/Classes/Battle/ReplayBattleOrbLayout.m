@@ -78,7 +78,7 @@
     [orbsForCol removeObject:crop];
     orb = [self createOrbFromHistory:crop];
     NSLog(@"Generated orb %i: %u at column %i", crop.orbId, orb.orbColor, column);
-  } else {
+  } else if ([self tileAtColumn:column row:row]) {
     NSLog(@"The fuck? Failed to generate orb at column %i...", column);
   }
   

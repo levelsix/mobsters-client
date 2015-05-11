@@ -14,11 +14,16 @@
 {
   self = [super init];
   self.pastStates = [NSMutableArray array];
+  _returningFromSave = NO;
   return self;
 }
 
 - (BattleState*)getCurrentBattleState{
   return (BattleState*)self.currentState;
+}
+
+- (CombatReplayStepProto*)getLastStoredStepProto {
+  return (CombatReplayStepProto*)[self.pastStates lastObject];
 }
 
 - (void)addState:(TKState *)state
@@ -35,6 +40,16 @@
 }
 
 - (void) storeState:(BattleState*)state {
+  
+  if (_returningFromSave) {
+    if (state.combatReplayStepType == [self getLastStoredStepProto].type
+        || (state.combatReplayStepType == CombatReplayStepTypePlayerAttack && [self getLastStoredStepProto].type == CombatReplayStepTypePlayerMove)) {
+      _returningFromSave = NO;
+    }
+    else
+      return;
+  }
+  
   [state setIndex:(int)self.pastStates.count];
   
   CombatReplayStepProto *proto = [state getStepProto];
@@ -117,6 +132,7 @@
     NSData *stepData =  [[NSData alloc] initWithBase64EncodedData:[data objectForKey:[NSString stringWithFormat:@"step%i", i]] options:0];
     [self.pastStates addObject:[CombatReplayStepProto parseFromData:stepData]];
   }
+  _returningFromSave = YES;
 }
 
 

@@ -10,7 +10,9 @@
 #import "BattleState.h"
 #import "BattleSchedule.h"
 
-@interface BattleStateMachine : TKStateMachine <BattleScheduleDelegate>
+@interface BattleStateMachine : TKStateMachine <BattleScheduleDelegate> {
+  BOOL _returningFromSave;
+}
 
 @property NSMutableArray *pastStates;
 
