@@ -235,7 +235,7 @@
   enemyTurnEvent = [TKEvent eventWithName:@"Enemy Turn Start" transitioningFromStates:@[initialState, playerAttack, enemyTurn, spawnEnemyState, playerSwapState] toState:enemyTurn];
   playerVictoryEvent = [TKEvent eventWithName:@"Player Win Event" transitioningFromStates:@[spawnEnemyState, playerAttack, playerMove, enemyTurn] toState:playerVictory];
   playerDeathEvent = [TKEvent eventWithName:@"Player Death Event" transitioningFromStates:@[playerAttack, playerMove, enemyTurn] toState:playerDeath];
-  playerReviveEvent = [TKEvent eventWithName:@"Player Revive Event" transitioningFromStates:@[playerDeath] toState:playerRevive];
+  playerReviveEvent = [TKEvent eventWithName:@"Player Revive Event" transitioningFromStates:@[playerDeath, playerLose, playerRun] toState:playerRevive];
   playerRunEvent = [TKEvent eventWithName:@"Player Run Event" transitioningFromStates:@[playerTurn, playerMove] toState:playerRun];
   playerLoseEvent = [TKEvent eventWithName:@"Player Lose Event" transitioningFromStates:@[playerRun, playerDeath] toState:playerLose];
   
