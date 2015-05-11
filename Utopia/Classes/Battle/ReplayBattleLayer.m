@@ -388,7 +388,9 @@
   [self.endView updateForRewards:[Reward createRewardsForReplay:_replay tillStage:self.enemyPlayerObject.slotNum droplessStageNums:self.droplessStageNums attackerVictory:NO] isWin:NO allowsContinue:NO continueCost:0];
 }
 
-
+- (void)displayDeployViewAndIsCancellable:(BOOL)cancel {
+  [self fireEvent:playerSwapEvent userInfo:nil error:nil];
+}
 
 - (void)buildReplay {
   //Do nothing
