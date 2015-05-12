@@ -14,8 +14,6 @@ static PBExtensionRegistry* extensionRegistry = nil;
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
     [BoosterPackStuffRoot registerAllExtensions:registry];
-    [ItemRoot registerAllExtensions:registry];
-    [MonsterStuffRoot registerAllExtensions:registry];
     [RewardRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
     extensionRegistry = registry;
@@ -31,6 +29,8 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property int64_t clientTime;
 @property BOOL dailyFreeBoosterPack;
 @property BOOL buyingInBulk;
+@property int32_t gemsSpent;
+@property int32_t gachaCreditsChange;
 @end
 
 @implementation PurchaseBoosterPackRequestProto
@@ -80,6 +80,20 @@ static PBExtensionRegistry* extensionRegistry = nil;
 - (void) setBuyingInBulk:(BOOL) value_ {
   buyingInBulk_ = !!value_;
 }
+- (BOOL) hasGemsSpent {
+  return !!hasGemsSpent_;
+}
+- (void) setHasGemsSpent:(BOOL) value_ {
+  hasGemsSpent_ = !!value_;
+}
+@synthesize gemsSpent;
+- (BOOL) hasGachaCreditsChange {
+  return !!hasGachaCreditsChange_;
+}
+- (void) setHasGachaCreditsChange:(BOOL) value_ {
+  hasGachaCreditsChange_ = !!value_;
+}
+@synthesize gachaCreditsChange;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
@@ -87,6 +101,8 @@ static PBExtensionRegistry* extensionRegistry = nil;
     self.clientTime = 0L;
     self.dailyFreeBoosterPack = NO;
     self.buyingInBulk = NO;
+    self.gemsSpent = 0;
+    self.gachaCreditsChange = 0;
   }
   return self;
 }
@@ -121,6 +137,12 @@ static PurchaseBoosterPackRequestProto* defaultPurchaseBoosterPackRequestProtoIn
   if (self.hasBuyingInBulk) {
     [output writeBool:5 value:self.buyingInBulk];
   }
+  if (self.hasGemsSpent) {
+    [output writeInt32:6 value:self.gemsSpent];
+  }
+  if (self.hasGachaCreditsChange) {
+    [output writeInt32:7 value:self.gachaCreditsChange];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -144,6 +166,12 @@ static PurchaseBoosterPackRequestProto* defaultPurchaseBoosterPackRequestProtoIn
   }
   if (self.hasBuyingInBulk) {
     size_ += computeBoolSize(5, self.buyingInBulk);
+  }
+  if (self.hasGemsSpent) {
+    size_ += computeInt32Size(6, self.gemsSpent);
+  }
+  if (self.hasGachaCreditsChange) {
+    size_ += computeInt32Size(7, self.gachaCreditsChange);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -198,6 +226,12 @@ static PurchaseBoosterPackRequestProto* defaultPurchaseBoosterPackRequestProtoIn
   if (self.hasBuyingInBulk) {
     [output appendFormat:@"%@%@: %@\n", indent, @"buyingInBulk", [NSNumber numberWithBool:self.buyingInBulk]];
   }
+  if (self.hasGemsSpent) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"gemsSpent", [NSNumber numberWithInteger:self.gemsSpent]];
+  }
+  if (self.hasGachaCreditsChange) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"gachaCreditsChange", [NSNumber numberWithInteger:self.gachaCreditsChange]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -219,6 +253,10 @@ static PurchaseBoosterPackRequestProto* defaultPurchaseBoosterPackRequestProtoIn
       (!self.hasDailyFreeBoosterPack || self.dailyFreeBoosterPack == otherMessage.dailyFreeBoosterPack) &&
       self.hasBuyingInBulk == otherMessage.hasBuyingInBulk &&
       (!self.hasBuyingInBulk || self.buyingInBulk == otherMessage.buyingInBulk) &&
+      self.hasGemsSpent == otherMessage.hasGemsSpent &&
+      (!self.hasGemsSpent || self.gemsSpent == otherMessage.gemsSpent) &&
+      self.hasGachaCreditsChange == otherMessage.hasGachaCreditsChange &&
+      (!self.hasGachaCreditsChange || self.gachaCreditsChange == otherMessage.gachaCreditsChange) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -237,6 +275,12 @@ static PurchaseBoosterPackRequestProto* defaultPurchaseBoosterPackRequestProtoIn
   }
   if (self.hasBuyingInBulk) {
     hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.buyingInBulk] hash];
+  }
+  if (self.hasGemsSpent) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.gemsSpent] hash];
+  }
+  if (self.hasGachaCreditsChange) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.gachaCreditsChange] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -296,6 +340,12 @@ static PurchaseBoosterPackRequestProto* defaultPurchaseBoosterPackRequestProtoIn
   if (other.hasBuyingInBulk) {
     [self setBuyingInBulk:other.buyingInBulk];
   }
+  if (other.hasGemsSpent) {
+    [self setGemsSpent:other.gemsSpent];
+  }
+  if (other.hasGachaCreditsChange) {
+    [self setGachaCreditsChange:other.gachaCreditsChange];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -340,6 +390,14 @@ static PurchaseBoosterPackRequestProto* defaultPurchaseBoosterPackRequestProtoIn
       }
       case 40: {
         [self setBuyingInBulk:[input readBool]];
+        break;
+      }
+      case 48: {
+        [self setGemsSpent:[input readInt32]];
+        break;
+      }
+      case 56: {
+        [self setGachaCreditsChange:[input readInt32]];
         break;
       }
     }
@@ -437,6 +495,38 @@ static PurchaseBoosterPackRequestProto* defaultPurchaseBoosterPackRequestProtoIn
 - (PurchaseBoosterPackRequestProto_Builder*) clearBuyingInBulk {
   result.hasBuyingInBulk = NO;
   result.buyingInBulk = NO;
+  return self;
+}
+- (BOOL) hasGemsSpent {
+  return result.hasGemsSpent;
+}
+- (int32_t) gemsSpent {
+  return result.gemsSpent;
+}
+- (PurchaseBoosterPackRequestProto_Builder*) setGemsSpent:(int32_t) value {
+  result.hasGemsSpent = YES;
+  result.gemsSpent = value;
+  return self;
+}
+- (PurchaseBoosterPackRequestProto_Builder*) clearGemsSpent {
+  result.hasGemsSpent = NO;
+  result.gemsSpent = 0;
+  return self;
+}
+- (BOOL) hasGachaCreditsChange {
+  return result.hasGachaCreditsChange;
+}
+- (int32_t) gachaCreditsChange {
+  return result.gachaCreditsChange;
+}
+- (PurchaseBoosterPackRequestProto_Builder*) setGachaCreditsChange:(int32_t) value {
+  result.hasGachaCreditsChange = YES;
+  result.gachaCreditsChange = value;
+  return self;
+}
+- (PurchaseBoosterPackRequestProto_Builder*) clearGachaCreditsChange {
+  result.hasGachaCreditsChange = NO;
+  result.gachaCreditsChange = 0;
   return self;
 }
 @end
@@ -634,8 +724,9 @@ static PurchaseBoosterPackResponseProto* defaultPurchaseBoosterPackResponseProto
 BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatus value) {
   switch (value) {
     case PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusSuccess:
-    case PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusFailInsufficientGems:
+    case PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusFailInsufficientGachaCredits:
     case PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusFailOther:
+    case PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusFailInsufficientGems:
       return YES;
     default:
       return NO;
