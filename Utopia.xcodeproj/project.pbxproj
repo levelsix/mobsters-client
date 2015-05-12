@@ -2183,6 +2183,9 @@
 		6B8CD58A1A9BB45C000DAAB8 /* SkillControllerSpecialOrb.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B8CD5891A9BB45C000DAAB8 /* SkillControllerSpecialOrb.m */; };
 		6B8CD58B1A9BB45C000DAAB8 /* SkillControllerSpecialOrb.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B8CD5891A9BB45C000DAAB8 /* SkillControllerSpecialOrb.m */; };
 		6B8CD58C1A9BB45C000DAAB8 /* SkillControllerSpecialOrb.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B8CD5891A9BB45C000DAAB8 /* SkillControllerSpecialOrb.m */; };
+		6B8E800E1B0187C2009BDDD7 /* SkillPopupOverlayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B8E800D1B0187C2009BDDD7 /* SkillPopupOverlayController.m */; };
+		6B8E800F1B0187C2009BDDD7 /* SkillPopupOverlayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B8E800D1B0187C2009BDDD7 /* SkillPopupOverlayController.m */; };
+		6B8E80101B0187C2009BDDD7 /* SkillPopupOverlayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B8E800D1B0187C2009BDDD7 /* SkillPopupOverlayController.m */; };
 		6BA24DF31A7A9ECF00BEF920 /* SkillBloodRage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA24DF21A7A9ECF00BEF920 /* SkillBloodRage.m */; };
 		6BA24E091A7AEA6E00BEF920 /* SkillTakeAim.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA24E081A7AEA6E00BEF920 /* SkillTakeAim.m */; };
 		6BA24E0A1A7AEA6E00BEF920 /* SkillTakeAim.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA24E081A7AEA6E00BEF920 /* SkillTakeAim.m */; };
@@ -8554,6 +8557,8 @@
 		6B8CD5841A9BAE20000DAAB8 /* SkillControllerSplitOffDef.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillControllerSplitOffDef.m; sourceTree = "<group>"; };
 		6B8CD5881A9BB176000DAAB8 /* SkillControllerSpecialOrb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillControllerSpecialOrb.h; sourceTree = "<group>"; };
 		6B8CD5891A9BB45C000DAAB8 /* SkillControllerSpecialOrb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillControllerSpecialOrb.m; sourceTree = "<group>"; };
+		6B8E800B1B0187B0009BDDD7 /* SkillPopupOverlayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillPopupOverlayController.h; sourceTree = "<group>"; };
+		6B8E800D1B0187C2009BDDD7 /* SkillPopupOverlayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillPopupOverlayController.m; sourceTree = "<group>"; };
 		6BA24DF01A7A9EC100BEF920 /* SkillBloodRage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillBloodRage.h; sourceTree = "<group>"; };
 		6BA24DF21A7A9ECF00BEF920 /* SkillBloodRage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillBloodRage.m; sourceTree = "<group>"; };
 		6BA24E061A7AEA6100BEF920 /* SkillTakeAim.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SkillTakeAim.h; sourceTree = "<group>"; };
@@ -18767,6 +18772,8 @@
 				DA88EB3D19B93542005EE827 /* SkillPopupOverlay.m */,
 				DA88EB4019B93553005EE827 /* SkillPopupOverlay.xib */,
 				9BFC0C2D1AA51732009DFE50 /* SkillPopupMiniOverlay.xib */,
+				6B8E800B1B0187B0009BDDD7 /* SkillPopupOverlayController.h */,
+				6B8E800D1B0187C2009BDDD7 /* SkillPopupOverlayController.m */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -25954,6 +25961,7 @@
 				CF812F0919E73E1900D91157 /* ClanHelp.m in Sources */,
 				9BDA8B491A3A481300C7AC27 /* SkillShuffle.m in Sources */,
 				CF0CEDDE196F452900ECD301 /* BattlePlayer.m in Sources */,
+				6B8E800F1B0187C2009BDDD7 /* SkillPopupOverlayController.m in Sources */,
 				CF0CEDDF196F452900ECD301 /* EventInAppPurchase.pb.m in Sources */,
 				CF4F783219BE4932001B7B7C /* HudNotificationController.m in Sources */,
 				CF0CEDE0196F452900ECD301 /* RequestsViewController.m in Sources */,
@@ -26325,6 +26333,7 @@
 				CFF7408518199478009DE4A4 /* MyTeamSprite.m in Sources */,
 				9B8CA6111A3798C00060BE8F /* SkillCritAndEvade.m in Sources */,
 				CF7CFE2619A55A68009338A2 /* BattleSwap.m in Sources */,
+				6B8E800E1B0187C2009BDDD7 /* SkillPopupOverlayController.m in Sources */,
 				CF0AC60018A1F6E600140628 /* PvpBattleLayer.m in Sources */,
 				6B1EAABB1AD42A7A00E0B642 /* SkillProtoHelper.m in Sources */,
 				DA88EB3E19B93542005EE827 /* SkillPopupOverlay.m in Sources */,
@@ -26737,6 +26746,7 @@
 				CF48199019F7217F00041486 /* ClanHelp.m in Sources */,
 				9BDA8B4A1A3A481300C7AC27 /* SkillShuffle.m in Sources */,
 				CF48199119F7217F00041486 /* BattlePlayer.m in Sources */,
+				6B8E80101B0187C2009BDDD7 /* SkillPopupOverlayController.m in Sources */,
 				CF48199219F7217F00041486 /* EventInAppPurchase.pb.m in Sources */,
 				CF48199319F7217F00041486 /* HudNotificationController.m in Sources */,
 				CF48199419F7217F00041486 /* RequestsViewController.m in Sources */,
