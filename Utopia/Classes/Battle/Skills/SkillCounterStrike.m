@@ -50,9 +50,6 @@
 
 - (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute {
   
-  if ([super skillCalledWithTrigger:trigger execute:execute])
-    return YES;
-  
   if ([self isActive])
   {
     if ((trigger == SkillTriggerPointEndOfEnemyTurn && self.belongsToPlayer)
@@ -62,15 +59,21 @@
         if (rand < _chance){
           [self performAfterDelay:self.opponentSprite.animationType == MonsterProto_AnimationTypeMelee ? .5 : 0 block:^{
             [self dealQuickAttack];
+            [self tickDuration];
           }];
         }
         else{
-          return NO;
+          BOOL holdSkillTrigger = [self tickDuration];
+          if (!holdSkillTrigger)
+            [self skillTriggerFinished];
         }
       }
       return YES;
     }
   }
+  
+  if ([super skillCalledWithTrigger:trigger execute:execute])
+    return YES;
   
   return NO;
 }

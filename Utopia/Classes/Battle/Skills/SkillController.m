@@ -369,7 +369,7 @@
 // Puts a delay inbetween the quick attack and releasing the skill trigger for melee toons
 - (void) preFinishQuickAttack
 {
-  [self performAfterDelay:self.userSprite.animationType == MonsterProto_AnimationTypeMelee ? .8 : 0 block:^{
+  [self performAfterDelay:self.userSprite.animationType == MonsterProto_AnimationTypeMelee ? 1 : 0 block:^{
     [self onFinishQuickAttack];
   }];
 }
