@@ -3,8 +3,6 @@
 #import "ProtocolBuffers.h"
 
 #import "BoosterPackStuff.pb.h"
-#import "Item.pb.h"
-#import "MonsterStuff.pb.h"
 #import "Reward.pb.h"
 #import "User.pb.h"
 // @@protoc_insertion_point(imports)
@@ -99,8 +97,9 @@
 
 typedef NS_ENUM(SInt32, PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatus) {
   PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusSuccess = 1,
-  PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusFailInsufficientGems = 2,
+  PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusFailInsufficientGachaCredits = 2,
   PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusFailOther = 3,
+  PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusFailInsufficientGems = 4,
 };
 
 BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatus value);
@@ -118,11 +117,15 @@ BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(Purc
   BOOL hasBuyingInBulk_:1;
   BOOL hasClientTime_:1;
   BOOL hasBoosterPackId_:1;
+  BOOL hasGemsSpent_:1;
+  BOOL hasGachaCreditsChange_:1;
   BOOL hasSender_:1;
   BOOL dailyFreeBoosterPack_:1;
   BOOL buyingInBulk_:1;
   int64_t clientTime;
   int32_t boosterPackId;
+  int32_t gemsSpent;
+  int32_t gachaCreditsChange;
   MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
@@ -130,11 +133,15 @@ BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(Purc
 - (BOOL) hasClientTime;
 - (BOOL) hasDailyFreeBoosterPack;
 - (BOOL) hasBuyingInBulk;
+- (BOOL) hasGemsSpent;
+- (BOOL) hasGachaCreditsChange;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) int32_t boosterPackId;
 @property (readonly) int64_t clientTime;
 - (BOOL) dailyFreeBoosterPack;
 - (BOOL) buyingInBulk;
+@property (readonly) int32_t gemsSpent;
+@property (readonly) int32_t gachaCreditsChange;
 
 + (PurchaseBoosterPackRequestProto*) defaultInstance;
 - (PurchaseBoosterPackRequestProto*) defaultInstance;
@@ -197,6 +204,16 @@ BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(Purc
 - (BOOL) buyingInBulk;
 - (PurchaseBoosterPackRequestProto_Builder*) setBuyingInBulk:(BOOL) value;
 - (PurchaseBoosterPackRequestProto_Builder*) clearBuyingInBulk;
+
+- (BOOL) hasGemsSpent;
+- (int32_t) gemsSpent;
+- (PurchaseBoosterPackRequestProto_Builder*) setGemsSpent:(int32_t) value;
+- (PurchaseBoosterPackRequestProto_Builder*) clearGemsSpent;
+
+- (BOOL) hasGachaCreditsChange;
+- (int32_t) gachaCreditsChange;
+- (PurchaseBoosterPackRequestProto_Builder*) setGachaCreditsChange:(int32_t) value;
+- (PurchaseBoosterPackRequestProto_Builder*) clearGachaCreditsChange;
 @end
 
 @interface PurchaseBoosterPackResponseProto : PBGeneratedMessage {

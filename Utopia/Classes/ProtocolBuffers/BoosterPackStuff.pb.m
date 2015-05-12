@@ -14,7 +14,6 @@ static PBExtensionRegistry* extensionRegistry = nil;
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
     [RewardRoot registerAllExtensions:registry];
-    [SharedEnumConfigRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
     extensionRegistry = registry;
   }
@@ -409,6 +408,7 @@ static RareBoosterPurchaseProto* defaultRareBoosterPurchaseProtoInstance = nil;
 @property int32_t boosterPackId;
 @property (strong) NSString* boosterPackName;
 @property int32_t gemPrice;
+@property int32_t gachaCreditsPrice;
 @property (strong) NSMutableArray * mutableSpecialItemsList;
 @property (strong) NSString* listBackgroundImgName;
 @property (strong) NSString* listDescription;
@@ -442,6 +442,13 @@ static RareBoosterPurchaseProto* defaultRareBoosterPurchaseProtoInstance = nil;
   hasGemPrice_ = !!value_;
 }
 @synthesize gemPrice;
+- (BOOL) hasGachaCreditsPrice {
+  return !!hasGachaCreditsPrice_;
+}
+- (void) setHasGachaCreditsPrice:(BOOL) value_ {
+  hasGachaCreditsPrice_ = !!value_;
+}
+@synthesize gachaCreditsPrice;
 @synthesize mutableSpecialItemsList;
 @dynamic specialItemsList;
 - (BOOL) hasListBackgroundImgName {
@@ -493,6 +500,7 @@ static RareBoosterPurchaseProto* defaultRareBoosterPurchaseProtoInstance = nil;
     self.boosterPackId = 0;
     self.boosterPackName = @"";
     self.gemPrice = 0;
+    self.gachaCreditsPrice = 0;
     self.listBackgroundImgName = @"";
     self.listDescription = @"";
     self.navBarImgName = @"";
@@ -563,6 +571,9 @@ static BoosterPackProto* defaultBoosterPackProtoInstance = nil;
   if (self.hasType) {
     [output writeEnum:11 value:self.type];
   }
+  if (self.hasGachaCreditsPrice) {
+    [output writeInt32:12 value:self.gachaCreditsPrice];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -604,6 +615,9 @@ static BoosterPackProto* defaultBoosterPackProtoInstance = nil;
   }];
   if (self.hasType) {
     size_ += computeEnumSize(11, self.type);
+  }
+  if (self.hasGachaCreditsPrice) {
+    size_ += computeInt32Size(12, self.gachaCreditsPrice);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -679,6 +693,9 @@ static BoosterPackProto* defaultBoosterPackProtoInstance = nil;
   if (self.hasType) {
     [output appendFormat:@"%@%@: %@\n", indent, @"type", [NSNumber numberWithInteger:self.type]];
   }
+  if (self.hasGachaCreditsPrice) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"gachaCreditsPrice", [NSNumber numberWithInteger:self.gachaCreditsPrice]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -710,6 +727,8 @@ static BoosterPackProto* defaultBoosterPackProtoInstance = nil;
       [self.displayItemsList isEqualToArray:otherMessage.displayItemsList] &&
       self.hasType == otherMessage.hasType &&
       (!self.hasType || self.type == otherMessage.type) &&
+      self.hasGachaCreditsPrice == otherMessage.hasGachaCreditsPrice &&
+      (!self.hasGachaCreditsPrice || self.gachaCreditsPrice == otherMessage.gachaCreditsPrice) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -746,6 +765,9 @@ static BoosterPackProto* defaultBoosterPackProtoInstance = nil;
   }];
   if (self.hasType) {
     hashCode = hashCode * 31 + self.type;
+  }
+  if (self.hasGachaCreditsPrice) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.gachaCreditsPrice] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -810,6 +832,9 @@ BOOL BoosterPackProto_BoosterPackTypeIsValidValue(BoosterPackProto_BoosterPackTy
   }
   if (other.hasGemPrice) {
     [self setGemPrice:other.gemPrice];
+  }
+  if (other.hasGachaCreditsPrice) {
+    [self setGachaCreditsPrice:other.gachaCreditsPrice];
   }
   if (other.mutableSpecialItemsList.count > 0) {
     if (result.mutableSpecialItemsList == nil) {
@@ -917,6 +942,10 @@ BOOL BoosterPackProto_BoosterPackTypeIsValidValue(BoosterPackProto_BoosterPackTy
         }
         break;
       }
+      case 96: {
+        [self setGachaCreditsPrice:[input readInt32]];
+        break;
+      }
     }
   }
 }
@@ -966,6 +995,22 @@ BOOL BoosterPackProto_BoosterPackTypeIsValidValue(BoosterPackProto_BoosterPackTy
 - (BoosterPackProto_Builder*) clearGemPrice {
   result.hasGemPrice = NO;
   result.gemPrice = 0;
+  return self;
+}
+- (BOOL) hasGachaCreditsPrice {
+  return result.hasGachaCreditsPrice;
+}
+- (int32_t) gachaCreditsPrice {
+  return result.gachaCreditsPrice;
+}
+- (BoosterPackProto_Builder*) setGachaCreditsPrice:(int32_t) value {
+  result.hasGachaCreditsPrice = YES;
+  result.gachaCreditsPrice = value;
+  return self;
+}
+- (BoosterPackProto_Builder*) clearGachaCreditsPrice {
+  result.hasGachaCreditsPrice = NO;
+  result.gachaCreditsPrice = 0;
   return self;
 }
 - (NSMutableArray *)specialItemsList {

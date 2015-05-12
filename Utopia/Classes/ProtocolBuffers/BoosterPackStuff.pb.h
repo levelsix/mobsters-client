@@ -3,7 +3,6 @@
 #import "ProtocolBuffers.h"
 
 #import "Reward.pb.h"
-#import "SharedEnumConfig.pb.h"
 #import "User.pb.h"
 // @@protoc_insertion_point(imports)
 
@@ -190,6 +189,7 @@ BOOL BoosterPackProto_BoosterPackTypeIsValidValue(BoosterPackProto_BoosterPackTy
 @private
   BOOL hasBoosterPackId_:1;
   BOOL hasGemPrice_:1;
+  BOOL hasGachaCreditsPrice_:1;
   BOOL hasBoosterPackName_:1;
   BOOL hasListBackgroundImgName_:1;
   BOOL hasListDescription_:1;
@@ -199,6 +199,7 @@ BOOL BoosterPackProto_BoosterPackTypeIsValidValue(BoosterPackProto_BoosterPackTy
   BOOL hasType_:1;
   int32_t boosterPackId;
   int32_t gemPrice;
+  int32_t gachaCreditsPrice;
   NSString* boosterPackName;
   NSString* listBackgroundImgName;
   NSString* listDescription;
@@ -212,6 +213,7 @@ BOOL BoosterPackProto_BoosterPackTypeIsValidValue(BoosterPackProto_BoosterPackTy
 - (BOOL) hasBoosterPackId;
 - (BOOL) hasBoosterPackName;
 - (BOOL) hasGemPrice;
+- (BOOL) hasGachaCreditsPrice;
 - (BOOL) hasListBackgroundImgName;
 - (BOOL) hasListDescription;
 - (BOOL) hasNavBarImgName;
@@ -221,6 +223,7 @@ BOOL BoosterPackProto_BoosterPackTypeIsValidValue(BoosterPackProto_BoosterPackTy
 @property (readonly) int32_t boosterPackId;
 @property (readonly, strong) NSString* boosterPackName;
 @property (readonly) int32_t gemPrice;
+@property (readonly) int32_t gachaCreditsPrice;
 @property (readonly, strong) NSArray * specialItemsList;
 @property (readonly, strong) NSString* listBackgroundImgName;
 @property (readonly, strong) NSString* listDescription;
@@ -281,6 +284,11 @@ BOOL BoosterPackProto_BoosterPackTypeIsValidValue(BoosterPackProto_BoosterPackTy
 - (int32_t) gemPrice;
 - (BoosterPackProto_Builder*) setGemPrice:(int32_t) value;
 - (BoosterPackProto_Builder*) clearGemPrice;
+
+- (BOOL) hasGachaCreditsPrice;
+- (int32_t) gachaCreditsPrice;
+- (BoosterPackProto_Builder*) setGachaCreditsPrice:(int32_t) value;
+- (BoosterPackProto_Builder*) clearGachaCreditsPrice;
 
 - (NSMutableArray *)specialItemsList;
 - (BoosterItemProto*)specialItemsAtIndex:(NSUInteger)index;

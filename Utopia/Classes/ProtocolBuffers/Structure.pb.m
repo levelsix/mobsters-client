@@ -28,6 +28,7 @@ BOOL ResourceTypeIsValidValue(ResourceType value) {
     case ResourceTypeCash:
     case ResourceTypeOil:
     case ResourceTypeGems:
+    case ResourceTypeGachaCredits:
     case ResourceTypeMonster:
       return YES;
     default:

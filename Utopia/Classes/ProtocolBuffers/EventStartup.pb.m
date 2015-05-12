@@ -10097,6 +10097,7 @@ static StartupResponseProto_StartupConstants_BoosterPackConstantsProto* defaultS
 @property int32_t cashInit;
 @property int32_t oilInit;
 @property int32_t gemsInit;
+@property int32_t gachaCreditsInit;
 @property (strong) NSMutableArray * mutableTutorialObstaclesList;
 @end
 
@@ -10192,6 +10193,13 @@ static StartupResponseProto_StartupConstants_BoosterPackConstantsProto* defaultS
   hasGemsInit_ = !!value_;
 }
 @synthesize gemsInit;
+- (BOOL) hasGachaCreditsInit {
+  return !!hasGachaCreditsInit_;
+}
+- (void) setHasGachaCreditsInit:(BOOL) value_ {
+  hasGachaCreditsInit_ = !!value_;
+}
+@synthesize gachaCreditsInit;
 @synthesize mutableTutorialObstaclesList;
 @dynamic tutorialObstaclesList;
 - (id) init {
@@ -10208,6 +10216,7 @@ static StartupResponseProto_StartupConstants_BoosterPackConstantsProto* defaultS
     self.cashInit = 0;
     self.oilInit = 0;
     self.gemsInit = 0;
+    self.gachaCreditsInit = 0;
   }
   return self;
 }
@@ -10303,6 +10312,9 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
   if (self.hasGuideMonsterId) {
     [output writeInt32:16 value:self.guideMonsterId];
   }
+  if (self.hasGachaCreditsInit) {
+    [output writeInt32:17 value:self.gachaCreditsInit];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -10366,6 +10378,9 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
   }
   if (self.hasGuideMonsterId) {
     size_ += computeInt32Size(16, self.guideMonsterId);
+  }
+  if (self.hasGachaCreditsInit) {
+    size_ += computeInt32Size(17, self.gachaCreditsInit);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -10459,6 +10474,9 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
   if (self.hasGuideMonsterId) {
     [output appendFormat:@"%@%@: %@\n", indent, @"guideMonsterId", [NSNumber numberWithInteger:self.guideMonsterId]];
   }
+  if (self.hasGachaCreditsInit) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"gachaCreditsInit", [NSNumber numberWithInteger:self.gachaCreditsInit]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -10498,6 +10516,8 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
       (!self.hasEnemyMonsterIdTwo || self.enemyMonsterIdTwo == otherMessage.enemyMonsterIdTwo) &&
       self.hasGuideMonsterId == otherMessage.hasGuideMonsterId &&
       (!self.hasGuideMonsterId || self.guideMonsterId == otherMessage.guideMonsterId) &&
+      self.hasGachaCreditsInit == otherMessage.hasGachaCreditsInit &&
+      (!self.hasGachaCreditsInit || self.gachaCreditsInit == otherMessage.gachaCreditsInit) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -10549,6 +10569,9 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
   }
   if (self.hasGuideMonsterId) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.guideMonsterId] hash];
+  }
+  if (self.hasGachaCreditsInit) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.gachaCreditsInit] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -10650,6 +10673,9 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
   if (other.hasGemsInit) {
     [self setGemsInit:other.gemsInit];
   }
+  if (other.hasGachaCreditsInit) {
+    [self setGachaCreditsInit:other.gachaCreditsInit];
+  }
   if (other.mutableTutorialObstaclesList.count > 0) {
     if (result.mutableTutorialObstaclesList == nil) {
       result.mutableTutorialObstaclesList = [[NSMutableArray alloc] initWithArray:other.mutableTutorialObstaclesList];
@@ -10746,6 +10772,10 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
       }
       case 128: {
         [self setGuideMonsterId:[input readInt32]];
+        break;
+      }
+      case 136: {
+        [self setGachaCreditsInit:[input readInt32]];
         break;
       }
     }
@@ -11017,6 +11047,22 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
 - (StartupResponseProto_TutorialConstants_Builder*) clearGemsInit {
   result.hasGemsInit = NO;
   result.gemsInit = 0;
+  return self;
+}
+- (BOOL) hasGachaCreditsInit {
+  return result.hasGachaCreditsInit;
+}
+- (int32_t) gachaCreditsInit {
+  return result.gachaCreditsInit;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setGachaCreditsInit:(int32_t) value {
+  result.hasGachaCreditsInit = YES;
+  result.gachaCreditsInit = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearGachaCreditsInit {
+  result.hasGachaCreditsInit = NO;
+  result.gachaCreditsInit = 0;
   return self;
 }
 - (NSMutableArray *)tutorialObstaclesList {

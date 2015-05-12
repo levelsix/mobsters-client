@@ -2396,6 +2396,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   BOOL hasCashInit_:1;
   BOOL hasOilInit_:1;
   BOOL hasGemsInit_:1;
+  BOOL hasGachaCreditsInit_:1;
   int32_t startingMonsterId;
   int32_t guideMonsterId;
   int32_t enemyMonsterId;
@@ -2408,6 +2409,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   int32_t cashInit;
   int32_t oilInit;
   int32_t gemsInit;
+  int32_t gachaCreditsInit;
   PBAppendableArray * mutableStructureIdsToBeBuilltList;
   NSMutableArray * mutableTutorialStructuresList;
   NSMutableArray * mutableCityOneElementsList;
@@ -2425,6 +2427,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasCashInit;
 - (BOOL) hasOilInit;
 - (BOOL) hasGemsInit;
+- (BOOL) hasGachaCreditsInit;
 @property (readonly) int32_t startingMonsterId;
 @property (readonly) int32_t guideMonsterId;
 @property (readonly) int32_t enemyMonsterId;
@@ -2440,6 +2443,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @property (readonly) int32_t cashInit;
 @property (readonly) int32_t oilInit;
 @property (readonly) int32_t gemsInit;
+@property (readonly) int32_t gachaCreditsInit;
 @property (readonly, strong) NSArray * tutorialObstaclesList;
 - (TutorialStructProto*)tutorialStructuresAtIndex:(NSUInteger)index;
 - (int32_t)structureIdsToBeBuilltAtIndex:(NSUInteger)index;
@@ -2559,6 +2563,11 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (int32_t) gemsInit;
 - (StartupResponseProto_TutorialConstants_Builder*) setGemsInit:(int32_t) value;
 - (StartupResponseProto_TutorialConstants_Builder*) clearGemsInit;
+
+- (BOOL) hasGachaCreditsInit;
+- (int32_t) gachaCreditsInit;
+- (StartupResponseProto_TutorialConstants_Builder*) setGachaCreditsInit:(int32_t) value;
+- (StartupResponseProto_TutorialConstants_Builder*) clearGachaCreditsInit;
 
 - (NSMutableArray *)tutorialObstaclesList;
 - (MinimumObstacleProto*)tutorialObstaclesAtIndex:(NSUInteger)index;
