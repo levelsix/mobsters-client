@@ -58,7 +58,7 @@
 - (NSInteger) modifyDamage:(NSInteger)damage forPlayer:(BOOL)player
 {
   _orbsSpawned = (int)[self specialsOnBoardCount:SpecialOrbTypeTakeAim];
-  if (!player && !self.belongsToPlayer && _orbsSpawned)
+  if (!player && !self.belongsToPlayer && _orbsSpawned && !self.userPlayer.isStunned)
   {
     float rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
     if (rand < _orbsSpawned * _critChancePerOrb)
@@ -67,7 +67,7 @@
       damage = damage * _critDamageMultiplier;
     }
   }
-  else if (player && self.belongsToPlayer && [self isActive])
+  else if (player && self.belongsToPlayer && [self isActive] && !self.userPlayer.isStunned)
   {
     float rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
     if (rand < (_playerCritChance * _stacks))

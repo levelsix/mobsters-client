@@ -85,7 +85,7 @@
                   player ? @"PLAYER" : @"ENEMY",
                   (long)damage);
     
-    if (player == self.belongsToPlayer) // The character attacking has the skill
+    if (player == self.belongsToPlayer && !self.userPlayer.isStunned) // The character attacking has the skill
     {
       
       if (_missChance > 0 || _critChance > 0)
