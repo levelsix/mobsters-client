@@ -98,6 +98,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
   self.level = user.level;
   self.gems = user.gems;
+  self.tokens = user.gachaCredits;
   self.cash = user.cash;
   self.oil = user.oil;
   self.experience = user.experience;
@@ -203,6 +204,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   if (self.clan) fup.clan = self.clan;
   fup.level = self.level;
   fup.gems = self.gems;
+  fup.gachaCredits = self.tokens;
   fup.cash = self.cash;
   fup.experience = self.experience;
   fup.tasksCompleted = self.tasksCompleted;

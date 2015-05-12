@@ -715,7 +715,8 @@ static NSDate *timeSinceLastTutStep = nil;
   //  [titanClass trackGameTransactions:itemIds quantities:itemChanges itemBalances:itemBalances transactionType:transactionType context:context extraParams:extraParams];
 }
 
-+ (void) gameTransactionWithTransactionType:(NSString *)transactionType context:(NSString *)context cashChange:(int)cashChange cashBalance:(int)cashBalance oilChange:(int)oilChange oilBalance:(int)oilBalance gemChange:(int)gemChange gemBalance:(int)gemBalance extraParams:(NSDictionary *)extraParams {
++ (void) gameTransactionWithTransactionType:(NSString *)transactionType context:(NSString *)context cashChange:(int)cashChange cashBalance:(int)cashBalance oilChange:(int)oilChange oilBalance:(int)oilBalance
+                                  gemChange:(int)gemChange gemBalance:(int)gemBalance tokenChange:(int)tokenChange tokenBalance:(int)tokenBalance extraParams:(NSDictionary *)extraParams {
   NSMutableArray *itemIds = [NSMutableArray array];
   NSMutableArray *itemChanges = [NSMutableArray array];
   NSMutableArray *itemBalances = [NSMutableArray array];
@@ -724,6 +725,12 @@ static NSDate *timeSinceLastTutStep = nil;
     [itemIds addObject:@"gems"];
     [itemChanges addObject:@(gemChange)];
     [itemBalances addObject:@(gemBalance)];
+  }
+  
+  if (tokenChange) {
+    [itemIds addObject:@"tokens"];
+    [itemChanges addObject:@(tokenChange)];
+    [itemBalances addObject:@(tokenBalance)];
   }
   
   if (cashChange) {
@@ -744,28 +751,28 @@ static NSDate *timeSinceLastTutStep = nil;
   }
 }
 
-+ (void) userCreateWithCashChange:(int)cashChange cashBalance:(int)cashBalance oilChange:(int)oilChange oilBalance:(int)oilBalance gemChange:(int)gemChange gemBalance:(int)gemBalance {
-  [self gameTransactionWithTransactionType:@"user_create" context:nil cashChange:cashChange cashBalance:cashBalance oilChange:oilChange oilBalance:oilBalance gemChange:gemChange gemBalance:gemBalance extraParams:nil];
++ (void) userCreateWithCashChange:(int)cashChange cashBalance:(int)cashBalance oilChange:(int)oilChange oilBalance:(int)oilBalance gemChange:(int)gemChange gemBalance:(int)gemBalance tokenChange:(int)tokenChange tokenBalance:(int)tokenBalance {
+  [self gameTransactionWithTransactionType:@"user_create" context:nil cashChange:cashChange cashBalance:cashBalance oilChange:oilChange oilBalance:oilBalance gemChange:gemChange gemBalance:gemBalance tokenChange:tokenChange tokenBalance:tokenBalance extraParams:nil];
 }
 
 + (void) instantFinish:(NSString *)waitType gemChange:(int)gemChange gemBalance:(int)gemBalance {
-  [self gameTransactionWithTransactionType:@"instant_finish" context:waitType cashChange:0 cashBalance:0 oilChange:0 oilBalance:0 gemChange:gemChange gemBalance:gemBalance extraParams:nil];
+  [self gameTransactionWithTransactionType:@"instant_finish" context:waitType cashChange:0 cashBalance:0 oilChange:0 oilBalance:0 gemChange:gemChange gemBalance:gemBalance tokenChange:0 tokenBalance:0 extraParams:nil];
 }
 
 + (void) buyBuilding:(int)buildingId cashChange:(int)cashChange cashBalance:(int)cashBalance oilChange:(int)oilChange oilBalance:(int)oilBalance gemChange:(int)gemChange gemBalance:(int)gemBalance {
-  [self gameTransactionWithTransactionType:@"build_building" context:nil cashChange:cashChange cashBalance:cashBalance oilChange:oilChange oilBalance:oilBalance gemChange:gemChange gemBalance:gemBalance extraParams:@{@"id": @(buildingId)}];
+  [self gameTransactionWithTransactionType:@"build_building" context:nil cashChange:cashChange cashBalance:cashBalance oilChange:oilChange oilBalance:oilBalance gemChange:gemChange gemBalance:gemBalance tokenChange:0 tokenBalance:0 extraParams:@{@"id": @(buildingId)}];
 }
 
 + (void) upgradeBuilding:(int)buildingId cashChange:(int)cashChange cashBalance:(int)cashBalance oilChange:(int)oilChange oilBalance:(int)oilBalance gemChange:(int)gemChange gemBalance:(int)gemBalance {
-  [self gameTransactionWithTransactionType:@"upgrade_building" context:nil cashChange:cashChange cashBalance:cashBalance oilChange:oilChange oilBalance:oilBalance gemChange:gemChange gemBalance:gemBalance extraParams:@{@"id": @(buildingId)}];
+  [self gameTransactionWithTransactionType:@"upgrade_building" context:nil cashChange:cashChange cashBalance:cashBalance oilChange:oilChange oilBalance:oilBalance gemChange:gemChange gemBalance:gemBalance tokenChange:0 tokenBalance:0 extraParams:@{@"id": @(buildingId)}];
 }
 
 + (void) removeObstacle:(int)obstacleId cashChange:(int)cashChange cashBalance:(int)cashBalance oilChange:(int)oilChange oilBalance:(int)oilBalance gemChange:(int)gemChange gemBalance:(int)gemBalance {
-  [self gameTransactionWithTransactionType:@"remove_obstacle" context:nil cashChange:cashChange cashBalance:cashBalance oilChange:oilChange oilBalance:oilBalance gemChange:gemChange gemBalance:gemBalance extraParams:@{@"id": @(obstacleId)}];
+  [self gameTransactionWithTransactionType:@"remove_obstacle" context:nil cashChange:cashChange cashBalance:cashBalance oilChange:oilChange oilBalance:oilBalance gemChange:gemChange gemBalance:gemBalance tokenChange:0 tokenBalance:0 extraParams:@{@"id": @(obstacleId)}];
 }
 
 + (void) retrieveCurrency:(int)buildingId cashChange:(int)cashChange cashBalance:(int)cashBalance oilChange:(int)oilChange oilBalance:(int)oilBalance gemChange:(int)gemChange gemBalance:(int)gemBalance{
-  [self gameTransactionWithTransactionType:@"collect_currency" context:nil cashChange:cashChange cashBalance:cashBalance oilChange:oilChange oilBalance:oilBalance gemChange:gemChange gemBalance:gemBalance extraParams:@{@"id": @(buildingId)}];
+  [self gameTransactionWithTransactionType:@"collect_currency" context:nil cashChange:cashChange cashBalance:cashBalance oilChange:oilChange oilBalance:oilBalance gemChange:gemChange gemBalance:gemBalance tokenChange:0 tokenBalance:0 extraParams:@{@"id": @(buildingId)}];
 }
 
 
@@ -774,29 +781,29 @@ static NSDate *timeSinceLastTutStep = nil;
 }
 
 + (void) redeemQuest:(int)questId cashChange:(int)cashChange cashBalance:(int)cashBalance oilChange:(int)oilChange oilBalance:(int)oilBalance gemChange:(int)gemChange gemBalance:(int)gemBalance {
-  [self gameTransactionWithTransactionType:@"redeem_quest" context:nil cashChange:cashChange cashBalance:cashBalance oilChange:oilChange oilBalance:oilBalance gemChange:gemChange gemBalance:gemBalance extraParams:@{@"id": @(questId)}];
+  [self gameTransactionWithTransactionType:@"redeem_quest" context:nil cashChange:cashChange cashBalance:cashBalance oilChange:oilChange oilBalance:oilBalance gemChange:gemChange gemBalance:gemBalance tokenChange:0 tokenBalance:0 extraParams:@{@"id": @(questId)}];
 }
 
 + (void) redeemAchievement:(int)achievementId gemChange:(int)gemChange gemBalance:(int)gemBalance {
-  [self gameTransactionWithTransactionType:@"redeem_achievement" context:nil cashChange:0 cashBalance:0 oilChange:0 oilBalance:0 gemChange:gemChange gemBalance:gemBalance extraParams:@{@"id": @(achievementId)}];
+  [self gameTransactionWithTransactionType:@"redeem_achievement" context:nil cashChange:0 cashBalance:0 oilChange:0 oilBalance:0 gemChange:gemChange gemBalance:gemBalance tokenChange:0 tokenBalance:0 extraParams:@{@"id": @(achievementId)}];
 }
 
 
 + (void) iapPurchased:(NSString *)productId gemChange:(int)gemChange gemBalance:(int)gemBalance {
-  [self gameTransactionWithTransactionType:@"iap_purchased" context:nil cashChange:0 cashBalance:0 oilChange:0 oilBalance:0 gemChange:gemChange gemBalance:gemBalance extraParams:@{@"id": productId}];
+  [self gameTransactionWithTransactionType:@"iap_purchased" context:nil cashChange:0 cashBalance:0 oilChange:0 oilBalance:0 gemChange:gemChange gemBalance:gemBalance tokenChange:0 tokenBalance:0 extraParams:@{@"id": productId}];
 }
 
 + (void) fillStorage:(NSString *)resourceType percAmount:(int)percAmount cashChange:(int)cashChange cashBalance:(int)cashBalance oilChange:(int)oilChange oilBalance:(int)oilBalance gemChange:(int)gemChange gemBalance:(int)gemBalance {
-  [self gameTransactionWithTransactionType:@"fill_storage" context:resourceType cashChange:cashChange cashBalance:cashBalance oilChange:oilChange oilBalance:oilBalance gemChange:gemChange gemBalance:gemBalance extraParams:@{@"fill": @(percAmount)}];
+  [self gameTransactionWithTransactionType:@"fill_storage" context:resourceType cashChange:cashChange cashBalance:cashBalance oilChange:oilChange oilBalance:oilBalance gemChange:gemChange gemBalance:gemBalance tokenChange:0 tokenBalance:0 extraParams:@{@"fill": @(percAmount)}];
 }
 
 
 + (void) createClan:(NSString *)clanName cashChange:(int)cashChange cashBalance:(int)cashBalance gemChange:(int)gemChange gemBalance:(int)gemBalance {
-  [self gameTransactionWithTransactionType:@"create_squad" context:nil cashChange:cashChange cashBalance:cashBalance oilChange:0 oilBalance:0 gemChange:gemChange gemBalance:gemBalance extraParams:@{@"name": clanName}];
+  [self gameTransactionWithTransactionType:@"create_squad" context:nil cashChange:cashChange cashBalance:cashBalance oilChange:0 oilBalance:0 gemChange:gemChange gemBalance:gemBalance tokenChange:0 tokenBalance:0 extraParams:@{@"name": clanName}];
 }
 
 
-+ (void) buyGacha:(int)machineId monsterList:(NSArray*)monsterList itemId:(int)itemId itemQuantity:(int)itemQuantity highRoller:(BOOL)highRoller gemChange:(int)gemChange gemBalance:(int)gemBalance {
++ (void) buyGacha:(int)machineId monsterList:(NSArray*)monsterList itemId:(int)itemId itemQuantity:(int)itemQuantity highRoller:(BOOL)highRoller gemChange:(int)gemChange gemBalance:(int)gemBalance tokenChange:(int)tokenChange tokenBalance:(int)tokenBalance {
   NSMutableDictionary *params = [NSMutableDictionary dictionary];
   params[@"machine_id"] = @(machineId);
   params[@"high_roller"] = @(highRoller);
@@ -812,29 +819,29 @@ static NSDate *timeSinceLastTutStep = nil;
     context = @"item";
   }
   
-  [self gameTransactionWithTransactionType:@"buy_gacha" context:context cashChange:0 cashBalance:0 oilChange:0 oilBalance:0 gemChange:gemChange gemBalance:gemBalance extraParams:params];
+  [self gameTransactionWithTransactionType:@"buy_gacha" context:context cashChange:0 cashBalance:0 oilChange:0 oilBalance:0 gemChange:gemChange gemBalance:gemBalance tokenChange:tokenChange tokenBalance:tokenBalance extraParams:params];
 }
 
 
 + (void) enterDungeon:(int)dungeonId gemChange:(int)gemChange gemBalance:(int)gemBalance {
-  [self gameTransactionWithTransactionType:@"enter_dungeon" context:nil cashChange:0 cashBalance:0 oilChange:0 oilBalance:0 gemChange:gemChange gemBalance:gemBalance extraParams:@{@"id": @(dungeonId)}];
+  [self gameTransactionWithTransactionType:@"enter_dungeon" context:nil cashChange:0 cashBalance:0 oilChange:0 oilBalance:0 gemChange:gemChange gemBalance:gemBalance tokenChange:0 tokenBalance:0 extraParams:@{@"id": @(dungeonId)}];
 }
 
 + (void) endDungeon:(int)dungeonId cashChange:(int)cashChange cashBalance:(int)cashBalance oilChange:(int)oilChange oilBalance:(int)oilBalance {
-  [self gameTransactionWithTransactionType:@"end_dungeon" context:nil cashChange:cashChange cashBalance:cashBalance oilChange:oilChange oilBalance:oilBalance gemChange:0 gemBalance:0 extraParams:@{@"id": @(dungeonId)}];
+  [self gameTransactionWithTransactionType:@"end_dungeon" context:nil cashChange:cashChange cashBalance:cashBalance oilChange:oilChange oilBalance:oilBalance gemChange:0 gemBalance:0 tokenChange:0 tokenBalance:0 extraParams:@{@"id": @(dungeonId)}];
 }
 
 + (void) continueDungeon:(int)dungeonId gemChange:(int)gemChange gemBalance:(int)gemBalance {
-  [self gameTransactionWithTransactionType:@"continue_dungeon" context:nil cashChange:0 cashBalance:0 oilChange:0 oilBalance:0 gemChange:gemChange gemBalance:gemBalance extraParams:@{@"id": @(dungeonId)}];
+  [self gameTransactionWithTransactionType:@"continue_dungeon" context:nil cashChange:0 cashBalance:0 oilChange:0 oilBalance:0 gemChange:gemChange gemBalance:gemBalance tokenChange:0 tokenBalance:0 extraParams:@{@"id": @(dungeonId)}];
 }
 
 
 + (void) nextPvpWithCashChange:(int)cashChange cashBalance:(int)cashBalance gemChange:(int)gemChange gemBalance:(int)gemBalance {
-  [self gameTransactionWithTransactionType:@"next_pvp" context:nil cashChange:cashChange cashBalance:cashBalance oilChange:0 oilBalance:0 gemChange:gemChange gemBalance:gemBalance extraParams:nil];
+  [self gameTransactionWithTransactionType:@"next_pvp" context:nil cashChange:cashChange cashBalance:cashBalance oilChange:0 oilBalance:0 gemChange:gemChange gemBalance:gemBalance tokenChange:0 tokenBalance:0 extraParams:nil];
 }
 
 + (void) endPvpWithCashChange:(int)cashChange cashBalance:(int)cashBalance oilChange:(int)oilChange oilBalance:(int)oilBalance {
-  [self gameTransactionWithTransactionType:@"end_pvp" context:nil cashChange:cashChange cashBalance:cashBalance oilChange:oilChange oilBalance:oilBalance gemChange:0 gemBalance:0 extraParams:nil];
+  [self gameTransactionWithTransactionType:@"end_pvp" context:nil cashChange:cashChange cashBalance:cashBalance oilChange:oilChange oilBalance:oilBalance gemChange:0 gemBalance:0 tokenChange:0 tokenBalance:0 extraParams:nil];
 }
 
 
@@ -858,30 +865,30 @@ static NSDate *timeSinceLastTutStep = nil;
 
 
 + (void) healMonster:(int)monsterId cashChange:(int)cashChange cashBalance:(int)cashBalance gemChange:(int)gemChange gemBalance:(int)gemBalance {
-  [self gameTransactionWithTransactionType:@"heal_monster" context:nil cashChange:cashChange cashBalance:cashBalance oilChange:0 oilBalance:0 gemChange:gemChange gemBalance:gemBalance extraParams:@{@"id": @(monsterId)}];
+  [self gameTransactionWithTransactionType:@"heal_monster" context:nil cashChange:cashChange cashBalance:cashBalance oilChange:0 oilBalance:0 gemChange:gemChange gemBalance:gemBalance tokenChange:0 tokenBalance:0 extraParams:@{@"id": @(monsterId)}];
 }
 
 + (void) cancelHealMonster:(int)monsterId cashChange:(int)cashChange cashBalance:(int)cashBalance {
-  [self gameTransactionWithTransactionType:@"cancel_heal_monster" context:nil cashChange:cashChange cashBalance:cashBalance oilChange:0 oilBalance:0 gemChange:0 gemBalance:0 extraParams:@{@"id": @(monsterId)}];
+  [self gameTransactionWithTransactionType:@"cancel_heal_monster" context:nil cashChange:cashChange cashBalance:cashBalance oilChange:0 oilBalance:0 gemChange:0 gemBalance:0 tokenChange:0 tokenBalance:0 extraParams:@{@"id": @(monsterId)}];
 }
 
 
 + (void) enhanceMonster:(int)baseMonsterId feederId:(int)feederId oilChange:(int)oilChange oilBalance:(int)oilBalance gemChange:(int)gemChange gemBalance:(int)gemBalance {
-  [self gameTransactionWithTransactionType:@"enhance_monster" context:nil cashChange:0 cashBalance:0 oilChange:oilChange oilBalance:oilBalance gemChange:gemChange gemBalance:gemBalance extraParams:@{@"base_id": @(baseMonsterId), @"feeder_id": @(feederId)}];
+  [self gameTransactionWithTransactionType:@"enhance_monster" context:nil cashChange:0 cashBalance:0 oilChange:oilChange oilBalance:oilBalance gemChange:gemChange gemBalance:gemBalance tokenChange:0 tokenBalance:0 extraParams:@{@"base_id": @(baseMonsterId), @"feeder_id": @(feederId)}];
 }
 
 + (void) cancelEnhanceMonster:(int)baseMonsterId feederId:(int)feederId oilChange:(int)oilChange oilBalance:(int)oilBalance {
-  [self gameTransactionWithTransactionType:@"cancel_enhance_monster" context:nil cashChange:0 cashBalance:0 oilChange:oilChange oilBalance:oilBalance gemChange:0 gemBalance:0 extraParams:@{@"base_id": @(baseMonsterId), @"feeder_id": @(feederId)}];
+  [self gameTransactionWithTransactionType:@"cancel_enhance_monster" context:nil cashChange:0 cashBalance:0 oilChange:oilChange oilBalance:oilBalance gemChange:0 gemBalance:0 tokenChange:0 tokenBalance:0 extraParams:@{@"base_id": @(baseMonsterId), @"feeder_id": @(feederId)}];
 }
 
 
 + (void) evolveMonster:(int)monsterId oilChange:(int)oilChange oilBalance:(int)oilBalance gemChange:(int)gemChange gemBalance:(int)gemBalance {
-  [self gameTransactionWithTransactionType:@"evolve_monster" context:nil cashChange:0 cashBalance:0 oilChange:oilChange oilBalance:oilBalance gemChange:gemChange gemBalance:gemBalance extraParams:@{@"id": @(monsterId)}];
+  [self gameTransactionWithTransactionType:@"evolve_monster" context:nil cashChange:0 cashBalance:0 oilChange:oilChange oilBalance:oilBalance gemChange:gemChange gemBalance:gemBalance tokenChange:0 tokenBalance:0 extraParams:@{@"id": @(monsterId)}];
 }
 
 
 + (void) redeemMiniJob:(int)miniJobId cashChange:(int)cashChange cashBalance:(int)cashBalance oilChange:(int)oilChange oilBalance:(int)oilBalance {
-  [self gameTransactionWithTransactionType:@"redeem_mini_job" context:nil cashChange:cashChange cashBalance:cashBalance oilChange:oilChange oilBalance:oilBalance gemChange:0 gemBalance:0 extraParams:@{@"id": @(miniJobId)}];
+  [self gameTransactionWithTransactionType:@"redeem_mini_job" context:nil cashChange:cashChange cashBalance:cashBalance oilChange:oilChange oilBalance:oilBalance gemChange:0 gemBalance:0 tokenChange:0 tokenBalance:0 extraParams:@{@"id": @(miniJobId)}];
 }
 
 @end

@@ -28,7 +28,7 @@
 }
 
 - (void) viewDidLoad {
-  [self setUpCloseButton];
+  [self setUpCloseButton:YES];
   [self setUpImageBackButton];
   
   self.raidStageHeader.transform = CGAffineTransformMakeRotation(-M_PI_2);

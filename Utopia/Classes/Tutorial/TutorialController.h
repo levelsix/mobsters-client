@@ -125,6 +125,7 @@ typedef enum {
   int _cash;
   int _oil;
   int _gems;
+  int _tokens;
   
   BOOL _sendingUserCreateStartup;
   BOOL _waitingOnUserCreate;

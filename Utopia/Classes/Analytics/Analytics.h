@@ -54,7 +54,7 @@
 + (void) pvpMatchEnd:(BOOL)won numEnemiesDefeated:(int)enemiesDefeated mobstersUsed:(NSArray *)mobstersUsed totalRounds:(int)totalRounds elo:(int)elo oppElo:(int)oppElo oppId:(NSString *)oppId outcome:(NSString *)outcome league:(NSString *)league;
 
 
-+ (void) userCreateWithCashChange:(int)cashChange cashBalance:(int)cashBalance oilChange:(int)oilChange oilBalance:(int)oilBalance gemChange:(int)gemChange gemBalance:(int)gemBalance;
++ (void) userCreateWithCashChange:(int)cashChange cashBalance:(int)cashBalance oilChange:(int)oilChange oilBalance:(int)oilBalance gemChange:(int)gemChange gemBalance:(int)gemBalance tokenChange:(int)tokenChange tokenBalance:(int)tokenBalance;
 
 + (void) instantFinish:(NSString *)waitType gemChange:(int)gemChange gemBalance:(int)gemBalance;
 + (void) buyBuilding:(int)buildingId cashChange:(int)cashChange cashBalance:(int)cashBalance oilChange:(int)oilChange oilBalance:(int)oilBalance gemChange:(int)gemChange gemBalance:(int)gemBalance;
@@ -71,7 +71,7 @@
 
 + (void) createClan:(NSString *)clanName cashChange:(int)cashChange cashBalance:(int)cashBalance gemChange:(int)gemChange gemBalance:(int)gemBalance;
 
-+ (void) buyGacha:(int)machineId monsterList:(NSArray*)monsterList itemId:(int)itemId itemQuantity:(int)itemQuantity highRoller:(BOOL)highRoller gemChange:(int)gemChange gemBalance:(int)gemBalance;
++ (void) buyGacha:(int)machineId monsterList:(NSArray*)monsterList itemId:(int)itemId itemQuantity:(int)itemQuantity highRoller:(BOOL)highRoller gemChange:(int)gemChange gemBalance:(int)gemBalance tokenChange:(int)tokenChange tokenBalance:(int)tokenBalance;
 
 + (void) enterDungeon:(int)dungeonId gemChange:(int)gemChange gemBalance:(int)gemBalance;
 + (void) endDungeon:(int)dungeonId cashChange:(int)cashChange cashBalance:(int)cashBalance oilChange:(int)oilChange oilBalance:(int)oilBalance;

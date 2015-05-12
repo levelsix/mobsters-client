@@ -17,9 +17,11 @@
     self.cashLabel.transitionDelegate = self;
     self.oilLabel.transitionDelegate = self;
     self.gemsLabel.transitionDelegate = self;
+    self.tokensLabel.transitionDelegate = self;
   }
   
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateLabels) name:GAMESTATE_UPDATE_NOTIFICATION object:nil];
+  
   [self updateLabelsAnim:NO];
 }
 
@@ -34,15 +36,18 @@
     self.cashLabel.text = [Globals cashStringForNumber:gs.cash];
     self.oilLabel.text = [Globals commafyNumber:gs.oil];
     self.gemsLabel.text = [Globals commafyNumber:gs.gems];
+    self.tokensLabel.text = [Globals commafyNumber:gs.tokens];
   } else {
     if (animated) {
       [self.cashLabel transitionToNum:gs.cash];
       [self.oilLabel transitionToNum:gs.oil];
       [self.gemsLabel transitionToNum:gs.gems];
+      [self.tokensLabel transitionToNum:gs.tokens];
     } else {
       [self.cashLabel instaMoveToNum:gs.cash];
       [self.oilLabel instaMoveToNum:gs.oil];
       [self.gemsLabel instaMoveToNum:gs.gems];
+      [self.tokensLabel instaMoveToNum:gs.tokens];
     }
   }
 }

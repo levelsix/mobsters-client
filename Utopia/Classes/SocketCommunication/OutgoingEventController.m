@@ -30,6 +30,7 @@
 #define OIL_CODE @"oilspill"
 #define CASH_AND_OIL_CODE @"greedisgood"
 #define GEMS_CODE @"gemsgalore"
+#define TOKENS_CODE @"jackpot"
 #define RESET_CODE @"cleanslate"
 #define UNMUTE_CODE @"allears"
 #define UNLOCK_BUILDINGS_CODE @"unlockdown"
@@ -59,7 +60,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [[SocketCommunication sharedSocketCommunication] removeClanEventObserver:delegate];
 }
 
-- (void) createUserWithName:(NSString *)name facebookId:(NSString *)facebookId email:(NSString *)email otherFbInfo:(NSDictionary *)otherFbInfo structs:(NSArray *)structs cash:(int)cash oil:(int)oil gems:(int)gems delegate:(id)delegate {
+- (void) createUserWithName:(NSString *)name facebookId:(NSString *)facebookId email:(NSString *)email otherFbInfo:(NSDictionary *)otherFbInfo
+                    structs:(NSArray *)structs cash:(int)cash oil:(int)oil gems:(int)gems tokens:(int)tokens delegate:(id)delegate {
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   
   NSString *jsonString = nil;
@@ -78,7 +80,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   int tag = [sc sendUserCreateMessageWithName:name facebookId:facebookId email:email otherFbInfo:jsonString structs:structs cash:cash oil:oil gems:gems];
   [sc setDelegate:delegate forTag:tag];
   
-  [Analytics userCreateWithCashChange:cash cashBalance:cash oilChange:oil oilBalance:oil gemChange:gems gemBalance:gems];
+  [Analytics userCreateWithCashChange:cash cashBalance:cash oilChange:oil oilBalance:oil gemChange:gems gemBalance:gems tokenChange:tokens tokenBalance:tokens];
 }
 
 - (void) startupWithFacebookId:(NSString *)facebookId isFreshRestart:(BOOL)isFreshRestart delegate:(id)delegate {
@@ -924,7 +926,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
           quantity = code.intValue;
           req = DevRequestFBGetGems;
           msg = [NSString stringWithFormat:@"Awarded %d gems.", quantity];
-        } else if ((r = [code rangeOfString:GET_MONSTER_CODE]).length > 0) {
+        } else if ((r = [code rangeOfString:TOKENS_CODE]).length > 0) {
+          r.length++;
+          code = [code stringByReplacingCharactersInRange:r withString:@""];
+          quantity = code.intValue;
+          req = DevRequestGetGachaCredits;
+          msg = [NSString stringWithFormat:@"Awarded %d tokens.", quantity];
+        }  else if ((r = [code rangeOfString:GET_MONSTER_CODE]).length > 0) {
           r.length++;
           code = [code stringByReplacingCharactersInRange:r withString:@""];
           staticDataId = code.intValue;
@@ -1915,23 +1923,25 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 #pragma mark - Gacha
 
-- (void) purchaseBoosterPack:(int)boosterPackId isFree:(BOOL)free isMultiSpin:(BOOL)multiSpin delegate:(id)delegate {
+- (void) purchaseBoosterPack:(int)boosterPackId isFree:(BOOL)free isMultiSpin:(BOOL)multiSpin gemsSpent:(int)gemsSpent tokensChange:(int)tokensChange delegate:(id)delegate {
   GameState *gs = [GameState sharedGameState];
-  Globals *gl = [Globals sharedGlobals];
   BoosterPackProto *bpp = [gs boosterPackForId:boosterPackId];
-  const int32_t boosterPackGemPrice = multiSpin ? bpp.gemPrice * gl.boosterPackPurchaseAmountRequired : bpp.gemPrice;
   if (!bpp) {
     [Globals popupMessage:@"Unable to find booster pack."];
-  } else if (boosterPackGemPrice > gs.gems && ! free) {
-    [Globals popupMessage:@"Attempting to spin without enough gems."];
+  } else if (tokensChange < 0 && -tokensChange > gs.tokens && !free) {
+    [Globals popupMessage:@"Attempting to spin without enough tokens."];
+  } else if (gemsSpent > 0 && gemsSpent > gs.gems && !free) {
+    [Globals popupMessage:@"Attempting to purchase tokens without enough gems."];
   } else {
     int tag = [[SocketCommunication sharedSocketCommunication] sendPurchaseBoosterPackMessage:boosterPackId
                                                                                        isFree:free
                                                                                   isMultiSpin:multiSpin
+                                                                                    gemsSpent:gemsSpent
+                                                                                 tokensChange:tokensChange
                                                                                    clientTime:[self getCurrentMilliseconds]];
     [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
     if ( ! free )
-      [gs addUnrespondedUpdate:[GemsUpdate updateWithTag:tag change:-boosterPackGemPrice]];
+      [gs addUnrespondedUpdates:[GemsUpdate updateWithTag:tag change:-gemsSpent], [TokensUpdate updateWithTag:tag change:tokensChange], nil];
     else
       gs.lastFreeGachaSpin = [MSDate date];
   }

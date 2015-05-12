@@ -46,6 +46,22 @@
 
 @end
 
+@implementation TokensUpdate
+
+- (void) update {
+  GameState *gs = [GameState sharedGameState];
+  gs.tokens += _change;
+}
+
+- (void) undo {
+  GameState *gs = [GameState sharedGameState];
+  gs.tokens -= _change;
+  
+  [super undo];
+}
+
+@end
+
 @implementation CashUpdate
 
 - (id) initWithTag:(int)t change:(int)change {
