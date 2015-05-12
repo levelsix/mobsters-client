@@ -57,7 +57,7 @@
                            bottomText:[NSString stringWithFormat:@"%.3gX DMG RECIEVED", _damageTakenMultiplier]];
       return damage * _damageTakenMultiplier;
     }
-    else
+    else if (!self.opponentPlayer.isStunned)
     {
       [self enqueueSkillPopupAilmentOverlay:@"BLOOD RAGE"
                               bottomText:[NSString stringWithFormat:@"%.3gX DMG", _damageGivenMultiplier]];
