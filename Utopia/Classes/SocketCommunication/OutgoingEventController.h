@@ -22,7 +22,7 @@
 - (void) registerClanEventDelegate:(id)delegate;
 - (void) unregisterClanEventDelegate:(id)delegate;
 
-- (void) createUserWithName:(NSString *)name facebookId:(NSString *)facebookId email:(NSString *)email otherFbInfo:(NSDictionary *)otherFbInfo structs:(NSArray *)structs cash:(int)cash oil:(int)oil gems:(int)gems delegate:(id)delegate;
+- (void) createUserWithName:(NSString *)name facebookId:(NSString *)facebookId email:(NSString *)email otherFbInfo:(NSDictionary *)otherFbInfo structs:(NSArray *)structs cash:(int)cash oil:(int)oil gems:(int)gems tokens:(int)tokens delegate:(id)delegate;
 
 - (void) startupWithFacebookId:(NSString *)facebookId isFreshRestart:(BOOL)isFreshRestart delegate:(id)delegate;
 - (void) logout;
@@ -90,7 +90,7 @@
 - (void) collectClanGift:(NSArray *)userClanGifts delegate:(id)delegate;
 - (void) clearClanGifts:(NSArray *)userClanGifts;
 
-- (void) purchaseBoosterPack:(int)boosterPackId isFree:(BOOL)free isMultiSpin:(BOOL)multiSpin delegate:(id)delegate;
+- (void) purchaseBoosterPack:(int)boosterPackId isFree:(BOOL)free isMultiSpin:(BOOL)multiSpin gemsSpent:(int)gemsSpent tokensChange:(int)tokensChange delegate:(id)delegate;
 - (void) tradeItemForFreeBoosterPack:(int)boosterPackId delegate:(id)delegate;
 
 - (void) privateChatPost:(NSString *)recipientUuid content:(NSString *)content originalLanguage:(TranslateLanguages)originalLanguage;

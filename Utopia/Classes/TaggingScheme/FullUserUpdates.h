@@ -24,6 +24,9 @@
 @interface GemsUpdate : FullUserUpdate
 @end
 
+@interface TokensUpdate : FullUserUpdate
+@end
+
 @interface CashUpdate : FullUserUpdate
 
 + (id) updateWithTag:(int)t change:(int)change enforceMax:(BOOL)enforceMax;

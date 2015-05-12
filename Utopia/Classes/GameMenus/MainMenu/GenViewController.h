@@ -23,7 +23,7 @@
 
 - (void)loadCustomNavBarButtons;
 - (void)setUpImageBackButton;
-- (void)setUpCloseButton;
+- (void)setUpCloseButton:(BOOL)right;
 - (IBAction)menuBackClicked:(id)sender;
 - (IBAction)menuCloseClicked:(id)sender;
 

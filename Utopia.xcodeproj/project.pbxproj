@@ -2708,6 +2708,12 @@
 		9BBE370D1AF9A687001A0E81 /* PurchaseHighRollerModeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BBE37091AF9A687001A0E81 /* PurchaseHighRollerModeViewController.xib */; };
 		9BBE370E1AF9A687001A0E81 /* PurchaseHighRollerModeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BBE37091AF9A687001A0E81 /* PurchaseHighRollerModeViewController.xib */; };
 		9BBE370F1AF9A687001A0E81 /* PurchaseHighRollerModeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BBE37091AF9A687001A0E81 /* PurchaseHighRollerModeViewController.xib */; };
+		9BBE371A1AFD695F001A0E81 /* grabchip@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BBE37191AFD695F001A0E81 /* grabchip@2x.png */; };
+		9BBE371B1AFD695F001A0E81 /* grabchip@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BBE37191AFD695F001A0E81 /* grabchip@2x.png */; };
+		9BBE371C1AFD695F001A0E81 /* grabchip@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BBE37191AFD695F001A0E81 /* grabchip@2x.png */; };
+		9BBE371F1AFD8776001A0E81 /* grabstokenlabel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BBE371E1AFD8776001A0E81 /* grabstokenlabel@2x.png */; };
+		9BBE37201AFD8777001A0E81 /* grabstokenlabel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BBE371E1AFD8776001A0E81 /* grabstokenlabel@2x.png */; };
+		9BBE37211AFD8777001A0E81 /* grabstokenlabel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BBE371E1AFD8776001A0E81 /* grabstokenlabel@2x.png */; };
 		9BC1891A1AC1E734001B8E88 /* MiniEventDetailsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BC189191AC1E734001B8E88 /* MiniEventDetailsView.xib */; };
 		9BC1891B1AC1E734001B8E88 /* MiniEventDetailsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BC189191AC1E734001B8E88 /* MiniEventDetailsView.xib */; };
 		9BC1891C1AC1E734001B8E88 /* MiniEventDetailsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BC189191AC1E734001B8E88 /* MiniEventDetailsView.xib */; };
@@ -8829,6 +8835,8 @@
 		9BBE37071AF9A687001A0E81 /* PurchaseHighRollerModeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PurchaseHighRollerModeViewController.h; sourceTree = "<group>"; };
 		9BBE37081AF9A687001A0E81 /* PurchaseHighRollerModeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PurchaseHighRollerModeViewController.m; sourceTree = "<group>"; };
 		9BBE37091AF9A687001A0E81 /* PurchaseHighRollerModeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PurchaseHighRollerModeViewController.xib; sourceTree = "<group>"; };
+		9BBE37191AFD695F001A0E81 /* grabchip@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "grabchip@2x.png"; sourceTree = "<group>"; };
+		9BBE371E1AFD8776001A0E81 /* grabstokenlabel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "grabstokenlabel@2x.png"; sourceTree = "<group>"; };
 		9BC189191AC1E734001B8E88 /* MiniEventDetailsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MiniEventDetailsView.xib; sourceTree = "<group>"; };
 		9BC1891E1AC1E792001B8E88 /* MiniEventPointsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MiniEventPointsView.xib; sourceTree = "<group>"; };
 		9BC189221AC1EF6A001B8E88 /* MiniEventDetailsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiniEventDetailsView.h; sourceTree = "<group>"; };
@@ -14805,7 +14813,9 @@
 				9BB9484C1A65D385006EE920 /* gooniegrabinactivetabpressed@2x.png */,
 				9BDA8C221A5DE92500C7AC27 /* gooniegrabmachine@2x.png */,
 				9BDA8C071A5C7BB700C7AC27 /* gooniegrabnavicon@2x.png */,
+				9BBE37191AFD695F001A0E81 /* grabchip@2x.png */,
 				9BDA8C4C1A5F6DAB00C7AC27 /* grabgemslabel@2x.png */,
+				9BBE371E1AFD8776001A0E81 /* grabstokenlabel@2x.png */,
 				9BB948521A67448F006EE920 /* ticker_big@2x.png */,
 				9B41AF721A82DA5100529879 /* ultimategrablogo@2x.png */,
 			);
@@ -19694,6 +19704,7 @@
 				DA173A6119CBAF00005236C0 /* shieldfont@2x.png in Resources */,
 				6B1EAA471ACF5DCC00E0B642 /* VinesUp07.png in Resources */,
 				CF0CF0D2196F452900ECD301 /* purplemenuoption@2x.png in Resources */,
+				9BBE37201AFD8777001A0E81 /* grabstokenlabel@2x.png in Resources */,
 				299AA4CE1A7872C300A2D806 /* earthupdown@2x.png in Resources */,
 				CFA8FF5219F899B200F9908C /* upgradepopupbottomred@2x.png in Resources */,
 				CF9F994319E48734006B0119 /* helpredbubble4@2x.png in Resources */,
@@ -20306,6 +20317,7 @@
 				CFA728301A0AE62A00FF6031 /* buildingfinishnowbutton@2x.png in Resources */,
 				291721471AD24B210093F100 /* pop_in_good.mp3 in Resources */,
 				CF0CF3C4196F452900ECD301 /* diamondbig@2x.png in Resources */,
+				9BBE371B1AFD695F001A0E81 /* grabchip@2x.png in Resources */,
 				299AA3DF1A7856AA00A2D806 /* rocksideways-9@2x.png in Resources */,
 				9BB5AF921AA79C85002076E3 /* holeobstacle@2x.png in Resources */,
 				9BCA5FFD1ABA2E9B0087FB41 /* researchitemgradient@2x.png in Resources */,
@@ -22533,6 +22545,7 @@
 				9BB948C91A69FC2F006EE920 /* grlb2@2x.png in Resources */,
 				CF54943718C5B955001E7D32 /* hand@2x.png in Resources */,
 				63CDCF231ABB897600A00DB6 /* lightsquadrewardcircle@2x.png in Resources */,
+				9BBE371A1AFD695F001A0E81 /* grabchip@2x.png in Resources */,
 				6B1EA9B01ACF5DCB00E0B642 /* VinesDown07.png in Resources */,
 				CF6CA6AC19DA2AA40075C98C /* findamatchbigpressed@2x.png in Resources */,
 				CFF6471E195E3F5000C43641 /* EvolveDetailsMonsterView.xib in Resources */,
@@ -23055,6 +23068,7 @@
 				CFE02AF21820A79B0016C1E2 /* finishbuild@2x.png in Resources */,
 				CFF5DC7B19514FA50019EB2B /* hireallfriendsinactive@2x.png in Resources */,
 				CF29EA431964F38E00B40DA4 /* lightbluemenuoption@2x.png in Resources */,
+				9BBE371F1AFD8776001A0E81 /* grabstokenlabel@2x.png in Resources */,
 				CF68905C1912E7B500FF1F71 /* timerclock@2x.png in Resources */,
 				CFBB36E818EE526300FD6C8C /* 3x3poles@2x.png in Resources */,
 				CFC4D2A718D7BD04004681FD /* sfx_full_boat_scene.mp3 in Resources */,
@@ -24634,6 +24648,7 @@
 				299AA3D71A7856AA00A2D806 /* rockheadshot-9@2x.png in Resources */,
 				CF48209B19F7217F00041486 /* 6lightsideways@2x.png in Resources */,
 				9B6B77D21A858B1A0080C8E5 /* 2moveslabel@2x.png in Resources */,
+				9BBE37211AFD8777001A0E81 /* grabstokenlabel@2x.png in Resources */,
 				CF48209E19F7217F00041486 /* gachacommonball@2x.png in Resources */,
 				29DCD0041A8C3D8B003176FD /* barshadow@2x.png in Resources */,
 				CF4820A119F7217F00041486 /* hiringlocked@2x.png in Resources */,
@@ -24862,6 +24877,7 @@
 				CF4821CB19F7217F00041486 /* openlight@2x.png in Resources */,
 				CF4821CD19F7217F00041486 /* shield@2x.png in Resources */,
 				CF4821CF19F7217F00041486 /* hired@2x.png in Resources */,
+				9BBE371C1AFD695F001A0E81 /* grabchip@2x.png in Resources */,
 				CF4821D019F7217F00041486 /* StageCompleteNode.ccbi in Resources */,
 				29AF48D61AAA93DA0034927C /* itembaginfobaredge@2x.png in Resources */,
 				CF4821D119F7217F00041486 /* minijobsbuilding@2x.png in Resources */,

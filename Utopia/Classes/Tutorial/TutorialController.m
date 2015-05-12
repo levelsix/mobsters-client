@@ -38,6 +38,7 @@
     gs.cash = _cash = constants.cashInit;
     gs.oil = _oil = constants.oilInit;
     gs.gems = _gems = constants.gemsInit;
+    gs.tokens = _tokens = constants.gachaCreditsInit;
     [gs.myMonsters removeAllObjects];
     [gs.myMiniJobs removeAllObjects];
     [gs.monsterHealingQueues removeAllObjects];
@@ -400,7 +401,7 @@
     [str addObject:bldr.build];
   }
   
-  [[OutgoingEventController sharedOutgoingEventController] createUserWithName:_name facebookId:_facebookId email:_email otherFbInfo:_otherFbInfo structs:str cash:_cash oil:_oil gems:_gems delegate:self];
+  [[OutgoingEventController sharedOutgoingEventController] createUserWithName:_name facebookId:_facebookId email:_email otherFbInfo:_otherFbInfo structs:str cash:_cash oil:_oil gems:_gems tokens:_tokens delegate:self];
 }
 
 - (void) handleUserCreateResponseProto:(FullEvent *)fe {
