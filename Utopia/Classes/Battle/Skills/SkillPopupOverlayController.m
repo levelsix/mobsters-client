@@ -81,7 +81,7 @@
   UIImageView *itemImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
   [Globals imageNamed:bip.imgName withView:itemImageView greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
   
-  SkillPopupData *data = [SkillPopupData initWithData:!_belongsToPlayer characterImage:itemImageView topText:bip.name bottomText:bottomText mini:YES stacks:0 completion:^{}];
+  SkillPopupData *data = [SkillPopupData initWithData:_belongsToPlayer characterImage:itemImageView topText:bip.name bottomText:bottomText mini:YES stacks:0 completion:^{}];
   
   data.item = YES;
   data.priority = 2;

@@ -3045,6 +3045,7 @@
   [self moveBegan];
   [self healForAmount:bip.amount enemyIsHealed:NO withTarget:self andSelector:@selector(moveComplete)];
   [self sendServerUpdatedValuesVerifyDamageDealt:NO];
+  [skillManager showItemPopupOverlay:bip bottomText:[NSString stringWithFormat:@"+%i HP", bip.amount]];
 }
 
 - (void) useBoardShuffle:(BattleItemProto *)bip {
