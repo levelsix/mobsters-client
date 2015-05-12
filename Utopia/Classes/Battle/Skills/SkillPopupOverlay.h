@@ -24,13 +24,15 @@ typedef void(^SkillPopupBlock)();
 @property (nonatomic, assign) BOOL item;
 @property (nonatomic, retain) SkillPopupData *next;
 @property (nonatomic, assign) float priority;
-@property (nonatomic, assign) SkillPopupBlock skillCompletion;
+@property (nonatomic, copy) SkillPopupBlock skillCompletion;
 @property (nonatomic, assign) int stacks;
 
 + (instancetype) initWithData:(BOOL)player characterImage:(UIImageView*)characterImage topText:(NSString*)topText bottomText:(NSString*)bottomText
                          mini:(BOOL)mini stacks:(int)stacks completion:(SkillPopupBlock)completion;
 
 - (void) enqueue:(SkillPopupData*)other;
+- (void) completion;
+
 @end
 
 @interface SkillPopupOverlay : UIView
@@ -63,6 +65,7 @@ typedef void(^SkillPopupBlock)();
   __weak IBOutlet THLabel *_skillBottomLabelEnemy;
 }
 
+- (void) animate:(SkillPopupData*)data withCompletion:(SkillPopupBlock)completion;
 - (void) animate:(BOOL)player withImage:(UIImage*)characterImage topText:(NSString*)topText bottomText:(NSString*)bottomtext
        miniPopup:(BOOL)mini item:(BOOL)item stacks:(int)stacks withCompletion:(SkillPopupBlock)completion;
 - (void) quickHide:(BOOL)player;

@@ -58,6 +58,11 @@ typedef void (^ShakeAnimCompletionBlock)(void);
   }
 }
 
+- (void) completion
+{
+  self.skillCompletion();
+}
+
 @end
 
 @implementation SkillPopupOverlay
@@ -71,6 +76,10 @@ typedef void (^ShakeAnimCompletionBlock)(void);
   self.alpha = 0.0;
   
   return self;
+}
+
+- (void) animate:(SkillPopupData*)data withCompletion:(SkillPopupBlock)completion {
+  [self animate:data.player withImage:data.characterImage.image topText:data.topText bottomText:data.bottomText miniPopup:data.miniPopup item:data.item stacks:data.stacks withCompletion:completion];
 }
 
 - (void) animate:(BOOL)player withImage:(UIImage*)characterImage topText:(NSString*)topText bottomText:(NSString*)bottomtext

@@ -10,6 +10,7 @@
 #import "SkillController.h"
 #import "SkillBattleIndicatorView.h"
 #import "BattleHudView.h"
+#import "SkillPopupOverlayController.h"
 
 #define skillManager [SkillManager sharedInstance]
 
@@ -39,6 +40,10 @@
   // Skill indicators for UI
   SkillBattleIndicatorView* _skillIndicatorPlayer;
   SkillBattleIndicatorView* _skillIndicatorEnemy;
+  
+  // Skill overlays
+  SkillPopupOverlayController* _skillPopupPlayer;
+  SkillPopupOverlayController* _skillPopupEnemy;
   
   // Serialization cache
   NSDictionary*     _playerSkillSerializedState;
@@ -84,6 +89,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS_HEADER(SkillManager);
 - (void) displaySkillCounterPopupForController:(SkillController*)controller withProto:(SkillProto*)proto atPosition:(CGPoint)pos;
 - (void) pruneRepeatedSkills:(SkillController *)sameAsSkill;
 - (void) flushPersistentSkills;
+
+- (void) showSkillPopupOverlay:(BOOL)forPlayer jumpFirst:(BOOL)jumpFirst withData:(SkillPopupData*)data;
+- (void) enqueuePopupData:(SkillPopupData*)data forPlayer:(BOOL)forPlayer;
+- (void) showItemPopupOverlay:(BattleItemProto*)item bottomText:(NSString*)bottomText;
+
 - (__weak NewBattleLayer*) battleLayer;
 - (void) playDamageLogos;
 - (BOOL) useAntidote:(BattleItemProto*)antidote execute:(BOOL)execute;
