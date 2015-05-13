@@ -419,83 +419,9 @@
   return self.belongsToPlayer ? [SkillProtoHelper offShortDescForSkill:skillProto] : [SkillProtoHelper defShortDescForSkill:skillProto];
 }
 
-- (void) showCurrentSkillPopup
-{
-  if (!_currentSkillPopup) return;
-  if (_popupOverlay) return;
-  
-  // Create overlay
-  UIView *parentView = self.battleLayer.hudView;
-  _popupOverlay = [[[NSBundle mainBundle] loadNibNamed:_currentSkillPopup.miniPopup ? @"SkillPopupMiniOverlay" : @"SkillPopupOverlay" owner:self options:nil] objectAtIndex:0];
-  [_popupOverlay setBounds:parentView.bounds];
-  [_popupOverlay setOrigin:CGPointMake((parentView.width - _popupOverlay.width)/2, (parentView.height - _popupOverlay.height)/2)];
-  [parentView addSubview:_popupOverlay];
-  
-  SkillPopupOverlay *tempPopup = _popupOverlay;
-  
-  [_popupOverlay animate:_currentSkillPopup.player withImage:_currentSkillPopup.characterImage.image topText:_currentSkillPopup.topText
-              bottomText:_currentSkillPopup.bottomText miniPopup:_currentSkillPopup.miniPopup item:_currentSkillPopup.item stacks:_currentSkillPopup.stacks withCompletion:
-   ^{
-     // Hide popup and call block, if it hasn't been hidden yet
-     if (_popupOverlay == tempPopup)
-     {
-       [self hideSkillPopupOverlayInternal];
-     }
-   }];
-  
-  // Hide pieces of battle hud
-  if (self.belongsToPlayer)
-  {
-    [UIView animateWithDuration:0.1 animations:^{
-      self.battleLayer.hudView.bottomView.alpha = 0.0;
-    } completion:^(BOOL finished) {
-      self.battleLayer.hudView.bottomView.hidden = YES;
-    }];
-  }
-}
-
-- (void) hideSkillPopupOverlayInternal
-{
-  // Restore pieces of the battle hud in a block
-  SkillPopupBlock newCompletion = ^(){
-    
-    if (self.belongsToPlayer)
-    {
-      self.battleLayer.hudView.bottomView.hidden = NO;
-      self.battleLayer.hudView.bottomView.alpha = 0.0;
-      [UIView animateWithDuration:0.1 animations:^{
-        self.battleLayer.hudView.bottomView.alpha = 1.0;
-      }];
-    }
-    
-    _currentSkillPopup = _currentSkillPopup.next;
-    
-    _popupOverlay = nil;
-    
-    if (!_currentSkillPopup){
-      if (_callbackBlockForPopup)
-      {
-        _callbackBlockForPopup();
-        _callbackBlockForPopup = nil;
-      }
-    }
-    else
-      [self showCurrentSkillPopup];
-    
-  };
-  
-  // Hide overlay
-  [_popupOverlay hideWithCompletion:newCompletion forPlayer:_currentSkillPopup.player];
-}
-
-- (void) quickHideSkillPopup
-{
-  [_popupOverlay quickHide:_belongsToPlayer];
-}
-
 - (void) showSkillPopupOverlay:(BOOL)jumpFirst withCompletion:(SkillPopupBlock)completion
 {
-  SkillPopupData *data = [SkillPopupData initWithData:self.belongsToPlayer characterImage:self.ownerMonsterView topText:[self skillName] bottomText:[self processedSkillDescription] mini:NO stacks:[self skillStacks] completion:completion];
+  SkillPopupData *data = [SkillPopupData initWithData:self.belongsToPlayer characterImageName:_ownerMonsterImageName topText:[self skillName] bottomText:[self processedSkillDescription] mini:NO stacks:[self skillStacks] completion:completion];
   _callbackBlockForPopup = completion;
   [skillManager showSkillPopupOverlay:self.belongsToPlayer jumpFirst:jumpFirst withData:data];
 }
@@ -512,7 +438,7 @@
 
 - (void) showSkillPopupMiniOverlay:(BOOL)jumpFirst bottomText:(NSString*)bottomText withCompletion:(SkillPopupBlock)completion
 {
-  SkillPopupData *data = [SkillPopupData initWithData:self.belongsToPlayer characterImage:self.ownerMonsterView topText:[self skillName] bottomText:bottomText mini:YES stacks:_stacks completion:completion];
+  SkillPopupData *data = [SkillPopupData initWithData:self.belongsToPlayer characterImageName:_ownerMonsterImageName topText:[self skillName] bottomText:bottomText mini:YES stacks:_stacks completion:completion];
   _callbackBlockForPopup = completion;
   [skillManager showSkillPopupOverlay:self.belongsToPlayer jumpFirst:jumpFirst withData:data];
 }
@@ -520,7 +446,7 @@
 //Only used during the modifyDamage stage. Enqueues the popup, but delays playing until ready
 - (void) enqueueSkillPopupMiniOverlay:(NSString*)bottomText
 {
-  SkillPopupData *data = [SkillPopupData initWithData:self.belongsToPlayer characterImage:self.ownerMonsterView topText:[self skillName] bottomText:bottomText mini:YES stacks:_stacks completion:^{}];
+  SkillPopupData *data = [SkillPopupData initWithData:self.belongsToPlayer characterImageName:_ownerMonsterImageName topText:[self skillName] bottomText:bottomText mini:YES stacks:_stacks completion:^{}];
   _callbackBlockForPopup = nil;
   [skillManager enqueuePopupData:data forPlayer:self.belongsToPlayer];
 }
@@ -532,7 +458,7 @@
 
 - (void) enqueueSkillPopupAilmentOverlay:(NSString*)topText bottomText:(NSString*)bottomText priority:(int)priority
 {
-  SkillPopupData *data = [SkillPopupData initWithData:!self.belongsToPlayer characterImage:self.opponentSprite.characterImageView topText:topText bottomText:bottomText mini:YES stacks:_stacks completion:^{}];
+  SkillPopupData *data = [SkillPopupData initWithData:!self.belongsToPlayer characterImageName:[self.opponentSprite.prefix stringByAppendingString:@"Character.png"] topText:topText bottomText:bottomText mini:YES stacks:_stacks completion:^{}];
   
   data.priority = priority;
   
@@ -551,7 +477,7 @@
 
 - (void) showSkillPopupAilmentOverlay:(BOOL)jumpFirst topText:(NSString*)topText bottomText:(NSString*)bottomText priority:(int)priority withCompletion:(SkillPopupBlock)completion
 {
-  SkillPopupData *data = [SkillPopupData initWithData:!self.belongsToPlayer characterImage:self.opponentSprite.characterImageView topText:topText bottomText:bottomText mini:YES stacks:_stacks completion:completion];
+  SkillPopupData *data = [SkillPopupData initWithData:!self.belongsToPlayer characterImageName:[self.opponentSprite.prefix stringByAppendingString:@"Character.png"] topText:topText bottomText:bottomText mini:YES stacks:_stacks completion:completion];
   
   data.priority = priority;
   
@@ -620,7 +546,7 @@
 
 - (NSDictionary*) serialize
 {
-  return [NSDictionary dictionaryWithObjectsAndKeys:@(_skillType), @"skillType", @(_executedInitialAction), @"initialized", @(_belongsToPlayer), @"belongsToPlayer", @(_skillId), @"skillId", @(_orbColor), @"color",  @(_stacks), @"stacks", _ownerUdid, @"ownerUdid", nil];
+  return [NSDictionary dictionaryWithObjectsAndKeys:@(_skillType), @"skillType", @(_executedInitialAction), @"initialized", @(_belongsToPlayer), @"belongsToPlayer", @(_skillId), @"skillId", @(_orbColor), @"color",  @(_stacks), @"stacks", _ownerUdid, @"ownerUdid", _ownerMonsterImageName, @"ownerImageName", nil];
 }
 
 - (BOOL) deserialize:(NSDictionary*)dict
@@ -648,6 +574,9 @@
   
   if (dict[@"ownerUdid"])
     _ownerUdid = dict[@"ownerUdid"];
+  
+  if (dict[@"ownerImageName"])
+    _ownerMonsterImageName = dict[@"ownerImageName"];
   
   return YES;
 }
@@ -704,6 +633,7 @@
 {
   SkillController *activeSkill = self.belongsToPlayer ? skillManager.playerSkillControler : skillManager.enemySkillControler;
   if (!activeSkill || self == activeSkill) return NO;
+  NSLog(@"%@", [activeSkill class]);
   return [activeSkill isKindOfClass:[activeSkill class]];
 }
 

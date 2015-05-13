@@ -121,6 +121,9 @@
         case BoardObstacleTypeHole:
           prop.name = HOLE;
           break;
+        case BoardObstacleTypeVine:
+          prop.name = ORB_VINES;
+          break;
       }
       [board addProperties:[prop build]];
     }

@@ -17,7 +17,7 @@ typedef void(^SkillPopupBlock)();
 @interface SkillPopupData : NSObject
 
 @property (nonatomic, assign) BOOL player;
-@property (nonatomic, retain) UIImageView *characterImage;
+@property (nonatomic, retain) NSString *imageName;
 @property (nonatomic, retain) NSString *topText;
 @property (nonatomic, retain) NSString *bottomText;
 @property (nonatomic, assign) BOOL miniPopup;
@@ -27,7 +27,7 @@ typedef void(^SkillPopupBlock)();
 @property (nonatomic, copy) SkillPopupBlock skillCompletion;
 @property (nonatomic, assign) int stacks;
 
-+ (instancetype) initWithData:(BOOL)player characterImage:(UIImageView*)characterImage topText:(NSString*)topText bottomText:(NSString*)bottomText
++ (instancetype) initWithData:(BOOL)player characterImageName:(NSString*)characterImageName topText:(NSString*)topText bottomText:(NSString*)bottomText
                          mini:(BOOL)mini stacks:(int)stacks completion:(SkillPopupBlock)completion;
 
 - (void) enqueue:(SkillPopupData*)other;

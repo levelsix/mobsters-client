@@ -34,8 +34,7 @@
   
   SkillPopupOverlay *tempPopup = _popupOverlay;
   
-  [_popupOverlay animate:_currentSkillPopup.player withImage:_currentSkillPopup.characterImage.image topText:_currentSkillPopup.topText
-              bottomText:_currentSkillPopup.bottomText miniPopup:_currentSkillPopup.miniPopup item:_currentSkillPopup.item stacks:_currentSkillPopup.stacks withCompletion:
+  [_popupOverlay animate:_currentSkillPopup withCompletion:
    ^{
      // Hide popup and call block, if it hasn't been hidden yet
      if (_popupOverlay == tempPopup)
@@ -81,7 +80,7 @@
   UIImageView *itemImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
   [Globals imageNamed:bip.imgName withView:itemImageView greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
   
-  SkillPopupData *data = [SkillPopupData initWithData:_belongsToPlayer characterImage:itemImageView topText:bip.name bottomText:bottomText mini:YES stacks:0 completion:^{}];
+  SkillPopupData *data = [SkillPopupData initWithData:_belongsToPlayer characterImageName:bip.imgName topText:bip.name bottomText:bottomText mini:YES stacks:0 completion:^{}];
   
   data.item = YES;
   data.priority = 2;
