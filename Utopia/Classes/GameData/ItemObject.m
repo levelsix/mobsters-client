@@ -140,6 +140,10 @@
   }
 }
 
+- (ItemType) itemType {
+  return self.staticItem.itemType;
+}
+
 @end
 
 @implementation UserItemUsage

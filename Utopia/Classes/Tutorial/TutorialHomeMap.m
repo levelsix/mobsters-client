@@ -462,7 +462,7 @@
   [self stopAllActions];
   HospitalBuilding *hospital = [self hospital];
   [self moveToSprite:hospital animated:YES withOffset:ccp(0, -50)];
-  [hospital displayArrow];
+  [hospital displayArrowWithPulsingAlpha:NO];
   
   self.clickableUserStructUuid = hospital.userStruct.userStructUuid;
   _enteringHospital = YES;
@@ -496,7 +496,7 @@
 
 - (void) moveToTeamCenter {
   TeamCenterBuilding *tcb = [self teamCenterBuilding];
-  [tcb displayArrow];
+  [tcb displayArrowWithPulsingAlpha:NO];
   [self moveToSprite:tcb animated:YES withOffset:ccp(50, 0)];
   _enteringTeamCenter = YES;
   
@@ -505,7 +505,7 @@
 
 - (UserStruct *) moveToTownHall {
   TownHallBuilding *thb = [self townHallBuilding];
-  [thb displayArrow];
+  [thb displayArrowWithPulsingAlpha:NO];
   [self moveToSprite:thb animated:YES withOffset:ccp(80, 0)];
   
   self.clickableUserStructUuid = thb.userStruct.userStructUuid;
@@ -521,7 +521,7 @@
 
 - (void) arrowOnLab {
   LabBuilding *tcb = [self labBuilding];
-  [tcb displayArrow];
+  [tcb displayArrowWithPulsingAlpha:NO];
   
   _enteringLab = YES;
   
@@ -750,7 +750,7 @@
   
   if (self.clickableUserStructUuid) {
     Building *b = (Building *)[self getChildByName:STRUCT_TAG(self.clickableUserStructUuid) recursively:NO];
-    [b displayArrow];
+    [b displayArrowWithPulsingAlpha:NO];
   }
 }
 

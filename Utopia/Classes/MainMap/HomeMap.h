@@ -73,12 +73,13 @@
 - (UserStruct *) sendPurchaseStructWithItemDict:(NSDictionary *)itemIdsToQuantity allowGems:(BOOL)allowGems;
 - (void) purchaseBuildingWithItemDict:(NSDictionary *)itemIdsToQuantity allowGems:(BOOL)allowGems;
 
-- (void) pointArrowOnManageTeam;
+- (void) pointArrowOnManageTeamWithPulsingAlpha:(BOOL)pulsing;
 - (void) pointArrowOnSellMobsters;
 - (void) pointArrowOnUpgradeResidence;
-- (void) pointArrowOnHospital;
+- (void) pointArrowOnHospitalWithPulsingAlpha:(BOOL)pulsing;
 - (void) pointArrowOnClanHQ;
 - (void) pointArrowOnBuilding:(HomeBuilding *)b config:(MapBotViewButtonConfig)config;
+- (void) pointArrowOnBuilding:(HomeBuilding *)b config:(MapBotViewButtonConfig)config withPulsingAlpha:(BOOL)pulsing;
 
 - (BOOL) speedUpBuildingQueueUp:(BOOL)queueUp;
 - (void) scrollScreenForTouch:(CGPoint)pt;
@@ -112,5 +113,7 @@
 
 - (void) constructionComplete:(NSTimer *)timer;
 - (void) waitForIncomeComplete:(NSTimer *)timer;
+
+- (void) removeArrowOnBuilding;
 
 @end

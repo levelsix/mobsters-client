@@ -37,6 +37,12 @@
   [self adjustSizeOfView];
 }
 
+- (void) viewDidDisappear:(BOOL)animated {
+  [super viewDidDisappear:animated];
+  
+  [[GameViewController baseController] showEarlyGameTutorialArrow];
+}
+
 #pragma mark - Reloading list view
 
 - (void) reloadListView {

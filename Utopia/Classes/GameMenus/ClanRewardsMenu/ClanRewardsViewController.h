@@ -43,7 +43,9 @@
 
 @end
 
-@interface ClanRewardsViewController : UIViewController <ClanRewardsQuestDelegate>
+@interface ClanRewardsViewController : UIViewController <ClanRewardsQuestDelegate> {
+  BOOL _goClicked;
+}
 
 @property (nonatomic, retain) IBOutletCollection(ClanRewardsQuestView) NSArray *questViews;
 

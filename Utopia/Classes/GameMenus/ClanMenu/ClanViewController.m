@@ -9,6 +9,7 @@
 #import "ClanViewController.h"
 #import "GameState.h"
 #import "Globals.h"
+#import "GameViewController.h"
 #import "LNSynthesizeSingleton.h"
 #import "OutgoingEventController.h"
 #import "GenericPopupController.h"
@@ -65,6 +66,12 @@
   [[OutgoingEventController sharedOutgoingEventController] unregisterClanEventDelegate:self.clanInfoViewController];
   
   [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void) viewDidDisappear:(BOOL)animated {
+  [super viewDidDisappear:animated];
+  
+  [[GameViewController baseController] showEarlyGameTutorialArrow];
 }
 
 - (void) updateHelpBadge {

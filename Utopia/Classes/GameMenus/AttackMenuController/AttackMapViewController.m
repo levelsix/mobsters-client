@@ -111,6 +111,12 @@
   [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+- (void) viewDidDisappear:(BOOL)animated {
+  [super viewDidDisappear:animated];
+  
+  [[GameViewController baseController] showEarlyGameTutorialArrow];
+}
+
 - (IBAction)close:(id)sender {
   if (!_buttonClicked) {
     [self close];

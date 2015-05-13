@@ -7,6 +7,7 @@
 //
 
 #import "ResearchViewController.h"
+#import "ResearchInfoViewController.h"
 #import "ResearchTreeViewController.h"
 #import "OutgoingEventController.h"
 #import "GenericPopupController.h"
@@ -89,6 +90,16 @@
 
 - (void) waitTimeComplete {
   [self updateBottomView];
+}
+
+- (IBAction)curResearchBarClicked:(id)sender {
+  ResearchInfoViewController *rivc = [[ResearchInfoViewController alloc] initWithResearch:self.curResearch];
+  [self.parentViewController pushViewController:rivc animated:YES];
+  
+  ResearchTreeViewController *rtvc = [[ResearchTreeViewController alloc] initWithDomain:self.curResearch.staticResearch.researchDomain];
+  [self.parentViewController.viewControllers insertObject:rtvc atIndex:self.parentViewController.viewControllers.count-1];
+  [self.parentViewController addChildViewController:rtvc];
+  [rtvc selectResearch:self.curResearch];
 }
 
 #pragma mark - TableView Delegates
