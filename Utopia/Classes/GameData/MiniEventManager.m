@@ -263,9 +263,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(MiniEventManager)
       [gs.itemUtil addToMyItems:rewards.updatedUserItemsList];
     }
     
-    if (rewards.hasGems || rewards.hasCash || rewards.hasOil)
+    if (rewards.hasGems || rewards.hasCash || rewards.hasOil || rewards.hasGachaCredits)
     {
-      // Gems, oil, and cash are updated through UpdateUserClientResponseEvent. Don't need to do anything here
+      // Gems, oil, cash, and tokens are updated through UpdateClientUserResponse. Don't need to do anything here
     }
     
     [Globals addPurpleAlertNotification:[NSString stringWithFormat:@"You collected your Tier %d reward!", (int)tierRedeemed] isImmediate:YES];
