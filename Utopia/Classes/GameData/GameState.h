@@ -142,6 +142,7 @@
 @property (nonatomic, retain) ClanHelpUtil *clanHelpUtil;
 @property (nonatomic, retain) NSMutableArray *clanAvengings;
 @property (nonatomic, retain) ClanTeamDonateUtil *clanTeamDonateUtil;
+@property (nonatomic, retain) NSMutableArray *clanGifts;
 
 @property (nonatomic, retain) NSMutableArray *userExpansions;
 @property (nonatomic, retain) NSMutableDictionary *expansionCosts;
@@ -166,6 +167,8 @@
 @property (nonatomic, assign) BOOL globalTranslationOn;
 @property (nonatomic, retain) NSMutableDictionary *privateChatLanguages;
 @property (nonatomic, retain) NSMutableDictionary *privateTranslationOn;
+
+@property (nonatomic, retain) NSMutableArray *squadGifts;
 
 + (GameState *) sharedGameState;
 + (void) purgeSingleton;

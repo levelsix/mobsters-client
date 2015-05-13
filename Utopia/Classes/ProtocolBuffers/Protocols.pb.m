@@ -181,6 +181,9 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCTranslateSelectMessagesEvent:
     case EventProtocolRequestCUpdateUserStrengthEvent:
     case EventProtocolRequestCRefreshMiniJobEvent:
+    case EventProtocolRequestCCollectClanGiftsEvent:
+    case EventProtocolRequestCDeleteClanGiftsEvent:
+    case EventProtocolRequestCReceivedClanGiftsEvent:
       return YES;
     default:
       return NO;
@@ -308,6 +311,9 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSTranslateSelectMessagesEvent:
     case EventProtocolResponseSUpdateUserStrengthEvent:
     case EventProtocolResponseSRefreshMiniJobEvent:
+    case EventProtocolResponseSCollectClanGiftsEvent:
+    case EventProtocolResponseSDeleteClanGiftsEvent:
+    case EventProtocolResponseSReceivedClanGiftsEvent:
       return YES;
     default:
       return NO;

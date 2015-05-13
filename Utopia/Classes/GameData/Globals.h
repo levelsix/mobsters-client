@@ -63,6 +63,7 @@
 #define CLAN_AVENGINGS_CHANGED_NOTIFICATION @"ClanAvengingsChangedNotification"
 #define CLAN_TEAM_DONATIONS_CHANGED_NOTIFICATION @"ClanTeamDonationsChangedNotification"
 #define MY_CLAN_TEAM_DONATION_CHANGED_NOTIFICATION @"MyClanTeamDonationChangedNotification"
+#define CLAN_GIFTS_CHANGED_NOTIFICATION @"ClanGiftsChangedNotification"
 
 #define SPEEDUP_USED_NOTIFICATION @"SpeedupUsedNotification"
 #define SPEEDUP_NOTIFICATION_KEY @"SpeedupNotificationKey"
@@ -337,6 +338,7 @@
 + (void) addBlueAlertNotification:(NSString *)msg;
 + (void) addPrivateMessageNotification:(NSArray *)messages;
 + (void) addMiniEventGoalNotificationWithGoalString:(NSString *)goalStr pointsStr:(NSString *)pointsStr image:(NSString *)img;
++ (void) addClanGiftNotification:(NSArray *)userClanGifts;
 
 + (void) bounceView:(UIView *)view;
 + (void) bounceView:(UIView *)view fromScale:(float)fScale toScale:(float)tScale duration:(float)duration;
@@ -473,6 +475,9 @@
 + (void) turnOnLogging;
 + (void) toggleLogging;
 + (BOOL) isLoggingEnabled;
+
++ (NSString *) nameForReward:(RewardProto *) reward;
++ (NSString *) imageNameForReward:(RewardProto *) reward;
 
 @end
 

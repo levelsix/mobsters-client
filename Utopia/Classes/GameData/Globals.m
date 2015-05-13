@@ -2584,6 +2584,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   [gvc.notificationController addNotification:megn];
 }
 
++ (void) addClanGiftNotification:(NSArray *)userClanGifts {
+  GameViewController *gvc = [GameViewController baseController];
+  if(!gvc.chatViewController) {
+    PrivateMessageNotificationViewController *pmn = [[PrivateMessageNotificationViewController alloc] initWithClanGifts:userClanGifts isImmediate:NO];
+    [gvc.notificationController addNotification:pmn];
+  }
+}
+
 #pragma mark - Bounce View
 + (void) bounceView:(UIView *)view fromScale:(float)fScale toScale:(float)tScale duration:(float)duration {
   CATransform3D layerTransform = view.layer.transform;
@@ -3128,6 +3136,62 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 + (BOOL) isLoggingEnabled {
   NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
   return [def boolForKey:LOGGING_ENABLED_KEY];
+}
+
++ (NSString *) nameForReward:(RewardProto *) reward {
+  GameState *gs = [GameState sharedGameState];
+  ItemProto *staticItem;
+  MonsterProto *staticMonster;
+  
+  switch (reward.typ) {
+    case RewardProto_RewardTypeCash:
+      return [NSString stringWithFormat:@"%d Cash",reward.amt];
+    case RewardProto_RewardTypeGems:
+      return [NSString stringWithFormat:@"%d Gems",reward.amt];
+    case RewardProto_RewardTypeOil:
+      return [NSString stringWithFormat:@"%d Oil",reward.amt];
+    case RewardProto_RewardTypeItem:
+      staticItem = [gs itemForId:reward.staticDataId];
+      return [NSString stringWithFormat:@"%dx %@%@",reward.amt, staticItem.name, reward.amt>1 ? @"s" : @""];
+    case RewardProto_RewardTypeMonster:
+      staticMonster = [gs monsterWithId:reward.staticDataId];
+      if (reward.amt > 0) {
+        //monster is a full monster and at lvl amt
+        return [NSString stringWithFormat:@"LVL %d %@",reward.amt,staticMonster.monsterName];
+      } else {
+        //this reward is just a piece of a monster
+        return [NSString stringWithFormat:@"%@ Piece",staticMonster.monsterName];
+      }
+    case RewardProto_RewardTypeNoReward:
+    case RewardProto_RewardTypeClanGift:
+      return @"";
+  }
+}
+
++ (NSString *) imageNameForReward:(RewardProto *) reward {
+  GameState *gs = [GameState sharedGameState];
+  
+  ItemProto *staticItem;
+  MonsterProto *staticMonster;
+  
+  switch (reward.typ) {
+    case RewardProto_RewardTypeCash:
+      return @"moneystack.png";
+    case RewardProto_RewardTypeGems:
+      return @"diamond.png";
+    case RewardProto_RewardTypeOil:
+      return @"oilicon.png";
+    case RewardProto_RewardTypeItem:
+      staticItem = [gs itemForId:reward.staticDataId];
+      return staticItem.imgName;
+    case RewardProto_RewardTypeMonster:
+      staticMonster = [gs monsterWithId:reward.staticDataId];
+      return [staticMonster.imagePrefix stringByAppendingString:@"Card.png"];
+      
+    case RewardProto_RewardTypeNoReward:
+    case RewardProto_RewardTypeClanGift:
+      return @"";
+  }
 }
 
 @end

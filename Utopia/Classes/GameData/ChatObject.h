@@ -100,3 +100,13 @@
 - (BOOL) canAttack;
 
 @end
+
+@interface UserClanGiftProto (ChatObject) <ChatObject>
+
+- (BOOL) isExpired;
+- (MSDate *) expireDate;
+- (IBAction) collectClicked:(id)sender;
+
+@property (nonatomic, assign) BOOL isRedeemed;
+
+@end
