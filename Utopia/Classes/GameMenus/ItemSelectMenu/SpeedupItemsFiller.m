@@ -73,6 +73,10 @@
   return [self.delegate numGemsForTotalSpeedup];
 }
 
+- (BOOL) wantsProgressBar {
+  return YES;
+}
+
 - (TimerProgressBarColor) progressBarColor {
   int gems = [self.delegate numGemsForTotalSpeedup];
   if (gems <= 0) {

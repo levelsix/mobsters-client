@@ -103,6 +103,10 @@
   return gems;
 }
 
+- (BOOL) wantsProgressBar {
+  return YES;
+}
+
 - (TimerProgressBarColor) progressBarColor {
   return _resourceType == ResourceTypeCash ? TimerProgressBarColorGreen : TimerProgressBarColorYellow;
 }

@@ -26,6 +26,7 @@ BOOL ItemTypeIsValidValue(ItemType value) {
     case ItemTypeBoosterPack:
     case ItemTypeItemOil:
     case ItemTypeItemCash:
+    case ItemTypeItemGachaCredit:
     case ItemTypeSpeedUp:
     case ItemTypeBuilder:
     case ItemTypeRefreshMiniJob:

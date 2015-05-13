@@ -27,21 +27,31 @@
 }
 
 - (void) updateForItemObject:(id<ItemObject>)itemObject {
-  BOOL available = [itemObject isValid];
+  BOOL available = [itemObject isValid] || ![itemObject canBeOwned];
   
   self.nameLabel.text = [itemObject name];
   self.nameLabel.highlighted = !available;
-  		
-  NSString *str1 = @"Owned: ";
-  NSString *str2 = [Globals commafyNumber:[itemObject numOwned]];
-  NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:[str1 stringByAppendingString:str2]];
   
-  if (available) {
-    NSRange range = NSMakeRange(str1.length, str2.length);
-    [attr addAttribute:NSFontAttributeName value:self.nameLabel.font range:range];
-    [attr addAttribute:NSForegroundColorAttributeName value:self.nameLabel.textColor range:range];
+  if ([itemObject canBeOwned])
+  {
+    NSString *str1 = @"Owned: ";
+    NSString *str2 = [Globals commafyNumber:[itemObject numOwned]];
+    NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:[str1 stringByAppendingString:str2]];
+    
+    if (available) {
+      NSRange range = NSMakeRange(str1.length, str2.length);
+      [attr addAttribute:NSFontAttributeName value:self.nameLabel.font range:range];
+      [attr addAttribute:NSForegroundColorAttributeName value:self.nameLabel.textColor range:range];
+    }
+    self.quantityLabel.attributedText = attr;
+    self.quantityLabel.hidden = NO;
+    self.nameLabel.height = (self.quantityLabel.originY + 5) - self.nameLabel.originY;
   }
-  self.quantityLabel.attributedText = attr;
+  else
+  {
+    self.quantityLabel.hidden = YES;
+    self.nameLabel.height = CGRectGetMaxY(self.quantityLabel.frame) - self.nameLabel.originY;
+  }
   
   [Globals imageNamed:[itemObject iconImageName] withView:self.itemIcon greyscale:!available indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
@@ -280,7 +290,8 @@
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-  if ([self.delegate respondsToSelector:@selector(progressBarText)]) {
+  if ([self.delegate respondsToSelector:@selector(wantsProgressBar)] &&
+      [self.delegate wantsProgressBar]) {
     return self.progressBarView.height;
   } else {
     return 0.f;
@@ -288,7 +299,8 @@
 }
 
 - (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-  if ([self.delegate respondsToSelector:@selector(progressBarText)]) {
+  if ([self.delegate respondsToSelector:@selector(progressBarText)] &&
+      [self.delegate wantsProgressBar]) {
     return self.progressBarView;
   } else {
     return nil;
