@@ -13,6 +13,10 @@
 #import <TangoSDK/TangoProfile.h>
 #import <TangoSDK/TangoSession.h>
 #import <TangoSDK/TangoTools.h>
+#import <TangoSdK/TangoGifting.h>
+#import <TangoSdK/TangoGiftingResponse.h>
+#import <TangoSDK/TangoInviting.h>
+#import <TangoSDK/TangoInvitingResponse.h>
 #import <error_codes.h>
 
 #define TANGO_ENABLED 
@@ -90,6 +94,100 @@ static TangoProfileEntry *profileEntry = nil;
       });
     }];
   }
+#endif
+}
+
++ (void) getPictureForProfile:(TangoProfileEntry *)profile comp:(void (^)(UIImage *img))comp {
+#ifdef TANGO_ENABLED
+  if (!profile.profilePictureIsPlaceholder && profile.cachedProfilePicture) {
+    comp(profile.cachedProfilePicture);
+  } else {
+    [profile fetchProfilePictureWithHandler:^(UIImage *image) {
+      dispatch_sync(dispatch_get_main_queue(), ^{
+        comp(image);
+      });
+    }];
+  }
+#endif
+}
+
++ (void) fetchCachedFriends:(void (^)(NSArray *friends))comp {
+#ifdef TANGO_ENABLED
+  if (!profileEntry) {
+    [self fetchMyProfile];
+  }
+  
+  [TangoProfile fetchMyCachedFriendsWithHandler:^(TangoProfileResult *profileResult, NSError *error) {
+    NSLog(@"fetch Cached Friends resulted in Error: %@", error);
+    
+    NSMutableArray *friendsList = [[NSMutableArray alloc] init];
+    if (error.code == TANGO_SDK_SUCCESS) {
+      NSLog(@"Everything is fine man");
+    } else {
+      NSLog(@"Everything is the worst");
+    }
+    
+    
+    for (TangoProfileEntry *tpe in profileResult.profileEnumerator) {
+      [friendsList addObject:tpe];
+    }
+    
+    comp(friendsList);
+//    comp(profileResult.profileEnumerator.allObjects);
+  }];
+#endif
+}
+
++ (void) fetchOwnGifts:(void (^)(NSArray *gifts))comp {
+#ifdef TANGO_ENABLED
+  [TangoGifting fetchGiftsWithHandler:^(TangoGiftingFetchGiftsResponse *response, NSError *error) {
+    dispatch_sync(dispatch_get_main_queue(), ^{
+      comp(response.gifts);
+    });
+    
+    if (error.code != TANGO_SDK_SUCCESS) {
+      NSLog(@"Fetched own Gifts resulted in Error: %@", error);
+    }
+    
+  }];
+#endif
+}
+
++ (void) redeemGiftIds:(NSArray *)giftIds {
+#ifdef TANGO_ENABLED
+  [TangoGifting consumeGifts:giftIds handler:^(TangoGiftingConsumeGiftsResponse *response, NSError *error) {
+    NSLog(@"Tango gift consumed with status: %@",error);
+  }];
+#endif
+}
+
++ (void) sendGiftsToTangoUsers:(NSArray *)userIds {
+#ifdef TANGO_ENABLED
+  NSString *resourceID;
+#ifdef TOONSQUAD
+  resourceID = @"GIFT_ID1";
+#else
+  resourceID = @"TEST_GIFT_ID";
+#endif
+  
+  [TangoGifting sendGiftToRecipients:userIds withResourceId:resourceID handler:^(TangoGiftingSendGiftResponse *response, NSError *error) {
+    NSLog(@"Send Tango Gifts return with status: %@",error);
+  }];
+#endif
+}
+
++ (void) sendInvitesToTangoUsers:(NSArray *)userIds {
+#ifdef TANGO_ENABLED
+  NSString *resourceID;
+#ifdef TOONSQUAD
+  resourceID = @"GIFT_ID1";
+#else
+  resourceID = @"TEST_GIFT_ID";
+#endif
+  
+  [TangoInviting sendInvitationToRecipients:userIds resourceId:resourceID handler:^(TangoInvitingSendInvitationsResponse *response, NSError *error) {
+    NSLog(@"Send Tango invites returned with status: %@", error);
+  }];
 #endif
 }
 

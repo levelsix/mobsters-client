@@ -133,11 +133,13 @@
         NSString *userUuid = pcpp.sender.userUuid;
         TranslateLanguages languageToDisplay = [gs translateOnForUser:userUuid] ? [gs languageForUser:userUuid] : TranslateLanguagesNoTranslation;
         
-        ChatMessage *cm = [pcpp makeChatMessage];
-        
-        NSString *displayMessage = [cm getContentInLanguage:languageToDisplay isTranslated:NULL translationExists:NULL];
-        [self.notificationView updateWithString:pcpp.sender.name description:displayMessage color:[UIColor colorWithHexString:@"FFFFFF"]];
-        
+        if ([pcpp isKindOfClass:[PrivateChatPostProto class]]) {
+          ChatMessage *cm = [pcpp makeChatMessage];
+          
+          NSString *displayMessage = [cm getContentInLanguage:languageToDisplay isTranslated:NULL translationExists:NULL];
+          [self.notificationView updateWithString:pcpp.sender.name description:displayMessage color:[UIColor colorWithHexString:@"FFFFFF"]];
+        }
+          
         //pass anything through owner because there are no outlets
         [self addAvatarWithMonsterId:pcpp.sender.avatarMonsterId];
       }

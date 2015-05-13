@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <TangoSDK/TangoProfileEntry.h>
 
 @interface TangoDelegate : NSObject
 
@@ -16,6 +17,13 @@
 + (BOOL) isTangoAvailable;
 + (BOOL) isTangoAuthenticated;
 + (void) getProfilePicture:(void (^)(UIImage *img))comp;
++ (void) getPictureForProfile:(TangoProfileEntry *)profile comp:(void (^)(UIImage *img))comp;
+
++ (void) fetchCachedFriends:(void (^)(NSArray *friends))comp;
+
++ (void) fetchOwnGifts:(void (^)(NSArray *gifts))comp;
++ (void) redeemGiftIds:(NSArray *)giftIds;
++ (void) sendGiftsToTangoUsers:(NSArray *)userIds;
 
 + (void) validatePurchase:(id)transaction;
 

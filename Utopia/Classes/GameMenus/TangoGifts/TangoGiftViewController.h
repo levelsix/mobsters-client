@@ -10,4 +10,16 @@
 
 @interface TangoGiftViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
+@property (nonatomic, retain) IBOutlet UIView *containerView;
+@property (nonatomic, retain) IBOutlet UIView *mainView;
+@property (nonatomic, retain) IBOutlet UIView *bgView;
+
+@property (nonatomic, retain) IBOutlet UIImageView *selectAllCheckmark;
+@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *friendListActivityIndicator;
+
+@property (nonatomic, retain) NSMutableArray *tangoFriends;
+@property (nonatomic, retain) NSMutableArray *selectedFriends;
+
+- (void) updateForTangoFriends:(NSArray *)friends;
+
 @end

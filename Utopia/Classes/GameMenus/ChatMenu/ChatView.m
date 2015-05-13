@@ -959,7 +959,8 @@
   TranslateLanguages displayLanguage = TranslateLanguagesNoTranslation;
   if(_chatMode == PrivateChatModeAllMessages && [self.displayedChatList[indexPath.row] isKindOfClass:[PrivateChatPostProto class]]) {
     PrivateChatPostProto *pcpp = self.displayedChatList[indexPath.row];
-    if (![pcpp.sender.userUuid isEqualToString:gs.userUuid] && [gs translateOnForUser:pcpp.sender.userUuid]) {
+
+    if (![pcpp.sender.userUuid isEqualToString:gs.userUuid] && [gs translateOnForUser:pcpp.sender.userUuid] && [pcpp isKindOfClass:[PrivateChatPostProto class]]) {
       TranslateLanguages savedLanguage = [gs languageForUser:pcpp.sender.userUuid];
       displayLanguage = savedLanguage == pcpp.originalContentLanguage ? TranslateLanguagesNoTranslation : savedLanguage;
     }

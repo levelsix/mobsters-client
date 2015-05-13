@@ -6,6 +6,9 @@
 //  Copyright (c) 2013 LVL6. All rights reserved.
 //
 
+#import "TangoGiftViewController.h"
+#import "TangoDelegate.h"
+
 #import "TopBarViewController.h"
 #import "cocos2d.h"
 #import "Globals.h"
@@ -1027,6 +1030,23 @@
   [gvc.view addSubview:mevc.view];
 }
 
+- (void) openTangoGiftMenu {
+  GameViewController *gvc = (GameViewController *)self.parentViewController;
+  
+  if (![TangoDelegate isTangoAuthenticated]) {
+    return;
+  }
+  
+  TangoGiftViewController *sgvc = [[TangoGiftViewController alloc] init];
+  [TangoDelegate fetchCachedFriends:^(NSArray *friends) {
+    [sgvc updateForTangoFriends:friends];
+  }];
+  
+  [gvc addChildViewController:sgvc];
+  sgvc.view.frame = gvc.view.bounds;
+  [gvc.view addSubview:sgvc.view];
+}
+
 - (IBAction)secretGiftClicked:(id)sender {
   GameState *gs = [GameState sharedGameState];
   MSDate *nextSecretGiftDate = [gs nextSecretGiftOpenDate];
@@ -1037,6 +1057,9 @@
       [Globals addAlertNotification:@"Your Secret Gift is not yet available."];
       
       [SoundEngine generalButtonClick];
+      
+#warning don't breath this
+      [self openTangoGiftMenu];
     } else {
       SecretGiftViewController *sgvc = [[SecretGiftViewController alloc] initWithSecretGift:[gs nextSecretGift]];
       [gvc addChildViewController:sgvc];

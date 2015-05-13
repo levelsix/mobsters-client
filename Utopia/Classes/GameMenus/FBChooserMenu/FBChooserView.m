@@ -6,6 +6,8 @@
 //  Copyright (c) 2013 LVL6. All rights reserved.
 //
 
+#import <TangoSDK/TangoProfileEntry.h>
+#import "TangoDelegate.h"
 #import "FBChooserView.h"
 #import <FacebookSDK/FacebookSDK.h>
 #import "Globals.h"
@@ -37,6 +39,21 @@
   
   self.profilePic.layer.cornerRadius = roundf(self.profilePic.frame.size.width/2.0);
   self.profilePic.layer.masksToBounds = YES;
+  
+  self.checkmark.image = [Globals imageNamed:@"sendcheck.png"];
+}
+
+- (void) loadForTangoProfile:(TangoProfileEntry *)tangoProfile {
+  self.nameLabel.text = [NSString stringWithFormat:@"%@ %@", [tangoProfile.firstName capitalizedString], [tangoProfile.lastName   capitalizedString]];
+  //get an image in there
+  self.tangoPic.hidden = NO;
+  self.profilePic.hidden = YES;
+  
+  [TangoDelegate getPictureForProfile:tangoProfile comp:^(UIImage *img) {
+    self.tangoPic.image = img;
+  }];
+  
+  self.checkmark.image = [Globals imageNamed:@"maptaskdonecheck.png"];
 }
 
 @end
