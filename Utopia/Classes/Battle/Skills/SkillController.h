@@ -78,7 +78,7 @@ static NSString* const kSkillMiniLogoImageNameSuffix = @"minilogo.png";
 @property (weak, nonatomic) BattleSprite    *playerSprite;
 @property (weak, nonatomic) BattleSprite    *enemySprite;
 
-@property (nonatomic, assign) UIImageView* ownerMonsterView;
+@property (nonatomic, retain) NSString* ownerMonsterImageName;
 
 @property (nonatomic) BattlePlayer  *userPlayer;
 @property (nonatomic) BattlePlayer  *opponentPlayer;

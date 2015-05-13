@@ -119,17 +119,15 @@
 
 - (BOOL) checkSpecialOrbs
 {
-  if (![self sameAsActiveSkill])
+  NSInteger _orbsFinished = [self updateSpecialOrbs];
+  if (_orbsFinished)
   {
-    NSInteger _orbsFinished = [self updateSpecialOrbs];
-    if (_orbsFinished)
-    {
-      if (!_orbsSpawned && ![self keepColor])
-        [self.battleLayer.orbLayer toggleArrows:NO];
-        
-      return [self onSpecialOrbCounterFinish:_orbsFinished];
-    }
+    if (!_orbsSpawned && ![self keepColor])
+      [self.battleLayer.orbLayer toggleArrows:NO];
+      
+    return [self onSpecialOrbCounterFinish:_orbsFinished];
   }
+  
   return NO;
 }
 

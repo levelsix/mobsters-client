@@ -31,6 +31,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [SharedEnumConfigRoot registerAllExtensions:registry];
     [StaticDataRoot registerAllExtensions:registry];
     [StructureRoot registerAllExtensions:registry];
+    [RewardRoot registerAllExtensions:registry];
     [TaskRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
     extensionRegistry = registry;
@@ -986,6 +987,7 @@ static StartupRequestProto_VersionNumberProto* defaultStartupRequestProto_Versio
 @property (strong) NSMutableArray * mutableSalesPackagesList;
 @property (strong) UserMiniEventProto* userMiniEvent;
 @property (strong) DefaultLanguagesProto* userDefaultLanguages;
+@property (strong) NSMutableArray * mutableUserClanGiftsList;
 @end
 
 @implementation StartupResponseProto
@@ -1196,6 +1198,8 @@ static StartupRequestProto_VersionNumberProto* defaultStartupRequestProto_Versio
   hasUserDefaultLanguages_ = !!value_;
 }
 @synthesize userDefaultLanguages;
+@synthesize mutableUserClanGiftsList;
+@dynamic userClanGiftsList;
 - (id) init {
   if ((self = [super init])) {
     self.serverTimeMillis = 0L;
@@ -1436,6 +1440,12 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
 - (SalesPackageProto*)salesPackagesAtIndex:(NSUInteger)index {
   return [mutableSalesPackagesList objectAtIndex:index];
 }
+- (NSArray *)userClanGiftsList {
+  return mutableUserClanGiftsList;
+}
+- (UserClanGiftProto*)userClanGiftsAtIndex:(NSUInteger)index {
+  return [mutableUserClanGiftsList objectAtIndex:index];
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -1611,6 +1621,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   if (self.hasUserDefaultLanguages) {
     [output writeMessage:53 value:self.userDefaultLanguages];
   }
+  [self.userClanGiftsList enumerateObjectsUsingBlock:^(UserClanGiftProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:500 value:element];
+  }];
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -1806,6 +1819,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   if (self.hasUserDefaultLanguages) {
     size_ += computeMessageSize(53, self.userDefaultLanguages);
   }
+  [self.userClanGiftsList enumerateObjectsUsingBlock:^(UserClanGiftProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(500, element);
+  }];
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
   return size_;
@@ -2123,6 +2139,12 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
+  [self.userClanGiftsList enumerateObjectsUsingBlock:^(UserClanGiftProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"userClanGifts"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -2206,6 +2228,7 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
       (!self.hasUserMiniEvent || [self.userMiniEvent isEqual:otherMessage.userMiniEvent]) &&
       self.hasUserDefaultLanguages == otherMessage.hasUserDefaultLanguages &&
       (!self.hasUserDefaultLanguages || [self.userDefaultLanguages isEqual:otherMessage.userDefaultLanguages]) &&
+      [self.userClanGiftsList isEqualToArray:otherMessage.userClanGiftsList] &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -2369,6 +2392,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   if (self.hasUserDefaultLanguages) {
     hashCode = hashCode * 31 + [self.userDefaultLanguages hash];
   }
+  [self.userClanGiftsList enumerateObjectsUsingBlock:^(UserClanGiftProto *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
@@ -11038,6 +11064,13 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
   if (other.hasUserDefaultLanguages) {
     [self mergeUserDefaultLanguages:other.userDefaultLanguages];
   }
+  if (other.mutableUserClanGiftsList.count > 0) {
+    if (result.mutableUserClanGiftsList == nil) {
+      result.mutableUserClanGiftsList = [[NSMutableArray alloc] initWithArray:other.mutableUserClanGiftsList];
+    } else {
+      [result.mutableUserClanGiftsList addObjectsFromArray:other.mutableUserClanGiftsList];
+    }
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -11394,6 +11427,12 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setUserDefaultLanguages:[subBuilder buildPartial]];
+        break;
+      }
+      case 4002: {
+        UserClanGiftProto_Builder* subBuilder = [UserClanGiftProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addUserClanGifts:[subBuilder buildPartial]];
         break;
       }
     }
@@ -12683,6 +12722,30 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
 - (StartupResponseProto_Builder*) clearUserDefaultLanguages {
   result.hasUserDefaultLanguages = NO;
   result.userDefaultLanguages = [DefaultLanguagesProto defaultInstance];
+  return self;
+}
+- (NSMutableArray *)userClanGiftsList {
+  return result.mutableUserClanGiftsList;
+}
+- (UserClanGiftProto*)userClanGiftsAtIndex:(NSUInteger)index {
+  return [result userClanGiftsAtIndex:index];
+}
+- (StartupResponseProto_Builder *)addUserClanGifts:(UserClanGiftProto*)value {
+  if (result.mutableUserClanGiftsList == nil) {
+    result.mutableUserClanGiftsList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableUserClanGiftsList addObject:value];
+  return self;
+}
+- (StartupResponseProto_Builder *)addAllUserClanGifts:(NSArray *)array {
+  if (result.mutableUserClanGiftsList == nil) {
+    result.mutableUserClanGiftsList = [NSMutableArray array];
+  }
+  [result.mutableUserClanGiftsList addObjectsFromArray:array];
+  return self;
+}
+- (StartupResponseProto_Builder *)clearUserClanGifts {
+  result.mutableUserClanGiftsList = nil;
   return self;
 }
 @end

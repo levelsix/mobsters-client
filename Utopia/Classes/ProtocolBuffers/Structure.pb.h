@@ -96,6 +96,7 @@ typedef NS_ENUM(SInt32, BoardObstacleType) {
   BoardObstacleTypeCloud = 1,
   BoardObstacleTypeLock = 2,
   BoardObstacleTypeHole = 3,
+  BoardObstacleTypeVine = 4,
 };
 
 BOOL BoardObstacleTypeIsValidValue(BoardObstacleType value);

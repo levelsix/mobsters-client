@@ -47,6 +47,8 @@
 @class CityExpansionCostProto_Builder;
 @class ClanDataProto;
 @class ClanDataProto_Builder;
+@class ClanGiftProto;
+@class ClanGiftProto_Builder;
 @class ClanHelpNoticeProto;
 @class ClanHelpNoticeProto_Builder;
 @class ClanHelpProto;
@@ -235,6 +237,8 @@
 @class UserBattleItemProto_Builder;
 @class UserCityExpansionDataProto;
 @class UserCityExpansionDataProto_Builder;
+@class UserClanGiftProto;
+@class UserClanGiftProto_Builder;
 @class UserCurrentMonsterTeamProto;
 @class UserCurrentMonsterTeamProto_Builder;
 @class UserEnhancementItemProto;
@@ -341,6 +345,7 @@
   NSMutableArray * mutableBattleItemList;
   NSMutableArray * mutablePvpBoardObstacleProtosList;
   NSMutableArray * mutableRewardList;
+  NSMutableArray * mutableClanGiftsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStarterPack;
@@ -387,6 +392,7 @@
 @property (readonly, strong) NSArray * battleItemList;
 @property (readonly, strong) NSArray * pvpBoardObstacleProtosList;
 @property (readonly, strong) NSArray * rewardList;
+@property (readonly, strong) NSArray * clanGiftsList;
 - (CityExpansionCostProto*)expansionCostsAtIndex:(NSUInteger)index;
 - (FullCityProto*)allCitiesAtIndex:(NSUInteger)index;
 - (FullTaskProto*)allTasksAtIndex:(NSUInteger)index;
@@ -428,6 +434,7 @@
 - (BattleItemProto*)battleItemAtIndex:(NSUInteger)index;
 - (PvpBoardObstacleProto*)pvpBoardObstacleProtosAtIndex:(NSUInteger)index;
 - (RewardProto*)rewardAtIndex:(NSUInteger)index;
+- (ClanGiftProto*)clanGiftsAtIndex:(NSUInteger)index;
 
 + (StaticDataProto*) defaultInstance;
 - (StaticDataProto*) defaultInstance;
@@ -723,6 +730,12 @@
 - (StaticDataProto_Builder *)addReward:(RewardProto*)value;
 - (StaticDataProto_Builder *)addAllReward:(NSArray *)array;
 - (StaticDataProto_Builder *)clearReward;
+
+- (NSMutableArray *)clanGiftsList;
+- (ClanGiftProto*)clanGiftsAtIndex:(NSUInteger)index;
+- (StaticDataProto_Builder *)addClanGifts:(ClanGiftProto*)value;
+- (StaticDataProto_Builder *)addAllClanGifts:(NSArray *)array;
+- (StaticDataProto_Builder *)clearClanGifts;
 @end
 
 

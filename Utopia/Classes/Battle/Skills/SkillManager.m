@@ -201,9 +201,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   controller.enemy = _enemy;
   controller.enemySprite = _enemySprite;
   controller.belongsToPlayer = controller.belongsToPlayer || (controller == _playerSkillController);
-  if (!controller.ownerMonsterView)
+  if (!controller.ownerMonsterImageName)
   {
-    controller.ownerMonsterView = controller.belongsToPlayer ? _playerSprite.characterImageView : _enemySprite.characterImageView;
+    controller.ownerMonsterImageName = [(controller.belongsToPlayer ? _playerSprite.prefix : _enemySprite.prefix) stringByAppendingString:@"Character.png"];
   }
 }
 

@@ -26,11 +26,11 @@ typedef void (^ShakeAnimCompletionBlock)(void);
 
 @implementation SkillPopupData
 
-+ (instancetype)initWithData:(BOOL)player characterImage:(UIImageView *)characterImage topText:(NSString *)topText bottomText:(NSString *)bottomText mini:(BOOL)mini stacks:(int)stacks completion:(SkillPopupBlock)completion
++ (instancetype)initWithData:(BOOL)player characterImageName:(NSString *)characterImageName topText:(NSString *)topText bottomText:(NSString *)bottomText mini:(BOOL)mini stacks:(int)stacks completion:(SkillPopupBlock)completion
 {
   SkillPopupData *data = [SkillPopupData alloc];
   data.player = player;
-  data.characterImage = characterImage;
+  data.imageName = characterImageName;
   data.topText = topText;
   data.bottomText = bottomText;
   data.miniPopup = mini;
@@ -79,7 +79,7 @@ typedef void (^ShakeAnimCompletionBlock)(void);
 }
 
 - (void) animate:(SkillPopupData*)data withCompletion:(SkillPopupBlock)completion {
-  [self animate:data.player withImage:data.characterImage.image topText:data.topText bottomText:data.bottomText miniPopup:data.miniPopup item:data.item stacks:data.stacks withCompletion:completion];
+  [self animate:data.player withImage:[Globals imageNamed:data.imageName] topText:data.topText bottomText:data.bottomText miniPopup:data.miniPopup item:data.item stacks:data.stacks withCompletion:completion];
 }
 
 - (void) animate:(BOOL)player withImage:(UIImage*)characterImage topText:(NSString*)topText bottomText:(NSString*)bottomtext

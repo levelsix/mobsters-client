@@ -25,7 +25,7 @@
 #define CLIENT_BRANCH @"master"
 
 //#define USE_PROD
-//#define USE_STAGING
+#define USE_STAGING
 //#define USE_LOCAL
 
 //#define FORCE_TUTORIAL TutorialStepGuideGreeting
