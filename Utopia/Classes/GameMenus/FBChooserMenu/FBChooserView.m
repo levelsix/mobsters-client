@@ -6,8 +6,6 @@
 //  Copyright (c) 2013 LVL6. All rights reserved.
 //
 
-#import <TangoSDK/TangoProfileEntry.h>
-#import "TangoDelegate.h"
 #import "FBChooserView.h"
 #import <FacebookSDK/FacebookSDK.h>
 #import "Globals.h"
@@ -49,9 +47,9 @@
   self.tangoPic.hidden = NO;
   self.profilePic.hidden = YES;
   
-  [TangoDelegate getPictureForProfile:tangoProfile comp:^(UIImage *img) {
-    self.tangoPic.image = img;
-  }];
+//  [TangoDelegate getPictureForProfile:tangoProfile comp:^(UIImage *img) {
+//    self.tangoPic.image = img;
+//  }];
   
   self.checkmark.image = [Globals imageNamed:@"maptaskdonecheck.png"];
 }

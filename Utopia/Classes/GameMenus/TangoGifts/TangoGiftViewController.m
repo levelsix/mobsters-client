@@ -5,7 +5,7 @@
 //  Created by Kenneth Cox on 5/8/15.
 //  Copyright (c) 2015 LVL6. All rights reserved.
 //
-#import <TangoSDK/TangoProfileEntry.h>
+
 #import "TangoDelegate.h"
 #import "TangoGiftViewController.h"
 #import "FBChooserView.h"

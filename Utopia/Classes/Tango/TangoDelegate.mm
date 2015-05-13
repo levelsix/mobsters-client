@@ -127,12 +127,13 @@ static TangoProfileEntry *profileEntry = nil;
       NSLog(@"Everything is the worst");
     }
     
-    
+    dispatch_sync(dispatch_get_main_queue(), ^{
     for (TangoProfileEntry *tpe in profileResult.profileEnumerator) {
       [friendsList addObject:tpe];
     }
     
-    comp(friendsList);
+      comp(friendsList);
+    });
 //    comp(profileResult.profileEnumerator.allObjects);
   }];
 #endif
