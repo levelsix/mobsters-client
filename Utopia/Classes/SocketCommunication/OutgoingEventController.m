@@ -1832,7 +1832,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 - (void) tradeItemIdsForResources:(NSDictionary *)itemIdsToQuantity {
   GameState *gs = [GameState sharedGameState];
   
-  int cashGained = 0, oilGained = 0;
+  int cashGained = 0, oilGained = 0, tokensGained = 0;
   
   NSMutableArray *itemIdsUsed = [NSMutableArray array];
   NSMutableArray *changedUserItems = [NSMutableArray array];
@@ -1856,6 +1856,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
         oilGained += ip.amount*quantity;
       } else if (ip.itemType == ItemTypeItemCash) {
         cashGained += ip.amount*quantity;
+      } else if (ip.itemType == ItemTypeItemGachaCredit) {
+        tokensGained += ip.amount*quantity;
       }
       
       for (int i = 0; i < quantity; i++) {
@@ -1870,14 +1872,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     
     CashUpdate *cu = [CashUpdate updateWithTag:tag change:cashGained enforceMax:NO];
     OilUpdate *ou = [OilUpdate updateWithTag:tag change:oilGained enforceMax:NO];
-    [gs addUnrespondedUpdates:cu, ou, nil];
+    TokensUpdate *tu = [TokensUpdate updateWithTag:tag change:tokensGained];
+    [gs addUnrespondedUpdates:cu, ou, tu, nil];
   }
 }
 
 - (void) tradeItemForResources:(int)itemId {
   GameState *gs = [GameState sharedGameState];
   
-  int cashGained = 0, oilGained = 0;
+  int cashGained = 0, oilGained = 0, tokensGained = 0;
   UserItemProto *changedItem = nil;
   
   ItemProto *ip = [gs itemForId:itemId];
@@ -1896,13 +1899,16 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     oilGained += ip.amount*quantity;
   } else if (ip.itemType == ItemTypeItemCash) {
     cashGained += ip.amount*quantity;
+  } else if (ip.itemType == ItemTypeItemGachaCredit) {
+    tokensGained += ip.amount*quantity;
   }
   
   int tag = [[SocketCommunication sharedSocketCommunication] tradeItemForResources:itemId updatedUserItem:changedItem clientTime:[self getCurrentMilliseconds]];
   
   CashUpdate *cu = [CashUpdate updateWithTag:tag change:cashGained enforceMax:NO];
   OilUpdate *ou = [OilUpdate updateWithTag:tag change:oilGained enforceMax:NO];
-  [gs addUnrespondedUpdates:cu, ou, nil];
+  TokensUpdate *tu = [TokensUpdate updateWithTag:tag change:tokensGained];
+  [gs addUnrespondedUpdates:cu, ou, tu, nil];
 }
 
 #pragma mark - Secret Gift
