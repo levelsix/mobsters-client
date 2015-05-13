@@ -756,11 +756,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       up = [OilUpdate updateWithTag:tag change:resources];
       oilChange = resources;
       res = @"oil";
+    } else if (resType == ResourceTypeGachaCredits) {
+      up = [TokensUpdate updateWithTag:tag change:resources];
     }
     [gs addUnrespondedUpdates:[GemsUpdate updateWithTag:tag change:-gems], up, nil];
     [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
     
-    [Analytics fillStorage:res percAmount:percFill cashChange:cashChange cashBalance:gs.cash oilChange:oilChange oilBalance:gs.oil gemChange:-gems gemBalance:gs.gems];
+    if (resType == ResourceTypeCash || resType == ResourceTypeOil) {
+      [Analytics fillStorage:res percAmount:percFill cashChange:cashChange cashBalance:gs.cash oilChange:oilChange oilBalance:gs.oil gemChange:-gems gemBalance:gs.gems];
+    }
   }
 }
 

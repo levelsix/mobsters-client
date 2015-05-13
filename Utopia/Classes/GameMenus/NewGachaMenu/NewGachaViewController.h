@@ -15,9 +15,10 @@
 #import "BattleHudView.h"
 #import "NewGachaTicker.h"
 #import "PurchaseHighRollerModeViewController.h"
+#import "GrabTokenItemsFiller.h"
 
 @interface NewGachaViewController : GenViewController <EasyTableViewDelegate, NewGachaFocusScrollViewDelegate, TabBarDelegate,
-  NewGachaFeaturedViewCallbackDelegate, BattleSkillCounterPopupCallbackDelegate, PurchaseHighRollerModeCallbackDelegate>
+  NewGachaFeaturedViewCallbackDelegate, BattleSkillCounterPopupCallbackDelegate, PurchaseHighRollerModeCallbackDelegate, GrabTokenItemsFillerDelegate>
 {
   BOOL _isSpinning;
   BOOL _isMultiSpinAvailable;
@@ -28,6 +29,9 @@
   NSInteger _cachedDailySpin;
   BOOL      _lastSpinWasFree;
   BOOL      _lastSpinWasMultiSpin;
+  
+  int _lastSpinPurchaseGemsSpent;
+  int _lastSpinPurchaseTokensChange;
   
   NewGachaTicker* _tickerController;
 }
@@ -74,17 +78,22 @@
 @property (nonatomic, retain) IBOutlet BadgeIcon *badBadge;
 @property (nonatomic, retain) IBOutlet BadgeIcon *goodBadge;
 @property (nonatomic, retain) IBOutlet BadgeIcon *eventBadge;
+@property (nonatomic, retain) IBOutlet UIButton *addTokensButton;
 
 @property (nonatomic, retain) IBOutlet BattleSkillCounterPopupView* skillPopup;
 @property (nonatomic, retain) IBOutlet UIButton* skillPopupCloseButton;
 
 @property (nonatomic, retain) IBOutlet UIImageView* ticker;
 
+@property (nonatomic, retain) ItemSelectViewController *itemSelectViewController;
+@property (nonatomic, retain) GrabTokenItemsFiller *grabTokenItemsFiller;
+@property (nonatomic, assign) UIButton *buttonInvokingItemSelect;
+
 - (id) initWithBoosterPack:(BoosterPackProto *)bpp;
 
 - (IBAction) singleSpinClicked:(id)sender;
 - (IBAction) multiSpinClicked:(id)sender;
-
+- (IBAction) showItemSelect:(id)sender;
 - (IBAction) hideSkillPopup:(id)sender;
 
 @end

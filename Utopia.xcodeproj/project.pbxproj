@@ -2714,6 +2714,9 @@
 		9BBE371F1AFD8776001A0E81 /* grabstokenlabel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BBE371E1AFD8776001A0E81 /* grabstokenlabel@2x.png */; };
 		9BBE37201AFD8777001A0E81 /* grabstokenlabel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BBE371E1AFD8776001A0E81 /* grabstokenlabel@2x.png */; };
 		9BBE37211AFD8777001A0E81 /* grabstokenlabel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BBE371E1AFD8776001A0E81 /* grabstokenlabel@2x.png */; };
+		9BBE37261B028E30001A0E81 /* GrabTokenItemsFiller.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BBE37251B028E30001A0E81 /* GrabTokenItemsFiller.m */; };
+		9BBE37271B028E30001A0E81 /* GrabTokenItemsFiller.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BBE37251B028E30001A0E81 /* GrabTokenItemsFiller.m */; };
+		9BBE37281B028E30001A0E81 /* GrabTokenItemsFiller.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BBE37251B028E30001A0E81 /* GrabTokenItemsFiller.m */; };
 		9BC1891A1AC1E734001B8E88 /* MiniEventDetailsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BC189191AC1E734001B8E88 /* MiniEventDetailsView.xib */; };
 		9BC1891B1AC1E734001B8E88 /* MiniEventDetailsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BC189191AC1E734001B8E88 /* MiniEventDetailsView.xib */; };
 		9BC1891C1AC1E734001B8E88 /* MiniEventDetailsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BC189191AC1E734001B8E88 /* MiniEventDetailsView.xib */; };
@@ -8837,6 +8840,8 @@
 		9BBE37091AF9A687001A0E81 /* PurchaseHighRollerModeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PurchaseHighRollerModeViewController.xib; sourceTree = "<group>"; };
 		9BBE37191AFD695F001A0E81 /* grabchip@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "grabchip@2x.png"; sourceTree = "<group>"; };
 		9BBE371E1AFD8776001A0E81 /* grabstokenlabel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "grabstokenlabel@2x.png"; sourceTree = "<group>"; };
+		9BBE37241B028E30001A0E81 /* GrabTokenItemsFiller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrabTokenItemsFiller.h; sourceTree = "<group>"; };
+		9BBE37251B028E30001A0E81 /* GrabTokenItemsFiller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrabTokenItemsFiller.m; sourceTree = "<group>"; };
 		9BC189191AC1E734001B8E88 /* MiniEventDetailsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MiniEventDetailsView.xib; sourceTree = "<group>"; };
 		9BC1891E1AC1E792001B8E88 /* MiniEventPointsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MiniEventPointsView.xib; sourceTree = "<group>"; };
 		9BC189221AC1EF6A001B8E88 /* MiniEventDetailsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiniEventDetailsView.h; sourceTree = "<group>"; };
@@ -17337,6 +17342,8 @@
 				CFBEB1C51A118DD900149937 /* ResourceItemsFiller.m */,
 				63CA0B0B1AD7435100E92774 /* MiniJobRefreshItemsFiller.h */,
 				63CA0B0C1AD7435100E92774 /* MiniJobRefreshItemsFiller.m */,
+				9BBE37241B028E30001A0E81 /* GrabTokenItemsFiller.h */,
+				9BBE37251B028E30001A0E81 /* GrabTokenItemsFiller.m */,
 			);
 			name = Delegates;
 			sourceTree = "<group>";
@@ -25951,6 +25958,7 @@
 				CF0CED67196F452900ECD301 /* FundsViews.m in Sources */,
 				CF0CED68196F452900ECD301 /* TutorialShopViewController.m in Sources */,
 				DA173A5119CA4A1F005236C0 /* SkillShield.m in Sources */,
+				9BBE37271B028E30001A0E81 /* GrabTokenItemsFiller.m in Sources */,
 				DA07605B19B129EC00E43E5A /* SkillBattleIndicatorView.m in Sources */,
 				CF0CED69196F452900ECD301 /* SBJsonBase.m in Sources */,
 				CF0CED6A196F452900ECD301 /* SBJsonParser.m in Sources */,
@@ -26373,6 +26381,7 @@
 				CF7063FD183F5110005B30A1 /* HomeBuilding.m in Sources */,
 				9BDA8B481A3A481300C7AC27 /* SkillShuffle.m in Sources */,
 				CF32EAF3195FFA6400A4AEE3 /* ShopViewController.m in Sources */,
+				9BBE37261B028E30001A0E81 /* GrabTokenItemsFiller.m in Sources */,
 				CF62E70715FEC6D500DF850F /* ClanViewController.m in Sources */,
 				CF30279218C0176B009D2D25 /* ClanRaidViewController.m in Sources */,
 				CFB2509018587BF300BE0C05 /* THLabel.m in Sources */,
@@ -26740,6 +26749,7 @@
 				2991FC021A800D7F009BB1D8 /* MonsterSelectViewController.m in Sources */,
 				CF48190C19F7217F00041486 /* FundsViews.m in Sources */,
 				CF48190D19F7217F00041486 /* TutorialShopViewController.m in Sources */,
+				9BBE37281B028E30001A0E81 /* GrabTokenItemsFiller.m in Sources */,
 				CF48190E19F7217F00041486 /* SkillShield.m in Sources */,
 				CF48190F19F7217F00041486 /* SkillBattleIndicatorView.m in Sources */,
 				CF48191019F7217F00041486 /* SBJsonBase.m in Sources */,

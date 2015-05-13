@@ -66,8 +66,8 @@ static BOOL _instanceOpened = NO;
     _centeredOnScreen = NO;
     
     const CGPoint invokingViewAbsolutePosition = invokingView.superview
-    ? [Globals convertPointToWindowCoordinates:invokingView.frame.origin fromViewCoordinates:invokingView.superview]
-    : invokingView.frame.origin; // Already in screen space
+      ? [Globals convertPointToWindowCoordinates:invokingView.frame.origin fromViewCoordinates:invokingView.superview]
+      : invokingView.frame.origin; // Already in screen space
     const CGSize windowSize = [Globals screenSize];
     CGFloat viewTargetX = self.mainView.frame.origin.x;
     CGFloat viewTargetY = self.mainView.frame.origin.y;

@@ -7,6 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NewGachaViewController">
             <connections>
+                <outlet property="addTokensButton" destination="1Ma-gK-pEz" id="npm-Cw-2gv"/>
                 <outlet property="badBadge" destination="daC-ue-BHU" id="z7n-pG-ZeW"/>
                 <outlet property="eventBadge" destination="qhl-kg-6nw" id="PVm-S5-eDc"/>
                 <outlet property="focusScrollView" destination="EWj-RU-bBZ" id="aj8-94-hkl"/>
@@ -512,6 +513,9 @@
                             <state key="highlighted">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
+                            <connections>
+                                <action selector="showItemSelect:" destination="-1" eventType="touchUpInside" id="Qfu-D2-Ctj"/>
+                            </connections>
                         </button>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>

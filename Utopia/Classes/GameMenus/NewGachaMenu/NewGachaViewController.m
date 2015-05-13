@@ -41,7 +41,7 @@
   self.gachaTable.tableView.repeatSize = CGSizeMake(0, TABLE_CELL_WIDTH*self.items.count);
 }
 
-- (void)viewDidLoad {
+- (void) viewDidLoad {
   [super viewDidLoad];
   
   GameState *gs = [GameState sharedGameState];
@@ -133,6 +133,7 @@
       self.multiSpinGemCostIcon.centerX = gemCostIconCenter.x;
       
       self.multiSpinGemCostLabel.font = [UIFont fontWithName:self.multiSpinGemCostLabel.font.fontName size:11.f];
+      [self.multiSpinGemCostLabel sizeToFit];
     } else {
       [Globals imageNamed:@"grabchip.png" withView:self.multiSpinGemCostIcon greyscale:YES indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:NO];
       
@@ -156,7 +157,7 @@
   }
 }
 
-- (void)viewWillLayoutSubviews {
+- (void) viewWillLayoutSubviews {
   self.topBar.coinView.centerX = [self.singleSpinContainer convertPoint:self.singleSpinButton.center toView:self.topBar].x;
 }
 
@@ -248,9 +249,6 @@
   self.singleSpinGemCostLabel.text = [NSString stringWithFormat:@" %d ", self.boosterPack.gachaCreditsPrice];
   self.multiSpinGemCostLabel.text  = [NSString stringWithFormat:@" %d ", self.boosterPack.gachaCreditsPrice * [Globals sharedGlobals].boosterPackPurchaseAmountRequired];
   
-  [self.singleSpinGemCostLabel sizeToFit];
-  [self.multiSpinGemCostLabel sizeToFit];
-  
   [self.gachaTable.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:NUM_COLS/2 inSection:0] atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
   
   [Globals imageNamed:bpp.machineImgName withView:self.machineImage greyscale:NO
@@ -314,6 +312,7 @@
   self.singleSpinGemCostIcon.center = CGPointMake(gemCostIconCenter.x, self.singleSpinActionLabel.centerY + 1);
   
   self.singleSpinGemCostLabel.font = [UIFont fontWithName:self.singleSpinGemCostLabel.font.fontName size:regularGrab ? 13.f : 9.f];
+  [self.singleSpinGemCostLabel sizeToFit];
   self.singleSpinGemCostLabel.centerY = self.singleSpinActionLabel.centerY + 1;
   self.singleSpinGemCostLabel.originX = CGRectGetMaxX(self.singleSpinGemCostIcon.frame) + 1;
 }
@@ -432,17 +431,29 @@
   BOOL isDailySpin = (self.boosterPack == self.badBoosterPack) && _cachedDailySpin;
   int numFreeSpins = [gs numberOfFreeSpinsForBoosterPack:self.boosterPack.boosterPackId];
   const int32_t boosterPackPrice = self.boosterPack.gachaCreditsPrice;
-  if (gs.tokens < boosterPackPrice && !isDailySpin && !numFreeSpins) {
-    // TODO - Allow tokens to be bought with gems
-    [GenericPopupController displayNotEnoughGemsView];
+  
+  // Sender is nil when invoked right after purchasing tokens,
+  // in which case enough resources are known to be available
+  if (sender == self.singleSpinButton && gs.tokens < boosterPackPrice && !isDailySpin && !numFreeSpins) {
+    [self showItemSelect:self.singleSpinButton];
   } else {
     _lastSpinWasFree = isDailySpin;
     _lastSpinWasMultiSpin = NO;
     
+    if (sender == self.singleSpinButton)
+    {
+      _lastSpinPurchaseGemsSpent = 0;
+      _lastSpinPurchaseTokensChange = -boosterPackPrice;
+    }
+    
     // Prioritize daily spin
     if (isDailySpin || !numFreeSpins) {
-      [[OutgoingEventController sharedOutgoingEventController] purchaseBoosterPack:self.boosterPack.boosterPackId isFree:isDailySpin isMultiSpin:NO
-                                                                         gemsSpent:0 tokensChange:-boosterPackPrice delegate:self];
+      [[OutgoingEventController sharedOutgoingEventController] purchaseBoosterPack:self.boosterPack.boosterPackId
+                                                                            isFree:isDailySpin
+                                                                       isMultiSpin:NO
+                                                                         gemsSpent:_lastSpinPurchaseGemsSpent
+                                                                      tokensChange:_lastSpinPurchaseTokensChange
+                                                                          delegate:self];
     } else {
       [[OutgoingEventController sharedOutgoingEventController] tradeItemForFreeBoosterPack:self.boosterPack.boosterPackId delegate:self];
     }
@@ -467,15 +478,27 @@
     GameState *gs = [GameState sharedGameState];
     Globals *gl = [Globals sharedGlobals];
     const int32_t boosterPackPrice = self.boosterPack.gachaCreditsPrice * gl.boosterPackPurchaseAmountRequired;
-    if (gs.tokens < boosterPackPrice) {
-      // TODO - Allow tokens to be bought with gems
-      [GenericPopupController displayNotEnoughGemsView];
+    
+    // Sender is nil when invoked right after purchasing tokens,
+    // in which case enough resources are known to be available
+    if (sender == self.multiSpinButton && gs.tokens < boosterPackPrice) {
+      [self showItemSelect:self.multiSpinButton];
     } else {
       _lastSpinWasFree = NO;
       _lastSpinWasMultiSpin = YES;
       
-      [[OutgoingEventController sharedOutgoingEventController] purchaseBoosterPack:self.boosterPack.boosterPackId isFree:NO isMultiSpin:YES
-                                                                         gemsSpent:0 tokensChange:-boosterPackPrice delegate:self];
+      if (sender == self.multiSpinButton)
+      {
+        _lastSpinPurchaseGemsSpent = 0;
+        _lastSpinPurchaseTokensChange = -boosterPackPrice;
+      }
+      
+      [[OutgoingEventController sharedOutgoingEventController] purchaseBoosterPack:self.boosterPack.boosterPackId
+                                                                            isFree:NO
+                                                                       isMultiSpin:YES
+                                                                         gemsSpent:_lastSpinPurchaseGemsSpent
+                                                                      tokensChange:_lastSpinPurchaseTokensChange
+                                                                          delegate:self];
       
       [self.topBar updateLabels];
       
@@ -631,10 +654,6 @@
     [table setContentOffset:pt withTimingFunction:[CAMediaTimingFunction functionWithControlPoints:0.1f :0.8f :0.35f :1.f] duration:time];
   }
   
-  // TODO - These values need to be stored or calculated
-  const int purchaseGemsSpent = 0;
-  const int purchaseTokensChange = 0;
-  
   int32_t prizesGemReward = 0, prizesTokenReward = 0;
   for (BoosterItemProto* prize in prizes) {
     if (prize.reward.typ == RewardProto_RewardTypeGems)
@@ -642,8 +661,8 @@
     else if (prize.reward.typ == RewardProto_RewardTypeGachaCredits)
       prizesTokenReward += prize.reward.amt;
   }
-  const int gemChange = prizesGemReward - purchaseGemsSpent;
-  const int tokenChange = prizesTokenReward + purchaseTokensChange;
+  const int gemChange = prizesGemReward - _lastSpinPurchaseGemsSpent;
+  const int tokenChange = prizesTokenReward + _lastSpinPurchaseTokensChange;
   
   NSMutableArray* monsterList = nil;
   int itemId = 0, itemQuantity = 0;
@@ -693,14 +712,14 @@
   [self responseReceivedWithSuccess:success prizes:@[ prize ] monsters:monsters];
 }
 
-- (IBAction)menuCloseClicked:(id)sender {
+- (IBAction) menuCloseClicked:(id)sender {
   GameState *gs = [GameState sharedGameState];
   if (!_isSpinning || gs.isAdmin) {
     [self.navigationController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
   }
 }
 
-- (IBAction)menuBackClicked:(id)sender {
+- (IBAction) menuBackClicked:(id)sender {
   if (!_isSpinning) {
     [super menuBackClicked:sender];
   }
@@ -714,10 +733,130 @@
   [self.navigationController.presentingViewController dismissViewControllerAnimated:YES completion:^{
     GameViewController *gvc = [GameViewController baseController];
     Globals *gl = [Globals sharedGlobals];
-    
     SalesPackageProto *spp = [gl highRollerModeSale];
     [gvc.topBarViewController openShopWithFunds:spp];
   }];
+}
+
+#pragma mark - GrabTokenItemsFillerDelegate
+
+- (IBAction) showItemSelect:(id)sender
+{
+  ItemSelectViewController *svc = [[ItemSelectViewController alloc] init];
+  if (svc)
+  {
+    int requiredAmount = 0;
+    if (sender == self.singleSpinButton)
+      requiredAmount = self.boosterPack.gachaCreditsPrice;
+    else if (sender == self.multiSpinButton)
+      requiredAmount = self.boosterPack.gachaCreditsPrice * [Globals sharedGlobals].boosterPackPurchaseAmountRequired;
+    
+    GrabTokenItemsFiller *itemsFiller = [[GrabTokenItemsFiller alloc] initWithRequiredAmount:requiredAmount];
+    itemsFiller.delegate = self;
+    svc.delegate = itemsFiller;
+    self.itemSelectViewController = svc;
+    self.grabTokenItemsFiller = itemsFiller;
+    
+    [self.navigationController addChildViewController:svc];
+    [svc.view setFrame:self.view.bounds];
+    [self.navigationController.view addSubview:svc.view];
+    
+    [svc viewWillAppear:YES];
+    
+    if (sender && [sender isKindOfClass:[UIButton class]])
+    {
+      self.buttonInvokingItemSelect = sender;
+      if (sender == self.addTokensButton)
+      {
+        [svc showAnchoredToInvokingView:self.topBar.coinView withDirection:ViewAnchoringPreferBottomPlacement inkovingViewImage:nil];
+      }
+      else
+      {
+        UIButton* invokingButton = (UIButton*)sender;
+        [svc showAnchoredToInvokingView:invokingButton withDirection:ViewAnchoringPreferLeftPlacement inkovingViewImage:invokingButton.currentImage];
+      }
+    }
+    else
+    {
+      self.buttonInvokingItemSelect = nil;
+      [svc showCenteredOnScreen];
+    }
+  }
+}
+
+- (void) resourceItemUsed:(id<ItemObject>)itemObject viewController:(ItemSelectViewController*)viewController
+{
+  // Buy a fixed number of tokens with gems. Invoked by the add tokens button
+  
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  
+  if ([itemObject isKindOfClass:[UserItem class]])
+  {
+    UserItem *ui = (UserItem *)itemObject;
+    ItemProto *ip = [gs itemForId:ui.itemId];
+    if (ip.itemType == ItemTypeItemGachaCredit)
+    {
+      const int tokens = ip.amount;
+      const int gemCost = [gl calculateGemConversionForResourceType:ResourceTypeGachaCredits amount:tokens];
+      if (gemCost > gs.gems)
+        [GenericPopupController displayNotEnoughGemsView];
+      else
+        [[OutgoingEventController sharedOutgoingEventController] exchangeGemsForResources:gemCost resources:tokens percFill:0 resType:ResourceTypeGachaCredits delegate:nil];
+      
+      [viewController reloadDataAnimated:YES];
+      
+      [self.topBar updateLabels];
+    }
+  }
+}
+
+- (void) resourceItemsUsed:(NSDictionary*)itemUsages
+{
+  // Buy missing tokens with gems. Invoked by either of the spin buttons
+  
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  
+  const BOOL allowGems = [itemUsages[@0] boolValue];
+  const int spinTokenCost = self.grabTokenItemsFiller.requiredAmount;
+  const int curTokens = [gl calculateTotalResourcesForResourceType:ResourceTypeGachaCredits itemIdsToQuantity:itemUsages];
+  
+  int gemCost = 0;
+  for (NSNumber *num in itemUsages) {
+    int itemId = num.intValue;
+    int numUsed = [itemUsages[num] intValue];
+    if (itemId > 0) {
+      ItemProto *ip = [gs itemForId:itemId];
+      if (ip.itemType == ItemTypeItemGachaCredit) {
+        gemCost += [gl calculateGemConversionForResourceType:ResourceTypeGachaCredits amount:ip.amount] * numUsed;
+      }
+    }
+  }
+  
+  if (allowGems)
+    gemCost += [gl calculateGemConversionForResourceType:ResourceTypeGachaCredits amount:spinTokenCost - curTokens];
+  
+  if (gemCost > gs.gems)
+    [GenericPopupController displayNotEnoughGemsView];
+  else
+  {
+    _lastSpinPurchaseGemsSpent = gemCost;
+    _lastSpinPurchaseTokensChange = allowGems ? -gs.tokens : (curTokens - spinTokenCost) - gs.tokens;
+    
+    if (self.buttonInvokingItemSelect == self.singleSpinButton)
+      [self singleSpinClicked:nil];
+    else
+      [self multiSpinClicked:nil];
+  }
+  
+  [self.topBar updateLabels];
+}
+
+- (void) itemSelectClosed:(id)viewController
+{
+  self.itemSelectViewController = nil;
+  self.grabTokenItemsFiller = nil;
 }
 
 #pragma mark - EasyTableView methods

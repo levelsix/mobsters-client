@@ -15,6 +15,7 @@
 @protocol ItemObject <NSObject>
 
 - (int) numOwned;
+- (BOOL) canBeOwned;
 - (NSString *) name;
 - (BOOL) isValid;
 

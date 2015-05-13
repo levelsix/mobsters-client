@@ -13,12 +13,17 @@
 @implementation CoinBar
 
 - (void) awakeFromNib {
-  if ([self.cashLabel isKindOfClass:[NumTransitionLabel class]]) {
+  if ([self.cashLabel isKindOfClass:[NumTransitionLabel class]])
     self.cashLabel.transitionDelegate = self;
+  
+  if ([self.oilLabel isKindOfClass:[NumTransitionLabel class]])
     self.oilLabel.transitionDelegate = self;
+  
+  if ([self.gemsLabel isKindOfClass:[NumTransitionLabel class]])
     self.gemsLabel.transitionDelegate = self;
+  
+  if ([self.tokensLabel isKindOfClass:[NumTransitionLabel class]])
     self.tokensLabel.transitionDelegate = self;
-  }
   
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateLabels) name:GAMESTATE_UPDATE_NOTIFICATION object:nil];
   
@@ -32,23 +37,40 @@
 - (void) updateLabelsAnim:(BOOL)animated {
   GameState *gs = [GameState sharedGameState];
   
-  if (![self.cashLabel isKindOfClass:[NumTransitionLabel class]]) {
+  if (![self.cashLabel isKindOfClass:[NumTransitionLabel class]])
     self.cashLabel.text = [Globals cashStringForNumber:gs.cash];
-    self.oilLabel.text = [Globals commafyNumber:gs.oil];
-    self.gemsLabel.text = [Globals commafyNumber:gs.gems];
-    self.tokensLabel.text = [Globals commafyNumber:gs.tokens];
-  } else {
-    if (animated) {
+  else {
+    if (animated)
       [self.cashLabel transitionToNum:gs.cash];
-      [self.oilLabel transitionToNum:gs.oil];
-      [self.gemsLabel transitionToNum:gs.gems];
-      [self.tokensLabel transitionToNum:gs.tokens];
-    } else {
+    else
       [self.cashLabel instaMoveToNum:gs.cash];
+  }
+  
+  if (![self.oilLabel isKindOfClass:[NumTransitionLabel class]])
+    self.oilLabel.text = [Globals commafyNumber:gs.oil];
+  else {
+    if (animated)
+      [self.oilLabel transitionToNum:gs.oil];
+    else
       [self.oilLabel instaMoveToNum:gs.oil];
+  }
+  
+  if (![self.gemsLabel isKindOfClass:[NumTransitionLabel class]])
+    self.gemsLabel.text = [Globals commafyNumber:gs.gems];
+  else {
+    if (animated)
+      [self.gemsLabel transitionToNum:gs.gems];
+    else
       [self.gemsLabel instaMoveToNum:gs.gems];
+  }
+  
+  if (![self.tokensLabel isKindOfClass:[NumTransitionLabel class]])
+    self.tokensLabel.text = [Globals commafyNumber:gs.tokens];
+  else {
+    if (animated)
+      [self.tokensLabel transitionToNum:gs.tokens];
+    else
       [self.tokensLabel instaMoveToNum:gs.tokens];
-    }
   }
 }
 
