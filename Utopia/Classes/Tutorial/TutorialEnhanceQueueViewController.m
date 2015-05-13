@@ -83,7 +83,7 @@
     if (cell) {
       _arrowOverMonsterCreated = YES;
       float angle = M_PI_2;
-      [Globals createUIArrowForView:cell atAngle:angle inSuperview:self.view];
+      [Globals createUIArrowForView:cell atAngle:angle inSuperview:self.view pulseAlpha:NO];
     }
   }
 }
@@ -116,13 +116,13 @@
 - (void) allowEnhance {
   _allowEnhance = YES;
   
-  [Globals createUIArrowForView:self.enhanceButtonView atAngle:M_PI inSuperview:self.view];
+  [Globals createUIArrowForView:self.enhanceButtonView atAngle:M_PI inSuperview:self.view pulseAlpha:NO];
 }
 
 - (void) allowFinish {
   _allowFinish = YES;
   
-  [Globals createUIArrowForView:self.finishButtonView atAngle:M_PI inSuperview:self.view];
+  [Globals createUIArrowForView:self.finishButtonView atAngle:M_PI inSuperview:self.view pulseAlpha:NO];
 }
 
 - (IBAction) enhanceButtonClicked:(id)sender {
@@ -170,7 +170,7 @@
 - (void) allowClose {
   _allowClose = YES;
   
-  [Globals createUIArrowForView:self.parentViewController.closeButton atAngle:M_PI inSuperview:self.parentViewController.view];
+  [Globals createUIArrowForView:self.parentViewController.closeButton atAngle:M_PI inSuperview:self.parentViewController.view pulseAlpha:NO];
 }
 
 
