@@ -29,4 +29,6 @@
 
 + (BOOL) handleOpenURL:(NSURL *)url sourceApplication:(NSString *)requester;
 
++ (void) enableLogs;
+
 @end

@@ -1023,6 +1023,8 @@
 }
 
 - (IBAction)miniEventClicked:(id)sender {
+  #warning don't breath this
+  [TangoDelegate enableLogs];
   GameViewController *gvc = (GameViewController *)self.parentViewController;
   MiniEventViewController *mevc = [[MiniEventViewController alloc] init];
   [gvc addChildViewController:mevc];

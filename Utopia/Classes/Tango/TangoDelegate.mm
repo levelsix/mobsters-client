@@ -112,11 +112,7 @@ static TangoProfileEntry *profileEntry = nil;
 }
 
 + (void) fetchCachedFriends:(void (^)(NSArray *friends))comp {
-#ifdef TANGO_ENABLED
-  if (!profileEntry) {
-    [self fetchMyProfile];
-  }
-  
+#ifdef TANGO_ENABLED  
   [TangoProfile fetchMyCachedFriendsWithHandler:^(TangoProfileResult *profileResult, NSError *error) {
     NSLog(@"fetch Cached Friends resulted in Error: %@", error);
     
@@ -261,6 +257,12 @@ static TangoProfileEntry *profileEntry = nil;
 #endif
   
   return NO;
+}
+
++ (void) enableLogs {
+#ifdef TANGO_ENABLED
+  [[UIApplication sharedApplication] openURL:[NSURL URLWithString: @"toonsquad4t://log?action=logenable&http=trace&http_details=trace&sdk_session=trace&sdk_impl=trace&sdk_token_fetcher=trace&ipc_comm=trace&sdk_http_cmd=trace&sdk_feed=trace"]];
+#endif
 }
 
 @end
