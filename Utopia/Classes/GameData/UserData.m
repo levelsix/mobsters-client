@@ -1266,6 +1266,24 @@
   return rewards;
 }
 
++ (Reward *) createRewardWithRewardProto:(RewardProto *)proto {
+  switch (proto.typ) {
+    case RewardProto_RewardTypeCash:
+      return [[Reward alloc] initWithSilverAmount:proto.amt];
+    case RewardProto_RewardTypeOil:
+      return [[Reward alloc] initWithOilAmount:proto.amt];
+    case RewardProto_RewardTypeGems:
+      return [[Reward alloc] initWithGoldAmount:proto.amt];
+    case RewardProto_RewardTypeItem:
+      return [[Reward alloc] initWithItemId:proto.staticDataId quantity:proto.amt];
+    case RewardProto_RewardTypeMonster:
+      return [[Reward alloc] initWithMonsterId:proto.staticDataId isPuzzlePiece:proto.amt == 0];
+    case RewardProto_RewardTypeNoReward:
+    case RewardProto_RewardTypeClanGift:
+      return nil;
+  }
+}
+
 - (id) initWithMonsterId:(int)monsterId isPuzzlePiece:(BOOL)isPuzzlePiece {
   if ((self = [super init])) {
     self.type = RewardTypeMonster;

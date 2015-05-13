@@ -377,6 +377,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSRefreshMiniJobEvent:
       responseClass = [RefreshMiniJobResponseProto class];
       break;
+    case EventProtocolResponseSCollectClanGiftsEvent:
+      responseClass = [CollectClanGiftsResponseProto class];
+      break;
+    case EventProtocolResponseSDeleteClanGiftsEvent:
+      responseClass = [DeleteClanGiftsResponseProto class];
+      break;
+    case EventProtocolResponseSReceivedClanGiftsEvent:
+      responseClass = [ReceivedClanGiftResponseProto class];
+      break;
     default:
       responseClass = nil;
       break;
@@ -530,9 +539,26 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     }
     
     [gs updateClanData:proto.clanData];
-    
-    if([proto.recentNbattlesList mutableCopy]) {
+
+    if(proto.recentNbattlesList) {
       gs.battleHistory = [proto.recentNbattlesList mutableCopy];
+    }
+
+    [gs.clanGifts removeAllObjects];
+    NSMutableArray *giftsToBeRemoved = [[NSMutableArray alloc] init];
+    for (UserClanGiftProto *ucgp in proto.userClanGiftsList) {
+      if (ucgp.hasBeenCollected) {
+        [giftsToBeRemoved addObject:ucgp];
+        continue;
+      }
+      if (ucgp.isExpired) {
+        [giftsToBeRemoved addObject:ucgp];
+      }
+      [gs.clanGifts addObject:ucgp];
+    }
+    
+    if (giftsToBeRemoved.count > 0) {
+      [[OutgoingEventController sharedOutgoingEventController] clearClanGifts:giftsToBeRemoved];
     }
     
     gs.myPvpBoardObstacles = [proto.userPvpBoardObstaclesList mutableCopy];
@@ -1625,6 +1651,57 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [Globals popupMessage:@"Server failed to void team donation."];
     
     [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+#pragma mark - Clan Gifts
+
+- (void) handleReceivedClanGiftResponseProto:(FullEvent *)fe {
+  ReceivedClanGiftResponseProto *proto = (ReceivedClanGiftResponseProto *)fe.event;
+  
+  GameState *gs = [GameState sharedGameState];
+  if (![proto.sender.userUuid isEqualToString:gs.userUuid]) {
+    LNLog(@"Recieving Clan Gifts");
+    
+    [gs.clanGifts addObjectsFromArray:proto.userClanGiftsList];
+    [Globals addClanGiftNotification:proto.userClanGiftsList];
+    [[NSNotificationCenter defaultCenter] postNotificationName:CLAN_GIFTS_CHANGED_NOTIFICATION object:nil];
+  }
+  
+}
+
+- (void) handleCollectClanGiftsResponseProto:(FullEvent *)fe {
+  CollectClanGiftsResponseProto *proto = (CollectClanGiftsResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Collect Clan Gifts response received with status %d.", (int)proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == CollectClanGiftsResponseProto_CollectClanGiftsStatusSuccess) {
+    // Gems, oil, and cash are updated through UpdateUserClientResponseEvent. Don't do anything here
+    if (proto.reward.updatedOrNewMonstersList.count) {
+      [gs addToMyMonsters:proto.reward.updatedOrNewMonstersList];
+    }
+    
+    if (proto.reward.updatedUserItemsList.count) {
+      [gs.itemUtil addToMyItems:proto.reward.updatedUserItemsList];
+    }
+  } else {
+    [Globals popupMessage:@"Server failed to redeem clan gift(s)."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleDeleteClanGiftsResponseProto:(FullEvent *)fe {
+  DeleteClanGiftsResponseProto *proto = (DeleteClanGiftsResponseProto *)fe.event;
+  
+  LNLog(@"Clear Expired Clan Gifts received with status %d.", (int)proto.status);
+  
+  if (proto.status == DeleteClanGiftsResponseProto_DeleteClanGiftsStatusSuccess) {
+    
+  } else {
+    [Globals popupMessage:@"Server fail to clear expired gift(s)."];
   }
 }
 
