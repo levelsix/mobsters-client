@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		2636AB3AF3AA4E51B6778221 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E3B014266D6444DCA5AD786C /* libPods.a */; };
 		2905FFD41AF56B1F009F0CF8 /* gacha_spin1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2905FFD31AF56B1F009F0CF8 /* gacha_spin1.mp3 */; };
-		2905FFD51AF56B1F009F0CF8 /* gacha_spin1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2905FFD31AF56B1F009F0CF8 /* gacha_spin1.mp3 */; };
 		2905FFD61AF56B1F009F0CF8 /* gacha_spin1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2905FFD31AF56B1F009F0CF8 /* gacha_spin1.mp3 */; };
 		290A99501AD5FC0F00FA41B2 /* avatardropshadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 290A994F1AD5FC0F00FA41B2 /* avatardropshadow@2x.png */; };
 		290A99511AD5FC0F00FA41B2 /* avatardropshadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 290A994F1AD5FC0F00FA41B2 /* avatardropshadow@2x.png */; };
@@ -1792,9 +1791,7 @@
 		63CA30C81AE8A4A40005175B /* researchbottompressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CA30C71AE8A4A40005175B /* researchbottompressed@2x.png */; };
 		63CA30C91AE8A4A40005175B /* researchbottompressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CA30C71AE8A4A40005175B /* researchbottompressed@2x.png */; };
 		63CA30CA1AE8A4A40005175B /* researchbottompressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CA30C71AE8A4A40005175B /* researchbottompressed@2x.png */; };
-		63CA30D81AE9CDBF0005175B /* gacha_spin1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 63CA30D71AE9CDBF0005175B /* gacha_spin1.mp3 */; };
 		63CA30D91AE9CDBF0005175B /* gacha_spin1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 63CA30D71AE9CDBF0005175B /* gacha_spin1.mp3 */; };
-		63CA30DA1AE9CDBF0005175B /* gacha_spin1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 63CA30D71AE9CDBF0005175B /* gacha_spin1.mp3 */; };
 		63CDCEFB1AB8EBF400A00DB6 /* buildingresearch@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CDCEFA1AB8EBF400A00DB6 /* buildingresearch@2x.png */; };
 		63CDCEFC1AB8EBF400A00DB6 /* buildingresearch@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CDCEFA1AB8EBF400A00DB6 /* buildingresearch@2x.png */; };
 		63CDCEFD1AB8EBF400A00DB6 /* buildingresearch@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CDCEFA1AB8EBF400A00DB6 /* buildingresearch@2x.png */; };
@@ -20817,7 +20814,6 @@
 				29AE75971A6F36E000264070 /* TribalGirl1T1P2TutBig@2x.png in Resources */,
 				CF0CF5F4196F452900ECD301 /* sfx_points_fly_from_match_01.mp3 in Resources */,
 				CF010F3619DDE5C400DAD527 /* chatinputcap@2x.png in Resources */,
-				2905FFD51AF56B1F009F0CF8 /* gacha_spin1.mp3 in Resources */,
 				CF0CF5F6196F452900ECD301 /* profsenmessagebutton@2x.png in Resources */,
 				CF0CF5F8196F452900ECD301 /* platinumrankbg@2x.png in Resources */,
 				CF0CF5F9196F452900ECD301 /* sfx_destroy_piece.mp3 in Resources */,
@@ -22963,7 +22959,6 @@
 				CFC97169182C5AA400FF1D83 /* streak.png in Resources */,
 				CF2A4B241901B8F500B2D7D7 /* upgradebarnewmiddle@2x.png in Resources */,
 				29A38D6C1ACCD85B006F3CBF /* healingresearchgroup@2x.png in Resources */,
-				63CA30D81AE9CDBF0005175B /* gacha_spin1.mp3 in Resources */,
 				CFEE024817BDC76000F3BB19 /* close1.png in Resources */,
 				CFFCF57E19B163BA007E316D /* settingsconnect@2x.png in Resources */,
 				CF0CE150196D705700ECD301 /* menuclosex@2x.png in Resources */,
@@ -23975,7 +23970,6 @@
 				CF481C8E19F7217F00041486 /* mycity@2x.png in Resources */,
 				CFA7938B1A0C63ED00DF3407 /* firescientisteventlive@2x.png in Resources */,
 				CF481C9119F7217F00041486 /* ChatClanHelpView.xib in Resources */,
-				63CA30DA1AE9CDBF0005175B /* gacha_spin1.mp3 in Resources */,
 				636C3E9E1AAA9EFF00B02980 /* ResearchSelectionBar.xib in Resources */,
 				29DF6C581A731F7900D4D19B /* livehelpgirl@2x.png in Resources */,
 				CF481C9219F7217F00041486 /* timerbgcapleft@2x.png in Resources */,

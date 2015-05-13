@@ -75,8 +75,6 @@
   
   [[CCDirector sharedDirector] resume];
   
-#warning look over here Ashwin!
-  
   //if the shop just closed because the player is buying building, and the tutorial wants to get the player to heal or manage team, it causes a bug.
   //so what's happening is the shop closes and creates a fake building that the player can place.
   //the tutorial points an arrow to any building it needs to (for example the hospital) and moves the camera to the hospital
@@ -89,7 +87,7 @@
   //after you've gone through the whole tutorial remove all toons from your team.
   //buy a new building from the store.
   
-  [[GameViewController baseController] showEarlyGameTutorialArrow];
+  //[[GameViewController baseController] showEarlyGameTutorialArrow];
 }
 
 - (BOOL) shouldStopCCDirector {
