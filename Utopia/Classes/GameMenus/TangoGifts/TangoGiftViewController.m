@@ -40,23 +40,6 @@
   [self.tangoFriends sortedArrayUsingDescriptors:@[sorter]];
   self.selectedFriends = [self.tangoFriends mutableCopy];
   
-//  for (TangoProfileEntry *tpe in friends) {
-//    if (!self.tangoFriends.count) {
-//      [self.tangoFriends addObject:[NSMutableArray arrayWithObject:tpe]];
-//      [self.selectedFriends addObject:tpe];
-//    } else {
-//      NSMutableArray *profileList = self.tangoFriends.lastObject;
-//      TangoProfileEntry *lastProfile = [profileList lastObject];
-//      if ([[lastProfile.firstName substringToIndex:1] isEqualToString:[tpe.firstName substringToIndex:1]] ) {
-//        [profileList addObject:tpe];
-//        [self.selectedFriends addObject:tpe];
-//      } else {
-//        [self.tangoFriends addObject:[NSMutableArray arrayWithObject:tpe]];
-//        [self.selectedFriends addObject:tpe];
-//      }
-//    }
-//  }
-  
   self.friendListActivityIndicator.hidesWhenStopped = YES;
   [self.friendListActivityIndicator stopAnimating];
 }

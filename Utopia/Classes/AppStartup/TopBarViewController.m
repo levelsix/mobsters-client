@@ -1033,14 +1033,17 @@
 - (void) openTangoGiftMenu {
   GameViewController *gvc = (GameViewController *)self.parentViewController;
   
+  TangoGiftViewController *sgvc = [[TangoGiftViewController alloc] init];
+  
+#ifdef TOONSQUAD
   if (![TangoDelegate isTangoAuthenticated]) {
     return;
   }
   
-  TangoGiftViewController *sgvc = [[TangoGiftViewController alloc] init];
   [TangoDelegate fetchCachedFriends:^(NSArray *friends) {
     [sgvc updateForTangoFriends:friends];
   }];
+#endif
   
   [gvc addChildViewController:sgvc];
   sgvc.view.frame = gvc.view.bounds;
