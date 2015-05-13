@@ -300,7 +300,8 @@
 }
 
 - (void) begin {
-  [skillManager flushPersistentSkills];
+  if (!_isResumingState)
+    [skillManager flushPersistentSkills];
   
   BattlePlayer *bp = [self firstMyPlayer];
   if (bp) {

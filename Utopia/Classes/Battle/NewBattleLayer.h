@@ -114,6 +114,8 @@
   BOOL _reachedNextScene;
   BOOL _firstTurn;
   
+  @protected BOOL _isResumingState;
+  
   int _enemyCounter;
   
   BoardLayoutProto *_layoutProto;
