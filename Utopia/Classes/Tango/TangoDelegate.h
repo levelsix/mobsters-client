@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <TangoSDK/TangoProfileEntry.h>
 
 @interface TangoDelegate : NSObject
 
@@ -17,7 +16,8 @@
 + (BOOL) isTangoAvailable;
 + (BOOL) isTangoAuthenticated;
 + (void) getProfilePicture:(void (^)(UIImage *img))comp;
-+ (void) getPictureForProfile:(TangoProfileEntry *)profile comp:(void (^)(UIImage *img))comp;
++ (void) getPictureForProfile:(id)pf comp:(void (^)(UIImage *img))comp;
++ (NSString *) getFullNameForProfile:(id)pf;
 
 + (void) fetchCachedFriends:(void (^)(NSArray *friends))comp;
 
@@ -30,5 +30,6 @@
 + (BOOL) handleOpenURL:(NSURL *)url sourceApplication:(NSString *)requester;
 
 + (void) enableLogs;
++ (void) disableLogs;
 
 @end

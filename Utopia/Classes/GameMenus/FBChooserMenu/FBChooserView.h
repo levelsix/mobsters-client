@@ -15,12 +15,10 @@
 @interface FBFriendCell : UITableViewCell
 
 @property (nonatomic, retain) IBOutlet DBFBProfilePictureView *profilePic;
-@property (nonatomic, retain) IBOutlet UIImageView *tangoPic;
 @property (nonatomic, retain) IBOutlet UILabel *nameLabel;
 @property (nonatomic, retain) IBOutlet UIImageView *checkmark;
 
 - (void) loadForData:(NSDictionary *)data;
-- (void) loadForTangoProfile:(TangoProfileEntry *)tangoProfile;
 
 @end
 

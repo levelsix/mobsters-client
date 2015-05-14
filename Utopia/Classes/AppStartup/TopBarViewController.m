@@ -1024,7 +1024,9 @@
 
 - (IBAction)miniEventClicked:(id)sender {
   #warning don't breath this
+#ifdef TOONSQUAD
   [TangoDelegate enableLogs];
+#endif
   GameViewController *gvc = (GameViewController *)self.parentViewController;
   MiniEventViewController *mevc = [[MiniEventViewController alloc] init];
   [gvc addChildViewController:mevc];
@@ -1085,6 +1087,11 @@
 
 - (IBAction)saleClicked:(id)sender {
   GameState *gs = [GameState sharedGameState];
+  
+#ifdef TOONSQUAD
+#warning don't breath this
+  [TangoDelegate disableLogs];
+#endif
   
   SalesPackageProto *spp = [gs.mySales firstObject];
   if (spp) {

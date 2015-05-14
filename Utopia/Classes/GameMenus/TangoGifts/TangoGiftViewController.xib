@@ -11,6 +11,9 @@
                 <outlet property="containerView" destination="ENw-eR-Sjg" id="bas-gS-9zm"/>
                 <outlet property="friendListActivityIndicator" destination="pFH-fG-wJV" id="wul-Vg-vnG"/>
                 <outlet property="mainView" destination="3EH-nF-Dec" id="i5a-D7-jd9"/>
+                <outlet property="rewardLabel" destination="lVu-Np-zC7" id="Hsz-Sb-Hqc"/>
+                <outlet property="selectAllCheckmark" destination="QhW-nK-bki" id="af0-Wm-3Qs"/>
+                <outlet property="tableView" destination="EDz-fG-Kgs" id="8zp-Ax-fRh"/>
                 <outlet property="view" destination="vma-UQ-oDn" id="FHD-5q-4WN"/>
             </connections>
         </placeholder>
@@ -70,7 +73,7 @@
                                                     <rect key="frame" x="205" y="76" width="20" height="20"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </activityIndicatorView>
-                                                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="none" rowHeight="42" sectionHeaderHeight="14" sectionFooterHeight="22" id="EDz-fG-Kgs">
+                                                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="none" rowHeight="41" sectionHeaderHeight="14" sectionFooterHeight="22" id="EDz-fG-Kgs">
                                                     <rect key="frame" x="8" y="0.0" width="414" height="173"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -191,8 +194,8 @@
                                                             <color key="textColor" red="0.21568627450980393" green="0.21568627450980393" blue="0.21568627450980393" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="lVu-Np-zC7" customClass="NiceFontLabel12">
-                                                            <rect key="frame" x="388" y="17" width="10" height="21"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3" lineBreakMode="clip" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="lVu-Np-zC7" customClass="NiceFontLabel12">
+                                                            <rect key="frame" x="388" y="17" width="15" height="21"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="8"/>
                                                             <color key="textColor" red="0.21568627450980393" green="0.21568627450980393" blue="0.21568627450980393" alpha="1" colorSpace="calibratedRGB"/>

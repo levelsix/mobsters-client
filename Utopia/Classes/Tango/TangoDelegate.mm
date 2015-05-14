@@ -97,8 +97,12 @@ static TangoProfileEntry *profileEntry = nil;
 #endif
 }
 
-+ (void) getPictureForProfile:(TangoProfileEntry *)profile comp:(void (^)(UIImage *img))comp {
+//hacky
+//I always pass a TangoProfileEntry through here but we can't import the h file for that in other places.
++ (void) getPictureForProfile:(id)pf comp:(void (^)(UIImage *img))comp {
 #ifdef TANGO_ENABLED
+  TangoProfileEntry *profile = (TangoProfileEntry *)pf;
+  
   if (!profile.profilePictureIsPlaceholder && profile.cachedProfilePicture) {
     comp(profile.cachedProfilePicture);
   } else {
@@ -109,6 +113,14 @@ static TangoProfileEntry *profileEntry = nil;
     }];
   }
 #endif
+}
+
++ (NSString *) getFullNameForProfile:(id)pf {
+  #ifdef TANGO_ENABLED
+  TangoProfileEntry *profile = (TangoProfileEntry *)pf;
+  
+  return  [NSString stringWithFormat:@"%@ %@", [profile.firstName capitalizedString], [profile.lastName   capitalizedString]];
+  #endif
 }
 
 + (void) fetchCachedFriends:(void (^)(NSArray *friends))comp {
@@ -123,11 +135,12 @@ static TangoProfileEntry *profileEntry = nil;
       NSLog(@"Everything is the worst");
     }
     
-    dispatch_sync(dispatch_get_main_queue(), ^{
+    
     for (TangoProfileEntry *tpe in profileResult.profileEnumerator) {
       [friendsList addObject:tpe];
     }
     
+    dispatch_sync(dispatch_get_main_queue(), ^{
       comp(friendsList);
     });
 //    comp(profileResult.profileEnumerator.allObjects);
@@ -161,11 +174,10 @@ static TangoProfileEntry *profileEntry = nil;
 + (void) sendGiftsToTangoUsers:(NSArray *)userIds {
 #ifdef TANGO_ENABLED
   NSString *resourceID;
-#ifdef TOONSQUAD
-  resourceID = @"GIFT_ID1";
-#else
+
+  //  resourceID = @"GIFT_ID1";
   resourceID = @"TEST_GIFT_ID";
-#endif
+
   
   [TangoGifting sendGiftToRecipients:userIds withResourceId:resourceID handler:^(TangoGiftingSendGiftResponse *response, NSError *error) {
     NSLog(@"Send Tango Gifts return with status: %@",error);
@@ -176,11 +188,9 @@ static TangoProfileEntry *profileEntry = nil;
 + (void) sendInvitesToTangoUsers:(NSArray *)userIds {
 #ifdef TANGO_ENABLED
   NSString *resourceID;
-#ifdef TOONSQUAD
-  resourceID = @"GIFT_ID1";
-#else
+
+  //  resourceID = @"GIFT_ID1";
   resourceID = @"TEST_GIFT_ID";
-#endif
   
   [TangoInviting sendInvitationToRecipients:userIds resourceId:resourceID handler:^(TangoInvitingSendInvitationsResponse *response, NSError *error) {
     NSLog(@"Send Tango invites returned with status: %@", error);
@@ -262,6 +272,12 @@ static TangoProfileEntry *profileEntry = nil;
 + (void) enableLogs {
 #ifdef TANGO_ENABLED
   [[UIApplication sharedApplication] openURL:[NSURL URLWithString: @"toonsquad4t://log?action=logenable&http=trace&http_details=trace&sdk_session=trace&sdk_impl=trace&sdk_token_fetcher=trace&ipc_comm=trace&sdk_http_cmd=trace&sdk_feed=trace"]];
+#endif
+}
+
++ (void) disableLogs {
+#ifdef TANGO_ENABLED
+  [[UIApplication sharedApplication] openURL:[NSURL URLWithString: @"toonsquad4t://log?action=logdisable"]];
 #endif
 }
 

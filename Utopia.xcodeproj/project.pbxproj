@@ -1596,6 +1596,9 @@
 		638C87701A7340F80094C396 /* viewschedulepressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 638C876F1A7340F80094C396 /* viewschedulepressed@2x.png */; };
 		638C87711A7340F80094C396 /* viewschedulepressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 638C876F1A7340F80094C396 /* viewschedulepressed@2x.png */; };
 		638C87721A7340F80094C396 /* viewschedulepressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 638C876F1A7340F80094C396 /* viewschedulepressed@2x.png */; };
+		63959DD71B04264D00E5E302 /* TangoFriendViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63959DD61B04264D00E5E302 /* TangoFriendViewCell.xib */; };
+		63959DD81B04264D00E5E302 /* TangoFriendViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63959DD61B04264D00E5E302 /* TangoFriendViewCell.xib */; };
+		63959DD91B04264D00E5E302 /* TangoFriendViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63959DD61B04264D00E5E302 /* TangoFriendViewCell.xib */; };
 		63AB754D1A79D17400CFC2B4 /* girl1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63AB75491A79D17400CFC2B4 /* girl1@2x.png */; };
 		63AB754E1A79D17400CFC2B4 /* girl1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63AB75491A79D17400CFC2B4 /* girl1@2x.png */; };
 		63AB754F1A79D17400CFC2B4 /* girl1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63AB75491A79D17400CFC2B4 /* girl1@2x.png */; };
@@ -8412,6 +8415,7 @@
 		63808B9E1A5F7142008DA8AC /* livehelpgirl@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "livehelpgirl@2x.png"; sourceTree = "<group>"; };
 		638C876B1A733E850094C396 /* viewschedule@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "viewschedule@2x.png"; sourceTree = "<group>"; };
 		638C876F1A7340F80094C396 /* viewschedulepressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "viewschedulepressed@2x.png"; sourceTree = "<group>"; };
+		63959DD61B04264D00E5E302 /* TangoFriendViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TangoFriendViewCell.xib; path = TangoGifts/TangoFriendViewCell.xib; sourceTree = "<group>"; };
 		63AB75491A79D17400CFC2B4 /* girl1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "girl1@2x.png"; sourceTree = "<group>"; };
 		63AB754A1A79D17400CFC2B4 /* girl2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "girl2@2x.png"; sourceTree = "<group>"; };
 		63AB754B1A79D17400CFC2B4 /* girl3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "girl3@2x.png"; sourceTree = "<group>"; };
@@ -14331,6 +14335,7 @@
 				63CD1C641AFDA6E3001B4537 /* TangoGiftViewController.h */,
 				63CD1C651AFDA6E3001B4537 /* TangoGiftViewController.m */,
 				63CD1C661AFDA6E3001B4537 /* TangoGiftViewController.xib */,
+				63959DD61B04264D00E5E302 /* TangoFriendViewCell.xib */,
 			);
 			name = TangoGifts;
 			sourceTree = "<group>";
@@ -20691,6 +20696,7 @@
 				CF0CF530196F452900ECD301 /* newquest@2x.png in Resources */,
 				2933DC471ADFA808005D7620 /* gemminebuyshadow@2x.png in Resources */,
 				9B6B780D1A8ABE6D0080C8E5 /* 6earthfryingpan@2x.png in Resources */,
+				63959DD81B04264D00E5E302 /* TangoFriendViewCell.xib in Resources */,
 				6BBCBBE31AC5A912006C9D91 /* hellfireorb@2x.png in Resources */,
 				CF0CF536196F452900ECD301 /* minitopbarbg@2x.png in Resources */,
 				9BB5AF891AA7996B002076E3 /* BoardDesignerObstacleView.xib in Resources */,
@@ -21842,6 +21848,7 @@
 				CFF64697195A6A0B00C43641 /* ultradot@2x.png in Resources */,
 				9BDA8C141A5C9A8E00C7AC27 /* gachatabshadow@2x.png in Resources */,
 				CFC04DA6188FE8D400F2DB59 /* loststickerhead@2x.png in Resources */,
+				63959DD71B04264D00E5E302 /* TangoFriendViewCell.xib in Resources */,
 				CFBB37A918F4C77E00FD6C8C /* questnameribbonmask@2x.png in Resources */,
 				CFF7873718E28FE200413E78 /* emptybar@2x.png in Resources */,
 				CF2A4AEE1901B8F500B2D7D7 /* collectachievement@2x.png in Resources */,
@@ -23770,6 +23777,7 @@
 				CF481B0919F7217F00041486 /* enemydivider@2x.png in Resources */,
 				CF481B0B19F7217F00041486 /* menubottombatresourcebg@2x.png in Resources */,
 				CF481B1019F7217F00041486 /* selectclanbox@2x.png in Resources */,
+				63959DD91B04264D00E5E302 /* TangoFriendViewCell.xib in Resources */,
 				299AA3EF1A7856AA00A2D806 /* waterpoison-9@2x.png in Resources */,
 				9B238A081A363EE800FA3743 /* waterskilldescription@2x.png in Resources */,
 				6341746A1A843521006DA494 /* avengebutton@2x.png in Resources */,

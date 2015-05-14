@@ -6,11 +6,30 @@
 //  Copyright (c) 2015 LVL6. All rights reserved.
 //
 
-#import "TangoDelegate.h"
 #import "TangoGiftViewController.h"
-#import "FBChooserView.h"
 
 #import "Globals.h"
+
+#define MAX_GEM_REWARD 3
+#define MIN_GEM_REWARD 1
+
+@implementation TangoFriendViewCell
+
+- (void) loadForTangoProfile:(id)tangoProfile {
+// get full name
+#ifdef TOONSQUAD
+  self.nameLabel.text = [TangoDelegate getFullNameForProfile:tangoProfile];
+  
+  [TangoDelegate getPictureForProfile:tangoProfile comp:^(UIImage *img) {
+    self.tangoPic.image = img;
+  }];
+#endif
+  
+  self.tangoPic.layer.cornerRadius = roundf(self.tangoPic.frame.size.width/2.0);
+  self.tangoPic.layer.masksToBounds = YES;
+}
+
+@end
 
 @implementation TangoGiftViewController
 
@@ -39,9 +58,12 @@
   self.tangoFriends  = [friends mutableCopy];
   [self.tangoFriends sortedArrayUsingDescriptors:@[sorter]];
   self.selectedFriends = [self.tangoFriends mutableCopy];
+  self.rewardLabel.text = [NSString stringWithFormat:@"%d", (int)MIN(self.tangoFriends.count, 3)];
   
   self.friendListActivityIndicator.hidesWhenStopped = YES;
   [self.friendListActivityIndicator stopAnimating];
+  
+  [self.tableView reloadData];
 }
 
 - (IBAction)close:(id)sender {
@@ -52,12 +74,8 @@
 }
 
 - (BOOL) areAllEntriesSelected {
-  int totalCount = 0;
-  for (NSArray *arr in self.tangoFriends) {
-    totalCount += arr.count;
-  }
-  
-  return self.selectedFriends.count >= totalCount;
+  [self.tableView reloadData];
+  return self.selectedFriends.count == self.tangoFriends.count;
 }
 
 -(IBAction)selectallClicked:(id)sender {
@@ -66,36 +84,36 @@
     self.selectAllCheckmark.hidden = YES;
     
   } else {
-    
-    for (NSArray *arr in self.tangoFriends) {
-      for (TangoProfileEntry *tpe in arr) {
-        [self.selectedFriends addObject:tpe];
-      }
-    }
-    
+    self.selectedFriends = [self.tangoFriends mutableCopy];
     self.selectAllCheckmark.hidden = NO;
   }
   
-  NSLog(self.selectAllCheckmark.hidden ? @"Yes" : @"No");
+  [self updateRewardAmount];
+}
+
+- (void) updateRewardAmount {
+  
+  if (!self.selectedFriends.count) {
+    self.rewardLabel.text = @"0";
+  } else {
+    int rewardAmount = MAX(MAX_GEM_REWARD - ((int)self.tangoFriends.count - (int)self.selectedFriends.count), MIN_GEM_REWARD);
+    rewardAmount = MIN(MAX_GEM_REWARD, rewardAmount);
+    self.rewardLabel.text = [NSString stringWithFormat:@"%d", rewardAmount];
+//    self.selectAllCheckmark.hidden = rewardAmount < MAX_GEM_REWARD;
+  }
 }
 
 #pragma mark - table delegate
 
-- (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView {
-  //The number of different friends that start with a different letter
-  return self.tangoFriends.count;
-}
-
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  NSMutableArray *profileList = self.tangoFriends[section];
-  return profileList.count;
+  return self.tangoFriends.count;
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   [tableView deselectRowAtIndexPath:indexPath animated:NO];
   
-  FBFriendCell *cell = (FBFriendCell *)[tableView cellForRowAtIndexPath:indexPath];
-  TangoProfileEntry *tangoProfile = self.tangoFriends[indexPath.row];
+  TangoFriendViewCell *cell = (TangoFriendViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+  id tangoProfile = self.tangoFriends[indexPath.row];
   
   if ([self.selectedFriends containsObject:tangoProfile]) {
     [self.selectedFriends removeObject:tangoProfile];
@@ -106,16 +124,17 @@
   }
   
   self.selectAllCheckmark.hidden = ![self areAllEntriesSelected];
+  [self updateRewardAmount];
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  FBFriendCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FBFriendCell"];
+  TangoFriendViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FBFriendCell"];
   
   if (cell == nil) {
-    cell = [[NSBundle mainBundle] loadNibNamed:@"FBFriendCell" owner:self options:nil][0];
+    cell = (TangoFriendViewCell *)[[NSBundle mainBundle] loadNibNamed:@"TangoFriendViewCell" owner:self options:nil][0];
   }
   
-  TangoProfileEntry *tangoProfile = self.tangoFriends[indexPath.row];
+  id tangoProfile = self.tangoFriends[indexPath.row];
   [cell loadForTangoProfile:tangoProfile];
   cell.checkmark.hidden = ![self.selectedFriends containsObject:tangoProfile];
   return cell;
