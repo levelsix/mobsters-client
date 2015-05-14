@@ -41,7 +41,7 @@
   
   self.title = [gs raidWithId:self.clanEvent.clanRaidId].clanRaidName;
   self.shortTitle = @"Raid";
-  [self setUpCloseButton];
+  [self setUpCloseButton:YES];
   [self setUpImageBackButton];
   
   [self button1Clicked:nil];

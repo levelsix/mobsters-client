@@ -22,28 +22,33 @@
   }
 }
 
-- (void)setUpCloseButton {
+- (void)setUpCloseButton:(BOOL)right {
   [self loadCustomNavBarButtons];
-  UIBarButtonItem *rightButton1 = [[UIBarButtonItem alloc] initWithCustomView:self.menuCloseButton];
-  self.navigationItem.rightBarButtonItem = rightButton1;
+  
+  UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithCustomView:self.menuCloseButton];
+  if (right) self.navigationItem.rightBarButtonItem = button;
+  else self.navigationItem.leftBarButtonItem = button;
 }
 
-- (void)setUpImageBackButton
-{
+- (void)setUpImageBackButton {
   self.navigationItem.hidesBackButton = YES;
   
   [self loadCustomNavBarButtons];
-  self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.menuBackButton];
   
   if (self.navigationController.viewControllers.count > 1) {
+    if (self.navigationItem.leftBarButtonItem) {
+      // In case of close button having been placed on the left
+      self.navigationItem.rightBarButtonItem = self.navigationItem.leftBarButtonItem;
+    }
+    
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.menuBackButton];
+    
     NSArray *vcs = self.navigationController.viewControllers;
     GenViewController *gvc = [vcs objectAtIndex:vcs.count-2];
     if ([gvc isKindOfClass:[GenViewController class]]) {
       self.menuBackLabel.text = gvc.shortTitle ? gvc.shortTitle : gvc.title;
       [self.menuBackMaskedButton remakeImage];
     }
-  } else {
-    self.menuBackButton.hidden = YES;
   }
 }
 

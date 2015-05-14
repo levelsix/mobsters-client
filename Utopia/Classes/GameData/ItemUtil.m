@@ -86,6 +86,10 @@
   [[NSNotificationCenter defaultCenter] postNotificationName:ITEMS_CHANGED_NOTIFICATION object:self];
 }
 
+- (NSArray *) getItemsForType:(ItemType)type {
+  return [self getItemsForType:type staticDataId:0];
+}
+
 - (NSArray *) getItemsForType:(ItemType)type staticDataId:(int)staticDataId {
   return [self getItemsForType:type staticDataId:staticDataId gameActionType:GameActionTypeNoHelp];
 }

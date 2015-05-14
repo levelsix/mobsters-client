@@ -57,11 +57,6 @@
   }
 }
 
-- (void) viewDidDisappear:(BOOL)animated {
-  [super viewDidDisappear:animated];
-  
-}
-
 - (BOOL) shouldStopCCDirector {
   return YES;
 }

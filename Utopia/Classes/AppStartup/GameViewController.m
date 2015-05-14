@@ -1395,6 +1395,11 @@ static const CGSize FIXED_SIZE = {568, 384};
   if (self.presentedViewController) {
     [arr addObject:self.presentedViewController];
     
+    // viewWillDisappear: doesn't get called automatically by iOS in this case
+    [self.presentedViewController viewWillDisappear:YES];
+    if ([self.presentedViewController isKindOfClass:[UINavigationController class]])
+      [[(UINavigationController*)self.presentedViewController viewControllers] makeObjectsPerformSelector:@selector(viewWillDisappear:) withObject:@(YES)];
+    
     // Gacha
     [self dismissViewControllerAnimated:YES completion:^{
       [self.topBarViewController openShopWithFunds:nil];

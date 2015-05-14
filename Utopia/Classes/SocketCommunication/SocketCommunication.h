@@ -153,7 +153,7 @@
 
 - (int) sendRetrieveTournamentRankingsMessage:(int)eventId afterThisRank:(int)afterThisRank;
 
-- (int) sendPurchaseBoosterPackMessage:(int)boosterPackId isFree:(BOOL)free clientTime:(uint64_t)clientTime;
+- (int) sendPurchaseBoosterPackMessage:(int)boosterPackId isFree:(BOOL)free isMultiSpin:(BOOL)multiSpin gemsSpent:(int)gemsSpent tokensChange:(int)tokensChange clientTime:(uint64_t)clientTime;
 - (int) sendTradeItemForBoosterMessage:(int)itemId clientTime:(uint64_t)clientTime;
 
 - (int) sendPrivateChatPostMessage:(NSString *)recipientUuid content:(NSString *)content originalLanguage:(TranslateLanguages)originalLanguage;

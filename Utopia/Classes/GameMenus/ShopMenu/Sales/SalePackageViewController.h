@@ -27,6 +27,7 @@
 
 @interface SalePackageViewController : PopupSubViewController <UITableViewDataSource> {
   SalesPackageProto *_sale;
+  NSArray *_saleDisplayItems;
   SKProduct *_product;
   
   BOOL _jiggleOn;

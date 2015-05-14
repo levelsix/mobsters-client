@@ -66,9 +66,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(SoundEngine);
 
 - (id<ALSoundSource>) playEffect:(NSString *)effect volume:(float)volume pitch:(float)pitch pan:(float)pan loop:(bool)loop {
   NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+  self.lastPlayedEffect = nil;
   BOOL play = ![ud boolForKey:SOUND_EFFECTS_DEFAULTS_KEY];
   if (play) {
-    return [[OALSimpleAudio sharedInstance] playEffect:effect volume:volume pitch:pitch pan:pan loop:loop];
+    id <ALSoundSource> eff = [[OALSimpleAudio sharedInstance] playEffect:effect volume:volume pitch:pitch pan:pan loop:loop];
+    if (!loop) self.lastPlayedEffect = eff;
+    return eff;
   }
   return nil;
 }
@@ -77,6 +80,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(SoundEngine);
   SoundEngine *se = [SoundEngine sharedSoundEngine];
   [se.repeatingEffect stop];
   se.repeatingEffect = nil;
+}
+
++ (void) stopLastPlayedEffect {
+  SoundEngine *se = [SoundEngine sharedSoundEngine];
+  [se.lastPlayedEffect stop];
+  se.lastPlayedEffect = nil;
 }
 
 - (void) playAmbientMusic:(NSString *)ambient {

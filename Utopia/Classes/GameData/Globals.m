@@ -98,6 +98,18 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return nil;
 }
 
+- (SalesPackageProto *) highRollerModeSale {
+  GameState *gs = [GameState sharedGameState];
+  for (SalesPackageProto *spp in gs.mySales) {
+    for (SalesItemProto *sip in spp.sipList) {
+      if (sip.reward.typ == RewardProto_RewardTypeItem && [gs itemForId:sip.reward.staticDataId].itemType == ItemTypeGachaMultiSpin)
+        return spp;
+    }
+  }
+  
+  return nil;
+}
+
 - (InAppPurchasePackageProto *) moneyTreeIapPackage {
   for (InAppPurchasePackageProto *pkg in self.iapPackages) {
     if (pkg.iapPackageType == InAppPurchasePackageProto_InAppPurchasePackageTypeMoneyTree) {
@@ -166,6 +178,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.tournamentLossesWeight = constants.touramentConstants.lossesWeight;
   self.tournamentFleesWeight = constants.touramentConstants.fleesWeight;
   self.tournamentNumHrsToDisplayAfterEnd = constants.touramentConstants.numHoursToShowAfterEventEnd;
+  
+  self.boosterPackPurchaseAmountRequired = constants.boosterPackConstantProto.purchaseAmountRequired;
+  self.boosterPackNumberOfPacksGiven = constants.boosterPackConstantProto.numberOfPacksGiven;
   
   self.speedupConstants = constants.sucpList;
   self.resourceConversionConstants = constants.rccpList;
@@ -625,6 +640,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       return @"Gems";
     case ResourceTypeOil:
       return @"Oil";
+    case ResourceTypeGachaCredits:
+      return @"Grab Tokens";
       
     default:
       break;
@@ -1236,13 +1253,16 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 + (CGPoint) convertPointToWindowCoordinates:(CGPoint)point fromViewCoordinates:(UIView *)view
 {
-  // Not using toView:nil as it produces unexpected results in iOS < 8
-  return [view convertPoint:point toView:[UIApplication sharedApplication].keyWindow.rootViewController.view];
+  UIView* rootView = [UIApplication sharedApplication].keyWindow.rootViewController.view;
+  // Prefer not using toView:nil as it produces unexpected results in iOS < 8
+  return [view convertPoint:point toView:[view isDescendantOfView:rootView] ? rootView : nil];
 }
 
 + (CGPoint) convertPointFromWindowCoordinates:(CGPoint)point toViewCoordinates:(UIView *)view
 {
-  return [view convertPoint:point fromView:[UIApplication sharedApplication].keyWindow.rootViewController.view];
+  UIView* rootView = [UIApplication sharedApplication].keyWindow.rootViewController.view;
+  // Prefer not using formView:nil as it produces unexpected results in iOS < 8
+  return [view convertPoint:point fromView:[view isDescendantOfView:rootView] ? rootView : nil];
 }
 
 + (void) alignSubviewsToPixelsBoundaries:(UIView*)view
@@ -1800,8 +1820,26 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 - (int) calculateTotalResourcesForResourceType:(ResourceType)type itemIdsToQuantity:(NSDictionary *)itemIdsToQuantity {
   GameState *gs = [GameState sharedGameState];
-  int amount = type == ResourceTypeCash ? gs.cash : gs.oil;
-  ItemType itemType = type == ResourceTypeCash ? ItemTypeItemCash : ItemTypeItemOil;
+  int amount;
+  ItemType itemType;
+  
+  switch (type) {
+    case ResourceTypeCash:
+      amount = gs.cash;
+      itemType = ItemTypeItemCash;
+      break;
+    case ResourceTypeOil:
+      amount = gs.oil;
+      itemType = ItemTypeItemOil;
+      break;
+    case ResourceTypeGachaCredits:
+      amount = gs.tokens;
+      itemType = ItemTypeItemGachaCredit;
+      break;
+      
+    default:
+      return 0; // Unsupported - This method shouldn't be used in other cases (or needs to be updated)
+  }
   
   for (NSNumber *num in itemIdsToQuantity) {
     int itemId = num.intValue;
@@ -3191,6 +3229,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       return [NSString stringWithFormat:@"%d Gems",reward.amt];
     case RewardProto_RewardTypeOil:
       return [NSString stringWithFormat:@"%d Oil",reward.amt];
+    case RewardProto_RewardTypeGachaCredits:
+      return [NSString stringWithFormat:@"%d Grab Tokens",reward.amt];
     case RewardProto_RewardTypeItem:
       staticItem = [gs itemForId:reward.staticDataId];
       return [NSString stringWithFormat:@"%dx %@%@",reward.amt, staticItem.name, reward.amt>1 ? @"s" : @""];
@@ -3222,6 +3262,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       return @"diamond.png";
     case RewardProto_RewardTypeOil:
       return @"oilicon.png";
+    case RewardProto_RewardTypeGachaCredits:
+      return @"grabchip.png";
     case RewardProto_RewardTypeItem:
       staticItem = [gs itemForId:reward.staticDataId];
       return staticItem.imgName;

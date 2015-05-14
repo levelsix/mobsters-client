@@ -13,17 +13,20 @@
 #import "CAKeyframeAnimation+AHEasing.h"
 #import "SkillController.h"
 #import "UIEffectDesignerView.h"
+#import "SoundEngine.h"
 
-static const CGFloat kRevealAnimDuration = 1.f; // Seconds
-static const CGFloat kRevealAnimFrames = 20.f;  // Frames
+static const CGFloat kRevealAnimDuration = 1.f;         // Seconds
+static const CGFloat kRevealAnimFrames = 20.f;          // Frames
+static const CGFloat kRevealDelayInBetweenAnims = .2f;  // Seconds
+static const CGFloat kSoundEffectAnimHeadStart = .8f;   // Seconds
 
 static const CGFloat kStatsScaleAnimStartingScale = 8.f;
 static const CGFloat kStatsScaleAnimDuration = .4f;   // Seconds
 static const CGFloat kScreenShakeAnimDuration = .4f;  // Seconds
 static const int kScreenShakeAnimOffsetRange = 15.f;  // Pixels
 
-static const CGFloat kPFXFadeInAnimDuration = 1.f;    // Seconds
-static const CGFloat kLightPulseAnimDuration = 1.f;   // Seconds
+static const CGFloat kPFXFadeInAnimDuration = 1.f;          // Seconds
+static const CGFloat kLightPulseAnimDuration = 1.f;         // Seconds
 static const CGFloat kCloseButtonFadeInAnimDelay = .1f;     // Seconds
 static const CGFloat kCloseButtonFadeInAnimDuration = .4f;  // Seconds
 static const CGFloat kCloseButtonTargetOpacity = .6f;
@@ -38,13 +41,23 @@ static const CGFloat kCloseButtonTargetOpacity = .6f;
 typedef void (^RevealAnimCompletionBlock)(void);
 #define REVEAL_ANIM_COMPLETION_BLOCK_KEY @"RevealAnimCompletionBlock"
 
+@implementation NewGachaPrizeStatsView
+// Stupid Objective-C...
+@end
+
 @implementation NewGachaPrizeView
 
 - (void) awakeFromNib
 {
-  if ([Globals isiPhone6] || [Globals isiPhone6Plus])
+  _firstTimeLoadingFromNib = YES;
+  
+  if ([Globals isiPhone6])
   {
     // We good
+  }
+  else if ([Globals isiPhone6Plus])
+  {
+    self.statsContainerView.originX += 50.f;
   }
   else if ([Globals isSmallestiPhone])
   {
@@ -52,29 +65,48 @@ typedef void (^RevealAnimCompletionBlock)(void);
     for (UIView* subview in self.animationContainerView.subviews)
       subview.frame = CGRectMake(subview.originX * heightToWidth, subview.originY, subview.width * heightToWidth, subview.height);
     
-    self.statsContainerView.originX += 110.f;
-    self.nameLabel.width -= 30.f;
+    self.statsContainerView.originX -= 100.f;
+    self.statsContainerView.nameLabel.width -= 30.f;
   }
   else
-    self.statsContainerView.originX += 30.f;
+    self.statsContainerView.originX -= 50.f;
   
   self.statsContainerView.layer.anchorPoint = CGPointMake(.25f, .5f);
   self.statsContainerView.originX -= self.statsContainerView.width * .25f;
+  
+  self.nextButton.layer.transform = CATransform3DMakeScale(-1, 1, 1);
   
   const CGFloat deviceScale = [Globals screenSize].width / 667.f;
   UIEffectDesignerView* effectView = [UIEffectDesignerView effectWithFile:@"NewGachaSmoke.ped"];
   [effectView setFrame:CGRectMake(140.f * deviceScale, 250.f * deviceScale, 100.f * deviceScale, 20.f * deviceScale)];
   [effectView.emitter setEmitterSize:CGSizeMake(effectView.width, effectView.height)];
   [effectView.emitter setEmitterPosition:CGPointMake(effectView.emitter.emitterPosition.x - effectView.width * .5f, effectView.emitter.emitterPosition.y)];
-  [self insertSubview:effectView belowSubview:self.closeButton];
+  [self insertSubview:effectView aboveSubview:self.contentScrollView];
   _particleEffectView = effectView;
+  
+  _backgroundDuplicate = nil;
+  _lightCircleDuplicate = nil;
+  _whiteLightCircleDuplicate = nil;
+  _characterWhite = nil;
 }
 
-- (void) preloadWithMonsterId:(int)monsterId
+- (void) didMoveToSuperview
+{
+  _firstTimeLoadingFromNib = NO;
+}
+
+- (void) preloadWithMonsterIds:(NSArray*)monsterIds
 {
   GameState *gs = [GameState sharedGameState];
-  MonsterProto *proto = [gs monsterWithId:monsterId];
   
+  _characterImageViews = [NSMutableArray array];
+  [_characterImageViews addObject:self.character];
+  
+  //
+  // Load and display the first character
+  //
+  
+  MonsterProto *proto = [gs monsterWithId:[monsterIds[0] intValue]];
   [Globals imageNamedWithiPhone6Prefix:[proto.imagePrefix stringByAppendingString:@"Character.png"]
                               withView:self.character
                            maskedColor:nil
@@ -82,28 +114,115 @@ typedef void (^RevealAnimCompletionBlock)(void);
               clearImageDuringDownload:YES];
   
   const NSString* elementStr = [[Globals stringForElement:proto.monsterElement] lowercaseString];
+  self.background.image = [Globals imageNamed:[elementStr stringByAppendingString:@"grbackground.jpg"]];
+
+  _characterBackgrounds = [NSMutableArray array];
+  [_characterBackgrounds addObject:self.background.image];
+  
+  //
+  // Load the remaining characters (if any) as subviews of characterScrollView
+  //
+  
+  self.characterScrollView.contentSize = CGSizeMake(self.width * monsterIds.count, self.height);
+  self.characterScrollView.contentOffset = CGPointZero;
+  
+  const CGFloat wR = _firstTimeLoadingFromNib ? [Globals screenSize].width  / 667.f : 1.f;
+  const CGFloat hR = _firstTimeLoadingFromNib ? [Globals screenSize].height / 375.f : 1.f;
+  const CGRect adjustedFrame = CGRectMake(self.character.frame.origin.x * wR,
+                                          self.character.frame.origin.y * hR,
+                                          self.character.size.width  * wR,
+                                          self.character.size.height * hR);
+  
+  for (int i = 1; i < monsterIds.count; ++i)
   {
-    self.background.image = [Globals imageNamed:[elementStr stringByAppendingString:@"grbackground.jpg"]];
-    self.elementbigFlash.image = [Globals imageNamed:[elementStr stringByAppendingString:@"grbigflash1.png"]];
-    self.elementGlow.image = [Globals imageNamed:[elementStr stringByAppendingString:@"grglow2glowblend.png"]];
-    self.elementLightsFlash.image = [Globals imageNamed:[elementStr stringByAppendingString:@"lightsflashlow1.png"]];
+    UIImageView* characterImageView = [[UIImageView alloc] initWithFrame:adjustedFrame];
+    characterImageView.contentMode = self.character.contentMode;
+    characterImageView.originX += (self.width * wR) * i;
+    
+    MonsterProto *proto = [gs monsterWithId:[monsterIds[i] intValue]];
+    [Globals imageNamedWithiPhone6Prefix:[proto.imagePrefix stringByAppendingString:@"Character.png"]
+                                withView:characterImageView
+                             maskedColor:nil
+                               indicator:UIActivityIndicatorViewStyleWhite
+                clearImageDuringDownload:YES];
+    
+    const NSString* elementStr = [[Globals stringForElement:proto.monsterElement] lowercaseString];
+    [_characterBackgrounds addObject:[Globals imageNamed:[elementStr stringByAppendingString:@"grbackground.jpg"]]];
+    
+    [self.characterScrollView addSubview:characterImageView];
+    [_characterImageViews addObject:characterImageView];
   }
 }
 
-- (void) initializeWithMonsterId:(int)monsterId numPuzzlePieces:(int)numPuzzlePieces
+- (void) initializeWithMonsterDescriptors:(NSArray*)monsterDescriptors
 {
-  GameState *gs = [GameState sharedGameState];
-  Globals *gl = [Globals sharedGlobals];
-  MonsterProto *proto = [gs monsterWithId:monsterId];
+  _characterStatsViews = [NSMutableArray array];
+  [_characterStatsViews addObject:self.statsContainerView];
   
-  self.statsContainerView.hidden = YES;
+  //
+  // Initialize the animation and load and display the first character's stats
+  //
+  
+  _characterDescriptors = [monsterDescriptors copy];
+  _currentCharacterIndex = 0;
+  _skippingAnimations = NO;
+  
+  [self updateStatsForCurrentMonster];
+  
+  //
+  // Load the remaining characters stats (if any) as subviews of contentScrollView
+  //
+  
+  self.contentScrollView.contentSize = CGSizeMake(self.width * monsterDescriptors.count, self.height);
+  self.contentScrollView.contentOffset = CGPointZero;
+  self.contentScrollView.scrollEnabled = NO;
+  
+  self.contentPageControl.numberOfPages = monsterDescriptors.count;
+  self.contentPageControl.hidden = YES;
+  self.contentPageLabel.hidden = YES;
+  
+  self.prevButton.hidden = YES;
+  self.nextButton.hidden = YES;
+
+  self.skipAllButton.hidden = !(monsterDescriptors.count > 1);
   self.closeButton.hidden = YES;
   _particleEffectView.hidden = YES;
   
-  self.nameLabel.text = proto.displayName;
-  self.rarityIcon.image = [Globals imageNamed:[@"battle" stringByAppendingString:[Globals imageNameForRarity:proto.quality suffix:@"tag.png"]]];
+  for (int i = 1; i < monsterDescriptors.count; ++i)
+  {
+    NewGachaPrizeStatsView* characterStatsView = [[NewGachaPrizeStatsView alloc] init];
+    characterStatsView.layer.anchorPoint = self.statsContainerView.layer.anchorPoint;
+    characterStatsView.frame = self.statsContainerView.frame;
+    characterStatsView.originX += self.width * i;
+    characterStatsView.nameLabel.width = self.statsContainerView.nameLabel.width;
+    
+    [self.contentScrollView addSubview:characterStatsView];
+    [_characterStatsViews addObject:characterStatsView];
+    
+    ++_currentCharacterIndex;
+    [self updateStatsForCurrentMonster];
+  }
   
-  THLabel* label = (THLabel*)self.nameLabel;
+  _currentCharacterIndex = 0;
+  
+  [self setInitialOpacity];
+}
+
+- (void) updateStatsForCurrentMonster
+{
+  const int monsterId = [[_characterDescriptors[_currentCharacterIndex] objectForKey:@"MonsterId"] intValue];
+  const int numPuzzlePieces = [[_characterDescriptors[_currentCharacterIndex] objectForKey:@"NumPuzzlePieces"] intValue];
+  
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  MonsterProto *proto = [gs monsterWithId:monsterId];
+
+  NewGachaPrizeStatsView* characterStatsView = _characterStatsViews[_currentCharacterIndex];
+  characterStatsView.hidden = YES;
+  characterStatsView.nameLabel.text = proto.displayName;
+  characterStatsView.rarityIcon.image = [Globals imageNamed:[@"battle" stringByAppendingString:[Globals imageNameForRarity:proto.quality suffix:@"tag.png"]]];
+  
+  THLabel* label = (THLabel*)characterStatsView.nameLabel;
   switch (proto.monsterElement)
   {
     case ElementFire:
@@ -131,39 +250,99 @@ typedef void (^RevealAnimCompletionBlock)(void);
       break;
   }
   
-  CGFloat offset = self.rarityIcon.width - self.rarityIcon.image.size.width;
-  self.rarityIcon.width -= offset;
-  self.pieceSeparator.originX -= offset;
-  self.pieceIcon.originX -= offset;
-  self.pieceLabel.originX -= offset;
+  CGFloat offset = characterStatsView.rarityIcon.width - characterStatsView.rarityIcon.image.size.width;
+  characterStatsView.rarityIcon.width -= offset;
+  characterStatsView.pieceSeparator.originX -= offset;
+  characterStatsView.pieceIcon.originX -= offset;
+  characterStatsView.pieceLabel.originX -= offset;
   
   UserMonster *um = [[UserMonster alloc] init];
   um.monsterId = monsterId;
   um.level = proto.maxLevel;
   um.offensiveSkillId = proto.baseOffensiveSkillId;
   um.defensiveSkillId = proto.baseDefensiveSkillId;
-  self.attackLabel.text = [Globals commafyNumber:[gl calculateTotalDamageForMonster:um]];
-  self.hpLabel.text = [Globals commafyNumber:[gl calculateMaxHealthForMonster:um]];
-  self.speedLabel.text = [Globals commafyNumber:um.speed];
-  self.powerLabel.text = [Globals commafyNumber:um.teamCost];
+  characterStatsView.attackLabel.text = [Globals commafyNumber:[gl calculateTotalDamageForMonster:um]];
+  characterStatsView.hpLabel.text = [Globals commafyNumber:[gl calculateMaxHealthForMonster:um]];
+  characterStatsView.speedLabel.text = [Globals commafyNumber:um.speed];
+  characterStatsView.powerLabel.text = [Globals commafyNumber:um.teamCost];
   
   [self updateSkillsForMonster:um];
-  [Globals alignSubviewsToPixelsBoundaries:self.statsContainerView];
+  [Globals alignSubviewsToPixelsBoundaries:characterStatsView];
 
   if (numPuzzlePieces > 0)
   {
     [Globals imageNamed:[@"gacha" stringByAppendingString:[Globals imageNameForRarity:proto.quality suffix:@"piece.png"]]
-               withView:self.pieceIcon
+               withView:characterStatsView.pieceIcon
             maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-    self.pieceLabel.text = [NSString stringWithFormat:@"1 PIECE (%d/%d)", numPuzzlePieces, proto.numPuzzlePieces];
+    characterStatsView.pieceLabel.text = [NSString stringWithFormat:@"1 PIECE (%d/%d)", numPuzzlePieces, proto.numPuzzlePieces];
   }
   
-  self.pieceSeparator.hidden = !(numPuzzlePieces > 0);
-  self.pieceIcon.hidden = !(numPuzzlePieces > 0);
-  self.pieceLabel.hidden = !(numPuzzlePieces > 0);
+  characterStatsView.pieceSeparator.hidden = !(numPuzzlePieces > 0);
+  characterStatsView.pieceIcon.hidden = !(numPuzzlePieces > 0);
+  characterStatsView.pieceLabel.hidden = !(numPuzzlePieces > 0);
+}
+
+- (void) updateSkillsForMonster:(UserMonster*)monster
+{
+  GameState *gs = [GameState sharedGameState];
+  
+  NewGachaPrizeStatsView* characterStatsView = _characterStatsViews[_currentCharacterIndex];
+  
+  if (monster.offensiveSkillId == 0)
+  {
+    characterStatsView.offensiveSkillView.hidden = YES;
+    characterStatsView.defensiveSkillView.originY = characterStatsView.offensiveSkillView.originY;
+  }
+  else
+  {
+    SkillProto* skillProto = [gs.staticSkills objectForKey:[NSNumber numberWithInteger:monster.offensiveSkillId]];
+    if (skillProto)
+    {
+      [Globals imageNamed:[skillProto.imgNamePrefix stringByAppendingString:kSkillIconImageNameSuffix]
+                 withView:characterStatsView.offensiveSkillIcon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:NO];
+      characterStatsView.offensiveSkillName.text = skillProto.name;
+      characterStatsView.offensiveSkillView.hidden = NO;
+      characterStatsView.defensiveSkillView.originY = CGRectGetMaxY(characterStatsView.offensiveSkillView.frame) + 8.f;
+    }
+  }
+  
+  if (monster.defensiveSkillId == 0)
+  {
+    characterStatsView.defensiveSkillView.hidden = YES;
+  }
+  else
+  {
+    SkillProto* skillProto = [gs.staticSkills objectForKey:[NSNumber numberWithInteger:monster.defensiveSkillId]];
+    if (skillProto)
+    {
+      [Globals imageNamed:[skillProto.imgNamePrefix stringByAppendingString:kSkillIconImageNameSuffix]
+                 withView:characterStatsView.defensiveSkillIcon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:NO];
+      characterStatsView.defensiveSkillName.text = skillProto.name;
+      characterStatsView.defensiveSkillView.hidden = NO;
+    }
+  }
+  
+  if (characterStatsView.offensiveSkillView.hidden &&
+      characterStatsView.defensiveSkillView.hidden)
+  {
+    characterStatsView.skillsSeparator.hidden = YES;
+    characterStatsView.height = CGRectGetMaxY(characterStatsView.powerLabel.frame) + 8.f;
+  }
+  else
+  {
+    characterStatsView.skillsSeparator.hidden = NO;
+    characterStatsView.height = CGRectGetMaxY(characterStatsView.defensiveSkillView.hidden ? characterStatsView.offensiveSkillView.frame : characterStatsView.defensiveSkillView.frame) + 8.f;
+  }
+  
+  characterStatsView.centerY = self.height * .5f;
+}
+
+- (void) setInitialOpacity
+{
+  UIImageView* characterImageView = _characterImageViews[_currentCharacterIndex];
   
   [self.characterShadow.layer setOpacity:0.f];
-  [self.character.layer setOpacity:0.f];
+  [characterImageView.layer setOpacity:0.f];
   [self.elementbigFlash.layer setOpacity:0.f];
   [self.lightCircle.layer setOpacity:0.f];
   [self.whiteLightCircle.layer setOpacity:0.f];
@@ -181,31 +360,48 @@ typedef void (^RevealAnimCompletionBlock)(void);
   [self.lightningBolt1.layer setOpacity:0.f];
   [self.afterGlow.layer setOpacity:0.f];
   
-  _lightCircleDuplicate = [[UIImageView alloc] initWithFrame:self.lightCircle.frame];
-  {
-    [_lightCircleDuplicate setImage:self.lightCircle.image];
-    [_lightCircleDuplicate setContentMode:self.lightCircle.contentMode];
-    [self insertSubview:_lightCircleDuplicate aboveSubview:self.whiteLightCircle];
-    [_lightCircleDuplicate.layer setOpacity:0.f];
-  }
-  _whiteLightCircleDuplicate = [[UIImageView alloc] initWithFrame:self.whiteLightCircle.frame];
-  {
-    [_whiteLightCircleDuplicate setImage:self.whiteLightCircle.image];
-    [_whiteLightCircleDuplicate setContentMode:self.whiteLightCircle.contentMode];
-    [self insertSubview:_whiteLightCircleDuplicate aboveSubview:_lightCircleDuplicate];
-    [_whiteLightCircleDuplicate.layer setOpacity:0.f];
-  }
-  _characterWhite = [[UIImageView alloc] initWithFrame:self.character.frame];
-  {
-    [_characterWhite setImage:[Globals maskImage:self.character.image withColor:[UIColor whiteColor]]];
-    [_characterWhite setContentMode:self.character.contentMode];
-    [self insertSubview:_characterWhite aboveSubview:self.elementLightsFlash];
-    [_characterWhite.layer setOpacity:0.f];
-  }
+  if (_lightCircleDuplicate) [_lightCircleDuplicate.layer setOpacity:0.f];
+  if (_whiteLightCircleDuplicate) [_whiteLightCircleDuplicate.layer setOpacity:0.f];
+  if (_characterWhite) [_characterWhite.layer setOpacity:0.f];
 }
 
 - (void) beginAnimation
 {
+  UIImageView* characterImageView = _characterImageViews[_currentCharacterIndex];
+  NewGachaPrizeStatsView* characterStatsView = _characterStatsViews[_currentCharacterIndex];
+  
+  const int monsterId = [[_characterDescriptors[_currentCharacterIndex] objectForKey:@"MonsterId"] intValue];
+  MonsterProto* proto = [[GameState sharedGameState] monsterWithId:monsterId];
+  const NSString* elementStr = [[Globals stringForElement:proto.monsterElement] lowercaseString];
+  {
+    self.elementbigFlash.image = [Globals imageNamed:[elementStr stringByAppendingString:@"grbigflash1.png"]];
+    self.elementGlow.image = [Globals imageNamed:[elementStr stringByAppendingString:@"grglow2glowblend.png"]];
+    self.elementLightsFlash.image = [Globals imageNamed:[elementStr stringByAppendingString:@"lightsflashlow1.png"]];
+  }
+  self.background.image = _characterBackgrounds[_currentCharacterIndex];
+  
+  if (!_lightCircleDuplicate)
+  {
+     _lightCircleDuplicate = [[UIImageView alloc] initWithFrame:self.lightCircle.frame];
+    [_lightCircleDuplicate setImage:self.lightCircle.image];
+    [_lightCircleDuplicate setContentMode:self.lightCircle.contentMode];
+    [self.animationContainerView insertSubview:_lightCircleDuplicate aboveSubview:self.whiteLightCircle];
+  }
+  
+  if (!_whiteLightCircleDuplicate)
+  {
+     _whiteLightCircleDuplicate = [[UIImageView alloc] initWithFrame:self.whiteLightCircle.frame];
+    [_whiteLightCircleDuplicate setImage:self.whiteLightCircle.image];
+    [_whiteLightCircleDuplicate setContentMode:self.whiteLightCircle.contentMode];
+    [self.animationContainerView insertSubview:_whiteLightCircleDuplicate aboveSubview:_lightCircleDuplicate];
+  }
+  
+  if (_characterWhite) [_characterWhite removeFromSuperview];
+   _characterWhite = [[UIImageView alloc] initWithFrame:self.character.frame];
+  [_characterWhite setImage:[Globals maskImage:characterImageView.image withColor:[UIColor whiteColor]]];
+  [_characterWhite setContentMode:self.character.contentMode];
+  [self.animationContainerView insertSubview:_characterWhite aboveSubview:self.elementLightsFlash];
+  
   REVEAL_KEYFRAME_ANIMATION(anim1, @"opacity")
     [anim1 setKeyTimes:@[ @0.f, @(6.f / kRevealAnimFrames), @(13.f / kRevealAnimFrames), @1.0f ]];
     [anim1 setValues:@[ @0.f, @0.f, @1.f, @1.f ]];
@@ -216,9 +412,9 @@ typedef void (^RevealAnimCompletionBlock)(void);
   REVEAL_KEYFRAME_ANIMATION(anim2, @"opacity")
     [anim2 setKeyTimes:@[ @0.f, @(8.f / kRevealAnimFrames), @(9.f / kRevealAnimFrames), @1.0f ]];
     [anim2 setValues:@[ @0.f, @0.f, @1.f, @1.f ]];
-    [anim2 setValue:^(void) { [self.character.layer setOpacity:1.f]; } forKey:REVEAL_ANIM_COMPLETION_BLOCK_KEY];
-    [self.character.layer addAnimation:anim2 forKey:@"CharacterFadeInAnimation"];
-    [self.character.layer setOpacity:1.f];
+    [anim2 setValue:^(void) { [characterImageView.layer setOpacity:1.f]; } forKey:REVEAL_ANIM_COMPLETION_BLOCK_KEY];
+    [characterImageView.layer addAnimation:anim2 forKey:@"CharacterFadeInAnimation"];
+    [characterImageView.layer setOpacity:1.f];
   
   REVEAL_KEYFRAME_ANIMATION(anim3, @"opacity")
     [anim3 setKeyTimes:@[ @0.f, @(3.f / kRevealAnimFrames), @(8.f / kRevealAnimFrames), @(17.f / kRevealAnimFrames), @1.0f ]];
@@ -353,35 +549,113 @@ typedef void (^RevealAnimCompletionBlock)(void);
     [self.afterGlow.layer addAnimation:anim21 forKey:@"AfterGlowFadeInOutAnimation"];
     [self.afterGlow.layer setOpacity:0.f];
   
-  self.statsContainerView.hidden = NO;
-  self.statsContainerView.alpha = 0.f;
-  self.statsContainerView.transform = CGAffineTransformMakeScale(kStatsScaleAnimStartingScale, kStatsScaleAnimStartingScale);
+  characterStatsView.hidden = NO;
+  characterStatsView.alpha = 0.f;
+  characterStatsView.transform = CGAffineTransformMakeScale(kStatsScaleAnimStartingScale, kStatsScaleAnimStartingScale);
   
   [UIView animateWithDuration:kStatsScaleAnimDuration delay:kRevealAnimDuration options:UIViewAnimationOptionCurveEaseIn animations:^{
-    self.statsContainerView.alpha = 1.f;
-    self.statsContainerView.transform = CGAffineTransformMakeScale(1.f, 1.f);
+    characterStatsView.alpha = 1.f;
+    characterStatsView.transform = CGAffineTransformMakeScale(1.f, 1.f);
   } completion:^(BOOL finished) {
-    [self shakeViews:@[ self.statsContainerView, self.animationContainerView ] withKey:@"ContainerViewsShakeAnimation" completion:^{
-      self.closeButton.hidden = NO;
-      self.closeButton.alpha = 0.f;
-      [UIView animateWithDuration:kCloseButtonFadeInAnimDuration delay:kCloseButtonFadeInAnimDelay options:UIViewAnimationOptionCurveLinear animations:^{
-        self.closeButton.alpha = kCloseButtonTargetOpacity;
-      } completion:nil];
-      
-      _particleEffectView.hidden = NO;
-      _particleEffectView.alpha = 0.f;
-      [UIView animateWithDuration:kPFXFadeInAnimDuration delay:0.f options:UIViewAnimationOptionCurveLinear animations:^{
-        _particleEffectView.alpha = 1.f;
-      } completion:nil];
-       
-      [UIView animateWithDuration:kLightPulseAnimDuration
-                            delay:0.f
-                          options:UIViewAnimationOptionAutoreverse | UIViewAnimationOptionRepeat | UIViewAnimationOptionCurveEaseInOut
-                       animations:^{
-                         self.lightCircle.alpha = 0.f;
-                       } completion:nil];
+    [self shakeViews:@[ characterStatsView, self.animationContainerView ] withKey:@"ContainerViewsShakeAnimation" completion:^{
+      [self restartOrEndAnimation];
     }];
   }];
+  
+  // Play the Gacha reveal SFX for the next character (if any) with a head start
+  _startedNextRevealSoundEffect = NO;
+  const NSTimeInterval t = (kRevealAnimDuration + kStatsScaleAnimDuration + kScreenShakeAnimDuration) + kRevealDelayInBetweenAnims - kSoundEffectAnimHeadStart;
+  [self performAfterDelay:t block:^{
+    if (!_skippingAnimations && _currentCharacterIndex < _characterDescriptors.count - 1)
+    {
+      _startedNextRevealSoundEffect = YES;
+      [SoundEngine gachaReveal];
+    }
+  }];
+}
+
+- (void) restartOrEndAnimation
+{
+  const NSInteger characterCount = _characterDescriptors.count;
+  ++_currentCharacterIndex;
+  
+  if (!_skippingAnimations && _currentCharacterIndex < characterCount)
+  {
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(kRevealDelayInBetweenAnims * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+      self.contentScrollView.contentOffset = CGPointMake(self.width * _currentCharacterIndex, 0);
+      self.characterScrollView.contentOffset = self.contentScrollView.contentOffset;
+      
+      [self beginAnimation];
+    });
+  }
+  else
+  {
+    self.closeButton.hidden = NO;
+    self.closeButton.alpha = 0.f;
+    [UIView animateWithDuration:kCloseButtonFadeInAnimDuration delay:kCloseButtonFadeInAnimDelay options:UIViewAnimationOptionCurveLinear animations:^{
+      self.closeButton.alpha = kCloseButtonTargetOpacity;
+    } completion:nil];
+    
+    _particleEffectView.hidden = NO;
+    _particleEffectView.alpha = 0.f;
+    [UIView animateWithDuration:kPFXFadeInAnimDuration delay:0.f options:UIViewAnimationOptionCurveLinear animations:^{
+      _particleEffectView.alpha = 1.f;
+    } completion:nil];
+    
+    [UIView animateWithDuration:kLightPulseAnimDuration
+                          delay:0.f
+                        options:UIViewAnimationOptionAutoreverse | UIViewAnimationOptionRepeat | UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                       self.lightCircle.alpha = 0.f;
+                     } completion:nil];
+    
+    if (characterCount > 1)
+    {
+      self.contentScrollView.scrollEnabled = YES;
+      
+      self.contentPageControl.currentPage = _currentCharacterIndex - 1;
+      self.contentPageControl.hidden = NO;
+      self.contentPageControl.alpha = 0.f;
+      
+      self.contentPageLabel.text = [NSString stringWithFormat:@"%@ %ld/%ld", [MONSTER_NAME uppercaseString], (long)_currentCharacterIndex, (long)characterCount];
+      self.contentPageLabel.hidden = NO;
+      self.contentPageLabel.alpha = 0.f;
+      
+      self.prevButton.hidden = NO;
+      self.prevButton.alpha = 0.f;
+      
+      self.nextButton.hidden = NO;
+      self.nextButton.alpha = 0.f;
+      
+      self.prevButton.enabled = (self.contentPageControl.currentPage > 0);
+      self.nextButton.enabled = (self.contentPageControl.currentPage < characterCount - 1);
+      
+      [UIView animateWithDuration:kCloseButtonFadeInAnimDuration delay:kCloseButtonFadeInAnimDelay options:UIViewAnimationOptionCurveLinear animations:^{
+        self.contentPageControl.alpha = 1.f;
+        self.contentPageLabel.alpha = 1.f;
+        self.prevButton.alpha = 1.f;
+        self.nextButton.alpha = 1.f;
+      } completion:nil];
+      
+      if (!self.skipAllButton.hidden)
+      {
+        [UIView animateWithDuration:kCloseButtonFadeInAnimDuration delay:kCloseButtonFadeInAnimDelay options:UIViewAnimationOptionCurveLinear animations:^{
+          self.skipAllButton.alpha = 0.f;
+        } completion:^(BOOL finished) {
+          self.skipAllButton.hidden = YES;
+          self.skipAllButton.alpha = 1.f;
+        }];
+      }
+      
+      if (!_backgroundDuplicate)
+      {
+         _backgroundDuplicate = [[UIImageView alloc] initWithFrame:self.background.frame];
+        [_backgroundDuplicate setAlpha:0.f];
+        [_backgroundDuplicate setContentMode:self.background.contentMode];
+        [self.animationContainerView insertSubview:_backgroundDuplicate aboveSubview:self.background];
+      }
+    }
+  }
 }
 
 - (void) animationDidStop:(CAAnimation*)anim finished:(BOOL)flag
@@ -450,70 +724,85 @@ typedef void (^RevealAnimCompletionBlock)(void);
   }
 }
 
-- (void) updateSkillsForMonster:(UserMonster*)monster
+- (void) scrollViewDidScroll:(UIScrollView*)scrollView
 {
-  GameState *gs = [GameState sharedGameState];
+  // Positive value indicates swiping right (left/previous page coming into view)
+  const CGFloat dx = self.characterScrollView.contentOffset.x - scrollView.contentOffset.x;
   
-  if (monster.offensiveSkillId == 0)
+  // This is the delegate callback method for contentScrollView that's
+  // user-interactable. Keeping characterScrollView scrolling in sync
+  self.characterScrollView.contentOffset = scrollView.contentOffset;
+  
+  const NSInteger characterCount = _characterDescriptors.count;
+  const NSInteger currentPage = floorf((scrollView.contentOffset.x + scrollView.width * .5f) / scrollView.width);
+  if (currentPage != self.contentPageControl.currentPage)
   {
-    self.offensiveSkillView.hidden = YES;
-    self.defensiveSkillView.originY = self.offensiveSkillView.originY;
-  }
-  else
-  {
-    SkillProto* skillProto = [gs.staticSkills objectForKey:[NSNumber numberWithInteger:monster.offensiveSkillId]];
-    if (skillProto)
-    {
-      [Globals imageNamed:[skillProto.imgNamePrefix stringByAppendingString:kSkillIconImageNameSuffix]
-                 withView:self.offensiveSkillIcon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:NO];
-      self.offensiveSkillName.text = skillProto.name;
-      self.offensiveSkillView.hidden = NO;
-      self.defensiveSkillView.originY = CGRectGetMaxY(self.offensiveSkillView.frame) + 8.f;
-    }
+    self.contentPageLabel.text = [NSString stringWithFormat:@"%@ %ld/%ld", [MONSTER_NAME uppercaseString], (long)currentPage + 1, (long)characterCount];
+    
+    self.prevButton.enabled = (currentPage > 0);
+    self.nextButton.enabled = (currentPage < characterCount - 1);
   }
   
-  if (monster.defensiveSkillId == 0)
-  {
-    self.defensiveSkillView.hidden = YES;
-  }
-  else
-  {
-    SkillProto* skillProto = [gs.staticSkills objectForKey:[NSNumber numberWithInteger:monster.defensiveSkillId]];
-    if (skillProto)
-    {
-      [Globals imageNamed:[skillProto.imgNamePrefix stringByAppendingString:kSkillIconImageNameSuffix]
-                 withView:self.defensiveSkillIcon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:NO];
-      self.defensiveSkillName.text = skillProto.name;
-      self.defensiveSkillView.hidden = NO;
-    }
-  }
+  self.contentPageControl.currentPage = currentPage;
   
-  if (self.offensiveSkillView.hidden &&
-      self.defensiveSkillView.hidden)
-  {
-    self.skillsSeparator.hidden = YES;
-    self.statsContainerView.height = CGRectGetMaxY(self.powerLabel.frame) + 8.f;
-  }
-  else
-  {
-    self.skillsSeparator.hidden = NO;
-    self.statsContainerView.height = CGRectGetMaxY(self.defensiveSkillView.frame) + 8.f;
-  }
+  const float n = clampf(scrollView.contentOffset.x, 0.f, scrollView.contentSize.width - scrollView.width) / scrollView.width;
+  const int p0  = clampf(floorf(n) + (dx > 0.f), 0, characterCount - 1); // Page swiping from
+  const int p1  = clampf(floorf(n) + (dx < 0.f), 0, characterCount - 1); // Page swiping to
   
-  self.statsContainerView.centerY = self.height * .5f;
+  self.background.image = _characterBackgrounds[p0]; _backgroundDuplicate.image = _characterBackgrounds[p1];
+  
+  const float t = (n - p0) * (p1 - p0);
+  self.background.alpha = 1. - t; _backgroundDuplicate.alpha = t;
 }
 
-- (IBAction) closeClicked:(id)sender {
+- (IBAction) prevButtonClicked:(id)sender
+{
+  [self.contentScrollView scrollRectToVisible:CGRectMake((self.contentPageControl.currentPage - 1) * self.width, 0, self.width, self.height) animated:YES];
+}
+
+- (IBAction) nextButtonClicked:(id)sender
+{
+  [self.contentScrollView scrollRectToVisible:CGRectMake((self.contentPageControl.currentPage + 1) * self.width, 0, self.width, self.height) animated:YES];
+}
+
+- (void) skipAllClicked:(id)sender
+{
+  self.skipAllButton.hidden = YES;
+  
+  for (UIView* view in _characterStatsViews) view.hidden = NO;
+  
+  _skippingAnimations = YES;
+  
+  // Umm... not sure why this doesn't actually stop the sound effect
+  if (_startedNextRevealSoundEffect) [SoundEngine stopLastPlayedEffect];
+}
+
+- (IBAction) closeClicked:(id)sender
+{
   [UIView animateWithDuration:0.2f animations:^{
     self.alpha = 0.f;
   } completion:^(BOOL finished) {
     [self removeFromSuperview];
     
+    [_backgroundDuplicate removeFromSuperview]; _backgroundDuplicate = nil;
     [_lightCircleDuplicate removeFromSuperview]; _lightCircleDuplicate = nil;
     [_whiteLightCircleDuplicate removeFromSuperview]; _whiteLightCircleDuplicate = nil;
     [_characterWhite removeFromSuperview]; _characterWhite = nil;
     
     [self.lightCircle.layer removeAllAnimations];
+    
+    [_characterImageViews removeObject:self.character];
+    [_characterImageViews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    [_characterImageViews removeAllObjects];
+    _characterImageViews = nil;
+    
+    [_characterStatsViews removeObject:self.statsContainerView];
+    [_characterStatsViews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    [_characterStatsViews removeAllObjects];
+    _characterStatsViews = nil;
+    
+    [_characterBackgrounds removeAllObjects];
+    _characterBackgrounds = nil;
     
     self.alpha = 1.f;
   }];
@@ -530,16 +819,6 @@ typedef void (^RevealAnimCompletionBlock)(void);
     self.imageContainerView.transform = CGAffineTransformMakeScale(1.2f, 1.2f);
     self.imageContainerView.centerX -= 10.f;
   }
-  
-  /*
-  UIView *container = self.monsterIcon.superview;
-  container.centerX = self.hpLabel.superview.originX/2+10;
-  
-  if ([Globals isiPhone6Plus]) {
-    container.transform = CGAffineTransformMakeScale(1.2, 1.2);
-    container.centerY -= 20.f;
-  }
-   */
   
   self.offensiveSkill = nil;
   self.defensiveSkill = nil;
@@ -669,10 +948,6 @@ typedef void (^RevealAnimCompletionBlock)(void);
 @implementation NewGachaItemCell
 
 - (void) awakeFromNib {
-  /*
-  self.icon.layer.anchorPoint = ccp(0.5, 0.75);
-  self.icon.center = ccpAdd(self.icon.center, ccp(0, self.icon.frame.size.height*(self.icon.layer.anchorPoint.y-0.5)));
-   */
   self.iconLabel.strokeSize = 1.5f;
   self.iconLabel.strokeColor = [UIColor colorWithHexString:@"ebebeb"];
   
@@ -681,49 +956,53 @@ typedef void (^RevealAnimCompletionBlock)(void);
 }
 
 - (void) updateForGachaDisplayItem:(BoosterDisplayItemProto *)item {
+  RewardProto* reward = item.reward;
+  
   self.itemView.hidden = YES;
   self.mainView.hidden = NO;
   
   NSString *iconName = nil;
-  if (item.isMonster) {
-    //NSString *bgdImage = [@"gacha" stringByAppendingString:[Globals imageNameForRarity:item.quality suffix:@"bg.png"]];
-    //[Globals imageNamed:bgdImage withView:self.bgdView greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  if (reward.typ == RewardProto_RewardTypeMonster) {
     
-    if (item.isComplete) {
-      iconName = [@"gacha" stringByAppendingString:[Globals imageNameForRarity:item.quality suffix:@"ball.png"]];
-      self.shadowIcon.hidden = NO;
-    } else {
-      iconName = [@"gacha" stringByAppendingString:[Globals imageNameForRarity:item.quality suffix:@"piece.png"]];
-      self.shadowIcon.hidden = YES;
+    GameState *gs = [GameState sharedGameState];
+    MonsterProto *mp = [gs monsterWithId:reward.staticDataId];
+    if (mp) {
+      if (reward.amt > 0) { // Complete monster
+        iconName = [@"gacha" stringByAppendingString:[Globals imageNameForRarity:mp.quality suffix:@"ball.png"]];
+        self.shadowIcon.hidden = NO;
+      } else {
+        iconName = [@"gacha" stringByAppendingString:[Globals imageNameForRarity:mp.quality suffix:@"piece.png"]];
+        self.shadowIcon.hidden = YES;
+      }
+      self.label.text = [[Globals stringForRarity:mp.quality] uppercaseString];
+      self.label.textColor = [Globals colorForRarity:mp.quality];
+      
+      self.diamondIcon.hidden = YES;
+      self.icon.hidden = NO;
     }
-    self.label.text = [[Globals stringForRarity:item.quality] uppercaseString];
-    self.label.textColor = [Globals colorForRarity:item.quality];
-    
-    self.diamondIcon.hidden = YES;
-    self.icon.hidden = NO;
-  } else if (item.itemId) {
+  } else if (reward.typ == RewardProto_RewardTypeItem) {
     
     UserItem *ui = [[UserItem alloc] init];
-    ui.itemId = item.itemId;
+    ui.itemId = reward.staticDataId;
     
     [Globals imageNamed:ui.iconImageName withView:self.itemIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
     
     self.iconLabel.text = ui.iconText;
-    self.itemQuantityLabel.text = [NSString stringWithFormat:@"%dx", item.itemQuantity];
-    self.itemQuantityLabel.superview.hidden = item.itemQuantity <= 1;
+    self.itemQuantityLabel.text = [NSString stringWithFormat:@"%dx", reward.amt];
+    self.itemQuantityLabel.superview.hidden = (reward.amt <= 1);
     
     self.itemView.hidden = NO;
     self.mainView.hidden = YES;
-  } else {
-    //NSString *bgdImage = @"gachagemsbg.png";
-    //[Globals imageNamed:bgdImage withView:self.bgdView greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  } else if (reward.typ == RewardProto_RewardTypeGems) {
     
-    self.label.text = [Globals commafyNumber:item.gemReward];
+    self.label.text = [Globals commafyNumber:reward.amt];
     self.label.textColor = [Globals purplishPinkColor];
     
     self.diamondIcon.hidden = NO;
     self.shadowIcon.hidden = YES;
     self.icon.hidden = YES;
+  } else {
+    // Other reward types unsupported
   }
   [Globals imageNamed:iconName withView:self.icon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
 }

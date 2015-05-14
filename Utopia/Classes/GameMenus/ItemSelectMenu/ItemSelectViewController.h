@@ -54,6 +54,8 @@
 - (BOOL) canCloseOnFullBar;
 
 @optional
+
+- (BOOL) wantsProgressBar;
 - (TimerProgressBarColor) progressBarColor;
 - (NSString *) progressBarText;
 - (float) progressBarPercent;
