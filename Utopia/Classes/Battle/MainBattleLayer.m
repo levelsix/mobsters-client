@@ -1006,7 +1006,7 @@
   [self.mainView pulseHealthLabelIfRequired:!enemyIsAttacker forBattlePlayer:def];
   
   if (showLabel)
-    [self.mainView animateDamageLabel:YES initialDamage:damageDone modifiedDamage:damageDone withCompletion:nil];
+    [self.mainView animateDamageLabel:enemyIsAttacker initialDamage:damageDone modifiedDamage:damageDone withCompletion:nil];
   
   def.curHealth = newHealth;
 }
