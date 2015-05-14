@@ -7,6 +7,7 @@
 //
 
 #import "TangoDelegate.h"
+#import "HudNotificationController.h"
 #import <UIKit/UIKit.h>
 
 @interface TangoFriendViewCell : UITableViewCell
@@ -19,7 +20,9 @@
 
 @end
 
-@interface TangoGiftViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface TangoGiftViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, TopBarNotification> {
+  dispatch_block_t _completion;
+}
 
 @property (nonatomic, retain) IBOutlet UIView *containerView;
 @property (nonatomic, retain) IBOutlet UIView *mainView;

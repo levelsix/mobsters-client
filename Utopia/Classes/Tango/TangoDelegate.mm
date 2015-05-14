@@ -19,6 +19,8 @@
 #import <TangoSDK/TangoInvitingResponse.h>
 #import <error_codes.h>
 
+#import "OutgoingEventController.h"
+
 #define TANGO_ENABLED 
 
 @implementation TangoDelegate
@@ -78,8 +80,17 @@ static TangoProfileEntry *profileEntry = nil;
       for (id obj in profileResult.profileEnumerator) {
         profileEntry = obj;
       }
+      [[OutgoingEventController sharedOutgoingEventController] updateTangoId:profileEntry.profileID];
     }];
   }
+#endif
+}
+
++ (NSString *) getMyId {
+#ifdef TANGO_ENABLED
+  return profileEntry.profileID;
+#else
+  return @"";
 #endif
 }
 
@@ -148,7 +159,7 @@ static TangoProfileEntry *profileEntry = nil;
 #endif
 }
 
-+ (void) fetchOwnGifts:(void (^)(NSArray *gifts))comp {
++ (void) fetchMyGifts:(void (^)(NSArray *gifts))comp {
 #ifdef TANGO_ENABLED
   [TangoGifting fetchGiftsWithHandler:^(TangoGiftingFetchGiftsResponse *response, NSError *error) {
     dispatch_sync(dispatch_get_main_queue(), ^{
@@ -156,7 +167,7 @@ static TangoProfileEntry *profileEntry = nil;
     });
     
     if (error.code != TANGO_SDK_SUCCESS) {
-      NSLog(@"Fetched own Gifts resulted in Error: %@", error);
+      NSLog(@"Fetched my Gifts resulted in Error: %@", error);
     }
     
   }];

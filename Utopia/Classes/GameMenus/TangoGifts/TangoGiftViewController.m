@@ -7,6 +7,7 @@
 //
 
 #import "TangoGiftViewController.h"
+#import "GameViewController.h"
 
 #import "Globals.h"
 
@@ -66,19 +67,37 @@
   [self.tableView reloadData];
 }
 
-- (IBAction)close:(id)sender {
-  [Globals popOutView:self.mainView fadeOutBgdView:self.bgView completion:^{
-    [self.view removeFromSuperview];
-    [self removeFromParentViewController];
-  }];
-}
-
 - (BOOL) areAllEntriesSelected {
   [self.tableView reloadData];
   return self.selectedFriends.count == self.tangoFriends.count;
 }
 
--(IBAction)selectallClicked:(id)sender {
+- (void) updateRewardAmount {
+  
+  if (!self.selectedFriends.count) {
+    self.rewardLabel.text = @"0";
+  } else {
+    int rewardAmount = MAX(MAX_GEM_REWARD - ((int)self.tangoFriends.count - (int)self.selectedFriends.count), MIN_GEM_REWARD);
+    rewardAmount = MIN(MAX_GEM_REWARD, rewardAmount);
+    self.rewardLabel.text = [NSString stringWithFormat:@"%d", rewardAmount];
+  }
+}
+
+- (IBAction) close:(id)sender {
+  [self close];
+}
+
+- (void) close {
+  [Globals popOutView:self.mainView fadeOutBgdView:self.bgView completion:^{
+    [self.view removeFromSuperview];
+    [self removeFromParentViewController];
+    if(_completion) {
+      _completion();
+    }
+  }];
+}
+
+- (IBAction) selectallClicked:(id)sender {
   if ([self areAllEntriesSelected]) {
     [self.selectedFriends removeAllObjects];
     self.selectAllCheckmark.hidden = YES;
@@ -91,16 +110,8 @@
   [self updateRewardAmount];
 }
 
-- (void) updateRewardAmount {
-  
-  if (!self.selectedFriends.count) {
-    self.rewardLabel.text = @"0";
-  } else {
-    int rewardAmount = MAX(MAX_GEM_REWARD - ((int)self.tangoFriends.count - (int)self.selectedFriends.count), MIN_GEM_REWARD);
-    rewardAmount = MIN(MAX_GEM_REWARD, rewardAmount);
-    self.rewardLabel.text = [NSString stringWithFormat:@"%d", rewardAmount];
-//    self.selectAllCheckmark.hidden = rewardAmount < MAX_GEM_REWARD;
-  }
+- (IBAction) sendClicked:(id)sender {
+  [TangoDelegate sendGiftsToTangoUsers:self.selectedFriends];
 }
 
 #pragma mark - table delegate
@@ -138,6 +149,29 @@
   [cell loadForTangoProfile:tangoProfile];
   cell.checkmark.hidden = ![self.selectedFriends containsObject:tangoProfile];
   return cell;
+}
+
+#pragma mark - TopBarNotification protocol
+
+- (NotificationLocationType) locationType {
+  return NotificationLocationTypeFullScreen;
+}
+
+- (NotificationPriority) priority {
+  return NotificationPriorityRegular;
+}
+
+- (void) animateWithCompletionBlock:(dispatch_block_t)completion {
+  GameViewController *gvc = [GameViewController baseController];
+  [gvc addChildViewController:self];
+  self.view.frame = gvc.view.bounds;
+  [gvc.view addSubview:self.view];
+  [Globals bounceView:self.mainView fadeInBgdView:self.bgView];
+  _completion = completion;
+}
+
+- (void) endAbruptly {
+  [self close];
 }
 
 @end

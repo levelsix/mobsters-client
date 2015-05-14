@@ -15,13 +15,14 @@
 
 + (BOOL) isTangoAvailable;
 + (BOOL) isTangoAuthenticated;
++ (NSString *) getMyId;
 + (void) getProfilePicture:(void (^)(UIImage *img))comp;
 + (void) getPictureForProfile:(id)pf comp:(void (^)(UIImage *img))comp;
 + (NSString *) getFullNameForProfile:(id)pf;
 
 + (void) fetchCachedFriends:(void (^)(NSArray *friends))comp;
 
-+ (void) fetchOwnGifts:(void (^)(NSArray *gifts))comp;
++ (void) fetchMyGifts:(void (^)(NSArray *gifts))comp;
 + (void) redeemGiftIds:(NSArray *)giftIds;
 + (void) sendGiftsToTangoUsers:(NSArray *)userIds;
 

@@ -138,6 +138,9 @@
           
           NSString *displayMessage = [cm getContentInLanguage:languageToDisplay isTranslated:NULL translationExists:NULL];
           [self.notificationView updateWithString:pcpp.sender.name description:displayMessage color:[UIColor colorWithHexString:@"FFFFFF"]];
+        } else {
+          //sometimes we float random chat objects through chat
+          [self.notificationView updateWithString:pcpp.sender.name description:pcpp.message color:[UIColor colorWithHexString:@"FFFFFF"]];
         }
           
         //pass anything through owner because there are no outlets

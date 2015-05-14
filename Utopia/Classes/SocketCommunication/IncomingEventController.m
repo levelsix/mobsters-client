@@ -27,6 +27,7 @@
 #import "UnreadNotifications.h"
 #import "MiniEventManager.h"
 #import "ChatView.h"
+#import "TangoDelegate.h"
 
 #define QUEST_REDEEM_KIIP_REWARD @"quest_redeem"
 
@@ -385,6 +386,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       break;
     case EventProtocolResponseSReceivedClanGiftsEvent:
       responseClass = [ReceivedClanGiftResponseProto class];
+      break;
+    case EventProtocolResponseSSendTangoGiftEvent:
+      responseClass = [SendTangoGiftResponseProto class];
+      break;
+    case EventProtocolResponseSReceivedGiftEvent:
+#warning breath this
       break;
     default:
       responseClass = nil;
@@ -2669,6 +2676,36 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   } else {
     [Globals popupMessage:@"Server failed to translate messages."];
   }
+}
+
+#pragma mark - Tango
+
+//this is all temporary until we have time to make a better UX experience
+- (void)handleSendTangoGiftResponseProto:(FullEvent *)fe {
+  SendTangoGiftResponseProto *proto = (SendTangoGiftResponseProto *)fe.event;
+  
+  LNLog(@"Send Tango Gift Response recieved with status %d.", (int)proto.status);
+  
+#ifdef TOONSQUAD
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == SendTangoGiftResponseProto_SendTangoGiftStatusSuccess) {
+    
+    int totalInvitesSent = (int)proto.tangoUserIdsInToonSquadList.count + (int)proto.tangoUserIdsNotInToonSquadList.count;
+    __block int totalPossibleInvites;
+    
+    [TangoDelegate fetchCachedFriends:^(NSArray *friends) {
+      totalPossibleInvites = (int)friends.count;
+    }];
+    
+    int rewardAmount = MAX(3 - (totalPossibleInvites - totalInvitesSent), 1);
+    rewardAmount = MIN(3, rewardAmount);
+    
+    gs.gems += rewardAmount;
+    [Globals addPurpleAlertNotification:[NSString stringWithFormat:@"You Collected %d Gems for sharing gifts with your friends", rewardAmount] isImmediate:NO];
+    
+    [TangoDelegate sendGiftsToTangoUsers:proto.tangoUserIdsInToonSquadList];
+  }
+#endif
 }
 
 @end

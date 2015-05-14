@@ -3720,4 +3720,27 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
 }
 
+#pragma mark - Tango
+
+- (void) updateTangoId:(NSString *)tangoId {
+#ifdef TOONSQAUD
+  [[SocketCommunication sharedSocketCommunication] sendUpdateTangleID:tangoId];
+#endif
+}
+
+- (void) sendTangoGiftsToTangoUsers:(NSArray *)tangoIds gemReward:(int)gemReward delegate:(id)delegate{
+  GameState *gs = [GameState sharedGameState];
+  
+  if (tangoIds.count == 0) {
+    [Globals popupMessage:@"Trying to send 0 tango gifts"];
+    return;
+  }
+  
+  int tag = [[SocketCommunication sharedSocketCommunication] sendTangoGiftsForTangoIds:tangoIds];
+  [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
+  
+  GemsUpdate *gu = [GemsUpdate updateWithTag:tag change:gemReward];
+  [gs addUnrespondedUpdates:gu, nil];
+}
+
 @end
