@@ -82,6 +82,7 @@
       _startedEating = NO;
       
       // Eat the cake and reload schedule UI then
+      self.enemySprite.muteAttacks = YES;
       self.enemySprite.animationType = MonsterProto_AnimationTypeRanged;
       [self.enemySprite performNearAttackAnimationWithEnemy:self.playerSprite shouldReturn:YES shouldEvade:NO shouldMiss:NO shouldFlinch:NO
                                                      target:self selector:@selector(finishedEating) animCompletion:nil];

@@ -58,6 +58,8 @@
 
 @property (nonatomic, retain) UIImageView* characterImageView;
 
+@property (nonatomic, assign) BOOL muteAttacks;
+
 - (void) addSkillSideEffect:(SideEffectType)type forSkill:(NSInteger)skillId turnsAffected:(NSInteger)numTurns
    turnsAreSideEffectOwners:(BOOL)turnsAreSideEffectOwners toPlayer:(BOOL)player;
 - (void) resetAfftectedTurnsCount:(NSInteger)numTurns forSkillSideEffect:(SideEffectType)type;
