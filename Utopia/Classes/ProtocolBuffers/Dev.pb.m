@@ -29,7 +29,6 @@ BOOL DevRequestIsValidValue(DevRequest value) {
     case DevRequestFBGetGems:
     case DevRequestFBGetCashOilGems:
     case DevRequestGetItem:
-    case DevRequestGetGachaCredits:
       return YES;
     default:
       return NO;

@@ -79,7 +79,6 @@ typedef NS_ENUM(SInt32, ResourceType) {
   ResourceTypeCash = 1,
   ResourceTypeOil = 2,
   ResourceTypeGems = 3,
-  ResourceTypeGachaCredits = 5,
   ResourceTypeMonster = 20,
 };
 
@@ -97,7 +96,6 @@ typedef NS_ENUM(SInt32, BoardObstacleType) {
   BoardObstacleTypeCloud = 1,
   BoardObstacleTypeLock = 2,
   BoardObstacleTypeHole = 3,
-  BoardObstacleTypeVine = 4,
 };
 
 BOOL BoardObstacleTypeIsValidValue(BoardObstacleType value);

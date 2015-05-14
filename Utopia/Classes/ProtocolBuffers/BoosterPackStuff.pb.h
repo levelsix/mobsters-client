@@ -2,7 +2,7 @@
 
 #import "ProtocolBuffers.h"
 
-#import "Reward.pb.h"
+#import "SharedEnumConfig.pb.h"
 #import "User.pb.h"
 // @@protoc_insertion_point(imports)
 
@@ -12,24 +12,10 @@
 @class BoosterItemProto_Builder;
 @class BoosterPackProto;
 @class BoosterPackProto_Builder;
-@class ClanGiftProto;
-@class ClanGiftProto_Builder;
-@class ClanMemberTeamDonationProto;
-@class ClanMemberTeamDonationProto_Builder;
-@class FullUserMonsterProto;
-@class FullUserMonsterProto_Builder;
 @class FullUserProto;
 @class FullUserProto_Builder;
-@class ItemGemPriceProto;
-@class ItemGemPriceProto_Builder;
-@class ItemProto;
-@class ItemProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
-@class MinimumUserMonsterProto;
-@class MinimumUserMonsterProto_Builder;
-@class MinimumUserMonsterSellProto;
-@class MinimumUserMonsterSellProto_Builder;
 @class MinimumUserProto;
 @class MinimumUserProtoWithFacebookId;
 @class MinimumUserProtoWithFacebookId_Builder;
@@ -38,48 +24,14 @@
 @class MinimumUserProtoWithMaxResources;
 @class MinimumUserProtoWithMaxResources_Builder;
 @class MinimumUserProto_Builder;
-@class MonsterBattleDialogueProto;
-@class MonsterBattleDialogueProto_Builder;
-@class MonsterLevelInfoProto;
-@class MonsterLevelInfoProto_Builder;
-@class MonsterProto;
-@class MonsterProto_Builder;
 @class RareBoosterPurchaseProto;
 @class RareBoosterPurchaseProto_Builder;
-@class RewardProto;
-@class RewardProto_Builder;
 @class StaticUserLevelInfoProto;
 @class StaticUserLevelInfoProto_Builder;
-@class UserClanGiftProto;
-@class UserClanGiftProto_Builder;
-@class UserCurrentMonsterTeamProto;
-@class UserCurrentMonsterTeamProto_Builder;
-@class UserEnhancementItemProto;
-@class UserEnhancementItemProto_Builder;
-@class UserEnhancementProto;
-@class UserEnhancementProto_Builder;
 @class UserFacebookInviteForSlotProto;
 @class UserFacebookInviteForSlotProto_Builder;
-@class UserItemProto;
-@class UserItemProto_Builder;
-@class UserItemSecretGiftProto;
-@class UserItemSecretGiftProto_Builder;
-@class UserItemUsageProto;
-@class UserItemUsageProto_Builder;
-@class UserMonsterCurrentExpProto;
-@class UserMonsterCurrentExpProto_Builder;
-@class UserMonsterCurrentHealthProto;
-@class UserMonsterCurrentHealthProto_Builder;
-@class UserMonsterEvolutionProto;
-@class UserMonsterEvolutionProto_Builder;
-@class UserMonsterHealingProto;
-@class UserMonsterHealingProto_Builder;
-@class UserMonsterSnapshotProto;
-@class UserMonsterSnapshotProto_Builder;
 @class UserPvpLeagueProto;
 @class UserPvpLeagueProto_Builder;
-@class UserRewardProto;
-@class UserRewardProto_Builder;
 #ifndef __has_feature
   #define __has_feature(x) 0 // Compatibility with non-clang compilers.
 #endif // __has_feature
@@ -193,7 +145,6 @@ BOOL BoosterPackProto_BoosterPackTypeIsValidValue(BoosterPackProto_BoosterPackTy
 @private
   BOOL hasBoosterPackId_:1;
   BOOL hasGemPrice_:1;
-  BOOL hasGachaCreditsPrice_:1;
   BOOL hasBoosterPackName_:1;
   BOOL hasListBackgroundImgName_:1;
   BOOL hasListDescription_:1;
@@ -203,7 +154,6 @@ BOOL BoosterPackProto_BoosterPackTypeIsValidValue(BoosterPackProto_BoosterPackTy
   BOOL hasType_:1;
   int32_t boosterPackId;
   int32_t gemPrice;
-  int32_t gachaCreditsPrice;
   NSString* boosterPackName;
   NSString* listBackgroundImgName;
   NSString* listDescription;
@@ -217,7 +167,6 @@ BOOL BoosterPackProto_BoosterPackTypeIsValidValue(BoosterPackProto_BoosterPackTy
 - (BOOL) hasBoosterPackId;
 - (BOOL) hasBoosterPackName;
 - (BOOL) hasGemPrice;
-- (BOOL) hasGachaCreditsPrice;
 - (BOOL) hasListBackgroundImgName;
 - (BOOL) hasListDescription;
 - (BOOL) hasNavBarImgName;
@@ -227,7 +176,6 @@ BOOL BoosterPackProto_BoosterPackTypeIsValidValue(BoosterPackProto_BoosterPackTy
 @property (readonly) int32_t boosterPackId;
 @property (readonly, strong) NSString* boosterPackName;
 @property (readonly) int32_t gemPrice;
-@property (readonly) int32_t gachaCreditsPrice;
 @property (readonly, strong) NSArray * specialItemsList;
 @property (readonly, strong) NSString* listBackgroundImgName;
 @property (readonly, strong) NSString* listDescription;
@@ -289,11 +237,6 @@ BOOL BoosterPackProto_BoosterPackTypeIsValidValue(BoosterPackProto_BoosterPackTy
 - (BoosterPackProto_Builder*) setGemPrice:(int32_t) value;
 - (BoosterPackProto_Builder*) clearGemPrice;
 
-- (BOOL) hasGachaCreditsPrice;
-- (int32_t) gachaCreditsPrice;
-- (BoosterPackProto_Builder*) setGachaCreditsPrice:(int32_t) value;
-- (BoosterPackProto_Builder*) clearGachaCreditsPrice;
-
 - (NSMutableArray *)specialItemsList;
 - (BoosterItemProto*)specialItemsAtIndex:(NSUInteger)index;
 - (BoosterPackProto_Builder *)addSpecialItems:(BoosterItemProto*)value;
@@ -339,27 +282,51 @@ BOOL BoosterPackProto_BoosterPackTypeIsValidValue(BoosterPackProto_BoosterPackTy
 
 @interface BoosterItemProto : PBGeneratedMessage {
 @private
+  BOOL hasIsComplete_:1;
   BOOL hasIsSpecial_:1;
   BOOL hasChanceToAppear_:1;
   BOOL hasBoosterItemId_:1;
   BOOL hasBoosterPackId_:1;
-  BOOL hasReward_:1;
+  BOOL hasMonsterId_:1;
+  BOOL hasNumPieces_:1;
+  BOOL hasGemReward_:1;
+  BOOL hasCashReward_:1;
+  BOOL hasItemId_:1;
+  BOOL hasItemQuantity_:1;
+  BOOL isComplete_:1;
   BOOL isSpecial_:1;
   Float32 chanceToAppear;
   int32_t boosterItemId;
   int32_t boosterPackId;
-  RewardProto* reward;
+  int32_t monsterId;
+  int32_t numPieces;
+  int32_t gemReward;
+  int32_t cashReward;
+  int32_t itemId;
+  int32_t itemQuantity;
 }
 - (BOOL) hasBoosterItemId;
 - (BOOL) hasBoosterPackId;
+- (BOOL) hasMonsterId;
+- (BOOL) hasNumPieces;
+- (BOOL) hasIsComplete;
 - (BOOL) hasIsSpecial;
+- (BOOL) hasGemReward;
+- (BOOL) hasCashReward;
 - (BOOL) hasChanceToAppear;
-- (BOOL) hasReward;
+- (BOOL) hasItemId;
+- (BOOL) hasItemQuantity;
 @property (readonly) int32_t boosterItemId;
 @property (readonly) int32_t boosterPackId;
+@property (readonly) int32_t monsterId;
+@property (readonly) int32_t numPieces;
+- (BOOL) isComplete;
 - (BOOL) isSpecial;
+@property (readonly) int32_t gemReward;
+@property (readonly) int32_t cashReward;
 @property (readonly) Float32 chanceToAppear;
-@property (readonly, strong) RewardProto* reward;
+@property (readonly) int32_t itemId;
+@property (readonly) int32_t itemQuantity;
 
 + (BoosterItemProto*) defaultInstance;
 - (BoosterItemProto*) defaultInstance;
@@ -406,35 +373,87 @@ BOOL BoosterPackProto_BoosterPackTypeIsValidValue(BoosterPackProto_BoosterPackTy
 - (BoosterItemProto_Builder*) setBoosterPackId:(int32_t) value;
 - (BoosterItemProto_Builder*) clearBoosterPackId;
 
+- (BOOL) hasMonsterId;
+- (int32_t) monsterId;
+- (BoosterItemProto_Builder*) setMonsterId:(int32_t) value;
+- (BoosterItemProto_Builder*) clearMonsterId;
+
+- (BOOL) hasNumPieces;
+- (int32_t) numPieces;
+- (BoosterItemProto_Builder*) setNumPieces:(int32_t) value;
+- (BoosterItemProto_Builder*) clearNumPieces;
+
+- (BOOL) hasIsComplete;
+- (BOOL) isComplete;
+- (BoosterItemProto_Builder*) setIsComplete:(BOOL) value;
+- (BoosterItemProto_Builder*) clearIsComplete;
+
 - (BOOL) hasIsSpecial;
 - (BOOL) isSpecial;
 - (BoosterItemProto_Builder*) setIsSpecial:(BOOL) value;
 - (BoosterItemProto_Builder*) clearIsSpecial;
+
+- (BOOL) hasGemReward;
+- (int32_t) gemReward;
+- (BoosterItemProto_Builder*) setGemReward:(int32_t) value;
+- (BoosterItemProto_Builder*) clearGemReward;
+
+- (BOOL) hasCashReward;
+- (int32_t) cashReward;
+- (BoosterItemProto_Builder*) setCashReward:(int32_t) value;
+- (BoosterItemProto_Builder*) clearCashReward;
 
 - (BOOL) hasChanceToAppear;
 - (Float32) chanceToAppear;
 - (BoosterItemProto_Builder*) setChanceToAppear:(Float32) value;
 - (BoosterItemProto_Builder*) clearChanceToAppear;
 
-- (BOOL) hasReward;
-- (RewardProto*) reward;
-- (BoosterItemProto_Builder*) setReward:(RewardProto*) value;
-- (BoosterItemProto_Builder*) setReward_Builder:(RewardProto_Builder*) builderForValue;
-- (BoosterItemProto_Builder*) mergeReward:(RewardProto*) value;
-- (BoosterItemProto_Builder*) clearReward;
+- (BOOL) hasItemId;
+- (int32_t) itemId;
+- (BoosterItemProto_Builder*) setItemId:(int32_t) value;
+- (BoosterItemProto_Builder*) clearItemId;
+
+- (BOOL) hasItemQuantity;
+- (int32_t) itemQuantity;
+- (BoosterItemProto_Builder*) setItemQuantity:(int32_t) value;
+- (BoosterItemProto_Builder*) clearItemQuantity;
 @end
 
 @interface BoosterDisplayItemProto : PBGeneratedMessage {
 @private
+  BOOL hasIsMonster_:1;
+  BOOL hasIsComplete_:1;
   BOOL hasBoosterPackId_:1;
-  BOOL hasReward_:1;
+  BOOL hasGemReward_:1;
+  BOOL hasQuantity_:1;
+  BOOL hasItemId_:1;
+  BOOL hasItemQuantity_:1;
+  BOOL hasQuality_:1;
+  BOOL isMonster_:1;
+  BOOL isComplete_:1;
   int32_t boosterPackId;
-  RewardProto* reward;
+  int32_t gemReward;
+  int32_t quantity;
+  int32_t itemId;
+  int32_t itemQuantity;
+  Quality quality;
 }
 - (BOOL) hasBoosterPackId;
-- (BOOL) hasReward;
+- (BOOL) hasIsMonster;
+- (BOOL) hasIsComplete;
+- (BOOL) hasQuality;
+- (BOOL) hasGemReward;
+- (BOOL) hasQuantity;
+- (BOOL) hasItemId;
+- (BOOL) hasItemQuantity;
 @property (readonly) int32_t boosterPackId;
-@property (readonly, strong) RewardProto* reward;
+- (BOOL) isMonster;
+- (BOOL) isComplete;
+@property (readonly) Quality quality;
+@property (readonly) int32_t gemReward;
+@property (readonly) int32_t quantity;
+@property (readonly) int32_t itemId;
+@property (readonly) int32_t itemQuantity;
 
 + (BoosterDisplayItemProto*) defaultInstance;
 - (BoosterDisplayItemProto*) defaultInstance;
@@ -476,12 +495,40 @@ BOOL BoosterPackProto_BoosterPackTypeIsValidValue(BoosterPackProto_BoosterPackTy
 - (BoosterDisplayItemProto_Builder*) setBoosterPackId:(int32_t) value;
 - (BoosterDisplayItemProto_Builder*) clearBoosterPackId;
 
-- (BOOL) hasReward;
-- (RewardProto*) reward;
-- (BoosterDisplayItemProto_Builder*) setReward:(RewardProto*) value;
-- (BoosterDisplayItemProto_Builder*) setReward_Builder:(RewardProto_Builder*) builderForValue;
-- (BoosterDisplayItemProto_Builder*) mergeReward:(RewardProto*) value;
-- (BoosterDisplayItemProto_Builder*) clearReward;
+- (BOOL) hasIsMonster;
+- (BOOL) isMonster;
+- (BoosterDisplayItemProto_Builder*) setIsMonster:(BOOL) value;
+- (BoosterDisplayItemProto_Builder*) clearIsMonster;
+
+- (BOOL) hasIsComplete;
+- (BOOL) isComplete;
+- (BoosterDisplayItemProto_Builder*) setIsComplete:(BOOL) value;
+- (BoosterDisplayItemProto_Builder*) clearIsComplete;
+
+- (BOOL) hasQuality;
+- (Quality) quality;
+- (BoosterDisplayItemProto_Builder*) setQuality:(Quality) value;
+- (BoosterDisplayItemProto_Builder*) clearQualityList;
+
+- (BOOL) hasGemReward;
+- (int32_t) gemReward;
+- (BoosterDisplayItemProto_Builder*) setGemReward:(int32_t) value;
+- (BoosterDisplayItemProto_Builder*) clearGemReward;
+
+- (BOOL) hasQuantity;
+- (int32_t) quantity;
+- (BoosterDisplayItemProto_Builder*) setQuantity:(int32_t) value;
+- (BoosterDisplayItemProto_Builder*) clearQuantity;
+
+- (BOOL) hasItemId;
+- (int32_t) itemId;
+- (BoosterDisplayItemProto_Builder*) setItemId:(int32_t) value;
+- (BoosterDisplayItemProto_Builder*) clearItemId;
+
+- (BOOL) hasItemQuantity;
+- (int32_t) itemQuantity;
+- (BoosterDisplayItemProto_Builder*) setItemQuantity:(int32_t) value;
+- (BoosterDisplayItemProto_Builder*) clearItemQuantity;
 @end
 
 

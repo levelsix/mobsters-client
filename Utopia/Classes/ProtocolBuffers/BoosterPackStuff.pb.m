@@ -13,7 +13,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
   if (self == [BoosterPackStuffRoot class]) {
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
-    [RewardRoot registerAllExtensions:registry];
+    [SharedEnumConfigRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
     extensionRegistry = registry;
   }
@@ -408,7 +408,6 @@ static RareBoosterPurchaseProto* defaultRareBoosterPurchaseProtoInstance = nil;
 @property int32_t boosterPackId;
 @property (strong) NSString* boosterPackName;
 @property int32_t gemPrice;
-@property int32_t gachaCreditsPrice;
 @property (strong) NSMutableArray * mutableSpecialItemsList;
 @property (strong) NSString* listBackgroundImgName;
 @property (strong) NSString* listDescription;
@@ -442,13 +441,6 @@ static RareBoosterPurchaseProto* defaultRareBoosterPurchaseProtoInstance = nil;
   hasGemPrice_ = !!value_;
 }
 @synthesize gemPrice;
-- (BOOL) hasGachaCreditsPrice {
-  return !!hasGachaCreditsPrice_;
-}
-- (void) setHasGachaCreditsPrice:(BOOL) value_ {
-  hasGachaCreditsPrice_ = !!value_;
-}
-@synthesize gachaCreditsPrice;
 @synthesize mutableSpecialItemsList;
 @dynamic specialItemsList;
 - (BOOL) hasListBackgroundImgName {
@@ -500,7 +492,6 @@ static RareBoosterPurchaseProto* defaultRareBoosterPurchaseProtoInstance = nil;
     self.boosterPackId = 0;
     self.boosterPackName = @"";
     self.gemPrice = 0;
-    self.gachaCreditsPrice = 0;
     self.listBackgroundImgName = @"";
     self.listDescription = @"";
     self.navBarImgName = @"";
@@ -571,9 +562,6 @@ static BoosterPackProto* defaultBoosterPackProtoInstance = nil;
   if (self.hasType) {
     [output writeEnum:11 value:self.type];
   }
-  if (self.hasGachaCreditsPrice) {
-    [output writeInt32:12 value:self.gachaCreditsPrice];
-  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -615,9 +603,6 @@ static BoosterPackProto* defaultBoosterPackProtoInstance = nil;
   }];
   if (self.hasType) {
     size_ += computeEnumSize(11, self.type);
-  }
-  if (self.hasGachaCreditsPrice) {
-    size_ += computeInt32Size(12, self.gachaCreditsPrice);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -693,9 +678,6 @@ static BoosterPackProto* defaultBoosterPackProtoInstance = nil;
   if (self.hasType) {
     [output appendFormat:@"%@%@: %@\n", indent, @"type", [NSNumber numberWithInteger:self.type]];
   }
-  if (self.hasGachaCreditsPrice) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"gachaCreditsPrice", [NSNumber numberWithInteger:self.gachaCreditsPrice]];
-  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -727,8 +709,6 @@ static BoosterPackProto* defaultBoosterPackProtoInstance = nil;
       [self.displayItemsList isEqualToArray:otherMessage.displayItemsList] &&
       self.hasType == otherMessage.hasType &&
       (!self.hasType || self.type == otherMessage.type) &&
-      self.hasGachaCreditsPrice == otherMessage.hasGachaCreditsPrice &&
-      (!self.hasGachaCreditsPrice || self.gachaCreditsPrice == otherMessage.gachaCreditsPrice) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -765,9 +745,6 @@ static BoosterPackProto* defaultBoosterPackProtoInstance = nil;
   }];
   if (self.hasType) {
     hashCode = hashCode * 31 + self.type;
-  }
-  if (self.hasGachaCreditsPrice) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.gachaCreditsPrice] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -832,9 +809,6 @@ BOOL BoosterPackProto_BoosterPackTypeIsValidValue(BoosterPackProto_BoosterPackTy
   }
   if (other.hasGemPrice) {
     [self setGemPrice:other.gemPrice];
-  }
-  if (other.hasGachaCreditsPrice) {
-    [self setGachaCreditsPrice:other.gachaCreditsPrice];
   }
   if (other.mutableSpecialItemsList.count > 0) {
     if (result.mutableSpecialItemsList == nil) {
@@ -942,10 +916,6 @@ BOOL BoosterPackProto_BoosterPackTypeIsValidValue(BoosterPackProto_BoosterPackTy
         }
         break;
       }
-      case 96: {
-        [self setGachaCreditsPrice:[input readInt32]];
-        break;
-      }
     }
   }
 }
@@ -995,22 +965,6 @@ BOOL BoosterPackProto_BoosterPackTypeIsValidValue(BoosterPackProto_BoosterPackTy
 - (BoosterPackProto_Builder*) clearGemPrice {
   result.hasGemPrice = NO;
   result.gemPrice = 0;
-  return self;
-}
-- (BOOL) hasGachaCreditsPrice {
-  return result.hasGachaCreditsPrice;
-}
-- (int32_t) gachaCreditsPrice {
-  return result.gachaCreditsPrice;
-}
-- (BoosterPackProto_Builder*) setGachaCreditsPrice:(int32_t) value {
-  result.hasGachaCreditsPrice = YES;
-  result.gachaCreditsPrice = value;
-  return self;
-}
-- (BoosterPackProto_Builder*) clearGachaCreditsPrice {
-  result.hasGachaCreditsPrice = NO;
-  result.gachaCreditsPrice = 0;
   return self;
 }
 - (NSMutableArray *)specialItemsList {
@@ -1162,9 +1116,15 @@ BOOL BoosterPackProto_BoosterPackTypeIsValidValue(BoosterPackProto_BoosterPackTy
 @interface BoosterItemProto ()
 @property int32_t boosterItemId;
 @property int32_t boosterPackId;
+@property int32_t monsterId;
+@property int32_t numPieces;
+@property BOOL isComplete;
 @property BOOL isSpecial;
+@property int32_t gemReward;
+@property int32_t cashReward;
 @property Float32 chanceToAppear;
-@property (strong) RewardProto* reward;
+@property int32_t itemId;
+@property int32_t itemQuantity;
 @end
 
 @implementation BoosterItemProto
@@ -1183,6 +1143,32 @@ BOOL BoosterPackProto_BoosterPackTypeIsValidValue(BoosterPackProto_BoosterPackTy
   hasBoosterPackId_ = !!value_;
 }
 @synthesize boosterPackId;
+- (BOOL) hasMonsterId {
+  return !!hasMonsterId_;
+}
+- (void) setHasMonsterId:(BOOL) value_ {
+  hasMonsterId_ = !!value_;
+}
+@synthesize monsterId;
+- (BOOL) hasNumPieces {
+  return !!hasNumPieces_;
+}
+- (void) setHasNumPieces:(BOOL) value_ {
+  hasNumPieces_ = !!value_;
+}
+@synthesize numPieces;
+- (BOOL) hasIsComplete {
+  return !!hasIsComplete_;
+}
+- (void) setHasIsComplete:(BOOL) value_ {
+  hasIsComplete_ = !!value_;
+}
+- (BOOL) isComplete {
+  return !!isComplete_;
+}
+- (void) setIsComplete:(BOOL) value_ {
+  isComplete_ = !!value_;
+}
 - (BOOL) hasIsSpecial {
   return !!hasIsSpecial_;
 }
@@ -1195,6 +1181,20 @@ BOOL BoosterPackProto_BoosterPackTypeIsValidValue(BoosterPackProto_BoosterPackTy
 - (void) setIsSpecial:(BOOL) value_ {
   isSpecial_ = !!value_;
 }
+- (BOOL) hasGemReward {
+  return !!hasGemReward_;
+}
+- (void) setHasGemReward:(BOOL) value_ {
+  hasGemReward_ = !!value_;
+}
+@synthesize gemReward;
+- (BOOL) hasCashReward {
+  return !!hasCashReward_;
+}
+- (void) setHasCashReward:(BOOL) value_ {
+  hasCashReward_ = !!value_;
+}
+@synthesize cashReward;
 - (BOOL) hasChanceToAppear {
   return !!hasChanceToAppear_;
 }
@@ -1202,20 +1202,33 @@ BOOL BoosterPackProto_BoosterPackTypeIsValidValue(BoosterPackProto_BoosterPackTy
   hasChanceToAppear_ = !!value_;
 }
 @synthesize chanceToAppear;
-- (BOOL) hasReward {
-  return !!hasReward_;
+- (BOOL) hasItemId {
+  return !!hasItemId_;
 }
-- (void) setHasReward:(BOOL) value_ {
-  hasReward_ = !!value_;
+- (void) setHasItemId:(BOOL) value_ {
+  hasItemId_ = !!value_;
 }
-@synthesize reward;
+@synthesize itemId;
+- (BOOL) hasItemQuantity {
+  return !!hasItemQuantity_;
+}
+- (void) setHasItemQuantity:(BOOL) value_ {
+  hasItemQuantity_ = !!value_;
+}
+@synthesize itemQuantity;
 - (id) init {
   if ((self = [super init])) {
     self.boosterItemId = 0;
     self.boosterPackId = 0;
+    self.monsterId = 0;
+    self.numPieces = 0;
+    self.isComplete = NO;
     self.isSpecial = NO;
+    self.gemReward = 0;
+    self.cashReward = 0;
     self.chanceToAppear = 0;
-    self.reward = [RewardProto defaultInstance];
+    self.itemId = 0;
+    self.itemQuantity = 0;
   }
   return self;
 }
@@ -1241,14 +1254,32 @@ static BoosterItemProto* defaultBoosterItemProtoInstance = nil;
   if (self.hasBoosterPackId) {
     [output writeInt32:2 value:self.boosterPackId];
   }
+  if (self.hasMonsterId) {
+    [output writeInt32:3 value:self.monsterId];
+  }
+  if (self.hasNumPieces) {
+    [output writeInt32:4 value:self.numPieces];
+  }
+  if (self.hasIsComplete) {
+    [output writeBool:5 value:self.isComplete];
+  }
   if (self.hasIsSpecial) {
     [output writeBool:6 value:self.isSpecial];
+  }
+  if (self.hasGemReward) {
+    [output writeInt32:7 value:self.gemReward];
+  }
+  if (self.hasCashReward) {
+    [output writeInt32:8 value:self.cashReward];
   }
   if (self.hasChanceToAppear) {
     [output writeFloat:9 value:self.chanceToAppear];
   }
-  if (self.hasReward) {
-    [output writeMessage:10 value:self.reward];
+  if (self.hasItemId) {
+    [output writeInt32:10 value:self.itemId];
+  }
+  if (self.hasItemQuantity) {
+    [output writeInt32:11 value:self.itemQuantity];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -1265,14 +1296,32 @@ static BoosterItemProto* defaultBoosterItemProtoInstance = nil;
   if (self.hasBoosterPackId) {
     size_ += computeInt32Size(2, self.boosterPackId);
   }
+  if (self.hasMonsterId) {
+    size_ += computeInt32Size(3, self.monsterId);
+  }
+  if (self.hasNumPieces) {
+    size_ += computeInt32Size(4, self.numPieces);
+  }
+  if (self.hasIsComplete) {
+    size_ += computeBoolSize(5, self.isComplete);
+  }
   if (self.hasIsSpecial) {
     size_ += computeBoolSize(6, self.isSpecial);
+  }
+  if (self.hasGemReward) {
+    size_ += computeInt32Size(7, self.gemReward);
+  }
+  if (self.hasCashReward) {
+    size_ += computeInt32Size(8, self.cashReward);
   }
   if (self.hasChanceToAppear) {
     size_ += computeFloatSize(9, self.chanceToAppear);
   }
-  if (self.hasReward) {
-    size_ += computeMessageSize(10, self.reward);
+  if (self.hasItemId) {
+    size_ += computeInt32Size(10, self.itemId);
+  }
+  if (self.hasItemQuantity) {
+    size_ += computeInt32Size(11, self.itemQuantity);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -1315,17 +1364,32 @@ static BoosterItemProto* defaultBoosterItemProtoInstance = nil;
   if (self.hasBoosterPackId) {
     [output appendFormat:@"%@%@: %@\n", indent, @"boosterPackId", [NSNumber numberWithInteger:self.boosterPackId]];
   }
+  if (self.hasMonsterId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"monsterId", [NSNumber numberWithInteger:self.monsterId]];
+  }
+  if (self.hasNumPieces) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"numPieces", [NSNumber numberWithInteger:self.numPieces]];
+  }
+  if (self.hasIsComplete) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"isComplete", [NSNumber numberWithBool:self.isComplete]];
+  }
   if (self.hasIsSpecial) {
     [output appendFormat:@"%@%@: %@\n", indent, @"isSpecial", [NSNumber numberWithBool:self.isSpecial]];
+  }
+  if (self.hasGemReward) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"gemReward", [NSNumber numberWithInteger:self.gemReward]];
+  }
+  if (self.hasCashReward) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"cashReward", [NSNumber numberWithInteger:self.cashReward]];
   }
   if (self.hasChanceToAppear) {
     [output appendFormat:@"%@%@: %@\n", indent, @"chanceToAppear", [NSNumber numberWithFloat:self.chanceToAppear]];
   }
-  if (self.hasReward) {
-    [output appendFormat:@"%@%@ {\n", indent, @"reward"];
-    [self.reward writeDescriptionTo:output
-                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
-    [output appendFormat:@"%@}\n", indent];
+  if (self.hasItemId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"itemId", [NSNumber numberWithInteger:self.itemId]];
+  }
+  if (self.hasItemQuantity) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"itemQuantity", [NSNumber numberWithInteger:self.itemQuantity]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -1342,12 +1406,24 @@ static BoosterItemProto* defaultBoosterItemProtoInstance = nil;
       (!self.hasBoosterItemId || self.boosterItemId == otherMessage.boosterItemId) &&
       self.hasBoosterPackId == otherMessage.hasBoosterPackId &&
       (!self.hasBoosterPackId || self.boosterPackId == otherMessage.boosterPackId) &&
+      self.hasMonsterId == otherMessage.hasMonsterId &&
+      (!self.hasMonsterId || self.monsterId == otherMessage.monsterId) &&
+      self.hasNumPieces == otherMessage.hasNumPieces &&
+      (!self.hasNumPieces || self.numPieces == otherMessage.numPieces) &&
+      self.hasIsComplete == otherMessage.hasIsComplete &&
+      (!self.hasIsComplete || self.isComplete == otherMessage.isComplete) &&
       self.hasIsSpecial == otherMessage.hasIsSpecial &&
       (!self.hasIsSpecial || self.isSpecial == otherMessage.isSpecial) &&
+      self.hasGemReward == otherMessage.hasGemReward &&
+      (!self.hasGemReward || self.gemReward == otherMessage.gemReward) &&
+      self.hasCashReward == otherMessage.hasCashReward &&
+      (!self.hasCashReward || self.cashReward == otherMessage.cashReward) &&
       self.hasChanceToAppear == otherMessage.hasChanceToAppear &&
       (!self.hasChanceToAppear || self.chanceToAppear == otherMessage.chanceToAppear) &&
-      self.hasReward == otherMessage.hasReward &&
-      (!self.hasReward || [self.reward isEqual:otherMessage.reward]) &&
+      self.hasItemId == otherMessage.hasItemId &&
+      (!self.hasItemId || self.itemId == otherMessage.itemId) &&
+      self.hasItemQuantity == otherMessage.hasItemQuantity &&
+      (!self.hasItemQuantity || self.itemQuantity == otherMessage.itemQuantity) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -1358,14 +1434,32 @@ static BoosterItemProto* defaultBoosterItemProtoInstance = nil;
   if (self.hasBoosterPackId) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.boosterPackId] hash];
   }
+  if (self.hasMonsterId) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.monsterId] hash];
+  }
+  if (self.hasNumPieces) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.numPieces] hash];
+  }
+  if (self.hasIsComplete) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.isComplete] hash];
+  }
   if (self.hasIsSpecial) {
     hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.isSpecial] hash];
+  }
+  if (self.hasGemReward) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.gemReward] hash];
+  }
+  if (self.hasCashReward) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.cashReward] hash];
   }
   if (self.hasChanceToAppear) {
     hashCode = hashCode * 31 + [[NSNumber numberWithFloat:self.chanceToAppear] hash];
   }
-  if (self.hasReward) {
-    hashCode = hashCode * 31 + [self.reward hash];
+  if (self.hasItemId) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.itemId] hash];
+  }
+  if (self.hasItemQuantity) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.itemQuantity] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -1416,14 +1510,32 @@ static BoosterItemProto* defaultBoosterItemProtoInstance = nil;
   if (other.hasBoosterPackId) {
     [self setBoosterPackId:other.boosterPackId];
   }
+  if (other.hasMonsterId) {
+    [self setMonsterId:other.monsterId];
+  }
+  if (other.hasNumPieces) {
+    [self setNumPieces:other.numPieces];
+  }
+  if (other.hasIsComplete) {
+    [self setIsComplete:other.isComplete];
+  }
   if (other.hasIsSpecial) {
     [self setIsSpecial:other.isSpecial];
+  }
+  if (other.hasGemReward) {
+    [self setGemReward:other.gemReward];
+  }
+  if (other.hasCashReward) {
+    [self setCashReward:other.cashReward];
   }
   if (other.hasChanceToAppear) {
     [self setChanceToAppear:other.chanceToAppear];
   }
-  if (other.hasReward) {
-    [self mergeReward:other.reward];
+  if (other.hasItemId) {
+    [self setItemId:other.itemId];
+  }
+  if (other.hasItemQuantity) {
+    [self setItemQuantity:other.itemQuantity];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -1454,21 +1566,40 @@ static BoosterItemProto* defaultBoosterItemProtoInstance = nil;
         [self setBoosterPackId:[input readInt32]];
         break;
       }
+      case 24: {
+        [self setMonsterId:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setNumPieces:[input readInt32]];
+        break;
+      }
+      case 40: {
+        [self setIsComplete:[input readBool]];
+        break;
+      }
       case 48: {
         [self setIsSpecial:[input readBool]];
+        break;
+      }
+      case 56: {
+        [self setGemReward:[input readInt32]];
+        break;
+      }
+      case 64: {
+        [self setCashReward:[input readInt32]];
         break;
       }
       case 77: {
         [self setChanceToAppear:[input readFloat]];
         break;
       }
-      case 82: {
-        RewardProto_Builder* subBuilder = [RewardProto builder];
-        if (self.hasReward) {
-          [subBuilder mergeFrom:self.reward];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setReward:[subBuilder buildPartial]];
+      case 80: {
+        [self setItemId:[input readInt32]];
+        break;
+      }
+      case 88: {
+        [self setItemQuantity:[input readInt32]];
         break;
       }
     }
@@ -1506,6 +1637,54 @@ static BoosterItemProto* defaultBoosterItemProtoInstance = nil;
   result.boosterPackId = 0;
   return self;
 }
+- (BOOL) hasMonsterId {
+  return result.hasMonsterId;
+}
+- (int32_t) monsterId {
+  return result.monsterId;
+}
+- (BoosterItemProto_Builder*) setMonsterId:(int32_t) value {
+  result.hasMonsterId = YES;
+  result.monsterId = value;
+  return self;
+}
+- (BoosterItemProto_Builder*) clearMonsterId {
+  result.hasMonsterId = NO;
+  result.monsterId = 0;
+  return self;
+}
+- (BOOL) hasNumPieces {
+  return result.hasNumPieces;
+}
+- (int32_t) numPieces {
+  return result.numPieces;
+}
+- (BoosterItemProto_Builder*) setNumPieces:(int32_t) value {
+  result.hasNumPieces = YES;
+  result.numPieces = value;
+  return self;
+}
+- (BoosterItemProto_Builder*) clearNumPieces {
+  result.hasNumPieces = NO;
+  result.numPieces = 0;
+  return self;
+}
+- (BOOL) hasIsComplete {
+  return result.hasIsComplete;
+}
+- (BOOL) isComplete {
+  return result.isComplete;
+}
+- (BoosterItemProto_Builder*) setIsComplete:(BOOL) value {
+  result.hasIsComplete = YES;
+  result.isComplete = value;
+  return self;
+}
+- (BoosterItemProto_Builder*) clearIsComplete {
+  result.hasIsComplete = NO;
+  result.isComplete = NO;
+  return self;
+}
 - (BOOL) hasIsSpecial {
   return result.hasIsSpecial;
 }
@@ -1520,6 +1699,38 @@ static BoosterItemProto* defaultBoosterItemProtoInstance = nil;
 - (BoosterItemProto_Builder*) clearIsSpecial {
   result.hasIsSpecial = NO;
   result.isSpecial = NO;
+  return self;
+}
+- (BOOL) hasGemReward {
+  return result.hasGemReward;
+}
+- (int32_t) gemReward {
+  return result.gemReward;
+}
+- (BoosterItemProto_Builder*) setGemReward:(int32_t) value {
+  result.hasGemReward = YES;
+  result.gemReward = value;
+  return self;
+}
+- (BoosterItemProto_Builder*) clearGemReward {
+  result.hasGemReward = NO;
+  result.gemReward = 0;
+  return self;
+}
+- (BOOL) hasCashReward {
+  return result.hasCashReward;
+}
+- (int32_t) cashReward {
+  return result.cashReward;
+}
+- (BoosterItemProto_Builder*) setCashReward:(int32_t) value {
+  result.hasCashReward = YES;
+  result.cashReward = value;
+  return self;
+}
+- (BoosterItemProto_Builder*) clearCashReward {
+  result.hasCashReward = NO;
+  result.cashReward = 0;
   return self;
 }
 - (BOOL) hasChanceToAppear {
@@ -1538,41 +1749,49 @@ static BoosterItemProto* defaultBoosterItemProtoInstance = nil;
   result.chanceToAppear = 0;
   return self;
 }
-- (BOOL) hasReward {
-  return result.hasReward;
+- (BOOL) hasItemId {
+  return result.hasItemId;
 }
-- (RewardProto*) reward {
-  return result.reward;
+- (int32_t) itemId {
+  return result.itemId;
 }
-- (BoosterItemProto_Builder*) setReward:(RewardProto*) value {
-  result.hasReward = YES;
-  result.reward = value;
+- (BoosterItemProto_Builder*) setItemId:(int32_t) value {
+  result.hasItemId = YES;
+  result.itemId = value;
   return self;
 }
-- (BoosterItemProto_Builder*) setReward_Builder:(RewardProto_Builder*) builderForValue {
-  return [self setReward:[builderForValue build]];
-}
-- (BoosterItemProto_Builder*) mergeReward:(RewardProto*) value {
-  if (result.hasReward &&
-      result.reward != [RewardProto defaultInstance]) {
-    result.reward =
-      [[[RewardProto builderWithPrototype:result.reward] mergeFrom:value] buildPartial];
-  } else {
-    result.reward = value;
-  }
-  result.hasReward = YES;
+- (BoosterItemProto_Builder*) clearItemId {
+  result.hasItemId = NO;
+  result.itemId = 0;
   return self;
 }
-- (BoosterItemProto_Builder*) clearReward {
-  result.hasReward = NO;
-  result.reward = [RewardProto defaultInstance];
+- (BOOL) hasItemQuantity {
+  return result.hasItemQuantity;
+}
+- (int32_t) itemQuantity {
+  return result.itemQuantity;
+}
+- (BoosterItemProto_Builder*) setItemQuantity:(int32_t) value {
+  result.hasItemQuantity = YES;
+  result.itemQuantity = value;
+  return self;
+}
+- (BoosterItemProto_Builder*) clearItemQuantity {
+  result.hasItemQuantity = NO;
+  result.itemQuantity = 0;
   return self;
 }
 @end
 
 @interface BoosterDisplayItemProto ()
 @property int32_t boosterPackId;
-@property (strong) RewardProto* reward;
+@property BOOL isMonster;
+@property BOOL isComplete;
+@property Quality quality;
+@property int32_t gemReward;
+@property int32_t quantity;
+@property int32_t itemId;
+@property int32_t itemQuantity;
 @end
 
 @implementation BoosterDisplayItemProto
@@ -1584,17 +1803,75 @@ static BoosterItemProto* defaultBoosterItemProtoInstance = nil;
   hasBoosterPackId_ = !!value_;
 }
 @synthesize boosterPackId;
-- (BOOL) hasReward {
-  return !!hasReward_;
+- (BOOL) hasIsMonster {
+  return !!hasIsMonster_;
 }
-- (void) setHasReward:(BOOL) value_ {
-  hasReward_ = !!value_;
+- (void) setHasIsMonster:(BOOL) value_ {
+  hasIsMonster_ = !!value_;
 }
-@synthesize reward;
+- (BOOL) isMonster {
+  return !!isMonster_;
+}
+- (void) setIsMonster:(BOOL) value_ {
+  isMonster_ = !!value_;
+}
+- (BOOL) hasIsComplete {
+  return !!hasIsComplete_;
+}
+- (void) setHasIsComplete:(BOOL) value_ {
+  hasIsComplete_ = !!value_;
+}
+- (BOOL) isComplete {
+  return !!isComplete_;
+}
+- (void) setIsComplete:(BOOL) value_ {
+  isComplete_ = !!value_;
+}
+- (BOOL) hasQuality {
+  return !!hasQuality_;
+}
+- (void) setHasQuality:(BOOL) value_ {
+  hasQuality_ = !!value_;
+}
+@synthesize quality;
+- (BOOL) hasGemReward {
+  return !!hasGemReward_;
+}
+- (void) setHasGemReward:(BOOL) value_ {
+  hasGemReward_ = !!value_;
+}
+@synthesize gemReward;
+- (BOOL) hasQuantity {
+  return !!hasQuantity_;
+}
+- (void) setHasQuantity:(BOOL) value_ {
+  hasQuantity_ = !!value_;
+}
+@synthesize quantity;
+- (BOOL) hasItemId {
+  return !!hasItemId_;
+}
+- (void) setHasItemId:(BOOL) value_ {
+  hasItemId_ = !!value_;
+}
+@synthesize itemId;
+- (BOOL) hasItemQuantity {
+  return !!hasItemQuantity_;
+}
+- (void) setHasItemQuantity:(BOOL) value_ {
+  hasItemQuantity_ = !!value_;
+}
+@synthesize itemQuantity;
 - (id) init {
   if ((self = [super init])) {
     self.boosterPackId = 0;
-    self.reward = [RewardProto defaultInstance];
+    self.isMonster = NO;
+    self.isComplete = NO;
+    self.quality = QualityNoQuality;
+    self.gemReward = 0;
+    self.quantity = 0;
+    self.itemId = 0;
+    self.itemQuantity = 0;
   }
   return self;
 }
@@ -1617,8 +1894,26 @@ static BoosterDisplayItemProto* defaultBoosterDisplayItemProtoInstance = nil;
   if (self.hasBoosterPackId) {
     [output writeInt32:1 value:self.boosterPackId];
   }
-  if (self.hasReward) {
-    [output writeMessage:2 value:self.reward];
+  if (self.hasIsMonster) {
+    [output writeBool:2 value:self.isMonster];
+  }
+  if (self.hasIsComplete) {
+    [output writeBool:3 value:self.isComplete];
+  }
+  if (self.hasQuality) {
+    [output writeEnum:4 value:self.quality];
+  }
+  if (self.hasGemReward) {
+    [output writeInt32:5 value:self.gemReward];
+  }
+  if (self.hasQuantity) {
+    [output writeInt32:6 value:self.quantity];
+  }
+  if (self.hasItemId) {
+    [output writeInt32:7 value:self.itemId];
+  }
+  if (self.hasItemQuantity) {
+    [output writeInt32:8 value:self.itemQuantity];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -1632,8 +1927,26 @@ static BoosterDisplayItemProto* defaultBoosterDisplayItemProtoInstance = nil;
   if (self.hasBoosterPackId) {
     size_ += computeInt32Size(1, self.boosterPackId);
   }
-  if (self.hasReward) {
-    size_ += computeMessageSize(2, self.reward);
+  if (self.hasIsMonster) {
+    size_ += computeBoolSize(2, self.isMonster);
+  }
+  if (self.hasIsComplete) {
+    size_ += computeBoolSize(3, self.isComplete);
+  }
+  if (self.hasQuality) {
+    size_ += computeEnumSize(4, self.quality);
+  }
+  if (self.hasGemReward) {
+    size_ += computeInt32Size(5, self.gemReward);
+  }
+  if (self.hasQuantity) {
+    size_ += computeInt32Size(6, self.quantity);
+  }
+  if (self.hasItemId) {
+    size_ += computeInt32Size(7, self.itemId);
+  }
+  if (self.hasItemQuantity) {
+    size_ += computeInt32Size(8, self.itemQuantity);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -1673,11 +1986,26 @@ static BoosterDisplayItemProto* defaultBoosterDisplayItemProtoInstance = nil;
   if (self.hasBoosterPackId) {
     [output appendFormat:@"%@%@: %@\n", indent, @"boosterPackId", [NSNumber numberWithInteger:self.boosterPackId]];
   }
-  if (self.hasReward) {
-    [output appendFormat:@"%@%@ {\n", indent, @"reward"];
-    [self.reward writeDescriptionTo:output
-                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
-    [output appendFormat:@"%@}\n", indent];
+  if (self.hasIsMonster) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"isMonster", [NSNumber numberWithBool:self.isMonster]];
+  }
+  if (self.hasIsComplete) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"isComplete", [NSNumber numberWithBool:self.isComplete]];
+  }
+  if (self.hasQuality) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"quality", [NSNumber numberWithInteger:self.quality]];
+  }
+  if (self.hasGemReward) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"gemReward", [NSNumber numberWithInteger:self.gemReward]];
+  }
+  if (self.hasQuantity) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"quantity", [NSNumber numberWithInteger:self.quantity]];
+  }
+  if (self.hasItemId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"itemId", [NSNumber numberWithInteger:self.itemId]];
+  }
+  if (self.hasItemQuantity) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"itemQuantity", [NSNumber numberWithInteger:self.itemQuantity]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -1692,8 +2020,20 @@ static BoosterDisplayItemProto* defaultBoosterDisplayItemProtoInstance = nil;
   return
       self.hasBoosterPackId == otherMessage.hasBoosterPackId &&
       (!self.hasBoosterPackId || self.boosterPackId == otherMessage.boosterPackId) &&
-      self.hasReward == otherMessage.hasReward &&
-      (!self.hasReward || [self.reward isEqual:otherMessage.reward]) &&
+      self.hasIsMonster == otherMessage.hasIsMonster &&
+      (!self.hasIsMonster || self.isMonster == otherMessage.isMonster) &&
+      self.hasIsComplete == otherMessage.hasIsComplete &&
+      (!self.hasIsComplete || self.isComplete == otherMessage.isComplete) &&
+      self.hasQuality == otherMessage.hasQuality &&
+      (!self.hasQuality || self.quality == otherMessage.quality) &&
+      self.hasGemReward == otherMessage.hasGemReward &&
+      (!self.hasGemReward || self.gemReward == otherMessage.gemReward) &&
+      self.hasQuantity == otherMessage.hasQuantity &&
+      (!self.hasQuantity || self.quantity == otherMessage.quantity) &&
+      self.hasItemId == otherMessage.hasItemId &&
+      (!self.hasItemId || self.itemId == otherMessage.itemId) &&
+      self.hasItemQuantity == otherMessage.hasItemQuantity &&
+      (!self.hasItemQuantity || self.itemQuantity == otherMessage.itemQuantity) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -1701,8 +2041,26 @@ static BoosterDisplayItemProto* defaultBoosterDisplayItemProtoInstance = nil;
   if (self.hasBoosterPackId) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.boosterPackId] hash];
   }
-  if (self.hasReward) {
-    hashCode = hashCode * 31 + [self.reward hash];
+  if (self.hasIsMonster) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.isMonster] hash];
+  }
+  if (self.hasIsComplete) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.isComplete] hash];
+  }
+  if (self.hasQuality) {
+    hashCode = hashCode * 31 + self.quality;
+  }
+  if (self.hasGemReward) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.gemReward] hash];
+  }
+  if (self.hasQuantity) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.quantity] hash];
+  }
+  if (self.hasItemId) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.itemId] hash];
+  }
+  if (self.hasItemQuantity) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.itemQuantity] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -1750,8 +2108,26 @@ static BoosterDisplayItemProto* defaultBoosterDisplayItemProtoInstance = nil;
   if (other.hasBoosterPackId) {
     [self setBoosterPackId:other.boosterPackId];
   }
-  if (other.hasReward) {
-    [self mergeReward:other.reward];
+  if (other.hasIsMonster) {
+    [self setIsMonster:other.isMonster];
+  }
+  if (other.hasIsComplete) {
+    [self setIsComplete:other.isComplete];
+  }
+  if (other.hasQuality) {
+    [self setQuality:other.quality];
+  }
+  if (other.hasGemReward) {
+    [self setGemReward:other.gemReward];
+  }
+  if (other.hasQuantity) {
+    [self setQuantity:other.quantity];
+  }
+  if (other.hasItemId) {
+    [self setItemId:other.itemId];
+  }
+  if (other.hasItemQuantity) {
+    [self setItemQuantity:other.itemQuantity];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -1778,13 +2154,37 @@ static BoosterDisplayItemProto* defaultBoosterDisplayItemProtoInstance = nil;
         [self setBoosterPackId:[input readInt32]];
         break;
       }
-      case 18: {
-        RewardProto_Builder* subBuilder = [RewardProto builder];
-        if (self.hasReward) {
-          [subBuilder mergeFrom:self.reward];
+      case 16: {
+        [self setIsMonster:[input readBool]];
+        break;
+      }
+      case 24: {
+        [self setIsComplete:[input readBool]];
+        break;
+      }
+      case 32: {
+        Quality value = (Quality)[input readEnum];
+        if (QualityIsValidValue(value)) {
+          [self setQuality:value];
+        } else {
+          [unknownFields mergeVarintField:4 value:value];
         }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setReward:[subBuilder buildPartial]];
+        break;
+      }
+      case 40: {
+        [self setGemReward:[input readInt32]];
+        break;
+      }
+      case 48: {
+        [self setQuantity:[input readInt32]];
+        break;
+      }
+      case 56: {
+        [self setItemId:[input readInt32]];
+        break;
+      }
+      case 64: {
+        [self setItemQuantity:[input readInt32]];
         break;
       }
     }
@@ -1806,34 +2206,116 @@ static BoosterDisplayItemProto* defaultBoosterDisplayItemProtoInstance = nil;
   result.boosterPackId = 0;
   return self;
 }
-- (BOOL) hasReward {
-  return result.hasReward;
+- (BOOL) hasIsMonster {
+  return result.hasIsMonster;
 }
-- (RewardProto*) reward {
-  return result.reward;
+- (BOOL) isMonster {
+  return result.isMonster;
 }
-- (BoosterDisplayItemProto_Builder*) setReward:(RewardProto*) value {
-  result.hasReward = YES;
-  result.reward = value;
+- (BoosterDisplayItemProto_Builder*) setIsMonster:(BOOL) value {
+  result.hasIsMonster = YES;
+  result.isMonster = value;
   return self;
 }
-- (BoosterDisplayItemProto_Builder*) setReward_Builder:(RewardProto_Builder*) builderForValue {
-  return [self setReward:[builderForValue build]];
-}
-- (BoosterDisplayItemProto_Builder*) mergeReward:(RewardProto*) value {
-  if (result.hasReward &&
-      result.reward != [RewardProto defaultInstance]) {
-    result.reward =
-      [[[RewardProto builderWithPrototype:result.reward] mergeFrom:value] buildPartial];
-  } else {
-    result.reward = value;
-  }
-  result.hasReward = YES;
+- (BoosterDisplayItemProto_Builder*) clearIsMonster {
+  result.hasIsMonster = NO;
+  result.isMonster = NO;
   return self;
 }
-- (BoosterDisplayItemProto_Builder*) clearReward {
-  result.hasReward = NO;
-  result.reward = [RewardProto defaultInstance];
+- (BOOL) hasIsComplete {
+  return result.hasIsComplete;
+}
+- (BOOL) isComplete {
+  return result.isComplete;
+}
+- (BoosterDisplayItemProto_Builder*) setIsComplete:(BOOL) value {
+  result.hasIsComplete = YES;
+  result.isComplete = value;
+  return self;
+}
+- (BoosterDisplayItemProto_Builder*) clearIsComplete {
+  result.hasIsComplete = NO;
+  result.isComplete = NO;
+  return self;
+}
+- (BOOL) hasQuality {
+  return result.hasQuality;
+}
+- (Quality) quality {
+  return result.quality;
+}
+- (BoosterDisplayItemProto_Builder*) setQuality:(Quality) value {
+  result.hasQuality = YES;
+  result.quality = value;
+  return self;
+}
+- (BoosterDisplayItemProto_Builder*) clearQualityList {
+  result.hasQuality = NO;
+  result.quality = QualityNoQuality;
+  return self;
+}
+- (BOOL) hasGemReward {
+  return result.hasGemReward;
+}
+- (int32_t) gemReward {
+  return result.gemReward;
+}
+- (BoosterDisplayItemProto_Builder*) setGemReward:(int32_t) value {
+  result.hasGemReward = YES;
+  result.gemReward = value;
+  return self;
+}
+- (BoosterDisplayItemProto_Builder*) clearGemReward {
+  result.hasGemReward = NO;
+  result.gemReward = 0;
+  return self;
+}
+- (BOOL) hasQuantity {
+  return result.hasQuantity;
+}
+- (int32_t) quantity {
+  return result.quantity;
+}
+- (BoosterDisplayItemProto_Builder*) setQuantity:(int32_t) value {
+  result.hasQuantity = YES;
+  result.quantity = value;
+  return self;
+}
+- (BoosterDisplayItemProto_Builder*) clearQuantity {
+  result.hasQuantity = NO;
+  result.quantity = 0;
+  return self;
+}
+- (BOOL) hasItemId {
+  return result.hasItemId;
+}
+- (int32_t) itemId {
+  return result.itemId;
+}
+- (BoosterDisplayItemProto_Builder*) setItemId:(int32_t) value {
+  result.hasItemId = YES;
+  result.itemId = value;
+  return self;
+}
+- (BoosterDisplayItemProto_Builder*) clearItemId {
+  result.hasItemId = NO;
+  result.itemId = 0;
+  return self;
+}
+- (BOOL) hasItemQuantity {
+  return result.hasItemQuantity;
+}
+- (int32_t) itemQuantity {
+  return result.itemQuantity;
+}
+- (BoosterDisplayItemProto_Builder*) setItemQuantity:(int32_t) value {
+  result.hasItemQuantity = YES;
+  result.itemQuantity = value;
+  return self;
+}
+- (BoosterDisplayItemProto_Builder*) clearItemQuantity {
+  result.hasItemQuantity = NO;
+  result.itemQuantity = 0;
   return self;
 }
 @end

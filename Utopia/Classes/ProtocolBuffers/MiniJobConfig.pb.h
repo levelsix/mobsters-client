@@ -154,9 +154,6 @@
   BOOL hasMaxDmgDealt_:1;
   BOOL hasDurationMinMinutes_:1;
   BOOL hasDurationMaxMinutes_:1;
-  BOOL hasRewardIdOne_:1;
-  BOOL hasRewardIdTwo_:1;
-  BOOL hasRewardIdThree_:1;
   BOOL hasName_:1;
   BOOL hasQuality_:1;
   Float32 chanceToAppear;
@@ -177,9 +174,6 @@
   int32_t maxDmgDealt;
   int32_t durationMinMinutes;
   int32_t durationMaxMinutes;
-  int32_t rewardIdOne;
-  int32_t rewardIdTwo;
-  int32_t rewardIdThree;
   NSString* name;
   Quality quality;
 }
@@ -203,9 +197,6 @@
 - (BOOL) hasMaxDmgDealt;
 - (BOOL) hasDurationMinMinutes;
 - (BOOL) hasDurationMaxMinutes;
-- (BOOL) hasRewardIdOne;
-- (BOOL) hasRewardIdTwo;
-- (BOOL) hasRewardIdThree;
 @property (readonly) int32_t miniJobId;
 @property (readonly) int32_t requiredStructId;
 @property (readonly, strong) NSString* name;
@@ -226,9 +217,6 @@
 @property (readonly) int32_t maxDmgDealt;
 @property (readonly) int32_t durationMinMinutes;
 @property (readonly) int32_t durationMaxMinutes;
-@property (readonly) int32_t rewardIdOne;
-@property (readonly) int32_t rewardIdTwo;
-@property (readonly) int32_t rewardIdThree;
 
 + (MiniJobProto*) defaultInstance;
 - (MiniJobProto*) defaultInstance;
@@ -364,21 +352,6 @@
 - (int32_t) durationMaxMinutes;
 - (MiniJobProto_Builder*) setDurationMaxMinutes:(int32_t) value;
 - (MiniJobProto_Builder*) clearDurationMaxMinutes;
-
-- (BOOL) hasRewardIdOne;
-- (int32_t) rewardIdOne;
-- (MiniJobProto_Builder*) setRewardIdOne:(int32_t) value;
-- (MiniJobProto_Builder*) clearRewardIdOne;
-
-- (BOOL) hasRewardIdTwo;
-- (int32_t) rewardIdTwo;
-- (MiniJobProto_Builder*) setRewardIdTwo:(int32_t) value;
-- (MiniJobProto_Builder*) clearRewardIdTwo;
-
-- (BOOL) hasRewardIdThree;
-- (int32_t) rewardIdThree;
-- (MiniJobProto_Builder*) setRewardIdThree:(int32_t) value;
-- (MiniJobProto_Builder*) clearRewardIdThree;
 @end
 
 @interface UserMiniJobProto : PBGeneratedMessage {

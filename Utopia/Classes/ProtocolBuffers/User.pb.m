@@ -2287,11 +2287,12 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
 @property int64_t lastSecretGiftCollectTime;
 @property (strong) NSString* pvpDefendingMessage;
 @property int64_t lastTeamDonationSolicitation;
-@property int64_t totalStrength;
 @property Float32 salesValue;
 @property int64_t salesLastPurchaseTime;
+@property int64_t totalStrength;
+@property int64_t lastTangoGiftSentTime;
+@property (strong) NSString* tangoId;
 @property int32_t segmentationGroup;
-@property int32_t gachaCredits;
 @property (strong) NSString* udidForHistory;
 @property (strong) NSString* deviceToken;
 @property int32_t numBadges;
@@ -2538,13 +2539,6 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
   hasLastTeamDonationSolicitation_ = !!value_;
 }
 @synthesize lastTeamDonationSolicitation;
-- (BOOL) hasTotalStrength {
-  return !!hasTotalStrength_;
-}
-- (void) setHasTotalStrength:(BOOL) value_ {
-  hasTotalStrength_ = !!value_;
-}
-@synthesize totalStrength;
 - (BOOL) hasSalesValue {
   return !!hasSalesValue_;
 }
@@ -2559,6 +2553,27 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
   hasSalesLastPurchaseTime_ = !!value_;
 }
 @synthesize salesLastPurchaseTime;
+- (BOOL) hasTotalStrength {
+  return !!hasTotalStrength_;
+}
+- (void) setHasTotalStrength:(BOOL) value_ {
+  hasTotalStrength_ = !!value_;
+}
+@synthesize totalStrength;
+- (BOOL) hasLastTangoGiftSentTime {
+  return !!hasLastTangoGiftSentTime_;
+}
+- (void) setHasLastTangoGiftSentTime:(BOOL) value_ {
+  hasLastTangoGiftSentTime_ = !!value_;
+}
+@synthesize lastTangoGiftSentTime;
+- (BOOL) hasTangoId {
+  return !!hasTangoId_;
+}
+- (void) setHasTangoId:(BOOL) value_ {
+  hasTangoId_ = !!value_;
+}
+@synthesize tangoId;
 - (BOOL) hasSegmentationGroup {
   return !!hasSegmentationGroup_;
 }
@@ -2566,13 +2581,6 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
   hasSegmentationGroup_ = !!value_;
 }
 @synthesize segmentationGroup;
-- (BOOL) hasGachaCredits {
-  return !!hasGachaCredits_;
-}
-- (void) setHasGachaCredits:(BOOL) value_ {
-  hasGachaCredits_ = !!value_;
-}
-@synthesize gachaCredits;
 - (BOOL) hasUdidForHistory {
   return !!hasUdidForHistory_;
 }
@@ -2681,11 +2689,12 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
     self.lastSecretGiftCollectTime = 0L;
     self.pvpDefendingMessage = @"";
     self.lastTeamDonationSolicitation = 0L;
-    self.totalStrength = 0L;
     self.salesValue = 0;
     self.salesLastPurchaseTime = 0L;
+    self.totalStrength = 0L;
+    self.lastTangoGiftSentTime = 0L;
+    self.tangoId = @"";
     self.segmentationGroup = 0;
-    self.gachaCredits = 0;
     self.udidForHistory = @"";
     self.deviceToken = @"";
     self.numBadges = 0;
@@ -2847,11 +2856,14 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasTotalStrength) {
     [output writeInt64:60 value:self.totalStrength];
   }
+  if (self.hasLastTangoGiftSentTime) {
+    [output writeInt64:61 value:self.lastTangoGiftSentTime];
+  }
+  if (self.hasTangoId) {
+    [output writeString:62 value:self.tangoId];
+  }
   if (self.hasSegmentationGroup) {
     [output writeInt32:500 value:self.segmentationGroup];
-  }
-  if (self.hasGachaCredits) {
-    [output writeInt32:501 value:self.gachaCredits];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -2994,11 +3006,14 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasTotalStrength) {
     size_ += computeInt64Size(60, self.totalStrength);
   }
+  if (self.hasLastTangoGiftSentTime) {
+    size_ += computeInt64Size(61, self.lastTangoGiftSentTime);
+  }
+  if (self.hasTangoId) {
+    size_ += computeStringSize(62, self.tangoId);
+  }
   if (self.hasSegmentationGroup) {
     size_ += computeInt32Size(500, self.segmentationGroup);
-  }
-  if (self.hasGachaCredits) {
-    size_ += computeInt32Size(501, self.gachaCredits);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -3173,11 +3188,14 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasTotalStrength) {
     [output appendFormat:@"%@%@: %@\n", indent, @"totalStrength", [NSNumber numberWithLongLong:self.totalStrength]];
   }
+  if (self.hasLastTangoGiftSentTime) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"lastTangoGiftSentTime", [NSNumber numberWithLongLong:self.lastTangoGiftSentTime]];
+  }
+  if (self.hasTangoId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"tangoId", self.tangoId];
+  }
   if (self.hasSegmentationGroup) {
     [output appendFormat:@"%@%@: %@\n", indent, @"segmentationGroup", [NSNumber numberWithInteger:self.segmentationGroup]];
-  }
-  if (self.hasGachaCredits) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"gachaCredits", [NSNumber numberWithInteger:self.gachaCredits]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -3278,10 +3296,12 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
       (!self.hasSalesLastPurchaseTime || self.salesLastPurchaseTime == otherMessage.salesLastPurchaseTime) &&
       self.hasTotalStrength == otherMessage.hasTotalStrength &&
       (!self.hasTotalStrength || self.totalStrength == otherMessage.totalStrength) &&
+      self.hasLastTangoGiftSentTime == otherMessage.hasLastTangoGiftSentTime &&
+      (!self.hasLastTangoGiftSentTime || self.lastTangoGiftSentTime == otherMessage.lastTangoGiftSentTime) &&
+      self.hasTangoId == otherMessage.hasTangoId &&
+      (!self.hasTangoId || [self.tangoId isEqual:otherMessage.tangoId]) &&
       self.hasSegmentationGroup == otherMessage.hasSegmentationGroup &&
       (!self.hasSegmentationGroup || self.segmentationGroup == otherMessage.segmentationGroup) &&
-      self.hasGachaCredits == otherMessage.hasGachaCredits &&
-      (!self.hasGachaCredits || self.gachaCredits == otherMessage.gachaCredits) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -3418,11 +3438,14 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasTotalStrength) {
     hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.totalStrength] hash];
   }
+  if (self.hasLastTangoGiftSentTime) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.lastTangoGiftSentTime] hash];
+  }
+  if (self.hasTangoId) {
+    hashCode = hashCode * 31 + [self.tangoId hash];
+  }
   if (self.hasSegmentationGroup) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.segmentationGroup] hash];
-  }
-  if (self.hasGachaCredits) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.gachaCredits] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -3560,20 +3583,23 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (other.hasLastTeamDonationSolicitation) {
     [self setLastTeamDonationSolicitation:other.lastTeamDonationSolicitation];
   }
-  if (other.hasTotalStrength) {
-    [self setTotalStrength:other.totalStrength];
-  }
   if (other.hasSalesValue) {
     [self setSalesValue:other.salesValue];
   }
   if (other.hasSalesLastPurchaseTime) {
     [self setSalesLastPurchaseTime:other.salesLastPurchaseTime];
   }
+  if (other.hasTotalStrength) {
+    [self setTotalStrength:other.totalStrength];
+  }
+  if (other.hasLastTangoGiftSentTime) {
+    [self setLastTangoGiftSentTime:other.lastTangoGiftSentTime];
+  }
+  if (other.hasTangoId) {
+    [self setTangoId:other.tangoId];
+  }
   if (other.hasSegmentationGroup) {
     [self setSegmentationGroup:other.segmentationGroup];
-  }
-  if (other.hasGachaCredits) {
-    [self setGachaCredits:other.gachaCredits];
   }
   if (other.hasUdidForHistory) {
     [self setUdidForHistory:other.udidForHistory];
@@ -3812,12 +3838,16 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
         [self setTotalStrength:[input readInt64]];
         break;
       }
-      case 4000: {
-        [self setSegmentationGroup:[input readInt32]];
+      case 488: {
+        [self setLastTangoGiftSentTime:[input readInt64]];
         break;
       }
-      case 4008: {
-        [self setGachaCredits:[input readInt32]];
+      case 498: {
+        [self setTangoId:[input readString]];
+        break;
+      }
+      case 4000: {
+        [self setSegmentationGroup:[input readInt32]];
         break;
       }
     }
@@ -4347,22 +4377,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   result.lastTeamDonationSolicitation = 0L;
   return self;
 }
-- (BOOL) hasTotalStrength {
-  return result.hasTotalStrength;
-}
-- (int64_t) totalStrength {
-  return result.totalStrength;
-}
-- (FullUserProto_Builder*) setTotalStrength:(int64_t) value {
-  result.hasTotalStrength = YES;
-  result.totalStrength = value;
-  return self;
-}
-- (FullUserProto_Builder*) clearTotalStrength {
-  result.hasTotalStrength = NO;
-  result.totalStrength = 0L;
-  return self;
-}
 - (BOOL) hasSalesValue {
   return result.hasSalesValue;
 }
@@ -4395,6 +4409,54 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   result.salesLastPurchaseTime = 0L;
   return self;
 }
+- (BOOL) hasTotalStrength {
+  return result.hasTotalStrength;
+}
+- (int64_t) totalStrength {
+  return result.totalStrength;
+}
+- (FullUserProto_Builder*) setTotalStrength:(int64_t) value {
+  result.hasTotalStrength = YES;
+  result.totalStrength = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearTotalStrength {
+  result.hasTotalStrength = NO;
+  result.totalStrength = 0L;
+  return self;
+}
+- (BOOL) hasLastTangoGiftSentTime {
+  return result.hasLastTangoGiftSentTime;
+}
+- (int64_t) lastTangoGiftSentTime {
+  return result.lastTangoGiftSentTime;
+}
+- (FullUserProto_Builder*) setLastTangoGiftSentTime:(int64_t) value {
+  result.hasLastTangoGiftSentTime = YES;
+  result.lastTangoGiftSentTime = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearLastTangoGiftSentTime {
+  result.hasLastTangoGiftSentTime = NO;
+  result.lastTangoGiftSentTime = 0L;
+  return self;
+}
+- (BOOL) hasTangoId {
+  return result.hasTangoId;
+}
+- (NSString*) tangoId {
+  return result.tangoId;
+}
+- (FullUserProto_Builder*) setTangoId:(NSString*) value {
+  result.hasTangoId = YES;
+  result.tangoId = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearTangoId {
+  result.hasTangoId = NO;
+  result.tangoId = @"";
+  return self;
+}
 - (BOOL) hasSegmentationGroup {
   return result.hasSegmentationGroup;
 }
@@ -4409,22 +4471,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 - (FullUserProto_Builder*) clearSegmentationGroup {
   result.hasSegmentationGroup = NO;
   result.segmentationGroup = 0;
-  return self;
-}
-- (BOOL) hasGachaCredits {
-  return result.hasGachaCredits;
-}
-- (int32_t) gachaCredits {
-  return result.gachaCredits;
-}
-- (FullUserProto_Builder*) setGachaCredits:(int32_t) value {
-  result.hasGachaCredits = YES;
-  result.gachaCredits = value;
-  return self;
-}
-- (FullUserProto_Builder*) clearGachaCredits {
-  result.hasGachaCredits = NO;
-  result.gachaCredits = 0;
   return self;
 }
 - (BOOL) hasUdidForHistory {

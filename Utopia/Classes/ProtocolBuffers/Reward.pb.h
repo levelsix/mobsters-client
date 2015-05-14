@@ -44,6 +44,8 @@
 @class RewardProto_Builder;
 @class StaticUserLevelInfoProto;
 @class StaticUserLevelInfoProto_Builder;
+@class TangoGiftProto;
+@class TangoGiftProto_Builder;
 @class UserClanGiftProto;
 @class UserClanGiftProto_Builder;
 @class UserCurrentMonsterTeamProto;
@@ -54,6 +56,8 @@
 @class UserEnhancementProto_Builder;
 @class UserFacebookInviteForSlotProto;
 @class UserFacebookInviteForSlotProto_Builder;
+@class UserGiftProto;
+@class UserGiftProto_Builder;
 @class UserItemProto;
 @class UserItemProto_Builder;
 @class UserItemSecretGiftProto;
@@ -74,6 +78,8 @@
 @class UserPvpLeagueProto_Builder;
 @class UserRewardProto;
 @class UserRewardProto_Builder;
+@class UserTangoGiftProto;
+@class UserTangoGiftProto_Builder;
 #ifndef __has_feature
   #define __has_feature(x) 0 // Compatibility with non-clang compilers.
 #endif // __has_feature
@@ -92,9 +98,9 @@ typedef NS_ENUM(SInt32, RewardProto_RewardType) {
   RewardProto_RewardTypeGems = 3,
   RewardProto_RewardTypeCash = 4,
   RewardProto_RewardTypeOil = 5,
-  RewardProto_RewardTypeGachaCredits = 7,
   RewardProto_RewardTypeMonster = 6,
-  RewardProto_RewardTypeClanGift = 8,
+  RewardProto_RewardTypeClanGift = 7,
+  RewardProto_RewardTypeTangoGift = 8,
 };
 
 BOOL RewardProto_RewardTypeIsValidValue(RewardProto_RewardType value);
@@ -187,12 +193,10 @@ BOOL RewardProto_RewardTypeIsValidValue(RewardProto_RewardType value);
   BOOL hasGems_:1;
   BOOL hasCash_:1;
   BOOL hasOil_:1;
-  BOOL hasGachaCredits_:1;
   BOOL hasClanGift_:1;
   int32_t gems;
   int32_t cash;
   int32_t oil;
-  int32_t gachaCredits;
   UserClanGiftProto* clanGift;
   NSMutableArray * mutableUpdatedOrNewMonstersList;
   NSMutableArray * mutableUpdatedUserItemsList;
@@ -200,14 +204,12 @@ BOOL RewardProto_RewardTypeIsValidValue(RewardProto_RewardType value);
 - (BOOL) hasGems;
 - (BOOL) hasCash;
 - (BOOL) hasOil;
-- (BOOL) hasGachaCredits;
 - (BOOL) hasClanGift;
 @property (readonly, strong) NSArray * updatedOrNewMonstersList;
 @property (readonly, strong) NSArray * updatedUserItemsList;
 @property (readonly) int32_t gems;
 @property (readonly) int32_t cash;
 @property (readonly) int32_t oil;
-@property (readonly) int32_t gachaCredits;
 @property (readonly, strong) UserClanGiftProto* clanGift;
 - (FullUserMonsterProto*)updatedOrNewMonstersAtIndex:(NSUInteger)index;
 - (UserItemProto*)updatedUserItemsAtIndex:(NSUInteger)index;
@@ -273,11 +275,6 @@ BOOL RewardProto_RewardTypeIsValidValue(RewardProto_RewardType value);
 - (int32_t) oil;
 - (UserRewardProto_Builder*) setOil:(int32_t) value;
 - (UserRewardProto_Builder*) clearOil;
-
-- (BOOL) hasGachaCredits;
-- (int32_t) gachaCredits;
-- (UserRewardProto_Builder*) setGachaCredits:(int32_t) value;
-- (UserRewardProto_Builder*) clearGachaCredits;
 
 - (BOOL) hasClanGift;
 - (UserClanGiftProto*) clanGift;
@@ -479,6 +476,289 @@ BOOL RewardProto_RewardTypeIsValidValue(RewardProto_RewardType value);
 - (BOOL) hasBeenCollected;
 - (UserClanGiftProto_Builder*) setHasBeenCollected:(BOOL) value;
 - (UserClanGiftProto_Builder*) clearHasBeenCollected;
+@end
+
+@interface UserGiftProto : PBGeneratedMessage {
+@private
+  BOOL hasHasBeenCollected_:1;
+  BOOL hasTimeReceived_:1;
+  BOOL hasMinutesTillExpiration_:1;
+  BOOL hasUgId_:1;
+  BOOL hasReceiverUserId_:1;
+  BOOL hasGifterUser_:1;
+  BOOL hasRp_:1;
+  BOOL hasClanGift_:1;
+  BOOL hasTangoGift_:1;
+  BOOL hasGiftType_:1;
+  BOOL hasBeenCollected_:1;
+  int64_t timeReceived;
+  int32_t minutesTillExpiration;
+  NSString* ugId;
+  NSString* receiverUserId;
+  MinimumUserProto* gifterUser;
+  RewardProto* rp;
+  ClanGiftProto* clanGift;
+  UserTangoGiftProto* tangoGift;
+  RewardProto_RewardType giftType;
+}
+- (BOOL) hasUgId;
+- (BOOL) hasReceiverUserId;
+- (BOOL) hasGifterUser;
+- (BOOL) hasGiftType;
+- (BOOL) hasTimeReceived;
+- (BOOL) hasRp;
+- (BOOL) hasHasBeenCollected;
+- (BOOL) hasMinutesTillExpiration;
+- (BOOL) hasClanGift;
+- (BOOL) hasTangoGift;
+@property (readonly, strong) NSString* ugId;
+@property (readonly, strong) NSString* receiverUserId;
+@property (readonly, strong) MinimumUserProto* gifterUser;
+@property (readonly) RewardProto_RewardType giftType;
+@property (readonly) int64_t timeReceived;
+@property (readonly, strong) RewardProto* rp;
+- (BOOL) hasBeenCollected;
+@property (readonly) int32_t minutesTillExpiration;
+@property (readonly, strong) ClanGiftProto* clanGift;
+@property (readonly, strong) UserTangoGiftProto* tangoGift;
+
++ (UserGiftProto*) defaultInstance;
+- (UserGiftProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (UserGiftProto_Builder*) builder;
++ (UserGiftProto_Builder*) builder;
++ (UserGiftProto_Builder*) builderWithPrototype:(UserGiftProto*) prototype;
+- (UserGiftProto_Builder*) toBuilder;
+
++ (UserGiftProto*) parseFromData:(NSData*) data;
++ (UserGiftProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UserGiftProto*) parseFromInputStream:(NSInputStream*) input;
++ (UserGiftProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UserGiftProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (UserGiftProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface UserGiftProto_Builder : PBGeneratedMessageBuilder {
+@private
+  UserGiftProto* result;
+}
+
+- (UserGiftProto*) defaultInstance;
+
+- (UserGiftProto_Builder*) clear;
+- (UserGiftProto_Builder*) clone;
+
+- (UserGiftProto*) build;
+- (UserGiftProto*) buildPartial;
+
+- (UserGiftProto_Builder*) mergeFrom:(UserGiftProto*) other;
+- (UserGiftProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (UserGiftProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasUgId;
+- (NSString*) ugId;
+- (UserGiftProto_Builder*) setUgId:(NSString*) value;
+- (UserGiftProto_Builder*) clearUgId;
+
+- (BOOL) hasReceiverUserId;
+- (NSString*) receiverUserId;
+- (UserGiftProto_Builder*) setReceiverUserId:(NSString*) value;
+- (UserGiftProto_Builder*) clearReceiverUserId;
+
+- (BOOL) hasGifterUser;
+- (MinimumUserProto*) gifterUser;
+- (UserGiftProto_Builder*) setGifterUser:(MinimumUserProto*) value;
+- (UserGiftProto_Builder*) setGifterUser_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (UserGiftProto_Builder*) mergeGifterUser:(MinimumUserProto*) value;
+- (UserGiftProto_Builder*) clearGifterUser;
+
+- (BOOL) hasGiftType;
+- (RewardProto_RewardType) giftType;
+- (UserGiftProto_Builder*) setGiftType:(RewardProto_RewardType) value;
+- (UserGiftProto_Builder*) clearGiftTypeList;
+
+- (BOOL) hasTimeReceived;
+- (int64_t) timeReceived;
+- (UserGiftProto_Builder*) setTimeReceived:(int64_t) value;
+- (UserGiftProto_Builder*) clearTimeReceived;
+
+- (BOOL) hasRp;
+- (RewardProto*) rp;
+- (UserGiftProto_Builder*) setRp:(RewardProto*) value;
+- (UserGiftProto_Builder*) setRp_Builder:(RewardProto_Builder*) builderForValue;
+- (UserGiftProto_Builder*) mergeRp:(RewardProto*) value;
+- (UserGiftProto_Builder*) clearRp;
+
+- (BOOL) hasHasBeenCollected;
+- (BOOL) hasBeenCollected;
+- (UserGiftProto_Builder*) setHasBeenCollected:(BOOL) value;
+- (UserGiftProto_Builder*) clearHasBeenCollected;
+
+- (BOOL) hasMinutesTillExpiration;
+- (int32_t) minutesTillExpiration;
+- (UserGiftProto_Builder*) setMinutesTillExpiration:(int32_t) value;
+- (UserGiftProto_Builder*) clearMinutesTillExpiration;
+
+- (BOOL) hasClanGift;
+- (ClanGiftProto*) clanGift;
+- (UserGiftProto_Builder*) setClanGift:(ClanGiftProto*) value;
+- (UserGiftProto_Builder*) setClanGift_Builder:(ClanGiftProto_Builder*) builderForValue;
+- (UserGiftProto_Builder*) mergeClanGift:(ClanGiftProto*) value;
+- (UserGiftProto_Builder*) clearClanGift;
+
+- (BOOL) hasTangoGift;
+- (UserTangoGiftProto*) tangoGift;
+- (UserGiftProto_Builder*) setTangoGift:(UserTangoGiftProto*) value;
+- (UserGiftProto_Builder*) setTangoGift_Builder:(UserTangoGiftProto_Builder*) builderForValue;
+- (UserGiftProto_Builder*) mergeTangoGift:(UserTangoGiftProto*) value;
+- (UserGiftProto_Builder*) clearTangoGift;
+@end
+
+@interface UserTangoGiftProto : PBGeneratedMessage {
+@private
+  BOOL hasUserGiftId_:1;
+  BOOL hasGifterTangoUserId_:1;
+  BOOL hasTangoGift_:1;
+  NSString* userGiftId;
+  NSString* gifterTangoUserId;
+  TangoGiftProto* tangoGift;
+}
+- (BOOL) hasUserGiftId;
+- (BOOL) hasGifterTangoUserId;
+- (BOOL) hasTangoGift;
+@property (readonly, strong) NSString* userGiftId;
+@property (readonly, strong) NSString* gifterTangoUserId;
+@property (readonly, strong) TangoGiftProto* tangoGift;
+
++ (UserTangoGiftProto*) defaultInstance;
+- (UserTangoGiftProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (UserTangoGiftProto_Builder*) builder;
++ (UserTangoGiftProto_Builder*) builder;
++ (UserTangoGiftProto_Builder*) builderWithPrototype:(UserTangoGiftProto*) prototype;
+- (UserTangoGiftProto_Builder*) toBuilder;
+
++ (UserTangoGiftProto*) parseFromData:(NSData*) data;
++ (UserTangoGiftProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UserTangoGiftProto*) parseFromInputStream:(NSInputStream*) input;
++ (UserTangoGiftProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UserTangoGiftProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (UserTangoGiftProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface UserTangoGiftProto_Builder : PBGeneratedMessageBuilder {
+@private
+  UserTangoGiftProto* result;
+}
+
+- (UserTangoGiftProto*) defaultInstance;
+
+- (UserTangoGiftProto_Builder*) clear;
+- (UserTangoGiftProto_Builder*) clone;
+
+- (UserTangoGiftProto*) build;
+- (UserTangoGiftProto*) buildPartial;
+
+- (UserTangoGiftProto_Builder*) mergeFrom:(UserTangoGiftProto*) other;
+- (UserTangoGiftProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (UserTangoGiftProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasUserGiftId;
+- (NSString*) userGiftId;
+- (UserTangoGiftProto_Builder*) setUserGiftId:(NSString*) value;
+- (UserTangoGiftProto_Builder*) clearUserGiftId;
+
+- (BOOL) hasGifterTangoUserId;
+- (NSString*) gifterTangoUserId;
+- (UserTangoGiftProto_Builder*) setGifterTangoUserId:(NSString*) value;
+- (UserTangoGiftProto_Builder*) clearGifterTangoUserId;
+
+- (BOOL) hasTangoGift;
+- (TangoGiftProto*) tangoGift;
+- (UserTangoGiftProto_Builder*) setTangoGift:(TangoGiftProto*) value;
+- (UserTangoGiftProto_Builder*) setTangoGift_Builder:(TangoGiftProto_Builder*) builderForValue;
+- (UserTangoGiftProto_Builder*) mergeTangoGift:(TangoGiftProto*) value;
+- (UserTangoGiftProto_Builder*) clearTangoGift;
+@end
+
+@interface TangoGiftProto : PBGeneratedMessage {
+@private
+  BOOL hasTangoGiftId_:1;
+  BOOL hasHoursUntilExpiration_:1;
+  BOOL hasName_:1;
+  BOOL hasImageName_:1;
+  int32_t tangoGiftId;
+  int32_t hoursUntilExpiration;
+  NSString* name;
+  NSString* imageName;
+}
+- (BOOL) hasTangoGiftId;
+- (BOOL) hasName;
+- (BOOL) hasHoursUntilExpiration;
+- (BOOL) hasImageName;
+@property (readonly) int32_t tangoGiftId;
+@property (readonly, strong) NSString* name;
+@property (readonly) int32_t hoursUntilExpiration;
+@property (readonly, strong) NSString* imageName;
+
++ (TangoGiftProto*) defaultInstance;
+- (TangoGiftProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (TangoGiftProto_Builder*) builder;
++ (TangoGiftProto_Builder*) builder;
++ (TangoGiftProto_Builder*) builderWithPrototype:(TangoGiftProto*) prototype;
+- (TangoGiftProto_Builder*) toBuilder;
+
++ (TangoGiftProto*) parseFromData:(NSData*) data;
++ (TangoGiftProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (TangoGiftProto*) parseFromInputStream:(NSInputStream*) input;
++ (TangoGiftProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (TangoGiftProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (TangoGiftProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface TangoGiftProto_Builder : PBGeneratedMessageBuilder {
+@private
+  TangoGiftProto* result;
+}
+
+- (TangoGiftProto*) defaultInstance;
+
+- (TangoGiftProto_Builder*) clear;
+- (TangoGiftProto_Builder*) clone;
+
+- (TangoGiftProto*) build;
+- (TangoGiftProto*) buildPartial;
+
+- (TangoGiftProto_Builder*) mergeFrom:(TangoGiftProto*) other;
+- (TangoGiftProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (TangoGiftProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasTangoGiftId;
+- (int32_t) tangoGiftId;
+- (TangoGiftProto_Builder*) setTangoGiftId:(int32_t) value;
+- (TangoGiftProto_Builder*) clearTangoGiftId;
+
+- (BOOL) hasName;
+- (NSString*) name;
+- (TangoGiftProto_Builder*) setName:(NSString*) value;
+- (TangoGiftProto_Builder*) clearName;
+
+- (BOOL) hasHoursUntilExpiration;
+- (int32_t) hoursUntilExpiration;
+- (TangoGiftProto_Builder*) setHoursUntilExpiration:(int32_t) value;
+- (TangoGiftProto_Builder*) clearHoursUntilExpiration;
+
+- (BOOL) hasImageName;
+- (NSString*) imageName;
+- (TangoGiftProto_Builder*) setImageName:(NSString*) value;
+- (TangoGiftProto_Builder*) clearImageName;
 @end
 
 

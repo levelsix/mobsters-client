@@ -15,7 +15,6 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [self registerAllExtensions:registry];
     [MiniJobConfigRoot registerAllExtensions:registry];
     [MonsterStuffRoot registerAllExtensions:registry];
-    [RewardRoot registerAllExtensions:registry];
     [SharedEnumConfigRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
     extensionRegistry = registry;
@@ -2464,7 +2463,6 @@ static RedeemMiniJobRequestProto* defaultRedeemMiniJobRequestProtoInstance = nil
 @property (strong) MinimumUserProtoWithMaxResources* sender;
 @property (strong) FullUserMonsterProto* fump;
 @property RedeemMiniJobResponseProto_RedeemMiniJobStatus status;
-@property (strong) UserRewardProto* rewards;
 @end
 
 @implementation RedeemMiniJobResponseProto
@@ -2490,19 +2488,11 @@ static RedeemMiniJobRequestProto* defaultRedeemMiniJobRequestProtoInstance = nil
   hasStatus_ = !!value_;
 }
 @synthesize status;
-- (BOOL) hasRewards {
-  return !!hasRewards_;
-}
-- (void) setHasRewards:(BOOL) value_ {
-  hasRewards_ = !!value_;
-}
-@synthesize rewards;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProtoWithMaxResources defaultInstance];
     self.fump = [FullUserMonsterProto defaultInstance];
     self.status = RedeemMiniJobResponseProto_RedeemMiniJobStatusSuccess;
-    self.rewards = [UserRewardProto defaultInstance];
   }
   return self;
 }
@@ -2531,9 +2521,6 @@ static RedeemMiniJobResponseProto* defaultRedeemMiniJobResponseProtoInstance = n
   if (self.hasStatus) {
     [output writeEnum:3 value:self.status];
   }
-  if (self.hasRewards) {
-    [output writeMessage:4 value:self.rewards];
-  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -2551,9 +2538,6 @@ static RedeemMiniJobResponseProto* defaultRedeemMiniJobResponseProtoInstance = n
   }
   if (self.hasStatus) {
     size_ += computeEnumSize(3, self.status);
-  }
-  if (self.hasRewards) {
-    size_ += computeMessageSize(4, self.rewards);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -2605,12 +2589,6 @@ static RedeemMiniJobResponseProto* defaultRedeemMiniJobResponseProtoInstance = n
   if (self.hasStatus) {
     [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
-  if (self.hasRewards) {
-    [output appendFormat:@"%@%@ {\n", indent, @"rewards"];
-    [self.rewards writeDescriptionTo:output
-                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
-    [output appendFormat:@"%@}\n", indent];
-  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -2628,8 +2606,6 @@ static RedeemMiniJobResponseProto* defaultRedeemMiniJobResponseProtoInstance = n
       (!self.hasFump || [self.fump isEqual:otherMessage.fump]) &&
       self.hasStatus == otherMessage.hasStatus &&
       (!self.hasStatus || self.status == otherMessage.status) &&
-      self.hasRewards == otherMessage.hasRewards &&
-      (!self.hasRewards || [self.rewards isEqual:otherMessage.rewards]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -2642,9 +2618,6 @@ static RedeemMiniJobResponseProto* defaultRedeemMiniJobResponseProtoInstance = n
   }
   if (self.hasStatus) {
     hashCode = hashCode * 31 + self.status;
-  }
-  if (self.hasRewards) {
-    hashCode = hashCode * 31 + [self.rewards hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -2709,9 +2682,6 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
   if (other.hasStatus) {
     [self setStatus:other.status];
   }
-  if (other.hasRewards) {
-    [self mergeRewards:other.rewards];
-  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -2758,15 +2728,6 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
         } else {
           [unknownFields mergeVarintField:3 value:value];
         }
-        break;
-      }
-      case 34: {
-        UserRewardProto_Builder* subBuilder = [UserRewardProto builder];
-        if (self.hasRewards) {
-          [subBuilder mergeFrom:self.rewards];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setRewards:[subBuilder buildPartial]];
         break;
       }
     }
@@ -2846,36 +2807,6 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
 - (RedeemMiniJobResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = RedeemMiniJobResponseProto_RedeemMiniJobStatusSuccess;
-  return self;
-}
-- (BOOL) hasRewards {
-  return result.hasRewards;
-}
-- (UserRewardProto*) rewards {
-  return result.rewards;
-}
-- (RedeemMiniJobResponseProto_Builder*) setRewards:(UserRewardProto*) value {
-  result.hasRewards = YES;
-  result.rewards = value;
-  return self;
-}
-- (RedeemMiniJobResponseProto_Builder*) setRewards_Builder:(UserRewardProto_Builder*) builderForValue {
-  return [self setRewards:[builderForValue build]];
-}
-- (RedeemMiniJobResponseProto_Builder*) mergeRewards:(UserRewardProto*) value {
-  if (result.hasRewards &&
-      result.rewards != [UserRewardProto defaultInstance]) {
-    result.rewards =
-      [[[UserRewardProto builderWithPrototype:result.rewards] mergeFrom:value] buildPartial];
-  } else {
-    result.rewards = value;
-  }
-  result.hasRewards = YES;
-  return self;
-}
-- (RedeemMiniJobResponseProto_Builder*) clearRewards {
-  result.hasRewards = NO;
-  result.rewards = [UserRewardProto defaultInstance];
   return self;
 }
 @end

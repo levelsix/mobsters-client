@@ -3,7 +3,8 @@
 #import "ProtocolBuffers.h"
 
 #import "BoosterPackStuff.pb.h"
-#import "Reward.pb.h"
+#import "Item.pb.h"
+#import "MonsterStuff.pb.h"
 #import "User.pb.h"
 // @@protoc_insertion_point(imports)
 
@@ -13,8 +14,6 @@
 @class BoosterItemProto_Builder;
 @class BoosterPackProto;
 @class BoosterPackProto_Builder;
-@class ClanGiftProto;
-@class ClanGiftProto_Builder;
 @class ClanMemberTeamDonationProto;
 @class ClanMemberTeamDonationProto_Builder;
 @class FullUserMonsterProto;
@@ -53,12 +52,8 @@
 @class RareBoosterPurchaseProto_Builder;
 @class ReceivedRareBoosterPurchaseResponseProto;
 @class ReceivedRareBoosterPurchaseResponseProto_Builder;
-@class RewardProto;
-@class RewardProto_Builder;
 @class StaticUserLevelInfoProto;
 @class StaticUserLevelInfoProto_Builder;
-@class UserClanGiftProto;
-@class UserClanGiftProto_Builder;
 @class UserCurrentMonsterTeamProto;
 @class UserCurrentMonsterTeamProto_Builder;
 @class UserEnhancementItemProto;
@@ -85,8 +80,6 @@
 @class UserMonsterSnapshotProto_Builder;
 @class UserPvpLeagueProto;
 @class UserPvpLeagueProto_Builder;
-@class UserRewardProto;
-@class UserRewardProto_Builder;
 #ifndef __has_feature
   #define __has_feature(x) 0 // Compatibility with non-clang compilers.
 #endif // __has_feature
@@ -101,9 +94,8 @@
 
 typedef NS_ENUM(SInt32, PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatus) {
   PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusSuccess = 1,
-  PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusFailInsufficientGachaCredits = 2,
+  PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusFailInsufficientGems = 2,
   PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusFailOther = 3,
-  PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusFailInsufficientGems = 4,
 };
 
 BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatus value);
@@ -118,34 +110,22 @@ BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(Purc
 @interface PurchaseBoosterPackRequestProto : PBGeneratedMessage {
 @private
   BOOL hasDailyFreeBoosterPack_:1;
-  BOOL hasBuyingInBulk_:1;
   BOOL hasClientTime_:1;
   BOOL hasBoosterPackId_:1;
-  BOOL hasGemsSpent_:1;
-  BOOL hasGachaCreditsChange_:1;
   BOOL hasSender_:1;
   BOOL dailyFreeBoosterPack_:1;
-  BOOL buyingInBulk_:1;
   int64_t clientTime;
   int32_t boosterPackId;
-  int32_t gemsSpent;
-  int32_t gachaCreditsChange;
   MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
 - (BOOL) hasBoosterPackId;
 - (BOOL) hasClientTime;
 - (BOOL) hasDailyFreeBoosterPack;
-- (BOOL) hasBuyingInBulk;
-- (BOOL) hasGemsSpent;
-- (BOOL) hasGachaCreditsChange;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) int32_t boosterPackId;
 @property (readonly) int64_t clientTime;
 - (BOOL) dailyFreeBoosterPack;
-- (BOOL) buyingInBulk;
-@property (readonly) int32_t gemsSpent;
-@property (readonly) int32_t gachaCreditsChange;
 
 + (PurchaseBoosterPackRequestProto*) defaultInstance;
 - (PurchaseBoosterPackRequestProto*) defaultInstance;
@@ -203,41 +183,29 @@ BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(Purc
 - (BOOL) dailyFreeBoosterPack;
 - (PurchaseBoosterPackRequestProto_Builder*) setDailyFreeBoosterPack:(BOOL) value;
 - (PurchaseBoosterPackRequestProto_Builder*) clearDailyFreeBoosterPack;
-
-- (BOOL) hasBuyingInBulk;
-- (BOOL) buyingInBulk;
-- (PurchaseBoosterPackRequestProto_Builder*) setBuyingInBulk:(BOOL) value;
-- (PurchaseBoosterPackRequestProto_Builder*) clearBuyingInBulk;
-
-- (BOOL) hasGemsSpent;
-- (int32_t) gemsSpent;
-- (PurchaseBoosterPackRequestProto_Builder*) setGemsSpent:(int32_t) value;
-- (PurchaseBoosterPackRequestProto_Builder*) clearGemsSpent;
-
-- (BOOL) hasGachaCreditsChange;
-- (int32_t) gachaCreditsChange;
-- (PurchaseBoosterPackRequestProto_Builder*) setGachaCreditsChange:(int32_t) value;
-- (PurchaseBoosterPackRequestProto_Builder*) clearGachaCreditsChange;
 @end
 
 @interface PurchaseBoosterPackResponseProto : PBGeneratedMessage {
 @private
   BOOL hasSender_:1;
-  BOOL hasReward_:1;
+  BOOL hasPrize_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  UserRewardProto* reward;
+  BoosterItemProto* prize;
   PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatus status;
-  NSMutableArray * mutablePrizeList;
+  NSMutableArray * mutableUpdatedOrNewList;
+  NSMutableArray * mutableUpdatedUserItemsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-- (BOOL) hasReward;
+- (BOOL) hasPrize;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatus status;
-@property (readonly, strong) NSArray * prizeList;
-@property (readonly, strong) UserRewardProto* reward;
-- (BoosterItemProto*)prizeAtIndex:(NSUInteger)index;
+@property (readonly, strong) NSArray * updatedOrNewList;
+@property (readonly, strong) BoosterItemProto* prize;
+@property (readonly, strong) NSArray * updatedUserItemsList;
+- (FullUserMonsterProto*)updatedOrNewAtIndex:(NSUInteger)index;
+- (UserItemProto*)updatedUserItemsAtIndex:(NSUInteger)index;
 
 + (PurchaseBoosterPackResponseProto*) defaultInstance;
 - (PurchaseBoosterPackResponseProto*) defaultInstance;
@@ -286,18 +254,24 @@ BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(Purc
 - (PurchaseBoosterPackResponseProto_Builder*) setStatus:(PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatus) value;
 - (PurchaseBoosterPackResponseProto_Builder*) clearStatusList;
 
-- (NSMutableArray *)prizeList;
-- (BoosterItemProto*)prizeAtIndex:(NSUInteger)index;
-- (PurchaseBoosterPackResponseProto_Builder *)addPrize:(BoosterItemProto*)value;
-- (PurchaseBoosterPackResponseProto_Builder *)addAllPrize:(NSArray *)array;
-- (PurchaseBoosterPackResponseProto_Builder *)clearPrize;
+- (NSMutableArray *)updatedOrNewList;
+- (FullUserMonsterProto*)updatedOrNewAtIndex:(NSUInteger)index;
+- (PurchaseBoosterPackResponseProto_Builder *)addUpdatedOrNew:(FullUserMonsterProto*)value;
+- (PurchaseBoosterPackResponseProto_Builder *)addAllUpdatedOrNew:(NSArray *)array;
+- (PurchaseBoosterPackResponseProto_Builder *)clearUpdatedOrNew;
 
-- (BOOL) hasReward;
-- (UserRewardProto*) reward;
-- (PurchaseBoosterPackResponseProto_Builder*) setReward:(UserRewardProto*) value;
-- (PurchaseBoosterPackResponseProto_Builder*) setReward_Builder:(UserRewardProto_Builder*) builderForValue;
-- (PurchaseBoosterPackResponseProto_Builder*) mergeReward:(UserRewardProto*) value;
-- (PurchaseBoosterPackResponseProto_Builder*) clearReward;
+- (BOOL) hasPrize;
+- (BoosterItemProto*) prize;
+- (PurchaseBoosterPackResponseProto_Builder*) setPrize:(BoosterItemProto*) value;
+- (PurchaseBoosterPackResponseProto_Builder*) setPrize_Builder:(BoosterItemProto_Builder*) builderForValue;
+- (PurchaseBoosterPackResponseProto_Builder*) mergePrize:(BoosterItemProto*) value;
+- (PurchaseBoosterPackResponseProto_Builder*) clearPrize;
+
+- (NSMutableArray *)updatedUserItemsList;
+- (UserItemProto*)updatedUserItemsAtIndex:(NSUInteger)index;
+- (PurchaseBoosterPackResponseProto_Builder *)addUpdatedUserItems:(UserItemProto*)value;
+- (PurchaseBoosterPackResponseProto_Builder *)addAllUpdatedUserItems:(NSArray *)array;
+- (PurchaseBoosterPackResponseProto_Builder *)clearUpdatedUserItems;
 @end
 
 @interface ReceivedRareBoosterPurchaseResponseProto : PBGeneratedMessage {

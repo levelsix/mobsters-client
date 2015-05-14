@@ -28,7 +28,6 @@ BOOL ResourceTypeIsValidValue(ResourceType value) {
     case ResourceTypeCash:
     case ResourceTypeOil:
     case ResourceTypeGems:
-    case ResourceTypeGachaCredits:
     case ResourceTypeMonster:
       return YES;
     default:
@@ -50,7 +49,6 @@ BOOL BoardObstacleTypeIsValidValue(BoardObstacleType value) {
     case BoardObstacleTypeCloud:
     case BoardObstacleTypeLock:
     case BoardObstacleTypeHole:
-    case BoardObstacleTypeVine:
       return YES;
     default:
       return NO;

@@ -4,7 +4,6 @@
 
 #import "MiniJobConfig.pb.h"
 #import "MonsterStuff.pb.h"
-#import "Reward.pb.h"
 #import "SharedEnumConfig.pb.h"
 #import "User.pb.h"
 // @@protoc_insertion_point(imports)
@@ -15,8 +14,6 @@
 @class BeginMiniJobRequestProto_Builder;
 @class BeginMiniJobResponseProto;
 @class BeginMiniJobResponseProto_Builder;
-@class ClanGiftProto;
-@class ClanGiftProto_Builder;
 @class ClanHouseProto;
 @class ClanHouseProto_Builder;
 @class ClanMemberTeamDonationProto;
@@ -93,8 +90,6 @@
 @class ResourceGeneratorProto_Builder;
 @class ResourceStorageProto;
 @class ResourceStorageProto_Builder;
-@class RewardProto;
-@class RewardProto_Builder;
 @class SpawnMiniJobRequestProto;
 @class SpawnMiniJobRequestProto_Builder;
 @class SpawnMiniJobResponseProto;
@@ -109,8 +104,6 @@
 @class TownHallProto_Builder;
 @class TutorialStructProto;
 @class TutorialStructProto_Builder;
-@class UserClanGiftProto;
-@class UserClanGiftProto_Builder;
 @class UserCurrentMonsterTeamProto;
 @class UserCurrentMonsterTeamProto_Builder;
 @class UserEnhancementItemProto;
@@ -143,8 +136,6 @@
 @class UserPvpBoardObstacleProto_Builder;
 @class UserPvpLeagueProto;
 @class UserPvpLeagueProto_Builder;
-@class UserRewardProto;
-@class UserRewardProto_Builder;
 #ifndef __has_feature
   #define __has_feature(x) 0 // Compatibility with non-clang compilers.
 #endif // __has_feature
@@ -720,21 +711,17 @@ BOOL RefreshMiniJobResponseProto_RefreshMiniJobStatusIsValidValue(RefreshMiniJob
 @private
   BOOL hasSender_:1;
   BOOL hasFump_:1;
-  BOOL hasRewards_:1;
   BOOL hasStatus_:1;
   MinimumUserProtoWithMaxResources* sender;
   FullUserMonsterProto* fump;
-  UserRewardProto* rewards;
   RedeemMiniJobResponseProto_RedeemMiniJobStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasFump;
 - (BOOL) hasStatus;
-- (BOOL) hasRewards;
 @property (readonly, strong) MinimumUserProtoWithMaxResources* sender;
 @property (readonly, strong) FullUserMonsterProto* fump;
 @property (readonly) RedeemMiniJobResponseProto_RedeemMiniJobStatus status;
-@property (readonly, strong) UserRewardProto* rewards;
 
 + (RedeemMiniJobResponseProto*) defaultInstance;
 - (RedeemMiniJobResponseProto*) defaultInstance;
@@ -789,13 +776,6 @@ BOOL RefreshMiniJobResponseProto_RefreshMiniJobStatusIsValidValue(RefreshMiniJob
 - (RedeemMiniJobResponseProto_RedeemMiniJobStatus) status;
 - (RedeemMiniJobResponseProto_Builder*) setStatus:(RedeemMiniJobResponseProto_RedeemMiniJobStatus) value;
 - (RedeemMiniJobResponseProto_Builder*) clearStatusList;
-
-- (BOOL) hasRewards;
-- (UserRewardProto*) rewards;
-- (RedeemMiniJobResponseProto_Builder*) setRewards:(UserRewardProto*) value;
-- (RedeemMiniJobResponseProto_Builder*) setRewards_Builder:(UserRewardProto_Builder*) builderForValue;
-- (RedeemMiniJobResponseProto_Builder*) mergeRewards:(UserRewardProto*) value;
-- (RedeemMiniJobResponseProto_Builder*) clearRewards;
 @end
 
 @interface RefreshMiniJobRequestProto : PBGeneratedMessage {

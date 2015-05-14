@@ -24,7 +24,6 @@ typedef NS_ENUM(SInt32, DevRequest) {
   DevRequestFBGetGems = 5,
   DevRequestFBGetCashOilGems = 6,
   DevRequestGetItem = 7,
-  DevRequestGetGachaCredits = 8,
 };
 
 BOOL DevRequestIsValidValue(DevRequest value);
