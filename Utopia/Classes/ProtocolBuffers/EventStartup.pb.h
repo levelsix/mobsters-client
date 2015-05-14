@@ -11,16 +11,17 @@
 #import "Clan.pb.h"
 #import "InAppPurchase.pb.h"
 #import "Item.pb.h"
+#import "LeaderBoard.pb.h"
 #import "MiniEvent.pb.h"
 #import "MiniJobConfig.pb.h"
 #import "MonsterStuff.pb.h"
 #import "Quest.pb.h"
 #import "Sales.pb.h"
 #import "Research.pb.h"
+#import "Reward.pb.h"
 #import "SharedEnumConfig.pb.h"
 #import "StaticData.pb.h"
 #import "Structure.pb.h"
-#import "Reward.pb.h"
 #import "Task.pb.h"
 #import "User.pb.h"
 // @@protoc_insertion_point(imports)
@@ -244,6 +245,8 @@
 @class StartupResponseProto_StartupConstants;
 @class StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto;
 @class StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder;
+@class StartupResponseProto_StartupConstants_BoosterPackConstantsProto;
+@class StartupResponseProto_StartupConstants_BoosterPackConstantsProto_Builder;
 @class StartupResponseProto_StartupConstants_Builder;
 @class StartupResponseProto_StartupConstants_ClanConstants;
 @class StartupResponseProto_StartupConstants_ClanConstants_Builder;
@@ -275,6 +278,8 @@
 @class StaticDataProto_Builder;
 @class StaticUserLevelInfoProto;
 @class StaticUserLevelInfoProto_Builder;
+@class StrengthLeaderBoardProto;
+@class StrengthLeaderBoardProto_Builder;
 @class StructureInfoProto;
 @class StructureInfoProto_Builder;
 @class TangoGiftProto;
@@ -650,7 +655,9 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   NSMutableArray * mutableSalesPackagesList;
   NSMutableArray * mutableUserClanInfoList;
   NSMutableArray * mutableUserQuestsList;
+  NSMutableArray * mutableUserGiftsList;
   NSMutableArray * mutableUserClanGiftsList;
+  NSMutableArray * mutableTopStrengthLeaderBoardsList;
 }
 - (BOOL) hasServerTimeMillis;
 - (BOOL) hasSender;
@@ -724,7 +731,9 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @property (readonly, strong) NSArray * salesPackagesList;
 @property (readonly, strong) UserMiniEventProto* userMiniEvent;
 @property (readonly, strong) DefaultLanguagesProto* userDefaultLanguages;
+@property (readonly, strong) NSArray * userGiftsList;
 @property (readonly, strong) NSArray * userClanGiftsList;
+@property (readonly, strong) NSArray * topStrengthLeaderBoardsList;
 - (FullUserQuestProto*)userQuestsAtIndex:(NSUInteger)index;
 - (int32_t)redeemedQuestIdsAtIndex:(NSUInteger)index;
 - (FullUserClanProto*)userClanInfoAtIndex:(NSUInteger)index;
@@ -759,7 +768,9 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (UserBattleItemProto*)battleItemAtIndex:(NSUInteger)index;
 - (UserResearchProto*)userResearchsAtIndex:(NSUInteger)index;
 - (SalesPackageProto*)salesPackagesAtIndex:(NSUInteger)index;
+- (UserGiftProto*)userGiftsAtIndex:(NSUInteger)index;
 - (UserClanGiftProto*)userClanGiftsAtIndex:(NSUInteger)index;
+- (StrengthLeaderBoardProto*)topStrengthLeaderBoardsAtIndex:(NSUInteger)index;
 
 + (StartupResponseProto*) defaultInstance;
 - (StartupResponseProto*) defaultInstance;
@@ -922,78 +933,80 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   BOOL hasDisplayRarity_:1;
   BOOL hasFacebookPopUp_:1;
   BOOL hasAddAllFbFriends_:1;
-  BOOL hasBattleRunAwayIncrement_:1;
-  BOOL hasBattleRunAwayBasePercent_:1;
-  BOOL hasContinueBattleGemCostMultiplier_:1;
   BOOL hasMonsterDmgMultiplier_:1;
-  BOOL hasGemsPerResource_:1;
   BOOL hasMinutesPerGem_:1;
+  BOOL hasGemsPerResource_:1;
+  BOOL hasContinueBattleGemCostMultiplier_:1;
+  BOOL hasBattleRunAwayBasePercent_:1;
+  BOOL hasBattleRunAwayIncrement_:1;
+  BOOL hasMaxLevelForUser_:1;
+  BOOL hasMaxNumOfSingleStruct_:1;
+  BOOL hasTaskIdForUpgradeTutorial_:1;
+  BOOL hasMinNameLength_:1;
+  BOOL hasMaxNameLength_:1;
+  BOOL hasMaxLengthOfChatString_:1;
+  BOOL hasMinsToResolicitTeamDonation_:1;
+  BOOL hasTaskIdOfFirstSkill_:1;
   BOOL hasNumHoursBeforeReshowingGoldSale_:1;
   BOOL hasLevelToShowRateUsPopup_:1;
-  BOOL hasMinsToResolicitTeamDonation_:1;
   BOOL hasFbConnectRewardDiamonds_:1;
-  BOOL hasTaskIdOfFirstSkill_:1;
-  BOOL hasPvpRequiredMinLvl_:1;
-  BOOL hasNumBeginnerSalesAllowed_:1;
   BOOL hasMaxMinutesForFreeSpeedUp_:1;
+  BOOL hasNumBeginnerSalesAllowed_:1;
   BOOL hasMinutesPerObstacle_:1;
   BOOL hasMaxObstacles_:1;
-  BOOL hasMaxLevelForUser_:1;
-  BOOL hasTaskIdForUpgradeTutorial_:1;
-  BOOL hasMaxLengthOfChatString_:1;
-  BOOL hasMaxNameLength_:1;
-  BOOL hasMinNameLength_:1;
-  BOOL hasMaxNumOfSingleStruct_:1;
+  BOOL hasPvpRequiredMinLvl_:1;
   BOOL hasFaqFileName_:1;
-  BOOL hasClanConstants_:1;
+  BOOL hasBoosterPackConstantProto_:1;
   BOOL hasMiniTuts_:1;
-  BOOL hasDownloadableNibConstants_:1;
   BOOL hasMonsterConstants_:1;
-  BOOL hasTaskMapConstants_:1;
   BOOL hasUserMonsterConstants_:1;
-  BOOL hasPvpConstant_:1;
+  BOOL hasTaskMapConstants_:1;
   BOOL hasAdminChatUserProto_:1;
+  BOOL hasPvpConstant_:1;
   BOOL hasTouramentConstants_:1;
+  BOOL hasDownloadableNibConstants_:1;
+  BOOL hasClanConstants_:1;
   BOOL displayRarity_:1;
   BOOL facebookPopUp_:1;
   BOOL addAllFbFriends_:1;
-  Float32 battleRunAwayIncrement;
-  Float32 battleRunAwayBasePercent;
-  Float32 continueBattleGemCostMultiplier;
   Float32 monsterDmgMultiplier;
-  Float32 gemsPerResource;
   Float32 minutesPerGem;
+  Float32 gemsPerResource;
+  Float32 continueBattleGemCostMultiplier;
+  Float32 battleRunAwayBasePercent;
+  Float32 battleRunAwayIncrement;
+  int32_t maxLevelForUser;
+  int32_t maxNumOfSingleStruct;
+  int32_t taskIdForUpgradeTutorial;
+  int32_t minNameLength;
+  int32_t maxNameLength;
+  int32_t maxLengthOfChatString;
+  int32_t minsToResolicitTeamDonation;
+  int32_t taskIdOfFirstSkill;
   int32_t numHoursBeforeReshowingGoldSale;
   int32_t levelToShowRateUsPopup;
-  int32_t minsToResolicitTeamDonation;
   int32_t fbConnectRewardDiamonds;
-  int32_t taskIdOfFirstSkill;
-  int32_t pvpRequiredMinLvl;
-  int32_t numBeginnerSalesAllowed;
   int32_t maxMinutesForFreeSpeedUp;
+  int32_t numBeginnerSalesAllowed;
   int32_t minutesPerObstacle;
   int32_t maxObstacles;
-  int32_t maxLevelForUser;
-  int32_t taskIdForUpgradeTutorial;
-  int32_t maxLengthOfChatString;
-  int32_t maxNameLength;
-  int32_t minNameLength;
-  int32_t maxNumOfSingleStruct;
+  int32_t pvpRequiredMinLvl;
   NSString* faqFileName;
-  StartupResponseProto_StartupConstants_ClanConstants* clanConstants;
+  StartupResponseProto_StartupConstants_BoosterPackConstantsProto* boosterPackConstantProto;
   StartupResponseProto_StartupConstants_MiniTutorialConstants* miniTuts;
-  StartupResponseProto_StartupConstants_DownloadableNibConstants* downloadableNibConstants;
   StartupResponseProto_StartupConstants_MonsterConstants* monsterConstants;
-  StartupResponseProto_StartupConstants_TaskMapConstants* taskMapConstants;
   StartupResponseProto_StartupConstants_UserMonsterConstants* userMonsterConstants;
-  StartupResponseProto_StartupConstants_PvpConstants* pvpConstant;
+  StartupResponseProto_StartupConstants_TaskMapConstants* taskMapConstants;
   MinimumUserProto* adminChatUserProto;
+  StartupResponseProto_StartupConstants_PvpConstants* pvpConstant;
   StartupResponseProto_StartupConstants_TournamentConstants* touramentConstants;
-  NSMutableArray * mutableAnimatedSpriteOffsetsList;
+  StartupResponseProto_StartupConstants_DownloadableNibConstants* downloadableNibConstants;
+  StartupResponseProto_StartupConstants_ClanConstants* clanConstants;
   NSMutableArray * mutableClanHelpConstantsList;
   NSMutableArray * mutableSucpList;
   NSMutableArray * mutableRccpList;
   NSMutableArray * mutableFileDownloadProtoList;
+  NSMutableArray * mutableAnimatedSpriteOffsetsList;
   NSMutableArray * mutableInAppPurchasePackagesList;
 }
 - (BOOL) hasMaxLevelForUser;
@@ -1031,6 +1044,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasTaskIdOfFirstSkill;
 - (BOOL) hasMinsToResolicitTeamDonation;
 - (BOOL) hasTaskIdForUpgradeTutorial;
+- (BOOL) hasBoosterPackConstantProto;
 @property (readonly, strong) NSArray * inAppPurchasePackagesList;
 @property (readonly) int32_t maxLevelForUser;
 @property (readonly) int32_t maxNumOfSingleStruct;
@@ -1072,6 +1086,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @property (readonly) int32_t minsToResolicitTeamDonation;
 @property (readonly, strong) NSArray * fileDownloadProtoList;
 @property (readonly) int32_t taskIdForUpgradeTutorial;
+@property (readonly, strong) StartupResponseProto_StartupConstants_BoosterPackConstantsProto* boosterPackConstantProto;
 - (InAppPurchasePackageProto*)inAppPurchasePackagesAtIndex:(NSUInteger)index;
 - (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*)animatedSpriteOffsetsAtIndex:(NSUInteger)index;
 - (StartupResponseProto_StartupConstants_ClanHelpConstants*)clanHelpConstantsAtIndex:(NSUInteger)index;
@@ -2070,6 +2085,64 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) clearUseIphone6Prefix;
 @end
 
+@interface StartupResponseProto_StartupConstants_BoosterPackConstantsProto : PBGeneratedMessage {
+@private
+  BOOL hasPurchaseAmountRequired_:1;
+  BOOL hasNumberOfPacksGiven_:1;
+  int32_t purchaseAmountRequired;
+  int32_t numberOfPacksGiven;
+}
+- (BOOL) hasPurchaseAmountRequired;
+- (BOOL) hasNumberOfPacksGiven;
+@property (readonly) int32_t purchaseAmountRequired;
+@property (readonly) int32_t numberOfPacksGiven;
+
++ (StartupResponseProto_StartupConstants_BoosterPackConstantsProto*) defaultInstance;
+- (StartupResponseProto_StartupConstants_BoosterPackConstantsProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (StartupResponseProto_StartupConstants_BoosterPackConstantsProto_Builder*) builder;
++ (StartupResponseProto_StartupConstants_BoosterPackConstantsProto_Builder*) builder;
++ (StartupResponseProto_StartupConstants_BoosterPackConstantsProto_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_BoosterPackConstantsProto*) prototype;
+- (StartupResponseProto_StartupConstants_BoosterPackConstantsProto_Builder*) toBuilder;
+
++ (StartupResponseProto_StartupConstants_BoosterPackConstantsProto*) parseFromData:(NSData*) data;
++ (StartupResponseProto_StartupConstants_BoosterPackConstantsProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_BoosterPackConstantsProto*) parseFromInputStream:(NSInputStream*) input;
++ (StartupResponseProto_StartupConstants_BoosterPackConstantsProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_BoosterPackConstantsProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (StartupResponseProto_StartupConstants_BoosterPackConstantsProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_StartupConstants_BoosterPackConstantsProto_Builder : PBGeneratedMessageBuilder {
+@private
+  StartupResponseProto_StartupConstants_BoosterPackConstantsProto* result;
+}
+
+- (StartupResponseProto_StartupConstants_BoosterPackConstantsProto*) defaultInstance;
+
+- (StartupResponseProto_StartupConstants_BoosterPackConstantsProto_Builder*) clear;
+- (StartupResponseProto_StartupConstants_BoosterPackConstantsProto_Builder*) clone;
+
+- (StartupResponseProto_StartupConstants_BoosterPackConstantsProto*) build;
+- (StartupResponseProto_StartupConstants_BoosterPackConstantsProto*) buildPartial;
+
+- (StartupResponseProto_StartupConstants_BoosterPackConstantsProto_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_BoosterPackConstantsProto*) other;
+- (StartupResponseProto_StartupConstants_BoosterPackConstantsProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (StartupResponseProto_StartupConstants_BoosterPackConstantsProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasPurchaseAmountRequired;
+- (int32_t) purchaseAmountRequired;
+- (StartupResponseProto_StartupConstants_BoosterPackConstantsProto_Builder*) setPurchaseAmountRequired:(int32_t) value;
+- (StartupResponseProto_StartupConstants_BoosterPackConstantsProto_Builder*) clearPurchaseAmountRequired;
+
+- (BOOL) hasNumberOfPacksGiven;
+- (int32_t) numberOfPacksGiven;
+- (StartupResponseProto_StartupConstants_BoosterPackConstantsProto_Builder*) setNumberOfPacksGiven:(int32_t) value;
+- (StartupResponseProto_StartupConstants_BoosterPackConstantsProto_Builder*) clearNumberOfPacksGiven;
+@end
+
 @interface StartupResponseProto_StartupConstants_Builder : PBGeneratedMessageBuilder {
 @private
   StartupResponseProto_StartupConstants* result;
@@ -2315,6 +2388,13 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (int32_t) taskIdForUpgradeTutorial;
 - (StartupResponseProto_StartupConstants_Builder*) setTaskIdForUpgradeTutorial:(int32_t) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearTaskIdForUpgradeTutorial;
+
+- (BOOL) hasBoosterPackConstantProto;
+- (StartupResponseProto_StartupConstants_BoosterPackConstantsProto*) boosterPackConstantProto;
+- (StartupResponseProto_StartupConstants_Builder*) setBoosterPackConstantProto:(StartupResponseProto_StartupConstants_BoosterPackConstantsProto*) value;
+- (StartupResponseProto_StartupConstants_Builder*) setBoosterPackConstantProto_Builder:(StartupResponseProto_StartupConstants_BoosterPackConstantsProto_Builder*) builderForValue;
+- (StartupResponseProto_StartupConstants_Builder*) mergeBoosterPackConstantProto:(StartupResponseProto_StartupConstants_BoosterPackConstantsProto*) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearBoosterPackConstantProto;
 @end
 
 @interface StartupResponseProto_TutorialConstants : PBGeneratedMessage {
@@ -2331,6 +2411,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   BOOL hasCashInit_:1;
   BOOL hasOilInit_:1;
   BOOL hasGemsInit_:1;
+  BOOL hasGachaCreditsInit_:1;
   int32_t startingMonsterId;
   int32_t guideMonsterId;
   int32_t enemyMonsterId;
@@ -2343,6 +2424,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   int32_t cashInit;
   int32_t oilInit;
   int32_t gemsInit;
+  int32_t gachaCreditsInit;
   PBAppendableArray * mutableStructureIdsToBeBuilltList;
   NSMutableArray * mutableTutorialStructuresList;
   NSMutableArray * mutableCityOneElementsList;
@@ -2360,6 +2442,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasCashInit;
 - (BOOL) hasOilInit;
 - (BOOL) hasGemsInit;
+- (BOOL) hasGachaCreditsInit;
 @property (readonly) int32_t startingMonsterId;
 @property (readonly) int32_t guideMonsterId;
 @property (readonly) int32_t enemyMonsterId;
@@ -2375,6 +2458,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @property (readonly) int32_t cashInit;
 @property (readonly) int32_t oilInit;
 @property (readonly) int32_t gemsInit;
+@property (readonly) int32_t gachaCreditsInit;
 @property (readonly, strong) NSArray * tutorialObstaclesList;
 - (TutorialStructProto*)tutorialStructuresAtIndex:(NSUInteger)index;
 - (int32_t)structureIdsToBeBuilltAtIndex:(NSUInteger)index;
@@ -2494,6 +2578,11 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (int32_t) gemsInit;
 - (StartupResponseProto_TutorialConstants_Builder*) setGemsInit:(int32_t) value;
 - (StartupResponseProto_TutorialConstants_Builder*) clearGemsInit;
+
+- (BOOL) hasGachaCreditsInit;
+- (int32_t) gachaCreditsInit;
+- (StartupResponseProto_TutorialConstants_Builder*) setGachaCreditsInit:(int32_t) value;
+- (StartupResponseProto_TutorialConstants_Builder*) clearGachaCreditsInit;
 
 - (NSMutableArray *)tutorialObstaclesList;
 - (MinimumObstacleProto*)tutorialObstaclesAtIndex:(NSUInteger)index;
@@ -2843,11 +2932,23 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_Builder*) mergeUserDefaultLanguages:(DefaultLanguagesProto*) value;
 - (StartupResponseProto_Builder*) clearUserDefaultLanguages;
 
+- (NSMutableArray *)userGiftsList;
+- (UserGiftProto*)userGiftsAtIndex:(NSUInteger)index;
+- (StartupResponseProto_Builder *)addUserGifts:(UserGiftProto*)value;
+- (StartupResponseProto_Builder *)addAllUserGifts:(NSArray *)array;
+- (StartupResponseProto_Builder *)clearUserGifts;
+
 - (NSMutableArray *)userClanGiftsList;
 - (UserClanGiftProto*)userClanGiftsAtIndex:(NSUInteger)index;
 - (StartupResponseProto_Builder *)addUserClanGifts:(UserClanGiftProto*)value;
 - (StartupResponseProto_Builder *)addAllUserClanGifts:(NSArray *)array;
 - (StartupResponseProto_Builder *)clearUserClanGifts;
+
+- (NSMutableArray *)topStrengthLeaderBoardsList;
+- (StrengthLeaderBoardProto*)topStrengthLeaderBoardsAtIndex:(NSUInteger)index;
+- (StartupResponseProto_Builder *)addTopStrengthLeaderBoards:(StrengthLeaderBoardProto*)value;
+- (StartupResponseProto_Builder *)addAllTopStrengthLeaderBoards:(NSArray *)array;
+- (StartupResponseProto_Builder *)clearTopStrengthLeaderBoards;
 @end
 
 @interface ForceLogoutResponseProto : PBGeneratedMessage {

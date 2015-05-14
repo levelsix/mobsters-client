@@ -684,6 +684,8 @@
 @class StartupResponseProto_StartupConstants;
 @class StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto;
 @class StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder;
+@class StartupResponseProto_StartupConstants_BoosterPackConstantsProto;
+@class StartupResponseProto_StartupConstants_BoosterPackConstantsProto_Builder;
 @class StartupResponseProto_StartupConstants_Builder;
 @class StartupResponseProto_StartupConstants_ClanConstants;
 @class StartupResponseProto_StartupConstants_ClanConstants_Builder;
@@ -715,6 +717,8 @@
 @class StaticDataProto_Builder;
 @class StaticUserLevelInfoProto;
 @class StaticUserLevelInfoProto_Builder;
+@class StrengthLeaderBoardProto;
+@class StrengthLeaderBoardProto_Builder;
 @class StructureInfoProto;
 @class StructureInfoProto_Builder;
 @class SubmitMonsterEnhancementRequestProto;

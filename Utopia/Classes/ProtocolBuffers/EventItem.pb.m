@@ -16,6 +16,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [BoosterPackStuffRoot registerAllExtensions:registry];
     [ItemRoot registerAllExtensions:registry];
     [MonsterStuffRoot registerAllExtensions:registry];
+    [RewardRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
     extensionRegistry = registry;
   }
@@ -344,6 +345,7 @@ static TradeItemForBoosterRequestProto* defaultTradeItemForBoosterRequestProtoIn
 @property (strong) NSMutableArray * mutableUpdatedOrNewList;
 @property (strong) BoosterItemProto* prize;
 @property (strong) NSMutableArray * mutableUpdatedUserItemsList;
+@property (strong) UserRewardProto* rewards;
 @end
 
 @implementation TradeItemForBoosterResponseProto
@@ -373,11 +375,19 @@ static TradeItemForBoosterRequestProto* defaultTradeItemForBoosterRequestProtoIn
 @synthesize prize;
 @synthesize mutableUpdatedUserItemsList;
 @dynamic updatedUserItemsList;
+- (BOOL) hasRewards {
+  return !!hasRewards_;
+}
+- (void) setHasRewards:(BOOL) value_ {
+  hasRewards_ = !!value_;
+}
+@synthesize rewards;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.status = TradeItemForBoosterResponseProto_TradeItemForBoosterStatusSuccess;
     self.prize = [BoosterItemProto defaultInstance];
+    self.rewards = [UserRewardProto defaultInstance];
   }
   return self;
 }
@@ -424,6 +434,9 @@ static TradeItemForBoosterResponseProto* defaultTradeItemForBoosterResponseProto
   [self.updatedUserItemsList enumerateObjectsUsingBlock:^(UserItemProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:5 value:element];
   }];
+  if (self.hasRewards) {
+    [output writeMessage:6 value:self.rewards];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -448,6 +461,9 @@ static TradeItemForBoosterResponseProto* defaultTradeItemForBoosterResponseProto
   [self.updatedUserItemsList enumerateObjectsUsingBlock:^(UserItemProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(5, element);
   }];
+  if (self.hasRewards) {
+    size_ += computeMessageSize(6, self.rewards);
+  }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
   return size_;
@@ -510,6 +526,12 @@ static TradeItemForBoosterResponseProto* defaultTradeItemForBoosterResponseProto
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }];
+  if (self.hasRewards) {
+    [output appendFormat:@"%@%@ {\n", indent, @"rewards"];
+    [self.rewards writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -529,6 +551,8 @@ static TradeItemForBoosterResponseProto* defaultTradeItemForBoosterResponseProto
       self.hasPrize == otherMessage.hasPrize &&
       (!self.hasPrize || [self.prize isEqual:otherMessage.prize]) &&
       [self.updatedUserItemsList isEqualToArray:otherMessage.updatedUserItemsList] &&
+      self.hasRewards == otherMessage.hasRewards &&
+      (!self.hasRewards || [self.rewards isEqual:otherMessage.rewards]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -548,6 +572,9 @@ static TradeItemForBoosterResponseProto* defaultTradeItemForBoosterResponseProto
   [self.updatedUserItemsList enumerateObjectsUsingBlock:^(UserItemProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
+  if (self.hasRewards) {
+    hashCode = hashCode * 31 + [self.rewards hash];
+  }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
@@ -624,6 +651,9 @@ BOOL TradeItemForBoosterResponseProto_TradeItemForBoosterStatusIsValidValue(Trad
       [result.mutableUpdatedUserItemsList addObjectsFromArray:other.mutableUpdatedUserItemsList];
     }
   }
+  if (other.hasRewards) {
+    [self mergeRewards:other.rewards];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -682,6 +712,15 @@ BOOL TradeItemForBoosterResponseProto_TradeItemForBoosterStatusIsValidValue(Trad
         UserItemProto_Builder* subBuilder = [UserItemProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addUpdatedUserItems:[subBuilder buildPartial]];
+        break;
+      }
+      case 50: {
+        UserRewardProto_Builder* subBuilder = [UserRewardProto builder];
+        if (self.hasRewards) {
+          [subBuilder mergeFrom:self.rewards];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setRewards:[subBuilder buildPartial]];
         break;
       }
     }
@@ -809,6 +848,36 @@ BOOL TradeItemForBoosterResponseProto_TradeItemForBoosterStatusIsValidValue(Trad
 }
 - (TradeItemForBoosterResponseProto_Builder *)clearUpdatedUserItems {
   result.mutableUpdatedUserItemsList = nil;
+  return self;
+}
+- (BOOL) hasRewards {
+  return result.hasRewards;
+}
+- (UserRewardProto*) rewards {
+  return result.rewards;
+}
+- (TradeItemForBoosterResponseProto_Builder*) setRewards:(UserRewardProto*) value {
+  result.hasRewards = YES;
+  result.rewards = value;
+  return self;
+}
+- (TradeItemForBoosterResponseProto_Builder*) setRewards_Builder:(UserRewardProto_Builder*) builderForValue {
+  return [self setRewards:[builderForValue build]];
+}
+- (TradeItemForBoosterResponseProto_Builder*) mergeRewards:(UserRewardProto*) value {
+  if (result.hasRewards &&
+      result.rewards != [UserRewardProto defaultInstance]) {
+    result.rewards =
+      [[[UserRewardProto builderWithPrototype:result.rewards] mergeFrom:value] buildPartial];
+  } else {
+    result.rewards = value;
+  }
+  result.hasRewards = YES;
+  return self;
+}
+- (TradeItemForBoosterResponseProto_Builder*) clearRewards {
+  result.hasRewards = NO;
+  result.rewards = [UserRewardProto defaultInstance];
   return self;
 }
 @end

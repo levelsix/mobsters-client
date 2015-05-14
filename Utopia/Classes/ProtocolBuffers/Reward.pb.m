@@ -213,6 +213,7 @@ BOOL RewardProto_RewardTypeIsValidValue(RewardProto_RewardType value) {
     case RewardProto_RewardTypeGems:
     case RewardProto_RewardTypeCash:
     case RewardProto_RewardTypeOil:
+    case RewardProto_RewardTypeGachaCredits:
     case RewardProto_RewardTypeMonster:
     case RewardProto_RewardTypeClanGift:
     case RewardProto_RewardTypeTangoGift:
@@ -388,6 +389,7 @@ BOOL RewardProto_RewardTypeIsValidValue(RewardProto_RewardType value) {
 @property int32_t gems;
 @property int32_t cash;
 @property int32_t oil;
+@property int32_t gachaCredits;
 @property (strong) UserClanGiftProto* clanGift;
 @end
 
@@ -418,6 +420,13 @@ BOOL RewardProto_RewardTypeIsValidValue(RewardProto_RewardType value) {
   hasOil_ = !!value_;
 }
 @synthesize oil;
+- (BOOL) hasGachaCredits {
+  return !!hasGachaCredits_;
+}
+- (void) setHasGachaCredits:(BOOL) value_ {
+  hasGachaCredits_ = !!value_;
+}
+@synthesize gachaCredits;
 - (BOOL) hasClanGift {
   return !!hasClanGift_;
 }
@@ -430,6 +439,7 @@ BOOL RewardProto_RewardTypeIsValidValue(RewardProto_RewardType value) {
     self.gems = 0;
     self.cash = 0;
     self.oil = 0;
+    self.gachaCredits = 0;
     self.clanGift = [UserClanGiftProto defaultInstance];
   }
   return self;
@@ -477,8 +487,11 @@ static UserRewardProto* defaultUserRewardProtoInstance = nil;
   if (self.hasOil) {
     [output writeInt32:5 value:self.oil];
   }
+  if (self.hasGachaCredits) {
+    [output writeInt32:6 value:self.gachaCredits];
+  }
   if (self.hasClanGift) {
-    [output writeMessage:6 value:self.clanGift];
+    [output writeMessage:7 value:self.clanGift];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -504,8 +517,11 @@ static UserRewardProto* defaultUserRewardProtoInstance = nil;
   if (self.hasOil) {
     size_ += computeInt32Size(5, self.oil);
   }
+  if (self.hasGachaCredits) {
+    size_ += computeInt32Size(6, self.gachaCredits);
+  }
   if (self.hasClanGift) {
-    size_ += computeMessageSize(6, self.clanGift);
+    size_ += computeMessageSize(7, self.clanGift);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -563,6 +579,9 @@ static UserRewardProto* defaultUserRewardProtoInstance = nil;
   if (self.hasOil) {
     [output appendFormat:@"%@%@: %@\n", indent, @"oil", [NSNumber numberWithInteger:self.oil]];
   }
+  if (self.hasGachaCredits) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"gachaCredits", [NSNumber numberWithInteger:self.gachaCredits]];
+  }
   if (self.hasClanGift) {
     [output appendFormat:@"%@%@ {\n", indent, @"clanGift"];
     [self.clanGift writeDescriptionTo:output
@@ -588,6 +607,8 @@ static UserRewardProto* defaultUserRewardProtoInstance = nil;
       (!self.hasCash || self.cash == otherMessage.cash) &&
       self.hasOil == otherMessage.hasOil &&
       (!self.hasOil || self.oil == otherMessage.oil) &&
+      self.hasGachaCredits == otherMessage.hasGachaCredits &&
+      (!self.hasGachaCredits || self.gachaCredits == otherMessage.gachaCredits) &&
       self.hasClanGift == otherMessage.hasClanGift &&
       (!self.hasClanGift || [self.clanGift isEqual:otherMessage.clanGift]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
@@ -608,6 +629,9 @@ static UserRewardProto* defaultUserRewardProtoInstance = nil;
   }
   if (self.hasOil) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.oil] hash];
+  }
+  if (self.hasGachaCredits) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.gachaCredits] hash];
   }
   if (self.hasClanGift) {
     hashCode = hashCode * 31 + [self.clanGift hash];
@@ -678,6 +702,9 @@ static UserRewardProto* defaultUserRewardProtoInstance = nil;
   if (other.hasOil) {
     [self setOil:other.oil];
   }
+  if (other.hasGachaCredits) {
+    [self setGachaCredits:other.gachaCredits];
+  }
   if (other.hasClanGift) {
     [self mergeClanGift:other.clanGift];
   }
@@ -726,7 +753,11 @@ static UserRewardProto* defaultUserRewardProtoInstance = nil;
         [self setOil:[input readInt32]];
         break;
       }
-      case 50: {
+      case 48: {
+        [self setGachaCredits:[input readInt32]];
+        break;
+      }
+      case 58: {
         UserClanGiftProto_Builder* subBuilder = [UserClanGiftProto builder];
         if (self.hasClanGift) {
           [subBuilder mergeFrom:self.clanGift];
@@ -832,6 +863,22 @@ static UserRewardProto* defaultUserRewardProtoInstance = nil;
 - (UserRewardProto_Builder*) clearOil {
   result.hasOil = NO;
   result.oil = 0;
+  return self;
+}
+- (BOOL) hasGachaCredits {
+  return result.hasGachaCredits;
+}
+- (int32_t) gachaCredits {
+  return result.gachaCredits;
+}
+- (UserRewardProto_Builder*) setGachaCredits:(int32_t) value {
+  result.hasGachaCredits = YES;
+  result.gachaCredits = value;
+  return self;
+}
+- (UserRewardProto_Builder*) clearGachaCredits {
+  result.hasGachaCredits = NO;
+  result.gachaCredits = 0;
   return self;
 }
 - (BOOL) hasClanGift {
