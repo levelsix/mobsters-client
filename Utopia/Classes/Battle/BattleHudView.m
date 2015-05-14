@@ -225,7 +225,9 @@
 - (void) removeButtons {
   [self removeSwapButtonAnimated:YES];
   [self removeDeployView];
-  self.forfeitButtonView.hidden = YES;
+  if (!_replayMode) {
+    self.forfeitButtonView.hidden = YES;
+  }
   self.elementButton.hidden = YES;
   [self.elementView close];
   [self disableItemsView];
@@ -242,6 +244,8 @@
 
 - (void) activateReplayMode {
   _replayMode = YES;
+  [self.forfeitButtonLabel setText:@"Exit"];
+  self.forfeitButtonView.hidden = NO;
 }
 
 #define ANIMATION_TIME 0.4f

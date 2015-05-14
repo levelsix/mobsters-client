@@ -347,7 +347,7 @@
 }
 
 - (void)useHandSwap:(BattleItemProto *)bip {
-#warning Rob: Play custom mini logo
+#warning Rob: Play item mini logo
   [(ReplayOrbMainLayer*)self.orbLayer moveHandBetweenOrbs:[self splitPosInt:self.currStep.movePos1] endPoint:[self splitPosInt:self.currStep.movePos2] withCompletion:^{
     [self.orbLayer allowFreeMoveForSingleTurn];
     [self doSwapFromCurrStep];
@@ -355,7 +355,7 @@
 }
 
 - (void)useOrbHammer:(BattleItemProto *)bip {
-#warning Rob: Play custom mini logo
+#warning Rob: Play item mini logo
   CGPoint pointA = [self splitPosInt:self.getCurrStep.movePos1];
   
   [(ReplayOrbMainLayer*)self.orbLayer moveHandBetweenOrbs:pointA endPoint:pointA withCompletion:^{
@@ -365,12 +365,17 @@
 }
 
 - (void)usePutty:(BattleItemProto *)bip {
-#warning Rob: Play custom mini logo
+#warning Rob: Play item mini logo
   CGPoint pointA = [self splitPosInt:self.getCurrStep.movePos1];
   [(ReplayOrbMainLayer*)self.orbLayer moveHandBetweenOrbs:pointA endPoint:pointA withCompletion:^{
     [self.orbLayer allowPuttyForSingleTurn];
     [(ReplayOrbMainLayer*)self.orbLayer tapDownOnSpace:pointA.x spaceY:pointA.y];
   }];
+}
+
+- (void)useBoardShuffle:(BattleItemProto *)bip {
+#warning Rob: Play item mini logo
+  [super useBoardShuffle:bip];
 }
 
 #pragma mark - Overrides
@@ -382,6 +387,17 @@
 - (int)calculateModifiedEnemyDamage:(int)unmodifiedDamage {
   [skillManager modifyDamage:unmodifiedDamage forPlayer:NO];
   return self.currStep.modifiedDamage;
+}
+
+- (void)forfeitClicked:(id)sender {
+  [GenericPopupController displayNegativeConfirmationWithDescription:@"Exit viewing this replay?"
+                                                               title:@"Exit Replay"
+                                                          okayButton:@"Exit"
+                                                        cancelButton:@"Cancel"
+                                                            okTarget:self
+                                                          okSelector:@selector(exitFinal)
+                                                        cancelTarget:nil
+                                                      cancelSelector:nil];
 }
 
 - (void)youForfeited {

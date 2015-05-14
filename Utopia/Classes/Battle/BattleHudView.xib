@@ -224,6 +224,7 @@
                 <outlet property="deployView" destination="zMQ-pc-wO7" id="pam-1a-pfD"/>
                 <outlet property="elementButton" destination="2kS-qV-7b6" id="H06-P8-4sH"/>
                 <outlet property="elementView" destination="Qgz-Lk-NDV" id="Epa-eU-LmG"/>
+                <outlet property="forfeitButtonLabel" destination="wJ6-Aj-sLO" id="Ug8-Vb-rmc"/>
                 <outlet property="forfeitButtonView" destination="BNm-Sv-afd" id="ZlG-ba-rmi"/>
                 <outlet property="itemsBadge" destination="uI0-v9-Nkg" id="pnh-7V-t8n"/>
                 <outlet property="itemsBag" destination="uSD-qR-E8i" id="mtA-bo-tP3"/>
