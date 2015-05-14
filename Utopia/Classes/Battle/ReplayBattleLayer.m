@@ -163,7 +163,7 @@
   
   BattleState *playerMove = [BattleState stateWithName:@"Player Move" andType:CombatReplayStepTypePlayerMove];
   [playerMove setDidEnterStateBlock:^(TKState *state, TKTransition *transition) {
-    [self performBlockAfterDelay:1/TIME_SCALE block:^{
+    [self performBlockAfterDelay:.5/TIME_SCALE block:^{
       [self startMyMove];
     }];
   }];
@@ -246,7 +246,9 @@
   if (self.currStep.hasItemId) {
     [self useBattleItem];
   } else if (self.currStep.hasMovePos1 && self.currStep.hasMovePos2) {
-    [self doSwapFromCurrStep];
+    [(ReplayOrbMainLayer*)self.orbLayer moveHandBetweenOrbs:[self splitPosInt:self.currStep.movePos1] endPoint:[self splitPosInt:self.currStep.movePos2] withCompletion:^{
+      [self doSwapFromCurrStep];
+    }];
   } else {
     @throw [NSException exceptionWithName:@"Bad Move" reason:@"Not sufficient move data in current step to recreate move" userInfo:nil];
   }
@@ -346,21 +348,29 @@
 
 - (void)useHandSwap:(BattleItemProto *)bip {
 #warning Rob: Play custom mini logo
-  [self doSwapFromCurrStep];
+  [(ReplayOrbMainLayer*)self.orbLayer moveHandBetweenOrbs:[self splitPosInt:self.currStep.movePos1] endPoint:[self splitPosInt:self.currStep.movePos2] withCompletion:^{
+    [self.orbLayer allowFreeMoveForSingleTurn];
+    [self doSwapFromCurrStep];
+  }];
 }
 
 - (void)useOrbHammer:(BattleItemProto *)bip {
 #warning Rob: Play custom mini logo
   CGPoint pointA = [self splitPosInt:self.getCurrStep.movePos1];
-  [self.orbLayer allowOrbHammerForSingleTurn];
-  [(ReplayOrbMainLayer*)self.orbLayer tapDownOnSpace:pointA.x spaceY:pointA.y];
+  
+  [(ReplayOrbMainLayer*)self.orbLayer moveHandBetweenOrbs:pointA endPoint:pointA withCompletion:^{
+    [self.orbLayer allowOrbHammerForSingleTurn];
+    [(ReplayOrbMainLayer*)self.orbLayer tapDownOnSpace:pointA.x spaceY:pointA.y];
+  }];
 }
 
 - (void)usePutty:(BattleItemProto *)bip {
 #warning Rob: Play custom mini logo
   CGPoint pointA = [self splitPosInt:self.getCurrStep.movePos1];
-  [self.orbLayer allowPuttyForSingleTurn];
-  [(ReplayOrbMainLayer*)self.orbLayer tapDownOnSpace:pointA.x spaceY:pointA.y];
+  [(ReplayOrbMainLayer*)self.orbLayer moveHandBetweenOrbs:pointA endPoint:pointA withCompletion:^{
+    [self.orbLayer allowPuttyForSingleTurn];
+    [(ReplayOrbMainLayer*)self.orbLayer tapDownOnSpace:pointA.x spaceY:pointA.y];
+  }];
 }
 
 #pragma mark - Overrides
@@ -380,12 +390,12 @@
 
 - (void) youWon {
   [super youWon];
-  [self.endView updateForRewards:[Reward createRewardsForReplay:_replay tillStage:(int)_replay.enemyTeamList.count droplessStageNums:self.droplessStageNums attackerVictory:YES] isWin:YES allowsContinue:NO continueCost:0];
+  //[self.endView updateForRewards:[Reward createRewardsForReplay:_replay tillStage:(int)_replay.enemyTeamList.count droplessStageNums:self.droplessStageNums attackerVictory:YES] isWin:YES allowsContinue:NO continueCost:0];
 }
 
 - (void) youLost {
   [super youLost];
-  [self.endView updateForRewards:[Reward createRewardsForReplay:_replay tillStage:self.enemyPlayerObject.slotNum droplessStageNums:self.droplessStageNums attackerVictory:NO] isWin:NO allowsContinue:NO continueCost:0];
+  //[self.endView updateForRewards:[Reward createRewardsForReplay:_replay tillStage:self.enemyPlayerObject.slotNum droplessStageNums:self.droplessStageNums attackerVictory:NO] isWin:NO allowsContinue:NO continueCost:0];
 }
 
 - (void)displayDeployViewAndIsCancellable:(BOOL)cancel {
