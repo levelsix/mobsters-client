@@ -549,7 +549,7 @@
     
     [self setMovesLeft:moves animated:NO];
     
-    if (_movesLeft < NUM_MOVES_PER_TURN) {
+    if (_movesLeft < NUM_MOVES_PER_TURN && (!self.myPlayerObject.isChilled || _movesLeft < NUM_MOVES_PER_TURN-1)) {
       [self.hudView removeSwapButtonAnimated:NO];
     }
   } else {

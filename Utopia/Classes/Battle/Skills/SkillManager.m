@@ -33,6 +33,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   _cheatPlayerSkillType = _cheatEnemySkillType = SkillTypeNoSkill;
   _cheatEnemySkillId = _cheatPlayerSkillId = -1;
   
+  _skillPopupPlayer = [[SkillPopupOverlayController alloc] initWithBelongsToPlayer:YES];
+  _skillPopupEnemy = [[SkillPopupOverlayController alloc] initWithBelongsToPlayer:NO];
+  
 #ifdef DEBUG
   // Change it to override current skills for debug purposes
   //_cheatEnemySkillType = SkillTypeQuickAttack;
@@ -198,6 +201,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   controller.enemy = _enemy;
   controller.enemySprite = _enemySprite;
   controller.belongsToPlayer = controller.belongsToPlayer || (controller == _playerSkillController);
+  if (!controller.ownerMonsterImageName)
+  {
+    controller.ownerMonsterImageName = [(controller.belongsToPlayer ? _playerSprite.prefix : _enemySprite.prefix) stringByAppendingString:@"Character.png"];
+  }
 }
 
 #pragma mark - External calls
@@ -208,6 +215,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   _playerSkillController = nil;
   _enemySkillController = nil;
   _skillIndicatorEnemy = _skillIndicatorPlayer = nil;
+  _skillPopupPlayer.battleLayer = battleLayer;
+  _skillPopupEnemy.battleLayer = battleLayer;
 }
 
 - (void) orbDestroyed:(OrbColor)color special:(SpecialOrbType)type
@@ -471,6 +480,49 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   }
 }
 
+#pragma mark - Logos
+
+- (void) showSkillPopupOverlay:(BOOL)forPlayer jumpFirst:(BOOL)jumpFirst withData:(SkillPopupData*)data
+{
+  if (forPlayer)
+    [_skillPopupPlayer enqueueSkillPopup:data];
+  else
+    [_skillPopupEnemy enqueueSkillPopup:data];
+  
+  if (jumpFirst)
+  {
+    if (forPlayer)
+      [_playerSprite jumpNumTimes:2 completionTarget:_skillPopupPlayer selector:@selector(showCurrentSkillPopup)];
+    else
+      [_enemySprite jumpNumTimes:2 completionTarget:_skillPopupEnemy selector:@selector(showCurrentSkillPopup)];
+  }
+  else
+  {
+    [self showCurrentSkillPopup:forPlayer];
+  }
+}
+
+- (void) enqueuePopupData:(SkillPopupData*)data forPlayer:(BOOL)forPlayer
+{
+  if (forPlayer)
+    [_skillPopupPlayer enqueueSkillPopup:data];
+  else
+    [_skillPopupEnemy enqueueSkillPopup:data];
+}
+
+- (void) showItemPopupOverlay:(BattleItemProto*)item bottomText:(NSString*)bottomText
+{
+  [_skillPopupPlayer enqueueItemPopup:item bottomText:bottomText];
+}
+
+- (void) showCurrentSkillPopup:(BOOL)forPlayer
+{
+  if (forPlayer)
+    [_skillPopupPlayer showCurrentSkillPopup];
+  else
+    [_skillPopupEnemy showCurrentSkillPopup];
+}
+
 #pragma mark - Serialization
 
 - (NSDictionary*) serialize
@@ -654,18 +706,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
 
 - (void) playDamageLogos
 {
-  if (_playerSkillController)
-  {
-    [_playerSkillController showCurrentSkillPopup];
-  }
-  if (_enemySkillController)
-  {
-    [_enemySkillController showCurrentSkillPopup];
-  }
-  for (SkillController *skill in _persistentSkillControllers)
-  {
-    [skill showCurrentSkillPopup];
-  }
+  [_skillPopupPlayer showCurrentSkillPopup];
+  [_skillPopupEnemy showCurrentSkillPopup];
 }
 
 - (void)addSideEffectsToMonsterView:(MiniMonsterView *)monsterView forPlayer:(BattlePlayer *)player {

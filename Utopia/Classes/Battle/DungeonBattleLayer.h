@@ -26,7 +26,6 @@ static const int SHOW_PLAYER_SKILL_BUTTON_DIALOGUE_INDEX = 1;
   
   BOOL _checkedQuests;
   
-  BOOL _isResumingState;
   BOOL _isDownloading;
   BOOL _damageWasDealt;
   

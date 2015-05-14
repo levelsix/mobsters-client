@@ -50,6 +50,13 @@
 
 - (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
 {
+  //If the character dies before the stun runs up, make sure the stun doesn't persist
+  if (_stunTurnsLeft>0 && ((self.belongsToPlayer && trigger == SkillTriggerPointEnemyDefeated)
+                           || (!self.belongsToPlayer && trigger == SkillTriggerPointPlayerInitialized)))
+  {
+    [self endStun];
+  }
+  
   if ([super skillCalledWithTrigger:trigger execute:execute])
     return YES;
   
@@ -63,13 +70,6 @@
       if (_stunTurnsLeft == 0)
         [self endStun];
     }
-  }
-  
-  //If the character dies before the stun runs up, make sure the stun doesn't persist
-  if (_stunTurnsLeft>0 && ((self.belongsToPlayer && trigger == SkillTriggerPointEnemyDefeated)
-                           || (!self.belongsToPlayer && trigger == SkillTriggerPointPlayerInitialized)))
-  {
-    [self endStun];
   }
   
   if ([self isActive])

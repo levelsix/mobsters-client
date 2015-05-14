@@ -91,6 +91,8 @@
     
     self.userInteractionEnabled = YES;
     
+    self.muteAttacks = NO;
+    
     [self prepareCharacterImage:prefix];
   }
   return self;
@@ -525,7 +527,8 @@
   [self stopWalking];
   [self setIsFacingNear:YES];
   if (self.animationType == MonsterProto_AnimationTypeRanged) {
-    [anim addSoundEffect:@"sfx_handgun.wav" atIndex:4];
+    if (!self.muteAttacks)
+      [anim addSoundEffect:@"sfx_handgun.wav" atIndex:4];
     
     seq = [CCActionSequence actions:
            [CCActionSpawn actions:
@@ -543,7 +546,8 @@
            [CCActionCallFunc actionWithTarget:target selector:selector],
            nil];
   } else if (self.animationType == MonsterProto_AnimationTypeMelee) {
-    [anim addSoundEffect:@"sfx_muckerburg_hit_luchador.mp3" atIndex:2];
+    if (!self.muteAttacks)
+      [anim addSoundEffect:@"sfx_muckerburg_hit_luchador.mp3" atIndex:2];
     
     CGPoint enemyPos = enemy.position;
     CGPoint pointOffset = POINT_OFFSET_PER_SCENE;
@@ -603,7 +607,8 @@
   [self stopWalking];
   [self setIsFacingNear:NO];
   if (self.animationType == MonsterProto_AnimationTypeRanged) {
-    [anim addSoundEffect:@"sfx_handgun.wav" atIndex:4];
+    if (!self.muteAttacks)
+      [anim addSoundEffect:@"sfx_handgun.wav" atIndex:4];
     [anim repeatFrames:NSMakeRange(4, 6) numTimes:numTimes];
     
     seq = [CCActionSequence actions:
@@ -622,7 +627,8 @@
            [CCActionCallFunc actionWithTarget:target selector:selector],
            nil];
   } else if (self.animationType == MonsterProto_AnimationTypeMelee) {
-    [anim addSoundEffect:@"sfx_muckerburg_hit_luchador.mp3" atIndex:2];
+    if (!self.muteAttacks)
+      [anim addSoundEffect:@"sfx_muckerburg_hit_luchador.mp3" atIndex:2];
     [anim repeatFrames:NSMakeRange(2, 5) numTimes:numTimes];
     
     CGPoint enemyPos = enemy.position;

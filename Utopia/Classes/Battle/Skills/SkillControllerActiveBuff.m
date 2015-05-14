@@ -8,6 +8,7 @@
 
 #import "NewBattleLayer.h"
 #import "SkillControllerActiveBuff.h"
+#import "SkillManager.h"
 
 @implementation SkillControllerActiveBuff
 
@@ -288,7 +289,7 @@
           [self.battleLayer moveComplete];
         }];
       }];
-      [self showAntidotePopupOverlay:antidote bottomText:[self cureBottomText]];
+      [skillManager showItemPopupOverlay:antidote bottomText:[self cureBottomText]];
     }
     return YES;
   }
