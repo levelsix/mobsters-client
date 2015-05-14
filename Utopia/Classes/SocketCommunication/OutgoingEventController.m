@@ -1637,6 +1637,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   int gemReward = 0;
   int cashReward = 0;
   int oilReward = 0;
+  int tokenReward = 0;
   
   for (UserClanGiftProto *ucgp in userClanGifts) {
     
@@ -1649,6 +1650,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
         break;
       case RewardProto_RewardTypeGems:
         gemReward += ucgp.reward.amt;
+        break;
+      case RewardProto_RewardTypeGachaCredits:
+        tokenReward += ucgp.reward.amt;
         break;
       case RewardProto_RewardTypeItem:
       case RewardProto_RewardTypeMonster:
@@ -1663,8 +1667,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GemsUpdate *gu = [GemsUpdate updateWithTag:tag change:gemReward];
   CashUpdate *cu = [CashUpdate updateWithTag:tag change:cashReward];
   OilUpdate *ou = [OilUpdate updateWithTag:tag change:oilReward];
+  TokensUpdate *tu = [TokensUpdate updateWithTag:tag change:tokenReward];
   
-  [gs addUnrespondedUpdates:gu, cu, ou, nil];
+  [gs addUnrespondedUpdates:gu, cu, ou, tu, nil];
 }
 
 - (void) clearClanGifts:(NSArray *)userClanGifts {

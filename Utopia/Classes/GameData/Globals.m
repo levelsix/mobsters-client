@@ -3229,6 +3229,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       return [NSString stringWithFormat:@"%d Gems",reward.amt];
     case RewardProto_RewardTypeOil:
       return [NSString stringWithFormat:@"%d Oil",reward.amt];
+    case RewardProto_RewardTypeGachaCredits:
+      return [NSString stringWithFormat:@"%d Grab Tokens",reward.amt];
     case RewardProto_RewardTypeItem:
       staticItem = [gs itemForId:reward.staticDataId];
       return [NSString stringWithFormat:@"%dx %@%@",reward.amt, staticItem.name, reward.amt>1 ? @"s" : @""];
@@ -3260,6 +3262,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       return @"diamond.png";
     case RewardProto_RewardTypeOil:
       return @"oilicon.png";
+    case RewardProto_RewardTypeGachaCredits:
+      return @"grabchip.png";
     case RewardProto_RewardTypeItem:
       staticItem = [gs itemForId:reward.staticDataId];
       return staticItem.imgName;

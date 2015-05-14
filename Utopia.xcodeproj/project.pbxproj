@@ -2717,6 +2717,18 @@
 		9BBE37261B028E30001A0E81 /* GrabTokenItemsFiller.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BBE37251B028E30001A0E81 /* GrabTokenItemsFiller.m */; };
 		9BBE37271B028E30001A0E81 /* GrabTokenItemsFiller.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BBE37251B028E30001A0E81 /* GrabTokenItemsFiller.m */; };
 		9BBE37281B028E30001A0E81 /* GrabTokenItemsFiller.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BBE37251B028E30001A0E81 /* GrabTokenItemsFiller.m */; };
+		9BBE37351B043780001A0E81 /* EventLeaderBoard.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BBE37321B043780001A0E81 /* EventLeaderBoard.pb.m */; };
+		9BBE37361B043780001A0E81 /* EventLeaderBoard.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BBE37321B043780001A0E81 /* EventLeaderBoard.pb.m */; };
+		9BBE37371B043780001A0E81 /* EventLeaderBoard.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BBE37321B043780001A0E81 /* EventLeaderBoard.pb.m */; };
+		9BBE37381B043780001A0E81 /* LeaderBoard.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BBE37341B043780001A0E81 /* LeaderBoard.pb.m */; };
+		9BBE37391B043780001A0E81 /* LeaderBoard.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BBE37341B043780001A0E81 /* LeaderBoard.pb.m */; };
+		9BBE373A1B043780001A0E81 /* LeaderBoard.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BBE37341B043780001A0E81 /* LeaderBoard.pb.m */; };
+		9BBE373D1B043792001A0E81 /* EventLeaderBoard.proto in Resources */ = {isa = PBXBuildFile; fileRef = 9BBE373B1B043792001A0E81 /* EventLeaderBoard.proto */; };
+		9BBE373E1B043792001A0E81 /* EventLeaderBoard.proto in Resources */ = {isa = PBXBuildFile; fileRef = 9BBE373B1B043792001A0E81 /* EventLeaderBoard.proto */; };
+		9BBE373F1B043792001A0E81 /* EventLeaderBoard.proto in Resources */ = {isa = PBXBuildFile; fileRef = 9BBE373B1B043792001A0E81 /* EventLeaderBoard.proto */; };
+		9BBE37401B043792001A0E81 /* LeaderBoard.proto in Resources */ = {isa = PBXBuildFile; fileRef = 9BBE373C1B043792001A0E81 /* LeaderBoard.proto */; };
+		9BBE37411B043792001A0E81 /* LeaderBoard.proto in Resources */ = {isa = PBXBuildFile; fileRef = 9BBE373C1B043792001A0E81 /* LeaderBoard.proto */; };
+		9BBE37421B043792001A0E81 /* LeaderBoard.proto in Resources */ = {isa = PBXBuildFile; fileRef = 9BBE373C1B043792001A0E81 /* LeaderBoard.proto */; };
 		9BC1891A1AC1E734001B8E88 /* MiniEventDetailsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BC189191AC1E734001B8E88 /* MiniEventDetailsView.xib */; };
 		9BC1891B1AC1E734001B8E88 /* MiniEventDetailsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BC189191AC1E734001B8E88 /* MiniEventDetailsView.xib */; };
 		9BC1891C1AC1E734001B8E88 /* MiniEventDetailsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BC189191AC1E734001B8E88 /* MiniEventDetailsView.xib */; };
@@ -8663,9 +8675,6 @@
 		9B2EFCC31AC3A593005B7B83 /* tabpressedstate@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tabpressedstate@2x.png"; sourceTree = "<group>"; };
 		9B2EFCCC1AC4AEC9005B7B83 /* BattleItem.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = BattleItem.proto; sourceTree = "<group>"; };
 		9B2EFCCD1AC4AEC9005B7B83 /* EventBattleItem.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = EventBattleItem.proto; sourceTree = "<group>"; };
-		9B2EFCCE1AC4AEC9005B7B83 /* EventMiniEvent.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = EventMiniEvent.proto; sourceTree = "<group>"; };
-		9B2EFCCF1AC4AEC9005B7B83 /* MiniEvent.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MiniEvent.proto; sourceTree = "<group>"; };
-		9B2EFCD01AC4AEC9005B7B83 /* Reward.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Reward.proto; sourceTree = "<group>"; };
 		9B2EFCE11AC4AEF5005B7B83 /* EventMiniEvent.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventMiniEvent.pb.h; sourceTree = "<group>"; };
 		9B2EFCE21AC4AEF5005B7B83 /* EventMiniEvent.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventMiniEvent.pb.m; sourceTree = "<group>"; };
 		9B2EFCE31AC4AEF5005B7B83 /* MiniEvent.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiniEvent.pb.h; sourceTree = "<group>"; };
@@ -8842,6 +8851,12 @@
 		9BBE371E1AFD8776001A0E81 /* grabstokenlabel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "grabstokenlabel@2x.png"; sourceTree = "<group>"; };
 		9BBE37241B028E30001A0E81 /* GrabTokenItemsFiller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrabTokenItemsFiller.h; sourceTree = "<group>"; };
 		9BBE37251B028E30001A0E81 /* GrabTokenItemsFiller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrabTokenItemsFiller.m; sourceTree = "<group>"; };
+		9BBE37311B043780001A0E81 /* EventLeaderBoard.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventLeaderBoard.pb.h; sourceTree = "<group>"; };
+		9BBE37321B043780001A0E81 /* EventLeaderBoard.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventLeaderBoard.pb.m; sourceTree = "<group>"; };
+		9BBE37331B043780001A0E81 /* LeaderBoard.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeaderBoard.pb.h; sourceTree = "<group>"; };
+		9BBE37341B043780001A0E81 /* LeaderBoard.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeaderBoard.pb.m; sourceTree = "<group>"; };
+		9BBE373B1B043792001A0E81 /* EventLeaderBoard.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = EventLeaderBoard.proto; sourceTree = "<group>"; };
+		9BBE373C1B043792001A0E81 /* LeaderBoard.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LeaderBoard.proto; sourceTree = "<group>"; };
 		9BC189191AC1E734001B8E88 /* MiniEventDetailsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MiniEventDetailsView.xib; sourceTree = "<group>"; };
 		9BC1891E1AC1E792001B8E88 /* MiniEventPointsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MiniEventPointsView.xib; sourceTree = "<group>"; };
 		9BC189221AC1EF6A001B8E88 /* MiniEventDetailsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiniEventDetailsView.h; sourceTree = "<group>"; };
@@ -16168,6 +16183,10 @@
 			isa = PBXGroup;
 			children = (
 				CF6574771909CAF100ABF1F4 /* Proto files */,
+				9BBE37311B043780001A0E81 /* EventLeaderBoard.pb.h */,
+				9BBE37321B043780001A0E81 /* EventLeaderBoard.pb.m */,
+				9BBE37331B043780001A0E81 /* LeaderBoard.pb.h */,
+				9BBE37341B043780001A0E81 /* LeaderBoard.pb.m */,
 				9BCAA19C1AD4A5D50059CEDA /* Sales.pb.h */,
 				9BCAA19D1AD4A5D50059CEDA /* Sales.pb.m */,
 				9B2EFCE11AC4AEF5005B7B83 /* EventMiniEvent.pb.h */,
@@ -16434,12 +16453,11 @@
 		CF6574771909CAF100ABF1F4 /* Proto files */ = {
 			isa = PBXGroup;
 			children = (
+				9BBE373B1B043792001A0E81 /* EventLeaderBoard.proto */,
+				9BBE373C1B043792001A0E81 /* LeaderBoard.proto */,
 				9BCAA1A11AD4A5F10059CEDA /* Sales.proto */,
 				9B2EFCCC1AC4AEC9005B7B83 /* BattleItem.proto */,
 				9B2EFCCD1AC4AEC9005B7B83 /* EventBattleItem.proto */,
-				9B2EFCCE1AC4AEC9005B7B83 /* EventMiniEvent.proto */,
-				9B2EFCCF1AC4AEC9005B7B83 /* MiniEvent.proto */,
-				9B2EFCD01AC4AEC9005B7B83 /* Reward.proto */,
 				63CE45EA1AD8564400C5D8C5 /* Reward.proto */,
 				63CA0AFF1AD5B95300E92774 /* EventMiniEvent.proto */,
 				63CA0B001AD5B95300E92774 /* MiniEvent.proto */,
@@ -19660,6 +19678,7 @@
 				9BB5AF851AA695F6002076E3 /* obstaclespowerbarmiddle@2x.png in Resources */,
 				6B89A6E51A967BF6004C16B6 /* lockbreak.plist in Resources */,
 				CF0CF094196F452900ECD301 /* chatinactiveside@2x.png in Resources */,
+				9BBE37411B043792001A0E81 /* LeaderBoard.proto in Resources */,
 				291721021ACF7F120093F100 /* strengthaddedmiddlestretch@2x.png in Resources */,
 				CF0CF096196F452900ECD301 /* sfx_cancel_x_button.mp3 in Resources */,
 				CFF2A64D1974997A00269084 /* pvpbronzeribbon@2x.png in Resources */,
@@ -20917,6 +20936,7 @@
 				299AA3611A7856AA00A2D806 /* 6rockpoison-9@2x.png in Resources */,
 				633CCB461AA675B500C6649F /* researchgradientline@2x.png in Resources */,
 				9BE513081A9FFD96005F3BF5 /* (null) in Resources */,
+				9BBE373E1B043792001A0E81 /* EventLeaderBoard.proto in Resources */,
 				633CCB4C1AA675B500C6649F /* researchmissingrequirements@2x.png in Resources */,
 				9B6B77E61A858B1A0080C8E5 /* 9moveslabel@2x.png in Resources */,
 				CF0CF66F196F452900ECD301 /* sfx_collect_oil_doober.mp3 in Resources */,
@@ -21600,6 +21620,7 @@
 				29AE75D21A6F36E000264070 /* TribalGirl1T1RunNF@2x.plist in Resources */,
 				6B51469C1AA1487100B2844A /* 6waterlsorb-9@2x.png in Resources */,
 				CFE7CD241819FC3300930847 /* buildingbar@2x.png in Resources */,
+				9BBE37401B043792001A0E81 /* LeaderBoard.proto in Resources */,
 				6B1EAA101ACF5DCC00E0B642 /* VinesMain19.png in Resources */,
 				63BACAFD1A71B7C2000A641A /* firecal@2x.png in Resources */,
 				6B1EAA011ACF5DCC00E0B642 /* VinesMain14.png in Resources */,
@@ -22171,6 +22192,7 @@
 				9B7AAB2A1AC0CDE300CA387F /* eventcountercap@2x.png in Resources */,
 				299AA5091A7872C300A2D806 /* waterupdown@2x.png in Resources */,
 				CFC8B63618E65A1B00CFD652 /* frienddivider@2x.png in Resources */,
+				9BBE373D1B043792001A0E81 /* EventLeaderBoard.proto in Resources */,
 				2992D7DF1AA557C800547B11 /* GemBuildingT1@2x.pvr.ccz in Resources */,
 				CF951F691939493800A98290 /* jobbingicon@2x.png in Resources */,
 				CFC4D29E18D7BD04004681FD /* sfx_tap_on_building.mp3 in Resources */,
@@ -24023,6 +24045,7 @@
 				CF481CF619F7217F00041486 /* bombparticle.plist in Resources */,
 				299AA39E1A7856AA00A2D806 /* fireorb-9@2x.png in Resources */,
 				CF481CF719F7217F00041486 /* menutopbarresourcebg@2x.png in Resources */,
+				9BBE37421B043792001A0E81 /* LeaderBoard.proto in Resources */,
 				9B7AAB681AC0CDE300CA387F /* tier2counter@2x.png in Resources */,
 				CF481CF819F7217F00041486 /* 6waterorb@2x.png in Resources */,
 				299AA41B1A786BB000A2D806 /* cakeorb-9@2x.png in Resources */,
@@ -24349,6 +24372,7 @@
 				CF481EF919F7217F00041486 /* TeamSlotView.xib in Resources */,
 				CF481EFF19F7217F00041486 /* enhancebottompressed@2x.png in Resources */,
 				CF481F0219F7217F00041486 /* tips.txt in Resources */,
+				9BBE373F1B043792001A0E81 /* EventLeaderBoard.proto in Resources */,
 				CF481F0419F7217F00041486 /* enhancelabmenuheader@2x.png in Resources */,
 				CF481F0719F7217F00041486 /* legendjob@2x.png in Resources */,
 				CF481F0819F7217F00041486 /* chatupbutton@2x.png in Resources */,
@@ -26034,6 +26058,7 @@
 				CF0CED95196F452900ECD301 /* InAppPurchaseData.m in Sources */,
 				CF0CED96196F452900ECD301 /* FullQuestProto+JobAccess.m in Sources */,
 				CF0CED97196F452900ECD301 /* AMQPObject.m in Sources */,
+				9BBE37361B043780001A0E81 /* EventLeaderBoard.pb.m in Sources */,
 				CF0CED99196F452900ECD301 /* FacebookDelegate.m in Sources */,
 				CF0CED9A196F452900ECD301 /* CAKeyframeAnimation+AHEasing.m in Sources */,
 				CFA8B1AE19EB789F00CF6BFD /* ChatObject.m in Sources */,
@@ -26148,6 +26173,7 @@
 				CF0CEDE5196F452900ECD301 /* EventPvp.pb.m in Sources */,
 				6B0784041A828C1C005CDFCF /* SkillInsurance.m in Sources */,
 				CF0CEDE7196F452900ECD301 /* ChatView.m in Sources */,
+				9BBE37391B043780001A0E81 /* LeaderBoard.pb.m in Sources */,
 				29804F3A1A241C1800806253 /* ClanRewardsViewController.m in Sources */,
 				2933DCAC1ADFA836005D7620 /* SalesViewController.m in Sources */,
 				CF0CEDE8196F452900ECD301 /* DungeonBattleLayer.m in Sources */,
@@ -26369,6 +26395,7 @@
 				CFA8B1AD19EB789F00CF6BFD /* ChatObject.m in Sources */,
 				CF746131196A0D04002D6AE6 /* TutorialShopViewController.m in Sources */,
 				633CCADD1AA139E900C6649F /* ResearchViewController.m in Sources */,
+				9BBE37381B043780001A0E81 /* LeaderBoard.pb.m in Sources */,
 				CF689C1C15C3B89400F2E50E /* SBJsonBase.m in Sources */,
 				9BB5AF991AA7B6AA002076E3 /* BoardDesignerObstacleView.m in Sources */,
 				CF689C1D15C3B89400F2E50E /* SBJsonParser.m in Sources */,
@@ -26426,6 +26453,7 @@
 				DA0FC55C19B1861500393BF4 /* SkillControllerActive.m in Sources */,
 				CF15BA8416572A8400A51F85 /* AMQPMessage.m in Sources */,
 				9BC9F33F1A8C12AF009DC3D5 /* SkillSideEffect.m in Sources */,
+				9BBE37351B043780001A0E81 /* EventLeaderBoard.pb.m in Sources */,
 				9BDA8B5D1A3A894B00C7AC27 /* SkillHeadshot.m in Sources */,
 				9B7AAAF81AC0A24900CA387F /* MiniEventViewController.m in Sources */,
 				CF6574E91909CEBC00ABF1F4 /* AchievementsViewController.m in Sources */,
@@ -26825,6 +26853,7 @@
 				CF48194119F7217F00041486 /* TeamViewController.m in Sources */,
 				CF48194219F7217F00041486 /* InAppPurchaseData.m in Sources */,
 				CF48194319F7217F00041486 /* FullQuestProto+JobAccess.m in Sources */,
+				9BBE37371B043780001A0E81 /* EventLeaderBoard.pb.m in Sources */,
 				CF48194419F7217F00041486 /* AMQPObject.m in Sources */,
 				CF48194519F7217F00041486 /* FacebookDelegate.m in Sources */,
 				CF48194619F7217F00041486 /* CAKeyframeAnimation+AHEasing.m in Sources */,
@@ -26939,6 +26968,7 @@
 				CF48199919F7217F00041486 /* EventPvp.pb.m in Sources */,
 				6B0784051A828C1C005CDFCF /* SkillInsurance.m in Sources */,
 				CF48199A19F7217F00041486 /* ChatView.m in Sources */,
+				9BBE373A1B043780001A0E81 /* LeaderBoard.pb.m in Sources */,
 				29804F3B1A241C1800806253 /* ClanRewardsViewController.m in Sources */,
 				2933DCAD1ADFA836005D7620 /* SalesViewController.m in Sources */,
 				CF48199B19F7217F00041486 /* DungeonBattleLayer.m in Sources */,
