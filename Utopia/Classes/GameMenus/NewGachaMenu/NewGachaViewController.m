@@ -89,6 +89,11 @@
     sinlgeSpinGemLabel.originY += 1.f;
   }
   
+  self.singleSpinGemCostLabel.width += 10.f;
+  self.singleSpinGemCostLabel.height = self.singleSpinActionLabel.height;
+  self.multiSpinGemCostLabel.width += 10.f;
+  self.multiSpinGemCostLabel.height = self.multiSpinActionLabel.height;
+  
   _isMultiSpinAvailable = [[GameState sharedGameState].itemUtil getItemsForType:ItemTypeGachaMultiSpin].count > 0;
   {
     THLabel* multiSpinLabel = (THLabel*)self.multiSpinActionLabel;
@@ -133,19 +138,19 @@
       self.multiSpinGemCostIcon.centerX = gemCostIconCenter.x;
       
       self.multiSpinGemCostLabel.font = [UIFont fontWithName:self.multiSpinGemCostLabel.font.fontName size:11.f];
-      [self.multiSpinGemCostLabel sizeToFit];
+      self.multiSpinGemCostLabel.originY += 2;
     } else {
       [Globals imageNamed:@"grabchip.png" withView:self.multiSpinGemCostIcon greyscale:YES indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:NO];
       
       self.multiSpinGemCostView.centerY = self.multiSpinActionLabel.centerY - 4;
       self.multiSpinTapToUnlockLabel.originY = -1;
       self.multiSpinActionLabel.originY = self.multiSpinView.height - self.multiSpinActionLabel.height - 4;
+      self.multiSpinGemCostLabel.originY += 1;
     }
     
     self.multiSpinGemCostView.originX = (self.multiSpinView.centerX - self.multiSpinView.originX) + 8;
     self.multiSpinGemCostLabel.originX = CGRectGetMaxX(self.multiSpinGemCostIcon.frame) + 1;
-    self.multiSpinGemCostLabel.originY += 3;
-    self.multiSpinGemCostIcon.centerY = self.multiSpinGemCostLabel.centerY - 1;
+    self.multiSpinGemCostIcon.centerY = self.multiSpinGemCostLabel.centerY;
   }
   
   [Globals alignSubviewsToPixelsBoundaries:self.machineImage.superview];
@@ -159,6 +164,7 @@
 
 - (void) viewWillLayoutSubviews {
   self.topBar.coinView.centerX = [self.singleSpinContainer convertPoint:self.singleSpinButton.center toView:self.topBar].x;
+  if ([Globals isSmallestiPhone]) self.topBar.coinView.centerX += 13.f;
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
@@ -272,7 +278,7 @@
   const BOOL regularGrab = (self.boosterPack.boosterPackId == self.badBoosterPack.boosterPackId);
   if (regularGrab) {
     self.multiSpinContainer.hidden = YES;
-    self.singleSpinContainer.centerY = self.multiSpinContainer.centerY;
+    self.singleSpinContainer.centerY = self.multiSpinContainer.centerY - 12;
   } else {
     self.multiSpinContainer.hidden = NO;
     self.singleSpinContainer.centerY = self.multiSpinContainer.centerY - 41;
@@ -302,7 +308,7 @@
   self.singleSpinGemCostView.originX = (self.singleSpinView.centerX - self.singleSpinView.originX) + (regularGrab ? 6 : 3);
   self.singleSpinGemCostView.originY = (self.singleSpinView.height - self.singleSpinGemCostView.height) * .5f - 4;
   
-  self.singleSpinActionLabel.font = [UIFont fontWithName:self.singleSpinActionLabel.font.fontName size:regularGrab ? 13.f : 9.f];
+  self.singleSpinActionLabel.font = [UIFont fontWithName:self.singleSpinActionLabel.font.fontName size:regularGrab ? 11.f : 9.f];
   self.singleSpinActionLabel.width = self.singleSpinButton.width;
   self.singleSpinActionLabel.centerX = self.singleSpinActionLabel.superview.width * .5f;
   self.singleSpinActionLabel.centerY = [self.singleSpinButton.superview convertPoint:self.singleSpinButton.center toView:self.singleSpinActionLabel.superview].y - 3;
@@ -311,8 +317,7 @@
   self.singleSpinGemCostIcon.size = regularGrab ? CGSizeMake(20, 20) : CGSizeMake(14, 14);
   self.singleSpinGemCostIcon.center = CGPointMake(gemCostIconCenter.x, self.singleSpinActionLabel.centerY + 1);
   
-  self.singleSpinGemCostLabel.font = [UIFont fontWithName:self.singleSpinGemCostLabel.font.fontName size:regularGrab ? 13.f : 9.f];
-  [self.singleSpinGemCostLabel sizeToFit];
+  self.singleSpinGemCostLabel.font = [UIFont fontWithName:self.singleSpinGemCostLabel.font.fontName size:regularGrab ? 11.f : 9.f];
   self.singleSpinGemCostLabel.centerY = self.singleSpinActionLabel.centerY + 1;
   self.singleSpinGemCostLabel.originX = CGRectGetMaxX(self.singleSpinGemCostIcon.frame) + 1;
 }
