@@ -184,6 +184,8 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCRefreshMiniJobEvent:
     case EventProtocolRequestCSetTangoIdEvent:
     case EventProtocolRequestCSendTangoGiftEvent:
+    case EventProtocolRequestCDeleteGiftEvent:
+    case EventProtocolRequestCCollectGiftEvent:
     case EventProtocolRequestCCollectClanGiftsEvent:
     case EventProtocolRequestCDeleteClanGiftsEvent:
     case EventProtocolRequestCReceivedClanGiftsEvent:
@@ -317,6 +319,8 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSRefreshMiniJobEvent:
     case EventProtocolResponseSSetTangoIdEvent:
     case EventProtocolResponseSSendTangoGiftEvent:
+    case EventProtocolResponseSDeleteGiftEvent:
+    case EventProtocolResponseSCollectGiftEvent:
     case EventProtocolResponseSCollectClanGiftsEvent:
     case EventProtocolResponseSDeleteClanGiftsEvent:
     case EventProtocolResponseSReceivedClanGiftsEvent:

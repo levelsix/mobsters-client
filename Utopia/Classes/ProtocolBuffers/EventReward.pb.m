@@ -1143,5 +1143,1252 @@ static ReceivedGiftResponseProto* defaultReceivedGiftResponseProtoInstance = nil
 }
 @end
 
+@interface DeleteGiftRequestProto ()
+@property (strong) MinimumUserProto* sender;
+@property (strong) NSMutableArray * mutableExpiredGiftsList;
+@end
+
+@implementation DeleteGiftRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value_ {
+  hasSender_ = !!value_;
+}
+@synthesize sender;
+@synthesize mutableExpiredGiftsList;
+@dynamic expiredGiftsList;
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+  }
+  return self;
+}
+static DeleteGiftRequestProto* defaultDeleteGiftRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [DeleteGiftRequestProto class]) {
+    defaultDeleteGiftRequestProtoInstance = [[DeleteGiftRequestProto alloc] init];
+  }
+}
++ (DeleteGiftRequestProto*) defaultInstance {
+  return defaultDeleteGiftRequestProtoInstance;
+}
+- (DeleteGiftRequestProto*) defaultInstance {
+  return defaultDeleteGiftRequestProtoInstance;
+}
+- (NSArray *)expiredGiftsList {
+  return mutableExpiredGiftsList;
+}
+- (UserGiftProto*)expiredGiftsAtIndex:(NSUInteger)index {
+  return [mutableExpiredGiftsList objectAtIndex:index];
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  [self.expiredGiftsList enumerateObjectsUsingBlock:^(UserGiftProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:2 value:element];
+  }];
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasSender) {
+    size_ += computeMessageSize(1, self.sender);
+  }
+  [self.expiredGiftsList enumerateObjectsUsingBlock:^(UserGiftProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(2, element);
+  }];
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (DeleteGiftRequestProto*) parseFromData:(NSData*) data {
+  return (DeleteGiftRequestProto*)[[[DeleteGiftRequestProto builder] mergeFromData:data] build];
+}
++ (DeleteGiftRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (DeleteGiftRequestProto*)[[[DeleteGiftRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (DeleteGiftRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (DeleteGiftRequestProto*)[[[DeleteGiftRequestProto builder] mergeFromInputStream:input] build];
+}
++ (DeleteGiftRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (DeleteGiftRequestProto*)[[[DeleteGiftRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (DeleteGiftRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (DeleteGiftRequestProto*)[[[DeleteGiftRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (DeleteGiftRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (DeleteGiftRequestProto*)[[[DeleteGiftRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (DeleteGiftRequestProto_Builder*) builder {
+  return [[DeleteGiftRequestProto_Builder alloc] init];
+}
++ (DeleteGiftRequestProto_Builder*) builderWithPrototype:(DeleteGiftRequestProto*) prototype {
+  return [[DeleteGiftRequestProto builder] mergeFrom:prototype];
+}
+- (DeleteGiftRequestProto_Builder*) builder {
+  return [DeleteGiftRequestProto builder];
+}
+- (DeleteGiftRequestProto_Builder*) toBuilder {
+  return [DeleteGiftRequestProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasSender) {
+    [output appendFormat:@"%@%@ {\n", indent, @"sender"];
+    [self.sender writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  [self.expiredGiftsList enumerateObjectsUsingBlock:^(UserGiftProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"expiredGifts"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[DeleteGiftRequestProto class]]) {
+    return NO;
+  }
+  DeleteGiftRequestProto *otherMessage = other;
+  return
+      self.hasSender == otherMessage.hasSender &&
+      (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
+      [self.expiredGiftsList isEqualToArray:otherMessage.expiredGiftsList] &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasSender) {
+    hashCode = hashCode * 31 + [self.sender hash];
+  }
+  [self.expiredGiftsList enumerateObjectsUsingBlock:^(UserGiftProto *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+@interface DeleteGiftRequestProto_Builder()
+@property (strong) DeleteGiftRequestProto* result;
+@end
+
+@implementation DeleteGiftRequestProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[DeleteGiftRequestProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (DeleteGiftRequestProto_Builder*) clear {
+  self.result = [[DeleteGiftRequestProto alloc] init];
+  return self;
+}
+- (DeleteGiftRequestProto_Builder*) clone {
+  return [DeleteGiftRequestProto builderWithPrototype:result];
+}
+- (DeleteGiftRequestProto*) defaultInstance {
+  return [DeleteGiftRequestProto defaultInstance];
+}
+- (DeleteGiftRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (DeleteGiftRequestProto*) buildPartial {
+  DeleteGiftRequestProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (DeleteGiftRequestProto_Builder*) mergeFrom:(DeleteGiftRequestProto*) other {
+  if (other == [DeleteGiftRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.mutableExpiredGiftsList.count > 0) {
+    if (result.mutableExpiredGiftsList == nil) {
+      result.mutableExpiredGiftsList = [[NSMutableArray alloc] initWithArray:other.mutableExpiredGiftsList];
+    } else {
+      [result.mutableExpiredGiftsList addObjectsFromArray:other.mutableExpiredGiftsList];
+    }
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (DeleteGiftRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (DeleteGiftRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        UserGiftProto_Builder* subBuilder = [UserGiftProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addExpiredGifts:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (DeleteGiftRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (DeleteGiftRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (DeleteGiftRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (DeleteGiftRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (NSMutableArray *)expiredGiftsList {
+  return result.mutableExpiredGiftsList;
+}
+- (UserGiftProto*)expiredGiftsAtIndex:(NSUInteger)index {
+  return [result expiredGiftsAtIndex:index];
+}
+- (DeleteGiftRequestProto_Builder *)addExpiredGifts:(UserGiftProto*)value {
+  if (result.mutableExpiredGiftsList == nil) {
+    result.mutableExpiredGiftsList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableExpiredGiftsList addObject:value];
+  return self;
+}
+- (DeleteGiftRequestProto_Builder *)addAllExpiredGifts:(NSArray *)array {
+  if (result.mutableExpiredGiftsList == nil) {
+    result.mutableExpiredGiftsList = [NSMutableArray array];
+  }
+  [result.mutableExpiredGiftsList addObjectsFromArray:array];
+  return self;
+}
+- (DeleteGiftRequestProto_Builder *)clearExpiredGifts {
+  result.mutableExpiredGiftsList = nil;
+  return self;
+}
+@end
+
+@interface DeleteGiftResponseProto ()
+@property (strong) MinimumUserProto* sender;
+@property DeleteGiftResponseProto_DeleteGiftStatus status;
+@end
+
+@implementation DeleteGiftResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value_ {
+  hasSender_ = !!value_;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value_ {
+  hasStatus_ = !!value_;
+}
+@synthesize status;
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = DeleteGiftResponseProto_DeleteGiftStatusSuccess;
+  }
+  return self;
+}
+static DeleteGiftResponseProto* defaultDeleteGiftResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [DeleteGiftResponseProto class]) {
+    defaultDeleteGiftResponseProtoInstance = [[DeleteGiftResponseProto alloc] init];
+  }
+}
++ (DeleteGiftResponseProto*) defaultInstance {
+  return defaultDeleteGiftResponseProtoInstance;
+}
+- (DeleteGiftResponseProto*) defaultInstance {
+  return defaultDeleteGiftResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasSender) {
+    size_ += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size_ += computeEnumSize(2, self.status);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (DeleteGiftResponseProto*) parseFromData:(NSData*) data {
+  return (DeleteGiftResponseProto*)[[[DeleteGiftResponseProto builder] mergeFromData:data] build];
+}
++ (DeleteGiftResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (DeleteGiftResponseProto*)[[[DeleteGiftResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (DeleteGiftResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (DeleteGiftResponseProto*)[[[DeleteGiftResponseProto builder] mergeFromInputStream:input] build];
+}
++ (DeleteGiftResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (DeleteGiftResponseProto*)[[[DeleteGiftResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (DeleteGiftResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (DeleteGiftResponseProto*)[[[DeleteGiftResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (DeleteGiftResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (DeleteGiftResponseProto*)[[[DeleteGiftResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (DeleteGiftResponseProto_Builder*) builder {
+  return [[DeleteGiftResponseProto_Builder alloc] init];
+}
++ (DeleteGiftResponseProto_Builder*) builderWithPrototype:(DeleteGiftResponseProto*) prototype {
+  return [[DeleteGiftResponseProto builder] mergeFrom:prototype];
+}
+- (DeleteGiftResponseProto_Builder*) builder {
+  return [DeleteGiftResponseProto builder];
+}
+- (DeleteGiftResponseProto_Builder*) toBuilder {
+  return [DeleteGiftResponseProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasSender) {
+    [output appendFormat:@"%@%@ {\n", indent, @"sender"];
+    [self.sender writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  if (self.hasStatus) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[DeleteGiftResponseProto class]]) {
+    return NO;
+  }
+  DeleteGiftResponseProto *otherMessage = other;
+  return
+      self.hasSender == otherMessage.hasSender &&
+      (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
+      self.hasStatus == otherMessage.hasStatus &&
+      (!self.hasStatus || self.status == otherMessage.status) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasSender) {
+    hashCode = hashCode * 31 + [self.sender hash];
+  }
+  if (self.hasStatus) {
+    hashCode = hashCode * 31 + self.status;
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+BOOL DeleteGiftResponseProto_DeleteGiftStatusIsValidValue(DeleteGiftResponseProto_DeleteGiftStatus value) {
+  switch (value) {
+    case DeleteGiftResponseProto_DeleteGiftStatusSuccess:
+    case DeleteGiftResponseProto_DeleteGiftStatusFailOther:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface DeleteGiftResponseProto_Builder()
+@property (strong) DeleteGiftResponseProto* result;
+@end
+
+@implementation DeleteGiftResponseProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[DeleteGiftResponseProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (DeleteGiftResponseProto_Builder*) clear {
+  self.result = [[DeleteGiftResponseProto alloc] init];
+  return self;
+}
+- (DeleteGiftResponseProto_Builder*) clone {
+  return [DeleteGiftResponseProto builderWithPrototype:result];
+}
+- (DeleteGiftResponseProto*) defaultInstance {
+  return [DeleteGiftResponseProto defaultInstance];
+}
+- (DeleteGiftResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (DeleteGiftResponseProto*) buildPartial {
+  DeleteGiftResponseProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (DeleteGiftResponseProto_Builder*) mergeFrom:(DeleteGiftResponseProto*) other {
+  if (other == [DeleteGiftResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (DeleteGiftResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (DeleteGiftResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        DeleteGiftResponseProto_DeleteGiftStatus value = (DeleteGiftResponseProto_DeleteGiftStatus)[input readEnum];
+        if (DeleteGiftResponseProto_DeleteGiftStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (DeleteGiftResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (DeleteGiftResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (DeleteGiftResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (DeleteGiftResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (DeleteGiftResponseProto_DeleteGiftStatus) status {
+  return result.status;
+}
+- (DeleteGiftResponseProto_Builder*) setStatus:(DeleteGiftResponseProto_DeleteGiftStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (DeleteGiftResponseProto_Builder*) clearStatusList {
+  result.hasStatus = NO;
+  result.status = DeleteGiftResponseProto_DeleteGiftStatusSuccess;
+  return self;
+}
+@end
+
+@interface CollectGiftRequestProto ()
+@property (strong) MinimumUserProtoWithMaxResources* sender;
+@property int64_t clientTime;
+@property (strong) NSMutableArray * mutableUgUuidsList;
+@end
+
+@implementation CollectGiftRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value_ {
+  hasSender_ = !!value_;
+}
+@synthesize sender;
+- (BOOL) hasClientTime {
+  return !!hasClientTime_;
+}
+- (void) setHasClientTime:(BOOL) value_ {
+  hasClientTime_ = !!value_;
+}
+@synthesize clientTime;
+@synthesize mutableUgUuidsList;
+@dynamic ugUuidsList;
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProtoWithMaxResources defaultInstance];
+    self.clientTime = 0L;
+  }
+  return self;
+}
+static CollectGiftRequestProto* defaultCollectGiftRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [CollectGiftRequestProto class]) {
+    defaultCollectGiftRequestProtoInstance = [[CollectGiftRequestProto alloc] init];
+  }
+}
++ (CollectGiftRequestProto*) defaultInstance {
+  return defaultCollectGiftRequestProtoInstance;
+}
+- (CollectGiftRequestProto*) defaultInstance {
+  return defaultCollectGiftRequestProtoInstance;
+}
+- (NSArray *)ugUuidsList {
+  return mutableUgUuidsList;
+}
+- (NSString*)ugUuidsAtIndex:(NSUInteger)index {
+  return [mutableUgUuidsList objectAtIndex:index];
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasClientTime) {
+    [output writeInt64:2 value:self.clientTime];
+  }
+  [self.ugUuidsList enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+    [output writeString:3 value:element];
+  }];
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasSender) {
+    size_ += computeMessageSize(1, self.sender);
+  }
+  if (self.hasClientTime) {
+    size_ += computeInt64Size(2, self.clientTime);
+  }
+  {
+    __block SInt32 dataSize = 0;
+    const NSUInteger count = self.ugUuidsList.count;
+    [self.ugUuidsList enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+      dataSize += computeStringSizeNoTag(element);
+    }];
+    size_ += dataSize;
+    size_ += (SInt32)(1 * count);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (CollectGiftRequestProto*) parseFromData:(NSData*) data {
+  return (CollectGiftRequestProto*)[[[CollectGiftRequestProto builder] mergeFromData:data] build];
+}
++ (CollectGiftRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CollectGiftRequestProto*)[[[CollectGiftRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (CollectGiftRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (CollectGiftRequestProto*)[[[CollectGiftRequestProto builder] mergeFromInputStream:input] build];
+}
++ (CollectGiftRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CollectGiftRequestProto*)[[[CollectGiftRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (CollectGiftRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (CollectGiftRequestProto*)[[[CollectGiftRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (CollectGiftRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CollectGiftRequestProto*)[[[CollectGiftRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (CollectGiftRequestProto_Builder*) builder {
+  return [[CollectGiftRequestProto_Builder alloc] init];
+}
++ (CollectGiftRequestProto_Builder*) builderWithPrototype:(CollectGiftRequestProto*) prototype {
+  return [[CollectGiftRequestProto builder] mergeFrom:prototype];
+}
+- (CollectGiftRequestProto_Builder*) builder {
+  return [CollectGiftRequestProto builder];
+}
+- (CollectGiftRequestProto_Builder*) toBuilder {
+  return [CollectGiftRequestProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasSender) {
+    [output appendFormat:@"%@%@ {\n", indent, @"sender"];
+    [self.sender writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  if (self.hasClientTime) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"clientTime", [NSNumber numberWithLongLong:self.clientTime]];
+  }
+  [self.ugUuidsList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"ugUuids", obj];
+  }];
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[CollectGiftRequestProto class]]) {
+    return NO;
+  }
+  CollectGiftRequestProto *otherMessage = other;
+  return
+      self.hasSender == otherMessage.hasSender &&
+      (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
+      self.hasClientTime == otherMessage.hasClientTime &&
+      (!self.hasClientTime || self.clientTime == otherMessage.clientTime) &&
+      [self.ugUuidsList isEqualToArray:otherMessage.ugUuidsList] &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasSender) {
+    hashCode = hashCode * 31 + [self.sender hash];
+  }
+  if (self.hasClientTime) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.clientTime] hash];
+  }
+  [self.ugUuidsList enumerateObjectsUsingBlock:^(id element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+@interface CollectGiftRequestProto_Builder()
+@property (strong) CollectGiftRequestProto* result;
+@end
+
+@implementation CollectGiftRequestProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[CollectGiftRequestProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (CollectGiftRequestProto_Builder*) clear {
+  self.result = [[CollectGiftRequestProto alloc] init];
+  return self;
+}
+- (CollectGiftRequestProto_Builder*) clone {
+  return [CollectGiftRequestProto builderWithPrototype:result];
+}
+- (CollectGiftRequestProto*) defaultInstance {
+  return [CollectGiftRequestProto defaultInstance];
+}
+- (CollectGiftRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (CollectGiftRequestProto*) buildPartial {
+  CollectGiftRequestProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (CollectGiftRequestProto_Builder*) mergeFrom:(CollectGiftRequestProto*) other {
+  if (other == [CollectGiftRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasClientTime) {
+    [self setClientTime:other.clientTime];
+  }
+  if (other.mutableUgUuidsList.count > 0) {
+    if (result.mutableUgUuidsList == nil) {
+      result.mutableUgUuidsList = [[NSMutableArray alloc] initWithArray:other.mutableUgUuidsList];
+    } else {
+      [result.mutableUgUuidsList addObjectsFromArray:other.mutableUgUuidsList];
+    }
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (CollectGiftRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (CollectGiftRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProtoWithMaxResources_Builder* subBuilder = [MinimumUserProtoWithMaxResources builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setClientTime:[input readInt64]];
+        break;
+      }
+      case 26: {
+        [self addUgUuids:[input readString]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProtoWithMaxResources*) sender {
+  return result.sender;
+}
+- (CollectGiftRequestProto_Builder*) setSender:(MinimumUserProtoWithMaxResources*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (CollectGiftRequestProto_Builder*) setSender_Builder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (CollectGiftRequestProto_Builder*) mergeSender:(MinimumUserProtoWithMaxResources*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProtoWithMaxResources defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProtoWithMaxResources builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (CollectGiftRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProtoWithMaxResources defaultInstance];
+  return self;
+}
+- (BOOL) hasClientTime {
+  return result.hasClientTime;
+}
+- (int64_t) clientTime {
+  return result.clientTime;
+}
+- (CollectGiftRequestProto_Builder*) setClientTime:(int64_t) value {
+  result.hasClientTime = YES;
+  result.clientTime = value;
+  return self;
+}
+- (CollectGiftRequestProto_Builder*) clearClientTime {
+  result.hasClientTime = NO;
+  result.clientTime = 0L;
+  return self;
+}
+- (NSMutableArray *)ugUuidsList {
+  return result.mutableUgUuidsList;
+}
+- (NSString*)ugUuidsAtIndex:(NSUInteger)index {
+  return [result ugUuidsAtIndex:index];
+}
+- (CollectGiftRequestProto_Builder *)addUgUuids:(NSString*)value {
+  if (result.mutableUgUuidsList == nil) {
+    result.mutableUgUuidsList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableUgUuidsList addObject:value];
+  return self;
+}
+- (CollectGiftRequestProto_Builder *)addAllUgUuids:(NSArray *)array {
+  if (result.mutableUgUuidsList == nil) {
+    result.mutableUgUuidsList = [NSMutableArray array];
+  }
+  [result.mutableUgUuidsList addObjectsFromArray:array];
+  return self;
+}
+- (CollectGiftRequestProto_Builder *)clearUgUuids {
+  result.mutableUgUuidsList = nil;
+  return self;
+}
+@end
+
+@interface CollectGiftResponseProto ()
+@property (strong) MinimumUserProtoWithMaxResources* sender;
+@property (strong) UserRewardProto* reward;
+@property CollectGiftResponseProto_CollectGiftStatus status;
+@end
+
+@implementation CollectGiftResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value_ {
+  hasSender_ = !!value_;
+}
+@synthesize sender;
+- (BOOL) hasReward {
+  return !!hasReward_;
+}
+- (void) setHasReward:(BOOL) value_ {
+  hasReward_ = !!value_;
+}
+@synthesize reward;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value_ {
+  hasStatus_ = !!value_;
+}
+@synthesize status;
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProtoWithMaxResources defaultInstance];
+    self.reward = [UserRewardProto defaultInstance];
+    self.status = CollectGiftResponseProto_CollectGiftStatusSuccess;
+  }
+  return self;
+}
+static CollectGiftResponseProto* defaultCollectGiftResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [CollectGiftResponseProto class]) {
+    defaultCollectGiftResponseProtoInstance = [[CollectGiftResponseProto alloc] init];
+  }
+}
++ (CollectGiftResponseProto*) defaultInstance {
+  return defaultCollectGiftResponseProtoInstance;
+}
+- (CollectGiftResponseProto*) defaultInstance {
+  return defaultCollectGiftResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasReward) {
+    [output writeMessage:2 value:self.reward];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:3 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasSender) {
+    size_ += computeMessageSize(1, self.sender);
+  }
+  if (self.hasReward) {
+    size_ += computeMessageSize(2, self.reward);
+  }
+  if (self.hasStatus) {
+    size_ += computeEnumSize(3, self.status);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (CollectGiftResponseProto*) parseFromData:(NSData*) data {
+  return (CollectGiftResponseProto*)[[[CollectGiftResponseProto builder] mergeFromData:data] build];
+}
++ (CollectGiftResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CollectGiftResponseProto*)[[[CollectGiftResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (CollectGiftResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (CollectGiftResponseProto*)[[[CollectGiftResponseProto builder] mergeFromInputStream:input] build];
+}
++ (CollectGiftResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CollectGiftResponseProto*)[[[CollectGiftResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (CollectGiftResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (CollectGiftResponseProto*)[[[CollectGiftResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (CollectGiftResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CollectGiftResponseProto*)[[[CollectGiftResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (CollectGiftResponseProto_Builder*) builder {
+  return [[CollectGiftResponseProto_Builder alloc] init];
+}
++ (CollectGiftResponseProto_Builder*) builderWithPrototype:(CollectGiftResponseProto*) prototype {
+  return [[CollectGiftResponseProto builder] mergeFrom:prototype];
+}
+- (CollectGiftResponseProto_Builder*) builder {
+  return [CollectGiftResponseProto builder];
+}
+- (CollectGiftResponseProto_Builder*) toBuilder {
+  return [CollectGiftResponseProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasSender) {
+    [output appendFormat:@"%@%@ {\n", indent, @"sender"];
+    [self.sender writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  if (self.hasReward) {
+    [output appendFormat:@"%@%@ {\n", indent, @"reward"];
+    [self.reward writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  if (self.hasStatus) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[CollectGiftResponseProto class]]) {
+    return NO;
+  }
+  CollectGiftResponseProto *otherMessage = other;
+  return
+      self.hasSender == otherMessage.hasSender &&
+      (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
+      self.hasReward == otherMessage.hasReward &&
+      (!self.hasReward || [self.reward isEqual:otherMessage.reward]) &&
+      self.hasStatus == otherMessage.hasStatus &&
+      (!self.hasStatus || self.status == otherMessage.status) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasSender) {
+    hashCode = hashCode * 31 + [self.sender hash];
+  }
+  if (self.hasReward) {
+    hashCode = hashCode * 31 + [self.reward hash];
+  }
+  if (self.hasStatus) {
+    hashCode = hashCode * 31 + self.status;
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+BOOL CollectGiftResponseProto_CollectGiftStatusIsValidValue(CollectGiftResponseProto_CollectGiftStatus value) {
+  switch (value) {
+    case CollectGiftResponseProto_CollectGiftStatusSuccess:
+    case CollectGiftResponseProto_CollectGiftStatusFailOther:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface CollectGiftResponseProto_Builder()
+@property (strong) CollectGiftResponseProto* result;
+@end
+
+@implementation CollectGiftResponseProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[CollectGiftResponseProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (CollectGiftResponseProto_Builder*) clear {
+  self.result = [[CollectGiftResponseProto alloc] init];
+  return self;
+}
+- (CollectGiftResponseProto_Builder*) clone {
+  return [CollectGiftResponseProto builderWithPrototype:result];
+}
+- (CollectGiftResponseProto*) defaultInstance {
+  return [CollectGiftResponseProto defaultInstance];
+}
+- (CollectGiftResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (CollectGiftResponseProto*) buildPartial {
+  CollectGiftResponseProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (CollectGiftResponseProto_Builder*) mergeFrom:(CollectGiftResponseProto*) other {
+  if (other == [CollectGiftResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasReward) {
+    [self mergeReward:other.reward];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (CollectGiftResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (CollectGiftResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProtoWithMaxResources_Builder* subBuilder = [MinimumUserProtoWithMaxResources builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        UserRewardProto_Builder* subBuilder = [UserRewardProto builder];
+        if (self.hasReward) {
+          [subBuilder mergeFrom:self.reward];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setReward:[subBuilder buildPartial]];
+        break;
+      }
+      case 24: {
+        CollectGiftResponseProto_CollectGiftStatus value = (CollectGiftResponseProto_CollectGiftStatus)[input readEnum];
+        if (CollectGiftResponseProto_CollectGiftStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:3 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProtoWithMaxResources*) sender {
+  return result.sender;
+}
+- (CollectGiftResponseProto_Builder*) setSender:(MinimumUserProtoWithMaxResources*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (CollectGiftResponseProto_Builder*) setSender_Builder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (CollectGiftResponseProto_Builder*) mergeSender:(MinimumUserProtoWithMaxResources*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProtoWithMaxResources defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProtoWithMaxResources builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (CollectGiftResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProtoWithMaxResources defaultInstance];
+  return self;
+}
+- (BOOL) hasReward {
+  return result.hasReward;
+}
+- (UserRewardProto*) reward {
+  return result.reward;
+}
+- (CollectGiftResponseProto_Builder*) setReward:(UserRewardProto*) value {
+  result.hasReward = YES;
+  result.reward = value;
+  return self;
+}
+- (CollectGiftResponseProto_Builder*) setReward_Builder:(UserRewardProto_Builder*) builderForValue {
+  return [self setReward:[builderForValue build]];
+}
+- (CollectGiftResponseProto_Builder*) mergeReward:(UserRewardProto*) value {
+  if (result.hasReward &&
+      result.reward != [UserRewardProto defaultInstance]) {
+    result.reward =
+      [[[UserRewardProto builderWithPrototype:result.reward] mergeFrom:value] buildPartial];
+  } else {
+    result.reward = value;
+  }
+  result.hasReward = YES;
+  return self;
+}
+- (CollectGiftResponseProto_Builder*) clearReward {
+  result.hasReward = NO;
+  result.reward = [UserRewardProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (CollectGiftResponseProto_CollectGiftStatus) status {
+  return result.status;
+}
+- (CollectGiftResponseProto_Builder*) setStatus:(CollectGiftResponseProto_CollectGiftStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (CollectGiftResponseProto_Builder*) clearStatusList {
+  result.hasStatus = NO;
+  result.status = CollectGiftResponseProto_CollectGiftStatusSuccess;
+  return self;
+}
+@end
+
 
 // @@protoc_insertion_point(global_scope)

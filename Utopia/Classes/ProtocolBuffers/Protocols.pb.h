@@ -169,6 +169,10 @@
 @class CollectClanGiftsRequestProto_Builder;
 @class CollectClanGiftsResponseProto;
 @class CollectClanGiftsResponseProto_Builder;
+@class CollectGiftRequestProto;
+@class CollectGiftRequestProto_Builder;
+@class CollectGiftResponseProto;
+@class CollectGiftResponseProto_Builder;
 @class CollectMonsterEnhancementRequestProto;
 @class CollectMonsterEnhancementRequestProto_Builder;
 @class CollectMonsterEnhancementResponseProto;
@@ -209,6 +213,10 @@
 @class DeleteClanGiftsRequestProto_Builder;
 @class DeleteClanGiftsResponseProto;
 @class DeleteClanGiftsResponseProto_Builder;
+@class DeleteGiftRequestProto;
+@class DeleteGiftRequestProto_Builder;
+@class DeleteGiftResponseProto;
+@class DeleteGiftResponseProto_Builder;
 @class DestroyMoneyTreeStructureRequestProto;
 @class DestroyMoneyTreeStructureRequestProto_Builder;
 @class DestroyMoneyTreeStructureResponseProto;
@@ -987,6 +995,8 @@ typedef NS_ENUM(SInt32, EventProtocolRequest) {
   EventProtocolRequestCRefreshMiniJobEvent = 212,
   EventProtocolRequestCSetTangoIdEvent = 213,
   EventProtocolRequestCSendTangoGiftEvent = 214,
+  EventProtocolRequestCDeleteGiftEvent = 215,
+  EventProtocolRequestCCollectGiftEvent = 216,
   EventProtocolRequestCCollectClanGiftsEvent = 500,
   EventProtocolRequestCDeleteClanGiftsEvent = 501,
   EventProtocolRequestCReceivedClanGiftsEvent = 502,
@@ -1118,6 +1128,8 @@ typedef NS_ENUM(SInt32, EventProtocolResponse) {
   EventProtocolResponseSRefreshMiniJobEvent = 212,
   EventProtocolResponseSSetTangoIdEvent = 213,
   EventProtocolResponseSSendTangoGiftEvent = 214,
+  EventProtocolResponseSDeleteGiftEvent = 215,
+  EventProtocolResponseSCollectGiftEvent = 216,
   EventProtocolResponseSCollectClanGiftsEvent = 500,
   EventProtocolResponseSDeleteClanGiftsEvent = 501,
   EventProtocolResponseSReceivedClanGiftsEvent = 502,

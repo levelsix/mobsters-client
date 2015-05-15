@@ -11,10 +11,18 @@
 @class ClanGiftProto_Builder;
 @class ClanMemberTeamDonationProto;
 @class ClanMemberTeamDonationProto_Builder;
+@class CollectGiftRequestProto;
+@class CollectGiftRequestProto_Builder;
+@class CollectGiftResponseProto;
+@class CollectGiftResponseProto_Builder;
 @class ColorProto;
 @class ColorProto_Builder;
 @class DefaultLanguagesProto;
 @class DefaultLanguagesProto_Builder;
+@class DeleteGiftRequestProto;
+@class DeleteGiftRequestProto_Builder;
+@class DeleteGiftResponseProto;
+@class DeleteGiftResponseProto_Builder;
 @class FullUserMonsterProto;
 @class FullUserMonsterProto_Builder;
 @class FullUserProto;
@@ -115,6 +123,20 @@ typedef NS_ENUM(SInt32, SendTangoGiftResponseProto_SendTangoGiftStatus) {
 };
 
 BOOL SendTangoGiftResponseProto_SendTangoGiftStatusIsValidValue(SendTangoGiftResponseProto_SendTangoGiftStatus value);
+
+typedef NS_ENUM(SInt32, DeleteGiftResponseProto_DeleteGiftStatus) {
+  DeleteGiftResponseProto_DeleteGiftStatusSuccess = 1,
+  DeleteGiftResponseProto_DeleteGiftStatusFailOther = 2,
+};
+
+BOOL DeleteGiftResponseProto_DeleteGiftStatusIsValidValue(DeleteGiftResponseProto_DeleteGiftStatus value);
+
+typedef NS_ENUM(SInt32, CollectGiftResponseProto_CollectGiftStatus) {
+  CollectGiftResponseProto_CollectGiftStatusSuccess = 1,
+  CollectGiftResponseProto_CollectGiftStatusFailOther = 2,
+};
+
+BOOL CollectGiftResponseProto_CollectGiftStatusIsValidValue(CollectGiftResponseProto_CollectGiftStatus value);
 
 
 @interface EventRewardRoot : NSObject {
@@ -346,6 +368,266 @@ BOOL SendTangoGiftResponseProto_SendTangoGiftStatusIsValidValue(SendTangoGiftRes
 - (ReceivedGiftResponseProto_Builder *)addUserGifts:(UserGiftProto*)value;
 - (ReceivedGiftResponseProto_Builder *)addAllUserGifts:(NSArray *)array;
 - (ReceivedGiftResponseProto_Builder *)clearUserGifts;
+@end
+
+@interface DeleteGiftRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  MinimumUserProto* sender;
+  NSMutableArray * mutableExpiredGiftsList;
+}
+- (BOOL) hasSender;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) NSArray * expiredGiftsList;
+- (UserGiftProto*)expiredGiftsAtIndex:(NSUInteger)index;
+
++ (DeleteGiftRequestProto*) defaultInstance;
+- (DeleteGiftRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (DeleteGiftRequestProto_Builder*) builder;
++ (DeleteGiftRequestProto_Builder*) builder;
++ (DeleteGiftRequestProto_Builder*) builderWithPrototype:(DeleteGiftRequestProto*) prototype;
+- (DeleteGiftRequestProto_Builder*) toBuilder;
+
++ (DeleteGiftRequestProto*) parseFromData:(NSData*) data;
++ (DeleteGiftRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (DeleteGiftRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (DeleteGiftRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (DeleteGiftRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (DeleteGiftRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface DeleteGiftRequestProto_Builder : PBGeneratedMessageBuilder {
+@private
+  DeleteGiftRequestProto* result;
+}
+
+- (DeleteGiftRequestProto*) defaultInstance;
+
+- (DeleteGiftRequestProto_Builder*) clear;
+- (DeleteGiftRequestProto_Builder*) clone;
+
+- (DeleteGiftRequestProto*) build;
+- (DeleteGiftRequestProto*) buildPartial;
+
+- (DeleteGiftRequestProto_Builder*) mergeFrom:(DeleteGiftRequestProto*) other;
+- (DeleteGiftRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (DeleteGiftRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (DeleteGiftRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (DeleteGiftRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (DeleteGiftRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (DeleteGiftRequestProto_Builder*) clearSender;
+
+- (NSMutableArray *)expiredGiftsList;
+- (UserGiftProto*)expiredGiftsAtIndex:(NSUInteger)index;
+- (DeleteGiftRequestProto_Builder *)addExpiredGifts:(UserGiftProto*)value;
+- (DeleteGiftRequestProto_Builder *)addAllExpiredGifts:(NSArray *)array;
+- (DeleteGiftRequestProto_Builder *)clearExpiredGifts;
+@end
+
+@interface DeleteGiftResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  DeleteGiftResponseProto_DeleteGiftStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly) DeleteGiftResponseProto_DeleteGiftStatus status;
+
++ (DeleteGiftResponseProto*) defaultInstance;
+- (DeleteGiftResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (DeleteGiftResponseProto_Builder*) builder;
++ (DeleteGiftResponseProto_Builder*) builder;
++ (DeleteGiftResponseProto_Builder*) builderWithPrototype:(DeleteGiftResponseProto*) prototype;
+- (DeleteGiftResponseProto_Builder*) toBuilder;
+
++ (DeleteGiftResponseProto*) parseFromData:(NSData*) data;
++ (DeleteGiftResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (DeleteGiftResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (DeleteGiftResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (DeleteGiftResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (DeleteGiftResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface DeleteGiftResponseProto_Builder : PBGeneratedMessageBuilder {
+@private
+  DeleteGiftResponseProto* result;
+}
+
+- (DeleteGiftResponseProto*) defaultInstance;
+
+- (DeleteGiftResponseProto_Builder*) clear;
+- (DeleteGiftResponseProto_Builder*) clone;
+
+- (DeleteGiftResponseProto*) build;
+- (DeleteGiftResponseProto*) buildPartial;
+
+- (DeleteGiftResponseProto_Builder*) mergeFrom:(DeleteGiftResponseProto*) other;
+- (DeleteGiftResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (DeleteGiftResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (DeleteGiftResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (DeleteGiftResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (DeleteGiftResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (DeleteGiftResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (DeleteGiftResponseProto_DeleteGiftStatus) status;
+- (DeleteGiftResponseProto_Builder*) setStatus:(DeleteGiftResponseProto_DeleteGiftStatus) value;
+- (DeleteGiftResponseProto_Builder*) clearStatusList;
+@end
+
+@interface CollectGiftRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasClientTime_:1;
+  BOOL hasSender_:1;
+  int64_t clientTime;
+  MinimumUserProtoWithMaxResources* sender;
+  NSMutableArray * mutableUgUuidsList;
+}
+- (BOOL) hasSender;
+- (BOOL) hasClientTime;
+@property (readonly, strong) MinimumUserProtoWithMaxResources* sender;
+@property (readonly) int64_t clientTime;
+@property (readonly, strong) NSArray * ugUuidsList;
+- (NSString*)ugUuidsAtIndex:(NSUInteger)index;
+
++ (CollectGiftRequestProto*) defaultInstance;
+- (CollectGiftRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (CollectGiftRequestProto_Builder*) builder;
++ (CollectGiftRequestProto_Builder*) builder;
++ (CollectGiftRequestProto_Builder*) builderWithPrototype:(CollectGiftRequestProto*) prototype;
+- (CollectGiftRequestProto_Builder*) toBuilder;
+
++ (CollectGiftRequestProto*) parseFromData:(NSData*) data;
++ (CollectGiftRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (CollectGiftRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (CollectGiftRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (CollectGiftRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (CollectGiftRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface CollectGiftRequestProto_Builder : PBGeneratedMessageBuilder {
+@private
+  CollectGiftRequestProto* result;
+}
+
+- (CollectGiftRequestProto*) defaultInstance;
+
+- (CollectGiftRequestProto_Builder*) clear;
+- (CollectGiftRequestProto_Builder*) clone;
+
+- (CollectGiftRequestProto*) build;
+- (CollectGiftRequestProto*) buildPartial;
+
+- (CollectGiftRequestProto_Builder*) mergeFrom:(CollectGiftRequestProto*) other;
+- (CollectGiftRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (CollectGiftRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProtoWithMaxResources*) sender;
+- (CollectGiftRequestProto_Builder*) setSender:(MinimumUserProtoWithMaxResources*) value;
+- (CollectGiftRequestProto_Builder*) setSender_Builder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue;
+- (CollectGiftRequestProto_Builder*) mergeSender:(MinimumUserProtoWithMaxResources*) value;
+- (CollectGiftRequestProto_Builder*) clearSender;
+
+- (BOOL) hasClientTime;
+- (int64_t) clientTime;
+- (CollectGiftRequestProto_Builder*) setClientTime:(int64_t) value;
+- (CollectGiftRequestProto_Builder*) clearClientTime;
+
+- (NSMutableArray *)ugUuidsList;
+- (NSString*)ugUuidsAtIndex:(NSUInteger)index;
+- (CollectGiftRequestProto_Builder *)addUgUuids:(NSString*)value;
+- (CollectGiftRequestProto_Builder *)addAllUgUuids:(NSArray *)array;
+- (CollectGiftRequestProto_Builder *)clearUgUuids;
+@end
+
+@interface CollectGiftResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasReward_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProtoWithMaxResources* sender;
+  UserRewardProto* reward;
+  CollectGiftResponseProto_CollectGiftStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasReward;
+- (BOOL) hasStatus;
+@property (readonly, strong) MinimumUserProtoWithMaxResources* sender;
+@property (readonly, strong) UserRewardProto* reward;
+@property (readonly) CollectGiftResponseProto_CollectGiftStatus status;
+
++ (CollectGiftResponseProto*) defaultInstance;
+- (CollectGiftResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (CollectGiftResponseProto_Builder*) builder;
++ (CollectGiftResponseProto_Builder*) builder;
++ (CollectGiftResponseProto_Builder*) builderWithPrototype:(CollectGiftResponseProto*) prototype;
+- (CollectGiftResponseProto_Builder*) toBuilder;
+
++ (CollectGiftResponseProto*) parseFromData:(NSData*) data;
++ (CollectGiftResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (CollectGiftResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (CollectGiftResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (CollectGiftResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (CollectGiftResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface CollectGiftResponseProto_Builder : PBGeneratedMessageBuilder {
+@private
+  CollectGiftResponseProto* result;
+}
+
+- (CollectGiftResponseProto*) defaultInstance;
+
+- (CollectGiftResponseProto_Builder*) clear;
+- (CollectGiftResponseProto_Builder*) clone;
+
+- (CollectGiftResponseProto*) build;
+- (CollectGiftResponseProto*) buildPartial;
+
+- (CollectGiftResponseProto_Builder*) mergeFrom:(CollectGiftResponseProto*) other;
+- (CollectGiftResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (CollectGiftResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProtoWithMaxResources*) sender;
+- (CollectGiftResponseProto_Builder*) setSender:(MinimumUserProtoWithMaxResources*) value;
+- (CollectGiftResponseProto_Builder*) setSender_Builder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue;
+- (CollectGiftResponseProto_Builder*) mergeSender:(MinimumUserProtoWithMaxResources*) value;
+- (CollectGiftResponseProto_Builder*) clearSender;
+
+- (BOOL) hasReward;
+- (UserRewardProto*) reward;
+- (CollectGiftResponseProto_Builder*) setReward:(UserRewardProto*) value;
+- (CollectGiftResponseProto_Builder*) setReward_Builder:(UserRewardProto_Builder*) builderForValue;
+- (CollectGiftResponseProto_Builder*) mergeReward:(UserRewardProto*) value;
+- (CollectGiftResponseProto_Builder*) clearReward;
+
+- (BOOL) hasStatus;
+- (CollectGiftResponseProto_CollectGiftStatus) status;
+- (CollectGiftResponseProto_Builder*) setStatus:(CollectGiftResponseProto_CollectGiftStatus) value;
+- (CollectGiftResponseProto_Builder*) clearStatusList;
 @end
 
 
