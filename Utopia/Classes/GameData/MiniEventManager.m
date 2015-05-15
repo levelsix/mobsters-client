@@ -437,18 +437,22 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(MiniEventManager)
   [self handleUserProgressOnMiniEventGoal:MiniEventGoalProto_MiniEventGoalTypeClanDonate withAmount:1];
 }
 
-- (void) checkBoosterPack:(int)boosterPackId {
+- (void) checkBoosterPack:(int)boosterPackId multiSpin:(BOOL)multiSpin {
   GameState *gs = [GameState sharedGameState];
   
   for (int i = 0; i < gs.boosterPacks.count; i++) {
     BoosterPackProto *bpp = gs.boosterPacks[i];
     
     if (bpp.boosterPackId == boosterPackId) {
-      // Right now, Basic Grab is index 0 and Ultimate Grab is index 1
-      if (i == 0) {
-        [self handleUserProgressOnMiniEventGoal:MiniEventGoalProto_MiniEventGoalTypeSpinBasicGrab withAmount:1];
-      } else if (i == 1) {
-        [self handleUserProgressOnMiniEventGoal:MiniEventGoalProto_MiniEventGoalTypeSpinUltimateGrab withAmount:1];
+      if (multiSpin) {
+        [self handleUserProgressOnMiniEventGoal:MiniEventGoalProto_MiniEventGoalTypeSpinMulti withAmount:1];
+      } else {
+        // Right now, Basic Grab is index 0 and Ultimate Grab is index 1
+        if (i == 0) {
+          [self handleUserProgressOnMiniEventGoal:MiniEventGoalProto_MiniEventGoalTypeSpinBasicGrab withAmount:1];
+        } else if (i == 1) {
+          [self handleUserProgressOnMiniEventGoal:MiniEventGoalProto_MiniEventGoalTypeSpinUltimateGrab withAmount:1];
+        }
       }
     }
   }

@@ -56,6 +56,8 @@
   [self.skillPopup setHidden:YES];
   [self.view addSubview:self.skillPopup];
   
+  self.itemSelectFooterView.layer.cornerRadius = 5.f;
+  
   _tickerController = [[NewGachaTicker alloc] initWithImageView:self.ticker
                                                       cellWidth:TABLE_CELL_WIDTH
                                                     anchorPoint:CGPointMake(.5f, 12.f / 50.f)];
@@ -153,6 +155,14 @@
     self.multiSpinGemCostIcon.centerY = self.multiSpinGemCostLabel.centerY;
   }
   
+  THLabel* itemSelectPackagesLabel = (THLabel*)self.itemSelectPackagesLabel;
+  {
+    itemSelectPackagesLabel.gradientStartColor = [UIColor whiteColor];
+    itemSelectPackagesLabel.gradientEndColor = [UIColor colorWithHexString:@"DEFFC2"];
+    itemSelectPackagesLabel.strokeSize = 1.f;
+    itemSelectPackagesLabel.shadowBlur = .5f;
+  }
+  
   [Globals alignSubviewsToPixelsBoundaries:self.machineImage.superview];
   
   if (self.boosterPack.boosterPackId == self.badBoosterPack.boosterPackId) {
@@ -170,7 +180,12 @@
 - (void) viewWillDisappear:(BOOL)animated {
   [super viewWillDisappear:animated];
   
+  [SoundEngine stopRepeatingEffect];
+  
   self.focusScrollView.delegate = nil;
+  
+  if (self.itemSelectViewController)
+    [self.itemSelectViewController closeClicked:self];
   
   [_tickerController performCleanUp];
   _tickerController = nil;
@@ -234,6 +249,16 @@
   
   self.navBar.label1.text = [self.badBoosterPack.boosterPackName uppercaseString];
   self.navBar.label2.text = [self.goodBoosterPack.boosterPackName uppercaseString];
+  
+  NSString* desc = @"Packages contain tons of tokens at huge discounts!";
+  {
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.lineSpacing = 4.f;
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:desc];
+    [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, desc.length)];
+    self.itemSelectDescriptionLabel.attributedText = attributedString;
+  }
+  self.itemSelectTitleLabel.text = @"GET MORE TOKENS!";
 }
 
 - (void) updateForBoosterPack:(BoosterPackProto *)bpp {
@@ -400,6 +425,8 @@
 }
 
 - (CGPoint) nearestCellMiddleFromPoint:(CGPoint)pt withBoosterItem:(BoosterItemProto *)bip {
+  GameState *gs = [GameState sharedGameState];
+  
   UITableView *table = self.gachaTable.tableView;
   int row = (pt.y+table.frame.size.width/2)/TABLE_CELL_WIDTH;
   int rowIdx = row % self.items.count;
@@ -408,9 +435,20 @@
   for (int i = 0; i < self.items.count; i++) {
     int j = (rowIdx+i) % self.items.count;
     BoosterDisplayItemProto *disp = self.items[j];
-    if (disp.reward.rewardId == bip.reward.rewardId) {
-      arrIndex = j;
-      break;
+    if (bip.reward.typ == disp.reward.typ) {
+      if (disp.reward.typ == RewardProto_RewardTypeMonster) {
+        MonsterProto *mp1 = [gs monsterWithId:bip.reward.staticDataId];
+        MonsterProto *mp2 = [gs monsterWithId:disp.reward.staticDataId];
+        if (mp1 && mp2 && mp1.quality == mp2.quality) {
+          arrIndex = j;
+          break;
+        }
+      } else {
+        if (bip.reward.staticDataId == disp.reward.staticDataId && bip.reward.amt == disp.reward.amt) {
+          arrIndex = j;
+          break;
+        }
+      }
     }
   }
   
@@ -617,7 +655,7 @@
       [self completeGachaSpinWithKnownPrizes:prizes isMultiSpin:NO];
     }
     
-    [[MiniEventManager sharedInstance] checkBoosterPack:self.boosterPack.boosterPackId];
+    [[MiniEventManager sharedInstance] checkBoosterPack:self.boosterPack.boosterPackId multiSpin:prizes.count > 1];
   }
   else {
     _isSpinning = NO;
@@ -753,6 +791,7 @@
     GrabTokenItemsFiller *itemsFiller = [[GrabTokenItemsFiller alloc] initWithRequiredAmount:requiredAmount];
     itemsFiller.delegate = self;
     svc.delegate = itemsFiller;
+    svc.footerView = self.itemSelectFooterView;
     self.itemSelectViewController = svc;
     self.grabTokenItemsFiller = itemsFiller;
     
@@ -767,7 +806,7 @@
       self.buttonInvokingItemSelect = sender;
       if (sender == self.addTokensButton)
       {
-        [svc showAnchoredToInvokingView:self.topBar.coinView withDirection:ViewAnchoringPreferBottomPlacement inkovingViewImage:nil];
+        [svc showAnchoredToInvokingView:self.addTokensButton withDirection:ViewAnchoringPreferBottomPlacement inkovingViewImage:[self.addTokensButton imageForState:UIControlStateNormal]];
       }
       else
       {
@@ -856,6 +895,11 @@
 {
   self.itemSelectViewController = nil;
   self.grabTokenItemsFiller = nil;
+}
+
+- (IBAction) itemSelectToPackagesClicked:(id)sender
+{
+  [self toPackagesTapped];
 }
 
 #pragma mark - EasyTableView methods

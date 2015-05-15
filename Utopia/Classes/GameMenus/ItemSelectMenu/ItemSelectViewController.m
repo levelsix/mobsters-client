@@ -154,6 +154,13 @@
   self.updateTimer = [NSTimer timerWithTimeInterval:0.2f target:self selector:@selector(updateLabels) userInfo:nil repeats:YES];
   [[NSRunLoop mainRunLoop] addTimer:self.updateTimer forMode:NSRunLoopCommonModes];
   [self updateLabels];
+  
+  if (self.footerView)
+  {
+    [self.footerView setCenter:CGPointMake(self.itemsTable.centerX, CGRectGetMaxY(self.itemsTable.frame) - self.footerView.height * .5f)];
+    [self.itemsTable.superview addSubview:self.footerView];
+    [self.itemsTable setHeight:self.itemsTable.height - self.footerView.height];
+  }
 }
 
 - (void) viewWillDisappear:(BOOL)animated {

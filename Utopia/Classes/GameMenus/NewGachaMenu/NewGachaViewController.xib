@@ -14,6 +14,10 @@
                 <outlet property="gachaBgBottomRight" destination="5dH-it-Tso" id="vdl-1C-5Fp"/>
                 <outlet property="gachaBgTopLeft" destination="ZaN-Q1-yTU" id="Bmb-ng-95D"/>
                 <outlet property="goodBadge" destination="aY6-OZ-OmN" id="oXZ-FF-HrJ"/>
+                <outlet property="itemSelectDescriptionLabel" destination="Ahe-NO-gg7" id="0of-U5-hSM"/>
+                <outlet property="itemSelectFooterView" destination="Oop-Hy-MU3" id="kSI-ka-g2H"/>
+                <outlet property="itemSelectPackagesLabel" destination="TLw-og-k6q" id="Geo-gb-40J"/>
+                <outlet property="itemSelectTitleLabel" destination="qw9-2X-L6x" id="q1H-9X-Ne8"/>
                 <outlet property="logoImage" destination="2Kq-lK-mrn" id="caC-I0-zX7"/>
                 <outlet property="logoSeparatorImage" destination="hGw-oe-RkP" id="ZEX-GS-9DW"/>
                 <outlet property="machineImage" destination="nTg-Vj-Jdh" id="afq-Lb-7qd"/>
@@ -597,7 +601,7 @@
                 <outlet property="orbIcon" destination="Vbd-SE-qCo" id="QaH-N7-A8F"/>
                 <outlet property="parentView" destination="-1" id="ybD-hE-kiO"/>
             </connections>
-            <point key="canvasLocation" x="633" y="942.5"/>
+            <point key="canvasLocation" x="485" y="941.5"/>
         </view>
         <view contentMode="scaleToFill" id="Kon-Hh-eje" customClass="NewGachaPrizeView">
             <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
@@ -803,6 +807,63 @@
             </connections>
             <point key="canvasLocation" x="633.5" y="189.5"/>
         </view>
+        <view contentMode="scaleToFill" id="Oop-Hy-MU3" userLabel="Footer View">
+            <rect key="frame" x="0.0" y="0.0" width="241" height="63"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="donateenhancebottombar.png" id="ffg-w1-wr9">
+                    <rect key="frame" x="6" y="0.0" width="229" height="57"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                </imageView>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="TITLE" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="qw9-2X-L6x" customClass="NiceFontLabel12">
+                    <rect key="frame" x="18" y="2" width="123" height="27"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                    <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                    <size key="shadowOffset" width="0.0" height="1"/>
+                </label>
+                <view contentMode="scaleToFill" id="I2Z-t9-bw1" userLabel="PackagesView">
+                    <rect key="frame" x="144" y="3" width="84" height="51"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Rgr-pO-GvT" customClass="GeneralButton">
+                            <rect key="frame" x="2" y="6" width="80" height="40"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" image="greenmenuoption.png">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="itemSelectToPackagesClicked:" destination="-1" eventType="touchUpInside" id="HRb-Ff-BFt"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Packages" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="TLw-og-k6q" customClass="NiceFontLabel12T">
+                            <rect key="frame" x="0.0" y="15" width="78" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                            <color key="textColor" red="0.87058823529999996" green="1" blue="0.76078431369999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="squadrewardsgoarrow.png" id="9Eo-bF-chc">
+                            <rect key="frame" x="69" y="22" width="6" height="10"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                    </subviews>
+                </view>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="Ahe-NO-gg7" customClass="NiceFontLabel2">
+                    <rect key="frame" x="18" y="22" width="123" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                    <color key="textColor" red="0.20000001789999999" green="0.20000001789999999" blue="0.20000001789999999" alpha="1" colorSpace="deviceRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <nil key="simulatedStatusBarMetrics"/>
+            <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="780.5" y="941.5"/>
+        </view>
     </objects>
     <resources>
         <image name="addgems.png" width="24" height="24"/>
@@ -814,6 +875,7 @@
         <image name="basicmachine.png" width="161" height="190"/>
         <image name="bigspingrey.png" width="144" height="47"/>
         <image name="bigspingreypressed.png" width="144" height="47"/>
+        <image name="donateenhancebottombar.png" width="229" height="57"/>
         <image name="earthskilldescription.png" width="219" height="129"/>
         <image name="fireorb.png" width="27" height="34"/>
         <image name="gachaallarrow.png" width="47" height="47"/>
@@ -834,6 +896,7 @@
         <image name="grbigafterglow.png" width="668" height="375"/>
         <image name="grcrystalglow.png" width="439" height="205"/>
         <image name="grdarkrim.png" width="668" height="375"/>
+        <image name="greenmenuoption.png" width="80" height="40"/>
         <image name="greywhite1.png" width="2" height="2"/>
         <image name="grglow2.png" width="475" height="375"/>
         <image name="grlb1.png" width="71" height="108"/>
@@ -849,6 +912,7 @@
         <image name="minibuttonpurple.png" width="102" height="41"/>
         <image name="minibuttonpurplepressed.png" width="102" height="41"/>
         <image name="skilldescriptionline.png" width="186" height="1"/>
+        <image name="squadrewardsgoarrow.png" width="6" height="10"/>
         <image name="ticker_big.png" width="14" height="25"/>
         <image name="whitegrlightcircle2.png" width="263" height="205"/>
     </resources>

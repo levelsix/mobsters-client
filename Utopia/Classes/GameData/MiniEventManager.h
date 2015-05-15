@@ -54,6 +54,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS_HEADER(MiniEventManager)
 - (void) checkAvengeRequest;
 - (void) checkClanHelp:(int)amount;
 - (void) checkClanDonate;
-- (void) checkBoosterPack:(int)boosterPackId;
+- (void) checkBoosterPack:(int)boosterPackId multiSpin:(BOOL)multiSpin;
 
 @end
