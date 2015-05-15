@@ -78,6 +78,8 @@
 
 @property (strong, nonatomic) NSTimer *updateTimer;
 
+@property (nonatomic, retain) UIView *footerView;
+
 - (void) reloadDataAnimated:(BOOL)animated;
 - (void) reloadData;
 

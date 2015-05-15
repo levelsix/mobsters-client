@@ -85,6 +85,11 @@
 
 @property (nonatomic, retain) IBOutlet UIImageView* ticker;
 
+@property (nonatomic, retain) IBOutlet UIView* itemSelectFooterView;
+@property (nonatomic, retain) IBOutlet UILabel* itemSelectPackagesLabel;
+@property (nonatomic, retain) IBOutlet UILabel* itemSelectTitleLabel;
+@property (nonatomic, retain) IBOutlet UILabel* itemSelectDescriptionLabel;
+
 @property (nonatomic, retain) ItemSelectViewController *itemSelectViewController;
 @property (nonatomic, retain) GrabTokenItemsFiller *grabTokenItemsFiller;
 @property (nonatomic, assign) UIButton *buttonInvokingItemSelect;
@@ -94,6 +99,7 @@
 - (IBAction) singleSpinClicked:(id)sender;
 - (IBAction) multiSpinClicked:(id)sender;
 - (IBAction) showItemSelect:(id)sender;
+- (IBAction) itemSelectToPackagesClicked:(id)sender;
 - (IBAction) hideSkillPopup:(id)sender;
 
 @end

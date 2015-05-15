@@ -36,6 +36,7 @@ typedef NS_ENUM(SInt32, MiniEventGoalProto_MiniEventGoalType) {
   MiniEventGoalProto_MiniEventGoalTypeGainResearchStrength = 3,
   MiniEventGoalProto_MiniEventGoalTypeSpinBasicGrab = 4,
   MiniEventGoalProto_MiniEventGoalTypeSpinUltimateGrab = 5,
+  MiniEventGoalProto_MiniEventGoalTypeSpinMulti = 23,
   MiniEventGoalProto_MiniEventGoalTypeEnhanceCommon = 6,
   MiniEventGoalProto_MiniEventGoalTypeEnhanceRare = 7,
   MiniEventGoalProto_MiniEventGoalTypeEnhanceSuper = 8,
