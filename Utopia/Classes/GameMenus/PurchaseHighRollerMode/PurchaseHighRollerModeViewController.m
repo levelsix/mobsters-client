@@ -65,7 +65,7 @@
   [self close];
   
   if (self.delegate) {
-    [self.delegate toPackagesTapped];
+    [self.delegate toPackagesTapped:YES];
   }
 }
 
