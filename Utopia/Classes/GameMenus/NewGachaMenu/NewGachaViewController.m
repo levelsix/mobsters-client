@@ -173,8 +173,12 @@
 }
 
 - (void) viewWillLayoutSubviews {
-  self.topBar.coinView.centerX = [self.singleSpinContainer convertPoint:self.singleSpinButton.center toView:self.topBar].x;
-  if ([Globals isSmallestiPhone]) self.topBar.coinView.centerX += 13.f;
+  self.topBar.tokensView.centerX = [self.singleSpinContainer convertPoint:self.singleSpinButton.center toView:self.topBar].x;
+  if ([Globals isSmallestiPhone]) self.topBar.tokensView.centerX += 13.f;
+  
+  CGRect closeButtonFrame = [(UIView*)[self.navigationItem.leftBarButtonItem valueForKey:@"view"] frame]; // Magical way of getting the frame of a UIBarButtonItem
+  self.topBar.gemsView.centerX = (CGRectGetMaxX(closeButtonFrame) + self.navBar.originX) * .5f;
+  if ([Globals isSmallestiPhone]) self.topBar.gemsView.hidden = YES;
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
@@ -770,60 +774,68 @@
 
 #pragma mark - PurchaseHighRollerModeCallbackDelegate
 
-- (void) toPackagesTapped {
-  [self viewWillDisappear:YES];
-  
-  [self.navigationController.presentingViewController dismissViewControllerAnimated:YES completion:^{
-    GameViewController *gvc = [GameViewController baseController];
-    Globals *gl = [Globals sharedGlobals];
-    SalesPackageProto *spp = [gl highRollerModeSale];
-    [gvc.topBarViewController openShopWithFunds:spp];
-  }];
+- (void) toPackagesTapped:(BOOL)prioritizeHighRoller {
+  if (!_isSpinning) {
+    [self viewWillDisappear:YES];
+    
+    [self.navigationController.presentingViewController dismissViewControllerAnimated:YES completion:^{
+      GameViewController *gvc = [GameViewController baseController];
+      Globals *gl = [Globals sharedGlobals];
+      if (prioritizeHighRoller) {
+        SalesPackageProto *spp = [gl highRollerModeSale];
+        [gvc.topBarViewController openShopWithFunds:spp];
+      } else {
+        [gvc.topBarViewController openShopWithFunds:nil];
+      }
+    }];
+  }
 }
 
 #pragma mark - GrabTokenItemsFillerDelegate
 
 - (IBAction) showItemSelect:(id)sender
 {
-  ItemSelectViewController *svc = [[ItemSelectViewController alloc] init];
-  if (svc)
-  {
-    int requiredAmount = 0;
-    if (sender == self.singleSpinButton)
-      requiredAmount = self.boosterPack.gachaCreditsPrice;
-    else if (sender == self.multiSpinButton)
-      requiredAmount = self.boosterPack.gachaCreditsPrice * [Globals sharedGlobals].boosterPackPurchaseAmountRequired;
-    
-    GrabTokenItemsFiller *itemsFiller = [[GrabTokenItemsFiller alloc] initWithRequiredAmount:requiredAmount];
-    itemsFiller.delegate = self;
-    svc.delegate = itemsFiller;
-    svc.footerView = self.itemSelectFooterView;
-    self.itemSelectViewController = svc;
-    self.grabTokenItemsFiller = itemsFiller;
-    
-    [self.navigationController addChildViewController:svc];
-    [svc.view setFrame:self.view.bounds];
-    [self.navigationController.view addSubview:svc.view];
-    
-    [svc viewWillAppear:YES];
-    
-    if (sender && [sender isKindOfClass:[UIButton class]])
+  if (!_isSpinning) {
+    ItemSelectViewController *svc = [[ItemSelectViewController alloc] init];
+    if (svc)
     {
-      self.buttonInvokingItemSelect = sender;
-      if (sender == self.addTokensButton)
+      int requiredAmount = 0;
+      if (sender == self.singleSpinButton)
+        requiredAmount = self.boosterPack.gachaCreditsPrice;
+      else if (sender == self.multiSpinButton)
+        requiredAmount = self.boosterPack.gachaCreditsPrice * [Globals sharedGlobals].boosterPackPurchaseAmountRequired;
+      
+      GrabTokenItemsFiller *itemsFiller = [[GrabTokenItemsFiller alloc] initWithRequiredAmount:requiredAmount];
+      itemsFiller.delegate = self;
+      svc.delegate = itemsFiller;
+      svc.footerView = self.itemSelectFooterView;
+      self.itemSelectViewController = svc;
+      self.grabTokenItemsFiller = itemsFiller;
+      
+      [self.navigationController addChildViewController:svc];
+      [svc.view setFrame:self.view.bounds];
+      [self.navigationController.view addSubview:svc.view];
+      
+      [svc viewWillAppear:YES];
+      
+      if (sender && [sender isKindOfClass:[UIButton class]])
       {
-        [svc showAnchoredToInvokingView:self.addTokensButton withDirection:ViewAnchoringPreferBottomPlacement inkovingViewImage:[self.addTokensButton imageForState:UIControlStateNormal]];
+        self.buttonInvokingItemSelect = sender;
+        if (sender == self.addTokensButton)
+        {
+          [svc showAnchoredToInvokingView:self.addTokensButton withDirection:ViewAnchoringPreferBottomPlacement inkovingViewImage:[self.addTokensButton imageForState:UIControlStateNormal]];
+        }
+        else
+        {
+          UIButton* invokingButton = (UIButton*)sender;
+          [svc showAnchoredToInvokingView:invokingButton withDirection:ViewAnchoringPreferLeftPlacement inkovingViewImage:invokingButton.currentImage];
+        }
       }
       else
       {
-        UIButton* invokingButton = (UIButton*)sender;
-        [svc showAnchoredToInvokingView:invokingButton withDirection:ViewAnchoringPreferLeftPlacement inkovingViewImage:invokingButton.currentImage];
+        self.buttonInvokingItemSelect = nil;
+        [svc showCenteredOnScreen];
       }
-    }
-    else
-    {
-      self.buttonInvokingItemSelect = nil;
-      [svc showCenteredOnScreen];
     }
   }
 }
@@ -905,7 +917,7 @@
 
 - (IBAction) itemSelectToPackagesClicked:(id)sender
 {
-  [self toPackagesTapped];
+  [self toPackagesTapped:NO];
 }
 
 #pragma mark - EasyTableView methods

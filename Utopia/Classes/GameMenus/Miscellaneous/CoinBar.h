@@ -12,7 +12,10 @@
 
 @interface CoinBar : UIView <NumTransitionLabelDelegate>
 
-@property (nonatomic, retain) IBOutlet UIView* coinView;
+@property (nonatomic, retain) IBOutlet UIView* cashView;
+@property (nonatomic, retain) IBOutlet UIView* oilView;
+@property (nonatomic, retain) IBOutlet UIView* gemsView;
+@property (nonatomic, retain) IBOutlet UIView* tokensView;
 
 @property (nonatomic, retain) IBOutlet NumTransitionLabel *cashLabel;
 @property (nonatomic, retain) IBOutlet NumTransitionLabel *oilLabel;

@@ -10,7 +10,7 @@
 
 @protocol PurchaseHighRollerModeCallbackDelegate <NSObject>
 
-- (void) toPackagesTapped;
+- (void) toPackagesTapped:(BOOL)prioritizeHighRoller;
 
 @end
 
