@@ -580,7 +580,7 @@
 - (void) begin {
   [skillManager flushPersistentSkills];
   
-  [Kamcord startRecording];
+//  [Kamcord startRecording];
   
   [self deployMyTeam];
   

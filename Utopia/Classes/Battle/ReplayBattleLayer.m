@@ -12,6 +12,8 @@
 #import "ReplayOrbMainLayer.h"
 #import "CCDirector_Private.h"
 #import "SkillManager.h"
+#import "GameViewController.h"
+#import "SoundEngine.h"
 
 #define DELAY_KEY @"DELAY"
 #define SWAP_TOON_KEY @"SWAP_TOON"
@@ -379,6 +381,16 @@
 }
 
 #pragma mark - Overrides
+
+//Override Share button to be a restart replay button
+- (void)shareClicked:(id)sender{
+  [self exitFinal];
+  
+  [SoundEngine generalButtonClick];
+  
+  GameViewController *gvc = [GameViewController baseController];
+  [gvc beginReplay:_replay];
+}
 
 - (int)calculateUnmodifiedEnemyDamage {
   return self.currStep.unmodifiedDamage;
