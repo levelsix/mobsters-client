@@ -205,7 +205,7 @@
 
 @property (nonatomic, retain) IBOutlet UIButton *collectButton;
 
-- (void) updateForClanGift:(id<ChatObject, ChatGift>)clanGift;
+- (void) updateForClanGift:(id<ChatObject, ChatGift>)userGift;
 
 - (void) updateForExpireDate:(MSDate *)expireDate;
 

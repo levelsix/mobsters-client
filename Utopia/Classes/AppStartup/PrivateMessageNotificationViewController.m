@@ -68,17 +68,17 @@
 
 @implementation PrivateMessageNotificationViewController
 
-- (id) initWithClanGifts:(NSArray *)userClanGifts isImmediate:(BOOL)isImmediate {
+- (id) initWithGifts:(NSArray *)userGifts isImmediate:(BOOL)isImmediate {
   _avatarOffSet = FIRST_AVATAR_OFFSET;
   
   if ((self = [super init])) {
     [[NSBundle mainBundle] loadNibNamed:@"PrivateMessageNotificationView" owner:self options:nil];
     
-    id<ChatObject, ChatGift> ucgp = [userClanGifts firstObject];
+    id<ChatObject, ChatGift> ucgp = [userGifts firstObject];
     _messageFromSingleUser = (ChatMessage*)ucgp;
     
-    if (userClanGifts.count > 1) {
-      [self.notificationView updateWithString:ucgp.otherUser.name description:[NSString stringWithFormat:@"Sent you %d gifts!",(int)userClanGifts.count] color:[UIColor colorWithHexString:GREEN]];
+    if (userGifts.count > 1) {
+      [self.notificationView updateWithString:ucgp.otherUser.name description:[NSString stringWithFormat:@"Sent you %d gifts!",(int)userGifts.count] color:[UIColor colorWithHexString:GREEN]];
     } else {
       [self.notificationView updateWithString:ucgp.otherUser.name description:@"Sent you a gift!" color:[UIColor colorWithHexString:GREEN]];
     }
@@ -121,11 +121,11 @@
         [self addAvatarWithMonsterId:php.otherUser.avatarMonsterId];
         
       } else if ([chat isKindOfClass:[UserClanGiftProto class]] || [chat isKindOfClass:[UserGiftProto class]]) {
-        id<ChatObject, ChatGift> ucgp = [messages firstObject];
+        id<ChatObject, ChatGift> userGift = [messages firstObject];
         _messageFromSingleUser = (ChatMessage*)chat;
         
-        [self.notificationView updateWithString:ucgp.otherUser.name description:@"Sent you a gift!" color:[UIColor colorWithHexString:GREEN]];
-        [self addAvatarWithMonsterId:ucgp.otherUser.avatarMonsterId];
+        [self.notificationView updateWithString:userGift.otherUser.name description:@"Sent you a gift!" color:[UIColor colorWithHexString:GREEN]];
+        [self addAvatarWithMonsterId:userGift.otherUser.avatarMonsterId];
       } else {
         PrivateChatPostProto *pcpp = [messages firstObject];
         _messageFromSingleUser = pcpp;

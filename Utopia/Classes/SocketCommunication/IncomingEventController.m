@@ -1691,7 +1691,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     LNLog(@"Recieving Clan Gifts");
     
     [gs.clanGifts addObjectsFromArray:proto.userClanGiftsList];
-    [Globals addClanGiftNotification:proto.userClanGiftsList];
+    [Globals addGiftNotification:proto.userClanGiftsList];
     [[NSNotificationCenter defaultCenter] postNotificationName:GIFTS_CHANGED_NOTIFICATION object:nil];
   }
   

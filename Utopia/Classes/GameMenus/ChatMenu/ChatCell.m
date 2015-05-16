@@ -629,9 +629,9 @@ static float buttonInitialWidth = 159.f;
   [self.unOpenedView.superview addSubview:self.openedView];
 }
 
-- (void) updateForClanGift:(id<ChatObject, ChatGift>)userClanGift {
+- (void) updateForClanGift:(id<ChatObject, ChatGift>)userGift {
   
-  if (userClanGift.isRedeemed) {
+  if (userGift.isRedeemed) {
     self.unOpenedView.hidden = YES;
     self.openedView.hidden = NO;
   } else {
@@ -639,20 +639,19 @@ static float buttonInitialWidth = 159.f;
     self.unOpenedView.hidden = NO;
   }
   
-  [self.embeddedRewardView.rewardView loadForReward:[Reward createRewardWithRewardProto:userClanGift.reward]];
+  [self.embeddedRewardView.rewardView loadForReward:[Reward createRewardWithRewardProto:userGift.reward]];
   
-  NSString *rewardImageName = [Globals imageNameForReward:userClanGift.reward];
-  NSString *rewardName = [Globals nameForReward:userClanGift.reward];
+  NSString *rewardImageName = [Globals imageNameForReward:userGift.reward];
+  NSString *rewardName = [Globals nameForReward:userGift.reward];
   
-//  self.giftRarityLabel.text = [NSString stringWithFormat:@"%@ Gift", [Globals stringForRarity:userClanGift.clanGift.quality]];
   self.giftRarityLabel.text = rewardName;
-  self.giftNameLabel.text = userClanGift.giftName;
+  self.giftNameLabel.text = userGift.giftName;
   
-  [self updateForExpireDate:userClanGift.expireDate];
+  [self updateForExpireDate:userGift.expireDate];
   
-  self.rewardNameLabel.text = [NSString stringWithFormat:@"Opened from the %@",userClanGift.giftName];
+  self.rewardNameLabel.text = [NSString stringWithFormat:@"Opened from the %@",userGift.giftName];
   
-  if (userClanGift.reward.typ == RewardProto_RewardTypeMonster) {
+  if (userGift.reward.typ == RewardProto_RewardTypeMonster) {
     self.rewardFitImageView.hidden = NO;
     self.rewardCenterImageView.hidden = YES;
     
@@ -663,10 +662,10 @@ static float buttonInitialWidth = 159.f;
     
     [Globals imageNamed:rewardImageName withView:self.rewardCenterImageView greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:NO];
   }
-  [Globals imageNamed:userClanGift.giftImageName withView:self.giftImage greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+  [Globals imageNamed:userGift.giftImageName withView:self.giftImage greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
   
   [self.collectButton removeTarget:nil action:NULL forControlEvents:UIControlEventTouchUpInside];
-  [self.collectButton addTarget:userClanGift action:@selector(collectClicked:) forControlEvents:UIControlEventTouchUpInside];
+  [self.collectButton addTarget:userGift action:@selector(collectClicked:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void) updateForExpireDate:(MSDate *)expireDate {

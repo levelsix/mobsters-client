@@ -114,7 +114,7 @@
 }
 
 - (IBAction) sendClicked:(id)sender {
-  
+#ifdef TOONSQUAD
   NSArray *withAppList = [TangoDelegate getTangoIdsForProfiles:self.selectedFriends withApp:YES];
   NSArray *withoutAppList = [TangoDelegate getTangoIdsForProfiles:self.selectedFriends withApp:NO];
   
@@ -126,6 +126,7 @@
   if (withoutAppList.count > 0) {
     [TangoDelegate sendInvitesToTangoUsers:withoutAppList];
   }
+#endif
   [self close];
 }
 

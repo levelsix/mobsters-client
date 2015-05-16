@@ -1660,6 +1660,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
         //item and monsters are updated on the response
       case RewardProto_RewardTypeNoReward:
       case RewardProto_RewardTypeClanGift:
+      case RewardProto_RewardTypeTangoGift:
         //byron says the reward type will never be set to typeClanGift
         break;
     }
@@ -3730,6 +3731,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 }
 
 - (void) sendTangoGiftsToTangoUsers:(NSArray *)tangoIds gemReward:(int)gemReward delegate:(id)delegate{
+#ifdef TOONSQUAD
   GameState *gs = [GameState sharedGameState];
   
   if (tangoIds.count == 0) {
@@ -3742,6 +3744,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   GemsUpdate *gu = [GemsUpdate updateWithTag:tag change:gemReward];
   [gs addUnrespondedUpdates:gu, nil];
+#endif
 }
 
 - (void) deleteUserGifts:(NSArray *)userGifts {
@@ -3751,8 +3754,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [Globals popupMessage:@"Trying to clear 0 expired gifts."];
     return;
   }
-  for (UserClanGiftProto *ucgp in userGifts) {
-    if (!ucgp.isExpired && !ucgp.hasBeenCollected) {
+  for (UserGiftProto *ugp in userGifts) {
+    if (!ugp.isExpired && !ugp.hasBeenCollected) {
       [Globals popupMessage:@"Trying to clear unexpired gifts."];
       return;
     }
@@ -3787,7 +3790,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
   }
   
+#ifdef TOONSQUAD
   [TangoDelegate consumeUserGifts:tangoGifts];
+#endif
   
   int tag = [[SocketCommunication sharedSocketCommunication] sendCollectUserGifts:giftIds clientTime:[self getCurrentMilliseconds]];
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];

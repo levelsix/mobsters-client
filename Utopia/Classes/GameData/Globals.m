@@ -2621,10 +2621,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   [gvc.notificationController addNotification:megn];
 }
 
-+ (void) addClanGiftNotification:(NSArray *)userClanGifts {
++ (void) addGiftNotification:(NSArray *)userGifts {
   GameViewController *gvc = [GameViewController baseController];
   if(!gvc.chatViewController) {
-    PrivateMessageNotificationViewController *pmn = [[PrivateMessageNotificationViewController alloc] initWithClanGifts:userClanGifts isImmediate:NO];
+    PrivateMessageNotificationViewController *pmn = [[PrivateMessageNotificationViewController alloc] initWithClanGifts:userGifts isImmediate:NO];
     [gvc.notificationController addNotification:pmn];
   }
 }
