@@ -3739,7 +3739,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     return;
   }
   NSString *myTangoId = [TangoDelegate getMyId];
-  int tag = [[SocketCommunication sharedSocketCommunication] sendTangoGiftsForTangoIds:tangoIds myTangoId:myTangoId clientTime:[self getCurrentMilliseconds]];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendTangoGiftsForTangoIds:tangoIds myTangoId:myTangoId gemReward:gemReward clientTime:[self getCurrentMilliseconds]];
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
   
   GemsUpdate *gu = [GemsUpdate updateWithTag:tag change:gemReward];

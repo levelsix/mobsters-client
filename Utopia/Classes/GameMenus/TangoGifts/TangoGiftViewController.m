@@ -12,9 +12,6 @@
 
 #import "Globals.h"
 
-#define MAX_GEM_REWARD 3
-#define MIN_GEM_REWARD 1
-
 @implementation TangoFriendViewCell
 
 - (void) setDefaultProfilePicture {
@@ -78,13 +75,13 @@
 }
 
 - (int) updateRewardAmount {
-  
+  Globals *gl = [Globals sharedGlobals];
   if (!self.selectedFriends.count) {
     self.rewardLabel.text = @"0";
     return 0;
   } else {
-    int rewardAmount = MAX(MAX_GEM_REWARD - ((int)self.tangoFriends.count - (int)self.selectedFriends.count), MIN_GEM_REWARD);
-    rewardAmount = MIN(MAX_GEM_REWARD, rewardAmount);
+    int rewardAmount = MAX(gl.tangoMaxGemReward - ((int)self.tangoFriends.count - (int)self.selectedFriends.count), gl.tangoMinGemReward);
+    rewardAmount = MIN(gl.tangoMaxGemReward, rewardAmount);
     self.rewardLabel.text = [NSString stringWithFormat:@"%d", rewardAmount];
     return rewardAmount;
   }
@@ -121,10 +118,9 @@
 #ifdef TOONSQUAD
   NSArray *withAppList = [TangoDelegate getTangoIdsForProfiles:self.selectedFriends withApp:YES];
   NSArray *withoutAppList = [TangoDelegate getTangoIdsForProfiles:self.selectedFriends withApp:NO];
-  
-  if (withAppList.count > 0) {
-    //the response need to be handles here when we clean this up, when there's more time.
-    [[OutgoingEventController sharedOutgoingEventController] sendTangoGiftsToTangoUsers:withAppList gemReward:[self updateRewardAmount] delegate:self];
+  int reward = [self updateRewardAmount];
+  if (withAppList.count > 0 || withoutAppList.count > 0) {
+    [[OutgoingEventController sharedOutgoingEventController] sendTangoGiftsToTangoUsers:withAppList gemReward:reward delegate:self];
   }
   
   if (withoutAppList.count > 0) {

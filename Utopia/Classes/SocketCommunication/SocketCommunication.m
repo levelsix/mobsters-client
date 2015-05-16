@@ -1740,12 +1740,13 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCSetTangoIdEvent];
 }
 
-- (int) sendTangoGiftsForTangoIds:(NSArray *)tangoIds myTangoId:(NSString *)myTangoId clientTime:(int64_t)clientTime{
-  SendTangoGiftRequestProto *req = [[[[[[SendTangoGiftRequestProto builder]
-                                        setSender:_sender]
-                                       addAllTangoUserIds:tangoIds]
-                                      setClientTime:clientTime]
-                                     setSenderTangoUserId:myTangoId]
+- (int) sendTangoGiftsForTangoIds:(NSArray *)tangoIds myTangoId:(NSString *)myTangoId gemReward:(int32_t)gemReward clientTime:(int64_t)clientTime{
+  SendTangoGiftRequestProto *req = [[[[[[[SendTangoGiftRequestProto builder]
+                                         setSender:_sender]
+                                        addAllTangoUserIds:tangoIds]
+                                       setClientTime:clientTime]
+                                      setSenderTangoUserId:myTangoId]
+                                     setGemReward:gemReward]
                                     build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCSendTangoGiftEvent];
