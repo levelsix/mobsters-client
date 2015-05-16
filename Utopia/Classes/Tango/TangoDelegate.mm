@@ -147,8 +147,6 @@ static TangoProfileEntry *profileEntry = nil;
 #endif
 }
 
-//hacky
-//I always pass a TangoProfileEntry through here but we can't import the h file for that in other places.
 + (void) getPictureForProfile:(id)pf comp:(void (^)(UIImage *img))comp {
 #ifdef TANGO_ENABLED
   TangoProfileEntry *profile = (TangoProfileEntry *)pf;
@@ -272,7 +270,7 @@ static TangoProfileEntry *profileEntry = nil;
   resourceID = @"TEST_INVITE_ID";
   
   [TangoInviting sendInvitationToRecipients:userIds resourceId:resourceID handler:^(TangoInvitingSendInvitationsResponse *response, NSError *error) {
-    NSLog(@"Send Tango invites returned with status: %@", (int)error.code);
+    NSLog(@"Send Tango invites returned with status: %d", (int)error.code);
   }];
 #endif
 }

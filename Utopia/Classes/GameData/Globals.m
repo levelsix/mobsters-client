@@ -2624,7 +2624,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 + (void) addGiftNotification:(NSArray *)userGifts {
   GameViewController *gvc = [GameViewController baseController];
   if(!gvc.chatViewController) {
-    PrivateMessageNotificationViewController *pmn = [[PrivateMessageNotificationViewController alloc] initWithClanGifts:userGifts isImmediate:NO];
+    PrivateMessageNotificationViewController *pmn = [[PrivateMessageNotificationViewController alloc] initWithGifts:userGifts isImmediate:NO];
     [gvc.notificationController addNotification:pmn];
   }
 }
