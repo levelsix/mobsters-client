@@ -74,16 +74,16 @@
   if ((self = [super init])) {
     [[NSBundle mainBundle] loadNibNamed:@"PrivateMessageNotificationView" owner:self options:nil];
     
-    id<ChatObject, ChatGift> ucgp = [userGifts firstObject];
-    _messageFromSingleUser = (ChatMessage*)ucgp;
+    id<ChatObject, ChatGift> userGift = [userGifts firstObject];
+    _messageFromSingleUser = (ChatMessage*)userGift;
     
     if (userGifts.count > 1) {
-      [self.notificationView updateWithString:ucgp.otherUser.name description:[NSString stringWithFormat:@"Sent you %d gifts!",(int)userGifts.count] color:[UIColor colorWithHexString:GREEN]];
+      [self.notificationView updateWithString:userGift.otherUser.name description:[NSString stringWithFormat:@"Sent you %d gifts!",(int)userGifts.count] color:[UIColor colorWithHexString:GREEN]];
     } else {
-      [self.notificationView updateWithString:ucgp.otherUser.name description:@"Sent you a gift!" color:[UIColor colorWithHexString:GREEN]];
+      [self.notificationView updateWithString:userGift.otherUser.name description:@"Sent you a gift!" color:[UIColor colorWithHexString:GREEN]];
     }
     
-    [self addAvatarWithMonsterId:ucgp.otherUser.avatarMonsterId];
+    [self addAvatarWithMonsterId:userGift.otherUser.avatarMonsterId];
     
     [self.notificationView.textView setOrigin:CGPointMake(_avatarOffSet+TEXT_BUFFER_FROM_AVATAR,0.f)];
     [self.notificationView.textView setWidth: self.view.width-_avatarOffSet+FIRST_AVATAR_OFFSET];

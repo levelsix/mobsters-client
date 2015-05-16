@@ -50,6 +50,7 @@ static TangoProfileEntry *profileEntry = nil;
                  error.code == TANGO_SDK_TANGO_APP_NOT_INSTALLED) {
         [session installTango];
       }
+      LNLog(@"Tango Authentication returned with status: %d", (int)error.code);
     }];
     return YES;
   } else {
@@ -88,6 +89,8 @@ static TangoProfileEntry *profileEntry = nil;
       if (![gs.tangoId isEqualToString:profileEntry.profileID]) {
         [[OutgoingEventController sharedOutgoingEventController] updateTangoId:profileEntry.profileID];
       }
+      
+      LNLog(@"Fetch my Tango profile returned with status: %d", (int)error.code);
     }];
   }
 #endif
@@ -188,6 +191,8 @@ static TangoProfileEntry *profileEntry = nil;
     dispatch_sync(dispatch_get_main_queue(), ^{
       comp(friendsList);
     });
+    
+    LNLog(@"Fetch cached Tango Friends returned with status: %d", (int)error.code);
   }];
 #endif
 }
@@ -237,7 +242,7 @@ static TangoProfileEntry *profileEntry = nil;
     }
     
     [TangoGifting consumeGifts:tangoGiftIds handler:^(TangoGiftingConsumeGiftsResponse *response, NSError *error) {
-      LNLog(@"Consume Tango Gifts return with status: %d", error.code);
+      LNLog(@"Consume Tango Gifts return with status: %d", (int)error.code);
     }];
   }];
 #endif
@@ -247,6 +252,7 @@ static TangoProfileEntry *profileEntry = nil;
 #ifdef TANGO_ENABLED
   NSString *resourceID;
 
+#warning don't breath this
   //  resourceID = @"GIFT_ID1";
   resourceID = @"TEST_GIFT_ID";
 
@@ -261,11 +267,12 @@ static TangoProfileEntry *profileEntry = nil;
 #ifdef TANGO_ENABLED
   NSString *resourceID;
 
-  //  resourceID = @"GIFT_ID1";
-  resourceID = @"TEST_GIFT_ID";
+#warning don't breath this
+  //  resourceID = @"INVITE_ID1";
+  resourceID = @"TEST_INVITE_ID";
   
   [TangoInviting sendInvitationToRecipients:userIds resourceId:resourceID handler:^(TangoInvitingSendInvitationsResponse *response, NSError *error) {
-    NSLog(@"Send Tango invites returned with status: %@", error);
+    NSLog(@"Send Tango invites returned with status: %@", (int)error.code);
   }];
 #endif
 }
@@ -274,8 +281,7 @@ static TangoProfileEntry *profileEntry = nil;
   TangoSession *session = [TangoSession sharedSession];
   if (session.isInitialized || [TangoSession sessionInitialize]) {
     [TangoTools validateReceipt:transaction.transactionReceipt forProduct:transaction.payment.productIdentifier withHandler:^(enum ValidationStatus status, NSError *error) {
-      NSLog(@"Tango validate purchase: Status %d, Error %d", status, error.code
-            );
+      NSLog(@"Tango validate purchase: Status %d, Error %d", status, (int)error.code);
     }];
   };
 }

@@ -17,6 +17,10 @@
 
 @implementation TangoFriendViewCell
 
+- (void) setDefaultProfilePicture {
+  self.tangoPic.image = [Globals imageNamed:@"tangodefault.png"];
+}
+
 - (void) loadForTangoProfile:(id)tangoProfile {
 // get full name
 #ifdef TOONSQUAD
@@ -155,7 +159,9 @@
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  TangoFriendViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FBFriendCell"];
+  TangoFriendViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TangoFriendViewCell"];
+  //loading Tango profile picture is delayed, so load the default now.
+  [cell setDefaultProfilePicture];
   
   if (cell == nil) {
     cell = (TangoFriendViewCell *)[[NSBundle mainBundle] loadNibNamed:@"TangoFriendViewCell" owner:self options:nil][0];

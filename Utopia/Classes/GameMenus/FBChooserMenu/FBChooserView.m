@@ -37,8 +37,6 @@
   
   self.profilePic.layer.cornerRadius = roundf(self.profilePic.frame.size.width/2.0);
   self.profilePic.layer.masksToBounds = YES;
-  
-  self.checkmark.image = [Globals imageNamed:@"sendcheck.png"];
 }
 
 @end
