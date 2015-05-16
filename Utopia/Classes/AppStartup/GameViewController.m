@@ -550,6 +550,9 @@ static const CGSize FIXED_SIZE = {568, 384};
 #ifdef TOONSQUAD
       if ([TangoDelegate isTangoAvailable] && [TangoDelegate isTangoAuthenticated]) {
         TangoGiftViewController *tgvc = [[TangoGiftViewController alloc] init];
+        [TangoDelegate fetchCachedFriends:^(NSArray *friends) {
+          [tgvc updateForTangoFriends:friends];
+        }];
         [self.notificationController addNotification:tgvc];
       }
 #endif

@@ -230,7 +230,7 @@
 - (int) sendVoidTeamDonationSolicitationMessage:(NSArray *)solicitations;
 
 - (int) sendCollectClanGiftMessage:(NSArray *)userClanGifts;
-- (int) sendDeleteGiftsMessage:(NSArray *)userClanGifts;
+- (int) sendDeleteClanGiftsMessage:(NSArray *)userClanGifts;
 
 - (int) sendRetrieveUserMonsterTeamMessage:(NSArray *)userUuids;
 
@@ -247,7 +247,9 @@
 - (int) sendRedeemMiniEventRewardRequestProtoMessage:(RedeemMiniEventRewardRequestProto_RewardTier)tierRedeemed miniEventForPlayerLevelId:(int32_t)mefplId clientTime:(uint64_t)clientTime;
 
 - (int) sendUpdateTangleID:(NSString *)tangoId;
-- (int) sendTangoGiftsForTangoIds:(NSArray *)tangoIds;
+- (int) sendTangoGiftsForTangoIds:(NSArray *)tangoIds myTangoId:(NSString *)myTangoId clientTime:(int64_t)clientTime;
+- (int) sendDeleteUserGifts:(NSArray *)gifts;
+- (int) sendCollectUserGifts:(NSArray *)userGiftIds clientTime:(int64_t)clientTime;
 
 - (void) flush;
 - (void) pauseFlushTimer;

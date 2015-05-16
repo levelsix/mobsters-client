@@ -15,6 +15,20 @@
 
 @class ChatCell;
 
+@protocol ChatGift <NSObject>
+
+- (BOOL) isExpired;
+- (MSDate *) expireDate;
+- (IBAction) collectClicked:(id)sender;
+- (NSString *) giftName;
+- (RewardProto *) reward;
+- (NSString *) giftImageName;
+
+@property (nonatomic, assign) BOOL isRedeemed;
+
+
+@end
+
 @protocol ChatObject <NSObject>
 
 - (MinimumUserProto *)sender;
@@ -103,11 +117,17 @@
 
 @end
 
-@interface UserClanGiftProto (ChatObject) <ChatObject>
+@interface UserClanGiftProto (ChatObject) <ChatObject, ChatGift>
 
-- (BOOL) isExpired;
-- (MSDate *) expireDate;
-- (IBAction) collectClicked:(id)sender;
+//- (BOOL) isExpired;
+//- (MSDate *) expireDate;
+//- (IBAction) collectClicked:(id)sender;
+
+@property (nonatomic, assign) BOOL isRedeemed;
+
+@end
+
+@interface UserGiftProto (ChatObject) <ChatObject, ChatGift>
 
 @property (nonatomic, assign) BOOL isRedeemed;
 

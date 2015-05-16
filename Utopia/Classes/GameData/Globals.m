@@ -3245,6 +3245,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       }
     case RewardProto_RewardTypeNoReward:
     case RewardProto_RewardTypeClanGift:
+    case RewardProto_RewardTypeTangoGift:
       return @"";
   }
 }
@@ -3273,6 +3274,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       
     case RewardProto_RewardTypeNoReward:
     case RewardProto_RewardTypeClanGift:
+    case RewardProto_RewardTypeTangoGift:
       return @"";
   }
 }

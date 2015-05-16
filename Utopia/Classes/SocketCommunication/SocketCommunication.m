@@ -1658,7 +1658,7 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCCollectClanGiftsEvent];
 }
 
-- (int) sendDeleteGiftsMessage:(NSArray *)userClanGifts {
+- (int) sendDeleteClanGiftsMessage:(NSArray *)userClanGifts {
   DeleteClanGiftsRequestProto *req = [[[[DeleteClanGiftsRequestProto builder]
                                               setSender:_sender]
                                              addAllExpiredGifts:userClanGifts]
@@ -1732,17 +1732,42 @@ static NSString *udid = nil;
 }
 
 - (int) sendUpdateTangleID:(NSString *)tangoId {
-  return 0;
+  SetTangoIdRequestProto *req = [[[[SetTangoIdRequestProto builder]
+                                   setSender:_sender]
+                                  setTangoId:tangoId]
+                                 build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCSetTangoIdEvent];
 }
 
-- (int) sendTangoGiftsForTangoIds:(NSArray *)tangoIds {
-  SendTangoGiftRequestProto *req = [[[[[SendTangoGiftRequestProto builder]
-                                       setSender:_sender]
-                                      addAllTangoUserIds:tangoIds]
-                                     setClientTime:self.lastClientTime]
+- (int) sendTangoGiftsForTangoIds:(NSArray *)tangoIds myTangoId:(NSString *)myTangoId clientTime:(int64_t)clientTime{
+  SendTangoGiftRequestProto *req = [[[[[[SendTangoGiftRequestProto builder]
+                                        setSender:_sender]
+                                       addAllTangoUserIds:tangoIds]
+                                      setClientTime:clientTime]
+                                     setSenderTangoUserId:myTangoId]
                                     build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCSendTangoGiftEvent];
+}
+
+- (int) sendDeleteUserGifts:(NSArray *)gifts {
+  DeleteGiftRequestProto *req = [[[[DeleteGiftRequestProto builder]
+                                   setSender:_sender]
+                                  addAllExpiredGifts:gifts]
+                                 build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCDeleteGiftEvent];
+}
+
+- (int) sendCollectUserGifts:(NSArray *)userGiftIds clientTime:(int64_t)clientTime {
+  CollectGiftRequestProto *req = [[[[[CollectGiftRequestProto builder]
+                                     setSender:[self senderWithMaxResources]]
+                                    addAllUgUuids:userGiftIds]
+                                   setClientTime:clientTime]
+                                  build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCCollectGiftEvent];
 }
 
 #pragma mark - Batch/Flush events

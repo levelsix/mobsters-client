@@ -190,5 +190,7 @@
 
 - (void) updateTangoId:(NSString *)tangoId;
 - (void) sendTangoGiftsToTangoUsers:(NSArray *)tangoIds gemReward:(int)gemReward delegate:(id)delegate;
+- (void) deleteUserGifts:(NSArray *)userGifts;
+- (void) collectUserGifts:(NSArray *)userGifts delegate:(id)delegate;
 
 @end

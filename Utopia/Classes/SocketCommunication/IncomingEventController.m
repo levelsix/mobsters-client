@@ -391,7 +391,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       responseClass = [SendTangoGiftResponseProto class];
       break;
     case EventProtocolResponseSReceivedGiftEvent:
-#warning breath this
+      responseClass = [ReceivedGiftResponseProto class];
+      break;
+    case EventProtocolResponseSCollectGiftEvent:
+      responseClass = [CollectGiftResponseProto class];
       break;
     default:
       responseClass = nil;
@@ -566,6 +569,23 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     if (giftsToBeRemoved.count > 0) {
       [[OutgoingEventController sharedOutgoingEventController] clearClanGifts:giftsToBeRemoved];
+    }
+    
+    [gs.userGifts removeAllObjects];
+    giftsToBeRemoved = [[NSMutableArray alloc] init];
+    for (UserGiftProto *ugp in proto.userGiftsList) {
+      if (ugp.hasBeenCollected) {
+        [giftsToBeRemoved addObject:ugp];
+        continue;
+      }
+      if (ugp.isExpired) {
+        [giftsToBeRemoved addObject:ugp];
+      }
+      [gs.userGifts addObject:ugp];
+    }
+    
+    if (giftsToBeRemoved.count > 0) {
+      [[OutgoingEventController sharedOutgoingEventController] deleteUserGifts:giftsToBeRemoved];
     }
     
     gs.myPvpBoardObstacles = [proto.userPvpBoardObstaclesList mutableCopy];
@@ -1672,7 +1692,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     [gs.clanGifts addObjectsFromArray:proto.userClanGiftsList];
     [Globals addClanGiftNotification:proto.userClanGiftsList];
-    [[NSNotificationCenter defaultCenter] postNotificationName:CLAN_GIFTS_CHANGED_NOTIFICATION object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:GIFTS_CHANGED_NOTIFICATION object:nil];
   }
   
 }
@@ -2706,6 +2726,44 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [TangoDelegate sendGiftsToTangoUsers:proto.tangoUserIdsInToonSquadList];
   }
 #endif
+}
+
+#pragma - mark Gifts
+
+- (void) handleReceivedGiftResponseProto:(FullEvent *)fe {
+  ReceivedGiftResponseProto *proto = (ReceivedGiftResponseProto *)fe.event;
+  
+  GameState *gs = [GameState sharedGameState];
+  if (![proto.sender.userUuid isEqualToString:gs.userUuid]) {
+    LNLog(@"Recieving User Gifts");
+    
+    [gs.userGifts addObjectsFromArray:proto.userGiftsList];
+    [Globals addClanGiftNotification:proto.userGiftsList];
+    [[NSNotificationCenter defaultCenter] postNotificationName:GIFTS_CHANGED_NOTIFICATION object:nil];
+  }
+}
+
+- (void) handleCollectGiftResponseProto:(FullEvent *)fe {
+  CollectGiftResponseProto *proto = (CollectGiftResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Collect User Gifts reponse received with status %d.", (int)proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == CollectGiftResponseProto_CollectGiftStatusSuccess) {
+    // Gems, oil, and cash are updated through UpdateUserClientResponseEvent. Don't do anything here
+    if (proto.reward.updatedOrNewMonstersList.count) {
+      [gs addToMyMonsters:proto.reward.updatedOrNewMonstersList];
+    }
+    
+    if (proto.reward.updatedUserItemsList.count) {
+      [gs.itemUtil addToMyItems:proto.reward.updatedUserItemsList];
+    }
+  } else {
+    [Globals popupMessage:@"Server failed to redeem gift(s)"];
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+  
 }
 
 @end

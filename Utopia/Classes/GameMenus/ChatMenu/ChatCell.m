@@ -629,7 +629,7 @@ static float buttonInitialWidth = 159.f;
   [self.unOpenedView.superview addSubview:self.openedView];
 }
 
-- (void) updateForClanGift:(UserClanGiftProto *)userClanGift {
+- (void) updateForClanGift:(id<ChatObject, ChatGift>)userClanGift {
   
   if (userClanGift.isRedeemed) {
     self.unOpenedView.hidden = YES;
@@ -646,11 +646,11 @@ static float buttonInitialWidth = 159.f;
   
 //  self.giftRarityLabel.text = [NSString stringWithFormat:@"%@ Gift", [Globals stringForRarity:userClanGift.clanGift.quality]];
   self.giftRarityLabel.text = rewardName;
-  self.giftNameLabel.text = userClanGift.clanGift.name;
+  self.giftNameLabel.text = userClanGift.giftName;
   
   [self updateForExpireDate:userClanGift.expireDate];
   
-  self.rewardNameLabel.text = [NSString stringWithFormat:@"Opened from the %@",userClanGift.clanGift.name];
+  self.rewardNameLabel.text = [NSString stringWithFormat:@"Opened from the %@",userClanGift.giftName];
   
   if (userClanGift.reward.typ == RewardProto_RewardTypeMonster) {
     self.rewardFitImageView.hidden = NO;
@@ -663,7 +663,7 @@ static float buttonInitialWidth = 159.f;
     
     [Globals imageNamed:rewardImageName withView:self.rewardCenterImageView greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:NO];
   }
-  [Globals imageNamed:userClanGift.clanGift.imageName withView:self.giftImage greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+  [Globals imageNamed:userClanGift.giftImageName withView:self.giftImage greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
   
   [self.collectButton removeTarget:nil action:NULL forControlEvents:UIControlEventTouchUpInside];
   [self.collectButton addTarget:userClanGift action:@selector(collectClicked:) forControlEvents:UIControlEventTouchUpInside];

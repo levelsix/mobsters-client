@@ -74,7 +74,7 @@
   if ((self = [super init])) {
     [[NSBundle mainBundle] loadNibNamed:@"PrivateMessageNotificationView" owner:self options:nil];
     
-    UserClanGiftProto *ucgp = [userClanGifts firstObject];
+    id<ChatObject, ChatGift> ucgp = [userClanGifts firstObject];
     _messageFromSingleUser = (ChatMessage*)ucgp;
     
     if (userClanGifts.count > 1) {
@@ -120,8 +120,8 @@
         [self.notificationView updateWithString:php.otherUser.name description:result color:textColor];
         [self addAvatarWithMonsterId:php.otherUser.avatarMonsterId];
         
-      } else if ([chat isKindOfClass:[UserClanGiftProto class]]) {
-        UserClanGiftProto *ucgp = [messages firstObject];
+      } else if ([chat isKindOfClass:[UserClanGiftProto class]] || [chat isKindOfClass:[UserGiftProto class]]) {
+        id<ChatObject, ChatGift> ucgp = [messages firstObject];
         _messageFromSingleUser = (ChatMessage*)chat;
         
         [self.notificationView updateWithString:ucgp.otherUser.name description:@"Sent you a gift!" color:[UIColor colorWithHexString:GREEN]];

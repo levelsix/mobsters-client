@@ -62,7 +62,8 @@
 @property (nonatomic, assign) uint64_t totalStrength;
 @property (nonatomic, assign) int userSegmentationGroup;
 @property (nonatomic, assign) BOOL userHasEnteredBattleThisSession;
-@property (nonatomic, assign) MSDate *lastTangoGiftSentTime;
+@property (nonatomic, retain) MSDate *lastTangoGiftSentTime;
+@property (nonatomic, retain) NSString *tangoId;
 
 @property (nonatomic, assign) BOOL hasBeatenFirstBoss;
 @property (nonatomic, assign) int firstBossTaskId;
@@ -146,6 +147,7 @@
 @property (nonatomic, retain) NSMutableArray *clanAvengings;
 @property (nonatomic, retain) ClanTeamDonateUtil *clanTeamDonateUtil;
 @property (nonatomic, retain) NSMutableArray *clanGifts;
+@property (nonatomic, retain) NSMutableArray *userGifts;
 
 @property (nonatomic, retain) NSMutableArray *userExpansions;
 @property (nonatomic, retain) NSMutableDictionary *expansionCosts;
@@ -170,8 +172,6 @@
 @property (nonatomic, assign) BOOL globalTranslationOn;
 @property (nonatomic, retain) NSMutableDictionary *privateChatLanguages;
 @property (nonatomic, retain) NSMutableDictionary *privateTranslationOn;
-
-@property (nonatomic, retain) NSMutableArray *squadGifts;
 
 + (GameState *) sharedGameState;
 + (void) purgeSingleton;

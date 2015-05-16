@@ -1280,6 +1280,7 @@
       return [[Reward alloc] initWithMonsterId:proto.staticDataId isPuzzlePiece:proto.amt == 0];
     case RewardProto_RewardTypeNoReward:
     case RewardProto_RewardTypeClanGift:
+    case RewardProto_RewardTypeTangoGift:
     case RewardProto_RewardTypeGachaCredits:
       return nil;
   }

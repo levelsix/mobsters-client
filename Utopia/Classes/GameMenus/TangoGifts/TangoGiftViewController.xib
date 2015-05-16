@@ -170,6 +170,9 @@
                                                                     <state key="highlighted">
                                                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     </state>
+                                                                    <connections>
+                                                                        <action selector="sendClicked:" destination="-1" eventType="touchUpInside" id="PL0-24-DtX"/>
+                                                                    </connections>
                                                                 </button>
                                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Send" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="XsN-vi-DZZ" customClass="NiceFontLabel12">
                                                                     <rect key="frame" x="3" y="4" width="63" height="21"/>

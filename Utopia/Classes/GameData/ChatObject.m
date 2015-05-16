@@ -14,6 +14,7 @@
 #import "Globals.h"
 #import "GameState.h"
 
+#import "TangoDelegate.h"
 #import "OutgoingEventController.h"
 #import "UnreadNotifications.h"
 
@@ -23,6 +24,7 @@
 #import "MiniEventManager.h"
 
 static char const * clanGiftRedeemedKey = "clanGiftRedeemedKey";
+static char const * GiftRedeemedKey = "GiftRedeemedKey";
 
 @implementation ChatMessage
 
@@ -518,6 +520,14 @@ static char const * clanGiftRedeemedKey = "clanGiftRedeemedKey";
 
 @implementation UserClanGiftProto (ChatObject)
 
+- (NSString *) giftImageName {
+  return self.giftImageName;
+}
+
+- (NSString *) giftName {
+  return self.clanGift.name;
+}
+
 - (MinimumUserProto *) otherUser {
   return self.gifterUser;
 }
@@ -593,7 +603,7 @@ static char const * clanGiftRedeemedKey = "clanGiftRedeemedKey";
   [Globals addPurpleAlertNotification:alert isImmediate:YES];
   
   [self setIsRedeemed:YES];
-  [[NSNotificationCenter defaultCenter] postNotificationName:CLAN_GIFTS_CHANGED_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] postNotificationName:GIFTS_CHANGED_NOTIFICATION object:nil];
 
   [[OutgoingEventController sharedOutgoingEventController] collectClanGift:[NSArray arrayWithObject:self] delegate:nil];
 }
@@ -604,6 +614,121 @@ static char const * clanGiftRedeemedKey = "clanGiftRedeemedKey";
 
 - (BOOL) isRedeemed {
   return self.hasBeenCollected || (BOOL)objc_getAssociatedObject(self, clanGiftRedeemedKey);
+}
+
+- (BOOL) updateForTimeInChatCell:(ChatCell *)chatCell {
+  ChatClanGiftView *v = (ChatClanGiftView *)chatCell.currentChatSubview;
+  [v updateForExpireDate:self.expireDate];
+  return NO;
+}
+
+- (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell language:(TranslateLanguages)language{
+  [self updateInChatCell:chatCell showsClanTag:YES language:language];
+  return CGRectGetMaxY(chatCell.currentChatSubview.frame)+14.f;
+}
+
+@end
+
+@implementation UserGiftProto (ChatObject)
+
+- (NSString *) giftImageName {
+  return self.tangoGift.tangoGift.imageName;
+}
+
+- (NSString *) giftName {
+  return self.tangoGift.tangoGift.name;
+}
+
+- (RewardProto *) reward {
+  return self.rp;
+}
+
+- (MinimumUserProto *) otherUser {
+  return self.gifterUser;
+}
+
+- (MinimumUserProto *) sender {
+  return self.gifterUser;
+}
+
+- (NSString *) message {
+  return @"Sent you a gift!";
+}
+
+- (MSDate *) date {
+  return [MSDate dateWithTimeIntervalSince1970:(self.timeReceived/1000.)];
+}
+
+- (UIColor *) bottomViewTextColor {
+  //green a4f100
+  //red ff9b9b
+  if (!self.isExpired && !self.isRedeemed) {
+    return [UIColor colorWithHexString:@"A4F100"];
+  } else if (self.isExpired && !self.isRedeemed){
+    return [UIColor colorWithHexString:@"FF9B9B"];
+  } else {
+    return [UIColor whiteColor];
+  }
+}
+
+- (PrivateChatPostProto *) chatPrivateChat {
+  // This is an easy way to do read msgs for all clan chats (use an id that is shared amongst everything)
+  MinimumUserProto *mup = [[[MinimumUserProto builder] setUserUuid:GIFT_CHAT_PRIVATE_CHAT_USER_ID] build];
+  MinimumUserProtoWithLevel *mupl = [[[MinimumUserProtoWithLevel builder] setMinUserProto:mup] build];
+  PrivateChatPostProto *pcpp = [[[[PrivateChatPostProto builder]
+                                  setRecipient:mupl]
+                                 setTimeOfPost:self.timeReceived]
+                                build];
+  return pcpp;
+}
+
+- (BOOL) isRead {
+  return self.isRedeemed || self.isExpired || [[self chatPrivateChat] isRead];
+}
+
+- (void) markAsRead {
+  // Do nothing
+  return [[self chatPrivateChat] markAsRead];
+}
+
+- (BOOL) isExpired {
+  return self.expireDate.timeIntervalSinceNow <= 0;
+}
+
+- (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag language:(TranslateLanguages)language{
+  NSString *nibName = @"ChatClanGiftView";
+  ChatClanGiftView *v = [chatCell dequeueChatSubview:nibName];
+  
+  if (!v) {
+    v = [[NSBundle mainBundle] loadNibNamed:nibName owner:self options:nil][0];
+  }
+  
+  [v updateForClanGift:self];
+  
+  [chatCell updateForMessage:self.message sender:self.sender date:self.date showsClanTag:showsClanTag allowHighlight:YES chatSubview:v identifier:nibName];
+}
+
+- (MSDate *) expireDate {
+  long expireTime = (self.timeReceived/1000.) + (self.tangoGift.tangoGift.hoursUntilExpiration * 60 * 60);
+  return [MSDate dateWithTimeIntervalSince1970:expireTime];
+}
+
+- (IBAction)collectClicked:(id)sender {
+  NSString *alert = [NSString stringWithFormat:@"You just collected %@ from your %@",[Globals nameForReward:self.rp], self.tangoGift.tangoGift.name];
+  [Globals addPurpleAlertNotification:alert isImmediate:YES];
+  
+  [self setIsRedeemed:YES];
+  [[NSNotificationCenter defaultCenter] postNotificationName:GIFTS_CHANGED_NOTIFICATION object:nil];
+  
+  [[OutgoingEventController sharedOutgoingEventController] collectUserGifts:[NSArray arrayWithObject:self] delegate:nil];
+}
+
+- (void) setIsRedeemed:(BOOL)isRedeemed {
+  objc_setAssociatedObject(self, GiftRedeemedKey, @(isRedeemed), OBJC_ASSOCIATION_ASSIGN);
+}
+
+- (BOOL) isRedeemed {
+  return self.hasBeenCollected || (BOOL)objc_getAssociatedObject(self, GiftRedeemedKey);
 }
 
 - (BOOL) updateForTimeInChatCell:(ChatCell *)chatCell {

@@ -12,6 +12,7 @@
 #define PVP_HISTORY_DEFAULTS_KEY @"PvpHistoryLastRead"
 
 #define CLAN_CHAT_PRIVATE_CHAT_USER_ID @"ClanChatReadStatus"
+#define GIFT_CHAT_PRIVATE_CHAT_USER_ID @"giftChatReadStatus"
 
 @interface PrivateChatPostProto (UnreadStatus)
 

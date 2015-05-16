@@ -815,6 +815,12 @@
     }
   }
   
+  for (UserGiftProto *ugp in gs.userGifts) {
+    if ([ugp.gifterUser.userUuid isEqualToString:self.curUserUuid]) {
+      [arr addObject:ugp];
+    }
+  }
+  
   // Check for fb requests
   for (RequestFromFriend *req in gs.fbUnacceptedRequestsFromFriends) {
     if ([req.otherUser.userUuid isEqualToString:self.curUserUuid]) {

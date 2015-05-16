@@ -8,6 +8,7 @@
 
 #import "TangoGiftViewController.h"
 #import "GameViewController.h"
+#import "OutgoingEventController.h"
 
 #import "Globals.h"
 
@@ -72,14 +73,16 @@
   return self.selectedFriends.count == self.tangoFriends.count;
 }
 
-- (void) updateRewardAmount {
+- (int) updateRewardAmount {
   
   if (!self.selectedFriends.count) {
     self.rewardLabel.text = @"0";
+    return 0;
   } else {
     int rewardAmount = MAX(MAX_GEM_REWARD - ((int)self.tangoFriends.count - (int)self.selectedFriends.count), MIN_GEM_REWARD);
     rewardAmount = MIN(MAX_GEM_REWARD, rewardAmount);
     self.rewardLabel.text = [NSString stringWithFormat:@"%d", rewardAmount];
+    return rewardAmount;
   }
 }
 
@@ -111,7 +114,19 @@
 }
 
 - (IBAction) sendClicked:(id)sender {
-  [TangoDelegate sendGiftsToTangoUsers:self.selectedFriends];
+  
+  NSArray *withAppList = [TangoDelegate getTangoIdsForProfiles:self.selectedFriends withApp:YES];
+  NSArray *withoutAppList = [TangoDelegate getTangoIdsForProfiles:self.selectedFriends withApp:NO];
+  
+  if (withAppList.count > 0) {
+    //the response need to be handles here when we clean this up, when there's more time.
+    [[OutgoingEventController sharedOutgoingEventController] sendTangoGiftsToTangoUsers:withAppList gemReward:[self updateRewardAmount] delegate:self];
+  }
+  
+  if (withoutAppList.count > 0) {
+    [TangoDelegate sendInvitesToTangoUsers:withoutAppList];
+  }
+  [self close];
 }
 
 #pragma mark - table delegate
