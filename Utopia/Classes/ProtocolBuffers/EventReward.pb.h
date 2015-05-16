@@ -148,9 +148,11 @@ BOOL CollectGiftResponseProto_CollectGiftStatusIsValidValue(CollectGiftResponseP
 @interface SendTangoGiftRequestProto : PBGeneratedMessage {
 @private
   BOOL hasClientTime_:1;
+  BOOL hasGemReward_:1;
   BOOL hasSenderTangoUserId_:1;
   BOOL hasSender_:1;
   int64_t clientTime;
+  int32_t gemReward;
   NSString* senderTangoUserId;
   MinimumUserProto* sender;
   NSMutableArray * mutableTangoUserIdsList;
@@ -158,10 +160,12 @@ BOOL CollectGiftResponseProto_CollectGiftStatusIsValidValue(CollectGiftResponseP
 - (BOOL) hasSender;
 - (BOOL) hasClientTime;
 - (BOOL) hasSenderTangoUserId;
+- (BOOL) hasGemReward;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) int64_t clientTime;
 @property (readonly, strong) NSArray * tangoUserIdsList;
 @property (readonly, strong) NSString* senderTangoUserId;
+@property (readonly) int32_t gemReward;
 - (NSString*)tangoUserIdsAtIndex:(NSUInteger)index;
 
 + (SendTangoGiftRequestProto*) defaultInstance;
@@ -221,6 +225,11 @@ BOOL CollectGiftResponseProto_CollectGiftStatusIsValidValue(CollectGiftResponseP
 - (NSString*) senderTangoUserId;
 - (SendTangoGiftRequestProto_Builder*) setSenderTangoUserId:(NSString*) value;
 - (SendTangoGiftRequestProto_Builder*) clearSenderTangoUserId;
+
+- (BOOL) hasGemReward;
+- (int32_t) gemReward;
+- (SendTangoGiftRequestProto_Builder*) setGemReward:(int32_t) value;
+- (SendTangoGiftRequestProto_Builder*) clearGemReward;
 @end
 
 @interface SendTangoGiftResponseProto : PBGeneratedMessage {

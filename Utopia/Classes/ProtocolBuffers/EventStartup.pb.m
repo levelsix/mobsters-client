@@ -3142,6 +3142,8 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property (strong) NSMutableArray * mutableFileDownloadProtoList;
 @property int32_t taskIdForUpgradeTutorial;
 @property (strong) StartupResponseProto_StartupConstants_BoosterPackConstantsProto* boosterPackConstantProto;
+@property int32_t tangoMaxGemReward;
+@property int32_t tangoMinGemReward;
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -3425,6 +3427,20 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasBoosterPackConstantProto_ = !!value_;
 }
 @synthesize boosterPackConstantProto;
+- (BOOL) hasTangoMaxGemReward {
+  return !!hasTangoMaxGemReward_;
+}
+- (void) setHasTangoMaxGemReward:(BOOL) value_ {
+  hasTangoMaxGemReward_ = !!value_;
+}
+@synthesize tangoMaxGemReward;
+- (BOOL) hasTangoMinGemReward {
+  return !!hasTangoMinGemReward_;
+}
+- (void) setHasTangoMinGemReward:(BOOL) value_ {
+  hasTangoMinGemReward_ = !!value_;
+}
+@synthesize tangoMinGemReward;
 - (id) init {
   if ((self = [super init])) {
     self.maxLevelForUser = 0;
@@ -3463,6 +3479,8 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.minsToResolicitTeamDonation = 0;
     self.taskIdForUpgradeTutorial = 0;
     self.boosterPackConstantProto = [StartupResponseProto_StartupConstants_BoosterPackConstantsProto defaultInstance];
+    self.tangoMaxGemReward = 0;
+    self.tangoMinGemReward = 0;
   }
   return self;
 }
@@ -3641,6 +3659,12 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasTaskIdForUpgradeTutorial) {
     [output writeInt32:41 value:self.taskIdForUpgradeTutorial];
   }
+  if (self.hasTangoMaxGemReward) {
+    [output writeInt32:42 value:self.tangoMaxGemReward];
+  }
+  if (self.hasTangoMinGemReward) {
+    [output writeInt32:43 value:self.tangoMinGemReward];
+  }
   if (self.hasBoosterPackConstantProto) {
     [output writeMessage:500 value:self.boosterPackConstantProto];
   }
@@ -3775,6 +3799,12 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }];
   if (self.hasTaskIdForUpgradeTutorial) {
     size_ += computeInt32Size(41, self.taskIdForUpgradeTutorial);
+  }
+  if (self.hasTangoMaxGemReward) {
+    size_ += computeInt32Size(42, self.tangoMaxGemReward);
+  }
+  if (self.hasTangoMinGemReward) {
+    size_ += computeInt32Size(43, self.tangoMinGemReward);
   }
   if (self.hasBoosterPackConstantProto) {
     size_ += computeMessageSize(500, self.boosterPackConstantProto);
@@ -3982,6 +4012,12 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasTaskIdForUpgradeTutorial) {
     [output appendFormat:@"%@%@: %@\n", indent, @"taskIdForUpgradeTutorial", [NSNumber numberWithInteger:self.taskIdForUpgradeTutorial]];
   }
+  if (self.hasTangoMaxGemReward) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"tangoMaxGemReward", [NSNumber numberWithInteger:self.tangoMaxGemReward]];
+  }
+  if (self.hasTangoMinGemReward) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"tangoMinGemReward", [NSNumber numberWithInteger:self.tangoMinGemReward]];
+  }
   if (self.hasBoosterPackConstantProto) {
     [output appendFormat:@"%@%@ {\n", indent, @"boosterPackConstantProto"];
     [self.boosterPackConstantProto writeDescriptionTo:output
@@ -4075,6 +4111,10 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
       [self.fileDownloadProtoList isEqualToArray:otherMessage.fileDownloadProtoList] &&
       self.hasTaskIdForUpgradeTutorial == otherMessage.hasTaskIdForUpgradeTutorial &&
       (!self.hasTaskIdForUpgradeTutorial || self.taskIdForUpgradeTutorial == otherMessage.taskIdForUpgradeTutorial) &&
+      self.hasTangoMaxGemReward == otherMessage.hasTangoMaxGemReward &&
+      (!self.hasTangoMaxGemReward || self.tangoMaxGemReward == otherMessage.tangoMaxGemReward) &&
+      self.hasTangoMinGemReward == otherMessage.hasTangoMinGemReward &&
+      (!self.hasTangoMinGemReward || self.tangoMinGemReward == otherMessage.tangoMinGemReward) &&
       self.hasBoosterPackConstantProto == otherMessage.hasBoosterPackConstantProto &&
       (!self.hasBoosterPackConstantProto || [self.boosterPackConstantProto isEqual:otherMessage.boosterPackConstantProto]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
@@ -4203,6 +4243,12 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }];
   if (self.hasTaskIdForUpgradeTutorial) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.taskIdForUpgradeTutorial] hash];
+  }
+  if (self.hasTangoMaxGemReward) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.tangoMaxGemReward] hash];
+  }
+  if (self.hasTangoMinGemReward) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.tangoMinGemReward] hash];
   }
   if (self.hasBoosterPackConstantProto) {
     hashCode = hashCode * 31 + [self.boosterPackConstantProto hash];
@@ -9016,6 +9062,12 @@ static StartupResponseProto_StartupConstants_BoosterPackConstantsProto* defaultS
   if (other.hasBoosterPackConstantProto) {
     [self mergeBoosterPackConstantProto:other.boosterPackConstantProto];
   }
+  if (other.hasTangoMaxGemReward) {
+    [self setTangoMaxGemReward:other.tangoMaxGemReward];
+  }
+  if (other.hasTangoMinGemReward) {
+    [self setTangoMinGemReward:other.tangoMinGemReward];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -9256,6 +9308,14 @@ static StartupResponseProto_StartupConstants_BoosterPackConstantsProto* defaultS
       }
       case 328: {
         [self setTaskIdForUpgradeTutorial:[input readInt32]];
+        break;
+      }
+      case 336: {
+        [self setTangoMaxGemReward:[input readInt32]];
+        break;
+      }
+      case 344: {
+        [self setTangoMinGemReward:[input readInt32]];
         break;
       }
       case 4002: {
@@ -10128,6 +10188,38 @@ static StartupResponseProto_StartupConstants_BoosterPackConstantsProto* defaultS
 - (StartupResponseProto_StartupConstants_Builder*) clearBoosterPackConstantProto {
   result.hasBoosterPackConstantProto = NO;
   result.boosterPackConstantProto = [StartupResponseProto_StartupConstants_BoosterPackConstantsProto defaultInstance];
+  return self;
+}
+- (BOOL) hasTangoMaxGemReward {
+  return result.hasTangoMaxGemReward;
+}
+- (int32_t) tangoMaxGemReward {
+  return result.tangoMaxGemReward;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setTangoMaxGemReward:(int32_t) value {
+  result.hasTangoMaxGemReward = YES;
+  result.tangoMaxGemReward = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearTangoMaxGemReward {
+  result.hasTangoMaxGemReward = NO;
+  result.tangoMaxGemReward = 0;
+  return self;
+}
+- (BOOL) hasTangoMinGemReward {
+  return result.hasTangoMinGemReward;
+}
+- (int32_t) tangoMinGemReward {
+  return result.tangoMinGemReward;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setTangoMinGemReward:(int32_t) value {
+  result.hasTangoMinGemReward = YES;
+  result.tangoMinGemReward = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearTangoMinGemReward {
+  result.hasTangoMinGemReward = NO;
+  result.tangoMinGemReward = 0;
   return self;
 }
 @end

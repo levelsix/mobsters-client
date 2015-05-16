@@ -28,6 +28,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property int64_t clientTime;
 @property (strong) NSMutableArray * mutableTangoUserIdsList;
 @property (strong) NSString* senderTangoUserId;
+@property int32_t gemReward;
 @end
 
 @implementation SendTangoGiftRequestProto
@@ -55,11 +56,19 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasSenderTangoUserId_ = !!value_;
 }
 @synthesize senderTangoUserId;
+- (BOOL) hasGemReward {
+  return !!hasGemReward_;
+}
+- (void) setHasGemReward:(BOOL) value_ {
+  hasGemReward_ = !!value_;
+}
+@synthesize gemReward;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.clientTime = 0L;
     self.senderTangoUserId = @"";
+    self.gemReward = 0;
   }
   return self;
 }
@@ -97,6 +106,9 @@ static SendTangoGiftRequestProto* defaultSendTangoGiftRequestProtoInstance = nil
   if (self.hasSenderTangoUserId) {
     [output writeString:4 value:self.senderTangoUserId];
   }
+  if (self.hasGemReward) {
+    [output writeInt32:5 value:self.gemReward];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -123,6 +135,9 @@ static SendTangoGiftRequestProto* defaultSendTangoGiftRequestProtoInstance = nil
   }
   if (self.hasSenderTangoUserId) {
     size_ += computeStringSize(4, self.senderTangoUserId);
+  }
+  if (self.hasGemReward) {
+    size_ += computeInt32Size(5, self.gemReward);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -174,6 +189,9 @@ static SendTangoGiftRequestProto* defaultSendTangoGiftRequestProtoInstance = nil
   if (self.hasSenderTangoUserId) {
     [output appendFormat:@"%@%@: %@\n", indent, @"senderTangoUserId", self.senderTangoUserId];
   }
+  if (self.hasGemReward) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"gemReward", [NSNumber numberWithInteger:self.gemReward]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -192,6 +210,8 @@ static SendTangoGiftRequestProto* defaultSendTangoGiftRequestProtoInstance = nil
       [self.tangoUserIdsList isEqualToArray:otherMessage.tangoUserIdsList] &&
       self.hasSenderTangoUserId == otherMessage.hasSenderTangoUserId &&
       (!self.hasSenderTangoUserId || [self.senderTangoUserId isEqual:otherMessage.senderTangoUserId]) &&
+      self.hasGemReward == otherMessage.hasGemReward &&
+      (!self.hasGemReward || self.gemReward == otherMessage.gemReward) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -207,6 +227,9 @@ static SendTangoGiftRequestProto* defaultSendTangoGiftRequestProtoInstance = nil
   }];
   if (self.hasSenderTangoUserId) {
     hashCode = hashCode * 31 + [self.senderTangoUserId hash];
+  }
+  if (self.hasGemReward) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.gemReward] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -267,6 +290,9 @@ static SendTangoGiftRequestProto* defaultSendTangoGiftRequestProtoInstance = nil
   if (other.hasSenderTangoUserId) {
     [self setSenderTangoUserId:other.senderTangoUserId];
   }
+  if (other.hasGemReward) {
+    [self setGemReward:other.gemReward];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -307,6 +333,10 @@ static SendTangoGiftRequestProto* defaultSendTangoGiftRequestProtoInstance = nil
       }
       case 34: {
         [self setSenderTangoUserId:[input readString]];
+        break;
+      }
+      case 40: {
+        [self setGemReward:[input readInt32]];
         break;
       }
     }
@@ -396,6 +426,22 @@ static SendTangoGiftRequestProto* defaultSendTangoGiftRequestProtoInstance = nil
 - (SendTangoGiftRequestProto_Builder*) clearSenderTangoUserId {
   result.hasSenderTangoUserId = NO;
   result.senderTangoUserId = @"";
+  return self;
+}
+- (BOOL) hasGemReward {
+  return result.hasGemReward;
+}
+- (int32_t) gemReward {
+  return result.gemReward;
+}
+- (SendTangoGiftRequestProto_Builder*) setGemReward:(int32_t) value {
+  result.hasGemReward = YES;
+  result.gemReward = value;
+  return self;
+}
+- (SendTangoGiftRequestProto_Builder*) clearGemReward {
+  result.hasGemReward = NO;
+  result.gemReward = 0;
   return self;
 }
 @end
