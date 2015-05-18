@@ -146,6 +146,14 @@
     }
   }
   
+  // Order the monsters by highest to lowest so that the pairings are chosen optimally
+  for (NSMutableDictionary *dict in @[validMonsters, catalysts]) {
+    for (NSNumber *num in dict) {
+      NSMutableArray *arr = dict[num];
+      [arr sortUsingSelector:@selector(compare:)];
+    }
+  }
+  
   // Now go through every array in validMonsters and pair up with highest and lowest monsters (first and last object).
   for (NSMutableArray *arr in validMonsters.allValues) {
     while (arr.count) {
@@ -302,7 +310,7 @@
     
     [self.parentViewController pushViewController:vc animated:YES];
   } else {
-    [Globals addAlertNotification:[NSString stringWithFormat:@"%@ %@s require a Level %d %@", [Globals stringForRarity:ei.userMonster1.staticMonster.quality], MONSTER_NAME, reqEvoChamberLevel, ecp.structInfo.name]];
+    [Globals addAlertNotification:[NSString stringWithFormat:@"%@ %@s require a Level %d %@.", [Globals stringForRarity:ei.userMonster1.staticMonster.quality], MONSTER_NAME, reqEvoChamberLevel, ecp.structInfo.name]];
   }
 }
 
