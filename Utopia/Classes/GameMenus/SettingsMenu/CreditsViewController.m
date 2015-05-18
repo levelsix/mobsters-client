@@ -11,7 +11,7 @@
 @implementation CreditsViewController
 
 - (void)loadFAQ {
-  [self loadFile:@"Credits4.txt"];
+  [self loadFile:@"Credits5.txt"];
 }
 
 @end
