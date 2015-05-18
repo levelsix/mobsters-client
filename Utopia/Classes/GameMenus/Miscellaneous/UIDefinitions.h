@@ -17,6 +17,8 @@
 
 #define IOS_NEWER_OR_EQUAL_TO_7 ( [ [ [ UIDevice currentDevice ] systemVersion ] floatValue ] >= 7.0 )
 
+#define IOS_NEWER_OR_EQUAL_TO_8 ( [ [ [ UIDevice currentDevice ] systemVersion ] floatValue ] >= 8.0 )
+
 #define KEYBOARD_HEIGHT 216.f
 
 #define SUPPRESS_PERFORM_SELECTOR_LEAK_WARNING(code)                    \
