@@ -15,6 +15,7 @@
   
   self.settingsSubViewController = [[SettingsSubViewController alloc] init];
   self.faqViewController = [[FAQViewController alloc] init];
+  self.creditsViewController = [[CreditsViewController alloc] init];
   
   [self button1Clicked:nil];
 }
@@ -31,6 +32,12 @@
   [self replaceRootWithViewController:self.faqViewController];
   
   [self.tabBar clickButton:2];
+}
+
+- (void) button3Clicked:(id)sender {
+  [self replaceRootWithViewController:self.creditsViewController];
+  
+  [self.tabBar clickButton:3];
 }
 
 @end

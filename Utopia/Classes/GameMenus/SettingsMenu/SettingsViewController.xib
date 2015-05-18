@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SettingsViewController">
@@ -61,11 +62,11 @@
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 </imageView>
                                 <view contentMode="scaleToFill" id="wwl-hZ-KZq" customClass="ButtonTabBar">
-                                    <rect key="frame" x="62" y="-2" width="240" height="41"/>
+                                    <rect key="frame" x="42" y="-2" width="282" height="41"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="MMq-L8-twt" customClass="GeneralButton">
-                                            <rect key="frame" x="28" y="9" width="86" height="32"/>
+                                            <rect key="frame" x="7" y="9" width="86" height="32"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" image="popupinactivetab.png">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -75,8 +76,19 @@
                                                 <action selector="buttonClicked:" destination="wwl-hZ-KZq" eventType="touchUpInside" id="yaY-ym-sPU"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Xyi-Wv-dj7" customClass="GeneralButton">
-                                            <rect key="frame" x="120" y="9" width="86" height="32"/>
+                                        <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="uOE-2I-q3k" customClass="GeneralButton">
+                                            <rect key="frame" x="97" y="9" width="86" height="32"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal" image="popupinactivetab.png">
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <state key="highlighted" image="popuppressedtab.png"/>
+                                            <connections>
+                                                <action selector="buttonClicked:" destination="wwl-hZ-KZq" eventType="touchUpInside" id="sKl-fk-Pz2"/>
+                                            </connections>
+                                        </button>
+                                        <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Xyi-Wv-dj7" customClass="GeneralButton">
+                                            <rect key="frame" x="187" y="9" width="86" height="32"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" image="popupinactivetab.png">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -87,11 +99,11 @@
                                             </connections>
                                         </button>
                                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="popupactivetab.png" id="AJ9-zo-qpS">
-                                            <rect key="frame" x="28" y="9" width="86" height="32"/>
+                                            <rect key="frame" x="7" y="9" width="86" height="32"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SETTINGS" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="SoP-Jh-7CJ" customClass="NiceFontLabel9">
-                                            <rect key="frame" x="36" y="19" width="70" height="24"/>
+                                            <rect key="frame" x="16" y="19" width="70" height="24"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="9"/>
                                             <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
@@ -99,7 +111,15 @@
                                             <size key="shadowOffset" width="0.0" height="1"/>
                                         </label>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FAQ" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="mhT-ed-4JM" customClass="NiceFontLabel9">
-                                            <rect key="frame" x="128" y="19" width="70" height="24"/>
+                                            <rect key="frame" x="105" y="19" width="70" height="24"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                            <color key="textColor" white="0.0" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                            <size key="shadowOffset" width="0.0" height="1"/>
+                                        </label>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CREDITS" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="jik-ii-Tgx" userLabel="CREDITS" customClass="NiceFontLabel9">
+                                            <rect key="frame" x="195" y="19" width="70" height="24"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="9"/>
                                             <color key="textColor" white="0.0" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
@@ -107,11 +127,15 @@
                                             <size key="shadowOffset" width="0.0" height="1"/>
                                         </label>
                                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="settingsinactive.png" highlightedImage="settingsactive.png" id="fjB-cM-1J2">
-                                            <rect key="frame" x="67" y="15" width="9" height="10"/>
+                                            <rect key="frame" x="47" y="15" width="9" height="10"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </imageView>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="faqinactive.png" highlightedImage="faqactive.png" id="DLU-0c-C4w">
+                                            <rect key="frame" x="135" y="16" width="10" height="10"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
                                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="faqinactive.png" highlightedImage="faqactive.png" id="4MQ-Qx-Frt">
-                                            <rect key="frame" x="158" y="15" width="10" height="10"/>
+                                            <rect key="frame" x="225" y="15" width="10" height="10"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
                                     </subviews>
@@ -119,9 +143,11 @@
                                     <connections>
                                         <outlet property="delegate" destination="-1" id="N7m-VL-sF5"/>
                                         <outlet property="icon1" destination="fjB-cM-1J2" id="Fog-sc-26h"/>
-                                        <outlet property="icon2" destination="4MQ-Qx-Frt" id="huf-xe-623"/>
+                                        <outlet property="icon2" destination="DLU-0c-C4w" id="hO9-xk-26c"/>
+                                        <outlet property="icon3" destination="4MQ-Qx-Frt" id="4RL-zu-vjq"/>
                                         <outlet property="label1" destination="SoP-Jh-7CJ" id="mzV-GT-g1b"/>
                                         <outlet property="label2" destination="mhT-ed-4JM" id="jxO-Qy-bRP"/>
+                                        <outlet property="label3" destination="jik-ii-Tgx" id="xk5-TI-kkP"/>
                                         <outlet property="selectedView" destination="AJ9-zo-qpS" id="tjH-NB-t8D"/>
                                     </connections>
                                 </view>

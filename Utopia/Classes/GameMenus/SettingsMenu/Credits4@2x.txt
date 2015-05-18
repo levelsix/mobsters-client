@@ -1,0 +1,29 @@
+Credits <h>
+
+Created By <s>
+
+Design <st>
+Alex Lin
+Andrew Lin
+Arin Schwartz
+
+Client Development <st>
+Ashwin Karmath
+Behrouz Namakshenas
+Kenneth Cox
+Robert Giusti
+
+Server Development <st>
+Arturo Wu Zhou
+Byron Tang
+Kelly Roman
+
+Art Direction <st>
+Cooper Moore
+
+Art <st>
+Roman Svistanyuk
+Vladimir Voronov
+
+Quality Assurance <st>
+Zane Mariano
