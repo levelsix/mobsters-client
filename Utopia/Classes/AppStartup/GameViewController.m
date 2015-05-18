@@ -543,10 +543,10 @@ static const CGSize FIXED_SIZE = {568, 384};
     //check if if we want to show this plater tango gift screen
     int hoursSinceLastTangoGift = 0;
     if(gs.lastTangoGiftSentTime) {
-      hoursSinceLastTangoGift = [gs.lastTangoGiftSentTime timeIntervalSinceNow] / 3600.f;
+      hoursSinceLastTangoGift = -[gs.lastTangoGiftSentTime timeIntervalSinceNow] / 3600.f;
     }
    
-    if (gs.tasksCompleted > 1 && (!gs.lastTangoGiftSentTime || hoursSinceLastTangoGift > 24)) {
+    if (gs.tasksCompleted >= 2 && (!gs.lastTangoGiftSentTime || hoursSinceLastTangoGift > 24)) {
 #ifdef TOONSQUAD
       if ([TangoDelegate isTangoAvailable] && [TangoDelegate isTangoAuthenticated]) {
         TangoGiftViewController *tgvc = [[TangoGiftViewController alloc] init];

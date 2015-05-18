@@ -3734,7 +3734,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 #ifdef TOONSQUAD
   GameState *gs = [GameState sharedGameState];
   
-  if (tangoIds.count == 0) {
+  if (tangoIds.count == 0 && gemReward == 0) {
     [Globals popupMessage:@"Trying to send 0 tango gifts"];
     return;
   }

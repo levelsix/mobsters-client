@@ -155,13 +155,13 @@
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  TangoFriendViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TangoFriendViewCell"];
+  //TangoFriendViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TangoFriendViewCell"];
+  //Can't use reusableCells becuase the profile picture code block passed into the tangoDelegate returns after the the cell has been reused
+  //if the player is scrolling too fase so profile pictures seem to random flash to other images.
+  
+  TangoFriendViewCell *cell = (TangoFriendViewCell *)[[NSBundle mainBundle] loadNibNamed:@"TangoFriendViewCell" owner:self options:nil][0];
   //loading Tango profile picture is delayed, so load the default now.
   [cell setDefaultProfilePicture];
-  
-  if (cell == nil) {
-    cell = (TangoFriendViewCell *)[[NSBundle mainBundle] loadNibNamed:@"TangoFriendViewCell" owner:self options:nil][0];
-  }
   
   id tangoProfile = self.tangoFriends[indexPath.row];
   [cell loadForTangoProfile:tangoProfile];

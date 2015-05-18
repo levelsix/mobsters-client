@@ -1025,7 +1025,7 @@
 - (IBAction)miniEventClicked:(id)sender {
   #warning don't breath this
 #ifdef TOONSQUAD
-  [TangoDelegate enableLogs];
+  [TangoDelegate disableLogs];
 #endif
   GameViewController *gvc = (GameViewController *)self.parentViewController;
   MiniEventViewController *mevc = [[MiniEventViewController alloc] init];
