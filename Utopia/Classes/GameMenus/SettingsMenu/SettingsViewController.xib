@@ -134,7 +134,7 @@
                                             <rect key="frame" x="135" y="16" width="10" height="10"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="faqinactive.png" highlightedImage="faqactive.png" id="4MQ-Qx-Frt">
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="clanbrowseinactiveicon2.png" highlightedImage="clanbrowseactiveicon2.png" id="4MQ-Qx-Frt">
                                             <rect key="frame" x="225" y="15" width="10" height="10"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
@@ -184,6 +184,8 @@
         </view>
     </objects>
     <resources>
+        <image name="clanbrowseactiveicon2.png" width="10" height="9"/>
+        <image name="clanbrowseinactiveicon2.png" width="10" height="9"/>
         <image name="closepopupx.png" width="25" height="26"/>
         <image name="faqactive.png" width="10" height="10"/>
         <image name="faqinactive.png" width="10" height="10"/>
