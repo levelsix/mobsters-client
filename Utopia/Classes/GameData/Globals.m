@@ -1254,16 +1254,36 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 + (CGPoint) convertPointToWindowCoordinates:(CGPoint)point fromViewCoordinates:(UIView *)view
 {
-  UIView* rootView = [UIApplication sharedApplication].keyWindow.rootViewController.view;
-  // Prefer not using toView:nil as it produces unexpected results in iOS < 8
-  return [view convertPoint:point toView:[view isDescendantOfView:rootView] ? rootView : nil];
+  if (IOS_NEWER_OR_EQUAL_TO_8)
+    return [view convertPoint:point toView:nil];
+  else
+  {
+    // The main window's frame in iOS < 8 does not reflect device orientation. One could use
+    // the root view controller's frame but, if the passed in view is not a descendant of that
+    // view controller, the calculation will be invalid. That's why instead of doing a simple
+    // convertPoint: toView:nil we're doing the shenanigans below:
+    
+    UIView* rootView = view; // Find the top-most superview of this view one level below the window
+    while (rootView.superview && ![rootView.superview isKindOfClass:[UIWindow class]]) rootView = rootView.superview;
+    return [view convertPoint:point toView:rootView];
+  }
 }
 
 + (CGPoint) convertPointFromWindowCoordinates:(CGPoint)point toViewCoordinates:(UIView *)view
 {
-  UIView* rootView = [UIApplication sharedApplication].keyWindow.rootViewController.view;
-  // Prefer not using formView:nil as it produces unexpected results in iOS < 8
-  return [view convertPoint:point fromView:[view isDescendantOfView:rootView] ? rootView : nil];
+  if (IOS_NEWER_OR_EQUAL_TO_8)
+    return [view convertPoint:point fromView:nil];
+  else
+  {
+    // The main window's frame in iOS < 8 does not reflect device orientation. One could use
+    // the root view controller's frame but, if the passed in view is not a descendant of that
+    // view controller, the calculation will be invalid. That's why instead of doing a simple
+    // convertPoint: fromView:nil we're doing the shenanigans below:
+    
+    UIView* rootView = view; // Find the top-most superview of this view one level below the window
+    while (rootView.superview && ![rootView.superview isKindOfClass:[UIWindow class]]) rootView = rootView.superview;
+    return [view convertPoint:point fromView:rootView];
+  }
 }
 
 + (void) alignSubviewsToPixelsBoundaries:(UIView*)view
