@@ -706,6 +706,8 @@
 @class StaticDataProto_Builder;
 @class StaticUserLevelInfoProto;
 @class StaticUserLevelInfoProto_Builder;
+@class StrengthLeaderBoardProto;
+@class StrengthLeaderBoardProto_Builder;
 @class StructureInfoProto;
 @class StructureInfoProto_Builder;
 @class SubmitMonsterEnhancementRequestProto;

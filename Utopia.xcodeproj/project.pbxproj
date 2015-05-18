@@ -3002,6 +3002,18 @@
 		9BE513071A9FFD96005F3BF5 /* (null) in Resources */ = {isa = PBXBuildFile; };
 		9BE513081A9FFD96005F3BF5 /* (null) in Resources */ = {isa = PBXBuildFile; };
 		9BE513091A9FFD97005F3BF5 /* (null) in Resources */ = {isa = PBXBuildFile; };
+		9BE9F5241B0AA580007E3A2F /* EventLeaderBoard.proto in Resources */ = {isa = PBXBuildFile; fileRef = 9BE9F5221B0AA580007E3A2F /* EventLeaderBoard.proto */; };
+		9BE9F5251B0AA580007E3A2F /* EventLeaderBoard.proto in Resources */ = {isa = PBXBuildFile; fileRef = 9BE9F5221B0AA580007E3A2F /* EventLeaderBoard.proto */; };
+		9BE9F5261B0AA580007E3A2F /* EventLeaderBoard.proto in Resources */ = {isa = PBXBuildFile; fileRef = 9BE9F5221B0AA580007E3A2F /* EventLeaderBoard.proto */; };
+		9BE9F5271B0AA580007E3A2F /* LeaderBoard.proto in Resources */ = {isa = PBXBuildFile; fileRef = 9BE9F5231B0AA580007E3A2F /* LeaderBoard.proto */; };
+		9BE9F5281B0AA580007E3A2F /* LeaderBoard.proto in Resources */ = {isa = PBXBuildFile; fileRef = 9BE9F5231B0AA580007E3A2F /* LeaderBoard.proto */; };
+		9BE9F5291B0AA580007E3A2F /* LeaderBoard.proto in Resources */ = {isa = PBXBuildFile; fileRef = 9BE9F5231B0AA580007E3A2F /* LeaderBoard.proto */; };
+		9BE9F52E1B0AA5AA007E3A2F /* EventLeaderBoard.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BE9F52B1B0AA5AA007E3A2F /* EventLeaderBoard.pb.m */; };
+		9BE9F52F1B0AA5AA007E3A2F /* EventLeaderBoard.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BE9F52B1B0AA5AA007E3A2F /* EventLeaderBoard.pb.m */; };
+		9BE9F5301B0AA5AA007E3A2F /* EventLeaderBoard.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BE9F52B1B0AA5AA007E3A2F /* EventLeaderBoard.pb.m */; };
+		9BE9F5311B0AA5AA007E3A2F /* LeaderBoard.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BE9F52D1B0AA5AA007E3A2F /* LeaderBoard.pb.m */; };
+		9BE9F5321B0AA5AA007E3A2F /* LeaderBoard.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BE9F52D1B0AA5AA007E3A2F /* LeaderBoard.pb.m */; };
+		9BE9F5331B0AA5AA007E3A2F /* LeaderBoard.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BE9F52D1B0AA5AA007E3A2F /* LeaderBoard.pb.m */; };
 		9BFC0C261AA51482009DFE50 /* minileaves@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BFC0C241AA51482009DFE50 /* minileaves@2x.png */; };
 		9BFC0C271AA51482009DFE50 /* minileaves@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BFC0C241AA51482009DFE50 /* minileaves@2x.png */; };
 		9BFC0C281AA51482009DFE50 /* minileaves@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BFC0C241AA51482009DFE50 /* minileaves@2x.png */; };
@@ -8657,9 +8669,6 @@
 		9B2EFCC31AC3A593005B7B83 /* tabpressedstate@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tabpressedstate@2x.png"; sourceTree = "<group>"; };
 		9B2EFCCC1AC4AEC9005B7B83 /* BattleItem.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = BattleItem.proto; sourceTree = "<group>"; };
 		9B2EFCCD1AC4AEC9005B7B83 /* EventBattleItem.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = EventBattleItem.proto; sourceTree = "<group>"; };
-		9B2EFCCE1AC4AEC9005B7B83 /* EventMiniEvent.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = EventMiniEvent.proto; sourceTree = "<group>"; };
-		9B2EFCCF1AC4AEC9005B7B83 /* MiniEvent.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MiniEvent.proto; sourceTree = "<group>"; };
-		9B2EFCD01AC4AEC9005B7B83 /* Reward.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Reward.proto; sourceTree = "<group>"; };
 		9B2EFCE11AC4AEF5005B7B83 /* EventMiniEvent.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventMiniEvent.pb.h; sourceTree = "<group>"; };
 		9B2EFCE21AC4AEF5005B7B83 /* EventMiniEvent.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventMiniEvent.pb.m; sourceTree = "<group>"; };
 		9B2EFCE31AC4AEF5005B7B83 /* MiniEvent.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiniEvent.pb.h; sourceTree = "<group>"; };
@@ -8950,6 +8959,12 @@
 		9BE512DC1A9E6362005F3BF5 /* decreased@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "decreased@2x.png"; sourceTree = "<group>"; };
 		9BE512FF1A9FB0EA005F3BF5 /* increased.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = increased.fnt; sourceTree = "<group>"; };
 		9BE513001A9FB0EA005F3BF5 /* increased@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "increased@2x.png"; sourceTree = "<group>"; };
+		9BE9F5221B0AA580007E3A2F /* EventLeaderBoard.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = EventLeaderBoard.proto; sourceTree = "<group>"; };
+		9BE9F5231B0AA580007E3A2F /* LeaderBoard.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LeaderBoard.proto; sourceTree = "<group>"; };
+		9BE9F52A1B0AA5AA007E3A2F /* EventLeaderBoard.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventLeaderBoard.pb.h; sourceTree = "<group>"; };
+		9BE9F52B1B0AA5AA007E3A2F /* EventLeaderBoard.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventLeaderBoard.pb.m; sourceTree = "<group>"; };
+		9BE9F52C1B0AA5AA007E3A2F /* LeaderBoard.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeaderBoard.pb.h; sourceTree = "<group>"; };
+		9BE9F52D1B0AA5AA007E3A2F /* LeaderBoard.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeaderBoard.pb.m; sourceTree = "<group>"; };
 		9BFC0C241AA51482009DFE50 /* minileaves@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "minileaves@2x.png"; sourceTree = "<group>"; };
 		9BFC0C251AA51482009DFE50 /* minirocks@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "minirocks@2x.png"; sourceTree = "<group>"; };
 		9BFC0C2D1AA51732009DFE50 /* SkillPopupMiniOverlay.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SkillPopupMiniOverlay.xib; sourceTree = "<group>"; };
@@ -16169,6 +16184,10 @@
 			isa = PBXGroup;
 			children = (
 				CF6574771909CAF100ABF1F4 /* Proto files */,
+				9BE9F52A1B0AA5AA007E3A2F /* EventLeaderBoard.pb.h */,
+				9BE9F52B1B0AA5AA007E3A2F /* EventLeaderBoard.pb.m */,
+				9BE9F52C1B0AA5AA007E3A2F /* LeaderBoard.pb.h */,
+				9BE9F52D1B0AA5AA007E3A2F /* LeaderBoard.pb.m */,
 				9BCAA19C1AD4A5D50059CEDA /* Sales.pb.h */,
 				9BCAA19D1AD4A5D50059CEDA /* Sales.pb.m */,
 				9B2EFCE11AC4AEF5005B7B83 /* EventMiniEvent.pb.h */,
@@ -16435,12 +16454,11 @@
 		CF6574771909CAF100ABF1F4 /* Proto files */ = {
 			isa = PBXGroup;
 			children = (
+				9BE9F5221B0AA580007E3A2F /* EventLeaderBoard.proto */,
+				9BE9F5231B0AA580007E3A2F /* LeaderBoard.proto */,
 				9BCAA1A11AD4A5F10059CEDA /* Sales.proto */,
 				9B2EFCCC1AC4AEC9005B7B83 /* BattleItem.proto */,
 				9B2EFCCD1AC4AEC9005B7B83 /* EventBattleItem.proto */,
-				9B2EFCCE1AC4AEC9005B7B83 /* EventMiniEvent.proto */,
-				9B2EFCCF1AC4AEC9005B7B83 /* MiniEvent.proto */,
-				9B2EFCD01AC4AEC9005B7B83 /* Reward.proto */,
 				63CE45EA1AD8564400C5D8C5 /* Reward.proto */,
 				63CA0AFF1AD5B95300E92774 /* EventMiniEvent.proto */,
 				63CA0B001AD5B95300E92774 /* MiniEvent.proto */,
@@ -19359,6 +19377,7 @@
 				29C3CA7E1A955BD0005407E9 /* sfx_collect_gems_doober.mp3 in Resources */,
 				CF0CEED7196F452900ECD301 /* greymediumsquare@2x.png in Resources */,
 				2933DC501ADFA808005D7620 /* gempackageheader@2x.png in Resources */,
+				9BE9F5281B0AA580007E3A2F /* LeaderBoard.proto in Resources */,
 				CF0CEED8196F452900ECD301 /* noteffective@2x.png in Resources */,
 				CF0CEEE2196F452900ECD301 /* gachacommonpiece@2x.png in Resources */,
 				9BDA8C121A5C9A8E00C7AC27 /* gachanavsep@2x.png in Resources */,
@@ -19506,6 +19525,7 @@
 				6B1EAA0E1ACF5DCC00E0B642 /* VinesMain18.png in Resources */,
 				CF0CEFBC196F452900ECD301 /* sellbubbleexclamation@2x.png in Resources */,
 				CFF2A51719709C4800269084 /* CashStorageT1@2x.pvr.ccz in Resources */,
+				9BE9F5251B0AA580007E3A2F /* EventLeaderBoard.proto in Resources */,
 				CF0CEFBE196F452900ECD301 /* questcompleteball@2x.plist in Resources */,
 				CF0CEFBF196F452900ECD301 /* tipbg@2x.png in Resources */,
 				6B3656641B07B0D8009BB2DA /* CreditsViewController.xib in Resources */,
@@ -21427,6 +21447,7 @@
 				9BC535981A845C1200E49F4D /* mininight@2x.png in Resources */,
 				CF023C9A1992E2BB0082FE61 /* movesqueuebg@2x.png in Resources */,
 				29AA13BB1A35916E004A9F22 /* battlesendmessage@2x.png in Resources */,
+				9BE9F5271B0AA580007E3A2F /* LeaderBoard.proto in Resources */,
 				299AA4DC1A7872C300A2D806 /* lightgrenade@2x.png in Resources */,
 				CF6890361912E7B500FF1F71 /* hpbarmiddlemj@2x.png in Resources */,
 				63CDCF1A1ABB897600A00DB6 /* activesquadrewardarrow@2x.png in Resources */,
@@ -22176,6 +22197,7 @@
 				6B1EAA7C1ACF5DCC00E0B642 /* VinesUp@2x.tps in Resources */,
 				299AA3CC1A7856AA00A2D806 /* nightsideways-9@2x.png in Resources */,
 				CFE7CD101819FC3300930847 /* arrowup@2x.png in Resources */,
+				9BE9F5241B0AA580007E3A2F /* EventLeaderBoard.proto in Resources */,
 				CF2A4B2D1905BF8600B2D7D7 /* whitebackbutton@2x.png in Resources */,
 				CFF646BB195A7CD100C43641 /* EnhanceSmallCardCell.xib in Resources */,
 				297D7E671A9EBD080057F4E6 /* use_speedup.mp3 in Resources */,
@@ -23743,6 +23765,7 @@
 				CF481B5519F7217F00041486 /* buildingsquad@2x.png in Resources */,
 				CF481B5719F7217F00041486 /* emptyachievementstar@2x.png in Resources */,
 				CF481B5919F7217F00041486 /* buildingupgraded@2x.png in Resources */,
+				9BE9F5291B0AA580007E3A2F /* LeaderBoard.proto in Resources */,
 				CF481B5D19F7217F00041486 /* sortbutton@2x.png in Resources */,
 				CF481B6019F7217F00041486 /* battlelegendtag@2x.png in Resources */,
 				29AE757D1A6F36E000264070 /* Kim1T1P2TutBig@2x.png in Resources */,
@@ -24315,6 +24338,7 @@
 				CF481ECF19F7217F00041486 /* lightsquare@2x.png in Resources */,
 				9BC535911A845C1200E49F4D /* miniearth@2x.png in Resources */,
 				CF481ED219F7217F00041486 /* pvpsilverribbon@2x.png in Resources */,
+				9BE9F5261B0AA580007E3A2F /* EventLeaderBoard.proto in Resources */,
 				63C57EB61A66282700ED406E /* gradientwaterdailylab@2x.png in Resources */,
 				CF481ED719F7217F00041486 /* labbingicon@2x.png in Resources */,
 				299AA3B01A7856AA00A2D806 /* lightheadshot-9@2x.png in Resources */,
@@ -25929,6 +25953,7 @@
 				6BCBD8761A797E63002C584F /* SkillHammerTime.m in Sources */,
 				CF0CED54196F452900ECD301 /* TutorialOrbLayer.m in Sources */,
 				CF0CED56196F452900ECD301 /* EventQuest.pb.m in Sources */,
+				9BE9F5321B0AA5AA007E3A2F /* LeaderBoard.pb.m in Sources */,
 				CF0CED57196F452900ECD301 /* EvolveChooserViews.m in Sources */,
 				CF0CED58196F452900ECD301 /* FullEvent.m in Sources */,
 				CF0CED59196F452900ECD301 /* SharedEnumConfig.pb.m in Sources */,
@@ -26077,6 +26102,7 @@
 				CF0CEDBD196F452900ECD301 /* TutorialHomeViewController.m in Sources */,
 				29804FF31A258EC100806253 /* SecretGiftViewController.m in Sources */,
 				9B2EFDBA1AD35E8B005B7B83 /* CAWSpriteReader.m in Sources */,
+				9BE9F52F1B0AA5AA007E3A2F /* EventLeaderBoard.pb.m in Sources */,
 				CF0CEDBF196F452900ECD301 /* ODIN.m in Sources */,
 				DA0FC58C19B688A500393BF4 /* TileSprite.m in Sources */,
 				298708381AC3415D002BFF2E /* ResearchController.m in Sources */,
@@ -26207,6 +26233,7 @@
 				DA07606019B129EC00E43E5A /* SkillManager.m in Sources */,
 				CFF5DC05194FCA160019EB2B /* ProfileViews.m in Sources */,
 				9B2EFD8A1ACC7716005B7B83 /* MiniEventCollectRewardView.m in Sources */,
+				9BE9F52E1B0AA5AA007E3A2F /* EventLeaderBoard.pb.m in Sources */,
 				CF6574BE1909CAF200ABF1F4 /* MonsterStuff.pb.m in Sources */,
 				9B0E6E5D1A77087000118210 /* SkillBlindingLight.m in Sources */,
 				CF7064C31845E4C7005B30A1 /* OneLineNotificationViewController.m in Sources */,
@@ -26558,6 +26585,7 @@
 				CF9AE717180CE5100013DD44 /* GenViewController.m in Sources */,
 				CFF786CE18E16BD700413E78 /* LevelUpNode.m in Sources */,
 				CF6574E41909CAF200ABF1F4 /* TournamentStuff.pb.m in Sources */,
+				9BE9F5311B0AA5AA007E3A2F /* LeaderBoard.pb.m in Sources */,
 				CFEE898718EA39BB00047CA4 /* TopBarQuestProgressView.m in Sources */,
 				9BB9494A1A6EEC8C006EE920 /* NSData+Base64.m in Sources */,
 				CF688FF81912E5B200FF1F71 /* MiniJobsListViewController.m in Sources */,
@@ -26720,6 +26748,7 @@
 				9BDA8BED1A43837D00C7AC27 /* NewGachaViews.m in Sources */,
 				CF4818F819F7217F00041486 /* AttackMapViewController.m in Sources */,
 				6BCBD8771A797E63002C584F /* SkillHammerTime.m in Sources */,
+				9BE9F5331B0AA5AA007E3A2F /* LeaderBoard.pb.m in Sources */,
 				CF4818F919F7217F00041486 /* TutorialOrbLayer.m in Sources */,
 				CF4818FA19F7217F00041486 /* EventQuest.pb.m in Sources */,
 				CF4818FB19F7217F00041486 /* EvolveChooserViews.m in Sources */,
@@ -26868,6 +26897,7 @@
 				CF48196C19F7217F00041486 /* TutorialHomeViewController.m in Sources */,
 				29804FF41A258EC100806253 /* SecretGiftViewController.m in Sources */,
 				9B2EFDBB1AD35E8B005B7B83 /* CAWSpriteReader.m in Sources */,
+				9BE9F5301B0AA5AA007E3A2F /* EventLeaderBoard.pb.m in Sources */,
 				CF48196E19F7217F00041486 /* ODIN.m in Sources */,
 				CF48196F19F7217F00041486 /* TileSprite.m in Sources */,
 				298708391AC3415D002BFF2E /* ResearchController.m in Sources */,
