@@ -127,6 +127,8 @@
   BOOL _movesLeftHidden;
   
   UserBattleItem *_selectedBattleItem;
+  
+  CCLabelTTF *_noMovesLabel;
 }
 
 @property (nonatomic, retain) CCSprite* movesLeftContainer;

@@ -831,7 +831,10 @@
       return;
     }
     
-    [self.orbLayer.bgdLayer turnTheLightsOn];
+    if ([self.orbLayer.layout detectPossibleSwaps].count)
+      [self.orbLayer.bgdLayer turnTheLightsOn];
+    else
+      [self checkNoPossibleMoves];
     [self.orbLayer allowInput];
     [skillManager enableSkillButton:YES];
     
@@ -2400,6 +2403,40 @@
                                 [CCActionRemove action], nil]];
 }
 
+- (void)checkNoPossibleMoves {
+  if (![self.orbLayer.layout detectPossibleSwaps].count) {
+    [self noPossibleMoves];
+  }
+}
+
+- (void)noPossibleMoves {
+  if (!_noMovesLabel) {
+    NSString* prompt = @"No possible moves!\nUse an item to continue";
+    _noMovesLabel = [CCLabelTTF labelWithString:prompt fontName:@"GothamBlack" fontSize:15];
+    _noMovesLabel.horizontalAlignment = CCTextAlignmentCenter;
+    _noMovesLabel.verticalAlignment = CCVerticalTextAlignmentCenter;
+    _noMovesLabel.position = ccp(self.orbLayer.contentSize.width/2, self.orbLayer.contentSize.height/2);
+    _noMovesLabel.opacity = 0.0;
+    [self.orbLayer addChild:_noMovesLabel];
+  }
+  
+  [_noMovesLabel runAction:[CCActionSequence actions:
+                    [CCActionCallBlock actionWithBlock:^{
+    [self.orbLayer.bgdLayer turnTheLightsOff]; }],
+                    [CCActionFadeIn actionWithDuration:0.3],
+                    nil]];
+}
+
+- (void) hideNoMovesOverlay {
+  if (_noMovesLabel) {
+    [_noMovesLabel runAction:[CCActionSequence actions:
+                              [CCActionCallBlock actionWithBlock:^{
+      [self.orbLayer.bgdLayer turnTheLightsOn]; }],
+                              [CCActionFadeOut actionWithDuration:0.3],
+                              nil]];
+  }
+}
+
 - (void) reachedNextScene {
   
   [self.myPlayer stopWalking];
@@ -2998,6 +3035,10 @@
   [self.orbLayer cancelOrbHammer];
   [self.orbLayer cancelPutty];
   
+  //A little hacky, but this quickly tells us whether the user actually used the item (animations would be playing if they used something)
+  if (self.orbLayer.swipeLayer.userInteractionEnabled)
+    [self checkNoPossibleMoves];
+  
   self.dialogueViewController = nil;
 }
 
@@ -3057,14 +3098,17 @@
 
 - (void) useHandSwap:(BattleItemProto *)bip {
   [self.orbLayer allowFreeMoveForSingleTurn];
+  [self hideNoMovesOverlay];
 }
 
 - (void) useOrbHammer:(BattleItemProto *)bip {
   [self.orbLayer allowOrbHammerForSingleTurn];
+  [self hideNoMovesOverlay];
 }
 
 - (void) usePutty:(BattleItemProto *)bip {
   [self.orbLayer allowPuttyForSingleTurn];
+  [self hideNoMovesOverlay];
 }
 
 - (void) useSkillAntidote:(BattleItemProto *)bip {
