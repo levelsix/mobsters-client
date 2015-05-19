@@ -1617,6 +1617,12 @@
 		63959E121B0AB37C00E5E302 /* tangoinvitelogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63959E081B0AB37C00E5E302 /* tangoinvitelogo@2x.png */; };
 		63959E131B0AB37C00E5E302 /* tangoinvitelogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63959E081B0AB37C00E5E302 /* tangoinvitelogo@2x.png */; };
 		63959E141B0AB37C00E5E302 /* tangoinvitelogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63959E081B0AB37C00E5E302 /* tangoinvitelogo@2x.png */; };
+		63959E1B1B0ABE4400E5E302 /* EventReward.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 63959E1A1B0ABE4400E5E302 /* EventReward.pb.m */; };
+		63959E1C1B0ABE4400E5E302 /* EventReward.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 63959E1A1B0ABE4400E5E302 /* EventReward.pb.m */; };
+		63959E1D1B0ABE4400E5E302 /* EventReward.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 63959E1A1B0ABE4400E5E302 /* EventReward.pb.m */; };
+		63959E201B0ABEFF00E5E302 /* EventReward.proto in Resources */ = {isa = PBXBuildFile; fileRef = 63959E1F1B0ABEFF00E5E302 /* EventReward.proto */; };
+		63959E211B0ABEFF00E5E302 /* EventReward.proto in Resources */ = {isa = PBXBuildFile; fileRef = 63959E1F1B0ABEFF00E5E302 /* EventReward.proto */; };
+		63959E221B0ABEFF00E5E302 /* EventReward.proto in Resources */ = {isa = PBXBuildFile; fileRef = 63959E1F1B0ABEFF00E5E302 /* EventReward.proto */; };
 		63AB754D1A79D17400CFC2B4 /* girl1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63AB75491A79D17400CFC2B4 /* girl1@2x.png */; };
 		63AB754E1A79D17400CFC2B4 /* girl1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63AB75491A79D17400CFC2B4 /* girl1@2x.png */; };
 		63AB754F1A79D17400CFC2B4 /* girl1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63AB75491A79D17400CFC2B4 /* girl1@2x.png */; };
@@ -8426,6 +8432,9 @@
 		63959E061B0AB37C00E5E302 /* tangogirlgradient@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tangogirlgradient@2x.png"; sourceTree = "<group>"; };
 		63959E071B0AB37C00E5E302 /* tangoinvitebottom@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tangoinvitebottom@2x.png"; sourceTree = "<group>"; };
 		63959E081B0AB37C00E5E302 /* tangoinvitelogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tangoinvitelogo@2x.png"; sourceTree = "<group>"; };
+		63959E191B0ABE4400E5E302 /* EventReward.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventReward.pb.h; sourceTree = "<group>"; };
+		63959E1A1B0ABE4400E5E302 /* EventReward.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventReward.pb.m; sourceTree = "<group>"; };
+		63959E1F1B0ABEFF00E5E302 /* EventReward.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = EventReward.proto; sourceTree = "<group>"; };
 		63AB75491A79D17400CFC2B4 /* girl1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "girl1@2x.png"; sourceTree = "<group>"; };
 		63AB754A1A79D17400CFC2B4 /* girl2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "girl2@2x.png"; sourceTree = "<group>"; };
 		63AB754B1A79D17400CFC2B4 /* girl3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "girl3@2x.png"; sourceTree = "<group>"; };
@@ -16242,6 +16251,10 @@
 		CF4DB9651808AE9100062258 /* Protocol Buffers */ = {
 			isa = PBXGroup;
 			children = (
+				63959E191B0ABE4400E5E302 /* EventReward.pb.h */,
+				63959E1A1B0ABE4400E5E302 /* EventReward.pb.m */,
+				6304B4601AE054A10075D4E9 /* CustomMenu.pb.h */,
+				6304B4611AE054A10075D4E9 /* CustomMenu.pb.m */,
 				CF6574771909CAF100ABF1F4 /* Proto files */,
 				9BE9F52A1B0AA5AA007E3A2F /* EventLeaderBoard.pb.h */,
 				9BE9F52B1B0AA5AA007E3A2F /* EventLeaderBoard.pb.m */,
@@ -16515,6 +16528,8 @@
 			children = (
 				9BE9F5221B0AA580007E3A2F /* EventLeaderBoard.proto */,
 				9BE9F5231B0AA580007E3A2F /* LeaderBoard.proto */,
+				63959E1F1B0ABEFF00E5E302 /* EventReward.proto */,
+				2933DCD71ADFA922005D7620 /* CustomMenu.proto */,
 				9BCAA1A11AD4A5F10059CEDA /* Sales.proto */,
 				9B2EFCCC1AC4AEC9005B7B83 /* BattleItem.proto */,
 				9B2EFCCD1AC4AEC9005B7B83 /* EventBattleItem.proto */,
@@ -21300,6 +21315,7 @@
 				CF0CF7B1196F452900ECD301 /* molotov.plist in Resources */,
 				CF0CF7B2196F452900ECD301 /* minijobsredbubble3@2x.png in Resources */,
 				6B1EAA711ACF5DCC00E0B642 /* VinesRight@2x.pvr.ccz in Resources */,
+				63959E211B0ABEFF00E5E302 /* EventReward.proto in Resources */,
 				CF0CF7B5196F452900ECD301 /* pistol.aif in Resources */,
 				CFFC510E19C4C57700BDAA62 /* notmiddlered@2x.png in Resources */,
 				CF0CF7B6196F452900ECD301 /* boardexplosions.aif in Resources */,
@@ -22316,6 +22332,7 @@
 				CFA7290B1A0B037900FF6031 /* nighteventbg@2x.png in Resources */,
 				CFF64689195A6A0B00C43641 /* enhancebottompressed@2x.png in Resources */,
 				CF29E93919620DB600B40DA4 /* enhancelabmenuheader@2x.png in Resources */,
+				63959E201B0ABEFF00E5E302 /* EventReward.proto in Resources */,
 				CF0CF84B196F4AA000ECD301 /* tips.txt in Resources */,
 				63B044C91A8C167B00C74F0C /* chatbubbleline@2x.png in Resources */,
 				634174771A843521006DA494 /* greencheck@2x.png in Resources */,
@@ -23606,6 +23623,7 @@
 				6B5146981AA1487100B2844A /* 6nightlsorb-9@2x.png in Resources */,
 				63B045111A92BAD600C74F0C /* beenattackedheader@2x.png in Resources */,
 				CF4819E519F7217F00041486 /* sellblue@2x.png in Resources */,
+				63959E221B0ABEFF00E5E302 /* EventReward.proto in Resources */,
 				299AA33B1A7856AA00A2D806 /* 6lightpoison-9@2x.png in Resources */,
 				6B51468C1AA1487100B2844A /* 6firelsorb-9@2x.png in Resources */,
 				CF4819E619F7217F00041486 /* rewardlabel@2x.png in Resources */,
@@ -26233,6 +26251,7 @@
 				CF0CEDDD196F452900ECD301 /* CCAnimation+SpriteLoading.m in Sources */,
 				CF0CDEB319E5103C006A5ECB /* TimerAction.m in Sources */,
 				63BACB1B1A71EF42000A641A /* DailyEventScheduleViewController.m in Sources */,
+				63959E1C1B0ABE4400E5E302 /* EventReward.pb.m in Sources */,
 				CF812F0919E73E1900D91157 /* ClanHelp.m in Sources */,
 				9BDA8B491A3A481300C7AC27 /* SkillShuffle.m in Sources */,
 				CF0CEDDE196F452900ECD301 /* BattlePlayer.m in Sources */,
@@ -26491,6 +26510,7 @@
 				CF32EAF3195FFA6400A4AEE3 /* ShopViewController.m in Sources */,
 				9BBE37261B028E30001A0E81 /* GrabTokenItemsFiller.m in Sources */,
 				CF62E70715FEC6D500DF850F /* ClanViewController.m in Sources */,
+				63959E1B1B0ABE4400E5E302 /* EventReward.pb.m in Sources */,
 				CF30279218C0176B009D2D25 /* ClanRaidViewController.m in Sources */,
 				CFB2509018587BF300BE0C05 /* THLabel.m in Sources */,
 				CF6574AA1909CAF200ABF1F4 /* City.pb.m in Sources */,
@@ -27030,6 +27050,7 @@
 				CF48198E19F7217F00041486 /* CCAnimation+SpriteLoading.m in Sources */,
 				CF48198F19F7217F00041486 /* TimerAction.m in Sources */,
 				63BACB1C1A71EF43000A641A /* DailyEventScheduleViewController.m in Sources */,
+				63959E1D1B0ABE4400E5E302 /* EventReward.pb.m in Sources */,
 				CF48199019F7217F00041486 /* ClanHelp.m in Sources */,
 				9BDA8B4A1A3A481300C7AC27 /* SkillShuffle.m in Sources */,
 				CF48199119F7217F00041486 /* BattlePlayer.m in Sources */,

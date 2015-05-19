@@ -137,7 +137,7 @@
                                                                     <autoresizingMask key="autoresizingMask"/>
                                                                 </imageView>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="OXW-ob-E2R">
-                                                                    <rect key="frame" x="-3" y="69" width="20" height="18"/>
+                                                                    <rect key="frame" x="-3" y="69" width="65" height="18"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                     <state key="normal">
                                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -147,9 +147,9 @@
                                                                     </connections>
                                                                 </button>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SelectAll" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="BWk-HY-wHk">
-                                                                    <rect key="frame" x="20" y="68" width="42" height="21"/>
+                                                                    <rect key="frame" x="18" y="68" width="52" height="21"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                                     <color key="textColor" red="0.21568627450980393" green="0.21568627450980393" blue="0.21568627450980393" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
@@ -249,7 +249,7 @@
                             <rect key="frame" x="0.0" y="17" width="430" height="49"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FRIENDS GIFTS TO EARN" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="zWP-oT-yKm" customClass="NiceFontLabel12">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FRIENDS INVITES TO EARN" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="zWP-oT-yKm" customClass="NiceFontLabel12">
                                     <rect key="frame" x="180" y="14" width="173" height="20"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
@@ -268,7 +268,7 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="diamond.png" id="1lG-cH-ff6">
-                                    <rect key="frame" x="341" y="11" width="23" height="23"/>
+                                    <rect key="frame" x="357" y="11" width="23" height="23"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
                             </subviews>

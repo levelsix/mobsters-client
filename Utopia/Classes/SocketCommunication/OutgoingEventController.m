@@ -23,6 +23,7 @@
 #import "FacebookDelegate.h"
 #import "SkillManager.h"
 #import "MiniEventManager.h"
+#import "TangoDelegate.h"
 
 #define CODE_PREFIX @"#~#"
 #define PURGE_CODE @"purgecache"

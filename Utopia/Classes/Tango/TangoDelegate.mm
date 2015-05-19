@@ -78,7 +78,7 @@ static TangoProfileEntry *profileEntry = nil;
 
 + (void) fetchMyProfile {
 #ifdef TANGO_ENABLED
-  GameState *gs = [GameState sharedGameState];
+//  GameState *gs = [GameState sharedGameState];
   
   if (!profileEntry) {
     [TangoProfile fetchMyProfileWithHandler:^(TangoProfileResult *profileResult, NSError *error) {
@@ -86,9 +86,9 @@ static TangoProfileEntry *profileEntry = nil;
         profileEntry = obj;
       }
       
-      if (![gs.tangoId isEqualToString:profileEntry.profileID]) {
-        [[OutgoingEventController sharedOutgoingEventController] updateTangoId:profileEntry.profileID];
-      }
+//      if (![gs.tangoId isEqualToString:profileEntry.profileID]) {
+//        [[OutgoingEventController sharedOutgoingEventController] updateTangoId:profileEntry.profileID];
+//      }
       
       LNLog(@"Fetch my Tango profile returned with status: %d", (int)error.code);
     }];
@@ -181,16 +181,24 @@ static TangoProfileEntry *profileEntry = nil;
 #ifdef TANGO_ENABLED
   [TangoProfile fetchMyCachedFriendsWithHandler:^(TangoProfileResult *profileResult, NSError *error) {
     
-    NSMutableArray *friendsList = [[NSMutableArray alloc] init];
-    for (TangoProfileEntry *tpe in profileResult.profileEnumerator) {
-      [friendsList addObject:tpe];
-    }
-    
     dispatch_sync(dispatch_get_main_queue(), ^{
-      comp(friendsList);
+      comp(profileResult.profileEnumerator.allObjects);
     });
     
     LNLog(@"Fetch cached Tango Friends returned with status: %d", (int)error.code);
+  }];
+#endif
+}
+
++ (void) fetchInvitableProfiles:(void (^)(NSArray *friends))comp {
+#ifdef TANGO_ENABLED
+  NSString *resourceId = @"INVITE_ID1";
+//  NSString *resourceId = @"TEST_INVITE_ID";
+  
+  [TangoInviting fetchProfilesWithinLimitsForResourceId:resourceId handler:^(TangoInvitingFetchProfilesResponse *response, NSError *error) {
+    dispatch_sync(dispatch_get_main_queue(), ^{
+      comp(response.filteredProfiles.profileEnumerator.allObjects);
+    });
   }];
 #endif
 }
@@ -248,14 +256,10 @@ static TangoProfileEntry *profileEntry = nil;
 
 + (void) sendGiftsToTangoUsers:(NSArray *)userIds {
 #ifdef TANGO_ENABLED
-  NSString *resourceID;
+  NSString *resourceId = @"GIFT_ID1";
+//  NSString *resourceId = @"TEST_GIFT_ID";
   
-#warning don't breath this
-  //  resourceID = @"GIFT_ID1";
-  resourceID = @"TEST_GIFT_ID";
-  
-  
-  [TangoGifting sendGiftToRecipients:userIds withResourceId:resourceID handler:^(TangoGiftingSendGiftResponse *response, NSError *error) {
+  [TangoGifting sendGiftToRecipients:userIds withResourceId:resourceId handler:^(TangoGiftingSendGiftResponse *response, NSError *error) {
     LNLog(@"Send Tango Gifts return with status: %d", (int)error.code);
   }];
 #endif
@@ -263,13 +267,10 @@ static TangoProfileEntry *profileEntry = nil;
 
 + (void) sendInvitesToTangoUsers:(NSArray *)userIds {
 #ifdef TANGO_ENABLED
-  NSString *resourceID;
+  NSString *resourceId = @"INVITE_ID1";
+  //  NSString *resourceId = @"TEST_INVITE_ID";
   
-#warning don't breath this
-  //  resourceID = @"INVITE_ID1";
-  resourceID = @"TEST_INVITE_ID";
-  
-  [TangoInviting sendInvitationToRecipients:userIds resourceId:resourceID handler:^(TangoInvitingSendInvitationsResponse *response, NSError *error) {
+  [TangoInviting sendInvitationToRecipients:userIds resourceId:resourceId handler:^(TangoInvitingSendInvitationsResponse *response, NSError *error) {
     NSLog(@"Send Tango invites returned with status: %d", (int)error.code);
   }];
 #endif

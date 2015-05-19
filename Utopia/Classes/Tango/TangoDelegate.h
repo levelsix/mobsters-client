@@ -25,6 +25,7 @@
 + (NSString *) getFullNameForProfile:(id)pf;
 
 + (void) fetchCachedFriends:(void (^)(NSArray *friends))comp;
++ (void) fetchInvitableProfiles:(void (^)(NSArray *friends))comp;
 
 + (void) fetchMyGifts:(void (^)(NSArray *gifts))comp;
 + (void) consumeAllGiftsFromUser:(NSString *)userId;

@@ -95,19 +95,25 @@
         [self addAvatarWithMonsterId:php.otherUser.avatarMonsterId];
         
       } else {
-        PrivateChatPostProto *pcpp = [messages firstObject];
-        _messageFromSingleUser = pcpp;
+        id<ChatObject> co = [messages firstObject];
+        _messageFromSingleUser = co;
         
-        NSString *userUuid = pcpp.sender.userUuid;
+        NSString *userUuid = co.sender.userUuid;
         TranslateLanguages languageToDisplay = [gs translateOnForUser:userUuid] ? [gs languageForUser:userUuid] : TranslateLanguagesNoTranslation;
         
-        ChatMessage *cm = [pcpp makeChatMessage];
+        NSString *displayMessage = co.message;
         
-        NSString *displayMessage = [cm getContentInLanguage:languageToDisplay isTranslated:NULL translationExists:NULL];
-        [self.notificationView updateWithString:pcpp.sender.name description:displayMessage color:[UIColor colorWithHexString:@"FFFFFF"]];
+        //cannot assume that the object will be a privateChatPostProto
+        if ([co isKindOfClass:[PrivateChatPostProto class]]) {
+          PrivateChatPostProto *pcpp = (PrivateChatPostProto *)co;
+          ChatMessage *cm = [pcpp makeChatMessage];
+          displayMessage = [cm getContentInLanguage:languageToDisplay isTranslated:NULL translationExists:NULL];
+        }
+        
+        [self.notificationView updateWithString:co.sender.name description:displayMessage color:[UIColor colorWithHexString:@"FFFFFF"]];
         
         //pass anything through owner because there are no outlets
-        [self addAvatarWithMonsterId:pcpp.sender.avatarMonsterId];
+        [self addAvatarWithMonsterId:co.sender.avatarMonsterId];
       }
       
     } else if (messages.count > 1){
