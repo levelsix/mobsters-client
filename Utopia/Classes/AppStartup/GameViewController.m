@@ -516,6 +516,7 @@ static const CGSize FIXED_SIZE = {568, 384};
 }
 
 - (void) handleLoadPlayerCityResponseProto:(FullEvent *)fe {
+  
   if (self.loadingViewController) {
     [self progressTo:1.f animated:NO];
     
@@ -538,11 +539,13 @@ static const CGSize FIXED_SIZE = {568, 384};
     } else {
       [self.notificationController resumeNotifications];
     }
+    
+    
     GameState *gs = [GameState sharedGameState];
     
-    //check if if we want to show this plater tango gift screen
+    // Check if if we want to show this plater tango gift screen
     int hoursSinceLastTangoGift = 0;
-    if(gs.lastTangoGiftSentTime) {
+    if (gs.lastTangoGiftSentTime) {
       hoursSinceLastTangoGift = -[gs.lastTangoGiftSentTime timeIntervalSinceNow] / 3600.f;
     }
     

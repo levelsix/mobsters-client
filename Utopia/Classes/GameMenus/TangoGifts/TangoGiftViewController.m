@@ -23,8 +23,13 @@
 #ifdef TOONSQUAD
   self.nameLabel.text = [TangoDelegate getFullNameForProfile:tangoProfile];
   
+  // Need to save the current id so that we can verify if the img should still be displayed
+  NSString *profId = [TangoDelegate getTangoIdForProfile:tangoProfile];
+  _currentTangoId = [profId copy];
   [TangoDelegate getPictureForProfile:tangoProfile comp:^(UIImage *img) {
-    self.tangoPic.image = img;
+    if ([_currentTangoId isEqualToString:profId]) {
+      self.tangoPic.image = img;
+    }
   }];
 #endif
   
@@ -52,6 +57,8 @@
   
   self.containerView.superview.layer.cornerRadius = 5.f;
   self.containerView.superview.clipsToBounds = YES;
+  
+  [self updateUI];
 }
 
 - (void) updateForTangoFriends:(NSArray *)friends {
@@ -61,6 +68,15 @@
   self.tangoFriends  = [friends mutableCopy];
   [self.tangoFriends sortedArrayUsingDescriptors:@[sorter]];
   self.selectedFriends = [self.tangoFriends mutableCopy];
+  
+  [self updateUI];
+  
+  if (!self.tangoFriends) {
+    [self close];
+  }
+}
+
+- (void) updateUI {
   self.rewardLabel.text = [NSString stringWithFormat:@"%d", (int)MIN(self.tangoFriends.count, 3)];
   
   self.friendListActivityIndicator.hidesWhenStopped = YES;
@@ -95,13 +111,13 @@
   [Globals popOutView:self.mainView fadeOutBgdView:self.bgView completion:^{
     [self.view removeFromSuperview];
     [self removeFromParentViewController];
-    if(_completion) {
+    if (_completion) {
       _completion();
     }
   }];
 }
 
-- (IBAction) selectallClicked:(id)sender {
+- (IBAction) selectAllClicked:(id)sender {
   if ([self areAllEntriesSelected]) {
     [self.selectedFriends removeAllObjects];
     self.selectAllCheckmark.hidden = YES;
@@ -155,12 +171,13 @@
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  //TangoFriendViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TangoFriendViewCell"];
-  //Can't use reusableCells becuase the profile picture code block passed into the tangoDelegate returns after the the cell has been reused
-  //if the player is scrolling too fase so profile pictures seem to random flash to other images.
+  TangoFriendViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TangoFriendViewCell"];
   
-  TangoFriendViewCell *cell = (TangoFriendViewCell *)[[NSBundle mainBundle] loadNibNamed:@"TangoFriendViewCell" owner:self options:nil][0];
-  //loading Tango profile picture is delayed, so load the default now.
+  if (!cell) {
+    cell = (TangoFriendViewCell *)[[NSBundle mainBundle] loadNibNamed:@"TangoFriendViewCell" owner:self options:nil][0];
+  }
+  
+  // Loading Tango profile picture is delayed, so load the default now.
   [cell setDefaultProfilePicture];
   
   id tangoProfile = self.tangoFriends[indexPath.row];

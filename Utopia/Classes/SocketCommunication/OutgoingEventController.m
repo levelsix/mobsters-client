@@ -3651,7 +3651,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 #pragma mark - Tango Gifts
 
-- (void) sendTangoGiftsToTangoUsers:(NSArray *)tangoIds gemReward:(int)gemReward delegate:(id)delegate{
+- (void) sendTangoGiftsToTangoUsers:(NSArray *)tangoIds gemReward:(int)gemReward delegate:(id)delegate {
 #ifdef TOONSQUAD
   GameState *gs = [GameState sharedGameState];
   
@@ -3659,6 +3659,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [Globals popupMessage:@"Trying to send 0 tango gifts"];
     return;
   }
+  
   NSString *myTangoId = [TangoDelegate getMyId];
   int tag = [[SocketCommunication sharedSocketCommunication] sendTangoGiftsForTangoIds:tangoIds myTangoId:myTangoId gemReward:gemReward clientTime:[self getCurrentMilliseconds]];
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];

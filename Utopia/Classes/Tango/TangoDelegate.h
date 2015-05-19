@@ -23,6 +23,7 @@
 + (void) getProfilePicture:(void (^)(UIImage *img))comp;
 + (void) getPictureForProfile:(id)pf comp:(void (^)(UIImage *img))comp;
 + (NSString *) getFullNameForProfile:(id)pf;
++ (NSString *) getTangoIdForProfile:(id)pf;
 
 + (void) fetchCachedFriends:(void (^)(NSArray *friends))comp;
 + (void) fetchInvitableProfiles:(void (^)(NSArray *friends))comp;

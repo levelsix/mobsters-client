@@ -1713,7 +1713,7 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCRedeemMiniEventRewardEvent];
 }
 
-- (int) sendTangoGiftsForTangoIds:(NSArray *)tangoIds myTangoId:(NSString *)myTangoId gemReward:(int32_t)gemReward clientTime:(int64_t)clientTime{
+- (int) sendTangoGiftsForTangoIds:(NSArray *)tangoIds myTangoId:(NSString *)myTangoId gemReward:(int32_t)gemReward clientTime:(int64_t)clientTime {
   SendTangoGiftRequestProto *req = [[[[[[[SendTangoGiftRequestProto builder]
                                          setSender:_sender]
                                         addAllTangoUserIds:tangoIds]

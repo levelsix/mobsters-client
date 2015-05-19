@@ -10,7 +10,9 @@
 #import "HudNotificationController.h"
 #import <UIKit/UIKit.h>
 
-@interface TangoFriendViewCell : UITableViewCell
+@interface TangoFriendViewCell : UITableViewCell {
+  NSString *_currentTangoId;
+}
 
 @property (nonatomic, retain) IBOutlet UIImageView *tangoPic;
 @property (nonatomic, retain) IBOutlet UILabel *nameLabel;
