@@ -56,6 +56,7 @@
 #import "AttackedAlertViewController.h"
 #import "IAPHelper.h"
 #import "SalePurchasedViewController.h"
+#import "TangoGiftViewController.h"
 
 #define DEFAULT_PNG_IMAGE_VIEW_TAG 103
 #define KINGDOM_PNG_IMAGE_VIEW_TAG 104
@@ -538,6 +539,24 @@ static const CGSize FIXED_SIZE = {568, 384};
       [self.notificationController resumeNotifications];
     }
     GameState *gs = [GameState sharedGameState];
+    
+    //check if if we want to show this plater tango gift screen
+    int hoursSinceLastTangoGift = 0;
+    if(gs.lastTangoGiftSentTime) {
+      hoursSinceLastTangoGift = -[gs.lastTangoGiftSentTime timeIntervalSinceNow] / 3600.f;
+    }
+    
+    if (gs.tasksCompleted >= 2 && (!gs.lastTangoGiftSentTime || hoursSinceLastTangoGift > 24)) {
+#ifdef TOONSQUAD
+      if ([TangoDelegate isTangoAvailable] && [TangoDelegate isTangoAuthenticated]) {
+        TangoGiftViewController *tgvc = [[TangoGiftViewController alloc] init];
+        [TangoDelegate fetchCachedFriends:^(NSArray *friends) {
+          [tgvc updateForTangoFriends:friends];
+        }];
+        [self.notificationController addNotification:tgvc];
+      }
+#endif
+    }
     
     //check if there are unread defenses since the last you logged in, if so alert the player
     NSArray *defenses = [gs allUnreadDefenseHistorySinceLastLogin];
