@@ -1152,7 +1152,7 @@
   }
   
   if (silverAmount) {
-    Reward *r = [[Reward alloc] initWithSilverAmount:silverAmount];
+    Reward *r = [[Reward alloc] initWithCashAmount:silverAmount];
     [rewards addObject:r];
   }
   if (oilAmount) {
@@ -1167,7 +1167,7 @@
   NSMutableArray *rewards = [NSMutableArray array];
   
   if (quest.gemReward) {
-    Reward *r = [[Reward alloc] initWithGoldAmount:quest.gemReward];
+    Reward *r = [[Reward alloc] initWithGemAmount:quest.gemReward];
     [rewards addObject:r];
   }
   
@@ -1177,7 +1177,7 @@
   }
   
   if (quest.cashReward) {
-    Reward *r = [[Reward alloc] initWithSilverAmount:quest.cashReward];
+    Reward *r = [[Reward alloc] initWithCashAmount:quest.cashReward];
     [rewards addObject:r];
   }
   
@@ -1192,33 +1192,52 @@
 + (NSArray *) createRewardsForMiniJob:(MiniJobProto *)miniJob {
   NSMutableArray *rewards = [NSMutableArray array];
   
-  if (miniJob.gemReward) {
-    Reward *r = [[Reward alloc] initWithGoldAmount:miniJob.gemReward];
+//  if (miniJob.gemReward) {
+//    Reward *r = [[Reward alloc] initWithGemAmount:miniJob.gemReward];
+//    [rewards addObject:r];
+//  }
+//  
+//  if (miniJob.monsterIdReward) {
+//    Reward *r = [[Reward alloc] initWithMonsterId:miniJob.monsterIdReward isPuzzlePiece:YES];
+//    [rewards addObject:r];
+//  }
+//  
+//  if (miniJob.cashReward) {
+//    Reward *r = [[Reward alloc] initWithCashAmount:miniJob.cashReward];
+//    [rewards addObject:r];
+//  }
+//  
+//  if (miniJob.oilReward) {
+//    Reward *r = [[Reward alloc] initWithOilAmount:miniJob.oilReward];
+//    [rewards addObject:r];
+//  }
+//  
+//  if (miniJob.itemIdReward && miniJob.itemRewardQuantity) {
+//    Reward *r = [[Reward alloc] initWithItemId:miniJob.itemIdReward quantity:miniJob.itemRewardQuantity];
+//    [rewards addObject:r];
+//  }
+//  
+//  if (miniJob.secondItemIdReward && miniJob.secondItemRewardQuantity) {
+//    Reward *r = [[Reward alloc] initWithItemId:miniJob.secondItemIdReward quantity:miniJob.secondItemRewardQuantity];
+//    [rewards addObject:r];
+//  }
+
+  GameState *gs = [GameState sharedGameState];
+  if (miniJob.hasRewardIdOne) {
+    RewardProto *rp = gs.staticRewards[@(miniJob.rewardIdOne)];
+    Reward *r = [[Reward alloc] initWithReward:rp];
     [rewards addObject:r];
   }
   
-  if (miniJob.monsterIdReward) {
-    Reward *r = [[Reward alloc] initWithMonsterId:miniJob.monsterIdReward isPuzzlePiece:YES];
+  if (miniJob.hasRewardIdTwo) {
+    RewardProto *rp = gs.staticRewards[@(miniJob.rewardIdTwo)];
+    Reward *r = [[Reward alloc] initWithReward:rp];
     [rewards addObject:r];
   }
-  
-  if (miniJob.cashReward) {
-    Reward *r = [[Reward alloc] initWithSilverAmount:miniJob.cashReward];
-    [rewards addObject:r];
-  }
-  
-  if (miniJob.oilReward) {
-    Reward *r = [[Reward alloc] initWithOilAmount:miniJob.oilReward];
-    [rewards addObject:r];
-  }
-  
-  if (miniJob.itemIdReward && miniJob.itemRewardQuantity) {
-    Reward *r = [[Reward alloc] initWithItemId:miniJob.itemIdReward quantity:miniJob.itemRewardQuantity];
-    [rewards addObject:r];
-  }
-  
-  if (miniJob.secondItemIdReward && miniJob.secondItemRewardQuantity) {
-    Reward *r = [[Reward alloc] initWithItemId:miniJob.secondItemIdReward quantity:miniJob.secondItemRewardQuantity];
+
+  if (miniJob.hasRewardIdThree) {
+    RewardProto *rp = gs.staticRewards[@(miniJob.rewardIdThree)];
+    Reward *r = [[Reward alloc] initWithReward:rp];
     [rewards addObject:r];
   }
   
@@ -1254,7 +1273,7 @@
   }
   
   if (pvp.prospectiveCashWinnings) {
-    Reward *r = [[Reward alloc] initWithSilverAmount:pvp.prospectiveCashWinnings];
+    Reward *r = [[Reward alloc] initWithCashAmount:pvp.prospectiveCashWinnings];
     [rewards addObject:r];
   }
   
@@ -1284,10 +1303,10 @@
   return self;
 }
 
-- (id) initWithSilverAmount:(int)silverAmount {
+- (id) initWithCashAmount:(int)cashAmount {
   if ((self = [super init])) {
-    self.type = RewardTypeSilver;
-    self.silverAmount = silverAmount;
+    self.type = RewardTypeCash;
+    self.cashAmount = cashAmount;
   }
   return self;
 }
@@ -1300,10 +1319,18 @@
   return self;
 }
 
-- (id) initWithGoldAmount:(int)goldAmount {
+- (id) initWithGemAmount:(int)gemAmount {
   if ((self = [super init])) {
-    self.type = RewardTypeGold;
-    self.goldAmount = goldAmount;
+    self.type = RewardTypeGems;
+    self.gemAmount = gemAmount;
+  }
+  return self;
+}
+
+- (id) initWithTokenAmount:(int)tokenAmount {
+  if ((self = [super init])) {
+    self.type = RewardTypeGachaToken;
+    self.gemAmount = tokenAmount;
   }
   return self;
 }
@@ -1320,6 +1347,47 @@
   if ((self = [super init])) {
     self.type = RewardTypePvpLeague;
     self.league = league;
+  }
+  return self;
+}
+
+- (id) initWithReward:(RewardProto *)reward {
+  if ((self = [super init])) {
+    switch (reward.typ) {
+      case RewardProto_RewardTypeCash:
+        self.type = RewardTypeCash;
+        self.cashAmount = reward.amt;
+        break;
+      case RewardProto_RewardTypeOil:
+        self.type = RewardTypeOil;
+        self.oilAmount = reward.amt;
+        break;
+      case RewardProto_RewardTypeGems:
+        self.type = RewardTypeGems;
+        self.gemAmount = reward.amt;
+        break;
+      case RewardProto_RewardTypeGachaCredits:
+        self.type = RewardTypeGachaToken;
+        self.tokenAmount = reward.amt;
+        break;
+        
+      case RewardProto_RewardTypeItem:
+        self.type = RewardTypeItem;
+        self.itemId = reward.staticDataId;
+        self.itemQuantity = reward.amt;
+        break;
+        
+      case RewardProto_RewardTypeMonster:
+        self.type = RewardTypeMonster;
+        self.monsterId = reward.staticDataId;
+        self.isPuzzlePiece = reward.amt <= 0;
+        break;
+        
+      case RewardProto_RewardTypeClanGift:
+      case RewardProto_RewardTypeTangoGift:
+      case RewardProto_RewardTypeNoReward:
+        break;
+    }
   }
   return self;
 }

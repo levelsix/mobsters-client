@@ -19,11 +19,11 @@
 #import <TangoSDK/TangoInvitingResponse.h>
 #import <error_codes.h>
 
-#import "OutgoingEventController.h"
-#import "Globals.h"
-#import "GameState.h"
-
 #define TANGO_ENABLED
+
+#warning change back
+#define TANGO_RESOURCE_ID @"TEST_INVITE_ID"
+//#define TANGO_RESOURCE_ID @"INVITE_ID1"
 
 @implementation TangoDelegate
 
@@ -50,7 +50,7 @@ static TangoProfileEntry *profileEntry = nil;
                  error.code == TANGO_SDK_TANGO_APP_NOT_INSTALLED) {
         [session installTango];
       }
-      LNLog(@"Tango Authentication returned with status: %d", (int)error.code);
+      NSLog(@"Tango Authentication returned with status: %d", (int)error.code);
     }];
     return YES;
   } else {
@@ -90,7 +90,7 @@ static TangoProfileEntry *profileEntry = nil;
 //        [[OutgoingEventController sharedOutgoingEventController] updateTangoId:profileEntry.profileID];
 //      }
       
-      LNLog(@"Fetch my Tango profile returned with status: %d", (int)error.code);
+      NSLog(@"Fetch my Tango profile returned with status: %d", (int)error.code);
     }];
   }
 #endif
@@ -131,7 +131,7 @@ static TangoProfileEntry *profileEntry = nil;
 #ifdef TANGO_ENABLED
   //Cooper made his own default picture
   if (profileEntry.profilePictureIsPlaceholder) {
-    comp([Globals imageNamed:@"tangodefault.png"]);
+    comp([UIImage imageNamed:@"tangodefault.png"]);
     return;
   }
   
@@ -153,7 +153,7 @@ static TangoProfileEntry *profileEntry = nil;
   
   //Cooper made his own default picture
   if (profile.profilePictureIsPlaceholder) {
-    comp([Globals imageNamed:@"tangodefault.png"]);
+    comp([UIImage imageNamed:@"tangodefault.png"]);
     return;
   }
   
@@ -192,7 +192,7 @@ static TangoProfileEntry *profileEntry = nil;
     dispatch_sync(dispatch_get_main_queue(), ^{
       comp(profileResult.profileEnumerator.allObjects);
       
-      LNLog(@"Fetch cached Tango Friends returned with status: %d", (int)error.code);
+      NSLog(@"Fetch cached Tango Friends returned with status: %d", (int)error.code);
     });
   }];
 #endif
@@ -200,11 +200,7 @@ static TangoProfileEntry *profileEntry = nil;
 
 + (void) fetchInvitableProfiles:(void (^)(NSArray *friends))comp {
 #ifdef TANGO_ENABLED
-#warning change back
-//  NSString *resourceId = @"INVITE_ID1";
-  NSString *resourceId = @"TEST_INVITE_ID";
-  
-  [TangoInviting fetchProfilesWithinLimitsForResourceId:resourceId handler:^(TangoInvitingFetchProfilesResponse *response, NSError *error) {
+  [TangoInviting fetchProfilesWithinLimitsForResourceId:TANGO_RESOURCE_ID handler:^(TangoInvitingFetchProfilesResponse *response, NSError *error) {
     dispatch_sync(dispatch_get_main_queue(), ^{
       comp(response.filteredProfiles.profileEnumerator.allObjects);
     });
@@ -212,75 +208,72 @@ static TangoProfileEntry *profileEntry = nil;
 #endif
 }
 
-+ (void) fetchMyGifts:(void (^)(NSArray *gifts))comp {
-#ifdef TANGO_ENABLED
-  [TangoGifting fetchGiftsWithHandler:^(TangoGiftingFetchGiftsResponse *response, NSError *error) {
-    dispatch_sync(dispatch_get_main_queue(), ^{
-      comp(response.gifts);
-      
-      LNLog(@"Fetched my Gifts returned with status: %d", (int)error.code);
-    });
-  }];
-#endif
-}
-
-+ (void) consumeAllGiftsFromUser:(NSString *)userId {
-#ifdef TANGO_ENABLED
-  [self fetchMyGifts:^(NSArray *gifts) {
-    
-    NSMutableArray *giftIdsToRedeem = [[NSMutableArray alloc] init];
-    for (TangoGift *gift in gifts) {
-      if ([gift.senderAccountId isEqualToString:userId]) {
-        [giftIdsToRedeem addObject:userId];
-      }
-    }
-    
-    [TangoGifting consumeGifts:giftIdsToRedeem handler:^(TangoGiftingConsumeGiftsResponse *response, NSError *error) {
-      LNLog(@"Tango consume all gifts for user with status: %d",(int)error.code);
-    }];
-  }];
-#endif
-}
-
-+ (void) consumeUserGifts:(NSArray *)userGifts {
-#ifdef TANGO_ENABLED
-  [self fetchMyGifts:^(NSArray *gifts) {
-    NSMutableArray *tangoGiftIds = [[NSMutableArray alloc] init];
-    
-    for (UserGiftProto *ugp in userGifts) {
-      for (TangoGift *tangoGift in gifts) {
-        if ([tangoGift.senderAccountId isEqualToString:ugp.tangoGift.gifterTangoUserId]) {
-          [tangoGiftIds addObject:tangoGift.senderAccountId];
-          break;
-        }
-      }
-    }
-    
-    [TangoGifting consumeGifts:tangoGiftIds handler:^(TangoGiftingConsumeGiftsResponse *response, NSError *error) {
-      LNLog(@"Consume Tango Gifts return with status: %d", (int)error.code);
-    }];
-  }];
-#endif
-}
-
-+ (void) sendGiftsToTangoUsers:(NSArray *)userIds {
-#ifdef TANGO_ENABLED
-  NSString *resourceId = @"GIFT_ID1";
-//  NSString *resourceId = @"TEST_GIFT_ID";
-  
-  [TangoGifting sendGiftToRecipients:userIds withResourceId:resourceId handler:^(TangoGiftingSendGiftResponse *response, NSError *error) {
-    LNLog(@"Send Tango Gifts return with status: %d", (int)error.code);
-  }];
-#endif
-}
+//+ (void) fetchMyGifts:(void (^)(NSArray *gifts))comp {
+//#ifdef TANGO_ENABLED
+//  [TangoGifting fetchGiftsWithHandler:^(TangoGiftingFetchGiftsResponse *response, NSError *error) {
+//    dispatch_sync(dispatch_get_main_queue(), ^{
+//      comp(response.gifts);
+//      
+//      NSLog(@"Fetched my Gifts returned with status: %d", (int)error.code);
+//    });
+//  }];
+//#endif
+//}
+//
+//+ (void) consumeAllGiftsFromUser:(NSString *)userId {
+//#ifdef TANGO_ENABLED
+//  [self fetchMyGifts:^(NSArray *gifts) {
+//    
+//    NSMutableArray *giftIdsToRedeem = [[NSMutableArray alloc] init];
+//    for (TangoGift *gift in gifts) {
+//      if ([gift.senderAccountId isEqualToString:userId]) {
+//        [giftIdsToRedeem addObject:userId];
+//      }
+//    }
+//    
+//    [TangoGifting consumeGifts:giftIdsToRedeem handler:^(TangoGiftingConsumeGiftsResponse *response, NSError *error) {
+//      NSLog(@"Tango consume all gifts for user with status: %d",(int)error.code);
+//    }];
+//  }];
+//#endif
+//}
+//
+//+ (void) consumeUserGifts:(NSArray *)userGifts {
+//#ifdef TANGO_ENABLED
+//  [self fetchMyGifts:^(NSArray *gifts) {
+//    NSMutableArray *tangoGiftIds = [[NSMutableArray alloc] init];
+//    
+//    for (UserGiftProto *ugp in userGifts) {
+//      for (TangoGift *tangoGift in gifts) {
+//        if ([tangoGift.senderAccountId isEqualToString:ugp.tangoGift.gifterTangoUserId]) {
+//          [tangoGiftIds addObject:tangoGift.senderAccountId];
+//          break;
+//        }
+//      }
+//    }
+//    
+//    [TangoGifting consumeGifts:tangoGiftIds handler:^(TangoGiftingConsumeGiftsResponse *response, NSError *error) {
+//      NSLog(@"Consume Tango Gifts return with status: %d", (int)error.code);
+//    }];
+//  }];
+//#endif
+//}
+//
+//+ (void) sendGiftsToTangoUsers:(NSArray *)userIds {
+//#ifdef TANGO_ENABLED
+//  NSString *resourceId = @"GIFT_ID1";
+////  NSString *resourceId = @"TEST_GIFT_ID";
+//  
+//  [TangoGifting sendGiftToRecipients:userIds withResourceId:resourceId handler:^(TangoGiftingSendGiftResponse *response, NSError *error) {
+//    NSLog(@"Send Tango Gifts return with status: %d", (int)error.code);
+//  }];
+//#endif
+//}
 
 + (void) sendInvitesToTangoUsers:(NSArray *)userIds {
 #ifdef TANGO_ENABLED
-  NSString *resourceId = @"INVITE_ID1";
-  //  NSString *resourceId = @"TEST_INVITE_ID";
-  
-  [TangoInviting sendInvitationToRecipients:userIds resourceId:resourceId handler:^(TangoInvitingSendInvitationsResponse *response, NSError *error) {
-    LNLog(@"Send Tango invites returned with status: %d", (int)error.code);
+  [TangoInviting sendInvitationToRecipients:userIds resourceId:TANGO_RESOURCE_ID handler:^(TangoInvitingSendInvitationsResponse *response, NSError *error) {
+    NSLog(@"Send Tango invites returned with status: %d", (int)error.code);
   }];
 #endif
 }
@@ -289,7 +282,7 @@ static TangoProfileEntry *profileEntry = nil;
   TangoSession *session = [TangoSession sharedSession];
   if (session.isInitialized || [TangoSession sessionInitialize]) {
     [TangoTools validateReceipt:transaction.transactionReceipt forProduct:transaction.payment.productIdentifier withHandler:^(enum ValidationStatus status, NSError *error) {
-      LNLog(@"Tango validate purchase: Status %d, Error %d", status, (int)error.code);
+      NSLog(@"Tango validate purchase: Status %d, Error %d", status, (int)error.code);
     }];
   };
 }
@@ -297,7 +290,7 @@ static TangoProfileEntry *profileEntry = nil;
 
 + (BOOL) handleOpenURL:(NSURL *)url sourceApplication:(NSString *)requester {
 #ifdef TANGO_ENABLED
-  LNLog(@"application:openURL: %@ sourceApplication: %@, url: %@", url.absoluteString, requester, url);
+  NSLog(@"application:openURL: %@ sourceApplication: %@, url: %@", url.absoluteString, requester, url);
   
   void (^showAlert)(NSString *title, NSString *message) = ^(NSString *title, NSString *message) {
 #ifndef APPSTORE
@@ -310,7 +303,7 @@ static TangoProfileEntry *profileEntry = nil;
   TangoHandleURLResult *resultData = [TangoSession.sharedSession handleURL:url withSourceApp:requester];
   switch(resultData.type) {
     case TangoHandleURLResultTypeError: {
-      LNLog(@"TangoSDK HandleURL: reported an error.");
+      NSLog(@"TangoSDK HandleURL: reported an error.");
       showAlert(@"Error", @"The URL could not be parsed.");
       return YES;
       break;
@@ -320,7 +313,7 @@ static TangoProfileEntry *profileEntry = nil;
       return YES;
       break;
     case TangoHandleURLResultTypeEventGiftMessageReceived: {
-      LNLog(@"gift received: %@", resultData.sdkParameters);
+      NSLog(@"gift received: %@", resultData.sdkParameters);
       NSString *giftType = resultData.sdkParameters[kTangoHandleUrlResultGiftTypeKey];
       NSString *giftId = resultData.sdkParameters[kTangoHandleUrlResultGiftIdKey];
       NSString *msg = [NSString stringWithFormat:@"You have received a gift. Type = %@, id = %@",
@@ -332,7 +325,7 @@ static TangoProfileEntry *profileEntry = nil;
     case TangoHandleURLResultTypeSharedDataReceived: {
       NSString *msg = [NSString stringWithFormat:@"Shared data received:\nsdkParameters = %@\nuserParameters = %@",
                        resultData.sdkParameters, resultData.userParameters];
-      LNLog(@"%@", msg);
+      NSLog(@"%@", msg);
       showAlert(@"Shared Data", msg);
       return YES;
       break;
@@ -340,7 +333,7 @@ static TangoProfileEntry *profileEntry = nil;
     case TangoHandleURLResultTypeUnknownAction: {
       NSString *msg = [NSString stringWithFormat:@"Unknown action received in URL: \"%@\"",
                        resultData.sdkParameters[kTangoHandleUrlResultUserUrlKey]];
-      LNLog(@"%@", msg);
+      NSLog(@"%@", msg);
       showAlert(@"Unknown Action", msg);
       return YES;
       break;

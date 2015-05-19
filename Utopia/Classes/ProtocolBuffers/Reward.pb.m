@@ -29,6 +29,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property int32_t staticDataId;
 @property RewardProto_RewardType typ;
 @property int32_t amt;
+@property (strong) RewardProto* actualReward;
 @end
 
 @implementation RewardProto
@@ -61,12 +62,20 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasAmt_ = !!value_;
 }
 @synthesize amt;
+- (BOOL) hasActualReward {
+  return !!hasActualReward_;
+}
+- (void) setHasActualReward:(BOOL) value_ {
+  hasActualReward_ = !!value_;
+}
+@synthesize actualReward;
 - (id) init {
   if ((self = [super init])) {
     self.rewardId = 0;
     self.staticDataId = 0;
     self.typ = RewardProto_RewardTypeNoReward;
     self.amt = 0;
+    self.actualReward = [RewardProto defaultInstance];
   }
   return self;
 }
@@ -98,6 +107,9 @@ static RewardProto* defaultRewardProtoInstance = nil;
   if (self.hasAmt) {
     [output writeInt32:4 value:self.amt];
   }
+  if (self.hasActualReward) {
+    [output writeMessage:5 value:self.actualReward];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -118,6 +130,9 @@ static RewardProto* defaultRewardProtoInstance = nil;
   }
   if (self.hasAmt) {
     size_ += computeInt32Size(4, self.amt);
+  }
+  if (self.hasActualReward) {
+    size_ += computeMessageSize(5, self.actualReward);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -166,6 +181,12 @@ static RewardProto* defaultRewardProtoInstance = nil;
   if (self.hasAmt) {
     [output appendFormat:@"%@%@: %@\n", indent, @"amt", [NSNumber numberWithInteger:self.amt]];
   }
+  if (self.hasActualReward) {
+    [output appendFormat:@"%@%@ {\n", indent, @"actualReward"];
+    [self.actualReward writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -185,6 +206,8 @@ static RewardProto* defaultRewardProtoInstance = nil;
       (!self.hasTyp || self.typ == otherMessage.typ) &&
       self.hasAmt == otherMessage.hasAmt &&
       (!self.hasAmt || self.amt == otherMessage.amt) &&
+      self.hasActualReward == otherMessage.hasActualReward &&
+      (!self.hasActualReward || [self.actualReward isEqual:otherMessage.actualReward]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -200,6 +223,9 @@ static RewardProto* defaultRewardProtoInstance = nil;
   }
   if (self.hasAmt) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.amt] hash];
+  }
+  if (self.hasActualReward) {
+    hashCode = hashCode * 31 + [self.actualReward hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -217,6 +243,7 @@ BOOL RewardProto_RewardTypeIsValidValue(RewardProto_RewardType value) {
     case RewardProto_RewardTypeMonster:
     case RewardProto_RewardTypeClanGift:
     case RewardProto_RewardTypeTangoGift:
+    case RewardProto_RewardTypeReward:
       return YES;
     default:
       return NO;
@@ -272,6 +299,9 @@ BOOL RewardProto_RewardTypeIsValidValue(RewardProto_RewardType value) {
   if (other.hasAmt) {
     [self setAmt:other.amt];
   }
+  if (other.hasActualReward) {
+    [self mergeActualReward:other.actualReward];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -312,6 +342,15 @@ BOOL RewardProto_RewardTypeIsValidValue(RewardProto_RewardType value) {
       }
       case 32: {
         [self setAmt:[input readInt32]];
+        break;
+      }
+      case 42: {
+        RewardProto_Builder* subBuilder = [RewardProto builder];
+        if (self.hasActualReward) {
+          [subBuilder mergeFrom:self.actualReward];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setActualReward:[subBuilder buildPartial]];
         break;
       }
     }
@@ -379,6 +418,36 @@ BOOL RewardProto_RewardTypeIsValidValue(RewardProto_RewardType value) {
 - (RewardProto_Builder*) clearAmt {
   result.hasAmt = NO;
   result.amt = 0;
+  return self;
+}
+- (BOOL) hasActualReward {
+  return result.hasActualReward;
+}
+- (RewardProto*) actualReward {
+  return result.actualReward;
+}
+- (RewardProto_Builder*) setActualReward:(RewardProto*) value {
+  result.hasActualReward = YES;
+  result.actualReward = value;
+  return self;
+}
+- (RewardProto_Builder*) setActualReward_Builder:(RewardProto_Builder*) builderForValue {
+  return [self setActualReward:[builderForValue build]];
+}
+- (RewardProto_Builder*) mergeActualReward:(RewardProto*) value {
+  if (result.hasActualReward &&
+      result.actualReward != [RewardProto defaultInstance]) {
+    result.actualReward =
+      [[[RewardProto builderWithPrototype:result.actualReward] mergeFrom:value] buildPartial];
+  } else {
+    result.actualReward = value;
+  }
+  result.hasActualReward = YES;
+  return self;
+}
+- (RewardProto_Builder*) clearActualReward {
+  result.hasActualReward = NO;
+  result.actualReward = [RewardProto defaultInstance];
   return self;
 }
 @end

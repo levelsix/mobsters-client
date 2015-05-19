@@ -25,17 +25,21 @@
     imgName = [Globals imageNameForRarity:mp.quality suffix:@"piece.png"];
     labelName = [Globals stringForRarity:mp.quality];
     color = [Globals colorForRarity:mp.quality];
-  } else if (reward.type == RewardTypeSilver) {
+  } else if (reward.type == RewardTypeCash) {
     imgName = @"moneystack.png";
-    labelName = [Globals cashStringForNumber:reward.silverAmount];
+    labelName = [Globals cashStringForNumber:reward.cashAmount];
     color = [Globals greenColor];
   } else if (reward.type == RewardTypeOil) {
     imgName = @"oilicon.png";
     labelName = [Globals commafyNumber:reward.oilAmount];
     color = [Globals goldColor];
-  } else if (reward.type == RewardTypeGold) {
+  } else if (reward.type == RewardTypeGems) {
     imgName = @"diamond.png";
-    labelName = [Globals commafyNumber:reward.goldAmount];
+    labelName = [Globals commafyNumber:reward.gemAmount];
+    color = [Globals purplishPinkColor];
+  } else if (reward.type == RewardTypeGachaToken) {
+    imgName = @"grabchip.png";
+    labelName = [Globals commafyNumber:reward.tokenAmount];
     color = [Globals purplishPinkColor];
   } else if (reward.type == RewardTypeItem) {
     ItemProto *item = [gs itemForId:reward.itemId];

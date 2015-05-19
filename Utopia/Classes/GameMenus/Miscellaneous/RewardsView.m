@@ -37,17 +37,21 @@
     useItemView = YES;
     
     imgName = [mp.imagePrefix  stringByAppendingString:@"Card.png"];
-  } else if (reward.type == RewardTypeSilver) {
+  } else if (reward.type == RewardTypeCash) {
     imgName = @"moneystack.png";
-    labelName = [Globals commafyNumber:reward.silverAmount];
+    labelName = [Globals commafyNumber:reward.cashAmount];
     color = [UIColor colorWithRed:105/255. green:141/255. blue:7/255.f alpha:1.f];
   } else if (reward.type == RewardTypeOil) {
     imgName = @"oilicon.png";
     labelName = [Globals commafyNumber:reward.oilAmount];
     color = [UIColor colorWithRed:225/255. green:137/255. blue:11/255.f alpha:1.f];
-  } else if (reward.type == RewardTypeGold) {
+  } else if (reward.type == RewardTypeGems) {
     imgName = @"diamond.png";
-    labelName = [Globals commafyNumber:reward.goldAmount];
+    labelName = [Globals commafyNumber:reward.gemAmount];
+    color = [UIColor colorWithRed:186/255. green:47/255. blue:255/255.f alpha:1.f];
+  } else if (reward.type == RewardTypeGachaToken) {
+    imgName = @"grabchip.png";
+    labelName = [Globals commafyNumber:reward.tokenAmount];
     color = [UIColor colorWithRed:186/255. green:47/255. blue:255/255.f alpha:1.f];
   } else if (reward.type == RewardTypeItem) {
     useItemView = YES;

@@ -536,20 +536,25 @@
     bgdName = [Globals imageNameForRarity:mp.quality suffix:@"found.png"];
     labelImage = [@"battle" stringByAppendingString:[Globals imageNameForRarity:mp.quality suffix:@"tag.png"]];
     isPiece = mp.numPuzzlePieces > 1;
-  } else if (reward.type == RewardTypeSilver) {
+  } else if (reward.type == RewardTypeCash) {
     imgName = @"moneystack.png";
     bgdName = @"cashfound.png";
-    labelName = [Globals commafyNumber:reward.silverAmount];
+    labelName = [Globals commafyNumber:reward.cashAmount];
     color = [Globals greenColor];
   } else if (reward.type == RewardTypeOil) {
     imgName = @"oilicon.png";
     bgdName = @"ultrafound.png";
     labelName = [Globals commafyNumber:reward.oilAmount];
     color = [Globals goldColor];
-  } else if (reward.type == RewardTypeGold) {
+  } else if (reward.type == RewardTypeGems) {
     imgName = @"diamond.png";
     bgdName = @"commonfound.png";
-    labelName = [Globals commafyNumber:reward.goldAmount];
+    labelName = [Globals commafyNumber:reward.gemAmount];
+    color = [Globals purplishPinkColor];
+  } else if (reward.type == RewardTypeGachaToken) {
+    imgName = @"grabchip.png";
+    bgdName = @"commonfound.png";
+    labelName = [Globals commafyNumber:reward.tokenAmount];
     color = [Globals purplishPinkColor];
   } else if (reward.type == RewardTypeItem) {
     ItemProto *item = [gs itemForId:reward.itemId];

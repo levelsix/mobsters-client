@@ -102,6 +102,7 @@ typedef NS_ENUM(SInt32, RewardProto_RewardType) {
   RewardProto_RewardTypeMonster = 6,
   RewardProto_RewardTypeClanGift = 8,
   RewardProto_RewardTypeTangoGift = 9,
+  RewardProto_RewardTypeReward = 100,
 };
 
 BOOL RewardProto_RewardTypeIsValidValue(RewardProto_RewardType value);
@@ -118,20 +119,24 @@ BOOL RewardProto_RewardTypeIsValidValue(RewardProto_RewardType value);
   BOOL hasRewardId_:1;
   BOOL hasStaticDataId_:1;
   BOOL hasAmt_:1;
+  BOOL hasActualReward_:1;
   BOOL hasTyp_:1;
   int32_t rewardId;
   int32_t staticDataId;
   int32_t amt;
+  RewardProto* actualReward;
   RewardProto_RewardType typ;
 }
 - (BOOL) hasRewardId;
 - (BOOL) hasStaticDataId;
 - (BOOL) hasTyp;
 - (BOOL) hasAmt;
+- (BOOL) hasActualReward;
 @property (readonly) int32_t rewardId;
 @property (readonly) int32_t staticDataId;
 @property (readonly) RewardProto_RewardType typ;
 @property (readonly) int32_t amt;
+@property (readonly, strong) RewardProto* actualReward;
 
 + (RewardProto*) defaultInstance;
 - (RewardProto*) defaultInstance;
@@ -187,6 +192,13 @@ BOOL RewardProto_RewardTypeIsValidValue(RewardProto_RewardType value);
 - (int32_t) amt;
 - (RewardProto_Builder*) setAmt:(int32_t) value;
 - (RewardProto_Builder*) clearAmt;
+
+- (BOOL) hasActualReward;
+- (RewardProto*) actualReward;
+- (RewardProto_Builder*) setActualReward:(RewardProto*) value;
+- (RewardProto_Builder*) setActualReward_Builder:(RewardProto_Builder*) builderForValue;
+- (RewardProto_Builder*) mergeActualReward:(RewardProto*) value;
+- (RewardProto_Builder*) clearActualReward;
 @end
 
 @interface UserRewardProto : PBGeneratedMessage {

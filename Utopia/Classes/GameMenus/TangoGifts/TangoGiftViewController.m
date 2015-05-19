@@ -129,15 +129,18 @@
 
 - (IBAction) sendClicked:(id)sender {
 #ifdef TOONSQUAD
-  NSArray *withAppList = [TangoDelegate getTangoIdsForProfiles:self.selectedFriends withApp:YES];
-  NSArray *withoutAppList = [TangoDelegate getTangoIdsForProfiles:self.selectedFriends withApp:NO];
-  int reward = [self updateRewardAmount];
-  if (withAppList.count > 0 || withoutAppList.count > 0) {
-    [[OutgoingEventController sharedOutgoingEventController] sendTangoGiftsToTangoUsers:withAppList gemReward:reward delegate:self];
-  }
-  
-  if (withoutAppList.count > 0) {
-    [TangoDelegate sendInvitesToTangoUsers:withoutAppList];
+  if (self.selectedFriends.count > 0) {
+    NSArray *withAppList = [TangoDelegate getTangoIdsForProfiles:self.selectedFriends withApp:YES];
+    NSArray *withoutAppList = [TangoDelegate getTangoIdsForProfiles:self.selectedFriends withApp:NO];
+    int reward = [self updateRewardAmount];
+    
+    if (withAppList.count > 0 || withoutAppList.count > 0) {
+      [[OutgoingEventController sharedOutgoingEventController] sendTangoGiftsToTangoUsers:withAppList gemReward:reward delegate:self];
+    }
+    
+    if (withoutAppList.count > 0) {
+      [TangoDelegate sendInvitesToTangoUsers:withoutAppList];
+    }
   }
 #endif
   [self close];

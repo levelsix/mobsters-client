@@ -28,11 +28,11 @@
 + (void) fetchCachedFriends:(void (^)(NSArray *friends))comp;
 + (void) fetchInvitableProfiles:(void (^)(NSArray *friends))comp;
 
-+ (void) fetchMyGifts:(void (^)(NSArray *gifts))comp;
-+ (void) consumeAllGiftsFromUser:(NSString *)userId;
-+ (void) consumeUserGifts:(NSArray *)gift;
+//+ (void) fetchMyGifts:(void (^)(NSArray *gifts))comp;
+//+ (void) consumeAllGiftsFromUser:(NSString *)userId;
+//+ (void) consumeUserGifts:(NSArray *)gift;
+//+ (void) sendGiftsToTangoUsers:(NSArray *)userIds;
 
-+ (void) sendGiftsToTangoUsers:(NSArray *)userIds;
 + (void) sendInvitesToTangoUsers:(NSArray *)userIds;
 
 + (void) validatePurchase:(id)transaction;

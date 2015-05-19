@@ -2633,7 +2633,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [Globals addPurpleAlertNotification:[NSString stringWithFormat:@"You Collected %d Gems for sharing gifts with your friends", rewardAmount] isImmediate:YES];
       
       if (proto.tangoUserIdsInToonSquadList) {
-        [TangoDelegate sendGiftsToTangoUsers:proto.tangoUserIdsInToonSquadList];
+        //[TangoDelegate sendGiftsToTangoUsers:proto.tangoUserIdsInToonSquadList];
       }
     }];
   } else {

@@ -252,9 +252,10 @@ typedef enum {
 
 typedef enum {
   RewardTypeMonster = 1,
-  RewardTypeSilver,
+  RewardTypeCash,
   RewardTypeOil,
-  RewardTypeGold,
+  RewardTypeGems,
+  RewardTypeGachaToken,
   RewardTypeExperience,
   RewardTypeItem,
   RewardTypePvpLeague
@@ -263,13 +264,17 @@ typedef enum {
 @interface Reward : NSObject
 
 @property (nonatomic, assign) int monsterId;
+@property (nonatomic, assign) BOOL isPuzzlePiece;
+
 @property (nonatomic, assign) int itemId;
 @property (nonatomic, assign) int itemQuantity;
-@property (nonatomic, assign) BOOL isPuzzlePiece;
-@property (nonatomic, assign) int silverAmount;
+
+@property (nonatomic, assign) int cashAmount;
 @property (nonatomic, assign) int oilAmount;
-@property (nonatomic, assign) int goldAmount;
+@property (nonatomic, assign) int gemAmount;
+@property (nonatomic, assign) int tokenAmount;
 @property (nonatomic, assign) int expAmount;
+
 @property (nonatomic, assign) int rankAmount;
 @property (nonatomic, assign) BOOL leagueChange;
 @property (nonatomic, assign) PvpLeagueProto *league;
@@ -283,9 +288,9 @@ typedef enum {
 
 - (id) initWithMonsterId:(int)monsterId isPuzzlePiece:(BOOL)isPuzzlePiece;
 - (id) initWithItemId:(int)itemId quantity:(int)quantity;
-- (id) initWithSilverAmount:(int)silverAmount;
+- (id) initWithCashAmount:(int)silverAmount;
 - (id) initWithOilAmount:(int)oilAmount;
-- (id) initWithGoldAmount:(int)goldAmount;
+- (id) initWithGemAmount:(int)goldAmount;
 - (id) initWithExpAmount:(int)expAmount;
 - (id) initWithPvpLeague:(PvpLeagueProto *)newLeague;
 
