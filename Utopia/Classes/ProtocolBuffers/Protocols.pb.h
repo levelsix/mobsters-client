@@ -142,6 +142,8 @@
 @class CityExpansionCostProto_Builder;
 @class ClanDataProto;
 @class ClanDataProto_Builder;
+@class ClanGiftProto;
+@class ClanGiftProto_Builder;
 @class ClanHelpNoticeProto;
 @class ClanHelpNoticeProto_Builder;
 @class ClanHelpProto;
@@ -162,6 +164,10 @@
 @class ClanRaidStageProto_Builder;
 @class ClanRaidStageRewardProto;
 @class ClanRaidStageRewardProto_Builder;
+@class CollectClanGiftsRequestProto;
+@class CollectClanGiftsRequestProto_Builder;
+@class CollectClanGiftsResponseProto;
+@class CollectClanGiftsResponseProto_Builder;
 @class CollectMonsterEnhancementRequestProto;
 @class CollectMonsterEnhancementRequestProto_Builder;
 @class CollectMonsterEnhancementResponseProto;
@@ -198,6 +204,10 @@
 @class CustomizePvpBoardObstacleResponseProto_Builder;
 @class DefaultLanguagesProto;
 @class DefaultLanguagesProto_Builder;
+@class DeleteClanGiftsRequestProto;
+@class DeleteClanGiftsRequestProto_Builder;
+@class DeleteClanGiftsResponseProto;
+@class DeleteClanGiftsResponseProto_Builder;
 @class DestroyMoneyTreeStructureRequestProto;
 @class DestroyMoneyTreeStructureRequestProto_Builder;
 @class DestroyMoneyTreeStructureResponseProto;
@@ -498,6 +508,8 @@
 @class QueueUpResponseProto_Builder;
 @class RareBoosterPurchaseProto;
 @class RareBoosterPurchaseProto_Builder;
+@class ReceivedClanGiftResponseProto;
+@class ReceivedClanGiftResponseProto_Builder;
 @class ReceivedGroupChatResponseProto;
 @class ReceivedGroupChatResponseProto_Builder;
 @class ReceivedRareBoosterPurchaseResponseProto;
@@ -772,6 +784,8 @@
 @class UserBattleItemProto_Builder;
 @class UserCityExpansionDataProto;
 @class UserCityExpansionDataProto_Builder;
+@class UserClanGiftProto;
+@class UserClanGiftProto_Builder;
 @class UserCreateRequestProto;
 @class UserCreateRequestProto_Builder;
 @class UserCreateResponseProto;
@@ -950,6 +964,9 @@ typedef NS_ENUM(SInt32, EventProtocolRequest) {
   EventProtocolRequestCTranslateSelectMessagesEvent = 210,
   EventProtocolRequestCUpdateUserStrengthEvent = 211,
   EventProtocolRequestCRefreshMiniJobEvent = 212,
+  EventProtocolRequestCCollectClanGiftsEvent = 500,
+  EventProtocolRequestCDeleteClanGiftsEvent = 501,
+  EventProtocolRequestCReceivedClanGiftsEvent = 502,
 };
 
 BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value);
@@ -1075,6 +1092,9 @@ typedef NS_ENUM(SInt32, EventProtocolResponse) {
   EventProtocolResponseSTranslateSelectMessagesEvent = 210,
   EventProtocolResponseSUpdateUserStrengthEvent = 211,
   EventProtocolResponseSRefreshMiniJobEvent = 212,
+  EventProtocolResponseSCollectClanGiftsEvent = 500,
+  EventProtocolResponseSDeleteClanGiftsEvent = 501,
+  EventProtocolResponseSReceivedClanGiftsEvent = 502,
 };
 
 BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value);

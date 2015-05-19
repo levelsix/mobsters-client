@@ -17,4 +17,7 @@
 
 @property (nonatomic, strong) IBOutlet UITableView *faqTable;
 
+- (void) loadFAQ;
+- (void) loadFile:(NSString*)file;
+
 @end

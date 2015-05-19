@@ -12,11 +12,13 @@
 
 #import "SettingsSubViewController.h"
 #import "FAQViewController.h"
+#import "CreditsViewController.h"
 
 @interface SettingsViewController : PopupNavViewController <TabBarDelegate>
 
 @property (nonatomic, retain) SettingsSubViewController *settingsSubViewController;
 @property (nonatomic, retain) FAQViewController *faqViewController;
+@property (nonatomic, retain) CreditsViewController *creditsViewController;
 
 @property (nonatomic, retain) IBOutlet ButtonTabBar *tabBar;
 

@@ -40,7 +40,7 @@
 {
   // If attacker is the skill owner and he's enraged, modify
   if (player == self.belongsToPlayer)
-    if ([self isActive])
+    if ([self isActive] && !self.userPlayer.isStunned)
     {
       [self enqueueSkillPopupMiniOverlay:[NSString stringWithFormat:@"%.3gX DMG", _damageMultiplier]];
       return damage * _damageMultiplier;

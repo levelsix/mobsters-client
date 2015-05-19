@@ -300,7 +300,8 @@
 }
 
 - (void) begin {
-  [skillManager flushPersistentSkills];
+  if (!_isResumingState)
+    [skillManager flushPersistentSkills];
   
   BattlePlayer *bp = [self firstMyPlayer];
   if (bp) {
@@ -3045,6 +3046,7 @@
   [self moveBegan];
   [self healForAmount:bip.amount enemyIsHealed:NO withTarget:self andSelector:@selector(moveComplete)];
   [self sendServerUpdatedValuesVerifyDamageDealt:NO];
+  [skillManager showItemPopupOverlay:bip bottomText:[NSString stringWithFormat:@"+%i HP", bip.amount]];
 }
 
 - (void) useBoardShuffle:(BattleItemProto *)bip {

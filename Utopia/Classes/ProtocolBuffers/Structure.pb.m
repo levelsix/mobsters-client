@@ -49,6 +49,7 @@ BOOL BoardObstacleTypeIsValidValue(BoardObstacleType value) {
     case BoardObstacleTypeCloud:
     case BoardObstacleTypeLock:
     case BoardObstacleTypeHole:
+    case BoardObstacleTypeVine:
       return YES;
     default:
       return NO;

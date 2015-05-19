@@ -55,7 +55,7 @@
 - (NSInteger) modifyDamage:(NSInteger)damage forPlayer:(BOOL)player
 {
   // If attacker is the skill owner
-  if ([self isActive] && player == self.belongsToPlayer)
+  if ([self isActive] && player == self.belongsToPlayer && !self.userPlayer.isStunned)
   {
     [self enqueueSkillPopupMiniOverlay:[NSString stringWithFormat:@"%.3gX DMG", (_damageMultiplier * _stacks)]];
     return (damage * _damageMultiplier * _stacks);

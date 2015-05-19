@@ -54,6 +54,7 @@
   
   _currentSpeed = _initialSpeed;
   _startedEating = NO;
+  _skillLockActive = NO;
   
   return self;
 }
@@ -81,11 +82,23 @@
       _startedEating = NO;
       
       // Eat the cake and reload schedule UI then
+      self.enemySprite.muteAttacks = YES;
       self.enemySprite.animationType = MonsterProto_AnimationTypeRanged;
       [self.enemySprite performNearAttackAnimationWithEnemy:self.playerSprite shouldReturn:YES shouldEvade:NO shouldMiss:NO shouldFlinch:NO
-                                                     target:nil selector:nil animCompletion:nil];
+                                                     target:self selector:@selector(finishedEating) animCompletion:nil];
     }];
   }
+}
+
+- (void) finishedEating
+{
+  _startedEating = NO;
+  if (_skillLockActive)
+  {
+    [self skillTriggerFinished];
+  }
+  
+  _skillLockActive = NO;
 }
 
 - (BOOL) generateSpecialOrb:(BattleOrb*)orb atColumn:(int)column row:(int)row
@@ -110,6 +123,15 @@
 {
   if ([super skillCalledWithTrigger:trigger execute:execute])
     return YES;
+  
+  if (_startedEating)
+  {
+    if (execute)
+    {
+      _skillLockActive = YES;
+    }
+    return YES;
+  }
   
   // Change enemy speed
   if (trigger == SkillTriggerPointEnemyInitialized)

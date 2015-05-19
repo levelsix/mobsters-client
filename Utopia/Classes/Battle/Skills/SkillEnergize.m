@@ -77,7 +77,7 @@
 
 - (NSInteger) modifyDamage:(NSInteger)damage forPlayer:(BOOL)player
 {
-  if ([self isActive])
+  if ([self isActive] && !self.userPlayer.isStunned)
   {
     if (player == self.belongsToPlayer)
     {

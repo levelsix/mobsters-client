@@ -71,6 +71,7 @@
     case BoardObstacleTypeCloud: return @"cloudobstacle.png";
     case BoardObstacleTypeLock:  return @"lockobstacle.png";
     case BoardObstacleTypeHole:  return @"holeobstacle.png";
+    case BoardObstacleTypeVine:  return @"vineobstacle.png";
     default:
       return nil;
   }

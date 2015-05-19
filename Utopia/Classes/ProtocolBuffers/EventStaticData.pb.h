@@ -29,6 +29,8 @@
 @class CityExpansionCostProto_Builder;
 @class ClanDataProto;
 @class ClanDataProto_Builder;
+@class ClanGiftProto;
+@class ClanGiftProto_Builder;
 @class ClanHelpNoticeProto;
 @class ClanHelpNoticeProto_Builder;
 @class ClanHelpProto;
@@ -219,6 +221,8 @@
 @class UserBattleItemProto_Builder;
 @class UserCityExpansionDataProto;
 @class UserCityExpansionDataProto_Builder;
+@class UserClanGiftProto;
+@class UserClanGiftProto_Builder;
 @class UserCurrentMonsterTeamProto;
 @class UserCurrentMonsterTeamProto_Builder;
 @class UserEnhancementItemProto;

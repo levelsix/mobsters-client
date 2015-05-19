@@ -22,6 +22,7 @@
   // Counters
   float     _currentSpeed;
   BOOL      _startedEating;
+  BOOL      _skillLockActive;
 }
 
 @end
