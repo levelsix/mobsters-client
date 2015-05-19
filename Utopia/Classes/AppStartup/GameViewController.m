@@ -546,7 +546,7 @@ static const CGSize FIXED_SIZE = {568, 384};
       hoursSinceLastTangoGift = -[gs.lastTangoGiftSentTime timeIntervalSinceNow] / 3600.f;
     }
     
-    if (gs.tasksCompleted >= 2 && (!gs.lastTangoGiftSentTime || hoursSinceLastTangoGift > 24 || YES)) {
+    if (gs.tasksCompleted >= 2 && (!gs.lastTangoGiftSentTime || hoursSinceLastTangoGift > 24)) {
 #ifdef TOONSQUAD
       if ([TangoDelegate isTangoAvailable] && [TangoDelegate isTangoAuthenticated]) {
         TangoGiftViewController *tgvc = [[TangoGiftViewController alloc] init];
