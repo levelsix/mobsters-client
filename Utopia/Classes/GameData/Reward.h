@@ -48,6 +48,7 @@ typedef enum {
 + (NSArray *) createRewardsForQuest:(FullQuestProto *)quest;
 + (NSArray *) createRewardsForMiniJob:(MiniJobProto *)miniJob;
 + (NSArray *) createRewardsForPvpProto:(PvpProto *)pvp droplessStageNums:(NSArray *)droplessStageNums isWin:(BOOL)isWin;
++ (NSArray *) createRewardsForReplay:(CombatReplayProto *)replay tillStage:(int)stageNum droplessStageNums:(NSArray *)droplessStageNums attackerVictory:(BOOL)attackerWins;
 
 - (id) initWithMonsterId:(int)monsterId monsterLvl:(int)monsterLvl;
 - (id) initWithItemId:(int)itemId quantity:(int)quantity;

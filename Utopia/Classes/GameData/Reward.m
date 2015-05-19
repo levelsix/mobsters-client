@@ -173,6 +173,29 @@
   return rewards;
 }
 
++ (NSArray *) createRewardsForReplay:(CombatReplayProto *)replay tillStage:(int)stageNum droplessStageNums:(NSArray *)droplessStageNums attackerVictory:(BOOL)attackerWins {
+  NSMutableArray *rewards = [NSMutableArray array];
+  
+  for (int i = 0; i < replay.enemyTeamList.count && i < stageNum; i++) {
+    if (![droplessStageNums containsObject:@(i)]) {
+      CombatReplayMonsterSnapshot *crms = replay.enemyTeamList[i];
+      if (crms.droppedLoot) {
+        [rewards addObject:[[Reward alloc] initWithMonsterId:crms.droppedLoot monsterLvl:crms.level]];
+      }
+    }
+  }
+  
+  if (attackerWins) {
+    if (replay.cash)
+      [rewards addObject:[[Reward alloc] initWithCashAmount:replay.cash]];
+    
+    if (replay.oil)
+      [rewards addObject:[[Reward alloc] initWithOilAmount:replay.oil]];
+  }
+  
+  return rewards;
+}
+
 - (id) initWithMonsterId:(int)monsterId monsterLvl:(int)monsterLvl {
   if ((self = [super init])) {
     self.type = RewardTypeMonster;

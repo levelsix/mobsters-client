@@ -14,6 +14,7 @@
 #import "SkillManager.h"
 #import "GameViewController.h"
 #import "SoundEngine.h"
+#import "Reward.h"
 
 #define DELAY_KEY @"DELAY"
 #define SWAP_TOON_KEY @"SWAP_TOON"
