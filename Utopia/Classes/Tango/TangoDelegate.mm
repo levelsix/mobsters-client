@@ -21,9 +21,8 @@
 
 #define TANGO_ENABLED
 
-#warning change back
-#define TANGO_RESOURCE_ID @"TEST_INVITE_ID"
-//#define TANGO_RESOURCE_ID @"INVITE_ID1"
+//#define TANGO_RESOURCE_ID @"TEST_INVITE_ID"
+#define TANGO_RESOURCE_ID @"INVITE_ID1"
 
 @implementation TangoDelegate
 

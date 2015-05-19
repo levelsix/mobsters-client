@@ -521,49 +521,41 @@
 @implementation BattleRewardNode
 
 - (id) initWithReward:(Reward *)reward isForLoss:(BOOL)loss {
+  
   GameState *gs = [GameState sharedGameState];
-  NSString *imgName = nil;
-  NSString *labelName = nil;
-  NSString *labelImage = nil;
+  
+  NSString *imgName = [reward imgName];
+  NSString *labelName = [reward shorterName];
   NSString *bgdName = nil;
+  
+  NSString *labelImage = nil;
   NSString *borderName = nil;
   UIColor *color = nil;
   BOOL isPiece = NO;
   self.type = reward.type;
+  
+  
   if (reward.type == RewardTypeMonster) {
     MonsterProto *mp = [gs monsterWithId:reward.monsterId];
-    imgName = [mp.imagePrefix stringByAppendingString:@"Card.png"];
     bgdName = [Globals imageNameForRarity:mp.quality suffix:@"found.png"];
     labelImage = [@"battle" stringByAppendingString:[Globals imageNameForRarity:mp.quality suffix:@"tag.png"]];
-    isPiece = mp.numPuzzlePieces > 1;
+    isPiece = reward.monsterLvl == 0;
   } else if (reward.type == RewardTypeCash) {
-    imgName = @"moneystack.png";
     bgdName = @"cashfound.png";
-    labelName = [Globals commafyNumber:reward.cashAmount];
     color = [Globals greenColor];
   } else if (reward.type == RewardTypeOil) {
-    imgName = @"oilicon.png";
     bgdName = @"ultrafound.png";
-    labelName = [Globals commafyNumber:reward.oilAmount];
     color = [Globals goldColor];
   } else if (reward.type == RewardTypeGems) {
-    imgName = @"diamond.png";
     bgdName = @"commonfound.png";
-    labelName = [Globals commafyNumber:reward.gemAmount];
     color = [Globals purplishPinkColor];
   } else if (reward.type == RewardTypeGachaToken) {
-    imgName = @"grabchip.png";
     bgdName = @"commonfound.png";
-    labelName = [Globals commafyNumber:reward.tokenAmount];
-    color = [Globals purplishPinkColor];
+    color = [UIColor colorWithHexString:@"EA5F25"];
   } else if (reward.type == RewardTypeItem) {
-    ItemProto *item = [gs itemForId:reward.itemId];
-    imgName = item.imgName;
-    labelName = item.name;
     bgdName = @"commonfound.png";
     color = [Globals creamColor];
   } else if (reward.type == RewardTypePvpLeague) {
-    imgName = [reward.league.imgPrefix stringByAppendingString:@"icon.png"];
     labelName = @"Loading";
     color = [UIColor whiteColor];
   }
@@ -594,16 +586,16 @@
     _inside.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
     
     float labelPosition = loss ? -10.f : -13.f;
-    if (labelName) {
+    if (labelImage) {
+      CCSprite *label = [CCSprite spriteWithImageNamed:labelImage];
+      [self addChild:label];
+      label.position = ccp(self.contentSize.width/2, labelPosition);
+    } else if (labelName) {
       _label = [CCLabelTTF labelWithString:labelName fontName:@"Gotham-Ultra" fontSize:11.f dimensions:CGSizeMake(self.contentSize.width+5, 15)];
       _label.horizontalAlignment = CCTextAlignmentCenter;
       _label.color = [CCColor colorWithUIColor:color];
       [self addChild:_label];
       _label.position = ccp(self.contentSize.width/2, labelPosition-1);
-    } else if (labelImage) {
-      CCSprite *label = [CCSprite spriteWithImageNamed:labelImage];
-      [self addChild:label];
-      label.position = ccp(self.contentSize.width/2, labelPosition);
     }
     
     if (isPiece) {

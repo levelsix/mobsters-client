@@ -1256,6 +1256,9 @@
 		29AF49041AAA96DD0034927C /* ItemFactoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29AF49001AAA96DD0034927C /* ItemFactoryViewController.xib */; };
 		29AF49051AAA96DD0034927C /* ItemFactoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29AF49001AAA96DD0034927C /* ItemFactoryViewController.xib */; };
 		29AF49061AAA96DD0034927C /* ItemFactoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29AF49001AAA96DD0034927C /* ItemFactoryViewController.xib */; };
+		29BE5F6C1B0B58DA00BF9591 /* Reward.m in Sources */ = {isa = PBXBuildFile; fileRef = 29BE5F6B1B0B58DA00BF9591 /* Reward.m */; };
+		29BE5F6D1B0B58DA00BF9591 /* Reward.m in Sources */ = {isa = PBXBuildFile; fileRef = 29BE5F6B1B0B58DA00BF9591 /* Reward.m */; };
+		29BE5F6E1B0B58DA00BF9591 /* Reward.m in Sources */ = {isa = PBXBuildFile; fileRef = 29BE5F6B1B0B58DA00BF9591 /* Reward.m */; };
 		29C0D22D1A9BF4BF005A4EC0 /* lockedbubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29C0D22C1A9BF4BF005A4EC0 /* lockedbubble@2x.png */; };
 		29C0D22E1A9BF4BF005A4EC0 /* lockedbubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29C0D22C1A9BF4BF005A4EC0 /* lockedbubble@2x.png */; };
 		29C0D22F1A9BF4BF005A4EC0 /* lockedbubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29C0D22C1A9BF4BF005A4EC0 /* lockedbubble@2x.png */; };
@@ -8274,6 +8277,8 @@
 		29AF48FE1AAA96DD0034927C /* ItemFactoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemFactoryViewController.h; sourceTree = "<group>"; };
 		29AF48FF1AAA96DD0034927C /* ItemFactoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemFactoryViewController.m; sourceTree = "<group>"; };
 		29AF49001AAA96DD0034927C /* ItemFactoryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ItemFactoryViewController.xib; sourceTree = "<group>"; };
+		29BE5F6A1B0B58DA00BF9591 /* Reward.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reward.h; sourceTree = "<group>"; };
+		29BE5F6B1B0B58DA00BF9591 /* Reward.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reward.m; sourceTree = "<group>"; };
 		29C0D22C1A9BF4BF005A4EC0 /* lockedbubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lockedbubble@2x.png"; sourceTree = "<group>"; };
 		29C0D2311A9BFA79005A4EC0 /* ultimategrabitem@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ultimategrabitem@2x.png"; sourceTree = "<group>"; };
 		29C0D2371A9C1098005A4EC0 /* toonrequestbubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "toonrequestbubble@2x.png"; sourceTree = "<group>"; };
@@ -15269,6 +15274,8 @@
 				CF40CFDD18DF9DCB0034A721 /* UnreadNotifications.m */,
 				CF0CDEB019E5103C006A5ECB /* TimerAction.h */,
 				CF0CDEB119E5103C006A5ECB /* TimerAction.m */,
+				29BE5F6A1B0B58DA00BF9591 /* Reward.h */,
+				29BE5F6B1B0B58DA00BF9591 /* Reward.m */,
 			);
 			name = "Game Data";
 			path = GameData;
@@ -16253,8 +16260,6 @@
 			children = (
 				63959E191B0ABE4400E5E302 /* EventReward.pb.h */,
 				63959E1A1B0ABE4400E5E302 /* EventReward.pb.m */,
-				6304B4601AE054A10075D4E9 /* CustomMenu.pb.h */,
-				6304B4611AE054A10075D4E9 /* CustomMenu.pb.m */,
 				CF6574771909CAF100ABF1F4 /* Proto files */,
 				9BE9F52A1B0AA5AA007E3A2F /* EventLeaderBoard.pb.h */,
 				9BE9F52B1B0AA5AA007E3A2F /* EventLeaderBoard.pb.m */,
@@ -16529,7 +16534,6 @@
 				9BE9F5221B0AA580007E3A2F /* EventLeaderBoard.proto */,
 				9BE9F5231B0AA580007E3A2F /* LeaderBoard.proto */,
 				63959E1F1B0ABEFF00E5E302 /* EventReward.proto */,
-				2933DCD71ADFA922005D7620 /* CustomMenu.proto */,
 				9BCAA1A11AD4A5F10059CEDA /* Sales.proto */,
 				9B2EFCCC1AC4AEC9005B7B83 /* BattleItem.proto */,
 				9B2EFCCD1AC4AEC9005B7B83 /* EventBattleItem.proto */,
@@ -24255,7 +24259,6 @@
 				CF481DC719F7217F00041486 /* healredbubble5@2x.png in Resources */,
 				2992D7CE1AA5326B00547B11 /* menugemminemine@2x.png in Resources */,
 				63959DFC1B0AB31500E5E302 /* TangoFriendViewCell.xib in Resources */,
-				9BDA8C371A5DF58500C7AC27 /* spinbutton@2x.png in Resources */,
 				6341747F1A843521006DA494 /* logobg@2x.png in Resources */,
 				CF481DCE19F7217F00041486 /* earthpointsfont@2x.png in Resources */,
 				9B41AEAE1A79817500529879 /* 6graveorb@2x.png in Resources */,
@@ -26079,6 +26082,7 @@
 				2917212B1ACF82110093F100 /* EmbeddedScrollingUpgradeView.m in Sources */,
 				2991FC011A800D7F009BB1D8 /* MonsterSelectViewController.m in Sources */,
 				CF0CED67196F452900ECD301 /* FundsViews.m in Sources */,
+				29BE5F6D1B0B58DA00BF9591 /* Reward.m in Sources */,
 				CF0CED68196F452900ECD301 /* TutorialShopViewController.m in Sources */,
 				DA173A5119CA4A1F005236C0 /* SkillShield.m in Sources */,
 				9BBE37271B028E30001A0E81 /* GrabTokenItemsFiller.m in Sources */,
@@ -26534,6 +26538,7 @@
 				CF29EA571964F64E00B40DA4 /* SettingsViewController.m in Sources */,
 				3EEADB771A7005C70096A652 /* SkillCounterStrike.m in Sources */,
 				CF54943E18C71F3C001E7D32 /* TutorialHomeMap.m in Sources */,
+				29BE5F6C1B0B58DA00BF9591 /* Reward.m in Sources */,
 				CF6A292E18C430E800AD676F /* TutorialController.m in Sources */,
 				CFF6463A195A3A3B00C43641 /* SellViewController.m in Sources */,
 				CF15BA7F16572A8400A51F85 /* AMQPChannel.m in Sources */,
@@ -26878,6 +26883,7 @@
 				2917212C1ACF82110093F100 /* EmbeddedScrollingUpgradeView.m in Sources */,
 				CF48190B19F7217F00041486 /* TutorialTouchView.m in Sources */,
 				2991FC021A800D7F009BB1D8 /* MonsterSelectViewController.m in Sources */,
+				29BE5F6E1B0B58DA00BF9591 /* Reward.m in Sources */,
 				CF48190C19F7217F00041486 /* FundsViews.m in Sources */,
 				CF48190D19F7217F00041486 /* TutorialShopViewController.m in Sources */,
 				9BBE37281B028E30001A0E81 /* GrabTokenItemsFiller.m in Sources */,

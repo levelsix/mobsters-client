@@ -16,29 +16,19 @@
 @implementation SalePackageCell
 
 - (void) updateForDisplayItem:(SalesDisplayItemProto *)display isSpecial:(BOOL)isSpecial {
-  GameState *gs = [GameState sharedGameState];
-  NSString *imgName = nil;
-  RewardProto *reward = display.reward;
+  Reward *reward = [[Reward alloc] initWithReward:display.reward];
   
-  if (reward.typ == RewardProto_RewardTypeGems) {
-    self.nameLabel.text = [NSString stringWithFormat:@"%@ %@", [Globals commafyNumber:reward.amt], [Globals stringForResourceType:ResourceTypeGems]];
-    self.quantityLabel.text = [NSString stringWithFormat:@"x1"];
-    imgName = @"diamond.png";
-  } else if (reward.typ == RewardProto_RewardTypeGachaCredits) {
-    self.nameLabel.text = [NSString stringWithFormat:@"%@ %@", [Globals commafyNumber:reward.amt], [Globals stringForResourceType:ResourceTypeGachaCredits]];
-    self.quantityLabel.text = [NSString stringWithFormat:@"x1"];
-    imgName = @"grabchip.png";
-  } else if (reward.typ == RewardProto_RewardTypeItem) {
-    ItemProto *ip = [gs itemForId:reward.staticDataId];
-    self.nameLabel.text = ip.name;
-    self.quantityLabel.text = [NSString stringWithFormat:@"x%d", reward.amt];
-    imgName = ip.imgName;
-  }
+  NSString *imgName = [reward imgName];
+  NSString *quantityStr = [NSString stringWithFormat:@"x%d", [reward quantity]];
+  NSString *name = [reward name];
   
-  [Globals imageNamed:imgName withView:self.itemIcon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES ];
+  self.nameLabel.text = name;
+  self.quantityLabel.text = quantityStr;
+  
+  [Globals imageNamed:imgName withView:self.itemIcon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
   
   CGSize size = self.itemIcon.image.size;
-  if (self.itemIcon.width < size.width || self.itemIcon.height < size.height) {
+  if (!self.itemIcon.image || self.itemIcon.width < size.width || self.itemIcon.height < size.height) {
     self.itemIcon.contentMode = UIViewContentModeScaleAspectFit;
   } else {
     self.itemIcon.contentMode = UIViewContentModeCenter;

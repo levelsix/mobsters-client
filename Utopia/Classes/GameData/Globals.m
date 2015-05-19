@@ -644,7 +644,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     case ResourceTypeOil:
       return @"Oil";
     case ResourceTypeGachaCredits:
-      return @"Grab Tokens";
+      return @"Tokens";
       
     default:
       break;

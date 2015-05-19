@@ -19,6 +19,7 @@
 @property (nonatomic, retain) IBOutlet UIImageView *itemIcon;
 @property (nonatomic, retain) IBOutlet THLabel *iconLabel;
 @property (nonatomic, strong) IBOutlet UILabel *itemQuantityLabel;
+@property (nonatomic, retain) IBOutlet UIImageView *itemGameActionTypeIcon;
 
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *itemView;

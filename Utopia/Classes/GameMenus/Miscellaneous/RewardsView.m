@@ -23,47 +23,23 @@
 }
 
 - (void) loadForReward:(Reward *)reward {
-  GameState *gs = [GameState sharedGameState];
-  NSString *imgName = nil;
-  NSString *labelName = nil;
+  
+  Reward *actualReward = reward.type == RewardTypeReward ? reward.innerReward : reward;
+  
+  NSString *imgName = [reward imgName];
+  NSString *labelName = [reward shorterName];
+  BOOL useItemView = actualReward.type == RewardTypeMonster || actualReward.type == RewardTypeItem ;
+  int quantity = [reward quantity];
+  
   UIColor *color = nil;
-  BOOL useItemView = NO;
-  int quantity = 0;
-  if (reward.type == RewardTypeMonster) {
-    MonsterProto *mp = [gs monsterWithId:reward.monsterId];
-//    imgName = [Globals imageNameForRarity:mp.quality suffix:@"piece.png"];
-//    labelName = [Globals stringForRarity:mp.quality];
-//    color = [Globals colorForRarity:mp.quality];
-    useItemView = YES;
-    
-    imgName = [mp.imagePrefix  stringByAppendingString:@"Card.png"];
-  } else if (reward.type == RewardTypeCash) {
-    imgName = @"moneystack.png";
-    labelName = [Globals commafyNumber:reward.cashAmount];
+  if (reward.type == RewardTypeCash) {
     color = [UIColor colorWithRed:105/255. green:141/255. blue:7/255.f alpha:1.f];
   } else if (reward.type == RewardTypeOil) {
-    imgName = @"oilicon.png";
-    labelName = [Globals commafyNumber:reward.oilAmount];
     color = [UIColor colorWithRed:225/255. green:137/255. blue:11/255.f alpha:1.f];
   } else if (reward.type == RewardTypeGems) {
-    imgName = @"diamond.png";
-    labelName = [Globals commafyNumber:reward.gemAmount];
     color = [UIColor colorWithRed:186/255. green:47/255. blue:255/255.f alpha:1.f];
   } else if (reward.type == RewardTypeGachaToken) {
-    imgName = @"grabchip.png";
-    labelName = [Globals commafyNumber:reward.tokenAmount];
     color = [UIColor colorWithHexString:@"EA5F25"];
-  } else if (reward.type == RewardTypeItem) {
-    useItemView = YES;
-    
-    UserItem *ui = [[UserItem alloc] init];
-    ui.itemId = reward.itemId;
-    
-    imgName = ui.iconImageName;
-    labelName = ui.iconText;
-    quantity = reward.itemQuantity;
-  } else if (reward.type == RewardTypeReward) {
-    
   }
   
   if (useItemView) {
@@ -83,6 +59,47 @@
     
     self.itemView.hidden = YES;
     self.mainView.hidden = NO;
+  }
+  
+  if (reward.type == RewardTypeItem) {
+    GameState *gs = [GameState sharedGameState];
+    ItemProto *ip = [gs itemForId:reward.itemId];
+    
+    self.itemGameActionTypeIcon.hidden = NO;
+    switch (ip.gameActionType) {
+      case GameActionTypeCreateBattleItem:
+        self.itemGameActionTypeIcon.image = [Globals imageNamed:@"timercreateitems.png"];
+        break;
+      case GameActionTypeEnhanceTime:
+        self.itemGameActionTypeIcon.image = [Globals imageNamed:@"timerenhance.png"];
+        break;
+      case GameActionTypeEvolve:
+        self.itemGameActionTypeIcon.image = [Globals imageNamed:@"timerevolve.png"];
+        break;
+      case GameActionTypeHeal:
+        self.itemGameActionTypeIcon.image = [Globals imageNamed:@"timerheal.png"];
+        break;
+      case GameActionTypeMiniJob:
+        self.itemGameActionTypeIcon.image = [Globals imageNamed:@"timerminijobs.png"];
+        break;
+      case GameActionTypeRemoveObstacle:
+        self.itemGameActionTypeIcon.image = [Globals imageNamed:@"timerremove.png"];
+        break;
+      case GameActionTypePerformingResearch:
+        self.itemGameActionTypeIcon.image = [Globals imageNamed:@"timerresearch.png"];
+        break;
+      case GameActionTypeUpgradeStruct:
+        self.itemGameActionTypeIcon.image = [Globals imageNamed:@"timerupgrade.png"];
+        break;
+        
+      case GameActionTypeNoHelp:
+      case GameActionTypeCombineMonster:
+      case GameActionTypeEnterPersistentEvent:
+        self.itemGameActionTypeIcon.hidden = YES;
+        break;
+    }
+  } else {
+    self.itemGameActionTypeIcon.hidden = YES;
   }
 }
 
