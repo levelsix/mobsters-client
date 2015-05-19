@@ -1191,53 +1191,19 @@
 
 + (NSArray *) createRewardsForMiniJob:(MiniJobProto *)miniJob {
   NSMutableArray *rewards = [NSMutableArray array];
-  
-//  if (miniJob.gemReward) {
-//    Reward *r = [[Reward alloc] initWithGemAmount:miniJob.gemReward];
-//    [rewards addObject:r];
-//  }
-//  
-//  if (miniJob.monsterIdReward) {
-//    Reward *r = [[Reward alloc] initWithMonsterId:miniJob.monsterIdReward isPuzzlePiece:YES];
-//    [rewards addObject:r];
-//  }
-//  
-//  if (miniJob.cashReward) {
-//    Reward *r = [[Reward alloc] initWithCashAmount:miniJob.cashReward];
-//    [rewards addObject:r];
-//  }
-//  
-//  if (miniJob.oilReward) {
-//    Reward *r = [[Reward alloc] initWithOilAmount:miniJob.oilReward];
-//    [rewards addObject:r];
-//  }
-//  
-//  if (miniJob.itemIdReward && miniJob.itemRewardQuantity) {
-//    Reward *r = [[Reward alloc] initWithItemId:miniJob.itemIdReward quantity:miniJob.itemRewardQuantity];
-//    [rewards addObject:r];
-//  }
-//  
-//  if (miniJob.secondItemIdReward && miniJob.secondItemRewardQuantity) {
-//    Reward *r = [[Reward alloc] initWithItemId:miniJob.secondItemIdReward quantity:miniJob.secondItemRewardQuantity];
-//    [rewards addObject:r];
-//  }
 
-  GameState *gs = [GameState sharedGameState];
-  if (miniJob.hasRewardIdOne) {
-    RewardProto *rp = gs.staticRewards[@(miniJob.rewardIdOne)];
-    Reward *r = [[Reward alloc] initWithReward:rp];
+  if (miniJob.hasRewardOne) {
+    Reward *r = [[Reward alloc] initWithReward:miniJob.rewardOne];
     [rewards addObject:r];
   }
   
-  if (miniJob.hasRewardIdTwo) {
-    RewardProto *rp = gs.staticRewards[@(miniJob.rewardIdTwo)];
-    Reward *r = [[Reward alloc] initWithReward:rp];
+  if (miniJob.hasRewardTwo) {
+    Reward *r = [[Reward alloc] initWithReward:miniJob.rewardTwo];
     [rewards addObject:r];
   }
 
-  if (miniJob.hasRewardIdThree) {
-    RewardProto *rp = gs.staticRewards[@(miniJob.rewardIdThree)];
-    Reward *r = [[Reward alloc] initWithReward:rp];
+  if (miniJob.hasRewardThree) {
+    Reward *r = [[Reward alloc] initWithReward:miniJob.rewardThree];
     [rewards addObject:r];
   }
   
@@ -1381,6 +1347,11 @@
         self.type = RewardTypeMonster;
         self.monsterId = reward.staticDataId;
         self.isPuzzlePiece = reward.amt <= 0;
+        break;
+        
+      case RewardProto_RewardTypeReward:
+        self.type = RewardProto_RewardTypeReward;
+        self.innerReward = [[Reward alloc] initWithReward:reward.actualReward];
         break;
         
       case RewardProto_RewardTypeClanGift:

@@ -3574,26 +3574,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     
     GameState *gs = [GameState sharedGameState];
     [gs.myMiniJobs removeObject:userMiniJob];
-    
-    int itemId = userMiniJob.miniJob.itemIdReward;
-    int quantity = userMiniJob.miniJob.itemRewardQuantity;
-    if (itemId && quantity) {
-      [gs.itemUtil incrementItemId:itemId quantity:quantity];
-    }
-    
-    itemId = userMiniJob.miniJob.secondItemIdReward;
-    quantity = userMiniJob.miniJob.secondItemRewardQuantity;
-    if (itemId && quantity) {
-      [gs.itemUtil incrementItemId:itemId quantity:quantity];
-    }
-    
-    int cashChange = userMiniJob.miniJob.cashReward, gemChange = userMiniJob.miniJob.gemReward, oilChange = userMiniJob.miniJob.oilReward;
-    GemsUpdate *gu = [GemsUpdate updateWithTag:tag change:gemChange];
-    CashUpdate *su = [CashUpdate updateWithTag:tag change:cashChange];
-    OilUpdate *ou = [OilUpdate updateWithTag:tag change:oilChange];
-    [gs addUnrespondedUpdates:gu, su, ou, nil];
-    
-    [Analytics redeemMiniJob:userMiniJob.miniJob.miniJobId cashChange:cashChange cashBalance:gs.cash oilChange:oilChange oilBalance:gs.oil];
   }
 }
 

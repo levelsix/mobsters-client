@@ -134,8 +134,16 @@
     }
     
     if (hasCompleteMobster) {
-      _confirmUserMonster = um;
-      [self checkUserMonsterOnTeam];
+      if (um.teamSlot > 0) {
+        if (!_confirmUserMonster) {
+          _confirmUserMonster = um;
+          
+          NSString *description = [NSString stringWithFormat:@"This %@ is currently on your team. Continue?", MONSTER_NAME];
+          [GenericPopupController displayConfirmationWithDescription:description title:@"Continue?" okayButton:@"Continue" cancelButton:@"Cancel" target:self selector:@selector(confirmationAccepted)];
+        }
+      } else {
+        [self confirmationAccepted:um];
+      }
     } else {
       [Globals addAlertNotification:[NSString stringWithFormat:@"You can't sell your last complete %@!", MONSTER_NAME]];
     }
@@ -148,19 +156,14 @@
   }
 }
 
-- (void) checkUserMonsterOnTeam {
-  UserMonster *um = _confirmUserMonster;
-  if (um.teamSlot > 0) {
-    NSString *description = [NSString stringWithFormat:@"This %@ is currently on your team. Continue?", MONSTER_NAME];
-    [GenericPopupController displayConfirmationWithDescription:description title:@"Continue?" okayButton:@"Continue" cancelButton:@"Cancel" target:self selector:@selector(confirmationAccepted)];
-  } else {
-    [self confirmationAccepted];
-  }
+- (void) confirmationAccepted {
+  [self confirmationAccepted:_confirmUserMonster];
+  _confirmUserMonster = nil;
 }
 
-- (void) confirmationAccepted {
-  UserMonster *um = _confirmUserMonster;
+- (void) confirmationAccepted:(UserMonster *)um {
   [self.sellQueue addObject:um];
+  [self.userMonsters removeObject:um];
   
   [self reloadQueueViewAnimated:YES];
   [self animateUserMonsterIntoQueue:um];

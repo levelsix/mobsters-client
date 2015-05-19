@@ -3,12 +3,15 @@
 #import "ProtocolBuffers.h"
 
 #import "MonsterStuff.pb.h"
+#import "Reward.pb.h"
 #import "SharedEnumConfig.pb.h"
 #import "Structure.pb.h"
 // @@protoc_insertion_point(imports)
 
 @class BattleItemFactoryProto;
 @class BattleItemFactoryProto_Builder;
+@class ClanGiftProto;
+@class ClanGiftProto_Builder;
 @class ClanHouseProto;
 @class ClanHouseProto_Builder;
 @class ClanMemberTeamDonationProto;
@@ -73,16 +76,22 @@
 @class ResourceGeneratorProto_Builder;
 @class ResourceStorageProto;
 @class ResourceStorageProto_Builder;
+@class RewardProto;
+@class RewardProto_Builder;
 @class StaticUserLevelInfoProto;
 @class StaticUserLevelInfoProto_Builder;
 @class StructureInfoProto;
 @class StructureInfoProto_Builder;
+@class TangoGiftProto;
+@class TangoGiftProto_Builder;
 @class TeamCenterProto;
 @class TeamCenterProto_Builder;
 @class TownHallProto;
 @class TownHallProto_Builder;
 @class TutorialStructProto;
 @class TutorialStructProto_Builder;
+@class UserClanGiftProto;
+@class UserClanGiftProto_Builder;
 @class UserCurrentMonsterTeamProto;
 @class UserCurrentMonsterTeamProto_Builder;
 @class UserEnhancementItemProto;
@@ -91,6 +100,8 @@
 @class UserEnhancementProto_Builder;
 @class UserFacebookInviteForSlotProto;
 @class UserFacebookInviteForSlotProto_Builder;
+@class UserGiftProto;
+@class UserGiftProto_Builder;
 @class UserItemProto;
 @class UserItemProto_Builder;
 @class UserItemSecretGiftProto;
@@ -115,6 +126,10 @@
 @class UserPvpBoardObstacleProto_Builder;
 @class UserPvpLeagueProto;
 @class UserPvpLeagueProto_Builder;
+@class UserRewardProto;
+@class UserRewardProto_Builder;
+@class UserTangoGiftProto;
+@class UserTangoGiftProto_Builder;
 #ifndef __has_feature
   #define __has_feature(x) 0 // Compatibility with non-clang compilers.
 #endif // __has_feature
@@ -154,10 +169,10 @@
   BOOL hasMaxDmgDealt_:1;
   BOOL hasDurationMinMinutes_:1;
   BOOL hasDurationMaxMinutes_:1;
-  BOOL hasRewardIdOne_:1;
-  BOOL hasRewardIdTwo_:1;
-  BOOL hasRewardIdThree_:1;
   BOOL hasName_:1;
+  BOOL hasRewardOne_:1;
+  BOOL hasRewardTwo_:1;
+  BOOL hasRewardThree_:1;
   BOOL hasQuality_:1;
   Float32 chanceToAppear;
   int32_t miniJobId;
@@ -177,10 +192,10 @@
   int32_t maxDmgDealt;
   int32_t durationMinMinutes;
   int32_t durationMaxMinutes;
-  int32_t rewardIdOne;
-  int32_t rewardIdTwo;
-  int32_t rewardIdThree;
   NSString* name;
+  RewardProto* rewardOne;
+  RewardProto* rewardTwo;
+  RewardProto* rewardThree;
   Quality quality;
 }
 - (BOOL) hasMiniJobId;
@@ -203,9 +218,9 @@
 - (BOOL) hasMaxDmgDealt;
 - (BOOL) hasDurationMinMinutes;
 - (BOOL) hasDurationMaxMinutes;
-- (BOOL) hasRewardIdOne;
-- (BOOL) hasRewardIdTwo;
-- (BOOL) hasRewardIdThree;
+- (BOOL) hasRewardOne;
+- (BOOL) hasRewardTwo;
+- (BOOL) hasRewardThree;
 @property (readonly) int32_t miniJobId;
 @property (readonly) int32_t requiredStructId;
 @property (readonly, strong) NSString* name;
@@ -226,9 +241,9 @@
 @property (readonly) int32_t maxDmgDealt;
 @property (readonly) int32_t durationMinMinutes;
 @property (readonly) int32_t durationMaxMinutes;
-@property (readonly) int32_t rewardIdOne;
-@property (readonly) int32_t rewardIdTwo;
-@property (readonly) int32_t rewardIdThree;
+@property (readonly, strong) RewardProto* rewardOne;
+@property (readonly, strong) RewardProto* rewardTwo;
+@property (readonly, strong) RewardProto* rewardThree;
 
 + (MiniJobProto*) defaultInstance;
 - (MiniJobProto*) defaultInstance;
@@ -365,20 +380,26 @@
 - (MiniJobProto_Builder*) setDurationMaxMinutes:(int32_t) value;
 - (MiniJobProto_Builder*) clearDurationMaxMinutes;
 
-- (BOOL) hasRewardIdOne;
-- (int32_t) rewardIdOne;
-- (MiniJobProto_Builder*) setRewardIdOne:(int32_t) value;
-- (MiniJobProto_Builder*) clearRewardIdOne;
+- (BOOL) hasRewardOne;
+- (RewardProto*) rewardOne;
+- (MiniJobProto_Builder*) setRewardOne:(RewardProto*) value;
+- (MiniJobProto_Builder*) setRewardOne_Builder:(RewardProto_Builder*) builderForValue;
+- (MiniJobProto_Builder*) mergeRewardOne:(RewardProto*) value;
+- (MiniJobProto_Builder*) clearRewardOne;
 
-- (BOOL) hasRewardIdTwo;
-- (int32_t) rewardIdTwo;
-- (MiniJobProto_Builder*) setRewardIdTwo:(int32_t) value;
-- (MiniJobProto_Builder*) clearRewardIdTwo;
+- (BOOL) hasRewardTwo;
+- (RewardProto*) rewardTwo;
+- (MiniJobProto_Builder*) setRewardTwo:(RewardProto*) value;
+- (MiniJobProto_Builder*) setRewardTwo_Builder:(RewardProto_Builder*) builderForValue;
+- (MiniJobProto_Builder*) mergeRewardTwo:(RewardProto*) value;
+- (MiniJobProto_Builder*) clearRewardTwo;
 
-- (BOOL) hasRewardIdThree;
-- (int32_t) rewardIdThree;
-- (MiniJobProto_Builder*) setRewardIdThree:(int32_t) value;
-- (MiniJobProto_Builder*) clearRewardIdThree;
+- (BOOL) hasRewardThree;
+- (RewardProto*) rewardThree;
+- (MiniJobProto_Builder*) setRewardThree:(RewardProto*) value;
+- (MiniJobProto_Builder*) setRewardThree_Builder:(RewardProto_Builder*) builderForValue;
+- (MiniJobProto_Builder*) mergeRewardThree:(RewardProto*) value;
+- (MiniJobProto_Builder*) clearRewardThree;
 @end
 
 @interface UserMiniJobProto : PBGeneratedMessage {

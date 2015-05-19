@@ -2467,8 +2467,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == RedeemMiniJobResponseProto_RedeemMiniJobStatusSuccess) {
-    if (proto.hasFump) {
-      [gs addToMyMonsters:@[proto.fump]];
+    if (proto.rewards.updatedOrNewMonstersList) {
+      [gs addToMyMonsters:proto.rewards.updatedOrNewMonstersList];
+    }
+    
+    if (proto.rewards.updatedUserItemsList) {
+      [gs.itemUtil addToMyItems:proto.rewards.updatedUserItemsList];
     }
     
     [gs removeNonFullUserUpdatesForTag:tag];

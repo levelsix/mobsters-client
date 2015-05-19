@@ -217,18 +217,24 @@
     [Globals calculateDifferencesBetweenOldArray:rec newArray:self.listObjects removalIps:remove additionIps:add movedIps:moves section:0];
     
     if (add.count || remove.count || moves.count) {
-      [self.collectionView performBatchUpdates:^{
-        if (add.count) {
-          [self.collectionView insertItemsAtIndexPaths:add];
-        }
-        if (remove.count) {
-          [self.collectionView deleteItemsAtIndexPaths:remove];
-        }
-        for (NSIndexPath *old in moves) {
-          NSIndexPath *new = moves[old];
-          [self.collectionView moveItemAtIndexPath:old toIndexPath:new];
-        }
-      } completion:nil];
+      // Do the try catch just in case the array has duplicates or something
+      @try {
+        [self.collectionView performBatchUpdates:^{
+          if (add.count) {
+            [self.collectionView insertItemsAtIndexPaths:add];
+          }
+          if (remove.count) {
+            [self.collectionView deleteItemsAtIndexPaths:remove];
+          }
+          for (NSIndexPath *old in moves) {
+            NSIndexPath *new = moves[old];
+            [self.collectionView moveItemAtIndexPath:old toIndexPath:new];
+          }
+        } completion:nil];
+      }
+      @catch (NSException *exception) {
+        [self.collectionView reloadData];
+      }
     }
     
     for (ListCollectionViewCell *cell in self.collectionView.visibleCells) {

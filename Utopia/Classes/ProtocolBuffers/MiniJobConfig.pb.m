@@ -14,6 +14,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
     [MonsterStuffRoot registerAllExtensions:registry];
+    [RewardRoot registerAllExtensions:registry];
     [SharedEnumConfigRoot registerAllExtensions:registry];
     [StructureRoot registerAllExtensions:registry];
     extensionRegistry = registry;
@@ -44,9 +45,9 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property int32_t maxDmgDealt;
 @property int32_t durationMinMinutes;
 @property int32_t durationMaxMinutes;
-@property int32_t rewardIdOne;
-@property int32_t rewardIdTwo;
-@property int32_t rewardIdThree;
+@property (strong) RewardProto* rewardOne;
+@property (strong) RewardProto* rewardTwo;
+@property (strong) RewardProto* rewardThree;
 @end
 
 @implementation MiniJobProto
@@ -191,27 +192,27 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasDurationMaxMinutes_ = !!value_;
 }
 @synthesize durationMaxMinutes;
-- (BOOL) hasRewardIdOne {
-  return !!hasRewardIdOne_;
+- (BOOL) hasRewardOne {
+  return !!hasRewardOne_;
 }
-- (void) setHasRewardIdOne:(BOOL) value_ {
-  hasRewardIdOne_ = !!value_;
+- (void) setHasRewardOne:(BOOL) value_ {
+  hasRewardOne_ = !!value_;
 }
-@synthesize rewardIdOne;
-- (BOOL) hasRewardIdTwo {
-  return !!hasRewardIdTwo_;
+@synthesize rewardOne;
+- (BOOL) hasRewardTwo {
+  return !!hasRewardTwo_;
 }
-- (void) setHasRewardIdTwo:(BOOL) value_ {
-  hasRewardIdTwo_ = !!value_;
+- (void) setHasRewardTwo:(BOOL) value_ {
+  hasRewardTwo_ = !!value_;
 }
-@synthesize rewardIdTwo;
-- (BOOL) hasRewardIdThree {
-  return !!hasRewardIdThree_;
+@synthesize rewardTwo;
+- (BOOL) hasRewardThree {
+  return !!hasRewardThree_;
 }
-- (void) setHasRewardIdThree:(BOOL) value_ {
-  hasRewardIdThree_ = !!value_;
+- (void) setHasRewardThree:(BOOL) value_ {
+  hasRewardThree_ = !!value_;
 }
-@synthesize rewardIdThree;
+@synthesize rewardThree;
 - (id) init {
   if ((self = [super init])) {
     self.miniJobId = 0;
@@ -234,9 +235,9 @@ static PBExtensionRegistry* extensionRegistry = nil;
     self.maxDmgDealt = 0;
     self.durationMinMinutes = 0;
     self.durationMaxMinutes = 0;
-    self.rewardIdOne = 0;
-    self.rewardIdTwo = 0;
-    self.rewardIdThree = 0;
+    self.rewardOne = [RewardProto defaultInstance];
+    self.rewardTwo = [RewardProto defaultInstance];
+    self.rewardThree = [RewardProto defaultInstance];
   }
   return self;
 }
@@ -316,14 +317,14 @@ static MiniJobProto* defaultMiniJobProtoInstance = nil;
   if (self.hasSecondItemRewardQuantity) {
     [output writeInt32:20 value:self.secondItemRewardQuantity];
   }
-  if (self.hasRewardIdOne) {
-    [output writeInt32:21 value:self.rewardIdOne];
+  if (self.hasRewardOne) {
+    [output writeMessage:21 value:self.rewardOne];
   }
-  if (self.hasRewardIdTwo) {
-    [output writeInt32:22 value:self.rewardIdTwo];
+  if (self.hasRewardTwo) {
+    [output writeMessage:22 value:self.rewardTwo];
   }
-  if (self.hasRewardIdThree) {
-    [output writeInt32:23 value:self.rewardIdThree];
+  if (self.hasRewardThree) {
+    [output writeMessage:23 value:self.rewardThree];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -394,14 +395,14 @@ static MiniJobProto* defaultMiniJobProtoInstance = nil;
   if (self.hasSecondItemRewardQuantity) {
     size_ += computeInt32Size(20, self.secondItemRewardQuantity);
   }
-  if (self.hasRewardIdOne) {
-    size_ += computeInt32Size(21, self.rewardIdOne);
+  if (self.hasRewardOne) {
+    size_ += computeMessageSize(21, self.rewardOne);
   }
-  if (self.hasRewardIdTwo) {
-    size_ += computeInt32Size(22, self.rewardIdTwo);
+  if (self.hasRewardTwo) {
+    size_ += computeMessageSize(22, self.rewardTwo);
   }
-  if (self.hasRewardIdThree) {
-    size_ += computeInt32Size(23, self.rewardIdThree);
+  if (self.hasRewardThree) {
+    size_ += computeMessageSize(23, self.rewardThree);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -498,14 +499,23 @@ static MiniJobProto* defaultMiniJobProtoInstance = nil;
   if (self.hasSecondItemRewardQuantity) {
     [output appendFormat:@"%@%@: %@\n", indent, @"secondItemRewardQuantity", [NSNumber numberWithInteger:self.secondItemRewardQuantity]];
   }
-  if (self.hasRewardIdOne) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"rewardIdOne", [NSNumber numberWithInteger:self.rewardIdOne]];
+  if (self.hasRewardOne) {
+    [output appendFormat:@"%@%@ {\n", indent, @"rewardOne"];
+    [self.rewardOne writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
   }
-  if (self.hasRewardIdTwo) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"rewardIdTwo", [NSNumber numberWithInteger:self.rewardIdTwo]];
+  if (self.hasRewardTwo) {
+    [output appendFormat:@"%@%@ {\n", indent, @"rewardTwo"];
+    [self.rewardTwo writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
   }
-  if (self.hasRewardIdThree) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"rewardIdThree", [NSNumber numberWithInteger:self.rewardIdThree]];
+  if (self.hasRewardThree) {
+    [output appendFormat:@"%@%@ {\n", indent, @"rewardThree"];
+    [self.rewardThree writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -558,12 +568,12 @@ static MiniJobProto* defaultMiniJobProtoInstance = nil;
       (!self.hasSecondItemIdReward || self.secondItemIdReward == otherMessage.secondItemIdReward) &&
       self.hasSecondItemRewardQuantity == otherMessage.hasSecondItemRewardQuantity &&
       (!self.hasSecondItemRewardQuantity || self.secondItemRewardQuantity == otherMessage.secondItemRewardQuantity) &&
-      self.hasRewardIdOne == otherMessage.hasRewardIdOne &&
-      (!self.hasRewardIdOne || self.rewardIdOne == otherMessage.rewardIdOne) &&
-      self.hasRewardIdTwo == otherMessage.hasRewardIdTwo &&
-      (!self.hasRewardIdTwo || self.rewardIdTwo == otherMessage.rewardIdTwo) &&
-      self.hasRewardIdThree == otherMessage.hasRewardIdThree &&
-      (!self.hasRewardIdThree || self.rewardIdThree == otherMessage.rewardIdThree) &&
+      self.hasRewardOne == otherMessage.hasRewardOne &&
+      (!self.hasRewardOne || [self.rewardOne isEqual:otherMessage.rewardOne]) &&
+      self.hasRewardTwo == otherMessage.hasRewardTwo &&
+      (!self.hasRewardTwo || [self.rewardTwo isEqual:otherMessage.rewardTwo]) &&
+      self.hasRewardThree == otherMessage.hasRewardThree &&
+      (!self.hasRewardThree || [self.rewardThree isEqual:otherMessage.rewardThree]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -628,14 +638,14 @@ static MiniJobProto* defaultMiniJobProtoInstance = nil;
   if (self.hasSecondItemRewardQuantity) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.secondItemRewardQuantity] hash];
   }
-  if (self.hasRewardIdOne) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.rewardIdOne] hash];
+  if (self.hasRewardOne) {
+    hashCode = hashCode * 31 + [self.rewardOne hash];
   }
-  if (self.hasRewardIdTwo) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.rewardIdTwo] hash];
+  if (self.hasRewardTwo) {
+    hashCode = hashCode * 31 + [self.rewardTwo hash];
   }
-  if (self.hasRewardIdThree) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.rewardIdThree] hash];
+  if (self.hasRewardThree) {
+    hashCode = hashCode * 31 + [self.rewardThree hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -740,14 +750,14 @@ static MiniJobProto* defaultMiniJobProtoInstance = nil;
   if (other.hasDurationMaxMinutes) {
     [self setDurationMaxMinutes:other.durationMaxMinutes];
   }
-  if (other.hasRewardIdOne) {
-    [self setRewardIdOne:other.rewardIdOne];
+  if (other.hasRewardOne) {
+    [self mergeRewardOne:other.rewardOne];
   }
-  if (other.hasRewardIdTwo) {
-    [self setRewardIdTwo:other.rewardIdTwo];
+  if (other.hasRewardTwo) {
+    [self mergeRewardTwo:other.rewardTwo];
   }
-  if (other.hasRewardIdThree) {
-    [self setRewardIdThree:other.rewardIdThree];
+  if (other.hasRewardThree) {
+    [self mergeRewardThree:other.rewardThree];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -855,16 +865,31 @@ static MiniJobProto* defaultMiniJobProtoInstance = nil;
         [self setSecondItemRewardQuantity:[input readInt32]];
         break;
       }
-      case 168: {
-        [self setRewardIdOne:[input readInt32]];
+      case 170: {
+        RewardProto_Builder* subBuilder = [RewardProto builder];
+        if (self.hasRewardOne) {
+          [subBuilder mergeFrom:self.rewardOne];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setRewardOne:[subBuilder buildPartial]];
         break;
       }
-      case 176: {
-        [self setRewardIdTwo:[input readInt32]];
+      case 178: {
+        RewardProto_Builder* subBuilder = [RewardProto builder];
+        if (self.hasRewardTwo) {
+          [subBuilder mergeFrom:self.rewardTwo];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setRewardTwo:[subBuilder buildPartial]];
         break;
       }
-      case 184: {
-        [self setRewardIdThree:[input readInt32]];
+      case 186: {
+        RewardProto_Builder* subBuilder = [RewardProto builder];
+        if (self.hasRewardThree) {
+          [subBuilder mergeFrom:self.rewardThree];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setRewardThree:[subBuilder buildPartial]];
         break;
       }
     }
@@ -1190,52 +1215,94 @@ static MiniJobProto* defaultMiniJobProtoInstance = nil;
   result.durationMaxMinutes = 0;
   return self;
 }
-- (BOOL) hasRewardIdOne {
-  return result.hasRewardIdOne;
+- (BOOL) hasRewardOne {
+  return result.hasRewardOne;
 }
-- (int32_t) rewardIdOne {
-  return result.rewardIdOne;
+- (RewardProto*) rewardOne {
+  return result.rewardOne;
 }
-- (MiniJobProto_Builder*) setRewardIdOne:(int32_t) value {
-  result.hasRewardIdOne = YES;
-  result.rewardIdOne = value;
+- (MiniJobProto_Builder*) setRewardOne:(RewardProto*) value {
+  result.hasRewardOne = YES;
+  result.rewardOne = value;
   return self;
 }
-- (MiniJobProto_Builder*) clearRewardIdOne {
-  result.hasRewardIdOne = NO;
-  result.rewardIdOne = 0;
+- (MiniJobProto_Builder*) setRewardOne_Builder:(RewardProto_Builder*) builderForValue {
+  return [self setRewardOne:[builderForValue build]];
+}
+- (MiniJobProto_Builder*) mergeRewardOne:(RewardProto*) value {
+  if (result.hasRewardOne &&
+      result.rewardOne != [RewardProto defaultInstance]) {
+    result.rewardOne =
+      [[[RewardProto builderWithPrototype:result.rewardOne] mergeFrom:value] buildPartial];
+  } else {
+    result.rewardOne = value;
+  }
+  result.hasRewardOne = YES;
   return self;
 }
-- (BOOL) hasRewardIdTwo {
-  return result.hasRewardIdTwo;
-}
-- (int32_t) rewardIdTwo {
-  return result.rewardIdTwo;
-}
-- (MiniJobProto_Builder*) setRewardIdTwo:(int32_t) value {
-  result.hasRewardIdTwo = YES;
-  result.rewardIdTwo = value;
+- (MiniJobProto_Builder*) clearRewardOne {
+  result.hasRewardOne = NO;
+  result.rewardOne = [RewardProto defaultInstance];
   return self;
 }
-- (MiniJobProto_Builder*) clearRewardIdTwo {
-  result.hasRewardIdTwo = NO;
-  result.rewardIdTwo = 0;
+- (BOOL) hasRewardTwo {
+  return result.hasRewardTwo;
+}
+- (RewardProto*) rewardTwo {
+  return result.rewardTwo;
+}
+- (MiniJobProto_Builder*) setRewardTwo:(RewardProto*) value {
+  result.hasRewardTwo = YES;
+  result.rewardTwo = value;
   return self;
 }
-- (BOOL) hasRewardIdThree {
-  return result.hasRewardIdThree;
+- (MiniJobProto_Builder*) setRewardTwo_Builder:(RewardProto_Builder*) builderForValue {
+  return [self setRewardTwo:[builderForValue build]];
 }
-- (int32_t) rewardIdThree {
-  return result.rewardIdThree;
-}
-- (MiniJobProto_Builder*) setRewardIdThree:(int32_t) value {
-  result.hasRewardIdThree = YES;
-  result.rewardIdThree = value;
+- (MiniJobProto_Builder*) mergeRewardTwo:(RewardProto*) value {
+  if (result.hasRewardTwo &&
+      result.rewardTwo != [RewardProto defaultInstance]) {
+    result.rewardTwo =
+      [[[RewardProto builderWithPrototype:result.rewardTwo] mergeFrom:value] buildPartial];
+  } else {
+    result.rewardTwo = value;
+  }
+  result.hasRewardTwo = YES;
   return self;
 }
-- (MiniJobProto_Builder*) clearRewardIdThree {
-  result.hasRewardIdThree = NO;
-  result.rewardIdThree = 0;
+- (MiniJobProto_Builder*) clearRewardTwo {
+  result.hasRewardTwo = NO;
+  result.rewardTwo = [RewardProto defaultInstance];
+  return self;
+}
+- (BOOL) hasRewardThree {
+  return result.hasRewardThree;
+}
+- (RewardProto*) rewardThree {
+  return result.rewardThree;
+}
+- (MiniJobProto_Builder*) setRewardThree:(RewardProto*) value {
+  result.hasRewardThree = YES;
+  result.rewardThree = value;
+  return self;
+}
+- (MiniJobProto_Builder*) setRewardThree_Builder:(RewardProto_Builder*) builderForValue {
+  return [self setRewardThree:[builderForValue build]];
+}
+- (MiniJobProto_Builder*) mergeRewardThree:(RewardProto*) value {
+  if (result.hasRewardThree &&
+      result.rewardThree != [RewardProto defaultInstance]) {
+    result.rewardThree =
+      [[[RewardProto builderWithPrototype:result.rewardThree] mergeFrom:value] buildPartial];
+  } else {
+    result.rewardThree = value;
+  }
+  result.hasRewardThree = YES;
+  return self;
+}
+- (MiniJobProto_Builder*) clearRewardThree {
+  result.hasRewardThree = NO;
+  result.rewardThree = [RewardProto defaultInstance];
   return self;
 }
 @end

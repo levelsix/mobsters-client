@@ -54,13 +54,23 @@
     {
       MonsterProto* monster = [gs.staticMonsters objectForKey:@(rewardProto.staticDataId)];
       if (!monster) return NO;
-      name  = monster.displayName;
+      name  = [NSString stringWithFormat:@"LVL %d %@", rewardProto.amt, monster.displayName];
       icon  = [monster.imagePrefix stringByAppendingString:@"Card.png"];
-      count = [NSString stringWithFormat:@"x%d", rewardProto.amt];
+      count = @"x1";
     }
       break;
       
-    default:
+    case RewardProto_RewardTypeReward:
+    {
+      BOOL success = [self updateForReward:rewardProto.actualReward useItemShortName:useItemShortName];
+      self.prizeCount.text = [NSString stringWithFormat:@"x%d", rewardProto.amt];
+      return success;
+    }
+      break;
+      
+    case RewardProto_RewardTypeTangoGift:
+    case RewardProto_RewardTypeClanGift:
+    case RewardProto_RewardTypeNoReward:
       return NO;
   }
   

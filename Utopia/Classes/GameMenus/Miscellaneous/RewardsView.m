@@ -52,7 +52,7 @@
   } else if (reward.type == RewardTypeGachaToken) {
     imgName = @"grabchip.png";
     labelName = [Globals commafyNumber:reward.tokenAmount];
-    color = [UIColor colorWithRed:186/255. green:47/255. blue:255/255.f alpha:1.f];
+    color = [UIColor colorWithHexString:@"EA5F25"];
   } else if (reward.type == RewardTypeItem) {
     useItemView = YES;
     
@@ -62,6 +62,8 @@
     imgName = ui.iconImageName;
     labelName = ui.iconText;
     quantity = reward.itemQuantity;
+  } else if (reward.type == RewardTypeReward) {
+    
   }
   
   if (useItemView) {
