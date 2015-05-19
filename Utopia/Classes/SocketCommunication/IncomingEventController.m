@@ -531,8 +531,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     [gs updateClanData:proto.clanData];
     
-    if([proto.recentNbattlesList mutableCopy]) {
+    if (proto.recentNbattlesList.count) {
       gs.battleHistory = [proto.recentNbattlesList mutableCopy];
+    } else {
+      gs.battleHistory = [NSMutableArray array];
     }
     
     gs.myPvpBoardObstacles = [proto.userPvpBoardObstaclesList mutableCopy];

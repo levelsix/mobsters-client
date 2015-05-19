@@ -21,12 +21,6 @@
   [self button1Clicked:nil];
 }
 
-- (void) viewDidDisappear:(BOOL)animated {
-  [super viewDidDisappear:animated];
-  
-  [[GameViewController baseController] showEarlyGameTutorialArrow];
-}
-
 #pragma mark - TabBar delegate
 
 - (void) button1Clicked:(id)sender {

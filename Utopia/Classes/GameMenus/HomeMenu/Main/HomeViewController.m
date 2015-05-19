@@ -86,6 +86,12 @@
 
 #pragma mark - View loading
 
+- (void) viewWillAppear:(BOOL)animated {
+  [super viewWillAppear:animated];
+  
+  [[GameViewController baseController] clearTutorialArrows];
+}
+
 - (void) viewDidDisappear:(BOOL)animated {
   [super viewDidDisappear:animated];
   

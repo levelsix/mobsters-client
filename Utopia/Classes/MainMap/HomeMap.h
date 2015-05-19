@@ -65,6 +65,7 @@
 @property (nonatomic, assign, readonly) BOOL loading;
 @property (nonatomic, assign) int redGid;
 @property (nonatomic, assign) int greenGid;
+@property (nonatomic, readonly) BOOL purchasing;
 
 - (void) changeTiles: (CGRect) buildBlock toBuildable:(BOOL)canBuild;
 - (BOOL) isBlockBuildable: (CGRect) buildBlock;

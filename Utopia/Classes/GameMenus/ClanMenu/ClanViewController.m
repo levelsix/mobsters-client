@@ -56,6 +56,8 @@
   } else {
     [self button1Clicked:_activeTopBar];
   }
+  
+  [[GameViewController baseController] clearTutorialArrows];
 }
 
 - (void) viewWillDisappear:(BOOL)animated {

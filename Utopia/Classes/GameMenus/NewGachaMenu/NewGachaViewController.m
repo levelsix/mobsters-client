@@ -170,6 +170,8 @@
   } else {
     [self button2Clicked:nil];
   }
+  
+  [[GameViewController baseController] clearTutorialArrows];
 }
 
 - (void) viewWillLayoutSubviews {

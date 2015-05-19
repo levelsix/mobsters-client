@@ -2946,13 +2946,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   if (pulse) {
     CCActionDelay *longWaitAction = [CCActionDelay actionWithDuration:5.f];
     CCActionDelay *shortWaitAction = [CCActionDelay actionWithDuration:3.f];
-    CCActionFadeIn *fadeInAction = [CCActionFadeIn actionWithDuration:0.3f];
-    CCActionFadeOut *fadeOutAction = [CCActionFadeOut actionWithDuration:0.3f];
+    CCActionFadeIn *fadeInAction = [CCActionFadeTo actionWithDuration:0.3f opacity:1.f];
+    CCActionFadeOut *fadeOutAction = [CCActionFadeTo actionWithDuration:0.3f opacity:0.f];
     CCAction *a = [CCActionRepeatForever actionWithAction:[CCActionSequence actions:fadeInAction, shortWaitAction, fadeOutAction, longWaitAction, nil]];
     a.tag = tag;
     [arrow runAction:a];
   } else {
-    CCActionFadeIn *fadeInAction = [CCActionFadeIn actionWithDuration:0.3f];
+    CCActionFadeIn *fadeInAction = [CCActionFadeTo actionWithDuration:0.3f opacity:1.f];
     fadeInAction.tag = tag;
     [arrow runAction:fadeInAction];
   }

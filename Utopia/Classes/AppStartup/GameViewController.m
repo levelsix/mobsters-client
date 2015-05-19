@@ -1176,14 +1176,15 @@ static const CGSize FIXED_SIZE = {568, 384};
   if ([self.currentMap isKindOfClass:[HomeMap class]]) {
     [(HomeMap *)self.currentMap removeArrowOnBuilding];
   }
-  [Globals removeUIArrowFromViewRecursively:self.topBarViewController.attackView.superview];
+  [Globals removeUIArrowFromViewRecursively:self.topBarViewController.view];
 }
 
 - (void) showEarlyGameTutorialArrow {
   GameState *gs = [GameState sharedGameState];
   Globals *gl  = [Globals sharedGlobals];
+  HomeMap *hm = (HomeMap *)self.currentMap;
   
-  if (![gs hasBeatFirstBoss] && !self.topBarViewController.shopViewController.parentViewController /*&& gs.userHasEnteredBattleThisSession*/ ) {
+  if (![gs hasBeatFirstBoss] && !hm.purchasing /*&& gs.userHasEnteredBattleThisSession*/ ) {
     
     //first check to see if there are any toons to heal
     int hurtToons = 0;
@@ -1219,7 +1220,7 @@ static const CGSize FIXED_SIZE = {568, 384};
     
     if(!hurtToons && gs.tasksCompleted < EARLY_TUTORIAL_STAGES_COMPLETE_LIMIT) {
       
-      [(HomeMap *)self.currentMap removeArrowOnBuilding];
+      [hm removeArrowOnBuilding];
       [self.topBarViewController showArrowToAttackButton];
       return;
     }

@@ -1010,7 +1010,7 @@
   
   for (ChatMessage *message in self.chats) {
     BOOL needsTranslation = YES;
-    if ([message.sender.userUuid isEqualToString:gs.userUuid] || ![message isKindOfClass:[ChatMessage class]] || message.originalLanguage == language /*|| !message.postUuid.length*/) {
+    if ([message.sender.userUuid isEqualToString:gs.userUuid] || ![message isKindOfClass:[ChatMessage class]] || message.originalLanguage == language || !message.postUuid.length) {
       continue;
     }
     
