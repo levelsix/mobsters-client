@@ -350,7 +350,7 @@
 }
 
 - (void)useHandSwap:(BattleItemProto *)bip {
-#warning Rob: Play item mini logo
+  [skillManager showItemPopupOverlay:bip bottomText:@"Orbs Shifted"];
   [(ReplayOrbMainLayer*)self.orbLayer moveHandBetweenOrbs:[self splitPosInt:self.currStep.movePos1] endPoint:[self splitPosInt:self.currStep.movePos2] withCompletion:^{
     [self.orbLayer allowFreeMoveForSingleTurn];
     [self doSwapFromCurrStep];
@@ -358,7 +358,7 @@
 }
 
 - (void)useOrbHammer:(BattleItemProto *)bip {
-#warning Rob: Play item mini logo
+  [skillManager showItemPopupOverlay:bip bottomText:@"Orb Destroyed"];
   CGPoint pointA = [self splitPosInt:self.getCurrStep.movePos1];
   
   [(ReplayOrbMainLayer*)self.orbLayer moveHandBetweenOrbs:pointA endPoint:pointA withCompletion:^{
@@ -368,7 +368,7 @@
 }
 
 - (void)usePutty:(BattleItemProto *)bip {
-#warning Rob: Play item mini logo
+  [skillManager showItemPopupOverlay:bip bottomText:@"Hole Covered"];
   CGPoint pointA = [self splitPosInt:self.getCurrStep.movePos1];
   [(ReplayOrbMainLayer*)self.orbLayer moveHandBetweenOrbs:pointA endPoint:pointA withCompletion:^{
     [self.orbLayer allowPuttyForSingleTurn];
@@ -377,7 +377,7 @@
 }
 
 - (void)useBoardShuffle:(BattleItemProto *)bip {
-#warning Rob: Play item mini logo
+  [skillManager showItemPopupOverlay:bip bottomText:@"Board Shuffled"];
   [super useBoardShuffle:bip];
 }
 
