@@ -33,9 +33,9 @@ message RewardProto {
 		GEMS = 3;
 		CASH = 4;
 		OIL = 5;
-		GACHA_CREDITS = 7;
 		MONSTER = 6;
-		CLAN_GIFT = 8;
+		CLAN_GIFT = 7;
+		TANGO_GIFT = 8;
 	}
 	
 }
@@ -48,8 +48,7 @@ message UserRewardProto {
 	optional int32 gems = 3; //amounts gained
 	optional int32 cash = 4;
 	optional int32 oil = 5;
-	optional int32 gachaCredits = 6;
-	optional UserClanGiftProto clanGift = 7;
+	optional UserClanGiftProto clanGift = 6;
 }
 
 //------------------------------------------------------------------------------------------
@@ -59,7 +58,7 @@ message ClanGiftProto {
 	optional string name = 2;
 	optional int32 hoursUntilExpiration = 3;	
 	optional string imageName = 4;
-	optional Quality quality = 5;
+	optional Quality quality = 5 [deprecated = true];
 }
 
 //------------------------------------------------------------------------------------------
@@ -72,4 +71,39 @@ message UserClanGiftProto {
 	optional int64 timeReceived = 5; //when the gift gets sent out to everyone
 	optional RewardProto reward = 6;
 	optional bool hasBeenCollected = 7;
+}
+
+//------------------------------------------------------------------------------------------
+
+message UserGiftProto {
+    optional string ugId = 1;
+    optional string receiverUserId = 2;
+    optional MinimumUserProto gifterUser = 3;
+    optional RewardProto.RewardType giftType = 4;
+    optional int64 timeReceived = 5;
+    optional RewardProto rp = 6;
+    optional bool hasBeenCollected = 7;
+
+    //not always set
+    optional int32 minutesTillExpiration = 8; 
+
+    //set or not set based on GiftType
+    optional ClanGiftProto clanGift = 9;
+    optional UserTangoGiftProto tangoGift = 10;
+    
+}
+
+message UserTangoGiftProto {
+	optional string userGiftId = 1;
+	optional string gifterTangoUserId = 2;
+	optional TangoGiftProto tangoGift = 3;
+}
+
+//similar to ClanGiftProto
+message TangoGiftProto {
+    optional int32 tangoGiftId = 1;
+    //name of the gift
+    optional string name = 2;
+    optional int32 hoursUntilExpiration = 3;
+    optional string imageName = 4;
 }

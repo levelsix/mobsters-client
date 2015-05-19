@@ -93,6 +93,10 @@
 @class SetGameCenterIdRequestProto_Builder;
 @class SetGameCenterIdResponseProto;
 @class SetGameCenterIdResponseProto_Builder;
+@class SetTangoIdRequestProto;
+@class SetTangoIdRequestProto_Builder;
+@class SetTangoIdResponseProto;
+@class SetTangoIdResponseProto_Builder;
 @class StaticUserLevelInfoProto;
 @class StaticUserLevelInfoProto_Builder;
 @class StructureInfoProto;
@@ -227,6 +231,13 @@ typedef NS_ENUM(SInt32, UpdateUserStrengthResponseProto_UpdateUserStrengthStatus
 };
 
 BOOL UpdateUserStrengthResponseProto_UpdateUserStrengthStatusIsValidValue(UpdateUserStrengthResponseProto_UpdateUserStrengthStatus value);
+
+typedef NS_ENUM(SInt32, SetTangoIdResponseProto_SetTangoIdStatus) {
+  SetTangoIdResponseProto_SetTangoIdStatusSuccess = 1,
+  SetTangoIdResponseProto_SetTangoIdStatusFailOther = 2,
+};
+
+BOOL SetTangoIdResponseProto_SetTangoIdStatusIsValidValue(SetTangoIdResponseProto_SetTangoIdStatus value);
 
 
 @interface EventUserRoot : NSObject {
@@ -1602,6 +1613,135 @@ BOOL UpdateUserStrengthResponseProto_UpdateUserStrengthStatusIsValidValue(Update
 - (UpdateUserStrengthResponseProto_UpdateUserStrengthStatus) status;
 - (UpdateUserStrengthResponseProto_Builder*) setStatus:(UpdateUserStrengthResponseProto_UpdateUserStrengthStatus) value;
 - (UpdateUserStrengthResponseProto_Builder*) clearStatusList;
+@end
+
+@interface SetTangoIdRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasTangoId_:1;
+  BOOL hasSender_:1;
+  NSString* tangoId;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+- (BOOL) hasTangoId;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) NSString* tangoId;
+
++ (SetTangoIdRequestProto*) defaultInstance;
+- (SetTangoIdRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (SetTangoIdRequestProto_Builder*) builder;
++ (SetTangoIdRequestProto_Builder*) builder;
++ (SetTangoIdRequestProto_Builder*) builderWithPrototype:(SetTangoIdRequestProto*) prototype;
+- (SetTangoIdRequestProto_Builder*) toBuilder;
+
++ (SetTangoIdRequestProto*) parseFromData:(NSData*) data;
++ (SetTangoIdRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (SetTangoIdRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (SetTangoIdRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (SetTangoIdRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (SetTangoIdRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface SetTangoIdRequestProto_Builder : PBGeneratedMessageBuilder {
+@private
+  SetTangoIdRequestProto* result;
+}
+
+- (SetTangoIdRequestProto*) defaultInstance;
+
+- (SetTangoIdRequestProto_Builder*) clear;
+- (SetTangoIdRequestProto_Builder*) clone;
+
+- (SetTangoIdRequestProto*) build;
+- (SetTangoIdRequestProto*) buildPartial;
+
+- (SetTangoIdRequestProto_Builder*) mergeFrom:(SetTangoIdRequestProto*) other;
+- (SetTangoIdRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (SetTangoIdRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (SetTangoIdRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (SetTangoIdRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (SetTangoIdRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (SetTangoIdRequestProto_Builder*) clearSender;
+
+- (BOOL) hasTangoId;
+- (NSString*) tangoId;
+- (SetTangoIdRequestProto_Builder*) setTangoId:(NSString*) value;
+- (SetTangoIdRequestProto_Builder*) clearTangoId;
+@end
+
+@interface SetTangoIdResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasTangoId_:1;
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  NSString* tangoId;
+  MinimumUserProto* sender;
+  SetTangoIdResponseProto_SetTangoIdStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasTangoId;
+- (BOOL) hasStatus;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) NSString* tangoId;
+@property (readonly) SetTangoIdResponseProto_SetTangoIdStatus status;
+
++ (SetTangoIdResponseProto*) defaultInstance;
+- (SetTangoIdResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (SetTangoIdResponseProto_Builder*) builder;
++ (SetTangoIdResponseProto_Builder*) builder;
++ (SetTangoIdResponseProto_Builder*) builderWithPrototype:(SetTangoIdResponseProto*) prototype;
+- (SetTangoIdResponseProto_Builder*) toBuilder;
+
++ (SetTangoIdResponseProto*) parseFromData:(NSData*) data;
++ (SetTangoIdResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (SetTangoIdResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (SetTangoIdResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (SetTangoIdResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (SetTangoIdResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface SetTangoIdResponseProto_Builder : PBGeneratedMessageBuilder {
+@private
+  SetTangoIdResponseProto* result;
+}
+
+- (SetTangoIdResponseProto*) defaultInstance;
+
+- (SetTangoIdResponseProto_Builder*) clear;
+- (SetTangoIdResponseProto_Builder*) clone;
+
+- (SetTangoIdResponseProto*) build;
+- (SetTangoIdResponseProto*) buildPartial;
+
+- (SetTangoIdResponseProto_Builder*) mergeFrom:(SetTangoIdResponseProto*) other;
+- (SetTangoIdResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (SetTangoIdResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (SetTangoIdResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (SetTangoIdResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (SetTangoIdResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (SetTangoIdResponseProto_Builder*) clearSender;
+
+- (BOOL) hasTangoId;
+- (NSString*) tangoId;
+- (SetTangoIdResponseProto_Builder*) setTangoId:(NSString*) value;
+- (SetTangoIdResponseProto_Builder*) clearTangoId;
+
+- (BOOL) hasStatus;
+- (SetTangoIdResponseProto_SetTangoIdStatus) status;
+- (SetTangoIdResponseProto_Builder*) setStatus:(SetTangoIdResponseProto_SetTangoIdStatus) value;
+- (SetTangoIdResponseProto_Builder*) clearStatusList;
 @end
 
 

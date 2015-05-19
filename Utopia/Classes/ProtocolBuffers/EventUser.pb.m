@@ -6431,5 +6431,601 @@ BOOL UpdateUserStrengthResponseProto_UpdateUserStrengthStatusIsValidValue(Update
 }
 @end
 
+@interface SetTangoIdRequestProto ()
+@property (strong) MinimumUserProto* sender;
+@property (strong) NSString* tangoId;
+@end
+
+@implementation SetTangoIdRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value_ {
+  hasSender_ = !!value_;
+}
+@synthesize sender;
+- (BOOL) hasTangoId {
+  return !!hasTangoId_;
+}
+- (void) setHasTangoId:(BOOL) value_ {
+  hasTangoId_ = !!value_;
+}
+@synthesize tangoId;
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.tangoId = @"";
+  }
+  return self;
+}
+static SetTangoIdRequestProto* defaultSetTangoIdRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [SetTangoIdRequestProto class]) {
+    defaultSetTangoIdRequestProtoInstance = [[SetTangoIdRequestProto alloc] init];
+  }
+}
++ (SetTangoIdRequestProto*) defaultInstance {
+  return defaultSetTangoIdRequestProtoInstance;
+}
+- (SetTangoIdRequestProto*) defaultInstance {
+  return defaultSetTangoIdRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasTangoId) {
+    [output writeString:2 value:self.tangoId];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasSender) {
+    size_ += computeMessageSize(1, self.sender);
+  }
+  if (self.hasTangoId) {
+    size_ += computeStringSize(2, self.tangoId);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (SetTangoIdRequestProto*) parseFromData:(NSData*) data {
+  return (SetTangoIdRequestProto*)[[[SetTangoIdRequestProto builder] mergeFromData:data] build];
+}
++ (SetTangoIdRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SetTangoIdRequestProto*)[[[SetTangoIdRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (SetTangoIdRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (SetTangoIdRequestProto*)[[[SetTangoIdRequestProto builder] mergeFromInputStream:input] build];
+}
++ (SetTangoIdRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SetTangoIdRequestProto*)[[[SetTangoIdRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (SetTangoIdRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (SetTangoIdRequestProto*)[[[SetTangoIdRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (SetTangoIdRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SetTangoIdRequestProto*)[[[SetTangoIdRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (SetTangoIdRequestProto_Builder*) builder {
+  return [[SetTangoIdRequestProto_Builder alloc] init];
+}
++ (SetTangoIdRequestProto_Builder*) builderWithPrototype:(SetTangoIdRequestProto*) prototype {
+  return [[SetTangoIdRequestProto builder] mergeFrom:prototype];
+}
+- (SetTangoIdRequestProto_Builder*) builder {
+  return [SetTangoIdRequestProto builder];
+}
+- (SetTangoIdRequestProto_Builder*) toBuilder {
+  return [SetTangoIdRequestProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasSender) {
+    [output appendFormat:@"%@%@ {\n", indent, @"sender"];
+    [self.sender writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  if (self.hasTangoId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"tangoId", self.tangoId];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[SetTangoIdRequestProto class]]) {
+    return NO;
+  }
+  SetTangoIdRequestProto *otherMessage = other;
+  return
+      self.hasSender == otherMessage.hasSender &&
+      (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
+      self.hasTangoId == otherMessage.hasTangoId &&
+      (!self.hasTangoId || [self.tangoId isEqual:otherMessage.tangoId]) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasSender) {
+    hashCode = hashCode * 31 + [self.sender hash];
+  }
+  if (self.hasTangoId) {
+    hashCode = hashCode * 31 + [self.tangoId hash];
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+@interface SetTangoIdRequestProto_Builder()
+@property (strong) SetTangoIdRequestProto* result;
+@end
+
+@implementation SetTangoIdRequestProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[SetTangoIdRequestProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (SetTangoIdRequestProto_Builder*) clear {
+  self.result = [[SetTangoIdRequestProto alloc] init];
+  return self;
+}
+- (SetTangoIdRequestProto_Builder*) clone {
+  return [SetTangoIdRequestProto builderWithPrototype:result];
+}
+- (SetTangoIdRequestProto*) defaultInstance {
+  return [SetTangoIdRequestProto defaultInstance];
+}
+- (SetTangoIdRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (SetTangoIdRequestProto*) buildPartial {
+  SetTangoIdRequestProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (SetTangoIdRequestProto_Builder*) mergeFrom:(SetTangoIdRequestProto*) other {
+  if (other == [SetTangoIdRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasTangoId) {
+    [self setTangoId:other.tangoId];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (SetTangoIdRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (SetTangoIdRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        [self setTangoId:[input readString]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (SetTangoIdRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (SetTangoIdRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (SetTangoIdRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (SetTangoIdRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasTangoId {
+  return result.hasTangoId;
+}
+- (NSString*) tangoId {
+  return result.tangoId;
+}
+- (SetTangoIdRequestProto_Builder*) setTangoId:(NSString*) value {
+  result.hasTangoId = YES;
+  result.tangoId = value;
+  return self;
+}
+- (SetTangoIdRequestProto_Builder*) clearTangoId {
+  result.hasTangoId = NO;
+  result.tangoId = @"";
+  return self;
+}
+@end
+
+@interface SetTangoIdResponseProto ()
+@property (strong) MinimumUserProto* sender;
+@property (strong) NSString* tangoId;
+@property SetTangoIdResponseProto_SetTangoIdStatus status;
+@end
+
+@implementation SetTangoIdResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value_ {
+  hasSender_ = !!value_;
+}
+@synthesize sender;
+- (BOOL) hasTangoId {
+  return !!hasTangoId_;
+}
+- (void) setHasTangoId:(BOOL) value_ {
+  hasTangoId_ = !!value_;
+}
+@synthesize tangoId;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value_ {
+  hasStatus_ = !!value_;
+}
+@synthesize status;
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.tangoId = @"";
+    self.status = SetTangoIdResponseProto_SetTangoIdStatusSuccess;
+  }
+  return self;
+}
+static SetTangoIdResponseProto* defaultSetTangoIdResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [SetTangoIdResponseProto class]) {
+    defaultSetTangoIdResponseProtoInstance = [[SetTangoIdResponseProto alloc] init];
+  }
+}
++ (SetTangoIdResponseProto*) defaultInstance {
+  return defaultSetTangoIdResponseProtoInstance;
+}
+- (SetTangoIdResponseProto*) defaultInstance {
+  return defaultSetTangoIdResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasTangoId) {
+    [output writeString:2 value:self.tangoId];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:3 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasSender) {
+    size_ += computeMessageSize(1, self.sender);
+  }
+  if (self.hasTangoId) {
+    size_ += computeStringSize(2, self.tangoId);
+  }
+  if (self.hasStatus) {
+    size_ += computeEnumSize(3, self.status);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (SetTangoIdResponseProto*) parseFromData:(NSData*) data {
+  return (SetTangoIdResponseProto*)[[[SetTangoIdResponseProto builder] mergeFromData:data] build];
+}
++ (SetTangoIdResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SetTangoIdResponseProto*)[[[SetTangoIdResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (SetTangoIdResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (SetTangoIdResponseProto*)[[[SetTangoIdResponseProto builder] mergeFromInputStream:input] build];
+}
++ (SetTangoIdResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SetTangoIdResponseProto*)[[[SetTangoIdResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (SetTangoIdResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (SetTangoIdResponseProto*)[[[SetTangoIdResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (SetTangoIdResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SetTangoIdResponseProto*)[[[SetTangoIdResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (SetTangoIdResponseProto_Builder*) builder {
+  return [[SetTangoIdResponseProto_Builder alloc] init];
+}
++ (SetTangoIdResponseProto_Builder*) builderWithPrototype:(SetTangoIdResponseProto*) prototype {
+  return [[SetTangoIdResponseProto builder] mergeFrom:prototype];
+}
+- (SetTangoIdResponseProto_Builder*) builder {
+  return [SetTangoIdResponseProto builder];
+}
+- (SetTangoIdResponseProto_Builder*) toBuilder {
+  return [SetTangoIdResponseProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasSender) {
+    [output appendFormat:@"%@%@ {\n", indent, @"sender"];
+    [self.sender writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  if (self.hasTangoId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"tangoId", self.tangoId];
+  }
+  if (self.hasStatus) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[SetTangoIdResponseProto class]]) {
+    return NO;
+  }
+  SetTangoIdResponseProto *otherMessage = other;
+  return
+      self.hasSender == otherMessage.hasSender &&
+      (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
+      self.hasTangoId == otherMessage.hasTangoId &&
+      (!self.hasTangoId || [self.tangoId isEqual:otherMessage.tangoId]) &&
+      self.hasStatus == otherMessage.hasStatus &&
+      (!self.hasStatus || self.status == otherMessage.status) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasSender) {
+    hashCode = hashCode * 31 + [self.sender hash];
+  }
+  if (self.hasTangoId) {
+    hashCode = hashCode * 31 + [self.tangoId hash];
+  }
+  if (self.hasStatus) {
+    hashCode = hashCode * 31 + self.status;
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+BOOL SetTangoIdResponseProto_SetTangoIdStatusIsValidValue(SetTangoIdResponseProto_SetTangoIdStatus value) {
+  switch (value) {
+    case SetTangoIdResponseProto_SetTangoIdStatusSuccess:
+    case SetTangoIdResponseProto_SetTangoIdStatusFailOther:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface SetTangoIdResponseProto_Builder()
+@property (strong) SetTangoIdResponseProto* result;
+@end
+
+@implementation SetTangoIdResponseProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[SetTangoIdResponseProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (SetTangoIdResponseProto_Builder*) clear {
+  self.result = [[SetTangoIdResponseProto alloc] init];
+  return self;
+}
+- (SetTangoIdResponseProto_Builder*) clone {
+  return [SetTangoIdResponseProto builderWithPrototype:result];
+}
+- (SetTangoIdResponseProto*) defaultInstance {
+  return [SetTangoIdResponseProto defaultInstance];
+}
+- (SetTangoIdResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (SetTangoIdResponseProto*) buildPartial {
+  SetTangoIdResponseProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (SetTangoIdResponseProto_Builder*) mergeFrom:(SetTangoIdResponseProto*) other {
+  if (other == [SetTangoIdResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasTangoId) {
+    [self setTangoId:other.tangoId];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (SetTangoIdResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (SetTangoIdResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        [self setTangoId:[input readString]];
+        break;
+      }
+      case 24: {
+        SetTangoIdResponseProto_SetTangoIdStatus value = (SetTangoIdResponseProto_SetTangoIdStatus)[input readEnum];
+        if (SetTangoIdResponseProto_SetTangoIdStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:3 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (SetTangoIdResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (SetTangoIdResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (SetTangoIdResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (SetTangoIdResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasTangoId {
+  return result.hasTangoId;
+}
+- (NSString*) tangoId {
+  return result.tangoId;
+}
+- (SetTangoIdResponseProto_Builder*) setTangoId:(NSString*) value {
+  result.hasTangoId = YES;
+  result.tangoId = value;
+  return self;
+}
+- (SetTangoIdResponseProto_Builder*) clearTangoId {
+  result.hasTangoId = NO;
+  result.tangoId = @"";
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (SetTangoIdResponseProto_SetTangoIdStatus) status {
+  return result.status;
+}
+- (SetTangoIdResponseProto_Builder*) setStatus:(SetTangoIdResponseProto_SetTangoIdStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (SetTangoIdResponseProto_Builder*) clearStatusList {
+  result.hasStatus = NO;
+  result.status = SetTangoIdResponseProto_SetTangoIdStatusSuccess;
+  return self;
+}
+@end
+
 
 // @@protoc_insertion_point(global_scope)
