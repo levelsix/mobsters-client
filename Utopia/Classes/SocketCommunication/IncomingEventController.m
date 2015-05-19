@@ -2603,4 +2603,37 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
+#pragma mark - tangoGift
+
+//this is all temporary until we have time to make a better UX experience
+- (void)handleSendTangoGiftResponseProto:(FullEvent *)fe {
+  SendTangoGiftResponseProto *proto = (SendTangoGiftResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Send Tango Gift Response recieved with status %d.", (int)proto.status);
+  
+#ifdef TOONSQUAD
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  if (proto.status == SendTangoGiftResponseProto_SendTangoGiftStatusSuccess) {
+    
+    int totalInvitesSent = (int)proto.tangoUserIdsInToonSquadList.count + (int)proto.tangoUserIdsNotInToonSquadList.count;
+    __block int totalPossibleInvites;
+    
+    [TangoDelegate fetchCachedFriends:^(NSArray *friends) {
+      totalPossibleInvites = (int)friends.count;
+    }];
+    
+    int rewardAmount = MAX(gl.tangoMaxGemReward - (totalPossibleInvites - totalInvitesSent), gl.tangoMinGemReward);
+    rewardAmount = MIN(gl.tangoMaxGemReward, rewardAmount);
+    
+    [Globals addPurpleAlertNotification:[NSString stringWithFormat:@"You Collected %d Gems for sharing gifts with your friends", rewardAmount] isImmediate:NO];
+    
+    [TangoDelegate sendGiftsToTangoUsers:proto.tangoUserIdsInToonSquadList];
+  } else {
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+#endif
+}
+
 @end

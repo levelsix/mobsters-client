@@ -243,6 +243,8 @@
 - (int) updateUserMiniEventMessage:(UserMiniEventGoal *)userMiniEventGoal;
 - (int) sendRedeemMiniEventRewardRequestProtoMessage:(RedeemMiniEventRewardRequestProto_RewardTier)tierRedeemed miniEventForPlayerLevelId:(int32_t)mefplId clientTime:(uint64_t)clientTime;
 
+- (int) sendTangoGiftsForTangoIds:(NSArray *)tangoIds myTangoId:(NSString *)myTangoId gemReward:(int32_t)gemReward clientTime:(int64_t)clientTime;
+
 - (void) flush;
 - (void) pauseFlushTimer;
 - (void) resumeFlushTimer;

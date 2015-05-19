@@ -1713,6 +1713,18 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCRedeemMiniEventRewardEvent];
 }
 
+- (int) sendTangoGiftsForTangoIds:(NSArray *)tangoIds myTangoId:(NSString *)myTangoId gemReward:(int32_t)gemReward clientTime:(int64_t)clientTime{
+  SendTangoGiftRequestProto *req = [[[[[[[SendTangoGiftRequestProto builder]
+                                         setSender:_sender]
+                                        addAllTangoUserIds:tangoIds]
+                                       setClientTime:clientTime]
+                                      setSenderTangoUserId:myTangoId]
+                                     setGemReward:gemReward]
+                                    build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCSendTangoGiftEvent];
+}
+
 #pragma mark - Batch/Flush events
 
 - (int) retrieveCurrencyFromStruct:(NSString *)userStructUuid time:(uint64_t)time amountCollected:(int)amountCollected {

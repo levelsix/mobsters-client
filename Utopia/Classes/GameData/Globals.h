@@ -239,6 +239,9 @@
 
 @property (nonatomic, retain) StartupResponseProto_StartupConstants_DownloadableNibConstants *downloadableNibConstants;
 
+@property (nonatomic, assign) int tangoMaxGemReward;
+@property (nonatomic, assign) int tangoMinGemReward;
+
 + (Globals *) sharedGlobals;
 + (void) purgeSingleton;
 

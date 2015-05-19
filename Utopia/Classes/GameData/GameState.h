@@ -63,6 +63,9 @@
 @property (nonatomic, assign) int userSegmentationGroup;
 @property (nonatomic, assign) BOOL userHasEnteredBattleThisSession;
 
+@property (nonatomic, retain) MSDate *lastTangoGiftSentTime;
+@property (nonatomic, retain) NSString *tangoId;
+
 @property (nonatomic, assign) BOOL hasBeatenFirstBoss;
 @property (nonatomic, assign) int firstBossTaskId;
 

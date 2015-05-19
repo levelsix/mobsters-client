@@ -190,6 +190,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.taskIdOfFirstSkill = constants.taskIdOfFirstSkill;
   self.taskIdForUpgradeTutorial = constants.taskIdForUpgradeTutorial;
   
+  self.tangoMaxGemReward = constants.tangoMaxGemReward;
+  self.tangoMinGemReward = constants.tangoMinGemReward;
+  
   for (StartupResponseProto_StartupConstants_ClanHelpConstants *c in constants.clanHelpConstantsList) {
     if (c.helpType == GameActionTypeHeal) {
       self.healClanHelpConstants = c;

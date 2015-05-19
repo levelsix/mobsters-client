@@ -121,6 +121,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.lastTeamDonateSolicitationTime = user.hasLastTeamDonationSolicitation ? [MSDate dateWithTimeIntervalSince1970:user.lastTeamDonationSolicitation/1000.] : nil;
   self.totalStrength = user.totalStrength;
   self.userSegmentationGroup = user.segmentationGroup;
+  self.lastTangoGiftSentTime = user.hasLastTangoGiftSentTime ? [MSDate dateWithTimeIntervalSince1970:user.lastTangoGiftSentTime/1000.0] : nil;
+  self.tangoId = user.tangoId;
   
   self.lastLogoutTime = [MSDate dateWithTimeIntervalSince1970:user.lastLogoutTime/1000.0];
   self.lastLoginTimeNum = user.lastLoginTime;

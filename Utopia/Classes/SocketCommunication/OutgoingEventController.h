@@ -185,4 +185,6 @@
 
 - (void) redeemSecretGift:(UserItemSecretGiftProto *)sg;
 
+- (void) sendTangoGiftsToTangoUsers:(NSArray *)tangoIds gemReward:(int)gemReward delegate:(id)delegate;
+
 @end
