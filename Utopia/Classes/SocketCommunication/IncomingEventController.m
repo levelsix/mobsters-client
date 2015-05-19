@@ -663,18 +663,25 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     // Replace the sales
     if (proto.hasPurchasedSalesPackage) {
       SalesPackageProto *spp = proto.purchasedSalesPackage;
+      SalesPackageProto *nextSpp = proto.successorSalesPackage;
       NSString *uuid = spp.uuid;
+      NSString *nextUuid = nextSpp.uuid;
       
       NSInteger idx = -1;
+      BOOL alreadyHasSuccessorPack = NO;
       for (SalesPackageProto *s in gs.mySales) {
         if ([s.uuid isEqualToString:uuid]) {
           idx = [gs.mySales indexOfObject:s];
         }
+        
+        if ([s.uuid isEqualToString:nextUuid]) {
+          alreadyHasSuccessorPack = YES;
+        }
       }
       
       if (idx != -1) {
-        if (proto.hasSuccessorSalesPackage) {
-          [gs.mySales replaceObjectAtIndex:idx withObject:proto.successorSalesPackage];
+        if (proto.hasSuccessorSalesPackage && !alreadyHasSuccessorPack) {
+          [gs.mySales replaceObjectAtIndex:idx withObject:nextSpp];
         } else {
           [gs.mySales removeObjectAtIndex:idx];
         }
