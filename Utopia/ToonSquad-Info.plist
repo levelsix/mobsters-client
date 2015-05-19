@@ -69,6 +69,8 @@
 		<string>Titillium-Black.otf</string>
 		<string>Titillium-BoldUpright.otf</string>
 	</array>
+	<key>UILaunchStoryboardName</key>
+	<string>SplashView</string>
 	<key>UIPrerenderedIcon</key>
 	<true/>
 	<key>UIRequiredDeviceCapabilities</key>

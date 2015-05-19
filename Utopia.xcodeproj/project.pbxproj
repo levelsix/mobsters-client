@@ -1259,6 +1259,12 @@
 		29BE5F6C1B0B58DA00BF9591 /* Reward.m in Sources */ = {isa = PBXBuildFile; fileRef = 29BE5F6B1B0B58DA00BF9591 /* Reward.m */; };
 		29BE5F6D1B0B58DA00BF9591 /* Reward.m in Sources */ = {isa = PBXBuildFile; fileRef = 29BE5F6B1B0B58DA00BF9591 /* Reward.m */; };
 		29BE5F6E1B0B58DA00BF9591 /* Reward.m in Sources */ = {isa = PBXBuildFile; fileRef = 29BE5F6B1B0B58DA00BF9591 /* Reward.m */; };
+		29BE5F7C1B0BB98500BF9591 /* SplashView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29BE5F7B1B0BB98500BF9591 /* SplashView.xib */; };
+		29BE5F7D1B0BB98500BF9591 /* SplashView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29BE5F7B1B0BB98500BF9591 /* SplashView.xib */; };
+		29BE5F7E1B0BB98500BF9591 /* SplashView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29BE5F7B1B0BB98500BF9591 /* SplashView.xib */; };
+		29BE5F881B0BB9F400BF9591 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29BE5F871B0BB9F400BF9591 /* Default@2x.png */; };
+		29BE5F891B0BB9F400BF9591 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29BE5F871B0BB9F400BF9591 /* Default@2x.png */; };
+		29BE5F8A1B0BB9F400BF9591 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29BE5F871B0BB9F400BF9591 /* Default@2x.png */; };
 		29C0D22D1A9BF4BF005A4EC0 /* lockedbubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29C0D22C1A9BF4BF005A4EC0 /* lockedbubble@2x.png */; };
 		29C0D22E1A9BF4BF005A4EC0 /* lockedbubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29C0D22C1A9BF4BF005A4EC0 /* lockedbubble@2x.png */; };
 		29C0D22F1A9BF4BF005A4EC0 /* lockedbubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29C0D22C1A9BF4BF005A4EC0 /* lockedbubble@2x.png */; };
@@ -8279,6 +8285,8 @@
 		29AF49001AAA96DD0034927C /* ItemFactoryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ItemFactoryViewController.xib; sourceTree = "<group>"; };
 		29BE5F6A1B0B58DA00BF9591 /* Reward.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reward.h; sourceTree = "<group>"; };
 		29BE5F6B1B0B58DA00BF9591 /* Reward.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reward.m; sourceTree = "<group>"; };
+		29BE5F7B1B0BB98500BF9591 /* SplashView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SplashView.xib; sourceTree = "<group>"; };
+		29BE5F871B0BB9F400BF9591 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		29C0D22C1A9BF4BF005A4EC0 /* lockedbubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lockedbubble@2x.png"; sourceTree = "<group>"; };
 		29C0D2311A9BFA79005A4EC0 /* ultimategrabitem@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ultimategrabitem@2x.png"; sourceTree = "<group>"; };
 		29C0D2371A9C1098005A4EC0 /* toonrequestbubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "toonrequestbubble@2x.png"; sourceTree = "<group>"; };
@@ -15227,6 +15235,7 @@
 				CF9AE70B180CA78C0013DD44 /* LoadingViewController.h */,
 				CF9AE70C180CA78C0013DD44 /* LoadingViewController.m */,
 				CF9AE70D180CA78C0013DD44 /* LoadingViewController.xib */,
+				29BE5F7B1B0BB98500BF9591 /* SplashView.xib */,
 			);
 			name = "App Startup";
 			path = AppStartup;
@@ -15439,6 +15448,7 @@
 		CF1267661538ACC500E0C1AD /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				29BE5F871B0BB9F400BF9591 /* Default@2x.png */,
 				29C3CA871A956B78005407E9 /* TangoToonSquad-Info.plist */,
 				29C3CA861A956B6C005407E9 /* ToonSquad-Info.plist */,
 				295FA2BC1A1BEC7D006B79F3 /* Entitlements.plist */,
@@ -19349,6 +19359,7 @@
 				CF0CEE44196F452900ECD301 /* QuestDetailsViewController.xib in Resources */,
 				6341746F1A843521006DA494 /* greenchatdivider@2x.png in Resources */,
 				CF0CEE4A196F452900ECD301 /* timerbgmiddle@2x.png in Resources */,
+				29BE5F891B0BB9F400BF9591 /* Default@2x.png in Resources */,
 				CFA729241A0B037900FF6031 /* watereventtag@2x.png in Resources */,
 				6B1EA9B71ACF5DCB00E0B642 /* VinesDown09.png in Resources */,
 				CF0CEE50196F452900ECD301 /* 3x3dark@2x.png in Resources */,
@@ -20442,6 +20453,7 @@
 				CF0CF3CB196F452900ECD301 /* hpfont@2x.png in Resources */,
 				CF0CF3CC196F452900ECD301 /* combofire.plist in Resources */,
 				CF0CF3CD196F452900ECD301 /* hpfont.fnt in Resources */,
+				29BE5F7D1B0BB98500BF9591 /* SplashView.xib in Resources */,
 				29AE75A31A6F36E000264070 /* TribalGuy0T1P2TutBig@2x.png in Resources */,
 				6B1EAA3E1ACF5DCC00E0B642 /* VinesUp04.png in Resources */,
 				CF0CF3D1196F452900ECD301 /* darkboardsquare@2x.png in Resources */,
@@ -22689,6 +22701,7 @@
 				6B1EAA041ACF5DCC00E0B642 /* VinesMain15.png in Resources */,
 				6B1EAA131ACF5DCC00E0B642 /* VinesMain20.png in Resources */,
 				CFEE89ED18EC388000047CA4 /* silverbig@2x.png in Resources */,
+				29BE5F881B0BB9F400BF9591 /* Default@2x.png in Resources */,
 				63BACB061A71B7C2000A641A /* lightcakekid@2x.png in Resources */,
 				9B7AAB571AC0CDE300CA387F /* rewardreadybgcap@2x.png in Resources */,
 				CFE7CD9C1819FC3300930847 /* moneystack@2x.png in Resources */,
@@ -23247,6 +23260,7 @@
 				CFF1D73517DFC43700874339 /* sparkle1@2x.plist in Resources */,
 				2992D7C91AA5326B00547B11 /* gemscollected@2x.png in Resources */,
 				CF864DAC193E7C5C00DE0D7A /* bluechattail@2x.png in Resources */,
+				29BE5F7C1B0BB98500BF9591 /* SplashView.xib in Resources */,
 				CFF2C926193FD4C000F28D9E /* chatinactivemiddle@2x.png in Resources */,
 				CF32EA92195F70A000A4AEE3 /* greysquare@2x.png in Resources */,
 				9B2389C81A310BAC00FA3743 /* nextmatchmask@2x.png in Resources */,
@@ -24965,6 +24979,7 @@
 				290A99521AD5FC0F00FA41B2 /* avatardropshadow@2x.png in Resources */,
 				CF48219719F7217F00041486 /* sfx_attack_ui_slide_out.mp3 in Resources */,
 				9BC9F39E1A8EB9C5009DC3D5 /* Titillium-BoldUpright.otf in Resources */,
+				29BE5F8A1B0BB9F400BF9591 /* Default@2x.png in Resources */,
 				CF48219819F7217F00041486 /* UpgradeUnlockView.xib in Resources */,
 				CF48219919F7217F00041486 /* attackbarmiddlemj@2x.png in Resources */,
 				2933DC481ADFA808005D7620 /* gemminebuyshadow@2x.png in Resources */,
@@ -25613,6 +25628,7 @@
 				CF48249919F7217F00041486 /* bombdrop@2x.png in Resources */,
 				299AA3711A7856AA00A2D806 /* 6waterorb-9@2x.png in Resources */,
 				9B41AF791A82DA7E00529879 /* menuultimategrab@2x.png in Resources */,
+				29BE5F7E1B0BB98500BF9591 /* SplashView.xib in Resources */,
 				2933DC981ADFA836005D7620 /* GemPackageViewController.xib in Resources */,
 				2945AB2B1A929FB700733827 /* LevelUpNode.ccbi in Resources */,
 				2945AB291A929FB700733827 /* youlost@2x.png in Resources */,
@@ -27169,7 +27185,6 @@
 			buildSettings = {
 				ALTERNATE_OWNER = "$(USER)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -27236,7 +27251,6 @@
 			baseConfigurationReference = 7531CD67E149A97B795B119A /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = BruteGirl;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -27316,7 +27330,6 @@
 			buildSettings = {
 				ALTERNATE_OWNER = "$(USER)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = BruteGirl;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
@@ -27397,7 +27410,6 @@
 			buildSettings = {
 				ALTERNATE_OWNER = "$(USER)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = BruteGirl;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
@@ -27550,7 +27562,6 @@
 			baseConfigurationReference = D5CE6A6498D96F51AF90E68F /* Pods-Mobsters.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -27617,7 +27628,6 @@
 			buildSettings = {
 				ALTERNATE_OWNER = "$(USER)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -27685,7 +27695,6 @@
 			baseConfigurationReference = 7531CD67E149A97B795B119A /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = BruteGirl;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
@@ -27767,7 +27776,6 @@
 			buildSettings = {
 				ALTERNATE_OWNER = "$(USER)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = BruteGirl;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
@@ -27849,7 +27857,6 @@
 			buildSettings = {
 				ALTERNATE_OWNER = "$(USER)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = BruteGirl;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
