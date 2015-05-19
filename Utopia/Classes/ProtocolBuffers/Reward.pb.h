@@ -98,9 +98,10 @@ typedef NS_ENUM(SInt32, RewardProto_RewardType) {
   RewardProto_RewardTypeGems = 3,
   RewardProto_RewardTypeCash = 4,
   RewardProto_RewardTypeOil = 5,
+  RewardProto_RewardTypeGachaCredits = 7,
   RewardProto_RewardTypeMonster = 6,
-  RewardProto_RewardTypeClanGift = 7,
-  RewardProto_RewardTypeTangoGift = 8,
+  RewardProto_RewardTypeClanGift = 8,
+  RewardProto_RewardTypeTangoGift = 9,
 };
 
 BOOL RewardProto_RewardTypeIsValidValue(RewardProto_RewardType value);
@@ -193,10 +194,12 @@ BOOL RewardProto_RewardTypeIsValidValue(RewardProto_RewardType value);
   BOOL hasGems_:1;
   BOOL hasCash_:1;
   BOOL hasOil_:1;
+  BOOL hasGachaCredits_:1;
   BOOL hasClanGift_:1;
   int32_t gems;
   int32_t cash;
   int32_t oil;
+  int32_t gachaCredits;
   UserClanGiftProto* clanGift;
   NSMutableArray * mutableUpdatedOrNewMonstersList;
   NSMutableArray * mutableUpdatedUserItemsList;
@@ -204,12 +207,14 @@ BOOL RewardProto_RewardTypeIsValidValue(RewardProto_RewardType value);
 - (BOOL) hasGems;
 - (BOOL) hasCash;
 - (BOOL) hasOil;
+- (BOOL) hasGachaCredits;
 - (BOOL) hasClanGift;
 @property (readonly, strong) NSArray * updatedOrNewMonstersList;
 @property (readonly, strong) NSArray * updatedUserItemsList;
 @property (readonly) int32_t gems;
 @property (readonly) int32_t cash;
 @property (readonly) int32_t oil;
+@property (readonly) int32_t gachaCredits;
 @property (readonly, strong) UserClanGiftProto* clanGift;
 - (FullUserMonsterProto*)updatedOrNewMonstersAtIndex:(NSUInteger)index;
 - (UserItemProto*)updatedUserItemsAtIndex:(NSUInteger)index;
@@ -275,6 +280,11 @@ BOOL RewardProto_RewardTypeIsValidValue(RewardProto_RewardType value);
 - (int32_t) oil;
 - (UserRewardProto_Builder*) setOil:(int32_t) value;
 - (UserRewardProto_Builder*) clearOil;
+
+- (BOOL) hasGachaCredits;
+- (int32_t) gachaCredits;
+- (UserRewardProto_Builder*) setGachaCredits:(int32_t) value;
+- (UserRewardProto_Builder*) clearGachaCredits;
 
 - (BOOL) hasClanGift;
 - (UserClanGiftProto*) clanGift;

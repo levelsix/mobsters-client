@@ -35,7 +35,7 @@
     imgName = ip.imgName;
   }
   
-  [Globals imageNamed:imgName withView:self.itemIcon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+  [Globals imageNamed:imgName withView:self.itemIcon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES ];
   
   CGSize size = self.itemIcon.image.size;
   if (self.itemIcon.width < size.width || self.itemIcon.height < size.height) {

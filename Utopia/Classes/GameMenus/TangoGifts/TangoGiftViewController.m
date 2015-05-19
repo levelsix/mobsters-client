@@ -70,14 +70,10 @@
   self.selectedFriends = [self.tangoFriends mutableCopy];
   
   [self updateUI];
-  
-  if (!self.tangoFriends) {
-    [self close];
-  }
 }
 
 - (void) updateUI {
-  self.rewardLabel.text = [NSString stringWithFormat:@"%d", (int)MIN(self.tangoFriends.count, 3)];
+  [self updateRewardAmount];
   
   self.friendListActivityIndicator.hidesWhenStopped = YES;
   [self.friendListActivityIndicator stopAnimating];
@@ -92,13 +88,14 @@
 
 - (int) updateRewardAmount {
   Globals *gl = [Globals sharedGlobals];
+  
   if (!self.selectedFriends.count) {
-    self.rewardLabel.text = @"0";
+    self.rewardLabel.text = @"REWARD: 0";
     return 0;
   } else {
     int rewardAmount = MAX(gl.tangoMaxGemReward - ((int)self.tangoFriends.count - (int)self.selectedFriends.count), gl.tangoMinGemReward);
     rewardAmount = MIN(gl.tangoMaxGemReward, rewardAmount);
-    self.rewardLabel.text = [NSString stringWithFormat:@"%d", rewardAmount];
+    self.rewardLabel.text = [NSString stringWithFormat:@"REWARD: %d", rewardAmount];
     return rewardAmount;
   }
 }

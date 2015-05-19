@@ -100,7 +100,7 @@ static TangoProfileEntry *profileEntry = nil;
 #ifdef TANGO_ENABLED
   return profileEntry.profileID;
 #else
-  return @"";
+  return nil;
 #endif
 }
 
@@ -200,8 +200,9 @@ static TangoProfileEntry *profileEntry = nil;
 
 + (void) fetchInvitableProfiles:(void (^)(NSArray *friends))comp {
 #ifdef TANGO_ENABLED
-  NSString *resourceId = @"INVITE_ID1";
-//  NSString *resourceId = @"TEST_INVITE_ID";
+#warning change back
+//  NSString *resourceId = @"INVITE_ID1";
+  NSString *resourceId = @"TEST_INVITE_ID";
   
   [TangoInviting fetchProfilesWithinLimitsForResourceId:resourceId handler:^(TangoInvitingFetchProfilesResponse *response, NSError *error) {
     dispatch_sync(dispatch_get_main_queue(), ^{

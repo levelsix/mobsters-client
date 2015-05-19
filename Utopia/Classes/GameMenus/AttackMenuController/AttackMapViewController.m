@@ -300,7 +300,7 @@
   CGRect frame = CGRectInset(pos.bounds, 2, 2);
   
 #ifdef TOONSQUAD
-  if ([TangoDelegate isTangoAuthenticated]) {
+  if ([TangoDelegate isTangoAvailable] && [TangoDelegate isTangoAuthenticated] && [TangoDelegate getMyId]) {
     UIImageView *img = [[UIImageView alloc] initWithFrame:frame];
     img.layer.cornerRadius = img.frame.size.width/2;
     img.clipsToBounds = YES;
