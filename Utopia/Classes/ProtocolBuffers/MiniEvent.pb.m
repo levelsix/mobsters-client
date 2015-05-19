@@ -13,6 +13,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
   if (self == [MiniEventRoot class]) {
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
+    [RewardRoot registerAllExtensions:registry];
     extensionRegistry = registry;
   }
 }
@@ -1740,7 +1741,7 @@ static MiniEventForPlayerLevelProto* defaultMiniEventForPlayerLevelProtoInstance
 @interface MiniEventTierRewardProto ()
 @property int32_t metrId;
 @property int32_t mefplId;
-@property int32_t rewardId;
+@property (strong) RewardProto* rewardProto;
 @property int32_t tierLvl;
 @end
 
@@ -1760,13 +1761,13 @@ static MiniEventForPlayerLevelProto* defaultMiniEventForPlayerLevelProtoInstance
   hasMefplId_ = !!value_;
 }
 @synthesize mefplId;
-- (BOOL) hasRewardId {
-  return !!hasRewardId_;
+- (BOOL) hasRewardProto {
+  return !!hasRewardProto_;
 }
-- (void) setHasRewardId:(BOOL) value_ {
-  hasRewardId_ = !!value_;
+- (void) setHasRewardProto:(BOOL) value_ {
+  hasRewardProto_ = !!value_;
 }
-@synthesize rewardId;
+@synthesize rewardProto;
 - (BOOL) hasTierLvl {
   return !!hasTierLvl_;
 }
@@ -1778,7 +1779,7 @@ static MiniEventForPlayerLevelProto* defaultMiniEventForPlayerLevelProtoInstance
   if ((self = [super init])) {
     self.metrId = 0;
     self.mefplId = 0;
-    self.rewardId = 0;
+    self.rewardProto = [RewardProto defaultInstance];
     self.tierLvl = 0;
   }
   return self;
@@ -1805,8 +1806,8 @@ static MiniEventTierRewardProto* defaultMiniEventTierRewardProtoInstance = nil;
   if (self.hasMefplId) {
     [output writeInt32:2 value:self.mefplId];
   }
-  if (self.hasRewardId) {
-    [output writeInt32:3 value:self.rewardId];
+  if (self.hasRewardProto) {
+    [output writeMessage:3 value:self.rewardProto];
   }
   if (self.hasTierLvl) {
     [output writeInt32:4 value:self.tierLvl];
@@ -1826,8 +1827,8 @@ static MiniEventTierRewardProto* defaultMiniEventTierRewardProtoInstance = nil;
   if (self.hasMefplId) {
     size_ += computeInt32Size(2, self.mefplId);
   }
-  if (self.hasRewardId) {
-    size_ += computeInt32Size(3, self.rewardId);
+  if (self.hasRewardProto) {
+    size_ += computeMessageSize(3, self.rewardProto);
   }
   if (self.hasTierLvl) {
     size_ += computeInt32Size(4, self.tierLvl);
@@ -1873,8 +1874,11 @@ static MiniEventTierRewardProto* defaultMiniEventTierRewardProtoInstance = nil;
   if (self.hasMefplId) {
     [output appendFormat:@"%@%@: %@\n", indent, @"mefplId", [NSNumber numberWithInteger:self.mefplId]];
   }
-  if (self.hasRewardId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"rewardId", [NSNumber numberWithInteger:self.rewardId]];
+  if (self.hasRewardProto) {
+    [output appendFormat:@"%@%@ {\n", indent, @"rewardProto"];
+    [self.rewardProto writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasTierLvl) {
     [output appendFormat:@"%@%@: %@\n", indent, @"tierLvl", [NSNumber numberWithInteger:self.tierLvl]];
@@ -1894,8 +1898,8 @@ static MiniEventTierRewardProto* defaultMiniEventTierRewardProtoInstance = nil;
       (!self.hasMetrId || self.metrId == otherMessage.metrId) &&
       self.hasMefplId == otherMessage.hasMefplId &&
       (!self.hasMefplId || self.mefplId == otherMessage.mefplId) &&
-      self.hasRewardId == otherMessage.hasRewardId &&
-      (!self.hasRewardId || self.rewardId == otherMessage.rewardId) &&
+      self.hasRewardProto == otherMessage.hasRewardProto &&
+      (!self.hasRewardProto || [self.rewardProto isEqual:otherMessage.rewardProto]) &&
       self.hasTierLvl == otherMessage.hasTierLvl &&
       (!self.hasTierLvl || self.tierLvl == otherMessage.tierLvl) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
@@ -1908,8 +1912,8 @@ static MiniEventTierRewardProto* defaultMiniEventTierRewardProtoInstance = nil;
   if (self.hasMefplId) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.mefplId] hash];
   }
-  if (self.hasRewardId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.rewardId] hash];
+  if (self.hasRewardProto) {
+    hashCode = hashCode * 31 + [self.rewardProto hash];
   }
   if (self.hasTierLvl) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.tierLvl] hash];
@@ -1963,8 +1967,8 @@ static MiniEventTierRewardProto* defaultMiniEventTierRewardProtoInstance = nil;
   if (other.hasMefplId) {
     [self setMefplId:other.mefplId];
   }
-  if (other.hasRewardId) {
-    [self setRewardId:other.rewardId];
+  if (other.hasRewardProto) {
+    [self mergeRewardProto:other.rewardProto];
   }
   if (other.hasTierLvl) {
     [self setTierLvl:other.tierLvl];
@@ -1998,8 +2002,13 @@ static MiniEventTierRewardProto* defaultMiniEventTierRewardProtoInstance = nil;
         [self setMefplId:[input readInt32]];
         break;
       }
-      case 24: {
-        [self setRewardId:[input readInt32]];
+      case 26: {
+        RewardProto_Builder* subBuilder = [RewardProto builder];
+        if (self.hasRewardProto) {
+          [subBuilder mergeFrom:self.rewardProto];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setRewardProto:[subBuilder buildPartial]];
         break;
       }
       case 32: {
@@ -2041,20 +2050,34 @@ static MiniEventTierRewardProto* defaultMiniEventTierRewardProtoInstance = nil;
   result.mefplId = 0;
   return self;
 }
-- (BOOL) hasRewardId {
-  return result.hasRewardId;
+- (BOOL) hasRewardProto {
+  return result.hasRewardProto;
 }
-- (int32_t) rewardId {
-  return result.rewardId;
+- (RewardProto*) rewardProto {
+  return result.rewardProto;
 }
-- (MiniEventTierRewardProto_Builder*) setRewardId:(int32_t) value {
-  result.hasRewardId = YES;
-  result.rewardId = value;
+- (MiniEventTierRewardProto_Builder*) setRewardProto:(RewardProto*) value {
+  result.hasRewardProto = YES;
+  result.rewardProto = value;
   return self;
 }
-- (MiniEventTierRewardProto_Builder*) clearRewardId {
-  result.hasRewardId = NO;
-  result.rewardId = 0;
+- (MiniEventTierRewardProto_Builder*) setRewardProto_Builder:(RewardProto_Builder*) builderForValue {
+  return [self setRewardProto:[builderForValue build]];
+}
+- (MiniEventTierRewardProto_Builder*) mergeRewardProto:(RewardProto*) value {
+  if (result.hasRewardProto &&
+      result.rewardProto != [RewardProto defaultInstance]) {
+    result.rewardProto =
+      [[[RewardProto builderWithPrototype:result.rewardProto] mergeFrom:value] buildPartial];
+  } else {
+    result.rewardProto = value;
+  }
+  result.hasRewardProto = YES;
+  return self;
+}
+- (MiniEventTierRewardProto_Builder*) clearRewardProto {
+  result.hasRewardProto = NO;
+  result.rewardProto = [RewardProto defaultInstance];
   return self;
 }
 - (BOOL) hasTierLvl {
@@ -2078,7 +2101,7 @@ static MiniEventTierRewardProto* defaultMiniEventTierRewardProtoInstance = nil;
 @interface MiniEventLeaderboardRewardProto ()
 @property int32_t melrId;
 @property int32_t miniEventId;
-@property int32_t rewardId;
+@property (strong) RewardProto* rewardProto;
 @property int32_t leaderboardMinPos;
 @end
 
@@ -2098,13 +2121,13 @@ static MiniEventTierRewardProto* defaultMiniEventTierRewardProtoInstance = nil;
   hasMiniEventId_ = !!value_;
 }
 @synthesize miniEventId;
-- (BOOL) hasRewardId {
-  return !!hasRewardId_;
+- (BOOL) hasRewardProto {
+  return !!hasRewardProto_;
 }
-- (void) setHasRewardId:(BOOL) value_ {
-  hasRewardId_ = !!value_;
+- (void) setHasRewardProto:(BOOL) value_ {
+  hasRewardProto_ = !!value_;
 }
-@synthesize rewardId;
+@synthesize rewardProto;
 - (BOOL) hasLeaderboardMinPos {
   return !!hasLeaderboardMinPos_;
 }
@@ -2116,7 +2139,7 @@ static MiniEventTierRewardProto* defaultMiniEventTierRewardProtoInstance = nil;
   if ((self = [super init])) {
     self.melrId = 0;
     self.miniEventId = 0;
-    self.rewardId = 0;
+    self.rewardProto = [RewardProto defaultInstance];
     self.leaderboardMinPos = 0;
   }
   return self;
@@ -2143,8 +2166,8 @@ static MiniEventLeaderboardRewardProto* defaultMiniEventLeaderboardRewardProtoIn
   if (self.hasMiniEventId) {
     [output writeInt32:2 value:self.miniEventId];
   }
-  if (self.hasRewardId) {
-    [output writeInt32:3 value:self.rewardId];
+  if (self.hasRewardProto) {
+    [output writeMessage:3 value:self.rewardProto];
   }
   if (self.hasLeaderboardMinPos) {
     [output writeInt32:4 value:self.leaderboardMinPos];
@@ -2164,8 +2187,8 @@ static MiniEventLeaderboardRewardProto* defaultMiniEventLeaderboardRewardProtoIn
   if (self.hasMiniEventId) {
     size_ += computeInt32Size(2, self.miniEventId);
   }
-  if (self.hasRewardId) {
-    size_ += computeInt32Size(3, self.rewardId);
+  if (self.hasRewardProto) {
+    size_ += computeMessageSize(3, self.rewardProto);
   }
   if (self.hasLeaderboardMinPos) {
     size_ += computeInt32Size(4, self.leaderboardMinPos);
@@ -2211,8 +2234,11 @@ static MiniEventLeaderboardRewardProto* defaultMiniEventLeaderboardRewardProtoIn
   if (self.hasMiniEventId) {
     [output appendFormat:@"%@%@: %@\n", indent, @"miniEventId", [NSNumber numberWithInteger:self.miniEventId]];
   }
-  if (self.hasRewardId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"rewardId", [NSNumber numberWithInteger:self.rewardId]];
+  if (self.hasRewardProto) {
+    [output appendFormat:@"%@%@ {\n", indent, @"rewardProto"];
+    [self.rewardProto writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasLeaderboardMinPos) {
     [output appendFormat:@"%@%@: %@\n", indent, @"leaderboardMinPos", [NSNumber numberWithInteger:self.leaderboardMinPos]];
@@ -2232,8 +2258,8 @@ static MiniEventLeaderboardRewardProto* defaultMiniEventLeaderboardRewardProtoIn
       (!self.hasMelrId || self.melrId == otherMessage.melrId) &&
       self.hasMiniEventId == otherMessage.hasMiniEventId &&
       (!self.hasMiniEventId || self.miniEventId == otherMessage.miniEventId) &&
-      self.hasRewardId == otherMessage.hasRewardId &&
-      (!self.hasRewardId || self.rewardId == otherMessage.rewardId) &&
+      self.hasRewardProto == otherMessage.hasRewardProto &&
+      (!self.hasRewardProto || [self.rewardProto isEqual:otherMessage.rewardProto]) &&
       self.hasLeaderboardMinPos == otherMessage.hasLeaderboardMinPos &&
       (!self.hasLeaderboardMinPos || self.leaderboardMinPos == otherMessage.leaderboardMinPos) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
@@ -2246,8 +2272,8 @@ static MiniEventLeaderboardRewardProto* defaultMiniEventLeaderboardRewardProtoIn
   if (self.hasMiniEventId) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.miniEventId] hash];
   }
-  if (self.hasRewardId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.rewardId] hash];
+  if (self.hasRewardProto) {
+    hashCode = hashCode * 31 + [self.rewardProto hash];
   }
   if (self.hasLeaderboardMinPos) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.leaderboardMinPos] hash];
@@ -2301,8 +2327,8 @@ static MiniEventLeaderboardRewardProto* defaultMiniEventLeaderboardRewardProtoIn
   if (other.hasMiniEventId) {
     [self setMiniEventId:other.miniEventId];
   }
-  if (other.hasRewardId) {
-    [self setRewardId:other.rewardId];
+  if (other.hasRewardProto) {
+    [self mergeRewardProto:other.rewardProto];
   }
   if (other.hasLeaderboardMinPos) {
     [self setLeaderboardMinPos:other.leaderboardMinPos];
@@ -2336,8 +2362,13 @@ static MiniEventLeaderboardRewardProto* defaultMiniEventLeaderboardRewardProtoIn
         [self setMiniEventId:[input readInt32]];
         break;
       }
-      case 24: {
-        [self setRewardId:[input readInt32]];
+      case 26: {
+        RewardProto_Builder* subBuilder = [RewardProto builder];
+        if (self.hasRewardProto) {
+          [subBuilder mergeFrom:self.rewardProto];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setRewardProto:[subBuilder buildPartial]];
         break;
       }
       case 32: {
@@ -2379,20 +2410,34 @@ static MiniEventLeaderboardRewardProto* defaultMiniEventLeaderboardRewardProtoIn
   result.miniEventId = 0;
   return self;
 }
-- (BOOL) hasRewardId {
-  return result.hasRewardId;
+- (BOOL) hasRewardProto {
+  return result.hasRewardProto;
 }
-- (int32_t) rewardId {
-  return result.rewardId;
+- (RewardProto*) rewardProto {
+  return result.rewardProto;
 }
-- (MiniEventLeaderboardRewardProto_Builder*) setRewardId:(int32_t) value {
-  result.hasRewardId = YES;
-  result.rewardId = value;
+- (MiniEventLeaderboardRewardProto_Builder*) setRewardProto:(RewardProto*) value {
+  result.hasRewardProto = YES;
+  result.rewardProto = value;
   return self;
 }
-- (MiniEventLeaderboardRewardProto_Builder*) clearRewardId {
-  result.hasRewardId = NO;
-  result.rewardId = 0;
+- (MiniEventLeaderboardRewardProto_Builder*) setRewardProto_Builder:(RewardProto_Builder*) builderForValue {
+  return [self setRewardProto:[builderForValue build]];
+}
+- (MiniEventLeaderboardRewardProto_Builder*) mergeRewardProto:(RewardProto*) value {
+  if (result.hasRewardProto &&
+      result.rewardProto != [RewardProto defaultInstance]) {
+    result.rewardProto =
+      [[[RewardProto builderWithPrototype:result.rewardProto] mergeFrom:value] buildPartial];
+  } else {
+    result.rewardProto = value;
+  }
+  result.hasRewardProto = YES;
+  return self;
+}
+- (MiniEventLeaderboardRewardProto_Builder*) clearRewardProto {
+  result.hasRewardProto = NO;
+  result.rewardProto = [RewardProto defaultInstance];
   return self;
 }
 - (BOOL) hasLeaderboardMinPos {

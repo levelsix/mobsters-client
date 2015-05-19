@@ -40,11 +40,9 @@
   _rewardTier = tier;
   _prizeList = [NSMutableArray array];
   
-  GameState* gs = [GameState sharedGameState];
   for (MiniEventTierRewardProto* prize in prizeList)
   {
-    RewardProto* reward = [gs.staticRewards objectForKey:@(prize.rewardId)];
-    if (reward) [_prizeList addObject:reward];
+    if (prize.hasRewardProto) [_prizeList addObject:prize.rewardProto];
   }
   
   [self.tierPrizeList reloadData];

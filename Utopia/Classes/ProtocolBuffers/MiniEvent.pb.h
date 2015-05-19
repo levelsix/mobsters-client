@@ -2,8 +2,21 @@
 
 #import "ProtocolBuffers.h"
 
+#import "Reward.pb.h"
 // @@protoc_insertion_point(imports)
 
+@class ClanGiftProto;
+@class ClanGiftProto_Builder;
+@class ClanMemberTeamDonationProto;
+@class ClanMemberTeamDonationProto_Builder;
+@class FullUserMonsterProto;
+@class FullUserMonsterProto_Builder;
+@class FullUserProto;
+@class FullUserProto_Builder;
+@class ItemGemPriceProto;
+@class ItemGemPriceProto_Builder;
+@class ItemProto;
+@class ItemProto_Builder;
 @class MiniEventForPlayerLevelProto;
 @class MiniEventForPlayerLevelProto_Builder;
 @class MiniEventGoalProto;
@@ -14,10 +27,70 @@
 @class MiniEventProto_Builder;
 @class MiniEventTierRewardProto;
 @class MiniEventTierRewardProto_Builder;
+@class MinimumClanProto;
+@class MinimumClanProto_Builder;
+@class MinimumUserMonsterProto;
+@class MinimumUserMonsterProto_Builder;
+@class MinimumUserMonsterSellProto;
+@class MinimumUserMonsterSellProto_Builder;
+@class MinimumUserProto;
+@class MinimumUserProtoWithFacebookId;
+@class MinimumUserProtoWithFacebookId_Builder;
+@class MinimumUserProtoWithLevel;
+@class MinimumUserProtoWithLevel_Builder;
+@class MinimumUserProtoWithMaxResources;
+@class MinimumUserProtoWithMaxResources_Builder;
+@class MinimumUserProto_Builder;
+@class MonsterBattleDialogueProto;
+@class MonsterBattleDialogueProto_Builder;
+@class MonsterLevelInfoProto;
+@class MonsterLevelInfoProto_Builder;
+@class MonsterProto;
+@class MonsterProto_Builder;
+@class RewardProto;
+@class RewardProto_Builder;
+@class StaticUserLevelInfoProto;
+@class StaticUserLevelInfoProto_Builder;
+@class TangoGiftProto;
+@class TangoGiftProto_Builder;
+@class UserClanGiftProto;
+@class UserClanGiftProto_Builder;
+@class UserCurrentMonsterTeamProto;
+@class UserCurrentMonsterTeamProto_Builder;
+@class UserEnhancementItemProto;
+@class UserEnhancementItemProto_Builder;
+@class UserEnhancementProto;
+@class UserEnhancementProto_Builder;
+@class UserFacebookInviteForSlotProto;
+@class UserFacebookInviteForSlotProto_Builder;
+@class UserGiftProto;
+@class UserGiftProto_Builder;
+@class UserItemProto;
+@class UserItemProto_Builder;
+@class UserItemSecretGiftProto;
+@class UserItemSecretGiftProto_Builder;
+@class UserItemUsageProto;
+@class UserItemUsageProto_Builder;
 @class UserMiniEventGoalProto;
 @class UserMiniEventGoalProto_Builder;
 @class UserMiniEventProto;
 @class UserMiniEventProto_Builder;
+@class UserMonsterCurrentExpProto;
+@class UserMonsterCurrentExpProto_Builder;
+@class UserMonsterCurrentHealthProto;
+@class UserMonsterCurrentHealthProto_Builder;
+@class UserMonsterEvolutionProto;
+@class UserMonsterEvolutionProto_Builder;
+@class UserMonsterHealingProto;
+@class UserMonsterHealingProto_Builder;
+@class UserMonsterSnapshotProto;
+@class UserMonsterSnapshotProto_Builder;
+@class UserPvpLeagueProto;
+@class UserPvpLeagueProto_Builder;
+@class UserRewardProto;
+@class UserRewardProto_Builder;
+@class UserTangoGiftProto;
+@class UserTangoGiftProto_Builder;
 #ifndef __has_feature
   #define __has_feature(x) 0 // Compatibility with non-clang compilers.
 #endif // __has_feature
@@ -416,20 +489,20 @@ BOOL MiniEventGoalProto_MiniEventGoalTypeIsValidValue(MiniEventGoalProto_MiniEve
 @private
   BOOL hasMetrId_:1;
   BOOL hasMefplId_:1;
-  BOOL hasRewardId_:1;
   BOOL hasTierLvl_:1;
+  BOOL hasRewardProto_:1;
   int32_t metrId;
   int32_t mefplId;
-  int32_t rewardId;
   int32_t tierLvl;
+  RewardProto* rewardProto;
 }
 - (BOOL) hasMetrId;
 - (BOOL) hasMefplId;
-- (BOOL) hasRewardId;
+- (BOOL) hasRewardProto;
 - (BOOL) hasTierLvl;
 @property (readonly) int32_t metrId;
 @property (readonly) int32_t mefplId;
-@property (readonly) int32_t rewardId;
+@property (readonly, strong) RewardProto* rewardProto;
 @property (readonly) int32_t tierLvl;
 
 + (MiniEventTierRewardProto*) defaultInstance;
@@ -477,10 +550,12 @@ BOOL MiniEventGoalProto_MiniEventGoalTypeIsValidValue(MiniEventGoalProto_MiniEve
 - (MiniEventTierRewardProto_Builder*) setMefplId:(int32_t) value;
 - (MiniEventTierRewardProto_Builder*) clearMefplId;
 
-- (BOOL) hasRewardId;
-- (int32_t) rewardId;
-- (MiniEventTierRewardProto_Builder*) setRewardId:(int32_t) value;
-- (MiniEventTierRewardProto_Builder*) clearRewardId;
+- (BOOL) hasRewardProto;
+- (RewardProto*) rewardProto;
+- (MiniEventTierRewardProto_Builder*) setRewardProto:(RewardProto*) value;
+- (MiniEventTierRewardProto_Builder*) setRewardProto_Builder:(RewardProto_Builder*) builderForValue;
+- (MiniEventTierRewardProto_Builder*) mergeRewardProto:(RewardProto*) value;
+- (MiniEventTierRewardProto_Builder*) clearRewardProto;
 
 - (BOOL) hasTierLvl;
 - (int32_t) tierLvl;
@@ -492,20 +567,20 @@ BOOL MiniEventGoalProto_MiniEventGoalTypeIsValidValue(MiniEventGoalProto_MiniEve
 @private
   BOOL hasMelrId_:1;
   BOOL hasMiniEventId_:1;
-  BOOL hasRewardId_:1;
   BOOL hasLeaderboardMinPos_:1;
+  BOOL hasRewardProto_:1;
   int32_t melrId;
   int32_t miniEventId;
-  int32_t rewardId;
   int32_t leaderboardMinPos;
+  RewardProto* rewardProto;
 }
 - (BOOL) hasMelrId;
 - (BOOL) hasMiniEventId;
-- (BOOL) hasRewardId;
+- (BOOL) hasRewardProto;
 - (BOOL) hasLeaderboardMinPos;
 @property (readonly) int32_t melrId;
 @property (readonly) int32_t miniEventId;
-@property (readonly) int32_t rewardId;
+@property (readonly, strong) RewardProto* rewardProto;
 @property (readonly) int32_t leaderboardMinPos;
 
 + (MiniEventLeaderboardRewardProto*) defaultInstance;
@@ -553,10 +628,12 @@ BOOL MiniEventGoalProto_MiniEventGoalTypeIsValidValue(MiniEventGoalProto_MiniEve
 - (MiniEventLeaderboardRewardProto_Builder*) setMiniEventId:(int32_t) value;
 - (MiniEventLeaderboardRewardProto_Builder*) clearMiniEventId;
 
-- (BOOL) hasRewardId;
-- (int32_t) rewardId;
-- (MiniEventLeaderboardRewardProto_Builder*) setRewardId:(int32_t) value;
-- (MiniEventLeaderboardRewardProto_Builder*) clearRewardId;
+- (BOOL) hasRewardProto;
+- (RewardProto*) rewardProto;
+- (MiniEventLeaderboardRewardProto_Builder*) setRewardProto:(RewardProto*) value;
+- (MiniEventLeaderboardRewardProto_Builder*) setRewardProto_Builder:(RewardProto_Builder*) builderForValue;
+- (MiniEventLeaderboardRewardProto_Builder*) mergeRewardProto:(RewardProto*) value;
+- (MiniEventLeaderboardRewardProto_Builder*) clearRewardProto;
 
 - (BOOL) hasLeaderboardMinPos;
 - (int32_t) leaderboardMinPos;

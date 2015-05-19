@@ -356,7 +356,7 @@
     case RewardTypeMonster:
     {
       MonsterProto* monster = [gs monsterWithId:reward.monsterId];
-      name  = [NSString stringWithFormat:@"LVL %d %@", reward.monsterLvl, monster.displayName];
+      name  = [NSString stringWithFormat:@"%@%@", monster.displayName, reward.monsterLvl == 0 ? @" Piece" : [NSString stringWithFormat:@" LVL %d", reward.monsterLvl]];
       break;
     }
       
@@ -387,7 +387,7 @@
     case RewardTypeMonster:
     {
       MonsterProto* monster = [gs monsterWithId:reward.monsterId];
-      name  = [NSString stringWithFormat:@"%@ L%d", monster.monsterName, reward.monsterLvl];
+      name  = [NSString stringWithFormat:@"%@ %@", monster.monsterName, reward.monsterLvl > 0 ? [NSString stringWithFormat:@"L%d", reward.monsterLvl] : @"Piece"];
       break;
     }
       
