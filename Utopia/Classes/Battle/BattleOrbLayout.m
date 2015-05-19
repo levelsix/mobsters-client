@@ -318,12 +318,13 @@
   //If there weren't any matches, and we hit the number cap, put the orbs back in their original places
   if ([self.possibleSwaps count] == 0) {
     set = [NSMutableSet set];
+    NSInteger counter = 0;
     for (int i = 0; i < _numColumns; i++) {
       for (int j = 0; j < _numRows; j++) {
         
         if ([self orbAtColumn:i row:j]) { //Makes sure that we're not dealing with a hole
           
-          BattleOrb *orb = cacheArray[i * _numRows + j];
+          BattleOrb *orb = cacheArray[counter++];
           [self setOrb:orb column:i row:j];
           orb.column = i;
           orb.row = j;
