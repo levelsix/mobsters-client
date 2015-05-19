@@ -69,6 +69,11 @@
   return userItems;
 }
 
+- (BOOL) wantsProgressBar {
+  //bar not used
+  return NO;
+}
+
 - (BOOL) canCloseOnFullBar {
   //bar not used
   return NO;

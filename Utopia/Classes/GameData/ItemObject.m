@@ -53,6 +53,23 @@
   return self.quantity;
 }
 
+- (BOOL) canBeOwned {
+  switch (self.staticItem.itemType) {
+      
+    case ItemTypeItemGachaCredit:
+      return NO;
+      
+    case ItemTypeItemCash:
+    case ItemTypeItemOil:
+    case ItemTypeSpeedUp:
+    case ItemTypeBoosterPack:
+    case ItemTypeBuilder:
+    case ItemTypeRefreshMiniJob:
+    case ItemTypeGachaMultiSpin:
+      return YES;
+  }
+}
+
 - (NSString *) name {
   return self.staticItem.name;
 }
@@ -65,6 +82,7 @@
   switch (self.staticItem.itemType) {
       
     case ItemTypeRefreshMiniJob:
+    case ItemTypeItemGachaCredit:
       if (self.useGemsButton) {
         return [NSString stringWithFormat:@"%d",[self costToPurchase]];
       } else {
@@ -76,6 +94,7 @@
     case ItemTypeSpeedUp:
     case ItemTypeBoosterPack:
     case ItemTypeBuilder:
+    case ItemTypeGachaMultiSpin:
       return @"Use";
   }
 }
@@ -84,6 +103,7 @@
   switch (self.staticItem.itemType) {
       
     case ItemTypeRefreshMiniJob:
+    case ItemTypeItemGachaCredit:
       return !self.isValid;
       
     case ItemTypeItemCash:
@@ -91,6 +111,7 @@
     case ItemTypeSpeedUp:
     case ItemTypeBoosterPack:
     case ItemTypeBuilder:
+    case ItemTypeGachaMultiSpin:
       return NO;
   }
 }
@@ -107,7 +128,7 @@
   ItemProto *ip = self.staticItem;
   if (ip.itemType == ItemTypeSpeedUp) {
     return [[Globals convertTimeToShorterString:ip.amount*60] uppercaseString];
-  } else if (ip.itemType == ItemTypeItemCash || ip.itemType == ItemTypeItemOil) {
+  } else if (ip.itemType == ItemTypeItemCash || ip.itemType == ItemTypeItemOil || ip.itemType == ItemTypeItemGachaCredit) {
     return [Globals shortenNumber:ip.amount];
   }
   
@@ -124,18 +145,24 @@
 
 - (int) costToPurchase {
   GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
   
   MiniJobCenterProto *miniJobCenter = (MiniJobCenterProto *)gs.myMiniJobCenter.staticStruct;
   
   switch (self.staticItem.itemType) {
+      
     case ItemTypeRefreshMiniJob:
       return [miniJobCenter itemGemPriceForItemId:self.staticItem.itemId];
+      
+    case ItemTypeItemGachaCredit:
+      return [gl calculateGemConversionForResourceType:ResourceTypeGachaCredits amount:self.staticItem.amount];
       
     case ItemTypeItemCash:
     case ItemTypeItemOil:
     case ItemTypeSpeedUp:
     case ItemTypeBoosterPack:
     case ItemTypeBuilder:
+    case ItemTypeGachaMultiSpin:
       return 0;
   }
 }
@@ -199,6 +226,10 @@
 - (int) numOwned {
   GameState *gs = [GameState sharedGameState];
   return gs.gems;
+}
+
+- (BOOL) canBeOwned {
+  return YES;
 }
 
 - (NSString *) name {

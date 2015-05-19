@@ -79,6 +79,7 @@ typedef NS_ENUM(SInt32, ResourceType) {
   ResourceTypeCash = 1,
   ResourceTypeOil = 2,
   ResourceTypeGems = 3,
+  ResourceTypeGachaCredits = 5,
   ResourceTypeMonster = 20,
 };
 

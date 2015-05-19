@@ -37,6 +37,7 @@
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, assign) int level;
 @property (nonatomic, assign) int gems;
+@property (nonatomic, assign) int tokens;
 @property (nonatomic, assign) int cash;
 @property (nonatomic, assign) int oil;
 @property (nonatomic, retain) NSString *referralCode;

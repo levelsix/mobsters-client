@@ -946,6 +946,7 @@ BOOL MiniEventGoalProto_MiniEventGoalTypeIsValidValue(MiniEventGoalProto_MiniEve
     case MiniEventGoalProto_MiniEventGoalTypeGainResearchStrength:
     case MiniEventGoalProto_MiniEventGoalTypeSpinBasicGrab:
     case MiniEventGoalProto_MiniEventGoalTypeSpinUltimateGrab:
+    case MiniEventGoalProto_MiniEventGoalTypeSpinMulti:
     case MiniEventGoalProto_MiniEventGoalTypeEnhanceCommon:
     case MiniEventGoalProto_MiniEventGoalTypeEnhanceRare:
     case MiniEventGoalProto_MiniEventGoalTypeEnhanceSuper:

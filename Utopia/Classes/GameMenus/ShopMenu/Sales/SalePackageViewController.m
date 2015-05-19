@@ -21,9 +21,13 @@
   RewardProto *reward = display.reward;
   
   if (reward.typ == RewardProto_RewardTypeGems) {
-    self.nameLabel.text = [NSString stringWithFormat:@"%@ Gems", [Globals commafyNumber:reward.amt]];
+    self.nameLabel.text = [NSString stringWithFormat:@"%@ %@", [Globals commafyNumber:reward.amt], [Globals stringForResourceType:ResourceTypeGems]];
     self.quantityLabel.text = [NSString stringWithFormat:@"x1"];
     imgName = @"diamond.png";
+  } else if (reward.typ == RewardProto_RewardTypeGachaCredits) {
+    self.nameLabel.text = [NSString stringWithFormat:@"%@ %@", [Globals commafyNumber:reward.amt], [Globals stringForResourceType:ResourceTypeGachaCredits]];
+    self.quantityLabel.text = [NSString stringWithFormat:@"x1"];
+    imgName = @"grabchip.png";
   } else if (reward.typ == RewardProto_RewardTypeItem) {
     ItemProto *ip = [gs itemForId:reward.staticDataId];
     self.nameLabel.text = ip.name;
@@ -64,6 +68,17 @@ static NSString *nibName = @"SalePackageCell";
 - (id) initWithSalePackageProto:(SalesPackageProto *)spp {
   if ((self = [super init])) {
     _sale = spp;
+    
+    NSMutableArray *saleDisplayItems = [_sale.sdipList mutableCopy];
+    GameState *gs = [GameState sharedGameState];
+    // If user already owns an item of type ItemTypeGachaMultiSpin and
+    // this sales package contains this item, do not display it
+    if ([gs.itemUtil getItemsForType:ItemTypeGachaMultiSpin].count > 0) {
+      for (SalesDisplayItemProto *sdip in saleDisplayItems)
+        if (sdip.reward.typ == RewardProto_RewardTypeItem && [gs itemForId:sdip.reward.staticDataId].itemType == ItemTypeGachaMultiSpin)
+          [saleDisplayItems removeObject:sdip];
+    }
+    _saleDisplayItems = [NSArray arrayWithArray:saleDisplayItems];
   }
   return self;
 }
@@ -102,7 +117,7 @@ static NSString *nibName = @"SalePackageCell";
 #else
   NSString *debugStr = @"";
 #endif
-  self.numItemsLabel.text = [NSString stringWithFormat:@"%@INCLUDES THESE %d ITEMS!", debugStr, (int)_sale.sdipList.count];
+  self.numItemsLabel.text = [NSString stringWithFormat:@"%@INCLUDES THESE %d ITEMS!", debugStr, (int)_saleDisplayItems.count];
   
   if (_sale.titleColor.length > 0) {
     self.numItemsLabel.textColor = [UIColor colorWithHexString:_sale.titleColor];
@@ -269,13 +284,13 @@ static float timePerRotation = 0.08;
 #pragma mark - Collection View Data Source/Delegate
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return _sale.sdipList.count;
+  return _saleDisplayItems.count;
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   SalePackageCell *cell = [tableView dequeueReusableCellWithIdentifier:nibName forIndexPath:indexPath];
   
-  [cell updateForDisplayItem:_sale.sdipList[indexPath.row] isSpecial:indexPath.row == 0];
+  [cell updateForDisplayItem:_saleDisplayItems[indexPath.row] isSpecial:indexPath.row == 0];
   
   return cell;
 }

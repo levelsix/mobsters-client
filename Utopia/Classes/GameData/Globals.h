@@ -225,6 +225,10 @@
 @property (nonatomic, assign) int tournamentFleesWeight;
 @property (nonatomic, assign) int tournamentNumHrsToDisplayAfterEnd;
 
+// Booster Pack Constants
+@property (nonatomic, assign) int32_t boosterPackPurchaseAmountRequired;
+@property (nonatomic, assign) int32_t boosterPackNumberOfPacksGiven;
+
 @property (nonatomic, retain) NSDictionary *productIdsToPackages;
 @property (nonatomic, retain) NSArray *iapPackages;
 
@@ -243,6 +247,7 @@
 - (void) updateInAppPurchases;
 - (void) updateConstants:(StartupResponseProto_StartupConstants *)constants;
 - (SalesPackageProto *) builderPackSale;
+- (SalesPackageProto *) highRollerModeSale;
 - (InAppPurchasePackageProto *) moneyTreeIapPackage;
 
 + (NSString *) font;

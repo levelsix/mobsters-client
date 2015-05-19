@@ -31,18 +31,23 @@
     }
       break;
     case RewardProto_RewardTypeGems:
-      name  = [NSString stringWithFormat:@"%@ Gems", [Globals commafyNumber:rewardProto.amt]];
+      name  = [NSString stringWithFormat:@"%@ %@", [Globals commafyNumber:rewardProto.amt], [Globals stringForResourceType:ResourceTypeGems]];
       icon  = @"diamond.png";
       count = @"x1";
       break;
     case RewardProto_RewardTypeCash:
-      name  = [NSString stringWithFormat:@"%@ Cash", [Globals commafyNumber:rewardProto.amt]];
+      name  = [NSString stringWithFormat:@"%@ %@", [Globals commafyNumber:rewardProto.amt], [Globals stringForResourceType:ResourceTypeCash]];
       icon  = @"moneystack.png";
       count = @"x1";
       break;
     case RewardProto_RewardTypeOil:
-      name  = [NSString stringWithFormat:@"%@ Oil", [Globals commafyNumber:rewardProto.amt]];
+      name  = [NSString stringWithFormat:@"%@ %@", [Globals commafyNumber:rewardProto.amt], [Globals stringForResourceType:ResourceTypeOil]];
       icon  = @"oilicon.png";
+      count = @"x1";
+      break;
+    case RewardProto_RewardTypeGachaCredits:
+      name  = [NSString stringWithFormat:@"%@ %@", [Globals commafyNumber:rewardProto.amt], [Globals stringForResourceType:ResourceTypeGachaCredits]];
+      icon  = @"grabchip.png";
       count = @"x1";
       break;
     case RewardProto_RewardTypeMonster:

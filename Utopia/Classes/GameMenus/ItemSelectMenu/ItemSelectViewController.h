@@ -54,6 +54,8 @@
 - (BOOL) canCloseOnFullBar;
 
 @optional
+
+- (BOOL) wantsProgressBar;
 - (TimerProgressBarColor) progressBarColor;
 - (NSString *) progressBarText;
 - (float) progressBarPercent;
@@ -75,6 +77,8 @@
 @property (nonatomic, weak) id<ItemSelectDelegate> delegate;
 
 @property (strong, nonatomic) NSTimer *updateTimer;
+
+@property (nonatomic, retain) UIView *footerView;
 
 - (void) reloadDataAnimated:(BOOL)animated;
 - (void) reloadData;
