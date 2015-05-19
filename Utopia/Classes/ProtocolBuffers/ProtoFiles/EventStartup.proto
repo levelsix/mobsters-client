@@ -10,6 +10,7 @@ import "City.proto";
 import "Clan.proto";
 import "InAppPurchase.proto";
 import "Item.proto";
+import "LeaderBoard.proto";
 import "MiniEvent.proto";
 import "MiniJobConfig.proto";
 import "MonsterStuff.proto";
@@ -148,7 +149,8 @@ message StartupResponseProto {
 
 	optional DefaultLanguagesProto userDefaultLanguages = 53;
 	
-	repeated UserClanGiftProto userClanGifts = 500; 
+	repeated UserClanGiftProto userClanGifts = 500;
+	repeated StrengthLeaderBoardProto topStrengthLeaderBoards = 501; 
 	
 	//repeated LockBoxEventProto lockBoxEvents = ;
 	//repeated UserLockBoxEventProto userLockBoxEvents = ;

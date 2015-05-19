@@ -11,6 +11,7 @@
 #import "Clan.pb.h"
 #import "InAppPurchase.pb.h"
 #import "Item.pb.h"
+#import "LeaderBoard.pb.h"
 #import "MiniEvent.pb.h"
 #import "MiniJobConfig.pb.h"
 #import "MonsterStuff.pb.h"
@@ -277,6 +278,8 @@
 @class StaticDataProto_Builder;
 @class StaticUserLevelInfoProto;
 @class StaticUserLevelInfoProto_Builder;
+@class StrengthLeaderBoardProto;
+@class StrengthLeaderBoardProto_Builder;
 @class StructureInfoProto;
 @class StructureInfoProto_Builder;
 @class TaskMapElementProto;
@@ -647,6 +650,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   NSMutableArray * mutableUserClanInfoList;
   NSMutableArray * mutableUserQuestsList;
   NSMutableArray * mutableUserClanGiftsList;
+  NSMutableArray * mutableTopStrengthLeaderBoardsList;
 }
 - (BOOL) hasServerTimeMillis;
 - (BOOL) hasSender;
@@ -721,6 +725,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @property (readonly, strong) UserMiniEventProto* userMiniEvent;
 @property (readonly, strong) DefaultLanguagesProto* userDefaultLanguages;
 @property (readonly, strong) NSArray * userClanGiftsList;
+@property (readonly, strong) NSArray * topStrengthLeaderBoardsList;
 - (FullUserQuestProto*)userQuestsAtIndex:(NSUInteger)index;
 - (int32_t)redeemedQuestIdsAtIndex:(NSUInteger)index;
 - (FullUserClanProto*)userClanInfoAtIndex:(NSUInteger)index;
@@ -756,6 +761,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (UserResearchProto*)userResearchsAtIndex:(NSUInteger)index;
 - (SalesPackageProto*)salesPackagesAtIndex:(NSUInteger)index;
 - (UserClanGiftProto*)userClanGiftsAtIndex:(NSUInteger)index;
+- (StrengthLeaderBoardProto*)topStrengthLeaderBoardsAtIndex:(NSUInteger)index;
 
 + (StartupResponseProto*) defaultInstance;
 - (StartupResponseProto*) defaultInstance;
@@ -2922,6 +2928,12 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_Builder *)addUserClanGifts:(UserClanGiftProto*)value;
 - (StartupResponseProto_Builder *)addAllUserClanGifts:(NSArray *)array;
 - (StartupResponseProto_Builder *)clearUserClanGifts;
+
+- (NSMutableArray *)topStrengthLeaderBoardsList;
+- (StrengthLeaderBoardProto*)topStrengthLeaderBoardsAtIndex:(NSUInteger)index;
+- (StartupResponseProto_Builder *)addTopStrengthLeaderBoards:(StrengthLeaderBoardProto*)value;
+- (StartupResponseProto_Builder *)addAllTopStrengthLeaderBoards:(NSArray *)array;
+- (StartupResponseProto_Builder *)clearTopStrengthLeaderBoards;
 @end
 
 @interface ForceLogoutResponseProto : PBGeneratedMessage {

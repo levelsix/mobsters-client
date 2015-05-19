@@ -22,6 +22,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [ClanRoot registerAllExtensions:registry];
     [InAppPurchaseRoot registerAllExtensions:registry];
     [ItemRoot registerAllExtensions:registry];
+    [LeaderBoardRoot registerAllExtensions:registry];
     [MiniEventRoot registerAllExtensions:registry];
     [MiniJobConfigRoot registerAllExtensions:registry];
     [MonsterStuffRoot registerAllExtensions:registry];
@@ -988,6 +989,7 @@ static StartupRequestProto_VersionNumberProto* defaultStartupRequestProto_Versio
 @property (strong) UserMiniEventProto* userMiniEvent;
 @property (strong) DefaultLanguagesProto* userDefaultLanguages;
 @property (strong) NSMutableArray * mutableUserClanGiftsList;
+@property (strong) NSMutableArray * mutableTopStrengthLeaderBoardsList;
 @end
 
 @implementation StartupResponseProto
@@ -1200,6 +1202,8 @@ static StartupRequestProto_VersionNumberProto* defaultStartupRequestProto_Versio
 @synthesize userDefaultLanguages;
 @synthesize mutableUserClanGiftsList;
 @dynamic userClanGiftsList;
+@synthesize mutableTopStrengthLeaderBoardsList;
+@dynamic topStrengthLeaderBoardsList;
 - (id) init {
   if ((self = [super init])) {
     self.serverTimeMillis = 0L;
@@ -1446,6 +1450,12 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
 - (UserClanGiftProto*)userClanGiftsAtIndex:(NSUInteger)index {
   return [mutableUserClanGiftsList objectAtIndex:index];
 }
+- (NSArray *)topStrengthLeaderBoardsList {
+  return mutableTopStrengthLeaderBoardsList;
+}
+- (StrengthLeaderBoardProto*)topStrengthLeaderBoardsAtIndex:(NSUInteger)index {
+  return [mutableTopStrengthLeaderBoardsList objectAtIndex:index];
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -1623,6 +1633,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   [self.userClanGiftsList enumerateObjectsUsingBlock:^(UserClanGiftProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:500 value:element];
+  }];
+  [self.topStrengthLeaderBoardsList enumerateObjectsUsingBlock:^(StrengthLeaderBoardProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:501 value:element];
   }];
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -1821,6 +1834,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   [self.userClanGiftsList enumerateObjectsUsingBlock:^(UserClanGiftProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(500, element);
+  }];
+  [self.topStrengthLeaderBoardsList enumerateObjectsUsingBlock:^(StrengthLeaderBoardProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(501, element);
   }];
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -2145,6 +2161,12 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }];
+  [self.topStrengthLeaderBoardsList enumerateObjectsUsingBlock:^(StrengthLeaderBoardProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"topStrengthLeaderBoards"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -2229,6 +2251,7 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
       self.hasUserDefaultLanguages == otherMessage.hasUserDefaultLanguages &&
       (!self.hasUserDefaultLanguages || [self.userDefaultLanguages isEqual:otherMessage.userDefaultLanguages]) &&
       [self.userClanGiftsList isEqualToArray:otherMessage.userClanGiftsList] &&
+      [self.topStrengthLeaderBoardsList isEqualToArray:otherMessage.topStrengthLeaderBoardsList] &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -2393,6 +2416,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
     hashCode = hashCode * 31 + [self.userDefaultLanguages hash];
   }
   [self.userClanGiftsList enumerateObjectsUsingBlock:^(UserClanGiftProto *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  [self.topStrengthLeaderBoardsList enumerateObjectsUsingBlock:^(StrengthLeaderBoardProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
   hashCode = hashCode * 31 + [self.unknownFields hash];
@@ -11431,6 +11457,13 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
       [result.mutableUserClanGiftsList addObjectsFromArray:other.mutableUserClanGiftsList];
     }
   }
+  if (other.mutableTopStrengthLeaderBoardsList.count > 0) {
+    if (result.mutableTopStrengthLeaderBoardsList == nil) {
+      result.mutableTopStrengthLeaderBoardsList = [[NSMutableArray alloc] initWithArray:other.mutableTopStrengthLeaderBoardsList];
+    } else {
+      [result.mutableTopStrengthLeaderBoardsList addObjectsFromArray:other.mutableTopStrengthLeaderBoardsList];
+    }
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -11793,6 +11826,12 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
         UserClanGiftProto_Builder* subBuilder = [UserClanGiftProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addUserClanGifts:[subBuilder buildPartial]];
+        break;
+      }
+      case 4010: {
+        StrengthLeaderBoardProto_Builder* subBuilder = [StrengthLeaderBoardProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addTopStrengthLeaderBoards:[subBuilder buildPartial]];
         break;
       }
     }
@@ -13106,6 +13145,30 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
 }
 - (StartupResponseProto_Builder *)clearUserClanGifts {
   result.mutableUserClanGiftsList = nil;
+  return self;
+}
+- (NSMutableArray *)topStrengthLeaderBoardsList {
+  return result.mutableTopStrengthLeaderBoardsList;
+}
+- (StrengthLeaderBoardProto*)topStrengthLeaderBoardsAtIndex:(NSUInteger)index {
+  return [result topStrengthLeaderBoardsAtIndex:index];
+}
+- (StartupResponseProto_Builder *)addTopStrengthLeaderBoards:(StrengthLeaderBoardProto*)value {
+  if (result.mutableTopStrengthLeaderBoardsList == nil) {
+    result.mutableTopStrengthLeaderBoardsList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableTopStrengthLeaderBoardsList addObject:value];
+  return self;
+}
+- (StartupResponseProto_Builder *)addAllTopStrengthLeaderBoards:(NSArray *)array {
+  if (result.mutableTopStrengthLeaderBoardsList == nil) {
+    result.mutableTopStrengthLeaderBoardsList = [NSMutableArray array];
+  }
+  [result.mutableTopStrengthLeaderBoardsList addObjectsFromArray:array];
+  return self;
+}
+- (StartupResponseProto_Builder *)clearTopStrengthLeaderBoards {
+  result.mutableTopStrengthLeaderBoardsList = nil;
   return self;
 }
 @end

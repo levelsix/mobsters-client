@@ -142,15 +142,12 @@ static NSString* const kSkillMiniLogoImageNameSuffix = @"minilogo.png";
 - (void) showSkillPopupAilmentOverlay:(NSString*)topText bottomText:(NSString*)bottomText;
 - (void) showSkillPopupAilmentOverlay:(NSString*)topText bottomText:(NSString*)bottomText priority:(int)priority;
 - (void) showSkillPopupAilmentOverlay:(BOOL)jumpFirst topText:(NSString*)topText bottomText:(NSString*)bottomText priority:(int)priority withCompletion:(SkillPopupBlock)completion;
-- (void) showAntidotePopupOverlay:(BattleItemProto*)antidote bottomText:(NSString*)bottomText;
 - (void) makeSkillOwnerJumpWithTarget:(id)target selector:(SEL)completion;
-- (void) enqueueSkillPopup:(SkillPopupData*)skillPopupData;
 - (int) skillStacks;
 
 - (void) enqueueSkillPopupMiniOverlay:(NSString*)bottomText;
 - (void) enqueueSkillPopupAilmentOverlay:(NSString*)topText bottomText:(NSString*)bottomText;
 - (void) enqueueSkillPopupAilmentOverlay:(NSString*)topText bottomText:(NSString*)bottomText priority:(int)priority;
-- (void) showCurrentSkillPopup;
 
 // Serialization
 - (NSDictionary*) serialize;
