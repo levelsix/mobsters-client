@@ -121,6 +121,8 @@
 - (void) queueUpForClanAvenge:(PvpClanAvenging *)ca delegate:(id)delegate;
 - (void) endClanAvengings:(NSArray *)clanAvengings;
 
+- (void) viewBattleReplay:(NSString*)replayUuid;
+
 - (BOOL) removeMonsterFromTeam:(NSString *)userMonsterUuid;
 - (BOOL) addMonsterToTeam:(NSString *)userMonsterUuid preferableSlot:(int)preferableSlot;
 - (void) increaseInventorySlots:(UserStruct *)us withGems:(BOOL)gems delegate:(id)delegate;

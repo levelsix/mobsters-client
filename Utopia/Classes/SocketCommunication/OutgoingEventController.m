@@ -2373,6 +2373,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   gs.myPvpBoardObstacles = newLocalObstacleList;
 }
 
+#pragma mark - Replays
+
+- (void)viewBattleReplay:(NSString *)replayUuid {
+#warning Rob's stub
+}
+
 #pragma mark - Team
 
 - (BOOL) removeMonsterFromTeam:(NSString *)userMonsterUuid {
@@ -3737,5 +3743,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [gs addUnrespondedUpdates:gu, nil];
 #endif
 }
+
+
 
 @end
