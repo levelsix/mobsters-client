@@ -17,12 +17,19 @@
   
   NSMutableArray *_combatSteps;
   
+  NSArray *_battleSpeeds;
+  int _battleSpeedIndex;
+  
 }
 
 @property (readonly, getter=getCurrStep) CombatReplayStepProto* currStep;
 
+@property (readonly, getter=getBattleSpeed) float battleSpeed;
+
 - (id) initWithReplay:(CombatReplayProto*)replay;
 
 - (CombatReplayStepProto*)getCurrStep;
+
+- (float) getBattleSpeed;
 
 @end

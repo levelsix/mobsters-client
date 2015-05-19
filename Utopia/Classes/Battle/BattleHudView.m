@@ -227,10 +227,10 @@
   [self removeDeployView];
   if (!_replayMode) {
     self.forfeitButtonView.hidden = YES;
+    [self disableItemsView];
   }
   self.elementButton.hidden = YES;
   [self.elementView close];
-  [self disableItemsView];
 }
 
 - (void) prepareForMyTurn {
@@ -246,6 +246,17 @@
   _replayMode = YES;
   [self.forfeitButtonLabel setText:@"Exit"];
   self.forfeitButtonView.hidden = NO;
+  
+  [self enableItemsView];
+  self.itemsView.hidden = NO;
+  self.itemsBag.hidden = YES;
+  self.itemsBadge.hidden = YES;
+  [self.itemsButtonLabel setText:@"Speed"];
+  self.replaySpeedLabel.hidden = NO;
+}
+
+- (void) setReplaySpeedLabelValue:(float)val {
+  [self.replaySpeedLabel setText:[NSString stringWithFormat:@"%gx", val]];
 }
 
 #define ANIMATION_TIME 0.4f

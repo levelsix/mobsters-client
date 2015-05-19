@@ -181,6 +181,15 @@
                                     <color key="shadowColor" red="0.52941176469999995" green="0.98431372549999996" blue="1" alpha="0.80000000000000004" colorSpace="deviceRGB"/>
                                     <size key="shadowOffset" width="0.0" height="1"/>
                                 </label>
+                                <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="1x" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="mCh-76-llK" customClass="NiceFontLabel12">
+                                    <rect key="frame" x="12" y="12" width="42" height="21"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                    <color key="textColor" red="0.015686274510000001" green="0.33725490200000002" blue="0.39607843139999999" alpha="1" colorSpace="deviceRGB"/>
+                                    <nil key="highlightedColor"/>
+                                    <color key="shadowColor" red="0.52941176469999995" green="0.98431372549999996" blue="1" alpha="0.80000000000000004" colorSpace="deviceRGB"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
                                 <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="itemsbag.png" id="e1a-4E-RGP">
                                     <rect key="frame" x="23" y="12" width="19" height="19"/>
                                     <autoresizingMask key="autoresizingMask"/>
@@ -229,7 +238,9 @@
                 <outlet property="forfeitButtonView" destination="Sb3-AQ-Vv6" id="KnX-Jx-Ekp"/>
                 <outlet property="itemsBag" destination="e1a-4E-RGP" id="Vjg-hr-qZd"/>
                 <outlet property="itemsButton" destination="PxL-nR-dyX" id="xvn-22-Bse"/>
+                <outlet property="itemsButtonLabel" destination="0mO-Ni-v04" id="dXl-r5-qCv"/>
                 <outlet property="itemsView" destination="VIj-h8-c7b" id="eNR-UB-4R5"/>
+                <outlet property="replaySpeedLabel" destination="mCh-76-llK" id="4R7-EF-PCd"/>
                 <outlet property="skillPopupCloseButton" destination="iiz-CX-JJj" id="fWe-9w-v4G"/>
                 <outlet property="skillPopupView" destination="I1U-bx-Yrm" id="NvE-0l-DNe"/>
                 <outlet property="swapLabel" destination="lFh-3Z-5Um" id="sjd-w7-Vub"/>

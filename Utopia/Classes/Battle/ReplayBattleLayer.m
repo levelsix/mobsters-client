@@ -19,14 +19,16 @@
 #define DELAY_KEY @"DELAY"
 #define SWAP_TOON_KEY @"SWAP_TOON"
 
-#define TIME_SCALE 1.f
-
 @implementation ReplayBattleLayer
 
 #pragma mark - Setup
 
 - (id) initWithReplay:(CombatReplayProto *)replay {
   _replay = replay;
+  
+  _battleSpeeds = @[ @1.f, @2.f, @3.f ];
+  _battleSpeedIndex = 0;
+  [self resetTimeScale];
   
   NSMutableArray *myteam = [NSMutableArray array];
   for (CombatReplayMonsterSnapshot *crms in replay.playerTeamList) {
@@ -49,8 +51,6 @@
   [self downloadAllImages];
   
   [self.mainView.hudView activateReplayMode];
-  
-  [[[CCDirector sharedDirector] scheduler] setTimeScale:TIME_SCALE];
   
   return self;
 }
@@ -166,7 +166,7 @@
   
   BattleState *playerMove = [BattleState stateWithName:@"Player Move" andType:CombatReplayStepTypePlayerMove];
   [playerMove setDidEnterStateBlock:^(TKState *state, TKTransition *transition) {
-    [self performBlockAfterDelay:.5/TIME_SCALE block:^{
+    [self performBlockAfterDelay:.5 / self.battleSpeed block:^{
       [self startMyMove];
     }];
   }];
@@ -231,6 +231,23 @@
   
 }
 
+#pragma mark - Time Controls
+
+- (float)getBattleSpeed {
+  return [(NSNumber*)_battleSpeeds[_battleSpeedIndex] floatValue];
+}
+
+- (void)resetTimeScale {
+  [[[CCDirector sharedDirector] scheduler] setTimeScale:self.battleSpeed];
+  [self.mainView.hudView setReplaySpeedLabelValue:self.battleSpeed];
+}
+
+- (void)nextTimeScale {
+  if (++_battleSpeedIndex >= [_battleSpeeds count])
+    _battleSpeedIndex = 0;
+  [self resetTimeScale];
+}
+
 #pragma mark - State Machine Stepping
 
 - (void)fireEvent:(TKEvent *)event userInfo:(NSDictionary *)userInfo error:(NSError *__autoreleasing *)error {
@@ -246,6 +263,7 @@
 }
 
 - (void)startMyMove {
+  [self.orbLayer.bgdLayer turnTheLightsOn];
   if (self.currStep.hasItemId) {
     [self useBattleItem];
   } else if (self.currStep.hasMovePos1 && self.currStep.hasMovePos2) {
@@ -383,6 +401,10 @@
 
 #pragma mark - Overrides
 
+- (void)itemsClicked:(id)sender{
+  [self nextTimeScale];
+}
+
 //Override Share button to be a restart replay button
 - (void)shareClicked:(id)sender{
   [self exitFinal];
@@ -418,13 +440,19 @@
 }
 
 - (void) youWon {
+  _battleSpeedIndex = 0;
+  [self resetTimeScale];
+  [self.mainView.hudView disableItemsView];
   [super youWon];
-  //[self.endView updateForRewards:[Reward createRewardsForReplay:_replay tillStage:(int)_replay.enemyTeamList.count droplessStageNums:self.droplessStageNums attackerVictory:YES] isWin:YES allowsContinue:NO continueCost:0];
+  [self.endView updateForRewards:[Reward createRewardsForReplay:_replay tillStage:(int)_replay.enemyTeamList.count droplessStageNums:self.droplessStageNums attackerVictory:YES] isWin:YES allowsContinue:NO continueCost:0];
 }
 
 - (void) youLost {
+  _battleSpeedIndex = 0;
+  [self resetTimeScale];
+  [self.mainView.hudView disableItemsView];
   [super youLost];
-  //[self.endView updateForRewards:[Reward createRewardsForReplay:_replay tillStage:self.enemyPlayerObject.slotNum droplessStageNums:self.droplessStageNums attackerVictory:NO] isWin:NO allowsContinue:NO continueCost:0];
+  [self.endView updateForRewards:[Reward createRewardsForReplay:_replay tillStage:self.enemyPlayerObject.slotNum droplessStageNums:self.droplessStageNums attackerVictory:NO] isWin:NO allowsContinue:NO continueCost:0];
 }
 
 - (void)displayDeployViewAndIsCancellable:(BOOL)cancel {

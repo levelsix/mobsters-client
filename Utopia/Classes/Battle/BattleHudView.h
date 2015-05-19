@@ -90,7 +90,9 @@
 @property (nonatomic, retain) IBOutlet UIButton *itemsButton;
 @property (nonatomic, retain) IBOutlet UIImageView *itemsBag;
 @property (nonatomic, retain) IBOutlet THLabel *itemsLabel;
+@property (nonatomic, retain) IBOutlet UILabel *itemsButtonLabel;
 @property (nonatomic, retain) IBOutlet BadgeIcon *itemsBadge;
+@property (nonatomic, retain) IBOutlet UILabel *replaySpeedLabel;
 
 @property (nonatomic, retain) IBOutlet UIButton *elementButton;
 @property (nonatomic, retain) IBOutlet BattleElementView *elementView;
@@ -115,6 +117,7 @@
 - (void) removeButtons;
 - (void) prepareForMyTurn;
 - (void) activateReplayMode;
+- (void) setReplaySpeedLabelValue:(float)val;
 
 - (IBAction) hideSkillPopup:(id)sender;
 
