@@ -39,26 +39,26 @@
 - (void) viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
   
-  NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
-  BOOL loading = [def boolForKey:FIRST_TIME_DEFAULTS_KEY];
-  NSString *bgd = nil;
-  if (!loading) {
-    [def setBool:YES forKey:FIRST_TIME_DEFAULTS_KEY];
-    
-    bgd = @"1splashbg.png";
-  } else {
-    bgd = [NSString stringWithFormat:@"%dsplashbg.png", (arc4random()%6)+1];
-  }
-  
-  [Globals imageNamed:bgd withView:self.bgdImageView greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-  
-  if (![Globals isSmallestiPhone]) {
-    self.fgdImageView.image = [Globals imageNamed:@"splashguyswide.png"];
-  }
-  
-  if (self.view.width >= self.mainView.width) {
-    self.mainView.center = ccp(self.view.width/2, self.view.height/2);
-  }
+//  NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+//  BOOL loading = [def boolForKey:FIRST_TIME_DEFAULTS_KEY];
+//  NSString *bgd = nil;
+//  if (!loading) {
+//    [def setBool:YES forKey:FIRST_TIME_DEFAULTS_KEY];
+//    
+//    bgd = @"1splashbg.png";
+//  } else {
+//    bgd = [NSString stringWithFormat:@"%dsplashbg.png", (arc4random()%6)+1];
+//  }
+//  
+//  [Globals imageNamed:bgd withView:self.bgdImageView greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+//  
+//  if (![Globals isSmallestiPhone]) {
+//    self.fgdImageView.image = [Globals imageNamed:@"splashguyswide.png"];
+//  }
+//  
+//  if (self.view.width >= self.mainView.width) {
+//    self.mainView.center = ccp(self.view.width/2, self.view.height/2);
+//  }
   
   self.tipLabel.text = [Globals getRandomTipFromFile:@"tips"];
 }

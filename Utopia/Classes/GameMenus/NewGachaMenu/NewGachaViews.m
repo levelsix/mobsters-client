@@ -845,6 +845,7 @@ typedef void (^RevealAnimCompletionBlock)(void);
       ? ((UIViewController*)self.delegate).view
       : [UIApplication sharedApplication].keyWindow.rootViewController.view;
     [self.delegate skillTapped:self.offensiveSkill
+                     offensive:YES
                        element:_curMonsterElement
                       position:[self.offensiveSkillView.superview convertPoint:CGPointMake(self.offensiveSkillView.centerX, self.offensiveSkillView.originY) toView:parent]];
   }
@@ -858,6 +859,7 @@ typedef void (^RevealAnimCompletionBlock)(void);
       ? ((UIViewController*)self.delegate).view
       : [UIApplication sharedApplication].keyWindow.rootViewController.view;
     [self.delegate skillTapped:self.defensiveSkill
+                     offensive:NO
                        element:_curMonsterElement
                       position:[self.defensiveSkillView.superview convertPoint:CGPointMake(self.defensiveSkillView.centerX, self.defensiveSkillView.originY) toView:parent]];
   }

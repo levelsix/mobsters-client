@@ -1069,7 +1069,7 @@
 
 #pragma mark - Featured View
 
-- (void) skillTapped:(SkillProto*)skill element:(Element)element position:(CGPoint)pos
+- (void) skillTapped:(SkillProto*)skill offensive:(BOOL)offensive element:(Element)element position:(CGPoint)pos
 {
   NSString *bgName = [NSString stringWithFormat:@"%@.png", [Globals imageNameForElement:element suffix:@"skilldescription"]];
   NSString *orbImage = nil, *orbDesc = nil;
@@ -1083,7 +1083,7 @@
   }
   
   [self.skillPopup displayWithSkillName:skill.name
-                            description:[SkillProtoHelper offDescForSkill:skill]
+                            description:offensive ? [SkillProtoHelper offDescForSkill:skill] : [SkillProtoHelper defDescForSkill:skill]
                            counterLabel:nil
                          orbDescription:orbDesc
                         backgroundImage:bgName

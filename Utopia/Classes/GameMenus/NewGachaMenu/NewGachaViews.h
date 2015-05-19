@@ -101,7 +101,7 @@
 
 @protocol NewGachaFeaturedViewCallbackDelegate <NSObject>
 
-- (void) skillTapped:(SkillProto*)skill element:(Element)element position:(CGPoint)pos;
+- (void) skillTapped:(SkillProto*)skill offensive:(BOOL)offensive element:(Element)element position:(CGPoint)pos;
 
 @end
 
