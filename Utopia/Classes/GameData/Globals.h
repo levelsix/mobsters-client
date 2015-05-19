@@ -388,11 +388,12 @@
 + (NSString *) bazaarQuestGiverName;
 + (NSString *) homeQuestGiverName;
 
++ (void) createPulsingUIArrowForView:(UIView *)view atAngle:(float)angle;
 + (void) animateUIArrow:(UIView *)arrow atAngle:(float)angle;
 + (void) createUIArrowForView:(UIView *)view atAngle:(float)angle;
-+ (void) createUIArrowForView:(UIView *)view atAngle:(float)angle inSuperview:(UIView *)sv;
++ (void) createUIArrowForView:(UIView *)view atAngle:(float)angle inSuperview:(UIView *)sv pulseAlpha:(BOOL)pulseAlpha;
 + (void) removeUIArrowFromViewRecursively:(UIView *)view;
-+ (void) animateCCArrow:(CCNode *)arrow atAngle:(float)angle;
++ (void) animateCCArrow:(CCNode *)arrow atAngle:(float)angle pulseAlpha:(BOOL)pulse;
 
 + (void) animateStartView:(UIView *)startView toEndView:(UIView *)endView fakeStartView:(UIView *)fakeStart fakeEndView:(UIView *)fakeEnd;
 + (void) animateStartView:(UIView *)startView toEndView:(UIView *)endView fakeStartView:(UIView *)fakeStart fakeEndView:(UIView *)fakeEnd hideStartView:(BOOL)hideStartView hideEndView:(BOOL)hideEndView completion:(dispatch_block_t)completion;

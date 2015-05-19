@@ -27,8 +27,10 @@
 - (NSString *) iconText;
 
 - (GameActionType) gameActionType;
+
 @optional
 - (Quality) quality;
+- (ItemType) itemType;
 
 @end
 

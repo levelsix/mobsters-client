@@ -21,7 +21,7 @@
 @property (nonatomic, assign) IBOutlet UIImageView *nextArrowButton;
 @property (nonatomic, assign) IBOutlet THLabel *rankTotal;
 @property (nonatomic, assign) IBOutlet THLabel *selectionTitle;
-@property (nonatomic, assign) IBOutlet UILabel *selectionDescription;
+@property (nonatomic, assign) IBOutlet THLabel *selectionDescription;
 @property (nonatomic, assign) IBOutlet UIButton *barButton;
 
 @property (nonatomic, weak) id<ResearchSelectionBarDelegate> delegate;
@@ -80,6 +80,8 @@
   
   ResearchButtonView *_lastClicked;
   UserResearch *_selectedResearch;
+  
+  UserResearch *_preSelectResearch;
 }
 
 @property (nonatomic, assign) IBOutlet UIView *contentView;
@@ -89,5 +91,5 @@
 @property (nonatomic, assign) IBOutlet ResearchSelectionBarView *selectFieldView;
 
 - (id) initWithDomain:(ResearchDomain)domain;
-
+- (void) selectResearch:(UserResearch *)userResearch;
 @end

@@ -35,6 +35,8 @@
 #import "MiniEventViewController.h"
 #import "SpriteAnimationImageView.h"
 
+#define EARLY_TUTORIAL_STAGES_COMPLETE_LIMIT 3
+
 @implementation TopBarMonsterView
 
 - (void) awakeFromNib {
@@ -172,6 +174,8 @@
   [center addObserver:self selector:@selector(updateBuildersLabel) name:OBSTACLE_COMPLETE_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(updateBuildersLabel) name:IAP_SUCCESS_NOTIFICATION object:nil];
   [self updateBuildersLabel];
+  
+  [center addObserver:self selector:@selector(updateSaleView) name:ACHIEVEMENTS_CHANGED_NOTIFICATION object:nil];
   
   [center addObserver:self selector:@selector(updateMiniEventView) name:MINI_EVENT_IS_AVAILABLE_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(updateMiniEventView) name:MINI_EVENT_TIER_REWARD_AVAILABLE_OR_REDEEMED_NOTIFICATION object:nil];
@@ -679,9 +683,17 @@
 
 - (void) updateSaleView {
   GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
   SalesPackageProto *spp = [gs.mySales firstObject];
   
-  if (spp.hasAnimatingIcon) {
+  NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+  int numOpens = (int)[def integerForKey:APP_OPEN_KEY];
+  
+  UserAchievement *ua = gs.myAchievements[[gl.clanRewardAchievementIds lastObject]];
+  
+  BOOL meetsRequirements = numOpens > 1 || gs.tasksCompleted > EARLY_TUTORIAL_STAGES_COMPLETE_LIMIT || ua.isRedeemed;
+  
+  if (spp.hasAnimatingIcon && meetsRequirements) {
     self.saleView.hidden = NO;
     
     self.saleView.centerX = self.shopView.centerX;
@@ -950,6 +962,7 @@
   if ([Globals checkEnteringDungeon]) {
     GameViewController *gvc = (GameViewController *)self.parentViewController;
     AttackMapViewController *amvc = [[AttackMapViewController alloc] init];
+    [Globals removeUIArrowFromViewRecursively:self.view];
     amvc.delegate = gvc;
     [gvc addChildViewController:amvc];
     amvc.view.frame = gvc.view.bounds;
@@ -1188,6 +1201,11 @@
   _structIdForArrow = structId;
   [Globals removeUIArrowFromViewRecursively:self.view];
   [Globals createUIArrowForView:self.shopView atAngle:M_PI];
+}
+
+- (void) showArrowToAttackButton {
+  [Globals removeUIArrowFromViewRecursively:self.attackView.superview];
+  [Globals createPulsingUIArrowForView:self.attackView atAngle:M_PI_2];
 }
 
 - (void) sendShopViewAboveCoinBars:(ShopViewController *)svc {

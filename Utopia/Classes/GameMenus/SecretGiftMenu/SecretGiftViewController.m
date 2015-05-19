@@ -67,6 +67,14 @@
   }
   
   [SoundEngine secretGiftClicked];
+  
+  [[GameViewController baseController] clearTutorialArrows];
+}
+
+- (void) viewDidDisappear:(BOOL)animated {
+  [super viewDidDisappear:animated];
+  
+  [[GameViewController baseController] showEarlyGameTutorialArrow];
 }
 
 - (void) reload {

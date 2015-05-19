@@ -170,6 +170,8 @@
   } else {
     [self button2Clicked:nil];
   }
+  
+  [[GameViewController baseController] clearTutorialArrows];
 }
 
 - (void) viewWillLayoutSubviews {
@@ -193,6 +195,12 @@
   
   [_tickerController performCleanUp];
   _tickerController = nil;
+}
+
+- (void) viewDidDisappear:(BOOL)animated {
+  [super viewDidDisappear:animated];
+  
+  [[GameViewController baseController] showEarlyGameTutorialArrow];
 }
 
 - (void) layoutViews {

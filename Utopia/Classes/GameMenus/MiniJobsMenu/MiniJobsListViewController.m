@@ -648,6 +648,7 @@
     rif.delegate = self;
     svc.delegate = rif;
     self.itemSelectViewController = svc;
+    self.miniJobRefreshItemsFiller = rif;
     
     GameViewController *gvc = [GameViewController baseController];
     svc.view.frame = gvc.view.bounds;
@@ -682,7 +683,11 @@
     if (item.quantity > 0) {
       itemId = item.itemId;
     } else {
-      gems = [miniJobCenter itemGemPriceForItemId:item.staticItem.itemId];;
+      gems = [miniJobCenter itemGemPriceForItemId:item.staticItem.itemId];
+      if (gems > gs.gems) {
+        [GenericPopupController displayNotEnoughGemsView];
+        return;
+      }
     }
 
     itemQuality = item.quality;

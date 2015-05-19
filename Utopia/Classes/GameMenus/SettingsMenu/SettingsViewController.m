@@ -7,6 +7,7 @@
 //
 
 #import "SettingsViewController.h"
+#import "GameViewController.h"
 
 @implementation SettingsViewController
 

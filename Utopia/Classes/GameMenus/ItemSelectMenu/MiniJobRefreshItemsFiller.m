@@ -41,7 +41,7 @@
 }
 
 - (NSString *) titleName {
-  return @"REFRESH ITEMS";
+  return @"REFRESH MINI JOBS";
 }
 
 - (NSArray *) reloadItemsArray {

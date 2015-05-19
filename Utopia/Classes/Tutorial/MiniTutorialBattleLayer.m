@@ -120,7 +120,7 @@
        [self.endView.doneButton addChild:spr];
        spr.position = ccp(self.endView.doneButton.contentSize.width+spr.contentSize.width/2+5, self.endView.doneButton.contentSize.height/2);
        [spr runAction:[CCActionFadeIn actionWithDuration:0.4]];
-       [Globals animateCCArrow:spr atAngle:M_PI];
+       [Globals animateCCArrow:spr atAngle:M_PI pulseAlpha:NO];
      }], nil]];
 }
 

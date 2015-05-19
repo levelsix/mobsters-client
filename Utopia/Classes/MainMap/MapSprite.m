@@ -76,7 +76,7 @@
   [self recursivelyApplyColor:[CCColor colorWithCcColor3b:ccc3(255, 255, 255)]];
 }
 
-- (void) displayArrow {
+- (void) displayArrowWithPulsingAlpha:(BOOL)pulse {
   [self removeArrowAnimated:NO];
   _arrow = [CCSprite spriteWithImageNamed:@"arrow.png"];
   [self addChild:_arrow];
@@ -84,7 +84,7 @@
   _arrow.anchorPoint = ccp(0.5f, 0.f);
   _arrow.position = ccp(self.contentSize.width/2, self.contentSize.height+5.f);
   
-  [Globals animateCCArrow:_arrow atAngle:-M_PI_2];
+  [Globals animateCCArrow:_arrow atAngle:-M_PI_2 pulseAlpha:pulse];
 }
 
 - (void) removeArrowAnimated:(BOOL)animated {
@@ -92,7 +92,7 @@
     if (!animated) {
       [_arrow removeFromParentAndCleanup:YES];
     } else {
-      [_arrow runAction:[CCActionSequence actions:[CCActionFadeOut actionWithDuration:0.2f], [CCActionRemove action], nil]];
+      [_arrow runAction:[CCActionSequence actions:[CCActionFadeTo actionWithDuration:0.2f opacity:0.f], [CCActionRemove action], nil]];
     }
     _arrow = nil;
   }

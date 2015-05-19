@@ -9,6 +9,7 @@
 #import "AchievementsViewController.h"
 #import "Globals.h"
 #import "GameState.h"
+#import "GameViewController.h"
 #import "OutgoingEventController.h"
 
 #import "ChartboostDelegate.h"
@@ -74,12 +75,20 @@
 
 @implementation AchievementsViewController
 
+- (void) viewWillAppear:(BOOL)animated {
+  [super viewWillAppear:animated];
+  
+  [[GameViewController baseController] clearTutorialArrows];
+}
+
 - (void) viewDidDisappear:(BOOL)animated {
   [super viewDidDisappear:animated];
   
   if (_redeemedSomething) {
     [ChartboostDelegate fireAchievementRedeemed];
   }
+  
+  [[GameViewController baseController] showEarlyGameTutorialArrow];
 }
 
 - (void) reloadWithAchievements:(NSDictionary *)allAchievements userAchievements:(NSDictionary *)userAchievements {

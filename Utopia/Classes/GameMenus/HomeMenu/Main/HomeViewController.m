@@ -8,6 +8,7 @@
 
 #import "HomeViewController.h"
 #import "GameState.h"
+#import "GameViewController.h"
 
 #import "SellViewController.h"
 #import "EnhanceChooserViewController.h"
@@ -84,6 +85,18 @@
 }
 
 #pragma mark - View loading
+
+- (void) viewWillAppear:(BOOL)animated {
+  [super viewWillAppear:animated];
+  
+  [[GameViewController baseController] clearTutorialArrows];
+}
+
+- (void) viewDidDisappear:(BOOL)animated {
+  [super viewDidDisappear:animated];
+  
+  [[GameViewController baseController] showEarlyGameTutorialArrow];
+}
 
 - (void) viewDidLoad {
   [super viewDidLoad];
