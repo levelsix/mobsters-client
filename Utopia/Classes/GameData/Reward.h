@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #import "Protocols.pb.h"
+#import "Replay.pb.h"
 
 typedef enum {
   RewardTypeMonster = 1,

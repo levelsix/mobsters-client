@@ -171,23 +171,3 @@ enum SideEffectPositionType {
 enum SideEffectBlendMode {
 	NORMAL_FULL_OPACITY = 1;
 }
-
-enum SkillTriggerPoint {
-  ENEMY_INITIALIZED     	= 1;
-  PLAYER_INITIALIZED    	= 2;
-  ENEMY_APPEARED        	= 3;  // There's no PlayerAppeared, because player appears when initialized
-  ENEMY_DEFEATED        	= 4;
-  PLAYER_MOB_DEFEATED    	= 5;
-  END_OF_PLAYER_MOVE      	= 6;
-  START_OF_PLAYER_TURN    	= 7;
-  START_OF_ENEMY_TURN     	= 8;
-  ENEMY_DEALS_DAMAGE     	= 9;
-  PLAYER_DEALS_DAMAGE    	= 10;
-  MANUAL_ACTIVATION     	= 11;
-  END_OF_PLAYER_TURN      	= 12;
-  END_OF_ENEMY_TURN       	= 13;
-  ENEMY_SKILL_ACTIVATED  	= 14; // Active (orb activated) skills only
-  PLAYER_SKILL_ACTIVATED 	= 15; // Active (orb activated) skills only
-  MODIFY_DAMAGE				= 16;
-}
-

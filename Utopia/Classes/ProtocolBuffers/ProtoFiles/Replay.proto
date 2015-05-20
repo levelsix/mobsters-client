@@ -1,7 +1,6 @@
 //BAD!!! DON'T START NAMES WITH NEW OR COPY
 
 
-import "MonsterStuff.proto";
 import "Board.proto";
 import "SharedEnumConfig.proto";
 import "Skill.proto";
@@ -72,7 +71,6 @@ message CombatReplaySkillStepProto {
 	optional int32 skillId = 1;
 	optional bool belongsToPlayer = 2;
 	optional int32 ownerMonsterId = 3;
-	optional SkillTriggerPoint triggerPoint = 4;
 }
 
 message CombatReplayScheduleProto {

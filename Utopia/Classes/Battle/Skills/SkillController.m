@@ -165,7 +165,7 @@
   BOOL triggered = [self skillCalledWithTrigger:trigger execute:YES];
   if (triggered)
   {
-    [self.battleLayer.battleStateMachine.currentBattleState addSkillStepForTriggerPoint:trigger skillId:(int)self.skillId belongsToPlayer:self.belongsToPlayer ownerMonsterId:self.userPlayer.monsterId];
+    [self.battleLayer.battleStateMachine.currentBattleState addSkillStepForTriggerPoint:(int)self.skillId belongsToPlayer:self.belongsToPlayer ownerMonsterId:self.userPlayer.monsterId];
   }
   else
   {

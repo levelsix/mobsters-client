@@ -42,7 +42,6 @@ import "MiniJobConfig.proto";
 import "MonsterStuff.proto";
 import "Prerequisite.proto";
 import "Quest.proto";
-import "Replay.proto";
 import "Research.proto";
 import "Reward.proto";
 import "SharedEnumConfig.proto";

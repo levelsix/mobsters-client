@@ -18,24 +18,24 @@ typedef void(^SkillControllerBlock)(BOOL triggered, id params);
 @class MainBattleLayer;
 
 // Skill triggers
-//typedef enum {
-//  SkillTriggerPointEnemyInitialized     = 1,
-//  SkillTriggerPointPlayerInitialized    = 2,
-//  SkillTriggerPointEnemyAppeared        = 3,  // There's no PlayerAppeared, because player appears when initialized
-//  SkillTriggerPointEnemyDefeated        = 4,
-//  SkillTriggerPointPlayerMobDefeated    = 5,
-//  SkillTriggerPointEndOfPlayerMove      = 6,
-//  SkillTriggerPointStartOfPlayerTurn    = 7,
-//  SkillTriggerPointStartOfEnemyTurn     = 8,
-//  SkillTriggerPointEnemyDealsDamage     = 9,
-//  SkillTriggerPointPlayerDealsDamage    = 10,
-//  SkillTriggerPointManualActivation     = 11,
-//  SkillTriggerPointEndOfPlayerTurn      = 12,
-//  SkillTriggerPointEndOfEnemyTurn       = 13,
-//  SkillTriggerPointEnemySkillActivated  = 14, // Active (orb activated) skills only
-//  SkillTriggerPointPlayerSkillActivated = 15  // Active (orb activated) skills only
-//  
-//} SkillTriggerPoint;
+typedef enum {
+  SkillTriggerPointEnemyInitialized     = 1,
+  SkillTriggerPointPlayerInitialized    = 2,
+  SkillTriggerPointEnemyAppeared        = 3,  // There's no PlayerAppeared, because player appears when initialized
+  SkillTriggerPointEnemyDefeated        = 4,
+  SkillTriggerPointPlayerMobDefeated    = 5,
+  SkillTriggerPointEndOfPlayerMove      = 6,
+  SkillTriggerPointStartOfPlayerTurn    = 7,
+  SkillTriggerPointStartOfEnemyTurn     = 8,
+  SkillTriggerPointEnemyDealsDamage     = 9,
+  SkillTriggerPointPlayerDealsDamage    = 10,
+  SkillTriggerPointManualActivation     = 11,
+  SkillTriggerPointEndOfPlayerTurn      = 12,
+  SkillTriggerPointEndOfEnemyTurn       = 13,
+  SkillTriggerPointEnemySkillActivated  = 14, // Active (orb activated) skills only
+  SkillTriggerPointPlayerSkillActivated = 15  // Active (orb activated) skills only
+  
+} SkillTriggerPoint;
 
 // Cheat codes (indices are taken from SkillType enum)
 static NSString* const cheatCodesForSkills[] = {

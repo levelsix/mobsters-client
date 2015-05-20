@@ -38,9 +38,8 @@
 
 #pragma mark Skill recording
 
-- (void) addSkillStepForTriggerPoint:(SkillTriggerPoint)triggerPoint skillId:(int)skillId belongsToPlayer:(BOOL)belongsToPlayer ownerMonsterId:(int)ownerMonsterId {
-  [self.combatStepBuilder addSkills:[[[[[[CombatReplaySkillStepProto builder]
-                                                     setTriggerPoint:triggerPoint]
+- (void) addSkillStepForTriggerPoint:(int)skillId belongsToPlayer:(BOOL)belongsToPlayer ownerMonsterId:(int)ownerMonsterId {
+  [self.combatStepBuilder addSkills:[[[[[CombatReplaySkillStepProto builder]
                                                     setSkillId:skillId]
                                                    setBelongsToPlayer:belongsToPlayer]
                                                   setOwnerMonsterId:ownerMonsterId]

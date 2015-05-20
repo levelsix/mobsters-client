@@ -254,21 +254,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   if (_playerSkillController) {
     result = [_playerSkillController modifyDamage:result forPlayer:player];
     if (result != damage)
-        [self.battleLayer.battleStateMachine.currentBattleState addSkillStepForTriggerPoint:SkillTriggerPointModifyDamage skillId:(int)_playerSkillController.skillId belongsToPlayer:YES ownerMonsterId:_player.monsterId];
+        [self.battleLayer.battleStateMachine.currentBattleState addSkillStepForTriggerPoint:(int)_playerSkillController.skillId belongsToPlayer:YES ownerMonsterId:_player.monsterId];
     damage = result;
   }
   
   if (_enemySkillController) {
     result = [_enemySkillController modifyDamage:result forPlayer:player];
     if (result != damage)
-      [self.battleLayer.battleStateMachine.currentBattleState addSkillStepForTriggerPoint:SkillTriggerPointModifyDamage skillId:(int)_playerSkillController.skillId belongsToPlayer:NO ownerMonsterId:_enemy.monsterId];
+      [self.battleLayer.battleStateMachine.currentBattleState addSkillStepForTriggerPoint:(int)_playerSkillController.skillId belongsToPlayer:NO ownerMonsterId:_enemy.monsterId];
     damage = result;
   }
   
   for (SkillController* persisSkill in _persistentSkillControllers) {
     result = [persisSkill modifyDamage:result forPlayer:player];
     if (result != damage)
-      [self.battleLayer.battleStateMachine.currentBattleState addSkillStepForTriggerPoint:SkillTriggerPointModifyDamage skillId:(int)persisSkill.skillId belongsToPlayer:persisSkill.belongsToPlayer ownerMonsterId:(int)persisSkill.ownerMonsterId];
+      [self.battleLayer.battleStateMachine.currentBattleState addSkillStepForTriggerPoint:(int)persisSkill.skillId belongsToPlayer:persisSkill.belongsToPlayer ownerMonsterId:(int)persisSkill.ownerMonsterId];
   }
   
   return result;

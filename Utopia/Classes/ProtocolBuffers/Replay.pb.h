@@ -2,7 +2,6 @@
 
 #import "ProtocolBuffers.h"
 
-#import "MonsterStuff.pb.h"
 #import "Board.pb.h"
 #import "SharedEnumConfig.pb.h"
 #import "Skill.pb.h"
@@ -17,8 +16,6 @@
 @class BoardPropertyProto_Builder;
 @class ClanHouseProto;
 @class ClanHouseProto_Builder;
-@class ClanMemberTeamDonationProto;
-@class ClanMemberTeamDonationProto_Builder;
 @class CombatReplayMonsterSnapshot;
 @class CombatReplayMonsterSnapshot_Builder;
 @class CombatReplayOrbProto;
@@ -35,10 +32,6 @@
 @class CoordinateProto_Builder;
 @class EvoChamberProto;
 @class EvoChamberProto_Builder;
-@class FullUserMonsterProto;
-@class FullUserMonsterProto_Builder;
-@class FullUserProto;
-@class FullUserProto_Builder;
 @class FullUserStructureProto;
 @class FullUserStructureProto_Builder;
 @class HospitalProto;
@@ -51,32 +44,12 @@
 @class LabProto_Builder;
 @class MiniJobCenterProto;
 @class MiniJobCenterProto_Builder;
-@class MinimumClanProto;
-@class MinimumClanProto_Builder;
 @class MinimumCombatReplayProto;
 @class MinimumCombatReplayProto_Builder;
 @class MinimumObstacleProto;
 @class MinimumObstacleProto_Builder;
-@class MinimumUserMonsterProto;
-@class MinimumUserMonsterProto_Builder;
-@class MinimumUserMonsterSellProto;
-@class MinimumUserMonsterSellProto_Builder;
-@class MinimumUserProto;
-@class MinimumUserProtoWithFacebookId;
-@class MinimumUserProtoWithFacebookId_Builder;
-@class MinimumUserProtoWithLevel;
-@class MinimumUserProtoWithLevel_Builder;
-@class MinimumUserProtoWithMaxResources;
-@class MinimumUserProtoWithMaxResources_Builder;
-@class MinimumUserProto_Builder;
 @class MoneyTreeProto;
 @class MoneyTreeProto_Builder;
-@class MonsterBattleDialogueProto;
-@class MonsterBattleDialogueProto_Builder;
-@class MonsterLevelInfoProto;
-@class MonsterLevelInfoProto_Builder;
-@class MonsterProto;
-@class MonsterProto_Builder;
 @class ObstacleProto;
 @class ObstacleProto_Builder;
 @class PvpBoardHouseProto;
@@ -97,8 +70,6 @@
 @class SkillProto_Builder;
 @class SkillSideEffectProto;
 @class SkillSideEffectProto_Builder;
-@class StaticUserLevelInfoProto;
-@class StaticUserLevelInfoProto_Builder;
 @class StructureInfoProto;
 @class StructureInfoProto_Builder;
 @class TeamCenterProto;
@@ -107,36 +78,16 @@
 @class TownHallProto_Builder;
 @class TutorialStructProto;
 @class TutorialStructProto_Builder;
-@class UserCurrentMonsterTeamProto;
-@class UserCurrentMonsterTeamProto_Builder;
-@class UserEnhancementItemProto;
-@class UserEnhancementItemProto_Builder;
-@class UserEnhancementProto;
-@class UserEnhancementProto_Builder;
-@class UserFacebookInviteForSlotProto;
-@class UserFacebookInviteForSlotProto_Builder;
 @class UserItemProto;
 @class UserItemProto_Builder;
 @class UserItemSecretGiftProto;
 @class UserItemSecretGiftProto_Builder;
 @class UserItemUsageProto;
 @class UserItemUsageProto_Builder;
-@class UserMonsterCurrentExpProto;
-@class UserMonsterCurrentExpProto_Builder;
-@class UserMonsterCurrentHealthProto;
-@class UserMonsterCurrentHealthProto_Builder;
-@class UserMonsterEvolutionProto;
-@class UserMonsterEvolutionProto_Builder;
-@class UserMonsterHealingProto;
-@class UserMonsterHealingProto_Builder;
-@class UserMonsterSnapshotProto;
-@class UserMonsterSnapshotProto_Builder;
 @class UserObstacleProto;
 @class UserObstacleProto_Builder;
 @class UserPvpBoardObstacleProto;
 @class UserPvpBoardObstacleProto_Builder;
-@class UserPvpLeagueProto;
-@class UserPvpLeagueProto_Builder;
 #ifndef __has_feature
   #define __has_feature(x) 0 // Compatibility with non-clang compilers.
 #endif // __has_feature
@@ -538,20 +489,16 @@ BOOL CombatReplayStepTypeIsValidValue(CombatReplayStepType value);
   BOOL hasBelongsToPlayer_:1;
   BOOL hasSkillId_:1;
   BOOL hasOwnerMonsterId_:1;
-  BOOL hasTriggerPoint_:1;
   BOOL belongsToPlayer_:1;
   int32_t skillId;
   int32_t ownerMonsterId;
-  SkillTriggerPoint triggerPoint;
 }
 - (BOOL) hasSkillId;
 - (BOOL) hasBelongsToPlayer;
 - (BOOL) hasOwnerMonsterId;
-- (BOOL) hasTriggerPoint;
 @property (readonly) int32_t skillId;
 - (BOOL) belongsToPlayer;
 @property (readonly) int32_t ownerMonsterId;
-@property (readonly) SkillTriggerPoint triggerPoint;
 
 + (CombatReplaySkillStepProto*) defaultInstance;
 - (CombatReplaySkillStepProto*) defaultInstance;
@@ -602,11 +549,6 @@ BOOL CombatReplayStepTypeIsValidValue(CombatReplayStepType value);
 - (int32_t) ownerMonsterId;
 - (CombatReplaySkillStepProto_Builder*) setOwnerMonsterId:(int32_t) value;
 - (CombatReplaySkillStepProto_Builder*) clearOwnerMonsterId;
-
-- (BOOL) hasTriggerPoint;
-- (SkillTriggerPoint) triggerPoint;
-- (CombatReplaySkillStepProto_Builder*) setTriggerPoint:(SkillTriggerPoint) value;
-- (CombatReplaySkillStepProto_Builder*) clearTriggerPointList;
 @end
 
 @interface CombatReplayScheduleProto : PBGeneratedMessage {

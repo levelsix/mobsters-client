@@ -14,6 +14,7 @@
 #import "BattleItemUtil.h"
 #import "ResearchUtil.h"
 #import "Reward.h"
+#import "Replay.pb.h"
 
 @class MSDate;
 

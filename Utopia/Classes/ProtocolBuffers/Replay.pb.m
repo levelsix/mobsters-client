@@ -13,7 +13,6 @@ static PBExtensionRegistry* extensionRegistry = nil;
   if (self == [ReplayRoot class]) {
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
-    [MonsterStuffRoot registerAllExtensions:registry];
     [BoardRoot registerAllExtensions:registry];
     [SharedEnumConfigRoot registerAllExtensions:registry];
     [SkillRoot registerAllExtensions:registry];
@@ -1853,7 +1852,6 @@ static CombatReplayStepProto* defaultCombatReplayStepProtoInstance = nil;
 @property int32_t skillId;
 @property BOOL belongsToPlayer;
 @property int32_t ownerMonsterId;
-@property SkillTriggerPoint triggerPoint;
 @end
 
 @implementation CombatReplaySkillStepProto
@@ -1884,19 +1882,11 @@ static CombatReplayStepProto* defaultCombatReplayStepProtoInstance = nil;
   hasOwnerMonsterId_ = !!value_;
 }
 @synthesize ownerMonsterId;
-- (BOOL) hasTriggerPoint {
-  return !!hasTriggerPoint_;
-}
-- (void) setHasTriggerPoint:(BOOL) value_ {
-  hasTriggerPoint_ = !!value_;
-}
-@synthesize triggerPoint;
 - (id) init {
   if ((self = [super init])) {
     self.skillId = 0;
     self.belongsToPlayer = NO;
     self.ownerMonsterId = 0;
-    self.triggerPoint = SkillTriggerPointEnemyInitialized;
   }
   return self;
 }
@@ -1925,9 +1915,6 @@ static CombatReplaySkillStepProto* defaultCombatReplaySkillStepProtoInstance = n
   if (self.hasOwnerMonsterId) {
     [output writeInt32:3 value:self.ownerMonsterId];
   }
-  if (self.hasTriggerPoint) {
-    [output writeEnum:4 value:self.triggerPoint];
-  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -1945,9 +1932,6 @@ static CombatReplaySkillStepProto* defaultCombatReplaySkillStepProtoInstance = n
   }
   if (self.hasOwnerMonsterId) {
     size_ += computeInt32Size(3, self.ownerMonsterId);
-  }
-  if (self.hasTriggerPoint) {
-    size_ += computeEnumSize(4, self.triggerPoint);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -1993,9 +1977,6 @@ static CombatReplaySkillStepProto* defaultCombatReplaySkillStepProtoInstance = n
   if (self.hasOwnerMonsterId) {
     [output appendFormat:@"%@%@: %@\n", indent, @"ownerMonsterId", [NSNumber numberWithInteger:self.ownerMonsterId]];
   }
-  if (self.hasTriggerPoint) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"triggerPoint", [NSNumber numberWithInteger:self.triggerPoint]];
-  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -2013,8 +1994,6 @@ static CombatReplaySkillStepProto* defaultCombatReplaySkillStepProtoInstance = n
       (!self.hasBelongsToPlayer || self.belongsToPlayer == otherMessage.belongsToPlayer) &&
       self.hasOwnerMonsterId == otherMessage.hasOwnerMonsterId &&
       (!self.hasOwnerMonsterId || self.ownerMonsterId == otherMessage.ownerMonsterId) &&
-      self.hasTriggerPoint == otherMessage.hasTriggerPoint &&
-      (!self.hasTriggerPoint || self.triggerPoint == otherMessage.triggerPoint) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -2027,9 +2006,6 @@ static CombatReplaySkillStepProto* defaultCombatReplaySkillStepProtoInstance = n
   }
   if (self.hasOwnerMonsterId) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.ownerMonsterId] hash];
-  }
-  if (self.hasTriggerPoint) {
-    hashCode = hashCode * 31 + self.triggerPoint;
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -2083,9 +2059,6 @@ static CombatReplaySkillStepProto* defaultCombatReplaySkillStepProtoInstance = n
   if (other.hasOwnerMonsterId) {
     [self setOwnerMonsterId:other.ownerMonsterId];
   }
-  if (other.hasTriggerPoint) {
-    [self setTriggerPoint:other.triggerPoint];
-  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -2117,15 +2090,6 @@ static CombatReplaySkillStepProto* defaultCombatReplaySkillStepProtoInstance = n
       }
       case 24: {
         [self setOwnerMonsterId:[input readInt32]];
-        break;
-      }
-      case 32: {
-        SkillTriggerPoint value = (SkillTriggerPoint)[input readEnum];
-        if (SkillTriggerPointIsValidValue(value)) {
-          [self setTriggerPoint:value];
-        } else {
-          [unknownFields mergeVarintField:4 value:value];
-        }
         break;
       }
     }
@@ -2177,22 +2141,6 @@ static CombatReplaySkillStepProto* defaultCombatReplaySkillStepProtoInstance = n
 - (CombatReplaySkillStepProto_Builder*) clearOwnerMonsterId {
   result.hasOwnerMonsterId = NO;
   result.ownerMonsterId = 0;
-  return self;
-}
-- (BOOL) hasTriggerPoint {
-  return result.hasTriggerPoint;
-}
-- (SkillTriggerPoint) triggerPoint {
-  return result.triggerPoint;
-}
-- (CombatReplaySkillStepProto_Builder*) setTriggerPoint:(SkillTriggerPoint) value {
-  result.hasTriggerPoint = YES;
-  result.triggerPoint = value;
-  return self;
-}
-- (CombatReplaySkillStepProto_Builder*) clearTriggerPointList {
-  result.hasTriggerPoint = NO;
-  result.triggerPoint = SkillTriggerPointEnemyInitialized;
   return self;
 }
 @end
