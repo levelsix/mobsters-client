@@ -52,16 +52,24 @@
 
 - (instancetype) init {
   if (self = [super init]) {
-    _headline = @"Unlock High Roller";
-    _message = @"Purchase a Package that includes \"High Roller Mode\" to unlock!";
+    NSString* itemName = @"High Roller Mode"; // Default name if no item
+    GameState* gs = [GameState sharedGameState];
+    for (ItemProto* item in [gs.staticItems allValues])
+      if (item.itemType == ItemTypeGachaMultiSpin) {
+        itemName = item.name;
+        break;
+      }
+    
+    _headline = [NSString stringWithFormat:@"Unlock %@", itemName];
+    _message = [NSString stringWithFormat:@"Purchase a Package that includes \"%@\" to unlock!", itemName];
     _purchaseMode = NO;
     _isLoading = NO;
     
     // If user doesn't own the High Roller mode item
-    if ([[GameState sharedGameState].itemUtil getItemsForType:ItemTypeGachaMultiSpin].count == 0) {
+    if ([gs.itemUtil getItemsForType:ItemTypeGachaMultiSpin].count == 0) {
       // If a sales package containing the High Roller mode item is not available and a standalone IAP for High Roller mode exists
       if (![[Globals sharedGlobals] highRollerModeSale] && [[Globals sharedGlobals] highRollerModeIapPackage]) {
-        _message = [NSString stringWithFormat:@"Purchase \"High Roller Mode\" to spin %d times for a discount!", [Globals sharedGlobals].boosterPackNumberOfPacksGiven];
+        _message = [NSString stringWithFormat:@"Purchase \"%@\" to spin %d times for a discount!", itemName, [Globals sharedGlobals].boosterPackNumberOfPacksGiven];
         _purchaseMode = YES;
       }
     }
