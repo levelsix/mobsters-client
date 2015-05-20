@@ -12,6 +12,7 @@
 
 @interface SalePurchasedViewController : UIViewController {
   SalesPackageProto *_sale;
+  NSArray *_saleDisplayItems;
 }
 
 @property (nonatomic, retain) IBOutlet UIView *mainView;

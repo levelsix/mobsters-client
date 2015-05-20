@@ -11,6 +11,7 @@
 #import "SalePackageViewController.h"
 #import "InAppPurchaseData.h"
 #import "Globals.h"
+#import "GameState.h"
 
 @interface SalePurchasedViewController ()
 
@@ -23,6 +24,17 @@ static NSString *nibName = @"SalePackageCell";
 - (id) initWithSalePackageProto:(SalesPackageProto *)spp {
   if ((self = [super init])) {
     _sale = spp;
+    
+    NSMutableArray *saleDisplayItems = [_sale.sdipList mutableCopy];
+    GameState *gs = [GameState sharedGameState];
+    // If user already owns an item of type ItemTypeGachaMultiSpin and this sales package contains this item, only display it if the quantity is 1, i.e. just bought
+    UserItem *ui = [[gs.itemUtil getItemsForType:ItemTypeGachaMultiSpin] firstObject];
+    if (ui.quantity > 1) {
+      for (SalesDisplayItemProto *sdip in _sale.sdipList)
+        if (sdip.reward.typ == RewardProto_RewardTypeItem && [gs itemForId:sdip.reward.staticDataId].itemType == ItemTypeGachaMultiSpin)
+          [saleDisplayItems removeObject:sdip];
+    }
+    _saleDisplayItems = [NSArray arrayWithArray:saleDisplayItems];
   }
   return self;
 }
@@ -52,13 +64,13 @@ static NSString *nibName = @"SalePackageCell";
 #pragma mark - Collection View Data Source/Delegate
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return _sale.sdipList.count;
+  return _saleDisplayItems.count;
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   SalePackageCell *cell = [tableView dequeueReusableCellWithIdentifier:nibName forIndexPath:indexPath];
   
-  [cell updateForDisplayItem:_sale.sdipList[indexPath.row] isSpecial:NO];// indexPath.row == 0];
+  [cell updateForDisplayItem:_saleDisplayItems[indexPath.row] isSpecial:NO];// indexPath.row == 0];
   
   return cell;
 }
