@@ -61,10 +61,9 @@ static NSString *nibName = @"SalePackageCell";
     
     NSMutableArray *saleDisplayItems = [_sale.sdipList mutableCopy];
     GameState *gs = [GameState sharedGameState];
-    // If user already owns an item of type ItemTypeGachaMultiSpin and
-    // this sales package contains this item, do not display it
+    // If user already owns an item of type ItemTypeGachaMultiSpin and this sales package contains this item, do not display it
     if ([gs.itemUtil getItemsForType:ItemTypeGachaMultiSpin].count > 0) {
-      for (SalesDisplayItemProto *sdip in saleDisplayItems)
+      for (SalesDisplayItemProto *sdip in _sale.sdipList)
         if (sdip.reward.typ == RewardProto_RewardTypeItem && [gs itemForId:sdip.reward.staticDataId].itemType == ItemTypeGachaMultiSpin)
           [saleDisplayItems removeObject:sdip];
     }
