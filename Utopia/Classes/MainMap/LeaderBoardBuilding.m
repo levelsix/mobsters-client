@@ -35,21 +35,20 @@
       CCSprite *monsterSprite = nil;
       CGPoint placementPosition;
       
+      placementPosition = ccpAdd(ccp(self.buildingSprite.contentSize.width/2, -5), ccp(0, monster.verticalPixelOffset));
+      
       switch (placement) {
         case 1:
           monsterSprite = self.firstMonsterSprite;
-          placementPosition = ccpAdd(ccp(self.buildingSprite.contentSize.width/2, -5), ccp(0, monster.verticalPixelOffset));
-          placementPosition = ccpAdd(placementPosition, ccp(4, 46));
+          placementPosition = ccpAdd(placementPosition, ccp(4, 56));
           break;
         case 2:
           monsterSprite = self.secondMonsterSprite;
-          placementPosition = ccpAdd(ccp(self.buildingSprite.contentSize.width/2, -5), ccp(0, monster.verticalPixelOffset));
           placementPosition = ccpAdd(placementPosition, ccp(32, 20));
           break;
         case 3:
           monsterSprite = self.thirdMonsterSprite;
-          placementPosition = ccpAdd(ccp(self.buildingSprite.contentSize.width/2, -5), ccp(0, monster.verticalPixelOffset));
-          placementPosition = ccpAdd(placementPosition, ccp(-35, 53));
+          placementPosition = ccpAdd(placementPosition, ccp(-35, 63));
           break;
           
         default:
@@ -64,7 +63,6 @@
       monsterSprite.anchorPoint = ccp(0.5, 0);
       monsterSprite.scale = 0.8;
       monsterSprite.position = placementPosition;
-      //self.monsterSprite.flipX = YES;
       [self.buildingSprite addChild:monsterSprite z:1];
     }
   }];
