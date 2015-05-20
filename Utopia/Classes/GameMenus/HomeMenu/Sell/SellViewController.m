@@ -139,7 +139,7 @@
           _confirmUserMonster = um;
           
           NSString *description = [NSString stringWithFormat:@"This %@ is currently on your team. Continue?", MONSTER_NAME];
-          [GenericPopupController displayConfirmationWithDescription:description title:@"Continue?" okayButton:@"Continue" cancelButton:@"Cancel" target:self selector:@selector(confirmationAccepted)];
+          [GenericPopupController displayConfirmationWithDescription:description title:@"Continue?" okayButton:@"Continue" cancelButton:@"Cancel" okTarget:self okSelector:@selector(confirmationAccepted) cancelTarget:self cancelSelector:@selector(confirmationCancelled)];
         }
       } else {
         [self confirmationAccepted:um];
@@ -154,6 +154,10 @@
     [parent.view addSubview:mpvc.view];
     [parent addChildViewController:mpvc];
   }
+}
+
+- (void) confirmationCancelled {
+  _confirmUserMonster = nil;
 }
 
 - (void) confirmationAccepted {
