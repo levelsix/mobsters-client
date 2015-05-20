@@ -1380,7 +1380,7 @@
 
 - (CombatReplayProto*) createReplayWithBuilder:(CombatReplayProto_Builder*)builder {
   
-  [builder setGroundImgPrefix:@"1"];
+  [builder setGroundImgPrefix:self.mainView.bgdLayer.prefix];
   
   if (_layoutProto)
     [builder setBoard:_layoutProto];
