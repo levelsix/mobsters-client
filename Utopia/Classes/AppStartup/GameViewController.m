@@ -479,11 +479,11 @@ static const CGSize FIXED_SIZE = {568, 384};
   
   BOOL checkTango = NO;
 #ifdef TOONSQUAD
-  static BOOL attemptedTango = NO;
-  if (!attemptedTango) {
-    checkTango = [TangoDelegate attemptInitialLogin];
-    attemptedTango = YES;
-  }
+//  static BOOL attemptedTango = NO;
+//  if (!attemptedTango) {
+//    checkTango = [TangoDelegate attemptInitialLogin];
+//    attemptedTango = YES;
+//  }
 #endif
   
   StartupResponseProto *proto = (StartupResponseProto *)fe.event;

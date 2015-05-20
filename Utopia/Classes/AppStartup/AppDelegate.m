@@ -87,6 +87,8 @@
   window = [[MSWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
   [self forcePurgeCache];
   
+  [TangoDelegate attemptInitialLogin];
+  
   GameViewController *gvc = [[GameViewController alloc] init];
   UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:gvc];
   nav.navigationBarHidden = YES;
