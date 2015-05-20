@@ -539,7 +539,7 @@
     MonsterProto *mp = [gs monsterWithId:reward.monsterId];
     bgdName = [Globals imageNameForRarity:mp.quality suffix:@"found.png"];
     labelImage = [@"battle" stringByAppendingString:[Globals imageNameForRarity:mp.quality suffix:@"tag.png"]];
-    isPiece = reward.monsterLvl == 0;
+    isPiece = reward.monsterLvl == 0 && mp.numPuzzlePieces > 1;
   } else if (reward.type == RewardTypeCash) {
     bgdName = @"cashfound.png";
     color = [Globals greenColor];
