@@ -229,7 +229,7 @@
 - (void) fireLoseEvent;
 - (void) fireEvent:(TKEvent*)event userInfo:(NSDictionary *)userInfo error:(NSError *__autoreleasing *)error;
 
-- (void) buildReplay;
+- (CombatReplayProto*) buildReplay;
 - (CombatReplayProto*) createReplayWithBuilder:(CombatReplayProto_Builder*)builder;
 
 - (void) triggerSkills:(SkillTriggerPoint)trigger withCompletion:(SkillControllerBlock)completion;

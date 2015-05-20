@@ -1199,21 +1199,22 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCBeginPvpBattleEvent];
 }
 
-- (int) sendEndPvpBattleMessage:(NSString *)defenderUuid userAttacked:(BOOL)userAttacked userWon:(BOOL)userWon oilStolenFromStorage:(int)oilStolenFromStorage cashStolenFromStorage:(int)cashStolenFromStorage oilStolenFromGenerators:(int)oilStolenFromGenerators cashStolenFromGenerators:(int)cashStolenFromGenerators structStolens:(NSArray *)structStolens clientTime:(uint64_t)clientTime monsterDropIds:(NSArray *)monsterDropIds {
-  EndPvpBattleRequestProto *req = [[[[[[[[[[[[[EndPvpBattleRequestProto builder]
-                                              setSender:[self senderWithMaxResources]]
-                                             setDefenderUuid:defenderUuid]
-                                            setUserAttacked:userAttacked]
-                                           setUserWon:userWon]
-                                          setOilStolenFromStorage:oilStolenFromStorage]
-                                         setCashStolenFromStorage:cashStolenFromStorage]
-                                        setOilStolenFromGenerator:oilStolenFromGenerators]
-                                       setCashStolenFromGenerator:cashStolenFromGenerators]
-                                      addAllStructStolen:structStolens]
-                                     setClientTime:clientTime]
-                                    addAllMonsterDropIds:monsterDropIds]
+- (int) sendEndPvpBattleMessage:(NSString *)defenderUuid userAttacked:(BOOL)userAttacked userWon:(BOOL)userWon oilStolenFromStorage:(int)oilStolenFromStorage cashStolenFromStorage:(int)cashStolenFromStorage oilStolenFromGenerators:(int)oilStolenFromGenerators cashStolenFromGenerators:(int)cashStolenFromGenerators structStolens:(NSArray *)structStolens clientTime:(uint64_t)clientTime monsterDropIds:(NSArray *)monsterDropIds replay:(NSData*)replay {
+  EndPvpBattleRequestProto *req = [[[[[[[[[[[[[[EndPvpBattleRequestProto builder]
+                                               setSender:[self senderWithMaxResources]]
+                                              setDefenderUuid:defenderUuid]
+                                             setUserAttacked:userAttacked]
+                                            setUserWon:userWon]
+                                           setOilStolenFromStorage:oilStolenFromStorage]
+                                          setCashStolenFromStorage:cashStolenFromStorage]
+                                         setOilStolenFromGenerator:oilStolenFromGenerators]
+                                        setCashStolenFromGenerator:cashStolenFromGenerators]
+                                       addAllStructStolen:structStolens]
+                                      setClientTime:clientTime]
+                                     addAllMonsterDropIds:monsterDropIds]
+                                    setReplay:replay]
                                    build];
-  
+
   return [self sendData:req withMessageType:EventProtocolRequestCEndPvpBattleEvent];
 }
 
@@ -1747,6 +1748,14 @@ static NSString *udid = nil;
                                     build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCSendTangoGiftEvent];
+}
+
+- (int) sendRetrieveBattleReplayRequest:(NSString*)replayId {
+  RetrieveBattleReplayRequestProto* req = [[[[RetrieveBattleReplayRequestProto builder]
+                                             setReplayId:replayId]
+                                            setSender:_sender]
+                                           build];
+  return [self sendData:req withMessageType:EventProtocolRequestCRetrieveBattleReplayEvent];
 }
 
 #pragma mark - Batch/Flush events

@@ -96,7 +96,10 @@
 }
 
 - (void)addFinalState {
-  [self.pastStates addObject:[self.currentBattleState getStepProto]];
+  //Need to make sure that it's not null, since this prevents it from getting added twice
+  CombatReplayStepProto* step = [self.currentBattleState getStepProto];
+  if (step)
+    [self.pastStates addObject:step];
 }
 
 - (NSString *)description

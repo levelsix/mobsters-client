@@ -459,8 +459,8 @@
   [self fireEvent:playerSwapEvent userInfo:nil error:nil];
 }
 
-- (void)buildReplay {
-  //Do nothing
+- (CombatReplayProto*)buildReplay {
+  return nil;
 }
 
 - (void)sendServerUpdatedValuesVerifyDamageDealt:(BOOL)verify {

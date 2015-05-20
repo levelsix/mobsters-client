@@ -2637,4 +2637,17 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 #endif
 }
 
+#pragma mark - Replays
+
+- (void) handleRetrieveBattleReplayRequestProto:(FullEvent *)fe {
+  RetrieveBattleReplayResponseProto *proto = (RetrieveBattleReplayResponseProto *)fe.event;
+  
+  if (proto.status == RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatusSuccess) {
+    CombatReplayProto *replay = [CombatReplayProto parseFromData:proto.brp.replay];
+    [[GameViewController baseController] beginReplay:replay];
+  } else {
+    [Globals popupMessage:@"Failed to load replay"];
+  }
+}
+
 @end

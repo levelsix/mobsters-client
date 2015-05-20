@@ -1368,12 +1368,14 @@
   }];
 }
 
-- (void) buildReplay {
+- (CombatReplayProto*) buildReplay {
   [self.battleStateMachine addFinalState];
   
   CombatReplayProto *replay = [self createReplayWithBuilder:[CombatReplayProto builder]];
   
   [Globals sharedGlobals].lastReplay = replay;
+  
+  return replay;
 }
 
 - (CombatReplayProto*) createReplayWithBuilder:(CombatReplayProto_Builder*)builder {
@@ -1387,11 +1389,13 @@
     [builder setBoardHeight:_gridSize.height];
   }
   
-  return [[[[[builder addAllOrbs:self.orbLayer.layout.orbRecords.allValues]
-                                  addAllSteps:self.battleStateMachine.pastStates]
-                                 addAllPlayerTeam:self.playerTeamSnapshot]
-                                addAllEnemyTeam:self.enemyTeamSnapshot]
-                               build];
+  for (NSArray* arr in self.orbLayer.layout.orbRecords.allValues)
+    [builder addAllOrbs:arr];
+  
+  return [[[[builder addAllSteps:self.battleStateMachine.pastStates]
+            addAllPlayerTeam:self.playerTeamSnapshot]
+          addAllEnemyTeam:self.enemyTeamSnapshot]
+         build];
 }
 
 - (void) sendReplay {

@@ -165,7 +165,7 @@
 - (int) sendQueueUpMessage:(NSArray *)seenUserUuids clientTime:(uint64_t)clientTime;
 - (int) sendUpdateUserCurrencyMessageWithCashSpent:(int)cashSpent oilSpent:(int)oilSpent gemsSpent:(int)gemsSpent clientTime:(uint64_t)clientTime reason:(NSString *)reason shouldFlush:(BOOL)flush;
 - (int) sendBeginPvpBattleMessage:(PvpProto *)enemy senderElo:(int)elo isRevenge:(BOOL)isRevenge previousBattleTime:(uint64_t)previousBattleTime clientTime:(uint64_t)clientTime;
-- (int) sendEndPvpBattleMessage:(NSString *)defenderUuid userAttacked:(BOOL)userAttacked userWon:(BOOL)userWon oilStolenFromStorage:(int)oilStolenFromStorage cashStolenFromStorage:(int)cashStolenFromStorage oilStolenFromGenerators:(int)oilStolenFromGenerators cashStolenFromGenerators:(int)cashStolenFromGenerators structStolens:(NSArray *)structStolens clientTime:(uint64_t)clientTime monsterDropIds:(NSArray *)monsterDropIds;
+- (int) sendEndPvpBattleMessage:(NSString *)defenderUuid userAttacked:(BOOL)userAttacked userWon:(BOOL)userWon oilStolenFromStorage:(int)oilStolenFromStorage cashStolenFromStorage:(int)cashStolenFromStorage oilStolenFromGenerators:(int)oilStolenFromGenerators cashStolenFromGenerators:(int)cashStolenFromGenerators structStolens:(NSArray *)structStolens clientTime:(uint64_t)clientTime monsterDropIds:(NSArray *)monsterDropIds replay:(NSData*)replay;
 
 - (int) sendBeginClanRaidMessage:(int)raidId eventId:(int)eventId isFirstStage:(BOOL)isFirstStage curTime:(uint64_t)curTime userMonsters:(NSArray *)userMonsters;
 - (int) sendAttackClanRaidMonsterMessage:(PersistentClanEventClanInfoProto *)eventDetails clientTime:(uint64_t)clientTime damageDealt:(int)damageDealt curTeam:(UserCurrentMonsterTeamProto *)curTeam monsterHealths:(NSArray *)monsterHealths attacker:(FullUserMonsterProto *)attacker;
@@ -239,6 +239,7 @@
 - (int) sendRedeemMiniEventRewardRequestProtoMessage:(RedeemMiniEventRewardRequestProto_RewardTier)tierRedeemed miniEventForPlayerLevelId:(int32_t)mefplId clientTime:(uint64_t)clientTime;
 
 - (int) sendTangoGiftsForTangoIds:(NSArray *)tangoIds myTangoId:(NSString *)myTangoId gemReward:(int32_t)gemReward clientTime:(int64_t)clientTime;
+- (int) sendRetrieveBattleReplayRequest:(NSString*)replayId;
 
 - (void) flush;
 - (void) pauseFlushTimer;

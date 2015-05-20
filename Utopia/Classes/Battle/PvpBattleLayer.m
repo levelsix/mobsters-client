@@ -115,7 +115,7 @@
   
   PvpProto *pvp = self.defendersList[_curQueueNum];
   [self.endView updateForRewards:[Reward createRewardsForPvpProto:pvp droplessStageNums:self.droplessStageNums isWin:YES] isWin:YES allowsContinue:NO continueCost:0];
-  [[OutgoingEventController sharedOutgoingEventController] endPvpBattleMessage:pvp userAttacked:_userAttacked userWon:YES droplessStageNums:self.droplessStageNums delegate:self];
+  [[OutgoingEventController sharedOutgoingEventController] endPvpBattleMessage:pvp userAttacked:_userAttacked userWon:YES droplessStageNums:self.droplessStageNums replay:[self buildReplay].data delegate:self];
   
   // Send a private chat if avenge
   if (_clanAvenging) {
@@ -129,7 +129,7 @@
   
   PvpProto *pvp = self.defendersList[_curQueueNum];
   [self.endView updateForRewards:[Reward createRewardsForPvpProto:pvp droplessStageNums:self.droplessStageNums isWin:NO] isWin:NO allowsContinue:NO continueCost:0];
-  [[OutgoingEventController sharedOutgoingEventController] endPvpBattleMessage:pvp userAttacked:_userAttacked userWon:NO droplessStageNums:self.droplessStageNums delegate:self];
+  [[OutgoingEventController sharedOutgoingEventController] endPvpBattleMessage:pvp userAttacked:_userAttacked userWon:NO droplessStageNums:self.droplessStageNums replay:[self buildReplay].data delegate:self];
   
   // Send a private chat if avenge
   if (_clanAvenging) {

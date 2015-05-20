@@ -33,8 +33,8 @@ typedef enum {
   SkillTriggerPointEndOfPlayerTurn      = 12,
   SkillTriggerPointEndOfEnemyTurn       = 13,
   SkillTriggerPointEnemySkillActivated  = 14, // Active (orb activated) skills only
-  SkillTriggerPointPlayerSkillActivated = 15  // Active (orb activated) skills only
-  
+  SkillTriggerPointPlayerSkillActivated = 15, // Active (orb activated) skills only
+  SkillTriggerPointModifyDamage         = 16
 } SkillTriggerPoint;
 
 // Cheat codes (indices are taken from SkillType enum)

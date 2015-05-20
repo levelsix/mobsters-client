@@ -113,7 +113,7 @@
 - (void) queueUpEvent:(NSArray *)seenUserUuids withDelegate:(id)delegate;
 - (BOOL) viewNextPvpGuy:(BOOL)useGems;
 - (void) beginPvpBattle:(PvpProto *)proto isRevenge:(BOOL)isRevenge previousBattleTime:(uint64_t)previousBattleTime;
-- (void) endPvpBattleMessage:(PvpProto *)proto userAttacked:(BOOL)userAttacked userWon:(BOOL)userWon droplessStageNums:(NSArray *)droplessStageNums delegate:(id)delegate;
+- (void) endPvpBattleMessage:(PvpProto *)proto userAttacked:(BOOL)userAttacked userWon:(BOOL)userWon droplessStageNums:(NSArray *)droplessStageNums replay:(NSData*)replay delegate:(id)delegate;
 - (void) retrieveUserTeam:(NSString *)userUuid delegate:(id)delegate;
 - (void) saveUserPvpBoard:(NSArray *)obstacleList;
 

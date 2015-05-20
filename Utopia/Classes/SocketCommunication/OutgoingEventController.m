@@ -1097,10 +1097,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
         gl.ignorePrerequisites = !gl.ignorePrerequisites;
         msg = [NSString stringWithFormat:@"Prerequisites turned %@.", !gl.ignorePrerequisites ? @"on" : @"off"];
       } else if ([code isEqualToString:REPLAY_CODE]) {
-        if ([Globals sharedGlobals].lastReplay)
+        GameState *gs = [GameState sharedGameState];
+        if ([gs.battleHistory count])
         {
-          GameViewController *gvc = [GameViewController baseController];
-          [gvc beginReplay:[Globals sharedGlobals].lastReplay];
+          PvpHistoryProto *lastBattle = [gs.battleHistory lastObject];
+          [[OutgoingEventController sharedOutgoingEventController] viewBattleReplay:lastBattle.replayId];
           msg = @"Starting replay...";
         }
         else
@@ -2243,7 +2244,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
-- (void) endPvpBattleMessage:(PvpProto *)proto userAttacked:(BOOL)userAttacked userWon:(BOOL)userWon droplessStageNums:(NSArray *)droplessStageNums delegate:(id)delegate {
+- (void) endPvpBattleMessage:(PvpProto *)proto userAttacked:(BOOL)userAttacked userWon:(BOOL)userWon droplessStageNums:(NSArray *)droplessStageNums replay:(NSData*)replay delegate:(id)delegate {
   GameState *gs = [GameState sharedGameState];
   int oilStolenFromStorage = 0;
   int cashStolenFromStorage = 0;
@@ -2295,7 +2296,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
   }
   
-  int tag = [[SocketCommunication sharedSocketCommunication] sendEndPvpBattleMessage:proto.defender.userUuid userAttacked:userAttacked userWon:userWon oilStolenFromStorage:oilStolenFromStorage cashStolenFromStorage:cashStolenFromStorage oilStolenFromGenerators:oilStolenFromGenerators cashStolenFromGenerators:cashStolenFromGenerators structStolens:structStolens clientTime:[self getCurrentMilliseconds] monsterDropIds:monsterDropIds];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendEndPvpBattleMessage:proto.defender.userUuid userAttacked:userAttacked userWon:userWon oilStolenFromStorage:oilStolenFromStorage cashStolenFromStorage:cashStolenFromStorage oilStolenFromGenerators:oilStolenFromGenerators cashStolenFromGenerators:cashStolenFromGenerators structStolens:structStolens clientTime:[self getCurrentMilliseconds] monsterDropIds:monsterDropIds replay:replay];
+  
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
   
   int oilGained = oilStolenFromGenerators+oilStolenFromStorage;
@@ -2376,7 +2378,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 #pragma mark - Replays
 
 - (void)viewBattleReplay:(NSString *)replayUuid {
-#warning Rob's stub
+  int tag = [[SocketCommunication sharedSocketCommunication] sendRetrieveBattleReplayRequest:replayUuid];
+
+  [[SocketCommunication sharedSocketCommunication] setDelegate:self forTag:tag];
 }
 
 #pragma mark - Team

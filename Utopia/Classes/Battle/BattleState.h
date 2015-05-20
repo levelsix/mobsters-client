@@ -9,6 +9,7 @@
 #import "TransitionKit.h"
 #import "Replay.pb.h"
 #import "BattleSwap.h"
+#import "SkillController.h"
 
 //typedef enum CombatReplayStepType {
 //  CombatReplayStepTypeBattleInitialization,
