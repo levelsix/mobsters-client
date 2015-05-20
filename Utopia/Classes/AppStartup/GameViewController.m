@@ -1206,7 +1206,7 @@ static const CGSize FIXED_SIZE = {568, 384};
   Globals *gl  = [Globals sharedGlobals];
   HomeMap *hm = (HomeMap *)self.currentMap;
   
-  if (![gs hasBeatFirstBoss] && !hm.purchasing /*&& gs.userHasEnteredBattleThisSession*/ ) {
+  if (![gs hasBeatFirstBoss] && !self.topBarViewController.shopViewController.parentViewController && !hm.purchasing /*&& gs.userHasEnteredBattleThisSession*/ ) {
     
     //first check to see if there are any toons to heal
     int hurtToons = 0;
