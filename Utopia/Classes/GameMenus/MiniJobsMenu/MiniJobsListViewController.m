@@ -311,7 +311,7 @@
 }
 
 - (void) transitionToListView {
-  if (self.detailsViewController) {
+  if (self.detailsViewController.view.superview) {
     // Set to nil first or else pop will chain viewWillAppear which will try to displayCompleteView again.
     self.detailsViewController = nil;
     [self.parentViewController popViewControllerAnimated:YES];
@@ -330,7 +330,7 @@
     comp.view.frame = self.view.bounds;
     [self.view addSubview:comp.view];
     
-    if (self.detailsViewController) {
+    if (self.detailsViewController.view.superview) {
       [self transitionToListView];
     } else {
       if (animated) {
