@@ -383,6 +383,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSReconnectEvent:
       responseClass = [ReconnectResponseProto class];
       break;
+    case EventProtocolResponseSRetrieveStrengthLeaderBoardEvent:
+      responseClass = [RetrieveStrengthLeaderBoardResponseProto class];
+      break;
     default:
       responseClass = nil;
       break;
@@ -2612,6 +2615,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
+<<<<<<< HEAD
 #pragma mark - Tango Gift
 
 // This is all temporary until we have time to make a better UX experience
@@ -2629,6 +2633,19 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
 #endif
+=======
+#pragma mark - LeaderBoard
+
+- (void) handleRetrieveStrengthLeaderBoardResponseProto:(FullEvent *)fe {
+  RetrieveStrengthLeaderBoardResponseProto *proto = (RetrieveStrengthLeaderBoardResponseProto *)fe.event;
+  
+  LNLog(@"Retrieve strength leader board recieved with status %d", (int)proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatusSuccess) {
+    StrengthLeaderBoardProto *slbp = proto.leaderBoardInfoList[0];
+  }
+>>>>>>> no podium yet
 }
 
 @end

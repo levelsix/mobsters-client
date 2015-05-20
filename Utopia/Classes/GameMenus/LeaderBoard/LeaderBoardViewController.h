@@ -7,17 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@protocol LeaderBoardObject <NSObject>
-
-- (int) score;
-- (NSString *) name;
-
-@optional
-
-- (int) rank;
-
-@end
+#import "PullRefreshTableViewController.h"
+#import "LeaderBoardObject.h"
 
 @interface LeaderBoardViewCell: UITableViewCell
 
@@ -32,17 +23,22 @@
 
 @end
 
-@interface LeaderBoardViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
+@interface LeaderBoardViewController : PullRefreshTableViewController <UITableViewDelegate, UITableViewDataSource> {
   CGFloat _cellHeight;
   NSString *_scoreName;
   NSString *_scoreIcon;
+  int _totalCellsToShow;
 }
-@property (nonatomic, retain) NSArray *leaderList;
+
+@property (nonatomic, retain) id<LeaderBoardObject> ownRanking;
+@property (nonatomic, retain) NSMutableArray *leaderList;
 
 @property (nonatomic, retain) IBOutlet UIView *yourRankingHeader;
 @property (nonatomic, retain) IBOutlet UIView *LeaderBoardHeaderView;
 @property (nonatomic, retain) IBOutlet UILabel *scoreLabel;
+@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *tableLoadingIndicator;
 
+@property (nonatomic, retain) IBOutlet UITableView *tableView;
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
 @property (nonatomic, retain) IBOutlet UIView *containerView;
 @property (nonatomic, retain) IBOutlet UIView *mainView;

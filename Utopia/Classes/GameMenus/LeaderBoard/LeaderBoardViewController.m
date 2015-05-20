@@ -6,8 +6,11 @@
 //  Copyright (c) 2015 LVL6. All rights reserved.
 //
 #import "GameState.h"
-
 #import "LeaderBoardViewController.h"
+#import "OutgoingEventController.h"
+#import "IncomingEventController.h"
+
+#define TOTAL_CELLS_INCREMENT 25;
 
 @implementation LeaderBoardViewCell
 
@@ -42,6 +45,7 @@
   if ((self = [super init])) {
     _scoreName = @"STRENGTH";
     _scoreIcon = @"strengthicon.png";
+    _totalCellsToShow = TOTAL_CELLS_INCREMENT;
   }
   
   return self;
@@ -52,6 +56,7 @@
   
   self.containerView.superview.layer.cornerRadius = 5.f;
   self.containerView.superview.clipsToBounds = YES;
+  self.tableView.hidden = YES;
   
   [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
 }
@@ -60,23 +65,11 @@
   [super viewDidAppear:animated];
   
   self.scoreLabel.text = _scoreName;
+  [self addPullToRefreshHeader:self.tableView];
+  self.tableLoadingIndicator.hidden = NO;
+  
+  [self retrieveRanks];
 }
-
-//- (void) viewDidLoad {
-//  [super viewDidLoad];
-//  
-//  // Initialize the refresh control.
-//  self.refreshControl = [[UIRefreshControl alloc] init];
-//  self.refreshControl.backgroundColor = [UIColor purpleColor];
-//  self.refreshControl.tintColor = [UIColor whiteColor];
-//  [self.refreshControl addTarget:self.self
-//                          action:@selector(reloadData)
-//                forControlEvents:UIControlEventValueChanged];
-//}
-//
-//- (void) reloadData {
-////  [self.refreshControl endRefreshing];
-//}
 
 #pragma mark - Table View Delegate Methods
 
@@ -109,9 +102,10 @@
   
   LeaderBoardViewCell *cell = [[NSBundle mainBundle] loadNibNamed:@"LeaderBoardCell" owner:self options:nil][0];
   if (indexPath.section == 0) {
-    [cell updateWithRank:200 score:(int)gs.totalStrength userName:gs.minUser.name scoreIcon:_scoreIcon];
+    [cell updateWithRank:self.ownRanking.rank score:self.ownRanking.score userName:gs.minUser.name scoreIcon:_scoreIcon];
   } else {
-    
+    id<LeaderBoardObject> lbo = self.leaderList[indexPath.row];
+    [cell updateWithRank:lbo.rank score:lbo.score userName:lbo.name scoreIcon:_scoreIcon];
   }
   
   return cell;
@@ -126,6 +120,25 @@
     [self.view removeFromSuperview];
     [self removeFromParentViewController];
   }];
+}
+
+#pragma mark - outgoing events
+
+- (void) retrieveRanks {
+  [[OutgoingEventController sharedOutgoingEventController] retrieveStrengthLeaderBoardBetweenMinRank:0 maxRank:_totalCellsToShow delegate:self];
+}
+
+- (void) handleRetrieveStrengthLeaderBoardResponseProto:(FullEvent *)fe {
+  RetrieveStrengthLeaderBoardResponseProto *proto = (RetrieveStrengthLeaderBoardResponseProto *)fe.event;
+  
+  self.leaderList = [NSMutableArray arrayWithArray:proto.leaderBoardInfoList];
+  self.ownRanking = proto.senderLeaderBoardInfo;
+  
+  self.tableLoadingIndicator.hidden = YES;
+  self.tableView.hidden = NO;
+  
+  [self.tableView reloadData];
+  [self refresh];
 }
 
 @end

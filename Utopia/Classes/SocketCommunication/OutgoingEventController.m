@@ -3737,4 +3737,19 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 #endif
 }
 
+#pragma mark - Leader Board
+
+//1st place is rank 0
+//to get the top 25 players min = 0, max = 24
+- (void) retrieveStrengthLeaderBoardBetweenMinRank:(int)minRank maxRank:(int)maxRank delegate:(id)delegate{
+  
+  if (maxRank - minRank <= 0) {
+    [Globals popupMessage:@"Tried to retrieve inverse rank range"];
+    return;
+  }
+  
+  int tag = [[SocketCommunication sharedSocketCommunication] sendRetrieveStrengthLeaderBoarderMessage:minRank maxRank:maxRank];
+  [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
+}
+
 @end
