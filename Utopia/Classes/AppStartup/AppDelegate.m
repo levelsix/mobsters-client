@@ -87,7 +87,9 @@
   window = [[MSWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
   [self forcePurgeCache];
   
+#ifdef TOONSQUAD
   [TangoDelegate attemptInitialLogin];
+#endif
   
   GameViewController *gvc = [[GameViewController alloc] init];
   UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:gvc];

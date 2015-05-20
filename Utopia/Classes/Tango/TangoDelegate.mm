@@ -13,8 +13,8 @@
 #import <TangoSDK/TangoProfile.h>
 #import <TangoSDK/TangoSession.h>
 #import <TangoSDK/TangoTools.h>
-#import <TangoSdK/TangoGifting.h>
-#import <TangoSdK/TangoGiftingResponse.h>
+#import <TangoSDK/TangoGifting.h>
+#import <TangoSDK/TangoGiftingResponse.h>
 #import <TangoSDK/TangoInviting.h>
 #import <TangoSDK/TangoInvitingResponse.h>
 #import <error_codes.h>
