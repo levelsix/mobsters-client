@@ -1307,8 +1307,6 @@
   f.tag = 1015;
   [healthLabel runAction:f];
   
-  [self pulseHealthLabelIfRequired:!enemyIsAttacker];
-  
   if (showLabel)
     [self animateDamageLabel:damageDone modifiedDamage:damageDone targetSprite:defSpr withCompletion:nil];
   
@@ -1323,6 +1321,8 @@
    */
   
   def.curHealth = newHealth;
+  
+  [self pulseHealthLabelIfRequired:!enemyIsAttacker];
 }
 
 - (void) healForAmount:(int)heal enemyIsHealed:(BOOL)enemyIsHealed withTarget:(id)target andSelector:(SEL)selector {
@@ -2142,7 +2142,7 @@
       } else if (perc < PULSE_ONCE_THRESH) {
         [self pulseBloodOnce];
       }
-    } else if (perc > PULSE_ONCE_THRESH) {
+    } else if (perc > PULSE_CONT_THRESH) {
       [self stopPulsing];
     }
   }
@@ -3047,6 +3047,7 @@
   [self healForAmount:bip.amount enemyIsHealed:NO withTarget:self andSelector:@selector(moveComplete)];
   [self sendServerUpdatedValuesVerifyDamageDealt:NO];
   [skillManager showItemPopupOverlay:bip bottomText:[NSString stringWithFormat:@"+%i HP", bip.amount]];
+  [self pulseHealthLabelIfRequired:NO];
 }
 
 - (void) useBoardShuffle:(BattleItemProto *)bip {
