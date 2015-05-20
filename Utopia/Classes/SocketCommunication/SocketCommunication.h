@@ -243,6 +243,8 @@
 
 - (int) sendTangoGiftsForTangoIds:(NSArray *)tangoIds myTangoId:(NSString *)myTangoId gemReward:(int32_t)gemReward clientTime:(int64_t)clientTime;
 
+- (int) sendRetrieveStrengthLeaderBoarderMessage:(int)minRank maxRank:(int)maxRank;
+
 - (void) flush;
 - (void) pauseFlushTimer;
 - (void) resumeFlushTimer;

@@ -1755,6 +1755,16 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCSendTangoGiftEvent];
 }
 
+- (int) sendRetrieveStrengthLeaderBoarderMessage:(int)minRank maxRank:(int)maxRank {
+  RetrieveStrengthLeaderBoardRequestProto *req = [[[[[RetrieveStrengthLeaderBoardRequestProto builder]
+                                                     setMinRank:minRank]
+                                                    setMaxRank:maxRank]
+                                                   setSender:_sender]
+                                                  build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCRetrieveStrengthLeaderBoardEvent];
+}
+
 #pragma mark - Batch/Flush events
 
 - (int) retrieveCurrencyFromStruct:(NSString *)userStructUuid time:(uint64_t)time amountCollected:(int)amountCollected {

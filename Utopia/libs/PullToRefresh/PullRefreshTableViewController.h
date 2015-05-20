@@ -46,7 +46,7 @@
 @property (nonatomic, retain) IBOutlet UIView *refreshHeaderView;
 @property (nonatomic, retain) IBOutlet UILabel *refreshLabel;
 @property (nonatomic, retain) IBOutlet UIImageView *refreshArrow;
-@property (nonatomic, retain) UIActivityIndicatorView *refreshSpinner;
+@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *refreshSpinner;
 @property (nonatomic, copy) NSString *textPull;
 @property (nonatomic, copy) NSString *textRelease;
 @property (nonatomic, copy) NSString *textLoading;
@@ -54,7 +54,8 @@
 
 - (void)setupStrings;
 - (void)addPullToRefreshHeader:(UITableView *)tableView;
-- (void) displayLoading;
+- (void)addPullToRefreshHeader:(UITableView *)tableView style:(UIActivityIndicatorViewStyle)style;
+- (void)displayLoading;
 - (void)startLoading;
 - (void)stopLoading;
 - (void)refresh;
