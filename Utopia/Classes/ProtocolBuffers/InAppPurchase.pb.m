@@ -222,6 +222,7 @@ BOOL InAppPurchasePackageProto_InAppPurchasePackageTypeIsValidValue(InAppPurchas
     case InAppPurchasePackageProto_InAppPurchasePackageTypeSale:
     case InAppPurchasePackageProto_InAppPurchasePackageTypeBuilderPack:
     case InAppPurchasePackageProto_InAppPurchasePackageTypeStarterBuilderPack:
+    case InAppPurchasePackageProto_InAppPurchasePackageTypeGachaMultiSpin:
       return YES;
     default:
       return NO;

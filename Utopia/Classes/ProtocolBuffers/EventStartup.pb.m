@@ -3114,6 +3114,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property (strong) StartupResponseProto_StartupConstants_TournamentConstants* touramentConstants;
 @property int32_t fbConnectRewardDiamonds;
 @property (strong) NSString* faqFileName;
+@property (strong) NSString* creditsFileName;
 @property (strong) MinimumUserProto* adminChatUserProto;
 @property int32_t numBeginnerSalesAllowed;
 @property (strong) StartupResponseProto_StartupConstants_UserMonsterConstants* userMonsterConstants;
@@ -3141,9 +3142,9 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property int32_t minsToResolicitTeamDonation;
 @property (strong) NSMutableArray * mutableFileDownloadProtoList;
 @property int32_t taskIdForUpgradeTutorial;
-@property (strong) StartupResponseProto_StartupConstants_BoosterPackConstantsProto* boosterPackConstantProto;
 @property int32_t tangoMaxGemReward;
 @property int32_t tangoMinGemReward;
+@property (strong) StartupResponseProto_StartupConstants_BoosterPackConstantsProto* boosterPackConstantProto;
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -3236,6 +3237,13 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasFaqFileName_ = !!value_;
 }
 @synthesize faqFileName;
+- (BOOL) hasCreditsFileName {
+  return !!hasCreditsFileName_;
+}
+- (void) setHasCreditsFileName:(BOOL) value_ {
+  hasCreditsFileName_ = !!value_;
+}
+@synthesize creditsFileName;
 - (BOOL) hasAdminChatUserProto {
   return !!hasAdminChatUserProto_;
 }
@@ -3420,13 +3428,6 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasTaskIdForUpgradeTutorial_ = !!value_;
 }
 @synthesize taskIdForUpgradeTutorial;
-- (BOOL) hasBoosterPackConstantProto {
-  return !!hasBoosterPackConstantProto_;
-}
-- (void) setHasBoosterPackConstantProto:(BOOL) value_ {
-  hasBoosterPackConstantProto_ = !!value_;
-}
-@synthesize boosterPackConstantProto;
 - (BOOL) hasTangoMaxGemReward {
   return !!hasTangoMaxGemReward_;
 }
@@ -3441,6 +3442,13 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasTangoMinGemReward_ = !!value_;
 }
 @synthesize tangoMinGemReward;
+- (BOOL) hasBoosterPackConstantProto {
+  return !!hasBoosterPackConstantProto_;
+}
+- (void) setHasBoosterPackConstantProto:(BOOL) value_ {
+  hasBoosterPackConstantProto_ = !!value_;
+}
+@synthesize boosterPackConstantProto;
 - (id) init {
   if ((self = [super init])) {
     self.maxLevelForUser = 0;
@@ -3455,6 +3463,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.touramentConstants = [StartupResponseProto_StartupConstants_TournamentConstants defaultInstance];
     self.fbConnectRewardDiamonds = 0;
     self.faqFileName = @"";
+    self.creditsFileName = @"";
     self.adminChatUserProto = [MinimumUserProto defaultInstance];
     self.numBeginnerSalesAllowed = 0;
     self.userMonsterConstants = [StartupResponseProto_StartupConstants_UserMonsterConstants defaultInstance];
@@ -3478,9 +3487,9 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.taskIdOfFirstSkill = 0;
     self.minsToResolicitTeamDonation = 0;
     self.taskIdForUpgradeTutorial = 0;
-    self.boosterPackConstantProto = [StartupResponseProto_StartupConstants_BoosterPackConstantsProto defaultInstance];
     self.tangoMaxGemReward = 0;
     self.tangoMinGemReward = 0;
+    self.boosterPackConstantProto = [StartupResponseProto_StartupConstants_BoosterPackConstantsProto defaultInstance];
   }
   return self;
 }
@@ -3665,6 +3674,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasTangoMinGemReward) {
     [output writeInt32:43 value:self.tangoMinGemReward];
   }
+  if (self.hasCreditsFileName) {
+    [output writeString:44 value:self.creditsFileName];
+  }
   if (self.hasBoosterPackConstantProto) {
     [output writeMessage:500 value:self.boosterPackConstantProto];
   }
@@ -3805,6 +3817,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }
   if (self.hasTangoMinGemReward) {
     size_ += computeInt32Size(43, self.tangoMinGemReward);
+  }
+  if (self.hasCreditsFileName) {
+    size_ += computeStringSize(44, self.creditsFileName);
   }
   if (self.hasBoosterPackConstantProto) {
     size_ += computeMessageSize(500, self.boosterPackConstantProto);
@@ -4018,6 +4033,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasTangoMinGemReward) {
     [output appendFormat:@"%@%@: %@\n", indent, @"tangoMinGemReward", [NSNumber numberWithInteger:self.tangoMinGemReward]];
   }
+  if (self.hasCreditsFileName) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"creditsFileName", self.creditsFileName];
+  }
   if (self.hasBoosterPackConstantProto) {
     [output appendFormat:@"%@%@ {\n", indent, @"boosterPackConstantProto"];
     [self.boosterPackConstantProto writeDescriptionTo:output
@@ -4115,6 +4133,8 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
       (!self.hasTangoMaxGemReward || self.tangoMaxGemReward == otherMessage.tangoMaxGemReward) &&
       self.hasTangoMinGemReward == otherMessage.hasTangoMinGemReward &&
       (!self.hasTangoMinGemReward || self.tangoMinGemReward == otherMessage.tangoMinGemReward) &&
+      self.hasCreditsFileName == otherMessage.hasCreditsFileName &&
+      (!self.hasCreditsFileName || [self.creditsFileName isEqual:otherMessage.creditsFileName]) &&
       self.hasBoosterPackConstantProto == otherMessage.hasBoosterPackConstantProto &&
       (!self.hasBoosterPackConstantProto || [self.boosterPackConstantProto isEqual:otherMessage.boosterPackConstantProto]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
@@ -4249,6 +4269,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }
   if (self.hasTangoMinGemReward) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.tangoMinGemReward] hash];
+  }
+  if (self.hasCreditsFileName) {
+    hashCode = hashCode * 31 + [self.creditsFileName hash];
   }
   if (self.hasBoosterPackConstantProto) {
     hashCode = hashCode * 31 + [self.boosterPackConstantProto hash];
@@ -8962,6 +8985,9 @@ static StartupResponseProto_StartupConstants_BoosterPackConstantsProto* defaultS
   if (other.hasFaqFileName) {
     [self setFaqFileName:other.faqFileName];
   }
+  if (other.hasCreditsFileName) {
+    [self setCreditsFileName:other.creditsFileName];
+  }
   if (other.hasAdminChatUserProto) {
     [self mergeAdminChatUserProto:other.adminChatUserProto];
   }
@@ -9059,14 +9085,14 @@ static StartupResponseProto_StartupConstants_BoosterPackConstantsProto* defaultS
   if (other.hasTaskIdForUpgradeTutorial) {
     [self setTaskIdForUpgradeTutorial:other.taskIdForUpgradeTutorial];
   }
-  if (other.hasBoosterPackConstantProto) {
-    [self mergeBoosterPackConstantProto:other.boosterPackConstantProto];
-  }
   if (other.hasTangoMaxGemReward) {
     [self setTangoMaxGemReward:other.tangoMaxGemReward];
   }
   if (other.hasTangoMinGemReward) {
     [self setTangoMinGemReward:other.tangoMinGemReward];
+  }
+  if (other.hasBoosterPackConstantProto) {
+    [self mergeBoosterPackConstantProto:other.boosterPackConstantProto];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -9316,6 +9342,10 @@ static StartupResponseProto_StartupConstants_BoosterPackConstantsProto* defaultS
       }
       case 344: {
         [self setTangoMinGemReward:[input readInt32]];
+        break;
+      }
+      case 354: {
+        [self setCreditsFileName:[input readString]];
         break;
       }
       case 4002: {
@@ -9610,6 +9640,22 @@ static StartupResponseProto_StartupConstants_BoosterPackConstantsProto* defaultS
 - (StartupResponseProto_StartupConstants_Builder*) clearFaqFileName {
   result.hasFaqFileName = NO;
   result.faqFileName = @"";
+  return self;
+}
+- (BOOL) hasCreditsFileName {
+  return result.hasCreditsFileName;
+}
+- (NSString*) creditsFileName {
+  return result.creditsFileName;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setCreditsFileName:(NSString*) value {
+  result.hasCreditsFileName = YES;
+  result.creditsFileName = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearCreditsFileName {
+  result.hasCreditsFileName = NO;
+  result.creditsFileName = @"";
   return self;
 }
 - (BOOL) hasAdminChatUserProto {
@@ -10160,36 +10206,6 @@ static StartupResponseProto_StartupConstants_BoosterPackConstantsProto* defaultS
   result.taskIdForUpgradeTutorial = 0;
   return self;
 }
-- (BOOL) hasBoosterPackConstantProto {
-  return result.hasBoosterPackConstantProto;
-}
-- (StartupResponseProto_StartupConstants_BoosterPackConstantsProto*) boosterPackConstantProto {
-  return result.boosterPackConstantProto;
-}
-- (StartupResponseProto_StartupConstants_Builder*) setBoosterPackConstantProto:(StartupResponseProto_StartupConstants_BoosterPackConstantsProto*) value {
-  result.hasBoosterPackConstantProto = YES;
-  result.boosterPackConstantProto = value;
-  return self;
-}
-- (StartupResponseProto_StartupConstants_Builder*) setBoosterPackConstantProto_Builder:(StartupResponseProto_StartupConstants_BoosterPackConstantsProto_Builder*) builderForValue {
-  return [self setBoosterPackConstantProto:[builderForValue build]];
-}
-- (StartupResponseProto_StartupConstants_Builder*) mergeBoosterPackConstantProto:(StartupResponseProto_StartupConstants_BoosterPackConstantsProto*) value {
-  if (result.hasBoosterPackConstantProto &&
-      result.boosterPackConstantProto != [StartupResponseProto_StartupConstants_BoosterPackConstantsProto defaultInstance]) {
-    result.boosterPackConstantProto =
-      [[[StartupResponseProto_StartupConstants_BoosterPackConstantsProto builderWithPrototype:result.boosterPackConstantProto] mergeFrom:value] buildPartial];
-  } else {
-    result.boosterPackConstantProto = value;
-  }
-  result.hasBoosterPackConstantProto = YES;
-  return self;
-}
-- (StartupResponseProto_StartupConstants_Builder*) clearBoosterPackConstantProto {
-  result.hasBoosterPackConstantProto = NO;
-  result.boosterPackConstantProto = [StartupResponseProto_StartupConstants_BoosterPackConstantsProto defaultInstance];
-  return self;
-}
 - (BOOL) hasTangoMaxGemReward {
   return result.hasTangoMaxGemReward;
 }
@@ -10220,6 +10236,36 @@ static StartupResponseProto_StartupConstants_BoosterPackConstantsProto* defaultS
 - (StartupResponseProto_StartupConstants_Builder*) clearTangoMinGemReward {
   result.hasTangoMinGemReward = NO;
   result.tangoMinGemReward = 0;
+  return self;
+}
+- (BOOL) hasBoosterPackConstantProto {
+  return result.hasBoosterPackConstantProto;
+}
+- (StartupResponseProto_StartupConstants_BoosterPackConstantsProto*) boosterPackConstantProto {
+  return result.boosterPackConstantProto;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setBoosterPackConstantProto:(StartupResponseProto_StartupConstants_BoosterPackConstantsProto*) value {
+  result.hasBoosterPackConstantProto = YES;
+  result.boosterPackConstantProto = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setBoosterPackConstantProto_Builder:(StartupResponseProto_StartupConstants_BoosterPackConstantsProto_Builder*) builderForValue {
+  return [self setBoosterPackConstantProto:[builderForValue build]];
+}
+- (StartupResponseProto_StartupConstants_Builder*) mergeBoosterPackConstantProto:(StartupResponseProto_StartupConstants_BoosterPackConstantsProto*) value {
+  if (result.hasBoosterPackConstantProto &&
+      result.boosterPackConstantProto != [StartupResponseProto_StartupConstants_BoosterPackConstantsProto defaultInstance]) {
+    result.boosterPackConstantProto =
+      [[[StartupResponseProto_StartupConstants_BoosterPackConstantsProto builderWithPrototype:result.boosterPackConstantProto] mergeFrom:value] buildPartial];
+  } else {
+    result.boosterPackConstantProto = value;
+  }
+  result.hasBoosterPackConstantProto = YES;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearBoosterPackConstantProto {
+  result.hasBoosterPackConstantProto = NO;
+  result.boosterPackConstantProto = [StartupResponseProto_StartupConstants_BoosterPackConstantsProto defaultInstance];
   return self;
 }
 @end
