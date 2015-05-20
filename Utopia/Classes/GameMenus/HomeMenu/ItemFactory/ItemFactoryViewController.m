@@ -290,7 +290,7 @@
     
     ItemSelectViewController *svc = [[ItemSelectViewController alloc] init];
     if (svc) {
-      ResourceItemsFiller *rif = [[ResourceItemsFiller alloc] initWithResourceType:ResourceTypeCash requiredAmount:cost shouldAccumulate:YES];
+      ResourceItemsFiller *rif = [[ResourceItemsFiller alloc] initWithResourceType:bip.createResourceType requiredAmount:cost shouldAccumulate:YES];
       rif.delegate = self;
       svc.delegate = rif;
       self.popoverViewController = svc;
@@ -347,7 +347,7 @@
 {
   const CGPoint invokingViewAbsolutePosition = [Globals convertPointToWindowCoordinates:_tempBgdImageView.frame.origin fromViewCoordinates:_tempBgdImageView.superview];
   ViewAnchoringDirection popupDirection = invokingViewAbsolutePosition.x < [Globals screenSize].width * .5f ? ViewAnchoringPreferRightPlacement : ViewAnchoringPreferLeftPlacement;
-  [self.popoverViewController showAnchoredToInvokingView:_tempBgdImageView withDirection:popupDirection inkovingViewImage:_tempBgdImageView.image];
+  [self.popoverViewController showAnchoredToInvokingView:_tempBgdImageView withDirection:popupDirection inkovingViewImage:[Globals maskImage:_tempBgdImageView.image withColor:[UIColor whiteColor]]];
   
   [scrollView setDelegate:nil];
 }
