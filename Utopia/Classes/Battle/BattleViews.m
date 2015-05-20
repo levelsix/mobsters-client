@@ -164,6 +164,22 @@
   }
 }
 
+- (void)updateForReplay:(NSArray *)rewards isWin:(BOOL)isWin attackerPerspective:(BOOL)attackerPerspective {
+  [self updateForRewards:rewards isWin:isWin == attackerPerspective allowsContinue:NO continueCost:0];
+  
+  if (attackerPerspective){
+    self.ribbonLabel.string = isWin ? @"ATTACKER EARNED" : @"ATTACKER LOST OUT ON";
+    self.topLabelHeader.spriteFrame = [CCSpriteFrame frameWithImageNamed:isWin ? @"attackerwon.png" : @"attackerlost.png"];
+  } else {
+    self.ribbonLabel.string = isWin ? @"DEFENDER LOST" : @"DEFENDER PROTECTED";
+    self.topLabelHeader.spriteFrame = [CCSpriteFrame frameWithImageNamed:isWin ? @"defenderlost.png" : @"defenderwon.png"];
+  }
+  
+  self.shareButton.label.string = @"REPLAY";
+  self.doneButton.label.string = @"EXIT";
+  
+}
+
 - (void) updatePvpReward:(PvpLeagueProto *)league leagueChange:(BOOL)leagueChange change:(int)change  {
   [self.pvpLeagueNode updatePvpLeagueReward:league leagueChange:leagueChange change:change];
 }

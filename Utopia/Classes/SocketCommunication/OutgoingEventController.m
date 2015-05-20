@@ -1097,15 +1097,26 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
         gl.ignorePrerequisites = !gl.ignorePrerequisites;
         msg = [NSString stringWithFormat:@"Prerequisites turned %@.", !gl.ignorePrerequisites ? @"on" : @"off"];
       } else if ([code isEqualToString:REPLAY_CODE]) {
-        GameState *gs = [GameState sharedGameState];
-        if ([gs.battleHistory count])
+        
+        Globals *gl = [Globals sharedGlobals];
+        if (gl.lastReplay)
         {
           PvpHistoryProto *lastBattle = [gs.battleHistory lastObject];
           [[OutgoingEventController sharedOutgoingEventController] viewBattleReplay:lastBattle.replayId];
           msg = @"Starting replay...";
         }
         else
-          msg = @"No replay found";
+        {
+          GameState *gs = [GameState sharedGameState];
+          if ([gs.battleHistory count])
+          {
+            PvpHistoryProto *lastBattle = [gs.battleHistory lastObject];
+            [[OutgoingEventController sharedOutgoingEventController] viewBattleReplay:lastBattle.replayId];
+            msg = @"Starting replay...";
+          }
+          else
+            msg = @"No replay found";
+        }
       }
 #endif
       

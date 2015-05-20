@@ -444,7 +444,7 @@
   [self resetTimeScale];
   [self.mainView.hudView disableItemsView];
   [super youWon];
-  [self.endView updateForRewards:[Reward createRewardsForReplay:_replay tillStage:(int)_replay.enemyTeamList.count droplessStageNums:self.droplessStageNums attackerVictory:YES] isWin:YES allowsContinue:NO continueCost:0];
+  [self.endView updateForReplay:[Reward createRewardsForReplay:_replay tillStage:(int)_replay.enemyTeamList.count droplessStageNums:self.droplessStageNums attackerVictory:YES] isWin:YES attackerPerspective:YES];
 }
 
 - (void) youLost {
@@ -452,7 +452,7 @@
   [self resetTimeScale];
   [self.mainView.hudView disableItemsView];
   [super youLost];
-  [self.endView updateForRewards:[Reward createRewardsForReplay:_replay tillStage:self.enemyPlayerObject.slotNum droplessStageNums:self.droplessStageNums attackerVictory:NO] isWin:NO allowsContinue:NO continueCost:0];
+  [self.endView updateForReplay:[Reward createRewardsForReplay:_replay tillStage:self.enemyPlayerObject.slotNum droplessStageNums:self.droplessStageNums attackerVictory:NO] isWin:NO attackerPerspective:YES];
 }
 
 - (void)displayDeployViewAndIsCancellable:(BOOL)cancel {
