@@ -1224,28 +1224,28 @@ static const CGSize FIXED_SIZE = {568, 384};
     }
     
     //check if the user can add mobsters to their team
-    NSArray *myTeam = [gs allBattleAvailableMonstersOnTeamWithClanSlot:NO];
-    BOOL hasFullTeam = myTeam.count >= gl.maxTeamSize;
-    BOOL hasAvailMobsters = NO;
-    
-    for (UserMonster *um in gs.myMonsters) {
-      if ([um isAvailable] && !um.teamSlot && um.curHealth > 0 && [gl currentBattleReadyTeamHasCostFor:um]) {
-        hasAvailMobsters = YES;
-      }
-    }
-    
-    if (!hasFullTeam && hasAvailMobsters && gs.tasksCompleted < EARLY_TUTORIAL_STAGES_COMPLETE_LIMIT) {
-      [Globals removeUIArrowFromViewRecursively:self.topBarViewController.attackView.superview];
-      [self pointArrowOnManageTeamWithPulsingAlpha:YES closeOpenViews:NO];
-      return;
-    }
-    
-    if(!hurtToons && gs.tasksCompleted < EARLY_TUTORIAL_STAGES_COMPLETE_LIMIT) {
-      
-      [hm removeArrowOnBuilding];
-      [self.topBarViewController showArrowToAttackButton];
-      return;
-    }
+//    NSArray *myTeam = [gs allBattleAvailableMonstersOnTeamWithClanSlot:NO];
+//    BOOL hasFullTeam = myTeam.count >= gl.maxTeamSize;
+//    BOOL hasAvailMobsters = NO;
+//    
+//    for (UserMonster *um in gs.myMonsters) {
+//      if ([um isAvailable] && !um.teamSlot && um.curHealth > 0 && [gl currentBattleReadyTeamHasCostFor:um]) {
+//        hasAvailMobsters = YES;
+//      }
+//    }
+//    
+//    if (!hasFullTeam && hasAvailMobsters && gs.tasksCompleted < EARLY_TUTORIAL_STAGES_COMPLETE_LIMIT) {
+//      [Globals removeUIArrowFromViewRecursively:self.topBarViewController.attackView.superview];
+//      [self pointArrowOnManageTeamWithPulsingAlpha:YES closeOpenViews:NO];
+//      return;
+//    }
+//    
+//    if(!hurtToons && gs.tasksCompleted < EARLY_TUTORIAL_STAGES_COMPLETE_LIMIT) {
+//      
+//      [hm removeArrowOnBuilding];
+//      [self.topBarViewController showArrowToAttackButton];
+//      return;
+//    }
     
   }
 }

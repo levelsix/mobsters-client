@@ -134,7 +134,7 @@
   [self.updateTimer invalidate];
   self.updateTimer = nil;
   
-  [[GameViewController baseController] showEarlyGameTutorialArrow];
+//  [[GameViewController baseController] showEarlyGameTutorialArrow];
 }
 
 - (void) updateLabels {

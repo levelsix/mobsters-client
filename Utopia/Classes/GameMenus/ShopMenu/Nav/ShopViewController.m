@@ -89,7 +89,7 @@
   //after you've gone through the whole tutorial remove all toons from your team.
   //buy a new building from the store.
   
-  [[GameViewController baseController] showEarlyGameTutorialArrow];
+//  [[GameViewController baseController] showEarlyGameTutorialArrow];
 }
 
 - (BOOL) shouldStopCCDirector {

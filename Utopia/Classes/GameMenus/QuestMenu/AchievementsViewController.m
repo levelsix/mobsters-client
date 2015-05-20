@@ -88,7 +88,7 @@
     [ChartboostDelegate fireAchievementRedeemed];
   }
   
-  [[GameViewController baseController] showEarlyGameTutorialArrow];
+//  [[GameViewController baseController] showEarlyGameTutorialArrow];
 }
 
 - (void) reloadWithAchievements:(NSDictionary *)allAchievements userAchievements:(NSDictionary *)userAchievements {

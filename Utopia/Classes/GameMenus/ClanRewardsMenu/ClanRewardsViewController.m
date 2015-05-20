@@ -120,7 +120,7 @@
   [super viewDidDisappear:animated];
   
   if (!_goClicked) {
-    [[GameViewController baseController] showEarlyGameTutorialArrow];
+//    [[GameViewController baseController] showEarlyGameTutorialArrow];
   }
 }
 

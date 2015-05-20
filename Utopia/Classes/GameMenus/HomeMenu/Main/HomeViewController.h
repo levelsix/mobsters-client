@@ -20,9 +20,6 @@
 
 - (void) homeViewControllerClosed;
 
-@optional
-- (void) showEarlyGameTutorialArrow;
-
 @end
 
 @interface HomeViewController : PopupNavViewController {
