@@ -431,22 +431,22 @@
   [super beginSecondMove];
 }
 
-- (void) dealDamage:(int)damageDone enemyIsAttacker:(BOOL)enemyIsAttacker usingAbility:(BOOL)usingAbility showDamageLabel:(BOOL)showLabel withTarget:(id)target withSelector:(SEL)selector {
-  if (!enemyIsAttacker) {
-    if (_curStage == ENEMY_INDEX) {
-      // Make sure he kills
-      damageDone = MAX(damageDone, self.enemyPlayerObject.curHealth+7);
-    } else if (_curStage == ENEMY_TWO_INDEX) {
-      // Make sure first guy does not kill, second guy kills
-      if (self.myPlayerObject.slotNum == 1) {
-        damageDone = MIN(damageDone, self.enemyPlayerObject.curHealth*0.9);
-      } else if (self.myPlayerObject.slotNum == 2) {
-        damageDone = MAX(damageDone, self.enemyPlayerObject.curHealth*1.1);
-      }
+- (void) myTurnEnded {
+  [super myTurnEnded];
+  
+  if (_curStage == ENEMY_INDEX) {
+    // Make sure he kills
+    _myDamageDealt = MAX(_myDamageDealt, self.enemyPlayerObject.curHealth+7);
+  } else if (_curStage == ENEMY_TWO_INDEX) {
+    // Make sure first guy does not kill, second guy kills
+    if (self.myPlayerObject.slotNum == 1) {
+      _myDamageDealt = MIN(_myDamageDealt, self.enemyPlayerObject.curHealth*0.9);
+    } else if (self.myPlayerObject.slotNum == 2) {
+      _myDamageDealt = MAX(_myDamageDealt, self.enemyPlayerObject.curHealth*1.1);
     }
   }
   
-  [super dealDamage:damageDone enemyIsAttacker:enemyIsAttacker usingAbility:usingAbility showDamageLabel:showLabel withTarget:target withSelector:selector];
+  _myDamageDealtUnmodified = _myDamageDealt;
 }
 
 - (void) swapToMark {
