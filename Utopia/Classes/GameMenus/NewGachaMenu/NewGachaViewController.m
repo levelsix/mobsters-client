@@ -96,64 +96,7 @@
   self.multiSpinGemCostLabel.width += 10.f;
   self.multiSpinGemCostLabel.height = self.multiSpinActionLabel.height;
   
-  _isMultiSpinAvailable = [[GameState sharedGameState].itemUtil getItemsForType:ItemTypeGachaMultiSpin].count > 0;
-  {
-    THLabel* multiSpinLabel = (THLabel*)self.multiSpinActionLabel;
-    if (_isMultiSpinAvailable) {
-      multiSpinLabel.strokePosition = THLabelStrokePositionOutside;
-      multiSpinLabel.strokeSize = 1.f;
-      multiSpinLabel.strokeColor = [UIColor colorWithHexString:@"B84A00"];
-      multiSpinLabel.gradientStartColor = [UIColor whiteColor];
-      multiSpinLabel.gradientEndColor = [UIColor colorWithHexString:@"FFF0BA"];
-      multiSpinLabel.shadowColor = [UIColor colorWithHexString:@"B84A00BF"];
-    } else {
-      multiSpinLabel.strokeSize = 0.f;
-    }
-    
-    THLabel* multiSpinGemLabel = (THLabel*)self.multiSpinGemCostLabel;
-    if (_isMultiSpinAvailable) {
-      multiSpinGemLabel.strokePosition = THLabelStrokePositionOutside;
-      multiSpinGemLabel.strokeSize = 1.f;
-      multiSpinGemLabel.strokeColor = [UIColor colorWithHexString:@"B84A00"];
-      multiSpinGemLabel.gradientStartColor = [UIColor whiteColor];
-      multiSpinGemLabel.gradientEndColor = [UIColor colorWithHexString:@"FFF0BA"];
-      multiSpinGemLabel.shadowColor = [UIColor colorWithHexString:@"B84A00BF"];
-      multiSpinGemLabel.originY += 1.f;
-    } else {
-      multiSpinGemLabel.strokeSize = 0.f;
-    }
-    
-    if (_isMultiSpinAvailable) {
-      [self.multiSpinButton setImage:[Globals imageNamed:@"bigspingold.png"] forState:UIControlStateNormal];
-      [self.multiSpinButton setImage:[Globals imageNamed:@"bigspingoldpressed.png"] forState:UIControlStateHighlighted];
-      
-      self.multiSpinTapToUnlockLabel.hidden = YES;
-      
-      self.multiSpinActionLabel.font = [UIFont fontWithName:self.multiSpinActionLabel.font.fontName size:11.f];
-      self.multiSpinActionLabel.centerY = self.multiSpinView.height * .5f - 3;
-      
-      self.multiSpinView.originX -= 2;
-      self.multiSpinGemCostView.centerY = self.multiSpinActionLabel.centerY - 3;
-      
-      const CGPoint gemCostIconCenter = self.multiSpinGemCostIcon.center;
-      self.multiSpinGemCostIcon.size = CGSizeMake(20, 20);
-      self.multiSpinGemCostIcon.centerX = gemCostIconCenter.x;
-      
-      self.multiSpinGemCostLabel.font = [UIFont fontWithName:self.multiSpinGemCostLabel.font.fontName size:11.f];
-      self.multiSpinGemCostLabel.originY += 2;
-    } else {
-      [Globals imageNamed:@"grabchip.png" withView:self.multiSpinGemCostIcon greyscale:YES indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:NO];
-      
-      self.multiSpinGemCostView.centerY = self.multiSpinActionLabel.centerY - 4;
-      self.multiSpinTapToUnlockLabel.originY = -1;
-      self.multiSpinActionLabel.originY = self.multiSpinView.height - self.multiSpinActionLabel.height - 4;
-      self.multiSpinGemCostLabel.originY += 1;
-    }
-    
-    self.multiSpinGemCostView.originX = (self.multiSpinView.centerX - self.multiSpinView.originX) + 8;
-    self.multiSpinGemCostLabel.originX = CGRectGetMaxX(self.multiSpinGemCostIcon.frame) + 1;
-    self.multiSpinGemCostIcon.centerY = self.multiSpinGemCostLabel.centerY;
-  }
+  [self updateMultiSpinButton];
   
   THLabel* itemSelectPackagesLabel = (THLabel*)self.itemSelectPackagesLabel;
   {
@@ -252,6 +195,66 @@
     featuredContainer.originX = leftGradient.originX;
     featuredContainer.width = (542.f * deviceScale) - featuredContainer.originX;
   }
+}
+
+- (void) updateMultiSpinButton {
+  _isMultiSpinAvailable = [[GameState sharedGameState].itemUtil getItemsForType:ItemTypeGachaMultiSpin].count > 0;
+
+  THLabel* multiSpinLabel = (THLabel*)self.multiSpinActionLabel;
+  if (_isMultiSpinAvailable) {
+    multiSpinLabel.strokePosition = THLabelStrokePositionOutside;
+    multiSpinLabel.strokeSize = 1.f;
+    multiSpinLabel.strokeColor = [UIColor colorWithHexString:@"B84A00"];
+    multiSpinLabel.gradientStartColor = [UIColor whiteColor];
+    multiSpinLabel.gradientEndColor = [UIColor colorWithHexString:@"FFF0BA"];
+    multiSpinLabel.shadowColor = [UIColor colorWithHexString:@"B84A00BF"];
+  } else {
+    multiSpinLabel.strokeSize = 0.f;
+  }
+  
+  THLabel* multiSpinGemLabel = (THLabel*)self.multiSpinGemCostLabel;
+  if (_isMultiSpinAvailable) {
+    multiSpinGemLabel.strokePosition = THLabelStrokePositionOutside;
+    multiSpinGemLabel.strokeSize = 1.f;
+    multiSpinGemLabel.strokeColor = [UIColor colorWithHexString:@"B84A00"];
+    multiSpinGemLabel.gradientStartColor = [UIColor whiteColor];
+    multiSpinGemLabel.gradientEndColor = [UIColor colorWithHexString:@"FFF0BA"];
+    multiSpinGemLabel.shadowColor = [UIColor colorWithHexString:@"B84A00BF"];
+    multiSpinGemLabel.originY += 1.f;
+  } else {
+    multiSpinGemLabel.strokeSize = 0.f;
+  }
+  
+  [Globals imageNamed:@"grabchip.png" withView:self.multiSpinGemCostIcon greyscale:!_isMultiSpinAvailable indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:NO];
+  
+  if (_isMultiSpinAvailable) {
+    [self.multiSpinButton setImage:[Globals imageNamed:@"bigspingold.png"] forState:UIControlStateNormal];
+    [self.multiSpinButton setImage:[Globals imageNamed:@"bigspingoldpressed.png"] forState:UIControlStateHighlighted];
+    
+    self.multiSpinTapToUnlockLabel.hidden = YES;
+    
+    self.multiSpinActionLabel.font = [UIFont fontWithName:self.multiSpinActionLabel.font.fontName size:11.f];
+    self.multiSpinActionLabel.centerY = self.multiSpinView.height * .5f - 3;
+    
+    self.multiSpinView.originX = 6;
+    self.multiSpinGemCostView.centerY = self.multiSpinActionLabel.centerY - 3;
+    
+    const CGPoint gemCostIconCenter = self.multiSpinGemCostIcon.center;
+    self.multiSpinGemCostIcon.size = CGSizeMake(20, 20);
+    self.multiSpinGemCostIcon.centerX = gemCostIconCenter.x;
+    
+    self.multiSpinGemCostLabel.font = [UIFont fontWithName:self.multiSpinGemCostLabel.font.fontName size:11.f];
+    self.multiSpinGemCostLabel.originY = 4;
+  } else {
+    self.multiSpinGemCostView.centerY = self.multiSpinActionLabel.centerY - 4;
+    self.multiSpinTapToUnlockLabel.originY = -1;
+    self.multiSpinActionLabel.originY = self.multiSpinView.height - self.multiSpinActionLabel.height - 4;
+    self.multiSpinGemCostLabel.originY = 2;
+  }
+  
+  self.multiSpinGemCostView.originX = (self.multiSpinView.centerX - self.multiSpinView.originX) + 8;
+  self.multiSpinGemCostLabel.originX = CGRectGetMaxX(self.multiSpinGemCostIcon.frame) + 1;
+  self.multiSpinGemCostIcon.centerY = self.multiSpinGemCostLabel.centerY;
 }
 
 - (void) loadBoosterPacks {
@@ -560,9 +563,7 @@
   }
   else {
     // Display a popup that will give players the option to purchase and unlock High Roller mode
-    PurchaseHighRollerModeViewController *phrmvc = [[PurchaseHighRollerModeViewController alloc]
-                                                    initWithHeadline:@"Unlock High Roller"
-                                                    andMessage:@"Purchase a Package that includes \"High Roller Mode\" to unlock!"];
+    PurchaseHighRollerModeViewController *phrmvc = [[PurchaseHighRollerModeViewController alloc] init];
     [phrmvc setDelegate:self];
     [self.navigationController addChildViewController:phrmvc];
     [phrmvc.view setFrame:self.view.bounds];
@@ -791,6 +792,11 @@
       }
     }];
   }
+}
+
+- (void) highRollerModePurchased {
+  [self updateMultiSpinButton];
+  [self updateFreeGachasCounter];
 }
 
 #pragma mark - GrabTokenItemsFillerDelegate

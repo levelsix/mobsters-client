@@ -7,10 +7,12 @@
 //
 
 #import "NibUtils.h"
+#import "InAppPurchaseData.h"
 
 @protocol PurchaseHighRollerModeCallbackDelegate <NSObject>
 
 - (void) toPackagesTapped:(BOOL)prioritizeHighRoller;
+- (void) highRollerModePurchased;
 
 @end
 
@@ -24,24 +26,29 @@
 @property (nonatomic, retain) IBOutlet UIView *purchaseView;
 
 - (void) initFonts;
-- (void) updateWithHeadline:(NSString *) headline andMessage:(NSString *) message;
+- (void) updateForPurchaseMode:(BOOL)purchaseMode withHeadline:(NSString *)headline andMessage:(NSString *)message;
 
 @end
 
 @interface PurchaseHighRollerModeViewController : UIViewController {
   NSString *_headline;
   NSString *_message;
+  
+  BOOL _purchaseMode;
+  BOOL _isLoading;
+  
+  id<InAppPurchaseData> _highRollerModeIAP;
 }
 
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *bgView;
+
+@property (nonatomic, retain) LoadingView *loadingView;
 
 @property (nonatomic, weak) id<PurchaseHighRollerModeCallbackDelegate> delegate;
 
 - (IBAction) clickedPackages:(id)sender;
 - (IBAction) clickedPurchase:(id)sender;
 - (IBAction) clickedClose:(id)sender;
-
-- (id) initWithHeadline:(NSString *) headline andMessage:(NSString *) message;
 
 @end

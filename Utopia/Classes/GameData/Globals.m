@@ -110,6 +110,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return nil;
 }
 
+- (InAppPurchasePackageProto *) highRollerModeIapPackage {
+  for (InAppPurchasePackageProto *pkg in self.iapPackages) {
+    if (pkg.iapPackageType == InAppPurchasePackageProto_InAppPurchasePackageTypeGachaMultiSpin) {
+      return pkg;
+    }
+  }
+  return nil;
+}
+
 - (InAppPurchasePackageProto *) moneyTreeIapPackage {
   for (InAppPurchasePackageProto *pkg in self.iapPackages) {
     if (pkg.iapPackageType == InAppPurchasePackageProto_InAppPurchasePackageTypeMoneyTree) {

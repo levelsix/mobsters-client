@@ -16272,9 +16272,9 @@
 		CF4DB9651808AE9100062258 /* Protocol Buffers */ = {
 			isa = PBXGroup;
 			children = (
+				CF6574771909CAF100ABF1F4 /* Proto files */,
 				63959E191B0ABE4400E5E302 /* EventReward.pb.h */,
 				63959E1A1B0ABE4400E5E302 /* EventReward.pb.m */,
-				CF6574771909CAF100ABF1F4 /* Proto files */,
 				9BE9F52A1B0AA5AA007E3A2F /* EventLeaderBoard.pb.h */,
 				9BE9F52B1B0AA5AA007E3A2F /* EventLeaderBoard.pb.m */,
 				9BE9F52C1B0AA5AA007E3A2F /* LeaderBoard.pb.h */,
