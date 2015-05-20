@@ -1842,12 +1842,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   GameState *gs = [GameState sharedGameState];
   if (proto.status == TradeItemForBoosterResponseProto_TradeItemForBoosterStatusSuccess) {
     // Gems, oil, and cash are updated through UpdateUserClientResponseEvent. Don't do anything here
-    if (proto.reward.updatedOrNewMonstersList.count) {
-      [gs addToMyMonsters:proto.reward.updatedOrNewMonstersList];
+    if (proto.rewards.updatedOrNewMonstersList.count) {
+      [gs addToMyMonsters:proto.rewards.updatedOrNewMonstersList];
     }
     
-    if (proto.reward.updatedUserItemsList) {
-      [gs.itemUtil addToMyItems:proto.reward.updatedUserItemsList];
+    if (proto.rewards.updatedUserItemsList) {
+      [gs.itemUtil addToMyItems:proto.rewards.updatedUserItemsList];
     }
     
     [gs removeNonFullUserUpdatesForTag:tag];
