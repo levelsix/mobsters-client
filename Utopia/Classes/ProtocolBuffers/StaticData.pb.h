@@ -9,7 +9,6 @@
 #import "BoosterPackStuff.pb.h"
 #import "City.pb.h"
 #import "Clan.pb.h"
-#import "ClanGifts.pb.h"
 #import "CustomMenu.pb.h"
 #import "Item.pb.h"
 #import "MonsterStuff.pb.h"
@@ -218,6 +217,8 @@
 @class StaticUserLevelInfoProto_Builder;
 @class StructureInfoProto;
 @class StructureInfoProto_Builder;
+@class TangoGiftProto;
+@class TangoGiftProto_Builder;
 @class TaskMapElementProto;
 @class TaskMapElementProto_Builder;
 @class TaskStageMonsterProto;
@@ -248,6 +249,8 @@
 @class UserEnhancementProto_Builder;
 @class UserFacebookInviteForSlotProto;
 @class UserFacebookInviteForSlotProto_Builder;
+@class UserGiftProto;
+@class UserGiftProto_Builder;
 @class UserItemProto;
 @class UserItemProto_Builder;
 @class UserItemSecretGiftProto;
@@ -278,6 +281,8 @@
 @class UserResearchProto_Builder;
 @class UserRewardProto;
 @class UserRewardProto_Builder;
+@class UserTangoGiftProto;
+@class UserTangoGiftProto_Builder;
 @class UserTaskCompletedProto;
 @class UserTaskCompletedProto_Builder;
 #ifndef __has_feature
@@ -345,7 +350,6 @@
   NSMutableArray * mutableResearchList;
   NSMutableArray * mutableBattleItemList;
   NSMutableArray * mutablePvpBoardObstacleProtosList;
-  NSMutableArray * mutableRewardList;
   NSMutableArray * mutableClanGiftsList;
 }
 - (BOOL) hasSender;
@@ -392,7 +396,6 @@
 @property (readonly, strong) NSArray * researchList;
 @property (readonly, strong) NSArray * battleItemList;
 @property (readonly, strong) NSArray * pvpBoardObstacleProtosList;
-@property (readonly, strong) NSArray * rewardList;
 @property (readonly, strong) NSArray * clanGiftsList;
 - (CityExpansionCostProto*)expansionCostsAtIndex:(NSUInteger)index;
 - (FullCityProto*)allCitiesAtIndex:(NSUInteger)index;
@@ -434,7 +437,6 @@
 - (ResearchProto*)researchAtIndex:(NSUInteger)index;
 - (BattleItemProto*)battleItemAtIndex:(NSUInteger)index;
 - (PvpBoardObstacleProto*)pvpBoardObstacleProtosAtIndex:(NSUInteger)index;
-- (RewardProto*)rewardAtIndex:(NSUInteger)index;
 - (ClanGiftProto*)clanGiftsAtIndex:(NSUInteger)index;
 
 + (StaticDataProto*) defaultInstance;
@@ -725,12 +727,6 @@
 - (StaticDataProto_Builder *)addPvpBoardObstacleProtos:(PvpBoardObstacleProto*)value;
 - (StaticDataProto_Builder *)addAllPvpBoardObstacleProtos:(NSArray *)array;
 - (StaticDataProto_Builder *)clearPvpBoardObstacleProtos;
-
-- (NSMutableArray *)rewardList;
-- (RewardProto*)rewardAtIndex:(NSUInteger)index;
-- (StaticDataProto_Builder *)addReward:(RewardProto*)value;
-- (StaticDataProto_Builder *)addAllReward:(NSArray *)array;
-- (StaticDataProto_Builder *)clearReward;
 
 - (NSMutableArray *)clanGiftsList;
 - (ClanGiftProto*)clanGiftsAtIndex:(NSUInteger)index;

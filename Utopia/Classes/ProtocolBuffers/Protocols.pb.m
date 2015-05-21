@@ -21,7 +21,6 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [ChatRoot registerAllExtensions:registry];
     [CityRoot registerAllExtensions:registry];
     [ClanRoot registerAllExtensions:registry];
-    [ClanGiftsRoot registerAllExtensions:registry];
     [DevRoot registerAllExtensions:registry];
     [EventAchievementRoot registerAllExtensions:registry];
     [EventApnsRoot registerAllExtensions:registry];
@@ -39,8 +38,9 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [EventMonsterRoot registerAllExtensions:registry];
     [EventPvpRoot registerAllExtensions:registry];
     [EventQuestRoot registerAllExtensions:registry];
-    [EventResearchRoot registerAllExtensions:registry];
     [EventReferralRoot registerAllExtensions:registry];
+    [EventResearchRoot registerAllExtensions:registry];
+    [EventRewardRoot registerAllExtensions:registry];
     [EventStartupRoot registerAllExtensions:registry];
     [EventStaticDataRoot registerAllExtensions:registry];
     [EventStructureRoot registerAllExtensions:registry];
@@ -182,6 +182,10 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCTranslateSelectMessagesEvent:
     case EventProtocolRequestCUpdateUserStrengthEvent:
     case EventProtocolRequestCRefreshMiniJobEvent:
+    case EventProtocolRequestCSetTangoIdEvent:
+    case EventProtocolRequestCSendTangoGiftEvent:
+    case EventProtocolRequestCDeleteGiftEvent:
+    case EventProtocolRequestCCollectGiftEvent:
     case EventProtocolRequestCCollectClanGiftsEvent:
     case EventProtocolRequestCDeleteClanGiftsEvent:
     case EventProtocolRequestCReceivedClanGiftsEvent:
@@ -299,6 +303,7 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSAwardClanRaidStageRewardEvent:
     case EventProtocolResponseSForceLogoutEvent:
     case EventProtocolResponseSRetrieveClanDataEvent:
+    case EventProtocolResponseSReceivedGiftEvent:
     case EventProtocolResponseSDevEvent:
     case EventProtocolResponseSPerformResearchEvent:
     case EventProtocolResponseSFinishPerformingResearchEvent:
@@ -312,6 +317,10 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSTranslateSelectMessagesEvent:
     case EventProtocolResponseSUpdateUserStrengthEvent:
     case EventProtocolResponseSRefreshMiniJobEvent:
+    case EventProtocolResponseSSetTangoIdEvent:
+    case EventProtocolResponseSSendTangoGiftEvent:
+    case EventProtocolResponseSDeleteGiftEvent:
+    case EventProtocolResponseSCollectGiftEvent:
     case EventProtocolResponseSCollectClanGiftsEvent:
     case EventProtocolResponseSDeleteClanGiftsEvent:
     case EventProtocolResponseSReceivedClanGiftsEvent:

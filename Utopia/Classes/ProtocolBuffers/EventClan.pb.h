@@ -3,8 +3,8 @@
 #import "ProtocolBuffers.h"
 
 #import "Battle.pb.h"
+#import "Chat.pb.h"
 #import "Clan.pb.h"
-#import "ClanGifts.pb.h"
 #import "MonsterStuff.pb.h"
 #import "Reward.pb.h"
 #import "User.pb.h"
@@ -202,6 +202,8 @@
 @class PvpProto_Builder;
 @class PvpUserClanAvengeProto;
 @class PvpUserClanAvengeProto_Builder;
+@class ReceivedClanGiftResponseProto;
+@class ReceivedClanGiftResponseProto_Builder;
 @class RecordClanRaidStatsRequestProto;
 @class RecordClanRaidStatsRequestProto_Builder;
 @class RecordClanRaidStatsResponseProto;
@@ -246,6 +248,8 @@
 @class StaticUserLevelInfoProto_Builder;
 @class StructureInfoProto;
 @class StructureInfoProto_Builder;
+@class TangoGiftProto;
+@class TangoGiftProto_Builder;
 @class TeamCenterProto;
 @class TeamCenterProto_Builder;
 @class TownHallProto;
@@ -268,6 +272,8 @@
 @class UserEnhancementProto_Builder;
 @class UserFacebookInviteForSlotProto;
 @class UserFacebookInviteForSlotProto_Builder;
+@class UserGiftProto;
+@class UserGiftProto_Builder;
 @class UserItemProto;
 @class UserItemProto_Builder;
 @class UserItemSecretGiftProto;
@@ -294,6 +300,8 @@
 @class UserResearchProto_Builder;
 @class UserRewardProto;
 @class UserRewardProto_Builder;
+@class UserTangoGiftProto;
+@class UserTangoGiftProto_Builder;
 @class VoidTeamDonationSolicitationRequestProto;
 @class VoidTeamDonationSolicitationRequestProto_Builder;
 @class VoidTeamDonationSolicitationResponseProto;
@@ -4654,6 +4662,75 @@ BOOL DeleteClanGiftsResponseProto_DeleteClanGiftsStatusIsValidValue(DeleteClanGi
 - (DeleteClanGiftsResponseProto_DeleteClanGiftsStatus) status;
 - (DeleteClanGiftsResponseProto_Builder*) setStatus:(DeleteClanGiftsResponseProto_DeleteClanGiftsStatus) value;
 - (DeleteClanGiftsResponseProto_Builder*) clearStatusList;
+@end
+
+@interface ReceivedClanGiftResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasScope_:1;
+  MinimumUserProto* sender;
+  ChatScope scope;
+  NSMutableArray * mutableUserClanGiftsList;
+}
+- (BOOL) hasSender;
+- (BOOL) hasScope;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly) ChatScope scope;
+@property (readonly, strong) NSArray * userClanGiftsList;
+- (UserClanGiftProto*)userClanGiftsAtIndex:(NSUInteger)index;
+
++ (ReceivedClanGiftResponseProto*) defaultInstance;
+- (ReceivedClanGiftResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (ReceivedClanGiftResponseProto_Builder*) builder;
++ (ReceivedClanGiftResponseProto_Builder*) builder;
++ (ReceivedClanGiftResponseProto_Builder*) builderWithPrototype:(ReceivedClanGiftResponseProto*) prototype;
+- (ReceivedClanGiftResponseProto_Builder*) toBuilder;
+
++ (ReceivedClanGiftResponseProto*) parseFromData:(NSData*) data;
++ (ReceivedClanGiftResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ReceivedClanGiftResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (ReceivedClanGiftResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ReceivedClanGiftResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (ReceivedClanGiftResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface ReceivedClanGiftResponseProto_Builder : PBGeneratedMessageBuilder {
+@private
+  ReceivedClanGiftResponseProto* result;
+}
+
+- (ReceivedClanGiftResponseProto*) defaultInstance;
+
+- (ReceivedClanGiftResponseProto_Builder*) clear;
+- (ReceivedClanGiftResponseProto_Builder*) clone;
+
+- (ReceivedClanGiftResponseProto*) build;
+- (ReceivedClanGiftResponseProto*) buildPartial;
+
+- (ReceivedClanGiftResponseProto_Builder*) mergeFrom:(ReceivedClanGiftResponseProto*) other;
+- (ReceivedClanGiftResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (ReceivedClanGiftResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (ReceivedClanGiftResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (ReceivedClanGiftResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (ReceivedClanGiftResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (ReceivedClanGiftResponseProto_Builder*) clearSender;
+
+- (BOOL) hasScope;
+- (ChatScope) scope;
+- (ReceivedClanGiftResponseProto_Builder*) setScope:(ChatScope) value;
+- (ReceivedClanGiftResponseProto_Builder*) clearScopeList;
+
+- (NSMutableArray *)userClanGiftsList;
+- (UserClanGiftProto*)userClanGiftsAtIndex:(NSUInteger)index;
+- (ReceivedClanGiftResponseProto_Builder *)addUserClanGifts:(UserClanGiftProto*)value;
+- (ReceivedClanGiftResponseProto_Builder *)addAllUserClanGifts:(NSArray *)array;
+- (ReceivedClanGiftResponseProto_Builder *)clearUserClanGifts;
 @end
 
 

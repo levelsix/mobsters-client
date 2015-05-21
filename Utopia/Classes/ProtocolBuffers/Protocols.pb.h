@@ -10,7 +10,6 @@
 #import "Chat.pb.h"
 #import "City.pb.h"
 #import "Clan.pb.h"
-#import "ClanGifts.pb.h"
 #import "Dev.pb.h"
 #import "EventAchievement.pb.h"
 #import "EventApns.pb.h"
@@ -28,8 +27,9 @@
 #import "EventMonster.pb.h"
 #import "EventPvp.pb.h"
 #import "EventQuest.pb.h"
-#import "EventResearch.pb.h"
 #import "EventReferral.pb.h"
+#import "EventResearch.pb.h"
+#import "EventReward.pb.h"
 #import "EventStartup.pb.h"
 #import "EventStaticData.pb.h"
 #import "EventStructure.pb.h"
@@ -169,6 +169,10 @@
 @class CollectClanGiftsRequestProto_Builder;
 @class CollectClanGiftsResponseProto;
 @class CollectClanGiftsResponseProto_Builder;
+@class CollectGiftRequestProto;
+@class CollectGiftRequestProto_Builder;
+@class CollectGiftResponseProto;
+@class CollectGiftResponseProto_Builder;
 @class CollectMonsterEnhancementRequestProto;
 @class CollectMonsterEnhancementRequestProto_Builder;
 @class CollectMonsterEnhancementResponseProto;
@@ -209,6 +213,10 @@
 @class DeleteClanGiftsRequestProto_Builder;
 @class DeleteClanGiftsResponseProto;
 @class DeleteClanGiftsResponseProto_Builder;
+@class DeleteGiftRequestProto;
+@class DeleteGiftRequestProto_Builder;
+@class DeleteGiftResponseProto;
+@class DeleteGiftResponseProto_Builder;
 @class DestroyMoneyTreeStructureRequestProto;
 @class DestroyMoneyTreeStructureRequestProto_Builder;
 @class DestroyMoneyTreeStructureResponseProto;
@@ -509,6 +517,10 @@
 @class QueueUpResponseProto_Builder;
 @class RareBoosterPurchaseProto;
 @class RareBoosterPurchaseProto_Builder;
+@class ReceivedClanGiftResponseProto;
+@class ReceivedClanGiftResponseProto_Builder;
+@class ReceivedGiftResponseProto;
+@class ReceivedGiftResponseProto_Builder;
 @class ReceivedGroupChatResponseProto;
 @class ReceivedGroupChatResponseProto_Builder;
 @class ReceivedRareBoosterPurchaseResponseProto;
@@ -621,6 +633,10 @@
 @class SendGroupChatRequestProto_Builder;
 @class SendGroupChatResponseProto;
 @class SendGroupChatResponseProto_Builder;
+@class SendTangoGiftRequestProto;
+@class SendTangoGiftRequestProto_Builder;
+@class SendTangoGiftResponseProto;
+@class SendTangoGiftResponseProto_Builder;
 @class SetAvatarMonsterRequestProto;
 @class SetAvatarMonsterRequestProto_Builder;
 @class SetAvatarMonsterResponseProto;
@@ -637,6 +653,10 @@
 @class SetGameCenterIdRequestProto_Builder;
 @class SetGameCenterIdResponseProto;
 @class SetGameCenterIdResponseProto_Builder;
+@class SetTangoIdRequestProto;
+@class SetTangoIdRequestProto_Builder;
+@class SetTangoIdResponseProto;
+@class SetTangoIdResponseProto_Builder;
 @class SkillPropertyProto;
 @class SkillPropertyProto_Builder;
 @class SkillProto;
@@ -672,6 +692,8 @@
 @class StartupResponseProto_StartupConstants;
 @class StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto;
 @class StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder;
+@class StartupResponseProto_StartupConstants_BoosterPackConstantsProto;
+@class StartupResponseProto_StartupConstants_BoosterPackConstantsProto_Builder;
 @class StartupResponseProto_StartupConstants_Builder;
 @class StartupResponseProto_StartupConstants_ClanConstants;
 @class StartupResponseProto_StartupConstants_ClanConstants_Builder;
@@ -703,12 +725,16 @@
 @class StaticDataProto_Builder;
 @class StaticUserLevelInfoProto;
 @class StaticUserLevelInfoProto_Builder;
+@class StrengthLeaderBoardProto;
+@class StrengthLeaderBoardProto_Builder;
 @class StructureInfoProto;
 @class StructureInfoProto_Builder;
 @class SubmitMonsterEnhancementRequestProto;
 @class SubmitMonsterEnhancementRequestProto_Builder;
 @class SubmitMonsterEnhancementResponseProto;
 @class SubmitMonsterEnhancementResponseProto_Builder;
+@class TangoGiftProto;
+@class TangoGiftProto_Builder;
 @class TaskMapElementProto;
 @class TaskMapElementProto_Builder;
 @class TaskStageMonsterProto;
@@ -797,6 +823,8 @@
 @class UserEnhancementProto_Builder;
 @class UserFacebookInviteForSlotProto;
 @class UserFacebookInviteForSlotProto_Builder;
+@class UserGiftProto;
+@class UserGiftProto_Builder;
 @class UserItemProto;
 @class UserItemProto_Builder;
 @class UserItemSecretGiftProto;
@@ -833,6 +861,8 @@
 @class UserResearchProto_Builder;
 @class UserRewardProto;
 @class UserRewardProto_Builder;
+@class UserTangoGiftProto;
+@class UserTangoGiftProto_Builder;
 @class UserTaskCompletedProto;
 @class UserTaskCompletedProto_Builder;
 @class VoidTeamDonationSolicitationRequestProto;
@@ -963,6 +993,10 @@ typedef NS_ENUM(SInt32, EventProtocolRequest) {
   EventProtocolRequestCTranslateSelectMessagesEvent = 210,
   EventProtocolRequestCUpdateUserStrengthEvent = 211,
   EventProtocolRequestCRefreshMiniJobEvent = 212,
+  EventProtocolRequestCSetTangoIdEvent = 213,
+  EventProtocolRequestCSendTangoGiftEvent = 214,
+  EventProtocolRequestCDeleteGiftEvent = 215,
+  EventProtocolRequestCCollectGiftEvent = 216,
   EventProtocolRequestCCollectClanGiftsEvent = 500,
   EventProtocolRequestCDeleteClanGiftsEvent = 501,
   EventProtocolRequestCReceivedClanGiftsEvent = 502,
@@ -1078,6 +1112,7 @@ typedef NS_ENUM(SInt32, EventProtocolResponse) {
   EventProtocolResponseSAwardClanRaidStageRewardEvent = 108,
   EventProtocolResponseSForceLogoutEvent = 109,
   EventProtocolResponseSRetrieveClanDataEvent = 110,
+  EventProtocolResponseSReceivedGiftEvent = 111,
   EventProtocolResponseSDevEvent = 200,
   EventProtocolResponseSPerformResearchEvent = 201,
   EventProtocolResponseSFinishPerformingResearchEvent = 202,
@@ -1091,6 +1126,10 @@ typedef NS_ENUM(SInt32, EventProtocolResponse) {
   EventProtocolResponseSTranslateSelectMessagesEvent = 210,
   EventProtocolResponseSUpdateUserStrengthEvent = 211,
   EventProtocolResponseSRefreshMiniJobEvent = 212,
+  EventProtocolResponseSSetTangoIdEvent = 213,
+  EventProtocolResponseSSendTangoGiftEvent = 214,
+  EventProtocolResponseSDeleteGiftEvent = 215,
+  EventProtocolResponseSCollectGiftEvent = 216,
   EventProtocolResponseSCollectClanGiftsEvent = 500,
   EventProtocolResponseSDeleteClanGiftsEvent = 501,
   EventProtocolResponseSReceivedClanGiftsEvent = 502,

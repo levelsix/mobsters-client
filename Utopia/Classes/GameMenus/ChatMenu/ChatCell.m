@@ -639,7 +639,7 @@ static float buttonInitialWidth = 159.f;
     self.unOpenedView.hidden = NO;
   }
   
-  [self.embeddedRewardView.rewardView loadForReward:[Reward createRewardWithRewardProto:userClanGift.reward]];
+  [self.embeddedRewardView.rewardView loadForReward:[[Reward alloc] initWithReward:userClanGift.reward]];
   
   NSString *rewardImageName = [Globals imageNameForReward:userClanGift.reward];
   NSString *rewardName = [Globals nameForReward:userClanGift.reward];
