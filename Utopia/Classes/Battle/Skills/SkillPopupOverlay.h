@@ -65,9 +65,7 @@ typedef void(^SkillPopupBlock)();
   __weak IBOutlet THLabel *_skillBottomLabelEnemy;
 }
 
-- (void) animate:(SkillPopupData*)data withCompletion:(SkillPopupBlock)completion;
-- (void) animate:(BOOL)player withImage:(UIImage*)characterImage topText:(NSString*)topText bottomText:(NSString*)bottomtext
-       miniPopup:(BOOL)mini item:(BOOL)item stacks:(int)stacks withCompletion:(SkillPopupBlock)completion;
+- (void) animate:(SkillPopupData*)data speed:(float)speed withCompletion:(SkillPopupBlock)completion;
 - (void) quickHide:(BOOL)player;
 - (void) hideWithCompletion:(SkillPopupBlock)completion forPlayer:(BOOL)player;
 

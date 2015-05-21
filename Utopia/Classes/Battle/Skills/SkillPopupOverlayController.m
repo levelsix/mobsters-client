@@ -34,7 +34,7 @@
   
   SkillPopupOverlay *tempPopup = _popupOverlay;
   
-  [_popupOverlay animate:_currentSkillPopup withCompletion:
+  [_popupOverlay animate:_currentSkillPopup speed:self.battleLayer.battleSpeed withCompletion:
    ^{
      // Hide popup and call block, if it hasn't been hidden yet
      if (_popupOverlay == tempPopup)

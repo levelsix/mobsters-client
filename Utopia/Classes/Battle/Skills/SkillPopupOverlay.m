@@ -78,12 +78,12 @@ typedef void (^ShakeAnimCompletionBlock)(void);
   return self;
 }
 
-- (void) animate:(SkillPopupData*)data withCompletion:(SkillPopupBlock)completion {
-  [self animate:data.player withImage:[Globals imageNamed:data.imageName] topText:data.topText bottomText:data.bottomText miniPopup:data.miniPopup item:data.item stacks:data.stacks withCompletion:completion];
+- (void) animate:(SkillPopupData*)data speed:(float)speed withCompletion:(SkillPopupBlock)completion {
+  [self animate:data.player withImage:[Globals imageNamed:data.imageName] topText:data.topText bottomText:data.bottomText miniPopup:data.miniPopup item:data.item stacks:data.stacks speed:speed withCompletion:completion];
 }
 
 - (void) animate:(BOOL)player withImage:(UIImage*)characterImage topText:(NSString*)topText bottomText:(NSString*)bottomtext
-       miniPopup:(BOOL)mini item:(BOOL)item stacks:(int)stacks withCompletion:(SkillPopupBlock)completion
+       miniPopup:(BOOL)mini item:(BOOL)item stacks:(int)stacks speed:(float)speed withCompletion:(SkillPopupBlock)completion
 {
   ////////////
   // Layout //
@@ -156,32 +156,32 @@ typedef void (^ShakeAnimCompletionBlock)(void);
   const CGPoint leavesImagePosition = leavesImage.origin;
   const CGPoint leavesTravelOffset = CGPointMake(player ? -100.f : 100.f, 100.f);
   [leavesImage setOrigin:CGPointMake(leavesImagePosition.x + leavesTravelOffset.x, leavesImagePosition.y + leavesTravelOffset.y)];
-  [UIView animateWithDuration:.1f delay:0.f options:UIViewAnimationOptionCurveLinear animations:^{
+  [UIView animateWithDuration:.1f/speed delay:0.f options:UIViewAnimationOptionCurveLinear animations:^{
     [leavesImage setOrigin:leavesImagePosition];
   } completion:nil];
   
   const CGPoint rocksImagePosition = rocksImage.origin;
   const CGPoint rocksTravelOffset = CGPointMake(player ? -100.f : 100.f, 100.f);
   [rocksImage setOrigin:CGPointMake(rocksImagePosition.x + rocksTravelOffset.x, rocksImagePosition.y + rocksTravelOffset.y)];
-  [UIView animateWithDuration:.1f delay:.025f options:UIViewAnimationOptionCurveLinear animations:^{
+  [UIView animateWithDuration:.1f/speed delay:.025f options:UIViewAnimationOptionCurveLinear animations:^{
     [rocksImage setOrigin:rocksImagePosition];
   } completion:nil];
   
   const CGPoint playerImagePosition = playerImage.origin;
   const CGPoint playerTravelOffset = CGPointMake(player ? -150.f : 150.f, 25.f);
   [playerImage setOrigin:CGPointMake(playerImagePosition.x + playerTravelOffset.x, playerImagePosition.y + playerTravelOffset.y)];
-  [UIView animateWithDuration:.1f delay:.05f options:UIViewAnimationOptionCurveLinear animations:^{
+  [UIView animateWithDuration:.1f/speed delay:.05f options:UIViewAnimationOptionCurveLinear animations:^{
     [playerImage setOrigin:playerImagePosition];
   } completion:nil];
   
   [skillView.layer setOpacity:0.f];
   [skillView.layer setTransform:CATransform3DMakeScale(viewShakeStartingScale, viewShakeStartingScale, 1.f)];
-  [UIView animateWithDuration:.2f delay:.15f options:UIViewAnimationOptionCurveEaseIn animations:^{
+  [UIView animateWithDuration:.2f/speed delay:.15f options:UIViewAnimationOptionCurveEaseIn animations:^{
     [skillView.layer setOpacity:1.f];
     [skillView.layer setTransform:CATransform3DIdentity];
   } completion:^(BOOL finished) {
-    [self shakeView:mainView withKey:@"SkillPopupShakeAnimation" smallShake:mini completion:^{
-      [self performBlockAfterDelay:mini ? POPUP_STAY_DURATION_LONG : POPUP_STAY_DURATION_SHORT block:^{
+    [self shakeView:mainView withKey:@"SkillPopupShakeAnimation" smallShake:mini speed:speed completion:^{
+      [self performBlockAfterDelay:(mini ? POPUP_STAY_DURATION_LONG : POPUP_STAY_DURATION_SHORT)/speed block:^{
         completion();
       }];
     }];
@@ -232,9 +232,9 @@ typedef void (^ShakeAnimCompletionBlock)(void);
   }];
 }
 
-- (void) shakeView:(UIView*)view withKey:(NSString*)key smallShake:(BOOL)small completion:(ShakeAnimCompletionBlock)completion
+- (void) shakeView:(UIView*)view withKey:(NSString*)key smallShake:(BOOL)small speed:(float)speed completion:(ShakeAnimCompletionBlock)completion
 {
-  const float shakeDuration = small ? SMALL_SHAKE_ANIM_DURATION : BIG_SHAKE_ANIM_DURATION;
+  const float shakeDuration = (small ? SMALL_SHAKE_ANIM_DURATION : BIG_SHAKE_ANIM_DURATION)/speed;
   const float shakeRadius = small ? SMALL_SHAKE_RADIUS : BIG_SHAKE_RADIUS;
   NSMutableArray *keyTimes = [NSMutableArray array];
   NSMutableArray *values = [NSMutableArray array];

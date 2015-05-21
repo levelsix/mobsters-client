@@ -81,6 +81,10 @@
   return self.mainView.displayedWaveNumber;
 }
 
+- (float)getBattleSpeed {
+  return 1;
+}
+
 #pragma mark - Setup
 
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize {

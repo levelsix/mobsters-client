@@ -26,7 +26,7 @@
 - (id) initWithReplay:(CombatReplayProto *)replay {
   _replay = replay;
   
-  _battleSpeeds = @[ @1.f, @2.f, @3.f ];
+  _battleSpeeds = @[ @1.f, @2.f, @4.f ];
   _battleSpeedIndex = 0;
   [self resetTimeScale];
   

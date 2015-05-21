@@ -168,6 +168,9 @@
 @property (nonatomic, retain) NSArray *playerTeamSnapshot;
 @property (nonatomic, retain) NSArray *enemyTeamSnapshot;
 
+@property (readonly, getter=getBattleSpeed) float battleSpeed;
+- (float) getBattleSpeed;
+
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize;
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize bgdPrefix:(NSString *)bgdPrefix;
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize bgdPrefix:(NSString *)bgdPrefix layoutProto:(BoardLayoutProto *)layoutProto;
