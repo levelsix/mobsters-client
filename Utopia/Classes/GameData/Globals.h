@@ -129,6 +129,8 @@
 
 #define SGN(A) ({ __typeof__(A) __a = (A); (0 < __a) - (__a < 0); })
 
+#define IS_IPAD() ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+
 @class BattlePlayer;
 
 @interface Globals : NSObject
