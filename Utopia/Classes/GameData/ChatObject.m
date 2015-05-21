@@ -546,24 +546,23 @@ static char const * clanGiftRedeemedKey = "clanGiftRedeemedKey";
   }
 }
 
-- (PrivateChatPostProto *) clanChatPrivateChat {
-  // This is an easy way to do read msgs for all clan chats (use an id that is shared amongst everything)
-  MinimumUserProto *mup = [[[MinimumUserProto builder] setUserUuid:CLAN_CHAT_PRIVATE_CHAT_USER_ID] build];
-  MinimumUserProtoWithLevel *mupl = [[[MinimumUserProtoWithLevel builder] setMinUserProto:mup] build];
-  PrivateChatPostProto *pcpp = [[[[PrivateChatPostProto builder]
-                                  setRecipient:mupl]
-                                 setTimeOfPost:self.timeReceived]
-                                build];
+- (PrivateChatPostProto *) privateChat {
+  GameState *gs = [GameState sharedGameState];
+  PrivateChatPostProto_Builder *bldr = [PrivateChatPostProto builder];
+  bldr.poster = [[[MinimumUserProtoWithLevel builder] setMinUserProto:self.gifterUser] build];
+  bldr.recipient = [gs minUserWithLevel];
+  bldr.timeOfPost = self.timeReceived;
+  PrivateChatPostProto *pcpp = [bldr build];
   return pcpp;
 }
 
 - (BOOL) isRead {
-  return self.isRedeemed || self.isExpired || [[self clanChatPrivateChat] isRead];
+  return [[self privateChat] isRead];
 }
 
 - (void) markAsRead {
   // Do nothing
-  return [[self clanChatPrivateChat] markAsRead];
+  return [[self privateChat] markAsRead];
 }
 
 - (BOOL) isExpired {
