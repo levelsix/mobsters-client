@@ -770,6 +770,7 @@
 
 - (void)removeOrbs:(NSSet *)chains forceDestroy:(BOOL)forceDestroy {
   for (BattleChain *chain in chains) {
+    NSLog(@"Destroying chain: %@", chain);
     for (BattleOrb *orb in chain.orbs) {
       if (forceDestroy) {
         // Used for rainbow-line/grenade so that lock gets removed and orb gets destroyed
@@ -1173,7 +1174,8 @@
           replacedOrb = swap.orbB;
         } else {
           // Get the middle orb, or randomize if it is 6 orbs for example
-          NSUInteger idx = replacableOrbsLength % 2 == 1 ? (replacableOrbsLength-1)/2 : (replacableOrbsLength-1)/2.f+arc4random_uniform(2)-0.5f;
+          [self preseedRandomization];
+          NSUInteger idx = replacableOrbsLength % 2 == 1 ? (replacableOrbsLength-1)/2 : (replacableOrbsLength-1)/2.f+(rand()%(2))-0.5f;
           replacedOrb = replacableOrbs[idx];
         }
         
@@ -1211,7 +1213,8 @@
           replacedOrb = swap.orbB;
         } else {
           // Get one of the middle orbs
-          NSUInteger idx = replacableOrbsLength % 2 == 1 ? (replacableOrbsLength-1)/2 : (replacableOrbsLength-1)/2.f+arc4random_uniform(2)-0.5f;
+          [self preseedRandomization];
+          NSUInteger idx = replacableOrbsLength % 2 == 1 ? (replacableOrbsLength-1)/2 : (replacableOrbsLength-1)/2.f+(rand()%(2))-0.5f;
           replacedOrb = replacableOrbs[idx];
         }
         
@@ -1245,17 +1248,18 @@
   // Give rainbow orbs the color of the chain creator
   if (orb.powerupType == PowerupTypeAllOfOneColor && orb.orbColor == OrbColorNone) {
     // Choose a color of an orb that
-    int rand;
+    [self preseedRandomization];
+    int randColor;
     BOOL foundColor = NO;
     int numTries = 0;
     while (!foundColor && numTries < 100) {
-      while (!(1 << (rand = arc4random_uniform(OrbColorNone)) & _numColors));
+      while (!(1 << (randColor = (rand() % (OrbColorNone))) & _numColors));
       
       // Go through list of orbs and make sure there is at least one
       for (int i = 0; i < _numColumns; i++) {
         for (int j = 0; j < _numRows; j++) {
           BattleOrb *orb = [self orbAtColumn:i row:j];
-          if (orb.orbColor == rand) {
+          if (orb.orbColor == randColor) {
             foundColor = YES;
           }
         }
@@ -1264,7 +1268,7 @@
       numTries++;
     }
     
-    orb.orbColor = rand;
+    orb.orbColor = randColor;
   }
   
   if (orb.powerupType == PowerupTypeHorizontalLine || orb.powerupType == PowerupTypeVerticalLine) {
@@ -1566,7 +1570,8 @@
             if (trPathLength !=  tlPathLength) {
               chosen = trPathLength > tlPathLength ? topLeftOrb : topRightOrb;
             } else {
-              chosen = arc4random() % 2 ? topRightOrb : topLeftOrb;
+              [self preseedRandomization];
+              chosen = rand() % 2 ? topRightOrb : topLeftOrb;
             }
           } else {
             chosen = [topRightOrb isMovable] ? topRightOrb : [topLeftOrb isMovable] ? topLeftOrb : nil;
