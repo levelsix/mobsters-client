@@ -349,7 +349,7 @@
 
 - (CGPoint) convertVectorToGL:(CGPoint)uiPoint
 {
-  return ccp(uiPoint.x, -uiPoint.y);
+  return ccpMult(ccp(uiPoint.x, -uiPoint.y), [[CCDirector sharedDirector] UIScaleFactor]);
 }
 
 #pragma mark - Walkable methods

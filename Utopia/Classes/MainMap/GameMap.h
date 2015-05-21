@@ -15,7 +15,7 @@
 
 #define OVER_HOME_BUILDING_MENU_OFFSET 4.f
 
-#define MAX_ZOOM 1.f
+#define MAX_ZOOM (IS_IPAD() ? 1.2f : 1.f)
 #define MIN_ZOOM 0.3f
 #define DEFAULT_ZOOM 0.8f
 
