@@ -134,15 +134,24 @@
 
 #pragma mark - Hooks
 
+- (BOOL) isResearchApplicable:(ResearchProto *)rp element:(Element)element evoTier:(int)evoTier resType:(ResourceType)resType {
+  
+  if ((!rp.hasElement || rp.element == element) &&
+      (!rp.hasEvoTier || rp.evoTier == evoTier) &&
+      (!rp.hasResourceType || rp.resourceType == resType)) {
+    return YES;
+  }
+  
+  return NO;
+}
+
 - (float) percentageBenefitForType:(ResearchType)type element:(Element)element evoTier:(int)evoTier resType:(ResourceType)resType {
   float perc = 0.f;
   
   for (UserResearch *ur in self.userResearches) {
     ResearchProto *rp = ur.staticResearchForBenefitLevel;
     if (rp.researchType == type &&
-        (!rp.hasElement || rp.element == element) &&
-        (!rp.hasEvoTier || rp.evoTier == evoTier) &&
-        (!rp.hasResourceType || rp.resourceType == resType)) {
+        [self isResearchApplicable:rp element:element evoTier:evoTier resType:resType]) {
       perc += rp.percentage;
     }
   }
@@ -168,8 +177,7 @@
   for (UserResearch *ur in self.userResearches) {
     ResearchProto *rp = ur.staticResearchForBenefitLevel;
     if (rp.researchType == type &&
-        (!rp.hasElement || rp.element == element) &&
-        (!rp.hasEvoTier || rp.evoTier == evoTier)) {
+        [self isResearchApplicable:rp element:element evoTier:evoTier resType:ResourceTypeNoResource]) {
       amt += rp.amountIncrease;
     }
   }
@@ -217,8 +225,7 @@
   for (UserResearch *ur in self.userResearches) {
     ResearchProto *rp = ur.staticResearchForBenefitLevel;
     if ([self isMonsterType:rp.researchType] &&
-        (!rp.hasElement || rp.element == element) &&
-        (!rp.hasEvoTier || rp.evoTier == evoTier)) {
+        [self isResearchApplicable:rp element:element evoTier:evoTier resType:ResourceTypeNoResource]) {
       [arr addObject:ur];
     }
   }
@@ -243,8 +250,7 @@
   for (ResearchProto *rp in gs.staticResearches.allValues) {
     if (!rp.predId &&
         [self isMonsterType:rp.researchType] &&
-        (!rp.hasElement || rp.element == element) &&
-        (!rp.hasEvoTier || rp.evoTier == evoTier)) {
+        [self isResearchApplicable:rp element:element evoTier:evoTier resType:ResourceTypeNoResource]) {
       [arr addObject:rp];
     }
   }

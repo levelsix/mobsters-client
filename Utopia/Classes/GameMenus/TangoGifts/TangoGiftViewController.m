@@ -19,7 +19,7 @@
 }
 
 - (void) loadForTangoProfile:(id)tangoProfile {
-// get full name
+  // get full name
 #ifdef TOONSQUAD
   self.nameLabel.text = [TangoDelegate getFullNameForProfile:tangoProfile];
   
@@ -95,6 +95,7 @@
   } else {
     int rewardAmount = MAX(gl.tangoMaxGemReward - ((int)self.tangoFriends.count - (int)self.selectedFriends.count), gl.tangoMinGemReward);
     rewardAmount = MIN(gl.tangoMaxGemReward, rewardAmount);
+    rewardAmount = MIN((int)self.selectedFriends.count, rewardAmount);
     self.rewardLabel.text = [NSString stringWithFormat:@"REWARD: %d", rewardAmount];
     return rewardAmount;
   }
@@ -135,6 +136,7 @@
     int reward = [self updateRewardAmount];
     
     if (withAppList.count > 0 || withoutAppList.count > 0) {
+      _rewardAmount = reward;
       [[OutgoingEventController sharedOutgoingEventController] sendTangoGiftsToTangoUsers:withAppList gemReward:reward delegate:self];
     }
     
@@ -144,6 +146,20 @@
   }
 #endif
   [self close];
+}
+
+- (void) handleSendTangoGiftResponseProto:(FullEvent *)fe {
+  
+  SendTangoGiftResponseProto *proto = (SendTangoGiftResponseProto *)fe.event;
+  
+  if (proto.status == SendTangoGiftResponseProto_SendTangoGiftStatusSuccess && _rewardAmount) {
+    
+    [Globals addPurpleAlertNotification:[NSString stringWithFormat:@"You collected %d gem%@ for sharing gifts with your friends.", _rewardAmount, _rewardAmount == 1 ? @"" : @"s"] isImmediate:YES];
+    
+    if (proto.tangoUserIdsInToonSquadList) {
+      //[TangoDelegate sendGiftsToTangoUsers:proto.tangoUserIdsInToonSquadList];
+    }
+  }
 }
 
 #pragma mark - table delegate

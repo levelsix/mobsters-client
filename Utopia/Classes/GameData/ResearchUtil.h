@@ -42,6 +42,7 @@
 - (UserResearch *) currentRankForResearch:(ResearchProto *) research;
 - (void) cancelCurrentResearch;
 
+- (BOOL) isResearchApplicable:(ResearchProto *)rp element:(Element)element evoTier:(int)evoTier resType:(ResourceType)resType;
 - (float) percentageBenefitForType:(ResearchType)type;
 - (float) percentageBenefitForType:(ResearchType)type element:(Element)element evoTier:(int)evoTier;
 - (float) percentageBenefitForType:(ResearchType)type resType:(ResourceType)resType;

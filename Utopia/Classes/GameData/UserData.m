@@ -29,7 +29,6 @@
     self.userMonsterUuid = proto.userMonsterUuid;
     self.level = proto.currentLvl;
     self.experience = proto.currentExp;
-    self.curHealth = proto.currentHealth;
     self.teamSlot = proto.teamSlotNum;
     self.numPieces = proto.numPieces;
     self.isComplete = proto.isComplete;
@@ -39,6 +38,9 @@
     self.defensiveSkillId = proto.defensiveSkillId;
     
     self.researchUtil = researchUtil;
+    
+    Globals *gl = [Globals sharedGlobals];
+    self.curHealth = MIN(proto.currentHealth, [gl calculateMaxHealthForMonster:self]);
   }
   return self;
 }
@@ -56,11 +58,12 @@
     self.offensiveSkillId = proto.offensiveSkillId;
     self.defensiveSkillId = proto.defensiveSkillId;
     
+    self.isComplete = YES;
+    
     self.researchUtil = researchUtil;
     
     Globals *gl = [Globals sharedGlobals];
     self.curHealth = [gl calculateMaxHealthForMonster:self];
-    self.isComplete = YES;
   }
   return self;
 }

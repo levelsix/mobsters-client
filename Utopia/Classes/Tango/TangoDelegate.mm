@@ -21,8 +21,11 @@
 
 #define TANGO_ENABLED
 
-//#define TANGO_RESOURCE_ID @"TEST_INVITE_ID"
+#ifdef DEBUG
+#define TANGO_RESOURCE_ID @"TEST_INVITE_ID"
+#else
 #define TANGO_RESOURCE_ID @"INVITE_ID1"
+#endif
 
 @implementation TangoDelegate
 

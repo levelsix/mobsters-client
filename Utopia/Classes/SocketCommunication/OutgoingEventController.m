@@ -3476,6 +3476,23 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     int tag = [[SocketCommunication sharedSocketCommunication] sendFinishPerformingResearchRequestProto:userResearch.userResearchUuid gemsSpent:goldCost];
     [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
     
+    // Check to see if any monsters should gain health
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    {
+      ResearchProto *rp = userResearch.staticResearch;
+      if (rp.researchType == ResearchTypeHpIncrease) {
+        for (UserMonster *um in gs.myMonsters) {
+          MonsterProto *mp = um.staticMonster;
+          
+          if ([um.researchUtil isResearchApplicable:rp element:mp.monsterElement evoTier:mp.evolutionLevel resType:ResourceTypeNoResource]) {
+            int maxHealth = [gl calculateMaxHealthForMonster:um];
+            dict[um.userMonsterUuid] = @(maxHealth);
+          }
+        }
+      }
+      
+    }
+    
     userResearch.complete = YES;
     
     [gs addUnrespondedUpdate:[GemsUpdate updateWithTag:tag change:-goldCost]];
@@ -3486,6 +3503,29 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [gs.itemUtil cleanupRogueItemUsages];
     
     [Analytics instantFinish:@"researchWait" gemChange:-goldCost gemBalance:gs.gems];
+    
+    // Modify hps and send updates
+    if (dict.count) {
+      
+      NSMutableArray *updatedMonsters = [NSMutableArray array];
+      for (NSString *umUuid in dict) {
+        UserMonster *um = [gs myMonsterWithUserMonsterUuid:umUuid];
+        int oldMaxHealth = [dict[umUuid] intValue];
+        int newMaxHealth = [gl calculateMaxHealthForMonster:um];
+        
+        float perc = um.curHealth/(float)oldMaxHealth;
+        um.curHealth = perc*newMaxHealth;
+        
+        UserMonsterCurrentHealthProto_Builder *bldr = [UserMonsterCurrentHealthProto builder];
+        bldr.userMonsterUuid = umUuid;
+        bldr.currentHealth = um.curHealth;
+        [updatedMonsters addObject:bldr.build];
+      }
+      
+      if (updatedMonsters.count) {
+        [[SocketCommunication sharedSocketCommunication] sendUpdateMonsterHealthMessage:[self getCurrentMilliseconds] monsterHealths:updatedMonsters isForTask:NO userTaskUuid:nil taskStageId:0 droplessTsfuUuid:nil];
+      }
+    }
     
     return YES;
   }

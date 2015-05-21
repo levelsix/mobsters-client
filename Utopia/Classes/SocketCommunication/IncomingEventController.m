@@ -27,7 +27,6 @@
 #import "UnreadNotifications.h"
 #import "MiniEventManager.h"
 #import "ChatView.h"
-#import "TangoDelegate.h"
 
 #define QUEST_REDEEM_KIIP_REWARD @"quest_redeem"
 
@@ -2616,7 +2615,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 
 // This is all temporary until we have time to make a better UX experience
 - (void) handleSendTangoGiftResponseProto:(FullEvent *)fe {
-  #ifdef TOONSQUAD
+#ifdef TOONSQUAD
   SendTangoGiftResponseProto *proto = (SendTangoGiftResponseProto *)fe.event;
   int tag = fe.tag;
   
@@ -2624,23 +2623,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == SendTangoGiftResponseProto_SendTangoGiftStatusSuccess) {
-    
-    int totalInvitesSent = (int)proto.tangoUserIdsInToonSquadList.count + (int)proto.tangoUserIdsNotInToonSquadList.count;
-    
-    [TangoDelegate fetchCachedFriends:^(NSArray *friends) {
-      Globals *gl = [Globals sharedGlobals];
-      
-      int totalPossibleInvites = (int)friends.count;
-      
-      int rewardAmount = MAX(gl.tangoMaxGemReward - (totalPossibleInvites - totalInvitesSent), gl.tangoMinGemReward);
-      rewardAmount = MIN(gl.tangoMaxGemReward, rewardAmount);
-      
-      [Globals addPurpleAlertNotification:[NSString stringWithFormat:@"You Collected %d Gems for sharing gifts with your friends", rewardAmount] isImmediate:YES];
-      
-      if (proto.tangoUserIdsInToonSquadList) {
-        //[TangoDelegate sendGiftsToTangoUsers:proto.tangoUserIdsInToonSquadList];
-      }
-    }];
+    [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [gs removeAndUndoAllUpdatesForTag:tag];
   }

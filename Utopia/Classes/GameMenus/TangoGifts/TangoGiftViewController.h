@@ -24,6 +24,8 @@
 
 @interface TangoGiftViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, TopBarNotification> {
   dispatch_block_t _completion;
+  
+  int _rewardAmount;
 }
 
 @property (nonatomic, retain) IBOutlet UIView *containerView;
