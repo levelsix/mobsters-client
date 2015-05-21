@@ -383,6 +383,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSReconnectEvent:
       responseClass = [ReconnectResponseProto class];
       break;
+    case EventProtocolResponseSRetrieveBattleReplayEvent:
+      responseClass = [RetrieveBattleReplayResponseProto class];
+      break;
     default:
       responseClass = nil;
       break;
@@ -2639,7 +2642,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 
 #pragma mark - Replays
 
-- (void) handleRetrieveBattleReplayRequestProto:(FullEvent *)fe {
+- (void) handleRetrieveBattleReplayResponseProto:(FullEvent *)fe {
   RetrieveBattleReplayResponseProto *proto = (RetrieveBattleReplayResponseProto *)fe.event;
   
   if (proto.status == RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatusSuccess) {
