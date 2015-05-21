@@ -121,7 +121,8 @@
       NSString *description;
       
       if(messages.count >= 3) {
-        description = [NSString stringWithFormat:@"You have new messages from %@, %@, and %d other.", [(ChatMessage *)messages[0] sender].name, [(ChatMessage *)messages[1] sender].name, (int)messages.count-2];
+        int num = (int)messages.count-2;
+        description = [NSString stringWithFormat:@"You have new messages from %@, %@, and %d other%@.", [(ChatMessage *)messages[0] sender].name, [(ChatMessage *)messages[1] sender].name, num, num == 1 ? @"" : @"s"];
       } else {
         description = [NSString stringWithFormat:@"You have new messages from %@ and %@.", [(ChatMessage *)messages[0] sender].name, [(ChatMessage *)messages[1] sender].name];
       }
