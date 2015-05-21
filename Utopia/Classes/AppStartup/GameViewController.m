@@ -72,6 +72,8 @@
 
 #define EARLY_TUTORIAL_STAGES_COMPLETE_LIMIT 3
 
+NSString* const CCSetupTabletScaleCustom = @"CCSetupTabletScaleCustom";
+
 @implementation GameViewController
 
 - (id) init {
@@ -104,7 +106,9 @@
   BOOL showStats = NO;
 #endif
   
-  NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObject:@(showStats) forKey:CCSetupShowDebugStats];
+  NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                               @(showStats), CCSetupShowDebugStats,
+                               @(1.5), CCSetupTabletScaleCustom, nil];
   [self setupCocos2dWithOptions:dict];
 }
 
@@ -193,6 +197,17 @@ static const CGSize FIXED_SIZE = {568, 384};
       
       // Set the UI scale factor to show things at "native" size.
       director.UIScaleFactor = 0.5;
+      
+      // Let CCFileUtils know that "-ipad" textures should be treated as having a contentScale of 2.0.
+      [[CCFileUtils sharedFileUtils] setiPadContentScaleFactor:2.0];
+    } else if(
+            UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad &&
+            [config[CCSetupTabletScaleCustom] floatValue]
+            ){
+      CGFloat scaleFactor = [config[CCSetupTabletScaleCustom] floatValue];
+      
+      director.contentScaleFactor *= scaleFactor;
+      director.UIScaleFactor = 1.0 / scaleFactor;
       
       // Let CCFileUtils know that "-ipad" textures should be treated as having a contentScale of 2.0.
       [[CCFileUtils sharedFileUtils] setiPadContentScaleFactor:2.0];
