@@ -2161,6 +2161,16 @@
 		6B8946E61B0D1CC7004CC025 /* defenderwon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B8946DC1B0D1CC7004CC025 /* defenderwon@2x.png */; };
 		6B8946E71B0D1CC7004CC025 /* defenderwon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B8946DC1B0D1CC7004CC025 /* defenderwon@2x.png */; };
 		6B8946E81B0D1CC7004CC025 /* defenderwon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B8946DC1B0D1CC7004CC025 /* defenderwon@2x.png */; };
+		6B8946E91B0F9F77004CC025 /* BattleMainView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B4FDB961AE9759B00371B1A /* BattleMainView.m */; };
+		6B8946EA1B0F9F86004CC025 /* Replay.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE655911AE57BE80069452A /* Replay.pb.m */; };
+		6B8946EB1B0F9F86004CC025 /* Replay.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE655911AE57BE80069452A /* Replay.pb.m */; };
+		6B8946EC1B0F9F8A004CC025 /* BattleMainView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B4FDB961AE9759B00371B1A /* BattleMainView.m */; };
+		6B8946ED1B0F9F93004CC025 /* BattleStateMachine.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B4FDB9A1AE9759B00371B1A /* BattleStateMachine.m */; };
+		6B8946EE1B0F9F93004CC025 /* BattleStateMachine.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B4FDB9A1AE9759B00371B1A /* BattleStateMachine.m */; };
+		6B8946EF1B0F9F96004CC025 /* BattleState.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B4FDB981AE9759B00371B1A /* BattleState.m */; };
+		6B8946F01B0F9F96004CC025 /* BattleState.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B4FDB981AE9759B00371B1A /* BattleState.m */; };
+		6B8946F11B0FA0B3004CC025 /* BattleBgdLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B4FDB941AE9759B00371B1A /* BattleBgdLayer.m */; };
+		6B8946F21B0FA0B4004CC025 /* BattleBgdLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B4FDB941AE9759B00371B1A /* BattleBgdLayer.m */; };
 		6B89A69F1A941948004C16B6 /* 6lockedorbleft-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B89A6971A941948004C16B6 /* 6lockedorbleft-9@2x.png */; };
 		6B89A6A01A941948004C16B6 /* 6lockedorbleft-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B89A6971A941948004C16B6 /* 6lockedorbleft-9@2x.png */; };
 		6B89A6A11A941948004C16B6 /* 6lockedorbleft-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B89A6971A941948004C16B6 /* 6lockedorbleft-9@2x.png */; };
@@ -24089,6 +24099,7 @@
 				6BA24E0A1A7AEA6E00BEF920 /* SkillTakeAim.m in Sources */,
 				CF0CED18196F452900ECD301 /* MapSprite.m in Sources */,
 				6B0783FA1A828468005CDFCF /* SkillCurse.m in Sources */,
+				6B8946E91B0F9F77004CC025 /* BattleMainView.m in Sources */,
 				9B2389D71A314B8400FA3743 /* SkillThickSkin.m in Sources */,
 				CF0CED19196F452900ECD301 /* EasyTableView.m in Sources */,
 				9B9BA8021A73367B001B7D04 /* SkillConfusion.m in Sources */,
@@ -24154,6 +24165,7 @@
 				9B2EFDB41AD35E8B005B7B83 /* CAWSpriteData.m in Sources */,
 				9B0E6E4B1A76D7A500118210 /* SkillStaticField.m in Sources */,
 				CF0CED3B196F452900ECD301 /* ClanInfoViews.m in Sources */,
+				6B8946EF1B0F9F96004CC025 /* BattleState.m in Sources */,
 				9BDA8BC31A40D98F00C7AC27 /* SkillMud.m in Sources */,
 				CF0CED3C196F452900ECD301 /* FullUserUpdates.m in Sources */,
 				DA173A5B19CBACCD005236C0 /* SkillPoison.m in Sources */,
@@ -24347,6 +24359,7 @@
 				9BB5AF691AA661BA002076E3 /* BoardDesignerViewController.m in Sources */,
 				CF0CEDC8196F452900ECD301 /* ClanRaidListViewController.m in Sources */,
 				CF0CEDC9196F452900ECD301 /* ClanBrowseViewController.m in Sources */,
+				6B8946ED1B0F9F93004CC025 /* BattleStateMachine.m in Sources */,
 				9B41AF451A8058FC00529879 /* SkillEnergize.m in Sources */,
 				CF0CEDCA196F452900ECD301 /* BoosterPackStuff.pb.m in Sources */,
 				CF0CEDCB196F452900ECD301 /* PopupSubViewController.m in Sources */,
@@ -24383,6 +24396,7 @@
 				6B8E800F1B0187C2009BDDD7 /* SkillPopupOverlayController.m in Sources */,
 				CF0CEDDF196F452900ECD301 /* EventInAppPurchase.pb.m in Sources */,
 				CF4F783219BE4932001B7B7C /* HudNotificationController.m in Sources */,
+				6B8946EA1B0F9F86004CC025 /* Replay.pb.m in Sources */,
 				CF0CEDE0196F452900ECD301 /* RequestsViewController.m in Sources */,
 				CF0CEDE2196F452900ECD301 /* BattleViews.m in Sources */,
 				29DCCFB01A8AB444003176FD /* TutorialEnhanceQueueViewController.m in Sources */,
@@ -24405,6 +24419,7 @@
 				CF0CEDEA196F452900ECD301 /* ClanRaidBattleLayer.m in Sources */,
 				2917217D1AD4B74E0093F100 /* StrengthChangeView.m in Sources */,
 				CF0CEDEC196F452900ECD301 /* ClanRaidViews.m in Sources */,
+				6B8946F11B0FA0B3004CC025 /* BattleBgdLayer.m in Sources */,
 				CF0CEDED196F452900ECD301 /* GenViewController.m in Sources */,
 				CF0CEDEE196F452900ECD301 /* LevelUpNode.m in Sources */,
 				CF0CEDEF196F452900ECD301 /* TournamentStuff.pb.m in Sources */,
@@ -24928,6 +24943,7 @@
 				CF4818E019F7217F00041486 /* EventAchievement.pb.m in Sources */,
 				29927E671AAE1B6D00418683 /* BattleItemQueue.m in Sources */,
 				9B0E6E4C1A76D7A500118210 /* SkillStaticField.m in Sources */,
+				6B8946F01B0F9F96004CC025 /* BattleState.m in Sources */,
 				CF4818E119F7217F00041486 /* ClanInfoViews.m in Sources */,
 				9BDA8BC41A40D98F00C7AC27 /* SkillMud.m in Sources */,
 				CF4818E219F7217F00041486 /* FullUserUpdates.m in Sources */,
@@ -25007,6 +25023,7 @@
 				CF48191919F7217F00041486 /* ClanRaidViewController.m in Sources */,
 				CF48191A19F7217F00041486 /* BattleScheduleView.m in Sources */,
 				CF48191B19F7217F00041486 /* THLabel.m in Sources */,
+				6B8946EB1B0F9F86004CC025 /* Replay.pb.m in Sources */,
 				3E383D7E1A76F78200BAC962 /* SkillSkewer.m in Sources */,
 				CF48191C19F7217F00041486 /* City.pb.m in Sources */,
 				9BDA8C561A60B4A500C7AC27 /* CustomIndicatorPageControl.m in Sources */,
@@ -25023,6 +25040,7 @@
 				29A2FC5D1A4EB8D000FF93B6 /* BoardLayoutProto+Properties.m in Sources */,
 				CF48192419F7217F00041486 /* ClanHelpUtil.m in Sources */,
 				CF48192519F7217F00041486 /* NSObject+PerformBlockAfterDelay.m in Sources */,
+				6B8946EC1B0F9F8A004CC025 /* BattleMainView.m in Sources */,
 				295FA2B51A1B44A7006B79F3 /* ResourceItemsFiller.m in Sources */,
 				9B2EFCEF1AC4AEF5005B7B83 /* Reward.pb.m in Sources */,
 				CF48192619F7217F00041486 /* BattleChain.m in Sources */,
@@ -25119,6 +25137,7 @@
 				9B41AE831A7824AA00529879 /* SkillKnockout.m in Sources */,
 				9BB5AF6A1AA661BA002076E3 /* BoardDesignerViewController.m in Sources */,
 				CF48197619F7217F00041486 /* ClanRaidListViewController.m in Sources */,
+				6B8946EE1B0F9F93004CC025 /* BattleStateMachine.m in Sources */,
 				CF48197719F7217F00041486 /* ClanBrowseViewController.m in Sources */,
 				9B41AF461A8058FC00529879 /* SkillEnergize.m in Sources */,
 				CF48197819F7217F00041486 /* BoosterPackStuff.pb.m in Sources */,
@@ -25178,6 +25197,7 @@
 				CF48199E19F7217F00041486 /* ClanRaidBattleLayer.m in Sources */,
 				2917217E1AD4B74E0093F100 /* StrengthChangeView.m in Sources */,
 				CF48199F19F7217F00041486 /* ClanRaidViews.m in Sources */,
+				6B8946F21B0FA0B4004CC025 /* BattleBgdLayer.m in Sources */,
 				CF4819A019F7217F00041486 /* GenViewController.m in Sources */,
 				CF4819A119F7217F00041486 /* LevelUpNode.m in Sources */,
 				CF4819A219F7217F00041486 /* TournamentStuff.pb.m in Sources */,
