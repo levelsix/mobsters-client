@@ -380,7 +380,7 @@
     case RewardTypeItem:
     {
       ItemProto* item = [gs itemForId:reward.itemId];
-      name  = item.shortName;
+      name  = item.hasShortName ? item.shortName : item.name;
       break;
     }
       
