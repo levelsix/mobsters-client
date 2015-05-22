@@ -982,6 +982,15 @@
     
     id<ChatObject> post = self.displayedChatList[indexPath.row];
     _clickedCell = post;
+    
+#warning ROB: This is currently here for debug, since we don't have 
+    if ([post isMemberOfClass:[PvpHistoryProto class]]){
+      PvpHistoryProto *php = (PvpHistoryProto*)post;
+      if ([php hasReplayId]) {
+        [[OutgoingEventController sharedOutgoingEventController] viewBattleReplay:php.replayId];
+        return;
+      }
+    }
     [self openConversationWithUserUuid:post.otherUser.userUuid name:post.otherUser.name animated:YES];
     [post markAsRead];
     
