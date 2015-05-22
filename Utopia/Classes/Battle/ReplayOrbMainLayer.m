@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "NSObject+PerformBlockAfterDelay.h"
 #import "ReplayOrbMainLayer.h"
 #import "ReplayBattleOrbLayout.h"
 
@@ -59,18 +60,22 @@
   [self addChild:self.handSprite z:101];
   
   self.handSprite.opacity = 0.f;
-  CCActionMoveBy *move = [CCActionEaseIn actionWithAction:[CCActionMoveBy actionWithDuration:0.5f position:ccpSub(endPos, startPos)] rate:2.f];
+  CCActionMoveBy *move = [CCActionEaseIn actionWithAction:[CCActionMoveBy actionWithDuration:0.3f position:ccpSub(endPos, startPos)] rate:2.f];
   [self.handSprite runAction:
     [CCActionSequence actions:
-     [CCActionDelay actionWithDuration:0.75f],
      [CCActionFadeIn actionWithDuration:0.1f],
+     [CCActionDelay actionWithDuration:0.2f],
+     [CCActionCallBlock actionWithBlock:^{
+      [self performBlockAfterDelay:0.15f block:^{
+        completion();
+      }];
+     }],
      move,
      [CCActionDelay actionWithDuration:0.3f],
      [CCActionFadeOut actionWithDuration:0.3f],
      [CCActionCallBlock actionWithBlock:^{
-      completion();
       [self.handSprite removeFromParent];
-     }],
+    }],
      nil]];
 }
 

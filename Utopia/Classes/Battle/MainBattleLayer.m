@@ -523,7 +523,7 @@
       BOOL nth = [self.battleSchedule getNthMove:self.mainView.hudView.battleScheduleView.numSlots-1];
       int monsterId = nth ? self.myPlayerObject.monsterId : self.enemyPlayerObject.monsterId;
       BOOL showEnemyBand = nth ? NO : self.enemyPlayerObject.element == self.myPlayerObject.element;
-      [self.mainView.hudView.battleScheduleView addMonster:monsterId showEnemyBand:showEnemyBand player:nth];
+      [self.mainView.hudView.battleScheduleView addMonster:monsterId showEnemyBand:showEnemyBand player:nth speed:self.battleSpeed];
     }
     
     self.mainView.hudView.bottomView.hidden = NO;
@@ -607,7 +607,7 @@
     [self updateItemsBadge];
     
     [self performBlockAfterDelay:0.5 block:^{
-      [self.mainView.hudView.battleScheduleView bounceLastView];
+      [self.mainView.hudView.battleScheduleView bounceLastView:self.battleSpeed];
     }];
   }];
 }
@@ -637,7 +637,7 @@
   if (! [skillManager willEnemySkillTrigger:SkillTriggerPointStartOfEnemyTurn])
   {
     [self performBlockAfterDelay:0.5 block:^{
-      [self.mainView.hudView.battleScheduleView bounceLastView];
+      [self.mainView.hudView.battleScheduleView bounceLastView:self.battleSpeed];
     }];
     needToBounce = NO;
   }
@@ -655,7 +655,7 @@
         if (! enemyIsKilled)
         {
           if (needToBounce)
-            [self.mainView.hudView.battleScheduleView bounceLastView];
+            [self.mainView.hudView.battleScheduleView bounceLastView:self.battleSpeed];
           [self performBlockAfterDelay:0.5 block:^{
             _enemyDamageDealtUnmodified = [self calculateUnmodifiedEnemyDamage];
             _enemyDamageDealt = [self calculateModifiedEnemyDamage:_enemyDamageDealtUnmodified];

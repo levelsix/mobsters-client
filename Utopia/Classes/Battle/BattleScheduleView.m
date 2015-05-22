@@ -132,16 +132,16 @@
   }
 }
 
-- (void) bounceLastView
+- (void) bounceLastView:(float)speed
 {
   if (_reorderingInProgress)
     return;
   
   if (self.monsterViews && self.monsterViews.count > 0)
-    [self bounceView:self.monsterViews[0]];
+    [self bounceView:self.monsterViews[0] speed:speed];
 }
 
-- (void) addMonster:(int)monsterId showEnemyBand:(BOOL)showEnemyBand player:(BOOL)player{
+- (void) addMonster:(int)monsterId showEnemyBand:(BOOL)showEnemyBand player:(BOOL)player speed:(float)speed{
   MiniMonsterView *first = [self.monsterViews firstObject];
   MiniMonsterView *new = [self monsterViewForMonsterId:monsterId showEnemyBand:showEnemyBand player:player];
   
@@ -153,7 +153,7 @@
   [v addSubview:new];
   [self.containerView addSubview:v];
   
-  [UIView animateWithDuration:0.3f animations:^{
+  [UIView animateWithDuration:0.3f/speed animations:^{
     for (int i = 0; i < self.monsterViews.count; i++) {
       MiniMonsterView *mmv = self.monsterViews[i];
       mmv.superview.center = [self centerForIndex:i width:mmv.frame.size.width];
@@ -162,15 +162,13 @@
     first.superview.center = ccp(first.superview.center.x, -first.superview.frame.size.height/2);
     first.superview.alpha = 0.f;
   } completion:^(BOOL finished) {
-    //[self bounceLastView];  // Now we're calling bounce from the NewBattleLayer
-    
     [first.superview removeFromSuperview];
   }];
 }
 
-- (void) bounceView:(UIView *)view {
+- (void) bounceView:(UIView *)view speed:(float)speed{
   float iconHeight = view.frame.size.height/3;
-  float duration = 0.8f;
+  float duration = 0.8f/speed;
   
   CAKeyframeAnimation *anim = [CAKeyframeAnimation dockBounceAnimationWithIconHeight:iconHeight];
   anim.duration = duration;
