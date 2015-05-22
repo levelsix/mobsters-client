@@ -1111,6 +1111,23 @@ static const CGSize FIXED_SIZE = {568, 384};
   }];
 }
 
+//Different, we know that we're restarting so we don't have to bother loading anything.
+//Also, custom crossfade that replaces cocos scene instead of pushing
+- (void) restartReplay:(CombatReplayProto *)replay {
+  ReplayBattleLayer *rpl = [[ReplayBattleLayer alloc] initWithReplay:replay];
+  rpl.delegate = self;
+  float duration = 0.6;
+  
+  CCDirector *dir = [CCDirector sharedDirector];
+  CCScene *scene = [CCScene node];
+  [scene addChild:rpl];
+  [dir replaceScene:scene withTransition:[CCTransition transitionCrossFadeWithDuration:duration]];
+  [self removeAllViewControllers];
+  
+  [[SoundEngine sharedSoundEngine] playBattleMusic];
+  _isInBattle = YES;
+}
+
 - (void) beginClanRaidBattle:(PersistentClanEventProto *)clanEvent withTeam:(NSArray *)team {
   if (_isInBattle) {
     [self removeAllViewControllers];

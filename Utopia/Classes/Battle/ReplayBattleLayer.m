@@ -407,12 +407,12 @@
 
 //Override Share button to be a restart replay button
 - (void)shareClicked:(id)sender{
-  [self exitFinal];
+//  [self exitFinal];
   
   [SoundEngine generalButtonClick];
   
   GameViewController *gvc = [GameViewController baseController];
-  [gvc beginReplay:_replay];
+  [gvc restartReplay:_replay];
 }
 
 - (int)calculateUnmodifiedEnemyDamage {

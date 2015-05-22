@@ -103,6 +103,7 @@ typedef enum {
 
 - (void) enterDungeon:(int)taskId withDelay:(float)delay;
 - (void) beginReplay:(CombatReplayProto *)replay;
+- (void) restartReplay:(CombatReplayProto *)replay;
 
 - (void) visitCityClicked:(int)cityId assetId:(int)assetId;
 - (void) visitCityClicked:(int)cityId;
