@@ -67,8 +67,6 @@
     [refreshHeaderView addSubview:refreshSpinner];
   }
   
-  refreshSpinner.transform = CGAffineTransformMakeScale(0.75, 0.75);
-  
   //actually add the refresh header view in the function called add[..]header
   [tableView addSubview:refreshHeaderView];
   CGRect newFrame = refreshHeaderView.frame;

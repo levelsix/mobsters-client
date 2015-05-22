@@ -7,7 +7,6 @@
 //
 
 #import "LeaderBoardBuilding.h"
-
 #import "CCAnimation+SpriteLoading.h"
 #import "Globals.h"
 #import "GameState.h"
@@ -17,11 +16,10 @@
 - (void) reloadCharacterSprites {
   GameState *gs = [GameState sharedGameState];
   
-  NSArray *monsterList = [gs allMonstersOnMyTeamWithClanSlot:NO];
-  
-  for (int i = 0; i < monsterList.count; i++) {
-    UserMonster *myMonster = monsterList[i];
-    [self setPodiumWithMonster:[gs monsterWithId:myMonster.monsterId] placement:i+1];
+  NSArray *leaderList = gs.leaderBoardPlacement;
+
+  for (StrengthLeaderBoardProto *slbp in leaderList) {
+    [self setPodiumWithMonster:[gs monsterWithId:slbp.mup.avatarMonsterId] placement:slbp.rank];
   }
 }
 

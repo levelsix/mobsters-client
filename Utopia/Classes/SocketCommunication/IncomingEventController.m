@@ -27,6 +27,7 @@
 #import "UnreadNotifications.h"
 #import "MiniEventManager.h"
 #import "ChatView.h"
+#import "LeaderBoardObject.h"
 
 #define QUEST_REDEEM_KIIP_REWARD @"quest_redeem"
 
@@ -547,6 +548,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     gs.myPvpBoardObstacles = [proto.userPvpBoardObstaclesList mutableCopy];
 
     [[MiniEventManager sharedInstance] handleUserMiniEventReceivedOnStartup:proto.hasUserMiniEvent ? proto.userMiniEvent : nil];
+    
+    if (proto.topStrengthLeaderBoardsList.count >= 3) {
+      gs.leaderBoardPlacement = [NSMutableArray arrayWithObjects:
+                                 proto.topStrengthLeaderBoardsList[0],
+                                 proto.topStrengthLeaderBoardsList[1],
+                                 proto.topStrengthLeaderBoardsList[2],
+                                 nil];
+    }
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     if([defaults boolForKey:[Globals userConfimredPushNotificationsKey]]) {
@@ -2642,8 +2651,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Retrieve strength leader board recieved with status %d", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatusSuccess) {
-    StrengthLeaderBoardProto *slbp = proto.leaderBoardInfoList[0];
+  if (proto.status == RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatusSuccess && proto.leaderBoardInfoList.count >= 3) {
+    [gs.leaderBoardPlacement removeAllObjects];
+    gs.leaderBoardPlacement = [NSMutableArray arrayWithObjects:
+                               proto.leaderBoardInfoList[0],
+                               proto.leaderBoardInfoList[1],
+                               proto.leaderBoardInfoList[2],
+                               nil];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:LEADERBOARD_UPDATE_NOTIFICATION object:nil];
   }
 >>>>>>> no podium yet
 }
