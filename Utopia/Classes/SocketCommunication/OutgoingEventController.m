@@ -384,7 +384,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     userStruct.lastRetrieved = date;
     userStruct.isComplete = YES;
     
-    int64_t ms = [self getCurrentMilliseconds];
+    int64_t ms = date.timeIntervalSince1970*1000.;
     int tag = [sc sendNormStructBuildsCompleteMessage:@[userStruct.userStructUuid] time:ms];
     [sc setDelegate:delegate forTag:tag];
     
@@ -1830,6 +1830,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 #pragma mark - Resources
 
+// Used for accumulated items
 - (void) tradeItemIdsForResources:(NSDictionary *)itemIdsToQuantity {
   GameState *gs = [GameState sharedGameState];
   
@@ -1878,6 +1879,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
+// Used from top bar
 - (void) tradeItemForResources:(int)itemId {
   GameState *gs = [GameState sharedGameState];
   

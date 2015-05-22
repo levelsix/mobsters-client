@@ -1322,9 +1322,10 @@
 
 - (void) reloadRetrievableIcons {
   for (ResourceGeneratorBuilding *res in self.children) {
+    // This is called when game state is updated and is used to reload the retrievable icon if its up since it might need to show red now.
     if ([res isKindOfClass:[ResourceGeneratorBuilding class]] && res.retrievable) {
       res.retrievable = YES;
-    } else if([res isKindOfClass:[ResourceGeneratorBuilding class]] && res.retrievable) {
+    } else if([res isKindOfClass:[MoneyTreeBuilding class]] && res.retrievable) {
       res.retrievable = YES;
     }
   }

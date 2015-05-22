@@ -592,7 +592,10 @@
 
 - (void) setIsConstructing:(BOOL)isConstructing {
   [super setIsConstructing:isConstructing];
-  self.retrievable = NO;
+  
+  if (isConstructing) {
+    self.retrievable = NO;
+  }
 }
 
 @end
