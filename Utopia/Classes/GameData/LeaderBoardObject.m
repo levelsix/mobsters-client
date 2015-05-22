@@ -14,12 +14,8 @@
   return self.mup.name;
 }
 
-- (int) score {
-  return self.score;
-}
-
-- (int) rank {
-  return self.rank;
+- (long) score {
+  return self.strength;
 }
 
 @end

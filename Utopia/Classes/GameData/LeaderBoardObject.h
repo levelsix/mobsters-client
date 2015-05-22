@@ -11,7 +11,8 @@
 
 @protocol LeaderBoardObject <NSObject>
 
-- (int) score;
+- (MinimumUserProto *) mup;
+- (long) score;
 - (NSString *) name;
 - (int) rank;
 

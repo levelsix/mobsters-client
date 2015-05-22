@@ -10,12 +10,16 @@
                 <outlet property="LeaderBoardHeaderView" destination="eVf-85-5CD" id="OvW-rh-h0e"/>
                 <outlet property="bgdView" destination="QLR-WQ-T09" id="Hxh-Dl-51I"/>
                 <outlet property="containerView" destination="LY6-5P-3pp" id="ud8-4x-CXb"/>
+                <outlet property="loadingViewCell" destination="53X-dh-GBv" id="v1Z-sj-fCm"/>
+                <outlet property="loadingViewIndicator" destination="DxK-A7-e2V" id="wR5-fg-BuB"/>
                 <outlet property="mainView" destination="xQQ-Pe-F3n" id="hpB-2E-7pm"/>
+                <outlet property="popoverView" destination="mrP-yL-vJE" id="6hC-j3-sOC"/>
                 <outlet property="refreshArrow" destination="Iwd-PB-Xoz" id="Oa4-Zs-66P"/>
                 <outlet property="refreshHeaderView" destination="0lc-sY-p9m" id="5Ou-pr-sON"/>
                 <outlet property="refreshLabel" destination="U0A-Vr-3sq" id="72B-tZ-afk"/>
                 <outlet property="refreshSpinner" destination="a2g-FO-A2w" id="hch-PB-3rf"/>
                 <outlet property="scoreLabel" destination="eYN-Vv-r3y" id="yZJ-iA-QnN"/>
+                <outlet property="tableLoadingIndicator" destination="feB-ud-KRf" id="vBA-Gn-vDQ"/>
                 <outlet property="tableView" destination="Ecg-uK-huA" id="397-sS-zSv"/>
                 <outlet property="view" destination="bw7-LF-Yra" id="Qe2-p2-UwB"/>
                 <outlet property="yourRankingHeader" destination="Ehw-AI-icS" id="gHl-Pm-nVU"/>
@@ -103,6 +107,10 @@
                                                 <outlet property="delegate" destination="-1" id="zja-AP-Ucm"/>
                                             </connections>
                                         </tableView>
+                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" id="feB-ud-KRf">
+                                            <rect key="frame" x="215" y="167" width="20" height="20"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        </activityIndicatorView>
                                     </subviews>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 </view>
@@ -176,7 +184,7 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="611" y="328"/>
+            <point key="canvasLocation" x="611" y="323"/>
         </view>
         <view contentMode="scaleToFill" id="0lc-sY-p9m">
             <rect key="frame" x="0.0" y="0.0" width="450" height="36"/>
@@ -186,7 +194,7 @@
                     <rect key="frame" x="0.0" y="35" width="450" height="1"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LOADING MORE INFO" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="U0A-Vr-3sq" customClass="NiceFontLabel9">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UPDATING INFO" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="U0A-Vr-3sq" customClass="NiceFontLabel9">
                     <rect key="frame" x="172" y="9" width="106" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="9"/>
@@ -205,12 +213,106 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="611" y="409"/>
+            <point key="canvasLocation" x="611" y="391"/>
+        </view>
+        <view contentMode="scaleToFill" id="53X-dh-GBv" userLabel="LoadingViewCell" customClass="UITableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="450" height="30"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.64999997615814209" contentMode="scaleToFill" image="popupline.png" id="uuk-D4-GkM">
+                    <rect key="frame" x="0.0" y="29" width="450" height="1"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="2dm-2Y-Bb0" customClass="NiceFontLabel9">
+                    <rect key="frame" x="172" y="6" width="106" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                    <color key="textColor" red="0.14901960780000001" green="0.14901960780000001" blue="0.14901960780000001" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" id="DxK-A7-e2V">
+                    <rect key="frame" x="172" y="5" width="20" height="20"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </activityIndicatorView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="611" y="467"/>
+        </view>
+        <view contentMode="scaleToFill" id="mrP-yL-vJE" userLabel="Popover View" customClass="ChatPopoverView">
+            <rect key="frame" x="0.0" y="0.0" width="153" height="51"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="leadererboardpopup.png" id="AIZ-Sy-7YN">
+                    <rect key="frame" x="0.0" y="0.0" width="153" height="51"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                </imageView>
+                <view contentMode="scaleToFill" id="TAr-GO-Sfi">
+                    <rect key="frame" x="6" y="6" width="68" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="3ce-pI-edJ">
+                            <rect key="frame" x="0.0" y="0.0" width="68" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" image="bluesmallbutton.png">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="profileClicked:" destination="mrP-yL-vJE" eventType="touchUpInside" id="v6Z-Te-D0v"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Profile" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="B5R-9m-siE" customClass="NiceFontLabel12B">
+                            <rect key="frame" x="5" y="3" width="58" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                            <color key="textColor" red="0.0" green="0.33333333329999998" blue="0.55294117649999996" alpha="1" colorSpace="deviceRGB"/>
+                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="shadowColor" red="0.52941176469999995" green="0.98431372549999996" blue="1" alpha="0.80000000000000004" colorSpace="deviceRGB"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+                <view contentMode="scaleToFill" id="oEd-wa-ILH">
+                    <rect key="frame" x="79" y="6" width="68" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Ros-bl-LYQ">
+                            <rect key="frame" x="0.0" y="0.0" width="68" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" image="greensmallbutton.png">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="messageClicked:" destination="mrP-yL-vJE" eventType="touchUpInside" id="8lf-1d-wEM"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Message" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="mDG-o9-6zx" customClass="NiceFontLabel12B">
+                            <rect key="frame" x="5" y="3" width="58" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                            <color key="textColor" red="0.090196078430000007" green="0.47058823529999999" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
+                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="shadowColor" red="0.96470588239999999" green="1" blue="0.51372549020000002" alpha="0.80000000000000004" colorSpace="deviceRGB"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="462.5" y="548.5"/>
         </view>
     </objects>
     <resources>
+        <image name="bluesmallbutton.png" width="68" height="30"/>
+        <image name="greensmallbutton.png" width="68" height="30"/>
         <image name="homemenutop.png" width="1" height="57"/>
         <image name="leaderboardlogo.png" width="152" height="66"/>
+        <image name="leadererboardpopup.png" width="153" height="51"/>
         <image name="menuclosex.png" width="17" height="17"/>
         <image name="popupline.png" width="1" height="1"/>
         <image name="refresharrow.png" width="18" height="19"/>

@@ -9,10 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "PullRefreshTableViewController.h"
 #import "LeaderBoardObject.h"
+#import "ChatView.h"
 
 @interface LeaderBoardViewCell: UITableViewCell
 
-- (void) updateWithRank:(int)rank score:(int)score userName:(NSString *)userName scoreIcon:(NSString *)scoreIcon;
+- (void)updateWithLeaderBoardObject:(id<LeaderBoardObject>)leaderInfo scoreIcon:(NSString *)scoreIcon;
+- (void) updateWithRank:(int)rank score:(long)score userName:(NSString *)userName scoreIcon:(NSString *)scoreIcon;
 
 @property (nonatomic, retain) IBOutlet UILabel *nameLabel;
 @property (nonatomic, retain) IBOutlet UILabel *rankLabel;
@@ -20,14 +22,19 @@
 @property (nonatomic, retain) IBOutlet UIImageView *rankBG;
 @property (nonatomic, retain) IBOutlet UIImageView *cellBG;
 @property (nonatomic, retain) IBOutlet UIImageView *scoreImage;
+@property (nonatomic, retain) IBOutlet UIImageView *starImageView;
 
 @end
 
-@interface LeaderBoardViewController : PullRefreshTableViewController <UITableViewDelegate, UITableViewDataSource> {
+@interface LeaderBoardViewController : PullRefreshTableViewController <UITableViewDelegate, UITableViewDataSource, ChatPopoverDelegate> {
   CGFloat _cellHeight;
   NSString *_scoreName;
   NSString *_scoreIcon;
-  int _totalCellsToShow;
+  id<LeaderBoardObject> _clickedLeader;
+  int _highestRankToShow;
+  long _ownScore;
+  BOOL _moreScoresAvailable;
+  BOOL _waitingOnServer;
 }
 
 @property (nonatomic, retain) id<LeaderBoardObject> ownRanking;
@@ -35,8 +42,11 @@
 
 @property (nonatomic, retain) IBOutlet UIView *yourRankingHeader;
 @property (nonatomic, retain) IBOutlet UIView *LeaderBoardHeaderView;
+@property (nonatomic, retain) IBOutlet UITableViewCell *loadingViewCell;
+@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *loadingViewIndicator;
 @property (nonatomic, retain) IBOutlet UILabel *scoreLabel;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *tableLoadingIndicator;
+@property (nonatomic, retain) IBOutlet ChatPopoverView *popoverView;
 
 @property (nonatomic, retain) IBOutlet UITableView *tableView;
 @property (nonatomic, retain) IBOutlet UIView *bgdView;

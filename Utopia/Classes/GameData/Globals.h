@@ -107,6 +107,8 @@
 
 #define LOGGING_ENABLED_KEY @"LoggingEnabledKey"
 
+#define LEADERBOARD_UPDATE_NOTIFICATION @"LeaderboardUpdateNotification"
+
 #ifdef MOBSTERS
 #define GAME_NAME @"Mob Squad"
 #define GAME_ABBREV @"MS"

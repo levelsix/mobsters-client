@@ -2737,6 +2737,8 @@
   
   // Mini job just redeemed, clan donate redeemed
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadHospitals) name:MY_TEAM_CHANGED_NOTIFICATION object:nil];
+  
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadLeaderBoard) name:LEADERBOARD_UPDATE_NOTIFICATION object:nil];
 }
 
 - (void) onExitTransitionDidStart {
