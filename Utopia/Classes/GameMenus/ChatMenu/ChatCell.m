@@ -620,3 +620,64 @@ static float buttonInitialWidth = 159.f;
 }
 
 @end
+
+@implementation ChatClanGiftView
+
+- (void) awakeFromNib {
+  [super awakeFromNib];
+  self.openedView.frame = self.unOpenedView.frame;
+  [self.unOpenedView.superview addSubview:self.openedView];
+}
+
+- (void) updateForClanGift:(UserClanGiftProto *)userClanGift {
+  
+  if (userClanGift.isRedeemed) {
+    self.unOpenedView.hidden = YES;
+    self.openedView.hidden = NO;
+  } else {
+    self.openedView.hidden = YES;
+    self.unOpenedView.hidden = NO;
+  }
+  
+  [self.embeddedRewardView.rewardView loadForReward:[[Reward alloc] initWithReward:userClanGift.reward]];
+  
+  NSString *rewardImageName = [Globals imageNameForReward:userClanGift.reward];
+  NSString *rewardName = [Globals nameForReward:userClanGift.reward];
+  
+//  self.giftRarityLabel.text = [NSString stringWithFormat:@"%@ Gift", [Globals stringForRarity:userClanGift.clanGift.quality]];
+  self.giftRarityLabel.text = rewardName;
+  self.giftNameLabel.text = userClanGift.clanGift.name;
+  
+  [self updateForExpireDate:userClanGift.expireDate];
+  
+  self.rewardNameLabel.text = [NSString stringWithFormat:@"Opened from the %@",userClanGift.clanGift.name];
+  
+  if (userClanGift.reward.typ == RewardProto_RewardTypeMonster) {
+    self.rewardFitImageView.hidden = NO;
+    self.rewardCenterImageView.hidden = YES;
+    
+    [Globals imageNamed:rewardImageName withView:self.rewardFitImageView greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:NO];
+  } else {
+    self.rewardFitImageView.hidden = YES;
+    self.rewardCenterImageView.hidden = NO;
+    
+    [Globals imageNamed:rewardImageName withView:self.rewardCenterImageView greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:NO];
+  }
+  [Globals imageNamed:userClanGift.clanGift.imageName withView:self.giftImage greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+  
+  [self.collectButton removeTarget:nil action:NULL forControlEvents:UIControlEventTouchUpInside];
+  [self.collectButton addTarget:userClanGift action:@selector(collectClicked:) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void) updateForExpireDate:(MSDate *)expireDate {
+  long expireTime = expireDate.timeIntervalSinceNow;
+  if (expireTime <= 0) {
+    self.expireTimeLabel.text = @"Expired";
+    self.collectButton.superview.hidden = YES;
+  } else {
+    self.expireTimeLabel.text = [[Globals convertTimeToShortString:(int)expireTime withAllDenominations:YES] uppercaseString];
+    self.collectButton.superview.hidden = NO;
+  }
+}
+
+@end

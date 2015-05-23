@@ -68,10 +68,18 @@
 
 @implementation PrivateMessageNotificationViewController
 
+- (id) initWithClanGifts:(NSArray *)userClanGifts isImmediate:(BOOL)isImmediate {
+  return [self initWithMessages:userClanGifts isImmediate:isImmediate isAllGifts:YES];
+}
+
 - (id) initWithMessages:(NSArray *)allMessages isImmediate:(BOOL)isImmediate {
+  return [self initWithMessages:allMessages isImmediate:isImmediate isAllGifts:NO];
+}
+
+- (id) initWithMessages:(NSArray *)allMessages isImmediate:(BOOL)isImmediate isAllGifts:(BOOL)isAllGifts{
   GameState *gs = [GameState sharedGameState];
-  
   _avatarOffSet = FIRST_AVATAR_OFFSET;
+
   if ((self = [super init])) {
     [[NSBundle mainBundle] loadNibNamed:@"PrivateMessageNotificationView" owner:self options:nil];
     
@@ -91,9 +99,16 @@
         
         NSString *result = [NSString stringWithFormat:@"%@ you in battle", php.userWon ? @"Lost to" : @"Defeated"];
         UIColor *textColor = php.userWon ? [UIColor colorWithHexString:GREEN] : [UIColor colorWithHexString:RED];
+        
         [self.notificationView updateWithString:php.otherUser.name description:result color:textColor];
         [self addAvatarWithMonsterId:php.otherUser.avatarMonsterId];
         
+      } else if ([chat isKindOfClass:[UserClanGiftProto class]]) {
+        UserClanGiftProto *ucgp = [messages firstObject];
+        _messageFromSingleUser = (ChatMessage*)chat;
+        
+        [self.notificationView updateWithString:ucgp.otherUser.name description:@"Sent you a gift!" color:[UIColor colorWithHexString:GREEN]];
+        [self addAvatarWithMonsterId:ucgp.otherUser.avatarMonsterId];
       } else {
         id<ChatObject> co = [messages firstObject];
         _messageFromSingleUser = co;
@@ -115,8 +130,15 @@
         //pass anything through owner because there are no outlets
         [self addAvatarWithMonsterId:co.sender.avatarMonsterId];
       }
+    } else if(isAllGifts) {
+      //for when there are multiple messages and we know that they're all gifts from one person
+      UserClanGiftProto *ucgp = [allMessages firstObject];
+      _messageFromSingleUser = (id<ChatObject>)ucgp;
       
-    } else if (messages.count > 1){
+      [self.notificationView updateWithString:ucgp.otherUser.name description:[NSString stringWithFormat:@"Sent you %d gifts!",(int)allMessages.count] color:[UIColor colorWithHexString:GREEN]];
+      
+      [self addAvatarWithMonsterId:ucgp.otherUser.avatarMonsterId];
+    } else {
       
       NSString *description;
       

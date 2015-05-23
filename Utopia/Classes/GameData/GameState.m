@@ -65,6 +65,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _completedTaskData = [[NSMutableDictionary alloc] init];
     _mySales = [[NSMutableArray alloc] init];
     _battleHistory = [NSMutableArray array];
+    _clanGifts = [[NSMutableArray alloc] init];
     
     _availableQuests = [[NSMutableDictionary alloc] init];
     _inProgressCompleteQuests = [[NSMutableDictionary alloc] init];
@@ -782,6 +783,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   //    [self overwriteChatObjectInArray:arr chatObject:php];
   //  }
   
+  for (UserClanGiftProto *ucgp in self.clanGifts) {
+    [self overwriteChatObjectInArray:arr chatObject:ucgp];
+  }
+  
   for (RequestFromFriend *req in self.fbUnacceptedRequestsFromFriends) {
     [self overwriteChatObjectInArray:arr chatObject:req];
   }
@@ -845,7 +850,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
       [arr addObject:ca];
     }
   }
-  
   
   [arr sortUsingComparator:^NSComparisonResult(id<ChatObject> obj1, id<ChatObject> obj2) {
     return [[obj1 date] compare:[obj2 date]];
@@ -1237,6 +1241,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 #pragma mark - Static Data
 
 - (void) updateStaticData:(StaticDataProto *)proto {
+  
   // Add these before updating user or else UI will update incorrectly
   [self addToStaticLevelInfos:proto.slipList];
   
