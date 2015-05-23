@@ -1832,7 +1832,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   // Find the lower and upper
   for (StartupResponseProto_StartupConstants_ResourceConversionConstantProto *sp in self.resourceConversionConstants) {
     if (sp.resourceType == type) {
-      if (sp.resourceAmt < amount && (!lower || sp.resourceAmt > lower.resourceAmt)) {
+      if (sp.resourceAmt <= amount && (!lower || sp.resourceAmt > lower.resourceAmt)) {
         lower = sp;
       } else if (sp.resourceAmt > amount && (!upper || sp.resourceAmt < upper.resourceAmt)) {
         upper = sp;
@@ -1845,7 +1845,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     // Old Formula.. Only for backup
     val = amount*self.gemsPerResource;
   } else {
-    val = lower.numGems + (upper.numGems-lower.numGems)*(amount-lower.resourceAmt)/(float)(upper.resourceAmt-lower.resourceAmt);
+    val = lower.numGems + (upper.numGems-lower.numGems)*((amount-lower.resourceAmt)/(float)(upper.resourceAmt-lower.resourceAmt));
   }
   return MAX(1.f, round(val));
 }
