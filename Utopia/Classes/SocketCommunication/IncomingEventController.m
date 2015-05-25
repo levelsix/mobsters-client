@@ -648,7 +648,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     SKProduct *prod = iap.products[proto.packageName];
     // Duplicate receipt might occur if you close app before response comes back
     if (proto.status != InAppPurchaseResponseProto_InAppPurchaseStatusDuplicateReceipt) {
-      [Globals popupMessage:@"Sorry! The In App Purchase failed! Please email support@lvl6.com"];
+      [Globals popupMessage:@"Sorry! The In App Purchase failed! Please email support@lvl6.com."];
       [Analytics iapFailedWithSKProduct:prod error:@"Receipt verification failed"];
     } else {
       [Analytics iapFailedWithSKProduct:prod error:@"Duplicate receipt"];
