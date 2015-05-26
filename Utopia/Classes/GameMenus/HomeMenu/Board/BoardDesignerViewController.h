@@ -25,6 +25,8 @@
   int32_t                 _powerUsed;
   int32_t                 _powerUsedExtra; // Extra power cost dictated by restrictions (e.g. adjacency in a row)
   
+  int                     _currObstacleFocusIndex;
+  
   NSMutableArray*         _obstacleViews;
   
   TouchableSubviewsView*  _boardContainer;
@@ -51,6 +53,9 @@
 @property (nonatomic, retain) IBOutlet UILabel* powerLabel;
 @property (nonatomic, retain) IBOutlet UIScrollView* obstaclesScrollView;
 
+@property (nonatomic, retain) IBOutlet UIButton* rightArrowButton;
+@property (nonatomic, retain) IBOutlet UIButton* leftArrowButton;
+
 @property (nonatomic, retain) IBOutlet HomeTitleView* homeTitleView;
 @property (nonatomic, retain) IBOutlet SplitImageProgressBar* powerProgressBar;
 @property (nonatomic, retain) IBOutlet UIButton* closeButton;
@@ -58,5 +63,8 @@
 @property (nonatomic, weak) id<BoardDesignerViewControllerDelegate> delegate;
 
 - (IBAction) closeClicked:(id)sender;
+
+- (IBAction) rightArrowClicked:(id)sender;
+- (IBAction) leftArrowClicked:(id)sender;
 
 @end

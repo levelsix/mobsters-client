@@ -2161,6 +2161,9 @@
 		6BA24E091A7AEA6E00BEF920 /* SkillTakeAim.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA24E081A7AEA6E00BEF920 /* SkillTakeAim.m */; };
 		6BA24E0A1A7AEA6E00BEF920 /* SkillTakeAim.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA24E081A7AEA6E00BEF920 /* SkillTakeAim.m */; };
 		6BA24E0B1A7AEA6E00BEF920 /* SkillTakeAim.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA24E081A7AEA6E00BEF920 /* SkillTakeAim.m */; };
+		6BA965B21B0FD7090025EB15 /* vineobstacle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BA965B11B0FD7090025EB15 /* vineobstacle@2x.png */; };
+		6BA965B31B0FD7090025EB15 /* vineobstacle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BA965B11B0FD7090025EB15 /* vineobstacle@2x.png */; };
+		6BA965B41B0FD7090025EB15 /* vineobstacle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BA965B11B0FD7090025EB15 /* vineobstacle@2x.png */; };
 		6BB26BC61A78190C0014342B /* SkillPoisonPowder.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB26BC51A78190C0014342B /* SkillPoisonPowder.m */; };
 		6BB26BC71A78190C0014342B /* SkillPoisonPowder.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB26BC51A78190C0014342B /* SkillPoisonPowder.m */; };
 		6BB26BC81A78190C0014342B /* SkillPoisonPowder.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB26BC51A78190C0014342B /* SkillPoisonPowder.m */; };
@@ -7880,6 +7883,7 @@
 		6BA24DF21A7A9ECF00BEF920 /* SkillBloodRage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillBloodRage.m; sourceTree = "<group>"; };
 		6BA24E061A7AEA6100BEF920 /* SkillTakeAim.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SkillTakeAim.h; sourceTree = "<group>"; };
 		6BA24E081A7AEA6E00BEF920 /* SkillTakeAim.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillTakeAim.m; sourceTree = "<group>"; };
+		6BA965B11B0FD7090025EB15 /* vineobstacle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "vineobstacle@2x.png"; sourceTree = "<group>"; };
 		6BB26BC41A7818FB0014342B /* SkillPoisonPowder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillPoisonPowder.h; sourceTree = "<group>"; };
 		6BB26BC51A78190C0014342B /* SkillPoisonPowder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillPoisonPowder.m; sourceTree = "<group>"; };
 		6BB5F85B1A800935006515B9 /* TutorialBuildingUpgradeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialBuildingUpgradeController.h; sourceTree = "<group>"; };
@@ -13725,6 +13729,7 @@
 		9BB5AF6E1AA68749002076E3 /* Board Designer */ = {
 			isa = PBXGroup;
 			children = (
+				6BA965B11B0FD7090025EB15 /* vineobstacle@2x.png */,
 				9BB5AF6F1AA6874A002076E3 /* obstaclesdescriptioncap@2x.png */,
 				9BB5AF701AA6874A002076E3 /* obstaclesdescriptionmiddle@2x.png */,
 				9BB5AF771AA695F6002076E3 /* obstaclespowerbarbgcap@2x.png */,
@@ -18782,6 +18787,7 @@
 				2917212E1ACF82110093F100 /* EmbeddedScrollingUpgradeView.xib in Resources */,
 				29C3CA581A92EFB5005407E9 /* greenarrow@2x.png in Resources */,
 				299AA3CA1A7856AA00A2D806 /* nightpoison-9@2x.png in Resources */,
+				6BA965B31B0FD7090025EB15 /* vineobstacle@2x.png in Resources */,
 				CFB6F7E819DA162900A53935 /* wonstickerhead@2x.png in Resources */,
 				CF0CF2D2196F452900ECD301 /* BrowseClanCell.xib in Resources */,
 				CF0CF2D7196F452900ECD301 /* ClanMemberCell.xib in Resources */,
@@ -20000,6 +20006,7 @@
 				CFEC993C1947FBF300BD893E /* gachaepictag@2x.png in Resources */,
 				299AA3361A7856AA00A2D806 /* 6lightorb-9@2x.png in Resources */,
 				CFCD0E4B1952A2D700EDC233 /* jobiconaccountant@2x.png in Resources */,
+				6BA965B21B0FD7090025EB15 /* vineobstacle@2x.png in Resources */,
 				CFC9717E182C74E500FF1D83 /* firepointsfont@2x.png in Resources */,
 				CF95205F1939690800A98290 /* bronzeribbon@2x.png in Resources */,
 				CF6A64CB19D24F030002E05D /* 6earthpoison@2x.png in Resources */,
@@ -21913,6 +21920,7 @@
 				2991FC051A800D7F009BB1D8 /* MonsterSelectViewController.xib in Resources */,
 				CF481A7F19F7217F00041486 /* bronzeribbon@2x.png in Resources */,
 				2965487D1A81C4070080B195 /* deploysep@2x.png in Resources */,
+				6BA965B41B0FD7090025EB15 /* vineobstacle@2x.png in Resources */,
 				CF481A8619F7217F00041486 /* nextgradient@2x.png in Resources */,
 				2948F5941AB7635300DF08C2 /* ifitemsquaresmall@2x.png in Resources */,
 				299AA3B91A7856AA00A2D806 /* lightsideways-9@2x.png in Resources */,
