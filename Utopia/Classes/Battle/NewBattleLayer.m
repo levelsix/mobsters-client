@@ -2552,19 +2552,20 @@
   
   self.hudView.bottomView.centerX = self.hudView.swapView.width+(self.hudView.itemsView.originX-self.hudView.swapView.width)/2;
   
-  UIImage *img = [Globals imageNamed:@"6movesqueuebgwide.png"];
-  if (BOTTOM_CENTER_X*2 >= img.size.width) {
-    self.hudView.battleScheduleView.bgdView.image = img;
-    self.hudView.battleScheduleView.width = img.size.width;
-  }
-  
-  // Move schedule up in case board is too close to the edge so that it is flush with top of the board
-  if (self.hudView.battleScheduleView.containerView.originY > bottomDist) {
-    self.hudView.battleScheduleView.originX = bottomDist;
-    self.hudView.battleScheduleView.originY = bottomDist-self.hudView.battleScheduleView.containerView.originY;
-    
-    self.hudView.elementButton.originY = self.hudView.battleScheduleView.originY+self.hudView.battleScheduleView.height-12;
-  }
+#warning This should all be only for non-ipad, because seriously what the fuck
+//  UIImage *img = [Globals imageNamed:@"6movesqueuebgwide.png"];
+//  if (BOTTOM_CENTER_X*2 >= img.size.width) {
+//    self.hudView.battleScheduleView.bgdView.image = img;
+//    self.hudView.battleScheduleView.width = img.size.width;
+//  }
+//  
+//  // Move schedule up in case board is too close to the edge so that it is flush with top of the board
+//  if (self.hudView.battleScheduleView.containerView.originY > bottomDist) {
+//    self.hudView.battleScheduleView.originX = bottomDist;
+//    self.hudView.battleScheduleView.originY = bottomDist-self.hudView.battleScheduleView.containerView.originY;
+//    
+//    self.hudView.elementButton.originY = self.hudView.battleScheduleView.originY+self.hudView.battleScheduleView.height-12;
+//  }
   
   GameState *gs = [GameState sharedGameState];
   if (gs.clan) {

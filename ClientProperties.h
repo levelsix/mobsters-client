@@ -25,7 +25,7 @@
 #define CLIENT_BRANCH @"master"
 
 //#define USE_PROD
-#define USE_STAGING
+//#define USE_STAGING
 //#define USE_LOCAL
 
 //#define FORCE_TUTORIAL TutorialStepGuideGreeting
@@ -153,7 +153,12 @@
 
 #else
 
-#define HOST_NAME @"ws://dev2mobsters.lvl6.com:8080/client/connection"
+#define HOST_NAME @"ws://dev1mobsters.lvl6.com:8080/client/connection"
+#define HOST_PORT 5672
+#define USE_SSL 0
+#define MQ_USERNAME @"lvl6client"
+#define MQ_PASSWORD @"devclient"
+#define MQ_VHOST @"devmobsters"
 #define SERVER_ID @"dev"
 
 //For amqp
