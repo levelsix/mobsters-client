@@ -203,10 +203,6 @@ static NSString *udid = nil;
 }
 
 - (void) initNetworkCommunicationWithDelegate:(id)delegate clearMessages:(BOOL)clearMessages {
-  if (self.popupController) {
-    [self.popupController close:nil];
-    self.popupController = nil;
-  }
   
   [self tryConnect];
   
@@ -272,11 +268,6 @@ static NSString *udid = nil;
 
 - (void) connectedToHost {
   LNLog(@"Connected to host \"%@\" on port %d", HOST_NAME, HOST_PORT);
-  
-  if (self.popupController) {
-    [self.popupController close:nil];
-    self.popupController = nil;
-  }
   
   _canSendRegularEvents = NO;
   _canSendPreDbEvents = YES;
