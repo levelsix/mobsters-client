@@ -1820,7 +1820,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     // Old Formula.. Only for backup
     val = timeLeft/60.f/self.minutesPerGem;
   } else {
-    val = lower.numGems + (upper.numGems-lower.numGems)*(timeLeft-lower.seconds)/(float)(upper.seconds-lower.seconds);
+    val = lower.numGems + (upper.numGems-lower.numGems)*((timeLeft-lower.seconds)/(float)(upper.seconds-lower.seconds));
   }
   return MAX(1.f, ceilf(val));
 }
