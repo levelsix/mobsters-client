@@ -32,6 +32,9 @@
 
 - (void) awakeFromNib {
   if (![Globals isSmallestiPhone]) {
+//    if ([Globals isiPad])
+//      self.numSlots = 7;
+//    else
     if ([Globals isiPhone6] || [Globals isiPhone6Plus])
       self.numSlots = 6;
     else
@@ -105,11 +108,11 @@
     int monsterId = num.intValue;
     BOOL showEnemyBand = enemyBand.boolValue;
     BOOL isPlayersTurn = playersTurn.boolValue;
-    MiniMonsterView *mmv = [self monsterViewForMonsterId:monsterId showEnemyBand:showEnemyBand player:isPlayersTurn];
+    UIView *mmv = [self monsterViewForMonsterId:monsterId showEnemyBand:showEnemyBand player:isPlayersTurn];
     [self.monsterViews addObject:mmv];
     
     if (i < oldArr.count) {
-      MiniMonsterView *ommv = oldArr[i];
+      UIView *ommv = oldArr[i];
       
       dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (self.numSlots-i-1)*0.05f*NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         if (i == 0)
@@ -142,8 +145,8 @@
 }
 
 - (void) addMonster:(int)monsterId showEnemyBand:(BOOL)showEnemyBand player:(BOOL)player{
-  MiniMonsterView *first = [self.monsterViews firstObject];
-  MiniMonsterView *new = [self monsterViewForMonsterId:monsterId showEnemyBand:showEnemyBand player:player];
+  UIView *first = [self.monsterViews firstObject];
+  UIView *new = [self monsterViewForMonsterId:monsterId showEnemyBand:showEnemyBand player:player];
   
   [self.monsterViews removeObject:first];
   [self.monsterViews addObject:new];
@@ -155,7 +158,7 @@
   
   [UIView animateWithDuration:0.3f animations:^{
     for (int i = 0; i < self.monsterViews.count; i++) {
-      MiniMonsterView *mmv = self.monsterViews[i];
+      UIView *mmv = self.monsterViews[i];
       mmv.superview.center = [self centerForIndex:i width:mmv.frame.size.width];
     }
     

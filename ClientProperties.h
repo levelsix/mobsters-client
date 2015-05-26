@@ -143,7 +143,7 @@
 
 #else
 
-#define HOST_NAME @"54.148.68.13"
+#define HOST_NAME @"dev1mobsters.lvl6.com"
 #define HOST_PORT 5672
 #define USE_SSL 0
 #define MQ_USERNAME @"lvl6client"
