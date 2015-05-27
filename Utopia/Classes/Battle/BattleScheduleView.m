@@ -185,6 +185,10 @@
 }
 
 - (CGPoint) centerForIndex:(int)i width:(float)width {
+  
+#warning Make ipad only!
+  return ccp(VIEW_SPACING*(i+1)-width*(i+0.5), self.containerView.frame.size.height/2);
+  
   return ccp(self.containerView.frame.size.width-VIEW_SPACING*(i+1)-width*(i+0.5),
              self.containerView.frame.size.height/2);
 }
