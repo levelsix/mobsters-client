@@ -34,7 +34,7 @@
 - (void) viewDidLoad {
   [super viewDidLoad];
   
-  self.containerView.superview.layer.cornerRadius = 5.f;
+  self.containerView.superview.layer.cornerRadius = [Globals isiPad] ? 8.f : 5.f;
   self.containerView.superview.clipsToBounds = YES;
   
   self.congratsLabel.gradientStartColor = [UIColor colorWithHexString:@"edfaff"];
