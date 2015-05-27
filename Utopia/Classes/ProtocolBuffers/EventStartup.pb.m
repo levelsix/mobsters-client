@@ -8263,6 +8263,7 @@ static StartupResponseProto_StartupConstants_ResourceConversionConstantProto* de
 @property int32_t priority;
 @property BOOL downloadOnlyOverWifi;
 @property BOOL useIphone6Prefix;
+@property BOOL useIpadSuffix;
 @end
 
 @implementation StartupResponseProto_StartupConstants_FileDownloadConstantProto
@@ -8312,6 +8313,18 @@ static StartupResponseProto_StartupConstants_ResourceConversionConstantProto* de
 - (void) setUseIphone6Prefix:(BOOL) value_ {
   useIphone6Prefix_ = !!value_;
 }
+- (BOOL) hasUseIpadSuffix {
+  return !!hasUseIpadSuffix_;
+}
+- (void) setHasUseIpadSuffix:(BOOL) value_ {
+  hasUseIpadSuffix_ = !!value_;
+}
+- (BOOL) useIpadSuffix {
+  return !!useIpadSuffix_;
+}
+- (void) setUseIpadSuffix:(BOOL) value_ {
+  useIpadSuffix_ = !!value_;
+}
 - (id) init {
   if ((self = [super init])) {
     self.fileDownloadId = 0;
@@ -8319,6 +8332,7 @@ static StartupResponseProto_StartupConstants_ResourceConversionConstantProto* de
     self.priority = 0;
     self.downloadOnlyOverWifi = NO;
     self.useIphone6Prefix = NO;
+    self.useIpadSuffix = NO;
   }
   return self;
 }
@@ -8353,6 +8367,9 @@ static StartupResponseProto_StartupConstants_FileDownloadConstantProto* defaultS
   if (self.hasUseIphone6Prefix) {
     [output writeBool:5 value:self.useIphone6Prefix];
   }
+  if (self.hasUseIpadSuffix) {
+    [output writeBool:6 value:self.useIpadSuffix];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -8376,6 +8393,9 @@ static StartupResponseProto_StartupConstants_FileDownloadConstantProto* defaultS
   }
   if (self.hasUseIphone6Prefix) {
     size_ += computeBoolSize(5, self.useIphone6Prefix);
+  }
+  if (self.hasUseIpadSuffix) {
+    size_ += computeBoolSize(6, self.useIpadSuffix);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -8427,6 +8447,9 @@ static StartupResponseProto_StartupConstants_FileDownloadConstantProto* defaultS
   if (self.hasUseIphone6Prefix) {
     [output appendFormat:@"%@%@: %@\n", indent, @"useIphone6Prefix", [NSNumber numberWithBool:self.useIphone6Prefix]];
   }
+  if (self.hasUseIpadSuffix) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"useIpadSuffix", [NSNumber numberWithBool:self.useIpadSuffix]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -8448,6 +8471,8 @@ static StartupResponseProto_StartupConstants_FileDownloadConstantProto* defaultS
       (!self.hasDownloadOnlyOverWifi || self.downloadOnlyOverWifi == otherMessage.downloadOnlyOverWifi) &&
       self.hasUseIphone6Prefix == otherMessage.hasUseIphone6Prefix &&
       (!self.hasUseIphone6Prefix || self.useIphone6Prefix == otherMessage.useIphone6Prefix) &&
+      self.hasUseIpadSuffix == otherMessage.hasUseIpadSuffix &&
+      (!self.hasUseIpadSuffix || self.useIpadSuffix == otherMessage.useIpadSuffix) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -8466,6 +8491,9 @@ static StartupResponseProto_StartupConstants_FileDownloadConstantProto* defaultS
   }
   if (self.hasUseIphone6Prefix) {
     hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.useIphone6Prefix] hash];
+  }
+  if (self.hasUseIpadSuffix) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.useIpadSuffix] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -8525,6 +8553,9 @@ static StartupResponseProto_StartupConstants_FileDownloadConstantProto* defaultS
   if (other.hasUseIphone6Prefix) {
     [self setUseIphone6Prefix:other.useIphone6Prefix];
   }
+  if (other.hasUseIpadSuffix) {
+    [self setUseIpadSuffix:other.useIpadSuffix];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -8564,6 +8595,10 @@ static StartupResponseProto_StartupConstants_FileDownloadConstantProto* defaultS
       }
       case 40: {
         [self setUseIphone6Prefix:[input readBool]];
+        break;
+      }
+      case 48: {
+        [self setUseIpadSuffix:[input readBool]];
         break;
       }
     }
@@ -8647,6 +8682,22 @@ static StartupResponseProto_StartupConstants_FileDownloadConstantProto* defaultS
 - (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) clearUseIphone6Prefix {
   result.hasUseIphone6Prefix = NO;
   result.useIphone6Prefix = NO;
+  return self;
+}
+- (BOOL) hasUseIpadSuffix {
+  return result.hasUseIpadSuffix;
+}
+- (BOOL) useIpadSuffix {
+  return result.useIpadSuffix;
+}
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) setUseIpadSuffix:(BOOL) value {
+  result.hasUseIpadSuffix = YES;
+  result.useIpadSuffix = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) clearUseIpadSuffix {
+  result.hasUseIpadSuffix = NO;
+  result.useIpadSuffix = NO;
   return self;
 }
 @end

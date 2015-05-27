@@ -34,6 +34,8 @@
 @class BattleItemProto_Builder;
 @class BattleItemQueueForUserProto;
 @class BattleItemQueueForUserProto_Builder;
+@class BattleReplayProto;
+@class BattleReplayProto_Builder;
 @class BoardLayoutProto;
 @class BoardLayoutProto_Builder;
 @class BoardPropertyProto;
@@ -2016,11 +2018,13 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @private
   BOOL hasDownloadOnlyOverWifi_:1;
   BOOL hasUseIphone6Prefix_:1;
+  BOOL hasUseIpadSuffix_:1;
   BOOL hasFileDownloadId_:1;
   BOOL hasPriority_:1;
   BOOL hasFileName_:1;
   BOOL downloadOnlyOverWifi_:1;
   BOOL useIphone6Prefix_:1;
+  BOOL useIpadSuffix_:1;
   int32_t fileDownloadId;
   int32_t priority;
   NSString* fileName;
@@ -2030,11 +2034,13 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasPriority;
 - (BOOL) hasDownloadOnlyOverWifi;
 - (BOOL) hasUseIphone6Prefix;
+- (BOOL) hasUseIpadSuffix;
 @property (readonly) int32_t fileDownloadId;
 @property (readonly, strong) NSString* fileName;
 @property (readonly) int32_t priority;
 - (BOOL) downloadOnlyOverWifi;
 - (BOOL) useIphone6Prefix;
+- (BOOL) useIpadSuffix;
 
 + (StartupResponseProto_StartupConstants_FileDownloadConstantProto*) defaultInstance;
 - (StartupResponseProto_StartupConstants_FileDownloadConstantProto*) defaultInstance;
@@ -2095,6 +2101,11 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) useIphone6Prefix;
 - (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) setUseIphone6Prefix:(BOOL) value;
 - (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) clearUseIphone6Prefix;
+
+- (BOOL) hasUseIpadSuffix;
+- (BOOL) useIpadSuffix;
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) setUseIpadSuffix:(BOOL) value;
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) clearUseIpadSuffix;
 @end
 
 @interface StartupResponseProto_StartupConstants_BoosterPackConstantsProto : PBGeneratedMessage {

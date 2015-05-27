@@ -25,6 +25,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property int32_t rank;
 @property (strong) MinimumUserProto* mup;
 @property int64_t strength;
+@property int32_t monsterId;
 @end
 
 @implementation StrengthLeaderBoardProto
@@ -50,11 +51,19 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasStrength_ = !!value_;
 }
 @synthesize strength;
+- (BOOL) hasMonsterId {
+  return !!hasMonsterId_;
+}
+- (void) setHasMonsterId:(BOOL) value_ {
+  hasMonsterId_ = !!value_;
+}
+@synthesize monsterId;
 - (id) init {
   if ((self = [super init])) {
     self.rank = 0;
     self.mup = [MinimumUserProto defaultInstance];
     self.strength = 0L;
+    self.monsterId = 0;
   }
   return self;
 }
@@ -83,6 +92,9 @@ static StrengthLeaderBoardProto* defaultStrengthLeaderBoardProtoInstance = nil;
   if (self.hasStrength) {
     [output writeInt64:3 value:self.strength];
   }
+  if (self.hasMonsterId) {
+    [output writeInt32:4 value:self.monsterId];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -100,6 +112,9 @@ static StrengthLeaderBoardProto* defaultStrengthLeaderBoardProtoInstance = nil;
   }
   if (self.hasStrength) {
     size_ += computeInt64Size(3, self.strength);
+  }
+  if (self.hasMonsterId) {
+    size_ += computeInt32Size(4, self.monsterId);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -148,6 +163,9 @@ static StrengthLeaderBoardProto* defaultStrengthLeaderBoardProtoInstance = nil;
   if (self.hasStrength) {
     [output appendFormat:@"%@%@: %@\n", indent, @"strength", [NSNumber numberWithLongLong:self.strength]];
   }
+  if (self.hasMonsterId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"monsterId", [NSNumber numberWithInteger:self.monsterId]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -165,6 +183,8 @@ static StrengthLeaderBoardProto* defaultStrengthLeaderBoardProtoInstance = nil;
       (!self.hasMup || [self.mup isEqual:otherMessage.mup]) &&
       self.hasStrength == otherMessage.hasStrength &&
       (!self.hasStrength || self.strength == otherMessage.strength) &&
+      self.hasMonsterId == otherMessage.hasMonsterId &&
+      (!self.hasMonsterId || self.monsterId == otherMessage.monsterId) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -177,6 +197,9 @@ static StrengthLeaderBoardProto* defaultStrengthLeaderBoardProtoInstance = nil;
   }
   if (self.hasStrength) {
     hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.strength] hash];
+  }
+  if (self.hasMonsterId) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.monsterId] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -230,6 +253,9 @@ static StrengthLeaderBoardProto* defaultStrengthLeaderBoardProtoInstance = nil;
   if (other.hasStrength) {
     [self setStrength:other.strength];
   }
+  if (other.hasMonsterId) {
+    [self setMonsterId:other.monsterId];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -266,6 +292,10 @@ static StrengthLeaderBoardProto* defaultStrengthLeaderBoardProtoInstance = nil;
       }
       case 24: {
         [self setStrength:[input readInt64]];
+        break;
+      }
+      case 32: {
+        [self setMonsterId:[input readInt32]];
         break;
       }
     }
@@ -331,6 +361,22 @@ static StrengthLeaderBoardProto* defaultStrengthLeaderBoardProtoInstance = nil;
 - (StrengthLeaderBoardProto_Builder*) clearStrength {
   result.hasStrength = NO;
   result.strength = 0L;
+  return self;
+}
+- (BOOL) hasMonsterId {
+  return result.hasMonsterId;
+}
+- (int32_t) monsterId {
+  return result.monsterId;
+}
+- (StrengthLeaderBoardProto_Builder*) setMonsterId:(int32_t) value {
+  result.hasMonsterId = YES;
+  result.monsterId = value;
+  return self;
+}
+- (StrengthLeaderBoardProto_Builder*) clearMonsterId {
+  result.hasMonsterId = NO;
+  result.monsterId = 0;
   return self;
 }
 @end

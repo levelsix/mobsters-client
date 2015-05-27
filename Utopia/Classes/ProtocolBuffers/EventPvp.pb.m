@@ -1473,6 +1473,7 @@ BOOL BeginPvpBattleResponseProto_BeginPvpBattleStatusIsValidValue(BeginPvpBattle
 @property int32_t cashChange;
 @property Float32 nuPvpDmgMultiplier;
 @property (strong) PBAppendableArray * mutableMonsterDropIdsList;
+@property (strong) NSData* replay;
 @end
 
 @implementation EndPvpBattleRequestProto
@@ -1545,6 +1546,13 @@ BOOL BeginPvpBattleResponseProto_BeginPvpBattleStatusIsValidValue(BeginPvpBattle
 @synthesize nuPvpDmgMultiplier;
 @synthesize mutableMonsterDropIdsList;
 @dynamic monsterDropIdsList;
+- (BOOL) hasReplay {
+  return !!hasReplay_;
+}
+- (void) setHasReplay:(BOOL) value_ {
+  hasReplay_ = !!value_;
+}
+@synthesize replay;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProtoWithMaxResources defaultInstance];
@@ -1555,6 +1563,7 @@ BOOL BeginPvpBattleResponseProto_BeginPvpBattleStatusIsValidValue(BeginPvpBattle
     self.oilChange = 0;
     self.cashChange = 0;
     self.nuPvpDmgMultiplier = 0;
+    self.replay = [NSData data];
   }
   return self;
 }
@@ -1611,6 +1620,9 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
       [output writeInt32:9 value:values[i]];
     }
   }
+  if (self.hasReplay) {
+    [output writeData:10 value:self.replay];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -1653,6 +1665,9 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
     }
     size_ += dataSize;
     size_ += (SInt32)(1 * count);
+  }
+  if (self.hasReplay) {
+    size_ += computeDataSize(10, self.replay);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -1719,6 +1734,9 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
   [self.monsterDropIdsList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
     [output appendFormat:@"%@%@: %@\n", indent, @"monsterDropIds", obj];
   }];
+  if (self.hasReplay) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"replay", self.replay];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -1747,6 +1765,8 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
       self.hasNuPvpDmgMultiplier == otherMessage.hasNuPvpDmgMultiplier &&
       (!self.hasNuPvpDmgMultiplier || self.nuPvpDmgMultiplier == otherMessage.nuPvpDmgMultiplier) &&
       [self.monsterDropIdsList isEqualToArray:otherMessage.monsterDropIdsList] &&
+      self.hasReplay == otherMessage.hasReplay &&
+      (!self.hasReplay || [self.replay isEqual:otherMessage.replay]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -1778,6 +1798,9 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
   [self.monsterDropIdsList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [obj longValue];
   }];
+  if (self.hasReplay) {
+    hashCode = hashCode * 31 + [self.replay hash];
+  }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
@@ -1852,6 +1875,9 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
       [result.mutableMonsterDropIdsList appendArray:other.mutableMonsterDropIdsList];
     }
   }
+  if (other.hasReplay) {
+    [self setReplay:other.replay];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -1912,6 +1938,10 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
       }
       case 72: {
         [self addMonsterDropIds:[input readInt32]];
+        break;
+      }
+      case 82: {
+        [self setReplay:[input readData]];
         break;
       }
     }
@@ -2085,6 +2115,22 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
 }
 - (EndPvpBattleRequestProto_Builder *)clearMonsterDropIds {
   result.mutableMonsterDropIdsList = nil;
+  return self;
+}
+- (BOOL) hasReplay {
+  return result.hasReplay;
+}
+- (NSData*) replay {
+  return result.replay;
+}
+- (EndPvpBattleRequestProto_Builder*) setReplay:(NSData*) value {
+  result.hasReplay = YES;
+  result.replay = value;
+  return self;
+}
+- (EndPvpBattleRequestProto_Builder*) clearReplay {
+  result.hasReplay = NO;
+  result.replay = [NSData data];
   return self;
 }
 @end
@@ -3970,6 +4016,624 @@ BOOL CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatusIsVal
 - (CustomizePvpBoardObstacleResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatusSuccess;
+  return self;
+}
+@end
+
+@interface RetrieveBattleReplayRequestProto ()
+@property (strong) MinimumUserProto* sender;
+@property (strong) NSString* replayId;
+@end
+
+@implementation RetrieveBattleReplayRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value_ {
+  hasSender_ = !!value_;
+}
+@synthesize sender;
+- (BOOL) hasReplayId {
+  return !!hasReplayId_;
+}
+- (void) setHasReplayId:(BOOL) value_ {
+  hasReplayId_ = !!value_;
+}
+@synthesize replayId;
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.replayId = @"";
+  }
+  return self;
+}
+static RetrieveBattleReplayRequestProto* defaultRetrieveBattleReplayRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [RetrieveBattleReplayRequestProto class]) {
+    defaultRetrieveBattleReplayRequestProtoInstance = [[RetrieveBattleReplayRequestProto alloc] init];
+  }
+}
++ (RetrieveBattleReplayRequestProto*) defaultInstance {
+  return defaultRetrieveBattleReplayRequestProtoInstance;
+}
+- (RetrieveBattleReplayRequestProto*) defaultInstance {
+  return defaultRetrieveBattleReplayRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasReplayId) {
+    [output writeString:2 value:self.replayId];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasSender) {
+    size_ += computeMessageSize(1, self.sender);
+  }
+  if (self.hasReplayId) {
+    size_ += computeStringSize(2, self.replayId);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (RetrieveBattleReplayRequestProto*) parseFromData:(NSData*) data {
+  return (RetrieveBattleReplayRequestProto*)[[[RetrieveBattleReplayRequestProto builder] mergeFromData:data] build];
+}
++ (RetrieveBattleReplayRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveBattleReplayRequestProto*)[[[RetrieveBattleReplayRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveBattleReplayRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (RetrieveBattleReplayRequestProto*)[[[RetrieveBattleReplayRequestProto builder] mergeFromInputStream:input] build];
+}
++ (RetrieveBattleReplayRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveBattleReplayRequestProto*)[[[RetrieveBattleReplayRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveBattleReplayRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (RetrieveBattleReplayRequestProto*)[[[RetrieveBattleReplayRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (RetrieveBattleReplayRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveBattleReplayRequestProto*)[[[RetrieveBattleReplayRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveBattleReplayRequestProto_Builder*) builder {
+  return [[RetrieveBattleReplayRequestProto_Builder alloc] init];
+}
++ (RetrieveBattleReplayRequestProto_Builder*) builderWithPrototype:(RetrieveBattleReplayRequestProto*) prototype {
+  return [[RetrieveBattleReplayRequestProto builder] mergeFrom:prototype];
+}
+- (RetrieveBattleReplayRequestProto_Builder*) builder {
+  return [RetrieveBattleReplayRequestProto builder];
+}
+- (RetrieveBattleReplayRequestProto_Builder*) toBuilder {
+  return [RetrieveBattleReplayRequestProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasSender) {
+    [output appendFormat:@"%@%@ {\n", indent, @"sender"];
+    [self.sender writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  if (self.hasReplayId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"replayId", self.replayId];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[RetrieveBattleReplayRequestProto class]]) {
+    return NO;
+  }
+  RetrieveBattleReplayRequestProto *otherMessage = other;
+  return
+      self.hasSender == otherMessage.hasSender &&
+      (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
+      self.hasReplayId == otherMessage.hasReplayId &&
+      (!self.hasReplayId || [self.replayId isEqual:otherMessage.replayId]) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasSender) {
+    hashCode = hashCode * 31 + [self.sender hash];
+  }
+  if (self.hasReplayId) {
+    hashCode = hashCode * 31 + [self.replayId hash];
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+@interface RetrieveBattleReplayRequestProto_Builder()
+@property (strong) RetrieveBattleReplayRequestProto* result;
+@end
+
+@implementation RetrieveBattleReplayRequestProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[RetrieveBattleReplayRequestProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (RetrieveBattleReplayRequestProto_Builder*) clear {
+  self.result = [[RetrieveBattleReplayRequestProto alloc] init];
+  return self;
+}
+- (RetrieveBattleReplayRequestProto_Builder*) clone {
+  return [RetrieveBattleReplayRequestProto builderWithPrototype:result];
+}
+- (RetrieveBattleReplayRequestProto*) defaultInstance {
+  return [RetrieveBattleReplayRequestProto defaultInstance];
+}
+- (RetrieveBattleReplayRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (RetrieveBattleReplayRequestProto*) buildPartial {
+  RetrieveBattleReplayRequestProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (RetrieveBattleReplayRequestProto_Builder*) mergeFrom:(RetrieveBattleReplayRequestProto*) other {
+  if (other == [RetrieveBattleReplayRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasReplayId) {
+    [self setReplayId:other.replayId];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (RetrieveBattleReplayRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (RetrieveBattleReplayRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        [self setReplayId:[input readString]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (RetrieveBattleReplayRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (RetrieveBattleReplayRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (RetrieveBattleReplayRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (RetrieveBattleReplayRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasReplayId {
+  return result.hasReplayId;
+}
+- (NSString*) replayId {
+  return result.replayId;
+}
+- (RetrieveBattleReplayRequestProto_Builder*) setReplayId:(NSString*) value {
+  result.hasReplayId = YES;
+  result.replayId = value;
+  return self;
+}
+- (RetrieveBattleReplayRequestProto_Builder*) clearReplayId {
+  result.hasReplayId = NO;
+  result.replayId = @"";
+  return self;
+}
+@end
+
+@interface RetrieveBattleReplayResponseProto ()
+@property (strong) MinimumUserProto* sender;
+@property (strong) BattleReplayProto* brp;
+@property RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatus status;
+@end
+
+@implementation RetrieveBattleReplayResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value_ {
+  hasSender_ = !!value_;
+}
+@synthesize sender;
+- (BOOL) hasBrp {
+  return !!hasBrp_;
+}
+- (void) setHasBrp:(BOOL) value_ {
+  hasBrp_ = !!value_;
+}
+@synthesize brp;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value_ {
+  hasStatus_ = !!value_;
+}
+@synthesize status;
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.brp = [BattleReplayProto defaultInstance];
+    self.status = RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatusSuccess;
+  }
+  return self;
+}
+static RetrieveBattleReplayResponseProto* defaultRetrieveBattleReplayResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [RetrieveBattleReplayResponseProto class]) {
+    defaultRetrieveBattleReplayResponseProtoInstance = [[RetrieveBattleReplayResponseProto alloc] init];
+  }
+}
++ (RetrieveBattleReplayResponseProto*) defaultInstance {
+  return defaultRetrieveBattleReplayResponseProtoInstance;
+}
+- (RetrieveBattleReplayResponseProto*) defaultInstance {
+  return defaultRetrieveBattleReplayResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasBrp) {
+    [output writeMessage:2 value:self.brp];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:3 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasSender) {
+    size_ += computeMessageSize(1, self.sender);
+  }
+  if (self.hasBrp) {
+    size_ += computeMessageSize(2, self.brp);
+  }
+  if (self.hasStatus) {
+    size_ += computeEnumSize(3, self.status);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (RetrieveBattleReplayResponseProto*) parseFromData:(NSData*) data {
+  return (RetrieveBattleReplayResponseProto*)[[[RetrieveBattleReplayResponseProto builder] mergeFromData:data] build];
+}
++ (RetrieveBattleReplayResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveBattleReplayResponseProto*)[[[RetrieveBattleReplayResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveBattleReplayResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (RetrieveBattleReplayResponseProto*)[[[RetrieveBattleReplayResponseProto builder] mergeFromInputStream:input] build];
+}
++ (RetrieveBattleReplayResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveBattleReplayResponseProto*)[[[RetrieveBattleReplayResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveBattleReplayResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (RetrieveBattleReplayResponseProto*)[[[RetrieveBattleReplayResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (RetrieveBattleReplayResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveBattleReplayResponseProto*)[[[RetrieveBattleReplayResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveBattleReplayResponseProto_Builder*) builder {
+  return [[RetrieveBattleReplayResponseProto_Builder alloc] init];
+}
++ (RetrieveBattleReplayResponseProto_Builder*) builderWithPrototype:(RetrieveBattleReplayResponseProto*) prototype {
+  return [[RetrieveBattleReplayResponseProto builder] mergeFrom:prototype];
+}
+- (RetrieveBattleReplayResponseProto_Builder*) builder {
+  return [RetrieveBattleReplayResponseProto builder];
+}
+- (RetrieveBattleReplayResponseProto_Builder*) toBuilder {
+  return [RetrieveBattleReplayResponseProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasSender) {
+    [output appendFormat:@"%@%@ {\n", indent, @"sender"];
+    [self.sender writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  if (self.hasBrp) {
+    [output appendFormat:@"%@%@ {\n", indent, @"brp"];
+    [self.brp writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  if (self.hasStatus) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[RetrieveBattleReplayResponseProto class]]) {
+    return NO;
+  }
+  RetrieveBattleReplayResponseProto *otherMessage = other;
+  return
+      self.hasSender == otherMessage.hasSender &&
+      (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
+      self.hasBrp == otherMessage.hasBrp &&
+      (!self.hasBrp || [self.brp isEqual:otherMessage.brp]) &&
+      self.hasStatus == otherMessage.hasStatus &&
+      (!self.hasStatus || self.status == otherMessage.status) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasSender) {
+    hashCode = hashCode * 31 + [self.sender hash];
+  }
+  if (self.hasBrp) {
+    hashCode = hashCode * 31 + [self.brp hash];
+  }
+  if (self.hasStatus) {
+    hashCode = hashCode * 31 + self.status;
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+BOOL RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatusIsValidValue(RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatus value) {
+  switch (value) {
+    case RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatusSuccess:
+    case RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatusFailOther:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface RetrieveBattleReplayResponseProto_Builder()
+@property (strong) RetrieveBattleReplayResponseProto* result;
+@end
+
+@implementation RetrieveBattleReplayResponseProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[RetrieveBattleReplayResponseProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (RetrieveBattleReplayResponseProto_Builder*) clear {
+  self.result = [[RetrieveBattleReplayResponseProto alloc] init];
+  return self;
+}
+- (RetrieveBattleReplayResponseProto_Builder*) clone {
+  return [RetrieveBattleReplayResponseProto builderWithPrototype:result];
+}
+- (RetrieveBattleReplayResponseProto*) defaultInstance {
+  return [RetrieveBattleReplayResponseProto defaultInstance];
+}
+- (RetrieveBattleReplayResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (RetrieveBattleReplayResponseProto*) buildPartial {
+  RetrieveBattleReplayResponseProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (RetrieveBattleReplayResponseProto_Builder*) mergeFrom:(RetrieveBattleReplayResponseProto*) other {
+  if (other == [RetrieveBattleReplayResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasBrp) {
+    [self mergeBrp:other.brp];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (RetrieveBattleReplayResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (RetrieveBattleReplayResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        BattleReplayProto_Builder* subBuilder = [BattleReplayProto builder];
+        if (self.hasBrp) {
+          [subBuilder mergeFrom:self.brp];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setBrp:[subBuilder buildPartial]];
+        break;
+      }
+      case 24: {
+        RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatus value = (RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatus)[input readEnum];
+        if (RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:3 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (RetrieveBattleReplayResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (RetrieveBattleReplayResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (RetrieveBattleReplayResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (RetrieveBattleReplayResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasBrp {
+  return result.hasBrp;
+}
+- (BattleReplayProto*) brp {
+  return result.brp;
+}
+- (RetrieveBattleReplayResponseProto_Builder*) setBrp:(BattleReplayProto*) value {
+  result.hasBrp = YES;
+  result.brp = value;
+  return self;
+}
+- (RetrieveBattleReplayResponseProto_Builder*) setBrp_Builder:(BattleReplayProto_Builder*) builderForValue {
+  return [self setBrp:[builderForValue build]];
+}
+- (RetrieveBattleReplayResponseProto_Builder*) mergeBrp:(BattleReplayProto*) value {
+  if (result.hasBrp &&
+      result.brp != [BattleReplayProto defaultInstance]) {
+    result.brp =
+      [[[BattleReplayProto builderWithPrototype:result.brp] mergeFrom:value] buildPartial];
+  } else {
+    result.brp = value;
+  }
+  result.hasBrp = YES;
+  return self;
+}
+- (RetrieveBattleReplayResponseProto_Builder*) clearBrp {
+  result.hasBrp = NO;
+  result.brp = [BattleReplayProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatus) status {
+  return result.status;
+}
+- (RetrieveBattleReplayResponseProto_Builder*) setStatus:(RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (RetrieveBattleReplayResponseProto_Builder*) clearStatusList {
+  result.hasStatus = NO;
+  result.status = RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatusSuccess;
   return self;
 }
 @end

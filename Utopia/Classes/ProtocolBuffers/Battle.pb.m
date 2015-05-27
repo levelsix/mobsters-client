@@ -1048,6 +1048,7 @@ static PvpMonsterProto* defaultPvpMonsterProtoInstance = nil;
 @property int32_t attackerCashChange;
 @property int32_t attackerOilChange;
 @property BOOL clanAvenged;
+@property (strong) NSString* replayId;
 @end
 
 @implementation PvpHistoryProto
@@ -1181,6 +1182,13 @@ static PvpMonsterProto* defaultPvpMonsterProtoInstance = nil;
 - (void) setClanAvenged:(BOOL) value_ {
   clanAvenged_ = !!value_;
 }
+- (BOOL) hasReplayId {
+  return !!hasReplayId_;
+}
+- (void) setHasReplayId:(BOOL) value_ {
+  hasReplayId_ = !!value_;
+}
+@synthesize replayId;
 - (id) init {
   if ((self = [super init])) {
     self.battleEndTime = 0L;
@@ -1199,6 +1207,7 @@ static PvpMonsterProto* defaultPvpMonsterProtoInstance = nil;
     self.attackerCashChange = 0;
     self.attackerOilChange = 0;
     self.clanAvenged = NO;
+    self.replayId = @"";
   }
   return self;
 }
@@ -1275,6 +1284,9 @@ static PvpHistoryProto* defaultPvpHistoryProtoInstance = nil;
   if (self.hasClanAvenged) {
     [output writeBool:17 value:self.clanAvenged];
   }
+  if (self.hasReplayId) {
+    [output writeString:19 value:self.replayId];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -1334,6 +1346,9 @@ static PvpHistoryProto* defaultPvpHistoryProtoInstance = nil;
   }
   if (self.hasClanAvenged) {
     size_ += computeBoolSize(17, self.clanAvenged);
+  }
+  if (self.hasReplayId) {
+    size_ += computeStringSize(19, self.replayId);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -1442,6 +1457,9 @@ static PvpHistoryProto* defaultPvpHistoryProtoInstance = nil;
   if (self.hasClanAvenged) {
     [output appendFormat:@"%@%@: %@\n", indent, @"clanAvenged", [NSNumber numberWithBool:self.clanAvenged]];
   }
+  if (self.hasReplayId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"replayId", self.replayId];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -1486,6 +1504,8 @@ static PvpHistoryProto* defaultPvpHistoryProtoInstance = nil;
       (!self.hasAttackerOilChange || self.attackerOilChange == otherMessage.attackerOilChange) &&
       self.hasClanAvenged == otherMessage.hasClanAvenged &&
       (!self.hasClanAvenged || self.clanAvenged == otherMessage.clanAvenged) &&
+      self.hasReplayId == otherMessage.hasReplayId &&
+      (!self.hasReplayId || [self.replayId isEqual:otherMessage.replayId]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -1540,6 +1560,9 @@ static PvpHistoryProto* defaultPvpHistoryProtoInstance = nil;
   }
   if (self.hasClanAvenged) {
     hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.clanAvenged] hash];
+  }
+  if (self.hasReplayId) {
+    hashCode = hashCode * 31 + [self.replayId hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -1638,6 +1661,9 @@ static PvpHistoryProto* defaultPvpHistoryProtoInstance = nil;
   }
   if (other.hasClanAvenged) {
     [self setClanAvenged:other.clanAvenged];
+  }
+  if (other.hasReplayId) {
+    [self setReplayId:other.replayId];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -1758,6 +1784,10 @@ static PvpHistoryProto* defaultPvpHistoryProtoInstance = nil;
       }
       case 136: {
         [self setClanAvenged:[input readBool]];
+        break;
+      }
+      case 154: {
+        [self setReplayId:[input readString]];
         break;
       }
     }
@@ -2125,6 +2155,22 @@ static PvpHistoryProto* defaultPvpHistoryProtoInstance = nil;
 - (PvpHistoryProto_Builder*) clearClanAvenged {
   result.hasClanAvenged = NO;
   result.clanAvenged = NO;
+  return self;
+}
+- (BOOL) hasReplayId {
+  return result.hasReplayId;
+}
+- (NSString*) replayId {
+  return result.replayId;
+}
+- (PvpHistoryProto_Builder*) setReplayId:(NSString*) value {
+  result.hasReplayId = YES;
+  result.replayId = value;
+  return self;
+}
+- (PvpHistoryProto_Builder*) clearReplayId {
+  result.hasReplayId = NO;
+  result.replayId = @"";
   return self;
 }
 @end
@@ -3337,6 +3383,344 @@ static PvpUserClanAvengeProto* defaultPvpUserClanAvengeProtoInstance = nil;
 - (PvpUserClanAvengeProto_Builder*) clearAvengeTime {
   result.hasAvengeTime = NO;
   result.avengeTime = 0L;
+  return self;
+}
+@end
+
+@interface BattleReplayProto ()
+@property (strong) NSString* replayUuid;
+@property (strong) NSString* creatorUuid;
+@property (strong) NSData* replay;
+@property int32_t createTime;
+@end
+
+@implementation BattleReplayProto
+
+- (BOOL) hasReplayUuid {
+  return !!hasReplayUuid_;
+}
+- (void) setHasReplayUuid:(BOOL) value_ {
+  hasReplayUuid_ = !!value_;
+}
+@synthesize replayUuid;
+- (BOOL) hasCreatorUuid {
+  return !!hasCreatorUuid_;
+}
+- (void) setHasCreatorUuid:(BOOL) value_ {
+  hasCreatorUuid_ = !!value_;
+}
+@synthesize creatorUuid;
+- (BOOL) hasReplay {
+  return !!hasReplay_;
+}
+- (void) setHasReplay:(BOOL) value_ {
+  hasReplay_ = !!value_;
+}
+@synthesize replay;
+- (BOOL) hasCreateTime {
+  return !!hasCreateTime_;
+}
+- (void) setHasCreateTime:(BOOL) value_ {
+  hasCreateTime_ = !!value_;
+}
+@synthesize createTime;
+- (id) init {
+  if ((self = [super init])) {
+    self.replayUuid = @"";
+    self.creatorUuid = @"";
+    self.replay = [NSData data];
+    self.createTime = 0;
+  }
+  return self;
+}
+static BattleReplayProto* defaultBattleReplayProtoInstance = nil;
++ (void) initialize {
+  if (self == [BattleReplayProto class]) {
+    defaultBattleReplayProtoInstance = [[BattleReplayProto alloc] init];
+  }
+}
++ (BattleReplayProto*) defaultInstance {
+  return defaultBattleReplayProtoInstance;
+}
+- (BattleReplayProto*) defaultInstance {
+  return defaultBattleReplayProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasReplayUuid) {
+    [output writeString:1 value:self.replayUuid];
+  }
+  if (self.hasCreatorUuid) {
+    [output writeString:2 value:self.creatorUuid];
+  }
+  if (self.hasReplay) {
+    [output writeData:3 value:self.replay];
+  }
+  if (self.hasCreateTime) {
+    [output writeInt32:4 value:self.createTime];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasReplayUuid) {
+    size_ += computeStringSize(1, self.replayUuid);
+  }
+  if (self.hasCreatorUuid) {
+    size_ += computeStringSize(2, self.creatorUuid);
+  }
+  if (self.hasReplay) {
+    size_ += computeDataSize(3, self.replay);
+  }
+  if (self.hasCreateTime) {
+    size_ += computeInt32Size(4, self.createTime);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (BattleReplayProto*) parseFromData:(NSData*) data {
+  return (BattleReplayProto*)[[[BattleReplayProto builder] mergeFromData:data] build];
+}
++ (BattleReplayProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (BattleReplayProto*)[[[BattleReplayProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (BattleReplayProto*) parseFromInputStream:(NSInputStream*) input {
+  return (BattleReplayProto*)[[[BattleReplayProto builder] mergeFromInputStream:input] build];
+}
++ (BattleReplayProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (BattleReplayProto*)[[[BattleReplayProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (BattleReplayProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (BattleReplayProto*)[[[BattleReplayProto builder] mergeFromCodedInputStream:input] build];
+}
++ (BattleReplayProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (BattleReplayProto*)[[[BattleReplayProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (BattleReplayProto_Builder*) builder {
+  return [[BattleReplayProto_Builder alloc] init];
+}
++ (BattleReplayProto_Builder*) builderWithPrototype:(BattleReplayProto*) prototype {
+  return [[BattleReplayProto builder] mergeFrom:prototype];
+}
+- (BattleReplayProto_Builder*) builder {
+  return [BattleReplayProto builder];
+}
+- (BattleReplayProto_Builder*) toBuilder {
+  return [BattleReplayProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasReplayUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"replayUuid", self.replayUuid];
+  }
+  if (self.hasCreatorUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"creatorUuid", self.creatorUuid];
+  }
+  if (self.hasReplay) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"replay", self.replay];
+  }
+  if (self.hasCreateTime) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"createTime", [NSNumber numberWithInteger:self.createTime]];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[BattleReplayProto class]]) {
+    return NO;
+  }
+  BattleReplayProto *otherMessage = other;
+  return
+      self.hasReplayUuid == otherMessage.hasReplayUuid &&
+      (!self.hasReplayUuid || [self.replayUuid isEqual:otherMessage.replayUuid]) &&
+      self.hasCreatorUuid == otherMessage.hasCreatorUuid &&
+      (!self.hasCreatorUuid || [self.creatorUuid isEqual:otherMessage.creatorUuid]) &&
+      self.hasReplay == otherMessage.hasReplay &&
+      (!self.hasReplay || [self.replay isEqual:otherMessage.replay]) &&
+      self.hasCreateTime == otherMessage.hasCreateTime &&
+      (!self.hasCreateTime || self.createTime == otherMessage.createTime) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasReplayUuid) {
+    hashCode = hashCode * 31 + [self.replayUuid hash];
+  }
+  if (self.hasCreatorUuid) {
+    hashCode = hashCode * 31 + [self.creatorUuid hash];
+  }
+  if (self.hasReplay) {
+    hashCode = hashCode * 31 + [self.replay hash];
+  }
+  if (self.hasCreateTime) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.createTime] hash];
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+@interface BattleReplayProto_Builder()
+@property (strong) BattleReplayProto* result;
+@end
+
+@implementation BattleReplayProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[BattleReplayProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (BattleReplayProto_Builder*) clear {
+  self.result = [[BattleReplayProto alloc] init];
+  return self;
+}
+- (BattleReplayProto_Builder*) clone {
+  return [BattleReplayProto builderWithPrototype:result];
+}
+- (BattleReplayProto*) defaultInstance {
+  return [BattleReplayProto defaultInstance];
+}
+- (BattleReplayProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (BattleReplayProto*) buildPartial {
+  BattleReplayProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (BattleReplayProto_Builder*) mergeFrom:(BattleReplayProto*) other {
+  if (other == [BattleReplayProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasReplayUuid) {
+    [self setReplayUuid:other.replayUuid];
+  }
+  if (other.hasCreatorUuid) {
+    [self setCreatorUuid:other.creatorUuid];
+  }
+  if (other.hasReplay) {
+    [self setReplay:other.replay];
+  }
+  if (other.hasCreateTime) {
+    [self setCreateTime:other.createTime];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (BattleReplayProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (BattleReplayProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        [self setReplayUuid:[input readString]];
+        break;
+      }
+      case 18: {
+        [self setCreatorUuid:[input readString]];
+        break;
+      }
+      case 26: {
+        [self setReplay:[input readData]];
+        break;
+      }
+      case 32: {
+        [self setCreateTime:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasReplayUuid {
+  return result.hasReplayUuid;
+}
+- (NSString*) replayUuid {
+  return result.replayUuid;
+}
+- (BattleReplayProto_Builder*) setReplayUuid:(NSString*) value {
+  result.hasReplayUuid = YES;
+  result.replayUuid = value;
+  return self;
+}
+- (BattleReplayProto_Builder*) clearReplayUuid {
+  result.hasReplayUuid = NO;
+  result.replayUuid = @"";
+  return self;
+}
+- (BOOL) hasCreatorUuid {
+  return result.hasCreatorUuid;
+}
+- (NSString*) creatorUuid {
+  return result.creatorUuid;
+}
+- (BattleReplayProto_Builder*) setCreatorUuid:(NSString*) value {
+  result.hasCreatorUuid = YES;
+  result.creatorUuid = value;
+  return self;
+}
+- (BattleReplayProto_Builder*) clearCreatorUuid {
+  result.hasCreatorUuid = NO;
+  result.creatorUuid = @"";
+  return self;
+}
+- (BOOL) hasReplay {
+  return result.hasReplay;
+}
+- (NSData*) replay {
+  return result.replay;
+}
+- (BattleReplayProto_Builder*) setReplay:(NSData*) value {
+  result.hasReplay = YES;
+  result.replay = value;
+  return self;
+}
+- (BattleReplayProto_Builder*) clearReplay {
+  result.hasReplay = NO;
+  result.replay = [NSData data];
+  return self;
+}
+- (BOOL) hasCreateTime {
+  return result.hasCreateTime;
+}
+- (int32_t) createTime {
+  return result.createTime;
+}
+- (BattleReplayProto_Builder*) setCreateTime:(int32_t) value {
+  result.hasCreateTime = YES;
+  result.createTime = value;
+  return self;
+}
+- (BattleReplayProto_Builder*) clearCreateTime {
+  result.hasCreateTime = NO;
+  result.createTime = 0;
   return self;
 }
 @end

@@ -10,6 +10,8 @@
 
 @class BattleItemFactoryProto;
 @class BattleItemFactoryProto_Builder;
+@class BattleReplayProto;
+@class BattleReplayProto_Builder;
 @class BeginPvpBattleRequestProto;
 @class BeginPvpBattleRequestProto_Builder;
 @class BeginPvpBattleResponseProto;
@@ -104,6 +106,10 @@
 @class ResourceGeneratorProto_Builder;
 @class ResourceStorageProto;
 @class ResourceStorageProto_Builder;
+@class RetrieveBattleReplayRequestProto;
+@class RetrieveBattleReplayRequestProto_Builder;
+@class RetrieveBattleReplayResponseProto;
+@class RetrieveBattleReplayResponseProto_Builder;
 @class SetDefendingMsgRequestProto;
 @class SetDefendingMsgRequestProto_Builder;
 @class SetDefendingMsgResponseProto;
@@ -200,6 +206,13 @@ typedef NS_ENUM(SInt32, CustomizePvpBoardObstacleResponseProto_CustomizePvpBoard
 };
 
 BOOL CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatusIsValidValue(CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatus value);
+
+typedef NS_ENUM(SInt32, RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatus) {
+  RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatusSuccess = 1,
+  RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatusFailOther = 2,
+};
+
+BOOL RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatusIsValidValue(RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatus value);
 
 
 @interface EventPvpRoot : NSObject {
@@ -514,6 +527,7 @@ BOOL CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatusIsVal
   BOOL hasCashChange_:1;
   BOOL hasDefenderUuid_:1;
   BOOL hasSender_:1;
+  BOOL hasReplay_:1;
   BOOL userAttacked_:1;
   BOOL userWon_:1;
   Float32 nuPvpDmgMultiplier;
@@ -522,6 +536,7 @@ BOOL CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatusIsVal
   int32_t cashChange;
   NSString* defenderUuid;
   MinimumUserProtoWithMaxResources* sender;
+  NSData* replay;
   PBAppendableArray * mutableMonsterDropIdsList;
 }
 - (BOOL) hasSender;
@@ -532,6 +547,7 @@ BOOL CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatusIsVal
 - (BOOL) hasOilChange;
 - (BOOL) hasCashChange;
 - (BOOL) hasNuPvpDmgMultiplier;
+- (BOOL) hasReplay;
 @property (readonly, strong) MinimumUserProtoWithMaxResources* sender;
 @property (readonly, strong) NSString* defenderUuid;
 - (BOOL) userAttacked;
@@ -541,6 +557,7 @@ BOOL CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatusIsVal
 @property (readonly) int32_t cashChange;
 @property (readonly) Float32 nuPvpDmgMultiplier;
 @property (readonly, strong) PBArray * monsterDropIdsList;
+@property (readonly, strong) NSData* replay;
 - (int32_t)monsterDropIdsAtIndex:(NSUInteger)index;
 
 + (EndPvpBattleRequestProto*) defaultInstance;
@@ -626,6 +643,11 @@ BOOL CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatusIsVal
 - (EndPvpBattleRequestProto_Builder *)addAllMonsterDropIds:(NSArray *)array;
 - (EndPvpBattleRequestProto_Builder *)setMonsterDropIdsValues:(const int32_t *)values count:(NSUInteger)count;
 - (EndPvpBattleRequestProto_Builder *)clearMonsterDropIds;
+
+- (BOOL) hasReplay;
+- (NSData*) replay;
+- (EndPvpBattleRequestProto_Builder*) setReplay:(NSData*) value;
+- (EndPvpBattleRequestProto_Builder*) clearReplay;
 @end
 
 @interface EndPvpBattleResponseProto : PBGeneratedMessage {
@@ -1005,6 +1027,137 @@ BOOL CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatusIsVal
 - (CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatus) status;
 - (CustomizePvpBoardObstacleResponseProto_Builder*) setStatus:(CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatus) value;
 - (CustomizePvpBoardObstacleResponseProto_Builder*) clearStatusList;
+@end
+
+@interface RetrieveBattleReplayRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasReplayId_:1;
+  BOOL hasSender_:1;
+  NSString* replayId;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+- (BOOL) hasReplayId;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) NSString* replayId;
+
++ (RetrieveBattleReplayRequestProto*) defaultInstance;
+- (RetrieveBattleReplayRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (RetrieveBattleReplayRequestProto_Builder*) builder;
++ (RetrieveBattleReplayRequestProto_Builder*) builder;
++ (RetrieveBattleReplayRequestProto_Builder*) builderWithPrototype:(RetrieveBattleReplayRequestProto*) prototype;
+- (RetrieveBattleReplayRequestProto_Builder*) toBuilder;
+
++ (RetrieveBattleReplayRequestProto*) parseFromData:(NSData*) data;
++ (RetrieveBattleReplayRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveBattleReplayRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (RetrieveBattleReplayRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveBattleReplayRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RetrieveBattleReplayRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface RetrieveBattleReplayRequestProto_Builder : PBGeneratedMessageBuilder {
+@private
+  RetrieveBattleReplayRequestProto* result;
+}
+
+- (RetrieveBattleReplayRequestProto*) defaultInstance;
+
+- (RetrieveBattleReplayRequestProto_Builder*) clear;
+- (RetrieveBattleReplayRequestProto_Builder*) clone;
+
+- (RetrieveBattleReplayRequestProto*) build;
+- (RetrieveBattleReplayRequestProto*) buildPartial;
+
+- (RetrieveBattleReplayRequestProto_Builder*) mergeFrom:(RetrieveBattleReplayRequestProto*) other;
+- (RetrieveBattleReplayRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RetrieveBattleReplayRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (RetrieveBattleReplayRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (RetrieveBattleReplayRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (RetrieveBattleReplayRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (RetrieveBattleReplayRequestProto_Builder*) clearSender;
+
+- (BOOL) hasReplayId;
+- (NSString*) replayId;
+- (RetrieveBattleReplayRequestProto_Builder*) setReplayId:(NSString*) value;
+- (RetrieveBattleReplayRequestProto_Builder*) clearReplayId;
+@end
+
+@interface RetrieveBattleReplayResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasBrp_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  BattleReplayProto* brp;
+  RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasBrp;
+- (BOOL) hasStatus;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) BattleReplayProto* brp;
+@property (readonly) RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatus status;
+
++ (RetrieveBattleReplayResponseProto*) defaultInstance;
+- (RetrieveBattleReplayResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (RetrieveBattleReplayResponseProto_Builder*) builder;
++ (RetrieveBattleReplayResponseProto_Builder*) builder;
++ (RetrieveBattleReplayResponseProto_Builder*) builderWithPrototype:(RetrieveBattleReplayResponseProto*) prototype;
+- (RetrieveBattleReplayResponseProto_Builder*) toBuilder;
+
++ (RetrieveBattleReplayResponseProto*) parseFromData:(NSData*) data;
++ (RetrieveBattleReplayResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveBattleReplayResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (RetrieveBattleReplayResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveBattleReplayResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RetrieveBattleReplayResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface RetrieveBattleReplayResponseProto_Builder : PBGeneratedMessageBuilder {
+@private
+  RetrieveBattleReplayResponseProto* result;
+}
+
+- (RetrieveBattleReplayResponseProto*) defaultInstance;
+
+- (RetrieveBattleReplayResponseProto_Builder*) clear;
+- (RetrieveBattleReplayResponseProto_Builder*) clone;
+
+- (RetrieveBattleReplayResponseProto*) build;
+- (RetrieveBattleReplayResponseProto*) buildPartial;
+
+- (RetrieveBattleReplayResponseProto_Builder*) mergeFrom:(RetrieveBattleReplayResponseProto*) other;
+- (RetrieveBattleReplayResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RetrieveBattleReplayResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (RetrieveBattleReplayResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (RetrieveBattleReplayResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (RetrieveBattleReplayResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (RetrieveBattleReplayResponseProto_Builder*) clearSender;
+
+- (BOOL) hasBrp;
+- (BattleReplayProto*) brp;
+- (RetrieveBattleReplayResponseProto_Builder*) setBrp:(BattleReplayProto*) value;
+- (RetrieveBattleReplayResponseProto_Builder*) setBrp_Builder:(BattleReplayProto_Builder*) builderForValue;
+- (RetrieveBattleReplayResponseProto_Builder*) mergeBrp:(BattleReplayProto*) value;
+- (RetrieveBattleReplayResponseProto_Builder*) clearBrp;
+
+- (BOOL) hasStatus;
+- (RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatus) status;
+- (RetrieveBattleReplayResponseProto_Builder*) setStatus:(RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatus) value;
+- (RetrieveBattleReplayResponseProto_Builder*) clearStatusList;
 @end
 
 
