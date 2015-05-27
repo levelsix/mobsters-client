@@ -1928,12 +1928,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     ui.userUuid = gs.userUuid;
   }
   
-  changedItem = [ui toProto];
   if (quantity <= ui.quantity) {
     ui.quantity -= quantity;
   } else {
     gemsSpent = ui.costToPurchase;
   }
+  
+  changedItem = [ui toProto];
   
   if (ip.itemType == ItemTypeItemOil) {
     oilGained += ip.amount*quantity;
