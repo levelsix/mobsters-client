@@ -71,7 +71,7 @@
       }];
      }],
      move,
-     [CCActionDelay actionWithDuration:0.3f],
+     [CCActionDelay actionWithDuration:0.1f],
      [CCActionFadeOut actionWithDuration:0.3f],
      [CCActionCallBlock actionWithBlock:^{
       [self.handSprite removeFromParent];
