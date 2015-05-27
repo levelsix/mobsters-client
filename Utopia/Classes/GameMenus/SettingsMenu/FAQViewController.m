@@ -113,10 +113,10 @@
 }
 
 - (void) parseFile:(NSString *)faqFile shouldAttemptDownload:(BOOL)shouldAttemptDownload {
-  [Globals checkAndLoadFile:faqFile useiPhone6Prefix:NO completion:^ (BOOL success) {
+  [Globals checkAndLoadFile:faqFile useiPhone6Prefix:NO useiPadSuffix:NO completion:^ (BOOL success) {
     if (success) {
       NSError *e;
-      NSString *filePath = [Globals pathToFile:faqFile useiPhone6Prefix:NO];
+      NSString *filePath = [Globals pathToFile:faqFile useiPhone6Prefix:NO useiPadSuffix:NO];
       NSString *fileContents = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:&e];
       
       if (!fileContents) {
