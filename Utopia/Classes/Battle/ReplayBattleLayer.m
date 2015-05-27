@@ -252,7 +252,7 @@
 
 - (void)fireEvent:(TKEvent *)event userInfo:(NSDictionary *)userInfo error:(NSError *__autoreleasing *)error {
   if ([self.battleStateMachine canFireEvent:event])
-    [self startNextStep];
+    [self startNextStep:userInfo];
 }
 
 - (CombatReplayStepProto *)getCurrStep {
@@ -290,9 +290,9 @@
   return CGPointMake((pos<<24)>>24, pos>>16);
 }
 
-- (void) startNextStep {
+- (void) startNextStep:(NSDictionary*)userInfo {
   [_combatSteps removeObjectAtIndex:0];
-  [self.battleStateMachine forceStateWithType:self.currStep.type];
+  [self.battleStateMachine forceStateWithType:self.currStep.type userInfo:userInfo];
 }
 
 - (NSArray*) getCurrStepSchedule {
@@ -433,6 +433,11 @@
                                                           okSelector:@selector(exitFinal)
                                                         cancelTarget:nil
                                                       cancelSelector:nil];
+}
+
+- (void)exitFinal {
+  [self resetTimeScale];
+  [super exitFinal];
 }
 
 - (void)youForfeited {

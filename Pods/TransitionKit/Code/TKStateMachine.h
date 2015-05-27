@@ -207,8 +207,8 @@
  
  @param state A `TKState` object which identifies the state that the controller should force shift to
  */
-- (void)forceState:(TKState*)state;
-- (void)forceState:(TKState*)state withActions:(BOOL)withActions;
+- (void)forceState:(TKState*)state userInfo:(NSDictionary*)userInfo;
+- (void)forceState:(TKState*)state userInfo:(NSDictionary*)userInfo withActions:(BOOL)withActions;
 
 @end
 

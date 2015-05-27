@@ -423,7 +423,7 @@
 - (void) startMatchClicked {
   if (!self.queueNode.userInteractionEnabled) return;
   
-  [self.battleStateMachine forceStateWithType:CombatReplayStepTypeSpawnEnemy withActions:NO];
+  [self.battleStateMachine forceStateWithType:CombatReplayStepTypeSpawnEnemy userInfo:nil withActions:NO];
   
   PvpProto *pvp = self.defendersList[_curQueueNum];
   [[OutgoingEventController sharedOutgoingEventController] beginPvpBattle:pvp isRevenge:_isRevenge previousBattleTime:_prevBattleStartTime];

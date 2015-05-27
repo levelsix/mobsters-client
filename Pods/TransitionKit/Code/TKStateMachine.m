@@ -240,15 +240,15 @@ static NSString *TKQuoteString(NSString *string)
     return YES;
 }
 
-- (void)forceState:(TKState *)state
+- (void)forceState:(TKState*)state userInfo:(NSDictionary*)userInfo
 {
-  [self forceState:state withActions:NO];
+  [self forceState:state userInfo:userInfo withActions:NO];
 }
 
-- (void)forceState:(TKState*)state withActions:(BOOL)withActions
+- (void)forceState:(TKState*)state userInfo:(NSDictionary*)userInfo withActions:(BOOL)withActions
 {
   if (! self.isActive) [self activate];
-  TKTransition *transition = [TKTransition transitionForEvent:nil fromState:self.currentState inStateMachine:self userInfo:nil];
+  TKTransition *transition = [TKTransition transitionForEvent:nil fromState:self.currentState inStateMachine:self userInfo:userInfo];
   
   TKState *oldState = self.currentState;
   TKState *newState = state;
@@ -267,7 +267,7 @@ static NSString *TKQuoteString(NSString *string)
     self.currentState = newState;
   }
   
-  NSMutableDictionary *notificationInfo = [NSMutableDictionary dictionary];
+  NSMutableDictionary *notificationInfo = [userInfo mutableCopy] ?: [NSMutableDictionary dictionary];
   [notificationInfo addEntriesFromDictionary:@{ TKStateMachineDidChangeStateOldStateUserInfoKey: oldState,
                                                 TKStateMachineDidChangeStateNewStateUserInfoKey: newState }];
   [[NSNotificationCenter defaultCenter] postNotificationName:TKStateMachineDidChangeStateNotification object:self userInfo:notificationInfo];

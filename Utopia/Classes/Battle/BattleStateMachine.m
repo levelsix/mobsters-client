@@ -77,18 +77,18 @@
   return NO;
 }
 
-- (void)forceStateWithType:(CombatReplayStepType)stepType {
-  [self forceStateWithType:stepType withActions:YES];
+- (void)forceStateWithType:(CombatReplayStepType)stepType userInfo:(NSDictionary*)userInfo{
+  [self forceStateWithType:stepType userInfo:userInfo withActions:YES];
 }
 
-- (void)forceStateWithType:(CombatReplayStepType)stepType withActions:(BOOL)withActions {
+- (void)forceStateWithType:(CombatReplayStepType)stepType userInfo:(NSDictionary*)userInfo withActions:(BOOL)withActions {
   [self storeState:self.currentBattleState];
   
   BattleState *state;
   for (BattleState *bs in self.states)
     if (bs.combatReplayStepType == stepType)
       state = bs;
-  [self forceState:state withActions:withActions];
+  [self forceState:state userInfo:userInfo withActions:withActions];
 }
 
 - (void) scheduleRecreated:(NSArray*)schedule startingIndex:(int)startingIndex {

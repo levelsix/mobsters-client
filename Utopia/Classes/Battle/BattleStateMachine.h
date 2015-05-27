@@ -20,8 +20,8 @@
 
 - (BattleState*) getCurrentBattleState;
 
-- (void)forceStateWithType:(CombatReplayStepType)stepType;
-- (void)forceStateWithType:(CombatReplayStepType)stepType withActions:(BOOL)withActions;
+- (void)forceStateWithType:(CombatReplayStepType)stepType userInfo:(NSDictionary*)userInfo;
+- (void)forceStateWithType:(CombatReplayStepType)stepType userInfo:(NSDictionary*)userInfo withActions:(BOOL)withActions;
 
 - (void)addFinalState;
 
