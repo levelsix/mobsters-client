@@ -436,6 +436,7 @@
 }
 
 - (void)exitFinal {
+  _battleSpeedIndex = 0;
   [self resetTimeScale];
   [super exitFinal];
 }

@@ -1187,6 +1187,8 @@
       // If the chain sequence has more than 1 chain and none are 5 length, create a grenade on a random intersection
       else if (chainSequence.count > 1) {
         
+        [self preseedRandomization];
+        
         // Keep picking two random chains and try to find intersection orb
         BattleOrb *replacedOrb;
         do {
@@ -2078,7 +2080,7 @@ static const NSInteger maxSearchIterations = 800;
     for (NSInteger m = 0; m < self.numRows; m++)
       seed += [self orbAtColumn:n row:m].orbColor;
   srand(seed);
-  NSLog(@"%i", seed);
+  NSLog(@"Seed: %i", seed);
 }
 
 
