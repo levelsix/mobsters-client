@@ -237,8 +237,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   GameState *gs = [GameState sharedGameState];
   for (SalesPackageProto *spp in gs.mySales) {
     for (CustomMenuProto *cmp in spp.cmpList) {
-      if (![Globals isFileDownloaded:cmp.imageName useiPhone6Prefix:NO]) {
-        NSString *fileName = [self getDoubleResolutionImage:cmp.imageName useiPhone6Prefix:NO];
+      if (![Globals isFileDownloaded:cmp.imageName useiPhone6Prefix:NO useiPadSuffix:NO]) {
+        NSString *fileName = [self getDeviceAdjustedImage:cmp.imageName useiPhone6Prefix:NO useiPadSuffix:NO];
         
         BgdFileDownload *bgd = [[BgdFileDownload alloc] init];
         bgd.fileName = fileName;
@@ -249,7 +249,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
   
   for (StartupResponseProto_StartupConstants_FileDownloadConstantProto *f in fileNames) {
-    NSString *fileName = [self getDoubleResolutionImage:f.fileName useiPhone6Prefix:f.useIphone6Prefix];
+    NSString *fileName = [self getDeviceAdjustedImage:f.fileName useiPhone6Prefix:f.useIphone6Prefix useiPadSuffix:f.useIpadSuffix];
     
     BgdFileDownload *bgd = [[BgdFileDownload alloc] init];
     bgd.fileName = fileName;
@@ -1320,13 +1320,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 #pragma mark - Downloading
 
-+ (NSString *) pathToFile:(NSString *)fileName useiPhone6Prefix:(BOOL)useiPhone6Prefix {
++ (NSString *) pathToFile:(NSString *)fileName useiPhone6Prefix:(BOOL)useiPhone6Prefix useiPadSuffix:(BOOL)iPadSuffix {
   if (!fileName) {
     return nil;
   }
   
   // prevents overloading the autorelease pool
-  NSString *resName = [self getDoubleResolutionImage:fileName useiPhone6Prefix:useiPhone6Prefix];
+  NSString *resName = [self getDeviceAdjustedImage:fileName useiPhone6Prefix:useiPhone6Prefix useiPadSuffix:iPadSuffix];
   NSString *fullpath = [[NSBundle mainBundle] pathForResource:resName ofType:nil];
   
   // Added for Utopia project
@@ -1344,21 +1344,21 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return fullpath;
 }
 
-+ (BOOL) isFileDownloaded:(NSString *)fileName useiPhone6Prefix:(BOOL)useiPhone6Prefix {
-  return !![self pathToFile:fileName useiPhone6Prefix:useiPhone6Prefix];
++ (BOOL) isFileDownloaded:(NSString *)fileName useiPhone6Prefix:(BOOL)useiPhone6Prefix useiPadSuffix:(BOOL)iPadSuffix {
+  return [self pathToFile:fileName useiPhone6Prefix:useiPhone6Prefix useiPadSuffix:iPadSuffix];
 }
 
-+ (NSString *) downloadFile:(NSString *)fileName useiPhone6Prefix:(BOOL)useiPhone6Prefix {
++ (NSString *) downloadFile:(NSString *)fileName useiPhone6Prefix:(BOOL)useiPhone6Prefix useiPadSuffix:(BOOL)iPadSuffix {
   if (!fileName) {
     return nil;
   }
   
-  if (![self isFileDownloaded:fileName useiPhone6Prefix:useiPhone6Prefix]) {
-    NSString *resName = [self getDoubleResolutionImage:fileName useiPhone6Prefix:useiPhone6Prefix];
+  if (![self isFileDownloaded:fileName useiPhone6Prefix:useiPhone6Prefix useiPadSuffix:iPadSuffix]) {
+    NSString *resName = [self getDeviceAdjustedImage:fileName useiPhone6Prefix:useiPhone6Prefix useiPadSuffix:iPadSuffix];
     [[Downloader sharedDownloader] syncDownloadFile:resName];
   }
   
-  return [self pathToFile:fileName useiPhone6Prefix:useiPhone6Prefix];
+  return [self pathToFile:fileName useiPhone6Prefix:useiPhone6Prefix useiPadSuffix:iPadSuffix];
 }
 
 + (void) downloadAllFilesForSpritePrefixes:(NSArray *)spritePrefixes completion:(void (^)(void))completed {
@@ -1392,10 +1392,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (BOOL) checkAndLoadFiles:(NSArray *)fileNames completion:(void (^)(BOOL success))completion {
+  return [self checkAndLoadFiles:fileNames useiPhone6Prefix:NO useiPadSuffix:NO completion:completion];
+}
+
++ (BOOL) checkAndLoadFiles:(NSArray *)fileNames useiPhone6Prefix:(BOOL)prefix useiPadSuffix:(BOOL)suffix completion:(void (^)(BOOL success))completion {
   __block int i = 0;
   __block BOOL finalSuccess = YES;
   for (NSString *fileName in fileNames) {
-    if (![self isFileDownloaded:fileName useiPhone6Prefix:NO]) {
+    if (![self isFileDownloaded:fileName useiPhone6Prefix:NO useiPadSuffix:NO]) {
       i++;
       
       id comp = ^(BOOL success) {
@@ -1423,27 +1427,27 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return NO;
 }
 
-+ (BOOL) checkAndLoadFile:(NSString *)fileName useiPhone6Prefix:(BOOL)useiPhone6Prefix completion:(void (^)(BOOL success))completion {
-  if ([self isFileDownloaded:fileName useiPhone6Prefix:useiPhone6Prefix]) {
++ (BOOL) checkAndLoadFile:(NSString *)fileName useiPhone6Prefix:(BOOL)useiPhone6Prefix useiPadSuffix:(BOOL)iPadSuffix completion:(void (^)(BOOL success))completion {
+  if ([self isFileDownloaded:fileName useiPhone6Prefix:useiPhone6Prefix useiPadSuffix:iPadSuffix]) {
     if (completion) {
       completion(YES);
     }
     return YES;
   } else {
-    NSString *resName = [self getDoubleResolutionImage:fileName useiPhone6Prefix:useiPhone6Prefix];
+    NSString *resName = [self getDeviceAdjustedImage:fileName useiPhone6Prefix:useiPhone6Prefix useiPadSuffix:iPadSuffix];
     [[Downloader sharedDownloader] asyncDownloadFile:resName completion:completion];
     return NO;
   }
 }
 
 + (BOOL) checkAndLoadFile:(NSString *)fileName completion:(void (^)(BOOL success))completion {
-  return [self checkAndLoadFile:fileName useiPhone6Prefix:NO completion:completion];
+  return [self checkAndLoadFile:fileName useiPhone6Prefix:NO useiPadSuffix:NO completion:completion];
 }
 
 + (BOOL) checkAndLoadSpriteSheet:(NSString *)fileName completion:(void (^)(BOOL success))completion {
   return [self checkAndLoadFile:fileName completion:^(BOOL success) {
     if (success) {
-      NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:[self pathToFile:fileName useiPhone6Prefix:NO]];
+      NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:[self pathToFile:fileName useiPhone6Prefix:NO useiPadSuffix:NO]];
       NSDictionary *metadataDict = [dict objectForKey:@"metadata"];
       NSString *texturePath = [metadataDict objectForKey:@"textureFileName"];
       [self checkAndLoadFile:texturePath completion:^(BOOL success) {
@@ -1481,10 +1485,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (UIImage *) imageNamed:(NSString *)path {
-  return [self imageNamed:path useiPhone6Prefix:NO];
+  return [self imageNamed:path useiPhone6Prefix:NO useiPadSuffix:NO];
 }
 
-+ (UIImage *) imageNamed:(NSString *)path useiPhone6Prefix:(BOOL)useiPhone6Prefix {
++ (UIImage *) imageNamed:(NSString *)path useiPhone6Prefix:(BOOL)useiPhone6Prefix useiPadSuffix:(BOOL)iPadSuffix {
   if (!path) {
     return nil;
   }
@@ -1495,7 +1499,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     return cachedImage;
   }
   
-  NSString *fullPath = [self downloadFile:path useiPhone6Prefix:useiPhone6Prefix];
+  NSString *fullPath = [self downloadFile:path useiPhone6Prefix:useiPhone6Prefix useiPadSuffix:iPadSuffix];
   UIImage *image = [UIImage imageWithContentsOfFile:fullPath];
   
   if (image) {
@@ -1506,22 +1510,30 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (void) imageNamed:(NSString *)imageName withView:(UIView *)view maskedColor:(UIColor *)color indicator: (UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear {
-  [self imageNamed:imageName withView:view maskedColor:color greyscale:NO indicator:indicatorStyle clearImageDuringDownload:clear useiPhone6Prefix:NO];
+  [self imageNamed:imageName withView:view maskedColor:color greyscale:NO indicator:indicatorStyle clearImageDuringDownload:clear useiPhone6Prefix:NO useiPadSuffix:NO];
 }
 
 + (void) imageNamed:(NSString *)imageName withView:(UIView *)view greyscale:(BOOL)greyscale indicator: (UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear {
-  [self imageNamed:imageName withView:view maskedColor:nil greyscale:greyscale indicator:indicatorStyle clearImageDuringDownload:clear useiPhone6Prefix:NO];
+  [self imageNamed:imageName withView:view maskedColor:nil greyscale:greyscale indicator:indicatorStyle clearImageDuringDownload:clear useiPhone6Prefix:NO useiPadSuffix:NO];
 }
 
 + (void) imageNamedWithiPhone6Prefix:(NSString *)imageName withView:(UIView *)view maskedColor:(UIColor *)color indicator: (UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear {
-  [self imageNamed:imageName withView:view maskedColor:color greyscale:NO indicator:indicatorStyle clearImageDuringDownload:clear useiPhone6Prefix:YES];
+  [self imageNamed:imageName withView:view maskedColor:color greyscale:NO indicator:indicatorStyle clearImageDuringDownload:clear useiPhone6Prefix:YES useiPadSuffix:NO];
 }
 
 + (void) imageNamedWithiPhone6Prefix:(NSString *)imageName withView:(UIView *)view greyscale:(BOOL)greyscale indicator: (UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear {
-  [self imageNamed:imageName withView:view maskedColor:nil greyscale:greyscale indicator:indicatorStyle clearImageDuringDownload:clear useiPhone6Prefix:YES];
+  [self imageNamed:imageName withView:view maskedColor:nil greyscale:greyscale indicator:indicatorStyle clearImageDuringDownload:clear useiPhone6Prefix:YES useiPadSuffix:NO];
 }
 
-+ (void) imageNamed:(NSString *)imageName withView:(UIView *)view maskedColor:(UIColor *)color greyscale:(BOOL)greyscale indicator: (UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear useiPhone6Prefix:(BOOL)useiPhone6Prefix {
++ (void) imageNamedWithiPadSuffix:(NSString *)imageName withView:(UIView *)view maskedColor:(UIColor *)color indicator: (UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear {
+  [self imageNamed:imageName withView:view maskedColor:color greyscale:NO indicator:indicatorStyle clearImageDuringDownload:clear useiPhone6Prefix:NO useiPadSuffix:YES];
+}
+
++ (void) imageNamedWithiPadSuffix:(NSString *)imageName withView:(UIView *)view greyscale:(BOOL)greyscale indicator: (UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear {
+  [self imageNamed:imageName withView:view maskedColor:nil greyscale:greyscale indicator:indicatorStyle clearImageDuringDownload:clear useiPhone6Prefix:NO useiPadSuffix:YES];
+}
+
++ (void) imageNamed:(NSString *)imageName withView:(UIView *)view maskedColor:(UIColor *)color greyscale:(BOOL)greyscale indicator: (UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear useiPhone6Prefix:(BOOL)useiPhone6Prefix useiPadSuffix:(BOOL)iPadSuffix {
   // If imageName is null, it will clear the view's pre-downloading stuff
   // If view is null, it will download image without worrying about the view
   Globals *gl = [Globals sharedGlobals];
@@ -1594,11 +1606,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   // This also means, the image might be used for something else, in which case we wouldn't overwrite it.
   [[gl imageViewsWaitingForDownloading] setObject:imageName forKey:key];
   
-  [self checkAndLoadFile:imageName useiPhone6Prefix:useiPhone6Prefix completion:^(BOOL success) {
+  [self checkAndLoadFile:imageName useiPhone6Prefix:useiPhone6Prefix useiPadSuffix:iPadSuffix completion:^(BOOL success) {
     NSString *str = [[gl imageViewsWaitingForDownloading] objectForKey:key];
     if ([str isEqualToString:imageName]) {
       if (success) {
-        NSString *path = [self pathToFile:imageName useiPhone6Prefix:useiPhone6Prefix];
+        NSString *path = [self pathToFile:imageName useiPhone6Prefix:useiPhone6Prefix useiPadSuffix:iPadSuffix];
         
         if (path) {
           UIImage *img = [UIImage imageWithContentsOfFile:path];
@@ -1637,7 +1649,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   NSString *key = [NSString stringWithFormat:@"%p", s];
   
   [[gl imageViewsWaitingForDownloading] setObject:imageName forKey:key];
-  [self checkAndLoadFile:imageName useiPhone6Prefix:NO completion:^(BOOL success) {
+  [self checkAndLoadFile:imageName useiPhone6Prefix:NO useiPadSuffix:NO completion:^(BOOL success) {
     NSString *str = [[gl imageViewsWaitingForDownloading] objectForKey:key];
     if (success && [str isEqual:imageName]) {
       [s setSpriteFrame:[CCSpriteFrame frameWithImageNamed:imageName]];
@@ -1709,49 +1721,57 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return @"No Translation Available";
 }
 
-+ (NSString*) getDoubleResolutionImage:(NSString*)path useiPhone6Prefix:(BOOL)iPhone6Prefix {
++ (NSString*) getDeviceAdjustedImage:(NSString*)path useiPhone6Prefix:(BOOL)iPhone6Prefix useiPadSuffix:(BOOL)iPadSuffix {
   if ([path rangeOfString:@"http"].location != NSNotFound) {
     return path;
   }
   
+  NSString *adjustedPath = path;
+  
   if (iPhone6Prefix) {
     if ([self isiPhone6] || [self isiPhone6Plus]) {
-      path = [@"6" stringByAppendingString:path];
+      adjustedPath = [@"6" stringByAppendingString:path];
     }
-    // Not using this atm
+    /* Not using this atm
     else if ([self isiPhone6Plus]) {
       path = [@"6+" stringByAppendingString:path];
     }
+     */
   }
   
   int scale = [UIScreen mainScreen].scale;
   if(scale > 1) {
-    NSString *pathWithoutExtension = [path stringByDeletingPathExtension];
+    NSString *pathWithoutExtension = [adjustedPath stringByDeletingPathExtension];
     NSString *name = [pathWithoutExtension lastPathComponent];
     
     // check if path already has the suffix.
-    if( [name rangeOfString:@"@2x"].location != NSNotFound ) {
-      return path;
+    if( [name rangeOfString:@"@2x"].location == NSNotFound ) {
+      NSString *extension = [path pathExtension];
+      if([extension isEqualToString:@"ccz"] || [extension isEqualToString:@"gz"]) {
+        // All ccz / gz files should be in the format filename.xxx.ccz
+        // so we need to pull off the .xxx part of the extension as well
+        extension = [NSString stringWithFormat:@"%@.%@", [pathWithoutExtension pathExtension], extension];
+        pathWithoutExtension = [pathWithoutExtension stringByDeletingPathExtension];
+      }
+      
+      NSString *retinaName = [pathWithoutExtension stringByAppendingString:@"@2x"];
+      retinaName = [retinaName stringByAppendingPathExtension:extension];
+      
+      adjustedPath = retinaName;
+      
+//    CCLOG(@"cocos2d: CCFileUtils: Warning HD file not found: %@", [retinaName lastPathComponent] );
     }
-    
-    NSString *extension = [path pathExtension];
-    
-    if([extension isEqualToString:@"ccz"] || [extension isEqualToString:@"gz"]) {
-      // All ccz / gz files should be in the format filename.xxx.ccz
-      // so we need to pull off the .xxx part of the extension as well
-      extension = [NSString stringWithFormat:@"%@.%@", [pathWithoutExtension pathExtension], extension];
-      pathWithoutExtension = [pathWithoutExtension stringByDeletingPathExtension];
-    }
-    
-    NSString *retinaName = [pathWithoutExtension stringByAppendingString:@"@2x"];
-    retinaName = [retinaName stringByAppendingPathExtension:extension];
-    
-    return retinaName;
-    
-    CCLOG(@"cocos2d: CCFileUtils: Warning HD file not found: %@", [retinaName lastPathComponent] );
   }
   
-  return path;
+  if (iPadSuffix && [self isiPad]) {
+    NSRange r = [adjustedPath rangeOfString:@"." options:NSBackwardsSearch]; // Find the last occurrence of '.'
+    if (r.location == NSNotFound) // Why u no hav extension?
+      adjustedPath = [adjustedPath stringByAppendingString:@"~ipad"];
+    else
+      adjustedPath = [NSString stringWithFormat:@"%@%@%@", [adjustedPath substringToIndex:r.location], @"~ipad", [adjustedPath substringFromIndex:r.location]];
+  }
+  
+  return adjustedPath;
 }
 
 + (void) setFrameForView:(UIView *)view forPoint:(CGPoint)pt {
@@ -2768,6 +2788,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 + (BOOL) isiPhone6Plus {
   return ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && [self screenSize].width == 736.0);
+}
+
++ (BOOL) isiPad {
+  return ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad);
 }
 
 #pragma mark Colors

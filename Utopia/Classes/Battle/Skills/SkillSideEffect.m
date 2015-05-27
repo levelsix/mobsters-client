@@ -102,7 +102,7 @@
       if ([_imageName rangeOfString:@".plist"].location == NSNotFound)
       {
         // Display static image
-        [Globals checkAndLoadFile:_imageName useiPhone6Prefix:NO completion:^(BOOL success) {
+        [Globals checkAndLoadFile:_imageName useiPhone6Prefix:NO useiPadSuffix:NO completion:^(BOOL success) {
           if (success)
           {
             _vfx = [CCSprite spriteWithImageNamed:_imageName];
@@ -156,7 +156,7 @@
     if (_pfxName && ![_pfxName isEqualToString:@""])
     {
       // Display particle effect
-      [Globals checkAndLoadFile:_pfxName useiPhone6Prefix:NO completion:^(BOOL success) {
+      [Globals checkAndLoadFile:_pfxName useiPhone6Prefix:NO useiPadSuffix:NO completion:^(BOOL success) {
         if (success)
         {
           _pfx = [CCParticleSystem particleWithFile:_pfxName];
@@ -173,7 +173,7 @@
       }];
     }
     
-    [Globals checkAndLoadFile:_iconImageName useiPhone6Prefix:NO completion:^(BOOL success) {
+    [Globals checkAndLoadFile:_iconImageName useiPhone6Prefix:NO useiPadSuffix:NO completion:^(BOOL success) {
       if (success)
       {
         // Display side effect symbol on turn indicators for the affected turns

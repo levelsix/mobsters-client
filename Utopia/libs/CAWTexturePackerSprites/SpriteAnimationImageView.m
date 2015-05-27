@@ -29,13 +29,13 @@
       if (self.spinner) [self.spinner startAnimating];
       
       // Check for and download assets required for the sprite animation
-      [Globals checkAndLoadFile:spriteName useiPhone6Prefix:NO completion:^(BOOL success) {
+      [Globals checkAndLoadFile:spriteName useiPhone6Prefix:NO useiPadSuffix:NO completion:^(BOOL success) {
         if (success)
         {
-          NSDictionary* dict = [NSDictionary dictionaryWithContentsOfFile:[Globals pathToFile:spriteName useiPhone6Prefix:NO]];
+          NSDictionary* dict = [NSDictionary dictionaryWithContentsOfFile:[Globals pathToFile:spriteName useiPhone6Prefix:NO useiPadSuffix:NO]];
           NSDictionary* metadata = [dict objectForKey:@"meta"];
           NSString* texture = [metadata objectForKey:@"image"];
-          [Globals checkAndLoadFile:texture useiPhone6Prefix:NO completion:^(BOOL success) {
+          [Globals checkAndLoadFile:texture useiPhone6Prefix:NO useiPadSuffix:NO completion:^(BOOL success) {
             if (self.spinner) [self.spinner stopAnimating];
             
             if (success)

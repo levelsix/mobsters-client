@@ -1024,10 +1024,12 @@ static const CGSize FIXED_SIZE = {568, 384};
   
   // Check if scenes have been dl'ed
   NSArray *arr = @[[task.groundImgPrefix stringByAppendingString:@"scene.jpg"]];
-//                   [task.groundImgPrefix stringByAppendingString:@"scene2left.png"],
-//                   [task.groundImgPrefix stringByAppendingString:@"scene1right.png"],
-//                   [task.groundImgPrefix stringByAppendingString:@"scene2right.png"]];
-  [Globals checkAndLoadFiles:arr completion:^(BOOL success) {
+  /*
+                   [task.groundImgPrefix stringByAppendingString:@"scene2left.png"],
+                   [task.groundImgPrefix stringByAppendingString:@"scene1right.png"],
+                   [task.groundImgPrefix stringByAppendingString:@"scene2right.png"]];
+   */
+  [Globals checkAndLoadFiles:arr useiPhone6Prefix:NO useiPadSuffix:NO completion:^(BOOL success) {
     if (success) {
       
       DungeonBattleLayer *bl = [[DungeonBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeamWithClanSlot:YES] puzzleIsOnLeft:NO gridSize:CGSizeMake(task.boardWidth, task.boardHeight) bgdPrefix:task.groundImgPrefix layoutProto:[gs boardWithId:task.boardId]];
@@ -1351,11 +1353,11 @@ static const CGSize FIXED_SIZE = {568, 384};
 #pragma mark - CCDirectorDownloaderDelegate methods
 
 - (NSString *) filepathToFile:(NSString *)filename {
-  return [Globals downloadFile:filename useiPhone6Prefix:NO];
+  return [Globals downloadFile:filename useiPhone6Prefix:NO useiPadSuffix:NO];
 }
 
 - (NSString *) downloadFile:(NSString *)filename {
-  return [[Downloader sharedDownloader] syncDownloadFile:[Globals getDoubleResolutionImage:filename useiPhone6Prefix:NO]];
+  return [[Downloader sharedDownloader] syncDownloadFile:[Globals getDeviceAdjustedImage:filename useiPhone6Prefix:NO useiPadSuffix:NO]];
 }
 
 #pragma mark - Chat access
