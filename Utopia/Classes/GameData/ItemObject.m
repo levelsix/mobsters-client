@@ -83,15 +83,15 @@
       
     case ItemTypeRefreshMiniJob:
     case ItemTypeItemGachaCredit:
+    case ItemTypeItemCash:
+    case ItemTypeItemOil:
+    case ItemTypeSpeedUp:
       if (self.useGemsButton) {
         return [NSString stringWithFormat:@"%d",[self costToPurchase]];
       } else {
         return @"Use";
       }
       
-    case ItemTypeItemCash:
-    case ItemTypeItemOil:
-    case ItemTypeSpeedUp:
     case ItemTypeBoosterPack:
     case ItemTypeBuilder:
     case ItemTypeGachaMultiSpin:
@@ -101,14 +101,13 @@
 
 - (BOOL) useGemsButton {
   switch (self.staticItem.itemType) {
-      
+    case ItemTypeItemCash:
+    case ItemTypeItemOil:
+    case ItemTypeSpeedUp:
     case ItemTypeRefreshMiniJob:
     case ItemTypeItemGachaCredit:
       return !self.isValid;
       
-    case ItemTypeItemCash:
-    case ItemTypeItemOil:
-    case ItemTypeSpeedUp:
     case ItemTypeBoosterPack:
     case ItemTypeBuilder:
     case ItemTypeGachaMultiSpin:
@@ -160,6 +159,7 @@
     case ItemTypeItemCash:
     case ItemTypeItemOil:
     case ItemTypeSpeedUp:
+      return (int)[(NSNumber *)[gs.staticItemPrices objectForKey:@(self.itemId)] integerValue];
     case ItemTypeBoosterPack:
     case ItemTypeBuilder:
     case ItemTypeGachaMultiSpin:
@@ -274,11 +274,11 @@
 
 - (int) itemGemPriceForItemId:(int)itemId {
 #warning fix this
-//  for (ItemGemPriceProto *igpp in self.refreshMiniJobItemPricesList) {
-//    if (igpp.itemId == itemId) {
-//      return igpp.gemPrice;
-//    }
-//  }
+  for (ItemGemPriceProto *igpp in self.refreshMiniJobItemPricesList) {
+    if (igpp.itemId == itemId) {
+      return igpp.gemPrice;
+    }
+  }
   return 0;
 }
 

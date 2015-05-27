@@ -49,6 +49,8 @@
 
 - (UserItemProto *) toProto;
 
+- (int) costToPurchase;
+
 @end
 
 @interface UserItemUsage : NSObject

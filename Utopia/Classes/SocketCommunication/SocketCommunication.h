@@ -40,9 +40,11 @@
   
   NSMutableArray *_speedupItemUsages;
   NSMutableArray *_speedupUpdatedUserItems;
+  int _speedupGems;
   
   NSMutableArray *_resourceItemIdsUsed;
   NSMutableArray *_resourceUpdatedUserItems;
+  int _resourceGems;
   
   NSDate *_lastFlushedTime;
   BOOL _pauseFlushTimer;
@@ -211,11 +213,11 @@
 - (int) sendDevRequestProto:(DevRequest)request staticDataId:(int)staticDataId quantity:(int)quantity;
 
 - (int) sendRedeemSecretGiftMessage:(NSArray *)uisgIds clientTime:(uint64_t)clientTime;
-- (int) tradeItemForSpeedups:(NSArray *)uiups updatedUserItem:(UserItemProto *)uip;
+- (int) tradeItemForSpeedups:(NSArray *)uiups gemsSpent:(int)gemsSpent updatedUserItem:(UserItemProto *)uip;
 
 // First one is the non-batched one, second one batches
-- (int) sendTradeItemForResourcesMessage:(NSArray *)itemIdsUsed updatedUserItems:(NSArray *)updatedUserItems clientTime:(uint64_t)clientTime;
-- (int) tradeItemForResources:(int)itemId updatedUserItem:(UserItemProto *)uip clientTime:(uint64_t)clientTime;
+- (int) sendTradeItemForResourcesMessage:(NSArray *)itemIdsUsed updatedUserItems:(NSArray *)updatedUserItems gemsSpent:(int)gemsSpent clientTime:(uint64_t)clientTime;
+- (int) tradeItemForResources:(int)itemId updatedUserItem:(UserItemProto *)uip gemsSpent:(int)gemsSpent clientTime:(uint64_t)clientTime;
 
 - (int) sendBeginClanAvengingMessage:(NSArray *)pvpHistories clientTime:(uint64_t)clientTime;
 - (int) sendEndClanAvengingMessage:(NSArray *)avengeUuids;

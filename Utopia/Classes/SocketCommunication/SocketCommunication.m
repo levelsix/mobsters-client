@@ -1587,12 +1587,13 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCRemoveUserItemUsedEvent queueUp:YES incrementTagNum:NO];
 }
 
-- (int) sendTradeItemForResourcesMessage:(NSArray *)itemIdsUsed updatedUserItems:(NSArray *)updatedUserItems clientTime:(uint64_t)clientTime {
-  TradeItemForResourcesRequestProto *req = [[[[[[TradeItemForResourcesRequestProto builder]
-                                                setSender:[self senderWithMaxResources]]
-                                               addAllItemIdsUsed:itemIdsUsed]
-                                              addAllNuUserItems:updatedUserItems]
-                                             setClientTime:clientTime]
+- (int) sendTradeItemForResourcesMessage:(NSArray *)itemIdsUsed updatedUserItems:(NSArray *)updatedUserItems gemsSpent:(int)gemsSpent clientTime:(uint64_t)clientTime {
+  TradeItemForResourcesRequestProto *req = [[[[[[[TradeItemForResourcesRequestProto builder]
+                                                 setSender:[self senderWithMaxResources]]
+                                                addAllItemIdsUsed:itemIdsUsed]
+                                               addAllNuUserItems:updatedUserItems]
+                                              setClientTime:clientTime]
+                                             setGemsSpent:gemsSpent]
                                             build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCTradeItemForResourcesEvent queueUp:YES incrementTagNum:YES];
@@ -1780,9 +1781,10 @@ static NSString *udid = nil;
 
 
 
-- (int) tradeItemForSpeedups:(NSArray *)uiups updatedUserItem:(UserItemProto *)uip {
+- (int) tradeItemForSpeedups:(NSArray *)uiups gemsSpent:(int)gemsSpent updatedUserItem:(UserItemProto *)uip {
   [self flushAllExceptEventType:EventProtocolRequestCTradeItemForSpeedUpsEvent];
   [_speedupItemUsages addObjectsFromArray:uiups];
+  _speedupGems += gemsSpent;
   
   // remove the user item first if it is already in here
   for (int i = 0; i < _speedupUpdatedUserItems.count; i++) {
@@ -1797,10 +1799,11 @@ static NSString *udid = nil;
 }
 
 - (int) sendTradeItemForSpeedUpsMessage {
-  TradeItemForSpeedUpsRequestProto *req = [[[[[TradeItemForSpeedUpsRequestProto builder]
-                                              setSender:_sender]
-                                             addAllItemsUsed:_speedupItemUsages]
-                                            addAllNuUserItems:_speedupUpdatedUserItems]
+  TradeItemForSpeedUpsRequestProto *req = [[[[[[TradeItemForSpeedUpsRequestProto builder]
+                                               setSender:_sender]
+                                              addAllItemsUsed:_speedupItemUsages]
+                                             addAllNuUserItems:_speedupUpdatedUserItems]
+                                            setGemsSpent:_speedupGems]
                                            build];
   
   LNLog(@"Sending trade item for speedups message with %d item usages.", (int)_speedupItemUsages.count);
@@ -1810,9 +1813,10 @@ static NSString *udid = nil;
 
 
 
-- (int) tradeItemForResources:(int)itemId updatedUserItem:(UserItemProto *)uip clientTime:(uint64_t)clientTime {
+- (int) tradeItemForResources:(int)itemId updatedUserItem:(UserItemProto *)uip gemsSpent:(int)gemsSpent clientTime:(uint64_t)clientTime {
   [self flushAllExceptEventType:EventProtocolRequestCTradeItemForResourcesEvent];
   [_resourceItemIdsUsed addObject:@(itemId)];
+  _resourceGems += gemsSpent;
   
   // remove the user item first if it is already in here
   for (int i = 0; i < _resourceUpdatedUserItems.count; i++) {
@@ -1829,11 +1833,12 @@ static NSString *udid = nil;
 }
 
 - (int) sendTradeItemForResourcesMessage {
-  TradeItemForResourcesRequestProto *req = [[[[[[TradeItemForResourcesRequestProto builder]
-                                                setSender:[self senderWithMaxResources]]
-                                               addAllItemIdsUsed:_resourceItemIdsUsed]
-                                              addAllNuUserItems:_resourceUpdatedUserItems]
-                                             setClientTime:self.lastClientTime]
+  TradeItemForResourcesRequestProto *req = [[[[[[[TradeItemForResourcesRequestProto builder]
+                                                 setSender:[self senderWithMaxResources]]
+                                                addAllItemIdsUsed:_resourceItemIdsUsed]
+                                               addAllNuUserItems:_resourceUpdatedUserItems]
+                                              setClientTime:self.lastClientTime]
+                                             setGemsSpent:_resourceGems]
                                             build];
   
   LNLog(@"Sending trade item for resources message with %d items.", (int)_resourceItemIdsUsed.count);
@@ -2099,6 +2104,7 @@ static NSString *udid = nil;
     if (_speedupItemUsages.count > 0) {
       [self sendTradeItemForSpeedUpsMessage];
       
+      _speedupGems = 0;
       [_speedupItemUsages removeAllObjects];
       [_speedupUpdatedUserItems removeAllObjects];
       
@@ -2110,6 +2116,7 @@ static NSString *udid = nil;
     if (_resourceItemIdsUsed.count > 0) {
       [self sendTradeItemForResourcesMessage];
       
+      _resourceGems = 0;
       [_resourceItemIdsUsed removeAllObjects];
       [_resourceUpdatedUserItems removeAllObjects];
       
