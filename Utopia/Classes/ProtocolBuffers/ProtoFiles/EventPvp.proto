@@ -4,7 +4,6 @@
 import "Battle.proto";
 import "MonsterStuff.proto";
 //import "Research.proto";
-import "SharedEnumConfig.proto";
 import "Structure.proto";
 import "User.proto";
 
@@ -39,8 +38,16 @@ message QueueUpRequestProto {
 message QueueUpResponseProto {
 	optional MinimumUserProto attacker = 1;
 	repeated PvpProto defenderInfoList = 2;
-	optional ResponseStatus status = 3;
+	optional QueueUpStatus status = 3;
 
+	enum QueueUpStatus {
+		SUCCESS = 1;
+		FAIL_NOT_ENOUGH_CASH = 2;
+		FAIL_OTHER = 3; //REAL OR FAKE USERS WOULD BE RETURNED, SO THE FAIL WOULD NOT 
+						//BE FOR LACK OF A VICTIM TO ATTACK
+		FAIL_NOT_ENOUGH_GEMS = 4;
+		
+	}
 }
 
 //------------------------------------------------------------------------------------------
@@ -63,8 +70,13 @@ message BeginPvpBattleRequestProto {
 
 message BeginPvpBattleResponseProto {
 	optional MinimumUserProto sender = 1;
-	optional ResponseStatus status = 2;
-
+	optional BeginPvpBattleStatus status = 2;
+	
+	enum BeginPvpBattleStatus {
+		SUCCESS = 1;
+		FAIL_ENEMY_UNAVAILABLE = 2;
+		FAIL_OTHER = 3;
+	}
 }
 
 //------------------------------------------------------------------------------------------
@@ -86,8 +98,8 @@ message EndPvpBattleRequestProto {
 	//positive means reward attacker. don't forsee being negative 
 	//If attacker loses, then these are 0
 	//these are also the raw values (uncapped) that the defender loses
-	optional int32 oilStolenFromStorage = 6; //should be named amount stolen
-	optional int32 cashStolenFromStorage = 7; //should be named amount stolen
+	optional int32 oilChange = 6; //should be named amount stolen
+	optional int32 cashChange = 7; //should be named amount stolen
 	
 	//Note for server, if <= 0 then don't update db.
 	optional float nuPvpDmgMultiplier = 8;
@@ -96,12 +108,6 @@ message EndPvpBattleRequestProto {
 	repeated int32 monsterDropIds = 9;
 	
 	optional bytes replay = 10;
-	
-	optional int32 oilStolenFromGenerator = 11;
-	optional int32 cashStolenFromGenerator = 12;
-	
-	repeated StructStolen structStolen = 13;
-	
 }
 
 message EndPvpBattleResponseProto {
@@ -120,7 +126,7 @@ message EndPvpBattleResponseProto {
 	optional int32 defenderCurElo = ;*/
 	
 	
-	optional ResponseStatus status = 9;
+	optional EndPvpBattleStatus status = 9;
 	
 	//repeated FullUserMonsterProto newOrUpdated = 10; //BAD!!! DON'T START NAMES WITH NEW OR COPY
 	repeated FullUserMonsterProto updatedOrNew = 10; 
@@ -133,19 +139,14 @@ message EndPvpBattleResponseProto {
 	optional UserPvpLeagueProto statsBefore = 12;
 	optional UserPvpLeagueProto statsAfter = 13;
 	
-	repeated StructStolen updatedUserStructs = 14;
-	
-
+	enum EndPvpBattleStatus {
+		SUCCESS = 1;
+		FAIL_OTHER = 2;
+		FAIL_BATTLE_TOOK_TOO_LONG = 3;
+	}
 }
 
 ///atm, the necessary non event protos for pvp are in Battle.proto
-
-//------------------------------------------------------------------------------------------
-
-message StructStolen {
-		optional string userStructUuid = 1;
-		optional int64 timeOfRetrieval = 2;
-}
 
 //------------------------------------------------------------------------------------------
 
@@ -156,10 +157,14 @@ message SetDefendingMsgRequestProto {
 
 message SetDefendingMsgResponseProto {
 	optional MinimumUserProto sender = 1;
-	optional ResponseStatus status = 2;
+	optional SetDefendingMsgStatus status = 2;
 	
 	//send UpdateClientUser, so as to update the message to the censored version
-
+	
+	enum SetDefendingMsgStatus {
+		SUCCESS = 1;
+		FAIL_OTHER = 2;
+	}
 }
 
 //------------------------------------------------------------------------------------------
@@ -173,8 +178,12 @@ message CustomizePvpBoardObstacleRequestProto {
 
 message CustomizePvpBoardObstacleResponseProto {
 	optional MinimumUserProto sender = 1;
-	optional ResponseStatus status = 2;
-	 
+	optional CustomizePvpBoardObstacleStatus status = 2;
+	
+	enum CustomizePvpBoardObstacleStatus {
+		SUCCESS = 1;
+		FAIL_OTHER = 2;
+	}  
 }
 
 //------------------------------------------------------------------------------------------
@@ -187,6 +196,10 @@ message RetrieveBattleReplayRequestProto {
 message RetrieveBattleReplayResponseProto {
 	optional MinimumUserProto sender = 1;
 	optional BattleReplayProto brp = 2;
-	optional ResponseStatus status = 3;
-
+	optional RetrieveBattleReplayStatus status = 3;
+	
+	enum RetrieveBattleReplayStatus {
+		SUCCESS = 1;
+		FAIL_OTHER = 2;
+	}
 }
