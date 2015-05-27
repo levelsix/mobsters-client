@@ -136,7 +136,7 @@ static NSString *nibName = @"SalePackageCell";
     return [@(obj1.positionZ) compare:@(obj2.positionZ)];
   }];
   
-  BOOL success = [Globals checkAndLoadFiles:arr completion:^(BOOL success) {
+  BOOL success = [Globals checkAndLoadFiles:arr useiPhone6Prefix:NO useiPadSuffix:NO completion:^(BOOL success) {
     [self.loadingView removeFromSuperview];
     self.loadingView = nil;
     
