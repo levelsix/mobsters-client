@@ -17,6 +17,8 @@
 @class AddMonsterToBattleTeamResponseProto_Builder;
 @class BattleItemFactoryProto;
 @class BattleItemFactoryProto_Builder;
+@class BattleReplayProto;
+@class BattleReplayProto_Builder;
 @class ClanHouseProto;
 @class ClanHouseProto_Builder;
 @class ClanMemberTeamDonationProto;

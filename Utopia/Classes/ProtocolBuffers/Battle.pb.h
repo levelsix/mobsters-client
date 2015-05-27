@@ -10,6 +10,8 @@
 
 @class BattleItemFactoryProto;
 @class BattleItemFactoryProto_Builder;
+@class BattleReplayProto;
+@class BattleReplayProto_Builder;
 @class ClanHouseProto;
 @class ClanHouseProto_Builder;
 @class ClanMemberTeamDonationProto;
@@ -363,6 +365,7 @@ BOOL BattleResultIsValidValue(BattleResult value);
   BOOL hasProspectiveOilWinnings_:1;
   BOOL hasAttackerCashChange_:1;
   BOOL hasAttackerOilChange_:1;
+  BOOL hasReplayId_:1;
   BOOL hasAttacker_:1;
   BOOL hasAttackerBefore_:1;
   BOOL hasAttackerAfter_:1;
@@ -379,6 +382,7 @@ BOOL BattleResultIsValidValue(BattleResult value);
   int32_t prospectiveOilWinnings;
   int32_t attackerCashChange;
   int32_t attackerOilChange;
+  NSString* replayId;
   FullUserProto* attacker;
   UserPvpLeagueProto* attackerBefore;
   UserPvpLeagueProto* attackerAfter;
@@ -405,6 +409,7 @@ BOOL BattleResultIsValidValue(BattleResult value);
 - (BOOL) hasAttackerCashChange;
 - (BOOL) hasAttackerOilChange;
 - (BOOL) hasClanAvenged;
+- (BOOL) hasReplayId;
 @property (readonly) int64_t battleEndTime;
 @property (readonly, strong) FullUserProto* attacker;
 @property (readonly, strong) NSArray * attackersMonstersList;
@@ -422,6 +427,7 @@ BOOL BattleResultIsValidValue(BattleResult value);
 @property (readonly) int32_t attackerCashChange;
 @property (readonly) int32_t attackerOilChange;
 - (BOOL) clanAvenged;
+@property (readonly, strong) NSString* replayId;
 - (PvpMonsterProto*)attackersMonstersAtIndex:(NSUInteger)index;
 
 + (PvpHistoryProto*) defaultInstance;
@@ -556,6 +562,11 @@ BOOL BattleResultIsValidValue(BattleResult value);
 - (BOOL) clanAvenged;
 - (PvpHistoryProto_Builder*) setClanAvenged:(BOOL) value;
 - (PvpHistoryProto_Builder*) clearClanAvenged;
+
+- (BOOL) hasReplayId;
+- (NSString*) replayId;
+- (PvpHistoryProto_Builder*) setReplayId:(NSString*) value;
+- (PvpHistoryProto_Builder*) clearReplayId;
 @end
 
 @interface PvpLeagueProto : PBGeneratedMessage {
@@ -815,6 +826,82 @@ BOOL BattleResultIsValidValue(BattleResult value);
 - (int64_t) avengeTime;
 - (PvpUserClanAvengeProto_Builder*) setAvengeTime:(int64_t) value;
 - (PvpUserClanAvengeProto_Builder*) clearAvengeTime;
+@end
+
+@interface BattleReplayProto : PBGeneratedMessage {
+@private
+  BOOL hasCreateTime_:1;
+  BOOL hasReplayUuid_:1;
+  BOOL hasCreatorUuid_:1;
+  BOOL hasReplay_:1;
+  int32_t createTime;
+  NSString* replayUuid;
+  NSString* creatorUuid;
+  NSData* replay;
+}
+- (BOOL) hasReplayUuid;
+- (BOOL) hasCreatorUuid;
+- (BOOL) hasReplay;
+- (BOOL) hasCreateTime;
+@property (readonly, strong) NSString* replayUuid;
+@property (readonly, strong) NSString* creatorUuid;
+@property (readonly, strong) NSData* replay;
+@property (readonly) int32_t createTime;
+
++ (BattleReplayProto*) defaultInstance;
+- (BattleReplayProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (BattleReplayProto_Builder*) builder;
++ (BattleReplayProto_Builder*) builder;
++ (BattleReplayProto_Builder*) builderWithPrototype:(BattleReplayProto*) prototype;
+- (BattleReplayProto_Builder*) toBuilder;
+
++ (BattleReplayProto*) parseFromData:(NSData*) data;
++ (BattleReplayProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (BattleReplayProto*) parseFromInputStream:(NSInputStream*) input;
++ (BattleReplayProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (BattleReplayProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (BattleReplayProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface BattleReplayProto_Builder : PBGeneratedMessageBuilder {
+@private
+  BattleReplayProto* result;
+}
+
+- (BattleReplayProto*) defaultInstance;
+
+- (BattleReplayProto_Builder*) clear;
+- (BattleReplayProto_Builder*) clone;
+
+- (BattleReplayProto*) build;
+- (BattleReplayProto*) buildPartial;
+
+- (BattleReplayProto_Builder*) mergeFrom:(BattleReplayProto*) other;
+- (BattleReplayProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (BattleReplayProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasReplayUuid;
+- (NSString*) replayUuid;
+- (BattleReplayProto_Builder*) setReplayUuid:(NSString*) value;
+- (BattleReplayProto_Builder*) clearReplayUuid;
+
+- (BOOL) hasCreatorUuid;
+- (NSString*) creatorUuid;
+- (BattleReplayProto_Builder*) setCreatorUuid:(NSString*) value;
+- (BattleReplayProto_Builder*) clearCreatorUuid;
+
+- (BOOL) hasReplay;
+- (NSData*) replay;
+- (BattleReplayProto_Builder*) setReplay:(NSData*) value;
+- (BattleReplayProto_Builder*) clearReplay;
+
+- (BOOL) hasCreateTime;
+- (int32_t) createTime;
+- (BattleReplayProto_Builder*) setCreateTime:(int32_t) value;
+- (BattleReplayProto_Builder*) clearCreateTime;
 @end
 
 

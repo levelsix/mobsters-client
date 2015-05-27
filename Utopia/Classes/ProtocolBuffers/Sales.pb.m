@@ -39,6 +39,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property (strong) NSString* animatingIcon;
 @property (strong) NSString* slamIcon;
 @property (strong) NSString* titleColor;
+@property int32_t priority;
 @end
 
 @implementation SalesPackageProto
@@ -119,6 +120,13 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasTitleColor_ = !!value_;
 }
 @synthesize titleColor;
+- (BOOL) hasPriority {
+  return !!hasPriority_;
+}
+- (void) setHasPriority:(BOOL) value_ {
+  hasPriority_ = !!value_;
+}
+@synthesize priority;
 - (id) init {
   if ((self = [super init])) {
     self.salesPackageId = 0;
@@ -131,6 +139,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     self.animatingIcon = @"";
     self.slamIcon = @"";
     self.titleColor = @"";
+    self.priority = 0;
   }
   return self;
 }
@@ -207,6 +216,9 @@ static SalesPackageProto* defaultSalesPackageProtoInstance = nil;
   if (self.hasTitleColor) {
     [output writeString:13 value:self.titleColor];
   }
+  if (self.hasPriority) {
+    [output writeInt32:14 value:self.priority];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -254,6 +266,9 @@ static SalesPackageProto* defaultSalesPackageProtoInstance = nil;
   }
   if (self.hasTitleColor) {
     size_ += computeStringSize(13, self.titleColor);
+  }
+  if (self.hasPriority) {
+    size_ += computeInt32Size(14, self.priority);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -338,6 +353,9 @@ static SalesPackageProto* defaultSalesPackageProtoInstance = nil;
   if (self.hasTitleColor) {
     [output appendFormat:@"%@%@: %@\n", indent, @"titleColor", self.titleColor];
   }
+  if (self.hasPriority) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"priority", [NSNumber numberWithInteger:self.priority]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -372,6 +390,8 @@ static SalesPackageProto* defaultSalesPackageProtoInstance = nil;
       (!self.hasSlamIcon || [self.slamIcon isEqual:otherMessage.slamIcon]) &&
       self.hasTitleColor == otherMessage.hasTitleColor &&
       (!self.hasTitleColor || [self.titleColor isEqual:otherMessage.titleColor]) &&
+      self.hasPriority == otherMessage.hasPriority &&
+      (!self.hasPriority || self.priority == otherMessage.priority) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -414,6 +434,9 @@ static SalesPackageProto* defaultSalesPackageProtoInstance = nil;
   }
   if (self.hasTitleColor) {
     hashCode = hashCode * 31 + [self.titleColor hash];
+  }
+  if (self.hasPriority) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.priority] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -509,6 +532,9 @@ static SalesPackageProto* defaultSalesPackageProtoInstance = nil;
   if (other.hasTitleColor) {
     [self setTitleColor:other.titleColor];
   }
+  if (other.hasPriority) {
+    [self setPriority:other.priority];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -586,6 +612,10 @@ static SalesPackageProto* defaultSalesPackageProtoInstance = nil;
       }
       case 106: {
         [self setTitleColor:[input readString]];
+        break;
+      }
+      case 112: {
+        [self setPriority:[input readInt32]];
         break;
       }
     }
@@ -821,6 +851,22 @@ static SalesPackageProto* defaultSalesPackageProtoInstance = nil;
 - (SalesPackageProto_Builder*) clearTitleColor {
   result.hasTitleColor = NO;
   result.titleColor = @"";
+  return self;
+}
+- (BOOL) hasPriority {
+  return result.hasPriority;
+}
+- (int32_t) priority {
+  return result.priority;
+}
+- (SalesPackageProto_Builder*) setPriority:(int32_t) value {
+  result.hasPriority = YES;
+  result.priority = value;
+  return self;
+}
+- (SalesPackageProto_Builder*) clearPriority {
+  result.hasPriority = NO;
+  result.priority = 0;
   return self;
 }
 @end

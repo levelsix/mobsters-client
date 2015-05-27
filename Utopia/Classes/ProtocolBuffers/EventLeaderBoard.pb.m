@@ -338,7 +338,8 @@ static RetrieveStrengthLeaderBoardRequestProto* defaultRetrieveStrengthLeaderBoa
 
 @interface RetrieveStrengthLeaderBoardResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property (strong) NSMutableArray * mutableSlbpList;
+@property (strong) StrengthLeaderBoardProto* senderLeaderBoardInfo;
+@property (strong) NSMutableArray * mutableLeaderBoardInfoList;
 @property RetrieveStrengthLeaderBoardResponseProto_RetrieveStrengthLeaderBoardStatus status;
 @end
 
@@ -351,8 +352,15 @@ static RetrieveStrengthLeaderBoardRequestProto* defaultRetrieveStrengthLeaderBoa
   hasSender_ = !!value_;
 }
 @synthesize sender;
-@synthesize mutableSlbpList;
-@dynamic slbpList;
+- (BOOL) hasSenderLeaderBoardInfo {
+  return !!hasSenderLeaderBoardInfo_;
+}
+- (void) setHasSenderLeaderBoardInfo:(BOOL) value_ {
+  hasSenderLeaderBoardInfo_ = !!value_;
+}
+@synthesize senderLeaderBoardInfo;
+@synthesize mutableLeaderBoardInfoList;
+@dynamic leaderBoardInfoList;
 - (BOOL) hasStatus {
   return !!hasStatus_;
 }
@@ -363,6 +371,7 @@ static RetrieveStrengthLeaderBoardRequestProto* defaultRetrieveStrengthLeaderBoa
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
+    self.senderLeaderBoardInfo = [StrengthLeaderBoardProto defaultInstance];
     self.status = RetrieveStrengthLeaderBoardResponseProto_RetrieveStrengthLeaderBoardStatusSuccess;
   }
   return self;
@@ -379,11 +388,11 @@ static RetrieveStrengthLeaderBoardResponseProto* defaultRetrieveStrengthLeaderBo
 - (RetrieveStrengthLeaderBoardResponseProto*) defaultInstance {
   return defaultRetrieveStrengthLeaderBoardResponseProtoInstance;
 }
-- (NSArray *)slbpList {
-  return mutableSlbpList;
+- (NSArray *)leaderBoardInfoList {
+  return mutableLeaderBoardInfoList;
 }
-- (StrengthLeaderBoardProto*)slbpAtIndex:(NSUInteger)index {
-  return [mutableSlbpList objectAtIndex:index];
+- (StrengthLeaderBoardProto*)leaderBoardInfoAtIndex:(NSUInteger)index {
+  return [mutableLeaderBoardInfoList objectAtIndex:index];
 }
 - (BOOL) isInitialized {
   return YES;
@@ -392,11 +401,14 @@ static RetrieveStrengthLeaderBoardResponseProto* defaultRetrieveStrengthLeaderBo
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  [self.slbpList enumerateObjectsUsingBlock:^(StrengthLeaderBoardProto *element, NSUInteger idx, BOOL *stop) {
-    [output writeMessage:2 value:element];
+  if (self.hasSenderLeaderBoardInfo) {
+    [output writeMessage:2 value:self.senderLeaderBoardInfo];
+  }
+  [self.leaderBoardInfoList enumerateObjectsUsingBlock:^(StrengthLeaderBoardProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:3 value:element];
   }];
   if (self.hasStatus) {
-    [output writeEnum:3 value:self.status];
+    [output writeEnum:4 value:self.status];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -410,11 +422,14 @@ static RetrieveStrengthLeaderBoardResponseProto* defaultRetrieveStrengthLeaderBo
   if (self.hasSender) {
     size_ += computeMessageSize(1, self.sender);
   }
-  [self.slbpList enumerateObjectsUsingBlock:^(StrengthLeaderBoardProto *element, NSUInteger idx, BOOL *stop) {
-    size_ += computeMessageSize(2, element);
+  if (self.hasSenderLeaderBoardInfo) {
+    size_ += computeMessageSize(2, self.senderLeaderBoardInfo);
+  }
+  [self.leaderBoardInfoList enumerateObjectsUsingBlock:^(StrengthLeaderBoardProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(3, element);
   }];
   if (self.hasStatus) {
-    size_ += computeEnumSize(3, self.status);
+    size_ += computeEnumSize(4, self.status);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -457,8 +472,14 @@ static RetrieveStrengthLeaderBoardResponseProto* defaultRetrieveStrengthLeaderBo
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
-  [self.slbpList enumerateObjectsUsingBlock:^(StrengthLeaderBoardProto *element, NSUInteger idx, BOOL *stop) {
-    [output appendFormat:@"%@%@ {\n", indent, @"slbp"];
+  if (self.hasSenderLeaderBoardInfo) {
+    [output appendFormat:@"%@%@ {\n", indent, @"senderLeaderBoardInfo"];
+    [self.senderLeaderBoardInfo writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  [self.leaderBoardInfoList enumerateObjectsUsingBlock:^(StrengthLeaderBoardProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"leaderBoardInfo"];
     [element writeDescriptionTo:output
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
@@ -479,7 +500,9 @@ static RetrieveStrengthLeaderBoardResponseProto* defaultRetrieveStrengthLeaderBo
   return
       self.hasSender == otherMessage.hasSender &&
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
-      [self.slbpList isEqualToArray:otherMessage.slbpList] &&
+      self.hasSenderLeaderBoardInfo == otherMessage.hasSenderLeaderBoardInfo &&
+      (!self.hasSenderLeaderBoardInfo || [self.senderLeaderBoardInfo isEqual:otherMessage.senderLeaderBoardInfo]) &&
+      [self.leaderBoardInfoList isEqualToArray:otherMessage.leaderBoardInfoList] &&
       self.hasStatus == otherMessage.hasStatus &&
       (!self.hasStatus || self.status == otherMessage.status) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
@@ -489,7 +512,10 @@ static RetrieveStrengthLeaderBoardResponseProto* defaultRetrieveStrengthLeaderBo
   if (self.hasSender) {
     hashCode = hashCode * 31 + [self.sender hash];
   }
-  [self.slbpList enumerateObjectsUsingBlock:^(StrengthLeaderBoardProto *element, NSUInteger idx, BOOL *stop) {
+  if (self.hasSenderLeaderBoardInfo) {
+    hashCode = hashCode * 31 + [self.senderLeaderBoardInfo hash];
+  }
+  [self.leaderBoardInfoList enumerateObjectsUsingBlock:^(StrengthLeaderBoardProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
   if (self.hasStatus) {
@@ -504,6 +530,7 @@ BOOL RetrieveStrengthLeaderBoardResponseProto_RetrieveStrengthLeaderBoardStatusI
   switch (value) {
     case RetrieveStrengthLeaderBoardResponseProto_RetrieveStrengthLeaderBoardStatusSuccess:
     case RetrieveStrengthLeaderBoardResponseProto_RetrieveStrengthLeaderBoardStatusFailOther:
+    case RetrieveStrengthLeaderBoardResponseProto_RetrieveStrengthLeaderBoardStatusFailNoResults:
       return YES;
     default:
       return NO;
@@ -550,11 +577,14 @@ BOOL RetrieveStrengthLeaderBoardResponseProto_RetrieveStrengthLeaderBoardStatusI
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.mutableSlbpList.count > 0) {
-    if (result.mutableSlbpList == nil) {
-      result.mutableSlbpList = [[NSMutableArray alloc] initWithArray:other.mutableSlbpList];
+  if (other.hasSenderLeaderBoardInfo) {
+    [self mergeSenderLeaderBoardInfo:other.senderLeaderBoardInfo];
+  }
+  if (other.mutableLeaderBoardInfoList.count > 0) {
+    if (result.mutableLeaderBoardInfoList == nil) {
+      result.mutableLeaderBoardInfoList = [[NSMutableArray alloc] initWithArray:other.mutableLeaderBoardInfoList];
     } else {
-      [result.mutableSlbpList addObjectsFromArray:other.mutableSlbpList];
+      [result.mutableLeaderBoardInfoList addObjectsFromArray:other.mutableLeaderBoardInfoList];
     }
   }
   if (other.hasStatus) {
@@ -592,16 +622,25 @@ BOOL RetrieveStrengthLeaderBoardResponseProto_RetrieveStrengthLeaderBoardStatusI
       }
       case 18: {
         StrengthLeaderBoardProto_Builder* subBuilder = [StrengthLeaderBoardProto builder];
+        if (self.hasSenderLeaderBoardInfo) {
+          [subBuilder mergeFrom:self.senderLeaderBoardInfo];
+        }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self addSlbp:[subBuilder buildPartial]];
+        [self setSenderLeaderBoardInfo:[subBuilder buildPartial]];
         break;
       }
-      case 24: {
+      case 26: {
+        StrengthLeaderBoardProto_Builder* subBuilder = [StrengthLeaderBoardProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addLeaderBoardInfo:[subBuilder buildPartial]];
+        break;
+      }
+      case 32: {
         RetrieveStrengthLeaderBoardResponseProto_RetrieveStrengthLeaderBoardStatus value = (RetrieveStrengthLeaderBoardResponseProto_RetrieveStrengthLeaderBoardStatus)[input readEnum];
         if (RetrieveStrengthLeaderBoardResponseProto_RetrieveStrengthLeaderBoardStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
-          [unknownFields mergeVarintField:3 value:value];
+          [unknownFields mergeVarintField:4 value:value];
         }
         break;
       }
@@ -638,28 +677,58 @@ BOOL RetrieveStrengthLeaderBoardResponseProto_RetrieveStrengthLeaderBoardStatusI
   result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
-- (NSMutableArray *)slbpList {
-  return result.mutableSlbpList;
+- (BOOL) hasSenderLeaderBoardInfo {
+  return result.hasSenderLeaderBoardInfo;
 }
-- (StrengthLeaderBoardProto*)slbpAtIndex:(NSUInteger)index {
-  return [result slbpAtIndex:index];
+- (StrengthLeaderBoardProto*) senderLeaderBoardInfo {
+  return result.senderLeaderBoardInfo;
 }
-- (RetrieveStrengthLeaderBoardResponseProto_Builder *)addSlbp:(StrengthLeaderBoardProto*)value {
-  if (result.mutableSlbpList == nil) {
-    result.mutableSlbpList = [[NSMutableArray alloc]init];
-  }
-  [result.mutableSlbpList addObject:value];
+- (RetrieveStrengthLeaderBoardResponseProto_Builder*) setSenderLeaderBoardInfo:(StrengthLeaderBoardProto*) value {
+  result.hasSenderLeaderBoardInfo = YES;
+  result.senderLeaderBoardInfo = value;
   return self;
 }
-- (RetrieveStrengthLeaderBoardResponseProto_Builder *)addAllSlbp:(NSArray *)array {
-  if (result.mutableSlbpList == nil) {
-    result.mutableSlbpList = [NSMutableArray array];
+- (RetrieveStrengthLeaderBoardResponseProto_Builder*) setSenderLeaderBoardInfo_Builder:(StrengthLeaderBoardProto_Builder*) builderForValue {
+  return [self setSenderLeaderBoardInfo:[builderForValue build]];
+}
+- (RetrieveStrengthLeaderBoardResponseProto_Builder*) mergeSenderLeaderBoardInfo:(StrengthLeaderBoardProto*) value {
+  if (result.hasSenderLeaderBoardInfo &&
+      result.senderLeaderBoardInfo != [StrengthLeaderBoardProto defaultInstance]) {
+    result.senderLeaderBoardInfo =
+      [[[StrengthLeaderBoardProto builderWithPrototype:result.senderLeaderBoardInfo] mergeFrom:value] buildPartial];
+  } else {
+    result.senderLeaderBoardInfo = value;
   }
-  [result.mutableSlbpList addObjectsFromArray:array];
+  result.hasSenderLeaderBoardInfo = YES;
   return self;
 }
-- (RetrieveStrengthLeaderBoardResponseProto_Builder *)clearSlbp {
-  result.mutableSlbpList = nil;
+- (RetrieveStrengthLeaderBoardResponseProto_Builder*) clearSenderLeaderBoardInfo {
+  result.hasSenderLeaderBoardInfo = NO;
+  result.senderLeaderBoardInfo = [StrengthLeaderBoardProto defaultInstance];
+  return self;
+}
+- (NSMutableArray *)leaderBoardInfoList {
+  return result.mutableLeaderBoardInfoList;
+}
+- (StrengthLeaderBoardProto*)leaderBoardInfoAtIndex:(NSUInteger)index {
+  return [result leaderBoardInfoAtIndex:index];
+}
+- (RetrieveStrengthLeaderBoardResponseProto_Builder *)addLeaderBoardInfo:(StrengthLeaderBoardProto*)value {
+  if (result.mutableLeaderBoardInfoList == nil) {
+    result.mutableLeaderBoardInfoList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableLeaderBoardInfoList addObject:value];
+  return self;
+}
+- (RetrieveStrengthLeaderBoardResponseProto_Builder *)addAllLeaderBoardInfo:(NSArray *)array {
+  if (result.mutableLeaderBoardInfoList == nil) {
+    result.mutableLeaderBoardInfoList = [NSMutableArray array];
+  }
+  [result.mutableLeaderBoardInfoList addObjectsFromArray:array];
+  return self;
+}
+- (RetrieveStrengthLeaderBoardResponseProto_Builder *)clearLeaderBoardInfo {
+  result.mutableLeaderBoardInfoList = nil;
   return self;
 }
 - (BOOL) hasStatus {

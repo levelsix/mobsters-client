@@ -48,17 +48,21 @@
 @private
   BOOL hasStrength_:1;
   BOOL hasRank_:1;
+  BOOL hasMonsterId_:1;
   BOOL hasMup_:1;
   int64_t strength;
   int32_t rank;
+  int32_t monsterId;
   MinimumUserProto* mup;
 }
 - (BOOL) hasRank;
 - (BOOL) hasMup;
 - (BOOL) hasStrength;
+- (BOOL) hasMonsterId;
 @property (readonly) int32_t rank;
 @property (readonly, strong) MinimumUserProto* mup;
 @property (readonly) int64_t strength;
+@property (readonly) int32_t monsterId;
 
 + (StrengthLeaderBoardProto*) defaultInstance;
 - (StrengthLeaderBoardProto*) defaultInstance;
@@ -111,6 +115,11 @@
 - (int64_t) strength;
 - (StrengthLeaderBoardProto_Builder*) setStrength:(int64_t) value;
 - (StrengthLeaderBoardProto_Builder*) clearStrength;
+
+- (BOOL) hasMonsterId;
+- (int32_t) monsterId;
+- (StrengthLeaderBoardProto_Builder*) setMonsterId:(int32_t) value;
+- (StrengthLeaderBoardProto_Builder*) clearMonsterId;
 @end
 
 
