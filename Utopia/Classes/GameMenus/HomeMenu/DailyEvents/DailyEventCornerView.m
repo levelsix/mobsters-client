@@ -138,7 +138,7 @@
       }
       
       NSArray *arr = [NSSet setWithArray:imgNames].allObjects;
-      [Globals checkAndLoadFiles:arr completion:^(BOOL success) {
+      [Globals checkAndLoadFiles:arr useiPhone6Prefix:NO useiPadSuffix:NO completion:^(BOOL success) {
         if (success) {
           NSMutableArray *imgs = [NSMutableArray array];
           for (NSString *str in imgNames) {

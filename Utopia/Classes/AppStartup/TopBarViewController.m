@@ -538,7 +538,7 @@
     self.secretGiftIcon.animationDuration = ((numFrames+numFramesShortPause)*numTimesToLoop+numFramesLongPause)/30.f;
     
     NSString *staticImgName = [NSString stringWithFormat:@"1gbhud.png"];
-    UIImage *staticImg = [Globals imageNamed:staticImgName];
+    UIImage *staticImg = [Globals imageNamed:staticImgName useiPhone6Prefix:NO useiPadSuffix:YES];
     
     NSMutableArray *frameNames = [NSMutableArray array];
     for (int i = 2; i <= numFrames; i++) {
@@ -546,13 +546,13 @@
       [frameNames addObject:imgName];
     }
     
-    [Globals checkAndLoadFiles:frameNames completion:^(BOOL success) {
+    [Globals checkAndLoadFiles:frameNames useiPhone6Prefix:NO useiPadSuffix:YES completion:^(BOOL success) {
       if (success) {
         NSMutableArray *frames = [NSMutableArray array];
         for (int a = 0; a < numTimesToLoop; a++) {
           for (int i = 1; i <= numFrames; i++) {
             NSString *imgName = [NSString stringWithFormat:@"%dgbhud.png", i];
-            UIImage *img = [Globals imageNamed:imgName];
+            UIImage *img = [Globals imageNamed:imgName useiPhone6Prefix:NO useiPadSuffix:YES];
             
             if (img) {
               [frames addObject:img];

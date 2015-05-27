@@ -656,7 +656,7 @@
                                                  [elementStr stringByAppendingString:@"grglow2glowblend.png"],
                                                  [elementStr stringByAppendingString:@"lightsflashlow1.png"] ]];
       }
-      [Globals checkAndLoadFiles:assetsToDownload completion:^(BOOL success) {
+      [Globals checkAndLoadFiles:assetsToDownload useiPhone6Prefix:NO useiPadSuffix:NO completion:^(BOOL success) {
         if (success) {
           [self.prizeView preloadWithMonsterIds:monsterIds];
           [self completeGachaSpinWithKnownPrizes:prizes isMultiSpin:prizes.count > 1];
@@ -765,12 +765,14 @@
 - (IBAction) menuCloseClicked:(id)sender {
   GameState *gs = [GameState sharedGameState];
   if (!_isSpinning || gs.isAdmin) {
-    [self.navigationController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    [self viewWillDisappear:YES];
+    [super menuCloseClicked:sender];
   }
 }
 
 - (IBAction) menuBackClicked:(id)sender {
   if (!_isSpinning) {
+    [self viewWillDisappear:YES];
     [super menuBackClicked:sender];
   }
 }
