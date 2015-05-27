@@ -129,8 +129,6 @@
 
 #define SGN(A) ({ __typeof__(A) __a = (A); (0 < __a) - (__a < 0); })
 
-#define IS_IPAD() ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-
 @class BattlePlayer;
 
 @interface Globals : NSObject
@@ -278,20 +276,22 @@
 + (void) downloadAllFilesForSpritePrefixes:(NSArray *)spritePrefixes completion:(void (^)(void))completed;
 + (void) downloadAllAssetsForSkillSideEffects:(NSSet*)skillSideEffects completion:(void (^)(void))completed;
 
-+ (NSString *) pathToFile:(NSString *)fileName useiPhone6Prefix:(BOOL)prefix;
-+ (BOOL) isFileDownloaded:(NSString *)fileName useiPhone6Prefix:(BOOL)prefix;
-+ (NSString *) downloadFile:(NSString *)fileName useiPhone6Prefix:(BOOL)prefix;
-+ (BOOL) checkAndLoadFile:(NSString *)fileName useiPhone6Prefix:(BOOL)prefix completion:(void (^)(BOOL success))completion;
++ (NSString *) pathToFile:(NSString *)fileName useiPhone6Prefix:(BOOL)prefix useiPadSuffix:(BOOL)suffix;
++ (BOOL) isFileDownloaded:(NSString *)fileName useiPhone6Prefix:(BOOL)prefix useiPadSuffix:(BOOL)suffix;
++ (NSString *) downloadFile:(NSString *)fileName useiPhone6Prefix:(BOOL)prefix useiPadSuffix:(BOOL)suffix;
++ (BOOL) checkAndLoadFile:(NSString *)fileName useiPhone6Prefix:(BOOL)prefix useiPadSuffix:(BOOL)suffix completion:(void (^)(BOOL success))completion;
++ (BOOL) checkAndLoadFiles:(NSArray *)fileNames useiPhone6Prefix:(BOOL)prefix useiPadSuffix:(BOOL)suffix completion:(void (^)(BOOL success))completion;
 + (BOOL) checkAndLoadSpriteSheet:(NSString *)fileName completion:(void (^)(BOOL success))completion;
-+ (BOOL) checkAndLoadFiles:(NSArray *)fileNames completion:(void (^)(BOOL success))completion;
 + (NSBundle *) bundleNamed:(NSString *)bundleName;
-+ (NSString*) getDoubleResolutionImage:(NSString*)path useiPhone6Prefix:(BOOL)prefix;
++ (NSString*) getDeviceAdjustedImage:(NSString*)path useiPhone6Prefix:(BOOL)prefix useiPadSuffix:(BOOL)suffix;
 + (UIImage *) imageNamed:(NSString *)path;
-+ (UIImage *) imageNamed:(NSString *)path useiPhone6Prefix:(BOOL)prefix;
++ (UIImage *) imageNamed:(NSString *)path useiPhone6Prefix:(BOOL)prefix useiPadSuffix:(BOOL)suffix;
 + (void) imageNamed:(NSString *)imageName withView:(UIView *)view maskedColor:(UIColor *)color indicator:(UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear;
 + (void) imageNamed:(NSString *)imageName withView:(UIView *)view greyscale:(BOOL)greyscale indicator: (UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear;
 + (void) imageNamedWithiPhone6Prefix:(NSString *)imageName withView:(UIView *)view maskedColor:(UIColor *)color indicator:(UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear;
 + (void) imageNamedWithiPhone6Prefix:(NSString *)imageName withView:(UIView *)view greyscale:(BOOL)greyscale indicator: (UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear;
++ (void) imageNamedWithiPadSuffix:(NSString *)imageName withView:(UIView *)view maskedColor:(UIColor *)color indicator: (UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear;
++ (void) imageNamedWithiPadSuffix:(NSString *)imageName withView:(UIView *)view greyscale:(BOOL)greyscale indicator: (UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear;
 + (void) imageNamed:(NSString *)imageName toReplaceSprite:(CCSprite *)s;
 + (void) imageNamed:(NSString *)imageName toReplaceSprite:(CCSprite *)s completion:(void(^)(BOOL success))completion;
 
@@ -384,6 +384,7 @@
 + (BOOL) isiPhone5orSmaller;
 + (BOOL) isiPhone6;
 + (BOOL) isiPhone6Plus;
++ (BOOL) isiPad;
 
 + (UIColor *)creamColor;
 + (UIColor *)goldColor;
