@@ -56,6 +56,51 @@
                             <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.65000000000000002" colorSpace="deviceRGB"/>
                             <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enemy 1/5" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="lh2-01-Mam" customClass="NiceFontLabel18S">
+                            <rect key="frame" x="87" y="23" width="92" height="18"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enemy Name" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Alk-re-OjZ" customClass="NiceFontLabel18S">
+                            <rect key="frame" x="49" y="47" width="130" height="37"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                        <view contentMode="scaleToFill" id="BNm-Sv-afd" userLabel="Forfeit Button View">
+                            <rect key="frame" x="867" y="31" width="119" height="39"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="O3q-JV-QJI" customClass="GeneralButton">
+                                    <rect key="frame" x="0.0" y="0.0" width="119" height="39"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" image="runaway.png">
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <state key="highlighted" image="runawaybgwidepressed.png"/>
+                                    <connections>
+                                        <action selector="forfeitClicked:" destination="-1" eventType="touchUpInside" id="81I-N9-aDe"/>
+                                    </connections>
+                                </button>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Suck a Dick" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="wJ6-Aj-sLO" customClass="NiceFontLabel12B">
+                                    <rect key="frame" x="0.0" y="-1" width="119" height="39"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <nil key="highlightedColor"/>
+                                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.65000000000000002" colorSpace="deviceRGB"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <connections>
@@ -94,56 +139,18 @@
                 <view contentMode="scaleToFill" id="MRM-zP-qe8" userLabel="Bottom View">
                     <rect key="frame" x="88" y="713" width="84" height="42"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <subviews>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enemy 1/5" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="lh2-01-Mam" customClass="NiceFontLabel18S">
-                            <rect key="frame" x="-4" y="-1" width="92" height="18"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <nil key="highlightedColor"/>
-                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
-                            <size key="shadowOffset" width="0.0" height="1"/>
-                        </label>
-                        <view contentMode="scaleToFill" id="BNm-Sv-afd" userLabel="Forfeit Button View">
-                            <rect key="frame" x="0.0" y="20" width="84" height="21"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="O3q-JV-QJI" customClass="GeneralButton">
-                                    <rect key="frame" x="0.0" y="0.0" width="84" height="22"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <state key="normal" image="runawaybgwide.png">
-                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                    </state>
-                                    <state key="highlighted" image="runawaybgwidepressed.png"/>
-                                    <connections>
-                                        <action selector="forfeitClicked:" destination="-1" eventType="touchUpInside" id="81I-N9-aDe"/>
-                                    </connections>
-                                </button>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Suck a Dick" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="wJ6-Aj-sLO" customClass="NiceFontLabel12B">
-                                    <rect key="frame" x="0.0" y="-1" width="84" height="21"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <nil key="highlightedColor"/>
-                                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.65000000000000002" colorSpace="deviceRGB"/>
-                                    <size key="shadowOffset" width="0.0" height="1"/>
-                                </label>
-                            </subviews>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        </view>
-                    </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
                 <view contentMode="scaleToFill" id="fvo-8u-E9h" userLabel="Items View">
-                    <rect key="frame" x="200" y="265" width="56" height="42"/>
+                    <rect key="frame" x="200" y="265" width="90" height="74"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <view contentMode="scaleToFill" id="vB2-mo-foM">
-                            <rect key="frame" x="-5" y="-6" width="66" height="56"/>
+                            <rect key="frame" x="-5" y="-6" width="90" height="74"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="tIW-84-LCg">
-                                    <rect key="frame" x="0.0" y="6" width="66" height="50"/>
+                                    <rect key="frame" x="0.0" y="6" width="90" height="74"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <state key="normal" image="itemsbutton.png">
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -154,7 +161,7 @@
                                     </connections>
                                 </button>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Items" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="uqb-L6-hCh" customClass="NiceFontLabel12">
-                                    <rect key="frame" x="12" y="24" width="42" height="21"/>
+                                    <rect key="frame" x="24" y="48" width="42" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                     <color key="textColor" red="0.015686274510000001" green="0.33725490200000002" blue="0.39607843139999999" alpha="1" colorSpace="deviceRGB"/>
@@ -163,19 +170,19 @@
                                     <size key="shadowOffset" width="0.0" height="1"/>
                                 </label>
                                 <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="itemsbag.png" id="uSD-qR-E8i">
-                                    <rect key="frame" x="23" y="12" width="19" height="19"/>
+                                    <rect key="frame" x="32" y="17" width="30" height="30"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
                                 <view userInteractionEnabled="NO" contentMode="scaleToFill" id="uI0-v9-Nkg" customClass="BadgeIcon">
-                                    <rect key="frame" x="1" y="1" width="18" height="18"/>
+                                    <rect key="frame" x="-4" y="-1" width="27" height="27"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="badgeicon.png" id="Xn7-X8-2pX">
-                                            <rect key="frame" x="0.0" y="0.0" width="18" height="18"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="27" height="27"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="SBT-0W-oTP" customClass="NiceFontLabel8S">
-                                            <rect key="frame" x="1" y="-1" width="18" height="19"/>
+                                            <rect key="frame" x="5" y="4" width="18" height="19"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="9"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -196,7 +203,7 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="2kS-qV-7b6" userLabel="Element Button" customClass="GeneralButton">
-                    <rect key="frame" x="8" y="104" width="28" height="32"/>
+                    <rect key="frame" x="8" y="169" width="28" height="32"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <state key="normal" image="elementreeicon.png">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -206,7 +213,7 @@
                     </connections>
                 </button>
                 <view contentMode="scaleToFill" id="Qgz-Lk-NDV" customClass="BattleElementView">
-                    <rect key="frame" x="31" y="75" width="229" height="109"/>
+                    <rect key="frame" x="31" y="140" width="229" height="109"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="TopLeft" image="elementtree2.png" id="Uxw-jx-Swp">
@@ -950,7 +957,7 @@
         <image name="itemsbag.png" width="30" height="34"/>
         <image name="itemsbutton.png" width="90" height="74"/>
         <image name="itemsbuttongray.png" width="66" height="50"/>
-        <image name="runawaybgwide.png" width="84" height="21"/>
+        <image name="runaway.png" width="119" height="39"/>
         <image name="runawaybgwidepressed.png" width="75" height="21"/>
         <image name="skilldescriptionline.png" width="186" height="1"/>
         <image name="swapbutton.png" width="50" height="46"/>
