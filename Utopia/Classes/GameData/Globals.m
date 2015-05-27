@@ -1527,12 +1527,21 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 + (void) imageNamedWithiPadSuffix:(NSString *)imageName withView:(UIView *)view maskedColor:(UIColor *)color indicator: (UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear {
   [self imageNamed:imageName withView:view maskedColor:color greyscale:NO indicator:indicatorStyle clearImageDuringDownload:clear useiPhone6Prefix:NO useiPadSuffix:YES];
+<<<<<<< HEAD
 }
 
 + (void) imageNamedWithiPadSuffix:(NSString *)imageName withView:(UIView *)view greyscale:(BOOL)greyscale indicator: (UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear {
   [self imageNamed:imageName withView:view maskedColor:nil greyscale:greyscale indicator:indicatorStyle clearImageDuringDownload:clear useiPhone6Prefix:NO useiPadSuffix:YES];
 }
 
+=======
+}
+
++ (void) imageNamedWithiPadSuffix:(NSString *)imageName withView:(UIView *)view greyscale:(BOOL)greyscale indicator: (UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear {
+  [self imageNamed:imageName withView:view maskedColor:nil greyscale:greyscale indicator:indicatorStyle clearImageDuringDownload:clear useiPhone6Prefix:NO useiPadSuffix:YES];
+}
+
+>>>>>>> Starting the migration to iPad
 + (void) imageNamed:(NSString *)imageName withView:(UIView *)view maskedColor:(UIColor *)color greyscale:(BOOL)greyscale indicator: (UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear useiPhone6Prefix:(BOOL)useiPhone6Prefix useiPadSuffix:(BOOL)iPadSuffix {
   // If imageName is null, it will clear the view's pre-downloading stuff
   // If view is null, it will download image without worrying about the view
