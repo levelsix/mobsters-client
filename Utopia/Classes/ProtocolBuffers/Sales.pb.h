@@ -127,6 +127,7 @@
   BOOL hasTimeEnd_:1;
   BOOL hasSalesPackageId_:1;
   BOOL hasSuccId_:1;
+  BOOL hasPriority_:1;
   BOOL hasSalesProductId_:1;
   BOOL hasUuid_:1;
   BOOL hasAnimatingIcon_:1;
@@ -137,6 +138,7 @@
   int64_t timeEnd;
   int32_t salesPackageId;
   int32_t succId;
+  int32_t priority;
   NSString* salesProductId;
   NSString* uuid;
   NSString* animatingIcon;
@@ -156,6 +158,7 @@
 - (BOOL) hasAnimatingIcon;
 - (BOOL) hasSlamIcon;
 - (BOOL) hasTitleColor;
+- (BOOL) hasPriority;
 @property (readonly) int32_t salesPackageId;
 @property (readonly, strong) NSString* salesProductId;
 @property (readonly) int64_t price;
@@ -169,6 +172,7 @@
 @property (readonly, strong) NSString* animatingIcon;
 @property (readonly, strong) NSString* slamIcon;
 @property (readonly, strong) NSString* titleColor;
+@property (readonly) int32_t priority;
 - (SalesItemProto*)sipAtIndex:(NSUInteger)index;
 - (SalesDisplayItemProto*)sdipAtIndex:(NSUInteger)index;
 - (CustomMenuProto*)cmpAtIndex:(NSUInteger)index;
@@ -275,6 +279,11 @@
 - (NSString*) titleColor;
 - (SalesPackageProto_Builder*) setTitleColor:(NSString*) value;
 - (SalesPackageProto_Builder*) clearTitleColor;
+
+- (BOOL) hasPriority;
+- (int32_t) priority;
+- (SalesPackageProto_Builder*) setPriority:(int32_t) value;
+- (SalesPackageProto_Builder*) clearPriority;
 @end
 
 @interface SalesItemProto : PBGeneratedMessage {

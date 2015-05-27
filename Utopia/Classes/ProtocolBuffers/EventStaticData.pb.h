@@ -13,6 +13,8 @@
 @class BattleItemProto_Builder;
 @class BattleItemQueueForUserProto;
 @class BattleItemQueueForUserProto_Builder;
+@class BattleReplayProto;
+@class BattleReplayProto_Builder;
 @class BoardLayoutProto;
 @class BoardLayoutProto_Builder;
 @class BoardPropertyProto;
