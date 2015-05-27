@@ -188,10 +188,14 @@
 }
 
 - (void) reloadData {
-  [self reloadDataAnimated:NO];
+  [self reloadDataAnimated:NO resort:YES];
 }
 
 - (void) reloadDataAnimated:(BOOL)animated {
+  [self reloadDataAnimated:animated resort:NO];
+}
+
+- (void) reloadDataAnimated:(BOOL)animated resort:(BOOL)resort {
   NSArray *oldArray = self.items;
   self.items = [self.delegate reloadItemsArray];
   

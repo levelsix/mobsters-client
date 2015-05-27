@@ -36,6 +36,7 @@
 - (id) initWithResourceType:(ResourceType)resType requiredAmount:(int)requiredAmount shouldAccumulate:(BOOL)accumulate;
 
 @property (nonatomic, retain) NSMutableDictionary *usedItems;
+@property (nonatomic, retain) NSMutableSet *nonPurchasedItemsUsed;
 
 @property (nonatomic, weak) id<ResourceItemsFillerDelegate> delegate;
 

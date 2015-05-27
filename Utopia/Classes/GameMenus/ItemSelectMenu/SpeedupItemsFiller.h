@@ -27,6 +27,7 @@
 - (id) initWithGameActionType:(GameActionType)gameActionType;
 
 @property (nonatomic, retain) NSMutableSet *usedItems;
+@property (nonatomic, retain) NSMutableSet *nonPurchasedItemsUsed;
 
 @property (nonatomic, weak) id<SpeedupItemsFillerDelegate> delegate;
 
