@@ -576,7 +576,7 @@ static NSDate *timeSinceLastTutStep = nil;
 }
 
 + (void) iapFailedWithSKProduct:(SKProduct *)product error:(NSString *)error {
-  if (!product) return;
+  if (!product.productIdentifier) return;
   
   [self event:@"iap_failed" withArgs:@{@"reason": error ?: @"", @"store_sku": product.productIdentifier}];
   
