@@ -2247,8 +2247,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   // Old formula
   //return ceilf(([self calculateMaxHealthForMonster:um]-um.curHealth)*self.cashPerHealthPoint);
   
-  GameState *gs = [GameState sharedGameState];
-  
   MonsterProto *mp = um.staticMonster;
   MonsterLevelInfoProto *min = [mp.lvlInfoList firstObject];
   MonsterLevelInfoProto *max = [mp.lvlInfoList lastObject];
@@ -2256,7 +2254,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   int maxHealth = [self calculateMaxHealthForMonster:um];
   float baseCost = costToFullyHeal * (maxHealth-um.curHealth)/maxHealth;
   
-  float perc = [gs.researchUtil percentageBenefitForType:ResearchTypeHealingCost element:mp.monsterElement evoTier:mp.evolutionLevel];
+  float perc = [um.researchUtil percentageBenefitForType:ResearchTypeHealingCost element:mp.monsterElement evoTier:mp.evolutionLevel];
   float researchFactor = [self convertToOverallPercentFromPercentDecrease:perc];
   
   float finalCost = baseCost*researchFactor;
@@ -2265,8 +2263,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 - (float) calculateBaseSecondsToHealMonster:(UserMonster *)um {
-  GameState *gs = [GameState sharedGameState];
-  
   MonsterProto *mp = um.staticMonster;
   MonsterLevelInfoProto *min = [mp.lvlInfoList firstObject];
   MonsterLevelInfoProto *max = [mp.lvlInfoList lastObject];
@@ -2274,7 +2270,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   int maxHealth = [self calculateMaxHealthForMonster:um];
   float baseSecs = secsToFullyHeal * (maxHealth-um.curHealth)/maxHealth;
   
-  float perc = [gs.researchUtil percentageBenefitForType:ResearchTypeHealingSpeed element:mp.monsterElement evoTier:mp.evolutionLevel];
+  float perc = [um.researchUtil percentageBenefitForType:ResearchTypeHealingSpeed element:mp.monsterElement evoTier:mp.evolutionLevel];
   float researchFactor = [self convertToOverallPercentFromPercentDecrease:perc];
   
   float finalSecs = baseSecs*researchFactor;
@@ -2440,12 +2436,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 - (int) calculateGemCostToHealTeamDuringBattle:(NSArray *)team {
-  GameState *gs = [GameState sharedGameState];
   int cashCost = 0;
   int gemCost = 0;
   
   for (BattlePlayer *bp in team) {
-    UserMonster *um = [gs myMonsterWithUserMonsterUuid:bp.userMonsterUuid];
+    UserMonster *um = [bp getIncompleteUserMonster];
     cashCost += [self calculateCostToHealMonster:um];
   }
   gemCost += [self calculateGemConversionForResourceType:ResourceTypeCash amount:cashCost];

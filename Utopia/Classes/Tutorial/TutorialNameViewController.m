@@ -28,6 +28,11 @@
 - (void) viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
   
+  Globals *gl = [Globals sharedGlobals];
+  if (self.initialName.length > gl.maxNameLength) {
+    self.initialName = [self.initialName substringToIndex:gl.maxNameLength];
+  }
+  
   self.nameTextField.text = self.initialName;
   [self.nameTextField becomeFirstResponder];
   
@@ -62,7 +67,7 @@
   if ([string rangeOfString:@"\n"].length == 0) {
     NSString *oldStr = [textField.text stringByReplacingCharactersInRange:range withString:string];
     NSString *str = [oldStr stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    if (str.length <= gl.maxNameLength) {
+    if (str.length <= gl.maxNameLength || oldStr.length < textField.text.length) {
       return YES;
     }
   }
