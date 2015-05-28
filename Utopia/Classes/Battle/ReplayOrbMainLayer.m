@@ -50,11 +50,11 @@
 }
 
 - (void) moveHandBetweenOrbs:(CGPoint)startOrb endPoint:(CGPoint)endPoint withCompletion:(void (^)())completion {
-  BattleOrb *gem1 = [self.layout orbAtColumn:startOrb.x row:startOrb.y];
-  BattleOrb *gem2 = [self.layout orbAtColumn:endPoint.x row:endPoint.y];
+  BattleTile *tile1 = [self.layout tileAtColumn:startOrb.x row:startOrb.y];
+  BattleTile *tile2 = [self.layout tileAtColumn:endPoint.x row:endPoint.y];
   
-  CGPoint startPos = [self.swipeLayer pointForColumn:gem1.column row:gem1.row];
-  CGPoint endPos = [self.swipeLayer pointForColumn:gem2.column row:gem2.row];
+  CGPoint startPos = [self.swipeLayer pointForColumn:tile1.column row:tile1.row];
+  CGPoint endPos = [self.swipeLayer pointForColumn:tile2.column row:tile2.row];
   
   self.handSprite.position = startPos;
   [self addChild:self.handSprite z:101];
