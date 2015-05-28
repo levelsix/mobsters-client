@@ -129,10 +129,10 @@
       Globals *gl = [Globals sharedGlobals];
       int str1 = 0, str2 = 0;
       for (UserMonster *um in ums1) {
-        str1 += [gl calculateMaxHealthForMonster:um];
+        str1 += [gl calculateStrengthForMonster:um];
       }
       for (UserMonster *um in ums2) {
-        str2 += [gl calculateMaxHealthForMonster:um];
+        str2 += [gl calculateStrengthForMonster:um];
       }
       
       if (str1 != str2) {

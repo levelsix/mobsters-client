@@ -370,12 +370,18 @@
     }
   }
   
+  Globals *gl = [Globals sharedGlobals];
   NSComparator comp = ^NSComparisonResult(UserMonster *obj1, UserMonster *obj2) {
     BOOL isNotAddable1 = !obj1.isAvailable || obj1.curHealth <= 0;
     BOOL isNotAddable2 = !obj2.isAvailable || obj2.curHealth <= 0;
+    BOOL lowEnoughtCost1 = [gl currentBattleReadyTeamHasCostFor:obj1];
+    BOOL lowEnoughtCost2 = [gl currentBattleReadyTeamHasCostFor:obj2];
+    
     
     if (isNotAddable1 != isNotAddable2) {
       return [@(isNotAddable1) compare:@(isNotAddable2)];
+    } else if (lowEnoughtCost1 != lowEnoughtCost2) {
+      return [@(lowEnoughtCost2) compare:@(lowEnoughtCost1)];
     } else {
       return [obj1 compare:obj2];
     }

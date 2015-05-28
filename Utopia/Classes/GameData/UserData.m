@@ -317,12 +317,12 @@
   } else {
     // Compare hp
     Globals *gl = [Globals sharedGlobals];
-    int selfHp = [gl calculateMaxHealthForMonster:self];
-    int umHp = [gl calculateMaxHealthForMonster:um];
+    int selfStrength = [gl calculateStrengthForMonster:self];
+    int umStrength = [gl calculateStrengthForMonster:um];
     
-    // Ordering now becomes maxHp, curHp, rarity
-    if (selfHp != umHp) {
-      return [@(umHp) compare:@(selfHp)];
+    // Ordering now becomes strength, curHp, rarity
+    if (selfStrength != umStrength) {
+      return [@(umStrength) compare:@(selfStrength)];
     } else if (self.curHealth != um.curHealth) {
       return [@(um.curHealth) compare:@(self.curHealth)];
     } else if (self.staticMonster.quality != um.staticMonster.quality) {
