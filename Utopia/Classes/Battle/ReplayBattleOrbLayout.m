@@ -89,6 +89,10 @@
       } else if ([prop.name isEqualToString:ORB_VINES]) {
         orb.isLocked = YES;
         orb.isVines = YES;
+      } else if ([prop.name isEqualToString:ORB_SPECIAL]) {
+        if (prop.value == SpecialOrbTypeCloud) {
+          orb.cloudCounter = MAX(1, prop.quantity);
+        }
       }
     }
     
