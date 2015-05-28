@@ -168,7 +168,7 @@
 - (int) updateClientTaskStateMessage:(NSData *)data;
 
 - (int) sendQueueUpMessage:(NSArray *)seenUserUuids clientTime:(uint64_t)clientTime;
-- (int) sendUpdateUserCurrencyMessageWithCashSpent:(int)cashSpent oilSpent:(int)oilSpent gemsSpent:(int)gemsSpent clientTime:(uint64_t)clientTime reason:(NSString *)reason;
+- (int) sendUpdateUserCurrencyMessageWithCashSpent:(int)cashSpent oilSpent:(int)oilSpent gemsSpent:(int)gemsSpent clientTime:(uint64_t)clientTime reason:(NSString *)reason shouldFlush:(BOOL)flush;
 - (int) sendBeginPvpBattleMessage:(PvpProto *)enemy senderElo:(int)elo isRevenge:(BOOL)isRevenge previousBattleTime:(uint64_t)previousBattleTime clientTime:(uint64_t)clientTime;
 - (int) sendEndPvpBattleMessage:(NSString *)defenderUuid userAttacked:(BOOL)userAttacked userWon:(BOOL)userWon oilChange:(int)oilChange cashChange:(int)cashChange clientTime:(uint64_t)clientTime monsterDropIds:(NSArray *)monsterDropIds;
 

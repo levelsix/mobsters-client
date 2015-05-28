@@ -359,6 +359,8 @@ static NSString *udid = nil;
   [messageWithHeader appendBytes:header length:sizeof(header)];
   [messageWithHeader appendData:data];
   
+  LNLog(@"Serializing event of type %@", NSStringFromClass(msg.class));
+  
   return messageWithHeader;
 }
 
@@ -392,10 +394,6 @@ static NSString *udid = nil;
     NSData *messageWithHeader = [self serializeEvent:msg withMessageType:type tagNum:tagNum];
     [mutableData appendData:messageWithHeader];
   }
-  
-  //  NSString *cacheDir = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0] copy];
-  //  NSString *filePath = [NSString stringWithFormat:@"%@/event%d.dat",cacheDir, tagNum];
-  //  [messageWithHeader writeToFile:filePath atomically:YES];
   
   if (mutableData.length) {
     float delay = 0.f;//MAX(0.f, [[_lastFlushedTime dateByAddingTimeInterval:0.6f] timeIntervalSinceNow]);
@@ -1152,7 +1150,7 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCQueueUpEvent];
 }
 
-- (int) sendUpdateUserCurrencyMessageWithCashSpent:(int)cashSpent oilSpent:(int)oilSpent gemsSpent:(int)gemsSpent clientTime:(uint64_t)clientTime reason:(NSString *)reason {
+- (int) sendUpdateUserCurrencyMessageWithCashSpent:(int)cashSpent oilSpent:(int)oilSpent gemsSpent:(int)gemsSpent clientTime:(uint64_t)clientTime reason:(NSString *)reason shouldFlush:(BOOL)flush {
   UpdateUserCurrencyRequestProto *req = [[[[[[[[UpdateUserCurrencyRequestProto builder]
                                                setSender:_sender]
                                               setCashSpent:cashSpent]
@@ -1162,7 +1160,7 @@ static NSString *udid = nil;
                                           setReason:reason]
                                          build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCUpdateUserCurrencyEvent flush:NO queueUp:NO incrementTagNum:YES];
+  return [self sendData:req withMessageType:EventProtocolRequestCUpdateUserCurrencyEvent flush:flush queueUp:NO incrementTagNum:YES];
 }
 
 - (int) sendBeginPvpBattleMessage:(PvpProto *)enemy senderElo:(int)elo isRevenge:(BOOL)isRevenge previousBattleTime:(uint64_t)previousBattleTime clientTime:(uint64_t)clientTime {

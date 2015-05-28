@@ -2156,13 +2156,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   } else {
     NSMutableArray *arr = [NSMutableArray array];
     for (BattlePlayer *pl in team) {
-      UserMonsterCurrentHealthProto *pr = [[[[UserMonsterCurrentHealthProto builder] setCurrentHealth:pl.maxHealth] setUserMonsterUuid:pl.userMonsterUuid] build];
-      [arr addObject:pr];
-      
-      pl.curHealth = pl.maxHealth;
-      
-      UserMonster *um = [gs myMonsterWithUserMonsterUuid:pl.userMonsterUuid];
-      um.curHealth = pl.curHealth;
+      if (!pl.isClanMonster) {
+        UserMonsterCurrentHealthProto *pr = [[[[UserMonsterCurrentHealthProto builder] setCurrentHealth:pl.maxHealth] setUserMonsterUuid:pl.userMonsterUuid] build];
+        [arr addObject:pr];
+        
+        pl.curHealth = pl.maxHealth;
+        
+        UserMonster *um = [gs myMonsterWithUserMonsterUuid:pl.userMonsterUuid];
+        um.curHealth = pl.curHealth;
+      }
     }
     
     int tag = [[SocketCommunication sharedSocketCommunication] sendReviveInDungeonMessage:userTaskUuid clientTime:[self getCurrentMilliseconds] userHealths:arr gems:gemCost];
@@ -2196,7 +2198,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   if (cashCost > gs.cash || gemCost > gs.gems) {
     [Globals popupMessage:@"Trying to view next pvp guy without enough resources."];
   } else {
-    int tag = [[SocketCommunication sharedSocketCommunication] sendUpdateUserCurrencyMessageWithCashSpent:cashCost oilSpent:0 gemsSpent:gemCost clientTime:[self getCurrentMilliseconds] reason:@"Viewed New Pvp Guy"];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendUpdateUserCurrencyMessageWithCashSpent:cashCost oilSpent:0 gemsSpent:gemCost clientTime:[self getCurrentMilliseconds] reason:@"Viewed New Pvp Guy" shouldFlush:YES];
     
     CashUpdate *su = [CashUpdate updateWithTag:tag change:-cashCost];
     GemsUpdate *gu = [GemsUpdate updateWithTag:tag change:-gemCost];
@@ -3395,7 +3397,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 - (void) updateUserCurrencyWithCashSpent:(int)cashSpent oilSpent:(int)oilSpent gemsSpent:(int)gemsSpent reason:(NSString *)reason {
   GameState *gs = [GameState sharedGameState];
-  int tag = [[SocketCommunication sharedSocketCommunication] sendUpdateUserCurrencyMessageWithCashSpent:cashSpent oilSpent:oilSpent gemsSpent:gemsSpent clientTime:[self getCurrentMilliseconds] reason:reason];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendUpdateUserCurrencyMessageWithCashSpent:cashSpent oilSpent:oilSpent gemsSpent:gemsSpent clientTime:[self getCurrentMilliseconds] reason:reason shouldFlush:NO];
   
   CashUpdate *su = [CashUpdate updateWithTag:tag change:-cashSpent];
   OilUpdate *ou = [OilUpdate updateWithTag:tag change:-oilSpent];

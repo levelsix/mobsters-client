@@ -681,9 +681,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       for (SalesPackageProto *s in gs.mySales) {
         if ([s.uuid isEqualToString:uuid]) {
           idx = [gs.mySales indexOfObject:s];
-        }
-        
-        if ([s.uuid isEqualToString:nextUuid]) {
+        } else if ([s.uuid isEqualToString:nextUuid]) {
           alreadyHasSuccessorPack = YES;
         }
       }

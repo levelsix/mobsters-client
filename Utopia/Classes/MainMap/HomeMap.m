@@ -1586,7 +1586,7 @@
       }
       else if ([mb isKindOfClass:[ResourceGeneratorBuilding class]]) {
         ResourceGeneratorBuilding *rb = (ResourceGeneratorBuilding *)mb;
-        if (rb.userStruct.numResourcesAvailable >= RESOURCE_GEN_MIN_AMT) {
+        if (rb.userStruct.numResourcesAvailable >= RESOURCE_GEN_MIN_AMT*mb.userStruct.productionRate) {
           rb.retrievable = YES;
         } else {
           [self setupIncomeTimerForBuilding:rb];
