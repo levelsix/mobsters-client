@@ -337,6 +337,8 @@
     
     [set removeAllObjects];
     
+    [self resetOrbHistory];
+    
     // This will only add to the set if there are properties defined for inital colors/powerups
     for (int row = 0; row < _numRows; row++) {
       for (int column = 0; column < _numColumns; column++) {
@@ -1964,6 +1966,13 @@ static const NSInteger maxSearchIterations = 800;
                         build]];
   
   NSLog(@"Logging orb %i: %@", (self.nextOrbId-1), orb);
+}
+
+- (void) resetOrbHistory {
+  if (_orbRecords)
+    [_orbRecords removeAllObjects];
+  
+  self.nextOrbId = 0;
 }
 
 - (NSString*) dumpOrbHistory {
