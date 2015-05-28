@@ -578,7 +578,7 @@ static NSDate *timeSinceLastTutStep = nil;
 + (void) iapFailedWithSKProduct:(SKProduct *)product error:(NSString *)error {
   if (!product) return;
   
-  [self event:@"iap_failed" withArgs:@{@"reason": error, @"store_sku": product.productIdentifier}];
+  [self event:@"iap_failed" withArgs:@{@"reason": error ?: @"", @"store_sku": product.productIdentifier}];
   
   //NSString* currencyCode = [product.priceLocale objectForKey:NSLocaleCurrencyCode];
   //float unitPrice = [product.price floatValue];
