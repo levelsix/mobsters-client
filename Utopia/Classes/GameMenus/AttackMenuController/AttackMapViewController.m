@@ -25,6 +25,7 @@
 
 #define MAP_SECTION_NUM_KEY @"MapSectionNumKey"
 #define LAST_ELEM_KEY @"LastMapElemKey"
+#define PREV_ENTERED_ELEM_KEY @"PrevEnteredMapElemKey"
 
 @implementation AttackMapViewController
 
@@ -140,9 +141,9 @@
 
 - (void) loadInitialMapSegments {
   Globals *gl = [Globals sharedGlobals];
-  TaskMapElementProto *bestElem = [self bestMapElement];
+  TaskMapElementProto *prevElem = [self prevMapElement];
   float scaleFactor = self.mapScrollView.frame.size.width/gl.mapTotalWidth;
-  [self loadMapInfoAroundPoint:ccp(bestElem.xPos, bestElem.yPos+self.mapScrollView.frame.size.height/3/scaleFactor)];
+  [self loadMapInfoAroundPoint:ccp(prevElem.xPos, prevElem.yPos+self.mapScrollView.frame.size.height/3/scaleFactor)];
   [self centerOnAppropriateMapIcon];
 }
 
@@ -263,22 +264,49 @@
   return bestElem;
 }
 
-- (void) centerOnAppropriateMapIcon {
-  TaskMapElementProto *bestElem = [self bestMapElement];
+// The last dungeon they entered
+- (TaskMapElementProto *) prevMapElement {
+  NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+  int lastKey = (int)[def integerForKey:PREV_ENTERED_ELEM_KEY];
   
-  if (bestElem) {
-    AttackMapIconView *icon = (AttackMapIconView *)[self.mapScrollView viewWithTag:bestElem.mapElementId];
+  GameState *gs = [GameState sharedGameState];
+  return [gs mapElementWithId:lastKey];
+}
+
+- (void) setPrevMapElement:(int)lastKey {
+  NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+  [def setInteger:lastKey forKey:PREV_ENTERED_ELEM_KEY];
+}
+
+- (void) centerOnAppropriateMapIcon {
+  TaskMapElementProto *prevElem = [self prevMapElement];
+  TaskMapElementProto *bestElem = [self bestMapElement];
+  TaskMapElementProto *nextElem = nil;
+  BOOL shouldAnimate = NO;
+  
+  NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+  int lastKey = (int)[def integerForKey:LAST_ELEM_KEY];
+  [def setInteger:bestElem.mapElementId forKey:LAST_ELEM_KEY];
+  
+  // If we are progressing to a new map elem, set nextElem to that new one.
+  // Otherwise, just use the last one entered
+  if (bestElem.mapElementId-1 == prevElem.mapElementId && lastKey == bestElem.mapElementId-1) {
+    nextElem = bestElem;
+    shouldAnimate = YES;
+  } else {
+    // In tutorial, there won't be a prevElem
+    nextElem = prevElem ?: bestElem;
+  }
+  
+  if (nextElem) {
+    AttackMapIconView *icon = (AttackMapIconView *)[self.mapScrollView viewWithTag:nextElem.mapElementId];
     float center = icon.center.y-self.mapScrollView.frame.size.height/3;
     float max = self.mapScrollView.contentSize.height-self.mapScrollView.frame.size.height;
     float min = 0;
     self.mapScrollView.contentOffset = ccp(0, clampf(center, min, max));
     
-    NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
-    int lastKey = (int)[def integerForKey:LAST_ELEM_KEY];
-    [def setInteger:bestElem.mapElementId forKey:LAST_ELEM_KEY];
-    
-    if (lastKey == bestElem.mapElementId-1) {
-      AttackMapIconView *prevIcon = (AttackMapIconView *)[self.mapScrollView viewWithTag:bestElem.mapElementId-1];
+    if (shouldAnimate) {
+      AttackMapIconView *prevIcon = (AttackMapIconView *)[self.mapScrollView viewWithTag:prevElem.mapElementId];
       [self createMyPositionViewFromIcon:prevIcon toIcon:icon];
       icon = prevIcon;
     } else {
@@ -378,6 +406,12 @@
 
 - (IBAction)enterDungeonClicked:(id)sender {
   if (!_buttonClicked && [Globals checkEnteringDungeon]) {
+    GameState *gs = [GameState sharedGameState];
+    int taskId = self.taskStatusView.taskId;
+    TaskMapElementProto *elem = [gs mapElementWithTaskId:taskId];
+    
+    [self setPrevMapElement:elem.mapElementId];
+    
     [self.delegate enterDungeon:self.taskStatusView.taskId isEvent:NO eventId:0 useGems:NO];
   }
 }
