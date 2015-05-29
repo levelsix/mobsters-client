@@ -636,12 +636,16 @@
 }
 
 - (void) skipStage {
+  
   if (self.orbLayer.swipeLayer.userInteractionEnabled) {
+    
     [self.orbLayer disallowInput];
     [self.orbLayer.bgdLayer turnTheLightsOff];
     [self.mainView.hudView removeButtons];
-    self.mainView.currentEnemy.healthBar.percentage = 0.01f;
-    [self dealDamage:self.enemyPlayerObject.curHealth enemyIsAttacker:NO usingAbility:NO withTarget:self withSelector:@selector(checkEnemyHealth)];
+    
+    _myDamageDealt = _myDamageDealtUnmodified = self.enemyPlayerObject.curHealth;
+    self.enemyPlayerObject.minHealth = 0;
+    [self fireEvent:playerAttackEvent userInfo:nil error:nil];
   }
 }
 #endif
