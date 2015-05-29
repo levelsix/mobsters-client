@@ -178,6 +178,7 @@
   monster.level = self.level;
   monster.offensiveSkillId = self.offensiveSkillId;
   monster.defensiveSkillId = self.defensiveSkillId;
+  monster.isComplete = YES;
   
   monster.researchUtil = self.researchUtil;
   
