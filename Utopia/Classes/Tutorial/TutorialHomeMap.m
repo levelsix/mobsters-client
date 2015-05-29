@@ -665,9 +665,13 @@
 }
 
 - (void) sendNormStructComplete:(UserStruct *)us {
-  us.isComplete = YES;
-  [self.delegate buildingWasSpedUp:0];
-  self.clickableUserStructUuid = nil;
+  if (self.constants) {
+    us.isComplete = YES;
+    [self.delegate buildingWasSpedUp:0];
+    self.clickableUserStructUuid = nil;
+  } else {
+    [super sendNormStructComplete:us];
+  }
 }
 
 - (void) sendSpeedupBuilding:(UserStruct *)us queueUp:(BOOL)queueUp {
