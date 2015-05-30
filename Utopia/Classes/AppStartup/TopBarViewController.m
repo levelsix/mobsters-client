@@ -217,24 +217,26 @@
   if (![Globals isSmallestiPhone]) {
     // Turn off autoresizing for coinbarsview while we adjust for diff
     self.coinBarsView.autoresizesSubviews = NO;
-    
-    NSArray *arr = @[self.cashBgd, self.oilBgd];
-    for (UIImageView *iv in arr) {
-      iv.image = [Globals imageNamed:@"toplongbar.png"];
-      
-      CGSize s = iv.image.size;
-      CGSize cur = iv.size;
-      
-      // This will get auto readjusted
-      //iv.width = s.width;
-      
-      float diff = s.width-cur.width;
-      iv.superview.width += diff;
-      
-      // Check in case view is not part of coin bars view
-      if ([iv isDescendantOfView:self.coinBarsView]) {
-        self.coinBarsView.width += diff;
-        self.coinBarsView.originX -= diff;
+
+    if (![Globals isiPad]) {
+      NSArray *arr = @[self.cashBgd, self.oilBgd];
+      for (UIImageView *iv in arr) {
+        iv.image = [Globals imageNamed:@"toplongbar.png"];
+        
+        CGSize s = iv.image.size;
+        CGSize cur = iv.size;
+        
+        // This will get auto readjusted
+        //iv.width = s.width;
+        
+        float diff = s.width-cur.width;
+        iv.superview.width += diff;
+        
+        // Check in case view is not part of coin bars view
+        if ([iv isDescendantOfView:self.coinBarsView]) {
+          self.coinBarsView.width += diff;
+          self.coinBarsView.originX -= diff;
+        }
       }
     }
     
@@ -248,7 +250,7 @@
       // iPhone 6 and bigger
       // Move timers to top and move coin bars over
       self.timersView.height += self.timersView.originY;
-      self.timersView.originY = 0;
+      self.timersView.originY = self.coinBarsView.originY;
       
       self.coinBarsView.originX -= self.timersView.width;
       
