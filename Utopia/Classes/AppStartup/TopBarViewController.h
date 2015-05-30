@@ -60,9 +60,9 @@
 @property (nonatomic, assign) IBOutlet UILabel *shieldLabel;
 @property (nonatomic, retain) NSTimer *updateTimer;
 
-@property (nonatomic, assign) IBOutlet UIImageView *expBgd;
-@property (nonatomic, assign) IBOutlet UIImageView *cashBgd;
-@property (nonatomic, assign) IBOutlet UIImageView *oilBgd;
+@property (nonatomic, assign) IBOutlet UIView *expBgd;
+@property (nonatomic, assign) IBOutlet UIView *cashBgd;
+@property (nonatomic, assign) IBOutlet UIView *oilBgd;
 
 @property (nonatomic, retain) IBOutlet UIView *expView;
 @property (nonatomic, retain) IBOutlet UIView *cashView;
