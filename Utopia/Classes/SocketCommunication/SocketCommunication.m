@@ -359,8 +359,6 @@ static NSString *udid = nil;
   [messageWithHeader appendBytes:header length:sizeof(header)];
   [messageWithHeader appendData:data];
   
-  LNLog(@"Serializing event of type %@", NSStringFromClass(msg.class));
-  
   return messageWithHeader;
 }
 

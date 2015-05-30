@@ -1117,7 +1117,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleSendGroupChatResponseProto:(FullEvent *)fe {
   SendGroupChatResponseProto *proto = (SendGroupChatResponseProto *)fe.event;
   int tag = fe.tag;
-  LNLog(@"Send group chat response received with status %d.", (int)proto.status);
+  LNLog(@"Send group chat response received with status %d.", (int)proto.status); 
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == SendGroupChatResponseProto_SendGroupChatStatusSuccess) {
