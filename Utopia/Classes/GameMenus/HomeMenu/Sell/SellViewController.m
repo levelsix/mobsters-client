@@ -233,7 +233,7 @@
     }
     
     int queueSize = (int)self.sellQueue.count;
-    NSString *amt = queueSize != 1 ? [NSString stringWithFormat:@"these %d %@s", queueSize, MONSTER_NAME] : @"this mobster";
+    NSString *amt = queueSize != 1 ? [NSString stringWithFormat:@"these %d %@s", queueSize, MONSTER_NAME] : [NSString stringWithFormat:@"this %@", MONSTER_NAME];
     NSString *text = [NSString stringWithFormat:@"Would you like to sell %@ for %@?", amt, [Globals cashStringForNumber:sellAmt]];
     [GenericPopupController displayConfirmationWithDescription:text title:[NSString stringWithFormat:@"Sell %@s?", MONSTER_NAME] okayButton:@"Sell" cancelButton:@"Cancel" target:self selector:@selector(sell)];
   }
