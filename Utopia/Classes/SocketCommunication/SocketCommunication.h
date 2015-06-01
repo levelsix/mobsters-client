@@ -12,13 +12,11 @@
 #import "StoreKit/StoreKit.h"
 #import "UserData.h"
 
-#import "AMQPWrapper.h"
-#import "AMQPConnectionThread.h"
-#import "AMQPConnectionThreadDelegate.h"
-
 #import "GenericPopupController.h"
 
-@interface SocketCommunication : NSObject <UIAlertViewDelegate, AMQPConnectionThreadDelegate> {
+#import <SRWebSocket.h>
+
+@interface SocketCommunication : NSObject <UIAlertViewDelegate, SRWebSocketDelegate> {
   BOOL _shouldReconnect;
   MinimumUserProto *_sender;
   int _currentTagNum;
@@ -53,7 +51,7 @@
   NSMutableDictionary *_updatedUserMiniEventGoals;
 }
 
-@property (nonatomic, retain) AMQPConnectionThread *connectionThread;
+@property (nonatomic, retain) SRWebSocket *webSocket;
 
 @property (nonatomic, retain) NSMutableArray *queuedMessages;
 @property (nonatomic, retain) NSMutableArray *unrespondedMessages;
@@ -75,7 +73,6 @@
 - (NSString *) getIPAddress;
 - (NSString *) getMacAddress;
 
-- (void) reloadClanMessageQueue;
 - (void) rebuildSender;
 
 + (SocketCommunication *)sharedSocketCommunication;
