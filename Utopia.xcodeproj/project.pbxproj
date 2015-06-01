@@ -1956,6 +1956,9 @@
 		63E23E991B16941400F4A27C /* ItemSelectCell~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63E23E971B16941400F4A27C /* ItemSelectCell~ipad.xib */; };
 		63E23E9A1B16941400F4A27C /* ItemSelectCell~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63E23E971B16941400F4A27C /* ItemSelectCell~ipad.xib */; };
 		63E23E9B1B16941400F4A27C /* ItemSelectCell~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63E23E971B16941400F4A27C /* ItemSelectCell~ipad.xib */; };
+		63E23E9C1B16941400F4A27C /* ItemSelectViewController~ipadbutts.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63E23E981B16941400F4A27C /* ItemSelectViewController~ipadbutts.xib */; };
+		63E23E9D1B16941400F4A27C /* ItemSelectViewController~ipadbutts.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63E23E981B16941400F4A27C /* ItemSelectViewController~ipadbutts.xib */; };
+		63E23E9E1B16941400F4A27C /* ItemSelectViewController~ipadbutts.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63E23E981B16941400F4A27C /* ItemSelectViewController~ipadbutts.xib */; };
 		63E23EA51B169BE500F4A27C /* greenitemsbutton@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 63E23E9F1B169BE500F4A27C /* greenitemsbutton@2x~ipad.png */; };
 		63E23EA61B169BE500F4A27C /* greenitemsbutton@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 63E23E9F1B169BE500F4A27C /* greenitemsbutton@2x~ipad.png */; };
 		63E23EA71B169BE500F4A27C /* greenitemsbutton@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 63E23E9F1B169BE500F4A27C /* greenitemsbutton@2x~ipad.png */; };
@@ -8502,6 +8505,7 @@
 		63E23E8F1B16838E00F4A27C /* giftitembg@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "giftitembg@2x~ipad.png"; sourceTree = "<group>"; };
 		63E23E931B168DD100F4A27C /* speedupitemicon@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "speedupitemicon@2x~ipad.png"; sourceTree = "<group>"; };
 		63E23E971B16941400F4A27C /* ItemSelectCell~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "ItemSelectCell~ipad.xib"; sourceTree = "<group>"; };
+		63E23E981B16941400F4A27C /* ItemSelectViewController~ipadbutts.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "ItemSelectViewController~ipadbutts.xib"; sourceTree = "<group>"; };
 		63E23E9F1B169BE500F4A27C /* greenitemsbutton@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greenitemsbutton@2x~ipad.png"; sourceTree = "<group>"; };
 		63E23EA01B169BE500F4A27C /* itemsheaderbg@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "itemsheaderbg@2x~ipad.png"; sourceTree = "<group>"; };
 		63E23EA11B169BE500F4A27C /* itemsquarebg@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "itemsquarebg@2x~ipad.png"; sourceTree = "<group>"; };
@@ -17383,6 +17387,8 @@
 		CFBEB1BC1A1186F200149937 /* View Controller */ = {
 			isa = PBXGroup;
 			children = (
+				63E23E971B16941400F4A27C /* ItemSelectCell~ipad.xib */,
+				63E23E981B16941400F4A27C /* ItemSelectViewController~ipadbutts.xib */,
 				CFA9F7771A0D8D8900EBE77D /* ItemSelectViewController.h */,
 				CFA9F7781A0D8D8900EBE77D /* ItemSelectViewController.m */,
 				CFA9F7791A0D8D8900EBE77D /* ItemSelectViewController.xib */,
@@ -19693,6 +19699,7 @@
 				CF0CF0FD196F452900ECD301 /* SettingsViewController.xib in Resources */,
 				CF6CA6A919DA2AA40075C98C /* findamatchbig@2x.png in Resources */,
 				2985E6271A330DB00041ABF4 /* pinkchattail@2x.png in Resources */,
+				63E23E9D1B16941400F4A27C /* ItemSelectViewController~ipadbutts.xib in Resources */,
 				CF0CF103196F452900ECD301 /* gacharareball@2x.png in Resources */,
 				CF0CF106196F452900ECD301 /* round_glow@2x.png in Resources */,
 				291721501AD24B210093F100 /* use_gems2.mp3 in Resources */,
@@ -21962,6 +21969,7 @@
 				9BDA8B941A3B8E1700C7AC27 /* lightheadshot@2x.png in Resources */,
 				63F900E51B26647D006B6D65 /* girl3@2x~ipad.png in Resources */,
 				CF1816E219D34F5A00EF5729 /* 6allcocktail@2x.png in Resources */,
+				63E23E9C1B16941400F4A27C /* ItemSelectViewController~ipadbutts.xib in Resources */,
 				CF29E9F91964BD0500B40DA4 /* healredbubble5@2x.png in Resources */,
 				9B0E6E381A73373100118210 /* LifeSteal.plist in Resources */,
 				6B1EA9F81ACF5DCC00E0B642 /* VinesMain11.png in Resources */,
@@ -25374,6 +25382,7 @@
 				6B5146B91AA1487100B2844A /* nightlsorb@2x.png in Resources */,
 				2965487A1A81C4070080B195 /* deploymiddle@2x.png in Resources */,
 				CFA7288F1A0B037900FF6031 /* behindcharacterglow@2x.png in Resources */,
+				63E23E9E1B16941400F4A27C /* ItemSelectViewController~ipadbutts.xib in Resources */,
 				CF48244519F7217F00041486 /* clannewsactive@2x.png in Resources */,
 				CF48244619F7217F00041486 /* battleultratag@2x.png in Resources */,
 				6B1EA9E51ACF5DCC00E0B642 /* VinesMain04.png in Resources */,
