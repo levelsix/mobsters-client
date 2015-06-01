@@ -121,6 +121,9 @@
 		291A71EF1AEEEBDF00514D80 /* ReconnectViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 291A71EB1AEEEBDF00514D80 /* ReconnectViewController.xib */; };
 		291A71F01AEEEBDF00514D80 /* ReconnectViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 291A71EB1AEEEBDF00514D80 /* ReconnectViewController.xib */; };
 		291A71F11AEEEBDF00514D80 /* ReconnectViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 291A71EB1AEEEBDF00514D80 /* ReconnectViewController.xib */; };
+		292217B51B1CE8FF00DED202 /* libSocketRocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 292217A81B1CE89600DED202 /* libSocketRocket.a */; };
+		292217B61B1CE90700DED202 /* libSocketRocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 292217A81B1CE89600DED202 /* libSocketRocket.a */; };
+		292217B71B1CE90E00DED202 /* libSocketRocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 292217A81B1CE89600DED202 /* libSocketRocket.a */; };
 		292771381A71A52A00E3AB65 /* dialoguebubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 292771361A71A52A00E3AB65 /* dialoguebubble@2x.png */; };
 		292771391A71A52A00E3AB65 /* dialoguebubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 292771361A71A52A00E3AB65 /* dialoguebubble@2x.png */; };
 		2927713A1A71A52A00E3AB65 /* dialoguebubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 292771361A71A52A00E3AB65 /* dialoguebubble@2x.png */; };
@@ -6510,8 +6513,6 @@
 		CFE0E6D217E7B886002ECA84 /* bomb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE0E6C617E7B886002ECA84 /* bomb@2x.png */; };
 		CFE0E6D617E7B886002ECA84 /* bombdrop.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFE0E6C817E7B886002ECA84 /* bombdrop.plist */; };
 		CFE0E6D817E7B886002ECA84 /* bombdrop@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE0E6C917E7B886002ECA84 /* bombdrop@2x.png */; };
-		CFE11F6B1A141C040094F797 /* amqp_api.c in Sources */ = {isa = PBXBuildFile; fileRef = CFE11F521A141C030094F797 /* amqp_api.c */; };
-		CFE0E6DC17E7B886002ECA84 /* lootcollect@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE0E6CB17E7B886002ECA84 /* lootcollect@2x.png */; };
 		CFE11F6B1A141C040094F797 /* amqp_api.c in Sources */ = {isa = PBXBuildFile; fileRef = CFE11F521A141C030094F797 /* amqp_api.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		CFE11F6C1A141C040094F797 /* amqp_api.c in Sources */ = {isa = PBXBuildFile; fileRef = CFE11F521A141C030094F797 /* amqp_api.c */; };
 		CFE11F6D1A141C040094F797 /* amqp_api.c in Sources */ = {isa = PBXBuildFile; fileRef = CFE11F521A141C030094F797 /* amqp_api.c */; };
@@ -7052,6 +7053,55 @@
 /* End PBXBuildRule section */
 
 /* Begin PBXContainerItemProxy section */
+		292217A71B1CE89600DED202 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2922179F1B1CE89600DED202 /* SocketRocket.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F6B2082D1450F597009315AF;
+			remoteInfo = SocketRocket;
+		};
+		292217A91B1CE89600DED202 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2922179F1B1CE89600DED202 /* SocketRocket.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F668C880153E91210044DBAC;
+			remoteInfo = SocketRocketOSX;
+		};
+		292217AB1B1CE89600DED202 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2922179F1B1CE89600DED202 /* SocketRocket.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F6BDA802145900D200FE3253;
+			remoteInfo = SRWebSocketTests;
+		};
+		292217AD1B1CE89600DED202 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2922179F1B1CE89600DED202 /* SocketRocket.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F62417E314D52F3C003CE997;
+			remoteInfo = TestChat;
+		};
+		292217AF1B1CE8DC00DED202 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2922179F1B1CE89600DED202 /* SocketRocket.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = F6B2082C1450F597009315AF;
+			remoteInfo = SocketRocket;
+		};
+		292217B11B1CE8E300DED202 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2922179F1B1CE89600DED202 /* SocketRocket.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = F6B2082C1450F597009315AF;
+			remoteInfo = SocketRocket;
+		};
+		292217B31B1CE8E700DED202 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2922179F1B1CE89600DED202 /* SocketRocket.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = F6B2082C1450F597009315AF;
+			remoteInfo = SocketRocket;
+		};
 		CF48189919F7217F00041486 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = CFBE9F3619C7DA6800E5520C /* cocos2d-ios.xcodeproj */;
@@ -7127,6 +7177,7 @@
 		291A71E91AEEEBDF00514D80 /* ReconnectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReconnectViewController.h; sourceTree = "<group>"; };
 		291A71EA1AEEEBDF00514D80 /* ReconnectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReconnectViewController.m; sourceTree = "<group>"; };
 		291A71EB1AEEEBDF00514D80 /* ReconnectViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReconnectViewController.xib; sourceTree = "<group>"; };
+		2922179F1B1CE89600DED202 /* SocketRocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SocketRocket.xcodeproj; path = SocketRocket/SocketRocket.xcodeproj; sourceTree = "<group>"; };
 		292771361A71A52A00E3AB65 /* dialoguebubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dialoguebubble@2x.png"; sourceTree = "<group>"; };
 		292771371A71A52A00E3AB65 /* tutorialbackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tutorialbackground@2x.png"; sourceTree = "<group>"; };
 		292771411A72DBB400E3AB65 /* fightonbubblearrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fightonbubblearrow@2x.png"; sourceTree = "<group>"; };
@@ -10944,6 +10995,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				292217B61B1CE90700DED202 /* libSocketRocket.a in Frameworks */,
 				CFAF0D8419C7DFD900C0AB5B /* libcocos2d.a in Frameworks */,
 				CF2217DD19C7862C00BFD2FF /* GLKit.framework in Frameworks */,
 				CF0CEE09196F452900ECD301 /* CoreMedia.framework in Frameworks */,
@@ -10989,6 +11041,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				292217B71B1CE90E00DED202 /* libSocketRocket.a in Frameworks */,
 				CFAF0D7F19C7DFCE00C0AB5B /* libcocos2d.a in Frameworks */,
 				CF79F57219C79D680092B1F3 /* GLKit.framework in Frameworks */,
 				CF42537E19AD746B00964547 /* CoreData.framework in Frameworks */,
@@ -11035,6 +11088,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				292217B51B1CE8FF00DED202 /* libSocketRocket.a in Frameworks */,
 				CF4819AD19F7217F00041486 /* libcocos2d.a in Frameworks */,
 				CF4819AE19F7217F00041486 /* GLKit.framework in Frameworks */,
 				CF4819AF19F7217F00041486 /* CoreMedia.framework in Frameworks */,
@@ -11190,6 +11244,17 @@
 				291A71EB1AEEEBDF00514D80 /* ReconnectViewController.xib */,
 			);
 			name = Top;
+			sourceTree = "<group>";
+		};
+		292217A01B1CE89600DED202 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				292217A81B1CE89600DED202 /* libSocketRocket.a */,
+				292217AA1B1CE89600DED202 /* SocketRocket.framework */,
+				292217AC1B1CE89600DED202 /* SRWebSocketTests.octest */,
+				292217AE1B1CE89600DED202 /* TestChat.app */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		2933DC1B1ADFA808005D7620 /* Sales Assets */ = {
@@ -14431,6 +14496,7 @@
 		CF1265F21538ACC400E0C1AD /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				2922179F1B1CE89600DED202 /* SocketRocket.xcodeproj */,
 				CFBE9F3619C7DA6800E5520C /* cocos2d-ios.xcodeproj */,
 				CF2217F019C787E700BFD2FF /* Crashlytics.framework */,
 				CF0CE151196E2A4000ECD301 /* MobileAppTracker.framework */,
@@ -18031,6 +18097,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				292217B21B1CE8E300DED202 /* PBXTargetDependency */,
 				CFAF0D8619C7DFE200C0AB5B /* PBXTargetDependency */,
 			);
 			name = ToonSquad;
@@ -18052,6 +18119,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				292217B01B1CE8DC00DED202 /* PBXTargetDependency */,
 				CFAF0D8819C7DFEE00C0AB5B /* PBXTargetDependency */,
 			);
 			name = Mobsters;
@@ -18074,6 +18142,7 @@
 				CFA727FC1A097FF200FF6031 /* PBXBuildRule */,
 			);
 			dependencies = (
+				292217B41B1CE8E700DED202 /* PBXTargetDependency */,
 				CF48189819F7217F00041486 /* PBXTargetDependency */,
 			);
 			name = TangoToonSquad;
@@ -18122,6 +18191,10 @@
 					ProductGroup = CFBE9F3719C7DA6800E5520C /* Products */;
 					ProjectRef = CFBE9F3619C7DA6800E5520C /* cocos2d-ios.xcodeproj */;
 				},
+				{
+					ProductGroup = 292217A01B1CE89600DED202 /* Products */;
+					ProjectRef = 2922179F1B1CE89600DED202 /* SocketRocket.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -18133,6 +18206,34 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		292217A81B1CE89600DED202 /* libSocketRocket.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSocketRocket.a;
+			remoteRef = 292217A71B1CE89600DED202 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		292217AA1B1CE89600DED202 /* SocketRocket.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = SocketRocket.framework;
+			remoteRef = 292217A91B1CE89600DED202 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		292217AC1B1CE89600DED202 /* SRWebSocketTests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SRWebSocketTests.octest;
+			remoteRef = 292217AB1B1CE89600DED202 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		292217AE1B1CE89600DED202 /* TestChat.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = TestChat.app;
+			remoteRef = 292217AD1B1CE89600DED202 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		CFBE9F3D19C7DA6A00E5520C /* libcocos2d.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -18544,7 +18645,6 @@
 				CF0CF08A196F452900ECD301 /* timerbgcapleft@2x.png in Resources */,
 				9B41AF641A81B3CF00529879 /* fireglove@2x.png in Resources */,
 				291A71D31AEEE7CD00514D80 /* 2bars@2x.png in Resources */,
-				9B41AEAD1A79817500529879 /* 6graveorb@2x.png in Resources */,
 				CF0CF08D196F452900ECD301 /* BuildingViewController.xib in Resources */,
 				29AE75DC1A6F36E000264070 /* TribalGuy0T1AttackNF@2x.pvr.ccz in Resources */,
 				63B045061A92B9C600C74F0C /* AttackedAlertViewController.xib in Resources */,
@@ -22834,7 +22934,6 @@
 				CF481F9C19F7217F00041486 /* emptyslot@2x.png in Resources */,
 				CF481F9E19F7217F00041486 /* home@2x.tmx in Resources */,
 				299AA3DD1A7856AA00A2D806 /* rockpoison-9@2x.png in Resources */,
-				CF481FA319F7217F00041486 /* activeraid@2x.png in Resources */,
 				291A71F11AEEEBDF00514D80 /* ReconnectViewController.xib in Resources */,
 				CF481FA419F7217F00041486 /* gachaultraball@2x.png in Resources */,
 				29AE75F41A6F414700264070 /* TribalGirl1T1AttackNF@2x.plist in Resources */,
@@ -22933,7 +23032,6 @@
 				291721451AD24B210093F100 /* pop_in_bad.mp3 in Resources */,
 				CF48203119F7217F00041486 /* sellbubble5@2x.png in Resources */,
 				9B7AAB1D1AC0CDE300CA387F /* blackeventsep@2x.png in Resources */,
-				29FC5EB01A89427B00A50FA7 /* builderpackbg@2x.png in Resources */,
 				291A71D11AEEE7CD00514D80 /* 1bars@2x.png in Resources */,
 				29AE75EF1A6F36E000264070 /* Zark1T1RunNF@2x.pvr.ccz in Resources */,
 				29804FBC1A241F4A00806253 /* squadrewardcircle@2x.png in Resources */,
@@ -25238,6 +25336,21 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		292217B01B1CE8DC00DED202 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SocketRocket;
+			targetProxy = 292217AF1B1CE8DC00DED202 /* PBXContainerItemProxy */;
+		};
+		292217B21B1CE8E300DED202 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SocketRocket;
+			targetProxy = 292217B11B1CE8E300DED202 /* PBXContainerItemProxy */;
+		};
+		292217B41B1CE8E700DED202 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SocketRocket;
+			targetProxy = 292217B31B1CE8E700DED202 /* PBXContainerItemProxy */;
+		};
 		CF48189819F7217F00041486 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = cocos2d;
