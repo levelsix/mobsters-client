@@ -155,11 +155,6 @@ static NSString *udid = nil;
       udid = UDID;
     }
     
-    self.connectionThread = [[AMQPConnectionThread alloc] init];
-    [self.connectionThread start];
-    [self.connectionThread setName:@"AMQPConnectionThread"];
-    self.connectionThread.delegate = self;
-    
     self.queuedMessages = [NSMutableArray array];
     self.unrespondedMessages = [NSMutableArray array];
     
@@ -171,14 +166,8 @@ static NSString *udid = nil;
 }
 
 - (void) rebuildSender {
-  NSString *oldClanUuid = _sender.clan.clanUuid;
   GameState *gs = [GameState sharedGameState];
   _sender = gs.minUser;
-  
-  // if clan changes, reload the queue
-  if (![oldClanUuid isEqualToString:_sender.clan.clanUuid]) {
-    [self reloadClanMessageQueue];
-  }
   
   LNLog (@"Rebuilt sender: %@", _sender);
 }
@@ -193,13 +182,14 @@ static NSString *udid = nil;
 }
 
 - (void) tryConnect {
-  if ([SocketCommunication isForcedTutorial]) {
-    [self.connectionThread connectWithUdid:udid facebookId:nil];
-  } else {
-    [FacebookDelegate getFacebookIdAndDoAction:^(NSString *facebookId) {
-      [self.connectionThread connectWithUdid:udid facebookId:facebookId];
-    }];
-  }
+  NSURL *url = [NSURL URLWithString:HOST_NAME];
+  self.webSocket = [[SRWebSocket alloc] initWithURL:url];
+  self.webSocket.delegate = self;
+  [self.webSocket open];
+}
+
+- (void) webSocketDidOpen:(SRWebSocket *)webSocket {
+  NSLog(@"Web socket opened..");
 }
 
 - (void) initNetworkCommunicationWithDelegate:(id)delegate clearMessages:(BOOL)clearMessages {
@@ -247,10 +237,6 @@ static NSString *udid = nil;
   }
 }
 
-- (void) reloadClanMessageQueue {
-  [self.connectionThread reloadClanMessageQueue];
-}
-
 - (void) callSelectorOnHostDelegate:(SEL)sel {
   
   NSObject *delegate = [self.tagDelegates objectForKey:[NSNumber numberWithInt:CONNECTED_TO_HOST_DELEGATE_TAG]];
@@ -294,7 +280,8 @@ static NSString *udid = nil;
   _canSendRegularEvents = NO;
   _canSendPreDbEvents = YES;
   
-  [self.connectionThread startUserIdQueue];
+  [self connectedToUserIdQueue];
+  //[self.connectionThread startUserIdQueue];
 }
 
 - (void) connectedToUserIdQueue {
@@ -398,8 +385,7 @@ static NSString *udid = nil;
   }
   
   if (mutableData.length) {
-    float delay = 0.f;//MAX(0.f, [[_lastFlushedTime dateByAddingTimeInterval:0.6f] timeIntervalSinceNow]);
-    [self.connectionThread sendData:mutableData withDelay:delay];
+    [self.webSocket send:mutableData];
   }
 }
 
@@ -442,21 +428,21 @@ static NSString *udid = nil;
   return [self sendData:msg withMessageType:type flush:YES queueUp:NO incrementTagNum:YES];
 }
 
-- (void) amqpConsumerThreadReceivedNewMessage:(AMQPMessage *)theMessage {
-  NSData *data = theMessage.body;
+- (void) webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message {
+  NSData *data = (NSData *)message;
   int cursor = 0;
-  
+
   while (cursor < data.length) {
     uint8_t header[HEADER_SIZE];
     [data getBytes:header range:NSMakeRange(cursor, HEADER_SIZE)];
     // Get the next 4 bytes for the payload size
     int size = *(int *)(header);
     NSData *payload = [data subdataWithRange:NSMakeRange(cursor+HEADER_SIZE, size)];
-    
+
     EventProto *ep = [EventProto parseFromData:payload];
-    
+
     [self messageReceived:ep.eventBytes withType:ep.eventType tag:ep.tagNum eventUuid:ep.eventUuid];
-    
+
     cursor += HEADER_SIZE + size;
   }
 }
@@ -2136,7 +2122,7 @@ static NSString *udid = nil;
   [_flushTimer invalidate];
   _flushTimer = nil;
   [self flush];
-  [self.connectionThread end];
+  [self.webSocket close];
   _canSendRegularEvents = NO;
   _canSendPreDbEvents = NO;
   
