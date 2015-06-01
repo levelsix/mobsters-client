@@ -124,6 +124,9 @@
 		292217B51B1CE8FF00DED202 /* libSocketRocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 292217A81B1CE89600DED202 /* libSocketRocket.a */; };
 		292217B61B1CE90700DED202 /* libSocketRocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 292217A81B1CE89600DED202 /* libSocketRocket.a */; };
 		292217B71B1CE90E00DED202 /* libSocketRocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 292217A81B1CE89600DED202 /* libSocketRocket.a */; };
+		292217C51B1CF3C200DED202 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 292217C41B1CF3C200DED202 /* libicucore.dylib */; };
+		292217C61B1CF3CB00DED202 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 292217C41B1CF3C200DED202 /* libicucore.dylib */; };
+		292217C71B1CF3D300DED202 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 292217C41B1CF3C200DED202 /* libicucore.dylib */; };
 		292771381A71A52A00E3AB65 /* dialoguebubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 292771361A71A52A00E3AB65 /* dialoguebubble@2x.png */; };
 		292771391A71A52A00E3AB65 /* dialoguebubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 292771361A71A52A00E3AB65 /* dialoguebubble@2x.png */; };
 		2927713A1A71A52A00E3AB65 /* dialoguebubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 292771361A71A52A00E3AB65 /* dialoguebubble@2x.png */; };
@@ -3124,31 +3127,23 @@
 		CF0CED81196F452900ECD301 /* TutorialHomeMap.m in Sources */ = {isa = PBXBuildFile; fileRef = CF54943D18C71F3C001E7D32 /* TutorialHomeMap.m */; };
 		CF0CED82196F452900ECD301 /* TutorialController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6A292D18C430E800AD676F /* TutorialController.m */; };
 		CF0CED83196F452900ECD301 /* SellViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF64634195A3A3B00C43641 /* SellViewController.m */; };
-		CF0CED85196F452900ECD301 /* AMQPChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15BA6D16572A8400A51F85 /* AMQPChannel.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CF0CED86196F452900ECD301 /* GachaChooserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF29E927196151CD00B40DA4 /* GachaChooserViewController.m */; };
 		CF0CED87196F452900ECD301 /* FacebookSpammer.m in Sources */ = {isa = PBXBuildFile; fileRef = CFEF25D218C9D6F100FB867A /* FacebookSpammer.m */; };
 		CF0CED88196F452900ECD301 /* MapBotView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE02AE418209CE00016C1E2 /* MapBotView.m */; };
-		CF0CED89196F452900ECD301 /* AMQPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15BA6F16572A8400A51F85 /* AMQPConnection.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CF0CED8A196F452900ECD301 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCD0EFD195500A700EDC233 /* HomeViewController.m */; };
-		CF0CED8B196F452900ECD301 /* AMQPConsumer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15BA7116572A8400A51F85 /* AMQPConsumer.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CF0CED8C196F452900ECD301 /* ClanRaidProto+EasyAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFF9A5D18BEB9B80036EEC3 /* ClanRaidProto+EasyAccess.m */; };
-		CF0CED8D196F452900ECD301 /* AMQPConsumerThread.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15BA7316572A8400A51F85 /* AMQPConsumerThread.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CF0CED8E196F452900ECD301 /* MiniTutorialController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8BA23318CEAD06003277D1 /* MiniTutorialController.m */; };
-		CF0CED8F196F452900ECD301 /* AMQPExchange.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15BA7616572A8400A51F85 /* AMQPExchange.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CF0CED91196F452900ECD301 /* AMQPMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15BA7816572A8400A51F85 /* AMQPMessage.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CF0CED92196F452900ECD301 /* AchievementsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574E71909CEBC00ABF1F4 /* AchievementsViewController.m */; };
 		CF0CED93196F452900ECD301 /* EventApns.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574541909CAF100ABF1F4 /* EventApns.pb.m */; };
 		CF0CED94196F452900ECD301 /* TeamViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF646E9195D229400C43641 /* TeamViewController.m */; };
 		CF0CED95196F452900ECD301 /* InAppPurchaseData.m in Sources */ = {isa = PBXBuildFile; fileRef = CF29E91F196131C200B40DA4 /* InAppPurchaseData.m */; };
 		CF0CED96196F452900ECD301 /* FullQuestProto+JobAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65743D19086B6600ABF1F4 /* FullQuestProto+JobAccess.m */; };
-		CF0CED97196F452900ECD301 /* AMQPObject.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15BA7A16572A8400A51F85 /* AMQPObject.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CF0CED99196F452900ECD301 /* FacebookDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CFEF25B918C9849000FB867A /* FacebookDelegate.m */; };
 		CF0CED9A196F452900ECD301 /* CAKeyframeAnimation+AHEasing.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFEB1751834C2FD007C4BA3 /* CAKeyframeAnimation+AHEasing.m */; };
 		CF0CED9B196F452900ECD301 /* SettingsSubViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF29EA621965102800B40DA4 /* SettingsSubViewController.m */; };
 		CF0CED9C196F452900ECD301 /* TopBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF32E9EB180D015900CBD50D /* TopBarViewController.m */; };
 		CF0CED9E196F452900ECD301 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCE57171813BC0600494F8C /* ProfileViewController.m */; };
 		CF0CEDA0196F452900ECD301 /* TutorialBattleLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF54942418C56EBE001E7D32 /* TutorialBattleLayer.m */; };
-		CF0CEDA1196F452900ECD301 /* AMQPQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15BA7C16572A8400A51F85 /* AMQPQueue.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CF0CEDA2196F452900ECD301 /* TutorialBuildingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF746133196A0D73002D6AE6 /* TutorialBuildingViewController.m */; };
 		CF0CEDA8196F452900ECD301 /* QuestDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6F1A21181521FF00CFF2B9 /* QuestDetailsViewController.m */; };
 		CF0CEDAA196F452900ECD301 /* EventMiniJob.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF68907019145DC300FF1F71 /* EventMiniJob.pb.m */; };
@@ -3157,7 +3152,6 @@
 		CF0CEDAE196F452900ECD301 /* EventReferral.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574681909CAF100ABF1F4 /* EventReferral.pb.m */; };
 		CF0CEDB2196F452900ECD301 /* RewardsView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF740691817D3D2009DE4A4 /* RewardsView.m */; };
 		CF0CEDB3196F452900ECD301 /* EnhanceQueueViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF6464E195A69A300C43641 /* EnhanceQueueViewController.m */; };
-		CF0CEDB4196F452900ECD301 /* AMQPConnectionThread.m in Sources */ = {isa = PBXBuildFile; fileRef = CF7F27D2165B36CF00D967DC /* AMQPConnectionThread.m */; };
 		CF0CEDB5196F452900ECD301 /* EventStructure.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65746E1909CAF100ABF1F4 /* EventStructure.pb.m */; };
 		CF0CEDB6196F452900ECD301 /* EventDungeon.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65745E1909CAF100ABF1F4 /* EventDungeon.pb.m */; };
 		CF0CEDB7196F452900ECD301 /* AchievementStuff.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574461909CAF100ABF1F4 /* AchievementStuff.pb.m */; };
@@ -4044,14 +4038,6 @@
 		CF145B2F19218E0200AD1D5A /* legendjob@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF145B2B19218E0200AD1D5A /* legendjob@2x.png */; };
 		CF145B3119218E0200AD1D5A /* ultrajob@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF145B2D19218E0200AD1D5A /* ultrajob@2x.png */; };
 		CF145B3C1922F84800AD1D5A /* dockshadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF145B361922F84800AD1D5A /* dockshadow@2x.png */; };
-		CF15BA7F16572A8400A51F85 /* AMQPChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15BA6D16572A8400A51F85 /* AMQPChannel.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CF15BA8016572A8400A51F85 /* AMQPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15BA6F16572A8400A51F85 /* AMQPConnection.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CF15BA8116572A8400A51F85 /* AMQPConsumer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15BA7116572A8400A51F85 /* AMQPConsumer.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CF15BA8216572A8400A51F85 /* AMQPConsumerThread.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15BA7316572A8400A51F85 /* AMQPConsumerThread.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CF15BA8316572A8400A51F85 /* AMQPExchange.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15BA7616572A8400A51F85 /* AMQPExchange.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CF15BA8416572A8400A51F85 /* AMQPMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15BA7816572A8400A51F85 /* AMQPMessage.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CF15BA8516572A8400A51F85 /* AMQPObject.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15BA7A16572A8400A51F85 /* AMQPObject.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CF15BA8616572A8400A51F85 /* AMQPQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15BA7C16572A8400A51F85 /* AMQPQueue.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CF1816E219D34F5A00EF5729 /* 6allcocktail@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1816E119D34F5900EF5729 /* 6allcocktail@2x.png */; };
 		CF1816E319D34F5A00EF5729 /* 6allcocktail@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1816E119D34F5900EF5729 /* 6allcocktail@2x.png */; };
 		CF1816E819D386F400EF5729 /* mobsterdescriptionbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1816E519D386F400EF5729 /* mobsterdescriptionbg@2x.png */; };
@@ -4448,28 +4434,21 @@
 		CF48192C19F7217F00041486 /* TutorialController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6A292D18C430E800AD676F /* TutorialController.m */; };
 		CF48192D19F7217F00041486 /* StageCompleteNode.m in Sources */ = {isa = PBXBuildFile; fileRef = CF60466119BF9E59003D91F8 /* StageCompleteNode.m */; };
 		CF48192E19F7217F00041486 /* SellViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF64634195A3A3B00C43641 /* SellViewController.m */; };
-		CF48192F19F7217F00041486 /* AMQPChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15BA6D16572A8400A51F85 /* AMQPChannel.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CF48193019F7217F00041486 /* GachaChooserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF29E927196151CD00B40DA4 /* GachaChooserViewController.m */; };
 		CF48193119F7217F00041486 /* FacebookSpammer.m in Sources */ = {isa = PBXBuildFile; fileRef = CFEF25D218C9D6F100FB867A /* FacebookSpammer.m */; };
 		CF48193219F7217F00041486 /* MapBotView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE02AE418209CE00016C1E2 /* MapBotView.m */; };
 		CF48193319F7217F00041486 /* TutorialBattleLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = CF42519619ABDB7400964547 /* TutorialBattleLayout.m */; };
 		CF48193419F7217F00041486 /* SkillRoidRage.m in Sources */ = {isa = PBXBuildFile; fileRef = DA5E3FF919D0CB3F001F28CE /* SkillRoidRage.m */; };
-		CF48193519F7217F00041486 /* AMQPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15BA6F16572A8400A51F85 /* AMQPConnection.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CF48193619F7217F00041486 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCD0EFD195500A700EDC233 /* HomeViewController.m */; };
-		CF48193719F7217F00041486 /* AMQPConsumer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15BA7116572A8400A51F85 /* AMQPConsumer.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CF48193819F7217F00041486 /* ClanRaidProto+EasyAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFF9A5D18BEB9B80036EEC3 /* ClanRaidProto+EasyAccess.m */; };
-		CF48193919F7217F00041486 /* AMQPConsumerThread.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15BA7316572A8400A51F85 /* AMQPConsumerThread.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CF48193A19F7217F00041486 /* MiniTutorialController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8BA23318CEAD06003277D1 /* MiniTutorialController.m */; };
-		CF48193B19F7217F00041486 /* AMQPExchange.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15BA7616572A8400A51F85 /* AMQPExchange.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CF48193C19F7217F00041486 /* OrbMainLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF81C97019A67224002682A2 /* OrbMainLayer.m */; };
-		CF48193D19F7217F00041486 /* AMQPMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15BA7816572A8400A51F85 /* AMQPMessage.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CF48193E19F7217F00041486 /* AchievementsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574E71909CEBC00ABF1F4 /* AchievementsViewController.m */; };
 		CF48193F19F7217F00041486 /* EventApns.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574541909CAF100ABF1F4 /* EventApns.pb.m */; };
 		CF48194019F7217F00041486 /* BattleSwap.m in Sources */ = {isa = PBXBuildFile; fileRef = CF7CFE1D19A55A68009338A2 /* BattleSwap.m */; };
 		CF48194119F7217F00041486 /* TeamViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF646E9195D229400C43641 /* TeamViewController.m */; };
 		CF48194219F7217F00041486 /* InAppPurchaseData.m in Sources */ = {isa = PBXBuildFile; fileRef = CF29E91F196131C200B40DA4 /* InAppPurchaseData.m */; };
 		CF48194319F7217F00041486 /* FullQuestProto+JobAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65743D19086B6600ABF1F4 /* FullQuestProto+JobAccess.m */; };
-		CF48194419F7217F00041486 /* AMQPObject.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15BA7A16572A8400A51F85 /* AMQPObject.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CF48194519F7217F00041486 /* FacebookDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CFEF25B918C9849000FB867A /* FacebookDelegate.m */; };
 		CF48194619F7217F00041486 /* CAKeyframeAnimation+AHEasing.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFEB1751834C2FD007C4BA3 /* CAKeyframeAnimation+AHEasing.m */; };
 		CF48194719F7217F00041486 /* ChatObject.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA8B1AC19EB789F00CF6BFD /* ChatObject.m */; };
@@ -4478,7 +4457,6 @@
 		CF48194A19F7217F00041486 /* TopBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF32E9EB180D015900CBD50D /* TopBarViewController.m */; };
 		CF48194B19F7217F00041486 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCE57171813BC0600494F8C /* ProfileViewController.m */; };
 		CF48194C19F7217F00041486 /* TutorialBattleLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF54942418C56EBE001E7D32 /* TutorialBattleLayer.m */; };
-		CF48194D19F7217F00041486 /* AMQPQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15BA7C16572A8400A51F85 /* AMQPQueue.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CF48194E19F7217F00041486 /* OrbSwipeLayer+PowerupAnimations.m in Sources */ = {isa = PBXBuildFile; fileRef = CF9F41A019A6FF2C002EBF03 /* OrbSwipeLayer+PowerupAnimations.m */; };
 		CF48194F19F7217F00041486 /* SkillManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DA07605719B129EC00E43E5A /* SkillManager.m */; };
 		CF48195019F7217F00041486 /* TutorialBuildingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF746133196A0D73002D6AE6 /* TutorialBuildingViewController.m */; };
@@ -4490,7 +4468,6 @@
 		CF48195C19F7217F00041486 /* EventReferral.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574681909CAF100ABF1F4 /* EventReferral.pb.m */; };
 		CF48196119F7217F00041486 /* RewardsView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF740691817D3D2009DE4A4 /* RewardsView.m */; };
 		CF48196219F7217F00041486 /* EnhanceQueueViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF6464E195A69A300C43641 /* EnhanceQueueViewController.m */; };
-		CF48196319F7217F00041486 /* AMQPConnectionThread.m in Sources */ = {isa = PBXBuildFile; fileRef = CF7F27D2165B36CF00D967DC /* AMQPConnectionThread.m */; };
 		CF48196419F7217F00041486 /* EventStructure.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65746E1909CAF100ABF1F4 /* EventStructure.pb.m */; };
 		CF48196519F7217F00041486 /* SkillControllerPassive.m in Sources */ = {isa = PBXBuildFile; fileRef = DA0FC58119B65B0200393BF4 /* SkillControllerPassive.m */; };
 		CF48196619F7217F00041486 /* EventDungeon.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65745E1909CAF100ABF1F4 /* EventDungeon.pb.m */; };
@@ -5909,7 +5886,6 @@
 		CF7CFE2719A55A68009338A2 /* BattleSwap.m in Sources */ = {isa = PBXBuildFile; fileRef = CF7CFE1D19A55A68009338A2 /* BattleSwap.m */; };
 		CF7CFE2819A55A68009338A2 /* BattleTile.m in Sources */ = {isa = PBXBuildFile; fileRef = CF7CFE1F19A55A68009338A2 /* BattleTile.m */; };
 		CF7CFE2919A55A68009338A2 /* BattleTile.m in Sources */ = {isa = PBXBuildFile; fileRef = CF7CFE1F19A55A68009338A2 /* BattleTile.m */; };
-		CF7F27D3165B36D000D967DC /* AMQPConnectionThread.m in Sources */ = {isa = PBXBuildFile; fileRef = CF7F27D2165B36CF00D967DC /* AMQPConnectionThread.m */; };
 		CF7F27D8165EC8CB00D967DC /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF7F27D7165EC8CA00D967DC /* AdSupport.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		CF7FEF101540C3D000716E37 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF7FEF0F1540C3D000716E37 /* MessageUI.framework */; };
 		CF812EE019E676E200D91157 /* ClanHelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF812EDE19E676E200D91157 /* ClanHelpViewController.m */; };
@@ -6513,42 +6489,6 @@
 		CFE0E6D217E7B886002ECA84 /* bomb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE0E6C617E7B886002ECA84 /* bomb@2x.png */; };
 		CFE0E6D617E7B886002ECA84 /* bombdrop.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFE0E6C817E7B886002ECA84 /* bombdrop.plist */; };
 		CFE0E6D817E7B886002ECA84 /* bombdrop@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE0E6C917E7B886002ECA84 /* bombdrop@2x.png */; };
-		CFE11F6B1A141C040094F797 /* amqp_api.c in Sources */ = {isa = PBXBuildFile; fileRef = CFE11F521A141C030094F797 /* amqp_api.c */; settings = {COMPILER_FLAGS = "-w"; }; };
-		CFE11F6C1A141C040094F797 /* amqp_api.c in Sources */ = {isa = PBXBuildFile; fileRef = CFE11F521A141C030094F797 /* amqp_api.c */; };
-		CFE11F6D1A141C040094F797 /* amqp_api.c in Sources */ = {isa = PBXBuildFile; fileRef = CFE11F521A141C030094F797 /* amqp_api.c */; };
-		CFE11F6E1A141C040094F797 /* amqp_connection.c in Sources */ = {isa = PBXBuildFile; fileRef = CFE11F531A141C040094F797 /* amqp_connection.c */; settings = {COMPILER_FLAGS = "-w"; }; };
-		CFE11F6F1A141C040094F797 /* amqp_connection.c in Sources */ = {isa = PBXBuildFile; fileRef = CFE11F531A141C040094F797 /* amqp_connection.c */; };
-		CFE11F701A141C040094F797 /* amqp_connection.c in Sources */ = {isa = PBXBuildFile; fileRef = CFE11F531A141C040094F797 /* amqp_connection.c */; };
-		CFE11F711A141C040094F797 /* amqp_consumer.c in Sources */ = {isa = PBXBuildFile; fileRef = CFE11F541A141C040094F797 /* amqp_consumer.c */; settings = {COMPILER_FLAGS = "-w"; }; };
-		CFE11F721A141C040094F797 /* amqp_consumer.c in Sources */ = {isa = PBXBuildFile; fileRef = CFE11F541A141C040094F797 /* amqp_consumer.c */; };
-		CFE11F731A141C040094F797 /* amqp_consumer.c in Sources */ = {isa = PBXBuildFile; fileRef = CFE11F541A141C040094F797 /* amqp_consumer.c */; };
-		CFE11F771A141C040094F797 /* amqp_framing.c in Sources */ = {isa = PBXBuildFile; fileRef = CFE11F561A141C040094F797 /* amqp_framing.c */; settings = {COMPILER_FLAGS = "-w"; }; };
-		CFE11F781A141C040094F797 /* amqp_framing.c in Sources */ = {isa = PBXBuildFile; fileRef = CFE11F561A141C040094F797 /* amqp_framing.c */; };
-		CFE11F791A141C040094F797 /* amqp_framing.c in Sources */ = {isa = PBXBuildFile; fileRef = CFE11F561A141C040094F797 /* amqp_framing.c */; };
-		CFE11F7D1A141C040094F797 /* amqp_hostcheck.c in Sources */ = {isa = PBXBuildFile; fileRef = CFE11F591A141C040094F797 /* amqp_hostcheck.c */; settings = {COMPILER_FLAGS = "-w"; }; };
-		CFE11F7E1A141C040094F797 /* amqp_hostcheck.c in Sources */ = {isa = PBXBuildFile; fileRef = CFE11F591A141C040094F797 /* amqp_hostcheck.c */; };
-		CFE11F7F1A141C040094F797 /* amqp_hostcheck.c in Sources */ = {isa = PBXBuildFile; fileRef = CFE11F591A141C040094F797 /* amqp_hostcheck.c */; };
-		CFE11F801A141C040094F797 /* amqp_mem.c in Sources */ = {isa = PBXBuildFile; fileRef = CFE11F5B1A141C040094F797 /* amqp_mem.c */; settings = {COMPILER_FLAGS = "-w"; }; };
-		CFE11F811A141C040094F797 /* amqp_mem.c in Sources */ = {isa = PBXBuildFile; fileRef = CFE11F5B1A141C040094F797 /* amqp_mem.c */; };
-		CFE11F821A141C040094F797 /* amqp_mem.c in Sources */ = {isa = PBXBuildFile; fileRef = CFE11F5B1A141C040094F797 /* amqp_mem.c */; };
-		CFE11F831A141C040094F797 /* amqp_openssl.c in Sources */ = {isa = PBXBuildFile; fileRef = CFE11F5C1A141C040094F797 /* amqp_openssl.c */; settings = {COMPILER_FLAGS = "-w"; }; };
-		CFE11F841A141C040094F797 /* amqp_openssl.c in Sources */ = {isa = PBXBuildFile; fileRef = CFE11F5C1A141C040094F797 /* amqp_openssl.c */; };
-		CFE11F851A141C040094F797 /* amqp_openssl.c in Sources */ = {isa = PBXBuildFile; fileRef = CFE11F5C1A141C040094F797 /* amqp_openssl.c */; };
-		CFE11F891A141C040094F797 /* amqp_socket.c in Sources */ = {isa = PBXBuildFile; fileRef = CFE11F5F1A141C040094F797 /* amqp_socket.c */; settings = {COMPILER_FLAGS = "-w"; }; };
-		CFE11F8A1A141C040094F797 /* amqp_socket.c in Sources */ = {isa = PBXBuildFile; fileRef = CFE11F5F1A141C040094F797 /* amqp_socket.c */; };
-		CFE11F8B1A141C040094F797 /* amqp_socket.c in Sources */ = {isa = PBXBuildFile; fileRef = CFE11F5F1A141C040094F797 /* amqp_socket.c */; };
-		CFE11F8C1A141C040094F797 /* amqp_table.c in Sources */ = {isa = PBXBuildFile; fileRef = CFE11F621A141C040094F797 /* amqp_table.c */; settings = {COMPILER_FLAGS = "-w"; }; };
-		CFE11F8D1A141C040094F797 /* amqp_table.c in Sources */ = {isa = PBXBuildFile; fileRef = CFE11F621A141C040094F797 /* amqp_table.c */; };
-		CFE11F8E1A141C040094F797 /* amqp_table.c in Sources */ = {isa = PBXBuildFile; fileRef = CFE11F621A141C040094F797 /* amqp_table.c */; };
-		CFE11F8F1A141C040094F797 /* amqp_tcp_socket.c in Sources */ = {isa = PBXBuildFile; fileRef = CFE11F631A141C040094F797 /* amqp_tcp_socket.c */; settings = {COMPILER_FLAGS = "-w"; }; };
-		CFE11F901A141C040094F797 /* amqp_tcp_socket.c in Sources */ = {isa = PBXBuildFile; fileRef = CFE11F631A141C040094F797 /* amqp_tcp_socket.c */; };
-		CFE11F911A141C040094F797 /* amqp_tcp_socket.c in Sources */ = {isa = PBXBuildFile; fileRef = CFE11F631A141C040094F797 /* amqp_tcp_socket.c */; };
-		CFE11F921A141C040094F797 /* amqp_timer.c in Sources */ = {isa = PBXBuildFile; fileRef = CFE11F651A141C040094F797 /* amqp_timer.c */; settings = {COMPILER_FLAGS = "-w"; }; };
-		CFE11F931A141C040094F797 /* amqp_timer.c in Sources */ = {isa = PBXBuildFile; fileRef = CFE11F651A141C040094F797 /* amqp_timer.c */; };
-		CFE11F941A141C040094F797 /* amqp_timer.c in Sources */ = {isa = PBXBuildFile; fileRef = CFE11F651A141C040094F797 /* amqp_timer.c */; };
-		CFE11F951A141C040094F797 /* amqp_url.c in Sources */ = {isa = PBXBuildFile; fileRef = CFE11F671A141C040094F797 /* amqp_url.c */; settings = {COMPILER_FLAGS = "-w"; }; };
-		CFE11F961A141C040094F797 /* amqp_url.c in Sources */ = {isa = PBXBuildFile; fileRef = CFE11F671A141C040094F797 /* amqp_url.c */; };
-		CFE11F971A141C040094F797 /* amqp_url.c in Sources */ = {isa = PBXBuildFile; fileRef = CFE11F671A141C040094F797 /* amqp_url.c */; };
 		CFE5C58319380D9C001B0531 /* EasyTableHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFE5C58219380D9C001B0531 /* EasyTableHeaderView.xib */; };
 		CFE7CD0C1819FC3300930847 /* arrowdown@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE7CCA61819FC3300930847 /* arrowdown@2x.png */; };
 		CFE7CD101819FC3300930847 /* arrowup@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE7CCA81819FC3300930847 /* arrowup@2x.png */; };
@@ -7178,6 +7118,7 @@
 		291A71EA1AEEEBDF00514D80 /* ReconnectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReconnectViewController.m; sourceTree = "<group>"; };
 		291A71EB1AEEEBDF00514D80 /* ReconnectViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReconnectViewController.xib; sourceTree = "<group>"; };
 		2922179F1B1CE89600DED202 /* SocketRocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SocketRocket.xcodeproj; path = SocketRocket/SocketRocket.xcodeproj; sourceTree = "<group>"; };
+		292217C41B1CF3C200DED202 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		292771361A71A52A00E3AB65 /* dialoguebubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dialoguebubble@2x.png"; sourceTree = "<group>"; };
 		292771371A71A52A00E3AB65 /* tutorialbackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tutorialbackground@2x.png"; sourceTree = "<group>"; };
 		292771411A72DBB400E3AB65 /* fightonbubblearrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fightonbubblearrow@2x.png"; sourceTree = "<group>"; };
@@ -8507,24 +8448,6 @@
 		CF145B361922F84800AD1D5A /* dockshadow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dockshadow@2x.png"; sourceTree = "<group>"; };
 		CF145B371922F84800AD1D5A /* mjdone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mjdone.png; path = "Piers:Map/mjdone.png"; sourceTree = "<group>"; };
 		CF145B391922F84800AD1D5A /* mjnew.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mjnew.png; path = "Piers:Map/mjnew.png"; sourceTree = "<group>"; };
-		CF15BA6C16572A8400A51F85 /* AMQPChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPChannel.h; sourceTree = "<group>"; };
-		CF15BA6D16572A8400A51F85 /* AMQPChannel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPChannel.m; sourceTree = "<group>"; };
-		CF15BA6E16572A8400A51F85 /* AMQPConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPConnection.h; sourceTree = "<group>"; };
-		CF15BA6F16572A8400A51F85 /* AMQPConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPConnection.m; sourceTree = "<group>"; };
-		CF15BA7016572A8400A51F85 /* AMQPConsumer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPConsumer.h; sourceTree = "<group>"; };
-		CF15BA7116572A8400A51F85 /* AMQPConsumer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPConsumer.m; sourceTree = "<group>"; };
-		CF15BA7216572A8400A51F85 /* AMQPConsumerThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPConsumerThread.h; sourceTree = "<group>"; };
-		CF15BA7316572A8400A51F85 /* AMQPConsumerThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPConsumerThread.m; sourceTree = "<group>"; };
-		CF15BA7416572A8400A51F85 /* AMQPConsumerThreadDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPConsumerThreadDelegate.h; sourceTree = "<group>"; };
-		CF15BA7516572A8400A51F85 /* AMQPExchange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPExchange.h; sourceTree = "<group>"; };
-		CF15BA7616572A8400A51F85 /* AMQPExchange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPExchange.m; sourceTree = "<group>"; };
-		CF15BA7716572A8400A51F85 /* AMQPMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPMessage.h; sourceTree = "<group>"; };
-		CF15BA7816572A8400A51F85 /* AMQPMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPMessage.m; sourceTree = "<group>"; };
-		CF15BA7916572A8400A51F85 /* AMQPObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPObject.h; sourceTree = "<group>"; };
-		CF15BA7A16572A8400A51F85 /* AMQPObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPObject.m; sourceTree = "<group>"; };
-		CF15BA7B16572A8400A51F85 /* AMQPQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPQueue.h; sourceTree = "<group>"; };
-		CF15BA7C16572A8400A51F85 /* AMQPQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPQueue.m; sourceTree = "<group>"; };
-		CF15BA7D16572A8400A51F85 /* AMQPWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPWrapper.h; sourceTree = "<group>"; };
 		CF1816E119D34F5900EF5729 /* 6allcocktail@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "6allcocktail@2x.png"; sourceTree = "<group>"; };
 		CF1816E419D386F400EF5729 /* mobsterdescriptionbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mobsterdescriptionbg.png; path = "Mini Jobs:Dock/mobsterdescriptionbg.png"; sourceTree = "<group>"; };
 		CF1816E519D386F400EF5729 /* mobsterdescriptionbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mobsterdescriptionbg@2x.png"; sourceTree = "<group>"; };
@@ -9436,9 +9359,6 @@
 		CF7CFE1D19A55A68009338A2 /* BattleSwap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BattleSwap.m; sourceTree = "<group>"; };
 		CF7CFE1E19A55A68009338A2 /* BattleTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BattleTile.h; sourceTree = "<group>"; };
 		CF7CFE1F19A55A68009338A2 /* BattleTile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BattleTile.m; sourceTree = "<group>"; };
-		CF7F27D1165B36CF00D967DC /* AMQPConnectionThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPConnectionThread.h; sourceTree = "<group>"; };
-		CF7F27D2165B36CF00D967DC /* AMQPConnectionThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPConnectionThread.m; sourceTree = "<group>"; };
-		CF7F27D4165B371500D967DC /* AMQPConnectionThreadDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPConnectionThreadDelegate.h; sourceTree = "<group>"; };
 		CF7F27D7165EC8CA00D967DC /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		CF7FEF0F1540C3D000716E37 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		CF812EDD19E676E200D91157 /* ClanHelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClanHelpViewController.h; sourceTree = "<group>"; };
@@ -10162,28 +10082,6 @@
 		CFE0E6C817E7B886002ECA84 /* bombdrop.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = bombdrop.plist; sourceTree = "<group>"; };
 		CFE0E6C917E7B886002ECA84 /* bombdrop@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bombdrop@2x.png"; sourceTree = "<group>"; };
 		CFE0E6CA17E7B886002ECA84 /* lootcollect.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lootcollect.png; path = "Puzzle Images/lootcollect.png"; sourceTree = "<group>"; };
-		CFE11F511A141BDB0094F797 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
-		CFE11F521A141C030094F797 /* amqp_api.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = amqp_api.c; sourceTree = "<group>"; };
-		CFE11F531A141C040094F797 /* amqp_connection.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = amqp_connection.c; sourceTree = "<group>"; };
-		CFE11F541A141C040094F797 /* amqp_consumer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = amqp_consumer.c; sourceTree = "<group>"; };
-		CFE11F561A141C040094F797 /* amqp_framing.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = amqp_framing.c; sourceTree = "<group>"; };
-		CFE11F571A141C040094F797 /* amqp_framing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = amqp_framing.h; sourceTree = "<group>"; };
-		CFE11F591A141C040094F797 /* amqp_hostcheck.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = amqp_hostcheck.c; sourceTree = "<group>"; };
-		CFE11F5A1A141C040094F797 /* amqp_hostcheck.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = amqp_hostcheck.h; sourceTree = "<group>"; };
-		CFE11F5B1A141C040094F797 /* amqp_mem.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = amqp_mem.c; sourceTree = "<group>"; };
-		CFE11F5C1A141C040094F797 /* amqp_openssl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = amqp_openssl.c; sourceTree = "<group>"; };
-		CFE11F5E1A141C040094F797 /* amqp_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = amqp_private.h; sourceTree = "<group>"; };
-		CFE11F5F1A141C040094F797 /* amqp_socket.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = amqp_socket.c; sourceTree = "<group>"; };
-		CFE11F601A141C040094F797 /* amqp_socket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = amqp_socket.h; sourceTree = "<group>"; };
-		CFE11F611A141C040094F797 /* amqp_ssl_socket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = amqp_ssl_socket.h; sourceTree = "<group>"; };
-		CFE11F621A141C040094F797 /* amqp_table.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = amqp_table.c; sourceTree = "<group>"; };
-		CFE11F631A141C040094F797 /* amqp_tcp_socket.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = amqp_tcp_socket.c; sourceTree = "<group>"; };
-		CFE11F641A141C040094F797 /* amqp_tcp_socket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = amqp_tcp_socket.h; sourceTree = "<group>"; };
-		CFE11F651A141C040094F797 /* amqp_timer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = amqp_timer.c; sourceTree = "<group>"; };
-		CFE11F661A141C040094F797 /* amqp_timer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = amqp_timer.h; sourceTree = "<group>"; };
-		CFE11F671A141C040094F797 /* amqp_url.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = amqp_url.c; sourceTree = "<group>"; };
-		CFE11F681A141C040094F797 /* amqp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = amqp.h; sourceTree = "<group>"; };
-		CFE11F6A1A141C040094F797 /* threads.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = threads.h; sourceTree = "<group>"; };
 		CFE5C57E1938032C001B0531 /* onteamicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = onteamicon.png; path = "NEW FLAT MENU ASSETS/My Goonies/onteamicon.png"; sourceTree = "<group>"; };
 		CFE5C58219380D9C001B0531 /* EasyTableHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EasyTableHeaderView.xib; sourceTree = "<group>"; };
 		CFE7CCA31819FC3300930847 /* addfunds.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = addfunds.png; path = "Home screen/addfunds.png"; sourceTree = "<group>"; };
@@ -10995,6 +10893,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				292217C61B1CF3CB00DED202 /* libicucore.dylib in Frameworks */,
 				292217B61B1CE90700DED202 /* libSocketRocket.a in Frameworks */,
 				CFAF0D8419C7DFD900C0AB5B /* libcocos2d.a in Frameworks */,
 				CF2217DD19C7862C00BFD2FF /* GLKit.framework in Frameworks */,
@@ -11041,6 +10940,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				292217C51B1CF3C200DED202 /* libicucore.dylib in Frameworks */,
 				292217B71B1CE90E00DED202 /* libSocketRocket.a in Frameworks */,
 				CFAF0D7F19C7DFCE00C0AB5B /* libcocos2d.a in Frameworks */,
 				CF79F57219C79D680092B1F3 /* GLKit.framework in Frameworks */,
@@ -11088,6 +10988,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				292217C71B1CF3D300DED202 /* libicucore.dylib in Frameworks */,
 				292217B51B1CE8FF00DED202 /* libSocketRocket.a in Frameworks */,
 				CF4819AD19F7217F00041486 /* libcocos2d.a in Frameworks */,
 				CF4819AE19F7217F00041486 /* GLKit.framework in Frameworks */,
@@ -14239,6 +14140,7 @@
 		CF1256451538A94D00E0C1AD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				292217C41B1CF3C200DED202 /* libicucore.dylib */,
 				CF2217DC19C7862C00BFD2FF /* GLKit.framework */,
 				CF42537D19AD746B00964547 /* CoreData.framework */,
 				CF0CE153196E2B1100ECD301 /* iAd.framework */,
@@ -14485,9 +14387,6 @@
 				CF1265D41538ACC400E0C1AD /* SocketCommunication.m */,
 				CFEB284515951ADA00B622FC /* FullEvent.h */,
 				CFEB284615951ADB00B622FC /* FullEvent.m */,
-				CF7F27D1165B36CF00D967DC /* AMQPConnectionThread.h */,
-				CF7F27D2165B36CF00D967DC /* AMQPConnectionThread.m */,
-				CF7F27D4165B371500D967DC /* AMQPConnectionThreadDelegate.h */,
 			);
 			name = "Socket Communication";
 			path = SocketCommunication;
@@ -14508,8 +14407,6 @@
 				CFEF25BF18C9ADC300FB867A /* FacebookSDK.framework */,
 				CF3B01CB174AEE2A00A3A4F2 /* ODIN */,
 				CF20F22C180FCDCB005551B5 /* EasyTableView */,
-				CFC1414D1657484A0060188D /* librabbitmq */,
-				CF15BA6B16572A8300A51F85 /* rabbitmq */,
 				CF689C0B15C3B89400F2E50E /* JSON */,
 				CF41D192158BFAE900A4DBC3 /* OpenUDID */,
 				CF1267441538ACC500E0C1AD /* PullToRefresh */,
@@ -14702,31 +14599,6 @@
 				CF22F98317F24E4A00DFD79D /* confirmbuild@2x.png */,
 			);
 			path = "Home Building Images";
-			sourceTree = "<group>";
-		};
-		CF15BA6B16572A8300A51F85 /* rabbitmq */ = {
-			isa = PBXGroup;
-			children = (
-				CF15BA6C16572A8400A51F85 /* AMQPChannel.h */,
-				CF15BA6D16572A8400A51F85 /* AMQPChannel.m */,
-				CF15BA6E16572A8400A51F85 /* AMQPConnection.h */,
-				CF15BA6F16572A8400A51F85 /* AMQPConnection.m */,
-				CF15BA7016572A8400A51F85 /* AMQPConsumer.h */,
-				CF15BA7116572A8400A51F85 /* AMQPConsumer.m */,
-				CF15BA7216572A8400A51F85 /* AMQPConsumerThread.h */,
-				CF15BA7316572A8400A51F85 /* AMQPConsumerThread.m */,
-				CF15BA7416572A8400A51F85 /* AMQPConsumerThreadDelegate.h */,
-				CF15BA7516572A8400A51F85 /* AMQPExchange.h */,
-				CF15BA7616572A8400A51F85 /* AMQPExchange.m */,
-				CF15BA7716572A8400A51F85 /* AMQPMessage.h */,
-				CF15BA7816572A8400A51F85 /* AMQPMessage.m */,
-				CF15BA7916572A8400A51F85 /* AMQPObject.h */,
-				CF15BA7A16572A8400A51F85 /* AMQPObject.m */,
-				CF15BA7B16572A8400A51F85 /* AMQPQueue.h */,
-				CF15BA7C16572A8400A51F85 /* AMQPQueue.m */,
-				CF15BA7D16572A8400A51F85 /* AMQPWrapper.h */,
-			);
-			path = rabbitmq;
 			sourceTree = "<group>";
 		};
 		CF19088018D822C000D6F0E4 /* Kamcord */ = {
@@ -16477,35 +16349,6 @@
 			path = "won lost NEW";
 			sourceTree = "<group>";
 		};
-		CFC1414D1657484A0060188D /* librabbitmq */ = {
-			isa = PBXGroup;
-			children = (
-				CFE11F521A141C030094F797 /* amqp_api.c */,
-				CFE11F531A141C040094F797 /* amqp_connection.c */,
-				CFE11F541A141C040094F797 /* amqp_consumer.c */,
-				CFE11F561A141C040094F797 /* amqp_framing.c */,
-				CFE11F571A141C040094F797 /* amqp_framing.h */,
-				CFE11F591A141C040094F797 /* amqp_hostcheck.c */,
-				CFE11F5A1A141C040094F797 /* amqp_hostcheck.h */,
-				CFE11F5B1A141C040094F797 /* amqp_mem.c */,
-				CFE11F5C1A141C040094F797 /* amqp_openssl.c */,
-				CFE11F5E1A141C040094F797 /* amqp_private.h */,
-				CFE11F5F1A141C040094F797 /* amqp_socket.c */,
-				CFE11F601A141C040094F797 /* amqp_socket.h */,
-				CFE11F611A141C040094F797 /* amqp_ssl_socket.h */,
-				CFE11F621A141C040094F797 /* amqp_table.c */,
-				CFE11F631A141C040094F797 /* amqp_tcp_socket.c */,
-				CFE11F641A141C040094F797 /* amqp_tcp_socket.h */,
-				CFE11F651A141C040094F797 /* amqp_timer.c */,
-				CFE11F661A141C040094F797 /* amqp_timer.h */,
-				CFE11F671A141C040094F797 /* amqp_url.c */,
-				CFE11F681A141C040094F797 /* amqp.h */,
-				CFE11F691A141C040094F797 /* unix */,
-				CFE11F511A141BDB0094F797 /* config.h */,
-			);
-			path = librabbitmq;
-			sourceTree = "<group>";
-		};
 		CFC4D24218D7BC43004681FD /* Audio */ = {
 			isa = PBXGroup;
 			children = (
@@ -16855,14 +16698,6 @@
 				CFE02DCA18264D290016C1E2 /* FBFriendCell.xib */,
 			);
 			path = FBChooserMenu;
-			sourceTree = "<group>";
-		};
-		CFE11F691A141C040094F797 /* unix */ = {
-			isa = PBXGroup;
-			children = (
-				CFE11F6A1A141C040094F797 /* threads.h */,
-			);
-			path = unix;
 			sourceTree = "<group>";
 		};
 		CFE7CCA21819FC3300930847 /* Home screen */ = {
@@ -24184,7 +24019,6 @@
 				9B9BA8021A73367B001B7D04 /* SkillConfusion.m in Sources */,
 				9BC9F3401A8C12AF009DC3D5 /* SkillSideEffect.m in Sources */,
 				291A71ED1AEEEBDF00514D80 /* ReconnectViewController.m in Sources */,
-				CFE11F931A141C040094F797 /* amqp_timer.c in Sources */,
 				6BBBBFC01ABB7BD8006656C7 /* SkillChill.m in Sources */,
 				CF0CED1A196F452900ECD301 /* GenericPopupController.m in Sources */,
 				9BC9F3461A8C1420009DC3D5 /* SkillSideEffectBuff.m in Sources */,
@@ -24229,7 +24063,6 @@
 				CF0CED32196F452900ECD301 /* SBTickerView.m in Sources */,
 				CFB97D7F19C14173003ABA66 /* EventItem.pb.m in Sources */,
 				CF0CED33196F452900ECD301 /* MiniJobConfig.pb.m in Sources */,
-				CFE11F8A1A141C040094F797 /* amqp_socket.c in Sources */,
 				63CA0B0E1AD7435100E92774 /* MiniJobRefreshItemsFiller.m in Sources */,
 				DA58F51119AE6C5200D025BC /* UIColor+HexColor.m in Sources */,
 				CF0CED34196F452900ECD301 /* ClanRaidDetailsViewController.m in Sources */,
@@ -24257,7 +24090,6 @@
 				29AF48981AAA87880034927C /* EventBattleItem.pb.m in Sources */,
 				3E1A0C081A645B4B00DF00AD /* Research.pb.m in Sources */,
 				CF0CED43196F452900ECD301 /* OmnipresentViewController.m in Sources */,
-				CFE11F841A141C040094F797 /* amqp_openssl.c in Sources */,
 				CF0CED44196F452900ECD301 /* SoundEngine.m in Sources */,
 				CF0CED45196F452900ECD301 /* HireViewController.m in Sources */,
 				CF0CED46196F452900ECD301 /* StaticData.pb.m in Sources */,
@@ -24265,14 +24097,12 @@
 				9BC37F7F1ADF516C009571F1 /* CustomMenu.pb.m in Sources */,
 				CF0CED48196F452900ECD301 /* FBChooserView.m in Sources */,
 				CF7CFE2519A55A68009338A2 /* BattleOrbLayout.m in Sources */,
-				CFE11F8D1A141C040094F797 /* amqp_table.c in Sources */,
 				CF0CED4B196F452900ECD301 /* OpenUDID.m in Sources */,
 				CFA9F7D21A0DA90600EBE77D /* ItemObject.m in Sources */,
 				CF0CED4C196F452900ECD301 /* BattleSpeechBubble.m in Sources */,
 				CF0CED4D196F452900ECD301 /* ChatCell.m in Sources */,
 				CF0CED4E196F452900ECD301 /* EnhanceChooserViewController.m in Sources */,
 				CF0CED4F196F452900ECD301 /* Chat.pb.m in Sources */,
-				CFE11F7E1A141C040094F797 /* amqp_hostcheck.c in Sources */,
 				CF0CED50196F452900ECD301 /* MonsterTeamSlotView.m in Sources */,
 				9BA0EEA21AD86D05005F7B80 /* GenericPopoverViewController.m in Sources */,
 				292771401A71EF0300E3AB65 /* PrivateMessageNotificationViewController.m in Sources */,
@@ -24318,7 +24148,6 @@
 				DA5E3FFF19D0CB54001F28CE /* SkillMomentum.m in Sources */,
 				CF0CED6C196F452900ECD301 /* SBJsonWriter.m in Sources */,
 				9B2EFCBD1AC39544005B7B83 /* MiniEventPointsActionCell.m in Sources */,
-				CFE11F721A141C040094F797 /* amqp_consumer.c in Sources */,
 				CF60465A19BF9177003D91F8 /* SkillCakeDrop.m in Sources */,
 				CF0CED6E196F452900ECD301 /* HomeBuilding.m in Sources */,
 				CF0CED6F196F452900ECD301 /* ShopViewController.m in Sources */,
@@ -24330,7 +24159,6 @@
 				CF0CED76196F452900ECD301 /* City.pb.m in Sources */,
 				9BDA8C551A60B4A500C7AC27 /* CustomIndicatorPageControl.m in Sources */,
 				CF0CED77196F452900ECD301 /* GameViewController.m in Sources */,
-				CFE11F901A141C040094F797 /* amqp_tcp_socket.c in Sources */,
 				CFFB3B7319820E90005D7AF5 /* Dev.pb.m in Sources */,
 				CF0CED78196F452900ECD301 /* MonsterPopUpViewController.m in Sources */,
 				9BB9494E1A6EEC8C006EE920 /* UIEffectDesignerView.m in Sources */,
@@ -24358,7 +24186,6 @@
 				CF60466319BF9E59003D91F8 /* StageCompleteNode.m in Sources */,
 				CF0CED83196F452900ECD301 /* SellViewController.m in Sources */,
 				29AAE5E51A7B0FDB00E4F022 /* DonateMsgViewController.m in Sources */,
-				CF0CED85196F452900ECD301 /* AMQPChannel.m in Sources */,
 				CF0CED86196F452900ECD301 /* GachaChooserViewController.m in Sources */,
 				63B0452D1A9D7CD700C74F0C /* EventResearch.pb.m in Sources */,
 				CF0CED87196F452900ECD301 /* FacebookSpammer.m in Sources */,
@@ -24367,17 +24194,12 @@
 				9B2EFCEB1AC4AEF5005B7B83 /* MiniEvent.pb.m in Sources */,
 				CF42519819ABDB7400964547 /* TutorialBattleLayout.m in Sources */,
 				DA5E3FFB19D0CB3F001F28CE /* SkillRoidRage.m in Sources */,
-				CF0CED89196F452900ECD301 /* AMQPConnection.m in Sources */,
 				CF0CED8A196F452900ECD301 /* HomeViewController.m in Sources */,
-				CF0CED8B196F452900ECD301 /* AMQPConsumer.m in Sources */,
 				9B41AEB61A7C114D00529879 /* SkillHellFire.m in Sources */,
 				CF0CED8C196F452900ECD301 /* ClanRaidProto+EasyAccess.m in Sources */,
-				CF0CED8D196F452900ECD301 /* AMQPConsumerThread.m in Sources */,
 				CF0CED8E196F452900ECD301 /* MiniTutorialController.m in Sources */,
-				CF0CED8F196F452900ECD301 /* AMQPExchange.m in Sources */,
 				CF42538019AD76EF00964547 /* OrbMainLayer.m in Sources */,
 				9BB5AFA31AA7EC70002076E3 /* BoardDesignerTile.m in Sources */,
-				CF0CED91196F452900ECD301 /* AMQPMessage.m in Sources */,
 				CF0CED92196F452900ECD301 /* AchievementsViewController.m in Sources */,
 				CF0CED93196F452900ECD301 /* EventApns.pb.m in Sources */,
 				CF7CFE2719A55A68009338A2 /* BattleSwap.m in Sources */,
@@ -24385,7 +24207,6 @@
 				CF0CED94196F452900ECD301 /* TeamViewController.m in Sources */,
 				CF0CED95196F452900ECD301 /* InAppPurchaseData.m in Sources */,
 				CF0CED96196F452900ECD301 /* FullQuestProto+JobAccess.m in Sources */,
-				CF0CED97196F452900ECD301 /* AMQPObject.m in Sources */,
 				CF0CED99196F452900ECD301 /* FacebookDelegate.m in Sources */,
 				CF0CED9A196F452900ECD301 /* CAKeyframeAnimation+AHEasing.m in Sources */,
 				CFA8B1AE19EB789F00CF6BFD /* ChatObject.m in Sources */,
@@ -24398,7 +24219,6 @@
 				CF0CEDA0196F452900ECD301 /* TutorialBattleLayer.m in Sources */,
 				9BDA8BE01A43837D00C7AC27 /* NewGachaFocusScrollView.m in Sources */,
 				9B9BA8051A73367B001B7D04 /* SkillFlameStrike.m in Sources */,
-				CF0CEDA1196F452900ECD301 /* AMQPQueue.m in Sources */,
 				CF9F41A219A6FF2C002EBF03 /* OrbSwipeLayer+PowerupAnimations.m in Sources */,
 				DA07606119B129EC00E43E5A /* SkillManager.m in Sources */,
 				CF0CEDA2196F452900ECD301 /* TutorialBuildingViewController.m in Sources */,
@@ -24415,7 +24235,6 @@
 				CF0CEDB2196F452900ECD301 /* RewardsView.m in Sources */,
 				9BC1892A1AC1EF7E001B8E88 /* MiniEventPointsView.m in Sources */,
 				CF0CEDB3196F452900ECD301 /* EnhanceQueueViewController.m in Sources */,
-				CF0CEDB4196F452900ECD301 /* AMQPConnectionThread.m in Sources */,
 				29A2FCF21A647EEB00FF93B6 /* OrbFallAction.m in Sources */,
 				CF0CEDB5196F452900ECD301 /* EventStructure.pb.m in Sources */,
 				9BD4739D1AC373BC00EBBFB2 /* MiniEventTierPrizeCell.m in Sources */,
@@ -24475,7 +24294,6 @@
 				CF0CEDD9196F452900ECD301 /* Task.pb.m in Sources */,
 				CF0CEDDA196F452900ECD301 /* TutorialNameViewController.m in Sources */,
 				CF0CEDDC196F452900ECD301 /* BattleSprite.m in Sources */,
-				CFE11F6F1A141C040094F797 /* amqp_connection.c in Sources */,
 				9BDA8BE61A43837D00C7AC27 /* NewGachaViewController.m in Sources */,
 				CF0CEDDD196F452900ECD301 /* CCAnimation+SpriteLoading.m in Sources */,
 				CF0CDEB319E5103C006A5ECB /* TimerAction.m in Sources */,
@@ -24496,7 +24314,6 @@
 				9BB9494B1A6EEC8C006EE920 /* NSData+Base64.m in Sources */,
 				6BB5F8601A80095B006515B9 /* TutorialBuildingUpgradeController.m in Sources */,
 				2933DC941ADFA836005D7620 /* GemPackageViewController.m in Sources */,
-				CFE11F811A141C040094F797 /* amqp_mem.c in Sources */,
 				6B8CD58B1A9BB45C000DAAB8 /* SkillControllerSpecialOrb.m in Sources */,
 				CF0CEDE5196F452900ECD301 /* EventPvp.pb.m in Sources */,
 				6B0784041A828C1C005CDFCF /* SkillInsurance.m in Sources */,
@@ -24506,7 +24323,6 @@
 				CF0CEDE8196F452900ECD301 /* DungeonBattleLayer.m in Sources */,
 				CFFB3B7519820E90005D7AF5 /* EventDev.pb.m in Sources */,
 				CF0CEDE9196F452900ECD301 /* TutorialHealViewController.m in Sources */,
-				CFE11F6C1A141C040094F797 /* amqp_api.c in Sources */,
 				2980512F1A2ECB1A00806253 /* HospitalQueue.m in Sources */,
 				CF0CEDEA196F452900ECD301 /* ClanRaidBattleLayer.m in Sources */,
 				2917217D1AD4B74E0093F100 /* StrengthChangeView.m in Sources */,
@@ -24517,8 +24333,6 @@
 				CFF412AF19BFE761002672D4 /* Item.pb.m in Sources */,
 				CF0CEDF0196F452900ECD301 /* TopBarQuestProgressView.m in Sources */,
 				CFFCF56F19B01C58007E316D /* TangoDelegate.mm in Sources */,
-				CFE11F961A141C040094F797 /* amqp_url.c in Sources */,
-				CFE11F781A141C040094F797 /* amqp_framing.c in Sources */,
 				6B3BC1761A8BE3CD00E0D457 /* SkillPoisonFire.m in Sources */,
 				CF0CEDF1196F452900ECD301 /* MiniJobsListViewController.m in Sources */,
 				9B2EFDB71AD35E8B005B7B83 /* CAWSpriteLayer.m in Sources */,
@@ -24549,7 +24363,6 @@
 				CF126D181538ACCA00E0C1AD /* AppDelegate.m in Sources */,
 				9BC189291AC1EF7E001B8E88 /* MiniEventPointsView.m in Sources */,
 				CF7CFE2019A55A68009338A2 /* BattleChain.m in Sources */,
-				CFE11F891A141C040094F797 /* amqp_socket.c in Sources */,
 				29AAE5E41A7B0FDB00E4F022 /* DonateMsgViewController.m in Sources */,
 				CF7372A918CB7CE900EE2CBC /* TutorialAttackMapViewController.m in Sources */,
 				CFFCF55519AFAEC9007E316D /* BattleHudView.m in Sources */,
@@ -24582,7 +24395,6 @@
 				CF126D361538ACCA00E0C1AD /* Globals.m in Sources */,
 				CF6574AB1909CAF200ABF1F4 /* Clan.pb.m in Sources */,
 				CF4DB8E41807DA1F00062258 /* GameMap.m in Sources */,
-				CFE11F7D1A141C040094F797 /* amqp_hostcheck.c in Sources */,
 				CFF646C4195CD1D300C43641 /* HealViewController.m in Sources */,
 				DA5E3FFE19D0CB54001F28CE /* SkillMomentum.m in Sources */,
 				CFFEB17E18358FC0007C4BA3 /* CAKeyFrameAnimation+Jumping.m in Sources */,
@@ -24609,7 +24421,6 @@
 				CF126D4D1538ACCA00E0C1AD /* GenericPopupController.m in Sources */,
 				CFBB379D18F4853900FD6C8C /* QuestCompleteLayer.m in Sources */,
 				29927E651AAE1B6D00418683 /* BattleItemQueue.m in Sources */,
-				CFE11F6B1A141C040094F797 /* amqp_api.c in Sources */,
 				29804F391A241C1800806253 /* ClanRewardsViewController.m in Sources */,
 				DA0FC57219B64E6800393BF4 /* OrbSprite.m in Sources */,
 				DA07606219B129EC00E43E5A /* SkillQuickAttack.m in Sources */,
@@ -24666,7 +24477,6 @@
 				CF812F0D19E747AB00D91157 /* ClanHelpUtil.m in Sources */,
 				CF7064BE1845E2F2005B30A1 /* OmnipresentViewController.m in Sources */,
 				CF41D0F4158BDBBE00A4DBC3 /* SoundEngine.m in Sources */,
-				CFE11F801A141C040094F797 /* amqp_mem.c in Sources */,
 				CFF5DC2A195143140019EB2B /* HireViewController.m in Sources */,
 				CF81C96C19A575EA002682A2 /* OrbSwipeLayer.m in Sources */,
 				9B41AE871A78573300529879 /* SkillShallowGrave.m in Sources */,
@@ -24711,7 +24521,6 @@
 				CF29EA5F1965100E00B40DA4 /* FAQViewController.m in Sources */,
 				CF30278E18BFFD8E009D2D25 /* ClanRaidLeaderboardViewController.m in Sources */,
 				CF6574BC1909CAF200ABF1F4 /* EventUser.pb.m in Sources */,
-				CFE11F951A141C040094F797 /* amqp_url.c in Sources */,
 				CFF412AE19BFE761002672D4 /* Item.pb.m in Sources */,
 				CF29E9171961006500B40DA4 /* FundsViewController.m in Sources */,
 				CF689C1B15C3B89400F2E50E /* SBJSON.m in Sources */,
@@ -24732,7 +24541,6 @@
 				CF689C1E15C3B89400F2E50E /* SBJsonWriter.m in Sources */,
 				9BC37F7E1ADF516C009571F1 /* CustomMenu.pb.m in Sources */,
 				CFFB3B7219820E8F005D7AF5 /* Dev.pb.m in Sources */,
-				CFE11F771A141C040094F797 /* amqp_framing.c in Sources */,
 				29A2FC5B1A4EB67B00FF93B6 /* BoardLayoutProto+Properties.m in Sources */,
 				CF7063FD183F5110005B30A1 /* HomeBuilding.m in Sources */,
 				9BDA8B481A3A481300C7AC27 /* SkillShuffle.m in Sources */,
@@ -24743,7 +24551,6 @@
 				CF30279218C0176B009D2D25 /* ClanRaidViewController.m in Sources */,
 				CFB2509018587BF300BE0C05 /* THLabel.m in Sources */,
 				CF6574AA1909CAF200ABF1F4 /* City.pb.m in Sources */,
-				CFE11F8C1A141C040094F797 /* amqp_table.c in Sources */,
 				DA88EB8519BE5810005EE827 /* SkillCakeDrop.m in Sources */,
 				CF4DB9011808975500062258 /* GameViewController.m in Sources */,
 				633CCB111AA520E700C6649F /* ResearchInfoViewController.m in Sources */,
@@ -24766,23 +24573,17 @@
 				29BE5F6C1B0B58DA00BF9591 /* Reward.m in Sources */,
 				CF6A292E18C430E800AD676F /* TutorialController.m in Sources */,
 				CFF6463A195A3A3B00C43641 /* SellViewController.m in Sources */,
-				CF15BA7F16572A8400A51F85 /* AMQPChannel.m in Sources */,
 				CF29E929196151CD00B40DA4 /* GachaChooserViewController.m in Sources */,
 				6BBBBFBF1ABB7BD8006656C7 /* SkillChill.m in Sources */,
 				CFEF25D318C9D6F100FB867A /* FacebookSpammer.m in Sources */,
 				CFE02AE518209CE00016C1E2 /* MapBotView.m in Sources */,
-				CF15BA8016572A8400A51F85 /* AMQPConnection.m in Sources */,
 				CFCD0EFF195500A700EDC233 /* HomeViewController.m in Sources */,
-				CF15BA8116572A8400A51F85 /* AMQPConsumer.m in Sources */,
 				DAAD3DD319C8C31E00557698 /* SkillBombs.m in Sources */,
 				CFFF9A5E18BEB9B80036EEC3 /* ClanRaidProto+EasyAccess.m in Sources */,
-				CF15BA8216572A8400A51F85 /* AMQPConsumerThread.m in Sources */,
 				29AF48951AAA87800034927C /* EventBattleItem.pb.m in Sources */,
 				9BB5AFA21AA7EC70002076E3 /* BoardDesignerTile.m in Sources */,
 				CF8BA23418CEAD06003277D1 /* MiniTutorialController.m in Sources */,
-				CF15BA8316572A8400A51F85 /* AMQPExchange.m in Sources */,
 				DA0FC55C19B1861500393BF4 /* SkillControllerActive.m in Sources */,
-				CF15BA8416572A8400A51F85 /* AMQPMessage.m in Sources */,
 				9BC9F33F1A8C12AF009DC3D5 /* SkillSideEffect.m in Sources */,
 				9BDA8B5D1A3A894B00C7AC27 /* SkillHeadshot.m in Sources */,
 				9B7AAAF81AC0A24900CA387F /* MiniEventViewController.m in Sources */,
@@ -24792,25 +24593,20 @@
 				9B9BA8071A73367B001B7D04 /* SkillLifeSteal.m in Sources */,
 				CF29E920196131C200B40DA4 /* InAppPurchaseData.m in Sources */,
 				CF65743E19086B6600ABF1F4 /* FullQuestProto+JobAccess.m in Sources */,
-				CF15BA8516572A8400A51F85 /* AMQPObject.m in Sources */,
 				291A71EC1AEEEBDF00514D80 /* ReconnectViewController.m in Sources */,
 				29927E6A1AAE1BCE00418683 /* BattleItemUtil.m in Sources */,
 				CFEF25BA18C9849000FB867A /* FacebookDelegate.m in Sources */,
 				9B9BA8041A73367B001B7D04 /* SkillFlameStrike.m in Sources */,
 				CFFEB1781834C2FD007C4BA3 /* CAKeyframeAnimation+AHEasing.m in Sources */,
-				CFE11F711A141C040094F797 /* amqp_consumer.c in Sources */,
 				CF29EA641965102800B40DA4 /* SettingsSubViewController.m in Sources */,
 				CF32E9ED180D015900CBD50D /* TopBarViewController.m in Sources */,
 				CFCE571D1813BC0700494F8C /* ProfileViewController.m in Sources */,
 				CF54942518C56EBE001E7D32 /* TutorialBattleLayer.m in Sources */,
 				CF023CB61992ED9E0082FE61 /* BattleSchedule.m in Sources */,
 				63B044C11A8BE86F00C74F0C /* RequestPushNotificationViewController.m in Sources */,
-				CF15BA8616572A8400A51F85 /* AMQPQueue.m in Sources */,
 				9BCAA19E1AD4A5D50059CEDA /* Sales.pb.m in Sources */,
 				CF746134196A0D73002D6AE6 /* TutorialBuildingViewController.m in Sources */,
-				CFE11F6E1A141C040094F797 /* amqp_connection.c in Sources */,
 				CFA9F7D11A0DA90600EBE77D /* ItemObject.m in Sources */,
-				CFE11F831A141C040094F797 /* amqp_openssl.c in Sources */,
 				CF6F1A23181521FF00CFF2B9 /* QuestDetailsViewController.m in Sources */,
 				CFA9F77A1A0D8D8900EBE77D /* ItemSelectViewController.m in Sources */,
 				CF68907519145DC300FF1F71 /* EventMiniJob.pb.m in Sources */,
@@ -24823,7 +24619,6 @@
 				6BB5F8641A80571A006515B9 /* TutorialUpgradeViewController.m in Sources */,
 				CFF64650195A69A300C43641 /* EnhanceQueueViewController.m in Sources */,
 				DA0FC58219B65B0200393BF4 /* SkillControllerPassive.m in Sources */,
-				CF7F27D3165B36D000D967DC /* AMQPConnectionThread.m in Sources */,
 				CF6574BA1909CAF200ABF1F4 /* EventStructure.pb.m in Sources */,
 				298708371AC3415D002BFF2E /* ResearchController.m in Sources */,
 				CF6574B21909CAF200ABF1F4 /* EventDungeon.pb.m in Sources */,
@@ -24834,7 +24629,6 @@
 				CF6574E51909CAF200ABF1F4 /* User.pb.m in Sources */,
 				DA5E3FFA19D0CB3F001F28CE /* SkillRoidRage.m in Sources */,
 				CF6F19801815156D00CFF2B9 /* QuestLogViewController.m in Sources */,
-				CFE11F921A141C040094F797 /* amqp_timer.c in Sources */,
 				2933DC931ADFA836005D7620 /* GemPackageViewController.m in Sources */,
 				CFFF6B1118DB2044003A320C /* MSDate.m in Sources */,
 				9BB5AF681AA661BA002076E3 /* BoardDesignerViewController.m in Sources */,
@@ -24867,7 +24661,6 @@
 				CF0AC60018A1F6E600140628 /* PvpBattleLayer.m in Sources */,
 				6B1EAABB1AD42A7A00E0B642 /* SkillProtoHelper.m in Sources */,
 				DA88EB3E19B93542005EE827 /* SkillPopupOverlay.m in Sources */,
-				CFE11F8F1A141C040094F797 /* amqp_tcp_socket.c in Sources */,
 				CFBF032117C596890082A9BF /* ClanCreateViewController.m in Sources */,
 				6BA24DF31A7A9ECF00BEF920 /* SkillBloodRage.m in Sources */,
 				CF4DB8ED1807DA1F00062258 /* MissionMap.m in Sources */,
@@ -24989,7 +24782,6 @@
 				291A71EE1AEEEBDF00514D80 /* ReconnectViewController.m in Sources */,
 				9BC9F3411A8C12AF009DC3D5 /* SkillSideEffect.m in Sources */,
 				6BBBBFC11ABB7BD8006656C7 /* SkillChill.m in Sources */,
-				CFE11F941A141C040094F797 /* amqp_timer.c in Sources */,
 				CF4818C119F7217F00041486 /* GenericPopupController.m in Sources */,
 				9BC9F3471A8C1420009DC3D5 /* SkillSideEffectBuff.m in Sources */,
 				9B2EFDB21AD35E8B005B7B83 /* CAWSpriteCoreLayer.m in Sources */,
@@ -25035,7 +24827,6 @@
 				CF4818DA19F7217F00041486 /* EventItem.pb.m in Sources */,
 				63CA0B0F1AD7435100E92774 /* MiniJobRefreshItemsFiller.m in Sources */,
 				CF4818DB19F7217F00041486 /* MiniJobConfig.pb.m in Sources */,
-				CFE11F8B1A141C040094F797 /* amqp_socket.c in Sources */,
 				9B7AAAFA1AC0A24900CA387F /* MiniEventViewController.m in Sources */,
 				CF4818DC19F7217F00041486 /* UIColor+HexColor.m in Sources */,
 				CF4818DD19F7217F00041486 /* ClanRaidDetailsViewController.m in Sources */,
@@ -25062,7 +24853,6 @@
 				29AF489A1AAA87890034927C /* EventBattleItem.pb.m in Sources */,
 				3E1A0C091A645B4B00DF00AD /* Research.pb.m in Sources */,
 				CF4818EA19F7217F00041486 /* OmnipresentViewController.m in Sources */,
-				CFE11F851A141C040094F797 /* amqp_openssl.c in Sources */,
 				CF4818EB19F7217F00041486 /* SoundEngine.m in Sources */,
 				CF4818EC19F7217F00041486 /* HireViewController.m in Sources */,
 				9BC37F801ADF516C009571F1 /* CustomMenu.pb.m in Sources */,
@@ -25070,7 +24860,6 @@
 				CF4818EE19F7217F00041486 /* ClanRaidHealthBar.m in Sources */,
 				CF4818EF19F7217F00041486 /* FBChooserView.m in Sources */,
 				CF4818F019F7217F00041486 /* BattleOrbLayout.m in Sources */,
-				CFE11F8E1A141C040094F797 /* amqp_table.c in Sources */,
 				CF4818F119F7217F00041486 /* OpenUDID.m in Sources */,
 				CFA9F7D31A0DA90600EBE77D /* ItemObject.m in Sources */,
 				CF4818F219F7217F00041486 /* BattleSpeechBubble.m in Sources */,
@@ -25078,7 +24867,6 @@
 				CF4818F419F7217F00041486 /* EnhanceChooserViewController.m in Sources */,
 				CF4818F519F7217F00041486 /* Chat.pb.m in Sources */,
 				9BA0EEA31AD86D05005F7B80 /* GenericPopoverViewController.m in Sources */,
-				CFE11F7F1A141C040094F797 /* amqp_hostcheck.c in Sources */,
 				CF4818F619F7217F00041486 /* MonsterTeamSlotView.m in Sources */,
 				2927713F1A71EF0300E3AB65 /* PrivateMessageNotificationViewController.m in Sources */,
 				CF4818F719F7217F00041486 /* MSWindow.m in Sources */,
@@ -25122,7 +24910,6 @@
 				CF48191319F7217F00041486 /* SkillMomentum.m in Sources */,
 				9B2EFCBE1AC39544005B7B83 /* MiniEventPointsActionCell.m in Sources */,
 				CF48191419F7217F00041486 /* SBJsonWriter.m in Sources */,
-				CFE11F731A141C040094F797 /* amqp_consumer.c in Sources */,
 				CF48191519F7217F00041486 /* SkillCakeDrop.m in Sources */,
 				CF48191619F7217F00041486 /* HomeBuilding.m in Sources */,
 				CF48191719F7217F00041486 /* ShopViewController.m in Sources */,
@@ -25134,7 +24921,6 @@
 				CF48191C19F7217F00041486 /* City.pb.m in Sources */,
 				9BDA8C561A60B4A500C7AC27 /* CustomIndicatorPageControl.m in Sources */,
 				CF48191D19F7217F00041486 /* GameViewController.m in Sources */,
-				CFE11F911A141C040094F797 /* amqp_tcp_socket.c in Sources */,
 				CF48191E19F7217F00041486 /* Dev.pb.m in Sources */,
 				CF48191F19F7217F00041486 /* MonsterPopUpViewController.m in Sources */,
 				9B2EFDCD1AD36CF3005B7B83 /* SpriteAnimationImageView.m in Sources */,
@@ -25162,7 +24948,6 @@
 				CF48192D19F7217F00041486 /* StageCompleteNode.m in Sources */,
 				CF48192E19F7217F00041486 /* SellViewController.m in Sources */,
 				29AAE5E61A7B0FDB00E4F022 /* DonateMsgViewController.m in Sources */,
-				CF48192F19F7217F00041486 /* AMQPChannel.m in Sources */,
 				CF48193019F7217F00041486 /* GachaChooserViewController.m in Sources */,
 				CF48193119F7217F00041486 /* FacebookSpammer.m in Sources */,
 				9B41AF821A830BB300529879 /* SkillFlameBreak.m in Sources */,
@@ -25170,18 +24955,13 @@
 				9B2EFCEC1AC4AEF5005B7B83 /* MiniEvent.pb.m in Sources */,
 				CF48193319F7217F00041486 /* TutorialBattleLayout.m in Sources */,
 				CF48193419F7217F00041486 /* SkillRoidRage.m in Sources */,
-				CF48193519F7217F00041486 /* AMQPConnection.m in Sources */,
 				29C0D23F1A9C20E5005A4EC0 /* FundsViewController.m in Sources */,
 				CF48193619F7217F00041486 /* HomeViewController.m in Sources */,
-				CF48193719F7217F00041486 /* AMQPConsumer.m in Sources */,
 				9B41AEB71A7C114D00529879 /* SkillHellFire.m in Sources */,
 				CF48193819F7217F00041486 /* ClanRaidProto+EasyAccess.m in Sources */,
-				CF48193919F7217F00041486 /* AMQPConsumerThread.m in Sources */,
 				CF48193A19F7217F00041486 /* MiniTutorialController.m in Sources */,
-				CF48193B19F7217F00041486 /* AMQPExchange.m in Sources */,
 				CF48193C19F7217F00041486 /* OrbMainLayer.m in Sources */,
 				9BB5AFA41AA7EC70002076E3 /* BoardDesignerTile.m in Sources */,
-				CF48193D19F7217F00041486 /* AMQPMessage.m in Sources */,
 				CF48193E19F7217F00041486 /* AchievementsViewController.m in Sources */,
 				CF48193F19F7217F00041486 /* EventApns.pb.m in Sources */,
 				CF48194019F7217F00041486 /* BattleSwap.m in Sources */,
@@ -25189,7 +24969,6 @@
 				CF48194119F7217F00041486 /* TeamViewController.m in Sources */,
 				CF48194219F7217F00041486 /* InAppPurchaseData.m in Sources */,
 				CF48194319F7217F00041486 /* FullQuestProto+JobAccess.m in Sources */,
-				CF48194419F7217F00041486 /* AMQPObject.m in Sources */,
 				CF48194519F7217F00041486 /* FacebookDelegate.m in Sources */,
 				CF48194619F7217F00041486 /* CAKeyframeAnimation+AHEasing.m in Sources */,
 				9BCAA1A01AD4A5D50059CEDA /* Sales.pb.m in Sources */,
@@ -25202,7 +24981,6 @@
 				CF48194C19F7217F00041486 /* TutorialBattleLayer.m in Sources */,
 				9BDA8BE11A43837D00C7AC27 /* NewGachaFocusScrollView.m in Sources */,
 				9B9BA8061A73367B001B7D04 /* SkillFlameStrike.m in Sources */,
-				CF48194D19F7217F00041486 /* AMQPQueue.m in Sources */,
 				CF48194E19F7217F00041486 /* OrbSwipeLayer+PowerupAnimations.m in Sources */,
 				CF48194F19F7217F00041486 /* SkillManager.m in Sources */,
 				CF48195019F7217F00041486 /* TutorialBuildingViewController.m in Sources */,
@@ -25219,7 +24997,6 @@
 				9BC1892B1AC1EF7E001B8E88 /* MiniEventPointsView.m in Sources */,
 				CF48196119F7217F00041486 /* RewardsView.m in Sources */,
 				CF48196219F7217F00041486 /* EnhanceQueueViewController.m in Sources */,
-				CF48196319F7217F00041486 /* AMQPConnectionThread.m in Sources */,
 				29A2FCF31A647EEB00FF93B6 /* OrbFallAction.m in Sources */,
 				9BD4739E1AC373BC00EBBFB2 /* MiniEventTierPrizeCell.m in Sources */,
 				CF48196419F7217F00041486 /* EventStructure.pb.m in Sources */,
@@ -25278,7 +25055,6 @@
 				CF48198B19F7217F00041486 /* Task.pb.m in Sources */,
 				CF48198C19F7217F00041486 /* TutorialNameViewController.m in Sources */,
 				CF48198D19F7217F00041486 /* BattleSprite.m in Sources */,
-				CFE11F701A141C040094F797 /* amqp_connection.c in Sources */,
 				9BDA8BE71A43837D00C7AC27 /* NewGachaViewController.m in Sources */,
 				CF48198E19F7217F00041486 /* CCAnimation+SpriteLoading.m in Sources */,
 				CF48198F19F7217F00041486 /* TimerAction.m in Sources */,
@@ -25300,7 +25076,6 @@
 				9BB9494C1A6EEC8C006EE920 /* NSData+Base64.m in Sources */,
 				2933DC951ADFA836005D7620 /* GemPackageViewController.m in Sources */,
 				6BB5F8611A80095B006515B9 /* TutorialBuildingUpgradeController.m in Sources */,
-				CFE11F821A141C040094F797 /* amqp_mem.c in Sources */,
 				CF48199919F7217F00041486 /* EventPvp.pb.m in Sources */,
 				6B0784051A828C1C005CDFCF /* SkillInsurance.m in Sources */,
 				CF48199A19F7217F00041486 /* ChatView.m in Sources */,
@@ -25309,7 +25084,6 @@
 				CF48199B19F7217F00041486 /* DungeonBattleLayer.m in Sources */,
 				CF48199C19F7217F00041486 /* EventDev.pb.m in Sources */,
 				CF48199D19F7217F00041486 /* TutorialHealViewController.m in Sources */,
-				CFE11F6D1A141C040094F797 /* amqp_api.c in Sources */,
 				298051301A2ECB1A00806253 /* HospitalQueue.m in Sources */,
 				CF48199E19F7217F00041486 /* ClanRaidBattleLayer.m in Sources */,
 				2917217E1AD4B74E0093F100 /* StrengthChangeView.m in Sources */,
@@ -25320,8 +25094,6 @@
 				CF4819A319F7217F00041486 /* Item.pb.m in Sources */,
 				CF4819A419F7217F00041486 /* TopBarQuestProgressView.m in Sources */,
 				CF4819A519F7217F00041486 /* TangoDelegate.mm in Sources */,
-				CFE11F971A141C040094F797 /* amqp_url.c in Sources */,
-				CFE11F791A141C040094F797 /* amqp_framing.c in Sources */,
 				6B3BC1771A8BE3CD00E0D457 /* SkillPoisonFire.m in Sources */,
 				CF4819A619F7217F00041486 /* MiniJobsListViewController.m in Sources */,
 				9B2EFDB81AD35E8B005B7B83 /* CAWSpriteLayer.m in Sources */,

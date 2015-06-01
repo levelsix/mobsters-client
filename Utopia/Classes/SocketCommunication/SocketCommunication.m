@@ -188,10 +188,6 @@ static NSString *udid = nil;
   [self.webSocket open];
 }
 
-- (void) webSocketDidOpen:(SRWebSocket *)webSocket {
-  NSLog(@"Web socket opened..");
-}
-
 - (void) initNetworkCommunicationWithDelegate:(id)delegate clearMessages:(BOOL)clearMessages {
   
   [self tryConnect];
@@ -317,10 +313,6 @@ static NSString *udid = nil;
   }
 }
 
-- (void) amqpDisconnected {
-  [self callSelectorOnHostDelegate:@selector(amqpDisconnected)];
-}
-
 - (BOOL) isPreDbEventType:(EventProtocolRequest)type {
   return type == EventProtocolRequestCStartupEvent || type == EventProtocolRequestCUserCreateEvent;
 }
@@ -428,21 +420,20 @@ static NSString *udid = nil;
   return [self sendData:msg withMessageType:type flush:YES queueUp:NO incrementTagNum:YES];
 }
 
-- (void) webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message {
-  NSData *data = (NSData *)message;
+- (void) receivedMessage:(NSData *)data {
   int cursor = 0;
-
+  
   while (cursor < data.length) {
     uint8_t header[HEADER_SIZE];
     [data getBytes:header range:NSMakeRange(cursor, HEADER_SIZE)];
     // Get the next 4 bytes for the payload size
     int size = *(int *)(header);
     NSData *payload = [data subdataWithRange:NSMakeRange(cursor+HEADER_SIZE, size)];
-
+    
     EventProto *ep = [EventProto parseFromData:payload];
-
+    
     [self messageReceived:ep.eventBytes withType:ep.eventType tag:ep.tagNum eventUuid:ep.eventUuid];
-
+    
     cursor += HEADER_SIZE + size;
   }
 }
@@ -2127,6 +2118,27 @@ static NSString *udid = nil;
   _canSendPreDbEvents = NO;
   
   LNLog(@"Closed down connection..");
+}
+
+#pragma mark - Web Socket Delegate
+
+- (void) webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message {
+  NSData *data = (NSData *)message;
+  [self receivedMessage:data];
+}
+
+- (void) webSocketDidOpen:(SRWebSocket *)webSocket {
+  NSLog(@"Web socket opened..");
+}
+
+- (void) webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error {
+  [self unableToConnectToHost:error.localizedDescription];
+}
+
+- (void) webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean {
+  if (!wasClean) {
+    [self callSelectorOnHostDelegate:@selector(amqpDisconnected)];
+  }
 }
 
 @end
