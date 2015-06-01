@@ -52,10 +52,11 @@
   _oilLost = 0;
   _cashLost = 0;
   _rankLost = 0;
+  
   for( PvpHistoryProto *pvp in _curDefenses) {
     _oilLost += pvp.defenderOilChange;
     _cashLost += pvp.defenderCashChange;
-    int change = pvp.defenderAfter.rank - pvp.defenderBefore.rank;
+    int change = pvp.defenderBefore.rank - pvp.defenderAfter.rank;
     _rankLost += change;
   }
   
