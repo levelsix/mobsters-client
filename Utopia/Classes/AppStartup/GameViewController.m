@@ -1644,12 +1644,14 @@ static const CGSize FIXED_SIZE = {568, 384};
 - (void) openedFromFacebook {
   // Give them 5 mins to come back into the game
   MSDate *openDate = [[FacebookDelegate sharedFacebookDelegate] timeOfLastLoginAttempt];
-  if (-openDate.timeIntervalSinceNow > 5*60) {
-    _shouldRejectFacebook = YES;
-  } else if (_isFreshRestart) {
-    _shouldRejectFacebook = YES;
-  } else {
-    _isFromFacebook = YES;
+  if (openDate) {
+    if (-openDate.timeIntervalSinceNow > 5*60) {
+      _shouldRejectFacebook = YES;
+    } else if (_isFreshRestart) {
+      _shouldRejectFacebook = YES;
+    } else {
+      _isFromFacebook = YES;
+    }
   }
 }
 
