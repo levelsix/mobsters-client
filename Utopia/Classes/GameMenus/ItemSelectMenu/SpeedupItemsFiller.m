@@ -44,8 +44,8 @@
   [userItems addObject:gio];
   [userItems sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
     if ([obj1 isKindOfClass:[UserItem class]] && [obj2 isKindOfClass:[UserItem class]]) {
-      BOOL anyOwned1 = [obj1 numOwned] > 0 || [self.usedItems containsObject:@([obj1 itemId])];
-      BOOL anyOwned2 = [obj2 numOwned] > 0 || [self.usedItems containsObject:@([obj2 itemId])];
+      BOOL anyOwned1 = [obj1 numOwned] > 0 || [self.nonPurchasedItemsUsed containsObject:@([obj1 itemId])];
+      BOOL anyOwned2 = [obj2 numOwned] > 0 || [self.nonPurchasedItemsUsed containsObject:@([obj2 itemId])];
       
       GameActionType gameAction1 = [obj1 gameActionType];
       GameActionType gameAction2 = [obj2 gameActionType];
