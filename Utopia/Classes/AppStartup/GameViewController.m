@@ -552,11 +552,15 @@ static const CGSize FIXED_SIZE = {568, 384};
     if (/*gs.tasksCompleted >= 2 && */(!gs.lastTangoGiftSentTime || hoursSinceLastTangoGift > 24)) {
 #ifdef TOONSQUAD
       if ([TangoDelegate isTangoAvailable] && [TangoDelegate isTangoAuthenticated] && [TangoDelegate getMyId]) {
-        TangoGiftViewController *tgvc = [[TangoGiftViewController alloc] init];
         [TangoDelegate fetchInvitableProfiles:^(NSArray *friends) {
-          [tgvc updateForTangoFriends:friends];
+          if (friends.count) {
+            TangoGiftViewController *tgvc = [[TangoGiftViewController alloc] init];
+            
+            [tgvc updateForTangoFriends:friends];
+            
+            [self.notificationController addNotification:tgvc];
+          }
         }];
-        [self.notificationController addNotification:tgvc];
       }
 #endif
     }
