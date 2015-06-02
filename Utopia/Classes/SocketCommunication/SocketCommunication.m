@@ -450,7 +450,7 @@ static NSString *udid = nil;
     uint8_t header[HEADER_SIZE];
     [data getBytes:header range:NSMakeRange(cursor, HEADER_SIZE)];
     // Get the next 4 bytes for the payload size
-    int size = *(int *)(header); // No longer used
+    int size = *(int *)(header);
     NSData *payload = [data subdataWithRange:NSMakeRange(cursor+HEADER_SIZE, size)];
     
     EventProto *ep = [EventProto parseFromData:payload];
