@@ -504,7 +504,7 @@
                                                                     <size key="shadowOffset" width="0.0" height="1"/>
                                                                 </label>
                                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="DJ Ratta" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="00h-8O-odG" customClass="NiceFontLabel12">
-                                                                    <rect key="frame" x="21" y="23" width="121" height="26"/>
+                                                                    <rect key="frame" x="21" y="23" width="141" height="26"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
