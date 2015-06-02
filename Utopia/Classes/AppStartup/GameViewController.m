@@ -190,7 +190,8 @@ static const CGSize FIXED_SIZE = {568, 384};
     director.UIScaleFactor = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ? 1.0 : 0.5);
     
     // Let CCFileUtils know that "-ipad" textures should be treated as having a contentScale of 2.0.
-    [[CCFileUtils sharedFileUtils] setiPadContentScaleFactor: 2.0];
+    [[CCFileUtils sharedFileUtils] setiPadContentScaleFactor: 1.5];
+    
     
     director.designSize = fixed;
     [director setProjection:CCDirectorProjectionCustom];
@@ -207,7 +208,7 @@ static const CGSize FIXED_SIZE = {568, 384};
       director.UIScaleFactor = 0.5;
       
       // Let CCFileUtils know that "-ipad" textures should be treated as having a contentScale of 2.0.
-      [[CCFileUtils sharedFileUtils] setiPadContentScaleFactor:2.0];
+      [[CCFileUtils sharedFileUtils] setiPadContentScaleFactor:1.5];
     } else if(
             UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad &&
             [config[CCSetupTabletScaleCustom] floatValue]
@@ -215,10 +216,10 @@ static const CGSize FIXED_SIZE = {568, 384};
       CGFloat scaleFactor = [config[CCSetupTabletScaleCustom] floatValue];
       
       director.contentScaleFactor *= scaleFactor;
-      director.UIScaleFactor = 1.0 / scaleFactor;
+//      director.UIScaleFactor = 1.0 / scaleFactor;
       
       // Let CCFileUtils know that "-ipad" textures should be treated as having a contentScale of 2.0.
-      [[CCFileUtils sharedFileUtils] setiPadContentScaleFactor:2.0];
+      [[CCFileUtils sharedFileUtils] setiPadContentScaleFactor:1.5];
     }
     
     [director setProjection:CCDirectorProjection2D];
@@ -236,6 +237,9 @@ static const CGSize FIXED_SIZE = {568, 384};
   
   [[CCFileUtils sharedFileUtils] setiPhoneRetinaDisplaySuffix:@"@2x"];
   [director setDownloaderDelegate:self];
+  
+  [[CCFileUtils sharedFileUtils] setiPadSuffix:@"~ipad"];
+  [[CCFileUtils sharedFileUtils] setiPadRetinaDisplaySuffix:@"@2x~ipad"];
   
   [self addChildViewController:director];
   [self.view insertSubview:director.view atIndex:0];

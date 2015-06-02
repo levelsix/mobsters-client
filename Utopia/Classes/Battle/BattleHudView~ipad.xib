@@ -18,7 +18,7 @@
             <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view clipsSubviews="YES" contentMode="scaleToFill" id="gM6-4S-27Q" customClass="BattleScheduleView">
+                <view clipsSubviews="YES" contentMode="scaleToFill" id="gM6-4S-27Q" customClass="BattleScheduleiPadView">
                     <rect key="frame" x="0.0" y="10" width="1024" height="126"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
@@ -89,7 +89,7 @@
                                         <action selector="forfeitClicked:" destination="-1" eventType="touchUpInside" id="81I-N9-aDe"/>
                                     </connections>
                                 </button>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Suck a Dick" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="wJ6-Aj-sLO" customClass="NiceFontLabel12B">
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Run Away" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="wJ6-Aj-sLO" customClass="NiceFontLabel12B">
                                     <rect key="frame" x="0.0" y="-1" width="119" height="39"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -110,7 +110,7 @@
                     </connections>
                 </view>
                 <view contentMode="scaleToFill" id="9tG-Yt-5ot" userLabel="Swap View">
-                    <rect key="frame" x="10" y="683" width="90" height="74"/>
+                    <rect key="frame" x="14" y="683" width="100" height="74"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="eGz-xX-4kc" customClass="GeneralButton">
@@ -231,7 +231,7 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <nil key="simulatedStatusBarMetrics"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
-            <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="battleScheduleView" destination="gM6-4S-27Q" id="9CP-vj-g41"/>
                 <outlet property="bottomView" destination="MRM-zP-qe8" id="X5r-Nw-4V5"/>
@@ -955,7 +955,7 @@
         <image name="elementreeicon.png" width="19" height="19"/>
         <image name="elementtree2.png" width="227" height="109"/>
         <image name="evobadge2.png" width="12" height="12"/>
-        <image name="fireorb.png" width="27" height="34"/>
+        <image name="fireorb.png" width="41" height="51"/>
         <image name="hospitaltimeleftbg.png" width="37" height="8"/>
         <image name="ipadcurrentbar.png" width="1023" height="126"/>
         <image name="itemsbag.png" width="30" height="34"/>

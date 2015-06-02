@@ -31,17 +31,7 @@
 @implementation BattleScheduleView
 
 - (void) awakeFromNib {
-  if (![Globals isSmallestiPhone]) {
-//    if ([Globals isiPad])
-//      self.numSlots = 7;
-//    else
-    if ([Globals isiPhone6] || [Globals isiPhone6Plus])
-      self.numSlots = 6;
-    else
-      self.numSlots = 5;
-  } else {
-    self.numSlots = 3;
-  }
+  [self setSlotCount];
   
   _battleSchedule = nil;
   _upcomingSideEffectTurns = [NSMutableDictionary dictionary];
@@ -53,6 +43,17 @@
   self.overlayView = img;
   img.alpha = 0.f;
   _reorderingInProgress = NO;
+}
+
+- (void) setSlotCount {
+  if (![Globals isSmallestiPhone]) {
+    if ([Globals isiPhone6] || [Globals isiPhone6Plus])
+      self.numSlots = 6;
+    else
+      self.numSlots = 5;
+  } else {
+    self.numSlots = 3;
+  }
 }
 
 - (void) setFrame:(CGRect)frame {
@@ -186,9 +187,6 @@
 
 - (CGPoint) centerForIndex:(int)i width:(float)width {
   
-#warning Make ipad only!
-  return ccp(VIEW_SPACING*(i+1)-width*(i+0.5), self.containerView.frame.size.height/2);
-  
   return ccp(self.containerView.frame.size.width-VIEW_SPACING*(i+1)-width*(i+0.5),
              self.containerView.frame.size.height/2);
 }
@@ -288,6 +286,20 @@
   }
   else
     [mv removeSideEffectIconWithKey:key];
+}
+
+@end
+
+@implementation BattleScheduleiPadView
+
+- (void)setSlotCount
+{
+  self.numSlots = 7;
+}
+
+- (CGPoint)centerForIndex:(int)i width:(float)width
+{
+  return ccp(VIEW_SPACING*(i+1)+width*(i+0.5), self.containerView.frame.size.height/2);
 }
 
 @end
