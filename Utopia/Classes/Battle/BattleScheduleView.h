@@ -41,6 +41,7 @@
 
 @property (nonatomic, weak) id<BattleScheduleViewDelegate> delegate;
 
+- (void) setSlotCount;
 - (void) setBattleSchedule:(__weak BattleSchedule*)battleSchedule;
 
 - (void) displayOverlayView;
@@ -48,11 +49,18 @@
 
 - (void) setOrdering:(NSArray *)ordering showEnemyBands:(NSArray *)showEnemyBands playerTurns:(NSArray*)playerTurns;
 - (void) addMonster:(int)monsterId showEnemyBand:(BOOL)showEnemyBand player:(BOOL)player;
+- (CGPoint) centerForIndex:(int)i width:(float)width;
 
 - (void) bounceLastView;
 
 - (void) displaySideEffectIcon:(NSString*)icon withKey:(NSString*)key forUpcomingNumberOfTurns:(NSInteger)numTurns forPlayer:(BOOL)player;
 - (void) displaySideEffectIcon:(NSString*)icon withKey:(NSString*)key forUpcomingNumberOfOpponentTurns:(NSInteger)numTurns forPlayer:(BOOL)player;
 - (void) removeSideEffectIconWithKey:(NSString*)key onAllUpcomingTurnsForPlayer:(BOOL)player;
+
+@end
+
+@interface BattleScheduleiPadView : BattleScheduleView
+
+@property (nonatomic, assign) IBOutlet UILabel *enemyNameLabel;
 
 @end

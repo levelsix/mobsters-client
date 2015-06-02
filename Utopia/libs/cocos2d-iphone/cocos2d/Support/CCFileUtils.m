@@ -484,7 +484,7 @@ static CCFileUtils *fileUtils = nil;
 -(NSString*) fullPathForFilename:(NSString*)filename contentScale:(CGFloat *)contentScale
 {
 	CGFloat _contentScale = 1.0;
-	if(!contentScale) contentScale = &_contentScale;
+  if(!contentScale) contentScale = &_contentScale;
 	
 	// fullpath? return it
 //	if ([filename isAbsolutePath]) {

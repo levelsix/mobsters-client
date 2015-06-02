@@ -93,6 +93,7 @@
     [_tilesLayerMain addChild:square];
     square.position = ccp((i+0.5)*tileSize, (j+0.5)*tileSize);
     square.scale = tileSize;
+    [self iPadScaleSprite:square];
     
     TileSprite* spriteTop = [TileSprite tileSpriteWithTile:tile depth:TileDepthTop];
     TileSprite* spriteBottom = [TileSprite tileSpriteWithTile:tile depth:TileDepthBottom];
@@ -178,6 +179,7 @@
         leftBorder.scaleY = scale;
         leftBorder.anchorPoint = ccp(!mHole, 0);
         leftBorder.position = ccpAdd(basePt, ccp(0, CORNER_SIZE/2));
+        [self iPadScaleSprite:leftBorder];
         
         [_borderNode addChild:leftBorder];
       }
@@ -191,6 +193,7 @@
         topBorder.scaleY = scale;
         topBorder.rotation = 90;
         topBorder.position = ccpAdd(basePt, ccp(tileSize-CORNER_SIZE/2-scale/2, tileSize+(!mHole*2-1)*BORDER_WIDTH/2));
+        [self iPadScaleSprite:topBorder];
         
         [_borderNode addChild:topBorder];
       }
@@ -206,6 +209,9 @@
         corner.flipX = YES;
         corner.flipY = YES;
         corner.anchorPoint = ccp(1, 1);
+        [self iPadScaleSprite:corner];
+        if ([Globals isiPad])
+          corner.position= ccpAdd(corner.position, ccp(1.2,.8));
         
         [_borderNode addChild:corner];
       }
@@ -217,6 +223,7 @@
         corner.position = isColor ? cornerPos : ccpAdd(cornerPos, ccp(-BORDER_WIDTH, BORDER_WIDTH));
         corner.flipY = YES;
         corner.anchorPoint = ccp(0, 1);
+        [self iPadScaleSprite:corner];
         
         [_borderNode addChild:corner];
       }
@@ -227,6 +234,7 @@
         
         corner.position = isColor ? cornerPos : ccpAdd(cornerPos, ccp(-BORDER_WIDTH, -BORDER_WIDTH));
         corner.anchorPoint = ccp(0, 0);
+        [self iPadScaleSprite:corner];
         
         [_borderNode addChild:corner];
       }
@@ -238,6 +246,7 @@
         corner.position = isColor ? cornerPos : ccpAdd(cornerPos, ccp(BORDER_WIDTH, -BORDER_WIDTH));
         corner.flipX = YES;
         corner.anchorPoint = ccp(1, 0);
+        [self iPadScaleSprite:corner];
         
         [_borderNode addChild:corner];
       }
@@ -381,6 +390,15 @@
                       [CCActionAnimate actionWithAnimation:anim.reversedAnimation],
                       [CCActionRemove action],
                       nil]];
+}
+
+#pragma mark - Util
+
+- (void) iPadScaleSprite:(CCSprite*)sprite {
+  if ([Globals isiPad]) {
+    sprite.scaleX *= 1.5;
+    sprite.scaleY *= 1.5;
+  }
 }
 
 @end
