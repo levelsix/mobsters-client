@@ -147,6 +147,9 @@
   
 @property (nonatomic, retain) UserResearch *userResearch;
 
+- (void) beginAnimatingWithUserResearch:(UserResearch *)userResearch;
+- (void) stopAnimating;
+
 @end
 
 @interface MiniJobCenterBuilding : HomeBuilding

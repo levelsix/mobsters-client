@@ -46,6 +46,7 @@
 
 - (void) setBubbleType:(BuildingBubbleType)bubbleType;
 - (void) setBubbleType:(BuildingBubbleType)bubbleType withNum:(int)num;
+- (void) displayBubble;
 
 @end
 

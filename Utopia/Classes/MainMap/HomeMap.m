@@ -731,16 +731,14 @@
     }
   }
   
-  BOOL researchInProgress = [gs.researchUtil currentResearch] != nil;
+  UserResearch *ur = [gs.researchUtil currentResearch];
   for (ResearchBuilding *b in [self childrenOfClassType:[ResearchBuilding class]]) {
-    if(researchInProgress) {
-      b.userResearch = [gs.researchUtil currentResearch];
-      [b displayProgressBar];
+    if (ur) {
+      [b beginAnimatingWithUserResearch:ur];
       
       [b setBubbleType:BuildingBubbleTypeNone];
     } else {
-      b.userResearch = nil;
-      [b removeProgressBar];
+      [b stopAnimating];
       
       [b setBubbleType:BuildingBubbleTypeResearch];
     }

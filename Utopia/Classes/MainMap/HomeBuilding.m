@@ -1115,6 +1115,7 @@
 //  [self adjustBuildingSprite];
 //}
 //
+
 - (void) beginAnimatingWithEnhancement:(UserEnhancement *)ue {
   [self stopAnimating];
   
@@ -1265,6 +1266,28 @@
 
 @implementation ResearchBuilding
 
+- (void) beginAnimatingWithUserResearch:(UserResearch *)userResearch {
+  [self stopAnimating];
+  
+  _userResearch = userResearch;
+  
+  if (userResearch) {
+    [self displayProgressBar];
+    
+    MiniResearchViewSprite *spr = [MiniResearchViewSprite spriteWithResearchProto:_userResearch.staticResearch];
+    [self.progressBar addChild:spr];
+    spr.position = ccp(-spr.contentSize.width/2-2.f, self.progressBar.contentSize.height/2+1.f);
+  }
+}
+
+- (void) stopAnimating {
+  _userResearch = nil;
+  
+  if (!self.isConstructing) {
+    [self removeProgressBar];
+  }
+}
+
 - (BOOL) isFreeSpeedup {
   if (self.isConstructing) {
     return [super isFreeSpeedup];
@@ -1273,16 +1296,6 @@
     NSTimeInterval timeLeft = _userResearch.tentativeCompletionDate.timeIntervalSinceNow;
     int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
     return gemCost == 0;
-  }
-}
-
-- (void) displayProgressBar {
-  [super displayProgressBar];
-  
-  if (_userResearch) {
-    MiniResearchViewSprite *spr = [MiniResearchViewSprite spriteWithResearchProto:_userResearch.staticResearch];
-    [self.progressBar addChild:spr];
-    spr.position = ccp(-spr.contentSize.width/2-2.f, self.progressBar.contentSize.height/2+1.f);
   }
 }
 
