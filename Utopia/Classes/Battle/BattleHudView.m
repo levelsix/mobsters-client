@@ -242,7 +242,10 @@
   self.swapView.hidden = NO;
   self.swapView.center = ccp(-self.swapView.frame.size.width/2, self.swapView.center.y);
   [UIView animateWithDuration:ANIMATION_TIME animations:^{
-    self.swapView.center = ccp(self.swapView.frame.size.width/2, self.swapView.center.y);
+    if ([Globals isiPad])
+      self.swapView.center = ccp(self.swapView.frame.size.width/2 + 15, self.swapView.center.y);
+    else
+      self.swapView.center = ccp(self.swapView.frame.size.width/2, self.swapView.center.y);
   }];
 }
 
