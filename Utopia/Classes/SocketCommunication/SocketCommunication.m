@@ -2132,10 +2132,12 @@ static NSString *udid = nil;
 }
 
 - (void) webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error {
+  NSLog(@"websocket failed");
   [self unableToConnectToHost:error.localizedDescription];
 }
 
 - (void) webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean {
+  NSLog(@"websocket closed. %@", reason);
   if (!wasClean) {
     [self callSelectorOnHostDelegate:@selector(amqpDisconnected)];
   }
