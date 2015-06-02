@@ -337,19 +337,19 @@
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <imageView userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="topbarcap.png" id="VcP-hn-oRX">
-                                    <rect key="frame" x="3" y="16" width="6" height="25"/>
+                                    <rect key="frame" x="4" y="16" width="6" height="25"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 </imageView>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="topbarmiddle.png" id="seW-u6-xvh">
-                                    <rect key="frame" x="9" y="16" width="106" height="25"/>
+                                    <rect key="frame" x="10" y="16" width="106" height="25"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 </imageView>
                                 <imageView userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="topbarcap.png" id="gJS-Ad-LJd" customClass="FlipImageView">
-                                    <rect key="frame" x="115" y="16" width="6" height="25"/>
+                                    <rect key="frame" x="116" y="16" width="6" height="25"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 </imageView>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="1/2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="qxc-ET-oIe" customClass="NumTransitionLabel">
-                                    <rect key="frame" x="8" y="17" width="99" height="21"/>
+                                    <rect key="frame" x="9" y="17" width="99" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -361,7 +361,7 @@
                                     </connections>
                                 </label>
                                 <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Qdr-Hm-gBb" customClass="GeneralButton">
-                                    <rect key="frame" x="103" y="10" width="38" height="38"/>
+                                    <rect key="frame" x="104" y="10" width="38" height="38"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                     <state key="normal" image="addgems.png">
@@ -376,7 +376,7 @@
                                     </connections>
                                 </button>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Builders" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="JPy-ic-Agq" customClass="NiceFontLabel8B">
-                                    <rect key="frame" x="19" y="-2" width="122" height="20"/>
+                                    <rect key="frame" x="20" y="-2" width="122" height="20"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -388,11 +388,11 @@
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
                         <view contentMode="scaleToFill" id="n8C-LZ-oVM" userLabel="Secret Gift View">
-                            <rect key="frame" x="32" y="568" width="60" height="75"/>
+                            <rect key="frame" x="27" y="565" width="71" height="81"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <subviews>
                                 <view clipsSubviews="YES" contentMode="scaleToFill" id="JO3-iS-hWK">
-                                    <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
+                                    <rect key="frame" x="5" y="0.0" width="60" height="60"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="top" image="1gbhud.png" id="otx-lv-xMe">
@@ -417,17 +417,17 @@
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                                 <view contentMode="scaleToFill" id="GWd-LO-bKJ">
-                                    <rect key="frame" x="1" y="60" width="60" height="15"/>
+                                    <rect key="frame" x="1" y="60" width="71" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="secretgiftcounter.png" id="vEo-nd-hex">
-                                            <rect key="frame" x="0.0" y="-1" width="60" height="15"/>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="timereventtickerbg.png" id="vEo-nd-hex">
+                                            <rect key="frame" x="0.0" y="0.0" width="71" height="21"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="9M 12S" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.15000000596046448" id="5k0-W8-KCu" customClass="NiceFontLabel8">
-                                            <rect key="frame" x="1" y="-3" width="58" height="19"/>
+                                            <rect key="frame" x="6" y="0.0" width="58" height="20"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                             <color key="shadowColor" white="0.0" alpha="0.29999999999999999" colorSpace="calibratedWhite"/>
@@ -901,7 +901,7 @@
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" heightSizable="YES"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" id="bln-9q-gNa" customClass="TouchableSubviewsView">
-                                            <rect key="frame" x="0.0" y="0.0" width="186" height="100"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="186" height="120"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
                                                 <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" image="timerstopbg.png" id="u7M-z8-icI">
@@ -909,11 +909,11 @@
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                                 <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="timersmiddlebg.png" id="AJb-5V-yOz">
-                                                    <rect key="frame" x="0.0" y="7" width="186" height="79"/>
+                                                    <rect key="frame" x="0.0" y="7" width="186" height="83"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 </imageView>
                                                 <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="top" image="timersbottommorebg.png" highlightedImage="timersbottombg.png" id="Bs4-dF-qtw">
-                                                    <rect key="frame" x="0.0" y="86" width="186" height="25"/>
+                                                    <rect key="frame" x="0.0" y="90" width="186" height="25"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                 </imageView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="NO CURRENT TIMERS" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="Dx8-4A-J2A" customClass="NumTransitionLabel">
@@ -929,11 +929,11 @@
                                                     </connections>
                                                 </label>
                                                 <view clipsSubviews="YES" contentMode="scaleToFill" id="G4M-Dz-jaw">
-                                                    <rect key="frame" x="0.0" y="0.0" width="186" height="85"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="186" height="89"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" id="2QL-5g-Ikk" customClass="CancellableScrollView">
-                                                            <rect key="frame" x="0.0" y="0.0" width="186" height="85"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="186" height="89"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                         </scrollView>
@@ -941,24 +941,24 @@
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 </view>
                                                 <view contentMode="scaleToFill" id="Jge-hn-fwf">
-                                                    <rect key="frame" x="131" y="83" width="55" height="17"/>
+                                                    <rect key="frame" x="115" y="95" width="70" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                     <subviews>
                                                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="moretimerarrow.png" id="2UK-UX-RUy">
-                                                            <rect key="frame" x="41" y="6" width="7" height="5"/>
+                                                            <rect key="frame" x="51" y="6" width="9" height="7"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                         </imageView>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="1 More" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="xcL-Yz-GsX" customClass="NiceFontLabel9">
-                                                            <rect key="frame" x="1" y="0.0" width="43" height="17"/>
+                                                            <rect key="frame" x="8" y="0.0" width="43" height="18"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
                                                             <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="deviceRGB"/>
                                                             <size key="shadowOffset" width="0.0" height="1"/>
                                                         </label>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="spV-8x-y9k">
-                                                            <rect key="frame" x="0.0" y="0.0" width="55" height="17"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="70" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <state key="normal">
                                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -1022,7 +1022,6 @@
         <image name="saleiconbg.png" width="50" height="50"/>
         <image name="salemultiplier.png" width="32" height="20"/>
         <image name="saleoranagebar.png" width="56" height="19"/>
-        <image name="secretgiftcounter.png" width="44" height="15"/>
         <image name="shopbutton.png" width="72" height="68"/>
         <image name="strengthicon.png" width="18" height="19"/>
         <image name="timereventtickerbg.png" width="54" height="15"/>
