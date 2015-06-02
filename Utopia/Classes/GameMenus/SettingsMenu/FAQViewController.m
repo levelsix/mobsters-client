@@ -241,9 +241,13 @@
     font = [UIFont fontWithName:SUBTITLE_FONT size:SUBTITLE_FONT_SIZE];
   } else if ([text hasSuffix:QUESTION_SUFFIX]) {
     font = [UIFont fontWithName:QUESTION_FONT size:QUESTION_FONT_SIZE];
-    attrs = @{NSParagraphStyleAttributeName:_questionParaStyle};
+    attrs = @{NSParagraphStyleAttributeName:_questionParaStyle, NSFontAttributeName : font};
   } else {
-    attrs = @{NSParagraphStyleAttributeName:_textParaStyle};
+    attrs = @{NSParagraphStyleAttributeName:_textParaStyle, NSFontAttributeName : font};
+  }
+  
+  if (!attrs) {
+    attrs = @{NSFontAttributeName : font};
   }
   
   CGRect rect = CGRectMake(TEXT_LEFT_RIGHT_OFFSET,0,tableView.frame.size.width-2*TEXT_LEFT_RIGHT_OFFSET,0);
