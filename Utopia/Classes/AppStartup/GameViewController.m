@@ -1660,8 +1660,8 @@ static const CGSize FIXED_SIZE = {568, 384};
   BOOL returnVal = NO;
   if (_shouldRejectFacebook) {
     _shouldRejectFacebook = NO;
-    [Globals popupMessage:@"Unable to login to Facebook. Please try again!"];
-    [FacebookDelegate logout];
+    //[Globals popupMessage:@"Unable to login to Facebook. Please try again!"];
+    //[FacebookDelegate logout];
   } else if ((!_isFromFacebook && !gs.connected) || gs.isTutorial) {
     returnVal = YES;
   } else if ([gs.facebookId isEqualToString:fbUser[@"id"]]) {
