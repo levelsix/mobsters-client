@@ -2489,7 +2489,10 @@
   const CGPoint orbLayerPosition = ccp(self.contentSize.width-self.orbLayer.contentSize.width/2-ORB_LAYER_DIST_FROM_SIDE, self.orbLayer.position.y);
   [self.orbLayer runAction:[CCActionEaseOut actionWithAction:[CCActionMoveTo actionWithDuration:0.4f position:orbLayerPosition] rate:3]];
 
-  self.lootBgd.position = ccp(self.lootBgd.contentSize.width/2 + 10,
+  if ([Globals isiPad])
+    self.lootBgd.position = ccp(self.contentSize.width - self.orbLayer.contentSize.width - ORB_LAYER_BASE_DIST_FROM_SIDE - self.lootBgd.contentSize.width + 1, 85);
+  else
+    self.lootBgd.position = ccp(self.lootBgd.contentSize.width/2 + 10,
                               self.lootBgd.contentSize.height/2+ORB_LAYER_DIST_FROM_SIDE+self.hudView.swapView.height+7);
   [self displayLootCounter:YES];
   
@@ -2551,24 +2554,29 @@
   self.hudView.swapView.originY = self.hudView.swapView.superview.height-self.hudView.swapView.height-bottomDist;
   
   self.hudView.itemsView.originY = self.hudView.itemsView.superview.height-self.hudView.itemsView.height-bottomDist;
-  self.hudView.itemsView.originX = self.hudView.itemsView.superview.width-self.hudView.itemsView.width-self.orbLayer.contentSize.width-ORB_LAYER_DIST_FROM_SIDE-8;
+  if ([Globals isiPad]) {
+    self.hudView.itemsView.originX = self.hudView.itemsView.superview.width-self.hudView.itemsView.width-self.orbLayer.contentSize.width * 1.5 -ORB_LAYER_DIST_FROM_SIDE-17;
+  } else {
+    self.hudView.itemsView.originX = self.hudView.itemsView.superview.width-self.hudView.itemsView.width-self.orbLayer.contentSize.width -ORB_LAYER_DIST_FROM_SIDE-8;
+  }
   
   self.hudView.bottomView.centerX = self.hudView.swapView.width+(self.hudView.itemsView.originX-self.hudView.swapView.width)/2;
   
-#warning This should all be only for non-ipad, because seriously what the fuck
-//  UIImage *img = [Globals imageNamed:@"6movesqueuebgwide.png"];
-//  if (BOTTOM_CENTER_X*2 >= img.size.width) {
-//    self.hudView.battleScheduleView.bgdView.image = img;
-//    self.hudView.battleScheduleView.width = img.size.width;
-//  }
-//  
-//  // Move schedule up in case board is too close to the edge so that it is flush with top of the board
-//  if (self.hudView.battleScheduleView.containerView.originY > bottomDist) {
-//    self.hudView.battleScheduleView.originX = bottomDist;
-//    self.hudView.battleScheduleView.originY = bottomDist-self.hudView.battleScheduleView.containerView.originY;
-//    
-//    self.hudView.elementButton.originY = self.hudView.battleScheduleView.originY+self.hudView.battleScheduleView.height-12;
-//  }
+  if (![Globals isiPad]) {
+    UIImage *img = [Globals imageNamed:@"6movesqueuebgwide.png"];
+    if (BOTTOM_CENTER_X*2 >= img.size.width) {
+      self.hudView.battleScheduleView.bgdView.image = img;
+      self.hudView.battleScheduleView.width = img.size.width;
+    }
+    
+    // Move schedule up in case board is too close to the edge so that it is flush with top of the board
+    if (self.hudView.battleScheduleView.containerView.originY > bottomDist) {
+      self.hudView.battleScheduleView.originX = bottomDist;
+      self.hudView.battleScheduleView.originY = bottomDist-self.hudView.battleScheduleView.containerView.originY;
+      
+      self.hudView.elementButton.originY = self.hudView.battleScheduleView.originY+self.hudView.battleScheduleView.height-12;
+    }
+  }
   
   GameState *gs = [GameState sharedGameState];
   if (gs.clan) {
