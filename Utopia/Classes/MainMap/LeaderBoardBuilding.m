@@ -31,6 +31,7 @@
     if ([[CCSpriteFrameCache sharedSpriteFrameCache] containsFrame:file]) {
       
       CCSprite *monsterSprite = nil;
+      CCSprite *monsterShadow = nil;
       CGPoint placementPosition;
       
       placementPosition = ccpAdd(ccp(self.buildingSprite.contentSize.width/2, -5), ccp(0, monster.verticalPixelOffset));
@@ -38,20 +39,27 @@
       switch (placement) {
         case 1:
           monsterSprite = self.firstMonsterSprite;
+          monsterShadow = self.firstMonsterShadowSprite;
           placementPosition = ccpAdd(placementPosition, ccp(4, 56));
           break;
         case 2:
           monsterSprite = self.secondMonsterSprite;
+          monsterShadow = self.secondMonsterShadowSprite;
           placementPosition = ccpAdd(placementPosition, ccp(32, 20));
           break;
         case 3:
           monsterSprite = self.thirdMonsterSprite;
+          monsterSprite = self.thirdMonsterShadowSprite;
           placementPosition = ccpAdd(placementPosition, ccp(-35, 63));
           break;
           
         default:
           [Globals popupMessage:@"Tried to place a monster lower than 3rd place on the podium"];
           return;
+      }
+      
+      if (!monsterShadow) {
+        monsterShadow = [CCSprite spriteWithImageNamed:@"shadow.png"];
       }
       
       // Re-remove monster sprite just in case
@@ -61,7 +69,9 @@
       monsterSprite.anchorPoint = ccp(0.5, 0);
       monsterSprite.scale = 0.8;
       monsterSprite.position = placementPosition;
-      [self.buildingSprite addChild:monsterSprite z:1];
+      monsterShadow.position = ccpAdd(placementPosition, ccp(0, 24));
+      [self.buildingSprite addChild:monsterSprite z:2];
+      [self.buildingSprite addChild:monsterShadow z:1];
     }
   }];
 }
