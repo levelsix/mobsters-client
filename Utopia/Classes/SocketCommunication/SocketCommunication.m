@@ -2129,6 +2129,7 @@ static NSString *udid = nil;
 
 - (void) webSocketDidOpen:(SRWebSocket *)webSocket {
   NSLog(@"Web socket opened..");
+  [self connectedToHost];
 }
 
 - (void) webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error {
