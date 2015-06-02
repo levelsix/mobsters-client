@@ -17,7 +17,7 @@
 #define SCROLLVIEW_INSET 3
 #define CELL_SPACING 3
 #define MINIMIZED_CELLS_SHOWN 2
-#define MIN_HEIGHT 15.5f
+#define MIN_HEIGHT ([Globals isiPad] ? 24.f : 15.5f)
 
 @implementation TimerCell
 

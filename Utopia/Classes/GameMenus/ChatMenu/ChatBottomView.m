@@ -367,7 +367,7 @@
   r.size.width = self.openedView.frame.size.width;
   r.size.height = self.lineViewContainer.frame.size.height;
   NiceFontLabel14B *label = [[NiceFontLabel14B alloc] initWithFrame:r];
-  label.font = [UIFont systemFontOfSize:12.f];
+  label.font = [UIFont systemFontOfSize:[Globals isiPad] ? 14.f : 12.f];
   [label awakeFromNib];
   label.textColor = [UIColor whiteColor];
   label.textAlignment = NSTextAlignmentCenter;
@@ -376,6 +376,7 @@
   [self.lineViewContainer addSubview:label];
   
   CGPoint center = ccp(self.openedView.frame.size.width/2, self.lineViewContainer.frame.size.height/2);
+  if ([Globals isiPad]) center.y += 5.f;
   label.center = center;
   label.text = [self.delegate emptyStringForScope:_chatScope];
   self.emptyLabel = label;
