@@ -209,7 +209,7 @@
 }
 
 - (NotificationPriority) priority {
-  return NotificationPriorityRegular;
+  return NotificationPriorityFirst;
 }
 
 - (void) animateWithCompletionBlock:(dispatch_block_t)completion {
