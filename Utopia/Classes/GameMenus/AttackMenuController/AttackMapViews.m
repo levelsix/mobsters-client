@@ -55,8 +55,6 @@
   self.tag = elem.mapElementId;
   self.cityNumLabel.text = [NSString stringWithFormat:@"%d", elem.mapElementId];
   _name = task.name;
-  
-  [self removeLabelAndGlow];
 }
 
 - (void) displayLabelAndGlow {

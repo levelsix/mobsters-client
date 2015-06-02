@@ -26,6 +26,7 @@
   BOOL _buttonClicked;
   
   AttackMapIconView *_selectedIcon;
+  AttackMapIconView *_myPositionIcon;
   AttackEventView *_curEventView;
 }
 

@@ -141,9 +141,9 @@
 
 - (void) loadInitialMapSegments {
   Globals *gl = [Globals sharedGlobals];
-  TaskMapElementProto *prevElem = [self prevMapElement];
+  TaskMapElementProto *nextElem = [self nextMapElement];
   float scaleFactor = self.mapScrollView.frame.size.width/gl.mapTotalWidth;
-  [self loadMapInfoAroundPoint:ccp(prevElem.xPos, prevElem.yPos+self.mapScrollView.frame.size.height/3/scaleFactor)];
+  [self loadMapInfoAroundPoint:ccp(nextElem.xPos, nextElem.yPos+self.mapScrollView.frame.size.height/3/scaleFactor)];
   [self centerOnAppropriateMapIcon];
 }
 
@@ -278,25 +278,43 @@
   [def setInteger:lastKey forKey:PREV_ENTERED_ELEM_KEY];
 }
 
-- (void) centerOnAppropriateMapIcon {
+- (TaskMapElementProto *) nextMapElement {
+  return [self nextMapElementAndShouldAnimate:NULL];
+}
+
+- (TaskMapElementProto *) nextMapElementAndShouldAnimate:(BOOL *)shouldAnimate {
   TaskMapElementProto *prevElem = [self prevMapElement];
   TaskMapElementProto *bestElem = [self bestMapElement];
   TaskMapElementProto *nextElem = nil;
-  BOOL shouldAnimate = NO;
+  
+  // Since this is called by loadInitialSegments
   
   NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
   int lastKey = (int)[def integerForKey:LAST_ELEM_KEY];
-  [def setInteger:bestElem.mapElementId forKey:LAST_ELEM_KEY];
+  if (shouldAnimate) {
+    [def setInteger:bestElem.mapElementId forKey:LAST_ELEM_KEY];
+  }
   
   // If we are progressing to a new map elem, set nextElem to that new one.
   // Otherwise, just use the last one entered
   if (bestElem.mapElementId-1 == prevElem.mapElementId && lastKey == bestElem.mapElementId-1) {
     nextElem = bestElem;
-    shouldAnimate = YES;
+    
+    if (shouldAnimate) {
+      *shouldAnimate = YES;
+    }
   } else {
     // In tutorial, there won't be a prevElem
-    nextElem = prevElem ?: bestElem;
+    nextElem = prevElem && prevElem.mapElementId <= bestElem.mapElementId ? prevElem : bestElem;
   }
+  
+  return nextElem;
+}
+
+- (void) centerOnAppropriateMapIcon {
+  BOOL shouldAnimate = NO;
+  TaskMapElementProto *prevElem = [self prevMapElement];
+  TaskMapElementProto *nextElem = [self nextMapElementAndShouldAnimate:&shouldAnimate];
   
   if (nextElem) {
     AttackMapIconView *icon = (AttackMapIconView *)[self.mapScrollView viewWithTag:nextElem.mapElementId];
@@ -308,7 +326,8 @@
     if (shouldAnimate) {
       AttackMapIconView *prevIcon = (AttackMapIconView *)[self.mapScrollView viewWithTag:prevElem.mapElementId];
       [self createMyPositionViewFromIcon:prevIcon toIcon:icon];
-      icon = prevIcon;
+      
+      [self setPrevMapElement:nextElem.mapElementId];
     } else {
       [self createMyPositionViewForIcon:icon];
       
@@ -367,6 +386,8 @@
   [pos addSubview:iv];
   pos.center = ccpAdd(icon.center, ccp(-16, -14));
   
+  _myPositionIcon = icon;
+  
   self.myPositionView = pos;
 }
 
@@ -375,20 +396,38 @@
   TaskMapElementProto *elem = [gs mapElementWithId:(int)tIcon.tag];
   FullTaskProto *task = [gs taskWithId:elem.taskId];
   
-  [tIcon updateForTaskMapElement:elem task:task isLocked:YES];
-  
   [self createMyPositionViewForIcon:fIcon];
   
-  CGPoint diff = ccpSub(self.myPositionView.center, fIcon.center);
-  [UIView animateWithDuration:1.05f delay:0.61f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+  [tIcon updateForTaskMapElement:elem task:task isLocked:YES];
+  
+  [self moveMyPositionViewToIcon:tIcon completion:^{
+    [self cityClicked:tIcon];
+  }];
+}
+
+- (void) moveMyPositionViewToIcon:(AttackMapIconView *)tIcon completion:(dispatch_block_t)completion {
+  GameState *gs = [GameState sharedGameState];
+  TaskMapElementProto *elem = [gs mapElementWithId:(int)tIcon.tag];
+  FullTaskProto *task = [gs taskWithId:elem.taskId];
+  
+  CGPoint diff = ccpSub(self.myPositionView.center, _myPositionIcon.center);
+  float delay = tIcon.isLocked ? 0.61f : 0.f;
+  float dur = tIcon.isLocked ? 1.05f : 0.7f;
+  [UIView animateWithDuration:dur delay:delay options:UIViewAnimationOptionCurveEaseInOut animations:^{
     self.myPositionView.center = ccpAdd(tIcon.center, diff);
   } completion:^(BOOL finished) {
     [tIcon updateForTaskMapElement:elem task:task isLocked:NO];
     
-    [self cityClicked:tIcon];
+    if (completion) {
+      completion();
+    }
   }];
   
-  [self performAfterDelay:0.61f block:^(void) { [SoundEngine nextTask]; }];
+  [self performAfterDelay:delay block:^(void) { [SoundEngine nextTask]; }];
+  
+  [self.myPositionView.superview bringSubviewToFront:self.myPositionView];
+  
+  _myPositionIcon = tIcon;
 }
 
 #pragma mark - IBActions
@@ -398,6 +437,10 @@
   
   AttackMapIconView *icon = (AttackMapIconView *)sender;
   [self showTaskStatusForMapElement:(int)icon.tag];
+  
+  if (_myPositionIcon != icon && !icon.isLocked) {
+    [self moveMyPositionViewToIcon:icon completion:nil];
+  }
   
   [_selectedIcon removeLabelAndGlow];
   _selectedIcon = icon;
