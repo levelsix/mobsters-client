@@ -11,6 +11,18 @@
 #import "LeaderBoardObject.h"
 #import "ChatView.h"
 
+@interface LeaderBoardBotBar : UIView
+
+@property (nonatomic, assign) BOOL isAnimating;
+@property (nonatomic, assign) BOOL isUp;
+
+- (void) scrollViewDidScrollCheck:(UIScrollView *)scrollView;
+
+- (void) animateIn:(dispatch_block_t)completion;
+- (void) animateOut:(dispatch_block_t)completion;
+
+@end
+
 @interface LeaderBoardViewCell: UITableViewCell
 
 - (void)updateWithLeaderBoardObject:(id<LeaderBoardObject>)leaderInfo scoreIcon:(NSString *)scoreIcon;
@@ -52,6 +64,7 @@
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
 @property (nonatomic, retain) IBOutlet UIView *containerView;
 @property (nonatomic, retain) IBOutlet UIView *mainView;
+@property (nonatomic, retain) IBOutlet LeaderBoardBotBar *botBar;
 
 - (id) initStrengthLeaderBoard;
 

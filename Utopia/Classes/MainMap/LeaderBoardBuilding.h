@@ -11,8 +11,11 @@
 @interface LeaderBoardBuilding : Building
 
 @property (nonatomic, retain) CCSprite *firstMonsterSprite;
+@property (nonatomic, retain) CCSprite *firstMonsterShadowSprite;
 @property (nonatomic, retain) CCSprite *secondMonsterSprite;
+@property (nonatomic, retain) CCSprite *secondMonsterShadowSprite;
 @property (nonatomic, retain) CCSprite *thirdMonsterSprite;
+@property (nonatomic, retain) CCSprite *thirdMonsterShadowSprite;
 
 - (void) reloadCharacterSprites;
 

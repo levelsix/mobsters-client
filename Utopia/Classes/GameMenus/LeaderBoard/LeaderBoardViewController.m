@@ -13,7 +13,68 @@
 #import "GameViewController.h"
 #import "ProfileViewController.h"
 
-#define HIGHEST_RANK_INCREMENT 25;
+#define HIGHEST_RANK_INCREMENT 25
+#define SCROLL_TO_HIDE_BAR_DISTANCE 20
+
+@implementation LeaderBoardBotBar
+
+- (void) awakeFromNib {
+  self.isUp = YES;
+}
+
+- (void) scrollViewDidScrollCheck:(UIScrollView *)scrollView {
+  if(self.isAnimating) {
+    return;
+  }
+  if(self.isUp) {
+    if( scrollView.contentOffset.y > SCROLL_TO_HIDE_BAR_DISTANCE) {
+      [UIView animateWithDuration:0.3f animations:^{
+        self.alpha = 0.f;
+      }];
+      self.isAnimating = YES;
+      [self animateOut:^{
+        self.isUp = NO;
+        self.isAnimating = NO;
+      }];
+    }
+  } else {
+    if( scrollView.contentOffset.y < SCROLL_TO_HIDE_BAR_DISTANCE) {
+      [UIView animateWithDuration:0.3f animations:^{
+        self.alpha = 1.f;
+      }];
+      self.isAnimating = YES;
+      [self animateIn:^{
+        self.isUp = YES;
+        self.isAnimating = NO;
+      }];
+    }
+  }
+}
+
+- (void) animateIn:(dispatch_block_t)completion {
+  CGPoint pt = ccp(self.superview.center.x, self.superview.frame.size.height - (self.frame.size.height/2) - 3);
+  self.center = ccp(pt.x, self.superview.frame.size.height + (self.frame.size.height/2));
+  
+  [UIView animateWithDuration:0.3f animations:^{
+    self.center = pt;
+  } completion:^(BOOL finished) {
+    if (completion) {
+      completion();
+    }
+  }];
+}
+
+- (void) animateOut:(dispatch_block_t)completion {
+  [UIView animateWithDuration:0.3f animations:^{
+    self.center = ccp(self.center.x, self.center.y + self.frame.size.height + 10);
+  } completion:^(BOOL finished) {
+    if (completion) {
+      completion();
+    }
+  }];
+}
+
+@end
 
 @implementation LeaderBoardViewCell
 
@@ -185,6 +246,8 @@
   if (!self.popoverView.hidden) {
     [self.popoverView close];
   }
+  
+  [self.botBar scrollViewDidScrollCheck:scrollView];
 }
 
 #pragma mark - popover
