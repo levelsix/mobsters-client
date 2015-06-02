@@ -243,28 +243,32 @@
   
   int numTimes = 0;
   
+  NSMutableArray *cacheArray = [NSMutableArray array];
+  
+  // Put all orbs in an array, shuffle, and put them back
+  NSMutableArray *array = [NSMutableArray array];
+  for (int i = 0; i < _numColumns; i++) {
+    for (int j = 0; j < _numRows; j++) {
+      
+      // Check if this is a special orb
+      BattleOrb* orb = [self orbAtColumn:i row:j];
+      
+      if (orb) {
+        [cacheArray addObject:orb];
+        
+        if (orb.specialOrbType != SpecialOrbTypeNone ||
+            ![orb isMovable])
+          continue;
+        
+        [array addObject:orb];
+      }
+    }
+  }
+  
   do {
     numTimes++;
     
     set = [NSMutableSet set];
-    
-    // Put all orbs in an array, shuffle, and put them back
-    NSMutableArray *array = [NSMutableArray array];
-    for (int i = 0; i < _numColumns; i++) {
-      for (int j = 0; j < _numRows; j++) {
-        
-        // Check if this is a special orb
-        BattleOrb* orb = [self orbAtColumn:i row:j];
-        
-        if (orb) {
-          if (orb.specialOrbType != SpecialOrbTypeNone ||
-              ![orb isMovable])
-            continue;
-          
-          [array addObject:orb];
-        }
-      }
-    }
     
     [array shuffle];
     
@@ -310,6 +314,25 @@
     // If there are no possible moves, then keep trying again until there are.
   }
   while (([self.possibleSwaps count] == 0 || (enforceNoMatches && foundMatch)) && numTimes < 1000);
+  
+  //If there weren't any matches, and we hit the number cap, put the orbs back in their original places
+  if ([self.possibleSwaps count] == 0) {
+    set = [NSMutableSet set];
+    NSInteger counter = 0;
+    for (int i = 0; i < _numColumns; i++) {
+      for (int j = 0; j < _numRows; j++) {
+        
+        if ([self orbAtColumn:i row:j]) { //Makes sure that we're not dealing with a hole
+          
+          BattleOrb *orb = cacheArray[counter++];
+          [self setOrb:orb column:i row:j];
+          orb.column = i;
+          orb.row = j;
+          [set addObject:orb];
+        }
+      }
+    }
+  }
   
   return set;
 }

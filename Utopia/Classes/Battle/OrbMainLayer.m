@@ -227,14 +227,21 @@
       if (!swaps.count) {
         NSSet *newOrbs = [self.layout shuffleEnforceNoMatches:YES];
         
-        OrbLog(@"No swaps found.. Shuffling.");
-        OrbLog(@"Layout: %@", self.layout);
         
-        [self.swipeLayer animateShuffle:newOrbs completion:^{
+        if ([self.layout detectPossibleSwaps].count) {
+          OrbLog(@"No swaps found.. Shuffling.");
+          OrbLog(@"Layout: %@", self.layout);
+          
+          [self.swipeLayer animateShuffle:newOrbs completion:^{
+            [self.delegate moveComplete];
+          }];
+          
+          [self.delegate reshuffleWithPrompt:@"No more moves!\nShuffling..."];
+        } else {
+          NSLog(@"Absolutely no swaps...");
           [self.delegate moveComplete];
-        }];
-        
-        [self.delegate reshuffleWithPrompt:@"No more moves!\nShuffling..."];
+          [self.delegate noPossibleMoves];
+        }
       } else {
         [self.delegate moveComplete];
       }

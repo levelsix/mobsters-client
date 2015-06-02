@@ -21,6 +21,7 @@
 - (void) powerupCreated:(BattleOrb *)orb;
 - (void) moveComplete;
 - (void) reshuffleWithPrompt:(NSString*)prompt;
+- (void) noPossibleMoves;
 
 @end
 
