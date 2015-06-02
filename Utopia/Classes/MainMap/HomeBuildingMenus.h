@@ -9,6 +9,7 @@
 #import "cocos2d.h"
 #import "NibUtils.h"
 #import "UserData.h"
+#import "CCProgressBar.h"
 #import <cocos2d-ui.h>
 
 #define PROGRESS_BAR_SPEED 2.f
@@ -24,24 +25,15 @@
 
 @end
 
-@interface UpgradeProgressBar : CCSprite {
+@interface UpgradeProgressBar : CCProgressBar {
   CCLabelTTF *_timeLabel;
   BOOL _isAnimatingFreeLabel;
 }
-
-@property (nonatomic, retain) CCSprite *leftCap;
-@property (nonatomic, retain) CCSprite *middleBar;
-@property (nonatomic, retain) CCSprite *rightCap;
-
-@property (nonatomic, assign) float percentage;
-
-@property (nonatomic, assign) NSString *prefix;
 
 - (id) initBarWithPrefix:(NSString *)prefix;
 
 - (void) updateForSecsLeft:(float)secs totalSecs:(int)totalSecs;
 - (void) updateTimeLabel:(float)secs;
-- (void) updateForPercentage:(float)percentage;
 
 - (void) animateFreeLabel;
 
