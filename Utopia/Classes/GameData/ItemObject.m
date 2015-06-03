@@ -150,16 +150,15 @@
   
   switch (self.staticItem.itemType) {
       
-    case ItemTypeRefreshMiniJob:
-      return [miniJobCenter itemGemPriceForItemId:self.staticItem.itemId];
-      
     case ItemTypeItemGachaCredit:
       return [gl calculateGemConversionForResourceType:ResourceTypeGachaCredits amount:self.staticItem.amount];
       
+    case ItemTypeRefreshMiniJob:
     case ItemTypeItemCash:
     case ItemTypeItemOil:
     case ItemTypeSpeedUp:
-      return (int)[(NSNumber *)[gs.staticItemPrices objectForKey:@(self.itemId)] integerValue];
+      return [gs priceForItemId:self.itemId];
+      
     case ItemTypeBoosterPack:
     case ItemTypeBuilder:
     case ItemTypeGachaMultiSpin:
@@ -266,20 +265,6 @@
 
 - (GameActionType)gameActionType {
   return GameActionTypeNoHelp;
-}
-
-@end
-
-@implementation MiniJobCenterProto (ItemPrices)
-
-- (int) itemGemPriceForItemId:(int)itemId {
-#warning fix this
-  for (ItemGemPriceProto *igpp in self.refreshMiniJobItemPricesList) {
-    if (igpp.itemId == itemId) {
-      return igpp.gemPrice;
-    }
-  }
-  return 0;
 }
 
 @end
