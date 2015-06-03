@@ -20132,7 +20132,6 @@
 				CF0CF3AC196F452900ECD301 /* speechbubbleshortname@2x.png in Resources */,
 				CFA8B19619EB63C400CF6BFD /* 6nightbomb@2x.png in Resources */,
 				4C16FEE119CE03A200F9FC1E /* earthpoison@2x.png in Resources */,
-				9B6B77E01A858B1A0080C8E5 /* 7moveslabel@2x.png in Resources */,
 				9B127E821B0E655F007C82D4 /* TopBarViewController~ipad.xib in Resources */,
 				CF0CF3AD196F452900ECD301 /* clanbrowseinactiveicon2@2x.png in Resources */,
 				29FFD9641A37E5100063C17C /* ChatClanAvengeView.xib in Resources */,
