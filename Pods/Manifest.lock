@@ -29,6 +29,7 @@ PODS:
   - OpenSSL (1.0.109)
   - ProtocolBuffers (1.9.2)
   - Reachability (3.2)
+  - SocketRocket (0.2.0)
   - UIImage+BlurredFrame (0.0.4)
 
 DEPENDENCIES:
@@ -42,6 +43,7 @@ DEPENDENCIES:
   - OpenSSL
   - ProtocolBuffers (= 1.9.2)
   - Reachability
+  - SocketRocket
   - UIImage+BlurredFrame
 
 EXTERNAL SOURCES:
@@ -56,15 +58,16 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   Adjust: c7337fc450d35b0024072066d9278ff5e99cde67
-  AFNetworking: 0aabc6fae66d6e5d039eeb21c315843c7aae51ab
-  Amplitude-iOS: 826033d01dee9383131d1237a1911e7170a8e0c1
-  ChartboostSDK: b7ba4d09bbe76615f42317db5d9fd93fc3b37ebc
-  GPUImage: cecb0830bb9428f50192042e3c7b53810f51388e
-  Kamcord: 25e536123c58574e2de6c4190ef5308f4f0e2a5e
-  NRTouchPoints: 27181c60de1320be3510948c363b25bc19e20145
-  OpenSSL: 4810adf5c99b0e2cd20670a11a987c805e8a521c
-  ProtocolBuffers: a834d6fe4ae0cc94d081b864e4948bdd483ad228
-  Reachability: 1ef8adf5c4e3d362f96515d4278f68dad3c26930
-  UIImage+BlurredFrame: 0c38f5760d72125c47d16001a88faaac573bd35d
+  AFNetworking: 41d45d2c14219af0fa5addf3cfd433a002c13c9f
+  Amplitude-iOS: 09a0cc0d6d137f5c27dc1a8ca0da212f37da6bd1
+  ChartboostSDK: f4a056c38382a377b2de3946aa3a0c917a5fd7a0
+  GPUImage: 4675ce4a5370ca92fcea8623b2a08b8f0c51b940
+  Kamcord: 0b6898a2f80529564cb1d6cab65ce943137e3e40
+  NRTouchPoints: e516cbf22a1b727d149cd5a916602bf1678a4958
+  OpenSSL: 330c34f9ab6e2819dc80f3a2da961e0bc8f1be19
+  ProtocolBuffers: f3ea199412832b2ff70bbbb4288e0f70cf4ba757
+  Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
+  SocketRocket: 54a4ac2f354c4e8c51ef5dcd4a13bc556d4f2b7c
+  UIImage+BlurredFrame: ad2f7195c6947ea3117c7d202f75a51958d5061a
 
 COCOAPODS: 0.35.0
