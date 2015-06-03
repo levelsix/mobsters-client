@@ -1421,7 +1421,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (void) addToStaticItemPricesP:(NSArray *)arr {
   for (ItemGemPriceProto *price in arr) {
-    [self.staticItemPrices setObject:@(price.gemPrice) forKey:@(price.itemId)];
+    if (![self.staticItemPrices objectForKey:@(price.itemId)]) {
+      [self.staticItemPrices setObject:[[NSMutableArray alloc] init] forKey:@(price.itemId)];
+    }
+    
+    NSMutableArray *itemArray = [self.staticItemPrices objectForKey:@(price.itemId)];
+    [itemArray addObject:price];
   }
 }
 
@@ -2378,6 +2383,22 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _fakeGemsEnabled = NO;
     [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
   }
+}
+
+- (int) priceForItemId:(int)itemId {
+  NSMutableArray *itemArray = [self.staticItemPrices objectForKey:@(itemId)];
+  
+  for (UserStruct *us in self.myStructs) {
+    for (ItemGemPriceProto *igpp in itemArray) {
+      if (igpp.structId == 0 || us.structId == igpp.structId) {
+        return igpp.gemPrice;
+      }
+    }
+  }
+  
+  [Globals popupMessage:@"No gem price found for requested Item"];
+  
+  return 0;
 }
 
 @end

@@ -364,4 +364,6 @@
 - (void) enableFakeGemTotal;
 - (void) disableFakeGemTotal;
 
+- (int) priceForItemId:(int)itemId;
+
 @end

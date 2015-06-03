@@ -79,9 +79,3 @@
 @property (nonatomic, weak) id<GemsItemDelegate> delegate;
 
 @end
-
-@interface MiniJobCenterProto (ItemPrices)
-
-- (int) itemGemPriceForItemId:(int)itemId;
-
-@end
