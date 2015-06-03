@@ -2123,17 +2123,18 @@ static NSString *udid = nil;
 #pragma mark - Web Socket Delegate
 
 - (void) webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message {
+  NSLog(@"websocket received message.");
   NSData *data = (NSData *)message;
   [self receivedMessage:data];
 }
 
 - (void) webSocketDidOpen:(SRWebSocket *)webSocket {
-  NSLog(@"Web socket opened..");
+  NSLog(@"websocket opened..");
   [self connectedToHost];
 }
 
 - (void) webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error {
-  NSLog(@"websocket failed");
+  NSLog(@"websocket failed.");
   [self unableToConnectToHost:error.localizedDescription];
 }
 
