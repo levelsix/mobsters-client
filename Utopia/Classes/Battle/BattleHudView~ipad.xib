@@ -27,7 +27,7 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         </imageView>
                         <view contentMode="scaleToFill" id="Khg-Xa-g6c">
-                            <rect key="frame" x="208" y="8" width="609" height="86"/>
+                            <rect key="frame" x="199" y="9" width="609" height="86"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="pKL-OX-wJm">
@@ -40,10 +40,6 @@
                                         <action selector="hideSkillPopup:" destination="iN0-l3-epB" eventType="touchUpInside" id="uU7-pV-Re4"/>
                                     </connections>
                                 </button>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="center" image="currentborder.png" id="9zk-OI-CN4">
-                                    <rect key="frame" x="5" y="7" width="76" height="76"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                </imageView>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
@@ -56,6 +52,10 @@
                             <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.65000000000000002" colorSpace="deviceRGB"/>
                             <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="center" image="currentborder.png" id="9zk-OI-CN4">
+                            <rect key="frame" x="211" y="15" width="76" height="76"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                        </imageView>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enemy 1/5" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="lh2-01-Mam" customClass="NiceFontLabel18S">
                             <rect key="frame" x="87" y="23" width="92" height="18"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -65,11 +65,18 @@
                             <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
                             <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enemy Name" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Alk-re-OjZ" customClass="NiceFontLabel18S">
-                            <rect key="frame" x="49" y="47" width="130" height="37"/>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Alk-re-OjZ" customClass="NiceFontLabel18S">
+                            <rect key="frame" x="20" y="47" width="159" height="37"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <attributedString key="attributedText">
+                                <fragment content="Enemy Name">
+                                    <attributes>
+                                        <color key="NSColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <font key="NSFont" size="20" name="HelveticaNeue"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="right" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                    </attributes>
+                                </fragment>
+                            </attributedString>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
                             <size key="shadowOffset" width="0.0" height="1"/>
@@ -84,7 +91,6 @@
                                     <state key="normal" image="runaway.png">
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
-                                    <state key="highlighted" image="runawaybgwidepressed.png"/>
                                     <connections>
                                         <action selector="forfeitClicked:" destination="-1" eventType="touchUpInside" id="81I-N9-aDe"/>
                                     </connections>
@@ -238,6 +244,7 @@
                 <outlet property="deployView" destination="zMQ-pc-wO7" id="pam-1a-pfD"/>
                 <outlet property="elementButton" destination="2kS-qV-7b6" id="H06-P8-4sH"/>
                 <outlet property="elementView" destination="Qgz-Lk-NDV" id="Epa-eU-LmG"/>
+                <outlet property="enemyNameLabel" destination="Alk-re-OjZ" id="wob-qp-DhZ"/>
                 <outlet property="forfeitButtonView" destination="BNm-Sv-afd" id="ZlG-ba-rmi"/>
                 <outlet property="itemsBadge" destination="uI0-v9-Nkg" id="pnh-7V-t8n"/>
                 <outlet property="itemsBag" destination="uSD-qR-E8i" id="mtA-bo-tP3"/>
@@ -252,43 +259,43 @@
             <point key="canvasLocation" x="1571" y="654"/>
         </view>
         <view contentMode="scaleToFill" id="zMQ-pc-wO7" customClass="BattleDeployView">
-            <rect key="frame" x="0.0" y="0.0" width="235" height="93"/>
+            <rect key="frame" x="0.0" y="0.0" width="352" height="140"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <view clipsSubviews="YES" contentMode="scaleToFill" id="Shq-Kd-QMs">
-                    <rect key="frame" x="0.0" y="31" width="235" height="62"/>
+                    <rect key="frame" x="0.0" y="52" width="352" height="88"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <subviews>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="deployedge.png" id="Vp2-35-bMz">
-                            <rect key="frame" x="0.0" y="0.0" width="18" height="62"/>
+                            <rect key="frame" x="0.0" y="0.0" width="18" height="88"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         </imageView>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="deploymiddle.png" id="gok-Ko-1X6">
-                            <rect key="frame" x="18" y="0.0" width="199" height="62"/>
+                            <rect key="frame" x="18" y="-5" width="316" height="93"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         </imageView>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="deployedge.png" id="HFK-DL-842" customClass="FlipImageView">
-                            <rect key="frame" x="217" y="0.0" width="18" height="62"/>
+                            <rect key="frame" x="334" y="0.0" width="18" height="88"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         </imageView>
                         <view clipsSubviews="YES" tag="1" contentMode="scaleToFill" id="5Aj-Qu-dRy" customClass="BattleDeployCardView">
-                            <rect key="frame" x="7" y="7" width="48" height="48"/>
+                            <rect key="frame" x="10" y="7" width="74" height="74"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="deployemptyslot.png" id="nUG-qR-apn">
-                                    <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="74" height="74"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
                                 <view contentMode="scaleToFill" id="fnR-2P-d6S" customClass="MiniMonsterView">
-                                    <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="74" height="74"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="earthmediumsquare.png" id="8Zf-El-30A">
-                                            <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="earthsquare.png" id="8Zf-El-30A">
+                                            <rect key="frame" x="0.0" y="0.0" width="74" height="74"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
                                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="nTB-DM-kQU">
-                                            <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="74" height="74"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
                                         <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="turnmovesbg.png" id="1gC-vS-0co" userLabel="Side Effect 1">
@@ -308,15 +315,15 @@
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
                                         <view userInteractionEnabled="NO" contentMode="scaleToFill" id="RGZ-9j-nAM" userLabel="Health View">
-                                            <rect key="frame" x="2" y="28" width="44" height="16"/>
+                                            <rect key="frame" x="2" y="55" width="69" height="16"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="hospitaltimeleftbg.png" id="DdE-EO-Spn">
-                                                    <rect key="frame" x="3" y="6" width="37" height="8"/>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="teamhealthbarbg.png" id="DdE-EO-Spn">
+                                                    <rect key="frame" x="3" y="6" width="63" height="8"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
                                                 <view contentMode="scaleToFill" id="X2k-hL-8nZ" customClass="SplitImageProgressBar">
-                                                    <rect key="frame" x="3" y="6" width="37" height="8"/>
+                                                    <rect key="frame" x="3" y="6" width="63" height="8"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <subviews>
                                                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="teamhealthbarcap.png" id="rdP-jN-ghx">
@@ -340,9 +347,9 @@
                                                     </connections>
                                                 </view>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="12m 22s" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Gni-dB-dBU" customClass="NiceFontLabel10S">
-                                                    <rect key="frame" x="1" y="-5" width="42" height="21"/>
+                                                    <rect key="frame" x="1" y="-7" width="67" height="23"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                     <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
@@ -352,7 +359,7 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <view contentMode="scaleToFill" id="pmz-Eh-EKn" customClass="EvoBadge">
-                                            <rect key="frame" x="29" y="18" width="12" height="12"/>
+                                            <rect key="frame" x="56" y="44" width="12" height="12"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="evobadge2.png" id="5Ed-Y5-zCC">
@@ -408,23 +415,23 @@
                             </connections>
                         </view>
                         <view clipsSubviews="YES" tag="2" contentMode="scaleToFill" id="ps3-qg-gHI" customClass="BattleDeployCardView">
-                            <rect key="frame" x="62" y="7" width="48" height="48"/>
+                            <rect key="frame" x="94" y="7" width="74" height="74"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="deployemptyslot.png" id="sr4-Q9-qVm">
-                                    <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="74" height="74"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
                                 <view contentMode="scaleToFill" id="dqC-mn-2oX" customClass="MiniMonsterView">
-                                    <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="74" height="74"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="earthmediumsquare.png" id="Aty-OC-3g4">
-                                            <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="earthsquare.png" id="Aty-OC-3g4">
+                                            <rect key="frame" x="0.0" y="0.0" width="74" height="74"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
                                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="kWO-Mf-t9Q">
-                                            <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="74" height="74"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
                                         <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="turnmovesbg.png" id="0h7-0F-QeE" userLabel="Side Effect 1">
@@ -444,15 +451,15 @@
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
                                         <view userInteractionEnabled="NO" contentMode="scaleToFill" id="vcr-24-yTw" userLabel="Health View">
-                                            <rect key="frame" x="2" y="28" width="44" height="16"/>
+                                            <rect key="frame" x="2" y="55" width="69" height="16"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="hospitaltimeleftbg.png" id="z61-0k-Yng">
-                                                    <rect key="frame" x="3" y="6" width="37" height="8"/>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="teamhealthbarbg.png" id="z61-0k-Yng">
+                                                    <rect key="frame" x="3" y="6" width="63" height="8"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
                                                 <view contentMode="scaleToFill" id="P0r-sa-03a" customClass="SplitImageProgressBar">
-                                                    <rect key="frame" x="3" y="6" width="37" height="8"/>
+                                                    <rect key="frame" x="3" y="6" width="63" height="8"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <subviews>
                                                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="teamhealthbarcap.png" id="zSn-q1-kSY">
@@ -476,9 +483,9 @@
                                                     </connections>
                                                 </view>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="12m 22s" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="7BS-Gt-qYo" customClass="NiceFontLabel10S">
-                                                    <rect key="frame" x="1" y="-5" width="42" height="21"/>
+                                                    <rect key="frame" x="1" y="-7" width="67" height="23"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                     <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
@@ -488,7 +495,7 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <view contentMode="scaleToFill" id="A0G-6E-h9g" customClass="EvoBadge">
-                                            <rect key="frame" x="29" y="18" width="12" height="12"/>
+                                            <rect key="frame" x="56" y="44" width="12" height="12"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="evobadge2.png" id="398-Ev-2aZ">
@@ -543,24 +550,28 @@
                                 <outlet property="monsterView" destination="dqC-mn-2oX" id="GbN-C9-uC3"/>
                             </connections>
                         </view>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="deploysep.png" id="Gkh-FS-mGh">
+                            <rect key="frame" x="259" y="9" width="1" height="72"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
                         <view clipsSubviews="YES" tag="3" contentMode="scaleToFill" id="poR-KN-pwl" customClass="BattleDeployCardView">
-                            <rect key="frame" x="117" y="7" width="48" height="48"/>
+                            <rect key="frame" x="178" y="8" width="74" height="74"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="deployemptyslot.png" id="yoA-A7-Kx9">
-                                    <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="74" height="74"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
                                 <view contentMode="scaleToFill" id="bSz-mb-k9k" customClass="MiniMonsterView">
-                                    <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="74" height="74"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="earthmediumsquare.png" id="yGH-1c-XuM">
-                                            <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="earthsquare.png" id="yGH-1c-XuM">
+                                            <rect key="frame" x="0.0" y="0.0" width="74" height="74"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
                                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="cKY-i2-l42">
-                                            <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="74" height="74"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
                                         <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="turnmovesbg.png" id="NFd-Zk-K7l" userLabel="Side Effect 1">
@@ -580,15 +591,15 @@
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
                                         <view userInteractionEnabled="NO" contentMode="scaleToFill" id="0i4-VP-7ny" userLabel="Health View">
-                                            <rect key="frame" x="2" y="28" width="44" height="16"/>
+                                            <rect key="frame" x="2" y="55" width="69" height="16"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="hospitaltimeleftbg.png" id="nMr-zc-kbw">
-                                                    <rect key="frame" x="3" y="6" width="37" height="8"/>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="teamhealthbarbg.png" id="nMr-zc-kbw">
+                                                    <rect key="frame" x="3" y="6" width="63" height="8"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
                                                 <view contentMode="scaleToFill" id="psm-7G-42A" customClass="SplitImageProgressBar">
-                                                    <rect key="frame" x="3" y="6" width="37" height="8"/>
+                                                    <rect key="frame" x="3" y="6" width="63" height="8"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <subviews>
                                                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="teamhealthbarcap.png" id="8gn-4o-F1l">
@@ -612,9 +623,9 @@
                                                     </connections>
                                                 </view>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="12m 22s" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="N6h-p9-iw9" customClass="NiceFontLabel10S">
-                                                    <rect key="frame" x="1" y="-5" width="42" height="21"/>
+                                                    <rect key="frame" x="1" y="-7" width="67" height="23"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                     <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
@@ -624,7 +635,7 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <view contentMode="scaleToFill" id="ubx-FN-wUy" customClass="EvoBadge">
-                                            <rect key="frame" x="29" y="18" width="12" height="12"/>
+                                            <rect key="frame" x="56" y="44" width="12" height="12"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="evobadge2.png" id="wDx-V2-Hoj">
@@ -680,23 +691,23 @@
                             </connections>
                         </view>
                         <view clipsSubviews="YES" tag="4" contentMode="scaleToFill" id="vOx-HX-eoA" customClass="BattleDeployCardView">
-                            <rect key="frame" x="180" y="7" width="48" height="48"/>
+                            <rect key="frame" x="267" y="8" width="74" height="74"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="deployemptyslot.png" id="idm-ZS-ld3">
-                                    <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="74" height="74"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
                                 <view contentMode="scaleToFill" id="HWY-mY-6rl" customClass="MiniMonsterView">
-                                    <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="74" height="74"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="earthmediumsquare.png" id="iG9-tV-7Xs">
-                                            <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="earthsquare.png" id="iG9-tV-7Xs">
+                                            <rect key="frame" x="0.0" y="0.0" width="74" height="74"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
                                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="5R3-tU-auK">
-                                            <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="74" height="74"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
                                         <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="turnmovesbg.png" id="qnH-0p-brp" userLabel="Side Effect 1">
@@ -716,15 +727,15 @@
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
                                         <view userInteractionEnabled="NO" contentMode="scaleToFill" id="hTt-nV-Jzn" userLabel="Health View">
-                                            <rect key="frame" x="2" y="28" width="44" height="16"/>
+                                            <rect key="frame" x="2" y="55" width="69" height="16"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="hospitaltimeleftbg.png" id="nOi-Sc-zLu">
-                                                    <rect key="frame" x="3" y="6" width="37" height="8"/>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="teamhealthbarbg.png" id="nOi-Sc-zLu">
+                                                    <rect key="frame" x="3" y="6" width="63" height="8"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
                                                 <view contentMode="scaleToFill" id="eNw-qw-H2T" customClass="SplitImageProgressBar">
-                                                    <rect key="frame" x="3" y="6" width="37" height="8"/>
+                                                    <rect key="frame" x="3" y="6" width="63" height="8"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <subviews>
                                                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="teamhealthbarcap.png" id="K5H-iR-8hB">
@@ -748,9 +759,9 @@
                                                     </connections>
                                                 </view>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="12m 22s" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="cYd-QC-7HJ" customClass="NiceFontLabel10S">
-                                                    <rect key="frame" x="1" y="-5" width="42" height="21"/>
+                                                    <rect key="frame" x="1" y="-7" width="67" height="23"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                     <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
@@ -760,7 +771,7 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <view contentMode="scaleToFill" id="vje-SD-ZVr" customClass="EvoBadge">
-                                            <rect key="frame" x="29" y="18" width="12" height="12"/>
+                                            <rect key="frame" x="56" y="44" width="12" height="12"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="evobadge2.png" id="1Hs-Ei-QWp">
@@ -815,15 +826,11 @@
                                 <outlet property="monsterView" destination="HWY-mY-6rl" id="VLp-dY-296"/>
                             </connections>
                         </view>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="deploysep.png" id="Gkh-FS-mGh">
-                            <rect key="frame" x="172" y="7" width="1" height="48"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Select a Mobster to Deploy:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="MBM-Xk-jdF" customClass="NiceFontLabel18S">
-                    <rect key="frame" x="30" y="7" width="175" height="21"/>
+                    <rect key="frame" x="88.5" y="7" width="175" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -841,7 +848,7 @@
                 <outletCollection property="cardViews" destination="poR-KN-pwl" id="Joh-kb-NfN"/>
                 <outletCollection property="cardViews" destination="vOx-HX-eoA" id="e2o-Rl-tbQ"/>
             </connections>
-            <point key="canvasLocation" x="853.5" y="811.5"/>
+            <point key="canvasLocation" x="853" y="811"/>
         </view>
         <view alpha="0.0" contentMode="scaleToFill" id="JNg-DH-1f5" userLabel="SkillTutorialView">
             <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
@@ -944,26 +951,25 @@
         </view>
     </objects>
     <resources>
-        <image name="badgeicon.png" width="18" height="18"/>
+        <image name="badgeicon.png" width="26" height="27"/>
         <image name="currentborder.png" width="76" height="76"/>
         <image name="deployedge.png" width="21" height="88"/>
         <image name="deployemptyslot.png" width="74" height="74"/>
         <image name="deploymiddle.png" width="1" height="88"/>
         <image name="deploysep.png" width="1" height="1"/>
-        <image name="earthmediumsquare.png" width="48" height="48"/>
         <image name="earthskilldescription.png" width="219" height="129"/>
+        <image name="earthsquare.png" width="74" height="74"/>
         <image name="elementreeicon.png" width="19" height="19"/>
         <image name="elementtree2.png" width="227" height="109"/>
         <image name="evobadge2.png" width="12" height="12"/>
         <image name="fireorb.png" width="41" height="51"/>
-        <image name="hospitaltimeleftbg.png" width="37" height="8"/>
         <image name="ipadcurrentbar.png" width="1023" height="126"/>
         <image name="itemsbag.png" width="30" height="34"/>
         <image name="itemsbutton.png" width="90" height="74"/>
         <image name="itemsbuttongray.png" width="66" height="50"/>
         <image name="runaway.png" width="119" height="39"/>
-        <image name="runawaybgwidepressed.png" width="75" height="21"/>
         <image name="skilldescriptionline.png" width="186" height="1"/>
+        <image name="teamhealthbarbg.png" width="44" height="8"/>
         <image name="teamhealthbarcap.png" width="3" height="8"/>
         <image name="teamhealthbarmiddle.png" width="1" height="8"/>
         <image name="teamswaparrow.png" width="23" height="23"/>

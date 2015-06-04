@@ -185,7 +185,7 @@ static UIImage *img = nil;
   [Globals imageNamed:file withView:self.monsterIcon greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   if (element != ElementNoElement) {
-    NSString *suffix = self.bgdIcon.frame.size.width > 45 ? @"mediumsquare.png" : @"smallsquare.png";
+    NSString *suffix = self.bgdIcon.frame.size.width >= 74 ? @"square.png" : self.bgdIcon.frame.size.width > 45 ? @"mediumsquare.png" : @"smallsquare.png";
     file = !greyscale ? [Globals imageNameForElement:element suffix:suffix] : [@"grey" stringByAppendingString:suffix];
     [Globals imageNamed:file withView:self.bgdIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   }
