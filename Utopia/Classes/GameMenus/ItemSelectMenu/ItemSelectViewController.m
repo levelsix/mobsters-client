@@ -243,16 +243,16 @@
     // Reload it
     NSString *prefix = nil;
     if (color == TimerProgressBarColorYellow) {
-      prefix =  [Globals isiPad] ? @"itembaryellowbarcurrent" : @"obtimeryellow";
+      prefix = [Globals isiPad] ? @"itembaryellowbarcurrent" : @"obtimeryellow";
     } else if (color == TimerProgressBarColorGreen) {
       prefix = [Globals isiPad] ? @"upgradebarcurrent" : @"obtimergreen";
     } else if (color == TimerProgressBarColorPurple) {
-      prefix =  [Globals isiPad] ? @"itembarpurplebarcurrent" : @"obtimerpurple";
+      prefix = [Globals isiPad] ? @"itembarpurplebarcurrent" : @"obtimerpurple";
     }
     
-    self.progressBar.leftCap.image = [Globals imageNamed:[prefix stringByAppendingString:@"cap.png"] useiPhone6Prefix:NO useiPadSuffix:[Globals isiPad]];
-    self.progressBar.rightCap.image = [Globals imageNamed:[prefix stringByAppendingString:@"cap.png"] useiPhone6Prefix:NO useiPadSuffix:[Globals isiPad]];
-    self.progressBar.middleBar.image = [Globals imageNamed:[prefix stringByAppendingString:@"middle.png"] useiPhone6Prefix:NO useiPadSuffix:[Globals isiPad]];
+    self.progressBar.leftCap.image = [Globals imageNamed:[prefix stringByAppendingString:@"cap.png"]];
+    self.progressBar.rightCap.image = [Globals imageNamed:[prefix stringByAppendingString:@"cap.png"]];
+    self.progressBar.middleBar.image = [Globals imageNamed:[prefix stringByAppendingString:@"middle.png"]];
     
     self.progressBar.tag = color;
   }
