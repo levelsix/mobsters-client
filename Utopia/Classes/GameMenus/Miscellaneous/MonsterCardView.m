@@ -204,7 +204,11 @@ static UIImage *img = nil;
     if ([sideEffectView viewWithTag:7910] == nil)
     {
       UIImageView* sideEffectSymbol = [[UIImageView alloc] initWithImage:[Globals imageNamed:icon]];
-      [sideEffectSymbol setFrame:CGRectMake(1.f, 1.f, 13.f, 14.f)];
+      if ([Globals isiPad]) {
+        [sideEffectSymbol setFrame:CGRectMake(1.f, 1.f, 20.f, 21.f)];
+      } else {
+        [sideEffectSymbol setFrame:CGRectMake(1.f, 1.f, 13.f, 14.f)];
+      }
       [sideEffectSymbol setContentMode:UIViewContentModeScaleAspectFit];
       [sideEffectSymbol setTag:7910];
       [sideEffectView addSubview:sideEffectSymbol];
