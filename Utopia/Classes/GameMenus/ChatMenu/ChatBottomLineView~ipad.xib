@@ -16,7 +16,7 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" id="EeO-1w-Hh1" customClass="CircleMonsterView">
-                    <rect key="frame" x="-3" y="-7" width="40" height="40"/>
+                    <rect key="frame" x="0.0" y="-7" width="40" height="40"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="nightavatar.png" id="aOA-DM-eC5">
@@ -35,7 +35,7 @@
                     </connections>
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Coopatroopa:" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Viw-DA-04S" customClass="NiceFontLabel14B">
-                    <rect key="frame" x="30" y="1" width="136" height="22"/>
+                    <rect key="frame" x="33" y="1" width="136" height="22"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -44,7 +44,7 @@
                     <size key="shadowOffset" width="0.0" height="1"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="yo, let's raaaaaaid!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Tcs-0h-jPi" customClass="NiceFontLabel16B">
-                    <rect key="frame" x="129" y="1" width="219" height="22"/>
+                    <rect key="frame" x="132" y="1" width="219" height="22"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -53,7 +53,7 @@
                     <size key="shadowOffset" width="0.0" height="1"/>
                 </label>
                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="newchatdot.png" id="P88-Ey-iTY">
-                    <rect key="frame" x="29" y="8" width="10" height="10"/>
+                    <rect key="frame" x="32" y="8" width="10" height="10"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
             </subviews>

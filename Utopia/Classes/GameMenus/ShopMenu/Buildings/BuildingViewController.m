@@ -11,8 +11,8 @@
 #import "GameState.h"
 #import "Globals.h"
 
-#define TREE_WIDTH 259
-#define TREE_HEIGHT 180
+#define TREE_WIDTH  ([Globals isiPad] ? 389 : 259)
+#define TREE_HEIGHT ([Globals isiPad] ? 235 : 180)
 
 @implementation BuildingViewController
 
