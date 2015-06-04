@@ -1798,13 +1798,8 @@ void undoDelayOnScrollViewHierarchy(UIView *v) {
   self.leftCap.contentMode = UIViewContentModeLeft;
   self.rightCap.contentMode = UIViewContentModeLeft;
   self.middleBar.contentMode = UIViewContentModeScaleToFill;
-
   
   self.rightCap.transform = CGAffineTransformMakeScale(-1, 1);
-  if (self.rightBgCap) {
-    self.rightBgCap.transform = CGAffineTransformMakeScale(-1, 1);
-    self.rightBgCap.contentMode = UIViewContentModeLeft;
-  }
   
   self.leftCap.centerY = self.height/2;
   self.rightCap.centerY = self.height/2;
