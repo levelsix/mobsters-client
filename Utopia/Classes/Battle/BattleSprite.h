@@ -60,6 +60,9 @@
 
 @property (nonatomic, assign) BOOL muteAttacks;
 
+// On the ipad, enemy sprites take an extra scene to enter. When this flag is up, we need to do another scene of running before starting combat 
+@property (nonatomic, assign) BOOL ipadEnterBufferFlag;
+
 - (void) addSkillSideEffect:(SideEffectType)type forSkill:(NSInteger)skillId turnsAffected:(NSInteger)numTurns
    turnsAreSideEffectOwners:(BOOL)turnsAreSideEffectOwners toPlayer:(BOOL)player;
 - (void) resetAfftectedTurnsCount:(NSInteger)numTurns forSkillSideEffect:(SideEffectType)type;
