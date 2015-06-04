@@ -616,9 +616,14 @@
     if (_puzzleIsOnLeft) finalPos = ccpAdd(finalPos, ccp(PUZZLE_ON_LEFT_BGD_OFFSET, 0));
     CGPoint offsetPerScene = POINT_OFFSET_PER_SCENE;
     CGPoint newPos = ccpAdd(finalPos, ccp(Y_MOVEMENT_FOR_NEW_SCENE*offsetPerScene.x/offsetPerScene.y, Y_MOVEMENT_FOR_NEW_SCENE));
+    if ([Globals isiPad]) {
+      newPos = ccpAdd(newPos, ccp(Y_MOVEMENT_FOR_NEW_SCENE*offsetPerScene.x/offsetPerScene.y, Y_MOVEMENT_FOR_NEW_SCENE));
+    }
     
     self.currentEnemy.position = newPos;
-    [self.currentEnemy runAction:[CCActionMoveTo actionWithDuration:TIME_TO_SCROLL_PER_SCENE position:finalPos]];
+    [self.currentEnemy runAction:[CCActionMoveTo actionWithDuration:TIME_TO_SCROLL_PER_SCENE * ([Globals isiPad] ? 2 : 1) position:finalPos]];
+    
+    self.currentEnemy.ipadEnterBufferFlag = YES;
     
     [self.currentEnemy.healthLabel stopActionByTag:RED_TINT_TAG];
     self.currentEnemy.healthLabel.color = [CCColor colorWithCcColor3b:ccc3(255,255,255)];
@@ -2446,6 +2451,13 @@
   [self.myPlayer stopWalking];
   
   if (self.enemyPlayerObject) {
+    
+    if (self.currentEnemy.ipadEnterBufferFlag) {
+      [self.myPlayer beginWalking];
+      [self.bgdLayer scrollToNewScene];
+      self.currentEnemy.ipadEnterBufferFlag = NO;
+      return;
+    }
     
     _hasStarted = YES;
     _reachedNextScene = YES;
