@@ -299,19 +299,19 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
                                         <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="turnmovesbg.png" id="1gC-vS-0co" userLabel="Side Effect 1">
-                                            <rect key="frame" x="4" y="4" width="15" height="16"/>
+                                            <rect key="frame" x="6" y="6" width="23" height="24"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
                                         <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="turnmovesbg.png" id="Hg0-MU-tKo" userLabel="Side Effect 2">
-                                            <rect key="frame" x="23" y="4" width="15" height="16"/>
+                                            <rect key="frame" x="32" y="6" width="23" height="24"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
                                         <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="turnmovesbg.png" id="zFH-j4-lYN" userLabel="Side Effect 3">
-                                            <rect key="frame" x="4" y="22" width="15" height="16"/>
+                                            <rect key="frame" x="6" y="33" width="23" height="24"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
                                         <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="turnmovesbg.png" id="VYD-hA-fGI" userLabel="Side Effect 4">
-                                            <rect key="frame" x="23" y="22" width="15" height="16"/>
+                                            <rect key="frame" x="33" y="32" width="23" height="24"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
                                         <view userInteractionEnabled="NO" contentMode="scaleToFill" id="RGZ-9j-nAM" userLabel="Health View">
@@ -435,19 +435,19 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
                                         <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="turnmovesbg.png" id="0h7-0F-QeE" userLabel="Side Effect 1">
-                                            <rect key="frame" x="4" y="4" width="15" height="16"/>
+                                            <rect key="frame" x="6" y="6" width="23" height="24"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
                                         <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="turnmovesbg.png" id="wvl-Ae-9qp" userLabel="Side Effect 2">
-                                            <rect key="frame" x="23" y="4" width="15" height="16"/>
+                                            <rect key="frame" x="32" y="6" width="23" height="24"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
                                         <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="turnmovesbg.png" id="mD1-eG-WWZ" userLabel="Side Effect 3">
-                                            <rect key="frame" x="4" y="22" width="15" height="16"/>
+                                            <rect key="frame" x="6" y="33" width="23" height="24"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
                                         <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="turnmovesbg.png" id="wcE-yn-EaA" userLabel="Side Effect 4">
-                                            <rect key="frame" x="23" y="22" width="15" height="16"/>
+                                            <rect key="frame" x="33" y="32" width="23" height="24"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
                                         <view userInteractionEnabled="NO" contentMode="scaleToFill" id="vcr-24-yTw" userLabel="Health View">
@@ -575,19 +575,19 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
                                         <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="turnmovesbg.png" id="NFd-Zk-K7l" userLabel="Side Effect 1">
-                                            <rect key="frame" x="4" y="4" width="15" height="16"/>
+                                            <rect key="frame" x="6" y="6" width="23" height="24"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
                                         <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="turnmovesbg.png" id="400-eD-5Vn" userLabel="Side Effect 2">
-                                            <rect key="frame" x="23" y="4" width="15" height="16"/>
+                                            <rect key="frame" x="32" y="6" width="23" height="24"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
                                         <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="turnmovesbg.png" id="b9D-fE-Rs0" userLabel="Side Effect 3">
-                                            <rect key="frame" x="4" y="22" width="15" height="16"/>
+                                            <rect key="frame" x="6" y="33" width="23" height="24"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
                                         <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="turnmovesbg.png" id="Bl5-Q5-eXp" userLabel="Side Effect 4">
-                                            <rect key="frame" x="23" y="22" width="15" height="16"/>
+                                            <rect key="frame" x="33" y="32" width="23" height="24"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
                                         <view userInteractionEnabled="NO" contentMode="scaleToFill" id="0i4-VP-7ny" userLabel="Health View">
@@ -711,19 +711,19 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
                                         <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="turnmovesbg.png" id="qnH-0p-brp" userLabel="Side Effect 1">
-                                            <rect key="frame" x="4" y="4" width="15" height="16"/>
+                                            <rect key="frame" x="6" y="6" width="23" height="24"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
                                         <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="turnmovesbg.png" id="54O-Wh-gKG" userLabel="Side Effect 2">
-                                            <rect key="frame" x="23" y="4" width="15" height="16"/>
+                                            <rect key="frame" x="32" y="6" width="23" height="24"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
                                         <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="turnmovesbg.png" id="Pul-qP-8ZZ" userLabel="Side Effect 3">
-                                            <rect key="frame" x="4" y="22" width="15" height="16"/>
+                                            <rect key="frame" x="6" y="33" width="23" height="24"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
                                         <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="turnmovesbg.png" id="qGl-du-mlZ" userLabel="Side Effect 4">
-                                            <rect key="frame" x="23" y="22" width="15" height="16"/>
+                                            <rect key="frame" x="33" y="32" width="23" height="24"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
                                         <view userInteractionEnabled="NO" contentMode="scaleToFill" id="hTt-nV-Jzn" userLabel="Health View">
@@ -830,7 +830,7 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Select a Mobster to Deploy:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="MBM-Xk-jdF" customClass="NiceFontLabel18S">
-                    <rect key="frame" x="88.5" y="7" width="175" height="21"/>
+                    <rect key="frame" x="89" y="7" width="175" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

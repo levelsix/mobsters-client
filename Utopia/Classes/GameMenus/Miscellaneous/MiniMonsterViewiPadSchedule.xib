@@ -43,19 +43,19 @@
                     </connections>
                 </view>
                 <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="turnmovesbg.png" id="gMX-Ip-7eY" userLabel="Side Effect 1">
-                    <rect key="frame" x="4" y="4" width="15" height="16"/>
+                    <rect key="frame" x="6" y="6" width="23" height="24"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
                 <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="turnmovesbg.png" id="PLc-4d-0Sv" userLabel="Side Effect 2">
-                    <rect key="frame" x="23" y="4" width="15" height="16"/>
+                    <rect key="frame" x="33" y="6" width="23" height="24"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
                 <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="turnmovesbg.png" id="NwK-89-2P9" userLabel="Side Effect 3">
-                    <rect key="frame" x="4" y="22" width="15" height="16"/>
+                    <rect key="frame" x="6" y="32" width="23" height="24"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
                 <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="turnmovesbg.png" id="T5o-el-sVo" userLabel="Side Effect 4">
-                    <rect key="frame" x="23" y="22" width="15" height="16"/>
+                    <rect key="frame" x="33" y="32" width="23" height="24"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
             </subviews>
