@@ -2123,7 +2123,6 @@ static NSString *udid = nil;
 #pragma mark - Web Socket Delegate
 
 - (void) webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message {
-  NSLog(@"websocket received message.");
   NSData *data = (NSData *)message;
   [self receivedMessage:data];
 }
@@ -2135,12 +2134,14 @@ static NSString *udid = nil;
 
 - (void) webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error {
   NSLog(@"websocket failed.");
-  [self unableToConnectToHost:error.localizedDescription];
+  if (_shouldReconnect) {
+    [self unableToConnectToHost:error.localizedDescription];
+  }
 }
 
 - (void) webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean {
   NSLog(@"websocket closed. %@", reason);
-  if (!wasClean) {
+  if (_canSendRegularEvents) {
     [self callSelectorOnHostDelegate:@selector(amqpDisconnected)];
   }
 }
