@@ -95,6 +95,8 @@
 @property (nonatomic, retain) IBOutlet BattleSkillCounterPopupView* skillPopupView;
 @property (nonatomic, retain) IBOutlet UIButton* skillPopupCloseButton;
 
+@property (nonatomic, retain) IBOutlet UILabel *enemyNameLabel;
+
 @property (nonatomic, assign) CGPoint schedulePosition;
 
 @property (nonatomic, weak) id<BattleLayerSkillPopupDelegate> battleLayerDelegate;
