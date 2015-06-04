@@ -618,6 +618,8 @@
     spr.opacity = 0.f;
     //spr.blendFunc = (ccBlendFunc){GL_SRC_ALPHA, GL_ONE};
     spr.blendMode = [CCBlendMode blendModeWithOptions:@{CCBlendFuncSrcColor: @(GL_SRC_ALPHA), CCBlendFuncDstColor: @(GL_ONE)}];
+    if ([Globals isiPad])
+      spr.scale = 1.0/1.5;
     
     float pulseDur = 0.4f;
     float numTimes = 4;
