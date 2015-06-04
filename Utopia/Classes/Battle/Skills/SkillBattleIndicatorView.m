@@ -554,6 +554,8 @@
     [_skillCounterLabel setString:@"PASSIVE"];
     [_skillOrbIcon setVisible:NO];
   }
+  
+  self.contentSize = CGSizeMake(fullWidth, _skillIcon.position.x + _skillIcon.contentSize.height);
 }
 
 - (void) setSkillPercentage:(float)percentage
@@ -581,6 +583,16 @@
   _skillBarRightCap.position = ccp(totalWidth * _skillBarMiddle.contentSize.width + _skillBarRightCap.contentSize.width, 0);
   
   [self checkChargeEffect];
+}
+
+- (void) popupOrbCounter
+{
+  CGPoint orbCounterPosition = [self convertToWorldSpace:_skillIcon.position];
+  
+  orbCounterPosition = ccp(orbCounterPosition.x * 1.5, orbCounterPosition.y * .66 - _skillIcon.contentSize.height);
+  
+  [skillManager displaySkillCounterPopupForController:self.skillController withProto:_skillProto atPosition:orbCounterPosition];
+  
 }
 
 @end
