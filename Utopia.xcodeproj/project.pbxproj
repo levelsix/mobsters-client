@@ -2712,6 +2712,8 @@
 		6BECC4B91B20A3DD008AC524 /* 3moveslabel@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BECC4B21B20A3DD008AC524 /* 3moveslabel@2x~ipad.png */; };
 		6BECC4BA1B20A3DD008AC524 /* 3moveslabel@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BECC4B21B20A3DD008AC524 /* 3moveslabel@2x~ipad.png */; };
 		6BECC4BB1B20A3DD008AC524 /* 3moveslabel@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BECC4B21B20A3DD008AC524 /* 3moveslabel@2x~ipad.png */; };
+		6BECC4BF1B20D708008AC524 /* BattleHudView~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B19FBA61B152734007C8C62 /* BattleHudView~ipad.xib */; };
+		6BECC4C11B20D708008AC524 /* BattleHudView~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B19FBA61B152734007C8C62 /* BattleHudView~ipad.xib */; };
 		9B0E6E2C1A73373100118210 /* confusionbubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B0E6E211A73373100118210 /* confusionbubble@2x.png */; };
 		9B0E6E2D1A73373100118210 /* confusionbubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B0E6E211A73373100118210 /* confusionbubble@2x.png */; };
 		9B0E6E2E1A73373100118210 /* confusionbubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B0E6E211A73373100118210 /* confusionbubble@2x.png */; };
@@ -19955,6 +19957,7 @@
 				29BE5F891B0BB9F400BF9591 /* Default@2x.png in Resources */,
 				CFA729241A0B037900FF6031 /* watereventtag@2x.png in Resources */,
 				6B1EA9B71ACF5DCB00E0B642 /* VinesDown09.png in Resources */,
+				6BECC4BF1B20D708008AC524 /* BattleHudView~ipad.xib in Resources */,
 				CF0CEE50196F452900ECD301 /* 3x3dark@2x.png in Resources */,
 				9B7AAB461AC0CDE300CA387F /* eventtimerbg@2x.png in Resources */,
 				63CA0AD11AD5B8BB00E92774 /* activelanguageflag@2x.png in Resources */,
@@ -24686,6 +24689,7 @@
 				9BB948731A68A85B006EE920 /* 6basicgrabgachatabactive@2x.png in Resources */,
 				6B1EAA691ACF5DCC00E0B642 /* VinesMain@2x.pvr.ccz in Resources */,
 				6B1EAA121ACF5DCC00E0B642 /* VinesMain19.png in Resources */,
+				6BECC4C11B20D708008AC524 /* BattleHudView~ipad.xib in Resources */,
 				634174701A843521006DA494 /* greenchatdivider@2x.png in Resources */,
 				CF481AE519F7217F00041486 /* clannewsinactive@2x.png in Resources */,
 				63C57EA41A66282700ED406E /* gradientlightdailylab@2x.png in Resources */,

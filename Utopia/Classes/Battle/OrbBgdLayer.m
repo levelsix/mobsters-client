@@ -209,9 +209,7 @@
         corner.flipX = YES;
         corner.flipY = YES;
         corner.anchorPoint = ccp(1, 1);
-        [self iPadScaleSprite:corner];
-        if ([Globals isiPad])
-          corner.position= ccpAdd(corner.position, ccp(1.2,.8));
+        [self iPadScaleSprite:corner ratio:1.4];
         
         [_borderNode addChild:corner];
       }
@@ -395,9 +393,13 @@
 #pragma mark - Util
 
 - (void) iPadScaleSprite:(CCSprite*)sprite {
+  [self iPadScaleSprite:sprite ratio:1.5];
+}
+
+- (void) iPadScaleSprite:(CCSprite*)sprite ratio:(float)ratio {
   if ([Globals isiPad]) {
-    sprite.scaleX *= 1.5;
-    sprite.scaleY *= 1.5;
+    sprite.scaleX *= ratio;
+    sprite.scaleY *= ratio;
   }
 }
 
