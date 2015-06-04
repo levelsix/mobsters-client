@@ -23,6 +23,8 @@
   self.iconLabel.strokeSize = 2.1f;
   self.iconLabel.strokeColor = [UIColor colorWithWhite:236/255.f alpha:1.f];
   
+  self.backgroundColor = [UIColor clearColor];
+  
   _origIconLabelColor = self.iconLabel.textColor;
 }
 
@@ -241,16 +243,16 @@
     // Reload it
     NSString *prefix = nil;
     if (color == TimerProgressBarColorYellow) {
-      prefix = @"obtimeryellow";
+      prefix =  [Globals isiPad] ? @"itembaryellowbarcurrent" : @"obtimeryellow";
     } else if (color == TimerProgressBarColorGreen) {
-      prefix = @"obtimergreen";
+      prefix = [Globals isiPad] ? @"upgradebarcurrent" : @"obtimergreen";
     } else if (color == TimerProgressBarColorPurple) {
-      prefix = @"obtimerpurple";
+      prefix =  [Globals isiPad] ? @"itembarpurplebarcurrent" : @"obtimerpurple";
     }
     
-    self.progressBar.leftCap.image = [Globals imageNamed:[prefix stringByAppendingString:@"cap.png"]];
-    self.progressBar.rightCap.image = [Globals imageNamed:[prefix stringByAppendingString:@"cap.png"]];
-    self.progressBar.middleBar.image = [Globals imageNamed:[prefix stringByAppendingString:@"middle.png"]];
+    self.progressBar.leftCap.image = [Globals imageNamed:[prefix stringByAppendingString:@"cap.png"] useiPhone6Prefix:NO useiPadSuffix:[Globals isiPad]];
+    self.progressBar.rightCap.image = [Globals imageNamed:[prefix stringByAppendingString:@"cap.png"] useiPhone6Prefix:NO useiPadSuffix:[Globals isiPad]];
+    self.progressBar.middleBar.image = [Globals imageNamed:[prefix stringByAppendingString:@"middle.png"] useiPhone6Prefix:NO useiPadSuffix:[Globals isiPad]];
     
     self.progressBar.tag = color;
   }
