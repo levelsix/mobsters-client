@@ -2,7 +2,6 @@
 //DO NO START PROPERTY METHODS WITH THE WORDS NEW OR COPY
 
 import "LeaderBoard.proto";
-import "SharedEnumConfig.proto";
 import "User.proto";
 
 
@@ -17,18 +16,20 @@ option java_outer_classname = "EventLeaderBoardProto";
 message RetrieveStrengthLeaderBoardRequestProto {
 	optional MinimumUserProto sender = 1;
 	
-	//for client: if you want the highest strength up to the 50th highest 
-	//strength, minRank is 1, maxRank is 50
-	//for server: ranks start at 0, offset client values
+	//if you want the highest strength up to the 50th highest 
+	//strength, minRank is 0, maxRank is 50
 	optional int32 minRank = 2;
 	optional int32 maxRank = 3;
 }
 
 message RetrieveStrengthLeaderBoardResponseProto {
 	optional MinimumUserProto sender = 1;
-	optional StrengthLeaderBoardProto senderLeaderBoardInfo = 2;
-	repeated StrengthLeaderBoardProto leaderBoardInfo = 3;
-	optional ResponseStatus status = 4;
+	repeated StrengthLeaderBoardProto slbp = 2;
+	optional RetrieveStrengthLeaderBoardStatus status = 3;
 	
+	enum RetrieveStrengthLeaderBoardStatus {
+     	SUCCESS = 1;
+     	FAIL_OTHER = 2;
+    }
 
 }
