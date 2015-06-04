@@ -623,7 +623,8 @@
     self.currentEnemy.position = newPos;
     [self.currentEnemy runAction:[CCActionMoveTo actionWithDuration:TIME_TO_SCROLL_PER_SCENE * ([Globals isiPad] ? 2 : 1) position:finalPos]];
     
-    self.currentEnemy.ipadEnterBufferFlag = YES;
+    if ([Globals isiPad])
+      self.currentEnemy.ipadEnterBufferFlag = YES;
     
     [self.currentEnemy.healthLabel stopActionByTag:RED_TINT_TAG];
     self.currentEnemy.healthLabel.color = [CCColor colorWithCcColor3b:ccc3(255,255,255)];
