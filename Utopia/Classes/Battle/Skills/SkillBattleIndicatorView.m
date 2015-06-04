@@ -522,23 +522,24 @@
   [_skillActiveIcon setOpacity:0.f];
   [_skillCounterBg addChild:_skillActiveIcon];
   
-  _skillOwnerLabel = [CCLabelTTF labelWithString:self.skillController.belongsToPlayer ? @"YOUR SKILL" : @"ENEMY SKILL" fontName:@"GothamNarrow-Ultra" fontSize:9.f];
-  [_skillOwnerLabel setAnchorPoint:CGPointMake(0, .5)];
-  [_skillOwnerLabel setColor:[CCColor whiteColor]];
-  [_skillOwnerLabel setPosition:ccp(_skillIcon.contentSize.width + 5, 43)];
-  [_skillOwnerLabel setShadowBlurRadius:1.f];
-  [_skillOwnerLabel setShadowOffset:ccp(0.f, -1.f)];
-  [_skillOwnerLabel setShadowColor:[CCColor blackColor]];
-  [self addChild:_skillOwnerLabel];
-  
-  _skillNameLabel = [CCLabelTTF labelWithString:[skillName uppercaseString] fontName:@"GothamNarrow-Ultra" fontSize:14.f];
-  [_skillNameLabel setAnchorPoint:CGPointMake(0, .5)];
+  _skillNameLabel = [CCLabelTTF labelWithString:[skillName uppercaseString] fontName:@"GothamNarrow-Ultra" fontSize:14.f dimensions:CGSizeMake(fullWidth - (_skillIcon.contentSize.width+10), 0)];
+  [_skillNameLabel setAnchorPoint:CGPointMake(0, 0)];
+  [_skillNameLabel setHorizontalAlignment:CCTextAlignmentLeft];
   [_skillNameLabel setColor:[CCColor whiteColor]];
-  [_skillNameLabel setPosition:ccp(_skillIcon.contentSize.width + 5, 28)];
+  [_skillNameLabel setPosition:ccp(_skillIcon.contentSize.width + 5, 15)];
   [_skillNameLabel setShadowBlurRadius:1.f];
   [_skillNameLabel setShadowOffset:ccp(0.f, -1.f)];
   [_skillNameLabel setShadowColor:[CCColor blackColor]];
   [self addChild:_skillNameLabel];
+  
+  _skillOwnerLabel = [CCLabelTTF labelWithString:self.skillController.belongsToPlayer ? @"YOUR SKILL" : @"ENEMY SKILL" fontName:@"GothamNarrow-Ultra" fontSize:9.f];
+  [_skillOwnerLabel setAnchorPoint:CGPointMake(0, 0)];
+  [_skillOwnerLabel setColor:[CCColor whiteColor]];
+  [_skillOwnerLabel setPosition:ccp(0, _skillNameLabel.contentSize.height - 2)];
+  [_skillOwnerLabel setShadowBlurRadius:1.f];
+  [_skillOwnerLabel setShadowOffset:ccp(0.f, -1.f)];
+  [_skillOwnerLabel setShadowColor:[CCColor blackColor]];
+  [_skillNameLabel addChild:_skillOwnerLabel];
   
   if ([self.skillController isKindOfClass:[SkillControllerActive class]])
   {
