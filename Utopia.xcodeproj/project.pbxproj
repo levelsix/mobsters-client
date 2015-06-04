@@ -2773,6 +2773,9 @@
 		9BA69CB81B20EA1E00FE01A8 /* crossedout@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BA69CB71B20EA1E00FE01A8 /* crossedout@2x~ipad.png */; };
 		9BA69CB91B20EA1E00FE01A8 /* crossedout@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BA69CB71B20EA1E00FE01A8 /* crossedout@2x~ipad.png */; };
 		9BA69CBA1B20EA1E00FE01A8 /* crossedout@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BA69CB71B20EA1E00FE01A8 /* crossedout@2x~ipad.png */; };
+		9BA69CC11B210C4600FE01A8 /* greyitemsbutton@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BA69CC01B210C4600FE01A8 /* greyitemsbutton@2x~ipad.png */; };
+		9BA69CC21B210C4600FE01A8 /* greyitemsbutton@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BA69CC01B210C4600FE01A8 /* greyitemsbutton@2x~ipad.png */; };
+		9BA69CC31B210C4600FE01A8 /* greyitemsbutton@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BA69CC01B210C4600FE01A8 /* greyitemsbutton@2x~ipad.png */; };
 		9BB5AF681AA661BA002076E3 /* BoardDesignerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BB5AF661AA661BA002076E3 /* BoardDesignerViewController.m */; };
 		9BB5AF691AA661BA002076E3 /* BoardDesignerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BB5AF661AA661BA002076E3 /* BoardDesignerViewController.m */; };
 		9BB5AF6A1AA661BA002076E3 /* BoardDesignerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BB5AF661AA661BA002076E3 /* BoardDesignerViewController.m */; };
@@ -8486,6 +8489,7 @@
 		9BA69CAF1B20E70000FE01A8 /* menugemminemine@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menugemminemine@2x~ipad.png"; sourceTree = "<group>"; };
 		9BA69CB31B20E9E300FE01A8 /* thegemminelogo@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "thegemminelogo@2x~ipad.png"; sourceTree = "<group>"; };
 		9BA69CB71B20EA1E00FE01A8 /* crossedout@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "crossedout@2x~ipad.png"; sourceTree = "<group>"; };
+		9BA69CC01B210C4600FE01A8 /* greyitemsbutton@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greyitemsbutton@2x~ipad.png"; sourceTree = "<group>"; };
 		9BB5AF651AA661BA002076E3 /* BoardDesignerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoardDesignerViewController.h; sourceTree = "<group>"; };
 		9BB5AF661AA661BA002076E3 /* BoardDesignerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoardDesignerViewController.m; sourceTree = "<group>"; };
 		9BB5AF671AA661BA002076E3 /* BoardDesignerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BoardDesignerView.xib; sourceTree = "<group>"; };
@@ -16687,6 +16691,7 @@
 			isa = PBXGroup;
 			children = (
 				63E23E9F1B169BE500F4A27C /* greenitemsbutton@2x~ipad.png */,
+				9BA69CC01B210C4600FE01A8 /* greyitemsbutton@2x~ipad.png */,
 				63E23EA01B169BE500F4A27C /* itemsheaderbg@2x~ipad.png */,
 				63E23EA11B169BE500F4A27C /* itemsquarebg@2x~ipad.png */,
 				63E23EA21B169BE500F4A27C /* itemssidearrow@2x~ipad.png */,
@@ -16794,12 +16799,12 @@
 		CFBEB1BC1A1186F200149937 /* View Controller */ = {
 			isa = PBXGroup;
 			children = (
-				63A005BD1B1FADB9009C8AFE /* ItemSelectViewController~ipad.xib */,
-				63E23E971B16941400F4A27C /* ItemSelectCell~ipad.xib */,
 				CFA9F7771A0D8D8900EBE77D /* ItemSelectViewController.h */,
 				CFA9F7781A0D8D8900EBE77D /* ItemSelectViewController.m */,
 				CFA9F7791A0D8D8900EBE77D /* ItemSelectViewController.xib */,
+				63A005BD1B1FADB9009C8AFE /* ItemSelectViewController~ipad.xib */,
 				CFA9F7D41A0DB3AF00EBE77D /* ItemSelectCell.xib */,
+				63E23E971B16941400F4A27C /* ItemSelectCell~ipad.xib */,
 			);
 			name = "View Controller";
 			sourceTree = "<group>";
@@ -20184,6 +20189,7 @@
 				CFA8B19419EB63C400CF6BFD /* 6lightbomb@2x.png in Resources */,
 				CFA8B1A919EB740B00CF6BFD /* notmiddleorange@2x.png in Resources */,
 				CF0CF65F196F452900ECD301 /* taskdonebg@2x.png in Resources */,
+				9BA69CC21B210C4600FE01A8 /* greyitemsbutton@2x~ipad.png in Resources */,
 				29DE06751B0BC31C00D33B72 /* tipbg@2x.png in Resources */,
 				CF0CF660196F452900ECD301 /* sfx_tap_clear_land.mp3 in Resources */,
 				6B67FE241A93F69900DBA8AE /* 6cloud2-9@2x.png in Resources */,
@@ -20762,6 +20768,7 @@
 				CFC9717C182C74E500FF1D83 /* firepointsfont.fnt in Resources */,
 				9B7AAB6C1AC0CDE300CA387F /* tier3counter@2x.png in Resources */,
 				CFC4D2A018D7BD04004681FD /* sfx_upgrade_button.mp3 in Resources */,
+				9BA69CC11B210C4600FE01A8 /* greyitemsbutton@2x~ipad.png in Resources */,
 				29AF48D41AAA93DA0034927C /* itembaginfobaredge@2x.png in Resources */,
 				2992D7B71AA5326B00547B11 /* gemminebg@2x.png in Resources */,
 				9BB948E21A6D93DC006EE920 /* revealsep@2x.png in Resources */,
@@ -23918,6 +23925,7 @@
 				CF4821BA19F7217F00041486 /* minijobsredbubble1@2x.png in Resources */,
 				9BBE36F71AE7275D001A0E81 /* gachaallarrowdisabled@2x.png in Resources */,
 				CF4821BB19F7217F00041486 /* Gotham-Book.otf in Resources */,
+				9BA69CC31B210C4600FE01A8 /* greyitemsbutton@2x~ipad.png in Resources */,
 				CF4821BC19F7217F00041486 /* greywhite1@2x.png in Resources */,
 				CF4821BD19F7217F00041486 /* earthpointsfont.fnt in Resources */,
 				CF4821BE19F7217F00041486 /* Gotham-Medium.otf in Resources */,
