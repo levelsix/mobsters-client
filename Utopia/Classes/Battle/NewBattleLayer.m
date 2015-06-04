@@ -724,6 +724,7 @@
   }
   self.hudView.battleScheduleView.delegate = self;
   [self.hudView.battleScheduleView setOrdering:ids showEnemyBands:enemyBands playerTurns:playerTurns];
+  [self.hudView.enemyNameLabel setAttributedText:self.currentEnemy.nameLabel.attributedString];
 }
 
 - (void) beginNextTurn {

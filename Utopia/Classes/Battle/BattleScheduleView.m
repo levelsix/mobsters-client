@@ -153,7 +153,11 @@
   [self.monsterViews addObject:new];
   
   UIView *v = [[UIView alloc] initWithFrame:new.frame];
-  v.center = ccp(-new.frame.size.width/2, self.containerView.frame.size.height/2);
+  if ([Globals isiPad]) {
+    v.center = ccp(self.containerView.frame.size.width + new.frame.size.width/2, self.containerView.frame.size.height/2);
+  } else {
+    v.center = ccp(-new.frame.size.width/2, self.containerView.frame.size.height/2);
+  }
   [v addSubview:new];
   [self.containerView addSubview:v];
   
@@ -192,7 +196,7 @@
 }
 
 - (MiniMonsterView *) monsterViewForMonsterId:(int)monsterId showEnemyBand:(BOOL)showEnemyBand player:(BOOL)player {
-  MiniMonsterView *mmv = [[NSBundle mainBundle] loadNibNamed:@"MiniMonsterView" owner:self options:nil][0];
+  MiniMonsterView *mmv = [[NSBundle mainBundle] loadNibNamed:([Globals isiPad] ? @"MiniMonsterViewiPadSchedule" : @"MiniMonsterView") owner:self options:nil][0];
   [mmv updateForMonsterId:monsterId];
   mmv.evoBadge.hidden = YES;
   mmv.belongsToPlayer = player;
@@ -201,9 +205,10 @@
     UIImageView *iv = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"enemystripes.png"]];
     [mmv insertSubview:iv aboveSubview:mmv.bgdIcon];
     iv.alpha = 0.6;
+    iv.size = mmv.size;
     
     THLabel *label = [[THLabel alloc] initWithFrame:CGRectMake(1, mmv.frame.size.height-15, mmv.frame.size.width, 15)];
-    label.font = [UIFont fontWithName:@"GothamNarrow-Ultra" size:8];
+    label.font = [UIFont fontWithName:@"GothamNarrow-Ultra" size:[Globals isiPad] ? 12 : 8];
     label.textAlignment = NSTextAlignmentCenter;
     label.gradientStartColor = [UIColor colorWithRed:255/255.f green:182/255.f blue:0.f alpha:1.f];
     label.gradientEndColor = [UIColor colorWithRed:255/255.f green:53/255.f blue:0.f alpha:1.f];
@@ -299,7 +304,8 @@
 
 - (CGPoint)centerForIndex:(int)i width:(float)width
 {
-  return ccp(VIEW_SPACING*(i+1)+width*(i+0.5), self.containerView.frame.size.height/2);
+  return ccp(13*(i+1)+width*(i+0.5), self.containerView.frame.size.height/2);
 }
+
 
 @end

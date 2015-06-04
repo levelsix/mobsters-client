@@ -8,19 +8,19 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="huH-8S-dJE" customClass="MiniMonsterView">
-            <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
+            <rect key="frame" x="0.0" y="0.0" width="74" height="74"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="earthsmallsquare.png" id="by4-T0-Cck">
-                    <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="earthsquare.png" id="by4-T0-Cck">
+                    <rect key="frame" x="0.0" y="0.0" width="74" height="74"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="uqT-gm-TaP">
-                    <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
+                    <rect key="frame" x="0.0" y="0.0" width="74" height="74"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
                 <view contentMode="scaleToFill" id="VYh-71-EHG" customClass="EvoBadge">
-                    <rect key="frame" x="4" y="25" width="12" height="12"/>
+                    <rect key="frame" x="4" y="55" width="12" height="12"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="evobadge2.png" id="A0Z-Jg-0i0">
@@ -75,7 +75,7 @@
         </view>
     </objects>
     <resources>
-        <image name="earthsmallsquare.png" width="42" height="42"/>
+        <image name="earthsquare.png" width="74" height="74"/>
         <image name="evobadge2.png" width="12" height="12"/>
         <image name="turnmovesbg.png" width="15" height="16"/>
     </resources>

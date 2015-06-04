@@ -107,7 +107,8 @@
           {
             damage *= _critMultiplier;
             [self showCriticalHit];
-            SkillLogStart(@"Crit and Evade -- Skill caused a critical hit, increasing damage to %ld", (long)damage);        }
+            SkillLogStart(@"Crit and Evade -- Skill caused a critical hit, increasing damage to %ld", (long)damage);
+          }
         }
       }
     }
