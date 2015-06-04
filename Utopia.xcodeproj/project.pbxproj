@@ -2756,6 +2756,9 @@
 		6B8E800E1B0187C2009BDDD7 /* SkillPopupOverlayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B8E800D1B0187C2009BDDD7 /* SkillPopupOverlayController.m */; };
 		6B8E800F1B0187C2009BDDD7 /* SkillPopupOverlayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B8E800D1B0187C2009BDDD7 /* SkillPopupOverlayController.m */; };
 		6B8E80101B0187C2009BDDD7 /* SkillPopupOverlayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B8E800D1B0187C2009BDDD7 /* SkillPopupOverlayController.m */; };
+		6B97523F1B1F827400DA483E /* MiniMonsterViewiPadSchedule.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B97523E1B1F827400DA483E /* MiniMonsterViewiPadSchedule.xib */; };
+		6B9752401B1F827400DA483E /* MiniMonsterViewiPadSchedule.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B97523E1B1F827400DA483E /* MiniMonsterViewiPadSchedule.xib */; };
+		6B9752411B1F827400DA483E /* MiniMonsterViewiPadSchedule.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B97523E1B1F827400DA483E /* MiniMonsterViewiPadSchedule.xib */; };
 		6BA24DF31A7A9ECF00BEF920 /* SkillBloodRage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA24DF21A7A9ECF00BEF920 /* SkillBloodRage.m */; };
 		6BA24E091A7AEA6E00BEF920 /* SkillTakeAim.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA24E081A7AEA6E00BEF920 /* SkillTakeAim.m */; };
 		6BA24E0A1A7AEA6E00BEF920 /* SkillTakeAim.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA24E081A7AEA6E00BEF920 /* SkillTakeAim.m */; };
@@ -9283,6 +9286,7 @@
 		6B8CD5891A9BB45C000DAAB8 /* SkillControllerSpecialOrb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillControllerSpecialOrb.m; sourceTree = "<group>"; };
 		6B8E800B1B0187B0009BDDD7 /* SkillPopupOverlayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillPopupOverlayController.h; sourceTree = "<group>"; };
 		6B8E800D1B0187C2009BDDD7 /* SkillPopupOverlayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillPopupOverlayController.m; sourceTree = "<group>"; };
+		6B97523E1B1F827400DA483E /* MiniMonsterViewiPadSchedule.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MiniMonsterViewiPadSchedule.xib; sourceTree = "<group>"; };
 		6BA24DF01A7A9EC100BEF920 /* SkillBloodRage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillBloodRage.h; sourceTree = "<group>"; };
 		6BA24DF21A7A9ECF00BEF920 /* SkillBloodRage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillBloodRage.m; sourceTree = "<group>"; };
 		6BA24E061A7AEA6100BEF920 /* SkillTakeAim.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SkillTakeAim.h; sourceTree = "<group>"; };
@@ -16193,6 +16197,7 @@
 				DA86921C19C75D5A00320A74 /* ColoredLogs.h */,
 				DA0FC55419B15A6C00393BF4 /* CustomAssert.h */,
 				CF023CB819935D2C0082FE61 /* MiniMonsterView.xib */,
+				6B97523E1B1F827400DA483E /* MiniMonsterViewiPadSchedule.xib */,
 				CFADDB3317D00ED000B1FF3C /* MonsterCardView.h */,
 				CFADDB3417D00ED000B1FF3C /* MonsterCardView.m */,
 				CFADDB3717D00EF300B1FF3C /* MonsterCardView.xib */,
@@ -21242,7 +21247,6 @@
 				CF0CF3AC196F452900ECD301 /* speechbubbleshortname@2x.png in Resources */,
 				CFA8B19619EB63C400CF6BFD /* 6nightbomb@2x.png in Resources */,
 				4C16FEE119CE03A200F9FC1E /* earthpoison@2x.png in Resources */,
-				9B6B77E01A858B1A0080C8E5 /* 7moveslabel@2x.png in Resources */,
 				9B127E821B0E655F007C82D4 /* TopBarViewController~ipad.xib in Resources */,
 				CF0CF3AD196F452900ECD301 /* clanbrowseinactiveicon2@2x.png in Resources */,
 				29FFD9641A37E5100063C17C /* ChatClanAvengeView.xib in Resources */,
@@ -22336,6 +22340,7 @@
 				CF0CF817196F452900ECD301 /* cancelbuild@2x.png in Resources */,
 				63C57EA91A66282700ED406E /* gradientlockeddailylab@2x.png in Resources */,
 				9BB9495F1A6F1AFF006EE920 /* menubasicgrab@2x.png in Resources */,
+				6B9752401B1F827400DA483E /* MiniMonsterViewiPadSchedule.xib in Resources */,
 				CF0CF81B196F452900ECD301 /* confirmbuild@2x.png in Resources */,
 				CF6A650419D252D00002E05D /* 6earthgrenade@2x.png in Resources */,
 				29E00D521A7997D300F34D51 /* bomblabel@2x.png in Resources */,
@@ -22985,7 +22990,6 @@
 				4562FCE0158A8BC2005206E5 /* round_glow@2x.png in Resources */,
 				CFC04DBC188FE8D400F2DB59 /* wonlostbg2@2x.png in Resources */,
 				9B127F461B1D1A4C007C82D4 /* timersgreenmiddle@2x~ipad.png in Resources */,
-				CFE7CDA41819FC3300930847 /* nightbar@2x.png in Resources */,
 				6B19FCB71B1527B1007C8C62 /* skillcounterbarbgcap@2x~ipad.png in Resources */,
 				CFF412A719BFC261002672D4 /* QuestCompleteLayer.ccbi in Resources */,
 				CF6574EA1909CEBC00ABF1F4 /* AchievementsViewController.xib in Resources */,
@@ -24659,6 +24663,7 @@
 				CF010F3119DDE5C400DAD527 /* chatinputbgmiddle@2x.png in Resources */,
 				6B1EAA521ACF5DCC00E0B642 /* VinesDown@2x.plist in Resources */,
 				CFA8B1B919EF524800CF6BFD /* 6movesqueuebgwide@2x.png in Resources */,
+				6B97523F1B1F827400DA483E /* MiniMonsterViewiPadSchedule.xib in Resources */,
 				CF812EF819E67D4E00D91157 /* clanshelpactive@2x.png in Resources */,
 				6B1EAA2B1ACF5DCC00E0B642 /* VinesRight08.png in Resources */,
 				CFEE89D118EC00C100047CA4 /* overbuildingbar@2x.png in Resources */,
@@ -25222,7 +25227,7 @@
 				9BDA8B771A3B8DC200C7AC27 /* 6nightheadshot@2x.png in Resources */,
 				CF481CBE19F7217F00041486 /* superband@2x.png in Resources */,
 				9BA69BF71B1D536800FE01A8 /* chatmiddle@2x~ipad.png in Resources */,
-				6B19FC561B1527B1007C8C62 /* 6rocksideways@2x.png in Resources */,
+				6B19FC561B1527B1007C8C62 /* rocksideways@2x~ipad.png in Resources */,
 				6B19FC561B1527B1007C8C62 /* rocksideways@2x~ipad.png in Resources */,
 				63AB75581A79D17400CFC2B4 /* jobsbutton@2x.png in Resources */,
 				9B84E8001B2A4D5900DF8499 /* bigspingoldpressed@2x~ipad.png in Resources */,
@@ -26623,6 +26628,7 @@
 				CF4823B919F7217F00041486 /* cashready@2x.png in Resources */,
 				9BB9484A1A65D37B006EE920 /* basicgrabinactivetabpressed@2x.png in Resources */,
 				9BDA8BDE1A43837D00C7AC27 /* NewGachaFeaturedView.xib in Resources */,
+				6B9752411B1F827400DA483E /* MiniMonsterViewiPadSchedule.xib in Resources */,
 				2985E5C21A30044E0041ABF4 /* bubblemiddle.png in Resources */,
 				CF4823C019F7217F00041486 /* platinumprofribbon@2x.png in Resources */,
 				9BA69C4B1B1FB34B00FE01A8 /* GachaChooserViewController~ipad.xib in Resources */,
