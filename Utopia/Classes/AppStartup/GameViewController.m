@@ -1733,7 +1733,7 @@ static const CGSize FIXED_SIZE = {568, 384};
   [gs beginEnhanceTimer];
   [gs beginEvolutionTimer];
   [gs beginHealingTimer];
-  [gs beginMiniJobTimerShowFreeSpeedupImmediately:NO];
+  [gs beginMiniJobTimerShowFreeSpeedupImmediately:YES];
   [gs beginAvengeTimer];
   [gs beginBattleItemTimer];
   [gs beginResearchTimer];

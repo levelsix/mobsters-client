@@ -456,17 +456,17 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs.myAchievements removeAllObjects];
     [gs addToMyAchievements:proto.userAchievementsList];
     
+    [gs.monsterHealingQueues removeAllObjects];
+    [gs addAllMonsterHealingProtos:proto.monstersHealingList];
+    
     // Make sure researchUtil happens before monsters or else the monsters will not have any research benefits
-    gs.itemUtil = [[ItemUtil alloc] initWithItemProtos:proto.userItemsList itemUsageProtos:proto.itemsInUseList];
     gs.researchUtil = [[ResearchUtil alloc] initWithResearches:proto.userResearchsList];
+    
     gs.mySecretGifts = [proto.giftsList mutableCopy];
     
     //    [Globals asyncDownloadBundles];
     [gs.myMonsters removeAllObjects];
     [gs addToMyMonsters:proto.usersMonstersList];
-    
-    [gs.monsterHealingQueues removeAllObjects];
-    [gs addAllMonsterHealingProtos:proto.monstersHealingList];
     
     [gs.mySales removeAllObjects];
     [gs.mySales addObjectsFromArray:proto.salesPackagesList];
@@ -479,21 +479,19 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     if (proto.hasEvolution) {
       gs.userEvolution = [UserEvolution evolutionWithUserEvolutionProto:proto.evolution];
-      [gs beginEvolutionTimer];
     } else {
       gs.userEvolution = nil;
     }
     
-    gs.battleItemUtil = [[BattleItemUtil alloc] init];
-    [gs.battleItemUtil updateWithQueueProtos:proto.battleItemQueueList itemProtos:proto.battleItemList];
-    [gs beginBattleItemTimer];
-    
-    [gs addToCompleteTasks:proto.completedTasksList];
-    
     [gs.myMiniJobs removeAllObjects];
     [gs addToMiniJobs:proto.userMiniJobProtosList isNew:NO];
     
-    [gs beginResearchTimer];
+    gs.itemUtil = [[ItemUtil alloc] initWithItemProtos:proto.userItemsList itemUsageProtos:proto.itemsInUseList];
+    
+    gs.battleItemUtil = [[BattleItemUtil alloc] init];
+    [gs.battleItemUtil updateWithQueueProtos:proto.battleItemQueueList itemProtos:proto.battleItemList];
+    
+    [gs addToCompleteTasks:proto.completedTasksList];
     
     [gs.fbUnacceptedRequestsFromFriends removeAllObjects];
     [gs.fbAcceptedRequestsFromMe removeAllObjects];
@@ -865,10 +863,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
         [hq readjustAllMonsterHealingProtos];
       }
       
-      [gs beginHealingTimer];
-      [gs beginMiniJobTimerShowFreeSpeedupImmediately:YES];
-      [gs beginEnhanceTimer];
-      [gs beginResearchTimer];
+      GameViewController *gvc = [GameViewController baseController];
+      [gvc beginAllTimers];
       
       [gs removeNonFullUserUpdatesForTag:tag];
       
