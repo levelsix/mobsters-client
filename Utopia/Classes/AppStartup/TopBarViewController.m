@@ -711,7 +711,7 @@
       [self.saleGemsIcon setSprite:spp.animatingIcon secsBetweenReplay:30.f fps:25.f];
       
       self.saleMultiplierIcon.hidden = YES;
-      
+      [Globals imageNamed:spp.slamIcon withView:self.saleMultiplierIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
       
       self.saleTimeLabel.alpha = 0.f;
       self.saleLabel.alpha = 1.f;
