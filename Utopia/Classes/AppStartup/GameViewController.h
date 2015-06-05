@@ -84,6 +84,7 @@ typedef enum {
 - (void) fadeToLoadingScreenPercentage:(float)percentage animated:(BOOL)animated;
 - (void) handleSignificantTimeChange;
 - (void) handleForceLogoutResponseProto:(ForceLogoutResponseProto *)proto;
+- (void) amqpDisconnected;
 
 - (void) openedFromFacebook;
 - (void) handleConnectedToHost;

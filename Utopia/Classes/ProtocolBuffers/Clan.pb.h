@@ -12,6 +12,8 @@
 
 @class BattleItemFactoryProto;
 @class BattleItemFactoryProto_Builder;
+@class BattleReplayProto;
+@class BattleReplayProto_Builder;
 @class ClanDataProto;
 @class ClanDataProto_Builder;
 @class ClanHelpNoticeProto;

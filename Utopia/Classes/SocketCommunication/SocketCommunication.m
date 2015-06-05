@@ -228,6 +228,12 @@ static NSString *udid = nil;
       [self.unrespondedMessages removeAllObjects];
     }
   } else {
+    // Send reconnect msg at front
+    NSMutableArray *oldQueuedMsgs = self.queuedMessages;
+    self.queuedMessages = [NSMutableArray array];
+    [self sendReconnectMessage];
+    [self.queuedMessages addObjectsFromArray:oldQueuedMsgs];
+    
     [self.queuedMessages addObjectsFromArray:self.unrespondedMessages];
     [self.unrespondedMessages removeAllObjects];
   }
@@ -269,7 +275,7 @@ static NSString *udid = nil;
   [self.queuedMessages removeObjectsInArray:toRemove];
   [self sendFullEvents:toRemove];
   
-  _numDisconnects = 0;
+  _shouldReconnect = NO;
 }
 
 - (void) initUserIdMessageQueue {
@@ -304,8 +310,9 @@ static NSString *udid = nil;
     if (_numDisconnects > NUM_SILENT_RECONNECTS) {
       LNLog(@"Asking to reconnect..");
       
-        [self callSelectorOnHostDelegate:@selector(unableToConnectToHost:)];
-      _numDisconnects = 0;
+      _shouldReconnect = NO;
+      
+      [self callSelectorOnHostDelegate:@selector(unableToConnectToHost:)];
     } else {
       LNLog(@"Silently reconnecting..");
       [self tryConnect];
@@ -587,6 +594,14 @@ static NSString *udid = nil;
   LNLog(@"Mac Address: %@", mac);
   LNLog(@"Advertiser ID: %@", advertiserId);
   return [self sendData:req withMessageType:EventProtocolRequestCStartupEvent];
+}
+
+- (int) sendReconnectMessage {
+  ReconnectRequestProto *req = [[[ReconnectRequestProto builder]
+                              setSender:_sender]
+                             build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCReconnectEvent];
 }
 
 - (int) sendLogoutMessage {
@@ -2113,9 +2128,12 @@ static NSString *udid = nil;
   [_flushTimer invalidate];
   _flushTimer = nil;
   [self flush];
-  [self.webSocket close];
+  
   _canSendRegularEvents = NO;
   _canSendPreDbEvents = NO;
+  
+  [self.webSocket close];
+  self.webSocket = nil;
   
   LNLog(@"Closed down connection..");
 }
@@ -2128,20 +2146,27 @@ static NSString *udid = nil;
 }
 
 - (void) webSocketDidOpen:(SRWebSocket *)webSocket {
-  NSLog(@"websocket opened..");
-  [self connectedToHost];
+  LNLog(@"websocket opened..");
+  
+  if (webSocket != self.webSocket) {
+    LNLog(@"Somehow there are 2 websockets: %@, %@", self.webSocket, webSocket);
+  } else {
+    [self connectedToHost];
+  }
 }
 
 - (void) webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error {
-  NSLog(@"websocket failed.");
-  if (_shouldReconnect) {
+  LNLog(@"websocket failed.");
+  if (_canSendPreDbEvents) {
+    [self callSelectorOnHostDelegate:@selector(amqpDisconnected)];
+  } else if (_shouldReconnect) {
     [self unableToConnectToHost:error.localizedDescription];
   }
 }
 
 - (void) webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean {
-  NSLog(@"websocket closed. %@", reason);
-  if (_canSendRegularEvents) {
+  LNLog(@"websocket closed. %@", reason);
+  if (_canSendPreDbEvents) {
     [self callSelectorOnHostDelegate:@selector(amqpDisconnected)];
   }
 }

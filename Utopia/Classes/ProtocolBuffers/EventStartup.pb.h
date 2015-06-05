@@ -34,6 +34,8 @@
 @class BattleItemProto_Builder;
 @class BattleItemQueueForUserProto;
 @class BattleItemQueueForUserProto_Builder;
+@class BattleReplayProto;
+@class BattleReplayProto_Builder;
 @class BoardLayoutProto;
 @class BoardLayoutProto_Builder;
 @class BoardPropertyProto;
@@ -206,6 +208,10 @@
 @class QuestJobProto_Builder;
 @class RareBoosterPurchaseProto;
 @class RareBoosterPurchaseProto_Builder;
+@class ReconnectRequestProto;
+@class ReconnectRequestProto_Builder;
+@class ReconnectResponseProto;
+@class ReconnectResponseProto_Builder;
 @class ResearchHouseProto;
 @class ResearchHouseProto_Builder;
 @class ResearchPropertyProto;
@@ -2016,11 +2022,13 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @private
   BOOL hasDownloadOnlyOverWifi_:1;
   BOOL hasUseIphone6Prefix_:1;
+  BOOL hasUseIpadSuffix_:1;
   BOOL hasFileDownloadId_:1;
   BOOL hasPriority_:1;
   BOOL hasFileName_:1;
   BOOL downloadOnlyOverWifi_:1;
   BOOL useIphone6Prefix_:1;
+  BOOL useIpadSuffix_:1;
   int32_t fileDownloadId;
   int32_t priority;
   NSString* fileName;
@@ -2030,11 +2038,13 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasPriority;
 - (BOOL) hasDownloadOnlyOverWifi;
 - (BOOL) hasUseIphone6Prefix;
+- (BOOL) hasUseIpadSuffix;
 @property (readonly) int32_t fileDownloadId;
 @property (readonly, strong) NSString* fileName;
 @property (readonly) int32_t priority;
 - (BOOL) downloadOnlyOverWifi;
 - (BOOL) useIphone6Prefix;
+- (BOOL) useIpadSuffix;
 
 + (StartupResponseProto_StartupConstants_FileDownloadConstantProto*) defaultInstance;
 - (StartupResponseProto_StartupConstants_FileDownloadConstantProto*) defaultInstance;
@@ -2095,6 +2105,11 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) useIphone6Prefix;
 - (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) setUseIphone6Prefix:(BOOL) value;
 - (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) clearUseIphone6Prefix;
+
+- (BOOL) hasUseIpadSuffix;
+- (BOOL) useIpadSuffix;
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) setUseIpadSuffix:(BOOL) value;
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) clearUseIpadSuffix;
 @end
 
 @interface StartupResponseProto_StartupConstants_BoosterPackConstantsProto : PBGeneratedMessage {
@@ -3034,6 +3049,108 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (NSString*) udid;
 - (ForceLogoutResponseProto_Builder*) setUdid:(NSString*) value;
 - (ForceLogoutResponseProto_Builder*) clearUdid;
+@end
+
+@interface ReconnectRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+@property (readonly, strong) MinimumUserProto* sender;
+
++ (ReconnectRequestProto*) defaultInstance;
+- (ReconnectRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (ReconnectRequestProto_Builder*) builder;
++ (ReconnectRequestProto_Builder*) builder;
++ (ReconnectRequestProto_Builder*) builderWithPrototype:(ReconnectRequestProto*) prototype;
+- (ReconnectRequestProto_Builder*) toBuilder;
+
++ (ReconnectRequestProto*) parseFromData:(NSData*) data;
++ (ReconnectRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ReconnectRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (ReconnectRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ReconnectRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (ReconnectRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface ReconnectRequestProto_Builder : PBGeneratedMessageBuilder {
+@private
+  ReconnectRequestProto* result;
+}
+
+- (ReconnectRequestProto*) defaultInstance;
+
+- (ReconnectRequestProto_Builder*) clear;
+- (ReconnectRequestProto_Builder*) clone;
+
+- (ReconnectRequestProto*) build;
+- (ReconnectRequestProto*) buildPartial;
+
+- (ReconnectRequestProto_Builder*) mergeFrom:(ReconnectRequestProto*) other;
+- (ReconnectRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (ReconnectRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (ReconnectRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (ReconnectRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (ReconnectRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (ReconnectRequestProto_Builder*) clearSender;
+@end
+
+@interface ReconnectResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+@property (readonly, strong) MinimumUserProto* sender;
+
++ (ReconnectResponseProto*) defaultInstance;
+- (ReconnectResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (ReconnectResponseProto_Builder*) builder;
++ (ReconnectResponseProto_Builder*) builder;
++ (ReconnectResponseProto_Builder*) builderWithPrototype:(ReconnectResponseProto*) prototype;
+- (ReconnectResponseProto_Builder*) toBuilder;
+
++ (ReconnectResponseProto*) parseFromData:(NSData*) data;
++ (ReconnectResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ReconnectResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (ReconnectResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ReconnectResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (ReconnectResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface ReconnectResponseProto_Builder : PBGeneratedMessageBuilder {
+@private
+  ReconnectResponseProto* result;
+}
+
+- (ReconnectResponseProto*) defaultInstance;
+
+- (ReconnectResponseProto_Builder*) clear;
+- (ReconnectResponseProto_Builder*) clone;
+
+- (ReconnectResponseProto*) build;
+- (ReconnectResponseProto*) buildPartial;
+
+- (ReconnectResponseProto_Builder*) mergeFrom:(ReconnectResponseProto*) other;
+- (ReconnectResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (ReconnectResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (ReconnectResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (ReconnectResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (ReconnectResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (ReconnectResponseProto_Builder*) clearSender;
 @end
 
 

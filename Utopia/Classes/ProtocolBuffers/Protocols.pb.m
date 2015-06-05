@@ -33,6 +33,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [EventDungeonRoot registerAllExtensions:registry];
     [EventInAppPurchaseRoot registerAllExtensions:registry];
     [EventItemRoot registerAllExtensions:registry];
+    [EventLeaderBoardRoot registerAllExtensions:registry];
     [EventMiniEventRoot registerAllExtensions:registry];
     [EventMiniJobRoot registerAllExtensions:registry];
     [EventMonsterRoot registerAllExtensions:registry];
@@ -48,6 +49,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [EventUserRoot registerAllExtensions:registry];
     [InAppPurchaseRoot registerAllExtensions:registry];
     [ItemRoot registerAllExtensions:registry];
+    [LeaderBoardRoot registerAllExtensions:registry];
     [MiniEventRoot registerAllExtensions:registry];
     [MiniJobConfigRoot registerAllExtensions:registry];
     [MonsterStuffRoot registerAllExtensions:registry];
@@ -186,9 +188,12 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCSendTangoGiftEvent:
     case EventProtocolRequestCDeleteGiftEvent:
     case EventProtocolRequestCCollectGiftEvent:
+    case EventProtocolRequestCRetrieveBattleReplayEvent:
     case EventProtocolRequestCCollectClanGiftsEvent:
     case EventProtocolRequestCDeleteClanGiftsEvent:
     case EventProtocolRequestCReceivedClanGiftsEvent:
+    case EventProtocolRequestCRetrieveStrengthLeaderBoardEvent:
+    case EventProtocolRequestCReconnectEvent:
       return YES;
     default:
       return NO;
@@ -321,9 +326,12 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSSendTangoGiftEvent:
     case EventProtocolResponseSDeleteGiftEvent:
     case EventProtocolResponseSCollectGiftEvent:
+    case EventProtocolResponseSRetrieveBattleReplayEvent:
     case EventProtocolResponseSCollectClanGiftsEvent:
     case EventProtocolResponseSDeleteClanGiftsEvent:
     case EventProtocolResponseSReceivedClanGiftsEvent:
+    case EventProtocolResponseSRetrieveStrengthLeaderBoardEvent:
+    case EventProtocolResponseSReconnectEvent:
       return YES;
     default:
       return NO;

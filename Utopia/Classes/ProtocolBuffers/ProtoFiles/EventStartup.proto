@@ -354,6 +354,7 @@ message StartupResponseProto {
 			optional int32 priority = 3;
 			optional bool downloadOnlyOverWifi = 4;
 			optional bool useIphone6Prefix = 5;
+			optional bool useIpadSuffix = 6;
 		}
 		
 		//the two constants for gacha buy 10 get 11 stuff
@@ -418,7 +419,13 @@ message ForceLogoutResponseProto {
 
 //------------------------------------------------------------------------------------------
 
+//when socket disconnects, this allows client to reestablish user id/clan id
+message ReconnectRequestProto {
+	optional MinimumUserProto sender = 1;
+}
 
-
+message ReconnectResponseProto {
+	optional MinimumUserProto sender = 1;
+}
 
 

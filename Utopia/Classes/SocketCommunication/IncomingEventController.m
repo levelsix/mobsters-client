@@ -380,6 +380,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSSendTangoGiftEvent:
       responseClass = [SendTangoGiftResponseProto class];
       break;
+    case EventProtocolResponseSReconnectEvent:
+      responseClass = [ReconnectResponseProto class];
+      break;
     default:
       responseClass = nil;
       break;
@@ -596,6 +599,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Force logout response received with udid %@.", proto.udid);
   GameViewController *gvc = [GameViewController baseController];
   [gvc handleForceLogoutResponseProto:proto];
+}
+
+- (void) handleReconnectResponseProto:(FullEvent *)fe  {
+  LNLog(@"Reconnect response received.");
 }
 
 - (void) handleLevelUpResponseProto:(FullEvent *)fe {

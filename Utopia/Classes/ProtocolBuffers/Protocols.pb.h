@@ -22,6 +22,7 @@
 #import "EventDungeon.pb.h"
 #import "EventInAppPurchase.pb.h"
 #import "EventItem.pb.h"
+#import "EventLeaderBoard.pb.h"
 #import "EventMiniEvent.pb.h"
 #import "EventMiniJob.pb.h"
 #import "EventMonster.pb.h"
@@ -37,6 +38,7 @@
 #import "EventUser.pb.h"
 #import "InAppPurchase.pb.h"
 #import "Item.pb.h"
+#import "LeaderBoard.pb.h"
 #import "MiniEvent.pb.h"
 #import "MiniJobConfig.pb.h"
 #import "MonsterStuff.pb.h"
@@ -95,6 +97,8 @@
 @class BattleItemProto_Builder;
 @class BattleItemQueueForUserProto;
 @class BattleItemQueueForUserProto_Builder;
+@class BattleReplayProto;
+@class BattleReplayProto_Builder;
 @class BeginClanAvengingRequestProto;
 @class BeginClanAvengingRequestProto_Builder;
 @class BeginClanAvengingResponseProto;
@@ -527,6 +531,10 @@
 @class ReceivedGroupChatResponseProto_Builder;
 @class ReceivedRareBoosterPurchaseResponseProto;
 @class ReceivedRareBoosterPurchaseResponseProto_Builder;
+@class ReconnectRequestProto;
+@class ReconnectRequestProto_Builder;
+@class ReconnectResponseProto;
+@class ReconnectResponseProto_Builder;
 @class RecordClanRaidStatsRequestProto;
 @class RecordClanRaidStatsRequestProto_Builder;
 @class RecordClanRaidStatsResponseProto;
@@ -581,6 +589,10 @@
 @class RetractRequestJoinClanRequestProto_Builder;
 @class RetractRequestJoinClanResponseProto;
 @class RetractRequestJoinClanResponseProto_Builder;
+@class RetrieveBattleReplayRequestProto;
+@class RetrieveBattleReplayRequestProto_Builder;
+@class RetrieveBattleReplayResponseProto;
+@class RetrieveBattleReplayResponseProto_Builder;
 @class RetrieveClanDataResponseProto;
 @class RetrieveClanDataResponseProto_Builder;
 @class RetrieveClanInfoRequestProto;
@@ -601,6 +613,10 @@
 @class RetrievePrivateChatPostsRequestProto_Builder;
 @class RetrievePrivateChatPostsResponseProto;
 @class RetrievePrivateChatPostsResponseProto_Builder;
+@class RetrieveStrengthLeaderBoardRequestProto;
+@class RetrieveStrengthLeaderBoardRequestProto_Builder;
+@class RetrieveStrengthLeaderBoardResponseProto;
+@class RetrieveStrengthLeaderBoardResponseProto_Builder;
 @class RetrieveTournamentRankingsRequestProto;
 @class RetrieveTournamentRankingsRequestProto_Builder;
 @class RetrieveTournamentRankingsResponseProto;
@@ -999,9 +1015,12 @@ typedef NS_ENUM(SInt32, EventProtocolRequest) {
   EventProtocolRequestCSendTangoGiftEvent = 214,
   EventProtocolRequestCDeleteGiftEvent = 215,
   EventProtocolRequestCCollectGiftEvent = 216,
+  EventProtocolRequestCRetrieveBattleReplayEvent = 217,
   EventProtocolRequestCCollectClanGiftsEvent = 500,
   EventProtocolRequestCDeleteClanGiftsEvent = 501,
   EventProtocolRequestCReceivedClanGiftsEvent = 502,
+  EventProtocolRequestCRetrieveStrengthLeaderBoardEvent = 503,
+  EventProtocolRequestCReconnectEvent = 504,
 };
 
 BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value);
@@ -1132,9 +1151,12 @@ typedef NS_ENUM(SInt32, EventProtocolResponse) {
   EventProtocolResponseSSendTangoGiftEvent = 214,
   EventProtocolResponseSDeleteGiftEvent = 215,
   EventProtocolResponseSCollectGiftEvent = 216,
+  EventProtocolResponseSRetrieveBattleReplayEvent = 217,
   EventProtocolResponseSCollectClanGiftsEvent = 500,
   EventProtocolResponseSDeleteClanGiftsEvent = 501,
   EventProtocolResponseSReceivedClanGiftsEvent = 502,
+  EventProtocolResponseSRetrieveStrengthLeaderBoardEvent = 503,
+  EventProtocolResponseSReconnectEvent = 504,
 };
 
 BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value);

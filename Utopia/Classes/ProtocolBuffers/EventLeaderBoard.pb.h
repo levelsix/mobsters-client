@@ -45,6 +45,7 @@
 typedef NS_ENUM(SInt32, RetrieveStrengthLeaderBoardResponseProto_RetrieveStrengthLeaderBoardStatus) {
   RetrieveStrengthLeaderBoardResponseProto_RetrieveStrengthLeaderBoardStatusSuccess = 1,
   RetrieveStrengthLeaderBoardResponseProto_RetrieveStrengthLeaderBoardStatusFailOther = 2,
+  RetrieveStrengthLeaderBoardResponseProto_RetrieveStrengthLeaderBoardStatusFailNoResults = 3,
 };
 
 BOOL RetrieveStrengthLeaderBoardResponseProto_RetrieveStrengthLeaderBoardStatusIsValidValue(RetrieveStrengthLeaderBoardResponseProto_RetrieveStrengthLeaderBoardStatus value);
@@ -128,17 +129,21 @@ BOOL RetrieveStrengthLeaderBoardResponseProto_RetrieveStrengthLeaderBoardStatusI
 @interface RetrieveStrengthLeaderBoardResponseProto : PBGeneratedMessage {
 @private
   BOOL hasSender_:1;
+  BOOL hasSenderLeaderBoardInfo_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
+  StrengthLeaderBoardProto* senderLeaderBoardInfo;
   RetrieveStrengthLeaderBoardResponseProto_RetrieveStrengthLeaderBoardStatus status;
-  NSMutableArray * mutableSlbpList;
+  NSMutableArray * mutableLeaderBoardInfoList;
 }
 - (BOOL) hasSender;
+- (BOOL) hasSenderLeaderBoardInfo;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly, strong) NSArray * slbpList;
+@property (readonly, strong) StrengthLeaderBoardProto* senderLeaderBoardInfo;
+@property (readonly, strong) NSArray * leaderBoardInfoList;
 @property (readonly) RetrieveStrengthLeaderBoardResponseProto_RetrieveStrengthLeaderBoardStatus status;
-- (StrengthLeaderBoardProto*)slbpAtIndex:(NSUInteger)index;
+- (StrengthLeaderBoardProto*)leaderBoardInfoAtIndex:(NSUInteger)index;
 
 + (RetrieveStrengthLeaderBoardResponseProto*) defaultInstance;
 - (RetrieveStrengthLeaderBoardResponseProto*) defaultInstance;
@@ -182,11 +187,18 @@ BOOL RetrieveStrengthLeaderBoardResponseProto_RetrieveStrengthLeaderBoardStatusI
 - (RetrieveStrengthLeaderBoardResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (RetrieveStrengthLeaderBoardResponseProto_Builder*) clearSender;
 
-- (NSMutableArray *)slbpList;
-- (StrengthLeaderBoardProto*)slbpAtIndex:(NSUInteger)index;
-- (RetrieveStrengthLeaderBoardResponseProto_Builder *)addSlbp:(StrengthLeaderBoardProto*)value;
-- (RetrieveStrengthLeaderBoardResponseProto_Builder *)addAllSlbp:(NSArray *)array;
-- (RetrieveStrengthLeaderBoardResponseProto_Builder *)clearSlbp;
+- (BOOL) hasSenderLeaderBoardInfo;
+- (StrengthLeaderBoardProto*) senderLeaderBoardInfo;
+- (RetrieveStrengthLeaderBoardResponseProto_Builder*) setSenderLeaderBoardInfo:(StrengthLeaderBoardProto*) value;
+- (RetrieveStrengthLeaderBoardResponseProto_Builder*) setSenderLeaderBoardInfo_Builder:(StrengthLeaderBoardProto_Builder*) builderForValue;
+- (RetrieveStrengthLeaderBoardResponseProto_Builder*) mergeSenderLeaderBoardInfo:(StrengthLeaderBoardProto*) value;
+- (RetrieveStrengthLeaderBoardResponseProto_Builder*) clearSenderLeaderBoardInfo;
+
+- (NSMutableArray *)leaderBoardInfoList;
+- (StrengthLeaderBoardProto*)leaderBoardInfoAtIndex:(NSUInteger)index;
+- (RetrieveStrengthLeaderBoardResponseProto_Builder *)addLeaderBoardInfo:(StrengthLeaderBoardProto*)value;
+- (RetrieveStrengthLeaderBoardResponseProto_Builder *)addAllLeaderBoardInfo:(NSArray *)array;
+- (RetrieveStrengthLeaderBoardResponseProto_Builder *)clearLeaderBoardInfo;
 
 - (BOOL) hasStatus;
 - (RetrieveStrengthLeaderBoardResponseProto_RetrieveStrengthLeaderBoardStatus) status;

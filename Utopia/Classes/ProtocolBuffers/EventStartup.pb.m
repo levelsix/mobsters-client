@@ -8263,6 +8263,7 @@ static StartupResponseProto_StartupConstants_ResourceConversionConstantProto* de
 @property int32_t priority;
 @property BOOL downloadOnlyOverWifi;
 @property BOOL useIphone6Prefix;
+@property BOOL useIpadSuffix;
 @end
 
 @implementation StartupResponseProto_StartupConstants_FileDownloadConstantProto
@@ -8312,6 +8313,18 @@ static StartupResponseProto_StartupConstants_ResourceConversionConstantProto* de
 - (void) setUseIphone6Prefix:(BOOL) value_ {
   useIphone6Prefix_ = !!value_;
 }
+- (BOOL) hasUseIpadSuffix {
+  return !!hasUseIpadSuffix_;
+}
+- (void) setHasUseIpadSuffix:(BOOL) value_ {
+  hasUseIpadSuffix_ = !!value_;
+}
+- (BOOL) useIpadSuffix {
+  return !!useIpadSuffix_;
+}
+- (void) setUseIpadSuffix:(BOOL) value_ {
+  useIpadSuffix_ = !!value_;
+}
 - (id) init {
   if ((self = [super init])) {
     self.fileDownloadId = 0;
@@ -8319,6 +8332,7 @@ static StartupResponseProto_StartupConstants_ResourceConversionConstantProto* de
     self.priority = 0;
     self.downloadOnlyOverWifi = NO;
     self.useIphone6Prefix = NO;
+    self.useIpadSuffix = NO;
   }
   return self;
 }
@@ -8353,6 +8367,9 @@ static StartupResponseProto_StartupConstants_FileDownloadConstantProto* defaultS
   if (self.hasUseIphone6Prefix) {
     [output writeBool:5 value:self.useIphone6Prefix];
   }
+  if (self.hasUseIpadSuffix) {
+    [output writeBool:6 value:self.useIpadSuffix];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -8376,6 +8393,9 @@ static StartupResponseProto_StartupConstants_FileDownloadConstantProto* defaultS
   }
   if (self.hasUseIphone6Prefix) {
     size_ += computeBoolSize(5, self.useIphone6Prefix);
+  }
+  if (self.hasUseIpadSuffix) {
+    size_ += computeBoolSize(6, self.useIpadSuffix);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -8427,6 +8447,9 @@ static StartupResponseProto_StartupConstants_FileDownloadConstantProto* defaultS
   if (self.hasUseIphone6Prefix) {
     [output appendFormat:@"%@%@: %@\n", indent, @"useIphone6Prefix", [NSNumber numberWithBool:self.useIphone6Prefix]];
   }
+  if (self.hasUseIpadSuffix) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"useIpadSuffix", [NSNumber numberWithBool:self.useIpadSuffix]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -8448,6 +8471,8 @@ static StartupResponseProto_StartupConstants_FileDownloadConstantProto* defaultS
       (!self.hasDownloadOnlyOverWifi || self.downloadOnlyOverWifi == otherMessage.downloadOnlyOverWifi) &&
       self.hasUseIphone6Prefix == otherMessage.hasUseIphone6Prefix &&
       (!self.hasUseIphone6Prefix || self.useIphone6Prefix == otherMessage.useIphone6Prefix) &&
+      self.hasUseIpadSuffix == otherMessage.hasUseIpadSuffix &&
+      (!self.hasUseIpadSuffix || self.useIpadSuffix == otherMessage.useIpadSuffix) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -8466,6 +8491,9 @@ static StartupResponseProto_StartupConstants_FileDownloadConstantProto* defaultS
   }
   if (self.hasUseIphone6Prefix) {
     hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.useIphone6Prefix] hash];
+  }
+  if (self.hasUseIpadSuffix) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.useIpadSuffix] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -8525,6 +8553,9 @@ static StartupResponseProto_StartupConstants_FileDownloadConstantProto* defaultS
   if (other.hasUseIphone6Prefix) {
     [self setUseIphone6Prefix:other.useIphone6Prefix];
   }
+  if (other.hasUseIpadSuffix) {
+    [self setUseIpadSuffix:other.useIpadSuffix];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -8564,6 +8595,10 @@ static StartupResponseProto_StartupConstants_FileDownloadConstantProto* defaultS
       }
       case 40: {
         [self setUseIphone6Prefix:[input readBool]];
+        break;
+      }
+      case 48: {
+        [self setUseIpadSuffix:[input readBool]];
         break;
       }
     }
@@ -8647,6 +8682,22 @@ static StartupResponseProto_StartupConstants_FileDownloadConstantProto* defaultS
 - (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) clearUseIphone6Prefix {
   result.hasUseIphone6Prefix = NO;
   result.useIphone6Prefix = NO;
+  return self;
+}
+- (BOOL) hasUseIpadSuffix {
+  return result.hasUseIpadSuffix;
+}
+- (BOOL) useIpadSuffix {
+  return result.useIpadSuffix;
+}
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) setUseIpadSuffix:(BOOL) value {
+  result.hasUseIpadSuffix = YES;
+  result.useIpadSuffix = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_FileDownloadConstantProto_Builder*) clearUseIpadSuffix {
+  result.hasUseIpadSuffix = NO;
+  result.useIpadSuffix = NO;
   return self;
 }
 @end
@@ -13615,6 +13666,450 @@ static ForceLogoutResponseProto* defaultForceLogoutResponseProtoInstance = nil;
 - (ForceLogoutResponseProto_Builder*) clearUdid {
   result.hasUdid = NO;
   result.udid = @"";
+  return self;
+}
+@end
+
+@interface ReconnectRequestProto ()
+@property (strong) MinimumUserProto* sender;
+@end
+
+@implementation ReconnectRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value_ {
+  hasSender_ = !!value_;
+}
+@synthesize sender;
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+  }
+  return self;
+}
+static ReconnectRequestProto* defaultReconnectRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [ReconnectRequestProto class]) {
+    defaultReconnectRequestProtoInstance = [[ReconnectRequestProto alloc] init];
+  }
+}
++ (ReconnectRequestProto*) defaultInstance {
+  return defaultReconnectRequestProtoInstance;
+}
+- (ReconnectRequestProto*) defaultInstance {
+  return defaultReconnectRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasSender) {
+    size_ += computeMessageSize(1, self.sender);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (ReconnectRequestProto*) parseFromData:(NSData*) data {
+  return (ReconnectRequestProto*)[[[ReconnectRequestProto builder] mergeFromData:data] build];
+}
++ (ReconnectRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ReconnectRequestProto*)[[[ReconnectRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (ReconnectRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (ReconnectRequestProto*)[[[ReconnectRequestProto builder] mergeFromInputStream:input] build];
+}
++ (ReconnectRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ReconnectRequestProto*)[[[ReconnectRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ReconnectRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (ReconnectRequestProto*)[[[ReconnectRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (ReconnectRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ReconnectRequestProto*)[[[ReconnectRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ReconnectRequestProto_Builder*) builder {
+  return [[ReconnectRequestProto_Builder alloc] init];
+}
++ (ReconnectRequestProto_Builder*) builderWithPrototype:(ReconnectRequestProto*) prototype {
+  return [[ReconnectRequestProto builder] mergeFrom:prototype];
+}
+- (ReconnectRequestProto_Builder*) builder {
+  return [ReconnectRequestProto builder];
+}
+- (ReconnectRequestProto_Builder*) toBuilder {
+  return [ReconnectRequestProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasSender) {
+    [output appendFormat:@"%@%@ {\n", indent, @"sender"];
+    [self.sender writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[ReconnectRequestProto class]]) {
+    return NO;
+  }
+  ReconnectRequestProto *otherMessage = other;
+  return
+      self.hasSender == otherMessage.hasSender &&
+      (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasSender) {
+    hashCode = hashCode * 31 + [self.sender hash];
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+@interface ReconnectRequestProto_Builder()
+@property (strong) ReconnectRequestProto* result;
+@end
+
+@implementation ReconnectRequestProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[ReconnectRequestProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (ReconnectRequestProto_Builder*) clear {
+  self.result = [[ReconnectRequestProto alloc] init];
+  return self;
+}
+- (ReconnectRequestProto_Builder*) clone {
+  return [ReconnectRequestProto builderWithPrototype:result];
+}
+- (ReconnectRequestProto*) defaultInstance {
+  return [ReconnectRequestProto defaultInstance];
+}
+- (ReconnectRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (ReconnectRequestProto*) buildPartial {
+  ReconnectRequestProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (ReconnectRequestProto_Builder*) mergeFrom:(ReconnectRequestProto*) other {
+  if (other == [ReconnectRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (ReconnectRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (ReconnectRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (ReconnectRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (ReconnectRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (ReconnectRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (ReconnectRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+@end
+
+@interface ReconnectResponseProto ()
+@property (strong) MinimumUserProto* sender;
+@end
+
+@implementation ReconnectResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value_ {
+  hasSender_ = !!value_;
+}
+@synthesize sender;
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+  }
+  return self;
+}
+static ReconnectResponseProto* defaultReconnectResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [ReconnectResponseProto class]) {
+    defaultReconnectResponseProtoInstance = [[ReconnectResponseProto alloc] init];
+  }
+}
++ (ReconnectResponseProto*) defaultInstance {
+  return defaultReconnectResponseProtoInstance;
+}
+- (ReconnectResponseProto*) defaultInstance {
+  return defaultReconnectResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasSender) {
+    size_ += computeMessageSize(1, self.sender);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (ReconnectResponseProto*) parseFromData:(NSData*) data {
+  return (ReconnectResponseProto*)[[[ReconnectResponseProto builder] mergeFromData:data] build];
+}
++ (ReconnectResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ReconnectResponseProto*)[[[ReconnectResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (ReconnectResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (ReconnectResponseProto*)[[[ReconnectResponseProto builder] mergeFromInputStream:input] build];
+}
++ (ReconnectResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ReconnectResponseProto*)[[[ReconnectResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ReconnectResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (ReconnectResponseProto*)[[[ReconnectResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (ReconnectResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ReconnectResponseProto*)[[[ReconnectResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ReconnectResponseProto_Builder*) builder {
+  return [[ReconnectResponseProto_Builder alloc] init];
+}
++ (ReconnectResponseProto_Builder*) builderWithPrototype:(ReconnectResponseProto*) prototype {
+  return [[ReconnectResponseProto builder] mergeFrom:prototype];
+}
+- (ReconnectResponseProto_Builder*) builder {
+  return [ReconnectResponseProto builder];
+}
+- (ReconnectResponseProto_Builder*) toBuilder {
+  return [ReconnectResponseProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasSender) {
+    [output appendFormat:@"%@%@ {\n", indent, @"sender"];
+    [self.sender writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[ReconnectResponseProto class]]) {
+    return NO;
+  }
+  ReconnectResponseProto *otherMessage = other;
+  return
+      self.hasSender == otherMessage.hasSender &&
+      (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasSender) {
+    hashCode = hashCode * 31 + [self.sender hash];
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+@interface ReconnectResponseProto_Builder()
+@property (strong) ReconnectResponseProto* result;
+@end
+
+@implementation ReconnectResponseProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[ReconnectResponseProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (ReconnectResponseProto_Builder*) clear {
+  self.result = [[ReconnectResponseProto alloc] init];
+  return self;
+}
+- (ReconnectResponseProto_Builder*) clone {
+  return [ReconnectResponseProto builderWithPrototype:result];
+}
+- (ReconnectResponseProto*) defaultInstance {
+  return [ReconnectResponseProto defaultInstance];
+}
+- (ReconnectResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (ReconnectResponseProto*) buildPartial {
+  ReconnectResponseProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (ReconnectResponseProto_Builder*) mergeFrom:(ReconnectResponseProto*) other {
+  if (other == [ReconnectResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (ReconnectResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (ReconnectResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (ReconnectResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (ReconnectResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (ReconnectResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (ReconnectResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
 @end
