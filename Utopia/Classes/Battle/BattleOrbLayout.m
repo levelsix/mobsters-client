@@ -616,10 +616,15 @@
   return set;
 }
 
+- (BattleSwap *) getRandomSwap {
+  NSUInteger idx = arc4random_uniform((int)self.possibleSwaps.count);
+  BattleSwap *swap = self.possibleSwaps.allObjects[idx];
+  return swap;
+}
+
 - (NSSet *) getRandomValidMove {
   if (self.possibleSwaps.count > 0) {
-    NSUInteger idx = arc4random_uniform((int)self.possibleSwaps.count);
-    BattleSwap *swap = self.possibleSwaps.allObjects[idx];
+    BattleSwap *swap = [self getRandomSwap];
     
     if ([self isPowerupMatch:swap.orbA otherOrb:swap.orbB]) {
       return [NSSet setWithObjects:swap.orbA, swap.orbB, nil];

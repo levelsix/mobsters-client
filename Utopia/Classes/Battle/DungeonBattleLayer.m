@@ -415,8 +415,8 @@
 }
 
 - (void) moveComplete {
- [super moveComplete];
- [self saveCurrentStateWithForceFlush:NO];
+  [super moveComplete];
+  [self saveCurrentStateWithForceFlush:NO];
 }
 
 - (BOOL) checkEnemyHealth {
@@ -608,16 +608,20 @@
 
 #ifndef APPSTORE
 - (void) elementButtonClicked {
-  // Skip the enemy if it is not an app store build
-  [GenericPopupController displayConfirmationWithDescription:@"Would you like to skip this stage?" title:@"Skip Stage?" okayButton:@"Skip" cancelButton:@"Cancel" target:self selector:@selector(skipStage)];
+  if (self.orbLayer.swipeLayer.userInteractionEnabled) {
+    // Skip the enemy if it is not an app store build
+    [GenericPopupController displayConfirmationWithDescription:@"Would you like to skip this stage?" title:@"Skip Stage?" okayButton:@"Skip" cancelButton:@"Cancel" target:self selector:@selector(skipStage)];
+  }
 }
 
 - (void) skipStage {
-  [self.orbLayer disallowInput];
-  [self.orbLayer.bgdLayer turnTheLightsOff];
-  [self.hudView removeButtons];
-  self.currentEnemy.healthBar.percentage = 0.01f;
-  [self dealDamage:self.enemyPlayerObject.curHealth enemyIsAttacker:NO usingAbility:NO withTarget:self withSelector:@selector(checkEnemyHealth)];
+  if (self.orbLayer.swipeLayer.userInteractionEnabled) {
+    [self.orbLayer disallowInput];
+    [self.orbLayer.bgdLayer turnTheLightsOff];
+    [self.hudView removeButtons];
+    self.currentEnemy.healthBar.percentage = 0.01f;
+    [self dealDamage:self.enemyPlayerObject.curHealth enemyIsAttacker:NO usingAbility:NO withTarget:self withSelector:@selector(checkEnemyHealth)];
+  }
 }
 #endif
 

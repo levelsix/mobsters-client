@@ -106,6 +106,7 @@
 
 // Gets a random valid swap (for pulsing).
 - (NSSet *) getRandomValidMove;
+- (BattleSwap *) getRandomSwap;
 
 // Detects whether there are any chains of 3 or more orbs, and removes them
 // from the level.

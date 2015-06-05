@@ -438,9 +438,13 @@
 }
 
 - (void) allowInput {
-  self.swipeLayer.userInteractionEnabled = YES;
-  
-  [self schedulePulse];
+  if (!self.allowAutoPlay) {
+    self.swipeLayer.userInteractionEnabled = YES;
+    
+    [self schedulePulse];
+  } else {
+    [self checkSwap:[self.layout getRandomSwap]];
+  }
 }
 
 - (void) disallowInput {

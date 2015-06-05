@@ -39,6 +39,7 @@
 @property (nonatomic, assign) BOOL allowFreeMove;
 @property (nonatomic, assign) BOOL allowOrbHammer;
 @property (nonatomic, assign) BOOL allowPutty;
+@property (nonatomic, assign) BOOL allowAutoPlay;
 
 @property (nonatomic, weak) id<OrbMainLayerDelegate> delegate;
 
