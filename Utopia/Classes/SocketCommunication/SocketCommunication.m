@@ -597,9 +597,10 @@ static NSString *udid = nil;
 }
 
 - (int) sendReconnectMessage {
-  ReconnectRequestProto *req = [[[ReconnectRequestProto builder]
-                              setSender:_sender]
-                             build];
+  ReconnectRequestProto *req = [[[[ReconnectRequestProto builder]
+                                  setSender:_sender]
+                                 setUdid:udid]
+                                build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCReconnectEvent];
 }

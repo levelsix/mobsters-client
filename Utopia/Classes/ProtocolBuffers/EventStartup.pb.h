@@ -3053,11 +3053,15 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 
 @interface ReconnectRequestProto : PBGeneratedMessage {
 @private
+  BOOL hasUdid_:1;
   BOOL hasSender_:1;
+  NSString* udid;
   MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
+- (BOOL) hasUdid;
 @property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) NSString* udid;
 
 + (ReconnectRequestProto*) defaultInstance;
 - (ReconnectRequestProto*) defaultInstance;
@@ -3100,6 +3104,11 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (ReconnectRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (ReconnectRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (ReconnectRequestProto_Builder*) clearSender;
+
+- (BOOL) hasUdid;
+- (NSString*) udid;
+- (ReconnectRequestProto_Builder*) setUdid:(NSString*) value;
+- (ReconnectRequestProto_Builder*) clearUdid;
 @end
 
 @interface ReconnectResponseProto : PBGeneratedMessage {

@@ -13672,6 +13672,7 @@ static ForceLogoutResponseProto* defaultForceLogoutResponseProtoInstance = nil;
 
 @interface ReconnectRequestProto ()
 @property (strong) MinimumUserProto* sender;
+@property (strong) NSString* udid;
 @end
 
 @implementation ReconnectRequestProto
@@ -13683,9 +13684,17 @@ static ForceLogoutResponseProto* defaultForceLogoutResponseProtoInstance = nil;
   hasSender_ = !!value_;
 }
 @synthesize sender;
+- (BOOL) hasUdid {
+  return !!hasUdid_;
+}
+- (void) setHasUdid:(BOOL) value_ {
+  hasUdid_ = !!value_;
+}
+@synthesize udid;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
+    self.udid = @"";
   }
   return self;
 }
@@ -13708,6 +13717,9 @@ static ReconnectRequestProto* defaultReconnectRequestProtoInstance = nil;
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
+  if (self.hasUdid) {
+    [output writeString:2 value:self.udid];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -13719,6 +13731,9 @@ static ReconnectRequestProto* defaultReconnectRequestProtoInstance = nil;
   size_ = 0;
   if (self.hasSender) {
     size_ += computeMessageSize(1, self.sender);
+  }
+  if (self.hasUdid) {
+    size_ += computeStringSize(2, self.udid);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -13761,6 +13776,9 @@ static ReconnectRequestProto* defaultReconnectRequestProtoInstance = nil;
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
+  if (self.hasUdid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"udid", self.udid];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -13774,12 +13792,17 @@ static ReconnectRequestProto* defaultReconnectRequestProtoInstance = nil;
   return
       self.hasSender == otherMessage.hasSender &&
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
+      self.hasUdid == otherMessage.hasUdid &&
+      (!self.hasUdid || [self.udid isEqual:otherMessage.udid]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
   __block NSUInteger hashCode = 7;
   if (self.hasSender) {
     hashCode = hashCode * 31 + [self.sender hash];
+  }
+  if (self.hasUdid) {
+    hashCode = hashCode * 31 + [self.udid hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -13827,6 +13850,9 @@ static ReconnectRequestProto* defaultReconnectRequestProtoInstance = nil;
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
+  if (other.hasUdid) {
+    [self setUdid:other.udid];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -13855,6 +13881,10 @@ static ReconnectRequestProto* defaultReconnectRequestProtoInstance = nil;
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        [self setUdid:[input readString]];
         break;
       }
     }
@@ -13888,6 +13918,22 @@ static ReconnectRequestProto* defaultReconnectRequestProtoInstance = nil;
 - (ReconnectRequestProto_Builder*) clearSender {
   result.hasSender = NO;
   result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasUdid {
+  return result.hasUdid;
+}
+- (NSString*) udid {
+  return result.udid;
+}
+- (ReconnectRequestProto_Builder*) setUdid:(NSString*) value {
+  result.hasUdid = YES;
+  result.udid = value;
+  return self;
+}
+- (ReconnectRequestProto_Builder*) clearUdid {
+  result.hasUdid = NO;
+  result.udid = @"";
   return self;
 }
 @end
