@@ -112,7 +112,7 @@ static NSString *nibName = @"SalePackageCell";
     self.numItemsLabel.textColor = [UIColor colorWithHexString:_sale.titleColor];
   }
   
-  self.bonusItemsTable.superview.layer.cornerRadius = 5.f;
+  self.bonusItemsTable.superview.layer.cornerRadius = POPUP_CORNER_RADIUS;
   //  self.bonusItemsCollectionView.superview.height += 0.5f;
   //  self.bonusItemsCollectionView.superview.width += 0.5f;
   
@@ -160,7 +160,7 @@ static NSString *nibName = @"SalePackageCell";
         // Popup shadow view
         // Assume the bottom most view is a bgd
         if (i == 0) {
-          img.layer.cornerRadius = 5.f;
+          img.layer.cornerRadius = POPUP_CORNER_RADIUS;
           img.clipsToBounds = YES;
         }
       }
