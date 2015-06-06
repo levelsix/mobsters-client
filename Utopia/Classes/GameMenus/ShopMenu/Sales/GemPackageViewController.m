@@ -26,6 +26,18 @@
   [Globals imageNamed:package.rewardPicName withView:self.packageIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
 }
 
+- (void)cellTouchDown:(id)sender {
+  self.bgCapLeft.highlighted  = YES;
+  self.bgMiddle.highlighted   = YES;
+  self.bgCapRight.highlighted = YES;
+}
+
+- (void)cellTouchUp:(id)sender {
+  self.bgCapLeft.highlighted  = NO;
+  self.bgMiddle.highlighted   = NO;
+  self.bgCapRight.highlighted = NO;
+}
+
 @end
 
 @implementation GemPackageViewController
