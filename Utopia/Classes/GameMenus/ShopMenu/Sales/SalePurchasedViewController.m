@@ -43,9 +43,9 @@ static NSString *nibName = @"SalePackageCell";
   [super viewDidLoad];
   
   [self.bonusItemsTable registerNib:[UINib nibWithNibName:nibName bundle:nil] forCellReuseIdentifier:nibName];
-  self.bonusItemsTable.superview.layer.cornerRadius = 5.f;
+  self.bonusItemsTable.superview.layer.cornerRadius = POPUP_CORNER_RADIUS;
   
-  self.headerView.layer.cornerRadius = 5.f;
+  self.headerView.layer.cornerRadius = POPUP_CORNER_RADIUS;
   
   [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
   

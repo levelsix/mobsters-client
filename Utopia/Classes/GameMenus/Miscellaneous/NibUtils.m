@@ -1780,7 +1780,7 @@ void undoDelayOnScrollViewHierarchy(UIView *v) {
 @implementation PopupShadowView
 
 - (void) awakeFromNib {
-  self.layer.cornerRadius = 5.f;
+  self.layer.cornerRadius = POPUP_CORNER_RADIUS;
   
   self.layer.shadowColor = [UIColor blackColor].CGColor;
   self.layer.shadowOpacity = 0.8;
