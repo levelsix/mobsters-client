@@ -127,6 +127,8 @@
 
 #define FAT_KID_DUNGEON_LEVEL 5
 
+#define POPUP_CORNER_RADIUS ([Globals isiPad] ? 10.f : 5.f)
+
 #define SGN(A) ({ __typeof__(A) __a = (A); (0 < __a) - (__a < 0); })
 
 @class BattlePlayer;

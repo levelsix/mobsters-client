@@ -49,7 +49,7 @@
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
                         </imageView>
                         <view contentMode="scaleToFill" id="Y5W-sV-GM1">
-                            <rect key="frame" x="128" y="159" width="45" height="11"/>
+                            <rect key="frame" x="128" y="142" width="45" height="11"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <subviews>
                                 <imageView opaque="NO" multipleTouchEnabled="YES" tag="1" contentMode="center" image="inactivechatline.png" id="wB1-YZ-7Fr">
