@@ -13,12 +13,19 @@
 
 @interface GemPackageCell : UITableViewCell
 
+@property (nonatomic, retain) IBOutlet UIImageView *bgCapLeft;
+@property (nonatomic, retain) IBOutlet UIImageView *bgMiddle;
+@property (nonatomic, retain) IBOutlet UIImageView *bgCapRight;
+
 @property (nonatomic, retain) IBOutlet UIImageView *packageIcon;
 @property (nonatomic, retain) IBOutlet UILabel *nameLabel;
 
 @property (nonatomic, retain) IBOutlet UILabel *gemLabel;
 
 @property (nonatomic, retain) IBOutlet UILabel *priceLabel;
+
+- (IBAction)cellTouchDown:(id)sender;
+- (IBAction)cellTouchUp:(id)sender;
 
 - (void) updateForPackageInfo:(id<InAppPurchaseData>)package;
 
