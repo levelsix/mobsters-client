@@ -18,8 +18,8 @@
 #define IPHONE_6_PLUS_TILE_SIZE 47
 #define IPAD_TILE_SIZE 53
 
-#define CORNER_SIZE 6
-#define BORDER_WIDTH 2
+#define CORNER_SIZE 14
+#define BORDER_WIDTH 3
 
 @implementation OrbBgdLayer
 
@@ -176,6 +176,7 @@
         
         float scale = tileSize - (noCorners ? 0 : CORNER_SIZE);
         
+//        leftBorder.scaleX = .75;
         leftBorder.scaleY = scale;
         leftBorder.anchorPoint = ccp(!mHole, 0);
         leftBorder.position = ccpAdd(basePt, ccp(0, CORNER_SIZE/2));
@@ -209,7 +210,7 @@
         corner.flipX = YES;
         corner.flipY = YES;
         corner.anchorPoint = ccp(1, 1);
-        [self iPadScaleSprite:corner ratio:1.4];
+        [self iPadScaleSprite:corner];
         
         [_borderNode addChild:corner];
       }
@@ -393,7 +394,7 @@
 #pragma mark - Util
 
 - (void) iPadScaleSprite:(CCSprite*)sprite {
-  [self iPadScaleSprite:sprite ratio:1.5];
+  //[self iPadScaleSprite:sprite ratio:1.5];
 }
 
 - (void) iPadScaleSprite:(CCSprite*)sprite ratio:(float)ratio {

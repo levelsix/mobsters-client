@@ -108,7 +108,8 @@ NSString* const CCSetupTabletScaleCustom = @"CCSetupTabletScaleCustom";
   
   NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                @(showStats), CCSetupShowDebugStats,
-                               @(1.5), CCSetupTabletScaleCustom, nil];
+                               @(1.5), CCSetupTabletScaleCustom,
+                               nil];
   [self setupCocos2dWithOptions:dict];
 }
 
@@ -181,7 +182,7 @@ static const CGSize FIXED_SIZE = {568, 384};
     director.contentScaleFactor = scaleFactor;
     director.UIScaleFactor = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ? 1.0 : 0.5);
     
-    // Let CCFileUtils know that "-ipad" textures should be treated as having a contentScale of 2.0.
+    // Let CCFileUtils know that "~ipad" textures should be treated as having a contentScale of 2.0.
     [[CCFileUtils sharedFileUtils] setiPadContentScaleFactor: 1.5];
     
     
@@ -199,7 +200,7 @@ static const CGSize FIXED_SIZE = {568, 384};
       // Set the UI scale factor to show things at "native" size.
       director.UIScaleFactor = 0.5;
       
-      // Let CCFileUtils know that "-ipad" textures should be treated as having a contentScale of 2.0.
+      // Let CCFileUtils know that "~ipad" textures should be treated as having a contentScale of 2.0.
       [[CCFileUtils sharedFileUtils] setiPadContentScaleFactor:1.5];
     } else if(
             UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad &&
@@ -208,10 +209,10 @@ static const CGSize FIXED_SIZE = {568, 384};
       CGFloat scaleFactor = [config[CCSetupTabletScaleCustom] floatValue];
       
       director.contentScaleFactor *= scaleFactor;
-//      director.UIScaleFactor = 1.0 / scaleFactor;
+      director.UIScaleFactor = 1.0 / scaleFactor;
       
-      // Let CCFileUtils know that "-ipad" textures should be treated as having a contentScale of 2.0.
-      [[CCFileUtils sharedFileUtils] setiPadContentScaleFactor:1.5];
+      // Let CCFileUtils know that "~ipad" textures should be treated as having a contentScale of 2.0.
+      //[[CCFileUtils sharedFileUtils] setiPadContentScaleFactor:1.5];
     }
     
     [director setProjection:CCDirectorProjection2D];

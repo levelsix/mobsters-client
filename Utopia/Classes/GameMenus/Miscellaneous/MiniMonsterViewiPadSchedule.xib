@@ -11,7 +11,7 @@
             <rect key="frame" x="0.0" y="0.0" width="74" height="74"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="earthsquare.png" id="by4-T0-Cck">
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="earthsquare.png" id="by4-T0-Cck">
                     <rect key="frame" x="0.0" y="0.0" width="74" height="74"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
