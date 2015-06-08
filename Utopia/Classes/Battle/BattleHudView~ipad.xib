@@ -288,7 +288,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="74" height="74"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="earthsquare.png" id="8Zf-El-30A">
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="earthsquare.png" id="8Zf-El-30A">
                                             <rect key="frame" x="0.0" y="0.0" width="74" height="74"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
@@ -424,7 +424,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="74" height="74"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="earthsquare.png" id="Aty-OC-3g4">
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="earthsquare.png" id="Aty-OC-3g4">
                                             <rect key="frame" x="0.0" y="0.0" width="74" height="74"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
@@ -564,7 +564,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="74" height="74"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="earthsquare.png" id="yGH-1c-XuM">
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="earthsquare.png" id="yGH-1c-XuM">
                                             <rect key="frame" x="0.0" y="0.0" width="74" height="74"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
@@ -700,7 +700,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="74" height="74"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="earthsquare.png" id="iG9-tV-7Xs">
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="earthsquare.png" id="iG9-tV-7Xs">
                                             <rect key="frame" x="0.0" y="0.0" width="74" height="74"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
@@ -956,7 +956,7 @@
         <image name="deploymiddle.png" width="1" height="88"/>
         <image name="deploysep.png" width="1" height="1"/>
         <image name="earthskilldescription.png" width="219" height="129"/>
-        <image name="earthsquare.png" width="74" height="74"/>
+        <image name="earthsquare.png" width="120" height="120"/>
         <image name="elementreeicon.png" width="19" height="19"/>
         <image name="elementtree2.png" width="227" height="109"/>
         <image name="evobadge2.png" width="12" height="12"/>
