@@ -1851,6 +1851,12 @@
 		63F9006D1B26257C006B6D65 /* refresharrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F900511B26257C006B6D65 /* refresharrow@2x.png */; };
 		63F9006E1B26257C006B6D65 /* refresharrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F900511B26257C006B6D65 /* refresharrow@2x.png */; };
 		63F9006F1B26257C006B6D65 /* refresharrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F900511B26257C006B6D65 /* refresharrow@2x.png */; };
+		63F900A91B263FC8006B6D65 /* LeaderBoardObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F900A81B263FC8006B6D65 /* LeaderBoardObject.m */; };
+		63F900AA1B263FC8006B6D65 /* LeaderBoardObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F900A81B263FC8006B6D65 /* LeaderBoardObject.m */; };
+		63F900AB1B263FC8006B6D65 /* LeaderBoardObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F900A81B263FC8006B6D65 /* LeaderBoardObject.m */; };
+		63F900AE1B264308006B6D65 /* LeaderBoardBuilding.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F900AD1B264308006B6D65 /* LeaderBoardBuilding.m */; };
+		63F900AF1B264308006B6D65 /* LeaderBoardBuilding.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F900AD1B264308006B6D65 /* LeaderBoardBuilding.m */; };
+		63F900B01B264308006B6D65 /* LeaderBoardBuilding.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F900AD1B264308006B6D65 /* LeaderBoardBuilding.m */; };
 		6B0783F91A828468005CDFCF /* SkillCurse.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0783F81A828468005CDFCF /* SkillCurse.m */; };
 		6B0783FA1A828468005CDFCF /* SkillCurse.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0783F81A828468005CDFCF /* SkillCurse.m */; };
 		6B0783FB1A828468005CDFCF /* SkillCurse.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0783F81A828468005CDFCF /* SkillCurse.m */; };
@@ -7810,6 +7816,10 @@
 		63F9004F1B26257C006B6D65 /* leaderboardlogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "leaderboardlogo@2x.png"; path = "LeaderBoards/leaderboardlogo@2x.png"; sourceTree = "<group>"; };
 		63F900501B26257C006B6D65 /* leadererboardpopup@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "leadererboardpopup@2x.png"; path = "LeaderBoards/leadererboardpopup@2x.png"; sourceTree = "<group>"; };
 		63F900511B26257C006B6D65 /* refresharrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "refresharrow@2x.png"; path = "LeaderBoards/refresharrow@2x.png"; sourceTree = "<group>"; };
+		63F900A71B263FC8006B6D65 /* LeaderBoardObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeaderBoardObject.h; sourceTree = "<group>"; };
+		63F900A81B263FC8006B6D65 /* LeaderBoardObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeaderBoardObject.m; sourceTree = "<group>"; };
+		63F900AC1B264308006B6D65 /* LeaderBoardBuilding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeaderBoardBuilding.h; sourceTree = "<group>"; };
+		63F900AD1B264308006B6D65 /* LeaderBoardBuilding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeaderBoardBuilding.m; sourceTree = "<group>"; };
 		686F8D3F1B86BD06C7EE6627 /* Pods.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.appstore.xcconfig; path = "Pods/Target Support Files/Pods/Pods.appstore.xcconfig"; sourceTree = "<group>"; };
 		6B0783F61A82845B005CDFCF /* SkillCurse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillCurse.h; sourceTree = "<group>"; };
 		6B0783F81A828468005CDFCF /* SkillCurse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillCurse.m; sourceTree = "<group>"; };
@@ -13463,6 +13473,15 @@
 			name = LeaderBoard;
 			sourceTree = "<group>";
 		};
+		63F900A51B263FB2006B6D65 /* LeaderBoard */ = {
+			isa = PBXGroup;
+			children = (
+				63F900A71B263FC8006B6D65 /* LeaderBoardObject.h */,
+				63F900A81B263FC8006B6D65 /* LeaderBoardObject.m */,
+			);
+			name = LeaderBoard;
+			sourceTree = "<group>";
+		};
 		6B1EA94D1ACF5DCB00E0B642 /* Vines */ = {
 			isa = PBXGroup;
 			children = (
@@ -14280,6 +14299,7 @@
 		CF1265401538ACC400E0C1AD /* Game Data */ = {
 			isa = PBXGroup;
 			children = (
+				63F900A51B263FB2006B6D65 /* LeaderBoard */,
 				29ACC2551ADCE4B800B728B9 /* Mini Events */,
 				6B1EAAB71AD42A5600E0B642 /* Skills */,
 				291721301ACF82400093F100 /* GameType */,
@@ -17453,6 +17473,8 @@
 		CFF7408218199399009DE4A4 /* MapSprites */ = {
 			isa = PBXGroup;
 			children = (
+				63F900AC1B264308006B6D65 /* LeaderBoardBuilding.h */,
+				63F900AD1B264308006B6D65 /* LeaderBoardBuilding.m */,
 				CF4DB8AC1807DA1E00062258 /* AnimatedSprite.h */,
 				CF4DB8AD1807DA1E00062258 /* AnimatedSprite.m */,
 				CF4DB8AF1807DA1E00062258 /* Building.h */,
@@ -24082,6 +24104,7 @@
 				29AAE5F21A7C389800E4F022 /* ClanTeamDonateUtil.m in Sources */,
 				63B045031A92B9C600C74F0C /* AttackedAlertViewController.m in Sources */,
 				CF0CED2B196F452900ECD301 /* ChatViewController.m in Sources */,
+				63F900AA1B263FC8006B6D65 /* LeaderBoardObject.m in Sources */,
 				CF0CED2C196F452900ECD301 /* PullRefreshTableViewController.m in Sources */,
 				3E1A0C051A645B4B00DF00AD /* Board.pb.m in Sources */,
 				2991FC101A806287009BB1D8 /* TeamDonateMonstersFiller.m in Sources */,
@@ -24269,6 +24292,7 @@
 				CFA9F7CD1A0DA0F900EBE77D /* ItemUtil.m in Sources */,
 				9BB5AF9A1AA7B6AA002076E3 /* BoardDesignerObstacleView.m in Sources */,
 				CF0CEDB2196F452900ECD301 /* RewardsView.m in Sources */,
+				63F900AF1B264308006B6D65 /* LeaderBoardBuilding.m in Sources */,
 				9BC1892A1AC1EF7E001B8E88 /* MiniEventPointsView.m in Sources */,
 				CF0CEDB3196F452900ECD301 /* EnhanceQueueViewController.m in Sources */,
 				29A2FCF21A647EEB00FF93B6 /* OrbFallAction.m in Sources */,
@@ -24406,6 +24430,7 @@
 				CFC371311884C2BC000348D8 /* HospitalQueueSimulator.m in Sources */,
 				CF6574DF1909CAF200ABF1F4 /* Protocols.pb.m in Sources */,
 				CF40CFDE18DF9DCB0034A721 /* UnreadNotifications.m in Sources */,
+				63F900AE1B264308006B6D65 /* LeaderBoardBuilding.m in Sources */,
 				CFFD311E18503E880091E315 /* UpgradeViewController.m in Sources */,
 				9B2EFCE71AC4AEF5005B7B83 /* EventMiniEvent.pb.m in Sources */,
 				CF864DD0193E802300DE0D7A /* MessageComposerView.m in Sources */,
@@ -24724,6 +24749,7 @@
 				9BC9F3451A8C1420009DC3D5 /* SkillSideEffectBuff.m in Sources */,
 				63B0452C1A9D7CD700C74F0C /* EventResearch.pb.m in Sources */,
 				CF81C97119A67224002682A2 /* OrbMainLayer.m in Sources */,
+				63F900A91B263FC8006B6D65 /* LeaderBoardObject.m in Sources */,
 				CFF1D7C517E2636500874339 /* BattleSprite.m in Sources */,
 				6BB5F85F1A80095B006515B9 /* TutorialBuildingUpgradeController.m in Sources */,
 				CFF1D7C917E2646000874339 /* CCAnimation+SpriteLoading.m in Sources */,
@@ -24848,6 +24874,7 @@
 				CF4818CF19F7217F00041486 /* AnimatedSprite.m in Sources */,
 				CF4818D019F7217F00041486 /* SkillJelly.m in Sources */,
 				29AAE5F31A7C389800E4F022 /* ClanTeamDonateUtil.m in Sources */,
+				63F900AB1B263FC8006B6D65 /* LeaderBoardObject.m in Sources */,
 				63B045041A92B9C600C74F0C /* AttackedAlertViewController.m in Sources */,
 				CF4818D119F7217F00041486 /* ChatViewController.m in Sources */,
 				CF4818D219F7217F00041486 /* PullRefreshTableViewController.m in Sources */,
@@ -25036,6 +25063,7 @@
 				9BB9485B1A674935006EE920 /* NewGachaTicker.m in Sources */,
 				CFA9F7CE1A0DA0F900EBE77D /* ItemUtil.m in Sources */,
 				9BB5AF9B1AA7B6AA002076E3 /* BoardDesignerObstacleView.m in Sources */,
+				63F900B01B264308006B6D65 /* LeaderBoardBuilding.m in Sources */,
 				9BC1892B1AC1EF7E001B8E88 /* MiniEventPointsView.m in Sources */,
 				CF48196119F7217F00041486 /* RewardsView.m in Sources */,
 				CF48196219F7217F00041486 /* EnhanceQueueViewController.m in Sources */,

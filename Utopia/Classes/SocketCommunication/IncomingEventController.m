@@ -2630,7 +2630,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-<<<<<<< HEAD
 #pragma mark - Tango Gift
 
 // This is all temporary until we have time to make a better UX experience
@@ -2648,7 +2647,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
 #endif
-=======
+}
+
 #pragma mark - LeaderBoard
 
 - (void) handleRetrieveStrengthLeaderBoardResponseProto:(FullEvent *)fe {
@@ -2667,7 +2667,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     [[NSNotificationCenter defaultCenter] postNotificationName:LEADERBOARD_UPDATE_NOTIFICATION object:nil];
   }
->>>>>>> no podium yet
 }
 
 @end
