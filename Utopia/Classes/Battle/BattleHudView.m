@@ -226,7 +226,8 @@
 - (void) removeButtons {
   [self removeSwapButtonAnimated:YES];
   [self removeDeployView];
-  self.forfeitButtonView.hidden = YES;
+  if (![Globals isiPad])
+    self.forfeitButtonView.hidden = YES;
   self.elementButton.hidden = YES;
   [self.elementView close];
   [self disableItemsView];

@@ -359,6 +359,7 @@
   _lootBgd = [CCSprite spriteWithImageNamed:@"collectioncapsule.png"];
   [self addChild:_lootBgd];
   _lootBgd.opacity = 0.f;
+  _lootBgd.scale = 1/1.5;
   
   _lootLabel = [CCLabelTTF labelWithString:@"0" fontName:@"Ziggurat-HTF-Black" fontSize:10];
   [_lootBgd addChild:_lootLabel];
