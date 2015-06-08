@@ -1,0 +1,100 @@
+//BAD!!! DON'T START NAMES WITH NEW OR COPY
+
+
+import "Board.proto";
+import "SharedEnumConfig.proto";
+import "Skill.proto";
+import "Structure.proto";
+
+package com.lvl6.proto;
+
+option java_outer_classname = "ReplayProto";
+
+//------------------------------------------------------------------------------------------
+
+enum CombatReplayStepType {
+  BATTLE_INITIALIZATION = 1;
+  SPAWN_ENEMY = 2;
+  NEXT_TURN = 3;
+  PLAYER_TURN = 4;
+  PLAYER_MOVE = 5;
+  PLAYER_ATTACK = 6;
+  ENEMY_TURN = 7;
+  PLAYER_SWAP = 8;
+  PLAYER_DEATH = 9;
+  PLAYER_REVIVE = 10;
+  ENEMY_DEATH = 11;
+  PLAYER_VICTORY = 12;
+  PLAYER_RUN = 13;
+  PLAYER_LOSE = 14;
+}
+
+message CombatReplayProto {
+	optional string replayUuid = 1;
+  optional string groundImgPrefix = 2;
+	repeated CombatReplayMonsterSnapshot playerTeam = 3;
+	repeated CombatReplayMonsterSnapshot enemyTeam = 4;
+	repeated CombatReplayStepProto steps = 5;
+	optional BoardLayoutProto board = 6;
+	repeated CombatReplayOrbProto orbs = 7;
+
+  optional int32 boardWidth = 8;
+  optional int32 boardHeight = 9;
+  repeated PvpBoardObstacleProto pvpObstacles = 10;
+
+  optional int32 cash = 11;
+  optional int32 oil = 12;
+	//TODO: Player names? Other metadata needed for replay
+}
+
+message MinimumCombatReplayProto {
+    optional string replayUuid = 1;
+    optional string groundImgPrefix = 2;
+    optional int32 firstAttackerMonsterId = 3;
+}
+
+message CombatReplayStepProto {
+	optional int32 stepIndex = 1;
+	optional CombatReplayStepType type = 2;
+	optional int32 itemId = 3;
+	optional uint32 movePos1 = 4;
+	optional uint32 movePos2 = 5;
+	optional int32 modifiedDamage = 6;
+  optional int32 unmodifiedDamage = 7;
+	optional CombatReplayScheduleProto schedule = 8;
+	repeated CombatReplaySkillStepProto skills = 9;
+  optional int32 swapIndex = 10;
+  optional uint32 vinePos = 11;
+}
+
+message CombatReplaySkillStepProto {
+	optional int32 skillId = 1;
+	optional bool belongsToPlayer = 2;
+	optional int32 ownerMonsterId = 3;
+}
+
+message CombatReplayScheduleProto {
+	optional int32 totalTurns = 1;
+	repeated int32 playerTurns = 2;
+  optional int32 startingTurn = 3;
+}
+
+message CombatReplayOrbProto {
+	optional int32 spawnedRow = 1;
+	optional int32 spawnedCol = 2;
+	optional Element spawnedElement = 3;
+  optional bool initialOrb = 4;
+  optional int32 special = 5;
+  optional int32 power = 6;
+  optional int32 orbId = 7;
+}
+
+message CombatReplayMonsterSnapshot {
+    optional int32 monsterId = 1;
+    optional int32 startingHealth = 2;
+    optional int32 maxHealth = 3;
+    optional SkillProto skillSnapshot = 4;
+    optional int32 level = 5;
+    optional int32 slotNum = 6;
+    optional int32 droppedLoot = 7;
+}
