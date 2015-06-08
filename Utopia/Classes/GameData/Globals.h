@@ -365,6 +365,7 @@
 + (void) bounceView:(UIView *)view fadeInBgdView:(UIView *)bgdView completion:(void (^)(BOOL))completed;
 + (void) popOutView:(UIView *)view fadeOutBgdView:(UIView *)bgdView completion:(void (^)(void))completed;
 + (void) shrinkView:(UIView *)view fadeOutBgdView:(UIView *)bgdView completion:(void (^)(void))completed;
++ (void) fadeView:(UIView *)view fadeInBgdView:(UIView *)bgdView completion:(void (^)(BOOL finished))completed;
 + (UIImage *) snapShotView:(UIView *)view;
 + (UIImage *) maskImage:(UIImage *)image withColor:(UIColor *)color;
 + (UIImage *) maskImage:(UIImage *)image withAlphaCutoff:(CGFloat)alphaCutoff adjustForScreenContentScale:(BOOL)adjust;
