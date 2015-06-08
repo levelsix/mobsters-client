@@ -10,15 +10,31 @@
 #import "Globals.h"
 #import "FacebookDelegate.h"
 #import "GenericPopupController.h"
+#import "SoundEngine.h"
 
 #import "Analytics.h"
 
 @implementation TutorialFacebookViewController
 
+- (void) viewWillAppear:(BOOL)animated {
+  [self superclass];
+  
+  if ([Globals isiPad]) {
+    self.mainView.transform = CGAffineTransformMakeScale(1.5f, 1.5f);
+  }
+  
+}
+
 - (void) viewDidLoad {
   [super viewDidLoad];
   
-  [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
+  if ([Globals isiPad]) {
+    [Globals fadeView:self.mainView fadeInBgdView:self.bgdView completion:nil];
+    [Globals bounceView:self.mainView fromScale:0.3f toScale:1.5f duration:0.5f];
+    [SoundEngine menuPopUp];
+  } else {
+    [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
+  }
   
   [Analytics tutorialFbPopup];
 }
