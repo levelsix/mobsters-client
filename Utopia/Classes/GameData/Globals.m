@@ -2755,17 +2755,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (void) bounceView:(UIView *)view fadeInBgdView:(UIView *)bgdView completion:(void (^)(BOOL finished))completed {
-  view.alpha = 0;
-  bgdView.alpha = 0;
-  [UIView animateWithDuration:0.15 animations:^{
-    view.alpha = 0.99f;
-    bgdView.alpha = 0.99f;
-  } completion:^(BOOL finished) {
-    [UIView animateWithDuration:0.35 animations:^{
-      view.alpha = 1.f;
-      bgdView.alpha = 1.f;
-    } completion:completed];
-  }];
+  [self fadeView:view fadeInBgdView:bgdView completion:completed];
   [self bounceView:view];
   
   [SoundEngine menuPopUp];
@@ -2815,6 +2805,20 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     }
   }];
   [self bounceView:view fromScale:1.f toScale:.1f duration:.45f];
+}
+
++ (void) fadeView:(UIView *)view fadeInBgdView:(UIView *)bgdView completion:(void (^)(BOOL finished))completed {
+  view.alpha = 0;
+  bgdView.alpha = 0;
+  [UIView animateWithDuration:0.15 animations:^{
+    view.alpha = 0.99f;
+    bgdView.alpha = 0.99f;
+  } completion:^(BOOL finished) {
+    [UIView animateWithDuration:0.35 animations:^{
+      view.alpha = 1.f;
+      bgdView.alpha = 1.f;
+    } completion:completed];
+  }];
 }
 
 + (NSString *) urlStringForFacebookId:(NSString *)uid {
