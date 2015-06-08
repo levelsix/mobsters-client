@@ -303,6 +303,15 @@
   }
   
   CGPoint pt = self.leftImageView.center;
+  
+  if ([Globals isiPad]) {
+    CGSize s = self.leftImageView.image.size;
+    s.width *= 1.5f;
+    s.height *= 1.5f;
+    self.leftImageView.size = s;
+    self.leftImageView.originY = self.view.height - self.leftImageView.height;
+  }
+  
   self.leftImageView.center = ccpAdd(pt, ccp(-self.leftImageView.frame.size.width, self.leftImageView.frame.size.height/3));
   self.speechBubble.alpha = 0.f;
   self.leftImageView.transform = CGAffineTransformMakeScale(IMAGE_BEGIN_SCALE, IMAGE_BEGIN_SCALE);
